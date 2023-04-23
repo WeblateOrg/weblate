@@ -81,7 +81,17 @@ HLCHECK = '<span class="hlcheck" data-value="{}"><span class="highlight-number">
 
 
 class Formatter:
-    def __init__(self, idx, value, unit, terms, diff, search_match, match):
+    def __init__(
+        self,
+        idx,
+        value,
+        unit,
+        terms,
+        diff,
+        search_match,
+        match,
+        whitespace: bool = True,
+    ):
         # Inputs
         self.idx = idx
         self.cleaned_value = self.value = value
@@ -93,6 +103,7 @@ class Formatter:
         # Tags output
         self.tags = [[] for i in range(len(value) + 1)]
         self.dmp = diff_match_patch()
+        self.whitespace = whitespace
 
     def parse(self):
         if self.unit:
@@ -101,7 +112,8 @@ class Formatter:
             self.parse_glossary()
         if self.search_match:
             self.parse_search()
-        self.parse_whitespace()
+        if self.whitespace:
+            self.parse_whitespace()
         if self.diff:
             self.parse_diff()
 
@@ -274,7 +286,7 @@ class Formatter:
                 tags[pos + 1].insert(0, SPACE_END)
 
             output.append("".join(tags[pos]))
-            if char in newlines:
+            if char in newlines and self.whitespace:
                 is_cr = char == "\r"
                 if was_cr and not is_cr:
                     # treat "\r\n" as single newline
@@ -300,6 +312,7 @@ def format_translation(
     unit=None,
     match="search",
     glossary=None,
+    whitespace: bool = True,
 ):
     """Nicely formats translation text possibly handling plurals or diff."""
     # Split plurals to separate strings
@@ -325,7 +338,9 @@ def format_translation(
     has_content = False
 
     for idx, text in enumerate(plurals):
-        formatter = Formatter(idx, text, unit, terms, diff, search_match, match)
+        formatter = Formatter(
+            idx, text, unit, terms, diff, search_match, match, whitespace=whitespace
+        )
         formatter.parse()
 
         # Show label for plural (if there are any)
