@@ -420,11 +420,16 @@ role Weblate should alter during the database migration.
 MySQL and MariaDB
 +++++++++++++++++
 
-.. hint::
+.. warning::
 
-    Some Weblate features will perform better with :ref:`postgresql`. This
-    includes searching and translation memory, which both utilize full-text
-    features in the database and PostgreSQL implementation is superior.
+   While MySQL and MariaDB support is still maitained in Weblate, our primary
+   focus is PostgreSQL. It is recommended to use PostgreSQL for new installs,
+   and to migrate existing installs to PostgreSQL, see
+   :ref:`database-migration`.
+
+   Some Weblate features will perform better with :ref:`postgresql`. This
+   includes searching and translation memory, which both utilize full-text
+   features in the database and PostgreSQL implementation is superior.
 
 Weblate can be also used with MySQL or MariaDB, please see
 :ref:`django:mysql-notes` and :ref:`django:mariadb-notes` for caveats using
