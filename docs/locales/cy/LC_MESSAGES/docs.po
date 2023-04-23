@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-14 16:37+0200\n"
-"PO-Revision-Date: 2023-04-23 16:44+0000\n"
+"PO-Revision-Date: 2023-04-23 20:04+0000\n"
 "Last-Translator: dreigiau <sterilgrimed23@gmail.com>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/"
 "documentation/cy/>\n"
@@ -1057,10 +1057,8 @@ msgid "Remove a string"
 msgstr "Dileu testun"
 
 #: ../../admin/access.rst:533
-#, fuzzy
-#| msgid "Ignore failing check"
 msgid "Dismiss failing check"
-msgstr "Anwybyddu gwiriad sy'n methu"
+msgstr "Anwybyddu gwiriad anghyflawn"
 
 #: ../../admin/access.rst:535
 msgid "Edit strings"
@@ -1623,10 +1621,8 @@ msgid "Translation threshold"
 msgstr "Trothwy cyfieithu"
 
 #: ../../admin/addons.rst:87
-#, fuzzy
-#| msgid "Leave empty for bilingual translation files."
 msgid "Threshold for inclusion of translations."
-msgstr "Gadael yn wag ar gyfer ffeiliau cyfieithu dwyieithog."
+msgstr "Trothwy ar gyfer cynnwys cyfieithiadau."
 
 #: ../../admin/addons.rst:89
 msgid "``css_selector``"
@@ -1893,10 +1889,8 @@ msgid "``intermediate_template``"
 msgstr "Templed"
 
 #: ../../admin/addons.rst:190 ../../admin/projects.rst:453
-#, fuzzy
-#| msgid "Interface Language"
 msgid "Intermediate language file"
-msgstr "Iaith Rhyngwyneb"
+msgstr "Ffeil iaith ganolradd"
 
 #: ../../admin/addons.rst:190
 msgid ""
@@ -1904,6 +1898,9 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
+"Enw ffeil cyfieithu canolradd. Yn y rhan fwyaf o achosion dyma ffeil "
+"gyfieithu a ddarperir gan ddatblygwyr ac fe'i defnyddir wrth greu testunau "
+"ffynhonnell go iawn."
 
 #: ../../admin/addons.rst:192
 msgid "``language_regex``"
@@ -1937,10 +1934,8 @@ msgid "``remove``"
 msgstr ""
 
 #: ../../admin/addons.rst:196
-#, fuzzy
-#| msgid "Remove components for inexistant files"
 msgid "Remove components for inexistent files"
-msgstr "Tynnu cydrannau ffeiliau sydd ddim yn bodoli"
+msgstr "Dileu cydrannau ar gyfer ffeiliau nad ydynt yn bodoli"
 
 #: ../../admin/addons.rst:198
 msgid "``confirm``"
@@ -2086,10 +2081,8 @@ msgid "``remove_labels``"
 msgstr "Ychwanegu llinyn newydd"
 
 #: ../../admin/addons.rst:259
-#, fuzzy
-#| msgid "Language %s removed."
 msgid "Labels to remove"
-msgstr "Wedi tynnu'r iaith %s."
+msgstr "Labeli i'w tynnu"
 
 #: ../../admin/addons.rst:261
 #, fuzzy
@@ -2198,15 +2191,14 @@ msgid "``weblate.flags.source_edit``"
 msgstr ""
 
 #: ../../admin/addons.rst:328
-#, fuzzy
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Pryd bynnag y mae testun ffynhonnell newydd yn cael ei fewnforio o'r VCS, "
-"nodir bod angen ei olygu yn Weblate. Fel hyn, gallwch hidlo a golygu "
-"testunau ffynhonnell a ysgrifennwyd gan y datblygwyr yn hawdd."
+"Pryd bynnag y bydd testun ffynhonnell newydd yn cael ei fewnforio o'r VCS, "
+"nodir bod angen ei olygu yn Weblate. Fel hyn gallwch chi hidlo a golygu "
+"testunau ffynhonnell wedi'u hysgrifennu gan y datblygwyr yn hawdd."
 
 #: ../../admin/addons.rst:339
 msgid "Flag new translations as \"Needs editing\""
@@ -2217,14 +2209,13 @@ msgid "``weblate.flags.target_edit``"
 msgstr ""
 
 #: ../../admin/addons.rst:345
-#, fuzzy
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Pryd bynnag y mae testun cyfieithiadwy newydd yn cael ei fewnforio o'r VCS, "
-"nodir bod angen ei olygu yn Weblate. Fel hyn, gallwch chi hidlo a golygu "
+"Pryd bynnag y bydd testun cyfieithiadwy newydd yn cael ei fewnforio o'r VCS, "
+"nodir fel bod angen ei olygu yn Weblate. Fel hyn gallwch chi hidlo a golygu "
 "cyfieithiadau a grëwyd gan y datblygwyr yn hawdd."
 
 #: ../../admin/addons.rst:356
@@ -2262,14 +2253,8 @@ msgid "repository pre-commit"
 msgstr "Gweithrediad yr ystorfa"
 
 #: ../../admin/addons.rst:366
-#, fuzzy
-#| msgid ""
-#| "This addon generates a file containing detailed information about the "
-#| "translation."
 msgid "Generates a file containing detailed info about the translation status."
-msgstr ""
-"Mae'r ychwanegyn hwn yn creu ffeil sy'n cynnwys gwybodaeth fanwl am y "
-"cyfieithiad."
+msgstr "Cynhyrchu ffeil sy'n cynnwys gwybodaeth fanwl am y statws cyfieithu."
 
 #: ../../admin/addons.rst:368
 msgid ""
@@ -2292,20 +2277,16 @@ msgid "Content"
 msgstr "Cynnwys"
 
 #: ../../admin/addons.rst:394
-#, fuzzy
-#| msgid "Invalid translation flag: \"%s\""
 msgid "Prefill translation with source"
-msgstr "Baner cyfieithu annilys: \"%s\""
+msgstr "Testun ffynhonnell ym mlwch y cyfieithiad"
 
 #: ../../admin/addons.rst:398
 msgid "``weblate.generate.prefill``"
 msgstr ""
 
 #: ../../admin/addons.rst:402
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fills in translation strings with source string."
-msgstr "Sylw ar eich cyfieithiad eich hun"
+msgstr "Llenwi'r blwch testun targed gyda'r testun ffynhonnell."
 
 #: ../../admin/addons.rst:404
 msgid ""
@@ -2337,50 +2318,40 @@ msgid "Target translation"
 msgstr "Cyfieithiad targed"
 
 #: ../../admin/addons.rst:419
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "All strings in this translation will be overwritten"
-msgstr "Mae eich cyfrif wedi'i dynnu."
+msgstr "Bydd pob testun yn y cyfieithiad hwn yn cael ei drosysgrifo"
 
 #: ../../admin/addons.rst:421
 msgid "``prefix``"
 msgstr ""
 
 #: ../../admin/addons.rst:421
-#, fuzzy
-#| msgid "Starting spaces"
 msgid "Fixed string prefix"
-msgstr "Bylchau cychwynnol"
+msgstr "Trwsiwyd rhagddodiad y testun"
 
 #: ../../admin/addons.rst:423
 msgid "``var_prefix``"
 msgstr ""
 
 #: ../../admin/addons.rst:423
-#, fuzzy
-#| msgid "Starting spaces"
 msgid "Variable string prefix"
-msgstr "Bylchau cychwynnol"
+msgstr "Rhagddodiad amrywiol y testun"
 
 #: ../../admin/addons.rst:425
 msgid "``suffix``"
 msgstr ""
 
 #: ../../admin/addons.rst:425
-#, fuzzy
-#| msgid "Starting spaces"
 msgid "Fixed string suffix"
-msgstr "Bylchau cychwynnol"
+msgstr "Trwsiwyd ôl-ddodiad y testun"
 
 #: ../../admin/addons.rst:427
 msgid "``var_suffix``"
 msgstr ""
 
 #: ../../admin/addons.rst:427
-#, fuzzy
-#| msgid "Starting spaces"
 msgid "Variable string suffix"
-msgstr "Bylchau cychwynnol"
+msgstr "Ôl-ddodiad amrywiol y testun"
 
 #: ../../admin/addons.rst:429
 msgid "``var_multiplier``"
@@ -2391,10 +2362,12 @@ msgid "Variable part multiplier"
 msgstr "Lluosydd rhan newidiol"
 
 #: ../../admin/addons.rst:429
+#, fuzzy
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
 msgstr ""
+"Nifer i ailadrodd y rhan newidiol yn dibynnu ar hyd y testun ffynhonnell."
 
 #: ../../admin/addons.rst:431
 #, fuzzy
@@ -2480,16 +2453,12 @@ msgid "``weblate.gettext.authors``"
 msgstr ""
 
 #: ../../admin/addons.rst:487
-#, fuzzy
-#| msgid ""
-#| "Update comment in the PO file header to include contributor name and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Diweddarwch y sylw ym mhennyn y ffeil PO i gynnwys enw'r cyfrannwr a "
-"blynyddoedd y cyfraniadau."
+"Yn diweddaru'r rhan sylwadau ym mhennyn ffeil PO i gynnwys enwau cyfranwyr a "
+"blynyddoedd cyfrannu."
 
 #: ../../admin/addons.rst:490
 msgid "The PO file header will look like this:"
@@ -2773,6 +2742,8 @@ msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
+"Bydd y neges ymrwymo hon yn cael ei defnyddio yn lle'r negeseuon ymrwymo "
+"cyfunol o'r ymrwymiadau wedi'u cywasgu."
 
 #: ../../admin/addons.rst:624
 #, fuzzy
@@ -2894,10 +2865,8 @@ msgid "``weblate.properties.sort``"
 msgstr ""
 
 #: ../../admin/addons.rst:676
-#, fuzzy
-#| msgid "Formats the Java properties file"
 msgid "Formats and sorts the Java properties file."
-msgstr "Yn fformatio'r ffeil priodweddau Java"
+msgstr "Fformatio a didoli'r ffeil priodweddau Java."
 
 #: ../../admin/addons.rst:678
 msgid "Consolidates newlines to Unix ones."
@@ -2926,7 +2895,7 @@ msgstr "Cyfieithu"
 
 #: ../../admin/addons.rst:687
 msgid "Stale comment removal"
-msgstr "Tynnu hen sylw"
+msgstr "Dileu hen sylw"
 
 #: ../../admin/addons.rst:691
 msgid "``weblate.removal.comments``"
@@ -2959,7 +2928,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:706
 msgid "Stale suggestion removal"
-msgstr "Tynnu hen sylw"
+msgstr "Dileu hen gynnig"
 
 #: ../../admin/addons.rst:710
 msgid "``weblate.removal.suggestions``"
@@ -3502,7 +3471,7 @@ msgstr "Dilysu"
 
 #: ../../admin/auth.rst:5
 msgid "User registration"
-msgstr "Cofrestru defnyddwyr"
+msgstr "Cofrestru defnyddiwr"
 
 #: ../../admin/auth.rst:7
 msgid ""
@@ -17216,10 +17185,8 @@ msgid "``^[^.]+$``"
 msgstr ""
 
 #: ../../admin/projects.rst:831
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Variants regular expression"
-msgstr "Mynegiad rheolaidd amrywiolion"
+msgstr "Amrywiadau mynegiant rheolaidd"
 
 #: ../../admin/projects.rst:833
 msgid ""
@@ -19564,7 +19531,7 @@ msgstr ""
 #: ../../api.rst:1872 ../../api.rst:1892 ../../api.rst:1920 ../../api.rst:1931
 #: ../../api.rst:1959 ../../api.rst:1972 ../../api.rst:1985
 msgid "Component URL slug"
-msgstr ""
+msgstr "Slug URL y cydran"
 
 #: ../../api.rst:856
 msgid "Edit a project by a :http:method:`PUT` request."
@@ -36584,11 +36551,11 @@ msgstr ""
 
 #: ../../user/checks.rst:107
 msgid "Consecutive duplicated words"
-msgstr ""
+msgstr "Geiriau dyblyg olynol"
 
 #: ../../user/checks.rst:111
 msgid "Text contains the same word twice in a row:"
-msgstr ""
+msgstr "Mae'r testun yn cynnwys yr un gair ddwywaith yn olynol:"
 
 #: ../../user/checks.rst:113
 msgid "``weblate.checks.duplicate.DuplicateCheck``"
@@ -36620,10 +36587,8 @@ msgid "Does not follow glossary"
 msgstr "Ychwanegu cofnod geirfa"
 
 #: ../../user/checks.rst:132
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "Nid yw'r cyfieithiad yn cynnwys URL"
+msgstr "Nid yw'r cyfieithiad yn defnyddio termau a ddiffinnir mewn geirfa."
 
 #: ../../user/checks.rst:134
 msgid "``weblate.checks.glossary.GlossaryCheck``"
@@ -36671,10 +36636,8 @@ msgid "Double space"
 msgstr "Gofod dwbl"
 
 #: ../../user/checks.rst:157
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains double space"
-msgstr "Mae' r cyfieithiad yn cynnwys nod bwlch dim lled ychwanegol"
+msgstr "Cyfieithiad yn cynnwys gofod dwbl"
 
 #: ../../user/checks.rst:159
 msgid "``weblate.checks.chars.DoubleSpaceCheck``"
@@ -36933,6 +36896,7 @@ msgstr "MessageFormat ICU"
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
+"Gwallau cystrawen a/neu anghysondebau dalfan yn nhestunau ICU MessageFormat."
 
 #: ../../user/checks.rst:303
 #, fuzzy
@@ -38035,7 +37999,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1013
 msgid "Mismatching line breaks"
-msgstr ""
+msgstr "Toriadau llinell anghyson"
 
 #: ../../user/checks.rst:1015
 msgid "Number of new lines in translation does not match source"
@@ -38179,9 +38143,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:1118
-#, fuzzy
 msgid "Translation does not match regular expression"
-msgstr "Nid yw cyfieithu yn cyfateb i fynegiant rheolaidd:"
+msgstr "Nid yw'r cyfieithiad yn cyfateb i fynegiant rheolaidd"
 
 #: ../../user/checks.rst:1120
 msgid "``weblate.checks.placeholders.RegexCheck``"
@@ -38573,7 +38536,7 @@ msgstr "Cystrawen MessageFormat ICU"
 
 #: ../../user/checks.rst:1395
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr ""
+msgstr "Gwallau cystrawen yn nhestunau ICU MessageFormat."
 
 #: ../../user/checks.rst:1397
 #, fuzzy
@@ -38649,13 +38612,15 @@ msgstr ""
 
 #: ../../user/checks.rst:1443
 msgid "Multiple unnamed variables"
-msgstr ""
+msgstr "Newidynnau dienw lluosog"
 
 #: ../../user/checks.rst:1447
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
 msgstr ""
+"Mae yna nifer o newidynnau dienw yn y testun, sy'n ei gwneud hi'n amhosibl i "
+"gyfieithwyr eu hail-archebu"
 
 #: ../../user/checks.rst:1449
 msgid "``weblate.checks.format.MultipleUnnamedFormatsCheck``"
