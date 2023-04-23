@@ -31,8 +31,6 @@ FONTCONFIG_CONFIG = """<?xml version="1.0"?>
     <dir>{}</dir>
     <dir>{}</dir>
     <dir>{}</dir>
-    <dir>{}</dir>
-    <dir>{}</dir>
     <config>
         <rescan>
             <int>30</int>
@@ -43,9 +41,7 @@ FONTCONFIG_CONFIG = """<?xml version="1.0"?>
         <family>sans-serif</family>
         <prefer>
             <family>Source Sans 3</family>
-            <family>DejaVu Sans</family>
-            <family>Noto Sans</family>
-            <family>Droid Sans Fallback</family>
+            <family>Kurinto Sans</family>
         </prefer>
     </alias>
 
@@ -55,7 +51,7 @@ FONTCONFIG_CONFIG = """<?xml version="1.0"?>
     </alias>
 
     <alias>
-        <family>DejaVu Sans</family>
+        <family>Kurinto Sans</family>
         <default><family>sans-serif</family></default>
     </alias>
 
@@ -111,9 +107,7 @@ def configure_fontconfig():
                 data_dir("cache", "fonts"),
                 fonts_dir,
                 os.path.join(settings.STATIC_ROOT, "vendor", "font-source", "TTF"),
-                os.path.join(settings.STATIC_ROOT, "vendor", "font-dejavu"),
-                os.path.join(settings.STATIC_ROOT, "font-noto"),
-                os.path.join(settings.STATIC_ROOT, "font-droid"),
+                os.path.join(settings.STATIC_ROOT, "vendor", "font-kurinto"),
             )
         )
 
@@ -227,7 +221,7 @@ def get_font_name(filelike):
 def check_fonts(app_configs=None, **kwargs):
     """Checks font rendering."""
     try:
-        render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, "test")
+        render_size("Kurinto Sans", Pango.Weight.NORMAL, 11, 0, "test")
     except Exception as error:
         return [weblate_check("weblate.C024", f"Failed to use Pango: {error}")]
     return []

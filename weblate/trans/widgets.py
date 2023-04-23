@@ -373,7 +373,7 @@ class SVGBadgeWidget(SVGWidget):
     def render(self, response):
         translated_text = _("translated")
         translated_width = (
-            render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, translated_text)[
+            render_size("Kurinto Sans", Pango.Weight.NORMAL, 11, 0, translated_text)[
                 0
             ].width
             + 10
@@ -381,7 +381,7 @@ class SVGBadgeWidget(SVGWidget):
 
         percent_text = self.get_percent_text()
         percent_width = (
-            render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, percent_text)[
+            render_size("Kurinto Sans", Pango.Weight.NORMAL, 11, 0, percent_text)[
                 0
             ].width
             + 10
@@ -443,7 +443,7 @@ class MultiLanguageWidget(SVGWidget):
                 language_width,
                 (
                     render_size(
-                        "DejaVu Sans", Pango.Weight.NORMAL, 11, 0, language_name
+                        "Kurinto Sans", Pango.Weight.NORMAL, 11, 0, language_name
                     )[0].width
                     + 10
                 ),
