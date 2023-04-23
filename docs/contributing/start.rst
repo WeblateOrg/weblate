@@ -74,7 +74,7 @@ sources.
 Running Weblate locally in Docker
 ---------------------------------
 
-If you have Docker and docker-compose installed, you can spin up the development
+If you have Docker and docker-compose-plugin installed, you can spin up the development
 environment by simply running:
 
 .. code-block:: sh

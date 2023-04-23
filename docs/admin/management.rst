@@ -54,6 +54,19 @@ using :command:`docker exec`:
 
     docker exec --user weblate <container> weblate list_versions
 
+For :program:`docker-compose-plugin` the process is similar, you just have to use
+:command:`docker compose exec`:
+
+.. code-block:: sh
+
+    docker compose exec --user weblate weblate weblate list_versions
+
+In case you need to pass it a file, you can temporary add a volume:
+
+.. code-block:: sh
+
+    docker compose exec --user weblate /tmp:/tmp weblate weblate importusers /tmp/users.json
+
 For :program:`docker-compose` the process is similar, you just have to use
 :command:`docker-compose exec`:
 
