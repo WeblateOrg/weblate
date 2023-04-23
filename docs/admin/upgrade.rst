@@ -396,6 +396,13 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
   :ref:`docker-postgres-upgrade` for upgrade instructions. Weblate itself
   supports older versions as well, when appropriate Django version is installed.
 
+.. warning::
+
+   Migration on MySQL will try to load all metrics into memory due to
+   limitation of the Python database driver. You might need to prune metrics
+   prior to migration if you want to continue using MySQL. Please consider
+   switching to PostgreSQL, see :ref:`database-migration`.
+
 .. seealso:: :ref:`generic-upgrade-instructions`
 
 .. _py3:
