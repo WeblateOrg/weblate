@@ -1052,14 +1052,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             element.submit()
 
         Select(self.driver.find_element(By.ID, "id_font")).select_by_visible_text(
-            "Droid Sans Fallback Regular"
+            "Kurinto Sans Regular"
         )
         element = self.driver.find_element(By.ID, "id_language")
         Select(element).select_by_visible_text("Japanese")
         with self.wait_for_page_load():
             element.submit()
         Select(self.driver.find_element(By.ID, "id_font")).select_by_visible_text(
-            "Droid Sans Fallback Regular"
+            "Kurinto Sans Regular"
         )
         element = self.driver.find_element(By.ID, "id_language")
         Select(element).select_by_visible_text("Korean")
