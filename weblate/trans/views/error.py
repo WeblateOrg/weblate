@@ -9,12 +9,12 @@ from django.http import (
 )
 from django.middleware.csrf import REASON_NO_CSRF_COOKIE, REASON_NO_REFERER
 from django.utils.translation import gettext as _
-from rest_framework.exceptions import bad_request as rest_framework_bad_request, server_error as rest_framework_server_error
+from rest_framework.exceptions import bad_request as rest_framework_bad_request
+from rest_framework.exceptions import server_error as rest_framework_server_error
 from sentry_sdk import last_event_id
 
 from weblate.trans.util import render
 from weblate.utils.errors import report_error
-
 
 logger = logging.getLogger(__name__)
 
