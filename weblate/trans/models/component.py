@@ -1790,7 +1790,10 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                     translation.component.linked_component = self
                 if translation.pk == translation.component.source_translation.pk:
                     translation = translation.component.source_translation
-                translation._commit_pending(reason, user)
+                with sentry_sdk.start_span(
+                    op="commit_pending", description=translation.full_slug
+                ):
+                    translation._commit_pending(reason, user)
                 components[translation.component.pk] = translation.component
 
         # Fire postponed post commit signals
@@ -1832,7 +1835,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 self,
             )
 
-        with sentry_sdk.start_span(op="commit_files"):
+        with sentry_sdk.start_span(op="commit_files", description=self.full_slug):
             if message is None:
                 # Handle context
                 context = {"component": component or self, "author": author}
