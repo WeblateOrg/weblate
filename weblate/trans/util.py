@@ -6,7 +6,7 @@ import locale
 import os
 import sys
 from types import GeneratorType
-from typing import Dict
+from typing import Any, Dict
 from urllib.parse import urlparse
 
 from django.core.cache import cache
@@ -214,13 +214,27 @@ def get_project_description(project):
     ).format(project, count)
 
 
-def render(request, template, context=None, status=None):
+def render(
+    request,
+    template_name: str,
+    context: Dict[str, Any] = None,
+    content_type: str = None,
+    status: int = None,
+    using=None,
+):
     """Wrapper around Django render to extend context."""
     if context is None:
         context = {}
     if "project" in context and context["project"] is not None:
         context["description"] = get_project_description(context["project"])
-    return django_render(request, template, context, status=status)
+    return django_render(
+        request,
+        template_name=template_name,
+        context=context,
+        content_type=content_type,
+        status=status,
+        using=using,
+    )
 
 
 def path_separator(path):
