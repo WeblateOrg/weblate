@@ -776,8 +776,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             # Update fuzzy/approved flag
             pounit.set_state(unit.state)
 
-            unit.save(
-                update_fields=["pending", "details"], same_content=True, only_save=True
+            # Do not go via save() to avoid triggering signals
+            Unit.objects.filter(pk=unit.pk).update(
+                pending=unit.pending, details=unit.details
             )
 
         # Did we do any updates?
