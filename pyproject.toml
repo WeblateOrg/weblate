@@ -11,6 +11,37 @@ skip = '*.po,*.pot,*.json,*.tmx,*.tbx,yarn.lock,known_hosts'
 [tool.isort]
 profile = "black"
 
+[tool.pylint.main]
+disable = [
+  "C",
+  "W",
+  "R",
+  "I",
+  "no-member",
+  "not-a-mapping",
+  "unsubscriptable-object",
+  "unsupported-membership-test",
+  "not-an-iterable",
+  "unsupported-binary-operation",
+  "c-extension-no-member",
+  "not-callable",
+  "invalid-str-returned",
+  "raising-bad-type",
+  "no-name-in-module",
+  "import-error"
+]
+extension-pkg-whitelist = ["siphashc"]
+ignore = [
+  "migrations",
+  "settings.py",
+  "settings_test.py",
+  ".git",
+  "test-repos",
+  "repos",
+  "build",
+  ".venv"
+]
+
 [tool.ruff]
 format = "github"
 # CONFIG - intentional configuration
