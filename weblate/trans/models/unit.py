@@ -381,15 +381,12 @@ class Unit(models.Model, LoggerMixin):
         if only_save:
             return
 
-        # Set source_unit for source units
+        # Set source_unit for source units, this needs to be done after
+        # having a primary key
         if self.is_source and not self.source_unit:
             self.source_unit = self
-            self.save(
-                same_content=True,
-                run_checks=False,
-                only_save=True,
-                update_fields=["source_unit"],
-            )
+            # Avoid using save() for recursion
+            Unit.objects.filter(pk=self.pk).update(source_unit=self)
 
         # Update checks if content or fuzzy flag has changed
         if run_checks:
