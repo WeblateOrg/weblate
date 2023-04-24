@@ -333,7 +333,7 @@ class URLCheck(TargetCheck):
         if not source:
             return False
         try:
-            self.validator(target)
+            self.validator(target)  # pylint: disable=too-many-function-args
         except ValidationError:
             return True
         return False

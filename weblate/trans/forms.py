@@ -807,7 +807,7 @@ class SearchForm(forms.Form):
         This is needed to avoid issues when using the form as the default for
         any new search.
         """
-        data = copy.copy(self.data)
+        data = copy.copy(self.data)  # pylint: disable=access-member-before-definition
         data["offset"] = "1"
         data["checksum"] = ""
         self.data = data

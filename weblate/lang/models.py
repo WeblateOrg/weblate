@@ -823,7 +823,7 @@ class Plural(models.Model):
         result = defaultdict(list)
         func = self.plural_function
         for i in chain(range(0, 10000), range(10000, 2000001, 1000)):
-            ret = func(i)
+            ret = func(i)  # pylint: disable=too-many-function-args
             if len(result[ret]) >= 10:
                 continue
             result[ret].append(str(i))
