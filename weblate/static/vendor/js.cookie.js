@@ -1,4 +1,4 @@
-/*! js-cookie v3.0.4 | MIT */
+/*! js-cookie v3.0.5 | MIT */
 ;
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
