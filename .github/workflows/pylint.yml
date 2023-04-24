@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 jobs:
-  pre-commit:
+  pylint:
     runs-on: ubuntu-22.04
 
     steps:
@@ -38,7 +38,7 @@ jobs:
         pip install -r requirements-lint.txt
 
     - name: Add pylint annotator
-      uses: jpy-git/pylint-pr-annotator@v0.0.1
+      uses: pr-annotators/pylint-pr-annotator@v0.0.1
 
     - name: Run pylint
       run: pylint weblate/
