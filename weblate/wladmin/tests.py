@@ -74,8 +74,8 @@ class AdminTest(ViewTestCase):
     @tempdir_setting("DATA_DIR")
     def test_ssh_add(self):
         self.assertEqual(check_data_writable(), [])
+        oldpath = os.environ["PATH"]
         try:
-            oldpath = os.environ["PATH"]
             os.environ["PATH"] = ":".join((get_test_file(""), os.environ["PATH"]))
             # Verify there is button for adding
             response = self.client.get(reverse("manage-ssh"))
