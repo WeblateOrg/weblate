@@ -17,6 +17,7 @@ from typing import Dict, Iterator, List, Optional, Tuple
 from zipfile import ZipFile
 
 import requests
+import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.functional import cached_property
@@ -959,7 +960,8 @@ class GitMergeRequestBase(GitForcePushRepository):
                 next_api_time = cache.get(cache_id)
                 now = time()
                 if next_api_time is not None and now < next_api_time:
-                    sleep(next_api_time - now)
+                    with sentry_sdk.start_span(op="api_sleep", description=vcs_id):
+                        sleep(next_api_time - now)
                 try:
                     response = requests.request(
                         method,
