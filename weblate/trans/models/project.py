@@ -420,7 +420,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         )
 
     @cached_property
-    def all_alerts(self):
+    def all_active_alerts(self):
         from weblate.trans.models import Alert
 
         result = Alert.objects.filter(component__project=self, dismissed=False)
@@ -429,7 +429,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     @cached_property
     def has_alerts(self):
-        return self.all_alerts.exists()
+        return self.all_active_alerts.exists()
 
     @cached_property
     def all_admins(self):

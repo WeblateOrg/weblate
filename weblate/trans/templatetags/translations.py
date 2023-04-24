@@ -817,7 +817,7 @@ def component_alerts(component):
             None,
         )
 
-    if component.all_alerts:
+    if component.all_active_alerts:
         yield (
             "state/alert.svg",
             gettext("Fix this component to clear its alerts."),

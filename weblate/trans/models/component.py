@@ -209,7 +209,7 @@ class ComponentQuerySet(models.QuerySet):
                 models.Prefetch(
                     "alert_set",
                     queryset=Alert.objects.filter(dismissed=False),
-                    to_attr="all_alerts",
+                    to_attr="all_active_alerts",
                 ),
             )
 
@@ -2038,7 +2038,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         self.updated_sources = {}
 
     @cached_property
-    def all_alerts(self):
+    def all_active_alerts(self):
         result = self.alert_set.filter(dismissed=False)
         list(result)
         return result
@@ -2047,7 +2047,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     def lock_alerts(self):
         if not self.auto_lock_error:
             return []
-        return [alert for alert in self.all_alerts if alert.name in LOCKING_ALERTS]
+        return [
+            alert for alert in self.all_active_alerts if alert.name in LOCKING_ALERTS
+        ]
 
     def trigger_alert(self, name: str, **kwargs):
         if name in self.alerts_trigger:

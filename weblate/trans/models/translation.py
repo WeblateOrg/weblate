@@ -93,7 +93,7 @@ class TranslationQuerySet(models.QuerySet):
             models.Prefetch(
                 "component__alert_set",
                 queryset=Alert.objects.filter(dismissed=False),
-                to_attr="all_alerts",
+                to_attr="all_active_alerts",
             ),
         )
 
