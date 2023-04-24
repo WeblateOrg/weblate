@@ -1498,7 +1498,18 @@ To enable support for Sentry, set following:
 
 .. envvar:: SENTRY_ENVIRONMENT
 
-    Your Sentry Environment (optional).
+    Your Sentry Environment (optional), defaults to :envvar:`WEBLATE_SITE_DOMAIN.
+
+.. envvar:: SENTRY_TRACES_SAMPLE_RATE
+
+   Confgure sampling rate for performance monitoring. Set to 1 trace all events, 0 (the default) disables tracing.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+       environment:
+         WEBLATE_REMOVE_AUTOFIX: 0.5
 
 Localization CDN
 ~~~~~~~~~~~~~~~~
