@@ -949,7 +949,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         cache_id = self.request_time_cache_key
         lock = WeblateLock(
             data_dir("home"),
-            "vcs-api",
+            f"vcs:api:{vcs_id}",
             0,
             vcs_id,
             timeout=3 * max(settings.VCS_API_DELAY, 10),
