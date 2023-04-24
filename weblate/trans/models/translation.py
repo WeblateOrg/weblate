@@ -718,6 +718,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def update_units(self, units, store, author_name, author_id):
         """Update backend file and unit."""
         updated = False
+        clear_pending = []
         for unit in units:
             # We reuse the queryset, so pending units might reappear here
             if not unit.pending:
@@ -777,9 +778,15 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             pounit.set_state(unit.state)
 
             # Do not go via save() to avoid triggering signals
-            Unit.objects.filter(pk=unit.pk).update(
-                pending=unit.pending, details=unit.details
-            )
+            if unit.details:
+                Unit.objects.filter(pk=unit.pk).update(
+                    pending=unit.pending, details=unit.details
+                )
+            else:
+                clear_pending.append(unit.pk)
+
+        if clear_pending:
+            Unit.objects.filter(pk__in=clear_pending).update(pending=False, details={})
 
         # Did we do any updates?
         if not updated:
