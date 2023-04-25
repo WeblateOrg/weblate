@@ -531,7 +531,11 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
         if "accept" in request.POST:
             redirect_url = next_unit_url
     elif "delete" in request.POST or "spam" in request.POST:
-        suggestion.delete_log(request.user, is_spam="spam" in request.POST)
+        suggestion.delete_log(
+            request.user,
+            is_spam="spam" in request.POST,
+            rejection_reason=request.POST.get("rejection", ""),
+        )
     elif "upvote" in request.POST:
         suggestion.add_vote(request, Vote.POSITIVE)
         redirect_url = next_unit_url

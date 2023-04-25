@@ -1219,6 +1219,15 @@ $(function () {
     $(this).closest("tr").toggleClass("warning", this.checked);
   });
 
+  /* Suggestion rejection */
+  $(".rejection-reason").on("keydown", function (event) {
+    if (event.key === "Enter") {
+      $(this).closest("form").find("[name='delete']").click();
+      event.preventDefault();
+      return false;
+    }
+  });
+
   /* Warn users that they do not want to use developer console in most cases */
   console.log(
     "%c" +

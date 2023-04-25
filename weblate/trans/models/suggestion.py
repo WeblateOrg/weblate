@@ -139,14 +139,25 @@ class Suggestion(models.Model, UserDisplayMixin):
         # Delete the suggestion
         self.delete()
 
-    def delete_log(self, user, change=Change.ACTION_SUGGESTION_DELETE, is_spam=False):
+    def delete_log(
+        self,
+        user,
+        change=Change.ACTION_SUGGESTION_DELETE,
+        is_spam: bool = False,
+        rejection_reason: str = "",
+    ):
         """Delete with logging change."""
         if is_spam and self.userdetails:
             report_spam(
                 self.userdetails["address"], self.userdetails["agent"], self.target
             )
         Change.objects.create(
-            unit=self.unit, action=change, user=user, target=self.target, author=user
+            unit=self.unit,
+            action=change,
+            user=user,
+            target=self.target,
+            author=user,
+            details={"rejection_reason": rejection_reason},
         )
         self.delete()
 
