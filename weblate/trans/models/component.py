@@ -2043,6 +2043,10 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         list(result)
         return result
 
+    @cached_property
+    def all_alerts(self):
+        return {alert.name: alert for alert in self.alert_set.all()}
+
     @property
     def lock_alerts(self):
         if not self.auto_lock_error:
@@ -2058,27 +2062,33 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             self.alerts_trigger[name] = [kwargs]
 
     def delete_alert(self, alert: str):
-        deleted = self.alert_set.filter(name=alert).delete()[0]
-        if (
-            deleted
-            and self.locked
-            and self.auto_lock_error
-            and alert in LOCKING_ALERTS
-            and not self.alert_set.filter(name__in=LOCKING_ALERTS).exists()
-            and self.change_set.filter(action=Change.ACTION_LOCK)
-            .order_by("-id")[0]
-            .auto_status
-        ):
-            self.do_lock(user=None, lock=False, auto=True)
+        if alert in self.all_alerts:
+            self.all_alerts[alert].delete()
+            del self.all_alerts[alert]
+            if (
+                self.locked
+                and self.auto_lock_error
+                and alert in LOCKING_ALERTS
+                and not self.alert_set.filter(name__in=LOCKING_ALERTS).exists()
+                and self.change_set.filter(action=Change.ACTION_LOCK)
+                .order_by("-id")[0]
+                .auto_status
+            ):
+                self.do_lock(user=None, lock=False, auto=True)
 
         if ALERTS[alert].link_wide:
             for component in self.linked_childs:
                 component.delete_alert(alert)
 
     def add_alert(self, alert: str, noupdate: bool = False, **details):
-        obj, created = self.alert_set.get_or_create(
-            name=alert, defaults={"details": details}
-        )
+        if alert in self.all_alerts:
+            obj = self.all_alerts[alert]
+            created = False
+        else:
+            obj, created = self.alert_set.get_or_create(
+                name=alert, defaults={"details": details}
+            )
+            self.all_alerts[alert] = obj
 
         # Automatically lock on error
         if created and self.auto_lock_error and alert in LOCKING_ALERTS:
@@ -2953,6 +2963,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             self.delete_alert("DuplicateFilemask")
 
     def update_alerts(self):  # noqa: C901
+        # Flush alerts case, mostly needed for tests
+        self.__dict__.pop("all_alerts", None)
         if (
             self.project.access_control == self.project.ACCESS_PUBLIC
             and settings.LICENSE_REQUIRED
