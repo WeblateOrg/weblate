@@ -1498,7 +1498,7 @@ To enable support for Sentry, set following:
 
 .. envvar:: SENTRY_ENVIRONMENT
 
-    Your Sentry Environment (optional), defaults to :envvar:`WEBLATE_SITE_DOMAIN.
+    Your Sentry Environment (optional), defaults to :envvar:`WEBLATE_SITE_DOMAIN`.
 
 .. envvar:: SENTRY_TRACES_SAMPLE_RATE
 
