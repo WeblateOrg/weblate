@@ -1822,7 +1822,7 @@ it as separate volume to the Docker container, for example:
 Configuring PostgreSQL server
 -----------------------------
 
-The PostgtreSQL container uses default PostgreSQL configuration and it won't
+The PostgreSQL container uses default PostgreSQL configuration and it won't
 effectively utilize your CPU cores or memory. It is recommended to customize
 the configuration to improve the performance.
 
