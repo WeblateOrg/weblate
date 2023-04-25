@@ -1509,7 +1509,7 @@ To enable support for Sentry, set following:
    .. code-block:: yaml
 
        environment:
-         WEBLATE_REMOVE_AUTOFIX: 0.5
+         SENTRY_TRACES_SAMPLE_RATE: 0.5
 
 Localization CDN
 ~~~~~~~~~~~~~~~~
