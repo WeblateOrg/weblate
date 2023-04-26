@@ -16,7 +16,7 @@
 # SC <skchoi97@gmail.com>, 2021.
 # Lumies <lost.blue.3210@gmail.com>, 2021.
 # 조현퇴 <hyuntoe@gmail.com>, 2021.
-# simmon <simmon@nplob.com>, 2021.
+# simmon <simmon@nplob.com>, 2021, 2023.
 # Jiwoon Kim <budaestew@gmail.com>, 2021.
 # 이피시소리 <pcsori@gmail.com>, 2021.
 # OctopusET <sumoon@seoulsaram.org>, 2021, 2022.
@@ -32,8 +32,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-14 14:36+0000\n"
-"PO-Revision-Date: 2023-03-26 13:44+0000\n"
-"Last-Translator: Hoseok Seo <ddinghoya@gmail.com>\n"
+"PO-Revision-Date: 2023-04-26 19:47+0000\n"
+"Last-Translator: simmon <simmon@nplob.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.17-dev\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -3383,16 +3383,12 @@ msgid "Joomla language file"
 msgstr "Joomla 언어 파일"
 
 #: weblate/formats/ttkit.py:1330
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "GWT properties (UTF-8)"
-msgstr "자바 속성 (UTF-8)"
+msgstr "GWT 속성 (UTF-8)"
 
 #: weblate/formats/ttkit.py:1339
-#, fuzzy
-#| msgid "Java Properties (ISO 8859-1)"
 msgid "GWT properties (ISO-8859-1)"
-msgstr "자바 속성 (ISO-8859-1)"
+msgstr "GWT 속성 (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1345
 msgid "PHP strings"
@@ -3432,16 +3428,12 @@ msgid "i18next JSON file v4"
 msgstr "i18next JSON 파일 v4"
 
 #: weblate/formats/ttkit.py:1460
-#, fuzzy
-#| msgid "go-i18n JSON file"
 msgid "go-i18n v1 JSON file"
-msgstr "go-i18n JSON 파일"
+msgstr "go-i18n v1 JSON 파일"
 
 #: weblate/formats/ttkit.py:1467
-#, fuzzy
-#| msgid "go-i18n JSON file"
 msgid "go-i18n v2 JSON file"
-msgstr "go-i18n JSON 파일"
+msgstr "go-i18n v2 JSON 파일"
 
 #: weblate/formats/ttkit.py:1474
 msgid "ARB file"
@@ -3665,20 +3657,14 @@ msgid "None"
 msgstr "없음"
 
 #: weblate/lang/models.py:661
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/other/two"
 msgctxt "Plural type"
 msgid "One/other"
-msgstr "1/기타/2"
+msgstr "1/기타"
 
 #: weblate/lang/models.py:665
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "One/few/other"
-msgstr "1/2/몇개/기타"
+msgstr "1/몇개/기타"
 
 #: weblate/lang/models.py:669
 msgctxt "Plural type"
@@ -3771,20 +3757,14 @@ msgid "One/many/other"
 msgstr "1/많음/기타"
 
 #: weblate/lang/models.py:741
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/many/other"
-msgstr "0/1/소수/다수/기타"
+msgstr "0/1/다수/기타"
 
 #: weblate/lang/models.py:745
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/few/many/other"
 msgctxt "Plural type"
 msgid "One/few/many"
-msgstr "1/몇개/많음/기타"
+msgstr "1/몇개/많음"
 
 #: weblate/lang/models.py:749
 msgctxt "Plural type"
@@ -4056,22 +4036,18 @@ msgid "Application base URL"
 msgstr "응용프로그램 기본 URL"
 
 #: weblate/machinery/forms.py:140
-#, fuzzy
-#| msgid "Authentication"
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service URL"
-msgstr "인증"
+msgstr "인증 서비스 URL"
 
 #: weblate/machinery/forms.py:149
 msgid "Regional or multi-service can be specified using region field below."
 msgstr "아래 지역 필드를 사용하여 지역 또는 다중 서비스를 지정할 수 있습니다."
 
 #: weblate/machinery/forms.py:155
-#, fuzzy
-#| msgid "Authentication cancelled."
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service region"
-msgstr "인증이 취소되었습니다."
+msgstr "인증 서비스 지역"
 
 #: weblate/machinery/forms.py:165
 msgctxt "Automatic suggestion service configuration"
@@ -4133,10 +4109,9 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "업로드 된 파일에 유효한 항목이 없습니다!"
 
 #: weblate/memory/models.py:115 weblate/memory/models.py:120
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: {!s}"
+#, python-format
 msgid "Failed to parse JSON file: %s"
-msgstr "JSON 파일 구문 분석 실패: {!s}"
+msgstr "JSON 파일 구문 분석 실패: %s"
 
 #: weblate/memory/models.py:149
 msgid "Failed to parse TMX file!"
@@ -5223,16 +5198,12 @@ msgid "Translation"
 msgstr "번역"
 
 #: weblate/templates/accounts/user.html:162
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "Browse all translations with contribution"
-msgstr "기여한 번역 프로젝트"
+msgstr "기여한 모든 번역을 검색"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all managed projects"
-msgstr "모든 프로젝트"
+msgstr "모든 관리 프로젝트 검색"
 
 #: weblate/templates/accounts/user.html:179
 #, fuzzy
