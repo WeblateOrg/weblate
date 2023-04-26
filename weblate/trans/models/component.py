@@ -6,7 +6,6 @@ import os
 import re
 import time
 from collections import Counter, defaultdict
-from contextlib import suppress
 from copy import copy
 from datetime import datetime, timedelta
 from glob import glob
@@ -1393,10 +1392,10 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             with self.repository.lock:
                 start = time.monotonic()
                 try:
-                    previous = self.repository.last_remote_revision
+                    previous_revision = self.repository.last_remote_revision
                 except RepositoryException:
                     # Repository not yet configured
-                    previous = ""
+                    previous_revision = None
                 self.repository.update_remote()
                 timediff = time.monotonic() - start
                 self.log_info("update took %.2f seconds", timediff)
@@ -1412,22 +1411,24 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
         for line in self.repository.last_output.splitlines():
             self.log_debug("update: %s", line)
-        if previous:
-            current = self.repository.last_remote_revision
-            if previous == current:
-                self.log_info("repository up to date at %s", previous)
+        try:
+            # This can actually fail without a remote repo
+            remote_revision = self.repository.last_remote_revision
+        except RepositoryException:
+            remote_revision = None
+        if previous_revision and remote_revision:
+            if previous_revision == remote_revision:
+                self.log_info("repository up to date at %s", previous_revision)
             else:
                 self.log_info(
                     "repository updated from %s to %s",
-                    previous,
-                    current,
+                    previous_revision,
+                    remote_revision,
                 )
         if self.id:
             self.delete_alert("UpdateFailure")
-            with suppress(RepositoryException):
-                # This can actually fail without a remote repo
-                remote_revision = self.repository.last_remote_revision
-
+            if remote_revision and previous_revision != remote_revision:
+                self.remote_revision = remote_revision
                 Component.objects.filter(pk=self.pk).update(
                     remote_revision=remote_revision
                 )
