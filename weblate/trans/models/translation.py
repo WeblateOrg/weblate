@@ -1214,7 +1214,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 filecopy = filecopy[3:]
 
             # Commit pending changes in template
-            if component.has_template():
+            if component.has_template() and component.source_translation.needs_commit():
                 try:
                     component.commit_pending("upload", request.user)
                 except Exception as error:
