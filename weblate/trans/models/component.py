@@ -1580,7 +1580,11 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             from weblate.trans.tasks import perform_push
 
             self.log_info("scheduling push")
-            perform_push.delay(self.pk, None, force_commit=False, do_update=do_update)
+            transaction.on_commit(
+                lambda: perform_push.delay(
+                    self.pk, None, force_commit=False, do_update=do_update
+                )
+            )
 
     @perform_on_link
     def push_repo(self, request, retry=True):
