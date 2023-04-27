@@ -246,7 +246,7 @@ of upgrading.
 
    .. code-block:: shell
 
-      docker compose exec database pg_dumpall --clean --username weblate > backup.sql
+      docker compose exec database pg_dumpall --clean --if-exists --username weblate > backup.sql
 
 3. Stop the database container:
 
