@@ -83,6 +83,11 @@ class AutoTranslationTest(ViewTestCase):
         self.perform_auto(mode="suggest")
         self.perform_auto(0, 1, mode="suggest")
 
+    def test_approved(self):
+        """Test for automatic suggestion."""
+        self.perform_auto(mode="approved")
+        self.perform_auto(0, 1, mode="approved")
+
     def test_inconsistent(self):
         self.perform_auto(0, filter_type="check:inconsistent")
 

@@ -12,7 +12,7 @@ from django.db import transaction
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Change, Component, Suggestion, Unit
 from weblate.trans.util import split_plural
-from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 
 class AutoTranslate:
@@ -31,7 +31,11 @@ class AutoTranslate:
         self.mode = mode
         self.updated = 0
         self.progress_steps = 0
-        self.target_state = STATE_FUZZY if mode == "fuzzy" else STATE_TRANSLATED
+        self.target_state = STATE_TRANSLATED
+        if mode == "fuzzy":
+            self.target_state = STATE_FUZZY
+        elif mode == "approved":
+            self.target_state = STATE_APPROVED
         self.component_wide = component_wide
 
     def get_units(self, filter_mode=True):

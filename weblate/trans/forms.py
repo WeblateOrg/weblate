@@ -871,6 +871,7 @@ class AutoForm(forms.Form):
         label=_("Automatic translation mode"),
         choices=[
             ("suggest", _("Add as suggestion")),
+            ("approved", _("Add as approved translation")),
             ("translate", _("Add as translation")),
             ("fuzzy", _('Add as "Needing edit"')),
         ],
