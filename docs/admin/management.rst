@@ -774,6 +774,11 @@ Updates all checks for all strings.
 You can either define which project or component to update (for example
 ``weblate/application``), or use ``--all`` to update all existing components.
 
+.. note::
+
+   Checks are recalculated regularly by Weblate in the background, the frequency
+   can be configured via :setting:`BACKGROUND_TASKS`.
+
 updategit
 ---------
 
