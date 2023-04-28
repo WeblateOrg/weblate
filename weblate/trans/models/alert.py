@@ -216,8 +216,8 @@ class PushFailure(ErrorAlert):
     link_wide = True
     behind_message = "The tip of your current branch is behind its remote counterpart"
     terminal_message = "terminal prompts disabled"
-    doc_page = "admin/projects"
-    doc_anchor = "component-push"
+    doc_page = "admin/continuous"
+    doc_anchor = "push-changes"
 
     def get_analysis(self):
         terminal_disabled = self.terminal_message in self.error
