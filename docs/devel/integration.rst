@@ -144,21 +144,7 @@ Following operations are available:
 
    Locking prevents translators from doing changes
 
-:guilabel:`Reset` from :guilabel:`Maintenance`
 
-   Resets any changes done in Weblate to match upstream repository. This will
-   discard all translations done in Weblate and not present in the upstream
-   repository.
-
-:guilabel:`Cleanup` from :guilabel:`Maintenance`
-
-   Removes untracked files from the repository. These could be result of
-   misbehaving add-ons or bugs.
-
-:guilabel:`Force synchronization` from :guilabel:`Maintenance`
-
-   Forces writing all strings to the translation files. Use this when
-   repository files became out of sync with Weblate for some reason.
 
 .. seealso::
 

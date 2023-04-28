@@ -31,7 +31,7 @@
     <td class="number">
       {% if user_can_commit_translation %}
 
-        <a href="" class="btn btn-primary link-post" data-href="{{ object.get_commit_url }}" {% if not pending_units %}disabled="disabled"{% endif %} title="{% trans "Commit pending changes to the Weblate repository" %}">{% trans "Commit" %}</a>
+        <a href="" class="btn btn-primary link-post" data-href="{{ object.get_commit_url }}" {% if not pending_units %}disabled="disabled"{% endif %}>{% trans "Commit pending changes" %}</a>
       {% endif %}
     </td>
   </tr>
@@ -99,39 +99,64 @@
     </td>
   </tr>
   {% endif %}
-  {% if user_can_reset_translation %}
-    <tr>
-      <th class="number">
-      </th>
-      <td>
-        {% trans "Resetting removes all changes in Weblate so that the repository matches upstream. Use with caution." %}
-      </td>
-      <td class="number">
-        <div class="btn-group pull-right flip">
-          <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {% trans "Maintenance" %}
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-right">
-            <li>
-              <a href="" class="link-post" data-href="{{ object.get_reset_url }}">{% trans "Reset all changes in the Weblate repository" %}</a>
-            </li>
-            <li>
-              <a href="" class="link-post" data-href="{{ object.get_cleanup_url }}">{% trans "Cleanup all untracked files in the Weblate repository" %}</a>
-            </li>
-            <li>
-              <a href="" class="link-post" data-href="{{ object.get_file_sync_url }}">{% trans "Force writing all translations to the Weblate repository" %}</a>
-            </li>
-            <li>
-              <a href="" class="link-post" data-href="{{ object.get_file_scan_url }}">{% trans "Rescan all translation files in the Weblate repository" %}</a>
-            </li>
-          </ul>
-        </div>
-      </td>
-    </tr>
-  {% endif %}
 </table>
 </div>
+
+{% if user_can_reset_translation %}
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% documentation_icon 'devel/integration' 'manage-vcs' right=True %}
+        {% trans "Danger zone" %}
+      </h4>
+    </div>
+    <ul class="list-group">
+      <li class="list-group-item">
+        <a href="" class="pull-right flip link-post btn btn-danger" data-href="{{ object.get_reset_url }}">{% trans "Reset" %}</a>
+        <h5 class="list-group-item-heading">
+          {% trans "Reset all changes in the Weblate repository" %}
+        </h5>
+        <p class="list-group-item-text">
+          {% trans "Resetting removes all changes in Weblate so that the repository matches upstream." %}
+          {% trans "Use when you want to discard changes in Weblate and bring it in sync with upstream repository." %}
+        </p>
+      </li>
+      <li class="list-group-item">
+        <a href="" class="pull-right flip link-post btn btn-danger" data-href="{{ object.get_cleanup_url }}">{% trans "Cleanup" %}</a>
+        <h5 class="list-group-item-heading">
+          {% trans "Cleanup all untracked files in the Weblate repository" %}
+        </h5>
+        <p class="list-group-item-text">
+          {% trans "Cleanup removes all files which are not tracked by the version control from the repository." %}
+          {% trans "Use when there is some garbage left in the Weblate repository." %}
+        </p>
+      </li>
+      <li class="list-group-item">
+        <a href="" class="pull-right flip link-post btn btn-danger" data-href="{{ object.get_file_sync_url }}">{% trans "Synchronize" %}</a>
+        <h5 class="list-group-item-heading">
+          {% trans "Force writing all translations to the Weblate repository" %}
+        </h5>
+        <p class="list-group-item-text">
+          {% trans "Forces writing all strings to the translation files." %}
+          {% trans "Use this when repository files became out of sync with Weblate for some reason." %}
+        </p>
+      </li>
+      <li class="list-group-item">
+        <a href="" class="pull-right flip link-post btn btn-danger" data-href="{{ object.get_file_scan_url }}">{% trans "Rescan" %}</a>
+        <h5 class="list-group-item-heading">
+          {% trans "Rescan all translation files in the Weblate repository" %}
+        </h5>
+        <p class="list-group-item-text">
+          {% trans "Loads translations from the files into Weblate." %}
+          {% trans "Use when Weblate missed some of the strings after updating the repository." %}
+        </p>
+      </li>
+    </ul>
+    <div class="panel-footer">
+      {% trans "Use these operations with caution, they can lead to data loss." %}
+    </div>
+  </div>
+{% endif %}
 
 {% for component in repositories %}
   <div class="panel panel-default">
