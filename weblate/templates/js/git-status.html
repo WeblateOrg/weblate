@@ -58,20 +58,20 @@
     <td class="number">
       {% if user_can_update_translation %}
         <div class="btn-group pull-right flip">
-          <a href="" class="btn btn-primary link-post" data-href="{{ object.get_update_url }}" title="{% trans "Update with changes from the remote repository" %}">{% trans "Update" %}</a>
+          <a href="" class="btn btn-primary link-post" data-href="{{ object.get_update_url }}">{% trans "Update repository" %}</a>
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <ul class="dropdown-menu dropdown-menu-right">
             <li>
-              <a href="" class="link-post" data-href="{{ object.get_update_url }}?method=merge" title="{% trans "Pull changes from the remote repository" %}">{% trans "Pull" %}</a>
+              <a href="" class="link-post" data-href="{{ object.get_update_url }}?method=merge">{% trans "Update with merge" %}</a>
             </li>
             <li>
-              <a href="" class="link-post" data-href="{{ object.get_update_url }}?method=rebase" title="{% trans "Rebase Weblate changes onto the remote repository" %}">{% trans "Rebase" %}</a>
+              <a href="" class="link-post" data-href="{{ object.get_update_url }}?method=rebase">{% trans "Update with rebase" %}</a>
             </li>
             <li>
-              <a href="" class="link-post" data-href="{{ object.get_update_url }}?method=merge_noff" title="{% trans "Pull changes from the remote repository without fast-forward" %}">{% trans "Merge without fast-forward" %}</a>
+              <a href="" class="link-post" data-href="{{ object.get_update_url }}?method=merge_noff">{% trans "Update with merge without fast-forward" %}</a>
             </li>
           </ul>
         </div>
@@ -114,13 +114,13 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-right">
             <li>
-              <a href="" class="link-post" data-href="{{ object.get_reset_url }}" title="{% trans "Reset all changes in the Weblate repository" %}">{% trans "Reset" %}</a>
+              <a href="" class="link-post" data-href="{{ object.get_reset_url }}">{% trans "Reset all changes in the Weblate repository" %}</a>
             </li>
             <li>
-              <a href="" class="link-post" data-href="{{ object.get_cleanup_url }}" title="{% trans "Cleanup all untracked files in the Weblate repository" %}">{% trans "Cleanup" %}</a>
+              <a href="" class="link-post" data-href="{{ object.get_cleanup_url }}">{% trans "Cleanup all untracked files in the Weblate repository" %}</a>
             </li>
             <li>
-              <a href="" class="link-post" data-href="{{ object.get_file_sync_url }}" title="{% trans "Force writing all translations to the Weblate repository" %}">{% trans "Force synchronization" %}</a>
+              <a href="" class="link-post" data-href="{{ object.get_file_sync_url }}">{% trans "Force writing all translations to the Weblate repository" %}</a>
             </li>
           </ul>
         </div>
