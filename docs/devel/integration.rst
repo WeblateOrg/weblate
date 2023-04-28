@@ -123,29 +123,6 @@ maintenance` lets you manipulate with the repository.
 
 .. image:: /screenshots/component-repository.png
 
-Following operations are available:
-
-:guilabel:`Commit`
-
-   Commits any pending changes present in Weblate database and not in the
-   repository, see :ref:`lazy-commit`.
-
-:guilabel:`Push`
-
-   Pushes changes to the upstream repository, if configured by :ref:`component-push`.
-
-:guilabel:`Update`, :guilabel:`Pull`, :guilabel:`Rebase`
-
-   Updates Weblate repository with upstream changes. It uses
-   :ref:`component-merge_style` when choosing :guilabel:`Update` or you can
-   choose different one from the dropdown menu.
-
-:guilabel:`Lock`
-
-   Locking prevents translators from doing changes
-
-
-
 .. seealso::
 
    :doc:`/admin/continuous`,
