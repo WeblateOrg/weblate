@@ -35,6 +35,7 @@
       {% endif %}
     </td>
   </tr>
+  {% if supports_push %}
   <tr>
     <th class="number">
       {{ outgoing_commits|intcomma }}
@@ -48,6 +49,7 @@
       {% endif %}
     </td>
   </tr>
+  {% endif %}
   <tr>
     <th class="number">
       {{ missing_commits|intcomma }}

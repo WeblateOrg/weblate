@@ -55,6 +55,7 @@ class Repository:
     req_version: Optional[str] = None
     default_branch = ""
     needs_push_url = True
+    supports_push = True
 
     _version = None
 

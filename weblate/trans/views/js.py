@@ -99,6 +99,9 @@ def git_status_shared(request, obj, repositories):
             "pending_units": obj.count_pending_units,
             "outgoing_commits": sum(repo.count_repo_outgoing for repo in repositories),
             "missing_commits": sum(repo.count_repo_missing for repo in repositories),
+            "supports_push": any(
+                repo.repository_class.supports_push for repo in repositories
+            ),
         },
     )
 
