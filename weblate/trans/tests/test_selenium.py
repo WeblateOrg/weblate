@@ -119,7 +119,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Force English locales, the --lang and accept_language settings does not
         # work in some cases
-        backup_lang = os.environ["LANG"]
+        backup_lang = os.environ.get("LANG", None)
         os.environ["LANG"] = "en_US.UTF-8"
 
         try:
@@ -131,7 +131,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Restore custom fontconfig settings
         os.environ["FONTCONFIG_FILE"] = backup_fc
-        os.environ["LANG"] = backup_lang
+        # Restore locales
+        if backup_lang is None:
+            del os.environ["LANG"]
+        else:
+            os.environ["LANG"] = backup_lang
 
         if cls.driver is not None:
             cls.driver.implicitly_wait(5)
