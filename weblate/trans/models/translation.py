@@ -537,6 +537,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def do_file_sync(self, request=None):
         return self.component.do_file_sync(request)
 
+    def do_file_scan(self, request=None):
+        return self.component.do_file_scan(request)
+
     def can_push(self):
         return self.component.can_push()
 

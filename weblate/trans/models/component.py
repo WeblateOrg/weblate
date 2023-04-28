@@ -1746,6 +1746,15 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         ).select_for_update().update(pending=True)
         return self.commit_pending("file-sync", request.user if request else None)
 
+    @perform_on_link
+    @transaction.atomic
+    def do_file_scan(self, request=None):
+        self.commit_pending("file-scan", request.user if request else None)
+        try:
+            return self.create_translations(request=request)
+        except FileParseError:
+            return False
+
     def get_repo_link_url(self):
         return f"weblate://{self.project.slug}/{self.slug}"
 

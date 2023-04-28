@@ -520,6 +520,22 @@ real_patterns = [
         weblate.trans.views.git.file_sync_translation,
         name="file_sync_translation",
     ),
+    # VCS manipulation - force scan
+    path(
+        "file-scan/<name:project>/",
+        weblate.trans.views.git.file_scan_project,
+        name="file_scan_project",
+    ),
+    path(
+        "file-scan/<name:project>/<name:component>/",
+        weblate.trans.views.git.file_scan_component,
+        name="file_scan_component",
+    ),
+    path(
+        "file-scan/<name:project>/<name:component>/<name:lang>/",
+        weblate.trans.views.git.file_scan_translation,
+        name="file_scan_translation",
+    ),
     path(
         "progress/<name:project>/<name:component>/",
         weblate.trans.views.settings.component_progress,

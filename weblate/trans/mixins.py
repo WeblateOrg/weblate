@@ -50,6 +50,9 @@ class URLMixin:
     def get_file_sync_url(self):
         return self.reverse_url("file_sync")
 
+    def get_file_scan_url(self):
+        return self.reverse_url("file_scan")
+
     def get_lock_url(self):
         return self.reverse_url("lock")
 

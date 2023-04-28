@@ -115,6 +115,20 @@ def perform_file_sync(request, obj):
     )
 
 
+def perform_file_scan(request, obj):
+    """Helper function to do the repository file_scan."""
+    if not request.user.has_perm("vcs.reset", obj):
+        raise PermissionDenied
+
+    return execute_locked(
+        request,
+        obj,
+        _("Translations have been updated."),
+        obj.do_file_scan,
+        request,
+    )
+
+
 @login_required
 @require_POST
 def commit_project(request, project):
@@ -239,3 +253,24 @@ def file_sync_component(request, project, component):
 def file_sync_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
     return perform_file_sync(request, obj)
+
+
+@login_required
+@require_POST
+def file_scan_project(request, project):
+    obj = get_project(request, project)
+    return perform_file_scan(request, obj)
+
+
+@login_required
+@require_POST
+def file_scan_component(request, project, component):
+    obj = get_component(request, project, component)
+    return perform_file_scan(request, obj)
+
+
+@login_required
+@require_POST
+def file_scan_translation(request, project, component, lang):
+    obj = get_translation(request, project, component, lang)
+    return perform_file_scan(request, obj)

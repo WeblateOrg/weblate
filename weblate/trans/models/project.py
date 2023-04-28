@@ -355,8 +355,12 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         return self.on_repo_components(True, "do_cleanup", request)
 
     def do_file_sync(self, request=None):
-        """Push all Git repos."""
+        """Force updating of all files."""
         return self.on_repo_components(True, "do_file_sync", request)
+
+    def do_file_scan(self, request=None):
+        """Rescanls all VCS repos."""
+        return self.on_repo_components(True, "do_file_scan", request)
 
     def has_push_configuration(self):
         """Check whether any suprojects can push."""
