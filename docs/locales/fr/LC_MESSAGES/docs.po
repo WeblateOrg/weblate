@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-14 16:37+0200\n"
-"PO-Revision-Date: 2023-04-21 09:04+0000\n"
+"PO-Revision-Date: 2023-04-28 23:51+0000\n"
 "Last-Translator: tachyglossues <tachyglossues@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -4577,6 +4577,10 @@ msgid ""
 "create them. Upon import it is assigned to a matching user. If there is no "
 "user with such username, it is assigned to anonymous user."
 msgstr ""
+"Les commentaires et les suggestions sont accompagnés du nom d'utilisateur de "
+"l'utilisateur qui les a créés. Lors de l'importation, ils sont attribués à "
+"un utilisateur correspondant. S'il n'y a pas d'utilisateur avec ce nom "
+"d'utilisateur, ils sont attribués à un utilisateur anonyme."
 
 #: ../../admin/backup.rst:31
 msgid ""
@@ -4584,6 +4588,9 @@ msgid ""
 "`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it "
 "defaults to keep at most 3 backups for 30 days)."
 msgstr ""
+"Les sauvegardes générées sont conservées sur le serveur comme configuré par "
+":setting:`PROJECT_BACKUP_KEEP_DAYS` et :setting:`PROJECT_BACKUP_KEEP_COUNT` ("
+"par défaut, 3 sauvegardes au maximum sont conservées pendant 30 jours)."
 
 #: ../../admin/backup.rst:36
 msgid "Automated backup using BorgBackup"
@@ -4769,31 +4776,23 @@ msgstr ""
 "mais devra disposer des permissions nécessaires pour ce faire."
 
 #: ../../admin/backup.rst:123
-#, fuzzy
-#| msgid ""
-#| "When running Weblate in Docker, please make sure that the backup location "
-#| "is exposed as a volume from the Weblate container. Otherwise the backups "
-#| "would be discarded by Docker on container restart."
 msgid ""
 "When running Weblate in Docker, please ensure the backup location is exposed "
 "as a volume from the Weblate container. Otherwise the backups will be "
 "discarded by Docker upon restarting the container it is in."
 msgstr ""
-"En utilisant Docker, merci de vous assurer que le lieu de sauvegarde est un "
-"volume exposé au conteneur Weblate. Sinon la sauvegarde sera rejetée par "
-"Docker au redémarrage du conteneur."
+"Lorsque vous utilisez Weblate dans Docker, veuillez vous assurer que "
+"l'emplacement des sauvegardes est exposé en tant que volume depuis le "
+"conteneur Weblate. Sinon, les sauvegardes seront rejetées par Docker lors du "
+"redémarrage du conteneur dans lequel il se trouve."
 
 #: ../../admin/backup.rst:127
-#, fuzzy
-#| msgid ""
-#| "One option is to place backups in existing volume. For example choose :"
-#| "file:`/app/data/borgbackup`. This is existing volume in the container."
 msgid ""
 "One option is to place backups into an existing volume, for example :file:`/"
 "app/data/borgbackup`. This is an existing volume in the container."
 msgstr ""
-"C’est possible de placer les sauvegardes sur un volume existant. Par exemple "
-"choisissez :file:`/app/data/borgbackup`. C’est le volume existant du "
+"Une option consiste à placer les sauvegardes dans un volume existant, par "
+"exemple :file:`/app/data/borgbackup`. Il s'agit d'un volume existant dans le "
 "conteneur."
 
 #: ../../admin/backup.rst:130
@@ -4864,16 +4863,12 @@ msgstr ""
 "connecter en SSH au serveur sans mot de passe (voir :ref:`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:156
-#, fuzzy
-#| msgid ""
-#| "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
-#| "SSH backups."
 msgid ""
 "Configure the backup location in Weblate as ``user@host:/path/to/backups`` "
 "or ``ssh://user@host:port/path/to/backups``."
 msgstr ""
-"Utilisez /chemin/vers/depot pour les sauvegardes locales ou "
-"utilisateur@hôte:/chemin/vers/depot pour les sauvegardes SSH à distance."
+"Configurez l'emplacement de la sauvegarde dans Weblate comme ``user@host:/"
+"path/to/backups`` ou ``ssh://user@host:port/path/to/backups``."
 
 #: ../../admin/backup.rst:160
 msgid ""
@@ -4902,10 +4897,6 @@ msgstr ""
 "REPOSITORY``."
 
 #: ../../admin/backup.rst:173
-#, fuzzy
-#| msgid ""
-#| "Restore the desired backup to current directory using ``borg extract "
-#| "REPOSITORY::ARCHIVE``."
 msgid ""
 "Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
@@ -4923,16 +4914,12 @@ msgstr ""
 "dumps`)."
 
 #: ../../admin/backup.rst:177
-#, fuzzy
-#| msgid ""
-#| "Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-"
-#| "dumps`) to the correct location, see :ref:`configuration`."
 msgid ""
 "Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
-"Copier la configuration de Weblate :file:`backups/settings.py. Voir :ref:"
-"`backup-dumps`. Pour la localisation exacte voir :ref:`configuration`."
+"Copier la configuration de Weblate :file:`backups/settings.py. Voir :ref"
+":`backup-dumps`. Pour la localisation exacte voir :ref:`configuration`."
 
 #: ../../admin/backup.rst:180
 msgid ""
@@ -4947,10 +4934,6 @@ msgstr ""
 "aider (voir :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:184
-#, fuzzy
-#| msgid ""
-#| "Copy the whole restored data dir to location configured by :setting:"
-#| "`DATA_DIR`."
 msgid ""
 "Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
@@ -4975,8 +4958,6 @@ msgstr ""
 "corrects, voir :ref:`file-permissions`."
 
 #: ../../admin/backup.rst:192
-#, fuzzy
-#| msgid "The Borg session might look like:"
 msgid "The Borg session might look like this:"
 msgstr "La session Borg doit ressembler à :"
 
