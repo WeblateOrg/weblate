@@ -15,6 +15,7 @@ from typing import Iterator, List, Optional
 from dateutil import parser
 from django.core.cache import cache
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy
 from packaging.version import Version
 
 from weblate.trans.util import get_clean_env, path_separator
@@ -56,6 +57,7 @@ class Repository:
     default_branch = ""
     needs_push_url = True
     supports_push = True
+    push_label = gettext_lazy("This will push changes to the upstream repository.")
 
     _version = None
 

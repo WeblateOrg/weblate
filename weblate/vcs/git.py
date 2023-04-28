@@ -46,6 +46,7 @@ class GitRepository(Repository):
     _cmd_status = ["--no-optional-locks", "status"]
 
     name = "Git"
+    push_label = gettext_lazy("This will push changes to the upstream Git repository.")
     req_version = "2.12"
     default_branch = "master"
     ref_to_remote = "..{0}"
@@ -521,6 +522,7 @@ class GitRepository(Repository):
 class GitWithGerritRepository(GitRepository):
     name = "Gerrit"
     req_version = "1.27.0"
+    push_label = gettext_lazy("This will push changes to Gerrit for a review.")
 
     _version = None
 
@@ -543,6 +545,7 @@ class SubversionRepository(GitRepository):
     name = "Subversion"
     req_version = "2.12"
     default_branch = "master"
+    push_label = gettext_lazy("This will commit changes to the Subversion repository.")
 
     _version = None
 
@@ -710,6 +713,9 @@ class GitForcePushRepository(GitRepository):
     name = gettext_lazy("Git with force push")
     _cmd_push = ["push", "--force"]
     identifier = "git-force-push"
+    push_label = gettext_lazy(
+        "This will force push changes to the upstream repository."
+    )
 
 
 class GitMergeRequestBase(GitForcePushRepository):
@@ -1006,6 +1012,7 @@ class GithubRepository(GitMergeRequestBase):
     identifier = "github"
     _version = None
     API_TEMPLATE = "https://{host}/repos/{owner}/{slug}"
+    push_label = gettext_lazy("This will push changes and create GitHub pull request.")
 
     def format_api_host(self, host):
         # In case the hostname of the repository does not point to "github.com" assume
@@ -1107,6 +1114,7 @@ class GiteaRepository(GitMergeRequestBase):
     identifier = "gitea"
     _version = None
     API_TEMPLATE = "https://{host}/api/v1/repos/{owner}/{slug}"
+    push_label = gettext_lazy("This will push changes and create Gitea pull request.")
 
     def create_fork(self, credentials: Dict):
         fork_url = "{}/forks".format(credentials["url"])
@@ -1274,6 +1282,7 @@ class GitLabRepository(GitMergeRequestBase):
     identifier = "gitlab"
     _version = None
     API_TEMPLATE = "https://{host}/api/v4/projects/{owner_url}%2F{slug_url}"
+    push_label = gettext_lazy("This will push changes and create GitLab merge request.")
 
     def get_forked_url(self, credentials: Dict) -> str:
         """
@@ -1404,6 +1413,7 @@ class PagureRepository(GitMergeRequestBase):
     identifier = "pagure"
     _version = None
     API_TEMPLATE = "https://{host}/api/0"
+    push_label = gettext_lazy("This will push changes and create Pagure merge request.")
 
     def create_fork(self, credentials: Dict):
         fork_url = "{}/fork".format(credentials["url"])
@@ -1490,6 +1500,9 @@ class BitbucketServerRepository(GitMergeRequestBase):
     _version = None
     API_TEMPLATE = "https://{host}/rest/api/1.0/projects/{owner}/repos/{slug}"
     bb_fork: Dict = {}
+    push_label = gettext_lazy(
+        "This will push changes and create Bitbucket Server pull request."
+    )
 
     def get_headers(self, credentials: Dict):
         headers = super().get_headers(credentials)

@@ -102,6 +102,7 @@ def git_status_shared(request, obj, repositories):
             "supports_push": any(
                 repo.repository_class.supports_push for repo in repositories
             ),
+            "push_label": repositories[0].repository_class.push_label,
         },
     )
 

@@ -11,6 +11,8 @@ from configparser import RawConfigParser
 from datetime import datetime
 from typing import Iterator, List, Optional
 
+from django.utils.translation import gettext_lazy
+
 from weblate.auth.utils import format_address
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.ssh import SSH_WRAPPER
@@ -34,6 +36,9 @@ class HgRepository(Repository):
     _version = None
 
     name = "Mercurial"
+    push_label = gettext_lazy(
+        "This will push changes to the upstream Mercurial repository."
+    )
     req_version = "2.8"
     default_branch = "default"
     ref_to_remote = "head() and branch(.) and not closed() - ."

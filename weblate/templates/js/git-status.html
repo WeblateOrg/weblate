@@ -41,7 +41,7 @@
           {% blocktranslate count units=outgoing_commits with count=outgoing_commits|intcomma %}{{ count }} outgoing commit{% plural %}{{ count }} outgoing commits{% endblocktranslate %}
         </h5>
         <p class="list-group-item-text">
-          {% trans "Push changes to the upstream repository." %}
+          {{ push_label }}
         </p>
       </li>
     {% endif %}
