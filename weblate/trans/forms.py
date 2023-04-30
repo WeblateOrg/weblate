@@ -869,12 +869,6 @@ class AutoForm(forms.Form):
 
     mode = forms.ChoiceField(
         label=_("Automatic translation mode"),
-        choices=[
-            ("suggest", _("Add as suggestion")),
-            ("approved", _("Add as approved translation")),
-            ("translate", _("Add as translation")),
-            ("fuzzy", _('Add as "Needing edit"')),
-        ],
         initial="suggest",
     )
     filter_type = FilterField(
@@ -909,7 +903,7 @@ class AutoForm(forms.Form):
         label=_("Score threshold"), initial=80, min_value=1, max_value=100
     )
 
-    def __init__(self, obj, *args, **kwargs):
+    def __init__(self, obj, user=None, *args, **kwargs):
         """Generate choices for other components in the same project."""
         super().__init__(*args, **kwargs)
         self.obj = obj
@@ -969,6 +963,15 @@ class AutoForm(forms.Form):
         self.fields["filter_type"].choices = [
             x for x in self.fields["filter_type"].choices if x[0] in use_types
         ]
+
+        choices = [
+            ("suggest", _("Add as suggestion")),
+            ("translate", _("Add as translation")),
+            ("fuzzy", _('Add as "Needing edit"')),
+        ]
+        if user is not None and user.has_perm("unit.review", obj):
+            choices.append(("approved", _("Add as approved translation")))
+        self.fields["mode"].choices = choices
 
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
