@@ -68,6 +68,8 @@ TYPED_FLAGS["variant"] = gettext_lazy("String variant")
 TYPED_FLAGS_ARGS["variant"] = single_value_flag(
     str, length_validation(VARIANT_KEY_LENGTH)
 )
+TYPED_FLAGS["fluent-type"] = gettext_lazy("Fluent type")
+TYPED_FLAGS_ARGS["fluent-type"] = single_value_flag(str)
 
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 

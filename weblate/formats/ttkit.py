@@ -2047,11 +2047,9 @@ class FluentUnit(MonolingualSimpleUnit):
 
     @cached_property
     def flags(self):
-        placeables = self.mainunit.getplaceables()
-        if not placeables:
-            return ""
-        placeables.insert(0, "placeholders")
-        return Flags.format_flag(tuple(placeables))
+        flags = Flags()
+        flags.set_value("fluent-type", self.mainunit.fluent_type)
+        return flags.format()
 
 
 class FluentFormat(TTKitFormat):
@@ -2061,6 +2059,17 @@ class FluentFormat(TTKitFormat):
     unit_class = FluentUnit
     autoload: tuple[str, ...] = ("*.ftl",)
     new_translation = ""
+    check_flags = (
+        "fluent-source-syntax",
+        "fluent-target-syntax",
+        "fluent-parts",
+        "fluent-references",
+        "fluent-source-inner-html",
+        "fluent-target-inner-html",
+        # Ignore xml check since we have inner-html checks.
+        "ignore-xml-tags",
+        "ignore-xml-invalid",
+    )
 
     @staticmethod
     def mimetype():
