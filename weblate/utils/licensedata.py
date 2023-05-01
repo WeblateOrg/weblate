@@ -886,6 +886,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-SA-3.0-IGO",
+        "Creative Commons Attribution-ShareAlike 3.0 IGO",
+        "https://spdx.org/licenses/CC-BY-SA-3.0-IGO.html",
+        False,
+    ),
+    (
         "CC-PDDC",
         "Creative Commons Public Domain Dedication and Certification",
         "https://spdx.org/licenses/CC-PDDC.html",
@@ -1491,6 +1497,12 @@ LICENSES = (
     ),
     ("Latex2e", "Latex2e License", "https://spdx.org/licenses/Latex2e.html", False),
     (
+        "Latex2e-translated-notice",
+        "Latex2e with translated notice permission",
+        "https://spdx.org/licenses/Latex2e-translated-notice.html",
+        False,
+    ),
+    (
         "BSD-3-Clause-LBNL",
         "Lawrence Berkeley National Labs BSD variant license",
         "https://spdx.org/licenses/BSD-3-Clause-LBNL.html",
@@ -1606,6 +1618,7 @@ LICENSES = (
         "https://spdx.org/licenses/MTLL.html",
         False,
     ),
+    ("metamail", "metamail License", "https://spdx.org/licenses/metamail.html", False),
     (
         "MS-LPL",
         "Microsoft Limited Public License",
@@ -1962,6 +1975,12 @@ LICENSES = (
         "https://spdx.org/licenses/OLDAP-2.8.html",
         True,
     ),
+    (
+        "OLFL-1.3",
+        "Open Logistics Foundation License Version 1.3",
+        "https://spdx.org/licenses/OLFL-1.3.html",
+        True,
+    ),
     ("OML", "Open Market License", "https://spdx.org/licenses/OML.html", False),
     (
         "OPL-1.0",
@@ -2184,6 +2203,7 @@ LICENSES = (
         "https://spdx.org/licenses/SGI-B-2.0.html",
         True,
     ),
+    ("SGP4", "SGP4 Permission Notice", "https://spdx.org/licenses/SGP4.html", False),
     (
         "OFL-1.0",
         "SIL Open Font License 1.0",
