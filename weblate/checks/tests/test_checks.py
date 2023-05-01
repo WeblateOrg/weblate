@@ -71,6 +71,7 @@ class MockUnit:
         note="",
         is_source=None,
         target="",
+        context="",
     ):
         if id_hash is None:
             id_hash = random.randint(0, 65536)  # noqa: S311
@@ -87,11 +88,17 @@ class MockUnit:
         self.translated = True
         self.readonly = False
         self.state = 20
-        self.target = target
+        if isinstance(target, str):
+            self.target = target
+            self.targets = [target]
+        else:
+            self.target = target[0]
+            self.targets = target
         self.note = note
         self.check_cache = {}
         self.machinery = None
         self.is_source = is_source
+        self.context = context
 
     @property
     def all_flags(self):
@@ -99,6 +106,9 @@ class MockUnit:
 
     def get_source_plurals(self):
         return self.sources
+
+    def get_target_plurals(self):
+        return self.targets
 
     @property
     def source_string(self):

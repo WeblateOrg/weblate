@@ -92,6 +92,12 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.source.LongUntranslatedCheck",
         "weblate.checks.format.MultipleUnnamedFormatsCheck",
         "weblate.checks.glossary.GlossaryCheck",
+        "weblate.checks.fluent.syntax.FluentSourceSyntaxCheck",
+        "weblate.checks.fluent.syntax.FluentTargetSyntaxCheck",
+        "weblate.checks.fluent.parts.FluentPartsCheck",
+        "weblate.checks.fluent.references.FluentReferencesCheck",
+        "weblate.checks.fluent.inner_html.FluentSourceInnerHTMLCheck",
+        "weblate.checks.fluent.inner_html.FluentTargetInnerHTMLCheck",
     )
 
     class Meta:

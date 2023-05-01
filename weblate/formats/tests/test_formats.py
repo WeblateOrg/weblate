@@ -1279,4 +1279,4 @@ class FluentFormatTest(BaseFormatTest):
     FIND_MATCH = 'Ahoj "světe"!\\n'
     NEW_UNIT_MATCH = b"\nkey = Source string"
     MONOLINGUAL = True
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS = "fluent-type:Message"
