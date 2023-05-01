@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             name="push",
             field=models.CharField(
                 blank=True,
-                help_text="URL of a push repository, pushing is turned off if empty.",
+                help_text="The URL of a repository to push to. (Pushing is turned off if left empty.)",
                 max_length=300,
                 verbose_name="Repository push URL",
             ),
@@ -27,9 +27,9 @@ class Migration(migrations.Migration):
             model_name="component",
             name="repo",
             field=models.CharField(
-                help_text="URL of a repository, use weblate://project/component to share it with other component.",
+                help_text="The URL of a repository. Use weblate://project/component to use the settings of an existing Weblate component.",
                 max_length=300,
-                verbose_name="Source code repository",
+                verbose_name="Source-code repository",
             ),
         ),
     ]
