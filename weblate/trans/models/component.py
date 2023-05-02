@@ -1061,8 +1061,11 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 # Avoid fetching empty list of checks from the database
                 source.all_checks = []
                 source.source_updated = True
-                Change.objects.create(
-                    action=Change.ACTION_NEW_SOURCE, unit=source, user=self.acting_user
+                source.generate_change(
+                    self.acting_user,
+                    self.acting_user,
+                    Change.ACTION_NEW_SOURCE,
+                    check_new=False,
                 )
                 self.updated_sources[source.id] = source
             else:
