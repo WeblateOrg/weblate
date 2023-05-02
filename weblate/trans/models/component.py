@@ -2218,9 +2218,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 source_file = self.new_base
             else:
                 # Always include source language to avoid parsing matching files
-                languages[
-                    self.source_language.code
-                ] = translation  # self.source_language.code
+                languages[self.source_language.code] = translation
                 translations[translation.id] = translation
 
             # Delete old source units after change from monolingual to bilingual
