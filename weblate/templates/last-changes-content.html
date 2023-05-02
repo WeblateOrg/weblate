@@ -77,7 +77,11 @@
                 </label>
                 {% format_translation change.target change.unit.translation.language change.unit.translation.plural diff=change.old %}
             {% elif change.show_source %}
+              {% if change.target %}
                 {% format_translation change.target change.component.source_language diff=change.old %}
+              {% else %}
+                {% format_translation change.unit.source change.component.source_language %}
+              {% endif %}
             {% elif change.target %}
                 <pre>{{ change.target }}</pre>
             {% else %}
