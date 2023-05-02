@@ -19,6 +19,8 @@ class AutoTranslationTest(ViewTestCase):
         # Need extra power
         self.user.is_superuser = True
         self.user.save()
+        self.project.translation_review = True
+        self.project.save()
         self.component2 = Component.objects.create(
             name="Test 2",
             slug="test-2",
