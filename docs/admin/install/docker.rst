@@ -1519,6 +1519,17 @@ To enable support for Sentry, set following:
        environment:
          SENTRY_TRACES_SAMPLE_RATE: 0.5
 
+.. envvar:: SENTRY_PROFILES_SAMPLE_RATE
+
+   Confgure sampling rate for profiling monitoring. Set to 1 trace all events, 0 (the default) disables tracing.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+       environment:
+         SENTRY_PROFILES_SAMPLE_RATE: 0.5
+
 Localization CDN
 ~~~~~~~~~~~~~~~~
 
