@@ -19,6 +19,8 @@ class AutoTranslationTest(ViewTestCase):
         # Need extra power
         self.user.is_superuser = True
         self.user.save()
+        self.project.translation_review = True
+        self.project.save()
         self.component2 = Component.objects.create(
             name="Test 2",
             slug="test-2",
@@ -82,6 +84,11 @@ class AutoTranslationTest(ViewTestCase):
         """Test for automatic suggestion."""
         self.perform_auto(mode="suggest")
         self.perform_auto(0, 1, mode="suggest")
+
+    def test_approved(self):
+        """Test for automatic suggestion."""
+        self.perform_auto(mode="approved")
+        self.perform_auto(0, 1, mode="approved")
 
     def test_inconsistent(self):
         self.perform_auto(0, filter_type="check:inconsistent")

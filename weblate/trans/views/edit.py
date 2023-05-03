@@ -714,7 +714,7 @@ def auto_translation(request, project, component, lang):
     if not request.user.has_perm("translation.auto", project):
         raise PermissionDenied
 
-    autoform = AutoForm(translation.component, request.POST)
+    autoform = AutoForm(translation.component, request.user, request.POST)
 
     if translation.component.locked or not autoform.is_valid():
         messages.error(request, _("Failed to process form!"))

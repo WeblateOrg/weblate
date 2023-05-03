@@ -346,7 +346,12 @@ def show_translation(request, project, component, lang):
             "form": form,
             "download_form": DownloadForm(obj, auto_id="id_dl_%s"),
             "autoform": optional_form(
-                AutoForm, user, "translation.auto", obj, obj=component
+                AutoForm,
+                user,
+                "translation.auto",
+                obj,
+                obj=component,
+                user=user,
             ),
             "search_form": search_form,
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),

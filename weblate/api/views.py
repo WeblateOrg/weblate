@@ -1143,7 +1143,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         if translation.component.locked:
             self.permission_denied(request, "Component is locked")
 
-        autoform = AutoForm(translation.component, request.data)
+        autoform = AutoForm(translation.component, request.user, request.data)
         if not autoform.is_valid():
             errors = {}
             for field in autoform:
