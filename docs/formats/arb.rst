@@ -14,11 +14,14 @@ with (what is most often the) English strings.
 .. seealso::
 
     :doc:`tt:formats/json`,
-    `Application Resource Bundle Specification <https://github.com/google/app-resource-bundle/wiki/ApplicationResourceBundleSpecification>`_,
-    `Internationalizing Flutter apps <https://docs.flutter.dev/development/accessibility-and-localization/internationalization>`_,
+    `Application Resource Bundle Specification`_,
+    `Internationalizing Flutter apps`_,
     :ref:`updating-target-files`,
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`
+
+.. _Internationalizing Flutter apps: https://docs.flutter.dev/accessibility-and-localization/internationalization
+.. _Application Resource Bundle Specification: https://github.com/google/app-resource-bundle/wiki/ApplicationResourceBundleSpecification
 
 Weblate configuration
 +++++++++++++++++++++
