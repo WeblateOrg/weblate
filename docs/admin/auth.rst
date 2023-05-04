@@ -151,9 +151,9 @@ You need to register an OAuth App on GitHub EE and then tell Weblate all its sec
 The GitHub OAuth App should be configured to have callback URL as
 ``https://WEBLATE SERVER/accounts/complete/github-enterprise/``.
 
-Instead GitHub OAuth App, GitHub App can also be used. With GitHub App 
-permissions can be granted on repositories, organisation and/or user level. If 
-you decide to use GitHub App, you need to enable `Access: Read-only` permission 
+Instead GitHub OAuth App, GitHub App can also be used. With GitHub App
+permissions can be granted on repositories, organisation and/or user level. If
+you decide to use GitHub App, you need to enable `Access: Read-only` permission
 for Users - <Email addresses> and Organisation - <Members>.
 
 .. include:: /snippets/oauth-site.rst
