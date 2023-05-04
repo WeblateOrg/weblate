@@ -41,9 +41,6 @@ cp node_modules/prismjs/components/prism-rest.js ../../weblate/static/vendor/pri
 cp node_modules/prismjs/components/prism-markdown.js ../../weblate/static/vendor/prism/
 cp node_modules/prismjs/components/prism-icu-message-format.js ../../weblate/static/vendor/prism/
 
-# Clipboard
-cp node_modules/clipboard/dist/clipboard.js ../../weblate/static/vendor/
-
 # multi.js
 cp node_modules/multi.js/src/multi.js ../../weblate/static/vendor/
 cp node_modules/multi.js/src/multi.css ../../weblate/static/vendor/
@@ -80,9 +77,6 @@ find node_modules/source-sans/WOFF node_modules/source-sans/WOFF2 node_modules/s
     fi
     cp "$name" "$target"
 done
-
-# DejaVu font
-cp node_modules/dejavu-fonts-ttf/ttf/DejaVuSans.ttf node_modules/dejavu-fonts-ttf/ttf/DejaVuSans-Bold.ttf ../../weblate/static/vendor/font-dejavu
 
 # Not updated:
 # Bootstrap, use online customizer

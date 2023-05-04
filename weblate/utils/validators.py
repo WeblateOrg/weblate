@@ -84,11 +84,10 @@ def validate_bitmap(value):
     # might have to read the data into memory.
     if hasattr(value, "temporary_file_path"):
         content = value.temporary_file_path()
+    elif hasattr(value, "read"):
+        content = BytesIO(value.read())
     else:
-        if hasattr(value, "read"):
-            content = BytesIO(value.read())
-        else:
-            content = BytesIO(value["content"])
+        content = BytesIO(value["content"])
 
     try:
         # load() could spot a truncated JPEG, but it loads the entire
@@ -235,7 +234,8 @@ def validate_project_web(value):
     ):
         raise ValidationError(_("This URL is prohibited"))
     parsed = urlparse(value)
-    hostname = parsed.hostname.lower()
+    hostname = parsed.hostname or ""
+    hostname = hostname.lower()
 
     # Hostname filtering
     if any(

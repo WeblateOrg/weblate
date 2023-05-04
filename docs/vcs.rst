@@ -66,6 +66,10 @@ In case adjustment is needed, do so from the Weblate admin interface:
 Weblate SSH key
 ~~~~~~~~~~~~~~~
 
+.. versionchanged:: 4.17
+
+   Weblate now generates both RSA and Ed25519 SSH keys. Using Ed25519 is recommended for new setups.
+
 The Weblate public key is visible to all users browsing the :guilabel:`About` page.
 
 Admins can generate or display the public key currently used by Weblate in the connection
@@ -267,8 +271,6 @@ For the ``hello`` repository from selenic.com using Mercurial::
 GitHub pull requests
 --------------------
 
-.. versionadded:: 2.3
-
 This adds a thin layer atop :ref:`vcs-git` using the `GitHub API`_ to allow pushing
 translation changes as pull requests, instead of pushing directly to the repository.
 
@@ -409,8 +411,6 @@ Weblate settings to make this work. Once configured, you will see a
 Gerrit
 ------
 
-.. versionadded:: 2.2
-
 Adds a thin layer atop :ref:`vcs-git` using the `git-review`_ tool to allow
 pushing translation changes as Gerrit review requests, instead of
 pushing them directly to the repository.
@@ -424,8 +424,6 @@ such repositories.
 
 Mercurial
 ---------
-
-.. versionadded:: 2.1
 
 Mercurial is another VCS you can use directly in Weblate.
 
@@ -445,8 +443,6 @@ Mercurial is another VCS you can use directly in Weblate.
 Subversion
 ----------
 
-.. versionadded:: 2.8
-
 Weblate uses `git-svn`_ to interact with `subversion`_ repositories. It is
 a Perl script that lets subversion be used by a Git client, enabling
 users to maintain a full clone of the internal repository and commit locally.
@@ -459,10 +455,6 @@ users to maintain a full clone of the internal repository and commit locally.
     `git-svn documentation <https://git-scm.com/docs/git-svn#Documentation/git-svn.txt---stdlayout>`_.
     If your repository does not have a standard layout and you encounter errors,
     try including the branch name in the repository URL and leaving branch empty.
-
-.. versionchanged:: 2.19
-
-    Before this, only repositories using the standard layout were supported.
 
 .. _git-svn: https://git-scm.com/docs/git-svn
 

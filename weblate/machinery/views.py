@@ -150,7 +150,7 @@ class ListMachineryProjectView(MachineryProjectMixin, ListMachineryView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_perm("project.edit", self.project):
-            raise PermissionDenied()
+            raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -179,7 +179,7 @@ class EditMachineryView(FormView):
 
     @cached_property
     def settings_dict(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def post_setup(self, request, kwargs):
         return
@@ -202,10 +202,10 @@ class EditMachineryView(FormView):
         return super().form_valid(form)
 
     def save_settings(self, data):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def delete_service(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def enable_service(self):
         return
@@ -255,7 +255,7 @@ class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_perm("machinery.edit"):
-            raise PermissionDenied()
+            raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -280,7 +280,7 @@ class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_perm("project.edit", self.project):
-            raise PermissionDenied()
+            raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -296,7 +296,7 @@ def handle_machinery(request, service, unit, search=None):
     translation = unit.translation
     component = translation.component
     if not request.user.has_perm("machinery.view", translation):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     translation_service_class = MACHINERY[service]
 

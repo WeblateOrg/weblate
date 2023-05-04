@@ -198,7 +198,8 @@ NOTIFY_ACTIVITY = {
 
 class AuditLogManager(models.Manager):
     def is_new_login(self, user, address, user_agent):
-        """Checks whether this login is coming from a new device.
+        """
+        Checks whether this login is coming from a new device.
 
         Currently based purely on the IP address.
         """
@@ -226,7 +227,8 @@ class AuditLogManager(models.Manager):
 
 class AuditLogQuerySet(models.QuerySet):
     def get_after(self, user, after, activity):
-        """Get user activities of given type after another activity.
+        """
+        Get user activities of given type after another activity.
 
         This is mostly used for rate limiting, as it can return the number of failed
         authentication attempts since last login.
@@ -780,14 +782,13 @@ def set_lang_cookie(response, profile):
 
 @receiver(user_logged_in)
 def post_login_handler(sender, request, user, **kwargs):
-    """Signal handler for post login.
+    """
+    Signal handler for post login.
 
     It sets user language and migrates profile if needed.
     """
     backend_name = getattr(user, "backend", "")
-    is_email_auth = backend_name.endswith(".EmailAuth") or backend_name.endswith(
-        ".WeblateUserBackend"
-    )
+    is_email_auth = backend_name.endswith((".EmailAuth", ".WeblateUserBackend"))
 
     # Warning about setting password
     if is_email_auth and not user.has_usable_password():

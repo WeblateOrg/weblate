@@ -16,15 +16,18 @@ from weblate.auth.models import get_anonymous
 
 
 def get_user(request):
-    """Based on django.contrib.auth.middleware.get_user.
+    """
+    Based on django.contrib.auth.middleware.get_user.
 
     Adds handling of anonymous user which is stored in database.
     """
-    # pylint: disable=protected-access
     if not hasattr(request, "_cached_user"):
         user = auth.get_user(request)
         if isinstance(user, AnonymousUser):
             user = get_anonymous()
+            # Make sure user permissions are fetched again, needed as
+            # get_anonymous() is reusing same instance.
+            user.clear_cache()
 
         request._cached_user = user
     return request._cached_user
@@ -68,7 +71,8 @@ class AuthenticationMiddleware:
 
 
 class RequireLoginMiddleware:
-    """Middleware that applies the login_required decorator to matching URL patterns.
+    """
+    Middleware that applies the login_required decorator to matching URL patterns.
 
     To use, add the class to MIDDLEWARE and
     define LOGIN_REQUIRED_URLS and LOGIN_REQUIRED_URLS_EXCEPTIONS in your
@@ -115,7 +119,6 @@ class RequireLoginMiddleware:
         # - it doesn't go through standard Django authentication
         # - once HTTP_AUTHORIZATION is set, it enforces it
         if "weblate.gitexport" in settings.INSTALLED_APPS:
-            # pylint: disable=wrong-import-position
             import weblate.gitexport.views
 
             if request.path.startswith("/git/"):

@@ -12,6 +12,11 @@ and multilingual translators to maintain some cross-language consistency as well
 Terms from the glossary containing words from the currently translated string are
 displayed in the sidebar of the translation editor.
 
+.. hint::
+
+   The glossary terms are not used in quality checks unless you enable that,
+   see :ref:`check-check-glossary` for more information.
+
 Managing glossaries
 -------------------
 

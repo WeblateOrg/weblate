@@ -420,11 +420,16 @@ role Weblate should alter during the database migration.
 MySQL and MariaDB
 +++++++++++++++++
 
-.. hint::
+.. warning::
 
-    Some Weblate features will perform better with :ref:`postgresql`. This
-    includes searching and translation memory, which both utilize full-text
-    features in the database and PostgreSQL implementation is superior.
+   While MySQL and MariaDB support is still maitained in Weblate, our primary
+   focus is PostgreSQL. It is recommended to use PostgreSQL for new installs,
+   and to migrate existing installs to PostgreSQL, see
+   :ref:`database-migration`.
+
+   Some Weblate features will perform better with :ref:`postgresql`. This
+   includes searching and translation memory, which both utilize full-text
+   features in the database and PostgreSQL implementation is superior.
 
 Weblate can be also used with MySQL or MariaDB, please see
 :ref:`django:mysql-notes` and :ref:`django:mariadb-notes` for caveats using
@@ -1217,11 +1222,6 @@ For testing purposes, you can use the built-in web server in Django:
 Serving static files
 ++++++++++++++++++++
 
-.. versionchanged:: 2.4
-
-    Prior to version 2.4, Weblate didn't properly use the Django static files
-    framework and the setup was more complex.
-
 Django needs to collect its static files in a single directory. To do so,
 execute :samp:`weblate collectstatic --noinput`. This will copy the static
 files into a directory specified by the :setting:`django:STATIC_ROOT` setting (this defaults to
@@ -1335,8 +1335,6 @@ The following configuration runs Weblate in Gunicorn and Apache 2.4
 
 Running Weblate under path
 ++++++++++++++++++++++++++
-
-.. versionadded:: 1.3
 
 It is recommended to use prefork MPM when using WSGI with Weblate.
 
@@ -1543,7 +1541,7 @@ In short, you need to adjust :file:`settings.py`:
 Everything else is integrated automatically, you will now collect both server
 and client side errors.
 
-.. note:
+.. note::
 
     Error logging also includes exceptions that were gracefully handled, but
     might indicate a problem - such as failed parsing of an uploaded file.

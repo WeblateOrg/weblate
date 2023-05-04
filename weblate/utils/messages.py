@@ -2,7 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Wrapper around django.contrib.messages to work with Django REST Framework.
+"""
+Wrapper around django.contrib.messages to work with Django REST Framework.
 
 It also ignories messages without request object (for example from CLI).
 """

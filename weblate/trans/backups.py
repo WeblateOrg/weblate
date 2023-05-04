@@ -120,6 +120,9 @@ class ProjectBackup:
         for folder, _subfolders, filenames in os.walk(directory):
             for filename in filenames:
                 path = os.path.join(folder, filename)
+                # zipfile does not support storing symlinks, it dereferences them
+                if os.path.islink(path):
+                    continue
                 backupzip.write(
                     path, os.path.join(target, os.path.relpath(path, directory))
                 )

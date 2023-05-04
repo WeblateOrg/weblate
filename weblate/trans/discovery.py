@@ -254,9 +254,8 @@ class ComponentDiscovery:
                 # Valid new base?
                 if os.path.exists(component.get_new_base_filename()):
                     continue
-            else:
-                if component.get_mask_matches():
-                    continue
+            elif component.get_mask_matches():
+                continue
 
             # Delete as needed files seem to be missing
             deleted.append((None, component))

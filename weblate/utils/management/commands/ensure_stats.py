@@ -2,7 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from datetime import date
+
+from django.utils import timezone
 
 from weblate.metrics.models import Metric
 from weblate.metrics.tasks import collect_metrics
@@ -16,6 +17,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         GlobalStats().ensure_basic()
         if not Metric.objects.filter(
-            date=date.today(), scope=Metric.SCOPE_GLOBAL
+            date=timezone.now().date(), scope=Metric.SCOPE_GLOBAL
         ).exists():
             collect_metrics()

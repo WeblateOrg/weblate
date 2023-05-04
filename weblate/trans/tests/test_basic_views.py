@@ -7,6 +7,7 @@
 from django.urls import reverse
 
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.vcs.ssh import ensure_ssh_key
 
 
 class BasicViewTest(FixtureTestCase):
@@ -15,6 +16,7 @@ class BasicViewTest(FixtureTestCase):
         self.assertContains(response, "translate-toolkit")
 
     def test_keys(self):
+        ensure_ssh_key()
         response = self.client.get(reverse("keys"))
         self.assertContains(response, "SSH")
 

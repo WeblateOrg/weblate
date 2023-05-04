@@ -55,8 +55,6 @@ Defaults to 180 days.
 AUTH_LOCK_ATTEMPTS
 ------------------
 
-.. versionadded:: 2.14
-
 Maximum number of failed authentication attempts before rate limiting is applied.
 
 This is currently applied in the following locations:
@@ -131,16 +129,12 @@ Libravatar, as per https://www.libravatar.org/
 AUTH_TOKEN_VALID
 ----------------
 
-.. versionadded:: 2.14
-
 How long the authentication token and temporary password from password reset e-mails is valid for.
 Set in number of seconds, defaulting to 172800 (2 days).
 
 
 AUTH_PASSWORD_DAYS
 ------------------
-
-.. versionadded:: 2.15
 
 How many days will Weblate reject reusing previously used password for an user.
 
@@ -175,6 +169,8 @@ Available fixes:
     Removes zero-width space characters if the source does not contain any.
 ``weblate.trans.autofixes.chars.RemoveControlChars``
     Removes control characters if the source does not contain any.
+``weblate.trans.autofixes.chars.DevanagariDanda``
+    Replaces sentence full stop in Bangla by Devanagari danda.
 ``weblate.trans.autofixes.html.BleachHTML``
     Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:`check-safe-html`).
 
@@ -367,8 +363,6 @@ Defaults to ``None``, meaning no deletion at all.
 
 COMMIT_PENDING_HOURS
 --------------------
-
-.. versionadded:: 2.10
 
 Number of hours between committing pending changes by way of the background task.
 
@@ -577,8 +571,6 @@ Example:
 DEFAULT_COMMITER_EMAIL
 ----------------------
 
-.. versionadded:: 2.4
-
 Committer e-mail address defaulting to ``noreply@weblate.org``.
 
 .. seealso::
@@ -589,8 +581,6 @@ Committer e-mail address defaulting to ``noreply@weblate.org``.
 
 DEFAULT_COMMITER_NAME
 ---------------------
-
-.. versionadded:: 2.4
 
 Committer name defaulting to ``Weblate``.
 
@@ -644,8 +634,6 @@ Configures default value of :ref:`project-use_shared_tm` and :ref:`project-contr
 
 DEFAULT_TRANSLATION_PROPAGATION
 -------------------------------
-
-.. versionadded:: 2.5
 
 Default setting for translation propagation, defaults to ``True``.
 
@@ -923,8 +911,6 @@ Please check <https://webmonetization.org/> for more details.
 IP_BEHIND_REVERSE_PROXY
 -----------------------
 
-.. versionadded:: 2.14
-
 Indicates whether Weblate is running behind a reverse proxy.
 
 If set to ``True``, Weblate gets IP address from a header defined by
@@ -951,8 +937,6 @@ If set to ``True``, Weblate gets IP address from a header defined by
 IP_PROXY_HEADER
 ---------------
 
-.. versionadded:: 2.14
-
 Indicates which header Weblate should obtain the IP address from when
 :setting:`IP_BEHIND_REVERSE_PROXY` is turned on.
 
@@ -970,8 +954,6 @@ Defaults to ``HTTP_X_FORWARDED_FOR``.
 
 IP_PROXY_OFFSET
 ---------------
-
-.. versionadded:: 2.14
 
 Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP
 address.
@@ -1303,7 +1285,7 @@ PRIVATE_COMMIT_EMAIL_OPT_IN
 
 .. versionadded:: 4.15
 
-Configures whether the private commit e-mail is opt-in or opt-out (by default it is opt-out).
+Configures whether the private commit e-mail is opt-in or opt-out (by default it is opt-in).
 
 .. seealso::
 
@@ -1522,8 +1504,6 @@ If turned on, a CAPTCHA is added to all pages where a users enters their e-mail 
 
 REGISTRATION_EMAIL_MATCH
 ------------------------
-
-.. versionadded:: 2.17
 
 Allows you to filter which e-mail addresses can register.
 
@@ -1767,6 +1747,17 @@ SUGGESTION_CLEANUP_DAYS
 
 Automatically deletes suggestions after a given number of days.
 Defaults to ``None``, meaning no deletions.
+
+.. setting:: UNUSED_ALERT_DAYS
+
+UNUSED_ALERT_DAYS
+-----------------
+
+.. versionadded:: 4.17
+
+Configures when :guilabel:`Component seems unused` alert is triggered.
+
+Defaults to 365 days, set to 0 to disable it.
 
 .. setting:: UPDATE_LANGUAGES
 

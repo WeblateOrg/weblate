@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os.path
+from contextlib import suppress
 from datetime import timedelta
 
 from appconf import AppConf
@@ -206,12 +207,14 @@ class Billing(models.Model):
         update_fields=None,
         skip_limits=False,
     ):
-        if not skip_limits and self.pk:
-            if self.check_limits(save=False) and update_fields:
-                update_fields = set(update_fields)
-                update_fields.update(
-                    ("state", "expiry", "removal", "paid", "in_limits")
-                )
+        if (
+            not skip_limits
+            and self.pk
+            and self.check_limits(save=False)
+            and update_fields
+        ):
+            update_fields = set(update_fields)
+            update_fields.update(("state", "expiry", "removal", "paid", "in_limits"))
 
         super().save(
             force_insert=force_insert,
@@ -332,9 +335,9 @@ class Billing(models.Model):
     def last_invoice(self):
         try:
             invoice = self.invoice_set.order_by("-start")[0]
-            return f"{invoice.start} - {invoice.end}"
         except IndexError:
             return _("N/A")
+        return f"{invoice.start} - {invoice.end}"
 
     @admin.display(
         description=_("In display limits"),
@@ -361,7 +364,8 @@ class Billing(models.Model):
     # Translators: Whether the package is inside displayed (soft) limits
 
     def check_payment_status(self, now: bool = False):
-        """Check current payment status.
+        """
+        Check current payment status.
 
         Compared to paid attribute, this does not include grace period.
         """
@@ -414,10 +418,9 @@ class Billing(models.Model):
         message = ngettext(
             "Contains %d project", "Contains %d projects", self.count_projects
         )
-        try:
+        # Ignore when format string is not present
+        with suppress(TypeError):
             message = message % self.count_projects
-        except TypeError:
-            pass
         yield LibreCheck(self.count_projects == 1, message)
         for project in self.all_projects:
             yield LibreCheck(

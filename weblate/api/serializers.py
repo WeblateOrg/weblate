@@ -43,9 +43,9 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
         self.strip_parts = strip_parts
         super().__init__(**kwargs)
 
-    # pylint: disable=redefined-builtin
     def get_url(self, obj, view_name, request, format):
-        """Given an object, return the URL that hyperlinks to the object.
+        """
+        Given an object, return the URL that hyperlinks to the object.
 
         May raise a `NoReverseMatch` if the `view_name` and `lookup_field` attributes
         are not configured to correctly match the URL conf.
@@ -889,14 +889,13 @@ class StatisticsSerializer(ReadOnlySerializer):
 class UserStatisticsSerializer(ReadOnlySerializer):
     def to_representation(self, instance):
         profile = instance.profile
-        result = {
+        return {
             "translated": profile.translated,
             "suggested": profile.suggested,
             "uploaded": profile.uploaded,
             "commented": profile.commented,
             "languages": profile.languages.count(),
         }
-        return result
 
 
 class PluralField(serializers.ListField):
@@ -1041,7 +1040,7 @@ class NewUnitSerializer(serializers.Serializer):
     )
 
     def as_kwargs(self, data=None):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def validate(self, attrs):
         try:
@@ -1234,12 +1233,8 @@ class AddonSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     {"name": "Can not change add-on name"}
                 )
-        if instance:
-            # Update
-            component = instance.component
-        else:
-            # Create
-            component = self._context["component"]
+        # Update or create
+        component = instance.component if instance else self._context["component"]
 
         # This could probably work, but it safer not to allow it
         if instance and instance.name != name:

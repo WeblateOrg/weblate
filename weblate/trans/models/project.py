@@ -108,7 +108,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         verbose_name=gettext_lazy('Set "Language-Team" header'),
         default=True,
         help_text=gettext_lazy(
-            'Lets Weblate update the "Language-Team" file header ' "of your project."
+            'Lets Weblate update the "Language-Team" file header of your project.'
         ),
     )
     use_shared_tm = models.BooleanField(
@@ -355,8 +355,12 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         return self.on_repo_components(True, "do_cleanup", request)
 
     def do_file_sync(self, request=None):
-        """Push all Git repos."""
+        """Force updating of all files."""
         return self.on_repo_components(True, "do_file_sync", request)
+
+    def do_file_scan(self, request=None):
+        """Rescanls all VCS repos."""
+        return self.on_repo_components(True, "do_file_scan", request)
 
     def has_push_configuration(self):
         """Check whether any suprojects can push."""
@@ -420,7 +424,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         )
 
     @cached_property
-    def all_alerts(self):
+    def all_active_alerts(self):
         from weblate.trans.models import Alert
 
         result = Alert.objects.filter(component__project=self, dismissed=False)
@@ -429,7 +433,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     @cached_property
     def has_alerts(self):
-        return self.all_alerts.exists()
+        return self.all_active_alerts.exists()
 
     @cached_property
     def all_admins(self):
@@ -540,7 +544,9 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                         "name": entry.name,
                         "path": os.path.join(backup_dir, entry.name),
                         "timestamp": make_aware(
-                            datetime.fromtimestamp(int(entry.name.split(".")[0]))
+                            datetime.fromtimestamp(  # noqa: DTZ006
+                                int(entry.name.split(".")[0])
+                            )
                         ),
                         "size": entry.stat().st_size // 1024,
                     }

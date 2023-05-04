@@ -161,7 +161,7 @@ def setup_periodic_tasks(sender, **kwargs):
         crontab(hour=1, minute=0), notify_daily.s(), name="notify-daily"
     )
     sender.add_periodic_task(
-        crontab(hour=2, minute=0, day_of_week="monday"),
+        crontab(hour=2, minute=0, day_of_week="mon"),
         notify_weekly.s(),
         name="notify-weekly",
     )

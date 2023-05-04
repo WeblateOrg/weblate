@@ -107,7 +107,7 @@ class ConvertFormat(TranslationFormat):
 
     def save_content(self, handle):
         """Store content to file."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def save(self):
         """Save underlying store to disk."""
@@ -115,16 +115,16 @@ class ConvertFormat(TranslationFormat):
 
     @staticmethod
     def convertfile(storefile, template_store):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @staticmethod
-    def needs_target_sync(template_store):
+    def needs_target_sync(template_store):  # noqa: ARG004
         return False
 
     def load(self, storefile, template_store):
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
-            storefile = open(storefile, "rb")
+            storefile = open(storefile, "rb")  # noqa: SIM115
         # Adjust store to have translations
         store = self.convertfile(storefile, template_store)
         if self.needs_target_sync(template_store):
@@ -140,9 +140,9 @@ class ConvertFormat(TranslationFormat):
     def create_new_file(
         cls,
         filename: str,
-        language: str,
+        language: str,  # noqa: ARG003
         base: str,
-        callback: Optional[Callable] = None,
+        callback: Optional[Callable] = None,  # noqa: ARG003
     ):
         """Handle creation of new translation file."""
         if not base:
@@ -154,7 +154,7 @@ class ConvertFormat(TranslationFormat):
     def is_valid_base_for_new(
         cls,
         base: str,
-        monolingual: bool,
+        monolingual: bool,  # noqa: ARG003
         errors: Optional[List] = None,
         fast: bool = False,
     ) -> bool:
@@ -164,10 +164,12 @@ class ConvertFormat(TranslationFormat):
         try:
             if not fast:
                 cls(base, None)
-            return True
-        except Exception:
+        except Exception as exception:
+            if errors is not None:
+                errors.append(exception)
             report_error(cause="File parse error")
             return False
+        return True
 
     def add_unit(self, ttkit_unit):
         self.store.addunit(ttkit_unit)
@@ -283,7 +285,7 @@ class OpenDocumentFormat(ConvertFormat):
     unit_class = ConvertXliffUnit
 
     @staticmethod
-    def convertfile(storefile, template_store):
+    def convertfile(storefile, template_store):  # noqa: ARG004
         store = xlifffile()
         store.setfilename(store.getfilenode("NoName"), "odf")
         contents = open_odf(storefile)
@@ -299,7 +301,7 @@ class OpenDocumentFormat(ConvertFormat):
             templatename = templatename.name
         # This is workaround for weird fuzzy handling in translate-toolkit
         for unit in self.all_units:
-            if unit.xliff_state == "translated":
+            if any(state == "translated" for state in unit.get_xliff_states()):
                 unit.set_state(STATE_APPROVED)
 
         with open(templatename, "rb") as templatefile:
@@ -317,7 +319,7 @@ class OpenDocumentFormat(ConvertFormat):
         return "odt"
 
     @staticmethod
-    def needs_target_sync(template_store):
+    def needs_target_sync(template_store):  # noqa: ARG004
         return True
 
 
@@ -328,7 +330,7 @@ class IDMLFormat(ConvertFormat):
     check_flags = ("strict-same",)
 
     @staticmethod
-    def convertfile(storefile, template_store):
+    def convertfile(storefile, template_store):  # noqa: ARG004
         store = pofile()
 
         contents = open_idml(storefile)
@@ -375,7 +377,7 @@ class IDMLFormat(ConvertFormat):
         return "idml"
 
     @staticmethod
-    def needs_target_sync(template_store):
+    def needs_target_sync(template_store):  # noqa: ARG004
         return True
 
 

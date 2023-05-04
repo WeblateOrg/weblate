@@ -153,7 +153,8 @@ def validate_render_commit(value):
 
 
 def validate_repoweb(val):
-    """Validate whether URL for repository browser is valid.
+    """
+    Validate whether URL for repository browser is valid.
 
     It checks whether it can be filled in using format string.
     """
@@ -168,7 +169,8 @@ def validate_repoweb(val):
 
 
 def validate_editor(val):
-    """Validate URL for custom editor link.
+    """
+    Validate URL for custom editor link.
 
     - Check whether it correctly uses format strings.
     - Check whether scheme is sane.

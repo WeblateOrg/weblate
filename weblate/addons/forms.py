@@ -409,20 +409,18 @@ class DiscoveryForm(BaseAddonForm):
 
 
 class AutoAddonForm(AutoForm, AddonFormMixin):
-    def __init__(self, user, addon, instance=None, *args, **kwargs):
+    def __init__(self, user, addon, instance=None, **kwargs):
         self.user = user
         self._addon = addon
-        super().__init__(obj=addon.instance.component, *args, **kwargs)
+        super().__init__(obj=addon.instance.component, **kwargs)
 
 
 class BulkEditAddonForm(BulkEditForm, AddonFormMixin):
-    def __init__(self, user, addon, instance=None, *args, **kwargs):
+    def __init__(self, user, addon, instance=None, **kwargs):
         self.user = user
         self._addon = addon
         component = addon.instance.component
-        super().__init__(
-            obj=component, project=component.project, user=None, *args, **kwargs
-        )
+        super().__init__(obj=component, project=component.project, user=None, **kwargs)
 
     def serialize_form(self):
         result = dict(self.cleaned_data)

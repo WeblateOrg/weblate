@@ -13,7 +13,7 @@ Installation
 ------------
 
 The following examples assume you have a working Docker environment, with
-``docker-compose`` installed. Please check the Docker documentation for instructions.
+``docker-compose-plugin`` installed. Please check the Docker documentation for instructions.
 
 1. Clone the weblate-docker repo:
 
@@ -54,15 +54,9 @@ The following examples assume you have a working Docker environment, with
 
    .. code-block:: sh
 
-        docker-compose up
+        docker compose up
 
 Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` container.
-
-.. versionchanged:: 2.15-2
-
-    The setup has changed recently, priorly there was separate web server
-    container, since 2.15-2 the web server is embedded in the Weblate
-    container.
 
 .. versionchanged:: 3.7.1-6
 
@@ -179,13 +173,13 @@ a :file:`docker-compose-https.override.yml` file with your settings:
         environment:
           DOMAINS: 'weblate.example.com -> http://weblate:8080'
 
-Whenever invoking :program:`docker-compose` you need to pass both files to it,
+Whenever invoking :program:`docker compose` you need to pass both files to it,
 and then do:
 
 .. code-block:: console
 
-    docker-compose -f docker-compose-https.yml -f docker-compose-https.override.yml build
-    docker-compose -f docker-compose-https.yml -f docker-compose-https.override.yml up
+    docker compose -f docker-compose-https.yml -f docker-compose-https.override.yml build
+    docker compose -f docker-compose-https.yml -f docker-compose-https.override.yml up
 
 .. _upgrading-docker:
 
@@ -196,11 +190,11 @@ Usually it is good idea to only update the Weblate container and keep the Postgr
 container at the version you have, as upgrading PostgreSQL is quite painful and in most
 cases does not bring many benefits.
 
-.. versionchanged:: 4.10-1
+.. versionchanged:: 4.17-1
 
-   Since Weblate 4.10-1, the Docker container uses Django 4.0 what requires
-   PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate.
-   See :ref:`upgrade-4.10` and :ref:`docker-postgres-upgrade`.
+   Since Weblate 4.17-1, the Docker container uses Django 4.2 what requires
+   PostgreSQL 12 or newer, please upgrade it prior to upgrading Weblate.
+   See :ref:`docker-postgres-upgrade`.
 
 You can do this by sticking with the existing docker-compose and just pull
 the latest images and then restart:
@@ -208,13 +202,13 @@ the latest images and then restart:
 .. code-block:: sh
 
    # Fetch latest versions of the images
-   docker-compose pull
+   docker compose pull
    # Stop and destroy the containers
-   docker-compose down
+   docker compose down
    # Spawn new containers in the background
-   docker-compose up -d
+   docker compose up -d
    # Follow the logs during upgrade
-   docker-compose logs -f
+   docker compose logs -f
 
 The Weblate database should be automatically migrated on first startup, and there
 should be no need for additional manual actions.
@@ -246,25 +240,25 @@ of upgrading.
 
    .. code-block:: shell
 
-      docker-compose stop weblate cache
+      docker compose stop weblate cache
 
 2. Backup the database:
 
    .. code-block:: shell
 
-      docker-compose exec database pg_dumpall --clean --username weblate > backup.sql
+      docker compose exec database pg_dumpall --clean --if-exists --username weblate > backup.sql
 
 3. Stop the database container:
 
    .. code-block:: shell
 
-      docker-compose stop database
+      docker compose stop database
 
 4. Remove the PostgreSQL volume:
 
    .. code-block:: shell
 
-      docker-compose rm -v database
+      docker compose rm -v database
       docker volume remove weblate-docker_postgres-data
 
 5. Adjust :file:`docker-compose.yml` to use new PostgreSQL version.
@@ -273,25 +267,33 @@ of upgrading.
 
    .. code-block:: shell
 
-      docker-compose up -d database
+      docker compose up -d database
 
 7. Restore the database from the backup:
 
    .. code-block:: shell
 
-      cat backup.sql | docker-compose exec -T database psql --username weblate --dbname postgres
+      cat backup.sql | docker compose exec -T database psql --username weblate --dbname weblate
+
+   .. hint::
+
+      Please check that the database name matches :envvar:`POSTGRES_DATABASE`.
 
 8. (Optional) Update password for the Weblate user. This might be needed when migrating to PostgreSQL 14 or 15 as way of storing passwords has been changed:
 
    .. code-block:: shell
 
-      docker-compose exec -T database psql --username weblate --dbname postgres -c "ALTER USER weblate WITH PASSWORD 'weblate'"
+      docker compose exec -T database psql --username weblate --dbname weblate -c "ALTER USER weblate WITH PASSWORD 'weblate'"
+
+   .. hint::
+
+      Please check that the database name matches :envvar:`POSTGRES_DATABASE`.
 
 9. Start all remaining containers:
 
    .. code-block:: shell
 
-      docker-compose up -d
+      docker compose up -d
 
 .. _docker-admin-login:
 
@@ -685,6 +687,14 @@ Generic settings
     Configures GitLab merge-requests integration  by changing
     :setting:`GITLAB_CREDENTIALS`.
 
+    **Example:**
+
+    .. code-block:: sh
+
+       WEBLATE_GITLAB_USERNAME=weblate
+       WEBLATE_GITLAB_HOST=gitlab.com
+       WEBLATE_GITLAB_TOKEN=token
+
     .. seealso::
 
        :ref:`vcs-gitlab`
@@ -914,6 +924,12 @@ Generic settings
    .. versionadded:: 4.15
 
    Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`.
+
+.. envvar:: WEBLATE_UNUSED_ALERT_DAYS
+
+   .. versionadded:: 4.17
+
+   Configures :setting:`UNUSED_ALERT_DAYS`.
 
 .. envvar:: WEBLATE_CORS_ALLOWED_ORIGINS
 
@@ -1501,7 +1517,29 @@ To enable support for Sentry, set following:
 
 .. envvar:: SENTRY_ENVIRONMENT
 
-    Your Sentry Environment (optional).
+    Your Sentry Environment (optional), defaults to :envvar:`WEBLATE_SITE_DOMAIN`.
+
+.. envvar:: SENTRY_TRACES_SAMPLE_RATE
+
+   Confgure sampling rate for performance monitoring. Set to 1 trace all events, 0 (the default) disables tracing.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+       environment:
+         SENTRY_TRACES_SAMPLE_RATE: 0.5
+
+.. envvar:: SENTRY_PROFILES_SAMPLE_RATE
+
+   Confgure sampling rate for profiling monitoring. Set to 1 trace all events, 0 (the default) disables tracing.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+       environment:
+         SENTRY_PROFILES_SAMPLE_RATE: 0.5
 
 Localization CDN
 ~~~~~~~~~~~~~~~~
@@ -1814,7 +1852,7 @@ it as separate volume to the Docker container, for example:
 Configuring PostgreSQL server
 -----------------------------
 
-The PostgtreSQL container uses default PostgreSQL configuration and it won't
+The PostgreSQL container uses default PostgreSQL configuration and it won't
 effectively utilize your CPU cores or memory. It is recommended to customize
 the configuration to improve the performance.
 
@@ -1832,11 +1870,11 @@ To check the services status use:
 
 .. code-block:: sh
 
-    docker-compose exec --user weblate weblate supervisorctl status
+    docker compose exec --user weblate weblate supervisorctl status
 
 There are individual services for each Celery queue (see :ref:`celery` for
 details). You can stop processing some tasks by stopping the appropriate worker:
 
 .. code-block:: sh
 
-    docker-compose exec --user weblate weblate supervisorctl stop celery-translate
+    docker compose exec --user weblate weblate supervisorctl stop celery-translate

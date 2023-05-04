@@ -93,11 +93,12 @@ LANGUAGES = (
     ("ar", "العربية"),
     ("az", "Azərbaycan"),
     ("be", "Беларуская"),
-    ("be@latin", "Biełaruskaja"),
+    ("be-latn", "Biełaruskaja"),
     ("bg", "Български"),
     ("br", "Brezhoneg"),
     ("ca", "Català"),
     ("cs", "Čeština"),
+    ("cy", "Cymraeg"),
     ("da", "Dansk"),
     ("de", "Deutsch"),
     ("en", "English"),
@@ -584,7 +585,7 @@ SOCIAL_AUTH_SLUGIFY_FUNCTION = "weblate.accounts.pipeline.slugify_username"
 # Password validation configuration
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"  # noqa: E501, pylint: disable=line-too-long
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
@@ -801,6 +802,7 @@ LOGGING = {
             "handlers": [DEFAULT_LOG],
             "level": os.environ.get("WEBLATE_LOGLEVEL_DATABASE", "CRITICAL"),
         },
+        "redis_lock": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         "weblate": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Logging VCS operations
         "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
@@ -1093,6 +1095,8 @@ AUTOFIX_LIST = [
     "weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis",
     "weblate.trans.autofixes.chars.RemoveZeroSpace",
     "weblate.trans.autofixes.chars.RemoveControlChars",
+    "weblate.trans.autofixes.chars.DevanagariDanda",
+    "weblate.trans.autofixes.html.BleachHTML",
 ]
 modify_env_list(AUTOFIX_LIST, "AUTOFIX")
 
@@ -1359,6 +1363,8 @@ ENABLE_SHARING = get_env_bool("WEBLATE_ENABLE_SHARING")
 
 EXTRA_HTML_HEAD = os.environ.get("WEBLATE_EXTRA_HTML_HEAD", "")
 
+UNUSED_ALERT_DAYS = get_env_int("WEBLATE_UNUSED_ALERT_DAYS", 365)
+
 # Wildcard loading
 for name in os.environ:
     if name.startswith("WEBLATE_RATELIMIT_") and name.endswith(
@@ -1386,7 +1392,9 @@ GOOGLE_ANALYTICS_ID = os.environ.get("WEBLATE_GOOGLE_ANALYTICS_ID")
 SENTRY_DSN = os.environ.get("SENTRY_DSN")
 SENTRY_ENVIRONMENT = os.environ.get("SENTRY_ENVIRONMENT", SITE_DOMAIN)
 SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE")
+SENTRY_PROFILES_SAMPLE_RATE = get_env_float("SENTRY_PROFILES_SAMPLE_RATE")
 SENTRY_TOKEN = os.environ.get("SENTRY_TOKEN")
+SENTRY_SEND_PII = get_env_bool("SENTRY_SEND_PII", True)
 AKISMET_API_KEY = os.environ.get("WEBLATE_AKISMET_API_KEY")
 
 # Web Monetization

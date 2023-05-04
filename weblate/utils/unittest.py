@@ -10,8 +10,7 @@ from weblate.utils.files import remove_tree
 
 
 # Lowercase name to be consistent with Django
-# pylint: disable=invalid-name
-class tempdir_setting(override_settings):  # noqa
+class tempdir_setting(override_settings):  # noqa: N801
     def __init__(self, setting):
         kwargs = {setting: None}
         super().__init__(**kwargs)

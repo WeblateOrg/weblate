@@ -43,15 +43,17 @@ def remove_tree(path: str, ignore_errors: bool = False):
 def should_skip(location):
     """Check for skipping location in manage commands."""
     location = os.path.abspath(location)
-    return (
-        location.startswith(VENV_DIR)
-        or location.startswith(settings.DATA_DIR)
-        or location.startswith(DEFAULT_DATA_DIR)
-        or location.startswith(BUILD_DIR)
-        or location.startswith(DEFAULT_TEST_DIR)
-        or location.startswith(DOCS_DIR)
-        or location.startswith(SCRIPTS_DIR)
-        or location.startswith(EXAMPLES_DIR)
+    return location.startswith(
+        (
+            VENV_DIR,
+            settings.DATA_DIR,
+            DEFAULT_DATA_DIR,
+            BUILD_DIR,
+            DEFAULT_TEST_DIR,
+            DOCS_DIR,
+            SCRIPTS_DIR,
+            EXAMPLES_DIR,
+        )
     )
 
 

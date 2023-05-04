@@ -3,8 +3,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from contextlib import suppress
 from typing import Optional
 
+import sentry_sdk
 from django.core.cache import cache
 from filelock import FileLock, Timeout
 from redis_lock import AlreadyAcquired, Lock, NotAcquired
@@ -38,18 +40,17 @@ class WeblateLock:
         self.use_redis = IS_USING_REDIS
         if self.use_redis:
             # Prefer Redis locking as it works distributed
+            self._name = self._format_template(cache_template)
             self._lock = Lock(
                 cache.client.get_client(),
-                name=self._format_template(cache_template),
+                name=self._name,
                 expire=60,
                 auto_renewal=True,
             )
         else:
             # Fall back to file based locking
-            self._lock = FileLock(
-                os.path.join(lock_path, self._format_template(file_template)),
-                timeout=self._timeout,
-            )
+            self._name = os.path.join(lock_path, self._format_template(file_template))
+            self._lock = FileLock(self._name, timeout=self._timeout)
 
     def _format_template(self, template: str):
         return template.format(
@@ -62,31 +63,32 @@ class WeblateLock:
         self._depth += 1
         if self._depth > 1:
             return
-        if self.use_redis:
-            try:
-                if not self._lock.acquire(timeout=self._timeout):
-                    raise WeblateLockTimeout(
-                        f"Lock could not be acquired in {self._timeout}s"
-                    )
-            except AlreadyAcquired:
-                pass
-        else:
-            # Fall back to file based locking
-            try:
-                self._lock.acquire()
-            except Timeout as error:
-                raise WeblateLockTimeout(str(error))
+        with sentry_sdk.start_span(op="lock.wait", description=self._name):
+            if self.use_redis:
+                try:
+                    lock_result = self._lock.acquire(timeout=self._timeout)
+                except AlreadyAcquired:
+                    pass
+                else:
+                    if not lock_result:
+                        raise WeblateLockTimeout(
+                            f"Lock could not be acquired in {self._timeout}s"
+                        )
+            else:
+                # Fall back to file based locking
+                try:
+                    self._lock.acquire()
+                except Timeout as error:
+                    raise WeblateLockTimeout(str(error))
 
     def __exit__(self, exc_type, exc_value, traceback):
         self._depth -= 1
         if self._depth > 0:
             return
-        try:
+        # This can happen in case of overloaded server fails to renew the
+        # lock before expiry
+        with suppress(NotAcquired):
             self._lock.release()
-        except NotAcquired:
-            # This can happen in case of overloaded server fails to renew the
-            # lock before expiry
-            pass
 
     @property
     def is_locked(self):

@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from contextlib import suppress
 from copy import copy
 from datetime import timedelta
 from itertools import chain
@@ -56,7 +57,7 @@ BASIC_KEYS = frozenset(
     + ["last_changed", "last_author"]
 )
 SOURCE_KEYS = frozenset(
-    list(BASIC_KEYS) + ["source_strings", "source_words", "source_chars"]
+    [*list(BASIC_KEYS), "source_strings", "source_words", "source_chars"]
 )
 
 
@@ -229,7 +230,7 @@ class BaseStats:
 
     def calculate_item(self, item):
         """Calculate stats for translation."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def ensure_basic(self, save=True):
         """Ensure we have basic stats."""
@@ -250,7 +251,7 @@ class BaseStats:
             self._prefetch_basic()
 
     def _prefetch_basic(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def calculate_percents(self, item, total=None):
         """Calculate percent value for given item."""
@@ -302,7 +303,8 @@ class BaseStats:
 
 
 class DummyTranslationStats(BaseStats):
-    """Dummy stats to report 0 in all cases.
+    """
+    Dummy stats to report 0 in all cases.
 
     Used when given language does not exist in a component.
     """
@@ -341,21 +343,18 @@ class TranslationStats(BaseStats):
         parents: bool = True,
     ):
         result = super().get_invalidate_keys(language, childs, parents)
-        try:
+        # Happens when deleting language from the admin interface
+        with suppress(ObjectDoesNotExist):
             result.update(self._object.language.stats.get_invalidate_keys())
-        except ObjectDoesNotExist:
-            # Happens when deleting language from the admin interface
-            pass
+
         if parents:
-            try:
+            # Happens when deleting language from the admin interface
+            with suppress(ObjectDoesNotExist):
                 result.update(
                     self._object.component.stats.get_invalidate_keys(
                         language=self._object.language
                     )
                 )
-            except ObjectDoesNotExist:
-                # Happens when deleting language from the admin interface
-                pass
         return result
 
     @property

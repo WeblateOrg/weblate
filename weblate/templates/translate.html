@@ -133,6 +133,7 @@
     {% endif %}
 
     {% if unit.source_unit.explanation %}
+      {% if not unit.translation.component.is_glossary or not unit.is_source %}
         <!-- source string context  -->
         <div class="form-group help-block">
         <label>{% trans "Explanation" %}</label>
@@ -144,6 +145,7 @@
             </div>
         </div>
         </div>
+      {% endif %}
     {% endif %}
 
     {% if not unit.is_source %}
@@ -153,7 +155,7 @@
             {% if unit.context %}
                 <div class="pull-right flip">
                 <label>{{ unit.translation.component.context_label }}</label>
-                {% format_translation unit.context unit.translation.component.source_language simple=True wrap=True search_match=search_query %}
+                {% format_translation unit.context unit.translation.component.source_language simple=True wrap=True search_match=search_query whitespace=False %}
                 </div>
             {% endif %}
             <a class="language" href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
@@ -201,21 +203,7 @@
         title="{% trans "This translation is currently locked." %}"
     {% elif not user_can_translate and not user_can_edit_flags %}
         disabled="disabled"
-        {% if not user.is_authenticated %}
-            title="{% trans "Please sign in to save translations." %}"
-        {% elif unit.approved %}
-            title="{% trans "Only reviewers can change approved strings, please add a suggestion if you think the string should be changed." %}"
-        {% elif unit.translation.component.suggestion_voting %}
-            title="{% trans "This translation only accepts suggestions, and these are approved by voting." %}"
-        {% elif unit.translation.component.agreement %}
-            title="{% trans "Contributing to this translation requires you agree to its contributor agreement." %}"
-        {% elif unit.readonly %}
-            title="{% trans "Read only" %}"
-        {% elif unit.translation.is_template %}
-            title="{% trans "Insufficient privileges for editing source strings." %}"
-        {% else %}
-            title="{% trans "Insufficient privileges for saving translations." %}"
-        {% endif %}
+        title="{{ user_can_translate.reason }}"
     {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %}
         disabled="disabled"
         title="{% trans "Insufficient privileges for saving translations." %}"

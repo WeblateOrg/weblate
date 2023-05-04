@@ -25,8 +25,7 @@ from weblate.utils.views import get_percent_color
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
-# pylint:disable=wrong-import-position,wrong-import-order
-from gi.repository import Pango, PangoCairo  # noqa:E402,I001 isort:skip
+from gi.repository import Pango, PangoCairo  # noqa: E402
 
 COLOR_DATA = {
     "grey": (0, 0, 0),
@@ -128,11 +127,11 @@ class BitmapWidget(ContentWidget):
         return os.path.join(
             settings.STATIC_ROOT,
             "widget-images",
-            "{widget}-{color}.png".format(**{"color": self.color, "widget": self.name}),
+            f"{self.name}-{self.color}.png",
         )
 
     def get_columns(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_column_width(self, surface, columns):
         return surface.get_width() // len(columns)
@@ -201,7 +200,7 @@ class SVGWidget(ContentWidget):
 
     def render(self, response):
         """Rendering method to be implemented."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class RedirectWidget(Widget):
@@ -374,7 +373,7 @@ class SVGBadgeWidget(SVGWidget):
     def render(self, response):
         translated_text = _("translated")
         translated_width = (
-            render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, translated_text)[
+            render_size("Kurinto Sans", Pango.Weight.NORMAL, 11, 0, translated_text)[
                 0
             ].width
             + 10
@@ -382,7 +381,7 @@ class SVGBadgeWidget(SVGWidget):
 
         percent_text = self.get_percent_text()
         percent_width = (
-            render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, percent_text)[
+            render_size("Kurinto Sans", Pango.Weight.NORMAL, 11, 0, percent_text)[
                 0
             ].width
             + 10
@@ -444,7 +443,7 @@ class MultiLanguageWidget(SVGWidget):
                 language_width,
                 (
                     render_size(
-                        "DejaVu Sans", Pango.Weight.NORMAL, 11, 0, language_name
+                        "Kurinto Sans", Pango.Weight.NORMAL, 11, 0, language_name
                     )[0].width
                     + 10
                 ),

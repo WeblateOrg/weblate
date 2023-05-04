@@ -49,7 +49,7 @@ class SamePluralsCheck(TargetCheck):
         # Is this plural?
         if len(sources) == 1 or len(targets) == 1:
             return False
-        if targets[0] == "":
+        if not targets[0]:
             return False
         return len(set(targets)) == 1
 
@@ -146,6 +146,23 @@ class TranslatedCheck(TargetCheck):
             return super().get_description(check_obj)
         return _('Previous translation was "%s".') % target
 
+    def should_skip_change(self, change, unit):
+        from weblate.trans.models import Change
+
+        # Skip automatic translation entries adding needs editing string
+        return (
+            change.action == Change.ACTION_AUTO
+            and change.details.get("state", STATE_TRANSLATED) < STATE_TRANSLATED
+        )
+
+    @staticmethod
+    def should_break_changes(change):
+        from weblate.trans.models import Change
+
+        # Stop changes processin on source string change or on
+        # intentional marking as needing edit
+        return change.action in (Change.ACTION_SOURCE_CHANGE, Change.ACTION_MARKED_EDIT)
+
     def check_target_unit(self, sources, targets, unit):
         if unit.translated:
             return False
@@ -159,11 +176,13 @@ class TranslatedCheck(TargetCheck):
 
         changes = unit.change_set.filter(action__in=Change.ACTIONS_CONTENT).order()
 
-        for action, target in changes.values_list("action", "target"):
-            if action == Change.ACTION_SOURCE_CHANGE:
+        for change in changes:
+            if self.should_break_changes(change):
                 break
-            if target and target != unit.target:
-                return target
+            if self.should_skip_change(change, unit):
+                continue
+            if change.target and change.target != unit.target:
+                return change.target
 
         return False
 
@@ -201,7 +220,9 @@ class TranslatedCheck(TargetCheck):
 
         for unit in units:
             for change in unit.recent_consistency_changes:
-                if change.action == Change.ACTION_SOURCE_CHANGE:
+                if self.should_break_changes(change):
                     break
+                if self.should_skip_change(change, unit):
+                    continue
                 if change.target:
                     yield unit

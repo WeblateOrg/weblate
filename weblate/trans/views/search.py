@@ -67,7 +67,7 @@ def parse_url(request, project, component=None, lang=None):
         context["components"] = [obj.component]
 
     if not request.user.has_perm("unit.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     return obj, unit_set, context
 
@@ -238,7 +238,7 @@ def bulk_edit(request, project, component=None, lang=None):
     obj, unit_set, context = parse_url(request, project, component, lang)
 
     if not request.user.has_perm("translation.auto", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = BulkEditForm(request.user, obj, request.POST, project=context["project"])
 

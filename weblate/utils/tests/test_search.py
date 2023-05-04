@@ -108,15 +108,11 @@ class QueryParserTest(TestCase, SearchMixin):
         with self.assertRaises(ValueError):
             self.assert_query('source:r"^(hello"', Q(source__trgm_regex="^(hello"))
         # Not supported regex on PostgreSQL
-        if using_postgresql():
-            with self.assertRaises(ValueError):
-                self.assert_query(
-                    'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
-                )
-        else:
+        with self.assertRaises(ValueError):
             self.assert_query(
                 'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
             )
+        self.assert_query('source:r"(?i)^hello"', Q(source__trgm_regex="(?i)^hello"))
 
     def test_logic(self):
         self.assert_query(
@@ -140,25 +136,22 @@ class QueryParserTest(TestCase, SearchMixin):
     def test_year(self):
         self.assert_query(
             "changed:2018",
-            Q(change__timestamp__gte=datetime(2018, 1, 1, 0, 0, tzinfo=utc))
-            & Q(
-                change__timestamp__lte=datetime(
-                    2018, 12, 31, 23, 59, 59, 999999, tzinfo=utc
+            Q(
+                change__timestamp__range=(
+                    datetime(2018, 1, 1, 0, 0, tzinfo=utc),
+                    datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=utc),
                 )
             )
             & Q(change__action__in=Change.ACTIONS_CONTENT),
         )
 
     def test_change_action(self):
-        expected = (
-            Q(change__timestamp__gte=datetime(2018, 1, 1, 0, 0, tzinfo=utc))
-            & Q(
-                change__timestamp__lte=datetime(
-                    2018, 12, 31, 23, 59, 59, 999999, tzinfo=utc
-                )
+        expected = Q(
+            change__timestamp__range=(
+                datetime(2018, 1, 1, 0, 0, tzinfo=utc),
+                datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=utc),
             )
-            & Q(change__action=Change.ACTION_MARKED_EDIT)
-        )
+        ) & Q(change__action=Change.ACTION_MARKED_EDIT)
         self.assert_query(
             "change_time:2018 AND change_action:marked-for-edit", expected
         )
@@ -180,10 +173,10 @@ class QueryParserTest(TestCase, SearchMixin):
         )
         self.assert_query(
             "changed:2019-03-01",
-            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=utc))
-            & Q(
-                change__timestamp__lte=datetime(
-                    2019, 3, 1, 23, 59, 59, 999999, tzinfo=utc
+            Q(
+                change__timestamp__range=(
+                    datetime(2019, 3, 1, 0, 0, tzinfo=utc),
+                    datetime(2019, 3, 1, 23, 59, 59, 999999, tzinfo=utc),
                 )
             )
             & action_change,
@@ -194,10 +187,10 @@ class QueryParserTest(TestCase, SearchMixin):
     def test_date_range(self):
         self.assert_query(
             "changed:[2019-03-01 to 2019-04-01]",
-            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=utc))
-            & Q(
-                change__timestamp__lte=datetime(
-                    2019, 4, 1, 23, 59, 59, 999999, tzinfo=utc
+            Q(
+                change__timestamp__range=(
+                    datetime(2019, 3, 1, 0, 0, tzinfo=utc),
+                    datetime(2019, 4, 1, 23, 59, 59, 999999, tzinfo=utc),
                 )
             )
             & Q(change__action__in=Change.ACTIONS_CONTENT),
@@ -222,6 +215,11 @@ class QueryParserTest(TestCase, SearchMixin):
         self.assert_query("state:<translated", Q(state__lt=STATE_TRANSLATED))
         self.assert_query("state:translated", Q(state=STATE_TRANSLATED))
         self.assert_query("state:needs-editing", Q(state=STATE_FUZZY))
+
+    def test_position(self):
+        self.assert_query("position:>=1", Q(position__gte=1))
+        self.assert_query("position:<10", Q(position__lt=10))
+        self.assert_query("position:[1 to 10]", Q(position__range=(1, 10)))
 
     def test_invalid_state(self):
         with self.assertRaises(ValueError):
@@ -384,10 +382,10 @@ class QueryParserTest(TestCase, SearchMixin):
     def test_timestamp_interval(self):
         self.assert_query(
             "changed:2020-03-27",
-            Q(change__timestamp__gte=datetime(2020, 3, 27, 0, 0, tzinfo=utc))
-            & Q(
-                change__timestamp__lte=datetime(
-                    2020, 3, 27, 23, 59, 59, 999999, tzinfo=utc
+            Q(
+                change__timestamp__range=(
+                    datetime(2020, 3, 27, 0, 0, tzinfo=utc),
+                    datetime(2020, 3, 27, 23, 59, 59, 999999, tzinfo=utc),
                 )
             )
             & Q(change__action__in=Change.ACTIONS_CONTENT),

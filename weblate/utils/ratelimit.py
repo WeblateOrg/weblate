@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from contextlib import suppress
+
 from django.conf import settings
 from django.contrib.auth import logout
 from django.core.cache import cache
@@ -44,17 +46,16 @@ def get_rate_setting(scope: str, suffix: str):
 
 
 def revert_rate_limit(scope, request):
-    """Revert rate limit to previous state.
+    """
+    Revert rate limit to previous state.
 
     This can be used when rate limiting POST, but ignoring some events.
     """
     key = get_cache_key(scope, request)
 
-    try:
+    with suppress(ValueError):
         # Try to decrease cache key
         cache.incr(key)
-    except ValueError:
-        pass
 
 
 def rate_limit(key: str, attempts: int, window: int) -> bool:

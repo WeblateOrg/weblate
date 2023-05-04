@@ -4,6 +4,7 @@
 
 from collections import defaultdict
 
+from django.conf import settings
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
@@ -215,8 +216,8 @@ class PushFailure(ErrorAlert):
     link_wide = True
     behind_message = "The tip of your current branch is behind its remote counterpart"
     terminal_message = "terminal prompts disabled"
-    doc_page = "admin/projects"
-    doc_anchor = "component-push"
+    doc_page = "admin/continuous"
+    doc_anchor = "push-changes"
 
     def get_analysis(self):
         terminal_disabled = self.terminal_message in self.error
@@ -416,3 +417,12 @@ class InexistantFiles(BaseAlert):
     def __init__(self, instance, files):
         super().__init__(instance)
         self.files = files
+
+
+@register
+class UnusedComponent(BaseAlert):
+    verbose = _("Component seems unused.")
+    doc_page = "devel/community"
+
+    def get_analysis(self):
+        return {"days": settings.UNUSED_ALERT_DAYS}

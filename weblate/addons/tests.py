@@ -128,7 +128,9 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         TestAddon.create(self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        self.component.trigger_post_update("x", False)
+        self.component.trigger_post_update(
+            self.component.repository.last_revision, False
+        )
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/cs.po", commit)
@@ -153,7 +155,9 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
             addon.post_update(self.component, "head", False)
 
         # The crash should be handled here and addon uninstalled
-        self.component.trigger_post_update("x", False)
+        self.component.trigger_post_update(
+            self.component.repository.last_revision, False
+        )
 
         self.assertFalse(Addon.objects.filter(name=TestCrashAddon.name).exists())
 
@@ -299,7 +303,7 @@ class GettextAddonTest(ViewTestCase):
             for text in unit.get_target_plurals():
                 self.assertTrue(text.startswith("@@@"))
                 # We need to deal with automated fixups
-                self.assertTrue(text.endswith("!!!") or text.endswith("!!!\n"))
+                self.assertTrue(text.endswith(("!!!", "!!!\n")))
 
     def test_pseudolocale_variable(self):
         self.assertTrue(PseudolocaleAddon.can_install(self.component, None))
@@ -322,7 +326,7 @@ class GettextAddonTest(ViewTestCase):
             for text in unit.get_target_plurals():
                 self.assertTrue(text.startswith("@@@_"))
                 # We need to deal with automated fixups
-                self.assertTrue(text.endswith("_!!!") or text.endswith("_!!!\n"))
+                self.assertTrue(text.endswith(("_!!!", "_!!!\n")))
         for addon in self.component.addon_set.all():
             addon.delete()
         translation = self.component.translation_set.get(language_code="de")

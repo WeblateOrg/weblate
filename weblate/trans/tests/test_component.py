@@ -579,13 +579,13 @@ class ComponentChangeTest(RepoTestCase):
         result = component.get_bitbucket_git_repoweb_template()
         self.assertEqual(
             result,
-            "https://bitbucket.org/marcus/project-x/blob/{branch}/{filename}#{line}",  # noqa
+            "https://bitbucket.org/marcus/project-x/blob/{branch}/{filename}#{line}",
         )
         component.repo = "git@bitbucket.org:marcus/project-x.git"
         result = component.get_bitbucket_git_repoweb_template()
         self.assertEqual(
             result,
-            "https://bitbucket.org/marcus/project-x/blob/{branch}/{filename}#{line}",  # noqa
+            "https://bitbucket.org/marcus/project-x/blob/{branch}/{filename}#{line}",
         )
 
     def test_repo_link_generation_github(self):
@@ -811,7 +811,7 @@ class ComponentValidationTest(RepoTestCase):
         self.component.file_format = "po"
         self.component.save()
 
-        # Clean class cache, pylint: disable=protected-access
+        # Clean class cache
         del self.component.__dict__["file_format"]
 
         # With correct format it should validate
@@ -906,7 +906,7 @@ class ComponentErrorTest(RepoTestCase):
         self.component.drop_template_store_cache()
 
         with self.assertRaises(FileParseError):
-            self.component.template_store
+            self.component.template_store  # noqa: B018
 
         with self.assertRaises(ValidationError):
             self.component.clean()
@@ -915,7 +915,7 @@ class ComponentErrorTest(RepoTestCase):
         translation = self.component.translation_set.get(language_code="cs")
         translation.filename = "foo.bar"
         with self.assertRaises(FileParseError):
-            translation.store
+            translation.store  # noqa: B018
         with self.assertRaises(ValidationError):
             translation.clean()
 
@@ -925,7 +925,7 @@ class ComponentErrorTest(RepoTestCase):
             handle.write("CHANGE")
         translation = self.component.translation_set.get(language_code="cs")
         with self.assertRaises(FileParseError):
-            translation.store
+            translation.store  # noqa: B018
         with self.assertRaises(ValidationError):
             translation.clean()
 
@@ -936,7 +936,7 @@ class ComponentErrorTest(RepoTestCase):
         self.component.drop_template_store_cache()
 
         with self.assertRaises(FileParseError):
-            self.component.template_store
+            self.component.template_store  # noqa: B018
         with self.assertRaises(ValidationError):
             self.component.clean()
 

@@ -23,6 +23,7 @@ from weblate.trans.forms import (
     ComponentRenameForm,
     DownloadForm,
     ProjectDeleteForm,
+    ProjectFilterForm,
     ProjectRenameForm,
     ReplaceForm,
     ReportsForm,
@@ -46,6 +47,7 @@ from weblate.utils.views import (
     get_project,
     get_translation,
     optional_form,
+    show_form_errors,
     try_set_language,
 )
 
@@ -53,15 +55,33 @@ from weblate.utils.views import (
 @never_cache
 def list_projects(request):
     """List all projects."""
+    query_string = ""
+    projects = request.user.allowed_projects
+    form = ProjectFilterForm(request.GET)
+    if form.is_valid():
+        query = {}
+        if form.cleaned_data["owned"]:
+            user = form.cleaned_data["owned"]
+            query["owned"] = user.username
+            projects = (user.owned_projects & projects.distinct()).order()
+        elif form.cleaned_data["watched"]:
+            user = form.cleaned_data["watched"]
+            query["watched"] = user.username
+            projects = (user.watched_projects & projects).order()
+        query_string = urlencode(query)
+    else:
+        show_form_errors(request, form)
+
     return render(
         request,
         "projects.html",
         {
             "allow_index": True,
             "projects": prefetch_project_flags(
-                get_paginator(request, prefetch_stats(request.user.allowed_projects))
+                get_paginator(request, prefetch_stats(projects))
             ),
             "title": _("Projects"),
+            "query_string": query_string,
         },
     )
 
@@ -271,7 +291,7 @@ def show_component(request, project, component):
                 instance=obj,
             ),
             "search_form": SearchForm(request.user),
-            "alerts": obj.all_alerts
+            "alerts": obj.all_active_alerts
             if "alerts" not in request.GET
             else obj.alert_set.all(),
         },
@@ -326,7 +346,12 @@ def show_translation(request, project, component, lang):
             "form": form,
             "download_form": DownloadForm(obj, auto_id="id_dl_%s"),
             "autoform": optional_form(
-                AutoForm, user, "translation.auto", obj, obj=component
+                AutoForm,
+                user,
+                "translation.auto",
+                obj,
+                obj=component,
+                user=user,
             ),
             "search_form": search_form,
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),

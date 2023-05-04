@@ -46,7 +46,7 @@ def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
 
     if not request.user.has_perm("unit.check", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     # Mark check for ignoring
     obj.set_dismiss("revert" not in request.GET)
@@ -63,7 +63,7 @@ def ignore_check_source(request, check_id):
     if not request.user.has_perm("unit.check", obj) or not request.user.has_perm(
         "source.edit", unit.translation.component
     ):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     # Mark check for ignoring
     ignore = obj.check_obj.ignore_string
@@ -85,7 +85,7 @@ def ignore_check_source(request, check_id):
 
 def git_status_shared(request, obj, repositories):
     if not request.user.has_perm("meta:vcs.status", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     changes = obj.change_set.filter(action__in=Change.ACTIONS_REPOSITORY).order()[:10]
 
@@ -99,6 +99,10 @@ def git_status_shared(request, obj, repositories):
             "pending_units": obj.count_pending_units,
             "outgoing_commits": sum(repo.count_repo_outgoing for repo in repositories),
             "missing_commits": sum(repo.count_repo_missing for repo in repositories),
+            "supports_push": any(
+                repo.repository_class.supports_push for repo in repositories
+            ),
+            "push_label": repositories[0].repository_class.push_label,
         },
     )
 

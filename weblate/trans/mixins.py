@@ -19,7 +19,7 @@ class URLMixin:
 
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def reverse_url(self, name=None):
         """Generic reverser for URL."""
@@ -49,6 +49,9 @@ class URLMixin:
 
     def get_file_sync_url(self):
         return self.reverse_url("file_sync")
+
+    def get_file_scan_url(self):
+        return self.reverse_url("file_scan")
 
     def get_lock_url(self):
         return self.reverse_url("lock")
@@ -92,7 +95,7 @@ class PathMixin(LoggerMixin):
 
     def _get_path(self):
         """Actual calculation of path."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @cached_property
     def full_path(self):

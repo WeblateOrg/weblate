@@ -15,6 +15,7 @@ GIT_PATHS = [
 ]
 
 
+# TODO: Use functools.cache when Python 3.9+
 @lru_cache(maxsize=None)
 def find_git_http_backend():
     """Find Git HTTP back-end."""

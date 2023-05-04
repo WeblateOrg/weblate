@@ -7,7 +7,6 @@ name: Docs
 on:
   push:
     branches-ignore:
-    - dependabot/**
     - deepsource-fix-**
     - renovate/**
     - weblate
@@ -18,7 +17,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     name: Sphinx
 
     steps:
@@ -29,6 +28,8 @@ jobs:
         python-version: '3.11'
         cache: pip
         cache-dependency-path: '**/requirements*.txt'
+    - name: Configure Fast APT Mirror
+      uses: vegardit/fast-apt-mirror.sh@v1
     - name: Install apt dependencies
       run: |
         sudo apt update
@@ -46,7 +47,7 @@ jobs:
         path: docs/_build/html
 
   linkcheck:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     name: Linkcheck
 
     steps:

@@ -56,10 +56,6 @@ Discover Weblate
 
 .. versionadded:: 4.5.2
 
-.. note::
-
-   This feature is currently in early beta.
-
 Discover Weblate is an opt-in service that makes it easier for users to find
 Weblate servers and communities. Users can browse registered services on
 <https://weblate.org/discover/>, and find there projects to contribute.

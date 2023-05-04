@@ -62,7 +62,7 @@ work, but is not as well tested as single version upgrades.
         cd weblate-src
         git pull
         # Update Weblate inside your virtualenv
-        . ~/weblate-env/bin/pip install -e .
+        . ~/weblate-env/bin/pip install -e '.[all]'
         # Install dependencies directly when not using virtualenv
         pip install --upgrade -r requirements.txt
         # Install optional dependencies directly when not using virtualenv
@@ -378,6 +378,30 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 * The deprecated VCS setting for credentials is no longer supported, see :ref:`up-4-14`.
 * Upgrade of `django-crispy-forms` requires changes in :setting:`django:INSTALLED_APPS`.
 * Integration of `django-cors-headers` requires changes in :setting:`django:INSTALLED_APPS` and :setting:`django:MIDDLEWARE`.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.16 to 4.17
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Migration to rewritten metrics storage might take considerable time on larger
+  Weblate instance (expect around 15 minutes per GB of ``metrics_metric``
+  table). To reduce downtime, you can copy
+  :file:`weblate/metrics/migrations/*.py` from Weblate 4.17 to 4.16 and start
+  the migration in the background. Once it is completed, perform full upgrade
+  as ususal.
+* Docker container now requires PostgreSQL 12 or newer, please see
+  :ref:`docker-postgres-upgrade` for upgrade instructions. Weblate itself
+  supports older versions as well, when appropriate Django version is installed.
+
+.. warning::
+
+   Migration on MySQL will try to load all metrics into memory due to
+   limitation of the Python database driver. You might need to prune metrics
+   prior to migration if you want to continue using MySQL. Please consider
+   switching to PostgreSQL, see :ref:`database-migration`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

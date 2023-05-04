@@ -531,7 +531,10 @@ $(function () {
       activeTab.tab("show");
       window.scrollTo(0, 0);
     } else {
-      document.getElementById(location.hash.substr(1)).scrollIntoView();
+      let anchor = document.getElementById(location.hash.substr(1));
+      if (anchor !== null) {
+        anchor.scrollIntoView();
+      }
     }
   } else if (
     $(".translation-tabs").length > 0 &&
@@ -809,12 +812,6 @@ $(function () {
     });
   }
 
-  /*
-   * Disable modal enforce focus to fix compatibility
-   * issues with ClipboardJS, see https://stackoverflow.com/a/40862005/225718
-   */
-  $.fn.modal.Constructor.prototype.enforceFocus = function () {};
-
   /* Focus first input in modal */
   $(document).on("shown.bs.modal", function (event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
@@ -828,17 +825,20 @@ $(function () {
   });
 
   /* Copy to clipboard */
-  var clipboard = new ClipboardJS("[data-clipboard-text]");
-  clipboard.on("success", function (e) {
-    var text =
-      e.trigger.getAttribute("data-clipboard-message") ||
-      gettext("Text copied to clipboard.");
-    addAlert(text, (kind = "info"));
-  });
-  clipboard.on("error", function (e) {
-    addAlert(gettext("Please press Ctrl+C to copy."), (kind = "danger"));
-  });
   $("[data-clipboard-text]").on("click", function (e) {
+    navigator.clipboard
+      .writeText(this.getAttribute("data-clipboard-text"))
+      .then(
+        () => {
+          var text =
+            this.getAttribute("data-clipboard-message") ||
+            gettext("Text copied to clipboard.");
+          addAlert(text, (kind = "info"));
+        },
+        () => {
+          addAlert(gettext("Please press Ctrl+C to copy."), (kind = "danger"));
+        },
+      );
     e.preventDefault();
   });
 
@@ -987,7 +987,9 @@ $(function () {
 
   /* Click to edit position inline. Disable when clicked outside or pressed ESC */
   $("#position-input").on("click", function () {
+    var $form = $(this).closest("form");
     $("#position-input").hide();
+    $form.find("input[name=offset]").prop("disabled", false);
     $("#position-input-editable").show();
     $("#position-input-editable-input").attr("type", "number").focus();
     document.addEventListener("click", clickedOutsideEditableInput);
@@ -1040,7 +1042,7 @@ $(function () {
       $group.find("input[name=q]").val($this.data("field"));
       if ($this.closest(".result-page-form").length) {
         var $form = $this.closest("form");
-        $form.find("input[name=offset]").val("1");
+        $form.find("input[name=offset]").prop("disabled", true);
         $form.submit();
       }
     }
@@ -1074,7 +1076,7 @@ $(function () {
     });
   $("#id_q").on("change", function (event) {
     var $form = $(this).closest("form");
-    $form.find("input[name=offset]").val("1");
+    $form.find("input[name=offset]").prop("disabled", true);
   });
   $(".search-add").click(function () {
     var group = $(this).closest(".search-group");
@@ -1215,6 +1217,15 @@ $(function () {
 
   $(".replace-preview input[type='checkbox']").on("change", function () {
     $(this).closest("tr").toggleClass("warning", this.checked);
+  });
+
+  /* Suggestion rejection */
+  $(".rejection-reason").on("keydown", function (event) {
+    if (event.key === "Enter") {
+      $(this).closest("form").find("[name='delete']").click();
+      event.preventDefault();
+      return false;
+    }
   });
 
   /* Warn users that they do not want to use developer console in most cases */

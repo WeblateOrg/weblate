@@ -76,7 +76,6 @@ urlpatterns = [
 ]
 
 if "simple_sso.sso_server" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     from simple_sso.sso_server.server import Server
 
     server = Server()

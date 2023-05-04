@@ -108,7 +108,7 @@ from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.token import get_token
-from weblate.utils.views import get_component, get_project
+from weblate.utils.views import get_component, get_paginator, get_project
 
 CONTACT_TEMPLATE = """
 Message from %(name)s <%(email)s>:
@@ -335,11 +335,8 @@ def user_profile(request):
 
             # Redirect after saving (and possibly changing language)
             return redirect_profile(request.POST.get("activetab"))
-    else:
-        if not request.user.has_usable_password() and "email" in all_backends:
-            messages.warning(
-                request, render_to_string("accounts/password-warning.html")
-            )
+    elif not request.user.has_usable_password() and "email" in all_backends:
+        messages.warning(request, render_to_string("accounts/password-warning.html"))
 
     social = request.user.social_auth.all()
     social_names = [assoc.provider for assoc in social]
@@ -353,7 +350,7 @@ def user_profile(request):
         .order_by("license")
     )
 
-    result = render(
+    return render(
         request,
         "accounts/profile.html",
         {
@@ -376,7 +373,6 @@ def user_profile(request):
             "auditlog": request.user.auditlog_set.order()[:20],
         },
     )
-    return result
 
 
 @login_required
@@ -562,7 +558,7 @@ class UserPage(UpdateView):
 
     def post(self, request, **kwargs):
         if not request.user.has_perm("user.edit"):
-            raise PermissionDenied()
+            raise PermissionDenied
         user = self.object = self.get_object()
         if "add_group" in request.POST:
             self.group_form = GroupAddForm(request.POST)
@@ -603,11 +599,15 @@ class UserPage(UpdateView):
         last_changes = all_changes[:10]
 
         # Filter where project is active
-        user_translation_ids = set(all_changes.values_list("translation", flat=True))
+        user_translation_ids = set(
+            all_changes.filter(
+                timestamp__gte=timezone.now() - timedelta(days=90)
+            ).values_list("translation", flat=True)
+        )
         user_translations = (
             Translation.objects.prefetch()
             .filter(
-                id__in=user_translation_ids,
+                id__in=list(user_translation_ids)[:10],
                 component__project__in=allowed_projects,
             )
             .order()
@@ -619,11 +619,15 @@ class UserPage(UpdateView):
         context["page_user_translations"] = translation_prefetch_tasks(
             prefetch_stats(user_translations)
         )
+        owned = (user.owned_projects & allowed_projects.distinct()).order()[:11]
+        context["page_owned_projects_more"] = len(owned) == 11
         context["page_owned_projects"] = prefetch_project_flags(
-            prefetch_stats((user.owned_projects & allowed_projects.distinct()).order())
+            prefetch_stats(owned[:10])
         )
+        watched = (user.watched_projects & allowed_projects).order()[:11]
+        context["page_watched_projects_more"] = len(watched) == 11
         context["page_watched_projects"] = prefetch_project_flags(
-            prefetch_stats((user.watched_projects & allowed_projects).order())
+            prefetch_stats(watched[:10])
         )
         context["user_languages"] = user.profile.all_languages[:7]
         context["group_form"] = self.group_form or GroupAddForm()
@@ -633,6 +637,32 @@ class UserPage(UpdateView):
             .order()
         )
         return context
+
+
+def user_contributions(request, user: str):
+    user = get_object_or_404(User, username=user)
+    user_translation_ids = set(
+        Change.objects.filter(user=user).values_list("translation", flat=True)
+    )
+    user_translations = (
+        Translation.objects.filter_access(request.user)
+        .prefetch()
+        .filter(
+            id__in=user_translation_ids,
+        )
+        .order()
+    )
+    return render(
+        request,
+        "accounts/user_contributions.html",
+        {
+            "page_user": user,
+            "page_profile": user.profile,
+            "page_user_translations": translation_prefetch_tasks(
+                prefetch_stats(get_paginator(request, user_translations))
+            ),
+        },
+    )
 
 
 def user_avatar(request, user: str, size: int):
@@ -1084,7 +1114,8 @@ def store_userid(request, reset=False, remove=False, invite=False):
 @require_POST
 @login_required
 def social_disconnect(request, backend, association_id=None):
-    """Wrapper around social_django.views.disconnect.
+    """
+    Wrapper around social_django.views.disconnect.
 
     - Requires POST (to avoid CSRF on auth)
     - Blocks disconnecting last entry
@@ -1111,7 +1142,8 @@ def social_disconnect(request, backend, association_id=None):
 @never_cache
 @require_POST
 def social_auth(request, backend):
-    """Wrapper around social_django.views.auth.
+    """
+    Wrapper around social_django.views.auth.
 
     - Incorporates modified social_djang.utils.psa
     - Requires POST (to avoid CSRF on auth)
@@ -1192,7 +1224,8 @@ def handle_missing_parameter(request, backend, error):
 @csrf_exempt
 @never_cache
 def social_complete(request, backend):  # noqa: C901
-    """Wrapper around social_django.views.complete.
+    """
+    Wrapper around social_django.views.complete.
 
     - Handles backend errors gracefully
     - Intermediate page (autosubmitted by JavaScript) to avoid

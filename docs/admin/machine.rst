@@ -114,8 +114,6 @@ This service uses an API and you need to obtain an ID and API key from Baidu to 
 DeepL
 -----
 
-.. versionadded:: 2.20
-
 :Service ID: ``deepl``
 :Configuration: +---------+---------+--+
                 | ``url`` | API URL |  |
@@ -251,8 +249,6 @@ and there are several mirrors available to use the API for free.
 Microsoft Terminology
 ---------------------
 
-.. versionadded:: 2.19
-
 :Service ID: ``microsoft-terminology``
 :Configuration: `This service has no configuration.`
 
@@ -269,8 +265,6 @@ Language Portal through a web service.
 
 Microsoft Translator
 --------------------
-
-.. versionadded:: 2.10
 
 :Service ID: ``microsoft-translator``
 :Configuration: +------------------+-------------------------------+-----------------------------------------------------------------------+
@@ -509,8 +503,6 @@ existing strings.
 
 Weblate Translation Memory
 --------------------------
-
-.. versionadded:: 2.20
 
 :Service ID: ``weblate-translation-memory``
 :Configuration: `This service has no configuration.`

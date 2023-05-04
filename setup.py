@@ -76,12 +76,15 @@ class WeblateBuild(build):
     """Override the default build with new subcommands."""
 
     # The build_mo has to be before build_data
-    sub_commands = [("build_mo", lambda self: True)] + build.sub_commands
+    sub_commands = [
+        ("build_mo", lambda self: True),  # noqa: ARG005
+        *build.sub_commands,
+    ]
 
 
 setup(
     name="Weblate",
-    version="4.17",
+    version="4.18",
     python_requires=">=3.7",
     packages=find_packages(),
     include_package_data=True,

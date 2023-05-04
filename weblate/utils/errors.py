@@ -34,12 +34,15 @@ def report_error(
     print_tb: bool = False,
     extra_log: str = None,
     project=None,
+    message: bool = False,
 ):
-    """Wrapper for error reporting.
+    """
+    Wrapper for error reporting.
 
     This can be used for store exceptions in error reporting solutions as rollbar while
     handling error gracefully and giving user cleaner message.
     """
+    __traceback_hide__ = True  # noqa: F841
     if HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
         rollbar.report_exc_info(level=level)
 
@@ -50,7 +53,10 @@ def report_error(
                 scope.set_tag("project", project.slug)
             scope.set_tag("user.locale", get_language())
             scope.level = level
-            sentry_sdk.capture_exception()
+            if message:
+                sentry_sdk.capture_message(cause)
+            else:
+                sentry_sdk.capture_exception()
 
     log = getattr(LOGGER, level)
 
@@ -86,12 +92,19 @@ def init_error_collection(celery=False):
     if settings.SENTRY_DSN:
         sentry_sdk.init(
             dsn=settings.SENTRY_DSN,
-            integrations=[CeleryIntegration(), DjangoIntegration(), RedisIntegration()],
-            send_default_pii=True,
+            integrations=[
+                CeleryIntegration(),
+                DjangoIntegration(),
+                RedisIntegration(),
+            ],
+            send_default_pii=settings.SENTRY_SEND_PII,
             release=weblate.utils.version.GIT_REVISION
             or weblate.utils.version.TAG_NAME,
             environment=settings.SENTRY_ENVIRONMENT,
             traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
+            profiles_sample_rate=settings.SENTRY_PROFILES_SAMPLE_RATE,
+            attach_stacktrace=True,
+            _experiments={"max_spans": 2000},
             **settings.SENTRY_EXTRA_ARGS,
         )
         # Ignore Weblate logging, those are reported using capture_exception

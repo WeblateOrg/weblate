@@ -33,18 +33,6 @@ class PostgreSQLOperatorTesT(TestCase):
             BASE_SQL + """"trans_unit"."source"::text || '' LIKE %'''%""",
         )
 
-    def test_ilike(self):
-        queryset = Unit.objects.filter(source__ilike="test").only("id")
-        self.assertEqual(
-            str(queryset.query),
-            BASE_SQL + '"trans_unit"."source" ILIKE test',
-        )
-        queryset = Unit.objects.filter(source__ilike="'''").only("id")
-        self.assertEqual(
-            str(queryset.query),
-            BASE_SQL + """"trans_unit"."source" || '' = '''""",
-        )
-
     def test_substring(self):
         queryset = Unit.objects.filter(source__substring="test").only("id")
         self.assertEqual(

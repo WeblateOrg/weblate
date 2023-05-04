@@ -29,20 +29,21 @@ from weblate.trans.models import Change
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
 from weblate.utils.views import get_project, show_form_errors
-from weblate.vcs.ssh import get_key_data
+from weblate.vcs.ssh import get_all_key_data
 
 
 def check_user_form(
     request, project, form_class=UserManageForm, pass_project: bool = False
 ):
-    """Check project permission and UserManageForm.
+    """
+    Check project permission and UserManageForm.
 
     This is simple helper to perform needed validation for all user management views.
     """
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = form_class(obj, request.POST) if pass_project else form_class(request.POST)
 
@@ -244,7 +245,7 @@ def manage_access(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     groups = (
         obj.defined_groups.order().annotate(Count("user")).prefetch_related("languages")
@@ -304,7 +305,7 @@ def manage_access(request, project):
                 initial={"user": request.GET.get("block_user")}
             ),
             "invite_user_form": InviteUserForm(),
-            "ssh_key": get_key_data(),
+            "public_ssh_keys": get_all_key_data(),
         },
     )
 
@@ -316,7 +317,7 @@ def create_token(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = ProjectTokenCreateForm(obj, request.POST)
 
@@ -341,7 +342,7 @@ def create_group(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = ProjectTeamForm(request.POST)
 

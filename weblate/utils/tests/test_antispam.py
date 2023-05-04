@@ -11,7 +11,6 @@ from django.test.utils import override_settings
 from weblate.utils.antispam import is_spam, report_spam
 
 try:
-    # pylint: disable=unused-import
     import akismet  # noqa: F401
 
     HAS_AKISMET = True

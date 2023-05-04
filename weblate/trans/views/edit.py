@@ -64,6 +64,8 @@ from weblate.utils.views import (
     show_form_errors,
 )
 
+SESSION_SEARCH_CACHE_TTL = 1800
+
 
 def parse_params(request, project, component, lang):
     """Parses base object and unit set from request."""
@@ -101,19 +103,20 @@ def get_other_units(unit):
     component = translation.component
     propagation = component.allow_translation_propagation
     same = None
+    any_propagated = False
 
     if unit.source and unit.context:
         match = Q(source=unit.source) & Q(context=unit.context)
         if component.has_template():
-            query = Q(source__ilike=unit.source) | Q(context__ilike=unit.context)
+            query = Q(source__iexact=unit.source) | Q(context__iexact=unit.context)
         else:
-            query = Q(source__ilike=unit.source)
+            query = Q(source__iexact=unit.source)
     elif unit.source:
         match = Q(source=unit.source) & Q(context="")
-        query = Q(source__ilike=unit.source)
+        query = Q(source__iexact=unit.source)
     elif unit.context:
         match = Q(context=unit.context)
-        query = Q(context__ilike=unit.context)
+        query = Q(context__iexact=unit.context)
     else:
         return result
 
@@ -171,6 +174,8 @@ def get_other_units(unit):
             and item.source == unit.source
             and item.context == unit.context
         )
+        if item.pk != unit.pk:
+            any_propagated |= item.is_propagated
         untranslated |= not item.translated
         allow_merge |= item.allow_merge
         if item.pk == unit.pk:
@@ -187,7 +192,7 @@ def get_other_units(unit):
 
     # Slightly different logic to allow applying current translation to
     # the propagated strings
-    if same is not None:
+    if same is not None and any_propagated:
         same.allow_merge = (
             (untranslated or allow_merge) and same.translated and propagation
         )
@@ -207,12 +212,7 @@ def cleanup_session(session, delete_all: bool = False):
         if not key.startswith("search_"):
             continue
         value = session[key]
-        if (
-            delete_all
-            or not isinstance(value, dict)
-            or value["ttl"] < now
-            or "items" not in value
-        ):
+        if delete_all or not isinstance(value, dict) or value["ttl"] < now:
             del session[key]
 
 
@@ -220,6 +220,7 @@ def search(
     base, project, unit_set, request, blank: bool = False, use_cache: bool = True
 ):
     """Perform search or returns cached search results."""
+    now = int(time.monotonic())
     # Possible new search
     form = PositionSearchForm(user=request.user, data=request.GET, show_builder=False)
 
@@ -245,13 +246,13 @@ def search(
     }
     session_key = f"search_{base.cache_key}_{search_url}"
 
-    if (
-        use_cache
-        and session_key in request.session
-        and "offset" in request.GET
-        and "items" in request.session[session_key]
-    ):
+    # Remove old search results
+    cleanup_session(request.session)
+
+    session_data = request.session.get(session_key)
+    if use_cache and session_data and "offset" in request.GET:
         search_result.update(request.session[session_key])
+        request.session[session_key]["ttl"] = now + SESSION_SEARCH_CACHE_TTL
         return search_result
 
     allunits = unit_set.search(cleaned_data.get("q", ""), project=project)
@@ -266,9 +267,6 @@ def search(
         messages.warning(request, _("No strings found!"))
         return redirect(base)
 
-    # Remove old search results
-    cleanup_session(request.session)
-
     store_result = {
         "query": search_query,
         "url": search_url,
@@ -276,7 +274,7 @@ def search(
         "key": session_key,
         "name": str(name),
         "ids": unit_ids,
-        "ttl": int(time.monotonic()) + 86400,
+        "ttl": now + SESSION_SEARCH_CACHE_TTL,
     }
     if use_cache:
         request.session[session_key] = store_result
@@ -287,7 +285,7 @@ def search(
 
 def perform_suggestion(unit, form, request):
     """Handle suggesion saving."""
-    if form.cleaned_data["target"][0] == "":
+    if not form.cleaned_data["target"][0]:
         messages.error(request, _("Your suggestion is empty!"))
         # Stay on same entry
         return False
@@ -296,11 +294,12 @@ def perform_suggestion(unit, form, request):
         messages.error(request, _("You don't have privileges to add suggestions!"))
         # Stay on same entry
         return False
-    if not request.user.is_authenticated:
-        # Spam check
-        if is_spam("\n".join(form.cleaned_data["target"]), request):
-            messages.error(request, _("Your suggestion has been identified as spam!"))
-            return False
+    # Spam check for unauthenticated users
+    if not request.user.is_authenticated and is_spam(
+        "\n".join(form.cleaned_data["target"]), request
+    ):
+        messages.error(request, _("Your suggestion has been identified as spam!"))
+        return False
 
     # Create the suggestion
     result = Suggestion.objects.add(
@@ -532,7 +531,11 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
         if "accept" in request.POST:
             redirect_url = next_unit_url
     elif "delete" in request.POST or "spam" in request.POST:
-        suggestion.delete_log(request.user, is_spam="spam" in request.POST)
+        suggestion.delete_log(
+            request.user,
+            is_spam="spam" in request.POST,
+            rejection_reason=request.POST.get("rejection", ""),
+        )
     elif "upvote" in request.POST:
         suggestion.add_vote(request, Vote.POSITIVE)
         redirect_url = next_unit_url
@@ -709,9 +712,9 @@ def auto_translation(request, project, component, lang):
     translation = get_translation(request, project, component, lang)
     project = translation.component.project
     if not request.user.has_perm("translation.auto", project):
-        raise PermissionDenied()
+        raise PermissionDenied
 
-    autoform = AutoForm(translation.component, request.POST)
+    autoform = AutoForm(translation.component, request.user, request.POST)
 
     if translation.component.locked or not autoform.is_valid():
         messages.error(request, _("Failed to process form!"))
@@ -750,7 +753,7 @@ def comment(request, pk):
     component = unit.translation.component
 
     if not request.user.has_perm("comment.add", unit.translation):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = CommentForm(component.project, request.POST)
 
@@ -789,7 +792,7 @@ def delete_comment(request, pk):
     comment_obj = get_object_or_404(Comment, pk=pk)
 
     if not request.user.has_perm("comment.delete", comment_obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     fallback_url = comment_obj.unit.get_absolute_url()
 
@@ -808,7 +811,7 @@ def resolve_comment(request, pk):
     comment_obj = get_object_or_404(Comment, pk=pk)
 
     if not request.user.has_perm("comment.resolve", comment_obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     fallback_url = comment_obj.unit.get_absolute_url()
 
@@ -970,7 +973,7 @@ def save_zen(request, project, component, lang):
 def new_unit(request, project, component, lang):
     translation = get_translation(request, project, component, lang)
     if not request.user.has_perm("unit.add", translation):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = get_new_unit_form(translation, request.user, request.POST)
     if not form.is_valid():
@@ -990,7 +993,7 @@ def delete_unit(request, unit_id):
     unit = get_object_or_404(Unit, pk=unit_id)
 
     if not request.user.has_perm("unit.delete", unit):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     try:
         unit.translation.delete_unit(request, unit)

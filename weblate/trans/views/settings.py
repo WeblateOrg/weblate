@@ -49,7 +49,7 @@ def change_project(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.edit", obj):
-        raise Http404()
+        raise Http404
 
     if request.method == "POST":
         settings_form = ProjectSettingsForm(request, request.POST, instance=obj)
@@ -57,10 +57,9 @@ def change_project(request, project):
             settings_form.save()
             messages.success(request, _("Settings saved"))
             return redirect("settings", project=obj.slug)
-        else:
-            messages.error(
-                request, _("Invalid settings. Please check the form for errors.")
-            )
+        messages.error(
+            request, _("Invalid settings. Please check the form for errors.")
+        )
     else:
         settings_form = ProjectSettingsForm(request, instance=obj)
 
@@ -77,7 +76,7 @@ def change_component(request, project, component):
     obj = get_component(request, project, component)
 
     if not request.user.has_perm("component.edit", obj):
-        raise Http404()
+        raise Http404
 
     if request.method == "POST":
         form = ComponentSettingsForm(request, request.POST, instance=obj)
@@ -85,13 +84,12 @@ def change_component(request, project, component):
             form.save()
             messages.success(request, _("Settings saved"))
             return redirect("settings", project=obj.project.slug, component=obj.slug)
-        else:
-            messages.error(
-                request, _("Invalid settings. Please check the form for errors.")
-            )
-            # Get a fresh copy of object, otherwise it will use unsaved changes
-            # from the failed form
-            obj = Component.objects.get(pk=obj.pk)
+        messages.error(
+            request, _("Invalid settings. Please check the form for errors.")
+        )
+        # Get a fresh copy of object, otherwise it will use unsaved changes
+        # from the failed form
+        obj = Component.objects.get(pk=obj.pk)
     else:
         form = ComponentSettingsForm(request, instance=obj)
 
@@ -118,7 +116,7 @@ def dismiss_alert(request, project, component):
     obj = get_component(request, project, component)
 
     if not request.user.has_perm("component.edit", obj):
-        raise Http404()
+        raise Http404
 
     try:
         alert = obj.alert_set.get(name=request.POST["dismiss"])
@@ -137,7 +135,7 @@ def remove_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
 
     if not request.user.has_perm("translation.delete", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = TranslationDeleteForm(obj, request.POST)
     if not form.is_valid():
@@ -156,7 +154,7 @@ def remove_component(request, project, component):
     obj = get_component(request, project, component)
 
     if not request.user.has_perm("component.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = ComponentDeleteForm(obj, request.POST)
     if not form.is_valid():
@@ -175,7 +173,7 @@ def remove_project(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = ProjectDeleteForm(obj, request.POST)
     if not form.is_valid():
@@ -195,7 +193,7 @@ def remove_project_language(request, project, lang):
     obj = ProjectLanguage(project_object, language_object)
 
     if not request.user.has_perm("translation.delete", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = ProjectLanguageDeleteForm(obj, request.POST)
     if not form.is_valid():
@@ -211,7 +209,7 @@ def remove_project_language(request, project, lang):
 
 def perform_rename(form_cls, request, obj, perm: str):
     if not request.user.has_perm(perm, obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     # Make sure any non-rename related issues are resolved first
     try:
@@ -267,7 +265,7 @@ def announcement_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
 
     if not request.user.has_perm("component.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = AnnouncementForm(request.POST)
     if not form.is_valid():
@@ -291,7 +289,7 @@ def announcement_component(request, project, component):
     obj = get_component(request, project, component)
 
     if not request.user.has_perm("component.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = AnnouncementForm(request.POST)
     if not form.is_valid():
@@ -311,7 +309,7 @@ def announcement_project(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = AnnouncementForm(request.POST)
     if not form.is_valid():
@@ -356,14 +354,14 @@ def component_progress(request, project, component):
 
 
 class BackupsMixin:
-    @method_decorator(login_required)
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.obj = get_project(request, kwargs["project"])
         if not request.user.has_perm("project.edit", self.obj):
-            raise PermissionDenied()
+            raise PermissionDenied
 
 
+@method_decorator(login_required, name="dispatch")
 class BackupsView(BackupsMixin, TemplateView):
     template_name = "trans/backups.html"
 
@@ -381,12 +379,13 @@ class BackupsView(BackupsMixin, TemplateView):
         return context
 
 
+@method_decorator(login_required, name="dispatch")
 class BackupsDownloadView(BackupsMixin, View):
     def get(self, request, *args, **kwargs):
         for backup in self.obj.list_backups():
             if backup["name"] == kwargs["backup"]:
                 return FileResponse(
-                    open(backup["path"], "rb"),
+                    open(backup["path"], "rb"),  # noqa: SIM115
                     as_attachment=True,
                     filename=backup["name"],
                 )

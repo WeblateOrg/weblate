@@ -17,11 +17,13 @@ from typing import Dict, Iterator, List, Optional, Tuple
 from zipfile import ZipFile
 
 import requests
+import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 from git.config import GitConfigParser
+from requests.exceptions import HTTPError
 
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
@@ -44,6 +46,7 @@ class GitRepository(Repository):
     _cmd_status = ["--no-optional-locks", "status"]
 
     name = "Git"
+    push_label = gettext_lazy("This will push changes to the upstream Git repository.")
     req_version = "2.12"
     default_branch = "master"
     ref_to_remote = "..{0}"
@@ -138,7 +141,7 @@ class GitRepository(Repository):
     def _clone(cls, source: str, target: str, branch: str):
         """Clone repository."""
         cls._popen(
-            ["clone"] + cls.get_depth() + ["--branch", branch, "--", source, target]
+            ["clone", *cls.get_depth()] + ["--branch", branch, "--", source, target]
         )
 
     def get_config(self, path):
@@ -174,9 +177,9 @@ class GitRepository(Repository):
     def has_rev(self, rev):
         try:
             self.execute(["rev-parse", "--verify", rev], needs_lock=False)
-            return True
         except RepositoryException:
             return False
+        return True
 
     def merge(
         self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
@@ -235,10 +238,11 @@ class GitRepository(Repository):
             cmd.extend(filenames)
         with self.lock:
             status = self.execute(cmd, merge_err=False)
-        return status != ""
+        return bool(status)
 
     def show(self, revision):
-        """Helper method to get content of revision.
+        """
+        Helper method to get content of revision.
 
         Used in tests.
         """
@@ -342,7 +346,7 @@ class GitRepository(Repository):
 
     def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
-        self.execute(["rm", "--force", "--"] + files)
+        self.execute(["rm", "--force", "--", *files])
         self.commit(message, author)
 
     def configure_remote(
@@ -479,9 +483,9 @@ class GitRepository(Repository):
         else:
             # Doing initial fetch
             try:
-                self.execute(["fetch", "origin"] + self.get_depth())
+                self.execute(["fetch", "origin", *self.get_depth()])
             except RepositoryException as error:
-                if error.retcode == 1 and error.args[0] == "":
+                if error.retcode == 1 and not error.args[0]:
                     # Fetch with --depth fails on blank repo
                     self.execute(["fetch", "origin"])
                 else:
@@ -492,7 +496,7 @@ class GitRepository(Repository):
     def push(self, branch):
         """Push given branch to remote repository."""
         refspec = f"{self.branch}:{branch}" if branch else self.branch
-        self.execute(self._cmd_push + ["origin", refspec])
+        self.execute([*self._cmd_push, "origin", refspec])
 
     def unshallow(self):
         self.execute(["fetch", "--unshallow"])
@@ -518,6 +522,7 @@ class GitRepository(Repository):
 class GitWithGerritRepository(GitRepository):
     name = "Gerrit"
     req_version = "1.27.0"
+    push_label = gettext_lazy("This will push changes to Gerrit for a review.")
 
     _version = None
 
@@ -540,6 +545,7 @@ class SubversionRepository(GitRepository):
     name = "Subversion"
     req_version = "2.12"
     default_branch = "master"
+    push_label = gettext_lazy("This will commit changes to the Subversion repository.")
 
     _version = None
 
@@ -607,7 +613,8 @@ class SubversionRepository(GitRepository):
     def configure_remote(
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
     ):
-        """Initialize the git-svn repository.
+        """
+        Initialize the git-svn repository.
 
         This does not support switching remote as it's quite complex:
         https://git.wiki.kernel.org/index.php/GitSvnSwitch
@@ -624,7 +631,7 @@ class SubversionRepository(GitRepository):
                 raise RepositoryException(-1, "Can not switch subversion URL")
             return
         args, self._fetch_revision = self.get_remote_args(pull_url, self.path)
-        self.execute(["svn", "init"] + args)
+        self.execute(["svn", "init", *args])
 
     def update_remote(self):
         """Update remote repository."""
@@ -636,17 +643,23 @@ class SubversionRepository(GitRepository):
         self.clean_revision_cache()
 
     @classmethod
-    def _clone(cls, source: str, target: str, branch: str):
+    def _clone(
+        cls,
+        source: str,
+        target: str,
+        branch: str,  # noqa: ARG003
+    ):
         """Clone svn repository with git-svn."""
         args, revision = cls.get_remote_args(source, target)
         if revision:
             args.insert(0, revision)
-        cls._popen(["svn", "clone"] + args)
+        cls._popen(["svn", "clone", *args])
 
     def merge(
         self, abort: bool = False, message: Optional[str] = None, no_ff: bool = False
     ):
-        """Rebases.
+        """
+        Rebases.
 
         Git-svn does not support merge.
         """
@@ -654,7 +667,8 @@ class SubversionRepository(GitRepository):
         self.clean_revision_cache()
 
     def rebase(self, abort=False):
-        """Rebase remote branch or reverts the rebase.
+        """
+        Rebase remote branch or reverts the rebase.
 
         Git-svn does not support merge.
         """
@@ -674,7 +688,8 @@ class SubversionRepository(GitRepository):
         )
 
     def get_remote_branch_name(self):
-        """Return the remote branch name.
+        """
+        Return the remote branch name.
 
         trunk if local branch is master, local branch otherwise.
         """
@@ -698,6 +713,9 @@ class GitForcePushRepository(GitRepository):
     name = gettext_lazy("Git with force push")
     _cmd_push = ["push", "--force"]
     identifier = "git-force-push"
+    push_label = gettext_lazy(
+        "This will force push changes to the upstream repository."
+    )
 
 
 class GitMergeRequestBase(GitForcePushRepository):
@@ -820,7 +838,8 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.create_fork(credentials)
 
     def push(self, branch: str):
-        """Fork repository on GitHub and push changes.
+        """
+        Fork repository on GitHub and push changes.
 
         Pushes changes to *-weblate branch on fork and creates pull request against
         original repository.
@@ -843,12 +862,12 @@ class GitMergeRequestBase(GitForcePushRepository):
         self.create_pull_request(credentials, self.branch, fork_remote, fork_branch)
 
     def create_fork(self, credentials: Dict):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def create_pull_request(
         self, credentials: Dict, origin_branch: str, fork_remote: str, fork_branch: str
     ):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_merge_message(self):
         lines = render_template(
@@ -937,7 +956,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         cache_id = self.request_time_cache_key
         lock = WeblateLock(
             data_dir("home"),
-            "vcs-api",
+            f"vcs:api:{vcs_id}",
             0,
             vcs_id,
             timeout=3 * max(settings.VCS_API_DELAY, 10),
@@ -947,7 +966,8 @@ class GitMergeRequestBase(GitForcePushRepository):
                 next_api_time = cache.get(cache_id)
                 now = time()
                 if next_api_time is not None and now < next_api_time:
-                    sleep(next_api_time - now)
+                    with sentry_sdk.start_span(op="api_sleep", description=vcs_id):
+                        sleep(next_api_time - now)
                 try:
                     response = requests.request(
                         method,
@@ -957,7 +977,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                         params=params,
                         json=json,
                     )
-                except OSError as error:
+                except (OSError, HTTPError) as error:
                     report_error(cause="request")
                     raise RepositoryException(0, str(error))
 
@@ -992,6 +1012,7 @@ class GithubRepository(GitMergeRequestBase):
     identifier = "github"
     _version = None
     API_TEMPLATE = "https://{host}/repos/{owner}/{slug}"
+    push_label = gettext_lazy("This will push changes and create GitHub pull request.")
 
     def format_api_host(self, host):
         # In case the hostname of the repository does not point to "github.com" assume
@@ -1037,7 +1058,8 @@ class GithubRepository(GitMergeRequestBase):
         fork_branch: str,
         retry_fork: bool = True,
     ):
-        """Create pull request.
+        """
+        Create pull request.
 
         Use to merge branch in forked repository into branch of remote repository.
         """
@@ -1092,6 +1114,7 @@ class GiteaRepository(GitMergeRequestBase):
     identifier = "gitea"
     _version = None
     API_TEMPLATE = "https://{host}/api/v1/repos/{owner}/{slug}"
+    push_label = gettext_lazy("This will push changes and create Gitea pull request.")
 
     def create_fork(self, credentials: Dict):
         fork_url = "{}/forks".format(credentials["url"])
@@ -1114,7 +1137,8 @@ class GiteaRepository(GitMergeRequestBase):
         fork_branch: str,
         retry_fork: bool = True,
     ):
-        """Create pull request.
+        """
+        Create pull request.
 
         Use to merge branch in forked repository into branch of remote repository.
         """
@@ -1152,6 +1176,7 @@ class LocalRepository(GitRepository):
     name = gettext_lazy("No remote repository")
     identifier = "local"
     default_branch = "main"
+    supports_push = False
 
     def configure_remote(
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
@@ -1182,7 +1207,7 @@ class LocalRepository(GitRepository):
         return []
 
     @classmethod
-    def get_remote_branch(cls, repo: str):
+    def get_remote_branch(cls, repo: str):  # noqa: ARG003
         return cls.default_branch
 
     @classmethod
@@ -1197,7 +1222,12 @@ class LocalRepository(GitRepository):
         cls._popen(["commit", "--message", "Repository created by Weblate"], path)
 
     @classmethod
-    def _clone(cls, source: str, target: str, branch: str):
+    def _clone(
+        cls,
+        source: str,  # noqa: ARG003
+        target: str,
+        branch: str,  # noqa: ARG003
+    ):
         if not os.path.exists(target):
             os.makedirs(target)
         cls._init(target)
@@ -1252,6 +1282,7 @@ class GitLabRepository(GitMergeRequestBase):
     identifier = "gitlab"
     _version = None
     API_TEMPLATE = "https://{host}/api/v4/projects/{owner_url}%2F{slug_url}"
+    push_label = gettext_lazy("This will push changes and create GitLab merge request.")
 
     def get_forked_url(self, credentials: Dict) -> str:
         """
@@ -1282,7 +1313,8 @@ class GitLabRepository(GitMergeRequestBase):
         return response["id"]
 
     def configure_fork_features(self, credentials: Dict, forked_url: str):
-        """Disable features in fork.
+        """
+        Disable features in fork.
 
         GitLab initializes a lot of the features in the fork
         that are not desirable, such as merge requests, issues, etc.
@@ -1345,7 +1377,8 @@ class GitLabRepository(GitMergeRequestBase):
     def create_pull_request(
         self, credentials: Dict, origin_branch: str, fork_remote: str, fork_branch: str
     ):
-        """Create pull request.
+        """
+        Create pull request.
 
         Use to merge branch in forked repository into branch of remote repository.
         """
@@ -1380,6 +1413,7 @@ class PagureRepository(GitMergeRequestBase):
     identifier = "pagure"
     _version = None
     API_TEMPLATE = "https://{host}/api/0"
+    push_label = gettext_lazy("This will push changes and create Pagure merge request.")
 
     def create_fork(self, credentials: Dict):
         fork_url = "{}/fork".format(credentials["url"])
@@ -1414,7 +1448,8 @@ class PagureRepository(GitMergeRequestBase):
     def create_pull_request(
         self, credentials: Dict, origin_branch: str, fork_remote: str, fork_branch: str
     ):
-        """Create pull request.
+        """
+        Create pull request.
 
         Use to merge branch in forked repository into branch of remote repository.
         """
@@ -1465,6 +1500,9 @@ class BitbucketServerRepository(GitMergeRequestBase):
     _version = None
     API_TEMPLATE = "https://{host}/rest/api/1.0/projects/{owner}/repos/{slug}"
     bb_fork: Dict = {}
+    push_label = gettext_lazy(
+        "This will push changes and create Bitbucket Server pull request."
+    )
 
     def get_headers(self, credentials: Dict):
         headers = super().get_headers(credentials)
@@ -1578,5 +1616,18 @@ class BitbucketServerRepository(GitMergeRequestBase):
             "post", credentials, pr_url, json=request_body
         )
 
+        """
+        Bitbucket Server will return error if PR already exists. The push
+        method in parent class will push changes to the correct fork or
+        branch, and always call this create_pull_request method after. If PR
+        exist already just do nothing because Bitbucket will automatically
+        update the PR if the from ref is updated.
+        """
         if "id" not in response:
+            pr_exist_message = (
+                "Only one pull request may be open "
+                "for a given source and target branch"
+            )
+            if pr_exist_message in error_message:
+                return
             raise RepositoryException(0, f"Pull request failed: {error_message}")

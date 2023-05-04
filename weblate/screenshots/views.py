@@ -27,6 +27,7 @@ try:
         from tesserocr import RIL, PyTessBaseAPI
     HAS_OCR = True
 except ImportError:
+    PyTessBaseAPI = None
     HAS_OCR = False
 
 
@@ -70,7 +71,7 @@ class ScreenshotList(ListView, ComponentViewMixin):
     def post(self, request, **kwargs):
         component = self.get_component()
         if not request.user.has_perm("screenshot.add", component):
-            raise PermissionDenied()
+            raise PermissionDenied
         self._add_form = ScreenshotForm(component, request.POST, request.FILES)
         if self._add_form.is_valid():
             obj = Screenshot.objects.create(
@@ -144,7 +145,7 @@ def delete_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
     component = obj.translation.component
     if not request.user.has_perm("screenshot.delete", obj.translation):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     kwargs = {"project": component.project.slug, "component": component.slug}
 
@@ -158,7 +159,7 @@ def delete_screenshot(request, pk):
 def get_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
     if not request.user.has_perm("screenshot.edit", obj.translation.component):
-        raise PermissionDenied()
+        raise PermissionDenied
     return obj
 
 
@@ -218,16 +219,20 @@ def search_source(request, pk):
     )
 
 
-def ocr_extract(api, image, strings):
-    """Extract closes matches from an image."""
+def ocr_get_strings(api, image):
     api.SetImage(image)
     for item in api.GetComponentImages(RIL.TEXTLINE, True):
         api.SetRectangle(item[1]["x"], item[1]["y"], item[1]["w"], item[1]["h"])
-        ocr_result = api.GetUTF8Text()
-        parts = [ocr_result] + ocr_result.split("|") + ocr_result.split()
+        yield api.GetUTF8Text()
+    api.Clear()
+
+
+def ocr_extract(api, image, strings):
+    """Extract closes matches from an image."""
+    for ocr_result in ocr_get_strings(api, image):
+        parts = [ocr_result, *ocr_result.split("|"), *ocr_result.split()]
         for part in parts:
             yield from difflib.get_close_matches(part, strings, cutoff=0.9)
-    api.Clear()
 
 
 @login_required

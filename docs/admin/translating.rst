@@ -53,10 +53,14 @@ Access this directly from the translation interface by clicking the
 
 .. image:: /screenshots/source-information.png
 
+.. seealso::
+
+   :ref:`format-location`,
+   :ref:`format-description`,
+   :ref:`format-context`
+
 Strings prioritization
 ++++++++++++++++++++++
-
-.. versionadded:: 2.0
 
 String priority can be changed to offer higher priority strings for translation earlier by
 using the ``priority`` flag.
@@ -71,8 +75,6 @@ using the ``priority`` flag.
 
 Translation flags
 +++++++++++++++++
-
-.. versionadded:: 2.4
 
 .. versionchanged:: 3.3
 
@@ -103,12 +105,15 @@ Explanation
 Use the explanation to clarify scope or usage of the translation. You can use
 Markdown to include links and other markup.
 
+.. hint::
+
+   Weblate can also display description present in the translation file for
+   some formats, see :ref:`format-description`.
+
 .. _screenshots:
 
 Visual context for strings
 ++++++++++++++++++++++++++
-
-.. versionadded:: 2.9
 
 You can upload a screenshot showing a given source string in use within your
 program. This helps translators understand where it is used, and how it should

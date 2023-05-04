@@ -177,7 +177,8 @@ class MachineTranslation:
         user,
         threshold: int = 75,
     ):
-        """Download list of possible translations from a service.
+        """
+        Download list of possible translations from a service.
 
         Should return dict with translation text, translation quality, source of
         translation, source string.
@@ -186,7 +187,7 @@ class MachineTranslation:
         better hint and text parameter as source string if you do no fuzzy
         matching.
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def map_language_code(self, code):
         """Map language code to service specific."""
@@ -195,10 +196,6 @@ class MachineTranslation:
         if code in self.language_map:
             return self.language_map[code]
         return code
-
-    def convert_language(self, language):
-        """Convert language to service specific object."""
-        return self.map_language_code(language.code)
 
     def report_error(self, message):
         """Wrapper for handling error situations."""
@@ -318,21 +315,20 @@ class MachineTranslation:
                     text = re.sub(self.make_re_placeholder(source), target, text)
                 result[key] = self.unescape_text(text)
 
-    def get_variants(self, language):
-        code = self.convert_language(language)
-        yield code
-        if not isinstance(code, str):
-            return
+    def get_language_possibilities(self, language):
+        code = language.code
+        yield self.map_language_code(code)
         code = code.replace("-", "_")
-        if "_" in code:
-            yield code.split("_")[0]
+        while "_" in code:
+            code = code.rsplit("_", 1)[0]
+            yield self.map_language_code(code)
 
     def get_languages(self, source_language, target_language):
         if source_language == target_language and not self.same_languages:
             raise UnsupportedLanguage("Same languages")
 
-        for source in self.get_variants(source_language):
-            for target in self.get_variants(target_language):
+        for source in self.get_language_possibilities(source_language):
+            for target in self.get_language_possibilities(target_language):
                 if self.is_supported(source, target):
                     return source, target
 
@@ -421,11 +417,6 @@ class MachineTranslation:
                 )
                 if item["quality"] >= threshold
             ]
-            if replacements or self.force_uncleanup:
-                self.uncleanup_results(replacements, result)
-            if cache_key:
-                cache.set(cache_key, result, 30 * 86400)
-            return result
         except Exception as exc:
             if self.is_rate_limit_error(exc):
                 self.set_rate_limit()
@@ -433,7 +424,12 @@ class MachineTranslation:
             self.report_error("Failed to fetch translations from %s")
             if isinstance(exc, MachineTranslationError):
                 raise
-            raise MachineTranslationError(self.get_error_message(exc))
+            raise MachineTranslationError(self.get_error_message(exc)) from exc
+        if replacements or self.force_uncleanup:
+            self.uncleanup_results(replacements, result)
+        if cache_key:
+            cache.set(cache_key, result, 30 * 86400)
+        return result
 
     def get_error_message(self, exc):
         return f"{exc.__class__.__name__}: {exc}"
@@ -483,3 +479,20 @@ class MachineTranslation:
                         continue
                     quality[i] = item["quality"]
                     translation[i] = item["text"]
+
+
+class InternalMachineTranslation(MachineTranslation):
+    do_cleanup = False
+    accounting_key = "internal"
+    cache_translations = False
+
+    def is_supported(self, source, language):
+        """Any language is supported."""
+        return True
+
+    def is_rate_limited(self):
+        """Disable rate limiting."""
+        return False
+
+    def get_language_possibilities(self, language):
+        yield get_machinery_language(language)

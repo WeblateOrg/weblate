@@ -64,7 +64,7 @@ def download_multi(translations, commit_objs, fmt=None, name="translations"):
 def download_component_list(request, name):
     obj = get_object_or_404(ComponentList, slug__iexact=name)
     if not request.user.has_perm("translation.download", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
     components = obj.components.filter_access(request.user)
     return download_multi(
         Translation.objects.filter(component__in=components),
@@ -77,7 +77,7 @@ def download_component_list(request, name):
 def download_component(request, project, component):
     obj = get_component(request, project, component)
     if not request.user.has_perm("translation.download", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
     return download_multi(
         obj.translation_set.all(),
         [obj],
@@ -89,7 +89,7 @@ def download_component(request, project, component):
 def download_project(request, project):
     obj = get_project(request, project)
     if not request.user.has_perm("translation.download", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
     components = obj.component_set.filter_access(request.user)
     return download_multi(
         Translation.objects.filter(component__in=components),
@@ -102,7 +102,7 @@ def download_project(request, project):
 def download_lang_project(request, lang, project):
     obj = get_project(request, project)
     if not request.user.has_perm("translation.download", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
     langobj = get_object_or_404(Language, code=lang)
     components = obj.component_set.filter_access(request.user)
     return download_multi(
@@ -116,7 +116,7 @@ def download_lang_project(request, lang, project):
 def download_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
     if not request.user.has_perm("translation.download", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     kwargs = {}
 
@@ -138,7 +138,7 @@ def upload_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
 
     if not request.user.has_perm("upload.perform", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     # Check method and lock
     if obj.component.locked:

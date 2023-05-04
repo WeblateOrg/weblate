@@ -25,7 +25,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 def setup(app):
     app.add_css_file("https://s.weblate.org/cdn/font-source/source-sans-3.css")
     app.add_css_file("https://s.weblate.org/cdn/font-source/source-code-pro.css")
-    app.add_css_file("docs.css")
     # Used in Sphinx docs, needed for intersphinx links to it
     app.add_object_type(
         "confval",
@@ -42,7 +41,7 @@ copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "4.17"
+release = "4.18"
 
 
 # -- General configuration ---------------------------------------------------
@@ -57,7 +56,8 @@ extensions = [
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
     "sphinx-jsonschema",
-    "sphinx_rtd_theme",
+    "sphinx_copybutton",
+    "sphinxext.opengraph",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -74,13 +74,24 @@ exclude_patterns = [
     "devel/reporting-example.rst",
 ]
 
+ogp_social_cards = {
+    "image": "../weblate/static/logo-1024.png",
+    "line_color": "#144d3f",
+    "site_url": "docs.weblate.org",
+}
+ogp_custom_meta_tags = [
+    '<meta property="fb:app_id" content="741121112629028" />',
+    '<meta property="fb:page_id" content="371217713079025" />',
+    '<meta name="twitter:site" content="@WeblateOrg" />',
+]
 
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx_rtd_theme"
+# html_theme = "sphinx_rtd_theme"
+html_theme = "furo"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -90,6 +101,24 @@ html_static_path = ["../weblate/static/"]
 
 html_logo = "../weblate/static/logo-128.png"
 
+
+html_theme_options = {
+    "source_repository": "https://github.com/WeblateOrg/weblate/",
+    "source_branch": "main",
+    "source_directory": "docs/",
+    "dark_css_variables": {
+        "font-stack": '"Source Sans 3", sans-serif',
+        "font-stack--monospace": '"Source Code Pro", monospace',
+        "color-brand-primary": "#1fa385",
+        "color-brand-content": "#1fa385",
+    },
+    "light_css_variables": {
+        "font-stack": '"Source Sans 3", sans-serif',
+        "font-stack--monospace": '"Source Code Pro", monospace',
+        "color-brand-primary": "#1fa385",
+        "color-brand-content": "#1fa385",
+    },
+}
 
 # -- Options for HTMLHelp output ---------------------------------------------
 

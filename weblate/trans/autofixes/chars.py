@@ -9,7 +9,7 @@ from weblate.trans.autofixes.base import AutoFix
 
 
 class ReplaceTrailingDotsWithEllipsis(AutoFix):
-    """Replace Trailing Dots with an Ellipsis."""
+    """Replace trailing dots with an ellipsis."""
 
     fix_id = "end-ellipsis"
     name = _("Trailing ellipsis")
@@ -43,3 +43,19 @@ class RemoveControlChars(AutoFix):
     def fix_single_target(self, target, source, unit):
         result = target.translate(CONTROLCHARS_TRANS)
         return result, result != target
+
+
+class DevanagariDanda(AutoFix):
+    """Fixes Bangla sentence ender."""
+
+    fix_id = "devanadari-danda"
+    name = _("Devanagari danda")
+
+    def fix_single_target(self, target, source, unit):
+        if (
+            unit.translation.language.base_code in ("hi", "bn", "or")
+            and source.endswith(".")
+            and target.endswith((".", "\u09F7", "|"))
+        ):
+            return f"{target[:-1]}\u0964", True
+        return target, False

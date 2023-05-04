@@ -7,22 +7,24 @@ import re
 import time
 from collections import Counter, defaultdict
 from copy import copy
-from datetime import datetime
+from datetime import datetime, timedelta
 from glob import glob
 from itertools import chain
 from typing import Any, Dict, List, Optional
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
+import sentry_sdk
 from celery import current_task
 from celery.result import AsyncResult
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.validators import MaxValueValidator
-from django.db import models, transaction
+from django.db import IntegrityError, models, transaction
 from django.db.models import Count, F, Q
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, ngettext, pgettext
@@ -197,8 +199,6 @@ def translation_prefetch_tasks(translations):
 
 
 class ComponentQuerySet(models.QuerySet):
-    # pylint: disable=no-init
-
     def prefetch(self, alerts: bool = True):
         from weblate.trans.models import Alert
 
@@ -208,7 +208,7 @@ class ComponentQuerySet(models.QuerySet):
                 models.Prefetch(
                     "alert_set",
                     queryset=Alert.objects.filter(dismissed=False),
-                    to_attr="all_alerts",
+                    to_attr="all_active_alerts",
                 ),
             )
 
@@ -694,7 +694,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         return "/".join((str(self.project), self.name))
 
     def save(self, *args, **kwargs):
-        """Save wrapper.
+        """
+        Save wrapper.
 
         It updates the back-end repository and regenerates translation data.
         """
@@ -742,12 +743,11 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             if changed_git:
                 self.drop_repository_cache()
             create = False
-        else:
+        elif self.is_glossary:
             # Turn on unit management for glossary and disable adding languages
             # as they are added automatically
-            if self.is_glossary:
-                self.manage_units = True
-                self.new_lang = "none"
+            self.manage_units = True
+            self.new_lang = "none"
 
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)
@@ -971,7 +971,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         )
 
     def get_source_translation(self):
-        """Return source translation object if it exists.
+        """
+        Return source translation object if it exists.
 
         In some cases we do not want to create source translation object as
         source_translation property does, but we want to utilize its cache.
@@ -980,24 +981,36 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             return self.__dict__["source_translation"]
         try:
             result = self.translation_set.get(language_id=self.source_language_id)
-            self.__dict__["source_translation"] = result
-            return result
         except ObjectDoesNotExist:
             return None
+        self.__dict__["source_translation"] = result
+        return result
 
     @cached_property
     def source_translation(self):
+        # This is basically copy of get_or_create, but avoids additional
+        # SQL query to get source_langauge in case the source translation
+        # already exists. The source_language is only fetched in the slow
+        # path when creating the translation.
         try:
             return self.translation_set.get(language_id=self.source_language_id)
-        except ObjectDoesNotExist:
+        except self.translation_set.model.DoesNotExist:
             language = self.source_language
-            return self.translation_set.create(
-                language=language,
-                check_flags="read-only",
-                filename=self.template,
-                plural=self.file_format_cls.get_plural(language),
-                language_code=language.code,
-            )
+            try:
+                with transaction.atomic():
+                    return self.translation_set.create(
+                        language=language,
+                        check_flags="read-only",
+                        filename=self.template,
+                        plural=self.file_format_cls.get_plural(language),
+                        language_code=language.code,
+                    )
+            except IntegrityError:
+                try:
+                    return self.translation_set.get(language_id=self.source_language_id)
+                except self.translation_set.model.DoesNotExist:
+                    pass
+                raise
 
     def preload_sources(self, sources=None):
         """Preload source objects to improve performance on load."""
@@ -1048,8 +1061,11 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 # Avoid fetching empty list of checks from the database
                 source.all_checks = []
                 source.source_updated = True
-                Change.objects.create(
-                    action=Change.ACTION_NEW_SOURCE, unit=source, user=self.acting_user
+                source.generate_change(
+                    self.acting_user,
+                    self.acting_user,
+                    Change.ACTION_NEW_SOURCE,
+                    check_new=False,
                 )
                 self.updated_sources[source.id] = source
             else:
@@ -1179,7 +1195,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         template: Optional[str] = None,
         user=None,
     ):
-        """Generate link to source code browser for given file and line.
+        """
+        Generate link to source code browser for given file and line.
 
         For linked repositories, it is possible to override the linked repository path
         here.
@@ -1242,7 +1259,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     def get_clean_slug(self, slug):
         if slug.endswith(".git"):
             slug = slug[:-4]
-        return slug
+        return slug  # noqa: RET504
 
     def get_bitbucket_git_repoweb_template(self):
         owner, slug, matches = None, None, None
@@ -1272,7 +1289,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             owner = matches.group(1)
             slug = self.get_clean_slug(matches.group(2))
         if owner and slug:
-            return f"https://{domain}/{owner}/{slug}/blob/{{branch}}/{{filename}}#L{{line}}"  # noqa
+            return f"https://{domain}/{owner}/{slug}/blob/{{branch}}/{{filename}}#L{{line}}"
 
         return None
 
@@ -1285,7 +1302,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             slug = matches.group(2)
 
         if owner and slug:
-            return f"https://{domain}/{owner}/{slug}/blob/{{branch}}/f/{{filename}}/#_{{line}}"  # noqa
+            return f"https://{domain}/{owner}/{slug}/blob/{{branch}}/f/{{filename}}/#_{{line}}"
 
         return None
 
@@ -1307,7 +1324,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             repository = matches.group(3)
 
         if organization and project and repository:
-            return f"https://{domain}/{organization}/{project}/_git/{repository}/blob/{{branch}}/{{filename}}#L{{line}}"  # noqa
+            return f"https://{domain}/{organization}/{project}/_git/{repository}/blob/{{branch}}/{{filename}}#L{{line}}"
 
         return None
 
@@ -1319,7 +1336,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         return cleanup_repo_url(self.repo, message)
 
     def add_ssh_host_key(self):
-        """Add SSH key for current repo as trusted.
+        """
+        Add SSH key for current repo as trusted.
 
         This is essentially a TOFU approach.
         """
@@ -1329,7 +1347,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             parsed = urlparse(repo)
             if not parsed.hostname:
                 parsed = urlparse(f"ssh://{repo}")
-            if parsed.hostname:
+            else:
                 try:
                     port = parsed.port
                 except ValueError:
@@ -1377,34 +1395,13 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             with self.repository.lock:
                 start = time.monotonic()
                 try:
-                    previous = self.repository.last_remote_revision
+                    previous_revision = self.repository.last_remote_revision
                 except RepositoryException:
                     # Repository not yet configured
-                    previous = ""
+                    previous_revision = None
                 self.repository.update_remote()
                 timediff = time.monotonic() - start
                 self.log_info("update took %.2f seconds", timediff)
-                for line in self.repository.last_output.splitlines():
-                    self.log_debug("update: %s", line)
-                if previous:
-                    current = self.repository.last_remote_revision
-                    if previous == current:
-                        self.log_info("repository up to date at %s", previous)
-                    else:
-                        self.log_info(
-                            "repository updated from %s to %s",
-                            previous,
-                            current,
-                        )
-                if self.id:
-                    self.delete_alert("UpdateFailure")
-                    try:
-                        Component.objects.filter(pk=self.pk).update(
-                            remote_revision=self.repository.last_remote_revision
-                        )
-                    except RepositoryException:
-                        pass
-            return True
         except RepositoryException as error:
             report_error(cause="Could not update the repository", project=self.project)
             error_text = self.error_text(error)
@@ -1414,6 +1411,31 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             if self.id:
                 self.add_alert("UpdateFailure", error=error_text)
             return False
+
+        for line in self.repository.last_output.splitlines():
+            self.log_debug("update: %s", line)
+        try:
+            # This can actually fail without a remote repo
+            remote_revision = self.repository.last_remote_revision
+        except RepositoryException:
+            remote_revision = None
+        if previous_revision and remote_revision:
+            if previous_revision == remote_revision:
+                self.log_info("repository up to date at %s", previous_revision)
+            else:
+                self.log_info(
+                    "repository updated from %s to %s",
+                    previous_revision,
+                    remote_revision,
+                )
+        if self.id:
+            self.delete_alert("UpdateFailure")
+            if remote_revision and previous_revision != remote_revision:
+                self.remote_revision = remote_revision
+                Component.objects.filter(pk=self.pk).update(
+                    remote_revision=remote_revision
+                )
+        return True
 
     def configure_repo(self, validate=False, pull=True):
         """Ensure repository is correctly set up."""
@@ -1537,7 +1559,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     @perform_on_link
     def push_if_needed(self, do_update=True):
-        """Wrapper to push if needed.
+        """
+        Wrapper to push if needed.
 
         Checks for:
 
@@ -1560,18 +1583,19 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             from weblate.trans.tasks import perform_push
 
             self.log_info("scheduling push")
-            perform_push.delay(self.pk, None, force_commit=False, do_update=do_update)
+            transaction.on_commit(
+                lambda: perform_push.delay(
+                    self.pk, None, force_commit=False, do_update=do_update
+                )
+            )
 
     @perform_on_link
     def push_repo(self, request, retry=True):
         """Push repository changes upstream."""
         with self.repository.lock:
+            self.log_info("pushing to remote repo")
             try:
-                self.log_info("pushing to remote repo")
                 self.repository.push(self.push_branch)
-                self.delete_alert("RepositoryChanges")
-                self.delete_alert("PushFailure")
-                return True
             except RepositoryException as error:
                 error_text = self.error_text(error)
                 report_error(cause="Could not push the repo", project=self.project)
@@ -1591,15 +1615,21 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                     ):
                         try:
                             self.repository.unshallow()
-                            return self.push_repo(request, retry=False)
                         except RepositoryException:
                             report_error(
                                 cause="Could not unshallow the repo",
                                 project=self.project,
                             )
-            messages.error(request, _("Could not push to remote branch on %s.") % self)
-            self.add_alert("PushFailure", error=error_text)
-            return False
+                        else:
+                            return self.push_repo(request, retry=False)
+                messages.error(
+                    request, _("Could not push to remote branch on %s.") % self
+                )
+                self.add_alert("PushFailure", error=error_text)
+                return False
+            self.delete_alert("RepositoryChanges")
+            self.delete_alert("PushFailure")
+            return True
 
     @perform_on_link
     def do_push(self, request, force_commit=True, do_update=True, retry=True):
@@ -1686,9 +1716,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             # create translation objects for all files
             try:
                 self.create_translations(request=request, force=True)
-                return True
             except FileParseError:
                 return False
+            return True
 
     @perform_on_link
     def do_cleanup(self, request=None):
@@ -1718,6 +1748,15 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             translation__language_id=self.source_language_id
         ).select_for_update().update(pending=True)
         return self.commit_pending("file-sync", request.user if request else None)
+
+    @perform_on_link
+    @transaction.atomic
+    def do_file_scan(self, request=None):
+        self.commit_pending("file-scan", request.user if request else None)
+        try:
+            return self.create_translations(request=request)
+        except FileParseError:
+            return False
 
     def get_repo_link_url(self):
         return f"weblate://{self.project.slug}/{self.slug}"
@@ -1749,7 +1788,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         # Validate template is valid
         if self.has_template():
             try:
-                self.template_store
+                self.template_store  # noqa: B018
             except FileParseError as error:
                 report_error(
                     cause="Failed to parse template file on commit",
@@ -1768,7 +1807,10 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                     translation.component.linked_component = self
                 if translation.pk == translation.component.source_translation.pk:
                     translation = translation.component.source_translation
-                translation._commit_pending(reason, user)
+                with sentry_sdk.start_span(
+                    op="commit_pending", description=translation.full_slug
+                ):
+                    translation._commit_pending(reason, user)
                 components[translation.component.pk] = translation.component
 
         # Fire postponed post commit signals
@@ -1810,30 +1852,31 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 self,
             )
 
-        if message is None:
-            # Handle context
-            context = {"component": component or self, "author": author}
-            if extra_context:
-                context.update(extra_context)
+        with sentry_sdk.start_span(op="commit_files", description=self.full_slug):
+            if message is None:
+                # Handle context
+                context = {"component": component or self, "author": author}
+                if extra_context:
+                    context.update(extra_context)
 
-            # Generate commit message
-            message = render_template(template, **context)
+                # Generate commit message
+                message = render_template(template, **context)
 
-        # Actual commit
-        if not self.repository.commit(message, author, timestamp, files):
-            return False
+            # Actual commit
+            if not self.repository.commit(message, author, timestamp, files):
+                return False
 
-        # Send post commit signal
-        if signals:
-            vcs_post_commit.send(sender=self.__class__, component=self)
+            # Send post commit signal
+            if signals:
+                vcs_post_commit.send(sender=self.__class__, component=self)
 
-        self.store_local_revision()
+            self.store_local_revision()
 
-        # Push if we should
-        if not skip_push:
-            self.push_if_needed()
+            # Push if we should
+            if not skip_push:
+                self.push_if_needed()
 
-        return True
+            return True
 
     def handle_parse_error(
         self, error, translation=None, filename=None, reraise: bool = True
@@ -2001,7 +2044,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 matches.discard(self.intermediate)
             # We want to list template among translations as well
             matches.discard(self.template)
-            return [self.template] + sorted(matches)
+            return [self.template, *sorted(matches)]
         return sorted(matches)
 
     def update_source_checks(self):
@@ -2012,16 +2055,22 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         self.updated_sources = {}
 
     @cached_property
-    def all_alerts(self):
+    def all_active_alerts(self):
         result = self.alert_set.filter(dismissed=False)
         list(result)
         return result
+
+    @cached_property
+    def all_alerts(self):
+        return {alert.name: alert for alert in self.alert_set.all()}
 
     @property
     def lock_alerts(self):
         if not self.auto_lock_error:
             return []
-        return [alert for alert in self.all_alerts if alert.name in LOCKING_ALERTS]
+        return [
+            alert for alert in self.all_active_alerts if alert.name in LOCKING_ALERTS
+        ]
 
     def trigger_alert(self, name: str, **kwargs):
         if name in self.alerts_trigger:
@@ -2030,27 +2079,33 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             self.alerts_trigger[name] = [kwargs]
 
     def delete_alert(self, alert: str):
-        deleted = self.alert_set.filter(name=alert).delete()[0]
-        if (
-            deleted
-            and self.locked
-            and self.auto_lock_error
-            and alert in LOCKING_ALERTS
-            and not self.alert_set.filter(name__in=LOCKING_ALERTS).exists()
-            and self.change_set.filter(action=Change.ACTION_LOCK)
-            .order_by("-id")[0]
-            .auto_status
-        ):
-            self.do_lock(user=None, lock=False, auto=True)
+        if alert in self.all_alerts:
+            self.all_alerts[alert].delete()
+            del self.all_alerts[alert]
+            if (
+                self.locked
+                and self.auto_lock_error
+                and alert in LOCKING_ALERTS
+                and not self.alert_set.filter(name__in=LOCKING_ALERTS).exists()
+                and self.change_set.filter(action=Change.ACTION_LOCK)
+                .order_by("-id")[0]
+                .auto_status
+            ):
+                self.do_lock(user=None, lock=False, auto=True)
 
         if ALERTS[alert].link_wide:
             for component in self.linked_childs:
                 component.delete_alert(alert)
 
     def add_alert(self, alert: str, noupdate: bool = False, **details):
-        obj, created = self.alert_set.get_or_create(
-            name=alert, defaults={"details": details}
-        )
+        if alert in self.all_alerts:
+            obj = self.all_alerts[alert]
+            created = False
+        else:
+            obj, created = self.alert_set.get_or_create(
+                name=alert, defaults={"details": details}
+            )
+            self.all_alerts[alert] = obj
 
         # Automatically lock on error
         if created and self.auto_lock_error and alert in LOCKING_ALERTS:
@@ -2085,7 +2140,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     ):
         """Load translations from VCS."""
         try:
-            with self.lock:
+            with self.lock and sentry_sdk.start_span(
+                op="create_translations", description=self.full_slug
+            ):
                 return self._create_translations(
                     force, langs, request, changed_template, from_link, change
                 )
@@ -2157,13 +2214,11 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 and os.path.exists(self.get_new_base_filename())
             ):
                 # Process pot file as source to include additional metadata
-                matches = [self.new_base] + matches
+                matches = [self.new_base, *matches]
                 source_file = self.new_base
             else:
                 # Always include source language to avoid parsing matching files
-                languages[
-                    self.source_language.code
-                ] = translation  # self.source_language.code
+                languages[self.source_language.code] = translation
                 translations[translation.id] = translation
 
             # Delete old source units after change from monolingual to bilingual
@@ -2285,10 +2340,10 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             self.invalidate_cache()
 
         # Schedule background cleanup if needed
-        if self.needs_cleanup:
-            from weblate.trans.tasks import cleanup_project
+        if self.needs_cleanup and not self.template:
+            from weblate.trans.tasks import cleanup_component
 
-            transaction.on_commit(lambda: cleanup_project.delay(self.project_id))
+            transaction.on_commit(lambda: cleanup_component.delay(self.id))
 
         # Send notifications on new string
         for translation in translations.values():
@@ -2409,6 +2464,16 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         if self.is_repo_link:
             try:
                 repo = Component.objects.get_linked(self.repo)
+            except (Component.DoesNotExist, ValueError):
+                raise ValidationError(
+                    {
+                        "repo": _(
+                            "Invalid link to a Weblate project, "
+                            "use weblate://project/component."
+                        )
+                    }
+                )
+            else:
                 if repo is not None and repo.is_repo_link:
                     raise ValidationError(
                         {
@@ -2427,15 +2492,6 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                             )
                         }
                     )
-            except (Component.DoesNotExist, ValueError):
-                raise ValidationError(
-                    {
-                        "repo": _(
-                            "Invalid link to a Weblate project, "
-                            "use weblate://project/component."
-                        )
-                    }
-                )
             # Push repo is not used with link
             for setting in ("push", "branch", "push_branch"):
                 if getattr(self, setting):
@@ -2655,11 +2711,12 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             raise ValidationError({field: msg})
 
     def clean(self):
-        """Validator fetches repository.
+        """
+        Validator fetches repository.
 
         It tries to find translation files and checks that they are valid.
         """
-        if self.new_lang == "url" and self.project.instructions == "":
+        if self.new_lang == "url" and not self.project.instructions:
             msg = _(
                 "Please either fill in an instruction URL "
                 "or use a different option for adding a new language."
@@ -2921,6 +2978,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             self.delete_alert("DuplicateFilemask")
 
     def update_alerts(self):  # noqa: C901
+        # Flush alerts case, mostly needed for tests
+        self.__dict__.pop("all_alerts", None)
         if (
             self.project.access_control == self.project.ACCESS_PUBLIC
             and settings.LICENSE_REQUIRED
@@ -3042,7 +3101,30 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         else:
             self.delete_alert("InexistantFiles")
 
+        if self.is_old_unused():
+            self.add_alert("UnusedComponent")
+        else:
+            self.delete_alert("UnusedComponent")
+
         self.update_link_alerts()
+
+    def is_old_unused(self):
+        if settings.UNUSED_ALERT_DAYS == 0:
+            return False
+        if self.is_glossary:
+            # Auto created glossaries can live without being used
+            return False
+        if self.stats.all == self.stats.translated:
+            # Allow fully translated ones
+            return False
+        last_changed = self.stats.last_changed
+        cutoff = timezone.now() - timedelta(days=settings.UNUSED_ALERT_DAYS)
+        if last_changed is not None:
+            # If last content change is present, use it to decide
+            return last_changed < cutoff
+        oldest_change = self.change_set.order_by("timestamp").first()
+        # Weird, each component should have change
+        return oldest_change is None or oldest_change.timestamp < cutoff
 
     def get_ambiguous_translations(self):
         return self.translation_set.filter(language__code__in=AMBIGUOUS.keys())
@@ -3151,12 +3233,15 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     def load_template_store(self, fileobj=None):
         """Load translate-toolkit store for template."""
-        return self.file_format_cls.parse(
-            fileobj or self.get_template_filename(),
-            language_code=self.source_language.code,
-            source_language=self.source_language.code,
-            is_template=True,
-        )
+        with sentry_sdk.start_span(
+            op="load_template_store", description=self.get_template_filename()
+        ):
+            return self.file_format_cls.parse(
+                fileobj or self.get_template_filename(),
+                language_code=self.source_language.code,
+                source_language=self.source_language.code,
+                is_template=True,
+            )
 
     @cached_property
     def template_store(self):
@@ -3181,7 +3266,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         return self.file_format_cls.has_multiple_strings
 
     def can_add_new_language(self, user, fast: bool = False):
-        """Wrapper to check if a new language can be added.
+        """
+        Wrapper to check if a new language can be added.
 
         Generic users can add only if configured, in other situations it works if there
         is valid new base.

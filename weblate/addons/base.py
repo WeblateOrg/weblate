@@ -4,6 +4,7 @@
 
 import os
 import subprocess
+from contextlib import suppress
 from itertools import chain
 from typing import List, Optional, Tuple
 
@@ -91,7 +92,6 @@ class BaseAddon:
             return None
         storage = cls.create_object(component)
         instance = cls(storage)
-        # pylint: disable=not-callable
         return cls.settings_form(user, instance, **kwargs)
 
     def get_settings_form(self, user, **kwargs):
@@ -100,7 +100,6 @@ class BaseAddon:
             return None
         if "data" not in kwargs:
             kwargs["data"] = self.instance.configuration
-        # pylint: disable=not-callable
         return self.settings_form(user, self, **kwargs)
 
     def get_ui_form(self):
@@ -164,7 +163,7 @@ class BaseAddon:
         self.instance.save(update_fields=["state"])
 
     @classmethod
-    def can_install(cls, component, user):
+    def can_install(cls, component, user):  # noqa: ARG003
         """Check whether add-on is compatible with given component."""
         return all(
             getattr(component, key) in values for key, values in cls.compat.items()
@@ -339,7 +338,8 @@ class TestAddon(BaseAddon):
 
 
 class UpdateBaseAddon(BaseAddon):
-    """Base class for add-ons updating translation files.
+    """
+    Base class for add-ons updating translation files.
 
     It hooks to post update and commits all changed translations.
     """
@@ -357,14 +357,12 @@ class UpdateBaseAddon(BaseAddon):
                 yield translation
 
     def update_translations(self, component, previous_head):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def post_update(self, component, previous_head: str, skip_push: bool):
-        try:
+        # Ignore file parse error, it will be properly tracked as an alert
+        with suppress(FileParseError):
             self.update_translations(component, previous_head)
-        except FileParseError:
-            # Ignore file parse error, it will be properly tracked as an alert
-            pass
         self.commit_and_push(component, skip_push=skip_push)
 
 
@@ -384,7 +382,7 @@ class TestCrashAddon(UpdateBaseAddon):
             raise TestException("Test error")
 
     @classmethod
-    def can_install(cls, component, user):
+    def can_install(cls, component, user):  # noqa: ARG003
         return False
 
 

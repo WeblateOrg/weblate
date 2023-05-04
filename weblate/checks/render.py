@@ -54,9 +54,9 @@ class MaxSizeCheck(TargetCheckParametrized):
             return "sans"
         try:
             override = group.fontoverride_set.get(language=language)
-            return f"{override.font.family} {override.font.style}"
         except ObjectDoesNotExist:
             return f"{group.font.family} {group.font.style}"
+        return f"{override.font.family} {override.font.style}"
 
     def check_target_params(self, sources, targets, unit, value):
         if len(value) == 2:

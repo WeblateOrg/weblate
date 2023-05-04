@@ -248,7 +248,8 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         return self.test_save(self.EDIT_TARGET)
 
     def assert_same(self, newdata, testdata):
-        """Content aware comparison.
+        """
+        Content aware comparison.
 
         This can be implemented in subclasses to implement content aware comparing of
         translation files.

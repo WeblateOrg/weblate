@@ -12,7 +12,7 @@ from django.db import transaction
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Change, Component, Suggestion, Unit
 from weblate.trans.util import split_plural
-from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 
 class AutoTranslate:
@@ -31,7 +31,11 @@ class AutoTranslate:
         self.mode = mode
         self.updated = 0
         self.progress_steps = 0
-        self.target_state = STATE_FUZZY if mode == "fuzzy" else STATE_TRANSLATED
+        self.target_state = STATE_TRANSLATED
+        if mode == "fuzzy":
+            self.target_state = STATE_FUZZY
+        elif mode == "approved":
+            self.target_state = STATE_APPROVED
         self.component_wide = component_wide
 
     def get_units(self, filter_mode=True):
@@ -77,7 +81,7 @@ class AutoTranslate:
     def process_others(self, source: Optional[int]):
         """Perform automatic translation based on other components."""
         kwargs = {
-            "translation__language": self.translation.language,
+            "translation__plural": self.translation.plural,
             "state__gte": STATE_TRANSLATED,
         }
         source_language = self.translation.component.source_language
@@ -89,7 +93,7 @@ class AutoTranslate:
                 not component.project.contribute_shared_tm
                 and not component.project != self.translation.component.project
             ) or component.source_language != source_language:
-                raise PermissionDenied()
+                raise PermissionDenied
             kwargs["translation__component"] = component
         else:
             project = self.translation.component.project
@@ -109,7 +113,7 @@ class AutoTranslate:
 
         # Fetch translations
         translations = {
-            source: (state, split_plural(target))
+            source: split_plural(target)
             for source, state, target in sources.filter(
                 source__in=self.get_units().values("source")
             ).values_list("source", "state", "target")
@@ -128,7 +132,7 @@ class AutoTranslate:
         for pos, unit in enumerate(units):
             # Get update
             try:
-                state, target = translations[unit.source]
+                target = translations[unit.source]
             except KeyError:
                 # Happens on MySQL due to case-insensitive lookup
                 continue
@@ -136,10 +140,10 @@ class AutoTranslate:
             self.set_progress(pos)
 
             # No save if translation is same or unit does not exist
-            if unit.state == state and unit.target == target:
+            if unit.state == self.target_state and unit.target == target:
                 continue
             # Copy translation
-            self.update(unit, state, target)
+            self.update(unit, self.target_state, target)
 
         self.post_process()
 

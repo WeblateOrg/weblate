@@ -34,7 +34,8 @@ class UsernameField(forms.CharField):
 
 
 class EmailField(forms.EmailField):
-    """Slightly restricted EmailField.
+    """
+    Slightly restricted EmailField.
 
     We blacklist some additional local parts and customize error messages.
     """
@@ -105,11 +106,10 @@ class SearchField(Field):
             "approved",
             "unapproved",
         ]
-        result = [
+        return [
             (key, FILTERS.get_filter_name(key), FILTERS.get_filter_query(key))
             for key in filter_keys
         ]
-        return result
 
 
 class FilterForm(forms.Form):

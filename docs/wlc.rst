@@ -9,11 +9,6 @@ Weblate Client
 
 .. program:: wlc
 
-.. versionadded:: 2.7
-
-    There has been full wlc utility support ever since Weblate 2.7. If you are using an older version
-    some incompatibilities with the API might occur.
-
 Installation
 ++++++++++++
 
@@ -296,14 +291,8 @@ Configuration files
 +++++++++++++++++++
 
 :file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`
-    .. versionchanged:: 1.6
-
-        The files with `.ini` extension are accepted as well.
-
     Per project configuration file
 :file:`C:\\Users\\NAME\\AppData\\weblate.ini`
-    .. versionadded:: 1.6
-
     User configuration file on Windows.
 :file:`~/.config/weblate`
     User configuration file

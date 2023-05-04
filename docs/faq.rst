@@ -419,7 +419,7 @@ How to handle renaming translation files?
 
 When renaming files in the repository, it can happen that Weblate sees this as
 removal and adding of the files. This can lead to losing strings history,
-commends and suggestions.
+comments and suggestions.
 
 To avoid that, perform renaming in following steps:
 
@@ -570,4 +570,4 @@ current one - for example ``sr@latin`` will be handled as ``sr_Latn`` or
 
    :ref:`languages`,
    :ref:`component-language_code_style`,
-   :ref:`new-translations`
+   :ref:`adding-translation`

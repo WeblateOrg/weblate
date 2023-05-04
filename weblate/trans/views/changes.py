@@ -238,7 +238,7 @@ class ChangesCSVView(ChangesView):
                     break
 
         if not request.user.has_perm("change.download", acl_obj):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         # Always output in english
         activate("en")
@@ -273,15 +273,15 @@ def show_change(request, pk):
     change = get_object_or_404(Change, pk=pk)
     acl_obj = change.translation or change.component or change.project
     if not request.user.has_perm("unit.edit", acl_obj):
-        raise PermissionDenied()
+        raise PermissionDenied
     others = request.GET.getlist("other")
     changes = None
     if others:
-        changes = Change.objects.filter(pk__in=others + [change.pk])
+        changes = Change.objects.filter(pk__in=[*others, change.pk])
         for change in changes:
             acl_obj = change.translation or change.component or change.project
             if not request.user.has_perm("unit.edit", acl_obj):
-                raise PermissionDenied()
+                raise PermissionDenied
     if change.action not in NOTIFICATIONS_ACTIONS:
         content = ""
     else:

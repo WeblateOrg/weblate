@@ -11,7 +11,7 @@ from weblate.metrics.models import Metric
 from weblate.utils.requirements import get_versions_list
 from weblate.utils.stats import GlobalStats
 from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
-from weblate.vcs.ssh import get_key_data
+from weblate.vcs.ssh import get_all_key_data
 
 MENU = (
     ("index", "about", _("About Weblate")),
@@ -55,7 +55,7 @@ class StatsView(AboutView):
         stats = GlobalStats()
 
         totals = Profile.objects.aggregate(Sum("translated"))
-        metrics = Metric.objects.get_current(None, Metric.SCOPE_GLOBAL, 0)
+        metrics = Metric.objects.get_current_metric(None, Metric.SCOPE_GLOBAL, 0)
 
         context["total_translations"] = totals["translated__sum"]
         context["stats"] = stats
@@ -83,7 +83,7 @@ class KeysView(AboutView):
                 "title": _("Weblate keys"),
                 "gpg_key_id": get_gpg_sign_key(),
                 "gpg_key": get_gpg_public_key(),
-                "ssh_key": get_key_data(),
+                "public_ssh_keys": get_all_key_data(),
                 "allow_index": True,
             }
         )

@@ -33,7 +33,7 @@ class Guideline:
         self.passed = self.is_passing()
 
     def is_passing(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def is_relevant(self):
         return True
@@ -151,7 +151,7 @@ class AlertGuideline(Guideline):
     anchor = "alerts"
 
     def is_passing(self):
-        return not self.component.all_alerts
+        return not self.component.all_active_alerts
 
     def get_doc_url(self, user=None):
         return get_doc_url("devel/alerts", user=user)

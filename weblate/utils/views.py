@@ -6,7 +6,7 @@
 
 import os
 from time import mktime
-from typing import Optional
+from typing import List, Optional
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -282,7 +282,7 @@ def iter_files(filenames):
             yield filename
 
 
-def zip_download(root, filenames, name="translations"):
+def zip_download(root: str, filenames: List[str], name: str = "translations"):
     response = HttpResponse(content_type="application/zip")
     with ZipFile(response, "w") as zipfile:
         for filename in iter_files(filenames):
@@ -315,7 +315,7 @@ def download_translation_file(
             units = units.search(query_string)
         exporter.add_units(units)
         response = exporter.get_response(
-            "{{project}}-{0}-{{language}}.{{extension}}".format(
+            "{{project}}-{}-{{language}}.{{extension}}".format(
                 translation.component.slug
             )
         )
@@ -337,7 +337,7 @@ def download_translation_file(
                 raise Http404("File not found")
             # Create response
             response = FileResponse(
-                open(filenames[0], "rb"),
+                open(filenames[0], "rb"),  # noqa: SIM115
                 content_type=translation.component.file_format_cls.mimetype(),
             )
         else:

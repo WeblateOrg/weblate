@@ -109,10 +109,10 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.target, self.target)
         self.assertFalse(unit.has_failing_check)
 
-        # Should have was translated check
+        # Should not have was translated check
         self.edit_unit(self.source, "")
         unit = self.get_unit(source=self.source)
-        self.assertTrue(unit.has_failing_check)
+        self.assertFalse(unit.has_failing_check)
 
     def add_unit(self, key, force_source: bool = False):
         if force_source or self.component.has_template():

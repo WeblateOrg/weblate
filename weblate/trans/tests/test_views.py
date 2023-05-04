@@ -19,7 +19,7 @@ from django.urls import reverse
 from django.utils.translation import activate
 from PIL import Image
 
-from weblate.auth.models import Group, setup_project_groups
+from weblate.auth.models import Group, get_anonymous, setup_project_groups
 from weblate.lang.models import Language
 from weblate.trans.models import Component, ComponentList, Project
 from weblate.trans.tests.test_models import RepoTestCase
@@ -65,6 +65,11 @@ class RegistrationTestMixin:
 
 
 class ViewTestCase(RepoTestCase):
+    @classmethod
+    def setUpTestData(cls):
+        get_anonymous.cache_clear()
+        super().setUpTestData()
+
     def setUp(self):
         super().setUp()
         # Many tests needs access to the request factory.
@@ -169,8 +174,7 @@ class ViewTestCase(RepoTestCase):
         self.assertEqual(response.status_code, 302)
 
         # We don't use all variables
-        # pylint: disable=unused-variable
-        scheme, netloc, path, query, fragment = urlsplit(response["Location"])
+        _scheme, _netloc, path, query, _fragment = urlsplit(response["Location"])
 
         self.assertEqual(path, exp_path)
 

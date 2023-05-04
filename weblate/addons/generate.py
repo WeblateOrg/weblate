@@ -108,10 +108,10 @@ class LocaleGenerateAddonBase(BaseAddon):
         return updated
 
     def daily(self, component):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def component_update(self, component):
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class PseudolocaleAddon(LocaleGenerateAddonBase):

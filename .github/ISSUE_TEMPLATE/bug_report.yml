@@ -15,7 +15,10 @@ body:
   id: what-happened
   attributes:
     label: Describe the issue
-    description: A clear and concise description of the problem you are facing.
+    description: >
+      A clear and concise description of the problem you are facing.
+
+      Please include important information as file format you are using or add-ons being installed.
     placeholder: Tell us what you see!
   validations:
     required: true
@@ -33,11 +36,14 @@ body:
   id: reproducer
   attributes:
     label: Steps to reproduce the behavior
-    value: |
+    description: What did you do before the problem has appeared?
+    placeholder: |
       1. Go to '...'
       2. Scroll down to '...'
       3. Click on '...'
       4. See error
+  validations:
+    required: true
 - type: textarea
   id: expected
   attributes:
@@ -97,10 +103,10 @@ body:
       ./manage.py list_versions
       ```
 
-      Using docker-compose:
+      Using docker-compose-plugin:
 
       ```
-      docker-compose exec --user weblate weblate weblate list_versions
+      docker compose exec --user weblate weblate weblate list_versions
       ```
 
       This will properly render without any escaping.
@@ -129,10 +135,10 @@ body:
       ./manage.py check --deploy
       ```
 
-      Using docker-compose:
+      Using docker-compose-plugin:
 
       ```
-      docker-compose exec --user weblate weblate weblate check --deploy
+      docker compose exec --user weblate weblate weblate check --deploy
       ```
 
       This will be rendered as console output automatically.

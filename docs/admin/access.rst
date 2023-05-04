@@ -27,21 +27,51 @@ If you don’t need any complex setup, those are sufficient for you.
 Project access control
 ++++++++++++++++++++++
 
-.. include:: /snippets/not-hosted-libre.rst
+.. note::
+
+    Projects running the gratis Libre plan on Hosted Weblate are always
+    :guilabel:`Public`. You can switch to the paid plan if you want to restrict
+    access to your project.
 
 You can limit user’s access to individual projects by selecting a different
 :guilabel:`Access control` setting. Available options are:
 
-Public
-    Publicly visible, translatable for all signed-in users.
-Protected
-    Publicly visible, but translatable only for selected users.
-Private
-    Visible and translatable only for selected users.
-Custom
-    :ref:`User management <manage-acl>` features will be disabled; by
-    default all users are forbidden to performed any actions on the project.
-    You will have to set up all the permissions using :ref:`custom-acl`.
+:guilabel:`Public`
+   Visible to everybody.
+
+   Any authenticated user can contribute.
+
+   VCS repository might be exposed to everybody.
+
+   **Choose this for open-source projects, or when your Weblate instance is private or locked-down.**
+:guilabel:`Protected`
+   Visible to everybody.
+
+   Only chosen users can contribute.
+
+   Only chosen users can access VCS repository.
+
+   **Choose this to gain visibility, but still have control over who can contribute.**
+:guilabel:`Private`
+   Visible only to chosen users.
+
+   Only chosen users can contribute.
+
+   Only chosen users can access VCS repository.
+
+   **Choose this for projects that should not be publicly exposed at all.**
+:guilabel:`Custom`
+   Visible only to chosen users.
+
+   Only chosen users can contribute.
+
+   Only chosen users can access VCS repository.
+
+   Not available on Hosted Weblate.
+
+   You will have to set up all the permissions using :ref:`custom-acl`.
+
+   **Choose this on your own Weblate instance if you want to define access in a specific, finely customizable way.**
 
 :guilabel:`Access control` can be changed in the :guilabel:`Access` tab of the
 configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each respective
@@ -192,7 +222,7 @@ team of the project.
 Custom access control
 ---------------------
 
-.. include:: /snippets/not-hosted-libre.rst
+.. include:: /snippets/not-hosted.rst
 
 The permission system is based on teams and roles, where roles define a set of
 permissions, and teams link them to users and translations, see

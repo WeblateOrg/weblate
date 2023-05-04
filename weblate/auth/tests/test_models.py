@@ -129,3 +129,25 @@ class ModelTest(FixtureTestCase):
         )
         self.assertEqual(user.full_name, "First Last")
         self.assertTrue(user.is_superuser)
+
+    def test_projects(self):
+        public_project = Project.objects.create(
+            slug="public", name="Public", access_control=Project.ACCESS_PUBLIC
+        )
+        protected_project = Project.objects.create(
+            slug="protected", name="Protected", access_control=Project.ACCESS_PROTECTED
+        )
+        self.user.clear_cache()
+        self.assertEqual(
+            set(self.user.allowed_projects.values_list("slug", flat=True)),
+            {public_project.slug, protected_project.slug},
+        )
+        group = Group.objects.create(
+            name="All projects", project_selection=SELECTION_ALL
+        )
+        self.user.groups.add(group)
+        self.user.clear_cache()
+        self.assertEqual(
+            set(self.user.allowed_projects.values_list("slug", flat=True)),
+            {public_project.slug, protected_project.slug, self.project.slug},
+        )

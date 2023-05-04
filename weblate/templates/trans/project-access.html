@@ -284,19 +284,7 @@
       </div>
     </div>
   </div>
-  {% if ssh_key %}
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        {% documentation_icon 'vcs' right=True %}
-        {% trans "SSH key" %}
-      </h4>
-    </div>
-    <div class="panel-body">
-      {% include "snippets/ssh-key.html" %}
-    </div>
-  </div>
-  {% endif %}
+  {% include "snippets/ssh-key.html" %}
 {% documentation_icon 'vcs' right=True %}
 </div>
 </div>

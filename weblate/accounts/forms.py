@@ -446,7 +446,6 @@ class SetPasswordForm(DjangoSetPasswordForm):
     )
     new_password2 = PasswordField(label=_("New password confirmation"))
 
-    # pylint: disable=arguments-differ,signature-differs
     def save(self, request, delete_session=False):
         AuditLog.objects.create(
             self.user, request, "password", password=self.user.password
@@ -544,10 +543,11 @@ class PasswordConfirmForm(EmptyConfirmForm):
 
     def clean_password(self):
         cur_password = self.cleaned_data["password"]
+        valid = False
         if self.user.has_usable_password():
             valid = self.user.check_password(cur_password)
-        else:
-            valid = cur_password == ""
+        elif not cur_password:
+            valid = True
         if not valid:
             rotate_token(self.request)
             raise forms.ValidationError(_("You have entered an invalid password."))
@@ -824,7 +824,6 @@ class NotificationForm(forms.Form):
 class UserSearchForm(forms.Form):
     """User searching form."""
 
-    # pylint: disable=invalid-name
     q = forms.CharField(required=False)
     sort_by = forms.CharField(required=False, widget=forms.HiddenInput)
 

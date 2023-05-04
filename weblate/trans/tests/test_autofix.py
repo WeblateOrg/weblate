@@ -9,6 +9,7 @@ from django.test import TestCase
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.autofixes import fix_target
 from weblate.trans.autofixes.chars import (
+    DevanagariDanda,
     RemoveControlChars,
     RemoveZeroSpace,
     ReplaceTrailingDotsWithEllipsis,
@@ -129,6 +130,7 @@ class AutoFixTest(TestCase):
         unit.flags = "auto-java-messageformat"
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         unit.source = "test {0}"
+        unit.sources = [unit.source]
         # Nothing to fix
         self.assertEqual(fix.fix_target(["r {0}"], unit), (["r {0}"], False))
         # Correct string
@@ -146,5 +148,17 @@ class AutoFixTest(TestCase):
         # Quoted format
         self.assertEqual(fix.fix_target(["'r''' {0}"], unit), (["''r'' {0}"], True))
         unit.source = "foo"
+        unit.sources = [unit.source]
         unit.flags = "java-format"
         self.assertEqual(fix.fix_target(["bar'"], unit), (["bar''"], True))
+
+    def test_devanagaridanda(self):
+        non_unit = MockUnit(source="Foo", code="bn")
+        bn_unit = MockUnit(source="Foo.", code="bn")
+        cs_unit = MockUnit(source="Foo.", code="cs")
+        fix = DevanagariDanda()
+        self.assertEqual(fix.fix_target(["Bar."], non_unit), (["Bar."], False))
+        self.assertEqual(fix.fix_target(["Bar."], bn_unit), (["Bar।"], True))
+        self.assertEqual(fix.fix_target(["Bar|"], bn_unit), (["Bar।"], True))
+        self.assertEqual(fix.fix_target(["Bar।"], bn_unit), (["Bar।"], False))
+        self.assertEqual(fix.fix_target(["Bar."], cs_unit), (["Bar."], False))

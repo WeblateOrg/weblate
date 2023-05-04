@@ -13,6 +13,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from django.views.generic.base import TemplateView
 
+from weblate.lang.models import Language
 from weblate.memory.forms import DeleteForm, UploadForm
 from weblate.memory.models import Memory, MemoryImportError
 from weblate.memory.tasks import import_memory
@@ -60,7 +61,7 @@ class DeleteView(MemoryFormView):
 
     def form_valid(self, form):
         if not check_perm(self.request.user, "memory.delete", self.objects):
-            raise PermissionDenied()
+            raise PermissionDenied
         entries = Memory.objects.filter_type(**self.objects)
         if "origin" in self.request.POST:
             entries = entries.filter(origin=self.request.POST["origin"])
@@ -77,7 +78,7 @@ class RebuildView(MemoryFormView):
             not check_perm(self.request.user, "memory.delete", self.objects)
             or "project" not in self.objects
         ):
-            raise PermissionDenied()
+            raise PermissionDenied
         origin = self.request.POST.get("origin")
         project = self.objects["project"]
         component_id = None
@@ -87,7 +88,7 @@ class RebuildView(MemoryFormView):
                     slug=origin.split("/", 1)[-1]
                 ).id
             except ObjectDoesNotExist:
-                raise PermissionDenied()
+                raise PermissionDenied
         # Delete private entries
         entries = Memory.objects.filter_type(**self.objects)
         if origin:
@@ -116,7 +117,7 @@ class UploadView(MemoryFormView):
 
     def form_valid(self, form):
         if not check_perm(self.request.user, "memory.edit", self.objects):
-            raise PermissionDenied()
+            raise PermissionDenied
         try:
             Memory.objects.import_file(
                 self.request, form.cleaned_data["file"], **self.objects
@@ -163,13 +164,39 @@ class MemoryView(TemplateView):
                 result.append({"origin": missing, "id__count": 0, "can_rebuild": True})
         return result
 
+    def get_languages(self):
+        if "manage" in self.kwargs:
+            return []
+        results = (
+            self.entries.values("source_language", "target_language")
+            .order_by("source_language__code", "target_language__code")
+            .annotate(Count("id"))
+        )
+        languages = {
+            language.id: language
+            for language in Language.objects.filter(
+                pk__in={result["source_language"] for result in results}
+                | {result["target_language"] for result in results}
+            )
+        }
+
+        return [
+            {
+                "source_language": languages[result["source_language"]],
+                "target_language": languages[result["target_language"]],
+                "id__count": result["id__count"],
+            }
+            for result in results
+        ]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(self.objects)
         context["num_entries"] = self.entries.count()
         context["entries_origin"] = self.get_origins()
-        context["total_entries"] = Metric.objects.get_current(
-            None, Metric.SCOPE_GLOBAL, 0, name="memory"
+        context["entries_languages"] = self.get_languages()
+        context["total_entries"] = Metric.objects.get_current_metric(
+            None, Metric.SCOPE_GLOBAL, 0
         )["memory"]
         context["upload_url"] = self.get_url("memory-upload")
         context["download_url"] = self.get_url("memory-download")
@@ -196,6 +223,10 @@ class DownloadView(MemoryView):
         data = Memory.objects.filter_type(**self.objects).prefetch_lang()
         if "origin" in request.GET:
             data = data.filter(origin=request.GET["origin"])
+        if "source_language" in request.GET:
+            data = data.filter(source_language_id=request.GET["source_language"])
+        if "target_language" in request.GET:
+            data = data.filter(target_language_id=request.GET["target_language"])
         if "from_file" in self.objects and "kind" in request.GET:
             if request.GET["kind"] == "shared":
                 data = Memory.objects.filter_type(use_shared=True).prefetch_lang()

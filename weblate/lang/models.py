@@ -42,6 +42,7 @@ PLURAL_TITLE = """
 {name} <span title="{examples}">{icon}</span>
 """
 COPY_RE = re.compile(r"\([0-9]+\)")
+KNOWN_SUFFIXES = {"hant", "hans", "latn", "cyrl", "shaw"}
 
 
 def get_plural_type(base_code, plural_formula):
@@ -121,8 +122,6 @@ def get_default_lang():
 
 
 class LanguageQuerySet(models.QuerySet):
-    # pylint: disable=no-init, 1000000
-
     def try_get(self, *args, **kwargs):
         """Try to get language by code."""
         result = self.filter(*args, **kwargs)[:2]
@@ -182,14 +181,11 @@ class LanguageQuerySet(models.QuerySet):
         code = code.lower()
         # Normalize script suffix
         code = code.replace("_latin", "@latin").replace("_cyrillic", "@cyrillic")
-        codes = [
-            code,
-            code.replace("+", "_"),
-            code.replace("-", "_"),
-            code.replace("-r", "_"),
-            code.replace("_r", "_"),
-        ]
-        if expanded_code:
+        codes = [code]
+        for replacement in ("+", "-", "-r", "_r"):
+            if replacement in code:
+                codes.append(code.replace(replacement, "_"))
+        if expanded_code and expanded_code != code:
             codes.append(expanded_code)
 
         # Lookup in aliases
@@ -203,7 +199,12 @@ class LanguageQuerySet(models.QuerySet):
         # Alias language code only
         for newcode in codes:
             language, _sep, country = newcode.partition("_")
-            if country and len(language) > 2 and language in ALIASES:
+            if (
+                country
+                and len(language) > 2
+                and language in ALIASES
+                and "_" not in ALIASES[language]
+            ):
                 testcode = f"{ALIASES[language]}_{country}"
                 ret = self.fuzzy_get(code=testcode, strict=True)
                 if ret is not None:
@@ -212,7 +213,8 @@ class LanguageQuerySet(models.QuerySet):
         return None
 
     def fuzzy_get(self, code, strict=False):
-        """Get matching language for code.
+        """
+        Get matching language for code.
 
         The code does not have to be exactly same (cs_CZ is trteated same as
         cs-CZ) or returns None.
@@ -263,6 +265,8 @@ class LanguageQuerySet(models.QuerySet):
                 # Xliff way of defining variants
                 region, variant = country.split("_", 1)
                 country = f"{region.upper()}@{variant.lower()}"
+            elif country in KNOWN_SUFFIXES:
+                country = country.title()
             else:
                 country = country.upper()
             newcode = f"{lang.lower()}_{country}"
@@ -297,7 +301,8 @@ class LanguageQuerySet(models.QuerySet):
         return self.auto_create(ret, create)
 
     def auto_create(self, code, create=True):
-        """Automatically create new language.
+        """
+        Automatically create new language.
 
         It is based on code and best guess of parameters.
         """
@@ -422,7 +427,8 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         )
 
     def setup(self, update, logger=lambda x: x):
-        """Create basic set of languages.
+        """
+        Create basic set of languages.
 
         It is based on languages defined in the languages-data repo.
         """
@@ -622,7 +628,8 @@ class Language(models.Model, CacheKeyMixin):
         return self.code not in data.NO_CODE_LANGUAGES
 
     def get_html(self):
-        """Return html attributes for markup in this language.
+        """
+        Return html attributes for markup in this language.
 
         Includes language and direction HTML.
         """
@@ -816,7 +823,7 @@ class Plural(models.Model):
         result = defaultdict(list)
         func = self.plural_function
         for i in chain(range(0, 10000), range(10000, 2000001, 1000)):
-            ret = func(i)
+            ret = func(i)  # pylint: disable=too-many-function-args
             if len(result[ret]) >= 10:
                 continue
             result[ret].append(str(i))

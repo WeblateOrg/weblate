@@ -31,11 +31,9 @@ class FontViewTest(FontTestCase):
         # Upload font
         with open(FONT, "rb") as handle:
             response = self.client.post(self.fonts_url, {"font": handle}, follow=True)
-            self.assertContains(response, "Droid Sans Fallback")
+            self.assertContains(response, "Kurinto Sans")
         font = Font.objects.get()
-        self.assertContains(
-            self.client.get(font.get_absolute_url()), "Droid Sans Fallback"
-        )
+        self.assertContains(self.client.get(font.get_absolute_url()), "Kurinto Sans")
 
         # Create font group
         response = self.client.post(

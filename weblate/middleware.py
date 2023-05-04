@@ -30,7 +30,8 @@ INLINE_PATHS = {"social:begin", "djangosaml2idp:saml_login_process"}
 
 
 class ProxyMiddleware:
-    """Middleware that updates REMOTE_ADDR from proxy.
+    """
+    Middleware that updates REMOTE_ADDR from proxy.
 
     Note that this can have security implications and settings have to match your actual
     proxy setup.
@@ -140,7 +141,8 @@ class RedirectMiddleware:
         return component
 
     def check_existing_translations(self, slug, project):
-        """Check in existing translations for specific language.
+        """
+        Check in existing translations for specific language.
 
         Return False if language translation not present, else True.
         """

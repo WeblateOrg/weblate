@@ -80,19 +80,19 @@ class Check:
 
     def check_target_unit(self, sources, targets, unit):
         """Check single unit, handling plurals."""
-        source = sources[0]
+        source = unit.source_string
         # Check singular
         if self.check_single(source, targets[0], unit):
             return True
         # Do we have more to check?
         if len(sources) > 1:
-            source = sources[1]
+            source = sources[-1]
         # Check plurals against plural from source
         return any(self.check_single(source, target, unit) for target in targets[1:])
 
     def check_single(self, source, target, unit):
         """Check for single phrase, not dealing with plurals."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def check_source(self, source, unit):
         """Check source strings."""
@@ -102,7 +102,7 @@ class Check:
 
     def check_source_unit(self, source, unit):
         """Check source string."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def check_chars(self, source, target, pos, chars):
         """Generic checker for chars presence."""
@@ -123,7 +123,8 @@ class Check:
         return get_doc_url("user/checks", self.doc_id, user=user)
 
     def check_highlight(self, source, unit):
-        """Return parts of the text that match to highlight them.
+        """
+        Return parts of the text that match to highlight them.
 
         Result is list that contains lists of two elements with start position of the
         match and the value of the match
@@ -248,7 +249,7 @@ class TargetCheck(Check):
 
     def check_single(self, source, target, unit):
         """Check for single phrase, not dealing with plurals."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def format_value(self, value: str):
         from weblate.trans.templatetags.translations import Formatter
@@ -288,7 +289,7 @@ class SourceCheck(Check):
 
     def check_source_unit(self, source, unit):
         """Check source string."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class TargetCheckParametrized(TargetCheck):
@@ -311,7 +312,7 @@ class TargetCheckParametrized(TargetCheck):
         return False
 
     def check_target_params(self, sources, targets, unit, value):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def check_single(self, source, target, unit):
         """We don't check single phrase here."""

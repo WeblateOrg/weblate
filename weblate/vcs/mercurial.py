@@ -11,6 +11,8 @@ from configparser import RawConfigParser
 from datetime import datetime
 from typing import Iterator, List, Optional
 
+from django.utils.translation import gettext_lazy
+
 from weblate.auth.utils import format_address
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.ssh import SSH_WRAPPER
@@ -34,6 +36,9 @@ class HgRepository(Repository):
     _version = None
 
     name = "Mercurial"
+    push_label = gettext_lazy(
+        "This will push changes to the upstream Mercurial repository."
+    )
     req_version = "2.8"
     default_branch = "default"
     ref_to_remote = "head() and branch(.) and not closed() - ."
@@ -165,7 +170,7 @@ class HgRepository(Repository):
         if filenames:
             cmd.extend(filenames)
         status = self.execute(cmd, needs_lock=False)
-        return status != ""
+        return bool(status)
 
     def _get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
@@ -222,7 +227,8 @@ class HgRepository(Repository):
         ).splitlines()
 
     def needs_ff(self):
-        """Check whether repository needs a fast-forward to upstream.
+        """
+        Check whether repository needs a fast-forward to upstream.
 
         Checks whether the path to the upstream is linear.
         """
@@ -279,7 +285,7 @@ class HgRepository(Repository):
 
     def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
-        self.execute(["remove", "--force", "--"] + files)
+        self.execute(["remove", "--force", "--", *files])
         self.commit(message, author)
 
     def configure_remote(

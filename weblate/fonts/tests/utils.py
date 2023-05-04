@@ -7,16 +7,18 @@ import os
 from weblate.fonts.models import FONT_STORAGE, Font
 from weblate.trans.tests.test_views import FixtureTestCase
 
+FONT_NAME = "KurintoSans-Rg.ttf"
 FONT = os.path.join(
-    os.path.dirname(os.path.dirname(__file__)),
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
     "static",
-    "font-droid",
-    "DroidSansFallback.ttf",
+    "vendor",
+    "font-kurinto",
+    FONT_NAME,
 )
 
 
 class FontTestCase(FixtureTestCase):
     def add_font(self):
         with open(FONT, "rb") as handle:
-            fontfile = FONT_STORAGE.save("DroidSansFallback.ttf", handle)
+            fontfile = FONT_STORAGE.save(FONT_NAME, handle)
         return Font.objects.create(font=fontfile, project=self.project, user=self.user)

@@ -40,7 +40,7 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
 def perform_commit(request, obj):
     """Helper function to do the repository commit."""
     if not request.user.has_perm("vcs.commit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     return execute_locked(
         request,
@@ -55,7 +55,7 @@ def perform_commit(request, obj):
 def perform_update(request, obj):
     """Helper function to do the repository update."""
     if not request.user.has_perm("vcs.update", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     return execute_locked(
         request,
@@ -70,7 +70,7 @@ def perform_update(request, obj):
 def perform_push(request, obj):
     """Helper function to do the repository push."""
     if not request.user.has_perm("vcs.push", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     return execute_locked(
         request, obj, _("All repositories were pushed."), obj.do_push, request
@@ -80,7 +80,7 @@ def perform_push(request, obj):
 def perform_reset(request, obj):
     """Helper function to do the repository reset."""
     if not request.user.has_perm("vcs.reset", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     return execute_locked(
         request, obj, _("All repositories have been reset."), obj.do_reset, request
@@ -90,7 +90,7 @@ def perform_reset(request, obj):
 def perform_cleanup(request, obj):
     """Helper function to do the repository cleanup."""
     if not request.user.has_perm("vcs.reset", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     return execute_locked(
         request,
@@ -104,13 +104,27 @@ def perform_cleanup(request, obj):
 def perform_file_sync(request, obj):
     """Helper function to do the repository file_sync."""
     if not request.user.has_perm("vcs.reset", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     return execute_locked(
         request,
         obj,
         _("Translation files have been synchronized."),
         obj.do_file_sync,
+        request,
+    )
+
+
+def perform_file_scan(request, obj):
+    """Helper function to do the repository file_scan."""
+    if not request.user.has_perm("vcs.reset", obj):
+        raise PermissionDenied
+
+    return execute_locked(
+        request,
+        obj,
+        _("Translations have been updated."),
+        obj.do_file_scan,
         request,
     )
 
@@ -239,3 +253,24 @@ def file_sync_component(request, project, component):
 def file_sync_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
     return perform_file_sync(request, obj)
+
+
+@login_required
+@require_POST
+def file_scan_project(request, project):
+    obj = get_project(request, project)
+    return perform_file_scan(request, obj)
+
+
+@login_required
+@require_POST
+def file_scan_component(request, project, component):
+    obj = get_component(request, project, component)
+    return perform_file_scan(request, obj)
+
+
+@login_required
+@require_POST
+def file_scan_translation(request, project, component, lang):
+    obj = get_translation(request, project, component, lang)
+    return perform_file_scan(request, obj)

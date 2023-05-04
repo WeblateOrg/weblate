@@ -176,7 +176,8 @@ class ImportErrorTest(ImportBaseTest):
     """Testing import of broken files."""
 
     def test_mismatched_plurals(self):
-        """Test importing a file with different number of plural forms.
+        """
+        Test importing a file with different number of plural forms.
 
         In response to issue #900
         """

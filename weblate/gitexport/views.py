@@ -33,27 +33,31 @@ def authenticate(request, auth):
     """Perform authentication with HTTP Basic auth."""
     try:
         method, data = auth.split(None, 1)
-        if method.lower() == "basic":
-            username, code = b64decode(data).decode("iso-8859-1").split(":", 1)
-            try:
-                user = User.objects.get(username=username, auth_token__key=code)
-            except User.DoesNotExist:
-                return False
-
-            if not user.is_active:
-                return False
-
-            request.user = user
-            return True
-        return False
     except (ValueError, TypeError):
         return False
+    if method.lower() == "basic":
+        try:
+            username, code = b64decode(data).decode("iso-8859-1").split(":", 1)
+        except (ValueError, TypeError):
+            return False
+        try:
+            user = User.objects.get(username=username, auth_token__key=code)
+        except User.DoesNotExist:
+            return False
+
+        if not user.is_active:
+            return False
+
+        request.user = user
+        return True
+    return False
 
 
 @never_cache
 @csrf_exempt
 def git_export(request, project, component, path):
-    """Git HTTP server view.
+    """
+    Git HTTP server view.
 
     Wrapper around git-http-backend to provide Git repositories export over HTTP.
     Performs permission checks and hands over execution to the wrapper.
@@ -132,10 +136,12 @@ def run_git_http(request, obj, path):
     # Log error
     if output_err:
         output_err = output_err.decode()
-        try:
-            raise Exception(f"Git http backend error: {output_err.splitlines()[0]}")
-        except Exception:
-            report_error(cause="Git backend failure", project=obj.project)
+        report_error(
+            cause="Git backend failure",
+            project=obj.project,
+            level="error",
+            message=True,
+        )
 
     # Handle failure
     if retcode:

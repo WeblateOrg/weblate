@@ -119,7 +119,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Force English locales, the --lang and accept_language settings does not
         # work in some cases
-        backup_lang = os.environ["LANG"]
+        backup_lang = os.environ.get("LANG", None)
         os.environ["LANG"] = "en_US.UTF-8"
 
         try:
@@ -131,7 +131,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Restore custom fontconfig settings
         os.environ["FONTCONFIG_FILE"] = backup_fc
-        os.environ["LANG"] = backup_lang
+        # Restore locales
+        if backup_lang is None:
+            del os.environ["LANG"]
+        else:
+            os.environ["LANG"] = backup_lang
 
         if cls.driver is not None:
             cls.driver.implicitly_wait(5)
@@ -192,7 +196,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def upload_file(self, element, filename):
         filename = os.path.abspath(filename)
         if not os.path.exists(filename):
-            raise Exception(f"Test file not found: {filename}")
+            raise ValueError(f"Test file not found: {filename}")
         element.send_keys(filename)
 
     def clear_field(self, element):
@@ -1052,14 +1056,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             element.submit()
 
         Select(self.driver.find_element(By.ID, "id_font")).select_by_visible_text(
-            "Droid Sans Fallback Regular"
+            "Kurinto Sans Regular"
         )
         element = self.driver.find_element(By.ID, "id_language")
         Select(element).select_by_visible_text("Japanese")
         with self.wait_for_page_load():
             element.submit()
         Select(self.driver.find_element(By.ID, "id_font")).select_by_visible_text(
-            "Droid Sans Fallback Regular"
+            "Kurinto Sans Regular"
         )
         element = self.driver.find_element(By.ID, "id_language")
         Select(element).select_by_visible_text("Korean")

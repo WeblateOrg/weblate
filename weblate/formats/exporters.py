@@ -73,7 +73,7 @@ class BaseExporter:
         self.fieldnames = fieldnames
 
     @staticmethod
-    def supports(translation):
+    def supports(translation):  # noqa: ARG004
         return True
 
     @cached_property
@@ -378,7 +378,8 @@ class CSVExporter(CVSBaseExporter):
     verbose = _("CSV")
 
     def string_filter(self, text):
-        """Avoid Excel interpreting text as formula.
+        """
+        Avoid Excel interpreting text as formula.
 
         This is really bad idea, implemented in Excel, as this change leads to
         displaying additional ' in all other tools, but this seems to be what most

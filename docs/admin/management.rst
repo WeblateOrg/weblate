@@ -54,6 +54,19 @@ using :command:`docker exec`:
 
     docker exec --user weblate <container> weblate list_versions
 
+For :program:`docker-compose-plugin` the process is similar, you just have to use
+:command:`docker compose exec`:
+
+.. code-block:: sh
+
+    docker compose exec --user weblate weblate weblate list_versions
+
+In case you need to pass it a file, you can temporary add a volume:
+
+.. code-block:: sh
+
+    docker compose exec --user weblate /tmp:/tmp weblate weblate importusers /tmp/users.json
+
 For :program:`docker-compose` the process is similar, you just have to use
 :command:`docker-compose exec`:
 
@@ -81,8 +94,6 @@ add_suggestions
 
 .. django-admin:: add_suggestions <project> <component> <language> <file>
 
-.. versionadded:: 2.5
-
 Imports a translation from the file to use as a suggestion for the given translation.
 It skips duplicated translations; only different ones are added.
 
@@ -102,8 +113,6 @@ auto_translate
 --------------
 
 .. django-admin:: auto_translate <project> <component> <language>
-
-.. versionadded:: 2.5
 
 .. versionchanged:: 4.6
 
@@ -272,16 +281,10 @@ Creates an ``admin`` account with a random password, unless it is specified.
 
     Update the existing user (you can use this to change passwords).
 
-.. versionchanged:: 2.9
-
-    Added parameters ``--username``, ``--email``, ``--name`` and ``--update``.
-
 dump_memory
 -----------
 
 .. django-admin:: dump_memory
-
-.. versionadded:: 2.20
 
 Export a JSON file containing Weblate Translation Memory content.
 
@@ -319,8 +322,6 @@ import_json
 
 .. django-admin:: import_json <json-file>
 
-.. versionadded:: 2.7
-
 Batch import of components based on JSON data.
 
 The imported JSON file structure pretty much corresponds to the component
@@ -343,11 +344,6 @@ You have to include the ``name`` and ``filemask`` fields.
 
     Update (already) imported components.
 
-.. versionchanged:: 2.9
-
-    The parameters ``--ignore`` and ``--update`` are there to deal with already
-    imported components.
-
 Example of JSON file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/components.json
@@ -361,8 +357,6 @@ import_memory
 -------------
 
 .. django-admin:: import_memory <file>
-
-.. versionadded:: 2.20
 
 Imports a TMX or JSON file into the Weblate translation memory.
 
@@ -779,6 +773,11 @@ Updates all checks for all strings.
 
 You can either define which project or component to update (for example
 ``weblate/application``), or use ``--all`` to update all existing components.
+
+.. note::
+
+   Checks are recalculated regularly by Weblate in the background, the frequency
+   can be configured via :setting:`BACKGROUND_TASKS`.
 
 updategit
 ---------

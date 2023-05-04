@@ -39,7 +39,7 @@ def download_invoice(request, pk):
         raise Http404("No reference!")
 
     if not request.user.has_perm("billing.view", invoice.billing):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     if not invoice.filename_valid:
         raise Http404(f"File {invoice.filename} does not exist!")
@@ -123,7 +123,7 @@ def detail(request, pk):
     billing = get_object_or_404(Billing, pk=pk)
 
     if not request.user.has_perm("billing.view", billing):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     if request.method == "POST":
         handle_post(request, billing)

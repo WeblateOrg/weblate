@@ -1,10 +1,33 @@
-Weblate 4.17
+Weblate 4.18
 ------------
 
 Not yet released.
 
+* Improved API error messages on permission denied.
+* Reduced false positives of the XML checks.
+* Improved has been translated check accuracy.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
+
+Weblate 4.17
+------------
+
+Released on April 17th 2023.
+
 * Allow to filter on language in reports.
 * Dropped deprecated command ``cleanup_celery``.
+* Fixed private project visibility for some teams.
+* Automatic translation now honors target state when translating from other components.
+* Improved performance of public user profiles.
+* Improved Sentry performance integration.
+* Added support for Ed25519 SSH key.
+* Rewritten metrics storage.
+* Added support for searching strings by position.
+* Documentation improvements.
+* Unchanged translation check can honor untranslatable terms from glossary.
+* Added automatic fixup for Devanagari danda.
+* Allow downloading project translation memory per language.
+* Added new alert on unused components.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/93?closed=1>`__.
 

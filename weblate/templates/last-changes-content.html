@@ -54,6 +54,14 @@
             {% if details %}
                 {{ details }}
             {% elif change.show_content and change.unit %}
+                {% if change.details.rejection_reason %}
+                <label>{% trans "Rejection reason" %}</label>
+                <div class="list-group">
+                  <div class="list-group-item sidebar-button">
+                    {{ change.details.rejection_reason }}
+                  </div>
+                </div>
+                {% endif %}
                 <label>{{ change.unit.translation.component.source_language }}</label>
                 {% format_translation change.get_source change.unit.translation.component.source_language %}
                 <label>
@@ -69,7 +77,11 @@
                 </label>
                 {% format_translation change.target change.unit.translation.language change.unit.translation.plural diff=change.old %}
             {% elif change.show_source %}
+              {% if change.target %}
                 {% format_translation change.target change.component.source_language diff=change.old %}
+              {% else %}
+                {% format_translation change.unit.source change.component.source_language %}
+              {% endif %}
             {% elif change.target %}
                 <pre>{{ change.target }}</pre>
             {% else %}

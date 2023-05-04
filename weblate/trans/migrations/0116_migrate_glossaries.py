@@ -36,7 +36,7 @@ def create_glossary(project, name, slug, glossary, license):
     )
 
 
-def migrate_glossaries(apps, schema_editor):  # noqa: C901
+def migrate_glossaries(apps, schema_editor):
     Project = apps.get_model("trans", "Project")
     Language = apps.get_model("lang", "Language")
     db_alias = schema_editor.connection.alias

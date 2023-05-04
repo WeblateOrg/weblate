@@ -6,7 +6,7 @@ import locale
 import os
 import sys
 from types import GeneratorType
-from typing import Dict
+from typing import Any, Dict
 from urllib.parse import urlparse
 
 from django.core.cache import cache
@@ -82,7 +82,8 @@ def is_repo_link(val):
 
 
 def get_distinct_translations(units):
-    """Return list of distinct translations.
+    """
+    Return list of distinct translations.
 
     It should be possible to use distinct('target') since Django 1.4, but it is not
     supported with MySQL, so let's emulate that based on presumption we won't get too
@@ -213,13 +214,27 @@ def get_project_description(project):
     ).format(project, count)
 
 
-def render(request, template, context=None, status=None):
+def render(
+    request,
+    template_name: str,
+    context: Dict[str, Any] = None,
+    content_type: str = None,
+    status: int = None,
+    using=None,
+):
     """Wrapper around Django render to extend context."""
     if context is None:
         context = {}
     if "project" in context and context["project"] is not None:
         context["description"] = get_project_description(context["project"])
-    return django_render(request, template, context, status=status)
+    return django_render(
+        request,
+        template_name=template_name,
+        context=context,
+        content_type=content_type,
+        status=status,
+        using=using,
+    )
 
 
 def path_separator(path):
@@ -256,7 +271,8 @@ def redirect_next(next_url, fallback):
 
 
 def xliff_string_to_rich(string):
-    """Convert XLIFF string to StringElement.
+    """
+    Convert XLIFF string to StringElement.
 
     Transform a string containing XLIFF placeholders as XML into a rich content
     (StringElement)
@@ -267,7 +283,8 @@ def xliff_string_to_rich(string):
 
 
 def rich_to_xliff_string(string_elements):
-    """Convert StringElement to XLIFF string.
+    """
+    Convert StringElement to XLIFF string.
 
     Transform rich content (StringElement) into a string with placeholder kept as XML
     """
@@ -309,3 +326,8 @@ def check_upload_method_permissions(user, translation, method: str):
     if method == "replace":
         return translation.filename and user.has_perm("component.edit", translation)
     raise ValueError(f"Invalid method: {method}")
+
+
+def is_unused_string(string: str):
+    """Check whether string should not be used."""
+    return string.startswith("<unused singular")

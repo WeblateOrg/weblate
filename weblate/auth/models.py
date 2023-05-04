@@ -4,6 +4,7 @@
 
 import re
 from collections import defaultdict
+from functools import lru_cache
 from itertools import chain
 from typing import Optional, Set
 
@@ -218,7 +219,8 @@ class UserManager(BaseUserManager):
 
 class UserQuerySet(models.QuerySet):
     def having_perm(self, perm, project):
-        """All users having explicit permission on a project.
+        """
+        All users having explicit permission on a project.
 
         Note: This intentionally does not list superusers or site-wide permissions
         given using project_selection.
@@ -235,6 +237,8 @@ class UserQuerySet(models.QuerySet):
         return self.order_by("username")
 
 
+# TODO: Use functools.cache when Python 3.9+
+@lru_cache(maxsize=None)
 def get_anonymous():
     """Return an anonymous user."""
     return User.objects.select_related("profile").get(
@@ -454,7 +458,6 @@ class User(AbstractBaseUser):
     def has_perms(self, perm_list, obj=None):
         return all(self.has_perm(perm, obj) for perm in perm_list)
 
-    # pylint: disable=keyword-arg-before-vararg
     def has_perm(self, perm: str, obj=None):
         """Permission check."""
         # Weblate global scope permissions
@@ -526,17 +529,15 @@ class User(AbstractBaseUser):
         if self.is_superuser:
             return Project.objects.order()
         # All public and protected projects are accessible
-        condition = Q(
-            access_control__in={Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED}
-        )
+        acls = {Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED}
+        if -SELECTION_ALL in self.project_permissions:
+            acls.add(Project.ACCESS_PRIVATE)
+            acls.add(Project.ACCESS_CUSTOM)
+        condition = Q(access_control__in=acls)
 
         # Add project-specific allowance
-        project_ids = {
-            key
-            for key in self.project_permissions
-            if key
-            not in {-SELECTION_ALL_PUBLIC, -SELECTION_ALL_PROTECTED, -SELECTION_ALL}
-        }
+        restricted = {-SELECTION_ALL_PUBLIC, -SELECTION_ALL_PROTECTED, -SELECTION_ALL}
+        project_ids = {key for key in self.project_permissions if key not in restricted}
         if project_ids:
             condition |= Q(pk__in=project_ids)
 

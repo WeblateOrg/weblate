@@ -10,7 +10,7 @@ class Command(BaseCommand):
     help = "List installed machineries"
 
     @staticmethod
-    def get_help_text(field, name):
+    def get_help_text(field):
         result = []
         if field.help_text:
             result.append(str(field.help_text))
@@ -36,7 +36,7 @@ class Command(BaseCommand):
             if obj.settings_form:
                 form = obj.settings_form(obj)
                 table = [
-                    (f"``{name}``", str(field.label), self.get_help_text(field, name))
+                    (f"``{name}``", str(field.label), self.get_help_text(field))
                     for name, field in form.fields.items()
                 ]
                 prefix = ":Configuration: "

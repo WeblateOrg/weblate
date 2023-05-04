@@ -71,7 +71,7 @@ class MultiParser:
 
     def __init__(self, storefile):
         if not isinstance(storefile, str):
-            raise ValueError("Needs string as a storefile!")
+            raise TypeError("Needs string as a storefile!")
 
         self.base = storefile
         self.parsers = self.load_parser()
@@ -196,9 +196,9 @@ class AppStoreFormat(TranslationFormat):
     def create_new_file(
         cls,
         filename: str,
-        language: str,
-        base: str,
-        callback: Optional[Callable] = None,
+        language: str,  # noqa: ARG003
+        base: str,  # noqa: ARG003
+        callback: Optional[Callable] = None,  # noqa: ARG003
     ):
         """Handle creation of new translation file."""
         os.makedirs(filename)
@@ -231,7 +231,7 @@ class AppStoreFormat(TranslationFormat):
     def is_valid_base_for_new(
         cls,
         base: str,
-        monolingual: bool,
+        monolingual: bool,  # noqa: ARG003
         errors: Optional[List] = None,
         fast: bool = False,
     ) -> bool:
@@ -241,10 +241,12 @@ class AppStoreFormat(TranslationFormat):
         try:
             if not fast:
                 AppStoreParser(base)
-            return True
-        except Exception:
+        except Exception as exception:
+            if errors is not None:
+                errors.append(exception)
             report_error(cause="File parse error")
             return False
+        return True
 
     def delete_unit(self, ttkit_unit) -> Optional[str]:
         filename = self.store.get_filename(ttkit_unit.filename)

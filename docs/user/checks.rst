@@ -23,6 +23,44 @@ it add errors.
 
    :setting:`AUTOFIX_LIST`
 
+Trailing ellipsis replacer
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Replace trailing dots (``...``) with an ellipsis (``…``) to make it consistent with the source string.
+
+
+Zero-width space removal
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Zero width space is typically not desired in the translation. This fix will
+remove it unless it is present in the source string as well.
+
+Control characters removal
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Removes any control characters from the translation.
+
+Devanagari danda
+~~~~~~~~~~~~~~~~
+
+Replaces wrong full stop in Devanagari by Devanagari danda (``।``).
+
+Unsafe HTML cleanup
+~~~~~~~~~~~~~~~~~~~
+
+When turned on using a ``safe-html`` flag it sanitizes HTML markup.
+
+.. seealso::
+
+   :ref:`check-safe-html`
+
+Trailing and leading whitespace fixer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Makes leading and trailing whitespace consistent with the source string. The
+behavior can be fine-tuned using ``ignore-begin-space`` and
+``ignore-end-space`` flags to skip processing parts of the string.
+
 .. _checks:
 
 Quality checks
@@ -103,6 +141,7 @@ This check has to be turned on using ``check-glossary`` flag (see
 
 * It does exact string matching, the glossary is expected to contain terms in all variants.
 * Checking each string against glossary is expensive, it will slow down any operation in Weblate which involves running checks like importing strings or translating.
+* It also utilizes untranslatable glossary terms in :ref:`check-same`.
 
 .. seealso::
 
@@ -1196,8 +1235,14 @@ translated. This is useful to avoid false positives on short strings, which
 consist only of single word which is same in several languages. This blacklist
 can be disabled by adding ``strict-same`` flag to string or component.
 
+.. versionchanged:: 4.17
+
+   With ``check-glossary`` flag (see :ref:`check-check-glossary`), the
+   untranslatable glossary terms are excluded from the checking.
+
 .. seealso::
 
+   :ref:`check-check-glossary`,
    :ref:`component`,
    :ref:`custom-checks`
 
@@ -1276,8 +1321,6 @@ The check is automatically enabled for XML like strings. You might need to add
 
 XML syntax
 ~~~~~~~~~~
-
-.. versionadded:: 2.8
 
 :Summary: The translation is not valid XML
 :Scope: translated strings

@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
+from typing import Any, Tuple
 
 import nh3
 from django.core.exceptions import ValidationError
@@ -104,18 +105,25 @@ class BBCodeCheck(TargetCheck):
 
 
 class BaseXMLCheck(TargetCheck):
-    def parse_xml(self, text, wrap=None):
+    def detect_xml_wrapping(self, text: str) -> Tuple[Any, bool]:
+        """Detect whether wrapping is desired."""
+        try:
+            return self.parse_xml(text, True), True
+        except SyntaxError:
+            return self.parse_xml(text, False), False
+
+    def can_parse_xml(self, text: str) -> bool:
+        try:
+            self.detect_xml_wrapping(text)
+        except SyntaxError:
+            return False
+        return True
+
+    def parse_xml(self, text: str, wrap: bool) -> Any:
         """Wrapper for parsing XML."""
-        if wrap is None:
-            # Detect whether wrapping is desired
-            try:
-                return self.parse_xml(text, True), True
-            except SyntaxError:
-                return self.parse_xml(text, False), False
         text = strip_entities(text)
         if wrap:
             text = f"<weblate>{text}</weblate>"
-
         return parse_xml(text.encode() if "encoding" in text else text)
 
     def should_skip(self, unit):
@@ -131,15 +139,20 @@ class BaseXMLCheck(TargetCheck):
         if "xml-text" in flags:
             return False
 
+        sources = unit.get_source_plurals()
+
         # Quick check if source looks like XML.
-        return not any(
-            "<" in source and len(XML_MATCH.findall(source))
-            for source in unit.get_source_plurals()
-        )
+        if not any(
+            "<" in source and len(XML_MATCH.findall(source)) for source in sources
+        ):
+            return False
+
+        # Actually verify XML parsing
+        return not all(self.can_parse_xml(source) for source in sources)
 
     def check_single(self, source, target, unit):
         """Check for single phrase, not dealing with plurals."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class XMLValidityCheck(BaseXMLCheck):
@@ -152,7 +165,7 @@ class XMLValidityCheck(BaseXMLCheck):
     def check_single(self, source, target, unit):
         # Check if source is XML
         try:
-            wrap = self.parse_xml(source)[1]
+            wrap = self.detect_xml_wrapping(source)[1]
         except SyntaxError:
             # Source is not valid XML, we give up
             return False
@@ -177,7 +190,7 @@ class XMLTagsCheck(BaseXMLCheck):
     def check_single(self, source, target, unit):
         # Check if source is XML
         try:
-            source_tree, wrap = self.parse_xml(source)
+            source_tree, wrap = self.detect_xml_wrapping(source)
             source_tags = [(x.tag, x.keys()) for x in source_tree.iter()]
         except SyntaxError:
             # Source is not valid XML, we give up
@@ -197,11 +210,9 @@ class XMLTagsCheck(BaseXMLCheck):
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
             return []
+        if not self.can_parse_xml(source):
+            return []
         ret = []
-        try:
-            self.parse_xml(source)
-        except SyntaxError:
-            return ret
         # Include XML markup
         for match in XML_MATCH.finditer(source):
             ret.append((match.start(), match.end(), match.group()))
@@ -322,10 +333,10 @@ class URLCheck(TargetCheck):
         if not source:
             return False
         try:
-            self.validator(target)
-            return False
+            self.validator(target)  # pylint: disable=too-many-function-args
         except ValidationError:
             return True
+        return False
 
 
 class SafeHTMLCheck(TargetCheck):

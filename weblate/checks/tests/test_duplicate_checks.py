@@ -21,11 +21,11 @@ class DuplicateCheckTest(CheckTestCase):
         self.assertFalse(self._run_check("I have two lemons"))
 
     def test_check_respects_boundaries_suffix(self):
-        """'lemon lemon' is a false duplicate."""
+        # 'lemon lemon' is a false duplicate.
         self.assertFalse(self._run_check("I have two lemon lemons"))
 
     def test_check_respects_boundaries_prefix(self):
-        """'melon on' is a false duplicate."""
+        # 'melon on' is a false duplicate.
         self.assertFalse(self._run_check("I have a melon on my back"))
 
     def test_check_single_duplicated_token(self):

@@ -11,7 +11,7 @@ from weblate.fonts.utils import configure_fontconfig
 class FontModelTest(FontTestCase):
     def test_save(self):
         font = self.add_font()
-        self.assertEqual(font.family, "Droid Sans Fallback")
+        self.assertEqual(font.family, "Kurinto Sans")
         self.assertEqual(font.style, "Regular")
 
     def assert_font_files(self, expected: int):

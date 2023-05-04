@@ -58,8 +58,8 @@ GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 # This should match whitespace_regex in weblate/static/loader-bootstrap.js
 WHITESPACE_REGEX = (
     r"(\t|\u00A0|\u1680|\u2000|\u2001|\u2002|\u2003|"
-    + r"\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u200A|"
-    + r"\u202F|\u205F|\u3000)"
+    r"\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u200A|"
+    r"\u202F|\u205F|\u3000)"
 )
 WHITESPACE_RE = re.compile(WHITESPACE_REGEX, re.MULTILINE)
 MULTISPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
@@ -81,7 +81,17 @@ HLCHECK = '<span class="hlcheck" data-value="{}"><span class="highlight-number">
 
 
 class Formatter:
-    def __init__(self, idx, value, unit, terms, diff, search_match, match):
+    def __init__(
+        self,
+        idx,
+        value,
+        unit,
+        terms,
+        diff,
+        search_match,
+        match,
+        whitespace: bool = True,
+    ):
         # Inputs
         self.idx = idx
         self.cleaned_value = self.value = value
@@ -93,6 +103,7 @@ class Formatter:
         # Tags output
         self.tags = [[] for i in range(len(value) + 1)]
         self.dmp = diff_match_patch()
+        self.whitespace = whitespace
 
     def parse(self):
         if self.unit:
@@ -101,7 +112,8 @@ class Formatter:
             self.parse_glossary()
         if self.search_match:
             self.parse_search()
-        self.parse_whitespace()
+        if self.whitespace:
+            self.parse_whitespace()
         if self.diff:
             self.parse_diff()
 
@@ -274,7 +286,7 @@ class Formatter:
                 tags[pos + 1].insert(0, SPACE_END)
 
             output.append("".join(tags[pos]))
-            if char in newlines:
+            if char in newlines and self.whitespace:
                 is_cr = char == "\r"
                 if was_cr and not is_cr:
                     # treat "\r\n" as single newline
@@ -300,6 +312,7 @@ def format_translation(
     unit=None,
     match="search",
     glossary=None,
+    whitespace: bool = True,
 ):
     """Nicely formats translation text possibly handling plurals or diff."""
     # Split plurals to separate strings
@@ -325,7 +338,9 @@ def format_translation(
     has_content = False
 
     for idx, text in enumerate(plurals):
-        formatter = Formatter(idx, text, unit, terms, diff, search_match, match)
+        formatter = Formatter(
+            idx, text, unit, terms, diff, search_match, match, whitespace=whitespace
+        )
         formatter.parse()
 
         # Show label for plural (if there are any)
@@ -414,9 +429,6 @@ def show_message(tags, message):
 
 def naturaltime_past(value, now):
     """Handling of past dates for naturaltime."""
-    # this function is huge
-    # pylint: disable=too-many-branches,too-many-return-statements
-
     delta = now - value
 
     if delta.days >= 365:
@@ -471,9 +483,6 @@ def naturaltime_past(value, now):
 
 def naturaltime_future(value, now):
     """Handling of future dates for naturaltime."""
-    # this function is huge
-    # pylint: disable=too-many-branches,too-many-return-statements
-
     delta = value - now
 
     if delta.days >= 365:
@@ -528,7 +537,8 @@ def naturaltime_future(value, now):
 
 @register.filter(is_safe=True)
 def naturaltime(value, now=None):
-    """Heavily based on Django's django.contrib.humanize implementation of naturaltime.
+    """
+    Heavily based on Django's django.contrib.humanize implementation of naturaltime.
 
     For date and time values shows how many seconds, minutes or hours ago compared to
     current timestamp returns representing string.
@@ -807,7 +817,7 @@ def component_alerts(component):
             None,
         )
 
-    if component.all_alerts:
+    if component.all_active_alerts:
         yield (
             "state/alert.svg",
             gettext("Fix this component to clear its alerts."),
@@ -921,7 +931,8 @@ def markdown(text):
 
 @register.filter
 def choiceval(boundfield):
-    """Get literal value from a field's choices.
+    """
+    Get literal value from a field's choices.
 
     Empty value is returned if value is not selected or invalid.
     """

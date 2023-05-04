@@ -127,7 +127,6 @@ class WeblateAdminSite(AdminSite):
 
         # Billing
         if "weblate.billing" in settings.INSTALLED_APPS:
-            # pylint: disable=wrong-import-position
             from weblate.billing.admin import BillingAdmin, InvoiceAdmin, PlanAdmin
             from weblate.billing.models import Billing, Invoice, Plan
 
@@ -137,7 +136,6 @@ class WeblateAdminSite(AdminSite):
 
         # Hosted
         if "wlhosted.integrations" in settings.INSTALLED_APPS:
-            # pylint: disable=wrong-import-position
             from wlhosted.payments.admin import CustomerAdmin, PaymentAdmin
             from wlhosted.payments.models import Customer, Payment
 
@@ -146,7 +144,6 @@ class WeblateAdminSite(AdminSite):
 
         # Legal
         if "weblate.legal" in settings.INSTALLED_APPS:
-            # pylint: disable=wrong-import-position
             from weblate.legal.admin import AgreementAdmin
             from weblate.legal.models import Agreement
 
@@ -154,7 +151,6 @@ class WeblateAdminSite(AdminSite):
 
         # SAML identity provider
         if "djangosaml2idp" in settings.INSTALLED_APPS:
-            # pylint: disable=wrong-import-position
             from djangosaml2idp.admin import PersistentIdAdmin, ServiceProviderAdmin
             from djangosaml2idp.models import PersistentId, ServiceProvider
 

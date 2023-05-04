@@ -50,7 +50,8 @@ class ResxUpdateAddon(BaseCleanupAddon):
         return index
 
     def update_resx(self, index, translation, storage, changes):
-        """Filter obsolete units in RESX storage.
+        """
+        Filter obsolete units in RESX storage.
 
         This removes the corresponding XML element and also adds newly added, and
         changed units.

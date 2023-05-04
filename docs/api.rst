@@ -7,10 +7,6 @@
 Weblate's REST API
 ==================
 
-.. versionadded:: 2.6
-
-    The REST API is available since Weblate 2.6.
-
 The API is accessible on the ``/api/`` URL and it is based on
 `Django REST framework <https://www.django-rest-framework.org/>`_.
 You can use it directly or by :ref:`wlc`.
@@ -910,7 +906,7 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``, ``file-sync``
+    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``, ``file-sync``, ``file-scan``
     :>json boolean result: result of the operation
 
     **CURL example:**
@@ -1663,8 +1659,6 @@ Components
 
     Returns paginated statistics for all translations within component.
 
-    .. versionadded:: 2.7
-
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
@@ -1918,7 +1912,7 @@ Translations
         parameter differs and without such parameter you get translation file
         as stored in VCS.
 
-    :query format: File format to use; if not specified no format conversion happens; supported file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, ``tmx``, ``csv``, ``xlsx``, ``json``, ``aresource``, ``strings``
+    :query format: File format to use; if not specified no format conversion happens; see :ref:`download` for supported formats
     :query string q: Filter downloaded strings, see :ref:`search`, only applicable when conversion is in place (``format`` is specified).
 
     :param project: Project URL slug
@@ -1986,8 +1980,6 @@ Translations
 
     Returns detailed translation statistics.
 
-    .. versionadded:: 2.7
-
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
@@ -2036,8 +2028,6 @@ corresponding translated string and also contains some related metadata. The
 term is derived from the `Translate Toolkit
 <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/api/storage.html#translate.storage.base.TranslationUnit>`_
 and XLIFF.
-
-.. versionadded:: 2.10
 
 .. http:get:: /api/units/
 
@@ -2130,8 +2120,6 @@ and XLIFF.
 Changes
 +++++++
 
-.. versionadded:: 2.10
-
 .. http:get:: /api/changes/
 
     .. versionchanged:: 4.1
@@ -2168,8 +2156,6 @@ Changes
 
 Screenshots
 +++++++++++
-
-.. versionadded:: 2.14
 
 .. http:get:: /api/screenshots/
 

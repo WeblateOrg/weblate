@@ -2,7 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""License data definitions.
+"""
+License data definitions.
 
 This is an automatically generated file, see scripts/generate-license-data
 """
@@ -885,6 +886,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-SA-3.0-IGO",
+        "Creative Commons Attribution-ShareAlike 3.0 IGO",
+        "https://spdx.org/licenses/CC-BY-SA-3.0-IGO.html",
+        False,
+    ),
+    (
         "CC-PDDC",
         "Creative Commons Public Domain Dedication and Certification",
         "https://spdx.org/licenses/CC-PDDC.html",
@@ -1092,7 +1099,7 @@ LICENSES = (
     ("FSFUL", "FSF Unlimited License", "https://spdx.org/licenses/FSFUL.html", False),
     (
         "FSFULLRWD",
-        "FSF Unlimited License (With License Retention    and Warranty Disclaimer)",
+        "FSF Unlimited License (With License Retention and Warranty Disclaimer)",
         "https://spdx.org/licenses/FSFULLRWD.html",
         False,
     ),
@@ -1490,6 +1497,12 @@ LICENSES = (
     ),
     ("Latex2e", "Latex2e License", "https://spdx.org/licenses/Latex2e.html", False),
     (
+        "Latex2e-translated-notice",
+        "Latex2e with translated notice permission",
+        "https://spdx.org/licenses/Latex2e-translated-notice.html",
+        False,
+    ),
+    (
         "BSD-3-Clause-LBNL",
         "Lawrence Berkeley National Labs BSD variant license",
         "https://spdx.org/licenses/BSD-3-Clause-LBNL.html",
@@ -1605,6 +1618,7 @@ LICENSES = (
         "https://spdx.org/licenses/MTLL.html",
         False,
     ),
+    ("metamail", "metamail License", "https://spdx.org/licenses/metamail.html", False),
     (
         "MS-LPL",
         "Microsoft Limited Public License",
@@ -1623,6 +1637,12 @@ LICENSES = (
         "MITNFA",
         "MIT +no-false-attribs license",
         "https://spdx.org/licenses/MITNFA.html",
+        False,
+    ),
+    (
+        "MIT-Festival",
+        "MIT Festival Variant",
+        "https://spdx.org/licenses/MIT-Festival.html",
         False,
     ),
     ("MIT", "MIT License", "https://spdx.org/licenses/MIT.html", True),
@@ -1749,6 +1769,12 @@ LICENSES = (
         "NIST-PD-fallback",
         "NIST Public Domain Notice with license fallback",
         "https://spdx.org/licenses/NIST-PD-fallback.html",
+        False,
+    ),
+    (
+        "NIST-Software",
+        "NIST Software License",
+        "https://spdx.org/licenses/NIST-Software.html",
         False,
     ),
     ("NLPL", "No Limit Public License", "https://spdx.org/licenses/NLPL.html", False),
@@ -1947,6 +1973,12 @@ LICENSES = (
         "OLDAP-2.8",
         "Open LDAP Public License v2.8",
         "https://spdx.org/licenses/OLDAP-2.8.html",
+        True,
+    ),
+    (
+        "OLFL-1.3",
+        "Open Logistics Foundation License Version 1.3",
+        "https://spdx.org/licenses/OLFL-1.3.html",
         True,
     ),
     ("OML", "Open Market License", "https://spdx.org/licenses/OML.html", False),
@@ -2171,6 +2203,7 @@ LICENSES = (
         "https://spdx.org/licenses/SGI-B-2.0.html",
         True,
     ),
+    ("SGP4", "SGP4 Permission Notice", "https://spdx.org/licenses/SGP4.html", False),
     (
         "OFL-1.0",
         "SIL Open Font License 1.0",
@@ -2403,6 +2436,12 @@ LICENSES = (
         "University of Illinois/NCSA Open Source License",
         "https://spdx.org/licenses/NCSA.html",
         True,
+    ),
+    (
+        "UnixCrypt",
+        "UnixCrypt License",
+        "https://spdx.org/licenses/UnixCrypt.html",
+        False,
     ),
     (
         "UCL-1.0",

@@ -9,6 +9,7 @@ from datetime import datetime
 from itertools import chain
 from typing import BinaryIO, Dict, List, Optional, Union
 
+import sentry_sdk
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import IntegrityError, models, transaction
@@ -92,7 +93,7 @@ class TranslationQuerySet(models.QuerySet):
             models.Prefetch(
                 "component__alert_set",
                 queryset=Alert.objects.filter(dismissed=False),
-                to_attr="all_alerts",
+                to_attr="all_active_alerts",
             ),
         )
 
@@ -164,7 +165,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     @cached_property
     def is_template(self):
-        """Check whether this is template translation.
+        """
+        Check whether this is template translation.
 
         This means that translations should be propagated as sources to others.
         """
@@ -172,7 +174,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     @cached_property
     def is_source(self):
-        """Check whether this is source strings.
+        """
+        Check whether this is source strings.
 
         This means that translations should be propagated as sources to others.
         """
@@ -261,26 +264,27 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def load_store(self, fileobj=None, force_intermediate=False):
         """Load translate-toolkit storage from disk."""
         # Use intermediate store as template for source translation
-        if force_intermediate or (self.is_template and self.component.intermediate):
-            template = self.component.intermediate_store
-        else:
-            template = self.component.template_store
-        if fileobj is None:
-            fileobj = self.get_filename()
-        elif self.is_template:
-            template = self.component.load_template_store(
-                BytesIOMode(fileobj.name, fileobj.read())
+        with sentry_sdk.start_span(op="load_store", description=self.get_filename()):
+            if force_intermediate or (self.is_template and self.component.intermediate):
+                template = self.component.intermediate_store
+            else:
+                template = self.component.template_store
+            if fileobj is None:
+                fileobj = self.get_filename()
+            elif self.is_template:
+                template = self.component.load_template_store(
+                    BytesIOMode(fileobj.name, fileobj.read())
+                )
+                fileobj.seek(0)
+            store = self.component.file_format_cls.parse(
+                fileobj,
+                template,
+                language_code=self.language_code,
+                source_language=self.component.source_language.code,
+                is_template=self.is_template,
             )
-            fileobj.seek(0)
-        store = self.component.file_format_cls.parse(
-            fileobj,
-            template,
-            language_code=self.language_code,
-            source_language=self.component.source_language.code,
-            is_template=self.is_template,
-        )
-        store_post_load.send(sender=self.__class__, translation=self, store=store)
-        return store
+            store_post_load.send(sender=self.__class__, translation=self, store=store)
+            return store
 
     @cached_property
     def store(self):
@@ -316,7 +320,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             }
             is_new = True
 
-        newunit.update_from_unit(unit, pos, is_new)
+        with sentry_sdk.start_span(
+            op="update_from_unit", description=f"{self.full_slug}:{pos}"
+        ):
+            newunit.update_from_unit(unit, pos, is_new)
 
         # Check if unit is worth notification:
         # - new and untranslated
@@ -335,170 +342,176 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     def check_sync(self, force=False, request=None, change=None):  # noqa: C901
         """Check whether database is in sync with git and possibly updates."""
-        if change is None:
-            change = Change.ACTION_UPDATE
-        user = None if request is None else request.user
+        with sentry_sdk.start_span(op="check_sync", description=self.full_slug):
+            if change is None:
+                change = Change.ACTION_UPDATE
+            user = None if request is None else request.user
 
-        details = {
-            "filename": self.filename,
-        }
-        self.update_changes = []
+            details = {
+                "filename": self.filename,
+            }
+            self.update_changes = []
 
-        # Check if we're not already up to date
-        try:
-            new_revision = self.get_git_blob_hash()
-        except Exception as exc:
-            report_error(
-                cause="Translation parse error", project=self.component.project
-            )
-            self.component.handle_parse_error(exc, self)
-        if not self.revision:
-            self.reason = "new file"
-        elif self.revision != new_revision:
-            self.reason = "content changed"
+            # Check if we're not already up to date
+            try:
+                new_revision = self.get_git_blob_hash()
+            except Exception as exc:
+                report_error(
+                    cause="Translation parse error", project=self.component.project
+                )
+                self.component.handle_parse_error(exc, self)
+            if not self.revision:
+                self.reason = "new file"
+            elif self.revision != new_revision:
+                self.reason = "content changed"
 
-            # Include changed filename in the details
-            old_parts = self.revision.split(",")
-            new_parts = new_revision.split(",")
-            if len(old_parts) == len(new_parts):
-                filenames = self.get_hash_filenames()
-                for i, old_part in enumerate(old_parts):
-                    if old_part != new_parts[i]:
-                        details["filename"] = filenames[i][
-                            len(self.component.full_path) :
-                        ].lstrip("/")
-                        break
+                # Include changed filename in the details
+                old_parts = self.revision.split(",")
+                new_parts = new_revision.split(",")
+                if len(old_parts) == len(new_parts):
+                    filenames = self.get_hash_filenames()
+                    for i, old_part in enumerate(old_parts):
+                        if old_part != new_parts[i]:
+                            details["filename"] = filenames[i][
+                                len(self.component.full_path) :
+                            ].lstrip("/")
+                            break
 
-        elif force:
-            self.reason = "check forced"
-        else:
-            self.reason = ""
-            return
-        details["reason"] = self.reason
+            elif force:
+                self.reason = "check forced"
+            else:
+                self.reason = ""
+                return
+            details["reason"] = self.reason
 
-        self.component.check_template_valid()
+            self.component.check_template_valid()
 
-        # List of updated units (used for cleanup and duplicates detection)
-        updated = {}
-
-        try:
-            store = self.store
-            translation_store = None
+            # List of updated units (used for cleanup and duplicates detection)
+            updated = {}
 
             try:
-                store_units = store.content_units
-            except ValueError as error:
-                raise FileParseError(str(error))
+                store = self.store
+                translation_store = None
 
-            self.log_info(
-                "processing %s, %s, %d strings",
-                self.filename,
-                self.reason,
-                len(store_units),
-            )
-
-            # Store plural
-            plural = store.get_plural(self.language, store)
-            if plural != self.plural:
-                self.plural = plural
-                self.save(update_fields=["plural"])
-
-            # Was there change?
-            self.was_new = 0
-
-            # Select all current units for update
-            dbunits = {
-                unit.id_hash: unit
-                for unit in self.unit_set.prefetch_bulk().select_for_update()
-            }
-
-            # Process based on intermediate store if available
-            if self.component.intermediate:
-                translation_store = store
-                store = self.load_store(force_intermediate=True)
                 try:
                     store_units = store.content_units
                 except ValueError as error:
                     raise FileParseError(str(error))
 
-            for pos, unit in enumerate(store_units):
-                # Use translation store if exists and if it contains the string
-                if translation_store is not None:
+                self.log_info(
+                    "processing %s, %s, %d strings",
+                    self.filename,
+                    self.reason,
+                    len(store_units),
+                )
+
+                # Store plural
+                plural = store.get_plural(self.language, store)
+                if plural != self.plural:
+                    self.plural = plural
+                    self.save(update_fields=["plural"])
+
+                # Was there change?
+                self.was_new = 0
+
+                # Select all current units for update
+                dbunits = {
+                    unit.id_hash: unit
+                    for unit in self.unit_set.prefetch_bulk().select_for_update()
+                }
+
+                # Process based on intermediate store if available
+                if self.component.intermediate:
+                    translation_store = store
+                    store = self.load_store(force_intermediate=True)
                     try:
-                        translated_unit, created = translation_store.find_unit(
-                            unit.context, unit.source
+                        store_units = store.content_units
+                    except ValueError as error:
+                        raise FileParseError(str(error))
+
+                for pos, unit in enumerate(store_units):
+                    # Use translation store if exists and if it contains the string
+                    if translation_store is not None:
+                        try:
+                            translated_unit, created = translation_store.find_unit(
+                                unit.context, unit.source
+                            )
+                            if translated_unit and not created:
+                                unit = translated_unit
+                            else:
+                                # Patch unit to have matching source
+                                unit.source = translated_unit.source
+                        except UnitNotFound:
+                            pass
+
+                    try:
+                        id_hash = unit.id_hash
+                    except Exception as error:
+                        self.component.handle_parse_error(error, self)
+
+                    # Check for possible duplicate units
+                    if id_hash in updated:
+                        newunit = updated[id_hash]
+                        self.log_warning(
+                            "duplicate string to translate: %s (%s)",
+                            newunit,
+                            repr(newunit.source),
                         )
-                        if translated_unit and not created:
-                            unit = translated_unit
-                        else:
-                            # Patch unit to have matching source
-                            unit.source = translated_unit.source
-                    except UnitNotFound:
-                        pass
-
-                try:
-                    id_hash = unit.id_hash
-                except Exception as error:
-                    self.component.handle_parse_error(error, self)
-
-                # Check for possible duplicate units
-                if id_hash in updated:
-                    newunit = updated[id_hash]
-                    self.log_warning(
-                        "duplicate string to translate: %s (%s)",
-                        newunit,
-                        repr(newunit.source),
-                    )
-                    self.update_changes.append(
-                        Change(
-                            unit=newunit,
-                            action=Change.ACTION_DUPLICATE_STRING,
-                            user=user,
-                            author=user,
+                        self.update_changes.append(
+                            Change(
+                                unit=newunit,
+                                action=Change.ACTION_DUPLICATE_STRING,
+                                user=user,
+                                author=user,
+                            )
                         )
-                    )
-                    self.component.trigger_alert(
-                        "DuplicateString",
-                        language_code=self.language.code,
-                        source=newunit.source,
-                        unit_pk=newunit.pk,
-                    )
-                    continue
+                        self.component.trigger_alert(
+                            "DuplicateString",
+                            language_code=self.language.code,
+                            source=newunit.source,
+                            unit_pk=newunit.pk,
+                        )
+                        continue
 
-                self.sync_unit(dbunits, updated, id_hash, unit, pos + 1)
+                    self.sync_unit(dbunits, updated, id_hash, unit, pos + 1)
 
-        except FileParseError as error:
-            report_error(
-                cause="Failed to parse file on update", project=self.component.project
+            except FileParseError as error:
+                report_error(
+                    cause="Failed to parse file on update",
+                    project=self.component.project,
+                )
+                self.log_warning("skipping update due to parse error: %s", error)
+                self.store_update_changes()
+                return
+
+            # Delete stale units
+            stale = set(dbunits) - set(updated)
+            if stale:
+                self.log_info("deleting %d stale strings", len(stale))
+                self.unit_set.filter(id_hash__in=stale).delete()
+                self.component.needs_cleanup = True
+
+            # We should also do cleanup on source strings tracking objects
+
+            # Update revision and stats
+            self.store_hash()
+
+            # Store change entry
+            self.update_changes.append(
+                Change(
+                    translation=self,
+                    action=change,
+                    user=user,
+                    author=user,
+                    details=details,
+                )
             )
-            self.log_warning("skipping update due to parse error: %s", error)
+
             self.store_update_changes()
-            return
 
-        # Delete stale units
-        stale = set(dbunits) - set(updated)
-        if stale:
-            self.log_info("deleting %d stale strings", len(stale))
-            self.unit_set.filter(id_hash__in=stale).delete()
-            self.component.needs_cleanup = True
-
-        # We should also do cleanup on source strings tracking objects
-
-        # Update revision and stats
-        self.store_hash()
-
-        # Store change entry
-        self.update_changes.append(
-            Change(
-                translation=self, action=change, user=user, author=user, details=details
-            )
-        )
-
-        self.store_update_changes()
-
-        # Invalidate keys cache
-        transaction.on_commit(self.invalidate_keys)
-        self.log_info("updating completed")
+            # Invalidate keys cache
+            transaction.on_commit(self.invalidate_keys)
+            self.log_info("updating completed")
 
         # Use up to date list as prefetch for source
         if self.is_source:
@@ -523,6 +536,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     def do_file_sync(self, request=None):
         return self.component.do_file_sync(request)
+
+    def do_file_scan(self, request=None):
+        return self.component.do_file_scan(request)
 
     def can_push(self):
         return self.component.can_push()
@@ -681,7 +697,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             vcs_pre_commit.send(sender=self.__class__, translation=self, author=author)
 
             # Do actual commit with git lock
-            if not self.component.commit_files(
+            if self.component.commit_files(
                 template=template,
                 author=author,
                 timestamp=timestamp,
@@ -705,6 +721,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def update_units(self, units, store, author_name, author_id):
         """Update backend file and unit."""
         updated = False
+        clear_pending = []
         for unit in units:
             # We reuse the queryset, so pending units might reappear here
             if not unit.pending:
@@ -763,9 +780,16 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             # Update fuzzy/approved flag
             pounit.set_state(unit.state)
 
-            unit.save(
-                update_fields=["pending", "details"], same_content=True, only_save=True
-            )
+            # Do not go via save() to avoid triggering signals
+            if unit.details:
+                Unit.objects.filter(pk=unit.pk).update(
+                    pending=unit.pending, details=unit.details
+                )
+            else:
+                clear_pending.append(unit.pk)
+
+        if clear_pending:
+            Unit.objects.filter(pk__in=clear_pending).update(pending=False, details={})
 
         # Did we do any updates?
         if not updated:
@@ -880,7 +904,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def merge_translations(
         self, request, store2, conflicts: str, method: str, fuzzy: str
     ):
-        """Merge translation unit wise.
+        """
+        Merge translation unit wise.
 
         Needed for template based translations to add new strings.
         """
@@ -1192,7 +1217,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 filecopy = filecopy[3:]
 
             # Commit pending changes in template
-            if component.has_template():
+            if component.has_template() and component.source_translation.needs_commit():
                 try:
                     component.commit_pending("upload", request.user)
                 except Exception as error:
@@ -1224,11 +1249,12 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 header = store.store.parseheader()
                 try:
                     number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
-                    if not self.plural.same_plural(number, formula):
-                        raise PluralFormsMismatch()
                 except (ValueError, KeyError):
                     # Formula wrong or missing
                     pass
+                else:
+                    if not self.plural.same_plural(number, formula):
+                        raise PluralFormsMismatch
 
             if method in ("translate", "fuzzy", "approve"):
                 # Merge on units level
@@ -1238,7 +1264,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     return self.handle_add_upload(request, store, fuzzy=fuzzy)
 
             # Add as suggestions
-            return self.merge_suggestions(request, store, fuzzy)
+            return self.merge_suggestions(request, store, fuzzy)  # noqa: TRY300
         finally:
             if orig_user:
                 request.user = orig_user
@@ -1562,7 +1588,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             self.was_new += 1
         self.notify_new(None)
 
-    def validate_new_unit_data(  # noqa: C901
+    def validate_new_unit_data(
         self,
         context: str,
         source: Union[str, List[str]],

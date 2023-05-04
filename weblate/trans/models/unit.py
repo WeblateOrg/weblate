@@ -29,6 +29,7 @@ from weblate.trans.signals import unit_pre_create
 from weblate.trans.util import (
     get_distinct_translations,
     is_plural,
+    is_unused_string,
     join_plural,
     split_plural,
 )
@@ -210,7 +211,8 @@ class UnitQuerySet(models.QuerySet):
         return {unit.source: unit for unit in self}
 
     def get_unit(self, ttunit):
-        """Find unit matching translate-toolkit unit.
+        """
+        Find unit matching translate-toolkit unit.
 
         This is used for import, so kind of fuzzy matching is expected.
         """
@@ -339,10 +341,12 @@ class Unit(models.Model, LoggerMixin):
 
     def __str__(self):
         if self.translation.is_template:
-            return self.context
-        if self.context:
-            return f"[{self.context}] {self.source}"
-        return self.source
+            name = self.context
+        elif self.context:
+            name = f"[{self.context}] {self.source}"
+        else:
+            name = self.source
+        return f"{self.pk}: {name}"
 
     def save(
         self,
@@ -362,7 +366,7 @@ class Unit(models.Model, LoggerMixin):
             self.num_words = sum(
                 len(s.split())
                 for s in self.get_source_plurals()
-                if not s.startswith("<unused singular")
+                if not is_unused_string(s)
             )
             if update_fields and "num_words" not in update_fields:
                 update_fields.append("num_words")
@@ -377,15 +381,12 @@ class Unit(models.Model, LoggerMixin):
         if only_save:
             return
 
-        # Set source_unit for source units
+        # Set source_unit for source units, this needs to be done after
+        # having a primary key
         if self.is_source and not self.source_unit:
             self.source_unit = self
-            self.save(
-                same_content=True,
-                run_checks=False,
-                only_save=True,
-                update_fields=["source_unit"],
-            )
+            # Avoid using save() for recursion
+            Unit.objects.filter(pk=self.pk).update(source_unit=self)
 
         # Update checks if content or fuzzy flag has changed
         if run_checks:
@@ -691,7 +692,7 @@ class Unit(models.Model, LoggerMixin):
                     state = STATE_TRANSLATED
                 else:
                     # Store previous source and fuzzy flag for monolingual
-                    if previous_source == "":
+                    if not previous_source:
                         source_change = previous_source = self.source
                     state = STATE_FUZZY
                 self.pending = True
@@ -852,7 +853,7 @@ class Unit(models.Model, LoggerMixin):
         """
         plurals = self.get_source_plurals()
         singular = plurals[0]
-        if len(plurals) == 1 or not singular.startswith("<unused singular"):
+        if len(plurals) == 1 or not is_unused_string(singular):
             return singular
         return plurals[1]
 
@@ -938,7 +939,8 @@ class Unit(models.Model, LoggerMixin):
         run_checks: bool = True,
         request=None,
     ):
-        """Stores unit to backend.
+        """
+        Stores unit to backend.
 
         Optional user parameters defines authorship of a change.
 
@@ -1013,7 +1015,8 @@ class Unit(models.Model, LoggerMixin):
         return True
 
     def update_source_units(self, previous_source, user, author):
-        """Update source for units within same component.
+        """
+        Update source for units within same component.
 
         This is needed when editing template translation for monolingual formats.
         """
@@ -1083,11 +1086,10 @@ class Unit(models.Model, LoggerMixin):
                 action = Change.ACTION_APPROVE
             else:
                 action = Change.ACTION_CHANGE
+        elif self.state == STATE_APPROVED:
+            action = Change.ACTION_APPROVE
         else:
-            if self.state == STATE_APPROVED:
-                action = Change.ACTION_APPROVE
-            else:
-                action = Change.ACTION_NEW
+            action = Change.ACTION_NEW
 
         # Create change object
         change = Change(
@@ -1451,7 +1453,8 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def checksum(self):
-        """Return unique hex identifier.
+        """
+        Return unique hex identifier.
 
         It's unsigned representation of id_hash in hex.
         """
@@ -1505,7 +1508,8 @@ class Unit(models.Model, LoggerMixin):
         return self.change_set.content().select_related("author").order_by("-timestamp")
 
     def get_last_content_change(self, silent=False):
-        """Wrapper to get last content change metadata.
+        """
+        Wrapper to get last content change metadata.
 
         Used when committing pending changes, needs to handle and report inconsistencies
         from past releases.
@@ -1514,15 +1518,15 @@ class Unit(models.Model, LoggerMixin):
 
         try:
             change = self.recent_content_changes[0]
-            return change.author or get_anonymous(), change.timestamp
         except IndexError:
             return get_anonymous(), timezone.now()
+        return change.author or get_anonymous(), change.timestamp
 
     def get_locations(self) -> Generator[Tuple[str, str, str], None, None]:
         """Returns list of location filenames."""
         for location in self.location.split(","):
             location = location.strip()
-            if location == "":
+            if not location:
                 continue
             location_parts = location.split(":")
             if len(location_parts) == 2:

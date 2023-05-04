@@ -11,7 +11,7 @@ from weblate.lang.models import Language, Plural
 class LanguageForm(forms.ModelForm):
     class Meta:
         model = Language
-        exclude = []
+        fields = ["code", "name", "direction", "population"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

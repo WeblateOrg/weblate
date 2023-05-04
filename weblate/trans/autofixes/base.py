@@ -13,7 +13,7 @@ class AutoFix:
 
     def fix_single_target(self, target, source, unit):
         """Fix a single target, implement this method in subclasses."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def fix_target(self, target, unit):
         """Return a target translation array with a single fix applied."""
@@ -27,10 +27,9 @@ class AutoFix:
                 tuple(examples): number
                 for number, examples in source_plural.examples.items()
             }
+            target_examples = target_plural.examples
             plurals_map = [
-                source_examples.get(
-                    tuple(target_plural.examples.get(target_index, [])), -1
-                )
+                source_examples.get(tuple(target_examples.get(target_index, [])), -1)
                 for target_index in range(target_plural.number)
             ]
             results = [

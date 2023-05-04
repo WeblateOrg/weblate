@@ -520,6 +520,22 @@ real_patterns = [
         weblate.trans.views.git.file_sync_translation,
         name="file_sync_translation",
     ),
+    # VCS manipulation - force scan
+    path(
+        "file-scan/<name:project>/",
+        weblate.trans.views.git.file_scan_project,
+        name="file_scan_project",
+    ),
+    path(
+        "file-scan/<name:project>/<name:component>/",
+        weblate.trans.views.git.file_scan_component,
+        name="file_scan_component",
+    ),
+    path(
+        "file-scan/<name:project>/<name:component>/<name:lang>/",
+        weblate.trans.views.git.file_scan_translation,
+        name="file_scan_translation",
+    ),
     path(
         "progress/<name:project>/<name:component>/",
         weblate.trans.views.settings.component_progress,
@@ -1024,6 +1040,11 @@ real_patterns = [
         "user/<name:user>/", weblate.accounts.views.UserPage.as_view(), name="user_page"
     ),
     path(
+        "user/<name:user>/contributions/",
+        weblate.accounts.views.user_contributions,
+        name="user_contributions",
+    ),
+    path(
         "user/<name:user>/suggestions/",
         weblate.accounts.views.SuggestionView.as_view(),
         name="user_suggestions",
@@ -1120,7 +1141,6 @@ real_patterns = [
 
 # Billing integration
 if "weblate.billing" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     import weblate.billing.views
 
     real_patterns += [
@@ -1136,7 +1156,6 @@ if "weblate.billing" in settings.INSTALLED_APPS:
 
 # Git exporter integration
 if "weblate.gitexport" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     import weblate.gitexport.views
 
     real_patterns += [
@@ -1184,7 +1203,6 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
 
 # Legal integartion
 if "weblate.legal" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     import weblate.legal.views
 
     real_patterns += [
@@ -1212,14 +1230,12 @@ if settings.DEBUG:
 
 # Django debug toolbar integration
 if settings.DEBUG and "debug_toolbar" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     import debug_toolbar
 
     real_patterns += [path("__debug__/", include(debug_toolbar.urls))]
 
 # Hosted Weblate integration
 if "wlhosted.integrations" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     from wlhosted.integrations.views import CreateBillingView
 
     real_patterns += [

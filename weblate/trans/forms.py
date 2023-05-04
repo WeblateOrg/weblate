@@ -123,7 +123,7 @@ class WeblateDateField(forms.DateField):
         value = super().to_python(value)
         if isinstance(value, date):
             return from_current_timezone(
-                datetime(value.year, value.month, value.day, 0, 0, 0)
+                datetime(value.year, value.month, value.day, 0, 0, 0)  # noqa: DTZ001
             )
         return value
 
@@ -147,8 +147,10 @@ class ChecksumField(forms.CharField):
 
 class UserField(forms.CharField):
     def clean(self, value):
-        if not value and self.required:
-            raise ValidationError(_("Missing username or e-mail."))
+        if not value:
+            if self.required:
+                raise ValidationError(_("Missing username or e-mail."))
+            return None
         try:
             return User.objects.get(Q(username=value) | Q(email=value))
         except User.DoesNotExist:
@@ -172,9 +174,11 @@ class QueryField(forms.CharField):
             return ""
         try:
             parse_query(value)
-            return value
         except Exception as error:
-            raise ValidationError(_("Could not parse query string: {}").format(error))
+            raise ValidationError(
+                _("Could not parse query string: {}").format(error)
+            ) from error
+        return value
 
 
 class FlagField(forms.CharField):
@@ -526,7 +530,12 @@ class TranslationForm(UnitForm):
             self.fields["fuzzy"].widget = forms.HiddenInput()
         else:
             self.fields["review"].widget = forms.HiddenInput()
-        if not unit.translation.component.is_glossary:
+        if unit.translation.component.is_glossary:
+            if unit.is_source:
+                self.fields["explanation"].label = gettext("Source string explanation")
+            else:
+                self.fields["explanation"].label = gettext("Translation explanation")
+        else:
             self.fields["explanation"].widget = forms.HiddenInput()
 
     def clean(self):
@@ -708,7 +717,6 @@ def get_upload_form(user, translation, *args, **kwargs):
 class SearchForm(forms.Form):
     """Text-searching form."""
 
-    # pylint: disable=invalid-name
     q = QueryField()
     sort_by = forms.CharField(required=False, widget=forms.HiddenInput)
     checksum = ChecksumField(required=False)
@@ -784,10 +792,9 @@ class SearchForm(forms.Form):
                     items.append((param, val))
             elif isinstance(value, User):
                 items.append((param, value.username))
-            else:
+            elif value:
                 # It should be a string here
-                if value:
-                    items.append((param, value))
+                items.append((param, value))
         return items
 
     def urlencode(self):
@@ -800,7 +807,7 @@ class SearchForm(forms.Form):
         This is needed to avoid issues when using the form as the default for
         any new search.
         """
-        data = copy.copy(self.data)
+        data = copy.copy(self.data)  # pylint: disable=access-member-before-definition
         data["offset"] = "1"
         data["checksum"] = ""
         self.data = data
@@ -821,20 +828,21 @@ class MergeForm(UnitForm):
         super().clean()
         if "merge" not in self.cleaned_data:
             return None
+        unit = self.unit
+        translation = unit.translation
+        project = translation.component.project
         try:
-            unit = self.unit
-            translation = unit.translation
-            project = translation.component.project
             self.cleaned_data["merge_unit"] = merge_unit = Unit.objects.get(
                 pk=self.cleaned_data["merge"],
                 translation__component__project=project,
                 translation__language=translation.language,
             )
+        except Unit.DoesNotExist:
+            raise ValidationError(_("Could not find the merged string."))
+        else:
             # Compare in Python to ensure case sensitiveness on MySQL
             if not translation.is_source and unit.source != merge_unit.source:
                 raise ValidationError(_("Could not find merged string."))
-        except Unit.DoesNotExist:
-            raise ValidationError(_("Could not find the merged string."))
         return self.cleaned_data
 
 
@@ -861,11 +869,6 @@ class AutoForm(forms.Form):
 
     mode = forms.ChoiceField(
         label=_("Automatic translation mode"),
-        choices=[
-            ("suggest", _("Add as suggestion")),
-            ("translate", _("Add as translation")),
-            ("fuzzy", _('Add as "Needing edit"')),
-        ],
         initial="suggest",
     )
     filter_type = FilterField(
@@ -900,7 +903,7 @@ class AutoForm(forms.Form):
         label=_("Score threshold"), initial=80, min_value=1, max_value=100
     )
 
-    def __init__(self, obj, *args, **kwargs):
+    def __init__(self, obj, user=None, *args, **kwargs):
         """Generate choices for other components in the same project."""
         super().__init__(*args, **kwargs)
         self.obj = obj
@@ -934,8 +937,9 @@ class AutoForm(forms.Form):
             ]
 
             self.fields["component"].choices = [
-                ("", _("All components in current project"))
-            ] + choices
+                ("", _("All components in current project")),
+                *choices,
+            ]
 
         machinery_settings = obj.project.get_machinery_settings()
 
@@ -959,6 +963,15 @@ class AutoForm(forms.Form):
         self.fields["filter_type"].choices = [
             x for x in self.fields["filter_type"].choices if x[0] in use_types
         ]
+
+        choices = [
+            ("suggest", _("Add as suggestion")),
+            ("translate", _("Add as translation")),
+            ("fuzzy", _('Add as "Needing edit"')),
+        ]
+        if user is not None and user.has_perm("unit.review", obj):
+            choices.append(("approved", _("Add as approved translation")))
+        self.fields["mode"].choices = choices
 
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
@@ -1088,9 +1101,10 @@ class NewLanguageForm(NewLanguageOwnerForm):
 
     def __init__(self, component, *args, **kwargs):
         super().__init__(component, *args, **kwargs)
-        self.fields["lang"].choices = [("", _("Please choose"))] + self.fields[
-            "lang"
-        ].choices
+        self.fields["lang"].choices = [
+            ("", _("Please choose")),
+            *self.fields["lang"].choices,
+        ]
 
     def clean_lang(self):
         # Compatibility with NewLanguageOwnerForm
@@ -1100,7 +1114,7 @@ class NewLanguageForm(NewLanguageOwnerForm):
 def get_new_language_form(request, component):
     """Return new language form for user."""
     if not request.user.has_perm("translation.add", component):
-        raise PermissionDenied()
+        raise PermissionDenied
     if request.user.has_perm("translation.add_more", component):
         return NewLanguageOwnerForm
     return NewLanguageForm
@@ -1270,12 +1284,12 @@ class ReportsForm(forms.Form):
             start = end.replace(day=1)
         elif self.cleaned_data["period"] == "year":
             year = timezone.now().year - 1
-            end = timezone.make_aware(datetime(year, 12, 31))
-            start = timezone.make_aware(datetime(year, 1, 1))
+            end = timezone.make_aware(datetime(year, 12, 31))  # noqa: DTZ001
+            start = timezone.make_aware(datetime(year, 1, 1))  # noqa: DTZ001
         elif self.cleaned_data["period"] == "this-year":
             year = timezone.now().year
-            end = timezone.make_aware(datetime(year, 12, 31))
-            start = timezone.make_aware(datetime(year, 1, 1))
+            end = timezone.make_aware(datetime(year, 12, 31))  # noqa: DTZ001
+            start = timezone.make_aware(datetime(year, 1, 1))  # noqa: DTZ001
         else:
             # Validate custom period
             if not self.cleaned_data.get("start_date"):
@@ -1787,7 +1801,8 @@ class ComponentDocCreateForm(ComponentProjectForm):
 
 
 class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
-    """Component creation form.
+    """
+    Component creation form.
 
     This is mostly copied from the Component model. Probably should be extracted to a
     standalone Repository model…
@@ -1965,10 +1980,12 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
         data = self.cleaned_data
         if settings.OFFER_HOSTING:
             data["contribute_shared_tm"] = data["use_shared_tm"]
+
+        # ACCESS_PUBLIC = 0, so the condition can not be simplified to not data["access_control"]
         if (
             "access_control" not in data
             or data["access_control"] is None
-            or data["access_control"] == ""
+            or data["access_control"] == ""  # noqa: PLC1901
         ):
             data["access_control"] = self.instance.access_control
         access = data["access_control"]
@@ -2656,3 +2673,8 @@ class ProjectUserGroupForm(UserManageForm):
         super().__init__(*args, **kwargs)
         self.fields["user"].widget = forms.HiddenInput()
         self.fields["groups"].queryset = project.defined_groups.all()
+
+
+class ProjectFilterForm(forms.Form):
+    owned = UserField(required=False)
+    watched = UserField(required=False)
