@@ -422,7 +422,7 @@ MySQL and MariaDB
 
 .. warning::
 
-   While MySQL and MariaDB support is still maitained in Weblate, our primary
+   While MySQL and MariaDB support is still maintained in Weblate, our primary
    focus is PostgreSQL. It is recommended to use PostgreSQL for new installs,
    and to migrate existing installs to PostgreSQL, see
    :ref:`database-migration`.
