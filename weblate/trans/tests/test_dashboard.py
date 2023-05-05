@@ -107,11 +107,11 @@ class DashboardTest(ViewTestCase):
     def test_user_nolang(self):
         self.user.profile.languages.clear()
         # This picks up random language
-        self.client.get(reverse("home"), HTTP_ACCEPT_LANGUAGE="en")
+        self.client.get(reverse("home"), headers={"accept-language": "en"})
         self.client.get(reverse("home"))
 
         # Pick language from request
-        response = self.client.get(reverse("home"), HTTP_ACCEPT_LANGUAGE="cs")
+        response = self.client.get(reverse("home"), headers={"accept-language": "cs"})
         self.assertTrue(response.context["suggestions"])
         self.assertFalse(self.user.profile.languages.exists())
 
