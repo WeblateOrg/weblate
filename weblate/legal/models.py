@@ -11,10 +11,17 @@ from django.db import models
 from weblate.accounts.models import AuditLog
 from weblate.utils.request import get_ip_address, get_user_agent
 
+if "wllegal" in settings.INSTALLED_APPS:
+    import wllegal.models
+
+    DEFAULT_TOS_DATE = wllegal.models.LEGAL_TOS_DATE
+else:
+    DEFAULT_TOS_DATE = date(2017, 7, 2)
+
 
 class WeblateLegalConf(AppConf):
     # Current TOS date
-    LEGAL_TOS_DATE = date(2017, 7, 2)
+    LEGAL_TOS_DATE = DEFAULT_TOS_DATE
 
     class Meta:
         prefix = ""
