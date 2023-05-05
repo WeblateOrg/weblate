@@ -3548,9 +3548,13 @@ class MetricsAPITest(APIBaseTest):
 
     def test_ratelimit(self):
         self.authenticate()
-        response = self.client.get(reverse("api:metrics"), HTTP_REMOTE_ADDR="127.0.0.2")
+        response = self.client.get(
+            reverse("api:metrics"), headers={"remote-addr": "127.0.0.2"}
+        )
         current = int(response["X-RateLimit-Remaining"])
-        response = self.client.get(reverse("api:metrics"), HTTP_REMOTE_ADDR="127.0.0.2")
+        response = self.client.get(
+            reverse("api:metrics"), headers={"remote-addr": "127.0.0.2"}
+        )
         self.assertEqual(current - 1, int(response["X-RateLimit-Remaining"]))
 
 
