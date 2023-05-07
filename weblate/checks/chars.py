@@ -415,7 +415,10 @@ class PunctuationSpacingCheck(TargetCheck):
             if char in FRENCH_PUNCTUATION:
                 if i + 1 < total and not target[i + 1].isspace():
                     continue
-                if i == 0 or target[i - 1] not in whitespace:
+                if i == 0 or (
+                    target[i - 1] not in whitespace
+                    and target[i - 1] not in FRENCH_PUNCTUATION
+                ):
                     return True
         return False
 
