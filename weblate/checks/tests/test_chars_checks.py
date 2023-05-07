@@ -351,8 +351,8 @@ class PunctuationSpacingCheckTest(CheckTestCase):
     def setUp(self):
         super().setUp()
         self.test_good_matching = (
-            "string? string! string: string;",
-            "string ? string\u202F! string&nbsp;; string\u00A0:",
+            "string? string?! string! string: string;",
+            "string ? string ?! string\u202F! string&nbsp;; string\u00A0:",
             "",
         )
         self.test_good_none = (
