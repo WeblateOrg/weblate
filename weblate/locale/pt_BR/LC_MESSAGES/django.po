@@ -31,13 +31,14 @@
 # Elizandro Baldin <ejbaldin@gmail.com>, 2023.
 # Felipe Nogueira <contato.fnog@gmail.com>, 2023.
 # Felipe Bertola <eduardodelphinodepaula@gmail.com>, 2023.
+# relaxeaza <relaxeaza@outlook.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-14 14:36+0000\n"
-"PO-Revision-Date: 2023-03-20 22:39+0000\n"
-"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"PO-Revision-Date: 2023-05-08 07:53+0000\n"
+"Last-Translator: relaxeaza <relaxeaza@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -45,7 +46,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -5333,22 +5334,16 @@ msgid "Translation"
 msgstr "Tradução"
 
 #: weblate/templates/accounts/user.html:162
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "Browse all translations with contribution"
-msgstr "Traduções com contribuição"
+msgstr "Navegar todas traduções com contribuição"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all managed projects"
-msgstr "Visualizar todos projetos"
+msgstr "Visualizar todos projetos administrados"
 
 #: weblate/templates/accounts/user.html:179
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all watched projects"
-msgstr "Visualizar todos projetos"
+msgstr "Visualizar todos projetos assistidos"
 
 #: weblate/templates/accounts/user.html:192
 msgid "Browse all changes for user"
@@ -7441,7 +7436,7 @@ msgstr "Remover o projeto"
 #: weblate/templates/mail/billing_expired.html:35
 msgid ""
 "No projects in this billing. You might have other billings with projects in."
-msgstr ""
+msgstr "Sem projetos nessa fatura. Você pode ter outras faturas com projetos."
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
@@ -8119,28 +8114,23 @@ msgid "SSH keys"
 msgstr "Chaves SSH"
 
 #: weblate/templates/manage/ssh.html:22
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate %(key_type)s SSH key"
-msgstr "Gerar chave SSH"
+msgstr "Gerar chave SSH %(key_type)s"
 
 #: weblate/templates/manage/ssh.html:26
-#, fuzzy, python-format
-#| msgid ""
-#| "You don't seem to have existing SSH key, by pressing button below Weblate "
-#| "will generate one for you."
+#, python-format
 msgid ""
 "You don't seem to have existing %(key_type)s SSH key, by pressing button "
 "below Weblate will generate one for you."
 msgstr ""
-"Você parece não ter uma chave SSH, então aperte o botão abaixo que o Weblate "
-"criará uma para você."
+"Você parece não ter uma chave SSH %(key_type)s, ao apertar o botão abaixo "
+"Weblate criará uma para você."
 
 #: weblate/templates/manage/ssh.html:32
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate new %(key_type)s SSH key"
-msgstr "Gerar chave SSH"
+msgstr "Gerar nova chave SSH %(key_type)s"
 
 #: weblate/templates/manage/ssh.html:44
 msgid "Known host keys"
@@ -8299,7 +8289,7 @@ msgstr "A memória será então preenchida com as traduções atuais."
 #: weblate/templates/memory/index.html:158
 #, python-format
 msgid "Entries for %(source_language)s to %(target_language)s"
-msgstr ""
+msgstr "Entradas de %(source_language)s para %(target_language)s"
 
 #: weblate/templates/memory/index.html:169
 msgid "Shared translation memory"
@@ -9361,10 +9351,9 @@ msgid "Descending"
 msgstr "Descendente"
 
 #: weblate/templates/snippets/ssh-key.html:11
-#, fuzzy, python-format
-#| msgid "Public SSH key"
+#, python-format
 msgid "Public %(key_type)s SSH key"
-msgstr "Chave pública SSH"
+msgstr "Chave pública SSH %(key_type)s"
 
 #: weblate/templates/snippets/ssh-key.html:16
 msgid ""
@@ -9376,10 +9365,9 @@ msgstr ""
 "Weblate acesso a um repositório."
 
 #: weblate/templates/snippets/ssh-key.html:24
-#, fuzzy, python-format
-#| msgid "Download private key"
+#, python-format
 msgid "Download %(key_type)s private key"
-msgstr "Baixar chave privada"
+msgstr "Baixar chave privada %(key_type)s"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -9805,19 +9793,16 @@ msgstr ""
 "há falta de dependências."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:3
-#, fuzzy, python-format
-#| msgid "Locked component will not get any translation updates."
+#, python-format
 msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
-msgstr[0] ""
-"Componente bloqueado não vai obter quaisquer atualizações na tradução."
-msgstr[1] ""
-"Componente bloqueado não vai obter quaisquer atualizações na tradução."
+msgstr[0] "O componente não recebeu nenhuma tradução dentre %(count)s dia."
+msgstr[1] "O componente não recebeu nenhuma tradução dentre %(count)s dias."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:5
 msgid "Please consider removing the component if it is no longer useful."
-msgstr ""
+msgstr "Considere remover o componente se não for mais útil."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 msgid "Following enforced checks are not used anywhere:"
