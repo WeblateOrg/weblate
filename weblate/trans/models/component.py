@@ -2512,24 +2512,26 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             raise ValidationError(
                 {"filemask": _("The file mask did not match any files.")}
             )
-        langs = set()
+        langs = {}
         existing_langs = set()
 
         for match in matches:
             code = self.get_lang_code(match, validate=True)
             lang = validate_language_code(self.get_language_alias(code), match, True)
             if lang.code in langs:
-                message = (
-                    _(
-                        "There is more than one file for %s language, "
-                        "please adjust the file mask and use components "
-                        "for translating different resources."
-                    )
-                    % lang
-                )
+                message = _(
+                    "There is more than one file for %(language)s language: "
+                    "%(filename1)s, %(filename2)s "
+                    "Please adjust the file mask and use components for translating "
+                    "different resources."
+                ) % {
+                    "language": lang,
+                    "filename1": match,
+                    "filename2": langs[lang.code],
+                }
                 raise ValidationError({"filemask": message})
 
-            langs.add(lang.code)
+            langs[lang.code] = match
             if lang.id:
                 existing_langs.add(lang.code)
 
