@@ -65,10 +65,23 @@ Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` con
 
 .. seealso:: :ref:`invoke-manage`
 
-Choosing Docker hub tag
------------------------
+Choosing Docker image registry
+------------------------------
 
-You can use following tags on Docker hub, see https://hub.docker.com/r/weblate/weblate/tags/ for full list of available ones.
+Weblate containers are published to following registries:
+
+* Docker Hub, see https://hub.docker.com/r/weblate/weblate
+* GitHub Packages registry, see https://github.com/WeblateOrg/docker/pkgs/container/weblate
+
+.. note::
+
+   All examples currently fetch images from Docker Hub, please adjust the
+   configuration accordingly to use a different registry.
+
+Choosing Docker image tag
+-------------------------
+
+Please choose a tag that matches your environment and expectations:
 
 +-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
 | Tag name                | Description                                                                                                | Use case                                             |
@@ -87,6 +100,10 @@ You can use following tags on Docker hub, see https://hub.docker.com/r/weblate/w
 +-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
 
 Every image is tested by our CI before it gets published, so even the `bleeding` version should be quite safe to use.
+
+Full list of published tags acan be found at `GitHub Packages`_
+
+.. _GitHub Packages: https://github.com/WeblateOrg/docker/pkgs/container/weblate/versions?filters%5Bversion_type%5D=tagged
 
 .. _docker-ssl:
 
