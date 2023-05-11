@@ -89,6 +89,11 @@ def git_status_shared(request, obj, repositories):
 
     changes = obj.change_set.filter(action__in=Change.ACTIONS_REPOSITORY).order()[:10]
 
+    try:
+        push_label = repositories[0].repository_class.push_label
+    except IndexError:
+        push_label = ""
+
     return render(
         request,
         "js/git-status.html",
@@ -102,7 +107,7 @@ def git_status_shared(request, obj, repositories):
             "supports_push": any(
                 repo.repository_class.supports_push for repo in repositories
             ),
-            "push_label": repositories[0].repository_class.push_label,
+            "push_label": push_label,
         },
     )
 
