@@ -547,6 +547,11 @@ class VCSGiteaTest(VCSGitUpstreamTest):
             self.repo.get_api_url()[0],
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
         )
+        self.repo.component.repo = "http://try.gitea.io/WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "http://try.gitea.io/api/v1/repos/WeblateOrg/test",
+        )
         self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test"
         self.assertEqual(
             self.repo.get_api_url()[0],
@@ -662,6 +667,10 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
         self.assertEqual(
             self.repo.get_api_url()[0], "https://api.github.com/repos/WeblateOrg/test"
+        )
+        self.repo.component.repo = "http://github.com/WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0], "http://api.github.com/repos/WeblateOrg/test"
         )
         self.repo.component.repo = "https://github.com/WeblateOrg/test"
         self.assertEqual(
@@ -904,6 +913,11 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         self.assertEqual(
             self.repo.get_api_url()[0],
             "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
+        )
+        self.repo.component.repo = "http://gitlab.com/WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "http://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
         )
         self.repo.component.repo = "https://user:pass@gitlab.com/WeblateOrg/test.git"
         self.assertEqual(
