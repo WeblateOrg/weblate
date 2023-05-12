@@ -416,9 +416,11 @@ Generic settings
 
             :ref:`production-debug`
 
-.. envvar:: WEBLATE_LOGLEVEL
+.. envvar:: weblate_loglevel
 
-    Configures the logging verbosity.
+    Configures the logging verbosity. Set this to ``DEBUG`` to get more detailed logs.
+
+    Defaults to ``INFO`` when :envvar:`WEBLATE_DEBUG` is turned off, ``DEBUG`` is used when debug mode is turned on.
 
 .. envvar:: WEBLATE_LOGLEVEL_DATABASE
 

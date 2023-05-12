@@ -35,7 +35,8 @@ The Celery process (see :ref:`celery`) usually produces its own logs as well.
 The example system-wide setups logs to several files under :file:`/var/log/celery/`.
 
 Docker containers log to their output (as per usual in the Docker world), so
-you can look at the logs using ``docker compose logs``.
+you can look at the logs using ``docker compose logs``. You can get more
+detailed logs by changing :envvar:`WEBLATE_LOGLEVEL`.
 
 .. seealso::
 
