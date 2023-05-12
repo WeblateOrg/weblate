@@ -377,9 +377,15 @@ if "WEBLATE_SAML_IDP_URL" in os.environ:
             "entity_id": os.environ.get("WEBLATE_SAML_IDP_ENTITY_ID", ""),
             "url": os.environ.get("WEBLATE_SAML_IDP_URL", ""),
             "x509cert": os.environ.get("WEBLATE_SAML_IDP_X509CERT", ""),
-            "attr_name": "full_name",
-            "attr_username": "username",
-            "attr_email": "email",
+            "attr_name": os.environ.get("WEBLATE_SAML_ID_ATTR_NAME", "full_name"),
+            "attr_username": os.environ.get(
+                "WEBLATE_SAML_ID_ATTR_USERNAME", "username"
+            ),
+            "attr_email": os.environ.get("WEBLATE_SAML_ID_ATTR_EMAIL", "email"),
+            "attr_user_permanent_id": os.environ.get(
+                "WEBLATE_SAML_ID_ATTR_USER_PERMANENT_ID",
+                "urn:oid:0.9.2342.19200300.100.1.1",
+            ),
         }
     }
     SOCIAL_AUTH_SAML_SUPPORT_CONTACT = SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = {
