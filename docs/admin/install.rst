@@ -1314,6 +1314,8 @@ The following configuration runs Weblate as WSGI, you need to have enabled
     variant of the modwsgi. Usually it is available as a separate package, for
     example ``libapache2-mod-wsgi-py3``.
 
+    Use matching Python version to install Weblate.
+
 .. seealso::
 
     :ref:`production-encoding`,
