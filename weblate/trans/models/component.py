@@ -699,7 +699,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
         It updates the back-end repository and regenerates translation data.
         """
-        from weblate.trans.tasks import component_after_save, update_checks
+        from weblate.trans.tasks import component_after_save
 
         self.set_default_branch()
 
@@ -781,7 +781,9 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             self.store_background_task(task)
 
         if self.old_component.check_flags != self.check_flags:
-            update_checks.delay(self.pk, update_state=True)
+            transaction.on_commit(
+                lambda: self.schedule_update_checks(update_state=True)
+            )
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
@@ -3552,3 +3554,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     @cached_property
     def enable_review(self):
         return self.project.enable_review
+
+    def schedule_update_checks(self, update_state: bool = False):
+        from weblate.trans.tasks import update_checks
+
+        update_checks.delay(self.pk, update_state=update_state)

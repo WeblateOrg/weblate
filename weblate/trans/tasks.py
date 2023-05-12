@@ -341,8 +341,8 @@ def component_removal(pk, uid):
             components = component.project.component_set.filter(
                 allow_translation_propagation=True
             ).exclude(pk=component.pk)
-            for component_id in components.values_list("id", flat=True):
-                update_checks.delay(component_id)
+            for component in components.iterator():
+                component.schedule_update_checks()
     except Component.DoesNotExist:
         return
 
@@ -515,8 +515,8 @@ def daily_update_checks():
         components = components.annotate(idmod=F("id") % 7).filter(
             idmod=today.weekday()
         )
-    for component_id in components.values_list("id", flat=True):
-        update_checks.delay(component_id)
+    for component in components.iterator():
+        component.schedule_update_checks()
 
 
 @app.task(trail=False)
