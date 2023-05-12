@@ -138,7 +138,7 @@
 </div>
 
 <ul class="nav nav-pills nav-center">
-<li class="active"><a data-toggle="tab" href="#contributed">{% trans "Translations with contribution" %}</a></li>
+<li class="active"><a data-toggle="tab" href="#contributed">{% trans "Contributed to" %}</a></li>
 <li><a data-toggle="tab" href="#managed">{% trans "Managed projects" %}</a></li>
 <li><a data-toggle="tab" href="#watched">{% trans "Watched projects" %}</a></li>
 <li><a data-toggle="tab" href="#activity">{% trans "Activity" %}</a></li>
@@ -189,7 +189,7 @@
 
 <div class="tab-pane" id="changes">
     {% include "last-changes-content.html" %}
-    <a class="btn btn-link" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all changes for user" %}</a>
+    <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all changes made by this user" %}</a>
 </div>
 
 
@@ -261,7 +261,7 @@
             {% if group.defining_project %}
               <th>{{ group.defining_project }}</th>
             {% else %}
-              <td><em>{% trans "None" context "None project associated with group" %}</em></td>
+              <td><em>{% trans "None" context "No project associated with group" %}</em></td>
             {% endif %}
             <th>{{ group.name }}</th>
             <td class="number">{{ group.user__count }}</td>
