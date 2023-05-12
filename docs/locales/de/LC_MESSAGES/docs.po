@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-14 16:37+0200\n"
-"PO-Revision-Date: 2023-05-11 06:53+0000\n"
+"PO-Revision-Date: 2023-05-13 11:51+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -15045,8 +15045,8 @@ msgid ""
 "the configuration to improve the performance."
 msgstr ""
 "Der PostgreSQL-Container verwendet die Standardkonfiguration von PostgreSQL, "
-"die die CPU-Kerne und den Speicher nicht effektiv nutzt. Es wird empfohlen, "
-"die Konfiguration anzupassen, um die Leistung zu verbessern."
+"welche die CPU-Kerne und den Speicher nicht effektiv nutzt. Es wird "
+"empfohlen, die Konfiguration anzupassen, um die Leistung zu verbessern."
 
 #: ../../admin/install/docker.rst:1818
 msgid ""
@@ -35041,7 +35041,7 @@ msgstr ":ref:`continuous-translation`, :ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:63 ../../devel/translations.rst:5
 msgid "Adding new strings"
-msgstr "Hinzufügen neuer Zeichenketten"
+msgstr "Neue Zeichenketten hinzufügen"
 
 #: ../../devel/integration.rst:65
 msgid ""
@@ -35909,13 +35909,6 @@ msgid "Managing translations"
 msgstr "Verwalten von Übersetzungen"
 
 #: ../../devel/translations.rst:7
-#, fuzzy
-#| msgid ""
-#| "New strings can be made available for translation when they appear in the "
-#| "base file, called :guilabel:`Template for new translations` (see :ref:"
-#| "`component`). If your file format doesn't require such a file, as is the "
-#| "case with most monolingual translation flows, you can start with empty "
-#| "files)."
 msgid ""
 "New strings can be made available for translation when they appear in the "
 "base file, called :ref:`component-new_base` (see :ref:`component`). If your "
@@ -35923,10 +35916,10 @@ msgid ""
 "monolingual translation flows, you can start with empty files)."
 msgstr ""
 "Neue Zeichenketten können für die Übersetzung verfügbar gemacht werden, wenn "
-"sie in der Basisdatei namens :guilabel:`Vorlage für neue Übersetzungen` "
-"(siehe :ref:`component`) erscheinen. Wenn Ihr Dateiformat eine solche Datei "
-"nicht erfordert, wie es bei den meisten einsprachigen Übersetzungsabläufen "
-"der Fall ist, können Sie mit leeren Dateien beginnen)."
+"sie in der Basisdatei namens :ref:`component-new_base` erscheinen (siehe "
+":ref:`component`). Wenn Ihr Dateiformat eine solche Datei nicht erfordert, "
+"wie es bei den meisten einsprachigen Übersetzungsabläufen der Fall ist, "
+"können Sie mit leeren Dateien beginnen."
 
 #: ../../devel/translations.rst:15
 msgid "Adding new translations"
@@ -35939,6 +35932,10 @@ msgid ""
 "addition. This can be done using :ref:`component-new_lang` in :ref:"
 "`component`."
 msgstr ""
+"Neue Sprachen können sofort hinzugefügt werden, wenn sie von einem Benutzer "
+"in Weblate angefordert werden, oder es wird eine Benachrichtigung an die "
+"Projektadministratoren zur Genehmigung und manuellen Ergänzung gesendet. "
+"Dies kann mit :ref:`component-new_lang` in der :ref:`component` erfolgen."
 
 #: ../../devel/translations.rst:21
 msgid ""
@@ -35959,46 +35956,34 @@ msgstr ""
 "nutzendem Framework (zum Beispiel mit :ref:`json`)."
 
 #: ../../devel/translations.rst:29
-#, fuzzy
-#| msgid ""
-#| "When you specify :ref:`component-new_base` in :ref:`component`, Weblate "
-#| "will use this file to start new translations. Any exiting translations "
-#| "will be removed from the file when doing so."
 msgid ""
 "When you specify :ref:`component-new_base` in :ref:`component`, Weblate uses "
 "this file to start new translations. Any existing translations is removed "
 "from the file when doing so."
 msgstr ""
-"Wenn Sie :ref:`component-new_base` in :ref:`component` angeben, wird Weblate "
-"diese Datei verwenden, um neue Übersetzungen zu beginnen. Alle bereits "
-"vorhandenen Übersetzungen werden dabei aus der Datei entfernt."
+"Wenn Sie eine :ref:`component-new_base` in der :ref:`component` angeben, "
+"verwendet Weblate diese Datei , um neue Übersetzungen zu beginnen. Alle "
+"bereits vorhandenen Übersetzungen werden dabei aus der Datei entfernt."
 
 #: ../../devel/translations.rst:33
-#, fuzzy
-#| msgid ""
-#| "When :ref:`component-new_base` is empty and the file format supports it, "
-#| "an empty file is created where new strings will be added once they are "
-#| "translated."
 msgid ""
 "When :ref:`component-new_base` is empty and the file format supports it, an "
 "empty file is created where new strings are added once they are translated."
 msgstr ""
 "Wenn :ref:`component-new_base` leer ist und das Dateiformat dies "
-"unterstützt, wird eine leere Datei erstellt, in die neue Zeichenketten "
-"eingefügt werden, sobald sie übersetzt sind."
+"unterstützt, wird eine leere Datei erstellt, in der neue Zeichenketten "
+"hinzugefügt werden, sobald sie übersetzt sind."
 
 #: ../../devel/translations.rst:37
-#, fuzzy
-#| msgid ""
-#| "The :ref:`component-language_code_style` allows you to customize language "
-#| "code used in generated filenames:"
 msgid ""
 "The :ref:`component-language_code_style` allows you to customize language "
 "code used in generated filenames. Additionally, any mappings defined in :ref:"
 "`project-language_aliases` are applied in reverse."
 msgstr ""
 "Mit :ref:`component-language_code_style` können Sie den in den erzeugten "
-"Dateinamen verwendeten Sprachcode anpassen:"
+"Dateinamen verwendeten Sprachcode anpassen. Zusätzlich werden alle "
+"Zuordnungen, die in :ref:`project-language_aliases` definiert sind, in "
+"umgekehrter Weise angewendet."
 
 #: ../../devel/translations.rst:43
 msgid ""
@@ -36024,7 +36009,7 @@ msgstr ""
 
 #: ../../devel/translations.rst:60
 msgid "Removing existing translations"
-msgstr "Entfernen vorhandener Übersetzungen"
+msgstr "Bestehende Übersetzungen entfernen"
 
 #: ../../devel/translations.rst:62
 msgid ""
@@ -37839,7 +37824,7 @@ msgstr ""
 #: ../../formats/csv.rst:53 ../../formats/gettext.rst:38
 #: ../../formats/json.rst:56 ../../formats/winrc.rst:21
 msgid "Example files"
-msgstr "Beispieldateien:"
+msgstr "Beispieldateien"
 
 #: ../../formats/csv.rst:55 ../../formats/i18next.rst:42
 #: ../../formats/json.rst:58 ../../formats/php.rst:18
@@ -41465,17 +41450,13 @@ msgid "``newline-count``"
 msgstr "Komponente"
 
 #: ../../user/checks.rst:1021
-#, fuzzy
-#| msgid ""
-#| "Usually newlines are important for formatting program output. Check fails "
-#| "if the number of ``\\n`` literals in translation do not match the source."
 msgid ""
 "Usually newlines are important for formatting program output. Check fails if "
 "the number of new lines in translation does not match the source."
 msgstr ""
 "Normalerweise sind Zeilenumbrüche wichtig für die Formatierung der "
-"Programmausgabe. Die Prüfung schlägt fehl, wenn die Anzahl der ``\\n``-"
-"Symbole in der Übersetzung nicht zur Ausgangszeichenkette passt."
+"Programmausgabe. Die Prüfung schlägt fehl, wenn die Anzahl der neuen Zeilen "
+"in der Übersetzung nicht zur Ausgangszeichenkette passt."
 
 #: ../../user/checks.rst:1028
 msgid "Missing plurals"
