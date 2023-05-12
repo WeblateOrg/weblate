@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
@@ -29,6 +30,7 @@ class LegalView(TemplateView):
 
         context["legal_menu"] = MENU
         context["legal_page"] = self.page
+        context["privacy_url"] = reverse("legal:privacy")
 
         return context
 
