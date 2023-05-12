@@ -319,9 +319,6 @@ class DiscoveryForm(BaseAddonForm):
             Field("language_regex"),
             Field("copy_addons"),
             Field("remove"),
-            ContextDiv(
-                template="addons/discovery_help.html", context={"user": self.user}
-            ),
         )
         if self.is_bound:
             # Perform form validation

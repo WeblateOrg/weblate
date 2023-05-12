@@ -983,6 +983,10 @@ The following variables are available in the repository browser or editor templa
 ``{{filename}}``
    filename, you can also strip leading parts using the ``parentdir`` filter, for example ``{{filename|parentdir}}``
 
+.. hint::
+
+   In some places additional variables can be available, see :ref:`addon-weblate.discovery.discovery`.
+
 You can combine them with filters:
 
 .. code-block:: django

@@ -202,19 +202,113 @@ Component discovery
 Automatically adds or removes project components based on file changes in the
 version control system.
 
-Triggered each time the VCS is updated, and otherwise similar to
-the :djadmin:`import_project` management command. This way you can track
-multiple translation components within one VCS.
-
 The matching is done using regular expressions
 enabling complex configuration, but some knowledge is required to do so.
 Some examples for common use cases can be found in
 the add-on help section.
 
+The regular expression to match translation files has to contain two named
+groups to match component and language. All named groups in the regular
+expression can be used as variables in the template fields.
+
+You can use Django template markup in all filename fields, for example:
+
+``{{ component }}``
+   Component filename match
+``{{ component|title }}``
+   Component filename with upper case first letter
+``{{ path }}: {{ component }}``
+   Custom match group from the regular expression
+
 Once you hit :guilabel:`Save`, a preview of matching components will be presented,
 from where you can check whether the configuration actually matches your needs:
 
 .. image:: /screenshots/addon-discovery.png
+
+Component discovery examples
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+One folder per language
+#######################
+
+One folder per language containing translation files for components.
+
+Regular expression:
+   ``(?P<language>[^/.]*)/(?P<component>[^/]*)\.po``
+Matching files:
+   - :file:`cs/application.po`
+   - :file:`cs/website.po`
+   - :file:`de/application.po`
+   - :file:`de/website.po`
+
+Gettext locales layout
+######################
+
+Usual structure for storing gettext PO files.
+
+Regular expression:
+   ``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\.po``
+Matching files:
+   - :file:`locale/cs/LC_MESSAGES/application.po`
+   - :file:`locale/cs/LC_MESSAGES/website.po`
+   - :file:`locale/de/LC_MESSAGES/application.po`
+   - :file:`locale/de/LC_MESSAGES/website.po`
+
+Complex filenames
+#################
+
+Using both component and language name within filename.
+
+Regular expression:
+   ``src/locale/(?P<component>[^/]*)\.(?P<language>[^/.]*)\.po``
+Matching files:
+   - :file:`src/locale/application.cs.po`
+   - :file:`src/locale/website.cs.po`
+   - :file:`src/locale/application.de.po`
+   - :file:`src/locale/website.de.po`
+
+Repeated language code
+######################
+
+Using language in both path and filename.
+
+Regular expression:
+   ``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\.po``
+Matching files:
+   - :file:`locale/cs/application/cs.po`
+   - :file:`locale/cs/website/cs.po`
+   - :file:`locale/de/application/de.po`
+   - :file:`locale/de/website/de.po`
+
+
+Splitted Android strings
+########################
+
+Android resource strings, split into several files.
+
+Regular expression:
+   ``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\.xml``
+Matching files:
+   - :file:`res/values-cs/strings-about.xml`
+   - :file:`res/values-cs/strings-help.xml`
+   - :file:`res/values-de/strings-about.xml`
+   - :file:`res/values-de/strings-help.xml`
+
+Matching multiple paths
+#######################
+
+Multi-module Maven project with Java properties translations.
+
+Regular expression:
+   ``(?P<originalHierarchy>.+/)(?P<component>[^/]*)/src/main/resources/ApplicationResources_(?P<language>[^/.]*)\.properties``
+Component name:
+   ``{{ originalHierarchy }}: {{ component }}``
+Matching files:
+   - :file:`parent/module1/submodule/src/main/resources/ApplicationResources_fr.properties`
+   - :file:`parent/module1/submodule/src/main/resources/ApplicationResource_es.properties`
+   - :file:`parent/module2/src/main/resources/ApplicationResource_de.properties`
+   - :file:`parent/module2/src/main/resources/ApplicationResource_ro.properties`
+
 
 .. hint::
 
@@ -227,7 +321,8 @@ from where you can check whether the configuration actually matches your needs:
 
 .. seealso::
 
-    :ref:`markup`
+   :ref:`markup`,
+   :djadmin:`import_project`
 
 .. _addon-weblate.flags.bulk:
 
