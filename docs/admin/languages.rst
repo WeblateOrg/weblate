@@ -152,7 +152,7 @@ Gettext compatible plural formula used to determine which plural form is used fo
    `GNU gettext utilities: Plural forms <https://www.gnu.org/software/gettext/manual/html_node/Plural-forms.html>`_,
    `Language Plural Rules by the Unicode Consortium`_
 
-.. _Language Plural Rules by the Unicode Consortium: https://unicode-org.github.io/cldr-staging/charts/37/supplemental/language_plural_rules.html
+.. _Language Plural Rules by the Unicode Consortium: https://www.unicode.org/cldr/charts/43/supplemental/language_plural_rules.html
 
 .. _language-population:
 
