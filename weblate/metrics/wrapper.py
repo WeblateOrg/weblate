@@ -287,11 +287,7 @@ class MetricsWrapper:
                 }
             )
 
-        maximum = max(
-            max(item["current"] for item in result),
-            max(item["previous"] for item in result),
-            1,
-        )
+        maximum = max((max(item["current"], item["previous"]) for item in result), 1)
         for item in result:
             item["current_height"] = 140 * item["current"] // maximum
             item["current_offset"] = 140 - item["current_height"]
