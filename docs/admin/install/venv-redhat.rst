@@ -9,17 +9,17 @@ Installing on RedHat, Fedora and CentOS
 
    dnf install \
       libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel \
-      libyaml-devel libffi-devel cairo-devel pango-devel \
+      libyaml-devel libffi-devel cairo-devel cairo-gobject-devel pango-devel \
       gobject-introspection-devel libacl-devel python3-pip python3-virtualenv \
-      python3-devel git
+      libtool-ltdl-devel python3-devel git
 
 .. include:: steps/install-system-optional.rst
 
 .. code-block:: sh
 
     dnf install tesseract-langpack-eng tesseract-devel leptonica-devel
-    dnf install libldap2-devel libsasl2-devel
-    dnf install libxmlsec1-devel
+    dnf install openldap-devel libsasl2-devel
+    dnf install xmlsec1-devel
 
 
 .. include:: steps/install-system-server.rst
