@@ -34,7 +34,6 @@ from weblate.trans.models import (
     Unit,
     Vote,
 )
-from weblate.trans.tasks import update_checks
 from weblate.utils.data import data_dir
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.validators import validate_filename
@@ -514,7 +513,7 @@ class ProjectBackup:
             screenshot.import_handle.close()
 
         # Trigger checks update, the implementation might have changed
-        transaction.on_commit(lambda: update_checks.delay(component.id))
+        component.schedule_update_checks()
 
     def import_language(self, code: str):
         if self.languages_cache is None:
