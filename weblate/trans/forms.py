@@ -104,18 +104,13 @@ class MarkdownTextarea(forms.Textarea):
 
 
 class WeblateDateInput(forms.DateInput):
-    def __init__(self, datepicker=True, **kwargs):
-        attrs = {"type": "date"}
-        if datepicker:
-            attrs["data-provide"] = "datepicker"
-            attrs["data-date-format"] = "yyyy-mm-dd"
-        super().__init__(attrs=attrs, format="%Y-%m-%d", **kwargs)
+    input_type = "date"
 
 
 class WeblateDateField(forms.DateField):
-    def __init__(self, datepicker=True, **kwargs):
+    def __init__(self, **kwargs):
         if "widget" not in kwargs:
-            kwargs["widget"] = WeblateDateInput(datepicker=datepicker)
+            kwargs["widget"] = WeblateDateInput
         super().__init__(**kwargs)
 
     def to_python(self, value):
@@ -1227,12 +1222,8 @@ class ReportsForm(forms.Form):
         ),
         required=False,
     )
-    start_date = WeblateDateField(
-        label=_("Starting date"), required=False, datepicker=False
-    )
-    end_date = WeblateDateField(
-        label=_("Ending date"), required=False, datepicker=False
-    )
+    start_date = WeblateDateField(label=_("Starting date"), required=False)
+    end_date = WeblateDateField(label=_("Ending date"), required=False)
     language = forms.ChoiceField(
         label=_("Language"), choices=[("", _("All languages"))], required=False
     )
@@ -1245,13 +1236,8 @@ class ReportsForm(forms.Form):
             Field("style"),
             Field("period"),
             Field("language"),
-            Div(
-                "start_date",
-                "end_date",
-                css_class="input-group input-daterange",
-                data_provide="datepicker",
-                data_date_format="yyyy-mm-dd",
-            ),
+            Field("start_date"),
+            Field("end_date"),
         )
         if not scope:
             languages = Language.objects.have_translation()
@@ -2587,12 +2573,8 @@ class ChangesForm(forms.Form):
         choices=Change.ACTION_CHOICES,
     )
     user = UsernameField(label=_("Author username"), required=False, help_text=None)
-    start_date = WeblateDateField(
-        label=_("Starting date"), required=False, datepicker=False
-    )
-    end_date = WeblateDateField(
-        label=_("Ending date"), required=False, datepicker=False
-    )
+    start_date = WeblateDateField(label=_("Starting date"), required=False)
+    end_date = WeblateDateField(label=_("Ending date"), required=False)
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(*args, **kwargs)
