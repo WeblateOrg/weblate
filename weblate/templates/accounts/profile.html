@@ -153,7 +153,7 @@
 
 {% if new_backends %}
 <div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Add new association" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Add new user identity" %}</h4></div>
   <div class="panel-body">
 {% for name in new_backends %}
   <a href="" class="btn btn-link link-post" data-href="{% url 'social:begin' name %}?next={% url 'profile' %}%23account">{% auth_name name %}</a>
