@@ -867,6 +867,12 @@ class GitMergeRequestBase(GitForcePushRepository):
     def create_fork(self, credentials: Dict):
         raise NotImplementedError
 
+    def get_fork_failed_message(self, error: str, credentials: Dict) -> str:
+        hostname = credentials["hostname"]
+        if error.strip():
+            return f"Failed to fork repository at {hostname}: {error}"
+        return f"Failed to fork repository at {hostname}"
+
     def create_pull_request(
         self, credentials: Dict, origin_branch: str, fork_remote: str, fork_branch: str
     ):
@@ -1050,7 +1056,9 @@ class GithubRepository(GitMergeRequestBase):
         # exists in the remote side.
         response_data, _response, error = self.request("post", credentials, fork_url)
         if "ssh_url" not in response_data:
-            raise RepositoryException(0, f"Fork creation failed: {error}")
+            raise RepositoryException(
+                0, self.get_fork_failed_message(error, credentials)
+            )
         self.configure_fork_remote(response_data["ssh_url"], credentials["username"])
 
     def create_pull_request(
@@ -1136,7 +1144,9 @@ class GiteaRepository(GitMergeRequestBase):
                 "get", credentials, credentials["url"]
             )
         if "ssh_url" not in response_data:
-            raise RepositoryException(0, f"Fork creation failed: {error}")
+            raise RepositoryException(
+                0, self.get_fork_failed_message(error, credentials)
+            )
         self.configure_fork_remote(response_data["ssh_url"], credentials["username"])
 
     def create_pull_request(
@@ -1382,7 +1392,9 @@ class GitLabRepository(GitMergeRequestBase):
                 )
 
             if "ssh_url_to_repo" not in forked_repo:
-                raise RepositoryException(0, f"Failed to create fork: {error}")
+                raise RepositoryException(
+                    0, self.get_fork_failed_message(error, credentials)
+                )
 
         self.configure_fork_features(credentials, forked_repo["_links"]["self"])
         self.configure_fork_remote(
@@ -1459,7 +1471,9 @@ class PagureRepository(GitMergeRequestBase):
                 break
 
         if '" cloned to "' not in error and "already exists" not in error:
-            raise RepositoryException(0, f"Failed to create fork: {error}")
+            raise RepositoryException(
+                0, self.get_fork_failed_message(error, credentials)
+            )
 
         url = "ssh://git@{hostname}/forks/{username}/{slug}.git".format(**credentials)
         self.configure_fork_remote(url, credentials["username"])
@@ -1572,7 +1586,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
 
         if not remote_url:
             raise RepositoryException(
-                0, f"Failed to create or find bitbucket fork. {error_message}"
+                0, self.get_fork_failed_message(error_message, credentials)
             )
 
         self.configure_fork_remote(remote_url, credentials["username"])
