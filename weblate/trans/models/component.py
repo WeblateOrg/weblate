@@ -1625,7 +1625,12 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                         else:
                             return self.push_repo(request, retry=False)
                 messages.error(
-                    request, _("Could not push to remote branch on %s.") % self
+                    request,
+                    _("Failed to push %(component)s: %(error_text)s")
+                    % {
+                        "component": self,
+                        "error_text": error_text,
+                    },
                 )
                 self.add_alert("PushFailure", error=error_text)
                 return False
