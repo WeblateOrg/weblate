@@ -15,12 +15,12 @@
     {% endif %}
   </p>
 {% else %}
-  <p>{% trans "Your billing plan has expired, if you want to continue using the service, please renew it." %}</p>
+  <p>{% trans "Your billing plan has expired. Please renew it to continue using the service." %}</p>
 {% endif %}
 
 {% with projects=billing.projects.all %}
   {% if projects %}
-    <p>{% trans "This billing plan covers following projects:" %}</p>
+    <p>{% trans "This billing plan covers the following projects:" %}</p>
 
     <ul>
       {% for project in projects %}
@@ -32,7 +32,7 @@
       {% endfor %}
     </ul>
   {% else %}
-    <p>{% trans "No projects in this billing. You might have other billings with projects in." %}</p>
+    <p>{% trans "There are no projects attached to this billing plan. (There might be projects in other billing plans of yours.)" %}</p>
   {% endif %}
 {% endwith %}
 
@@ -41,9 +41,9 @@
 {% else %}
     {% if billing.removal %}
       {% if billing.plan.price %}
-        <p><strong>{% blocktrans with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If you don't perform the payment, all projects within this billing plan will be removed on {{ date }}.{% endblocktrans %}</strong></p>
+        <p><strong>{% blocktrans with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If you don't issue the payment, all projects within this billing plan will be removed on {{ date }}.{% endblocktrans %}</strong></p>
       {% else %}
-        <p><strong>{% blocktrans with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If your Libre hosting will not be approved, all projects within this billing plan will be removed on {{ date }}.{% endblocktrans %}</strong></p>
+        <p><strong>{% blocktrans with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If your Libre hosting is not approved for it, all projects within this billing plan will be removed on {{ date }}.{% endblocktrans %}</strong></p>
       {% endif %}
     {% endif %}
 
