@@ -617,7 +617,7 @@ class RegistrationTest(BaseRegistrationTest):
             self.assertContains(response, "is already in use for another account")
             return
         if confirm:
-            self.assertContains(response, "Confirm new association")
+            self.assertContains(response, "Confirm adding user identity")
             response = self.client.post(
                 reverse("confirm"), {"password": confirm}, follow=True
             )
