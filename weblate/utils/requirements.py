@@ -3,12 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import sys
-
-# Once we depedend on Python 3.8+ this should be changed to importlib.metadata
-try:
-    import importlib.metadata as importlib_metadata
-except ImportError:
-    import importlib_metadata
+from importlib.metadata import PackageNotFoundError, metadata
 
 from django.conf import settings
 from django.core.cache import cache
@@ -86,17 +81,17 @@ def get_version_module(name, optional=False):
     On error raises verbose exception with name and URL.
     """
     try:
-        metadata = importlib_metadata.metadata(name)
-    except importlib_metadata.PackageNotFoundError:
+        package = metadata(name)
+    except PackageNotFoundError:
         if optional:
             return None
         raise ImproperlyConfigured(
             "Missing dependency {0}, please install using: pip install {0}".format(name)
         )
     return (
-        name,
-        metadata.get("Home-page"),
-        metadata.get("Version"),
+        package.get("Name"),
+        package.get("Home-page"),
+        package.get("Version"),
     )
 
 
