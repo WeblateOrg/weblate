@@ -950,7 +950,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         params: Optional[Dict] = None,
         json: Optional[Dict] = None,
         retry: int = 0,
-    ):
+    ) -> Tuple[Dict, requests.Response, str]:
         do_retry = False
         vcs_id = self.get_identifier()
         cache_id = self.request_time_cache_key
@@ -1004,7 +1004,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                 raise RepositoryException(0, "Too many retries")
             return self.request(method, credentials, url, data, params, json, retry)
 
-        return response_data, self.get_error_message(response_data)
+        return response_data, response, self.get_error_message(response_data)
 
 
 class GithubRepository(GitMergeRequestBase):
@@ -1045,10 +1045,10 @@ class GithubRepository(GitMergeRequestBase):
         # GitHub API returns the entire data of the fork, in case the fork
         # already exists. Hence this is perfectly handled, if the fork already
         # exists in the remote side.
-        response, error = self.request("post", credentials, fork_url)
-        if "ssh_url" not in response:
+        response_data, _response, error = self.request("post", credentials, fork_url)
+        if "ssh_url" not in response_data:
             raise RepositoryException(0, f"Fork creation failed: {error}")
-        self.configure_fork_remote(response["ssh_url"], credentials["username"])
+        self.configure_fork_remote(response_data["ssh_url"], credentials["username"])
 
     def create_pull_request(
         self,
@@ -1075,7 +1075,7 @@ class GithubRepository(GitMergeRequestBase):
             "title": title,
             "body": description,
         }
-        response, error_message = self.request(
+        response_data, _response, error_message = self.request(
             "post", credentials, pr_url, json=request
         )
 
@@ -1083,7 +1083,7 @@ class GithubRepository(GitMergeRequestBase):
         # exists, then we ignore that, else raise an error. Currently, since the API
         # doesn't return any other separate indication for a pull request existing
         # compared to other errors, checking message seems to be the only option
-        if "url" not in response:
+        if "url" not in response_data:
             # Gracefully handle pull request already exists or nothing to merge cases
             if (
                 "A pull request already exists" in error_message
@@ -1092,7 +1092,7 @@ class GithubRepository(GitMergeRequestBase):
                 return
 
             if "Validation Failed" in error_message:
-                for error in response["errors"]:
+                for error in response_data["errors"]:
                     if error.get("field") == "head" and retry_fork:
                         # This most likely indicates that Weblate repository has moved
                         # and we should create a fresh fork.
@@ -1121,15 +1121,20 @@ class GiteaRepository(GitMergeRequestBase):
 
         # Empty json body is required here, otherwise we'll get an
         # "Empty Content-Type" error from gitea.
-        response, error = self.request("post", credentials, fork_url, json={})
+        response_data, response, error = self.request(
+            "post", credentials, fork_url, json={}
+        )
         if (
-            "message" in response and "repository is already forked by user" in error
+            "message" in response_data
+            and "repository is already forked by user" in error
         ) or response.status_code == 409:
             # we have to get the repository again if it is already forked
-            response, error = self.request("get", credentials, credentials["url"])
-        if "ssh_url" not in response:
+            response_data, _response, error = self.request(
+                "get", credentials, credentials["url"]
+            )
+        if "ssh_url" not in response_data:
             raise RepositoryException(0, f"Fork creation failed: {error}")
-        self.configure_fork_remote(response["ssh_url"], credentials["username"])
+        self.configure_fork_remote(response_data["ssh_url"], credentials["username"])
 
     def create_pull_request(
         self,
@@ -1156,7 +1161,7 @@ class GiteaRepository(GitMergeRequestBase):
             "title": title,
             "body": description,
         }
-        response, error_message = self.request(
+        response_data, _response, error_message = self.request(
             "post", credentials, pr_url, json=request
         )
 
@@ -1164,7 +1169,7 @@ class GiteaRepository(GitMergeRequestBase):
         # exists, then we ignore that, else raise an error. Currently, since the API
         # doesn't return any other separate indication for a pull request existing
         # compared to other errors, checking message seems to be the only option
-        if "url" not in response:
+        if "url" not in response_data:
             # Gracefully handle pull request already exists
             if "pull request already exists for these targets" in error_message:
                 return
@@ -1309,10 +1314,12 @@ class GitLabRepository(GitMergeRequestBase):
         return headers
 
     def get_target_project_id(self, credentials: Dict):
-        response, error = self.request("get", credentials, credentials["url"])
-        if "id" not in response:
+        response_data, _response, error = self.request(
+            "get", credentials, credentials["url"]
+        )
+        if "id" not in response_data:
             raise RepositoryException(0, f"Failed to get project: {error}")
-        return response["id"]
+        return response_data["id"]
 
     def configure_fork_features(self, credentials: Dict, forked_url: str):
         """
@@ -1331,10 +1338,10 @@ class GitLabRepository(GitMergeRequestBase):
             "snippets_access_level": "disabled",
             "pages_access_level": "disabled",
         }
-        response, error = self.request(
+        response_data, _response, error = self.request(
             "put", credentials, forked_url, json=access_level_dict
         )
-        if "web_url" not in response:
+        if "web_url" not in response_data:
             raise RepositoryException(0, f"Failed to modify fork {error}")
 
     def create_fork(self, credentials: Dict):
@@ -1345,8 +1352,8 @@ class GitLabRepository(GitMergeRequestBase):
         # Check if Fork already exists owned by current user. If the
         # fork already exists, set that fork as remote.
         # Else, create a new fork
-        response, error = self.request("get", credentials, get_fork_url)
-        for fork in response:
+        response_data, _response, error = self.request("get", credentials, get_fork_url)
+        for fork in response_data:
             # Since owned=True returns forks from both the user's repo and the forks
             # in all the groups owned by the user, hence we need the below logic
             # to find the fork within the user repo and not the groups
@@ -1354,14 +1361,17 @@ class GitLabRepository(GitMergeRequestBase):
                 forked_repo = fork
 
         if forked_repo is None:
-            forked_repo, error = self.request("post", credentials, fork_url)
+            forked_repo, _response, error = self.request("post", credentials, fork_url)
             # If a repo with the name of the fork already exist, append numeric
             # as suffix to name and path to use that as repo name and path.
-            if "ssh_url_to_repo" not in response and "has already been taken" in error:
+            if (
+                "ssh_url_to_repo" not in response_data
+                and "has already been taken" in error
+            ):
                 fork_name = "{}-{}".format(
                     credentials["url"].split("%2F")[-1], random.randint(1000, 9999)
                 )
-                forked_repo, error = self.request(
+                forked_repo, _response, error = self.request(
                     "post",
                     credentials,
                     fork_url,
@@ -1401,10 +1411,12 @@ class GitLabRepository(GitMergeRequestBase):
             "description": description,
             "target_project_id": target_project_id,
         }
-        response, error = self.request("post", credentials, pr_url, request)
+        response_data, _response, error = self.request(
+            "post", credentials, pr_url, request
+        )
 
         if (
-            "web_url" not in response
+            "web_url" not in response_data
             and "open merge request already exists" not in error
         ):
             raise RepositoryException(-1, f"Failed to create pull request: {error}")
@@ -1437,7 +1449,9 @@ class PagureRepository(GitMergeRequestBase):
 
         for param in params:
             param.update(base_params)
-            _response, error = self.request("post", credentials, fork_url, data=param)
+            _response, _response, error = self.request(
+                "post", credentials, fork_url, data=param
+            )
             if '" cloned to "' in error or "already exists" in error:
                 break
 
@@ -1465,7 +1479,7 @@ class PagureRepository(GitMergeRequestBase):
             pr_create_url = "{url}/{slug}/pull-request/new".format(**credentials)
 
         # List existing pull requests
-        response, error_message = self.request(
+        response_data, _response, error_message = self.request(
             "get", credentials, pr_list_url, params={"author": credentials["username"]}
         )
         if error_message:
@@ -1473,7 +1487,7 @@ class PagureRepository(GitMergeRequestBase):
                 0, f"Pull request listing failed: {error_message}"
             )
 
-        if response["total_requests"] > 0:
+        if response_data["total_requests"] > 0:
             # Open pull request from us is already there
             return
 
@@ -1488,11 +1502,11 @@ class PagureRepository(GitMergeRequestBase):
             request["repo_from"] = credentials["slug"]
             request["repo_from_username"] = credentials["username"]
 
-        response, error_message = self.request(
+        response_data, _response, error_message = self.request(
             "post", credentials, pr_create_url, data=request
         )
 
-        if "id" not in response:
+        if "id" not in response_data:
             raise RepositoryException(0, f"Pull request failed: {error_message}")
 
 
@@ -1513,7 +1527,9 @@ class BitbucketServerRepository(GitMergeRequestBase):
 
     def create_fork(self, credentials: Dict):
         fork_url, owner, slug = self.get_api_url()
-        bb_fork, error_message = self.request("post", credentials, fork_url, json={})
+        bb_fork, _response, error_message = self.request(
+            "post", credentials, fork_url, json={}
+        )
         self.bb_fork = bb_fork
 
         # If fork already exists, get forks from origin and find the user's fork.
@@ -1525,7 +1541,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
             self.bb_fork = {}
             forks_url = f'{credentials["url"]}/forks'
             while True:
-                forks, error_message = self.request(
+                forks, _response, error_message = self.request(
                     "get", credentials, forks_url, params={"limit": 1000, "start": page}
                 )
                 if "values" in forks:
@@ -1559,7 +1575,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
         self.configure_fork_remote(remote_url, credentials["username"])
 
     def get_default_reviewers(self, credentials: Dict, fork_branch: str):
-        target_repo, error_message = self.request(
+        target_repo, _response, error_message = self.request(
             "get", credentials, credentials["url"]
         )
         if "id" not in target_repo:
@@ -1573,7 +1589,9 @@ class BitbucketServerRepository(GitMergeRequestBase):
             "targetRefId": self.branch,
             "sourceRefId": fork_branch,
         }
-        users, error_message = self.request("get", credentials, url, params=params)
+        users, _response, error_message = self.request(
+            "get", credentials, url, params=params
+        )
         if error_message or not users:
             return []
 
@@ -1614,7 +1632,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
             "reviewers": self.get_default_reviewers(credentials, fork_branch),
         }
 
-        response, error_message = self.request(
+        response_data, _response, error_message = self.request(
             "post", credentials, pr_url, json=request_body
         )
 
@@ -1625,7 +1643,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
         exist already just do nothing because Bitbucket will automatically
         update the PR if the from ref is updated.
         """
-        if "id" not in response:
+        if "id" not in response_data:
             pr_exist_message = (
                 "Only one pull request may be open "
                 "for a given source and target branch"
