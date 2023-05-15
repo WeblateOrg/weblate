@@ -1122,7 +1122,9 @@ class GiteaRepository(GitMergeRequestBase):
         # Empty json body is required here, otherwise we'll get an
         # "Empty Content-Type" error from gitea.
         response, error = self.request("post", credentials, fork_url, json={})
-        if "message" in response and "repository is already forked by user" in error:
+        if (
+            "message" in response and "repository is already forked by user" in error
+        ) or response.status_code == 409:
             # we have to get the repository again if it is already forked
             response, error = self.request("get", credentials, credentials["url"])
         if "ssh_url" not in response:
