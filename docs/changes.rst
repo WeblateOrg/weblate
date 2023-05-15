@@ -6,6 +6,7 @@ Not yet released.
 * Improved API error messages on permission denied.
 * Reduced false positives of the XML checks.
 * Improved has been translated check accuracy.
+* Extended support for Fluent file format.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 

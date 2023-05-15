@@ -412,6 +412,8 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * Dropped support for PostgreSQL 10, 11, MySQL 5.7 and MariaDB 10.2, 10.3.
 * Dropped support for Python 3.7.
+* The :ref:`fluent` format changed identification of some strings, you might
+  need to force reloading of the translation files to see the changes.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
