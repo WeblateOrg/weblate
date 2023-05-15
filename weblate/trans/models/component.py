@@ -13,6 +13,7 @@ from itertools import chain
 from typing import Any, Dict, List, Optional
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
+from uuid import uuid4
 
 import sentry_sdk
 from celery import current_task
@@ -3560,7 +3561,17 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     def enable_review(self):
         return self.project.enable_review
 
+    @property
+    def update_checks_key(self):
+        return f"component-update-checks-{self.pk}"
+
     def schedule_update_checks(self, update_state: bool = False):
         from weblate.trans.tasks import update_checks
 
-        update_checks.delay(self.pk, update_state=update_state)
+        update_token = uuid4().hex
+        cache.set(self.update_checks_key, update_token)
+        transaction.on_commit(
+            lambda: update_checks.delay(
+                self.pk, update_token, update_state=update_state
+            )
+        )

@@ -11,6 +11,7 @@ from typing import List, Optional
 from celery import current_task
 from celery.schedules import crontab
 from django.conf import settings
+from django.core.cache import cache
 from django.db import transaction
 from django.db.models import Count, F
 from django.utils import timezone
@@ -485,8 +486,14 @@ def create_component(addons_from=None, in_task=False, **kwargs):
 
 
 @app.task(trail=False)
-def update_checks(pk: int, update_state: bool = False):
+def update_checks(pk: int, update_token: str, update_state: bool = False):
     component = Component.objects.get(pk=pk)
+
+    # Skip when further updates are scheduled
+    latest_token = cache.get(component.update_checks_key)
+    if latest_token and update_token != latest_token:
+        return
+
     component.batch_checks = True
     for translation in component.translation_set.exclude(
         pk=component.source_translation.pk
