@@ -1195,7 +1195,7 @@ def auth_redirect_token(request):
         request,
         _(
             "Try registering again to verify your identity, "
-            "the verification token probably expired."
+            "the confirmation link probably expired."
         ),
     )
 
