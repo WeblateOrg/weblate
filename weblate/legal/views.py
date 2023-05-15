@@ -77,4 +77,8 @@ def tos_confirm(request):
     else:
         form = TOSForm(initial={"next": request.GET.get("next")})
 
-    return render(request, "legal/confirm.html", {"form": form})
+    return render(
+        request,
+        "legal/confirm.html",
+        {"form": form, "privacy_url": reverse("legal:privacy")},
+    )
