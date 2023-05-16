@@ -826,6 +826,9 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     def configure_fork_remote(self, push_url: str, remote_name: str):
         """Configure fork remote repository."""
+        self.log(
+            f"Configuring fork remote '{remote_name}': {push_url}", level=logging.INFO
+        )
         self.config_update(
             # Push url
             (f'remote "{remote_name}"', "pushurl", push_url),  # noqa: B028
