@@ -397,7 +397,7 @@ def data_project(request, project):
 
 @never_cache
 @login_required
-@session_ratelimit_post("language")
+@session_ratelimit_post("language", logout_user=False)
 @transaction.atomic
 def new_language(request, project, component):
     obj = get_component(request, project, component)

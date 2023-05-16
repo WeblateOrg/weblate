@@ -406,7 +406,7 @@ def perform_translation(unit, form, request):
     return True and not add_alternative
 
 
-@session_ratelimit_post("translate")
+@session_ratelimit_post("translate", logout_user=False)
 def handle_translate(request, unit, this_unit_url, next_unit_url):
     """Save translation or suggestion to database and backend."""
     form = TranslationForm(request.user, unit, request.POST)
@@ -746,7 +746,7 @@ def auto_translation(request, project, component, lang):
 
 
 @login_required
-@session_ratelimit_post("comment")
+@session_ratelimit_post("comment", logout_user=False)
 def comment(request, pk):
     """Add new comment."""
     scope = unit = get_object_or_404(Unit, pk=pk)

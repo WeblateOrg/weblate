@@ -7,6 +7,7 @@ Not yet released.
 * Reduced false positives of the XML checks.
 * Improved has been translated check accuracy.
 * Extended support for Fluent file format.
+* Avoid signing-out user on some rate-limits.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 

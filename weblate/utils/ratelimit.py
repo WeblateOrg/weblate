@@ -102,14 +102,24 @@ def check_rate_limit(scope: str, request) -> bool:
     return True
 
 
-def session_ratelimit_post(scope: str):
+def session_ratelimit_post(scope: str, logout_user: bool = True):
     def session_ratelimit_post_inner(function):
         """Session based rate limiting for POST requests."""
 
         def rate_wrap(request, *args, **kwargs):
-            if request.method == "POST" and not check_rate_limit(scope, request):
+            if (
+                request.method == "POST" and True
+            ):  # not check_rate_limit(scope, request):
                 # Rotate session token
                 rotate_token(request)
+                if not logout_user:
+                    messages.error(
+                        request,
+                        render_to_string(
+                            "ratelimit.html", {"do_logout": False, "user": request.user}
+                        ),
+                    )
+                    return redirect(request.get_full_path())
                 # Logout user
                 do_logout = request.user.is_authenticated
                 if do_logout:
