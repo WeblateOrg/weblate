@@ -399,7 +399,7 @@ class EmailForm(forms.Form, UniqueEmailMixin):
 
     email = EmailField(
         label=_("E-mail"),
-        help_text=_("Activation e-mail will be sent here."),
+        help_text=_("E-mail with a confirmation link will be sent here."),
     )
 
 
