@@ -24,6 +24,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext
+from social_core.backends.utils import load_backends
 
 from weblate.auth.data import (
     ACL_GROUPS,
@@ -890,3 +891,7 @@ class WeblateAuthConf(AppConf):
 
     class Meta:
         prefix = ""
+
+
+def get_auth_keys():
+    return set(load_backends(settings.AUTHENTICATION_BACKENDS).keys())

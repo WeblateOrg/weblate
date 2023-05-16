@@ -43,7 +43,6 @@ from django.views.generic import ListView, TemplateView, UpdateView
 from rest_framework.authtoken.models import Token
 from social_core.actions import do_auth
 from social_core.backends.open_id import OpenIdAuth
-from social_core.backends.utils import load_backends
 from social_core.exceptions import (
     AuthAlreadyAssociated,
     AuthCanceled,
@@ -96,7 +95,7 @@ from weblate.accounts.notifications import (
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
 from weblate.accounts.utils import remove_user
 from weblate.auth.forms import UserEditForm
-from weblate.auth.models import User
+from weblate.auth.models import User, get_auth_keys
 from weblate.auth.utils import format_address
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Suggestion, Translation
@@ -135,10 +134,6 @@ CONTACT_SUBJECTS = {
 ANCHOR_RE = re.compile(r"^#[a-z]+$")
 
 NOTIFICATION_PREFIX_TEMPLATE = "notifications__{}"
-
-
-def get_auth_keys():
-    return set(load_backends(settings.AUTHENTICATION_BACKENDS).keys())
 
 
 class EmailSentView(TemplateView):
