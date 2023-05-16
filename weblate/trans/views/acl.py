@@ -342,7 +342,7 @@ def create_group(request, project):
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied
 
-    form = ProjectTeamForm(request.POST)
+    form = ProjectTeamForm(obj, request.POST)
 
     if form.is_valid():
         form.save(project=obj)
