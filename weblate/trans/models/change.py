@@ -264,6 +264,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_STRING_REMOVE = 63
     ACTION_COMMENT_DELETE = 64
     ACTION_COMMENT_RESOLVE = 65
+    ACTION_EXPLANATION = 66
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -396,6 +397,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_COMMENT_DELETE, gettext_lazy("Removed comment")),
         # Translators: Name of event in the history
         (ACTION_COMMENT_RESOLVE, gettext_lazy("Resolved comment")),
+        # Translators: Name of event in the history
+        (ACTION_EXPLANATION, gettext_lazy("Explanation updated")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
@@ -430,6 +433,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
         ACTION_SOURCE_CHANGE,
+        ACTION_EXPLANATION,
     }
 
     # Actions shown on the repository management page

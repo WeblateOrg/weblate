@@ -740,6 +740,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 pounit = store.new_unit(
                     unit.context, unit.get_source_plurals(), unit.get_target_plurals()
                 )
+                pounit.set_explanation(unit.explanation)
+                pounit.set_source_explanation(unit.source_unit.explanation)
                 updated = True
                 del details["add_unit"]
             else:
@@ -768,6 +770,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                         pounit.set_target(unit.get_target_plurals())
                     else:
                         pounit.set_target(unit.target)
+                    pounit.set_explanation(unit.explanation)
+                    pounit.set_source_explanation(unit.source_unit.explanation)
                 except Exception as error:
                     self.component.handle_parse_error(error, self, reraise=False)
                     report_error(

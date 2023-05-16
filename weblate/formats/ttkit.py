@@ -1910,19 +1910,40 @@ class XWikiFullPageFormat(XWikiPagePropertiesFormat):
 
 
 class TBXUnit(TTKitUnit):
-    @cached_property
-    def notes(self):
-        """Return notes or notes from units."""
+    def _get_notes(self, *origins: str) -> str:
         notes = []
-        for origin in ("pos", "definition", "developer"):
+        for origin in origins:
             note = self.unit.getnotes(origin)
             if note:
                 notes.append(note)
         return "\n".join(notes)
 
     @cached_property
+    def notes(self):
+        """Return notes or notes from units."""
+        return self._get_notes("pos", "developer")
+
+    @cached_property
     def context(self):
         return self.unit.xmlelement.get("id") or ""
+
+    def set_explanation(self, explanation: str):
+        if explanation or self.explanation:
+            self.unit.addnote(explanation, origin="translator", position="replace")
+        self.__dict__.pop("explanation", None)
+
+    @cached_property
+    def explanation(self) -> str:
+        return self._get_notes("definition")
+
+    def set_source_explanation(self, explanation: str):
+        if explanation or self.source_explanation:
+            self.unit.addnote(explanation, origin="definition", position="replace")
+        self.__dict__.pop("source_explanation", None)
+
+    @cached_property
+    def source_explanation(self) -> str:
+        return self._get_notes("source-explanation")
 
 
 class TBXFormat(TTKitFormat):
@@ -1935,6 +1956,7 @@ class TBXFormat(TTKitFormat):
     create_empty_bilingual: bool = True
     use_settarget = True
     monolingual = False
+    supports_explanation: bool = True
 
     def __init__(
         self,

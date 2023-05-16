@@ -3,6 +3,12 @@
 TermBase eXchange format
 ------------------------
 
+.. list-table:: Supported features
+
+   * - :ref:`format-explanation`
+     - Source string explanation is saved and loaded from the ``<descrip>``
+       tag, translation string explanation from ``<node from="translator">``.
+
 .. versionadded:: 4.5
 
 TBX is an XML format for the exchange of terminology data.

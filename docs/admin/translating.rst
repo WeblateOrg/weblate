@@ -102,8 +102,14 @@ Explanation
 
     In previous versions this has been called :guilabel:`Extra context`.
 
+.. versionchanged:: 4.18
+
+   Support for synching explanation with a file was introduced.
+
 Use the explanation to clarify scope or usage of the translation. You can use
 Markdown to include links and other markup.
+
+Some file formats support storing explanation within the file, see :ref:`format-explanation`.
 
 .. hint::
 

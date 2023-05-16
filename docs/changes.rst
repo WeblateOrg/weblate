@@ -8,6 +8,7 @@ Not yet released.
 * Improved has been translated check accuracy.
 * Extended support for Fluent file format.
 * Avoid signing-out user on some rate-limits.
+* Added support for storing glossary explanation in TBX format.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 
