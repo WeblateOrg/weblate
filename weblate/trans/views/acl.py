@@ -248,7 +248,9 @@ def manage_access(request, project):
         raise PermissionDenied
 
     groups = (
-        obj.defined_groups.order().annotate(Count("user")).prefetch_related("languages")
+        obj.defined_groups.order()
+        .annotate(Count("user"))
+        .prefetch_related("languages", "components")
     )
     for group in groups:
         group.edit_form = ProjectTeamForm(

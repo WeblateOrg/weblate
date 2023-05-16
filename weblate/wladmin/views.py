@@ -504,7 +504,7 @@ class TeamListView(FormMixin, ListView):
         return (
             super()
             .get_queryset()
-            .prefetch_related("languages", "projects")
+            .prefetch_related("languages", "projects", "components")
             .filter(defining_project=None)
             .annotate(Count("user"))
             .order()

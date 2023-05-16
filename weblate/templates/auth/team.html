@@ -51,6 +51,10 @@
           <th>{% trans "Projects" %}</th>
           <td>{% include "auth/teams-projects.html" with group=object %}</td>
         </tr>
+        <tr>
+          <th>{% trans "Components" %}</th>
+          <td>{% include "auth/teams-components.html" with group=object %}</td>
+        </tr>
       </table>
     {% endif %}
   </div>

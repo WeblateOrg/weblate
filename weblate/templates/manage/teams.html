@@ -26,6 +26,7 @@
           <th>{% trans "Roles" %}</th>
           <th>{% trans "Languages" %}</th>
           <th>{% trans "Projects" %}</th>
+          <th>{% trans "Components" %}</th>
           <th>{% trans "Members" %}</th>
           <th></th>
         </tr>
@@ -44,6 +45,9 @@
           </td>
           <td>
             {% include "auth/teams-projects.html" %}
+          </td>
+          <td>
+            {% include "auth/teams-components.html" %}
           </td>
           <td class="number">{{ group.user__count|intcomma }}</td>
           <td>

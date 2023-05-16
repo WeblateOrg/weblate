@@ -219,6 +219,7 @@
         <th>{% trans "Roles" %}</th>
         <th>{% trans "Projects" %}</th>
         <th>{% trans "Languages" %}</th>
+        <th>{% trans "Components" %}</th>
       </tr>
     </thead>
     <tbody>
@@ -233,6 +234,9 @@
           </td>
           <td>
             {% include "auth/teams-languages.html" %}
+          </td>
+          <td>
+            {% include "auth/teams-components.html" %}
           </td>
         </tr>
       {% endfor %}
