@@ -56,7 +56,7 @@ class MultiCSVUtf8FormatTest(AutoFormatTest):
         self.assertEqual(testdata.decode().splitlines(), newdata.decode().splitlines())
 
     def test_edit(self):
-        newdata = super().test_edit()
+        newdata = super()._test_save(self.EDIT_TARGET)
         self.maxDiff = None
         self.assertEqual(
             newdata.decode().splitlines(),
@@ -64,7 +64,7 @@ class MultiCSVUtf8FormatTest(AutoFormatTest):
         )
 
     def test_edit_add(self):
-        newdata = self.test_save(
+        newdata = self._test_save(
             [
                 "Infarctus myocardique",
                 "Infarctus du myocarde",

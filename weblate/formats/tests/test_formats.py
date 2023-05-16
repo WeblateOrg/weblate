@@ -210,7 +210,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         self.assertEqual(storage.mimetype(), self.MIME)
         self.assertEqual(storage.extension(), self.EXT)
 
-    def test_save(self, edit=None):
+    def _test_save(self, edit=None):
         # Read test content
         with open(self.FILE, "rb") as handle:
             testdata = handle.read()
@@ -244,8 +244,11 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
             self.assert_same(newdata, testdata)
         return newdata
 
+    def test_save(self):
+        self._test_save()
+
     def test_edit(self):
-        return self.test_save(self.EDIT_TARGET)
+        self._test_save(self.EDIT_TARGET)
 
     def assert_same(self, newdata, testdata):
         """
@@ -878,7 +881,7 @@ class CSVFormatNoHeadTest(CSVFormatTest):
     EXPECTED_FLAGS = ""
     NEW_UNIT_MATCH = b'"Source string",""\r\n'
 
-    def test_save(self, edit=False):
+    def _test_save(self, edit=False):
         raise SkipTest("Saving currently adds field headers")
 
 
@@ -1015,9 +1018,9 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
             self.EXPECTED_PATH,
         )
 
-    def test_save(self, edit=False):
+    def _test_save(self, edit=False):
         self.maxDiff = None
-        super().test_save(edit)
+        super()._test_save(edit)
 
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
@@ -1138,9 +1141,9 @@ class XWikiFullPageFormatTest(AutoFormatTest):
         # to be able to add new units.
         pass
 
-    def test_save(self, edit=False):
+    def _test_save(self, edit=False):
         self.maxDiff = None
-        super().test_save(edit)
+        super()._test_save(edit)
 
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
