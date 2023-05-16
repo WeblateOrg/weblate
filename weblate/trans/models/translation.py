@@ -1314,6 +1314,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         # Delete from the database
         self.stats.invalidate()
         self.delete()
+        transaction.on_commit(self.component.schedule_update_checks)
 
         # Record change
         Change.objects.create(
