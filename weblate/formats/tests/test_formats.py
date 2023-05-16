@@ -751,14 +751,8 @@ class PoXliffFormatTest(XMLMixin, AutoFormatTest):
 class PoXliffFormatTest2(PoXliffFormatTest):
     FILE = TEST_POXLIFF
     BASE = TEST_POXLIFF
-    EXPECTED_FLAGS = ", ".join(
-        (
-            "c-format",
-            "font-family:ubuntu",
-            "font-size:22",
-            "font-weight:bold",
-            "max-size:100",
-        )
+    EXPECTED_FLAGS = (
+        "c-format, font-family:ubuntu, font-size:22, font-weight:bold, max-size:100"
     )
     FIND_CONTEXT = "cs.po///2"
     COUNT = 4

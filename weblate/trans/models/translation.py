@@ -156,8 +156,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     @cached_property
     def full_slug(self):
-        return "/".join(
-            (self.component.project.slug, self.component.slug, self.language.code)
+        return (
+            f"{self.component.project.slug}/{self.component.slug}/{self.language.code}"
         )
 
     def log_hook(self, level, msg, *args):
