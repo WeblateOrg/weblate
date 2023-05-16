@@ -26,7 +26,7 @@ def migrate_json_units(apps, schema_editor):
         )
         .prefetch_related("translation__component")
     )
-    for unit in units.iterator():
+    for unit in units.iterator(chunk_size=1000):
         if unit.translation.component.template:
             newid = calculate_hash(unit.context)
         else:
