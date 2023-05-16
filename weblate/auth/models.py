@@ -123,7 +123,12 @@ class Group(models.Model):
         "trans.Project", verbose_name=_("Projects"), blank=True
     )
     components = models.ManyToManyField(
-        "trans.Component", verbose_name=_("Components"), blank=True
+        "trans.Component",
+        verbose_name=_("Components"),
+        blank=True,
+        help_text=_(
+            "Empty selection grants access to all components in project scope."
+        ),
     )
     componentlists = models.ManyToManyField(
         "trans.ComponentList",

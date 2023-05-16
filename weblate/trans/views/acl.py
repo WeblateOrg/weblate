@@ -252,10 +252,6 @@ def manage_access(request, project):
         .annotate(Count("user"))
         .prefetch_related("languages", "components")
     )
-    for group in groups:
-        group.edit_form = ProjectTeamForm(
-            instance=group, auto_id=f"id_group_{group.id}_%s"
-        )
     users = (
         User.objects.filter(groups__in=groups, is_bot=False)
         .distinct()
@@ -301,7 +297,7 @@ def manage_access(request, project):
             "add_user_form": UserManageForm(),
             "create_project_token_form": ProjectTokenCreateForm(obj),
             "create_team_form": ProjectTeamForm(
-                initial={"language_selection": SELECTION_ALL}
+                project=obj, initial={"language_selection": SELECTION_ALL}
             ),
             "block_user_form": UserBlockForm(
                 initial={"user": request.GET.get("block_user")}

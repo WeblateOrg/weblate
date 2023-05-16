@@ -38,6 +38,12 @@ class TeamUpdateView(UpdateView):
             return None
         return super().get_form(form_class)
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        if self.object.defining_project:
+            kwargs["project"] = self.object.defining_project
+        return kwargs
+
     def get_object(self, queryset=None):
         result = super().get_object(queryset=queryset)
         user = self.request.user

@@ -122,10 +122,10 @@ class UserEditForm(AdminInviteUserForm):
         fields = ["username", "full_name", "email", "is_superuser", "is_active"]
 
 
-class ProjectTeamForm(forms.ModelForm):
+class BaseTeamForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = ["name", "roles", "language_selection", "languages"]
+        fields = ["name", "roles", "language_selection", "languages", "components"]
 
     internal_fields = [
         "name",
@@ -175,7 +175,13 @@ class ProjectTeamForm(forms.ModelForm):
         return self.instance
 
 
-class SitewideTeamForm(ProjectTeamForm):
+class ProjectTeamForm(BaseTeamForm):
+    def __init__(self, project, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["components"].queryset = project.component_set.order()
+
+
+class SitewideTeamForm(BaseTeamForm):
     class Meta:
         model = Group
         fields = [
