@@ -32,7 +32,7 @@ from weblate.accounts.utils import (
     get_all_user_mails,
     invalidate_reset_codes,
 )
-from weblate.auth.models import Group, User
+from weblate.auth.models import Group, User, get_auth_keys
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import FULLNAME_LENGTH
@@ -109,6 +109,7 @@ class FullNameField(forms.CharField):
     def __init__(self, *args, **kwargs):
         kwargs["max_length"] = FULLNAME_LENGTH
         kwargs["label"] = _("Full name")
+        kwargs["help_text"] = _("Name is also used in version control commits.")
         kwargs["required"] = True
         super().__init__(*args, **kwargs)
 
@@ -170,6 +171,7 @@ class CommitForm(ProfileBaseForm):
     commit_email = forms.ChoiceField(
         label=_("Commit e-mail"),
         choices=[("", _("Use account e-mail address"))],
+        help_text=_("Choose commit e-mail from verified addresses."),
         required=False,
     )
 
@@ -193,6 +195,10 @@ class CommitForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        layout = ["commit_email"]
+        if "email" in get_auth_keys():
+            layout.append(Div(template="accounts/add-mail.html"))
+        self.helper.layout = Layout(*layout)
 
 
 class ProfileForm(ProfileBaseForm):
@@ -332,7 +338,7 @@ class UserForm(forms.ModelForm):
     username = UniqueUsernameField()
     email = forms.ChoiceField(
         label=_("E-mail"),
-        help_text=_("You can add another e-mail address below."),
+        help_text=_("Choose primary e-mail from verified addresses."),
         choices=(("", ""),),
         required=True,
     )
@@ -353,6 +359,10 @@ class UserForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        layout = ["username", "email", "full_name"]
+        if "email" in get_auth_keys():
+            layout.insert(2, Div(template="accounts/add-mail.html"))
+        self.helper.layout = Layout(*layout)
 
     @classmethod
     def from_request(cls, request):
