@@ -1154,8 +1154,12 @@ class ContextForm(forms.ModelForm):
             ),
             Field("extra_flags"),
         )
+        self.user = user
 
     def save(self, commit=True):
+        self.instance.update_explanation(
+            self.cleaned_data["explanation"], self.user, save=False
+        )
         if commit:
             self.instance.save(same_content=True)
             self._save_m2m()

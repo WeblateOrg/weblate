@@ -591,7 +591,7 @@ class Unit(models.Model, LoggerMixin):
                 )
 
     def update_source_unit(
-        self, component, source, context, pos, note, location, flags
+        self, component, source, context, pos, note, location, flags, explanation
     ):
         source_unit = component.get_source(
             self.id_hash,
@@ -602,6 +602,7 @@ class Unit(models.Model, LoggerMixin):
                 "position": pos,
                 "note": note,
                 "location": location,
+                "explanation": explanation,
                 "flags": flags,
             },
         )
@@ -619,10 +620,11 @@ class Unit(models.Model, LoggerMixin):
             source_unit.position = pos
             source_unit.source_updated = True
             source_unit.location = location
+            source_unit.explanation = explanation
             source_unit.flags = flags
             source_unit.note = note
             source_unit.save(
-                update_fields=["position", "location", "flags", "note"],
+                update_fields=["position", "location", "explanation", "flags", "note"],
                 same_content=True,
                 run_checks=False,
                 only_save=same_flags,
@@ -639,6 +641,12 @@ class Unit(models.Model, LoggerMixin):
         # Get unit attributes
         try:
             location = unit.locations
+            if self.translation.component.file_format_cls.supports_explanation:
+                explanation = unit.explanation
+                source_explanation = unit.source_explanation
+            else:
+                explanation = self.explanation
+                source_explanation = "" if created else self.source_unit.explanation
             flags = unit.flags
             source = unit.source
             self.check_valid(split_plural(source))
@@ -664,7 +672,14 @@ class Unit(models.Model, LoggerMixin):
         old_source_unit = self.source_unit
         if not translation.is_source:
             self.update_source_unit(
-                component, source, context, pos, note, location, flags
+                component,
+                source,
+                context,
+                pos,
+                note,
+                location,
+                flags,
+                source_explanation,
             )
 
         # Has source/target changed
@@ -708,6 +723,7 @@ class Unit(models.Model, LoggerMixin):
         same_state = state == self.state and flags == self.flags
         same_metadata = (
             location == self.location
+            and explanation == self.explanation
             and note == self.note
             and pos == self.position
             and not self.pending
@@ -732,6 +748,7 @@ class Unit(models.Model, LoggerMixin):
         self.original_state = original_state
         self.position = pos
         self.location = location
+        self.explanation = explanation
         self.flags = flags
         self.source = source
         self.target = target
@@ -748,7 +765,7 @@ class Unit(models.Model, LoggerMixin):
             self.save(
                 same_content=True,
                 only_save=True,
-                update_fields=["location", "note", "position"],
+                update_fields=["location", "explanation", "note", "position"],
             )
             return
 
@@ -1608,3 +1625,31 @@ class Unit(models.Model, LoggerMixin):
         for key in ["all_comments", "suggestions"]:
             if key in self.__dict__:
                 del self.__dict__[key]
+
+    def update_explanation(self, explanation: str, user, save: bool = True):
+        """Update glossary explanation."""
+        self.explanation = explanation
+        file_format_support = (
+            self.translation.component.file_format_cls.supports_explanation
+        )
+        if file_format_support:
+            if self.is_source:
+                units = self.unit_set.exclude(id=self.id)
+                units.update(pending=True)
+            else:
+                units = [self]
+                self.pending = True
+        if save:
+            self.save(update_fields=["explanation", "pending"], only_save=True)
+
+        if not file_format_support:
+            return
+
+        for unit in units:
+            unit.generate_change(
+                user=user,
+                author=user,
+                change_action=Change.ACTION_EXPLANATION,
+                check_new=False,
+                save=True,
+            )

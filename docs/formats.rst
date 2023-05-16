@@ -403,6 +403,16 @@ translators (for example :ref:`xliff`, :ref:`gettext`, :ref:`webex`,
 :ref:`gotext-json`, :ref:`arb`, :ref:`dotnet`). Many other formats extract
 closest comment as source string description.
 
+.. _format-explanation:
+
+Explanation
++++++++++++
+
+The :ref:`additional-explanation` on strings can be stored and parsed from a
+few file formats.
+
+Currently supported only in :ref:`tbx`.
+
 .. _format-location:
 
 Source string location

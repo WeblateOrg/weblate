@@ -153,6 +153,16 @@ class TranslationUnit:
         raise NotImplementedError
 
     @cached_property
+    def explanation(self) -> str:
+        """Return explanation from a ttkit unit."""
+        return ""
+
+    @cached_property
+    def source_explanation(self) -> str:
+        """Return source explanation from a ttkit unit."""
+        return ""
+
+    @cached_property
     def context(self):
         """
         Return context of message.
@@ -209,6 +219,12 @@ class TranslationUnit:
         """Set translation unit target."""
         raise NotImplementedError
 
+    def set_explanation(self, explanation: str):
+        return
+
+    def set_source_explanation(self, explanation: str):
+        return
+
     def set_state(self, state):
         """Set fuzzy /approved flag on translated unit."""
         raise NotImplementedError
@@ -240,6 +256,7 @@ class TranslationFormat:
     bilingual_class = None
     create_style = "create"
     has_multiple_strings: bool = False
+    supports_explanation: bool = False
     plural_preference: Optional[Tuple[int, ...]] = None
 
     @classmethod
