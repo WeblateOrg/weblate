@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-14 16:37+0200\n"
-"PO-Revision-Date: 2023-04-17 08:54+0000\n"
-"Last-Translator: Juan <benitesjn@gmail.com>\n"
+"PO-Revision-Date: 2023-05-18 08:52+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17-dev\n"
+"X-Generator: Weblate 4.18-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:193
@@ -82,6 +82,9 @@ msgid ""
 "guilabel:`Public`. You can switch to the paid plan if you want to restrict "
 "access to your project."
 msgstr ""
+"Los proyectos con el plan gratuito Libre en Hosted Weblate son siempre "
+":guilabel:`Public`. Puede cambiar al plan de pago si desea restringir el "
+"acceso a tu proyecto."
 
 #: ../../admin/access.rst:36
 msgid ""
@@ -113,6 +116,8 @@ msgid ""
 "**Choose this for open-source projects, or when your Weblate instance is "
 "private or locked-down.**"
 msgstr ""
+"**Elige esta opción para proyectos de código abierto o cuando tu instancia "
+"de Weblate sea privada o esté bloqueada**"
 
 #: ../../admin/access.rst:53 ../../admin/config.rst:473
 msgid ":guilabel:`Protected`"
@@ -133,6 +138,8 @@ msgid ""
 "**Choose this to gain visibility, but still have control over who can "
 "contribute.**"
 msgstr ""
+"**Elige esta opción para ganar visibilidad, pero manteniendo el control "
+"sobre quién puede contribuir.**"
 
 #: ../../admin/access.rst:61 ../../admin/config.rst:475
 msgid ":guilabel:`Private`"
@@ -146,6 +153,8 @@ msgstr "Visible solo por usuarios seleccionados."
 msgid ""
 "**Choose this for projects that should not be publicly exposed at all.**"
 msgstr ""
+"**Elija esta opción para proyectos que no deban exponerse públicamente en "
+"absoluto.**"
 
 #: ../../admin/access.rst:74 ../../admin/config.rst:477
 msgid ":guilabel:`Custom`"
@@ -153,17 +162,19 @@ msgstr ":guilabel:`Personalizado`"
 
 #: ../../admin/access.rst:70
 msgid "Not available on Hosted Weblate."
-msgstr ""
+msgstr "No está disponible en Hosted Weblate."
 
 #: ../../admin/access.rst:72
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
-msgstr ""
+msgstr "Tendrás que configurar todos los permisos utilizando :ref:`custom-acl`."
 
 #: ../../admin/access.rst:74
 msgid ""
 "**Choose this on your own Weblate instance if you want to define access in a "
 "specific, finely customizable way.**"
 msgstr ""
+"**Elije esta opción en tu propia instancia de Weblate si deseas definir el "
+"acceso de una forma específica y finamente personalizable.**"
 
 #: ../../admin/access.rst:76
 msgid ""
@@ -482,14 +493,8 @@ msgid "Custom access control"
 msgstr "Control de acceso personalizado"
 
 #: ../../snippets/not-hosted.rst:3
-#, fuzzy
-#| msgid ""
-#| "This feature is unavailable for projects running the Libre plan on Hosted "
-#| "Weblate."
 msgid "This feature is unavailable on Hosted Weblate."
-msgstr ""
-"Esta función no está disponible para los proyectos que ejecutan el plan "
-"Libre en Hosted Weblate."
+msgstr "Esta función no está disponible en Hosted Weblate."
 
 #: ../../admin/access.rst:227
 msgid ""
@@ -721,10 +726,8 @@ msgstr ""
 "no ser que se concedan permisos de superusuario."
 
 #: ../../admin/access.rst:327
-#, fuzzy
-#| msgid "Users, roles, groups, and permissions"
 msgid "Users, roles, teams, and permissions"
-msgstr "Usuarios, roles, grupos y permisos"
+msgstr "Usuarios, funciones, equipos y permisos"
 
 #: ../../admin/access.rst:329
 msgid "The authentication models consist of several objects:"
@@ -922,16 +925,12 @@ msgid "`Spanish`"
 msgstr "`Español`"
 
 #: ../../admin/access.rst:429
-#, fuzzy
-#| msgid ""
-#| "Members of that group will have following permissions (assuming the "
-#| "default role settings):"
 msgid ""
 "Members of that team will have following permissions (assuming the default "
 "role settings):"
 msgstr ""
-"Los miembros de ese grupo tendrán los siguientes permisos (asumiendo la "
-"configuración de roles por defecto):"
+"Los miembros de ese equipo tendrán los siguientes permisos (asumiendo la "
+"configuración de las funciones por defecto):"
 
 #: ../../admin/access.rst:431
 msgid ""
@@ -956,20 +955,10 @@ msgstr ""
 "cambios pendientes realizados por los traductores para todos los idiomas."
 
 #: ../../admin/access.rst:440
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic team assignments"
-msgstr "Asignaciones automáticas"
+msgstr "Asignación automática de los equipos"
 
 #: ../../admin/access.rst:442
-#, fuzzy
-#| msgid ""
-#| "On the bottom of the :guilabel:`Group` editing page in the :ref:`Django "
-#| "admin interface <admin-interface>`, you can specify :guilabel:"
-#| "`Automatic group assignments`, which is a list of regular expressions "
-#| "used to automatically assign newly created users to a group based on "
-#| "their e-mail addresses. This assignment only happens upon account "
-#| "creation."
 msgid ""
 "On the bottom of the :guilabel:`Group` editing page in the :ref:`Django "
 "admin interface <admin-interface>`, you can specify :guilabel:"
@@ -977,23 +966,14 @@ msgid ""
 "automatically assign newly created users to a team based on their e-mail "
 "addresses. This assignment only happens upon account creation."
 msgstr ""
-"En la parte inferior de la página de edición de :guilabel:`Group` en la "
-"interfaz de administración de :ref:`Django <admin-interface>`, puedes "
-"especificar :guilabel:`Automatic group assignments`, que es una lista de "
-"expresiones regulares utilizadas para asignar automáticamente a los usuarios "
-"recién creados a un grupo en función de sus direcciones de correo "
+"En la parte inferior de la página de edición :guilabel:`Group` en la "
+"interfaz de administración :ref:`Django <admin-interface>`, puede "
+"especificar :guilabel:`Automatic team assignments`, que es una lista de "
+"expresiones regulares utilizadas para asignar automáticamente los usuarios "
+"recién creados a un equipo en función de sus direcciones de correo "
 "electrónico. Esta asignación sólo se realiza al crear la cuenta."
 
 #: ../../admin/access.rst:448
-#, fuzzy
-#| msgid ""
-#| "The most common use-case for the feature is to assign all new users to "
-#| "some default group. In order to do so, you will probably want to keep the "
-#| "default value (``^.*$``) in the regular expression field. Another use-"
-#| "case for this option might be to give some additional privileges to "
-#| "employees of your company by default. Assuming all of them use corporate "
-#| "e-mail addresses on your domain, this can be accomplished with an "
-#| "expression like ``^.*@mycompany.com``."
 msgid ""
 "The most common use-case for the feature is to assign all new users to some "
 "default team. In order to do so, you will probably want to keep the default "
@@ -1003,80 +983,58 @@ msgid ""
 "your domain, this can be accomplished with an expression like ``^."
 "*@mycompany.com``."
 msgstr ""
-"El caso de uso más común para esta función es asignar todos los nuevos "
-"usuarios a algún grupo por defecto. Para ello, probablemente querrás "
-"mantener el valor por defecto (``^.*$``) en el campo de expresión regular. "
-"Otro caso de uso para esta opción podría ser dar algunos privilegios "
-"adicionales a los empleados de tu empresa por defecto. Suponiendo que todos "
-"ellos utilicen direcciones de correo electrónico corporativas en su dominio, "
-"esto puede lograrse con una expresión como ``^.*@miempresa.com``."
+"El caso de uso más común para esta función es asignar todos los usuarios "
+"nuevos a un equipo predeterminado. Para ello, probablemente querrá mantener "
+"el valor por defecto (``^.*$``) en el campo de expresión regular. Otro caso "
+"de uso para esta opción podría ser dar algunos privilegios adicionales a los "
+"empleados de su empresa por defecto. Suponiendo que todos ellos utilicen "
+"direcciones de correo electrónico corporativas en su dominio, esto se puede "
+"conseguir con una expresión como ``^.*@miempresa.com``."
 
 #: ../../admin/access.rst:457
-#, fuzzy
-#| msgid ""
-#| "Automatic group assignment to `Users` and `Viewers` is always recreated "
-#| "when upgrading from one Weblate version to another. If you want to turn "
-#| "it off, set the regular expression to ``^$`` (which won’t match anything)."
 msgid ""
 "Automatic team assignment to `Users` and `Viewers` is always recreated when "
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
-"La asignación automática de grupos a `Usuarios` y `Visores` siempre se "
-"recrea al actualizar de una versión de Weblate a otra. Si deseas "
-"desactivarla, fija la expresión regular a ``^$`` (que no coincidirá con "
-"nada)."
+"La asignación automática de los equipos a `Usuarios` y `Visores` se recrea "
+"siempre al actualizar de una versión de Weblate a otra. Si desea "
+"desactivarla, establezca la expresión regular en ``^$`` (que no coincidirá "
+"con nada)."
 
 #: ../../admin/access.rst:463
-#, fuzzy
-#| msgid ""
-#| "As for now, there is no way to bulk-add already existing users to some "
-#| "group via the user interface. For that, you may resort to using the :ref:"
-#| "`REST API <api>`."
 msgid ""
 "As for now, there is no way to bulk-add already existing users to some team "
 "via the user interface. For that, you may resort to using the :ref:`REST API "
 "<api>`."
 msgstr ""
-"Por el momento, no hay forma de añadir en masa usuarios ya existentes a "
-"algún grupo a través de la interfaz de usuario. Para ello, puedes recurrir a "
-"la API :ref:`REST <api>`."
+"Por el momento, no hay forma de añadir usuarios existentes a un equipo a "
+"través de la interfaz de usuario. Para ello, puede recurrir a la :ref:`REST "
+"API <api>`."
 
 #: ../../admin/access.rst:467
-#, fuzzy
-#| msgid "Default groups and roles"
 msgid "Default teams and roles"
-msgstr "Grupos y funciones por defecto"
+msgstr "Equipos y funciones predeterminadas"
 
 #: ../../admin/access.rst:469
-#, fuzzy
-#| msgid ""
-#| "After installation, a default set of groups is created (see :ref:`default-"
-#| "groups`)."
 msgid ""
 "After installation, a default set of teams is created (see :ref:`default-"
 "teams`)."
 msgstr ""
-"Tras la instalación, se crea un conjunto de grupos por defecto (ver :ref:"
-"`default-groups`)."
+"Tras la instalación, se crea un conjunto de equipos por defecto (véase :ref"
+":`default-teams`)."
 
 #: ../../admin/access.rst:471
-#, fuzzy
-#| msgid ""
-#| "These roles and groups are created upon installation. The built-in roles "
-#| "are always kept up to date by the database migration when upgrading. You "
-#| "can’t actually change them, please define a new role if you want to "
-#| "define your own set of permissions."
 msgid ""
 "These roles and teams are created upon installation. The built-in roles are "
 "always kept up to date by the database migration when upgrading. You can’t "
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
-"Estos roles y grupos se crean en el momento de la instalación. Los roles "
-"incorporados se mantienen siempre actualizados por la migración de la base "
-"de datos cuando se actualiza. En realidad no puedes cambiarlos, por favor "
-"define un nuevo rol si quieres definir tu propio conjunto de permisos."
+"Estas funciones y equipos se crean en el momento de la instalación. Las "
+"funciones incorporadas se mantienen siempre actualizados por la migración de "
+"la base de datos al actualizar. En realidad no puedes cambiarlos, por favor "
+"define una nueva función si quieres definir tu propio conjunto de permisos."
 
 #: ../../admin/access.rst:479
 msgid "List of privileges and built-in roles"
@@ -1480,25 +1438,19 @@ msgstr ""
 "mayoría de ellos afectan a todos los proyectos en tu instalación de Weblate."
 
 #: ../../admin/access.rst:612
-#, fuzzy
-#| msgid "List of groups"
 msgid "List of teams"
-msgstr "Lista de grupos"
+msgstr "Lista de los equipos"
 
 #: ../../admin/access.rst:614
-#, fuzzy
-#| msgid ""
-#| "The following groups are created upon installation (or after executing :"
-#| "djadmin:`setupgroups`) and you are free to modify them. The migration "
-#| "will, however, re-create them if you delete or rename them."
 msgid ""
 "The following teams are created upon installation (or after executing :"
 "djadmin:`setupgroups`) and you are free to modify them. The migration will, "
 "however, re-create them if you delete or rename them."
 msgstr ""
-"Los siguientes grupos se crean en el momento de la instalación (o después de "
-"ejecutar :djadmin:`setupgroups`) y eres libre de modificarlos. Sin embargo, "
-"la migración los volverá a crear si los eliminas o les cambias el nombre."
+"Los siguientes equipos se crean en el momento de la instalación (o tras "
+"ejecutar :djadmin:`setupgroups`) y puede modificarlos libremente. No "
+"obstante, la migración volverá a crearlos si los elimina o les cambia el "
+"nombre."
 
 #: ../../admin/access.rst:626
 msgid "`Guests`"
@@ -1509,27 +1461,19 @@ msgid "Defines permissions for non-authenticated users."
 msgstr "Define los permisos que tendrán los usuarios no autenticados."
 
 #: ../../admin/access.rst:621
-#, fuzzy
-#| msgid ""
-#| "This group only contains anonymous users (see :setting:"
-#| "`ANONYMOUS_USER_NAME`)."
 msgid ""
 "This team only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`)."
 msgstr ""
-"Este grupo contiene solo usuarios anónimos (vea :setting:"
-"`ANONYMOUS_USER_NAME`)."
+"Este equipo sólo contiene usuarios anónimos (véase "
+":setting:`ANONYMOUSER_NAME`)."
 
 #: ../../admin/access.rst:623
-#, fuzzy
-#| msgid ""
-#| "You can remove roles from this group to limit permissions for non-"
-#| "authenticated users."
 msgid ""
 "You can remove roles from this team to limit permissions for non-"
 "authenticated users."
 msgstr ""
-"Puedes eliminar los roles de este grupo para limitar los permisos de los "
-"usuarios no autenticados."
+"Puedes eliminar las funciones de este equipo para limitar los permisos de "
+"los usuarios no registrados."
 
 #: ../../admin/access.rst:626
 msgid "Default roles: `Add suggestion`, `Access repository`"
