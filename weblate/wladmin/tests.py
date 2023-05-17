@@ -267,6 +267,7 @@ class AdminTest(ViewTestCase):
                     "backup_repository": "",
                     "expiry": timezone.now(),
                     "in_limits": True,
+                    "limits": {},
                 },
                 cls=DjangoJSONEncoder,
             ),
