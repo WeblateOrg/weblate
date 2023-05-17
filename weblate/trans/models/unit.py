@@ -288,6 +288,7 @@ class Unit(models.Model, LoggerMixin):
     source = models.TextField()
     previous_source = models.TextField(default="", blank=True)
     target = models.TextField(default="", blank=True)
+    target_hash = models.BigIntegerField(default=0, db_index=True)
     state = models.IntegerField(default=STATE_EMPTY, choices=STATE_CHOICES)
     original_state = models.IntegerField(default=STATE_EMPTY, choices=STATE_CHOICES)
     details = models.JSONField(default=dict)
@@ -300,6 +301,7 @@ class Unit(models.Model, LoggerMixin):
 
     pending = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
 
     extra_flags = models.TextField(
         verbose_name=gettext_lazy("Translation flags"),
