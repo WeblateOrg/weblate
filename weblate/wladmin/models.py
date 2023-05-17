@@ -86,6 +86,7 @@ class SupportStatus(models.Model):
     expiry = models.DateTimeField(db_index=True, null=True)
     in_limits = models.BooleanField(default=True)
     discoverable = models.BooleanField(default=False)
+    limits = models.JSONField(default=dict)
 
     objects = SupportStatusManager()
 
@@ -136,12 +137,42 @@ class SupportStatus(models.Model):
         self.name = payload["name"]
         self.expiry = dateutil.parser.parse(payload["expiry"])
         self.in_limits = payload["in_limits"]
+        self.limits = payload["limits"]
         if payload["backup_repository"]:
             BackupService.objects.get_or_create(
                 repository=payload["backup_repository"], defaults={"enabled": False}
             )
         # Invalidate support status cache
         cache.delete(SUPPORT_STATUS_CACHE_KEY)
+
+    def get_limits_details(self):
+        stats = GlobalStats()
+        current_values = {
+            "hosted_words": stats.all_words,
+            "source_strings": stats.source_strings,
+            "projects": Project.objects.count(),
+            "languages": stats.languages,
+        }
+        names = {
+            "hosted_words": gettext_lazy("Hosted words"),
+            "source_strings": gettext_lazy("Source strings"),
+            "projects": gettext_lazy("Projects"),
+            "languages": gettext_lazy("Languages"),
+        }
+        result = []
+        for limit, value in self.limits.items():
+            if not value or limit not in names:
+                continue
+            current = current_values[limit]
+            result.append(
+                {
+                    "name": names[limit],
+                    "limit": value,
+                    "current": current,
+                    "in_limit": current < value,
+                }
+            )
+        return result
 
 
 class BackupService(models.Model):
