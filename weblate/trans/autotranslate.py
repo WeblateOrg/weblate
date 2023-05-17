@@ -92,8 +92,12 @@ class AutoTranslate:
             if (
                 not component.project.contribute_shared_tm
                 and not component.project != self.translation.component.project
-            ) or component.source_language != source_language:
-                raise PermissionDenied
+            ):
+                raise PermissionDenied(
+                    "Project has disabled contribution to shared translation memory."
+                )
+            if component.source_language != source_language:
+                raise PermissionDenied("Component have different source languages.")
             kwargs["translation__component"] = component
         else:
             project = self.translation.component.project
