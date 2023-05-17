@@ -124,4 +124,9 @@ def cycle_session_keys(request, user):
 
 def adjust_session_expiry(request):
     """Set longer expiry for authenticated users."""
-    request.session.set_expiry(settings.SESSION_COOKIE_AGE_AUTHENTICATED)
+    next_url = request.POST.get("next", request.GET.get("next"))
+    if next_url == "/idp/login/process/":
+        # Short lived session for SAML authentication only
+        request.session.set_expiry(60)
+    else:
+        request.session.set_expiry(settings.SESSION_COOKIE_AGE_AUTHENTICATED)
