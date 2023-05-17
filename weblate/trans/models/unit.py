@@ -158,6 +158,7 @@ class UnitQuerySet(models.QuerySet):
             "num_words",
             "labels",
             "timestamp",
+            "last_updated",
             "source",
             "target",
             "location",

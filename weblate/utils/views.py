@@ -122,6 +122,7 @@ SORT_CHOICES = {
     "source": gettext_lazy("Source string"),
     "target": gettext_lazy("Target string"),
     "timestamp": gettext_lazy("String age"),
+    "last_updated": gettext_lazy("Last updated"),
     "num_words": gettext_lazy("Number of words"),
     "num_comments": gettext_lazy("Number of comments"),
     "num_failing_checks": gettext_lazy("Number of failing checks"),

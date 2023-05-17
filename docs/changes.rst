@@ -9,6 +9,7 @@ Not yet released.
 * Extended support for Fluent file format.
 * Avoid signing-out user on some rate-limits.
 * Added support for storing glossary explanation in TBX format.
+* Added support for ordering strings by last update.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 

@@ -691,6 +691,12 @@
     </div>
     <div class="list-group-item">
     <h5>
+    {% trans "Last updated" %}
+    </h5>
+    {{ unit.last_updated|naturaltime }}
+    </div>
+    <div class="list-group-item">
+    <h5>
     {% trans "Source string age" %}
     </h5>
     {{ unit.source_unit.timestamp|naturaltime }}
