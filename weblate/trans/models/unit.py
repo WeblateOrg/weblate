@@ -289,7 +289,6 @@ class Unit(models.Model, LoggerMixin):
     source = models.TextField()
     previous_source = models.TextField(default="", blank=True)
     target = models.TextField(default="", blank=True)
-    target_hash = models.BigIntegerField(default=0, db_index=True)
     state = models.IntegerField(default=STATE_EMPTY, choices=STATE_CHOICES)
     original_state = models.IntegerField(default=STATE_EMPTY, choices=STATE_CHOICES)
     details = models.JSONField(default=dict)

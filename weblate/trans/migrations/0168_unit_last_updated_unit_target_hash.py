@@ -18,9 +18,4 @@ class Migration(migrations.Migration):
             name="last_updated",
             field=models.DateTimeField(auto_now=True),
         ),
-        migrations.AddField(
-            model_name="unit",
-            name="target_hash",
-            field=models.BigIntegerField(db_index=True, default=0),
-        ),
     ]
