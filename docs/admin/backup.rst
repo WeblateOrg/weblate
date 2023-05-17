@@ -242,7 +242,7 @@ tools such as :program:`pg_dump` or :program:`mysqldump`. It usually performs
 better than Django backup, and it restores complete tables with all their data.
 
 You can restore this backup in a newer Weblate release, it will perform all the
-necessary migrations when running in :djadmin:`django:migrate`. Please consult
+necessary migrations when running in :wladmin:`migrate`. Please consult
 :doc:`upgrade` on more detailed info on how to upgrade between versions.
 
 Django database backup
@@ -256,7 +256,7 @@ Prior to restoring the database you need to be running exactly the same Weblate
 version the backup was made on. This is necessary as the database structure does
 change between releases and you would end up corrupting the data in some way.
 After installing the same version, run all database migrations using
-:djadmin:`django:migrate`.
+:wladmin:`migrate`.
 
 Afterwards some entries will already be created in the database and you
 will have them in the database backup as well. The recommended approach is to
@@ -366,7 +366,7 @@ Restoring manual backup
 
 1. Restore all data you have backed up.
 
-2. Update all repositories using :djadmin:`updategit`.
+2. Update all repositories using :wladmin:`updategit`.
 
    .. code-block:: sh
 

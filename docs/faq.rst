@@ -533,7 +533,7 @@ updated to include the translator's name.
 
 .. seealso::
 
-   :djadmin:`list_translators`,
+   :wladmin:`list_translators`,
    :doc:`../devel/reporting`
 
 Why does Weblate force showing all PO files in a single tree?

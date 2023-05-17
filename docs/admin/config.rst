@@ -343,7 +343,7 @@ You can turn on only a few:
 
     Changing this setting only affects newly changed translations. Existing checks
     will still be stored in the database. To also apply changes to the stored translations, run
-    :djadmin:`updatechecks`.
+    :wladmin:`updatechecks`.
 
 .. seealso::
 
@@ -371,7 +371,7 @@ Number of hours between committing pending changes by way of the background task
    :ref:`component`,
    :ref:`component-commit_pending_age`,
    :ref:`production-cron`,
-   :djadmin:`commit_pending`
+   :wladmin:`commit_pending`
 
 
 .. setting:: CONTACT_FORM
@@ -562,7 +562,7 @@ Example:
 
 .. seealso::
 
-   :djadmin:`install_addon`,
+   :wladmin:`install_addon`,
    :doc:`addons`,
    :setting:`WEBLATE_ADDONS`
 
@@ -1766,7 +1766,7 @@ UPDATE_LANGUAGES
 
 Controls whether languages database should be updated when running database
 migration and is on by default. This setting has no effect on invocation
-of :djadmin:`setuplang`.
+of :wladmin:`setuplang`.
 
 .. warning::
 

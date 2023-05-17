@@ -54,7 +54,7 @@ there might a related issue.
 Things to check in that case:
 
 * Check that the Celery process is running, see :ref:`celery`
-* Check the Celery queue status, either in :ref:`management-interface`, or using :djadmin:`celery_queues`
+* Check the Celery queue status, either in :ref:`management-interface`, or using :wladmin:`celery_queues`
 * Look in the Celery logs for errors (see :ref:`weblate-logs`)
 
 .. _debug-mails:
