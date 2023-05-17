@@ -612,7 +612,7 @@ List of teams
 ^^^^^^^^^^^^^^
 
 The following teams are created upon installation (or after executing
-:djadmin:`setupgroups`) and you are free to modify them. The migration will,
+:wladmin:`setupgroups`) and you are free to modify them. The migration will,
 however, re-create them if you delete or rename them.
 
 `Guests`

@@ -36,7 +36,7 @@ translations, to suit the desired behavior.
 Imported translation memory
 +++++++++++++++++++++++++++
 
-Importing arbitrary translation memory data using the :djadmin:`import_memory`
+Importing arbitrary translation memory data using the :wladmin:`import_memory`
 command makes memory content available to all users and projects.
 
 Per user translation memory
@@ -95,7 +95,7 @@ There are several management commands to manipulate the translation memory
 content. These operate on the translation memory as whole, unfiltered by scopes (unless
 requested by parameters):
 
-:djadmin:`dump_memory`
+:wladmin:`dump_memory`
     Exports the memory into JSON
-:djadmin:`import_memory`
+:wladmin:`import_memory`
     Imports TMX or JSON files into the translation memory

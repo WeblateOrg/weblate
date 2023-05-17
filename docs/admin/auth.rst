@@ -586,7 +586,7 @@ Once you have the package installed, you can hook it into the Django authenticat
     ``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in order to
     make permissions and facilitate anonymous users. It will also allow you
     to sign in using a local admin account, if you have created it (e.g. by using
-    :djadmin:`createadmin`).
+    :wladmin:`createadmin`).
 
 Using bind password
 ~~~~~~~~~~~~~~~~~~~

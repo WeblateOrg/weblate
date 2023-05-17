@@ -744,12 +744,8 @@ Filling up the database
 -----------------------
 
 After your configuration is ready, you can run
-:samp:`weblate migrate` to create the database structure. Now you should be
+:wladmin:`migrate` to create the database structure. Now you should be
 able to create translation projects using the admin interface.
-
-In case you want to run an installation non interactively, you can use
-:samp:`weblate migrate --noinput`, and then create an admin user using
-:djadmin:`createadmin` command.
 
 Once you are done, you should also check the :guilabel:`Performance report` in the
 admin interface, which will give you hints of potential non optimal configuration on your
@@ -1053,11 +1049,11 @@ For optimal performance, it is good idea to run some maintenance tasks in the
 background. This is now automatically done by :ref:`celery` and covers following tasks:
 
 * Configuration health check (hourly).
-* Committing pending changes (hourly), see :ref:`lazy-commit` and :djadmin:`commit_pending`.
+* Committing pending changes (hourly), see :ref:`lazy-commit` and :wladmin:`commit_pending`.
 * Updating component alerts (daily).
 * Update remote branches (nightly), see :setting:`AUTO_UPDATE`.
-* Translation memory backup to JSON (daily), see :djadmin:`dump_memory`.
-* Fulltext and database maintenance tasks (daily and weekly tasks), see :djadmin:`cleanuptrans`.
+* Translation memory backup to JSON (daily), see :wladmin:`dump_memory`.
+* Fulltext and database maintenance tasks (daily and weekly tasks), see :wladmin:`cleanuptrans`.
 
 .. versionchanged:: 3.2
 
@@ -1460,7 +1456,7 @@ Monitoring Celery status
 ++++++++++++++++++++++++
 
 You can find current length of the Celery task queues in the
-:ref:`management-interface` or you can use :djadmin:`celery_queues` on the
+:ref:`management-interface` or you can use :wladmin:`celery_queues` on the
 command-line. In case the queue will get too long, you will also get
 configuration error in the admin interface.
 
@@ -1478,7 +1474,7 @@ configuration error in the admin interface.
    :doc:`celery:userguide/workers`,
    :doc:`celery:userguide/daemonizing`,
    :doc:`celery:userguide/monitoring`,
-   :djadmin:`celery_queues`
+   :wladmin:`celery_queues`
 
 .. _monitoring:
 

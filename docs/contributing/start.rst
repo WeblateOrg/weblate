@@ -125,8 +125,8 @@ Running the script without arguments will re-create the Docker container and res
 Bootstrapping your devel instance
 ---------------------------------
 
-You might want to use :djadmin:`import_demo` to create demo translations and
-:djadmin:`createadmin` to make an admin user.
+You might want to use :wladmin:`import_demo` to create demo translations and
+:wladmin:`createadmin` to make an admin user.
 
 Coding Weblate with PyCharm
 ---------------------------

@@ -755,7 +755,7 @@ Age of changes to commit
 ++++++++++++++++++++++++
 
 Sets how old (in hours) changes have to be before they are committed by
-background task or the :djadmin:`commit_pending` management command. All
+background task or the :wladmin:`commit_pending` management command. All
 changes in a component are committed once there is at least one change
 older than this period.
 
@@ -1068,7 +1068,7 @@ Automatic creation of components
 In case your project has dozen of translation files (e.g. for different
 gettext domains, or parts of Android apps), you might want to import them
 automatically. This can either be achieved from the command-line by using
-:djadmin:`import_project` or :djadmin:`import_json`, or by installing the
+:wladmin:`import_project` or :wladmin:`import_json`, or by installing the
 :ref:`addon-weblate.discovery.discovery` add-on.
 
 To use the add-on, you first need to create a component for one translation
@@ -1076,8 +1076,8 @@ file (choose the one that is the least likely to be renamed or removed in future
 and install the add-on on this component.
 
 For the management commands, you need to create a project which will contain all
-components and then run :djadmin:`import_project` or
-:djadmin:`import_json`.
+components and then run :wladmin:`import_project` or
+:wladmin:`import_json`.
 
 .. seealso::
 

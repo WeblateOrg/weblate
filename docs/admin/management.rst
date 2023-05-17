@@ -92,12 +92,12 @@ In case you need to pass it a file, you can temporary add a volume:
 add_suggestions
 ---------------
 
-.. django-admin:: add_suggestions <project> <component> <language> <file>
+.. weblate-admin:: add_suggestions <project> <component> <language> <file>
 
 Imports a translation from the file to use as a suggestion for the given translation.
 It skips duplicated translations; only different ones are added.
 
-.. django-admin-option:: --author USER@EXAMPLE.COM
+.. weblate-admin-option:: --author USER@EXAMPLE.COM
 
     E-mail of author for the suggestions. This user has to exist prior to importing
     (you can create one in the admin interface if needed).
@@ -112,7 +112,7 @@ Example:
 auto_translate
 --------------
 
-.. django-admin:: auto_translate <project> <component> <language>
+.. weblate-admin:: auto_translate <project> <component> <language>
 
 .. versionchanged:: 4.6
 
@@ -120,38 +120,38 @@ auto_translate
 
 Performs automatic translation based on other component translations.
 
-.. django-admin-option:: --source PROJECT/COMPONENT
+.. weblate-admin-option:: --source PROJECT/COMPONENT
 
     Specifies the component to use as source available for translation.
     If not specified all components in the project are used.
 
-.. django-admin-option:: --user USERNAME
+.. weblate-admin-option:: --user USERNAME
 
     Specify username listed as author of the translations.
     "Anonymous user" is used if not specified.
 
-.. django-admin-option:: --overwrite
+.. weblate-admin-option:: --overwrite
 
     Whether to overwrite existing translations.
 
-.. django-admin-option:: --inconsistent
+.. weblate-admin-option:: --inconsistent
 
     Whether to overwrite existing translations that are inconsistent (see
     :ref:`check-inconsistent`).
 
-.. django-admin-option:: --add
+.. weblate-admin-option:: --add
 
     Automatically add language if a given translation does not exist.
 
-.. django-admin-option:: --mt MT
+.. weblate-admin-option:: --mt MT
 
     Use machine translation instead of other components as machine translations.
 
-.. django-admin-option:: --threshold THRESHOLD
+.. weblate-admin-option:: --threshold THRESHOLD
 
     Similarity threshold for machine translation, defaults to 80.
 
-.. django-admin-option:: --mode MODE
+.. weblate-admin-option:: --mode MODE
 
     Specify translation mode, default is ``translate`` but ``fuzzy`` or ``suggest``
     can be used.
@@ -169,7 +169,7 @@ Example:
 celery_queues
 -------------
 
-.. django-admin:: celery_queues
+.. weblate-admin:: celery_queues
 
 .. versionadded:: 3.7
 
@@ -178,7 +178,7 @@ Displays length of Celery task queues.
 checkgit
 --------
 
-.. django-admin:: checkgit <project|project/component>
+.. weblate-admin:: checkgit <project|project/component>
 
 Prints current state of the back-end Git repository.
 
@@ -188,7 +188,7 @@ You can either define which project or component to update (for example
 commitgit
 ---------
 
-.. django-admin:: commitgit <project|project/component>
+.. weblate-admin:: commitgit <project|project/component>
 
 Commits any possible pending changes to the back-end Git repository.
 
@@ -199,14 +199,14 @@ or use ``--file-format`` to filter based on the file format.
 commit_pending
 --------------
 
-.. django-admin:: commit_pending <project|project/component>
+.. weblate-admin:: commit_pending <project|project/component>
 
 Commits pending changes older than a given age.
 
 You can either define which project or component to update (for example
 ``weblate/application``), or use ``--all`` to update all existing components.
 
-.. django-admin-option:: --age HOURS
+.. weblate-admin-option:: --age HOURS
 
     Age in hours for committing. If not specified the value configured in
     :ref:`component` is used.
@@ -225,7 +225,7 @@ You can either define which project or component to update (for example
 cleanuptrans
 ------------
 
-.. django-admin:: cleanuptrans
+.. weblate-admin:: cleanuptrans
 
 Cleans up orphaned checks and translation suggestions. There is normally no need to run this
 manually, as the cleanups happen automatically in the background.
@@ -237,7 +237,7 @@ manually, as the cleanups happen automatically in the background.
 cleanup_ssh_keys
 ----------------
 
-.. django-admin:: cleanup_ssh_keys
+.. weblate-admin:: cleanup_ssh_keys
 
 .. versionadded:: 4.9.1
 
@@ -253,38 +253,38 @@ Performs cleanup of stored SSH host keys:
 createadmin
 -----------
 
-.. django-admin:: createadmin
+.. weblate-admin:: createadmin
 
 Creates an ``admin`` account with a random password, unless it is specified.
 
-.. django-admin-option:: --password PASSWORD
+.. weblate-admin-option:: --password PASSWORD
 
     Provides a password on the command-line, to not generate a random one.
 
-.. django-admin-option:: --no-password
+.. weblate-admin-option:: --no-password
 
     Do not set password, this can be useful with `--update`.
 
-.. django-admin-option:: --username USERNAME
+.. weblate-admin-option:: --username USERNAME
 
     Use the given name instead of ``admin``.
 
-.. django-admin-option:: --email USER@EXAMPLE.COM
+.. weblate-admin-option:: --email USER@EXAMPLE.COM
 
     Specify the admin e-mail address.
 
-.. django-admin-option:: --name
+.. weblate-admin-option:: --name
 
     Specify the admin name (visible).
 
-.. django-admin-option:: --update
+.. weblate-admin-option:: --update
 
     Update the existing user (you can use this to change passwords).
 
 dump_memory
 -----------
 
-.. django-admin:: dump_memory
+.. weblate-admin:: dump_memory
 
 Export a JSON file containing Weblate Translation Memory content.
 
@@ -296,9 +296,9 @@ Export a JSON file containing Weblate Translation Memory content.
 dumpuserdata
 ------------
 
-.. django-admin:: dumpuserdata <file.json>
+.. weblate-admin:: dumpuserdata <file.json>
 
-Dumps userdata to a file for later use by :djadmin:`importuserdata`.
+Dumps userdata to a file for later use by :wladmin:`importuserdata`.
 
 .. hint::
 
@@ -307,7 +307,7 @@ Dumps userdata to a file for later use by :djadmin:`importuserdata`.
 import_demo
 -----------
 
-.. django-admin:: import_demo
+.. weblate-admin:: import_demo
 
 .. versionadded:: 4.1
 
@@ -320,7 +320,7 @@ This can be useful when developing Weblate.
 import_json
 -----------
 
-.. django-admin:: import_json <json-file>
+.. weblate-admin:: import_json <json-file>
 
 Batch import of components based on JSON data.
 
@@ -328,19 +328,19 @@ The imported JSON file structure pretty much corresponds to the component
 object (see :http:get:`/api/components/(string:project)/(string:component)/`).
 You have to include the ``name`` and ``filemask`` fields.
 
-.. django-admin-option:: --project PROJECT
+.. weblate-admin-option:: --project PROJECT
 
     Specifies where the components will be imported from.
 
-.. django-admin-option:: --main-component COMPONENT
+.. weblate-admin-option:: --main-component COMPONENT
 
     Use the given VCS repository from this component for all of them.
 
-.. django-admin-option:: --ignore
+.. weblate-admin-option:: --ignore
 
     Skip (already) imported components.
 
-.. django-admin-option:: --update
+.. weblate-admin-option:: --update
 
     Update (already) imported components.
 
@@ -351,16 +351,16 @@ Example of JSON file:
 
 .. seealso::
 
-    :djadmin:`import_memory`
+    :wladmin:`import_memory`
 
 import_memory
 -------------
 
-.. django-admin:: import_memory <file>
+.. weblate-admin:: import_memory <file>
 
 Imports a TMX or JSON file into the Weblate translation memory.
 
-.. django-admin-option:: --language-map LANGMAP
+.. weblate-admin-option:: --language-map LANGMAP
 
     Allows mapping languages in the TMX to the Weblate translation memory.
     The language codes are mapped after normalization usually done by Weblate.
@@ -379,7 +379,7 @@ Imports a TMX or JSON file into the Weblate translation memory.
 import_project
 --------------
 
-.. django-admin:: import_project <project> <gitrepo> <branch> <filemask>
+.. weblate-admin:: import_project <project> <gitrepo> <branch> <filemask>
 
 .. versionchanged:: 3.0
 
@@ -409,48 +409,48 @@ For example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\.po``
 The import matches existing components based on files and adds the ones that
 do not exist. It does not change already existing ones.
 
-.. django-admin-option:: --name-template TEMPLATE
+.. weblate-admin-option:: --name-template TEMPLATE
 
     Customize the name of a component using Django template syntax.
 
     For example: ``Documentation: {{ component }}``
 
-.. django-admin-option:: --base-file-template TEMPLATE
+.. weblate-admin-option:: --base-file-template TEMPLATE
 
     Customize the base file for monolingual translations.
 
     For example: ``{{ component }}/res/values/string.xml``
 
-.. django-admin-option:: --new-base-template TEMPLATE
+.. weblate-admin-option:: --new-base-template TEMPLATE
 
     Customize the base file for addition of new translations.
 
     For example: ``{{ component }}/ts/en.ts``
 
-.. django-admin-option:: --file-format FORMAT
+.. weblate-admin-option:: --file-format FORMAT
 
     You can also specify the file format to use (see :ref:`formats`), the default
     is auto-detection.
 
-.. django-admin-option:: --language-regex REGEX
+.. weblate-admin-option:: --language-regex REGEX
 
     You can specify language filtering (see :ref:`component`) with this
     parameter. It has to be a valid regular expression.
 
-.. django-admin-option:: --main-component
+.. weblate-admin-option:: --main-component
 
     You can specify which component will be chosen as the main one—the one actually
     containing the VCS repository.
 
-.. django-admin-option:: --license NAME
+.. weblate-admin-option:: --license NAME
 
     Specify the overall, project or component translation license.
 
-.. django-admin-option:: --license-url URL
+.. weblate-admin-option:: --license-url URL
 
     Specify the URL where the translation license is to be found.
 
-.. django-admin-option:: --vcs NAME
+.. weblate-admin-option:: --vcs NAME
 
     In case you need to specify which version control system to use, you can do it
     here. The default version control is Git.
@@ -528,24 +528,24 @@ Importing Sphinx documentation split to multiple files and directories:
 .. seealso::
 
     More detailed examples can be found in the :ref:`starting` chapter,
-    alternatively you might want to use :djadmin:`import_json`.
+    alternatively you might want to use :wladmin:`import_json`.
 
 importuserdata
 --------------
 
-.. django-admin:: importuserdata <file.json>
+.. weblate-admin:: importuserdata <file.json>
 
-Imports user data from a file created by :djadmin:`dumpuserdata`.
+Imports user data from a file created by :wladmin:`dumpuserdata`.
 
 importusers
 -----------
 
-.. django-admin:: importusers --check <file.json>
+.. weblate-admin:: importusers --check <file.json>
 
 Imports users from JSON dump of the Django auth_users database.
 
 
-.. django-admin-option:: --check
+.. weblate-admin-option:: --check
 
     With this option it will just check whether a given file can be imported and
     report possible conflicts arising from usernames or e-mails.
@@ -561,19 +561,19 @@ install_addon
 
 .. versionadded:: 3.2
 
-.. django-admin:: install_addon --addon ADDON <project|project/component>
+.. weblate-admin:: install_addon --addon ADDON <project|project/component>
 
 Installs an add-on to a set of components.
 
-.. django-admin-option:: --addon ADDON
+.. weblate-admin-option:: --addon ADDON
 
    Name of the add-on to install. For example ``weblate.gettext.customize``.
 
-.. django-admin-option:: --configuration CONFIG
+.. weblate-admin-option:: --configuration CONFIG
 
    JSON encoded configuration of an add-on.
 
-.. django-admin-option:: --update
+.. weblate-admin-option:: --update
 
    Update the existing add-on configuration.
 
@@ -593,7 +593,7 @@ To install :ref:`addon-weblate.gettext.customize` for all components:
 list_languages
 --------------
 
-.. django-admin:: list_languages <locale>
+.. weblate-admin:: list_languages <locale>
 
 Lists supported languages in MediaWiki markup - language codes, English names
 and localized names.
@@ -603,7 +603,7 @@ This is used to generate <https://wiki.l10n.cz/Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C
 list_translators
 ----------------
 
-.. django-admin:: list_translators <project|project/component>
+.. weblate-admin:: list_translators <project|project/component>
 
 Lists translators by contributed language for the given project::
 
@@ -612,7 +612,7 @@ Lists translators by contributed language for the given project::
     [English]
     John Doe <jd@example.com>
 
-.. django-admin-option:: --language-code
+.. weblate-admin-option:: --language-code
 
     List names by language code instead of language name.
 
@@ -623,23 +623,23 @@ components.
 list_versions
 -------------
 
-.. django-admin:: list_versions
+.. weblate-admin:: list_versions
 
 Lists all Weblate dependencies and their versions.
 
 loadpo
 ------
 
-.. django-admin:: loadpo <project|project/component>
+.. weblate-admin:: loadpo <project|project/component>
 
 Reloads translations from disk (for example in case you have done some updates in the VCS
 repository).
 
-.. django-admin-option:: --force
+.. weblate-admin-option:: --force
 
     Force update, even if the files should be up-to-date.
 
-.. django-admin-option:: --lang LANGUAGE
+.. weblate-admin-option:: --lang LANGUAGE
 
     Limit processing to a single language.
 
@@ -655,7 +655,7 @@ You can either define which project or component to update (for example
 lock_translation
 ----------------
 
-.. django-admin:: lock_translation <project|project/component>
+.. weblate-admin:: lock_translation <project|project/component>
 
 Prevents further translation of a component.
 
@@ -668,12 +668,31 @@ You can either define which project or component to update (for example
 
 .. seealso::
 
-   :djadmin:`unlock_translation`
+   :wladmin:`unlock_translation`
+
+migrate
+-------
+
+.. weblate-admin:: migrate
+
+Migrates database to current Weblate schema. The command line options are
+described at Django :djadmin:`django:migrate`.
+
+.. hint::
+
+   In case you want to run an installation non interactively, you can use
+   :samp:`weblate migrate --noinput`, and then create an admin user using
+   :wladmin:`createadmin` command.
+
+.. seealso::
+
+   :djadmin:`django:migrate`,
+   :ref:`tables-setup`
 
 move_language
 -------------
 
-.. django-admin:: move_language source target
+.. weblate-admin:: move_language source target
 
 .. versionadded:: 3.0
 
@@ -695,11 +714,11 @@ remove the `(generated)` language.
 pushgit
 -------
 
-.. django-admin:: pushgit <project|project/component>
+.. weblate-admin:: pushgit <project|project/component>
 
 Pushes committed changes to the upstream VCS repository.
 
-.. django-admin-option:: --force-commit
+.. weblate-admin-option:: --force-commit
 
     Force commits any pending changes, prior to pushing.
 
@@ -714,7 +733,7 @@ You can either define which project or component to update (for example
 unlock_translation
 ------------------
 
-.. django-admin:: unlock_translation <project|project/component>
+.. weblate-admin:: unlock_translation <project|project/component>
 
 Unlocks a given component, making it available for translation.
 
@@ -727,20 +746,20 @@ You can either define which project or component to update (for example
 
 .. seealso::
 
-   :djadmin:`lock_translation`
+   :wladmin:`lock_translation`
 
 setupgroups
 -----------
 
-.. django-admin:: setupgroups
+.. weblate-admin:: setupgroups
 
 Configures default groups and optionally assigns all users to that default group.
 
-.. django-admin-option:: --no-privs-update
+.. weblate-admin-option:: --no-privs-update
 
     Turns off automatic updating of existing groups (only adds new ones).
 
-.. django-admin-option:: --no-projects-update
+.. weblate-admin-option:: --no-projects-update
 
     Prevents automatic updates of groups for existing projects. This allows adding newly
     added groups to existing projects, see :ref:`acl`.
@@ -752,18 +771,18 @@ Configures default groups and optionally assigns all users to that default group
 setuplang
 ---------
 
-.. django-admin:: setuplang
+.. weblate-admin:: setuplang
 
 Updates list of defined languages in Weblate.
 
-.. django-admin-option:: --no-update
+.. weblate-admin-option:: --no-update
 
     Turns off automatic updates of existing languages (only adds new ones).
 
 updatechecks
 ------------
 
-.. django-admin:: updatechecks <project|project/component>
+.. weblate-admin:: updatechecks <project|project/component>
 
 Updates all checks for all strings.
 
@@ -782,7 +801,7 @@ You can either define which project or component to update (for example
 updategit
 ---------
 
-.. django-admin:: updategit <project|project/component>
+.. weblate-admin:: updategit <project|project/component>
 
 Fetches remote VCS repositories and updates the internal cache.
 
@@ -792,4 +811,4 @@ You can either define which project or component to update (for example
 .. note::
 
     Usually it is better to configure hooks in the repository to trigger
-    :ref:`hooks`, instead of regular polling by :djadmin:`updategit`.
+    :ref:`hooks`, instead of regular polling by :wladmin:`updategit`.

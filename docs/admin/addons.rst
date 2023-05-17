@@ -10,7 +10,7 @@ translation component.
 .. hint::
 
    You can also configure add-ons using :ref:`API <addons-api>`,
-   :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`.
+   :setting:`DEFAULT_ADDONS`, or :wladmin:`install_addon`.
 
 .. image:: /screenshots/addons.png
 
@@ -322,7 +322,7 @@ Matching files:
 .. seealso::
 
    :ref:`markup`,
-   :djadmin:`import_project`
+   :wladmin:`import_project`
 
 .. _addon-weblate.flags.bulk:
 
