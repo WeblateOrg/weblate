@@ -428,6 +428,18 @@ to be escaped as ``[[]`` or ``[]]``.
    :ref:`bimono`,
    :ref:`faq-duplicate-files`
 
+.. _component-screenshot_filemask:
+
+Screenshot file mask
+++++++++++++++++++++
+
+Mask of files to allow discovery/update of screenshots, including path from vcs repository.
+It should include one "*" replacing screenshot file name.
+
+Allowed formats are JPEG, PNG, APNG and GIF.
+
+For example ``docs/*.png``.
+
 .. _component-template:
 
 Monolingual base language file

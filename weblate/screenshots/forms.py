@@ -27,7 +27,7 @@ class ScreenshotForm(forms.ModelForm):
 
     class Meta:
         model = Screenshot
-        fields = ("name", "image", "translation")
+        fields = ("name", "repository_filename", "image", "translation")
         widgets = {
             "translation": SortedSelect,
         }

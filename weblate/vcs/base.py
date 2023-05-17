@@ -517,11 +517,12 @@ class Repository:
         """Parses output with changed files."""
         raise NotImplementedError
 
-    def list_upstream_changed_files(self):
-        """List files missing upstream."""
-        return self.list_changed_files(
-            self.ref_to_remote.format(self.get_remote_branch_name())
-        )
+    def get_changed_files(self, compare_to: Optional[str] = None):
+        """Get files missing upstream or changes between revisions."""
+        if compare_to is None:
+            compare_to = self.get_remote_branch_name()
+
+        return self.list_changed_files(self.ref_to_remote.format(compare_to))
 
     def get_remote_branch_name(self):
         return f"origin/{self.branch}"

@@ -1413,6 +1413,7 @@ class ComponentSettingsForm(
             "source_language",
             "new_base",
             "filemask",
+            "screenshot_filemask",
             "template",
             "intermediate",
             "language_regex",
@@ -1591,6 +1592,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
             "repoweb",
             "file_format",
             "filemask",
+            "screenshot_filemask",
             "template",
             "edit_template",
             "intermediate",
@@ -1804,7 +1806,13 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
 
         instance = Component(**params)
         instance.clean_fields(
-            exclude=("filemask", "template", "file_format", "license")
+            exclude=(
+                "filemask",
+                "screenshot_filemask",
+                "template",
+                "file_format",
+                "license",
+            )
         )
         instance.validate_unique()
         instance.clean_repo()
