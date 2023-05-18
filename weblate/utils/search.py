@@ -474,7 +474,7 @@ class UnitTermExpr(BaseTermExpr):
         )
 
 
-QUERY = build_parser(UnitTermExpr)
+PARSERS = {"unit": build_parser(UnitTermExpr)}
 
 
 def parser_to_query(obj, context: Dict):
@@ -502,12 +502,12 @@ def parser_to_query(obj, context: Dict):
 
 
 @lru_cache(maxsize=512)
-def parse_string(text):
+def parse_string(text: str, parser: str):
     if "\x00" in text:
         raise ValueError("Invalid query string.")
-    return QUERY.parse_string(text, parse_all=True)
+    return PARSERS[parser].parse_string(text, parse_all=True)
 
 
-def parse_query(text, **context):
-    parsed = parse_string(text)
+def parse_query(text: str, parser: str = "unit", **context):
+    parsed = parse_string(text, parser)
     return parser_to_query(parsed, context)
