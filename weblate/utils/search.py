@@ -70,57 +70,60 @@ OPERATOR_MAP = {
     ":>=": "gte",
 }
 
-# Parsing grammar
 
-AND = CaselessKeyword("AND")
-OR = Optional(CaselessKeyword("OR"))
-NOT = CaselessKeyword("NOT")
+def build_parser(term_expression: object):
+    """Build parsing grammar."""
+    # Booleans
+    op_and = CaselessKeyword("AND")
+    op_or = Optional(CaselessKeyword("OR"))
+    op_not = CaselessKeyword("NOT")
 
-# Search operator
-OPERATOR = one_of(OPERATOR_MAP.keys())
+    # Search operator
+    operator = one_of(OPERATOR_MAP.keys())
 
-# Field name, explicitly exclude URL like patterns
-FIELD = Regex(r"""(?!http|ftp|https|mailto)[a-zA-Z_]+""")
+    # Field name, explicitly exclude URL like patterns
+    field = Regex(r"""(?!http|ftp|https|mailto)[a-zA-Z_]+""")
 
-# Match token
-WORD = Regex(r"""[^ \(\)]([^ '"]*[^ '"\)])?""")
-DATE = Word("0123456789:.-T")
+    # Match token
+    word = Regex(r"""[^ \(\)]([^ '"]*[^ '"\)])?""")
+    date = Word("0123456789:.-T")
 
-# Date range
-RANGE = "[" + DATE + "to" + DATE + "]"
-RANGE.add_parse_action(RangeExpr)
+    # Date range
+    date_range = "[" + date + "to" + date + "]"
+    date_range.add_parse_action(RangeExpr)
 
-# Match value
-REGEX_STRING = "r" + RawQuotedString('"')
-REGEX_STRING.add_parse_action(RegexExpr)
-STRING = REGEX_STRING | RawQuotedString("'") | RawQuotedString('"') | WORD
+    # Match value
+    regex_string = "r" + RawQuotedString('"')
+    regex_string.add_parse_action(RegexExpr)
+    string = regex_string | RawQuotedString("'") | RawQuotedString('"') | word
 
-# Single term, either field specific or not
-TERM = (FIELD + OPERATOR + (RANGE | STRING)) | STRING
+    # Single term, either field specific or not
+    term = (field + operator + (date_range | string)) | string
+    term.add_parse_action(term_expression)
 
-# Multi term with or without operator
-QUERY = Optional(
-    infix_notation(
-        TERM,
-        [
-            (
-                NOT,
-                1,
-                OpAssoc.RIGHT,
-            ),
-            (
-                AND,
-                2,
-                OpAssoc.LEFT,
-            ),
-            (
-                OR,
-                2,
-                OpAssoc.LEFT,
-            ),
-        ],
+    # Multi term with or without operator
+    return Optional(
+        infix_notation(
+            term,
+            [
+                (
+                    op_not,
+                    1,
+                    OpAssoc.RIGHT,
+                ),
+                (
+                    op_and,
+                    2,
+                    OpAssoc.LEFT,
+                ),
+                (
+                    op_or,
+                    2,
+                    OpAssoc.LEFT,
+                ),
+            ],
+        )
     )
-)
 
 
 class TermExpr:
@@ -461,7 +464,7 @@ class TermExpr:
         return self.field_extra(field, query, match)
 
 
-TERM.add_parse_action(TermExpr)
+QUERY = build_parser(TermExpr)
 
 
 def parser_to_query(obj, context: Dict):
