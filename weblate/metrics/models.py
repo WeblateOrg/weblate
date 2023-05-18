@@ -406,6 +406,7 @@ class MetricManager(models.Manager):
             .values("user")
             .distinct()
             .count(),
+            "users": language.profile_set.count(),
         }
         return self.create_metrics(
             data,
