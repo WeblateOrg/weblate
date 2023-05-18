@@ -49,38 +49,18 @@ class Comparer:
         return int(100 * DamerauLevenshtein.normalized_similarity(first, second))
 
 
-# Field type definitions
-PLAIN_FIELDS = ("source", "target", "context", "note", "location")
-NONTEXT_FIELDS = {
-    "priority": "priority",
-    "id": "id",
-    "state": "state",
-    "position": "position",
-    "pending": "pending",
-    "changed": "change__timestamp",
-    "change_time": "change__timestamp",
-    "added": "timestamp",
-    "change_action": "change__action",
-}
-STRING_FIELD_MAP = {
-    "suggestion": "suggestion__target",
-    "comment": "comment__comment",
-    "resolved_comment": "comment__comment",
-    "key": "context",
-    "explanation": "source_unit__explanation",
-}
-EXACT_FIELD_MAP = {
-    "check": "check__name",
-    "dismissed_check": "check__name",
-    "language": "translation__language__code",
-    "component": "translation__component__slug",
-    "project": "translation__component__project__slug",
-    "changed_by": "change__author__username",
-    "suggestion_author": "suggestion__user__username",
-    "comment_author": "comment__user__username",
-    "label": "source_unit__labels__name",
-    "screenshot": "source_unit__screenshots__name",
-}
+# Helper parsing objects
+class RegexExpr:
+    def __init__(self, tokens):
+        self.expr = tokens[1]
+
+
+class RangeExpr:
+    def __init__(self, tokens):
+        self.start = tokens[1]
+        self.end = tokens[3]
+
+
 OPERATOR_MAP = {
     ":": "substring",
     ":=": "exact",
@@ -108,9 +88,11 @@ DATE = Word("0123456789:.-T")
 
 # Date range
 RANGE = "[" + DATE + "to" + DATE + "]"
+RANGE.add_parse_action(RangeExpr)
 
 # Match value
 REGEX_STRING = "r" + RawQuotedString('"')
+REGEX_STRING.add_parse_action(RegexExpr)
 STRING = REGEX_STRING | RawQuotedString("'") | RawQuotedString('"') | WORD
 
 # Single term, either field specific or not
@@ -140,27 +122,40 @@ QUERY = Optional(
     )
 )
 
-# Helper parsing objects
-
-
-class RegexExpr:
-    def __init__(self, tokens):
-        self.expr = tokens[1]
-
-
-REGEX_STRING.add_parse_action(RegexExpr)
-
-
-class RangeExpr:
-    def __init__(self, tokens):
-        self.start = tokens[1]
-        self.end = tokens[3]
-
-
-RANGE.add_parse_action(RangeExpr)
-
 
 class TermExpr:
+    PLAIN_FIELDS = ("source", "target", "context", "note", "location")
+    NONTEXT_FIELDS = {
+        "priority": "priority",
+        "id": "id",
+        "state": "state",
+        "position": "position",
+        "pending": "pending",
+        "changed": "change__timestamp",
+        "change_time": "change__timestamp",
+        "added": "timestamp",
+        "change_action": "change__action",
+    }
+    STRING_FIELD_MAP = {
+        "suggestion": "suggestion__target",
+        "comment": "comment__comment",
+        "resolved_comment": "comment__comment",
+        "key": "context",
+        "explanation": "source_unit__explanation",
+    }
+    EXACT_FIELD_MAP = {
+        "check": "check__name",
+        "dismissed_check": "check__name",
+        "language": "translation__language__code",
+        "component": "translation__component__slug",
+        "project": "translation__component__project__slug",
+        "changed_by": "change__author__username",
+        "suggestion_author": "suggestion__user__username",
+        "comment_author": "comment__user__username",
+        "label": "source_unit__labels__name",
+        "screenshot": "source_unit__screenshots__name",
+    }
+
     def __init__(self, tokens):
         if len(tokens) == 1:
             self.field = None
@@ -175,7 +170,7 @@ class TermExpr:
 
     def fixup(self):
         # Avoid unwanted lt/gt searches on plain text fields
-        if self.field in PLAIN_FIELDS and self.operator not in (":", ":="):
+        if self.field in self.PLAIN_FIELDS and self.operator not in (":", ":="):
             self.match = self.operator[1:] + self.match
             self.operator = ":"
 
@@ -391,19 +386,19 @@ class TermExpr:
         if suffix is None:
             suffix = OPERATOR_MAP[self.operator]
 
-        if field in PLAIN_FIELDS:
+        if field in self.PLAIN_FIELDS:
             return f"{field}__{suffix}"
-        if field in STRING_FIELD_MAP:
-            return f"{STRING_FIELD_MAP[field]}__{suffix}"
-        if field in EXACT_FIELD_MAP:
+        if field in self.STRING_FIELD_MAP:
+            return f"{self.STRING_FIELD_MAP[field]}__{suffix}"
+        if field in self.EXACT_FIELD_MAP:
             # Change contains to exact, do not change other (for example regex)
             if suffix == "substring":
                 suffix = "iexact"
-            return f"{EXACT_FIELD_MAP[field]}__{suffix}"
-        if field in NONTEXT_FIELDS:
+            return f"{self.EXACT_FIELD_MAP[field]}__{suffix}"
+        if field in self.NONTEXT_FIELDS:
             if suffix not in ("substring", "iexact"):
-                return f"{NONTEXT_FIELDS[field]}__{suffix}"
-            return NONTEXT_FIELDS[field]
+                return f"{self.NONTEXT_FIELDS[field]}__{suffix}"
+            return self.NONTEXT_FIELDS[field]
         raise ValueError(f"Unsupported field: {field}")
 
     def convert_non_field(self):
