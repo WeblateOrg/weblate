@@ -60,7 +60,7 @@ class TranslationChangesFeed(ChangesFeed):
         return obj.get_absolute_url()
 
     def items(self, obj):
-        return Change.objects.prefetch().filter(translation=obj).order()[:10]
+        return obj.change_set.prefetch().order()[:10]
 
 
 class ComponentChangesFeed(TranslationChangesFeed):
@@ -69,9 +69,6 @@ class ComponentChangesFeed(TranslationChangesFeed):
     def get_object(self, request, project, component):
         return get_component(request, project, component)
 
-    def items(self, obj):
-        return Change.objects.prefetch().filter(component=obj).order()[:10]
-
 
 class ProjectChangesFeed(TranslationChangesFeed):
     """RSS feed for changes in project."""
@@ -79,15 +76,9 @@ class ProjectChangesFeed(TranslationChangesFeed):
     def get_object(self, request, project):
         return get_project(request, project)
 
-    def items(self, obj):
-        return Change.objects.prefetch().filter(project=obj).order()[:10]
-
 
 class LanguageChangesFeed(TranslationChangesFeed):
     """RSS feed for changes in language."""
 
     def get_object(self, request, lang):
         return get_object_or_404(Language, code=lang)
-
-    def items(self, obj):
-        return Change.objects.prefetch().filter(language=obj).order()[:10]
