@@ -867,8 +867,13 @@ class GitMergeRequestBase(GitForcePushRepository):
     def create_fork(self, credentials: Dict):
         raise NotImplementedError
 
-    def get_fork_failed_message(self, error: str, credentials: Dict) -> str:
+    def get_fork_failed_message(
+        self, error: str, credentials: Dict, response: requests.Response
+    ) -> str:
         hostname = credentials["hostname"]
+        username = credentials["username"]
+        if response.status_code == 404:
+            error = f"Repository not found. Check whether exists and {username} has access to it."
         if error.strip():
             return f"Failed to fork repository at {hostname}: {error}"
         return f"Failed to fork repository at {hostname}"
@@ -1054,10 +1059,10 @@ class GithubRepository(GitMergeRequestBase):
         # GitHub API returns the entire data of the fork, in case the fork
         # already exists. Hence this is perfectly handled, if the fork already
         # exists in the remote side.
-        response_data, _response, error = self.request("post", credentials, fork_url)
+        response_data, response, error = self.request("post", credentials, fork_url)
         if "ssh_url" not in response_data:
             raise RepositoryException(
-                0, self.get_fork_failed_message(error, credentials)
+                0, self.get_fork_failed_message(error, credentials, response)
             )
         self.configure_fork_remote(response_data["ssh_url"], credentials["username"])
 
@@ -1140,12 +1145,12 @@ class GiteaRepository(GitMergeRequestBase):
             and "repository is already forked by user" in error
         ) or response.status_code == 409:
             # we have to get the repository again if it is already forked
-            response_data, _response, error = self.request(
+            response_data, response, error = self.request(
                 "get", credentials, credentials["url"]
             )
         if "ssh_url" not in response_data:
             raise RepositoryException(
-                0, self.get_fork_failed_message(error, credentials)
+                0, self.get_fork_failed_message(error, credentials, response)
             )
         self.configure_fork_remote(response_data["ssh_url"], credentials["username"])
 
@@ -1365,7 +1370,7 @@ class GitLabRepository(GitMergeRequestBase):
         # Check if Fork already exists owned by current user. If the
         # fork already exists, set that fork as remote.
         # Else, create a new fork
-        response_data, _response, error = self.request("get", credentials, get_fork_url)
+        response_data, response, error = self.request("get", credentials, get_fork_url)
         for fork in response_data:
             # Since owned=True returns forks from both the user's repo and the forks
             # in all the groups owned by the user, hence we need the below logic
@@ -1374,7 +1379,7 @@ class GitLabRepository(GitMergeRequestBase):
                 forked_repo = fork
 
         if forked_repo is None:
-            forked_repo, _response, error = self.request("post", credentials, fork_url)
+            forked_repo, response, error = self.request("post", credentials, fork_url)
             # If a repo with the name of the fork already exist, append numeric
             # as suffix to name and path to use that as repo name and path.
             if (
@@ -1384,7 +1389,7 @@ class GitLabRepository(GitMergeRequestBase):
                 fork_name = "{}-{}".format(
                     credentials["url"].split("%2F")[-1], random.randint(1000, 9999)
                 )
-                forked_repo, _response, error = self.request(
+                forked_repo, response, error = self.request(
                     "post",
                     credentials,
                     fork_url,
@@ -1393,7 +1398,7 @@ class GitLabRepository(GitMergeRequestBase):
 
             if "ssh_url_to_repo" not in forked_repo:
                 raise RepositoryException(
-                    0, self.get_fork_failed_message(error, credentials)
+                    0, self.get_fork_failed_message(error, credentials, response)
                 )
 
         self.configure_fork_features(credentials, forked_repo["_links"]["self"])
@@ -1464,7 +1469,7 @@ class PagureRepository(GitMergeRequestBase):
 
         for param in params:
             param.update(base_params)
-            _response, _response, error = self.request(
+            _response_data, response, error = self.request(
                 "post", credentials, fork_url, data=param
             )
             if '" cloned to "' in error or "already exists" in error:
@@ -1472,7 +1477,7 @@ class PagureRepository(GitMergeRequestBase):
 
         if '" cloned to "' not in error and "already exists" not in error:
             raise RepositoryException(
-                0, self.get_fork_failed_message(error, credentials)
+                0, self.get_fork_failed_message(error, credentials, response)
             )
 
         url = "ssh://git@{hostname}/forks/{username}/{slug}.git".format(**credentials)
@@ -1544,7 +1549,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
 
     def create_fork(self, credentials: Dict):
         fork_url, owner, slug = self.get_api_url()
-        bb_fork, _response, error_message = self.request(
+        bb_fork, response, error_message = self.request(
             "post", credentials, fork_url, json={}
         )
         self.bb_fork = bb_fork
@@ -1558,7 +1563,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
             self.bb_fork = {}
             forks_url = f'{credentials["url"]}/forks'
             while True:
-                forks, _response, error_message = self.request(
+                forks, response, error_message = self.request(
                     "get", credentials, forks_url, params={"limit": 1000, "start": page}
                 )
                 if "values" in forks:
@@ -1586,7 +1591,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
 
         if not remote_url:
             raise RepositoryException(
-                0, self.get_fork_failed_message(error_message, credentials)
+                0, self.get_fork_failed_message(error_message, credentials, response)
             )
 
         self.configure_fork_remote(remote_url, credentials["username"])
