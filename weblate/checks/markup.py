@@ -142,10 +142,10 @@ class BaseXMLCheck(TargetCheck):
         sources = unit.get_source_plurals()
 
         # Quick check if source looks like XML.
-        if not any(
-            "<" in source and len(XML_MATCH.findall(source)) for source in sources
+        if all(
+            "<" not in source or not XML_MATCH.findall(source) for source in sources
         ):
-            return False
+            return True
 
         # Actually verify XML parsing
         return not all(self.can_parse_xml(source) for source in sources)

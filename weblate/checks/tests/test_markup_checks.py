@@ -88,6 +88,9 @@ class XMLValidityCheckTest(CheckTestCase):
             ),
         )
 
+    def test_nonxml(self):
+        self.do_test(False, ("Source", "<<target>>", ""))
+
 
 class XMLTagsCheckTest(CheckTestCase):
     check = XMLTagsCheck()
