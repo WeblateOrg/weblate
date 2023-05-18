@@ -6,7 +6,7 @@ import re
 from datetime import datetime
 from functools import lru_cache, reduce
 from itertools import chain
-from typing import Dict
+from typing import Dict, Set
 
 from dateutil.parser import ParserError, parse
 from django.db import transaction
@@ -126,38 +126,11 @@ def build_parser(term_expression: object):
     )
 
 
-class TermExpr:
-    PLAIN_FIELDS = ("source", "target", "context", "note", "location")
-    NONTEXT_FIELDS = {
-        "priority": "priority",
-        "id": "id",
-        "state": "state",
-        "position": "position",
-        "pending": "pending",
-        "changed": "change__timestamp",
-        "change_time": "change__timestamp",
-        "added": "timestamp",
-        "change_action": "change__action",
-    }
-    STRING_FIELD_MAP = {
-        "suggestion": "suggestion__target",
-        "comment": "comment__comment",
-        "resolved_comment": "comment__comment",
-        "key": "context",
-        "explanation": "source_unit__explanation",
-    }
-    EXACT_FIELD_MAP = {
-        "check": "check__name",
-        "dismissed_check": "check__name",
-        "language": "translation__language__code",
-        "component": "translation__component__slug",
-        "project": "translation__component__project__slug",
-        "changed_by": "change__author__username",
-        "suggestion_author": "suggestion__user__username",
-        "comment_author": "comment__user__username",
-        "label": "source_unit__labels__name",
-        "screenshot": "source_unit__screenshots__name",
-    }
+class BaseTermExpr:
+    PLAIN_FIELDS: Set[str] = set()
+    NONTEXT_FIELDS: Dict[str, str] = {}
+    STRING_FIELD_MAP: Dict[str, str] = {}
+    EXACT_FIELD_MAP: Dict[str, str] = {}
 
     def __init__(self, tokens):
         if len(tokens) == 1:
@@ -169,110 +142,13 @@ class TermExpr:
             self.fixup()
 
     def __repr__(self):
-        return f"<TermExpr: {self.field!r}, {self.operator!r}, {self.match!r}>"
+        return f"<{self.__class__.__name__}: {self.field!r}, {self.operator!r}, {self.match!r}>"
 
     def fixup(self):
         # Avoid unwanted lt/gt searches on plain text fields
         if self.field in self.PLAIN_FIELDS and self.operator not in (":", ":="):
             self.match = self.operator[1:] + self.match
             self.operator = ":"
-
-    def is_field(self, text, context: Dict):
-        if text in ("read-only", "readonly"):
-            return Q(state=STATE_READONLY)
-        if text == "approved":
-            return Q(state=STATE_APPROVED)
-        if text in ("fuzzy", "needs-editing"):
-            return Q(state=STATE_FUZZY)
-        if text == "translated":
-            return Q(state__gte=STATE_TRANSLATED)
-        if text == "untranslated":
-            return Q(state__lt=STATE_TRANSLATED)
-        if text == "pending":
-            return Q(pending=True)
-
-        raise ValueError(f"Unsupported is lookup: {text}")
-
-    def has_field(self, text, context: Dict):  # noqa: C901
-        if text == "plural":
-            return Q(source__search=PLURAL_SEPARATOR)
-        if text == "suggestion":
-            return Q(suggestion__isnull=False)
-        if text == "explanation":
-            return ~Q(source_unit__explanation="")
-        if text == "note":
-            return ~Q(note="")
-        if text == "comment":
-            return Q(comment__resolved=False)
-        if text in ("resolved-comment", "resolved_comment"):
-            return Q(comment__resolved=True)
-        if text in ("check", "failing-check", "failing_check"):
-            return Q(check__dismissed=False)
-        if text in (
-            "dismissed-check",
-            "dismissed_check",
-            "ignored-check",
-            "ignored_check",
-        ):
-            return Q(check__dismissed=True)
-        if text == "translation":
-            return Q(state__gte=STATE_TRANSLATED)
-        if text in ("variant", "shaping"):
-            return Q(variant__isnull=False)
-        if text == "label":
-            return Q(source_unit__labels__isnull=False) | Q(labels__isnull=False)
-        if text == "context":
-            return ~Q(context="")
-        if text == "screenshot":
-            return Q(screenshots__isnull=False) | Q(
-                source_unit__screenshots__isnull=False
-            )
-        if text == "flags":
-            return ~Q(source_unit__extra_flags="")
-        if text == "glossary":
-            project = context.get("project")
-            if not project:
-                return Q(source__isnull=True)
-            terms = set(
-                chain.from_iterable(
-                    glossary.glossary_sources for glossary in project.glossaries
-                )
-            )
-            if not terms:
-                return Q(source__isnull=True)
-            if using_postgresql():
-                template = r"[[:<:]]({})[[:>:]]"
-            else:
-                template = r"(^|[ \t\n\r\f\v])({})($|[ \t\n\r\f\v])"
-            return Q(
-                source__iregex=template.format(
-                    "|".join(re_escape(term) for term in terms)
-                )
-            )
-
-        raise ValueError(f"Unsupported has lookup: {text}")
-
-    def field_extra(self, field, query, match):
-        from weblate.trans.models import Change
-
-        if field in {"changed", "changed_by"}:
-            return query & Q(change__action__in=Change.ACTIONS_CONTENT)
-        if field == "check":
-            return query & Q(check__dismissed=False)
-        if field == "dismissed_check":
-            return query & Q(check__dismissed=True)
-        if field == "component":
-            return query | Q(translation__component__name__icontains=match)
-        if field == "label":
-            return query | Q(labels__name__iexact=match)
-        if field == "screenshot":
-            return query | Q(screenshots__name__iexact=match)
-        if field == "comment":
-            return query & Q(comment__resolved=False)
-        if field == "resolved_comment":
-            return query & Q(comment__resolved=True)
-
-        return query
 
     def convert_state(self, text):
         if text is None:
@@ -405,11 +281,7 @@ class TermExpr:
         raise ValueError(f"Unsupported field: {field}")
 
     def convert_non_field(self):
-        return (
-            Q(source__substring=self.match)
-            | Q(target__substring=self.match)
-            | Q(context__substring=self.match)
-        )
+        raise NotImplementedError
 
     def as_sql(self, context: Dict):
         field = self.field
@@ -464,12 +336,150 @@ class TermExpr:
         return self.field_extra(field, query, match)
 
 
-QUERY = build_parser(TermExpr)
+class UnitTermExpr(BaseTermExpr):
+    PLAIN_FIELDS: Set[str] = {"source", "target", "context", "note", "location"}
+    NONTEXT_FIELDS: Dict[str, str] = {
+        "priority": "priority",
+        "id": "id",
+        "state": "state",
+        "position": "position",
+        "pending": "pending",
+        "changed": "change__timestamp",
+        "change_time": "change__timestamp",
+        "added": "timestamp",
+        "change_action": "change__action",
+    }
+    STRING_FIELD_MAP: Dict[str, str] = {
+        "suggestion": "suggestion__target",
+        "comment": "comment__comment",
+        "resolved_comment": "comment__comment",
+        "key": "context",
+        "explanation": "source_unit__explanation",
+    }
+    EXACT_FIELD_MAP: Dict[str, str] = {
+        "check": "check__name",
+        "dismissed_check": "check__name",
+        "language": "translation__language__code",
+        "component": "translation__component__slug",
+        "project": "translation__component__project__slug",
+        "changed_by": "change__author__username",
+        "suggestion_author": "suggestion__user__username",
+        "comment_author": "comment__user__username",
+        "label": "source_unit__labels__name",
+        "screenshot": "source_unit__screenshots__name",
+    }
+
+    def is_field(self, text, context: Dict):
+        if text in ("read-only", "readonly"):
+            return Q(state=STATE_READONLY)
+        if text == "approved":
+            return Q(state=STATE_APPROVED)
+        if text in ("fuzzy", "needs-editing"):
+            return Q(state=STATE_FUZZY)
+        if text == "translated":
+            return Q(state__gte=STATE_TRANSLATED)
+        if text == "untranslated":
+            return Q(state__lt=STATE_TRANSLATED)
+        if text == "pending":
+            return Q(pending=True)
+
+        raise ValueError(f"Unsupported is lookup: {text}")
+
+    def has_field(self, text, context: Dict):  # noqa: C901
+        if text == "plural":
+            return Q(source__search=PLURAL_SEPARATOR)
+        if text == "suggestion":
+            return Q(suggestion__isnull=False)
+        if text == "explanation":
+            return ~Q(source_unit__explanation="")
+        if text == "note":
+            return ~Q(note="")
+        if text == "comment":
+            return Q(comment__resolved=False)
+        if text in ("resolved-comment", "resolved_comment"):
+            return Q(comment__resolved=True)
+        if text in ("check", "failing-check", "failing_check"):
+            return Q(check__dismissed=False)
+        if text in (
+            "dismissed-check",
+            "dismissed_check",
+            "ignored-check",
+            "ignored_check",
+        ):
+            return Q(check__dismissed=True)
+        if text == "translation":
+            return Q(state__gte=STATE_TRANSLATED)
+        if text in ("variant", "shaping"):
+            return Q(variant__isnull=False)
+        if text == "label":
+            return Q(source_unit__labels__isnull=False) | Q(labels__isnull=False)
+        if text == "context":
+            return ~Q(context="")
+        if text == "screenshot":
+            return Q(screenshots__isnull=False) | Q(
+                source_unit__screenshots__isnull=False
+            )
+        if text == "flags":
+            return ~Q(source_unit__extra_flags="")
+        if text == "glossary":
+            project = context.get("project")
+            if not project:
+                return Q(source__isnull=True)
+            terms = set(
+                chain.from_iterable(
+                    glossary.glossary_sources for glossary in project.glossaries
+                )
+            )
+            if not terms:
+                return Q(source__isnull=True)
+            if using_postgresql():
+                template = r"[[:<:]]({})[[:>:]]"
+            else:
+                template = r"(^|[ \t\n\r\f\v])({})($|[ \t\n\r\f\v])"
+            return Q(
+                source__iregex=template.format(
+                    "|".join(re_escape(term) for term in terms)
+                )
+            )
+
+        raise ValueError(f"Unsupported has lookup: {text}")
+
+    def field_extra(self, field, query, match):
+        from weblate.trans.models import Change
+
+        if field in {"changed", "changed_by"}:
+            return query & Q(change__action__in=Change.ACTIONS_CONTENT)
+        if field == "check":
+            return query & Q(check__dismissed=False)
+        if field == "dismissed_check":
+            return query & Q(check__dismissed=True)
+        if field == "component":
+            return query | Q(translation__component__name__icontains=match)
+        if field == "label":
+            return query | Q(labels__name__iexact=match)
+        if field == "screenshot":
+            return query | Q(screenshots__name__iexact=match)
+        if field == "comment":
+            return query & Q(comment__resolved=False)
+        if field == "resolved_comment":
+            return query & Q(comment__resolved=True)
+
+        return query
+
+    def convert_non_field(self):
+        return (
+            Q(source__substring=self.match)
+            | Q(target__substring=self.match)
+            | Q(context__substring=self.match)
+        )
+
+
+QUERY = build_parser(UnitTermExpr)
 
 
 def parser_to_query(obj, context: Dict):
     # Simple lookups
-    if isinstance(obj, TermExpr):
+    if isinstance(obj, BaseTermExpr):
         return obj.as_sql(context)
 
     # Operators
