@@ -406,16 +406,19 @@ class TermExpr:
             return NONTEXT_FIELDS[field]
         raise ValueError(f"Unsupported field: {field}")
 
+    def convert_non_field(self):
+        return (
+            Q(source__substring=self.match)
+            | Q(target__substring=self.match)
+            | Q(context__substring=self.match)
+        )
+
     def as_sql(self, context: Dict):
         field = self.field
         match = self.match
         # Simple term based search
         if not field:
-            return (
-                Q(source__substring=self.match)
-                | Q(target__substring=self.match)
-                | Q(context__substring=self.match)
-            )
+            return self.convert_non_field()
 
         # Field specific code
         field_method = getattr(self, f"{field}_field", None)
