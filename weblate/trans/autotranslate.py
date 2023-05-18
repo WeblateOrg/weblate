@@ -8,6 +8,7 @@ from celery import current_task
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.db.models.functions import MD5
 
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Change, Component, Suggestion, Unit
@@ -119,7 +120,9 @@ class AutoTranslate:
         translations = {
             source: split_plural(target)
             for source, state, target in sources.filter(
-                source__in=self.get_units().values("source")
+                source__md5__in=self.get_units()
+                .annotate(source__md5=MD5("source"))
+                .values("source__md5")
             ).values_list("source", "state", "target")
         }
 
