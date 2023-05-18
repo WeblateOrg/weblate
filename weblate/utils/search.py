@@ -131,6 +131,7 @@ class BaseTermExpr:
     NONTEXT_FIELDS: Dict[str, str] = {}
     STRING_FIELD_MAP: Dict[str, str] = {}
     EXACT_FIELD_MAP: Dict[str, str] = {}
+    enable_fulltext = True
 
     def __init__(self, tokens):
         if len(tokens) == 1:
@@ -168,9 +169,6 @@ class BaseTermExpr:
             return False
         raise ValueError(f"Invalid boolean value: {text}")
 
-    def convert_pending(self, text):
-        return self.convert_bool(text)
-
     def convert_int(self, text):
         if isinstance(text, RangeExpr):
             return (
@@ -178,12 +176,6 @@ class BaseTermExpr:
                 self.convert_int(text.end),
             )
         return int(text)
-
-    def convert_position(self, text):
-        return self.convert_int(text)
-
-    def convert_priority(self, text):
-        return self.convert_int(text)
 
     def convert_id(self, text):
         if "," in text:
@@ -252,28 +244,23 @@ class BaseTermExpr:
         except KeyError:
             return Change.ACTION_STRINGS[text]
 
-    def convert_change_time(self, text):
-        return self.convert_datetime(text)
-
-    def convert_changed(self, text):
-        return self.convert_datetime(text)
-
-    def convert_added(self, text):
-        return self.convert_datetime(text)
-
     def field_name(self, field, suffix=None):
         if suffix is None:
             suffix = OPERATOR_MAP[self.operator]
 
-        if field in self.PLAIN_FIELDS:
-            return f"{field}__{suffix}"
-        if field in self.STRING_FIELD_MAP:
-            return f"{self.STRING_FIELD_MAP[field]}__{suffix}"
         if field in self.EXACT_FIELD_MAP:
             # Change contains to exact, do not change other (for example regex)
             if suffix == "substring":
                 suffix = "iexact"
             return f"{self.EXACT_FIELD_MAP[field]}__{suffix}"
+
+        if not self.enable_fulltext and suffix == "substring":
+            suffix = "icontains"
+
+        if field in self.PLAIN_FIELDS:
+            return f"{field}__{suffix}"
+        if field in self.STRING_FIELD_MAP:
+            return f"{self.STRING_FIELD_MAP[field]}__{suffix}"
         if field in self.NONTEXT_FIELDS:
             if suffix not in ("substring", "iexact"):
                 return f"{self.NONTEXT_FIELDS[field]}__{suffix}"
@@ -335,6 +322,15 @@ class BaseTermExpr:
 
         return self.field_extra(field, query, match)
 
+    def field_extra(self, field, query, match):
+        return query
+
+    def is_field(self, text, context: Dict):
+        raise ValueError(f"Unsupported is lookup: {text}")
+
+    def has_field(self, text, context: Dict):  # noqa: C901
+        raise ValueError(f"Unsupported has lookup: {text}")
+
 
 class UnitTermExpr(BaseTermExpr):
     PLAIN_FIELDS: Set[str] = {"source", "target", "context", "note", "location"}
@@ -383,7 +379,7 @@ class UnitTermExpr(BaseTermExpr):
         if text == "pending":
             return Q(pending=True)
 
-        raise ValueError(f"Unsupported is lookup: {text}")
+        return super().is_field(text, context)
 
     def has_field(self, text, context: Dict):  # noqa: C901
         if text == "plural":
@@ -442,7 +438,25 @@ class UnitTermExpr(BaseTermExpr):
                 )
             )
 
-        raise ValueError(f"Unsupported has lookup: {text}")
+        return super().has_field(text, context)
+
+    def convert_change_time(self, text):
+        return self.convert_datetime(text)
+
+    def convert_changed(self, text):
+        return self.convert_datetime(text)
+
+    def convert_added(self, text):
+        return self.convert_datetime(text)
+
+    def convert_pending(self, text):
+        return self.convert_bool(text)
+
+    def convert_position(self, text):
+        return self.convert_int(text)
+
+    def convert_priority(self, text):
+        return self.convert_int(text)
 
     def field_extra(self, field, query, match):
         from weblate.trans.models import Change
@@ -464,7 +478,7 @@ class UnitTermExpr(BaseTermExpr):
         if field == "resolved_comment":
             return query & Q(comment__resolved=True)
 
-        return query
+        return super().field_extra(field, query, match)
 
     def convert_non_field(self):
         return (
@@ -474,7 +488,49 @@ class UnitTermExpr(BaseTermExpr):
         )
 
 
-PARSERS = {"unit": build_parser(UnitTermExpr)}
+class UserTermExpr(BaseTermExpr):
+    PLAIN_FIELDS: Set[str] = {"username", "full_name"}
+    NONTEXT_FIELDS: Dict[str, str] = {
+        "joined": "date_joined",
+    }
+    EXACT_FIELD_MAP: Dict[str, str] = {
+        "language": "profile__languages__code",
+    }
+    enable_fulltext = False
+
+    def convert_joined(self, text):
+        return self.convert_datetime(text)
+
+    def convert_non_field(self):
+        return Q(username__icontains=self.match) | Q(full_name__icontains=self.match)
+
+
+class SuperuserUserTermExpr(UserTermExpr):
+    STRING_FIELD_MAP: Dict[str, str] = {
+        "email": "social_auth__verifiedemail__email",
+    }
+
+    def convert_non_field(self):
+        return (
+            Q(username__icontains=self.match)
+            | Q(full_name__icontains=self.match)
+            | Q(social_auth__verifiedemail__email__iexact=self.match)
+        )
+
+    def is_field(self, text, context: Dict):
+        if text == "active":
+            return Q(is_active=True)
+        if text == "bot":
+            return Q(is_bot=True)
+
+        return super().is_field(text, context)
+
+
+PARSERS = {
+    "unit": build_parser(UnitTermExpr),
+    "user": build_parser(UserTermExpr),
+    "superuser": build_parser(SuperuserUserTermExpr),
+}
 
 
 def parser_to_query(obj, context: Dict):

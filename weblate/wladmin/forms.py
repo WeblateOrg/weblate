@@ -49,10 +49,6 @@ class BackupForm(forms.ModelForm):
         fields = ("repository",)
 
 
-class UserSearchForm(forms.Form):
-    email = forms.CharField(label=_("Username or registered e-mail"))
-
-
 class FontField(forms.CharField):
     def __init__(self, **kwargs):
         super().__init__(

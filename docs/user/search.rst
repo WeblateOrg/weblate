@@ -3,6 +3,9 @@
 Searching
 =========
 
+Searching for strings
++++++++++++++++++++++
+
 .. versionadded:: 3.9
 
 Advanced queries using boolean operations, parentheses, or field specific lookup can be used to
@@ -158,3 +161,29 @@ Ordering the results
 There are many options to order the strings according to your needs:
 
 .. image:: /screenshots/query-sort.png
+
+
+Searching for users
++++++++++++++++++++
+
+.. versionadded:: 4.18
+
+The user browsing has similar search abilities:
+
+``username:TEXT``
+   Search in usernames.
+``full_name:TEXT``
+   Search in full names.
+``language:TEXT``
+   User configured translation language (see :ref:`profile-translated-languages`).
+``joined:DATETIME``
+   String content was changed on date, supports :ref:`search-operators`.
+
+Additional lookups are available in the :ref:`management-interface`:
+
+``is:bot``
+   Search for bots (used for project scoped tokens).
+``is:active``
+   Search for active users.
+``email:TEXT``
+   Search by e-mail.

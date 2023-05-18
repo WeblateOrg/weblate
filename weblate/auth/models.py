@@ -50,6 +50,7 @@ from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
+from weblate.utils.search import parse_query
 from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
 
 
@@ -241,6 +242,11 @@ class UserQuerySet(models.QuerySet):
 
     def order(self):
         return self.order_by("username")
+
+    def search(self, query: str, parser: str = "user", **context):
+        """High level wrapper for searching."""
+        result = self.filter(parse_query(query, parser=parser, **context))
+        return result.distinct()
 
 
 # TODO: Use functools.cache when Python 3.9+

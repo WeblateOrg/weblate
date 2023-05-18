@@ -58,13 +58,13 @@ from weblate.utils.forms import (
     ContextDiv,
     EmailField,
     FilterForm,
+    QueryField,
     SearchField,
     SortedSelect,
     SortedSelectMultiple,
     UsernameField,
 )
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
-from weblate.utils.search import parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_CHOICES,
@@ -152,28 +152,6 @@ class UserField(forms.CharField):
             raise ValidationError(_("Could not find any such user."))
         except User.MultipleObjectsReturned:
             raise ValidationError(_("More possible users were found."))
-
-
-class QueryField(forms.CharField):
-    def __init__(self, **kwargs):
-        if "label" not in kwargs:
-            kwargs["label"] = _("Query")
-        if "required" not in kwargs:
-            kwargs["required"] = False
-        super().__init__(**kwargs)
-
-    def clean(self, value):
-        if not value:
-            if self.required:
-                raise ValidationError(_("Missing query string."))
-            return ""
-        try:
-            parse_query(value)
-        except Exception as error:
-            raise ValidationError(
-                _("Could not parse query string: {}").format(error)
-            ) from error
-        return value
 
 
 class FlagField(forms.CharField):

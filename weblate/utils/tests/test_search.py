@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.test import SimpleTestCase, TestCase
 from pytz import utc
 
+from weblate.auth.models import User
 from weblate.trans.models import Change, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import PLURAL_SEPARATOR
@@ -36,13 +37,16 @@ class ComparerTest(SimpleTestCase):
 
 
 class SearchMixin:
+    object_class = Unit
+    parser = "unit"
+
     def assert_query(self, string, expected, exists=False, **context):
-        result = parse_query(string, **context)
+        result = parse_query(string, parser=self.parser, **context)
         self.assertEqual(result, expected)
-        self.assertEqual(Unit.objects.filter(result).exists(), exists)
+        self.assertEqual(self.object_class.objects.filter(result).exists(), exists)
 
 
-class QueryParserTest(TestCase, SearchMixin):
+class UnitQueryParserTest(TestCase, SearchMixin):
     def test_simple(self):
         self.assert_query(
             "hello world",
@@ -421,6 +425,77 @@ class QueryParserTest(TestCase, SearchMixin):
         self.assert_query('"', parse_query("""'"'"""))
         self.assert_query("source:'", parse_query('''source:"'"'''))
         self.assert_query('source:"', parse_query("""source:'"'"""))
+
+
+class UserQueryParserTest(TestCase, SearchMixin):
+    object_class = User
+    parser = "user"
+
+    def test_simple(self):
+        self.assert_query(
+            "hello",
+            Q(username__icontains="hello") | Q(full_name__icontains="hello"),
+        )
+
+    def test_fields(self):
+        self.assert_query(
+            "username:hello",
+            Q(username__icontains="hello"),
+        )
+        self.assert_query(
+            "full_name:hello",
+            Q(full_name__icontains="hello"),
+        )
+
+    def test_is(self):
+        with self.assertRaises(ValueError):
+            self.assert_query("is:bot", Q(is_bot=True))
+        with self.assertRaises(ValueError):
+            self.assert_query("is:active", Q(is_active=True))
+
+    def test_language(self):
+        self.assert_query("language:cs", (Q(profile__languages__code__iexact="cs")))
+
+    def test_email(self):
+        with self.assertRaises(ValueError):
+            self.assert_query(
+                "email:hello",
+                Q(social_auth__verifiedemail__email__icontains="hello"),
+            )
+
+    def test_joined(self):
+        self.assert_query(
+            "joined:2018",
+            Q(
+                date_joined__range=(
+                    datetime(2018, 1, 1, 0, 0, tzinfo=utc),
+                    datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=utc),
+                )
+            ),
+        )
+
+
+class SuperuserQueryParserTest(UserQueryParserTest):
+    parser = "superuser"
+
+    def test_simple(self):
+        self.assert_query(
+            "hello",
+            (
+                Q(username__icontains="hello")
+                | Q(full_name__icontains="hello")
+                | Q(social_auth__verifiedemail__email__iexact="hello")
+            ),
+        )
+
+    def test_email(self):
+        self.assert_query(
+            "email:hello", Q(social_auth__verifiedemail__email__icontains="hello")
+        )
+
+    def test_is(self):
+        self.assert_query("is:bot", Q(is_bot=True))
+        self.assert_query("is:active", Q(is_active=True))
 
 
 class SearchTest(ViewTestCase, SearchMixin):

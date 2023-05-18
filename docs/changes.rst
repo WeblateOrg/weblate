@@ -10,6 +10,7 @@ Not yet released.
 * Avoid signing-out user on some rate-limits.
 * Added support for storing glossary explanation in TBX format.
 * Added support for ordering strings by last update.
+* Extended users search capabilities.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 

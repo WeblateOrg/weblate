@@ -5,13 +5,38 @@
 from crispy_forms.layout import Div, Field
 from crispy_forms.utils import TEMPLATE_PACK
 from django import forms
+from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 
 from weblate.trans.defines import EMAIL_LENGTH, USERNAME_LENGTH
 from weblate.trans.filter import FILTERS
 from weblate.trans.util import sort_unicode
+from weblate.utils.search import parse_query
 from weblate.utils.validators import validate_email, validate_username
+
+
+class QueryField(forms.CharField):
+    def __init__(self, parser: str = "unit", **kwargs):
+        if "label" not in kwargs:
+            kwargs["label"] = _("Query")
+        if "required" not in kwargs:
+            kwargs["required"] = False
+        self.parser = parser
+        super().__init__(**kwargs)
+
+    def clean(self, value):
+        if not value:
+            if self.required:
+                raise ValidationError(_("Missing query string."))
+            return ""
+        try:
+            parse_query(value, parser=self.parser)
+        except Exception as error:
+            raise ValidationError(
+                _("Could not parse query string: {}").format(error)
+            ) from error
+        return value
 
 
 class UsernameField(forms.CharField):
