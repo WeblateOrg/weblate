@@ -15,7 +15,7 @@ instead of working through huge amount of new text just prior to release.
 This is the process:
 
 1. Developers make changes and push them to the VCS repository.
-2. Optionally the translation files are updated (this depends on the file format, see :ref:`translations-update`).
+2. Optionally the translation files are updated, see :ref:`translations-update`.
 3. Weblate pulls changes from the VCS repository, see :ref:`update-vcs`.
 4. Once Weblate detects changes in translations, translators are notified based on their subscription settings.
 5. Translators submit translations using the Weblate web interface, or upload offline changes.

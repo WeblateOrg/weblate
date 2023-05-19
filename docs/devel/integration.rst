@@ -109,6 +109,38 @@ using :guilabel:`Update source strings` :ref:`upload-method` or using
    :ref:`addon-weblate.resx.update`,
    :ref:`addon-weblate.gettext.msgmerge`
 
+
+.. _translations-update:
+
+Introducing new strings
++++++++++++++++++++++++
+
+You can add new strings in Weblate with :ref:`component-manage_units` turned
+on, but it is usually better to introduce new strigs together with the code
+changes that introduced them.
+
+Monolingual formats need addition of the new string to
+:ref:`component-template`. This is typically done by the developers during
+developing the code. You might want to introduce review of those strings using
+:ref:`source-quality-gateway`.
+
+Bilingual formats typically extract strings from the source code using some
+tooling. Follow your localization framework documentation for instructions how
+to do that. Once the strings are extracted, there might be an additional step
+needed to update existing translations, see :ref:`updating-target-files`.
+
+.. hint::
+
+   You might want to integrate this into your contrinuous integration pipelines
+   to make new strings automatically appear for translation. Such pipeline
+   should also cover :ref:`avoid-merge-conflicts`.
+
+.. seealso::
+
+   :ref:`updating-target-files`,
+   :doc:`/devel/gettext`,
+   :doc:`/devel/sphinx`
+
 .. _manage-vcs:
 
 Managing version control repository

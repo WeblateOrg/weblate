@@ -383,7 +383,6 @@ For Gettext PO files, you have to pass the parameter ``--previous`` to
 For monolingual translations, Weblate can find the previous string by ID, so it
 shows the differences automatically.
 
-.. _translations-update:
 
 Why does Weblate still show old translation strings when I've updated the template?
 -----------------------------------------------------------------------------------
@@ -400,18 +399,9 @@ will then pick up the changes automatically.
     translation files, as otherwise you will usually end up with some conflicts
     to merge.
 
-For example with gettext PO files, you can update the translation files using
-the :command:`msgmerge` tool:
-
-.. code-block:: sh
-
-    msgmerge -U locale/cs/LC_MESSAGES/django.mo locale/django.pot
-
-In case you want to do the update automatically, you can install
-add-on :ref:`addon-weblate.gettext.msgmerge`.
-
 .. seealso::
 
+   :ref:`translations-update`,
    :ref:`updating-target-files`,
    :doc:`/devel/gettext`,
    :doc:`/devel/sphinx`
