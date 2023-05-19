@@ -240,6 +240,10 @@ class AdminTest(ViewTestCase):
 
     def test_check_user(self):
         response = self.client.get(
+            reverse("manage-users-check"), {"q": self.user.email}, follow=True
+        )
+        self.assertRedirects(response, self.user.get_absolute_url())
+        response = self.client.get(
             reverse("manage-users-check"), {"email": self.user.email}, follow=True
         )
         self.assertRedirects(response, self.user.get_absolute_url())

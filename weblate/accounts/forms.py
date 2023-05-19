@@ -40,6 +40,7 @@ from weblate.trans.models import Component, Project
 from weblate.utils import messages
 from weblate.utils.forms import (
     EmailField,
+    QueryField,
     SortedSelect,
     SortedSelectMultiple,
     UsernameField,
@@ -834,7 +835,7 @@ class NotificationForm(forms.Form):
 class UserSearchForm(forms.Form):
     """User searching form."""
 
-    q = forms.CharField(required=False)
+    q = QueryField(parser="user")
     sort_by = forms.CharField(required=False, widget=forms.HiddenInput)
 
     sort_choices = {
@@ -870,6 +871,10 @@ class UserSearchForm(forms.Form):
                 raise forms.ValidationError(_("Chosen sorting is not supported."))
             return sort_by
         return None
+
+
+class AdminUserSearchForm(UserSearchForm):
+    q = QueryField(parser="superuser")
 
 
 class GroupChoiceField(forms.ModelChoiceField):

@@ -1372,20 +1372,22 @@ def saml_metadata(request):
 class UserList(ListView):
     paginate_by = 50
     model = User
+    form_class = UserSearchForm
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    def get_base_queryset(self):
+        return User.objects.filter(is_active=True, is_bot=False)
+
     def get_queryset(self):
-        users = User.objects.filter(is_active=True, is_bot=False)
+        users = self.get_base_queryset()
         form = self.form
         if form.is_valid():
-            search = form.cleaned_data.get("q", "").strip()
+            search = form.cleaned_data.get("q", "")
             if search:
-                users = users.filter(
-                    Q(username__icontains=search) | Q(full_name__icontains=search)
-                )
+                users = users.search(search, parser=form.fields["q"].parser)
         else:
             users = users.order()
 
@@ -1393,7 +1395,7 @@ class UserList(ListView):
 
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
-        self.form = form = UserSearchForm(request.GET)
+        self.form = form = self.form_class(request.GET)
         self.sort_query = None
         if form.is_valid():
             self.sort_query = form.cleaned_data.get("sort_by")

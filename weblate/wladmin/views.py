@@ -9,7 +9,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
 from django.core.mail import send_mail
-from django.db.models import Count, Q
+from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -22,6 +22,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 from django.views.generic.edit import FormMixin
 
+from weblate.accounts.forms import AdminUserSearchForm
 from weblate.accounts.views import UserList
 from weblate.auth.decorators import management_access
 from weblate.auth.forms import AdminInviteUserForm, SitewideTeamForm
@@ -52,7 +53,6 @@ from weblate.wladmin.forms import (
     BackupForm,
     SSHAddForm,
     TestMailForm,
-    UserSearchForm,
 )
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import backup_service, support_status_update
@@ -343,6 +343,10 @@ def alerts(request):
 @method_decorator(management_access, name="dispatch")
 class AdminUserList(UserList):
     template_name = "manage/users.html"
+    form_class = AdminUserSearchForm
+
+    def get_base_queryset(self):
+        return User.objects.all()
 
     def post(self, request, **kwargs):
         if "email" in request.POST:
@@ -375,25 +379,27 @@ class AdminUserList(UserList):
         result["menu_items"] = MENU
         result["menu_page"] = "users"
         result["invite_form"] = invite_form
-        result["search_form"] = UserSearchForm()
+        result["search_form"] = AdminUserSearchForm()
         return result
 
 
 @management_access
 def users_check(request):
-    form = UserSearchForm(request.GET if request.GET else None)
+    data = request.GET
+    # Legacy links for care.weblate.org integration
+    if "email" in data and "q" not in data:
+        data = data.copy()
+        data["q"] = data["email"]
+    form = AdminUserSearchForm(data)
 
     user_list = None
     if form.is_valid():
-        email = form.cleaned_data["email"]
-        user_list = User.objects.filter(
-            Q(email=email)
-            | Q(social_auth__verifiedemail__email__iexact=email)
-            | Q(username=email)
-        ).distinct()
+        user_list = User.objects.search(
+            form.cleaned_data.get("q", ""), parser=form.fields["q"].parser
+        )[:2]
         if user_list.count() != 1:
             return redirect_param(
-                "manage-users", "?q={}".format(quote(form.cleaned_data["email"]))
+                "manage-users", "?q={}".format(quote(form.cleaned_data["q"]))
             )
         return redirect(user_list[0])
     return redirect("manage-users")
