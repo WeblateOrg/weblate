@@ -750,6 +750,10 @@ class JavaMessageFormatCheckTest(CheckTestCase):
         self.assertTrue(self.check.should_skip(unit))
         unit = MockUnit(source="{0}", flags="auto-java-messageformat")
         self.assertFalse(self.check.should_skip(unit))
+        unit = MockUnit(
+            source="{0}", flags="auto-java-messageformat,ignore-java-format"
+        )
+        self.assertTrue(self.check.should_skip(unit))
 
     def test_quotes(self):
         self.assertFalse(

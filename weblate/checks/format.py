@@ -587,6 +587,10 @@ class JavaMessageFormatCheck(BaseFormatCheck):
         return "{%s}" % string
 
     def should_skip(self, unit):
+        all_flags = unit.all_flags
+        if self.is_ignored(all_flags):
+            return True
+
         if "auto-java-messageformat" in unit.all_flags and "{0" in unit.source:
             return False
 

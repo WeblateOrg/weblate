@@ -127,8 +127,7 @@ class BaseXMLCheck(TargetCheck):
         return parse_xml(text.encode() if "encoding" in text else text)
 
     def should_skip(self, unit):
-        result = super().should_skip(unit)
-        if result:
+        if super().should_skip(unit):
             return True
 
         flags = unit.all_flags

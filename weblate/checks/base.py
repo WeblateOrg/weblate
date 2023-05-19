@@ -42,11 +42,14 @@ class Check:
         self.enable_string = id_dash
         self.ignore_string = f"ignore-{id_dash}"
 
+    def is_ignored(self, all_flags):
+        return self.ignore_string in all_flags or "ignore-all-checks" in all_flags
+
     def should_skip(self, unit):
         """Check whether we should skip processing this unit."""
         all_flags = unit.all_flags
         # Is this check ignored
-        if self.ignore_string in all_flags or "ignore-all-checks" in all_flags:
+        if self.is_ignored(all_flags):
             return True
 
         # Is this disabled by default
