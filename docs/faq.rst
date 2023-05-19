@@ -412,7 +412,9 @@ add-on :ref:`addon-weblate.gettext.msgmerge`.
 
 .. seealso::
 
-   :ref:`updating-target-files`
+   :ref:`updating-target-files`,
+   :doc:`/devel/gettext`,
+   :doc:`/devel/sphinx`
 
 How to handle renaming translation files?
 -----------------------------------------

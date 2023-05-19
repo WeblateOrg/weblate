@@ -21,13 +21,16 @@ all the translations without integration.
 Fetching updated translations from Weblate
 ++++++++++++++++++++++++++++++++++++++++++
 
-To fetch updated strings from Weblate, you can simply fetch the underlying Git
-repository (either from filesystem, or it can be made available through
-:ref:`git-exporter`). Prior to this, you might want to commit any pending
+Weblate stores updated strings in a database and commits them to a local
+version control repository. You can add Weblate repository (when
+:ref:`git-exporter` is turned on) as additional remote and fetch translations
+update from it.
+
+Prior to this, you might want to commit any pending
 changes (see :ref:`lazy-commit`). You can do so in the user interface
 (in the :guilabel:`Repository maintenance`) or from the command-line using :ref:`wlc`.
 
-This can be automated if you grant Weblate push access to your repository and
+Pushing changes can be automated if you grant Weblate push access to your repository and
 configure :ref:`component-push` in the :ref:`component`, see :ref:`push-changes`.
 
 Alternatively, you can use :doc:`/api` to update translations
