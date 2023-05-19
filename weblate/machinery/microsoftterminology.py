@@ -8,7 +8,7 @@ from zeep import Client
 
 from weblate.machinery.base import MachineTranslation
 
-MST_API_URL = "http://api.terminology.microsoft.com/Terminology.svc"
+MST_API_URL = "https://api.terminology.microsoft.com/Terminology.svc"
 MST_WSDL_URL = f"{MST_API_URL}?wsdl"
 
 
