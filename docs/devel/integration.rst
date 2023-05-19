@@ -25,7 +25,7 @@ Fetching updated translations from Weblate
 Weblate stores updated strings in a database and commits them to a local
 version-control repository. You can add a Weblate repository (when
 :ref:`git-exporter` is turned on) as an additional remote repository
-and fetch translations updates from it.
+and fetch translation updates from it.
 
 Prior to this, you might want to commit any pending local
 changes made in Weblate (see :ref:`lazy-commit`). This can be done from the user interface
@@ -118,7 +118,7 @@ Introducing new strings
 +++++++++++++++++++++++
 
 You can add new strings in Weblate with :ref:`component-manage_units` turned
-on, but it is usually better to introduce new strigs together with the code
+on, but it is usually better to introduce new strings together with the code
 changes that introduced them.
 
 Monolingual formats need to be configured so that new strings are added to
