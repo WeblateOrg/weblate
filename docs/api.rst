@@ -1212,6 +1212,8 @@ Components
     :>json string auto_lock_error: :ref:`component-auto_lock_error`
     :>json string language_regex: :ref:`component-language_regex`
     :>json string variant_regex: :ref:`component-variant_regex`
+    :>json bool is_glossary: :ref:`component-is_glossary`
+    :>json string glossary_color: :ref:`component-glossary_color`
     :>json string repository_url: URL to repository status; see :http:get:`/api/components/(string:project)/(string:component)/repository/`
     :>json string translations_url: URL to translations list; see :http:get:`/api/components/(string:project)/(string:component)/translations/`
     :>json string lock_url: URL to lock status; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
