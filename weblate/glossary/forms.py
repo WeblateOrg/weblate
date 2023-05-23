@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,17 +17,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Div, Field, Layout
 from django import forms
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
-from django.utils.translation import pgettext_lazy
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 
-from weblate.glossary.models import Glossary, Term
-from weblate.trans.defines import GLOSSARY_LENGTH
-from weblate.utils.forms import ColorWidget
-from weblate.utils.validators import validate_file_extension
+from weblate.trans.models import Translation, Unit
 
 
 class CommaSeparatedIntegerField(forms.Field):
@@ -41,109 +36,107 @@ class CommaSeparatedIntegerField(forms.Field):
             raise ValidationError(_("Invalid integer list!"))
 
 
-class OneTermForm(forms.Form):
-    """Simple one-term form."""
+class GlossaryModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.component.name
 
-    term = forms.CharField(
-        label=_("Search"), max_length=GLOSSARY_LENGTH, required=False
+
+class GlossaryAddMixin(forms.Form):
+    terminology = forms.BooleanField(
+        label=gettext_lazy("Terminology"),
+        help_text=gettext_lazy("String will be part of the glossary in all languages"),
+        required=False,
+    )
+    forbidden = forms.BooleanField(
+        label=gettext_lazy("Forbidden translation"),
+        required=False,
+    )
+    read_only = forms.BooleanField(
+        label=gettext_lazy("Untranslatable term"),
+        required=False,
     )
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.helper = FormHelper(self)
-        self.helper.form_tag = False
-        self.helper.disable_csrf = True
-        self.helper.layout = Layout(
-            Div(
-                Field("term", template="snippets/user-query-field.html"),
-                css_class="btn-toolbar",
-                role="toolbar",
-            ),
-        )
+    def get_glossary_flags(self):
+        result = []
+        if self.cleaned_data.get("terminology"):
+            result.append("terminology")
+        if self.cleaned_data.get("forbidden"):
+            result.append("forbidden")
+        if self.cleaned_data.get("read_only"):
+            result.append("read-only")
+        return ", ".join(result)
 
 
-class GlossaryForm(forms.ModelForm):
-    class Meta:
-        model = Glossary
-        fields = ["name", "color", "links"]
-        widgets = {"color": ColorWidget}
-
-    def __init__(self, user, project, data=None, instance=None, **kwargs):
-        super().__init__(data=data, instance=instance, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.form_tag = False
-        self.fields["links"].queryset = user.owned_projects.exclude(
-            pk=project.id,
-        ).filter(source_language=project.source_language)
-
-
-class TermForm(forms.ModelForm):
+class TermForm(GlossaryAddMixin, forms.ModelForm):
     """Form for adding term to a glossary."""
 
     terms = CommaSeparatedIntegerField(widget=forms.HiddenInput, required=False)
 
     class Meta:
-        model = Term
-        fields = ["source", "target", "glossary"]
+        model = Unit
+        fields = ["source", "target", "translation", "explanation"]
+        widgets = {
+            "source": forms.TextInput,
+            "target": forms.TextInput,
+            "explanation": forms.TextInput,
+        }
+        field_classes = {
+            "translation": GlossaryModelChoiceField,
+        }
 
-    def __init__(self, project, data=None, instance=None, initial=None, **kwargs):
-        glossaries = Glossary.objects.for_project(project).order_by("name").distinct()
+    def __init__(self, unit, user, data=None, instance=None, initial=None, **kwargs):
+        translation = unit.translation
+        component = translation.component
+        glossaries = Translation.objects.filter(
+            language=translation.language,
+            component__in=component.project.glossaries,
+            component__manage_units=True,
+        )
+        self._user = user
+        exclude = [
+            glossary.pk
+            for glossary in glossaries
+            if not user.has_perm("unit.add", glossary)
+        ]
+        if exclude:
+            glossaries = glossaries.exclude(pk__in=exclude)
+
         if not instance and not initial:
             initial = {}
+        if initial is not None and unit.is_source:
+            initial["terminology"] = True
         if initial is not None and "glossary" not in initial and len(glossaries) == 1:
-            initial["glossary"] = glossaries[0]
+            initial["translation"] = glossaries[0]
+        kwargs["auto_id"] = "id_add_term_%s"
         super().__init__(data=data, instance=instance, initial=initial, **kwargs)
-        self.fields["glossary"].queryset = glossaries
+        self.fields["translation"].queryset = glossaries
+        self.fields["translation"].label = _("Glossary")
+        self.fields["source"].label = str(component.source_language)
+        self.fields["source"].required = True
+        self.fields["target"].label = str(translation.language)
+        if translation.is_source:
+            self.fields["target"].widget = forms.HiddenInput()
 
+    def clean(self):
+        translation = self.cleaned_data.get("translation")
+        if not translation:
+            return
+        try:
+            data = self.as_kwargs()
+        except KeyError:
+            # Probably some fields validation has failed
+            return
+        translation.validate_new_unit_data(**data)
 
-class GlossaryUploadForm(forms.Form):
-    """Uploading file to a glossary."""
-
-    file = forms.FileField(
-        label=_("File"),
-        validators=[validate_file_extension],
-        help_text=_(
-            "You can upload any format understood by "
-            "Translate Toolkit (including TBX, CSV or gettext PO files)."
-        ),
-    )
-    method = forms.ChoiceField(
-        label=_("Merge method"),
-        choices=(
-            ("", _("Keep current")),
-            ("overwrite", _("Overwrite existing")),
-            ("add", _("Add as other translation")),
-        ),
-        required=False,
-    )
-    glossary = forms.ModelChoiceField(
-        label=_("Glossary"), queryset=Glossary.objects.none()
-    )
-
-    def __init__(self, project, data=None, initial=None, **kwargs):
-        glossaries = Glossary.objects.for_project(project)
-        initial = initial or {}
-        if initial is not None and "glossary" not in initial and len(glossaries) == 1:
-            initial["glossary"] = glossaries[0]
-        super().__init__(data=data, initial=initial, **kwargs)
-        self.fields["glossary"].queryset = glossaries
-
-
-class LetterForm(forms.Form):
-    """Form for choosing starting letter in a glossary."""
-
-    LETTER_CHOICES = [(chr(97 + x), chr(65 + x)) for x in range(26)]
-    any_letter = pgettext_lazy("Choose starting letter in glossary", "Any")
-    letter = forms.ChoiceField(
-        label=_("Starting letter"),
-        choices=[("", any_letter)] + LETTER_CHOICES,
-        required=False,
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.disable_csrf = True
-        self.helper.form_class = "form-inline"
-        self.helper.field_template = "bootstrap3/layout/inline_field.html"
+    def as_kwargs(self):
+        is_source = self.cleaned_data["translation"].is_source
+        return {
+            "context": "",
+            "source": self.cleaned_data["source"],
+            "target": self.cleaned_data["source"]
+            if is_source
+            else self.cleaned_data.get("target"),
+            "auto_context": True,
+            "extra_flags": self.get_glossary_flags(),
+            "explanation": self.cleaned_data.get("explanation"),
+        }

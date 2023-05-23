@@ -33,6 +33,11 @@
                 <p>
                 {% trans "Any authenticated user can contribute." %}
                 </p>
+                {% if has_gitexport %}
+                  <p>
+                    {% trans "VCS repository might be exposed to everybody." %} {% documentation_icon 'admin/optionals' 'git-exporter' %}
+                  </p>
+                {% endif %}
             {% elif choice_str == "1" %}
                 <p>
                 {% trans "Visible to everybody." %}
@@ -40,6 +45,11 @@
                 <p>
                 {% trans "Only chosen users can contribute." %}
                 </p>
+                {% if has_gitexport %}
+                  <p>
+                    {% trans "Only chosen users can access VCS repository." %} {% documentation_icon 'admin/optionals' 'git-exporter' %}
+                  </p>
+                {% endif %}
             {% elif choice_str == "100" %}
                 <p>
                 {% trans "Visible only to chosen users." %}
@@ -47,6 +57,11 @@
                 <p>
                 {% trans "Only chosen users can contribute." %}
                 </p>
+                {% if has_gitexport %}
+                  <p>
+                    {% trans "Only chosen users can access VCS repository." %} {% documentation_icon 'admin/optionals' 'git-exporter' %}
+                  </p>
+                {% endif %}
             {% elif choice_str == "200" %}
                 <p>
                  {% trans "Permissions are not managed in Weblate." %}

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,9 +17,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.template import Context, Engine, Template, TemplateSyntaxError
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.utils.translation import override
 
@@ -71,7 +72,7 @@ def render_template(template, **kwargs):
     if isinstance(translation, Translation):
         translation.stats.ensure_basic()
         kwargs["language_code"] = translation.language_code
-        kwargs["language_name"] = translation.language.name
+        kwargs["language_name"] = translation.language.get_name()
         kwargs["stats"] = translation.stats.get_data()
         kwargs["url"] = get_site_url(translation.get_absolute_url())
         kwargs["filename"] = translation.filename
@@ -86,6 +87,27 @@ def render_template(template, **kwargs):
         ] = component.repository.get_remote_branch_name()
         if "url" not in kwargs:
             kwargs["url"] = get_site_url(component.get_absolute_url())
+        kwargs["widget_url"] = get_site_url(
+            reverse(
+                "widget-image",
+                kwargs={
+                    "project": component.project.slug,
+                    "component": component.slug,
+                    "widget": "horizontal",
+                    "color": "auto",
+                    "extension": "svg",
+                },
+            )
+        )
+        if component.linked_childs:
+            kwargs["component_linked_childs"] = [
+                {
+                    "project_name": linked.project.name,
+                    "name": linked.name,
+                    "url": get_site_url(linked.get_absolute_url()),
+                }
+                for linked in component.linked_childs
+            ]
         project = component.project
         kwargs.pop("component", None)
 
@@ -95,6 +117,9 @@ def render_template(template, **kwargs):
         if "url" not in kwargs:
             kwargs["url"] = get_site_url(project.get_absolute_url())
         kwargs.pop("project", None)
+
+    kwargs["site_title"] = settings.SITE_TITLE
+    kwargs["site_url"] = get_site_url()
 
     with override("en"):
         return Template(template, engine=RestrictedEngine()).render(
@@ -118,7 +143,7 @@ def validate_render_component(value, translation=None, **kwargs):
         project=Project(name="project", slug="project", id=-1),
         name="component",
         slug="component",
-        branch="master",
+        branch="main",
         vcs="git",
         id=-1,
     )
@@ -154,7 +179,7 @@ def validate_repoweb(val):
                 "please use the template language instead."
             )
         )
-    validate_render(val, filename="file.po", line=9, branch="master")
+    validate_render(val, filename="file.po", line=9, branch="main")
 
 
 def validate_editor(val):

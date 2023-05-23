@@ -11,13 +11,21 @@
 <div class="container">
 
 <div class="alert alert-info">
-    {% blocktrans %}You can contact maintainers of this server here.{% endblocktrans %}
-    {% blocktrans %}If you are looking for support for Weblate or want to file bug reports check its website at {{ weblate_link }}.{% endblocktrans %}
+  <ul>
+    <li>{% blocktrans %}For questions about a specific translation project, contact its maintainers directly, not by this form.{% endblocktrans %}</li>
+    <li>
+      {% if site_title != "Weblate" %}
+        {% blocktrans %}You can only contact administrators of {{ site_title }} here.{% endblocktrans %}
+      {% else %}
+        {% blocktrans %}You can only contact administrators of the whole server here.{% endblocktrans %}
+      {% endif %}
+    <li>{% blocktrans %}If you seek support for another Weblate deployment or want to file a bug report, check its website at {{ weblate_link }}.{% endblocktrans %}</li>
+  </ul>
 </div>
 
 <form method="post" action="{% url 'contact' %}">
 <div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Contact" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Contact server administrators" %}</h4></div>
   <div class="panel-body">
 {% csrf_token %}
 {{ form|crispy }}

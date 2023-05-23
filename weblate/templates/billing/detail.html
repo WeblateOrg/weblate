@@ -1,7 +1,16 @@
-{% load i18n %}
+{% extends "base.html" %}
 {% load translations %}
 {% load icons %}
-{% with projects=billing.projects.all %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'profile' %}">{% trans "Your profile" %}</a></li>
+<li><a href="{% url 'billing' %}">{% trans "Billing" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
 <div class="row">
 
 <div class="col-lg-6" id="billing-{{ billing.pk }}">
@@ -25,7 +34,7 @@
   {% include "billing/status.html" %}
 {% if billing.is_active %}
   <div class="panel-footer">
-  <form method="post" action="{% url 'billing' %}">
+  <form method="post">
   {% csrf_token %}
   {% if payment_enabled and billing.can_be_paid %}
     <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1" class="btn btn-primary">
@@ -36,7 +45,7 @@
   <button type="submit" name="recurring" value="{{ billing.pk }}" class="btn btn-warning">{% trans "Terminate recurring payment" %}</button>
   {% endif %}
   <button type="submit" name="terminate" value="{{ billing.pk }}" class="btn btn-danger"
-  {% if projects %}
+  {% if billing.all_projects %}
   title="{% trans "To terminate billing you have to remove all projects first." %}"
   disabled
   {% endif %}
@@ -48,6 +57,8 @@
 </div>
 
 <div class="col-lg-6">
+{% with invoices=billing.invoice_set.order %}
+{% if invoices %}
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Invoices" %}</h4></div>
 <table class="table table-striped">
@@ -79,7 +90,53 @@
 </tbody>
 </table>
 </div>
-</div>
+{% endif %}
+{% endwith %}
+
+{% if offer_hosting and billing.plan.price == 0 %}
+<form method="POST">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% trans "Libre hosting" %}
+        {% if billing.is_libre_trial and billing.payment.libre_request %}
+          <span class="badge">{% trans "Pending approval" %}</span>
+        {% endif %}
+      </h4>
+    </div>
+    <div class="panel-body">
+      {% if billing.is_libre_trial and billing.valid_libre and not billing.payment.libre_request %}
+        {# Second button for bigger visibility #}
+        <input type="submit" class="btn btn-primary pull-right flip" name="request" value="{% trans "Request approval for Libre hosting" %}" />
+      {% endif %}
+      {% include "snippets/libre-checklist.html" %}
+    </div>
+    {% if billing.is_libre_trial %}
+      <div class="panel-footer">
+          {% csrf_token %}
+          {% if billing.valid_libre %}
+            {% if user.is_superuser or not billing.payment.libre_request %}
+              <p>{% trans "Please check that following conditions are met:" %}<p>
+              <ul>
+                {% include "snippets/libre-basic.html" %}
+              </ul>
+              {% if user.is_superuser %}
+                <input type="submit" class="btn btn-primary" name="approve" value="{% trans "Approve as libre" %}" />
+              {% else %}
+                {{ hosting_form|crispy }}
+                <input type="submit" class="btn btn-primary" name="request" value="{% trans "Request approval for Libre hosting" %}" />
+              {% endif %}
+            {% endif %}
+          {% else %}
+            <p>{% trans "This subscription is not eligible to the libre plan, please fix the errors above or purchase a subscription." %}</p>
+          {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</form>
+{% endif %}
+
 </div>
 
-{% endwith %}
+</div>
+{% endblock %}

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -24,85 +24,40 @@ from django.conf import settings
 
 from weblate.utils.licensedata import LICENSES
 
-LIBRE_IDS = {license[0] for license in LICENSES if license[3]}
-LICENSE_URLS = {
-    license[0]: license[2] for license in chain(LICENSES, settings.LICENSE_EXTRA)
+LIBRE_IDS = {
+    name
+    for name, _verbose, _url, is_libre in chain(LICENSES, settings.LICENSE_EXTRA)
+    if is_libre
 }
-LOWER_LICENSES = {license[0].lower(): license[0] for license in LICENSES}
-
-FIXUPS = (
-    ("polymer license", "bsd-3-clause"),
-    ("apache license", "apache"),
-    ("bsd beerware derivative", "beerware"),
-    ("gnu general public licence", "gpl-2.0-or-later"),
-    ("mit like license", "mit"),
-    ("-2+", "-2.0+"),
-    ("v2", "-2.0"),
-    ("v3", "-3.0"),
-    ("+", "-or-later"),
-    ("gnu ", ""),
-    (" ", "-"),
-    ("--", "-"),
-)
+LICENSE_URLS = {
+    name: url
+    for name, _verbose, url, _is_libre in chain(LICENSES, settings.LICENSE_EXTRA)
+}
 
 
-def is_libre(license):
-    return license in LIBRE_IDS
+def is_libre(name):
+    return name in LIBRE_IDS
 
 
-def get_license_url(license):
+def get_license_url(name):
     try:
-        return LICENSE_URLS[license]
+        return LICENSE_URLS[name]
     except KeyError:
         return None
 
 
 def get_license_choices():
     license_filter = settings.LICENSE_FILTER
-    if not license_filter or "proprietary" in license_filter:
+    if license_filter is None or "proprietary" in license_filter:
         result = [("proprietary", "Proprietary")]
     else:
         result = []
-    for license in LICENSES:
-        if license_filter is not None and license[0] not in license_filter:
+    for name, verbose, _url, _is_libre in LICENSES:
+        if license_filter is not None and name not in license_filter:
             continue
-        result.append((license[0], license[1]))
+        result.append((name, verbose))
 
-    for license in settings.LICENSE_EXTRA:
-        result.append((license[0], license[1]))
+    for name, verbose, _url, _is_libre in settings.LICENSE_EXTRA:
+        result.append((name, verbose))
 
     return result
-
-
-def convert_license(license):
-    """Convert license to SPDX identifier, used in migration."""
-    license = license.strip().lower()
-
-    if not license:
-        return ""
-
-    if " or " in license:
-        license = license.split(" or ")[0]
-
-    if license in LOWER_LICENSES:
-        return LOWER_LICENSES[license]
-
-    # Simply tokenize
-    for token in license.split():
-        token = token.strip("+")
-        if license in LOWER_LICENSES:
-            return LOWER_LICENSES[license]
-
-    # Some replacements
-    for fixup, replacement in FIXUPS:
-        if fixup in license:
-            license = license.replace(fixup, replacement)
-            if license in LOWER_LICENSES:
-                return LOWER_LICENSES[license]
-
-    # Append only
-    license += "-only"
-    if license in LOWER_LICENSES:
-        return LOWER_LICENSES[license]
-
-    return "proprietary"

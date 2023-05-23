@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,7 +22,8 @@
 from weblate.checks.duplicate import DuplicateCheck
 from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
-from weblate.trans.models import Unit
+from weblate.lang.models import Language
+from weblate.trans.models import Component, Translation, Unit
 
 
 class DuplicateCheckTest(CheckTestCase):
@@ -50,7 +51,9 @@ class DuplicateCheckTest(CheckTestCase):
         self.assertTrue(self._run_check("I have two two lemons lemons"))
 
     def test_check_duplicated_numbers(self):
-        self.assertFalse(self._run_check("I have 222 222 lemons"))
+        self.assertFalse(
+            self._run_check("Mám 222 222 citrónů", source="I have 222 222 lemons")
+        )
 
     def test_check_duplicated_letter(self):
         self.assertFalse(self._run_check("I have A A A"))
@@ -60,11 +63,41 @@ class DuplicateCheckTest(CheckTestCase):
             self._run_check("begin begin end end", source="begin begin end end")
         )
 
+    def test_check_duplicated_source_different(self):
+        self.assertFalse(
+            self._run_check("ХАХ ХАХ! ХЕ ХЕ ХЕ!", source="HAH HAH! HEH HEH HEH!")
+        )
+        self.assertTrue(self._run_check("ХАХ ХАХ!", source="HAH HAH! HEH HEH HEH!"))
+        self.assertTrue(
+            self._run_check("ХАХ ХАХ! ХЕ ХЕ ХЕ! ХИ ХИ!", source="HAH HAH! HEH HEH HEH!")
+        )
+        self.assertTrue(
+            self._run_check("ХАХ ХАХ! ХЕ ХЕ!", source="HAH HAH! HEH HEH HEH!")
+        )
+        self.assertTrue(
+            self._run_check("ХАХ ХАХ ХАХ! ХЕ ХЕ ХЕ!", source="HAH HAH! HEH HEH HEH!")
+        )
+
+    def test_duplicate_conjunction(self):
+        self.assertFalse(
+            self._run_check(
+                "Zalomit řádky na 77 znacích a znacích nových řádků",
+                source="Wrap lines at 77 chars and at newlines",
+            )
+        )
+
     def test_check_duplicated_language_ignore(self):
         self.assertFalse(self._run_check("Si vous vous interrogez", lang="fr"))
 
     def test_description(self):
-        unit = Unit(source="string", target="I have two two lemons lemons")
+        unit = Unit(
+            source="string",
+            target="I have two two lemons lemons",
+            translation=Translation(
+                language=Language("cs"),
+                component=Component(source_language=Language("en"), file_format="po"),
+            ),
+        )
         check = Check(unit=unit)
         self.assertEqual(
             self.check.get_description(check),
@@ -76,3 +109,11 @@ class DuplicateCheckTest(CheckTestCase):
 
     def test_separator(self):
         self.assertFalse(self._run_check("plug-in in"))
+
+    def test_format_strip(self):
+        self.assertTrue(self.check.check_single("", "Gruppe %Gruppe%", MockUnit()))
+        self.assertFalse(
+            self.check.check_single(
+                "", "Gruppe %Gruppe%", MockUnit(flags="percent-placeholders")
+            )
+        )

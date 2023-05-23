@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,7 +18,7 @@
 #
 
 from django import template
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.utils.translation import gettext as _
 
 from weblate.utils.checks import check_doc_link
@@ -38,7 +38,7 @@ def check_link(check):
 def configuration_error_link(check, fallback=None):
     url = check_doc_link(check) or fallback
     if url:
-        return mark_safe(
-            '<a class="btn btn-info" href="{}">{}</a>'.format(url, _("Documentation"))
+        return format_html(
+            '<a class="btn btn-info" href="{}">{}</a>', url, _("Documentation")
         )
     return ""

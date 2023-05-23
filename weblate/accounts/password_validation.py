@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -45,7 +45,7 @@ class CharsPasswordValidator:
 
     def get_help_text(self):
         return _(
-            "Your password can't consist of a " "single character or only whitespace."
+            "Your password can't consist of a single character or only whitespace."
         )
 
 
@@ -70,4 +70,4 @@ class PastPasswordsValidator:
                     )
 
     def get_help_text(self):
-        return _("Your password can't match a password " "you have used in the past.")
+        return _("Your password can't match a password you have used in the past.")

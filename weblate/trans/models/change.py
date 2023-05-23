@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,20 +17,29 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from datetime import datetime
+
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Count, Q
 from django.utils import timezone
-from django.utils.encoding import force_str
+from django.utils.html import escape, format_html
 from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy, ngettext_lazy
-from jellyfish import damerau_levenshtein_distance
+from django.utils.translation import (
+    gettext_lazy,
+    ngettext,
+    ngettext_lazy,
+    pgettext,
+    pgettext_lazy,
+)
+from rapidfuzz.distance import DamerauLevenshtein
 
 from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.alert import ALERTS
 from weblate.trans.models.project import Project
 from weblate.utils.fields import JSONField
+from weblate.utils.state import STATE_LOOKUP
 
 
 class ChangeQuerySet(models.QuerySet):
@@ -43,9 +52,8 @@ class ChangeQuerySet(models.QuerySet):
             base = base.prefetch()
         return base.filter(action__in=Change.ACTIONS_CONTENT)
 
-    @staticmethod
-    def count_stats(days, step, dtstart, base):
-        """Count number of changes in given dataset and period grouped by step days."""
+    def count_stats(self, days: int, step: int, dtstart: datetime):
+        """Count the number of changes in a given period grouped by step days."""
         # Count number of changes
         result = []
         for _unused in range(0, days, step):
@@ -54,7 +62,7 @@ class ChangeQuerySet(models.QuerySet):
             int_end = int_start + timezone.timedelta(days=step)
 
             # Count changes
-            int_base = base.filter(timestamp__range=(int_start, int_end))
+            int_base = self.filter(timestamp__range=(int_start, int_end))
             count = int_base.aggregate(Count("id"))
 
             # Append to result
@@ -67,8 +75,8 @@ class ChangeQuerySet(models.QuerySet):
 
     def base_stats(
         self,
-        days,
-        step,
+        days: int,
+        step: int,
         project=None,
         component=None,
         translation=None,
@@ -98,34 +106,45 @@ class ChangeQuerySet(models.QuerySet):
         if user is not None:
             base = base.filter(user=user)
 
-        return self.count_stats(days, step, dtstart, base)
+        return base.count_stats(days, step, dtstart)
 
     def prefetch(self):
-        """Fetch related fields in a big chungs to avoid loading them individually."""
+        """
+        Fetch related fields at once to avoid loading them individually.
+
+        Call prefetch or prefetch_list later on paginated results to complete.
+        """
         return self.prefetch_related(
             "user",
             "translation",
             "component",
             "project",
             "unit",
-            "glossary_term",
             "translation__language",
-            "translation__component",
-            "translation__component__project",
-            "unit__translation",
-            "unit__translation__language",
-            "unit__translation__plural",
-            "unit__translation__component",
-            "unit__translation__component__project",
-            "component__project",
-            "project",
+            "translation__plural",
         )
 
-    def last_changes(self, user):
-        """Return last changes for an user.
+    @staticmethod
+    def preload_list(results, *args):
+        """Companion for prefetch to fill in nested references."""
+        for item in results:
+            if item.component and "component" not in args:
+                item.component.project = item.project
+            if item.translation and "translation" not in args:
+                item.translation.component = item.component
+            if item.unit and "unit" not in args:
+                item.unit.translation = item.translation
+        return results
 
-        Prefilter Changes by ACL for users and fetches related fields for last changes
-        display.
+    def preload(self, *args):
+        """Companion for prefetch to fill in nested references."""
+        return self.preload_list(self, *args)
+
+    def last_changes(self, user):
+        """Return the most recent changes for an user.
+
+        Filters Change objects by user permissions and fetches related fields for
+        last changes display.
         """
         if user.is_superuser:
             return self.prefetch().order()
@@ -159,7 +178,7 @@ class ChangeQuerySet(models.QuerySet):
 
 
 class ChangeManager(models.Manager):
-    def create(self, user=None, **kwargs):
+    def create(self, *, user=None, **kwargs):
         """Wrapper to avoid using anonymous user as change owner."""
         if user is not None and not user.is_authenticated:
             user = None
@@ -177,9 +196,6 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_ACCEPT = 7
     ACTION_REVERT = 8
     ACTION_UPLOAD = 9
-    ACTION_DICTIONARY_NEW = 10
-    ACTION_DICTIONARY_EDIT = 11
-    ACTION_DICTIONARY_UPLOAD = 12
     ACTION_NEW_SOURCE = 13
     ACTION_LOCK = 14
     ACTION_UNLOCK = 15
@@ -223,6 +239,13 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_HOOK = 53
     ACTION_REPLACE_UPLOAD = 54
     ACTION_LICENSE_CHANGE = 55
+    ACTION_AGREEMENT_CHANGE = 56
+    ACTION_SCREENSHOT_ADDED = 57
+    ACTION_SCREENSHOT_UPLOADED = 58
+    ACTION_STRING_REPO_UPDATE = 59
+    ACTION_ADDON_CREATE = 60
+    ACTION_ADDON_CHANGE = 61
+    ACTION_ADDON_REMOVE = 62
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -245,12 +268,6 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_REVERT, gettext_lazy("Translation reverted")),
         # Translators: Name of event in the history
         (ACTION_UPLOAD, gettext_lazy("Translation uploaded")),
-        # Translators: Name of event in the history
-        (ACTION_DICTIONARY_NEW, gettext_lazy("Added to glossary")),
-        # Translators: Name of event in the history
-        (ACTION_DICTIONARY_EDIT, gettext_lazy("Glossary updated")),
-        # Translators: Name of event in the history
-        (ACTION_DICTIONARY_UPLOAD, gettext_lazy("Glossary uploaded")),
         # Translators: Name of event in the history
         (ACTION_NEW_SOURCE, gettext_lazy("New source string")),
         # Translators: Name of event in the history
@@ -313,8 +330,12 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_RENAME_COMPONENT, gettext_lazy("Renamed component")),
         # Translators: Name of event in the history
         (ACTION_MOVE_COMPONENT, gettext_lazy("Moved component")),
+        # Using pgettext to differentiate from the plural
         # Translators: Name of event in the history
-        (ACTION_NEW_STRING, gettext_lazy("New string to translate")),
+        (
+            ACTION_NEW_STRING,
+            pgettext_lazy("Name of event in the history", "New string to translate"),
+        ),
         # Translators: Name of event in the history
         (ACTION_NEW_CONTRIBUTOR, gettext_lazy("New contributor")),
         # Translators: Name of event in the history
@@ -337,8 +358,26 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_REPLACE_UPLOAD, gettext_lazy("Replaced file by upload")),
         # Translators: Name of event in the history
         (ACTION_LICENSE_CHANGE, gettext_lazy("License changed")),
+        # Translators: Name of event in the history
+        (ACTION_AGREEMENT_CHANGE, gettext_lazy("Contributor agreement changed")),
+        # Translators: Name of event in the history
+        (ACTION_SCREENSHOT_ADDED, gettext_lazy("Screnshot added")),
+        # Translators: Name of event in the history
+        (ACTION_SCREENSHOT_UPLOADED, gettext_lazy("Screnshot uploaded")),
+        # Translators: Name of event in the history
+        (ACTION_STRING_REPO_UPDATE, gettext_lazy("String updated in the repository")),
+        # Translators: Name of event in the history
+        (ACTION_ADDON_CREATE, gettext_lazy("Add-on installed")),
+        # Translators: Name of event in the history
+        (ACTION_ADDON_CHANGE, gettext_lazy("Add-on configuration changed")),
+        # Translators: Name of event in the history
+        (ACTION_ADDON_REMOVE, gettext_lazy("Add-on uninstalled")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
+    ACTION_STRINGS = {
+        name.lower().replace(" ", "-"): value for value, name in ACTION_CHOICES
+    }
+    ACTION_NAMES = {str(name): value for value, name in ACTION_CHOICES}
 
     # Actions which can be reverted
     ACTIONS_REVERTABLE = {
@@ -351,6 +390,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_AUTO,
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
+        ACTION_STRING_REPO_UPDATE,
     }
 
     # Content changes considered when looking for last author
@@ -365,18 +405,6 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_BULK_EDIT,
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
-    }
-
-    # Actions considered as being translated in consistency check
-    ACTIONS_TRANSLATED = {
-        ACTION_CHANGE,
-        ACTION_NEW,
-        ACTION_AUTO,
-        ACTION_ACCEPT,
-        ACTION_REVERT,
-        ACTION_UPLOAD,
-        ACTION_REPLACE,
-        ACTION_APPROVE,
     }
 
     # Actions shown on the repository management page
@@ -401,8 +429,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_SUGGESTION_CLEANUP,
         ACTION_BULK_EDIT,
         ACTION_NEW_UNIT,
-        ACTION_DICTIONARY_NEW,
-        ACTION_DICTIONARY_EDIT,
+        ACTION_STRING_REPO_UPDATE,
     }
 
     # Actions indicating a repository merge failure
@@ -417,6 +444,16 @@ class Change(models.Model, UserDisplayMixin):
             "New string to translate", "New strings to translate"
         ),
     }
+    AUTO_ACTIONS = {
+        # Translators: Name of event in the history
+        ACTION_LOCK: gettext_lazy(
+            "The component was automatically locked because of an alert."
+        ),
+        # Translators: Name of event in the history
+        ACTION_UNLOCK: gettext_lazy(
+            "Fixing an alert automatically unlocked the component."
+        ),
+    }
 
     unit = models.ForeignKey("Unit", null=True, on_delete=models.deletion.CASCADE)
     language = models.ForeignKey(
@@ -429,9 +466,6 @@ class Change(models.Model, UserDisplayMixin):
     translation = models.ForeignKey(
         "Translation", null=True, on_delete=models.deletion.CASCADE
     )
-    glossary_term = models.ForeignKey(
-        "glossary.Term", null=True, on_delete=models.deletion.CASCADE
-    )
     comment = models.ForeignKey(
         "Comment", null=True, on_delete=models.deletion.SET_NULL
     )
@@ -440,6 +474,9 @@ class Change(models.Model, UserDisplayMixin):
     )
     announcement = models.ForeignKey(
         "Announcement", null=True, on_delete=models.deletion.SET_NULL
+    )
+    screenshot = models.ForeignKey(
+        "screenshots.Screenshot", null=True, on_delete=models.deletion.SET_NULL
     )
     alert = models.ForeignKey("Alert", null=True, on_delete=models.deletion.SET_NULL)
     user = models.ForeignKey(
@@ -480,16 +517,8 @@ class Change(models.Model, UserDisplayMixin):
     def save(self, *args, **kwargs):
         from weblate.accounts.tasks import notify_change
 
-        if self.unit:
-            self.translation = self.unit.translation
-        if self.translation:
-            self.component = self.translation.component
-            self.language = self.translation.language
-        if self.component:
-            self.project = self.component.project
-        if self.glossary_term:
-            self.project = self.glossary_term.glossary.project
-            self.language = self.glossary_term.language
+        self.fixup_refereces()
+
         super().save(*args, **kwargs)
         transaction.on_commit(lambda: notify_change.delay(self.pk))
 
@@ -497,30 +526,59 @@ class Change(models.Model, UserDisplayMixin):
         """Return link either to unit or translation."""
         if self.unit is not None:
             return self.unit.get_absolute_url()
+        if self.screenshot is not None:
+            return self.screenshot.get_absolute_url()
         if self.translation is not None:
             if self.action == self.ACTION_NEW_STRING:
                 return self.translation.get_translate_url() + "?q=is:untranslated"
             return self.translation.get_absolute_url()
         if self.component is not None:
             return self.component.get_absolute_url()
-        if self.glossary_term is not None:
-            return self.glossary_term.get_absolute_url()
         if self.project is not None:
             return self.project.get_absolute_url()
         return None
 
     def __init__(self, *args, **kwargs):
         self.notify_state = {}
+        for attr in ("user", "author"):
+            user = kwargs.get(attr)
+            if user is not None and hasattr(user, "get_token_user"):
+                # ProjectToken / ProjectUser integration
+                kwargs[attr] = user.get_token_user()
         super().__init__(*args, **kwargs)
+        if not self.pk:
+            self.fixup_refereces()
+
+    def fixup_refereces(self):
+        """Updates references based to least specific one."""
+        if self.unit:
+            self.translation = self.unit.translation
+        if self.screenshot:
+            self.translation = self.screenshot.translation
+        if self.translation:
+            self.component = self.translation.component
+            self.language = self.translation.language
+        if self.component:
+            self.project = self.component.project
 
     @property
     def plural_count(self):
         return self.details.get("count", 1)
 
+    @property
+    def auto_status(self):
+        return self.details.get("auto", False)
+
     def get_action_display(self):
         if self.action in self.PLURAL_ACTIONS:
             return self.PLURAL_ACTIONS[self.action] % self.plural_count
-        return force_str(self.ACTIONS_DICT.get(self.action, self.action))
+        return str(self.ACTIONS_DICT.get(self.action, self.action))
+
+    def get_state_display(self):
+        state = self.details.get("state")
+        if not state:
+            return ""
+        return STATE_LOOKUP[state]
 
     def is_merge_failure(self):
         return self.action in self.ACTIONS_MERGE_FAILURE
@@ -544,54 +602,110 @@ class Change(models.Model, UserDisplayMixin):
         )
 
     def get_details_display(self):  # noqa: C901
+        from weblate.addons.models import ADDONS
         from weblate.utils.markdown import render_markdown
 
-        if self.action == self.ACTION_ANNOUNCEMENT:
+        details = self.details
+
+        if self.action == self.ACTION_NEW_STRING:
+            result = ngettext(
+                "%d new string to translate appeared in the translation.",
+                "%d new strings to translate appeared to the translation.",
+                self.plural_count,
+            )
+            try:
+                return result % self.plural_count
+            except TypeError:
+                # The string does not contain %d
+                return result
+
+        if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
             return render_markdown(self.target)
 
+        if self.action in (
+            self.ACTION_ADDON_CREATE,
+            self.ACTION_ADDON_CHANGE,
+            self.ACTION_ADDON_REMOVE,
+        ):
+            try:
+                return ADDONS[self.target].name
+            except KeyError:
+                return self.target
+
+        if self.action in self.AUTO_ACTIONS and self.auto_status:
+            return str(self.AUTO_ACTIONS[self.action])
+
+        if self.action == self.ACTION_UPDATE:
+            reason = details.get("reason", "content changed")
+            filename = format_html(
+                "<code>{}</code>",
+                details.get(
+                    "filename",
+                    self.translation.filename if self.translation else "",
+                ),
+            )
+            if reason == "content changed":
+                return format_html(escape(_('The "{}" file was changed.')), filename)
+            if reason == "check forced":
+                return format_html(
+                    escape(_('Parsing of the "{}" file was enforced.')), filename
+                )
+            if reason == "new file":
+                return format_html(escape(_("File {} was added.")), filename)
+            raise ValueError(f"Unknown reason: {reason}")
+
+        if self.action == self.ACTION_LICENSE_CHANGE:
+            not_available = pgettext("License information not available", "N/A")
+            return _(
+                'The license of the "%(component)s" component was changed '
+                "from %(old)s to %(target)s."
+            ) % {
+                "component": self.component,
+                "old": self.old or not_available,
+                "target": self.target or not_available,
+            }
+
         # Following rendering relies on details present
-        if not self.details:
+        if not details:
             return ""
         user_actions = {
             self.ACTION_ADD_USER,
             self.ACTION_INVITE_USER,
             self.ACTION_REMOVE_USER,
         }
-
         if self.action == self.ACTION_ACCESS_EDIT:
             for number, name in Project.ACCESS_CHOICES:
-                if number == self.details["access_control"]:
+                if number == details["access_control"]:
                     return name
-            return "Unknonwn {}".format(self.details["access_control"])
+            return "Unknown {}".format(details["access_control"])
         if self.action in user_actions:
-            if "group" in self.details:
-                return "{username} ({group})".format(**self.details)
-            return self.details["username"]
+            if "group" in details:
+                return "{username} ({group})".format(**details)
+            return details["username"]
         if self.action in (
             self.ACTION_ADDED_LANGUAGE,
             self.ACTION_REQUESTED_LANGUAGE,
         ):  # noqa: E501
             try:
-                return Language.objects.get(code=self.details["language"])
+                return Language.objects.get(code=details["language"])
             except Language.DoesNotExist:
-                return self.details["language"]
+                return details["language"]
         if self.action == self.ACTION_ALERT:
             try:
-                return ALERTS[self.details["alert"]].verbose
+                return ALERTS[details["alert"]].verbose
             except KeyError:
-                return self.details["alert"]
+                return details["alert"]
         if self.action == self.ACTION_PARSE_ERROR:
-            return "{filename}: {error_message}".format(**self.details)
+            return "{filename}: {error_message}".format(**details)
         if self.action == self.ACTION_HOOK:
-            return "{service_long_name}: {repo_url}, {branch}".format(**self.details)
-        if self.action == self.ACTION_COMMENT and "comment" in self.details:
-            return render_markdown(self.details["comment"])
+            return "{service_long_name}: {repo_url}, {branch}".format(**details)
+        if self.action == self.ACTION_COMMENT and "comment" in details:
+            return render_markdown(details["comment"])
 
         return ""
 
     def get_distance(self):
-        try:
-            return damerau_levenshtein_distance(self.old, self.target)
-        except MemoryError:
-            # Too long strings
-            return abs(len(self.old) - len(self.target))
+        return DamerauLevenshtein.distance(self.old, self.target)
+
+    def get_source(self):
+        return self.details.get("source", self.unit.source)

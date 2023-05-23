@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -31,7 +31,7 @@ class Command(WeblateComponentCommand):
             "--foreground",
             action="store_true",
             default=False,
-            help="Perform load in foreground (by default backgroud task is used)",
+            help="Perform load in foreground (by default background task is used)",
         )
 
     def handle(self, *args, **options):

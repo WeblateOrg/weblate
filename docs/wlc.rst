@@ -22,13 +22,53 @@ To use the commands below, you need to install :mod:`wlc`:
 
 .. code-block:: sh
 
-    pip3 install wlc
+    pip install wlc
+
+.. _docker-wlc:
+
+Docker usage
+++++++++++++
+
+The Weblate Client is also available as a Docker image.
+
+The image is published on Docker Hub: https://hub.docker.com/r/weblate/wlc
+
+Installing:
+
+.. code-block:: sh
+
+    docker pull weblate/wlc
+
+The Docker container uses Weblate's default settings and connects to the API
+deployed in localhost. The API URL and API_KEY can be configured through the
+arguments accepted by Weblate.
+
+The command to launch the container uses the following syntax:
+
+.. code-block:: sh
+
+    docker run --rm weblate/wlc [WLC_ARGS]
+
+Example:
+
+.. code-block:: sh
+
+    docker run --rm weblate/wlc --url https://hosted.weblate.org/api/ list-projects
+
+You might want to pass your :ref:`wlc-config` to the Docker container, the
+easiest approach is to add your current directory as :file:`/home/weblate`
+volume:
+
+.. code-block:: sh
+
+   docker run --volume $PWD:/home/weblate --rm weblate/wlc show
+
 
 Getting started
 +++++++++++++++
 
-The wlc configuration is stored in ``~/.config/weblate``, please create it to
-match your environment:
+The wlc configuration is stored in ``~/.config/weblate`` (see :ref:`wlc-config`
+for other locations), please create it to match your environment:
 
 .. code-block:: ini
 
@@ -55,7 +95,7 @@ Synopsis
 
 .. code-block:: text
 
-    wlc [parameter] <command> [options]
+    wlc [arguments] <command> [options]
 
 Commands actually indicate which operation should be performed.
 
@@ -66,10 +106,11 @@ Weblate Client is a Python library and command-line utility to manage Weblate re
 using :ref:`api`. The command-line utility can be invoked as :command:`wlc` and is
 built-in on :mod:`wlc`.
 
-Site wide options
------------------
+Arguments
+---------
 
-The program accepts the following options for a whole instance, which must be entered before any subcommand.
+The program accepts the following arguments which define output format or which
+Weblate instance to use. These must be entered before any command.
 
 .. option:: --format {csv,json,text,html}
 
@@ -93,10 +134,10 @@ The program accepts the following options for a whole instance, which must be en
 
     Overrides configuration file section in use, see :ref:`wlc-config`.
 
-Subcommands
------------
+Commands
+--------
 
-The following subcommands are available:
+The following commands are available:
 
 .. option:: version
 
@@ -227,20 +268,51 @@ The following subcommands are available:
 
         File from which content is read, if left unspecified it is read from stdin.
 
+    .. option:: --method
+
+        Upload method to use, see :ref:`upload-method`.
+
+    .. option:: --fuzzy
+
+        Fuzzy (marked for edit) strings processing (*empty*, ``process``, ``approve``)
+
+    .. option:: --author-name
+
+        Author name, to override currently authenticated user
+
+    .. option:: --author-email
+
+        Author e-mail, to override currently authenticated user
+
+
+.. hint::
+
+   You can get more detailed information on invoking individual commands by
+   passing ``--help``, for example: ``wlc ls --help``.
+
 .. _wlc-config:
 
 Configuration files
 +++++++++++++++++++
 
-:file:`.weblate`
+:file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`
+    .. versionchanged:: 1.6
+
+        The files with `.ini` extension are accepted as well.
+
     Per project configuration file
+:file:`C:\\Users\\NAME\\AppData\\weblate.ini`
+    .. versionadded:: 1.6
+
+    User configuration file on Windows.
 :file:`~/.config/weblate`
     User configuration file
 :file:`/etc/xdg/weblate`
     System wide configuration file
 
 The program follows the XDG specification, so you can adjust placement of config files
-by environment variables ``XDG_CONFIG_HOME`` or ``XDG_CONFIG_DIRS``.
+by environment variables ``XDG_CONFIG_HOME`` or ``XDG_CONFIG_DIRS``. On Windows
+``APPDATA`` directory is preferred location for the configuration file.
 
 Following settings can be configured in the ``[weblate]`` section (you can
 customize this by :option:`--config-section`):
@@ -264,7 +336,7 @@ The configuration file is an INI file, for example:
     [weblate]
     url = https://hosted.weblate.org/api/
     key = APIKEY
-    translation = weblate/master
+    translation = weblate/application
 
 Additionally API keys can be stored in the ``[keys]`` section:
 
@@ -294,10 +366,15 @@ List all projects:
     $ wlc list-projects
     name: Hello
     slug: hello
-    source_language: en
     url: http://example.com/api/projects/hello/
     web: https://weblate.org/
     web_url: http://example.com/projects/hello/
+
+Upload translation file:
+
+.. code-block:: sh
+
+   $ wlc upload project/component/language --input /tmp/hello.po
 
 You can also designate what project wlc should work on:
 
@@ -306,24 +383,25 @@ You can also designate what project wlc should work on:
     $ cat .weblate
     [weblate]
     url = https://hosted.weblate.org/api/
-    translation = weblate/master
+    translation = weblate/application
 
     $ wlc show
-    branch: master
+    branch: main
     file_format: po
+    source_language: en
     filemask: weblate/locale/*/LC_MESSAGES/django.po
-    git_export: https://hosted.weblate.org/git/weblate/master/
+    git_export: https://hosted.weblate.org/git/weblate/application/
     license: GPL-3.0+
     license_url: https://spdx.org/licenses/GPL-3.0+
-    name: master
+    name: Application
     new_base: weblate/locale/django.pot
     project: weblate
     repo: git://github.com/WeblateOrg/weblate.git
-    slug: master
+    slug: application
     template:
-    url: https://hosted.weblate.org/api/components/weblate/master/
+    url: https://hosted.weblate.org/api/components/weblate/application/
     vcs: git
-    web_url: https://hosted.weblate.org/projects/weblate/master/
+    web_url: https://hosted.weblate.org/projects/weblate/application/
 
 
 With this setup it is easy to commit pending changes in the current project:

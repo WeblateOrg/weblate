@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -26,4 +26,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for key, value in sorted(get_queue_stats().items()):
-            self.stdout.write("{}: {}".format(key, value))
+            self.stdout.write(f"{key}: {value}")

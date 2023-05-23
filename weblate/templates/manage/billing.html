@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load humanize %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
+<li><a href="{% url 'manage-billing' %}">{% trans "Billing" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<ul class="nav nav-pills">
+  <li role="presentation" class="active"><a href="#trial" role="tab" data-toggle="tab">{% trans "Trial" %} <span class="badge">{{ trial|length|intcomma }}</span></a></li>
+  <li role="presentation"><a href="#pending" role="tab" data-toggle="tab">{% trans "Pending approval" %} <span class="badge">{{ pending|length|intcomma }}</span></a></li>
+  <li role="presentation"><a href="#paid" role="tab" data-toggle="tab">{% trans "Commercial" %} <span class="badge">{{ paid|length|intcomma }}</span></a></li>
+  <li role="presentation"><a href="#free" role="tab" data-toggle="tab">{% trans "Libre" %} <span class="badge">{{ free|length|intcomma }}</span></a></li>
+  <li role="presentation"><a href="#removal" role="tab" data-toggle="tab">{% trans "Scheduled removal" %} <span class="badge">{{ removal|length|intcomma }}</span></a></li>
+  <li role="presentation"><a href="#terminated" role="tab" data-toggle="tab">{% trans "Terminated" %} <span class="badge">{{ terminated|length|intcomma }}</span></a></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="trial">
+    {% include "billing/list.html" with objects=trial show_expiry=1 %}
+  </div>
+  <div class="tab-pane" id="pending">
+    {% include "billing/list.html" with objects=pending show_expiry=1 %}
+  </div>
+  <div class="tab-pane" id="paid">
+    {% include "billing/list.html" with objects=paid %}
+  </div>
+  <div class="tab-pane" id="free">
+    {% include "billing/list.html" with objects=free %}
+  </div>
+  <div class="tab-pane" id="removal">
+    {% include "billing/list.html" with objects=removal show_removal=1%}
+  </div>
+  <div class="tab-pane" id="terminated">
+    {% include "billing/list.html" with objects=terminated %}
+  </div>
+</div>
+
+{% endblock %}

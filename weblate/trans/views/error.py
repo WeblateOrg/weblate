@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -48,7 +48,7 @@ def denied(request, exception=None):
 
 
 def csrf_failure(request, reason=""):
-    return render(
+    response = render(
         request,
         "403_csrf.html",
         {
@@ -58,6 +58,14 @@ def csrf_failure(request, reason=""):
         },
         status=403,
     )
+    # Avoid setting CSRF cookie on CSRF failure page, otherwise we end up creating
+    # new session even when user might already have one (because browser did not
+    # send the cookies with the CSRF request and Django doesn't see the session
+    # cookie).
+    response.csrf_cookie_set = True
+    # Django 4.0+
+    request.META["CSRF_COOKIE_NEEDS_UPDATE"] = False
+    return response
 
 
 def server_error(request):

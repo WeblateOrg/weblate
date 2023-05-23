@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,13 +17,18 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
-from weblate.accounts.notifications import FREQ_INSTANT, SCOPE_ADMIN, SCOPE_DEFAULT
+from weblate.accounts.notifications import (
+    FREQ_INSTANT,
+    SCOPE_ADMIN,
+    SCOPE_ALL,
+    SCOPE_WATCHED,
+)
 
 DEFAULT_NOTIFICATIONS = [
-    (SCOPE_DEFAULT, FREQ_INSTANT, "LastAuthorCommentNotificaton"),
-    (SCOPE_DEFAULT, FREQ_INSTANT, "MentionCommentNotificaton"),
-    (SCOPE_DEFAULT, FREQ_INSTANT, "NewAnnouncementNotificaton"),
+    (SCOPE_ALL, FREQ_INSTANT, "MentionCommentNotificaton"),
+    (SCOPE_WATCHED, FREQ_INSTANT, "LastAuthorCommentNotificaton"),
+    (SCOPE_WATCHED, FREQ_INSTANT, "MentionCommentNotificaton"),
+    (SCOPE_WATCHED, FREQ_INSTANT, "NewAnnouncementNotificaton"),
     (SCOPE_ADMIN, FREQ_INSTANT, "MergeFailureNotification"),
     (SCOPE_ADMIN, FREQ_INSTANT, "ParseErrorNotification"),
     (SCOPE_ADMIN, FREQ_INSTANT, "NewTranslationNotificaton"),

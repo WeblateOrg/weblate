@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 #
 
 
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 from weblate.addons.base import BaseAddon
@@ -29,10 +30,10 @@ from weblate.lang.models import Language
 class LangaugeConsistencyAddon(BaseAddon):
     events = (EVENT_DAILY, EVENT_POST_ADD)
     name = "weblate.consistency.languages"
-    verbose = _("Language consistency")
+    verbose = _("Add missing languages")
     description = _(
-        "Ensures all components within one project have translations for every added "
-        "language for translation."
+        "Ensures a consistent set of languages is used for all components "
+        "within a project."
     )
     icon = "language.svg"
     project_scope = True
@@ -41,13 +42,14 @@ class LangaugeConsistencyAddon(BaseAddon):
         language_consistency.delay(
             component.project_id,
             list(
-                Language.objects.filter(translation__component=component).values_list(
-                    "pk", flat=True
-                )
+                Language.objects.filter(
+                    Q(translation__component=component) | Q(component=component)
+                ).values_list("pk", flat=True)
             ),
         )
 
     def post_add(self, translation):
         language_consistency.delay(
-            translation.component.project_id, [translation.language_id],
+            translation.component.project_id,
+            [translation.language_id],
         )

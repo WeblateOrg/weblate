@@ -31,7 +31,7 @@ cross-referenced with your preferred languages.
 
     You can switch to different views using the navigation tabs.
 
-.. image:: /images/dashboard-dropdown.png
+.. image:: /screenshots/dashboard-dropdown.png
 
 The menu has these options:
 
@@ -74,6 +74,14 @@ The user profile contains your preferences. Name and e-mail address is used in V
     Request or add other languages you want to translate by clicking the button to make
     them available too.
 
+Languages
++++++++++
+
+Interface language
+------------------
+
+Choose the language you want to display the UI in.
+
 Translated languages
 ++++++++++++++++++++
 
@@ -81,7 +89,7 @@ Choose which languages you prefer to translate, and they will be offered on the
 main page of watched projects, so that you have easier access to these all translations
 in each of those languages.
 
-.. image:: /images/your-translations.png
+.. image:: /screenshots/your-translations.png
 
 .. _secondary-languages:
 
@@ -92,7 +100,12 @@ You can define which secondary languages are shown to you as a guide while trans
 An example can be seen in the following image, where
 the Hebrew language is shown as secondarily:
 
-.. image:: /images/secondary-language.png
+.. image:: /screenshots/secondary-language.png
+
+.. _profile-preferences:
+
+Preferences
+-----------
 
 Default dashboard view
 ++++++++++++++++++++++
@@ -105,12 +118,6 @@ list`, you have to select which component list will be displayed from the
 .. seealso::
 
     :ref:`componentlists`
-
-Avatar
-++++++
-
-Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`).
-These images are obtained using https://gravatar.com/.
 
 Editor link
 +++++++++++
@@ -130,6 +137,13 @@ A source code link is shown in the web-browser configured in the
     You can find more info on registering custom URL protocols for the editor in
     the `Nette documentation <https://tracy.nette.org/en/open-files-in-ide>`_.
 
+.. _profile-specialchars:
+
+Special characters
+++++++++++++++++++
+
+Additional special characters to include in the :ref:`visual-keyboard`.
+
 .. _subscriptions:
 
 Notifications
@@ -146,13 +160,17 @@ separated in the settings.
 
 You can toggle notifications for watched projects and administered projects and it
 can be further tweaked (or muted) per project and component. Visit the component
-page and select appropriate choice from the :guilabel:`Watching` menu.
+overview page and select appropriate choice from the :guilabel:`Watching` menu.
+
+In case :guilabel:`Automatically watch projects on contribution` is enabled you
+will automatically start watching projects upon translating a string. The
+default value depends on :setting:`DEFAULT_AUTO_WATCH`.
 
 .. note::
 
     You will not receive notifications for your own actions.
 
-.. image:: /images/profile-subscriptions.png
+.. image:: /screenshots/profile-subscriptions.png
 
 Account
 -------
@@ -167,7 +185,25 @@ remove your account, or download your user data (see :ref:`schema-userdata`).
    include popular sites such as GitLab, GitHub, Google, Facebook, or Bitbucket or other
    OAuth 2.0 providers.
 
-.. image:: /images/authentication.png
+.. image:: /screenshots/authentication.png
+
+Profile
+-------
+
+All of the fields on this page are optional and can be deleted at any time, and
+by filling them out, you're giving us consent to share this data wherever your
+user profile appears.
+
+Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`).
+These images are obtained using https://gravatar.com/.
+
+Licenses
+--------
+
+API access
+----------
+
+You can get or reset your API access token here.
 
 .. _audit-log:
 

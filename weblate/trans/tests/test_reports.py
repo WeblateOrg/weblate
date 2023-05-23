@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -31,7 +31,7 @@ COUNTS_DATA = [
         "count": 1,
         "count_edit": 0,
         "count_new": 1,
-        "name": "Weblate Test",
+        "name": "Weblate <b>Test</b>",
         "words": 2,
         "words_edit": 0,
         "words_new": 2,
@@ -62,7 +62,9 @@ class BaseReportsTest(ViewTestCase):
     def setUp(self):
         super().setUp()
         self.user.is_superuser = True
+        self.user.full_name = "Weblate <b>Test</b>"
         self.user.save()
+        self.maxDiff = None
 
     def add_change(self):
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
@@ -87,7 +89,14 @@ class ReportsTest(BaseReportsTest):
             translation__component=self.component,
         )
         self.assertEqual(
-            data, [{"Czech": [("weblate@example.org", "Weblate Test", expected_count)]}]
+            data,
+            [
+                {
+                    "Czech": [
+                        ("weblate@example.org", "Weblate <b>Test</b>", expected_count)
+                    ]
+                }
+            ],
         )
 
     def test_credits_more(self):
@@ -126,15 +135,20 @@ class ReportsComponentTest(BaseReportsTest):
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             response.content.decode(),
-            [{"Czech": [["weblate@example.org", "Weblate Test", 1]]}],
+            [{"Czech": [["weblate@example.org", "Weblate <b>Test</b>", 1]]}],
         )
 
     def test_credits_view_rst(self):
         response = self.get_credits("rst")
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers["Content-Type"], "text/plain; charset=utf-8")
         self.assertEqual(
-            response.content.decode(),
-            "\n\n* Czech\n\n    * Weblate Test <weblate@example.org> (1)\n\n",
+            response.content.decode().strip(),
+            """
+* Czech
+
+    * Weblate <b>Test</b> <weblate@example.org> (1)
+""".strip(),
         )
 
     def test_credits_view_html(self):
@@ -142,11 +156,11 @@ class ReportsComponentTest(BaseReportsTest):
         self.assertEqual(response.status_code, 200)
         self.assertHTMLEqual(
             response.content.decode(),
-            "<table>\n"
+            "<table><tbody>\n"
             "<tr>\n<th>Czech</th>\n"
             '<td><ul><li><a href="mailto:weblate@example.org">'
-            "Weblate Test</a> (1)</li></ul></td>\n</tr>\n"
-            "</table>",
+            "Weblate &lt;b&gt;Test&lt;/b&gt;</a> (1)</li></ul></td>\n</tr>\n"
+            "</tbody></table>",
         )
 
     def get_counts(self, style, **kwargs):
@@ -193,6 +207,8 @@ class ReportsComponentTest(BaseReportsTest):
     def test_counts_view_rst(self):
         response = self.get_counts("rst")
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers["Content-Type"], "text/plain; charset=utf-8")
+        self.assertContains(response, "Weblate <b>Test</b>")
         self.assertContains(response, "weblate@example.org")
 
     def test_counts_view_html(self):
@@ -231,7 +247,7 @@ class ReportsComponentTest(BaseReportsTest):
         <th>Target chars edited</th>
     </tr>
     <tr>
-        <td>Weblate Test</td>
+        <td>Weblate &lt;b&gt;Test&lt;/b&gt;</td>
         <td>weblate@example.org</td>
         <td>1</td>
         <td>14</td>

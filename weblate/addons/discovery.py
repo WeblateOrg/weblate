@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -41,24 +41,26 @@ class DiscoveryAddon(BaseAddon):
     repo_scope = True
     trigger_update = True
 
-    def post_update(self, component, previous_head):
+    def post_update(self, component, previous_head: str, skip_push: bool):
         self.discovery.perform(
-            remove=self.instance.configuration["remove"], background=True
+            remove=self.instance.configuration.get("remove"), background=True
         )
 
-    def get_settings_form(self, **kwargs):
-        """Return configuration for for this addon."""
+    def get_settings_form(self, user, **kwargs):
+        """Return configuration form for this addon."""
         if "data" not in kwargs:
             kwargs["data"] = self.instance.configuration
             kwargs["data"]["confirm"] = False
-        return super().get_settings_form(**kwargs)
+        return super().get_settings_form(user, **kwargs)
 
     @cached_property
     def discovery(self):
         # Handle old settings which did not have this set
         if "new_base_template" not in self.instance.configuration:
             self.instance.configuration["new_base_template"] = ""
+        if "intermediate_template" not in self.instance.configuration:
+            self.instance.configuration["intermediate_template"] = ""
         return ComponentDiscovery(
             self.instance.component,
-            **ComponentDiscovery.extract_kwargs(self.instance.configuration)
+            **ComponentDiscovery.extract_kwargs(self.instance.configuration),
         )

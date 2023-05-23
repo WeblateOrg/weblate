@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,11 +25,11 @@ from weblate.checks.models import Check
 
 
 class Command(BaseCommand):
-    help = "lists top not translated failing checks"
+    help = "lists top untranslated failing checks"
 
     def handle(self, *args, **options):
         results = (
-            Check.objects.filter(check="same")
+            Check.objects.filter(name="same")
             .values("unit__source")
             .annotate(Count("unit__source"))
             .filter(unit__source__count__gt=1)
@@ -38,5 +38,5 @@ class Command(BaseCommand):
 
         for item in results:
             self.stdout.write(
-                "{0:5d} {1}".format(item["unit__source__count"], item["unit__source"])
+                "{:5d} {}".format(item["unit__source__count"], item["unit__source"])
             )

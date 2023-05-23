@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -41,7 +41,7 @@ class URLMixin:
         if name is None:
             urlname = self._reverse_url_name
         else:
-            urlname = "{0}_{1}".format(name, self._reverse_url_name)
+            urlname = f"{name}_{self._reverse_url_name}"
         return reverse(urlname, kwargs=self.get_reverse_url_kwargs())
 
     def get_absolute_url(self):
@@ -61,6 +61,9 @@ class URLMixin:
 
     def get_cleanup_url(self):
         return self.reverse_url("cleanup")
+
+    def get_file_sync_url(self):
+        return self.reverse_url("file_sync")
 
     def get_lock_url(self):
         return self.reverse_url("lock")
@@ -115,7 +118,7 @@ class PathMixin(LoggerMixin):
             del self.__dict__["full_path"]
 
     def check_rename(self, old, validate=False):
-        """Detect slug changes and possibly renames underlaying directory."""
+        """Detect slug changes and possibly renames underlying directory."""
         # No moving for links
         if getattr(self, "is_repo_link", False) or getattr(old, "is_repo_link", False):
             return
@@ -155,4 +158,4 @@ class UserDisplayMixin:
 class CacheKeyMixin:
     @cached_property
     def cache_key(self):
-        return "{}-{}".format(self.__class__.__name__, self.pk)
+        return f"{self.__class__.__name__}-{self.pk}"

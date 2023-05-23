@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -16,7 +16,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-import json
+
+import re
+from functools import lru_cache
+from typing import Tuple
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
@@ -51,6 +54,9 @@ PLAIN_FLAGS["auto-java-messageformat"] = gettext_lazy(
 )
 PLAIN_FLAGS["read-only"] = gettext_lazy("Read only")
 PLAIN_FLAGS["strict-same"] = gettext_lazy("Strict unchanged check")
+PLAIN_FLAGS["forbidden"] = gettext_lazy("Forbidden translation")
+PLAIN_FLAGS["terminology"] = gettext_lazy("Terminology")
+PLAIN_FLAGS["ignore-all-checks"] = gettext_lazy("Ignore all checks")
 
 TYPED_FLAGS["font-family"] = gettext_lazy("Font family")
 TYPED_FLAGS_ARGS["font-family"] = single_value_flag(str)
@@ -60,16 +66,114 @@ TYPED_FLAGS["font-weight"] = gettext_lazy("Font weight")
 TYPED_FLAGS_ARGS["font-weight"] = single_value_flag(get_font_weight)
 TYPED_FLAGS["font-spacing"] = gettext_lazy("Font spacing")
 TYPED_FLAGS_ARGS["font-spacing"] = single_value_flag(int)
+TYPED_FLAGS["icu-flags"] = gettext_lazy("ICU MessageFormat Flags")
+TYPED_FLAGS_ARGS["icu-flags"] = multi_value_flag(str)
+TYPED_FLAGS["icu-tag-prefix"] = gettext_lazy("ICU MessageFormat Tag Prefix")
+TYPED_FLAGS_ARGS["icu-tag-prefix"] = single_value_flag(str)
 TYPED_FLAGS["priority"] = gettext_lazy("Priority")
 TYPED_FLAGS_ARGS["priority"] = single_value_flag(int)
 TYPED_FLAGS["max-length"] = gettext_lazy("Maximum length of translation")
 TYPED_FLAGS_ARGS["max-length"] = single_value_flag(int)
 TYPED_FLAGS["replacements"] = gettext_lazy("Replacements while rendering")
 TYPED_FLAGS_ARGS["replacements"] = multi_value_flag(str, modulo=2)
+TYPED_FLAGS["variant"] = gettext_lazy("String variant")
+TYPED_FLAGS_ARGS["variant"] = single_value_flag(str)
 
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 
 FLAG_ALIASES = {"markdown-text": "md-text"}
+
+
+def _parse_flags_text(flags: str):
+    """Parse comma separated list of flags."""
+    state = 0
+    name = None
+    value = []
+    tokens = list(FlagsParser.parseString(flags, parseAll=True))
+    for pos, token in enumerate(tokens):
+        if state == 0 and token == ",":
+            pass
+        elif state == 0:
+            # Handle aliases
+            name = FLAG_ALIASES.get(token, token)
+            value = [name]
+            state = 1
+        elif state == 1 and token == ",":
+            # End of flag
+            state = 0
+            yield name
+        elif state in (1, 3) and token == ":":
+            # Value separator
+            state = 2
+        elif state == 2 and token == ",":
+            # Flag with empty parameter
+            state = 0
+            value.append("")
+            yield tuple(value)
+        elif state == 2 and token == ":":
+            # Empty param
+            value.append("")
+        elif state == 2:
+            if (
+                token == "r"
+                and pos + 1 < len(tokens)
+                and tokens[pos + 1] not in (",", ":")
+            ):
+                # Regex prefix, value follows
+                state = 4
+            else:
+                # Value
+                value.append(token)
+                state = 3
+        elif state == 4:
+            # Regex value
+            value.append(re.compile(token))
+            state = 3
+        elif state == 3 and token == ",":
+            # Last value
+            yield tuple(value)
+            state = 0
+        else:
+            raise ValueError(f"Unexpected token: {token}, state={state}")
+
+    # With state 0 there was nothing parsed yet
+    if state > 0:
+        if state == 2:
+            # There was empty value
+            value.append("")
+        # Is this flag or flag with value
+        if len(value) > 1:
+            yield tuple(value)
+        else:
+            yield name
+
+
+@lru_cache(maxsize=512)
+def parse_flags_text(flags: str) -> Tuple:
+    """Parse comma separated list of flags."""
+    return tuple(_parse_flags_text(flags))
+
+
+def parse_flags_xml(flags):
+    """Parse comma separated list of flags."""
+    maxwidth = flags.get("maxwidth")
+    sizeunit = flags.get("size-unit")
+    if maxwidth:
+        if sizeunit in (None, "pixel", "point"):
+            yield "max-size", maxwidth
+        elif sizeunit in ("byte", "char"):
+            yield "max-length", maxwidth
+    font = flags.get("font")
+    if font:
+        font = font.split(";")
+        yield "font-family", font[0].strip().replace(" ", "_")
+        if len(font) > 1:
+            yield "font-size", font[1].strip()
+        if len(font) > 2:
+            yield "font-weight", font[2].strip()
+    text = flags.get("weblate-flags")
+    if text:
+        yield from parse_flags_text(text)
 
 
 class Flags:
@@ -80,10 +184,12 @@ class Flags:
             self.merge(flags)
 
     def get_items(self, flags):
+        if flags is None:
+            return []
         if isinstance(flags, str):
-            return self.parse(flags)
+            return parse_flags_text(flags)
         if hasattr(flags, "tag"):
-            return self.parse_xml(flags)
+            return parse_flags_xml(flags)
         if isinstance(flags, Flags):
             return flags.items()
         return flags
@@ -108,80 +214,6 @@ class Flags:
             else:
                 self._items.pop(flag, None)
 
-    @staticmethod
-    def parse(flags):
-        """Parse comma separated list of flags."""
-        state = 0
-        name = None
-        value = []
-        for token in FlagsParser.parseString(flags, parseAll=True):
-            token = token.strip()
-            if state == 0 and token == ",":
-                pass
-            elif state == 0:
-                # Handle aliases
-                name = FLAG_ALIASES.get(token, token)
-                value = [name]
-                state = 1
-            elif state == 1 and token == ",":
-                # End of flag
-                state = 0
-                yield name
-            elif state in (1, 3) and token == ":":
-                # Value separator
-                state = 2
-            elif state == 2 and token == ",":
-                # Flag with empty parameter
-                state = 0
-                value.append("")
-                yield tuple(value)
-            elif state == 2 and token == ":":
-                # Empty param
-                value.append("")
-            elif state == 2:
-                # Value
-                value.append(token)
-                state = 3
-            elif state == 3 and token == ",":
-                # Last value
-                yield tuple(value)
-                state = 0
-            else:
-                raise ValueError("Unexpected token: {}, state={}".format(token, state))
-
-        # With state 0 there was nothing parsed yet
-        if state > 0:
-            if state == 2:
-                # There was empty value
-                value.append("")
-            # Is this flag or flag with value
-            if len(value) > 1:
-                yield tuple(value)
-            else:
-                yield name
-
-    @classmethod
-    def parse_xml(cls, flags):
-        """Parse comma separated list of flags."""
-        maxwidth = flags.get("maxwidth")
-        sizeunit = flags.get("size-unit")
-        if maxwidth:
-            if sizeunit in (None, "pixel", "point"):
-                yield "max-size", maxwidth
-            elif sizeunit in ("byte", "char"):
-                yield "max-length", maxwidth
-        font = flags.get("font")
-        if font:
-            font = font.split(";")
-            yield "font-family", font[0].strip().replace(" ", "_")
-            if len(font) > 1:
-                yield "font-size", font[1].strip()
-            if len(font) > 2:
-                yield "font-weight", font[2].strip()
-        text = flags.get("weblate-flags")
-        if text:
-            yield from cls.parse(text)
-
     def has_value(self, key):
         return key in self._values
 
@@ -202,8 +234,13 @@ class Flags:
 
     @staticmethod
     def format_value(value):
-        if any(c in value for c in SYNTAXCHARS):
-            return json.dumps(value, ensure_ascii=False)
+        # Regexp objects
+        if hasattr(value, "pattern"):
+            value = value.pattern
+        if " " in value or any(c in value for c in SYNTAXCHARS):
+            return '"{}"'.format(
+                value.replace('"', r"\"").replace("\n", "\\n").replace("\r", "\\r")
+            )
         return value
 
     @classmethod
@@ -241,3 +278,7 @@ class Flags:
                 raise ValidationError(
                     _('Missing parameters for translation flag: "%s"') % name
                 )
+
+    def set_value(self, name, value):
+        self._values[name] = value
+        self._items[name] = (name, value)

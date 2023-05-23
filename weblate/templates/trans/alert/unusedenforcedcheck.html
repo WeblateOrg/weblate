@@ -1,0 +1,10 @@
+{% load i18n %}
+<p>{% trans "This component is set up incorrectly." %}</p>
+
+<p>{% trans "Following enforced checks are not used anywhere:" %}</p>
+
+<ul>
+  {% for check in component.get_unused_enforcements %}
+    <li>{% blocktrans with check=check.name flag=check.enable_string %}{{ check }} quality check is enforced, but not turned on using <code>{{ flag }}</code>.{% endblocktrans %}</li>
+  {% endfor %}
+</ul>

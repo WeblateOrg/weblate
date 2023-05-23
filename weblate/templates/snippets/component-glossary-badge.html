@@ -1,0 +1,5 @@
+{% load i18n %}
+
+{% if not object.is_ghost and object.is_glossary %}
+  <span class="label label-{{ object.glossary_color }}">{% trans "Glossary" %}</span>
+{% endif %}

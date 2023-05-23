@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
 
 from crispy_forms.helper import FormHelper
 from django import forms
@@ -66,4 +65,46 @@ class BackupForm(forms.ModelForm):
 
 
 class UserSearchForm(forms.Form):
-    email = forms.CharField(label=_("User e-mail"))
+    email = forms.CharField(label=_("Username or registered e-mail"))
+
+
+class FontField(forms.CharField):
+    def __init__(self, **kwargs):
+        super().__init__(
+            help_text=_("Please provide font family suitable for CSS."), **kwargs
+        )
+
+
+class ColorField(forms.CharField):
+    def __init__(self, **kwargs):
+        super().__init__(widget=forms.TextInput(attrs={"type": "color"}), **kwargs)
+
+
+class AppearanceForm(forms.Form):
+    page_font = FontField(label=_("Page font"), required=False)
+    brand_font = FontField(label=_("Header font"), required=False)
+    header_color = ColorField(
+        label=("Navigation color"), required=False, initial="#2a3744"
+    )
+    header_text_color = ColorField(
+        label=("Navigation text color"), required=False, initial="#bfc3c7"
+    )
+    navi_color = ColorField(
+        label=("Navigation color"), required=False, initial="#1fa385"
+    )
+    focus_color = ColorField(label=_("Focus color"), required=False, initial="#2eccaa")
+    hover_color = ColorField(label=_("Hover color"), required=False, initial="#144d3f")
+    hide_footer = forms.BooleanField(label=_("Hide page footer"), required=False)
+    enforce_hamburger = forms.BooleanField(
+        label=_("Always show hamburger menu"),
+        required=False,
+        help_text=_(
+            "Persistent navigational drop-down menu in the top right corner, "
+            "even if there is room for a full menu."
+        ),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False

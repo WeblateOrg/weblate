@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,8 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
+import gzip
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -29,95 +30,144 @@ from celery.schedules import crontab
 from django.conf import settings
 from django.core.cache import cache
 from django.core.management.commands import diffsettings
+from ruamel.yaml import YAML
 
-import weblate
+import weblate.utils.version
 from weblate.formats.models import FILE_FORMATS
+from weblate.machinery.models import MACHINERY
 from weblate.trans.util import get_clean_env
+from weblate.utils.backup import backup_lock
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
-from weblate.utils.errors import report_error
+from weblate.utils.db import using_postgresql
+from weblate.utils.errors import add_breadcrumb, report_error
+from weblate.utils.lock import WeblateLockTimeout
 from weblate.vcs.models import VCS_REGISTRY
 
 
 @app.task(trail=False)
 def ping():
     return {
-        "version": weblate.GIT_VERSION,
+        "version": weblate.utils.version.GIT_VERSION,
         "vcs": sorted(VCS_REGISTRY.keys()),
         "formats": sorted(FILE_FORMATS.keys()),
+        "mt_services": sorted(MACHINERY.keys()),
         "encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],
+        "uid": os.getuid(),
     }
 
 
 @app.task(trail=False)
 def heartbeat():
-    cache.set("celery_loaded", time.time())
-    cache.set("celery_heartbeat", time.time())
+    cache.set("celery_loaded", time.monotonic())
+    cache.set("celery_heartbeat", time.monotonic())
+    cache.set(
+        "celery_encoding", [sys.getfilesystemencoding(), sys.getdefaultencoding()]
+    )
 
 
-def ensure_backup_dir():
-    backup_dir = data_dir("backups")
-    if not os.path.exists(backup_dir):
-        os.makedirs(backup_dir)
-
-
-@app.task(trail=False)
+@app.task(trail=False, autoretry_for=(WeblateLockTimeout,))
 def settings_backup():
-    ensure_backup_dir()
+    with backup_lock():
+        # Expand settings in case it contains non-trivial code
+        command = diffsettings.Command()
+        kwargs = {"default": None, "all": False, "output": "hash"}
+        with open(data_dir("backups", "settings-expanded.py"), "w") as handle:
+            handle.write(command.handle(**kwargs))
 
-    # Expand settings in case it contains non-trivial code
-    command = diffsettings.Command()
-    kwargs = {"default": None, "all": False, "output": "hash"}
-    with open(data_dir("backups", "settings-expanded.py"), "w") as handle:
-        handle.write(command.handle(**kwargs))
+        # Backup original settings
+        if settings.SETTINGS_MODULE:
+            settings_mod = import_module(settings.SETTINGS_MODULE)
+            copyfile(settings_mod.__file__, data_dir("backups", "settings.py"))
 
-    # Backup original settings
-    if settings.SETTINGS_MODULE:
-        settings_mod = import_module(settings.SETTINGS_MODULE)
-        copyfile(settings_mod.__file__, data_dir("backups", "settings.py"))
+        # Backup environment (to make restoring Docker easier)
+        with open(data_dir("backups", "environment.yml"), "w") as handle:
+            yaml = YAML()
+            yaml.dump(dict(os.environ), handle)
 
 
-@app.task(trail=False)
+@app.task(trail=False, autoretry_for=(WeblateLockTimeout,))
 def database_backup():
-    ensure_backup_dir()
-    database = settings.DATABASES["default"]
-    if database["ENGINE"] != "django.db.backends.postgresql":
+    if settings.DATABASE_BACKUP == "none":
         return
-    cmd = ["pg_dump", "--dbname", database["NAME"]]
-    if database["HOST"]:
-        cmd += ["--host", database["HOST"]]
-    if database["PORT"]:
-        cmd += ["--port", database["PORT"]]
-    if database["USER"]:
-        cmd += ["--username", database["USER"]]
-    if settings.DATABASE_BACKUP == "compressed":
-        cmd += ["--file", data_dir("backups", "database.sql.gz")]
-        cmd += ["--compress", "6"]
-    else:
-        cmd += ["--file", data_dir("backups", "database.sql")]
+    with backup_lock():
+        database = settings.DATABASES["default"]
+        env = get_clean_env()
+        compress = settings.DATABASE_BACKUP == "compressed"
 
-    try:
-        subprocess.run(
-            cmd,
-            env=get_clean_env({"PGPASSWORD": database["PASSWORD"]}),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=True,
-            universal_newlines=True,
-        )
-    except subprocess.CalledProcessError as error:
-        report_error(extra_data={"stdout": error.stdout, "stderr": error.stderr})
-        raise
+        out_compressed = data_dir("backups", "database.sql.gz")
+        out_plain = data_dir("backups", "database.sql")
+
+        if using_postgresql():
+            cmd = ["pg_dump", "--dbname", database["NAME"]]
+
+            if database["HOST"]:
+                cmd.extend(["--host", database["HOST"]])
+            if database["PORT"]:
+                cmd.extend(["--port", database["PORT"]])
+            if database["USER"]:
+                cmd.extend(["--username", database["USER"]])
+            if settings.DATABASE_BACKUP == "compressed":
+                cmd.extend(["--file", out_compressed])
+                cmd.extend(["--compress", "6"])
+                compress = False
+            else:
+                cmd.extend(["--file", out_plain])
+
+            env["PGPASSWORD"] = database["PASSWORD"]
+        else:
+            cmd = [
+                "mysqldump",
+                "--result-file",
+                out_plain,
+                "--single-transaction",
+                "--skip-lock-tables",
+            ]
+
+            if database["HOST"]:
+                cmd.extend(["--host", database["HOST"]])
+            if database["PORT"]:
+                cmd.extend(["--port", database["PORT"]])
+            if database["USER"]:
+                cmd.extend(["--user", database["USER"]])
+
+            cmd.extend(["--databases", database["NAME"]])
+
+            env["MYSQL_PWD"] = database["PASSWORD"]
+
+        try:
+            subprocess.run(
+                cmd,
+                env=env,
+                capture_output=True,
+                stdin=subprocess.DEVNULL,
+                check=True,
+                text=True,
+            )
+        except subprocess.CalledProcessError as error:
+            add_breadcrumb(
+                category="backup",
+                message="database dump output",
+                stdout=error.stdout,
+                stderr=error.stderr,
+            )
+            report_error()
+            raise
+
+        if compress:
+            with open(out_plain, "rb") as f_in:
+                with gzip.open(out_compressed, "wb") as f_out:
+                    shutil.copyfileobj(f_in, f_out)
+            os.unlink(out_plain)
 
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    cache.set("celery_loaded", time.time())
+    cache.set("celery_loaded", time.monotonic())
     sender.add_periodic_task(
         crontab(hour=1, minute=0), settings_backup.s(), name="settings-backup"
     )
-    if settings.DATABASE_BACKUP != "none":
-        sender.add_periodic_task(
-            crontab(hour=1, minute=30), database_backup.s(), name="database-backup"
-        )
+    sender.add_periodic_task(
+        crontab(hour=1, minute=30), database_backup.s(), name="database-backup"
+    )
     sender.add_periodic_task(60, heartbeat.s(), name="heartbeat")

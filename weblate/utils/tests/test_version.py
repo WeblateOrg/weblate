@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,7 +21,7 @@ import responses
 from django.test import SimpleTestCase
 
 from weblate.trans.tests.utils import get_test_file
-from weblate.utils.version import (
+from weblate.utils.checks import (
     PYPI,
     download_version_info,
     flush_version_cache,
@@ -37,7 +37,7 @@ class VersionTest(SimpleTestCase):
 
     @staticmethod
     def mock_pypi():
-        with open(get_test_file("pypi.json"), "r") as handle:
+        with open(get_test_file("pypi.json")) as handle:
             responses.add(responses.GET, PYPI, body=handle.read())
 
     @responses.activate

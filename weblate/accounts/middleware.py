@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,7 +25,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.utils.translation import activate, get_language, get_language_from_request
 
-from weblate.accounts.models import set_lang
+from weblate.accounts.models import set_lang_cookie
+from weblate.accounts.utils import adjust_session_expiry
 from weblate.auth.models import get_anonymous
 
 
@@ -39,10 +40,6 @@ def get_user(request):
         user = auth.get_user(request)
         if isinstance(user, AnonymousUser):
             user = get_anonymous()
-            # Set short expiry for anonymous sessions
-            request.session.set_expiry(2200)
-        else:
-            request.session.set_expiry(None)
 
         request._cached_user = user
     return request._cached_user
@@ -65,6 +62,10 @@ class AuthenticationMiddleware:
         else:
             language = get_language_from_request(request)
 
+        # Extend session expiry for authenticated users
+        if user.is_authenticated:
+            adjust_session_expiry(request)
+
         # Based on django.middleware.locale.LocaleMiddleware
         activate(language)
         request.LANGUAGE_CODE = get_language()
@@ -76,7 +77,7 @@ class AuthenticationMiddleware:
         if user.is_authenticated and user.profile.language != request.COOKIES.get(
             settings.LANGUAGE_COOKIE_NAME
         ):
-            set_lang(response, user.profile)
+            set_lang_cookie(response, user.profile)
 
         return response
 
@@ -110,7 +111,10 @@ class RequireLoginMiddleware:
 
     def get_setting_re(self, setting):
         """Grab regexp list from settings and compiles them."""
-        return tuple(re.compile(url) for url in setting)
+        return tuple(
+            re.compile(url.replace("{URL_PREFIX}", settings.URL_PREFIX))
+            for url in setting
+        )
 
     def process_view(self, request, view_func, view_args, view_kwargs):
         """Check request whether it needs to enforce login for this URL."""

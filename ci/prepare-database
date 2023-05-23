@@ -2,6 +2,8 @@
 
 . ci/lib
 
+set -e
+
 cleanup_database
 
 if [ $CI_DATABASE = "mysql" -o $CI_DATABASE = 'mariadb' ] ; then

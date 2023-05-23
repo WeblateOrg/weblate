@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -16,18 +16,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
 """Test for management views."""
-
 import os.path
-import shutil
 
 from django.core import mail
 from django.urls import reverse
 
-from weblate.trans.models import Announcement, Component, Project
+from weblate.trans.models import Announcement, Component, Project, Translation
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
+from weblate.utils.files import remove_tree
 
 
 class RemovalTest(ViewTestCase):
@@ -64,6 +62,21 @@ class RemovalTest(ViewTestCase):
         )
         response = self.client.post(url, {"confirm": "test"}, follow=True)
         self.assertContains(response, "Project was scheduled for removal.")
+
+    def test_project_language(self):
+        self.make_manager()
+        self.assertEqual(Translation.objects.count(), 8)
+        url = reverse(
+            "remove-project-language",
+            kwargs={"project": self.project.slug, "lang": "cs"},
+        )
+        response = self.client.post(url, {"confirm": ""}, follow=True)
+        self.assertContains(
+            response, "The slug does not match the one marked for deletion!"
+        )
+        response = self.client.post(url, {"confirm": "test/cs"}, follow=True)
+        self.assertContains(response, "Language of the project was removed.")
+        self.assertEqual(Translation.objects.count(), 6)
 
 
 class RenameTest(ViewTestCase):
@@ -128,7 +141,7 @@ class RenameTest(ViewTestCase):
         # Remove stale dir from previous tests
         target = os.path.join(data_dir("vcs"), "xxxx")
         if os.path.exists(target):
-            shutil.rmtree(target)
+            remove_tree(target)
         self.make_manager()
         self.assertContains(
             self.client.get(reverse("project", kwargs=self.kw_project)), "#rename"
@@ -148,6 +161,26 @@ class RenameTest(ViewTestCase):
         response = self.client.get(reverse("project", kwargs=self.kw_project))
         self.assertRedirects(response, project.get_absolute_url(), status_code=301)
 
+    def test_rename_project_conflict(self):
+        # Test rename conflict
+        self.make_manager()
+        Project.objects.create(name="Other project", slug="other")
+        response = self.client.post(
+            reverse("rename", kwargs=self.kw_project), {"slug": "other"}, follow=True
+        )
+        self.assertContains(response, "Project with this URL slug already exists.")
+
+    def test_rename_component_conflict(self):
+        # Test rename conflict
+        self.make_manager()
+        self.create_link_existing()
+        response = self.client.post(
+            reverse("rename", kwargs=self.kw_component), {"slug": "test2"}, follow=True
+        )
+        self.assertContains(
+            response, "Component with this URL slug already exists in the project."
+        )
+
 
 class AnnouncementTest(ViewTestCase):
     data = {"message": "Announcement testing", "category": "warning"}
@@ -158,7 +191,7 @@ class AnnouncementTest(ViewTestCase):
         self.assertEqual(response.status_code, 403)
         self.make_manager()
         # Add second user to receive notifications
-        self.project.add_user(self.anotheruser, "@Administration")
+        self.project.add_user(self.anotheruser, "Administration")
         response = self.client.post(url, self.data, follow=True)
         self.assertContains(response, self.data["message"])
         self.assertEqual(len(mail.outbox), self.outbox)

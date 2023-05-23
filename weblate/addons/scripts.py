@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -68,7 +68,7 @@ class BaseScriptAddon(BaseAddon):
     def post_push(self, component):
         self.run_script(component)
 
-    def post_update(self, component, previous_head):
+    def post_update(self, component, previous_head: str, skip_push: bool):
         self.run_script(component, env={"WL_PREVIOUS_HEAD": previous_head})
 
     def post_commit(self, component):

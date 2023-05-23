@@ -32,11 +32,16 @@
                 <label for="{{ field.id_for_label }}" class="{% if field.field.required %} requiredField{% endif %}">
                     {% crispy_field field %}
                     {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
+                    {% form_field_doc_link form field %}
                 </label>
                 {% include 'bootstrap3/layout/help_text_and_errors.html' %}
             {% else %}
                 <div class="controls {{ field_class }}">
-                    {% crispy_field field %}
+                    {% if field|is_multivalue %}
+                        {% crispy_field field %}
+                    {% else %}
+                        {% crispy_field field 'class' 'form-control' %}
+                    {% endif %}
                     {% include 'bootstrap3/layout/help_text_and_errors.html' %}
                 </div>
             {% endif %}

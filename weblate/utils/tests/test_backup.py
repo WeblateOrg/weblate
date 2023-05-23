@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,16 +20,16 @@
 import os
 
 from django.conf import settings
-from django.test import SimpleTestCase
+from django.test import TransactionTestCase
 from django.test.utils import override_settings
 
-from weblate.utils.backup import backup, get_paper_key, initialize, prune
+from weblate.utils.backup import backup, cleanup, get_paper_key, initialize, prune
 from weblate.utils.data import data_dir
 from weblate.utils.tasks import database_backup, settings_backup
 from weblate.utils.unittest import tempdir_setting
 
 
-class BackupTest(SimpleTestCase):
+class BackupTest(TransactionTestCase):
     @tempdir_setting("DATA_DIR")
     def test_settings_backup(self):
         settings_backup()
@@ -47,24 +47,22 @@ class BackupTest(SimpleTestCase):
         self.assertIn("Creating archive", output)
         output = prune(settings.BACKUP_DIR, "key")
         self.assertIn("Keeping archive", output)
+        cleanup(settings.BACKUP_DIR, "key", True)
+        cleanup(settings.BACKUP_DIR, "key", False)
 
     @tempdir_setting("DATA_DIR")
     def test_database_backup(self):
         database_backup()
-        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
-            self.assertTrue(
-                os.path.exists(
-                    os.path.join(settings.DATA_DIR, "backups", "database.sql")
-                )
-            )
+        self.assertTrue(
+            os.path.exists(os.path.join(settings.DATA_DIR, "backups", "database.sql"))
+        )
 
     @tempdir_setting("DATA_DIR")
     @override_settings(DATABASE_BACKUP="compressed")
     def test_database_backup_compress(self):
         database_backup()
-        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
-            self.assertTrue(
-                os.path.exists(
-                    os.path.join(settings.DATA_DIR, "backups", "database.sql.gz")
-                )
+        self.assertTrue(
+            os.path.exists(
+                os.path.join(settings.DATA_DIR, "backups", "database.sql.gz")
             )
+        )

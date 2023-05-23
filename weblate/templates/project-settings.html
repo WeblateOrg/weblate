@@ -11,7 +11,7 @@
 {% block content %}
 <form action="{% url 'settings' project=object.slug %}" method="post" enctype="multipart/form-data">
 
-{% crispy settings_form %}
+{% crispy form %}
 
 <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
 </form>

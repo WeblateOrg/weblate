@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,31 +17,36 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import errno
 import os
 import sys
 import time
 from collections import defaultdict
+from datetime import datetime, timedelta
+from distutils.version import LooseVersion
 from itertools import chain
 
 from celery.exceptions import TimeoutError
+from dateutil.parser import parse
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import Critical, Error, Info
 from django.core.mail import get_connection
+from django.db import DatabaseError
 
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.data import data_dir
+from weblate.utils.db import using_postgresql
 from weblate.utils.docs import get_doc_url
 from weblate.utils.site import check_domain, get_site_domain
+from weblate.utils.version import VERSION_BASE, Release
 
 GOOD_CACHE = {"MemcachedCache", "PyLibMCCache", "DatabaseCache", "RedisCache"}
 DEFAULT_MAILS = {
     "root@localhost",
     "webmaster@localhost",
-    "noreply@weblate.org",
     "noreply@example.com",
+    "weblate@example.com",
 }
 DEFAULT_SECRET_KEYS = {
     "jm8fqjlg+5!#xu%e-oh#7!$aa7!6avf7ud*_v=chdrb9qdco6(",
@@ -98,6 +103,9 @@ DOC_LINKS = {
     "weblate.E034": ("admin/install", "celery"),
     "weblate.C035": ("vcs",),
     "weblate.C036": ("admin/optionals", "gpg-sign"),
+    "weblate.C037": ("admin/install", "production-database"),
+    "weblate.C038": ("admin/install", "production-database"),
+    "weblate.W039": ("admin/machine",),
 }
 
 
@@ -120,7 +128,7 @@ def weblate_check(id, message, cls=Critical):
 def check_mail_connection(app_configs, **kwargs):
     errors = []
     try:
-        connection = get_connection()
+        connection = get_connection(timeout=5)
         connection.open()
         connection.close()
     except Exception as error:
@@ -138,11 +146,13 @@ def is_celery_queue_long():
     filtered out, and no warning need be issued for big operations (for example
     site-wide autotranslation).
     """
+    from weblate.trans.models import Translation
+
     cache_key = "celery_queue_stats"
     queues_data = cache.get(cache_key, {})
 
     # Hours since epoch
-    current_hour = int(time.time() / 3600)
+    current_hour = int(time.monotonic() / 3600)
     test_hour = current_hour - 1
 
     # Fetch current stats
@@ -167,7 +177,9 @@ def is_celery_queue_long():
     # Check if any queue got bigger
     base = queues_data[test_hour]
     thresholds = defaultdict(lambda: 50)
-    thresholds["translate"] = 1000
+    # Set the limit to avoid trigger on auto-translating all components
+    # nightly.
+    thresholds["translate"] = max(1000, Translation.objects.count() / 30)
     return any(
         stat > thresholds[key] and base.get(key, 0) > thresholds[key]
         for key, stat in stats.items()
@@ -201,17 +213,23 @@ def check_celery(app_configs, **kwargs):
                 )
             )
 
+        start = time.monotonic()
         result = ping.delay()
         try:
             pong = result.get(timeout=10, disable_sync_subtasks=False)
+            cache.set("celery_latency", round(1000 * (time.monotonic() - start)))
             current = ping()
             # Check for outdated Celery running different version of configuration
             if current != pong:
-                differing = [
-                    key
-                    for key, value in current.items()
-                    if key not in pong or value != pong[key]
-                ]
+                if pong is None:
+                    # Celery runs Weblate 4.0 or older
+                    differing = ["version"]
+                else:
+                    differing = [
+                        key
+                        for key, value in current.items()
+                        if key not in pong or value != pong[key]
+                    ]
                 errors.append(
                     weblate_check(
                         "weblate.E034",
@@ -238,7 +256,7 @@ def check_celery(app_configs, **kwargs):
 
     heartbeat = cache.get("celery_heartbeat")
     loaded = cache.get("celery_loaded")
-    now = time.time()
+    now = time.monotonic()
     if loaded and now - loaded > 60 and (not heartbeat or now - heartbeat > 600):
         errors.append(
             weblate_check(
@@ -251,16 +269,50 @@ def check_celery(app_configs, **kwargs):
     return errors
 
 
+def measure_database_latency():
+    from weblate.trans.models import Project
+
+    start = time.monotonic()
+    Project.objects.exists()
+    return round(1000 * (time.monotonic() - start))
+
+
+def measure_cache_latency():
+    start = time.monotonic()
+    cache.get("celery_loaded")
+    return round(1000 * (time.monotonic() - start))
+
+
 def check_database(app_configs, **kwargs):
-    if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
-        return []
-    return [
-        weblate_check(
-            "weblate.E006",
-            "Weblate performs best with PostgreSQL, consider migrating to it.",
-            Info,
+    errors = []
+    if not using_postgresql():
+        errors.append(
+            weblate_check(
+                "weblate.E006",
+                "Weblate performs best with PostgreSQL, consider migrating to it.",
+                Info,
+            )
         )
-    ]
+
+    try:
+        delta = measure_database_latency()
+        if delta > 100:
+            errors.append(
+                weblate_check(
+                    "weblate.C038",
+                    f"The database seems slow, the query took {delta} milliseconds",
+                )
+            )
+
+    except DatabaseError as error:
+        errors.append(
+            weblate_check(
+                "weblate.C037",
+                f"Failed to connect to the database: {error}",
+            )
+        )
+
+    return errors
 
 
 def check_cache(app_configs, **kwargs):
@@ -294,7 +346,7 @@ def check_settings(app_configs, **kwargs):
     """Check for sane settings."""
     errors = []
 
-    if not settings.ADMINS or "noreply@weblate.org" in (x[1] for x in settings.ADMINS):
+    if not settings.ADMINS or any(x[1] in DEFAULT_MAILS for x in settings.ADMINS):
         errors.append(
             weblate_check(
                 "weblate.E011",
@@ -365,6 +417,13 @@ def check_templates(app_configs, **kwargs):
 def check_data_writable(app_configs=None, **kwargs):
     """Check we can write to data dir."""
     errors = []
+    if not settings.DATA_DIR:
+        return [
+            weblate_check(
+                "weblate.E002",
+                "DATA_DIR is not configured.",
+            )
+        ]
     dirs = [
         settings.DATA_DIR,
         data_dir("home"),
@@ -394,14 +453,23 @@ def check_site(app_configs, **kwargs):
 
 def check_perms(app_configs=None, **kwargs):
     """Check that the data dir can be written to."""
+    if not settings.DATA_DIR:
+        return []
+    start = time.monotonic()
     errors = []
     uid = os.getuid()
-    message = "The path {} is owned by different user, check your DATA_DIR settings."
+    message = "The path {} is owned by a different user, check your DATA_DIR settings."
     for dirpath, dirnames, filenames in os.walk(settings.DATA_DIR):
         for name in chain(dirnames, filenames):
             # Skip toplevel lost+found dir, that one is typically owned by root
-            # on filesystem toplevel directory
-            if dirpath == settings.DATA_DIR and name == "lost+found":
+            # on filesystem toplevel directory. Also skip settings-override.py
+            # used in the Docker container as that one is typically bind mouted
+            # with different permissions (and Weblate is not expected to write
+            # to it).
+            if dirpath == settings.DATA_DIR and name in (
+                "lost+found",
+                "settings-override.py",
+            ):
                 continue
             path = os.path.join(dirpath, name)
             try:
@@ -413,17 +481,15 @@ def check_perms(app_configs=None, **kwargs):
                 raise
             if stat.st_uid != uid:
                 errors.append(weblate_check("weblate.E027", message.format(path)))
+        if time.monotonic() - start > 15:
+            break
 
     return errors
 
 
 def check_errors(app_configs=None, **kwargs):
     """Check that error collection is configured."""
-    if (
-        hasattr(settings, "ROLLBAR")
-        or hasattr(settings, "RAVEN_CONFIG")
-        or settings.SENTRY_DSN
-    ):
+    if hasattr(settings, "ROLLBAR") or settings.SENTRY_DSN:
         return []
     return [
         weblate_check(
@@ -449,7 +515,71 @@ def check_encoding(app_configs=None, **kwargs):
 
 def check_diskspace(app_configs=None, **kwargs):
     """Check free disk space."""
-    stat = os.statvfs(settings.DATA_DIR)
-    if stat.f_bavail * stat.f_bsize < 10000000:
-        return [weblate_check("weblate.C032", "The disk is nearly full")]
+    if settings.DATA_DIR:
+        stat = os.statvfs(settings.DATA_DIR)
+        if stat.f_bavail * stat.f_bsize < 10000000:
+            return [weblate_check("weblate.C032", "The disk is nearly full")]
+    return []
+
+
+# Python Package Index URL
+PYPI = "https://pypi.org/pypi/weblate/json"
+
+# Cache to store fetched PyPI version
+CACHE_KEY = "version-check"
+
+
+def download_version_info():
+    from weblate.utils.requests import request
+
+    response = request("get", PYPI)
+    result = []
+    for version, info in response.json()["releases"].items():
+        if not info:
+            continue
+        result.append(Release(version, parse(info[0]["upload_time"])))
+    return sorted(result, key=lambda x: x[1], reverse=True)
+
+
+def flush_version_cache():
+    cache.delete(CACHE_KEY)
+
+
+def get_version_info():
+    result = cache.get(CACHE_KEY)
+    if not result:
+        result = download_version_info()
+        cache.set(CACHE_KEY, result, 86400)
+    return result
+
+
+def get_latest_version():
+    return get_version_info()[0]
+
+
+def check_version(app_configs=None, **kwargs):
+    try:
+        latest = get_latest_version()
+    except (ValueError, OSError):
+        return []
+    if LooseVersion(latest.version) > LooseVersion(VERSION_BASE):
+        # With release every two months, this gets triggered after three releases
+        if latest.timestamp + timedelta(days=180) < datetime.now():
+            return [
+                weblate_check(
+                    "weblate.C031",
+                    "You Weblate version is outdated, please upgrade to {}.".format(
+                        latest.version
+                    ),
+                )
+            ]
+        return [
+            weblate_check(
+                "weblate.I031",
+                "New Weblate version is available, please upgrade to {}.".format(
+                    latest.version
+                ),
+                Info,
+            )
+        ]
     return []

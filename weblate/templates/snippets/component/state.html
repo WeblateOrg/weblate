@@ -7,7 +7,4 @@
 
 {% show_contributor_agreement object %}
 
-{% if not object.project.paid %}
-{% trans "Pay the bills to unlock this project." as msg %}
-{% show_message "warning" msg %}
-{% endif %}
+{% include "snippets/project/state.html" with object=object.project %}

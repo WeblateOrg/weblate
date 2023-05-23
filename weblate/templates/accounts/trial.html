@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'trial' %}">{% trans "Gratis trial" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+  {% trans "Thank you for your interest in trying Weblate!" as msg %}
+  {% show_message 'info' msg %}
+
+  <form method="post" action="{% url 'trial' %}">
+    {% csrf_token %}
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4 class="panel-title">{% trans "Your trial offer" %}</h4></div>
+      <div class="panel-body">
+        <ul>
+          <li>{% trans "Your trial will last 14 days." %}</li>
+          <li>{% trans "Your trial will run the Enterprise plan, but you can choose any plan later." %}</li>
+          <li>{% trans "No credit card is needed, but you can set the payment method anytime." %}</li>
+          <li>{% trans "All configuration will stay once you start paying." %}</li>
+        </ul>
+      </div>
+      <div class="panel-footer">
+        <input type="submit" value="{% trans "Start the trial!" %}" class="btn btn-primary" />
+      </div>
+    </div>
+  </form>
+
+</div>
+{% endblock %}

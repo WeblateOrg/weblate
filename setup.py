@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,6 +19,7 @@
 #
 
 import os
+from distutils import log
 from distutils.command.build import build
 from distutils.core import Command
 from distutils.dep_util import newer
@@ -31,7 +32,6 @@ from translate.tools.pocompile import convertmo
 
 LOCALE_MASKS = [
     "weblate/locale/*/LC_MESSAGES/*.po",
-    "weblate/langdata/locale/*/LC_MESSAGES/*.po",
 ]
 
 # allow setup.py to be run from any path
@@ -55,7 +55,7 @@ with open("requirements-optional.txt") as requirements:
         else:
             dep = line.split(";")[0].strip()
             EXTRAS[section] = dep
-            if section != "MySQL":
+            if section not in ("MySQL", "zxcvbn"):
                 EXTRAS["all"].append(dep)
 
 
@@ -81,8 +81,8 @@ class BuildMo(Command):
             output = os.path.splitext(name)[0] + ".mo"
             if not newer(name, output):
                 continue
-            print(f"compiling {name} -> {output}")
-            with open(name) as pofile, open(output, "wb") as mofile:
+            self.announce(f"compiling {name} -> {output}", level=log.INFO)
+            with open(name, "rb") as pofile, open(output, "wb") as mofile:
                 convertmo(pofile, mofile, None)
 
 
@@ -95,8 +95,8 @@ class WeblateBuild(build):
 
 setup(
     name="Weblate",
-    version="4.2.2",
-    python_requires=">=3.6",
+    version="4.14",
+    python_requires=">=3.7",
     packages=find_packages(),
     include_package_data=True,
     description=(
@@ -114,6 +114,8 @@ setup(
         "Documentation": "https://docs.weblate.org/",
         "Source Code": "https://github.com/WeblateOrg/weblate",
         "Twitter": "https://twitter.com/WeblateOrg",
+        "Release Notes": "https://docs.weblate.org/en/latest/changes.html",
+        "Funding": "https://weblate.org/donate/",
     },
     author="Michal Čihař",
     author_email="michal@cihar.com",
@@ -133,11 +135,18 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Topic :: Software Development :: Internationalization",
         "Topic :: Software Development :: Localization",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     ],
-    entry_points={"console_scripts": ["weblate = weblate.runner:main"]},
+    entry_points={
+        "console_scripts": [
+            "weblate = weblate.runner:main",
+            "weblate-generate-secret-key = weblate.utils.generate_secret_key:main",
+        ]
+    },
     cmdclass={"build_py": WeblateBuildPy, "build_mo": BuildMo, "build": WeblateBuild},
 )

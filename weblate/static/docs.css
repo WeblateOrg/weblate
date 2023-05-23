@@ -1,5 +1,5 @@
 body {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Source Sans 3", sans-serif;
 }
 
 h1,
@@ -12,7 +12,7 @@ h6,
 legend,
 input,
 .btn {
-  font-family: "Source Sans Pro", sans-serif !important;
+  font-family: "Source Sans 3", sans-serif !important;
 }
 
 code,
@@ -20,6 +20,23 @@ kbd,
 pre,
 samp {
   font-family: "Source Code Pro", monospace !important;
+}
+
+.kbd {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0px 4px;
+  font-weight: 600;
+  display: inline-block;
+}
+.kbd .kbd {
+  border: none;
+  padding: 0;
+}
+
+.wy-table-responsive table td,
+.wy-table-responsive table th {
+  white-space: inherit;
 }
 
 .wy-nav-top a,
@@ -111,4 +128,10 @@ a:visited {
 .rst-content dl:not(.docutils).class dt,
 .rst-content dl:not(.docutils).data dt {
   color: #1fa385;
+}
+
+.rst-content table.docutils td,
+.rst-content table.field-list td,
+.wy-table td {
+  vertical-align: top;
 }

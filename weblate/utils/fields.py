@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,11 +17,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import json
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+from weblate.trans.defines import EMAIL_LENGTH
+from weblate.utils import forms
+from weblate.utils.validators import validate_email
 
 
 class JSONField(models.TextField):
@@ -38,7 +42,7 @@ class JSONField(models.TextField):
             return None
         try:
             return json.loads(value)
-        except ValueError:
+        except (ValueError, TypeError):
             return value
 
     def get_prep_value(self, value):
@@ -82,5 +86,27 @@ class UsernameField(CaseInsensitiveFieldMixin, models.CharField):
     pass
 
 
-class EmailField(CaseInsensitiveFieldMixin, models.EmailField):
-    pass
+class EmailField(CaseInsensitiveFieldMixin, models.CharField):
+    default_validators = [validate_email]
+    description = _("E-mail")
+    default_error_messages = {"unique": _("A user with this e-mail already exists.")}
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("max_length", EMAIL_LENGTH)
+        super().__init__(*args, **kwargs)
+
+    def deconstruct(self):
+        name, path, args, kwargs = super().deconstruct()
+        # We do not exclude max_length if it matches default as we want to change
+        # the default in future.
+        return name, path, args, kwargs
+
+    def formfield(self, **kwargs):
+        # As with CharField, this will cause email validation to be performed
+        # twice.
+        return super().formfield(
+            **{
+                "form_class": forms.EmailField,
+                **kwargs,
+            }
+        )

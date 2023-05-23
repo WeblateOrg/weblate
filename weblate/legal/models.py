@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -39,8 +39,12 @@ class Agreement(models.Model):
     user_agent = models.CharField(max_length=200, default="")
     timestamp = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "TOS agreement"
+        verbose_name_plural = "TOS agreements"
+
     def __str__(self):
-        return "{0}:{1}".format(self.user.username, self.tos)
+        return f"{self.user.username}:{self.tos}"
 
     def is_current(self):
         return self.tos == TOS_DATE

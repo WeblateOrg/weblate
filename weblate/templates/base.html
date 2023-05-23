@@ -13,10 +13,18 @@
   <meta name="author" content="Michal Čihař" />
   <meta name="copyright" content="Copyright &copy; 2003 - {{ current_year }} Michal Čihař" />
   {% if not allow_index %}<meta name="robots" content="noindex,nofollow" />{% endif %}
+  {% if interledger_payment_pointer %}<meta name="monetization" content="{{ interledger_payment_pointer }}" />{% endif %}
 
   <title>{% include "snippets/title.html" %}</title>
   <meta name="description" content="{{ description }}" />
   <meta name="twitter:card" content="summary_large_image" />
+
+  {% if next_unit_url %}
+  <link rel="next" href="{{ next_unit_url }}" />
+  {% endif %}
+  {% if prev_unit_url %}
+  <link rel="prev" href="{{ prev_unit_url }}" />
+  {% endif %}
 
   {% if object.slug and object.project.slug %}
   <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.project.slug widget='open' color='graph' extension='png' %}" />
@@ -65,10 +73,12 @@ var _rollbarConfig = {
   <script defer data-cfasync="false" src="{% static 'vendor/bootstrap/js/bootstrap-datepicker.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/modernizr.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/slugify.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/codemirror/lib/codemirror.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/codemirror/addon/hint/show-hint.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/codemirror/mode/markdown/markdown.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'loader-codemirror.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/tribute.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-core.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-markup.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-rest.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-markdown.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-icu-message-format.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'loader-bootstrap.js' %}{{ cache_param }}"></script>
 {% endcompress %}
 
@@ -88,10 +98,9 @@ var _rollbarConfig = {
   {% endif %}
   <meta name="theme-color" content="#144d3f">
 
-  <meta name="robots" content="index, follow" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta property="og:site_name" content="{% if site_title %}{{ site_title }}{% else %}Weblate{% endif %}" />
-  <meta property="og:title" content="{% if title %}{{ title }}{% else %}{% if object %}{{ object }}{% else %}{% if page_user %}{{ page_user }}{% else %}{% if site_title %}{{ site_title }}{% else %}Weblate{% endif %}{% endif %}{% endif %}{% endif %}" />
+  <meta property="og:site_name" content="{{ site_title }}" />
+  <meta property="og:title" content="{% if title %}{{ title }}{% elif object %}{{ object }}{% elif page_user %}{{ page_user }}{% else %}{{ site_title }}{% endif %}" />
   <meta property="og:description" content="{{ description }}" />
 
 {% block extra_meta %}
@@ -135,17 +144,16 @@ var _rollbarConfig = {
             <li><a href="{% url 'projects' %}">{% trans "Browse all projects" %}</a></li>
           </ul>
         </li>
+        {% with languages=user.profile.all_languages.order_translated %}
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="languages-menu">{% trans "Languages" %} <b class="caret"></b></a>
           <ul class="dropdown-menu">
-          {% with languages=user.profile.languages.order_translated %}
           {% if languages %}
             {% for language in languages %}
             <li><a href="{{ language.get_absolute_url }}">{{ language }}</a></li>
             {% endfor %}
             <li role="separator" class="divider"></li>
           {% endif %}
-          {% endwith %}
           {% if user.is_authenticated %}
             <li><a href="{% url 'profile' %}#languages">{% trans "Manage translated languages" %}</a></li>
             <li role="separator" class="divider"></li>
@@ -157,14 +165,34 @@ var _rollbarConfig = {
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="checks-menu">{% trans "Checks" %} <b class="caret"></b></a>
           <ul class="dropdown-menu">
             {% if watched_projects %}
-            {% for project in watched_projects %}
-            <li><a href="{% url 'checks' %}?project={{ project.slug }}">{% blocktrans %}Failed checks in {{ project }}{% endblocktrans %}</a></li>
-            {% endfor %}
-            <li role="separator" class="divider"></li>
+              {% if languages %}
+                {% for project in watched_projects %}
+                  {% for language in languages %}
+                    <li><a href="{% url 'checks' %}?project={{ project.slug }}&amp;lang={{ language.code }}">{% blocktrans %}Failing checks in {{ project }} — {{ language }}{% endblocktrans %}</a></li>
+                  {% endfor %}
+                  {% if languages|length > 1 %}
+                    <li role="separator" class="divider"></li>
+                  {% endif %}
+                {% endfor %}
+                {% if languages|length == 1 %}
+                  <li role="separator" class="divider"></li>
+                {% endif %}
+              {% endif %}
+              {% for project in watched_projects %}
+                <li><a href="{% url 'checks' %}?project={{ project.slug }}">{% blocktrans %}Failing checks in {{ project }}{% endblocktrans %}</a></li>
+              {% endfor %}
+              <li role="separator" class="divider"></li>
+            {% endif %}
+            {% if languages %}
+              {% for language in languages %}
+                <li><a href="{% url 'checks' %}?lang={{ language.code }}">{% blocktrans %}Failing checks in {{ language }}{% endblocktrans %}</a></li>
+              {% endfor %}
+              <li role="separator" class="divider"></li>
             {% endif %}
             <li><a href="{% url 'checks' %}">{% trans "Checks overview" %}</a></li>
           </ul>
         </li>
+        {% endwith %}
       </ul>
       <ul class="nav navbar-nav navbar-right flip">
 
@@ -197,13 +225,19 @@ var _rollbarConfig = {
         {# Adding new translations #}
         {% if user.is_authenticated %}
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% icon "plus.svg" %} {% trans "Add" %} <b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% icon "plus.svg" %} <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="{% url 'create-project' %}">{% trans "Add new translation project" %}</a></li>
             <li><a href="{% url 'create-component' %}">{% trans "Add new translation component" %}</a></li>
-            {% if payment_enabled %}
-            <li role="separator" class="divider"></li>
-            <li><a href="{% url 'create-billing' %}?upgrade=1">{% trans "Purchase new hosting plan" %}</a></li>
+            {% if offer_hosting %}
+              <li role="separator" class="divider"></li>
+              {% if payment_enabled and 0 %}
+                <li><a href="{% url 'create-billing' %}?upgrade=1">{% trans "Purchase new hosting plan" %}</a></li>
+              {% endif %}
+              {% if payment_enabled %}
+                <li><a href="{% url 'trial' %}">{% trans "Try Weblate for free" %}</a></li>
+              {% endif %}
+              <li><a href="{% url 'hosting' %}">{% trans "Ask for Libre hosting" %}</a></li>
             {% endif %}
           </ul>
         </li>
@@ -214,7 +248,7 @@ var _rollbarConfig = {
         <li class="dropdown">
           <a href="#" id="user-dropdown" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Your profile" %}">
             {% if enable_avatars %}
-            <img class="avatar w24" alt="{% trans "User avatar" %}" src="{% url 'user_avatar' user=user.username size=24 %}" />
+            <img class="avatar" alt="{% trans "User avatar" %}" src="{% url 'user_avatar' user=user.username size=24 %}" />
             <span class="visible-xs-inline">{% trans "Your profile" %}</span>
             {% else %}
             {{ user.profile.get_user_name }}
@@ -222,16 +256,15 @@ var _rollbarConfig = {
             <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-            <li class="dropdown-header" id="profile-name"><b>{{ user }}</b><br />@{{ user.username }}</li>
+            <li id="profile-name"><a class="button" id="profile-button" href="{% url 'user_page' user=user.username %}"><b>{{ user }}</b><br />@{{ user.username }}</a></li>
             <li role="separator" class="divider"></li>
-            <li><a class="button" id="profile-button" href="{% url 'user_page' user=user.username %}">{% trans "Profile" %}</a></li>
             {% if has_billing %}
             <li><a class="button" id="billing-button" href="{% url 'billing' %}">{% trans "Billing overview" %}</a></li>
             {% endif %}
             <li><a id="memory-button" href="{% url 'memory' %}">{% trans "Translation memory" %}</a></li>
             <li><a class="button" id="settings-button" href="{% url 'profile' %}">{% trans "Settings" %}</a></li>
             <li role="separator" class="divider"></li>
-            <li><a class="button link-post" id="logout-button" href="{% url 'logout' %}">{% trans "Sign out" %}</a></li>
+            <li><a id="logout-button" href="" class="button link-post" data-href="{% url 'logout' %}">{% trans "Sign out" %}</a></li>
           </ul>
         </li>
         {% endif %}
@@ -243,12 +276,18 @@ var _rollbarConfig = {
             <span class="visible-xs-inline">{% trans "Help" %}</span>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="https://weblate.org/support/">{% trans "Support" %}</a></li>
+            {% if not has_support %}
+              <li><a href="https://weblate.org/support/">{% trans "Get support" %}</a></li>
+            {% endif %}
+            {% if get_help_url %}
+              <li><a href="{{ get_help_url }}">{% trans "Get help" %}</a></li>
+            {% endif %}
             <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
             <li><a href="{% url 'about' %}">{% blocktrans %}About Weblate{% endblocktrans %}</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="{% documentation 'index' %}">{% trans "Documentation" %}</a></li>
             <li><a href="https://weblate.org/contribute/">{% trans "Contribute to Weblate" %}</a></li>
+            <li><a href="{{ donate_url }}">{% trans "Donate to Weblate" %}</a></li>
           </ul>
         </li>
       </ul>
@@ -270,7 +309,7 @@ var _rollbarConfig = {
 {% endblock %}
 </header>
 
-<div class="content {% block content_class %}{% endblock %}">
+<div class="main-content {% block content_class %}{% endblock %}">
 
 {% if messages %}
 {% for message in messages %}

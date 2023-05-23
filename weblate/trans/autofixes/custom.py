@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""Auto fixes implemeted for specific environments and not enabled by default."""
+"""Auto fixes implemented for specific environments and not enabled by default."""
 
 
 import re
@@ -47,7 +47,7 @@ class DoubleApostrophes(AutoFix):
     def fix_single_target(self, target, source, unit):
         flags = unit.all_flags
         if ("auto-java-messageformat" not in flags or "{0" not in source) and (
-            "java-messageformat" not in flags
+            "java-format" not in flags
         ):
             return target, False
         # Split on apostrophe

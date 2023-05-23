@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -39,6 +39,7 @@ class SameCheckTest(CheckTestCase):
         # Is template
         unit.translation.is_template = True
         unit.translation.is_source = True
+        unit.is_source = True
         self.assertTrue(self.check.should_skip(unit))
         # Is same as source
         unit.translation.template = False
@@ -89,11 +90,19 @@ class SameCheckTest(CheckTestCase):
     def test_same_copyright(self):
         self.do_test(
             False,
-            ("(c) Copyright 2013 Michal Čihař", "(c) Copyright 2013 Michal Čihař", ""),
+            (
+                "(c) Copyright © 2013–2022 Michal Čihař",
+                "(c) Copyright © 2013–2022 Michal Čihař",
+                "",
+            ),
         )
         self.do_test(
             False,
-            ("© Copyright 2013 Michal Čihař", "© Copyright 2013 Michal Čihař", ""),
+            (
+                "© Copyright © 2013–2022 Michal Čihař",
+                "© Copyright © 2013–2022 Michal Čihař",
+                "",
+            ),
         )
 
     def test_same_format(self):
@@ -183,7 +192,7 @@ class SameCheckTest(CheckTestCase):
                 "",
             ),
         )
-        self.do_test(True, ("File/directory", "File/directory", ""))
+        self.do_test(True, ("File/path/directory", "File/path/directory", ""))
 
     def test_same_template(self):
         self.do_test(
@@ -223,3 +232,12 @@ class SameCheckTest(CheckTestCase):
     def test_same_project(self):
         self.do_test(False, ("MockProject", "MockProject", ""))
         self.do_test(False, ("mockcomponent", "mockcomponent", ""))
+
+    def test_same_routine(self):
+        self.do_test(
+            False, ("routine 1, routine 2, ...", "routine 1, routine 2, ...", "")
+        )
+        self.do_test(False, ("routine1, routine2, ...", "routine1, routine2, ...", ""))
+        self.do_test(
+            True, ("routine_foobar, routine2, ...", "routine_foobar, routine2, ...", "")
+        )

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -45,7 +45,7 @@ class MathCaptcha:
         else:
             self.question = question
         if timestamp is None:
-            self.timestamp = time.time()
+            self.timestamp = time.monotonic()
         else:
             self.timestamp = timestamp
         if not self.operators_display:
@@ -79,7 +79,7 @@ class MathCaptcha:
 
     def validate(self, answer):
         """Validate answer."""
-        return self.result == answer and self.timestamp + TIMEDELTA > time.time()
+        return self.result == answer and self.timestamp + TIMEDELTA > time.monotonic()
 
     @property
     def result(self):

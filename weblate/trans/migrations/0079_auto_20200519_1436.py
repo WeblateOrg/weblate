@@ -12,7 +12,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RenameModel(old_name="Shaping", new_name="Variant",),
+        migrations.RenameModel(
+            old_name="Shaping",
+            new_name="Variant",
+        ),
         migrations.AlterModelOptions(
             name="variant",
             options={
@@ -21,16 +24,23 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.RenameField(
-            model_name="variant", old_name="shaping_regex", new_name="variant_regex",
+            model_name="variant",
+            old_name="shaping_regex",
+            new_name="variant_regex",
         ),
         migrations.AlterUniqueTogether(
-            name="variant", unique_together={("key", "component", "variant_regex")},
+            name="variant",
+            unique_together={("key", "component", "variant_regex")},
         ),
         migrations.RenameField(
-            model_name="unit", old_name="shaping", new_name="variant",
+            model_name="unit",
+            old_name="shaping",
+            new_name="variant",
         ),
         migrations.RenameField(
-            model_name="component", old_name="shaping_regex", new_name="variant_regex",
+            model_name="component",
+            old_name="shaping_regex",
+            new_name="variant_regex",
         ),
         migrations.AlterField(
             model_name="component",

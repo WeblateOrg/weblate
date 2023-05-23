@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -31,9 +31,9 @@ class FilterRegistry:
     def full_list(self):
         result = [
             ("all", _("All strings"), ""),
-            ("readonly", _("Read only strings"), "state:read-only"),
-            ("nottranslated", _("Not translated strings"), "state:empty"),
-            ("todo", _("Strings needing action"), "state:<translated"),
+            ("readonly", _("Read-only strings"), "state:read-only"),
+            ("nottranslated", _("Untranslated strings"), "state:empty"),
+            ("todo", _("Unfinished strings"), "state:<translated"),
             ("translated", _("Translated strings"), "state:>=translated"),
             ("fuzzy", _("Strings marked for edit"), "state:needs-editing"),
             ("suggestions", _("Strings with suggestions"), "has:suggestion"),
@@ -42,7 +42,7 @@ class FilterRegistry:
             ("context", _("Strings with context"), "has:context"),
             (
                 "nosuggestions",
-                _("Strings needing action without suggestions"),
+                _("Unfinished strings without suggestions"),
                 "state:<translated AND NOT has:suggestion",
             ),
             ("comments", _("Strings with comments"), "has:comment"),
@@ -51,6 +51,11 @@ class FilterRegistry:
                 "translated_checks",
                 _("Translated strings with any failing checks"),
                 "has:check AND state:>=translated",
+            ),
+            (
+                "dismissed_checks",
+                _("Translated strings with dismissed checks"),
+                "has:dismissed-check",
             ),
             ("approved", _("Approved strings"), "state:approved"),
             (
@@ -65,8 +70,8 @@ class FilterRegistry:
         result.extend(
             (
                 CHECKS[check].url_id,
-                format_lazy(_("Failed check: {}"), CHECKS[check].name),
-                "check:{}".format(check),
+                format_lazy(_("Failing check: {}"), CHECKS[check].name),
+                f"check:{check}",
             )
             for check in CHECKS
         )
@@ -80,7 +85,7 @@ class FilterRegistry:
         try:
             return self.search_name[query.strip()]
         except KeyError:
-            return query
+            return _("Custom search")
 
     @cached_property
     def id_name(self):
@@ -103,7 +108,7 @@ class FilterRegistry:
             return self.id_query[name]
         except KeyError:
             if name.startswith("label:"):
-                return 'label:"{}"'.format(name[6:])
+                return f'label:"{name[6:]}"'
             raise
 
 
@@ -114,12 +119,12 @@ def get_filter_choice(project=None):
     """Return all filtering choices."""
     result = [
         ("all", _("All strings")),
-        ("nottranslated", _("Not translated strings")),
-        ("todo", _("Strings needing action")),
+        ("nottranslated", _("Untranslated strings")),
+        ("todo", _("Unfinished strings")),
         ("translated", _("Translated strings")),
         ("fuzzy", _("Strings marked for edit")),
         ("suggestions", _("Strings with suggestions")),
-        ("nosuggestions", _("Strings needing action without suggestions")),
+        ("nosuggestions", _("Unfinished strings without suggestions")),
         ("comments", _("Strings with comments")),
         ("allchecks", _("Strings with any failing checks")),
         ("approved", _("Approved strings")),
@@ -127,12 +132,12 @@ def get_filter_choice(project=None):
         ("unapproved", _("Strings waiting for review")),
     ]
     result.extend(
-        (CHECKS[check].url_id, format_lazy(_("Failed check: {}"), CHECKS[check].name))
+        (CHECKS[check].url_id, format_lazy(_("Failing check: {}"), CHECKS[check].name))
         for check in CHECKS
     )
     if project is not None:
         result.extend(
-            ("label:{}".format(label), format_lazy(_("Labeled: {}"), label))
+            (f"label:{label}", format_lazy(_("Labeled: {}"), label))
             for label in project.label_set.values_list("name", flat=True)
         )
     return result

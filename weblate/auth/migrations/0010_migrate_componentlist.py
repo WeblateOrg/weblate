@@ -10,5 +10,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="group", name="componentlist",),
+        migrations.RemoveField(
+            model_name="group",
+            name="componentlist",
+        ),
     ]

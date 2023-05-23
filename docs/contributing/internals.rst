@@ -15,7 +15,7 @@ Directory structure
 Quick overview of directory structure of Weblate main repository:
 
 ``docs``
-   Source code for this documentation, built using `Sphinx <https://www.sphinx-doc.org/>`_.
+   Source code for this documentation, which can be built using `Sphinx <https://www.sphinx-doc.org/>`_.
 ``dev-docker``
    Docker code to run development server, see :ref:`dev-docker`.
 ``weblate``
@@ -35,7 +35,7 @@ Weblate consists of several Django applications (some optional, see
 
 ``addons``
 
-    Addons to tweak Weblate behavior, see :ref:`addons`.
+    Add-ons to tweak Weblate behavior, see :ref:`addons`.
 
 ``api``
 
@@ -69,10 +69,6 @@ Weblate consists of several Django applications (some optional, see
 
     Module defining language and plural models.
 
-``langdata``
-
-    Language data definitions.
-
 ``legal``
 
     The optional :ref:`legal` module.
@@ -83,7 +79,7 @@ Weblate consists of several Django applications (some optional, see
 
 ``memory``
 
-    Built in translation memory, see :ref:`translation-memory`.
+    Built-in translation memory, see :ref:`translation-memory`.
 
 ``screenshots``
 

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,13 +17,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.db.models import Count, Sum
+from django.db.models import Sum
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
 
 from weblate.accounts.models import Profile
-from weblate.checks.models import Check
-from weblate.trans.models import Component, Project
+from weblate.metrics.models import Metric
 from weblate.utils.requirements import get_versions_list
 from weblate.utils.stats import GlobalStats
 from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
@@ -59,7 +58,7 @@ class AboutView(TemplateView):
         return context
 
     def get_template_names(self):
-        return ["about/{0}.html".format(self.page)]
+        return [f"about/{self.page}.html"]
 
 
 class StatsView(AboutView):
@@ -70,32 +69,24 @@ class StatsView(AboutView):
 
         stats = GlobalStats()
 
-        totals = Profile.objects.aggregate(
-            Sum("translated"), Sum("suggested"), Count("id")
-        )
+        totals = Profile.objects.aggregate(Sum("translated"))
+        metrics = Metric.objects.get_current(None, Metric.SCOPE_GLOBAL, 0)
 
         context["total_translations"] = totals["translated__sum"]
-        context["total_suggestions"] = totals["suggested__sum"]
-        context["total_users"] = totals["id__count"]
-        context["source_strings"] = stats.source_strings
-        context["source_words"] = stats.source_words
-        context["total_units"] = stats.all
-        context["total_words"] = stats.all_words
-        context["total_languages"] = stats.languages
-        context["total_checks"] = Check.objects.count()
-        context["total_projects"] = Project.objects.count()
-        context["total_components"] = Component.objects.count()
-        context["dismissed_checks"] = Check.objects.filter(dismissed=True).count()
+        context["stats"] = stats
+        context["metrics"] = metrics
 
-        top_translations = Profile.objects.order_by("-translated")[:10]
-        top_suggestions = Profile.objects.order_by("-suggested")[:10]
-        top_uploads = Profile.objects.order_by("-uploaded")[:10]
-        top_comments = Profile.objects.order_by("-commented")[:10]
-
-        context["top_translations"] = top_translations.select_related("user")
-        context["top_suggestions"] = top_suggestions.select_related("user")
-        context["top_uploads"] = top_uploads.select_related("user")
-        context["top_comments"] = top_comments.select_related("user")
+        context["top_users"] = top_users = (
+            Profile.objects.order_by("-translated")
+            .filter(user__is_bot=False, user__is_active=True)[:10]
+            .select_related("user")
+        )
+        translated_max = max(user.translated for user in top_users)
+        for user in top_users:
+            if translated_max:
+                user.translated_width = 100 * user.translated // translated_max
+            else:
+                user.translated_width = 0
 
 
 class KeysView(AboutView):

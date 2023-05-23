@@ -7,7 +7,7 @@ translation is in good shape. The checks can be ignored in case of false positiv
 Once submitting a translation with a failing check, this is immediately shown to
 the user:
 
-.. image:: /images/checks.png
+.. image:: /screenshots/checks.png
 
 
 .. _autofix:
@@ -15,7 +15,7 @@ the user:
 Automatic fixups
 ----------------
 
-In addition to :ref:`checks`, Weblate can also fix some common
+In addition to :ref:`checks`, Weblate can fix some common
 errors in translated strings automatically. Use it with caution to not have
 it add errors.
 
@@ -44,10 +44,14 @@ good quality translations.
 
 .. _check-bbcode:
 
-BBcode markup
+BBCode markup
 ~~~~~~~~~~~~~
 
-*BBcode in translation does not match source*
+:Summary: BBCode in translation does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.markup.BBCodeCheck``
+:Check identifier: ``bbcode``
+:Flag to ignore: ``ignore-bbcode``
 
 BBCode represents simple markup, like for example highlighting important parts of a
 message in bold font, or italics.
@@ -56,7 +60,7 @@ This check ensures they are also found in translation.
 
 .. note::
 
-    The method for detecting BBcode is currently quite simple so this check
+    The method for detecting BBCode is currently quite simple so this check
     might produce false positives.
 
 .. _check-duplicate:
@@ -64,9 +68,13 @@ This check ensures they are also found in translation.
 Consecutive duplicated words
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*Text contains the same word twice in a row:*
-
 .. versionadded:: 4.1
+
+:Summary: Text contains the same word twice in a row:
+:Scope: translated strings
+:Check class: ``weblate.checks.duplicate.DuplicateCheck``
+:Check identifier: ``duplicate``
+:Flag to ignore: ``ignore-duplicate``
 
 Checks that no consecutive duplicate words occur in a translation. This usually
 indicates a mistake in the translation.
@@ -76,35 +84,49 @@ indicates a mistake in the translation.
    This check includes language specific rules to avoid false positives. In
    case it triggers falsely in your case, let us know. See :ref:`report-issue`.
 
+.. _check-check-glossary:
+
+Does not follow glossary
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 4.5
+
+:Summary: The translation does not follow terms defined in a glossary.
+:Scope: translated strings
+:Check class: ``weblate.checks.glossary.GlossaryCheck``
+:Check identifier: ``check_glossary``
+:Flag to enable: ``check-glossary``
+:Flag to ignore: ``ignore-check-glossary``
+
+This check has to be turned on using ``check-glossary`` flag (see
+:ref:`custom-checks`). Please consider following prior to enabling it:
+
+* It does exact string matching, the glossary is expected to contain terms in all variants.
+* Checking each string against glossary is expensive, it will slow down any operation in Weblate which involves running checks like importing strings or translating.
+
+.. seealso::
+
+   :ref:`glossary`,
+   :ref:`custom-checks`,
+   :ref:`component-check_flags`
 
 .. _check-double-space:
 
 Double space
 ~~~~~~~~~~~~
 
-*Translation contains double space*
+:Summary: Translation contains double space
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.DoubleSpaceCheck``
+:Check identifier: ``double_space``
+:Flag to ignore: ``ignore-double-space``
 
 Checks that double space is present in translation to avoid false positives on other space-related checks.
 
 Check is false when double space is found in source meaning double space is intentional.
 
 
-.. _check-angularjs-format:
-.. _check-c-format:
-.. _check-c-sharp-format:
-.. _check-es-format:
-.. _check-i18next-interpolation:
-.. _check-java-format:
-.. _check-java-messageformat:
-.. _check-javascript-format:
-.. _check-percent-placeholders:
-.. _check-perl-format:
-.. _check-php-format:
-.. _check-python-brace-format:
-.. _check-python-format:
-.. _check-qt-format:
-.. _check-qt-plural-format:
-.. _check-ruby-format:
+.. _check-formats:
 
 Formatted strings
 ~~~~~~~~~~~~~~~~~
@@ -132,286 +154,480 @@ happens to be used.
 Besides checking, this will also highlight the formatting strings to easily
 insert them into translated strings:
 
-.. image:: /images/format-highlight.png
+.. image:: /screenshots/format-highlight.png
+
+.. _check-angularjs-format:
 
 AngularJS interpolation string
 ******************************
 
-*AngularJS interpolation strings do not match source*
-
-+----------------------+------------------------------------------------------------+
-| Named format string  | ``Your balance is {{amount}} {{ currency }}``              |
-+----------------------+------------------------------------------------------------+
-| Flag to enable       | `angularjs-format`                                         |
-+----------------------+------------------------------------------------------------+
+:Summary: AngularJS interpolation strings do not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.angularjs.AngularJSInterpolationCheck``
+:Check identifier: ``angularjs_format``
+:Flag to enable: ``angularjs-format``
+:Flag to ignore: ``ignore-angularjs-format``
+:Named format string example: ``Your balance is {{amount}} {{ currency }}``
 
 .. seealso::
 
-    `AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/$interpolate>`_
+   :ref:`check-formats`,
+   `AngularJS text interpolation <https://angular.io/guide/interpolation>`_
+
+.. _check-c-format:
 
 C format
 ********
 
-*C format string does not match source*
-
-+------------------------+------------------------------------------------------------+
-| Simple format string   | ``There are %d apples``                                    |
-+------------------------+------------------------------------------------------------+
-| Position format string | ``Your balance is %1$d %2$s``                              |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `c-format`                                                 |
-+------------------------+------------------------------------------------------------+
+:Summary: C format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.CFormatCheck``
+:Flag to enable: ``c-format``
+:Flag to ignore: ``ignore-c-format``
+:Simple format string example: ``There are %d apples``
+:Position format string example: ``Your balance is %1$d %2$s``
 
 .. seealso::
 
+   :ref:`check-formats`,
     `C format strings <https://www.gnu.org/software/gettext/manual/html_node/c_002dformat.html>`_,
     `C printf format <https://en.wikipedia.org/wiki/Printf_format_string>`_
+
+.. _check-c-sharp-format:
 
 C# format
 *********
 
-*C# format string does not match source*
-
-+------------------------+------------------------------------------------------------+
-| Position format string | ``There are {0} apples``                                   |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `c-sharp-format`                                           |
-+------------------------+------------------------------------------------------------+
+:Summary: C# format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.CSharpFormatCheck``
+:Check identifier: ``c_sharp_format``
+:Flag to enable: ``c-sharp-format``
+:Flag to ignore: ``ignore-c-sharp-format``
+:Position format string example: ``There are {0} apples``
 
 .. seealso::
 
-    `C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_
+   :ref:`check-formats`,
+   `C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_
+
+.. _check-es-format:
 
 ECMAScript template literals
 ****************************
 
-*ECMAScript template literals do not match source*
-
-+------------------------+------------------------------------------------------------+
-| Interpolation          | ``There are ${number} apples``                             |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `es-format`                                                |
-+------------------------+------------------------------------------------------------+
+:Summary: ECMAScript template literals do not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.ESTemplateLiteralsCheck``
+:Check identifier: ``es_format``
+:Flag to enable: ``es-format``
+:Flag to ignore: ``ignore-es-format``
+:Interpolation example: ``There are ${number} apples``
 
 .. seealso::
 
-    `Template literals <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals>`_
+   :ref:`check-formats`,
+   `Template literals <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals>`_
+
+.. _check-i18next-interpolation:
 
 i18next interpolation
 *********************
 
-*The i18next interpolation does not match source*
-
 .. versionadded:: 4.0
 
-+------------------------+------------------------------------------------------------+
-| Interpolation          | ``There are {{number}} apples``                            |
-+------------------------+------------------------------------------------------------+
-| Nesting                | ``There are $t(number) apples``                            |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `i18next-interpolation`                                    |
-+------------------------+------------------------------------------------------------+
+:Summary: The i18next interpolation does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.I18NextInterpolationCheck``
+:Check identifier: ``i18next_interpolation``
+:Flag to enable: ``i18next-interpolation``
+:Flag to ignore: ``ignore-i18next-interpolation``
+:Interpolation example: ``There are {{number}} apples``
+:Nesting example: ``There are $t(number) apples``
 
 .. seealso::
 
-    `i18next interpolation <https://www.i18next.com/translation-function/interpolation>`_
+   :ref:`check-formats`,
+   `i18next interpolation <https://www.i18next.com/translation-function/interpolation>`_
 
+
+.. _check-icu-message-format:
+
+ICU MessageFormat
+*****************
+
+.. versionadded:: 4.9
+
+:Summary: Syntax errors and/or placeholder mismatches in ICU MessageFormat strings.
+:Scope: translated strings
+:Check class: ``weblate.checks.icu.ICUMessageFormatCheck``
+:Check identifier: ``icu_message_format``
+:Flag to enable: ``icu-message-format``
+:Flag to ignore: ``ignore-icu-message-format``
+:Interpolation example: ``There {number, plural, one {is one apple} other {are # apples}}.``
+
+This check has support for both pure ICU MessageFormat messages as well as ICU with simple
+XML tags. You can configure the behavior of this check by using ``icu-flags:*``, either by
+opting into XML support or by disabling certain sub-checks. For example, the following flag
+enables XML support while disabling validation of plural sub-messages:
+
+.. code-block::text
+
+   icu-message-format, icu-flags:xml:-plural_selectors
+
++---------------------------+------------------------------------------------------------+
+| ``xml``                   | Enable support for simple XML tags. By default, XML tags   |
+|                           | are parsed loosely. Stray ``<`` characters are ignored     |
+|                           | if they are not reasonably part of a tag.                  |
++---------------------------+------------------------------------------------------------+
+| ``strict-xml``            | Enable support for strict XML tags. All ``<`` characters   |
+|                           | must be escaped if they are not part of a tag.             |
++---------------------------+------------------------------------------------------------+
+| ``-highlight``            | Disable highlighting placeholders in the editor.           |
++---------------------------+------------------------------------------------------------+
+| ``-require_other``        | Disable requiring sub-messages to have an ``other``        |
+|                           | selector.                                                  |
++---------------------------+------------------------------------------------------------+
+| ``-submessage_selectors`` | Skip checking that sub-message selectors match the source. |
++---------------------------+------------------------------------------------------------+
+| ``-types``                | Skip checking that placeholder types match the source.     |
++---------------------------+------------------------------------------------------------+
+| ``-extra``                | Skip checking that no placeholders are present that were   |
+|                           | not present in the source string.                          |
++---------------------------+------------------------------------------------------------+
+| ``-missing``              | Skip checking that no placeholders are missing that were   |
+|                           | present in the source string.                              |
++---------------------------+------------------------------------------------------------+
+
+Additionally, when ``strict-xml`` is not enabled but ``xml`` is enabled, you can use the
+``icu-tag-prefix:PREFIX`` flag to require that all XML tags start with a specific string.
+For example, the following flag will only allow XML tags to be matched if they start with
+``<x:``:
+
+.. code-block::text
+
+  icu-message-format, icu-flags:xml, icu-tag-prefix:"x:"
+
+This would match ``<x:link>click here</x:link>`` but not ``<strong>this</strong>``.
+
+.. seealso::
+
+  :ref:`check-icu-message-format-syntax`,
+  :ref:`check-formats`,
+  `ICU: Formatting Messages <https://unicode-org.github.io/icu/userguide/format_parse/messages/>`_,
+  `Format.JS: Message Syntax <https://formatjs.io/docs/core-concepts/icu-syntax/>`_
+
+
+.. _check-java-printf-format:
 
 Java format
 ***********
 
-*Java format string does not match source*
+:Summary: Java format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.JavaFormatCheck``
+:Check identifier: ``java_printf_format``
+:Flag to enable: ``java-printf-format``
+:Flag to ignore: ``ignore-java-printf-format``
+:Simple format string example: ``There are %d apples``
+:Position format string example: ``Your balance is %1$d %2$s``
 
-+------------------------+------------------------------------------------------------+
-| Simple format string   | ``There are %d apples``                                    |
-+------------------------+------------------------------------------------------------+
-| Position format string | ``Your balance is %1$d %2$s``                              |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `java-format`                                              |
-+------------------------+------------------------------------------------------------+
+.. versionchanged:: 4.14
+
+   This used to be toggled by ``java-format`` flag, it was changed for consistency with GNU gettext.
 
 .. seealso::
 
-    `Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>`_
+   :ref:`check-formats`,
+   `Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>`_
 
+
+.. _check-java-format:
 
 Java MessageFormat
 ******************
 
-*Java MessageFormat string does not match source*
+:Summary: Java MessageFormat string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.JavaMessageFormatCheck``
+:Check identifier: ``java_format``
+:Flag to enable unconditionally: ``java-format``
+:Flag to enable autodetection: ``auto-java-messageformat`` enables check only if there is a format string in the source
+:Flag to ignore: ``ignore-java-format``
+:Position format string example: ``There are {0} apples``
 
-+------------------------+------------------------------------------------------------+
-| Position format string | ``There are {0} apples``                                   |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `java-messageformat` enables the check unconditionally     |
-+------------------------+------------------------------------------------------------+
-|                        | `auto-java-messageformat` enables check only if there is a |
-|                        | format string in the source                                |
-+------------------------+------------------------------------------------------------+
+.. versionchanged:: 4.14
+
+   This used to be toggled by ``java-messageformat`` flag, it was changed for consistency with GNU gettext.
 
 .. seealso::
 
+   :ref:`check-formats`,
    `Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/MessageFormat.html>`_
+
+.. _check-javascript-format:
 
 JavaScript format
 *****************
 
-*JavaScript format string does not match source*
-
-+------------------------+------------------------------------------------------------+
-| Simple format string   | ``There are %d apples``                                    |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `javascript-format`                                        |
-+------------------------+------------------------------------------------------------+
+:Summary: JavaScript format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.JavaScriptFormatCheck``
+:Check identifier: ``javascript_format``
+:Flag to enable: ``javascript-format``
+:Flag to ignore: ``ignore-javascript-format``
+:Simple format string example: ``There are %d apples``
 
 .. seealso::
 
-    `JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/html_node/javascript_002dformat.html>`_
+   :ref:`check-formats`,
+   `JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/html_node/javascript_002dformat.html>`_
+
+.. _check-lua-format:
+
+Lua format
+**********
+
+:Summary: Lua format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.LuaFormatCheck``
+:Check identifier: ``lua_format``
+:Flag to enable: ``lua-format``
+:Flag to ignore: ``ignore-lua-format``
+:Simple format string example: ``There are %d apples``
+
+.. seealso::
+
+   :ref:`check-formats`,
+   `Lua formatting strings <https://www.gnu.org/software/gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_
+
+.. _check-object-pascal-format:
+
+Object Pascal format
+********************
+
+:Summary: Object Pascal format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.ObjectPascalFormatCheck``
+:Check identifier: ``object_pascal_format``
+:Flag to enable: ``object-pascal-format``
+:Flag to ignore: ``ignore-object-pascal-format``
+:Simple format string example: ``There are %d apples``
+
+.. seealso::
+
+   :ref:`check-formats`,
+   `Object Pascal formatting strings <https://www.gnu.org/software/gettext/manual/html_node/object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_,
+   `Free Pascal formatting strings <https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_
+   `Delphi formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/System.SysUtils.Format>`_
+
+.. _check-percent-placeholders:
 
 Percent placeholders
 ********************
 
-*The percent placeholders do not match source*
-
 .. versionadded:: 4.0
 
-+------------------------+------------------------------------------------------------+
-| Simple format string   | ``There are %number% apples``                              |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `percent-placeholders`                                     |
-+------------------------+------------------------------------------------------------+
+:Summary: The percent placeholders do not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.PercentPlaceholdersCheck``
+:Check identifier: ``percent_placeholders``
+:Flag to enable: ``percent-placeholders``
+:Flag to ignore: ``ignore-percent-placeholders``
+:Simple format string example: ``There are %number% apples``
 
+.. seealso::
+
+   :ref:`check-formats`,
+
+.. _check-perl-format:
 
 Perl format
 ***********
 
-*Perl format string does not match source*
-
-+------------------------+------------------------------------------------------------+
-| Simple format string   | ``There are %d apples``                                    |
-+------------------------+------------------------------------------------------------+
-| Position format string | ``Your balance is %1$d %2$s``                              |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `perl-format`                                              |
-+------------------------+------------------------------------------------------------+
+:Summary: Perl format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.PerlFormatCheck``
+:Check identifier: ``perl_format``
+:Flag to enable: ``perl-format``
+:Flag to ignore: ``ignore-perl-format``
+:Simple format string example: ``There are %d apples``
+:Position format string example: ``Your balance is %1$d %2$s``
 
 .. seealso::
 
-    `Perl sprintf <https://perldoc.perl.org/functions/sprintf.html>`_,
-    `Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/perl_002dformat.html>`_
+   :ref:`check-formats`,
+   `Perl sprintf <https://perldoc.perl.org/functions/sprintf>`_,
+   `Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/perl_002dformat.html>`_
+
+.. _check-php-format:
 
 PHP format
 **********
 
-*PHP format string does not match source*
-
-+------------------------+------------------------------------------------------------+
-| Simple format string   | ``There are %d apples``                                    |
-+------------------------+------------------------------------------------------------+
-| Position format string | ``Your balance is %1$d %2$s``                              |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `php-format`                                               |
-+------------------------+------------------------------------------------------------+
+:Summary: PHP format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.PHPFormatCheck``
+:Check identifier: ``php_format``
+:Flag to enable: ``php-format``
+:Flag to ignore: ``ignore-php-format``
+:Simple format string example: ``There are %d apples``
+:Position format string example: ``Your balance is %1$d %2$s``
 
 .. seealso::
 
-    `PHP sprintf documentation <https://www.php.net/manual/en/function.sprintf.php>`_,
-    `PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/php_002dformat.html>`_
+   :ref:`check-formats`,
+   `PHP sprintf documentation <https://www.php.net/manual/en/function.sprintf.php>`_,
+   `PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/php_002dformat.html>`_
 
+.. _check-python-brace-format:
 
 Python brace format
 *******************
 
-*Python brace format string does not match source*
-
-+----------------------+------------------------------------------------------------+
-| Simple format string | ``There are {} apples``                                    |
-+----------------------+------------------------------------------------------------+
-| Named format string  | ``Your balance is {amount} {currency}``                    |
-+----------------------+------------------------------------------------------------+
-| Flag to enable       | `python-brace-format`                                      |
-+----------------------+------------------------------------------------------------+
+:Summary: Python brace format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.PythonBraceFormatCheck``
+:Check identifier: ``python_brace_format``
+:Flag to enable: ``python-brace-format``
+:Flag to ignore: ``ignore-python-brace-format``
+:Simple format string: ``There are {} apples``
+:Named format string example: ``Your balance is {amount} {currency}``
 
 .. seealso::
 
-    :ref:`Python brace format <python:formatstrings>`,
-    `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
+   :ref:`check-formats`,
+   :ref:`Python brace format <python:formatstrings>`,
+   `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
+
+.. _check-python-format:
 
 Python format
 *************
 
-*Python format string does not match source*
-
-+----------------------+------------------------------------------------------------+
-| Simple format string | ``There are %d apples``                                    |
-+----------------------+------------------------------------------------------------+
-| Named format string  | ``Your balance is %(amount) %(currency)``                  |
-+----------------------+------------------------------------------------------------+
-| Flag to enable       | `python-format`                                            |
-+----------------------+------------------------------------------------------------+
+:Summary: Python format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.PythonFormatCheck``
+:Check identifier: ``python_format``
+:Flag to enable: ``python-format``
+:Flag to ignore: ``ignore-python-format``
+:Simple format string: ``There are %d apples``
+:Named format string example: ``Your balance is %(amount)d %(currency)s``
 
 .. seealso::
 
-    :ref:`Python string formatting <python:old-string-formatting>`,
-    `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
+   :ref:`check-formats`,
+   :ref:`Python string formatting <python:old-string-formatting>`,
+   `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
+
+.. _check-qt-format:
 
 Qt format
 *********
 
-*Qt format string does not match source*
-
-+------------------------+------------------------------------------------------------+
-| Position format string | ``There are %1 apples``                                    |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `qt-format`                                                |
-+------------------------+------------------------------------------------------------+
+:Summary: Qt format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.qt.QtFormatCheck``
+:Check identifier: ``qt_format``
+:Flag to enable: ``qt-format``
+:Flag to ignore: ``ignore-qt-format``
+:Position format string example: ``There are %1 apples``
 
 .. seealso::
 
-    `Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_
+   :ref:`check-formats`,
+   `Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_
+
+.. _check-qt-plural-format:
 
 Qt plural format
 ****************
 
-*Qt plural format string does not match source*
-
-+------------------------+------------------------------------------------------------+
-| Plural format string   | ``There are %Ln apple(s)``                                 |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `qt-plural-format`                                         |
-+------------------------+------------------------------------------------------------+
+:Summary: Qt plural format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.qt.QtPluralCheck``
+:Check identifier: ``qt_plural_format``
+:Flag to enable: ``qt-plural-format``
+:Flag to ignore: ``ignore-qt-plural-format``
+:Plural format string example: ``There are %Ln apple(s)``
 
 .. seealso::
 
-    `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-plurals>`_
+   :ref:`check-formats`,
+   `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-plurals>`_
+
+.. _check-ruby-format:
 
 Ruby format
 ***********
 
-*Ruby format string does not match source*
-
-+------------------------+------------------------------------------------------------+
-| Simple format string   | ``There are %d apples``                                    |
-+------------------------+------------------------------------------------------------+
-| Position format string | ``Your balance is %1$f %2$s``                              |
-+------------------------+------------------------------------------------------------+
-| Named format string    | ``Your balance is %+.2<amount>f %<currency>s``             |
-+------------------------+------------------------------------------------------------+
-| Named template string  | ``Your balance is %{amount} %{currency}``                  |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `ruby-format`                                              |
-+------------------------+------------------------------------------------------------+
+:Summary: Ruby format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.ruby.RubyFormatCheck``
+:Check identifier: ``ruby_format``
+:Flag to enable: ``ruby-format``
+:Flag to ignore: ``ignore-ruby-format``
+:Simple format string example: ``There are %d apples``
+:Position format string example: ``Your balance is %1$f %2$s``
+:Named format string example: ``Your balance is %+.2<amount>f %<currency>s``
+:Named template string: ``Your balance is %{amount} %{currency}``
 
 .. seealso::
 
-    `Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-sprintf>`_
+   :ref:`check-formats`,
+   `Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-sprintf>`_
+
+.. _check-scheme-format:
+
+Scheme format
+*************
+
+:Summary: Scheme format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.SchemeFormatCheck``
+:Check identifier: ``scheme_format``
+:Flag to enable: ``scheme-format``
+:Flag to ignore: ``ignore-scheme-format``
+:Simple format string example: ``There are ~d apples``
+
+.. seealso::
+
+   :ref:`check-formats`,
+   `Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28.html>`_,
+   `Chicken Scheme format <https://wiki.call-cc.org/eggref/5/format>`_,
+   `Guile Scheme formatted output <https://www.gnu.org/software/guile/manual/html_node/Formatted-Output.html>`_
+
+.. _check-vue-format:
+
+Vue I18n formatting
+*******************
+
+:Summary: The Vue I18n formatting does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.VueFormattingCheck``
+:Check identifier: ``vue_format``
+:Flag to enable: ``vue-format``
+:Flag to ignore: ``ignore-vue-format``
+:Named formatting: ``There are {count} apples``
+:Rails i18n formatting: ``There are %{count} apples``
+:Linked locale messages: ``@:message.dio @:message.the_world!``
+
+.. seealso::
+
+   :ref:`check-formats`,
+   `Vue I18n Formatting <https://kazupon.github.io/vue-i18n/guide/formatting.html>`_,
+   `Vue I18n Linked locale messages <https://kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_
 
 .. _check-translated:
 
 Has been translated
 ~~~~~~~~~~~~~~~~~~~
 
-*This string has been translated in the past*
+:Summary: This string has been translated in the past
+:Scope: all strings
+:Check class: ``weblate.checks.consistency.TranslatedCheck``
+:Check identifier: ``translated``
+:Flag to ignore: ``ignore-translated``
 
 Means a string has been translated already. This can happen when the
 translations have been reverted in VCS or lost otherwise.
@@ -421,8 +637,11 @@ translations have been reverted in VCS or lost otherwise.
 Inconsistent
 ~~~~~~~~~~~~
 
-*This string has more than one translation in this project or is not translated
-in some components.*
+:Summary: This string has more than one translation in this project or is untranslated in some components.
+:Scope: all strings
+:Check class: ``weblate.checks.consistency.ConsistencyCheck``
+:Check identifier: ``inconsistent``
+:Flag to ignore: ``ignore-inconsistent``
 
 Weblate checks translations of the same string across all translation within a
 project to help you keep consistent translations.
@@ -431,15 +650,23 @@ The check fails on differing translations of one string within a project. This
 can also lead to inconsistencies in displayed checks. You can find other
 translations of this string on the :guilabel:`Other occurrences` tab.
 
+This check applies to all components in a project that have
+:ref:`component-allow_translation_propagation` turned on.
+
+.. hint::
+
+   For performance reasons, the check might not find all inconsistencies, it
+   limits number of matches.
+
 .. note::
 
    This check also fires in case the string is translated in one component and
    not in another. It can be used as a quick way to manually handle strings
-   which are not translated in some components just by clicking on the
+   which are untranslated in some components just by clicking on the
    :guilabel:`Use this translation` button displayed on each line in the
-   :guilabel:`Other occurences` tab.
+   :guilabel:`Other occurrences` tab.
 
-   You can use :ref:`addon-weblate.autotranslate.autotranslate` addon to
+   You can use :ref:`addon-weblate.autotranslate.autotranslate` add-on to
    automate translating of newly added strings which are already translated in
    another component.
 
@@ -453,9 +680,14 @@ translations of this string on the :guilabel:`Other occurrences` tab.
 Kashida letter used
 ~~~~~~~~~~~~~~~~~~~
 
-*The decorative kashida letters should not be used*
-
 .. versionadded:: 3.5
+
+:Summary: The decorative kashida letters should not be used
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.KashidaCheck``
+:Check identifier: ``kashida``
+:Flag to ignore: ``ignore-kashida``
+
 
 The decorative Kashida letters should not be used in translation. These are
 also known as Tatweel.
@@ -469,9 +701,14 @@ also known as Tatweel.
 Markdown links
 ~~~~~~~~~~~~~~
 
-*Markdown links do not match source*
-
 .. versionadded:: 3.5
+
+:Summary: Markdown links do not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.markup.MarkdownLinkCheck``
+:Check identifier: ``md-link``
+:Flag to enable: ``md-text``
+:Flag to ignore: ``ignore-md-link``
 
 Markdown links do not match source.
 
@@ -485,40 +722,52 @@ Markdown links do not match source.
 Markdown references
 ~~~~~~~~~~~~~~~~~~~
 
-*Markdown link references do not match source*
-
 .. versionadded:: 3.5
+
+:Summary: Markdown link references do not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.markup.MarkdownRefLinkCheck``
+:Check identifier: ``md-reflink``
+:Flag to enable: ``md-text``
+:Flag to ignore: ``ignore-md-reflink``
 
 Markdown link references do not match source.
 
 .. seealso::
 
-   `Markdown links`_
+   `Markdown links <https://daringfireball.net/projects/markdown/syntax#link>`_
 
 .. _check-md-syntax:
 
 Markdown syntax
 ~~~~~~~~~~~~~~~
 
-*Markdown syntax does not match source*
-
 .. versionadded:: 3.5
+
+:Summary: Markdown syntax does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.markup.MarkdownSyntaxCheck``
+:Check identifier: ``md-syntax``
+:Flag to enable: ``md-text``
+:Flag to ignore: ``ignore-md-syntax``
 
 Markdown syntax does not match source
 
 .. seealso::
 
-   `Markdown span elements`_
-
-.. _Markdown links: https://daringfireball.net/projects/markdown/syntax#link
-.. _Markdown span elements: https://daringfireball.net/projects/markdown/syntax#span
+   `Markdown span elements <https://daringfireball.net/projects/markdown/syntax#span>`_
 
 .. _check-max-length:
 
 Maximum length of translation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*Translation should not exceed given length*
+:Summary: Translation should not exceed given length
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.MaxLengthCheck``
+:Check identifier: ``max-length``
+:Flag to enable: ``max-length``
+:Flag to ignore: ``ignore-max-length``
 
 Checks that translations are of acceptable length to fit available space.
 This only checks for the length of translation characters.
@@ -528,19 +777,26 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
 
 .. hint::
 
-   This checks looks at number of chars, what might not be the best metric when
+   This check looks at number of chars, what might not be the best metric when
    using proportional fonts to render the text. The :ref:`check-max-size` check
    does check actual rendering of the text.
 
    The ``replacements:`` flag might be also useful to expand placeables before
    checking the string.
 
+   When ``xml-text`` flag is also used, the length calculation ignores XML tags.
+
 .. _check-max-size:
 
 Maximum size of translation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*Translation rendered text should not exceed given size*
+:Summary: Translation rendered text should not exceed given size
+:Scope: translated strings
+:Check class: ``weblate.checks.render.MaxSizeCheck``
+:Check identifier: ``max-size``
+:Flag to enable: ``max-size``
+:Flag to ignore: ``ignore-max-size``
 
 .. versionadded:: 3.7
 
@@ -569,26 +825,36 @@ pixels:
    The ``replacements:`` flag might be also useful to expand placeables before
    checking the string.
 
+   When ``xml-text`` flag is also used, the length calculation ignores XML tags.
+
 .. seealso::
 
    :ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`
 
 .. _check-escaped-newline:
 
-Mismatched \n
-~~~~~~~~~~~~~
+Mismatched \\n
+~~~~~~~~~~~~~~
 
-*Number of \n in translation does not match source*
+:Summary: Number of \\n in translation does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.EscapedNewlineCountingCheck``
+:Check identifier: ``escaped_newline``
+:Flag to ignore: ``ignore-escaped-newline``
 
 Usually escaped newlines are important for formatting program output.
-Check fails if the number of ``\\n`` literals in translation do not match the source.
+Check fails if the number of ``\n`` literals in translation do not match the source.
 
 .. _check-end-colon:
 
 Mismatched colon
 ~~~~~~~~~~~~~~~~
 
-*Source and translation do not both end with a colon*
+:Summary: Source and translation do not both end with a colon
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.EndColonCheck``
+:Check identifier: ``end_colon``
+:Flag to ignore: ``ignore-end-colon``
 
 Checks that colons are replicated between both source and translation. The
 presence of colons is also checked for various languages where they do not
@@ -603,7 +869,11 @@ belong (Chinese or Japanese).
 Mismatched ellipsis
 ~~~~~~~~~~~~~~~~~~~
 
-*Source and translation do not both end with an ellipsis*
+:Summary: Source and translation do not both end with an ellipsis
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.EndEllipsisCheck``
+:Check identifier: ``end_ellipsis``
+:Flag to ignore: ``ignore-end-ellipsis``
 
 Checks that trailing ellipses are replicated between both source and translation.
 This only checks for real ellipsis (``…``) not for three dots (``...``).
@@ -620,7 +890,11 @@ An ellipsis is usually rendered nicer than three dots in print, and sounds bette
 Mismatched exclamation mark
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*Source and translation do not both end with an exclamation mark*
+:Summary: Source and translation do not both end with an exclamation mark
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.EndExclamationCheck``
+:Check identifier: ``end_exclamation``
+:Flag to ignore: ``ignore-end-exclamation``
 
 Checks that exclamations are replicated between both source and translation.
 The presence of exclamation marks is also checked for various languages where
@@ -636,7 +910,11 @@ Nko).
 Mismatched full stop
 ~~~~~~~~~~~~~~~~~~~~
 
-*Source and translation do not both end with a full stop*
+:Summary: Source and translation do not both end with a full stop
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.EndStopCheck``
+:Check identifier: ``end_stop``
+:Flag to ignore: ``ignore-end-stop``
 
 Checks that full stops are replicated between both source and translation.
 The presence of full stops is checked for various languages where they do not belong
@@ -651,7 +929,11 @@ The presence of full stops is checked for various languages where they do not be
 Mismatched question mark
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-*Source and translation do not both end with a question mark*
+:Summary: Source and translation do not both end with a question mark
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.EndQuestionCheck``
+:Check identifier: ``end_question``
+:Flag to ignore: ``ignore-end-question``
 
 Checks that question marks are replicated between both source and translation.
 The presence of question marks is also checked for various languages where they
@@ -667,10 +949,13 @@ Coptic).
 Mismatched semicolon
 ~~~~~~~~~~~~~~~~~~~~
 
-*Source and translation do not both end with a semicolon*
+:Summary: Source and translation do not both end with a semicolon
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.EndSemicolonCheck``
+:Check identifier: ``end_semicolon``
+:Flag to ignore: ``ignore-end-semicolon``
 
 Checks that semicolons at the end of sentences are replicated between both source and translation.
-This can be useful to keep formatting of entries such as desktop files.
 
 .. seealso::
 
@@ -681,7 +966,11 @@ This can be useful to keep formatting of entries such as desktop files.
 Mismatching line breaks
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-*Number of new lines in translation does not match source*
+:Summary: Number of new lines in translation does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.NewLineCountCheck``
+:Check identifier: ``newline-count``
+:Flag to ignore: ``ignore-newline-count``
 
 Usually newlines are important for formatting program output.
 Check fails if the number of ``\n`` literals in translation do not match the source.
@@ -692,7 +981,11 @@ Check fails if the number of ``\n`` literals in translation do not match the sou
 Missing plurals
 ~~~~~~~~~~~~~~~
 
-*Some plural forms are not translated*
+:Summary: Some plural forms are untranslated
+:Scope: translated strings
+:Check class: ``weblate.checks.consistency.PluralsCheck``
+:Check identifier: ``plurals``
+:Flag to ignore: ``ignore-plurals``
 
 Checks that all plural forms of a source string have been translated.
 Specifics on how each plural form is used can be found in the string definition.
@@ -705,9 +998,22 @@ the plural form is in use.
 Placeholders
 ~~~~~~~~~~~~
 
-*Translation is missing some placeholders:*
-
 .. versionadded:: 3.9
+
+:Summary: Translation is missing some placeholders
+:Scope: translated strings
+:Check class: ``weblate.checks.placeholders.PlaceholderCheck``
+:Check identifier: ``placeholders``
+:Flag to enable: ``placeholders``
+:Flag to ignore: ``ignore-placeholders``
+
+.. versionchanged:: 4.3
+
+   You can use regular expression as placeholder.
+
+.. versionchanged:: 4.13
+
+   With the ``case-insensitive`` flag, the placeholders are not case-sensitive.
 
 Translation is missing some placeholders. These are either extracted from the
 translation file or defined manually using ``placeholders`` flag, more can be
@@ -716,6 +1022,18 @@ separated with colon, strings with space can be quoted:
 .. code-block:: text
 
    placeholders:$URL$:$TARGET$:"some long text"
+
+In case you have some syntax for placeholders, you can use a regular expression:
+
+.. code-block:: text
+
+    placeholders:r"%[^% ]%"
+
+You can also have case insensitive placeholders:
+
+.. code-block:: text
+
+    placeholders:$URL$:$TARGET$,case-insensitive
 
 .. seealso::
 
@@ -726,9 +1044,13 @@ separated with colon, strings with space can be quoted:
 Punctuation spacing
 ~~~~~~~~~~~~~~~~~~~
 
-*Missing non breakable space before double punctuation sign*
-
 .. versionadded:: 3.9
+
+:Summary: Missing non breakable space before double punctuation sign
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.PunctuationSpacingCheck``
+:Check identifier: ``punctuation_spacing``
+:Flag to ignore: ``ignore-punctuation-spacing``
 
 Checks that there is non breakable space before double punctuation sign
 (exclamation mark, question mark, semicolon and colon). This rule is used only
@@ -745,9 +1067,14 @@ punctuation sign is a typographic rule.
 Regular expression
 ~~~~~~~~~~~~~~~~~~
 
-*Translation does not match regular expression:*
-
 .. versionadded:: 3.9
+
+:Summary: Translation does not match regular expression
+:Scope: translated strings
+:Check class: ``weblate.checks.placeholders.RegexCheck``
+:Check identifier: ``regex``
+:Flag to enable: ``regex``
+:Flag to ignore: ``ignore-regex``
 
 Translation does not match regular expression. The expression is either extracted from the
 translation file or defined manually using ``regex`` flag:
@@ -763,7 +1090,11 @@ translation file or defined manually using ``regex`` flag:
 Same plurals
 ~~~~~~~~~~~~
 
-*Some plural forms are translated in the same way*
+:Summary: Some plural forms are translated in the same way
+:Scope: translated strings
+:Check class: ``weblate.checks.consistency.SamePluralsCheck``
+:Check identifier: ``same-plurals``
+:Flag to ignore: ``ignore-same-plurals``
 
 Check that fails if some plural forms are duplicated in the translation.
 In most languages they have to be different.
@@ -773,7 +1104,11 @@ In most languages they have to be different.
 Starting newline
 ~~~~~~~~~~~~~~~~
 
-*Source and translation do not both start with a newline*
+:Summary: Source and translation do not both start with a newline
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.BeginNewlineCheck``
+:Check identifier: ``begin_newline``
+:Flag to ignore: ``ignore-begin-newline``
 
 Newlines usually appear in source strings for good reason, omissions or additions
 can lead to formatting problems when the translated text is put to use.
@@ -787,7 +1122,11 @@ can lead to formatting problems when the translated text is put to use.
 Starting spaces
 ~~~~~~~~~~~~~~~
 
-*Source and translation do not both start with same number of spaces*
+:Summary: Source and translation do not both start with same number of spaces
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.BeginSpaceCheck``
+:Check identifier: ``begin_space``
+:Flag to ignore: ``ignore-begin-space``
 
 A space in the beginning of a string is usually used for indentation in the interface and thus
 important to keep.
@@ -797,7 +1136,11 @@ important to keep.
 Trailing newline
 ~~~~~~~~~~~~~~~~
 
-*Source and translation do not both end with a newline*
+:Summary: Source and translation do not both end with a newline
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.EndNewlineCheck``
+:Check identifier: ``end_newline``
+:Flag to ignore: ``ignore-end-newline``
 
 Newlines usually appear in source strings for good reason, omissions or additions
 can lead to formatting problems when the translated text is put to use.
@@ -811,7 +1154,11 @@ can lead to formatting problems when the translated text is put to use.
 Trailing space
 ~~~~~~~~~~~~~~
 
-*Source and translation do not both end with a space*
+:Summary: Source and translation do not both end with a space
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.EndSpaceCheck``
+:Check identifier: ``end_space``
+:Flag to ignore: ``ignore-end-space``
 
 Checks that trailing spaces are replicated between both source and translation.
 
@@ -823,7 +1170,11 @@ removing it might break layout.
 Unchanged translation
 ~~~~~~~~~~~~~~~~~~~~~
 
-*Source and translation are identical*
+:Summary: Source and translation are identical
+:Scope: translated strings
+:Check class: ``weblate.checks.same.SameCheck``
+:Check identifier: ``same``
+:Flag to ignore: ``ignore-same``
 
 Happens if the source and corresponding translation strings is identical, down to
 at least one of the plural forms. Some strings commonly found across all
@@ -848,13 +1199,22 @@ can be disabled by adding ``strict-same`` flag to string or component.
 Unsafe HTML
 ~~~~~~~~~~~
 
-*The translation uses unsafe HTML markup*
-
 .. versionadded:: 3.9
+
+:Summary: The translation uses unsafe HTML markup
+:Scope: translated strings
+:Check class: ``weblate.checks.markup.SafeHTMLCheck``
+:Check identifier: ``safe-html``
+:Flag to enable: ``safe-html``
+:Flag to ignore: ``ignore-safe-html``
 
 The translation uses unsafe HTML markup. This check has to be enabled using
 ``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied
 autofixer which can automatically sanitize the markup.
+
+.. hint::
+
+   When ``md-text`` flag is also used, the Markdown style links are also allowed.
 
 .. seealso::
 
@@ -868,9 +1228,14 @@ autofixer which can automatically sanitize the markup.
 URL
 ~~~
 
-*The translation does not contain an URL*
-
 .. versionadded:: 3.5
+
+:Summary: The translation does not contain an URL
+:Scope: translated strings
+:Check class: ``weblate.checks.markup.URLCheck``
+:Check identifier: ``url``
+:Flag to enable: ``url``
+:Flag to ignore: ``ignore-url``
 
 The translation does not contain an URL. This is triggered only in case the
 unit is marked as containing URL. In that case the translation has to be a
@@ -881,32 +1246,52 @@ valid URL.
 XML markup
 ~~~~~~~~~~
 
-*XML tags in translation do not match source*
+:Summary: XML tags in translation do not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.markup.XMLTagsCheck``
+:Check identifier: ``xml-tags``
+:Flag to ignore: ``ignore-xml-tags``
 
 This usually means the resulting output will look different. In most cases this is
 not a desired result from changing the translation, but occasionally it is.
 
 Checks that XML tags are replicated between both source and translation.
 
+.. note::
 
+   This check is disabled by the ``safe-html`` flag as the HTML cleanup done by
+   it can produce HTML markup which is not valid XML.
 
 .. _check-xml-invalid:
 
 XML syntax
 ~~~~~~~~~~
 
-*The translation is not valid XML*
-
 .. versionadded:: 2.8
 
+:Summary: The translation is not valid XML
+:Scope: translated strings
+:Check class: ``weblate.checks.markup.XMLValidityCheck``
+:Check identifier: ``xml-invalid``
+:Flag to ignore: ``ignore-xml-invalid``
+
 The XML markup is not valid.
+
+.. note::
+
+   This check is disabled by the ``safe-html`` flag as the HTML cleanup done by
+   it can produce HTML markup which is not valid XML.
 
 .. _check-zero-width-space:
 
 Zero-width space
 ~~~~~~~~~~~~~~~~
 
-*Translation contains extra zero-width space character*
+:Summary: Translation contains extra zero-width space character
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.ZeroWidthSpaceCheck``
+:Check identifier: ``zero-width-space``
+:Flag to ignore: ``ignore-zero-width-space``
 
 Zero-width space (<U+200B>) characters are used to break messages within words (word wrapping).
 
@@ -929,7 +1314,11 @@ Source checks can help developers improve the quality of source strings.
 Ellipsis
 ~~~~~~~~
 
-*The string uses three dots (...) instead of an ellipsis character (…)*
+:Summary: The string uses three dots (...) instead of an ellipsis character (…)
+:Scope: source strings
+:Check class: ``weblate.checks.source.EllipsisCheck``
+:Check identifier: ``ellipsis``
+:Flag to ignore: ``ignore-ellipsis``
 
 This fails when the string uses three dots (``...``) when it should use an ellipsis character (``…``).
 
@@ -940,17 +1329,36 @@ rendered, and may sound better with text-to-speech.
 
    `Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_
 
+.. _check-icu-message-format-syntax:
+
+ICU MessageFormat syntax
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 4.9
+
+:Summary: Syntax errors in ICU MessageFormat strings.
+:Scope: source strings
+:Check class: ``weblate.checks.icu.ICUSourceCheck``
+:Check identifier: ``icu_message_format_syntax``
+:Flag to enable: ``icu-message-format``
+:Flag to ignore: ``ignore-icu-message-format``
+
+.. seealso:: :ref:`check-icu-message-format`
 
 .. _check-long-untranslated:
 
 Long untranslated
 ~~~~~~~~~~~~~~~~~
 
-*The string has not been translated for a long time*
-
 .. versionadded:: 4.1
 
-When the string has not been translated for a long time, it is can indicate problem in a
+:Summary: The string has not been translated for a long time
+:Scope: source strings
+:Check class: ``weblate.checks.source.LongUntranslatedCheck``
+:Check identifier: ``long_untranslated``
+:Flag to ignore: ``ignore-long-untranslated``
+
+When the string has not been translated for a long time, it can indicate a problem in a
 source string making it hard to translate.
 
 
@@ -959,7 +1367,11 @@ source string making it hard to translate.
 Multiple failing checks
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-*The translations in several languages have failing checks*
+:Summary: The translations in several languages have failing checks
+:Scope: source strings
+:Check class: ``weblate.checks.source.MultipleFailingCheck``
+:Check identifier: ``multiple_failures``
+:Flag to ignore: ``ignore-multiple-failures``
 
 Numerous translations of this string have failing quality checks. This is
 usually an indication that something could be done to improve the source
@@ -974,10 +1386,13 @@ translation, while it would be better to fix it in the source string.
 Multiple unnamed variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*There are multiple unnamed variables in the string, making it impossible for
-translators to reorder them*
-
 .. versionadded:: 4.1
+
+:Summary: There are multiple unnamed variables in the string, making it impossible for translators to reorder them
+:Scope: source strings
+:Check class: ``weblate.checks.format.MultipleUnnamedFormatsCheck``
+:Check identifier: ``unnamed_format``
+:Flag to ignore: ``ignore-unnamed-format``
 
 There are multiple unnamed variables in the string, making it impossible for
 translators to reorder them.
@@ -989,7 +1404,11 @@ Consider using named variables instead to allow translators to reorder them.
 Unpluralised
 ~~~~~~~~~~~~
 
-*The string is used as plural, but not using plural forms*
+:Summary: The string is used as plural, but not using plural forms
+:Scope: source strings
+:Check class: ``weblate.checks.source.OptionalPluralCheck``
+:Check identifier: ``optional_plural``
+:Flag to ignore: ``ignore-optional-plural``
 
 The string is used as a plural, but does not use plural forms. In case your
 translation system supports this, you should use the plural aware variant of
@@ -1001,4 +1420,4 @@ For example with Gettext in Python it could be:
 
     from gettext import ngettext
 
-    print ngettext('Selected %d file', 'Selected %d files', files) % files
+    print(ngettext("Selected %d file", "Selected %d files", files) % files)

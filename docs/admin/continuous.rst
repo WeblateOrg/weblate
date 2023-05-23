@@ -7,6 +7,11 @@ There is infrastructure in place so that your translation closely follows
 development. This way translators can work on translations the entire time,
 instead of working through huge amount of new text just prior to release.
 
+.. seealso::
+
+   :doc:`/devel/integration` describes basic ways to integrate your development
+   with Weblate.
+
 This is the process:
 
 1. Developers make changes and push them to the VCS repository.
@@ -19,12 +24,12 @@ This is the process:
 .. graphviz::
 
     digraph translations {
-        graph [fontname = "sans-serif"];
-        node [fontname = "sans-serif"];
-        edge [fontname = "sans-serif"];
+        graph [fontname = "sans-serif", fontsize=10];
+        node [fontname = "sans-serif", fontsize=10, margin=0.1, height=0];
+        edge [fontname = "sans-serif", fontsize=10];
 
-        "Developers" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
-        "Translators" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
+        "Developers" [shape=box, fillcolor="#144d3f", fontcolor=white, style=filled];
+        "Translators" [shape=box, fillcolor="#144d3f", fontcolor=white, style=filled];
 
         "Developers" -> "VCS repository" [label=" 1. Push "];
 
@@ -47,12 +52,21 @@ Updating repositories
 You should set up some way of updating backend repositories from their
 source.
 
-* Use :ref:`hooks` to integrate with most of common code hosting services
-* Manually trigger update either in the repository management or using :ref:`api` or :ref:`wlc`
-* Enable :setting:`AUTO_UPDATE` to automatically update all components on your Weblate instance
-* Execute :djadmin:`updategit` (with selection of project or `--all` to update all)
+* Use :ref:`hooks` to integrate with most of common code hosting services:
 
-Whenever Weblate updates the repository, the post update addons will be
+  * :ref:`github-setup`
+  * :ref:`gitlab-setup`
+  * :ref:`bitbucket-setup`
+  * :ref:`pagure-setup`
+  * :ref:`azure-setup`
+
+* Manually trigger update either in the repository management or using :ref:`api` or :ref:`wlc`
+
+* Enable :setting:`AUTO_UPDATE` to automatically update all components on your Weblate instance
+
+* Execute :djadmin:`updategit` (with selection of project or ``--all`` to update all)
+
+Whenever Weblate updates the repository, the post-update addons will be
 triggered, see :ref:`addons`.
 
 .. _avoid-merge-conflicts:
@@ -114,6 +128,10 @@ all separately:
     The example uses :ref:`wlc`, which needs configuration (API keys) to be
     able to control Weblate remotely. You can also achieve this using any HTTP
     client instead of wlc, e.g. curl, see :ref:`api`.
+
+.. seealso::
+
+   :ref:`wlc`
 
 .. _github-setup:
 
@@ -206,7 +224,7 @@ settings`.
 
 .. seealso::
 
-   `Web hooks in Azure DevOps manual <https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks>`_,
+   `Web hooks in Azure DevOps manual <https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=azure-devops>`_,
    :http:post:`/hooks/azure/`, :ref:`hosted-push`
 
 .. _gitea-setup:
@@ -265,9 +283,10 @@ under :guilabel:`Repository maintenance` or using API via :option:`wlc push`.
 The push options differ based on the :ref:`vcs` used, more details are found in that chapter.
 
 In case you do not want direct pushes by Weblate, there is support for
-:ref:`vcs-github`, :ref:`vcs-gitlab` pull requests or :ref:`vcs-gerrit`
-reviews, you can activate these by choosing :guilabel:`GitHub`,
-:guilabel:`GitLab` or :guilabel:`Gerrit` as :ref:`component-vcs` in :ref:`component`.
+:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-pagure` pull requests or
+:ref:`vcs-gerrit` reviews, you can activate these by choosing
+:guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gerrit` or
+:guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`.
 
 Overall, following options are available with Git, GitHub and GitLab:
 
@@ -287,6 +306,10 @@ Overall, following options are available with Git, GitHub and GitLab:
 | GitLab merge request from fork    | :ref:`vcs-gitlab`             | `empty`                       | `empty`                       |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | GitLab merge request from branch  | :ref:`vcs-gitlab`             | SSH URL [#empty]_             | Branch name                   |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Pagure merge request from fork    | :ref:`vcs-pagure`             | `empty`                       | `empty`                       |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Pagure merge request from branch  | :ref:`vcs-pagure`             | SSH URL [#empty]_             | Branch name                   |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 
 .. [#empty] Can be empty in case :ref:`component-repo` supports pushing.
@@ -314,21 +337,6 @@ For example on GitHub this can be done in the repository configuration:
 
 .. image:: /images/github-protected.png
 
-.. _merge-rebase:
-
-Merge or rebase
----------------
-
-By default, Weblate merges the upstream repository into its own. This is the safest way
-in case you also access the underlying repository by other means. In case you don't
-need this, you can enable rebasing of changes on upstream, which will produce
-a history with fewer merge commits.
-
-.. note::
-
-    Rebasing can cause you trouble in case of complicated merges, so carefully
-    consider whether or not you want to enable them.
-
 Interacting with others
 -----------------------
 
@@ -346,7 +354,7 @@ Lazy commits
 The behaviour of Weblate is to group commits from the same author into one
 commit if possible. This greatly reduces the number of commits, however you
 might need to explicitly tell it to do the commits in case you want to get the
-VCS repository in sync, e.g. for merge (this is by default allowed for the Managers
+VCS repository in sync, e.g. for merge (this is by default allowed for the :guilabel:`Managers`
 group, see :ref:`privileges`).
 
 The changes in this mode are committed once any of the following conditions are
@@ -355,13 +363,14 @@ fulfilled:
 * Somebody else changes an already changed string.
 * A merge from upstream occurs.
 * An explicit commit is requested.
-* Change is older than period defined as :guilabel:`Age of changes to commit` on :ref:`component`.
+* A file download is requested.
+* Change is older than period defined as :ref:`component-commit_pending_age` on :ref:`component`.
 
 .. hint::
 
    Commits are created for every component. So in case you have many components
    you will still see lot of commits. You might utilize
-   :ref:`addon-weblate.git.squash` addon in that case.
+   :ref:`addon-weblate.git.squash` add-on in that case.
 
 If you want to commit changes more frequently and without checking of age, you
 can schedule a regular task to perform a commit:
@@ -376,7 +385,7 @@ Processing repository with scripts
 
 The way to customize how Weblate interacts with the repository is
 :ref:`addons`. Consult :ref:`addon-script` for info on how to execute
-external scripts through addons.
+external scripts through add-ons.
 
 .. _translation-consistency:
 
@@ -389,7 +398,7 @@ the same strings have same translation. This can be achieved at several levels.
 Translation propagation
 +++++++++++++++++++++++
 
-With translation propagation enabled (what is the default, see
+With :ref:`component-allow_translation_propagation` enabled (what is the default, see
 :ref:`component`), all new translations are automatically done in all
 components with matching strings. Such translations are properly credited to
 currently translating user in all components.
@@ -412,4 +421,4 @@ Automatic translation
 Automatic translation based on different components can be way to synchronize
 the translations across components. You can either trigger it manually (see
 :ref:`auto-translation`) or make it run automatically on repository update
-using addon (see :ref:`addon-weblate.autotranslate.autotranslate`).
+using add-on (see :ref:`addon-weblate.autotranslate.autotranslate`).

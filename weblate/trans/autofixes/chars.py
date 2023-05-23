@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -32,7 +32,7 @@ class ReplaceTrailingDotsWithEllipsis(AutoFix):
 
     def fix_single_target(self, target, source, unit):
         if source and source[-1] == "…" and target.endswith("..."):
-            return "{0}…".format(target[:-3]), True
+            return f"{target[:-3]}…", True
         return target, False
 
 
