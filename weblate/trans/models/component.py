@@ -1350,13 +1350,14 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             parsed = urlparse(repo)
             if not parsed.hostname:
                 parsed = urlparse(f"ssh://{repo}")
-            else:
-                try:
-                    port = parsed.port
-                except ValueError:
-                    port = ""
-                self.log_info("adding SSH key for %s:%s", parsed.hostname, port)
-                add_host_key(None, parsed.hostname, port)
+            if not parsed.hostname:
+                return
+            try:
+                port = parsed.port
+            except ValueError:
+                port = ""
+            self.log_info("adding SSH key for %s:%s", parsed.hostname, port)
+            add_host_key(None, parsed.hostname, port)
 
         add(self.repo)
         if self.push:
