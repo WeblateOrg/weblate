@@ -244,7 +244,7 @@ class HTMLFormat(ConvertFormat):
             templatename = templatename.name
         with open(templatename, "rb") as templatefile:
             outputstring = converter.mergestore(
-                self.store, templatefile, includefuzzy=False
+                self.store, templatefile, includefuzzy=True
             )
         handle.write(outputstring.encode("utf-8"))
 
