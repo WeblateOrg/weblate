@@ -10,6 +10,7 @@ from functools import reduce
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
+from django.db.models.expressions import RawSQL
 from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
@@ -26,7 +27,7 @@ from weblate.memory.utils import (
     CATEGORY_SHARED,
     CATEGORY_USER_OFFSET,
 )
-from weblate.utils.db import adjust_similarity_threshold
+from weblate.utils.db import adjust_similarity_threshold, using_postgresql
 from weblate.utils.errors import report_error
 
 
@@ -69,7 +70,7 @@ class MemoryQuerySet(models.QuerySet):
             threshold = 1 - 28.1838 * math.log(0.0443791 * length) / length
         adjust_similarity_threshold(threshold)
         # Actual database query
-        return self.filter_type(
+        results = self.filter_type(
             # Type filtering
             user=user,
             project=project,
@@ -81,9 +82,13 @@ class MemoryQuerySet(models.QuerySet):
             # Language filtering
             source_language=source_language,
             target_language=target_language,
-        )[
-            :50
-        ]
+        )
+        if using_postgresql():
+            results = results.annotate(
+                source_distance=RawSQL("source <-> %s", (text,))
+            ).order_by("source_distance")
+
+        return results[:50]
 
     def prefetch_lang(self):
         return self.prefetch_related("source_language", "target_language")
