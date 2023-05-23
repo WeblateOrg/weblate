@@ -918,6 +918,15 @@ function fetchCallback(
         // TODO (kmclb) remove this once types PR goes through
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         span.setHttpStatus(handlerData.response.status);
+
+        const contentLength =
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          handlerData.response && handlerData.response.headers && handlerData.response.headers.get('content-length');
+
+        const contentLengthNum = parseInt(contentLength);
+        if (contentLengthNum > 0) {
+          span.setData('http.response_content_length', contentLengthNum);
+        }
       } else if (handlerData.error) {
         span.setStatus('internal_error');
       }
@@ -929,9 +938,6 @@ function fetchCallback(
     return;
   }
 
-  const contentLength =
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    handlerData.response && handlerData.response.headers && handlerData.response.headers.get('content-length');
   const currentScope = core.getCurrentHub().getScope();
   const currentSpan = currentScope && currentScope.getSpan();
   const activeTransaction = currentSpan && currentSpan.transaction;
@@ -942,7 +948,6 @@ function fetchCallback(
       data: {
         url,
         type: 'fetch',
-        ...(contentLength ? { 'http.response_content_length': contentLength } : {}),
         'http.method': method,
       },
       description: `${method} ${url}`,
@@ -6826,6 +6831,10 @@ function getReportDialogEndpoint(
 ,
 ) {
   const dsn = utils.makeDsn(dsnLike);
+  if (!dsn) {
+    return '';
+  }
+
   const endpoint = `${getBaseApiEndpoint(dsn)}embed/error-page/`;
 
   let encodedOptions = `dsn=${utils.dsnToString(dsn)}`;
@@ -6927,16 +6936,20 @@ class BaseClient {
    */
    constructor(options) {BaseClient.prototype.__init.call(this);BaseClient.prototype.__init2.call(this);BaseClient.prototype.__init3.call(this);BaseClient.prototype.__init4.call(this);BaseClient.prototype.__init5.call(this);
     this._options = options;
+
     if (options.dsn) {
       this._dsn = utils.makeDsn(options.dsn);
+    } else {
+      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('No DSN provided, client will not do anything.');
+    }
+
+    if (this._dsn) {
       const url = api.getEnvelopeEndpointWithUrlEncodedAuth(this._dsn, options);
       this._transport = options.transport({
         recordDroppedEvent: this.recordDroppedEvent.bind(this),
         ...options.transportOptions,
         url,
       });
-    } else {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('No DSN provided, client will not do anything.');
     }
   }
 
@@ -11362,7 +11375,11 @@ function makeMultiplexedTransport(
 
     function getTransport(dsn) {
       if (!otherTransports[dsn]) {
-        const url = api.getEnvelopeEndpointWithUrlEncodedAuth(utils.dsnFromString(dsn));
+        const validatedDsn = utils.dsnFromString(dsn);
+        if (!validatedDsn) {
+          return undefined;
+        }
+        const url = api.getEnvelopeEndpointWithUrlEncodedAuth(validatedDsn);
         otherTransports[dsn] = createTransport({ ...options, url });
       }
 
@@ -11375,7 +11392,9 @@ function makeMultiplexedTransport(
         return eventFromEnvelope(envelope, eventTypes);
       }
 
-      const transports = matcher({ envelope, getEvent }).map(dsn => getTransport(dsn));
+      const transports = matcher({ envelope, getEvent })
+        .map(dsn => getTransport(dsn))
+        .filter((t) => !!t);
 
       // If we have no transports to send to, use the fallback transport
       if (transports.length === 0) {
@@ -11836,7 +11855,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":56,"../scope.js":65,"@sentry/utils":105}],82:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.52.1';
+const SDK_VERSION = '7.53.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -15132,6 +15151,23 @@ var NodeType;
     NodeType[NodeType["Comment"] = 5] = "Comment";
 })(NodeType || (NodeType = {}));
 
+/* eslint-disable @typescript-eslint/naming-convention */
+
+var EventType; (function (EventType) {
+  const DomContentLoaded = 0; EventType[EventType["DomContentLoaded"] = DomContentLoaded] = "DomContentLoaded";
+  const Load = 1; EventType[EventType["Load"] = Load] = "Load";
+  const FullSnapshot = 2; EventType[EventType["FullSnapshot"] = FullSnapshot] = "FullSnapshot";
+  const IncrementalSnapshot = 3; EventType[EventType["IncrementalSnapshot"] = IncrementalSnapshot] = "IncrementalSnapshot";
+  const Meta = 4; EventType[EventType["Meta"] = Meta] = "Meta";
+  const Custom = 5; EventType[EventType["Custom"] = Custom] = "Custom";
+  const Plugin = 6; EventType[EventType["Plugin"] = Plugin] = "Plugin";
+})(EventType || (EventType = {}));
+
+/**
+ * This is a partial copy of rrweb's eventWithTime type which only contains the properties
+ * we specifcally need in the SDK.
+ */
+
 /**
  * Converts a timestamp to ms, if it was in s, or keeps it as ms.
  */
@@ -15174,7 +15210,18 @@ async function addEvent(
       replay.eventBuffer.clear();
     }
 
-    return await replay.eventBuffer.addEvent(event);
+    const replayOptions = replay.getOptions();
+
+    const eventAfterPossibleCallback =
+      typeof replayOptions.beforeAddRecordingEvent === 'function' && event.type === EventType.Custom
+        ? replayOptions.beforeAddRecordingEvent(event)
+        : event;
+
+    if (!eventAfterPossibleCallback) {
+      return;
+    }
+
+    return await replay.eventBuffer.addEvent(eventAfterPossibleCallback);
   } catch (error) {
     (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error(error);
     await replay.stop('addEvent');
@@ -18150,23 +18197,6 @@ function debounce(func, wait, options) {
   return debounced;
 }
 
-/* eslint-disable @typescript-eslint/naming-convention */
-
-var EventType; (function (EventType) {
-  const DomContentLoaded = 0; EventType[EventType["DomContentLoaded"] = DomContentLoaded] = "DomContentLoaded";
-  const Load = 1; EventType[EventType["Load"] = Load] = "Load";
-  const FullSnapshot = 2; EventType[EventType["FullSnapshot"] = FullSnapshot] = "FullSnapshot";
-  const IncrementalSnapshot = 3; EventType[EventType["IncrementalSnapshot"] = IncrementalSnapshot] = "IncrementalSnapshot";
-  const Meta = 4; EventType[EventType["Meta"] = Meta] = "Meta";
-  const Custom = 5; EventType[EventType["Custom"] = Custom] = "Custom";
-  const Plugin = 6; EventType[EventType["Plugin"] = Plugin] = "Plugin";
-})(EventType || (EventType = {}));
-
-/**
- * This is a partial copy of rrweb's eventWithTime type which only contains the properties
- * we specifcally need in the SDK.
- */
-
 /**
  * Handler for recording events.
  *
@@ -18238,6 +18268,30 @@ function getHandleRecordingEmit(replay) {
             saveSession(replay.session);
           }
         }
+      }
+
+      const options = replay.getOptions();
+
+      // TODO: We want this as an experiment so that we can test
+      // internally and create metrics before making this the default
+      if (options._experiments.delayFlushOnCheckout) {
+        // If the full snapshot is due to an initial load, we will not have
+        // a previous session ID. In this case, we want to buffer events
+        // for a set amount of time before flushing. This can help avoid
+        // capturing replays of users that immediately close the window.
+        setTimeout(() => replay.conditionalFlush(), options._experiments.delayFlushOnCheckout);
+
+        // Cancel any previously debounced flushes to ensure there are no [near]
+        // simultaneous flushes happening. The latter request should be
+        // insignificant in this case, so wait for additional user interaction to
+        // trigger a new flush.
+        //
+        // This can happen because there's no guarantee that a recording event
+        // happens first. e.g. a mouse click can happen and trigger a debounced
+        // flush before the checkout.
+        replay.cancelFlush();
+
+        return true;
       }
 
       // Flush immediately so that we do not miss the first segment, otherwise
@@ -19005,7 +19059,17 @@ class ReplayContainer  {
   }
 
   /**
-   *
+   * Only flush if `this.recordingMode === 'session'`
+   */
+   conditionalFlush() {
+    if (this.recordingMode === 'buffer') {
+      return Promise.resolve();
+    }
+
+    return this.flushImmediate();
+  }
+
+  /**
    * Always flush via `_debouncedFlush` so that we do not have flushes triggered
    * from calling both `flush` and `_debouncedFlush`. Otherwise, there could be
    * cases of mulitple flushes happening closely together.
@@ -19014,6 +19078,13 @@ class ReplayContainer  {
     this._debouncedFlush();
     // `.flush` is provided by the debounced function, analogously to lodash.debounce
     return this._debouncedFlush.flush() ;
+  }
+
+  /**
+   * Cancels queued up flushes.
+   */
+   cancelFlush() {
+    this._debouncedFlush.cancel();
   }
 
   /** Get the current sesion (=replay) ID */
@@ -19265,7 +19336,7 @@ class ReplayContainer  {
     // Send replay when the page/tab becomes hidden. There is no reason to send
     // replay if it becomes visible, since no actions we care about were done
     // while it was hidden
-    this._conditionalFlush();
+    void this.conditionalFlush();
   }
 
   /**
@@ -19347,17 +19418,6 @@ class ReplayContainer  {
     this.performanceEvents = [];
 
     return Promise.all(createPerformanceSpans(this, createPerformanceEntries(entries)));
-  }
-
-  /**
-   * Only flush if `this.recordingMode === 'session'`
-   */
-   _conditionalFlush() {
-    if (this.recordingMode === 'buffer') {
-      return;
-    }
-
-    void this.flushImmediate();
   }
 
   /**
@@ -19721,6 +19781,8 @@ class Replay  {
     ignore = [],
     maskFn,
 
+    beforeAddRecordingEvent,
+
     // eslint-disable-next-line deprecation/deprecation
     blockClass,
     // eslint-disable-next-line deprecation/deprecation
@@ -19778,6 +19840,7 @@ class Replay  {
       networkCaptureBodies,
       networkRequestHeaders: _getMergedNetworkHeaders(networkRequestHeaders),
       networkResponseHeaders: _getMergedNetworkHeaders(networkResponseHeaders),
+      beforeAddRecordingEvent,
 
       _experiments,
     };
@@ -20849,7 +20912,7 @@ exports.createClientReportEnvelope = createClientReportEnvelope;
 },{"./envelope.js":103,"./time.js":124}],101:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const error = require('./error.js');
+const logger = require('./logger.js');
 
 /** Regular expression used to parse a Dsn. */
 const DSN_REGEX = /^(?:(\w+):)\/\/(?:(\w+)(?::(\w+)?)?@)([\w.-]+)(?::(\d+))?\/(.+)/;
@@ -20879,13 +20942,16 @@ function dsnToString(dsn, withPassword = false) {
  * Parses a Dsn from a given string.
  *
  * @param str A Dsn as string
- * @returns Dsn as DsnComponents
+ * @returns Dsn as DsnComponents or undefined if @param str is not a valid DSN string
  */
 function dsnFromString(str) {
   const match = DSN_REGEX.exec(str);
 
   if (!match) {
-    throw new error.SentryError(`Invalid Sentry Dsn: ${str}`);
+    // This should be logged to the console
+    // eslint-disable-next-line no-console
+    console.error(`Invalid Sentry Dsn: ${str}`);
+    return undefined;
   }
 
   const [protocol, publicKey, pass = '', host, port = '', lastPath] = match.slice(1);
@@ -20922,37 +20988,51 @@ function dsnFromComponents(components) {
 
 function validateDsn(dsn) {
   if (!(typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
-    return;
+    return true;
   }
 
   const { port, projectId, protocol } = dsn;
 
   const requiredComponents = ['protocol', 'publicKey', 'host', 'projectId'];
-  requiredComponents.forEach(component => {
+  const hasMissingRequiredComponent = requiredComponents.find(component => {
     if (!dsn[component]) {
-      throw new error.SentryError(`Invalid Sentry Dsn: ${component} missing`);
+      logger.logger.error(`Invalid Sentry Dsn: ${component} missing`);
+      return true;
     }
+    return false;
   });
 
+  if (hasMissingRequiredComponent) {
+    return false;
+  }
+
   if (!projectId.match(/^\d+$/)) {
-    throw new error.SentryError(`Invalid Sentry Dsn: Invalid projectId ${projectId}`);
+    logger.logger.error(`Invalid Sentry Dsn: Invalid projectId ${projectId}`);
+    return false;
   }
 
   if (!isValidProtocol(protocol)) {
-    throw new error.SentryError(`Invalid Sentry Dsn: Invalid protocol ${protocol}`);
+    logger.logger.error(`Invalid Sentry Dsn: Invalid protocol ${protocol}`);
+    return false;
   }
 
   if (port && isNaN(parseInt(port, 10))) {
-    throw new error.SentryError(`Invalid Sentry Dsn: Invalid port ${port}`);
+    logger.logger.error(`Invalid Sentry Dsn: Invalid port ${port}`);
+    return false;
   }
 
   return true;
 }
 
-/** The Sentry Dsn, identifying a Sentry instance and project. */
+/**
+ * Creates a valid Sentry Dsn object, identifying a Sentry instance and project.
+ * @returns a valid DsnComponents object or `undefined` if @param from is an invalid DSN source
+ */
 function makeDsn(from) {
   const components = typeof from === 'string' ? dsnFromString(from) : dsnFromComponents(from);
-  validateDsn(components);
+  if (!components || !validateDsn(components)) {
+    return undefined;
+  }
   return components;
 }
 
@@ -20961,7 +21041,7 @@ exports.dsnToString = dsnToString;
 exports.makeDsn = makeDsn;
 
 
-},{"./error.js":104}],102:[function(require,module,exports){
+},{"./logger.js":108}],102:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /*
