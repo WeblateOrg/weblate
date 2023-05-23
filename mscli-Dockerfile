@@ -2,7 +2,7 @@
 # Accessed 2020-03-11 from https://github.com/WeblateOrg/docker/blob/master/Dockerfile
 
 FROM debian:buster-slim
-ENV VERSION 3.11.3
+ENV VERSION 4.14
 LABEL version=$VERSION
 
 # Add user early to get a consistent userid
@@ -17,8 +17,9 @@ RUN useradd --shell /bin/sh --user-group weblate --groups root,tty \
 ENV HOME=/home/weblate
 
 # This is needed to run tests inside the container.
-RUN install -d -o weblate -g weblate -m 755 /usr/local/lib/python3.7/dist-packages/data-test /usr/local/lib/python3.7/dist-packages/test-images \
- && install -d -o weblate -g weblate -m 755 /app/data
+RUN install -d -o weblate -g weblate -m 755 /usr/local/lib/python${PYVERSION}/dist-packages/data-test /usr/local/lib/python${PYVERSION}/dist-packages/test-images \
+ && install -d -o weblate -g weblate -m 755 /app/data \
+ && install -d -o weblate -g weblate -m 755 /app/cache
 
 # Configure utf-8 locales to make sure Python
 # correctly handles unicode filenames, configure settings
@@ -27,10 +28,7 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 DJANGO_SETTINGS_MODULE=weblate.settings_docker
 COPY setup-ci.py /usr/src/setup.py
 COPY requirements.txt /usr/src/
 COPY weblate /usr/src/weblate/
-
-# Suppress Rust compilation
-# Fixes an error that appears while installing cryptography
-ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
+COPY secret /app/data/secret
 
 # Suppress error for disabled 'set-env' command
 ENV ACTIONS_ALLOW_UNSECURE_COMMANDS='true'
@@ -46,8 +44,11 @@ RUN set -x \
     nginx \
     supervisor \
     openssh-client \
+    ca-certificates \
+    gcc-aarch64-linux-gnu \
     curl \
     gir1.2-pango-1.0 \
+    libgirepository1.0-dev \
     libxmlsec1-openssl \
     python-pip \
     python-setuptools \
@@ -61,8 +62,6 @@ RUN set -x \
     python3-wheel \
     python3-gdbm \
     python3-psycopg2 \
-    python3-rcssmin \
-    python3-rjsmin \
     gettext \
     postgresql-client \
     mercurial \
@@ -73,23 +72,35 @@ RUN set -x \
     pkg-config \
     python3-dev \
     libxml2-dev \
+    libxslt-dev \
+    libfreetype6-dev \
+    libjpeg-dev \
+    libz-dev \
+    libyaml-dev \
     libacl1-dev \
     libxmlsec1-dev \
     libleptonica-dev \
     libtesseract-dev \
     libsasl2-dev \
     libldap2-dev \
+    libldap-common \
     libssl-dev \
+    libpq-dev \
+    libcairo-dev \
     libffi-dev \
     libenchant1c2a \
+    build-essential \
     cython \
     gcc \
     g++ \
     tesseract-ocr \
     patch \
+  && pip3 install --upgrade pip \
+  && pip3 install --force-reinstall --no-binary :all: cffi \
   && pip3 install setuptools_scm==6.0.1 \
+  && pip3 install --use-pep517 maturin \
   && pip3 install /usr/src \
-  && pip install supervisor-stdout \
+  && pip3 install supervisor-stdout \
   && python3 -c 'from phply.phpparse import make_parser; make_parser()' \
   && ln -s /usr/local/share/weblate/examples/ /app/ \
   && rm -rf /root/.cache /tmp/* \
@@ -112,7 +123,7 @@ RUN set -x \
 
 # Apply hotfixes on Weblate
 RUN find /usr/src/weblate -name '*.patch' -print0 | sort -z | \
-  xargs -n1 -0 -r patch -p1 -d /usr/local/lib/python3.7/dist-packages/ -i
+  xargs -n1 -0 -r patch -p1 -d /usr/local/lib/python${PYVERSION}/dist-packages/ -i
 
 # Install Hub
 RUN curl -L https://github.com/github/hub/releases/download/v2.13.0/hub-linux-amd64-2.13.0.tgz | tar xzv --wildcards hub-linux*/bin/hub && \
@@ -125,7 +136,7 @@ RUN curl -sL "https://github.com/zaquestion/lab/releases/download/v0.17.2/lab_0.
   && chmod u+x /usr/bin/lab
 
 # Install nodejs and npm
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
   && apt-get install nodejs
 
 # Configuration for Weblate, nginx, uwsgi and supervisor
@@ -144,8 +155,8 @@ RUN rm -f /etc/localtime && cp /usr/share/zoneinfo/Etc/UTC /etc/localtime \
   && sed -i '/pam_rootok.so/a auth requisite pam_deny.so' /etc/pam.d/su
 
 # Search path for custom modules
-RUN echo "/app/data/python" > /usr/local/lib/python3.7/dist-packages/weblate-docker.pth
-RUN echo "/usr/src" >> /usr/local/lib/python3.7/dist-packages/weblate-docker.pth
+RUN echo "/app/data/python" > /usr/local/lib/python${PYVERSION}/dist-packages/weblate-docker.pth
+RUN echo "/usr/src" >> /usr/local/lib/python${PYVERSION}/dist-packages/weblate-docker.pth
 
 # Entrypoint
 COPY start /app/bin/
