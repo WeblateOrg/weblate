@@ -13,7 +13,8 @@ services:
   weblate:
     image: weblate-dev:latest
     build:
-      context: ./weblate-dev/
+      context: ../
+      dockerfile: mscli-Dockerfile
       args:
         USER_ID: ${USER_ID}
         GROUP_ID: ${GROUP_ID}
