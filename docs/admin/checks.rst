@@ -52,6 +52,8 @@ Here is a list of flags currently accepted:
     Uses DOS end-of-line markers instead of Unix ones (``\r\n`` instead of ``\n``).
 ``read-only``
     The string is read-only and should not be edited in Weblate, see :ref:`read-only-strings`.
+``terminology``
+    Used in :ref:`glossary`. It copies the string into all glossary languages so it can be used consistently in all transltions. Also useful in combination with ``read-only``, eg. for product names.
 ``priority:N``
     Priority of the string. Higher priority strings are presented first for translation.
     The default priority is 100, the higher priority a string has, the earlier it is
