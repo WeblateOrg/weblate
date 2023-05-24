@@ -37,16 +37,20 @@ def adjust_similarity_threshold(value: float):
     """
     if not using_postgresql():
         return
+    current_similarity = getattr(connection, "weblate_similarity", -1)
+    # Ignore small differences
+    if abs(current_similarity - value) < 0.05:
+        return
+
     with connection.cursor() as cursor:
         # The SELECT has to be executed first as othervise the trgm extension
         # might not yet be loaded and GUC setting not possible.
-        if not hasattr(connection, "weblate_similarity"):
+        if current_similarity == -1:
             cursor.execute("SELECT show_limit()")
-            connection.weblate_similarity = cursor.fetchone()[0]
-        # Change setting only for reasonably big difference
-        if abs(connection.weblate_similarity - value) > 0.01:
-            cursor.execute("SELECT set_limit(%s)", [value])
-            connection.weblate_similarity = value
+
+        # Adjust threshold
+        cursor.execute("SELECT set_limit(%s)", [value])
+        connection.weblate_similarity = value
 
 
 def count_alnum(string):
