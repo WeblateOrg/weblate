@@ -150,7 +150,14 @@ def tools(request):
 def discovery(request):
     support = SupportStatus.objects.get_current()
 
-    if support.secret:
+    if not support.discoverable and settings.SITE_TITLE == "Weblate":
+        messages.error(
+            request,
+            _(
+                "Please change SITE_TITLE in settings to make your Weblate easy to recognize in discover."
+            ),
+        )
+    elif support.secret:
         support.discoverable = not support.discoverable
         support.save(update_fields=["discoverable"])
         support_status_update.delay()
