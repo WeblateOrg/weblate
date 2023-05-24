@@ -1,9 +1,9 @@
 # This dockerfile is a modified copy of the official weblate dockerfile
 # Accessed 2020-03-11 from https://github.com/WeblateOrg/docker/blob/master/Dockerfile
 
-FROM debian:buster-slim
+FROM debian:10.5-slim
 ENV PYVERSION 3.7
-ENV VERSION 4.1.1
+ENV VERSION 4.2.2
 LABEL version=$VERSION
 
 # Add user early to get a consistent userid
@@ -45,81 +45,81 @@ RUN set -x \
     supervisor \
     openssh-client \
     ca-certificates \
-    gcc-aarch64-linux-gnu \
     curl \
     gir1.2-pango-1.0 \
-    libgirepository1.0-dev \
     libxmlsec1-openssl \
-    python-pip \
-    python-setuptools \
+    libjpeg62-turbo \
     python3-gi \
     python3-gi-cairo \
     python3-cairo \
     python3-pip \
-    python3-lxml \
-    python3-pillow \
     python3-setuptools \
     python3-wheel \
     python3-gdbm \
-    python3-psycopg2 \
     gettext \
-    postgresql-client \
-    mercurial \
+    postgresql-common \
     git \
     git-svn \
     gnupg \
     subversion \
     pkg-config \
     python3-dev \
+    file \
+    make \
     libxml2-dev \
-    libxslt-dev \
-    libfreetype6-dev \
-    libjpeg-dev \
-    libz-dev \
-    libyaml-dev \
     libacl1-dev \
+    libmariadb-dev \
     libxmlsec1-dev \
     libleptonica-dev \
     libtesseract-dev \
     libsasl2-dev \
     libldap2-dev \
-    libldap-common \
     libssl-dev \
-    libpq-dev \
-    libcairo-dev \
     libffi-dev \
+    libpq-dev \
+    libz-dev \
+    libjpeg62-turbo-dev \
     libenchant1c2a \
-    build-essential \
-    cython \
     gcc \
     g++ \
     tesseract-ocr \
     patch \
-  && pip3 install --upgrade pip \
-  && pip3 install --force-reinstall --no-binary :all: cffi \
-  && pip3 install setuptools_scm==6.0.1 \
-  && pip3 install --use-pep517 maturin \
+  && echo | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh \
+  && apt-get update \
+  && if apt-cache show postgresql-client-12 > /dev/null 2>&1 ; then \
+        apt-get install --no-install-recommends -y postgresql-client-12 ; \
+    else \
+        apt-get install --no-install-recommends -y postgresql-client ; \
+    fi \
+  && python3 -m pip install --upgrade pip \
   && pip3 install /usr/src \
-  && pip3 install supervisor-stdout \
+  && pip install supervisor-stdout \
   && python3 -c 'from phply.phpparse import make_parser; make_parser()' \
   && ln -s /usr/local/share/weblate/examples/ /app/ \
-  && rm -rf /root/.cache /tmp/* \
   && apt-get -y purge \
     python3-dev \
     pkg-config \
     libleptonica-dev \
     libtesseract-dev \
+    libmariadb-dev \
     libxml2-dev \
     libffi-dev \
     libxmlsec1-dev \
+    libpq-dev \
     cython \
     gcc \
     g++ \
+    file \
+    make \
     libsasl2-dev \
+    libacl1-dev \
     libldap2-dev \
     libssl-dev \
+    libz-dev   \
+    libjpeg62-turbo-dev \
   && apt-get -y autoremove \
-  && apt-get clean
+  && apt-get clean \
+  && rm -rf /root/.cache /tmp/* /var/lib/apt/lists/*
 
 # Apply hotfixes on Weblate
 RUN find /usr/src/weblate -name '*.patch' -print0 | sort -z | \
@@ -141,6 +141,9 @@ RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
 
 # Configuration for Weblate, nginx, uwsgi and supervisor
 COPY etc /etc/
+
+# Copy the secret required for django to start
+COPY secret /app/data/
 
 # Fix permissions and adjust files to be able to edit them as user on start
 # - localtime/timezone is needed for setting system timezone based on environment
