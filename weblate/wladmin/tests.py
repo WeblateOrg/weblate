@@ -261,6 +261,7 @@ class AdminTest(ViewTestCase):
         self.test_send_test_email("Could not send test e-mail")
 
     @responses.activate
+    @override_settings(SITE_TITLE="Test Weblate")
     def test_activation_community(self):
         responses.add(
             responses.POST,
@@ -288,6 +289,7 @@ class AdminTest(ViewTestCase):
         self.assertTrue(status.discoverable)
 
     @responses.activate
+    @override_settings(SITE_TITLE="Test Weblate")
     def test_activation_hosted(self):
         responses.add(
             responses.POST,
