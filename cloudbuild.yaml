@@ -1,11 +1,10 @@
 steps:
-  - name: 'gcr.io/kaniko-project/executor:latest'
-    args:
-      - --destination=gcr.io/$PROJECT_ID/weblate:$COMMIT_SHA
-      - --cache=true
-      - --dockerfile=./mscli-Dockerfile
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '--file=./mscli-Dockerfile', '--tag=gcr.io/$PROJECT_ID/weblate:$BUILD_ID', '.']
+images: ['gcr.io/$PROJECT_ID/weblate:$BUILD_ID']
 tags:
   - Weblate
 timeout: 1200s
 options:
   machineType: N1_HIGHCPU_8
+
