@@ -142,9 +142,6 @@ RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
 # Configuration for Weblate, nginx, uwsgi and supervisor
 COPY etc /etc/
 
-# Copy the secret required for django to start
-COPY secret /app/data/
-
 # Fix permissions and adjust files to be able to edit them as user on start
 # - localtime/timezone is needed for setting system timezone based on environment
 # - we generate nginx configuration based on environment
