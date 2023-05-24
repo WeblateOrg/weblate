@@ -1466,6 +1466,11 @@ class ViewsTest(FixtureTestCase):
             ).exists()
         )
 
+        response = self.client.post(
+            reverse("machinery-edit", kwargs={"machinery": "INVALID"}), {"install": "1"}
+        )
+        self.assertEqual(response.status_code, 404)
+
     def test_configure_project(self):
         service = self.ensure_dummy_mt()
         list_url = reverse("machinery-list", kwargs={"project": self.project.slug})
