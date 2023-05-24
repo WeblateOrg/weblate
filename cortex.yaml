@@ -3,34 +3,34 @@ info:
   title: weblate
   x-cortex-tag: weblate
   x-cortex-owners:
-    - type: group
-      name: vendasta/unowned
-      provider: GITHUB
-    - type: slack
-      channel: ""
-      notificationsEnabled: true
+  - type: group
+    name: vendasta/unowned
+    provider: GITHUB
+  - type: slack
+    channel: ""
+    notificationsEnabled: true
   x-cortex-git:
     github:
       repository: vendasta/weblate
   x-cortex-link:
-    - name: weblate Service Timeboard
-      type: Dashboard
-      url: https://app.datadoghq.com/dashboard/78q-p9h-ayn
-    - name: weblate Logs (Prod)
-      type: Logs
-      url: https://console.cloud.google.com/logs/query;query=resource.type%3D%22k8s_container%22%0Aresource.labels.cluster_name%3D%22vendasta-central%22%0Aresource.labels.namespace_name%3D%22weblate-prod%22?project=repcore-prod
-    - name: weblate Logs (Demo)
-      type: Logs
-      url: https://console.cloud.google.com/logs/query;query=resource.type%3D%22k8s_container%22%0Aresource.labels.cluster_name%3D%22vendasta-central%22%0Aresource.labels.namespace_name%3D%22weblate-demo%22?project=repcore-prod
-    - name: Deploy Info
-      type: deploy_info
-      url: https://argocd.vendasta-internal.com/applications/weblate-prod
-    - name: Build Info
-      type: build_info
-      url: https://console.cloud.google.com/cloud-build/builds;region=global?project=repcore-prod&organizationId=39943578564&query=tags%3D%22Weblate%22
+  - name: weblate Service Timeboard
+    type: Dashboard
+    url: https://app.datadoghq.com/dashboard/78q-p9h-ayn
+  - name: weblate Logs (Prod)
+    type: Logs
+    url: https://console.cloud.google.com/logs/query;query=resource.type%3D%22k8s_container%22%0Aresource.labels.cluster_name%3D%22vendasta-central%22%0Aresource.labels.namespace_name%3D%22weblate-prod%22?project=repcore-prod
+  - name: weblate Logs (Demo)
+    type: Logs
+    url: https://console.cloud.google.com/logs/query;query=resource.type%3D%22k8s_container%22%0Aresource.labels.cluster_name%3D%22vendasta-central%22%0Aresource.labels.namespace_name%3D%22weblate-demo%22?project=repcore-prod
+  - name: Deploy Info
+    type: deploy_info
+    url: https://argocd.vendasta-internal.com/applications/weblate-prod
+  - name: Build Info
+    type: build_info
+    url: https://console.cloud.google.com/cloud-build/builds;region=global?project=repcore-prod&organizationId=39943578564&query=tags%3D%22Weblate%22
   x-cortex-slos:
     datadog:
-      - id: ""
+    - id: ""
   x-cortex-custom-metadata:
     build-provider: CloudBuild
     deploy-provider: ArgoCD
