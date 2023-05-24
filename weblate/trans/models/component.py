@@ -372,6 +372,16 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             "for example: po/*.po or locale/*/LC_MESSAGES/django.po."
         ),
     )
+    screenshot_filemask = models.CharField(
+        verbose_name=gettext_lazy("Screenshot file mask"),
+        max_length=FILENAME_LENGTH,
+        blank=True,
+        validators=[validate_filemask, validate_filename],
+        help_text=gettext_lazy(
+            "Path of screenshots relative to repository root, "
+            "for example: docs/screenshots/*.png."
+        ),
+    )
     template = models.CharField(
         verbose_name=gettext_lazy("Monolingual base language file"),
         max_length=FILENAME_LENGTH,
@@ -752,6 +762,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)
+        self.screenshot_filemask = cleanup_path(self.screenshot_filemask)
         self.template = cleanup_path(self.template)
         self.intermediate = cleanup_path(self.intermediate)
         self.new_base = cleanup_path(self.new_base)
@@ -1493,7 +1504,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     def needs_commit_upstream(self):
         """Detect whether commit is needed for upstream changes."""
-        changed = self.repository.list_upstream_changed_files()
+        changed = self.repository.get_changed_files()
         if self.uses_changed_files(changed):
             return True
         for component in self.linked_childs:

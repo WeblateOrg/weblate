@@ -446,6 +446,22 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Account")
         self.screenshot("authentication.png")
 
+    def test_screenshot_filemask_repository_filename(self):
+        """Test of mask of files to allow discovery/update of screenshots."""
+        self.create_component()
+        self.do_login(superuser=True)
+        self.click(htmlid="projects-menu")
+        with self.wait_for_page_load():
+            self.click("Browse all projects")
+        with self.wait_for_page_load():
+            self.click("WeblateOrg")
+        with self.wait_for_page_load():
+            self.click("Django")
+        self.click("Manage")
+        with self.wait_for_page_load():
+            self.click("Screenshots")
+        self.screenshot("screenshot-filemask-repository-filename.png")
+
     def test_screenshots(self):
         """Screenshot tests."""
         text = (

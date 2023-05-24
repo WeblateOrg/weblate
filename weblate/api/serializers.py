@@ -474,6 +474,7 @@ class ComponentSerializer(RemovableSerializer):
             "branch",
             "push_branch",
             "filemask",
+            "screenshot_filemask",
             "template",
             "edit_template",
             "intermediate",
@@ -548,6 +549,7 @@ class ComponentSerializer(RemovableSerializer):
             result["repo"] = None
             result["branch"] = None
             result["filemask"] = None
+            result["screnshot_filemask"] = None
             result["push"] = None
         return result
 
@@ -1102,14 +1104,29 @@ class ScreenshotSerializer(RemovableSerializer):
 
     class Meta:
         model = Screenshot
-        fields = ("name", "translation", "file_url", "units", "url")
+        fields = (
+            "name",
+            "repository_filename",
+            "translation",
+            "file_url",
+            "units",
+            "url",
+        )
         extra_kwargs = {"url": {"view_name": "api:screenshot-detail"}}
 
 
 class ScreenshotCreateSerializer(ScreenshotSerializer):
     class Meta:
         model = Screenshot
-        fields = ("name", "translation", "file_url", "units", "url", "image")
+        fields = (
+            "name",
+            "repository_filename",
+            "translation",
+            "file_url",
+            "units",
+            "url",
+            "image",
+        )
         extra_kwargs = {"url": {"view_name": "api:screenshot-detail"}}
 
 

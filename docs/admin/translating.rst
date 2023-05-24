@@ -138,3 +138,21 @@ Once a screenshot is uploaded, this interface handles
 management and source string association:
 
 .. image:: /screenshots/screenshot-ocr.png
+
+You can add or update screenshots directly from your
+Version Control System (VCS) repository.
+
+To enable this feature, you can either set a screenshot file mask
+when creating a component, which will be monitored for updates in
+the repository, or you can add or update screenshots when uploading them manually.
+
+When the repository is updated, the system will automatically scan
+for changes. Existing screenshots in the repository will be updated,
+and new screenshots matching the specified screenshot file mask will
+be added to the component.
+
+.. image:: /screenshots/screenshot-filemask-repository-filename.png
+
+.. seealso::
+
+   :ref:`component-screenshot_filemask`

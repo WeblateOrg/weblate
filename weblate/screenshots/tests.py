@@ -2,18 +2,25 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import os.path
+import tempfile
 from difflib import get_close_matches
 from itertools import chain
+from shutil import copyfile
 from unittest import SkipTest
 
+from django.core.files import File
 from django.urls import reverse
+from django.utils import timezone
 from PIL import Image
+from rest_framework.test import APITestCase
 
 import weblate.screenshots.views
 from weblate.screenshots.models import Screenshot
 from weblate.screenshots.views import PyTessBaseAPI, ocr_get_strings
+from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
-from weblate.trans.tests.utils import get_test_file
+from weblate.trans.tests.utils import create_test_user, get_test_file
 from weblate.utils.db import using_postgresql
 from weblate.utils.locale import c_locale
 
@@ -245,3 +252,89 @@ class ViewTest(FixtureTestCase):
             {"source": source_pk},
         )
         self.assertEqual(screenshot.units.count(), 0)
+
+
+class ScreenshotVCSTest(APITestCase, RepoTestCase):
+    """Test class for syncing vcs screenshots in weblate."""
+
+    def setUp(self):
+        super().setUp()
+        self.user = create_test_user()
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.user.auth_token.key)
+        self.client.login(username="testuser", password="testpassword")
+
+        self.component = self._create_component(
+            "json",
+            "intermediate/*.json",
+            screenshot_filemask="*.png",
+        )
+
+        # Add a screenshot linked to the component
+        shot = Screenshot.objects.create(
+            name="test-update",
+            translation=self.component.source_translation,
+            repository_filename="test-update.png",
+        )
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            data = handle.read()
+            half_data_size = len(data) // 2
+            with tempfile.NamedTemporaryFile(suffix="png") as temp_file:
+                temp_file.write(data[:half_data_size])
+                temp_file.flush()
+                temp_file.seek(0)
+                shot.image.save("test-update", File(temp_file))
+
+    def test_update_screenshots_from_repo(self):
+        repository = self.component.repository
+        last_revision = repository.last_revision
+        existing_ss_size = Screenshot.objects.filter(
+            translation__component=self.component,
+            repository_filename="test-update.png",
+        )[0].image.size
+
+        copyfile(TEST_SCREENSHOT, os.path.join(repository.path, "test-update.png"))
+        with repository.lock:
+            repository.set_committer("Second Bar", "second@example.net")
+            filenames = ["test-update.png"]
+            repository.commit(
+                "Test commit", "Foo Bar <foo@bar.com>", timezone.now(), filenames
+            )
+            self.component.trigger_post_update(last_revision, skip_push=True)
+
+        # Verify that screenshot has been updated after the signal.
+        self.assertEqual(
+            Screenshot.objects.filter(
+                translation__component=self.component,
+                repository_filename="test-update.png",
+            ).count(),
+            1,
+        )
+        updated_ss_size = Screenshot.objects.filter(
+            translation__component=self.component,
+            repository_filename="test-update.png",
+        )[0].image.size
+        self.assertNotEqual(existing_ss_size, updated_ss_size)
+
+    def test_add_screenshots_from_repo(self):
+        repository = self.component.repository
+        last_revision = repository.last_revision
+
+        copyfile(TEST_SCREENSHOT, os.path.join(repository.path, "test.png"))
+        with repository.lock:
+            repository.set_committer("Second Bar", "second@example.net")
+            filenames = ["test.png"]
+            repository.commit(
+                "Test commit", "Foo Bar <foo@bar.com>", timezone.now(), filenames
+            )
+            self.component.trigger_post_update(last_revision, skip_push=True)
+
+        # Verify that screenshot has been added after the signal.
+        self.assertEqual(
+            Screenshot.objects.filter(
+                translation__component=self.component,
+                repository_filename="test.png",
+            ).count(),
+            1,
+        )
