@@ -165,7 +165,10 @@ class EditMachineryView(FormView):
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.machinery_id = kwargs["machinery"]
-        self.machinery = MACHINERY[self.machinery_id]
+        try:
+            self.machinery = MACHINERY[self.machinery_id]
+        except KeyError:
+            raise Http404("Invalid service specified")
         self.project = None
         self.post_setup(request, kwargs)
 
@@ -290,15 +293,15 @@ class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
 
 
 def handle_machinery(request, service, unit, search=None):
-    if service not in MACHINERY:
-        raise Http404("Invalid service specified")
-
     translation = unit.translation
     component = translation.component
     if not request.user.has_perm("machinery.view", translation):
         raise PermissionDenied
 
-    translation_service_class = MACHINERY[service]
+    try:
+        translation_service_class = MACHINERY[service]
+    except KeyError:
+        raise Http404("Invalid service specified")
 
     # Error response
     response = {
