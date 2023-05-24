@@ -11,6 +11,8 @@ Not yet released.
 * Added support for storing glossary explanation in TBX format.
 * Added support for ordering strings by last update.
 * Extended users search capabilities.
+* Support for automatic update of screenshots from repository.
+* Improved translation memory performance.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 
