@@ -93,7 +93,7 @@ RUN set -x \
     fi \
   && python3 -m pip install --upgrade pip \
   && pip3 install /usr/src \
-  && pip install supervisor-stdout \
+  && pip3 install supervisor-stdout \
   && python3 -c 'from phply.phpparse import make_parser; make_parser()' \
   && ln -s /usr/local/share/weblate/examples/ /app/ \
   && apt-get -y purge \
