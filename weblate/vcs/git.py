@@ -141,7 +141,7 @@ class GitRepository(Repository):
     def _clone(cls, source: str, target: str, branch: str):
         """Clone repository."""
         cls._popen(
-            ["clone", *cls.get_depth()] + ["--branch", branch, "--", source, target]
+            ["clone", *cls.get_depth(), "--branch", branch, "--", source, target]
         )
 
     def get_config(self, path):
