@@ -483,7 +483,7 @@ The service offers multiple domain-specific models.
 
 .. seealso::
 
-    `Watson Language Translator <https://www.ibm.com/cloud/watson-language-translator>`_,
+    `Watson Language Translator <https://www.ibm.com/products/ibm-watson-natural-language-processing>`_,
     `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-translator>`_
 
 .. _mt-weblate:
