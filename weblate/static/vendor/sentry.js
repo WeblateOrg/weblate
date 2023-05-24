@@ -7627,7 +7627,7 @@ function createSessionEnvelope(
   };
 
   const envelopeItem =
-    'aggregates' in session ? [{ type: 'sessions' }, session] : [{ type: 'session' }, session];
+    'aggregates' in session ? [{ type: 'sessions' }, session] : [{ type: 'session' }, session.toJSON()];
 
   return utils.createEnvelope(envelopeHeaders, [envelopeItem]);
 }
@@ -11855,7 +11855,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":56,"../scope.js":65,"@sentry/utils":105}],82:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.53.0';
+const SDK_VERSION = '7.53.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -18923,7 +18923,9 @@ class ReplayContainer  {
       this._debouncedFlush.cancel();
       // See comment above re: `_isEnabled`, we "force" a flush, ignoring the
       // `_isEnabled` state of the plugin since it was disabled above.
-      await this._flush({ force: true });
+      if (this.recordingMode === 'session') {
+        await this._flush({ force: true });
+      }
 
       // After flush, destroy event buffer
       this.eventBuffer && this.eventBuffer.destroy();
