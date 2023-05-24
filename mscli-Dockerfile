@@ -3,7 +3,7 @@
 
 FROM debian:10.5-slim
 ENV PYVERSION 3.7
-ENV VERSION 4.2.2
+ENV VERSION 4.1.1
 LABEL version=$VERSION
 
 # Add user early to get a consistent userid
@@ -92,8 +92,8 @@ RUN set -x \
         apt-get install --no-install-recommends -y postgresql-client ; \
     fi \
   && python3 -m pip install --upgrade pip \
+  && pip3 install --force-reinstall --no-binary :all: cffi \
   && pip3 install /usr/src \
-  && pip3 install supervisor-stdout \
   && python3 -c 'from phply.phpparse import make_parser; make_parser()' \
   && ln -s /usr/local/share/weblate/examples/ /app/ \
   && apt-get -y purge \
