@@ -15,6 +15,7 @@ from django.core import mail
 from django.core.cache import cache
 from django.core.management import call_command
 from django.test.client import RequestFactory
+from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils.translation import activate
 from PIL import Image
@@ -353,16 +354,17 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, "Test/Test")
 
     def test_view_translation_others(self):
-        other = Component.objects.create(
-            name="RESX component",
-            slug="resx",
-            project=self.project,
-            repo="weblate://test/test",
-            file_format="resx",
-            filemask="resx/*.resx",
-            template="resx/en.resx",
-            new_lang="add",
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            other = Component.objects.create(
+                name="RESX component",
+                slug="resx",
+                project=self.project,
+                repo="weblate://test/test",
+                file_format="resx",
+                filemask="resx/*.resx",
+                template="resx/en.resx",
+                new_lang="add",
+            )
         # Existing translation
         response = self.client.get(reverse("translation", kwargs=self.kw_translation))
         self.assertContains(response, other.name)

@@ -26,6 +26,8 @@ TEST_INVALID = get_test_file("invalid.zip")
 
 
 class BackupsTest(ViewTestCase):
+    CREATE_GLOSSARIES: bool = True
+
     def test_create_backup(self):
         # Additional content to test on backups
         label = self.project.label_set.create(name="Label", color="navy")

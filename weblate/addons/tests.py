@@ -826,19 +826,21 @@ class DiscoveryTest(ViewTestCase):
     def test_creation(self):
         link = self.component.get_repo_link_url()
         self.assertEqual(Component.objects.filter(repo=link).count(), 0)
-        addon = DiscoveryAddon.create(
-            self.component,
-            configuration={
-                "file_format": "po",
-                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
-                "name_template": "{{ component|title }}",
-                "language_regex": "^(?!xx).*$",
-                "base_file_template": "",
-                "remove": True,
-            },
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            addon = DiscoveryAddon.create(
+                self.component,
+                configuration={
+                    "file_format": "po",
+                    "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                    "name_template": "{{ component|title }}",
+                    "language_regex": "^(?!xx).*$",
+                    "base_file_template": "",
+                    "remove": True,
+                },
+            )
         self.assertEqual(Component.objects.filter(repo=link).count(), 3)
-        addon.post_update(self.component, "", False)
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            addon.post_update(self.component, "", False)
         self.assertEqual(Component.objects.filter(repo=link).count(), 3)
 
     def test_form(self):
@@ -895,21 +897,22 @@ class DiscoveryTest(ViewTestCase):
         )
         self.assertContains(response, "Please review and confirm")
         # Confirmation
-        response = self.client.post(
-            reverse("addons", kwargs=self.kw_component),
-            {
-                "name": "weblate.discovery.discovery",
-                "form": "1",
-                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.(?P<ext>po)",
-                "file_format": "po",
-                "name_template": "{{ component|title }}.{{ ext }}",
-                "language_regex": "^(?!xx).*$",
-                "base_file_template": "",
-                "remove": True,
-                "confirm": True,
-            },
-            follow=True,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(
+                reverse("addons", kwargs=self.kw_component),
+                {
+                    "name": "weblate.discovery.discovery",
+                    "form": "1",
+                    "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.(?P<ext>po)",
+                    "file_format": "po",
+                    "name_template": "{{ component|title }}.{{ ext }}",
+                    "language_regex": "^(?!xx).*$",
+                    "base_file_template": "",
+                    "remove": True,
+                    "confirm": True,
+                },
+                follow=True,
+            )
         self.assertContains(response, "1 add-on installed")
 
 
@@ -928,6 +931,8 @@ class ScriptsTest(TestAddonMixin, ViewTestCase):
 
 
 class LanguageConsistencyTest(ViewTestCase):
+    CREATE_GLOSSARIES: bool = True
+
     def test_language_consistency(self):
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"

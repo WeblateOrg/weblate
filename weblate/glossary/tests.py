@@ -78,6 +78,8 @@ more options)</p>
 class GlossaryTest(ViewTestCase):
     """Testing of glossary manipulations."""
 
+    CREATE_GLOSSARIES: bool = True
+
     def setUp(self):
         super().setUp()
         self.glossary_component = self.project.glossaries[0]

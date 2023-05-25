@@ -40,6 +40,8 @@ TEST_SCREENSHOT = get_test_file("screenshot.png")
 
 
 class APIBaseTest(APITestCase, RepoTestMixin):
+    CREATE_GLOSSARIES: bool = True
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

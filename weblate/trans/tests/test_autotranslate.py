@@ -6,6 +6,7 @@
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.trans.models import Component
@@ -21,19 +22,20 @@ class AutoTranslationTest(ViewTestCase):
         self.user.save()
         self.project.translation_review = True
         self.project.save()
-        self.component2 = Component.objects.create(
-            name="Test 2",
-            slug="test-2",
-            project=self.project,
-            repo=self.git_repo_path,
-            push=self.git_repo_path,
-            vcs="git",
-            filemask="po/*.po",
-            template="",
-            file_format="po",
-            new_base="",
-            allow_translation_propagation=False,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            self.component2 = Component.objects.create(
+                name="Test 2",
+                slug="test-2",
+                project=self.project,
+                repo=self.git_repo_path,
+                push=self.git_repo_path,
+                vcs="git",
+                filemask="po/*.po",
+                template="",
+                file_format="po",
+                new_base="",
+                allow_translation_propagation=False,
+            )
 
     def test_none(self):
         """Test for automatic translation with no content."""
@@ -180,19 +182,20 @@ class AutoTranslationMtTest(ViewTestCase):
         # Need extra power
         self.user.is_superuser = True
         self.user.save()
-        self.component3 = Component.objects.create(
-            name="Test 3",
-            slug="test-3",
-            project=self.project,
-            repo=self.git_repo_path,
-            push=self.git_repo_path,
-            vcs="git",
-            filemask="po/*.po",
-            template="",
-            file_format="po",
-            new_base="",
-            allow_translation_propagation=False,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            self.component3 = Component.objects.create(
+                name="Test 3",
+                slug="test-3",
+                project=self.project,
+                repo=self.git_repo_path,
+                push=self.git_repo_path,
+                vcs="git",
+                filemask="po/*.po",
+                template="",
+                file_format="po",
+                new_base="",
+                allow_translation_propagation=False,
+            )
         self.update_fulltext_index()
         self.configure_mt()
 

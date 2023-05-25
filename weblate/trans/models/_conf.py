@@ -81,6 +81,8 @@ class WeblateConf(AppConf):
     # Hiding repository credentials
     HIDE_REPO_CREDENTIALS = True
 
+    CREATE_GLOSSARIES = True
+
     # Default committer
     DEFAULT_COMMITER_EMAIL = "noreply@weblate.org"
     DEFAULT_COMMITER_NAME = "Weblate"

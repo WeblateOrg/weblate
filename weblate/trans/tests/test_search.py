@@ -379,15 +379,16 @@ class BulkEditTest(ViewTestCase):
         )
 
     def test_source_state(self):
-        mono = Component.objects.create(
-            name="Test2",
-            slug="test2",
-            project=self.project,
-            repo="weblate://test/test",
-            file_format="json",
-            filemask="json-mono/*.json",
-            template="json-mono/en.json",
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            mono = Component.objects.create(
+                name="Test2",
+                slug="test2",
+                project=self.project,
+                repo="weblate://test/test",
+                file_format="json",
+                filemask="json-mono/*.json",
+                template="json-mono/en.json",
+            )
         # Translate single unit
         translation = mono.translation_set.get(language_code="cs")
         translation.unit_set.get(context="hello").translate(
