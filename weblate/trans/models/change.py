@@ -396,7 +396,10 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_COMMENT_DELETE, gettext_lazy("Removed comment")),
         # Translators: Name of event in the history
-        (ACTION_COMMENT_RESOLVE, gettext_lazy("Resolved comment")),
+        (
+            ACTION_COMMENT_RESOLVE,
+            pgettext_lazy("Name of event in the history", "Resolved comment"),
+        ),
         # Translators: Name of event in the history
         (ACTION_EXPLANATION, gettext_lazy("Explanation updated")),
     )
