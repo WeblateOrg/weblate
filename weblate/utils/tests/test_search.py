@@ -501,6 +501,8 @@ class SuperuserQueryParserTest(UserQueryParserTest):
 class SearchTest(ViewTestCase, SearchMixin):
     """Search tests on real projects."""
 
+    CREATE_GLOSSARIES: bool = True
+
     def test_glossary_empty(self):
         self.assert_query("has:glossary", Q(source__isnull=True), project=self.project)
 

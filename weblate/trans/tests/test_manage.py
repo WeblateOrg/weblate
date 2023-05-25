@@ -52,7 +52,7 @@ class RemovalTest(ViewTestCase):
 
     def test_project_language(self):
         self.make_manager()
-        self.assertEqual(Translation.objects.count(), 8)
+        self.assertEqual(Translation.objects.count(), 4)
         url = reverse(
             "remove-project-language",
             kwargs={"project": self.project.slug, "lang": "cs"},
@@ -63,7 +63,7 @@ class RemovalTest(ViewTestCase):
         )
         response = self.client.post(url, {"confirm": "test/cs"}, follow=True)
         self.assertContains(response, "A language in the project was removed.")
-        self.assertEqual(Translation.objects.count(), 6)
+        self.assertEqual(Translation.objects.count(), 3)
 
 
 class RenameTest(ViewTestCase):

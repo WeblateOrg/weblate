@@ -2914,7 +2914,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             self.invalidate_cache()
 
         # Make sure we create glossary
-        if create:
+        if create and settings.CREATE_GLOSSARIES:
             self.create_glossary()
 
             # Make sure all languages are present

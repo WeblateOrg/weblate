@@ -457,6 +457,10 @@ class ComponentTest(RepoTestCase):
         component.save()
         self.assertEqual(Check.objects.count(), 0)
 
+
+class AutoAddonTest(RepoTestCase):
+    CREATE_GLOSSARIES = True
+
     @override_settings(
         DEFAULT_ADDONS={
             # Invalid addon name
@@ -508,7 +512,7 @@ class ComponentDeleteTest(RepoTestCase):
         self.assertTrue(os.path.exists(component.full_path))
         component.delete()
         self.assertFalse(os.path.exists(component.full_path))
-        self.assertEqual(1, Component.objects.count())
+        self.assertEqual(0, Component.objects.count())
 
     def test_delete_link(self):
         component = self.create_link()

@@ -15,6 +15,7 @@ from celery.contrib.testing.tasks import ping
 from celery.result import allow_join_result
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
+from django.test.utils import override_settings
 from django.utils import timezone
 from django.utils.functional import cached_property
 
@@ -65,6 +66,7 @@ class RepoTestMixin:
     """Mixin for testing with test repositories."""
 
     updated_base_repos: Set[str] = set()
+    CREATE_GLOSSARIES: bool = False
 
     local_repo_path = "local:"
 
@@ -210,18 +212,19 @@ class RepoTestMixin:
             else:
                 branch = VCS_REGISTRY[vcs].get_remote_branch(repo)
 
-        return Component.objects.create(
-            repo=repo,
-            push=push,
-            branch=branch,
-            filemask=mask,
-            template=template,
-            file_format=file_format,
-            repoweb=REPOWEB_URL,
-            new_base=new_base,
-            vcs=vcs,
-            **kwargs,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            return Component.objects.create(
+                repo=repo,
+                push=push,
+                branch=branch,
+                filemask=mask,
+                template=template,
+                file_format=file_format,
+                repoweb=REPOWEB_URL,
+                new_base=new_base,
+                vcs=vcs,
+                **kwargs,
+            )
 
     @staticmethod
     def configure_mt():
@@ -390,29 +393,31 @@ class RepoTestMixin:
 
     def create_link(self, **kwargs):
         parent = self.create_iphone(*kwargs)
-        return Component.objects.create(
-            name="Test2",
-            slug="test2",
-            project=parent.project,
-            repo="weblate://test/test",
-            file_format="po",
-            filemask="po/*.po",
-            new_lang="contact",
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            return Component.objects.create(
+                name="Test2",
+                slug="test2",
+                project=parent.project,
+                repo="weblate://test/test",
+                file_format="po",
+                filemask="po/*.po",
+                new_lang="contact",
+            )
 
     def create_link_existing(self):
         component = self.component
         if "linked_childs" in component.__dict__:
             del component.__dict__["linked_childs"]
-        return Component.objects.create(
-            name="Test2",
-            slug="test2",
-            project=self.project,
-            repo=component.get_repo_link_url(),
-            file_format="po",
-            filemask="po-duplicates/*.dpo",
-            new_lang="contact",
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            return Component.objects.create(
+                name="Test2",
+                slug="test2",
+                project=self.project,
+                repo=component.get_repo_link_url(),
+                file_format="po",
+                filemask="po-duplicates/*.dpo",
+                new_lang="contact",
+            )
 
 
 class TempDirMixin:

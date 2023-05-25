@@ -231,6 +231,7 @@ class SameCheckTest(CheckTestCase):
 
 class GlossarySameCheckTest(ViewTestCase):
     check = SameCheck()
+    CREATE_GLOSSARIES = True
 
     def setUp(self):
         super().setUp()
