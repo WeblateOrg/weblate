@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,13 +17,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import json
+import math
 import os
 from functools import reduce
 
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
@@ -40,6 +41,7 @@ from weblate.memory.utils import (
     CATEGORY_SHARED,
     CATEGORY_USER_OFFSET,
 )
+from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.errors import report_error
 
 
@@ -61,16 +63,27 @@ class MemoryQuerySet(models.QuerySet):
     def filter_type(self, user=None, project=None, use_shared=False, from_file=False):
         query = []
         if from_file:
-            query.append(models.Q(from_file=from_file))
+            query.append(Q(from_file=from_file))
         if use_shared:
-            query.append(models.Q(shared=use_shared))
+            query.append(Q(shared=use_shared))
         if project:
-            query.append(models.Q(project=project))
+            query.append(Q(project=project))
         if user:
-            query.append(models.Q(user=user))
+            query.append(Q(user=user))
         return self.filter(reduce(lambda x, y: x | y, query))
 
-    def lookup(self, source_language, target_language, text, user, project, use_shared):
+    def lookup(
+        self, source_language, target_language, text: str, user, project, use_shared
+    ):
+        # Basic similarity for short strings
+        length = len(text)
+        threshold = 0.5
+        # Adjust similarity based on string length to get more relevant matches
+        # for long strings
+        if length > 50:
+            threshold = 1 - 28.1838 * math.log(0.0443791 * length) / length
+        adjust_similarity_threshold(threshold)
+        # Actual database query
         return self.filter_type(
             # Type filtering
             user=user,
@@ -78,11 +91,11 @@ class MemoryQuerySet(models.QuerySet):
             use_shared=use_shared,
             from_file=True,
         ).filter(
+            # Full-text search on source
+            source__search=text,
             # Language filtering
             source_language=source_language,
             target_language=target_language,
-            # Full-text search on source
-            source__search=text,
         )[
             :50
         ]
@@ -93,10 +106,10 @@ class MemoryQuerySet(models.QuerySet):
 
 class MemoryManager(models.Manager):
     def import_file(self, request, fileobj, langmap=None, **kwargs):
-        origin = force_str(os.path.basename(fileobj.name)).lower()
+        origin = os.path.basename(fileobj.name).lower()
         name, extension = os.path.splitext(origin)
         if len(name) > 25:
-            origin = "{}...{}".format(name[:25], extension)
+            origin = f"{name[:25]}...{extension}"
 
         if extension == ".tmx":
             result = self.import_tmx(request, fileobj, origin, langmap, **kwargs)
@@ -134,7 +147,7 @@ class MemoryManager(models.Manager):
                     source=entry["source"],
                     target=entry["target"],
                     origin=origin,
-                    **kwargs
+                    **kwargs,
                 )
                 found += 1
             except Language.DoesNotExist:
@@ -187,7 +200,7 @@ class MemoryManager(models.Manager):
                     source=source,
                     target=text,
                     origin=origin,
-                    **kwargs
+                    **kwargs,
                 )
                 found += 1
         return found
@@ -225,13 +238,17 @@ class Memory(models.Model):
         blank=True,
         default=None,
     )
-    from_file = models.BooleanField(db_index=True, default=False)
-    shared = models.BooleanField(db_index=True, default=False)
+    from_file = models.BooleanField(default=False)
+    shared = models.BooleanField(default=False)
 
     objects = MemoryManager.from_queryset(MemoryQuerySet)()
 
+    class Meta:
+        verbose_name = "Translation memory entry"
+        verbose_name_plural = "Translation memory entries"
+
     def __str__(self):
-        return "Memory: {}:{}".format(self.source_language, self.target_language)
+        return f"Memory: {self.source_language}:{self.target_language}"
 
     def get_origin_display(self):
         if self.project:

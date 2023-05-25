@@ -15,17 +15,8 @@ var multi = (function() {
     el.dispatchEvent(e);
   };
 
-  // Toggles the target option on the select
-  var toggle_option = function(select, event, settings) {
-    var option = select.options[event.target.getAttribute("multi-index")];
-
-    if (option.disabled) {
-      return;
-    }
-
-    option.selected = !option.selected;
-
-    // Check if there is a limit and if is reached
+   // Check if there is a limit and if is reached
+   var check_limit = function (select, settings) {
     var limit = settings.limit;
     if (limit > -1) {
       // Count current selected
@@ -66,6 +57,19 @@ var multi = (function() {
         this.disabled_limit = false;
       }
     }
+  };
+
+  // Toggles the target option on the select
+  var toggle_option = function(select, event, settings) {
+    var option = select.options[event.target.getAttribute("multi-index")];
+
+    if (option.disabled) {
+      return;
+    }
+
+    option.selected = !option.selected;
+
+    check_limit(select, settings);
 
     trigger_event("change", select);
   };
@@ -164,6 +168,17 @@ var multi = (function() {
         }
       }
     }
+
+    // Hide empty optgroups
+    if (settings.hide_empty_groups) {
+      var optgroups = document.getElementsByClassName('item-group');
+      for (var i = 0; i < optgroups.length; i++) {
+        // Hide optgroup if optgroup only contains a group label
+        if (optgroups[i].childElementCount < 2) {
+          optgroups[i].style.display = 'none';
+        }
+      }
+    }
   };
 
   // Intializes and constructs an multi.js instance
@@ -200,6 +215,10 @@ var multi = (function() {
     if (isNaN(settings["limit"])) {
       settings["limit"] = -1;
     }
+    settings["hide_empty_groups"] =
+      typeof settings["hide_empty_groups"] !== "undefined"
+        ? settings["hide_empty_groups"]
+        : false;
 
     // Check if already initalized
     if (select.dataset.multijs != null) {
@@ -225,6 +244,7 @@ var multi = (function() {
       search.className = "search-input";
       search.type = "text";
       search.setAttribute("placeholder", settings.search_placeholder);
+      search.setAttribute("title", settings.search_placeholder);
 
       search.addEventListener("input", function() {
         refresh_select(select, settings);
@@ -276,6 +296,9 @@ var multi = (function() {
       var option = select.options[i];
       option.setAttribute("data-origin-disabled", option.disabled);
     }
+
+    // Check limit on initialization
+    check_limit(select, settings);
 
     // Initialize selector with values from select element
     refresh_select(select, settings);

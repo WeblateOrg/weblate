@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,7 +19,6 @@
 
 from weblate.machinery.base import MachineTranslation, get_machinery_language
 from weblate.memory.models import Memory
-from weblate.utils.search import Comparer
 
 
 class WeblateMemory(MachineTranslation):
@@ -29,6 +28,7 @@ class WeblateMemory(MachineTranslation):
     rank_boost = 2
     cache_translations = False
     same_languages = True
+    accounting_key = "internal"
     do_cleanup = False
 
     def convert_language(self, language):
@@ -43,9 +43,17 @@ class WeblateMemory(MachineTranslation):
         """This service has no rate limiting."""
         return False
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Download list of possible translations from a service."""
-        comparer = Comparer()
         for result in Memory.objects.lookup(
             source,
             language,
@@ -54,8 +62,8 @@ class WeblateMemory(MachineTranslation):
             unit.translation.component.project,
             unit.translation.component.project.use_shared_tm,
         ).iterator():
-            quality = comparer.similarity(text, result.source)
-            if quality < 10 or (quality < 75 and not search):
+            quality = self.comparer.similarity(text, result.source)
+            if quality < 10 or (quality < threshold and not search):
                 continue
             yield {
                 "text": result.target,
@@ -63,4 +71,5 @@ class WeblateMemory(MachineTranslation):
                 "service": self.name,
                 "origin": result.get_origin_display(),
                 "source": result.source,
+                "show_quality": True,
             }

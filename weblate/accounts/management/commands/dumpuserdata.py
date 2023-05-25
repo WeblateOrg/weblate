@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -42,7 +42,7 @@ class Command(BaseCommand):
         )
 
         for profile in profiles:
-            if not profile.user.is_active:
+            if not profile.user.is_active or profile.user.is_bot:
                 continue
             data.append(profile.dump_data())
 

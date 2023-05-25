@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -59,6 +59,12 @@ class FlagTest(SimpleTestCase):
         self.assertEqual(
             flags.format(), r'''placeholders:"bar: \"value\"":"baz 'value'"'''
         )
+        flags = Flags(r'regex:"((?:@:\(|\{)[^\)\}]+(?:\)|\}))"')
+        self.assertEqual(flags.format(), r'regex:"((?:@:\(|\{)[^\)\}]+(?:\)|\}))"')
+
+    def test_newline(self):
+        flags = Flags(r"""placeholders:"\n" """)
+        self.assertEqual(flags.get_value("placeholders"), ["\n"])
 
     def test_validate_value(self):
         with self.assertRaises(ValidationError):
@@ -94,6 +100,21 @@ class FlagTest(SimpleTestCase):
         flags = Flags("regex:.*")
         regex = flags.get_value("regex")
         self.assertEqual(regex.pattern, ".*")
+        flags = Flags('regex:r".*"')
+        regex = flags.get_value("regex")
+        self.assertEqual(regex.pattern, ".*")
+
+    def test_regex_value(self):
+        flags = Flags("placeholders:r")
+        self.assertEqual(flags.get_value("placeholders"), ["r"])
+        flags = Flags("placeholders:r:r")
+        self.assertEqual(flags.get_value("placeholders"), ["r", "r"])
+        flags = Flags("placeholders:r,r")
+        self.assertEqual(flags.get_value("placeholders"), ["r"])
+        flags = Flags('placeholders:r".*"')
+        values = flags.get_value("placeholders")
+        self.assertEqual(len(values), 1)
+        self.assertEqual(values[0].pattern, ".*")
 
     def test_whitespace(self):
         self.assertEqual(Flags("  foo    , bar  ").items(), {"foo", "bar"})
@@ -108,6 +129,9 @@ class FlagTest(SimpleTestCase):
                 ("max-size", "120", "2"),
                 ("font-spacing", "2"),
             },
+        )
+        self.assertEqual(
+            Flags("font-family: segoeui").items(), {("font-family", "segoeui")}
         )
 
     def test_unicode(self):
@@ -145,4 +169,15 @@ class FlagTest(SimpleTestCase):
     def test_empty_params(self):
         self.test_replacements(
             "replacements:{COLOR-GREY}::{COLOR-GARNET}::{VARIABLE-01}:99"
+        )
+
+    def test_escaped_values(self):
+        flags = Flags(r"""placeholders:"\\":"\"" """)
+        self.assertEqual(flags.get_value("placeholders"), ["\\", '"'])
+
+    def test_set(self):
+        flags = Flags()
+        flags.set_value("variant", "Long string with \"quotes\" and 'quotes'.")
+        self.assertEqual(
+            flags.format(), r'''variant:"Long string with \"quotes\" and 'quotes'."'''
         )

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -26,19 +26,9 @@ from django.core.cache import cache
 from siphashc import siphash
 
 from weblate.trans.util import get_clean_env
-from weblate.utils.checks import weblate_check
 from weblate.utils.errors import report_error
 
 GPG_ERRORS = {}
-
-
-def check_gpg(app_configs, **kwargs):
-    get_gpg_public_key()
-    template = "{}: {}"
-    return [
-        weblate_check("weblate.C036", template.format(key, message))
-        for key, message in GPG_ERRORS.items()
-    ]
 
 
 def gpg_error(name: str, error: Exception, silent: bool = False):
@@ -67,9 +57,8 @@ def generate_gpg_key() -> Optional[str]:
                 "never",
             ],
             env=get_clean_env(),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            universal_newlines=True,
+            capture_output=True,
+            text=True,
             check=True,
         )
         return get_gpg_key()
@@ -88,10 +77,9 @@ def get_gpg_key(silent=False) -> Optional[str]:
                 "--list-secret-keys",
                 settings.WEBLATE_GPG_IDENTITY,
             ],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             env=get_clean_env(),
-            universal_newlines=True,
+            text=True,
             check=True,
         )
         for line in result.stdout.splitlines():
@@ -136,9 +124,8 @@ def get_gpg_public_key() -> Optional[str]:
             result = subprocess.run(
                 ["gpg", "--batch", "-armor", "--export", key],
                 env=get_clean_env(),
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                universal_newlines=True,
+                capture_output=True,
+                text=True,
                 check=True,
             )
             data = result.stdout

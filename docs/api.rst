@@ -1,8 +1,8 @@
-.. _api:
-
 .. index::
     single: REST
     single: API
+
+.. _api:
 
 Weblate's REST API
 ==================
@@ -34,13 +34,15 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
                    Possible values depends on REST framework setup,
                    by default ``json`` and ``api`` are supported. The
                    latter provides web browser interface for API.
+    :query page: Returns given page of paginated results (use `next` and `previous` fields in response to automate the navigation).
     :reqheader Accept: the response content type depends on
                        :http:header:`Accept` header
-    :reqheader Authorization: optional token to authenticate
+    :reqheader Authorization: optional token to authenticate as
+                              ``Authorization: Token YOUR-TOKEN``
     :resheader Content-Type: this depends on :http:header:`Accept`
                              header of request
     :resheader Allow: list of allowed HTTP methods on object
-    :>json string detail: verbose description of failure (for HTTP status codes other than :http:statuscode:`200`)
+    :>json string detail: verbose description of the result (for HTTP status codes other than :http:statuscode:`200`)
     :>json int count: total item count for object lists
     :>json string next: next page URL for object lists
     :>json string previous: previous page URL for object lists
@@ -48,9 +50,24 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
     :>json string url: URL to access this resource using API
     :>json string web_url: URL to access this resource using web browser
     :status 200: when request was correctly handled
+    :status 201: when a new object was created successfully
+    :status 204: when an object was deleted successfully
     :status 400: when form parameters are missing
     :status 403: when access is denied
     :status 429: when throttling is in place
+
+Authentication tokens
+~~~~~~~~~~~~~~~~~~~~~
+
+.. versionchanged:: 4.10
+
+   Project scoped tokens were introduced in the 4.10 release.
+
+Each user has his personal access token which can be obtained in the user
+profile. Newly generated user tokens have the ``wlu_`` prefix.
+
+It is possible to create project scoped tokens for API access to given project
+only. These tokens can be identified by the ``wlp_`` prefix.
 
 Authentication examples
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -143,8 +160,10 @@ form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON
         -H "Authorization: Token TOKEN" \
         http://example.com/api/components/hello/weblate/repository/
 
-Rate limiting
-~~~~~~~~~~~~~
+.. _api-rate:
+
+API rate limiting
+~~~~~~~~~~~~~~~~~
 
 The API requests are rate limited; the default configuration limits it to 100
 requests per day for anonymous users and 5000 requests per hour for authenticated
@@ -153,6 +172,9 @@ users.
 Rate limiting can be adjusted in the :file:`settings.py`; see
 `Throttling in Django REST framework documentation <https://www.django-rest-framework.org/api-guide/throttling/>`_
 for more details how to configure it.
+
+In the Docker container this can be configured using
+:envvar:`WEBLATE_API_RATELIMIT_ANON` and :envvar:`WEBLATE_API_RATELIMIT_USER`.
 
 The status of rate limiting is reported in following headers:
 
@@ -167,6 +189,13 @@ The status of rate limiting is reported in following headers:
 .. versionchanged:: 4.1
 
     Added ratelimiting status headers.
+
+.. seealso::
+
+   :ref:`rate-limit`,
+   :ref:`user-rate`,
+   :envvar:`WEBLATE_API_RATELIMIT_ANON`,
+   :envvar:`WEBLATE_API_RATELIMIT_USER`
 
 
 API Entry Point
@@ -234,6 +263,8 @@ Users
     :type is_superuser: boolean
     :param is_active: Is user active? (optional)
     :type is_active: boolean
+    :param is_bot: Is user bot? (optional) (used for project scoped tokens)
+    :type is_bot: boolean
 
 .. http:get:: /api/users/(str:username)/
 
@@ -246,6 +277,7 @@ Users
     :>json string email: email of a user
     :>json boolean is_superuser: whether the user is a super user
     :>json boolean is_active: whether the user is active
+    :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
     :>json array groups: link to associated groups; see :http:get:`/api/groups/(int:id)/`
 
@@ -263,8 +295,10 @@ Users
             ],
             "is_superuser": true,
             "is_active": true,
+            "is_bot": false,
             "date_joined": "2020-03-29T18:42:42.617681Z",
-            "url": "http://example.com/api/users/exampleusername/"
+            "url": "http://example.com/api/users/exampleusername/",
+            "statistics_url": "http://example.com/api/users/exampleusername/statistics/"
         }
 
 .. http:put:: /api/users/(str:username)/
@@ -278,6 +312,7 @@ Users
     :>json string email: email of a user
     :>json boolean is_superuser: whether the user is a super user
     :>json boolean is_active: whether the user is active
+    :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
 
 .. http:patch:: /api/users/(str:username)/
@@ -291,6 +326,7 @@ Users
     :>json string email: email of a user
     :>json boolean is_superuser: whether the user is a super user
     :>json boolean is_active: whether the user is active
+    :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
 
 .. http:delete:: /api/users/(str:username)/
@@ -307,6 +343,28 @@ Users
     :param username: User's username
     :type username: string
     :form string group_id: The unique group ID
+
+.. http:delete:: /api/users/(str:username)/groups/
+
+    .. versionadded:: 4.13.1
+
+    Remove user from a group.
+
+    :param username: User's username
+    :type username: string
+    :form string group_id: The unique group ID
+
+.. http:get:: /api/users/(str:username)/statistics/
+
+    List statistics of a user.
+
+    :param username: User's username
+    :type username: string
+    :>json int translated: Number of translations by user
+    :>json int suggested: Number of suggestions by user
+    :>json int uploaded: Number of uploads by user
+    :>json int commented: Number of comments by user
+    :>json int languages: Number of languages user can translate
 
 .. http:get:: /api/users/(str:username)/notifications/
 
@@ -392,6 +450,8 @@ Groups
     :type project_selection: int
     :param language_selection: Group of languages selected from given options
     :type language_selection: int
+    :param defining_project: link to the defining project, used for :ref:`manage-acl`; see :http:get:`/api/projects/(string:project)/`
+    :type defining_project: str
 
 .. http:get:: /api/groups/(int:id)/
 
@@ -405,7 +465,8 @@ Groups
     :>json array roles: link to associated roles; see :http:get:`/api/roles/(int:id)/`
     :>json array projects: link to associated projects; see :http:get:`/api/projects/(string:project)/`
     :>json array components: link to associated components; see :http:get:`/api/components/(string:project)/(string:component)/`
-    :>json array componentlist: link to associated componentlist; see :http:get:`/api/component-lists/(str:slug)/`
+    :>json array componentlists: link to associated componentlist; see :http:get:`/api/component-lists/(str:slug)/`
+    :>json str defining_project: link to the defining project, used for :ref:`manage-acl`; see :http:get:`/api/projects/(string:project)/`
 
     **Example JSON data:**
 
@@ -413,6 +474,7 @@ Groups
 
         {
             "name": "Guests",
+            "defining_project": null,
             "project_selection": 3,
             "language_selection": 1,
             "url": "http://example.com/api/groups/1/",
@@ -626,8 +688,10 @@ Languages
     :type code: string
     :param name: Language name
     :type name: string
-    :param direction: Language direction
+    :param direction: Text direction
     :type direction: string
+    :param population: Number of speakers
+    :type population: int
     :param plural: Language plural formula and number
     :type plural: object
 
@@ -639,6 +703,7 @@ Languages
     :type language: string
     :>json string code: Language code
     :>json string direction: Text direction
+    :<json int population: Number of speakers
     :>json object plural: Object of language plural information
     :>json array aliases: Array of aliases for language
 
@@ -650,6 +715,7 @@ Languages
             "code": "en",
             "direction": "ltr",
             "name": "English",
+            "population": 159034349015,
             "plural": {
                 "id": 75,
                 "source": 0,
@@ -676,7 +742,8 @@ Languages
     :param language: Language's code
     :type language: string
     :<json string name: Language name
-    :<json string direction: Language direction
+    :<json string direction: Text direction
+    :<json int population: Number of speakers
     :<json object plural: Language plural details
 
 .. http:patch:: /api/languages/(string:language)/
@@ -686,12 +753,13 @@ Languages
     :param language: Language's code
     :type language: string
     :<json string name: Language name
-    :<json string direction: Language direction
+    :<json string direction: Text direction
+    :<json int population: Number of speakers
     :<json object plural: Language plural details
 
 .. http:delete:: /api/languages/(string:language)/
 
-    Deletes the Language.
+    Deletes the language.
 
     :param language: Language's code
     :type language: string
@@ -713,8 +781,8 @@ Languages
     :>json int translated_chars: number of translated characters
     :>json int translated_chars_percent: percentage of translated characters
     :>json int total_chars: number of total characters
-    :>json int fuzzy: number of fuzzy strings
-    :>json int fuzzy_percent: percentage of fuzzy strings
+    :>json int fuzzy: number of fuzzy (marked for edit) strings
+    :>json int fuzzy_percent: percentage of fuzzy (marked for edit) strings
     :>json int failing: number of failing strings
     :>json int failing: percentage of failing strings
 
@@ -742,8 +810,6 @@ Projects
     :type slug: string
     :param web: Project website
     :type web: string
-    :param source_language: Project source language code (optional)
-    :type source_language: string
 
 .. http:get:: /api/projects/(string:project)/
 
@@ -753,11 +819,16 @@ Projects
     :type project: string
     :>json string name: project name
     :>json string slug: project slug
-    :>json object source_language: source language object; see :http:get:`/api/languages/(string:language)/`
     :>json string web: project website
     :>json string components_list_url: URL to components list; see :http:get:`/api/projects/(string:project)/components/`
     :>json string repository_url: URL to repository status; see :http:get:`/api/projects/(string:project)/repository/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`
+    :>json boolean translation_review: :ref:`project-translation_review`
+    :>json boolean source_review: :ref:`project-source_review`
+    :>json boolean set_language_team: :ref:`project-set_language_team`
+    :>json boolean enable_hooks: :ref:`project-enable_hooks`
+    :>json string instructions: :ref:`project-instructions`
+    :>json string language_aliases: :ref:`project-language_aliases`
 
     **Example JSON data:**
 
@@ -766,17 +837,30 @@ Projects
         {
             "name": "Hello",
             "slug": "hello",
-            "source_language": {
-                "code": "en",
-                "direction": "ltr",
-                "name": "English",
-                "url": "http://example.com/api/languages/en/",
-                "web_url": "http://example.com/languages/en/"
-            },
             "url": "http://example.com/api/projects/hello/",
             "web": "https://weblate.org/",
             "web_url": "http://example.com/projects/hello/"
         }
+
+.. http:patch:: /api/projects/(string:project)/
+
+    .. versionadded:: 4.3
+
+    Edit a project by a :http:method:`PATCH` request.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+
+.. http:put:: /api/projects/(string:project)/
+
+    .. versionadded:: 4.3
+
+    Edit a project by a :http:method:`PUT` request.
+
+    :param project: Project URL slug
+    :type project: string
 
 .. http:delete:: /api/projects/(string:project)/
 
@@ -826,7 +910,7 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
+    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``, ``file-sync``
     :>json boolean result: result of the operation
 
     **CURL example:**
@@ -879,36 +963,72 @@ Projects
 
     .. versionadded:: 3.9
 
+    .. versionchanged:: 4.3
+
+       The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less components, see :ref:`vcs-local`.
+
+    .. versionchanged:: 4.6
+
+       The cloned repositories are now automatically shared within a project using :ref:`internal-urls`. Use ``disable_autoshare`` to turn off this.
+
     Creates translation components in the given project.
+
+    .. hint::
+
+       Use :ref:`internal-urls` when creating multiple components from a single VCS repository.
+
+    .. note::
+
+        Most of the component creation happens in the background. Check the
+        ``task_url`` attribute of created component and follow the progress
+        there.
 
     :param project: Project URL slug
     :type project: string
+    :form file zipfile: ZIP file to upload into Weblate for translations initialization
+    :form file docfile: Document to translate
+    :form boolean disable_autoshare: Disables automatic repository sharing via :ref:`internal-urls`.
+    :<json object: Component parameters, see :http:get:`/api/components/(string:project)/(string:component)/`
     :>json object result: Created component object; see :http:get:`/api/components/(string:project)/(string:component)/`
 
-    **CURL example:**
+    JSON can not be used when uploading the files using the ``zipfile`` and
+    ``docfile`` parameters. The data has to be uploaded as
+    :mimetype:`multipart/form-data`.
+
+    **CURL form request example:**
+
+    .. code-block:: sh
+
+        curl \
+            --form docfile=@strings.html \
+            --form name=Weblate \
+            --form slug=weblate \
+            --form file_format=html \
+            --form new_lang=add \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/projects/hello/components/
+
+    **CURL JSON request example:**
 
     .. code-block:: sh
 
         curl \
             --data-binary '{
-                "branch": "master",
+                "branch": "main",
                 "file_format": "po",
                 "filemask": "po/*.po",
-                "git_export": "",
-                "license": "",
-                "license_url": "",
                 "name": "Weblate",
                 "slug": "weblate",
-                "repo": "file:///home/nijel/work/weblate-hello",
+                "repo": "https://github.com/WeblateOrg/hello.git",
                 "template": "",
-                "new_base": "",
+                "new_base": "po/hello.pot",
                 "vcs": "git"
             }' \
             -H "Content-Type: application/json" \
             -H "Authorization: Token TOKEN" \
             http://example.com/api/projects/hello/components/
 
-    **JSON request example:**
+    **JSON request to create a new component from Git:**
 
     .. sourcecode:: http
 
@@ -920,17 +1040,36 @@ Projects
         Content-Length: 20
 
         {
-            "branch": "master",
+            "branch": "main",
             "file_format": "po",
             "filemask": "po/*.po",
-            "git_export": "",
-            "license": "",
-            "license_url": "",
             "name": "Weblate",
             "slug": "weblate",
-            "repo": "file:///home/nijel/work/weblate-hello",
+            "repo": "https://github.com/WeblateOrg/hello.git",
             "template": "",
-            "new_base": "",
+            "new_base": "po/hello.pot",
+            "vcs": "git"
+        }
+
+    **JSON request to create a new component from another one:**
+
+    .. sourcecode:: http
+
+        POST /api/projects/hello/components/ HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Content-Type: application/json
+        Authorization: Token TOKEN
+        Content-Length: 20
+
+        {
+            "file_format": "po",
+            "filemask": "po/*.po",
+            "name": "Weblate",
+            "slug": "weblate",
+            "repo": "weblate://weblate/hello",
+            "template": "",
+            "new_base": "po/hello.pot",
             "vcs": "git"
         }
 
@@ -948,7 +1087,7 @@ Projects
         Allow: GET, POST, HEAD, OPTIONS
 
         {
-            "branch": "master",
+            "branch": "main",
             "file_format": "po",
             "filemask": "po/*.po",
             "git_export": "",
@@ -962,6 +1101,7 @@ Projects
                 "source_language": {
                     "code": "en",
                     "direction": "ltr",
+                     "population": 159034349015,
                     "name": "English",
                     "url": "http://example.com/api/languages/en/",
                     "web_url": "http://example.com/languages/en/"
@@ -1014,6 +1154,10 @@ Projects
 Components
 ++++++++++
 
+.. hint::
+
+   Use :http:post:`/api/projects/(string:project)/components/` to create new components.
+
 .. http:get:: /api/components/
 
     Returns a list of translation components.
@@ -1048,6 +1192,7 @@ Components
     :>json string agreement: :ref:`component-agreement`
     :>json string new_lang: :ref:`component-new_lang`
     :>json string language_code_style: :ref:`component-language_code_style`
+    :>json object source_language: source language object; see :http:get:`/api/languages/(string:language)/`
     :>json string push: :ref:`component-push`
     :>json string check_flags: :ref:`component-check_flags`
     :>json string priority: :ref:`component-priority`
@@ -1061,6 +1206,7 @@ Components
     :>json string delete_message: :ref:`component-delete_message`
     :>json string merge_message: :ref:`component-merge_message`
     :>json string addon_message: :ref:`component-addon_message`
+    :>json string pull_message: :ref:`component-pull_message`
     :>json string allow_translation_propagation: :ref:`component-allow_translation_propagation`
     :>json string enable_suggestions: :ref:`component-enable_suggestions`
     :>json string suggestion_voting: :ref:`component-suggestion_voting`
@@ -1074,13 +1220,14 @@ Components
     :>json string translations_url: URL to translations list; see :http:get:`/api/components/(string:project)/(string:component)/translations/`
     :>json string lock_url: URL to lock status; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/components/(string:project)/(string:component)/changes/`
+    :>json string task_url: URL to a background task (if any); see :http:get:`/api/tasks/(str:uuid)/`
 
     **Example JSON data:**
 
     .. code-block:: json
 
         {
-            "branch": "master",
+            "branch": "main",
             "file_format": "po",
             "filemask": "po/*.po",
             "git_export": "",
@@ -1094,6 +1241,7 @@ Components
                 "source_language": {
                     "code": "en",
                     "direction": "ltr",
+                     "population": 159034349015,
                     "name": "English",
                     "url": "http://example.com/api/languages/en/",
                     "web_url": "http://example.com/languages/en/"
@@ -1101,6 +1249,14 @@ Components
                 "url": "http://example.com/api/projects/hello/",
                 "web": "https://weblate.org/",
                 "web_url": "http://example.com/projects/hello/"
+            },
+            "source_language": {
+                "code": "en",
+                "direction": "ltr",
+                "population": 159034349015,
+                "name": "English",
+                "url": "http://example.com/api/languages/en/",
+                "web_url": "http://example.com/languages/en/"
             },
             "repo": "file:///home/nijel/work/weblate-hello",
             "template": "",
@@ -1112,12 +1268,14 @@ Components
 
 .. http:patch:: /api/components/(string:project)/(string:component)/
 
-    Edit a component by a patch request.
+    Edit a component by a :http:method:`PATCH` request.
 
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
     :type component: string
+    :param source_language: Project source language code (optional)
+    :type source_language: string
     :<json string name: name of component
     :<json string slug: slug of component
     :<json string repo: VCS repository URL
@@ -1161,7 +1319,7 @@ Components
         Allow: GET, POST, HEAD, OPTIONS
 
         {
-            "branch": "master",
+            "branch": "main",
             "file_format": "po",
             "filemask": "po/*.po",
             "git_export": "",
@@ -1175,6 +1333,7 @@ Components
                 "source_language": {
                     "code": "en",
                     "direction": "ltr",
+                    "population": 159034349015,
                     "name": "English",
                     "url": "http://example.com/api/languages/en/",
                     "web_url": "http://example.com/languages/en/"
@@ -1193,7 +1352,7 @@ Components
 
 .. http:put:: /api/components/(string:project)/(string:component)/
 
-    Edit a component by a put request.
+    Edit a component by a :http:method:`PUT` request.
 
     :param project: Project URL slug
     :type project: string
@@ -1230,6 +1389,20 @@ Components
     :param component: Component URL slug
     :type component: string
     :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
+
+.. http:get:: /api/components/(string:project)/(string:component)/file/
+
+
+    .. versionadded:: 4.9
+
+    Downloads all available translations associated with the component as an archive file using the requested format.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+
+    :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip``
 
 .. http:get::  /api/components/(string:project)/(string:component)/screenshots/
 
@@ -1466,6 +1639,7 @@ Components
             "language": {
                 "code": "cs",
                 "direction": "ltr",
+                "population": 1303174280
                 "name": "Czech",
                 "url": "http://example.com/api/languages/cs/",
                 "web_url": "http://example.com/languages/cs/"
@@ -1497,6 +1671,44 @@ Components
     :type component: string
     :>json array results: array of translation statistics objects; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
 
+.. http:get:: /api/components/(string:project)/(string:component)/links/
+
+    Returns projects linked with a component.
+
+    .. versionadded:: 4.5
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :>json array projects: associated projects; see :http:get:`/api/projects/(string:project)/`
+
+.. http:post:: /api/components/(string:project)/(string:component)/links/
+
+    Associate project with a component.
+
+    .. versionadded:: 4.5
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :form string project_slug: Project slug
+
+.. http:delete:: /api/components/(string:project)/(string:component)/links/(string:project_slug)/
+
+    Remove association of a project with a component.
+
+    .. versionadded:: 4.5
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param project_slug: Slug of the project to remove
+    :type project_slug: string
+
+
 Translations
 ++++++++++++
 
@@ -1523,9 +1735,9 @@ Translations
     :>json float failing_checks_percent: percentage of strings failing checks
     :>json int failing_checks_words: number of words with failing checks
     :>json string filename: translation filename
-    :>json int fuzzy: number of strings marked for review
-    :>json float fuzzy_percent: percentage of strings marked for review
-    :>json int fuzzy_words: number of words marked for review
+    :>json int fuzzy: number of fuzzy (marked for edit) strings
+    :>json float fuzzy_percent: percentage of fuzzy (marked for edit) strings
+    :>json int fuzzy_words: number of words in fuzzy (marked for edit) strings
     :>json int have_comment: number of strings with comment
     :>json int have_suggestion: number of strings with suggestion
     :>json boolean is_template: whether the translation has a monolingual base
@@ -1552,7 +1764,7 @@ Translations
 
         {
             "component": {
-                "branch": "master",
+                "branch": "main",
                 "file_format": "po",
                 "filemask": "po/*.po",
                 "git_export": "",
@@ -1566,6 +1778,7 @@ Translations
                     "source_language": {
                         "code": "en",
                         "direction": "ltr",
+                        "population": 159034349015,
                         "name": "English",
                         "url": "http://example.com/api/languages/en/",
                         "web_url": "http://example.com/languages/en/"
@@ -1594,6 +1807,7 @@ Translations
             "language": {
                 "code": "cs",
                 "direction": "ltr",
+                "population": 1303174280
                 "name": "Czech",
                 "url": "http://example.com/api/languages/cs/",
                 "web_url": "http://example.com/languages/cs/"
@@ -1651,11 +1865,13 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
+    :param q: Search query string :ref:`Searching` (optional)
+    :type q: string
     :>json array results: array of component objects; see :http:get:`/api/units/(int:id)/`
 
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/units/
 
-    Add new monolingual unit.
+    Add new unit.
 
     :param project: Project URL slug
     :type project: string
@@ -1663,8 +1879,14 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :<json string key: Name of translation unit
-    :<json string value: The translation unit value
+    :<json string key: Name of translation unit (used as key or context)
+    :<json array value: Source strings (use single string if not creating plural)
+    :>json object unit: newly created unit; see :http:get:`/api/units/(int:id)/`
+
+    .. seealso::
+
+       :ref:`component-manage_units`,
+       :ref:`adding-new-strings`
 
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/autotranslate/
 
@@ -1678,16 +1900,15 @@ Translations
     :type language: string
     :<json string mode: Automatic translation mode
     :<json string filter_type: Automatic translation filter type
-    :<json string auto_source: Automatic translation source
+    :<json string auto_source: Automatic translation source - ``mt`` or ``others``
     :<json string component: Turn on contribution to shared translation memory for the project to get access to additional components.
-    :<json string engines: Machine translation engines
+    :<json array engines: Machine translation engines
     :<json string threshold: Score threshold
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
-    Download current translation file as stored in VCS (without ``format``
-    parameter) or as converted to a standard format (currently supported:
-    Gettext PO, MO, XLIFF and TBX).
+    Download current translation file as it is stored in the VCS (without the ``format``
+    parameter) or converted to another format (see :ref:`download`).
 
     .. note::
 
@@ -1697,6 +1918,7 @@ Translations
         as stored in VCS.
 
     :query format: File format to use; if not specified no format conversion happens; supported file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, ``csv``, ``xlsx``, ``json``, ``aresource``, ``strings``
+    :query string q: Filter downloaded strings, see :ref:`search`.
 
     :param project: Project URL slug
     :type project: string
@@ -1715,12 +1937,12 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :form string conflicts: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``)
+    :form string conflict: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``)
     :form file file: Uploaded file
     :form string email: Author e-mail
     :form string author: Author name
-    :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, ``source``), see :ref:`upload-method`
-    :form string fuzzy: Fuzzy strings processing (*empty*, ``process``, ``approve``)
+    :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, ``source``, ``add``), see :ref:`upload-method`
+    :form string fuzzy: Fuzzy (marked for edit) strings processing (*empty*, ``process``, ``approve``)
 
     **CURL example:**
 
@@ -1774,8 +1996,8 @@ Translations
     :>json string code: language code
     :>json int failing: number of failing checks
     :>json float failing_percent: percentage of failing checks
-    :>json int fuzzy: number of strings needing review
-    :>json float fuzzy_percent: percentage of strings needing review
+    :>json int fuzzy: number of fuzzy (marked for edit) strings
+    :>json float fuzzy_percent: percentage of fuzzy (marked for edit) strings
     :>json int total_words: total number of words
     :>json int translated_words: number of translated words
     :>json string last_author: name of last author
@@ -1787,8 +2009,32 @@ Translations
     :>json string url: URL to access the translation (engagement URL)
     :>json string url_translate: URL to access the translation (real translation URL)
 
+
+Memory
+++++++
+
+.. versionadded:: 4.14
+
+.. http:get:: /api/memory/
+
+    Returns a list of memory results.
+
+.. http:delete:: /api/memory/(int:memory_object_id)/
+
+    Deletes a memory object
+
+    :param memory_object_id: Memory Object ID
+    :type project: int
+
+
 Units
 +++++
+
+A `unit` is a single piece of a translation which pairs a source string with a
+corresponding translated string and also contains some related metadata. The
+term is derived from the `Translate Toolkit
+<http://docs.translatehouse.org/projects/translate-toolkit/en/latest/api/storage.html#translate.storage.base.TranslationUnit>`_
+and XLIFF.
 
 .. versionadded:: 2.10
 
@@ -1802,20 +2048,26 @@ Units
 
 .. http:get:: /api/units/(int:id)/
 
+    .. versionchanged:: 4.3
+
+       The ``target`` and ``source`` are now arrays to properly handle plural
+       strings.
+
     Returns information about translation unit.
 
     :param id: Unit ID
     :type id: int
     :>json string translation: URL of a related translation object
-    :>json string source: source string
+    :>json array source: source string
     :>json string previous_source: previous source string used for fuzzy matching
-    :>json string target: target string
+    :>json array target: target string
     :>json string id_hash: unique identifier of the unit
     :>json string content_hash: unique identifier of the source string
     :>json string location: location of the unit in source code
     :>json string context: translation unit context
     :>json string note: translation unit note
     :>json string flags: translation unit flags
+    :>json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved, 100 - read only
     :>json boolean fuzzy: whether the unit is fuzzy or marked for review
     :>json boolean translated: whether the unit is translated
     :>json boolean approved: whether the translation is approved
@@ -1826,8 +2078,47 @@ Units
     :>json int num_words: number of source words
     :>json int priority: translation priority; 100 is default
     :>json int id: unit identifier
+    :>json string explanation: String explanation, available on source units, see :ref:`additional`
+    :>json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
     :>json string web_url: URL where the unit can be edited
-    :>json string souce_info: Source string information link; see :http:get:`/api/units/(int:id)/`
+    :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
+    :>json boolean pending: whether the unit is pending for write
+    :>json timestamp timestamp: string age
+
+.. http:patch::  /api/units/(int:id)/
+
+    .. versionadded:: 4.3
+
+    Performs partial update on translation unit.
+
+    :param id: Unit ID
+    :type id: int
+    :<json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
+    :<json array target: target string
+    :<json string explanation: String explanation, available on source units, see :ref:`additional`
+    :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
+
+.. http:put::  /api/units/(int:id)/
+
+    .. versionadded:: 4.3
+
+    Performs full update on translation unit.
+
+    :param id: Unit ID
+    :type id: int
+    :<json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
+    :<json array target: target string
+    :<json string explanation: String explanation, available on source units, see :ref:`additional`
+    :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
+
+.. http:delete::  /api/units/(int:id)/
+
+    .. versionadded:: 4.3
+
+    Deletes a translation unit.
+
+    :param id: Unit ID
+    :type id: int
 
 Changes
 +++++++
@@ -1860,7 +2151,6 @@ Changes
     :>json string unit: URL of a related unit object
     :>json string translation: URL of a related translation object
     :>json string component: URL of a related component object
-    :>json string glossary_term: URL of a related glossary term object
     :>json string user: URL of a related user object
     :>json string author: URL of a related author object
     :>json timestamp timestamp: event timestamp
@@ -1925,7 +2215,7 @@ Screenshots
     :type id: int
     :form string unit_id: Unit ID
     :>json string name: name of a screenshot
-    :>json string component: URL of a related component object
+    :>json string translation: URL of a related translation object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
@@ -1944,8 +2234,9 @@ Screenshots
 
     :form file image: Uploaded file
     :form string name: Screenshot name
-    :form string project_slug: Project Slug
-    :form string component_slug: Component Slug
+    :form string project_slug: Project slug
+    :form string component_slug: Component slug
+    :form string language_code: Language code
     :>json string name: name of a screenshot
     :>json string component: URL of a related component object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
@@ -1979,6 +2270,69 @@ Screenshots
 
     :param id: Screenshot ID
     :type id: int
+
+.. _addons-api:
+
+Add-ons
++++++++
+
+.. versionadded:: 4.4.1
+
+.. http:get:: /api/addons/
+
+    Returns a list of add-ons.
+
+    .. seealso::
+
+        Add-on object attributes are documented at :http:get:`/api/addons/(int:id)/`.
+
+.. http:get:: /api/addons/(int:id)/
+
+    Returns information about add-on information.
+
+    :param id: Add-on ID
+    :type id: int
+    :>json string name: name of an add-on
+    :>json string component: URL of a related component object
+    :>json object configuration: Optional add-on configuration
+
+    .. seealso::
+
+       :doc:`/admin/addons`
+
+.. http:post:: /api/components/(string:project)/(string:component)/addons/
+
+    Creates a new add-on.
+
+    :param string project_slug: Project slug
+    :param string component_slug: Component slug
+    :<json string name: name of an add-on
+    :<json object configuration: Optional add-on configuration
+
+.. http:patch:: /api/addons/(int:id)/
+
+    Edit partial information about add-on.
+
+    :param id: Add-on ID
+    :type id: int
+    :>json object configuration: Optional add-on configuration
+
+.. http:put:: /api/addons/(int:id)/
+
+    Edit full information about add-on.
+
+    :param id: Add-on ID
+    :type id: int
+    :>json object configuration: Optional add-on configuration
+
+.. http:delete:: /api/addons/(int:id)/
+
+    Delete add-on.
+
+    :param id: Add-on ID
+    :type id: int
+
+
 
 
 Component lists
@@ -2050,6 +2404,55 @@ Component lists
     :param component_slug: Component slug
     :type component_slug: string
 
+Glossary
++++++++++
+
+.. versionchanged:: 4.5
+
+   Glossaries are now stored as regular components, translations and strings,
+   please use respective API instead.
+
+Tasks
++++++
+
+.. versionadded:: 4.4
+
+.. http:get:: /api/tasks/
+
+    Listing of the tasks is currently not available.
+
+.. http:get:: /api/tasks/(str:uuid)/
+
+    Returns information about a task
+
+    :param uuid: Task UUID
+    :type uuid: string
+    :>json boolean completed: Whether the task has completed
+    :>json int progress: Task progress in percent
+    :>json object result: Task result or progress details
+    :>json string log: Task log
+
+Metrics
++++++++
+
+.. http:get:: /api/metrics/
+
+    Returns server metrics.
+
+    :>json int units: Number of units
+    :>json int units_translated: Number of translated units
+    :>json int users: Number of users
+    :>json int changes: Number of changes
+    :>json int projects: Number of projects
+    :>json int components:  Number of components
+    :>json int translations:  Number of translations
+    :>json int languages:  Number of used languages
+    :>json int checks:  Number of triggered quality checks
+    :>json int configuration_errors:  Number of configuration errors
+    :>json int suggestions:  Number of pending suggestions
+    :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
+    :>json string name: Configured server name
+
 .. _hooks:
 
 Notification hooks
@@ -2097,7 +2500,7 @@ update individual repositories; see
 
         :ref:`github-setup`
             For instruction on setting up GitHub integration
-        https://docs.github.com/en/github/extending-github/about-webhooks
+        https://docs.github.com/en/get-started/customizing-your-github-workflow/exploring-integrations/about-webhooks
             Generic information about GitHub Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
@@ -2111,7 +2514,7 @@ update individual repositories; see
 
         :ref:`gitlab-setup`
             For instruction on setting up GitLab integration
-        https://docs.gitlab.com/ce/user/project/integrations/webhooks.html
+        https://docs.gitlab.com/ee/user/project/integrations/webhooks.html
             Generic information about GitLab Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
@@ -2125,7 +2528,7 @@ update individual repositories; see
 
         :ref:`bitbucket-setup`
             For instruction on setting up Bitbucket integration
-        https://confluence.atlassian.com/bitbucket/manage-webhooks-735643732.html
+        https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/
             Generic information about Bitbucket Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
@@ -2150,15 +2553,20 @@ update individual repositories; see
 
     .. versionadded:: 3.8
 
-    Special hook for handling Azure Repos notifications and automatically
+    Special hook for handling Azure DevOps notifications and automatically
     updating matching components.
+
+    .. note::
+
+       Please make sure that :guilabel:`Resource details to send` is set to
+       *All*, otherwise Weblate will not be able to match your Azure repository.
 
     .. seealso::
 
         :ref:`azure-setup`
             For instruction on setting up Azure integration
-        https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks
-            Generic information about Azure Repos Web Hooks
+        https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=azure-devops
+            Generic information about Azure DevOps Web Hooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
 
@@ -2213,15 +2621,15 @@ Weblate provides various exports to allow you to further process the data.
 
     Retrieves statistics for given component in given format.
 
-    **Example request**:
+    **Example request:**
 
     .. sourcecode:: http
 
-        GET /exports/stats/weblate/master/ HTTP/1.1
+        GET /exports/stats/weblate/main/ HTTP/1.1
         Host: example.com
         Accept: application/json, text/javascript
 
-    **Example response**:
+    **Example response:**
 
     .. sourcecode:: http
 
@@ -2236,7 +2644,7 @@ Weblate provides various exports to allow you to further process the data.
                 "failing_percent": 0.0,
                 "fuzzy": 0,
                 "fuzzy_percent": 0.0,
-                "last_author": "Michal \u010ciha\u0159",
+                "last_author": "Michal Čihař",
                 "last_change": "2012-03-28T15:07:38+00:00",
                 "name": "Czech",
                 "total": 436,
@@ -2245,7 +2653,7 @@ Weblate provides various exports to allow you to further process the data.
                 "translated_percent": 100.0,
                 "translated_words": 3201,
                 "url": "http://hosted.weblate.org/engage/weblate/cs/",
-                "url_translate": "http://hosted.weblate.org/projects/weblate/master/cs/"
+                "url_translate": "http://hosted.weblate.org/projects/weblate/main/cs/"
             },
             {
                 "code": "nl",
@@ -2262,7 +2670,7 @@ Weblate provides various exports to allow you to further process the data.
                 "translated_percent": 73.2,
                 "translated_words": 3201,
                 "url": "http://hosted.weblate.org/engage/weblate/nl/",
-                "url_translate": "http://hosted.weblate.org/projects/weblate/master/nl/"
+                "url_translate": "http://hosted.weblate.org/projects/weblate/main/nl/"
             },
             {
                 "code": "el",
@@ -2279,8 +2687,8 @@ Weblate provides various exports to allow you to further process the data.
                 "translated_percent": 71.6,
                 "translated_words": 3201,
                 "url": "http://hosted.weblate.org/engage/weblate/el/",
-                "url_translate": "http://hosted.weblate.org/projects/weblate/master/el/"
-            },
+                "url_translate": "http://hosted.weblate.org/projects/weblate/main/el/"
+            }
         ]
 
 .. _rss:
@@ -2312,4 +2720,4 @@ Changes in translations are exported in RSS feeds.
 
 .. seealso::
 
-   `RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_
+   `RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_

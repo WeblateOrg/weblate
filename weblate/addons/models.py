@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,10 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
-from collections import defaultdict
-
 from appconf import AppConf
+from django.db import Error as DjangoDatabaseError
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import post_save
@@ -43,7 +41,7 @@ from weblate.addons.events import (
     EVENT_UNIT_PRE_CREATE,
     EVENT_UPDATE_REMOTE_BRANCH,
 )
-from weblate.trans.models import Component, Unit
+from weblate.trans.models import Change, Component, Unit
 from weblate.trans.signals import (
     component_post_update,
     store_post_load,
@@ -76,11 +74,6 @@ class AddonQuerySet(models.QuerySet):
         )
 
     def filter_event(self, component, event):
-        if component.addons_cache is None:
-            component.addons_cache = defaultdict(list)
-            for addon in self.filter_component(component):
-                for installed in addon.event_set.all():
-                    component.addons_cache[installed.event].append(addon)
         return component.addons_cache[event]
 
 
@@ -99,7 +92,36 @@ class Addon(models.Model):
         verbose_name_plural = "add-ons"
 
     def __str__(self):
-        return "{}: {}".format(self.addon.verbose, self.component)
+        return f"{self.addon.verbose}: {self.component}"
+
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        cls = self.addon_class
+        self.project_scope = cls.project_scope
+        self.repo_scope = cls.repo_scope
+
+        # Reallocate to repository
+        if self.repo_scope and self.component.linked_component:
+            self.component = self.component.linked_component
+
+        # Clear add-on cache
+        self.component.drop_addons_cache()
+
+        # Store history (if not updating state only)
+        if update_fields != ["state"]:
+            self.store_change(
+                Change.ACTION_ADDON_CREATE
+                if self.pk or force_insert
+                else Change.ACTION_ADDON_CHANGE
+            )
+
+        return super().save(
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )
 
     def get_absolute_url(self):
         return reverse(
@@ -111,20 +133,44 @@ class Addon(models.Model):
             },
         )
 
+    def store_change(self, action):
+        Change.objects.create(
+            action=action,
+            user=self.component.acting_user,
+            component=self.component,
+            target=self.name,
+            details=self.configuration,
+        )
+
     def configure_events(self, events):
         for event in events:
             Event.objects.get_or_create(addon=self, event=event)
         self.event_set.exclude(event__in=events).delete()
 
     @cached_property
-    def addon(self):
-        return ADDONS[self.name](self)
+    def addon_class(self):
+        return ADDONS[self.name]
 
-    def delete(self, *args, **kwargs):
+    @cached_property
+    def addon(self):
+        return self.addon_class(self)
+
+    def delete(self, using=None, keep_parents=False):
+        # Store history
+        self.store_change(Change.ACTION_ADDON_REMOVE)
         # Delete any addon alerts
         if self.addon.alert:
             self.component.delete_alert(self.addon.alert)
-        super().delete(*args, **kwargs)
+        result = super().delete(using=using, keep_parents=keep_parents)
+        # Trigger post uninstall action
+        self.addon.post_uninstall()
+        return result
+
+    def disable(self):
+        self.component.log_warning(
+            "disabling no longer compatible add-on: %s", self.name
+        )
+        self.delete()
 
 
 class Event(models.Model):
@@ -132,12 +178,12 @@ class Event(models.Model):
     event = models.IntegerField(choices=EVENT_CHOICES)
 
     class Meta:
-        unique_together = ("addon", "event")
+        unique_together = [("addon", "event")]
         verbose_name = "add-on event"
         verbose_name_plural = "add-on events"
 
     def __str__(self):
-        return "{}: {}".format(self.addon, self.get_event_display())
+        return f"{self.addon}: {self.get_event_display()}"
 
 
 class AddonsConf(AppConf):
@@ -149,6 +195,7 @@ class AddonsConf(AppConf):
         "weblate.addons.gettext.GettextCustomizeAddon",
         "weblate.addons.gettext.GettextAuthorComments",
         "weblate.addons.cleanup.CleanupAddon",
+        "weblate.addons.cleanup.RemoveBlankAddon",
         "weblate.addons.consistency.LangaugeConsistencyAddon",
         "weblate.addons.discovery.DiscoveryAddon",
         "weblate.addons.autotranslate.AutoTranslateAddon",
@@ -157,6 +204,8 @@ class AddonsConf(AppConf):
         "weblate.addons.flags.SameEditAddon",
         "weblate.addons.flags.BulkEditAddon",
         "weblate.addons.generate.GenerateFileAddon",
+        "weblate.addons.generate.PseudolocaleAddon",
+        "weblate.addons.generate.PrefillAddon",
         "weblate.addons.json.JSONCustomizeAddon",
         "weblate.addons.properties.PropertiesSortAddon",
         "weblate.addons.git.GitSquashAddon",
@@ -175,19 +224,20 @@ class AddonsConf(AppConf):
 
 
 def handle_addon_error(addon, component):
-    report_error(cause="addon error")
-    # Uninstall no longer compatible addons
+    report_error(cause="add-on error")
+    # Uninstall no longer compatible add-ons
     if not addon.addon.can_install(component, None):
-        component.log_warning("disabling no longer compatible addon: %s", addon.name)
-        addon.delete()
+        addon.disable()
 
 
 @receiver(vcs_pre_push)
 def pre_push(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_PRE_PUSH):
-        component.log_debug("running pre_push addon: %s", addon.name)
+        component.log_debug("running pre_push add-on: %s", addon.name)
         try:
             addon.addon.pre_push(component)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, component)
 
@@ -195,21 +245,32 @@ def pre_push(sender, component, **kwargs):
 @receiver(vcs_post_push)
 def post_push(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_POST_PUSH):
-        component.log_debug("running post_push addon: %s", addon.name)
+        component.log_debug("running post_push add-on: %s", addon.name)
         try:
             addon.addon.post_push(component)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, component)
 
 
 @receiver(vcs_post_update)
-def post_update(sender, component, previous_head, child=False, **kwargs):
+def post_update(
+    sender,
+    component,
+    previous_head: str,
+    child: bool = False,
+    skip_push: bool = False,
+    **kwargs,
+):
     for addon in Addon.objects.filter_event(component, EVENT_POST_UPDATE):
         if child and addon.repo_scope:
             continue
-        component.log_debug("running post_update addon: %s", addon.name)
+        component.log_debug("running post_update add-on: %s", addon.name)
         try:
-            addon.addon.post_update(component, previous_head)
+            addon.addon.post_update(component, previous_head, skip_push)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, component)
 
@@ -217,9 +278,11 @@ def post_update(sender, component, previous_head, child=False, **kwargs):
 @receiver(component_post_update)
 def component_update(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_COMPONENT_UPDATE):
-        component.log_debug("running component_update addon: %s", addon.name)
+        component.log_debug("running component_update add-on: %s", addon.name)
         try:
             addon.addon.component_update(component)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, component)
 
@@ -227,9 +290,11 @@ def component_update(sender, component, **kwargs):
 @receiver(vcs_pre_update)
 def pre_update(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_PRE_UPDATE):
-        component.log_debug("running pre_update addon: %s", addon.name)
+        component.log_debug("running pre_update add-on: %s", addon.name)
         try:
             addon.addon.pre_update(component)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, component)
 
@@ -238,9 +303,11 @@ def pre_update(sender, component, **kwargs):
 def pre_commit(sender, translation, author, **kwargs):
     addons = Addon.objects.filter_event(translation.component, EVENT_PRE_COMMIT)
     for addon in addons:
-        translation.log_debug("running pre_commit addon: %s", addon.name)
+        translation.log_debug("running pre_commit add-on: %s", addon.name)
         try:
             addon.addon.pre_commit(translation, author)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, translation.component)
 
@@ -249,9 +316,11 @@ def pre_commit(sender, translation, author, **kwargs):
 def post_commit(sender, component, **kwargs):
     addons = Addon.objects.filter_event(component, EVENT_POST_COMMIT)
     for addon in addons:
-        component.log_debug("running post_commit addon: %s", addon.name)
+        component.log_debug("running post_commit add-on: %s", addon.name)
         try:
             addon.addon.post_commit(component)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, component)
 
@@ -260,9 +329,11 @@ def post_commit(sender, component, **kwargs):
 def post_add(sender, translation, **kwargs):
     addons = Addon.objects.filter_event(translation.component, EVENT_POST_ADD)
     for addon in addons:
-        translation.log_debug("running post_add addon: %s", addon.name)
+        translation.log_debug("running post_add add-on: %s", addon.name)
         try:
             addon.addon.post_add(translation)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, translation.component)
 
@@ -273,9 +344,11 @@ def unit_pre_create_handler(sender, unit, **kwargs):
         unit.translation.component, EVENT_UNIT_PRE_CREATE
     )
     for addon in addons:
-        unit.translation.log_debug("running unit_pre_create addon: %s", addon.name)
+        unit.translation.log_debug("running unit_pre_create add-on: %s", addon.name)
         try:
             addon.addon.unit_pre_create(unit)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, unit.translation.component)
 
@@ -287,9 +360,11 @@ def unit_post_save_handler(sender, instance, created, **kwargs):
         instance.translation.component, EVENT_UNIT_POST_SAVE
     )
     for addon in addons:
-        instance.translation.log_debug("running unit_post_save addon: %s", addon.name)
+        instance.translation.log_debug("running unit_post_save add-on: %s", addon.name)
         try:
             addon.addon.unit_post_save(instance, created)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, instance.translation.component)
 
@@ -298,9 +373,11 @@ def unit_post_save_handler(sender, instance, created, **kwargs):
 def store_post_load_handler(sender, translation, store, **kwargs):
     addons = Addon.objects.filter_event(translation.component, EVENT_STORE_POST_LOAD)
     for addon in addons:
-        translation.log_debug("running store_post_load addon: %s", addon.name)
+        translation.log_debug("running store_post_load add-on: %s", addon.name)
         try:
             addon.addon.store_post_load(translation, store)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, translation.component)
 

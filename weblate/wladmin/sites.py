@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,6 +23,7 @@ from django.contrib.admin import AdminSite
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from rest_framework.authtoken.admin import TokenAdmin
@@ -37,10 +38,10 @@ from weblate.auth.admin import RoleAdmin, WeblateGroupAdmin, WeblateUserAdmin
 from weblate.auth.models import Group, Role, User
 from weblate.checks.admin import CheckAdmin
 from weblate.checks.models import Check
+from weblate.configuration.admin import SettingAdmin
+from weblate.configuration.models import Setting
 from weblate.fonts.admin import FontAdmin, FontGroupAdmin
 from weblate.fonts.models import Font, FontGroup
-from weblate.glossary.admin import GlossaryAdmin, TermAdmin
-from weblate.glossary.models import Glossary, Term
 from weblate.lang.admin import LanguageAdmin
 from weblate.lang.models import Language
 from weblate.memory.admin import MemoryAdmin
@@ -117,7 +118,9 @@ class WeblateAdminSite(AdminSite):
         self.register(Announcement, AnnouncementAdmin)
         self.register(ComponentList, ComponentListAdmin)
         self.register(ContributorAgreement, ContributorAgreementAdmin)
-        self.register(Glossary, GlossaryAdmin)
+
+        # Settings
+        self.register(Setting, SettingAdmin)
 
         # Show some controls only in debug mode
         if settings.DEBUG:
@@ -126,7 +129,6 @@ class WeblateAdminSite(AdminSite):
             self.register(Suggestion, SuggestionAdmin)
             self.register(Comment, CommentAdmin)
             self.register(Check, CheckAdmin)
-            self.register(Term, TermAdmin)
             self.register(Change, ChangeAdmin)
 
         # Billing
@@ -180,7 +182,7 @@ class WeblateAdminSite(AdminSite):
 
             self.register(Consumer, ConsumerAdmin)
 
-    @never_cache
+    @method_decorator(never_cache)
     def logout(self, request, extra_context=None):
         if request.method == "POST":
             messages.info(request, _("Thank you for using Weblate."))

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -58,7 +58,7 @@ def check_backups(app_configs, **kwargs):
             errors.append(
                 weblate_check(
                     "weblate.C029",
-                    "There was error while performing backups: {}".format(last_log),
+                    f"There was error while performing backups: {last_log}",
                 )
             )
             break

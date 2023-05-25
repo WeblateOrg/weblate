@@ -7,11 +7,13 @@
 {% if project %}
 <li><a href="{{ project.get_absolute_url }}">{{ project.name }}</a></li>
 {% if component %}
-<li><a href="{{ component.get_absolute_url }}">{{ component.name }}</a></li>
+{% include "snippets/component-breadcrumb.html" with object=component %}
 {% endif %}
 {% if language %}
 <li><a href="{% url 'project-language' project=project.slug lang=language.code %}">{{ language }}</a></li>
 {% endif %}
+{% elif language %}
+<li><a href="{{ language.get_absolute_url }}">{{ language }}</a></li>
 {% endif %}
 <li><a href="{% if back_url %}{{ back_url }}#search{% else %}{% url 'search' %}{% endif %}">{% trans "Search" %}</a></li>
 {% endblock %}
@@ -23,23 +25,7 @@
         {% crispy search_form  %}
     </form>
     {% if page_obj.object_list %}
-        <div class="list-group">
-            {% for unit in page_obj.object_list %}
-                <a href="{{ unit.get_absolute_url }}{% if query_string %}&amp;{{ query_string }}{% endif %}" class="list-group-item">
-                    <h4 class="list-group-item-heading">
-                        {% get_state_flags unit %}
-                        {{ unit.translation }}
-                    </h4>
-                    <p class="list-group-item-text">
-                        {{ unit.translation.component.project.source_language }}
-                        {% format_translation unit.source unit.translation.component.project.source_language search_match=search_query %}
-                        {{ unit.translation.language }}
-                        {% format_translation unit.target unit.translation.language unit.translation.plural search_match=search_query %}
-                    </p>
-                </a>
-            {% endfor %}
-        </div>
-
+        {% include "snippets/embed-units.html" with units=page_obj.object_list hide_context=True include_search=True force_source=True show_translation=True %}
         {% include "paginator.html" %}
     {% else %}
         {% trans "No matching strings found." as msg %}

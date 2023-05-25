@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,8 +20,7 @@
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.views.decorators.cache import cache_control
 from django.views.decorators.vary import vary_on_cookie
 
@@ -59,10 +58,7 @@ def widgets(request, project):
     if lang is not None:
         kwargs["lang"] = lang
     engage_url = get_site_url(reverse("engage", kwargs=kwargs))
-    engage_url_track = "{0}?utm_source=widget".format(engage_url)
-    engage_link = mark_safe(
-        '<a href="{0}" id="engage-link">{0}</a>'.format(escape(engage_url))
-    )
+    engage_link = format_html('<a href="{0}" id="engage-link">{0}</a>', engage_url)
     widget_base_url = get_site_url(reverse("widgets", kwargs={"project": obj.slug}))
     widget_list = []
     for widget_name in sorted(WIDGETS, key=widgets_sorter):
@@ -93,7 +89,6 @@ def widgets(request, project):
         {
             "engage_url": engage_url,
             "engage_link": engage_link,
-            "engage_url_track": engage_url_track,
             "widget_list": widget_list,
             "widget_base_url": widget_base_url,
             "object": obj,

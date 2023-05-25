@@ -8,8 +8,8 @@ Configuring Weblate
    have to specify full path to :command:`weblate` command as
    ``~/weblate-env/bin/weblate``.
 
-#. Copy the file :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings_example.py`
-   to :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings.py`
+#. Copy the file :file:`~/weblate-env/lib/python3.9/site-packages/weblate/settings_example.py`
+   to :file:`~/weblate-env/lib/python3.9/site-packages/weblate/settings.py`.
 
 #.
    .. include:: steps/adjust-config.rst
@@ -45,7 +45,7 @@ Configuring Weblate
 
    .. code-block:: sh
 
-         ~/weblate-env/lib/python3.7/site-packages/weblate/examples/celery start
+         ~/weblate-env/lib/python3.9/site-packages/weblate/examples/celery start
 
 #. Start the development server (see :ref:`server` for production setup):
 

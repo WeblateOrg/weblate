@@ -1,0 +1,7 @@
+{% load i18n %}
+{% load permissions %}
+{% load translations %}
+
+{% perm 'screenshot.edit' object.translation.component as user_can_change_screenshot %}
+
+{% include "snippets/embed-units.html" with translation=object.translation component=object.translation.component show_location=True show_screenshots=True loading_id="loading-screenshots" actions_template="screenshots/screenshot_sources_search_actions.html" %}

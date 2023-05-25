@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -37,31 +37,29 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         super().add_arguments(parser)
         parser.add_argument(
-            "--project", default=None, required=True, help=("Project where to operate")
+            "--project", default=None, required=True, help="Project where to operate"
         )
         parser.add_argument(
             "--ignore",
             default=False,
             action="store_true",
-            help=("Ignore already existing entries"),
+            help="Ignore already existing entries",
         )
         parser.add_argument(
             "--update",
             default=False,
             action="store_true",
-            help=("Update already existing entries"),
+            help="Update already existing entries",
         )
         parser.add_argument(
             "--main-component",
             default=None,
-            help=(
-                "Define which component will be used as main for the" " VCS repository"
-            ),
+            help="Define which component will be used as main for the VCS repository",
         )
         parser.add_argument(
             "json-file",
             type=argparse.FileType("r"),
-            help="JSON file containing component defintion",
+            help="JSON file containing component definition",
         )
 
     def handle(self, *args, **options):  # noqa: C901
@@ -113,7 +111,7 @@ class Command(BaseCommand):
 
             try:
                 component = Component.objects.get(slug=item["slug"], project=project)
-                self.stderr.write("Component {0} already exists".format(component))
+                self.stderr.write(f"Component {component} already exists")
                 if options["ignore"]:
                     continue
                 if options["update"]:
@@ -140,7 +138,7 @@ class Command(BaseCommand):
                     raise CommandError("Component failed validation!")
                 component.save(force_insert=True)
                 self.stdout.write(
-                    "Imported {0} with {1} translations".format(
+                    "Imported {} with {} translations".format(
                         component, component.translation_set.count()
                     )
                 )

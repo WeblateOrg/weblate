@@ -1,38 +1,44 @@
 # This dockerfile is a modified copy of the official weblate dockerfile
 # Accessed 2020-03-11 from https://github.com/WeblateOrg/docker/blob/master/Dockerfile
 
-FROM debian:10.5-slim
-ENV PYVERSION 3.7
-ENV VERSION 4.2.2
+FROM python:3.11.0-slim-bullseye
+ENV PYVERSION 3.11
+ENV VERSION 4.14.2
 LABEL version=$VERSION
+
+HEALTHCHECK --interval=30s --timeout=3s CMD /app/bin/health_check
+
+SHELL ["/bin/bash", "-o", "pipefail", "-x", "-c"]
 
 # Add user early to get a consistent userid
 # - the root group so it can run with any uid
 # - the tty group for /dev/std* access
-RUN useradd --shell /bin/sh --user-group weblate --groups root,tty \
+# - see https://github.com/WeblateOrg/docker/issues/326 and https://github.com/moby/moby/issues/31243#issuecomment-406879017
+# - create test and app data dirs to be able to run tests
+RUN \
+  useradd --shell /bin/sh --user-group weblate --groups root,tty \
   && mkdir -p /home/weblate/.ssh \
   && touch /home/weblate/.ssh/authorized_keys \
   && chown -R weblate:weblate /home/weblate \
-  && chmod 700 /home/weblate/.ssh
-
-ENV HOME=/home/weblate
-
-# This is needed to run tests inside the container.
-RUN install -d -o weblate -g weblate -m 755 /usr/local/lib/python${PYVERSION}/dist-packages/data-test /usr/local/lib/python${PYVERSION}/dist-packages/test-images \
- && install -d -o weblate -g weblate -m 755 /app/data \
- && install -d -o weblate -g weblate -m 755 /app/cache
+  && chmod 700 /home/weblate/.ssh \
+  && install -d -o weblate -g weblate -m 755 "/usr/local/lib/python${PYVERSION}/site-packages/data-test" "/usr/local/lib/python${PYVERSION}/site-packages/test-images" \
+  && install -d -o weblate -g weblate -m 755 /app/data \
+  && install -d -o weblate -g weblate -m 755 /app/cache
 
 # Configure utf-8 locales to make sure Python
 # correctly handles unicode filenames, configure settings
-ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 DJANGO_SETTINGS_MODULE=weblate.settings_docker
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+# Home directory
+ENV HOME=/home/weblate
+# Use Docker specific settings
+ENV DJANGO_SETTINGS_MODULE=weblate.settings_docker
+# Avoid Python buffering stdout and delaying logs
+ENV PYTHONUNBUFFERED=1
 
 COPY setup-ci.py /usr/src/setup.py
 COPY requirements.txt /usr/src/
-COPY manage.py /usr/src/
 COPY weblate /usr/src/weblate/
-
-# Suppress error for disabled 'set-env' command
-ENV ACTIONS_ALLOW_UNSECURE_COMMANDS='true'
 
 # Install dependencies
 RUN set -x \
@@ -40,8 +46,6 @@ RUN set -x \
   && apt-get update \
   && apt-get -y upgrade \
   && apt-get install --no-install-recommends -y \
-    uwsgi \
-    uwsgi-plugin-python3 \
     nginx \
     supervisor \
     openssh-client \
@@ -50,64 +54,65 @@ RUN set -x \
     gir1.2-pango-1.0 \
     libxmlsec1-openssl \
     libjpeg62-turbo \
-    python3-gi \
-    python3-gi-cairo \
-    python3-cairo \
-    python3-pip \
-    python3-setuptools \
-    python3-wheel \
-    python3-gdbm \
     gettext \
-    postgresql-common \
     git \
     git-svn \
     gnupg \
     subversion \
     pkg-config \
-    python3-dev \
     file \
     make \
+    libcairo2-dev \
     libxml2-dev \
     libacl1-dev \
+    libmariadb3 \
     libmariadb-dev \
     libxmlsec1-dev \
     libleptonica-dev \
     libtesseract-dev \
     libsasl2-dev \
     libldap2-dev \
+    libldap-common \
     libssl-dev \
     libffi-dev \
     libpq-dev \
-    libz-dev \
+    zlib1g-dev \
     libjpeg62-turbo-dev \
-    libenchant1c2a \
+    libenchant-2-2 \
+    libgirepository1.0-dev \
+    libcairo-gobject2 \
     gcc \
     g++ \
     tesseract-ocr \
     patch \
-  && echo | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh \
+    unzip \
+    xz-utils \
+  && c_rehash \
+  && echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
+  && curl -L https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
   && apt-get update \
-  && if apt-cache show postgresql-client-12 > /dev/null 2>&1 ; then \
-        apt-get install --no-install-recommends -y postgresql-client-12 ; \
+  && if apt-cache show postgresql-client-15 > /dev/null 2>&1 ; then \
+        apt-get install --no-install-recommends -y postgresql-client-15 ; \
     else \
         apt-get install --no-install-recommends -y postgresql-client ; \
     fi \
   && python3 -m pip install --upgrade pip \
   && pip3 install --force-reinstall --no-binary :all: cffi \
   && pip3 install /usr/src \
-  && python3 -c 'from phply.phpparse import make_parser; make_parser()' \
+  && pip3 install pip install git+https://github.com/nijel/supervisor-stdout \
+  && python -c 'from phply.phpparse import make_parser; make_parser()' \
   && ln -s /usr/local/share/weblate/examples/ /app/ \
   && apt-get -y purge \
-    python3-dev \
     pkg-config \
     libleptonica-dev \
     libtesseract-dev \
     libmariadb-dev \
+    libgirepository1.0-dev \
     libxml2-dev \
     libffi-dev \
     libxmlsec1-dev \
+    libcairo2-dev \
     libpq-dev \
-    cython \
     gcc \
     g++ \
     file \
@@ -118,7 +123,7 @@ RUN set -x \
     libssl-dev \
     libz-dev   \
     libjpeg62-turbo-dev \
-  && apt-get -y autoremove \
+  && apt-get -y purge --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get clean \
   && rm -rf /root/.cache /tmp/* /var/lib/apt/lists/*
 
@@ -126,44 +131,43 @@ RUN set -x \
 RUN find /usr/src/weblate -name '*.patch' -print0 | sort -z | \
   xargs -n1 -0 -r patch -p1 -d /usr/local/lib/python${PYVERSION}/dist-packages/ -i
 
-# Install Hub
-RUN curl -L https://github.com/github/hub/releases/download/v2.13.0/hub-linux-amd64-2.13.0.tgz | tar xzv --wildcards hub-linux*/bin/hub && \
-  cp hub-linux-amd64-*/bin/hub /usr/bin && \
-  rm -rf hub-linux-amd64-*
-
-# Install Lab
-RUN curl -sL "https://github.com/zaquestion/lab/releases/download/v0.17.2/lab_0.17.2_linux_amd64.tar.gz" | tar -C /tmp/ -xzf - \
-  && mv /tmp/lab /usr/bin \
-  && chmod u+x /usr/bin/lab
-
-# Install nodejs and npm
-RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
-  && apt-get install nodejs
-
 # Configuration for Weblate, nginx, uwsgi and supervisor
 COPY etc /etc/
 
 # Fix permissions and adjust files to be able to edit them as user on start
-# - localtime/timezone is needed for setting system timezone based on environment
+# - localtime is needed for setting system timezone based on environment
+# - timezone is removed to avoid dpkg handling localtime updates
 # - we generate nginx configuration based on environment
 # - autorize passwd edition so we can fix weblate uid on startup
 # - log, run and home directories
 # - disable su for non root to avoid privilege escapation by chaging /etc/passwd
-RUN rm -f /etc/localtime && cp /usr/share/zoneinfo/Etc/UTC /etc/localtime \
-  && chgrp -R 0 /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /run /home /home/weblate /etc/timezone /etc/localtime \
-  && chmod -R 777 /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /run /home /home/weblate /etc/timezone /etc/localtime \
+RUN rm -f /etc/localtime /etc/timezone && cp /usr/share/zoneinfo/Etc/UTC /etc/localtime \
+  && chgrp -R 0 /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d \
+  && chmod -R 770 /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home /home/weblate /etc/localtime /etc/supervisor/conf.d \
   && chmod 664 /etc/passwd /etc/group \
   && sed -i '/pam_rootok.so/a auth requisite pam_deny.so' /etc/pam.d/su
 
 # Search path for custom modules
-RUN echo "/app/data/python" > /usr/local/lib/python${PYVERSION}/dist-packages/weblate-docker.pth
-RUN echo "/usr/src" >> /usr/local/lib/python${PYVERSION}/dist-packages/weblate-docker.pth
+RUN echo "/app/data/python" > "/usr/local/lib/python${PYVERSION}/site-packages/weblate-docker.pth"
+RUN echo "/usr/src" >> /usr/local/lib/python${PYVERSION}/site-packages/weblate-docker.pth
+RUN \
+    mkdir -p /app/data/python/customize && \
+    touch /app/data/python/customize/__init__.py && \
+    touch /app/data/python/customize/models.py && \
+    chown -R weblate:weblate /app/data/python && \
+    chown -R weblate:weblate /home/weblate
 
 # Entrypoint
 COPY start /app/bin/
 RUN chmod a+rx /app/bin/start
 
 EXPOSE 8080 4443
+VOLUME /app/data
+VOLUME /app/cache
+
+# Numerical value is needed for OpenShift S2I, see
+# https://docs.openshift.com/container-platform/latest/openshift_images/create-images.html
 USER 1000
+
 ENTRYPOINT ["/app/bin/start"]
 CMD ["runserver"]

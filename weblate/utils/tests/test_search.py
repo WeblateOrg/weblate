@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -24,7 +24,9 @@ from django.test import SimpleTestCase, TestCase
 from pytz import utc
 
 from weblate.trans.models import Change, Unit
+from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import PLURAL_SEPARATOR
+from weblate.utils.db import using_postgresql
 from weblate.utils.search import Comparer, parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -47,17 +49,15 @@ class ComparerTest(SimpleTestCase):
         # for unicode strings
         self.assertEqual(Comparer().similarity("NICHOLASŸ", "NICHOLAS"), 88)
 
-    def test_long(self):
-        # This is expected to raise MemoryError inside jellyfish
-        self.assertLessEqual(Comparer().similarity("a" * 200000, "b" * 200000), 50)
 
-
-class QueryParserTest(TestCase):
-    def assert_query(self, string, expected):
-        result = parse_query(string)
+class SearchMixin:
+    def assert_query(self, string, expected, exists=False, **context):
+        result = parse_query(string, **context)
         self.assertEqual(result, expected)
-        self.assertFalse(Unit.objects.filter(result).exists())
+        self.assertEqual(Unit.objects.filter(result).exists(), exists)
 
+
+class QueryParserTest(TestCase, SearchMixin):
     def test_simple(self):
         self.assert_query(
             "hello world",
@@ -92,7 +92,14 @@ class QueryParserTest(TestCase):
         self.assert_query("location:TEXT", Q(location__substring="TEXT"))
 
     def test_comment(self):
-        self.assert_query("comment:TEXT", Q(comment__comment__substring="TEXT"))
+        self.assert_query(
+            "comment:TEXT",
+            Q(comment__comment__substring="TEXT") & Q(comment__resolved=False),
+        )
+        self.assert_query(
+            "resolved_comment:TEXT",
+            Q(comment__comment__substring="TEXT") & Q(comment__resolved=True),
+        )
         self.assert_query(
             "comment_author:nijel", Q(comment__user__username__iexact="nijel")
         )
@@ -105,10 +112,10 @@ class QueryParserTest(TestCase):
         self.assert_query("location:hello.c", Q(location__substring="hello.c"))
 
     def test_exact(self):
-        self.assert_query("source:='hello'", Q(source__iexact="hello"))
-        self.assert_query('source:="hello world"', Q(source__iexact="hello world"))
-        self.assert_query("source:='hello world'", Q(source__iexact="hello world"))
-        self.assert_query("source:=hello", Q(source__iexact="hello"))
+        self.assert_query("source:='hello'", Q(source__exact="hello"))
+        self.assert_query('source:="hello world"', Q(source__exact="hello world"))
+        self.assert_query("source:='hello world'", Q(source__exact="hello world"))
+        self.assert_query("source:=hello", Q(source__exact="hello"))
 
     def test_regex(self):
         self.assert_query('source:r"^hello"', Q(source__regex="^hello"))
@@ -144,6 +151,23 @@ class QueryParserTest(TestCase):
                 )
             )
             & Q(change__action__in=Change.ACTIONS_CONTENT),
+        )
+
+    def test_change_action(self):
+        expected = (
+            Q(change__timestamp__gte=datetime(2018, 1, 1, 0, 0, tzinfo=utc))
+            & Q(
+                change__timestamp__lte=datetime(
+                    2018, 12, 31, 23, 59, 59, 999999, tzinfo=utc
+                )
+            )
+            & Q(change__action=Change.ACTION_MARKED_EDIT)
+        )
+        self.assert_query(
+            "change_time:2018 AND change_action:marked-for-edit", expected
+        )
+        self.assert_query(
+            "change_time:2018 AND change_action:'Marked for edit'", expected
         )
 
     def test_dates(self):
@@ -225,7 +249,9 @@ class QueryParserTest(TestCase):
 
     def test_component(self):
         self.assert_query(
-            "component:hello", Q(translation__component__slug__iexact="hello")
+            "component:hello",
+            Q(translation__component__slug__iexact="hello")
+            | Q(translation__component__name__icontains="hello"),
         )
 
     def test_project(self):
@@ -246,14 +272,22 @@ class QueryParserTest(TestCase):
         self.assert_query("has:suggestion", Q(suggestion__isnull=False))
         self.assert_query("has:check", Q(check__dismissed=False))
         self.assert_query("has:comment", Q(comment__resolved=False))
+        self.assert_query("has:note", ~Q(note=""))
         self.assert_query("has:resolved-comment", Q(comment__resolved=True))
         self.assert_query("has:dismissed-check", Q(check__dismissed=True))
         self.assert_query("has:translation", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("has:variant", Q(variant__isnull=False))
-        self.assert_query("has:label", Q(labels__isnull=False))
+        self.assert_query(
+            "has:label", Q(source_unit__labels__isnull=False) | Q(labels__isnull=False)
+        )
         self.assert_query("has:context", ~Q(context=""))
-        self.assert_query("has:screenshot", Q(screenshots__isnull=False))
-        self.assert_query("has:flags", ~Q(extra_flags=""))
+        self.assert_query(
+            "has:screenshot",
+            Q(screenshots__isnull=False) | Q(source_unit__screenshots__isnull=False),
+        )
+        self.assert_query("has:flags", ~Q(source_unit__extra_flags=""))
+        self.assert_query("has:explanation", ~Q(source_unit__explanation=""))
+        self.assert_query("has:glossary", Q(source__isnull=True))
 
     def test_is(self):
         self.assert_query("is:pending", Q(pending=True))
@@ -270,6 +304,11 @@ class QueryParserTest(TestCase):
             & Q(change__action__in=Change.ACTIONS_CONTENT),
         )
 
+    def test_explanation(self):
+        self.assert_query(
+            "explanation:text", Q(source_unit__explanation__substring="text")
+        )
+
     def test_suggestions(self):
         self.assert_query("suggestion:text", Q(suggestion__target__substring="text"))
         self.assert_query(
@@ -279,15 +318,26 @@ class QueryParserTest(TestCase):
     def test_checks(self):
         self.assert_query(
             "check:ellipsis",
-            Q(check__check__iexact="ellipsis") & Q(check__dismissed=False),
+            Q(check__name__iexact="ellipsis") & Q(check__dismissed=False),
         )
         self.assert_query(
             "dismissed_check:ellipsis",
-            Q(check__check__iexact="ellipsis") & Q(check__dismissed=True),
+            Q(check__name__iexact="ellipsis") & Q(check__dismissed=True),
         )
 
     def test_labels(self):
-        self.assert_query("label:'test label'", Q(labels__name__iexact="test label"))
+        self.assert_query(
+            "label:'test label'",
+            Q(source_unit__labels__name__iexact="test label")
+            | Q(labels__name__iexact="test label"),
+        )
+
+    def test_screenshot(self):
+        self.assert_query(
+            "screenshot:'test screenshot'",
+            Q(source_unit__screenshots__name__iexact="test screenshot")
+            | Q(screenshots__name__iexact="test screenshot"),
+        )
 
     def test_priority(self):
         self.assert_query("priority:10", Q(priority=10))
@@ -343,7 +393,8 @@ class QueryParserTest(TestCase):
 
     def test_non_quoted_strings(self):
         self.assert_query(
-            "%(count)s word", parse_query("'%(count)s' 'word'"),
+            "%(count)s word",
+            parse_query("'%(count)s' 'word'"),
         )
         self.assert_query("{actor}", parse_query("'{actor}'"))
 
@@ -370,3 +421,25 @@ class QueryParserTest(TestCase):
         self.assert_query('"', parse_query("""'"'"""))
         self.assert_query("source:'", parse_query('''source:"'"'''))
         self.assert_query('source:"', parse_query("""source:'"'"""))
+
+
+class SearchTest(ViewTestCase, SearchMixin):
+    """Search tests on real projects."""
+
+    def test_glossary_empty(self):
+        self.assert_query("has:glossary", Q(source__isnull=True), project=self.project)
+
+    def test_glossary_match(self):
+        glossary = self.project.glossaries[0].translation_set.get(language_code="cs")
+        glossary.add_unit(None, "", "hello", "ahoj")
+
+        if using_postgresql():
+            expected = "[[:<:]](hello)[[:>:]]"
+        else:
+            expected = r"(^|[ \t\n\r\f\v])(hello)($|[ \t\n\r\f\v])"
+        self.assert_query(
+            "has:glossary",
+            Q(source__iregex=expected),
+            True,
+            project=self.project,
+        )

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from weblate.machinery.base import MachineTranslation
 
 
@@ -30,7 +29,16 @@ class DummyTranslation(MachineTranslation):
         """Dummy translation supports just Czech language."""
         return ("en", "cs")
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Dummy translation supports just single phrase."""
         if source == "en" and text.strip() == "Hello, world!":
             yield {
@@ -45,9 +53,9 @@ class DummyTranslation(MachineTranslation):
                 "service": "Dummy",
                 "source": text,
             }
-        if source == "en" and text.strip() == "Hello, [7]!":
+        if source == "en" and text.strip() == "Hello, [X7X]!":
             yield {
-                "text": "Nazdar [7]!",
+                "text": "Nazdar [X7X]!",
                 "quality": self.max_score,
                 "service": "Dummy",
                 "source": text,

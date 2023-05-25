@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,31 +17,27 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
-import email.parser
 import sys
 
-import pkg_resources
+# Once we depedend on Python 3.8+ this should be changed to importlib.metadata
+try:
+    import importlib.metadata as importlib_metadata
+except ImportError:
+    import importlib_metadata
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
 from django.db import connection
 
-import weblate
+import weblate.utils.version
+from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
-from weblate.vcs.git import (
-    GithubRepository,
-    GitLabRepository,
-    GitRepository,
-    GitWithGerritRepository,
-    SubversionRepository,
-)
+from weblate.vcs.git import GitRepository, GitWithGerritRepository, SubversionRepository
 from weblate.vcs.mercurial import HgRepository
 
 REQUIRES = [
     "Django",
     "siphashc",
-    "Whoosh",
     "translate-toolkit",
     "lxml",
     "Pillow",
@@ -57,12 +53,12 @@ REQUIRES = [
     "django-appconf",
     "user-agents",
     "filelock",
-    "setuptools",
-    "jellyfish",
+    "rapidfuzz",
     "openpyxl",
     "celery",
     "kombu",
     "translation-finder",
+    "weblate-language-data",
     "html2text",
     "pycairo",
     "pygobject",
@@ -76,13 +72,15 @@ REQUIRES = [
     "GitPython",
     "borgbackup",
     "pyparsing",
+    "pyahocorasick",
+    "python-redis-lock",
+    "charset-normalizer",
 ]
 
 OPTIONAL = [
     "psycopg2",
     "psycopg2-binary",
     "phply",
-    "chardet",
     "ruamel.yaml",
     "tesserocr",
     "akismet",
@@ -100,14 +98,13 @@ def get_version_module(name, optional=False):
     On error raises verbose exception with name and URL.
     """
     try:
-        dist = pkg_resources.get_distribution(name)
-        metadata = email.parser.Parser().parsestr(dist.get_metadata(dist.PKG_INFO))
+        metadata = importlib_metadata.metadata(name)
         return (
             name,
             metadata.get("Home-page"),
-            pkg_resources.get_distribution(name).version,
+            metadata.get("Version"),
         )
-    except pkg_resources.DistributionNotFound:
+    except importlib_metadata.PackageNotFoundError:
         if optional:
             return None
         raise ImproperlyConfigured(
@@ -147,16 +144,6 @@ def get_optional_versions():
             )
         )
 
-    if GithubRepository.is_supported():
-        result.append(
-            ("hub", "https://hub.github.com/", GithubRepository.get_version())
-        )
-
-    if GitLabRepository.is_supported():
-        result.append(
-            ("lab", "https://zaquestion.github.io/lab/", GitLabRepository.get_version())
-        )
-
     return result
 
 
@@ -175,7 +162,7 @@ def get_versions():
 
 
 def get_db_version():
-    if connection.vendor == "postgresql":
+    if using_postgresql():
         try:
             with connection.cursor() as cursor:
                 cursor.execute("SHOW server_version")
@@ -232,7 +219,7 @@ def get_db_cache_version():
 def get_versions_list():
     """Return list with version information summary."""
     return (
-        [("Weblate", "https://weblate.org/", weblate.GIT_VERSION)]
+        [("Weblate", "https://weblate.org/", weblate.utils.version.GIT_VERSION)]
         + get_versions()
         + get_optional_versions()
         + get_db_cache_version()

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,7 +21,8 @@ from functools import reduce
 
 from django.conf import settings
 
-from weblate.machinery.base import MachineTranslation, MissingConfiguration
+from .base import MachineTranslation
+from .forms import URLMachineryForm
 
 LANGUAGE_MAP = {
     "ca": "cat",
@@ -88,19 +89,13 @@ class ApertiumAPYTranslation(MachineTranslation):
 
     name = "Apertium APy"
     max_score = 90
-
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        self.url = self.get_server_url()
+    settings_form = URLMachineryForm
 
     @staticmethod
-    def get_server_url():
-        """Return URL of a server."""
-        if settings.MT_APERTIUM_APY is None:
-            raise MissingConfiguration("Not configured Apertium APy URL")
-
-        return settings.MT_APERTIUM_APY.rstrip("/")
+    def migrate_settings():
+        return {
+            "url": settings.MT_APERTIUM_APY.rstrip("/"),
+        }
 
     @property
     def all_langs(self):
@@ -117,7 +112,7 @@ class ApertiumAPYTranslation(MachineTranslation):
 
     def download_languages(self):
         """Download list of supported languages from a service."""
-        data = self.request_status("get", "{0}/listPairs".format(self.url))
+        data = self.request_status("get", self.get_api_url("listPairs"))
         return [
             (item["sourceLanguage"], item["targetLanguage"])
             for item in data["responseData"]
@@ -127,15 +122,24 @@ class ApertiumAPYTranslation(MachineTranslation):
         """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Download list of possible translations from Apertium."""
         args = {
-            "langpair": "{0}|{1}".format(source, language),
+            "langpair": f"{source}|{language}",
             "q": text,
             "markUnknown": "no",
         }
         response = self.request_status(
-            "get", "{0}/translate".format(self.url), params=args
+            "get", self.get_api_url("translate"), params=args
         )
 
         yield {

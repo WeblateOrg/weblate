@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
+from django.contrib.admin import RelatedOnlyFieldListFilter
 from django.utils.translation import gettext_lazy as _
 
 from weblate.wladmin.models import WeblateModelAdmin
@@ -39,7 +39,7 @@ class PlanAdmin(WeblateModelAdmin):
 
 
 def format_user(obj):
-    return "{}: {} <{}>".format(obj.username, obj.full_name, obj.email)
+    return f"{obj.username}: {obj.full_name} <{obj.email}>"
 
 
 class BillingAdmin(WeblateModelAdmin):
@@ -63,7 +63,7 @@ class BillingAdmin(WeblateModelAdmin):
         "last_invoice",
     )
     list_filter = ("plan", "state", "paid", "in_limits")
-    search_fields = ("projects__name",)
+    search_fields = ("projects__name", "owners__email")
     filter_horizontal = ("projects", "owners")
 
     def get_queryset(self, request):
@@ -72,12 +72,12 @@ class BillingAdmin(WeblateModelAdmin):
     def list_projects(self, obj):
         if not obj.all_projects:
             return "none projects associated"
-        return ",".join([project.name for project in obj.all_projects])
+        return ",".join(project.name for project in obj.all_projects)
 
     list_projects.short_description = _("Projects")
 
     def list_owners(self, obj):
-        return ",".join([owner.full_name for owner in obj.owners.all()])
+        return ",".join(owner.full_name for owner in obj.owners.all())
 
     list_owners.short_description = _("Owners")
 
@@ -91,14 +91,18 @@ class BillingAdmin(WeblateModelAdmin):
         obj = form.instance
         # Add owners as admin if there is none
         for project in obj.projects.all():
-            group = project.get_group("@Administration")
+            group = project.defined_groups.get(name="Administration")
             if not group.user_set.exists():
                 group.user_set.add(*obj.owners.all())
 
 
 class InvoiceAdmin(WeblateModelAdmin):
     list_display = ("billing", "start", "end", "amount", "currency", "ref")
-    list_filter = ("currency", "billing")
+    list_filter = (
+        "currency",
+        ("billing__projects", RelatedOnlyFieldListFilter),
+        ("billing__owners", RelatedOnlyFieldListFilter),
+    )
     search_fields = ("billing__projects__name", "ref", "note")
     date_hierarchy = "end"
     ordering = ["billing", "-start"]

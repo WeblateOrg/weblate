@@ -5,7 +5,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
-<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+{% include "snippets/component-breadcrumb.html" %}
 <li><a href="{% url 'settings' project=object.project.slug component=object.slug %}">{% trans "Settings" %}</a></li>
 {% endblock %}
 

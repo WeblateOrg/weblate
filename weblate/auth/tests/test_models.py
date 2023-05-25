@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -79,6 +79,7 @@ class ModelTest(FixtureTestCase):
         self.group.componentlists.add(clist)
 
         # No permissions as component list is empty
+        self.user.clear_cache()
         self.assertFalse(self.user.can_access_project(self.project))
         self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 
@@ -142,4 +143,4 @@ class ModelTest(FixtureTestCase):
             first_name="First", last_name="Last", is_staff=True, is_superuser=True
         )
         self.assertEqual(user.full_name, "First Last")
-        self.assertEqual(user.is_superuser, True)
+        self.assertTrue(user.is_superuser)

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,6 +22,7 @@ from typing import Dict
 
 from django import template
 from django.conf import settings
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
 from weblate.utils.errors import report_error
@@ -45,7 +46,7 @@ def icon(name):
     if name not in CACHE:
         icon_file = os.path.join(settings.STATIC_ROOT, "icons", name)
         try:
-            with open(icon_file, "r") as handle:
+            with open(icon_file) as handle:
                 CACHE[name] = mark_safe(handle.read())
         except OSError:
             report_error(cause="Failed to load icon")
@@ -56,10 +57,9 @@ def icon(name):
 
 @register.simple_tag()
 def loading_icon(name=None, hidden=True):
-    return mark_safe(
-        SPIN.format(
-            'id="loading-{}"'.format(name) if name else "",
-            'style="display: none"' if hidden else "",
-            icon("loading.svg"),
-        )
+    return format_html(
+        SPIN,
+        format_html('id="loading-{}"', name) if name else "",
+        format_html('style="display: none"') if hidden else "",
+        icon("loading.svg"),
     )

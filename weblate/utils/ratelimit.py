@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -24,6 +24,7 @@ from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 
+from weblate.logger import LOGGER
 from weblate.utils import messages
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.request import get_ip_address
@@ -51,10 +52,10 @@ def reset_rate_limit(scope, request=None, address=None, user=None):
 
 
 def get_rate_setting(scope, suffix):
-    key = "RATELIMIT_{}_{}".format(scope.upper(), suffix)
+    key = f"RATELIMIT_{scope.upper()}_{suffix}"
     if hasattr(settings, key):
         return getattr(settings, key)
-    return getattr(settings, "RATELIMIT_{}".format(suffix))
+    return getattr(settings, f"RATELIMIT_{suffix}")
 
 
 def revert_rate_limit(scope, request):
@@ -73,6 +74,9 @@ def revert_rate_limit(scope, request):
 
 def check_rate_limit(scope, request):
     """Check authentication rate limit."""
+    if request.user.is_superuser:
+        return True
+
     key = get_cache_key(scope, request)
 
     try:
@@ -86,6 +90,12 @@ def check_rate_limit(scope, request):
     if attempts > get_rate_setting(scope, "ATTEMPTS"):
         # Set key to longer expiry for lockout period
         cache.set(key, attempts, get_rate_setting(scope, "LOCKOUT"))
+        LOGGER.info(
+            "rate-limit lockout for %s in %s scope from %s",
+            key,
+            scope,
+            get_ip_address(request),
+        )
         return False
 
     return True
@@ -105,7 +115,9 @@ def session_ratelimit_post(scope):
                     logout(request)
                 messages.error(
                     request,
-                    render_to_string("ratelimit.html", {"do_logout": do_logout}),
+                    render_to_string(
+                        "ratelimit.html", {"do_logout": do_logout, "user": request.user}
+                    ),
                 )
                 return redirect("login")
             return function(request, *args, **kwargs)

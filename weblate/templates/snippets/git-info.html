@@ -7,25 +7,34 @@
 
 {% if user_can_see_git_repository %}
 <tr>
-<th>{% trans "Repository" %}</th>
-<td colspan="2">
-    <code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code>
-    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ object.get_repo_url }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+<th>{% trans "Source code repository" %}</th>
+<td class="full-cell">
+  {% with repo_url=object.get_repo_url %}
+    {% if repo_url|slice:":8" == "https://" %}
+      <a href="{{ repo_url }}"><code class="wrap-text">{{ repo_url }}</code></a>
+    {% else %}
+      <code class="wrap-text">{{ repo_url }}</code>
+    {% endif %}
+    {% if object.linked_component %}
+      <a href="{{ object.linked_component.get_absolute_url }}#information" title="{% blocktrans with target=object.linked_component %}This component is linked to the {{target}} repository.{% endblocktrans %}">{% icon "link.svg" %}</a>
+    {% endif %}
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ repo_url }}" data-clipboard-message="{% trans "Repository URL copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+  {% endwith %}
 </td>
 </tr>
 
 <tr>
 <th>{% trans "Repository branch" %}</th>
-<td colspan="2">
+<td class="full-cell">
 {{ object.get_repo_branch }}
 </td>
 </tr>
 
-{% with object.get_last_remote_commit as commit %}
+{% with commit=object.get_last_remote_commit %}
 {% if commit %}
 <tr>
 <th>{% trans "Last remote commit" %}</th>
-<td colspan="2">
+<td class="full-cell">
     {{ commit.summary }}
     <code title="{{ commit.revision }}">{{ commit.shortrevision }}</code>
     <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ commit.revision }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
@@ -37,13 +46,29 @@
 {% endif %}
 {% endwith %}
 
-{% with object.get_export_url as export_url %}
+{% with commit=object.get_last_commit %}
+{% if commit %}
+<tr>
+<th>{% trans "Last commit in Weblate" %}</th>
+<td class="full-cell">
+    {{ commit.summary }}
+    <code title="{{ commit.revision }}">{{ commit.shortrevision }}</code>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ commit.revision }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+    <br />
+{% comment %}Translators: For example: "nijel authored five days ago"{% endcomment %}
+{% blocktrans with author=commit|format_commit_author date=commit.authordate|naturaltime %}{{ author }} authored {{ date }}{% endblocktrans %}<br />
+</td>
+</tr>
+{% endif %}
+{% endwith %}
+
+{% with export_url=object.get_export_url %}
 {% if export_url %}
 <tr>
-<th>{% trans "Repository containing Weblate translations" %}</th>
-<td colspan="2">
-    <code class="git-repo ui-corner-all">{{ export_url }}</code>
-    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ export_url }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+<th>{% trans "Weblate repository" %}</th>
+<td class="full-cell">
+    <code class="wrap-text">{{ export_url }}</code>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ export_url }}" data-clipboard-message="{% trans "Repository URL copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 </td>
 </tr>
 {% endif %}

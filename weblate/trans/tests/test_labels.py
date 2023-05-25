@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -69,7 +69,7 @@ class LabelTest(ViewTestCase):
     def test_assign(self):
         self.test_create()
         label = self.project.label_set.get()
-        unit = self.get_unit().source_info
+        unit = self.get_unit().source_unit
         self.client.post(
             reverse("edit_context", kwargs={"pk": unit.pk}),
             {"explanation": "", "extra_flags": "", "labels": label.pk},

@@ -38,7 +38,10 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "check",
-                    models.CharField(choices=CHECKS.get_choices(), max_length=50,),
+                    models.CharField(
+                        choices=CHECKS.get_choices(),
+                        max_length=50,
+                    ),
                 ),
                 ("ignore", models.BooleanField(db_index=True, default=False)),
                 (

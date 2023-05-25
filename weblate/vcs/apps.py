@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,15 +21,28 @@ import os
 
 from django.apps import AppConfig
 from django.core.checks import Warning, register
-from filelock import FileLock
+from django.db.models.signals import post_migrate
 
+import weblate.vcs.gpg
 from weblate.utils.checks import weblate_check
 from weblate.utils.data import data_dir
+from weblate.utils.lock import WeblateLock
 from weblate.vcs.base import RepositoryException
-from weblate.vcs.git import GitRepository
-from weblate.vcs.gpg import check_gpg
+from weblate.vcs.git import GitRepository, SubversionRepository
+from weblate.vcs.ssh import ensure_ssh_key
 
 GIT_ERRORS = []
+
+
+def check_gpg(app_configs, **kwargs):
+    from weblate.vcs.gpg import get_gpg_public_key
+
+    get_gpg_public_key()
+    template = "{}: {}"
+    return [
+        weblate_check("weblate.C036", template.format(key, message))
+        for key, message in weblate.vcs.gpg.GPG_ERRORS.items()
+    ]
 
 
 def check_vcs(app_configs, **kwargs):
@@ -38,7 +51,7 @@ def check_vcs(app_configs, **kwargs):
     message = "Failure in loading VCS module for {}: {}"
     return [
         weblate_check(
-            "weblate.W033.{}".format(key), message.format(key, value.strip()), Warning
+            f"weblate.W033.{key}", message.format(key, value.strip()), Warning
         )
         for key, value in VCS_REGISTRY.errors.items()
     ]
@@ -66,15 +79,29 @@ class VCSConfig(AppConfig):
         home = data_dir("home")
         if not os.path.exists(home):
             os.makedirs(home)
+
+        post_migrate.connect(self.post_migrate, sender=self)
+
+    def post_migrate(self, sender, **kwargs):
+        ensure_ssh_key()
+        home = data_dir("home")
+
         # Configure merge driver for Gettext PO
         # We need to do this behind lock to avoid errors when servers
         # start in parallel
-        lockfile = FileLock(os.path.join(home, "gitlock"))
+        lockfile = WeblateLock(
+            home, "gitlock", 0, "", "lock:{scope}", "{scope}", timeout=120
+        )
         with lockfile:
             try:
                 GitRepository.global_setup()
             except RepositoryException as error:
                 GIT_ERRORS.append(str(error))
+            if SubversionRepository.is_supported():
+                try:
+                    SubversionRepository.global_setup()
+                except RepositoryException as error:
+                    GIT_ERRORS.append(str(error))
 
         # Use it for *.po by default
         configdir = os.path.join(home, ".config", "git")

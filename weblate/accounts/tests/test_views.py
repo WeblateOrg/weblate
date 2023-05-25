@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,23 +18,22 @@
 #
 
 """Test for user handling."""
+from unittest import mock
 
-import social_django.utils
 from django.conf import settings
 from django.core import mail
 from django.core.signing import TimestampSigner
-from django.test import TestCase
-from django.test.utils import override_settings
+from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
-from django.utils.encoding import force_str
 from jsonschema import validate
 from social_core.backends.utils import load_backends
 from weblate_schemas import load_schema
 
 from weblate.accounts.models import Profile, Subscription
-from weblate.accounts.notifications import FREQ_DAILY, FREQ_NONE, SCOPE_DEFAULT
+from weblate.accounts.notifications import FREQ_DAILY, FREQ_NONE, SCOPE_WATCHED
 from weblate.auth.models import User
 from weblate.lang.models import Language
+from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.ratelimit import reset_rate_limit
 
@@ -46,7 +45,7 @@ CONTACT_DATA = {
 }
 
 
-class ViewTest(TestCase):
+class ViewTest(RepoTestCase):
     """Test for views."""
 
     def setUp(self):
@@ -55,7 +54,9 @@ class ViewTest(TestCase):
         reset_rate_limit("message", address="127.0.0.1")
 
     def get_user(self):
-        user = User.objects.create_user(username="testuser", password="testpassword")
+        user = User.objects.create_user(
+            username="testuser", password="testpassword", full_name="Test User"
+        )
         user.full_name = "First Second"
         user.email = "noreply@example.com"
         user.save()
@@ -125,38 +126,50 @@ class ViewTest(TestCase):
         response = self.client.get(reverse("hosting"))
         self.assertRedirects(response, reverse("home"))
 
-    @override_settings(
-        REGISTRATION_CAPTCHA=False,
-        OFFER_HOSTING=True,
-        ADMINS_HOSTING=["noreply@example.com"],
-    )
-    def test_hosting(self):
+    @override_settings(OFFER_HOSTING=True)
+    def test_libre(self):
         """Test for hosting form with enabled hosting."""
+        from weblate.billing.models import Plan
+
         self.get_user()
         self.client.login(username="testuser", password="testpassword")
-        response = self.client.get(reverse("hosting"))
-        self.assertContains(response, 'id="id_message"')
 
-        # Sending message
-        response = self.client.post(
-            reverse("hosting"),
-            {
-                "name": "Test",
-                "email": "noreply@weblate.org",
-                "project": "HOST",
-                "url": "http://example.net",
-                "repo": "https://github.com/WeblateOrg/weblate.git",
-                "mask": "po/*.po",
-                "message": "Hi\n\nI want to use it!",
-            },
-        )
+        Plan.objects.create(price=0, slug="libre", name="Libre")
+        self.client.login(username="testuser", password="testpassword")
+        response = self.client.get(reverse("hosting"))
+        self.assertContains(response, "trial")
+
+        # Creating a trial
+        response = self.client.post(reverse("trial"), {"plan": "libre"}, follow=True)
+        self.assertContains(response, "Create project")
+
+    @override_settings(OFFER_HOSTING=False)
+    def test_trial_disabled(self):
+        """Test for trial form with disabled hosting."""
+        self.get_user()
+        self.client.login(username="testuser", password="testpassword")
+        response = self.client.get(reverse("trial"))
         self.assertRedirects(response, reverse("home"))
 
-        # Verify message
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, "[Weblate] Hosting request for HOST")
-        self.assertIn("testuser", mail.outbox[0].body)
-        self.assertEqual(mail.outbox[0].to, ["noreply@example.com"])
+    @override_settings(OFFER_HOSTING=True)
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_trial(self):
+        """Test for trial form with disabled hosting."""
+        from weblate.billing.models import Plan
+
+        Plan.objects.create(price=1, slug="enterprise")
+        user = self.get_user()
+        self.client.login(username="testuser", password="testpassword")
+        response = self.client.get(reverse("trial"))
+        self.assertContains(response, "Enterprise")
+        response = self.client.post(reverse("trial"), follow=True)
+        self.assertContains(response, "Create project")
+        billing = user.billing_set.get()
+        self.assertTrue(billing.is_trial)
+
+        # Repeated attempt should fail
+        response = self.client.get(reverse("trial"))
+        self.assertRedirects(response, reverse("contact") + "?t=trial")
 
     def test_contact_subject(self):
         # With set subject
@@ -174,6 +187,9 @@ class ViewTest(TestCase):
     def test_user_list(self):
         """Test user pages."""
         user = self.get_user()
+        response = self.client.get(reverse("user_list"), {"q": user.username})
+        self.assertEqual(response.status_code, 302)
+        self.client.login(username=user.username, password="testpassword")
         user_url = user.get_absolute_url()
         response = self.client.get(reverse("user_list"), {"q": user.username})
         self.assertContains(response, user_url)
@@ -192,7 +208,7 @@ class ViewTest(TestCase):
 
         # Get public profile
         response = self.client.get(user.get_absolute_url())
-        self.assertContains(response, '="/activity/')
+        self.assertContains(response, "table-activity")
 
     def test_suggestions(self):
         """Test user pages."""
@@ -229,22 +245,17 @@ class ViewTest(TestCase):
         response = self.client.post(reverse("logout"))
         self.assertRedirects(response, reverse("home"))
 
+    @override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "social_core.backends.github.GithubOAuth2",
+            "weblate.accounts.auth.WeblateUserBackend",
+        )
+    )
     def test_login_redirect(self):
-        try:
-            # psa creates copy of settings...
-            orig_backends = social_django.utils.BACKENDS
-            social_django.utils.BACKENDS = (
-                "social_core.backends.github.GithubOAuth2",
-                "weblate.accounts.auth.WeblateUserBackend",
-            )
-            load_backends(social_django.utils.BACKENDS, force_load=True)
+        load_backends(settings.AUTHENTICATION_BACKENDS, force_load=True)
 
-            response = self.client.get(reverse("login"))
-            self.assertContains(
-                response, "Redirecting you to the authentication provider."
-            )
-        finally:
-            social_django.utils.BACKENDS = orig_backends
+        response = self.client.get(reverse("login"))
+        self.assertContains(response, "Redirecting you to the authentication provider.")
 
     def test_login_email(self):
         user = self.get_user()
@@ -370,6 +381,25 @@ class ProfileTest(FixtureTestCase):
         )
         self.assertRedirects(response, reverse("profile"))
 
+    def test_profile_dashboard(self):
+        # Save profile with invalid settings
+        response = self.client.post(
+            reverse("profile"),
+            {
+                "language": "en",
+                "languages": Language.objects.get(code="cs").id,
+                "secondary_languages": Language.objects.get(code="cs").id,
+                "full_name": "First Last",
+                "email": "weblate@example.org",
+                "username": "testik",
+                "dashboard_view": Profile.DASHBOARD_COMPONENT_LIST,
+                "translate_mode": Profile.TRANSLATE_FULL,
+                "zen_mode": Profile.ZEN_VERTICAL,
+                "nearby_strings": 10,
+            },
+        )
+        self.assertContains(response, "Select a valid choice.")
+
     def test_userdata(self):
         response = self.client.post(reverse("userdata"))
         self.assertContains(response, "basic")
@@ -386,7 +416,7 @@ class ProfileTest(FixtureTestCase):
     def test_subscription(self):
         # Get profile page
         response = self.client.get(reverse("profile"))
-        self.assertEqual(self.user.subscription_set.count(), 8)
+        self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Extract current form data
         data = {}
@@ -399,25 +429,25 @@ class ProfileTest(FixtureTestCase):
                 elif isinstance(value, list):
                     data[name] = value
                 else:
-                    data[name] = force_str(value)
+                    data[name] = str(value)
 
         # Save unchanged data
         response = self.client.post(reverse("profile"), data, follow=True)
         self.assertContains(response, "Your profile has been updated.")
-        self.assertEqual(self.user.subscription_set.count(), 8)
+        self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Remove some subscriptions
-        data["notifications__0-notify-LastAuthorCommentNotificaton"] = "0"
-        data["notifications__0-notify-MentionCommentNotificaton"] = "0"
-        response = self.client.post(reverse("profile"), data, follow=True)
-        self.assertContains(response, "Your profile has been updated.")
-        self.assertEqual(self.user.subscription_set.count(), 6)
-
-        # Add some subscriptions
-        data["notifications__1-notify-ChangedStringNotificaton"] = "1"
+        data["notifications__1-notify-LastAuthorCommentNotificaton"] = "0"
+        data["notifications__1-notify-MentionCommentNotificaton"] = "0"
         response = self.client.post(reverse("profile"), data, follow=True)
         self.assertContains(response, "Your profile has been updated.")
         self.assertEqual(self.user.subscription_set.count(), 7)
+
+        # Add some subscriptions
+        data["notifications__2-notify-ChangedStringNotificaton"] = "1"
+        response = self.client.post(reverse("profile"), data, follow=True)
+        self.assertContains(response, "Your profile has been updated.")
+        self.assertEqual(self.user.subscription_set.count(), 8)
 
     def test_subscription_customize(self):
         # Initial view
@@ -447,7 +477,7 @@ class ProfileTest(FixtureTestCase):
 
     def test_watch(self):
         self.assertEqual(self.user.profile.watched.count(), 0)
-        self.assertEqual(self.user.subscription_set.count(), 8)
+        self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Watch project
         self.client.post(reverse("watch", kwargs=self.kw_project))
@@ -477,11 +507,11 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(
             self.user.subscription_set.filter(component=self.component).count(), 0
         )
-        self.assertEqual(self.user.subscription_set.count(), 8)
+        self.assertEqual(self.user.subscription_set.count(), 9)
 
     def test_watch_component(self):
         self.assertEqual(self.user.profile.watched.count(), 0)
-        self.assertEqual(self.user.subscription_set.count(), 8)
+        self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Watch component
         self.client.post(reverse("watch", kwargs=self.kw_component))
@@ -510,7 +540,7 @@ class ProfileTest(FixtureTestCase):
         self.assertContains(response, "notification change link is no longer valid")
 
         subscription = Subscription.objects.create(
-            user=self.user, notification="x", frequency=FREQ_DAILY, scope=SCOPE_DEFAULT
+            user=self.user, notification="x", frequency=FREQ_DAILY, scope=SCOPE_WATCHED
         )
         response = self.client.get(
             reverse("unsubscribe"),
@@ -521,3 +551,69 @@ class ProfileTest(FixtureTestCase):
         self.assertContains(response, "Notification settings adjusted")
         subscription.refresh_from_db()
         self.assertEqual(subscription.frequency, FREQ_NONE)
+
+    def test_profile_password_warning(self):
+        with mock.patch.object(User, "has_usable_password", return_value=False):
+            response = self.client.get(reverse("profile"))
+            self.assertContains(response, "Please enable the password authentication")
+            with modify_settings(
+                AUTHENTICATION_BACKENDS={
+                    "remove": "social_core.backends.email.EmailAuth"
+                }
+            ):
+                load_backends(settings.AUTHENTICATION_BACKENDS, force_load=True)
+                response = self.client.get(reverse("profile"))
+                self.assertNotContains(
+                    response, "Please enable the password authentication"
+                )
+        self.assertTrue(self.user.has_usable_password())
+        response = self.client.get(reverse("profile"))
+        self.assertNotContains(response, "Please enable the password authentication")
+        load_backends(settings.AUTHENTICATION_BACKENDS, force_load=True)
+
+    def test_language(self):
+        self.user.profile.languages.clear()
+
+        # English is not saved
+        self.client.get(reverse("profile"), HTTP_ACCEPT_LANGUAGE="en")
+        self.assertFalse(self.user.profile.languages.exists())
+
+        # Other language is saved
+        self.client.get(reverse("profile"), HTTP_ACCEPT_LANGUAGE="cs")
+        self.assertEqual(
+            set(self.user.profile.languages.values_list("code", flat=True)), {"cs"}
+        )
+
+
+class EditUserTest(FixtureTestCase):
+    def setUp(self):
+        super().setUp()
+        self.user.is_superuser = True
+        self.user.save()
+
+    def test_edit(self):
+        # Change user as superuser
+        response = self.client.post(
+            self.user.get_absolute_url(),
+            {
+                "username": "us",
+                "full_name": "Full name",
+                "email": "noreply@example.com",
+                "is_active": "1",
+            },
+        )
+        user = User.objects.get(pk=self.user.pk)
+        self.assertRedirects(response, user.get_absolute_url())
+        self.assertTrue(user.is_active)
+        self.assertFalse(user.is_superuser)
+        # No permissions now
+        response = self.client.post(
+            self.user.get_absolute_url(),
+            {
+                "username": "us",
+                "full_name": "Full name",
+                "email": "noreply@example.com",
+                "is_active": "1",
+            },
+        )
+        self.assertEqual(response.status_code, 403)

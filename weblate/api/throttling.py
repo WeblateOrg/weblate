@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -28,7 +28,7 @@ def patch_throttle_request(func):
     @wraps(func)
     def patched(self, request, view):
         result = func(self, request, view)
-        if result and hasattr(self, "history"):
+        if hasattr(self, "history"):
             request.META["throttling_state"] = self
         return result
 

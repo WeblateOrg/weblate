@@ -13,14 +13,14 @@ WLT.Utils = (function () {
     },
 
     markFuzzy: function ($el) {
-      /* Standard worflow */
+      /* Standard workflow */
       $el.find('input[name="fuzzy"]').prop("checked", true);
       /* Review workflow */
       $el.find('input[name="review"][value="10"]').prop("checked", true);
     },
 
     markTranslated: function ($el) {
-      /* Standard worflow */
+      /* Standard workflow */
       $el.find('input[name="fuzzy"]').prop("checked", false);
       /* Review workflow */
       $el.find('input[name="review"][value="20"]').prop("checked", true);
@@ -35,59 +35,88 @@ WLT.Editor = (function () {
     var translationAreaSelector = ".translation-editor";
 
     this.$editor = $(".js-editor");
-    this.$translationArea = $(translationAreaSelector);
+    /* Only insert actual translation editor, not a popup for adding variant */
+    this.$translationArea = $(".translator .translation-editor");
 
-    this.$editor.on("change", translationAreaSelector, testChangeHandler);
-    this.$editor.on("keypress", translationAreaSelector, testChangeHandler);
-    this.$editor.on("keydown", translationAreaSelector, testChangeHandler);
-    this.$editor.on("paste", translationAreaSelector, testChangeHandler);
+    this.$editor.on("input", translationAreaSelector, (e) => {
+      WLT.Utils.markTranslated($(e.target).closest("form"));
+    });
+
     this.$editor.on("focusin", translationAreaSelector, function () {
       lastEditor = $(this);
     });
 
     /* Count characters */
-    this.$editor.on("keyup", translationAreaSelector, function () {
-      var $this = $(this);
-      var counter = $this.parent().find(".length-indicator");
-      var limit = parseInt(counter.data("max"));
-      var length = $this.val().length;
-      counter.text(length);
-      if (length >= limit) {
-        counter.parent().addClass("badge-danger").removeClass("badge-warning");
-      } else if (length + 10 >= limit) {
-        counter.parent().addClass("badge-warning").removeClass("badge-danger");
+    this.$editor.on("input", translationAreaSelector, (e) => {
+      var textarea = e.target;
+      var editor = textarea.parentElement.parentElement;
+      var counter = editor.querySelector(".length-indicator");
+      var classToggle = editor.classList;
+
+      var limit = parseInt(counter.getAttribute("data-max"));
+      var length = textarea.value.length;
+
+      counter.textContent = length;
+      if (length > limit) {
+        classToggle.remove("has-warning");
+        classToggle.add("has-error");
+      } else if (length > limit - 10) {
+        classToggle.add("has-warning");
+        classToggle.remove("has-error");
       } else {
-        counter
-          .parent()
-          .removeClass("badge-warning")
-          .removeClass("badge-danger");
+        classToggle.remove("has-warning");
+        classToggle.remove("has-error");
       }
     });
 
     /* Copy source text */
-    this.$editor.on("click", ".copy-text", function (e) {
+    this.$editor.on("click", "[data-clone-text]", function (e) {
       var $this = $(this);
+      var $document = $(document);
+      var cloneText = this.getAttribute("data-clone-text");
 
-      $this.button("loading");
-      $this
-        .closest(".translation-item")
-        .find(".translation-editor")
-        .val($.parseJSON($this.data("content")))
-        .change();
-      autosize.update($(".translation-editor"));
+      var row = $this.closest(".zen-unit");
+      if (row.length === 0) {
+        row = $this.closest(".translator");
+      }
+      if (row.length === 0) {
+        row = $document.find(".translator");
+      }
+      var editors = row.find(".translation-editor");
+      if (editors.length == 1) {
+        editors.replaceValue(cloneText);
+      } else {
+        addAlert(
+          gettext("Please select target plural by clicking."),
+          (kind = "info")
+        );
+        editors.addClass("editor-click-select");
+        editors.click(function () {
+          $(this).replaceValue(cloneText);
+          editors.removeClass("editor-click-select");
+          editors.off("click");
+          $document.off("click");
+          return false;
+        });
+        $document.on("click", function () {
+          editors.removeClass("editor-click-select");
+          editors.off("click");
+          $document.off("click");
+          return false;
+        });
+      }
       WLT.Utils.markFuzzy($this.closest("form"));
-      $this.button("reset");
-      e.preventDefault();
+      return false;
     });
 
     /* Direction toggling */
     this.$editor.on("change", ".direction-toggle", function () {
       var $this = $(this);
+      var direction = $this.find("input").val();
+      var container = $this.closest(".translation-item");
 
-      $this
-        .closest(".translation-item")
-        .find(".translation-editor")
-        .attr("dir", $this.find("input").val());
+      container.find(".translation-editor").attr("dir", direction);
+      container.find(".highlighted-output").attr("dir", direction);
     });
 
     /* Special characters */
@@ -98,9 +127,7 @@ WLT.Editor = (function () {
       $this
         .closest(".translation-item")
         .find(".translation-editor")
-        .insertAtCaret(text)
-        .change();
-      autosize.update($(".translation-editor"));
+        .insertAtCaret(text);
       e.preventDefault();
     });
 
@@ -110,10 +137,7 @@ WLT.Editor = (function () {
     this.$translationArea[0].focus();
   }
 
-  EditorBase.prototype.init = function () {
-    /* Autosizing */
-    autosize(this.$translationArea);
-  };
+  EditorBase.prototype.init = function () {};
 
   EditorBase.prototype.initHighlight = function () {
     var hlSelector = ".hlcheck";
@@ -122,11 +146,7 @@ WLT.Editor = (function () {
     /* Copy from source text highlight check */
     this.$editor.on("click", hlSelector, function (e) {
       var $this = $(this);
-      var text = $this.clone();
-
-      text.find(hlNumberSelector).remove();
-      text = text.text();
-      insertEditor(text, $this);
+      insertEditor($this.data("value"), $this);
       e.preventDefault();
     });
 
@@ -152,7 +172,7 @@ WLT.Editor = (function () {
             title = interpolate(gettext("Ctrl+%s"), [key]);
           }
           $this.attr("title", title);
-          $this.find(hlNumberSelector).html("<kbd>" + key + "</kbd>");
+          $this.find(hlNumberSelector).html($("<kbd/>").text(key));
 
           Mousetrap.bindGlobal("mod+" + key, function (e) {
             $this.click();
@@ -181,21 +201,17 @@ WLT.Editor = (function () {
     );
   };
 
-  function testChangeHandler(e) {
-    if (e.key && e.key === "Tab") {
-      return;
-    }
-    WLT.Utils.markTranslated($(this).closest("form"));
-  }
-
   function insertEditor(text, element) {
     var root;
 
-    /* Find withing root element */
+    /* Find within root element */
     if (typeof element !== "undefined") {
       root = element.closest(".zen-unit");
       if (root.length === 0) {
         root = element.closest(".translation-form");
+      }
+      if (root.length === 0) {
+        root = $(document);
       }
     } else {
       root = $(document);
@@ -209,8 +225,7 @@ WLT.Editor = (function () {
       }
     }
 
-    editor.insertAtCaret($.trim(text)).change();
-    autosize.update(editor);
+    editor.insertAtCaret(text);
   }
 
   return {

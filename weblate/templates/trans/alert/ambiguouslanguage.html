@@ -1,0 +1,25 @@
+{% load i18n %}
+{% load translations %}
+
+<p>
+  {% trans "Files for translated languages are using ambiguous language codes." %}
+  {% trans "These language codes indicate a macrolanguage, and it is usually better to use the code of the individual language instead." %}
+</p>
+
+<p>{% trans "The following occurrences were found:" %}</p>
+
+<table class="table table-condensed">
+<thead>
+<tr><th>{% trans "Language code" %}</th><th>{% trans "Suggested individual language codes" %}</th></tr>
+</thead>
+<tbody>
+{% for code, alternatives in ambiguous.items %}
+<tr>
+    <td>{{ code }}</td>
+    <td>{{ alternatives|join:", " }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% include "trans/alert/occurrences-limit.html" %}

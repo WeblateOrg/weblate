@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -60,7 +60,7 @@ class FontViewTest(FontTestCase):
         self.assertContains(self.client.get(group.get_absolute_url()), "font-group")
 
         # Add override
-        language = Language.objects.all()[0]
+        language = Language.objects.get(code="zh_Hant")
         response = self.client.post(
             group.get_absolute_url(),
             {"language": language.pk, "font": font.pk},

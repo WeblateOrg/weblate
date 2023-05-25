@@ -2,8 +2,18 @@
 
 set -e -x
 
+CI_DATABASE="$1"
+
+mkdir -p /run/user/1000
+chown -R 1000:1000 /run/user/1000
+
 # Update package lists
 apt-get update
+
+# Remove non-installable git packages. There git-svn can not be installed
+# because the image contains newer versions which do not have matching git-svn
+# in enabled repositories.
+apt-get purge git git-man
 
 # Install dependencies
 apt-get install -y \
@@ -15,7 +25,7 @@ apt-get install -y \
     subversion \
     postgresql-client \
     pkg-config \
-    python3-dev \
+    python-dev \
     libxml2-dev \
     libacl1-dev \
     libxmlsec1-dev \
@@ -32,3 +42,9 @@ apt-get install -y \
     gir1.2-pango-1.0 \
     cython \
     tesseract-ocr
+
+# Remove MySQL 8.x client, use older MariaDB one to ensure compatibility
+if [ "$CI_DATABASE" = "mariadb" ] ; then
+    apt-get purge 'mysql-client.*'
+    apt-get install -y mariadb-client
+fi

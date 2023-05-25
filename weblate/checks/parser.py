@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+
+import re
 
 from pyparsing import Optional, QuotedString, Regex, ZeroOrMore
 
@@ -44,12 +46,27 @@ def multi_value_flag(func, minimum=1, maximum=None, modulo=None):
     return parse_values
 
 
+class RawQuotedString(QuotedString):
+    def __init__(self, quote_char, esc_char="\\"):
+        super().__init__(quote_char, esc_char=esc_char, convert_whitespace_escapes=True)
+        # unlike the QuotedString this replaces only escaped quotes and not all chars
+        self.escCharReplacePattern = (
+            re.escape(esc_char)
+            + "(["
+            + re.escape(quote_char)
+            + re.escape(esc_char)
+            + "])"
+        )
+
+
 SYNTAXCHARS = {",", ":", '"', "'", "\\"}
 
-FlagName = Regex(r"""[^,:"'\\]+""")
+FlagName = Regex(r"""[^,:"'\\ \r\n\t]([^,:"'\\]*[^,:"'\\ \r\n\t])?""")
+
+RegexString = "r" + RawQuotedString('"')
 
 FlagParam = Optional(
-    FlagName | QuotedString("'", escChar="\\") | QuotedString('"', escChar="\\")
+    RegexString | FlagName | RawQuotedString("'") | RawQuotedString('"')
 )
 
 Flag = FlagName + ZeroOrMore(":" + FlagParam)

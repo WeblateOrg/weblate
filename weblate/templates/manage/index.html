@@ -25,6 +25,18 @@
 </div>
   <table class="table table-condensed table-striped">
   <tr>
+  <th>{% trans "Weblate version" %}</th>
+  <td>
+    {% if git_revision %}
+      {{ version }} — <a href="{{ git_revision_link }}">{{ git_revision }}</a>
+    {% elif git_revision_link %}
+      <a href="{{ git_revision_link }}">{{ version }}</a>
+    {% else %}
+      {{ version }}
+    {% endif %}
+  </td>
+  </tr>
+  <tr>
   <th>{% trans "Support status" %}</th>
   <td>
     {{ support.get_verbose }}
@@ -41,13 +53,33 @@
   <td>{{ support.expiry|naturaltime }}</td>
   </tr>
   {% endif %}
+  {% if support.secret %}
+  <tr>
+  <th>{% trans "Discover Weblate" %}</th>
+  <td>
+    <a href="https://weblate.org/discover/" class="btn-inline pull-right flip">{% trans "Browse discovery" %}</a>
+    {% if support.discoverable %}
+      {% trans "Your Weblate is listed on weblate.org" %}
+      <br />
+      <a href="" class="btn btn-primary link-post" data-href="{% url 'manage-discovery' %}">{% trans "Disable discovery" %}</a>
+      <a href="https://weblate.org/user/" class="btn btn-primary">{% trans "Manage your listing" %}</a>
+    {% else %}
+      {% trans "Your Weblate is not listed on weblate.org" %}
+      <br />
+      <a href="" class="btn btn-primary link-post" data-href="{% url 'manage-discovery' %}">{% trans "Enable discovery" %}</a>
+    {% endif %}
+  </td>
+  </tr>
+  {% endif %}
   </table>
   <div class="panel-footer">
+  {% if support.secret %}
+  <a href="https://weblate.org/user/" class="btn btn-primary">{% trans "Manage support package" %}</a>
+  {% endif %}
   {% if support.name == 'community' %}
   <a href="https://weblate.org/support/" class="btn btn-primary">{% trans "Purchase support package" %}</a>
   <a href="https://weblate.org/donate/" class="btn btn-primary">{% trans "Donate to Weblate" %}</a>
   {% else %}
-  <a href="https://weblate.org/user/" class="btn btn-primary">{% trans "Manage support package" %}</a>
   <a href="mailto:support@weblate.org" id="support-form" data-fullname="{{ user.full_name }}" data-email="{{ user.email }}" class="btn btn-primary">{% trans "Get help" %}</a>
   {% endif %}
   </div>

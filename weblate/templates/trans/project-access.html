@@ -1,0 +1,328 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+{% load permissions %}
+{% load icons %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+<li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Access control" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% perm 'user.edit' as can_edit_user %}
+
+<ul class="nav nav-pills">
+  <li class="active"><a href="#users" data-toggle="tab" id="tab_users">{% trans "Users" %}</a></li>
+  <li><a href="#teams" data-toggle="tab" id="tab_teams">{% trans "Teams" %}</a></li>
+  <li><a href="#api" data-toggle="tab" id="tab_api">{% trans "API access" %}</a></li>
+</ul>
+
+<div class="tab-content">
+<div class="tab-pane active" id="users">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% documentation_icon 'admin/access' 'groups' right=True %}
+        {% trans "Users" %}
+      </h4>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>{% trans "Username" %}</th>
+          <th>{% trans "Full name" %}</th>
+          {% if can_edit_user %}
+            <th>{% trans "E-mail" %}</th>
+          {% endif %}
+          <th>{% trans "Last sign in" %}</th>
+          <th>{% trans "Teams" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in all_users %}
+          {% include "trans/project-access-row.html" %}
+        {% endfor %}
+        {% for userblock in blocked_users %}
+          <tr>
+            <td><a href="{{ userblock.user.get_absolute_url }}">{{ userblock.user.username }}</a></td>
+            <td>{{ userblock.user.full_name }}</td>
+            <td>{{ userblock.user.email }}</td>
+            <td>{% if userblock.user.last_login %}{{ userblock.user.last_login|naturaltime }}{% else %}{% trans "Not yet signed in" %}{% endif %}</td>
+            <td>
+              <strong>
+                {% if userblock.expiry %}
+                  {% blocktrans with expiry=userblock.expiry|date:"DATE_FORMAT" %}Blocked until {{ expiry }}{% endblocktrans %}
+                {% else %}
+                  {% trans "Blocked permanently" %}
+                {% endif %}
+              <strong>
+            </td>
+            <td>
+              <form action="{% url "unblock-user" project=object.slug %}" method="post" class="inlineform">
+                {% csrf_token %}
+                <input type="hidden" name="user" value="{{ userblock.user.username }}" />
+                <button type="submit" class="btn btn-link btn-xs" title="{% trans "Unblock user" %}">
+                {% icon 'close.svg' %}
+                </button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="panel-body">
+      <p class="help-block">{% trans "Once all its permissions are removed, the user will be removed from the project." %}</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <form action="{% url "add-user" project=object.slug %}" method="post">
+        {% csrf_token %}
+        <div class="panel panel-default">
+          <div class="panel-heading"><h4 class="panel-title">
+            {% documentation_icon 'admin/access' 'invite-user' right=True %}
+            {% trans "Add a user" %}
+          </h4></div>
+          <div class="panel-body">
+            {{ add_user_form|crispy }}
+          </div>
+          <div class="panel-footer">
+          <input type="submit" class="btn btn-primary" value="{% trans "Add" %}" />
+          </div>
+        </div>
+      </form>
+      <form action="{% url "block-user" project=object.slug %}" method="post" id="block-user">
+        {% csrf_token %}
+        <div class="panel panel-default">
+          <div class="panel-heading"><h4 class="panel-title">
+            {% documentation_icon 'admin/access' 'block-user' right=True %}
+            {% trans "Block user" %}
+          </h4></div>
+          <div class="panel-body">
+            {{ block_user_form|crispy }}
+          </div>
+          <div class="panel-footer">
+          <input type="submit" class="btn btn-danger" value="{% trans "Block" %}" />
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-6">
+      <form action="{% url "invite-user" project=object.slug %}" method="post">
+        {% csrf_token %}
+        <div class="panel panel-default">
+          <div class="panel-heading"><h4 class="panel-title">
+            {% documentation_icon 'admin/access' 'invite-user' right=True %}
+            {% trans "Invite new user" %}
+          </h4></div>
+          <div class="panel-body">
+            {{ invite_user_form|crispy }}
+          </div>
+          <div class="panel-footer">
+          <input type="submit" class="btn btn-primary" value="{% trans "Invite" %}" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="tab-pane" id="teams">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% documentation_icon 'admin/access' 'groups' right=True %}
+        {% trans "Teams" %}
+      </h4>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>{% trans "Name" %}</th>
+          <th>{% trans "Roles" %}</th>
+          <th>{% trans "Languages" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for group in groups %}
+        <tr>
+          <td>
+            {{ group.name }}
+          </td>
+          <td>
+            {% for role in group.roles.all %}
+              <span class="badge">{{ role }}</span>
+            {% empty %}
+              <em>{% trans "Access only" %}</em>
+            {% endfor %}
+          </td>
+          <td>
+            {% if group.language_selection %}
+              <em>{% trans "All languages" %}</em>
+            {% else %}
+              {% for language in group.languages.all %}
+                <span class="badge">{{ language }}</span>
+              {% endfor %}
+            {% endif %}
+          </td>
+          <td>
+            <a href="#" data-toggle="modal" data-target="#edit_group_{{ group.id }}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">
+              {% icon 'pencil.svg' %}
+            </a>
+            <a href="#" data-toggle="modal" data-target="#delete_group_{{ group.id }}" class="btn btn-link btn-xs red" title="{% trans "Delete" %}">
+              {% icon 'delete.svg' %}
+            </a>
+            <form action="{% url "delete-project-group" project=object.slug %}" method="post" class="inlineform">
+              {% csrf_token %}
+              <input type="hidden" name="group" value="{{ group.id }}" />
+              <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_group_title_{{ group.id }}" aria-describedby="delete_group_body_{{ group.id }}" id="delete_group_{{ group.id }}">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="delete_group_title_{{ group.id }}">{% trans "Are you absolutely sure?" %}</h4>
+                    </div>
+                    <div class="modal-body" id="delete_group_body_{{ group.id }}">
+                      {% blocktrans with name=group.name %}This will delete the team <b>{{ name }}</b> from this project.{% endblocktrans %}
+                    </div>
+                    <div class="modal-footer">
+                      <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+            </form>
+            <form action="{% url "edit-project-group" project=object.slug pk=group.id %}" method="post" class="inlineform">
+              {% csrf_token %}
+              <input type="hidden" name="group" value="{{ group.id }}" />
+              <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_group_title_{{ group.id }}" aria-describedby="edit_group_body_{{ group.id }}" id="edit_group_{{ group.id }}">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="edit_group_title_{{ group.id }}">{% trans "Are you absolutely sure?" %}</h4>
+                    </div>
+                    <div class="modal-body" id="edit_group_body_{{ group.id }}">
+                      {% crispy group.edit_form %}
+                    </div>
+                    <div class="modal-footer">
+                      <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      <tbody>
+    </table>
+  </div>
+  <form action="{% url "create-project-group" project=object.slug %}" method="post">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          {% documentation_icon 'admin/access' 'groups' right=True %}
+          {% trans "Create new team" %}
+        </h4>
+      </div>
+      <div class="panel-body">
+        {% crispy create_team_form %}
+      </div>
+      <div class="panel-footer">
+        <input type="submit" class="btn btn-primary" value="{% trans "Add" %}" />
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="tab-pane" id="api">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% documentation_icon 'api' right=True %}
+        {% trans "API access" %}
+      </h4>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>{% trans "Name" %}</th>
+          <th>{% trans "Expires" %}</th>
+          <th>{% trans "Teams" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in project_tokens %}
+          {% include "trans/project-access-row.html" %}
+        {% endfor %}
+      <tbody>
+    </table>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <form action="{% url "create-project-token" project=object.slug %}" method="post">
+        {% csrf_token %}
+        <div class="panel panel-default">
+          <div class="panel-heading"><h4 class="panel-title">
+            {% documentation_icon 'api' right=True %}
+            {% trans "Create a project token" %}
+          </h4></div>
+          <div class="panel-body">
+            {{ create_project_token_form|crispy }}
+          </div>
+          <div class="panel-footer">
+          <input type="submit" class="btn btn-primary" value="{% trans "Create" %}" />
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            {% documentation_icon 'api' right=True %}
+            {% trans "Personal API key" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <tr>
+            <th>{% trans "Your personal API key:" %}</th>
+            <td>
+                {{ user.auth_token.key }}
+                <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" data-clipboard-message="{% trans "API key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+            </td>
+          </tr>
+        </table>
+        <div class="panel-footer">
+          <p class="help-block">{% trans "This is your personal API key, do not share it with anybody else." %}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if ssh_key %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% documentation_icon 'vcs' right=True %}
+        {% trans "SSH key" %}
+      </h4>
+    </div>
+    <div class="panel-body">
+      {% include "snippets/ssh-key.html" %}
+    </div>
+  </div>
+  {% endif %}
+{% documentation_icon 'vcs' right=True %}
+</div>
+</div>
+
+{% endblock %}

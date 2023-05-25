@@ -2,7 +2,7 @@
 {% if not valid %}
 <span class="invalid-format" title="{% trans "The detected file format is not supported." %}">
 {% endif %}
-<strong>{% trans "File format" %}</strong> <code>{{ file_format_name }}</code>, <strong>{% trans "Filemask" %}</strong> <code>{{ filemask }}</code>{% if origin %}({{ origin }}){% endif %}
+<strong>{% trans "File format" %}</strong> <code>{{ file_format_name }}</code>, <strong>{% trans "File mask" %}</strong> <code>{{ filemask }}</code>{% if origin %}({{ origin }}){% endif %}
 {% if not valid %}
 </span>
 {% endif %}

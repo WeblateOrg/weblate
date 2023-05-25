@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -39,7 +39,10 @@ def cleanup_social_auth():
     """Cleanup expired partial social authentications."""
     for partial in Partial.objects.iterator():
         kwargs = partial.data["kwargs"]
-        if "weblate_expires" not in kwargs or kwargs["weblate_expires"] < time.time():
+        if (
+            "weblate_expires" not in kwargs
+            or kwargs["weblate_expires"] < time.monotonic()
+        ):
             # Old entry without expiry set, or expired entry
             partial.delete()
 
@@ -119,7 +122,7 @@ def notify_auditlog(log_id, email):
             "address": audit.address,
             "user_agent": audit.user_agent,
         },
-        info="{0} from {1}".format(audit.activity, audit.address),
+        info=f"{audit.activity} from {audit.address}",
     )
 
 
@@ -131,7 +134,7 @@ def send_mails(mails):
         filename = os.path.join(settings.STATIC_ROOT, name)
         with open(filename, "rb") as handle:
             image = MIMEImage(handle.read())
-        image.add_header("Content-ID", "<{}@cid.weblate.org>".format(name))
+        image.add_header("Content-ID", f"<{name}@cid.weblate.org>")
         image.add_header("Content-Disposition", "inline", filename=name)
         images.append(image)
 

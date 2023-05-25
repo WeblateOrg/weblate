@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,6 +25,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
+from weblate.checks.flags import Flags
 from weblate.lang.models import Language
 from weblate.trans.forms import ContextForm, MatrixLanguageForm
 from weblate.trans.models import Unit
@@ -37,19 +38,42 @@ from weblate.utils.views import get_component, show_form_errors
 @login_required
 def edit_context(request, pk):
     unit = get_object_or_404(Unit, pk=pk)
-    if not unit.translation.is_source:
+    if not unit.is_source and not unit.translation.component.is_glossary:
         raise Http404("Non source unit!")
 
-    if not request.user.has_perm("source.edit", unit.translation.component):
-        raise PermissionDenied()
-
-    form = ContextForm(request.POST, instance=unit, user=request.user)
-
-    if form.is_valid():
-        form.save()
+    do_add = "addflag" in request.POST
+    if do_add or "removeflag" in request.POST:
+        if not request.user.has_perm("unit.flag", unit.translation):
+            raise PermissionDenied()
+        flag = request.POST.get("addflag", request.POST.get("removeflag"))
+        flags = Flags(unit.extra_flags)
+        if (
+            flag in ("terminology", "forbidden")
+            and not unit.is_source
+            and flag not in flags
+        ):
+            unit = unit.source_unit
+            flags = Flags(unit.extra_flags)
+        if do_add:
+            flags.merge(flag)
+        else:
+            flags.remove(flag)
+        new_flags = flags.format()
+        if new_flags != unit.extra_flags:
+            unit.extra_flags = new_flags
+            unit.save(same_content=True, update_fields=["extra_flags"])
     else:
-        messages.error(request, _("Failed to change a context!"))
-        show_form_errors(request, form)
+
+        if not request.user.has_perm("source.edit", unit.translation):
+            raise PermissionDenied()
+
+        form = ContextForm(request.POST, instance=unit, user=request.user)
+
+        if form.is_valid():
+            form.save()
+        else:
+            messages.error(request, _("Failed to change additional string info!"))
+            show_form_errors(request, form)
 
     return redirect_next(request.POST.get("next"), unit.get_absolute_url())
 
@@ -107,12 +131,27 @@ def matrix_load(request, project, component):
 
     data = []
 
-    for unit in translations[0].unit_set.all()[offset : offset + 20]:
+    source_units = obj.source_translation.unit_set.order()[offset : offset + 20]
+    source_ids = [unit.pk for unit in source_units]
+
+    translated_units = [
+        {
+            unit.source_unit_id: unit
+            for unit in translation.unit_set.order().filter(source_unit__in=source_ids)
+        }
+        for translation in translations
+    ]
+
+    for unit in source_units:
         units = []
-        for translation in translations:
-            try:
-                units.append(translation.unit_set.get(id_hash=unit.id_hash))
-            except Unit.DoesNotExist:
+        # Avoid need to fetch source unit again
+        unit.source_unit = unit
+        for translation in translated_units:
+            if unit.pk in translation:
+                # Avoid need to fetch source unit again
+                translation[unit.pk].source_unit = unit
+                units.append(translation[unit.pk])
+            else:
                 units.append(None)
 
         data.append((unit, units))

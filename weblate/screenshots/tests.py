@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,13 +18,13 @@
 #
 from unittest import SkipTest
 
-from django.conf import settings
 from django.urls import reverse
 
 import weblate.screenshots.views
 from weblate.screenshots.models import Screenshot
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
+from weblate.utils.db import using_postgresql
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 
@@ -36,7 +36,7 @@ class ViewTest(FixtureTestCase):
         # well inside a transaction, so we avoid using transactions for
         # tests. Otherwise we end up with no matches for the query.
         # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
+        if not using_postgresql():
             return False
         return super()._databases_support_transactions()
 
@@ -46,7 +46,11 @@ class ViewTest(FixtureTestCase):
 
     def do_upload(self, **kwargs):
         with open(TEST_SCREENSHOT, "rb") as handle:
-            data = {"image": handle, "name": "Obrazek"}
+            data = {
+                "image": handle,
+                "name": "Obrazek",
+                "translation": self.component.source_translation.pk,
+            }
             data.update(kwargs)
             return self.client.post(
                 reverse("screenshots", kwargs=self.kw_component), data, follow=True
@@ -101,6 +105,9 @@ class ViewTest(FixtureTestCase):
         self.client.post(reverse("screenshot-delete", kwargs={"pk": screenshot.pk}))
         self.assertEqual(Screenshot.objects.count(), 0)
 
+    def extract_pk(self, data):
+        return int(data.split('data-pk="')[1].split('"')[0])
+
     def test_source_manipulations(self):
         self.make_manager()
         self.do_upload()
@@ -113,9 +120,14 @@ class ViewTest(FixtureTestCase):
         )
         data = response.json()
         self.assertEqual(data["responseCode"], 200)
-        self.assertEqual(len(data["results"]), 1)
+        self.assertIn('<a class="add-string', data["results"])
 
-        source_pk = data["results"][0]["pk"]
+        source_pk = self.extract_pk(data["results"])
+
+        self.assertEqual(
+            source_pk,
+            self.component.source_translation.unit_set.search("hello").get().pk,
+        )
 
         # Add found string
         response = self.client.post(
@@ -155,7 +167,7 @@ class ViewTest(FixtureTestCase):
 
         self.assertEqual(data["responseCode"], 200)
         # We should find at least one string
-        self.assertGreaterEqual(len(data["results"]), 1)
+        self.assertIn('<a class="add-string', data["results"])
 
     def test_ocr_disabled(self):
         orig = weblate.screenshots.views.HAS_OCR
@@ -174,3 +186,44 @@ class ViewTest(FixtureTestCase):
             self.assertEqual(data["responseCode"], 500)
         finally:
             weblate.screenshots.views.HAS_OCR = orig
+
+    def test_translation_manipulations(self):
+        self.make_manager()
+        translation = self.component.translation_set.get(language_code="cs")
+        self.do_upload(translation=translation.pk)
+        screenshot = Screenshot.objects.all()[0]
+
+        # Search for string
+        response = self.client.post(
+            reverse("screenshot-js-search", kwargs={"pk": screenshot.pk}),
+            {"q": "hello"},
+        )
+        data = response.json()
+        self.assertEqual(data["responseCode"], 200)
+        self.assertIn('<a class="add-string', data["results"])
+
+        source_pk = self.extract_pk(data["results"])
+        self.assertEqual(source_pk, translation.unit_set.search("hello").get().pk)
+
+        # Add found string
+        response = self.client.post(
+            reverse("screenshot-js-add", kwargs={"pk": screenshot.pk}),
+            {"source": source_pk},
+        )
+        data = response.json()
+        self.assertEqual(data["responseCode"], 200)
+        self.assertEqual(data["status"], True)
+        self.assertEqual(screenshot.units.count(), 1)
+
+        # Updated listing
+        response = self.client.get(
+            reverse("screenshot-js-get", kwargs={"pk": screenshot.pk})
+        )
+        self.assertContains(response, "Hello")
+
+        # Remove added string
+        self.client.post(
+            reverse("screenshot-remove-source", kwargs={"pk": screenshot.pk}),
+            {"source": source_pk},
+        )
+        self.assertEqual(screenshot.units.count(), 0)

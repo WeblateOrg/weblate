@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -36,7 +36,7 @@ class Command(BaseCommand):
     help = "clenups orphaned checks and suggestions"
 
     def handle(self, *args, **options):
-        """Perfom cleanup of Weblate database."""
+        """Perform cleanup of Weblate database."""
         cleanup_screenshot_files()
         with transaction.atomic():
             cleanup_social_auth()

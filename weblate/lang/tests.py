@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,19 +22,20 @@
 import gettext
 from io import StringIO
 from itertools import chain
+from unittest import SkipTest
 
 from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse
-from django.utils.encoding import force_str
 from django.utils.translation import activate
+from weblate_language_data.languages import LANGUAGES
+from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS
 
 from weblate.lang import data
 from weblate.lang.models import Language, Plural, get_plural_type
-from weblate.langdata.languages import LANGUAGES
-from weblate.langdata.plurals import EXTRAPLURALS
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.utils.db import using_postgresql
 
 TEST_LANGUAGES = (
     ("cs_CZ", "cs", "ltr", "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", "Czech", False),
@@ -198,32 +199,29 @@ class LanguagesTest(BaseTestCase, metaclass=TestSequenceMeta):
         self.assertEqual(
             create,
             not bool(lang.pk),
-            "Failed to assert creation for {}: {}".format(original, create),
+            f"Failed to assert creation for {original}: {create}",
         )
         # Create language
         lang = Language.objects.auto_get_or_create(original)
         # Check language code
         self.assertEqual(
-            lang.code, expected, "Invalid code for {0}: {1}".format(original, lang.code)
+            lang.code, expected, f"Invalid code for {original}: {lang.code}"
         )
         # Check direction
-        self.assertEqual(
-            lang.direction, direction, "Invalid direction for {0}".format(original)
-        )
+        self.assertEqual(lang.direction, direction, f"Invalid direction for {original}")
         # Check plurals
         plural_obj = lang.plural_set.get(source=Plural.SOURCE_DEFAULT)
         self.assertEqual(
             plural_obj.formula,
             plural,
-            "Invalid plural for {0} (expected {1}, got {2})".format(
-                original, plural, plural_obj.formula
-            ),
+            f"Invalid plural for {original} "
+            f"(expected {plural}, got {plural_obj.formula})",
         )
         # Check whether html contains both language code and direction
         self.assertIn(direction, lang.get_html())
         self.assertIn(expected, lang.get_html())
         # Check name
-        self.assertEqual(force_str(lang), name)
+        self.assertEqual(str(lang), name)
 
     def test_private_use(self, code="de-x-a123", expected="de-x-a123"):
         lang = Language.objects.auto_get_or_create(code, create=False)
@@ -234,6 +232,51 @@ class LanguagesTest(BaseTestCase, metaclass=TestSequenceMeta):
 
     def test_private_country(self):
         self.test_private_use("en-US-x-twain", "en_US-x-twain")
+
+    def test_private_fuzzy_get(self):
+        Language.objects.auto_get_or_create("cs_FOO")
+        self.run_create(
+            "czech", "cs", "ltr", "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", "Czech", False
+        )
+
+    def test_chinese_fuzzy_get(self):
+        """Test handling of manually created zh_CN language."""
+        language = Language.objects.create(code="zh_CN", name="Chinese")
+        language.plural_set.create(
+            number=0,
+            formula="0",
+            source=Plural.SOURCE_DEFAULT,
+        )
+        self.run_create("zh-rCN", "zh_CN", "ltr", "0", "Chinese (zh_CN)", False)
+
+    def test_case_sensitive_fuzzy_get(self):
+        """Test handling of manually created zh-TW, zh-TW and zh_TW languages."""
+        if not using_postgresql():
+            raise SkipTest("Not supported on MySQL")
+
+        language = Language.objects.create(code="zh_TW", name="Chinese (Taiwan)")
+        language.plural_set.create(
+            number=0,
+            formula="0",
+            source=Plural.SOURCE_DEFAULT,
+        )
+        self.run_create("zh_TW", "zh_TW", "ltr", "0", "Chinese (Taiwan) (zh_TW)", False)
+        language = Language.objects.create(code="zh-TW", name="Chinese Taiwan")
+        language.plural_set.create(
+            number=0,
+            formula="0",
+            source=Plural.SOURCE_DEFAULT,
+        )
+        self.run_create("zh-TW", "zh-TW", "ltr", "0", "Chinese Taiwan (zh-TW)", False)
+        language = Language.objects.create(code="zh-tw", name="Traditional Chinese")
+        language.plural_set.create(
+            number=0,
+            formula="0",
+            source=Plural.SOURCE_DEFAULT,
+        )
+        self.run_create(
+            "zh-tw", "zh-tw", "ltr", "0", "Traditional Chinese (zh-tw)", False
+        )
 
 
 class CommandTest(BaseTestCase):
@@ -268,7 +311,7 @@ class VerifyPluralsTest(TestCase):
 
     @staticmethod
     def all_data():
-        return chain(LANGUAGES, EXTRAPLURALS)
+        return chain(LANGUAGES, EXTRAPLURALS, CLDRPLURALS)
 
     def test_valid(self):
         """Validate that we can name all plural formulas."""
@@ -276,7 +319,7 @@ class VerifyPluralsTest(TestCase):
             self.assertNotEqual(
                 get_plural_type(code.replace("_", "-").split("-")[0], plural_formula),
                 data.PLURAL_UNKNOWN,
-                "Can not guess plural type for {0} ({1})".format(code, plural_formula),
+                f"Can not guess plural type for {code} ({plural_formula})",
             )
 
     def test_formula(self):
@@ -288,12 +331,12 @@ class VerifyPluralsTest(TestCase):
             # Validate plurals can be parsed
             plural = gettext.c2py(plural_formula)
             # Get maximal plural
-            calculated = max((plural(x) for x in range(200))) + 1
+            calculated = max(plural(x) for x in range(200)) + 1
             # Check it matches ours
             self.assertEqual(
                 calculated,
                 nplurals,
-                "Invalid nplurals for {0}: {1} ({2}, {3})".format(
+                "Invalid nplurals for {}: calculated={} (number={}, formula={})".format(
                     code, calculated, nplurals, plural_formula
                 ),
             )
@@ -349,6 +392,7 @@ class LanguagesViewTest(FixtureTestCase):
                 "direction": "ltr",
                 "number": "2",
                 "formula": "n != 1",
+                "population": 10,
             },
         )
         self.assertRedirects(response, reverse("show_language", kwargs={"lang": "xx"}))
@@ -369,7 +413,7 @@ class LanguagesViewTest(FixtureTestCase):
         self.user.save()
         response = self.client.post(
             reverse("edit-language", kwargs={"pk": language.pk}),
-            {"code": "xx", "name": "XX", "direction": "ltr"},
+            {"code": "xx", "name": "XX", "direction": "ltr", "population": 10},
         )
         self.assertRedirects(response, reverse("show_language", kwargs={"lang": "xx"}))
 

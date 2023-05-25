@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load humanize %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+<li><a href="{% url 'backups' project=object.slug %}">{% trans "Backups" %}</a></li>
+{% endblock %}
+
+{% block content %}
+<table class="table">
+<tbody>
+{% for backup in backups %}
+<tr>
+  <td><a href="{% url "backups-download" project=object.slug backup=backup.name %}">{{ backup.name }}</a></td>
+  <td>{{ backup.size|intcomma }} kB</td>
+  <td>{{ backup.timestamp|naturaltime }}</td>
+</tr>
+{% empty %}
+<tr><td colspan="2"><em>{% trans "There are currently no backups." %}</em></td></tr>
+{% endfor %}
+</tbody>
+</table>
+
+<form method="POST">
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Trigger backup" %}</h4></div>
+<div class="panel-body">
+  {% csrf_token %}
+  <p>
+    {% trans "Backup will be generated in the background." %}
+    {% blocktrans count count=keep_days %}Backups are removed after {{ keep_days }} day.{% plural %}Backups are removed after {{ keep_days }} days.{% endblocktrans %}
+  </p>
+</div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-primary" value="{% trans "Trigger backup" %}" />
+  </div>
+</div>
+</form>
+
+{% endblock %}

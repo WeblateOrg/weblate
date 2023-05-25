@@ -6,8 +6,8 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
-<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
-<li><a href="{% url 'addons' project=object.project.slug component=object.slug %}">{% trans "Addons" %}</a></li>
+{% include "snippets/component-breadcrumb.html" %}
+<li><a href="{% url 'addons' project=object.project.slug component=object.slug %}">{% trans "Add-ons" %}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -15,7 +15,7 @@
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">
     {% documentation_icon 'admin/addons' right=True %}
-  {% trans "Installed addons" %}
+  {% trans "Installed add-ons" %}
   </h4></div>
   <table class="table table-striped">
   <tbody>
@@ -38,9 +38,9 @@
   </table>
   <div class="panel-footer">
 {% if not object_list %}
-  {% trans "There are no addons currently installed." %}
+  {% trans "There are no add-ons currently installed." %}
 {% else %}
-  {% blocktrans count count=object_list|length %}There is currently {{ count }} addon installed.{% plural %}There are currently {{ count }} addons installed.{% endblocktrans %}
+  {% blocktrans count count=object_list|length %}There is currently {{ count }} add-on installed.{% plural %}There are currently {{ count }} add-ons installed.{% endblocktrans %}
 {% endif %}
   </div>
 </div>
@@ -48,7 +48,7 @@
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">
     {% documentation_icon 'admin/addons' right=True %}
-  {% trans "Available addons" %}
+  {% trans "Available add-ons" %}
   </h4></div>
   <table class="table table-striped">
   <tbody>
@@ -66,9 +66,9 @@
   </table>
   <div class="panel-footer">
 {% if not available %}
-    {% trans "Could not find any additional addons compatible with this translation." %}
+    {% trans "Could not find any additional add-ons compatible with this translation component." %}
 {% else %}
-    {% trans "Some addons will ask for additional configuration during installation." %}
+    {% trans "Some add-ons will ask for additional configuration during installation." %}
 {% endif %}
   </div>
 </div>

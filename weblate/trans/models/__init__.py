@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -16,10 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
-
 import os
-import shutil
 
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
@@ -40,7 +37,7 @@ from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.files import remove_readonly
+from weblate.utils.files import remove_tree
 
 __all__ = [
     "Project",
@@ -65,7 +62,7 @@ def delete_object_dir(instance):
     """Remove path if it exists."""
     project_path = instance.full_path
     if os.path.exists(project_path):
-        shutil.rmtree(project_path, onerror=remove_readonly)
+        remove_tree(project_path)
 
 
 @receiver(post_delete, sender=Project)
@@ -89,38 +86,6 @@ def component_post_delete(sender, instance, **kwargs):
         delete_object_dir(instance)
 
 
-@receiver(post_save, sender=Unit)
-@disable_for_loaddata
-def update_source(sender, instance, **kwargs):
-    """Update unit priority or checks based on source change."""
-    if not instance.translation.is_source:
-        return
-    # We can not exclude current unit here as we need to trigger the updates below
-    units = Unit.objects.filter(
-        translation__component=instance.translation.component, id_hash=instance.id_hash
-    )
-    # Propagate attributes
-    units.exclude(explanation=instance.explanation).update(
-        explanation=instance.explanation
-    )
-    units.exclude(extra_flags=instance.extra_flags).update(
-        extra_flags=instance.extra_flags
-    )
-    # Run checks, update state and priority if flags changed
-    if (
-        instance.old_unit.extra_flags != instance.extra_flags
-        or instance.state != instance.old_unit.state
-    ):
-        for unit in units:
-            # Optimize for recursive signal invocation
-            unit.translation.__dict__["is_source"] = False
-            unit.update_state()
-            unit.update_priority()
-            unit.run_checks()
-        if not instance.is_bulk_edit and not instance.is_batch_update:
-            instance.translation.component.invalidate_stats_deep()
-
-
 @receiver(m2m_changed, sender=Unit.labels.through)
 @disable_for_loaddata
 def change_labels(sender, instance, action, pk_set, **kwargs):
@@ -128,31 +93,11 @@ def change_labels(sender, instance, action, pk_set, **kwargs):
     if (
         action not in ("post_add", "post_remove", "post_clear")
         or (action != "post_clear" and not pk_set)
-        or not instance.translation.is_source
+        or not instance.is_source
     ):
         return
-    if action in ("post_remove", "post_clear"):
-        related = Unit.labels.through.objects.filter(
-            unit__translation__component=instance.translation.component,
-            unit__id_hash=instance.id_hash,
-        )
-        if action == "post_remove":
-            related.filter(label_id__in=pk_set).delete()
-        else:
-            related.delete()
-    else:
-        related = []
-        units = Unit.objects.filter(
-            translation__component=instance.translation.component,
-            id_hash=instance.id_hash,
-        ).exclude(pk=instance.pk)
-        for unit_id in units.values_list("id", flat=True):
-            for label_id in pk_set:
-                related.append(Unit.labels.through(label_id=label_id, unit_id=unit_id))
-        Unit.labels.through.objects.bulk_create(related, ignore_conflicts=True)
-
-    if not instance.is_bulk_edit:
-        instance.translation.component.invalidate_stats_deep()
+    if not instance.is_batch_update:
+        instance.translation.component.invalidate_cache()
 
 
 @receiver(user_pre_delete)
@@ -204,16 +149,6 @@ def auto_component_list(sender, instance, **kwargs):
         auto.check_match(instance)
 
 
-@receiver(post_save, sender=Component)
-@disable_for_loaddata
-def post_save_update_checks(sender, instance, **kwargs):
-    from weblate.trans.tasks import update_checks
-
-    if instance.old_component.check_flags == instance.check_flags:
-        return
-    update_checks.delay(instance.pk)
-
-
 @receiver(post_delete, sender=Component)
 @disable_for_loaddata
 def post_delete_linked(sender, instance, **kwargs):
@@ -228,11 +163,6 @@ def post_delete_linked(sender, instance, **kwargs):
 @receiver(post_save, sender=Comment)
 @receiver(post_save, sender=Suggestion)
 @disable_for_loaddata
-def stats_invalidate(sender, instance, created, **kwargs):
+def stats_invalidate(sender, instance, **kwargs):
     """Invalidate stats on new comment or suggestion."""
-    # Invalidate stats counts
-    instance.unit.translation.invalidate_cache()
-    # Invalidate unit cached properties
-    for key in ["all_comments", "suggestions"]:
-        if key in instance.__dict__:
-            del instance.__dict__[key]
+    instance.unit.invalidate_related_cache()

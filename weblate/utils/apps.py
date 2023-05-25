@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,7 +18,6 @@
 #
 
 from django.apps import AppConfig
-from django.conf import settings
 from django.core.checks import register
 from django.db.models import CharField, TextField
 
@@ -26,6 +25,7 @@ from weblate.utils.checks import (
     check_cache,
     check_celery,
     check_data_writable,
+    check_database,
     check_diskspace,
     check_encoding,
     check_errors,
@@ -34,9 +34,10 @@ from weblate.utils.checks import (
     check_settings,
     check_site,
     check_templates,
+    check_version,
 )
+from weblate.utils.db import using_postgresql
 from weblate.utils.errors import init_error_collection
-from weblate.utils.version import check_version
 
 from .db import (
     MySQLSearchLookup,
@@ -59,6 +60,7 @@ class UtilsConfig(AppConfig):
         register(check_cache, deploy=True)
         register(check_settings, deploy=True)
         register(check_templates, deploy=True)
+        register(check_database, deploy=True)
         register(check_site)
         register(check_perms, deploy=True)
         register(check_errors, deploy=True)
@@ -68,16 +70,13 @@ class UtilsConfig(AppConfig):
 
         init_error_collection()
 
-        engine = settings.DATABASES["default"]["ENGINE"]
-        if engine == "django.db.backends.postgresql":
+        if using_postgresql():
             CharField.register_lookup(PostgreSQLSearchLookup)
             TextField.register_lookup(PostgreSQLSearchLookup)
             CharField.register_lookup(PostgreSQLSubstringLookup)
             TextField.register_lookup(PostgreSQLSubstringLookup)
-        elif engine == "django.db.backends.mysql":
+        else:
             CharField.register_lookup(MySQLSearchLookup)
             TextField.register_lookup(MySQLSearchLookup)
             CharField.register_lookup(MySQLSubstringLookup)
             TextField.register_lookup(MySQLSubstringLookup)
-        else:
-            raise Exception(f"Unsupported database: {engine}")

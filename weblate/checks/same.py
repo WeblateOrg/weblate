@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,16 +22,11 @@ import re
 
 from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy as _
+from weblate_language_data.check_languages import LANGUAGES
 
 from weblate.checks.base import TargetCheck
-from weblate.checks.data import SAME_BLACKLIST
-from weblate.checks.format import (
-    C_PRINTF_MATCH,
-    PHP_PRINTF_MATCH,
-    PYTHON_BRACE_MATCH,
-    PYTHON_PRINTF_MATCH,
-)
-from weblate.checks.languages import LANGUAGES
+from weblate.checks.data import IGNORE_WORDS
+from weblate.checks.format import FLAG_RULES, PERCENT_MATCH
 from weblate.checks.qt import QT_FORMAT_MATCH, QT_PLURAL_MATCH
 from weblate.checks.ruby import RUBY_FORMAT_MATCH
 
@@ -61,9 +56,7 @@ PATH_RE = re.compile(r"(^|[ ])(/[a-zA-Z0-9=:?._-]+)+")
 
 TEMPLATE_RE = re.compile(r"{[a-z_-]+}|@[A-Z_]@", re.IGNORECASE)
 
-RST_MATCH = re.compile(
-    r"(?::(ref|config:option|file|guilabel|download):`[^`]+`|``[^`]+``)"
-)
+RST_MATCH = re.compile(r"(:[a-z:]+:`[^`]+`|``[^`]+``)")
 
 SPLIT_RE = re.compile(
     r"(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|"
@@ -82,15 +75,11 @@ def strip_format(msg, flags):
 
     These are quite often not changed by translators.
     """
-    if "python-format" in flags:
-        regex = PYTHON_PRINTF_MATCH
-    elif "python-brace-format" in flags:
-        regex = PYTHON_BRACE_MATCH
-    elif "php-format" in flags:
-        regex = PHP_PRINTF_MATCH
-    elif "c-format" in flags:
-        regex = C_PRINTF_MATCH
-    elif "qt-format" in flags:
+    for format_flag, (regex, _is_position_based) in FLAG_RULES.items():
+        if format_flag in flags:
+            return regex.sub("", msg)
+
+    if "qt-format" in flags:
         regex = QT_FORMAT_MATCH
     elif "qt-plural-format" in flags:
         regex = QT_PLURAL_MATCH
@@ -98,6 +87,8 @@ def strip_format(msg, flags):
         regex = RUBY_FORMAT_MATCH
     elif "rst-text" in flags:
         regex = RST_MATCH
+    elif "percent-placeholders" in flags:
+        regex = PERCENT_MATCH
     else:
         return msg
     stripped = regex.sub("", msg)
@@ -105,7 +96,7 @@ def strip_format(msg, flags):
 
 
 def strip_string(msg, flags):
-    """Strip (usually) not translated parts from the string."""
+    """Strip (usually) untranslated parts from the string."""
     # Strip HTML markup
     stripped = strip_tags(msg)
 
@@ -141,7 +132,7 @@ def test_word(word, extra_ignore):
     """Test whether word should be ignored."""
     return (
         len(word) <= 2
-        or word in SAME_BLACKLIST
+        or word in IGNORE_WORDS
         or word in LANGUAGES
         or word in extra_ignore
     )
@@ -151,7 +142,8 @@ def strip_placeholders(msg, unit):
 
     return re.sub(
         "|".join(
-            re.escape(param) for param in unit.all_flags.get_value("placeholders")
+            re.escape(param) if isinstance(param, str) else param.pattern
+            for param in unit.all_flags.get_value("placeholders")
         ),
         "",
         msg,
@@ -159,7 +151,7 @@ def strip_placeholders(msg, unit):
 
 
 class SameCheck(TargetCheck):
-    """Check for not translated entries."""
+    """Check for untranslated entries."""
 
     check_id = "same"
     name = _("Unchanged translation")
@@ -167,6 +159,8 @@ class SameCheck(TargetCheck):
 
     def should_ignore(self, source, unit):
         """Check whether given unit should be ignored."""
+        from weblate.checks.flags import TYPED_FLAGS
+
         if "strict-same" in unit.all_flags:
             return False
         # Ignore some docbook tags
@@ -193,7 +187,7 @@ class SameCheck(TargetCheck):
         stripped = strip_string(source, unit.all_flags)
 
         # Strip placeholder strings
-        if "placeholders" in unit.all_flags:
+        if "placeholders" in TYPED_FLAGS and "placeholders" in unit.all_flags:
             stripped = strip_placeholders(stripped, unit)
 
         # Ignore strings which don't contain any string to translate
@@ -213,10 +207,10 @@ class SameCheck(TargetCheck):
         if unit.readonly or super().should_skip(unit):
             return True
 
-        source_language = unit.translation.component.project.source_language.base_code
+        source_language = unit.translation.component.source_language.base_code
 
         # Ignore the check for source language,
-        # English variants will have most things not translated
+        # English variants will have most things untranslated
         # Interlingua is also quite often similar to English
         if self.is_language(unit, source_language) or (
             source_language == "en" and self.is_language(unit, ("en", "ia"))

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -29,10 +29,6 @@ REPO_LENGTH = 200
 
 # Maximal length of filename or mask
 FILENAME_LENGTH = 400
-
-# Glossary entry length
-# Note: This is currently limited by 192 to allow index on MySQL
-GLOSSARY_LENGTH = 190
 
 # User model length
 # Note: This is currently limited by 192 to allow index on MySQL

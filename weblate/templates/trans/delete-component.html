@@ -3,13 +3,13 @@
 
 <p>{% blocktrans %}This action cannot be undone. This will permanently delete the {{ object }} component and all related content.{% endblocktrans %}</p>
 
-{% with components=object.component_set.order %}
+{% with components=object.component_set.prefetch.order %}
 {% if components %}
 <p>{% trans "The following translation components will be removed:" %}</p>
 <ul>
     <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
 
-    {% for component in object.component_set.order %}
+    {% for component in components %}
         <li><a href="{{ component.get_absolute_url }}">{{ component }}</a></li>
     {% endfor %}
 </ul>

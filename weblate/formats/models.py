@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -53,10 +53,17 @@ class FileFormatLoader(ClassLoader):
 
     @cached_property
     def autoload(self):
-        result = []
-        for fileformat in self.data.values():
-            for autoload in fileformat.autoload:
-                result.append((autoload, fileformat))
+        return [
+            (autoload, fileformat)
+            for fileformat in self.data.values()
+            for autoload in fileformat.autoload
+        ]
+
+    def get_settings(self):
+        result = list(super().get_settings())
+        # TBX is required for glossaries
+        if "weblate.formats.ttkit.TBXFormat" not in result:
+            result.append("weblate.formats.ttkit.TBXFormat")
         return result
 
     def load_data(self):
@@ -95,6 +102,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.PoMonoFormat",
         "weblate.formats.ttkit.TSFormat",
         "weblate.formats.ttkit.XliffFormat",
+        "weblate.formats.ttkit.RichXliffFormat",
         "weblate.formats.ttkit.PoXliffFormat",
         "weblate.formats.ttkit.StringsFormat",
         "weblate.formats.ttkit.StringsUtf8Format",
@@ -114,7 +122,9 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.GoI18JSONFormat",
         "weblate.formats.ttkit.ARBFormat",
         "weblate.formats.ttkit.CSVFormat",
+        "weblate.formats.ttkit.CSVUtf8Format",
         "weblate.formats.ttkit.CSVSimpleFormat",
+        "weblate.formats.ttkit.CSVUtf8SimpleFormat",
         "weblate.formats.ttkit.CSVSimpleFormatISO",
         "weblate.formats.ttkit.YAMLFormat",
         "weblate.formats.ttkit.RubyYAMLFormat",
@@ -124,17 +134,26 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.SubStationAlphaFormat",
         "weblate.formats.ttkit.DTDFormat",
         "weblate.formats.ttkit.FlatXMLFormat",
+        "weblate.formats.ttkit.ResourceDictionaryFormat",
         "weblate.formats.ttkit.INIFormat",
         "weblate.formats.ttkit.InnoSetupINIFormat",
+        "weblate.formats.ttkit.PropertiesMi18nFormat",
         "weblate.formats.external.XlsxFormat",
         "weblate.formats.txt.AppStoreFormat",
         "weblate.formats.convert.HTMLFormat",
         "weblate.formats.convert.IDMLFormat",
         "weblate.formats.convert.OpenDocumentFormat",
+        "weblate.formats.convert.PlainTextFormat",
+        "weblate.formats.convert.DokuWikiFormat",
+        "weblate.formats.convert.MediaWikiFormat",
         "weblate.formats.convert.WindowsRCFormat",
         "weblate.formats.ttkit.XWikiPropertiesFormat",
         "weblate.formats.ttkit.XWikiPagePropertiesFormat",
         "weblate.formats.ttkit.XWikiFullPageFormat",
+        "weblate.formats.ttkit.TBXFormat",
+        "weblate.formats.ttkit.StringsdictFormat",
+        "weblate.formats.ttkit.FluentFormat",
+        "weblate.formats.multi.MultiCSVUtf8Format",
     )
 
     class Meta:

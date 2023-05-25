@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,9 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 """Test for changes done in remote repository."""
-
 import os
-import shutil
 from unittest import SkipTest
 
 from django.db import transaction
@@ -27,6 +25,7 @@ from django.db import transaction
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import REPOWEB_URL
+from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -63,16 +62,14 @@ class MultiRepoTest(ViewTestCase):
     """Test handling of remote changes, conflicts and so on."""
 
     _vcs = "git"
-    _branch = "master"
+    _branch = "main"
     _filemask = "po/*.po"
 
     def setUp(self):
         super().setUp()
         if self._vcs not in VCS_REGISTRY:
-            raise SkipTest("VCS {0} not available!".format(self._vcs))
-        repo = push = self.format_local_path(
-            getattr(self, "{0}_repo_path".format(self._vcs))
-        )
+            raise SkipTest(f"VCS {self._vcs} not available!")
+        repo = push = self.format_local_path(getattr(self, f"{self._vcs}_repo_path"))
         self.component2 = Component.objects.create(
             name="Test 2",
             slug="test-2",
@@ -123,7 +120,8 @@ class MultiRepoTest(ViewTestCase):
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.translated, 1)
 
-        new_text = "Other text\n"
+        # The text is intentionally duplicated to trigger check
+        new_text = "Other text text\n"
 
         # Propagate edit
         unit = self.get_unit()
@@ -139,17 +137,21 @@ class MultiRepoTest(ViewTestCase):
         self.assertEqual(other_unit.target, new_text)
 
         # There should be no checks on both
-        self.assertEqual(list(unit.check_set.values_list("check", flat=True)), [])
-        self.assertEqual(list(other_unit.check_set.values_list("check", flat=True)), [])
+        self.assertEqual(
+            list(unit.check_set.values_list("name", flat=True)), ["duplicate"]
+        )
+        self.assertEqual(
+            list(other_unit.check_set.values_list("name", flat=True)), ["duplicate"]
+        )
 
     def test_failed_update(self):
         """Test failed remote update."""
         if os.path.exists(self.git_repo_path):
-            shutil.rmtree(self.git_repo_path)
+            remove_tree(self.git_repo_path)
         if os.path.exists(self.mercurial_repo_path):
-            shutil.rmtree(self.mercurial_repo_path)
+            remove_tree(self.mercurial_repo_path)
         if os.path.exists(self.subversion_repo_path):
-            shutil.rmtree(self.subversion_repo_path)
+            remove_tree(self.subversion_repo_path)
         translation = self.component.translation_set.get(language_code="cs")
         self.assertFalse(translation.do_update(self.request))
 
@@ -252,6 +254,7 @@ class MercurialMultiRepoTest(MultiRepoTest):
 
 class SubversionMultiRepoTest(MultiRepoTest):
     _vcs = "subversion"
+    _branch = "master"
 
     def create_component(self):
         return self.create_po_svn()

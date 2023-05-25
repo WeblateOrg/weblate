@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,9 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
-import os.path
 from collections import defaultdict
+from itertools import chain
 
 from django.utils.translation import gettext_lazy as _
 
@@ -36,7 +35,16 @@ class GitSquashAddon(BaseAddon):
     description = _("Squash Git commits prior to pushing changes.")
     settings_form = GitSquashForm
     compat = {
-        "vcs": {"git", "gerrit", "subversion", "github", "gitlab", "git-force-push"}
+        "vcs": {
+            "git",
+            "gerrit",
+            "subversion",
+            "github",
+            "pagure",
+            "gitlab",
+            "git-force-push",
+            "gitea",
+        }
     }
     events = (EVENT_POST_COMMIT,)
     icon = "compress.svg"
@@ -47,8 +55,9 @@ class GitSquashAddon(BaseAddon):
         message = self.get_squash_commit_message(repository, "%B", remote)
         repository.execute(["reset", "--mixed", remote])
         # Can happen for added and removed translation
-        if repository.needs_commit():
-            repository.commit(message, author)
+        component.commit_files(
+            author=author, message=message, signals=False, skip_push=True
+        )
 
     def get_filenames(self, component):
         languages = defaultdict(list)
@@ -60,52 +69,76 @@ class GitSquashAddon(BaseAddon):
                 languages[code].extend(translation.filenames)
         return languages
 
+    def get_git_commit_messages(self, repository, log_format, remote, filenames):
+        command = [
+            "log",
+            f"--format={log_format}",
+            f"{remote}..HEAD",
+        ]
+        if filenames:
+            command += ["--"] + filenames
+
+        return repository.execute(command)
+
     def get_squash_commit_message(self, repository, log_format, remote, filenames=None):
         commit_message = self.instance.configuration.get("commit_message")
-
-        if not commit_message:
-            command = [
-                "log",
-                "--format={}".format(log_format),
-                "{}..HEAD".format(remote),
-            ]
-            if filenames:
-                command += ["--"] + filenames
-
-            commit_message = repository.execute(command)
 
         if self.instance.configuration.get("append_trailers", True):
             command = [
                 "log",
                 "--format=%(trailers)%nCo-authored-by: %an <%ae>",
-                "{}..HEAD".format(remote),
+                f"{remote}..HEAD",
             ]
             if filenames:
                 command += ["--"] + filenames
 
-            trailer_lines = {
-                trailer
-                for trailer in repository.execute(command).split("\n")
-                if trailer.strip()
-            }
+            trailer_lines = set()
+            change_id_line = None
+            for trailer in repository.execute(command).split("\n"):
+                # Skip blank lines
+                if not trailer.strip():
+                    continue
 
-            commit_message_lines_with_trailers_removed = [
-                line for line in commit_message.split("\n") if line not in trailer_lines
-            ]
+                # Pick only last Change-Id, there suppose to be only one in the
+                # commit (used by Gerrit)
+                if trailer.startswith("Change-Id:"):
+                    change_id_line = trailer
+                    continue
 
-            commit_message = "\n\n".join(
-                [
-                    "\n".join(commit_message_lines_with_trailers_removed),
-                    "\n".join(sorted(trailer_lines)),
+                trailer_lines.add(trailer)
+
+            if change_id_line is not None:
+                trailer_lines.add(change_id_line)
+
+            if commit_message:
+                # Predefined commit message
+                body = [commit_message]
+            else:
+                # Extract commit messages from the log
+                body = [
+                    line
+                    for line in self.get_git_commit_messages(
+                        repository, log_format, remote, filenames
+                    ).split("\n")
+                    if line not in trailer_lines
                 ]
+
+            commit_message = "\n".join(
+                chain(
+                    # Body
+                    body,
+                    # Blank line
+                    [""],
+                    # Trailers
+                    sorted(trailer_lines),
+                )
             ).strip("\n")
+        elif not commit_message:
+            commit_message = self.get_git_commit_messages(
+                repository, log_format, remote, filenames
+            )
 
         return commit_message
-
-    def commit_existing(self, repository, message, files):
-        files = [name for name in files if os.path.exists(name)]
-        if files:
-            repository.commit(message, files=files)
 
     def squash_language(self, component, repository):
         remote = repository.get_remote_branch_name()
@@ -124,7 +157,9 @@ class GitSquashAddon(BaseAddon):
         for code, message in messages.items():
             if not message:
                 continue
-            self.commit_existing(repository, message, languages[code])
+            component.commit_files(
+                message=message, files=languages[code], signals=False, skip_push=True
+            )
 
     def squash_file(self, component, repository):
         remote = repository.get_remote_branch_name()
@@ -142,7 +177,9 @@ class GitSquashAddon(BaseAddon):
         for filename, message in messages.items():
             if not message:
                 continue
-            self.commit_existing(repository, message, [filename])
+            component.commit_files(
+                message=message, files=[filename], signals=False, skip_push=True
+            )
 
     def squash_author(self, component, repository):
         remote = repository.get_remote_branch_name()
@@ -151,7 +188,7 @@ class GitSquashAddon(BaseAddon):
             x.split(None, 1)
             for x in reversed(
                 repository.execute(
-                    ["log", "--format=%H %aE", "{}..HEAD".format(remote)]
+                    ["log", "--no-merges", "--format=%H %aE", f"{remote}..HEAD"]
                 ).splitlines()
             )
         ]
@@ -195,7 +232,7 @@ class GitSquashAddon(BaseAddon):
             repository.execute(["reset", "--hard", tmp])
             repository.delete_branch(tmp)
 
-        except RepositoryException:
+        except Exception:
             report_error(cause="Failed squash")
             # Revert to original branch without any changes
             repository.execute(["reset", "--hard"])
@@ -205,10 +242,13 @@ class GitSquashAddon(BaseAddon):
     def post_commit(self, component):
         repository = component.repository
         with repository.lock:
-            if component.repo_needs_merge() and not component.update_branch(
-                method="rebase"
-            ):
-                return
+            # Ensure repository is rebased on current remote prior to squash, otherwise
+            # we might be squashing upstream changes as well due to reset.
+            if component.repo_needs_merge():
+                try:
+                    component.update_branch(method="rebase", skip_push=True)
+                except RepositoryException:
+                    return
             if not repository.needs_push():
                 return
             method = getattr(
@@ -221,4 +261,7 @@ class GitSquashAddon(BaseAddon):
                 template=component.addon_message,
                 extra_context={"addon_name": self.verbose},
                 signals=False,
+                skip_push=True,
             )
+            # Parse translation files to process any updates fetched by update_branch
+            component.create_translations()

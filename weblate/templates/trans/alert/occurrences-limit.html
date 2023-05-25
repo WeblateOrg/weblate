@@ -1,0 +1,7 @@
+{% load i18n %}
+{% if missed_occurrences %}
+  <p>
+    {% comment %}Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100{% endcomment %}
+    {% blocktrans count count=total_occurrences %}Only some of the {{ count }} occurrence is shown.{% plural %}Only some of the {{ count }} occurrences are shown.{% endblocktrans %}
+  </pt>
+{% endif %}

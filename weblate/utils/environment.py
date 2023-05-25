@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -43,7 +43,20 @@ def get_env_int(name: str, default: int = 0) -> int:
     """Helper to get integer value from environment."""
     if name not in os.environ:
         return default
-    return int(os.environ[name])
+    try:
+        return int(os.environ[name])
+    except ValueError as error:
+        raise ValueError(f"{name} is not an integer: {error}")
+
+
+def get_env_float(name: str, default: float = 0.0) -> float:
+    """Helper to get float value from environment."""
+    if name not in os.environ:
+        return default
+    try:
+        return float(os.environ[name])
+    except ValueError as error:
+        raise ValueError(f"{name} is not an float: {error}")
 
 
 def get_env_bool(name: str, default: bool = False) -> bool:
@@ -56,8 +69,8 @@ def get_env_bool(name: str, default: bool = False) -> bool:
 
 def modify_env_list(current: List[str], name: str) -> List[str]:
     """Helper to modify list (for example checks)."""
-    for item in reversed(get_env_list("WEBLATE_ADD_{}".format(name))):
+    for item in reversed(get_env_list(f"WEBLATE_ADD_{name}")):
         current.insert(0, item)
-    for item in get_env_list("WEBLATE_REMOVE_{}".format(name)):
+    for item in get_env_list(f"WEBLATE_REMOVE_{name}"):
         current.remove(item)
     return current

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,5 +19,6 @@
 
 from weblate.utils.classloader import ClassLoader
 
-# Initialize checks list
-MACHINE_TRANSLATION_SERVICES = ClassLoader("MT_SERVICES")
+# Initialize machinery list
+# TODO: Drop in Weblate 5.1
+MACHINE_TRANSLATION_SERVICES = ClassLoader("MT_SERVICES", construct=False)

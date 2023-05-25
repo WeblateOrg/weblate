@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,12 +17,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import re
+
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Div, Field, Layout
+from crispy_forms.layout import Field, Layout
 from django import forms
 from django.http import QueryDict
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from lxml.cssselect import CSSSelector
 
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.discovery import ComponentDiscovery
@@ -42,8 +45,9 @@ class AddonFormMixin:
 
 
 class BaseAddonForm(forms.Form, AddonFormMixin):
-    def __init__(self, addon, instance=None, *args, **kwargs):
+    def __init__(self, user, addon, instance=None, *args, **kwargs):
         self._addon = addon
+        self.user = user
         super().__init__(*args, **kwargs)
 
 
@@ -59,7 +63,10 @@ class GenerateMoForm(BaseAddonForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field("path"), Div(template="addons/generatemo_help.html")
+            Field("path"),
+            ContextDiv(
+                template="addons/generatemo_help.html", context={"user": self.user}
+            ),
         )
 
     def test_render(self, value):
@@ -83,7 +90,9 @@ class GenerateForm(BaseAddonForm):
         self.helper.layout = Layout(
             Field("filename"),
             Field("template"),
-            Div(template="addons/generate_help.html"),
+            ContextDiv(
+                template="addons/generate_help.html", context={"user": self.user}
+            ),
         )
 
     def test_render(self, value):
@@ -103,15 +112,15 @@ class GettextCustomizeForm(BaseAddonForm):
     width = forms.ChoiceField(
         label=_("Long lines wrapping"),
         choices=[
-            (77, _("Wrap lines at 77 chars and at newlines")),
-            (65535, _("Only wrap lines at newlines")),
+            (77, _("Wrap lines at 77 characters and at newlines (xgettext default)")),
+            (65535, _("Only wrap lines at newlines (like 'xgettext --no-wrap')")),
             (-1, _("No line wrapping")),
         ],
         required=True,
         initial=77,
         help_text=_(
-            "By default gettext wraps lines at 77 chars and newlines. "
-            "With --no-wrap parameter, it wraps only at newlines."
+            "By default gettext wraps lines at 77 characters and at newlines. "
+            "With the --no-wrap parameter, wrapping is only done at newlines."
         ),
     )
 
@@ -152,10 +161,11 @@ class GitSquashForm(BaseAddonForm):
         help_text=_(
             "Trailer lines are lines that look similar to RFC 822 e-mail "
             "headers, at the end of the otherwise free-form part of a commit "
-            "message, such as 'Co-authored-by: ...'."
+            "message, such as 'Co-authored-by: …'."
         ),
     )
     commit_message = forms.CharField(
+        label=_("Commit message"),
         widget=forms.Textarea(),
         required=False,
         help_text=_(
@@ -171,7 +181,7 @@ class GitSquashForm(BaseAddonForm):
             Field("squash"),
             Field("append_trailers"),
             Field("commit_message"),
-            Div(template="addons/squash_help.html"),
+            ContextDiv(template="addons/squash_help.html", context={"user": self.user}),
         )
 
 
@@ -179,6 +189,15 @@ class JSONCustomizeForm(BaseAddonForm):
     sort_keys = forms.BooleanField(label=_("Sort JSON keys"), required=False)
     indent = forms.IntegerField(
         label=_("JSON indentation"), min_value=0, initial=4, required=True
+    )
+    style = forms.ChoiceField(
+        label=_("JSON indentation style"),
+        choices=[
+            ("spaces", _("Spaces")),
+            ("tabs", _("Tabs")),
+        ],
+        required=True,
+        initial="space",
     )
 
 
@@ -222,7 +241,7 @@ class RemoveSuggestionForm(RemoveForm):
         initial=0,
         required=True,
         help_text=_(
-            "Threshold for removal. This field has no effect with " "voting turned off."
+            "Threshold for removal. This field has no effect with voting turned off."
         ),
     )
 
@@ -257,6 +276,17 @@ class DiscoveryForm(BaseAddonForm):
             "For gettext choose .pot file."
         ),
     )
+    intermediate_template = forms.CharField(
+        label=_("Intermediate language file"),
+        initial="",
+        required=False,
+        help_text=_(
+            "Filename of intermediate translation file. In most cases "
+            "this is a translation file provided by developers and is "
+            "used when creating actual source strings."
+        ),
+    )
+
     language_regex = forms.CharField(
         label=_("Language filter"),
         max_length=200,
@@ -264,16 +294,16 @@ class DiscoveryForm(BaseAddonForm):
         validators=[validate_re],
         help_text=_(
             "Regular expression to filter "
-            "translation against when scanning for filemask."
+            "translation files against when scanning for file mask."
         ),
     )
     copy_addons = forms.BooleanField(
-        label=_("Clone addons from the main component to the newly created ones"),
+        label=_("Clone add-ons from the main component to the newly created ones"),
         required=False,
         initial=True,
     )
     remove = forms.BooleanField(
-        label=_("Remove components for inexistant files"), required=False
+        label=_("Remove components for inexistent files"), required=False
     )
     confirm = forms.BooleanField(
         label=_("I confirm the above matches look correct"),
@@ -290,10 +320,13 @@ class DiscoveryForm(BaseAddonForm):
             Field("name_template"),
             Field("base_file_template"),
             Field("new_base_template"),
+            Field("intermediate_template"),
             Field("language_regex"),
             Field("copy_addons"),
             Field("remove"),
-            Div(template="addons/discovery_help.html"),
+            ContextDiv(
+                template="addons/discovery_help.html", context={"user": self.user}
+            ),
         )
         if self.is_bound:
             # Perform form validation
@@ -313,6 +346,7 @@ class DiscoveryForm(BaseAddonForm):
                             "matches_created": created,
                             "matches_matched": matched,
                             "matches_deleted": deleted,
+                            "user": self.user,
                         },
                     ),
                 )
@@ -321,7 +355,7 @@ class DiscoveryForm(BaseAddonForm):
     def discovery(self):
         return ComponentDiscovery(
             self._addon.instance.component,
-            **ComponentDiscovery.extract_kwargs(self.cleaned_data)
+            **ComponentDiscovery.extract_kwargs(self.cleaned_data),
         )
 
     def clean(self):
@@ -342,9 +376,21 @@ class DiscoveryForm(BaseAddonForm):
         validate_re(match, ("component", "language"))
         return match
 
-    @staticmethod
-    def test_render(value):
-        return validate_render(value, component="test")
+    @cached_property
+    def cleaned_match_re(self):
+        if "match" not in self.cleaned_data:
+            return None
+        try:
+            return re.compile(self.cleaned_data["match"])
+        except re.error:
+            return None
+
+    def test_render(self, value):
+        if self.cleaned_match_re is None:
+            matches = {"component": "test"}
+        else:
+            matches = {key: "test" for key in self.cleaned_match_re.groupindex.keys()}
+        return validate_render(value, **matches)
 
     def template_clean(self, name):
         result = self.test_render(self.cleaned_data[name])
@@ -363,15 +409,20 @@ class DiscoveryForm(BaseAddonForm):
     def clean_new_base_template(self):
         return self.template_clean("new_base_template")
 
+    def clean_intermediate_template(self):
+        return self.template_clean("intermediate_template")
+
 
 class AutoAddonForm(AutoForm, AddonFormMixin):
-    def __init__(self, addon, instance=None, *args, **kwargs):
+    def __init__(self, user, addon, instance=None, *args, **kwargs):
+        self.user = user
         self._addon = addon
         super().__init__(obj=addon.instance.component, *args, **kwargs)
 
 
 class BulkEditAddonForm(BulkEditForm, AddonFormMixin):
-    def __init__(self, addon, instance=None, *args, **kwargs):
+    def __init__(self, user, addon, instance=None, *args, **kwargs):
+        self.user = user
         self._addon = addon
         component = addon.instance.component
         super().__init__(
@@ -433,6 +484,78 @@ class CDNJSForm(BaseAddonForm):
                 0,
                 ContextDiv(
                     template="addons/cdnjs.html",
-                    context={"url": self._addon.cdn_js_url},
+                    context={"url": self._addon.cdn_js_url, "user": self.user},
                 ),
+            )
+
+    def clean_css_selector(self):
+        try:
+            CSSSelector(self.cleaned_data["css_selector"], translator="html")
+        except Exception as error:
+            raise forms.ValidationError(_("Failed to parse CSS selector: %s") % error)
+        return self.cleaned_data["css_selector"]
+
+
+class PseudolocaleAddonForm(BaseAddonForm):
+    source = forms.ChoiceField(label=_("Source strings"), required=True)
+    target = forms.ChoiceField(
+        label=_("Target translation"),
+        required=True,
+        help_text=_("All strings in this translation will be overwritten"),
+    )
+    prefix = forms.CharField(
+        label=_("Fixed string prefix"),
+        required=False,
+        initial="",
+    )
+    var_prefix = forms.CharField(
+        label=_("Variable string prefix"),
+        required=False,
+        initial="",
+    )
+    suffix = forms.CharField(
+        label=_("Fixed string suffix"),
+        required=False,
+        initial="",
+    )
+    var_suffix = forms.CharField(
+        label=_("Variable string suffix"),
+        required=False,
+        initial="",
+    )
+    var_multiplier = forms.FloatField(
+        label=_("Variable part multiplier"),
+        initial=0.1,
+        help_text=_(
+            "How many times to repeat the variable part depending on "
+            "the length of the source string."
+        ),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        choices = [
+            (translation.pk, str(translation.language))
+            for translation in self._addon.instance.component.translation_set.all()
+        ]
+        self.fields["source"].choices = choices
+        self.fields["target"].choices = choices
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Field("source"),
+            Field("target"),
+            Field("prefix"),
+            Field("var_prefix"),
+            Field("suffix"),
+            Field("var_suffix"),
+            Field("var_multiplier"),
+            ContextDiv(
+                template="addons/pseudolocale.html",
+            ),
+        )
+
+    def clean(self):
+        if self.cleaned_data["source"] == self.cleaned_data["target"]:
+            raise forms.ValidationError(
+                _("The source and target have to be different languages.")
             )

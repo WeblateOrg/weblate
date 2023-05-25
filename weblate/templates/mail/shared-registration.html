@@ -9,7 +9,9 @@
 
 <p>
 {% blocktrans count count=validity %}The confirmation URL will expire after {{ count }} hour.{% plural %}The confirmation URL will expire after {{ count }} hours.{% endblocktrans %}
-{% blocktrans %}If there is a problem with your registration, please contact us.{% endblocktrans %}
+{% if action == "invite" %}
+  {% blocktrans %}In case the confirmation URL is expired, you can use password reset feature to gain access to your account.{% endblocktrans %}
+{% endif %}
 </p>
 
 <div class="line buttons">
@@ -20,5 +22,8 @@
 {% else %}
 <a class="button" href="{{ url }}">{% trans "Confirm registration" %}</a>
 {% endif %}
-<a class="button" href="{% url 'contact' %}?t=reg">{% trans "Report an issue with registration" %}</a>
+</div>
+
+<p>
+  <a href="{% url 'contact' %}?t=reg">{% blocktrans %}If there is a problem with your registration, please contact us.{% endblocktrans %}</a>
 </p>

@@ -10,26 +10,32 @@
 {% block content %}
 <h2>{% trans "Server Error" %}</h2>
 
-<p>
-{% blocktrans %}The server had serious problems serving your request. Trained monkeys are en-route fixing the issue.{% endblocktrans %}
-</p>
-
 {% if sentry_event_id %}
-<p>{% blocktrans with error_id=sentry_event_id %}If you need assistance, you may reference this error as {{ error_id }}.{% endblocktrans %}</p>
 
-{% if sentry_dsn %}
-<script src="{% static "vendor/sentry.js" %}"></script>
+  <p>
+    {% blocktrans with error_id=sentry_event_id %}The server had serious problems serving your request, and this error has been recorded as {{ error_id }}.{% endblocktrans %}
+  </p>
 
-<script>
-  Sentry.init({ dsn: '{{ sentry_dsn }}' });
-  Sentry.showReportDialog({
-{% if request.user.is_authenticated %}
-    user: { name: "{{ user.full_name}}", email: "{{ user.email}}" },
-{% endif %}
-    eventId: '{{ sentry_event_id }}'
-  })
-</script>
-{% endif %}
+  {% if sentry_dsn %}
+    <script src="{% static "vendor/sentry.js" %}"></script>
+
+    <script>
+      Sentry.init({ dsn: '{{ sentry_dsn }}' });
+      Sentry.showReportDialog({
+        {% if request.user.is_authenticated %}
+          user: { name: "{{ user.full_name}}", email: "{{ user.email}}" },
+        {% endif %}
+        eventId: '{{ sentry_event_id }}'
+      })
+    </script>
+  {% endif %}
+
+{% else %}
+
+  <p>
+    {% blocktrans %}The server had serious problems serving your request. You might want to contact server admins in case the error persists.{% endblocktrans %}
+  </p>
+
 {% endif %}
 
 {% endblock %}

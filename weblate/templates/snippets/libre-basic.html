@@ -1,0 +1,8 @@
+{% load i18n %}
+
+<li>{% blocktrans with link_osi_start='<a href="https://opensource.org/licenses" target="_blank" rel="external">' link_fsf_start='<a href="https://www.gnu.org/licenses/license-list.html" target="_blank" rel="external">' link_end='</a>' %}Translated content has to be released under a license {{ link_osi_start }}approved by OSI{{ link_end }} or {{ link_fsf_start }}recognized as libre by FSF{{ link_end }}.{% endblocktrans %}</li>
+<li>{% trans "All the source code has to be publicly available in a supported version control system." %}</li>
+<li>{% trans "Translations have to be in the same repository as the source code, or under the same project/organization as the source code repository." %}</li>
+<li>{% trans "Using Weblate has been approved by the upstream project." %}</li>
+<li>{% trans "Mention you use Weblate for translations in the README. It’ll attract new translators and also help Weblate to be free for more projects." %}</li>
+<li>{% trans "The project has had active development for at least three months." %}</li>

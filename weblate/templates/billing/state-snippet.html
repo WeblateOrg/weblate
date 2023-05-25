@@ -1,0 +1,14 @@
+{% load i18n %}
+
+{{ object.plan }}
+{% if object.is_libre_trial and object.payment.libre_request %}
+  <span class="badge">{% trans "Pending approval" %}</span>
+{% elif object.is_trial %}
+  <span class="badge">{% trans "Trial" %}</span>
+{% elif object.is_terminated %}
+  <span class="badge">{% trans "Terminated" %}</span>
+{% elif not object.paid %}
+  <span class="badge">{% trans "Awaiting payment" %}</span>
+{% elif object.removal %}
+  <span class="badge">{% trans "Scheduled removal" %}</span>
+{% endif %}

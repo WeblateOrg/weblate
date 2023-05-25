@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,75 +17,56 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
+import os
 from collections import namedtuple
-from datetime import datetime, timedelta
-from distutils.version import LooseVersion
 
-from dateutil.parser import parse
-from django.core.cache import cache
-from django.core.checks import Info
+from weblate.vcs.base import RepositoryException
+from weblate.vcs.git import GitRepository
 
-from weblate import VERSION_BASE
-from weblate.utils.checks import weblate_check
-from weblate.utils.requests import request
-
-PYPI = "https://pypi.org/pypi/Weblate/json"
-CACHE_KEY = "version-check"
-
-
+# This has to stay here for compatibility reasons - it is stored pickled in
+# the cache and moving it around breaks ugprades.
 Release = namedtuple("Release", ["version", "timestamp"])
 
 
-def download_version_info():
-    response = request("get", PYPI)
-    result = []
-    for version, info in response.json()["releases"].items():
-        if not info:
-            continue
-        result.append(Release(version, parse(info[0]["upload_time"])))
-    return sorted(result, key=lambda x: x[1], reverse=True)
+def get_root_dir():
+    """Return Weblate root dir."""
+    curdir = os.path.dirname(os.path.abspath(__file__))
+    return os.path.abspath(os.path.join(curdir, "..", ".."))
 
 
-def flush_version_cache():
-    cache.delete(CACHE_KEY)
+# Weblate version
+VERSION = "4.14"
 
+# Version string without suffix
+VERSION_BASE = VERSION.replace("-dev", "")
 
-def get_version_info():
-    result = cache.get(CACHE_KEY)
-    if not result:
-        result = download_version_info()
-        cache.set(CACHE_KEY, result, 86400)
-    return result
+# User-Agent string to use
+USER_AGENT = f"Weblate/{VERSION}"
 
+# Git tag name for this release
+TAG_NAME = f"weblate-{VERSION_BASE}"
 
-def get_latest_version():
-    return get_version_info()[0]
+# Grab some information from git
+try:
+    # Describe current checkout
+    GIT_REPO = GitRepository(get_root_dir(), local=True)
+    GIT_VERSION = GIT_REPO.describe()
+    GIT_REVISION = GIT_REPO.last_revision
+    del GIT_REPO
+except (RepositoryException, OSError):
+    # Special case for Docker bleeding builds
+    if "WEBLATE_DOCKER_GIT_REVISION" in os.environ:
+        GIT_REVISION = os.environ["WEBLATE_DOCKER_GIT_REVISION"]
+        GIT_VERSION = f"{VERSION_BASE}-{GIT_REVISION[:10]}"
+    else:
+        # Import failed or git has troubles reading
+        # repo (for example swallow clone)
+        GIT_VERSION = VERSION
+        GIT_REVISION = None
 
-
-def check_version(app_configs=None, **kwargs):
-    try:
-        latest = get_latest_version()
-    except (ValueError, IOError):
-        return []
-    if LooseVersion(latest.version) > LooseVersion(VERSION_BASE):
-        # With release every two months, this get's triggered after three releases
-        if latest.timestamp + timedelta(days=180) < datetime.now():
-            return [
-                weblate_check(
-                    "weblate.C031",
-                    "You Weblate version is outdated, please upgrade to {}.".format(
-                        latest.version
-                    ),
-                )
-            ]
-        return [
-            weblate_check(
-                "weblate.I031",
-                "New Weblate version is available, please upgrade to {}.".format(
-                    latest.version
-                ),
-                Info,
-            )
-        ]
-    return []
+if GIT_REVISION:
+    GIT_LINK = f"https://github.com/WeblateOrg/weblate/commits/{GIT_REVISION}"
+elif "-dev" not in VERSION:
+    GIT_LINK = f"https://github.com/WeblateOrg/weblate/releases/tag/weblate-{VERSION}"
+else:
+    GIT_LINK = None
