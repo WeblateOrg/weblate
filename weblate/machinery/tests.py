@@ -149,7 +149,7 @@ SAPTRANSLATIONHUB_JSON = {
 TERMINOLOGY_LANGUAGES = b"""
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body>
-    <GetLanguagesResponse xmlns="http://api.terminology.microsoft.com/terminology">
+    <GetLanguagesResponse xmlns="https://api.terminology.microsoft.com/terminology">
       <GetLanguagesResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
         <Language>
           <Code>af-za</Code>
@@ -213,7 +213,7 @@ TERMINOLOGY_LANGUAGES = b"""
 TERMINOLOGY_TRANSLATE = b"""
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body>
-    <GetTranslationsResponse xmlns="http://api.terminology.microsoft.com/terminology">
+    <GetTranslationsResponse xmlns="https://api.terminology.microsoft.com/terminology">
       <GetTranslationsResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
         <Match>
           <ConfidenceLevel>100</ConfidenceLevel>
