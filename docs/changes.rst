@@ -13,6 +13,7 @@ Not yet released.
 * Extended users search capabilities.
 * Support for automatic update of screenshots from repository.
 * Improved translation memory performance.
+* Project stats JSON/CSV now include more details and matches content available in the API.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 

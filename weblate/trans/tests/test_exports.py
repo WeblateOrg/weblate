@@ -44,13 +44,13 @@ class ExportsViewTest(FixtureTestCase):
     def test_export_project_stats(self):
         response = self.client.get(reverse("export_stats", kwargs=self.kw_project))
         parsed = json.loads(response.content.decode())
-        self.assertIn("Czech", [i["language"] for i in parsed])
+        self.assertIn("Czech", [i["name"] for i in parsed])
 
     def test_export_project_stats_csv(self):
         response = self.client.get(
             reverse("export_stats", kwargs=self.kw_project), {"format": "csv"}
         )
-        self.assertContains(response, "language,code")
+        self.assertContains(response, "name,code")
 
     def test_data(self):
         response = self.client.get(reverse("data_project", kwargs=self.kw_project))
