@@ -83,7 +83,6 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.stats import get_project_stats
 from weblate.trans.tasks import auto_translate, component_removal, project_removal
 from weblate.trans.views.files import download_multi
 from weblate.utils.celery import get_queue_stats, get_task_progress, is_task_ready
@@ -697,7 +696,11 @@ class ProjectViewSet(
     def languages(self, request, **kwargs):
         obj = self.get_object()
 
-        return Response(get_project_stats(obj))
+        serializer = StatisticsSerializer(
+            obj.stats.get_language_stats(), many=True, context={"request": request}
+        )
+
+        return Response(serializer.data)
 
     @action(detail=True, methods=["get"])
     def changes(self, request, **kwargs):
