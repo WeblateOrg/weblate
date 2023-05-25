@@ -15,7 +15,7 @@ server {
 
     ssl_dhparam /etc/nginx/ffdhe2048.pem;
 
-    root /app/cache/static;
+    root /app/data/static;
     client_max_body_size 100M;
     server_tokens off;
 
@@ -23,13 +23,13 @@ server {
 
     location ~ ^/favicon.ico$ {
         # DATA_DIR/static/favicon.ico
-        alias /app/cache/static/favicon.ico;
+        alias /app/data/static/favicon.ico;
         expires 30d;
     }
 
     location ${WEBLATE_URL_PREFIX}/static/ {
         # DATA_DIR/static/
-        alias /app/cache/static/;
+        alias /app/data/static/;
         expires 30d;
     }
 
