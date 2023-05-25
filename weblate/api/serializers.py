@@ -856,6 +856,7 @@ class StatisticsSerializer(ReadOnlySerializer):
         result = {
             "total": stats.all,
             "total_words": stats.all_words,
+            "total_chars": stats.all_chars,
             "last_change": stats.last_changed,
             "recent_changes": stats.recent_changes,
             "translated": stats.translated,
@@ -864,7 +865,6 @@ class StatisticsSerializer(ReadOnlySerializer):
             "translated_words_percent": stats.translated_words_percent,
             "translated_chars": stats.translated_chars,
             "translated_chars_percent": stats.translated_chars_percent,
-            "total_chars": stats.all_chars,
             "fuzzy": stats.fuzzy,
             "fuzzy_percent": stats.fuzzy_percent,
             "failing": stats.allchecks,
