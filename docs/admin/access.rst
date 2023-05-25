@@ -59,7 +59,7 @@ You can limit user’s access to individual projects by selecting a different
 
    Only chosen users can access VCS repository.
 
-   **Choose this for projects that should not be publicly exposed at all.**
+   **Choose this for projects that should not be exposed publicly at all.**
 :guilabel:`Custom`
    Visible only to chosen users.
 
