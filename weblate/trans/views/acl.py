@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,41 +17,57 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from datetime import timedelta
+from itertools import chain
+
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.http import JsonResponse
-from django.shortcuts import redirect
+from django.db.models import Prefetch
+from django.shortcuts import get_object_or_404, redirect
+from django.template.loader import render_to_string
+from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
-from weblate.auth.forms import InviteUserForm, send_invitation
+from weblate.accounts.models import AuditLog
+from weblate.accounts.utils import remove_user
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.forms import InviteUserForm, SimpleGroupForm, send_invitation
 from weblate.auth.models import Group, User
-from weblate.trans.forms import UserManageForm
+from weblate.trans.forms import (
+    ProjectGroupDeleteForm,
+    ProjectTokenCreateForm,
+    ProjectUserGroupForm,
+    UserBlockForm,
+    UserManageForm,
+)
 from weblate.trans.models import Change
-from weblate.trans.util import render
+from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
 from weblate.utils.views import get_project, show_form_errors
+from weblate.vcs.ssh import get_key_data
 
 
-def check_user_form(request, project, verbose=False, form_class=UserManageForm):
+def check_user_form(
+    request, project, form_class=UserManageForm, pass_project: bool = False
+):
     """Check project permission and UserManageForm.
 
     This is simple helper to perform needed validation for all user management views.
     """
     obj = get_project(request, project)
 
-    if (
-        not request.user.has_perm("project.permissions", obj)
-        or obj.access_control == obj.ACCESS_CUSTOM
-    ):
+    if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied()
 
-    form = form_class(request.POST)
+    if pass_project:
+        form = form_class(obj, request.POST)
+    else:
+        form = form_class(request.POST)
 
     if form.is_valid():
         return obj, form
-    if verbose:
-        show_form_errors(request, form)
+    show_form_errors(request, form)
     return obj, None
 
 
@@ -59,31 +75,31 @@ def check_user_form(request, project, verbose=False, form_class=UserManageForm):
 @login_required
 def set_groups(request, project):
     """Change group assignment for a user."""
-    obj, form = check_user_form(request, project)
+    obj, form = check_user_form(
+        request, project, form_class=ProjectUserGroupForm, pass_project=True
+    )
 
-    try:
-        group = obj.group_set.get(
-            name__contains="@", internal=True, pk=int(request.POST.get("group", ""))
-        )
-    except (Group.DoesNotExist, ValueError):
-        group = None
+    user = form.cleaned_data["user"]
+    desired_groups = {group.id for group in form.cleaned_data["groups"]}
+    current_groups = set(
+        user.groups.filter(defining_project=obj).values_list("id", flat=True)
+    )
 
-    action = request.POST.get("action")
-
-    user = form.cleaned_data["user"] if form else None
-
-    if group is None or form is None:
-        code = 400
-        message = _("Invalid parameters!")
-        status = None
-    elif action == "remove":
-        owners = User.objects.all_admins(obj)
-        if group.name.endswith("@Administration") and owners.count() <= 1:
-            code = 400
-            message = _("You can not remove last owner!")
-        else:
-            code = 200
-            message = ""
+    for group in obj.defined_groups.all():
+        if group.id in desired_groups:
+            if group.id in current_groups:
+                continue
+            user.groups.add(group)
+            Change.objects.create(
+                project=obj,
+                action=Change.ACTION_ADD_USER,
+                user=request.user,
+                details={"username": user.username, "group": group.name},
+            )
+        elif group.id in current_groups:
+            if request.user == user:
+                messages.error(request, _("You can not remove yourself!"))
+                continue
             user.groups.remove(group)
             Change.objects.create(
                 project=obj,
@@ -91,21 +107,9 @@ def set_groups(request, project):
                 user=request.user,
                 details={"username": user.username, "group": group.name},
             )
-        status = user.groups.filter(pk=group.pk).exists()
-    else:
-        user.groups.add(group)
-        Change.objects.create(
-            project=obj,
-            action=Change.ACTION_ADD_USER,
-            user=request.user,
-            details={"username": user.username, "group": group.name},
-        )
-        code = 200
-        message = ""
-        status = user.groups.filter(pk=group.pk).exists()
 
-    return JsonResponse(
-        data={"responseCode": code, "message": message, "state": status}
+    return redirect_param(
+        "manage-access", "#api" if user.is_bot else "", project=obj.slug
     )
 
 
@@ -113,7 +117,10 @@ def set_groups(request, project):
 @login_required
 def add_user(request, project):
     """Add user to a project."""
-    obj, form = check_user_form(request, project, True)
+    obj, form = check_user_form(
+        request,
+        project,
+    )
 
     if form is not None:
         try:
@@ -134,9 +141,59 @@ def add_user(request, project):
 
 @require_POST
 @login_required
+def block_user(request, project):
+    """Block user from a project."""
+    obj, form = check_user_form(request, project, form_class=UserBlockForm)
+
+    if form is not None and form.cleaned_data["user"].id == request.user.id:
+        messages.error(request, _("You can not block yourself on this project."))
+    elif form is not None:
+        user = form.cleaned_data["user"]
+
+        if form.cleaned_data.get("expiry"):
+            expiry = timezone.now() + timedelta(days=int(form.cleaned_data["expiry"]))
+        else:
+            expiry = None
+        _userblock, created = user.userblock_set.get_or_create(
+            project=obj, defaults={"expiry": expiry}
+        )
+        if created:
+            AuditLog.objects.create(
+                user,
+                None,
+                "blocked",
+                project=obj.name,
+                username=request.user.username,
+                expiry=expiry.isoformat() if expiry else None,
+            )
+            messages.success(request, _("User has been blocked on this project."))
+        else:
+            messages.error(request, _("User is already blocked on this project."))
+
+    return redirect("manage-access", project=obj.slug)
+
+
+@require_POST
+@login_required
+def unblock_user(request, project):
+    """Block user from a project."""
+    obj, form = check_user_form(
+        request,
+        project,
+    )
+
+    if form is not None:
+        user = form.cleaned_data["user"]
+        user.userblock_set.filter(project=obj).delete()
+
+    return redirect("manage-access", project=obj.slug)
+
+
+@require_POST
+@login_required
 def invite_user(request, project):
     """Invite user to a project."""
-    obj, form = check_user_form(request, project, True, form_class=InviteUserForm)
+    obj, form = check_user_form(request, project, form_class=InviteUserForm)
 
     if form is not None:
         try:
@@ -152,11 +209,14 @@ def invite_user(request, project):
 @login_required
 def resend_invitation(request, project):
     """Remove user from a project."""
-    obj, form = check_user_form(request, project, True)
+    obj, form = check_user_form(
+        request,
+        project,
+    )
 
     if form is not None:
         send_invitation(request, obj.name, form.cleaned_data["user"])
-        messages.success(request, _("User has been invited to this project."))
+        messages.success(request, _("User invitation e-mail was sent."))
 
     return redirect("manage-access", project=obj.slug)
 
@@ -165,25 +225,36 @@ def resend_invitation(request, project):
 @login_required
 def delete_user(request, project):
     """Remove user from a project."""
-    obj, form = check_user_form(request, project, True)
+    obj, form = check_user_form(
+        request,
+        project,
+    )
+    redirect_url = ""
 
     if form is not None:
-        owners = User.objects.all_admins(obj)
         user = form.cleaned_data["user"]
-        is_owner = owners.filter(pk=user.pk).exists()
-        if is_owner and owners.count() <= 1:
-            messages.error(request, _("You can not remove last owner!"))
+        if request.user == user:
+            messages.error(request, _("You can not remove yourself!"))
         else:
-            obj.remove_user(user)
+            if user.is_bot:
+                redirect_url = "#api"
+                remove_user(user, request)
+            else:
+                obj.remove_user(user)
             Change.objects.create(
                 project=obj,
                 action=Change.ACTION_REMOVE_USER,
                 user=request.user,
                 details={"username": user.username},
             )
-            messages.success(request, _("User has been removed from this project."))
+            if user.is_bot:
+                messages.success(
+                    request, _("Token has been removed from this project.")
+                )
+            else:
+                messages.success(request, _("User has been removed from this project."))
 
-    return redirect("manage-access", project=obj.slug)
+    return redirect_param("manage-access", redirect_url, project=obj.slug)
 
 
 @login_required
@@ -194,15 +265,146 @@ def manage_access(request, project):
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied()
 
+    groups = obj.defined_groups.order()
+    for group in groups:
+        group.edit_form = SimpleGroupForm(
+            instance=group, auto_id=f"id_group_{group.id}_%s"
+        )
+    users = (
+        User.objects.filter(groups__in=groups, is_bot=False)
+        .distinct()
+        .order()
+        .prefetch_related(
+            Prefetch(
+                "groups",
+                queryset=groups,
+                to_attr="project_groups",
+            ),
+        )
+    )
+    project_tokens = (
+        User.objects.filter(groups__in=groups, is_bot=True)
+        .distinct()
+        .order()
+        .prefetch_related(
+            Prefetch(
+                "groups",
+                queryset=groups,
+                to_attr="project_groups",
+            ),
+        )
+    )
+
+    for user in chain(users, project_tokens):
+        user.group_edit_form = ProjectUserGroupForm(
+            obj,
+            initial={"user": user.username, "groups": user.project_groups},
+            auto_id=f"id_user_{user.id}_%s",
+        )
+
     return render(
         request,
-        "manage-access.html",
+        "trans/project-access.html",
         {
             "object": obj,
             "project": obj,
-            "groups": Group.objects.for_project(obj),
-            "all_users": User.objects.for_project(obj),
+            "project_tokens": project_tokens,
+            "groups": groups,
+            "all_users": users,
+            "blocked_users": obj.userblock_set.select_related("user"),
             "add_user_form": UserManageForm(),
+            "create_project_token_form": ProjectTokenCreateForm(obj),
+            "create_team_form": SimpleGroupForm(
+                initial={"language_selection": SELECTION_ALL}
+            ),
+            "block_user_form": UserBlockForm(
+                initial={"user": request.GET.get("block_user")}
+            ),
             "invite_user_form": InviteUserForm(),
+            "ssh_key": get_key_data(),
         },
     )
+
+
+@require_POST
+@login_required
+def create_token(request, project):
+    """Create project token."""
+    obj = get_project(request, project)
+
+    if not request.user.has_perm("project.permissions", obj):
+        raise PermissionDenied()
+
+    form = ProjectTokenCreateForm(obj, request.POST)
+
+    if form.is_valid():
+        token = form.save()
+        messages.info(
+            request,
+            render_to_string(
+                "trans/projecttoken-created.html", {"token": token.auth_token.key}
+            ),
+        )
+    else:
+        show_form_errors(request, form)
+
+    return redirect_param("manage-access", "#api", project=obj.slug)
+
+
+@require_POST
+@login_required
+def delete_group(request, project):
+    """Delete project group."""
+    obj = get_project(request, project)
+
+    if not request.user.has_perm("project.permissions", obj):
+        raise PermissionDenied()
+
+    form = ProjectGroupDeleteForm(obj, request.POST)
+
+    if form.is_valid():
+        form.cleaned_data["group"].delete()
+    else:
+        show_form_errors(request, form)
+
+    return redirect_param("manage-access", "#teams", project=obj.slug)
+
+
+@require_POST
+@login_required
+def edit_group(request, project, pk: int):
+    """Delete project group."""
+    obj = get_project(request, project)
+
+    if not request.user.has_perm("project.permissions", obj):
+        raise PermissionDenied()
+
+    group = get_object_or_404(obj.defined_groups.all(), pk=pk)
+
+    form = SimpleGroupForm(instance=group, data=request.POST)
+
+    if form.is_valid():
+        form.save()
+    else:
+        show_form_errors(request, form)
+
+    return redirect_param("manage-access", "#teams", project=obj.slug)
+
+
+@require_POST
+@login_required
+def create_group(request, project):
+    """Delete project group."""
+    obj = get_project(request, project)
+
+    if not request.user.has_perm("project.permissions", obj):
+        raise PermissionDenied()
+
+    form = SimpleGroupForm(request.POST)
+
+    if form.is_valid():
+        form.save(project=obj)
+    else:
+        show_form_errors(request, form)
+
+    return redirect_param("manage-access", "#teams", project=obj.slug)

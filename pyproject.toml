@@ -1,28 +1,6 @@
-[tool.black]
-include = '\.pyi?$'
-exclude = '''
-
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv.*
-    | _build
-    | buck-out
-    | build
-    | dist
-    | data
-    | data-test
-    | node_modules
-    | settings\.py
-    | scripts/iso-codes
-  )/
-)
-'''
-
 [build-system]
 # Minimum requirements for the build system to execute.
 requires = ["setuptools", "wheel", "translate-toolkit"]  # PEP 508 specifications.
+
+[tool.black]
+target-version = ['py37']

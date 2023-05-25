@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""Tests for consisntency checks."""
+"""Tests for consistency checks."""
 
 from django.test import TestCase
 
@@ -109,5 +109,6 @@ class TranslatedCheckTest(ViewTestCase):
         self.test_untranslated()
         check = Check(unit=self.get_unit())
         self.assertEqual(
-            self.check.get_description(check), 'Last translation was "Nazdar svete!\n".'
+            self.check.get_description(check),
+            'Previous translation was "Nazdar svete!\n".',
         )

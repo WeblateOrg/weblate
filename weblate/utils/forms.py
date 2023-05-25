@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,15 +17,48 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from crispy_forms.layout import Div, Field
 from crispy_forms.utils import TEMPLATE_PACK
 from django import forms
 from django.template.loader import render_to_string
-from django.utils.encoding import force_str
+from django.utils.translation import gettext_lazy as _
 
+from weblate.trans.defines import EMAIL_LENGTH, USERNAME_LENGTH
 from weblate.trans.filter import FILTERS
 from weblate.trans.util import sort_unicode
+from weblate.utils.validators import validate_email, validate_username
+
+
+class UsernameField(forms.CharField):
+    default_validators = [validate_username]
+
+    def __init__(self, *args, **kwargs):
+        params = {
+            "max_length": USERNAME_LENGTH,
+            "help_text": _(
+                "Username may only contain letters, "
+                "numbers or the following characters: @ . + - _"
+            ),
+            "label": _("Username"),
+            "required": True,
+        }
+        params.update(kwargs)
+        self.valid = None
+
+        super().__init__(*args, **params)
+
+
+class EmailField(forms.EmailField):
+    """Slightly restricted EmailField.
+
+    We blacklist some additional local parts and customize error messages.
+    """
+
+    default_validators = [validate_email]
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("max_length", EMAIL_LENGTH)
+        super().__init__(*args, **kwargs)
 
 
 class SortedSelectMixin:
@@ -33,7 +66,7 @@ class SortedSelectMixin:
 
     def optgroups(self, name, value, attrs=None):
         groups = super().optgroups(name, value, attrs)
-        return sort_unicode(groups, lambda val: force_str(val[1][0]["label"]))
+        return sort_unicode(groups, lambda val: str(val[1][0]["label"]))
 
 
 class ColorWidget(forms.RadioSelect):
@@ -99,4 +132,4 @@ class FilterForm(forms.Form):
     project = forms.SlugField(required=False)
     component = forms.SlugField(required=False)
     lang = forms.SlugField(required=False)
-    user = forms.SlugField(required=False)
+    user = UsernameField(required=False)

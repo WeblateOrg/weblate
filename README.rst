@@ -4,7 +4,7 @@
    :height: 80px
 
 **Weblate is a copylefted libre software web-based continuous localization system,
-used by over 1150 libre projects and companies in more than 115 countries.**
+used by over 2500 libre projects and companies in more than 165 countries.**
 
 Install it, or use the Hosted Weblate service at `weblate.org`_.
 
@@ -14,13 +14,13 @@ Install it, or use the Hosted Weblate service at `weblate.org`_.
 
 .. image:: https://hosted.weblate.org/widgets/weblate/-/svg-badge.svg
     :alt: Translation status
-    :target: https://hosted.weblate.org/engage/weblate/?utm_source=widget
+    :target: https://hosted.weblate.org/engage/weblate/
 
 .. image:: https://bestpractices.coreinfrastructure.org/projects/552/badge
     :alt: CII Best Practices
     :target: https://bestpractices.coreinfrastructure.org/projects/552
 
-.. image:: https://img.shields.io/pypi/v/Weblate.svg
+.. image:: https://img.shields.io/pypi/v/weblate.svg
     :target: https://pypi.org/project/Weblate/
 
 .. image:: https://readthedocs.org/projects/weblate/badge/
@@ -28,7 +28,7 @@ Install it, or use the Hosted Weblate service at `weblate.org`_.
 
 .. image:: https://img.shields.io/github/license/WeblateOrg/weblate.svg
     :alt: License
-    :target: https://github.com/WeblateOrg/weblate/blob/master/COPYING
+    :target: https://github.com/WeblateOrg/weblate/blob/main/COPYING
 
 Support
 -------
@@ -56,10 +56,16 @@ Please report feature requests and problems to:
 
 https://github.com/WeblateOrg/weblate/issues
 
+
+Live chat
+---------
+
+Live chat about Weblate is available at `Libera.Chat <https://libera.chat/>`_ IRC network. The channel name is ``#weblate``. This can be accessed by, for example, https://web.libera.chat/#weblate or an IRC client installed on your computer.
+
 License
 -------
 
-Copyright © 2012–2020 Michal Čihař michal@cihar.com
+Copyright © 2012–2022 Michal Čihař michal@cihar.com
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

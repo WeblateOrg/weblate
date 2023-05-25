@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -24,4 +24,4 @@ from django.apps import AppConfig
 class AddonsConfig(AppConfig):
     name = "weblate.addons"
     label = "addons"
-    verbose_name = "Addons"
+    verbose_name = "Add-ons"

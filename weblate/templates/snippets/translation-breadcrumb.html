@@ -1,0 +1,9 @@
+{% load icons %}
+<li>
+  <a href="{{ object.get_absolute_url }}">
+    {{ object.language }}
+    {% if object.is_source %}
+      {% icon "source.svg" %}
+    {% endif %}
+  </a>
+</li>

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -44,7 +44,7 @@ class Command(BaseCommand):
         try:
             self.setup_schedule()
         except Exception as error:
-            self.stderr.write("Removing corrupted schedule file: {!r}".format(error))
+            self.stderr.write(f"Removing corrupted schedule file: {error!r}")
             self.try_remove(settings.CELERY_BEAT_SCHEDULE_FILENAME)
             self.try_remove(settings.CELERY_BEAT_SCHEDULE_FILENAME + ".db")
             self.setup_schedule()

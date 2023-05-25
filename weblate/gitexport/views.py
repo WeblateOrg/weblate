@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -27,7 +27,6 @@ from django.http import Http404
 from django.http.response import HttpResponse, HttpResponseServerError
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.encoding import force_str
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 
@@ -47,7 +46,6 @@ def response_authenticate():
 
 def authenticate(request, auth):
     """Perform authentication with HTTP Basic auth."""
-    auth = force_str(auth, encoding="iso-8859-1")
     try:
         method, data = auth.split(None, 1)
         if method.lower() == "basic":
@@ -101,6 +99,8 @@ def git_export(request, project, component, path):
             return response_authenticate()
         raise
     if not request.user.has_perm("vcs.access", obj):
+        if not request.user.is_authenticated:
+            return response_authenticate()
         raise PermissionDenied("No VCS permissions")
     if obj.vcs not in SUPPORTED_VCS:
         raise Http404("Not a git repository")
@@ -146,12 +146,9 @@ def run_git_http(request, obj, path):
 
     # Log error
     if output_err:
+        output_err = output_err.decode()
         try:
-            raise Exception(
-                "Git http backend error: {}".format(
-                    force_str(output_err).splitlines()[0]
-                )
-            )
+            raise Exception(f"Git http backend error: {output_err.splitlines()[0]}")
         except Exception:
             report_error(cause="Git backend failure")
 

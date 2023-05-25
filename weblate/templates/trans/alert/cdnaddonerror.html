@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load translations %}
 
-<p>{% trans "Weblate could not parse HTML files using the addon." %}</p>
+<p>{% trans "Weblate CDN add-on could not parse the HTML files." %}</p>
 
 <p>{% trans "The following occurrences were found:" %}</p>
 
@@ -15,3 +15,5 @@
 {% endfor %}
 </tbody>
 </table>
+
+{% include "trans/alert/occurrences-limit.html" %}

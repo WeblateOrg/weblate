@@ -1,0 +1,15 @@
+{% load i18n %}
+{% load translations %}
+
+<h4>
+{% if service.is_configured %}
+  {% if service.sitewide %}
+    <span class="badge pull-right flip" title="{% trans "This service is installed site wide." %}">{% trans "site wide" %}</span>
+  {% endif %}
+  {% if not service.is_enabled %}
+    <span class="badge pull-right flip" title="{% trans "This service is installed site wide, but disabled." %}">{% trans "disabled" %}</span>
+  {% endif %}
+{% endif %}
+{{ service.name }}
+{% documentation_icon "admin/addons" service.doc_anchor %}
+</h4>

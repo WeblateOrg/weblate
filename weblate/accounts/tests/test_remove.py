@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -59,7 +59,7 @@ class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):
         self.assertTrue(User.objects.filter(username="testuser").exists())
 
     def test_removal_nopass(self):
-        # Set unusuable password for test user.
+        # Set unusable password for test user.
         self.user.set_unusable_password()
         self.user.save()
         # Need to force login as user has no password now.

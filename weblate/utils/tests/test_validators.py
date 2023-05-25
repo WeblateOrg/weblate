@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -67,7 +67,7 @@ class FullNameCleanTest(SimpleTestCase):
         self.assertEqual("ahoj", clean_fullname(" ahoj "))
 
     def test_none(self):
-        self.assertEqual(None, clean_fullname(None))
+        self.assertIsNone(clean_fullname(None))
 
     def test_invalid(self):
         with self.assertRaises(ValidationError):

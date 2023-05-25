@@ -1,23 +1,20 @@
 server {
     listen 8080 default_server;
-    root /app/data/static;
+    root /app/cache/static;
     client_max_body_size 100M;
+    server_tokens off;
+
+    ${WEBLATE_REALIP}
 
     location ~ ^/favicon.ico$ {
         # DATA_DIR/static/favicon.ico
-        alias /app/data/static/favicon.ico;
-        expires 30d;
-    }
-
-    location ~ ^/robots.txt$ {
-        # DATA_DIR/static/robots.txt
-        alias /app/data/static/robots.txt;
+        alias /app/cache/static/favicon.ico;
         expires 30d;
     }
 
     location ${WEBLATE_URL_PREFIX}/static/ {
         # DATA_DIR/static/
-        alias /app/data/static/;
+        alias /app/cache/static/;
         expires 30d;
     }
 
@@ -28,10 +25,9 @@ server {
     }
 
     location / {
-        include uwsgi_params;
-        # Needed for long running operations in admin interface
-        uwsgi_read_timeout 3600;
-        # Adjust based to uwsgi configuration:
-        uwsgi_pass unix:///run/uwsgi/app/weblate/socket;
+        proxy_set_header Host $http_host;
+        proxy_pass http://unix:/run/gunicorn/app/weblate/socket;
+        proxy_read_timeout 3600;
+        proxy_connect_timeout 3600;
     }
 }

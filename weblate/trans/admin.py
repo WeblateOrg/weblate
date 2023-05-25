@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -32,7 +32,7 @@ class RepoAdminMixin:
         for obj in queryset:
             obj.commit_pending("admin", request)
         self.message_user(
-            request, "Flushed changes in {0:d} git repos.".format(queryset.count())
+            request, f"Flushed changes in {queryset.count():d} git repos."
         )
 
     force_commit.short_description = _("Commit pending changes")
@@ -41,7 +41,7 @@ class RepoAdminMixin:
         """Update selected components from git."""
         for obj in queryset:
             obj.do_update(request)
-        self.message_user(request, "Updated {0:d} git repos.".format(queryset.count()))
+        self.message_user(request, f"Updated {queryset.count():d} git repos.")
 
     update_from_git.short_description = _("Update VCS repository")
 
@@ -60,7 +60,7 @@ class RepoAdminMixin:
         for translation in self.get_qs_translations(queryset):
             translation.invalidate_cache()
 
-        self.message_user(request, "Updated checks for {0:d} units.".format(len(units)))
+        self.message_user(request, f"Updated checks for {len(units):d} units.")
 
     update_checks.short_description = _("Update quality checks")
 
@@ -116,13 +116,6 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
     def get_qs_translations(self, queryset):
         return Translation.objects.filter(component__project__in=queryset)
 
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        """Wrapper to sort languages by localized names."""
-        result = super().formfield_for_foreignkey(db_field, request, **kwargs)
-        if db_field.name == "source_language":
-            result.choices = sort_choices(result.choices)
-        return result
-
 
 class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
     list_display = ["name", "slug", "project", "repo", "branch", "vcs", "file_format"]
@@ -138,6 +131,13 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
     def get_qs_translations(self, queryset):
         return Translation.objects.filter(component__in=queryset)
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """Wrapper to sort languages by localized names."""
+        result = super().formfield_for_foreignkey(db_field, request, **kwargs)
+        if db_field.name == "source_language":
+            result.choices = sort_choices(result.choices)
+        return result
+
 
 class TranslationAdmin(WeblateModelAdmin):
     list_display = ["component", "language", "revision", "filename"]
@@ -147,18 +147,18 @@ class TranslationAdmin(WeblateModelAdmin):
 
 class UnitAdmin(WeblateModelAdmin):
     list_display = ["source", "target", "position", "state"]
-    search_fields = ["source", "target", "id_hash"]
+    search_fields = ["source", "target"]
     list_filter = ["translation__component", "translation__language", "state"]
 
 
 class SuggestionAdmin(WeblateModelAdmin):
     list_display = ["target", "unit", "user"]
-    search_fields = ["unit__content_hash", "target"]
+    search_fields = ["unit__source", "target"]
 
 
 class CommentAdmin(WeblateModelAdmin):
     list_display = ["comment", "unit", "user"]
-    search_fields = ["unit__content_hash", "comment"]
+    search_fields = ["unit__source", "comment"]
 
 
 class ChangeAdmin(WeblateModelAdmin):

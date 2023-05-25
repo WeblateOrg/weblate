@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,12 +18,17 @@
 #
 """Database specific code to extend Django."""
 
-from django.db import models, router
+from django.db import connection, models
 from django.db.models import Case, IntegerField, Sum, When
-from django.db.models.deletion import Collector
 from django.db.models.lookups import PatternLookup
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
+
+PG_TRGM = "CREATE INDEX {0}_{1}_fulltext ON trans_{0} USING GIN ({1} gin_trgm_ops)"
+PG_DROP = "DROP INDEX {0}_{1}_fulltext"
+
+MY_FTX = "CREATE FULLTEXT INDEX {0}_{1}_fulltext ON trans_{0}({1})"
+MY_DROP = "ALTER TABLE trans_{0} DROP INDEX {0}_{1}_fulltext"
 
 
 def conditional_sum(value=1, **cond):
@@ -31,14 +36,40 @@ def conditional_sum(value=1, **cond):
     return Sum(Case(When(then=value, **cond), default=0, output_field=IntegerField()))
 
 
+def using_postgresql():
+    return connection.vendor == "postgresql"
+
+
+def adjust_similarity_threshold(value: float):
+    """
+    Adjusts pg_trgm.similarity_threshold for the % operator.
+
+    Ideally we would use directly similarity() in the search, but that doesn't seem
+    to use index, while using % does.
+    """
+    if not using_postgresql():
+        return
+    with connection.cursor() as cursor:
+        # The SELECT has to be executed first as othervise the trgm extension
+        # might not yet be loaded and GUC setting not possible.
+        if not hasattr(connection, "weblate_similarity"):
+            cursor.execute("SELECT show_limit()")
+            connection.weblate_similarity = cursor.fetchone()[0]
+        # Change setting only for reasonably big difference
+        if abs(connection.weblate_similarity - value) > 0.01:
+            cursor.execute("SELECT set_limit(%s)", [value])
+            connection.weblate_similarity = value
+
+
 class PostgreSQLSearchLookup(PatternLookup):
     lookup_name = "search"
+    param_pattern = "%s"
 
     def as_sql(self, qn, connection):
         lhs, lhs_params = self.process_lhs(qn, connection)
         rhs, rhs_params = self.process_rhs(qn, connection)
         params = lhs_params + rhs_params
-        return "%s %%%% %s = true" % (lhs, rhs), params
+        return f"{lhs} %% {rhs} = true", params
 
 
 class MySQLSearchLookup(models.Lookup):
@@ -48,7 +79,7 @@ class MySQLSearchLookup(models.Lookup):
         lhs, lhs_params = self.process_lhs(compiler, connection)
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
-        return "MATCH (%s) AGAINST (%s IN NATURAL LANGUAGE MODE)" % (lhs, rhs), params
+        return f"MATCH ({lhs}) AGAINST ({rhs} IN NATURAL LANGUAGE MODE)", params
 
 
 class MySQLSubstringLookup(MySQLSearchLookup):
@@ -69,19 +100,7 @@ class PostgreSQLSubstringLookup(PatternLookup):
         lhs, lhs_params = self.process_lhs(compiler, connection)
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
-        return "%s ILIKE %s" % (lhs, rhs), params
-
-
-def table_has_row(connection, table, rowname):
-    """Check whether actual table has row."""
-    with connection.cursor() as cursor:
-        table_description = connection.introspection.get_table_description(
-            cursor, table
-        )
-        for row in table_description:
-            if row.name == rowname:
-                return True
-    return False
+        return f"{lhs} ILIKE {rhs}", params
 
 
 def re_escape(pattern):
@@ -96,32 +115,3 @@ def re_escape(pattern):
         elif char in ESCAPED:
             string[i] = "\\" + char
     return "".join(string)
-
-
-class FastCollector(Collector):
-    """
-    Fast delete collector skipping some signals.
-
-    It allows fast deletion for models flagged with weblate_unsafe_delete.
-
-    This is needed as check removal triggers check run and that can
-    create new checks for just removed units.
-    """
-
-    def can_fast_delete(self, objs, from_field=None):
-        if hasattr(objs, "model") and getattr(
-            objs.model, "weblate_unsafe_delete", False
-        ):
-            return True
-        return super().can_fast_delete(objs, from_field)
-
-
-class FastDeleteMixin:
-    """Model mixin to use FastCollector."""
-
-    def delete(self, using=None, keep_parents=False):
-        """Copy of Django delete with changed collector."""
-        using = using or router.db_for_write(self.__class__, instance=self)
-        collector = FastCollector(using=using)
-        collector.collect([self], keep_parents=keep_parents)
-        return collector.delete()

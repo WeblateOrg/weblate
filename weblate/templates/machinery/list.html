@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load permissions %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% load icons %}
+
+{% block breadcrumbs %}
+{% if project %}
+<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+<li><a href="{% url 'machinery-list' project=project.slug %}">{% trans "Automatic suggestions" %}</a></li>
+{% else %}
+<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
+<li><a href="{% url 'machinery-list' %}">{% trans "Automatic suggestions" %}</a></li>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="panel panel-default">
+  <div class="panel-heading"><h4 class="panel-title">
+    {% documentation_icon 'admin/machine' right=True %}
+    {% trans "Configured automatic suggestion services" %}
+  </h4></div>
+  <table class="table table-striped">
+  <tbody>
+{% for service in configured_services %}
+  <tr>
+  <td>
+  {% include 'machinery/detail.html' %}
+  </td>
+  <td class="bottom-button">
+    {% if service.is_enabled %}
+      <form method="POST" action="{{ service.get_absolute_url }}">{% csrf_token %}<input type="hidden" name="delete" value="1" /><button type="submit" class="btn btn-danger">{% trans "Disable" %}</button></form>
+    {% else %}
+      <form method="POST" action="{{ service.get_absolute_url }}">{% csrf_token %}<input type="hidden" name="enable" value="1" /><button type="submit" class="btn btn-primary">{% trans "Enable" %}</button></form>
+    {% endif %}
+  </td>
+  <td class="bottom-button">
+  {% if service.has_settings %}
+  <a class="btn btn-primary" href="{{ service.get_absolute_url }}">{% trans "Configure" %}</a>
+  {% endif %}
+  </td>
+  </tr>
+{% endfor %}
+  </tbody>
+  </table>
+  <div class="panel-footer">
+{% if not configured_services %}
+  {% trans "There are no services currently installed." %}
+{% else %}
+  {% blocktrans count count=configured_services|length %}There is currently {{ count }} service installed.{% plural %}There are currently {{ count }} services installed.{% endblocktrans %}
+{% endif %}
+  </div>
+</div>
+
+
+<div class="panel panel-default">
+  <div class="panel-heading"><h4 class="panel-title">
+    {% documentation_icon 'admin/machine' right=True %}
+    {% trans "Available automatic suggestion services" %}
+  </h4></div>
+  <table class="table table-striped">
+  <tbody>
+{% for service in available_services %}
+  <tr>
+  <td>
+  {% include 'machinery/detail.html' %}
+  </td>
+  <td class="bottom-button">
+    <form method="POST" action="{{ service.get_absolute_url }}">{% csrf_token %}<button type="submit" class="btn btn-primary" name="install" value="1">{% trans "Install" %}</button></form>
+  </td>
+  </tr>
+{% endfor %}
+  </tbody>
+  </table>
+  <div class="panel-footer">
+{% if not available_services %}
+    {% trans "Could not find any additional services." %}
+{% else %}
+    {% trans "Some services will ask for additional configuration during installation." %}
+{% endif %}
+  </div>
+</div>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -67,13 +67,9 @@ class WeblateComponentCommand(BaseCommand):
 
         # Iterate over chunks
         while current < last:
-            self.stdout.write("Processing {0:.1f}%".format(done * 100.0 / count))
+            self.stdout.write(f"Processing {done * 100.0 / count:.1f}%")
             with transaction.atomic():
-                step_units = units.filter(pk__gt=current)[:step].prefetch_related(
-                    "translation__language",
-                    "translation__component",
-                    "translation__component__project",
-                )
+                step_units = units.filter(pk__gt=current)[:step].prefetch()
                 for unit in step_units:
                     current = unit.pk
                     done += 1
@@ -95,9 +91,9 @@ class WeblateComponentCommand(BaseCommand):
             else:
                 result = Component.objects.all()
         elif not options["component"]:
-            # no argumets to filter projects
+            # no arguments to filter projects
             self.stderr.write(
-                "Please specify either --all " "or at least one <project/component>"
+                "Please specify either --all or at least one <project/component>"
             )
             raise CommandError("Nothing to process!")
         else:
@@ -117,8 +113,8 @@ class WeblateComponentCommand(BaseCommand):
                     found = found.filter(slug=parts[1])
 
                 # warn on no match
-                if found.count() == 0:
-                    self.stderr.write('"{0}" did not match any components'.format(arg))
+                if not found.exists():
+                    self.stderr.write(f'"{arg}" did not match any components')
                     raise CommandError("Nothing to process!")
 
                 # merge results

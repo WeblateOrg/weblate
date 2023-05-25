@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -16,14 +16,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from copy import copy
+from zipfile import BadZipfile
 
 from django.conf import settings
-from django.core.exceptions import PermissionDenied
 from rest_framework import serializers
 
 from weblate.accounts.models import Subscription
+from weblate.addons.models import ADDONS, Addon
 from weblate.auth.models import Group, Permission, Role, User
+from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural
+from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.defines import LANGUAGE_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.models import (
@@ -38,6 +42,12 @@ from weblate.trans.models import (
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
+from weblate.utils.views import (
+    create_component_from_doc,
+    create_component_from_zip,
+    get_form_errors,
+    guess_filemask_from_doc,
+)
 
 
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
@@ -118,6 +128,7 @@ class LanguageSerializer(serializers.ModelSerializer):
             "plural",
             "aliases",
             "direction",
+            "population",
             "web_url",
             "url",
             "statistics_url",
@@ -130,7 +141,7 @@ class LanguageSerializer(serializers.ModelSerializer):
     @property
     def is_source_language(self):
         return (
-            isinstance(self.parent, ProjectSerializer)
+            isinstance(self.parent, ComponentSerializer)
             and self.field_name == "source_language"
         )
 
@@ -162,7 +173,7 @@ class LanguageSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Language with this Language code already exists."
             )
-        language = Language.objects.create(**validated_data)
+        language = super().create(validated_data)
         plural = Plural(language=language, **plural_validated)
         plural.save()
         return language
@@ -177,12 +188,18 @@ class LanguageSerializer(serializers.ModelSerializer):
 
 class FullUserSerializer(serializers.ModelSerializer):
     groups = serializers.HyperlinkedIdentityField(
-        view_name="api:group-detail", lookup_field="id", many=True, read_only=True,
+        view_name="api:group-detail",
+        lookup_field="id",
+        many=True,
+        read_only=True,
     )
     notifications = serializers.HyperlinkedIdentityField(
         view_name="api:user-notifications",
         lookup_field="username",
         source="subscriptions",
+    )
+    statistics_url = serializers.HyperlinkedIdentityField(
+        view_name="api:user-statistics", lookup_field="username"
     )
 
     class Meta:
@@ -195,8 +212,10 @@ class FullUserSerializer(serializers.ModelSerializer):
             "notifications",
             "is_superuser",
             "is_active",
+            "is_bot",
             "date_joined",
             "url",
+            "statistics_url",
         )
         extra_kwargs = {
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}
@@ -268,13 +287,22 @@ class RoleSerializer(serializers.ModelSerializer):
 
 class GroupSerializer(serializers.ModelSerializer):
     roles = serializers.HyperlinkedIdentityField(
-        view_name="api:role-detail", lookup_field="id", many=True, read_only=True,
+        view_name="api:role-detail",
+        lookup_field="id",
+        many=True,
+        read_only=True,
     )
     languages = serializers.HyperlinkedIdentityField(
-        view_name="api:language-detail", lookup_field="code", many=True, read_only=True,
+        view_name="api:language-detail",
+        lookup_field="code",
+        many=True,
+        read_only=True,
     )
     projects = serializers.HyperlinkedIdentityField(
-        view_name="api:project-detail", lookup_field="slug", many=True, read_only=True,
+        view_name="api:project-detail",
+        lookup_field="slug",
+        many=True,
+        read_only=True,
     )
     componentlists = serializers.HyperlinkedRelatedField(
         view_name="api:componentlist-detail",
@@ -288,11 +316,18 @@ class GroupSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True,
     )
+    defining_project = serializers.HyperlinkedRelatedField(
+        view_name="api:project-detail",
+        lookup_field="slug",
+        queryset=Project.objects.none(),
+        required=False,
+    )
 
     class Meta:
         model = Group
         fields = (
             "name",
+            "defining_project",
             "project_selection",
             "language_selection",
             "url",
@@ -304,10 +339,14 @@ class GroupSerializer(serializers.ModelSerializer):
         )
         extra_kwargs = {"url": {"view_name": "api:group-detail", "lookup_field": "id"}}
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        user = self.context["request"].user
+        self.fields["defining_project"].queryset = user.managed_projects
+
 
 class ProjectSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
-    source_language = LanguageSerializer(required=False)
     components_list_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-components", lookup_field="slug"
     )
@@ -331,7 +370,6 @@ class ProjectSerializer(serializers.ModelSerializer):
             "slug",
             "id",
             "web",
-            "source_language",
             "web_url",
             "url",
             "components_list_url",
@@ -339,29 +377,50 @@ class ProjectSerializer(serializers.ModelSerializer):
             "statistics_url",
             "changes_list_url",
             "languages_url",
+            "translation_review",
+            "source_review",
+            "set_language_team",
+            "instructions",
+            "enable_hooks",
+            "language_aliases",
         )
         extra_kwargs = {
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}
         }
 
-    def create(self, validated_data):
-        source_language_validated = validated_data.get("source_language")
-        if source_language_validated:
-            validated_data["source_language"] = Language.objects.get(
-                code=source_language_validated.get("code")
-            )
-        project = Project.objects.create(**validated_data)
-        return project
 
-
-class RepoField(serializers.CharField):
+class LinkedField(serializers.CharField):
     def get_attribute(self, instance):
         if instance.linked_component:
             instance = instance.linked_component
-        url = getattr(instance, self.source)
+        return getattr(instance, self.source)
+
+
+class RepoField(LinkedField):
+    def get_attribute(self, instance):
+        url = super().get_attribute(instance)
         if not settings.HIDE_REPO_CREDENTIALS:
             return url
         return cleanup_repo_url(url)
+
+
+class RelatedTaskField(serializers.HyperlinkedRelatedField):
+    def __init__(self, **kwargs):
+        super().__init__(
+            "api:task-detail",
+            read_only=True,
+            allow_null=True,
+            lookup_url_kwarg="pk",
+            **kwargs,
+        )
+
+    def get_attribute(self, instance):
+        return instance
+
+    def get_url(self, obj, view_name, request, format):
+        if not obj.in_progress():
+            return None
+        return super().get_url(obj, view_name, request, format)
 
 
 class ComponentSerializer(RemovableSerializer):
@@ -379,16 +438,37 @@ class ComponentSerializer(RemovableSerializer):
     lock_url = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-lock", lookup_field=("project__slug", "slug")
     )
+    links_url = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-links", lookup_field=("project__slug", "slug")
+    )
     changes_list_url = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-changes", lookup_field=("project__slug", "slug")
     )
     license_url = serializers.CharField(read_only=True)
+    source_language = LanguageSerializer(required=False)
 
     repo = RepoField(max_length=REPO_LENGTH)
 
     push = RepoField(required=False, allow_blank=True, max_length=REPO_LENGTH)
+    branch = LinkedField(required=False, allow_blank=True, max_length=REPO_LENGTH)
+    push_branch = LinkedField(required=False, allow_blank=True, max_length=REPO_LENGTH)
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
+
+    zipfile = serializers.FileField(required=False)
+    docfile = serializers.FileField(required=False)
+    disable_autoshare = serializers.BooleanField(required=False)
+
+    enforced_checks = serializers.JSONField(required=False)
+
+    task_url = RelatedTaskField(lookup_field="background_task_id")
+
+    addons = serializers.HyperlinkedIdentityField(
+        view_name="api:addon-detail",
+        source="addon_set",
+        many=True,
+        read_only=True,
+    )
 
     class Meta:
         model = Component
@@ -396,6 +476,7 @@ class ComponentSerializer(RemovableSerializer):
             "name",
             "slug",
             "id",
+            "source_language",
             "project",
             "vcs",
             "repo",
@@ -417,7 +498,9 @@ class ComponentSerializer(RemovableSerializer):
             "translations_url",
             "statistics_url",
             "lock_url",
+            "links_url",
             "changes_list_url",
+            "task_url",
             "new_lang",
             "language_code_style",
             "push",
@@ -433,7 +516,9 @@ class ComponentSerializer(RemovableSerializer):
             "delete_message",
             "merge_message",
             "addon_message",
+            "pull_message",
             "allow_translation_propagation",
+            "manage_units",
             "enable_suggestions",
             "suggestion_voting",
             "suggestion_autoaccept",
@@ -442,6 +527,12 @@ class ComponentSerializer(RemovableSerializer):
             "auto_lock_error",
             "language_regex",
             "variant_regex",
+            "zipfile",
+            "docfile",
+            "addons",
+            "is_glossary",
+            "glossary_color",
+            "disable_autoshare",
         )
         extra_kwargs = {
             "url": {
@@ -449,6 +540,14 @@ class ComponentSerializer(RemovableSerializer):
                 "lookup_field": ("project__slug", "slug"),
             }
         }
+
+    def validate_enforced_checks(self, value):
+        if not isinstance(value, list):
+            raise serializers.ValidationError("Enforced checks has to be a list.")
+        for item in value:
+            if item not in CHECKS:
+                raise serializers.ValidationError(f"Unsupported enforced check: {item}")
+        return value
 
     def to_representation(self, instance):
         """Remove VCS properties if user has no permission for that."""
@@ -463,15 +562,96 @@ class ComponentSerializer(RemovableSerializer):
         return result
 
     def to_internal_value(self, data):
+        # Preprocess to inject params based on content
+        data = data.copy()
+
+        # Provide a reasonable default
+        if "manage_units" not in data and data.get("template"):
+            data["manage_units"] = "1"
+
+        # File uploads indicate usage of a local repo
+        if "docfile" in data or "zipfile" in data:
+            data["repo"] = "local:"
+            data["vcs"] = "local"
+            data["branch"] = "main"
+
+            # Provide a filemask so that it is not listed as an
+            # error. The validation of docfile will fail later
+            if "docfile" in data and "filemask" not in data:
+                guess_filemask_from_doc(data)
+
+        # DRF processing
         result = super().to_internal_value(data)
+
+        # Handle source language attribute
+        if "source_language" in result:
+            language = result["source_language"]
+            result["source_language"] = Language.objects.get(
+                code=language if isinstance(language, str) else language["code"]
+            )
+
+        # Add missing project context
         if "project" in self._context:
             result["project"] = self._context["project"]
+        elif self.instance:
+            result["project"] = self.instance.project
+
         return result
 
     def validate(self, attrs):
+        # Validate name/slug uniqueness, this has to be done prior docfile/zipfile
+        # extracting
+        for field in ("name", "slug"):
+            # Skip optional fields on PATCH
+            if field not in attrs:
+                continue
+            # Skip non changed fields
+            if self.instance and getattr(self.instance, field) == attrs[field]:
+                continue
+            # Look for existing components
+            if attrs["project"].component_set.filter(**{field: attrs[field]}).exists():
+                raise serializers.ValidationError(
+                    {field: f"Component with this {field} already exists."}
+                )
+
+        # Handle uploaded files
+        if self.instance:
+            for field in ("docfile", "zipfile"):
+                if field in attrs:
+                    raise serializers.ValidationError(
+                        {field: "This field is for creation only, use /file/ instead."}
+                    )
+        if "docfile" in attrs:
+            fake = create_component_from_doc(attrs)
+            attrs["template"] = fake.template
+            attrs["new_base"] = fake.template
+            attrs["filemask"] = fake.filemask
+            attrs.pop("docfile")
+        if "zipfile" in attrs:
+            try:
+                create_component_from_zip(attrs)
+            except BadZipfile:
+                raise serializers.ValidationError(
+                    {"zipfile": "Failed to parse uploaded ZIP file."}
+                )
+            attrs.pop("zipfile")
+        # Handle non-component arg
+        disable_autoshare = attrs.pop("disable_autoshare", False)
+
         # Call model validation here, DRF does not do that
-        instance = Component(**attrs)
+        if self.instance:
+            instance = copy(self.instance)
+            for key, value in attrs.items():
+                setattr(instance, key, value)
+        else:
+            instance = Component(**attrs)
         instance.clean()
+
+        if not self.instance and not disable_autoshare:
+            repo = instance.suggest_repo_link()
+            if repo:
+                attrs["repo"] = instance.repo = repo
+                attrs["branch"] = instance.branch = ""
         return attrs
 
 
@@ -595,11 +775,6 @@ class TranslationSerializer(RemovableSerializer):
         }
 
 
-class MonolingualUnitSerializer(serializers.Serializer):
-    key = serializers.CharField()
-    value = serializers.CharField()
-
-
 class ReadOnlySerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         return None
@@ -623,7 +798,15 @@ class UploadRequestSerializer(ReadOnlySerializer):
     author_email = serializers.EmailField(required=False)
     author_name = serializers.CharField(max_length=200, required=False)
     method = serializers.ChoiceField(
-        choices=("translate", "approve", "suggest", "fuzzy", "replace", "source"),
+        choices=(
+            "translate",
+            "approve",
+            "suggest",
+            "fuzzy",
+            "replace",
+            "source",
+            "add",
+        ),
         required=False,
         default="translate",
     )
@@ -639,14 +822,25 @@ class UploadRequestSerializer(ReadOnlySerializer):
     def check_perms(self, user, obj):
         data = self.validated_data
         if data["conflicts"] and not user.has_perm("upload.overwrite", obj):
-            raise PermissionDenied()
+            raise serializers.ValidationError(
+                {"conflicts": "You can not overwrite existing translations."}
+            )
         if data["conflicts"] == "replace-approved" and not user.has_perm(
             "unit.review", obj
         ):
-            raise PermissionDenied()
+            raise serializers.ValidationError(
+                {"conflicts": "You can not overwrite existing approved translations."}
+            )
+
+        if data["method"] == "source" and not obj.is_source:
+            raise serializers.ValidationError(
+                {"method": "Source upload is supported only on source language."}
+            )
 
         if not check_upload_method_permissions(user, obj, data["method"]):
-            raise PermissionDenied()
+            raise serializers.ValidationError(
+                {"method": "This method is not available here."}
+            )
 
 
 class RepoRequestSerializer(ReadOnlySerializer):
@@ -674,6 +868,12 @@ class StatisticsSerializer(ReadOnlySerializer):
             "fuzzy_percent": stats.fuzzy_percent,
             "failing": stats.allchecks,
             "failing_percent": stats.allchecks_percent,
+            "approved": stats.approved,
+            "approved_percent": stats.approved_percent,
+            "readonly": stats.readonly,
+            "readonly_percent": stats.readonly_percent,
+            "suggestions": stats.suggestions,
+            "comments": stats.comments,
         }
         if hasattr(instance, "language"):
             result["code"] = instance.language.code
@@ -687,7 +887,43 @@ class StatisticsSerializer(ReadOnlySerializer):
         return result
 
 
-class UnitSerializer(RemovableSerializer):
+class UserStatisticsSerializer(ReadOnlySerializer):
+    def to_representation(self, instance):
+        profile = instance.profile
+        result = {
+            "translated": profile.translated,
+            "suggested": profile.suggested,
+            "uploaded": profile.uploaded,
+            "commented": profile.commented,
+            "languages": profile.languages.count(),
+        }
+        return result
+
+
+class PluralField(serializers.ListField):
+    child = serializers.CharField()
+
+    def get_attribute(self, instance):
+        return getattr(instance, f"get_{self.field_name}_plurals")()
+
+
+class MemorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Memory
+        fields = (
+            "id",
+            "source",
+            "target",
+            "source_language",
+            "target_language",
+            "origin",
+            "project",
+            "from_file",
+            "shared",
+        )
+
+
+class UnitSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
         view_name="api:translation-detail",
@@ -698,6 +934,13 @@ class UnitSerializer(RemovableSerializer):
         ),
         strip_parts=1,
     )
+    source_unit = serializers.HyperlinkedRelatedField(
+        read_only=True, view_name="api:unit-detail"
+    )
+    source = PluralField()
+    target = PluralField()
+    timestamp = serializers.DateTimeField(read_only=True)
+    pending = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Unit
@@ -712,6 +955,7 @@ class UnitSerializer(RemovableSerializer):
             "context",
             "note",
             "flags",
+            "state",
             "fuzzy",
             "translated",
             "approved",
@@ -720,18 +964,87 @@ class UnitSerializer(RemovableSerializer):
             "has_comment",
             "has_failing_check",
             "num_words",
+            "source_unit",
             "priority",
             "id",
             "web_url",
             "url",
+            "explanation",
+            "extra_flags",
+            "pending",
+            "timestamp",
         )
         extra_kwargs = {"url": {"view_name": "api:unit-detail"}}
 
 
+class UnitWriteSerializer(serializers.ModelSerializer):
+    """Serializer for updating source unit."""
+
+    target = PluralField()
+
+    class Meta:
+        model = Unit
+        fields = (
+            "target",
+            "state",
+            "explanation",
+            "extra_flags",
+        )
+
+    def to_internal_value(self, data):
+        # Allow blank target for untranslated strings
+        if data.get("state") in (0, "0"):
+            self.fields["target"].child.allow_blank = True
+        return super().to_internal_value(data)
+
+
+class NewUnitSerializer(serializers.Serializer):
+    def as_kwargs(self, data=None):
+        raise NotImplementedError()
+
+    def validate(self, attrs):
+        try:
+            data = self.as_kwargs(attrs)
+        except KeyError:
+            # Probably some fields validation has failed
+            return attrs
+        self._context["translation"].validate_new_unit_data(**data)
+        return attrs
+
+
+class MonolingualUnitSerializer(NewUnitSerializer):
+    key = serializers.CharField()
+    value = PluralField()
+
+    def as_kwargs(self, data=None):
+        if data is None:
+            data = self.validated_data
+        return {"context": data["key"], "source": data["value"], "target": None}
+
+
+class BilingualUnitSerializer(NewUnitSerializer):
+    context = serializers.CharField(required=False)
+    source = PluralField()
+    target = PluralField()
+
+    def as_kwargs(self, data=None):
+        if data is None:
+            data = self.validated_data
+        return {
+            "context": data.get("context", ""),
+            "source": data["source"],
+            "target": data["target"],
+        }
+
+
 class ScreenshotSerializer(RemovableSerializer):
-    component = MultiFieldHyperlinkedIdentityField(
-        view_name="api:component-detail",
-        lookup_field=("component__project__slug", "component__slug"),
+    translation = MultiFieldHyperlinkedIdentityField(
+        view_name="api:translation-detail",
+        lookup_field=(
+            "translation__component__project__slug",
+            "translation__component__slug",
+            "translation__language__code",
+        ),
         strip_parts=1,
     )
     file_url = serializers.HyperlinkedRelatedField(
@@ -743,7 +1056,14 @@ class ScreenshotSerializer(RemovableSerializer):
 
     class Meta:
         model = Screenshot
-        fields = ("name", "component", "file_url", "units", "url")
+        fields = ("name", "translation", "file_url", "units", "url")
+        extra_kwargs = {"url": {"view_name": "api:screenshot-detail"}}
+
+
+class ScreenshotCreateSerializer(ScreenshotSerializer):
+    class Meta:
+        model = Screenshot
+        fields = ("name", "translation", "file_url", "units", "url", "image")
         extra_kwargs = {"url": {"view_name": "api:screenshot-detail"}}
 
 
@@ -788,7 +1108,6 @@ class ChangeSerializer(RemovableSerializer):
             "unit",
             "component",
             "translation",
-            "glossary_term",
             "user",
             "author",
             "timestamp",
@@ -835,3 +1154,82 @@ class ComponentListSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "url": {"view_name": "api:componentlist-detail", "lookup_field": "slug"}
         }
+
+
+class AddonSerializer(serializers.ModelSerializer):
+    component = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-detail",
+        lookup_field=("component__project__slug", "component__slug"),
+        read_only=True,
+        strip_parts=1,
+    )
+    configuration = serializers.JSONField(required=False)
+
+    class Meta:
+        model = Addon
+        fields = (
+            "component",
+            "name",
+            "id",
+            "configuration",
+            "url",
+        )
+        extra_kwargs = {"url": {"view_name": "api:addon-detail"}}
+
+    def validate(self, attrs):
+        instance = self.instance
+        try:
+            name = attrs["name"]
+        except KeyError:
+            if self.partial and instance:
+                name = instance.name
+            else:
+                raise serializers.ValidationError(
+                    {"name": "Can not change add-on name"}
+                )
+        if instance:
+            # Update
+            component = instance.component
+        else:
+            # Create
+            component = self._context["component"]
+
+        # This could probably work, but it safer not to allow it
+        if instance and instance.name != name:
+            raise serializers.ValidationError({"name": "Can not change add-on name"})
+        try:
+            addon_class = ADDONS[name]
+        except KeyError:
+            raise serializers.ValidationError({"name": f"Add-on not found: {name}"})
+
+        # Don't allow duplicate add-ons
+        if not instance:
+            installed = set(
+                Addon.objects.filter_component(component).values_list("name", flat=True)
+            )
+            available = {
+                x.name for x in ADDONS.values() if x.multiple or x.name not in installed
+            }
+            if name not in available:
+                raise serializers.ValidationError(
+                    {"name": f"Add-on already installed: {name}"}
+                )
+
+        addon = addon_class()
+        if not addon.can_install(component, None):
+            raise serializers.ValidationError(
+                {"name": f"could not enable add-on {name}, not compatible"}
+            )
+        if addon.has_settings() and "configuration" in attrs:
+            form = addon.get_add_form(None, component, data=attrs["configuration"])
+            form.is_valid()
+            if not form.is_valid():
+                raise serializers.ValidationError(
+                    {"configuration": list(get_form_errors(form))}
+                )
+        return attrs
+
+    def save(self, **kwargs):
+        result = super().save(**kwargs)
+        self.instance.addon.post_configure()
+        return result

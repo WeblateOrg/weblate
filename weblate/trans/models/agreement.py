@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -54,4 +54,4 @@ class ContributorAgreement(models.Model):
         verbose_name_plural = "contributor agreements"
 
     def __str__(self):
-        return "{0}:{1}".format(self.user.username, self.component)
+        return f"{self.user.username}:{self.component}"

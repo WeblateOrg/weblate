@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -35,7 +35,7 @@ class Command(BaseCommand):
             default=2,
             dest="indent",
             type=int,
-            help=("Specifies the indent level to use when " "pretty-printing output."),
+            help=("Specifies the indent level to use when pretty-printing output."),
         )
         parser.add_argument(
             "--backup",

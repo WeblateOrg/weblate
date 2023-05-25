@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -40,7 +40,7 @@ def check_git_backend(app_configs, **kwargs):
         return [
             weblate_check(
                 "weblate.E022",
-                "Failed to find git-http-backend, " "the git exporter will not work.",
+                "Failed to find git-http-backend, the git exporter will not work.",
             )
         ]
     return []

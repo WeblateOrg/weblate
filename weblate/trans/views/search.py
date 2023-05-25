@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -40,6 +39,7 @@ from weblate.trans.models import Change, Unit
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.ratelimit import check_rate_limit
+from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import (
     get_component,
     get_paginator,
@@ -52,22 +52,34 @@ from weblate.utils.views import (
 
 
 def parse_url(request, project, component=None, lang=None):
-    context = {}
+    context = {"components": None}
     if component is None:
-        obj = get_project(request, project)
-        unit_set = Unit.objects.filter(translation__component__project=obj)
-        context["project"] = obj
+        if lang is None:
+            obj = get_project(request, project)
+            unit_set = Unit.objects.filter(translation__component__project=obj)
+            context["project"] = obj
+        else:
+            project = get_project(request, project)
+            language = get_object_or_404(Language, code=lang)
+            obj = ProjectLanguage(project, language)
+            unit_set = Unit.objects.filter(
+                translation__component__project=project, translation__language=language
+            )
+            context["project"] = project
+            context["language"] = language
     elif lang is None:
         obj = get_component(request, project, component)
         unit_set = Unit.objects.filter(translation__component=obj)
         context["component"] = obj
         context["project"] = obj.project
+        context["components"] = [obj]
     else:
         obj = get_translation(request, project, component, lang)
         unit_set = obj.unit_set.all()
         context["translation"] = obj
         context["component"] = obj.component
         context["project"] = obj.component.project
+        context["components"] = [obj.component]
 
     if not request.user.has_perm("unit.edit", obj):
         raise PermissionDenied()
@@ -89,8 +101,11 @@ def search_replace(request, project, component=None, lang=None):
 
     search_text = form.cleaned_data["search"]
     replacement = form.cleaned_data["replacement"]
+    query = form.cleaned_data.get("q")
 
     matching = unit_set.filter(target__contains=search_text)
+    if query:
+        matching = matching.search(query, distinct=False)
 
     updated = 0
     if matching.exists():
@@ -148,7 +163,7 @@ def search_replace(request, project, component=None, lang=None):
 def search(request, project=None, component=None, lang=None):
     """Perform site-wide search on units."""
     is_ratelimited = not check_rate_limit("search", request)
-    search_form = SearchForm(request.user, request.GET)
+    search_form = SearchForm(user=request.user, data=request.GET)
     sort = get_sort_name(request)
     context = {"search_form": search_form}
     if component:
@@ -180,33 +195,43 @@ def search(request, project=None, component=None, lang=None):
 
     if not is_ratelimited and request.GET and search_form.is_valid():
         # This is ugly way to hide query builder when showing results
-        search_form = SearchForm(request.user, request.GET, show_builder=False)
+        search_form = SearchForm(
+            user=request.user, data=request.GET, show_builder=False
+        )
         search_form.is_valid()
         # Filter results by ACL
+        units = Unit.objects.prefetch_full().prefetch()
         if component:
-            units = Unit.objects.filter(translation__component=obj)
+            units = units.filter(translation__component=obj)
         elif project:
-            units = Unit.objects.filter(translation__component__project=obj)
+            units = units.filter(translation__component__project=obj)
         else:
-            units = Unit.objects.filter_access(request.user)
-        units = units.search(search_form.cleaned_data.get("q", "")).distinct()
+            units = units.filter_access(request.user)
+        units = units.search(
+            search_form.cleaned_data.get("q", ""), project=context.get("project")
+        )
         if lang:
             units = units.filter(translation__language=context["language"])
 
-        units = get_paginator(request, units.order_by_request(search_form.cleaned_data))
+        units = get_paginator(
+            request, units.order_by_request(search_form.cleaned_data, obj)
+        )
         # Rebuild context from scratch here to get new form
-        context = {
-            "search_form": search_form,
-            "show_results": True,
-            "page_obj": units,
-            "title": _("Search for %s") % (search_form.cleaned_data["q"]),
-            "query_string": search_form.urlencode(),
-            "search_query": search_form.cleaned_data["q"],
-            "search_items": search_form.items(),
-            "filter_name": search_form.get_name(),
-            "sort_name": sort["name"],
-            "sort_query": sort["query"],
-        }
+        context.update(
+            {
+                "search_form": search_form,
+                "show_results": True,
+                "page_obj": units,
+                "title": _("Search for %s") % (search_form.cleaned_data["q"]),
+                "query_string": search_form.urlencode(),
+                "search_url": search_form.urlencode(),
+                "search_query": search_form.cleaned_data["q"],
+                "search_items": search_form.items(),
+                "filter_name": search_form.get_name(),
+                "sort_name": sort["name"],
+                "sort_query": sort["query"],
+            }
+        )
     elif is_ratelimited:
         messages.error(request, _("Too many search queries, please try again later."))
     elif request.GET:
@@ -241,6 +266,8 @@ def bulk_edit(request, project, component=None, lang=None):
         remove_flags=form.cleaned_data["remove_flags"],
         add_labels=form.cleaned_data["add_labels"],
         remove_labels=form.cleaned_data["remove_labels"],
+        project=context["project"],
+        components=context["components"],
     )
 
     import_message(

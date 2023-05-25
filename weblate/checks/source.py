@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,16 +19,19 @@
 
 
 import re
+from collections import defaultdict
 from datetime import timedelta
 
 from django.utils import timezone
+from django.utils.html import format_html, format_html_join
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import SourceCheck
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY
 
 # Matches (s) not followed by alphanumeric chars or at the end
-PLURAL_MATCH = re.compile(r"\(s\)(\W|\Z)")
+PLURAL_MATCH = re.compile(r"\w\(s\)(\W|\Z)")
 
 
 class OptionalPluralCheck(SourceCheck):
@@ -64,14 +67,39 @@ class MultipleFailingCheck(SourceCheck):
     name = _("Multiple failing checks")
     description = _("The translations in several languages have failing checks")
 
-    def check_source_unit(self, source, unit):
+    def get_related_checks(self, unit):
         from weblate.checks.models import Check
 
-        related = Check.objects.filter(
-            unit__id_hash=unit.id_hash,
-            unit__translation__component=unit.translation.component,
-        ).exclude(unit_id=unit.id)
+        return Check.objects.filter(unit__in=unit.unit_set.exclude(pk=unit.id))
+
+    def check_source_unit(self, source, unit):
+        related = self.get_related_checks(unit)
         return related.count() >= 2
+
+    def get_description(self, check_obj):
+        related = self.get_related_checks(check_obj.unit).select_related(
+            "unit", "unit__translation", "unit__translation__language"
+        )
+        if not related:
+            return super().get_description(check_obj)
+
+        checks = defaultdict(list)
+
+        for check in related:
+            checks[check.check].append(check)
+
+        output = [gettext("Following checks are failing:")]
+        for check_list in checks.values():
+            output.append(
+                "{}: {}".format(
+                    check_list[0].get_name(),
+                    ", ".join(
+                        str(check.unit.translation.language) for check in check_list
+                    ),
+                )
+            )
+
+        return format_html_join(format_html("<br>"), "{}", ((v,) for v in output))
 
 
 class LongUntranslatedCheck(SourceCheck):
@@ -80,19 +108,14 @@ class LongUntranslatedCheck(SourceCheck):
     description = _("The string has not been translated for a long time")
 
     def check_source_unit(self, source, unit):
-        from weblate.trans.models import Unit
-
         if unit.timestamp > timezone.now() - timedelta(days=90):
             return False
-        states = list(
-            Unit.objects.filter(
-                translation__component=unit.translation.component, id_hash=unit.id_hash
-            ).values_list("state", flat=True)
-        )
+        states = list(unit.unit_set.values_list("state", flat=True))
         total = len(states)
         not_translated = states.count(STATE_EMPTY) + states.count(STATE_FUZZY)
         translated_percent = 100 * (total - not_translated) / total
         return (
             total
-            and translated_percent < unit.translation.component.stats.translated_percent
+            and 2 * translated_percent
+            < unit.translation.component.stats.lazy_translated_percent
         )

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load permissions %}
+{% load crispy_forms_tags %}
+{% load authnames %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
+<li><a href="{% url 'manage-appearance' %}">{% trans "Appearance" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<form method="POST" action="{% url "manage-appearance" %}">
+{% csrf_token %}
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Customize appearance" %}</h4></div>
+  <div class="panel-body">
+  {% crispy form %}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+  <input type="submit" class="btn btn-danger" name="reset" value="{% trans "Reset customization" %}" />
+  </div>
+</div>
+</form>
+
+{% endblock %}

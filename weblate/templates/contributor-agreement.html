@@ -5,7 +5,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
-<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+{% include "snippets/component-breadcrumb.html" %}
 <li><a href="{% url 'contributor-agreement' project=object.project.slug component=object.slug %}">{% trans "Contributor agreement" %}</a></li>
 {% endblock %}
 
@@ -17,7 +17,7 @@
   <div class="panel-body">
   <p>{% trans "Please read following contributor agreement:" %}</p>
   <div class="list-group-item pre-scrollable">
-{{ object.agreement|linebreaks|urlize }}
+{{ object.agreement|markdown }}
   </div>
 
 {% csrf_token %}

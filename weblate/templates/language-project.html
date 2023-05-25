@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load translations %}
 {% load crispy_forms_tags %}
+{% load metrics %}
 
 {% block breadcrumbs %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
@@ -16,14 +17,12 @@
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Components" %}</a></li>
   <li><a href="#information" data-toggle="tab">{% trans "Info" %}</a></li>
   <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
-  <li><a href="{% url 'show_glossary' project=project.slug lang=language.code %}">{% trans "Glossary" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
       {% trans "Insights" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
     <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
-    <li><a href="#activity" data-toggle="tab">{% trans "Activity" %}</a></li>
     </ul>
   </li>
   <li class="dropdown">
@@ -39,7 +38,17 @@
       {% trans "Tools" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
+      {% if replace_form %}
+          <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
+      {% endif %}
+      {% if bulk_state_form %}
+          <li><a href="#bulk-edit" data-toggle="tab">{% trans "Bulk edit" %}</a></li>
+      {% endif %}
       <li><a href="{% url 'checks' %}?lang={{ language.code }}&amp;project={{ project.slug }}">{% trans "Failing checks" %}</a></li>
+      {% if delete_form %}
+      <li role="separator" class="divider"></li>
+      <li><a href="#delete" data-toggle="tab">{% trans "Removal" %}</a></li>
+      {% endif %}
     </ul>
    </li>
 {% include "snippets/watch-dropdown.html" %}
@@ -49,27 +58,16 @@
 
 <div class="tab-pane active" id="overview">
 {% include "snippets/list-objects.html" with objects=translations name_source="component_name" label=_("Component") %}
-{% include "paginator.html" with page_obj=translations %}
 </div>
 
 <div class="tab-pane" id="information">
-{% with object=project %}
-<table class="table table-striped">
-{% include "project_info.html" %}
-{% include "snippets/license_info.html" %}
-{% include "project_stats.html" with stats=language_stats %}
-</table>
-{% endwith %}
+  {% include "snippets/info.html" with language=None project=project stats=language_stats metrics=object|metrics %}
 </div>
 
 <div class="tab-pane" id="history">
 {% include "last-changes-content.html" %}
 <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all language changes" %}</a>
 </div>
-
-{% url 'yearly_activity' lang=language.code project=project.slug as yearly_activity %}
-{% url 'monthly_activity' lang=language.code project=project.slug as monthly_activity %}
-{% include "activity-tab.html" %}
 
 <div class="tab-pane" id="search">
 
@@ -78,6 +76,50 @@
 </form>
 
 </div>
+
+{% if delete_form %}
+{% include "trans/delete-form.html" %}
+{% endif %}
+
+{% if replace_form %}
+<div class="tab-pane" id="replace">
+<form action="{% url 'replace' project=object.project.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">
+  {% documentation_icon 'user/translating' 'search-replace' right=True %}
+  {% trans "Search and replace" %}
+</h4></div>
+<div class="panel-body">
+{% crispy replace_form %}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Replace" %}" class="btn btn-primary" />
+</div>
+</div>
+</form>
+</div>
+{% endif %}
+
+{% if bulk_state_form %}
+<div class="tab-pane" id="bulk-edit">
+<form action="{% url 'bulk-edit' project=object.project.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">
+  {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
+  {% trans "Bulk edit" %}
+</h4></div>
+<div class="panel-body">
+{% crispy bulk_state_form %}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Apply" %}" class="btn btn-primary" />
+</div>
+</div>
+</form>
+</div>
+{% endif %}
+
+
 
 
 </div>

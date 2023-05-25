@@ -4,11 +4,12 @@
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% load humanize %}
+{% load metrics %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
-<li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a></li>
-<li><a href="{{ object.get_absolute_url }}">{{ object.language }}</a></li>
+{% include "snippets/component-breadcrumb.html" with object=object.component %}
+{% include "snippets/translation-breadcrumb.html" %}
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
 <img src="{% url 'widget-image' project=object.component.project.slug component=object.component.slug widget='svg' color='badge' lang=object.language.code extension='svg' %}?native=1" />
 </a>
@@ -23,26 +24,25 @@
 {% include "snippets/watch-dropdown.html" with project=object.component.project component=object.component %}
 
 {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
-{% perm 'vcs.commit' object as user_can_commit_translation %}
 {% perm 'upload.overwrite' object as user_can_overwrite_translation %}
 {% perm 'upload.perform' object as user_can_upload_translation %}
 {% perm 'unit.add' object as user_can_add_unit %}
 
 {% get_translate_url object as translate_url %}
+{% url "translate" project=object.component.project.slug component=object.component.slug lang=object.language.code as edit_url %}
+{% url "zen" project=object.component.project.slug component=object.component.slug lang=object.language.code as zen_url %}
+{% url "browse" project=object.component.project.slug component=object.component.slug lang=object.language.code as browse_url %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Overview" %}</a></li>
   <li><a href="#information" data-toggle="tab">{% trans "Info" %}</a></li>
   <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
-  <li><a href="{% url 'show_glossary' project=object.component.project.slug lang=object.language.code %}">{% trans "Glossary" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
       {% trans "Insights" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
       <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
-      <li><a href="#activity" data-toggle="tab">{% trans "Activity" %}</a></li>
-      <li><a href="#stats" data-toggle="tab">{% trans "Statistics" %}</a></li>
     </ul>
   </li>
   <li class="dropdown">
@@ -50,7 +50,13 @@
       {% trans "Files" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-{% include "translation-download.html" %}
+      {% if object.filename %}
+        <li><a href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}">{% trans "Download translation" %}</a></li>
+      {% endif %}
+      <li><a href="#download" data-toggle="tab">{% trans "Customize download" %}</a></li>
+      {% if user_can_upload_translation %}
+        <li><a href="#upload" data-toggle="tab">{% trans "Upload translation" %}</a></li>
+      {% endif %}
     </ul>
   </li>
   <li class="dropdown">
@@ -58,18 +64,19 @@
       {% trans "Tools" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-      <li><a href="{% url 'data_project' project=object.component.project.slug  %}">{% trans "Data exports" %}</a></li>
-      {% if autoform %}
-      <li><a href="#auto" data-toggle="tab">{% trans "Automatic translation" %}</a></li>
-      {% endif %}
       {% if replace_form %}
       <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
       {% endif %}
       {% if bulk_state_form %}
       <li><a href="#bulk-edit" data-toggle="tab">{% trans "Bulk edit" %}</a></li>
       {% endif %}
+      {% if autoform %}
+      <li><a href="#auto" data-toggle="tab">{% trans "Automatic translation" %}</a></li>
+      {% endif %}
+      <li><a href="{% url 'data_project' project=object.component.project.slug  %}">{% trans "Data exports" %}</a></li>
+      <li><a href="{% url 'checks' %}?project={{ object.component.project.slug}}&amp;component={{ object.component.slug }}&amp;language={{ object.language.code }}">{% trans "Failing checks" %}</a></li>
       {% if user_can_add_unit %}
-      <li><a href="#new" data-toggle="tab">{% trans "Add new translation string" %}</a></li>
+      <li><a href="#new" data-toggle="tab">{{ object.component.get_add_label }}</a></li>
       {% endif %}
     </ul>
   </li>
@@ -79,9 +86,6 @@
       {% trans "Manage" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-      {% if user_can_commit_translation %}
-      <li><a href="{{ object.get_commit_url }}" class="link-post">{% trans "Commit" %}</a></li>
-      {% endif %}
       {% if user_can_see_repository_status %}
       <li><a href="#repository" data-toggle="tab" data-href="{% url 'git_status_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}">{% trans "Repository maintenance" %}</a></li>
       {% endif %}
@@ -102,7 +106,7 @@
       {% trans "Share" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-{% with object.get_share_url as share_url and object.get_widgets_url as widgets_url %}
+{% with share_url=object.get_share_url widgets_url=object.get_widgets_url %}
       <li><a href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook" %}</a></li>
       <li><a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Tweet this translation!" %}</a></li>
       <li><a href="{% url 'engage' project=object.component.project.slug %}">{% trans "Engage page" %}</a></li>
@@ -134,7 +138,13 @@
 <td class="progress-cell hidden-xs">{% translation_progress object %}</td>
 <td class="percent">{{ object.stats.translated_percent|percent_format }}</td>
 <td rowspan="2" class="buttons-cell full-cell">
-<a href="{{ translate_url }}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}" class="pull-right flip btn btn-primary">{% trans "Translate" %}</a>
+<div class="pull-right flip">
+  {% if user_can_add_unit %}
+    <a href="#new" data-toggle="tab" class="btn btn-info">{{ object.component.get_add_label }}</a>
+  {% endif %}
+  <a href="{{ browse_url }}" class=" btn btn-info">{% trans "Browse" %}</a>
+  <a href="{% get_translate_url object glossary_browse=False %}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}" class="btn btn-primary">{% trans "Translate" %}</a>
+</div>
 </td>
 </tr>
 
@@ -161,7 +171,7 @@
 {% trans "Strings status" %}
 </h4>
 </div>
-<table class="table table-autowidth">
+<table class="table table-autowidth table-listing">
 {% for query, name, count, color, words in object.list_translation_checks %}
 <tr data-href="{{ translate_url }}?q={{ query }}" class="clickable-row">
 <th class="number">{{ count|intcomma }}</th>
@@ -177,6 +187,12 @@
         {{ name }} — {% blocktrans with count=words|intcomma count cnt=words %}{{ count }} word{% plural %}{{ count }} words{% endblocktrans %}
     </a>
 </td>
+<td>
+  <a class="btn-inline" href="{{ browse_url }}?q={{ query }}">{% trans "Browse" %}</a>
+  <a class="btn-inline" href="{{ edit_url }}?q={{ query }}">{% trans "Translate" %}</a>
+  <a class="btn-inline" href="{{ zen_url }}?q={{ query }}">{% trans "Zen" %}</a>
+</td>
+</tr>
 {% endfor %}
 </table>
 </div>
@@ -184,9 +200,9 @@
 {% if other_translations %}
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Other components" %}</h4></div>
-{% include "snippets/list-objects.html" with objects=other_translations name_source="component_name" label=_("Component") in_panel=True %}
+{% include "snippets/list-objects.html" with objects=other_translations name_source="component_name" label=_("Component") %}
   <div class="panel-footer">
-    <a href="{% url 'project-language' lang=object.language.code project=object.component.project.slug %}">{% trans "Browse all components" %}</a>
+    <a href="{% url 'project-language' lang=object.language.code project=object.component.project.slug %}" class="btn btn-primary">{% trans "Browse all components" %}</a>
   </div>
 </div>
 {% endif %}
@@ -194,32 +210,7 @@
 </div>
 
 <div class="tab-pane" id="information">
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Translation Information" %}</h4></div>
-
-<table class="table">
-{% include "component_info.html" with object=object.component %}
-<tr>
-<th>{% trans "Translation file" %}</th>
-<td>
-<div class="dropdown pull-right flip">
-  <button class="btn btn-primary btn-xs dropdown-toggle" type="button" id="dropdownMenuDownload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    {% trans "Download" %}
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuDownload">
-    {% include "translation-download.html" %}
-  </ul>
-</div>
-{% if object.filename %}
-<code>{{ object.filename }}</code>
-{% else %}
-{% trans "Not available" %}
-{% endif %}
-</td>
-</tr>
-</table>
-</div>
+  {% include "snippets/info.html" with project=object.component.project component=object.component translation=object stats=object.stats metrics=object|metrics %}
 </div>
 
 
@@ -257,11 +248,12 @@
 
 <form action="{% url 'replace' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Search and replace" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">
+  {% documentation_icon 'user/translating' 'search-replace' right=True %}
+  {% trans "Search and replace" %}
+</h4></div>
 <div class="panel-body">
-<p>{% trans "You can substitute all instances of a string. The search is a simple case sensitive substring search." %}</p>
-{% csrf_token %}
-{{ replace_form|crispy }}
+{% crispy replace_form %}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Replace" %}" class="btn btn-primary" />
@@ -275,9 +267,11 @@
 <div class="tab-pane" id="bulk-edit">
 <form action="{% url 'bulk-edit' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Bulk edit" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">
+  {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
+  {% trans "Bulk edit" %}
+</h4></div>
 <div class="panel-body">
-<p>{% trans "You can change the state of all strings matching a given type at once." %}</p>
 {% crispy bulk_state_form %}
 </div>
 <div class="panel-footer">
@@ -292,9 +286,11 @@
 <div class="tab-pane" id="new">
 <form action="{% url 'new-unit' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Add new translation string" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{{ object.component.get_add_label }}</h4></div>
 <div class="panel-body">
+{% if obj.is_source %}
 <p>{% trans "You can add a new translation string here, it will automatically appear in all translations." %}</p>
+{% endif %}
 {% csrf_token %}
 {{ new_unit_form|crispy }}
 </div>
@@ -307,32 +303,87 @@
 {% endif %}
 
 <div class="tab-pane" id="download">
-<form action="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="get" data-persist="download-translation">
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Customize download" %}</h4></div>
-<div class="panel-body">
-{% crispy download_form %}
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% trans "Download" %}" class="btn btn-primary" />
-</div>
-</form>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% documentation_icon 'user/files' 'download' right=True %}
+        {% trans "Quick downloads" %}
+      </h4>
+    </div>
+    <table class="table table-listing table-striped">
+      <tr>
+        <th class="number">{{ object.stats.all|intcomma }}</th>
+        <td>
+          {% trans "File in original format as translated in the repository" %}
+        </td>
+        <td class="number" colspan="{{ exporters|length }}">
+          <a class="btn-inline" href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}">{{ object.component.file_format_name }}</a>
+        </td>
+      </tr>
+      <tr>
+        <th class="number">{{ object.stats.all|intcomma }}</th>
+        <td>
+          {% trans "All strings, converted files enriched with comments; suitable for offline translation" %}
+        </td>
+        {% for exporter in exporters %}
+          <td class="formats">
+            <a class="btn-inline" href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?format={{ exporter.name }}">{{ exporter.verbose }}</a>
+          </td>
+        {% endfor %}
+      </tr>
+      {% if object.stats.todo %}
+      <tr>
+        <th class="number">{{ object.stats.todo|intcomma }}</th>
+        <td>
+          {% trans "Unfinished strings, converted files enriched with comments; suitable for offline translation" %}
+        </td>
+        {% for exporter in exporters %}
+          <td class="formats">
+            <a class="btn-inline" href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?format={{ exporter.name }}&amp;q=state:&lt;translated">{{ exporter.verbose }}</a>
+          </td>
+        {% endfor %}
+      </tr>
+      {% endif %}
+    </table>
+  </div>
 
+  <form action="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="get" data-persist="download-translation">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          {% documentation_icon 'user/files' 'download' right=True %}
+          {% trans "Customize download" %}
+        </h4>
+      </div>
+      <div class="panel-body">
+      {% crispy download_form %}
+      </div>
+      <div class="panel-footer">
+        <input type="submit" value="{% trans "Download" %}" class="btn btn-primary" />
+      </div>
+    </div>
+  </form>
 </div>
-</div>
+
 {% if user_can_upload_translation %}
 <div class="tab-pane" id="upload">
 <form action="{% url 'upload_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data" data-persist="upload-translation">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Upload" %}</h4></div>
+<div class="panel-heading">
+  <h4 class="panel-title">
+    {% documentation_icon 'user/files' 'upload' right=True %}
+    {% trans "Upload" %}
+  </h4>
+</div>
 <div class="panel-body">
-{% if user_can_overwrite_translation %}
-<p>{% trans "The uploaded file will be merged with the current translation. In case you want to overwrite already translated strings, don't forget to turn it on." %}</p>
-{% else %}
-<p>{% trans "The uploaded file will be merged with the current translation." %}</p>
-{% endif %}
+<p>
+  {% trans "The uploaded file will be merged with the current translation." %}
+  {% if user_can_overwrite_translation %}
+    {% trans "Select it from the dropdown menu if you want to overwrite already translated strings." %}
+  {% endif %}
+</p>
 {% csrf_token %}
-{{ form|crispy }}
+{% crispy form %}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Upload" %}" class="btn btn-primary" />
@@ -382,86 +433,6 @@
 </form>
 
 </div>
-
-<div class="tab-pane" id="stats">
-<div class="row">
-<div class="col-lg-6">
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Statistics" %}</h4></div>
-<table class="table">
-<thead>
-<tr>
-<td></td>
-<th>{% trans "Percent" %}</th>
-<th>{% trans "Strings" %}</th>
-<th>{% trans "Words" %}</th>
-<th>{% trans "Chars" %}</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>{% trans "Total" %}</th>
-<td class="percent"></td>
-<td class="number">{{ object.stats.all|intcomma }}</td>
-<td class="number">{{ object.stats.all_words|intcomma }}</td>
-<td class="number">{{ object.stats.all_chars|intcomma }}</td>
-</tr>
-<tr>
-<th>{% trans "Translated" %}</th>
-<td class="percent">{{ object.stats.translated_percent|percent_format }}</td>
-<td class="number">{{ object.stats.translated|intcomma }}</td>
-<td class="number">{{ object.stats.translated_words|intcomma }}</td>
-<td class="number">{{ object.stats.translated_chars|intcomma }}</td>
-</tr>
-<tr>
-<th>{% trans "Needs editing" %}</th>
-<td class="percent">{{ object.stats.fuzzy_percent|percent_format }}</td>
-<td class="number">{{ object.stats.fuzzy|intcomma }}</td>
-<td class="number">{{ object.stats.fuzzy_words|intcomma }}</td>
-<td class="number">{{ object.stats.fuzzy_chars|intcomma }}</td>
-<td class="number"></td>
-</tr>
-<tr>
-<th>{% trans "Failing checks" %}</th>
-<td class="percent">{{ object.stats.allchecks_percent|percent_format }}</td>
-<td class="number">{{ object.stats.allchecks|intcomma }}</td>
-<td class="number">{{ object.stats.allchecks_words|intcomma }}</td>
-<td class="number">{{ object.stats.allchecks_chars|intcomma }}</td>
-<td class="number"></td>
-</tr>
-</tbody>
-</table>
-
-</div>
-
-</div>
-
-
-<div class="col-lg-6">
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Last activity" %}</h4></div>
-<table class="table">
-<tbody>
-<tr>
-<th>{% trans "Last change" %}<th>
-<td class="number" colspan="3">{{ object.stats.last_changed }}</td>
-</tr>
-<tr>
-<th>{% trans "Last author" %}<th>
-<td class="number" colspan="3">{{ object.get_last_author }}</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-
-{% url 'yearly_activity' project=object.component.project.slug component=object.component.slug lang=object.language.code as yearly_activity %}
-{% url 'monthly_activity' project=object.component.project.slug component=object.component.slug lang=object.language.code as monthly_activity %}
-{% include "activity-tab.html" %}
 
 </div>
 

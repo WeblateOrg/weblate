@@ -20,7 +20,7 @@
       var $el = $(e.target);
       var text = $el.parent().parent().data("raw").text;
 
-      this.$translationArea.val(text).change();
+      this.$translationArea.replaceValue(text);
       autosize.update(this.$translationArea);
       WLT.Utils.markFuzzy(this.$translationForm);
     });
@@ -30,7 +30,7 @@
       var $el = $(e.target);
       var text = $el.parent().parent().data("raw").text;
 
-      this.$translationArea.val(text).change();
+      this.$translationArea.replaceValue(text);
       autosize.update(this.$translationArea);
       WLT.Utils.markTranslated(this.$translationForm);
       submitForm({ target: this.$translationArea });
@@ -40,11 +40,14 @@
       window.location = $("#button-end").attr("href");
       return false;
     });
-    Mousetrap.bindGlobal("alt+pagedown", function (e) {
-      window.location = $("#button-next").attr("href");
-      return false;
-    });
-    Mousetrap.bindGlobal("alt+pageup", function (e) {
+    Mousetrap.bindGlobal(
+      ["alt+pagedown", "mod+down", "alt+down"],
+      function (e) {
+        window.location = $("#button-next").attr("href");
+        return false;
+      }
+    );
+    Mousetrap.bindGlobal(["alt+pageup", "mod+up", "alt+up"], function (e) {
       window.location = $("#button-prev").attr("href");
       return false;
     });
@@ -53,7 +56,7 @@
       return false;
     });
     Mousetrap.bindGlobal("mod+o", function (e) {
-      $(".translation-item .copy-text").click();
+      $(".source-language-group [data-clone-text]").click();
       return false;
     });
     Mousetrap.bindGlobal("mod+y", function (e) {
@@ -83,7 +86,7 @@
       return false;
     });
     Mousetrap.bindGlobal("mod+m", function (e) {
-      $('.nav [href="#machine"]').click();
+      $('.nav [href="#machinery"]').click();
       return false;
     });
   }
@@ -106,6 +109,16 @@
         1000
       );
       $("#id_comment").focus();
+    });
+
+    this.$translationForm.on("click", ".add-alternative-post", function () {
+      var elm = $("<input>")
+        .attr("type", "hidden")
+        .attr("name", "add_alternative")
+        .attr("value", "1");
+      self.$translationForm.append(elm);
+      self.$translationForm.submit();
+      return false;
     });
 
     /* Form persistence. Restores translation form upon comment submission */
@@ -141,11 +154,17 @@
   FullEditor.prototype.initTabs = function () {
     /* Store active tab in a cookie */
     $('.translation-tabs a[data-toggle="tab"]').on("shown.bs.tab", function () {
-      Cookies.remove("translate-tab", { path: "" });
-      Cookies.set("translate-tab", $(this).attr("href"), {
-        path: "/",
-        expires: 365,
-      });
+      let current = Cookies.get("translate-tab");
+      let desired = $(this).attr("href");
+
+      if (current !== desired) {
+        Cookies.set("translate-tab", desired, {
+          path: "/",
+          expires: 365,
+          sameSite: "Lax",
+          secure: window.location.protocol === "https:",
+        });
+      }
     });
 
     /* Machinery */
@@ -269,8 +288,8 @@
         }
         $(this)
           .find(".machinery-number")
-          .html(' <kbd title="' + title + '">' + key + "</kbd>");
-        Mousetrap.bindGlobal("mod+m " + key, function () {
+          .html($("<kbd/>").attr("title", title).text(key));
+        Mousetrap.bindGlobal(["mod+m " + key, "mod+m mod+" + key], function () {
           $translationRows.eq(idx).find(".js-copy-machinery").click();
           return false;
         });
@@ -299,20 +318,34 @@
     /* Check ignoring */
     this.$editor.on("click", ".check-dismiss", (e) => {
       var $el = $(e.currentTarget);
+      var url = $el.attr("href");
+      var $check = $el.closest(".check");
+      var dismiss_all = $check.find("input").prop("checked");
+      if (dismiss_all) {
+        url = $el.data("dismiss-all");
+      }
+
       $.ajax({
         type: "POST",
-        url: $el.attr("href"),
+        url: url,
         data: {
           csrfmiddlewaretoken: this.csrfToken,
         },
         error: function (jqXHR, textStatus, errorThrown) {
           addAlert(errorThrown);
         },
+        success: function (data) {
+          if (dismiss_all) {
+            const { extra_flags, all_flags } = data;
+            $("#id_extra_flags").val(extra_flags);
+            $("#unit_all_flags").html(all_flags).addClass("flags-updated");
+          }
+        },
       });
-      if ($el.hasClass("check-dismiss-all")) {
-        $el.closest(".check").remove();
+      if (dismiss_all) {
+        $check.remove();
       } else {
-        $el.closest(".check").toggleClass("check-dismissed");
+        $check.toggleClass("check-dismissed");
       }
       return false;
     });
@@ -325,7 +358,7 @@
         var $this = $(this);
         $.each(fixups, function (key, value) {
           var re = new RegExp(value[0], value[2]);
-          $this.val($this.val().replace(re, value[1]));
+          $this.replaceValue($this.val().replace(re, value[1]));
         });
       });
       return false;
@@ -343,8 +376,12 @@
 
     $checks.each(function (idx) {
       var $this = $(this);
+      let $number = $(this).find(".check-number");
 
       if (idx < 10) {
+        if ($number.length === 0) {
+          return;
+        }
         let key = WLT.Utils.getNumericKey(idx);
 
         var title;
@@ -358,26 +395,37 @@
             [key]
           );
         }
-        $(this)
-          .find(".check-number")
-          .html(' <kbd title="' + title + '">' + key + "</kbd>");
+        $number.html($("<kbd/>").attr("title", title).text(key));
 
-        Mousetrap.bindGlobal("mod+i " + key, function (e) {
-          $this.find(".check-dismiss-single").click();
-          return false;
-        });
+        Mousetrap.bindGlobal(
+          ["mod+i " + key, "mod+i mod+" + key],
+          function (e) {
+            $this.find(".check-dismiss-single").click();
+            return false;
+          }
+        );
       } else {
-        $(this).find(".check-number").html("");
+        $number.html("");
       }
     });
   };
 
   FullEditor.prototype.initGlossary = function () {
     /* Copy from glossary */
-    this.$editor.on("click", ".glossary-embed", (e) => {
-      var text = $(e.currentTarget).find(".target").text();
+    this.$editor.on("click", ".glossary-embed.clickable-row", (e) => {
+      /* Avoid copy when clicked on a link */
+      if ($(e.target).parents("a").length > 0) {
+        return;
+      }
 
-      this.insertIntoTranslation(text);
+      var target = $(e.currentTarget);
+      var text = target.find(".target").text();
+      console.log(target);
+      if (target.hasClass("warning")) {
+        text = target.find(".source").text();
+      }
+
+      this.insertIntoTranslation($.trim(text));
       e.preventDefault();
     });
 
@@ -385,6 +433,27 @@
     var $glossaryDialog = null;
     this.$editor.on("show.bs.modal", "#add-glossary-form", (e) => {
       $glossaryDialog = $(e.currentTarget);
+
+      /* Prefill adding to glossary with current string */
+      if (e.target.hasAttribute("data-shown")) {
+        return;
+      }
+      /* Relies on clone source implementation */
+      let cloneElement = document.querySelector(
+        ".source-language-group [data-clone-text]"
+      );
+      if (cloneElement !== null) {
+        let source = cloneElement.getAttribute("data-clone-text");
+        if (source.length < 200) {
+          let term_source = document.getElementById("id_add_term_source");
+          let term_target = document.getElementById("id_add_term_target");
+          term_source.value = source;
+          term_target.value = document.querySelector(
+            ".translation-editor"
+          ).value;
+        }
+      }
+      e.target.setAttribute("data-shown", true);
     });
     this.$editor.on("hidden.bs.modal", "#add-glossary-form", () => {
       this.$translationArea.first().focus();
@@ -395,6 +464,7 @@
       var $form = $(e.currentTarget);
 
       increaseLoading("glossary-add");
+      $glossaryDialog.modal("hide");
       $.ajax({
         type: "POST",
         url: $form.attr("action"),
@@ -405,15 +475,14 @@
           if (data.responseCode === 200) {
             $("#glossary-terms").html(data.results);
             $form.find("[name=terms]").attr("value", data.terms);
+            $form.trigger("reset");
+          } else {
+            addAlert(data.responseDetails);
           }
-          $form.trigger("reset");
         },
         error: function (xhr, textStatus, errorThrown) {
           addAlert(errorThrown);
           decreaseLoading("glossary-add");
-        },
-        complete: function () {
-          $glossaryDialog.modal("hide");
         },
       });
       return false;
@@ -421,7 +490,7 @@
   };
 
   FullEditor.prototype.insertIntoTranslation = function (text) {
-    this.$translationArea.insertAtCaret($.trim(text)).change();
+    this.$translationArea.insertAtCaret($.trim(text));
   };
 
   class Machinery {
@@ -438,7 +507,7 @@
     }
 
     renderTranslation(el, service) {
-      var row = $("<tr/>").attr("class", "js-copy-machinery").data("raw", el);
+      var row = $("<tr/>").data("raw", el);
       row.append(
         $("<td/>")
           .attr("class", "target machinery-text")
@@ -450,29 +519,11 @@
       row.append(service);
 
       /* Quality score as bar with the text */
-      row.append(
-        $(
-          "<td>" +
-            '<div class="progress" title="' +
-            el.quality +
-            ' / 100">' +
-            '<div class="progress-bar ' +
-            (el.quality >= 70
-              ? "progress-bar-success"
-              : el.quality >= 50
-              ? "progress-bar-warning"
-              : "progress-bar-danger") +
-            '"' +
-            ' role="progressbar" aria-valuenow="' +
-            el.quality +
-            '"' +
-            ' aria-valuemin="0" aria-valuemax="100" style="width: ' +
-            el.quality +
-            '%;"></div>' +
-            "</div>" +
-            "</td>"
-        )
-      );
+      let quality_cell = $("<td class='number'></td>");
+      if (el.show_quality) {
+        quality_cell.html("<strong>" + el.quality + "</strong> %");
+      }
+      row.append(quality_cell);
       /* Translators: Verb for copy operation */
       row.append(
         $(
@@ -515,7 +566,7 @@
       var $translations = $("#machinery-translations");
       translations.forEach((translation) => {
         var service = this.renderService(translation);
-        var insertBefore;
+        var insertBefore = null;
         var done = false;
 
         /* This is the merging and insert sort logic */
@@ -528,11 +579,17 @@
           ) {
             // Add origin to current ones
             var current = $this.children("td:nth-child(3)");
+            if (base.quality < translation.quality) {
+              service.append("<br/>");
+              service.append(current.html());
+              $this.remove();
+              return false;
+            }
             current.append($("<br/>"));
             current.append(service.html());
             done = true;
             return false;
-          } else if (base.quality <= translation.quality) {
+          } else if (base.quality <= translation.quality && !insertBefore) {
             // Insert match before lower quality one
             insertBefore = $this;
           }

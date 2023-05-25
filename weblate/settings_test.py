@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -35,7 +35,7 @@ if CI_DATABASE in ("mysql", "mariadb"):
     default_user = "root"
     DATABASES["default"]["OPTIONS"] = {
         "init_command": (
-            "SET NAMES utf8, "
+            "SET NAMES utf8mb4, "
             "wait_timeout=28800, "
             "default_storage_engine=INNODB, "
             'sql_mode="STRICT_TRANS_TABLES"'
@@ -47,7 +47,7 @@ elif CI_DATABASE == "postgresql":
     DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql"
     default_user = "postgres"
 else:
-    raise ValueError("Not supported database: {}".format(CI_DATABASE))
+    raise ValueError(f"Not supported database: {CI_DATABASE}")
 
 DATABASES["default"]["HOST"] = os.environ.get("CI_DB_HOST", "")
 DATABASES["default"]["NAME"] = os.environ.get("CI_DB_NAME", default_name)
@@ -64,6 +64,10 @@ SECRET_KEY = "secret key used for tests only"
 SITE_DOMAIN = "example.com"
 
 # Different root for test repos
+if "CI_BASE_DIR" in os.environ:
+    BASE_DIR = os.environ["CI_BASE_DIR"]
+else:
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, "data-test")
 MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 STATIC_ROOT = os.path.join(DATA_DIR, "static")
@@ -141,7 +145,8 @@ AUTHENTICATION_BACKENDS = (
     "weblate.accounts.auth.WeblateUserBackend",
 )
 
-AUTH_VALIDATE_PERMS = True
+# Disable random admin checks trigger
+BACKGROUND_ADMIN_CHECKS = False
 
 warnings.filterwarnings(
     "error",

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,15 +17,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import json
-
 from django.conf import settings
+from requests.exceptions import RequestException
 
-from weblate.machinery.base import (
-    MachineTranslation,
-    MachineTranslationError,
-    MissingConfiguration,
-)
+from .base import MachineTranslation, MachineTranslationError
+from .forms import KeyMachineryForm
 
 GOOGLE_API_ROOT = "https://translation.googleapis.com/language/translate/v2/"
 
@@ -33,7 +29,7 @@ GOOGLE_API_ROOT = "https://translation.googleapis.com/language/translate/v2/"
 class GoogleBaseTranslation(MachineTranslation):
     # Map codes used by Google to the ones used by Weblate
     language_map = {
-        "nb": "no",
+        "nb_NO": "no",
         "fil": "tl",
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh-CN",
@@ -49,17 +45,18 @@ class GoogleTranslation(GoogleBaseTranslation):
 
     name = "Google Translate"
     max_score = 90
+    settings_form = KeyMachineryForm
 
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        if settings.MT_GOOGLE_KEY is None:
-            raise MissingConfiguration("Google Translate requires API key")
+    @staticmethod
+    def migrate_settings():
+        return {
+            "key": settings.MT_GOOGLE_KEY,
+        }
 
     def download_languages(self):
         """List of supported languages."""
         response = self.request(
-            "get", GOOGLE_API_ROOT + "languages", params={"key": settings.MT_GOOGLE_KEY}
+            "get", GOOGLE_API_ROOT + "languages", params={"key": self.settings["key"]}
         )
         payload = response.json()
 
@@ -68,13 +65,22 @@ class GoogleTranslation(GoogleBaseTranslation):
 
         return [d["language"] for d in payload["data"]["languages"]]
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Download list of possible translations from a service."""
         response = self.request(
             "get",
             GOOGLE_API_ROOT,
             params={
-                "key": settings.MT_GOOGLE_KEY,
+                "key": self.settings["key"],
                 "q": text,
                 "source": source,
                 "target": language,
@@ -96,12 +102,11 @@ class GoogleTranslation(GoogleBaseTranslation):
         }
 
     def get_error_message(self, exc):
-        if hasattr(exc, "read"):
-            content = exc.read()
+        if isinstance(exc, RequestException) and exc.response is not None:
+            data = exc.response.json()
             try:
-                data = json.loads(content)
                 return data["error"]["message"]
-            except Exception:
+            except KeyError:
                 pass
 
         return super().get_error_message(exc)

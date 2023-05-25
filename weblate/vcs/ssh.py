@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,11 +19,12 @@
 
 import hashlib
 import os
+import stat
 import subprocess
 from base64 import b64decode, b64encode
-from distutils.spawn import find_executable
 
-from django.utils.encoding import force_str
+from django.conf import settings
+from django.core.management.utils import find_command
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 
@@ -62,7 +63,7 @@ def parse_hosts_line(line):
     """Parse single hosts line into tuple host, key fingerprint."""
     host, keytype, key = line.strip().split(None, 3)[:3]
     digest = hashlib.sha256(b64decode(key)).digest()
-    fingerprint = force_str(b64encode(digest).rstrip(b"="))
+    fingerprint = b64encode(digest).rstrip(b"=").decode()
     if host.startswith("|1|"):
         # Translators: placeholder SSH hashed hostname
         host = _("[hostname hashed]")
@@ -73,12 +74,12 @@ def get_host_keys():
     """Return list of host keys."""
     try:
         result = []
-        with open(ssh_file(KNOWN_HOSTS), "r") as handle:
+        with open(ssh_file(KNOWN_HOSTS)) as handle:
             for line in handle:
                 line = line.strip()
                 if is_key_line(line):
                     result.append(parse_hosts_line(line))
-    except IOError:
+    except OSError:
         return []
 
     return result
@@ -100,34 +101,52 @@ def get_key_data():
     return None
 
 
+def ensure_ssh_key():
+    """Ensures SSH key is existing."""
+    ssh_key = get_key_data()
+    if not ssh_key:
+        generate_ssh_key(None)
+        ssh_key = get_key_data()
+    return ssh_key
+
+
 def generate_ssh_key(request):
     """Generate SSH key."""
+    keyfile = ssh_file(RSA_KEY)
+    pubkeyfile = ssh_file(RSA_KEY_PUB)
     try:
         # Actually generate the key
         subprocess.run(
             [
                 "ssh-keygen",
                 "-q",
+                "-b",
+                "4096",
                 "-N",
                 "",
                 "-C",
-                "Weblate",
+                settings.SITE_TITLE,
                 "-t",
                 "rsa",
                 "-f",
-                ssh_file(RSA_KEY),
+                keyfile,
             ],
-            universal_newlines=True,
+            text=True,
             check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             env=get_clean_env(),
         )
-        messages.success(request, _("Created new SSH key."))
     except (subprocess.CalledProcessError, OSError) as exc:
         messages.error(
             request, _("Failed to generate key: %s") % getattr(exc, "output", str(exc))
         )
+        return
+
+    # Fix key permissions
+    os.chmod(keyfile, stat.S_IWUSR | stat.S_IRUSR)
+    os.chmod(pubkeyfile, stat.S_IWUSR | stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
+
+    messages.success(request, _("Created new SSH key."))
 
 
 def add_host_key(request, host, port=""):
@@ -144,16 +163,15 @@ def add_host_key(request, host, port=""):
                 cmdline,
                 env=get_clean_env(),
                 check=True,
-                universal_newlines=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                text=True,
+                capture_output=True,
             )
-            keys = []
+            keys = set()
             for key in result.stdout.splitlines():
                 key = key.strip()
                 if not is_key_line(key):
                     continue
-                keys.append(key)
+                keys.add(key)
                 host, keytype, fingerprint = parse_hosts_line(key)
                 messages.warning(
                     request,
@@ -164,11 +182,21 @@ def add_host_key(request, host, port=""):
                     )
                     % {"host": host, "fingerprint": fingerprint, "keytype": keytype},
                 )
-            if not keys:
+            if keys:
+                known_hosts_file = ssh_file(KNOWN_HOSTS)
+                # Remove existing key entries
+                if os.path.exists(known_hosts_file):
+                    with open(known_hosts_file) as handle:
+                        for line in handle:
+                            keys.discard(line.strip())
+                # Write any new keys
+                if keys:
+                    with open(known_hosts_file, "a") as handle:
+                        for key in keys:
+                            handle.write(key)
+                            handle.write("\n")
+            else:
                 messages.error(request, _("Failed to fetch public key for a host!"))
-            with open(ssh_file(KNOWN_HOSTS), "a") as handle:
-                for key in keys:
-                    handle.write("{0}\n".format(key))
         except subprocess.CalledProcessError as exc:
             messages.error(
                 request, _("Failed to get host key: %s") % exc.stderr or exc.stdout
@@ -177,9 +205,58 @@ def add_host_key(request, host, port=""):
             messages.error(request, _("Failed to get host key: %s") % str(exc))
 
 
+GITHUB_RSA_KEY = (
+    "AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7"
+    "PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQq"
+    "ZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG"
+    "6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3J"
+    "EAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=="
+)
+
+
+def cleanup_host_keys(*args, **kwargs):
+    known_hosts_file = ssh_file(KNOWN_HOSTS)
+    if not os.path.exists(known_hosts_file):
+        return
+    logger = kwargs.get("logger", print)  # noqa: T202
+    keys = []
+    with open(known_hosts_file) as handle:
+        for line in handle:
+            # Ignore IP address based RSA keys for GitHub, these
+            # are duplicate to hostname based and cause problems on
+            # migration to ECDSA.
+            # See https://github.com/WeblateOrg/weblate/issues/6830
+            if line[0].isdigit() and GITHUB_RSA_KEY in line:
+                logger(f"Removing deprecated RSA key for GitHub: {line.strip()}")
+                continue
+
+            # Avoid duplicates
+            if line in keys:
+                logger(f"Skipping duplicate key: {line.strip()}")
+                continue
+
+            keys.append(line)
+
+    with open(known_hosts_file, "w") as handle:
+        handle.writelines(keys)
+
+
 def can_generate_key():
     """Check whether we can generate key."""
-    return find_executable("ssh-keygen") is not None
+    return find_command("ssh-keygen") is not None
+
+
+SSH_WRAPPER_TEMPLATE = r"""#!/bin/sh
+exec {command} \
+    -o "UserKnownHostsFile={known_hosts}" \
+    -o "IdentityFile={identity}" \
+    -o StrictHostKeyChecking=yes \
+    -o HashKnownHosts=no \
+    -o UpdateHostKeys=yes \
+    -F /dev/null \
+    {extra_args} \
+    "$@"
+"""
 
 
 class SSHWrapper:
@@ -188,38 +265,47 @@ class SSHWrapper:
     # - do not hash it
     # - strict hosk key checking
     # - force not using system configuration (to avoid evil things as SendEnv)
-    SSH_WRAPPER_TEMPLATE = r"""#!/bin/sh
-    exec ssh \
-        -o "UserKnownHostsFile={known_hosts}" \
-        -o "IdentityFile={identity}" \
-        -o StrictHostKeyChecking=yes \
-        -o HashKnownHosts=no \
-        -F /dev/null \
-        "$@"
-    """
 
     @cached_property
-    def filename(self):
-        """Calculates unique wrapper filename.
+    def digest(self):
+        return calculate_checksum(self.get_content())
+
+    @property
+    def path(self):
+        """Calculates unique wrapper path.
 
         It is based on template and DATA_DIR settings.
         """
-        digest = calculate_checksum(self.SSH_WRAPPER_TEMPLATE, data_dir("ssh"))
-        return ssh_file(f"ssh-weblate-wrapper-{digest}")
+        return ssh_file(f"bin-{self.digest}")
+
+    def get_content(self, command="ssh"):
+        return SSH_WRAPPER_TEMPLATE.format(
+            command=command,
+            known_hosts=ssh_file(KNOWN_HOSTS),
+            identity=ssh_file(RSA_KEY),
+            extra_args=settings.SSH_EXTRA_ARGS,
+        )
+
+    @property
+    def filename(self):
+        """Calculates unique wrapper filename."""
+        return os.path.join(self.path, "ssh")
 
     def create(self):
         """Create wrapper for SSH to pass custom known hosts and key."""
-        if os.path.exists(self.filename):
-            return
+        if not os.path.exists(self.path):
+            os.makedirs(self.path)
 
-        with open(self.filename, "w") as handle:
-            handle.write(
-                self.SSH_WRAPPER_TEMPLATE.format(
-                    known_hosts=ssh_file(KNOWN_HOSTS), identity=ssh_file(RSA_KEY)
-                )
-            )
+        for command in ("ssh", "scp"):
+            filename = os.path.join(self.path, command)
 
-        os.chmod(self.filename, 0o755)  # nosec
+            if os.path.exists(filename):
+                continue
+
+            with open(filename, "w") as handle:
+                handle.write(self.get_content(find_command(command)))
+
+            os.chmod(filename, 0o755)  # nosec
 
 
 SSH_WRAPPER = SSHWrapper()

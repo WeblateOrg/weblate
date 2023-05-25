@@ -19,10 +19,7 @@
   </h4>
 </div>
 <div class="panel-body">
-    <p>{% trans "Weblate currently uses this SSH key:" %}</p>
-    <form>
-    <textarea style="width:100%" readonly="readonly">{{ public_key.key }}</textarea>
-    </form>
+    {% include "snippets/ssh-key.html" with ssh_key=public_key %}
 </div>
   <div class="panel-footer">
     <a href="{% url 'manage-ssh-key' %}" class="btn btn-primary">{% trans "Download private key" %}</a>

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -38,7 +38,7 @@ class MarkupExtractor:
 
 
 def extract_bleach(text):
-    """Exctract tags from text in a form suitable for bleach."""
+    """Extract tags from text in a form suitable for bleach."""
     extractor = MarkupExtractor()
     parser = HTMLParser(collect_ids=False, target=extractor)
     parser.feed(text)

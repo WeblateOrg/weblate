@@ -3,7 +3,20 @@
 {% load i18n %}{% load translations %}
 
 {% block content %}
-<p>{% trans "Your billing plan has expired, if you want to continue using the service, please renew it." %}</p>
+{% if billing.is_trial %}
+  <p>
+    {% trans "Your trial period is going to expire in less than a week." %}
+    {% if billing.plan.price %}
+      {% trans "If you like Weblate and you want to continue using it, please purchase the subscription. If not, tell us what you are missing." %}
+    {% else %}
+      {% trans "If you like Weblate and you want to continue using it, just request an approval of your libre plan." %}
+    {% endif %}
+  </p>
+{% elif final_removal %}
+  <p>{% trans "Your billing plan has expired and all its projects have been removed." %}</p>
+{% else %}
+  <p>{% trans "Your billing plan has expired, if you want to continue using the service, please renew it." %}</p>
+{% endif %}
 
 <p>{% trans "This billing plan covers following projects:" %}</p>
 
@@ -21,12 +34,20 @@
     <p><strong>{% trans "All projects covered by this billing plan have been removed." %}</strong></p>
 {% else %}
     {% if billing.removal %}
+      {% if billing.plan.price %}
         <p><strong>{% blocktrans with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If you don't perform the payment, all projects within this billing plan will be removed on {{ date }}.{% endblocktrans %}</strong></p>
+      {% else %}
+        <p><strong>{% blocktrans with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If your Libre hosting will not be approved, all projects within this billing plan will be removed on {{ date }}.{% endblocktrans %}</strong></p>
+      {% endif %}
     {% endif %}
 
     {% if payment_enabled %}
         <div class="line buttons">
+          {% if billing.plan.price %}
             <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1" class="button">{% trans "New payment" %}</a>
+          {% else %}
+            <a href="{{ billing.get_absolute_url }}" class="button">{% trans "Request approval for Libre hosting" %}</a>
+          {% endif %}
         </div>
     {% endif %}
 

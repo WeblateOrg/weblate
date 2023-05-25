@@ -1,18 +1,81 @@
 #!/bin/sh
 set -e
 
+# Allow sensitive settings to be defined in a file
+# in order to support Docker secrets
+if [ -n "${POSTGRES_PASSWORD_FILE}" ]; then
+  POSTGRES_PASSWORD=$(cat "$POSTGRES_PASSWORD_FILE")
+  export POSTGRES_PASSWORD
+fi
+
+if [ -n "${REDIS_PASSWORD_FILE}" ]; then
+  REDIS_PASSWORD=$(cat "$REDIS_PASSWORD_FILE")
+  export REDIS_PASSWORD
+fi
+
+if [ -n "${WEBLATE_ADMIN_PASSWORD_FILE}" ]; then
+  WEBLATE_ADMIN_PASSWORD=$(cat "$WEBLATE_ADMIN_PASSWORD_FILE")
+  export WEBLATE_ADMIN_PASSWORD
+fi
+
+if [ -n "${WEBLATE_EMAIL_HOST_PASSWORD_FILE}" ]; then
+  WEBLATE_EMAIL_HOST_PASSWORD=$(cat "$WEBLATE_EMAIL_HOST_PASSWORD_FILE")
+  export WEBLATE_EMAIL_HOST_PASSWORD
+fi
+
+if [ -n "${WEBLATE_AUTH_LDAP_BIND_PASSWORD_FILE}" ]; then
+  WEBLATE_AUTH_LDAP_BIND_PASSWORD=$(cat "$WEBLATE_AUTH_LDAP_BIND_PASSWORD_FILE")
+  export WEBLATE_AUTH_LDAP_BIND_PASSWORD
+fi
+
 echo "Starting..."
 
 # Fix permissions on SSH private key.
 # Fails silently if the file doesn't exist yet.
 chmod 600 /app/data/ssh/id_rsa 2>/dev/null || true
 
+# Check whether data volume is writable
+if [ ! -w /app/data ] ; then
+    echo "The /app/data volume is not writable, please adjust the permissions. Weblate is running as uid $(id -u)"
+    exit 1
+fi
+
+# Generate secret
+if [ ! -f /app/data/secret ] ; then
+    echo "Generating Django secret..."
+    # https://github.com/django/django/blob/1.10.2/django/utils/crypto.py#L54-L56
+    python3 -c "from django.utils.crypto import get_random_string; print(get_random_string(50))" > /app/data/secret
+fi
+
+# Generate self-signed SAML key
+# This has to be done early as it is used from the settings_docker.py
+if [ -n "$WEBLATE_SAML_IDP_URL" ] ; then
+  if [ ! -f /app/data/ssl/saml.key ] || [ ! -f /app/data/ssl/saml.crt ] ; then
+      echo "Generating self-signed certificate for SAML..."
+      mkdir -p /app/data/ssl
+      openssl req \
+          -new \
+          -newkey rsa:4096 \
+          -x509 \
+          -days 3652 \
+          -nodes \
+          -subj "/OU=Weblate/CN=$WEBLATE_SITE_DOMAIN/emailAddress=$WEBLATE_ADMIN_EMAIL" \
+          -out /app/data/ssl/saml.crt \
+          -keyout /app/data/ssl/saml.key
+  fi
+fi
+
 # For openshift, create an account in /etc/passwd
 # @see https://docs.okd.io/latest/creating_images/guidelines.html
-if ! whoami &> /dev/null; then
+if ! whoami > /dev/null 2>&1 ; then
   if [ -w /etc/passwd ]; then
     echo "${USER_NAME:-weblate}:x:$(id -u):0:${USER_NAME:-weblate} user:${HOME}:/sbin/nologin" >> /etc/passwd
   fi
+fi
+
+if [ -z "$WEBLATE_SITE_DOMAIN" ] ; then
+    echo "Missing WEBLATE_SITE_DOMAIN, please configure it"
+    exit 1
 fi
 
 # Export Weblate variables
@@ -21,53 +84,29 @@ export WEBLATE_PY_PATH="/app/data/python/customize"
 
 # Provide sane default value
 if [ -z "$POSTGRES_SSL_MODE" ] ; then
-    # not running ssl
-    export POSTGRES_SSL_MODE="allow"
-else
     export POSTGRES_SSL_MODE="prefer"
-
-    # Export variables for psql use
-    export PGPASSWORD="$POSTGRES_PASSWORD"
-    export PGSSLMODE="$POSTGRES_SSL_MODE"
-
-    # PSQL expects the secrets to only have user permissions, and not group/world permissions.
-    # For some reason, mounting the secrets with the permission mode doesn't change them.
-    # Manually copy them and change the permissions.
-    cp $POSTGRES_CLI_SSL_CA $HOME
-    cp $POSTGRES_CLI_SSL_CRT $HOME
-    cp $POSTGRES_CLI_SSL_KEY $HOME
-
-    export POSTGRES_CLI_SSL_CA="$HOME/$(basename $POSTGRES_CLI_SSL_CA)"
-    export POSTGRES_CLI_SSL_CRT="$HOME/$(basename $POSTGRES_CLI_SSL_CRT)"
-    export POSTGRES_CLI_SSL_KEY="$HOME/$(basename $POSTGRES_CLI_SSL_KEY)"
-
-    export PGSSLROOTCERT="$POSTGRES_CLI_SSL_CA"
-    export PGSSLCERT="$POSTGRES_CLI_SSL_CRT"
-    export PGSSLKEY="$POSTGRES_CLI_SSL_KEY"
-
-    chmod 0600 $POSTGRES_CLI_SSL_CA
-    chmod 0600 $POSTGRES_CLI_SSL_CRT
-    chmod 0600 $POSTGRES_CLI_SSL_KEY
 fi
+
+# Export variables for psql use
+export PGPASSWORD="$POSTGRES_PASSWORD"
+export PGSSLMODE="$POSTGRES_SSL_MODE"
 
 # Update the time zone
 zonefile="/usr/share/zoneinfo/$WEBLATE_TIME_ZONE"
-if [ -n "$WEBLATE_TIME_ZONE" -a -f "$zonefile" ] ; then
-    echo "Updating system timezone to $WEBLATE_TIME_ZONE"
-    echo $WEBLATE_TIME_ZONE > /etc/timezone
-    cat /usr/share/zoneinfo/$WEBLATE_TIME_ZONE > /etc/localtime
+if [ -n "$WEBLATE_TIME_ZONE" ] && [ -f "$zonefile" ] ; then
+    cat "/usr/share/zoneinfo/$WEBLATE_TIME_ZONE" > /etc/localtime
 fi
 
 # Create fake Python app for customization
-if [ ! -d $WEBLATE_PY_PATH ] ; then
+if [ ! -d "$WEBLATE_PY_PATH" ] ; then
     echo "Creating $WEBLATE_PY_PATH"
-    mkdir -p $WEBLATE_PY_PATH/static
-    touch $WEBLATE_PY_PATH/__init__.py
-    touch $WEBLATE_PY_PATH/models.py
+    mkdir -p "$WEBLATE_PY_PATH/static"
+    touch "$WEBLATE_PY_PATH/__init__.py"
+    touch "$WEBLATE_PY_PATH/models.py"
 fi
 
 run_weblate() {
-    $WEBLATE_CMD "$@"
+    "$WEBLATE_CMD" "$@"
 }
 
 fail_dep() {
@@ -80,19 +119,6 @@ fail_dep() {
     exit 1
 }
 
-
-if [ ! -z ${WEBLATE_GITLAB_USERNAME+x} ]; then
-    if [ -z ${WEBLATE_GITLAB_HOST+x} ] || [ -z ${WEBLATE_GITLAB_TOKEN+x} ] ; then
-        echo "WARNING: WEBLATE_GITLAB_HOST or WEBLATE_GITLAB_TOKEN not set. Skip lab.hcl generation..."
-    else
-        mkdir -p /app/data/home/.config/
-        echo "\"core\" = { \n \"host\" = \"${WEBLATE_GITLAB_HOST}\" \n \"token\" = \"${WEBLATE_GITLAB_TOKEN}\" \n }" > /app/data/home/.config/lab.hcl
-        unset WEBLATE_GITLAB_TOKEN
-        echo "lab configured"
-    fi;
-fi;
-
-
 if [ -n "$MEMCACHED_HOST" ] ; then
     >&2 echo "memcached is no longer supported, please configure redis"
 fi
@@ -100,8 +126,8 @@ fi
 # Wait for redis
 TIMEOUT=0
 until run_weblate shell -c 'from django.core.cache import cache; cache.has_key("ping")' > /dev/null ; do
-    >&2 echo "redis is unavailable - waiting $((30 - $TIMEOUT))"
-    TIMEOUT=$(($TIMEOUT + 1))
+    >&2 echo "redis is unavailable - waiting $((30 - TIMEOUT))"
+    TIMEOUT=$((TIMEOUT + 1))
     if [ $TIMEOUT -gt 30 ] ; then
         run_weblate shell -c 'from django.core.cache import cache; cache.has_key("ping")'
         fail_dep redis
@@ -119,8 +145,8 @@ fi
 # Wait for database to get available
 TIMEOUT=0
 until psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -d "$POSTGRES_DATABASE" -U "$POSTGRES_USER" -c 'SELECT 1' > /dev/null ; do
-    >&2 echo "Postgres is unavailable - waiting $((30 - $TIMEOUT))"
-    TIMEOUT=$(($TIMEOUT + 1))
+    >&2 echo "Postgres is unavailable - waiting $((30 - TIMEOUT))"
+    TIMEOUT=$((TIMEOUT + 1))
     if [ $TIMEOUT -gt 30 ] ; then
         psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -d "$POSTGRES_DATABASE" -U "$POSTGRES_USER" -c 'SELECT 1'
         fail_dep PosgreSQL
@@ -128,74 +154,133 @@ until psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -d "$POSTGRES_DATABASE" -U "$
     sleep 1
 done
 
+# Fetch server version
+PGVERSION=$(psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -d "$POSTGRES_DATABASE" -U "$POSTGRES_USER" -t -A -c 'SHOW server_version_num;')
+
 unset PGPASSWORD
 
->&2 echo "Postgres is up"
+>&2 echo "Postgres $PGVERSION is up"
 
-# Blocked until new github user is created
-echo "Initializing github config for user ${WEBLATE_GITHUB_USERNAME}"
-git config --global hub.protocol https
-mkdir -p ~/.config
-echo -n "$WEBLATE_GITHUB_OAUTH_TOKEN" > ~/.config/hub
-npx npm-merge-driver install --global
-
-ssh -vT ${WEBLATE_GITHUB_USERNAME} || true
-echo "Done initializing github"
-
-# Generate secret
-if [ ! -f /app/data/secret ] ; then
-    # https://github.com/django/django/blob/1.10.2/django/utils/crypto.py#L54-L56
-    python3 -c "from django.utils.crypto import get_random_string; print(get_random_string(50))" > /app/data/secret
+# Check if supported PostgreSQL version is used
+if [ "$PGVERSION" -lt 100000 ] ; then
+    >&2 echo "PostgreSQL 10 or newer is required to run Weblate"
+    exit 1
 fi
 
 # Migrate database to current version and collect static files
-if [ "x$1" = "xrunserver" ] ; then
+if [ "$1" = "runserver" ] ; then
 
     # Fail on migration to 3.0
     failure=0
     run_weblate showmigrations --plan > /tmp/migrations.txt || failure=1
-    has_old_auth=$(grep -Fc '[X]  auth.0001_initial' /tmp/migrations.txt || true)
-    missing_new_auth=$(grep -Fc '[ ]  weblate_auth.0001_initial' /tmp/migrations.txt || true)
-    if [ $failure -gt 0 -o \( $has_old_auth -gt 0 -a $missing_new_auth -gt 0 \) ] ; then
+    if [ $failure -gt 0 ] ; then
         echo
-        echo "Migration from this version is not supported!"
-        echo "Please upgrade to 3.0.1-7 first."
+        echo "Database migration has failed. Please check the error message above."
+        echo "In case you are upgrading from an 3.x version, please upgrade to 4.1.1-3 first."
         exit 1
     fi
     rm /tmp/migrations.txt
 
-    echo "Starting database migration..."
-    run_weblate migrate
-    run_weblate cleanup_celery
-    # Run with --clear to ensure all files are up to date
-    run_weblate collectstatic --noinput --clear
-    # Create or update admin account
-    if [ -n "$WEBLATE_ADMIN_PASSWORD" ] ; then
-        run_weblate createadmin --password="$WEBLATE_ADMIN_PASSWORD" --update --email="$WEBLATE_ADMIN_EMAIL" --name="$WEBLATE_ADMIN_NAME"
-    else
-        run_weblate createadmin --email="$WEBLATE_ADMIN_EMAIL" --name="$WEBLATE_ADMIN_NAME" || true
-    fi
-    # Change site name
-    if [ -n "$WEBLATE_ALLOWED_HOSTS" -a "$WEBLATE_ALLOWED_HOSTS" != '*' ] ; then
-        run_weblate changesite --set-name "${WEBLATE_ALLOWED_HOSTS%%,*}"
+    DO_MIGRATE=1
+    DO_CELERY=1
+    if [ -n "$WEBLATE_SERVICE" ] ; then
+        if [ "$WEBLATE_SERVICE" != "celery-beat" ] ; then
+            DO_CELERY=0
+            DO_MIGRATE=0
+        fi
+        find /etc/supervisor/conf.d/ -mindepth 1 -not -name "$WEBLATE_SERVICE.conf" -delete
     fi
 
+    if [ $DO_MIGRATE -eq 1 ] ; then
+        echo "Starting database migration..."
+        run_weblate migrate
+
+        # Create or update admin account
+        if [ -n "$WEBLATE_ADMIN_PASSWORD" ] ; then
+            run_weblate createadmin --password="$WEBLATE_ADMIN_PASSWORD" --update --email="$WEBLATE_ADMIN_EMAIL" --name="$WEBLATE_ADMIN_NAME"
+        else
+            run_weblate createadmin --email="$WEBLATE_ADMIN_EMAIL" --name="$WEBLATE_ADMIN_NAME" || true
+        fi
+
+        echo "Refreshing stats..."
+        run_weblate ensure_stats
+    fi
+    if [ $DO_CELERY -eq 1 ] ; then
+        run_weblate cleanup_celery
+    fi
+    # Run with --clear to ensure all files are up to date
+    run_weblate collectstatic --noinput --clear
+    # Compress js and css
+    run_weblate compress --force --traceback
+
     # uswgi dir
-    mkdir -p /run/uwsgi/app/weblate
+    mkdir -p /run/gunicorn/app/weblate
 
     # Celery pid, remove possible stale PID file
     mkdir -p /run/celery
-
     rm -f /run/celery/beat.pid
 
-    ln -sf ${NGINX_ACCESS_LOG:-/dev/stdout} /var/log/nginx/access.log
-    ln -sf ${NGINX_ERROR_LOG:-/dev/stderr} /var/log/nginx/error.log
+    # Prepare nginx logs
+    rm -f /var/log/nginx/access.log /var/log/nginx/error.log
+    ln -sf "${NGINX_ACCESS_LOG:-/dev/stdout}" /var/log/nginx/access.log
+    ln -sf "${NGINX_ERROR_LOG:-/dev/stderr}" /var/log/nginx/error.log
+
+    # Generate nginx configuration
+    if [ -f /app/data/ssl/privkey.pem ] ; then
+        template=/etc/nginx/ssl.tpl
+    else
+        template=/etc/nginx/default.tpl
+    fi
+    case "$WEBLATE_IP_PROXY_HEADER" in
+        HTTP_X_FORWARDED_FOR)
+            WEBLATE_REALIP="
+real_ip_header X-Forwarded-For;
+set_real_ip_from 0.0.0.0/0;
+"
+            ;;
+        *)
+            WEBLATE_REALIP=""
+            ;;
+    esac
+
+    export WEBLATE_REALIP
+    envsubst "\$WEBLATE_URL_PREFIX:\$WEBLATE_REALIP" < $template > /etc/nginx/sites-available/default
+
+    # Calculate number of processes, at least 2, at most 4, depending on CPU cores
+    if [ -z "$WEBLATE_WORKERS" ] ; then
+        PROCESSORS=$(nproc)
+        WEBLATE_WORKERS=$((PROCESSORS < 2 ? 2 : PROCESSORS > 4  ? 4 : PROCESSORS))
+        echo "Auto-scaled to $WEBLATE_WORKERS processes, adjust by setting WEBLATE_WORKERS"
+    fi
+
+    # default values for celery options
+    : "${CELERY_MAIN_OPTIONS:="--concurrency $WEBLATE_WORKERS"}"
+    : "${CELERY_NOTIFY_OPTIONS:="--concurrency $((WEBLATE_WORKERS / 2))"}"
+    : "${CELERY_TRANSLATE_OPTIONS:="--concurrency $((WEBLATE_WORKERS / 2))"}"
+    : "${CELERY_MEMORY_OPTIONS:="--concurrency $((WEBLATE_WORKERS / 2))"}"
+    : "${CELERY_BACKUP_OPTIONS:="--concurrency 1"}"
+    : "${CELERY_BEAT_OPTIONS:=""}"
+    : "${WEB_WORKERS:="$((WEBLATE_WORKERS + 1))"}"
+    # This is for legacy configurations, should be removed in the future
+    if [ -n "$UWSGI_WORKERS" ] ; then
+        echo "Configuration using UWSGI_WORKERS is deprecated, please use WEB_WORKERS instead!"
+        WEB_WORKERS="$UWSGI_WORKERS"
+    fi
+
+    export CELERY_MAIN_OPTIONS
+    export CELERY_NOTIFY_OPTIONS
+    export CELERY_TRANSLATE_OPTIONS
+    export CELERY_MEMORY_OPTIONS
+    export CELERY_BACKUP_OPTIONS
+    export CELERY_BEAT_OPTIONS
+    export WEB_WORKERS
+
 
     #  Execute supervisor
     exec supervisord --nodaemon \
-        --loglevel=${SUPERVISOR_LOGLEVEL:-info} \
+        --loglevel="${SUPERVISOR_LOGLEVEL:-info}" \
         --logfile_maxbytes=0 \
-        --logfile=${SUPERVISOR_LOGFILE:-/dev/null} \
+        --logfile="${SUPERVISOR_LOGFILE:-/dev/null}" \
         --configuration=/etc/supervisor/supervisord.conf
 fi
 

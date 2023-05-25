@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -44,7 +44,7 @@ class GenerateMoAddon(GettextBaseAddon):
 
     def pre_commit(self, translation, author):
         exporter = MoExporter(translation=translation)
-        exporter.add_units(translation.unit_set.all())
+        exporter.add_units(translation.unit_set.prefetch_full())
 
         template = self.instance.configuration.get("path")
         if not template:
@@ -115,18 +115,18 @@ class UpdateLinguasAddon(GettextBaseAddon):
         # Add missing codes
         if codes:
             for code in codes:
-                lines.append("{}\n".format(code))
+                lines.append(f"{code}\n")
             changed = True
 
         return changed, lines
 
     def sync_linguas(self, component, path):
-        with open(path, "r") as handle:
+        with open(path) as handle:
             lines = handle.readlines()
 
         codes = set(
             component.translation_set.exclude(
-                language=component.project.source_language
+                language=component.source_language
             ).values_list("language_code", flat=True)
         )
 
@@ -184,15 +184,13 @@ class UpdateConfigureAddon(GettextBaseAddon):
     def sync_linguas(self, component, paths):
         added = False
         codes = " ".join(
-            component.translation_set.exclude(
-                language=component.project.source_language
-            )
+            component.translation_set.exclude(language_id=component.source_language_id)
             .values_list("language_code", flat=True)
             .order_by("language_code")
         )
-        expected = 'ALL_LINGUAS="{}"\n'.format(codes)
+        expected = f'ALL_LINGUAS="{codes}"\n'
         for path in paths:
-            with open(path, "r") as handle:
+            with open(path) as handle:
                 lines = handle.readlines()
 
             for i, line in enumerate(lines):
@@ -229,29 +227,47 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     name = "weblate.gettext.msgmerge"
     verbose = _("Update PO files to match POT (msgmerge)")
     description = _(
-        "Updates all PO files to match the POT file using msgmerge. "
-        "Triggered whenever new changes are pulled from the upstream repository."
+        'Updates all PO files (as configured by "File mask") to match the '
+        'POT file (as configured by "Template for new translations") using msgmerge.'
     )
     alert = "MsgmergeAddonError"
     settings_form = MsgmergeForm
 
     @classmethod
     def can_install(cls, component, user):
-        if not component.new_base or find_command("msgmerge") is None:
+        if find_command("msgmerge") is None:
             return False
         return super().can_install(component, user)
 
     def update_translations(self, component, previous_head):
-        if previous_head:
-            changes = component.repository.list_changed_files(
-                component.repository.ref_to_remote.format(previous_head)
+        # Run always when there is an alerts, there is a chance that
+        # the update clears it.
+        repository = component.repository
+        if previous_head and not component.alert_set.filter(name=self.alert).exists():
+            changes = repository.list_changed_files(
+                repository.ref_to_remote.format(previous_head)
             )
             if component.new_base not in changes:
                 component.log_info(
-                    "%s addon skipped, new base was not updated", self.name
+                    "%s addon skipped, new base was not updated in %s..%s",
+                    self.name,
+                    previous_head,
+                    repository.last_revision,
                 )
                 return
         template = component.get_new_base_filename()
+        if not template or not os.path.exists(template):
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "msgmerge",
+                    "output": template,
+                    "error": "Template for new translations not found",
+                }
+            )
+            self.trigger_alerts(component)
+            component.log_info("%s addon skipped, new base was not found", self.name)
+            return
         args = []
         if not self.instance.configuration.get("fuzzy", True):
             args.append("--no-fuzzy-matching")
@@ -269,7 +285,11 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             pass
         for translation in component.translation_set.iterator():
             filename = translation.get_filename()
-            if not filename or not os.path.exists(filename):
+            if (
+                (translation.is_source and not translation.is_template)
+                or not filename
+                or not os.path.exists(filename)
+            ):
                 continue
             try:
                 component.file_format_cls.update_bilingual(
@@ -284,6 +304,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                         "error": str(error),
                     }
                 )
+                component.log_info("%s addon failed: %s", self.name, error)
         self.trigger_alerts(component)
 
 
@@ -304,11 +325,13 @@ class GettextAuthorComments(GettextBaseAddon):
     name = "weblate.gettext.authors"
     verbose = _("Contributors in comment")
     description = _(
-        "Update the comment in the PO file header to include contributor names and "
-        "years of contributions."
+        "Updates the comment part of the PO file header to include contributor names "
+        "and years of contributions."
     )
 
     def pre_commit(self, translation, author):
+        if "noreply@weblate.org" in author:
+            return
         if "<" in author:
             name, email = author.split("<")
             name = name.strip()

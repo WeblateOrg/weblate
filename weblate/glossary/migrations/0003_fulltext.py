@@ -24,7 +24,7 @@ def create_index(apps, schema_editor):
         for table, field in FIELDS:
             schema_editor.execute(MY_FTX.format(table, field))
     else:
-        raise Exception("Unsupported database: {}".format(vendor))
+        raise Exception(f"Unsupported database: {vendor}")
 
 
 def drop_index(apps, schema_editor):
@@ -36,7 +36,7 @@ def drop_index(apps, schema_editor):
         for table, field in FIELDS:
             schema_editor.execute(MY_DROP.format(table, field))
     else:
-        raise Exception("Unsupported database: {}".format(vendor))
+        raise Exception(f"Unsupported database: {vendor}")
 
 
 class Migration(migrations.Migration):

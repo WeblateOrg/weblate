@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,22 +17,24 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import random
 from datetime import datetime
 from urllib.parse import urlparse
 
 from django.conf import settings
-from django.utils.html import escape
+from django.core.cache import cache
+from django.utils.html import format_html
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
-import weblate
 import weblate.screenshots.views
+import weblate.utils.version
+from weblate.configuration.views import CustomCSSView
 from weblate.utils.site import get_site_domain, get_site_url
-from weblate.wladmin.models import ConfigurationError
+from weblate.wladmin.models import ConfigurationError, SupportStatus
 
-URL_BASE = "https://weblate.org/?utm_source=weblate&utm_term=%s"
-URL_DONATE = "https://weblate.org/donate/?utm_source=weblate&utm_term=%s"
+WEBLATE_URL = "https://weblate.org/"
+DONATE_URL = "https://weblate.org/donate/"
 
 CONTEXT_SETTINGS = [
     "SITE_TITLE",
@@ -44,10 +46,13 @@ CONTEXT_SETTINGS = [
     "GOOGLE_ANALYTICS_ID",
     "ENABLE_HOOKS",
     "REGISTRATION_OPEN",
+    "GET_HELP_URL",
     "STATUS_URL",
     "LEGAL_URL",
+    "PRIVACY_URL",
     "FONTS_CDN_URL",
     "AVATAR_URL_PREFIX",
+    "HIDE_VERSION",
     # Hosted Weblate integration
     "PAYMENT_ENABLED",
 ]
@@ -67,11 +72,6 @@ def add_error_logging_context(context):
         context["rollbar_token"] = None
         context["rollbar_environment"] = None
 
-    if hasattr(settings, "RAVEN_CONFIG") and "public_dsn" in settings.RAVEN_CONFIG:
-        context["sentry_dsn"] = settings.RAVEN_CONFIG["public_dsn"]
-    else:
-        context["sentry_dsn"] = None
-
 
 def add_settings_context(context):
     for name in CONTEXT_SETTINGS:
@@ -80,8 +80,8 @@ def add_settings_context(context):
 
 def add_optional_context(context):
     for name in CONTEXT_APPS:
-        appname = "weblate.{}".format(name)
-        context["has_{}".format(name)] = appname in settings.INSTALLED_APPS
+        appname = f"weblate.{name}"
+        context[f"has_{name}"] = appname in settings.INSTALLED_APPS
 
 
 def get_preconnect_list():
@@ -117,6 +117,15 @@ def get_bread_image(path):
     return "project.svg"
 
 
+def get_interledger_payment_pointer():
+    interledger_payment_pointers = settings.INTERLEDGER_PAYMENT_POINTERS
+
+    if not interledger_payment_pointers:
+        return None
+
+    return random.choice(interledger_payment_pointers)
+
+
 def weblate_context(request):
     """Context processor to inject various useful variables into context."""
     if url_has_allowed_host_and_scheme(request.GET.get("next", ""), allowed_hosts=None):
@@ -136,30 +145,40 @@ def weblate_context(request):
             "This site runs Weblate for localizing various software projects."
         )
 
-    weblate_url = URL_BASE % weblate.VERSION
+    if hasattr(request, "_weblate_has_support"):
+        has_support = request._weblate_has_support
+    else:
+        has_support_cache_key = "weblate:has:support"
+        has_support = cache.get(has_support_cache_key)
+        if has_support is None:
+            support_status = SupportStatus.objects.get_current()
+            has_support = support_status.name != "community"
+            cache.set(has_support_cache_key, has_support, 86400)
+        request._weblate_has_support = has_support
+
+    utcnow = datetime.utcnow()
 
     context = {
-        "cache_param": "?v={}".format(weblate.GIT_VERSION)
+        "has_support": has_support,
+        "cache_param": f"?v={weblate.utils.version.GIT_VERSION}"
         if not settings.COMPRESS_ENABLED
         else "",
-        "version": weblate.VERSION,
+        "version": weblate.utils.version.VERSION,
         "bread_image": get_bread_image(request.path),
         "description": description,
-        "weblate_link": mark_safe(
-            '<a href="{}">weblate.org</a>'.format(escape(weblate_url))
+        "weblate_link": format_html('<a href="{}">weblate.org</a>', WEBLATE_URL),
+        "weblate_name_link": format_html('<a href="{}">Weblate</a>', WEBLATE_URL),
+        "weblate_version_link": format_html(
+            '<a href="{}">Weblate {}</a>',
+            WEBLATE_URL,
+            "" if settings.HIDE_VERSION else weblate.utils.version.VERSION,
         ),
-        "weblate_name_link": mark_safe(
-            '<a href="{}">Weblate</a>'.format(escape(weblate_url))
-        ),
-        "weblate_version_link": mark_safe(
-            '<a href="{}">Weblate {}</a>'.format(escape(weblate_url), weblate.VERSION)
-        ),
-        "donate_url": URL_DONATE % weblate.VERSION,
+        "donate_url": DONATE_URL,
         "site_url": get_site_url(),
         "site_domain": get_site_domain(),
-        "current_date": datetime.utcnow().strftime("%Y-%m-%d"),
-        "current_year": datetime.utcnow().strftime("%Y"),
-        "current_month": datetime.utcnow().strftime("%m"),
+        "current_date": utcnow.strftime("%Y-%m-%d"),
+        "current_year": utcnow.strftime("%Y"),
+        "current_month": utcnow.strftime("%m"),
         "login_redirect_url": login_redirect_url,
         "has_ocr": weblate.screenshots.views.HAS_OCR,
         "has_antispam": bool(settings.AKISMET_API_KEY),
@@ -170,6 +189,8 @@ def weblate_context(request):
             ignored=False
         ).order_by("-timestamp"),
         "preconnect_list": get_preconnect_list(),
+        "custom_css_hash": CustomCSSView.get_hash(request),
+        "interledger_payment_pointer": get_interledger_payment_pointer(),
     }
 
     add_error_logging_context(context)

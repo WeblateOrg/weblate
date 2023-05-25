@@ -1,0 +1,16 @@
+{% load translations %}
+{% load permissions %}
+{% load i18n %}
+
+{% if not object.paid %}
+{% trans "Pay the bills to unlock this project." as msg %}
+{% show_message "warning" msg %}
+{% endif %}
+
+{% perm 'billing.view' object as user_can_view_billing %}
+
+{% if object.is_libre_trial %}
+  {% include "snippets/project/billing-libre-trial.html" %}
+{% elif object.is_trial and user_can_view_billing %}
+  {% include "snippets/project/billing-trial.html" %}
+{% endif %}

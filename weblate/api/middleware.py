@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -24,8 +24,8 @@ class ThrottlingMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        if "throttling_state" in request.META:
-            throttling = request.META["throttling_state"]
+        throttling = request.META.get("throttling_state", None)
+        if throttling is not None:
             response["X-RateLimit-Limit"] = throttling.num_requests
             response["X-RateLimit-Remaining"] = throttling.num_requests - len(
                 throttling.history

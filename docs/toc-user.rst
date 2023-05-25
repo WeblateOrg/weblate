@@ -6,9 +6,9 @@
     user/profile
     user/translating
     user/files
+    user/glossary
     user/checks
     user/search
-    devel/index
     workflows
     faq
     formats

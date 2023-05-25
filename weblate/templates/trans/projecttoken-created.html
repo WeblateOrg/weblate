@@ -1,0 +1,8 @@
+{% load i18n %}
+{% load icons %}
+
+<button type="button" class="btn btn-primary btn-xs pull-right flip" data-clipboard-text="{{ token }}" data-clipboard-message="{% trans "Token copied to clipboard." %}">{% trans "Copy token to clipboard" %}</button>
+
+{% blocktrans %}Token created. Please save it now, as it won't be displayed again: {{ token }}{% endblocktrans %}
+
+<div class="clearfix"></div>

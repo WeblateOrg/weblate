@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -72,6 +72,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "slug": "po",
                     "base_file": "",
                     "new_base": "",
+                    "intermediate": "",
                 },
                 "po-link/*.po": {
                     "files": {"po-link/cs.po", "po-link/de.po", "po-link/it.po"},
@@ -86,6 +87,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "slug": "po-link",
                     "base_file": "",
                     "new_base": "",
+                    "intermediate": "",
                 },
                 "po-mono/*.po": {
                     "files": {
@@ -106,6 +108,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "slug": "po-mono",
                     "base_file": "",
                     "new_base": "",
+                    "intermediate": "",
                 },
                 "second-po/*.po": {
                     "files": {"second-po/cs.po", "second-po/de.po"},
@@ -119,6 +122,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "slug": "second-po",
                     "base_file": "",
                     "new_base": "",
+                    "intermediate": "",
                 },
             },
         )
@@ -202,4 +206,20 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(len(created), 1)
         self.assertEqual(created[0][0]["mask"], "localization/*/component.*.po")
         self.assertEqual(len(matched), 0)
+        self.assertEqual(len(deleted), 0)
+
+    def test_named_group(self):
+        discovery = ComponentDiscovery(
+            self.component,
+            match=r"(?P<path>[^/]+)/(?P<language>[^/]*)/"
+            r"(?P<component>[^/]*)\.(?P=language)\.po",
+            name_template="{{ path }}: {{ component }}",
+            file_format="po",
+        )
+        created, matched, deleted = discovery.perform()
+        self.assertEqual(len(created), 1)
+        self.assertEqual(created[0][0]["mask"], "localization/*/component.*.po")
+        self.assertEqual(created[0][0]["name"], "localization: component")
+        self.assertEqual(len(matched), 0)
+        self.assertEqual(len(deleted), 0)
         self.assertEqual(len(deleted), 0)

@@ -27,27 +27,27 @@ basics and pointing to further tutorials.
 
 To write some custom Python code (called a module), a
 place to store it is needed, either in the system path (usually something like
-:file:`/usr/lib/python3.7/site-packages/`) or in the Weblate directory, which
+:file:`/usr/lib/python3.9/site-packages/`) or in the Weblate directory, which
 is also added to the interpreter search path.
 
 Better yet, turn your customization into a proper Python package:
 
 1. Create a folder for your package (we will use `weblate_customization`).
-2. within it, create a :file:`setup.py` file to describe the package:
+2. Within it, create a :file:`setup.py` file to describe the package:
 
     .. code-block:: python
 
         from setuptools import setup
 
         setup(
-            name = "weblate_customization",
-            version = "0.0.1",
-            author = "Your name",
-            author_email = "yourname@example.com",
-            description = "Sample Custom check for Weblate.",
-            license = "GPLv3+",
-            keywords = "Weblate check example",
-            packages=['weblate_customization'],
+            name="weblate_customization",
+            version="0.0.1",
+            author="Your name",
+            author_email="yourname@example.com",
+            description="Sample Custom check for Weblate.",
+            license="GPLv3+",
+            keywords="Weblate check example",
+            packages=["weblate_customization"],
         )
 
 3. Create a folder for the Python module (also called ``weblate_customization``)
@@ -76,31 +76,30 @@ Changing the logo
 -----------------
 
 1. Create a simple Django app containing the static files you want to overwrite
-(see :ref:`custom-module`).
+   (see :ref:`custom-module`).
+
+   Branding appears in the following files:
+
+   :file:`icons/weblate.svg`
+       Logo shown in the navigation bar.
+   :file:`logo-*.png`
+       Web icons depending on screen resolution and web-browser.
+   :file:`favicon.ico`
+       Web icon used by legacy browsers.
+   :file:`weblate-*.png`
+       Avatars for bots or anonymous users. Some web-browsers use these as shortcut icons.
+   :file:`email-logo.png`
+       Used in notifications e-mails.
 
 2. Add it to :setting:`django:INSTALLED_APPS`:
 
-.. code-block:: python
+   .. code-block:: python
 
-   INSTALLED_APPS = (
-      # Add your customization as first
-      'weblate_customization',
-
-      # Weblate apps are here…
-   )
-
-Branding appears in the following files:
-
-:file:`icons/weblate.svg`
-    Logo shown in the navigation bar.
-:file:`logo-*.png`
-    Web icons depending on screen resolution and web-browser.
-:file:`favicon.ico`
-    Web icon used by legacy browsers.
-:file:`weblate-*.png`
-    Avatars for bots or anonymous users. Some web-browsers use these as shortcut icons.
-:file:`email-logo.png`
-    Used in notifications e-mails.
+      INSTALLED_APPS = (
+          # Add your customization as first
+          "weblate_customization",
+          # Weblate apps are here…
+      )
 
 3. Run :samp:`weblate collectstatic --noinput`, to collect static files served to
    clients.
@@ -113,13 +112,13 @@ Branding appears in the following files:
 .. _custom-addon-modules:
 .. _custom-check-modules:
 
-Custom quality checks, addons and auto-fixes
---------------------------------------------
+Custom quality checks, add-ons and auto-fixes
+---------------------------------------------
 
 To install your code for :ref:`custom-autofix`, :ref:`own-checks` or
-:ref:`own-addon` and in Weblate:
+:ref:`own-addon` in Weblate:
 
-1. Place the files in your Python module containing the Weblate customization
+1. Place the files into your Python module containing the Weblate customization
    (see :ref:`custom-module`).
 2. Add its fully-qualified path to the Python class in the dedicated settings
    (:setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):
@@ -127,20 +126,14 @@ To install your code for :ref:`custom-autofix`, :ref:`own-checks` or
 .. code-block:: python
 
     # Checks
-    CHECK_LIST += (
-        'weblate_customization.checks.FooCheck',
-    )
+    CHECK_LIST += ("weblate_customization.checks.FooCheck",)
 
     # Autofixes
-    AUTOFIX_LIST += (
-      'weblate_customization.autofix.FooFixer',
-    )
+    AUTOFIX_LIST += ("weblate_customization.autofix.FooFixer",)
 
-    # Addons
-    WEBLATE_ADDONS += (
-      'weblate_customization.addons.ExamplePreAddon',
-    )
+    # Add-ons
+    WEBLATE_ADDONS += ("weblate_customization.addons.ExamplePreAddon",)
 
 .. seealso::
 
-    :ref:`custom-autofix`:, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-script`
+    :ref:`custom-autofix`, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-script`

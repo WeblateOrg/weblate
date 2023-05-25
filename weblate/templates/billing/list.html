@@ -1,0 +1,52 @@
+{% load i18n %}
+{% load humanize %}
+{% load translations %}
+
+<table class="sort table progress-table autocolspan table-listing">
+  <thead>
+    <tr>
+      <th>{% trans "Owners" %}</th>
+      <th>{% trans "Projects" %}</th>
+      <th>{% trans "Plan" %}</th>
+      <th class="number">{% trans "Hosted words" %}</th>
+      {% if show_expiry %}
+        <th>{% trans "Trial expiry date" %}</th>
+      {% endif %}
+      {% if show_removal %}
+        <th>{% trans "Scheduled removal" %}</th>
+      {% endif %}
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in objects %}
+      <tr>
+        <td>
+          {% for user in object.owners.all %}
+            {{ user.profile.get_user_display_link }}
+          {% empty %}
+            <em>{% trans "No users currently assigned!" %}</em>
+          {% endfor %}
+        </td>
+        <td>
+          {% for project in object.all_projects %}
+            <a href="{{ project.get_absolute_url }}">{{ project }}</a>
+          {% empty %}
+            <em>{% trans "No projects currently assigned!" %}</em>
+          {% endfor %}
+        </td>
+        <td>
+          {% include "billing/state-snippet.html" %}
+        </td>
+        <td class="number" data-value="{{ object.hosted_words }}">{{ object.hosted_words|intcomma }}</td>
+        {% if show_expiry %}
+          <td data-value="{{ object.expiry.timestamp }}">{{ object.expiry|naturaltime }}</td>
+        {% endif %}
+        {% if show_removal %}
+          <td data-value="{{ object.removal.timestamp }}">{{ object.removal|naturaltime }}</td>
+        {% endif %}
+        <td><a href="{{ object.get_absolute_url }}" class="btn btn-primary">{% trans "View" %}</a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

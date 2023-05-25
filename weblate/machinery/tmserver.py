@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,12 +18,11 @@
 #
 
 
-from urllib.parse import quote
-
 from django.conf import settings
 from requests.exceptions import HTTPError
 
-from weblate.machinery.base import MachineTranslation, MissingConfiguration
+from .base import MachineTranslation
+from .forms import URLMachineryForm
 
 AMAGAMA_LIVE = "https://amagama-live.translatehouse.org/api/v1"
 
@@ -32,19 +31,13 @@ class TMServerTranslation(MachineTranslation):
     """tmserver machine translation support."""
 
     name = "tmserver"
-
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        self.url = self.get_server_url()
+    settings_form = URLMachineryForm
 
     @staticmethod
-    def get_server_url():
-        """Return URL of a server."""
-        if settings.MT_TMSERVER is None:
-            raise MissingConfiguration("Not configured tmserver URL")
-
-        return settings.MT_TMSERVER.rstrip("/")
+    def migrate_settings():
+        return {
+            "url": settings.MT_TMSERVER,
+        }
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
@@ -53,8 +46,8 @@ class TMServerTranslation(MachineTranslation):
     def download_languages(self):
         """Download list of supported languages from a service."""
         try:
-            # This will raise exception in DEBUG mode
-            response = self.request("get", "{0}/languages/".format(self.url))
+            # This URL needs trailing slash, that's why blank string is included
+            response = self.request("get", self.get_api_url("languages", ""))
             data = response.json()
         except HTTPError as error:
             if error.response.status_code == 404:
@@ -74,13 +67,19 @@ class TMServerTranslation(MachineTranslation):
             return True
         return (source, language) in self.supported_languages
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Download list of possible translations from a service."""
-        url = "{0}/{1}/{2}/unit/{3}".format(
-            self.url,
-            quote(source, b""),
-            quote(language, b""),
-            quote(text[:500].replace("\r", " ").encode(), b""),
+        url = self.get_api_url(
+            source, language, "unit", text[:500].replace("\r", " ").encode()
         )
         response = self.request("get", url)
         payload = response.json()
@@ -98,7 +97,8 @@ class AmagamaTranslation(TMServerTranslation):
     """Specific instance of tmserver ran by Virtaal authors."""
 
     name = "Amagama"
+    settings_form = None
 
-    @staticmethod
-    def get_server_url():
+    @property
+    def api_base_url(self):
         return AMAGAMA_LIVE

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-<header adminlang="en" srclang="en">
+<header adminlang="{{ data.0.source_language.code|default:"en" }}" srclang="{{ data.0.source_language.code|default:"en" }}">
 </header>
 <body>
 {% for item in data %}

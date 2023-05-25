@@ -3,6 +3,8 @@
 {% trans "Your translation project was removed" %}
 {% elif billing.removal %}
 {% trans "Your translation project is scheduled for removal" %}
+{% elif billing.is_trial %}
+{% trans "Your trial period is about to expire" %}
 {% else %}
 {% trans "Your billing plan has expired" %}
 {% endif %}

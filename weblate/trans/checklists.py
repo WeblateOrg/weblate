@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -36,6 +36,6 @@ class TranslationChecklist(list):
                 FILTERS.get_filter_name(name),
                 getattr(stats, name),
                 level,
-                getattr(stats, "{}_words".format(name)),
+                getattr(stats, f"{name}_words"),
             )
         )

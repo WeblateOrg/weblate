@@ -3,7 +3,6 @@
 *.sw[pon]
 /.coverage*
 /weblate/locale/*/*/*.mo
-/weblate/langdata/locale/*/*/*.mo
 weblate-*.tar.*
 /*.db
 /weblate/settings.py
@@ -19,7 +18,9 @@ weblate-*.tar.*
 /dist/
 /.vs
 /.venv
-/.venv2
+/.venv*
+/venv
+*.DS_Store
 /weblate-env/
 /.tesseract/
 /test-images/
@@ -28,6 +29,7 @@ weblate-*.tar.*
 /weblate-*.log
 /weblate-*.pid
 /dev-docker/data/
-*.DS_Store
-/venv
+/dev-docker/weblate-dev/requirements.txt
 *~
+# Generated minimal deps
+requirements-min.txt
