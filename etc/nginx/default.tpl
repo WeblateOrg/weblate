@@ -1,6 +1,6 @@
 server {
     listen 8080 default_server;
-    root /app/data/static;
+    root /app/cache/static;
     client_max_body_size 100M;
     server_tokens off;
 
@@ -8,13 +8,13 @@ server {
 
     location ~ ^/favicon.ico$ {
         # DATA_DIR/static/favicon.ico
-        alias /app/data/static/favicon.ico;
+        alias /app/cache/static/favicon.ico;
         expires 30d;
     }
 
     location ${WEBLATE_URL_PREFIX}/static/ {
         # DATA_DIR/static/
-        alias /app/data/static/;
+        alias /app/cache/static/;
         expires 30d;
     }
 
