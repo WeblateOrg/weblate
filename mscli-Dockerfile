@@ -99,6 +99,7 @@ RUN set -x \
   && python3 -m pip install --upgrade pip \
   && pip3 install --force-reinstall --no-binary :all: cffi \
   && pip3 install /usr/src \
+  && pip3 install git+https://github.com/nijel/supervisor-stdout \
   && python -c 'from phply.phpparse import make_parser; make_parser()' \
   && ln -s /usr/local/share/weblate/examples/ /app/ \
   && apt-get -y purge \
@@ -128,7 +129,7 @@ RUN set -x \
 
 # Apply hotfixes on Weblate
 RUN find /usr/src/weblate -name '*.patch' -print0 | sort -z | \
-  xargs -n1 -0 -r patch -p1 -d /usr/local/lib/python${PYVERSION}/dist-packages/ -i
+  xargs -n1 -0 -r patch -p1 -d /usr/local/lib/python${PYVERSION}/site-packages/ -i
 
 # Configuration for Weblate, nginx, uwsgi and supervisor
 COPY etc /etc/

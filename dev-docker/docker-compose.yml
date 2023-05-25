@@ -1,34 +1,12 @@
 version: '3'
-
-##########
-# WARNING!
-# This docker-compose file is meant to be used in the development process
-# and WILL perform very poorly in production.
-#
-# For production-ready docker-compose file see:
-# https://github.com/WeblateOrg/docker-compose
-#########
-
 services:
   weblate:
     image: weblate-dev
-    build:
-      context: ../
-      dockerfile: mscli-Dockerfile
-      args:
-        USER_ID: ${USER_ID}
-        GROUP_ID: ${GROUP_ID}
+    volumes:
+    - weblate-data:/app/data
+    - weblate-cache:/app/cache
     ports:
     - ${WEBLATE_HOST}:8080
-    user: $USER_ID:$GROUP_ID
-    userns_mode: host
-    tmpfs:
-    - /app/cache:uid=$USER_ID,gid=$GROUP_ID
-    volumes:
-      # Local data directory
-    - $PWD/data:/app/data
-      # Override Weblate with local dir
-    - $PWD/../weblate:/usr/local/lib/python3.11/site-packages/weblate
     restart: always
     depends_on:
     - database
@@ -53,6 +31,7 @@ services:
     volumes:
     - redis-data:/data
 volumes:
+  weblate-cache: {}
   weblate-data: {}
   postgres-data: {}
   redis-data: {}
