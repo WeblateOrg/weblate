@@ -5,15 +5,15 @@ Not yet released.
 
 * Improved API error messages on permission denied.
 * Reduced false positives of the XML checks.
-* Improved has been translated check accuracy.
+* Translated check accuracy has been improved.
 * Extended support for Fluent file format.
-* Avoid signing-out user on some rate-limits.
+* Avoiding signing-out user in some rate-limits.
 * Added support for storing glossary explanation in TBX format.
 * Added support for ordering strings by last update.
-* Extended users search capabilities.
-* Support for automatic update of screenshots from repository.
+* Extended search capabilities for finding users.
+* Support for automatic update of screenshots from a repository.
 * Improved translation memory performance.
-* Project stats JSON/CSV now include more details and matches content available in the API.
+* Project stats exports to JSON/CSV now include more details; it now matches content available in the API.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 
