@@ -19,7 +19,7 @@ def set_permissions(strategy, backend, user, details, **kwargs):
     """
     LOGGER.info("details from api: %s", details)
 
-    groups_to_add = [Group.objects.filter(name="Viewers")]
+    groups_to_add = [Group.objects.get(name="Viewers", internal=False)]
 
     roles = details.get("roles", [])
     if "developer" in roles:
