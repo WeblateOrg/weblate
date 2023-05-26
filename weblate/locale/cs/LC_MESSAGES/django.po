@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-14 14:36+0000\n"
-"PO-Revision-Date: 2023-05-26 11:22+0000\n"
+"PO-Revision-Date: 2023-05-26 22:32+0000\n"
 "Last-Translator: Benjamin Alan Jamie <benjamin@weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -54,17 +54,12 @@ msgid "Full name"
 msgstr "Celé jméno"
 
 #: weblate/accounts/forms.py:171 weblate/accounts/models.py:565
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Contact e-mail"
 msgid "Commit e-mail"
-msgstr "Kontaktní e-mail"
+msgstr "E-mail pro zápisy do Git"
 
 #: weblate/accounts/forms.py:172
-#, fuzzy
-#| msgid "User e-mail"
 msgid "Use account e-mail address"
-msgstr "E-mail uživatele"
+msgstr "Použít profilovou e-mail adresu"
 
 #: weblate/accounts/forms.py:202 weblate/accounts/models.py:559
 msgid "Public e-mail"
@@ -1991,10 +1986,8 @@ msgstr "Spravovat jazyky"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:127 weblate/templates/manage/teams.html:19
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage teams"
-msgstr "Spravovat uživatele"
+msgstr "Spravovat týmy"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:129 weblate/templates/manage/users.html:17
@@ -2189,10 +2182,9 @@ msgid "Resend e-mail invitation to the user"
 msgstr "Znovu odeslat e-mailovou pozvánku uživateli"
 
 #: weblate/auth/forms.py:151
-#, fuzzy, python-format
-#| msgid "Changing of %s is prohibited for built-in groups."
+#, python-format
 msgid "Changing of %s is prohibited for built-in teams."
-msgstr "Změna %s je u vestavěných skupin zakázána."
+msgstr "Změna %s je u vestavěných týmů zakázána."
 
 #: weblate/auth/models.py:65
 #, python-format
@@ -2299,10 +2291,8 @@ msgid "Internal Weblate group"
 msgstr "Vnitřní skupina Weblate"
 
 #: weblate/auth/models.py:150
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrators"
-msgstr "Správci"
+msgstr "Správci týmu"
 
 #: weblate/auth/models.py:152
 msgid "The administrator can add or remove users from a team."
@@ -4085,25 +4075,22 @@ msgstr "Prosím zadejte buď klíč nebo uživatelské jméno a heslo."
 #: weblate/machinery/forms.py:126
 msgctxt "Automatic suggestion service configuration"
 msgid "Application base URL"
-msgstr "Základní adresa URL aplikace"
+msgstr "URL základu aplikace"
 
 #: weblate/machinery/forms.py:140
-#, fuzzy
-#| msgid "Authentication"
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service URL"
-msgstr "Přihlašování"
+msgstr "URL přihlašovací služby"
 
 #: weblate/machinery/forms.py:149
 msgid "Regional or multi-service can be specified using region field below."
 msgstr ""
+"V poli níže můžete vybrat nastavení pro vybraný nebo více regionů najednou."
 
 #: weblate/machinery/forms.py:155
-#, fuzzy
-#| msgid "Authentication cancelled."
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service region"
-msgstr "Přihlašování zrušeno."
+msgstr "Region služby přihlašování"
 
 #: weblate/machinery/forms.py:165
 msgctxt "Automatic suggestion service configuration"
@@ -9816,14 +9803,13 @@ msgstr ""
 "závislostech."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:3
-#, fuzzy, python-format
-#| msgid "Locked component will not get any translation updates."
+#, python-format
 msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
-msgstr[0] "Zamčenou součást nebude možné překládat."
-msgstr[1] "Zamčenou součást nebude možné překládat."
-msgstr[2] "Zamčenou součást nebude možné překládat."
+msgstr[0] "Součást neobdržela žádné překlady v průběhu %(count)s dne."
+msgstr[1] "Součást neobdržela žádné překlady v průběhu %(count)s dní."
+msgstr[2] "Součást neobdržela žádné překlady v průběhu %(count)s dnů."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:5
 msgid "Please consider removing the component if it is no longer useful."
