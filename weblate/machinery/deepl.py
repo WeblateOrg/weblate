@@ -20,6 +20,7 @@ class DeepLTranslation(MachineTranslation):
     max_score = 91
     language_map = {
         "zh_hans": "zh",
+        "pt": "pt-pt",
     }
     force_uncleanup = True
     hightlight_syntax = True
