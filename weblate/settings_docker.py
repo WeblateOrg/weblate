@@ -192,9 +192,7 @@ STATIC_URL = f"{URL_PREFIX}/static/"
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    "/usr/src/weblate/static"
 )
 
 # List of finder classes that know how to find static files in
@@ -213,6 +211,7 @@ with open("/app/data/secret") as handle:
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": ["/usr/src/weblate/templates"],
         "OPTIONS": {
             "context_processors": [
                 "django.contrib.auth.context_processors.auth",

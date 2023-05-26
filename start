@@ -233,7 +233,7 @@ if [ "$1" = "runserver" ] ; then
     # Run with --clear to ensure all files are up to date
     run_weblate collectstatic --noinput --clear
     # Compress js and css
-    # run_weblate compress --force --traceback
+    run_weblate compress --force --traceback
 
     # uswgi dir
     mkdir -p /run/gunicorn/app/weblate
