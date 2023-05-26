@@ -177,7 +177,7 @@ def show_project(request, project):
             .order()
         )
         for language in obj_languages:
-            result.append(obj.stats.get_single_language_stats(language, prefetch=True))
+            result.append(obj.stats.get_single_language_stats(language))
         language_stats = prefetch_stats(result)
 
     # Show ghost translations for user languages
@@ -283,7 +283,7 @@ def show_component(request, project, component):
                 | Q(language_code__contains=NAMESPACE_SEPARATOR + namespace)
             )
 
-    translations = prefetch_stats(list(obj.translations_query.prefetch()))
+    translations = prefetch_stats(list(translations_query.prefetch()))
 
     # Show ghost translations for user languages
     add_ghost_translations(obj, user, translations, GhostTranslation)
