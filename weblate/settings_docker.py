@@ -19,7 +19,6 @@
 
 
 import os
-import sys
 from logging.handlers import SysLogHandler
 
 from django.core.exceptions import PermissionDenied
@@ -767,13 +766,11 @@ LOGGING = {
         "console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
-            "stream": sys.stdout,
             "formatter": "simple",
         },
         "django.server": {
             "level": "INFO",
             "class": "logging.StreamHandler",
-            "stream": sys.stdout,
             "formatter": "django.server",
         },
         "syslog": {
