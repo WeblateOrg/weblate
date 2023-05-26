@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-14 16:37+0200\n"
-"PO-Revision-Date: 2023-05-26 05:38+0000\n"
+"PO-Revision-Date: 2023-05-26 11:22+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hr/>\n"
@@ -2099,10 +2099,8 @@ msgid "Labels to remove"
 msgstr "Ukloni etikete"
 
 #: ../../admin/addons.rst:261
-#, fuzzy
-#| msgid "Component name"
 msgid "component update"
-msgstr "Ime komponente"
+msgstr "aktualiziranje komponente"
 
 #: ../../admin/addons.rst:263
 msgid "Bulk edit flags, labels, or states of strings."
@@ -2114,38 +2112,38 @@ msgid ""
 "and add labels till all strings have all required labels. Other automated "
 "operations for Weblate metadata can also be done."
 msgstr ""
+"Automatiziraj označavanje pomoću ``NOT has:label`` u polju pretrage i dodaj "
+"oznake sve dok svi izrazi nemaju sve potrebne oznake. Mogu se izvršiti i "
+"druge automatizirane operacije za Weblate metapodatke."
 
 #: ../../admin/addons.rst:269 ../../admin/config.rst:1636
 msgid "**Examples:**"
-msgstr ""
+msgstr "**Primjeri:**"
 
 #: ../../admin/addons.rst:271
 msgid "Label new strings automatically"
-msgstr ""
+msgstr "Automatski označi nove izraze"
 
 #: ../../admin/addons.rst:274 ../../admin/addons.rst:282
-#, fuzzy
-#| msgid "Search filter"
 msgid "Search query"
-msgstr "Filtar pretrage"
+msgstr "Upit u polju pretrage"
 
 #: ../../admin/addons.rst:275
 msgid "``NOT has:label``"
-msgstr ""
+msgstr "``NOT has:label``"
 
 #: ../../admin/addons.rst:277
-#, fuzzy
-#| msgid "Percent"
 msgid "*recent*"
-msgstr "Postotak"
+msgstr "*nedavni*"
 
 #: ../../admin/addons.rst:279
 msgid "Marking all :ref:`appstore` changelog strings read-only"
 msgstr ""
+"Označavanje svih :ref:`appstore` izraza u zapisu promjena kao samo-za-čitanje"
 
 #: ../../admin/addons.rst:283
 msgid "``language:en AND key:changelogs/``"
-msgstr ""
+msgstr "``language:en AND key:changelogs/``"
 
 #: ../../admin/addons.rst:285 ../../admin/checks.rst:53
 msgid "``read-only``"
@@ -2387,7 +2385,7 @@ msgstr "Izrazi samo-za-čitanje"
 
 #: ../../admin/addons.rst:431
 msgid "Include read-only strings"
-msgstr "Uključi nepromjenjive izraze"
+msgstr "Uključi izraze samo-za-čitanje"
 
 #: ../../admin/addons.rst:435
 msgid ""
@@ -4400,6 +4398,8 @@ msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
 msgstr ""
+"Ovisno o tome što želiš spremiti, spremi sigurnosnu kopiju vrste podataka "
+"koje Weblate sprema u svakom odgovarajućem mjestu."
 
 #: ../../admin/backup.rst:218
 msgid ""
@@ -4725,6 +4725,8 @@ msgid ""
 "The string is read-only and should not be edited in Weblate, see :ref:`read-"
 "only-strings`."
 msgstr ""
+"Ovaj je izraz samo-za-čitanje i ne smije se mijenjati u Weblateu, pogledaj "
+":ref:`read-only-strings`."
 
 #: ../../admin/checks.rst:57
 msgid "``priority:N``"
@@ -39250,6 +39252,11 @@ msgid ""
 "or other terms that should not be changed in other languages. Such terms are "
 "visually highlighted in the glossary sidebar."
 msgstr ""
+"Označavanje određenih prijevoda pojmova iz glosara oznakom ``samo-za-"
+"čitanje`` u grupnom uređivanju, upisivanjem oznake ili korištenjem "
+":guilabel:`Alati` ↓ :guilabel:`Označi kao neprevodivo`, znači da se pojmovi "
+"ne mogu prevesti. Koristi ovo za nazive brendova ili druge izraze koji se ne "
+"smiju prevoditi. Takvi su pojmovi vizualno istaknuti u bočnoj traci glosara."
 
 #: ../../user/glossary.rst:73
 #, fuzzy
@@ -39748,6 +39755,8 @@ msgid ""
 "Search for string states (``approved``, ``translated``, ``needs-editing``, "
 "``empty``, ``read-only``), supports :ref:`search-operators`."
 msgstr ""
+"Traži stanja izraza (``odobreno``, ``prevedeno``, ``treba urediti``, "
+"``prazno``, ``samo-za-čitanje``), podržava :ref:`operatore pretrage`."
 
 #: ../../user/search.rst:48
 msgid "``pending:BOOLEAN``"
