@@ -697,8 +697,6 @@ def translate(request, project, component, lang):  # noqa: C901
                 unit,
                 user.profile,
             ),
-            "machinery_services": json.dumps(list(MACHINE_TRANSLATION_SERVICES.keys())),
-            "user_can_access_namespace": user_can_access_namespace,
         },
     )
 
