@@ -38,6 +38,9 @@ ENV PYTHONUNBUFFERED=1
 
 COPY setup-ci.py /usr/src/setup.py
 COPY requirements.txt /usr/src/
+COPY requirements-optional.txt /usr/src/
+COPY README.md /usr/src/
+COPY setup.py /usr/src/
 COPY weblate /usr/src/weblate/
 
 # Install dependencies
@@ -98,7 +101,8 @@ RUN set -x \
     fi \
   && python3 -m pip install --upgrade pip \
   && pip3 install --force-reinstall --no-binary :all: cffi \
-  && pip3 install /usr/src \
+  && pip3 install translate-toolkit \
+  && pip3 install -e /usr/src \
   && python -c 'from phply.phpparse import make_parser; make_parser()' \
   && ln -s /usr/local/share/weblate/examples/ /app/ \
   && apt-get -y purge \
