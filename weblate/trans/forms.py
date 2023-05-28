@@ -1085,9 +1085,9 @@ class NewLanguageOwnerForm(forms.Form):
     )
 
     def get_lang_objects(self):
-        return (
+        return Language.objects.exclude(
             Q(translation__component=self.component)
-            | Q(project=self.component.project)
+            | Q(component=self.component)
             | Q(code__contains=NAMESPACE_SEPARATOR)
         )
 
