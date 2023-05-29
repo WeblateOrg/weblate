@@ -717,7 +717,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "django_filters",
-    "django_admin_shell"
+    "django_admin_shell",
     "django_celery_beat",
     "corsheaders",
 ]

@@ -1,10 +1,11 @@
 # This dockerfile is a modified copy of the official weblate dockerfile
-# Accessed 2020-03-11 from https://github.com/WeblateOrg/docker/blob/master/Dockerfile
+# https://github.com/WeblateOrg/docker/blob/master/Dockerfile
 
 FROM python:3.11.0-slim-bullseye
 ENV PYVERSION 3.11
-ENV VERSION 4.14.2
-LABEL version=$VERSION
+ENV WEBLATE_VERSION 4.17
+ARG TARGETARCH
+
 
 HEALTHCHECK --interval=30s --timeout=3s CMD /app/bin/health_check
 
@@ -42,15 +43,19 @@ COPY requirements-optional.txt /usr/src/
 COPY README.md /usr/src/
 COPY setup.py /usr/src/
 COPY weblate /usr/src/weblate/
+COPY Gemfile /usr/src/weblate/
 
 # Install dependencies
-RUN set -x \
-  && export DEBIAN_FRONTEND=noninteractive \
+# hadolint ignore=DL3008,DL3013,SC2046,DL3003
+RUN \
+  export DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
-  && apt-get -y upgrade \
   && apt-get install --no-install-recommends -y \
     nginx \
-    supervisor \
+    bundler \
+    ruby \
+    ruby-dev \
+    cmake \
     openssh-client \
     ca-certificates \
     curl \
@@ -99,13 +104,21 @@ RUN set -x \
     else \
         apt-get install --no-install-recommends -y postgresql-client ; \
     fi \
+  && cd  /usr/src/weblate/ \
+  && bundle install \
+  && bundle clean --force \
   && python3 -m pip install --upgrade pip \
   && pip3 install --force-reinstall --no-binary :all: cffi \
+  && pip3 install supervisor \
+  && pip3 install git+https://github.com/nijel/supervisor-stdout \
   && pip3 install translate-toolkit \
   && pip3 install -e /usr/src \
   && python -c 'from phply.phpparse import make_parser; make_parser()' \
   && ln -s /usr/local/share/weblate/examples/ /app/ \
   && apt-get -y purge \
+    bundler \
+    ruby-dev \
+    cmake \
     pkg-config \
     libleptonica-dev \
     libtesseract-dev \
@@ -132,9 +145,9 @@ RUN set -x \
 
 # Apply hotfixes on Weblate
 RUN find /usr/src/weblate -name '*.patch' -print0 | sort -z | \
-  xargs -n1 -0 -r patch -p1 -d /usr/local/lib/python${PYVERSION}/site-packages/ -i
+  xargs -n1 -0 -r patch -p0 -d "/usr/local/lib/python${PYVERSION}/site-packages/" -i
 
-# Configuration for Weblate, nginx, uwsgi and supervisor
+# Configuration for Weblate, nginx and supervisor
 COPY etc /etc/
 
 # Fix permissions and adjust files to be able to edit them as user on start
@@ -152,19 +165,17 @@ RUN rm -f /etc/localtime /etc/timezone && cp /usr/share/zoneinfo/Etc/UTC /etc/lo
 
 # Search path for custom modules
 RUN echo "/app/data/python" > "/usr/local/lib/python${PYVERSION}/site-packages/weblate-docker.pth"
-RUN echo "/usr/src" >> /usr/local/lib/python${PYVERSION}/site-packages/weblate-docker.pth
 RUN \
     mkdir -p /app/data/python/customize && \
     touch /app/data/python/customize/__init__.py && \
     touch /app/data/python/customize/models.py && \
-    chown -R weblate:weblate /app/data/python && \
-    chown -R weblate:weblate /home/weblate
+    chown -R weblate:weblate /app/data/python
 
 # Entrypoint
-COPY start /app/bin/
+COPY start health_check /app/bin/
 RUN chmod a+rx /app/bin/start
 
-EXPOSE 8080 4443
+EXPOSE 8080
 VOLUME /app/data
 VOLUME /app/cache
 
