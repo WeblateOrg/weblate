@@ -830,6 +830,7 @@ if not HAVE_SYSLOG:
 MT_SERVICES = (
     "weblate.machinery.weblatetm.WeblateTranslation",
     "weblate.memory.machine.WeblateMemory",
+    "weblate.machinery.googlev3.GoogleV3Translation",
 )
 
 # Machine translation API keys
