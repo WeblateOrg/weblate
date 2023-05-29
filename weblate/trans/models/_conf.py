@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from appconf import AppConf
 
@@ -23,6 +8,9 @@ from appconf import AppConf
 class WeblateConf(AppConf):
     # Data directory
     DATA_DIR = None
+
+    # Cache directory
+    CACHE_DIR = None
 
     # Akismet API key
     AKISMET_API_KEY = None
@@ -63,6 +51,7 @@ class WeblateConf(AppConf):
         "weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis",
         "weblate.trans.autofixes.chars.RemoveZeroSpace",
         "weblate.trans.autofixes.chars.RemoveControlChars",
+        "weblate.trans.autofixes.chars.DevanagariDanda",
         "weblate.trans.autofixes.html.BleachHTML",
     )
 
@@ -145,7 +134,7 @@ It also includes following components:
 Current translation status:
 
 ![Weblate translation status]({{widget_url}})
-"""  # noqa: E501
+"""
 
     # Billing
     INVOICE_PATH = ""
@@ -175,6 +164,7 @@ Current translation status:
     SUGGESTION_CLEANUP_DAYS = None
     COMMENT_CLEANUP_DAYS = None
     REPOSITORY_ALERT_THRESHOLD = 25
+    UNUSED_ALERT_DAYS = 365
     BACKGROUND_TASKS = "monthly"
 
     SINGLE_PROJECT = False
@@ -185,6 +175,8 @@ Current translation status:
     FONTS_CDN_URL = None
     PROJECT_BACKUP_KEEP_DAYS = 30
     PROJECT_BACKUP_KEEP_COUNT = 3
+
+    EXTRA_HTML_HEAD = ""
 
     class Meta:
         prefix = ""

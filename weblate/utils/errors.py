@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import logging
 import sys
@@ -48,21 +33,30 @@ def report_error(
     skip_sentry: bool = False,
     print_tb: bool = False,
     extra_log: str = None,
+    project=None,
+    message: bool = False,
 ):
-    """Wrapper for error reporting.
+    """
+    Wrapper for error reporting.
 
     This can be used for store exceptions in error reporting solutions as rollbar while
     handling error gracefully and giving user cleaner message.
     """
+    __traceback_hide__ = True  # noqa: F841
     if HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
         rollbar.report_exc_info(level=level)
 
     if not skip_sentry and settings.SENTRY_DSN:
         with sentry_sdk.push_scope() as scope:
             scope.set_tag("cause", cause)
+            if project is not None:
+                scope.set_tag("project", project.slug)
             scope.set_tag("user.locale", get_language())
             scope.level = level
-            sentry_sdk.capture_exception()
+            if message:
+                sentry_sdk.capture_message(cause)
+            else:
+                sentry_sdk.capture_exception()
 
     log = getattr(LOGGER, level)
 
@@ -98,12 +92,17 @@ def init_error_collection(celery=False):
     if settings.SENTRY_DSN:
         sentry_sdk.init(
             dsn=settings.SENTRY_DSN,
-            integrations=[CeleryIntegration(), DjangoIntegration(), RedisIntegration()],
-            send_default_pii=True,
+            integrations=[
+                CeleryIntegration(),
+                DjangoIntegration(),
+                RedisIntegration(),
+            ],
+            send_default_pii=settings.SENTRY_SEND_PII,
             release=weblate.utils.version.GIT_REVISION
             or weblate.utils.version.TAG_NAME,
             environment=settings.SENTRY_ENVIRONMENT,
             traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
+            attach_stacktrace=True,
             **settings.SENTRY_EXTRA_ARGS,
         )
         # Ignore Weblate logging, those are reported using capture_exception

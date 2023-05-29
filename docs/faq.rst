@@ -78,6 +78,9 @@ actions.
     …
     git commit
 
+    # Rebase changes (if Weblate is configured to do rebases)
+    git rebase origin/main
+
     # Push changes to upstream repository, Weblate will fetch merge from there:
     git push
 
@@ -411,6 +414,22 @@ add-on :ref:`addon-weblate.gettext.msgmerge`.
 
    :ref:`updating-target-files`
 
+How to handle renaming translation files?
+-----------------------------------------
+
+When renaming files in the repository, it can happen that Weblate sees this as
+removal and adding of the files. This can lead to losing strings history,
+comments and suggestions.
+
+To avoid that, perform renaming in following steps:
+
+1. Lock the translation component in :ref:`manage-vcs`.
+2. Commit pending changes in :ref:`manage-vcs`.
+3. Merge Weblate changes to the upstream repository.
+4. Disable receiving updates via hooks using :ref:`project-enable_hooks`.
+5. Perform the renaming of the files in the repository.
+6. Update the component configuration to match new file names.
+7. Enable update hooks and unlock the component.
 
 Troubleshooting
 +++++++++++++++
@@ -462,7 +481,7 @@ This typically happens when you have translation file for source language.
 Weblate keeps track of source strings and reserves source language for this.
 The additional file for same language is not processed.
 
-* In case the translation to the source language is desired, please change the :ref:`component-source_language` in the component settings.
+* In case the translation to the source language is desired, please change the :ref:`component-source_language` in the component settings. You might want to use `English (Developer)` as a source language, or utilize :ref:`source-quality-gateway`.
 * In case the translation file for the source language is not needed, please remove it from the repository.
 * In case the translation file for the source language is needed, but should be ignored by Weblate, please adjust the :ref:`component-language_regex` to exclude it.
 
@@ -551,4 +570,4 @@ current one - for example ``sr@latin`` will be handled as ``sr_Latn`` or
 
    :ref:`languages`,
    :ref:`component-language_code_style`,
-   :ref:`new-translations`
+   :ref:`adding-translation`

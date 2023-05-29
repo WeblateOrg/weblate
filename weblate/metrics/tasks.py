@@ -1,21 +1,9 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from datetime import date, timedelta
+
 from celery.schedules import crontab
 
 from weblate.auth.models import User
@@ -43,8 +31,28 @@ def collect_metrics():
         Metric.objects.collect_language(language)
 
 
+@app.task(trail=False)
+def cleanup_metrics():
+    """Remove stale metrics."""
+    # Remove past metrics, but we need data for last 24 months
+    Metric.objects.filter(date__lte=date.today() - timedelta(days=800)).delete()
+
+    # Remove detailed data for past metrics, we need details only for two months
+    # - avoid filtering on data field as that one is not indexed
+    # - wipe only interval of data with assumption that this task is executed daily
+    Metric.objects.filter(
+        date__range=(
+            date.today() - timedelta(days=75),
+            date.today() - timedelta(days=65),
+        )
+    ).update(data=None)
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
         crontab(hour=0, minute=1), collect_metrics.s(), name="collect-metrics"
+    )
+    sender.add_periodic_task(
+        crontab(hour=23, minute=1), cleanup_metrics.s(), name="cleanup-metrics"
     )

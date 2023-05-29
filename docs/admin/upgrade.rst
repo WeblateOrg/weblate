@@ -332,6 +332,8 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+.. _up-4-14:
+
 Upgrade from 4.13 to 4.14
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -342,6 +344,54 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
   use ``java-printf-format`` instead of ``java-format`` and ``java-format``
   instead of ``java-messageformat``.
 * The `jellyfish` dependency has been replaced by `rapidfuzz`.
+* **Changed in 4.14.2:** Deprecated insecure configuration of VCS service API
+  keys via _TOKEN/_USERNAME configuration instead of _CREDENTIALS list. In
+  Docker, please add matching _HOST directive. For example see
+  :envvar:`WEBLATE_GITHUB_HOST` and :setting:`GITHUB_CREDENTIALS`.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.14 to 4.15
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Weblate now requires ``btree_gin`` extension in PostgreSQL. The migration process
+  will install it if it has sufficient privileges. See :ref:`dbsetup-postgres` for manual setup.
+* The Docker image no longer enables debug mode by default. In case you want
+  it, enable it in the environment using :envvar:`WEBLATE_DEBUG`.
+* The database migration make take hours on larger instances due to recreating some
+  of the indexes.
+* **Changed in 4.15.1:** The default value for ``DEFAULT_PAGINATION_CLASS`` in
+  rest framework settings was changed.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.15 to 4.16
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Celery beat is now storing the tasks schedule in the database,
+  ``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be
+  changed for that.
+* The deprecated VCS setting for credentials is no longer supported, see :ref:`up-4-14`.
+* Upgrade of `django-crispy-forms` requires changes in :setting:`django:INSTALLED_APPS`.
+* Integration of `django-cors-headers` requires changes in :setting:`django:INSTALLED_APPS` and :setting:`django:MIDDLEWARE`.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.16 to 4.17
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Migration to rewritten metrics storage might take considerable time on larger
+  Weblate instance (expect around 15 minutes per GB of ``metrics_metric``
+  table). To reduce downtime, you can copy
+  :file:`weblate/metrics/migrations/*.py` from Weblate 4.17 to 4.16 and start
+  the migration in the background. Once it is completed, perform full upgrade
+  as ususal.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

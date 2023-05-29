@@ -11,6 +11,11 @@ Development of Weblate adheres to the `Best Practices of the Linux Foundation's 
 
    :ref:`security`
 
+Security updates
+----------------
+
+Only the latest release is guaranteed to receive security updates.
+
 Tracking dependencies for vulnerabilities
 -----------------------------------------
 
@@ -38,6 +43,6 @@ on our CI in the SARIF format (Static Analysis Results Interchange Format).
 
    :ref:`ci-tests`
 
-.. _Dependabot: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/about-dependabot-version-updates
+.. _Dependabot: https://docs.github.com/en/code-security/dependabot/dependabot-security-updates/about-dependabot-security-updates
 .. _Anchore: https://anchore.com/
 .. _Trivy: https://github.com/aquasecurity/trivy

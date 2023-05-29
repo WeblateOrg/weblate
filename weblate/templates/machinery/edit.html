@@ -13,7 +13,7 @@
 <li><a href="{% url 'machinery-edit' project=project.slug machinery=machinery_id %}">{{ machinery_name }}</a></li>
 {% else %}
 <li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
-<li><a href="{% url 'machinery-list' %}">{% trans "Automatic suggestions" %}</a></li>
+<li><a href="{% url 'manage-machinery' %}">{% trans "Automatic suggestions" %}</a></li>
 {% endif %}
 {% endblock %}
 

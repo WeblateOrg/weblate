@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import difflib
 
@@ -85,7 +70,7 @@ class ScreenshotList(ListView, ComponentViewMixin):
     def post(self, request, **kwargs):
         component = self.get_component()
         if not request.user.has_perm("screenshot.add", component):
-            raise PermissionDenied()
+            raise PermissionDenied
         self._add_form = ScreenshotForm(component, request.POST, request.FILES)
         if self._add_form.is_valid():
             obj = Screenshot.objects.create(
@@ -159,7 +144,7 @@ def delete_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
     component = obj.translation.component
     if not request.user.has_perm("screenshot.delete", obj.translation):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     kwargs = {"project": component.project.slug, "component": component.slug}
 
@@ -173,7 +158,7 @@ def delete_screenshot(request, pk):
 def get_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
     if not request.user.has_perm("screenshot.edit", obj.translation.component):
-        raise PermissionDenied()
+        raise PermissionDenied
     return obj
 
 
@@ -239,7 +224,7 @@ def ocr_extract(api, image, strings):
     for item in api.GetComponentImages(RIL.TEXTLINE, True):
         api.SetRectangle(item[1]["x"], item[1]["y"], item[1]["w"], item[1]["h"])
         ocr_result = api.GetUTF8Text()
-        parts = [ocr_result] + ocr_result.split("|") + ocr_result.split()
+        parts = [ocr_result, *ocr_result.split("|"), *ocr_result.split()]
         for part in parts:
             yield from difflib.get_close_matches(part, strings, cutoff=0.9)
     api.Clear()

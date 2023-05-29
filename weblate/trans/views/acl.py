@@ -1,29 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from datetime import timedelta
 from itertools import chain
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.db.models import Prefetch
-from django.shortcuts import get_object_or_404, redirect
+from django.db.models import Count, Prefetch
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import gettext as _
@@ -32,10 +17,9 @@ from django.views.decorators.http import require_POST
 from weblate.accounts.models import AuditLog
 from weblate.accounts.utils import remove_user
 from weblate.auth.data import SELECTION_ALL
-from weblate.auth.forms import InviteUserForm, SimpleGroupForm, send_invitation
+from weblate.auth.forms import InviteUserForm, ProjectTeamForm, send_invitation
 from weblate.auth.models import Group, User
 from weblate.trans.forms import (
-    ProjectGroupDeleteForm,
     ProjectTokenCreateForm,
     ProjectUserGroupForm,
     UserBlockForm,
@@ -45,25 +29,23 @@ from weblate.trans.models import Change
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
 from weblate.utils.views import get_project, show_form_errors
-from weblate.vcs.ssh import get_key_data
+from weblate.vcs.ssh import get_all_key_data
 
 
 def check_user_form(
     request, project, form_class=UserManageForm, pass_project: bool = False
 ):
-    """Check project permission and UserManageForm.
+    """
+    Check project permission and UserManageForm.
 
     This is simple helper to perform needed validation for all user management views.
     """
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
-    if pass_project:
-        form = form_class(obj, request.POST)
-    else:
-        form = form_class(request.POST)
+    form = form_class(obj, request.POST) if pass_project else form_class(request.POST)
 
     if form.is_valid():
         return obj, form
@@ -263,11 +245,13 @@ def manage_access(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
-    groups = obj.defined_groups.order()
+    groups = (
+        obj.defined_groups.order().annotate(Count("user")).prefetch_related("languages")
+    )
     for group in groups:
-        group.edit_form = SimpleGroupForm(
+        group.edit_form = ProjectTeamForm(
             instance=group, auto_id=f"id_group_{group.id}_%s"
         )
     users = (
@@ -314,14 +298,14 @@ def manage_access(request, project):
             "blocked_users": obj.userblock_set.select_related("user"),
             "add_user_form": UserManageForm(),
             "create_project_token_form": ProjectTokenCreateForm(obj),
-            "create_team_form": SimpleGroupForm(
+            "create_team_form": ProjectTeamForm(
                 initial={"language_selection": SELECTION_ALL}
             ),
             "block_user_form": UserBlockForm(
                 initial={"user": request.GET.get("block_user")}
             ),
             "invite_user_form": InviteUserForm(),
-            "ssh_key": get_key_data(),
+            "public_ssh_keys": get_all_key_data(),
         },
     )
 
@@ -333,7 +317,7 @@ def create_token(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = ProjectTokenCreateForm(obj, request.POST)
 
@@ -353,54 +337,14 @@ def create_token(request, project):
 
 @require_POST
 @login_required
-def delete_group(request, project):
-    """Delete project group."""
-    obj = get_project(request, project)
-
-    if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
-
-    form = ProjectGroupDeleteForm(obj, request.POST)
-
-    if form.is_valid():
-        form.cleaned_data["group"].delete()
-    else:
-        show_form_errors(request, form)
-
-    return redirect_param("manage-access", "#teams", project=obj.slug)
-
-
-@require_POST
-@login_required
-def edit_group(request, project, pk: int):
-    """Delete project group."""
-    obj = get_project(request, project)
-
-    if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
-
-    group = get_object_or_404(obj.defined_groups.all(), pk=pk)
-
-    form = SimpleGroupForm(instance=group, data=request.POST)
-
-    if form.is_valid():
-        form.save()
-    else:
-        show_form_errors(request, form)
-
-    return redirect_param("manage-access", "#teams", project=obj.slug)
-
-
-@require_POST
-@login_required
 def create_group(request, project):
     """Delete project group."""
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.permissions", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
-    form = SimpleGroupForm(request.POST)
+    form = ProjectTeamForm(request.POST)
 
     if form.is_valid():
         form.save(project=obj)

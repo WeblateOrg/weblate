@@ -1,22 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-"""Translate Toolkit based file-format wrappers for mutli string support."""
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Translate Toolkit based file-format wrappers for multi string support."""
 
 from typing import List, Union
 
@@ -120,6 +106,10 @@ class MultiUnit(TranslationUnit):
             if not unit.has_unit():
                 unit.clone_template()
 
+    def untranslate(self, language):
+        for unit in self.units:
+            unit.untranslate(language)
+
 
 class MultiFormatMixin:
     has_multiple_strings: bool = True
@@ -144,7 +134,10 @@ class MultiFormatMixin:
         return self.merge_multi(super()._get_all_bilingual_units())
 
     def _build_monolingual_unit(self, unit):
-        matching = self._template_index[unit.id_hash]
+        try:
+            matching = self._template_index[unit.id_hash]
+        except KeyError:
+            return MultiUnit(self, self.unit_class(self, None, unit.units[0].template))
         matching_units = [unit.template for unit in matching.units]
         result = MultiUnit(
             self, self.unit_class(self, matching_units[0], unit.units[0].template)

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
 
@@ -26,6 +11,7 @@ from weblate.checks.markup import strip_entities
 from weblate.checks.parser import single_value_flag
 
 FRENCH_PUNCTUATION = {";", ":", "?", "!"}
+MY_QUESTION_MARK = "\u1038\u104b"
 
 
 class BeginNewlineCheck(TargetCheck):
@@ -82,10 +68,7 @@ class BeginSpaceCheck(TargetCheck):
         source = unit.source_string
         stripped_source = source.lstrip(" ")
         spaces = len(source) - len(stripped_source)
-        if spaces:
-            replacement = source[:spaces]
-        else:
-            replacement = ""
+        replacement = source[:spaces] if spaces else ""
         return [("^ *", replacement, "u")]
 
 
@@ -121,10 +104,7 @@ class EndSpaceCheck(TargetCheck):
         source = unit.source_string
         stripped_source = source.rstrip(" ")
         spaces = len(source) - len(stripped_source)
-        if spaces:
-            replacement = source[-spaces:]
-        else:
-            replacement = ""
+        replacement = source[-spaces:] if spaces else ""
         return [(" *$", replacement, "u")]
 
 
@@ -156,6 +136,12 @@ class EndStopCheck(TargetCheck):
     check_id = "end_stop"
     name = _("Mismatched full stop")
     description = _("Source and translation do not both end with a full stop")
+
+    def _check_my(self, source, target):
+        if target.endswith(MY_QUESTION_MARK):
+            # Laeave this on the question mark check
+            return False
+        return self.check_chars(source, target, -1, (".", "။"))
 
     def check_single(self, source, target, unit):
         if len(source) <= 4:
@@ -189,7 +175,7 @@ class EndStopCheck(TargetCheck):
             # Santali uses "᱾" as full stop
             return self.check_chars(source, target, -1, (".", "᱾"))
         if self.is_language(unit, ("my",)):
-            return self.check_chars(source, target, -1, (".", "။"))
+            return self._check_my(source, target)
         return self.check_chars(
             source, target, -1, (".", "。", "।", "۔", "։", "·", "෴", "។", "።")
         )
@@ -245,9 +231,7 @@ class EndQuestionCheck(TargetCheck):
         return target[-1] not in self.question_el
 
     def _check_my(self, source, target):
-        if source[-1] != "?":
-            return False
-        return target[-3:] == "ား။"
+        return source.endswith("?") != target.endswith(MY_QUESTION_MARK)
 
     def check_single(self, source, target, unit):
         if not source or not target:
@@ -316,7 +300,17 @@ class EscapedNewlineCountingCheck(CountingCheck):
     string = "\\n"
     check_id = "escaped_newline"
     name = _("Mismatched \\n")
-    description = _("Number of \\n in translation does not match source")
+    description = _("Number of \\n literals in translation does not match source")
+
+    ignore_re = re.compile(r"[A-Z]:\\\\[^\\ ]+(\\[^\\ ]+)+")
+
+    def check_single(self, source, target, unit):
+        if not target or not source:
+            return False
+
+        target = self.ignore_re.sub("", target)
+        source = self.ignore_re.sub("", source)
+        return super().check_single(source, target, unit)
 
 
 class NewLineCountCheck(CountingCheck):

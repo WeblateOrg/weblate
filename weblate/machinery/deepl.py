@@ -1,31 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
+import re
 from html import escape, unescape
 
 from django.conf import settings
 
 from .base import MachineTranslation
 from .forms import DeepLMachineryForm
-
-# Extracted from https://www.deepl.com/docs-api/translating-text/response/
-FORMAL_LANGUAGES = {"DE", "FR", "IT", "ES", "NL", "PL", "PT-PT", "PT-BR", "RU"}
 
 
 class DeepLTranslation(MachineTranslation):
@@ -53,19 +36,37 @@ class DeepLTranslation(MachineTranslation):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-").upper()
 
+    def get_authentication(self):
+        return {"Authorization": f"DeepL-Auth-Key {self.settings['key']}"}
+
     def download_languages(self):
         response = self.request(
-            "post",
-            self.get_api_url("languages"),
-            data={"auth_key": self.settings["key"]},
+            "get", self.get_api_url("languages"), params={"type": "source"}
         )
-        result = {x["language"] for x in response.json()}
+        source_languages = {x["language"] for x in response.json()}
+        response = self.request(
+            "get", self.get_api_url("languages"), params={"type": "target"}
+        )
+        # Plain English is not listed, but is supported
+        target_languages = {"EN"}
 
-        for lang in FORMAL_LANGUAGES:
-            if lang in result:
-                result.add(f"{lang}@FORMAL")
-                result.add(f"{lang}@INFORMAL")
-        return result
+        # Handle formality extensions
+        for item in response.json():
+            lang_code = item["language"]
+            target_languages.add(lang_code)
+            if item.get("supports_formality"):
+                target_languages.add(f"{lang_code}@FORMAL")
+                target_languages.add(f"{lang_code}@INFORMAL")
+
+        return (
+            (source, target)
+            for source in source_languages
+            for target in target_languages
+        )
+
+    def is_supported(self, source, language):
+        """Check whether given language combination is supported."""
+        return (source, language) in self.supported_languages
 
     def download_translations(
         self,
@@ -74,12 +75,10 @@ class DeepLTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
     ):
         """Download list of possible translations from a service."""
         params = {
-            "auth_key": self.settings["key"],
             "text": text,
             "source_lang": source,
             "target_lang": language,
@@ -117,4 +116,7 @@ class DeepLTranslation(MachineTranslation):
 
     def format_replacement(self, h_start: int, h_end: int, h_text: str):
         """Generates a single replacement."""
-        return f'<x id="{h_start}"></x>'
+        return f'<x id="{h_start}"></x>'  # noqa: B028
+
+    def make_re_placeholder(self, text: str):
+        return re.escape(text)

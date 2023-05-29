@@ -15,8 +15,12 @@
 <tr><th colspan="3" class="info">{% trans "The following components would be created" %}</th></tr>
 {% for match in matches_created %}
 <tr>
-<th>{{ match.0.name }}</th>
+<th>{{ match.0.name }} (<code>{{ match.0.slug }}</code>)</th>
 <td>
+{% if match.0.base_file %}
+  <strong>{% trans "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code><br/>
+{% endif %}
+<strong>{% trans "File mask" %}:</strong> <code>{{ match.0.mask }}</code><br/>
 {% for file, lang in match.0.files_langs %}
 <code>{{ file }}</code> ({{ lang }})<br/>
 {% endfor %}
@@ -30,6 +34,10 @@
 <tr>
 <th><a href="{{ match.1.get_absolute_url }}">{{ match.1 }}</a></th>
 <td>
+{% if match.0.base_file %}
+  <strong>{% trans "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code><br/>
+{% endif %}
+<strong>{% trans "File mask" %}:</strong> <code>{{ match.0.mask }}</code><br/>
 {% for file, lang in match.0.files_langs %}
 <code>{{ file }}</code> ({{ lang }})<br/>
 {% endfor %}

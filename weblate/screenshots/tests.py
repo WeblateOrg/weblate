@@ -1,21 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 from unittest import SkipTest
 
 from django.urls import reverse
@@ -32,7 +18,7 @@ TEST_SCREENSHOT = get_test_file("screenshot.png")
 class ViewTest(FixtureTestCase):
     @classmethod
     def _databases_support_transactions(cls):
-        # This is workaroud for MySQL as FULL TEXT index does not work
+        # This is workaround for MySQL as FULL TEXT index does not work
         # well inside a transaction, so we avoid using transactions for
         # tests. Otherwise we end up with no matches for the query.
         # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
@@ -167,7 +153,11 @@ class ViewTest(FixtureTestCase):
 
         self.assertEqual(data["responseCode"], 200)
         # We should find at least one string
-        self.assertIn('<a class="add-string', data["results"])
+        self.assertIn(
+            '<a class="add-string',
+            data["results"],
+            "OCR recognition not working, no recognized strings found",
+        )
 
     def test_ocr_disabled(self):
         orig = weblate.screenshots.views.HAS_OCR

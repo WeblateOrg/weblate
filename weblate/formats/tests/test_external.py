@@ -1,27 +1,11 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """File format specific behavior."""
 
 from io import BytesIO
-from unittest import skipIf
 
-import translate.__version__
 from openpyxl import load_workbook
 
 from weblate.formats.external import XlsxFormat
@@ -55,7 +39,6 @@ class XlsxFormatTest(AutoFormatTest):
             list(newworkbook.active.values), list(testworkbook.active.values)
         )
 
-    @skipIf(translate.__version__.ver <= (3, 5, 4), "broken in older translate-toolkit")
     def test_japanese(self):
         storage = self.FORMAT.parse(JAPANESE_FILE)
         self.assertEqual(len(storage.all_units), 1)

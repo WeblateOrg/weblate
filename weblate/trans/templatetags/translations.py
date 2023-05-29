@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
 from collections import defaultdict
@@ -73,8 +58,8 @@ GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 # This should match whitespace_regex in weblate/static/loader-bootstrap.js
 WHITESPACE_REGEX = (
     r"(\t|\u00A0|\u1680|\u2000|\u2001|\u2002|\u2003|"
-    + r"\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u200A|"
-    + r"\u202F|\u205F|\u3000)"
+    r"\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u200A|"
+    r"\u202F|\u205F|\u3000)"
 )
 WHITESPACE_RE = re.compile(WHITESPACE_REGEX, re.MULTILINE)
 MULTISPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
@@ -120,7 +105,7 @@ class Formatter:
         if self.diff:
             self.parse_diff()
 
-    def parse_diff(self):
+    def parse_diff(self):  # noqa: C901
         """Highlights diff, including extra whitespace."""
         dmp = self.dmp
         diff = dmp.diff_main(self.diff[self.idx], self.value)
@@ -134,9 +119,43 @@ class Formatter:
                 formatter.parse()
                 self.tags[offset].append(f"<del>{formatter.format()}</del>")
             elif op == dmp.DIFF_INSERT:
-                self.tags[offset].append("<ins>")
+                # Rearrange space highlighting
+                move_space = False
+                start_space = -1
+                for pos, tag in enumerate(self.tags[offset]):
+                    if tag == SPACE_MIDDLE_2:
+                        self.tags[offset][pos] = SPACE_MIDDLE_1
+                        move_space = True
+                        break
+                    if tag == SPACE_START:
+                        start_space = pos
+                        break
+
+                if start_space != -1:
+                    self.tags[offset].insert(start_space, "<ins>")
+                    last_middle = None
+                    for i in range(len(data)):
+                        tagoffset = offset + i + 1
+                        for pos, tag in enumerate(self.tags[tagoffset]):
+                            if tag == SPACE_END:
+                                # Whitespace ends within <ins>
+                                start_space = -1
+                                break
+                            if tag == SPACE_MIDDLE_2:
+                                last_middle = (tagoffset, pos)
+                        if start_space == -1:
+                            break
+                    if start_space != -1 and last_middle is not None:
+                        self.tags[tagoffset][pos] = SPACE_MIDDLE_1
+
+                else:
+                    self.tags[offset].append("<ins>")
+                if move_space:
+                    self.tags[offset].append(SPACE_START)
                 offset += len(data)
-                self.tags[offset].insert(0, "</ins>")
+                self.tags[offset].append("</ins>")
+                if start_space != -1:
+                    self.tags[offset].append(SPACE_START)
             elif op == dmp.DIFF_EQUAL:
                 offset += len(data)
 
@@ -179,14 +198,27 @@ class Formatter:
 
     def parse_glossary(self):
         """Highlights glossary entries."""
+        # Annotate string with glossary terms
+        locations = defaultdict(list)
         for htext, entries in self.terms.items():
             for match in re.finditer(
                 rf"(\W|^)({re.escape(htext)})(\W|$)", self.cleaned_value, re.IGNORECASE
             ):
-                self.tags[match.start(2)].append(
+                for i in range(match.start(2), match.end(2)):
+                    locations[i].extend(entries)
+                locations[match.end(2)].extend([])
+
+        # Render span tags for each glossary term match
+        last_entries = []
+        for position, entries in sorted(locations.items()):
+            if last_entries and entries != last_entries:
+                self.tags[position].insert(0, "</span>")
+
+            if entries and entries != last_entries:
+                self.tags[position].append(
                     GLOSSARY_TEMPLATE.format(self.format_terms(entries))
                 )
-                self.tags[match.end(2)].insert(0, "</span>")
+            last_entries = entries
 
     def parse_search(self):
         """Highlights search matches."""
@@ -194,7 +226,7 @@ class Formatter:
         if self.match == "search":
             tag = "hlmatch"
 
-        start_tag = f'<span class="{tag}">'
+        start_tag = format_html('<span class="{}">', tag)
         end_tag = "</span>"
 
         for match in re.finditer(
@@ -214,13 +246,12 @@ class Formatter:
 
         for match in WHITESPACE_RE.finditer(self.value):
             whitespace = match.group(0)
-            if whitespace == "\t":
-                cls = "space-tab"
-            else:
-                cls = "space-space"
+            cls = "space-tab" if whitespace == "\t" else "space-space"
             title = get_display_char(whitespace)[0]
             self.tags[match.start()].append(
-                '<span class="hlspace">' f'<span class="{cls}" title="{title}">'
+                format_html(
+                    '<span class="hlspace"><span class="{}" title="{}">', cls, title
+                )
             )
             self.tags[match.end()].insert(0, "</span></span>")
 
@@ -233,7 +264,12 @@ class Formatter:
         newlines = {"\r", "\n"}
         for pos, char in enumerate(value):
             # Special case for single whitespace char in diff
-            if char == " " and "<ins>" in tags[pos] and "</ins>" in tags[pos + 1]:
+            if (
+                char == " "
+                and "<ins>" in tags[pos]
+                and SPACE_START not in tags[pos]
+                and "</ins>" in tags[pos + 1]
+            ):
                 tags[pos].append(SPACE_START)
                 tags[pos + 1].insert(0, SPACE_END)
 
@@ -261,8 +297,6 @@ def format_translation(
     search_match=None,
     simple: bool = False,
     wrap: bool = False,
-    noformat: bool = False,
-    num_plurals=2,
     unit=None,
     match="search",
     glossary=None,
@@ -274,10 +308,6 @@ def format_translation(
 
     if plural is None:
         plural = language.plural
-
-    # Show plurals?
-    if int(num_plurals) <= 1 and not is_multivalue:
-        plurals = plurals[-1:]
 
     # Split diff plurals
     if diff is not None:
@@ -311,7 +341,6 @@ def format_translation(
 
     return {
         "simple": simple,
-        "noformat": noformat,
         "wrap": wrap,
         "items": parts,
         "language": language,
@@ -385,9 +414,6 @@ def show_message(tags, message):
 
 def naturaltime_past(value, now):
     """Handling of past dates for naturaltime."""
-    # this function is huge
-    # pylint: disable=too-many-branches,too-many-return-statements
-
     delta = now - value
 
     if delta.days >= 365:
@@ -442,9 +468,6 @@ def naturaltime_past(value, now):
 
 def naturaltime_future(value, now):
     """Handling of future dates for naturaltime."""
-    # this function is huge
-    # pylint: disable=too-many-branches,too-many-return-statements
-
     delta = value - now
 
     if delta.days >= 365:
@@ -499,7 +522,8 @@ def naturaltime_future(value, now):
 
 @register.filter(is_safe=True)
 def naturaltime(value, now=None):
-    """Heavily based on Django's django.contrib.humanize implementation of naturaltime.
+    """
+    Heavily based on Django's django.contrib.humanize implementation of naturaltime.
 
     For date and time values shows how many seconds, minutes or hours ago compared to
     current timestamp returns representing string.
@@ -526,12 +550,13 @@ def get_stats(obj):
 
 
 def translation_progress_data(
-    total: int, readonly: int, approved: int, translated: int
+    total: int, readonly: int, approved: int, translated: int, has_review: bool
 ):
-    translated -= approved
-    if approved:
+    if has_review:
+        translated -= approved
         approved += readonly
         translated -= readonly
+
     bad = total - approved - translated
     return {
         "approved": f"{translation_percent(approved, total, False):.1f}",
@@ -548,6 +573,7 @@ def translation_progress(obj):
         stats.readonly,
         stats.approved,
         stats.translated - stats.translated_checks,
+        stats.has_review,
     )
 
 
@@ -559,6 +585,7 @@ def words_progress(obj):
         stats.readonly_words,
         stats.approved_words,
         stats.translated_words - stats.translated_checks_words,
+        stats.has_review,
     )
 
 
@@ -889,7 +916,8 @@ def markdown(text):
 
 @register.filter
 def choiceval(boundfield):
-    """Get literal value from a field's choices.
+    """
+    Get literal value from a field's choices.
 
     Empty value is returned if value is not selected or invalid.
     """

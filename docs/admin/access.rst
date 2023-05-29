@@ -27,21 +27,51 @@ If you don’t need any complex setup, those are sufficient for you.
 Project access control
 ++++++++++++++++++++++
 
-.. include:: /snippets/not-hosted-libre.rst
+.. note::
+
+    Projects running the gratis Libre plan on Hosted Weblate are always
+    :guilabel:`Public`. You can switch to the paid plan if you want to restrict
+    access to your project.
 
 You can limit user’s access to individual projects by selecting a different
 :guilabel:`Access control` setting. Available options are:
 
-Public
-    Publicly visible, translatable for all signed-in users.
-Protected
-    Publicly visible, but translatable only for selected users.
-Private
-    Visible and translatable only for selected users.
-Custom
-    :ref:`User management <manage-acl>` features will be disabled; by
-    default all users are forbidden to performed any actions on the project.
-    You will have to set up all the permissions using :ref:`custom-acl`.
+:guilabel:`Public`
+   Visible to everybody.
+
+   Any authenticated user can contribute.
+
+   VCS repository might be exposed to everybody.
+
+   **Choose this for open-source projects, or when your Weblate instance is private or locked-down.**
+:guilabel:`Protected`
+   Visible to everybody.
+
+   Only chosen users can contribute.
+
+   Only chosen users can access VCS repository.
+
+   **Choose this to gain visibility, but still have control over who can contribute.**
+:guilabel:`Private`
+   Visible only to chosen users.
+
+   Only chosen users can contribute.
+
+   Only chosen users can access VCS repository.
+
+   **Choose this for projects that should not be publicly exposed at all.**
+:guilabel:`Custom`
+   Visible only to chosen users.
+
+   Only chosen users can contribute.
+
+   Only chosen users can access VCS repository.
+
+   Not available on Hosted Weblate.
+
+   You will have to set up all the permissions using :ref:`custom-acl`.
+
+   **Choose this on your own Weblate instance if you want to define access in a specific, finely customizable way.**
 
 :guilabel:`Access control` can be changed in the :guilabel:`Access` tab of the
 configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each respective
@@ -63,13 +93,6 @@ The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
     The actual set of permissions available for users by default in `Public`,
     `Protected`, and `Private` projects can be redefined by Weblate instance
     administrator using :ref:`custom settings <custom-acl>`.
-
-.. warning::
-
-    By turning on `Custom` access control, Weblate will remove all
-    :ref:`special groups <manage-acl>` it has created for a selected project.
-    If you are doing this without admin permission for the whole Weblate
-    instance, you will instantly lose your access to manage the project.
 
 .. seealso::
 
@@ -132,6 +155,14 @@ Billing
 These features are available on the :guilabel:`Access control` page, which can be
 accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.
 
+Team administrators
+^^^^^^^^^^^^^^^^^^^
+
+.. versionadded:: 4.15
+
+Each team can have team administrator, who can add and remove users within the
+team. This is useful in case you want to build self-governed teams.
+
 .. _invite-user:
 
 New user invitation
@@ -176,9 +207,9 @@ You can set your projects to `Protected` or `Private`, and
 :ref:`manage users <manage-acl>` per-project in the Weblate user interface.
 
 By default this prevents Weblate from granting access provided by
-`Users` and `Viewers` :ref:`default groups <default-groups>` due to these groups’
+`Users` and `Viewers` :ref:`default teams <default-teams>` due to these teams’
 own configuration. This doesn’t prevent you from granting permissions to those
-projects site-wide by altering default groups, creating a new one, or creating
+projects site-wide by altering default teams, creating a new one, or creating
 additional custom settings for individual component as described in :ref:`custom-acl` below.
 
 One of the main benefits of managing permissions through the Weblate
@@ -191,10 +222,10 @@ team of the project.
 Custom access control
 ---------------------
 
-.. include:: /snippets/not-hosted-libre.rst
+.. include:: /snippets/not-hosted.rst
 
-The permission system is based on groups and roles, where roles define a set of
-permissions, and groups link them to users and translations, see
+The permission system is based on teams and roles, where roles define a set of
+permissions, and teams link them to users and translations, see
 :ref:`auth-model` for more details.
 
 The most powerful features of the Weblate’s access control system for now are
@@ -218,35 +249,35 @@ Site-wide permission management
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To manage permissions for a whole instance at once, add users to
-appropriate :ref:`default groups <default-groups>`:
+appropriate :ref:`default teams <default-teams>`:
 
 * `Users` (this is done by default by the
-  :ref:`automatic group assignment <autogroup>`).
+  :ref:`automatic team assignment <autoteam>`).
 * `Reviewers` (if you are using :ref:`review workflow <reviews>` with dedicated
   reviewers).
 * `Managers` (if you want to delegate most of the management operations to somebody
   else).
 
 You should keep all projects configured as `Public` (see :ref:`acl`), otherwise
-the site-wide permissions provided by membership in the `Users` and `Reviewers` groups
+the site-wide permissions provided by membership in the `Users` and `Reviewers` teams
 won’t have any effect.
 
 You may also grant some additional permissions of your choice to the default
-groups. For example, you may want to give a permission to manage screenshots to all
+teams. For example, you may want to give a permission to manage screenshots to all
 the `Users`.
 
-You can define some new custom groups as well. If you want to
-keep managing your permissions site-wide for these groups, choose an
+You can define some new custom teams as well. If you want to
+keep managing your permissions site-wide for these teams, choose an
 appropriate value for the :guilabel:`Project selection` (e.g.
 :guilabel:`All projects` or :guilabel:`All public projects`).
 
 Custom permissions for languages, components or projects
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You can create your own dedicated groups to manage permissions for distinct
-objects such as languages, components, and projects. Although these groups can
+You can create your own dedicated teams to manage permissions for distinct
+objects such as languages, components, and projects. Although these teams can
 only grant additional privileges, you can’t revoke any permission granted
-by site-wide or per-project groups by adding another custom group.
+by site-wide or per-project teams by adding another custom team.
 
 **Example:**
 
@@ -256,7 +287,7 @@ by site-wide or per-project groups by adding another custom group.
 
   1. Remove the permission to translate `Czech` from all the users. In the
      default configuration this can be done by altering the `Users`
-     :ref:`default group <default-groups>`.
+     :ref:`default team <default-teams>`.
 
      .. list-table:: Group `Users`
          :stub-columns: 1
@@ -268,7 +299,7 @@ by site-wide or per-project groups by adding another custom group.
 
 ..
 
-  2. Add a dedicated group for `Czech` translators.
+  2. Add a dedicated team for `Czech` translators.
 
      .. list-table:: Group `Czech translators`
          :stub-columns: 1
@@ -284,7 +315,7 @@ by site-wide or per-project groups by adding another custom group.
 
 ..
 
-  3. Add users you wish to give the permissions to into this group.
+  3. Add users you wish to give the permissions to into this team.
 
 As you can see, permissions management this way is powerful,
 but can be quite a tedious job. You can’t
@@ -292,8 +323,8 @@ delegate it to another user, unless granting superuser permissions.
 
 .. _auth-model:
 
-Users, roles, groups, and permissions
-+++++++++++++++++++++++++++++++++++++
+Users, roles, teams, and permissions
+++++++++++++++++++++++++++++++++++++
 
 The authentication models consist of several objects:
 
@@ -304,7 +335,7 @@ The authentication models consist of several objects:
     A role defines a set of permissions. This allows reuse of these sets in
     several places, making the administration easier.
 `User`
-    User can belong to several groups.
+    User can belong to several teams.
 `Group`
     Group connect roles, users, and authentication objects (projects,
     languages, and component lists).
@@ -324,16 +355,16 @@ The authentication models consist of several objects:
 
 .. note::
 
-  A group can have no roles assigned to it, in that case access to browse the
+  A team can have no roles assigned to it, in that case access to browse the
   project by anyone is assumed (see below).
 
 Access for browse to a project
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A user has to be a member of a group linked to the project, or any component
+A user has to be a member of a team linked to the project, or any component
 inside that project. Having membership is enough, no specific permissions are
-needed to browse the project (this is used in the default `Viewers` group, see
-:ref:`default-groups`).
+needed to browse the project (this is used in the default `Viewers` team, see
+:ref:`default-teams`).
 
 Access for browse to a component
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -345,30 +376,30 @@ requires explicit permissions for the component (or a component list the compone
 
 .. _perm-check:
 
-Scope of groups
+Scope of teams
 ^^^^^^^^^^^^^^^
 
-The scope of the permission assigned by the roles in the groups are applied by
+The scope of the permission assigned by the roles in the teams are applied by
 the following rules:
 
-- If the group specifies any :guilabel:`Component list`, all the permissions given to
-  members of that group are granted for all the components in the component
-  lists attached to the group, and an access with no additional permissions is
+- If the team specifies any :guilabel:`Component list`, all the permissions given to
+  members of that team are granted for all the components in the component
+  lists attached to the team, and an access with no additional permissions is
   granted for all the projects these components are in. :guilabel:`Components`
   and :guilabel:`Projects` are ignored.
 
-- If the group specifies any :guilabel:`Components`, all the permissions given to
-  the members of that group are granted for all the components attached to the
-  group, and an access with no additional permissions is granted for all the
+- If the team specifies any :guilabel:`Components`, all the permissions given to
+  the members of that team are granted for all the components attached to the
+  team, and an access with no additional permissions is granted for all the
   projects these components are in. :guilabel:`Projects` are ignored.
 
-- Otherwise, if the group specifies any :guilabel:`Projects`, either by directly
+- Otherwise, if the team specifies any :guilabel:`Projects`, either by directly
   listing them or by having :guilabel:`Projects selection` set to a value like :guilabel:`All
   public projects`, all those permissions are applied to all the projects, which
   effectively grants the same permissions to access all projects
   :ref:`unrestricted components <component-restricted>`.
 
-- The restrictions imposed by a group’s :guilabel:`Languages` are applied separately,
+- The restrictions imposed by a team’s :guilabel:`Languages` are applied separately,
   when it’s verified if a user has an access to perform certain actions. Namely,
   it’s applied only to actions directly related to the translation process itself like
   reviewing, saving translations, adding suggestions, etc.
@@ -381,7 +412,7 @@ the following rules:
 **Example:**
 
   Let’s say there is a project ``foo`` with the components: ``foo/bar`` and
-  ``foo/baz`` and the following group:
+  ``foo/baz`` and the following team:
 
   .. list-table:: Group `Spanish Admin-Reviewers`
          :stub-columns: 1
@@ -395,7 +426,7 @@ the following rules:
 
 ..
 
-  Members of that group will have following permissions (assuming the default role settings):
+  Members of that team will have following permissions (assuming the default role settings):
 
     - General (browsing) access to the whole project ``foo`` including both
       components in it: ``foo/bar`` and ``foo/baz``.
@@ -403,19 +434,19 @@ the following rules:
     - Manage VCS for the whole ``foo/bar`` repository e.g. commit pending
       changes made by translators for all languages.
 
-.. _autogroup:
+.. _autoteam:
 
-Automatic group assignments
+Automatic team assignments
 +++++++++++++++++++++++++++
 
 On the bottom of the :guilabel:`Group` editing page in the
 :ref:`Django admin interface <admin-interface>`, you can specify
-:guilabel:`Automatic group assignments`, which is a list of regular expressions
-used to automatically assign newly created users to a group based on their
+:guilabel:`Automatic team assignments`, which is a list of regular expressions
+used to automatically assign newly created users to a team based on their
 e-mail addresses. This assignment only happens upon account creation.
 
 The most common use-case for the feature is to assign all new users to some
-default group. In order to do so, you will probably want to keep the default
+default team. In order to do so, you will probably want to keep the default
 value (``^.*$``) in the regular expression field. Another use-case for this option might be to
 give some additional privileges to employees of your company by default.
 Assuming all of them use corporate e-mail addresses on your domain, this can
@@ -423,21 +454,21 @@ be accomplished with an expression like ``^.*@mycompany.com``.
 
 .. note::
 
-    Automatic group assignment to `Users` and `Viewers` is always recreated
+    Automatic team assignment to `Users` and `Viewers` is always recreated
     when upgrading from one Weblate version to another. If you want to turn it off, set the regular expression to
     ``^$`` (which won’t match anything).
 
 .. note::
 
-    As for now, there is no way to bulk-add already existing users to some group
+    As for now, there is no way to bulk-add already existing users to some team
     via the user interface. For that, you may resort to using the :ref:`REST API <api>`.
 
-Default groups and roles
+Default teams and roles
 ++++++++++++++++++++++++
 
-After installation, a default set of groups is created (see :ref:`default-groups`).
+After installation, a default set of teams is created (see :ref:`default-teams`).
 
-These roles and groups are created upon installation. The built-in roles are
+These roles and teams are created upon installation. The built-in roles are
 always kept up to date by the database migration when upgrading. You can’t
 actually change them, please define a new role if you want to define your own
 set of permissions.
@@ -553,7 +584,7 @@ List of privileges and built-in roles
 +                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
 |                              | Manage language definitions               |                                                                                                                       |
 +                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|                              | Manage groups                             |                                                                                                                       |
+|                              | Manage teams                              |                                                                                                                       |
 +                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
 |                              | Manage users                              |                                                                                                                       |
 +                              +-------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
@@ -575,39 +606,39 @@ List of privileges and built-in roles
    powerful and quite close to superuser status. Most of them affect all projects
    in your Weblate installation.
 
-.. _default-groups:
+.. _default-teams:
 
-List of groups
+List of teams
 ^^^^^^^^^^^^^^
 
-The following groups are created upon installation (or after executing
+The following teams are created upon installation (or after executing
 :djadmin:`setupgroups`) and you are free to modify them. The migration will,
 however, re-create them if you delete or rename them.
 
 `Guests`
     Defines permissions for non-authenticated users.
 
-    This group only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`).
+    This team only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`).
 
-    You can remove roles from this group to limit permissions for
+    You can remove roles from this team to limit permissions for
     non-authenticated users.
 
     Default roles: `Add suggestion`, `Access repository`
 
 `Viewers`
     This role ensures visibility of public projects for all users. By default,
-    all users are members of this group.
+    all users are members of this team.
 
-    By default, :ref:`automatic group assignment <autogroup>` makes all new
-    accounts members of this group when they join.
+    By default, :ref:`automatic team assignment <autoteam>` makes all new
+    accounts members of this team when they join.
 
     Default roles: none
 
 `Users`
-    Default group for all users.
+    Default team for all users.
 
-    By default, :ref:`automatic group assignment <autogroup>` makes all new
-    accounts members of this group when they join.
+    By default, :ref:`automatic team assignment <autoteam>` makes all new
+    accounts members of this team when they join.
 
     Default roles: `Power user`
 
@@ -623,7 +654,7 @@ however, re-create them if you delete or rename them.
 
 .. warning::
 
-    Never remove the predefined Weblate groups and users as this can lead to
+    Never remove the predefined Weblate teams and users as this can lead to
     unexpected problems! If you have no use for them, you can removing all their
     privileges instead.
 

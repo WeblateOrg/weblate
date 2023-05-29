@@ -37,16 +37,21 @@ Fields
    Location string case-insensitive search.
 ``priority:NUMBER``
    String priority.
+``id:NUMBER``
+   String unique identifier.
+``position:NUMBER``
+   String position in the translation file.
 ``added:DATETIME``
    Timestamp for when the string was added to Weblate.
 ``state:TEXT``
-   State search (``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``), supports :ref:`search-operators`.
+   Search for string states (``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``), supports :ref:`search-operators`.
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``
    Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, ``glossary``, ``note``, ``label``.
 ``is:TEXT``
-   Search for string states (``pending``, ``translated``, ``untranslated``).
+   Search for pending translations (``pending``).
+   Can also search for all string states (``approved``, ``translated``, ``untranslated``, ``needs-editing``, ``read-only``).
 ``language:TEXT``
    String target language.
 ``component:TEXT``
@@ -106,6 +111,8 @@ You can specify operators, ranges or partial lookups for date or numeric searche
    Changed in year 2019.
 ``changed:[2019-03-01 to 2019-04-01]``
    Changed between two given dates.
+``position:[10 to 100]``
+   Strings with position between 10 and 100 (inclusive).
 
 Exact operators
 ---------------

@@ -1,25 +1,11 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
 from django import forms
+from django.conf import settings
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.middleware.csrf import rotate_token
@@ -180,12 +166,41 @@ class LanguagesForm(ProfileBaseForm):
         activate(self.cleaned_data["language"])
 
 
+class CommitForm(ProfileBaseForm):
+    commit_email = forms.ChoiceField(
+        label=_("Commit e-mail"),
+        choices=[("", _("Use account e-mail address"))],
+        required=False,
+    )
+
+    class Meta:
+        model = Profile
+        fields = ("commit_email",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        commit_emails = get_all_user_mails(self.instance.user, filter_deliverable=False)
+        site_commit_email = self.instance.get_site_commit_email()
+        if site_commit_email:
+            if not settings.PRIVATE_COMMIT_EMAIL_OPT_IN:
+                self.fields["commit_email"].choices = [("", site_commit_email)]
+            else:
+                commit_emails.add(site_commit_email)
+
+        self.fields["commit_email"].choices += [(x, x) for x in sorted(commit_emails)]
+
+        self.helper = FormHelper(self)
+        self.helper.disable_csrf = True
+        self.helper.form_tag = False
+
+
 class ProfileForm(ProfileBaseForm):
     """User profile editing."""
 
     public_email = forms.ChoiceField(
         label=_("Public e-mail"),
-        choices=(("", ""),),
+        choices=[("", _("Do not publicly display e-mail address"))],
         required=False,
     )
 
@@ -207,9 +222,9 @@ class ProfileForm(ProfileBaseForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         emails = get_all_user_mails(self.instance.user)
-        emails.add("")
 
-        self.fields["public_email"].choices = [(x, x) for x in sorted(emails)]
+        self.fields["public_email"].choices += [(x, x) for x in sorted(emails)]
+
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
@@ -227,7 +242,6 @@ class SubscriptionForm(ProfileBaseForm):
         widgets = {"watched": forms.SelectMultiple}
 
     def __init__(self, *args, **kwargs):
-
         super().__init__(*args, **kwargs)
         user = kwargs["instance"].user
         self.fields["watched"].required = False
@@ -432,7 +446,6 @@ class SetPasswordForm(DjangoSetPasswordForm):
     )
     new_password2 = PasswordField(label=_("New password confirmation"))
 
-    # pylint: disable=arguments-differ,signature-differs
     def save(self, request, delete_session=False):
         AuditLog.objects.create(
             self.user, request, "password", password=self.user.password
@@ -468,11 +481,10 @@ class CaptchaForm(forms.Form):
             self.generate_captcha()
             self.fresh = True
         else:
-            self.captcha = MathCaptcha.unserialize(request.session.pop("captcha"))
+            self.captcha = MathCaptcha.unserialize(request.session["captcha"])
+            self.set_label()
 
-    def generate_captcha(self):
-        self.captcha = MathCaptcha()
-        self.request.session["captcha"] = self.captcha.serialize()
+    def set_label(self):
         # Set correct label
         self.fields["captcha"].label = (
             pgettext(
@@ -485,6 +497,11 @@ class CaptchaForm(forms.Form):
         if self.is_bound:
             self["captcha"].label = self.fields["captcha"].label
 
+    def generate_captcha(self):
+        self.captcha = MathCaptcha()
+        self.request.session["captcha"] = self.captcha.serialize()
+        self.set_label()
+
     def clean_captcha(self):
         """Validation for CAPTCHA."""
         if self.fresh or not self.captcha.validate(self.cleaned_data["captcha"]):
@@ -495,10 +512,7 @@ class CaptchaForm(forms.Form):
                 _("That was not correct, please try again.")
             )
 
-        if self.form.is_valid():
-            mail = self.form.cleaned_data["email"]
-        else:
-            mail = "NONE"
+        mail = self.form.cleaned_data["email"] if self.form.is_valid() else "NONE"
 
         LOGGER.info(
             "Correct CAPTCHA for %s (%s = %s)",
@@ -507,10 +521,16 @@ class CaptchaForm(forms.Form):
             self.cleaned_data["captcha"],
         )
 
+    def cleanup_session(self, request):
+        del request.session["captcha"]
+
 
 class EmptyConfirmForm(forms.Form):
     def __init__(self, request, *args, **kwargs):
         self.request = request
+        self.user = request.user
+        if "user" in kwargs:
+            self.user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
 
 
@@ -523,10 +543,11 @@ class PasswordConfirmForm(EmptyConfirmForm):
 
     def clean_password(self):
         cur_password = self.cleaned_data["password"]
-        if self.request.user.has_usable_password():
-            valid = self.request.user.check_password(cur_password)
-        else:
-            valid = cur_password == ""
+        valid = False
+        if self.user.has_usable_password():
+            valid = self.user.check_password(cur_password)
+        elif not cur_password:
+            valid = True
         if not valid:
             rotate_token(self.request)
             raise forms.ValidationError(_("You have entered an invalid password."))
@@ -803,7 +824,6 @@ class NotificationForm(forms.Form):
 class UserSearchForm(forms.Form):
     """User searching form."""
 
-    # pylint: disable=invalid-name
     q = forms.CharField(required=False)
     sort_by = forms.CharField(required=False, widget=forms.HiddenInput)
 

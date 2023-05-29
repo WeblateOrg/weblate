@@ -1,30 +1,18 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Database specific code to extend Django."""
 
 from django.db import connection, models
 from django.db.models import Case, IntegerField, Sum, When
-from django.db.models.lookups import PatternLookup
+from django.db.models.lookups import Contains, Exact, PatternLookup, Regex
+
+from .inv_regex import invert_re
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
 
-PG_TRGM = "CREATE INDEX {0}_{1}_fulltext ON trans_{0} USING GIN ({1} gin_trgm_ops)"
+PG_TRGM = "CREATE INDEX {0}_{1}_fulltext ON trans_{0} USING GIN ({1} gin_trgm_ops {2})"
 PG_DROP = "DROP INDEX {0}_{1}_fulltext"
 
 MY_FTX = "CREATE FULLTEXT INDEX {0}_{1}_fulltext ON trans_{0}({1})"
@@ -61,13 +49,73 @@ def adjust_similarity_threshold(value: float):
             connection.weblate_similarity = value
 
 
-class PostgreSQLSearchLookup(PatternLookup):
+def count_alnum(string):
+    return sum(map(str.isalnum, string))
+
+
+class PostgreSQLFallbackLookup(PatternLookup):
+    def __init__(self, lhs, rhs):
+        self.orig_lhs = lhs
+        self.orig_rhs = rhs
+        super().__init__(lhs, rhs)
+
+    def needs_fallback(self):
+        return isinstance(self.orig_rhs, str) and count_alnum(self.orig_rhs) < 3
+
+
+class FallbackStringMixin:
+    """Avoid using index for lhs by concatenating to a string."""
+
+    def process_lhs(self, compiler, connection, lhs=None):
+        lhs_sql, params = super().process_lhs(compiler, connection, lhs)
+        return f"{lhs_sql} || ''", params
+
+
+class PostgreSQLRegexFallbackLookup(FallbackStringMixin, Regex):
+    pass
+
+
+class PostgreContainsFallbackLookup(FallbackStringMixin, Contains):
+    pass
+
+
+class PostgreExactFallbackLookup(FallbackStringMixin, Exact):
+    pass
+
+
+class PostgreSQLRegexLookup(Regex):
+    def __init__(self, lhs, rhs):
+        self.orig_lhs = lhs
+        self.orig_rhs = rhs
+        super().__init__(lhs, rhs)
+
+    def needs_fallback(self):
+        if not isinstance(self.orig_rhs, str):
+            return False
+        return (
+            min((count_alnum(match) for match in invert_re(self.orig_rhs)), default=0)
+            < 3
+        )
+
+    def as_sql(self, compiler, connection):
+        if self.needs_fallback():
+            return PostgreSQLRegexFallbackLookup(self.orig_lhs, self.orig_rhs).as_sql(
+                compiler, connection
+            )
+        return super().as_sql(compiler, connection)
+
+
+class PostgreSQLSearchLookup(PostgreSQLFallbackLookup):
     lookup_name = "search"
     param_pattern = "%s"
 
-    def as_sql(self, qn, connection):
-        lhs, lhs_params = self.process_lhs(qn, connection)
-        rhs, rhs_params = self.process_rhs(qn, connection)
+    def as_sql(self, compiler, connection):
+        if self.needs_fallback():
+            return PostgreContainsFallbackLookup(self.orig_lhs, self.orig_rhs).as_sql(
+                compiler, connection
+            )
+        lhs, lhs_params = self.process_lhs(compiler, connection)
+        rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
         return f"{lhs} %% {rhs} = true", params
 
@@ -82,11 +130,7 @@ class MySQLSearchLookup(models.Lookup):
         return f"MATCH ({lhs}) AGAINST ({rhs} IN NATURAL LANGUAGE MODE)", params
 
 
-class MySQLSubstringLookup(MySQLSearchLookup):
-    lookup_name = "substring"
-
-
-class PostgreSQLSubstringLookup(PatternLookup):
+class PostgreSQLSubstringLookup(PostgreSQLFallbackLookup):
     """
     Case insensitive substring lookup.
 
@@ -97,6 +141,10 @@ class PostgreSQLSubstringLookup(PatternLookup):
     lookup_name = "substring"
 
     def as_sql(self, compiler, connection):
+        if self.needs_fallback():
+            return PostgreContainsFallbackLookup(self.orig_lhs, self.orig_rhs).as_sql(
+                compiler, connection
+            )
         lhs, lhs_params = self.process_lhs(compiler, connection)
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
@@ -104,7 +152,8 @@ class PostgreSQLSubstringLookup(PatternLookup):
 
 
 def re_escape(pattern):
-    """Escape for use in database regexp match.
+    """
+    Escape for use in database regexp match.
 
     This is based on re.escape, but that one escapes too much.
     """

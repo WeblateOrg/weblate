@@ -1,27 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import social_core.backends.utils
 from crispy_forms.helper import FormHelper
 from django import forms
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.http import HttpRequest
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from social_core.backends.email import EmailAuth
 from social_django.views import complete
@@ -29,7 +16,7 @@ from social_django.views import complete
 from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog
 from weblate.accounts.strategy import create_session
-from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
+from weblate.auth.data import SELECTION_MANUAL
 from weblate.auth.models import Group, User, get_anonymous
 from weblate.trans.models import Change
 from weblate.utils import messages
@@ -135,15 +122,37 @@ class UserEditForm(AdminInviteUserForm):
         fields = ["username", "full_name", "email", "is_superuser", "is_active"]
 
 
-class SimpleGroupForm(forms.ModelForm):
+class ProjectTeamForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ["name", "roles", "language_selection", "languages"]
+
+    internal_fields = [
+        "name",
+        "project_selection",
+        "language_selection",
+    ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+
+    def clean(self):
+        super().clean()
+        if self.instance.internal:
+            for field in self.internal_fields:
+                if field in self.cleaned_data and self.cleaned_data[field] != getattr(
+                    self.instance, field
+                ):
+                    raise ValidationError(
+                        {
+                            field: gettext(
+                                "Changing of %s is prohibited for built-in teams."
+                            )
+                            % field
+                        }
+                    )
 
     def save(self, commit=True, project=None):
         if not commit:
@@ -156,9 +165,25 @@ class SimpleGroupForm(forms.ModelForm):
 
         # Save languages only for manual selection, otherwise
         # it would override logic from Group.save()
-        if self.instance.language_selection == SELECTION_ALL:
-            del self.cleaned_data["languages"]
+        if self.instance.language_selection != SELECTION_MANUAL:
+            self.cleaned_data.pop("languages", None)
+        if self.instance.project_selection != SELECTION_MANUAL:
+            self.cleaned_data.pop("projects", None)
         self._save_m2m()
         if project:
             self.instance.projects.add(project)
         return self.instance
+
+
+class SitewideTeamForm(ProjectTeamForm):
+    class Meta:
+        model = Group
+        fields = [
+            "name",
+            "roles",
+            "project_selection",
+            "projects",
+            "componentlists",
+            "language_selection",
+            "languages",
+        ]

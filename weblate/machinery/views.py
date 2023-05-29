@@ -1,22 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
+from itertools import chain
 from typing import Dict, Optional
 
 from django.core.exceptions import PermissionDenied
@@ -40,6 +26,7 @@ from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Unit
 from weblate.utils.errors import report_error
 from weblate.utils.views import get_project
+from weblate.wladmin.views import MENU as MANAGE_MENU
 
 
 class MachineryMixin:
@@ -139,6 +126,9 @@ class ListMachineryView(TemplateView):
         result = super().get_context_data(**kwargs)
         result["configured_services"] = self.configured_services
         result["available_services"] = self.available_services
+        if not self.project:
+            result["menu_items"] = MANAGE_MENU
+            result["menu_page"] = "machinery"
         return result
 
 
@@ -160,7 +150,7 @@ class ListMachineryProjectView(MachineryProjectMixin, ListMachineryView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_perm("project.edit", self.project):
-            raise PermissionDenied()
+            raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -189,7 +179,7 @@ class EditMachineryView(FormView):
 
     @cached_property
     def settings_dict(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def post_setup(self, request, kwargs):
         return
@@ -212,19 +202,18 @@ class EditMachineryView(FormView):
         return super().form_valid(form)
 
     def save_settings(self, data):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def delete_service(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def enable_service(self):
         return
 
     def get_success_url(self):
-        kwargs = {}
         if self.project:
-            kwargs["project"] = self.project.slug
-        return reverse("machinery-list", kwargs=kwargs)
+            return reverse("machinery-list", kwargs={"project": self.project.slug})
+        return reverse("manage-machinery")
 
     def post(self, request, *args, **kwargs):
         if "delete" in request.POST:
@@ -266,7 +255,7 @@ class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_perm("machinery.edit"):
-            raise PermissionDenied()
+            raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -291,7 +280,7 @@ class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_perm("project.edit", self.project):
-            raise PermissionDenied()
+            raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -305,8 +294,9 @@ def handle_machinery(request, service, unit, search=None):
         raise Http404("Invalid service specified")
 
     translation = unit.translation
+    component = translation.component
     if not request.user.has_perm("machinery.view", translation):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     translation_service_class = MACHINERY[service]
 
@@ -320,7 +310,7 @@ def handle_machinery(request, service, unit, search=None):
         "service": translation_service_class.name,
     }
 
-    machinery_settings = translation.component.project.get_machinery_settings()
+    machinery_settings = component.project.get_machinery_settings()
 
     try:
         translation_service = translation_service_class(machinery_settings[service])
@@ -328,14 +318,21 @@ def handle_machinery(request, service, unit, search=None):
         response["responseDetails"] = _("Service is currently not available.")
     else:
         try:
-            response["translations"] = translation_service.translate(
-                unit, request.user, search=search
-            )
+            if search:
+                response["translations"] = translation_service.search(
+                    unit, search, request.user
+                )
+            else:
+                translations = translation_service.translate(unit, request.user)
+                for plural_form, possible_translations in enumerate(translations):
+                    for item in possible_translations:
+                        item["plural_form"] = plural_form
+                response["translations"] = list(chain.from_iterable(translations))
             response["responseStatus"] = 200
         except MachineTranslationError as exc:
             response["responseDetails"] = str(exc)
         except Exception as error:
-            report_error()
+            report_error(project=component.project)
             response["responseDetails"] = f"{error.__class__.__name__}: {error}"
 
     if response["responseStatus"] != 200:

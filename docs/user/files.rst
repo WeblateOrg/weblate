@@ -27,17 +27,17 @@ localization formats. The converted files will be enriched with data provided
 in Weblate; such as additional context, comments or flags. Several file formats
 are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
 
-* gettext PO
-* XLIFF with gettext extensions
-* XLIFF 1.1
-* TermBase eXchange
-* Translation Memory eXchange
-* gettext MO (only available when translation is using gettext PO)
-* CSV
-* Excel Open XML
-* JSON (only available for monolingual translations)
-* Android String Resource (only available for monolingual translations)
-* iOS strings (only available for monolingual translations)
+* gettext PO (``po``)
+* XLIFF with gettext extensions (``xliff``)
+* XLIFF 1.1 (``xliff11``)
+* TermBase eXchange (``tbx``)
+* Translation Memory eXchange (``tmx``)
+* gettext MO (only available when translation is using gettext PO) (``mo``)
+* CSV (``csv``)
+* Excel Open XML (``xlsx``)
+* JSON (only available for monolingual translations) (``json``)
+* Android String Resource (only available for monolingual translations) (``aresource``)
+* iOS strings (only available for monolingual translations) (``strings``)
 
 .. hint::
 
@@ -48,7 +48,8 @@ are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
 
 .. seealso::
 
-   :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
+   :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`,
+   :setting:`WEBLATE_EXPORTERS`
 
 .. _upload:
 

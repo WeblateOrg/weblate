@@ -1,26 +1,11 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
 
 from django.apps import AppConfig
-from django.core.checks import Warning, register
+from django.core.checks import Critical, Warning, register
 from django.db.models.signals import post_migrate
 
 import weblate.vcs.gpg
@@ -57,6 +42,21 @@ def check_vcs(app_configs, **kwargs):
     ]
 
 
+def check_vcs_deprecated(app_configs, **kwargs):
+    from weblate.vcs.models import VCS_REGISTRY
+
+    return [
+        weblate_check(
+            f"weblate.C040.{key}",
+            f"{key} uses not supported configuration, please switch "
+            f"to {cls.identifier.upper()}_CREDENTIALS",
+            Critical,
+        )
+        for key, cls in VCS_REGISTRY.items()
+        if cls.uses_deprecated_setting()
+    ]
+
+
 def check_git(app_configs, **kwargs):
     template = "Failure in configuring Git: {}"
     return [
@@ -73,6 +73,7 @@ class VCSConfig(AppConfig):
     def ready(self):
         super().ready()
         register(check_vcs)
+        register(check_vcs_deprecated)
         register(check_git, deploy=True)
         register(check_gpg, deploy=True)
 

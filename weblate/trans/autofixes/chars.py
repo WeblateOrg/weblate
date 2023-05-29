@@ -1,31 +1,15 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.utils.translation import gettext_lazy as _
 
-from weblate.formats.helpers import CONTROLCHARS
+from weblate.formats.helpers import CONTROLCHARS_TRANS
 from weblate.trans.autofixes.base import AutoFix
 
 
 class ReplaceTrailingDotsWithEllipsis(AutoFix):
-    """Replace Trailing Dots with an Ellipsis."""
+    """Replace trailing dots with an ellipsis."""
 
     fix_id = "end-ellipsis"
     name = _("Trailing ellipsis")
@@ -57,9 +41,21 @@ class RemoveControlChars(AutoFix):
     name = _("Control characters")
 
     def fix_single_target(self, target, source, unit):
-        modified = False
-        for char in CONTROLCHARS:
-            if char not in source and char in target:
-                target = target.replace(char, "")
-                modified = True
-        return target, modified
+        result = target.translate(CONTROLCHARS_TRANS)
+        return result, result != target
+
+
+class DevanagariDanda(AutoFix):
+    """Fixes Bangla sentence ender."""
+
+    fix_id = "devanadari-danda"
+    name = _("Devanagari danda")
+
+    def fix_single_target(self, target, source, unit):
+        if (
+            unit.translation.language.base_code in ("hi", "bn", "or")
+            and source.endswith(".")
+            and target.endswith((".", "\u09F7", "|"))
+        ):
+            return f"{target[:-1]}\u0964", True
+        return target, False

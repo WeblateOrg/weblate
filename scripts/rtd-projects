@@ -1,26 +1,13 @@
 #!/usr/bin/env python3
+
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Synchronizes Read the Docs projects for all languages."""
 
 import os
+import subprocess
 
 import requests
 from weblate_language_data.docs import DOCUMENTATION_LANGUAGES
@@ -44,6 +31,12 @@ def get_update(value):
         return list(value)
     return value
 
+
+git_tag = subprocess.run(
+    ["git", "describe", "--tags", "--abbrev=0"], capture_output=True, text=True
+)
+
+LATEST_RELEASE = git_tag.stdout.strip()
 
 # Read the authorization token
 with open(os.path.expanduser("~/.config/readthedocs.token")) as handle:
@@ -94,6 +87,20 @@ while result["next"]:
             )
             versions_response.raise_for_status()
             versions = versions_response.json()
+            found = None
+            while LATEST_RELEASE not in {
+                version["slug"] for version in versions["results"]
+            }:
+                if versions["next"] is None:
+                    print(
+                        f"Missing release {LATEST_RELEASE} in  {project['name']}: ",
+                        project["urls"]["home"],
+                    )
+                    break
+                versions_response = requests.get(versions["next"], headers=AUTH)
+                versions_response.raise_for_status()
+                versions = versions_response.json()
+
             if versions["count"] < 2:
                 print(
                     f"Missing automation rule {project['name']}: ",

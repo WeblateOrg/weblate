@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
 from datetime import timedelta
@@ -58,15 +43,32 @@ from weblate.addons.properties import PropertiesSortAddon
 from weblate.addons.removal import RemoveComments, RemoveSuggestions
 from weblate.addons.resx import ResxUpdateAddon
 from weblate.addons.tasks import daily_addons
+from weblate.addons.xml import XMLCustomizeAddon
 from weblate.addons.yaml import YAMLCustomizeAddon
 from weblate.lang.models import Language
 from weblate.trans.models import Comment, Component, Suggestion, Translation, Unit, Vote
-from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_READONLY
 from weblate.utils.unittest import tempdir_setting
 
 
-class AddonBaseTest(FixtureTestCase):
+class TestAddonMixin:
+    def setUp(self):
+        super().setUp()
+        ADDONS.data[TestAddon.name] = TestAddon
+        ADDONS.data[ExampleAddon.name] = ExampleAddon
+        ADDONS.data[TestCrashAddon.name] = TestCrashAddon
+        ADDONS.data[ExamplePreAddon.name] = ExamplePreAddon
+
+    def tearDown(self):
+        super().tearDown()
+        del ADDONS.data[TestAddon.name]
+        del ADDONS.data[ExampleAddon.name]
+        del ADDONS.data[TestCrashAddon.name]
+        del ADDONS.data[ExamplePreAddon.name]
+
+
+class AddonBaseTest(TestAddonMixin, ViewTestCase):
     def test_can_install(self):
         self.assertTrue(TestAddon.can_install(self.component, None))
 
@@ -90,7 +92,7 @@ class AddonBaseTest(FixtureTestCase):
         self.assertEqual(addon.name, "weblate.base.test")
 
 
-class IntegrationTest(ViewTestCase):
+class IntegrationTest(TestAddonMixin, ViewTestCase):
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
 
@@ -297,7 +299,7 @@ class GettextAddonTest(ViewTestCase):
             for text in unit.get_target_plurals():
                 self.assertTrue(text.startswith("@@@"))
                 # We need to deal with automated fixups
-                self.assertTrue(text.endswith("!!!") or text.endswith("!!!\n"))
+                self.assertTrue(text.endswith(("!!!", "!!!\n")))
 
     def test_pseudolocale_variable(self):
         self.assertTrue(PseudolocaleAddon.can_install(self.component, None))
@@ -320,7 +322,7 @@ class GettextAddonTest(ViewTestCase):
             for text in unit.get_target_plurals():
                 self.assertTrue(text.startswith("@@@_"))
                 # We need to deal with automated fixups
-                self.assertTrue(text.endswith("_!!!") or text.endswith("_!!!\n"))
+                self.assertTrue(text.endswith(("_!!!", "_!!!\n")))
         for addon in self.component.addon_set.all():
             addon.delete()
         translation = self.component.translation_set.get(language_code="de")
@@ -541,6 +543,33 @@ class JsonAddonTest(ViewTestCase):
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('\t\t\t\t\t\t\t\t"try"', commit)
+
+
+class XMLAddonTest(ViewTestCase):
+    def create_component(self):
+        return self.create_xliff("complex")
+
+    def test_customize_self_closing_tags(self):
+        XMLCustomizeAddon.create(self.component, configuration={"closing_tags": False})
+
+        rev = self.component.repository.last_revision
+        self.edit_unit("Thank you for using Weblate", "Děkujeme, že používáte Weblate")
+        self.get_translation().commit_pending("test", None)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("<target/>", commit)
+
+    def test_customize_closing_tags(self):
+        XMLCustomizeAddon.create(self.component, configuration={"closing_tags": True})
+
+        rev = self.component.repository.last_revision
+        self.edit_unit("Thank you for using Weblate", "Děkujeme, že používáte Weblate")
+        self.get_translation().commit_pending("test", None)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("<target></target>", commit)
 
 
 class YAMLAddonTest(ViewTestCase):
@@ -880,7 +909,7 @@ class DiscoveryTest(ViewTestCase):
         self.assertContains(response, "1 add-on installed")
 
 
-class ScriptsTest(ViewTestCase):
+class ScriptsTest(TestAddonMixin, ViewTestCase):
     def test_example_pre(self):
         self.assertTrue(ExamplePreAddon.can_install(self.component, None))
         translation = self.get_translation()
@@ -1001,11 +1030,7 @@ class GitSquashAddonTest(ViewTestCase):
         self.assertEqual(self.component.repository.count_outgoing(), 1)
 
 
-class TestRemoval(FixtureTestCase):
-    def setUp(self):
-        super().setUp()
-        self.component = self.create_component()
-
+class TestRemoval(ViewTestCase):
     def install(self):
         self.assertTrue(RemoveComments.can_install(self.component, None))
         self.assertTrue(RemoveSuggestions.can_install(self.component, None))
@@ -1056,7 +1081,7 @@ class TestRemoval(FixtureTestCase):
         self.assert_count(suggestions=1)
 
 
-class AutoTranslateAddonTest(FixtureTestCase):
+class AutoTranslateAddonTest(ViewTestCase):
     def test_auto(self):
         self.assertTrue(AutoTranslateAddon.can_install(self.component, None))
         addon = AutoTranslateAddon.create(
@@ -1073,7 +1098,7 @@ class AutoTranslateAddonTest(FixtureTestCase):
         addon.component_update(self.component)
 
 
-class BulkEditAddonTest(FixtureTestCase):
+class BulkEditAddonTest(ViewTestCase):
     def test_bulk(self):
         label = self.project.label_set.create(name="test", color="navy")
         self.assertTrue(BulkEditAddon.can_install(self.component, None))

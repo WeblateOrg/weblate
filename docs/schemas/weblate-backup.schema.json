@@ -104,8 +104,16 @@
         "web": {
           "$id": "#root/project/web",
           "title": "",
-          "type": "string",
-          "format": "uri",
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "iri"
+            },
+            {
+              "type": "string",
+              "maxLength": 0
+            }
+          ],
           "default": "Project website",
           "examples": [
             "https://weblate.org/"

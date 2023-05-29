@@ -1,21 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Font handling wrapper."""
 
 
@@ -36,7 +22,7 @@ from weblate.utils.data import data_dir
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
-from gi.repository import Pango, PangoCairo  # noqa:E402,I001 isort:skip
+from gi.repository import Pango, PangoCairo  # noqa: E402
 
 FONTCONFIG_CONFIG = """<?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
@@ -89,6 +75,12 @@ FONTCONFIG_CONFIG = """<?xml version="1.0"?>
         <edit name="weight" mode="assign">
             <const>bold</const>
         </edit>
+    </match>
+    <!--
+      Enable slight hinting for better sub-pixel rendering
+    -->
+    <match target="pattern">
+      <edit name="hintstyle" mode="append"><const>hintslight</const></edit>
     </match>
 </fontconfig>
 """
@@ -218,7 +210,7 @@ def check_render_size(font, weight, size, spacing, text, width, lines, cache_key
 def get_font_name(filelike):
     """Returns tuple of font family and style, for example ('Ubuntu', 'Regular')."""
     if not hasattr(filelike, "loaded_font"):
-        # The tempfile creation is workaroud for Pillow crashing on invalid font
+        # The tempfile creation is workaround for Pillow crashing on invalid font
         # see https://github.com/python-pillow/Pillow/issues/3853
         # Once this is fixed, it should be possible to directly operate on filelike
         temp = NamedTemporaryFile(delete=False)
@@ -236,6 +228,6 @@ def check_fonts(app_configs=None, **kwargs):
     """Checks font rendering."""
     try:
         render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, "test")
-        return []
     except Exception as error:
         return [weblate_check("weblate.C024", f"Failed to use Pango: {error}")]
+    return []

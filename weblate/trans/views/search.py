@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -82,7 +67,7 @@ def parse_url(request, project, component=None, lang=None):
         context["components"] = [obj.component]
 
     if not request.user.has_perm("unit.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     return obj, unit_set, context
 
@@ -105,16 +90,21 @@ def search_replace(request, project, component=None, lang=None):
 
     matching = unit_set.filter(target__contains=search_text)
     if query:
-        matching = matching.search(query, distinct=False)
+        matching = matching.search(query)
 
     updated = 0
-    if matching.exists():
+
+    matching_ids = list(matching.order_by("id").values_list("id", flat=True)[:251])
+
+    if matching_ids:
+        if len(matching_ids) == 251:
+            matching_ids = matching_ids[:250]
+            limited = True
+
+        matching = Unit.objects.filter(id__in=matching_ids).prefetch()
+
         confirm = ReplaceConfirmForm(matching, request.POST)
         limited = False
-
-        if matching.count() > 300:
-            matching = matching.order_by("id")[:250]
-            limited = True
 
         if not confirm.is_valid():
             for unit in matching:
@@ -248,7 +238,7 @@ def bulk_edit(request, project, component=None, lang=None):
     obj, unit_set, context = parse_url(request, project, component, lang)
 
     if not request.user.has_perm("translation.auto", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = BulkEditForm(request.user, obj, request.POST, project=context["project"])
 

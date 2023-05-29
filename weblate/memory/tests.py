@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
 from io import StringIO
@@ -51,7 +36,7 @@ def add_document():
 class MemoryModelTest(FixtureTestCase):
     @classmethod
     def _databases_support_transactions(cls):
-        # This is workaroud for MySQL as FULL TEXT index does not work
+        # This is workaround for MySQL as FULL TEXT index does not work
         # well inside a transaction, so we avoid using transactions for
         # tests. Otherwise we end up with no matches for the query.
         # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
@@ -64,7 +49,7 @@ class MemoryModelTest(FixtureTestCase):
         unit = self.get_unit()
         machine_translation = WeblateMemory({})
         self.assertEqual(
-            machine_translation.translate(unit, search="Hello"),
+            machine_translation.search(unit, "Hello", None),
             [
                 {
                     "quality": 100,
@@ -73,6 +58,24 @@ class MemoryModelTest(FixtureTestCase):
                     "source": "Hello",
                     "text": "Ahoj",
                     "show_quality": True,
+                    "delete_url": None,
+                }
+            ],
+        )
+
+        self.user.is_superuser = True
+        self.user.save()
+        self.assertEqual(
+            machine_translation.search(unit, "Hello", self.user),
+            [
+                {
+                    "quality": 100,
+                    "service": "Weblate Translation Memory",
+                    "origin": "File: test",
+                    "source": "Hello",
+                    "text": "Ahoj",
+                    "show_quality": True,
+                    "delete_url": f"/api/memory/{Memory.objects.first().pk}/",
                 }
             ],
         )
@@ -83,7 +86,7 @@ class MemoryModelTest(FixtureTestCase):
         machine_translation = WeblateMemory({})
         unit.source = "Hello"
         machine_translation.batch_translate([unit])
-        self.assertEqual(unit.machinery, {"best": 100, "translation": "Ahoj"})
+        self.assertEqual(unit.machinery, {"quality": [100], "translation": ["Ahoj"]})
 
     def test_import_tmx_command(self):
         call_command("import_memory", get_test_file("memory.tmx"))
@@ -164,7 +167,6 @@ class MemoryViewTest(FixtureTestCase):
     def test_memory(
         self, match="Number of your entries", fail=False, prefix: str = "", **kwargs
     ):
-
         is_project_scoped = "kwargs" in kwargs and "project" in kwargs["kwargs"]
         # Test wipe without confirmation
         response = self.client.get(reverse(f"{prefix}memory-delete", **kwargs))

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for import and export."""
 
@@ -191,7 +176,8 @@ class ImportErrorTest(ImportBaseTest):
     """Testing import of broken files."""
 
     def test_mismatched_plurals(self):
-        """Test importing a file with different number of plural forms.
+        """
+        Test importing a file with different number of plural forms.
 
         In response to issue #900
         """
@@ -286,6 +272,32 @@ class ImportJoomlaTest(ImportTest):
 
     def create_component(self):
         return self.create_joomla()
+
+
+class ImportCSVTest(ImportTest):
+    has_plurals = False
+
+    def create_component(self):
+        return self.create_csv_mono()
+
+    def test_import_source(self):
+        kwargs = self.kw_translation.copy()
+        kwargs["lang"] = "en"
+
+        with open(TEST_CSV, "rb") as handle:
+            response = self.client.post(
+                reverse("upload_translation", kwargs=kwargs),
+                {
+                    "file": handle,
+                    "method": "replace",
+                    "author_name": self.user.full_name,
+                    "author_email": self.user.email,
+                },
+                follow=True,
+            )
+        self.assertRedirects(response, reverse("translation", kwargs=kwargs))
+        messages = list(response.context["messages"])
+        self.assertIn("Processed 1 string from the uploaded files", messages[0].message)
 
 
 class ImportJSONTest(ImportTest):

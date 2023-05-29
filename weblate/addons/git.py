@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from collections import defaultdict
 from itertools import chain
@@ -61,7 +46,7 @@ class GitSquashAddon(BaseAddon):
 
     def get_filenames(self, component):
         languages = defaultdict(list)
-        for origin in [component] + list(component.linked_childs):
+        for origin in [component, *list(component.linked_childs)]:
             for translation in origin.translation_set.prefetch_related("language"):
                 code = translation.language.code
                 if not translation.filename:
@@ -76,7 +61,7 @@ class GitSquashAddon(BaseAddon):
             f"{remote}..HEAD",
         ]
         if filenames:
-            command += ["--"] + filenames
+            command += ["--", *filenames]
 
         return repository.execute(command)
 
@@ -90,7 +75,7 @@ class GitSquashAddon(BaseAddon):
                 f"{remote}..HEAD",
             ]
             if filenames:
-                command += ["--"] + filenames
+                command += ["--", *filenames]
 
             trailer_lines = set()
             change_id_line = None
@@ -207,14 +192,14 @@ class GitSquashAddon(BaseAddon):
                 base = repository.get_last_revision()
                 # Cherry pick current commit (this should work
                 # unless something is messed up)
-                repository.execute(["cherry-pick", commit] + gpg_sign)
+                repository.execute(["cherry-pick", commit, *gpg_sign])
                 handled = []
                 # Pick other commits by same author
                 for i, other in enumerate(commits):
                     if other[1] != author:
                         continue
                     try:
-                        repository.execute(["cherry-pick", other[0]] + gpg_sign)
+                        repository.execute(["cherry-pick", other[0], *gpg_sign])
                         handled.append(i)
                     except RepositoryException:
                         # If fails, continue to another author, we will
@@ -233,7 +218,7 @@ class GitSquashAddon(BaseAddon):
             repository.delete_branch(tmp)
 
         except Exception:
-            report_error(cause="Failed squash")
+            report_error(cause="Failed squash", project=component.project)
             # Revert to original branch without any changes
             repository.execute(["reset", "--hard"])
             repository.execute(["checkout", repository.branch])

@@ -1,21 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Mercurial version control system abstraction for Weblate needs."""
 
 import os
@@ -25,6 +11,7 @@ from configparser import RawConfigParser
 from datetime import datetime
 from typing import Iterator, List, Optional
 
+from weblate.auth.utils import format_address
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.ssh import SSH_WRAPPER
 
@@ -101,7 +88,7 @@ class HgRepository(Repository):
 
     def set_committer(self, name, mail):
         """Configure committer name."""
-        self.set_config("ui.username", f"{name} <{mail}>")
+        self.set_config("ui.username", format_address(name, mail))
 
     def reset(self):
         """Reset working copy to match remote branch."""
@@ -178,7 +165,7 @@ class HgRepository(Repository):
         if filenames:
             cmd.extend(filenames)
         status = self.execute(cmd, needs_lock=False)
-        return status != ""
+        return bool(status)
 
     def _get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
@@ -235,7 +222,8 @@ class HgRepository(Repository):
         ).splitlines()
 
     def needs_ff(self):
-        """Check whether repository needs a fast-forward to upstream.
+        """
+        Check whether repository needs a fast-forward to upstream.
 
         Checks whether the path to the upstream is linear.
         """
@@ -292,7 +280,7 @@ class HgRepository(Repository):
 
     def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
-        self.execute(["remove", "--force", "--"] + files)
+        self.execute(["remove", "--force", "--", *files])
         self.commit(message, author)
 
     def configure_remote(
@@ -367,7 +355,7 @@ class HgRepository(Repository):
         self.clean_revision_cache()
 
     def parse_changed_files(self, lines: List[str]) -> Iterator[str]:
-        """Parses output with chanaged files."""
+        """Parses output with changed files."""
         # Strip action prefix we do not use
         yield from (line[2:] for line in lines)
 

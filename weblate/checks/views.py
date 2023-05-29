@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.db.models import Count
 from django.http import Http404
@@ -29,7 +14,7 @@ from weblate.trans.util import redirect_param
 from weblate.utils.db import conditional_sum
 from weblate.utils.forms import FilterForm
 from weblate.utils.state import STATE_TRANSLATED
-from weblate.utils.views import get_component, get_project
+from weblate.utils.views import get_component, get_project, show_form_errors
 
 
 def encode_optional(params):
@@ -62,6 +47,8 @@ def show_checks(request):
                 "component"
             ]
             url_params["component"] = form.cleaned_data["component"]
+    else:
+        show_form_errors(request, form)
 
     allchecks = (
         Check.objects.filter(**kwargs)
@@ -115,6 +102,8 @@ def show_check(request, name):
                 project=form.cleaned_data["project"],
                 name=name,
             )
+    else:
+        show_form_errors(request, form)
 
     projects = (
         request.user.allowed_projects.filter(**kwargs)
@@ -167,6 +156,8 @@ def show_check_project(request, name, project):
         if form.cleaned_data.get("lang"):
             kwargs["translation__language__code"] = form.cleaned_data["lang"]
             url_params["lang"] = form.cleaned_data["lang"]
+    else:
+        show_form_errors(request, form)
 
     components = (
         Component.objects.filter_access(request.user)
@@ -211,8 +202,12 @@ def show_check_component(request, name, project, component):
 
     kwargs = {}
 
-    if request.GET.get("lang"):
-        kwargs["language__code"] = request.GET["lang"]
+    form = FilterForm(request.GET)
+    if form.is_valid():
+        if form.cleaned_data.get("lang"):
+            kwargs["language__code"] = form.cleaned_data["lang"]
+    else:
+        show_form_errors(request, form)
 
     translations = (
         Translation.objects.filter(

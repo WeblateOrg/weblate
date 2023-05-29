@@ -1,21 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 import os
 import time
 from datetime import date, datetime, timedelta
@@ -34,6 +20,7 @@ from django.utils.translation import ngettext, override
 from weblate.addons.models import Addon
 from weblate.auth.models import User, get_anonymous
 from weblate.lang.models import Language
+from weblate.machinery.base import MachineTranslationError
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
@@ -163,36 +150,40 @@ def commit_pending(hours=None, pks=None, logger=None):
 
 
 @app.task(trail=False)
-def cleanup_project(pk):
+def cleanup_component(pk):
     """
-    Perform cleanup of project models.
+    Perform cleanup of component models.
 
     - Remove stale source Unit objects.
     - Update variants.
     """
     try:
-        project = Project.objects.get(pk=pk)
-    except Project.DoesNotExist:
+        component = Component.objects.get(pk=pk)
+    except Component.DoesNotExist:
         return
 
-    for component in project.component_set.filter(template="").iterator():
-        # Remove stale variants
-        with transaction.atomic():
-            component.update_variants()
+    # Skip monolingual components, these handle cleanups based on the template
+    if component.template:
+        return
 
-        translation = component.source_translation
-        # Skip translations with a filename (eg. when POT file is present)
-        if translation.filename:
-            continue
-        with transaction.atomic():
-            # Remove all units where there is just one referenced unit (self)
-            deleted, details = (
-                translation.unit_set.annotate(Count("unit"))
-                .filter(unit__count__lte=1)
-                .delete()
-            )
-            if deleted:
-                translation.log_info("removed leaf units: %s", details)
+    # Remove stale variants
+    with transaction.atomic():
+        component.update_variants()
+
+    translation = component.source_translation
+    # Skip translations with a filename (eg. when POT file is present)
+    if translation.filename:
+        return
+
+    # Remove all units where there is just one referenced unit (self)
+    with transaction.atomic():
+        deleted, details = (
+            translation.unit_set.annotate(Count("unit"))
+            .filter(unit__count__lte=1)
+            .delete()
+        )
+        if deleted:
+            translation.log_info("removed leaf units: %s", details)
 
 
 @app.task(trail=False)
@@ -293,7 +284,9 @@ def repository_alerts(threshold=settings.REPOSITORY_ALERT_THRESHOLD):
             else:
                 component.delete_alert("RepositoryChanges")
         except RepositoryException as error:
-            report_error(cause="Could not check repository status")
+            report_error(
+                cause="Could not check repository status", project=component.project
+            )
             component.add_alert("MergeFailure", error=component.error_text(error))
 
 
@@ -354,16 +347,18 @@ def component_removal(pk, uid):
 
 
 @app.task(trail=False)
-def project_removal(pk, uid):
-    user = User.objects.get(pk=uid)
+def project_removal(pk: int, uid: Optional[int]):
+    user = get_anonymous() if uid is None else User.objects.get(pk=uid)
     try:
         project = Project.objects.get(pk=pk)
+        create_project_backup(pk)
         Change.objects.create(
             action=Change.ACTION_REMOVE_PROJECT,
             target=project.slug,
             user=user,
             author=user,
         )
+        project.stats.invalidate()
         project.delete()
     except Project.DoesNotExist:
         return
@@ -389,10 +384,7 @@ def auto_translate(
 ):
     if translation is None:
         translation = Translation.objects.get(pk=translation_id)
-    if user_id:
-        user = User.objects.get(pk=user_id)
-    else:
-        user = None
+    user = User.objects.get(pk=user_id) if user_id else None
     translation.log_info(
         "starting automatic translation %s: %s: %s",
         current_task.request.id,
@@ -403,10 +395,18 @@ def auto_translate(
         auto = AutoTranslate(
             user, translation, filter_type, mode, component_wide=component_wide
         )
-        if auto_source == "mt":
-            auto.process_mt(engines, threshold)
-        else:
-            auto.process_others(component)
+        try:
+            if auto_source == "mt":
+                auto.process_mt(engines, threshold)
+            else:
+                auto.process_others(component)
+        except MachineTranslationError as error:
+            translation.log_error("failed automatic translation: %s", error)
+            return {
+                "translation": translation_id,
+                "message": _("Automatic translation failed: %s") % error,
+            }
+
         translation.log_info("completed automatic translation")
 
         if auto.updated == 0:
@@ -525,6 +525,8 @@ def cleanup_project_backups():
     rootdir = data_dir("projectbackups")
     backup_cutoff = datetime.now() - timedelta(days=settings.PROJECT_BACKUP_KEEP_DAYS)
     for projectdir in glob(os.path.join(rootdir, "*")):
+        if not os.path.isdir(projectdir):
+            continue
         if projectdir.endswith("import"):
             # Keep imports for shorter time, but more of them
             cutoff = datetime.now() - timedelta(days=1)
@@ -539,7 +541,7 @@ def cleanup_project_backups():
                     datetime.fromtimestamp(int(path.split(".")[0])),
                 )
                 for path in os.listdir(projectdir)
-                if path.endswith(".zip") or path.endswith(".zip.part")
+                if path.endswith((".zip", ".zip.part"))
             ),
             key=lambda item: item[1],
             reverse=True,
@@ -565,24 +567,32 @@ def create_project_backup(pk):
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(3600, commit_pending.s(), name="commit-pending")
     sender.add_periodic_task(
-        crontab(hour=3, minute=30), update_remotes.s(), name="update-remotes"
+        crontab(hour=3, minute=5), update_remotes.s(), name="update-remotes"
     )
     sender.add_periodic_task(
-        crontab(hour=0, minute=30), daily_update_checks.s(), name="daily-update-checks"
-    )
-    sender.add_periodic_task(3600 * 24, repository_alerts.s(), name="repository-alerts")
-    sender.add_periodic_task(3600 * 24, component_alerts.s(), name="component-alerts")
-    sender.add_periodic_task(
-        3600 * 24, cleanup_suggestions.s(), name="suggestions-cleanup"
+        crontab(hour=3, minute=30), daily_update_checks.s(), name="daily-update-checks"
     )
     sender.add_periodic_task(
-        3600 * 24, cleanup_stale_repos.s(), name="cleanup-stale-repos"
+        crontab(hour=3, minute=45), repository_alerts.s(), name="repository-alerts"
     )
     sender.add_periodic_task(
-        3600 * 24, cleanup_old_suggestions.s(), name="cleanup-old-suggestions"
+        crontab(hour=3, minute=55), component_alerts.s(), name="component-alerts"
     )
     sender.add_periodic_task(
-        3600 * 24, cleanup_old_comments.s(), name="cleanup-old-comments"
+        crontab(hour=0, minute=40), cleanup_suggestions.s(), name="suggestions-cleanup"
+    )
+    sender.add_periodic_task(
+        crontab(hour=0, minute=40), cleanup_stale_repos.s(), name="cleanup-stale-repos"
+    )
+    sender.add_periodic_task(
+        crontab(hour=0, minute=45),
+        cleanup_old_suggestions.s(),
+        name="cleanup-old-suggestions",
+    )
+    sender.add_periodic_task(
+        crontab(hour=0, minute=50),
+        cleanup_old_comments.s(),
+        name="cleanup-old-comments",
     )
     sender.add_periodic_task(
         crontab(hour=2, minute=30),

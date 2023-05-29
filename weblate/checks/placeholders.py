@@ -1,25 +1,10 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
 
+from django.utils.functional import SimpleLazyObject
 from django.utils.html import escape, format_html, format_html_join
 from django.utils.translation import gettext_lazy as _
 
@@ -73,7 +58,10 @@ class PlaceholderCheck(TargetCheckParametrized):
         )
 
     def check_target_params(self, sources, targets, unit, value):
-        expected = set(self.get_matches(value, unit.source_string))
+        expected = set(self.get_matches(value, sources[0]))
+        if not expected and len(sources) > 1:
+            expected = set(self.get_matches(value, sources[-1]))
+        plural_examples = SimpleLazyObject(lambda: unit.translation.plural.examples)
 
         if "case-insensitive" in unit.all_flags:
             diff_func = self.diff_case_insensitive
@@ -83,10 +71,17 @@ class PlaceholderCheck(TargetCheckParametrized):
         missing = set()
         extra = set()
 
-        for target in targets:
+        for pluralno, target in enumerate(targets):
             found = set(self.get_matches(value, target))
             diff = diff_func(expected, found)
-            missing.update(diff[0])
+            plural_example = plural_examples[pluralno]
+            # Allow to skip format string in case there is single plural or in special
+            # case of 0, 1 plural. It is technically wrong, but in many cases there
+            # won't be 0 so don't trigger too many false positives
+            if len(targets) == 1 or (
+                len(plural_example) > 1 and plural_example != ["0", "1"]
+            ):
+                missing.update(diff[0])
             extra.update(diff[1])
 
         if missing or extra:

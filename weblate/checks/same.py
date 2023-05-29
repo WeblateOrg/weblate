@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
 
@@ -60,7 +44,7 @@ RST_MATCH = re.compile(r"(:[a-z:]+:`[^`]+`|``[^`]+``)")
 
 SPLIT_RE = re.compile(
     r"(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|"
-    + r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—‑…\[\]0-9-])+',
+    r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—‑…\[\]0-9-])+',
     re.IGNORECASE,
 )
 
@@ -71,7 +55,8 @@ DB_TAGS = ("screen", "indexterm", "programlisting")
 
 
 def strip_format(msg, flags):
-    """Remove format strings from the strings.
+    """
+    Remove format strings from the strings.
 
     These are quite often not changed by translators.
     """
@@ -91,8 +76,7 @@ def strip_format(msg, flags):
         regex = PERCENT_MATCH
     else:
         return msg
-    stripped = regex.sub("", msg)
-    return stripped
+    return regex.sub("", msg)
 
 
 def strip_string(msg, flags):
@@ -139,7 +123,6 @@ def test_word(word, extra_ignore):
 
 
 def strip_placeholders(msg, unit):
-
     return re.sub(
         "|".join(
             re.escape(param) if isinstance(param, str) else param.pattern
@@ -160,6 +143,7 @@ class SameCheck(TargetCheck):
     def should_ignore(self, source, unit):
         """Check whether given unit should be ignored."""
         from weblate.checks.flags import TYPED_FLAGS
+        from weblate.glossary.models import get_glossary_terms
 
         if "strict-same" in unit.all_flags:
             return False
@@ -183,8 +167,21 @@ class SameCheck(TargetCheck):
             or "©" in source
         ):
             return True
+
+        # Strip glossary terms
+        stripped = source
+        if "check-glossary" in unit.all_flags:
+            # Extract untranslatable terms
+            terms = [
+                re.escape(term.source)
+                for term in get_glossary_terms(unit)
+                if "read-only" in term.all_flags
+            ]
+            if terms:
+                stripped = re.sub("|".join(terms), "", source, flags=re.IGNORECASE)
+
         # Strip format strings
-        stripped = strip_string(source, unit.all_flags)
+        stripped = strip_string(stripped, unit.all_flags)
 
         # Strip placeholder strings
         if "placeholders" in TYPED_FLAGS and "placeholders" in unit.all_flags:
@@ -200,6 +197,7 @@ class SameCheck(TargetCheck):
         for word in SPLIT_RE.split(stripped.lower()):
             if not test_word(word, extra_ignore):
                 return False
+
         return True
 
     def should_skip(self, unit):

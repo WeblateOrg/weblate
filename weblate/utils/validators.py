@@ -1,31 +1,18 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import gettext
 import os
 import re
 import sys
 from io import BytesIO
+from urllib.parse import urlparse
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as EmailValidatorDjango
+from django.core.validators import validate_ipv46_address
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from PIL import Image
@@ -97,11 +84,10 @@ def validate_bitmap(value):
     # might have to read the data into memory.
     if hasattr(value, "temporary_file_path"):
         content = value.temporary_file_path()
+    elif hasattr(value, "read"):
+        content = BytesIO(value.read())
     else:
-        if hasattr(value, "read"):
-            content = BytesIO(value.read())
-        else:
-            content = BytesIO(value["content"])
+        content = BytesIO(value["content"])
 
     try:
         # load() could spot a truncated JPEG, but it loads the entire
@@ -231,3 +217,37 @@ def validate_language_aliases(value):
     for part in value.split(","):
         if part.count(":") != 1:
             raise ValidationError(_("Syntax error in language aliases."))
+
+
+def validate_project_name(value):
+    """Prohibits some special values."""
+    if settings.PROJECT_NAME_RESTRICT_RE is not None and re.match(
+        settings.PROJECT_NAME_RESTRICT_RE, value
+    ):
+        raise ValidationError(_("This name is prohibited"))
+
+
+def validate_project_web(value):
+    # Regular expression filtering
+    if settings.PROJECT_WEB_RESTRICT_RE is not None and re.match(
+        settings.PROJECT_WEB_RESTRICT_RE, value
+    ):
+        raise ValidationError(_("This URL is prohibited"))
+    parsed = urlparse(value)
+    hostname = parsed.hostname or ""
+    hostname = hostname.lower()
+
+    # Hostname filtering
+    if any(
+        hostname.endswith(blocked) for blocked in settings.PROJECT_WEB_RESTRICT_HOST
+    ):
+        raise ValidationError(_("This URL is prohibited"))
+
+    # Numeric address filtering
+    if settings.PROJECT_WEB_RESTRICT_NUMERIC:
+        try:
+            validate_ipv46_address(hostname)
+        except ValidationError:
+            pass
+        else:
+            raise ValidationError(_("This URL is prohibited"))

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for user handling."""
 from unittest import mock
@@ -103,13 +88,13 @@ class ViewTest(RepoTestCase):
         response = self.client.post(reverse("contact"), data)
         self.assertContains(response, "Enter a valid e-mail address.")
 
-    @override_settings(RATELIMIT_ATTEMPTS=0)
+    @override_settings(RATELIMIT_MESSAGE_ATTEMPTS=0)
     def test_contact_rate(self):
         """Test for contact form rate limiting."""
         response = self.client.post(reverse("contact"), CONTACT_DATA)
         self.assertContains(response, "Too many messages sent, please try again later.")
 
-    @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=0)
+    @override_settings(RATELIMIT_MESSAGE_ATTEMPTS=1, RATELIMIT_WINDOW=0)
     def test_contact_rate_window(self):
         """Test for contact form rate limiting."""
         message = "Too many messages sent, please try again later."
@@ -223,6 +208,17 @@ class ViewTest(RepoTestCase):
 
         response = self.client.get(reverse("user_suggestions", kwargs={"user": "-"}))
         self.assertContains(response, "Suggestions")
+
+    def test_contributions(self):
+        """Test user pages."""
+        # Setup user
+        user = self.get_user()
+
+        # Get public profile
+        response = self.client.get(
+            reverse("user_contributions", kwargs={"user": user.username})
+        )
+        self.assertContains(response, "Translations with contribution")
 
     def test_login(self):
         user = self.get_user()

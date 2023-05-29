@@ -1,9 +1,11 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+{% if form %}
 <form method="GET" class="result-page-form">
 {% crispy form %}
 </form>
+{% endif %}
 
 {% if object_list %}
   <div class="user-list">

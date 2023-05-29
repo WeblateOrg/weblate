@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from urllib.parse import urlparse
 
@@ -45,7 +30,8 @@ INLINE_PATHS = {"social:begin", "djangosaml2idp:saml_login_process"}
 
 
 class ProxyMiddleware:
-    """Middleware that updates REMOTE_ADDR from proxy.
+    """
+    Middleware that updates REMOTE_ADDR from proxy.
 
     Note that this can have security implications and settings have to match your actual
     proxy setup.
@@ -155,7 +141,8 @@ class RedirectMiddleware:
         return component
 
     def check_existing_translations(self, slug, project):
-        """Check in existing translations for specific language.
+        """
+        Check in existing translations for specific language.
 
         Return False if language translation not present, else True.
         """
@@ -198,9 +185,10 @@ class RedirectMiddleware:
                             request,
                             messages.INFO,
                             _(
-                                f"{new_lang} translation is currently not available,\
-                                but can be added."
-                            ),
+                                "%s translation is currently not available, "
+                                "but can be added."
+                            )
+                            % new_lang,
                         )
                         return redirect(
                             reverse(

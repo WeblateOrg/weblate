@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.conf import settings
 
@@ -57,7 +42,7 @@ def check_permission(user, permission, obj):
     if isinstance(obj, Project):
         return any(
             permission in permissions
-            for permissions, _langs in user.project_permissions[obj.pk]
+            for permissions, _langs in user.get_project_permissions(obj)
         )
     if isinstance(obj, ComponentList):
         return all(
@@ -69,7 +54,7 @@ def check_permission(user, permission, obj):
             not obj.restricted
             and any(
                 permission in permissions
-                for permissions, _langs in user.project_permissions[obj.project_id]
+                for permissions, _langs in user.get_project_permissions(obj.project)
             )
         ) or any(
             permission in permissions
@@ -80,13 +65,13 @@ def check_permission(user, permission, obj):
         return (
             not obj.component.restricted
             and any(
-                permission in permissions and lang in langs
-                for permissions, langs in user.project_permissions[
-                    obj.component.project_id
-                ]
+                permission in permissions and (langs is None or lang in langs)
+                for permissions, langs in user.get_project_permissions(
+                    obj.component.project
+                )
             )
         ) or any(
-            permission in permissions and lang in langs
+            permission in permissions and (langs is None or lang in langs)
             for permissions, langs in user.component_permissions[obj.component_id]
         )
     raise ValueError(f"Permission {permission} does not support: {obj.__class__}")
@@ -121,7 +106,7 @@ def check_can_edit(user, permission, obj, is_vote=False):
     elif isinstance(obj, ProjectLanguage):
         project = obj.project
     else:
-        raise ValueError(f"Unknown object for permission check: {obj.__class__}")
+        raise TypeError(f"Unknown object for permission check: {obj.__class__}")
 
     # Email is needed for user to be able to edit
     if user.is_authenticated and not user.email:
@@ -176,9 +161,7 @@ def check_unit_review(user, permission, obj, skip_enabled=False):
             if not obj.enable_review:
                 return False
         else:
-            if isinstance(obj, Component):
-                project = obj.project
-            elif isinstance(obj, ProjectLanguage):
+            if isinstance(obj, (Component, ProjectLanguage)):
                 project = obj.project
             else:
                 project = obj
@@ -233,6 +216,11 @@ def check_unit_delete(user, permission, obj):
     # Check if removing is generally allowed
     if not check_manage_units(obj, component):
         return False
+
+    # Does file format support removing?
+    if not component.file_format_cls.can_delete_unit:
+        return False
+
     if component.is_glossary:
         permission = "glossary.delete"
     return check_can_edit(user, permission, obj)
@@ -362,6 +350,21 @@ def check_repository_status(user, permission, obj):
     )
 
 
+@register_perm("meta:team.edit")
+def check_team_edit(user, permission, obj):
+    return check_global_permission(user, "group.edit", obj) or (
+        obj.defining_project
+        and check_permission(user, "project.permissions", obj.defining_project)
+    )
+
+
+@register_perm("meta:team.users")
+def check_team_edit_users(user, permission, obj):
+    return (
+        check_team_edit(user, permission, obj) or obj.pk in user.administered_group_ids
+    )
+
+
 @register_perm("billing.view")
 def check_billing_view(user, permission, obj):
     if hasattr(obj, "all_projects"):
@@ -401,3 +404,18 @@ def check_unit_flag(user, permission, obj):
         return user.has_perm("source.edit", obj)
 
     return user.has_perm("glossary.edit", obj)
+
+
+@register_perm("memory.edit", "memory.delete")
+def check_memory_perms(user, permission, memory):
+    from weblate.memory.models import Memory
+
+    if isinstance(memory, Memory):
+        if memory.user_id == user.id:
+            return True
+        if memory.project is None:
+            return user.is_superuser
+        project = memory.project
+    else:
+        project = memory
+    return check_permission(user, permission, project)

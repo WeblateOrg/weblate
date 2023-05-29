@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import locale
 import os
@@ -97,7 +82,8 @@ def is_repo_link(val):
 
 
 def get_distinct_translations(units):
-    """Return list of distinct translations.
+    """
+    Return list of distinct translations.
 
     It should be possible to use distinct('target') since Django 1.4, but it is not
     supported with MySQL, so let's emulate that based on presumption we won't get too
@@ -271,7 +257,8 @@ def redirect_next(next_url, fallback):
 
 
 def xliff_string_to_rich(string):
-    """Convert XLIFF string to StringElement.
+    """
+    Convert XLIFF string to StringElement.
 
     Transform a string containing XLIFF placeholders as XML into a rich content
     (StringElement)
@@ -282,7 +269,8 @@ def xliff_string_to_rich(string):
 
 
 def rich_to_xliff_string(string_elements):
-    """Convert StringElement to XLIFF string.
+    """
+    Convert StringElement to XLIFF string.
 
     Transform rich content (StringElement) into a string with placeholder kept as XML
     """

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.conf import settings
 from django.contrib.syndication.views import Feed
@@ -62,9 +47,6 @@ class ChangesFeed(Feed):
 class TranslationChangesFeed(ChangesFeed):
     """RSS feed for changes in translation."""
 
-    # Arguments number differs from overridden method
-    # pylint: disable=arguments-differ
-
     def get_object(self, request, project, component, lang):
         return get_translation(request, project, component, lang)
 
@@ -84,9 +66,6 @@ class TranslationChangesFeed(ChangesFeed):
 class ComponentChangesFeed(TranslationChangesFeed):
     """RSS feed for changes in component."""
 
-    # Arguments number differs from overridden method
-    # pylint: disable=arguments-differ
-
     def get_object(self, request, project, component):
         return get_component(request, project, component)
 
@@ -97,9 +76,6 @@ class ComponentChangesFeed(TranslationChangesFeed):
 class ProjectChangesFeed(TranslationChangesFeed):
     """RSS feed for changes in project."""
 
-    # Arguments number differs from overridden method
-    # pylint: disable=arguments-differ
-
     def get_object(self, request, project):
         return get_project(request, project)
 
@@ -109,9 +85,6 @@ class ProjectChangesFeed(TranslationChangesFeed):
 
 class LanguageChangesFeed(TranslationChangesFeed):
     """RSS feed for changes in language."""
-
-    # Arguments number differs from overridden method
-    # pylint: disable=arguments-differ
 
     def get_object(self, request, lang):
         return get_object_or_404(Language, code=lang)

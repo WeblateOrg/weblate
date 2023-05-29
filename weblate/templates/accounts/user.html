@@ -101,7 +101,7 @@
         {% endif %}
         {% if page_profile.fediverse %}
           <span class="middle-dot-divider">
-            <span class="profile-icon">{% icon "fediverse.svg" %}</span> <a href="{{ page_profile.fediverse }}" rel="ugc">{{ page_profile.fediverse | urlformat }}</a>
+            <span class="profile-icon">{% icon "fediverse.svg" %}</span> <a href="{{ page_profile.fediverse }}" rel="ugc me">{{ page_profile.fediverse | urlformat }}</a>
           </span>
         {% endif %}
         {% if page_profile.github %}
@@ -159,18 +159,25 @@
 <div class="tab-pane active" id="contributed">
 <div class="list-group">
 {% include "snippets/list-objects.html" with objects=page_user_translations label=_("Translation") show_admin_badge=True  name_source="translation" %}
+<a href="{% url 'user_contributions' user=page_user.username %}" class="btn btn-primary">{% trans "Browse all translations with contribution" %}</a>
 </div>
 </div>
 
 <div class="tab-pane" id="managed">
 <div class="list-group">
 {% include "list-projects.html" with projects=page_owned_projects %}
+{% if page_owned_projects_more %}
+  <a href="{% url 'projects' %}?owned={{page_user.username}}" class="btn btn-primary">{% trans "Browse all managed projects" %}</a>
+{% endif %}
 </div>
 </div>
 
 <div class="tab-pane" id="watched">
 <div class="list-group">
 {% include "list-projects.html" with projects=page_watched_projects %}
+{% if page_watched_projects_more %}
+  <a href="{% url 'projects' %}?watched={{page_user.username}}" class="btn btn-primary">{% trans "Browse all watched projects" %}</a>
+{% endif %}
 </div>
 </div>
 
@@ -257,7 +264,7 @@
               <td><em>{% trans "None" context "None project associated with group" %}</em></td>
             {% endif %}
             <th>{{ group.name }}</th>
-            <td class="number">{{ group.user_set.count }}</td>
+            <td class="number">{{ group.user__count }}</td>
             <td>
               <a href="" class="btn btn-link btn-xs red link-post" data-href="{{ page_user.get_absolute_url }}" data-params='{"remove_group": {{ group.pk }}}' title="{% trans "Remove user from this group" %}">
                 {% icon 'delete.svg' %}
@@ -292,9 +299,26 @@
       {% csrf_token %}
       {{ form|crispy }}
       <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
-      <input type="submit" name="remove_user" value="{% trans "Delete" %}" class="btn btn-danger" />
+      <input type="button" name="remove_user" value="{% trans "Delete" %}" class="btn-danger red" data-toggle="modal" data-target="#delete_user_{{ page_user.id }}">
+      <div class="modal fade" tabindex="-1" role="dialog" id="delete_user_{{ page_user.id }}">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
+            </div>
+            <div class="modal-body">
+              {% blocktrans with user=page_user.username %}This will remove <b>{{ user }}</b> from Weblate.{% endblocktrans %}
+            </div>
+            <div class="modal-footer">
+               <input type="submit" name="remove_user" value="{% trans "Delete" %}" class="btn btn-danger" />
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
     </form>
   </div>
+
 {% endif %}
 
 </div>

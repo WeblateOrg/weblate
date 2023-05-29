@@ -2,7 +2,7 @@
 {% load icons %}
 
 {% if simple %}
-<span lang="{{ language.code }}" dir="{{ language.direction }}" {% if noformat %}class="wrap-simple"{% elif wrap %}class="wrap-text"{% endif %}>{% if noformat %}{{ items.0.copy }}{% else %}{{ items.0.content }}{% endif %}</span>
+<span lang="{{ language.code }}" dir="{{ language.direction }}" {% if wrap and items.0.content|length > 25 %}class="wrap-text"{% endif %}>{{ items.0.content }}</span>
 {% elif has_content %}
 <div class="list-group">
   {% for item in items %}
@@ -11,11 +11,11 @@
     <h5 class="list-group-item-heading"><strong>{{ item.title }}</strong></h5>
     {% endif %}
     <div class="list-group-item-text" lang="{{ language.code }}" dir="{{ language.direction }}">
-      {% if unit %}
+      {% if unit and item.copy %}
       <button type="button" class="btn btn-link btn-xs pull-right flip" data-clipboard-text="{{ item.copy }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
       <button type="button" class="btn btn-link btn-xs btn-sidebar pull-right flip" data-clone-text="{{ item.copy }}" title="{% trans "Clone to translation" %}">{% icon "clone.svg" %}</button>
       {% endif %}
-      <span class="{% if wrap %}wrap-text{% endif %}">{{ item.content }}</span></div>
+      <span class="{% if wrap and item.content|length > 25 %}wrap-text{% endif %}">{{ item.content }}</span></div>
   </div>
   {% endfor %}
 </div>

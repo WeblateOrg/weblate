@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import errno
 import os
@@ -81,7 +66,6 @@ DOC_LINKS = {
     "weblate.E013": ("admin/install", "production-email"),
     "weblate.E014": ("admin/install", "production-secret"),
     "weblate.E015": ("admin/install", "production-hosts"),
-    "weblate.E016": ("admin/install", "production-templates"),
     "weblate.E017": ("admin/install", "production-site"),
     "weblate.E018": ("admin/optionals", "avatars"),
     "weblate.E019": ("admin/install", "celery"),
@@ -106,6 +90,7 @@ DOC_LINKS = {
     "weblate.C037": ("admin/install", "production-database"),
     "weblate.C038": ("admin/install", "production-database"),
     "weblate.W039": ("admin/machine",),
+    "weblate.C040": ("vcs",),
 }
 
 
@@ -383,37 +368,6 @@ def check_settings(app_configs, **kwargs):
     return errors
 
 
-def check_templates(app_configs, **kwargs):
-    """Check for cached DjangoTemplates Loader."""
-    if settings.DEBUG:
-        return []
-
-    from django.template import engines
-    from django.template.backends.django import DjangoTemplates
-    from django.template.loaders import cached
-
-    is_cached = True
-
-    for engine in engines.all():
-        if not isinstance(engine, DjangoTemplates):
-            continue
-
-        for loader in engine.engine.template_loaders:
-            if not isinstance(loader, cached.Loader):
-                is_cached = False
-
-    if is_cached:
-        return []
-
-    return [
-        weblate_check(
-            "weblate.E016",
-            "Set up a cached template loader for better performance",
-            Error,
-        )
-    ]
-
-
 def check_data_writable(app_configs=None, **kwargs):
     """Check we can write to data dir."""
     errors = []
@@ -429,7 +383,6 @@ def check_data_writable(app_configs=None, **kwargs):
         data_dir("home"),
         data_dir("ssh"),
         data_dir("vcs"),
-        data_dir("celery"),
         data_dir("backups"),
         data_dir("fonts"),
         data_dir("cache", "fonts"),

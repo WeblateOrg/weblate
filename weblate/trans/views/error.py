@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import django.views.defaults
 import rest_framework.exceptions
@@ -31,7 +15,7 @@ from weblate.utils.errors import report_error
 
 def bad_request(request, exception=None):
     """Error handler for bad request."""
-    if "text/html" not in request.META.get("HTTP_ACCEPT", ""):
+    if "text/html" not in request.headers.get("accept", ""):
         return rest_framework.exceptions.bad_request(request, exception)
     if exception:
         report_error(cause="Bad request")
@@ -70,7 +54,7 @@ def csrf_failure(request, reason=""):
 
 def server_error(request):
     """Error handler for server errors."""
-    if "text/html" not in request.META.get("HTTP_ACCEPT", ""):
+    if "text/html" not in request.headers.get("accept", ""):
         return rest_framework.exceptions.server_error(request)
     try:
         return render(

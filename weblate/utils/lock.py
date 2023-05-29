@@ -1,28 +1,17 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 import os
+from contextlib import suppress
 from typing import Optional
 
-from django.core.cache import caches
-from django_redis.cache import RedisCache
+import sentry_sdk
+from django.core.cache import cache
 from filelock import FileLock, Timeout
 from redis_lock import AlreadyAcquired, Lock, NotAcquired
+
+from weblate.utils.cache import IS_USING_REDIS
 
 
 class WeblateLockTimeout(Exception):
@@ -48,22 +37,20 @@ class WeblateLock:
         self._key = key
         self._slug = slug
         self._depth = 0
-        default_cache = caches["default"]
-        self.use_redis = isinstance(default_cache, RedisCache)
+        self.use_redis = IS_USING_REDIS
         if self.use_redis:
             # Prefer Redis locking as it works distributed
+            self._name = self._format_template(cache_template)
             self._lock = Lock(
-                default_cache.client.get_client(),
-                name=self._format_template(cache_template),
+                cache.client.get_client(),
+                name=self._name,
                 expire=60,
                 auto_renewal=True,
             )
         else:
             # Fall back to file based locking
-            self._lock = FileLock(
-                os.path.join(lock_path, self._format_template(file_template)),
-                timeout=self._timeout,
-            )
+            self._name = os.path.join(lock_path, self._format_template(file_template))
+            self._lock = FileLock(self._name, timeout=self._timeout)
 
     def _format_template(self, template: str):
         return template.format(
@@ -76,31 +63,32 @@ class WeblateLock:
         self._depth += 1
         if self._depth > 1:
             return
-        if self.use_redis:
-            try:
-                if not self._lock.acquire(timeout=self._timeout):
-                    raise WeblateLockTimeout(
-                        f"Lock could not be acquired in {self._timeout}"
-                    )
-            except AlreadyAcquired:
-                pass
-        else:
-            # Fall back to file based locking
-            try:
-                self._lock.acquire()
-            except Timeout as error:
-                raise WeblateLockTimeout(str(error))
+        with sentry_sdk.start_span(op="lock.wait", description=self._name):
+            if self.use_redis:
+                try:
+                    lock_result = self._lock.acquire(timeout=self._timeout)
+                except AlreadyAcquired:
+                    pass
+                else:
+                    if not lock_result:
+                        raise WeblateLockTimeout(
+                            f"Lock could not be acquired in {self._timeout}s"
+                        )
+            else:
+                # Fall back to file based locking
+                try:
+                    self._lock.acquire()
+                except Timeout as error:
+                    raise WeblateLockTimeout(str(error))
 
     def __exit__(self, exc_type, exc_value, traceback):
         self._depth -= 1
         if self._depth > 0:
             return
-        try:
+        # This can happen in case of overloaded server fails to renew the
+        # lock before expiry
+        with suppress(NotAcquired):
             self._lock.release()
-        except NotAcquired:
-            # This can happen in case of overloaded server fails to renew the
-            # lock before expiry
-            pass
 
     @property
     def is_locked(self):

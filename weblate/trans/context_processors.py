@@ -1,24 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import random
-from datetime import datetime
 from urllib.parse import urlparse
 
 from django.conf import settings
@@ -30,6 +14,7 @@ from django.utils.translation import gettext as _
 import weblate.screenshots.views
 import weblate.utils.version
 from weblate.configuration.views import CustomCSSView
+from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.wladmin.models import ConfigurationError, SupportStatus
 
@@ -53,6 +38,7 @@ CONTEXT_SETTINGS = [
     "FONTS_CDN_URL",
     "AVATAR_URL_PREFIX",
     "HIDE_VERSION",
+    "EXTRA_HTML_HEAD",
     # Hosted Weblate integration
     "PAYMENT_ENABLED",
 ]
@@ -145,21 +131,21 @@ def weblate_context(request):
             "This site runs Weblate for localizing various software projects."
         )
 
-    if hasattr(request, "_weblate_has_support"):
-        has_support = request._weblate_has_support
+    if hasattr(request, "_weblate_support_status"):
+        support_status = request._weblate_support_status
     else:
-        has_support_cache_key = "weblate:has:support"
-        has_support = cache.get(has_support_cache_key)
-        if has_support is None:
-            support_status = SupportStatus.objects.get_current()
-            has_support = support_status.name != "community"
-            cache.set(has_support_cache_key, has_support, 86400)
-        request._weblate_has_support = has_support
-
-    utcnow = datetime.utcnow()
+        support_status = cache.get(SUPPORT_STATUS_CACHE_KEY)
+        if support_status is None:
+            support_status_instance = SupportStatus.objects.get_current()
+            support_status = {
+                "has_support": support_status_instance.name != "community",
+                "in_limits": support_status_instance.in_limits,
+            }
+            cache.set(SUPPORT_STATUS_CACHE_KEY, support_status, 86400)
+        request._weblate_support_status = support_status
 
     context = {
-        "has_support": has_support,
+        "support_status": support_status,
         "cache_param": f"?v={weblate.utils.version.GIT_VERSION}"
         if not settings.COMPRESS_ENABLED
         else "",
@@ -176,9 +162,6 @@ def weblate_context(request):
         "donate_url": DONATE_URL,
         "site_url": get_site_url(),
         "site_domain": get_site_domain(),
-        "current_date": utcnow.strftime("%Y-%m-%d"),
-        "current_year": utcnow.strftime("%Y"),
-        "current_month": utcnow.strftime("%m"),
         "login_redirect_url": login_redirect_url,
         "has_ocr": weblate.screenshots.views.HAS_OCR,
         "has_antispam": bool(settings.AKISMET_API_KEY),

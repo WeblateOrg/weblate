@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for char based quality checks."""
 
@@ -126,6 +111,13 @@ class EndStopCheckTest(CheckTestCase):
         self.do_test(False, ("Text.", "Text᱾", ""), "sat")
         self.do_test(True, ("Text.", "Text", ""), "sat")
 
+    def test_my(self):
+        self.do_test(False, ("Te xt", "Te xt", ""), "my")
+        self.do_test(True, ("Te xt", "Te xt။", ""), "my")
+        self.do_test(False, ("Text.", "Text။", ""), "my")
+        self.do_test(False, ("Text?", "ပုံဖျက်မလး။", ""), "my")
+        self.do_test(False, ("Te xt", "ပုံဖျက်မလး။", ""), "my")
+
 
 class EndColonCheckTest(CheckTestCase):
     check = EndColonCheck()
@@ -173,9 +165,9 @@ class EndQuestionCheckTest(CheckTestCase):
         self.do_test(True, ("Text?", "Texte", ""), "el")
 
     def test_my(self):
-        self.do_test(False, ("Text?", "Texte՞", ""), "my")
-        self.do_test(False, ("Text", "Texte՞", ""), "my")
-        self.do_test(True, ("Text?", "ပုံဖျက်မလား။", ""), "my")
+        self.do_test(False, ("Texte", "Texte", ""), "my")
+        self.do_test(False, ("Text?", "ပုံဖျက်မလား။", ""), "my")
+        self.do_test(True, ("Te xt", "ပုံဖျက်မလား။", ""), "my")
 
 
 class EndExclamationCheckTest(CheckTestCase):
@@ -216,6 +208,7 @@ class EscapedNewlineCountingCheckTest(CheckTestCase):
     def setUp(self):
         super().setUp()
         self.test_good_matching = ("string\\nstring", "string\\nstring", "")
+        self.test_good_none = (r"C:\\path\name", r"C:\\path\jmeno", "")
         self.test_failure_1 = ("string\\nstring", "string\\n\\nstring", "")
         self.test_failure_2 = ("string\\n\\nstring", "string\\nstring", "")
 

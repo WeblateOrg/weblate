@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
 
@@ -29,6 +13,7 @@ from weblate.addons.events import EVENT_DAILY, EVENT_POST_ADD, EVENT_PRE_COMMIT
 from weblate.addons.forms import GenerateMoForm, GettextCustomizeForm, MsgmergeForm
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class GettextBaseAddon(BaseAddon):
@@ -44,7 +29,9 @@ class GenerateMoAddon(GettextBaseAddon):
 
     def pre_commit(self, translation, author):
         exporter = MoExporter(translation=translation)
-        exporter.add_units(translation.unit_set.prefetch_full())
+        exporter.add_units(
+            translation.unit_set.filter(state__gte=STATE_TRANSLATED).prefetch_full()
+        )
 
         template = self.instance.configuration.get("path")
         if not template:
@@ -188,7 +175,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
             .values_list("language_code", flat=True)
             .order_by("language_code")
         )
-        expected = f'ALL_LINGUAS="{codes}"\n'
+        expected = f'ALL_LINGUAS="{codes}"\n'  # noqa: B028
         for path in paths:
             with open(path) as handle:
                 lines = handle.readlines()

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
 
@@ -62,13 +47,21 @@ def remove_user(user, request):
 
     # Remove user from all groups
     user.groups.clear()
+    user.administered_group_set.clear()
 
     # Remove user translation memory
     user.memory_set.all().delete()
 
+    # Clear subscriptions
+    user.subscription_set.all().delete()
+    user.profile.watched.clear()
+
     # Cleanup profile
     try:
         profile = user.profile
+    except ObjectDoesNotExist:
+        pass
+    else:
         profile.website = ""
         profile.liberapay = ""
         profile.fediverse = ""
@@ -80,19 +73,28 @@ def remove_user(user, request):
         profile.company = ""
         profile.public_email = ""
         profile.save()
-    except ObjectDoesNotExist:
-        pass
 
     # Delete API tokens
     Token.objects.filter(user=user).delete()
 
 
-def get_all_user_mails(user, entries=None):
+def get_all_user_mails(user, entries=None, filter_deliverable=True):
     """Return all verified mails for user."""
     kwargs = {"social__user": user}
     if entries:
         kwargs["social__in"] = entries
-    emails = set(VerifiedEmail.objects.filter(**kwargs).values_list("email", flat=True))
+    if filter_deliverable:
+        # filter out emails that are not deliverable
+        emails = set(
+            VerifiedEmail.objects.filter(is_deliverable=True, **kwargs).values_list(
+                "email", flat=True
+            )
+        )
+    else:
+        # allow all emails, including non deliverable ones
+        emails = set(
+            VerifiedEmail.objects.filter(**kwargs).values_list("email", flat=True)
+        )
     emails.add(user.email)
     emails.discard(None)
     emails.discard("")

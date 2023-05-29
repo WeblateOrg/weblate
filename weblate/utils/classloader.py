@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from importlib import import_module
 
@@ -30,19 +15,19 @@ def load_class(name, setting):
         module, attr = name.rsplit(".", 1)
     except ValueError as error:
         raise ImproperlyConfigured(
-            f'Error importing class {name} in {setting}: "{error}"'
+            f"Error importing class {name!r} in {setting}: {error}"
         )
     try:
         mod = import_module(module)
     except ImportError as error:
         raise ImproperlyConfigured(
-            f'Error importing module {module} in {setting}: "{error}"'
+            f"Error importing module {module!r} in {setting}: {error}"
         )
     try:
         return getattr(mod, attr)
     except AttributeError:
         raise ImproperlyConfigured(
-            f'Module "{module}" does not define a "{attr}" class in {setting}'
+            f"Module {module!r} does not define a {attr!r} class in {setting}"
         )
 
 

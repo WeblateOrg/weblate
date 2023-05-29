@@ -1,26 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Helper methods for views."""
 
 import os
 from time import mktime
-from typing import Optional
+from typing import List, Optional
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -112,7 +98,6 @@ def get_paginator(request, object_list, page_limit=None):
 
 
 class ComponentViewMixin:
-
     # This should be done in setup once we drop support for older Django
     def get_component(self):
         return get_component(
@@ -141,6 +126,7 @@ SORT_CHOICES = {
     "num_comments": gettext_lazy("Number of comments"),
     "num_failing_checks": gettext_lazy("Number of failing checks"),
     "context": pgettext_lazy("Translation key", "Key"),
+    "location": gettext_lazy("String location"),
 }
 
 SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items()}
@@ -296,7 +282,7 @@ def iter_files(filenames):
             yield filename
 
 
-def zip_download(root, filenames, name="translations"):
+def zip_download(root: str, filenames: List[str], name: str = "translations"):
     response = HttpResponse(content_type="application/zip")
     with ZipFile(response, "w") as zipfile:
         for filename in iter_files(filenames):
@@ -329,7 +315,7 @@ def download_translation_file(
             units = units.search(query_string)
         exporter.add_units(units)
         response = exporter.get_response(
-            "{{project}}-{0}-{{language}}.{{extension}}".format(
+            "{{project}}-{}-{{language}}.{{extension}}".format(
                 translation.component.slug
             )
         )
@@ -338,7 +324,7 @@ def download_translation_file(
         try:
             translation.commit_pending("download", None)
         except Exception:
-            report_error(cause="Download commit")
+            report_error(cause="Download commit", project=translation.component.project)
 
         filenames = translation.filenames
 
@@ -351,7 +337,7 @@ def download_translation_file(
                 raise Http404("File not found")
             # Create response
             response = FileResponse(
-                open(filenames[0], "rb"),
+                open(filenames[0], "rb"),  # noqa: SIM115
                 content_type=translation.component.file_format_cls.mimetype(),
             )
         else:

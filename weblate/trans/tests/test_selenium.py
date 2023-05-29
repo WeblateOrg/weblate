@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import math
 import os
@@ -86,7 +71,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     @classmethod
     def _databases_support_transactions(cls):
-        # This is workaroud for MySQL as FULL TEXT index does not work
+        # This is workaround for MySQL as FULL TEXT index does not work
         # well inside a transaction, so we avoid using transactions for
         # tests. Otherwise we end up with no matches for the query.
         # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
@@ -156,7 +141,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def setUp(self):
         if self.driver is None:
-            warnings.warn(f"Selenium error: {self.driver_error}")
+            warnings.warn(f"Selenium error: {self.driver_error}", stacklevel=1)
             raise SkipTest(f"Webdriver not available: {self.driver_error}")
         super().setUp()
         self.driver.get("{}{}".format(self.live_server_url, reverse("home")))
@@ -207,7 +192,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def upload_file(self, element, filename):
         filename = os.path.abspath(filename)
         if not os.path.exists(filename):
-            raise Exception(f"Test file not found: {filename}")
+            raise ValueError(f"Test file not found: {filename}")
         element.send_keys(filename)
 
     def clear_field(self, element):
@@ -246,10 +231,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def open_manage(self, login=True):
         # Login as superuser
-        if login:
-            user = self.do_login(superuser=True)
-        else:
-            user = None
+        user = self.do_login(superuser=True) if login else None
 
         # Open admin page
         with self.wait_for_page_load():
@@ -331,7 +313,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             except WebDriverException as error:
                 # This usually happens when browser fails to delete some
                 # of the cookies for whatever reason.
-                warnings.warn(f"Ignoring: {error}")
+                warnings.warn(f"Ignoring: {error}", stacklevel=4)
 
         # Confirm account
         self.driver.get(url)
@@ -529,7 +511,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.screenshot("screenshot-ocr.png")
 
         # Add string manually
-        self.driver.find_element(By.ID, "search-input").send_keys(f"'{text}'")
+        self.driver.find_element(By.ID, "search-input").send_keys(f"{text!r}")
         self.click(htmlid="screenshots-search")
         wait_search()
         self.click(self.driver.find_element(By.CLASS_NAME, "add-string"))

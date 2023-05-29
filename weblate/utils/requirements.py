@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import sys
 
@@ -24,6 +9,7 @@ try:
     import importlib.metadata as importlib_metadata
 except ImportError:
     import importlib_metadata
+
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
@@ -41,7 +27,7 @@ REQUIRES = [
     "translate-toolkit",
     "lxml",
     "Pillow",
-    "bleach",
+    "nh3",
     "python-dateutil",
     "social-auth-core",
     "social-auth-app-django",
@@ -56,6 +42,7 @@ REQUIRES = [
     "rapidfuzz",
     "openpyxl",
     "celery",
+    "django-celery-beat",
     "kombu",
     "translation-finder",
     "weblate-language-data",
@@ -93,23 +80,24 @@ OPTIONAL = [
 
 
 def get_version_module(name, optional=False):
-    """Return module object.
+    """
+    Return module object.
 
     On error raises verbose exception with name and URL.
     """
     try:
         metadata = importlib_metadata.metadata(name)
-        return (
-            name,
-            metadata.get("Home-page"),
-            metadata.get("Version"),
-        )
     except importlib_metadata.PackageNotFoundError:
         if optional:
             return None
         raise ImproperlyConfigured(
             "Missing dependency {0}, please install using: pip install {0}".format(name)
         )
+    return (
+        name,
+        metadata.get("Home-page"),
+        metadata.get("Version"),
+    )
 
 
 def get_optional_versions():
@@ -218,9 +206,9 @@ def get_db_cache_version():
 
 def get_versions_list():
     """Return list with version information summary."""
-    return (
-        [("Weblate", "https://weblate.org/", weblate.utils.version.GIT_VERSION)]
-        + get_versions()
-        + get_optional_versions()
-        + get_db_cache_version()
-    )
+    return [
+        ("Weblate", "https://weblate.org/", weblate.utils.version.GIT_VERSION),
+        *get_versions(),
+        *get_optional_versions(),
+        *get_db_cache_version(),
+    ]

@@ -14,7 +14,7 @@
 {% block content %}
 
 {% perm 'screenshot.delete' object as user_can_delete_screenshot %}
-{% perm 'screenshot.edit' object as user_can_change_screenshot %}
+{% perm 'screenshot.edit' object as user_can_edit_screenshot %}
 
 {% if add_form %}
 <form action="{% url 'screenshots' project=object.project.slug component=object.slug %}" method="POST" enctype="multipart/form-data">
@@ -56,7 +56,7 @@
 </td>
 {% endwith %}
 <td>
-{% if user_can_change_screenshot %}
+{% if user_can_edit_screenshot %}
 <a href="{{ screenshot.get_absolute_url }}" class="btn btn-primary">{% trans "Edit" %}</a>
 {% endif %}
 </td>

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
 
@@ -198,6 +183,16 @@ class JSONCustomizeForm(BaseAddonForm):
         ],
         required=True,
         initial="space",
+    )
+
+
+class XMLCustomizeForm(BaseAddonForm):
+    """Class defining user Form to configure XML Formatting AddOn."""
+
+    closing_tags = forms.BooleanField(
+        label=_("Include closing tag for blank XML tags"),
+        required=False,
+        initial=True,
     )
 
 
@@ -389,7 +384,7 @@ class DiscoveryForm(BaseAddonForm):
         if self.cleaned_match_re is None:
             matches = {"component": "test"}
         else:
-            matches = {key: "test" for key in self.cleaned_match_re.groupindex.keys()}
+            matches = {key: "test" for key in self.cleaned_match_re.groupindex}
         return validate_render(value, **matches)
 
     def template_clean(self, name):
@@ -414,20 +409,18 @@ class DiscoveryForm(BaseAddonForm):
 
 
 class AutoAddonForm(AutoForm, AddonFormMixin):
-    def __init__(self, user, addon, instance=None, *args, **kwargs):
+    def __init__(self, user, addon, instance=None, **kwargs):
         self.user = user
         self._addon = addon
-        super().__init__(obj=addon.instance.component, *args, **kwargs)
+        super().__init__(obj=addon.instance.component, **kwargs)
 
 
 class BulkEditAddonForm(BulkEditForm, AddonFormMixin):
-    def __init__(self, user, addon, instance=None, *args, **kwargs):
+    def __init__(self, user, addon, instance=None, **kwargs):
         self.user = user
         self._addon = addon
         component = addon.instance.component
-        super().__init__(
-            obj=component, project=component.project, user=None, *args, **kwargs
-        )
+        super().__init__(obj=component, project=component.project, user=None, **kwargs)
 
     def serialize_form(self):
         result = dict(self.cleaned_data)
@@ -531,6 +524,10 @@ class PseudolocaleAddonForm(BaseAddonForm):
             "the length of the source string."
         ),
     )
+    include_readonly = forms.BooleanField(
+        label=_("Include read-only strings"),
+        required=False,
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -543,6 +540,7 @@ class PseudolocaleAddonForm(BaseAddonForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field("source"),
+            Field("include_readonly"),
             Field("target"),
             Field("prefix"),
             Field("var_prefix"),

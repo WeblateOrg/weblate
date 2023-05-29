@@ -1,27 +1,13 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
+from weblate.trans.models import Component, Project
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
 from weblate.utils.errors import report_error
@@ -41,7 +27,12 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
             request,
             _("Failed to lock the repository, another operation is in progress."),
         )
-        report_error()
+        if isinstance(obj, Project):
+            report_error(project=obj)
+        elif isinstance(obj, Component):
+            report_error(project=obj.project)
+        else:
+            report_error(project=obj.component.project)
 
     return redirect_param(obj, "#repository")
 
@@ -49,7 +40,7 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
 def perform_commit(request, obj):
     """Helper function to do the repository commit."""
     if not request.user.has_perm("vcs.commit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     return execute_locked(
         request,
@@ -64,7 +55,7 @@ def perform_commit(request, obj):
 def perform_update(request, obj):
     """Helper function to do the repository update."""
     if not request.user.has_perm("vcs.update", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     return execute_locked(
         request,
@@ -79,7 +70,7 @@ def perform_update(request, obj):
 def perform_push(request, obj):
     """Helper function to do the repository push."""
     if not request.user.has_perm("vcs.push", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     return execute_locked(
         request, obj, _("All repositories were pushed."), obj.do_push, request
@@ -89,7 +80,7 @@ def perform_push(request, obj):
 def perform_reset(request, obj):
     """Helper function to do the repository reset."""
     if not request.user.has_perm("vcs.reset", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     return execute_locked(
         request, obj, _("All repositories have been reset."), obj.do_reset, request
@@ -99,7 +90,7 @@ def perform_reset(request, obj):
 def perform_cleanup(request, obj):
     """Helper function to do the repository cleanup."""
     if not request.user.has_perm("vcs.reset", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     return execute_locked(
         request,
@@ -113,7 +104,7 @@ def perform_cleanup(request, obj):
 def perform_file_sync(request, obj):
     """Helper function to do the repository file_sync."""
     if not request.user.has_perm("vcs.reset", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     return execute_locked(
         request,

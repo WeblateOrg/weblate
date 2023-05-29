@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
 from copy import copy
@@ -50,6 +35,7 @@ from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
 from weblate.machinery.googlev3 import GoogleV3Translation
+from weblate.machinery.ibm import IBMTranslation
 from weblate.machinery.libretranslate import LibreTranslateTranslation
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.microsoftterminology import (
@@ -271,7 +257,7 @@ with open(get_test_file("googlev3.json")) as handle:
 DEEPL_RESPONSE = {"translations": [{"detected_source_language": "EN", "text": "Hallo"}]}
 DEEPL_LANG_RESPONSE = [
     {"language": "EN", "name": "English"},
-    {"language": "DE", "name": "Deutsch"},
+    {"language": "DE", "name": "Deutsch", "supports_formality": True},
 ]
 
 LIBRETRANSLATE_TRANS_RESPONSE = {"translatedText": "¡Hola, Mundo!"}
@@ -342,21 +328,23 @@ class BaseMachineTranslationTest(TestCase):
             machine = self.get_machine(cache=cache)
         translation = machine.translate(MockUnit(code=lang, source=word, **unit_args))
         self.assertIsInstance(translation, list)
-        self.assertEqual(len(translation), expected_len)
-        for result in translation:
-            for key, value in result.items():
-                if key == "quality":
-                    self.assertIsInstance(
-                        value, int, f"'{key}' is supposed to be a integer"
-                    )
-                elif key == "show_quality":
-                    self.assertIsInstance(
-                        value, bool, f"'{key}' is supposed to be a boolean"
-                    )
-                else:
-                    self.assertIsInstance(
-                        value, str, f"'{key}' is supposed to be a string"
-                    )
+        for items in translation:
+            self.assertEqual(len(items), expected_len)
+            self.assertIsInstance(items, list)
+            for result in items:
+                for key, value in result.items():
+                    if key == "quality":
+                        self.assertIsInstance(
+                            value, int, f"{key!r} is supposed to be a integer"
+                        )
+                    elif key == "show_quality":
+                        self.assertIsInstance(
+                            value, bool, f"{key!r} is supposed to be a boolean"
+                        )
+                    else:
+                        self.assertIsInstance(
+                            value, str, f"{key!r} is supposed to be a string"
+                        )
         return translation
 
     def mock_empty(self):
@@ -387,7 +375,7 @@ class BaseMachineTranslationTest(TestCase):
             machine = self.get_machine()
         unit = MockUnit(code=self.SUPPORTED, source=self.SOURCE_TRANSLATED)
         machine.batch_translate([unit])
-        self.assertNotEqual(unit.machinery["best"], -1)
+        self.assertGreater(unit.machinery["quality"][0], -1)
         self.assertIn("translation", unit.machinery)
 
     @responses.activate
@@ -404,7 +392,7 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             len(
                 machine_translation.translate(
                     MockUnit(code=self.SUPPORTED_VARIANT, source=self.SOURCE_TRANSLATED)
-                ),
+                )[0],
             ),
             self.EXPECTED_LEN,
         )
@@ -422,17 +410,20 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         machine_translation = self.get_machine()
         unit = MockUnit(code="cs", source="Hello, %s!", flags="c-format")
         self.assertEqual(
-            machine_translation.cleanup_text(unit), ("Hello, [X7X]!", {"[X7X]": "%s"})
+            machine_translation.cleanup_text(unit.source, unit),
+            ("Hello, [X7X]!", {"[X7X]": "%s"}),
         )
         self.assertEqual(
             machine_translation.translate(unit),
             [
-                {
-                    "quality": 100,
-                    "service": "Dummy",
-                    "source": "Hello, %s!",
-                    "text": "Nazdar %s!",
-                }
+                [
+                    {
+                        "quality": 100,
+                        "service": "Dummy",
+                        "source": "Hello, %s!",
+                        "text": "Nazdar %s!",
+                    }
+                ]
             ],
         )
 
@@ -1054,7 +1045,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     def mock_error(self):
         responses.add(
-            responses.POST,
+            responses.GET,
             "https://api.deepl.com/v2/languages",
             json=DEEPL_LANG_RESPONSE,
             status=500,
@@ -1068,7 +1059,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     def mock_languages(self):
         responses.add(
-            responses.POST,
+            responses.GET,
             "https://api.deepl.com/v2/languages",
             json=DEEPL_LANG_RESPONSE,
         )
@@ -1144,7 +1135,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             machine=machine,
             unit_args={"flags": "python-format"},
         )
-        self.assertEqual(translation[0]["text"], "Hallo, %s! <<foo>>")
+        self.assertEqual(translation[0][0]["text"], "Hallo, %s! <<foo>>")
 
     @responses.activate
     def test_cache(self):
@@ -1155,7 +1146,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         self.assert_translate(
             self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
-        self.assertEqual(len(responses.calls), 2)
+        self.assertEqual(len(responses.calls), 3)
         responses.reset()
         # Fetch from cache
         machine = self.MACHINE_CLS(self.CONFIGURATION)
@@ -1274,7 +1265,16 @@ class AWSTranslationTest(BaseMachineTranslationTest):
             self.assertIsInstance(translation, list)
             self.assertEqual(
                 translation,
-                [{"text": "Ahoj", "quality": 88, "service": "AWS", "source": "Hello"}],
+                [
+                    [
+                        {
+                            "text": "Ahoj",
+                            "quality": 88,
+                            "service": "AWS",
+                            "source": "Hello",
+                        }
+                    ]
+                ],
             )
 
     def test_batch(self, machine=None):
@@ -1293,10 +1293,46 @@ class AWSTranslationTest(BaseMachineTranslationTest):
             super().test_batch(machine=machine)
 
 
+class IBMTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = IBMTranslation
+    EXPECTED_LEN = 1
+    ENGLISH = "en"
+    SUPPORTED = "zh-TW"
+    CONFIGURATION = {
+        "url": "https://api.region.language-translator.watson.cloud.ibm.com/"
+        "instances/id",
+        "key": "",
+    }
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        raise SkipTest("Not tested")
+
+    def mock_response(self):
+        responses.add(
+            responses.GET,
+            "https://api.region.language-translator.watson.cloud.ibm.com/"
+            "instances/id/v3/languages?version=2018-05-01",
+            json={"languages": [{"language": "en"}, {"language": "zh-TW"}]},
+        )
+        responses.add(
+            responses.POST,
+            "https://api.region.language-translator.watson.cloud.ibm.com/"
+            "instances/id/v3/translate?version=2018-05-01",
+            json={
+                "translations": [{"translation": "window"}],
+                "word_count": 1,
+                "character_count": 6,
+            },
+        )
+
+
 class WeblateTranslationTest(FixtureTestCase):
     @classmethod
     def _databases_support_transactions(cls):
-        # This is workaroud for MySQL as FULL TEXT index does not work
+        # This is workaround for MySQL as FULL TEXT index does not work
         # well inside a transaction, so we avoid using transactions for
         # tests. Otherwise we end up with no matches for the query.
         # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
@@ -1307,7 +1343,7 @@ class WeblateTranslationTest(FixtureTestCase):
     def test_empty(self):
         machine = WeblateTranslation({})
         results = machine.translate(self.get_unit(), self.user)
-        self.assertEqual(results, [])
+        self.assertEqual(results, [[]])
 
     def test_exists(self):
         unit = Unit.objects.filter(translation__language_code="cs")[0]
@@ -1351,12 +1387,14 @@ class ViewsTest(FixtureTestCase):
             [
                 {
                     "quality": 100,
+                    "plural_form": 0,
                     "service": "Dummy",
                     "text": "Nazdar světe!",
                     "source": "Hello, world!\n",
                 },
                 {
                     "quality": 100,
+                    "plural_form": 0,
                     "service": "Dummy",
                     "text": "Ahoj světe!",
                     "source": "Hello, world!\n",
@@ -1384,7 +1422,7 @@ class ViewsTest(FixtureTestCase):
 
     def test_configure_global(self):
         service = self.ensure_dummy_mt()
-        list_url = reverse("machinery-list")
+        list_url = reverse("manage-machinery")
         edit_url = reverse(
             "machinery-edit", kwargs={"machinery": service.get_identifier()}
         )

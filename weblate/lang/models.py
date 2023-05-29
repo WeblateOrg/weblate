@@ -1,26 +1,13 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import gettext
 import re
 from collections import defaultdict
 from itertools import chain
+from typing import Callable, Optional
+from weakref import WeakValueDictionary
 
 from appconf import AppConf
 from django.conf import settings
@@ -38,6 +25,8 @@ from weblate_language_data.countries import DEFAULT_LANGS
 from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS
 from weblate_language_data.rtl import RTL_LANGS
 
+from weblate.checks.format import BaseFormatCheck
+from weblate.checks.models import CHECKS
 from weblate.lang import data
 from weblate.logger import LOGGER
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
@@ -81,7 +70,47 @@ def get_plural_type(base_code, plural_formula):
     # Log error in case of unknown mapping
     LOGGER.error("Can not guess type of plural for %s: %s", base_code, plural_formula)
 
+    # Try to calculate based on formula
+    for formulas, plural in data.PLURAL_MAPPINGS:
+        for data_formula in formulas:
+            if is_same_plural(-1, plural_formula, -1, data_formula):
+                return plural
+
     return data.PLURAL_UNKNOWN
+
+
+def is_same_plural(
+    our_number: int,
+    our_formula: str,
+    number: int,
+    formula: str,
+    our_function: Optional[Callable] = None,
+    plural_function: Optional[Callable] = None,
+):
+    if our_function is None:
+        try:
+            our_function = gettext.c2py(our_formula)
+        except ValueError:
+            return False
+
+    if plural_function is None:
+        try:
+            plural_function = gettext.c2py(formula)
+        except ValueError:
+            return False
+
+    if number != -1 and number != our_number:
+        return False
+    if formula == our_formula:
+        return True
+    # Compare formula results
+    # It would be better to compare formulas,
+    # but this was easier to implement and the performance
+    # is still okay.
+    return all(
+        our_function(i) == plural_function(i)
+        for i in chain(range(-10, 200), [1000, 10000, 100000, 1000000, 10000000])
+    )
 
 
 def get_default_lang():
@@ -93,8 +122,6 @@ def get_default_lang():
 
 
 class LanguageQuerySet(models.QuerySet):
-    # pylint: disable=no-init
-
     def try_get(self, *args, **kwargs):
         """Try to get language by code."""
         result = self.filter(*args, **kwargs)[:2]
@@ -167,16 +194,29 @@ class LanguageQuerySet(models.QuerySet):
         ]
         if expanded_code:
             codes.append(expanded_code)
+
+        # Lookup in aliases
         for newcode in codes:
             if newcode in ALIASES:
-                newcode = ALIASES[newcode]
-                ret = self.try_get(code=newcode)
+                testcode = ALIASES[newcode]
+                ret = self.try_get(code=testcode)
                 if ret is not None:
                     return ret
+
+        # Alias language code only
+        for newcode in codes:
+            language, _sep, country = newcode.partition("_")
+            if country and len(language) > 2 and language in ALIASES:
+                testcode = f"{ALIASES[language]}_{country}"
+                ret = self.fuzzy_get(code=testcode, strict=True)
+                if ret is not None:
+                    return ret
+
         return None
 
     def fuzzy_get(self, code, strict=False):
-        """Get matching language for code.
+        """
+        Get matching language for code.
 
         The code does not have to be exactly same (cs_CZ is trteated same as
         cs-CZ) or returns None.
@@ -261,7 +301,8 @@ class LanguageQuerySet(models.QuerySet):
         return self.auto_create(ret, create)
 
     def auto_create(self, code, create=True):
-        """Automatically create new language.
+        """
+        Automatically create new language.
 
         It is based on code and best guess of parameters.
         """
@@ -357,7 +398,7 @@ class LanguageQuerySet(models.QuerySet):
         language with higher rank and OS language with lower rank so it still
         might be usable guess.
         """
-        accept = request.META.get("HTTP_ACCEPT_LANGUAGE", "")
+        accept = request.headers.get("accept-language", "")
         for accept_lang, _unused in parse_accept_lang_header(accept):
             if accept_lang == "en":
                 continue
@@ -386,7 +427,8 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         )
 
     def setup(self, update, logger=lambda x: x):
-        """Create basic set of languages.
+        """
+        Create basic set of languages.
 
         It is based on languages defined in the languages-data repo.
         """
@@ -488,6 +530,25 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                     )
                     logger(f"Created plural {plural_formula} for language {code}")
 
+        self._fixup_plural_types(logger)
+
+    def _fixup_plural_types(self, logger):
+        """Fixes plural types as they were changed in Weblate codebase."""
+        if not Plural.objects.filter(type=data.PLURAL_ONE_FEW_MANY).exists():
+            for plural in Plural.objects.filter(
+                type=data.PLURAL_ONE_FEW_OTHER
+            ).select_related("language"):
+                language = plural.language
+                newtype = get_plural_type(language.base_code, plural.formula)
+                if newtype == data.PLURAL_UNKNOWN:
+                    raise ValueError(f"Invalid plural type of {plural.formula}")
+                if newtype != plural.type:
+                    plural.type = newtype
+                    plural.save(update_fields=["type"])
+                    logger(
+                        f"Updated type of {plural.formula} for language {language.code}"
+                    )
+
 
 def setup_lang(sender, **kwargs):
     """Hook for creating basic set of languages on database migration."""
@@ -570,7 +631,8 @@ class Language(models.Model, CacheKeyMixin):
         )
 
     def get_html(self):
-        """Return html attributes for markup in this language.
+        """
+        Return html attributes for markup in this language.
 
         Includes language and direction HTML.
         """
@@ -604,11 +666,11 @@ class Plural(models.Model):
         ),
         (
             data.PLURAL_ONE_OTHER,
-            pgettext_lazy("Plural type", "One/other (classic plural)"),
+            pgettext_lazy("Plural type", "One/other"),
         ),
         (
             data.PLURAL_ONE_FEW_OTHER,
-            pgettext_lazy("Plural type", "One/few/other (Slavic languages)"),
+            pgettext_lazy("Plural type", "One/few/other"),
         ),
         (
             data.PLURAL_ARABIC,
@@ -683,6 +745,14 @@ class Plural(models.Model):
             pgettext_lazy("Plural type", "One/many/other"),
         ),
         (
+            data.PLURAL_ZERO_ONE_MANY_OTHER,
+            pgettext_lazy("Plural type", "Zero/one/many/other"),
+        ),
+        (
+            data.PLURAL_ONE_FEW_MANY,
+            pgettext_lazy("Plural type", "One/few/many"),
+        ),
+        (
             data.PLURAL_UNKNOWN,
             pgettext_lazy("Plural type", "Unknown"),
         ),
@@ -733,15 +803,6 @@ class Plural(models.Model):
 
     def save(self, *args, **kwargs):
         self.type = get_plural_type(self.language.base_code, self.formula)
-        # Try to calculate based on formula
-        if self.type == data.PLURAL_UNKNOWN:
-            for formulas, plural in data.PLURAL_MAPPINGS:
-                for formula in formulas:
-                    if self.same_plural(self.number, formula):
-                        self.type = plural
-                        break
-                if self.type != data.PLURAL_UNKNOWN:
-                    break
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -758,7 +819,7 @@ class Plural(models.Model):
         try:
             return gettext.c2py(self.formula if self.formula else "0")
         except ValueError as error:
-            raise ValueError(f"Failed to compile formula '{self.formula}': {error}")
+            raise ValueError(f"Failed to compile formula {self.formula!r}: {error}")
 
     @cached_property
     def examples(self):
@@ -786,24 +847,26 @@ class Plural(models.Model):
 
         return number, formula
 
-    def same_plural(self, number, formula):
+    def same_as(self, other):
+        """Check whether the given plurals are equivalent."""
+        return is_same_plural(
+            self.number,
+            self.formula,
+            other.number,
+            other.formula,
+            our_function=self.plural_function,
+            plural_function=other.plural_function,
+        )
+
+    def same_plural(self, number: int, formula: str):
         """Compare whether given plurals formula matches."""
-        if number != self.number or not formula:
-            return False
-
-        # Convert formulas to functions
-        ours = self.plural_function
-        theirs = gettext.c2py(formula)
-
-        # Compare formula results
-        # It would be better to compare formulas,
-        # but this was easier to implement and the performance
-        # is still okay.
-        for i in range(-10, 200):
-            if ours(i) != theirs(i):
-                return False
-
-        return True
+        return is_same_plural(
+            self.number,
+            self.formula,
+            number,
+            formula,
+            our_function=self.plural_function,
+        )
 
     def get_plural_label(self, idx):
         """Return label for plural form."""
@@ -835,6 +898,73 @@ class Plural(models.Model):
                 "name": self.get_plural_name(i),
                 "examples": ", ".join(self.examples.get(i, [])),
             }
+
+
+class PluralMapper:
+    instances = WeakValueDictionary()
+
+    def __new__(cls, source_plural, target_plural):
+        key = (source_plural.formula, target_plural.formula)
+        obj = cls.instances.get(key)
+        if obj is None:
+            obj = cls.instances[key] = super().__new__(cls)
+        return obj
+
+    def __init__(self, source_plural, target_plural):
+        self.source_plural = source_plural
+        self.target_plural = target_plural
+        self.same_plurals = source_plural.same_as(target_plural)
+
+    @cached_property
+    def _target_map(self):
+        source_map = {
+            examples[0]: i
+            for i, examples in self.source_plural.examples.items()
+            if len(examples) == 1
+        }
+        target_plural = self.target_plural
+        target_map = []
+        last = target_plural.number - 1
+        for i in range(target_plural.number):
+            examples = target_plural.examples.get(i, ())
+            if len(examples) == 1:
+                number = examples[0]
+                if number in source_map:
+                    target_map.append((source_map[number], None))
+                else:
+                    target_map.append((-1, number))
+            elif i == last:
+                target_map.append((-1, None))
+            else:
+                target_map.append((None, None))
+        return tuple(target_map)
+
+    def map(self, unit):
+        source_strings = unit.get_source_plurals()
+        if self.same_plurals or len(source_strings) == 1:
+            strings_to_translate = source_strings
+        elif self.target_plural.number == 1:
+            strings_to_translate = [source_strings[-1]]
+        else:
+            strings_to_translate = []
+            format_check = next(
+                (
+                    check
+                    for check in CHECKS.values()
+                    if (
+                        isinstance(check, BaseFormatCheck)
+                        and check.enable_string in unit.all_flags
+                        and check.plural_parameter_regexp
+                    )
+                ),
+                None,
+            )
+            for source_index, number_to_interpolate in self._target_map:
+                s = "" if source_index is None else source_strings[source_index]
+                if s and number_to_interpolate is not None and format_check:
+                    s = format_check.interpolate_number(s, number_to_interpolate)
+                strings_to_translate.append(s)
+        return strings_to_translate
 
 
 class WeblateLanguagesConf(AppConf):

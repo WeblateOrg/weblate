@@ -22,8 +22,6 @@ Dashboard
 When you sign in, you will see an overview of projects and components,
 as well as their respective translation progression.
 
-.. versionadded:: 2.5
-
 Components of projects you are watching are shown by default, and
 cross-referenced with your preferred languages.
 
@@ -170,6 +168,11 @@ default value depends on :setting:`DEFAULT_AUTO_WATCH`.
 
     You will not receive notifications for your own actions.
 
+.. hint::
+
+    Sending out notifications is limited, you will not receive more than 1000
+    e-mails per day. Any further notifications for you will be discarded.
+
 .. image:: /screenshots/profile-subscriptions.png
 
 Account
@@ -187,12 +190,21 @@ remove your account, or download your user data (see :ref:`schema-userdata`).
 
 .. image:: /screenshots/authentication.png
 
+.. _profile:
+
 Profile
 -------
 
 All of the fields on this page are optional and can be deleted at any time, and
 by filling them out, you're giving us consent to share this data wherever your
 user profile appears.
+
+The private commit e-mail will be used instead of your account e-mail in version
+control commits. Use this to avoid leaking your real e-mail there. Be aware
+that using different e-mail can disconnect your contributions on other servers
+(for example your contributions will no longer link to your profile on GitHub).
+The private e-mail can be turned on site-wide using
+:setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`.
 
 Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`).
 These images are obtained using https://gravatar.com/.

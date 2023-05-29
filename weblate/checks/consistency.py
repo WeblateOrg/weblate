@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from functools import reduce
 
@@ -64,7 +49,7 @@ class SamePluralsCheck(TargetCheck):
         # Is this plural?
         if len(sources) == 1 or len(targets) == 1:
             return False
-        if targets[0] == "":
+        if not targets[0]:
             return False
         return len(set(targets)) == 1
 
@@ -161,14 +146,6 @@ class TranslatedCheck(TargetCheck):
             return super().get_description(check_obj)
         return _('Previous translation was "%s".') % target
 
-    @property
-    def change_states(self):
-        from weblate.trans.models import Change
-
-        states = {Change.ACTION_SOURCE_CHANGE}
-        states.update(Change.ACTIONS_CONTENT)
-        return states
-
     def check_target_unit(self, sources, targets, unit):
         if unit.translated:
             return False
@@ -180,13 +157,13 @@ class TranslatedCheck(TargetCheck):
 
         from weblate.trans.models import Change
 
-        changes = unit.change_set.filter(action__in=self.change_states).order()
+        changes = unit.change_set.filter(action__in=Change.ACTIONS_CONTENT).order()
 
         for action, target in changes.values_list("action", "target"):
-            if action in Change.ACTIONS_CONTENT and target and target != unit.target:
-                return target
             if action == Change.ACTION_SOURCE_CHANGE:
                 break
+            if target and target != unit.target:
+                return target
 
         return False
 
@@ -206,14 +183,14 @@ class TranslatedCheck(TargetCheck):
         units = (
             Unit.objects.filter(
                 translation__component=component,
-                change__action__in=self.change_states,
+                change__action__in=Change.ACTIONS_CONTENT,
                 state__lt=STATE_TRANSLATED,
             )
             .prefetch_related(
                 Prefetch(
                     "change_set",
                     queryset=Change.objects.filter(
-                        action__in=self.change_states
+                        action__in=Change.ACTIONS_CONTENT,
                     ).order(),
                     to_attr="recent_consistency_changes",
                 )
@@ -224,7 +201,7 @@ class TranslatedCheck(TargetCheck):
 
         for unit in units:
             for change in unit.recent_consistency_changes:
-                if change.action in Change.ACTIONS_CONTENT and change.target:
-                    yield unit
                 if change.action == Change.ACTION_SOURCE_CHANGE:
                     break
+                if change.target:
+                    yield unit

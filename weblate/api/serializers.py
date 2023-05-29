@@ -1,21 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 from copy import copy
 from zipfile import BadZipfile
 
@@ -29,18 +15,20 @@ from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
-from weblate.trans.defines import LANGUAGE_NAME_LENGTH, REPO_LENGTH
+from weblate.trans.defines import BRANCH_LENGTH, LANGUAGE_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.models import (
     AutoComponentList,
     Change,
     Component,
     ComponentList,
+    Label,
     Project,
     Translation,
     Unit,
 )
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
+from weblate.utils.state import STATE_CHOICES, STATE_READONLY
 from weblate.utils.validators import validate_bitmap
 from weblate.utils.views import (
     create_component_from_doc,
@@ -55,9 +43,9 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
         self.strip_parts = strip_parts
         super().__init__(**kwargs)
 
-    # pylint: disable=redefined-builtin
     def get_url(self, obj, view_name, request, format):
-        """Given an object, return the URL that hyperlinks to the object.
+        """
+        Given an object, return the URL that hyperlinks to the object.
 
         May raise a `NoReverseMatch` if the `view_name` and `lookup_field` attributes
         are not configured to correctly match the URL conf.
@@ -450,8 +438,10 @@ class ComponentSerializer(RemovableSerializer):
     repo = RepoField(max_length=REPO_LENGTH)
 
     push = RepoField(required=False, allow_blank=True, max_length=REPO_LENGTH)
-    branch = LinkedField(required=False, allow_blank=True, max_length=REPO_LENGTH)
-    push_branch = LinkedField(required=False, allow_blank=True, max_length=REPO_LENGTH)
+    branch = LinkedField(required=False, allow_blank=True, max_length=BRANCH_LENGTH)
+    push_branch = LinkedField(
+        required=False, allow_blank=True, max_length=BRANCH_LENGTH
+    )
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
@@ -814,10 +804,16 @@ class UploadRequestSerializer(ReadOnlySerializer):
         choices=("", "process", "approve"), required=False, default=""
     )
     conflicts = serializers.ChoiceField(
-        choices=("", "replace-translated", "replace-approved"),
+        choices=("", "ignore", "replace-translated", "replace-approved"),
         required=False,
         default="",
     )
+
+    def validate_conflicts(self, value):
+        # These are handled same
+        if value == "ignore":
+            return ""
+        return value
 
     def check_perms(self, user, obj):
         data = self.validated_data
@@ -838,8 +834,11 @@ class UploadRequestSerializer(ReadOnlySerializer):
             )
 
         if not check_upload_method_permissions(user, obj, data["method"]):
+            hint = "Check your permissions or use different translation object."
+            if data["method"] == "add" and not obj.is_source:
+                hint = "Try adding to the source instead of the translation."
             raise serializers.ValidationError(
-                {"method": "This method is not available here."}
+                {"method": f"This method is not available here. {hint}"}
             )
 
 
@@ -890,18 +889,17 @@ class StatisticsSerializer(ReadOnlySerializer):
 class UserStatisticsSerializer(ReadOnlySerializer):
     def to_representation(self, instance):
         profile = instance.profile
-        result = {
+        return {
             "translated": profile.translated,
             "suggested": profile.suggested,
             "uploaded": profile.uploaded,
             "commented": profile.commented,
             "languages": profile.languages.count(),
         }
-        return result
 
 
 class PluralField(serializers.ListField):
-    child = serializers.CharField()
+    child = serializers.CharField(trim_whitespace=False)
 
     def get_attribute(self, instance):
         return getattr(instance, f"get_{self.field_name}_plurals")()
@@ -923,6 +921,39 @@ class MemorySerializer(serializers.ModelSerializer):
         )
 
 
+class LabelsSerializer(serializers.RelatedField):
+    class Meta:
+        model = Label
+
+    def get_queryset(self):
+        """
+        List of available labels for an unit.
+
+        The queryset argument is only ever required for writable relationship field,
+        in which case it is used for performing the model instance lookup, that maps
+        from the primitive user input, into a model instance.
+        """
+        unit = self.parent.parent.instance
+        if unit is None:
+            # HTTP 404 Not Found on HTML page still shows the form
+            # but it has no unit attached
+            return Label.objects.none()
+        project = unit.translation.component.project
+        return project.label_set.all()
+
+    def to_representation(self, value):
+        return value.name
+
+    def to_internal_value(self, data):
+        try:
+            label = self.get_queryset().get(name=data)
+        except Label.DoesNotExist as err:
+            raise serializers.ValidationError(
+                "Label with this name was not found."
+            ) from err
+        return label
+
+
 class UnitSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
@@ -941,6 +972,7 @@ class UnitSerializer(serializers.ModelSerializer):
     target = PluralField()
     timestamp = serializers.DateTimeField(read_only=True)
     pending = serializers.BooleanField(read_only=True)
+    labels = LabelsSerializer(many=True, read_only=True)
 
     class Meta:
         model = Unit
@@ -955,6 +987,7 @@ class UnitSerializer(serializers.ModelSerializer):
             "context",
             "note",
             "flags",
+            "labels",
             "state",
             "fuzzy",
             "translated",
@@ -981,6 +1014,7 @@ class UnitWriteSerializer(serializers.ModelSerializer):
     """Serializer for updating source unit."""
 
     target = PluralField()
+    labels = LabelsSerializer(many=True)
 
     class Meta:
         model = Unit
@@ -989,18 +1023,24 @@ class UnitWriteSerializer(serializers.ModelSerializer):
             "state",
             "explanation",
             "extra_flags",
+            "labels",
         )
 
     def to_internal_value(self, data):
         # Allow blank target for untranslated strings
-        if data.get("state") in (0, "0"):
+        if isinstance(data, dict) and data.get("state") in (0, "0"):
             self.fields["target"].child.allow_blank = True
         return super().to_internal_value(data)
 
 
 class NewUnitSerializer(serializers.Serializer):
+    state = serializers.ChoiceField(
+        choices=[choice for choice in STATE_CHOICES if choice[0] != STATE_READONLY],
+        required=False,
+    )
+
     def as_kwargs(self, data=None):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def validate(self, attrs):
         try:
@@ -1019,7 +1059,12 @@ class MonolingualUnitSerializer(NewUnitSerializer):
     def as_kwargs(self, data=None):
         if data is None:
             data = self.validated_data
-        return {"context": data["key"], "source": data["value"], "target": None}
+        return {
+            "context": data["key"],
+            "source": data["value"],
+            "target": None,
+            "state": data.get("state", None),
+        }
 
 
 class BilingualUnitSerializer(NewUnitSerializer):
@@ -1034,6 +1079,7 @@ class BilingualUnitSerializer(NewUnitSerializer):
             "context": data.get("context", ""),
             "source": data["source"],
             "target": data["target"],
+            "state": data.get("state", None),
         }
 
 
@@ -1187,12 +1233,8 @@ class AddonSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     {"name": "Can not change add-on name"}
                 )
-        if instance:
-            # Update
-            component = instance.component
-        else:
-            # Create
-            component = self._context["component"]
+        # Update or create
+        component = instance.component if instance else self._context["component"]
 
         # This could probably work, but it safer not to allow it
         if instance and instance.name != name:

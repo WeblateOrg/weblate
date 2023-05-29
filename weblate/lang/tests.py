@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for language manipulations."""
 
@@ -39,6 +24,8 @@ from weblate.utils.db import using_postgresql
 
 TEST_LANGUAGES = (
     ("cs_CZ", "cs", "ltr", "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", "Czech", False),
+    ("cze_CZ", "cs", "ltr", "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", "Czech", False),
+    ("ces_CZ", "cs", "ltr", "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", "Czech", False),
     ("cs (2)", "cs", "ltr", "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", "Czech", False),
     ("cscz", "cs", "ltr", "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", "Czech", False),
     ("czech", "cs", "ltr", "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", "Czech", False),
@@ -319,8 +306,14 @@ class VerifyPluralsTest(TestCase):
             self.assertNotEqual(
                 get_plural_type(code.replace("_", "-").split("-")[0], plural_formula),
                 data.PLURAL_UNKNOWN,
-                f"Can not guess plural type for {code} ({plural_formula})",
+                f"Can not guess plural type for {code}: {plural_formula}",
             )
+
+    def test_with_zero(self):
+        for _code, _name, _nplurals, plural_formula in CLDRPLURALS:
+            self.assertIn(plural_formula, data.FORMULA_WITH_ZERO)
+            with_zero = data.FORMULA_WITH_ZERO[plural_formula]
+            gettext.c2py(with_zero)
 
     def test_formula(self):
         """Validate that all formulas can be parsed by gettext."""
@@ -478,7 +471,7 @@ class PluralTest(BaseTestCase):
         plural = Plural.objects.get(language__code="cs")
         self.assertEqual(plural.get_plural_name(0), "One")
         self.assertEqual(plural.get_plural_name(1), "Few")
-        self.assertEqual(plural.get_plural_name(2), "Other")
+        self.assertEqual(plural.get_plural_name(2), "Many")
 
     def test_plural_names_invalid(self):
         plural = Plural.objects.get(language__code="cs")
@@ -496,7 +489,7 @@ class PluralTest(BaseTestCase):
         self.assertIn("Few", label)
         self.assertIn("2, 3, 4", label)
         label = plural.get_plural_label(2)
-        self.assertIn("Other", label)
+        self.assertIn("Many", label)
         self.assertIn("5, 6, 7", label)
 
     def test_plural_type(self):
@@ -510,7 +503,7 @@ class PluralTest(BaseTestCase):
             ),
             source=Plural.SOURCE_GETTEXT,
         )
-        self.assertEqual(plural.type, data.PLURAL_ONE_FEW_OTHER)
+        self.assertEqual(plural.type, data.PLURAL_ONE_FEW_MANY)
 
     def test_definitions(self):
         """Verify consistency of plural definitions."""

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from collections import defaultdict
 from copy import copy
@@ -32,6 +17,7 @@ from django.utils import timezone
 from django.utils.translation import get_language, get_language_bidi
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import override
+from siphashc import siphash
 
 from weblate.accounts.tasks import send_mails
 from weblate.auth.models import User
@@ -39,6 +25,7 @@ from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.models import Alert, Change, Translation
 from weblate.utils.markdown import get_mention_users
+from weblate.utils.ratelimit import rate_limit
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.version import USER_AGENT
@@ -92,6 +79,7 @@ class Notification:
     digest_template: str = "digest"
     filter_languages: bool = False
     ignore_watched: bool = False
+    any_watched: bool = False
     required_attr: Optional[str] = None
 
     def __init__(self, outgoing, perm_cache=None):
@@ -102,8 +90,10 @@ class Notification:
         else:
             self.perm_cache = {}
 
-    def need_language_filter(self, change):
-        return self.filter_languages
+    def get_language_filter(self, change, translation):
+        if self.filter_languages:
+            return translation.language
+        return None
 
     @staticmethod
     def get_freq_choices():
@@ -123,23 +113,32 @@ class Notification:
         result = Subscription.objects.filter(notification=self.get_name())
         if users is not None:
             result = result.filter(user_id__in=users)
-        query = Q(scope__in=(SCOPE_WATCHED, SCOPE_ADMIN, SCOPE_ALL))
+        query = Q(scope__in=(SCOPE_ADMIN, SCOPE_ALL))
+        # Special case for site-wide announcements
+        if self.any_watched and not project and not component:
+            query |= Q(scope=SCOPE_WATCHED)
         if component:
+            if not self.ignore_watched:
+                query |= Q(scope=SCOPE_WATCHED) & Q(
+                    user__profile__watched=component.project
+                )
             query |= Q(component=component)
         if project:
+            if not self.ignore_watched:
+                query |= Q(scope=SCOPE_WATCHED) & Q(user__profile__watched=project)
             query |= Q(project=project)
         if lang_filter:
-            result = result.filter(user__profile__languages=translation.language)
+            result = result.filter(user__profile__languages=lang_filter)
         return (
             result.filter(query)
             .order_by("user", "-scope")
-            .prefetch_related("user__profile__watched")
+            .prefetch_related("user", "user__profile", "user__profile__watched")
         )
 
     def get_subscriptions(self, change, project, component, translation, users):
-        lang_filter = self.need_language_filter(change)
+        lang_filter = self.get_language_filter(change, translation)
         cache_key = (
-            translation.language_id if lang_filter else lang_filter,
+            lang_filter.id if lang_filter else None,
             component.pk if component else None,
             project.pk if project else None,
         )
@@ -163,8 +162,8 @@ class Notification:
             return False
 
         if project.pk not in self.perm_cache:
-            self.perm_cache[project.pk] = User.objects.all_admins(project).values_list(
-                "pk", flat=True
+            self.perm_cache[project.pk] = set(
+                User.objects.all_admins(project).values_list("pk", flat=True)
             )
 
         return user.pk in self.perm_cache[project.pk]
@@ -204,13 +203,6 @@ class Notification:
                     subscription.scope == SCOPE_ADMIN
                     and not self.is_admin(user, project)
                 )
-                # Watched scope for not watched
-                or (
-                    subscription.scope == SCOPE_WATCHED
-                    and not self.ignore_watched
-                    and project is not None
-                    and not user.profile.watches_project(project)
-                )
             ):
                 continue
 
@@ -223,9 +215,22 @@ class Notification:
             yield last_user
 
     def send(self, address, subject, body, headers):
-        self.outgoing.append(
-            {"address": address, "subject": subject, "body": body, "headers": headers}
-        )
+        encoded_email = siphash("Weblate notifier", address)
+        if rate_limit(f"notify:rate:{encoded_email}", 1000, 86400):
+            LOGGER.info(
+                "discarding notification %s to %s after sending too many",
+                self.get_name(),
+                address,
+            )
+        else:
+            self.outgoing.append(
+                {
+                    "address": address,
+                    "subject": subject,
+                    "body": body,
+                    "headers": headers,
+                }
+            )
 
     def render_template(self, suffix, context, digest=False):
         """Render single mail template with given context."""
@@ -477,7 +482,7 @@ class ParseErrorNotification(Notification):
         context = super().get_context(change, subscription, extracontext, changes)
         if change:
             context["details"]["filelink"] = change.component.get_repoweb_link(
-                change.details.get("filename"), "1"
+                change.details.get("filename"), "1", user=context["user"]
             )
         return context
 
@@ -540,10 +545,7 @@ class LastAuthorCommentNotificaton(Notification):
         users=None,
     ):
         last_author = change.unit.get_last_content_change()[0]
-        if last_author.is_anonymous:
-            users = []
-        else:
-            users = [last_author.pk]
+        users = [] if last_author.is_anonymous else [last_author.pk]
         return super().get_users(
             frequency, change, project, component, translation, users
         )
@@ -601,8 +603,10 @@ class NewCommentNotificaton(Notification):
     filter_languages = True
     required_attr = "comment"
 
-    def need_language_filter(self, change):
-        return not change.comment.unit.is_source
+    def get_language_filter(self, change, translation):
+        if not change.comment.unit.is_source:
+            return translation.language
+        return None
 
     def notify_immediate(self, change):
         super().notify_immediate(change)
@@ -672,9 +676,13 @@ class NewAnnouncementNotificaton(Notification):
     verbose = _("New announcement")
     template_name = "new_announcement"
     required_attr = "announcement"
+    any_watched: bool = True
 
     def should_skip(self, user, change):
         return not change.announcement.notify
+
+    def get_language_filter(self, change, translation):
+        return change.announcement.language
 
 
 @register_notification
@@ -756,7 +764,7 @@ class SummaryNotification(Notification):
 
     @staticmethod
     def get_count(translation):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_context(
         self, change=None, subscription=None, extracontext=None, changes=None

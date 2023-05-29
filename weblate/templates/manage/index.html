@@ -39,10 +39,11 @@
   <tr>
   <th>{% trans "Support status" %}</th>
   <td>
+    <a href="" class="pull-right flip btn btn-link link-post" data-href="{% url 'manage-activate' %}" data-params='{"refresh":1}'>{% trans "Refresh support status" %}</a>
     {{ support.get_verbose }}
     {% if not support.in_limits %}
     <div class="alert alert-danger" role="alert">
-    {% trans "Exceeding service limits" %}
+      {% trans "Your Weblate is exceeding service limits. Please upgrade the subscription." %}
     </div>
     {% endif %}
   </td>
@@ -57,7 +58,7 @@
   <tr>
   <th>{% trans "Discover Weblate" %}</th>
   <td>
-    <a href="https://weblate.org/discover/" class="btn-inline pull-right flip">{% trans "Browse discovery" %}</a>
+    <a href="https://weblate.org/discover/" class="btn btn-link pull-right flip">{% trans "Browse discovery" %}</a>
     {% if support.discoverable %}
       {% trans "Your Weblate is listed on weblate.org" %}
       <br />

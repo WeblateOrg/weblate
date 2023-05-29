@@ -1,27 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os.path
+from contextlib import suppress
 from datetime import timedelta
 
 from appconf import AppConf
 from django.conf import settings
+from django.contrib import admin
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Prefetch, Q
@@ -192,7 +179,7 @@ class Billing(models.Model):
     )
     # Payment detailed information, used for integration
     # with payment processor
-    payment = JSONField(editable=False, default={})
+    payment = JSONField(editable=False, default=dict)
 
     objects = BillingManager.from_queryset(BillingQuerySet)()
 
@@ -206,7 +193,7 @@ class Billing(models.Model):
         if projects:
             base = projects
         elif owners:
-            base = ", ".join(x.get_author_name(False) for x in owners)
+            base = ", ".join(x.get_visible_name() for x in owners)
         else:
             base = "Unassigned"
         trial = ", trial" if self.is_trial else ""
@@ -220,12 +207,14 @@ class Billing(models.Model):
         update_fields=None,
         skip_limits=False,
     ):
-        if not skip_limits and self.pk:
-            if self.check_limits(save=False) and update_fields:
-                update_fields = set(update_fields)
-                update_fields.update(
-                    ("state", "expiry", "removal", "paid", "in_limits")
-                )
+        if (
+            not skip_limits
+            and self.pk
+            and self.check_limits(save=False)
+            and update_fields
+        ):
+            update_fields = set(update_fields)
+            update_fields.update(("state", "expiry", "removal", "paid", "in_limits"))
 
         super().save(
             force_insert=force_insert,
@@ -267,35 +256,31 @@ class Billing(models.Model):
             return True
         return self.count_projects > 0
 
+    @admin.display(description=_("Changes in last month"))
     @cached_property
     def monthly_changes(self):
         return sum(project.stats.monthly_changes for project in self.all_projects)
 
-    monthly_changes.short_description = _("Changes in last month")
-
+    @admin.display(description=_("Number of changes"))
     @cached_property
     def total_changes(self):
         return sum(project.stats.total_changes for project in self.all_projects)
-
-    total_changes.short_description = _("Number of changes")
 
     @cached_property
     def count_projects(self):
         return len(self.all_projects)
 
+    @admin.display(description=_("Projects"))
     def display_projects(self):
         return f"{self.count_projects} / {self.plan.display_limit_projects}"
-
-    display_projects.short_description = _("Projects")
 
     @cached_property
     def count_strings(self):
         return sum(p.stats.source_strings for p in self.all_projects)
 
+    @admin.display(description=_("Source strings"))
     def display_strings(self):
         return f"{self.count_strings} / {self.plan.display_limit_strings}"
-
-    display_strings.short_description = _("Source strings")
 
     @cached_property
     def count_words(self):
@@ -305,21 +290,17 @@ class Billing(models.Model):
     def hosted_words(self):
         return sum(p.stats.all_words for p in self.all_projects)
 
+    @admin.display(description=_("Source words"))
     def display_words(self):
         return f"{self.count_words}"
 
-    display_words.short_description = _("Source words")
-
     @cached_property
     def count_languages(self):
-        if not self.all_projects:
-            return 0
-        return max(p.stats.languages for p in self.all_projects)
+        return max((p.stats.languages for p in self.all_projects), default=0)
 
+    @admin.display(description=_("Languages"))
     def display_languages(self):
         return f"{self.count_languages} / {self.plan.display_limit_languages}"
-
-    display_languages.short_description = _("Languages")
 
     def flush_cache(self):
         keys = list(self.__dict__.keys())
@@ -346,20 +327,22 @@ class Billing(models.Model):
             and self.expiry < timezone.now()
         )
 
+    @admin.display(description=_("Number of strings"))
     def unit_count(self):
         return sum(p.stats.all for p in self.all_projects)
 
-    unit_count.short_description = _("Number of strings")
-
+    @admin.display(description=_("Last invoice"))
     def last_invoice(self):
         try:
             invoice = self.invoice_set.order_by("-start")[0]
-            return f"{invoice.start} - {invoice.end}"
         except IndexError:
             return _("N/A")
+        return f"{invoice.start} - {invoice.end}"
 
-    last_invoice.short_description = _("Last invoice")
-
+    @admin.display(
+        description=_("In display limits"),
+        boolean=True,
+    )
     def in_display_limits(self, plan=None):
         if plan is None:
             plan = self.plan
@@ -378,12 +361,11 @@ class Billing(models.Model):
             )
         )
 
-    in_display_limits.boolean = True
     # Translators: Whether the package is inside displayed (soft) limits
-    in_display_limits.short_description = _("In display limits")
 
     def check_payment_status(self, now: bool = False):
-        """Check current payment status.
+        """
+        Check current payment status.
 
         Compared to paid attribute, this does not include grace period.
         """
@@ -436,10 +418,9 @@ class Billing(models.Model):
         message = ngettext(
             "Contains %d project", "Contains %d projects", self.count_projects
         )
-        try:
+        # Ignore when format string is not present
+        with suppress(TypeError):
             message = message % self.count_projects
-        except TypeError:
-            pass
         yield LibreCheck(self.count_projects == 1, message)
         for project in self.all_projects:
             yield LibreCheck(
@@ -515,7 +496,7 @@ class Invoice(models.Model):
     note = models.TextField(blank=True)
     # Payment detailed information, used for integration
     # with payment processor
-    payment = JSONField(editable=False, default={})
+    payment = JSONField(editable=False, default=dict)
 
     objects = InvoiceQuerySet.as_manager()
 

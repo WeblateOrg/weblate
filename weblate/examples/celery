@@ -7,10 +7,10 @@
 # https://github.com/celery/celery/issues/6285
 export CELERY_APP=weblate.utils
 
-python -m celery multi $1 \
+python -m celery multi "$1" \
     notify memory celery backup translate \
-    --pidfile=$PWD/weblate-%n.pid \
-    --logfile=$PWD/weblate-%n%I.log --loglevel=DEBUG \
+    "--pidfile=$PWD/weblate-%n.pid" \
+    "--logfile=$PWD/weblate-%n%I.log" --loglevel=DEBUG \
     --beat:celery --queues:celery=celery --prefetch-multiplier:celery=4 \
     --queues:notify=notify --prefetch-multiplier:notify=10 \
     --queues:memory=memory --prefetch-multiplier:memory=10 \
