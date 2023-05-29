@@ -7,7 +7,7 @@
 # Marc Riera <marc.riera.irigoyen@gmail.com>, 2019.
 # Michal Čihař <michal@cihar.com>, 2019.
 # anonymous <noreply@weblate.org>, 2019, 2020.
-# Ecron <ecron_89@hotmail.com>, 2020.
+# Ecron <ecron_89@hotmail.com>, 2020, 2023.
 # Carles Sadurní <sadurbnd@gmail.com>, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
 # Guillem <guillemglez@gmail.com>, 2021.
@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-14 14:36+0000\n"
-"PO-Revision-Date: 2023-03-20 09:48+0000\n"
-"Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
+"PO-Revision-Date: 2023-05-30 01:08+0000\n"
+"Last-Translator: Ecron <ecron_89@hotmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
 "Language: ca\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -5351,22 +5351,16 @@ msgid "Translation"
 msgstr "Traducció"
 
 #: weblate/templates/accounts/user.html:162
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "Browse all translations with contribution"
-msgstr "Traduccions amb contribucions"
+msgstr "Explora totes les traduccions amb contribucions"
 
 #: weblate/templates/accounts/user.html:170
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all managed projects"
-msgstr "Explora tots els projectes"
+msgstr "Explora tots els projectes gestionats"
 
 #: weblate/templates/accounts/user.html:179
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse all watched projects"
-msgstr "Explora tots els projectes"
+msgstr "Explora tots els projectes en seguiment"
 
 #: weblate/templates/accounts/user.html:192
 msgid "Browse all changes for user"
@@ -7481,6 +7475,8 @@ msgstr "Suprimeix el projecte"
 msgid ""
 "No projects in this billing. You might have other billings with projects in."
 msgstr ""
+"No hi ha cap projecte en aquesta factura. Potser en teniu altres amb "
+"projectes."
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
@@ -8164,28 +8160,23 @@ msgid "SSH keys"
 msgstr "Claus SSH"
 
 #: weblate/templates/manage/ssh.html:22
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate %(key_type)s SSH key"
-msgstr "Genera una clau SSH"
+msgstr "Genera una clau SSH %(key_type)s"
 
 #: weblate/templates/manage/ssh.html:26
-#, fuzzy, python-format
-#| msgid ""
-#| "You don't seem to have existing SSH key, by pressing button below Weblate "
-#| "will generate one for you."
+#, python-format
 msgid ""
 "You don't seem to have existing %(key_type)s SSH key, by pressing button "
 "below Weblate will generate one for you."
 msgstr ""
-"Sembla que no teniu cap clau SSH. Si premeu el botó a continuació, el "
-"Weblate us en generarà una."
+"Sembla que no teniu cap clau SSH %(key_type)s. Si premeu el botó a "
+"continuació, el Weblate us en generarà una."
 
 #: weblate/templates/manage/ssh.html:32
-#, fuzzy, python-format
-#| msgid "Generate SSH key"
+#, python-format
 msgid "Generate new %(key_type)s SSH key"
-msgstr "Genera una clau SSH"
+msgstr "Genera una clau SSH %(key_type)s"
 
 #: weblate/templates/manage/ssh.html:44
 msgid "Known host keys"
@@ -8347,7 +8338,7 @@ msgstr "A continuació, la memòria s'omplirà amb les traduccions actuals."
 #: weblate/templates/memory/index.html:158
 #, python-format
 msgid "Entries for %(source_language)s to %(target_language)s"
-msgstr ""
+msgstr "Entrades de %(source_language)s a %(target_language)s"
 
 #: weblate/templates/memory/index.html:169
 msgid "Shared translation memory"
@@ -9420,10 +9411,9 @@ msgid "Descending"
 msgstr "Descendent"
 
 #: weblate/templates/snippets/ssh-key.html:11
-#, fuzzy, python-format
-#| msgid "Public SSH key"
+#, python-format
 msgid "Public %(key_type)s SSH key"
-msgstr "Clau SSH pública"
+msgstr "Clau SSH %(key_type)s pública"
 
 #: weblate/templates/snippets/ssh-key.html:16
 msgid ""
@@ -9435,10 +9425,9 @@ msgstr ""
 "concedir accés al Weblate al vostre repositori."
 
 #: weblate/templates/snippets/ssh-key.html:24
-#, fuzzy, python-format
-#| msgid "Download private key"
+#, python-format
 msgid "Download %(key_type)s private key"
-msgstr "Baixa la clau privada"
+msgstr "Baixa la clau %(key_type)s privada"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -9865,17 +9854,16 @@ msgstr ""
 "si hi manquen dependències."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:3
-#, fuzzy, python-format
-#| msgid "Locked component will not get any translation updates."
+#, python-format
 msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
-msgstr[0] "Un component blocat no rebrà actualitzacions de la traducció."
-msgstr[1] "Un component blocat no rebrà actualitzacions de la traducció."
+msgstr[0] "El component no ha rebut cap traducció en el darrer dia."
+msgstr[1] "El component no ha rebut cap traducció en els darrers %(count)s dies."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:5
 msgid "Please consider removing the component if it is no longer useful."
-msgstr ""
+msgstr "Considereu suprimir el component si ja no és d'utilitat."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 msgid "Following enforced checks are not used anywhere:"
@@ -10917,7 +10905,7 @@ msgstr "Caràcters de control"
 
 #: weblate/trans/autofixes/chars.py:52
 msgid "Devanagari danda"
-msgstr ""
+msgstr "Barra devanagari"
 
 #: weblate/trans/autofixes/custom.py:32
 msgid "Apostrophes in Java MessageFormat"
@@ -11766,10 +11754,8 @@ msgid "Inexistent files."
 msgstr "Fitxers inexistents."
 
 #: weblate/trans/models/alert.py:424
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component seems unused."
-msgstr "S'ha desblocat el component"
+msgstr "Sembla que el component no s'utilitza."
 
 #: weblate/trans/models/announcement.py:96
 msgid "Category"
@@ -13106,10 +13092,9 @@ msgid "User configured character: {}"
 msgstr "Caràcter configurat per l'usuari: {}"
 
 #: weblate/trans/tasks.py:407
-#, fuzzy, python-format
-#| msgid "Automatic translation mode"
+#, python-format
 msgid "Automatic translation failed: %s"
-msgstr "Mode de traducció automatitzada"
+msgstr "La traducció automatitzada ha fallat: %s"
 
 #: weblate/trans/tasks.py:413
 msgid "Automatic translation completed, no strings were updated."
@@ -14182,16 +14167,14 @@ msgid "Bitbucket Server pull request"
 msgstr "Sol·licitud de baixada a Bitbucket Server"
 
 #: weblate/vcs/ssh.py:31
-#, fuzzy
-#| msgid "RSS"
 msgctxt "SSH key type"
 msgid "RSA"
-msgstr "RSS"
+msgstr "RSA"
 
 #: weblate/vcs/ssh.py:37
 msgctxt "SSH key type"
 msgid "Ed25519"
-msgstr ""
+msgstr "Ed25519"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:70
