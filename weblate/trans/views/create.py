@@ -1,25 +1,11 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
 import os
 import subprocess
+from contextlib import suppress
 from zipfile import BadZipfile
 
 from django.conf import settings
@@ -82,10 +68,8 @@ class CreateProject(BaseCreateView):
             billing_field = form.fields["billing"]
             if self.has_billing:
                 billing_field.queryset = self.billings
-                try:
+                with suppress(ValueError, KeyError):
                     billing_field.initial = int(self.request.GET["billing"])
-                except (ValueError, KeyError):
-                    pass
                 billing_field.required = not self.request.user.is_superuser
                 if self.request.user.is_superuser:
                     billing_field.empty_label = "-- without billing --"
@@ -147,10 +131,10 @@ class ImportProject(CreateProject):
         if "import_project" in request.session and os.path.exists(
             request.session["import_project"]
         ):
-            if "zipfile" in request.POST:
+            if "zipfile" in request.FILES:
                 # Delete previous (stale) import data
-                os.unlink(self.projectbackup.filename)
-                del self.request.session["import_project"]
+                del request.session["import_project"]
+                request.session.pop("import_billing", None)
                 self.projectbackup = None
             else:
                 self.projectbackup = ProjectBackup(request.session["import_project"])
@@ -159,8 +143,19 @@ class ImportProject(CreateProject):
                 self.projectbackup.validate()
         else:
             request.session.pop("import_project", None)
+            request.session.pop("import_billing", None)
             self.projectbackup = None
         super().setup(request, *args, **kwargs)
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        if "billing" in form.fields and self.has_billing:
+            from weblate.billing.models import Billing
+
+            billing = self.request.session.get("import_billing")
+            if billing:
+                form.fields["billing"].initial = Billing.objects.get(pk=billing)
+        return form
 
     def get_form_class(self):
         """Return the form class to use."""
@@ -175,10 +170,11 @@ class ImportProject(CreateProject):
         return kwargs
 
     def post(self, request, *args, **kwargs):
-        if "zipfile" in request.POST and self.projectbackup:
+        if "zipfile" in request.FILES and self.projectbackup:
             # Delete previous (stale) import data
             os.unlink(self.projectbackup.filename)
             del self.request.session["import_project"]
+            self.request.session.pop("import_billing", None)
             self.projectbackup = None
         return super().post(request, *args, **kwargs)
 
@@ -188,6 +184,8 @@ class ImportProject(CreateProject):
             self.request.session["import_project"] = form.cleaned_data[
                 "projectbackup"
             ].store_for_import()
+            if form.cleaned_data["billing"]:
+                self.request.session["import_billing"] = form.cleaned_data["billing"].pk
             return redirect("create-project-import")
         # Perform actual import
         project = self.projectbackup.restore(
@@ -196,10 +194,8 @@ class ImportProject(CreateProject):
             user=self.request.user,
             billing=form.cleaned_data["billing"],
         )
+        del self.request.session["import_project"]
         return redirect(project)
-
-
-# ProjectImportForm
 
 
 @method_decorator(login_required, name="dispatch")
@@ -310,12 +306,10 @@ class CreateComponent(BaseCreateView):
             project_field.empty_label = None
             if self.selected_project:
                 project_field.initial = self.selected_project
-                try:
+                with suppress(IndexError):
                     form.fields["source_language"].initial = Component.objects.filter(
                         project=self.selected_project
                     )[0].source_language_id
-                except IndexError:
-                    pass
         self.empty_form = False
         return form
 

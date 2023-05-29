@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load icons %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'about' %}">{% trans "About Weblate" %}</a></li>
@@ -9,18 +10,7 @@
 
 {% block content %}
 
-<div class="panel panel-default">
-<div class="panel-heading">
-<h4 class="panel-title">
-{% documentation_icon 'vcs' right=True %}
-{% trans "SSH key" %}
-</h4>
-</div>
-
-  <div class="panel-body">
-    {% include "snippets/ssh-key.html" %}
-  </div>
-</div>
+{% include "snippets/ssh-key.html" %}
 
 <div class="panel panel-default">
 <div class="panel-heading">
@@ -32,6 +22,7 @@
 
   <div class="panel-body">
 {% if gpg_key %}
+  <button type="button" class="btn btn-link btn-xs pull-right flip" data-clipboard-text="{{ gpg_key }}" data-clipboard-message="{% trans "Public key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
   <p>{% blocktrans %}All commits made with Weblate are signed with the GPG key {{ gpg_key_id }}, for which the corresponding public key is found below.{% endblocktrans %}</p>
   <div class="list-group-item pre-scrollable">
   {{ gpg_key|linebreaks }}

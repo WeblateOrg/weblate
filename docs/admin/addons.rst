@@ -3,8 +3,6 @@
 Add-ons
 =======
 
-.. versionadded:: 2.19
-
 Add-ons provide ways to customize and automate the translation workflow.
 Admins can add and manage add-ons from the :guilabel:`Manage` ↓ :guilabel:`Add-ons` menu of each respective
 translation component.
@@ -415,21 +413,23 @@ Pseudolocale generation
 .. versionadded:: 4.5
 
 :Add-on ID: ``weblate.generate.pseudolocale``
-:Configuration: +--------------------+--------------------------+------------------------------------------------------------------------------------------+
-                | ``source``         | Source strings           |                                                                                          |
-                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
-                | ``target``         | Target translation       | All strings in this translation will be overwritten                                      |
-                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
-                | ``prefix``         | Fixed string prefix      |                                                                                          |
-                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
-                | ``var_prefix``     | Variable string prefix   |                                                                                          |
-                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
-                | ``suffix``         | Fixed string suffix      |                                                                                          |
-                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
-                | ``var_suffix``     | Variable string suffix   |                                                                                          |
-                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
-                | ``var_multiplier`` | Variable part multiplier | How many times to repeat the variable part depending on the length of the source string. |
-                +--------------------+--------------------------+------------------------------------------------------------------------------------------+
+:Configuration: +----------------------+---------------------------+------------------------------------------------------------------------------------------+
+                | ``source``           | Source strings            |                                                                                          |
+                +----------------------+---------------------------+------------------------------------------------------------------------------------------+
+                | ``target``           | Target translation        | All strings in this translation will be overwritten                                      |
+                +----------------------+---------------------------+------------------------------------------------------------------------------------------+
+                | ``prefix``           | Fixed string prefix       |                                                                                          |
+                +----------------------+---------------------------+------------------------------------------------------------------------------------------+
+                | ``var_prefix``       | Variable string prefix    |                                                                                          |
+                +----------------------+---------------------------+------------------------------------------------------------------------------------------+
+                | ``suffix``           | Fixed string suffix       |                                                                                          |
+                +----------------------+---------------------------+------------------------------------------------------------------------------------------+
+                | ``var_suffix``       | Variable string suffix    |                                                                                          |
+                +----------------------+---------------------------+------------------------------------------------------------------------------------------+
+                | ``var_multiplier``   | Variable part multiplier  | How many times to repeat the variable part depending on the length of the source string. |
+                +----------------------+---------------------------+------------------------------------------------------------------------------------------+
+                | ``include_readonly`` | Include read-only strings |                                                                                          |
+                +----------------------+---------------------------+------------------------------------------------------------------------------------------+
 :Triggers: component update, daily
 
 Generates a translation by adding prefix and suffix to source strings
@@ -491,7 +491,7 @@ The PO file header will look like this:
 
 .. code-block:: po
 
-    # Michal Čihař <michal@cihar.com>, 2012, 2018, 2019, 2020.
+    # Michal Čihař <michal@weblate.org>, 2012, 2018, 2019, 2020.
     # Pavel Borecki <pavel@example.com>, 2018, 2019.
     # Filip Hron <filip@example.com>, 2018, 2019.
     # anonymous <noreply@weblate.org>, 2019.
@@ -519,9 +519,9 @@ Customize gettext output
                 |           |                     |                                                                                                                                   |
                 |           |                     | Available choices:                                                                                                                |
                 |           |                     |                                                                                                                                   |
-                |           |                     | ``77`` -- Wrap lines at 77 characters and at newlines                                                                             |
+                |           |                     | ``77`` -- Wrap lines at 77 characters and at newlines (xgettext default)                                                          |
                 |           |                     |                                                                                                                                   |
-                |           |                     | ``65535`` -- Only wrap lines at newlines                                                                                          |
+                |           |                     | ``65535`` -- Only wrap lines at newlines (like 'xgettext --no-wrap')                                                              |
                 |           |                     |                                                                                                                                   |
                 |           |                     | ``-1`` -- No line wrapping                                                                                                        |
                 +-----------+---------------------+-----------------------------------------------------------------------------------------------------------------------------------+
@@ -566,6 +566,13 @@ Generate MO files
 Automatically generates a MO file for every changed PO file.
 
 The location of the generated MO file can be customized and the field for it uses :ref:`markup`.
+
+.. note::
+
+   If a translation is removed, its PO file will be deleted from the
+   repository, but the MO file generated by this add-on will not.  The MO file
+   must be removed from the upstream manually.
+
 
 .. _addon-weblate.gettext.msgmerge:
 
@@ -737,6 +744,22 @@ Unused strings are removed, and new ones added as copies of the source string.
 
    :ref:`faq-cleanup`
 
+.. _addon-weblate.xml.customize:
+
+Customize XML output
+--------------------
+
+.. versionadded:: 4.15
+
+:Add-on ID: ``weblate.xml.customize``
+:Configuration: +------------------+----------------------------------------+--+
+                | ``closing_tags`` | Include closing tag for blank XML tags |  |
+                +------------------+----------------------------------------+--+
+:Triggers: storage post-load
+
+Allows adjusting XML output behavior, for example closing tags instead of self-
+closing tags for empty tags.
+
 .. _addon-weblate.yaml.customize:
 
 Customize YAML output
@@ -826,8 +849,6 @@ Additionally, the following environment variables are available:
 
 .. envvar:: WL_BRANCH
 
-    .. versionadded:: 2.11
-
     Repository branch configured in the current component.
 
 .. envvar:: WL_FILEMASK
@@ -839,8 +860,6 @@ Additionally, the following environment variables are available:
     Filename of template for monolingual translations (can be empty).
 
 .. envvar:: WL_NEW_BASE
-
-    .. versionadded:: 2.14
 
     Filename of the file used for creating new translations (can be
     empty).

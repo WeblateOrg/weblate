@@ -17,7 +17,7 @@ help:
 run-selenium:
 	@rm -rf ../data-test ../test-images
 	@cd .. && \
-		. scripts/test-database && \
+		. scripts/test-database.sh && \
 		./manage.py collectstatic --noinput && \
 		./manage.py test --failfast weblate.trans.tests.test_selenium.SeleniumTests
 

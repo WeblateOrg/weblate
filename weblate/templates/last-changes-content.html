@@ -20,6 +20,13 @@
             — <a href="{{ change.translation.get_absolute_url }}">{{ change.translation.language }}</a>
             {% endif %}
         </p>
+        {% if user.is_superuser %}
+          {% with ip_address=change.get_ip_address %}
+            {% if ip_address %}
+              <p>{{ ip_address }}</p>
+            {% endif %}
+          {% endwith %}
+        {% endif %}
     </td>
     <td class="history-data full-cell">
         {% if not in_email %}
@@ -56,7 +63,7 @@
                     {% if change.unit.target == change.target %}
                       <span class="badge">{% trans "Current translation" %}</span>
                     {% endif %}
-                    {% if change.details.state %}
+                    {% if change.show_unit_state %}
                       <span class="badge">{{ change.get_state_display }}</span>
                     {% endif %}
                 </label>

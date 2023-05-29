@@ -1,22 +1,8 @@
 #!/usr/bin/env python3
+
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
 from distutils import log
@@ -90,12 +76,12 @@ class WeblateBuild(build):
     """Override the default build with new subcommands."""
 
     # The build_mo has to be before build_data
-    sub_commands = [("build_mo", lambda self: True)] + build.sub_commands
+    sub_commands = [("build_mo", lambda self: True), *build.sub_commands]
 
 
 setup(
     name="Weblate",
-    version="4.14",
+    version="4.17",
     python_requires=">=3.7",
     packages=find_packages(),
     include_package_data=True,
@@ -118,7 +104,7 @@ setup(
         "Funding": "https://weblate.org/donate/",
     },
     author="Michal Čihař",
-    author_email="michal@cihar.com",
+    author_email="michal@weblate.org",
     install_requires=REQUIRES,
     zip_safe=False,
     extras_require=EXTRAS,
@@ -132,11 +118,11 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Topic :: Software Development :: Internationalization",
         "Topic :: Software Development :: Localization",
         "Topic :: Internet :: WWW/HTTP",

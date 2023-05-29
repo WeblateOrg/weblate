@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.conf import settings
 
@@ -59,16 +44,9 @@ class MyMemoryTranslation(MachineTranslation):
 
     def format_match(self, match):
         """Reformat match to (translation, quality) tuple."""
-        if isinstance(match["quality"], int):
-            quality = match["quality"]
-        elif match["quality"] is not None and match["quality"].isdigit():
-            quality = int(match["quality"])
-        else:
-            quality = 0
-
         result = {
             "text": match["translation"],
-            "quality": int(quality * match["match"]),
+            "quality": int(100 * match["match"]),
             "service": self.name,
             "source": match["segment"],
         }
@@ -88,7 +66,6 @@ class MyMemoryTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
     ):
         """Download list of possible translations from MyMemory."""
@@ -107,4 +84,6 @@ class MyMemoryTranslation(MachineTranslation):
             "get", "https://mymemory.translated.net/api/get", params=args
         )
         for match in response["matches"]:
-            yield self.format_match(match)
+            result = self.format_match(match)
+            if result["quality"] > threshold:
+                yield result

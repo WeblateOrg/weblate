@@ -1,3 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 # This file is maintained in https://github.com/WeblateOrg/meta/
 # and generated from .github/ISSUE_TEMPLATE/snippets there.
 name: Support question
@@ -56,6 +60,8 @@ body:
       In case you observed server error or crash, please see
       [the debugging documentation](https://docs.weblate.org/en/latest/contributing/debugging.html)
       for information how to obtain that.
+
+      This will be rendered as Python traceback automatically.
     render: pytb
 - type: dropdown
   id: installation
@@ -100,6 +106,8 @@ body:
       ```
       docker-compose exec --user weblate weblate weblate list_versions
       ```
+
+      This will properly render without any escaping.
 - type: textarea
   id: checks
   attributes:
@@ -130,6 +138,8 @@ body:
       ```
       docker-compose exec --user weblate weblate weblate check --deploy
       ```
+
+      This will be rendered as console output automatically.
     render: shell
 - type: textarea
   id: additional

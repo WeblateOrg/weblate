@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os.path
 from typing import Tuple
@@ -40,8 +25,7 @@ from weblate.utils.views import get_percent_color
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
-# pylint:disable=wrong-import-position,wrong-import-order
-from gi.repository import Pango, PangoCairo  # noqa:E402,I001 isort:skip
+from gi.repository import Pango, PangoCairo  # noqa: E402
 
 COLOR_DATA = {
     "grey": (0, 0, 0),
@@ -92,10 +76,7 @@ class ContentWidget(Widget):
         """Create Widget object."""
         super().__init__(obj, color, lang)
         # Get translation status
-        if lang:
-            stats = obj.stats.get_single_language_stats(lang)
-        else:
-            stats = obj.stats
+        stats = obj.stats.get_single_language_stats(lang) if lang else obj.stats
         self.percent = stats.translated_percent
 
     def get_percent_text(self):
@@ -146,11 +127,11 @@ class BitmapWidget(ContentWidget):
         return os.path.join(
             settings.STATIC_ROOT,
             "widget-images",
-            "{widget}-{color}.png".format(**{"color": self.color, "widget": self.name}),
+            f"{self.name}-{self.color}.png",
         )
 
     def get_columns(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_column_width(self, surface, columns):
         return surface.get_width() // len(columns)
@@ -219,7 +200,7 @@ class SVGWidget(ContentWidget):
 
     def render(self, response):
         """Rendering method to be implemented."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class RedirectWidget(Widget):

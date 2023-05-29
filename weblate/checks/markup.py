@@ -1,32 +1,17 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
 
-import bleach
+import nh3
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheck
-from weblate.utils.html import extract_bleach
+from weblate.utils.html import extract_html_tags
 from weblate.utils.xml import parse_xml
 
 BBCODE_MATCH = re.compile(
@@ -154,7 +139,7 @@ class BaseXMLCheck(TargetCheck):
 
     def check_single(self, source, target, unit):
         """Check for single phrase, not dealing with plurals."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class XMLValidityCheck(BaseXMLCheck):
@@ -338,9 +323,9 @@ class URLCheck(TargetCheck):
             return False
         try:
             self.validator(target)
-            return False
         except ValidationError:
             return True
+        return False
 
 
 class SafeHTMLCheck(TargetCheck):
@@ -350,9 +335,8 @@ class SafeHTMLCheck(TargetCheck):
     default_disabled = True
 
     def check_single(self, source, target, unit):
-
         # Strip MarkDown links
         if "md-text" in unit.all_flags:
             target = MD_LINK.sub("", target)
 
-        return bleach.clean(target, **extract_bleach(source)) != target
+        return nh3.clean(target, link_rel=None, **extract_html_tags(source)) != target

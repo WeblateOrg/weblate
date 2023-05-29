@@ -150,6 +150,8 @@ by the Unicode Consortium is a more detailed description.
 
    :ref:`plural-formula`
 
+.. image:: /screenshots/plurals.png
+
 .. _alternative-translations:
 
 Alternative translations
@@ -166,15 +168,8 @@ string. You can add more alternative translations using the :guilabel:`Tools`
 menu. Any blank alternative translations will be automatically removed upon
 saving.
 
-.. image:: /screenshots/plurals.png
-
 Keyboard shortcuts
 ++++++++++++++++++
-
-.. versionchanged:: 2.18
-
-    The keyboard shortcuts have been revamped in 2.18 to less likely collide
-    with browser or system defaults.
 
 The following keyboard shortcuts can be utilized during translation:
 
@@ -201,15 +196,17 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+↓`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Alt+Enter` or                       | Submit current form; this is same as                                  |
+| :kbd:`Ctrl+Enter` or                      | Submit current form; this is same as                                  |
 |                                           | pressing :guilabel:`Save and continue` while editing translation.     |
-| :kbd:`Ctrl+Enter` or                      |                                                                       |
-|                                           |                                                                       |
 | :kbd:`Cmd+Enter`                          |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Ctrl+Shift+Enter` or                | Unmark translation as needing edit and submit it.                     |
 |                                           |                                                                       |
 | :kbd:`Cmd+Shift+Enter`                    |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Alt+Enter` or                       | Submit the string as a suggestion; this is same as                    |
+|                                           | pressing :guilabel:`Suggest` while editing translation.               |
+| :kbd:`Option+Enter`                       |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Ctrl+E` or                          | Focus translation editor.                                             |
 |                                           |                                                                       |
@@ -227,13 +224,17 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+1` to :kbd:`Cmd+9`              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+M`\+\ :kbd:`1` to :kbd:`9` or  | Copy the machine translation of given number to current translation.  |
+| :kbd:`Ctrl+M` followed by                 | Copy the machine translation of given number to current translation.  |
+| :kbd:`1` to :kbd:`9` or                   |                                                                       |
 |                                           |                                                                       |
-| :kbd:`Cmd+M`\+\ :kbd:`1` to :kbd:`9`      |                                                                       |
+| :kbd:`Cmd+M` followed by                  |                                                                       |
+| :kbd:`1` to :kbd:`9`                      |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+I`\+\ :kbd:`1` to :kbd:`9` or  | Ignore one item in the list of failing checks.                        |
+| :kbd:`Ctrl+I` followed by                 | Ignore one item in the list of failing checks.                        |
+| :kbd:`1` to :kbd:`9` or                   |                                                                       |
 |                                           |                                                                       |
-| :kbd:`Cmd+I`\+\ :kbd:`1` to :kbd:`9`      |                                                                       |
+| :kbd:`Cmd+I` followed by                  |                                                                       |
+| :kbd:`1` to :kbd:`9`                      |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Ctrl+J` or                          | Shows the :guilabel:`Nearby strings` tab.                             |
 |                                           |                                                                       |

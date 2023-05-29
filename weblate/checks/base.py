@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
 from io import StringIO
@@ -95,23 +80,19 @@ class Check:
 
     def check_target_unit(self, sources, targets, unit):
         """Check single unit, handling plurals."""
-        source = sources[0]
+        source = unit.source_string
         # Check singular
         if self.check_single(source, targets[0], unit):
             return True
         # Do we have more to check?
         if len(sources) > 1:
-            source = sources[1]
+            source = sources[-1]
         # Check plurals against plural from source
-        for target in targets[1:]:
-            if self.check_single(source, target, unit):
-                return True
-        # Check did not fire
-        return False
+        return any(self.check_single(source, target, unit) for target in targets[1:])
 
     def check_single(self, source, target, unit):
         """Check for single phrase, not dealing with plurals."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def check_source(self, source, unit):
         """Check source strings."""
@@ -121,7 +102,7 @@ class Check:
 
     def check_source_unit(self, source, unit):
         """Check source string."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def check_chars(self, source, target, pos, chars):
         """Generic checker for chars presence."""
@@ -142,7 +123,8 @@ class Check:
         return get_doc_url("user/checks", self.doc_id, user=user)
 
     def check_highlight(self, source, unit):
-        """Return parts of the text that match to highlight them.
+        """
+        Return parts of the text that match to highlight them.
 
         Result is list that contains lists of two elements with start position of the
         match and the value of the match
@@ -180,10 +162,7 @@ class Check:
         flags = unit.all_flags
 
         # chain XML striping if needed
-        if "xml-text" in flags:
-            replacement = strip_xml
-        else:
-            replacement = noop
+        replacement = strip_xml if "xml-text" in flags else noop
 
         if not flags.has_value("replacements"):
             return replacement
@@ -196,7 +175,7 @@ class Check:
         )
 
         # Build regexp matcher
-        pattern = re.compile("|".join(re.escape(key) for key in replacements.keys()))
+        pattern = re.compile("|".join(re.escape(key) for key in replacements))
 
         return lambda text: pattern.sub(
             lambda m: replacements[m.group(0)], replacement(text)
@@ -270,7 +249,7 @@ class TargetCheck(Check):
 
     def check_single(self, source, target, unit):
         """Check for single phrase, not dealing with plurals."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def format_value(self, value: str):
         from weblate.trans.templatetags.translations import Formatter
@@ -310,7 +289,7 @@ class SourceCheck(Check):
 
     def check_source_unit(self, source, unit):
         """Check source string."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class TargetCheckParametrized(TargetCheck):
@@ -333,7 +312,7 @@ class TargetCheckParametrized(TargetCheck):
         return False
 
     def check_target_params(self, sources, targets, unit, value):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def check_single(self, source, target, unit):
         """We don't check single phrase here."""

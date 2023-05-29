@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 set -e
 
 GREEN='\033[0;32m'
@@ -22,7 +26,10 @@ build() {
     # Build single requirements file
     sed '/^-r/D' ../requirements.txt ../requirements-optional.txt ../requirements-test.txt > weblate-dev/requirements.txt
     # Build the container
-    docker-compose build --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g)
+    docker-compose build --build-arg USER_ID="$(id -u)" --build-arg GROUP_ID="$(id -g)"
+
+    DOCKER_PYTHON="$(docker inspect weblate-dev:latest | jq -r '.[].Config.Env[]|select(match("^PYVERSION"))|.[index("=")+1:]')"
+    echo "DOCKER_PYTHON=$DOCKER_PYTHON" > .env
 }
 
 case $1 in

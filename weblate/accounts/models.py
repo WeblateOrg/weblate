@@ -1,27 +1,13 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import datetime
 from typing import Set
 
 from appconf import AppConf
 from django.conf import settings
+from django.contrib import admin
 from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -71,6 +57,9 @@ class WeblateAccountsConf(AppConf):
     # Allow registration from certain backends
     REGISTRATION_ALLOW_BACKENDS = []
 
+    # Allow rebinding to existing accounts
+    REGISTRATION_REBIND = False
+
     # Registration email filter
     REGISTRATION_EMAIL_MATCH = ".*"
 
@@ -86,6 +75,9 @@ class WeblateAccountsConf(AppConf):
     DEFAULT_AUTO_WATCH = True
 
     CONTACT_FORM = "reply-to"
+
+    PRIVATE_COMMIT_EMAIL_TEMPLATE = "{username}@users.noreply.{site_domain}"
+    PRIVATE_COMMIT_EMAIL_OPT_IN = True
 
     # Auth0 provider default image & title on login page
     SOCIAL_AUTH_AUTH0_IMAGE = "auth0.svg"
@@ -206,7 +198,8 @@ NOTIFY_ACTIVITY = {
 
 class AuditLogManager(models.Manager):
     def is_new_login(self, user, address, user_agent):
-        """Checks whether this login is coming from a new device.
+        """
+        Checks whether this login is coming from a new device.
 
         Currently based purely on the IP address.
         """
@@ -234,7 +227,8 @@ class AuditLogManager(models.Manager):
 
 class AuditLogQuerySet(models.QuerySet):
     def get_after(self, user, after, activity):
-        """Get user activities of given type after another activity.
+        """
+        Get user activities of given type after another activity.
 
         This is mostly used for rate limiting, as it can return the number of failed
         authentication attempts since last login.
@@ -246,7 +240,7 @@ class AuditLogQuerySet(models.QuerySet):
             kwargs = {}
         return self.filter(user=user, activity=activity, **kwargs)
 
-    def get_password(self, user):
+    def get_past_passwords(self, user):
         """Get user activities with password change."""
         start = timezone.now() - datetime.timedelta(days=settings.AUTH_PASSWORD_DAYS)
         return self.filter(
@@ -298,6 +292,7 @@ class AuditLog(models.Model):
             result["method"] = gettext(get_auth_name(result["method"]))
         return result
 
+    @admin.display(description=_("Account activity"))
     def get_message(self):
         method = self.params.get("method")
         activity = self.activity
@@ -306,8 +301,6 @@ class AuditLog(models.Model):
         else:
             message = ACCOUNT_ACTIVITY[activity]
         return message.format(**self.get_params())
-
-    get_message.short_description = _("Account activity")
 
     def get_extra_message(self):
         if self.activity in EXTRA_MESSAGES:
@@ -319,6 +312,7 @@ class AuditLog(models.Model):
             self.user is not None
             and not self.user.is_bot
             and self.user.is_active
+            and self.user.email
             and self.activity in NOTIFY_ACTIVITY
         )
 
@@ -347,6 +341,7 @@ class AuditLog(models.Model):
 class VerifiedEmail(models.Model):
     """Storage for verified e-mails from auth backends."""
 
+    is_deliverable = models.BooleanField(default=True)
     social = models.ForeignKey(UserSocialAuth, on_delete=models.deletion.CASCADE)
     email = EmailField()
 
@@ -548,6 +543,7 @@ class Profile(models.Model):
         help_text=_("Your LinkedIn profile name from linkedin.com/in/profilename"),
         blank=True,
         db_index=False,
+        allow_unicode=True,
     )
     location = models.CharField(
         verbose_name=_("Location"),
@@ -561,6 +557,12 @@ class Profile(models.Model):
     )
     public_email = EmailField(
         verbose_name=_("Public e-mail"),
+        blank=True,
+        max_length=EMAIL_LENGTH,
+    )
+
+    commit_email = EmailField(
+        verbose_name=_("Commit e-mail"),
         blank=True,
         max_length=EMAIL_LENGTH,
     )
@@ -681,7 +683,7 @@ class Profile(models.Model):
     def allowed_dashboard_component_lists(self):
         return ComponentList.objects.filter(
             show_dashboard=True,
-            components__project_id__in=self.user.allowed_project_ids,
+            components__project__in=self.user.allowed_projects,
         ).distinct()
 
     @cached_property
@@ -698,14 +700,6 @@ class Profile(models.Model):
         if translation.is_source:
             return 2
         return 3
-
-    @cached_property
-    def watched_project_ids(self):
-        # We do not use values_list, because we prefetch this
-        return {watched.id for watched in self.watched.all()}
-
-    def watches_project(self, project):
-        return project.id in self.watched_project_ids
 
     def fixup_profile(self, request):
         fields = set()
@@ -754,6 +748,22 @@ class Profile(models.Model):
         if fields:
             self.save(update_fields=fields)
 
+    def get_commit_email(self) -> str:
+        email = self.commit_email
+        if not email and not settings.PRIVATE_COMMIT_EMAIL_OPT_IN:
+            email = self.get_site_commit_email()
+        if not email:
+            email = self.user.email
+        return email
+
+    def get_site_commit_email(self) -> str:
+        if not settings.PRIVATE_COMMIT_EMAIL_TEMPLATE:
+            return ""
+        return settings.PRIVATE_COMMIT_EMAIL_TEMPLATE.format(
+            username=self.user.username,
+            site_domain=settings.SITE_DOMAIN,
+        )
+
 
 def set_lang_cookie(response, profile):
     """Set session language based on user preferences."""
@@ -772,14 +782,13 @@ def set_lang_cookie(response, profile):
 
 @receiver(user_logged_in)
 def post_login_handler(sender, request, user, **kwargs):
-    """Signal handler for post login.
+    """
+    Signal handler for post login.
 
     It sets user language and migrates profile if needed.
     """
     backend_name = getattr(user, "backend", "")
-    is_email_auth = backend_name.endswith(".EmailAuth") or backend_name.endswith(
-        ".WeblateUserBackend"
-    )
+    is_email_auth = backend_name.endswith((".EmailAuth", ".WeblateUserBackend"))
 
     # Warning about setting password
     if is_email_auth and not user.has_usable_password():

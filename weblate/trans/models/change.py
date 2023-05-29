@@ -1,27 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from datetime import datetime
 
 from django.conf import settings
+from django.core.cache import cache
 from django.db import models, transaction
 from django.db.models import Count, Q
+from django.db.models.base import post_save
 from django.utils import timezone
 from django.utils.html import escape, format_html
 from django.utils.translation import gettext as _
@@ -43,8 +30,6 @@ from weblate.utils.state import STATE_LOOKUP
 
 
 class ChangeQuerySet(models.QuerySet):
-    # pylint: disable=no-init
-
     def content(self, prefetch=False):
         """Return queryset with content changes."""
         base = self
@@ -119,6 +104,7 @@ class ChangeQuerySet(models.QuerySet):
             "translation",
             "component",
             "project",
+            "component__source_language",
             "unit",
             "translation__language",
             "translation__plural",
@@ -140,26 +126,42 @@ class ChangeQuerySet(models.QuerySet):
         """Companion for prefetch to fill in nested references."""
         return self.preload_list(self, *args)
 
-    def last_changes(self, user):
-        """Return the most recent changes for an user.
+    def last_changes(
+        self, user, unit=None, translation=None, component=None, project=None
+    ):
+        """
+        Return the most recent changes for an user.
 
         Filters Change objects by user permissions and fetches related fields for
         last changes display.
         """
-        if user.is_superuser:
-            return self.prefetch().order()
-        return (
-            self.prefetch()
-            .filter(
-                Q(project_id__in=user.allowed_project_ids)
+        result = self
+        if unit is not None:
+            result = result.filter(unit=unit)
+            if not user.can_access_component(unit.translation.component):
+                result = result.none()
+        elif translation is not None:
+            result = result.filter(translation=translation)
+            if not user.can_access_component(translation.component):
+                result = result.none()
+        elif component is not None:
+            result = result.filter(component=component)
+            if not user.can_access_component(component):
+                result = result.none()
+        elif project is not None:
+            result = result.filter(project=project)
+            if not user.can_access_project(project):
+                result = result.none()
+        elif not user.is_superuser:
+            result = result.filter(
+                Q(project__in=user.allowed_projects)
                 & (
                     Q(component__isnull=True)
                     | Q(component__restricted=False)
                     | Q(component_id__in=user.component_permissions)
                 )
             )
-            .order()
-        )
+        return result.prefetch().order()
 
     def authors_list(self, date_range=None):
         """Return list of authors."""
@@ -175,6 +177,19 @@ class ChangeQuerySet(models.QuerySet):
 
     def order(self):
         return self.order_by("-timestamp")
+
+    def bulk_create(self, *args, **kwargs):
+        """Adds processing to bulk creation."""
+        changes = super().bulk_create(*args, **kwargs)
+        # Executes post save to ensure messages are sent to fedora messaging
+        for change in changes:
+            post_save.send(change.__class__, instance=change, created=True)
+        # Store last content change in cache for improved performance
+        for change in reversed(changes):
+            if change.is_last_content_change_storable():
+                transaction.on_commit(change.update_cache_last_change)
+                break
+        return changes
 
 
 class ChangeManager(models.Manager):
@@ -246,6 +261,9 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_ADDON_CREATE = 60
     ACTION_ADDON_CHANGE = 61
     ACTION_ADDON_REMOVE = 62
+    ACTION_STRING_REMOVE = 63
+    ACTION_COMMENT_DELETE = 64
+    ACTION_COMMENT_RESOLVE = 65
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -372,6 +390,12 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_ADDON_CHANGE, gettext_lazy("Add-on configuration changed")),
         # Translators: Name of event in the history
         (ACTION_ADDON_REMOVE, gettext_lazy("Add-on uninstalled")),
+        # Translators: Name of event in the history
+        (ACTION_STRING_REMOVE, gettext_lazy("Removed string")),
+        # Translators: Name of event in the history
+        (ACTION_COMMENT_DELETE, gettext_lazy("Removed comment")),
+        # Translators: Name of event in the history
+        (ACTION_COMMENT_RESOLVE, gettext_lazy("Resolved comment")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
@@ -405,6 +429,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_BULK_EDIT,
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
+        ACTION_SOURCE_CHANGE,
     }
 
     # Actions shown on the repository management page
@@ -488,7 +513,7 @@ class Change(models.Model, UserDisplayMixin):
         related_name="author_set",
         on_delete=models.deletion.CASCADE,
     )
-    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
     action = models.IntegerField(
         choices=ACTION_CHOICES, default=ACTION_CHANGE, db_index=True
     )
@@ -501,7 +526,8 @@ class Change(models.Model, UserDisplayMixin):
     class Meta:
         app_label = "trans"
         index_together = [
-            ("translation", "action", "timestamp"),
+            ("timestamp", "project", "component", "language", "action"),
+            ("action", "translation", "timestamp"),
         ]
         verbose_name = "history event"
         verbose_name_plural = "history events"
@@ -521,6 +547,8 @@ class Change(models.Model, UserDisplayMixin):
 
         super().save(*args, **kwargs)
         transaction.on_commit(lambda: notify_change.delay(self.pk))
+        if self.is_last_content_change_storable():
+            transaction.on_commit(self.update_cache_last_change)
 
     def get_absolute_url(self):
         """Return link either to unit or translation."""
@@ -548,6 +576,18 @@ class Change(models.Model, UserDisplayMixin):
         super().__init__(*args, **kwargs)
         if not self.pk:
             self.fixup_refereces()
+
+    @staticmethod
+    def get_last_change_cache_key(translation_id: int):
+        return f"last-content-change-{translation_id}"
+
+    def is_last_content_change_storable(self):
+        return self.translation_id and self.action in self.ACTIONS_CONTENT
+
+    def update_cache_last_change(self):
+        cache_key = self.get_last_change_cache_key(self.translation_id)
+        cache.set(cache_key, self.pk, 180 * 86400)
+        return True
 
     def fixup_refereces(self):
         """Updates references based to least specific one."""
@@ -592,7 +632,7 @@ class Change(models.Model, UserDisplayMixin):
 
     def show_source(self):
         """Whether to show content as source change."""
-        return self.action == self.ACTION_SOURCE_CHANGE
+        return self.action in (self.ACTION_SOURCE_CHANGE, self.ACTION_NEW_SOURCE)
 
     def show_content(self):
         """Whether to show content as translation."""
@@ -685,7 +725,7 @@ class Change(models.Model, UserDisplayMixin):
         if self.action in (
             self.ACTION_ADDED_LANGUAGE,
             self.ACTION_REQUESTED_LANGUAGE,
-        ):  # noqa: E501
+        ):
             try:
                 return Language.objects.get(code=details["language"])
             except Language.DoesNotExist:
@@ -709,3 +749,17 @@ class Change(models.Model, UserDisplayMixin):
 
     def get_source(self):
         return self.details.get("source", self.unit.source)
+
+    def get_ip_address(self):
+        if self.suggestion and "address" in self.suggestion.userdetails:
+            return self.suggestion.userdetails["address"]
+        if self.comment and "address" in self.comment.userdetails:
+            return self.comment.userdetails["address"]
+        return None
+
+    def show_unit_state(self):
+        return "state" in self.details and self.action not in (
+            self.ACTION_SUGGESTION,
+            self.ACTION_SUGGESTION_DELETE,
+            self.ACTION_SUGGESTION_CLEANUP,
+        )

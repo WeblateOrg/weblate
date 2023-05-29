@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
 
@@ -136,12 +121,6 @@ class SAPMachineryForm(URLMachineryForm):
 
 
 class MicrosoftMachineryForm(KeyMachineryForm):
-    endpoint_url = forms.CharField(
-        label=pgettext_lazy(
-            "Automatic suggestion service configuration", "Application endpoint URL"
-        ),
-        initial="api.cognitive.microsoft.com",
-    )
     base_url = forms.ChoiceField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration", "Application base URL"
@@ -153,11 +132,27 @@ class MicrosoftMachineryForm(KeyMachineryForm):
             ("api-eur.cognitive.microsofttranslator.com", "Europe"),
             ("api-nam.cognitive.microsofttranslator.com", "North America"),
             ("api.translator.azure.cn", "China"),
+            ("api.cognitive.microsofttranslator.us", "Azure US Government cloud"),
+        ),
+    )
+    endpoint_url = forms.ChoiceField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration", "Authentication service URL"
+        ),
+        initial="api.cognitive.microsoft.com",
+        choices=(
+            ("api.cognitive.microsoft.com", "Global"),
+            ("api.cognitive.azure.cn", "China"),
+            ("api.cognitive.microsoft.us", "Azure US Government cloud"),
+        ),
+        help_text=gettext_lazy(
+            "Regional or multi-service can be specified using region field below."
         ),
     )
     region = forms.CharField(
         label=pgettext_lazy(
-            "Automatic suggestion service configuration", "Application region"
+            "Automatic suggestion service configuration",
+            "Authentication service region",
         ),
         required=False,
     )

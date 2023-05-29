@@ -1,21 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Testing of template tags."""
 
 import datetime
@@ -84,7 +70,7 @@ class NaturalTimeTest(SimpleTestCase):
             self.assertEqual(
                 expected,
                 result,
-                f'naturaltime({testdate}) "{result}" != "{expected}"',
+                f"naturaltime({testdate}) {result!r} != {expected!r}",
             )
 
 
@@ -241,7 +227,10 @@ class TranslationFormatTestCase(FixtureTestCase):
 
     def test_basic(self):
         self.assertEqual(
-            format_translation("Hello world", self.component.source_language,)["items"][
+            format_translation(
+                "Hello world",
+                self.component.source_language,
+            )["items"][
                 0
             ]["content"],
             "Hello world",
@@ -316,15 +305,13 @@ class TranslationFormatTestCase(FixtureTestCase):
             <span class="hlspace">
                 <span class="space-space">
                 </span>
-                <span class="space-space">
-                    <ins>
-                        <span class="hlspace">
-                            <span class="space-space">
-                            </span>
-                        </span>
-                    </ins>
-                </span>
             </span>
+            <ins>
+                <span class="hlspace">
+                    <span class="space-space">
+                    </span>
+                </span>
+            </ins>
             world
             """,
         )
@@ -351,6 +338,31 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
+    def test_diff_changed_whitespace(self):
+        self.assertHTMLEqual(
+            format_translation(
+                "     ${APP_NAME} is great",
+                self.component.source_language,
+                diff="    App is great",
+            )["items"][0]["content"],
+            """
+            <span class="hlspace">
+                <span class="space-space"> </span>
+                <span class="space-space"> </span>
+                <span class="space-space"> </span>
+                <span class="space-space"> </span>
+            </span>
+            <del>App</del>
+            <ins>
+                <span class="hlspace">
+                    <span class="space-space"> </span>
+                </span>
+                ${APP_NAME}
+            </ins>
+            is great
+            """,
+        )
+
     def test_glossary(self):
         self.assertHTMLEqual(
             format_translation(
@@ -364,6 +376,31 @@ class TranslationFormatTestCase(FixtureTestCase):
             <span class="glossary-term"
                 title="Glossary translation: ahoj">Hello</span>
             world
+            """,
+        )
+
+    def test_glossary_overlap(self):
+        self.maxDiff = None
+        self.assertHTMLEqual(
+            format_translation(
+                "Hello world",
+                self.component.source_language,
+                glossary=[
+                    Unit(
+                        source="hello world",
+                        target="ahoj svete",
+                        translation=self.translation,
+                    ),
+                    Unit(source="hello", target="ahoj", translation=self.translation),
+                ],
+            )["items"][0]["content"],
+            """
+            <span class="glossary-term" title="Glossary translation: ahoj svete, ahoj">
+                Hello
+            </span>
+            <span class="glossary-term" title="Glossary translation: ahoj svete">
+                world
+            </span>
             """,
         )
 
@@ -470,7 +507,11 @@ class TranslationFormatTestCase(FixtureTestCase):
     def test_highlight(self):
         unit = self.translation.unit_set.get(id_hash=2097404709965985808)
         self.assertHTMLEqual(
-            format_translation(unit.source, unit.translation.language, unit=unit,)[
+            format_translation(
+                unit.source,
+                unit.translation.language,
+                unit=unit,
+            )[
                 "items"
             ][0]["content"],
             """
@@ -497,7 +538,10 @@ class TranslationFormatTestCase(FixtureTestCase):
 
     def test_whitespace(self):
         self.assertHTMLEqual(
-            format_translation(" Hello world", self.component.source_language,)[
+            format_translation(
+                " Hello world",
+                self.component.source_language,
+            )[
                 "items"
             ][0]["content"],
             """
@@ -510,7 +554,10 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
         self.assertHTMLEqual(
-            format_translation("  Hello world", self.component.source_language,)[
+            format_translation(
+                "  Hello world",
+                self.component.source_language,
+            )[
                 "items"
             ][0]["content"],
             """
@@ -525,7 +572,10 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
         self.assertHTMLEqual(
-            format_translation("Hello   world", self.component.source_language,)[
+            format_translation(
+                "Hello   world",
+                self.component.source_language,
+            )[
                 "items"
             ][0]["content"],
             """
@@ -542,7 +592,10 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
         self.assertHTMLEqual(
-            format_translation("Hello world ", self.component.source_language,)[
+            format_translation(
+                "Hello world ",
+                self.component.source_language,
+            )[
                 "items"
             ][0]["content"],
             """
@@ -556,7 +609,10 @@ class TranslationFormatTestCase(FixtureTestCase):
 
     def test_whitespace_special(self):
         self.assertHTMLEqual(
-            format_translation("Hello\u00A0world", self.component.source_language,)[
+            format_translation(
+                "Hello\u00A0world",
+                self.component.source_language,
+            )[
                 "items"
             ][0]["content"],
             """
@@ -572,7 +628,10 @@ class TranslationFormatTestCase(FixtureTestCase):
 
     def test_whitespace_newline(self):
         self.assertHTMLEqual(
-            format_translation("Hello\n world", self.component.source_language,)[
+            format_translation(
+                "Hello\n world",
+                self.component.source_language,
+            )[
                 "items"
             ][0]["content"],
             """
@@ -655,6 +714,28 @@ class DiffTestCase(SimpleTestCase):
             )["items"][0]["content"],
             'Hello world!<del><span class="hlspace"><span class="space-space">'
             " </span></span></del>",
+        )
+
+    def test_format_diff_add_space(self):
+        unit = MockUnit(source="Hello.  World.")
+        self.assertHTMLEqual(
+            format_translation(
+                unit.source,
+                unit.translation.component.source_language,
+                diff="Hello. World.",
+            )["items"][0]["content"],
+            """
+            Hello.
+            <ins>
+                <span class="hlspace">
+                    <span class="space-space"></span>
+                </span>
+            </ins>
+            <span class="hlspace">
+                <span class="space-space"></span>
+            </span>
+            World.
+            """,
         )
 
     def test_format_entities(self):

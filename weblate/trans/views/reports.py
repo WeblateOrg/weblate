@@ -1,22 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+# Copyright © WofWca <wofwca@protonmail.com>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-# Copyright © 2022 WofWca <wofwca@protonmail.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
@@ -45,7 +30,7 @@ def format_plaintext_join(sep, format_string, args_generator):
     return sep.join(format_plaintext(format_string, *args) for args in args_generator)
 
 
-def generate_credits(user, start_date, end_date, **kwargs):
+def generate_credits(user, start_date, end_date, language_code: str, **kwargs):
     """Generate credits data for given component."""
     result = []
 
@@ -53,7 +38,11 @@ def generate_credits(user, start_date, end_date, **kwargs):
     if user:
         base = base.filter(author=user)
 
-    for language in Language.objects.filter(**kwargs).distinct().iterator():
+    languages = Language.objects.filter(**kwargs)
+    if language_code:
+        languages = languages.filter(code=language_code)
+
+    for language in languages.distinct().iterator():
         authors = base.filter(language=language, **kwargs).authors_list(
             (start_date, end_date)
         )
@@ -71,14 +60,17 @@ def get_credits(request, project=None, component=None):
     if project is None:
         obj = None
         kwargs = {"translation__isnull": False}
+        scope = {}
     elif component is None:
         obj = get_project(request, project)
         kwargs = {"translation__component__project": obj}
+        scope = {"project": obj}
     else:
         obj = get_component(request, project, component)
         kwargs = {"translation__component": obj}
+        scope = {"component": obj}
 
-    form = ReportsForm(request.POST)
+    form = ReportsForm(scope, request.POST)
 
     if not form.is_valid():
         show_form_errors(request, form)
@@ -88,6 +80,7 @@ def get_credits(request, project=None, component=None):
         None if request.user.has_perm("reports.view", obj) else request.user,
         form.cleaned_data["start_date"],
         form.cleaned_data["end_date"],
+        form.cleaned_data["language"],
         **kwargs,
     )
 
@@ -171,16 +164,15 @@ COUNT_DEFAULTS = {
 }
 
 
-def generate_counts(user, start_date, end_date, **kwargs):
+def generate_counts(user, start_date, end_date, language_code: str, **kwargs):
     """Generate credits data for given component."""
     result = {}
     action_map = {Change.ACTION_NEW: "new", Change.ACTION_APPROVE: "approve"}
 
     base = Change.objects.content().filter(unit__isnull=False)
-    if user:
-        base = base.filter(author=user)
-    else:
-        base = base.filter(author__isnull=False)
+    base = base.filter(author=user) if user else base.filter(author__isnull=False)
+    if language_code:
+        Change.objects.filter(language__code=language_code)
 
     changes = base.filter(
         timestamp__range=(start_date, end_date), **kwargs
@@ -233,7 +225,7 @@ def get_counts(request, project=None, component=None):
         obj = get_component(request, project, component)
         kwargs = {"component": obj}
 
-    form = ReportsForm(request.POST)
+    form = ReportsForm(kwargs, request.POST)
 
     if not form.is_valid():
         show_form_errors(request, form)
@@ -243,6 +235,7 @@ def get_counts(request, project=None, component=None):
         None if request.user.has_perm("reports.view", obj) else request.user,
         form.cleaned_data["start_date"],
         form.cleaned_data["end_date"],
+        form.cleaned_data["language"],
         **kwargs,
     )
 

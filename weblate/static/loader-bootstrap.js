@@ -1,3 +1,7 @@
+// Copyright © Michal Čihař <michal@weblate.org>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 var loading = [];
 
 // Remove some weird things from location hash
@@ -30,7 +34,7 @@ function decreaseLoading(sel) {
 function addAlert(message, kind = "danger", delay = 3000) {
   var alerts = $("#popup-alerts");
   var e = $(
-    '<div class="alert alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>'
+    '<div class="alert alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>',
   );
   e.addClass("alert-" + kind);
   e.append(new Text(message));
@@ -77,21 +81,27 @@ jQuery.fn.extend({
         this.value += myValue;
         this.focus();
       }
-      this.dispatchEvent(new Event("input"));
-      /* Zen editor still relies on jQuery here */
-      $(this).change();
+      // Need `bubbles` because some event listeners (like this
+      // https://github.com/WeblateOrg/weblate/blob/86d4fb308c9941f32b48f007e16e8c153b0f3fd7/weblate/static/editor/base.js#L50
+      // ) are attached to the parent elements.
+      this.dispatchEvent(new Event("input", { bubbles: true }));
+      this.dispatchEvent(new Event("change", { bubbles: true }));
     });
   },
 
   replaceValue: function (myValue) {
     return this.each(function () {
       this.value = myValue;
-      this.dispatchEvent(new Event("input"));
+      // Need `bubbles` because some event listeners (like this
+      // https://github.com/WeblateOrg/weblate/blob/86d4fb308c9941f32b48f007e16e8c153b0f3fd7/weblate/static/editor/base.js#L50
+      // ) are attached to the parent elements.
+      this.dispatchEvent(new Event("input", { bubbles: true }));
+      this.dispatchEvent(new Event("change", { bubbles: true }));
     });
   },
 });
 
-function submitForm(evt) {
+function submitForm(evt, combo, selector) {
   var $target = $(evt.target);
   var $form = $target.closest("form");
 
@@ -99,18 +109,22 @@ function submitForm(evt) {
     $form = $(".translation-form");
   }
   if ($form.length > 0) {
-    let submits = $form.find('input[type="submit"]');
+    if (typeof selector !== "undefined") {
+      $form.find(selector).click();
+    } else {
+      let submits = $form.find('input[type="submit"]');
 
-    if (submits.length === 0) {
-      submits = $form.find('button[type="submit"]');
-    }
-    if (submits.length > 0) {
-      submits[0].click();
+      if (submits.length === 0) {
+        submits = $form.find('button[type="submit"]');
+      }
+      if (submits.length > 0) {
+        submits[0].click();
+      }
     }
   }
   return false;
 }
-Mousetrap.bindGlobal(["alt+enter", "mod+enter"], submitForm);
+Mousetrap.bindGlobal("mod+enter", submitForm);
 
 function screenshotStart() {
   $("#search-results tbody.unit-listing-body").empty();
@@ -145,7 +159,9 @@ function screenshotAddString() {
 
 function screnshotResultError(severity, message) {
   $("#search-results tbody.unit-listing-body").html(
-    $("<tr/>").addClass(severity).html($('<td colspan="4"></td>').text(message))
+    $("<tr/>")
+      .addClass(severity)
+      .html($('<td colspan="4"></td>').text(message)),
   );
 }
 
@@ -156,7 +172,7 @@ function screenshotLoaded(data) {
   } else if (data.results.length === 0) {
     screnshotResultError(
       "warning",
-      gettext("No new matching source strings found.")
+      gettext("No new matching source strings found."),
     );
   } else {
     $("#search-results table").replaceWith(data.results);
@@ -250,7 +266,7 @@ function loadTableSorting() {
                   inverse *
                   compareCells(
                     extractText($a.find("td,th")[myIndex]),
-                    extractText($b.find("td,th")[myIndex])
+                    extractText($b.find("td,th")[myIndex]),
                   )
                 );
               })
@@ -390,7 +406,7 @@ function initHighlight(root) {
           "\u2002|\u2003|\u2004|\u2005|",
           "\u2006|\u2007|\u2008|\u2009|",
           "\u200A|\u202F|\u205F|\u3000",
-        ].join("")
+        ].join(""),
       );
       let extension = {
         hlspace: {
@@ -473,13 +489,13 @@ $(function () {
               " (" +
               xhr.status +
               "): " +
-              responseText
+              responseText,
           );
         }
         $target.data("loaded", 1);
         loadTableSorting();
       });
-    }
+    },
   );
 
   if ($("#form-activetab").length > 0) {
@@ -504,7 +520,7 @@ $(function () {
       activeTab = $(
         '.nav [data-toggle=tab][href="' +
           location.hash.substr(0, separator) +
-          '"]'
+          '"]',
       );
       if (activeTab.length) {
         activeTab.tab("show");
@@ -515,7 +531,10 @@ $(function () {
       activeTab.tab("show");
       window.scrollTo(0, 0);
     } else {
-      document.getElementById(location.hash.substr(1)).scrollIntoView();
+      let anchor = document.getElementById(location.hash.substr(1));
+      if (anchor !== null) {
+        anchor.scrollIntoView();
+      }
     }
   } else if (
     $(".translation-tabs").length > 0 &&
@@ -523,7 +542,7 @@ $(function () {
   ) {
     /* From cookie */
     activeTab = $(
-      '[data-toggle=tab][href="' + Cookies.get("translate-tab") + '"]'
+      '[data-toggle=tab][href="' + Cookies.get("translate-tab") + '"]',
     );
     if (activeTab.length) {
       activeTab.tab("show");
@@ -712,7 +731,13 @@ $(function () {
     var $this = $(this);
     $("#imagepreview").attr("src", $this.attr("href"));
     $("#screenshotModal").text($this.attr("title"));
-    $("#modalEditLink").attr("href", $this.data("edit"));
+
+    var detailsLink = $("#modalDetailsLink");
+    detailsLink.attr("href", $this.data("details-url"));
+    if ($this.data("can-edit")) {
+      detailsLink.text(detailsLink.data("edit-text"));
+    }
+
     $("#imagemodal").modal("show");
     return false;
   });
@@ -787,12 +812,6 @@ $(function () {
     });
   }
 
-  /*
-   * Disable modal enforce focus to fix compatibility
-   * issues with ClipboardJS, see https://stackoverflow.com/a/40862005/225718
-   */
-  $.fn.modal.Constructor.prototype.enforceFocus = function () {};
-
   /* Focus first input in modal */
   $(document).on("shown.bs.modal", function (event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
@@ -806,17 +825,20 @@ $(function () {
   });
 
   /* Copy to clipboard */
-  var clipboard = new ClipboardJS("[data-clipboard-text]");
-  clipboard.on("success", function (e) {
-    var text =
-      e.trigger.getAttribute("data-clipboard-message") ||
-      gettext("Text copied to clipboard.");
-    addAlert(text, (kind = "info"));
-  });
-  clipboard.on("error", function (e) {
-    addAlert(gettext("Please press Ctrl+C to copy."), (kind = "danger"));
-  });
   $("[data-clipboard-text]").on("click", function (e) {
+    navigator.clipboard
+      .writeText(this.getAttribute("data-clipboard-text"))
+      .then(
+        () => {
+          var text =
+            this.getAttribute("data-clipboard-message") ||
+            gettext("Text copied to clipboard.");
+          addAlert(text, (kind = "info"));
+        },
+        () => {
+          addAlert(gettext("Please press Ctrl+C to copy."), (kind = "danger"));
+        },
+      );
     e.preventDefault();
   });
 
@@ -852,7 +874,7 @@ $(function () {
       .find('input[name="name"]')
       .on("change keypress keydown keyup paste", function () {
         $slug.val(
-          slugify($(this).val(), { remove: /[^\w\s-]+/g }).toLowerCase()
+          slugify($(this).val(), { remove: /[^\w\s-]+/g }).toLowerCase(),
         );
       });
   });
@@ -965,9 +987,11 @@ $(function () {
 
   /* Click to edit position inline. Disable when clicked outside or pressed ESC */
   $("#position-input").on("click", function () {
+    var $form = $(this).closest("form");
     $("#position-input").hide();
+    $form.find("input[name=offset]").prop("disabled", false);
     $("#position-input-editable").show();
-    $("#position-input-editable input").focus();
+    $("#position-input-editable-input").attr("type", "number").focus();
     document.addEventListener("click", clickedOutsideEditableInput);
     document.addEventListener("keyup", pressedEscape);
   });
@@ -977,6 +1001,7 @@ $(function () {
       event.target != $("#position-input")[0]
     ) {
       $("#position-input").show();
+      $("#position-input-editable-input").attr("type", "hidden");
       $("#position-input-editable").hide();
       document.removeEventListener("click", clickedOutsideEditableInput);
       document.removeEventListener("keyup", pressedEscape);
@@ -985,6 +1010,7 @@ $(function () {
   var pressedEscape = function (event) {
     if (event.key == "Escape" && event.target != $("#position-input")[0]) {
       $("#position-input").show();
+      $("#position-input-editable-input").attr("type", "hidden");
       $("#position-input-editable").hide();
       document.removeEventListener("click", clickedOutsideEditableInput);
       document.removeEventListener("keyup", pressedEscape);
@@ -1016,7 +1042,7 @@ $(function () {
       $group.find("input[name=q]").val($this.data("field"));
       if ($this.closest(".result-page-form").length) {
         var $form = $this.closest("form");
-        $form.find("input[name=offset]").val("1");
+        $form.find("input[name=offset]").prop("disabled", true);
         $form.submit();
       }
     }
@@ -1040,7 +1066,7 @@ $(function () {
     }
   });
   $(".search-group input")
-    .not("#id_q,#id_position,#id_term")
+    .not("#id_q,#id_position,#id_term,#position-input-editable-input")
     .on("keydown", function (event) {
       if (event.key === "Enter") {
         $(this).closest(".input-group").find(".search-add").click();
@@ -1050,7 +1076,7 @@ $(function () {
     });
   $("#id_q").on("change", function (event) {
     var $form = $(this).closest("form");
-    $form.find("input[name=offset]").val("1");
+    $form.find("input[name=offset]").prop("disabled", true);
   });
   $(".search-add").click(function () {
     var group = $(this).closest(".search-group");
@@ -1069,13 +1095,13 @@ $(function () {
           button.attr("data-field") +
           prefix +
           quoteSearch(input.val()) +
-          " "
+          " ",
       );
     }
   });
   $(".search-insert").click(function () {
     $("#id_q").insertAtCaret(
-      " " + $(this).closest("tr").find("code").text() + " "
+      " " + $(this).closest("tr").find("code").text() + " ",
     );
   });
 
@@ -1094,7 +1120,7 @@ $(function () {
         target.val(name.substring(0, name.lastIndexOf(".")));
         target.change();
       }
-    }
+    },
   );
 
   /* Alert when creating a component */
@@ -1103,9 +1129,9 @@ $(function () {
       addAlert(
         gettext("Weblate is now scanning the repository, please be patient."),
         (kind = "info"),
-        (delay = 0)
+        (delay = 0),
       );
-    }
+    },
   );
 
   /* Username autocompletion */
@@ -1153,6 +1179,38 @@ $(function () {
     });
   });
 
+  /* forset fields adding */
+  $(".add-multifield").on("click", function () {
+    const updateElementIndex = function (el, prefix, ndx) {
+      const id_regex = new RegExp("(" + prefix + "-(\\d+|__prefix__))");
+      const replacement = prefix + "-" + ndx;
+      if ($(el).prop("for")) {
+        $(el).prop("for", $(el).prop("for").replace(id_regex, replacement));
+      }
+      if (el.id) {
+        el.id = el.id.replace(id_regex, replacement);
+      }
+      if (el.name) {
+        el.name = el.name.replace(id_regex, replacement);
+      }
+    };
+    var $this = $(this);
+    var $form = $this.parents("form");
+    var prefix = $this.data("prefix");
+    var blank = $form.find(".multiFieldEmpty");
+    var row = blank.clone();
+    var totalForms = $("#id_" + prefix + "-TOTAL_FORMS");
+    row.removeClass(["multiFieldEmpty", "hidden"]).addClass("multiField");
+    row.find("*").each(function () {
+      updateElementIndex(this, prefix, totalForms.val());
+    });
+
+    row.insertBefore(blank);
+    totalForms.val(parseInt(totalForms.val(), 10) + 1);
+
+    return false;
+  });
+
   /* Textarea highlighting */
   Prism.languages.none = {};
   initHighlight(document);
@@ -1165,20 +1223,20 @@ $(function () {
   console.log(
     "%c" +
       pgettext("Alert to user when opening browser developer console", "Stop!"),
-    "color: red; font-weight: bold; font-size: 50px; font-family: sans-serif; -webkit-text-stroke: 1px black;"
+    "color: red; font-weight: bold; font-size: 50px; font-family: sans-serif; -webkit-text-stroke: 1px black;",
   );
   console.log(
     "%c" +
       gettext(
-        "This is a browser feature intended for developers. If someone told you to copy-paste something here, they are likely trying to compromise your Weblate account."
+        "This is a browser feature intended for developers. If someone told you to copy-paste something here, they are likely trying to compromise your Weblate account.",
       ),
-    "font-size: 20px; font-family: sans-serif"
+    "font-size: 20px; font-family: sans-serif",
   );
   console.log(
     "%c" +
       gettext(
-        "See https://en.wikipedia.org/wiki/Self-XSS for more information."
+        "See https://en.wikipedia.org/wiki/Self-XSS for more information.",
       ),
-    "font-size: 20px; font-family: sans-serif"
+    "font-size: 20px; font-family: sans-serif",
   );
 });

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -44,11 +29,11 @@ def edit_context(request, pk):
     do_add = "addflag" in request.POST
     if do_add or "removeflag" in request.POST:
         if not request.user.has_perm("unit.flag", unit.translation):
-            raise PermissionDenied()
+            raise PermissionDenied
         flag = request.POST.get("addflag", request.POST.get("removeflag"))
-        flags = Flags(unit.extra_flags)
+        flags = unit.get_unit_flags()
         if (
-            flag in ("terminology", "forbidden")
+            flag in ("terminology", "forbidden", "read-only")
             and not unit.is_source
             and flag not in flags
         ):
@@ -63,9 +48,8 @@ def edit_context(request, pk):
             unit.extra_flags = new_flags
             unit.save(same_content=True, update_fields=["extra_flags"])
     else:
-
         if not request.user.has_perm("source.edit", unit.translation):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         form = ContextForm(request.POST, instance=unit, user=request.user)
 

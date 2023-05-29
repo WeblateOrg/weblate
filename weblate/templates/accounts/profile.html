@@ -26,6 +26,7 @@
 <li><a data-toggle="tab" href="#notifications">{% trans "Notifications" %}</a></li>
 <li><a data-toggle="tab" href="#account">{% trans "Account" %}</a></li>
 <li><a data-toggle="tab" href="#profile">{% trans "Profile" %}</a></li>
+<li><a data-toggle="tab" href="#teams">{% trans "Teams" %}</a></li>
 <li><a data-toggle="tab" href="#licenses">{% trans "Licenses" %}</a></li>
 <li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
 <li><a data-toggle="tab" href="#api">{% trans "API access" %}</a></li>
@@ -108,7 +109,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' right=True %}{% trans "Account" %}</h4></div>
   <div class="panel-body">
 {% crispy userform %}
-    <p class="help-block">{% trans "Your name and e-mail will appear as commit authorship." %}</p>
+{% crispy commitform %}
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
@@ -208,6 +209,35 @@
 </div>
 {% endif %}
 
+</div>
+
+<div class="tab-pane" id="teams">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% trans "Team" %}</th>
+        <th>{% trans "Roles" %}</th>
+        <th>{% trans "Projects" %}</th>
+        <th>{% trans "Languages" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for group in user_groups %}
+        <tr>
+          <td><a href="{{ group.get_absolute_url }}">{{ group }}</a></td>
+          <td>
+            {% include "auth/teams-roles.html" %}
+          </td>
+          <td>
+            {% include "auth/teams-projects.html" %}
+          </td>
+          <td>
+            {% include "auth/teams-languages.html" %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
 <div class="tab-pane" id="audit">

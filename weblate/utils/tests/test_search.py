@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from datetime import datetime
 
@@ -118,9 +103,20 @@ class QueryParserTest(TestCase, SearchMixin):
         self.assert_query("source:=hello", Q(source__exact="hello"))
 
     def test_regex(self):
-        self.assert_query('source:r"^hello"', Q(source__regex="^hello"))
+        self.assert_query('source:r"^hello"', Q(source__trgm_regex="^hello"))
+        # Invalid regex
         with self.assertRaises(ValueError):
-            self.assert_query('source:r"^(hello"', Q(source__regex="^(hello"))
+            self.assert_query('source:r"^(hello"', Q(source__trgm_regex="^(hello"))
+        # Not supported regex on PostgreSQL
+        if using_postgresql():
+            with self.assertRaises(ValueError):
+                self.assert_query(
+                    'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
+                )
+        else:
+            self.assert_query(
+                'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
+            )
 
     def test_logic(self):
         self.assert_query(
@@ -144,25 +140,22 @@ class QueryParserTest(TestCase, SearchMixin):
     def test_year(self):
         self.assert_query(
             "changed:2018",
-            Q(change__timestamp__gte=datetime(2018, 1, 1, 0, 0, tzinfo=utc))
-            & Q(
-                change__timestamp__lte=datetime(
-                    2018, 12, 31, 23, 59, 59, 999999, tzinfo=utc
+            Q(
+                change__timestamp__range=(
+                    datetime(2018, 1, 1, 0, 0, tzinfo=utc),
+                    datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=utc),
                 )
             )
             & Q(change__action__in=Change.ACTIONS_CONTENT),
         )
 
     def test_change_action(self):
-        expected = (
-            Q(change__timestamp__gte=datetime(2018, 1, 1, 0, 0, tzinfo=utc))
-            & Q(
-                change__timestamp__lte=datetime(
-                    2018, 12, 31, 23, 59, 59, 999999, tzinfo=utc
-                )
+        expected = Q(
+            change__timestamp__range=(
+                datetime(2018, 1, 1, 0, 0, tzinfo=utc),
+                datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=utc),
             )
-            & Q(change__action=Change.ACTION_MARKED_EDIT)
-        )
+        ) & Q(change__action=Change.ACTION_MARKED_EDIT)
         self.assert_query(
             "change_time:2018 AND change_action:marked-for-edit", expected
         )
@@ -184,10 +177,10 @@ class QueryParserTest(TestCase, SearchMixin):
         )
         self.assert_query(
             "changed:2019-03-01",
-            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=utc))
-            & Q(
-                change__timestamp__lte=datetime(
-                    2019, 3, 1, 23, 59, 59, 999999, tzinfo=utc
+            Q(
+                change__timestamp__range=(
+                    datetime(2019, 3, 1, 0, 0, tzinfo=utc),
+                    datetime(2019, 3, 1, 23, 59, 59, 999999, tzinfo=utc),
                 )
             )
             & action_change,
@@ -198,10 +191,10 @@ class QueryParserTest(TestCase, SearchMixin):
     def test_date_range(self):
         self.assert_query(
             "changed:[2019-03-01 to 2019-04-01]",
-            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=utc))
-            & Q(
-                change__timestamp__lte=datetime(
-                    2019, 4, 1, 23, 59, 59, 999999, tzinfo=utc
+            Q(
+                change__timestamp__range=(
+                    datetime(2019, 3, 1, 0, 0, tzinfo=utc),
+                    datetime(2019, 4, 1, 23, 59, 59, 999999, tzinfo=utc),
                 )
             )
             & Q(change__action__in=Change.ACTIONS_CONTENT),
@@ -227,6 +220,11 @@ class QueryParserTest(TestCase, SearchMixin):
         self.assert_query("state:translated", Q(state=STATE_TRANSLATED))
         self.assert_query("state:needs-editing", Q(state=STATE_FUZZY))
 
+    def test_position(self):
+        self.assert_query("position:>=1", Q(position__gte=1))
+        self.assert_query("position:<10", Q(position__lt=10))
+        self.assert_query("position:[1 to 10]", Q(position__range=(1, 10)))
+
     def test_invalid_state(self):
         with self.assertRaises(ValueError):
             self.assert_query("state:invalid", Q())
@@ -245,7 +243,9 @@ class QueryParserTest(TestCase, SearchMixin):
 
     def test_language(self):
         self.assert_query("language:cs", Q(translation__language__code__iexact="cs"))
-        self.assert_query('language:r".*"', Q(translation__language__code__regex=".*"))
+        self.assert_query(
+            'language:r".*"', Q(translation__language__code__trgm_regex=".*")
+        )
 
     def test_component(self):
         self.assert_query(
@@ -268,7 +268,7 @@ class QueryParserTest(TestCase, SearchMixin):
         )
 
     def test_has(self):
-        self.assert_query("has:plural", Q(source__contains=PLURAL_SEPARATOR))
+        self.assert_query("has:plural", Q(source__search=PLURAL_SEPARATOR))
         self.assert_query("has:suggestion", Q(suggestion__isnull=False))
         self.assert_query("has:check", Q(check__dismissed=False))
         self.assert_query("has:comment", Q(comment__resolved=False))
@@ -343,6 +343,10 @@ class QueryParserTest(TestCase, SearchMixin):
         self.assert_query("priority:10", Q(priority=10))
         self.assert_query("priority:>=10", Q(priority__gte=10))
 
+    def test_id(self):
+        self.assert_query("id:100", Q(id=100))
+        self.assert_query("id:100,900", Q(id__in={100, 900}))
+
     def test_text_html(self):
         self.assert_query("target:<name>", Q(target__substring="<name>"))
 
@@ -382,10 +386,10 @@ class QueryParserTest(TestCase, SearchMixin):
     def test_timestamp_interval(self):
         self.assert_query(
             "changed:2020-03-27",
-            Q(change__timestamp__gte=datetime(2020, 3, 27, 0, 0, tzinfo=utc))
-            & Q(
-                change__timestamp__lte=datetime(
-                    2020, 3, 27, 23, 59, 59, 999999, tzinfo=utc
+            Q(
+                change__timestamp__range=(
+                    datetime(2020, 3, 27, 0, 0, tzinfo=utc),
+                    datetime(2020, 3, 27, 23, 59, 59, 999999, tzinfo=utc),
                 )
             )
             & Q(change__action__in=Change.ACTIONS_CONTENT),

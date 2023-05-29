@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 set -e -x
 
 CI_DATABASE="$1"
@@ -7,8 +11,12 @@ CI_DATABASE="$1"
 mkdir -p /run/user/1000
 chown -R 1000:1000 /run/user/1000
 
+# Add PostgreSQL repo
+echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+curl -L https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+
 # Update package lists
-apt-get update
+apt-get --option="APT::Acquire::Retries=3" update
 
 # Remove non-installable git packages. There git-svn can not be installed
 # because the image contains newer versions which do not have matching git-svn
@@ -16,14 +24,14 @@ apt-get update
 apt-get purge git git-man
 
 # Install dependencies
-apt-get install -y \
+apt-get --option="APT::Acquire::Retries=3" install -y \
     gir1.2-pango-1.0 \
     gettext \
     git \
     git-svn \
     gnupg \
     subversion \
-    postgresql-client \
+    postgresql-client-15 \
     pkg-config \
     python-dev \
     libxml2-dev \
@@ -46,5 +54,5 @@ apt-get install -y \
 # Remove MySQL 8.x client, use older MariaDB one to ensure compatibility
 if [ "$CI_DATABASE" = "mariadb" ] ; then
     apt-get purge 'mysql-client.*'
-    apt-get install -y mariadb-client
+    apt-get --option="APT::Acquire::Retries=3" install -y mariadb-client
 fi

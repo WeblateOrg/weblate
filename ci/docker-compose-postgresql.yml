@@ -1,8 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 version: '3'
 
 services:
   database:
-    image: postgres:14.5
+    image: postgres:15.2
     ports:
     - 60000:5432
     volumes:
@@ -12,7 +16,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: weblate
   cache:
-    image: redis:7.0.4-alpine
+    image: redis:7.0.10-alpine
     restart: always
     ports:
     - 60001:6379

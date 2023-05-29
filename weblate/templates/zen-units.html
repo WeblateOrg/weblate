@@ -15,7 +15,10 @@
 {% else %}
   {{ item.unit.position }}
 {% endif %}
-<a href="{% url 'translate' project=project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" class="btn btn-link btn-xs pull-right flip full-edit-link" title="{% trans "Open in full editor" %}">{% icon "pencil-mini.svg" %}</a>
+<div class="pull-right flip btn-padded">
+  <a class="btn btn-link btn-xs" href="{{ site_url }}{{ item.unit.get_absolute_url }}" data-clipboard-text="{{ site_url }}{{ item.unit.get_absolute_url }}" data-clipboard-message="{% trans "Permalink copied to clipboard." %}" title="{% trans "Copy permalink" %}">{% icon "link.svg" %}</a>
+  <a class="btn btn-link btn-xs" href="{% url 'translate' project=project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" title="{% trans "Open in full editor" %}">{% icon "pencil-mini.svg" %}</a>
+</div>
 {% get_location_links user.profile item.unit %}
 </td>
 </tr>
@@ -62,7 +65,7 @@
 {% if item.unit.previous_source and item.unit.fuzzy %}
 <div class="form-group">
 <label>{% trans "Source change" %}</label>
-{% format_translation item.unit.source item.unit.translation.component.source_language diff=item.unit.previous_source num_plurals=item.unit.translation.plural.number %}
+{% format_translation item.unit.source item.unit.translation.component.source_language diff=item.unit.previous_source %}
 </div>
 {% endif %}
 
@@ -70,7 +73,7 @@
 <div class="form-group">
   <a href="{{ item.unit.source_unit.get_absolute_url }}" class="language">{{ item.unit.translation.component.source_language }}</a>
   {% include "snippets/note-badge.html" with unit=item.unit %}
-  {% format_translation item.unit.source item.unit.translation.component.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit glossary=item.glossary %}
+  {% format_translation item.unit.source item.unit.translation.component.source_language search_match=search_query unit=item.unit glossary=item.glossary %}
 </div>
 {% endif %}
 

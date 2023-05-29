@@ -1,22 +1,9 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-"""Properties cleanup addon.
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+"""
+Properties cleanup addon.
 
 This is reimplementation of
 https://github.com/freeplane/freeplane/blob/1.4.x/freeplane_ant/
@@ -82,7 +69,7 @@ def filter_lines(lines):
 
     for line in lines:
         # Skip comments and blank lines
-        if line[0] == "#" or line.strip() == "":
+        if line[0] == "#" or not line.strip():
             continue
         parts = SPLITTER.split(line, 1)
 

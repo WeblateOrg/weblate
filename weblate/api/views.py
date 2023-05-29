@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os.path
 from typing import Optional, Tuple
@@ -52,6 +37,7 @@ from rest_framework.viewsets import ViewSet
 from weblate.accounts.models import Subscription
 from weblate.accounts.utils import remove_user
 from weblate.addons.models import Addon
+from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
     BasicUserSerializer,
@@ -130,7 +116,8 @@ description of the API.</p>
 
 
 def get_view_description(view, html=False):
-    """Given a view class, return a textual description to represent the view.
+    """
+    Given a view class, return a textual description to represent the view.
 
     This name is used in the browsable API, and in OPTIONS responses. This function is
     the default for the `VIEW_DESCRIPTION_FUNCTION` setting.
@@ -155,7 +142,8 @@ def get_view_description(view, html=False):
 
 
 class MultipleFieldMixin:
-    """Multiple field filtering mixin.
+    """
+    Multiple field filtering mixin.
 
     Apply this mixin to any view or viewset to get multiple field filtering based on a
     `lookup_fields` attribute, instead of the default single field filtering.
@@ -180,7 +168,7 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     def perform_content_negotiation(self, request, force=False):
         """Custom content negotiation."""
         if request.resolver_match.url_name in self.raw_urls:
-            fmt = self.format_kwarg or request.query_params.get("format")
+            fmt = self.format_kwarg
             if fmt is None or fmt in self.raw_formats:
                 renderers = self.get_renderers()
                 return (renderers[0], renderers[0].media_type)
@@ -190,14 +178,16 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     def download_file(self, filename, content_type, component=None):
         """Wrapper for file download."""
         if os.path.isdir(filename):
-            response = zip_download(filename, filename)
+            response = zip_download(filename, [filename])
             basename = component.slug if component else "weblate"
             filename = f"{basename}.zip"
         else:
             with open(filename, "rb") as handle:
                 response = HttpResponse(handle.read(), content_type=content_type)
             filename = os.path.basename(filename)
-        response["Content-Disposition"] = f'attachment; filename="{filename}"'
+        response[
+            "Content-Disposition"
+        ] = f'attachment; filename="{filename}"'  # noqa: B028
         return response
 
 
@@ -208,14 +198,11 @@ class WeblateViewSet(DownloadViewSet):
         permission, method, args, takes_request = REPO_OPERATIONS[operation]
 
         if not request.user.has_perm(permission, project):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         obj.acting_user = request.user
 
-        if takes_request:
-            args = args + (request,)
-        else:
-            args = args + (request.user,)
+        args = (*args, request) if takes_request else (*args, request.user)
 
         return getattr(obj, method)(*args)
 
@@ -249,7 +236,7 @@ class WeblateViewSet(DownloadViewSet):
             return Response(data)
 
         if not request.user.has_perm("meta:vcs.status", project):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         data = {
             "needs_commit": obj.needs_commit(),
@@ -262,7 +249,6 @@ class WeblateViewSet(DownloadViewSet):
                 "api:project-repository", kwargs={"slug": obj.slug}, request=request
             )
         else:
-
             if isinstance(obj, Translation):
                 component = obj.component
                 data["url"] = reverse(
@@ -788,7 +774,7 @@ class ComponentViewSet(
 
         if request.method == "POST":
             if not request.user.has_perm("component.lock", obj):
-                raise PermissionDenied()
+                raise PermissionDenied
 
             serializer = LockRequestSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -834,13 +820,11 @@ class ComponentViewSet(
                 language = Language.objects.get(code=language_code)
             except Language.DoesNotExist:
                 raise ValidationError(
-                    f"No language code '{language_code}' found!", "invalid"
+                    f"No language code {language_code!r} found!", "invalid"
                 )
 
             if not obj.can_add_new_language(request.user):
-                self.permission_denied(
-                    request, message="Could not add new translation file."
-                )
+                self.permission_denied(request, message=obj.new_lang_error_message)
 
             translation = obj.add_new_language(language, request)
             serializer = TranslationSerializer(
@@ -938,7 +922,7 @@ class ComponentViewSet(
                     pk=instance.project_id
                 ).get(slug=project_slug)
             except Project.DoesNotExist:
-                raise ValidationError(f"No project slug '{project_slug}' found!")
+                raise ValidationError(f"No project slug {project_slug!r} found!")
 
             instance.links.add(project)
             serializer = self.serializer_class(instance, context={"request": request})
@@ -1036,18 +1020,23 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         user = request.user
         if request.method == "GET":
             if not user.has_perm("translation.download", obj):
-                raise PermissionDenied()
+                raise PermissionDenied
             fmt = self.format_kwarg or request.query_params.get("format")
             query_string = request.GET.get("q", "")
+            if query_string and not fmt:
+                raise ValidationError({"q": "Query string is ignored without format"})
             try:
                 parse_query(query_string)
             except Exception as error:
-                report_error()
+                report_error(project=obj.component.project)
                 raise ValidationError({"q": f"Failed to parse query string: {error}"})
-            return download_translation_file(request, obj, fmt, query_string)
+            try:
+                return download_translation_file(request, obj, fmt, query_string)
+            except Http404 as error:
+                raise ValidationError({"format": str(error)})
 
         if not user.has_perm("upload.perform", obj):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         serializer = UploadRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -1071,21 +1060,23 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                 data["method"],
                 data["fuzzy"],
             )
-
-            return Response(
-                data={
-                    "not_found": not_found,
-                    "skipped": skipped,
-                    "accepted": accepted,
-                    "total": total,
-                    # Compatibility with older less detailed API
-                    "result": accepted > 0,
-                    "count": total,
-                }
-            )
         except Exception as error:
-            report_error(cause="Upload error", print_tb=True)
+            report_error(
+                cause="Upload error", print_tb=True, project=obj.component.project
+            )
             raise ValidationError({"file": str(error)})
+
+        return Response(
+            data={
+                "not_found": not_found,
+                "skipped": skipped,
+                "accepted": accepted,
+                "total": total,
+                # Compatibility with older less detailed API
+                "result": accepted > 0,
+                "count": total,
+            }
+        )
 
     @action(detail=True, methods=["get"])
     def statistics(self, request, **kwargs):
@@ -1225,6 +1216,8 @@ class LanguageViewSet(viewsets.ModelViewSet):
 class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelMixin):
     """Units API."""
 
+    pagination_class = LargePagination
+
     queryset = Unit.objects.none()
 
     def get_serializer(self, instance, *args, **kwargs):
@@ -1239,10 +1232,22 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
     def get_queryset(self):
         return Unit.objects.filter_access(self.request.user).order_by("id")
 
+    def filter_queryset(self, queryset):
+        result = super().filter_queryset(queryset)
+        query_string = self.request.GET.get("q", "")
+        try:
+            parse_query(query_string)
+        except Exception as error:
+            report_error()
+            raise ValidationError(f"Failed to parse query string: {error}")
+        if query_string:
+            result = result.search(query_string)
+        return result
+
     def perform_update(self, serializer):
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data
-        do_source = "extra_flags" in data or "explanation" in data
+        do_source = "extra_flags" in data or "explanation" in data or "labels" in data
         unit = serializer.instance
         translation = unit.translation
         request = self.request
@@ -1286,7 +1291,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 )
 
             if not user.has_perm("unit.edit", unit):
-                raise PermissionDenied()
+                raise PermissionDenied
 
             if new_state == STATE_APPROVED and not user.has_perm(
                 "unit.review", translation
@@ -1303,6 +1308,8 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                     setattr(unit, name, data[name])
                 except KeyError:
                     continue
+            if "labels" in data:
+                unit.labels.set(data["labels"])
             unit.save(update_fields=fields)
 
         # Handle translate
@@ -1330,6 +1337,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     queryset = Screenshot.objects.none()
     serializer_class = ScreenshotSerializer
     raw_urls = ("screenshot-file",)
+    raw_formats = ()
 
     def get_queryset(self):
         return Screenshot.objects.filter_access(self.request.user).order_by("id")
@@ -1350,7 +1358,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             return self.download_file(obj.image.path, "application/binary")
 
         if not request.user.has_perm("screenshot.edit", obj.translation):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         serializer = ScreenshotFileSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -1366,7 +1374,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         obj = self.get_object()
 
         if not request.user.has_perm("screenshot.edit", obj.translation):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         if "unit_id" not in request.data:
             raise ValidationError({"unit_id": "This field is required."})
@@ -1385,7 +1393,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     def delete_units(self, request, pk, unit_id):
         obj = self.get_object()
         if not request.user.has_perm("screenshot.edit", obj.translation):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         try:
             unit = obj.translation.unit_set.get(pk=unit_id)
@@ -1478,7 +1486,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return (
             ComponentList.objects.filter(
-                Q(components__project_id__in=self.request.user.allowed_project_ids)
+                Q(components__project__in=self.request.user.allowed_projects)
                 | Q(components__isnull=True)
             )
             .order_by("id")
@@ -1543,7 +1551,6 @@ class Metrics(APIView):
 
     permission_classes = (IsAuthenticated,)
 
-    # pylint: disable=redefined-builtin
     def get(self, request, format=None):
         """Return a list of all users."""
         stats = GlobalStats()
@@ -1590,9 +1597,9 @@ class TasksViewSet(ViewSet):
             # Check access or permission
             if permission:
                 if not request.user.has_perm(permission, obj):
-                    raise PermissionDenied()
+                    raise PermissionDenied
             elif not request.user.can_access_component(component):
-                raise PermissionDenied()
+                raise PermissionDenied
 
         return task, component
 
@@ -1619,7 +1626,6 @@ class TasksViewSet(ViewSet):
 
 
 class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelMixin):
-
     queryset = Addon.objects.all()
     serializer_class = AddonSerializer
 

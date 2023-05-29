@@ -1,21 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Translate Toolkit converter based file format wrappers."""
 
 import codecs
@@ -114,13 +100,14 @@ class ConvertFormat(TranslationFormat):
 
     monolingual = True
     can_add_unit = False
+    can_delete_unit = False
     unit_class = ConvertPoUnit
     autoaddon = {"weblate.flags.same_edit": {}}
     create_style = "copy"
 
     def save_content(self, handle):
         """Store content to file."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def save(self):
         """Save underlying store to disk."""
@@ -128,7 +115,7 @@ class ConvertFormat(TranslationFormat):
 
     @staticmethod
     def convertfile(storefile, template_store):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @staticmethod
     def needs_target_sync(template_store):
@@ -137,7 +124,7 @@ class ConvertFormat(TranslationFormat):
     def load(self, storefile, template_store):
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
-            storefile = open(storefile, "rb")
+            storefile = open(storefile, "rb")  # noqa: SIM115
         # Adjust store to have translations
         store = self.convertfile(storefile, template_store)
         if self.needs_target_sync(template_store):
@@ -177,10 +164,10 @@ class ConvertFormat(TranslationFormat):
         try:
             if not fast:
                 cls(base, None)
-            return True
         except Exception:
             report_error(cause="File parse error")
             return False
+        return True
 
     def add_unit(self, ttkit_unit):
         self.store.addunit(ttkit_unit)
@@ -312,7 +299,7 @@ class OpenDocumentFormat(ConvertFormat):
             templatename = templatename.name
         # This is workaround for weird fuzzy handling in translate-toolkit
         for unit in self.all_units:
-            if unit.xliff_state == "translated":
+            if any(state == "translated" for state in unit.get_xliff_states()):
                 unit.set_state(STATE_APPROVED)
 
         with open(templatename, "rb") as templatefile:

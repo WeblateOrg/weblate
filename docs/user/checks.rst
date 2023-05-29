@@ -23,6 +23,44 @@ it add errors.
 
    :setting:`AUTOFIX_LIST`
 
+Trailing ellipsis replacer
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Replace trailing dots (``...``) with an ellipsis (``…``) to make it consistent with the source string.
+
+
+Zero-width space removal
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Zero width space is typically not desired in the translation. This fix will
+remove it unless it is present in the source string as well.
+
+Control characters removal
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Removes any control characters from the translation.
+
+Devanagari danda
+~~~~~~~~~~~~~~~~
+
+Replaces wrong full stop in Devanagari by Devanagari danda (``।``).
+
+Unsafe HTML cleanup
+~~~~~~~~~~~~~~~~~~~
+
+When turned on using a ``safe-html`` flag it sanitizes HTML markup.
+
+.. seealso::
+
+   :ref:`check-safe-html`
+
+Trailing and leading whitespace fixer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Makes leading and trailing whitespace consistent with the source string. The
+behavior can be fine-tuned using ``ignore-begin-space`` and
+``ignore-end-space`` flags to skip processing parts of the string.
+
 .. _checks:
 
 Quality checks
@@ -103,6 +141,7 @@ This check has to be turned on using ``check-glossary`` flag (see
 
 * It does exact string matching, the glossary is expected to contain terms in all variants.
 * Checking each string against glossary is expensive, it will slow down any operation in Weblate which involves running checks like importing strings or translating.
+* It also utilizes untranslatable glossary terms in :ref:`check-same`.
 
 .. seealso::
 
@@ -182,6 +221,7 @@ C format
 :Summary: C format string does not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.format.CFormatCheck``
+:Check identifier: ``c_format``
 :Flag to enable: ``c-format``
 :Flag to ignore: ``ignore-c-format``
 :Simple format string example: ``There are %d apples``
@@ -209,7 +249,7 @@ C# format
 .. seealso::
 
    :ref:`check-formats`,
-   `C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_
+   `C# String Format <https://learn.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_
 
 .. _check-es-format:
 
@@ -271,7 +311,7 @@ XML tags. You can configure the behavior of this check by using ``icu-flags:*``,
 opting into XML support or by disabling certain sub-checks. For example, the following flag
 enables XML support while disabling validation of plural sub-messages:
 
-.. code-block::text
+.. code-block:: text
 
    icu-message-format, icu-flags:xml:-plural_selectors
 
@@ -304,7 +344,7 @@ Additionally, when ``strict-xml`` is not enabled but ``xml`` is enabled, you can
 For example, the following flag will only allow XML tags to be matched if they start with
 ``<x:``:
 
-.. code-block::text
+.. code-block:: text
 
   icu-message-format, icu-flags:xml, icu-tag-prefix:"x:"
 
@@ -359,6 +399,12 @@ Java MessageFormat
 .. versionchanged:: 4.14
 
    This used to be toggled by ``java-messageformat`` flag, it was changed for consistency with GNU gettext.
+
+This check validates that format string is valid for the Java MessageFormat
+class. Besides matching format strings in the curly braces, it also verifies
+single quotes as they have a special meaning. Whenever writing single quote, it
+should be written as ``''``. When not paired, it is treated as beginning of
+quoting and will not be shown when rendering the string.
 
 .. seealso::
 
@@ -575,7 +621,7 @@ Ruby format
 .. seealso::
 
    :ref:`check-formats`,
-   `Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-sprintf>`_
+   `Ruby Kernel#sprintf <https://ruby-doc.org/current/Kernel.html#method-i-sprintf>`_
 
 .. _check-scheme-format:
 
@@ -836,14 +882,14 @@ pixels:
 Mismatched \\n
 ~~~~~~~~~~~~~~
 
-:Summary: Number of \\n in translation does not match source
+:Summary: Number of \\n literals in translation does not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.chars.EscapedNewlineCountingCheck``
 :Check identifier: ``escaped_newline``
 :Flag to ignore: ``ignore-escaped-newline``
 
 Usually escaped newlines are important for formatting program output.
-Check fails if the number of ``\n`` literals in translation do not match the source.
+Check fails if the number of ``\n`` literals in translation does not match the source.
 
 .. _check-end-colon:
 
@@ -973,7 +1019,7 @@ Mismatching line breaks
 :Flag to ignore: ``ignore-newline-count``
 
 Usually newlines are important for formatting program output.
-Check fails if the number of ``\n`` literals in translation do not match the source.
+Check fails if the number of new lines in translation does not match the source.
 
 
 .. _check-plurals:
@@ -1189,8 +1235,14 @@ translated. This is useful to avoid false positives on short strings, which
 consist only of single word which is same in several languages. This blacklist
 can be disabled by adding ``strict-same`` flag to string or component.
 
+.. versionchanged:: 4.17
+
+   With ``check-glossary`` flag (see :ref:`check-check-glossary`), the
+   untranslatable glossary terms are excluded from the checking.
+
 .. seealso::
 
+   :ref:`check-check-glossary`,
    :ref:`component`,
    :ref:`custom-checks`
 
@@ -1218,8 +1270,8 @@ autofixer which can automatically sanitize the markup.
 
 .. seealso::
 
-   The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/>`_
-   library developed by Mozilla.
+   The HTML check is performed by the `Ammonia <https://github.com/rust-ammonia/ammonia>`_
+   library.
 
 
 
@@ -1257,6 +1309,9 @@ not a desired result from changing the translation, but occasionally it is.
 
 Checks that XML tags are replicated between both source and translation.
 
+The check is automatically enabled for XML like strings. You might need to add
+``xml-text`` flag in some cases to force turning it on.
+
 .. note::
 
    This check is disabled by the ``safe-html`` flag as the HTML cleanup done by
@@ -1267,8 +1322,6 @@ Checks that XML tags are replicated between both source and translation.
 XML syntax
 ~~~~~~~~~~
 
-.. versionadded:: 2.8
-
 :Summary: The translation is not valid XML
 :Scope: translated strings
 :Check class: ``weblate.checks.markup.XMLValidityCheck``
@@ -1276,6 +1329,9 @@ XML syntax
 :Flag to ignore: ``ignore-xml-invalid``
 
 The XML markup is not valid.
+
+The check is automatically enabled for XML like strings. You might need to add
+``xml-text`` flag in some cases to force turning it on.
 
 .. note::
 

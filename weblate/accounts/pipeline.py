@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
 import time
@@ -41,8 +26,14 @@ from weblate.accounts.utils import (
 from weblate.auth.models import User
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
+from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.requests import request
-from weblate.utils.validators import USERNAME_MATCHER, EmailValidator, clean_fullname
+from weblate.utils.validators import (
+    CRUD_RE,
+    USERNAME_MATCHER,
+    EmailValidator,
+    clean_fullname,
+)
 from weblate.vendasta.auth import VendastaOpenIdConnect
 
 STRIP_MATCHER = re.compile(r"[^\w\s.@+-]")
@@ -57,7 +48,7 @@ class EmailAlreadyAssociated(AuthAlreadyAssociated):
     pass
 
 
-def get_github_email(access_token):
+def get_github_emails(access_token):
     """Get real e-mail from GitHub."""
     response = request(
         "get",
@@ -68,19 +59,28 @@ def get_github_email(access_token):
     data = response.json()
     email = None
     primary = None
+    public = None
+    emails = []
     for entry in data:
+        # Skip noreply e-mail only if we need deliverable e-mails
+        if entry["email"].endswith("@users.noreply.github.com"):
+            # Add E-Mail and set is_deliverable to false
+            emails.append((entry["email"], False))
+            continue
         # Skip not verified ones
         if not entry["verified"]:
             continue
+
+        # Add E-Mail and set is_deliverable to true
+        emails.append((entry["email"], True))
         if entry.get("visibility") == "public":
             # There is just one public mail, prefer it
-            return entry["email"]
+            public = entry["email"]
+            continue
         email = entry["email"]
         if entry["primary"]:
             primary = entry["email"]
-    if primary:
-        return primary
-    return email
+    return public or primary or email, emails
 
 
 @partial
@@ -106,12 +106,10 @@ def reauthenticate(strategy, backend, user, social, uid, weblate_action, **kwarg
 def require_email(backend, details, weblate_action, user=None, is_new=False, **kwargs):
     """Force entering e-mail for backends which don't provide it."""
     if backend.name == "github":
-        email = get_github_email(kwargs["response"]["access_token"])
+        email, emails = get_github_emails(kwargs["response"]["access_token"])
+        details["verified_emails"] = emails
         if email is not None:
             details["email"] = email
-        details_email = details.get("email") or ""
-        if details_email.endswith("@users.noreply.github.com"):
-            del details["email"]
 
     # Remove any pending e-mail validation codes
     if details.get("email") and backend.name == "email":
@@ -209,7 +207,9 @@ def remove_account(
         session = strategy.request.session
         session.set_expiry(90)
         session["remove_confirm"] = True
-        # Redirect to form to change password
+        # Reset rate limit to allow form submission
+        reset_rate_limit("remove", strategy.request)
+        # Redirect to the confirmation form
         return redirect("remove")
     return None
 
@@ -249,10 +249,7 @@ def cleanup_next(strategy, **kwargs):
 def store_params(strategy, user, **kwargs):
     """Store Weblate specific parameters in the pipeline."""
     # Registering user
-    if user and user.is_authenticated:
-        registering_user = user.pk
-    else:
-        registering_user = None
+    registering_user = user.pk if user and user.is_authenticated else None
 
     # Pipeline action
     session = strategy.request.session
@@ -273,7 +270,8 @@ def store_params(strategy, user, **kwargs):
 
 
 def verify_username(strategy, backend, details, username, user=None, **kwargs):
-    """Verified whether username is still free.
+    """
+    Verified whether username is still free.
 
     It can happen that user has registered several times or other user has taken the
     username meanwhile.
@@ -286,7 +284,8 @@ def verify_username(strategy, backend, details, username, user=None, **kwargs):
 
 
 def revoke_mail_code(strategy, details, **kwargs):
-    """Remove old mail validation code for Python Social Auth.
+    """
+    Remove old mail validation code for Python Social Auth.
 
     PSA keeps them around, but we really don't need them again.
     """
@@ -331,10 +330,7 @@ def ensure_valid(
         return
 
     # Add e-mail/register should stay on same user
-    if user and user.is_authenticated:
-        current_user = user.pk
-    else:
-        current_user = None
+    current_user = user.pk if user and user.is_authenticated else None
 
     if current_user != registering_user:
         if registering_user is None:
@@ -362,7 +358,7 @@ def ensure_valid(
         if user:
             same = same.exclude(social__user=user)
 
-        if same.exists():
+        if not settings.REGISTRATION_REBIND and same.exists():
             AuditLog.objects.create(same[0].social.user, strategy.request, "connect")
             raise EmailAlreadyAssociated(backend, "E-mail exists")
 
@@ -374,12 +370,27 @@ def ensure_valid(
 def store_email(strategy, backend, user, social, details, **kwargs):
     """Store verified e-mail."""
     # The email can be empty for some services
-    if details.get("email"):
+    if details.get("verified_emails"):
+        # For some reasons tuples get converted to lists inside python social auth
+        current = {tuple(verified) for verified in details["verified_emails"]}
+        existing = set(social.verifiedemail_set.values_list("email", "is_deliverable"))
+        for remove in existing - current:
+            social.verifiedemail_set.filter(
+                email=remove[0], is_deliverable=remove[1]
+            ).delete()
+        for add in current - existing:
+            social.verifiedemail_set.create(email=add[0], is_deliverable=add[1])
+    elif details.get("email"):
         verified, created = VerifiedEmail.objects.get_or_create(
             social=social, defaults={"email": details["email"]}
         )
-        if not created and verified.email != details["email"]:
+        if (
+            not created
+            and verified.email != details["email"]
+            or not verified.is_deliverable
+        ):
             verified.email = details["email"]
+            verified.is_deliverable = True
             verified.save()
 
 
@@ -436,6 +447,9 @@ def user_full_name(strategy, details, username, user=None, **kwargs):
             else:
                 full_name = last_name
 
+        if CRUD_RE.match(full_name):
+            full_name = ""
+
         if not full_name and username:
             full_name = username
 
@@ -454,7 +468,8 @@ def user_full_name(strategy, details, username, user=None, **kwargs):
 
 
 def slugify_username(value):
-    """Clean up username.
+    """
+    Clean up username.
 
     This is based on Django slugify with exception of lowercasing
 

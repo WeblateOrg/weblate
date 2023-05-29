@@ -4,8 +4,6 @@
 Translation Memory
 ==================
 
-.. versionadded:: 2.20
-
 Weblate comes with a built-in translation memory consisting of the following:
 
 * Manually imported translation memory (see :ref:`memory-user`).

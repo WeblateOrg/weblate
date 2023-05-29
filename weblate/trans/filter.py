@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.utils.functional import cached_property
 from django.utils.text import format_lazy
@@ -38,6 +22,7 @@ class FilterRegistry:
             ("fuzzy", _("Strings marked for edit"), "state:needs-editing"),
             ("suggestions", _("Strings with suggestions"), "has:suggestion"),
             ("variants", _("Strings with variants"), "has:variant"),
+            ("screenshots", _("Strings with screenshots"), "has:screenshot"),
             ("labels", _("Strings with labels"), "has:label"),
             ("context", _("Strings with context"), "has:context"),
             (
@@ -64,6 +49,7 @@ class FilterRegistry:
                 "state:approved AND has:suggestion",
             ),
             ("unapproved", _("Strings waiting for review"), "state:translated"),
+            ("noscreenshot", _("Strings without screenshots"), "NOT has:screenshot"),
             ("unlabeled", _("Strings without a label"), "NOT has:label"),
             ("pluralized", _("Pluralized string"), "has:plural"),
         ]
@@ -108,7 +94,7 @@ class FilterRegistry:
             return self.id_query[name]
         except KeyError:
             if name.startswith("label:"):
-                return f'label:"{name[6:]}"'
+                return f'label:"{name[6:]}"'  # noqa: B028
             raise
 
 

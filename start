@@ -13,6 +13,11 @@ if [ -n "${REDIS_PASSWORD_FILE}" ]; then
   export REDIS_PASSWORD
 fi
 
+if [ -z "$CLIENT_MAX_BODY_SIZE" ] ; then
+    CLIENT_MAX_BODY_SIZE=200m
+    export CLIENT_MAX_BODY_SIZE
+fi
+
 if [ -n "${WEBLATE_ADMIN_PASSWORD_FILE}" ]; then
   WEBLATE_ADMIN_PASSWORD=$(cat "$WEBLATE_ADMIN_PASSWORD_FILE")
   export WEBLATE_ADMIN_PASSWORD
@@ -84,34 +89,12 @@ export WEBLATE_PY_PATH="/app/data/python/customize"
 
 # Provide sane default value
 if [ -z "$POSTGRES_SSL_MODE" ] ; then
-    # not running ssl
-    export POSTGRES_SSL_MODE="allow"
-else
     export POSTGRES_SSL_MODE="prefer"
-
-    # Export variables for psql use
-    export PGPASSWORD="$POSTGRES_PASSWORD"
-    export PGSSLMODE="$POSTGRES_SSL_MODE"
-
-    # PSQL expects the secrets to only have user permissions, and not group/world permissions.
-    # For some reason, mounting the secrets with the permission mode doesn't change them.
-    # Manually copy them and change the permissions.
-    cp $POSTGRES_CLI_SSL_CA $HOME
-    cp $POSTGRES_CLI_SSL_CRT $HOME
-    cp $POSTGRES_CLI_SSL_KEY $HOME
-
-    export POSTGRES_CLI_SSL_CA="$HOME/$(basename $POSTGRES_CLI_SSL_CA)"
-    export POSTGRES_CLI_SSL_CRT="$HOME/$(basename $POSTGRES_CLI_SSL_CRT)"
-    export POSTGRES_CLI_SSL_KEY="$HOME/$(basename $POSTGRES_CLI_SSL_KEY)"
-
-    export PGSSLROOTCERT="$POSTGRES_CLI_SSL_CA"
-    export PGSSLCERT="$POSTGRES_CLI_SSL_CRT"
-    export PGSSLKEY="$POSTGRES_CLI_SSL_KEY"
-
-    chmod 0600 $POSTGRES_CLI_SSL_CA
-    chmod 0600 $POSTGRES_CLI_SSL_CRT
-    chmod 0600 $POSTGRES_CLI_SSL_KEY
 fi
+
+# Export variables for psql use
+export PGPASSWORD="$POSTGRES_PASSWORD"
+export PGSSLMODE="$POSTGRES_SSL_MODE"
 
 # Update the time zone
 zonefile="/usr/share/zoneinfo/$WEBLATE_TIME_ZONE"
@@ -148,7 +131,7 @@ fi
 # Wait for redis
 TIMEOUT=0
 until run_weblate shell -c 'from django.core.cache import cache; cache.has_key("ping")' > /dev/null ; do
-    >&2 echo "redis is unavailable - waiting $((30 - TIMEOUT))"
+    >&2 echo "redis at ${REDIS_HOST:-cache} is unavailable - retrying $((30 - TIMEOUT))"
     TIMEOUT=$((TIMEOUT + 1))
     if [ $TIMEOUT -gt 30 ] ; then
         run_weblate shell -c 'from django.core.cache import cache; cache.has_key("ping")'
@@ -167,7 +150,7 @@ fi
 # Wait for database to get available
 TIMEOUT=0
 until psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -d "$POSTGRES_DATABASE" -U "$POSTGRES_USER" -c 'SELECT 1' > /dev/null ; do
-    >&2 echo "Postgres is unavailable - waiting $((30 - TIMEOUT))"
+    >&2 echo "Postgres at ${POSTGRES_HOST:-db} is unavailable - retrying $((30 - TIMEOUT))"
     TIMEOUT=$((TIMEOUT + 1))
     if [ $TIMEOUT -gt 30 ] ; then
         psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -d "$POSTGRES_DATABASE" -U "$POSTGRES_USER" -c 'SELECT 1'
@@ -184,8 +167,9 @@ unset PGPASSWORD
 >&2 echo "Postgres $PGVERSION is up"
 
 # Check if supported PostgreSQL version is used
-if [ "$PGVERSION" -lt 100000 ] ; then
-    >&2 echo "PostgreSQL 10 or newer is required to run Weblate"
+if [ "$PGVERSION" -lt 120000 ] ; then
+    >&2 echo "PostgreSQL 12 or newer is required to run Weblate"
+    >&2 echo "See https://docs.weblate.org/en/latest/admin/install/docker.html#upgrading-postgresql-container"
     exit 1
 fi
 
@@ -204,10 +188,8 @@ if [ "$1" = "runserver" ] ; then
     rm /tmp/migrations.txt
 
     DO_MIGRATE=1
-    DO_CELERY=1
     if [ -n "$WEBLATE_SERVICE" ] ; then
         if [ "$WEBLATE_SERVICE" != "celery-beat" ] ; then
-            DO_CELERY=0
             DO_MIGRATE=0
         fi
         find /etc/supervisor/conf.d/ -mindepth 1 -not -name "$WEBLATE_SERVICE.conf" -delete
@@ -226,9 +208,6 @@ if [ "$1" = "runserver" ] ; then
 
         echo "Refreshing stats..."
         run_weblate ensure_stats
-    fi
-    if [ $DO_CELERY -eq 1 ] ; then
-        run_weblate cleanup_celery
     fi
     # Run with --clear to ensure all files are up to date
     run_weblate collectstatic --noinput --clear
@@ -266,7 +245,7 @@ set_real_ip_from 0.0.0.0/0;
     esac
 
     export WEBLATE_REALIP
-    envsubst "\$WEBLATE_URL_PREFIX:\$WEBLATE_REALIP" < $template > /etc/nginx/sites-available/default
+    envsubst "\$WEBLATE_URL_PREFIX:\$WEBLATE_REALIP:\$CLIENT_MAX_BODY_SIZE" < $template > /etc/nginx/sites-available/default
 
     # Calculate number of processes, at least 2, at most 4, depending on CPU cores
     if [ -z "$WEBLATE_WORKERS" ] ; then
@@ -302,7 +281,7 @@ set_real_ip_from 0.0.0.0/0;
     exec supervisord --nodaemon \
         --loglevel="${SUPERVISOR_LOGLEVEL:-info}" \
         --logfile_maxbytes=0 \
-        --logfile="${SUPERVISOR_LOGFILE:-/dev/stdout}" \
+        --logfile="${SUPERVISOR_LOGFILE:-/dev/null}" \
         --configuration=/etc/supervisor/supervisord.conf
 fi
 

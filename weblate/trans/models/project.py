@@ -1,26 +1,10 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
 import os.path
 from datetime import datetime
-from glob import glob
 from typing import Optional
 
 from django.conf import settings
@@ -43,7 +27,12 @@ from weblate.trans.mixins import CacheKeyMixin, PathMixin, URLMixin
 from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectStats
-from weblate.utils.validators import validate_language_aliases, validate_slug
+from weblate.utils.validators import (
+    validate_language_aliases,
+    validate_project_name,
+    validate_project_web,
+    validate_slug,
+)
 
 
 class ProjectQuerySet(models.QuerySet):
@@ -55,6 +44,10 @@ def prefetch_project_flags(projects):
     lookup = {project.id: project for project in projects}
     if lookup:
         queryset = Project.objects.filter(id__in=lookup.keys()).values("id")
+        # Fallback value for locking and alerts
+        for project in projects:
+            project.__dict__["locked"] = True
+            project.__dict__["has_alerts"] = False
         # Indicate alerts
         for alert in queryset.filter(component__alert__dismissed=False).annotate(
             Count("component__alert")
@@ -62,9 +55,6 @@ def prefetch_project_flags(projects):
             lookup[alert["id"]].__dict__["has_alerts"] = bool(
                 alert["component__alert__count"]
             )
-        # Fallback value for locking
-        for project in projects:
-            project.__dict__["locked"] = True
         # Filter unlocked projects
         for locks in (
             queryset.filter(component__locked=False)
@@ -93,6 +83,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         max_length=PROJECT_NAME_LENGTH,
         unique=True,
         help_text=gettext_lazy("Display name"),
+        validators=[validate_project_name],
     )
     slug = models.SlugField(
         verbose_name=gettext_lazy("URL slug"),
@@ -105,6 +96,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         verbose_name=gettext_lazy("Project website"),
         blank=not settings.WEBSITE_REQUIRED,
         help_text=gettext_lazy("Main website of translated project."),
+        validators=[validate_project_web],
     )
     instructions = models.TextField(
         verbose_name=gettext_lazy("Translation instructions"),
@@ -116,7 +108,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         verbose_name=gettext_lazy('Set "Language-Team" header'),
         default=True,
         help_text=gettext_lazy(
-            'Lets Weblate update the "Language-Team" file header ' "of your project."
+            'Lets Weblate update the "Language-Team" file header of your project.'
         ),
     )
     use_shared_tm = models.BooleanField(
@@ -445,9 +437,23 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
         return User.objects.all_admins(self).select_related("profile")
 
+    def get_child_components_access(self, user):
+        """
+        Lists child components.
+
+        This is slower than child_components, but allows additional
+        filtering on the result.
+        """
+        child_components = (
+            self.component_set.distinct() | self.shared_components.distinct()
+        )
+        return child_components.filter_access(user).order()
+
     @cached_property
     def child_components(self):
-        return self.component_set.distinct() | self.shared_components.distinct()
+        own = self.component_set.all()
+        shared = self.shared_components.all()
+        return own.union(shared)
 
     def scratch_create_component(
         self,
@@ -540,3 +546,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                     }
                 )
         return sorted(result, key=lambda item: item["timestamp"], reverse=True)
+
+    @cached_property
+    def enable_review(self):
+        return self.translation_review or self.source_review

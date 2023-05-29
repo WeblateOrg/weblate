@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for user handling."""
 
@@ -591,6 +576,12 @@ class RegistrationTest(BaseRegistrationTest):
             "https://api.github.com/user/emails",
             json=[
                 {
+                    "email": "noreply@users.noreply.github.com",
+                    "verified": True,
+                    "primary": False,
+                    "visibility": "public",
+                },
+                {
                     "email": "noreply2@example.org",
                     "verified": False,
                     "primary": False,
@@ -634,6 +625,18 @@ class RegistrationTest(BaseRegistrationTest):
         user = User.objects.get(username="weblate")
         self.assertEqual(user.full_name, "Test Weblate Name")
         self.assertEqual(user.email, "noreply-weblate@example.org")
+        self.assertEqual(
+            set(
+                VerifiedEmail.objects.filter(social__user=user).values_list(
+                    "email", "is_deliverable"
+                )
+            ),
+            {
+                ("noreply-other@example.org", True),
+                ("noreply-weblate@example.org", True),
+                ("noreply@users.noreply.github.com", False),
+            },
+        )
 
     def test_github_existing(self):
         """Adding GitHub association to existing account."""

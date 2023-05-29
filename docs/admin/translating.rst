@@ -56,8 +56,6 @@ Access this directly from the translation interface by clicking the
 Strings prioritization
 ++++++++++++++++++++++
 
-.. versionadded:: 2.0
-
 String priority can be changed to offer higher priority strings for translation earlier by
 using the ``priority`` flag.
 
@@ -71,8 +69,6 @@ using the ``priority`` flag.
 
 Translation flags
 +++++++++++++++++
-
-.. versionadded:: 2.4
 
 .. versionchanged:: 3.3
 
@@ -107,8 +103,6 @@ Markdown to include links and other markup.
 
 Visual context for strings
 ++++++++++++++++++++++++++
-
-.. versionadded:: 2.9
 
 You can upload a screenshot showing a given source string in use within your
 program. This helps translators understand where it is used, and how it should

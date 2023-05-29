@@ -1,24 +1,11 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Base code for machine translation services."""
 
 import random
+import re
 import time
 from hashlib import md5
 from itertools import chain
@@ -32,7 +19,7 @@ from django.utils.translation import gettext as _
 from requests.exceptions import HTTPError
 
 from weblate.checks.utils import highlight_string
-from weblate.lang.models import Language
+from weblate.lang.models import Language, PluralMapper
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash
@@ -69,12 +56,14 @@ class MachineTranslation:
     language_map: Dict[str, str] = {}
     same_languages = False
     do_cleanup = True
+    # Batch size is currently used in autotranslate
     batch_size = 20
     accounting_key = "external"
     force_uncleanup = False
     hightlight_syntax = False
     settings_form = None
-    validate_payload = ("en", "de", "test", None, None, False, 75)
+    validate_payload = ("en", "de", "test", None, None, 75)
+    request_timeout = 5
 
     @classmethod
     def get_rank(cls):
@@ -134,7 +123,7 @@ class MachineTranslation:
         try:
             cache.incr(key, delta=delta)
         except ValueError:
-            cache.set(key, delta)
+            cache.set(key, delta, 24 * 3600)
 
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
@@ -154,7 +143,9 @@ class MachineTranslation:
             headers.update(self.get_authentication())
 
         # Fire request
-        response = request(method, url, headers=headers, timeout=5.0, **kwargs)
+        response = request(
+            method, url, headers=headers, timeout=self.request_timeout, **kwargs
+        )
 
         # Directly raise error when response is empty
         if response.content:
@@ -184,10 +175,10 @@ class MachineTranslation:
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
     ):
-        """Download list of possible translations from a service.
+        """
+        Download list of possible translations from a service.
 
         Should return dict with translation text, translation quality, source of
         translation, source string.
@@ -196,7 +187,7 @@ class MachineTranslation:
         better hint and text parameter as source string if you do no fuzzy
         matching.
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def map_language_code(self, code):
         """Map language code to service specific."""
@@ -286,13 +277,17 @@ class MachineTranslation:
         """Escaping of the text with replacements."""
         return text
 
+    def make_re_placeholder(self, text: str):
+        """Convert placeholder into a regular expression."""
+        # Allow addditional space before ]
+        return re.escape(text[:-1]) + " *" + re.escape(text[-1:])
+
     def format_replacement(self, h_start: int, h_end: int, h_text: str):
         """Generates a single replacement."""
         return f"[X{h_start}X]"
 
-    def cleanup_text(self, unit):
+    def cleanup_text(self, text, unit):
         """Removes placeholder to avoid confusing the machine translation."""
-        text = unit.source_string
         replacements = {}
         if not self.do_cleanup:
             return text, replacements
@@ -321,7 +316,7 @@ class MachineTranslation:
             for key in keys:
                 text = result[key]
                 for source, target in replacements.items():
-                    text = text.replace(source, target)
+                    text = re.sub(self.make_re_placeholder(source), target, text)
                 result[key] = self.unescape_text(text)
 
     def get_variants(self, language):
@@ -334,7 +329,6 @@ class MachineTranslation:
             yield code.split("_")[0]
 
     def get_languages(self, source_language, target_language):
-
         if source_language == target_language and not self.same_languages:
             raise UnsupportedLanguage("Same languages")
 
@@ -360,7 +354,25 @@ class MachineTranslation:
             return cache_key, result
         return cache_key, None
 
-    def translate(self, unit, user=None, search=None, threshold: int = 75):
+    def search(self, unit, text, user):
+        """Search for known translations of `text`."""
+        translation = unit.translation
+        try:
+            source, language = self.get_languages(
+                translation.component.source_language, translation.language
+            )
+        except UnsupportedLanguage:
+            unit.translation.log_debug(
+                "machinery failed: not supported language pair: %s - %s",
+                translation.component.source_language.code,
+                translation.language.code,
+            )
+            return []
+
+        self.account_usage(translation.component.project)
+        return self._translate(source, language, text, unit, user, threshold=10)
+
+    def translate(self, unit, user=None, threshold: int = 75):
         """Return list of machine translations."""
         translation = unit.translation
         try:
@@ -376,16 +388,17 @@ class MachineTranslation:
             return []
 
         self.account_usage(translation.component.project)
-        return self._translate(source, language, unit, user, search, threshold)
 
-    def _translate(
-        self, source, language, unit, user=None, search=None, threshold: int = 75
-    ):
-        if search:
-            replacements = {}
-            text = search
-        else:
-            text, replacements = self.cleanup_text(unit)
+        source_plural = translation.component.source_language.plural
+        target_plural = translation.plural
+        plural_mapper = PluralMapper(source_plural, target_plural)
+        return [
+            self._translate(source, language, text, unit, user, threshold=threshold)
+            for text in plural_mapper.map(unit)
+        ]
+
+    def _translate(self, source, language, text, unit, user=None, threshold: int = 75):
+        text, replacements = self.cleanup_text(text, unit)
 
         if not text or self.is_rate_limited():
             return []
@@ -397,22 +410,18 @@ class MachineTranslation:
             return result
 
         try:
-            result = list(
-                self.download_translations(
+            result = [
+                item
+                for item in self.download_translations(
                     source,
                     language,
                     text,
                     unit,
                     user,
-                    search=bool(search),
                     threshold=threshold,
                 )
-            )
-            if replacements or self.force_uncleanup:
-                self.uncleanup_results(replacements, result)
-            if cache_key:
-                cache.set(cache_key, result, 30 * 86400)
-            return result
+                if item["quality"] >= threshold
+            ]
         except Exception as exc:
             if self.is_rate_limit_error(exc):
                 self.set_rate_limit()
@@ -420,7 +429,12 @@ class MachineTranslation:
             self.report_error("Failed to fetch translations from %s")
             if isinstance(exc, MachineTranslationError):
                 raise
-            raise MachineTranslationError(self.get_error_message(exc))
+            raise MachineTranslationError(self.get_error_message(exc)) from exc
+        if replacements or self.force_uncleanup:
+            self.uncleanup_results(replacements, result)
+        if cache_key:
+            cache.set(cache_key, result, 30 * 86400)
+        return result
 
     def get_error_message(self, exc):
         return f"{exc.__class__.__name__}: {exc}"
@@ -447,17 +461,26 @@ class MachineTranslation:
             return
 
         self.account_usage(translation.component.project, delta=len(units))
-        self._batch_translate(source, language, units, user=user, threshold=threshold)
 
-    def _batch_translate(self, source, language, units, user=None, threshold: int = 75):
+        source_plural = translation.component.source_language.plural
+        target_plural = translation.plural
+        plural_mapper = PluralMapper(source_plural, target_plural)
         for unit in units:
             result = unit.machinery
-            if result["best"] >= self.max_score:
+            if result is None:
+                result = unit.machinery = {}
+            elif min(result.get("quality", ()), default=0) >= self.max_score:
                 continue
-            for item in self._translate(
-                source, language, unit, user=user, threshold=threshold
-            ):
-                if result["best"] > item["quality"]:
-                    continue
-                result["best"] = item["quality"]
-                result["translation"] = item["text"]
+            translation_lists = [
+                self._translate(source, language, text, unit, user, threshold=threshold)
+                for text in plural_mapper.map(unit)
+            ]
+            n = len(translation_lists)
+            translation = result.setdefault("translation", [""] * n)
+            quality = result.setdefault("quality", [0] * n)
+            for i, possible_translations in enumerate(translation_lists):
+                for item in possible_translations:
+                    if quality[i] > item["quality"]:
+                        continue
+                    quality[i] = item["quality"]
+                    translation[i] = item["text"]

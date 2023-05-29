@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
@@ -27,7 +12,12 @@ from weblate.checks.flags import Flags
 from weblate.trans.models import Change, Translation
 from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
-from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 
 
 class GenerateFileAddon(BaseAddon):
@@ -118,10 +108,10 @@ class LocaleGenerateAddonBase(BaseAddon):
         return updated
 
     def daily(self, component):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def component_update(self, component):
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class PseudolocaleAddon(LocaleGenerateAddonBase):
@@ -135,7 +125,10 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
 
     def daily(self, component):
         # Check all strings
-        self.do_update(component, Q(state__lte=STATE_TRANSLATED))
+        query = Q(state__lte=STATE_TRANSLATED)
+        if self.instance.configuration.get("include_readonly", False):
+            query |= Q(state=STATE_READONLY)
+        self.do_update(component, query)
 
     def component_update(self, component):
         # Update only untranslated strings
@@ -152,7 +145,7 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
             target_translation = self.get_target_translation(component)
         except Translation.DoesNotExist:
             # Uninstall misconfigured add-on
-            report_error(cause="add-on error")
+            report_error(cause="add-on error", project=component.project)
             self.instance.disable()
             return
         self.generate_translation(
@@ -177,7 +170,8 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
             pass
         super().post_uninstall()
 
-    def post_configure(self, run: bool = True):
+    def post_configure_run(self):
+        super().post_configure_run()
         try:
             target_translation = self.get_target_translation(self.instance.component)
             flags = Flags(target_translation.check_flags)
@@ -186,7 +180,6 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
             target_translation.save(update_fields=["check_flags"])
         except Translation.DoesNotExist:
             pass
-        super().post_configure(run=run)
 
 
 class PrefillAddon(LocaleGenerateAddonBase):

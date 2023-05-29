@@ -21,7 +21,7 @@
     </div>
     <div class="btn btn-default" id="position-input-editable" title="{% trans "Go to position" %}" >
           <div class="input-group">
-            <input type="number" min="1" max="{{ filter_count }}" name="offset" class="form-control" value="{{ filter_pos }}" aria-label="{% trans "Jump to" %}" id="id_position">
+            <input type="hidden" min="1" max="{{ filter_count }}" name="offset" class="form-control" value="{{ filter_pos }}" aria-label="{% trans "Jump to" %}" id="position-input-editable-input">
             <span class="input-group-addon">{% blocktrans with filter_count=filter_count|intcomma %}/ {{ filter_count }}{% endblocktrans %}</span>
           </div>
     </div>

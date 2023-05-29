@@ -1,21 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Plain text file formats."""
 
 import os
@@ -85,7 +71,7 @@ class MultiParser:
 
     def __init__(self, storefile):
         if not isinstance(storefile, str):
-            raise ValueError("Needs string as a storefile!")
+            raise TypeError("Needs string as a storefile!")
 
         self.base = storefile
         self.parsers = self.load_parser()
@@ -188,10 +174,11 @@ class AppStoreFormat(TranslationFormat):
     name = _("App store metadata files")
     format_id = "appstore"
     can_add_unit = False
+    can_delete_unit = True
     monolingual = True
     unit_class = TextUnit
     simple_filename = False
-    language_format = "appstore"
+    language_format = "googleplay"
     create_style = "directory"
 
     def load(self, storefile, template_store):
@@ -254,10 +241,10 @@ class AppStoreFormat(TranslationFormat):
         try:
             if not fast:
                 AppStoreParser(base)
-            return True
         except Exception:
             report_error(cause="File parse error")
             return False
+        return True
 
     def delete_unit(self, ttkit_unit) -> Optional[str]:
         filename = self.store.get_filename(ttkit_unit.filename)

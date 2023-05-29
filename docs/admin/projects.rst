@@ -125,6 +125,10 @@ Project name
 
 Verbose project name, used to display the project name.
 
+.. seealso::
+
+   :setting:`PROJECT_NAME_RESTRICT_RE`
+
 .. _project-slug:
 
 URL slug
@@ -140,6 +144,12 @@ Project website
 URL where translators can find more info about the project.
 
 This is a required parameter unless turned off by :setting:`WEBSITE_REQUIRED`.
+
+.. seealso::
+
+   :setting:`PROJECT_WEB_RESTRICT_HOST`,
+   :setting:`PROJECT_WEB_RESTRICT_NUMERIC`,
+   :setting:`PROJECT_WEB_RESTRICT_RE`
 
 .. _project-instructions:
 
@@ -174,6 +184,8 @@ Contribute to shared translation memory
 Whether to contribute to shared translation memory, see :ref:`shared-tm` for more details.
 
 The default value can be changed by :setting:`DEFAULT_SHARED_TM`.
+
+.. include:: /snippets/not-hosted.rst
 
 .. _project-access_control:
 
@@ -241,6 +253,8 @@ Using non standard code: ``ia_FOO:ia``
 
 .. seealso::
 
+    :ref:`adding-translation`,
+    :ref:`language-code`,
     :ref:`language-parsing-codes`
 
 .. _component:
@@ -458,7 +472,15 @@ provides :ref:`source-quality-gateway`.
 Template for new translations
 +++++++++++++++++++++++++++++
 
-Base file used to generate new translations, e.g. ``.pot`` file with gettext.
+Base file used to generate new translations.
+
+* Keep this field empty for most of the monoligual formats. Those are typically able to start from an empty file.
+* Choose ``.pot`` file with GNU gettext PO files.
+* Choose blank file without translations, if you have one.
+* Choose :ref:`component-template` for monolingual formats that need a full set of keys present.
+* Choose :ref:`component-template` for document translations.
+* Choose any translation file for others.
+* Template file can be the same as the base file in most cases.
 
 .. hint::
 
@@ -469,7 +491,6 @@ Base file used to generate new translations, e.g. ``.pot`` file with gettext.
 .. seealso::
 
    :ref:`adding-translation`,
-   :ref:`new-translations`,
    :ref:`component-new_lang`,
    :ref:`bimono`,
    :ref:`faq-duplicate-files`
@@ -593,7 +614,7 @@ Disable adding new translations
 .. seealso::
 
    :ref:`adding-translation`,
-   :ref:`new-translations`
+   :ref:`component-new_base`
 
 .. _component-manage_units:
 
@@ -630,11 +651,45 @@ Language code style
 Customize language code used to generate the filename for translations
 created by Weblate.
 
+.. note::
+
+   Weblate recognizes any of the language codes when parsing translation files,
+   following settings only influences how new files are created.
+
+Default based on the file format
+   Dependent on file format, for most of them POSIX is used.
+POSIX style using underscore as a separator
+   Typically used by gettext and related tools, produces language codes like
+   ``pt_BR``.
+POSIX style using underscore as a separator, including country code
+   POSIX style language code including the country code even when not necessary
+   (for example ``cs_CZ``).
+BCP style using hyphen as a separator
+   Typically used on web platforms, produces language codes like
+   ``pt-BR``.
+BCP style using hyphen as a separator, including country code
+   BCP style language code including the country code even when not necessary
+   (for example ``cs-CZ``).
+BCP style using hyphen as a separator, legacy language codes
+   Uses legacy codes for Chinese and BCP style notation.
+BCP style using hyphen as a separator, lower cased
+   BCP style notation, all in lower case (for example ``cs-cz``).
+Apple App Store metadata style
+   Style suitable for uploading metadata to Apple App Store.
+Google Play metadata style
+   Style suitable for uploading metadata to Google Play Store.
+Android style
+   Only used in Android apps, produces language codes like
+   ``pt-rBR``.
+Linux style
+   Locales as used by Linux, uses legacy codes for Chinese and POSIX style notation.
+
 .. seealso::
 
-    :ref:`new-translations`,
+    :ref:`adding-translation`,
     :ref:`language-code`,
-    :ref:`language-parsing-codes`
+    :ref:`language-parsing-codes`,
+    :ref:`project-language_aliases`
 
 .. _component-merge_style:
 
@@ -794,10 +849,16 @@ Priority
 
 Components with higher priority are offered first to translators.
 
+.. versionchanged:: 4.15
+
+   This now also affects ordering of matched glossary terms.
+
 .. _component-restricted:
 
 Restricted access
 +++++++++++++++++
+
+.. include:: /snippets/not-hosted.rst
 
 By default the component is visible to anybody who has access to the project,
 even if the person can not perform any changes in the component. This makes it

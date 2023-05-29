@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
 from datetime import datetime
@@ -24,7 +9,9 @@ from itertools import chain
 from typing import Dict
 
 from dateutil.parser import ParserError, parse
-from django.db.models import Q
+from django.db import transaction
+from django.db.models import Q, Value
+from django.db.utils import DataError
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from pyparsing import (
@@ -51,7 +38,8 @@ from weblate.utils.state import (
 
 
 class Comparer:
-    """String comparer abstraction.
+    """
+    String comparer abstraction.
 
     The reason is to be able to change implementation.
     """
@@ -65,7 +53,9 @@ class Comparer:
 PLAIN_FIELDS = ("source", "target", "context", "note", "location")
 NONTEXT_FIELDS = {
     "priority": "priority",
+    "id": "id",
     "state": "state",
+    "position": "position",
     "pending": "pending",
     "changed": "change__timestamp",
     "change_time": "change__timestamp",
@@ -109,7 +99,7 @@ NOT = CaselessKeyword("NOT")
 # Search operator
 OPERATOR = one_of(OPERATOR_MAP.keys())
 
-# Field name, explicitly exlude URL like patters
+# Field name, explicitly exclude URL like patterns
 FIELD = Regex(r"""(?!http|ftp|https|mailto)[a-zA-Z_]+""")
 
 # Match token
@@ -181,7 +171,7 @@ class TermExpr:
             self.fixup()
 
     def __repr__(self):
-        return f"<TermExpr: '{self.field}', '{self.operator}', '{self.match}'>"
+        return f"<TermExpr: {self.field!r}, {self.operator!r}, {self.match!r}>"
 
     def fixup(self):
         # Avoid unwanted lt/gt searches on plain text fields
@@ -207,7 +197,7 @@ class TermExpr:
 
     def has_field(self, text, context: Dict):  # noqa: C901
         if text == "plural":
-            return Q(source__contains=PLURAL_SEPARATOR)
+            return Q(source__search=PLURAL_SEPARATOR)
         if text == "suggestion":
             return Q(suggestion__isnull=False)
         if text == "explanation":
@@ -308,9 +298,22 @@ class TermExpr:
         return self.convert_bool(text)
 
     def convert_int(self, text):
+        if isinstance(text, RangeExpr):
+            return (
+                self.convert_int(text.start),
+                self.convert_int(text.end),
+            )
         return int(text)
 
+    def convert_position(self, text):
+        return self.convert_int(text)
+
     def convert_priority(self, text):
+        return self.convert_int(text)
+
+    def convert_id(self, text):
+        if "," in text:
+            return {self.convert_int(part) for part in text.split(",")}
         return self.convert_int(text)
 
     def convert_datetime(self, text, hour=5, minute=55, second=55, microsecond=0):
@@ -430,23 +433,29 @@ class TermExpr:
                 re.compile(match.expr)
             except re.error as error:
                 raise ValueError(_("Invalid regular expression: {}").format(error))
-            return Q(**{self.field_name(field, "regex"): match.expr})
+            from weblate.trans.models import Unit
+
+            with transaction.atomic():
+                try:
+                    Unit.objects.annotate(test=Value("")).filter(
+                        test__trgm_regex=match.expr
+                    ).exists()
+                except DataError as error:
+                    raise ValueError(str(error))
+            return Q(**{self.field_name(field, "trgm_regex"): match.expr})
 
         if isinstance(match, tuple):
             start, end = match
             # Ranges
             if self.operator in (":", ":="):
-                query = Q(
-                    **{
-                        self.field_name(field, "gte"): start,
-                        self.field_name(field, "lte"): end,
-                    }
-                )
+                query = Q(**{self.field_name(field, "range"): (start, end)})
             elif self.operator in (":>", ":>="):
                 query = Q(**{self.field_name(field, "gte"): start})
             else:
                 query = Q(**{self.field_name(field, "lte"): end})
 
+        elif isinstance(match, set):
+            query = Q(**{self.field_name(field, "in"): match})
         else:
             # Generic query
             query = Q(**{self.field_name(field): match})

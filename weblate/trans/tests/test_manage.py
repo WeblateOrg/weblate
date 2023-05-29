@@ -1,27 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Test for management views."""
 import os.path
 
 from django.core import mail
 from django.urls import reverse
 
+from weblate.lang.models import Language
 from weblate.trans.models import Announcement, Component, Project, Translation
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
@@ -39,7 +26,7 @@ class RemovalTest(ViewTestCase):
             response, "The slug does not match the one marked for deletion!"
         )
         response = self.client.post(url, {"confirm": "test/test/cs"}, follow=True)
-        self.assertContains(response, "Translation has been removed.")
+        self.assertContains(response, "The translation has been removed.")
 
     def test_component(self):
         self.make_manager()
@@ -50,7 +37,7 @@ class RemovalTest(ViewTestCase):
         )
         response = self.client.post(url, {"confirm": "test/test"}, follow=True)
         self.assertContains(
-            response, "Translation component was scheduled for removal."
+            response, "The translation component was scheduled for removal."
         )
 
     def test_project(self):
@@ -61,7 +48,7 @@ class RemovalTest(ViewTestCase):
             response, "The slug does not match the one marked for deletion!"
         )
         response = self.client.post(url, {"confirm": "test"}, follow=True)
-        self.assertContains(response, "Project was scheduled for removal.")
+        self.assertContains(response, "The project was scheduled for removal.")
 
     def test_project_language(self):
         self.make_manager()
@@ -75,7 +62,7 @@ class RemovalTest(ViewTestCase):
             response, "The slug does not match the one marked for deletion!"
         )
         response = self.client.post(url, {"confirm": "test/cs"}, follow=True)
-        self.assertContains(response, "Language of the project was removed.")
+        self.assertContains(response, "A language in the project was removed.")
         self.assertEqual(Translation.objects.count(), 6)
 
 
@@ -106,6 +93,7 @@ class RenameTest(ViewTestCase):
     def test_move_component(self):
         self.make_manager()
         other = Project.objects.create(name="Other project", slug="other")
+        # Other project should be visible as target for moving
         self.assertContains(
             self.client.get(reverse("component", kwargs=self.kw_component)),
             "Other project",
@@ -117,6 +105,19 @@ class RenameTest(ViewTestCase):
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.project.slug, "other")
         self.assertIsNotNone(component.repository.last_remote_revision)
+
+    def test_rename_invalid(self):
+        url = reverse("component", kwargs=self.kw_component)
+        Component.objects.filter(pk=self.component.id).update(filemask="invalid/*.po")
+        self.make_manager()
+        self.assertContains(self.client.get(url), "#rename")
+        response = self.client.post(
+            reverse("rename", kwargs=self.kw_component), {"slug": "xxxx"}, follow=True
+        )
+        self.assertRedirects(response, f"{url}#rename")
+        self.assertContains(
+            response, "Cannot rename due to outstanding issue in the configuration"
+        )
 
     def test_rename_component(self):
         self.make_manager()
@@ -192,6 +193,9 @@ class AnnouncementTest(ViewTestCase):
         self.make_manager()
         # Add second user to receive notifications
         self.project.add_user(self.anotheruser, "Administration")
+        czech = Language.objects.get(code="cs")
+        self.anotheruser.profile.languages.add(czech)
+
         response = self.client.post(url, self.data, follow=True)
         self.assertContains(response, self.data["message"])
         self.assertEqual(len(mail.outbox), self.outbox)

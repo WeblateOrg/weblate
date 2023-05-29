@@ -11,7 +11,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="referrer" content="origin" />
   <meta name="author" content="Michal Čihař" />
-  <meta name="copyright" content="Copyright &copy; 2003 - {{ current_year }} Michal Čihař" />
+  <meta name="copyright" content="Copyright &copy; Michal Čihař" />
   {% if not allow_index %}<meta name="robots" content="noindex,nofollow" />{% endif %}
   {% if interledger_payment_pointer %}<meta name="monetization" content="{{ interledger_payment_pointer }}" />{% endif %}
 
@@ -68,7 +68,6 @@ var _rollbarConfig = {
   <script defer data-cfasync="false" src="{% static 'vendor/multi.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/mousetrap.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/mousetrap-global-bind.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/clipboard.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/bootstrap/js/bootstrap.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/bootstrap/js/bootstrap-datepicker.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/modernizr.js' %}{{ cache_param }}"></script>
@@ -93,6 +92,7 @@ var _rollbarConfig = {
   <meta name="msapplication-TileColor" content="#144d3f">
   <meta name="msapplication-config" content="/browserconfig.xml">
   <link rel="manifest" href="/site.webmanifest">
+  {{ extra_html_head|safe }}
   {% if matomo_url %}
   <link rel="preconnect" href="{{ matomo_url }}">
   {% endif %}
@@ -231,9 +231,6 @@ var _rollbarConfig = {
             <li><a href="{% url 'create-component' %}">{% trans "Add new translation component" %}</a></li>
             {% if offer_hosting %}
               <li role="separator" class="divider"></li>
-              {% if payment_enabled and 0 %}
-                <li><a href="{% url 'create-billing' %}?upgrade=1">{% trans "Purchase new hosting plan" %}</a></li>
-              {% endif %}
               {% if payment_enabled %}
                 <li><a href="{% url 'trial' %}">{% trans "Try Weblate for free" %}</a></li>
               {% endif %}
@@ -276,7 +273,7 @@ var _rollbarConfig = {
             <span class="visible-xs-inline">{% trans "Help" %}</span>
           </a>
           <ul class="dropdown-menu">
-            {% if not has_support %}
+            {% if not support_status.has_support %}
               <li><a href="https://weblate.org/support/">{% trans "Get support" %}</a></li>
             {% endif %}
             {% if get_help_url %}
@@ -311,6 +308,11 @@ var _rollbarConfig = {
 
 <div class="main-content {% block content_class %}{% endblock %}">
 
+{% if user.is_superuser and support_status.has_support and not support_status.in_limits %}
+  {% trans 'Your Weblate is exceeding service limits. Please upgrade the subscription.' as msg %}
+  {% show_message 'warning' msg %}
+{% endif %}
+
 {% if messages %}
 {% for message in messages %}
 {% show_message message.tags message %}
@@ -340,7 +342,7 @@ var _rollbarConfig = {
         <img src="" id="imagepreview" class="img-responsive">
       </div>
       <div class="modal-footer">
-        <a class="btn btn-warning" id="modalEditLink">{% trans "Edit" %}</a>
+        <a class="btn btn-warning" id="modalDetailsLink" data-edit-text="{% trans 'Edit screenshot' %}">{% trans "Screenshot details" %}</a>
         <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans "Close" %}</button>
       </div>
     </div>

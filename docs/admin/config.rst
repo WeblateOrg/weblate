@@ -55,8 +55,6 @@ Defaults to 180 days.
 AUTH_LOCK_ATTEMPTS
 ------------------
 
-.. versionadded:: 2.14
-
 Maximum number of failed authentication attempts before rate limiting is applied.
 
 This is currently applied in the following locations:
@@ -131,8 +129,6 @@ Libravatar, as per https://www.libravatar.org/
 AUTH_TOKEN_VALID
 ----------------
 
-.. versionadded:: 2.14
-
 How long the authentication token and temporary password from password reset e-mails is valid for.
 Set in number of seconds, defaulting to 172800 (2 days).
 
@@ -140,9 +136,10 @@ Set in number of seconds, defaulting to 172800 (2 days).
 AUTH_PASSWORD_DAYS
 ------------------
 
-.. versionadded:: 2.15
+How many days will Weblate reject reusing previously used password for an user.
 
-How many days using the same password should be allowed.
+The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to be
+at least same as this.
 
 .. note::
 
@@ -172,6 +169,8 @@ Available fixes:
     Removes zero-width space characters if the source does not contain any.
 ``weblate.trans.autofixes.chars.RemoveControlChars``
     Removes control characters if the source does not contain any.
+``weblate.trans.autofixes.chars.DevanagariDanda``
+    Replaces sentence full stop in Bangla by Devanagari danda.
 ``weblate.trans.autofixes.html.BleachHTML``
     Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:`check-safe-html`).
 
@@ -264,6 +263,21 @@ You can pass additional arguments to :command:`borg create` when built-in backup
    :ref:`backup`,
    :doc:`borg:usage/create`
 
+.. setting:: CACHE_DIR
+
+CACHE_DIR
+---------
+
+.. versionadded:: 4.16
+
+Directory where Weblate stores cache files. Defaults to :file:`cache` subfolder
+in :setting:`DATA_DIR`.
+
+Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a
+network filesystem.
+
+The Docker container uses a separate volume for this, see :ref:`docker-volume`.
+
 .. setting:: CSP_SCRIPT_SRC
 .. setting:: CSP_IMG_SRC
 .. setting:: CSP_CONNECT_SRC
@@ -350,8 +364,6 @@ Defaults to ``None``, meaning no deletion at all.
 COMMIT_PENDING_HOURS
 --------------------
 
-.. versionadded:: 2.10
-
 Number of hours between committing pending changes by way of the background task.
 
 .. seealso::
@@ -402,10 +414,12 @@ The following subdirectories usually exist:
     Version control repositories for translations.
 :file:`backups`
     Daily backup data, please check :ref:`backup-dumps` for details.
-:file:`celery`
-    Celery scheduler data, see :ref:`celery`.
 :file:`fonts`:
     User-uploaded  fonts, see :ref:`fonts`.
+:file:`cache`
+    Various caches, can be placed elsewhere using :setting:`CACHE_DIR`.
+
+    The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 
 .. note::
 
@@ -423,7 +437,8 @@ Defaults to ``/home/weblate/data``, but it is expected to be configured.
 .. seealso::
 
     :ref:`file-permissions`,
-    :doc:`backup`
+    :doc:`backup`,
+    :setting:`CACHE_DIR`
 
 .. setting:: DATABASE_BACKUP
 
@@ -556,8 +571,6 @@ Example:
 DEFAULT_COMMITER_EMAIL
 ----------------------
 
-.. versionadded:: 2.4
-
 Committer e-mail address defaulting to ``noreply@weblate.org``.
 
 .. seealso::
@@ -568,8 +581,6 @@ Committer e-mail address defaulting to ``noreply@weblate.org``.
 
 DEFAULT_COMMITER_NAME
 ---------------------
-
-.. versionadded:: 2.4
 
 Committer name defaulting to ``Weblate``.
 
@@ -623,8 +634,6 @@ Configures default value of :ref:`project-use_shared_tm` and :ref:`project-contr
 
 DEFAULT_TRANSLATION_PROPAGATION
 -------------------------------
-
-.. versionadded:: 2.5
 
 Default setting for translation propagation, defaults to ``True``.
 
@@ -703,6 +712,23 @@ ENABLE_SHARING
 
 Turn on/off the :guilabel:`Share` menu so users can share translation progress on social networks.
 
+.. setting:: EXTRA_HTML_HEAD
+
+EXTRA_HTML_HEAD
+---------------
+
+.. versionadded:: 4.15
+
+Insert additional markup into HTML header. Can be used for verification of site ownership, for example:
+
+.. code-block:: python
+
+   EXTRA_HTML_HEAD = '<link href="https://fosstodon.org/@weblate" rel="me">'
+
+.. warning::
+
+   No sanitization is performed on the string, it is inserted as is into the HTML header.
+
 .. setting:: GET_HELP_URL
 
 GET_HELP_URL
@@ -721,11 +747,6 @@ GITEA_CREDENTIALS
 
 List for credentials for Gitea servers.
 
-.. hint::
-
-    Use this in case you want Weblate to interact with more of them, for single
-    Gitea endpoint stick with :setting:`GITEA_USERNAME` and :setting:`GITEA_TOKEN`.
-
 .. code-block:: python
 
     GITEA_CREDENTIALS = {
@@ -739,33 +760,8 @@ List for credentials for Gitea servers.
         },
     }
 
-.. setting:: GITEA_USERNAME
-
-GITEA_USERNAME
---------------
-
-.. versionadded:: 4.12
-
-Gitea username used to send pull requests for translation updates.
-
 .. seealso::
 
-   :setting:`GITEA_CREDENTIALS`,
-   :ref:`vcs-gitea`
-
-.. setting:: GITEA_TOKEN
-
-GITEA_TOKEN
------------
-
-.. versionadded:: 4.12
-
-Gitea personal access token used to make API calls to send pull requests for
-translation updates.
-
-.. seealso::
-
-   :setting:`GITEA_CREDENTIALS`,
    :ref:`vcs-gitea`,
    `Creating a Gitea personal access token`_
 
@@ -780,11 +776,6 @@ GITLAB_CREDENTIALS
 
 List for credentials for GitLab servers.
 
-.. hint::
-
-    Use this in case you want Weblate to interact with more of them, for single
-    GitLab endpoint stick with :setting:`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN`.
-
 .. code-block:: python
 
     GITLAB_CREDENTIALS = {
@@ -798,32 +789,8 @@ List for credentials for GitLab servers.
         },
     }
 
-
-.. setting:: GITLAB_USERNAME
-
-GITLAB_USERNAME
----------------
-
-GitLab username used to send merge requests for translation updates.
-
 .. seealso::
 
-   :setting:`GITLAB_CREDENTIALS`,
-   :ref:`vcs-gitlab`
-
-.. setting:: GITLAB_TOKEN
-
-GITLAB_TOKEN
-------------
-
-.. versionadded:: 4.3
-
-GitLab personal access token used to make API calls to send merge requests for
-translation updates.
-
-.. seealso::
-
-   :setting:`GITLAB_CREDENTIALS`,
    :ref:`vcs-gitlab`,
    `GitLab: Personal access token <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html>`_
 
@@ -835,11 +802,6 @@ GITHUB_CREDENTIALS
 .. versionadded:: 4.3
 
 List for credentials for GitHub servers.
-
-.. hint::
-
-    Use this in case you want Weblate to interact with more of them, for single
-    GitHub endpoint stick with :setting:`GITHUB_USERNAME` and :setting:`GITHUB_TOKEN`.
 
 .. code-block:: python
 
@@ -854,35 +816,35 @@ List for credentials for GitHub servers.
         },
     }
 
-.. setting:: GITHUB_USERNAME
-
-GITHUB_USERNAME
----------------
-
-GitHub username used to send pull requests for translation updates.
-
 .. seealso::
 
-   :setting:`GITHUB_CREDENTIALS`,
-   :ref:`vcs-github`
-
-.. setting:: GITHUB_TOKEN
-
-GITHUB_TOKEN
-------------
-
-.. versionadded:: 4.3
-
-GitHub personal access token used to make API calls to send pull requests for
-translation updates.
-
-.. seealso::
-
-   :setting:`GITHUB_CREDENTIALS`,
    :ref:`vcs-github`,
    `Creating a GitHub personal access token`_
 
 .. _Creating a GitHub personal access token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+
+.. setting:: BITBUCKETSERVER_CREDENTIALS
+
+BITBUCKETSERVER_CREDENTIALS
+---------------------------
+
+.. versionadded:: 4.16
+
+List for credentials for Bitbucket servers.
+
+.. code-block:: python
+
+    BITBUCKETSERVER_CREDENTIALS = {
+        "git.self-hosted.com": {
+            "username": "weblate",
+            "token": "http-access-token",
+        },
+    }
+
+.. seealso::
+
+   :ref:`vcs-bitbucket-server`,
+   `Bitbucket: HTTP access token <https://confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_
 
 .. setting:: GOOGLE_ANALYTICS_ID
 
@@ -949,8 +911,6 @@ Please check <https://webmonetization.org/> for more details.
 IP_BEHIND_REVERSE_PROXY
 -----------------------
 
-.. versionadded:: 2.14
-
 Indicates whether Weblate is running behind a reverse proxy.
 
 If set to ``True``, Weblate gets IP address from a header defined by
@@ -977,8 +937,6 @@ If set to ``True``, Weblate gets IP address from a header defined by
 IP_PROXY_HEADER
 ---------------
 
-.. versionadded:: 2.14
-
 Indicates which header Weblate should obtain the IP address from when
 :setting:`IP_BEHIND_REVERSE_PROXY` is turned on.
 
@@ -996,8 +954,6 @@ Defaults to ``HTTP_X_FORWARDED_FOR``.
 
 IP_PROXY_OFFSET
 ---------------
-
-.. versionadded:: 2.14
 
 Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP
 address.
@@ -1020,6 +976,26 @@ Defaults to 0.
     :setting:`django:SECURE_PROXY_SSL_HEADER`,
     :setting:`IP_BEHIND_REVERSE_PROXY`,
     :setting:`IP_PROXY_HEADER`
+
+.. setting:: LEGAL_TOS_DATE
+
+LEGAL_TOS_DATE
+--------------
+
+.. versionadded:: 4.15
+
+.. note::
+
+   You need :ref:`legal` installed to make this work.
+
+Date of last update of terms of service documents. Whenever the date changes,
+users are required to agree with the terms of service.
+
+.. code-block:: python
+
+   from datetime import date
+
+   LEGAL_TOS_DATE = date(2022, 2, 2)
 
 .. setting:: LEGAL_URL
 
@@ -1259,11 +1235,6 @@ PAGURE_CREDENTIALS
 
 List for credentials for Pagure servers.
 
-.. hint::
-
-    Use this in case you want Weblate to interact with more of them, for single
-    Pagure endpoint stick with :setting:`PAGURE_USERNAME` and :setting:`PAGURE_TOKEN`.
-
 .. code-block:: python
 
     PAGURE_CREDENTIALS = {
@@ -1277,33 +1248,8 @@ List for credentials for Pagure servers.
         },
     }
 
-.. setting:: PAGURE_USERNAME
-
-PAGURE_USERNAME
----------------
-
-.. versionadded:: 4.3.2
-
-Pagure username used to send merge requests for translation updates.
-
 .. seealso::
 
-   :setting:`PAGURE_CREDENTIALS`,
-   :ref:`vcs-pagure`
-
-.. setting:: PAGURE_TOKEN
-
-PAGURE_TOKEN
-------------
-
-.. versionadded:: 4.3.2
-
-Pagure personal access token used to make API calls to send merge requests for
-translation updates.
-
-.. seealso::
-
-   :setting:`PAGURE_CREDENTIALS`,
    :ref:`vcs-pagure`,
    `Pagure API <https://pagure.io/api/0/>`_
 
@@ -1332,6 +1278,37 @@ Example:
 
    :setting:`LEGAL_URL`
 
+.. setting:: PRIVATE_COMMIT_EMAIL_OPT_IN
+
+PRIVATE_COMMIT_EMAIL_OPT_IN
+---------------------------
+
+.. versionadded:: 4.15
+
+Configures whether the private commit e-mail is opt-in or opt-out (by default it is opt-in).
+
+.. seealso::
+
+   :ref:`profile`,
+   :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`
+
+.. setting:: PRIVATE_COMMIT_EMAIL_TEMPLATE
+
+PRIVATE_COMMIT_EMAIL_TEMPLATE
+-----------------------------
+
+.. versionadded:: 4.15
+
+Template to generate private commit e-mail for an user. Defaults to ``"{username}@users.noreply.{site_domain}"``.
+
+Set to blank string to disable.
+
+.. note::
+
+   Using different commit e-mail is opt-in for users unless configured by
+   :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail in
+   the :ref:`profile`.
+
 .. setting:: PROJECT_BACKUP_KEEP_COUNT
 
 PROJECT_BACKUP_KEEP_COUNT
@@ -1357,6 +1334,74 @@ Defines how long the project backups will be kept on the server. Defaults to 30 
 .. seealso::
 
    :ref:`projectbackup`
+
+.. setting:: PROJECT_NAME_RESTRICT_RE
+
+PROJECT_NAME_RESTRICT_RE
+------------------------
+
+.. versionadded:: 4.15
+
+Defines a regular expression to restrict project naming. Any matching names will be rejected.
+
+.. seealso::
+
+   :ref:`project-name`
+
+.. setting:: PROJECT_WEB_RESTRICT_HOST
+
+PROJECT_WEB_RESTRICT_HOST
+-------------------------
+
+.. versionadded:: 4.16.2
+
+Reject using certain hosts in project website. Any subdomain is matched, so
+including ``example.com`` will block ``test.example.com`` as well. The list
+should contain lower case strings only, the parsed domain is lower cased before
+matching.
+
+Default configuration:
+
+.. code-block:: python
+
+   PROJECT_WEB_RESTRICT_HOST = {"localhost"}
+
+.. seealso::
+
+   :ref:`project-web`
+   :setting:`PROJECT_WEB_RESTRICT_NUMERIC`,
+   :setting:`PROJECT_WEB_RESTRICT_RE`,
+
+
+.. setting:: PROJECT_WEB_RESTRICT_NUMERIC
+
+PROJECT_WEB_RESTRICT_NUMERIC
+----------------------------
+
+.. versionadded:: 4.16.2
+
+Reject using numeric IP address in project website. Enabled by default.
+
+.. seealso::
+
+   :ref:`project-web`
+   :setting:`PROJECT_WEB_RESTRICT_HOST`,
+   :setting:`PROJECT_WEB_RESTRICT_RE`,
+
+.. setting:: PROJECT_WEB_RESTRICT_RE
+
+PROJECT_WEB_RESTRICT_RE
+-----------------------
+
+.. versionadded:: 4.15
+
+Defines a regular expression to restrict project websites. Any matching URLs will be rejected.
+
+.. seealso::
+
+   :ref:`project-web`
+   :setting:`PROJECT_WEB_RESTRICT_HOST`,
+   :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
 
 .. setting:: RATELIMIT_ATTEMPTS
 
@@ -1460,8 +1505,6 @@ If turned on, a CAPTCHA is added to all pages where a users enters their e-mail 
 REGISTRATION_EMAIL_MATCH
 ------------------------
 
-.. versionadded:: 2.17
-
 Allows you to filter which e-mail addresses can register.
 
 Defaults to ``.*``, which allows any e-mail address to be registered.
@@ -1495,6 +1538,22 @@ Python Social Auth (you can whitelist certain back-ends using
     :setting:`REGISTRATION_ALLOW_BACKENDS`,
     :setting:`REGISTRATION_EMAIL_MATCH`,
     :doc:`auth`
+
+.. setting:: REGISTRATION_REBIND
+
+REGISTRATION_REBIND
+-------------------
+
+.. versionadded:: 4.16
+
+Allow rebinding authentication backends for existing users. Turn this on when
+migrating between authentication providers.
+
+.. note::
+
+   Disabled by default to not allow adding other authentication backends to
+   existing account. Rebinding can lead to account compromise when using
+   more third-party authentication backends.
 
 .. setting:: REPOSITORY_ALERT_THRESHOLD
 
@@ -1689,6 +1748,17 @@ SUGGESTION_CLEANUP_DAYS
 Automatically deletes suggestions after a given number of days.
 Defaults to ``None``, meaning no deletions.
 
+.. setting:: UNUSED_ALERT_DAYS
+
+UNUSED_ALERT_DAYS
+-----------------
+
+.. versionadded:: 4.17
+
+Configures when :guilabel:`Component seems unused` alert is triggered.
+
+Defaults to 365 days, set to 0 to disable it.
+
 .. setting:: UPDATE_LANGUAGES
 
 UPDATE_LANGUAGES
@@ -1737,6 +1807,22 @@ Example:
 
     This setting does not work with Django's built-in server, you would have to
     adjust :file:`urls.py` to contain this prefix.
+
+.. setting:: VCS_API_DELAY
+
+VCS_API_DELAY
+-------------
+
+.. versionadded:: 4.15.1
+
+Configures minimal delay in seconds between third-party API calls in
+:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, and :ref:`vcs-pagure`.
+
+This rate-limits API calls from Weblate to these services to avoid overloading them.
+
+If you are being limited by secondary rate limiter at GitHub, increasing this might help.
+
+The default value is 10.
 
 .. setting:: VCS_BACKENDS
 
@@ -1816,6 +1902,7 @@ example:
         "weblate.addons.flags.BulkEditAddon",
         "weblate.addons.generate.GenerateFileAddon",
         "weblate.addons.json.JSONCustomizeAddon",
+        "weblate.addons.xml.XMLCustomizeAddon",
         "weblate.addons.properties.PropertiesSortAddon",
         "weblate.addons.git.GitSquashAddon",
         "weblate.addons.removal.RemoveComments",

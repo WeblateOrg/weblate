@@ -1,24 +1,9 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
-from collections import defaultdict
+from collections import Counter, defaultdict
 from typing import Optional, Pattern
 
 from django.utils.functional import SimpleLazyObject
@@ -147,7 +132,7 @@ C_SHARP_MATCH = re.compile(
         {                               # initial {
         (?P<arg>\d+)                    # variable order
         (?P<width>
-            [,-?\s]+                    # flags
+            [-,?\s]+                    # flags
             (?:\d+)?                    # width
             (?:\.\d+)?                  # precision
         )?
@@ -220,7 +205,16 @@ ES_TEMPLATE_MATCH = re.compile(
 PERCENT_MATCH = re.compile(r"(%([a-zA-Z0-9_]+)%)")
 
 VUE_MATCH = re.compile(
-    r"(%?{([^}]+)}|@(?:\.[a-z]+)?:(?:\([^)]+\)|[a-z_.]+))", re.IGNORECASE
+    r"""
+    (
+    %?{([^}]+)}
+    |
+# See https://github.com/kazupon/vue-i18n/blob/44ff0b9/src/index.js#L30
+# but without case
+    (?:@(?:\.[a-z]+)?:(?:[\w\-_|./]+|\([\w\-_:|./]+\)))
+    )
+    """,
+    re.IGNORECASE | re.VERBOSE,
 )
 
 WHITESPACE = re.compile(r"\s+")
@@ -243,7 +237,7 @@ def python_format_is_position_based(string):
 
 
 def name_format_is_position_based(string):
-    return string == ""
+    return not string
 
 
 FLAG_RULES = {
@@ -265,7 +259,9 @@ class BaseFormatCheck(TargetCheck):
     """Base class for format string checks."""
 
     regexp: Optional[Pattern[str]] = None
+    plural_parameter_regexp: Optional[Pattern[str]] = None
     default_disabled = True
+    normalize_remove = None
 
     def check_target_unit(self, sources, targets, unit):
         """Check single unit, handling plurals."""
@@ -319,7 +315,12 @@ class BaseFormatCheck(TargetCheck):
         return text
 
     def normalize(self, matches):
-        return matches
+        if self.normalize_remove is None:
+            return matches
+        if isinstance(matches, Counter):
+            matches.pop(self.normalize_remove, None)
+            return matches
+        return [m for m in matches if m != self.normalize_remove]
 
     def extract_matches(self, string):
         return [self.cleanup_string(x[0]) for x in self.regexp.findall(string)]
@@ -339,16 +340,12 @@ class BaseFormatCheck(TargetCheck):
         tgt_matches = self.extract_matches(target)
 
         if not uses_position:
-            src_matches = set(src_matches)
-            tgt_matches = set(tgt_matches)
+            src_matches = Counter(src_matches)
+            tgt_matches = Counter(tgt_matches)
 
         if src_matches != tgt_matches:
             # Ignore mismatch in percent position
             if self.normalize(src_matches) == self.normalize(tgt_matches):
-                return False
-            # We can ignore missing format strings
-            # for first of plurals
-            if ignore_missing and tgt_matches < src_matches:
                 return False
             if not uses_position:
                 missing = sorted(src_matches - tgt_matches)
@@ -362,6 +359,10 @@ class BaseFormatCheck(TargetCheck):
                         extra.append(tgt_matches[i])
                 missing.extend(src_matches[len(tgt_matches) :])
                 extra.extend(tgt_matches[len(src_matches) :])
+            # We can ignore missing format strings
+            # for first of plurals
+            if ignore_missing and missing and not extra:
+                return False
             return {"missing": missing, "extra": extra}
         return False
 
@@ -419,9 +420,34 @@ class BaseFormatCheck(TargetCheck):
             )
         return super().get_description(check_obj)
 
+    def interpolate_number(self, text: str, number: int) -> str:
+        """
+        Interpolates a count in the format strings.
+
+        Attempt to find, in `text`, the placeholder for the number that controls
+        which plural form is used, and replace it with `number`.
+
+        Returns an empty string if the interpolation fails for any reason.
+        """
+        if not self.plural_parameter_regexp:
+            # Interpolation isn't available for this format.
+            return ""
+        it = self.plural_parameter_regexp.finditer(text)
+        match = next(it, None)
+        if match:
+            if next(it, None):
+                # We've found two matching placeholders. We have no way to
+                # determine which one we should replace, so we give up.
+                return ""
+        else:
+            return ""
+        return text[: match.start()] + str(number) + text[match.end() :]
+
 
 class BasePrintfCheck(BaseFormatCheck):
     """Base class for printf based format checks."""
+
+    normalize_remove = "%"
 
     def __init__(self):
         super().__init__()
@@ -429,9 +455,6 @@ class BasePrintfCheck(BaseFormatCheck):
 
     def is_position_based(self, string):
         return self._is_position_based(string)
-
-    def normalize(self, matches):
-        return [m for m in matches if m != "%"]
 
     def format_string(self, string):
         return f"%{string}"
@@ -449,6 +472,7 @@ class PythonFormatCheck(BasePrintfCheck):
     check_id = "python_format"
     name = _("Python format")
     description = _("Python format string does not match source")
+    plural_parameter_regexp = re.compile(r"%\((?:count|number|num|n)\)[a-zA-Z]")
 
 
 class PHPFormatCheck(BasePrintfCheck):
@@ -506,9 +530,7 @@ class SchemeFormatCheck(BasePrintfCheck):
     check_id = "scheme_format"
     name = _("Scheme format")
     description = _("Scheme format string does not match source")
-
-    def normalize(self, matches):
-        return [m for m in matches if m != "~"]
+    normalize_remove = "~"
 
     def format_string(self, string):
         return f"~{string}"
@@ -521,6 +543,7 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     name = _("Python brace format")
     description = _("Python brace format string does not match source")
     regexp = PYTHON_BRACE_MATCH
+    plural_parameter_regexp = re.compile(r"\{(?:count|number|num|n)\}")
 
     def is_position_based(self, string):
         return name_format_is_position_based(string)
@@ -577,11 +600,13 @@ class JavaMessageFormatCheck(BaseFormatCheck):
         result = super().check_format(source, target, ignore_missing, unit)
 
         # Even number of quotes, unless in GWT which enforces this
-        if unit.translation.component.file_format != "gwt":
-            if target.count("'") % 2 != 0:
-                if not result:
-                    result = {"missing": [], "extra": []}
-                result["missing"].append("'")
+        if (
+            unit.translation.component.file_format != "gwt"
+            and target.count("'") % 2 != 0
+        ):
+            if not result:
+                result = {"missing": [], "extra": []}
+            result["missing"].append("'")
 
         return result
 
@@ -597,6 +622,8 @@ class I18NextInterpolationCheck(BaseFormatCheck):
     name = _("i18next interpolation")
     description = _("The i18next interpolation does not match source")
     regexp = I18NEXT_MATCH
+    # https://www.i18next.com/translation-function/plurals
+    plural_parameter_regexp = re.compile(r"{{count}}")
 
     def cleanup_string(self, text):
         return WHITESPACE.sub("", text)
@@ -609,6 +636,7 @@ class ESTemplateLiteralsCheck(BaseFormatCheck):
     name = _("ECMAScript template literals")
     description = _("ECMAScript template literals do not match source")
     regexp = ES_TEMPLATE_MATCH
+    plural_parameter_regexp = re.compile(r"\$\{(?:count|number|num|n)\}")
 
     def cleanup_string(self, text):
         return WHITESPACE.sub("", text)
@@ -622,6 +650,7 @@ class PercentPlaceholdersCheck(BaseFormatCheck):
     name = _("Percent placeholders")
     description = _("The percent placeholders do not match source")
     regexp = PERCENT_MATCH
+    plural_parameter_regexp = re.compile(r"%(?:count|number|num|n)%")
 
 
 class VueFormattingCheck(BaseFormatCheck):
@@ -629,6 +658,8 @@ class VueFormattingCheck(BaseFormatCheck):
     name = _("Vue I18n formatting")
     description = _("The Vue I18n formatting does not match source")
     regexp = VUE_MATCH
+    # https://kazupon.github.io/vue-i18n/guide/pluralization.html
+    plural_parameter_regexp = re.compile(r"%?\{(?:count|n)\}")
 
 
 class MultipleUnnamedFormatsCheck(SourceCheck):

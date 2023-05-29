@@ -374,6 +374,7 @@ It is usually a good idea to run Weblate in a separate database, and separate us
    .. code-block:: postgres
 
         CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA weblate;
+        CREATE EXTENSION IF NOT EXISTS btree_gin WITH SCHEMA weblate;
 
 .. _config-postgresql:
 
@@ -1036,39 +1037,6 @@ with Weblate.
 
     :setting:`SECRET_KEY`
 
-.. _production-templates:
-
-Template loading
-++++++++++++++++
-
-It is recommended to use a cached template loader for Django. It caches parsed
-templates and avoids the need to do parsing with every single request. You can
-configure it using the following snippet (the ``loaders`` setting is important here):
-
-.. code-block:: python
-
-   TEMPLATES = [
-       {
-           "BACKEND": "django.template.backends.django.DjangoTemplates",
-           "OPTIONS": {
-               "context_processors": [
-                   "django.contrib.auth.context_processors.auth",
-                   "django.template.context_processors.debug",
-                   "django.template.context_processors.i18n",
-                   "django.template.context_processors.request",
-                   "django.template.context_processors.csrf",
-                   "django.contrib.messages.context_processors.messages",
-                   "weblate.trans.context_processors.weblate_context",
-               ],
-           },
-           "APP_DIRS": True,
-       }
-   ]
-
-.. seealso::
-
-    :py:class:`django:django.template.loaders.cached.Loader`
-
 .. _production-cron:
 
 Running maintenance tasks
@@ -1249,11 +1217,6 @@ For testing purposes, you can use the built-in web server in Django:
 Serving static files
 ++++++++++++++++++++
 
-.. versionchanged:: 2.4
-
-    Prior to version 2.4, Weblate didn't properly use the Django static files
-    framework and the setup was more complex.
-
 Django needs to collect its static files in a single directory. To do so,
 execute :samp:`weblate collectstatic --noinput`. This will copy the static
 files into a directory specified by the :setting:`django:STATIC_ROOT` setting (this defaults to
@@ -1367,8 +1330,6 @@ The following configuration runs Weblate in Gunicorn and Apache 2.4
 
 Running Weblate under path
 ++++++++++++++++++++++++++
-
-.. versionadded:: 1.3
 
 It is recommended to use prefork MPM when using WSGI with Weblate.
 
@@ -1575,7 +1536,7 @@ In short, you need to adjust :file:`settings.py`:
 Everything else is integrated automatically, you will now collect both server
 and client side errors.
 
-.. note:
+.. note::
 
     Error logging also includes exceptions that were gracefully handled, but
     might indicate a problem - such as failed parsing of an uploaded file.
@@ -1591,21 +1552,14 @@ Migrating database
 ++++++++++++++++++
 
 Depending on your database backend, you might have several options to migrate
-the database. The most straightforward one is to dump the database on one
-server and import it on the new one. Alternatively you can use replication in
+the database. The most straightforward approach is to use database native
+tools, as they are usually the most effective (e.g. :command:`mysqldump` or
+:command:`pg_dump`). Alternatively you can use replication in
 case your database supports it.
 
-The best approach is to use database native tools, as they are usually the most
-effective (e.g. :command:`mysqldump` or :command:`pg_dump`). If you want to
-migrate between different databases, the only option might be to use Django
-management to dump and import the database:
+.. seealso::
 
-.. code-block:: sh
-
-    # Export current data
-    weblate dumpdata > /tmp/weblate.dump
-    # Import dump
-    weblate loaddata /tmp/weblate.dump
+   Migrating between databases described in :ref:`database-migration`.
 
 Migrating VCS repositories
 +++++++++++++++++++++++++++

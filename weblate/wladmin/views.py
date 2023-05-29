@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import sys
 from urllib.parse import quote
@@ -27,17 +12,20 @@ from django.core.mail import send_mail
 from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.html import escape, format_html
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from django.views.decorators.http import require_POST
+from django.views.generic import ListView
+from django.views.generic.edit import FormMixin
 
 from weblate.accounts.views import UserList
 from weblate.auth.decorators import management_access
-from weblate.auth.forms import AdminInviteUserForm
-from weblate.auth.models import User
+from weblate.auth.forms import AdminInviteUserForm, SitewideTeamForm
+from weblate.auth.models import Group, User
 from weblate.configuration.models import Setting
 from weblate.configuration.views import CustomCSSView
 from weblate.trans.forms import AnnouncementForm
@@ -51,13 +39,12 @@ from weblate.utils.tasks import database_backup, settings_backup
 from weblate.utils.version import GIT_LINK, GIT_REVISION
 from weblate.utils.views import show_form_errors
 from weblate.vcs.ssh import (
-    RSA_KEY,
     add_host_key,
     can_generate_key,
     generate_ssh_key,
+    get_all_key_data,
     get_host_keys,
-    get_key_data,
-    ssh_file,
+    get_key_data_raw,
 )
 from weblate.wladmin.forms import (
     ActivateForm,
@@ -79,8 +66,10 @@ MENU = (
     ("alerts", "manage-alerts", gettext_lazy("Alerts")),
     ("repos", "manage-repos", gettext_lazy("Repositories")),
     ("users", "manage-users", gettext_lazy("Users")),
+    ("teams", "manage-teams", gettext_lazy("Teams")),
     ("appearance", "manage-appearance", gettext_lazy("Appearance")),
     ("tools", "manage-tools", gettext_lazy("Tools")),
+    ("machinery", "manage-machinery", gettext_lazy("Automatic suggestions")),
 )
 if "weblate.billing" in settings.INSTALLED_APPS:
     MENU += (("billing", "manage-billing", gettext_lazy("Billing")),)
@@ -131,12 +120,11 @@ def tools(request):
                 except Exception as error:
                     report_error()
                     messages.error(request, _("Could not send test e-mail: %s") % error)
+                return redirect("manage-tools")
 
         if "sentry" in request.POST:
-            try:
-                raise Exception("Test exception")
-            except Exception:
-                report_error()
+            report_error(cause="Test message", message=True, level="info")
+            return redirect("manage-tools")
 
         if "message" in request.POST:
             announce_form = AnnouncementForm(request.POST)
@@ -173,9 +161,17 @@ def discovery(request):
 @management_access
 @require_POST
 def activate(request):
-    form = ActivateForm(request.POST)
-    if form.is_valid():
-        support = SupportStatus(**form.cleaned_data)
+    support = None
+    if "refresh" in request.POST:
+        support = SupportStatus.objects.get_current()
+    else:
+        form = ActivateForm(request.POST)
+        if form.is_valid():
+            support = SupportStatus(**form.cleaned_data)
+        else:
+            show_form_errors(request, form)
+
+    if support is not None:
         try:
             support.refresh()
             support.save()
@@ -189,8 +185,6 @@ def activate(request):
                     "Please ensure your activation token is correct."
                 ),
             )
-    else:
-        show_form_errors(request, form)
     return redirect("manage")
 
 
@@ -217,7 +211,7 @@ def backups(request):
             if form.is_valid():
                 form.save()
                 return redirect("manage-backups")
-        elif "remove" in request.POST:
+        elif "remove" in request.POST:  # noqa: R505
             service = BackupService.objects.get(pk=request.POST["service"])
             service.delete()
             return redirect("manage-backups")
@@ -281,10 +275,11 @@ def performance(request):
 
 @management_access
 def ssh_key(request):
-    with open(ssh_file(RSA_KEY)) as handle:
-        data = handle.read()
+    filename, data = get_key_data_raw(
+        key_type=request.GET.get("type", "rsa"), kind="private"
+    )
     response = HttpResponse(data, content_type="text/plain")
-    response["Content-Disposition"] = f"attachment; filename={RSA_KEY}"
+    response["Content-Disposition"] = f"attachment; filename={filename}"
     response["Content-Length"] = len(data)
     return response
 
@@ -300,10 +295,11 @@ def ssh(request):
 
     # Generate key if it does not exist yet
     if can_generate and action == "generate":
-        generate_ssh_key(request)
+        generate_ssh_key(request, key_type=request.POST.get("type", "rsa"))
+        return redirect("manage-ssh")
 
     # Read key data if it exists
-    key = get_key_data()
+    keys = get_all_key_data()
 
     # Add host key
     form = SSHAddForm()
@@ -313,8 +309,11 @@ def ssh(request):
             add_host_key(request, **form.cleaned_data)
 
     context = {
-        "public_key": key,
+        "public_ssh_keys": keys,
         "can_generate": can_generate,
+        "missing_ssh_keys": [
+            keydata for keydata in keys.values() if keydata["key"] is None
+        ],
         "host_keys": get_host_keys(),
         "menu_items": MENU,
         "menu_page": "ssh",
@@ -402,7 +401,6 @@ def users_check(request):
 
 @management_access
 def appearance(request):
-
     current = Setting.objects.get_settings_dict(Setting.CATEGORY_UI)
     form = AppearanceForm(initial=current)
 
@@ -493,3 +491,40 @@ def billing(request):
             "pending": pending,
         },
     )
+
+
+@method_decorator(management_access, name="dispatch")
+class TeamListView(FormMixin, ListView):
+    template_name = "manage/teams.html"
+    paginate_by = 50
+    model = Group
+    form_class = SitewideTeamForm
+
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .prefetch_related("languages", "projects")
+            .filter(defining_project=None)
+            .annotate(Count("user"))
+            .order()
+        )
+
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
+        result["menu_items"] = MENU
+        result["menu_page"] = "teams"
+        return result
+
+    def get_success_url(self):
+        return reverse("manage-teams")
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)

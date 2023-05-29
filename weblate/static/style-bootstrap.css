@@ -1,3 +1,9 @@
+/*
+ * Copyright © Michal Čihař <michal@weblate.org>
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 .avatar {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -274,26 +280,29 @@ textarea#id_check_flags {
 }
 .space-tab::before {
   content: "→";
-  position: absolute;
+  position: relative;
 }
 
 .space-nl::before {
   content: "↵";
-  position: absolute;
+  position: relative;
 }
 
 .space-space::before {
   content: "·";
-  position: absolute;
+  position: relative;
+  left: 25%;
 }
 
 ins,
 span.replacement {
   background-color: lightgreen;
+  color: #2a3744;
 }
 
 del,
 span.replaced {
+  color: #2a3744;
   background-color: #fc7979;
 }
 
@@ -572,8 +581,9 @@ form + .login-label {
   padding: 0 2px;
 }
 
-.btn-float .btn {
-  padding: 2px 2px;
+.btn-float .btn,
+.btn-padded .btn {
+  padding: 2px 4px !important;
   line-height: 0;
 }
 
@@ -648,7 +658,10 @@ kbd {
 }
 
 .fullmodal .modal-dialog {
-  width: auto;
+  width: max-content;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 legend {
@@ -777,7 +790,6 @@ legend {
   white-space: pre-wrap;
 }
 
-.wrap-simple,
 .wrap-text {
   word-wrap: break-word;
   word-break: break-word;
@@ -1140,8 +1152,8 @@ svg {
 .pagination svg,
 .btn-xs svg,
 .btn-group-xs svg {
-  width: 18px;
-  height: 18px;
+  max-width: 18px;
+  max-height: 18px;
 }
 
 #popup-alerts {
@@ -1733,16 +1745,6 @@ a.language:hover {
 .table-stats td {
   vertical-align: middle !important;
 }
-.full-edit-link svg {
-  width: 14px;
-  height: 14px;
-}
-.full-edit-link path {
-  fill: #1fa385;
-}
-.full-edit-link:hover path {
-  fill: #144d3f !important;
-}
 .btn-sidebar {
   position: relative;
   left: 55px;
@@ -1831,6 +1833,11 @@ a.language:hover {
   height: 24px;
   vertical-align: super;
   margin-left: 6px;
+}
+
+.table-embed-units .list-group-item {
+  border: none;
+  background-color: inherit;
 }
 
 #unit_all_flags {

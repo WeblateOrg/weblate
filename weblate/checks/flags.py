@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
 from functools import lru_cache
@@ -66,9 +51,9 @@ TYPED_FLAGS["font-weight"] = gettext_lazy("Font weight")
 TYPED_FLAGS_ARGS["font-weight"] = single_value_flag(get_font_weight)
 TYPED_FLAGS["font-spacing"] = gettext_lazy("Font spacing")
 TYPED_FLAGS_ARGS["font-spacing"] = single_value_flag(int)
-TYPED_FLAGS["icu-flags"] = gettext_lazy("ICU MessageFormat Flags")
+TYPED_FLAGS["icu-flags"] = gettext_lazy("ICU MessageFormat flags")
 TYPED_FLAGS_ARGS["icu-flags"] = multi_value_flag(str)
-TYPED_FLAGS["icu-tag-prefix"] = gettext_lazy("ICU MessageFormat Tag Prefix")
+TYPED_FLAGS["icu-tag-prefix"] = gettext_lazy("ICU MessageFormat tag prefix")
 TYPED_FLAGS_ARGS["icu-tag-prefix"] = single_value_flag(str)
 TYPED_FLAGS["priority"] = gettext_lazy("Priority")
 TYPED_FLAGS_ARGS["priority"] = single_value_flag(int)
@@ -235,11 +220,14 @@ class Flags:
     @staticmethod
     def format_value(value):
         # Regexp objects
+        prefix = ""
         if hasattr(value, "pattern"):
             value = value.pattern
-        if " " in value or any(c in value for c in SYNTAXCHARS):
-            return '"{}"'.format(
-                value.replace('"', r"\"").replace("\n", "\\n").replace("\r", "\\r")
+            prefix = "r"
+        if prefix or " " in value or any(c in value for c in SYNTAXCHARS):
+            return '{}"{}"'.format(
+                prefix,
+                value.replace('"', r"\"").replace("\n", "\\n").replace("\r", "\\r"),
             )
         return value
 
@@ -266,7 +254,7 @@ class Flags:
             if name in self._values:
                 if is_plain:
                     raise ValidationError(
-                        _('Translation flag has no parameters: "%s"') % name
+                        _('The translation flag has no parameters: "%s"') % name
                     )
                 try:
                     self.get_value(name)

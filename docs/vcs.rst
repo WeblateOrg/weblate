@@ -4,8 +4,9 @@ Version control integration
 ===========================
 
 Weblate currently supports :ref:`vcs-git` (with extended support for
-:ref:`vcs-github`, :ref:`vcs-gerrit` and :ref:`vcs-git-svn`) and
-:ref:`vcs-mercurial` as version control back-ends.
+:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`,
+:ref:`vcs-git-svn` and :ref:`vcs-bitbucket-server`) and :ref:`vcs-mercurial` as
+version control back-ends.
 
 .. _vcs-repos:
 
@@ -64,6 +65,10 @@ In case adjustment is needed, do so from the Weblate admin interface:
 
 Weblate SSH key
 ~~~~~~~~~~~~~~~
+
+.. versionchanged:: 4.17
+
+   Weblate now generates both RSA and Ed25519 SSH keys. Using Ed25519 is recommended for new setups.
 
 The Weblate public key is visible to all users browsing the :guilabel:`About` page.
 
@@ -266,8 +271,6 @@ For the ``hello`` repository from selenic.com using Mercurial::
 GitHub pull requests
 --------------------
 
-.. versionadded:: 2.3
-
 This adds a thin layer atop :ref:`vcs-git` using the `GitHub API`_ to allow pushing
 translation changes as pull requests, instead of pushing directly to the repository.
 
@@ -282,8 +285,6 @@ Weblate settings to make this work. Once configured, you will see a
 .. seealso::
 
    :ref:`push-changes`,
-   :setting:`GITHUB_USERNAME`,
-   :setting:`GITHUB_TOKEN`,
    :setting:`GITHUB_CREDENTIALS`
 
 .. _GitHub API: https://docs.github.com/en/rest
@@ -312,8 +313,6 @@ Weblate settings to make this work. Once configured, you will see a
 .. seealso::
 
    :ref:`push-changes`,
-   :setting:`GITLAB_USERNAME`,
-   :setting:`GITLAB_TOKEN`,
    :setting:`GITLAB_CREDENTIALS`
 
 .. _GitLab API: https://docs.gitlab.com/ee/api/
@@ -342,11 +341,42 @@ Weblate settings to make this work. Once configured, you will see a
 .. seealso::
 
    :ref:`push-changes`,
-   :setting:`GITEA_USERNAME`,
-   :setting:`GITEA_TOKEN`,
    :setting:`GITEA_CREDENTIALS`
 
 .. _Gitea API: https://docs.gitea.io/en-us/api-usage/
+
+.. _vcs-bitbucket-server:
+.. _bitbucket-server-push:
+
+Bitbucket Server pull requests
+------------------------------
+
+.. versionadded:: 4.16
+
+This just adds a thin layer atop :ref:`vcs-git` using the
+`Bitbucket Server API`_ to allow pushing translation changes as pull requests
+instead of pushing directly to the repository.
+
+.. warning::
+
+    This does not support Bitbucket Cloud API.
+
+
+There is no need to use this to access Git repositories, ordinary :ref:`vcs-git`
+works the same, the only difference is how pushing to a repository is
+handled. With :ref:`vcs-git` changes are pushed directly to the repository,
+while :ref:`vcs-bitbucket-server` creates pull request.
+
+You need to configure API credentials (:setting:`BITBUCKETSERVER_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`Bitbucket Server` option when selecting :ref:`component-vcs`.
+
+.. seealso::
+
+   :ref:`push-changes`,
+   :setting:`BITBUCKETSERVER_CREDENTIALS`
+
+.. _Bitbucket Server API: https://developer.atlassian.com/server/bitbucket/
 
 .. _vcs-pagure:
 .. _pagure-push:
@@ -372,8 +402,6 @@ Weblate settings to make this work. Once configured, you will see a
 .. seealso::
 
    :ref:`push-changes`,
-   :setting:`PAGURE_USERNAME`,
-   :setting:`PAGURE_TOKEN`,
    :setting:`PAGURE_CREDENTIALS`
 
 .. _Pagure API: https://pagure.io/api/0/
@@ -382,8 +410,6 @@ Weblate settings to make this work. Once configured, you will see a
 
 Gerrit
 ------
-
-.. versionadded:: 2.2
 
 Adds a thin layer atop :ref:`vcs-git` using the `git-review`_ tool to allow
 pushing translation changes as Gerrit review requests, instead of
@@ -398,8 +424,6 @@ such repositories.
 
 Mercurial
 ---------
-
-.. versionadded:: 2.1
 
 Mercurial is another VCS you can use directly in Weblate.
 
@@ -419,8 +443,6 @@ Mercurial is another VCS you can use directly in Weblate.
 Subversion
 ----------
 
-.. versionadded:: 2.8
-
 Weblate uses `git-svn`_ to interact with `subversion`_ repositories. It is
 a Perl script that lets subversion be used by a Git client, enabling
 users to maintain a full clone of the internal repository and commit locally.
@@ -433,10 +455,6 @@ users to maintain a full clone of the internal repository and commit locally.
     `git-svn documentation <https://git-scm.com/docs/git-svn#Documentation/git-svn.txt---stdlayout>`_.
     If your repository does not have a standard layout and you encounter errors,
     try including the branch name in the repository URL and leaving branch empty.
-
-.. versionchanged:: 2.19
-
-    Before this, only repositories using the standard layout were supported.
 
 .. _git-svn: https://git-scm.com/docs/git-svn
 

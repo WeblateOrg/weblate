@@ -2,5 +2,102 @@
 # Minimum requirements for the build system to execute.
 requires = ["setuptools", "wheel", "translate-toolkit"]  # PEP 508 specifications.
 
+[project]
+requires-python = ">=3.7"
+
 [tool.black]
 target-version = ['py37']
+
+[tool.codespell]
+skip = '*.po,*.pot,*.json,*.tmx,*.tbx,yarn.lock,known_hosts'
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+format = "github"
+ignore = [
+  "D10",  # TODO: we are missing many docstrings
+  "D203",  # CONFIG: incompatible with D211
+  "D212",  # CONFIG: incompatible with D213
+  "D401",  # TODO: many strings need rephrasing
+  "TRY003",  # WONTFIX: Avoid specifying long messages outside the exception class
+  "TRY200",  # TODO: Use `raise from` to specify exception cause
+  "B904",  # TODO: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
+  "PLR0911",  # WONTFIX: Too many return statements
+  "PLR0912",  # WONTFIX: Too many branches
+  "PLR0913",  # WONTFIX: Too many arguments to function call
+  "PLR0915",  # WONTFIX: Too many statements
+  "PLR2004",  # TODO: Magic value used in comparison, consider replacing 201 with a constant variable
+  "RUF001",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
+  "RUF100",  # TODO: unused noqa, compatibility with flake8, can be dropped once we stop using it
+  "E501",  # WONTFIX: we accept long strings (rest is formatted by black)
+  "PLW2901",  # TODO: overwriting variables inside loop
+  "N818",  # TODO: exception naming
+  "A001",  # TODO: overriding builtins (might need noqa tags)
+  "A002",  # TODO: overriding builtins (might need noqa tags)
+  "A003",  # TODO: overriding builtins (might need noqa tags)
+  "SLF001"  # TODO: Private member accessed (might need noqa tags)
+]
+select = [
+  "E",
+  "F",
+  "B",
+  "T10",
+  "A",
+  "C4",
+  "C90",
+  "YTT",
+  "DJ",
+  "UP",
+  "D",
+  "PD",
+  "PGH",
+  "PL",
+  "TRY",
+  "RUF",
+  "ERA",
+  "ICN",
+  "ISC",
+  "EXE",
+  "INP",
+  "PIE",
+  "G",
+  "PYI",
+  "Q",
+  "SIM",
+  "TID",
+  "RSE",
+  "T20",
+  "RET",
+  "SLF",
+  "N"
+]
+target-version = "py37"
+
+[tool.ruff.mccabe]
+max-complexity = 16
+
+[tool.ruff.per-file-ignores]
+"docs/_ext/djangodocs.py" = ["INP001"]
+"docs/conf.py" = ["INP001", "ERA001", "A001"]
+"scripts/*" = ["T201", "T203"]
+"weblate/*/management/commands/*.py" = ["A003"]  # Needed by Django API
+"weblate/*/migrations/*.py" = ["C405", "E501", "N806", "DJ01"]
+"weblate/addons/management/commands/list_addons.py" = ["E501"]
+"weblate/addons/utils.py" = ["N806"]
+"weblate/auth/migrations/0018_fixup_role.py" = ["T201", "N806"]
+"weblate/examples/*.py" = ["INP001"]
+"weblate/lang/data.py" = ["E501"]
+"weblate/machinery/management/commands/list_machinery.py" = ["E501"]
+"weblate/settings_*.py" = ["F405"]
+"weblate/settings_docker.py" = ["ERA001"]
+"weblate/settings_example.py" = ["ERA001"]
+"weblate/trans/migrations/0103_update_source_unit.py" = ["T201", "N806"]
+"weblate/trans/migrations/0116_migrate_glossaries.py" = ["T201", "N806", "E501"]
+"weblate/trans/migrations/0127_fix_source_glossary.py" = ["T201", "N806"]
+"weblate/trans/migrations/0133_glossary_missing_files.py" = ["T201", "N806"]
+"weblate/trans/tests/test_files.py" = ["E501"]
+"weblate/utils/generate_secret_key.py" = ["T201"]
+"weblate/utils/licensedata.py" = ["E501"]
+"weblate/utils/locale.py" = ["B012"]

@@ -1,6 +1,10 @@
 #!/bin/bash
 
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 set -e
 
 # Build documentation with warnings treated as errors
-make -C docs ${1:-html} SPHINXOPTS='-n -W -a --keep-going'
+make -C docs "${1:-html}" SPHINXOPTS='-n -W -a --keep-going'
