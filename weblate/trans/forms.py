@@ -1159,7 +1159,8 @@ class UserAddTeamForm(UserManageForm):
     make_admin = forms.BooleanField(
         required=False,
         initial=False,
-        label=_("Allow user to add or remove users from a team."),
+        label=_("Team administrator"),
+        help_text=_("Allow user to add or remove users from a team."),
     )
 
 
