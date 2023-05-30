@@ -12,7 +12,6 @@ from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_DAILY
 from weblate.addons.forms import AutoAddonForm
 from weblate.trans.tasks import auto_translate_component
-from weblate.vendasta.constants import NAMESPACE_SEPARATOR
 
 
 class AutoTranslateAddon(BaseAddon):
@@ -28,16 +27,11 @@ class AutoTranslateAddon(BaseAddon):
     icon = "language.svg"
 
     def component_update(self, component):
-        for translation in component.translation_set.iterator():
-            if translation.is_source:
-                continue
-            if NAMESPACE_SEPARATOR in translation.language_code:
-                continue
-            transaction.on_commit(
-                lambda: auto_translate_component.delay(
-                    None, translation.pk, **self.instance.configuration
-                )
+        transaction.on_commit(
+            lambda: auto_translate_component.delay(
+                component.pk, **self.instance.configuration
             )
+        )
 
     def daily(self, component):
         # Translate every component less frequenctly to reduce load.
