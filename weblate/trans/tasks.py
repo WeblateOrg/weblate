@@ -38,6 +38,7 @@ from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeout
 from weblate.utils.stats import prefetch_stats
 from weblate.vcs.base import RepositoryException
+from weblate.vendasta.constants import NAMESPACE_SEPARATOR
 
 
 @app.task(
@@ -442,6 +443,8 @@ def auto_translate_component(
 
     for translation in component_obj.translation_set.iterator():
         if translation.is_source:
+            continue
+        if NAMESPACE_SEPARATOR in translation.language_code:
             continue
 
         auto_translate(
