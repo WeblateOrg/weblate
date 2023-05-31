@@ -1143,8 +1143,8 @@ Reused translation
 :Check identifier: ``reused``
 :Flag to ignore: ``ignore-reused``
 
-Check that fails if the same translation is used on different source strings.
-Such translations can be intentional, but it can also confuse users.
+Check that fails if the same translation is used on different source strings. 
+Such translations can be intentional, but can also confuse users.
 
 .. _check-same-plurals:
 
