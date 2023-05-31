@@ -5,6 +5,7 @@
 from functools import reduce
 
 from django.db.models import Count, Prefetch, Q
+from django.db.models.functions import MD5
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheck
@@ -118,6 +119,75 @@ class ConsistencyCheck(TargetCheck):
                     lambda x, y: x
                     | (
                         Q(id_hash=y["id_hash"])
+                        & Q(translation__language=y["translation__language"])
+                        & Q(translation__plural=y["translation__plural"])
+                    ),
+                    matches,
+                    Q(),
+                )
+            )
+            .prefetch()
+            .prefetch_bulk()
+        )
+
+
+class ReusedCheck(TargetCheck):
+    """Check for reused translations."""
+
+    check_id = "reused"
+    name = _("Reused translation")
+    description = _("Different strings are translated same.")
+    propagates = True
+    batch_project_wide = True
+    skip_suggestions = True
+
+    def check_target_unit(self, sources, targets, unit):
+        component = unit.translation.component
+        if not component.allow_translation_propagation:
+            return False
+
+        # Use last result if checks are batched
+        if component.batch_checks:
+            return self.handle_batch(unit, component)
+
+        for other in unit.same_target_units:
+            if unit.context == other.context:
+                continue
+            return True
+        return False
+
+    def check_single(self, source, target, unit):
+        """We don't check target strings here."""
+        return False
+
+    def check_component(self, component):
+        from weblate.trans.models import Unit
+
+        units = Unit.objects.filter(
+            translation__component__project=component.project,
+            translation__component__allow_translation_propagation=True,
+            state__gte=STATE_TRANSLATED,
+        )
+        units = units.annotate(target__md5=MD5("target"))
+
+        # List strings with different sources
+        # Limit this to 100 strings, otherwise the resulting query is way too complex
+        matches = (
+            units.values("target__md5", "translation__language", "translation__plural")
+            .annotate(id_hash__count=Count("id_hash", distinct=True))
+            .filter(id_hash__count__gt=1)
+            .order_by("target__md5")[:100]
+        )
+
+        if not matches:
+            return []
+
+        return (
+            units.filter(
+                reduce(
+                    lambda x, y: x
+                    | (
+                        Q(target__md5=y["target__md5"])
                         & Q(translation__language=y["translation__language"])
                         & Q(translation__plural=y["translation__plural"])
                     ),

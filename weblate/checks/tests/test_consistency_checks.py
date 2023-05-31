@@ -6,11 +6,18 @@
 
 from django.test import TestCase
 
-from weblate.checks.consistency import PluralsCheck, SamePluralsCheck, TranslatedCheck
+from weblate.checks.consistency import (
+    ConsistencyCheck,
+    PluralsCheck,
+    ReusedCheck,
+    SamePluralsCheck,
+    TranslatedCheck,
+)
 from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.models import Change
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class PluralsCheckTest(TestCase):
@@ -97,3 +104,55 @@ class TranslatedCheckTest(ViewTestCase):
             self.check.get_description(check),
             'Previous translation was "Nazdar svete!\n".',
         )
+
+
+class ConsistencyCheckTest(ViewTestCase):
+    def setUp(self):
+        super().setUp()
+        self.other = self.create_link_existing()
+        self.translation_1 = self.component.translation_set.get(language__code="cs")
+        self.translation_2 = self.other.translation_set.get(language__code="cs")
+        self._id_hash = 1000
+
+    def add_unit(
+        self,
+        translation,
+        context: str,
+        source: str,
+        target: str,
+        increment: bool = True,
+    ):
+        if increment:
+            self._id_hash += 1
+        return translation.unit_set.create(
+            id_hash=self._id_hash,
+            position=self._id_hash,
+            context=context,
+            source=source,
+            target=target,
+            state=STATE_TRANSLATED,
+        )
+
+    def test_reuse(self):
+        check = ReusedCheck()
+        self.assertEqual(check.check_component(self.component), [])
+
+        # Add triggering units
+        unit = self.add_unit(self.translation_1, "one", "One", "Jeden")
+        self.assertFalse(check.check_target_unit([], [], unit))
+        unit = self.add_unit(self.translation_2, "two", "Two", "Jeden")
+        self.assertTrue(check.check_target_unit([], [], unit))
+
+        self.assertNotEqual(check.check_component(self.component), [])
+
+    def test_consistency(self):
+        check = ConsistencyCheck()
+        self.assertEqual(check.check_component(self.component), [])
+
+        # Add triggering units
+        unit = self.add_unit(self.translation_1, "one", "One", "Jeden")
+        self.assertFalse(check.check_target_unit([], [], unit))
+        unit = self.add_unit(self.translation_2, "one", "One", "Jedna", increment=False)
+        self.assertTrue(check.check_target_unit([], [], unit))
+
+        self.assertNotEqual(check.check_component(self.component), [])

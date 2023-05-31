@@ -1130,6 +1130,21 @@ translation file or defined manually using ``regex`` flag:
    regex:^foo|bar$
 
 
+.. _check-reused:
+
+Reused translation
+~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 4.18
+
+:Summary: Different strings are translated same.
+:Scope: translated strings
+:Check class: ``weblate.checks.consistency.ReusedCheck``
+:Check identifier: ``reused``
+:Flag to ignore: ``ignore-reused``
+
+Check that fails if same translation is used on different source strings. This
+might be intention, but can also cause confusion for users.
 
 .. _check-same-plurals:
 

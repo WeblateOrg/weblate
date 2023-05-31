@@ -165,10 +165,10 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-i18next-interpolation` quality check.
 ``ignore-icu-message-format``
     Skip the :ref:`check-icu-message-format` quality check.
-``ignore-java-format``
-    Skip the :ref:`check-java-format` quality check.
 ``ignore-java-printf-format``
     Skip the :ref:`check-java-printf-format` quality check.
+``ignore-java-format``
+    Skip the :ref:`check-java-format` quality check.
 ``ignore-javascript-format``
     Skip the :ref:`check-javascript-format` quality check.
 ``ignore-lua-format``
@@ -235,6 +235,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-punctuation-spacing` quality check.
 ``ignore-regex``
     Skip the :ref:`check-regex` quality check.
+``ignore-reused``
+    Skip the :ref:`check-reused` quality check.
 ``ignore-same-plurals``
     Skip the :ref:`check-same-plurals` quality check.
 ``ignore-begin-newline``
