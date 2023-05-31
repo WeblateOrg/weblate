@@ -730,6 +730,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 #     "weblate.checks.consistency.PluralsCheck",
 #     "weblate.checks.consistency.SamePluralsCheck",
 #     "weblate.checks.consistency.ConsistencyCheck",
+#     "weblate.checks.consistency.ReusedCheck",
 #     "weblate.checks.consistency.TranslatedCheck",
 #     "weblate.checks.chars.EscapedNewlineCountingCheck",
 #     "weblate.checks.chars.NewLineCountCheck",

@@ -14,6 +14,7 @@ Not yet released.
 * Support for automatic update of screenshots from a repository.
 * Improved translation memory performance.
 * Project stats exports to JSON/CSV now include more details; it now matches content available in the API.
+* Added check for reused translation.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 
