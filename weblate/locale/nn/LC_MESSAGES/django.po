@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # tryvseu <tryvseu@tuta.io>, 2022, 2023.
+# qrynill <tryvseu@tuta.io>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.17\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-04-14 14:36+0000\n"
-"PO-Revision-Date: 2023-04-23 16:44+0000\n"
-"Last-Translator: tryvseu <tryvseu@tuta.io>\n"
+"PO-Revision-Date: 2023-05-31 17:53+0000\n"
+"Last-Translator: qrynill <tryvseu@tuta.io>\n"
 "Language-Team: Norwegian Nynorsk <https://hosted.weblate.org/projects/"
 "weblate/application/nn/>\n"
 "Language: nn\n"
@@ -286,7 +287,7 @@ msgstr "Utlagde skjermbilete"
 
 #: weblate/accounts/forms.py:860
 msgid "Chosen sorting is not supported."
-msgstr ""
+msgstr "Stør ikkje den valde skiljinga."
 
 #: weblate/accounts/forms.py:872
 msgid "Add user to a group"
@@ -326,22 +327,22 @@ msgstr "Stadfeste attendebyte av passordet, slo av passordet."
 #: weblate/accounts/models.py:146
 #, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr ""
+msgstr "Sette opp innlogginga med {method} ({name})."
 
 #: weblate/accounts/models.py:147
 #, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr ""
+msgstr "Tok bort innlogginga med {method} ({name})."
 
 #: weblate/accounts/models.py:148
 #, python-brace-format
 msgid "Signed in using {method} ({name})."
-msgstr ""
+msgstr "Logga inn med {method} ({name})."
 
 #: weblate/accounts/models.py:149
 #, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
-msgstr ""
+msgstr "Logga inn med {method} ({name}) på ei ny eining."
 
 #: weblate/accounts/models.py:150
 msgid "Somebody attempted to register with your e-mail."
@@ -354,11 +355,11 @@ msgstr ""
 #: weblate/accounts/models.py:152
 #, python-brace-format
 msgid "Could not sign in using {method} ({name})."
-msgstr ""
+msgstr "Greidde ikkje å logge inn med {method} ({name})."
 
 #: weblate/accounts/models.py:153
 msgid "Account locked due to many failed sign in attempts."
-msgstr ""
+msgstr "Låste kontoen på grunn av for mange galne innloggingsfreistnader."
 
 #: weblate/accounts/models.py:154
 msgid "Account and all private data removed."
@@ -396,19 +397,19 @@ msgstr "Fekk ikkje tilgjenge til prosjektet {project}"
 
 #: weblate/accounts/models.py:168
 msgid "Configured password to sign in."
-msgstr ""
+msgstr "Sette opp passordet til innlogging."
 
 #: weblate/accounts/models.py:169
 msgid "Signed in using password."
-msgstr ""
+msgstr "Logga inn med passordet."
 
 #: weblate/accounts/models.py:170
 msgid "Signed in using password from a new device."
-msgstr ""
+msgstr "Logga inn med passordet på ei ny eining."
 
 #: weblate/accounts/models.py:171
 msgid "Could not sign in using password."
-msgstr ""
+msgstr "Greidde ikkje å logge inn med passordet."
 
 #: weblate/accounts/models.py:176
 msgid "To restore access to your account, please reset your password."
@@ -526,7 +527,7 @@ msgstr "Mengda med nære strengar å visa over og under i den vanlege visinga."
 
 #: weblate/accounts/models.py:454
 msgid "Automatically watch projects on contribution"
-msgstr ""
+msgstr "Fylg sjølvverkande prosjekt du medverkar i"
 
 #: weblate/accounts/models.py:457
 msgid ""
@@ -594,7 +595,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:527
 msgid "Code site URL"
-msgstr ""
+msgstr "Kodestad-nettadresse"
 
 #: weblate/accounts/models.py:529
 msgid "Link to your code profile for services like Codeberg or GitLab."
@@ -692,8 +693,9 @@ msgstr ""
 #. Translators: Notification name
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:477 weblate/trans/models/change.py:314
+#, fuzzy
 msgid "Parse error"
-msgstr ""
+msgstr "Tydingsfeil"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:495
@@ -815,11 +817,13 @@ msgid "You can confirm your registration only while signed in."
 msgstr ""
 
 #: weblate/accounts/pipeline.py:511
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr ""
+"E-postadressa di høyrer ikkje lenger til ein stadfest konto. Ho har verta "
+"knytt til {0}."
 
 #: weblate/accounts/views.py:158 weblate/accounts/views.py:913
 #: weblate/accounts/views.py:978 weblate/templates/accounts/reset.html:7
@@ -857,7 +861,7 @@ msgstr "Sletta kontoen din."
 
 #: weblate/accounts/views.py:452
 msgid "Too many messages sent, please try again later."
-msgstr ""
+msgstr "Du har sendt for mange bod, freist att seinare."
 
 #: weblate/accounts/views.py:475 weblate/templates/accounts/contact.html:6
 #: weblate/templates/base.html:282 weblate/templates/footer.html:16
@@ -866,13 +870,15 @@ msgstr ""
 
 #: weblate/accounts/views.py:499 weblate/templates/accounts/hosting.html:8
 msgid "Hosting"
-msgstr ""
+msgstr "Husing"
 
 #: weblate/accounts/views.py:520
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
 msgstr ""
+"Det ser ut til at du i det siste alt har spurt etter ei røynetid. Kontakt "
+"oss med førespurnaden din slik at me kan finna den beste løysinga for deg."
 
 #: weblate/accounts/views.py:540
 msgid ""
@@ -893,7 +899,7 @@ msgstr "Kostnadsfri røynetid"
 #: weblate/templates/accounts/login.html:39
 #: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:222
 msgid "Sign in"
-msgstr ""
+msgstr "Logg inn"
 
 #: weblate/accounts/views.py:750 weblate/wladmin/sites.py:185
 msgid "Thank you for using Weblate."
