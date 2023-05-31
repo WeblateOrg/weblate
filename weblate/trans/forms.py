@@ -568,6 +568,9 @@ class ZenTranslationForm(TranslationForm):
         self.helper.form_tag = True
         self.helper.disable_csrf = False
         self.helper.layout.append(Field("checksum"))
+        if not user.has_perm("unit.edit", unit):
+            for field in ["target", "fuzzy", "review"]:
+                self.fields[field].widget.attrs["disabled"] = 1
 
 
 class DownloadForm(forms.Form):

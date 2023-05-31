@@ -379,6 +379,9 @@ function initHighlight(root) {
     if (editor.readOnly) {
       highlight.classList.add("readonly");
     }
+    if (editor.disabled) {
+      highlight.classList.add("disabled");
+    }
     highlight.setAttribute("role", "status");
     if (editor.hasAttribute("dir")) {
       highlight.setAttribute("dir", editor.getAttribute("dir"));
