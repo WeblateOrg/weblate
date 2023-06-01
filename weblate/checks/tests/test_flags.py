@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 
 from weblate.checks.flags import TYPED_FLAGS, TYPED_FLAGS_ARGS, Flags
+from weblate.trans.defines import VARIANT_KEY_LENGTH
 
 
 class FlagTest(SimpleTestCase):
@@ -167,3 +168,10 @@ class FlagTest(SimpleTestCase):
         self.assertEqual(
             flags.format(), r'''variant:"Long string with \"quotes\" and 'quotes'."'''
         )
+
+    def test_validate_variant(self):
+        name = "x" * VARIANT_KEY_LENGTH
+        Flags(f"variant:{name}").validate()
+        name = "x" * (VARIANT_KEY_LENGTH + 1)
+        with self.assertRaises(ValidationError):
+            Flags(f"variant:{name}").validate()

@@ -14,10 +14,12 @@ from weblate.checks.models import CHECKS
 from weblate.checks.parser import (
     SYNTAXCHARS,
     FlagsParser,
+    length_validation,
     multi_value_flag,
     single_value_flag,
 )
 from weblate.fonts.utils import get_font_weight
+from weblate.trans.defines import VARIANT_KEY_LENGTH
 
 PLAIN_FLAGS = {
     v.enable_string: v.name
@@ -62,7 +64,9 @@ TYPED_FLAGS_ARGS["max-length"] = single_value_flag(int)
 TYPED_FLAGS["replacements"] = gettext_lazy("Replacements while rendering")
 TYPED_FLAGS_ARGS["replacements"] = multi_value_flag(str, modulo=2)
 TYPED_FLAGS["variant"] = gettext_lazy("String variant")
-TYPED_FLAGS_ARGS["variant"] = single_value_flag(str)
+TYPED_FLAGS_ARGS["variant"] = single_value_flag(
+    str, length_validation(VARIANT_KEY_LENGTH)
+)
 
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 

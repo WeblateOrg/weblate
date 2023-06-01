@@ -7,15 +7,26 @@ import re
 from pyparsing import Optional, QuotedString, Regex, ZeroOrMore
 
 
-def single_value_flag(func):
+def single_value_flag(func, validation=None):
     def parse_values(val):
         if not val:
             raise ValueError("Missing required parameter")
         if len(val) > 1:
             raise ValueError("Too many parameters")
-        return func(val[0])
+        result = func(val[0])
+        if validation is not None:
+            validation(result)
+        return result
 
     return parse_values
+
+
+def length_validation(length: int):
+    def validate_length(val):
+        if len(val) > length:
+            raise ValueError("String too long")
+
+    return validate_length
 
 
 def multi_value_flag(func, minimum=1, maximum=None, modulo=None):
