@@ -424,8 +424,11 @@ HAVE_SYSLOG = False
 if platform.system() != "Windows":
     try:
         handler = SysLogHandler(address="/dev/log", facility=SysLogHandler.LOG_LOCAL2)
+        # Since Python 3.7 connect failures are silently discarded, so
+        # the exception is almost never raised here. Instead we look whether the socket
+        # to syslog is open after init.
+        HAVE_SYSLOG = handler.socket.fileno() != -1
         handler.close()
-        HAVE_SYSLOG = True
     except OSError:
         HAVE_SYSLOG = False
 
