@@ -4,7 +4,7 @@
 
 from functools import reduce
 
-from django.db.models import Count, Prefetch, Q
+from django.db.models import Count, Prefetch, Q, Value
 from django.db.models.functions import MD5
 from django.utils.translation import gettext_lazy as _
 
@@ -142,7 +142,10 @@ class ReusedCheck(TargetCheck):
     skip_suggestions = True
 
     def check_target_unit(self, sources, targets, unit):
-        component = unit.translation.component
+        from weblate.trans.models import Unit
+
+        translation = unit.translation
+        component = translation.component
         if not component.allow_translation_propagation:
             return False
 
@@ -150,11 +153,16 @@ class ReusedCheck(TargetCheck):
         if component.batch_checks:
             return self.handle_batch(unit, component)
 
-        for other in unit.same_target_units:
-            if unit.context == other.context:
-                continue
-            return True
-        return False
+        same_target_units = Unit.objects.filter(
+            target__md5=MD5(Value(unit.target)),
+            translation__component__project_id=component.project_id,
+            translation__language_id=translation.language_id,
+            translation__component__source_language_id=component.source_language_id,
+            translation__component__allow_translation_propagation=True,
+            translation__plural_id=translation.plural_id,
+        ).exclude(id_hash=unit.id_hash)
+
+        return same_target_units.exists()
 
     def check_single(self, source, target, unit):
         """We don't check target strings here."""

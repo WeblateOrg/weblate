@@ -137,10 +137,30 @@ class ConsistencyCheckTest(ViewTestCase):
         check = ReusedCheck()
         self.assertEqual(check.check_component(self.component), [])
 
-        # Add triggering units
+        # Add non-triggering units
         unit = self.add_unit(self.translation_1, "one", "One", "Jeden")
+        unit = self.add_unit(self.translation_2, "one", "One", "Jeden", increment=False)
         self.assertFalse(check.check_target_unit([], [], unit))
+        self.assertEqual(check.check_component(self.component), [])
+
+        # Add triggering unit
         unit = self.add_unit(self.translation_2, "two", "Two", "Jeden")
+        self.assertTrue(check.check_target_unit([], [], unit))
+
+        self.assertNotEqual(check.check_component(self.component), [])
+
+    def test_reuse_nocontext(self):
+        check = ReusedCheck()
+        self.assertEqual(check.check_component(self.component), [])
+
+        # Add non-triggering units
+        unit = self.add_unit(self.translation_1, "", "One", "Jeden")
+        unit = self.add_unit(self.translation_2, "", "One", "Jeden", increment=False)
+        self.assertFalse(check.check_target_unit([], [], unit))
+        self.assertEqual(check.check_component(self.component), [])
+
+        # Add triggering unit
+        unit = self.add_unit(self.translation_2, "", "Two", "Jeden")
         self.assertTrue(check.check_target_unit([], [], unit))
 
         self.assertNotEqual(check.check_component(self.component), [])

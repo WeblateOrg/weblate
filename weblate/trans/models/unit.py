@@ -1496,21 +1496,6 @@ class Unit(models.Model, LoggerMixin):
             )
         )
 
-    @cached_property
-    def same_target_units(self):
-        translation = self.translation
-        component = translation.component
-        result = Unit.objects.filter(
-            target__md5=MD5(Value(self.target)),
-            translation__component__project_id=component.project_id,
-            translation__language_id=translation.language_id,
-            translation__component__source_language_id=component.source_language_id,
-            translation__component__allow_translation_propagation=True,
-            translation__plural_id=self.translation.plural_id,
-        )
-        result = result.exclude(pk=self.id)
-        return result.prefetch_full()
-
     def get_max_length(self):
         """Returns maximal translation length."""
         # Fallback to reasonably big value
