@@ -573,6 +573,7 @@
           .attr("dir", this.state.dir)
           .text(el.text),
       );
+      row.append($("<td>").html(el.diff));
       row.append($("<td/>").attr("class", "machinery-text").text(el.source));
       row.append(service);
 
