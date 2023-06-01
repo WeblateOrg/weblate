@@ -15,6 +15,7 @@ Not yet released.
 * Improved translation memory performance.
 * Project stats exports to JSON/CSV now include more details; it now matches content available in the API.
 * Added check for reused translation.
+* Highlight suggested change in automatic suggestions.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 

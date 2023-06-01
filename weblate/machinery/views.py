@@ -24,6 +24,7 @@ from weblate.configuration.models import Setting
 from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Unit
+from weblate.utils.diff import Differ
 from weblate.utils.errors import report_error
 from weblate.utils.views import get_project
 from weblate.wladmin.views import MENU as MANAGE_MENU
@@ -314,6 +315,8 @@ def handle_machinery(request, service, unit, search=None):
     }
 
     machinery_settings = component.project.get_machinery_settings()
+    differ = Differ()
+    targets = unit.get_target_plurals()
 
     try:
         translation_service = translation_service_class(machinery_settings[service])
@@ -322,15 +325,18 @@ def handle_machinery(request, service, unit, search=None):
     else:
         try:
             if search:
-                response["translations"] = translation_service.search(
-                    unit, search, request.user
-                )
+                translations = translation_service.search(unit, search, request.user)
             else:
                 translations = translation_service.translate(unit, request.user)
                 for plural_form, possible_translations in enumerate(translations):
                     for item in possible_translations:
                         item["plural_form"] = plural_form
-                response["translations"] = list(chain.from_iterable(translations))
+                        if targets[plural_form]:
+                            item["diff"] = differ.highlight(
+                                item["text"], targets[plural_form]
+                            )
+                translations = list(chain.from_iterable(translations))
+            response["translations"] = translations
             response["responseStatus"] = 200
         except MachineTranslationError as exc:
             response["responseDetails"] = str(exc)
