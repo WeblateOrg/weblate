@@ -195,6 +195,12 @@ LICENSES = (
         True,
     ),
     (
+        "ASWF-Digital-Assets-1.0",
+        "ASWF Digital Assets License version 1.0",
+        "https://spdx.org/licenses/ASWF-Digital-Assets-1.0.html",
+        False,
+    ),
+    (
         "AAL",
         "Attribution Assurance License",
         "https://spdx.org/licenses/AAL.html",
@@ -922,6 +928,12 @@ LICENSES = (
         True,
     ),
     (
+        "cryptsetup-OpenSSL-exception",
+        "cryptsetup OpenSSL exception",
+        "https://spdx.org/licenses/cryptsetup-OpenSSL-exception.html",
+        False,
+    ),
+    (
         "CrystalStacker",
         "CrystalStacker License",
         "https://spdx.org/licenses/CrystalStacker.html",
@@ -1522,6 +1534,12 @@ LICENSES = (
     ),
     ("Libpng", "libpng License", "https://spdx.org/licenses/Libpng.html", False),
     (
+        "libpri-OpenH323-exception",
+        "libpri OpenH323 exception",
+        "https://spdx.org/licenses/libpri-OpenH323-exception.html",
+        False,
+    ),
+    (
         "libselinux-1.0",
         "libselinux public domain notice",
         "https://spdx.org/licenses/libselinux-1.0.html",
@@ -1574,6 +1592,12 @@ LICENSES = (
         "Linux-man-pages-copyleft",
         "Linux man-pages Copyleft",
         "https://spdx.org/licenses/Linux-man-pages-copyleft.html",
+        False,
+    ),
+    (
+        "Linux-man-pages-one-para",
+        "Linux man-pages One Paragraph",
+        "https://spdx.org/licenses/Linux-man-pages-one-para.html",
         False,
     ),
     (
@@ -2366,6 +2390,12 @@ LICENSES = (
         "https://spdx.org/licenses/TU-Berlin-2.0.html",
         False,
     ),
+    (
+        "TermReadKey",
+        "TermReadKey License",
+        "https://spdx.org/licenses/TermReadKey.html",
+        False,
+    ),
     ("TTWL", "Text-Tabs+Wrap License", "https://spdx.org/licenses/TTWL.html", False),
     ("MirOS", "The MirOS Licence", "https://spdx.org/licenses/MirOS.html", True),
     (
@@ -2481,6 +2511,12 @@ LICENSES = (
         True,
     ),
     ("w3m", "w3m License", "https://spdx.org/licenses/w3m.html", False),
+    (
+        "Widget-Workshop",
+        "Widget Workshop License",
+        "https://spdx.org/licenses/Widget-Workshop.html",
+        False,
+    ),
     ("Wsuipa", "Wsuipa License", "https://spdx.org/licenses/Wsuipa.html", False),
     ("Xnet", "X.Net License", "https://spdx.org/licenses/Xnet.html", True),
     ("X11", "X11 License", "https://spdx.org/licenses/X11.html", True),
@@ -2490,7 +2526,14 @@ LICENSES = (
         "https://spdx.org/licenses/X11-distribute-modifications-variant.html",
         False,
     ),
+    (
+        "Xdebug-1.03",
+        "Xdebug License v 1.03",
+        "https://spdx.org/licenses/Xdebug-1.03.html",
+        False,
+    ),
     ("Xerox", "Xerox License", "https://spdx.org/licenses/Xerox.html", False),
+    ("Xfig", "Xfig License", "https://spdx.org/licenses/Xfig.html", False),
     (
         "XFree86-1.1",
         "XFree86 License 1.1",
