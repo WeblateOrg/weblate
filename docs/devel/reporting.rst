@@ -16,9 +16,8 @@ processing of the data.
 Number of words
 ---------------
 
-Every sequence of characters and numbers between whitespace (spaces, tabs, and
-newlines) is considered a word. In the phrase below, the word count is 9.
-
+A word is any sequence of characters (letters, numerics, special characters) between whitespace (spaces, tabs, newlines).
+In the example string below, the word count is 9.
 
 .. code-block:: text
 
