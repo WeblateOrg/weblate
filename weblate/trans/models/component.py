@@ -24,6 +24,8 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, models, transaction
 from django.db.models import Count, F, Q
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -76,6 +78,7 @@ from weblate.trans.validators import (
 from weblate.utils import messages
 from weblate.utils.celery import get_task_progress, is_task_ready
 from weblate.utils.colors import COLOR_CHOICES
+from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.fields import EmailField, JSONField
 from weblate.utils.licenses import get_license_choices, get_license_url, is_libre
@@ -2430,6 +2433,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             return
         cache.delete(self.glossary_sources_key)
         self.project.invalidate_glossary_cache()
+        for project in self.links:
+            project.invalidate_glossary_cache()
         if "glossary_sources" in self.__dict__:
             del self.__dict__["glossary_sources"]
 
@@ -3587,3 +3592,14 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 self.pk, update_token, update_state=update_state
             )
         )
+
+
+@receiver(m2m_changed, sender=Component.links.through)
+@disable_for_loaddata
+def change_component_link(sender, instance, action, pk_set, **kwargs):
+    from weblate.trans.models import Project
+
+    if action not in ("post_add", "post_remove", "post_clear"):
+        return
+    for project in Project.objects.filter(pk__in=pk_set):
+        project.invalidate_glossary_cache()
