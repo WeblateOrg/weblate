@@ -183,9 +183,13 @@ Contribute to shared translation memory
 
 Whether to contribute to shared translation memory, see :ref:`shared-tm` for more details.
 
+This also affects whether the project can be used as source for :ref:`automatic-translation`.
+
 The default value can be changed by :setting:`DEFAULT_SHARED_TM`.
 
-.. include:: /snippets/not-hosted.rst
+.. note::
+
+    This option is unavailable on Hosted Weblate, it is toggled together with :ref:`project-use_shared_tm`.
 
 .. _project-access_control:
 

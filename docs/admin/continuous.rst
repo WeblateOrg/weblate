@@ -427,6 +427,8 @@ The :ref:`check-inconsistent` check fires whenever the strings are different.
 You can utilize this to review such differences manually and choose the right
 translation.
 
+.. _automatic-translation:
+
 Automatic translation
 +++++++++++++++++++++
 
