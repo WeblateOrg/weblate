@@ -6,6 +6,7 @@ from django.db import transaction
 
 from weblate.checks.flags import Flags
 from weblate.trans.models import Change, Component, Unit
+from weblate.trans.models.label import TRANSLATION_LABELS
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 EDITABLE_STATES = STATE_FUZZY, STATE_TRANSLATED, STATE_APPROVED
@@ -130,6 +131,15 @@ def bulk_perform(  # noqa: C901
 
                     if changed:
                         updated += 1
+
+            # Handle translation labels
+            translation_labels = [
+                label for label in remove_labels if label.name in TRANSLATION_LABELS
+            ]
+            if translation_labels:
+                for unit in component_units.filter(labels__in=translation_labels):
+                    unit.labels.remove(*translation_labels)
+                    updated += 1
 
         component.invalidate_cache()
         component.update_source_checks()

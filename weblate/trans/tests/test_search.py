@@ -390,6 +390,33 @@ class BulkEditTest(ViewTestCase):
             0,
         )
 
+    def test_bulk_translation_label(self):
+        label = self.project.label_set.create(
+            name="Automatically translated", color="black"
+        )
+        unit = self.get_unit()
+        unit.labels.add(label)
+        # Clear local outdated cache
+        unit.translation.stats.clear()
+        self.assertEqual(
+            getattr(unit.translation.stats, f"label:{label.name}"),
+            1,
+        )
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_project),
+            {"q": "state:>=empty", "state": -1, "remove_labels": label.pk},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        unit = self.get_unit()
+        self.assertNotIn(label, unit.labels.all())
+        # Clear local outdated cache
+        unit.translation.stats.clear()
+        self.assertEqual(
+            getattr(unit.translation.stats, f"label:{label.name}"),
+            0,
+        )
+
     def test_source_state(self):
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             mono = Component.objects.create(
