@@ -88,7 +88,7 @@ Please choose a tag that matches your environment and expectations:
 +=========================+============================================================================================================+======================================================+
 |``latest``               | Weblate stable release, matches latest tagged release                                                      | Rolling updates in a production environment          |
 +-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
-|``<VERSION>-<PATCH>``    | Weblate stable release                                                                                     | Well defined deploy in a production environment      |
+|``<VERSION>.<PATCH>``    | Weblate stable release                                                                                     | Well defined deploy in a production environment      |
 +-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
 |``edge``                 | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Rolling updates in a staging environment             |
 +-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
