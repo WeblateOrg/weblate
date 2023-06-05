@@ -353,6 +353,12 @@ class BulkEditTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_project),
+            {"q": "state:needs-editing", "state": -1, "add_labels": label.pk},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, no strings were updated.")
         unit = self.get_unit()
         self.assertIn(label, unit.all_labels)
         self.assertEqual(getattr(unit.translation.stats, f"label:{label.name}"), 1)
@@ -368,6 +374,12 @@ class BulkEditTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_project),
+            {"q": "state:needs-editing", "state": -1, "remove_labels": label.pk},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, no strings were updated.")
         unit = self.get_unit()
         self.assertNotIn(label, unit.labels.all())
         self.assertEqual(getattr(unit.translation.stats, f"label:{label.name}"), 0)
