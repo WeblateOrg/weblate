@@ -3502,7 +3502,7 @@ class ScreenshotAPITest(APIBaseTest):
             ),
         )
         self.assertEqual(response.status_code, 204)
-        self.assertEqual(len(Screenshot.objects.get().units.all()), 0)
+        self.assertEqual(Screenshot.objects.get().units.all().count(), 0)
 
 
 class ChangeAPITest(APIBaseTest):
