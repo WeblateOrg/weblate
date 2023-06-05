@@ -92,7 +92,7 @@ class AutoTranslate:
 
             if (
                 not component.project.contribute_shared_tm
-                and not component.project != self.translation.component.project
+                and component.project != self.translation.component.project
             ):
                 raise PermissionDenied(
                     "Project has disabled contribution to shared translation memory."
