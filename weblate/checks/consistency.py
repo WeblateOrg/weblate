@@ -160,7 +160,7 @@ class ReusedCheck(TargetCheck):
             translation__component__source_language_id=component.source_language_id,
             translation__component__allow_translation_propagation=True,
             translation__plural_id=translation.plural_id,
-        ).exclude(id_hash=unit.id_hash)
+        ).exclude(source__md5=MD5(Value(unit.source)))
 
         return same_target_units.exists()
 
@@ -176,14 +176,13 @@ class ReusedCheck(TargetCheck):
             translation__component__allow_translation_propagation=True,
             state__gte=STATE_TRANSLATED,
         )
-        units = units.annotate(target__md5=MD5("target"))
 
         # List strings with different sources
         # Limit this to 100 strings, otherwise the resulting query is way too complex
         matches = (
             units.values("target__md5", "translation__language", "translation__plural")
-            .annotate(id_hash__count=Count("id_hash", distinct=True))
-            .filter(id_hash__count__gt=1)
+            .annotate(source__count=Count("source", distinct=True))
+            .filter(source__count__gt=1)
             .order_by("target__md5")[:100]
         )
 
