@@ -2433,7 +2433,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             return
         cache.delete(self.glossary_sources_key)
         self.project.invalidate_glossary_cache()
-        for project in self.links:
+        for project in self.links.all():
             project.invalidate_glossary_cache()
         if "glossary_sources" in self.__dict__:
             del self.__dict__["glossary_sources"]
