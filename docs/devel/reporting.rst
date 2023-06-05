@@ -13,6 +13,20 @@ in HTML, reStructuredText or JSON. The first two formats are suitable for
 embedding statistics into existing documentation, while JSON is useful for further
 processing of the data.
 
+Number of words
+---------------
+
+A word is any sequence of characters (letters, numerics, special characters) between whitespace (spaces, tabs, newlines).
+In the example string below, the word count is 9.
+
+.. code-block:: text
+
+   I've just realized that they have 5 %(color)s cats.
+
+
+For plural strings, the number of words is counted as the sum of words for all
+plural forms.
+
 .. _credits:
 
 Translator credits
