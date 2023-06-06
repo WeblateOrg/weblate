@@ -270,7 +270,7 @@ class BaseTermExpr:
     def convert_non_field(self):
         raise NotImplementedError
 
-    def as_sql(self, context: Dict):
+    def as_query(self, context: Dict):
         field = self.field
         match = self.match
         # Simple term based search
@@ -557,7 +557,7 @@ PARSERS = {
 def parser_to_query(obj, context: Dict):
     # Simple lookups
     if isinstance(obj, BaseTermExpr):
-        return obj.as_sql(context)
+        return obj.as_query(context)
 
     # Operators
     operator = "AND"
