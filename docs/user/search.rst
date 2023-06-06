@@ -179,9 +179,9 @@ The user browsing has similar search abilities:
 ``joined:DATETIME``
    String content was changed on date, supports :ref:`search-operators`.
 ``translates:TEXT``
-   User has contributed to given language in past moth.
+   User has contributed to a given language in the past month.
 ``contributes:TEXT``
-   User has contributed to given project or component in past moth.
+   User has contributed to a given project or component in the past month.
 
 Additional lookups are available in the :ref:`management-interface`:
 
