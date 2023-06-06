@@ -106,3 +106,12 @@ class DuplicateCheckTest(CheckTestCase):
         self.assertFalse(self.check.check_single("", "for [em]x[/em]", MockUnit()))
         self.assertTrue(self.check.check_single("", "em [em]x[/em]", MockUnit()))
         self.assertTrue(self.check.check_single("", "em [em]x", MockUnit()))
+
+    def test_duplicated_punctuation(self):
+        self.assertFalse(
+            self.check.check_single(
+                "",
+                "megjegyzéseket (a ``#`` karaktereket)",
+                MockUnit(source="comments (``#`` characters)"),
+            )
+        )
