@@ -2,10 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.db.models import Q
 from django.test import SimpleTestCase, TestCase
+from django.utils import timezone
 from pytz import utc
 
 from weblate.auth.models import User
@@ -471,6 +472,40 @@ class UserQueryParserTest(TestCase, SearchMixin):
                     datetime(2018, 1, 1, 0, 0, tzinfo=utc),
                     datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=utc),
                 )
+            ),
+        )
+
+    def test_translates(self):
+        self.assert_query(
+            "translates:cs",
+            Q(change__language__code__iexact="cs")
+            & Q(
+                change__timestamp__date__gte=timezone.now().date() - timedelta(days=30)
+            ),
+        )
+
+    def test_contributes(self):
+        self.assert_query(
+            "contributes:test",
+            Q(change__project__slug__iexact="test")
+            & Q(
+                change__timestamp__date__gte=timezone.now().date() - timedelta(days=30)
+            ),
+        )
+        self.assert_query(
+            "contributes:test/other",
+            Q(change__project__slug__iexact="test")
+            & Q(change__component__slug__iexact="other")
+            & Q(
+                change__timestamp__date__gte=timezone.now().date() - timedelta(days=30)
+            ),
+        )
+        self.assert_query(
+            "contributes:test/other/bad",
+            Q(change__project__slug__iexact="test")
+            & Q(change__component__slug__iexact="other/bad")
+            & Q(
+                change__timestamp__date__gte=timezone.now().date() - timedelta(days=30)
             ),
         )
 

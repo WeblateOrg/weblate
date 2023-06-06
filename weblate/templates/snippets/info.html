@@ -40,7 +40,6 @@
         <td colspan="2">{{ language.population|intcomma }}</td>
         </tr>
         {% endif %}
-
         {% for plural in language.plural_set.order %}
           <tr class="info">
             <th colspan="3">
@@ -483,8 +482,10 @@
           </div>
           <div class="col-sm-3">
             <div class="metric">
-              <div class="metric-number">{{ metrics.contributors|number_format }}</div>
-              <div class="metric-text">{% trans "Contributors" %}</div>
+              <a href="{% url "user_list" %}?q={% if object.code %}translates:{{object.code|urlencode}}{% elif object.language.code %}translates:{{object.language.code|urlencode}}{% endif %} {% if component %}contributes:{{ component.full_slug|urlencode }}{% elif project %}contributes:{{ project.slug|urlencode }}{% endif %}">
+                <div class="metric-number">{{ metrics.contributors|number_format }}</div>
+                <div class="metric-text">{% trans "Contributors" %}</div>
+              </a>
             </div>
           </div>
         </div>

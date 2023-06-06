@@ -160,6 +160,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             f"{self.component.project.slug}/{self.component.slug}/{self.language.code}"
         )
 
+    @property
+    def code(self):
+        return self.language.code
+
     def log_hook(self, level, msg, *args):
         self.component.store_log(self.full_slug, msg, *args)
 

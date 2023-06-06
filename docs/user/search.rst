@@ -178,6 +178,10 @@ The user browsing has similar search abilities:
    User configured translation language (see :ref:`profile-translated-languages`).
 ``joined:DATETIME``
    String content was changed on date, supports :ref:`search-operators`.
+``translates:TEXT``
+   User has contributed to given language in past moth.
+``contributes:TEXT``
+   User has contributed to given project or component in past moth.
 
 Additional lookups are available in the :ref:`management-interface`:
 

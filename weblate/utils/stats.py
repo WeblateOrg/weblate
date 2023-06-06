@@ -748,6 +748,10 @@ class ProjectLanguage:
         return f"{self.project} - {self.language}"
 
     @property
+    def code(self):
+        return self.language.code
+
+    @property
     def full_slug(self):
         return f"{self.project.slug}/{self.language.code}"
 

@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from functools import lru_cache, reduce
 from itertools import chain
 from typing import Dict, Set
@@ -495,6 +495,7 @@ class UserTermExpr(BaseTermExpr):
     }
     EXACT_FIELD_MAP: Dict[str, str] = {
         "language": "profile__languages__code",
+        "translates": "change__language__code",
     }
     enable_fulltext = False
 
@@ -503,6 +504,26 @@ class UserTermExpr(BaseTermExpr):
 
     def convert_non_field(self):
         return Q(username__icontains=self.match) | Q(full_name__icontains=self.match)
+
+    def field_extra(self, field, query, match):
+        if field in {"translates", "contributes"}:
+            return query & Q(
+                change__timestamp__date__gte=timezone.now().date() - timedelta(days=30)
+            )
+
+        return super().field_extra(field, query, match)
+
+    def contributes_field(self, text, context: Dict):
+        if "/" in text:
+            project, component = text.split("/", 1)
+            query = Q(change__project__slug__iexact=project) & Q(
+                change__component__slug__iexact=component
+            )
+        else:
+            query = Q(change__project__slug__iexact=text)
+        return query & Q(
+            change__timestamp__date__gte=timezone.now().date() - timedelta(days=30)
+        )
 
 
 class SuperuserUserTermExpr(UserTermExpr):
