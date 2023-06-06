@@ -115,3 +115,12 @@ class DuplicateCheckTest(CheckTestCase):
                 MockUnit(source="comments (``#`` characters)"),
             )
         )
+
+    def test_duplicated_sentence(self):
+        self.assertFalse(
+            self.check.check_single(
+                "",
+                "Sobald diese Anfrage angenommen wird, wird der Chat als zu löschen markiert",
+                MockUnit(),
+            )
+        )
