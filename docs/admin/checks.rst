@@ -26,13 +26,15 @@ in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`.
 Customizing behavior using flags
 --------------------------------
 
-You can fine-tune the Weblate behavior by using flags. This can be done on
-the source string level (see :ref:`additional`), or in the :ref:`component`
+You can fine-tune Weblate's behavior by using flags. The flags provide visual
+feedback to the translators and help them to improve their translation. This
+can be done on the source string level (see :ref:`additional`), or in the :ref:`component`
 (:ref:`component-check_flags`). Some file formats also allow to specify flags
 directly in the format (see :ref:`formats`).
 
-The flags are comma-separated, the parameters are separated with colon. You can
-use quotes to include whitespace or special chars in the string. For example:
+The flags are comma-separated, and if they have parameters they are separated
+with colon. You can use quotes to include whitespaces or special characters
+in the string. For example:
 
 .. code-block:: text
 
@@ -43,6 +45,22 @@ Both single and double quotes are accepted, special characters are being escaped
 .. code-block:: text
 
    placeholders:"quoted \"string\"":'single \'quoted\''
+
+.. code-block:: text
+
+   placeholders:r"^#*"
+
+To verify that translators do not change the heading of a Markdown document:
+A failing check will be triggered if the string '### Index' is translated as '# Indice'
+
+.. code-block:: text
+
+   placeholders:r"\]\([^h].*?\)"
+
+To make sure that internal links are not being translated (i.e. `[test](../checks)`
+does not become `[test](../chequeos)`.
+
+
 
 Here is a list of flags currently accepted:
 
@@ -134,8 +152,8 @@ Here is a list of flags currently accepted:
 ``vue-format``
     Enable the :ref:`check-vue-format` quality check.
 ``md-text``
-    Treat text as a Markdown document.
-    Enable :ref:`check-md-link`, :ref:`check-md-reflink`, and :ref:`check-md-syntax` quality checks.
+    Treat text as a Markdown document, and provide Markdown syntax highlighting on the translation text area.
+    Enables :ref:`check-md-link`, :ref:`check-md-reflink`, and :ref:`check-md-syntax` quality checks.
 ``case-insensitive``
     Adjust checks behavior to be case-insensitive. Currently affects only :ref:`check-placeholders` quality check.
 ``safe-html``
