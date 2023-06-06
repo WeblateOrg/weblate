@@ -36,7 +36,7 @@ class DuplicateCheck(TargetCheck):
         group = 1
         groups = []
         words = []
-        ignored = IGNORES.get(language_code, {})
+        ignored = IGNORES.get(language_code, set())
         for word in NON_WORD.split(text):
             if not word:
                 continue
