@@ -1157,22 +1157,20 @@ $(function () {
 
   /* Warn users that they do not want to use developer console in most cases */
   console.log(
-    "%c" +
-      pgettext("Alert to user when opening browser developer console", "Stop!"),
+    "%c%s",
     "color: red; font-weight: bold; font-size: 50px; font-family: sans-serif; -webkit-text-stroke: 1px black;",
+    pgettext("Alert to user when opening browser developer console", "Stop!"),
   );
   console.log(
-    "%c" +
-      gettext(
-        "This is a browser feature intended for developers. If someone told you to copy-paste something here, they are likely trying to compromise your Weblate account.",
-      ),
+    "%c%s",
     "font-size: 20px; font-family: sans-serif",
+    gettext(
+      "This is a browser feature intended for developers. If someone told you to copy-paste something here, they are likely trying to compromise your Weblate account.",
+    ),
   );
   console.log(
-    "%c" +
-      gettext(
-        "See https://en.wikipedia.org/wiki/Self-XSS for more information.",
-      ),
+    "%c%s",
     "font-size: 20px; font-family: sans-serif",
+    gettext("See https://en.wikipedia.org/wiki/Self-XSS for more information."),
   );
 });
