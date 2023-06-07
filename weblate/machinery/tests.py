@@ -1414,6 +1414,7 @@ class ViewsTest(FixtureTestCase):
                     "service": "Dummy",
                     "text": "Nazdar světe!",
                     "source": "Hello, world!\n",
+                    "diff": "<ins>Nazdar světe!</ins>",
                 },
                 {
                     "quality": 100,
@@ -1421,6 +1422,7 @@ class ViewsTest(FixtureTestCase):
                     "service": "Dummy",
                     "text": "Ahoj světe!",
                     "source": "Hello, world!\n",
+                    "diff": "<ins>Ahoj světe!</ins>",
                 },
             ],
         )
