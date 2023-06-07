@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-07 09:41+0000\n"
-"PO-Revision-Date: 2023-06-07 14:30+0000\n"
+"PO-Revision-Date: 2023-06-07 18:10+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -137,10 +137,10 @@ msgstr ""
 "опрацювати ваш запит."
 
 #: weblate/accounts/forms.py:413
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "E-mail with a confirmation link will be sent here."
-msgstr "Тут буде надіслано повідомлення активації."
+msgstr ""
+"На цю адресу буде надіслано повідомлення електронної пошти із посиланням для "
+"підтвердження."
 
 #: weblate/accounts/forms.py:455
 msgid "New password"
@@ -1005,16 +1005,12 @@ msgstr ""
 "реєстраційні дані."
 
 #: weblate/accounts/views.py:1198
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the verification token "
-#| "probably expired."
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
 msgstr ""
 "Спробуйте зареєструватися ще раз, щоб перевірити ваш профіль. Імовірно, "
-"ключа перевірки не чинний."
+"строк дії посилання для підтвердження вичерпано."
 
 #: weblate/accounts/views.py:1206
 msgid "Could not authenticate due to invalid session state."
@@ -2311,10 +2307,10 @@ msgid "Components"
 msgstr "Складники"
 
 #: weblate/auth/models.py:131
-#, fuzzy
-#| msgid "You do not have permission to create components in any projects."
 msgid "Empty selection grants access to all components in project scope."
-msgstr "У вас немає права створювати складники в будь-якому проєкті."
+msgstr ""
+"Якщо нічого не вибирати, доступ буде надано до усіх складників у області "
+"проєкту."
 
 #: weblate/auth/models.py:141
 msgid "Language selection"
@@ -2475,10 +2471,8 @@ msgid "Pay the bills to unlock this project."
 msgstr "Оплатіть рахунки, щоб розблокувати цей проєкт."
 
 #: weblate/auth/permissions.py:209
-#, fuzzy
-#| msgid "This string seems to already exist."
 msgid "The string is read only."
-msgstr "Схоже цей рядок вже існує."
+msgstr "Рядок призначено лише для читання."
 
 #: weblate/auth/permissions.py:215
 msgid ""
@@ -2489,26 +2483,20 @@ msgstr ""
 "пропозицію, якщо ви вважаєте, що рядок необхідно замінити."
 
 #: weblate/auth/permissions.py:221
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "The translation is read only."
-msgstr "Цей переклад заблоковано."
+msgstr "Переклад призначено лише для читання."
 
 #: weblate/auth/permissions.py:238
 msgid "Add the string to the source language instead."
-msgstr ""
+msgstr "Замість цього, додати рядок до початкової мови."
 
 #: weblate/auth/permissions.py:242
-#, fuzzy
-#| msgid "Unsupported component configuration"
 msgid "Adding strings is disabled in the component configuration."
-msgstr "Непідтримувана конфігурація складника"
+msgstr "Додавання рядків вимкнено у налаштуваннях складника."
 
 #: weblate/auth/permissions.py:259 weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "File format does not support this."
-msgstr "Виявлений назвошир не підтримується."
+msgstr "У форматі файлів не передбачено підтримки цього."
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2817,16 +2805,12 @@ msgstr ""
 "деяких складниках."
 
 #: weblate/checks/consistency.py:138
-#, fuzzy
-#| msgid "Removed translation"
 msgid "Reused translation"
-msgstr "Вилучений переклад"
+msgstr "Повторно використаний переклад"
 
 #: weblate/checks/consistency.py:139
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Different strings are translated same."
-msgstr "Немає рядків для перекладу"
+msgstr "Різні рядки перекладено однаково."
 
 #: weblate/checks/consistency.py:214
 msgid "Has been translated"
@@ -4427,14 +4411,12 @@ msgid "Screenshot name"
 msgstr "Назва знімка екрана"
 
 #: weblate/screenshots/models.py:51
-#, fuzzy
-#| msgid "Repository branch to translate"
 msgid "Repository path to screenshot"
-msgstr "Гілка репозиторію для перекладу"
+msgstr "Шлях до знімка у сховищі"
 
 #: weblate/screenshots/models.py:52
 msgid "Scan for screenshot file change on repository update."
-msgstr ""
+msgstr "Виявляти зміни у файлі знімка вікна при оновленні сховища."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_detail.html:58
@@ -4692,10 +4674,8 @@ msgstr "Статистика"
 
 #: weblate/templates/accounts/add-mail.html:4
 #: weblate/templates/accounts/email.html:17
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Add new e-mail address"
-msgstr "Адреса ел. пошти облікового запису"
+msgstr "Додати нову адресу ел. пошти"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -4707,10 +4687,8 @@ msgid "Your profile"
 msgstr "Ваш профіль"
 
 #: weblate/templates/accounts/confirm.html:14
-#, fuzzy
-#| msgid "Could not remove user identity"
 msgid "Confirm adding user identity"
-msgstr "Не вдалося видалити облікові дані користувача"
+msgstr "Підтвердьте додавання профілю користувача"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #: weblate/templates/accounts/confirm.html:18
@@ -4723,10 +4701,8 @@ msgstr ""
 "Weblate за допомогою %(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/confirm.html:24
-#, fuzzy
-#| msgid "Configure"
 msgid "Confirm"
-msgstr "Налаштувати"
+msgstr "Підтвердити"
 
 #: weblate/templates/accounts/contact.html:15
 msgid ""
@@ -5079,10 +5055,8 @@ msgid "Disconnect"
 msgstr "Відʼєднатися"
 
 #: weblate/templates/accounts/profile.html:156
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new user identity"
-msgstr "Додати нового користувача"
+msgstr "Додати новий профіль користувача"
 
 #: weblate/templates/accounts/profile.html:166
 #: weblate/templates/component.html:104
@@ -5418,10 +5392,8 @@ msgstr[2] "%(count)s коментарів"
 msgstr[3] "%(count)s коментар"
 
 #: weblate/templates/accounts/user.html:141
-#, fuzzy
-#| msgid "Contributors"
 msgid "Contributed to"
-msgstr "Учасники"
+msgstr "Зроблено внесок"
 
 #: weblate/templates/accounts/user.html:144
 msgid "Activity"
@@ -5485,10 +5457,8 @@ msgid "Browse all watched projects"
 msgstr "Навігація усіма відстежуваними проєктами"
 
 #: weblate/templates/accounts/user.html:192
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes made by this user"
-msgstr "Перегляд усіх змін користувача"
+msgstr "Перегляд усіх змін, які внесено цим користувачем"
 
 #: weblate/templates/accounts/user.html:253
 msgid "Group"
@@ -5501,12 +5471,9 @@ msgid "Members"
 msgstr "Учасники"
 
 #: weblate/templates/accounts/user.html:264
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgctxt "No project associated with group"
 msgid "None"
-msgstr "Невідомо"
+msgstr "Немає"
 
 #: weblate/templates/accounts/user.html:269
 msgid "Remove user from this group"
@@ -5909,10 +5876,8 @@ msgid "Add"
 msgstr "Додати"
 
 #: weblate/templates/auth/teams-components.html:6
-#, fuzzy
-#| msgid "No components were matched!"
 msgid "No components specified"
-msgstr "Жодні складники не збігаються між собою!"
+msgstr "Не вказано жодного складника"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7186,38 +7151,33 @@ msgid "Commit"
 msgstr "Внести"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s change"
-#| msgid_plural "%(count)s changes"
+#, python-format
 msgid "%(count)s pending change"
 msgid_plural "%(count)s pending changes"
-msgstr[0] "%(count)s зміна"
-msgstr[1] "%(count)s зміни"
-msgstr[2] "%(count)s змін"
-msgstr[3] "%(count)s зміна"
+msgstr[0] "%(count)s зміна у черзі"
+msgstr[1] "%(count)s зміни у черзі"
+msgstr[2] "%(count)s змін у черзі"
+msgstr[3] "%(count)s зміна у черзі"
 
 #: weblate/templates/js/git-status.html:32
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "Надіслати заплановані зміни до репозиторію Weblate"
+msgstr ""
+"У результаті усі зміни у черзі буде внесено до Weblate, а не у сховище коду."
 
 #: weblate/templates/js/git-status.html:38
 msgid "Push"
 msgstr "Записати"
 
 #: weblate/templates/js/git-status.html:41
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s коментар"
-msgstr[1] "%(count)s коментарі"
-msgstr[2] "%(count)s коментарів"
-msgstr[3] "%(count)s коментар"
+msgstr[0] "%(count)s вихідний внесок"
+msgstr[1] "%(count)s вихідні внески"
+msgstr[2] "%(count)s вихідних внесків"
+msgstr[3] "%(count)s вихідний внесок"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Update"
@@ -7225,34 +7185,30 @@ msgstr "Оновити"
 
 #: weblate/templates/js/git-status.html:58
 msgid "Update with merge"
-msgstr ""
+msgstr "Оновити зі злиттям"
 
 #: weblate/templates/js/git-status.html:61
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Update with rebase"
-msgstr "Оновити перевірку якості"
+msgstr "Оновити з перенесенням"
 
 #: weblate/templates/js/git-status.html:64
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid "Update with merge without fast-forward"
-msgstr "Об'єднати без швидкого переспрямовування"
+msgstr "Оновити з об'єднанням без швидкого переспрямовування"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "%(count)s коментар"
-msgstr[1] "%(count)s коментарі"
-msgstr[2] "%(count)s коментарів"
-msgstr[3] "%(count)s коментар"
+msgstr[0] "%(count)s пропущений внесок"
+msgstr[1] "%(count)s пропущені внески"
+msgstr[2] "%(count)s пропущених внесків"
+msgstr[3] "%(count)s пропущений внесок"
 
 #: weblate/templates/js/git-status.html:73
 msgid "This will update the Weblate repository with the upstream changes."
 msgstr ""
+"У результаті дані сховища Weblate буде оновлено змінами з основної гілки "
+"розробки."
 
 #: weblate/templates/js/git-status.html:80
 msgid "Allow changes to the Weblate repository"
@@ -7272,28 +7228,20 @@ msgid "Lock"
 msgstr "Заблокувати"
 
 #: weblate/templates/js/git-status.html:87
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are locked"
-msgstr "Weblate переклади"
+msgstr "Weblate переклади заблоковано"
 
 #: weblate/templates/js/git-status.html:89
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are open"
-msgstr "Weblate переклади"
+msgstr "Weblate-переклади відкрито"
 
 #: weblate/templates/js/git-status.html:93
-#, fuzzy
-#| msgid "Locking prevents translators from doing changes"
 msgid "Locking prevents translators from doing changes."
-msgstr "Блокування не дозволить перекладачам вносити зміни"
+msgstr "Блокування не дозволить перекладачам вносити зміни."
 
 #: weblate/templates/js/git-status.html:105
-#, fuzzy
-#| msgid "Danger (red)"
 msgid "Danger zone"
-msgstr "Небезпека (червоний)"
+msgstr "Зона небезпеки"
 
 #: weblate/templates/js/git-status.html:110
 #: weblate/templates/translate.html:495
@@ -7305,22 +7253,20 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Скинути усі зміни у репозиторії Weblate"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid ""
-#| "Resetting removes all changes in Weblate so that the repository matches "
-#| "upstream. Use with caution."
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream."
 msgstr ""
 "Скидання призведе до усування усіх змін на Weblate і відновить стан "
-"репозиторію в основній гілці розробки. Користуйтеся ним з осторогою."
+"репозиторію в основній гілці розробки."
 
 #: weblate/templates/js/git-status.html:116
 msgid ""
 "Use when you want to discard changes in Weblate and bring it in sync with "
 "upstream repository."
 msgstr ""
+"Скористайтеся, якщо хочете відкинути зміни на Weblate і синхронізувати його "
+"дані із основною гілкою сховища коду."
 
 #: weblate/templates/js/git-status.html:120
 msgid "Cleanup"
@@ -7335,60 +7281,55 @@ msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
+"Очищення призведе до вилучення зі сховища усіх файлів, які не є об'єктом "
+"стеження у системі керування версіями."
 
 #: weblate/templates/js/git-status.html:126
-#, fuzzy
-#| msgid "Prevent any changes in the Weblate repository"
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Запобігати будь-яким змінам у репозиторії Weblate"
+msgstr "Скористайтеся, якщо у сховищі Weblate лишилися якісь непотрібні дані."
 
 #: weblate/templates/js/git-status.html:130
 msgid "Synchronize"
-msgstr ""
+msgstr "Синхронізувати"
 
 #: weblate/templates/js/git-status.html:132
 msgid "Force writing all translations to the Weblate repository"
 msgstr "Примусовий запис усіх перекладів до репозиторію Weblate"
 
 #: weblate/templates/js/git-status.html:135
-#, fuzzy
-#| msgid "Force writing all translations to the Weblate repository"
 msgid "Forces writing all strings to the translation files."
-msgstr "Примусовий запис усіх перекладів до репозиторію Weblate"
+msgstr "Примусовий запис усіх рядків до файлів перекладів."
 
 #: weblate/templates/js/git-status.html:136
 msgid ""
 "Use this when repository files became out of sync with Weblate for some "
 "reason."
 msgstr ""
+"Скористайтеся цим, якщо сховище з певної причини розсинхронізовано з Weblate."
 
 #: weblate/templates/js/git-status.html:140
 msgid "Rescan"
-msgstr ""
+msgstr "Пересканування"
 
 #: weblate/templates/js/git-status.html:142
-#, fuzzy
-#| msgid "Cleanup all untracked files in the Weblate repository"
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "Вилучити усі невідстежувані файли у репозиторії Weblate"
+msgstr "Виконати повторне сканування усіх файлів перекладу у сховищіWeblate"
 
 #: weblate/templates/js/git-status.html:145
-#, fuzzy
-#| msgid "Choose translation files to import"
 msgid "Loads translations from the files into Weblate."
-msgstr "Вибрати файли перекладу для імпорту"
+msgstr "Завантажує переклади з файлів до Weblate."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid ""
 "Use when Weblate missed some of the strings after updating the repository."
-msgstr "Weblate не зміг видобути поточні зміни при поновленні репозиторію."
+msgstr ""
+"Скористайтеся, якщо у Weblate не вистачає деяких рядків після оновлення "
+"сховища."
 
 #: weblate/templates/js/git-status.html:151
 msgid "Use these operations with caution, they can lead to data loss."
 msgstr ""
+"Користуйтеся цими діями обережно. Вони можуть призвести до втрати даних."
 
 #: weblate/templates/js/git-status.html:160
 #, python-format
@@ -7434,7 +7375,7 @@ msgstr "Заблокувати користувача"
 #: weblate/templates/last-changes-content.html:58
 #: weblate/templates/snippets/suggestions.html:41
 msgid "Rejection reason"
-msgstr ""
+msgstr "Причина відмови"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:70
@@ -7617,19 +7558,13 @@ msgstr ""
 "надішліть запит щодо затвердження вашого вільного плану."
 
 #: weblate/templates/mail/billing_expired.html:18
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "Your billing plan has expired. Please renew it to continue using the service."
 msgstr ""
-"Термін дії тарифного плану закінчився, якщо ви хочете продовжити "
-"користуватися цією послугою, оновіть тарифний план."
+"Термін дії тарифного плану закінчився. Будь ласка, виконайте оновлення, якщо "
+"ви хочете продовжити користуватися цією послугою."
 
 #: weblate/templates/mail/billing_expired.html:23
-#, fuzzy
-#| msgid "This billing plan covers following projects:"
 msgid "This billing plan covers the following projects:"
 msgstr "Цей тарифний план охоплює такі проєкти:"
 
@@ -7642,16 +7577,15 @@ msgid ""
 "There are no projects attached to this billing plan. (There might be "
 "projects in other billing plans of yours.)"
 msgstr ""
+"З цим тарифним планом не пов'язано жодних проєктів. (У інших тарифних планах "
+"можуть бути інші проєкти.)"
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
 msgstr "Всі проєкти, охоплені цим тарифним планом, вже вилучені."
 
 #: weblate/templates/mail/billing_expired.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all projects within this billing plan "
-#| "will be removed on %(date)s."
+#, python-format
 msgid ""
 "If you don't issue the payment, all projects within this billing plan will "
 "be removed on %(date)s."
@@ -7660,10 +7594,7 @@ msgstr ""
 "вилучені на %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "If your Libre hosting will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting is not approved for it, all projects within this "
 "billing plan will be removed on %(date)s."
@@ -8155,10 +8086,8 @@ msgid "Refresh support status"
 msgstr "Оновити стан підтримки"
 
 #: weblate/templates/manage/index.html:55
-#, fuzzy
-#| msgid "Manage support package"
 msgid "Support package limits"
-msgstr "Керування пакунком підтримки"
+msgstr "Обмеження пакунка підтримки"
 
 #: weblate/templates/manage/index.html:67
 msgid "Support expiry"
@@ -9639,10 +9568,8 @@ msgid "Accept and edit"
 msgstr "Затвердити й змінити"
 
 #: weblate/templates/snippets/suggestions.html:42
-#, fuzzy
-#| msgid "Delete suggestion"
 msgid "Reject suggestion"
-msgstr "Вилучити пропозицію"
+msgstr "Відкинути пропозицію"
 
 #: weblate/templates/snippets/suggestions.html:55
 msgid "Suggested change:"
@@ -10505,10 +10432,8 @@ msgstr ""
 "краще створити новий складник."
 
 #: weblate/templates/translate.html:56
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Open in Zen mode"
-msgstr "Редагувати у режимі Дзен"
+msgstr "Відкрити у режимі Дзен"
 
 #: weblate/templates/translate.html:56 weblate/templates/translation.html:193
 #: weblate/templates/zen.html:26
@@ -10638,9 +10563,6 @@ msgid "Difference to current string"
 msgstr "Відмінність від поточного рядка"
 
 #: weblate/templates/translate.html:310
-#, fuzzy
-#| msgid "The following string has the same context and source."
-#| msgid_plural "The following strings have the same context and source."
 msgid "This string has the same context and source."
 msgid_plural "These strings have the same context and source."
 msgstr[0] "Ці рядки мають однакові контекст і джерело."
@@ -10649,33 +10571,22 @@ msgstr[2] "Ці рядки мають однакові контекст і дж�
 msgstr[3] "Цей рядок має однакові контекст і джерело."
 
 #: weblate/templates/translate.html:318
-#, fuzzy
-#| msgid "The following string has different context, but the same source."
-#| msgid_plural ""
-#| "The following strings have different contexts, but the same source."
 msgid "This string has a different context, but the same source."
 msgid_plural "These strings have differing context, but the same source."
-msgstr[0] "Цей рядок має інший контекст, але те саме джерело."
+msgstr[0] "Ці рядки мають інший контекст, але те саме джерело."
 msgstr[1] "Ці рядки мають інший контекст, але те саме джерело."
 msgstr[2] "Ці рядки мають інший контекст, але те саме джерело."
 msgstr[3] "Цей рядок має інший контекст, але те саме джерело."
 
 #: weblate/templates/translate.html:326
-#, fuzzy
-#| msgid "The following string has a different source, but the same context."
-#| msgid_plural ""
-#| "The following strings have different sources, but the same context."
 msgid "This string has a different source, but the same context."
 msgid_plural "These strings have differing sources, but the same context."
-msgstr[0] "Цей рядок має інше джерело, але той самий контекст."
-msgstr[1] "Ці рядки мають інше джерело, але той самий контекст."
-msgstr[2] "Ці рядки мають інше джерело, але той самий контекст."
+msgstr[0] "Ці рядки мають різні джерела, але той самий контекст."
+msgstr[1] "Ці рядки мають різні джерела, але той самий контекст."
+msgstr[2] "Ці рядки мають різні джерела, але той самий контекст."
 msgstr[3] "Цей рядок має інше джерело, але той самий контекст."
 
 #: weblate/templates/translate.html:334
-#, fuzzy
-#| msgid "The following string has a different source and different context."
-#| msgid_plural "The following strings have different sources and context."
 msgid "This string has a different source and context."
 msgid_plural "These strings have differing sources and context."
 msgstr[0] "Ці рядки мають інші джерела і контекст."
@@ -10696,10 +10607,8 @@ msgid "Browse all string changes"
 msgstr "Переглянути усі зміни у рядках"
 
 #: weblate/templates/translate.html:377
-#, fuzzy
-#| msgid "Suggested change:"
 msgid "Suggested change"
-msgstr "Запропонована зміна:"
+msgstr "Запропонована зміна"
 
 #: weblate/templates/translate.html:379
 msgid "Origin"
@@ -10799,10 +10708,8 @@ msgid "String age"
 msgstr "Вік рядків"
 
 #: weblate/templates/translate.html:696 weblate/utils/views.py:123
-#, fuzzy
-#| msgid "Past due date"
 msgid "Last updated"
-msgstr "Протермінована дата"
+msgstr "Останнє оновлення"
 
 #: weblate/templates/translate.html:702
 msgid "Source string age"
@@ -11243,16 +11150,12 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Додаткове пояснення щодо значення або використання рядка."
 
 #: weblate/trans/forms.py:507
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string explanation"
-msgstr "Позиція джерельного рядка"
+msgstr "Пояснення щодо початкового рядка"
 
 #: weblate/trans/forms.py:509
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Translation explanation"
-msgstr "Сповіщення з перекладу"
+msgstr "Пояснення щодо перекладу"
 
 #: weblate/trans/forms.py:526
 msgid "The source string has changed meanwhile. Please check your changes."
@@ -12256,18 +12159,14 @@ msgid "Removed comment"
 msgstr "Вилучено коментар"
 
 #: weblate/trans/models/change.py:401
-#, fuzzy
-#| msgid "Resolved comment"
 msgctxt "Name of event in the history"
 msgid "Resolved comment"
 msgstr "Вирішений коментар"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:404
-#, fuzzy
-#| msgid "Explanation"
 msgid "Explanation updated"
-msgstr "Пояснення"
+msgstr "Оновлено пояснення"
 
 #: weblate/trans/models/change.py:476
 msgid "New string to translate"
@@ -12502,16 +12401,16 @@ msgstr ""
 "замість коду мови, наприклад: po/*.po або locale/*/LC_MESSAGES/django.po."
 
 #: weblate/trans/models/component.py:378
-#, fuzzy
-#| msgid "Screenshot details"
 msgid "Screenshot file mask"
-msgstr "Подробиці знімка екрана"
+msgstr "Маска файлів знімків вікон"
 
 #: weblate/trans/models/component.py:383
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
 msgstr ""
+"Шлях до знімків вікон відносно кореневої теки сховища. Приклад: docs/"
+"screenshots/*.png."
 
 #: weblate/trans/models/component.py:392
 msgid ""
@@ -12788,10 +12687,9 @@ msgid "File does not exist."
 msgstr "Файлу не існує."
 
 #: weblate/trans/models/component.py:1644
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Failed to push %(component)s: %(error_text)s"
-msgstr "Не вдалося прочитати файл %(file)s: %(error)s"
+msgstr "Не вдалося записати %(component)s: %(error_text)s"
 
 #: weblate/trans/models/component.py:1665
 #, python-format
@@ -12849,17 +12747,15 @@ msgid "The file mask did not match any files."
 msgstr "Маска не відповідає жодним файлам."
 
 #: weblate/trans/models/component.py:2547
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the file mask "
-#| "and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
 "%(filename2)s Please adjust the file mask and use components for translating "
 "different resources."
 msgstr ""
-"Існує більше одного файла для мови %s. Налаштуйте маску файлів і "
-"використовуйте складники для перекладу різних ресурсів."
+"Існує більше одного файла для мови %(language)s: %(filename1)s, %(filename2)"
+"s. Налаштуйте маску файлів і використовуйте складники для перекладу різних "
+"ресурсів."
 
 #: weblate/trans/models/component.py:2565
 msgid "Could not find any matching language, please check the file mask."
@@ -13194,10 +13090,8 @@ msgid "This string seems to already exist."
 msgstr "Схоже цей рядок вже існує."
 
 #: weblate/trans/models/translation.py:1643
-#, fuzzy
-#| msgid "Failed adding string: %s"
 msgid "Failed adding string, no translation found."
-msgstr "Не вдалося додати рядок: %s"
+msgstr "Не вдалося додати рядок, жодного перекладу не знайдено."
 
 #: weblate/trans/models/unit.py:930
 #, python-format
@@ -13978,10 +13872,8 @@ msgid "Translation files have been synchronized."
 msgstr "Файли перекладу синхронізовано."
 
 #: weblate/trans/views/git.py:130
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Translations have been updated."
-msgstr "Коментар до перекладу вилучено."
+msgstr "Переклади оновлено."
 
 #: weblate/trans/views/lock.py:28
 msgid "Component is now locked for translation updates!"
@@ -14388,16 +14280,12 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Помилка у параметрі %(field)s: %(error)s"
 
 #: weblate/vcs/base.py:60
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream repository."
-msgstr "Weblate не зміг записати поточні зміни у основний репозиторій."
+msgstr "У результаті зміни буде записано до основного сховища коду."
 
 #: weblate/vcs/git.py:49
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Git repository."
-msgstr "Weblate не зміг записати поточні зміни у основний репозиторій."
+msgstr "У результаті зміни буде записано до основного сховища коду Git."
 
 #: weblate/vcs/git.py:515
 msgid "Possible cleanups:"
@@ -14405,23 +14293,19 @@ msgstr "Можливі очищення:"
 
 #: weblate/vcs/git.py:525
 msgid "This will push changes to Gerrit for a review."
-msgstr ""
+msgstr "У результаті зміни буде винесено на Gerrit для рецензування."
 
 #: weblate/vcs/git.py:548
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "This will commit changes to the Subversion repository."
-msgstr "Внести зміни у внутрішній репозиторій"
+msgstr "У результаті зміни буде записано до сховища Subversion."
 
 #: weblate/vcs/git.py:713
 msgid "Git with force push"
 msgstr "Git з примусовим \"push\""
 
 #: weblate/vcs/git.py:717
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will force push changes to the upstream repository."
-msgstr "Weblate не зміг записати поточні зміни у основний репозиторій."
+msgstr "У результаті зміни буде примусово записано до основного сховища коду."
 
 #: weblate/vcs/git.py:1025
 msgid "GitHub pull request"
@@ -14430,6 +14314,7 @@ msgstr "Запит щодо злиття GitHub"
 #: weblate/vcs/git.py:1029
 msgid "This will push changes and create GitHub pull request."
 msgstr ""
+"У результаті зміни буде записано і створено запит щодо об'єднання на GitHub."
 
 #: weblate/vcs/git.py:1129
 msgid "Gitea pull request"
@@ -14438,6 +14323,7 @@ msgstr "Запит щодо злиття Gitea"
 #: weblate/vcs/git.py:1133
 msgid "This will push changes and create Gitea pull request."
 msgstr ""
+"У результаті зміни буде записано і створено запит щодо об'єднання на Gitea."
 
 #: weblate/vcs/git.py:1201
 msgid "No remote repository"
