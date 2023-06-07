@@ -1302,7 +1302,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             if new_state == STATE_APPROVED:
                 can_review = user.has_perm("unit.review", translation)
                 if not can_review:
-                    self.permission_denied(request, can_review.reason)
+                    raise ValidationError({"state": can_review.reason})
 
         # Update attributes
         if do_source:
