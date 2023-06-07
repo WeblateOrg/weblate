@@ -19,6 +19,16 @@ class ModernMTTranslation(MachineTranslation):
     max_score = 90
     settings_form = ModernMTMachineryForm
 
+    language_map = {
+        "sr_Cyrl": "sr",
+        "zh_Hant": "zh-TW",
+        "zh_Hans": "zh-CN",
+    }
+
+    def map_language_code(self, code):
+        """Convert language to service specific code."""
+        return super().map_language_code(code).replace("_", "-").split("@")[0]
+
     @staticmethod
     def migrate_settings():
         return {
