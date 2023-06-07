@@ -20,3 +20,8 @@
 {% if custom_css_hash %}
   <link rel="stylesheet" type="text/css" href="{% url "css-custom" %}?{{ custom_css_hash }}" />
 {% endif %}
+{% if user.profile.theme == "auto" %}
+  <link rel="stylesheet" type="text/css" href="{% static 'style-dark.css' %}{{ cache_param }}" media="(prefers-color-scheme: dark)" />
+{% elif user.profile.theme == "dark" %}
+  <link rel="stylesheet" type="text/css" href="{% static 'style-dark.css' %}{{ cache_param }}" />
+{% endif %}

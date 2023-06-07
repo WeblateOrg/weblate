@@ -17,7 +17,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import get_language, gettext, gettext_lazy
+from django.utils.translation import get_language, gettext, gettext_lazy, pgettext_lazy
 from rest_framework.authtoken.models import Token
 from social_django.models import UserSocialAuth
 
@@ -395,7 +395,16 @@ class Profile(models.Model):
     translated = models.IntegerField(default=0, db_index=True)
     uploaded = models.IntegerField(default=0, db_index=True)
     commented = models.IntegerField(default=0, db_index=True)
-
+    theme = models.CharField(
+        max_length=10,
+        verbose_name=gettext_lazy("Theme"),
+        default="auto",
+        choices=(
+            ("auto", pgettext_lazy("Theme selection", "Sync with system")),
+            ("light", pgettext_lazy("Theme selection", "Light")),
+            ("dark", pgettext_lazy("Theme selection", "Dark")),
+        ),
+    )
     hide_completed = models.BooleanField(
         verbose_name=gettext_lazy("Hide completed translations on the dashboard"),
         default=False,
@@ -663,6 +672,7 @@ class Profile(models.Model):
                 "translated",
                 "uploaded",
                 "hide_completed",
+                "theme",
                 "secondary_in_zen",
                 "hide_source_secondary",
                 "editor_link",

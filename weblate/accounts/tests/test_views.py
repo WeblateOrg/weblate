@@ -373,6 +373,7 @@ class ProfileTest(FixtureTestCase):
                 "translate_mode": Profile.TRANSLATE_FULL,
                 "zen_mode": Profile.ZEN_VERTICAL,
                 "nearby_strings": 10,
+                "theme": "auto",
             },
         )
         self.assertRedirects(response, reverse("profile"))
@@ -392,6 +393,7 @@ class ProfileTest(FixtureTestCase):
                 "translate_mode": Profile.TRANSLATE_FULL,
                 "zen_mode": Profile.ZEN_VERTICAL,
                 "nearby_strings": 10,
+                "theme": "auto",
             },
         )
         self.assertContains(response, "Select a valid choice.")

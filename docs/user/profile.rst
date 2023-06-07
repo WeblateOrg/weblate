@@ -107,6 +107,11 @@ the Hebrew language is shown as secondarily:
 Preferences
 -----------
 
+Theme
++++++
+
+Choose whether Weblate will follow system settings for dark or light theme or choose one of them.
+
 Default dashboard view
 ++++++++++++++++++++++
 
