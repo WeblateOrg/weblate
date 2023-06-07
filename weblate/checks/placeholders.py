@@ -6,7 +6,7 @@ import re
 
 from django.utils.functional import SimpleLazyObject
 from django.utils.html import escape, format_html, format_html_join
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import TargetCheckParametrized
 from weblate.checks.parser import multi_value_flag, single_value_flag
@@ -21,8 +21,8 @@ def parse_regex(val):
 class PlaceholderCheck(TargetCheckParametrized):
     check_id = "placeholders"
     default_disabled = True
-    name = _("Placeholders")
-    description = _("Translation is missing some placeholders")
+    name = gettext_lazy("Placeholders")
+    description = gettext_lazy("Translation is missing some placeholders")
 
     @property
     def param_type(self):
@@ -119,8 +119,8 @@ class PlaceholderCheck(TargetCheckParametrized):
 class RegexCheck(TargetCheckParametrized):
     check_id = "regex"
     default_disabled = True
-    name = _("Regular expression")
-    description = _("Translation does not match regular expression")
+    name = gettext_lazy("Regular expression")
+    description = gettext_lazy("Translation does not match regular expression")
 
     @property
     def param_type(self):
@@ -149,6 +149,6 @@ class RegexCheck(TargetCheckParametrized):
             return super().get_description(check_obj)
         regex = self.get_value(unit)
         return format_html(
-            escape(_("Does not match regular expression {}.")),
+            escape(gettext_lazy("Does not match regular expression {}.")),
             format_html("<code>{}</code>", regex.pattern),
         )

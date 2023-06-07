@@ -11,7 +11,7 @@ from django.db.models import Count, Prefetch
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.utils import timezone
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
 from weblate.accounts.models import AuditLog
@@ -80,7 +80,7 @@ def set_groups(request, project):
             )
         elif group.id in current_groups:
             if request.user == user:
-                messages.error(request, _("You can not remove yourself!"))
+                messages.error(request, gettext("You can not remove yourself!"))
                 continue
             user.groups.remove(group)
             Change.objects.create(
@@ -114,9 +114,9 @@ def add_user(request, project):
                 user=request.user,
                 details={"username": user.username},
             )
-            messages.success(request, _("User has been added to this project."))
+            messages.success(request, gettext("User has been added to this project."))
         except Group.DoesNotExist:
-            messages.error(request, _("Failed to find group to add a user!"))
+            messages.error(request, gettext("Failed to find group to add a user!"))
 
     return redirect("manage-access", project=obj.slug)
 
@@ -128,7 +128,7 @@ def block_user(request, project):
     obj, form = check_user_form(request, project, form_class=UserBlockForm)
 
     if form is not None and form.cleaned_data["user"].id == request.user.id:
-        messages.error(request, _("You can not block yourself on this project."))
+        messages.error(request, gettext("You can not block yourself on this project."))
     elif form is not None:
         user = form.cleaned_data["user"]
 
@@ -148,9 +148,9 @@ def block_user(request, project):
                 username=request.user.username,
                 expiry=expiry.isoformat() if expiry else None,
             )
-            messages.success(request, _("User has been blocked on this project."))
+            messages.success(request, gettext("User has been blocked on this project."))
         else:
-            messages.error(request, _("User is already blocked on this project."))
+            messages.error(request, gettext("User is already blocked on this project."))
 
     return redirect("manage-access", project=obj.slug)
 
@@ -180,9 +180,9 @@ def invite_user(request, project):
     if form is not None:
         try:
             form.save(request, obj)
-            messages.success(request, _("User has been invited to this project."))
+            messages.success(request, gettext("User has been invited to this project."))
         except Group.DoesNotExist:
-            messages.error(request, _("Failed to find group to add a user!"))
+            messages.error(request, gettext("Failed to find group to add a user!"))
 
     return redirect("manage-access", project=obj.slug)
 
@@ -198,7 +198,7 @@ def resend_invitation(request, project):
 
     if form is not None:
         send_invitation(request, obj.name, form.cleaned_data["user"])
-        messages.success(request, _("User invitation e-mail was sent."))
+        messages.success(request, gettext("User invitation e-mail was sent."))
 
     return redirect("manage-access", project=obj.slug)
 
@@ -216,7 +216,7 @@ def delete_user(request, project):
     if form is not None:
         user = form.cleaned_data["user"]
         if request.user == user:
-            messages.error(request, _("You can not remove yourself!"))
+            messages.error(request, gettext("You can not remove yourself!"))
         else:
             if user.is_bot:
                 redirect_url = "#api"
@@ -231,10 +231,12 @@ def delete_user(request, project):
             )
             if user.is_bot:
                 messages.success(
-                    request, _("Token has been removed from this project.")
+                    request, gettext("Token has been removed from this project.")
                 )
             else:
-                messages.success(request, _("User has been removed from this project."))
+                messages.success(
+                    request, gettext("User has been removed from this project.")
+                )
 
     return redirect_param("manage-access", redirect_url, project=obj.slug)
 

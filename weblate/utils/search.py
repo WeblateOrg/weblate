@@ -13,7 +13,7 @@ from django.db import transaction
 from django.db.models import Q, Value
 from django.db.utils import DataError
 from django.utils import timezone
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from pyparsing import (
     CaselessKeyword,
     OpAssoc,
@@ -159,7 +159,7 @@ class BaseTermExpr:
         try:
             return STATE_NAMES[text]
         except KeyError:
-            raise ValueError(_("Unsupported state: {}").format(text))
+            raise ValueError(gettext("Unsupported state: {}").format(text))
 
     def convert_bool(self, text):
         ltext = text.lower()
@@ -228,7 +228,7 @@ class BaseTermExpr:
                 ),
             )
         except ParserError as error:
-            raise ValueError(_("Invalid timestamp: {}").format(error))
+            raise ValueError(gettext("Invalid timestamp: {}").format(error))
         if result.hour == 5 and result.minute == 55 and result.second == 55:
             return (
                 result.replace(hour=0, minute=0, second=0, microsecond=0),
@@ -292,7 +292,9 @@ class BaseTermExpr:
             try:
                 re.compile(match.expr)
             except re.error as error:
-                raise ValueError(_("Invalid regular expression: {}").format(error))
+                raise ValueError(
+                    gettext("Invalid regular expression: {}").format(error)
+                )
             from weblate.trans.models import Unit
 
             with transaction.atomic():

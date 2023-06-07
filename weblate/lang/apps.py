@@ -4,13 +4,13 @@
 
 from django.apps import AppConfig
 from django.db.models.signals import post_migrate
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 
 class LangConfig(AppConfig):
     name = "weblate.lang"
     label = "lang"
-    verbose_name = _("Weblate languages")
+    verbose_name = gettext_lazy("Weblate languages")
 
     def ready(self):
         from weblate.lang.models import setup_lang

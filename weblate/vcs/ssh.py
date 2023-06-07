@@ -12,8 +12,7 @@ from typing import Dict, Tuple
 from django.conf import settings
 from django.core.management.utils import find_command
 from django.utils.functional import cached_property
-from django.utils.translation import gettext as _
-from django.utils.translation import pgettext_lazy
+from django.utils.translation import gettext, pgettext_lazy
 
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
@@ -67,7 +66,7 @@ def parse_hosts_line(line):
     fingerprint = b64encode(digest).rstrip(b"=").decode()
     if host.startswith("|1|"):
         # Translators: placeholder SSH hashed hostname
-        host = _("[hostname hashed]")
+        host = gettext("[hostname hashed]")
     return host, keytype, fingerprint
 
 
@@ -161,7 +160,8 @@ def generate_ssh_key(request, key_type: str = "rsa"):
         )
     except (subprocess.CalledProcessError, OSError) as exc:
         messages.error(
-            request, _("Failed to generate key: %s") % getattr(exc, "output", str(exc))
+            request,
+            gettext("Failed to generate key: %s") % getattr(exc, "output", str(exc)),
         )
         return
 
@@ -169,13 +169,13 @@ def generate_ssh_key(request, key_type: str = "rsa"):
     os.chmod(keyfile, stat.S_IWUSR | stat.S_IRUSR)
     os.chmod(pubkeyfile, stat.S_IWUSR | stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
 
-    messages.success(request, _("Created new SSH key."))
+    messages.success(request, gettext("Created new SSH key."))
 
 
 def add_host_key(request, host, port=""):
     """Add host key for a host."""
     if not host:
-        messages.error(request, _("Invalid host name given!"))
+        messages.error(request, gettext("Invalid host name given!"))
     else:
         cmdline = ["ssh-keyscan"]
         if port:
@@ -198,7 +198,7 @@ def add_host_key(request, host, port=""):
                 host, keytype, fingerprint = parse_hosts_line(key)
                 messages.warning(
                     request,
-                    _(
+                    gettext(
                         "Added host key for %(host)s with fingerprint "
                         "%(fingerprint)s (%(keytype)s), "
                         "please verify that it is correct."
@@ -219,13 +219,16 @@ def add_host_key(request, host, port=""):
                             handle.write(key)
                             handle.write("\n")
             else:
-                messages.error(request, _("Failed to fetch public key for a host!"))
+                messages.error(
+                    request, gettext("Failed to fetch public key for a host!")
+                )
         except subprocess.CalledProcessError as exc:
             messages.error(
-                request, _("Failed to get host key: %s") % exc.stderr or exc.stdout
+                request,
+                gettext("Failed to get host key: %s") % exc.stderr or exc.stdout,
             )
         except OSError as exc:
-            messages.error(request, _("Failed to get host key: %s") % str(exc))
+            messages.error(request, gettext("Failed to get host key: %s") % str(exc))
 
 
 GITHUB_RSA_KEY = (

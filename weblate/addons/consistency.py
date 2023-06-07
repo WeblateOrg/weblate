@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.db.models import Q
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_DAILY, EVENT_POST_ADD
@@ -14,8 +14,8 @@ from weblate.lang.models import Language
 class LangaugeConsistencyAddon(BaseAddon):
     events = (EVENT_DAILY, EVENT_POST_ADD)
     name = "weblate.consistency.languages"
-    verbose = _("Add missing languages")
-    description = _(
+    verbose = gettext_lazy("Add missing languages")
+    description = gettext_lazy(
         "Ensures a consistent set of languages is used for all components "
         "within a project."
     )

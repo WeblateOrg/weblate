@@ -4,7 +4,7 @@
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
 from weblate.trans.models import Component, Project
@@ -25,7 +25,7 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
     except WeblateLockTimeout:
         messages.error(
             request,
-            _("Failed to lock the repository, another operation is in progress."),
+            gettext("Failed to lock the repository, another operation is in progress."),
         )
         if isinstance(obj, Project):
             report_error(project=obj)
@@ -45,7 +45,7 @@ def perform_commit(request, obj):
     return execute_locked(
         request,
         obj,
-        _("All pending translations were committed."),
+        gettext("All pending translations were committed."),
         obj.commit_pending,
         "commit",
         request.user,
@@ -60,7 +60,7 @@ def perform_update(request, obj):
     return execute_locked(
         request,
         obj,
-        _("All repositories were updated."),
+        gettext("All repositories were updated."),
         obj.do_update,
         request,
         method=request.GET.get("method"),
@@ -73,7 +73,7 @@ def perform_push(request, obj):
         raise PermissionDenied
 
     return execute_locked(
-        request, obj, _("All repositories were pushed."), obj.do_push, request
+        request, obj, gettext("All repositories were pushed."), obj.do_push, request
     )
 
 
@@ -83,7 +83,11 @@ def perform_reset(request, obj):
         raise PermissionDenied
 
     return execute_locked(
-        request, obj, _("All repositories have been reset."), obj.do_reset, request
+        request,
+        obj,
+        gettext("All repositories have been reset."),
+        obj.do_reset,
+        request,
     )
 
 
@@ -95,7 +99,7 @@ def perform_cleanup(request, obj):
     return execute_locked(
         request,
         obj,
-        _("All repositories have been cleaned up."),
+        gettext("All repositories have been cleaned up."),
         obj.do_cleanup,
         request,
     )
@@ -109,7 +113,7 @@ def perform_file_sync(request, obj):
     return execute_locked(
         request,
         obj,
-        _("Translation files have been synchronized."),
+        gettext("Translation files have been synchronized."),
         obj.do_file_sync,
         request,
     )
@@ -123,7 +127,7 @@ def perform_file_scan(request, obj):
     return execute_locked(
         request,
         obj,
-        _("Translations have been updated."),
+        gettext("Translations have been updated."),
         obj.do_file_scan,
         request,
     )

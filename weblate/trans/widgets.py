@@ -11,9 +11,14 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.html import format_html
-from django.utils.translation import get_language
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy, npgettext, pgettext, pgettext_lazy
+from django.utils.translation import (
+    get_language,
+    gettext,
+    gettext_lazy,
+    npgettext,
+    pgettext,
+    pgettext_lazy,
+)
 
 from weblate.fonts.utils import configure_fontconfig, render_size
 from weblate.trans.models import Project
@@ -251,7 +256,7 @@ class NormalWidget(BitmapWidget):
             ],
             [
                 format_html(self.head_template, self.get_percent_text()),
-                format_html(self.foot_template, _("Translated").upper()),
+                format_html(self.foot_template, gettext("Translated").upper()),
             ],
         ]
 
@@ -269,7 +274,7 @@ class SmallWidget(BitmapWidget):
         return [
             [
                 format_html(self.head_template, self.get_percent_text()),
-                format_html(self.foot_template, _("Translated").upper()),
+                format_html(self.foot_template, gettext("Translated").upper()),
             ]
         ]
 
@@ -302,9 +307,9 @@ class OpenGraphWidget(NormalWidget):
     def get_title(self, name: str, suffix: str = "") -> str:
         # Translators: Text on OpenGraph image
         if isinstance(self.obj, Project):
-            template = _("Project {}")
+            template = gettext("Project {}")
         else:
-            template = _("Component {}")
+            template = gettext("Component {}")
 
         return format_html(template, format_html("<b>{}</b>{}", name, suffix))
 
@@ -371,7 +376,7 @@ class SVGBadgeWidget(SVGWidget):
     verbose = gettext_lazy("Status badge")
 
     def render(self, response):
-        translated_text = _("translated")
+        translated_text = gettext("translated")
         translated_width = (
             render_size("Kurinto Sans", Pango.Weight.NORMAL, 11, 0, translated_text)[
                 0

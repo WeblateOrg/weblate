@@ -6,7 +6,7 @@ from django.db.models import Count
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.utils.http import urlencode
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.models import Component, Translation, Unit
@@ -69,7 +69,7 @@ def show_checks(request):
         "checks.html",
         {
             "checks": allchecks,
-            "title": _("Failing checks"),
+            "title": gettext("Failing checks"),
             "url_params": encode_optional(url_params),
         },
     )

@@ -11,8 +11,8 @@ from django.db.models import Count, Q
 from django.db.models.base import post_save
 from django.utils import timezone
 from django.utils.html import escape, format_html
-from django.utils.translation import gettext as _
 from django.utils.translation import (
+    gettext,
     gettext_lazy,
     ngettext,
     ngettext_lazy,
@@ -542,7 +542,7 @@ class Change(models.Model, UserDisplayMixin):
         verbose_name_plural = "history events"
 
     def __str__(self):
-        return _("%(action)s at %(time)s on %(translation)s by %(user)s") % {
+        return gettext("%(action)s at %(time)s on %(translation)s by %(user)s") % {
             "action": self.get_action_display(),
             "time": self.timestamp,
             "translation": self.translation,
@@ -694,18 +694,20 @@ class Change(models.Model, UserDisplayMixin):
                 ),
             )
             if reason == "content changed":
-                return format_html(escape(_('The "{}" file was changed.')), filename)
+                return format_html(
+                    escape(gettext('The "{}" file was changed.')), filename
+                )
             if reason == "check forced":
                 return format_html(
-                    escape(_('Parsing of the "{}" file was enforced.')), filename
+                    escape(gettext('Parsing of the "{}" file was enforced.')), filename
                 )
             if reason == "new file":
-                return format_html(escape(_("File {} was added.")), filename)
+                return format_html(escape(gettext("File {} was added.")), filename)
             raise ValueError(f"Unknown reason: {reason}")
 
         if self.action == self.ACTION_LICENSE_CHANGE:
             not_available = pgettext("License information not available", "N/A")
-            return _(
+            return gettext(
                 'The license of the "%(component)s" component was changed '
                 "from %(old)s to %(target)s."
             ) % {

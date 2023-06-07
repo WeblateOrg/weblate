@@ -14,9 +14,12 @@ from django.core.signing import TimestampSigner
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils import timezone
-from django.utils.translation import get_language, get_language_bidi
-from django.utils.translation import gettext_lazy as _
-from django.utils.translation import override
+from django.utils.translation import (
+    get_language,
+    get_language_bidi,
+    gettext_lazy,
+    override,
+)
 from siphashc import siphash
 
 from weblate.accounts.tasks import send_mails
@@ -37,11 +40,11 @@ FREQ_WEEKLY = 3
 FREQ_MONTHLY = 4
 
 FREQ_CHOICES = (
-    (FREQ_NONE, _("Do not notify")),
-    (FREQ_INSTANT, _("Instant notification")),
-    (FREQ_DAILY, _("Daily digest")),
-    (FREQ_WEEKLY, _("Weekly digest")),
-    (FREQ_MONTHLY, _("Monthly digest")),
+    (FREQ_NONE, gettext_lazy("Do not notify")),
+    (FREQ_INSTANT, gettext_lazy("Instant notification")),
+    (FREQ_DAILY, gettext_lazy("Daily digest")),
+    (FREQ_WEEKLY, gettext_lazy("Weekly digest")),
+    (FREQ_MONTHLY, gettext_lazy("Monthly digest")),
 )
 
 SCOPE_ALL = 0
@@ -419,7 +422,7 @@ class MergeFailureNotification(Notification):
         Change.ACTION_FAILED_PUSH,
     )
     # Translators: Notification name
-    verbose = _("Repository failure")
+    verbose = gettext_lazy("Repository failure")
     template_name = "repository_error"
 
     def __init__(self, outgoing, perm_cache=None):
@@ -447,7 +450,7 @@ class RepositoryNotification(Notification):
         Change.ACTION_MERGE,
     )
     # Translators: Notification name
-    verbose = _("Repository operation")
+    verbose = gettext_lazy("Repository operation")
     template_name = "repository_operation"
 
 
@@ -458,7 +461,7 @@ class LockNotification(Notification):
         Change.ACTION_UNLOCK,
     )
     # Translators: Notification name
-    verbose = _("Component locking")
+    verbose = gettext_lazy("Component locking")
     template_name = "component_lock"
 
 
@@ -466,7 +469,7 @@ class LockNotification(Notification):
 class LicenseNotification(Notification):
     actions = (Change.ACTION_LICENSE_CHANGE, Change.ACTION_AGREEMENT_CHANGE)
     # Translators: Notification name
-    verbose = _("Changed license")
+    verbose = gettext_lazy("Changed license")
     template_name = "component_license"
 
 
@@ -474,7 +477,7 @@ class LicenseNotification(Notification):
 class ParseErrorNotification(Notification):
     actions = (Change.ACTION_PARSE_ERROR,)
     # Translators: Notification name
-    verbose = _("Parse error")
+    verbose = gettext_lazy("Parse error")
     template_name = "parse_error"
 
     def get_context(
@@ -492,7 +495,7 @@ class ParseErrorNotification(Notification):
 class NewStringNotificaton(Notification):
     actions = (Change.ACTION_NEW_STRING,)
     # Translators: Notification name
-    verbose = _("New string")
+    verbose = gettext_lazy("New string")
     template_name = "new_string"
     filter_languages = True
 
@@ -501,7 +504,7 @@ class NewStringNotificaton(Notification):
 class NewContributorNotificaton(Notification):
     actions = (Change.ACTION_NEW_CONTRIBUTOR,)
     # Translators: Notification name
-    verbose = _("New contributor")
+    verbose = gettext_lazy("New contributor")
     template_name = "new_contributor"
     filter_languages = True
 
@@ -510,7 +513,7 @@ class NewContributorNotificaton(Notification):
 class NewSuggestionNotificaton(Notification):
     actions = (Change.ACTION_SUGGESTION,)
     # Translators: Notification name
-    verbose = _("New suggestion")
+    verbose = gettext_lazy("New suggestion")
     template_name = "new_suggestion"
     filter_languages = True
     required_attr = "suggestion"
@@ -520,7 +523,7 @@ class NewSuggestionNotificaton(Notification):
 class LastAuthorCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
     # Translators: Notification name
-    verbose = _("Comment on own translation")
+    verbose = gettext_lazy("Comment on own translation")
     template_name = "new_comment"
     ignore_watched = True
     required_attr = "comment"
@@ -556,7 +559,7 @@ class LastAuthorCommentNotificaton(Notification):
 class MentionCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
     # Translators: Notification name
-    verbose = _("Mentioned in comment")
+    verbose = gettext_lazy("Mentioned in comment")
     template_name = "new_comment"
     ignore_watched = True
     required_attr = "comment"
@@ -599,7 +602,7 @@ class MentionCommentNotificaton(Notification):
 class NewCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
     # Translators: Notification name
-    verbose = _("New comment")
+    verbose = gettext_lazy("New comment")
     template_name = "new_comment"
     filter_languages = True
     required_attr = "comment"
@@ -622,7 +625,7 @@ class NewCommentNotificaton(Notification):
 class ChangedStringNotificaton(Notification):
     actions = Change.ACTIONS_CONTENT
     # Translators: Notification name
-    verbose = _("Changed string")
+    verbose = gettext_lazy("Changed string")
     template_name = "changed_translation"
     filter_languages = True
 
@@ -631,7 +634,7 @@ class ChangedStringNotificaton(Notification):
 class TranslatedStringNotificaton(Notification):
     actions = (Change.ACTION_CHANGE, Change.ACTION_NEW)
     # Translators: Notification name
-    verbose = _("Translated string")
+    verbose = gettext_lazy("Translated string")
     template_name = "translated_string"
     filter_languages = True
 
@@ -640,7 +643,7 @@ class TranslatedStringNotificaton(Notification):
 class ApprovedStringNotificaton(Notification):
     actions = (Change.ACTION_APPROVE,)
     # Translators: Notification name
-    verbose = _("Approved string")
+    verbose = gettext_lazy("Approved string")
     template_name = "approved_string"
     filter_languages = True
 
@@ -649,7 +652,7 @@ class ApprovedStringNotificaton(Notification):
 class NewTranslationNotificaton(Notification):
     actions = (Change.ACTION_ADDED_LANGUAGE, Change.ACTION_REQUESTED_LANGUAGE)
     # Translators: Notification name
-    verbose = _("New language")
+    verbose = gettext_lazy("New language")
     template_name = "new_language"
 
     def get_context(
@@ -666,7 +669,7 @@ class NewTranslationNotificaton(Notification):
 class NewComponentNotificaton(Notification):
     actions = (Change.ACTION_CREATE_COMPONENT,)
     # Translators: Notification name
-    verbose = _("New translation component")
+    verbose = gettext_lazy("New translation component")
     template_name = "new_component"
 
 
@@ -674,7 +677,7 @@ class NewComponentNotificaton(Notification):
 class NewAnnouncementNotificaton(Notification):
     actions = (Change.ACTION_ANNOUNCEMENT,)
     # Translators: Notification name
-    verbose = _("New announcement")
+    verbose = gettext_lazy("New announcement")
     template_name = "new_announcement"
     required_attr = "announcement"
     any_watched: bool = True
@@ -690,7 +693,7 @@ class NewAnnouncementNotificaton(Notification):
 class NewAlertNotificaton(Notification):
     actions = (Change.ACTION_ALERT,)
     # Translators: Notification name
-    verbose = _("New alert")
+    verbose = gettext_lazy("New alert")
     template_name = "new_alert"
     required_attr = "alert"
 
@@ -778,7 +781,7 @@ class SummaryNotification(Notification):
 @register_notification
 class PendingSuggestionsNotification(SummaryNotification):
     # Translators: Notification name
-    verbose = _("Pending suggestions")
+    verbose = gettext_lazy("Pending suggestions")
     digest_template = "pending_suggestions"
 
     @staticmethod
@@ -789,7 +792,7 @@ class PendingSuggestionsNotification(SummaryNotification):
 @register_notification
 class ToDoStringsNotification(SummaryNotification):
     # Translators: Notification name
-    verbose = _("Unfinished strings")
+    verbose = gettext_lazy("Unfinished strings")
     digest_template = "todo_strings"
 
     @staticmethod

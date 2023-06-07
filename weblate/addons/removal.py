@@ -6,7 +6,7 @@ from datetime import timedelta
 
 from django.db.models import Q, Sum
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_DAILY
@@ -32,8 +32,8 @@ class RemovalAddon(BaseAddon):
 
 class RemoveComments(RemovalAddon):
     name = "weblate.removal.comments"
-    verbose = _("Stale comment removal")
-    description = _("Set a timeframe for removal of comments.")
+    verbose = gettext_lazy("Stale comment removal")
+    description = gettext_lazy("Set a timeframe for removal of comments.")
 
     def daily(self, component):
         self.delete_older(
@@ -46,8 +46,8 @@ class RemoveComments(RemovalAddon):
 
 class RemoveSuggestions(RemovalAddon):
     name = "weblate.removal.suggestions"
-    verbose = _("Stale suggestion removal")
-    description = _("Set a timeframe for removal of suggestions.")
+    verbose = gettext_lazy("Stale suggestion removal")
+    description = gettext_lazy("Set a timeframe for removal of suggestions.")
     settings_form = RemoveSuggestionForm
 
     def daily(self, component):

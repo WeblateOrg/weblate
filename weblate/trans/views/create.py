@@ -16,7 +16,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.http import urlencode
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.generic.edit import CreateView
 
 from weblate.trans.backups import ProjectBackup
@@ -239,7 +239,7 @@ class CreateComponent(BaseCreateView):
             if linked.repo_needs_merge():
                 messages.warning(
                     self.request,
-                    _(
+                    gettext(
                         "The repository is outdated, you might not get "
                         "expected results until you update it."
                     ),
@@ -269,7 +269,9 @@ class CreateComponent(BaseCreateView):
                     self.initial["license"] = license
                     messages.info(
                         self.request,
-                        _("Detected license as %s, please check whether it is correct.")
+                        gettext(
+                            "Detected license as %s, please check whether it is correct."
+                        )
                         % license,
                     )
                     return
@@ -373,7 +375,7 @@ class CreateFromZip(CreateComponent):
         try:
             create_component_from_zip(form.cleaned_data)
         except BadZipfile:
-            form.add_error("zipfile", _("Failed to parse uploaded ZIP file."))
+            form.add_error("zipfile", gettext("Failed to parse uploaded ZIP file."))
             return self.form_invalid(form)
 
         # Move to discover phase

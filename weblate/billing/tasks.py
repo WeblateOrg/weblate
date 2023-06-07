@@ -8,7 +8,7 @@ from celery.schedules import crontab
 from django.conf import settings
 from django.db.models import Count, Q
 from django.utils import timezone
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 
 from weblate.accounts.notifications import send_notification_email
 from weblate.billing.models import Billing
@@ -79,12 +79,12 @@ def notify_expired():
         if bill.state == Billing.STATE_ACTIVE and bill.check_payment_status(now=True):
             continue
         if bill.plan.price:
-            note = _(
+            note = gettext(
                 "You will stop receiving this notification once "
                 "you pay the bills or the project is removed."
             )
         else:
-            note = _(
+            note = gettext(
                 "You will stop receiving this notification once "
                 "you change to regular subscription or the project is removed."
             )

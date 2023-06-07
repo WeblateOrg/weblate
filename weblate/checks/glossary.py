@@ -5,8 +5,7 @@
 import re
 
 from django.utils.html import escape, format_html, format_html_join
-from django.utils.translation import gettext
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import TargetCheck
 
@@ -14,8 +13,10 @@ from weblate.checks.base import TargetCheck
 class GlossaryCheck(TargetCheck):
     default_disabled = True
     check_id = "check_glossary"
-    name = _("Does not follow glossary")
-    description = _("The translation does not follow terms defined in a glossary.")
+    name = gettext_lazy("Does not follow glossary")
+    description = gettext_lazy(
+        "The translation does not follow terms defined in a glossary."
+    )
 
     def check_single(self, source, target, unit):
         from weblate.glossary.models import get_glossary_terms

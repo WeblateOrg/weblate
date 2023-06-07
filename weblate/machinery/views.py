@@ -15,7 +15,7 @@ from django.http import (
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -321,7 +321,7 @@ def handle_machinery(request, service, unit, search=None):
     try:
         translation_service = translation_service_class(machinery_settings[service])
     except KeyError:
-        response["responseDetails"] = _("Service is currently not available.")
+        response["responseDetails"] = gettext("Service is currently not available.")
     else:
         try:
             if search:

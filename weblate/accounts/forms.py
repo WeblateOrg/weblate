@@ -11,9 +11,7 @@ from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape
-from django.utils.translation import activate, gettext
-from django.utils.translation import gettext_lazy as _
-from django.utils.translation import ngettext, pgettext
+from django.utils.translation import activate, gettext, gettext_lazy, ngettext, pgettext
 
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.captcha import MathCaptcha
@@ -71,7 +69,7 @@ class UniqueEmailMixin:
             self.cleaned_data["email_user"] = users[0]
             if self.validate_unique_mail:
                 raise forms.ValidationError(
-                    _(
+                    gettext(
                         "This e-mail address is already in use. "
                         "Please supply a different e-mail address."
                     )
@@ -98,7 +96,7 @@ class UniqueUsernameField(UsernameField):
             existing = User.objects.filter(username=value)
             if existing.exists() and value != self.valid:
                 raise forms.ValidationError(
-                    _("This username is already taken. Please choose another.")
+                    gettext("This username is already taken. Please choose another.")
                 )
 
         return super().clean(value)
@@ -109,8 +107,8 @@ class FullNameField(forms.CharField):
 
     def __init__(self, *args, **kwargs):
         kwargs["max_length"] = FULLNAME_LENGTH
-        kwargs["label"] = _("Full name")
-        kwargs["help_text"] = _("Name is also used in version control commits.")
+        kwargs["label"] = gettext("Full name")
+        kwargs["help_text"] = gettext("Name is also used in version control commits.")
         kwargs["required"] = True
         super().__init__(*args, **kwargs)
 
@@ -170,9 +168,9 @@ class LanguagesForm(ProfileBaseForm):
 
 class CommitForm(ProfileBaseForm):
     commit_email = forms.ChoiceField(
-        label=_("Commit e-mail"),
-        choices=[("", _("Use account e-mail address"))],
-        help_text=_("Choose commit e-mail from verified addresses."),
+        label=gettext_lazy("Commit e-mail"),
+        choices=[("", gettext_lazy("Use account e-mail address"))],
+        help_text=gettext_lazy("Choose commit e-mail from verified addresses."),
         required=False,
     )
 
@@ -206,8 +204,8 @@ class ProfileForm(ProfileBaseForm):
     """User profile editing."""
 
     public_email = forms.ChoiceField(
-        label=_("Public e-mail"),
-        choices=[("", _("Do not publicly display e-mail address"))],
+        label=gettext_lazy("Public e-mail"),
+        choices=[("", gettext_lazy("Do not publicly display e-mail address"))],
         required=False,
     )
 
@@ -338,8 +336,8 @@ class UserForm(forms.ModelForm):
 
     username = UniqueUsernameField()
     email = forms.ChoiceField(
-        label=_("E-mail"),
-        help_text=_("Choose primary e-mail from verified addresses."),
+        label=gettext_lazy("E-mail"),
+        help_text=gettext_lazy("Choose primary e-mail from verified addresses."),
         choices=(("", ""),),
         required=True,
     )
@@ -385,15 +383,17 @@ class UserForm(forms.ModelForm):
 class ContactForm(forms.Form):
     """Form for contacting site owners."""
 
-    subject = forms.CharField(label=_("Subject"), required=True, max_length=100)
-    name = forms.CharField(
-        label=_("Your name"), required=True, max_length=FULLNAME_LENGTH
+    subject = forms.CharField(
+        label=gettext_lazy("Subject"), required=True, max_length=100
     )
-    email = EmailField(label=_("Your e-mail"), required=True)
+    name = forms.CharField(
+        label=gettext_lazy("Your name"), required=True, max_length=FULLNAME_LENGTH
+    )
+    email = EmailField(label=gettext_lazy("Your e-mail"), required=True)
     message = forms.CharField(
-        label=_("Message"),
+        label=gettext_lazy("Message"),
         required=True,
-        help_text=_(
+        help_text=gettext_lazy(
             "Please contact us in English, otherwise we might "
             "be unable to process your request."
         ),
@@ -409,8 +409,8 @@ class EmailForm(forms.Form, UniqueEmailMixin):
     error_css_class = "error"
 
     email = EmailField(
-        label=_("E-mail"),
-        help_text=_("E-mail with a confirmation link will be sent here."),
+        label=gettext_lazy("E-mail"),
+        help_text=gettext_lazy("E-mail with a confirmation link will be sent here."),
     )
 
 
@@ -452,10 +452,10 @@ class RegistrationForm(EmailForm):
 
 class SetPasswordForm(DjangoSetPasswordForm):
     new_password1 = PasswordField(
-        label=_("New password"),
+        label=gettext_lazy("New password"),
         help_text=password_validation.password_validators_help_text_html(),
     )
-    new_password2 = PasswordField(label=_("New password confirmation"))
+    new_password2 = PasswordField(label=gettext_lazy("New password confirmation"))
 
     def save(self, request, delete_session=False):
         AuditLog.objects.create(
@@ -476,7 +476,7 @@ class SetPasswordForm(DjangoSetPasswordForm):
         if delete_session:
             request.session.flush()
 
-        messages.success(request, _("Your password has been changed."))
+        messages.success(request, gettext("Your password has been changed."))
 
 
 class CaptchaForm(forms.Form):
@@ -520,7 +520,7 @@ class CaptchaForm(forms.Form):
             rotate_token(self.request)
             raise forms.ValidationError(
                 # Translators: Shown on wrong answer to the mathematics-based CAPTCHA
-                _("That was not correct, please try again.")
+                gettext("That was not correct, please try again.")
             )
 
         mail = self.form.cleaned_data["email"] if self.form.is_valid() else "NONE"
@@ -547,8 +547,8 @@ class EmptyConfirmForm(forms.Form):
 
 class PasswordConfirmForm(EmptyConfirmForm):
     password = PasswordField(
-        label=_("Current password"),
-        help_text=_("Leave empty if you have not yet set a password."),
+        label=gettext_lazy("Current password"),
+        help_text=gettext_lazy("Leave empty if you have not yet set a password."),
         required=False,
     )
 
@@ -561,7 +561,9 @@ class PasswordConfirmForm(EmptyConfirmForm):
             valid = True
         if not valid:
             rotate_token(self.request)
-            raise forms.ValidationError(_("You have entered an invalid password."))
+            raise forms.ValidationError(
+                gettext("You have entered an invalid password.")
+            )
 
 
 class ResetForm(EmailForm):
@@ -574,12 +576,14 @@ class ResetForm(EmailForm):
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=254, label=_("Username or e-mail"))
-    password = PasswordField(label=_("Password"))
+    username = forms.CharField(max_length=254, label=gettext_lazy("Username or e-mail"))
+    password = PasswordField(label=gettext_lazy("Password"))
 
     error_messages = {
-        "invalid_login": _("Please enter the correct username and password."),
-        "inactive": _("This account is inactive."),
+        "invalid_login": gettext_lazy(
+            "Please enter the correct username and password."
+        ),
+        "inactive": gettext_lazy("This account is inactive."),
     }
 
     def __init__(self, request=None, *args, **kwargs):
@@ -693,12 +697,12 @@ class NotificationForm(forms.Form):
             "project",
             "component",
             Fieldset(
-                _("Component wide notifications"),
+                gettext("Component wide notifications"),
                 HTML(escape(self.get_help_component())),
                 *component_fields,
             ),
             Fieldset(
-                _("Translation notifications"),
+                gettext("Translation notifications"),
                 HTML(escape(self.get_help_translation())),
                 *language_fields,
             ),
@@ -717,7 +721,7 @@ class NotificationForm(forms.Form):
     def get_choices(notification_cls, show_default):
         result = []
         if show_default:
-            result.append((-1, _("Use default setting")))
+            result.append((-1, gettext("Use default setting")))
         result.extend(notification_cls.get_freq_choices())
         return result
 
@@ -743,63 +747,63 @@ class NotificationForm(forms.Form):
     def get_name(self):
         scope = self.form_scope
         if scope == SCOPE_ALL:
-            return _("Other projects")
+            return gettext("Other projects")
         if scope == SCOPE_WATCHED:
-            return _("Watched projects")
+            return gettext("Watched projects")
         if scope == SCOPE_ADMIN:
-            return _("Managed projects")
+            return gettext("Managed projects")
         if scope == SCOPE_PROJECT:
-            return _("Project: {}").format(self.form_project)
-        return _("Component: {}").format(self.form_component)
+            return gettext("Project: {}").format(self.form_project)
+        return gettext("Component: {}").format(self.form_component)
 
     def get_help_component(self):
         scope = self.form_scope
         if scope == SCOPE_ALL:
-            return _(
+            return gettext(
                 "You will receive a notification for every such event"
                 " in non-watched projects."
             )
         if scope == SCOPE_WATCHED:
-            return _(
+            return gettext(
                 "You will receive a notification for every such event"
                 " in your watched projects."
             )
         if scope == SCOPE_ADMIN:
-            return _(
+            return gettext(
                 "You will receive a notification for every such event"
                 " in projects where you have admin permissions."
             )
         if scope == SCOPE_PROJECT:
-            return _(
+            return gettext(
                 "You will receive a notification for every such event in %(project)s."
             ) % {"project": self.form_project}
-        return _(
+        return gettext(
             "You will receive a notification for every such event in %(component)s."
         ) % {"component": self.form_component}
 
     def get_help_translation(self):
         scope = self.form_scope
         if scope == SCOPE_ALL:
-            return _(
+            return gettext(
                 "You will only receive these notifications for your translated "
                 "languages in non-watched projects."
             )
         if scope == SCOPE_WATCHED:
-            return _(
+            return gettext(
                 "You will only receive these notifications for your translated "
                 "languages in your watched projects."
             )
         if scope == SCOPE_ADMIN:
-            return _(
+            return gettext(
                 "You will only receive these notifications for your translated "
                 "languages in projects where you have admin permissions."
             )
         if scope == SCOPE_PROJECT:
-            return _(
+            return gettext(
                 "You will only receive these notifications for your"
                 " translated languages in %(project)s."
             ) % {"project": self.form_project}
-        return _(
+        return gettext(
             "You will only receive these notifications for your"
             " translated languages in %(component)s."
         ) % {"component": self.form_component}
@@ -839,13 +843,13 @@ class UserSearchForm(forms.Form):
     sort_by = forms.CharField(required=False, widget=forms.HiddenInput)
 
     sort_choices = {
-        "username": _("Username"),
-        "full_name": _("Full name"),
-        "date_joined": _("Date joined"),
-        "profile__translated": _("Translations made"),
-        "profile__suggested": _("Suggestions made"),
-        "profile__commented": _("Comments made"),
-        "profile__uploaded": _("Screenshots uploaded"),
+        "username": gettext_lazy("Username"),
+        "full_name": gettext_lazy("Full name"),
+        "date_joined": gettext_lazy("Date joined"),
+        "profile__translated": gettext_lazy("Translations made"),
+        "profile__suggested": gettext_lazy("Suggestions made"),
+        "profile__commented": gettext_lazy("Comments made"),
+        "profile__uploaded": gettext_lazy("Screenshots uploaded"),
     }
     sort_values = set(sort_choices) | {f"-{val}" for val in sort_choices}
 
@@ -868,7 +872,7 @@ class UserSearchForm(forms.Form):
         sort_by = self.cleaned_data.get("sort_by")
         if sort_by:
             if sort_by not in self.sort_values:
-                raise forms.ValidationError(_("Chosen sorting is not supported."))
+                raise forms.ValidationError(gettext("Chosen sorting is not supported."))
             return sort_by
         return None
 
@@ -884,7 +888,7 @@ class GroupChoiceField(forms.ModelChoiceField):
 
 class GroupAddForm(forms.Form):
     add_group = GroupChoiceField(
-        label=_("Add user to a group"),
+        label=gettext_lazy("Add user to a group"),
         queryset=Group.objects.prefetch_related("defining_project").order(),
         required=True,
     )
@@ -896,7 +900,7 @@ class GroupAddForm(forms.Form):
         self.helper.field_template = "bootstrap3/layout/inline_field.html"
         self.helper.layout = Layout(
             "add_group",
-            Submit("add_group_button", _("Add group")),
+            Submit("add_group_button", gettext("Add group")),
         )
 
 

@@ -15,8 +15,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render as django_render
 from django.shortcuts import resolve_url
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 from lxml import etree
 from translate.misc.multistring import multistring
 from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
@@ -208,7 +207,7 @@ def get_project_description(project):
     if count is None:
         count = project.stats.languages
         cache.set(cache_key, count, 6 * 3600)
-    return _(
+    return gettext(
         "{0} is being translated into {1} languages using Weblate. "
         "Join the translation or start translating your own project."
     ).format(project, count)

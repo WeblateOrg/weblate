@@ -5,7 +5,7 @@
 from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_DAILY
@@ -16,8 +16,8 @@ from weblate.trans.tasks import auto_translate_component
 class AutoTranslateAddon(BaseAddon):
     events = (EVENT_COMPONENT_UPDATE, EVENT_DAILY)
     name = "weblate.autotranslate.autotranslate"
-    verbose = _("Automatic translation")
-    description = _(
+    verbose = gettext_lazy("Automatic translation")
+    description = gettext_lazy(
         "Automatically translates strings using machine translation or "
         "other components."
     )

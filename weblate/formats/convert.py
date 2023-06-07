@@ -12,7 +12,7 @@ from typing import Callable, List, Optional, Union
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 from translate.convert.po2html import po2html
 from translate.convert.po2idml import translate_idml, write_idml
 from translate.convert.po2rc import rerc
@@ -225,7 +225,7 @@ class ConvertFormat(TranslationFormat):
 
 
 class HTMLFormat(ConvertFormat):
-    name = _("HTML file")
+    name = gettext_lazy("HTML file")
     autoload = ("*.htm", "*.html")
     format_id = "html"
     check_flags = ("safe-html", "strict-same")
@@ -260,7 +260,7 @@ class HTMLFormat(ConvertFormat):
 
 
 class OpenDocumentFormat(ConvertFormat):
-    name = _("OpenDocument file")
+    name = gettext_lazy("OpenDocument file")
     autoload = (
         "*.sxw",
         "*.odt",
@@ -324,7 +324,7 @@ class OpenDocumentFormat(ConvertFormat):
 
 
 class IDMLFormat(ConvertFormat):
-    name = _("IDML file")
+    name = gettext_lazy("IDML file")
     autoload = ("*.idml", "*.idms")
     format_id = "idml"
     check_flags = ("strict-same",)
@@ -382,7 +382,7 @@ class IDMLFormat(ConvertFormat):
 
 
 class WindowsRCFormat(ConvertFormat):
-    name = _("RC file")
+    name = gettext_lazy("RC file")
     format_id = "rc"
     autoload = ("*.rc",)
     language_format = "bcp"
@@ -450,7 +450,7 @@ class WindowsRCFormat(ConvertFormat):
 
 
 class PlainTextFormat(ConvertFormat):
-    name = _("Plain text file")
+    name = gettext_lazy("Plain text file")
     format_id = "txt"
     autoload = ("*.txt",)
     flavour = "plain"
@@ -488,14 +488,14 @@ class PlainTextFormat(ConvertFormat):
 
 
 class DokuWikiFormat(PlainTextFormat):
-    name = _("DokuWiki text file")
+    name = gettext_lazy("DokuWiki text file")
     format_id = "dokuwiki"
     autoload = ("*.dw",)
     flavour = "dokuwiki"
 
 
 class MediaWikiFormat(PlainTextFormat):
-    name = _("MediaWiki text file")
+    name = gettext_lazy("MediaWiki text file")
     format_id = "mediawiki"
     autoload = ("*.mw",)
     flavour = "mediawiki"

@@ -4,7 +4,7 @@
 
 from django import template
 from django.utils.html import format_html
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 
 from weblate.utils.checks import check_doc_link
 
@@ -24,6 +24,6 @@ def configuration_error_link(check, fallback=None):
     url = check_doc_link(check) or fallback
     if url:
         return format_html(
-            '<a class="btn btn-info" href="{}">{}</a>', url, _("Documentation")
+            '<a class="btn btn-info" href="{}">{}</a>', url, gettext("Documentation")
         )
     return ""

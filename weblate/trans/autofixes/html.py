@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import nh3
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.checks.markup import MD_LINK
 from weblate.trans.autofixes.base import AutoFix
@@ -14,7 +14,7 @@ class BleachHTML(AutoFix):
     """Cleanup unsafe HTML markup."""
 
     fix_id = "safe-html"
-    name = _("Unsafe HTML")
+    name = gettext_lazy("Unsafe HTML")
 
     def fix_single_target(self, target, source, unit):
         flags = unit.all_flags

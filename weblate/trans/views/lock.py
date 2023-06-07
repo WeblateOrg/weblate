@@ -4,7 +4,7 @@
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
 from weblate.trans.tasks import perform_commit
@@ -24,7 +24,9 @@ def lock_component(request, project, component):
     obj.do_lock(request.user)
     perform_commit.delay(obj.pk, "lock", None)
 
-    messages.success(request, _("Component is now locked for translation updates!"))
+    messages.success(
+        request, gettext("Component is now locked for translation updates!")
+    )
 
     return redirect_param(obj, "#repository")
 
@@ -39,7 +41,7 @@ def unlock_component(request, project, component):
 
     obj.do_lock(request.user, False)
 
-    messages.success(request, _("Component is now open for translation updates."))
+    messages.success(request, gettext("Component is now open for translation updates."))
 
     return redirect_param(obj, "#repository")
 
@@ -57,7 +59,7 @@ def lock_project(request, project):
         perform_commit.delay(component.pk, "lock", None)
 
     messages.success(
-        request, _("All components are now locked for translation updates!")
+        request, gettext("All components are now locked for translation updates!")
     )
 
     return redirect_param(obj, "#repository")
@@ -74,6 +76,6 @@ def unlock_project(request, project):
     for component in obj.component_set.iterator():
         component.do_lock(request.user, False)
 
-    messages.success(request, _("Project is now open for translation updates."))
+    messages.success(request, gettext("Project is now open for translation updates."))
 
     return redirect_param(obj, "#repository")

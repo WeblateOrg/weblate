@@ -7,8 +7,7 @@ from functools import lru_cache
 from typing import Tuple
 
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.models import CHECKS
 from weblate.checks.parser import (
@@ -254,21 +253,21 @@ class Flags:
             is_typed = name in TYPED_FLAGS
             is_plain = name in PLAIN_FLAGS or name in IGNORE_CHECK_FLAGS
             if not is_typed and not is_plain:
-                raise ValidationError(_('Invalid translation flag: "%s"') % name)
+                raise ValidationError(gettext('Invalid translation flag: "%s"') % name)
             if name in self._values:
                 if is_plain:
                     raise ValidationError(
-                        _('The translation flag has no parameters: "%s"') % name
+                        gettext('The translation flag has no parameters: "%s"') % name
                     )
                 try:
                     self.get_value(name)
                 except Exception:
                     raise ValidationError(
-                        _('Wrong parameters for translation flag: "%s"') % name
+                        gettext('Wrong parameters for translation flag: "%s"') % name
                     )
             elif is_typed:
                 raise ValidationError(
-                    _('Missing parameters for translation flag: "%s"') % name
+                    gettext('Missing parameters for translation flag: "%s"') % name
                 )
 
     def set_value(self, name, value):

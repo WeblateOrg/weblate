@@ -5,7 +5,7 @@
 from collections import defaultdict
 from itertools import chain
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_POST_COMMIT
@@ -16,8 +16,8 @@ from weblate.vcs.base import RepositoryException
 
 class GitSquashAddon(BaseAddon):
     name = "weblate.git.squash"
-    verbose = _("Squash Git commits")
-    description = _("Squash Git commits prior to pushing changes.")
+    verbose = gettext_lazy("Squash Git commits")
+    description = gettext_lazy("Squash Git commits prior to pushing changes.")
     settings_form = GitSquashForm
     compat = {
         "vcs": {

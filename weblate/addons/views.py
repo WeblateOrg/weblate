@@ -5,7 +5,7 @@
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.generic import ListView, UpdateView
 
 from weblate.addons.models import ADDONS, Addon
@@ -66,7 +66,7 @@ class AddonList(AddonViewMixin, ListView):
             or not addon.can_install(component, request.user)
             or (name in installed and not addon.multiple)
         ):
-            return self.redirect_list(_("Invalid add-on name specified!"))
+            return self.redirect_list(gettext("Invalid add-on name specified!"))
 
         form = None
         if addon.settings_form is None:
@@ -79,7 +79,9 @@ class AddonList(AddonViewMixin, ListView):
                 if addon.stay_on_create:
                     messages.info(
                         self.request,
-                        _("Add-on installed, please review integration instructions."),
+                        gettext(
+                            "Add-on installed, please review integration instructions."
+                        ),
                     )
                     return redirect(instance)
                 return self.redirect_list()

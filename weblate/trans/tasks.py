@@ -16,8 +16,7 @@ from django.db import transaction
 from django.db.models import Count, F
 from django.utils import timezone
 from django.utils.timezone import make_aware
-from django.utils.translation import gettext as _
-from django.utils.translation import ngettext, override
+from django.utils.translation import gettext, ngettext, override
 
 from weblate.addons.models import Addon
 from weblate.auth.models import User, get_anonymous
@@ -406,13 +405,15 @@ def auto_translate(
             translation.log_error("failed automatic translation: %s", error)
             return {
                 "translation": translation_id,
-                "message": _("Automatic translation failed: %s") % error,
+                "message": gettext("Automatic translation failed: %s") % error,
             }
 
         translation.log_info("completed automatic translation")
 
         if auto.updated == 0:
-            message = _("Automatic translation completed, no strings were updated.")
+            message = gettext(
+                "Automatic translation completed, no strings were updated."
+            )
         else:
             message = (
                 ngettext(

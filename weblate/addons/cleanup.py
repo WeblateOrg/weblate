@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import UpdateBaseAddon
 from weblate.addons.events import EVENT_POST_COMMIT, EVENT_POST_UPDATE, EVENT_PRE_COMMIT
@@ -19,8 +19,8 @@ class BaseCleanupAddon(UpdateBaseAddon):
 
 class CleanupAddon(BaseCleanupAddon):
     name = "weblate.cleanup.generic"
-    verbose = _("Cleanup translation files")
-    description = _(
+    verbose = gettext_lazy("Cleanup translation files")
+    description = gettext_lazy(
         "Update all translation files to match the monolingual base file. "
         "For most file formats, this means removing stale translation keys "
         "no longer present in the base file."
@@ -45,8 +45,10 @@ class CleanupAddon(BaseCleanupAddon):
 
 class RemoveBlankAddon(BaseCleanupAddon):
     name = "weblate.cleanup.blank"
-    verbose = _("Remove blank strings")
-    description = _("Removes strings without a translation from translation files.")
+    verbose = gettext_lazy("Remove blank strings")
+    description = gettext_lazy(
+        "Removes strings without a translation from translation files."
+    )
     events = (EVENT_POST_COMMIT, EVENT_POST_UPDATE)
     icon = "eraser.svg"
 

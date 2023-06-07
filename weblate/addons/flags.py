@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_UNIT_PRE_CREATE
@@ -26,8 +26,8 @@ class FlagBase(BaseAddon):
 
 class SourceEditAddon(FlagBase):
     name = "weblate.flags.source_edit"
-    verbose = _('Flag new source strings as "Needs editing"')
-    description = _(
+    verbose = gettext_lazy('Flag new source strings as "Needs editing"')
+    description = gettext_lazy(
         "Whenever a new source string is imported from the VCS, it is "
         "flagged as needing editing in Weblate. This way you can easily "
         "filter and edit source strings written by the developers."
@@ -47,8 +47,8 @@ class SourceEditAddon(FlagBase):
 
 class TargetEditAddon(FlagBase):
     name = "weblate.flags.target_edit"
-    verbose = _('Flag new translations as "Needs editing"')
-    description = _(
+    verbose = gettext_lazy('Flag new translations as "Needs editing"')
+    description = gettext_lazy(
         "Whenever a new translatable string is imported from the VCS, it is "
         "flagged as needing editing in Weblate. This way you can easily "
         "filter and edit translations created by the developers."
@@ -65,8 +65,8 @@ class TargetEditAddon(FlagBase):
 
 class SameEditAddon(FlagBase):
     name = "weblate.flags.same_edit"
-    verbose = _('Flag unchanged translations as "Needs editing"')
-    description = _(
+    verbose = gettext_lazy('Flag unchanged translations as "Needs editing"')
+    description = gettext_lazy(
         "Whenever a new translatable string is imported from the VCS and it matches a "
         "source string, it is flagged as needing editing in Weblate. Especially "
         "useful for file formats that include source strings for untranslated strings."
@@ -86,8 +86,8 @@ class SameEditAddon(FlagBase):
 class BulkEditAddon(BaseAddon):
     events = (EVENT_COMPONENT_UPDATE,)
     name = "weblate.flags.bulk"
-    verbose = _("Bulk edit")
-    description = _("Bulk edit flags, labels, or states of strings.")
+    verbose = gettext_lazy("Bulk edit")
+    description = gettext_lazy("Bulk edit flags, labels, or states of strings.")
     settings_form = BulkEditAddonForm
     multiple = True
 

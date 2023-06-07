@@ -4,7 +4,7 @@
 
 import re
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.trans.autofixes.base import AutoFix
 
@@ -17,7 +17,7 @@ class SameBookendingWhitespace(AutoFix):
     """Help non-techy translators with their whitespace."""
 
     fix_id = "end-whitespace"
-    name = _("Trailing and leading whitespace")
+    name = gettext_lazy("Trailing and leading whitespace")
 
     def fix_single_target(self, target, source, unit):
         # normalize newlines of source

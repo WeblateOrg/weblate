@@ -7,7 +7,7 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.utils.http import urlencode
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.generic import CreateView, UpdateView
 
 from weblate.lang.forms import LanguageForm, PluralForm
@@ -43,7 +43,7 @@ def show_languages(request):
         {
             "allow_index": True,
             "languages": prefetch_stats(sort_objects(languages)),
-            "title": _("Languages"),
+            "title": gettext("Languages"),
             "global_stats": GlobalStats(),
         },
     )
@@ -63,11 +63,11 @@ def show_language(request, lang):
     if request.method == "POST" and user.has_perm("language.edit"):
         if obj.translation_set.exists():
             messages.error(
-                request, _("Remove all translations using this language first.")
+                request, gettext("Remove all translations using this language first.")
             )
         else:
             obj.delete()
-            messages.success(request, _("Language %s removed.") % obj)
+            messages.success(request, gettext("Language %s removed.") % obj)
             return redirect("languages")
 
     last_changes = Change.objects.last_changes(user).filter(language=obj)[:10].preload()

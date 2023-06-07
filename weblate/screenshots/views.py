@@ -9,7 +9,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
 from PIL import Image
@@ -87,14 +87,14 @@ class ScreenshotList(ListView, ComponentViewMixin):
             try_add_source(request, obj)
             messages.success(
                 request,
-                _(
+                gettext(
                     "Screenshot has been uploaded, "
                     "you can now assign it to source strings."
                 ),
             )
             return redirect(obj)
         messages.error(
-            request, _("Failed to upload screenshot, please fix errors below.")
+            request, gettext("Failed to upload screenshot, please fix errors below.")
         )
         return self.get(request, **kwargs)
 
@@ -151,7 +151,7 @@ def delete_screenshot(request, pk):
 
     obj.delete()
 
-    messages.success(request, _("Screenshot %s has been deleted.") % obj.name)
+    messages.success(request, gettext("Screenshot %s has been deleted.") % obj.name)
 
     return redirect("screenshots", **kwargs)
 
@@ -170,7 +170,7 @@ def remove_source(request, pk):
 
     obj.units.remove(request.POST["source"])
 
-    messages.success(request, _("Source has been removed."))
+    messages.success(request, gettext("Source has been removed."))
 
     return redirect(obj)
 

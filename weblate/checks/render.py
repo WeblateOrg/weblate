@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404, HttpResponse
 from django.urls import reverse
 from django.utils.html import format_html_join
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import TargetCheckParametrized
 from weblate.checks.parser import multi_value_flag
@@ -27,8 +27,8 @@ class MaxSizeCheck(TargetCheckParametrized):
     """Check for maximum size of rendered text."""
 
     check_id = "max-size"
-    name = _("Maximum size of translation")
-    description = _("Translation rendered text should not exceed given size")
+    name = gettext_lazy("Maximum size of translation")
+    description = gettext_lazy("Translation rendered text should not exceed given size")
     default_disabled = True
     last_font = None
     always_display = True

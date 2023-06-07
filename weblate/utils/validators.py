@@ -2,10 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import gettext
 import os
 import re
 import sys
+from gettext import c2py
 from io import BytesIO
 from urllib.parse import urlparse
 
@@ -13,8 +13,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as EmailValidatorDjango
 from django.core.validators import validate_ipv46_address
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 from PIL import Image
 
 from weblate.trans.util import cleanup_path
@@ -51,17 +50,17 @@ def validate_re(value, groups=None, allow_empty=True):
     try:
         compiled = re.compile(value)
     except re.error as error:
-        raise ValidationError(_("Compilation failed: {0}").format(error))
+        raise ValidationError(gettext("Compilation failed: {0}").format(error))
     if not allow_empty and compiled.match(""):
         raise ValidationError(
-            _("The regular expression can not match an empty string.")
+            gettext("The regular expression can not match an empty string.")
         )
     if not groups:
         return
     for group in groups:
         if group not in compiled.groupindex:
             raise ValidationError(
-                _(
+                gettext(
                     'Regular expression is missing named group "{0}", '
                     "the simplest way to define it is {1}."
                 ).format(group, f"(?P<{group}>.*)")
@@ -101,22 +100,26 @@ def validate_bitmap(value):
         value.file.content_type = Image.MIME.get(image.format)
     except Exception:
         # Pillow doesn't recognize it as an image.
-        raise ValidationError(_("Invalid image!"), code="invalid_image").with_traceback(
-            sys.exc_info()[2]
-        )
+        raise ValidationError(
+            gettext("Invalid image!"), code="invalid_image"
+        ).with_traceback(sys.exc_info()[2])
     if hasattr(value.file, "seek") and callable(value.file.seek):
         value.file.seek(0)
 
     # Check image type
     if value.file.content_type not in ALLOWED_IMAGES:
         image.close()
-        raise ValidationError(_("Unsupported image type: %s") % value.file.content_type)
+        raise ValidationError(
+            gettext("Unsupported image type: %s") % value.file.content_type
+        )
 
     # Check dimensions
     width, height = image.size
     if width > 2000 or height > 2000:
         image.close()
-        raise ValidationError(_("The image is too big, please crop or scale it down."))
+        raise ValidationError(
+            gettext("The image is too big, please crop or scale it down.")
+        )
 
     image.close()
 
@@ -134,11 +137,11 @@ def clean_fullname(val):
 def validate_fullname(val):
     if val != clean_fullname(val):
         raise ValidationError(
-            _("Please avoid using special characters in the full name.")
+            gettext("Please avoid using special characters in the full name.")
         )
     # Validates full name that would be rejected by Git
     if CRUD_RE.match(val):
-        raise ValidationError(_("Name consists only of disallowed characters."))
+        raise ValidationError(gettext("Name consists only of disallowed characters."))
 
     return val
 
@@ -147,16 +150,16 @@ def validate_file_extension(value):
     """Simple extension based validation for uploads."""
     ext = os.path.splitext(value.name)[1]
     if ext.lower() in FORBIDDEN_EXTENSIONS:
-        raise ValidationError(_("Unsupported file format."))
+        raise ValidationError(gettext("Unsupported file format."))
     return value
 
 
 def validate_username(value):
     if value.startswith("."):
-        raise ValidationError(_("The username can not start with a full stop."))
+        raise ValidationError(gettext("The username can not start with a full stop."))
     if not USERNAME_MATCHER.match(value):
         raise ValidationError(
-            _(
+            gettext(
                 "Username may only contain letters, "
                 "numbers or the following characters: @ . + - _"
             )
@@ -170,9 +173,9 @@ class EmailValidator(EmailValidatorDjango):
         super().__call__(value)
         user_part = value.rsplit("@", 1)[0]
         if EMAIL_BLACKLIST.match(user_part):
-            raise ValidationError(_("Enter a valid e-mail address."))
+            raise ValidationError(gettext("Enter a valid e-mail address."))
         if not re.match(settings.REGISTRATION_EMAIL_MATCH, value):
-            raise ValidationError(_("This e-mail address is disallowed."))
+            raise ValidationError(gettext("This e-mail address is disallowed."))
 
 
 validate_email = EmailValidator()
@@ -180,23 +183,25 @@ validate_email = EmailValidator()
 
 def validate_plural_formula(value):
     try:
-        gettext.c2py(value if value else "0")
+        c2py(value if value else "0")
     except ValueError as error:
-        raise ValidationError(_("Could not evaluate plural formula: {}").format(error))
+        raise ValidationError(
+            gettext("Could not evaluate plural formula: {}").format(error)
+        )
 
 
 def validate_filename(value):
     if "../" in value or "..\\" in value:
         raise ValidationError(
-            _("The filename can not contain reference to a parent directory.")
+            gettext("The filename can not contain reference to a parent directory.")
         )
     if os.path.isabs(value):
-        raise ValidationError(_("The filename can not be an absolute path."))
+        raise ValidationError(gettext("The filename can not be an absolute path."))
 
     cleaned = cleanup_path(value)
     if value != cleaned:
         raise ValidationError(
-            _(
+            gettext(
                 "The filename should be as simple as possible. "
                 "Maybe you want to use: {}"
             ).format(cleaned)
@@ -207,7 +212,7 @@ def validate_slug(value):
     """Prohibits some special values."""
     # This one is used as wildcard in the URL for widgets and translate pages
     if value == "-":
-        raise ValidationError(_("This name is prohibited"))
+        raise ValidationError(gettext("This name is prohibited"))
 
 
 def validate_language_aliases(value):
@@ -216,7 +221,7 @@ def validate_language_aliases(value):
         return
     for part in value.split(","):
         if part.count(":") != 1:
-            raise ValidationError(_("Syntax error in language aliases."))
+            raise ValidationError(gettext("Syntax error in language aliases."))
 
 
 def validate_project_name(value):
@@ -224,7 +229,7 @@ def validate_project_name(value):
     if settings.PROJECT_NAME_RESTRICT_RE is not None and re.match(
         settings.PROJECT_NAME_RESTRICT_RE, value
     ):
-        raise ValidationError(_("This name is prohibited"))
+        raise ValidationError(gettext("This name is prohibited"))
 
 
 def validate_project_web(value):
@@ -232,7 +237,7 @@ def validate_project_web(value):
     if settings.PROJECT_WEB_RESTRICT_RE is not None and re.match(
         settings.PROJECT_WEB_RESTRICT_RE, value
     ):
-        raise ValidationError(_("This URL is prohibited"))
+        raise ValidationError(gettext("This URL is prohibited"))
     parsed = urlparse(value)
     hostname = parsed.hostname or ""
     hostname = hostname.lower()
@@ -241,7 +246,7 @@ def validate_project_web(value):
     if any(
         hostname.endswith(blocked) for blocked in settings.PROJECT_WEB_RESTRICT_HOST
     ):
-        raise ValidationError(_("This URL is prohibited"))
+        raise ValidationError(gettext("This URL is prohibited"))
 
     # Numeric address filtering
     if settings.PROJECT_WEB_RESTRICT_NUMERIC:
@@ -250,4 +255,4 @@ def validate_project_web(value):
         except ValidationError:
             pass
         else:
-            raise ValidationError(_("This URL is prohibited"))
+            raise ValidationError(gettext("This URL is prohibited"))

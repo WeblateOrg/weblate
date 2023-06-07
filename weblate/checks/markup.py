@@ -9,7 +9,7 @@ import nh3
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import TargetCheck
 from weblate.utils.html import extract_html_tags
@@ -77,8 +77,8 @@ class BBCodeCheck(TargetCheck):
     """Check for matching bbcode tags."""
 
     check_id = "bbcode"
-    name = _("BBCode markup")
-    description = _("BBCode in translation does not match source")
+    name = gettext_lazy("BBCode markup")
+    description = gettext_lazy("BBCode in translation does not match source")
 
     def check_single(self, source, target, unit):
         # Parse source
@@ -158,8 +158,8 @@ class XMLValidityCheck(BaseXMLCheck):
     """Check whether XML in target is valid."""
 
     check_id = "xml-invalid"
-    name = _("XML syntax")
-    description = _("The translation is not valid XML")
+    name = gettext_lazy("XML syntax")
+    description = gettext_lazy("The translation is not valid XML")
 
     def check_single(self, source, target, unit):
         # Check if source is XML
@@ -183,8 +183,8 @@ class XMLTagsCheck(BaseXMLCheck):
     """Check whether XML in target matches source."""
 
     check_id = "xml-tags"
-    name = _("XML markup")
-    description = _("XML tags in translation do not match source")
+    name = gettext_lazy("XML markup")
+    description = gettext_lazy("XML tags in translation do not match source")
 
     def check_single(self, source, target, unit):
         # Check if source is XML
@@ -241,8 +241,8 @@ class MarkdownBaseCheck(TargetCheck):
 
 class MarkdownRefLinkCheck(MarkdownBaseCheck):
     check_id = "md-reflink"
-    name = _("Markdown references")
-    description = _("Markdown link references do not match source")
+    name = gettext_lazy("Markdown references")
+    description = gettext_lazy("Markdown link references do not match source")
 
     def check_single(self, source, target, unit):
         src_match = MD_REFLINK.findall(source)
@@ -258,8 +258,8 @@ class MarkdownRefLinkCheck(MarkdownBaseCheck):
 
 class MarkdownLinkCheck(MarkdownBaseCheck):
     check_id = "md-link"
-    name = _("Markdown links")
-    description = _("Markdown links do not match source")
+    name = gettext_lazy("Markdown links")
+    description = gettext_lazy("Markdown links do not match source")
 
     def check_single(self, source, target, unit):
         src_match = MD_LINK.findall(source)
@@ -287,8 +287,8 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
 
 class MarkdownSyntaxCheck(MarkdownBaseCheck):
     check_id = "md-syntax"
-    name = _("Markdown syntax")
-    description = _("Markdown syntax does not match source")
+    name = gettext_lazy("Markdown syntax")
+    description = gettext_lazy("Markdown syntax does not match source")
 
     @staticmethod
     def extract_match(match):
@@ -320,8 +320,8 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
 
 class URLCheck(TargetCheck):
     check_id = "url"
-    name = _("URL")
-    description = _("The translation does not contain an URL")
+    name = gettext_lazy("URL")
+    description = gettext_lazy("The translation does not contain an URL")
     default_disabled = True
 
     @cached_property
@@ -340,8 +340,8 @@ class URLCheck(TargetCheck):
 
 class SafeHTMLCheck(TargetCheck):
     check_id = "safe-html"
-    name = _("Unsafe HTML")
-    description = _("The translation uses unsafe HTML markup")
+    name = gettext_lazy("Unsafe HTML")
+    description = gettext_lazy("The translation uses unsafe HTML markup")
     default_disabled = True
 
     def check_single(self, source, target, unit):

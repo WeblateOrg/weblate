@@ -14,9 +14,7 @@ from django.core.paginator import EmptyPage, Paginator
 from django.http import FileResponse, Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.http import http_date
-from django.utils.translation import activate
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy, pgettext_lazy
+from django.utils.translation import activate, gettext, gettext_lazy, pgettext_lazy
 from django.views.decorators.gzip import gzip_page
 from django.views.generic.edit import FormView
 
@@ -141,7 +139,7 @@ def get_sort_name(request, obj=None):
         default = "-priority,position"
     sort_query = request.GET.get("sort_by", default)
     sort_params = sort_query.replace("-", "")
-    sort_name = SORT_LOOKUP.get(sort_params, _("Position and priority"))
+    sort_name = SORT_LOOKUP.get(sort_params, gettext("Position and priority"))
     return {
         "query": sort_query,
         "name": sort_name,
@@ -372,7 +370,7 @@ def get_form_errors(form):
         yield error
     for field in form:
         for error in field.errors:
-            yield _("Error in parameter %(field)s: %(error)s") % {
+            yield gettext("Error in parameter %(field)s: %(error)s") % {
                 "field": field.name,
                 "error": error,
             }

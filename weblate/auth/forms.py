@@ -8,8 +8,7 @@ from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.http import HttpRequest
-from django.utils.translation import gettext
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 from social_core.backends.email import EmailAuth
 from social_django.views import complete
 
@@ -89,7 +88,7 @@ class InviteUserForm(forms.ModelForm, UniqueEmailMixin):
                 send_invitation(
                     request, project.name if project else settings.SITE_TITLE, user
                 )
-                messages.success(request, _("User invitation e-mail was sent."))
+                messages.success(request, gettext("User invitation e-mail was sent."))
             except Exception:
                 report_error(cause="Failed to send an invitation")
                 raise
@@ -98,7 +97,7 @@ class InviteUserForm(forms.ModelForm, UniqueEmailMixin):
 
 class AdminInviteUserForm(InviteUserForm):
     send_email = forms.BooleanField(
-        label=_("Send e-mail invitation to the user"),
+        label=gettext_lazy("Send e-mail invitation to the user"),
         initial=True,
         required=False,
     )
@@ -112,7 +111,7 @@ class UserEditForm(AdminInviteUserForm):
     create = False
 
     send_email = forms.BooleanField(
-        label=_("Resend e-mail invitation to the user"),
+        label=gettext_lazy("Resend e-mail invitation to the user"),
         initial=False,
         required=False,
     )

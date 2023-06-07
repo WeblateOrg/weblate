@@ -5,7 +5,7 @@
 """Example pre commit script."""
 
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.events import EVENT_PRE_COMMIT
 from weblate.addons.scripts import BaseScriptAddon
@@ -17,8 +17,8 @@ class ExamplePreAddon(BaseScriptAddon):
     # Name of the addon, has to be unique
     name = "weblate.example.pre"
     # Verbose name and long description
-    verbose = _("Execute script before commit")
-    description = _("This add-on executes a script.")
+    verbose = gettext_lazy("Execute script before commit")
+    description = gettext_lazy("This add-on executes a script.")
 
     # Script to execute
     script = "/bin/true"

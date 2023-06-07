@@ -13,7 +13,7 @@ from django.db.models import Q
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.auth.models import get_anonymous
 from weblate.checks.flags import Flags
@@ -44,16 +44,18 @@ class ScreenshotQuerySet(models.QuerySet):
 
 
 class Screenshot(models.Model, UserDisplayMixin):
-    name = models.CharField(verbose_name=_("Screenshot name"), max_length=200)
+    name = models.CharField(
+        verbose_name=gettext_lazy("Screenshot name"), max_length=200
+    )
     repository_filename = models.CharField(
-        verbose_name=_("Repository path to screenshot"),
-        help_text=_("Scan for screenshot file change on repository update."),
+        verbose_name=gettext_lazy("Repository path to screenshot"),
+        help_text=gettext_lazy("Scan for screenshot file change on repository update."),
         blank=True,
         max_length=200,
     )
     image = ScreenshotField(
-        verbose_name=_("Image"),
-        help_text=_("Upload JPEG or PNG images up to 2000x2000 pixels."),
+        verbose_name=gettext_lazy("Image"),
+        help_text=gettext_lazy("Upload JPEG or PNG images up to 2000x2000 pixels."),
         upload_to="screenshots/",
     )
     translation = models.ForeignKey(Translation, on_delete=models.deletion.CASCADE)

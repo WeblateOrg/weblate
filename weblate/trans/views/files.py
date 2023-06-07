@@ -6,8 +6,7 @@ import os
 
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
-from django.utils.translation import gettext as _
-from django.utils.translation import ngettext
+from django.utils.translation import gettext, ngettext
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
@@ -142,7 +141,7 @@ def upload_translation(request, project, component, lang):
 
     # Check method and lock
     if obj.component.locked:
-        messages.error(request, _("Access denied."))
+        messages.error(request, gettext("Access denied."))
         return redirect(obj)
 
     # Get correct form handler based on permissions
@@ -150,7 +149,7 @@ def upload_translation(request, project, component, lang):
 
     # Check form validity
     if not form.is_valid():
-        messages.error(request, _("Please fix errors in the form."))
+        messages.error(request, gettext("Please fix errors in the form."))
         show_form_errors(request, form)
         return redirect(obj)
 
@@ -178,7 +177,7 @@ def upload_translation(request, project, component, lang):
             fuzzy=form.cleaned_data["fuzzy"],
         )
         if total == 0:
-            message = _("No strings were imported from the uploaded file.")
+            message = gettext("No strings were imported from the uploaded file.")
         else:
             message = ngettext(
                 "Processed {0} string from the uploaded files "
@@ -194,7 +193,9 @@ def upload_translation(request, project, component, lang):
     except PluralFormsMismatch:
         messages.error(
             request,
-            _("Plural forms in the uploaded file do not match current translation."),
+            gettext(
+                "Plural forms in the uploaded file do not match current translation."
+            ),
         )
     except FailedCommitError as error:
         messages.error(request, str(error))  # noqa: G200
@@ -202,7 +203,7 @@ def upload_translation(request, project, component, lang):
     except Exception as error:
         messages.error(
             request,
-            _("File upload has failed: %s")
+            gettext("File upload has failed: %s")
             % str(error).replace(obj.component.full_path, ""),
         )
         report_error(cause="Upload error", project=obj.component.project)

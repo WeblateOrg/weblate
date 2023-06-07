@@ -35,7 +35,7 @@ from django.utils import timezone
 from django.utils.cache import patch_response_headers
 from django.utils.decorators import method_decorator
 from django.utils.http import urlencode
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -150,13 +150,13 @@ class EmailSentView(TemplateView):
         # This view is not visible for invitation that's
         # why don't handle user_invite here
         if self.request.flags["password_reset"]:
-            context["title"] = _("Password reset")
+            context["title"] = gettext("Password reset")
             context["is_reset"] = True
         elif self.request.flags["account_remove"]:
-            context["title"] = _("Remove account")
+            context["title"] = gettext("Remove account")
             context["is_remove"] = True
         else:
-            context["title"] = _("User registration")
+            context["title"] = gettext("User registration")
 
         return context
 
@@ -187,7 +187,7 @@ def mail_admins_contact(request, subject, message, context, sender, to):
     if not to and settings.ADMINS:
         to = [a[1] for a in settings.ADMINS]
     elif not settings.ADMINS:
-        messages.error(request, _("Could not send message to administrator."))
+        messages.error(request, gettext("Could not send message to administrator."))
         LOGGER.error("ADMINS not configured, cannot send message")
         return
 
@@ -213,7 +213,7 @@ def mail_admins_contact(request, subject, message, context, sender, to):
     mail.send(fail_silently=False)
 
     messages.success(
-        request, _("Your request has been sent, you will shortly hear from us.")
+        request, gettext("Your request has been sent, you will shortly hear from us.")
     )
 
 
@@ -326,7 +326,7 @@ def user_profile(request):
                     form.audit(request)
                 form.save()
 
-            messages.success(request, _("Your profile has been updated."))
+            messages.success(request, gettext("Your profile has been updated."))
 
             # Redirect after saving (and possibly changing language)
             return redirect_profile(request.POST.get("activetab"))
@@ -362,7 +362,7 @@ def user_profile(request):
                 "roles", "projects", "languages", "components"
             ),
             "profile": profile,
-            "title": _("User profile"),
+            "title": gettext("User profile"),
             "licenses": license_components,
             "associated": social,
             "new_backends": new_backends,
@@ -382,7 +382,7 @@ def user_remove(request):
             remove_user(request.user, request)
             rotate_token(request)
             logout(request)
-            messages.success(request, _("Your account has been removed."))
+            messages.success(request, gettext("Your account has been removed."))
             return redirect("home")
         confirm_form = EmptyConfirmForm(request)
 
@@ -446,7 +446,7 @@ def contact(request):
             captcha = CaptchaForm(request, form, request.POST)
         if not check_rate_limit("message", request):
             messages.error(
-                request, _("Too many messages sent, please try again later.")
+                request, gettext("Too many messages sent, please try again later.")
             )
         elif (captcha is None or captcha.is_valid()) and form.is_valid():
             mail_admins_contact(
@@ -469,7 +469,7 @@ def contact(request):
     return render(
         request,
         "accounts/contact.html",
-        {"form": form, "captcha_form": captcha, "title": _("Contact")},
+        {"form": form, "captcha_form": captcha, "title": gettext("Contact")},
     )
 
 
@@ -493,7 +493,7 @@ def hosting(request):
         request,
         "accounts/hosting.html",
         {
-            "title": _("Hosting"),
+            "title": gettext("Hosting"),
             "billings": billings,
         },
     )
@@ -513,7 +513,7 @@ def trial(request):
     if plan != "libre" and request.user.auditlog_set.filter(activity="trial").exists():
         messages.error(
             request,
-            _(
+            gettext(
                 "Seems you've already requested a trial period recently. "
                 "Please contact us with your inquiry so we can find the "
                 "best solution for you."
@@ -533,14 +533,14 @@ def trial(request):
         billing.owners.add(request.user)
         messages.info(
             request,
-            _(
+            gettext(
                 "Your trial period is now up and running; "
                 "create your translation project and start Weblating!"
             ),
         )
         return redirect(reverse("create-project") + f"?billing={billing.pk}")
 
-    return render(request, "accounts/trial.html", {"title": _("Gratis trial")})
+    return render(request, "accounts/trial.html", {"title": gettext("Gratis trial")})
 
 
 class UserPage(UpdateView):
@@ -714,7 +714,7 @@ class WeblateLoginView(LoginView):
         auth_backends = get_auth_keys()
         context["login_backends"] = [x for x in sorted(auth_backends) if x != "email"]
         context["can_reset"] = "email" in auth_backends
-        context["title"] = _("Sign in")
+        context["title"] = gettext("Sign in")
         return context
 
     @method_decorator(never_cache)
@@ -744,7 +744,7 @@ class WeblateLogoutView(LogoutView):
     @method_decorator(login_required)
     @method_decorator(never_cache)
     def dispatch(self, request, *args, **kwargs):
-        messages.info(self.request, _("Thank you for using Weblate."))
+        messages.info(self.request, gettext("Thank you for using Weblate."))
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -801,7 +801,7 @@ def register(request):
         {
             "registration_email": "email" in backends,
             "registration_backends": backends - {"email"},
-            "title": _("User registration"),
+            "title": gettext("User registration"),
             "form": form,
             "captcha_form": captcha,
         },
@@ -837,7 +837,7 @@ def email_login(request):
     return render(
         request,
         "accounts/email.html",
-        {"title": _("Register e-mail"), "form": form, "captcha_form": captcha},
+        {"title": gettext("Register e-mail"), "form": form, "captcha_form": captcha},
     )
 
 
@@ -852,7 +852,8 @@ def password(request):
 
     if "email" not in get_auth_keys() and not usable:
         messages.error(
-            request, _("Cannot reset password, e-mail authentication is turned off.")
+            request,
+            gettext("Cannot reset password, e-mail authentication is turned off."),
         )
         return redirect("profile")
 
@@ -883,7 +884,7 @@ def password(request):
     return render(
         request,
         "accounts/password.html",
-        {"title": _("Change password"), "change_form": change_form, "form": form},
+        {"title": gettext("Change password"), "change_form": change_form, "form": form},
     )
 
 
@@ -893,7 +894,7 @@ def reset_password_set(request):
     if user.has_usable_password():
         request.session.flush()
         request.session.set_expiry(None)
-        messages.error(request, _("Password reset has been already completed."))
+        messages.error(request, gettext("Password reset has been already completed."))
         return redirect("login")
     if request.method == "POST":
         form = SetPasswordForm(user, request.POST)
@@ -907,7 +908,7 @@ def reset_password_set(request):
         request,
         "accounts/reset.html",
         {
-            "title": _("Password reset"),
+            "title": gettext("Password reset"),
             "form": form,
             "captcha_form": None,
             "second_stage": True,
@@ -927,7 +928,8 @@ def reset_password(request):
         return redirect_profile()
     if "email" not in get_auth_keys():
         messages.error(
-            request, _("Cannot reset password, e-mail authentication is turned off.")
+            request,
+            gettext("Cannot reset password, e-mail authentication is turned off."),
         )
         return redirect("login")
 
@@ -972,7 +974,7 @@ def reset_password(request):
         request,
         "accounts/reset.html",
         {
-            "title": _("Password reset"),
+            "title": gettext("Password reset"),
             "form": form,
             "captcha_form": captcha,
             "second_stage": False,
@@ -1119,7 +1121,7 @@ def social_disconnect(request, backend, association_id=None):
     """
     # Block removal of last social auth
     if request.user.social_auth.count() <= 1:
-        messages.error(request, _("Could not remove user identity"))
+        messages.error(request, gettext("Could not remove user identity"))
         return redirect_profile("#account")
 
     # Block removal of last verified email
@@ -1129,7 +1131,7 @@ def social_disconnect(request, backend, association_id=None):
     if not verified.exists():
         messages.error(
             request,
-            _("Add another identity by confirming your e-mail address first."),
+            gettext("Add another identity by confirming your e-mail address first."),
         )
         return redirect_profile("#account")
 
@@ -1176,12 +1178,14 @@ def auth_fail(request, message):
 
 
 def registration_fail(request, message):
-    messages.error(request, _("Could not complete registration.") + " " + message)
+    messages.error(request, gettext("Could not complete registration.") + " " + message)
     messages.info(
         request,
-        _("Please check if you have already registered an account.")
+        gettext("Please check if you have already registered an account.")
         + " "
-        + _("You can also request a new password, if you have lost your credentials."),
+        + gettext(
+            "You can also request a new password, if you have lost your credentials."
+        ),
     )
 
     return redirect(reverse("login"))
@@ -1190,7 +1194,7 @@ def registration_fail(request, message):
 def auth_redirect_token(request):
     return auth_fail(
         request,
-        _(
+        gettext(
             "Try registering again to verify your identity, "
             "the confirmation link probably expired."
         ),
@@ -1198,23 +1202,25 @@ def auth_redirect_token(request):
 
 
 def auth_redirect_state(request):
-    return auth_fail(request, _("Could not authenticate due to invalid session state."))
+    return auth_fail(
+        request, gettext("Could not authenticate due to invalid session state.")
+    )
 
 
 def handle_missing_parameter(request, backend, error):
     if backend != "email" and error.parameter == "email":
         return auth_fail(
             request,
-            _("Got no e-mail address from third party authentication service.")
+            gettext("Got no e-mail address from third party authentication service.")
             + " "
-            + _("Please register using e-mail instead."),
+            + gettext("Please register using e-mail instead."),
         )
     if error.parameter in ("email", "user", "expires"):
         return auth_redirect_token(request)
     if error.parameter in ("state", "code"):
         return auth_redirect_state(request)
     if error.parameter == "disabled":
-        return auth_fail(request, _("New registrations are turned off."))
+        return auth_fail(request, gettext("New registrations are turned off."))
     return None
 
 
@@ -1272,30 +1278,35 @@ def social_complete(request, backend):  # noqa: C901
         report_error()
         return auth_fail(
             request,
-            _(
+            gettext(
                 "Could not authenticate, probably due to an expired token "
                 "or connection error."
             ),
         )
     except AuthCanceled:
         report_error()
-        return auth_fail(request, _("Authentication cancelled."))
+        return auth_fail(request, gettext("Authentication cancelled."))
     except AuthForbidden:
         report_error()
-        return auth_fail(request, _("The server does not allow authentication."))
+        return auth_fail(request, gettext("The server does not allow authentication."))
     except EmailAlreadyAssociated:
         return registration_fail(
             request,
-            _("The supplied e-mail address is already in use for another account."),
+            gettext(
+                "The supplied e-mail address is already in use for another account."
+            ),
         )
     except UsernameAlreadyAssociated:
         return registration_fail(
-            request, _("The supplied username is already in use for another account.")
+            request,
+            gettext("The supplied username is already in use for another account."),
         )
     except AuthAlreadyAssociated:
         return registration_fail(
             request,
-            _("The supplied user identity is already in use for another account."),
+            gettext(
+                "The supplied user identity is already in use for another account."
+            ),
         )
     except ValidationError as error:
         return registration_fail(request, str(error))
@@ -1321,7 +1332,7 @@ def subscribe(request):
             subscription.save()
         except ValidationError:
             pass
-        messages.success(request, _("Notification settings adjusted."))
+        messages.success(request, gettext("Notification settings adjusted."))
     return redirect_profile("#notifications")
 
 
@@ -1334,11 +1345,11 @@ def unsubscribe(request):
             )
             subscription.frequency = FREQ_NONE
             subscription.save(update_fields=["frequency"])
-            messages.success(request, _("Notification settings adjusted."))
+            messages.success(request, gettext("Notification settings adjusted."))
         except (BadSignature, SignatureExpired, Subscription.DoesNotExist):
             messages.error(
                 request,
-                _(
+                gettext(
                     "The notification change link is no longer valid, "
                     "please sign in to configure notifications."
                 ),

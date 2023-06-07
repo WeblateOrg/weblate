@@ -10,7 +10,7 @@ from itertools import chain
 from typing import Callable, List, Optional, Tuple, Union
 
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.formats.base import TranslationFormat, TranslationUnit
 from weblate.utils.errors import report_error
@@ -171,7 +171,7 @@ class TextUnit(TranslationUnit):
 
 
 class AppStoreFormat(TranslationFormat):
-    name = _("App store metadata files")
+    name = gettext_lazy("App store metadata files")
     format_id = "appstore"
     can_add_unit = False
     can_delete_unit = True

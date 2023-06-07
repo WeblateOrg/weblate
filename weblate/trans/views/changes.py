@@ -10,9 +10,7 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.http import urlencode
-from django.utils.translation import activate
-from django.utils.translation import gettext as _
-from django.utils.translation import pgettext
+from django.utils.translation import activate, gettext, pgettext
 from django.views.generic.list import ListView
 
 from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
@@ -138,7 +136,7 @@ class ChangesView(ListView):
                 form.cleaned_data.get("lang"),
             )
         except Http404:
-            messages.error(self.request, _("Failed to find matching project!"))
+            messages.error(self.request, gettext("Failed to find matching project!"))
 
     def _get_unit(self, form):
         unit = form.cleaned_data.get("string")
@@ -154,7 +152,9 @@ class ChangesView(ListView):
             try:
                 self.language = Language.objects.get(code=form.cleaned_data["lang"])
             except Language.DoesNotExist:
-                messages.error(self.request, _("Failed to find matching language!"))
+                messages.error(
+                    self.request, gettext("Failed to find matching language!")
+                )
 
     def _get_queryset_user(self, form):
         """Filtering by user."""
@@ -162,7 +162,7 @@ class ChangesView(ListView):
             try:
                 self.user = User.objects.get(username=form.cleaned_data["user"])
             except User.DoesNotExist:
-                messages.error(self.request, _("Failed to find matching user!"))
+                messages.error(self.request, gettext("Failed to find matching user!"))
 
     def _get_request_params(self):
         self.changes_form = form = ChangesForm(self.request, data=self.request.GET)

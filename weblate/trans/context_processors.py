@@ -9,7 +9,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils.html import format_html
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 
 import weblate.screenshots.views
 import weblate.utils.version
@@ -125,9 +125,11 @@ def weblate_context(request):
         watched_projects = request.user.watched_projects
 
     if settings.OFFER_HOSTING:
-        description = _("Hosted Weblate, the place to localize your software project.")
+        description = gettext(
+            "Hosted Weblate, the place to localize your software project."
+        )
     else:
-        description = _(
+        description = gettext(
             "This site runs Weblate for localizing various software projects."
         )
 

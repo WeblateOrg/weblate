@@ -6,7 +6,7 @@ from functools import reduce
 
 from django.db.models import Count, Prefetch, Q, Value
 from django.db.models.functions import MD5
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import TargetCheck
 from weblate.utils.state import STATE_TRANSLATED
@@ -16,8 +16,8 @@ class PluralsCheck(TargetCheck):
     """Check for incomplete plural forms."""
 
     check_id = "plurals"
-    name = _("Missing plurals")
-    description = _("Some plural forms are untranslated")
+    name = gettext_lazy("Missing plurals")
+    description = gettext_lazy("Some plural forms are untranslated")
 
     def should_skip(self, unit):
         if unit.translation.component.is_multivalue:
@@ -43,8 +43,8 @@ class SamePluralsCheck(TargetCheck):
     """Check for same plural forms."""
 
     check_id = "same-plurals"
-    name = _("Same plurals")
-    description = _("Some plural forms are translated in the same way")
+    name = gettext_lazy("Same plurals")
+    description = gettext_lazy("Some plural forms are translated in the same way")
 
     def check_target_unit(self, sources, targets, unit):
         # Is this plural?
@@ -63,8 +63,8 @@ class ConsistencyCheck(TargetCheck):
     """Check for inconsistent translations."""
 
     check_id = "inconsistent"
-    name = _("Inconsistent")
-    description = _(
+    name = gettext_lazy("Inconsistent")
+    description = gettext_lazy(
         "This string has more than one translation in this project "
         "or is untranslated in some components."
     )
@@ -135,8 +135,8 @@ class ReusedCheck(TargetCheck):
     """Check for reused translations."""
 
     check_id = "reused"
-    name = _("Reused translation")
-    description = _("Different strings are translated same.")
+    name = gettext_lazy("Reused translation")
+    description = gettext_lazy("Different strings are translated same.")
     propagates = True
     batch_project_wide = True
     skip_suggestions = True
@@ -211,8 +211,8 @@ class TranslatedCheck(TargetCheck):
     """Check for inconsistent translations."""
 
     check_id = "translated"
-    name = _("Has been translated")
-    description = _("This string has been translated in the past")
+    name = gettext_lazy("Has been translated")
+    description = gettext_lazy("This string has been translated in the past")
     ignore_untranslated = False
     skip_suggestions = True
 
@@ -221,7 +221,7 @@ class TranslatedCheck(TargetCheck):
         target = self.check_target_unit(unit.source, unit.target, unit)
         if not target:
             return super().get_description(check_obj)
-        return _('Previous translation was "%s".') % target
+        return gettext('Previous translation was "%s".') % target
 
     def should_skip_change(self, change, unit):
         from weblate.trans.models import Change

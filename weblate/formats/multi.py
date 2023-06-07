@@ -7,7 +7,7 @@
 from typing import List, Union
 
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.checks.flags import Flags
 from weblate.trans.util import get_string
@@ -151,5 +151,5 @@ class MultiFormatMixin:
 
 
 class MultiCSVUtf8Format(MultiFormatMixin, CSVUtf8Format):
-    name = _("Multivalue CSV file (UTF-8)")
+    name = gettext_lazy("Multivalue CSV file (UTF-8)")
     format_id = "csv-multi-utf-8"

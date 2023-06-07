@@ -21,9 +21,7 @@ from django.http import Http404
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext
-from django.utils.translation import gettext_lazy as _
-from django.utils.translation import pgettext
+from django.utils.translation import gettext, gettext_lazy, pgettext
 from social_core.backends.utils import load_backends
 
 from weblate.auth.data import (
@@ -70,12 +68,14 @@ class Permission(models.Model):
 
 
 class Role(models.Model):
-    name = models.CharField(verbose_name=_("Name"), max_length=200, unique=True)
+    name = models.CharField(
+        verbose_name=gettext_lazy("Name"), max_length=200, unique=True
+    )
     permissions = models.ManyToManyField(
         Permission,
-        verbose_name=_("Permissions"),
+        verbose_name=gettext_lazy("Permissions"),
         blank=True,
-        help_text=_("Choose permissions granted to this role."),
+        help_text=gettext_lazy("Choose permissions granted to this role."),
     )
 
     class Meta:
@@ -93,12 +93,12 @@ class GroupQuerySet(models.QuerySet):
 
 
 class Group(models.Model):
-    name = models.CharField(_("Name"), max_length=150)
+    name = models.CharField(gettext_lazy("Name"), max_length=150)
     roles = models.ManyToManyField(
         Role,
-        verbose_name=_("Roles"),
+        verbose_name=gettext_lazy("Roles"),
         blank=True,
-        help_text=_("Choose roles granted to this group."),
+        help_text=gettext_lazy("Choose roles granted to this group."),
     )
 
     defining_project = models.ForeignKey(
@@ -110,54 +110,56 @@ class Group(models.Model):
     )
 
     project_selection = models.IntegerField(
-        verbose_name=_("Project selection"),
+        verbose_name=gettext_lazy("Project selection"),
         choices=(
-            (SELECTION_MANUAL, _("As defined")),
-            (SELECTION_ALL, _("All projects")),
-            (SELECTION_ALL_PUBLIC, _("All public projects")),
-            (SELECTION_ALL_PROTECTED, _("All protected projects")),
-            (SELECTION_COMPONENT_LIST, _("From component list")),
+            (SELECTION_MANUAL, gettext_lazy("As defined")),
+            (SELECTION_ALL, gettext_lazy("All projects")),
+            (SELECTION_ALL_PUBLIC, gettext_lazy("All public projects")),
+            (SELECTION_ALL_PROTECTED, gettext_lazy("All protected projects")),
+            (SELECTION_COMPONENT_LIST, gettext_lazy("From component list")),
         ),
         default=SELECTION_MANUAL,
     )
     projects = models.ManyToManyField(
-        "trans.Project", verbose_name=_("Projects"), blank=True
+        "trans.Project", verbose_name=gettext_lazy("Projects"), blank=True
     )
     components = models.ManyToManyField(
         "trans.Component",
-        verbose_name=_("Components"),
+        verbose_name=gettext_lazy("Components"),
         blank=True,
-        help_text=_(
+        help_text=gettext_lazy(
             "Empty selection grants access to all components in project scope."
         ),
     )
     componentlists = models.ManyToManyField(
         "trans.ComponentList",
-        verbose_name=_("Component lists"),
+        verbose_name=gettext_lazy("Component lists"),
         blank=True,
     )
 
     language_selection = models.IntegerField(
-        verbose_name=_("Language selection"),
+        verbose_name=gettext_lazy("Language selection"),
         choices=(
-            (SELECTION_MANUAL, _("As defined")),
-            (SELECTION_ALL, _("All languages")),
+            (SELECTION_MANUAL, gettext_lazy("As defined")),
+            (SELECTION_ALL, gettext_lazy("All languages")),
         ),
         default=SELECTION_MANUAL,
     )
     languages = models.ManyToManyField(
-        "lang.Language", verbose_name=_("Languages"), blank=True
+        "lang.Language", verbose_name=gettext_lazy("Languages"), blank=True
     )
 
     internal = models.BooleanField(
-        verbose_name=_("Internal Weblate group"), default=False
+        verbose_name=gettext_lazy("Internal Weblate group"), default=False
     )
 
     admins = models.ManyToManyField(
         "User",
-        verbose_name=_("Team administrators"),
+        verbose_name=gettext_lazy("Team administrators"),
         blank=True,
-        help_text=_("The administrator can add or remove users from a team."),
+        help_text=gettext_lazy(
+            "The administrator can add or remove users from a team."
+        ),
         related_name="administered_group_set",
     )
 
@@ -313,37 +315,39 @@ class GroupManyToManyField(models.ManyToManyField):
 
 class User(AbstractBaseUser):
     username = UsernameField(
-        _("Username"),
+        gettext_lazy("Username"),
         max_length=USERNAME_LENGTH,
         unique=True,
-        help_text=_(
+        help_text=gettext_lazy(
             "Username may only contain letters, "
             "numbers or the following characters: @ . + - _"
         ),
         validators=[validate_username],
-        error_messages={"unique": _("A user with that username already exists.")},
+        error_messages={
+            "unique": gettext_lazy("A user with that username already exists.")
+        },
     )
     full_name = models.CharField(
-        _("Full name"),
+        gettext_lazy("Full name"),
         max_length=FULLNAME_LENGTH,
         blank=False,
         validators=[validate_fullname],
     )
     email = EmailField(  # noqa: DJ01
-        _("E-mail"),
+        gettext_lazy("E-mail"),
         blank=False,
         null=True,
         unique=True,
     )
     is_superuser = models.BooleanField(
-        _("Superuser status"),
+        gettext_lazy("Superuser status"),
         default=False,
-        help_text=_("User has all possible permissions."),
+        help_text=gettext_lazy("User has all possible permissions."),
     )
     is_active = models.BooleanField(
-        _("Active"),
+        gettext_lazy("Active"),
         default=True,
-        help_text=_("Mark user as inactive instead of removing."),
+        help_text=gettext_lazy("Mark user as inactive instead of removing."),
     )
     is_bot = models.BooleanField(
         "Robot user",
@@ -351,14 +355,16 @@ class User(AbstractBaseUser):
         db_index=True,
     )
     date_expires = models.DateTimeField(
-        _("Expires"), null=True, blank=True, default=None
+        gettext_lazy("Expires"), null=True, blank=True, default=None
     )
-    date_joined = models.DateTimeField(_("Date joined"), default=timezone.now)
+    date_joined = models.DateTimeField(
+        gettext_lazy("Date joined"), default=timezone.now
+    )
     groups = GroupManyToManyField(
         Group,
-        verbose_name=_("Groups"),
+        verbose_name=gettext_lazy("Groups"),
         blank=True,
-        help_text=_(
+        help_text=gettext_lazy(
             "The user is granted all permissions included in "
             "membership of these groups."
         ),
@@ -701,15 +707,17 @@ class User(AbstractBaseUser):
 
 class AutoGroup(models.Model):
     match = RegexField(
-        verbose_name=_("Regular expression for e-mail address"),
+        verbose_name=gettext_lazy("Regular expression for e-mail address"),
         max_length=200,
         default="^.*$",
-        help_text=_(
+        help_text=gettext_lazy(
             "Users with e-mail addresses found to match will be added to this group."
         ),
     )
     group = models.ForeignKey(
-        Group, verbose_name=_("Group to assign"), on_delete=models.deletion.CASCADE
+        Group,
+        verbose_name=gettext_lazy("Group to assign"),
+        on_delete=models.deletion.CASCADE,
     )
 
     class Meta:
@@ -722,12 +730,14 @@ class AutoGroup(models.Model):
 
 class UserBlock(models.Model):
     user = models.ForeignKey(
-        User, verbose_name=_("User to block"), on_delete=models.deletion.CASCADE
+        User,
+        verbose_name=gettext_lazy("User to block"),
+        on_delete=models.deletion.CASCADE,
     )
     project = models.ForeignKey(
-        Project, verbose_name=_("Project"), on_delete=models.deletion.CASCADE
+        Project, verbose_name=gettext_lazy("Project"), on_delete=models.deletion.CASCADE
     )
-    expiry = models.DateTimeField(_("Block expiry"), null=True)
+    expiry = models.DateTimeField(gettext_lazy("Block expiry"), null=True)
 
     class Meta:
         verbose_name = "Blocked user"

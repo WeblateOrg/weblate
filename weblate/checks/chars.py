@@ -4,7 +4,7 @@
 
 import re
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import CountingCheck, TargetCheck, TargetCheckParametrized
 from weblate.checks.markup import strip_entities
@@ -18,8 +18,10 @@ class BeginNewlineCheck(TargetCheck):
     """Check for newlines at beginning."""
 
     check_id = "begin_newline"
-    name = _("Starting newline")
-    description = _("Source and translation do not both start with a newline")
+    name = gettext_lazy("Starting newline")
+    description = gettext_lazy(
+        "Source and translation do not both start with a newline"
+    )
 
     def check_single(self, source, target, unit):
         return self.check_chars(source, target, 0, ["\n"])
@@ -29,8 +31,8 @@ class EndNewlineCheck(TargetCheck):
     """Check for newlines at end."""
 
     check_id = "end_newline"
-    name = _("Trailing newline")
-    description = _("Source and translation do not both end with a newline")
+    name = gettext_lazy("Trailing newline")
+    description = gettext_lazy("Source and translation do not both end with a newline")
 
     def check_single(self, source, target, unit):
         return self.check_chars(source, target, -1, ["\n"])
@@ -40,8 +42,8 @@ class BeginSpaceCheck(TargetCheck):
     """Whitespace check, starting whitespace usually is important for UI."""
 
     check_id = "begin_space"
-    name = _("Starting spaces")
-    description = _(
+    name = gettext_lazy("Starting spaces")
+    description = gettext_lazy(
         "Source and translation do not both start with same number of spaces"
     )
 
@@ -76,8 +78,8 @@ class EndSpaceCheck(TargetCheck):
     """Whitespace check."""
 
     check_id = "end_space"
-    name = _("Trailing space")
-    description = _("Source and translation do not both end with a space")
+    name = gettext_lazy("Trailing space")
+    description = gettext_lazy("Source and translation do not both end with a space")
 
     def check_single(self, source, target, unit):
         # One letter things are usually decimal/thousand separators
@@ -112,8 +114,8 @@ class DoubleSpaceCheck(TargetCheck):
     """Doublespace check."""
 
     check_id = "double_space"
-    name = _("Double space")
-    description = _("Translation contains double space")
+    name = gettext_lazy("Double space")
+    description = gettext_lazy("Translation contains double space")
 
     def check_single(self, source, target, unit):
         # One letter things are usually decimal/thousand separators
@@ -134,8 +136,10 @@ class EndStopCheck(TargetCheck):
     """Check for final stop."""
 
     check_id = "end_stop"
-    name = _("Mismatched full stop")
-    description = _("Source and translation do not both end with a full stop")
+    name = gettext_lazy("Mismatched full stop")
+    description = gettext_lazy(
+        "Source and translation do not both end with a full stop"
+    )
 
     def _check_my(self, source, target):
         if target.endswith(MY_QUESTION_MARK):
@@ -185,8 +189,8 @@ class EndColonCheck(TargetCheck):
     """Check for final colon."""
 
     check_id = "end_colon"
-    name = _("Mismatched colon")
-    description = _("Source and translation do not both end with a colon")
+    name = gettext_lazy("Mismatched colon")
+    description = gettext_lazy("Source and translation do not both end with a colon")
 
     def _check_hy(self, source, target):
         if source[-1] == ":":
@@ -216,8 +220,10 @@ class EndQuestionCheck(TargetCheck):
     """Check for final question mark."""
 
     check_id = "end_question"
-    name = _("Mismatched question mark")
-    description = _("Source and translation do not both end with a question mark")
+    name = gettext_lazy("Mismatched question mark")
+    description = gettext_lazy(
+        "Source and translation do not both end with a question mark"
+    )
     question_el = ("?", ";", ";")
 
     def _check_hy(self, source, target):
@@ -254,8 +260,10 @@ class EndExclamationCheck(TargetCheck):
     """Check for final exclamation mark."""
 
     check_id = "end_exclamation"
-    name = _("Mismatched exclamation mark")
-    description = _("Source and translation do not both end with an exclamation mark")
+    name = gettext_lazy("Mismatched exclamation mark")
+    description = gettext_lazy(
+        "Source and translation do not both end with an exclamation mark"
+    )
 
     def check_single(self, source, target, unit):
         if not source or not target:
@@ -280,8 +288,10 @@ class EndEllipsisCheck(TargetCheck):
     """Check for ellipsis at the end of string."""
 
     check_id = "end_ellipsis"
-    name = _("Mismatched ellipsis")
-    description = _("Source and translation do not both end with an ellipsis")
+    name = gettext_lazy("Mismatched ellipsis")
+    description = gettext_lazy(
+        "Source and translation do not both end with an ellipsis"
+    )
 
     def check_single(self, source, target, unit):
         if not target:
@@ -299,8 +309,10 @@ class EscapedNewlineCountingCheck(CountingCheck):
 
     string = "\\n"
     check_id = "escaped_newline"
-    name = _("Mismatched \\n")
-    description = _("Number of \\n literals in translation does not match source")
+    name = gettext_lazy("Mismatched \\n")
+    description = gettext_lazy(
+        "Number of \\n literals in translation does not match source"
+    )
 
     ignore_re = re.compile(r"[A-Z]:\\\\[^\\ ]+(\\[^\\ ]+)+")
 
@@ -318,16 +330,18 @@ class NewLineCountCheck(CountingCheck):
 
     string = "\n"
     check_id = "newline-count"
-    name = _("Mismatching line breaks")
-    description = _("Number of new lines in translation does not match source")
+    name = gettext_lazy("Mismatching line breaks")
+    description = gettext_lazy(
+        "Number of new lines in translation does not match source"
+    )
 
 
 class ZeroWidthSpaceCheck(TargetCheck):
     """Check for zero width space char (<U+200B>)."""
 
     check_id = "zero-width-space"
-    name = _("Zero-width space")
-    description = _("Translation contains extra zero-width space character")
+    name = gettext_lazy("Zero-width space")
+    description = gettext_lazy("Translation contains extra zero-width space character")
 
     def check_single(self, source, target, unit):
         if self.is_language(unit, ("km",)):
@@ -344,8 +358,8 @@ class MaxLengthCheck(TargetCheckParametrized):
     """Check for maximum length of translation."""
 
     check_id = "max-length"
-    name = _("Maximum length of translation")
-    description = _("Translation should not exceed given length")
+    name = gettext_lazy("Maximum length of translation")
+    description = gettext_lazy("Translation should not exceed given length")
     default_disabled = True
 
     @property
@@ -361,8 +375,10 @@ class EndSemicolonCheck(TargetCheck):
     """Check for semicolon at end."""
 
     check_id = "end_semicolon"
-    name = _("Mismatched semicolon")
-    description = _("Source and translation do not both end with a semicolon")
+    name = gettext_lazy("Mismatched semicolon")
+    description = gettext_lazy(
+        "Source and translation do not both end with a semicolon"
+    )
 
     def check_single(self, source, target, unit):
         if self.is_language(unit, ("el",)) and source and source[-1] == "?":
@@ -375,8 +391,8 @@ class EndSemicolonCheck(TargetCheck):
 
 class KashidaCheck(TargetCheck):
     check_id = "kashida"
-    name = _("Kashida letter used")
-    description = _("The decorative kashida letters should not be used")
+    name = gettext_lazy("Kashida letter used")
+    description = gettext_lazy("The decorative kashida letters should not be used")
 
     kashida_regex = (
         # Allow kashida after certain letters
@@ -395,8 +411,10 @@ class KashidaCheck(TargetCheck):
 
 class PunctuationSpacingCheck(TargetCheck):
     check_id = "punctuation_spacing"
-    name = _("Punctuation spacing")
-    description = _("Missing non breakable space before double punctuation sign")
+    name = gettext_lazy("Punctuation spacing")
+    description = gettext_lazy(
+        "Missing non breakable space before double punctuation sign"
+    )
 
     def check_single(self, source, target, unit):
         if (

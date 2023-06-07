@@ -9,7 +9,7 @@ from crispy_forms.layout import Field, Layout
 from django import forms
 from django.http import QueryDict
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 from lxml.cssselect import CSSSelector
 
 from weblate.formats.models import FILE_FORMATS
@@ -38,10 +38,12 @@ class BaseAddonForm(forms.Form, AddonFormMixin):
 
 class GenerateMoForm(BaseAddonForm):
     path = forms.CharField(
-        label=_("Path of generated MO file"),
+        label=gettext_lazy("Path of generated MO file"),
         required=False,
         initial="{{ filename|stripext }}.mo",
-        help_text=_("If not specified, the location of the PO file will be used."),
+        help_text=gettext_lazy(
+            "If not specified, the location of the PO file will be used."
+        ),
     )
 
     def __init__(self, *args, **kwargs):
@@ -64,9 +66,13 @@ class GenerateMoForm(BaseAddonForm):
 
 
 class GenerateForm(BaseAddonForm):
-    filename = forms.CharField(label=_("Name of generated file"), required=True)
+    filename = forms.CharField(
+        label=gettext_lazy("Name of generated file"), required=True
+    )
     template = forms.CharField(
-        widget=forms.Textarea(), label=_("Content of generated file"), required=True
+        widget=forms.Textarea(),
+        label=gettext_lazy("Content of generated file"),
+        required=True,
     )
 
     def __init__(self, *args, **kwargs):
@@ -95,15 +101,23 @@ class GenerateForm(BaseAddonForm):
 
 class GettextCustomizeForm(BaseAddonForm):
     width = forms.ChoiceField(
-        label=_("Long lines wrapping"),
+        label=gettext_lazy("Long lines wrapping"),
         choices=[
-            (77, _("Wrap lines at 77 characters and at newlines (xgettext default)")),
-            (65535, _("Only wrap lines at newlines (like 'xgettext --no-wrap')")),
-            (-1, _("No line wrapping")),
+            (
+                77,
+                gettext_lazy(
+                    "Wrap lines at 77 characters and at newlines (xgettext default)"
+                ),
+            ),
+            (
+                65535,
+                gettext_lazy("Only wrap lines at newlines (like 'xgettext --no-wrap')"),
+            ),
+            (-1, gettext_lazy("No line wrapping")),
         ],
         required=True,
         initial=77,
-        help_text=_(
+        help_text=gettext_lazy(
             "By default gettext wraps lines at 77 characters and at newlines. "
             "With the --no-wrap parameter, wrapping is only done at newlines."
         ),
@@ -112,48 +126,48 @@ class GettextCustomizeForm(BaseAddonForm):
 
 class MsgmergeForm(BaseAddonForm):
     previous = forms.BooleanField(
-        label=_("Keep previous msgids of translated strings"),
+        label=gettext_lazy("Keep previous msgids of translated strings"),
         required=False,
         initial=True,
     )
     no_location = forms.BooleanField(
-        label=_("Remove locations of translated strings"),
+        label=gettext_lazy("Remove locations of translated strings"),
         required=False,
         initial=False,
     )
     fuzzy = forms.BooleanField(
-        label=_("Use fuzzy matching"), required=False, initial=True
+        label=gettext_lazy("Use fuzzy matching"), required=False, initial=True
     )
 
 
 class GitSquashForm(BaseAddonForm):
     squash = forms.ChoiceField(
-        label=_("Commit squashing"),
+        label=gettext_lazy("Commit squashing"),
         widget=forms.RadioSelect,
         choices=(
-            ("all", _("All commits into one")),
-            ("language", _("Per language")),
-            ("file", _("Per file")),
-            ("author", _("Per author")),
+            ("all", gettext_lazy("All commits into one")),
+            ("language", gettext_lazy("Per language")),
+            ("file", gettext_lazy("Per file")),
+            ("author", gettext_lazy("Per author")),
         ),
         initial="all",
         required=True,
     )
     append_trailers = forms.BooleanField(
-        label=_("Append trailers to squashed commit message"),
+        label=gettext_lazy("Append trailers to squashed commit message"),
         required=False,
         initial=True,
-        help_text=_(
+        help_text=gettext_lazy(
             "Trailer lines are lines that look similar to RFC 822 e-mail "
             "headers, at the end of the otherwise free-form part of a commit "
             "message, such as 'Co-authored-by: …'."
         ),
     )
     commit_message = forms.CharField(
-        label=_("Commit message"),
+        label=gettext_lazy("Commit message"),
         widget=forms.Textarea(),
         required=False,
-        help_text=_(
+        help_text=gettext_lazy(
             "This commit message will be used instead of the combined commit "
             "messages from the squashed commits."
         ),
@@ -171,15 +185,15 @@ class GitSquashForm(BaseAddonForm):
 
 
 class JSONCustomizeForm(BaseAddonForm):
-    sort_keys = forms.BooleanField(label=_("Sort JSON keys"), required=False)
+    sort_keys = forms.BooleanField(label=gettext_lazy("Sort JSON keys"), required=False)
     indent = forms.IntegerField(
-        label=_("JSON indentation"), min_value=0, initial=4, required=True
+        label=gettext_lazy("JSON indentation"), min_value=0, initial=4, required=True
     )
     style = forms.ChoiceField(
-        label=_("JSON indentation style"),
+        label=gettext_lazy("JSON indentation style"),
         choices=[
-            ("spaces", _("Spaces")),
-            ("tabs", _("Tabs")),
+            ("spaces", gettext_lazy("Spaces")),
+            ("tabs", gettext_lazy("Tabs")),
         ],
         required=True,
         initial="space",
@@ -190,7 +204,7 @@ class XMLCustomizeForm(BaseAddonForm):
     """Class defining user Form to configure XML Formatting AddOn."""
 
     closing_tags = forms.BooleanField(
-        label=_("Include closing tag for blank XML tags"),
+        label=gettext_lazy("Include closing tag for blank XML tags"),
         required=False,
         initial=True,
     )
@@ -198,26 +212,30 @@ class XMLCustomizeForm(BaseAddonForm):
 
 class YAMLCustomizeForm(BaseAddonForm):
     indent = forms.IntegerField(
-        label=_("YAML indentation"), min_value=1, max_value=10, initial=2, required=True
+        label=gettext_lazy("YAML indentation"),
+        min_value=1,
+        max_value=10,
+        initial=2,
+        required=True,
     )
     width = forms.ChoiceField(
-        label=_("Long lines wrapping"),
+        label=gettext_lazy("Long lines wrapping"),
         choices=[
-            ("80", _("Wrap lines at 80 chars")),
-            ("100", _("Wrap lines at 100 chars")),
-            ("120", _("Wrap lines at 120 chars")),
-            ("180", _("Wrap lines at 180 chars")),
-            ("65535", _("No line wrapping")),
+            ("80", gettext_lazy("Wrap lines at 80 chars")),
+            ("100", gettext_lazy("Wrap lines at 100 chars")),
+            ("120", gettext_lazy("Wrap lines at 120 chars")),
+            ("180", gettext_lazy("Wrap lines at 180 chars")),
+            ("65535", gettext_lazy("No line wrapping")),
         ],
         required=True,
         initial=80,
     )
     line_break = forms.ChoiceField(
-        label=_("Line breaks"),
+        label=gettext_lazy("Line breaks"),
         choices=[
-            ("dos", _("DOS (\\r\\n)")),
-            ("unix", _("UNIX (\\n)")),
-            ("mac", _("MAC (\\r)")),
+            ("dos", gettext_lazy("DOS (\\r\\n)")),
+            ("unix", gettext_lazy("UNIX (\\n)")),
+            ("mac", gettext_lazy("MAC (\\r)")),
         ],
         required=True,
         initial="unix",
@@ -226,16 +244,16 @@ class YAMLCustomizeForm(BaseAddonForm):
 
 class RemoveForm(BaseAddonForm):
     age = forms.IntegerField(
-        label=_("Days to keep"), min_value=0, initial=30, required=True
+        label=gettext_lazy("Days to keep"), min_value=0, initial=30, required=True
     )
 
 
 class RemoveSuggestionForm(RemoveForm):
     votes = forms.IntegerField(
-        label=_("Voting threshold"),
+        label=gettext_lazy("Voting threshold"),
         initial=0,
         required=True,
-        help_text=_(
+        help_text=gettext_lazy(
             "Threshold for removal. This field has no effect with voting turned off."
         ),
     )
@@ -243,39 +261,40 @@ class RemoveSuggestionForm(RemoveForm):
 
 class DiscoveryForm(BaseAddonForm):
     match = forms.CharField(
-        label=_("Regular expression to match translation files against"), required=True
+        label=gettext_lazy("Regular expression to match translation files against"),
+        required=True,
     )
     file_format = forms.ChoiceField(
-        label=_("File format"),
+        label=gettext_lazy("File format"),
         choices=FILE_FORMATS.get_choices(empty=True),
         initial="",
         required=True,
     )
     name_template = forms.CharField(
-        label=_("Customize the component name"),
+        label=gettext_lazy("Customize the component name"),
         initial="{{ component }}",
         required=True,
     )
     base_file_template = forms.CharField(
-        label=_("Define the monolingual base filename"),
+        label=gettext_lazy("Define the monolingual base filename"),
         initial="",
         required=False,
-        help_text=_("Leave empty for bilingual translation files."),
+        help_text=gettext_lazy("Leave empty for bilingual translation files."),
     )
     new_base_template = forms.CharField(
-        label=_("Define the base file for new translations"),
+        label=gettext_lazy("Define the base file for new translations"),
         initial="",
         required=False,
-        help_text=_(
+        help_text=gettext_lazy(
             "Filename of file used for creating new translations. "
             "For gettext choose .pot file."
         ),
     )
     intermediate_template = forms.CharField(
-        label=_("Intermediate language file"),
+        label=gettext_lazy("Intermediate language file"),
         initial="",
         required=False,
-        help_text=_(
+        help_text=gettext_lazy(
             "Filename of intermediate translation file. In most cases "
             "this is a translation file provided by developers and is "
             "used when creating actual source strings."
@@ -283,25 +302,27 @@ class DiscoveryForm(BaseAddonForm):
     )
 
     language_regex = forms.CharField(
-        label=_("Language filter"),
+        label=gettext_lazy("Language filter"),
         max_length=200,
         initial="^[^.]+$",
         validators=[validate_re],
-        help_text=_(
+        help_text=gettext_lazy(
             "Regular expression to filter "
             "translation files against when scanning for file mask."
         ),
     )
     copy_addons = forms.BooleanField(
-        label=_("Clone add-ons from the main component to the newly created ones"),
+        label=gettext_lazy(
+            "Clone add-ons from the main component to the newly created ones"
+        ),
         required=False,
         initial=True,
     )
     remove = forms.BooleanField(
-        label=_("Remove components for inexistent files"), required=False
+        label=gettext_lazy("Remove components for inexistent files"), required=False
     )
     confirm = forms.BooleanField(
-        label=_("I confirm the above matches look correct"),
+        label=gettext_lazy("I confirm the above matches look correct"),
         required=False,
         widget=forms.HiddenInput,
     )
@@ -360,7 +381,7 @@ class DiscoveryForm(BaseAddonForm):
         self.cleaned_data["preview"] = True
         if not self.cleaned_data["confirm"]:
             raise forms.ValidationError(
-                _("Please review and confirm the matched components.")
+                gettext("Please review and confirm the matched components.")
             )
 
     def clean_match(self):
@@ -388,7 +409,7 @@ class DiscoveryForm(BaseAddonForm):
         result = self.test_render(self.cleaned_data[name])
         if result and result == self.cleaned_data[name]:
             raise forms.ValidationError(
-                _("Please include component markup in the template.")
+                gettext("Please include component markup in the template.")
             )
         return self.cleaned_data[name]
 
@@ -431,30 +452,30 @@ class BulkEditAddonForm(BulkEditForm, AddonFormMixin):
 
 class CDNJSForm(BaseAddonForm):
     threshold = forms.IntegerField(
-        label=_("Translation threshold"),
+        label=gettext_lazy("Translation threshold"),
         initial=0,
         max_value=100,
         min_value=0,
         required=True,
-        help_text=_("Threshold for inclusion of translations."),
+        help_text=gettext_lazy("Threshold for inclusion of translations."),
     )
     css_selector = forms.CharField(
-        label=_("CSS selector"),
+        label=gettext_lazy("CSS selector"),
         required=True,
         initial=".l10n",
-        help_text=_("CSS selector to detect localizable elements."),
+        help_text=gettext_lazy("CSS selector to detect localizable elements."),
     )
     cookie_name = forms.CharField(
-        label=_("Language cookie name"),
+        label=gettext_lazy("Language cookie name"),
         required=False,
         initial="",
-        help_text=_("Name of cookie which stores language preference."),
+        help_text=gettext_lazy("Name of cookie which stores language preference."),
     )
     files = forms.CharField(
         widget=forms.Textarea(),
-        label=_("Extract strings from HTML files"),
+        label=gettext_lazy("Extract strings from HTML files"),
         required=False,
-        help_text=_(
+        help_text=gettext_lazy(
             "List of filenames in current repository or remote URLs to parse "
             "for translatable strings."
         ),
@@ -482,47 +503,49 @@ class CDNJSForm(BaseAddonForm):
         try:
             CSSSelector(self.cleaned_data["css_selector"], translator="html")
         except Exception as error:
-            raise forms.ValidationError(_("Failed to parse CSS selector: %s") % error)
+            raise forms.ValidationError(
+                gettext("Failed to parse CSS selector: %s") % error
+            )
         return self.cleaned_data["css_selector"]
 
 
 class PseudolocaleAddonForm(BaseAddonForm):
-    source = forms.ChoiceField(label=_("Source strings"), required=True)
+    source = forms.ChoiceField(label=gettext_lazy("Source strings"), required=True)
     target = forms.ChoiceField(
-        label=_("Target translation"),
+        label=gettext_lazy("Target translation"),
         required=True,
-        help_text=_("All strings in this translation will be overwritten"),
+        help_text=gettext_lazy("All strings in this translation will be overwritten"),
     )
     prefix = forms.CharField(
-        label=_("Fixed string prefix"),
+        label=gettext_lazy("Fixed string prefix"),
         required=False,
         initial="",
     )
     var_prefix = forms.CharField(
-        label=_("Variable string prefix"),
+        label=gettext_lazy("Variable string prefix"),
         required=False,
         initial="",
     )
     suffix = forms.CharField(
-        label=_("Fixed string suffix"),
+        label=gettext_lazy("Fixed string suffix"),
         required=False,
         initial="",
     )
     var_suffix = forms.CharField(
-        label=_("Variable string suffix"),
+        label=gettext_lazy("Variable string suffix"),
         required=False,
         initial="",
     )
     var_multiplier = forms.FloatField(
-        label=_("Variable part multiplier"),
+        label=gettext_lazy("Variable part multiplier"),
         initial=0.1,
-        help_text=_(
+        help_text=gettext_lazy(
             "How many times to repeat the variable part depending on "
             "the length of the source string."
         ),
     )
     include_readonly = forms.BooleanField(
-        label=_("Include read-only strings"),
+        label=gettext_lazy("Include read-only strings"),
         required=False,
     )
 
@@ -552,5 +575,5 @@ class PseudolocaleAddonForm(BaseAddonForm):
     def clean(self):
         if self.cleaned_data["source"] == self.cleaned_data["target"]:
             raise forms.ValidationError(
-                _("The source and target have to be different languages.")
+                gettext("The source and target have to be different languages.")
             )

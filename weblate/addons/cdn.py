@@ -10,7 +10,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_DAILY, EVENT_POST_COMMIT, EVENT_POST_UPDATE
@@ -22,8 +22,8 @@ from weblate.utils.state import STATE_TRANSLATED
 class CDNJSAddon(BaseAddon):
     events = (EVENT_DAILY, EVENT_POST_COMMIT, EVENT_POST_UPDATE)
     name = "weblate.cdn.cdnjs"
-    verbose = _("JavaScript localization CDN")
-    description = _(
+    verbose = gettext_lazy("JavaScript localization CDN")
+    description = gettext_lazy(
         "Publishes translations into content delivery network "
         "for use in JavaScript or HTML localization."
     )

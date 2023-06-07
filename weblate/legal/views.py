@@ -4,7 +4,7 @@
 
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
 
@@ -14,11 +14,11 @@ from weblate.legal.models import Agreement
 from weblate.trans.util import redirect_next
 
 MENU = (
-    ("index", "legal:index", _("Overview")),
-    ("terms", "legal:terms", _("Terms of Service")),
-    ("cookies", "legal:cookies", _("Cookies")),
-    ("privacy", "legal:privacy", _("Privacy")),
-    ("contracts", "legal:contracts", _("Subcontractors")),
+    ("index", "legal:index", gettext_lazy("Overview")),
+    ("terms", "legal:terms", gettext_lazy("Terms of Service")),
+    ("cookies", "legal:cookies", gettext_lazy("Cookies")),
+    ("privacy", "legal:privacy", gettext_lazy("Privacy")),
+    ("contracts", "legal:contracts", gettext_lazy("Subcontractors")),
 )
 
 

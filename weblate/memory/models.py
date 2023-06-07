@@ -11,8 +11,7 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.utils.encoding import force_str
-from django.utils.translation import gettext as _
-from django.utils.translation import pgettext
+from django.utils.translation import gettext, pgettext
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from translate.misc.xml_helpers import getXMLlang, getXMLspace
@@ -101,9 +100,11 @@ class MemoryManager(models.Manager):
         elif extension == ".json":
             result = self.import_json(request, fileobj, origin, **kwargs)
         else:
-            raise MemoryImportError(_("Unsupported file!"))
+            raise MemoryImportError(gettext("Unsupported file!"))
         if not result:
-            raise MemoryImportError(_("No valid entries found in the uploaded file!"))
+            raise MemoryImportError(
+                gettext("No valid entries found in the uploaded file!")
+            )
         return result
 
     def import_json(self, request, fileobj, origin=None, **kwargs):
@@ -112,12 +113,12 @@ class MemoryManager(models.Manager):
             data = json.loads(force_str(content))
         except ValueError as error:
             report_error(cause="Failed to parse memory")
-            raise MemoryImportError(_("Failed to parse JSON file: %s") % error)
+            raise MemoryImportError(gettext("Failed to parse JSON file: %s") % error)
         try:
             validate(data, load_schema("weblate-memory.schema.json"))
         except ValidationError as error:
             report_error(cause="Failed to validate memory")
-            raise MemoryImportError(_("Failed to parse JSON file: %s") % error)
+            raise MemoryImportError(gettext("Failed to parse JSON file: %s") % error)
         found = 0
         lang_cache = {}
         for entry in data:
@@ -146,18 +147,20 @@ class MemoryManager(models.Manager):
             storage = tmxfile.parsefile(fileobj)
         except (SyntaxError, AssertionError):
             report_error(cause="Failed to parse")
-            raise MemoryImportError(_("Failed to parse TMX file!"))
+            raise MemoryImportError(gettext("Failed to parse TMX file!"))
         header = next(
             storage.document.getroot().iterchildren(storage.namespaced("header"))
         )
         lang_cache = {}
         srclang = header.get("srclang")
         if not srclang:
-            raise MemoryImportError(_("Source language not defined in the TMX file!"))
+            raise MemoryImportError(
+                gettext("Source language not defined in the TMX file!")
+            )
         try:
             source_language = Language.objects.get_by_code(srclang, lang_cache, langmap)
         except Language.DoesNotExist:
-            raise MemoryImportError(_("Failed to find language %s!") % srclang)
+            raise MemoryImportError(gettext("Failed to find language %s!") % srclang)
 
         found = 0
         for unit in storage.units:
@@ -174,7 +177,7 @@ class MemoryManager(models.Manager):
                     )
                 except Language.DoesNotExist:
                     raise MemoryImportError(
-                        _("Failed to find language %s!") % header.get("srclang")
+                        gettext("Failed to find language %s!") % header.get("srclang")
                     )
                 translations[language.code] = text
 

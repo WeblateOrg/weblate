@@ -4,10 +4,9 @@
 
 """Auto fixes implemented for specific environments and not enabled by default."""
 
-
 import re
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.trans.autofixes.base import AutoFix
 
@@ -29,7 +28,7 @@ class DoubleApostrophes(AutoFix):
     """
 
     fix_id = "java-messageformat"
-    name = _("Apostrophes in Java MessageFormat")
+    name = gettext_lazy("Apostrophes in Java MessageFormat")
 
     def fix_single_target(self, target, source, unit):
         flags = unit.all_flags

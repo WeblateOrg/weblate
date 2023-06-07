@@ -7,7 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.http.response import HttpResponseServerError
 from django.shortcuts import get_object_or_404
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
 from weblate.checks.flags import Flags
@@ -56,7 +56,7 @@ def edit_context(request, pk):
         if form.is_valid():
             form.save()
         else:
-            messages.error(request, _("Failed to change additional string info!"))
+            messages.error(request, gettext("Failed to change additional string info!"))
             show_form_errors(request, form)
 
     return redirect_next(request.POST.get("next"), unit.get_absolute_url())

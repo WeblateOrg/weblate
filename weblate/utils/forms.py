@@ -7,7 +7,7 @@ from crispy_forms.utils import TEMPLATE_PACK
 from django import forms
 from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.trans.defines import EMAIL_LENGTH, USERNAME_LENGTH
 from weblate.trans.filter import FILTERS
@@ -19,7 +19,7 @@ from weblate.utils.validators import validate_email, validate_username
 class QueryField(forms.CharField):
     def __init__(self, parser: str = "unit", **kwargs):
         if "label" not in kwargs:
-            kwargs["label"] = _("Query")
+            kwargs["label"] = gettext("Query")
         if "required" not in kwargs:
             kwargs["required"] = False
         self.parser = parser
@@ -28,13 +28,13 @@ class QueryField(forms.CharField):
     def clean(self, value):
         if not value:
             if self.required:
-                raise ValidationError(_("Missing query string."))
+                raise ValidationError(gettext("Missing query string."))
             return ""
         try:
             parse_query(value, parser=self.parser)
         except Exception as error:
             raise ValidationError(
-                _("Could not parse query string: {}").format(error)
+                gettext("Could not parse query string: {}").format(error)
             ) from error
         return value
 
@@ -45,11 +45,11 @@ class UsernameField(forms.CharField):
     def __init__(self, *args, **kwargs):
         params = {
             "max_length": USERNAME_LENGTH,
-            "help_text": _(
+            "help_text": gettext_lazy(
                 "Username may only contain letters, "
                 "numbers or the following characters: @ . + - _"
             ),
-            "label": _("Username"),
+            "label": gettext_lazy("Username"),
             "required": True,
         }
         params.update(kwargs)

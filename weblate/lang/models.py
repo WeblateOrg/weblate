@@ -2,9 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import gettext
 import re
 from collections import defaultdict
+from gettext import c2py
 from itertools import chain
 from typing import Callable, Optional
 from weakref import WeakValueDictionary
@@ -17,8 +17,7 @@ from django.db.utils import OperationalError
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.html import format_html
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy, pgettext_lazy
+from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 from django.utils.translation.trans_real import parse_accept_lang_header
 from weblate_language_data.aliases import ALIASES
 from weblate_language_data.countries import DEFAULT_LANGS
@@ -89,13 +88,13 @@ def is_same_plural(
 ):
     if our_function is None:
         try:
-            our_function = gettext.c2py(our_formula)
+            our_function = c2py(our_formula)
         except ValueError:
             return False
 
     if plural_function is None:
         try:
-            plural_function = gettext.c2py(formula)
+            plural_function = c2py(formula)
         except ValueError:
             return False
 
@@ -371,7 +370,7 @@ class LanguageQuerySet(models.QuerySet):
             item[:2]
             for item in sort_unicode(
                 (
-                    (code, f"{_(name)} ({code})", name)
+                    (code, f"{gettext(name)} ({code})", name)
                     for name, code in self.values_list("name", "code")
                 ),
                 lambda tup: tup[2],
@@ -592,8 +591,8 @@ class Language(models.Model, CacheKeyMixin):
 
     def __str__(self):
         if self.show_language_code:
-            return f"{_(self.name)} ({self.code})"
-        return _(self.name)
+            return f"{gettext(self.name)} ({self.code})"
+        return gettext(self.name)
 
     def save(self, *args, **kwargs):
         """Set default direction for language."""
@@ -814,7 +813,7 @@ class Plural(models.Model):
     @cached_property
     def plural_function(self):
         try:
-            return gettext.c2py(self.formula if self.formula else "0")
+            return c2py(self.formula if self.formula else "0")
         except ValueError as error:
             raise ValueError(f"Failed to compile formula {self.formula!r}: {error}")
 
@@ -840,7 +839,7 @@ class Plural(models.Model):
         if not formula:
             formula = "0"
         # Try to parse the formula
-        gettext.c2py(formula)
+        c2py(formula)
 
         return number, formula
 
@@ -872,7 +871,7 @@ class Plural(models.Model):
             name=self.get_plural_name(idx),
             icon=icon("info.svg"),
             # Translators: Label for plurals with example counts
-            examples=_("For example: {0}").format(
+            examples=gettext("For example: {0}").format(
                 ", ".join(self.examples.get(idx, []))
             ),
         )
@@ -883,10 +882,10 @@ class Plural(models.Model):
             return str(data.PLURAL_NAMES[self.type][idx])
         except (IndexError, KeyError):
             if idx == 0:
-                return _("Singular")
+                return gettext("Singular")
             if idx == 1:
-                return _("Plural")
-            return _("Plural form %d") % idx
+                return gettext("Plural")
+            return gettext("Plural form %d") % idx
 
     def list_plurals(self):
         for i in range(self.number):

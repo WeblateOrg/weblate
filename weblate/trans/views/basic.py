@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.html import format_html
 from django.utils.http import urlencode
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 
 from weblate.formats.models import EXPORTERS
@@ -80,7 +80,7 @@ def list_projects(request):
             "projects": prefetch_project_flags(
                 get_paginator(request, prefetch_stats(projects))
             ),
-            "title": _("Projects"),
+            "title": gettext("Projects"),
             "query_string": query_string,
         },
     )
@@ -135,7 +135,7 @@ def show_engage(request, project, lang=None):
             "project_link": format_html(
                 '<a href="{}">{}</a>', obj.get_absolute_url(), obj.name
             ),
-            "title": _("Get involved in {0}!").format(obj),
+            "title": gettext("Get involved in {0}!").format(obj),
         },
     )
 
@@ -440,7 +440,7 @@ def new_language(request, project, component):
                         )
                         messages.success(
                             request,
-                            _(
+                            gettext(
                                 "A request for a new translation has been "
                                 "sent to the project's maintainers."
                             ),
@@ -449,14 +449,16 @@ def new_language(request, project, component):
                     if added and not obj.create_translations(request=request):
                         messages.warning(
                             request,
-                            _("The translation will be updated in the background."),
+                            gettext(
+                                "The translation will be updated in the background."
+                            ),
                         )
                 except FileParseError:
                     pass
             if user.has_perm("component.edit", obj):
                 reset_rate_limit("language", request)
             return redirect(result)
-        messages.error(request, _("Please fix errors in the form."))
+        messages.error(request, gettext("Please fix errors in the form."))
     else:
         form = form_class(obj)
 

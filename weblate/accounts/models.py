@@ -17,8 +17,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import get_language, gettext
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language, gettext, gettext_lazy
 from rest_framework.authtoken.models import Token
 from social_django.models import UserSocialAuth
 
@@ -137,44 +136,48 @@ class Subscription(models.Model):
 
 
 ACCOUNT_ACTIVITY = {
-    "password": _("Password changed."),
-    "username": _("Username changed from {old} to {new}."),
-    "email": _("E-mail changed from {old} to {new}."),
-    "full_name": _("Full name changed from {old} to {new}."),
-    "reset-request": _("Password reset requested."),
-    "reset": _("Password reset confirmed, password turned off."),
-    "auth-connect": _("Configured sign in using {method} ({name})."),
-    "auth-disconnect": _("Removed sign in using {method} ({name})."),
-    "login": _("Signed in using {method} ({name})."),
-    "login-new": _("Signed in using {method} ({name}) from a new device."),
-    "register": _("Somebody attempted to register with your e-mail."),
-    "connect": _("Somebody attempted to register using your e-mail address."),
-    "failed-auth": _("Could not sign in using {method} ({name})."),
-    "locked": _("Account locked due to many failed sign in attempts."),
-    "removed": _("Account and all private data removed."),
-    "tos": _("Agreement with Terms of Service {date}."),
-    "invited": _("Invited to {site_title} by {username}."),
-    "trial": _("Started trial period."),
-    "sent-email": _("Sent confirmation mail to {email}."),
-    "autocreated": _(
+    "password": gettext_lazy("Password changed."),
+    "username": gettext_lazy("Username changed from {old} to {new}."),
+    "email": gettext_lazy("E-mail changed from {old} to {new}."),
+    "full_name": gettext_lazy("Full name changed from {old} to {new}."),
+    "reset-request": gettext_lazy("Password reset requested."),
+    "reset": gettext_lazy("Password reset confirmed, password turned off."),
+    "auth-connect": gettext_lazy("Configured sign in using {method} ({name})."),
+    "auth-disconnect": gettext_lazy("Removed sign in using {method} ({name})."),
+    "login": gettext_lazy("Signed in using {method} ({name})."),
+    "login-new": gettext_lazy("Signed in using {method} ({name}) from a new device."),
+    "register": gettext_lazy("Somebody attempted to register with your e-mail."),
+    "connect": gettext_lazy(
+        "Somebody attempted to register using your e-mail address."
+    ),
+    "failed-auth": gettext_lazy("Could not sign in using {method} ({name})."),
+    "locked": gettext_lazy("Account locked due to many failed sign in attempts."),
+    "removed": gettext_lazy("Account and all private data removed."),
+    "tos": gettext_lazy("Agreement with Terms of Service {date}."),
+    "invited": gettext_lazy("Invited to {site_title} by {username}."),
+    "trial": gettext_lazy("Started trial period."),
+    "sent-email": gettext_lazy("Sent confirmation mail to {email}."),
+    "autocreated": gettext_lazy(
         "The system created a user to track authorship of "
         "translations uploaded by other user."
     ),
-    "blocked": _("Access to project {project} was blocked"),
+    "blocked": gettext_lazy("Access to project {project} was blocked"),
 }
 # Override activity messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
     "password": {
-        "auth-connect": _("Configured password to sign in."),
-        "login": _("Signed in using password."),
-        "login-new": _("Signed in using password from a new device."),
-        "failed-auth": _("Could not sign in using password."),
+        "auth-connect": gettext_lazy("Configured password to sign in."),
+        "login": gettext_lazy("Signed in using password."),
+        "login-new": gettext_lazy("Signed in using password from a new device."),
+        "failed-auth": gettext_lazy("Could not sign in using password."),
     }
 }
 
 EXTRA_MESSAGES = {
-    "locked": _("To restore access to your account, please reset your password."),
-    "blocked": _(
+    "locked": gettext_lazy(
+        "To restore access to your account, please reset your password."
+    ),
+    "blocked": gettext_lazy(
         "Please contact project maintainers if you feel this is inappropriate."
     ),
 }
@@ -292,7 +295,7 @@ class AuditLog(models.Model):
             result["method"] = gettext(get_auth_name(result["method"]))
         return result
 
-    @admin.display(description=_("Account activity"))
+    @admin.display(description=gettext_lazy("Account activity"))
     def get_message(self):
         method = self.params.get("method")
         activity = self.activity
@@ -364,15 +367,15 @@ class Profile(models.Model):
         User, unique=True, editable=False, on_delete=models.deletion.CASCADE
     )
     language = models.CharField(
-        verbose_name=_("Interface Language"),
+        verbose_name=gettext_lazy("Interface Language"),
         max_length=10,
         choices=settings.LANGUAGES,
     )
     languages = models.ManyToManyField(
         Language,
-        verbose_name=_("Translated languages"),
+        verbose_name=gettext_lazy("Translated languages"),
         blank=True,
-        help_text=_(
+        help_text=gettext_lazy(
             "Choose the languages you can translate to. "
             "These will be offered to you on the dashboard "
             "for easier access to your chosen translations."
@@ -380,8 +383,8 @@ class Profile(models.Model):
     )
     secondary_languages = models.ManyToManyField(
         Language,
-        verbose_name=_("Secondary languages"),
-        help_text=_(
+        verbose_name=gettext_lazy("Secondary languages"),
+        help_text=gettext_lazy(
             "Choose languages you can understand, strings in those languages "
             "will be shown in addition to the source string."
         ),
@@ -394,20 +397,23 @@ class Profile(models.Model):
     commented = models.IntegerField(default=0, db_index=True)
 
     hide_completed = models.BooleanField(
-        verbose_name=_("Hide completed translations on the dashboard"), default=False
+        verbose_name=gettext_lazy("Hide completed translations on the dashboard"),
+        default=False,
     )
     secondary_in_zen = models.BooleanField(
-        verbose_name=_("Show secondary translations in the Zen mode"), default=True
+        verbose_name=gettext_lazy("Show secondary translations in the Zen mode"),
+        default=True,
     )
     hide_source_secondary = models.BooleanField(
-        verbose_name=_("Hide source if a secondary translation exists"), default=False
+        verbose_name=gettext_lazy("Hide source if a secondary translation exists"),
+        default=False,
     )
     editor_link = models.CharField(
         default="",
         blank=True,
         max_length=200,
-        verbose_name=_("Editor link"),
-        help_text=_(
+        verbose_name=gettext_lazy("Editor link"),
+        help_text=gettext_lazy(
             "Enter a custom URL to be used as link to the source code. "
             "You can use {{branch}} for branch, "
             "{{filename}} and {{line}} as filename and line placeholders."
@@ -417,17 +423,20 @@ class Profile(models.Model):
     TRANSLATE_FULL = 0
     TRANSLATE_ZEN = 1
     translate_mode = models.IntegerField(
-        verbose_name=_("Translation editor mode"),
-        choices=((TRANSLATE_FULL, _("Full editor")), (TRANSLATE_ZEN, _("Zen mode"))),
+        verbose_name=gettext_lazy("Translation editor mode"),
+        choices=(
+            (TRANSLATE_FULL, gettext_lazy("Full editor")),
+            (TRANSLATE_ZEN, gettext_lazy("Zen mode")),
+        ),
         default=TRANSLATE_FULL,
     )
     ZEN_VERTICAL = 0
     ZEN_HORIZONTAL = 1
     zen_mode = models.IntegerField(
-        verbose_name=_("Zen editor mode"),
+        verbose_name=gettext_lazy("Zen editor mode"),
         choices=(
-            (ZEN_VERTICAL, _("Top to bottom")),
-            (ZEN_HORIZONTAL, _("Side by side")),
+            (ZEN_VERTICAL, gettext_lazy("Top to bottom")),
+            (ZEN_HORIZONTAL, gettext_lazy("Side by side")),
         ),
         default=ZEN_VERTICAL,
     )
@@ -435,25 +444,25 @@ class Profile(models.Model):
         default="",
         blank=True,
         max_length=30,
-        verbose_name=_("Special characters"),
-        help_text=_(
+        verbose_name=gettext_lazy("Special characters"),
+        help_text=gettext_lazy(
             "You can specify additional special visual keyboard characters "
             "to be shown while translating. It can be useful for "
             "characters you use frequently, but are hard to type on your keyboard."
         ),
     )
     nearby_strings = models.SmallIntegerField(
-        verbose_name=_("Number of nearby strings"),
+        verbose_name=gettext_lazy("Number of nearby strings"),
         default=settings.NEARBY_MESSAGES,
         validators=[MinValueValidator(1), MaxValueValidator(50)],
-        help_text=_(
+        help_text=gettext_lazy(
             "Number of nearby strings to show in each direction in the full editor."
         ),
     )
     auto_watch = models.BooleanField(
-        verbose_name=_("Automatically watch projects on contribution"),
+        verbose_name=gettext_lazy("Automatically watch projects on contribution"),
         default=settings.DEFAULT_AUTO_WATCH,
-        help_text=_(
+        help_text=gettext_lazy(
             "Whenever you translate a string in a project, you will start watching it."
         ),
     )
@@ -464,10 +473,10 @@ class Profile(models.Model):
     DASHBOARD_COMPONENT_LISTS = 6
 
     DASHBOARD_CHOICES = (
-        (DASHBOARD_WATCHED, _("Watched translations")),
-        (DASHBOARD_COMPONENT_LISTS, _("Component lists")),
-        (DASHBOARD_COMPONENT_LIST, _("Component list")),
-        (DASHBOARD_SUGGESTIONS, _("Suggested translations")),
+        (DASHBOARD_WATCHED, gettext_lazy("Watched translations")),
+        (DASHBOARD_COMPONENT_LISTS, gettext_lazy("Component lists")),
+        (DASHBOARD_COMPONENT_LIST, gettext_lazy("Component list")),
+        (DASHBOARD_SUGGESTIONS, gettext_lazy("Suggested translations")),
     )
 
     DASHBOARD_SLUGS = {
@@ -479,13 +488,13 @@ class Profile(models.Model):
 
     dashboard_view = models.IntegerField(
         choices=DASHBOARD_CHOICES,
-        verbose_name=_("Default dashboard view"),
+        verbose_name=gettext_lazy("Default dashboard view"),
         default=DASHBOARD_WATCHED,
     )
 
     dashboard_component_list = models.ForeignKey(
         "trans.ComponentList",
-        verbose_name=_("Default component list"),
+        verbose_name=gettext_lazy("Default component list"),
         on_delete=models.deletion.SET_NULL,
         blank=True,
         null=True,
@@ -493,8 +502,8 @@ class Profile(models.Model):
 
     watched = models.ManyToManyField(
         "trans.Project",
-        verbose_name=_("Watched projects"),
-        help_text=_(
+        verbose_name=gettext_lazy("Watched projects"),
+        help_text=gettext_lazy(
             "You can receive notifications for watched projects and "
             "they are shown on the dashboard by default."
         ),
@@ -503,66 +512,70 @@ class Profile(models.Model):
 
     # Public profile fields
     website = models.URLField(
-        verbose_name=_("Website URL"),
+        verbose_name=gettext_lazy("Website URL"),
         blank=True,
     )
     liberapay = models.SlugField(
-        verbose_name=_("Liberapay username"),
+        verbose_name=gettext_lazy("Liberapay username"),
         blank=True,
-        help_text=_(
+        help_text=gettext_lazy(
             "Liberapay is a platform to donate money to teams, "
             "organizations and individuals."
         ),
         db_index=False,
     )
     fediverse = models.URLField(
-        verbose_name=_("Fediverse URL"),
+        verbose_name=gettext_lazy("Fediverse URL"),
         blank=True,
-        help_text=_(
+        help_text=gettext_lazy(
             "Link to your Fediverse profile for federated services "
             "like Mastodon or diaspora*."
         ),
     )
     codesite = models.URLField(
-        verbose_name=_("Code site URL"),
+        verbose_name=gettext_lazy("Code site URL"),
         blank=True,
-        help_text=_("Link to your code profile for services like Codeberg or GitLab."),
+        help_text=gettext_lazy(
+            "Link to your code profile for services like Codeberg or GitLab."
+        ),
     )
     github = models.SlugField(
-        verbose_name=_("GitHub username"),
+        verbose_name=gettext_lazy("GitHub username"),
         blank=True,
         db_index=False,
     )
     twitter = models.SlugField(
-        verbose_name=_("Twitter username"),
+        verbose_name=gettext_lazy("Twitter username"),
         blank=True,
         db_index=False,
     )
     linkedin = models.SlugField(
-        verbose_name=_("LinkedIn profile name"),
-        help_text=_("Your LinkedIn profile name from linkedin.com/in/profilename"),
+        verbose_name=gettext_lazy("LinkedIn profile name"),
+        help_text=gettext_lazy(
+            "Your LinkedIn profile name from linkedin.com/in/profilename"
+        ),
         blank=True,
         db_index=False,
         allow_unicode=True,
     )
     location = models.CharField(
-        verbose_name=_("Location"),
+        verbose_name=gettext_lazy("Location"),
         max_length=100,
         blank=True,
     )
     company = models.CharField(
-        verbose_name=_("Company"),
+        verbose_name=gettext_lazy("Company"),
         max_length=100,
         blank=True,
     )
     public_email = EmailField(
-        verbose_name=_("Public e-mail"),
+        verbose_name=gettext_lazy("Public e-mail"),
         blank=True,
         max_length=EMAIL_LENGTH,
     )
 
     commit_email = EmailField(
-        verbose_name=_("Commit e-mail"),
+        verbose_name=gettext_lazy("Commit e-mail"),
         blank=True,
         max_length=EMAIL_LENGTH,
     )
@@ -611,7 +624,7 @@ class Profile(models.Model):
             self.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST
             and self.dashboard_component_list is None
         ):
-            message = _(
+            message = gettext(
                 "Please choose which component list you want to display on "
                 "the dashboard."
             )
@@ -622,7 +635,7 @@ class Profile(models.Model):
             self.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST
             and self.dashboard_component_list is not None
         ):
-            message = _(
+            message = gettext(
                 "Selecting component list has no effect when not shown on "
                 "the dashboard."
             )
@@ -738,7 +751,7 @@ class Profile(models.Model):
                 self.languages.add(language)
                 messages.info(
                     request,
-                    _(
+                    gettext(
                         "Added %(language)s to your translated languages. "
                         "You can adjust them in the settings."
                     )
@@ -814,7 +827,7 @@ def post_login_handler(sender, request, user, **kwargs):
     if not user.email:
         messages.error(
             request,
-            _(
+            gettext(
                 "You can not submit translations as "
                 "you do not have assigned any e-mail address."
             ),

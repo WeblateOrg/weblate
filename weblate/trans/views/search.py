@@ -7,8 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.utils.translation import gettext as _
-from django.utils.translation import ngettext
+from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
@@ -80,7 +79,7 @@ def search_replace(request, project, component=None, lang=None):
     form = ReplaceForm(request.POST)
 
     if not form.is_valid():
-        messages.error(request, _("Failed to process form!"))
+        messages.error(request, gettext("Failed to process form!"))
         show_form_errors(request, form)
         return redirect(obj)
 
@@ -138,7 +137,7 @@ def search_replace(request, project, component=None, lang=None):
     import_message(
         request,
         updated,
-        _("Search and replace completed, no strings were updated."),
+        gettext("Search and replace completed, no strings were updated."),
         ngettext(
             "Search and replace completed, %d string was updated.",
             "Search and replace completed, %d strings were updated.",
@@ -212,7 +211,7 @@ def search(request, project=None, component=None, lang=None):
                 "search_form": search_form,
                 "show_results": True,
                 "page_obj": units,
-                "title": _("Search for %s") % (search_form.cleaned_data["q"]),
+                "title": gettext("Search for %s") % (search_form.cleaned_data["q"]),
                 "query_string": search_form.urlencode(),
                 "search_url": search_form.urlencode(),
                 "search_query": search_form.cleaned_data["q"],
@@ -223,9 +222,11 @@ def search(request, project=None, component=None, lang=None):
             }
         )
     elif is_ratelimited:
-        messages.error(request, _("Too many search queries, please try again later."))
+        messages.error(
+            request, gettext("Too many search queries, please try again later.")
+        )
     elif request.GET:
-        messages.error(request, _("Invalid search query!"))
+        messages.error(request, gettext("Invalid search query!"))
         show_form_errors(request, search_form)
 
     return render(request, "search.html", context)
@@ -243,7 +244,7 @@ def bulk_edit(request, project, component=None, lang=None):
     form = BulkEditForm(request.user, obj, request.POST, project=context["project"])
 
     if not form.is_valid():
-        messages.error(request, _("Failed to process form!"))
+        messages.error(request, gettext("Failed to process form!"))
         show_form_errors(request, form)
         return redirect(obj)
 
@@ -263,7 +264,7 @@ def bulk_edit(request, project, component=None, lang=None):
     import_message(
         request,
         updated,
-        _("Bulk edit completed, no strings were updated."),
+        gettext("Bulk edit completed, no strings were updated."),
         ngettext(
             "Bulk edit completed, %d string was updated.",
             "Bulk edit completed, %d strings were updated.",

@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.generic.base import TemplateView
 
 from weblate.lang.models import Language
@@ -66,7 +66,7 @@ class DeleteView(MemoryFormView):
         if "origin" in self.request.POST:
             entries = entries.filter(origin=self.request.POST["origin"])
         entries.delete()
-        messages.success(self.request, _("Entries were deleted."))
+        messages.success(self.request, gettext("Entries were deleted."))
         return super().form_valid(form)
 
 
@@ -104,7 +104,7 @@ class RebuildView(MemoryFormView):
         import_memory.delay(project_id=project.id, component_id=component_id)
         messages.success(
             self.request,
-            _(
+            gettext(
                 "Entries were deleted and the translation memory will be "
                 "rebuilt in the background."
             ),
@@ -123,7 +123,8 @@ class UploadView(MemoryFormView):
                 self.request, form.cleaned_data["file"], **self.objects
             )
             messages.success(
-                self.request, _("File processed, the entries will appear shortly.")
+                self.request,
+                gettext("File processed, the entries will appear shortly."),
             )
         except MemoryImportError as error:
             messages.error(self.request, str(error))  # noqa: G200

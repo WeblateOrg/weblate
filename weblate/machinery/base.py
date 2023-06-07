@@ -15,7 +15,7 @@ from urllib.parse import quote
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from requests.exceptions import HTTPError
 
 from weblate.checks.utils import highlight_string
@@ -91,11 +91,13 @@ class MachineTranslation:
         try:
             self.download_languages()
         except Exception as error:
-            raise ValidationError(_("Failed to fetch supported languages: %s") % error)
+            raise ValidationError(
+                gettext("Failed to fetch supported languages: %s") % error
+            )
         try:
             self.download_translations(*self.validate_payload)
         except Exception as error:
-            raise ValidationError(_("Failed to fetch translation: %s") % error)
+            raise ValidationError(gettext("Failed to fetch translation: %s") % error)
 
     @property
     def api_base_url(self):

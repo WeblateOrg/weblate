@@ -10,7 +10,7 @@ from typing import List, Optional, Tuple
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 
 from weblate.addons.events import (
     EVENT_COMPONENT_UPDATE,
@@ -321,7 +321,7 @@ class BaseAddon:
             if component.repo_needs_merge():
                 messages.warning(
                     request,
-                    _(
+                    gettext(
                         "The repository is outdated, you might not get "
                         "expected results until you update it."
                     ),

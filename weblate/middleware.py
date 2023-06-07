@@ -12,7 +12,7 @@ from django.http import Http404, HttpResponsePermanentRedirect
 from django.shortcuts import redirect
 from django.urls import is_valid_path, reverse
 from django.utils.http import escape_leading_slashes
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project
@@ -184,7 +184,7 @@ class RedirectMiddleware:
                         messages.add_message(
                             request,
                             messages.INFO,
-                            _(
+                            gettext_lazy(
                                 "%s translation is currently not available, "
                                 "but can be added."
                             )

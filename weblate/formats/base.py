@@ -10,7 +10,7 @@ from copy import copy
 from typing import Any, Callable, Dict, List, Optional, Tuple, Type, Union
 
 from django.utils.functional import cached_property
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.trans.util import get_string
@@ -325,7 +325,9 @@ class TranslationFormat:
         """Check store validity."""
         if not self.is_valid():
             raise ValueError(
-                _("Failed to load strings from the file, try choosing other format.")
+                gettext(
+                    "Failed to load strings from the file, try choosing other format."
+                )
             )
         self.ensure_index()
 

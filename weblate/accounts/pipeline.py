@@ -10,7 +10,7 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
 from social_core.pipeline.partial import partial
 from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
@@ -319,10 +319,10 @@ def ensure_valid(
         if strategy.request.user.is_authenticated:
             messages.warning(
                 strategy.request,
-                _("You can not complete password reset while signed in."),
+                gettext("You can not complete password reset while signed in."),
             )
             messages.warning(
-                strategy.request, _("The registration link has been invalidated.")
+                strategy.request, gettext("The registration link has been invalidated.")
             )
             raise AuthMissingParameter(backend, "user")
         return
@@ -334,15 +334,15 @@ def ensure_valid(
         if registering_user is None:
             messages.warning(
                 strategy.request,
-                _("You can not complete registration while signed in."),
+                gettext("You can not complete registration while signed in."),
             )
         else:
             messages.warning(
                 strategy.request,
-                _("You can confirm your registration only while signed in."),
+                gettext("You can confirm your registration only while signed in."),
             )
         messages.warning(
-            strategy.request, _("The registration link has been invalidated.")
+            strategy.request, gettext("The registration link has been invalidated.")
         )
 
         raise AuthMissingParameter(backend, "user")
@@ -507,7 +507,7 @@ def adjust_primary_mail(strategy, entries, user, *args, **kwargs):
     user.save()
     messages.warning(
         strategy.request,
-        _(
+        gettext(
             "Your e-mail no longer belongs to verified account, "
             "it has been changed to {0}."
         ).format(user.email),

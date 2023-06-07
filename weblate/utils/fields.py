@@ -6,7 +6,7 @@ import json
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.trans.defines import EMAIL_LENGTH
 from weblate.utils import forms
@@ -73,8 +73,10 @@ class UsernameField(CaseInsensitiveFieldMixin, models.CharField):
 
 class EmailField(CaseInsensitiveFieldMixin, models.CharField):
     default_validators = [validate_email]
-    description = _("E-mail")
-    default_error_messages = {"unique": _("A user with this e-mail already exists.")}
+    description = gettext_lazy("E-mail")
+    default_error_messages = {
+        "unique": gettext_lazy("A user with this e-mail already exists.")
+    }
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault("max_length", EMAIL_LENGTH)

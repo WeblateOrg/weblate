@@ -6,8 +6,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.template import Context, Engine, Template, TemplateSyntaxError
 from django.urls import reverse
-from django.utils.translation import gettext as _
-from django.utils.translation import override
+from django.utils.translation import gettext, override
 
 from weblate.utils.site import get_site_url
 
@@ -27,7 +26,7 @@ FORBIDDEN_URL_SCHEMES = {
 
 class InvalidString(str):
     def __mod__(self, other):
-        raise TemplateSyntaxError(_('Undefined variable: "%s"') % other)
+        raise TemplateSyntaxError(gettext('Undefined variable: "%s"') % other)
 
 
 class RestrictedEngine(Engine):
@@ -117,7 +116,7 @@ def validate_render(value, **kwargs):
     try:
         return render_template(value, **kwargs)
     except Exception as err:
-        raise ValidationError(_("Failed to render template: {}").format(err))
+        raise ValidationError(gettext("Failed to render template: {}").format(err))
 
 
 def validate_render_component(value, translation=None, **kwargs):
@@ -160,7 +159,7 @@ def validate_repoweb(val):
     """
     if "%(file)s" in val or "%(line)s" in val:
         raise ValidationError(
-            _(
+            gettext(
                 "The format strings are no longer supported, "
                 "please use the template language instead."
             )
@@ -180,13 +179,13 @@ def validate_editor(val):
     validate_repoweb(val)
 
     if ":" not in val:
-        raise ValidationError(_("The editor link lacks URL scheme!"))
+        raise ValidationError(gettext("The editor link lacks URL scheme!"))
 
     scheme = val.split(":", 1)[0]
 
     # Block forbidden schemes as well as format strings
     if scheme.strip().lower() in FORBIDDEN_URL_SCHEMES or "%" in scheme:
-        raise ValidationError(_("Forbidden URL scheme!"))
+        raise ValidationError(gettext("Forbidden URL scheme!"))
 
 
 def migrate_repoweb(val):

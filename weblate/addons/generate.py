@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.db.models import Q
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_DAILY, EVENT_PRE_COMMIT
@@ -23,8 +23,8 @@ from weblate.utils.state import (
 class GenerateFileAddon(BaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = "weblate.generate.generate"
-    verbose = _("Statistics generator")
-    description = _(
+    verbose = gettext_lazy("Statistics generator")
+    description = gettext_lazy(
         "Generates a file containing detailed info about the translation status."
     )
     settings_form = GenerateForm
@@ -116,8 +116,8 @@ class LocaleGenerateAddonBase(BaseAddon):
 
 class PseudolocaleAddon(LocaleGenerateAddonBase):
     name = "weblate.generate.pseudolocale"
-    verbose = _("Pseudolocale generation")
-    description = _(
+    verbose = gettext_lazy("Pseudolocale generation")
+    description = gettext_lazy(
         "Generates a translation by adding prefix and suffix "
         "to source strings automatically."
     )
@@ -184,8 +184,8 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
 
 class PrefillAddon(LocaleGenerateAddonBase):
     name = "weblate.generate.prefill"
-    verbose = _("Prefill translation with source")
-    description = _("Fills in translation strings with source string.")
+    verbose = gettext_lazy("Prefill translation with source")
+    description = gettext_lazy("Fills in translation strings with source string.")
 
     def daily(self, component):
         # Check all strings

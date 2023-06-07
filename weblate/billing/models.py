@@ -18,8 +18,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.html import format_html
-from django.utils.translation import gettext_lazy as _
-from django.utils.translation import ngettext
+from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.auth.models import User
 from weblate.trans.models import Component, Project
@@ -143,39 +142,45 @@ class Billing(models.Model):
     EXPIRING_STATES = (STATE_TRIAL,)
 
     plan = models.ForeignKey(
-        Plan, on_delete=models.deletion.CASCADE, verbose_name=_("Billing plan")
+        Plan,
+        on_delete=models.deletion.CASCADE,
+        verbose_name=gettext_lazy("Billing plan"),
     )
     projects = models.ManyToManyField(
-        Project, blank=True, verbose_name=_("Billed projects")
+        Project, blank=True, verbose_name=gettext_lazy("Billed projects")
     )
-    owners = models.ManyToManyField(User, blank=True, verbose_name=_("Billing owners"))
+    owners = models.ManyToManyField(
+        User, blank=True, verbose_name=gettext_lazy("Billing owners")
+    )
     state = models.IntegerField(
         choices=(
-            (STATE_ACTIVE, _("Active")),
-            (STATE_TRIAL, _("Trial")),
-            (STATE_TERMINATED, _("Terminated")),
+            (STATE_ACTIVE, gettext_lazy("Active")),
+            (STATE_TRIAL, gettext_lazy("Trial")),
+            (STATE_TERMINATED, gettext_lazy("Terminated")),
         ),
         default=STATE_ACTIVE,
-        verbose_name=_("Billing state"),
+        verbose_name=gettext_lazy("Billing state"),
     )
     expiry = models.DateTimeField(
         blank=True,
         null=True,
         default=None,
-        verbose_name=_("Trial expiry date"),
+        verbose_name=gettext_lazy("Trial expiry date"),
         help_text="After expiry removal with 15 days grace period is scheduled.",
     )
     removal = models.DateTimeField(
         blank=True,
         null=True,
         default=None,
-        verbose_name=_("Scheduled removal"),
+        verbose_name=gettext_lazy("Scheduled removal"),
         help_text="This is automatically set after trial expiry.",
     )
-    paid = models.BooleanField(default=True, verbose_name=_("Paid"), editable=False)
+    paid = models.BooleanField(
+        default=True, verbose_name=gettext_lazy("Paid"), editable=False
+    )
     # Translators: Whether the package is inside actual (hard) limits
     in_limits = models.BooleanField(
-        default=True, verbose_name=_("In limits"), editable=False
+        default=True, verbose_name=gettext_lazy("In limits"), editable=False
     )
     # Payment detailed information, used for integration
     # with payment processor
@@ -256,12 +261,12 @@ class Billing(models.Model):
             return True
         return self.count_projects > 0
 
-    @admin.display(description=_("Changes in last month"))
+    @admin.display(description=gettext_lazy("Changes in last month"))
     @cached_property
     def monthly_changes(self):
         return sum(project.stats.monthly_changes for project in self.all_projects)
 
-    @admin.display(description=_("Number of changes"))
+    @admin.display(description=gettext_lazy("Number of changes"))
     @cached_property
     def total_changes(self):
         return sum(project.stats.total_changes for project in self.all_projects)
@@ -270,7 +275,7 @@ class Billing(models.Model):
     def count_projects(self):
         return len(self.all_projects)
 
-    @admin.display(description=_("Projects"))
+    @admin.display(description=gettext_lazy("Projects"))
     def display_projects(self):
         return f"{self.count_projects} / {self.plan.display_limit_projects}"
 
@@ -278,7 +283,7 @@ class Billing(models.Model):
     def count_strings(self):
         return sum(p.stats.source_strings for p in self.all_projects)
 
-    @admin.display(description=_("Source strings"))
+    @admin.display(description=gettext_lazy("Source strings"))
     def display_strings(self):
         return f"{self.count_strings} / {self.plan.display_limit_strings}"
 
@@ -290,7 +295,7 @@ class Billing(models.Model):
     def hosted_words(self):
         return sum(p.stats.all_words for p in self.all_projects)
 
-    @admin.display(description=_("Source words"))
+    @admin.display(description=gettext_lazy("Source words"))
     def display_words(self):
         return f"{self.count_words}"
 
@@ -298,7 +303,7 @@ class Billing(models.Model):
     def count_languages(self):
         return max((p.stats.languages for p in self.all_projects), default=0)
 
-    @admin.display(description=_("Languages"))
+    @admin.display(description=gettext_lazy("Languages"))
     def display_languages(self):
         return f"{self.count_languages} / {self.plan.display_limit_languages}"
 
@@ -327,20 +332,20 @@ class Billing(models.Model):
             and self.expiry < timezone.now()
         )
 
-    @admin.display(description=_("Number of strings"))
+    @admin.display(description=gettext_lazy("Number of strings"))
     def unit_count(self):
         return sum(p.stats.all for p in self.all_projects)
 
-    @admin.display(description=_("Last invoice"))
+    @admin.display(description=gettext_lazy("Last invoice"))
     def last_invoice(self):
         try:
             invoice = self.invoice_set.order_by("-start")[0]
         except IndexError:
-            return _("N/A")
+            return gettext("N/A")
         return f"{invoice.start} - {invoice.end}"
 
     @admin.display(
-        description=_("In display limits"),
+        description=gettext_lazy("In display limits"),
         boolean=True,
     )
     def in_display_limits(self, plan=None):
@@ -452,7 +457,7 @@ class Billing(models.Model):
                     component.get_absolute_url(),
                     component.name,
                     component.license_url or "#",
-                    component.get_license_display() or _("Missing license"),
+                    component.get_license_display() or gettext("Missing license"),
                     component.repo,
                     component.get_file_format_display(),
                 ),

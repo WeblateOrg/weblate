@@ -4,7 +4,7 @@
 
 import re
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.checks.format import BaseFormatCheck
 
@@ -51,8 +51,8 @@ class RubyFormatCheck(BaseFormatCheck):
     """
 
     check_id = "ruby_format"
-    name = _("Ruby format")
-    description = _("Ruby format string does not match source")
+    name = gettext_lazy("Ruby format")
+    description = gettext_lazy("Ruby format string does not match source")
     regexp = RUBY_FORMAT_MATCH
 
     def is_position_based(self, string):

@@ -4,8 +4,7 @@
 
 from django import forms
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.trans.models import Translation, Unit
 
@@ -18,7 +17,7 @@ class CommaSeparatedIntegerField(forms.Field):
         try:
             return [int(item.strip()) for item in value.split(",") if item.strip()]
         except (ValueError, TypeError):
-            raise ValidationError(_("Invalid integer list!"))
+            raise ValidationError(gettext("Invalid integer list!"))
 
 
 class GlossaryModelChoiceField(forms.ModelChoiceField):
@@ -95,7 +94,7 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
         kwargs["auto_id"] = "id_add_term_%s"
         super().__init__(data=data, instance=instance, initial=initial, **kwargs)
         self.fields["translation"].queryset = glossaries
-        self.fields["translation"].label = _("Glossary")
+        self.fields["translation"].label = gettext("Glossary")
         self.fields["source"].label = str(component.source_language)
         self.fields["source"].required = True
         self.fields["target"].label = str(translation.language)

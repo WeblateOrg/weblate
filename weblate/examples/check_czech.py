@@ -4,7 +4,7 @@
 
 """Quality check example for Czech plurals."""
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import TargetCheck
 
@@ -15,10 +15,10 @@ class PluralCzechCheck(TargetCheck):
     check_id = "foo"
 
     # Short name used to display failing check
-    name = _("Foo check")
+    name = gettext_lazy("Foo check")
 
     # Description for failing check
-    description = _("Your translation is foo")
+    description = gettext_lazy("Your translation is foo")
 
     # Real check code
     def check_target_unit(self, sources, targets, unit):

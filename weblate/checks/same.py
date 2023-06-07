@@ -5,7 +5,7 @@
 import re
 
 from django.utils.html import strip_tags
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 from weblate_language_data.check_languages import LANGUAGES
 
 from weblate.checks.base import TargetCheck
@@ -137,8 +137,8 @@ class SameCheck(TargetCheck):
     """Check for untranslated entries."""
 
     check_id = "same"
-    name = _("Unchanged translation")
-    description = _("Source and translation are identical")
+    name = gettext_lazy("Unchanged translation")
+    description = gettext_lazy("Source and translation are identical")
 
     def should_ignore(self, source, unit):
         """Check whether given unit should be ignored."""

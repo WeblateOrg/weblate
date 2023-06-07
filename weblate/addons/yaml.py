@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import StoreBaseAddon
 from weblate.addons.forms import YAMLCustomizeForm
@@ -12,8 +12,8 @@ BREAKS = {"dos": "\r\n", "mac": "\r", "unix": "\n"}
 
 class YAMLCustomizeAddon(StoreBaseAddon):
     name = "weblate.yaml.customize"
-    verbose = _("Customize YAML output")
-    description = _(
+    verbose = gettext_lazy("Customize YAML output")
+    description = gettext_lazy(
         "Allows adjusting YAML output behavior, for example line-length or newlines."
     )
     settings_form = YAMLCustomizeForm
