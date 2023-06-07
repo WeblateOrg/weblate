@@ -36,7 +36,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-07 09:41+0000\n"
-"PO-Revision-Date: 2023-05-28 02:39+0000\n"
+"PO-Revision-Date: 2023-06-07 13:42+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -77,7 +77,7 @@ msgstr "Nome e cognome"
 
 #: weblate/accounts/forms.py:111
 msgid "Name is also used in version control commits."
-msgstr ""
+msgstr "Il nome viene usato anche nei commit del controllo versione."
 
 #: weblate/accounts/forms.py:171 weblate/accounts/models.py:578
 msgid "Commit e-mail"
@@ -89,7 +89,7 @@ msgstr "Usa indirizzo email account"
 
 #: weblate/accounts/forms.py:173
 msgid "Choose commit e-mail from verified addresses."
-msgstr ""
+msgstr "Scegli email commit da indirizzi verificati."
 
 #: weblate/accounts/forms.py:207 weblate/accounts/models.py:572
 msgid "Public e-mail"
@@ -114,7 +114,7 @@ msgstr "Email"
 
 #: weblate/accounts/forms.py:340
 msgid "Choose primary e-mail from verified addresses."
-msgstr ""
+msgstr "Scegli l'email principale da indirizzi verificati."
 
 #: weblate/accounts/forms.py:387
 msgid "Subject"
@@ -143,8 +143,6 @@ msgstr ""
 "tua richiesta."
 
 #: weblate/accounts/forms.py:413
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "E-mail with a confirmation link will be sent here."
 msgstr "L'email di attivazione verrà inviata qui."
 
@@ -1008,16 +1006,12 @@ msgid "You can also request a new password, if you have lost your credentials."
 msgstr "Se hai perso le tue credenziali, puoi richiedere una nuova password."
 
 #: weblate/accounts/views.py:1198
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the verification token "
-#| "probably expired."
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
 msgstr ""
-"Prova nuovamente la registrazione per controllare il token di verifica "
-"identità probabilmente scaduto."
+"Prova a registrarti di nuovo per verificare la tua identità, il collegamento "
+"di conferma probabilmente è scaduto."
 
 #: weblate/accounts/views.py:1206
 msgid "Could not authenticate due to invalid session state."
@@ -2319,11 +2313,10 @@ msgid "Components"
 msgstr "Componenti"
 
 #: weblate/auth/models.py:131
-#, fuzzy
-#| msgid "You do not have permission to create components in any projects."
 msgid "Empty selection grants access to all components in project scope."
 msgstr ""
-"Non disponi dei permessi per creare un componente in qualsiasi progetto."
+"La selezione vuota concede l'accesso a tutti i componenti nell'ambito del "
+"progetto."
 
 #: weblate/auth/models.py:141
 msgid "Language selection"
@@ -2444,7 +2437,7 @@ msgstr "Scadenza del blocco"
 
 #: weblate/auth/permissions.py:132
 msgid "Can not perform this operation without an e-mail."
-msgstr ""
+msgstr "Impossibile eseguire questa operazione senza una email."
 
 #: weblate/auth/permissions.py:137 weblate/templates/translate.html:201
 #: weblate/templates/translate.html:221
@@ -2470,10 +2463,8 @@ msgid "Insufficient privileges for editing source strings."
 msgstr "Privilegi insufficienti per modificare le stringhe sorgenti."
 
 #: weblate/auth/permissions.py:163
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Suggestion voting is disabled."
-msgstr "La modifica delle stringhe sorgenti è disabilitata."
+msgstr "La votazione dei suggerimenti è disabilitata."
 
 #: weblate/auth/permissions.py:173
 msgid ""
@@ -2488,10 +2479,8 @@ msgid "Pay the bills to unlock this project."
 msgstr "Esegui il pagamento per sbloccare questo progetto."
 
 #: weblate/auth/permissions.py:209
-#, fuzzy
-#| msgid "This string seems to already exist."
 msgid "The string is read only."
-msgstr "Questa stringa sembra esista già."
+msgstr "La stringa è di sola lettura."
 
 #: weblate/auth/permissions.py:215
 msgid ""
@@ -2502,26 +2491,21 @@ msgstr ""
 "stringa debba essere modificata aggiungi un suggerimento."
 
 #: weblate/auth/permissions.py:221
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "The translation is read only."
-msgstr "Questa traduzione è bloccata."
+msgstr "La traduzione è di sola lettura."
 
 #: weblate/auth/permissions.py:238
 msgid "Add the string to the source language instead."
-msgstr ""
+msgstr "Aggiungi invece la stringa alla lingua sorgente."
 
 #: weblate/auth/permissions.py:242
-#, fuzzy
-#| msgid "Unsupported component configuration"
 msgid "Adding strings is disabled in the component configuration."
-msgstr "Configurazione componente non supportata"
+msgstr ""
+"L'aggiunta di stringhe è disabilitata nella configurazione del componente."
 
 #: weblate/auth/permissions.py:259 weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "File format does not support this."
-msgstr "Il formato del file rilevato non è supportato."
+msgstr "Il formato del file non lo supporta."
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2834,16 +2818,12 @@ msgstr ""
 "traducibile in alcuni componenti.."
 
 #: weblate/checks/consistency.py:138
-#, fuzzy
-#| msgid "Removed translation"
 msgid "Reused translation"
-msgstr "Rimossa traduzione"
+msgstr "Traduzione riutilizzata"
 
 #: weblate/checks/consistency.py:139
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Different strings are translated same."
-msgstr "Nessuna stringa da tradurre"
+msgstr "Stringhe diverse vengono tradotte allo stesso modo."
 
 #: weblate/checks/consistency.py:214
 msgid "Has been translated"
@@ -4454,14 +4434,14 @@ msgid "Screenshot name"
 msgstr "Nome della schermata"
 
 #: weblate/screenshots/models.py:51
-#, fuzzy
-#| msgid "Repository branch to translate"
 msgid "Repository path to screenshot"
-msgstr "Ramo repository da tradurre"
+msgstr "Percorso repository per le schermate"
 
 #: weblate/screenshots/models.py:52
 msgid "Scan for screenshot file change on repository update."
 msgstr ""
+"Cerca la modifica del file delle schermate durante l'aggiornamento del "
+"repository."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_detail.html:58
@@ -4718,10 +4698,8 @@ msgstr "Statistiche"
 
 #: weblate/templates/accounts/add-mail.html:4
 #: weblate/templates/accounts/email.html:17
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Add new e-mail address"
-msgstr "Usa indirizzo email account"
+msgstr "Aggiungi nuovo indirizzo email"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -4733,10 +4711,8 @@ msgid "Your profile"
 msgstr "Il tuo profilo"
 
 #: weblate/templates/accounts/confirm.html:14
-#, fuzzy
-#| msgid "Could not remove user identity"
 msgid "Confirm adding user identity"
-msgstr "Impossibile rimuovere l'identità utente"
+msgstr "Conferma l'aggiunta dell'identità dell'utente"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #: weblate/templates/accounts/confirm.html:18
@@ -4749,10 +4725,8 @@ msgstr ""
 "usando %(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/confirm.html:24
-#, fuzzy
-#| msgid "Configure"
 msgid "Confirm"
-msgstr "Configura"
+msgstr "Conferma"
 
 #: weblate/templates/accounts/contact.html:15
 msgid ""
@@ -5097,10 +5071,8 @@ msgid "Disconnect"
 msgstr "Disconnetti"
 
 #: weblate/templates/accounts/profile.html:156
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new user identity"
-msgstr "Aggiungi nuovo utente"
+msgstr "Aggiungi nuova identità utente"
 
 #: weblate/templates/accounts/profile.html:166
 #: weblate/templates/component.html:104
@@ -5425,10 +5397,8 @@ msgstr[0] "%(count)s commento"
 msgstr[1] "%(count)s commenti"
 
 #: weblate/templates/accounts/user.html:141
-#, fuzzy
-#| msgid "Contributors"
 msgid "Contributed to"
-msgstr "Contributori"
+msgstr "Ha contribuito a"
 
 #: weblate/templates/accounts/user.html:144
 msgid "Activity"
@@ -5492,10 +5462,8 @@ msgid "Browse all watched projects"
 msgstr "Sfoglia tutti i progetti osservati"
 
 #: weblate/templates/accounts/user.html:192
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes made by this user"
-msgstr "Sfoglia tutte le modifiche per utente"
+msgstr "Sfoglia tutte le modifiche apportate da questo utente"
 
 #: weblate/templates/accounts/user.html:253
 msgid "Group"
@@ -5508,9 +5476,6 @@ msgid "Members"
 msgstr "Membri"
 
 #: weblate/templates/accounts/user.html:264
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgctxt "No project associated with group"
 msgid "None"
 msgstr "Nessuno"
@@ -5916,10 +5881,8 @@ msgid "Add"
 msgstr "Aggiungi"
 
 #: weblate/templates/auth/teams-components.html:6
-#, fuzzy
-#| msgid "No components were matched!"
 msgid "No components specified"
-msgstr "Nessun componente corrispondente!"
+msgstr "Nessun componente specificato"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7184,34 +7147,30 @@ msgid "Commit"
 msgstr "Esegui il commit"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s change"
-#| msgid_plural "%(count)s changes"
+#, python-format
 msgid "%(count)s pending change"
 msgid_plural "%(count)s pending changes"
-msgstr[0] "%(count)s modifica"
-msgstr[1] "%(count)s modifiche"
+msgstr[0] "%(count)s modifica in attesa"
+msgstr[1] "%(count)s modifiche in attesa"
 
 #: weblate/templates/js/git-status.html:32
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "Invia le modifiche in sospeso al repository Weblate"
+msgstr ""
+"Questo eseguirà il commit di tutte le modifiche in sospeso presenti in "
+"Weblate e non nel repository."
 
 #: weblate/templates/js/git-status.html:38
 msgid "Push"
 msgstr "Forza"
 
 #: weblate/templates/js/git-status.html:41
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s commento"
-msgstr[1] "%(count)s commenti"
+msgstr[0] "%(count)s commit in uscita"
+msgstr[1] "%(count)s commit in uscita"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Update"
@@ -7219,32 +7178,26 @@ msgstr "Aggiorna"
 
 #: weblate/templates/js/git-status.html:58
 msgid "Update with merge"
-msgstr ""
+msgstr "Aggiorna con unione"
 
 #: weblate/templates/js/git-status.html:61
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Update with rebase"
-msgstr "Aggiorna i controlli di qualità"
+msgstr "Aggiorna con rebase"
 
 #: weblate/templates/js/git-status.html:64
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid "Update with merge without fast-forward"
-msgstr "Unisci senza avanzamento rapido"
+msgstr "Aggiorna con unione senza avanzamento rapido"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "%(count)s commento"
-msgstr[1] "%(count)s commenti"
+msgstr[0] "%(count)s commit mancante"
+msgstr[1] "%(count)s commit mancanti"
 
 #: weblate/templates/js/git-status.html:73
 msgid "This will update the Weblate repository with the upstream changes."
-msgstr ""
+msgstr "Questo aggiornerà il repository Weblate con le modifiche a monte."
 
 #: weblate/templates/js/git-status.html:80
 msgid "Allow changes to the Weblate repository"
@@ -7264,28 +7217,20 @@ msgid "Lock"
 msgstr "Blocca"
 
 #: weblate/templates/js/git-status.html:87
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are locked"
-msgstr "Traduzioni Weblate"
+msgstr "Le traduzioni Weblate sono bloccate"
 
 #: weblate/templates/js/git-status.html:89
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are open"
-msgstr "Traduzioni Weblate"
+msgstr "Le traduzioni Weblate sono aperte"
 
 #: weblate/templates/js/git-status.html:93
-#, fuzzy
-#| msgid "Locking prevents translators from doing changes"
 msgid "Locking prevents translators from doing changes."
-msgstr "Il blocco impedisce ai traduttori di apportare modifiche"
+msgstr "Il blocco impedisce ai traduttori di apportare modifiche."
 
 #: weblate/templates/js/git-status.html:105
-#, fuzzy
-#| msgid "Danger (red)"
 msgid "Danger zone"
-msgstr "Pericolo (rosso)"
+msgstr "Zona pericolosa"
 
 #: weblate/templates/js/git-status.html:110
 #: weblate/templates/translate.html:495
@@ -7297,22 +7242,20 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Reimposta tutte le modifiche nel repository Weblate"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid ""
-#| "Resetting removes all changes in Weblate so that the repository matches "
-#| "upstream. Use with caution."
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream."
 msgstr ""
-"Reset rimuove tutte le modifiche in Weblate ed azzera il repository per "
-"farlo combaciare con il sorgente. Usala con cautela."
+"Il ripristino rimuove tutte le modifiche in Weblate in modo che il "
+"repository corrisponda a monte."
 
 #: weblate/templates/js/git-status.html:116
 msgid ""
 "Use when you want to discard changes in Weblate and bring it in sync with "
 "upstream repository."
 msgstr ""
+"Da usare quando si desidera eliminare le modifiche in Weblate e portarle in "
+"sincronia con il repository upstream."
 
 #: weblate/templates/js/git-status.html:120
 msgid "Cleanup"
@@ -7327,36 +7270,36 @@ msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
+"La pulizia rimuove dal repository tutti i file che non sono tracciati dal "
+"controllo della versione."
 
 #: weblate/templates/js/git-status.html:126
-#, fuzzy
-#| msgid "Prevent any changes in the Weblate repository"
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Impedisci modifiche al repository Weblate"
+msgstr "Da usare quando è rimasta della spazzatura nel repository Weblate."
 
 #: weblate/templates/js/git-status.html:130
 msgid "Synchronize"
-msgstr ""
+msgstr "Sincronizza"
 
 #: weblate/templates/js/git-status.html:132
 msgid "Force writing all translations to the Weblate repository"
 msgstr "Forza la scrittura di tutte le traduzioni nel repository Weblate"
 
 #: weblate/templates/js/git-status.html:135
-#, fuzzy
-#| msgid "Force writing all translations to the Weblate repository"
 msgid "Forces writing all strings to the translation files."
-msgstr "Forza la scrittura di tutte le traduzioni nel repository Weblate"
+msgstr "Forza la scrittura di tutte le stringhe nei file traduzione."
 
 #: weblate/templates/js/git-status.html:136
 msgid ""
 "Use this when repository files became out of sync with Weblate for some "
 "reason."
 msgstr ""
+"Usalo quando i file del repository non sono più sincronizzati con Weblate "
+"per qualche motivo."
 
 #: weblate/templates/js/git-status.html:140
 msgid "Rescan"
-msgstr ""
+msgstr "Riscansiona"
 
 #: weblate/templates/js/git-status.html:142
 #, fuzzy
