@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-07 11:42+0200\n"
-"PO-Revision-Date: 2023-06-07 18:10+0000\n"
+"PO-Revision-Date: 2023-06-08 03:10+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -2162,46 +2162,34 @@ msgstr ""
 "формальному виразі можна скористатися як полями шаблона."
 
 #: ../../admin/addons.rst:214
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid "You can use Django template markup in all filename fields, for example:"
 msgstr ""
-"Ви можете використовувати розмітку шаблонів Django як у назві файлу, так і у "
-"вмісті, наприклад:"
+"Ви можете використовувати розмітку шаблонів Django в усіх полях назви файла. "
+"Приклад:"
 
 #: ../../admin/addons.rst:216
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ component }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ component }}``"
 
 #: ../../admin/addons.rst:217
 msgid "Component filename match"
 msgstr "Збіг назви файлу складника"
 
 #: ../../admin/addons.rst:218
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ component|title }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ component|title }}``"
 
 #: ../../admin/addons.rst:219
 msgid "Component filename with upper case first letter"
-msgstr "Назва файлу складника з великою першою буквою"
+msgstr "Назва файла складника з великою першою буквою"
 
 #: ../../admin/addons.rst:221
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ path }}: {{ component }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ path }}: {{ component }}``"
 
 #: ../../admin/addons.rst:221
-#, fuzzy
-#| msgid "Component regular expression"
 msgid "Custom match group from the regular expression"
-msgstr "Формальний вираз складника"
+msgstr "Нетипова група відповідності на основі формального виразу"
 
 #: ../../admin/addons.rst:223
 msgid ""
@@ -2214,16 +2202,12 @@ msgstr ""
 "чи відповідають налаштування вашим потребам:"
 
 #: ../../admin/addons.rst:229
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Component discovery examples"
-msgstr "Виявлення складників"
+msgstr "Приклади виявленння складників"
 
 #: ../../admin/addons.rst:232
-#, fuzzy
-#| msgid "Deletes the language."
 msgid "One folder per language"
-msgstr "Вилучає мову."
+msgstr "Одна тека на мову"
 
 #: ../../admin/addons.rst:234
 msgid "One folder per language containing translation files for components."
@@ -2232,219 +2216,150 @@ msgstr "Одна тека для мови, що містить файли пер
 #: ../../admin/addons.rst:236 ../../admin/addons.rst:249
 #: ../../admin/addons.rst:262 ../../admin/addons.rst:275
 #: ../../admin/addons.rst:289 ../../admin/addons.rst:302
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular expression:"
-msgstr "Регулярний вираз"
+msgstr "Формальний вираз:"
 
 #: ../../admin/addons.rst:237
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``(?P<мова>[^/.]*)/(?P<складник>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:242 ../../admin/addons.rst:255
 #: ../../admin/addons.rst:268 ../../admin/addons.rst:282
 #: ../../admin/addons.rst:295 ../../admin/addons.rst:311
-#, fuzzy
-#| msgid "Matched files"
 msgid "Matching files:"
-msgstr "Порівняні файли"
+msgstr "Порівнювані файли:"
 
 #: ../../admin/addons.rst:239
-#, fuzzy
-#| msgid ":file:`/favicon.ico`"
 msgid ":file:`cs/application.po`"
-msgstr ":file:`/favicon.ico`"
+msgstr ":file:`cs/application.po`"
 
 #: ../../admin/addons.rst:240
-#, fuzzy
-#| msgid ":file:`icons/weblate.svg`"
 msgid ":file:`cs/website.po`"
-msgstr ":file:`icons/weblate.svg`"
+msgstr ":file:`cs/website.po`"
 
 #: ../../admin/addons.rst:241
-#, fuzzy
-#| msgid ":file:`/favicon.ico`"
 msgid ":file:`de/application.po`"
-msgstr ":file:`/favicon.ico`"
+msgstr ":file:`de/application.po`"
 
 #: ../../admin/addons.rst:242
-#, fuzzy
-#| msgid ":file:`weblate-*.png`"
 msgid ":file:`de/website.po`"
-msgstr ":file:`weblate-*.png`"
+msgstr ":file:`de/website.po`"
 
 #: ../../admin/addons.rst:245
 msgid "Gettext locales layout"
-msgstr ""
+msgstr "Компонування локалей Gettext"
 
 #: ../../admin/addons.rst:247
 msgid "Usual structure for storing gettext PO files."
 msgstr "Звичайна структура для збереження файлів gettex PO."
 
 #: ../../admin/addons.rst:250
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``locale/(?P<мова>[^/.]*)/LC_MESSAGES/(?P<складник>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:252
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/cs/LC_MESSAGES/application.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/cs/LC_MESSAGES/application.po`"
 
 #: ../../admin/addons.rst:253
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/cs/LC_MESSAGES/website.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/cs/LC_MESSAGES/website.po`"
 
 #: ../../admin/addons.rst:254
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/de/LC_MESSAGES/application.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/de/LC_MESSAGES/application.po`"
 
 #: ../../admin/addons.rst:255
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/de/LC_MESSAGES/website.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/de/LC_MESSAGES/website.po`"
 
 #: ../../admin/addons.rst:258
-#, fuzzy
-#| msgid "Component filename match"
 msgid "Complex filenames"
-msgstr "Збіг назви файлу складника"
+msgstr "Складні назви файлів"
 
 #: ../../admin/addons.rst:260
 msgid "Using both component and language name within filename."
 msgstr "Використання складників та назви мови в імені файлу."
 
 #: ../../admin/addons.rst:263
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``src/locale/(?P<складник>[^/]*)\\.(?P<мова>[^/.]*)\\.po``"
 
 #: ../../admin/addons.rst:265
-#, fuzzy
-#| msgid ":file:`/favicon.ico`"
 msgid ":file:`src/locale/application.cs.po`"
-msgstr ":file:`/favicon.ico`"
+msgstr ":file:`src/locale/application.cs.po`"
 
 #: ../../admin/addons.rst:266
-#, fuzzy
-#| msgid ":file:`icons/weblate.svg`"
 msgid ":file:`src/locale/website.cs.po`"
-msgstr ":file:`icons/weblate.svg`"
+msgstr ":file:`src/locale/website.cs.po`"
 
 #: ../../admin/addons.rst:267
 msgid ":file:`src/locale/application.de.po`"
-msgstr ""
+msgstr ":file:`src/locale/application.de.po`"
 
 #: ../../admin/addons.rst:268
 msgid ":file:`src/locale/website.de.po`"
-msgstr ""
+msgstr ":file:`src/locale/website.de.po`"
 
 #: ../../admin/addons.rst:271
-#, fuzzy
-#| msgid "Aliased language codes"
 msgid "Repeated language code"
-msgstr "Альтернативні коди мов"
+msgstr "Повторюваний код мови"
 
 #: ../../admin/addons.rst:273
 msgid "Using language in both path and filename."
 msgstr "Використанні мови у шляху та назві файлу."
 
 #: ../../admin/addons.rst:276
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``locale/(?P<мова>[^/.]*)/(?P<складник>[^/]*)/(?P=language)\\.po``"
 
 #: ../../admin/addons.rst:278
 msgid ":file:`locale/cs/application/cs.po`"
-msgstr ""
+msgstr ":file:`locale/cs/application/cs.po`"
 
 #: ../../admin/addons.rst:279
-#, fuzzy
-#| msgid ":file:`icons/weblate.svg`"
 msgid ":file:`locale/cs/website/cs.po`"
-msgstr ":file:`icons/weblate.svg`"
+msgstr ":file:`locale/cs/website/cs.po`"
 
 #: ../../admin/addons.rst:280
 msgid ":file:`locale/de/application/de.po`"
-msgstr ""
+msgstr ":file:`locale/de/application/de.po`"
 
 #: ../../admin/addons.rst:281
-#, fuzzy
-#| msgid ":file:`/etc/xdg/weblate`"
 msgid ":file:`locale/de/website/de.po`"
-msgstr ":file:`/etc/xdg/weblate`"
+msgstr ":file:`locale/de/website/de.po`"
 
 #: ../../admin/addons.rst:285
-#, fuzzy
-#| msgid "Apple iOS strings"
 msgid "Splitted Android strings"
-msgstr "Рядки Apple iOS"
+msgstr "Розділені рядки Android"
 
 #: ../../admin/addons.rst:287
 msgid "Android resource strings, split into several files."
 msgstr "Рядки ресурсів Android, розбиті на декілька файлів."
 
 #: ../../admin/addons.rst:290
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``res/values-(?P<мова>[^/.]*)/strings-(?P<складник>[^/]*)\\.xml``"
 
 #: ../../admin/addons.rst:292
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-cs/strings-about.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-cs/strings-about.xml`"
 
 #: ../../admin/addons.rst:293
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-cs/strings-help.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-cs/strings-help.xml`"
 
 #: ../../admin/addons.rst:294
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-de/strings-about.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-de/strings-about.xml`"
 
 #: ../../admin/addons.rst:295
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-de/strings-help.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-de/strings-help.xml`"
 
 #: ../../admin/addons.rst:298
-#, fuzzy
-#| msgid "Mismatching line breaks"
 msgid "Matching multiple paths"
-msgstr "Розбіжність розривів рядків"
+msgstr "Відповідність декільком шляхам"
 
 #: ../../admin/addons.rst:300
 msgid "Multi-module Maven project with Java properties translations."
@@ -2457,14 +2372,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:304
-#, fuzzy
-#| msgid "Component name"
 msgid "Component name:"
-msgstr "Назва складника"
+msgstr "Назва складника:"
 
 #: ../../admin/addons.rst:305
 msgid "``{{ originalHierarchy }}: {{ component }}``"
-msgstr ""
+msgstr "``{{ originalHierarchy }}: {{ component }}``"
 
 #: ../../admin/addons.rst:307
 msgid ""
@@ -2509,7 +2422,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:324
 msgid ":ref:`markup`, :wladmin:`import_project`"
-msgstr ""
+msgstr ":ref:`markup`, :wladmin:`import_project`"
 
 #: ../../admin/addons.rst:330 ../../user/translating.rst:405
 msgid "Bulk edit"
@@ -4218,27 +4131,14 @@ msgstr ""
 "усі її реєстраційні дані:"
 
 #: ../../admin/auth.rst:112
-#, fuzzy
-#| msgid ""
-#| "The GitHub should be configured to have callback URL as ``https://example."
-#| "com/accounts/complete/github/``."
 msgid ""
 "The GitHub should be configured to have callback URL as ``https://WEBLATE "
 "SERVER/accounts/complete/github/``."
 msgstr ""
 "GitHub слід налаштувати, щоб адреса зворотного виклику була подібно до "
-"``https://example.com/accounts/complete/github/``."
+"``https://СЕРВЕР WEBLATE/accounts/complete/github/``."
 
 #: ../../admin/auth.rst:115
-#, fuzzy
-#| msgid ""
-#| "There are similar authentication backends for GitHub for Organizations "
-#| "and GitHub for Teams. Their settings are named "
-#| "``SOCIAL_AUTH_GITHUB_ORG_*`` and ``SOCIAL_AUTH_GITHUB_TEAM_*``, and they "
-#| "require additional setting of the scope - ``SOCIAL_AUTH_GITHUB_ORG_NAME`` "
-#| "or ``SOCIAL_AUTH_GITHUB_TEAM_ID``.  Their callback URLs are ``https://"
-#| "example.com/accounts/complete/github-org/`` and ``https://example.com/"
-#| "accounts/complete/github-teams/``."
 msgid ""
 "There are similar authentication backends for GitHub for Organizations and "
 "GitHub for Teams. Their settings are named ``SOCIAL_AUTH_GITHUB_ORG_*`` and "
@@ -4252,8 +4152,8 @@ msgstr ""
 "``SOCIAL_AUTH_GITHUB_TEAM_*``. Ці модулі потребують додаткових налаштувань "
 "області видимості — ``SOCIAL_AUTH_GITHUB_ORG_NAME`` "
 "або``SOCIAL_AUTH_GITHUB_TEAM_ID``. Відповідними адресами зворотних викликів "
-"є ``https://example.com/accounts/complete/github-org/`` і ``https://example."
-"com/accounts/complete/github-teams/``."
+"є ``https://СЕРВЕР WEBLATE/accounts/complete/github-org/`` і "
+"``https://example.com/accounts/complete/github-teams/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -4270,16 +4170,10 @@ msgid ":doc:`psa:backends/github`"
 msgstr ":doc:`psa:backends/github`"
 
 #: ../../admin/auth.rst:131
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "GitHub EE authentication"
-msgstr "Розпізнавання за GitHub"
+msgstr "Розпізнавання EE GitHub"
 
 #: ../../admin/auth.rst:133
-#, fuzzy
-#| msgid ""
-#| "You need to register an OAuth application on GitHub and then tell Weblate "
-#| "all its secrets:"
 msgid ""
 "You need to register an OAuth App on GitHub EE and then tell Weblate all its "
 "secrets:"
@@ -4288,16 +4182,12 @@ msgstr ""
 "усі її реєстраційні дані:"
 
 #: ../../admin/auth.rst:151
-#, fuzzy
-#| msgid ""
-#| "The GitHub should be configured to have callback URL as ``https://example."
-#| "com/accounts/complete/github/``."
 msgid ""
 "The GitHub OAuth App should be configured to have callback URL as ``https://"
 "WEBLATE SERVER/accounts/complete/github-enterprise/``."
 msgstr ""
-"GitHub слід налаштувати, щоб адреса зворотного виклику була подібно до "
-"``https://example.com/accounts/complete/github/``."
+"Додаток OAuth GitHub слід налаштувати, щоб адреса зворотного виклику була "
+"подібно до ``https://СЕРВЕР WEBLATE/accounts/complete/github-enterprise/``."
 
 #: ../../admin/auth.rst:154
 msgid ""
@@ -4308,10 +4198,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/auth.rst:163
-#, fuzzy
-#| msgid ":doc:`psa:backends/github`"
 msgid ":doc:`psa:backends/github_enterprise`"
-msgstr ":doc:`psa:backends/github`"
+msgstr ":doc:`psa:backends/github_enterprise`"
 
 #: ../../admin/auth.rst:168
 msgid "Bitbucket authentication"
@@ -4425,7 +4313,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:297
 msgid "You will need following:"
-msgstr ""
+msgstr "Вам знадобиться таке:"
 
 #: ../../admin/auth.rst:299
 msgid ""
@@ -4734,15 +4622,6 @@ msgstr ""
 "Django:"
 
 #: ../../admin/auth.rst:583
-#, fuzzy
-#| msgid ""
-#| "You should remove ``'social_core.backends.email.EmailAuth'`` from the :"
-#| "setting:`django:AUTHENTICATION_BACKENDS` setting, otherwise users will be "
-#| "able to set their password in Weblate, and authenticate using that. "
-#| "Keeping ``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in "
-#| "order to make permissions and facilitate anonymous users. It will also "
-#| "allow you to sign in using a local admin account, if you have created it "
-#| "(e.g. by using :djadmin:`createadmin`)."
 msgid ""
 "You should remove ``'social_core.backends.email.EmailAuth'`` from the :"
 "setting:`django:AUTHENTICATION_BACKENDS` setting, otherwise users will be "
@@ -4752,14 +4631,14 @@ msgid ""
 "sign in using a local admin account, if you have created it (e.g. by using :"
 "wladmin:`createadmin`)."
 msgstr ""
-"Вам слід вилучити ``'social_core.backends.email.EmailAuth'`` з параметра :"
-"setting:`django:`AUTHENTICATION_BACKENDS`, інакше користувачі зможуть "
+"Вам слід вилучити ``'social_core.backends.email.EmailAuth'`` з параметра "
+":setting:`django:`AUTHENTICATION_BACKENDS`, інакше користувачі зможуть "
 "встановлювати пароль у Weblate і проходити розпізнавання за допомогою "
 "пароля. Збереження ``'weblate.accounts.auth.WeblateUserBackend'`` все одно "
 "потрібен для того, щоб встановити права доступу і полегшити роботу з "
 "анонімними користувачами. Цей параметр також надає вам змогу входити до "
 "системи за допомогою локального адміністративного облікового запису, якщо ви "
-"його створили (наприклад, за допомогою :djadmin:`createadmin`)."
+"його створили (наприклад, за допомогою :wladmin:`createadmin`)."
 
 #: ../../admin/auth.rst:592
 msgid "Using bind password"
@@ -5376,20 +5255,14 @@ msgstr ""
 "даними."
 
 #: ../../admin/backup.rst:244
-#, fuzzy
-#| msgid ""
-#| "You can restore this backup in a newer Weblate release, it will perform "
-#| "all the necessary migrations when running in :djadmin:`django:migrate`. "
-#| "Please consult :doc:`upgrade` on more detailed info on how to upgrade "
-#| "between versions."
 msgid ""
 "You can restore this backup in a newer Weblate release, it will perform all "
 "the necessary migrations when running in :wladmin:`migrate`. Please consult :"
 "doc:`upgrade` on more detailed info on how to upgrade between versions."
 msgstr ""
 "Ви можете відновити цю резервну копію у новішому випуску Weblate — усі "
-"необхідні процедури із перенесення даних буде виконано під час запуску :"
-"djadmin:`django:migrate`. Будь ласка, зверніться до розділу :doc:`upgrade`, "
+"необхідні процедури із перенесення даних буде виконано під час запуску "
+":djadmin:`django:migrate`. Будь ласка, зверніться до розділу :doc:`upgrade`, "
 "щоб ознайомитися із докладнішими відомостями щодо оновлення версій."
 
 #: ../../admin/backup.rst:249
@@ -5408,13 +5281,6 @@ msgstr ""
 "хочете змінити модуль обробки бази даних."
 
 #: ../../admin/backup.rst:255
-#, fuzzy
-#| msgid ""
-#| "Prior to restoring the database you need to be running exactly the same "
-#| "Weblate version the backup was made on. This is necessary as the database "
-#| "structure does change between releases and you would end up corrupting "
-#| "the data in some way. After installing the same version, run all database "
-#| "migrations using :djadmin:`django:migrate`."
 msgid ""
 "Prior to restoring the database you need to be running exactly the same "
 "Weblate version the backup was made on. This is necessary as the database "
@@ -5427,8 +5293,7 @@ msgstr ""
 "копіювання. Це необхідно, оскільки структура бази даних змінюється між "
 "випусками, отже, використання неналежної версії може призвести до певного "
 "пошкодження даних. Після встановлення тієї самої версії запустіть усі "
-"процедури перенесення бази даних за допомогою команди :djadmin:`django:"
-"migrate`."
+"процедури перенесення бази даних за допомогою команди :wladmin:`migrate`."
 
 #: ../../admin/backup.rst:261
 msgid ""
@@ -5636,10 +5501,8 @@ msgid "Restore all data you have backed up."
 msgstr "Відновлення усіх даних зі створеної вами резервної копії."
 
 #: ../../admin/backup.rst:369
-#, fuzzy
-#| msgid "Update all repositories using :djadmin:`updategit`."
 msgid "Update all repositories using :wladmin:`updategit`."
-msgstr "Оновлення усіх репозиторіїв за допомогою :djadmin:`updategit`."
+msgstr "Оновлення усіх репозиторіїв за допомогою :wladmin:`updategit`."
 
 #: ../../admin/backup.rst:376
 msgid "Moving a Weblate installation"
@@ -6601,10 +6464,8 @@ msgid "``ignore-reused``"
 msgstr "``ignore-regex``"
 
 #: ../../admin/checks.rst:239
-#, fuzzy
-#| msgid "Skip the :ref:`check-regex` quality check."
 msgid "Skip the :ref:`check-reused` quality check."
-msgstr "Пропустити перевірку якості :ref:`check-regex`."
+msgstr "Пропустити перевірку якості :ref:`check-reused`."
 
 #: ../../admin/checks.rst:240 ../../user/checks.rst:1158
 msgid "``ignore-same-plurals``"
@@ -7053,10 +6914,6 @@ msgstr ""
 "Django)."
 
 #: ../../admin/config.rst:10
-#, fuzzy
-#| msgid ""
-#| "After changing any of these settings, you need to restart Weblate - both "
-#| "WSGI and Celery processes."
 msgid ""
 "After changing any of these settings, you need to restart Weblate — both "
 "WSGI and Celery processes."
@@ -7113,10 +6970,6 @@ msgid "AUDITLOG_EXPIRY"
 msgstr "AUDITLOG_EXPIRY"
 
 #: ../../admin/config.rst:48
-#, fuzzy
-#| msgid ""
-#| "How many days Weblate should keep audit logs, which contain info about "
-#| "account activity."
 msgid ""
 "How many days Weblate should keep audit logs (which contain info about "
 "account activity)."
@@ -7153,10 +7006,6 @@ msgstr ""
 "до системи без запиту щодо введення нового пароля."
 
 #: ../../admin/config.rst:64
-#, fuzzy
-#| msgid ""
-#| "Password reset. Prevents new e-mails from being sent, avoiding spamming "
-#| "users with too many password reset attempts."
 msgid ""
 "Password reset. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password-reset attempts."
@@ -7208,8 +7057,6 @@ msgstr ""
 "зворотної сумісності."
 
 #: ../../admin/config.rst:94
-#, fuzzy
-#| msgid "Options are:"
 msgid "The options are:"
 msgstr "Можливі варіанти:"
 
@@ -7297,10 +7144,6 @@ msgid "AUTH_PASSWORD_DAYS"
 msgstr "AUTH_PASSWORD_DAYS"
 
 #: ../../admin/config.rst:139
-#, fuzzy
-#| msgid ""
-#| "How many days will Weblate reject reusing previously used password for an "
-#| "user."
 msgid ""
 "How many days Weblate rejects reusing a previously used password for a user."
 msgstr ""
@@ -7333,10 +7176,6 @@ msgstr ""
 "Список автоматичних виправлено, які слід застосувати при збереженні рядка."
 
 #: ../../admin/config.rst:159
-#, fuzzy
-#| msgid ""
-#| "Provide a fully-qualified path to the Python class that implementing the "
-#| "autofixer interface."
 msgid ""
 "Provide a fully-qualified path to the Python class that implements the "
 "autofixer interface."
@@ -7391,8 +7230,6 @@ msgid "``weblate.trans.autofixes.chars.DevanagariDanda``"
 msgstr "``weblate.trans.autofixes.chars.DevanagariDanda``"
 
 #: ../../admin/config.rst:173
-#, fuzzy
-#| msgid "Replaces sentence full stop in Bangla by Devanagari danda."
 msgid ""
 "Replaces sentence full stop in Bangla by the devanagari danda character."
 msgstr "Замінює кінцеву крапку у бангла на данду деванагарі."
@@ -7471,11 +7308,6 @@ msgid "BASIC_LANGUAGES"
 msgstr "BASIC_LANGUAGES"
 
 #: ../../admin/config.rst:224
-#, fuzzy
-#| msgid ""
-#| "List of languages to offer users for starting new translation. When not "
-#| "specified built-in list is used which includes all commonly used "
-#| "languages, but without country specific variants."
 msgid ""
 "List of languages to offer users for starting a new translation. When not "
 "specified, a built-in list is used (which includes all commonly used "
@@ -7486,11 +7318,6 @@ msgstr ""
 "включено найпоширеніші мови, але без діалектів певних країн."
 
 #: ../../admin/config.rst:228
-#, fuzzy
-#| msgid ""
-#| "This only limits non privileged users to add unwanted languages. The "
-#| "project admins are still presented with full selection of languages "
-#| "defined in Weblate."
 msgid ""
 "This only limits non privileged users to add unwanted languages. Project "
 "admins are still presented with the full selection of languages defined in "
@@ -7501,10 +7328,6 @@ msgstr ""
 "у Weblate."
 
 #: ../../admin/config.rst:233
-#, fuzzy
-#| msgid ""
-#| "This does not define new languages for Weblate, it only filters existing "
-#| "ones in the database."
 msgid ""
 "This does not define new languages for Weblate — it only filters existing "
 "ones in the database."
@@ -7608,12 +7431,6 @@ msgid "Adjust the list of checks to include ones relevant to you."
 msgstr "Скоригувати список перевірок для включення потрібних вам."
 
 #: ../../admin/config.rst:322
-#, fuzzy
-#| msgid ""
-#| "All built-in :ref:`checks` are turned on by default, from where you can "
-#| "change these settings. By default they are commented out in :ref:`sample-"
-#| "configuration` so that default values are used. New checks then carried "
-#| "out for each new Weblate version."
 msgid ""
 "All built-in :ref:`checks` are turned on by default, from where you can "
 "change these settings. By default they are commented out in :ref:`sample-"
@@ -7634,11 +7451,6 @@ msgid "You can turn on only a few:"
 msgstr "Ви можете увімкнули лише декілька:"
 
 #: ../../admin/config.rst:344
-#, fuzzy
-#| msgid ""
-#| "Changing this setting only affects newly changed translations, existing "
-#| "checks will still be stored in the database. To also apply changes to the "
-#| "stored translations, run :djadmin:`updatechecks`."
 msgid ""
 "Changing this setting only affects newly changed translations. Existing "
 "checks will still be stored in the database. To also apply changes to the "
@@ -7646,7 +7458,7 @@ msgid ""
 msgstr ""
 "Зміна значення цього параметра стосується лише змінених наново перекладів — "
 "наявні перевірки зберігатимуться у базі даних. Щоб зміни було застосовано до "
-"вже збережених перекладів, віддайте команду :djadmin:`updatechecks`."
+"вже збережених перекладів, віддайте команду :wladmin:`updatechecks`."
 
 #: ../../admin/config.rst:350 ../../admin/translating.rst:93
 msgid ":ref:`checks`, :ref:`custom-checks`"
@@ -7677,26 +7489,18 @@ msgstr ""
 "разом із фоновим завданням."
 
 #: ../../admin/config.rst:371
-#, fuzzy
-#| msgid ""
-#| ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
-#| "cron`, :djadmin:`commit_pending`"
 msgid ""
 ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
 "cron`, :wladmin:`commit_pending`"
 msgstr ""
-":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
-"cron`, :djadmin:`commit_pending`"
+":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-cron`"
+", :wladmin:`commit_pending`"
 
 #: ../../admin/config.rst:380
 msgid "CONTACT_FORM"
 msgstr "CONTACT_FORM"
 
 #: ../../admin/config.rst:384
-#, fuzzy
-#| msgid ""
-#| "Configures how e-mail from the contact form is being sent. Choose a "
-#| "configuration that matches your mail server configuration."
 msgid ""
 "Configures how e-mail from the contact form is being sent. Choose a "
 "configuration that matches the configuration of your mail server."
@@ -7793,8 +7597,6 @@ msgid ":file:`vcs`"
 msgstr ":file:`vcs`"
 
 #: ../../admin/config.rst:414
-#, fuzzy
-#| msgid "Version control repositories for translations."
 msgid "Version-control repositories for translations."
 msgstr "Репозиторії систем керування версіями для перекладів."
 
@@ -7803,8 +7605,6 @@ msgid ":file:`backups`"
 msgstr ":file:`backups`"
 
 #: ../../admin/config.rst:416
-#, fuzzy
-#| msgid "Daily backup data, please check :ref:`backup-dumps` for details."
 msgid "Daily backup data. Please check :ref:`backup-dumps` for details."
 msgstr ""
 "Дані щоденної резервної копії. Докладніше про це у розділі :ref:`backup-"
@@ -7825,12 +7625,10 @@ msgid ":file:`cache`"
 msgstr ":file:`home`"
 
 #: ../../admin/config.rst:420
-#, fuzzy
-#| msgid "Various caches, can be placed elsewhere using :setting:`CACHE_DIR`."
 msgid "Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`."
 msgstr ""
-"Різноманітні кеші, можна розташувати деінде за допомогою :setting:"
-"`CACHE_DIR`."
+"Різноманітні кеші, можна розташувати деінде за допомогою "
+":setting:`CACHE_DIR`."
 
 #: ../../admin/config.rst:426
 msgid ""
@@ -7888,8 +7686,6 @@ msgid "DEFAULT_ACCESS_CONTROL"
 msgstr "DEFAULT_ACCESS_CONTROL"
 
 #: ../../admin/config.rst:468
-#, fuzzy
-#| msgid "The default access control setting for new projects:"
 msgid "The default access-control setting for new projects:"
 msgstr "Типовий параметр керування доступом для нових проєктів:"
 
@@ -7974,8 +7770,6 @@ msgid "DEFAULT_ADDONS"
 msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:539
-#, fuzzy
-#| msgid "Default add-ons to install on every created component."
 msgid "Default add-ons to install for every created component."
 msgstr "Типові додатки, які слід встановлювати для всіх створених складників."
 
@@ -7992,18 +7786,14 @@ msgid "Example:"
 msgstr "Приклад:"
 
 #: ../../admin/config.rst:565
-#, fuzzy
-#| msgid ":djadmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
 msgid ":wladmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
-msgstr ":djadmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
+msgstr ":wladmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
 
 #: ../../admin/config.rst:572
 msgid "DEFAULT_COMMITER_EMAIL"
 msgstr "DEFAULT_COMMITER_EMAIL"
 
 #: ../../admin/config.rst:574
-#, fuzzy
-#| msgid "Committer e-mail address defaulting to ``noreply@weblate.org``."
 msgid "Committer e-mail address, defaulting to ``noreply@weblate.org``."
 msgstr ""
 "Адреса електронної пошти автора внеску. Типове значення — ``noreply@weblate."
@@ -8018,8 +7808,6 @@ msgid "DEFAULT_COMMITER_NAME"
 msgstr "DEFAULT_COMMITER_NAME"
 
 #: ../../admin/config.rst:585
-#, fuzzy
-#| msgid "Committer name defaulting to ``Weblate``."
 msgid "Committer name, defaulting to ``Weblate``."
 msgstr "Ім'я автора внеску. Типове значення — ``Weblate``."
 
@@ -8032,10 +7820,8 @@ msgid "DEFAULT_LANGUAGE"
 msgstr "DEFAULT_LANGUAGE"
 
 #: ../../admin/config.rst:598
-#, fuzzy
-#| msgid "Merge style for any new components."
 msgid ":ref:`component-source_language` for any new components."
-msgstr "Стиль злиття для всіх нових складників."
+msgstr ":ref:`component-source_language` для усіх нових складників."
 
 #: ../../admin/config.rst:600
 msgid ""
@@ -8053,10 +7839,8 @@ msgid "DEFAULT_MERGE_STYLE"
 msgstr "DEFAULT_MERGE_STYLE"
 
 #: ../../admin/config.rst:614
-#, fuzzy
-#| msgid "Merge style for any new components."
 msgid ":ref:`component-merge_style` for any new components."
-msgstr "Стиль злиття для всіх нових складників."
+msgstr ":ref:`component-merge_style` для усіх нових складників."
 
 #: ../../admin/config.rst:616
 msgid "`rebase` - default"
@@ -8075,10 +7859,6 @@ msgid "DEFAULT_SHARED_TM"
 msgstr "DEFAULT_SHARED_TM"
 
 #: ../../admin/config.rst:631
-#, fuzzy
-#| msgid ""
-#| "Configures default value of :ref:`project-use_shared_tm` and :ref:"
-#| "`project-contribute_shared_tm`."
 msgid ""
 "Configures the default value of :ref:`project-use_shared_tm` and :ref:"
 "`project-contribute_shared_tm`."
@@ -8112,10 +7892,6 @@ msgid "ENABLE_AVATARS"
 msgstr "ENABLE_AVATARS"
 
 #: ../../admin/config.rst:659
-#, fuzzy
-#| msgid ""
-#| "Whether to turn on Gravatar-based avatars for users. By default this is "
-#| "on."
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
 msgstr ""
 "Визначає, чи слід вмикати засновані на Gravatar аватари для користувачів. "
@@ -8140,8 +7916,6 @@ msgid "ENABLE_HOOKS"
 msgstr "ENABLE_HOOKS"
 
 #: ../../admin/config.rst:675
-#, fuzzy
-#| msgid "Whether to enable anonymous remote hooks."
 msgid "Whether to turn on anonymous remote hooks."
 msgstr "Чи слід вмикати доступу до анонімних віддалених скриптів обробки."
 
@@ -8163,11 +7937,6 @@ msgstr ""
 "адрес."
 
 #: ../../admin/config.rst:689
-#, fuzzy
-#| msgid ""
-#| "In the default configuration this is also used for several Django "
-#| "settings related to HTTPS - it enables secure cookies, toggles HSTS or "
-#| "enables redirection to HTTPS URL."
 msgid ""
 "In the default configuration this is also used for several Django settings "
 "related to HTTPS — it enables secure cookies, toggles HSTS or enables "
@@ -8178,14 +7947,6 @@ msgstr ""
 "HSTS або вмикає переспрямовування на адресу HTTPS."
 
 #: ../../admin/config.rst:693
-#, fuzzy
-#| msgid ""
-#| "The HTTPS redirection might be problematic in some cases and you might "
-#| "hit issue with infinite redirection in case you are using a reverse proxy "
-#| "doing SSL termination which does not correctly pass protocol headers to "
-#| "Django. Please tweak your reverse proxy configuration to emit ``X-"
-#| "Forwarded-Proto`` or ``Forwarded`` headers or configure :setting:`django:"
-#| "SECURE_PROXY_SSL_HEADER` to let Django correctly detect the SSL status."
 msgid ""
 "The HTTPS redirection might be problematic in some cases and you might hit "
 "an issue with infinite redirection in case you are using a reverse proxy "
@@ -8199,8 +7960,8 @@ msgstr ""
 "використовуєте реверсивний проксі-сервер, який виконує обривання SSL і не "
 "передає належним чином заголовки протоколів до Django. Будь ласка, "
 "скоригуйте налаштування вашого реверсивного проксі-сервера так, щоб він "
-"надсилав заголовки ``X-Forwarded-Proto`` або ``Forwarded``, або налаштуйте :"
-"setting:`django:SECURE_PROXY_SSL_HEADER`, щоб надати Django змогу правильно "
+"надсилав заголовки ``X-Forwarded-Proto`` або ``Forwarded``, або налаштуйте "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, щоб надати Django змогу правильно "
 "визначати стан SSL."
 
 #: ../../admin/config.rst:702
@@ -8230,10 +7991,6 @@ msgid "EXTRA_HTML_HEAD"
 msgstr "EXTRA_HTML_HEAD"
 
 #: ../../admin/config.rst:722
-#, fuzzy
-#| msgid ""
-#| "Insert additional markup into HTML header. Can be used for verification "
-#| "of site ownership, for example:"
 msgid ""
 "Insert additional markup into the HTML header. Can be used for verification "
 "of site ownership, for example:"
@@ -8242,10 +7999,6 @@ msgstr ""
 "для перевірки власності сайта:"
 
 #: ../../admin/config.rst:730
-#, fuzzy
-#| msgid ""
-#| "No sanitization is performed on the string, it is inserted as is into the "
-#| "HTML header."
 msgid ""
 "No sanitization is performed on the string. It is inserted as-is into the "
 "HTML header."
@@ -8355,21 +8108,14 @@ msgstr ""
 "у подібний же спосіб."
 
 #: ../../admin/config.rst:871
-#, fuzzy
-#| msgid "default"
 msgid "On by default."
-msgstr "типове значення"
+msgstr "Типово увімкнено."
 
 #: ../../admin/config.rst:876
 msgid "HIDE_VERSION"
 msgstr "HIDE_VERSION"
 
 #: ../../admin/config.rst:880
-#, fuzzy
-#| msgid ""
-#| "Hides version information from unauthenticated users. This also makes all "
-#| "documentation links point to latest version instead of the documentation "
-#| "matching currently installed version."
 msgid ""
 "Hides version info from unauthenticated users. This also makes all "
 "documentation links point to the latest version instead of the documentation "
@@ -8381,10 +8127,6 @@ msgstr ""
 "встановленої версії."
 
 #: ../../admin/config.rst:884
-#, fuzzy
-#| msgid ""
-#| "Hiding version is recommended security practice in some corporations, but "
-#| "it doesn't prevent attacker to figure out version by probing the behavior."
 msgid ""
 "Hiding the version is a recommended security practice in some corporations, "
 "does not prevent an attacker from figuring out version by probing behavior."
@@ -8508,10 +8250,6 @@ msgstr ""
 "тут."
 
 #: ../../admin/config.rst:967
-#, fuzzy
-#| msgid ""
-#| "Setting this affects the security of your installation, you should only "
-#| "configure it to use trusted proxies for determining IP address."
 msgid ""
 "Setting this affects the security of your installation. You should only "
 "configure it to use trusted proxies for determining the IP address."
@@ -8543,17 +8281,13 @@ msgid "You need :ref:`legal` installed to make this work."
 msgstr "Щоб мати змогу цим скористатися, вам слід встановити :ref:`legal`."
 
 #: ../../admin/config.rst:991
-#, fuzzy
-#| msgid ""
-#| "Date of last update of terms of service documents. Whenever the date "
-#| "changes, users are required to agree with the terms of service."
 msgid ""
 "Date of last update of terms of service documents. Whenever the date "
 "changes, users are required to agree with the updated terms of service."
 msgstr ""
 "Дата останнього оновлення документів щодо умов надання послуг. Кожного разу, "
-"коли змінюється дата, користувачі мають погоджуватися із умовами надання "
-"послуг."
+"коли змінюється дата, користувачі мають погоджуватися із оновленими умовами "
+"надання послуг."
 
 #: ../../admin/config.rst:1003
 msgid "LEGAL_URL"
@@ -8564,10 +8298,6 @@ msgid "URL where your Weblate instance shows its legal documents."
 msgstr "Адреса, за якою екземпляр Weblate показуватиме правові документи."
 
 #: ../../admin/config.rst:1011
-#, fuzzy
-#| msgid ""
-#| "Useful if you host your legal documents outside Weblate for embedding "
-#| "them inside Weblate, please check :ref:`legal` for details."
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate. Please check :ref:`legal` for details."
@@ -8727,10 +8457,6 @@ msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 msgstr "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 
 #: ../../admin/config.rst:1156
-#, fuzzy
-#| msgid ""
-#| "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
-#| "users are allowed to access the sign in page."
 msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the sign-in page."
@@ -8747,12 +8473,12 @@ msgid "MATOMO_SITE_ID"
 msgstr "MATOMO_SITE_ID"
 
 #: ../../admin/config.rst:1179
-#, fuzzy
-#| msgid "ID of a site in Matomo (formerly Piwik) you want to track."
 msgid ""
 "ID of the site in Matomo (formerly Piwik) you want to use for tracking "
 "Weblate."
-msgstr "Ідентифікатор сайта Matomo (раніше Piwik), за яким ви хочете стежити."
+msgstr ""
+"Ідентифікатор сайта Matomo (раніше Piwik), яким ви хочете скористатися для "
+"стеження за Weblate."
 
 #: ../../admin/config.rst:1183 ../../admin/config.rst:1200
 msgid "This integration does not support the Matomo Tag Manager."
@@ -8887,10 +8613,6 @@ msgid "PROJECT_BACKUP_KEEP_COUNT"
 msgstr "PROJECT_BACKUP_KEEP_COUNT"
 
 #: ../../admin/config.rst:1319
-#, fuzzy
-#| msgid ""
-#| "Defines how many backups per project are kept on the server. It defaults "
-#| "to 3."
 msgid ""
 "Defines how many backups per project are kept on the server. Defaults to 3."
 msgstr ""
@@ -8966,9 +8688,6 @@ msgid "PROJECT_WEB_RESTRICT_NUMERIC"
 msgstr "PROJECT_WEB_RESTRICT_NUMERIC"
 
 #: ../../admin/config.rst:1383
-#, fuzzy
-#| msgid ""
-#| "Reject using numeric IP address in project website. Enabled by default."
 msgid "Reject using numeric IP address in project website. On by default."
 msgstr ""
 "Заборонити використання числової IP-адреси на сайті проєкту. Типово "
@@ -9034,8 +8753,6 @@ msgstr ""
 "частоти."
 
 #: ../../admin/config.rst:1432
-#, fuzzy
-#| msgid "An amount of seconds defaulting to 300 (5 minutes)."
 msgid "An amount of seconds, defaulting to 300 (5 minutes)."
 msgstr "Проміжок часу у секундах, типове значення — 300 (5 хвилин)."
 
@@ -9082,11 +8799,6 @@ msgstr ""
 "розпізнавання за допомогою всіх налаштованих модулів розпізнавання."
 
 #: ../../admin/config.rst:1468
-#, fuzzy
-#| msgid ""
-#| "It is recommended to keep :setting:`REGISTRATION_OPEN` enabled while "
-#| "limiting registration backends, otherwise users will be able to register, "
-#| "but Weblate will not show links to register in the user interface."
 msgid ""
 "It is recommended to keep :setting:`REGISTRATION_OPEN` on while limiting "
 "registration backends, otherwise users will be able to register, but Weblate "
@@ -9098,8 +8810,6 @@ msgstr ""
 "інтерфейсі користувача."
 
 #: ../../admin/config.rst:1480
-#, fuzzy
-#| msgid "The backend names match names used in URL for authentication."
 msgid "The backend names match names used in the URL for authentication."
 msgstr ""
 "Назви модулів відповідають назвам, використаним у адресі для розпізнавання."
@@ -9117,6 +8827,8 @@ msgid ""
 "Whether registration of new accounts is protected by a CAPTCHA. Defaults to "
 "enabled."
 msgstr ""
+"Визначає, чи має бути захищено нові облікові записи за допомогою CAPTCHA. "
+"Типово, захист увімкнено."
 
 #: ../../admin/config.rst:1494
 msgid ""
@@ -9168,17 +8880,11 @@ msgid "REGISTRATION_OPEN"
 msgstr "REGISTRATION_OPEN"
 
 #: ../../admin/config.rst:1521
-#, fuzzy
-#| msgid ""
-#| "Whether registration of new accounts is currently permitted. This "
-#| "optional setting can remain the default ``True``, or changed to ``False``."
 msgid ""
 "Whether registration of new accounts is currently permitted. Defaults to "
 "enabled."
 msgstr ""
-"Визначає, чи дозволено реєстрацію нових облікових записів. Це додатковий "
-"параметр може лишатися у типовому значенні ``True`` або може бути "
-"перемкнутим на ``False``."
+"Визначає, чи дозволено реєстрацію нових облікових записів. Типово увімкнено."
 
 #: ../../admin/config.rst:1524
 msgid ""
@@ -9223,11 +8929,6 @@ msgstr ""
 "розпізнавання."
 
 #: ../../admin/config.rst:1552
-#, fuzzy
-#| msgid ""
-#| "Disabled by default to not allow adding other authentication backends to "
-#| "existing account. Rebinding can lead to account compromise when using "
-#| "more third-party authentication backends."
 msgid ""
 "Off by default to not allow adding other authentication backends to an "
 "existing account. Rebinding can lead to account compromise when using more "
@@ -9328,11 +9029,6 @@ msgid "SITE_DOMAIN"
 msgstr "SITE_DOMAIN"
 
 #: ../../admin/config.rst:1629
-#, fuzzy
-#| msgid ""
-#| "Configures site domain. This is necessary to produce correct absolute "
-#| "links in many scopes (for example activation e-mails, notifications or "
-#| "RSS feeds)."
 msgid ""
 "Configures site domain. Necessary to produce correct absolute links in many "
 "scopes (for example activation e-mails, notifications or RSS feeds)."
@@ -9342,28 +9038,21 @@ msgstr ""
 "активації, сповіщень та стрічок RSS)."
 
 #: ../../admin/config.rst:1632
-#, fuzzy
-#| msgid ""
-#| "In case Weblate is running on non-standard port, include it here as well."
 msgid "If Weblate is running on a non-standard port, include it here as well."
 msgstr ""
 "Якщо Weblate запущено на нестандартному порту, допишіть його до вказаної "
 "адреси."
 
 #: ../../admin/config.rst:1646
-#, fuzzy
-#| msgid ""
-#| "This setting should only contain the domain name. For configuring "
-#| "protocol, (enabling and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and "
-#| "for changing URL, use :setting:`URL_PREFIX`."
 msgid ""
 "This setting should only contain the domain name. For configuring protocol, "
 "(turning on and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for "
 "changing the URL, use :setting:`URL_PREFIX`."
 msgstr ""
-"Цей параметр має містити лише назву домену. Для налаштованого протоколу "
-"(увімкнутого і примусово встановленого HTTPS) скористайтеся :setting:"
-"`ENABLE_HTTPS`, а для зміни адреси скористайтеся :setting:`URL_PREFIX`."
+"Цей параметр має містити лише назву домену. Для налаштованого протоколу ("
+"увімкнутого і примусово встановленого HTTPS) скористайтеся "
+":setting:`ENABLE_HTTPS`, а для зміни адреси скористайтеся "
+":setting:`URL_PREFIX`."
 
 #: ../../admin/config.rst:1652
 msgid ""
@@ -9378,8 +9067,8 @@ msgid ""
 ":ref:`production-site`, :ref:`production-hosts`, :ref:`production-ssl` :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 msgstr ""
-":ref:`faq-site`, :ref:`production-hosts`, :ref:`production-ssl` :setting:"
-"`ENABLE_HTTPS`, :djadmin:`changesite`, :doc:`django:ref/contrib/sites`"
+":ref:`production-site`, :ref:`production-hosts`, :ref:`production-ssl` "
+":envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 
 #: ../../admin/config.rst:1666
 msgid "SITE_TITLE"
@@ -9412,13 +9101,6 @@ msgid "SINGLE_PROJECT"
 msgstr "SINGLE_PROJECT"
 
 #: ../../admin/config.rst:1690
-#, fuzzy
-#| msgid ""
-#| "Redirects users directly to a project or component instead of showing the "
-#| "dashboard. You can either set it to ``True`` and in this case it only "
-#| "works in case there is actually only single project in Weblate. "
-#| "Alternatively set the project slug, and it will redirect unconditionally "
-#| "to this project."
 msgid ""
 "Redirects users directly to a project or component instead of showing the "
 "dashboard. You can either set it to ``True`` so it only works if there is "
@@ -9444,11 +9126,6 @@ msgid "SSH_EXTRA_ARGS"
 msgstr "SSH_EXTRA_ARGS"
 
 #: ../../admin/config.rst:1713
-#, fuzzy
-#| msgid ""
-#| "Allows to add custom parameters when Weblate is invoking SSH. This is "
-#| "useful when connecting to servers using legacy encryption or other non-"
-#| "standard features."
 msgid ""
 "Allows adding custom parameters when Weblate is invoking SSH. Useful when "
 "connecting to servers using legacy encryption or other non-standard features."
@@ -9458,11 +9135,6 @@ msgstr ""
 "шифрування або іншими нестандартними можливостями."
 
 #: ../../admin/config.rst:1716
-#, fuzzy
-#| msgid ""
-#| "For example when SSH connection in Weblate fails with `Unable to "
-#| "negotiate with legacyhost: no matching key exchange method found. Their "
-#| "offer: diffie-hellman-group1-sha1`, you can enable that using:"
 msgid ""
 "For example when SSH connection in Weblate fails with `Unable to negotiate "
 "with legacyhost: no matching key exchange method found. Their offer: diffie-"
@@ -9474,10 +9146,6 @@ msgstr ""
 "потрібні можливості за допомогою такого:"
 
 #: ../../admin/config.rst:1725
-#, fuzzy
-#| msgid ""
-#| "The string is evaluated by shell, so make sure to quote any whitespace "
-#| "and special characters."
 msgid ""
 "The string is evaluated by the shell, so ensure any whitespace and special "
 "characters is quoted."
@@ -9514,8 +9182,6 @@ msgid "UNUSED_ALERT_DAYS"
 msgstr "UNUSED_ALERT_DAYS"
 
 #: ../../admin/config.rst:1756
-#, fuzzy
-#| msgid "Configures when :guilabel:`Component seems unused` alert is trigged."
 msgid ""
 "Configures when the :guilabel:`Component seems unused` alert is triggered."
 msgstr ""
@@ -9523,8 +9189,6 @@ msgstr ""
 "складником не користуються`."
 
 #: ../../admin/config.rst:1758
-#, fuzzy
-#| msgid "Defaults to 365 days, set to 0 to disable it."
 msgid "Defaults to 365 days, set to 0 to turn it off."
 msgstr "Типовим значенням є 365 днів. Встановіть 0, щоб вимкнути обмеження."
 
@@ -9533,26 +9197,16 @@ msgid "UPDATE_LANGUAGES"
 msgstr "UPDATE_LANGUAGES"
 
 #: ../../admin/config.rst:1767
-#, fuzzy
-#| msgid ""
-#| "Controls whether languages database should be updated when running "
-#| "database migration and is enabled by default. This setting has no effect "
-#| "on invocation of :djadmin:`setuplang`."
 msgid ""
 "Controls whether languages database should be updated when running database "
 "migration and is on by default. This setting has no effect on invocation of :"
 "wladmin:`setuplang`."
 msgstr ""
 "Керує тим, чи слід оновлювати базу даних мови під час перенесення бази "
-"даних. Типово увімкнено. Цей параметр не впливає на підсумки виклику :"
-"djadmin:`setuplang`."
+"даних. Типово увімкнено. Цей параметр не впливає на підсумки виклику "
+":wladmin:`setuplang`."
 
 #: ../../admin/config.rst:1773
-#, fuzzy
-#| msgid ""
-#| "The languages display might become inconsistent with this. Weblate "
-#| "language definitions extend over time and it will not display language "
-#| "code for the defined languages."
 msgid ""
 "The languages display might become inconsistent with this. Weblate language "
 "definitions expand over time and it will not display language code for the "
@@ -9622,10 +9276,6 @@ msgstr ""
 "щоб уникнути перевантаження."
 
 #: ../../admin/config.rst:1821
-#, fuzzy
-#| msgid ""
-#| "If you are being limited by secondary rate limiter at GitHub, increasing "
-#| "this might help."
 msgid ""
 "If you are being limited by secondary rate-limiter at GitHub, increasing "
 "this might help."
@@ -9712,11 +9362,6 @@ msgstr ""
 "наявні додатки ввімкненими. Приклад:"
 
 #: ../../admin/config.rst:1918
-#, fuzzy
-#| msgid ""
-#| "Removing the add-on from the list does not uninstall it from the "
-#| "components. Weblate will crash in that case. Please uninstall add-on from "
-#| "all components prior to removing it from this list."
 msgid ""
 "Removing the add-on from the list does not uninstall it from the components. "
 "Weblate will crash in that case. Please uninstall the add-on from all "
@@ -9798,10 +9443,6 @@ msgid "WEBSITE_REQUIRED"
 msgstr "WEBSITE_REQUIRED"
 
 #: ../../admin/config.rst:1998
-#, fuzzy
-#| msgid ""
-#| "Defines whether :ref:`project-web` has to be specified when creating a "
-#| "project. Turned on by default as that suits public server setups."
 msgid ""
 "Defines whether :ref:`project-web` has to be specified when creating a "
 "project. On by default, as that suits public server setups."
@@ -9844,15 +9485,10 @@ msgstr ""
 "версіями."
 
 #: ../../admin/continuous.rst:18
-#, fuzzy
-#| msgid ""
-#| "Optionally the translation files are updated (this depends on the file "
-#| "format, see :ref:`translations-update`)."
 msgid ""
 "Optionally the translation files are updated, see :ref:`translations-update`."
 msgstr ""
-"Якщо потрібно, оновлюються файли перекладу (це залежить від формату файлів, "
-"див. :ref:`translations-update`)."
+"Якщо потрібно, оновлюються файли перекладу, див. :ref:`translations-update`."
 
 #: ../../admin/continuous.rst:19
 msgid "Weblate pulls changes from the VCS repository, see :ref:`update-vcs`."
@@ -9945,15 +9581,11 @@ msgstr ""
 "у вашому екземплярі Weblate"
 
 #: ../../admin/continuous.rst:68
-#, fuzzy
-#| msgid ""
-#| "Execute :djadmin:`updategit` (with selection of project or ``--all`` to "
-#| "update all)"
 msgid ""
 "Execute :wladmin:`updategit` (with selection of project or ``--all`` to "
 "update all)"
 msgstr ""
-"Виконайте :djadmin:`updategit` (із вибором проєкту або додаванням ``--all`` "
+"Виконайте :wladmin:`updategit` (із вибором проєкту або додаванням ``--all`` "
 "для оновлення усього)"
 
 #: ../../admin/continuous.rst:70
@@ -11540,10 +11172,8 @@ msgstr ""
 "PostgreSQL."
 
 #: ../../admin/install.rst:327
-#, fuzzy
-#| msgid "PostgreSQL password."
 msgid "PostgreSQL 12 and higher is supported."
-msgstr "Пароль до PostgreSQL."
+msgstr "Передбачено підтримку PostgreSQL 12 та новіших версій."
 
 #: ../../admin/install.rst:331
 msgid ""
@@ -11671,12 +11301,9 @@ msgstr ""
 "нововстановлених екземплярів :ref:`postgresql`."
 
 #: ../../admin/install.rst:441
-#, fuzzy
-#| msgid "Weblate requires MySQL at least 5.7.8 or MariaDB at least 10.2.7."
 msgid "Weblate requires MySQL at least 8 or MariaDB at least 10.4."
 msgstr ""
-"Weblate вимагає MySQL хоча б версії 5.7.8, чи MariaDB принаймні 10.2.7 "
-"версії."
+"Weblate вимагає MySQL хоча б версії 8, чи MariaDB принаймні 10.4 версії."
 
 #: ../../admin/install.rst:443
 msgid "Following configuration is recommended for Weblate:"
@@ -12104,19 +11731,14 @@ msgid "Filling up the database"
 msgstr "Заповнення бази даних"
 
 #: ../../admin/install.rst:746
-#, fuzzy
-#| msgid ""
-#| "After your configuration is ready, you can run :samp:`weblate migrate` to "
-#| "create the database structure. Now you should be able to create "
-#| "translation projects using the admin interface."
 msgid ""
 "After your configuration is ready, you can run :wladmin:`migrate` to create "
 "the database structure. Now you should be able to create translation "
 "projects using the admin interface."
 msgstr ""
-"Коли ваші налаштування буде готово, ви можете запустити :samp:`weblate "
-"migrate` для створення структури бази даних. Після цього ви зможете "
-"створювати проєкти перекладу за допомогою інтерфейсу адміністратора."
+"Коли ваші налаштування буде готово, ви можете запустити :wladmin:`migrate` "
+"для створення структури бази даних. Після цього ви зможете створювати "
+"проєкти перекладу за допомогою інтерфейсу адміністратора."
 
 #: ../../admin/install.rst:750
 msgid ""
@@ -12504,16 +12126,12 @@ msgid "Configuration health check (hourly)."
 msgstr "Перевірки коректності налаштувань (щогодинно)."
 
 #: ../../admin/install.rst:1052
-#, fuzzy
-#| msgid ""
-#| "Committing pending changes (hourly), see :ref:`lazy-commit` and :djadmin:"
-#| "`commit_pending`."
 msgid ""
 "Committing pending changes (hourly), see :ref:`lazy-commit` and :wladmin:"
 "`commit_pending`."
 msgstr ""
-"Надсилання змін з черги (щогодини), див. :ref:`lazy-commit` і :djadmin:"
-"`commit_pending`."
+"Надсилання змін з черги (щогодини), див. :ref:`lazy-commit` і "
+":wladmin:`commit_pending`."
 
 #: ../../admin/install.rst:1053
 msgid "Updating component alerts (daily)."
@@ -12524,25 +12142,18 @@ msgid "Update remote branches (nightly), see :setting:`AUTO_UPDATE`."
 msgstr "Оновлення віддалених гілок (щодня), див. :setting:`AUTO_UPDATE`."
 
 #: ../../admin/install.rst:1055
-#, fuzzy
-#| msgid ""
-#| "Translation memory backup to JSON (daily), see :djadmin:`dump_memory`."
 msgid "Translation memory backup to JSON (daily), see :wladmin:`dump_memory`."
 msgstr ""
-"Резервного копіювання пам'яті перекладів до JSON (щодня), див. :djadmin:"
-"`dump_memory`."
+"Резервного копіювання пам'яті перекладів до JSON (щодня), див. "
+":wladmin:`dump_memory`."
 
 #: ../../admin/install.rst:1056
-#, fuzzy
-#| msgid ""
-#| "Fulltext and database maintenance tasks (daily and weekly tasks), see :"
-#| "djadmin:`cleanuptrans`."
 msgid ""
 "Fulltext and database maintenance tasks (daily and weekly tasks), see :"
 "wladmin:`cleanuptrans`."
 msgstr ""
 "Завдань із супроводу обробки всього тексту й бази даних (щоденних і "
-"щотижневих завдань), див. :djadmin:`cleanuptrans`."
+"щотижневих завдань), див. :wladmin:`cleanuptrans`."
 
 #: ../../admin/install.rst:1060
 msgid ""
@@ -13196,12 +12807,6 @@ msgid "Monitoring Celery status"
 msgstr "Спостереження за станом Celery"
 
 #: ../../admin/install.rst:1458
-#, fuzzy
-#| msgid ""
-#| "You can find current length of the Celery task queues in the :ref:"
-#| "`management-interface` or you can use :djadmin:`celery_queues` on the "
-#| "command-line. In case the queue will get too long, you will also get "
-#| "configuration error in the admin interface."
 msgid ""
 "You can find current length of the Celery task queues in the :ref:"
 "`management-interface` or you can use :wladmin:`celery_queues` on the "
@@ -13209,7 +12814,7 @@ msgid ""
 "configuration error in the admin interface."
 msgstr ""
 "Знайти поточну довжину черг завдань Celery у :ref:`management-interface`. Ви "
-"також можете скористатися :djadmin:`celery_queues` у командному рядку. У "
+"також можете скористатися :wladmin:`celery_queues` у командному рядку. У "
 "випадку значного зростання довжини черги ви також побачите повідомлення про "
 "помилку налаштувань у адміністративному інтерфейсі."
 
@@ -13224,11 +12829,6 @@ msgstr ""
 "подібного типу, рекомендуємо вам налаштувати :ref:`collecting-errors`."
 
 #: ../../admin/install.rst:1471
-#, fuzzy
-#| msgid ""
-#| ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
-#| "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
-#| "daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:`celery_queues`"
 msgid ""
 ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
@@ -13236,7 +12836,7 @@ msgid ""
 msgstr ""
 ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
-"daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:`celery_queues`"
+"daemonizing`, :doc:`celery:userguide/monitoring`, :wladmin:`celery_queues`"
 
 #: ../../admin/install.rst:1482
 msgid "Monitoring Weblate"
@@ -13488,18 +13088,13 @@ msgid "Installation"
 msgstr "Установлення"
 
 #: ../../admin/install/docker.rst:15
-#, fuzzy
-#| msgid ""
-#| "The following examples assume you have a working Docker environment, with "
-#| "``docker-compose`` installed. Please check the Docker documentation for "
-#| "instructions."
 msgid ""
 "The following examples assume you have a working Docker environment, with "
 "``docker-compose-plugin`` installed. Please check the Docker documentation "
 "for instructions."
 msgstr ""
 "У наведених нижче прикладах припускається, що у вас є працездатне середовище "
-"Docker із встановленим ``docker-compose``. Будь ласка, ознайомтеся із "
+"Docker із встановленим ``docker-compose-plugin``. Будь ласка, ознайомтеся із "
 "документацією до Docker, щоб отримати додаткові настанови."
 
 #: ../../admin/install/docker.rst:18
@@ -13559,10 +13154,8 @@ msgid ":ref:`invoke-manage`"
 msgstr ":ref:`invoke-manage`"
 
 #: ../../admin/install/docker.rst:69
-#, fuzzy
-#| msgid "Choosing Docker hub tag"
 msgid "Choosing Docker image registry"
-msgstr "Вибір теґу концентратора Docker"
+msgstr "Вибір реєстру образів Docker"
 
 #: ../../admin/install/docker.rst:71
 msgid "Weblate containers are published to following registries:"
@@ -13588,10 +13181,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:82
-#, fuzzy
-#| msgid "Choosing Docker hub tag"
 msgid "Choosing Docker image tag"
-msgstr "Вибір теґу концентратора Docker"
+msgstr "Вибір образу концентратора Docker"
 
 #: ../../admin/install/docker.rst:84
 msgid "Please choose a tag that matches your environment and expectations:"
@@ -13626,7 +13217,7 @@ msgstr "Оновлення-накладки у промисловому сере
 
 #: ../../admin/install/docker.rst:91
 msgid "``<MAJOR>``"
-msgstr ""
+msgstr "``<ОСНОВНА>``"
 
 #: ../../admin/install/docker.rst:91 ../../admin/install/docker.rst:93
 #: ../../admin/install/docker.rst:95
@@ -13634,26 +13225,20 @@ msgid "Weblate stable release"
 msgstr "Стабільний випуск Weblate"
 
 #: ../../admin/install/docker.rst:91
-#, fuzzy
-#| msgid "Rolling updates in a production environment"
 msgid "Rolling updates within a major version in a production environment"
-msgstr "Оновлення-накладки у промисловому середовищі"
+msgstr "Оновлення-накладки у межах основної версії у промисловому середовищі"
 
 #: ../../admin/install/docker.rst:93
 msgid "``<MAJOR>.<MINOR>``"
-msgstr ""
+msgstr "``<ОСНОВНА>.<ПРОМІЖНА>``"
 
 #: ../../admin/install/docker.rst:93
-#, fuzzy
-#| msgid "Rolling updates in a production environment"
 msgid "Rolling updates within a minor version in a production environment"
-msgstr "Оновлення-накладки у промисловому середовищі"
+msgstr "Оновлення-накладки у межах проміжної версії у промисловому середовищі"
 
 #: ../../admin/install/docker.rst:95
-#, fuzzy
-#| msgid "``<VERSION>-<PATCH>``"
 msgid "``<VERSION>.<PATCH>``"
-msgstr "``<VERSION>-<PATCH>``"
+msgstr "``<ВЕРСІЯ>.<НАКЛАДКА>``"
 
 #: ../../admin/install/docker.rst:95
 msgid "Well defined deploy in a production environment"
@@ -13818,10 +13403,6 @@ msgstr ""
 "файл :file:`docker-compose-https.override.yml` із вашими параметрами:"
 
 #: ../../admin/install/docker.rst:197
-#, fuzzy
-#| msgid ""
-#| "Whenever invoking :program:`docker-compose` you need to pass both files "
-#| "to it, and then do:"
 msgid ""
 "Whenever invoking :program:`docker compose` you need to pass both files to "
 "it, and then do:"
@@ -13844,11 +13425,6 @@ msgstr ""
 "процедурою і, у більшості випадків, не дає значних переваг."
 
 #: ../../admin/install/docker.rst:216
-#, fuzzy
-#| msgid ""
-#| "Since Weblate 4.10-1, the Docker container uses Django 4.0 what requires "
-#| "PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate. "
-#| "See :ref:`upgrade-4.10` and :ref:`docker-postgres-upgrade`."
 msgid ""
 "Since Weblate 4.17-1, the Docker container uses Django 4.2 what requires "
 "PostgreSQL 12 or newer, please upgrade it prior to upgrading Weblate. See :"
@@ -13857,7 +13433,7 @@ msgstr ""
 "З моменту випуску Weblate 4.10-1 у контейнері Docker використано Django 4.0. "
 "Це потребує встановлення PostgreSQL 10 або новішої версії. Будь ласка, "
 "оновіть пакунки до оновлення Weblate. Докладніший опис можна знайти у "
-"розділах :ref:`upgrade-4.10` та :ref:`docker-postgres-upgrade`."
+"розділі :ref:`docker-postgres-upgrade`."
 
 #: ../../admin/install/docker.rst:220
 msgid ""
@@ -14749,16 +14325,12 @@ msgid "Enables :ref:`github_auth`."
 msgstr "Вмикає :ref:`github_auth`."
 
 #: ../../admin/install/docker.rst:1094
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "GitHub Enterprise Edition"
-msgstr "Розпізнавання за GitHub"
+msgstr "GitHub Enterprise Edition"
 
 #: ../../admin/install/docker.rst:1102
-#, fuzzy
-#| msgid "Enables :ref:`github_auth`."
 msgid "Enables :ref:`github_ee_auth`."
-msgstr "Вмикає :ref:`github_auth`."
+msgstr "Вмикає :ref:`github_ee_auth`."
 
 #: ../../admin/install/docker.rst:1105
 msgid "Bitbucket"
@@ -16402,13 +15974,6 @@ msgid "Built-in language definitions"
 msgstr "Вбудовані визначення мов"
 
 #: ../../admin/languages.rst:14
-#, fuzzy
-#| msgid ""
-#| "Definitions for about 600 languages are included in Weblate and the list "
-#| "is extended in every release. Whenever Weblate is upgraded (more "
-#| "specifically whenever :program:`weblate migrate` is executed, see :ref:"
-#| "`generic-upgrade-instructions`) the database of languages is updated to "
-#| "include all language definitions shipped in Weblate."
 msgid ""
 "Definitions for about 600 languages are included in Weblate and the list is "
 "extended in every release. Whenever Weblate is upgraded (more specifically "
@@ -16417,17 +15982,12 @@ msgid ""
 "definitions shipped in Weblate."
 msgstr ""
 "До пакунка Weblate включено близько 600 мов. Кожного випуску список мов "
-"зростає. Під час оновлення Weblate (точніше, під час виконання команди :"
-"program:`weblate migrate`, перегляньте :ref:`generic-upgrade-instructions`) "
+"зростає. Під час оновлення Weblate (точніше, під час виконання команди "
+":wladmin:`migrate`, перегляньте :ref:`generic-upgrade-instructions`) "
 "виконується оновлення бази даних мов для включення усіх визначень мов, які є "
 "у новому пакунку Weblate."
 
 #: ../../admin/languages.rst:20
-#, fuzzy
-#| msgid ""
-#| "This feature can be disable using :setting:`UPDATE_LANGUAGES`. You can "
-#| "also enforce updating the database to match Weblate built-in data using :"
-#| "djadmin:`setuplang`."
 msgid ""
 "This feature can be disable using :setting:`UPDATE_LANGUAGES`. You can also "
 "enforce updating the database to match Weblate built-in data using :wladmin:"
@@ -16435,7 +15995,7 @@ msgid ""
 msgstr ""
 "Оновлення можна вимкнути за допомогою параметра :setting:`UPDATE_LANGUAGES`. "
 "Ви також можете примусово оновити базу даних так, щоб вона відповідала "
-"вбудованим до Weblate даним, за допомогою команди :djadmin:`setuplang`."
+"вбудованим до Weblate даним, за допомогою команди :wladmin:`setuplang`."
 
 #: ../../admin/languages.rst:26
 msgid ""
@@ -17666,19 +17226,14 @@ msgstr ""
 "декілька специфічних для домену моделей."
 
 #: ../../admin/machine.rst:486
-#, fuzzy
-#| msgid ""
-#| "`Watson Language Translator <https://www.ibm.com/cloud/watson-language-"
-#| "translator>`_, `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/"
-#| "language-translator>`_"
 msgid ""
 "`Watson Language Translator <https://www.ibm.com/products/ibm-watson-natural-"
 "language-processing>`_, `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/"
 "language-translator>`_"
 msgstr ""
-"`Перекладач Watson <https://www.ibm.com/cloud/watson-language-translator>`_, "
-"`Документація до хмарного програмного інтерфейсу IBM <https://cloud.ibm.com/"
-"apidocs/language-translator>`_"
+"`Перекладач Watson <https://www.ibm.com/products/ibm-watson-natural-language-"
+"processing>`_, `Документація до хмарного програмного інтерфейсу IBM "
+"<https://cloud.ibm.com/apidocs/language-translator>`_"
 
 #: ../../../README.rst:-1 ../../admin/machine.rst:492
 msgid "Weblate"
@@ -17873,15 +17428,11 @@ msgstr ""
 "і ви зможете запустити його за допомогою :command:`docker exec`:"
 
 #: ../../admin/management.rst:57
-#, fuzzy
-#| msgid ""
-#| "For :program:`docker-compose` the process is similar, you just have to "
-#| "use :command:`docker-compose exec`:"
 msgid ""
 "For :program:`docker-compose-plugin` the process is similar, you just have "
 "to use :command:`docker compose exec`:"
 msgstr ""
-"Для :program:`docker-compose` процедура є подібною, вам лише треба "
+"Для :program:`docker-compose-plugin` процедура є подібною, вам лише треба "
 "скористатися :command:`docker-compose exec`:"
 
 #: ../../admin/management.rst:64 ../../admin/management.rst:77
@@ -18170,12 +17721,10 @@ msgid "dumpuserdata"
 msgstr "dumpuserdata"
 
 #: ../../admin/management.rst:301
-#, fuzzy
-#| msgid "Dumps userdata to a file for later use by :djadmin:`importuserdata`."
 msgid "Dumps userdata to a file for later use by :wladmin:`importuserdata`."
 msgstr ""
-"Створити дамп даних користувачів у файлі для наступного використання у :"
-"djadmin:`importuserdata`."
+"Створити дамп даних користувачів у файлі для наступного використання у "
+":wladmin:`importuserdata`."
 
 #: ../../admin/management.rst:305
 msgid "This comes in handy when migrating or merging Weblate instances."
@@ -18465,28 +18014,22 @@ msgstr ""
 "Імпортування документації Sphinx, поділеної на декілька файлів і каталогів:"
 
 #: ../../admin/management.rst:530
-#, fuzzy
-#| msgid ""
-#| "More detailed examples can be found in the :ref:`starting` chapter, "
-#| "alternatively you might want to use :djadmin:`import_json`."
 msgid ""
 "More detailed examples can be found in the :ref:`starting` chapter, "
 "alternatively you might want to use :wladmin:`import_json`."
 msgstr ""
 "Докладніші приклади можна знайти у главі :ref:`starting`. Крім того, ви "
-"можете скористатися :djadmin:`import_json`."
+"можете скористатися :wladmin:`import_json`."
 
 #: ../../admin/management.rst:534
 msgid "importuserdata"
 msgstr "importuserdata"
 
 #: ../../admin/management.rst:538
-#, fuzzy
-#| msgid "Imports user data from a file created by :djadmin:`dumpuserdata`."
 msgid "Imports user data from a file created by :wladmin:`dumpuserdata`."
 msgstr ""
-"Імпортує дані користувача з файла, який створено за допомогою :djadmin:"
-"`dumpuserdata`."
+"Імпортує дані користувача з файла, який створено за допомогою "
+":wladmin:`dumpuserdata`."
 
 #: ../../admin/management.rst:541
 msgid "importusers"
@@ -18556,10 +18099,8 @@ msgid ":doc:`addons`"
 msgstr ":ref:`addons`"
 
 #: ../../admin/management.rst:594
-#, fuzzy
-#| msgid "Manage machinery"
 msgid "install_machinery"
-msgstr "Керування автоматизацією"
+msgstr "install_machinery"
 
 #: ../../admin/management.rst:600
 #, fuzzy
@@ -18568,24 +18109,16 @@ msgid "Installs an site-wide automatic suggestion service."
 msgstr "Доступні служби автоматичних пропозицій"
 
 #: ../../admin/management.rst:604
-#, fuzzy
-#| msgid ""
-#| "Name of the add-on to install. For example ``weblate.gettext.customize``."
 msgid "Name of the service to install. For example ``deepl``."
-msgstr ""
-"Назва додатка, який слід встановити. Приклад: ``weblate.gettext.customize``."
+msgstr "Назва служби, яку слід встановити. Приклад: ``deepl``."
 
 #: ../../admin/management.rst:608
-#, fuzzy
-#| msgid "JSON encoded configuration of an add-on."
 msgid "JSON encoded configuration of a service."
-msgstr "Закодовані у JSON налаштування додатка."
+msgstr "Закодовані у JSON налаштування служби."
 
 #: ../../admin/management.rst:612
-#, fuzzy
-#| msgid "Update the existing add-on configuration."
 msgid "Update the existing service configuration."
-msgstr "Оновити наявні налаштування додатків."
+msgstr "Оновити наявні налаштування служб."
 
 #: ../../admin/management.rst:614
 msgid "To install :ref:`mt-deepl`:"
@@ -18703,7 +18236,7 @@ msgstr ":djadmin:`unlock_translation`"
 
 #: ../../admin/management.rst:705
 msgid "migrate"
-msgstr ""
+msgstr "migrate"
 
 #: ../../admin/management.rst:709
 msgid ""
@@ -18712,11 +18245,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/management.rst:714
-#, fuzzy
-#| msgid ""
-#| "In case you want to run an installation non interactively, you can use :"
-#| "samp:`weblate migrate --noinput`, and then create an admin user using :"
-#| "djadmin:`createadmin` command."
 msgid ""
 "In case you want to run an installation non interactively, you can use :samp:"
 "`weblate migrate --noinput`, and then create an admin user using :wladmin:"
@@ -18724,7 +18252,7 @@ msgid ""
 msgstr ""
 "Якщо ви хочете запустити встановлення у неінтерактивному режимі, ви можете "
 "скористатися командою :samp:`weblate migrate --noinput`, а потім створити "
-"користувача-адміністратора за допомогою команди :djadmin:`createadmin`."
+"користувача-адміністратора за допомогою команди :wladmin:`createadmin`."
 
 #: ../../admin/management.rst:720
 msgid ":djadmin:`django:migrate`, :ref:`tables-setup`"
@@ -18869,17 +18397,13 @@ msgstr ""
 "вбудований кеш."
 
 #: ../../admin/management.rst:844
-#, fuzzy
-#| msgid ""
-#| "Usually it is better to configure hooks in the repository to trigger :ref:"
-#| "`hooks`, instead of regular polling by :djadmin:`updategit`."
 msgid ""
 "Usually it is better to configure hooks in the repository to trigger :ref:"
 "`hooks`, instead of regular polling by :wladmin:`updategit`."
 msgstr ""
-"Зазвичай, краще налаштувати сторожові скрипт у репозиторії, щоб вмикати :ref:"
-"`hooks`, а не виконувати регулярне опитування за допомогою :djadmin:"
-"`updategit`."
+"Зазвичай, краще налаштувати сторожові скрипт у репозиторії, щоб вмикати "
+":ref:`hooks`, а не виконувати регулярне опитування за допомогою "
+":wladmin:`updategit`."
 
 #: ../../admin/memory.rst:5
 msgid "Translation Memory"
@@ -18957,18 +18481,13 @@ msgid "Imported translation memory"
 msgstr "Імпортована пам'ять перекладів"
 
 #: ../../admin/memory.rst:39
-#, fuzzy
-#| msgid ""
-#| "Importing arbitrary translation memory data using the :djadmin:"
-#| "`import_memory` command makes memory content available to all users and "
-#| "projects."
 msgid ""
 "Importing arbitrary translation memory data using the :wladmin:"
 "`import_memory` command makes memory content available to all users and "
 "projects."
 msgstr ""
-"Імпортування довільних даних пам'яті перекладів за допомогою команди :"
-"djadmin:`import_memory` робить вміст пам'яті перекладів доступним для всіх "
+"Імпортування довільних даних пам'яті перекладів за допомогою команди "
+":wladmin:`import_memory` робить вміст пам'яті перекладів доступним для всіх "
 "користувачів і проєктів."
 
 #: ../../admin/memory.rst:43
@@ -21097,12 +20616,6 @@ msgid "Age of changes to commit"
 msgstr "Вік змін для подання"
 
 #: ../../admin/projects.rst:773
-#, fuzzy
-#| msgid ""
-#| "Sets how old (in hours) changes have to be before they are committed by "
-#| "background task or the :djadmin:`commit_pending` management command. All "
-#| "changes in a component are committed once there is at least one change "
-#| "older than this period."
 msgid ""
 "Sets how old (in hours) changes have to be before they are committed by "
 "background task or the :wladmin:`commit_pending` management command. All "
@@ -21110,7 +20623,7 @@ msgid ""
 "than this period."
 msgstr ""
 "Установлює, наскільки старими (у годинах) мають бути зміни, перш ніж їх буде "
-"внесено фоновим завданням або командою керування :djadmin:`commit_pending`. "
+"внесено фоновим завданням або командою керування :wladmin:`commit_pending`. "
 "Усі зміни у складнику буде записано у момент, коли зміни у принаймні одному "
 "зі складників стануть старішими за вказаний час."
 
@@ -21728,13 +21241,6 @@ msgid "Automatic creation of components"
 msgstr "Автоматичне створення складників"
 
 #: ../../admin/projects.rst:1084
-#, fuzzy
-#| msgid ""
-#| "In case your project has dozen of translation files (e.g. for different "
-#| "gettext domains, or parts of Android apps), you might want to import them "
-#| "automatically. This can either be achieved from the command-line by "
-#| "using :djadmin:`import_project` or :djadmin:`import_json`, or by "
-#| "installing the :ref:`addon-weblate.discovery.discovery` add-on."
 msgid ""
 "In case your project has dozen of translation files (e.g. for different "
 "gettext domains, or parts of Android apps), you might want to import them "
@@ -21745,9 +21251,9 @@ msgstr ""
 "Якщо у проєкт є з десяток файлів перекладу (наприклад, для різних доменів "
 "gettext або частин застосунків Android), у вас може виникнути потреба у "
 "імпортування цих файлів автоматично. Цього можна досягти або за допомогою "
-"командного рядка з використанням :djadmin:`import_project` чи :djadmin:"
-"`import_json`, або за допомогою встановлення додатка :ref:`addon-weblate."
-"discovery.discovery`."
+"командного рядка з використанням :wladmin:`import_project` чи "
+":wladmin:`import_json`, або за допомогою встановлення додатка :ref:`addon-"
+"weblate.discovery.discovery`."
 
 #: ../../admin/projects.rst:1090
 msgid ""
@@ -21761,18 +21267,13 @@ msgstr ""
 "для цього складника."
 
 #: ../../admin/projects.rst:1094
-#, fuzzy
-#| msgid ""
-#| "For the management commands, you need to create a project which will "
-#| "contain all components and then run :djadmin:`import_project` or :djadmin:"
-#| "`import_json`."
 msgid ""
 "For the management commands, you need to create a project which will contain "
 "all components and then run :wladmin:`import_project` or :wladmin:"
 "`import_json`."
 msgstr ""
 "Для команд керування вам слід створити проєкт, який міститиме усі складники, "
-"а потім віддати команду :djadmin:`import_project` або :djadmin:`import_json`."
+"а потім віддати команду :wladmin:`import_project` або :wladmin:`import_json`."
 
 #: ../../admin/projects.rst:1100
 msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
@@ -22064,11 +21565,10 @@ msgstr ""
 "guilabel:`Контекст знімка вікна` або :guilabel:`Прапорці`."
 
 #: ../../admin/translating.rst:58
-#, fuzzy
-#| msgid ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
 msgid ""
 ":ref:`format-location`, :ref:`format-description`, :ref:`format-context`"
-msgstr ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
+msgstr ""
+":ref:`format-location`, :ref:`format-description`, :ref:`format-context`"
 
 #: ../../admin/translating.rst:63
 msgid "Strings prioritization"
@@ -22658,14 +22158,6 @@ msgstr ""
 "версій, див. :ref:`mysql`."
 
 #: ../../admin/upgrade.rst:209
-#, fuzzy
-#| msgid ""
-#| ":ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. "
-#| "This will change identification of translation strings in such files "
-#| "breaking links to Weblate extended data such as screenshots or review "
-#| "states. Please make sure you commit pending changes in such files prior "
-#| "upgrading and it is recommended to force loading of affected component "
-#| "using :djadmin:`loadpo`."
 msgid ""
 ":ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. "
 "This will change identification of translation strings in such files "
@@ -22680,7 +22172,7 @@ msgstr ""
 "знімки екрана або стани розгляду. Будь ласка, переконайтеся, що зміни з "
 "черги для таких файлів записано до репозиторію, перш ніж виконувати "
 "оновлення. Рекомендуємо примусово завантажити відповідний складник за "
-"допомогою :djadmin:`loadpo`."
+"допомогою :wladmin:`loadpo`."
 
 #: ../../admin/upgrade.rst:210
 msgid ""
@@ -23056,10 +22548,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/upgrade.rst:409
-#, fuzzy
-#| msgid "Upgrade from 4.7 to 4.8"
 msgid "Upgrade from 4.17 to 4.18"
-msgstr "Оновлення з 4.7 до 4.8"
+msgstr "Оновлення з 4.17 до 4.18"
 
 #: ../../admin/upgrade.rst:413
 msgid ""
@@ -23067,10 +22557,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/upgrade.rst:414
-#, fuzzy
-#| msgid "Added support for Python 3.9."
 msgid "Dropped support for Python 3.7."
-msgstr "Додано підтримку Python 3.9."
+msgstr "Відкинуто підтримку Python 3.7."
 
 #: ../../admin/upgrade.rst:415
 msgid ""
@@ -23197,11 +22685,6 @@ msgid "Migrating from Pootle"
 msgstr "Перенесення даних з Pootle"
 
 #: ../../admin/upgrade.rst:565
-#, fuzzy
-#| msgid ""
-#| "As Weblate was originally written as replacement from Pootle, it is "
-#| "supported to migrate user accounts from Pootle. You can dump the users "
-#| "from Pootle and import them using :djadmin:`importusers`."
 msgid ""
 "As Weblate was originally written as replacement from Pootle, it is "
 "supported to migrate user accounts from Pootle. You can dump the users from "
@@ -23209,8 +22692,8 @@ msgid ""
 msgstr ""
 "Перші версії Weblate було написано як замінник Pootle, тому у програмі "
 "передбачено підтримку перенесення облікових записів з Pootle. Ви можете "
-"створити дамп записів користувачів з Pootle і імпортувати їх за допомогою :"
-"djadmin:`importusers`."
+"створити дамп записів користувачів з Pootle і імпортувати їх за допомогою "
+":wladmin:`importusers`."
 
 #: ../../api.rst:8
 msgid "Weblate's REST API"
@@ -24137,16 +23620,12 @@ msgid "Performs given operation on the VCS repository."
 msgstr "Виконує вказану дію над репозиторієм системи керування версіями."
 
 #: ../../api.rst:898
-#, fuzzy
-#| msgid ""
-#| "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
-#| "``cleanup``, ``file-sync``"
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``, ``file-sync``, ``file-scan``"
 msgstr ""
-"Дія, яку слід виконати. Одне з таких значень: ``push``, ``pull``, "
-"``commit``, ``reset``, ``cleanup``, ``file-sync``"
+"Дія, яку слід виконати. Одне з таких значень: ``push``, ``pull``, ``commit``"
+", ``reset``, ``cleanup``, ``file-sync``, ``file-scan``"
 
 #: ../../api.rst:899 ../../api.rst:1499 ../../api.rst:1969
 msgid "result of the operation"
@@ -25562,16 +25041,12 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:2419
-#, fuzzy
-#| msgid "path"
 msgid "URL path"
-msgstr "path"
+msgstr "Шлях адреси"
 
 #: ../../api.rst:2423
-#, fuzzy
-#| msgid "total number of changes"
 msgid "total number of characters"
-msgstr "загальна кількість змін"
+msgstr "загальна кількість символів"
 
 #: ../../api.rst:2424
 msgid "date of last change"
@@ -25594,80 +25069,57 @@ msgid "percentage of failing checks"
 msgstr "частка рядків, які не пройшли перевірки"
 
 #: ../../api.rst:2435
-#, fuzzy
-#| msgid "number of failing checks"
 msgid "number of approved checks"
-msgstr "кількість рядків, які не пройшли перевірки"
+msgstr "кількість затверджених перевірок"
 
 #: ../../api.rst:2436
-#, fuzzy
-#| msgid "percentage of translated strings"
 msgid "percentage of approved strings"
-msgstr "частка перекладених рядків"
+msgstr "частка затверджених рядків"
 
 #: ../../api.rst:2437
-#, fuzzy
-#| msgid "Include read-only strings"
 msgid "number of read-only strings"
-msgstr "Включити рядки лише для читання"
+msgstr "кількість рядків, які призначено лише для читання"
 
 #: ../../api.rst:2438
-#, fuzzy
-#| msgid "percentage of translated strings"
 msgid "percentage of read-only strings"
-msgstr "частка перекладених рядків"
+msgstr "частка придатних лише для читання рядків"
 
 #: ../../api.rst:2439
-#, fuzzy
-#| msgid "number of strings with suggestion"
 msgid "number of strings with suggestions"
 msgstr "кількість рядків із пропозиціями"
 
 #: ../../api.rst:2440
-#, fuzzy
-#| msgid "number of strings with comment"
 msgid "number of strings with comments"
-msgstr "кількість рядків із коментарями"
+msgstr "кількість рядків з коментарями"
 
 #: ../../api.rst:2441
-#, fuzzy
-#| msgid "Project name"
 msgid "object name"
-msgstr "Назва проєкту"
+msgstr "назва об'єкта"
 
 #: ../../api.rst:2442
 msgid "URL to access the object (if applicable)"
-msgstr ""
+msgstr "адреса для доступу до об'єкта (якщо застосовна)"
 
 #: ../../api.rst:2443
-#, fuzzy
-#| msgid "URL to access the translation (engagement URL)"
 msgid "URL to access the translation (if applicable)"
-msgstr "адреса для доступу до перекладу (адреса запрошення)"
+msgstr "адреса для доступу до перекладу (якщо застосовно)"
 
 #: ../../api.rst:2444
-#, fuzzy
-#| msgid "Language code style"
 msgid "language code (if applicable)"
-msgstr "Стиль коду мови"
+msgstr "код мови (якщо застосовний)"
 
 #: ../../api.rst:2448
-#, fuzzy
-#| msgid ""
-#| "Please use :http:get:`/api/components/(string:project)/(string:component)/"
-#| "statistics/` and :http:get:`/api/translations/(string:project)/(string:"
-#| "component)/(string:language)/statistics/` instead; it allows access to "
-#| "ACL controlled projects as well."
 msgid ""
 ":http:get:`/api/languages/(string:language)/statistics/`, :http:get:`/api/"
 "projects/(string:project)/statistics/`, :http:get:`/api/components/(string:"
 "project)/(string:component)/statistics/`, :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/statistics/`"
 msgstr ""
-"Будь ласка, скористайтеся замість цього :http:get:`/api/components/(string:"
-"project)/(string:component)/statistics/` і :http:get:`/api/translations/"
-"(string:project)/(string:component)/(string:language)/statistics/`; надає "
-"доступ також і до керованих за допомогою ACL проєктів."
+":http:get:`/api/languages/(string:language)/statistics/`, :http:get:`/api/"
+"projects/(string:project)/statistics/`, :http:get:`/api/components/"
+"(string:project)/(string:component)/statistics/`, :http:get:`/api/"
+"translations/(string:project)/(string:component)/(string:language)/"
+"statistics/`"
 
 #: ../../api.rst:2454
 msgid "Metrics"
@@ -26031,10 +25483,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.18"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.18"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -26116,26 +25566,20 @@ msgid "Highlight suggested change in automatic suggestions."
 msgstr "Налаштовування автоматичних пропозицій"
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/93?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/"
-"milestone/93?closed=1>`__."
+"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
+"97?closed=1>`__."
 
 #: ../../changes.rst:23
 msgid "Weblate 4.17"
 msgstr "Weblate 4.17"
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Released on April 19th 2021."
 msgid "Released on April 17th 2023."
-msgstr "Випущено 19 квітня 2021 року."
+msgstr "Випущено 17 квітня 2023 року."
 
 #: ../../changes.rst:27
 msgid "Allow to filter on language in reports."
@@ -34427,10 +33871,6 @@ msgstr ""
 "файлів у каталозі :file:`/var/log/celery/`."
 
 #: ../../contributing/debugging.rst:37
-#, fuzzy
-#| msgid ""
-#| "Docker containers log to their output (as per usual in the Docker world), "
-#| "so you can look at the logs using ``docker-compose logs``."
 msgid ""
 "Docker containers log to their output (as per usual in the Docker world), so "
 "you can look at the logs using ``docker compose logs``. You can get more "
@@ -34438,7 +33878,8 @@ msgid ""
 msgstr ""
 "Контейнери Docker записують виведені дані (це звичайна практика у царині "
 "Docker), тож ви можете ознайомитися із журналом за допомогою команди "
-"``docker-compose logs``."
+"``docker-compose logs``. Отримати докладніший журнал можна встановленням "
+"відповідного значення змінної :envvar:`WEBLATE_LOGLEVEL`."
 
 #: ../../contributing/debugging.rst:43
 msgid ""
@@ -34469,16 +33910,12 @@ msgid "Check that the Celery process is running, see :ref:`celery`"
 msgstr "Перевірте, чи запущено процес Celery, див. :ref:`celery`"
 
 #: ../../contributing/debugging.rst:57
-#, fuzzy
-#| msgid ""
-#| "Check the Celery queue status, either in :ref:`management-interface`, or "
-#| "using :djadmin:`celery_queues`"
 msgid ""
 "Check the Celery queue status, either in :ref:`management-interface`, or "
 "using :wladmin:`celery_queues`"
 msgstr ""
-"Перевірте стан черги Celery у :ref:`management-interface` або за допомогою :"
-"djadmin:`celery_queues`"
+"Перевірте стан черги Celery у :ref:`management-interface` або за допомогою "
+":wladmin:`celery_queues`"
 
 #: ../../contributing/debugging.rst:58
 msgid "Look in the Celery logs for errors (see :ref:`weblate-logs`)"
@@ -35794,14 +35231,10 @@ msgid "definitions"
 msgstr "визначення"
 
 #: ../../contributing/schemas.rst:12
-#, fuzzy
-#| msgid ""
-#| ":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:"
-#| "`import_memory`"
 msgid ""
 ":ref:`translation-memory`, :wladmin:`dump_memory`, :wladmin:`import_memory`"
 msgstr ""
-":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:`import_memory`"
+":ref:`translation-memory`, :wladmin:`dump_memory`, :wladmin:`import_memory`"
 
 #: ../../contributing/schemas.rst:-1
 msgid "Weblate user data export"
@@ -36124,10 +35557,8 @@ msgid "login"
 msgstr "login"
 
 #: ../../contributing/schemas.rst:22
-#, fuzzy
-#| msgid ":ref:`user-profile`, :djadmin:`dumpuserdata`"
 msgid ":ref:`user-profile`, :wladmin:`dumpuserdata`"
-msgstr ":ref:`user-profile`, :djadmin:`dumpuserdata`"
+msgstr ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 
 #: ../../contributing/security.rst:2
 msgid "Security and privacy"
@@ -36317,15 +35748,11 @@ msgid "Running Weblate locally in Docker"
 msgstr "Запуск Weblate локально у Docker"
 
 #: ../../contributing/start.rst:77
-#, fuzzy
-#| msgid ""
-#| "If you have Docker and docker-compose installed, you can spin up the "
-#| "development environment by simply running:"
 msgid ""
 "If you have Docker and docker-compose-plugin installed, you can spin up the "
 "development environment by simply running:"
 msgstr ""
-"Якщо у вас встановлено Docker і docker-compose, ви можете запустити "
+"Якщо у вас встановлено Docker і docker-compose-plugin, ви можете запустити "
 "середовище розробки простими командами:"
 
 #: ../../contributing/start.rst:84
@@ -36398,16 +35825,12 @@ msgid "Bootstrapping your devel instance"
 msgstr "Самопобудова вашого екземпляра для розробки"
 
 #: ../../contributing/start.rst:128
-#, fuzzy
-#| msgid ""
-#| "You might want to use :djadmin:`import_demo` to create demo translations "
-#| "and :djadmin:`createadmin` to make an admin user."
 msgid ""
 "You might want to use :wladmin:`import_demo` to create demo translations "
 "and :wladmin:`createadmin` to make an admin user."
 msgstr ""
-"Ймовірно, вам варто скористатися :djadmin:`import_demo` для створення "
-"демонстраційних перекладів і :djadmin:`createadmin`, щоб створити запис "
+"Ймовірно, вам варто скористатися :wladmin:`import_demo` для створення "
+"демонстраційних перекладів і :wladmin:`createadmin`, щоб створити запис "
 "користувача-адміністратора."
 
 #: ../../contributing/start.rst:132
@@ -37516,40 +36939,25 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:29
-#, fuzzy
-#| msgid ""
-#| "To fetch updated strings from Weblate, you can simply fetch the "
-#| "underlying Git repository (either from filesystem, or it can be made "
-#| "available through :ref:`git-exporter`). Prior to this, you might want to "
-#| "commit any pending changes (see :ref:`lazy-commit`). You can do so in the "
-#| "user interface (in the :guilabel:`Repository maintenance`) or from the "
-#| "command-line using :ref:`wlc`."
 msgid ""
 "Prior to this, you might want to commit any pending changes (see :ref:`lazy-"
 "commit`). You can do so in the user interface (in the :guilabel:`Repository "
 "maintenance`) or from the command-line using :ref:`wlc`."
 msgstr ""
-"Щоб отримати оновлені рядки з Weblate можете просто отримати базове "
-"репозиторій Git (або з файлової системи, або за допомогою :ref:`git-"
-"exporter`). До цього, можливо, вам варто внести всі зміни з черги (див. :ref:"
-"`lazy-commit`). Це можна зробити за допомогою графічного інтерфейсу "
-"користувача (розділ :guilabel:`Супровід репозиторію`) або інтерфейсу "
-"командного рядка за допомогою :ref:`wlc`."
+"До цього, можливо, вам варто внести всі зміни з черги (див. :ref:`lazy-"
+"commit`). Це можна зробити за допомогою графічного інтерфейсу користувача ("
+"розділ :guilabel:`Супровід репозиторію`) або інтерфейсу командного рядка за "
+"допомогою :ref:`wlc`."
 
 #: ../../devel/integration.rst:33
-#, fuzzy
-#| msgid ""
-#| "This can be automated if you grant Weblate push access to your repository "
-#| "and configure :ref:`component-push` in the :ref:`component`, see :ref:"
-#| "`push-changes`."
 msgid ""
 "Pushing changes can be automated if you grant Weblate push access to your "
 "repository and configure :ref:`component-push` in the :ref:`component`, see :"
 "ref:`push-changes`."
 msgstr ""
-"Це можна автоматизувати, надавши Weblate доступ до запису до вашого "
-"репозиторію і налаштувавши :ref:`адресу запису<component-push>` у :ref:"
-"`складнику перекладу<component>`, див. :ref:`push-changes`."
+"Запис змін можна автоматизувати, надавши Weblate доступ до запису до вашого "
+"репозиторію і налаштувавши :ref:`адресу запису<component-push>` у :ref:`"
+"складнику перекладу<component>`, див. :ref:`push-changes`."
 
 #: ../../devel/integration.rst:36
 msgid ""
@@ -37706,8 +37114,6 @@ msgstr ""
 "gettext.msgmerge`"
 
 #: ../../devel/integration.rst:116
-#, fuzzy
-#| msgid "Adding new strings"
 msgid "Introducing new strings"
 msgstr "Додавання нових рядків"
 
@@ -38528,12 +37934,6 @@ msgid "Managing translations"
 msgstr "Керування перекладами"
 
 #: ../../devel/translations.rst:7
-#, fuzzy
-#| msgid ""
-#| "New strings can be made available for translation when they appear in the "
-#| "base file, called :ref:`component-new_base` (see :ref:`component`). If "
-#| "your file format doesn't require such a file, as is the case with most "
-#| "monolingual translation flows, you can start with empty files)."
 msgid ""
 "New strings can be made available for translation when they appear in the "
 "base file, called :ref:`component-new_base` (see :ref:`component`). If your "
@@ -38541,9 +37941,10 @@ msgid ""
 "monolingual translation flows, you can start with empty files."
 msgstr ""
 "Нові рядки можна зробити доступними для перекладу, коли вони з'являються в "
-"основному файлі, який називається :ref:`component-new_base` (див. :ref:"
-"`component`). Якщо ваш формат файлів не потребує такого файла, як у випадку "
-"більшості одномовних процедур перекладу, ви можете почати з порожніх файлів)."
+"основному файлі, який називається :ref:`component-new_base` (див. "
+":ref:`component`). Якщо ваш формат файлів не потребує такого файла, як у "
+"випадку більшості одномовних процедур перекладу, ви можете почати з порожніх "
+"файлів)."
 
 #: ../../devel/translations.rst:15
 msgid "Adding new translations"
@@ -39716,10 +39117,8 @@ msgstr ""
 "оновлено заголовки файла — до них буде включено ім'я перекладача."
 
 #: ../../faq.rst:528
-#, fuzzy
-#| msgid ":djadmin:`list_translators`, :doc:`../devel/reporting`"
 msgid ":wladmin:`list_translators`, :doc:`../devel/reporting`"
-msgstr ":djadmin:`list_translators`, :doc:`../devel/reporting`"
+msgstr ":wladmin:`list_translators`, :doc:`../devel/reporting`"
 
 #: ../../faq.rst:532
 msgid "Why does Weblate force showing all PO files in a single tree?"
@@ -40122,28 +39521,20 @@ msgid "See :ref:`format-plurals`"
 msgstr "Див. :ref:`format-plurals`"
 
 #: ../../formats.rst:350
-#, fuzzy
-#| msgid "See :ref:`format-flags`."
 msgid "See :ref:`format-description`"
-msgstr "Див. :ref:`format-flags`."
+msgstr "Див. :ref:`format-description`"
 
 #: ../../formats.rst:351
-#, fuzzy
-#| msgid "See :ref:`format-flags`."
 msgid "See :ref:`format-context`"
-msgstr "Див. :ref:`format-flags`."
+msgstr "Див. :ref:`format-context`"
 
 #: ../../formats.rst:352
-#, fuzzy
-#| msgid "See :ref:`format-flags`."
 msgid "See :ref:`format-location`"
-msgstr "Див. :ref:`format-flags`."
+msgstr "Див. :ref:`format-location`"
 
 #: ../../formats.rst:353
-#, fuzzy
-#| msgid "See :ref:`format-flags`."
 msgid "See :ref:`format-states`"
-msgstr "Див. :ref:`format-flags`."
+msgstr "Див. :ref:`format-states`"
 
 #: ../../formats.rst:354
 msgid ""
@@ -40226,10 +39617,8 @@ msgstr ""
 "рядках перекладу."
 
 #: ../../formats.rst:387
-#, fuzzy
-#| msgid "String state"
 msgid "String states"
-msgstr "Стан рядків"
+msgstr "Стани рядків"
 
 #: ../../formats.rst:389
 msgid ""
@@ -40266,10 +39655,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:414
-#, fuzzy
-#| msgid "Added support for :ref:`txt`."
 msgid "Currently supported only in :ref:`tbx`."
-msgstr "Додано підтримку :ref:`txt`."
+msgstr "У поточній версії підтримку передбачено лише у :ref:`tbx`."
 
 #: ../../formats.rst:419
 msgid "Source string location"
@@ -40328,19 +39715,15 @@ msgid "Context"
 msgstr "Контекст"
 
 #: ../../formats.rst:457
-#, fuzzy
-#| msgid ""
-#| "Context is used to differentiate identical strings used in different "
-#| "scopes (for example `Sun` can be used as an abbreviated name of the day "
-#| "\"Sunday\" or as the name of our closest star)."
 msgid ""
 "Context is used to differentiate identical strings in a bilingual format "
 "used in different scopes (for example `Sun` can be used as an abbreviated "
 "name of the day \"Sunday\" or as the name of our closest star)."
 msgstr ""
-"Контекст використовується для розрізнення ідентичних рядків, які "
-"використовуються у різних парадигмах (наприклад, `Sun` може бути використано "
-"як скорочення дня тижня «Sunday» або як назва найближчої до нас зірки)."
+"Контекст використовується для розрізнення ідентичних рядків у двомовному "
+"форматі, які використовуються у різних парадигмах (наприклад, `Sun` може "
+"бути використано як скорочення дня тижня «Sunday» або як назва найближчої до "
+"нас зірки)."
 
 #: ../../formats.rst:461
 msgid ""
@@ -40677,19 +40060,14 @@ msgstr ""
 "(здебільшого) є файл з рядками англійською мовою."
 
 #: ../../formats/arb.rst:16
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `go-i18n <https://github.com/nicksnyder/go-"
-#| "i18n>`_, :ref:`updating-target-files`, :ref:`addon-weblate.json."
-#| "customize`, :ref:`addon-weblate.cleanup.generic`,"
 msgid ""
 ":doc:`tt:formats/json`, `Application Resource Bundle Specification`_, "
 "`Internationalizing Flutter apps`_, :ref:`updating-target-files`, :ref:"
 "`addon-weblate.json.customize`, :ref:`addon-weblate.cleanup.generic`"
 msgstr ""
-":doc:`tt:formats/json`, `go-i18n <https://github.com/nicksnyder/go-i18n>`_, :"
-"ref:`updating-target-files`, :ref:`addon-weblate.json.customize`, :ref:"
-"`addon-weblate.cleanup.generic`,"
+":doc:`tt:formats/json`, `Application Resource Bundle Specification`_, `"
+"Internationalizing Flutter apps`_, :ref:`updating-target-files`, :ref:`addon-"
+"weblate.json.customize`, :ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats/arb.rst:32
 msgid "``lib/l10n/intl_*.arb``"
@@ -41906,10 +41284,8 @@ msgid "TermBase eXchange format"
 msgstr "Формат TermBase eXchange"
 
 #: ../../formats/tbx.rst:6
-#, fuzzy
-#| msgid "Supported file formats"
 msgid "Supported features"
-msgstr "Підтримувані формати файлів"
+msgstr "Підтримувані можливості"
 
 #: ../../formats/tbx.rst:8
 #, fuzzy
@@ -42371,11 +41747,6 @@ msgid "Change history"
 msgstr "Журнал змін"
 
 #: ../../../README.rst:6
-#, fuzzy
-#| msgid ""
-#| "**Weblate is a copylefted libre software web-based continuous "
-#| "localization system, used by over 2500 libre projects and companies in "
-#| "more than 165 countries.**"
 msgid ""
 "**Weblate is libre software web-based continuous localization system, used "
 "by over 2500 libre projects and companies in more than 165 countries.**"
@@ -42410,11 +41781,6 @@ msgid "Support"
 msgstr "Підтримка"
 
 #: ../../../README.rst:40
-#, fuzzy
-#| msgid ""
-#| "Weblate is a libre software with optional professional support and cloud "
-#| "hosting offerings. Check out https://weblate.org/hosting/ for more "
-#| "information."
 msgid ""
 "Weblate is libre software with optional professional support and cloud "
 "hosting offerings. Check out https://weblate.org/hosting/ for more "
@@ -44902,10 +44268,8 @@ msgid "Different strings are translated same."
 msgstr "Різні рядки перекладено однаково."
 
 #: ../../user/checks.rst:1142
-#, fuzzy
-#| msgid "``weblate.checks.consistency.PluralsCheck``"
 msgid "``weblate.checks.consistency.ReusedCheck``"
-msgstr "``weblate.checks.consistency.PluralsCheck``"
+msgstr "``weblate.checks.consistency.ReusedCheck``"
 
 #: ../../user/checks.rst:1143
 #, fuzzy
@@ -46428,10 +45792,8 @@ msgid "Searching"
 msgstr "Пошук"
 
 #: ../../user/search.rst:7
-#, fuzzy
-#| msgid "Searching for changes"
 msgid "Searching for strings"
-msgstr "Пошук змін"
+msgstr "Пошук рядків"
 
 #: ../../user/search.rst:11
 msgid ""
@@ -46904,38 +46266,28 @@ msgstr ""
 "Передбачено багато варіантів упорядковування, відповідно до ваших потреб:"
 
 #: ../../user/search.rst:167
-#, fuzzy
-#| msgid "Searching for changes"
 msgid "Searching for users"
-msgstr "Пошук змін"
+msgstr "Пошук користувачів"
 
 #: ../../user/search.rst:171
 msgid "The user browsing has similar search abilities:"
 msgstr ""
 
 #: ../../user/search.rst:173
-#, fuzzy
-#| msgid "``{{filename}}``"
 msgid "``username:TEXT``"
-msgstr "``{{filename}}``"
+msgstr "``username:ТЕКСТ``"
 
 #: ../../user/search.rst:174
-#, fuzzy
-#| msgid "Search in user comments."
 msgid "Search in usernames."
-msgstr "Шукати у коментарях користувачів."
+msgstr "Пошук у іменах користувачів."
 
 #: ../../user/search.rst:175
-#, fuzzy
-#| msgid "``label:TEXT``"
 msgid "``full_name:TEXT``"
-msgstr "``label:ТЕКСТ``"
+msgstr "``full_name:ТЕКСТ``"
 
 #: ../../user/search.rst:176
-#, fuzzy
-#| msgid "Search in labels."
 msgid "Search in full names."
-msgstr "Пошук у мітках."
+msgstr "Пошук у повних іменах."
 
 #: ../../user/search.rst:178
 #, fuzzy
@@ -46950,76 +46302,52 @@ msgstr ""
 "translated-languages`."
 
 #: ../../user/search.rst:179
-#, fuzzy
-#| msgid "``changed:DATETIME``"
 msgid "``joined:DATETIME``"
-msgstr "``changed:ДАТА_І_ЧАС``"
+msgstr "``joined:ДАТА_І_ЧАС``"
 
 #: ../../user/search.rst:181
-#, fuzzy
-#| msgid "translated"
 msgid "``translates:TEXT``"
-msgstr "перекладено"
+msgstr "``translates:ТЕКСТ``"
 
 #: ../../user/search.rst:182
 msgid "User has contributed to a given language in the past month."
 msgstr ""
 
 #: ../../user/search.rst:184
-#, fuzzy
-#| msgid "``context:TEXT``"
 msgid "``contributes:TEXT``"
-msgstr "``context:ТЕКСТ``"
+msgstr "``contributes:ТЕКСТ``"
 
 #: ../../user/search.rst:184
 msgid "User has contributed to a given project or component in the past month."
 msgstr ""
 
 #: ../../user/search.rst:186
-#, fuzzy
-#| msgid ""
-#| "You can also review the very same checklist from the :ref:`management-"
-#| "interface`."
 msgid "Additional lookups are available in the :ref:`management-interface`:"
-msgstr ""
-"Ви також можете скористатися списком дій з розділу :ref:`management-"
-"interface`."
+msgstr "Доступ до додаткових пошуків доступний у :ref:`management-interface`:"
 
 #: ../../user/search.rst:188
-#, fuzzy
-#| msgid "``is:TEXT``"
 msgid "``is:bot``"
-msgstr "``is:ТЕКСТ``"
+msgstr "``is:bot``"
 
 #: ../../user/search.rst:189
-#, fuzzy
-#| msgid "whether the user is bot (used for project scoped tokens)"
 msgid "Search for bots (used for project scoped tokens)."
-msgstr "чи є користувач ботом (використовується для жетонів рівня проєкту)"
+msgstr "Пошук ботів (використовують для жетонів на рівні проєкту)."
 
 #: ../../user/search.rst:190
-#, fuzzy
-#| msgid "Case insensitive lookups."
 msgid "``is:active``"
-msgstr "Пошук без врахування регістру символів."
+msgstr "``is:active``"
 
 #: ../../user/search.rst:191
-#, fuzzy
-#| msgid "Search for %s"
 msgid "Search for active users."
-msgstr "Пошук %s"
+msgstr "Пошук серед активних користувачів."
 
 #: ../../user/search.rst:192
-#, fuzzy
-#| msgid "``is:TEXT``"
 msgid "``email:TEXT``"
-msgstr "``is:ТЕКСТ``"
+msgstr "``email:ТЕКСТ``"
 
 #: ../../user/search.rst:193
-#, fuzzy
-#| msgid "Search in labels."
 msgid "Search by e-mail."
-msgstr "Пошук у мітках."
+msgstr "Пошук за адресою електронної пошти."
 
 #: ../../user/translating.rst:2
 msgid "Translating using Weblate"
