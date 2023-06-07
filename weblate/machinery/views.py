@@ -331,10 +331,9 @@ def handle_machinery(request, service, unit, search=None):
                 for plural_form, possible_translations in enumerate(translations):
                     for item in possible_translations:
                         item["plural_form"] = plural_form
-                        if targets[plural_form]:
-                            item["diff"] = differ.highlight(
-                                item["text"], targets[plural_form]
-                            )
+                        item["diff"] = differ.highlight(
+                            item["text"], targets[plural_form]
+                        )
                 translations = list(chain.from_iterable(translations))
             response["translations"] = translations
             response["responseStatus"] = 200
