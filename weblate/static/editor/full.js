@@ -683,7 +683,7 @@
             base.source == translation.source
           ) {
             // Add origin to current ones
-            var current = $this.children("td:nth-child(3)");
+            var current = $this.children("td:nth-child(4)");
             if (base.quality < translation.quality) {
               service.append("<br/>");
               service.append(current.html());
