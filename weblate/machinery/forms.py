@@ -55,6 +55,13 @@ class KeyURLMachineryForm(KeyMachineryForm, URLMachineryForm):
     pass
 
 
+class LibreTranslateMachineryForm(KeyURLMachineryForm):
+    key = forms.CharField(
+        label=pgettext_lazy("Automatic suggestion service configuration", "API key"),
+        required=False,
+    )
+
+
 class MyMemoryMachineryForm(BaseMachineryForm):
     email = forms.EmailField(
         label=pgettext_lazy(

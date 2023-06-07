@@ -7,7 +7,7 @@ from django.conf import settings
 
 from weblate.machinery.base import MachineTranslation
 
-from .forms import KeyURLMachineryForm
+from .forms import LibreTranslateMachineryForm
 
 
 class LibreTranslateTranslation(MachineTranslation):
@@ -18,7 +18,7 @@ class LibreTranslateTranslation(MachineTranslation):
     language_map = {
         "zh_hans": "zh",
     }
-    settings_form = KeyURLMachineryForm
+    settings_form = LibreTranslateMachineryForm
     request_timeout = 20
 
     @staticmethod
