@@ -853,31 +853,37 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         for name, configuration in chain(
             self.file_format_cls.autoaddon.items(), settings.DEFAULT_ADDONS.items()
         ):
-            if self.addon_set.filter(name=name).exists():
-                self.log_warning("could not enable addon %s, already installed", name)
-                continue
-
             try:
                 addon = ADDONS[name]
             except KeyError:
                 self.log_warning("could not enable addon %s, not found", name)
                 continue
 
+            component = self
+            if addon.repo_scope and self.linked_component:
+                component = self.linked_component
+
+            if component.addon_set.filter(name=name).exists():
+                component.log_warning(
+                    "could not enable addon %s, already installed", name
+                )
+                continue
+
             if addon.has_settings():
-                form = addon.get_add_form(None, self, data=configuration)
+                form = addon.get_add_form(None, component, data=configuration)
                 if not form.is_valid():
-                    self.log_warning(
+                    component.log_warning(
                         "could not enable addon %s, invalid settings", name
                     )
                     continue
 
-            if not addon.can_install(self, None):
-                self.log_warning("could not enable addon %s, not compatible", name)
+            if not addon.can_install(component, None):
+                component.log_warning("could not enable addon %s, not compatible", name)
                 continue
 
-            self.log_info("enabling addon %s", name)
+            component.log_info("enabling addon %s", name)
             # Running is disabled now, it is triggered in after_save
-            addon.create(self, run=False, configuration=configuration)
+            addon.create(component, run=False, configuration=configuration)
 
     def create_glossary(self):
         project = self.project
