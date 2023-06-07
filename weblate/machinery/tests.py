@@ -4,6 +4,7 @@
 
 import json
 from copy import copy
+from io import StringIO
 from typing import Type
 from unittest import SkipTest
 from unittest.mock import Mock, patch
@@ -11,6 +12,8 @@ from urllib.parse import parse_qs
 
 import responses
 from botocore.stub import ANY, Stubber
+from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.test import TestCase
 from django.urls import reverse
 from google.cloud.translate_v3 import (
@@ -1075,15 +1078,17 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             status=500,
         )
 
-    def mock_languages(self):
+    @staticmethod
+    def mock_languages():
         responses.add(
             responses.GET,
             "https://api.deepl.com/v2/languages",
             json=DEEPL_LANG_RESPONSE,
         )
 
-    def mock_response(self):
-        self.mock_languages()
+    @classmethod
+    def mock_response(cls):
+        cls.mock_languages()
         responses.add(
             responses.POST,
             "https://api.deepl.com/v2/translate",
@@ -1505,3 +1510,61 @@ class ViewsTest(FixtureTestCase):
         )
         project = Project.objects.get(pk=self.component.project_id)
         self.assertNotIn("dummy", project.machinery_settings)
+
+
+class CommandTest(FixtureTestCase):
+    """Test for management commands."""
+
+    def test_list_addons(self):
+        output = StringIO()
+        call_command("list_machinery", stdout=output)
+        self.assertIn("DeepL", output.getvalue())
+
+    def test_install_no_form(self):
+        output = StringIO()
+        call_command(
+            "install_machinery",
+            "--service",
+            "weblate",
+            stdout=output,
+            stderr=output,
+        )
+        self.assertIn("Service installed: Weblate", output.getvalue())
+
+    def test_install_missing_form(self):
+        output = StringIO()
+        with self.assertRaises(CommandError):
+            call_command(
+                "install_machinery",
+                "--service",
+                "deepl",
+                stdout=output,
+                stderr=output,
+            )
+
+    def test_install_wrong_form(self):
+        output = StringIO()
+        with self.assertRaises(CommandError):
+            call_command(
+                "install_machinery",
+                "--service",
+                "deepl",
+                "--configuration",
+                '{"wrong": ""}',
+                stdout=output,
+                stderr=output,
+            )
+
+    @responses.activate
+    def test_install_valid_form(self):
+        output = StringIO()
+        DeepLTranslationTest.mock_response()
+        call_command(
+            "install_machinery",
+            "--service",
+            "deepl",
+            "--configuration",
+            '{"key": "x", "url": "https://api.deepl.com/v2/"}',
+            stdout=output,
+            stderr=output,
+        )

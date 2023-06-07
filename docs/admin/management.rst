@@ -584,11 +584,42 @@ To install :ref:`addon-weblate.gettext.customize` for all components:
 
 .. code-block:: shell
 
-   weblate install_addon --addon weblate.gettext.customize --config '{"width": -1}' --update --all
+   weblate install_addon --addon weblate.gettext.customize --configuration '{"width": -1}' --update --all
 
 .. seealso::
 
    :doc:`addons`
+
+install_machinery
+-----------------
+
+.. versionadded:: 4.18
+
+.. weblate-admin:: install_machinery --service SERVICE
+
+Installs an site-wide automatic suggestion service.
+
+.. weblate-admin-option:: --service SERVICE
+
+   Name of the service to install. For example ``deepl``.
+
+.. weblate-admin-option:: --configuration CONFIG
+
+   JSON encoded configuration of a service.
+
+.. weblate-admin-option:: --update
+
+   Update the existing service configuration.
+
+To install :ref:`mt-deepl`:
+
+.. code-block:: shell
+
+   weblate install_service --service deepl --configuration '{"key": "x", "url": "https://api.deepl.com/v2/"}' --update
+
+.. seealso::
+
+   :doc:`machine`
 
 list_languages
 --------------
