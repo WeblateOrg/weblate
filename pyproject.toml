@@ -8,9 +8,6 @@ target-version = ['py37']
 [tool.codespell]
 skip = '*.po,*.pot,*.json,*.tmx,*.tbx,yarn.lock,known_hosts'
 
-[tool.isort]
-profile = "black"
-
 [tool.pylint.main]
 disable = [
   "C",
@@ -59,7 +56,6 @@ ignore = [
   "EM",  # TODO: Exception strings
   "PTH",  # TODO: Not using pathlib
   "FBT",  # TODO: Boolean in function definition
-  "I",  # TODO: using standalone isort
   "BLE001",  # WONTFIX: Do not catch blind exception: `Exception`, third-party modules do not have defined exceptions
   "ARG001",  # TODO: Unused function argument (mostly for API compatibility)
   "ARG002",  # TODO: Unused method argument (mostly for API compatibility)
@@ -88,6 +84,8 @@ select = [
   "ALL"
 ]
 target-version = "py37"
+
+[tool.ruff.isort]
 
 [tool.ruff.mccabe]
 max-complexity = 16

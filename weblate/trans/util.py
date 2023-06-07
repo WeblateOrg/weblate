@@ -11,9 +11,8 @@ from urllib.parse import urlparse
 
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import redirect, resolve_url
 from django.shortcuts import render as django_render
-from django.shortcuts import resolve_url
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext, gettext_lazy
 from lxml import etree
