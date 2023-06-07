@@ -1299,12 +1299,10 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             if not can_edit:
                 self.permission_denied(request, can_edit.reason)
 
-            if new_state == STATE_APPROVED and not user.has_perm(
-                "unit.review", translation
-            ):
-                self.permission_denied(
-                    request, "You do not have permission to edit approved strings."
-                )
+            if new_state == STATE_APPROVED:
+                can_review = user.has_perm("unit.review", translation)
+                if not can_review:
+                    self.permission_denied(request, can_review.reason)
 
         # Update attributes
         if do_source:

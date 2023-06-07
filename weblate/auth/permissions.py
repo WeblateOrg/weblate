@@ -186,14 +186,14 @@ def check_unit_review(user, permission, obj, skip_enabled=False):
     if not skip_enabled:
         if isinstance(obj, Translation):
             if not obj.enable_review:
-                return False
+                return Denied(gettext("Reviews are not enabled."))
         else:
             if isinstance(obj, (Component, ProjectLanguage)):
                 project = obj.project
             else:
                 project = obj
             if not project.source_review and not project.translation_review:
-                return False
+                return Denied(gettext("Reviews are not enabled."))
     return check_can_edit(user, permission, obj)
 
 
