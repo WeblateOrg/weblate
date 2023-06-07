@@ -3021,7 +3021,7 @@ class UnitAPITest(APIBaseTest):
             "api:unit-detail",
             kwargs={"pk": unit.pk},
             method="patch",
-            code=403,
+            code=400,
             request={"state": "30", "target": "Test translation"},
         )
         self.assertFalse(Unit.objects.get(pk=unit.pk).approved)
