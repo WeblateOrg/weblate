@@ -33,7 +33,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-07 09:41+0000\n"
-"PO-Revision-Date: 2023-04-14 19:46+0000\n"
+"PO-Revision-Date: 2023-06-08 07:22+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -43,7 +43,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.17-dev\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -75,7 +75,7 @@ msgstr "Imię i nazwisko"
 
 #: weblate/accounts/forms.py:111
 msgid "Name is also used in version control commits."
-msgstr ""
+msgstr "Nazwa jest również używana w commitach kontroli wersji."
 
 #: weblate/accounts/forms.py:171 weblate/accounts/models.py:578
 msgid "Commit e-mail"
@@ -87,7 +87,7 @@ msgstr "Używaj adresu e-mail konta"
 
 #: weblate/accounts/forms.py:173
 msgid "Choose commit e-mail from verified addresses."
-msgstr ""
+msgstr "Wybierz e-mail do commitów ze zweryfikowanych adresów."
 
 #: weblate/accounts/forms.py:207 weblate/accounts/models.py:572
 msgid "Public e-mail"
@@ -112,7 +112,7 @@ msgstr "Adres e-mail"
 
 #: weblate/accounts/forms.py:340
 msgid "Choose primary e-mail from verified addresses."
-msgstr ""
+msgstr "Wybierz główny adres e-mail ze zweryfikowanych adresów."
 
 #: weblate/accounts/forms.py:387
 msgid "Subject"
@@ -141,10 +141,8 @@ msgstr ""
 "w stanie przetworzyć Twojego żądania."
 
 #: weblate/accounts/forms.py:413
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "E-mail with a confirmation link will be sent here."
-msgstr "E-mail aktywacyjny zostanie wysłany tutaj."
+msgstr "E-mail z linkiem potwierdzającym zostanie wysłany tutaj."
 
 #: weblate/accounts/forms.py:455
 msgid "New password"
@@ -1011,16 +1009,12 @@ msgstr ""
 "uwierzytelniające."
 
 #: weblate/accounts/views.py:1198
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the verification token "
-#| "probably expired."
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
 msgstr ""
-"Spróbuj zarejestrować się ponownie, aby zweryfikować swoją tożsamość, token "
-"weryfikacyjny prawdopodobnie wygasł."
+"Spróbuj zarejestrować się ponownie, aby zweryfikować swoją tożsamość. Link "
+"potwierdzający prawdopodobnie wygasł."
 
 #: weblate/accounts/views.py:1206
 msgid "Could not authenticate due to invalid session state."
@@ -1032,7 +1026,7 @@ msgstr "Nie otrzymałem adresu e-mail od usługi uwierzytelniania innej firmy."
 
 #: weblate/accounts/views.py:1216
 msgid "Please register using e-mail instead."
-msgstr "Zarejestruj się za pomocą poczty e-mail."
+msgstr "Zamiast tego zarejestruj się za pomocą adresu e-mail."
 
 #: weblate/accounts/views.py:1223
 msgid "New registrations are turned off."
@@ -2313,10 +2307,9 @@ msgid "Components"
 msgstr "Komponenty"
 
 #: weblate/auth/models.py:131
-#, fuzzy
-#| msgid "You do not have permission to create components in any projects."
 msgid "Empty selection grants access to all components in project scope."
-msgstr "Nie masz uprawnień do tworzenia komponentów w żadnym projekcie."
+msgstr ""
+"Pusty wybór zapewnia dostęp do wszystkich komponentów w zakresie projektu."
 
 #: weblate/auth/models.py:141
 msgid "Language selection"
@@ -2437,7 +2430,7 @@ msgstr "Wygaśnięcie blokady"
 
 #: weblate/auth/permissions.py:132
 msgid "Can not perform this operation without an e-mail."
-msgstr ""
+msgstr "Nie można wykonać tej operacji bez e-maila."
 
 #: weblate/auth/permissions.py:137 weblate/templates/translate.html:201
 #: weblate/templates/translate.html:221
@@ -2461,10 +2454,8 @@ msgid "Insufficient privileges for editing source strings."
 msgstr "Niewystarczające uprawnienia do edytowania ciągów źródłowych."
 
 #: weblate/auth/permissions.py:163
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Suggestion voting is disabled."
-msgstr "Edycja ciągów źródłowych jest wyłączona."
+msgstr "Głosowanie na sugestie jest wyłączone."
 
 #: weblate/auth/permissions.py:173
 msgid ""
@@ -2479,10 +2470,8 @@ msgid "Pay the bills to unlock this project."
 msgstr "Zapłać rachunki, aby odblokować ten projekt."
 
 #: weblate/auth/permissions.py:209
-#, fuzzy
-#| msgid "This string seems to already exist."
 msgid "The string is read only."
-msgstr "Wydaje się, że ten ciąg już istnieje."
+msgstr "Ciąg jest tylko do odczytu."
 
 #: weblate/auth/permissions.py:215
 msgid ""
@@ -2493,26 +2482,20 @@ msgstr ""
 "powinien zostać zmieniony, prosimy dodać sugestię."
 
 #: weblate/auth/permissions.py:221
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "The translation is read only."
-msgstr "Tłumaczenie jest zablokowane."
+msgstr "Tłumaczenie jest tylko do odczytu."
 
 #: weblate/auth/permissions.py:238
 msgid "Add the string to the source language instead."
-msgstr ""
+msgstr "Zamiast tego dodaj ciąg do języka źródłowego."
 
 #: weblate/auth/permissions.py:242
-#, fuzzy
-#| msgid "Unsupported component configuration"
 msgid "Adding strings is disabled in the component configuration."
-msgstr "Nieobsługiwana konfiguracja komponentu"
+msgstr "Dodawanie ciągów jest wyłączone w konfiguracji komponentu."
 
 #: weblate/auth/permissions.py:259 weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "File format does not support this."
-msgstr "Wykryty format pliku nie jest obsługiwany."
+msgstr "Format pliku tego nie obsługuje."
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2804,7 +2787,7 @@ msgstr "Te same liczby mnogie"
 
 #: weblate/checks/consistency.py:47
 msgid "Some plural forms are translated in the same way"
-msgstr "Niektóre formy mnogie są tłumaczone w ten sam sposób"
+msgstr "Niektóre formy mnogie są przetłumaczone w ten sam sposób"
 
 #: weblate/checks/consistency.py:66
 msgid "Inconsistent"
@@ -2819,16 +2802,12 @@ msgstr ""
 "nieprzetłumaczony w niektórych komponentach."
 
 #: weblate/checks/consistency.py:138
-#, fuzzy
-#| msgid "Removed translation"
 msgid "Reused translation"
-msgstr "Usunięto tłumaczenie"
+msgstr "Ponownie użyte tłumaczenie"
 
 #: weblate/checks/consistency.py:139
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Different strings are translated same."
-msgstr "Brak ciągów do przetłumaczenia"
+msgstr "Różne ciągi są przetłumaczone tak samo"
 
 #: weblate/checks/consistency.py:214
 msgid "Has been translated"
@@ -2841,7 +2820,7 @@ msgstr "Ten ciąg został już przetłumaczony w przeszłości"
 #: weblate/checks/consistency.py:224
 #, python-format
 msgid "Previous translation was \"%s\"."
-msgstr "Poprzednie tłumaczenie brzmiało \"%s\"."
+msgstr "Poprzednie tłumaczenie brzmiało „%s”"
 
 #: weblate/checks/duplicate.py:31
 msgid "Consecutive duplicated words"
@@ -4436,14 +4415,14 @@ msgid "Screenshot name"
 msgstr "Nazwa zrzutu ekranu"
 
 #: weblate/screenshots/models.py:51
-#, fuzzy
-#| msgid "Repository branch to translate"
 msgid "Repository path to screenshot"
-msgstr "Gałąź do tłumaczenia"
+msgstr "Ścieżka repozytorium do zrzutu ekranu"
 
 #: weblate/screenshots/models.py:52
 msgid "Scan for screenshot file change on repository update."
 msgstr ""
+"Skanuj w poszukiwaniu zmiany pliku ze zrzutem ekranu podczas aktualizacji "
+"repozytorium."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_detail.html:58
@@ -4700,10 +4679,8 @@ msgstr "Statystyki"
 
 #: weblate/templates/accounts/add-mail.html:4
 #: weblate/templates/accounts/email.html:17
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Add new e-mail address"
-msgstr "Używaj adresu e-mail konta"
+msgstr "Dodaj nowy adres e-mail"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -4715,10 +4692,8 @@ msgid "Your profile"
 msgstr "Twój profil"
 
 #: weblate/templates/accounts/confirm.html:14
-#, fuzzy
-#| msgid "Could not remove user identity"
 msgid "Confirm adding user identity"
-msgstr "Nie udało się usunąć tożsamości użytkownika"
+msgstr "Potwierdź dodanie tożsamości użytkownika"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #: weblate/templates/accounts/confirm.html:18
@@ -4731,10 +4706,8 @@ msgstr ""
 "platformy %(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/confirm.html:24
-#, fuzzy
-#| msgid "Configure"
 msgid "Confirm"
-msgstr "Skonfiguruj"
+msgstr "Potwierdż"
 
 #: weblate/templates/accounts/contact.html:15
 msgid ""
@@ -5083,10 +5056,8 @@ msgid "Disconnect"
 msgstr "Rozłącz"
 
 #: weblate/templates/accounts/profile.html:156
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new user identity"
-msgstr "Dodaj nowego użytkownika"
+msgstr "Dodaj nową tożsamość użytkownika"
 
 #: weblate/templates/accounts/profile.html:166
 #: weblate/templates/component.html:104
@@ -5417,10 +5388,8 @@ msgstr[1] "%(count)s komentarze"
 msgstr[2] "%(count)s komentarzy"
 
 #: weblate/templates/accounts/user.html:141
-#, fuzzy
-#| msgid "Contributors"
 msgid "Contributed to"
-msgstr "Współpracownicy"
+msgstr "Przyczynili się do"
 
 #: weblate/templates/accounts/user.html:144
 msgid "Activity"
@@ -5484,10 +5453,8 @@ msgid "Browse all watched projects"
 msgstr "Przeglądaj wszystkie obserwowane projekty"
 
 #: weblate/templates/accounts/user.html:192
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes made by this user"
-msgstr "Przeglądaj wszystkie zmiany użytkownika"
+msgstr "Przeglądaj wszystkie zmiany wprowadzone przez tego użytkownika"
 
 #: weblate/templates/accounts/user.html:253
 msgid "Group"
@@ -5500,12 +5467,9 @@ msgid "Members"
 msgstr "Użytkownicy"
 
 #: weblate/templates/accounts/user.html:264
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgctxt "No project associated with group"
 msgid "None"
-msgstr "Nikt"
+msgstr "Brak"
 
 #: weblate/templates/accounts/user.html:269
 msgid "Remove user from this group"
@@ -5904,10 +5868,8 @@ msgid "Add"
 msgstr "Dodaj"
 
 #: weblate/templates/auth/teams-components.html:6
-#, fuzzy
-#| msgid "No components were matched!"
 msgid "No components specified"
-msgstr "Żadne komponenty nie zostały dopasowane!"
+msgstr "Nie określono komponentów"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7177,14 +7139,12 @@ msgid "Commit"
 msgstr "Zatwierdź zmiany"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s change"
-#| msgid_plural "%(count)s changes"
+#, python-format
 msgid "%(count)s pending change"
 msgid_plural "%(count)s pending changes"
-msgstr[0] "%(count)s zmiana"
-msgstr[1] "%(count)s zmiany"
-msgstr[2] "%(count)s zmian"
+msgstr[0] "%(count)s oczekująca zmiana"
+msgstr[1] "%(count)s oczekujące zmiany"
+msgstr[2] "%(count)s oczekujących zmian"
 
 #: weblate/templates/js/git-status.html:32
 #, fuzzy
