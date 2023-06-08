@@ -16,7 +16,7 @@ Not yet released.
 * Project stats exports to JSON/CSV now include more details; it now matches content available in the API.
 * Added check for reused translation.
 * Highlight suggested change in automatic suggestions.
-* Added dark theme, it follows browser settings, but can be chosen manually.
+* Added dark theme; browser-following and manual setting are available.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 
