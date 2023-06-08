@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-07 09:41+0000\n"
-"PO-Revision-Date: 2023-06-07 14:30+0000\n"
+"PO-Revision-Date: 2023-06-08 07:22+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -4405,14 +4405,14 @@ msgid "Screenshot name"
 msgstr "Име на снимката на екрана"
 
 #: weblate/screenshots/models.py:51
-#, fuzzy
-#| msgid "Repository branch to translate"
 msgid "Repository path to screenshot"
-msgstr "Клон за превод от хранилището"
+msgstr "Път до екранната снимка в хранилището"
 
 #: weblate/screenshots/models.py:52
 msgid "Scan for screenshot file change on repository update."
 msgstr ""
+"Сканиране за промени във файла на екранната снимка при обновяване на "
+"хранилището."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_detail.html:58
@@ -4670,10 +4670,8 @@ msgstr "Статистика"
 
 #: weblate/templates/accounts/add-mail.html:4
 #: weblate/templates/accounts/email.html:17
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Add new e-mail address"
-msgstr "Да се използва адресът на е-пощата на профила"
+msgstr "Добавяне на нов адрес на е-поща"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -4685,10 +4683,8 @@ msgid "Your profile"
 msgstr "Профил"
 
 #: weblate/templates/accounts/confirm.html:14
-#, fuzzy
-#| msgid "Could not remove user identity"
 msgid "Confirm adding user identity"
-msgstr "Идентификационните данни на потребителя не могат да бъдат премахнати"
+msgstr "Потвърдете добавянето на потребител"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #: weblate/templates/accounts/confirm.html:18
@@ -4701,10 +4697,8 @@ msgstr ""
 "%(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/confirm.html:24
-#, fuzzy
-#| msgid "Configure"
 msgid "Confirm"
-msgstr "Настройка"
+msgstr "Потвърждаване"
 
 #: weblate/templates/accounts/contact.html:15
 msgid ""
@@ -5050,10 +5044,8 @@ msgid "Disconnect"
 msgstr "Разкачане"
 
 #: weblate/templates/accounts/profile.html:156
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new user identity"
-msgstr "Добавяне на потребител"
+msgstr "Добавяне на нов потребител"
 
 #: weblate/templates/accounts/profile.html:166
 #: weblate/templates/component.html:104
@@ -5380,10 +5372,8 @@ msgstr[0] "%(count)s коментар"
 msgstr[1] "%(count)s коментара"
 
 #: weblate/templates/accounts/user.html:141
-#, fuzzy
-#| msgid "Contributors"
 msgid "Contributed to"
-msgstr "Участници"
+msgstr "Има принос към"
 
 #: weblate/templates/accounts/user.html:144
 msgid "Activity"
@@ -5447,10 +5437,8 @@ msgid "Browse all watched projects"
 msgstr "Всички наблюдавани проекти"
 
 #: weblate/templates/accounts/user.html:192
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes made by this user"
-msgstr "Всички промени от потребителя"
+msgstr "Преглед на всички промени направени от този потребител"
 
 #: weblate/templates/accounts/user.html:253
 msgid "Group"
@@ -5463,9 +5451,6 @@ msgid "Members"
 msgstr "Членове"
 
 #: weblate/templates/accounts/user.html:264
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgctxt "No project associated with group"
 msgid "None"
 msgstr "Няма"
@@ -5868,10 +5853,8 @@ msgid "Add"
 msgstr "Добавяне"
 
 #: weblate/templates/auth/teams-components.html:6
-#, fuzzy
-#| msgid "No components were matched!"
 msgid "No components specified"
-msgstr "Няма отговарящи компоненти!"
+msgstr "Няма посочени компоненти"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7133,34 +7116,30 @@ msgid "Commit"
 msgstr "Подаване"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s change"
-#| msgid_plural "%(count)s changes"
+#, python-format
 msgid "%(count)s pending change"
 msgid_plural "%(count)s pending changes"
-msgstr[0] "%(count)s промяна"
-msgstr[1] "%(count)s промени"
+msgstr[0] "%(count)s чакаща промяна"
+msgstr[1] "%(count)s чакащи промени"
 
 #: weblate/templates/js/git-status.html:32
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "Подаване на чакащите промени в хранилището на Weblate"
+msgstr ""
+"Това ще подаде всички чакащи промени в Weblate, които все още не са в "
+"хранилището."
 
 #: weblate/templates/js/git-status.html:38
 msgid "Push"
 msgstr "Изпращане"
 
 #: weblate/templates/js/git-status.html:41
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s коментар"
-msgstr[1] "%(count)s коментара"
+msgstr[0] "%(count)s изходящо подаване"
+msgstr[1] "%(count)s изходящи подавания"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Update"
@@ -7168,34 +7147,27 @@ msgstr "Обновяване"
 
 #: weblate/templates/js/git-status.html:58
 msgid "Update with merge"
-msgstr ""
+msgstr "Обновяване чрез сливане"
 
 #: weblate/templates/js/git-status.html:61
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Update with rebase"
-msgstr "Обновяване на проверките на качеството"
+msgstr "Обновяване чрез пребазиране"
 
 #: weblate/templates/js/git-status.html:64
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid "Update with merge without fast-forward"
-msgstr "Сливане без прескачания"
+msgstr "Обновяване чрез сливане без прескачания"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "%(count)s коментар"
-msgstr[1] "%(count)s коментара"
+msgstr[0] "%(count)s липсващо подаване"
+msgstr[1] "%(count)s липсващи подавания"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
 msgid "This will update the Weblate repository with the upstream changes."
-msgstr "Заключването на превода ще попречи на другите да работят по него."
+msgstr ""
+"Това ще обнови хранилището на Weblate като изтегли отдалечените промени."
 
 #: weblate/templates/js/git-status.html:80
 msgid "Allow changes to the Weblate repository"
@@ -7215,28 +7187,20 @@ msgid "Lock"
 msgstr "Заключване"
 
 #: weblate/templates/js/git-status.html:87
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are locked"
-msgstr "Преводи на Weblate"
+msgstr "Преводите в Weblate са заключени"
 
 #: weblate/templates/js/git-status.html:89
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are open"
-msgstr "Преводи на Weblate"
+msgstr "Преводите в Weblate са отворени"
 
 #: weblate/templates/js/git-status.html:93
-#, fuzzy
-#| msgid "Locking prevents translators from doing changes"
 msgid "Locking prevents translators from doing changes."
-msgstr "Заключването не позволява на преводачите да правят промени"
+msgstr "Заключването не позволява на преводачите да правят промени."
 
 #: weblate/templates/js/git-status.html:105
-#, fuzzy
-#| msgid "Danger (red)"
 msgid "Danger zone"
-msgstr "Опасност (червено)"
+msgstr "Опасна зона"
 
 #: weblate/templates/js/git-status.html:110
 #: weblate/templates/translate.html:495
@@ -7248,23 +7212,20 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Нулиране на всички промени в хранилището на Weblate"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid ""
-#| "Resetting removes all changes in Weblate so that the repository matches "
-#| "upstream. Use with caution."
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream."
 msgstr ""
 "Нулирането заличава всички промени в Weblate, така че хранилището да се "
-"върне в състояние, съответстващо на отдалеченото хранилище. Използвайте "
-"внимателно."
+"върне в състояние, съответстващо на отдалеченото хранилище."
 
 #: weblate/templates/js/git-status.html:116
 msgid ""
 "Use when you want to discard changes in Weblate and bring it in sync with "
 "upstream repository."
 msgstr ""
+"Използвайте това, когато искате да анулирате всички промени в Weblate и да "
+"върнете текстовете в състоянието, в което са те в отдалеченото хранилище."
 
 #: weblate/templates/js/git-status.html:120
 msgid "Cleanup"
@@ -7279,16 +7240,18 @@ msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
+"Почистването премахва всички файлове в хранилището, които не се следят от "
+"системата за контрол на версиите."
 
 #: weblate/templates/js/git-status.html:126
-#, fuzzy
-#| msgid "Prevent any changes in the Weblate repository"
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Забраняване на промените в хранилището на Weblate"
+msgstr ""
+"Използвайте това, когато в хранилището на Weblate има останали ненужни "
+"файлове."
 
 #: weblate/templates/js/git-status.html:130
 msgid "Synchronize"
-msgstr ""
+msgstr "Синхронизиране"
 
 #: weblate/templates/js/git-status.html:132
 msgid "Force writing all translations to the Weblate repository"
