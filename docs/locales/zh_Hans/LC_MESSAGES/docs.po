@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-07 11:42+0200\n"
-"PO-Revision-Date: 2023-05-27 08:15+0000\n"
-"Last-Translator: Xzonn <Xzonn@outlook.com>\n"
+"PO-Revision-Date: 2023-06-08 03:10+0000\n"
+"Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -141,9 +141,6 @@ msgid "Visible only to chosen users."
 msgstr "只对指定的用户可见。"
 
 #: ../../admin/access.rst:62
-#, fuzzy
-#| msgid ""
-#| "**Choose this for projects that should not be publicly exposed at all.**"
 msgid ""
 "**Choose this for projects that should not be exposed publicly at all.**"
 msgstr "**完全不应该公开暴露的项目请选择这个。**"
@@ -1333,18 +1330,13 @@ msgid "List of teams"
 msgstr "团队列表"
 
 #: ../../admin/access.rst:614
-#, fuzzy
-#| msgid ""
-#| "The following teams are created upon installation (or after executing :"
-#| "djadmin:`setupgroups`) and you are free to modify them. The migration "
-#| "will, however, re-create them if you delete or rename them."
 msgid ""
 "The following teams are created upon installation (or after executing :"
 "wladmin:`setupgroups`) and you are free to modify them. The migration will, "
 "however, re-create them if you delete or rename them."
 msgstr ""
-"下面的团队在安装时建立（或在执行 :djadmin:`setupgroups` 后）, 您可以自由修改"
-"它们。但是，如果它们被删除或重命名，迁移后将重新创建这些名称。"
+"下面的团队在安装时建立（或在执行 :wladmin:`setupgroups` 后）, "
+"您可以自由修改它们。但是，如果它们被删除或重命名，迁移后将重新创建这些名称。"
 
 #: ../../admin/access.rst:626
 msgid "`Guests`"
@@ -1476,16 +1468,12 @@ msgstr ""
 "的 :guilabel:`管理` ↓ :guilabel:`附加组件` 菜单添加和管理附加组件。"
 
 #: ../../admin/addons.rst:12
-#, fuzzy
-#| msgid ""
-#| "You can also configure add-ons using :ref:`API <addons-api>`, :setting:"
-#| "`DEFAULT_ADDONS`, or :djadmin:`install_addon`."
 msgid ""
 "You can also configure add-ons using :ref:`API <addons-api>`, :setting:"
 "`DEFAULT_ADDONS`, or :wladmin:`install_addon`."
 msgstr ""
-"您也可以使用 :ref:`API <addons-api>`、 :setting:`DEFAULT_ADDONS` 或 :djadmin:"
-"`install_addon` 来配置附加组件。"
+"您也可以使用 :ref:`API <addons-api>`、 :setting:`DEFAULT_ADDONS` 或 "
+":wladmin:`install_addon` 来配置附加组件。"
 
 #: ../../admin/addons.rst:18
 msgid "Built-in add-ons"
@@ -2010,55 +1998,40 @@ msgstr ""
 "例的示例可以在附加组件帮助部分找到。"
 
 #: ../../admin/addons.rst:210
-#, fuzzy
-#| msgid ""
-#| "The regular expression to match translation files has to contain two "
-#| "named groups to match component and language, some examples:"
 msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language. All named groups in the regular "
 "expression can be used as variables in the template fields."
-msgstr "匹配翻译文件的正则表达式必须包含两个命名组以匹配部件和语言，例如："
+msgstr "匹配翻译文件的正则表达式必须包含两个命名组以匹配部件和语言，所有正则表达式的"
+"命名组均可用作模板字段中的变量。"
 
 #: ../../admin/addons.rst:214
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid "You can use Django template markup in all filename fields, for example:"
-msgstr "您可以在文件名和内容中使用 Django 模板标记，例如:"
+msgstr "您可以在所有文件名字段中使用 Django 模板标记，例如:"
 
 #: ../../admin/addons.rst:216
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ component }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ component }}``"
 
 #: ../../admin/addons.rst:217
 msgid "Component filename match"
 msgstr "部件文件名匹配"
 
 #: ../../admin/addons.rst:218
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ component|title }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ component|title }}``"
 
 #: ../../admin/addons.rst:219
 msgid "Component filename with upper case first letter"
 msgstr "首字母大写的部件文件名"
 
 #: ../../admin/addons.rst:221
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``{{ path }}: {{ component }}``"
-msgstr "``{{ component_name }}``"
+msgstr "``{{ path }}: {{ component }}``"
 
 #: ../../admin/addons.rst:221
-#, fuzzy
-#| msgid "Component regular expression"
 msgid "Custom match group from the regular expression"
-msgstr "部件正则表达式"
+msgstr "来自正则表达式的自定义匹配群"
 
 #: ../../admin/addons.rst:223
 msgid ""
@@ -2070,16 +2043,12 @@ msgstr ""
 "合您的需求："
 
 #: ../../admin/addons.rst:229
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Component discovery examples"
-msgstr "部件发现"
+msgstr "部件发现示例"
 
 #: ../../admin/addons.rst:232
-#, fuzzy
-#| msgid "Deletes the language."
 msgid "One folder per language"
-msgstr "删除该语言。"
+msgstr "每种语言一个文件夹"
 
 #: ../../admin/addons.rst:234
 msgid "One folder per language containing translation files for components."
@@ -2088,51 +2057,34 @@ msgstr "每种语言各使用一个文件夹并在其中包含相应部件的翻
 #: ../../admin/addons.rst:236 ../../admin/addons.rst:249
 #: ../../admin/addons.rst:262 ../../admin/addons.rst:275
 #: ../../admin/addons.rst:289 ../../admin/addons.rst:302
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular expression:"
-msgstr "正则表达式"
+msgstr "正则表达式："
 
 #: ../../admin/addons.rst:237
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:242 ../../admin/addons.rst:255
 #: ../../admin/addons.rst:268 ../../admin/addons.rst:282
 #: ../../admin/addons.rst:295 ../../admin/addons.rst:311
-#, fuzzy
-#| msgid "Matched files"
 msgid "Matching files:"
-msgstr "匹配文件"
+msgstr "匹配文件："
 
 #: ../../admin/addons.rst:239
-#, fuzzy
-#| msgid ":file:`/favicon.ico`"
 msgid ":file:`cs/application.po`"
-msgstr ":file:`/favicon.ico`"
+msgstr ":file:`cs/application.po`"
 
 #: ../../admin/addons.rst:240
-#, fuzzy
-#| msgid ":file:`icons/weblate.svg`"
 msgid ":file:`cs/website.po`"
-msgstr ":file:`icons/weblate.svg`"
+msgstr ":file:`cs/website.po`"
 
 #: ../../admin/addons.rst:241
-#, fuzzy
-#| msgid ":file:`/favicon.ico`"
 msgid ":file:`de/application.po`"
-msgstr ":file:`/favicon.ico`"
+msgstr ":file:`de/application.po`"
 
 #: ../../admin/addons.rst:242
-#, fuzzy
-#| msgid ":file:`weblate-*.png`"
 msgid ":file:`de/website.po`"
-msgstr ":file:`weblate-*.png`"
+msgstr ":file:`de/website.po`"
 
 #: ../../admin/addons.rst:245
 msgid "Gettext locales layout"
@@ -2143,68 +2095,44 @@ msgid "Usual structure for storing gettext PO files."
 msgstr "存储 gettext PO 文件时使用常用结构。"
 
 #: ../../admin/addons.rst:250
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:252
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/cs/LC_MESSAGES/application.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/cs/LC_MESSAGES/application.po`"
 
 #: ../../admin/addons.rst:253
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/cs/LC_MESSAGES/website.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/cs/LC_MESSAGES/website.po`"
 
 #: ../../admin/addons.rst:254
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/de/LC_MESSAGES/application.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/de/LC_MESSAGES/application.po`"
 
 #: ../../admin/addons.rst:255
-#, fuzzy
-#| msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgid ":file:`locale/de/LC_MESSAGES/website.po`"
-msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
+msgstr ":file:`locale/de/LC_MESSAGES/website.po`"
 
 #: ../../admin/addons.rst:258
-#, fuzzy
-#| msgid "Component filename match"
 msgid "Complex filenames"
-msgstr "部件文件名匹配"
+msgstr "复杂文件名"
 
 #: ../../admin/addons.rst:260
 msgid "Using both component and language name within filename."
 msgstr "同时在文件名处使用部件名和语言名。"
 
 #: ../../admin/addons.rst:263
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
 
 #: ../../admin/addons.rst:265
-#, fuzzy
-#| msgid ":file:`/favicon.ico`"
 msgid ":file:`src/locale/application.cs.po`"
-msgstr ":file:`/favicon.ico`"
+msgstr ":file:`src/locale/application.cs.po`"
 
 #: ../../admin/addons.rst:266
-#, fuzzy
-#| msgid ":file:`icons/weblate.svg`"
 msgid ":file:`src/locale/website.cs.po`"
-msgstr ":file:`icons/weblate.svg`"
+msgstr ":file:`src/locale/website.cs.po`"
 
 #: ../../admin/addons.rst:267
 msgid ":file:`src/locale/application.de.po`"
@@ -2215,92 +2143,64 @@ msgid ":file:`src/locale/website.de.po`"
 msgstr ""
 
 #: ../../admin/addons.rst:271
-#, fuzzy
-#| msgid "Aliased language codes"
 msgid "Repeated language code"
-msgstr "语言代码别称"
+msgstr "重复的语言码"
 
 #: ../../admin/addons.rst:273
 msgid "Using language in both path and filename."
 msgstr "在路径和文件名中使用的语言名称。"
 
 #: ../../admin/addons.rst:276
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
 
 #: ../../admin/addons.rst:278
 msgid ":file:`locale/cs/application/cs.po`"
 msgstr ""
 
 #: ../../admin/addons.rst:279
-#, fuzzy
-#| msgid ":file:`icons/weblate.svg`"
 msgid ":file:`locale/cs/website/cs.po`"
-msgstr ":file:`icons/weblate.svg`"
+msgstr ":file:`locale/cs/website/cs.po`"
 
 #: ../../admin/addons.rst:280
 msgid ":file:`locale/de/application/de.po`"
 msgstr ""
 
 #: ../../admin/addons.rst:281
-#, fuzzy
-#| msgid ":file:`/etc/xdg/weblate`"
 msgid ":file:`locale/de/website/de.po`"
-msgstr ":file:`/etc/xdg/weblate`"
+msgstr ":file:`locale/de/website/de.po`"
 
 #: ../../admin/addons.rst:285
-#, fuzzy
-#| msgid "Apple iOS strings"
 msgid "Splitted Android strings"
-msgstr "苹果 iOS 字符串"
+msgstr "分开的 Android 字符串"
 
 #: ../../admin/addons.rst:287
 msgid "Android resource strings, split into several files."
 msgstr "Android 资源字符串，分成几个文件。"
 
 #: ../../admin/addons.rst:290
-#, fuzzy
-#| msgid ""
-#| "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\."
-#| "po``"
 msgid "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
-msgstr ""
-"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
+msgstr "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
 
 #: ../../admin/addons.rst:292
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-cs/strings-about.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-cs/strings-about.xml`"
 
 #: ../../admin/addons.rst:293
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-cs/strings-help.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-cs/strings-help.xml`"
 
 #: ../../admin/addons.rst:294
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-de/strings-about.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-de/strings-about.xml`"
 
 #: ../../admin/addons.rst:295
-#, fuzzy
-#| msgid "``res/values-*/strings.xml``"
 msgid ":file:`res/values-de/strings-help.xml`"
-msgstr "``res/values-*/strings.xml``"
+msgstr ":file:`res/values-de/strings-help.xml`"
 
 #: ../../admin/addons.rst:298
-#, fuzzy
-#| msgid "Mismatching line breaks"
 msgid "Matching multiple paths"
-msgstr "不匹配的换行符"
+msgstr "匹配多个路径"
 
 #: ../../admin/addons.rst:300
 msgid "Multi-module Maven project with Java properties translations."
@@ -2313,10 +2213,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:304
-#, fuzzy
-#| msgid "Component name"
 msgid "Component name:"
-msgstr "部件名称"
+msgstr "部件名称："
 
 #: ../../admin/addons.rst:305
 msgid "``{{ originalHierarchy }}: {{ component }}``"
@@ -3945,27 +3843,14 @@ msgid ""
 msgstr "需要在 GitHub 上注册一个 OAuth 应用，然后告诉 Weblate 所有的 secrets："
 
 #: ../../admin/auth.rst:112
-#, fuzzy
-#| msgid ""
-#| "The GitHub should be configured to have callback URL as ``https://example."
-#| "com/accounts/complete/github/``."
 msgid ""
 "The GitHub should be configured to have callback URL as ``https://WEBLATE "
 "SERVER/accounts/complete/github/``."
 msgstr ""
-"应该配置 GitHub 具有的回调 URL 为 ``https://example.com/accounts/complete/"
-"github/``。"
+"GitHub 的 回调 URL 应配置为形如 ``https://WEBLATE SERVER/accounts/complete/"
+"github/``."
 
 #: ../../admin/auth.rst:115
-#, fuzzy
-#| msgid ""
-#| "There are similar authentication backends for GitHub for Organizations "
-#| "and GitHub for Teams. Their settings are named "
-#| "``SOCIAL_AUTH_GITHUB_ORG_*`` and ``SOCIAL_AUTH_GITHUB_TEAM_*``, and they "
-#| "require additional setting of the scope - ``SOCIAL_AUTH_GITHUB_ORG_NAME`` "
-#| "or ``SOCIAL_AUTH_GITHUB_TEAM_ID``.  Their callback URLs are ``https://"
-#| "example.com/accounts/complete/github-org/`` and ``https://example.com/"
-#| "accounts/complete/github-teams/``."
 msgid ""
 "There are similar authentication backends for GitHub for Organizations and "
 "GitHub for Teams. Their settings are named ``SOCIAL_AUTH_GITHUB_ORG_*`` and "
@@ -3975,10 +3860,11 @@ msgid ""
 "org/`` and ``https://WEBLATE SERVER/accounts/complete/github-teams/``."
 msgstr ""
 "GitHub for Organizations 和 GitHub for Teams 也有类似的认证后端。他们的设置名"
-"为``SOCIAL_AUTH_GITHUB_ORG_*`和``SOCIAL_AUTH_GITHUB_TEAM_*``。它们需要额外设"
-"置范围 - ``SOCIAL_AUTH_GITHUB_ORG_NAME``或 ``SOCIAL_AUTH_GITHUB_TEAM_ID``。 "
-"它们的回调URL是``https://example.com/accounts/complete/github-org/`和"
-"``https://example.com/accounts/complete/github-teams/``。"
+"为``SOCIAL_AUTH_GITHUB_ORG_*`和``SOCIAL_AUTH_GITHUB_TEAM_*``。"
+"它们需要额外设置范围 - ``SOCIAL_AUTH_GITHUB_ORG_NAME``或 "
+"``SOCIAL_AUTH_GITHUB_TEAM_ID``。 它们的回调URL是``https://WEBLATE SERVER/"
+"accounts/complete/github-org/`和``https://WEBLATE SERVER/accounts/complete/"
+"github-teams/``。"
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -3994,32 +3880,23 @@ msgid ":doc:`psa:backends/github`"
 msgstr ":doc:`psa:backends/github`"
 
 #: ../../admin/auth.rst:131
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "GitHub EE authentication"
-msgstr "GitHub 身份验证"
+msgstr "GitHub 企业身份验证"
 
 #: ../../admin/auth.rst:133
-#, fuzzy
-#| msgid ""
-#| "You need to register an OAuth application on GitHub and then tell Weblate "
-#| "all its secrets:"
 msgid ""
 "You need to register an OAuth App on GitHub EE and then tell Weblate all its "
 "secrets:"
-msgstr "需要在 GitHub 上注册一个 OAuth 应用，然后告诉 Weblate 所有的 secrets："
+msgstr "你需要在 GitHub EE 上注册一个 OAuth 应用，然后告诉 Weblate 这个应用的所有 "
+"secrets："
 
 #: ../../admin/auth.rst:151
-#, fuzzy
-#| msgid ""
-#| "The GitHub should be configured to have callback URL as ``https://example."
-#| "com/accounts/complete/github/``."
 msgid ""
 "The GitHub OAuth App should be configured to have callback URL as ``https://"
 "WEBLATE SERVER/accounts/complete/github-enterprise/``."
 msgstr ""
-"应该配置 GitHub 具有的回调 URL 为 ``https://example.com/accounts/complete/"
-"github/``。"
+"GitHub 的回调 URL 应配置为形如 ``https://WEBLATE SERVER/accounts/complete/"
+"github-enterprise/``."
 
 #: ../../admin/auth.rst:154
 msgid ""
@@ -4030,10 +3907,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/auth.rst:163
-#, fuzzy
-#| msgid ":doc:`psa:backends/github`"
 msgid ":doc:`psa:backends/github_enterprise`"
-msgstr ":doc:`psa:backends/github`"
+msgstr ":doc:`psa:backends/github_enterprise`"
 
 #: ../../admin/auth.rst:168
 msgid "Bitbucket authentication"
@@ -4421,15 +4296,6 @@ msgid ""
 msgstr "一旦安装了软件包，就可以将其钩入 Django 身份验证了："
 
 #: ../../admin/auth.rst:583
-#, fuzzy
-#| msgid ""
-#| "You should remove ``'social_core.backends.email.EmailAuth'`` from the :"
-#| "setting:`django:AUTHENTICATION_BACKENDS` setting, otherwise users will be "
-#| "able to set their password in Weblate, and authenticate using that. "
-#| "Keeping ``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in "
-#| "order to make permissions and facilitate anonymous users. It will also "
-#| "allow you to sign in using a local admin account, if you have created it "
-#| "(e.g. by using :djadmin:`createadmin`)."
 msgid ""
 "You should remove ``'social_core.backends.email.EmailAuth'`` from the :"
 "setting:`django:AUTHENTICATION_BACKENDS` setting, otherwise users will be "
@@ -4440,10 +4306,11 @@ msgid ""
 "wladmin:`createadmin`)."
 msgstr ""
 "你应当从设置的 :setting:`django:AUTHENTICATION_BACKENDS` 部分移除 "
-"``'social_core.backends.email.EmailAuth'``，否则用户不能够在 Weblate 中设置他"
-"们的密码，并使用它进行身份验证。为了生成权限和方便匿名用户，仍需保留 "
-"``'weblate.accounts.auth.WeblateUserBackend'``。它还允许你使用一个本地管理账"
-"户登录，如果你已经创建了它 （如通过使用 :djadmin:`createadmin`）。"
+"``'social_core.backends.email.EmailAuth'``，否则用户不能够在 Weblate "
+"中设置他们的密码，并使用它进行身份验证。为了生成权限和方便匿名用户，仍需保留 "
+"``'weblate.accounts.auth."
+"WeblateUserBackend'``。它还允许你使用一个本地管理账户登录，"
+"如果你已经创建了它 （如通过使用 :wladmin:`createadmin`）。"
 
 #: ../../admin/auth.rst:592
 msgid "Using bind password"
@@ -4979,20 +4846,14 @@ msgstr ""
 "完整表格。"
 
 #: ../../admin/backup.rst:244
-#, fuzzy
-#| msgid ""
-#| "You can restore this backup in a newer Weblate release, it will perform "
-#| "all the necessary migrations when running in :djadmin:`django:migrate`. "
-#| "Please consult :doc:`upgrade` on more detailed info on how to upgrade "
-#| "between versions."
 msgid ""
 "You can restore this backup in a newer Weblate release, it will perform all "
 "the necessary migrations when running in :wladmin:`migrate`. Please consult :"
 "doc:`upgrade` on more detailed info on how to upgrade between versions."
 msgstr ""
-"你可以在较新的 Weblate 发行版中恢复这个备份，当运行于 :djadmin:`django:"
-"migrate` 时，它将执行所有必需的迁移。请参考 :doc:`upgrade` 了解如何在版本间升"
-"级的更多详细信息。"
+"你可以在较新的 Weblate 发行版中恢复这个备份，当运行于 :wladmin:`migrate` "
+"时，它将执行所有必需的迁移。请参考 :doc:`upgrade` "
+"了解如何在版本间升级的更多详细信息。"
 
 #: ../../admin/backup.rst:249
 msgid "Django database backup"
@@ -5008,13 +4869,6 @@ msgstr ""
 "方式是不依托数据库的，并且可以用于先要更改数据库后端的情况。"
 
 #: ../../admin/backup.rst:255
-#, fuzzy
-#| msgid ""
-#| "Prior to restoring the database you need to be running exactly the same "
-#| "Weblate version the backup was made on. This is necessary as the database "
-#| "structure does change between releases and you would end up corrupting "
-#| "the data in some way. After installing the same version, run all database "
-#| "migrations using :djadmin:`django:migrate`."
 msgid ""
 "Prior to restoring the database you need to be running exactly the same "
 "Weblate version the backup was made on. This is necessary as the database "
@@ -5024,7 +4878,7 @@ msgid ""
 msgstr ""
 "恢复数据库之前，你需要确保恢复备份和执行备份的实例运行的是完全相同的 Weblate "
 "版本。这是必要的，因为数据库结构在不同版本之间会发生变化，你可能会以某种方式"
-"破坏数据。安装相同版本后，用 :djadmin:`django:migrate` 运行所有数据库迁移。"
+"破坏数据。安装相同版本后，用 :wladmin:`migrate` 运行所有数据库迁移。"
 
 #: ../../admin/backup.rst:261
 msgid ""
@@ -5209,10 +5063,8 @@ msgid "Restore all data you have backed up."
 msgstr "将已经备份的所有数据恢复。"
 
 #: ../../admin/backup.rst:369
-#, fuzzy
-#| msgid "Update all repositories using :djadmin:`updategit`."
 msgid "Update all repositories using :wladmin:`updategit`."
-msgstr "使用 :djadmin:`updategit` 更新所有仓库。"
+msgstr "使用 :wladmin:`updategit` 更新所有仓库。"
 
 #: ../../admin/backup.rst:376
 msgid "Moving a Weblate installation"
@@ -6141,10 +5993,8 @@ msgid "``ignore-reused``"
 msgstr "``ignore-regex``"
 
 #: ../../admin/checks.rst:239
-#, fuzzy
-#| msgid "Skip the :ref:`check-regex` quality check."
 msgid "Skip the :ref:`check-reused` quality check."
-msgstr "跳过 :ref:`check-regex` 质量检查。"
+msgstr "跳过 :ref:`check-reused` 质量检查。"
 
 #: ../../admin/checks.rst:240 ../../user/checks.rst:1158
 msgid "``ignore-same-plurals``"
@@ -6562,16 +6412,10 @@ msgid ""
 msgstr "所有的设置都存储在 :file:`settings.py` 中（就像 Django 通常那样）。"
 
 #: ../../admin/config.rst:10
-#, fuzzy
-#| msgid ""
-#| "After changing any of these settings, you need to restart Weblate - both "
-#| "WSGI and Celery processes."
 msgid ""
 "After changing any of these settings, you need to restart Weblate — both "
 "WSGI and Celery processes."
-msgstr ""
-"更改这些设置中的任意一项后，您需要重新启动 Weblate——包括 WSGI 和 Celery 进"
-"程。"
+msgstr "更改这些设置中的任意一项后，您需要重新启动 Weblate—包括 WSGI 和 Celery 进程。"
 
 #: ../../admin/config.rst:13
 msgid ""
@@ -6620,14 +6464,10 @@ msgid "AUDITLOG_EXPIRY"
 msgstr "AUDITLOG_EXPIRY"
 
 #: ../../admin/config.rst:48
-#, fuzzy
-#| msgid ""
-#| "How many days Weblate should keep audit logs, which contain info about "
-#| "account activity."
 msgid ""
 "How many days Weblate should keep audit logs (which contain info about "
 "account activity)."
-msgstr "Weblate 应该将审计日志保存多少天，审计日志包括了账户活动的信息。"
+msgstr "Weblate 应该将审计日志保存多少天（审计日志包括了账户活动的信息）。"
 
 #: ../../admin/config.rst:51 ../../admin/config.rst:148
 msgid "Defaults to 180 days."
@@ -6654,16 +6494,11 @@ msgid ""
 msgstr "登录。删除账户密码，防止用户不请求新的密码而登录。"
 
 #: ../../admin/config.rst:64
-#, fuzzy
-#| msgid ""
-#| "Password reset. Prevents new e-mails from being sent, avoiding spamming "
-#| "users with too many password reset attempts."
 msgid ""
 "Password reset. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password-reset attempts."
-msgstr ""
-"密码重置。防止发出新的电子邮件，避免向用户发出太多密码重置尝试的垃圾电子邮"
-"件。"
+msgstr "密码重置。防止发出新的电子邮件，避免向用户发出太多密码重置尝试的垃圾电子邮件"
+"。"
 
 #: ../../admin/config.rst:67
 msgid "Defaults to 10."
@@ -6702,8 +6537,6 @@ msgid ""
 msgstr "除了字符串选项还存在开关选项，用于向后兼容。"
 
 #: ../../admin/config.rst:94
-#, fuzzy
-#| msgid "Options are:"
 msgid "The options are:"
 msgstr "选项有："
 
@@ -7778,10 +7611,8 @@ msgstr ""
 "（VCS）错误信息。"
 
 #: ../../admin/config.rst:871
-#, fuzzy
-#| msgid "default"
 msgid "On by default."
-msgstr "默认"
+msgstr "默认开启。"
 
 #: ../../admin/config.rst:876
 msgid "HIDE_VERSION"
@@ -11985,10 +11816,8 @@ msgstr ""
 "独立的包来获得，例如 ``libapache2-mod-wsgi-py3``。"
 
 #: ../../admin/install.rst:1313
-#, fuzzy
-#| msgid "Fetching remote changes into Weblate"
 msgid "Use matching Python version to install Weblate."
-msgstr "将远程更改获取到 Weblate"
+msgstr "使用匹配的 Python 版本来安装 Weblate。"
 
 #: ../../admin/install.rst:1317
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
@@ -17094,10 +16923,8 @@ msgid "install_machinery"
 msgstr "机器翻译"
 
 #: ../../admin/management.rst:600
-#, fuzzy
-#| msgid "Available automatic suggestion services"
 msgid "Installs an site-wide automatic suggestion service."
-msgstr "可用的自动建议服务"
+msgstr "安装全站点的自动建议服务。"
 
 #: ../../admin/management.rst:604
 #, fuzzy
@@ -18780,10 +18607,8 @@ msgid ":ref:`bimono`, :ref:`faq-duplicate-files`"
 msgstr ":ref:`bimono`, :ref:`faq-duplicate-files`"
 
 #: ../../admin/projects.rst:438
-#, fuzzy
-#| msgid "Screenshot details"
 msgid "Screenshot file mask"
-msgstr "截图详情"
+msgstr "截屏文件掩码"
 
 #: ../../admin/projects.rst:440
 msgid ""
@@ -19863,12 +19688,10 @@ msgstr ""
 "来剥除前导部分"
 
 #: ../../admin/projects.rst:1004
-#, fuzzy
-#| msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 msgid ""
 "In some places additional variables can be available, see :ref:`addon-"
 "weblate.discovery.discovery`."
-msgstr ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
+msgstr "某些地方可能有额外的变量可用，见 :ref:`addon-weblate.discovery.discovery`。"
 
 #: ../../admin/projects.rst:1006
 msgid "You can combine them with filters:"
@@ -23665,21 +23488,17 @@ msgid "language code (if applicable)"
 msgstr "语言代码风格"
 
 #: ../../api.rst:2448
-#, fuzzy
-#| msgid ""
-#| "Please use :http:get:`/api/components/(string:project)/(string:component)/"
-#| "statistics/` and :http:get:`/api/translations/(string:project)/(string:"
-#| "component)/(string:language)/statistics/` instead; it allows access to "
-#| "ACL controlled projects as well."
 msgid ""
 ":http:get:`/api/languages/(string:language)/statistics/`, :http:get:`/api/"
 "projects/(string:project)/statistics/`, :http:get:`/api/components/(string:"
 "project)/(string:component)/statistics/`, :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/statistics/`"
 msgstr ""
-"请替代使用 :http:get:`/api/components/(string:project)/(string:component)/"
-"statistics/` 和 :http:get:`/api/translations/(string:project)/(string:"
-"component)/(string:language)/statistics/`；它也允许访问 ACL 控制的项目。"
+":http:get:`/api/languages/(string:language)/statistics/`, :http:get:`/api/"
+"projects/(string:project)/statistics/`, :http:get:`/api/components/"
+"(string:project)/(string:component)/statistics/`, :http:get:`/api/"
+"translations/(string:project)/(string:component)/(string:language)/"
+"statistics/`"
 
 #: ../../api.rst:2454
 msgid "Metrics"
@@ -24093,10 +23912,8 @@ msgid "Added check for reused translation."
 msgstr "为卡什达字母添加了检查。"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Configuring automatic suggestions"
 msgid "Highlight suggested change in automatic suggestions."
-msgstr "配置自动建议"
+msgstr "在自动建议中高亮建议的更改。"
 
 #: ../../changes.rst:20
 #, fuzzy
@@ -36869,28 +36686,20 @@ msgid "See :ref:`format-plurals`"
 msgstr "请参见 :ref:`format-plurals`"
 
 #: ../../formats.rst:350
-#, fuzzy
-#| msgid "See :ref:`format-flags`."
 msgid "See :ref:`format-description`"
-msgstr "请参见 :ref:`format-flags`。"
+msgstr "参见 :ref:`format-description`"
 
 #: ../../formats.rst:351
-#, fuzzy
-#| msgid "See :ref:`format-flags`."
 msgid "See :ref:`format-context`"
-msgstr "请参见 :ref:`format-flags`。"
+msgstr "参见 :ref:`format-context`"
 
 #: ../../formats.rst:352
-#, fuzzy
-#| msgid "See :ref:`format-flags`."
 msgid "See :ref:`format-location`"
-msgstr "请参见 :ref:`format-flags`。"
+msgstr "参见 :ref:`format-location`"
 
 #: ../../formats.rst:353
-#, fuzzy
-#| msgid "See :ref:`format-flags`."
 msgid "See :ref:`format-states`"
-msgstr "请参见 :ref:`format-flags`。"
+msgstr "参见 :ref:`format-states`"
 
 #: ../../formats.rst:354
 msgid ""
@@ -41359,16 +41168,12 @@ msgstr ""
 "义："
 
 #: ../../user/checks.rst:1136
-#, fuzzy
-#| msgid "Removed translation"
 msgid "Reused translation"
-msgstr "删除了译文"
+msgstr "重用的翻译"
 
 #: ../../user/checks.rst:1140
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Different strings are translated same."
-msgstr "没有要翻译的字符串"
+msgstr "不同字符串译文相同。"
 
 #: ../../user/checks.rst:1142
 #, fuzzy
@@ -43272,12 +43077,8 @@ msgid "User has contributed to a given project or component in the past month."
 msgstr ""
 
 #: ../../user/search.rst:186
-#, fuzzy
-#| msgid ""
-#| "You can also review the very same checklist from the :ref:`management-"
-#| "interface`."
 msgid "Additional lookups are available in the :ref:`management-interface`:"
-msgstr "您也可以从 :ref:`management-interface` 查看完全一样的检查清单。"
+msgstr ":ref:`management-interface` 中有额外查询可用："
 
 #: ../../user/search.rst:188
 #, fuzzy
@@ -43286,10 +43087,8 @@ msgid "``is:bot``"
 msgstr "``is:TEXT``"
 
 #: ../../user/search.rst:189
-#, fuzzy
-#| msgid "whether the user is bot (used for project scoped tokens)"
 msgid "Search for bots (used for project scoped tokens)."
-msgstr "用户是否是机器人（用于项目范围的令牌）"
+msgstr "搜索机器人（用于项目范围的令牌）。"
 
 #: ../../user/search.rst:190
 #, fuzzy
@@ -43298,10 +43097,8 @@ msgid "``is:active``"
 msgstr "启用"
 
 #: ../../user/search.rst:191
-#, fuzzy
-#| msgid "Search for exact string \"%s\""
 msgid "Search for active users."
-msgstr "精确匹配搜索“%s”"
+msgstr "搜索活跃用户。"
 
 #: ../../user/search.rst:192
 #, fuzzy
