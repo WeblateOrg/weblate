@@ -110,7 +110,7 @@ Preferences
 Theme
 +++++
 
-Choose whether Weblate will follow system settings for dark or light theme or choose one of them.
+Choose whether Weblate follows system settings for dark or light theme, or choose one of them manually.
 
 Default dashboard view
 ++++++++++++++++++++++
