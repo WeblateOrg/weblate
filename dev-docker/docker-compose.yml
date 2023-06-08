@@ -27,7 +27,7 @@ services:
     userns_mode: host
     tmpfs:
     - /app/cache:uid=$USER_ID,gid=$GROUP_ID
-    - /tmp:uid=$USER_ID,gid=$GROUP_ID
+    - /tmp:uid=$USER_ID,gid=$GROUP_ID,exec
     - /run:uid=$USER_ID,gid=$GROUP_ID
     volumes:
       # Local data directory
