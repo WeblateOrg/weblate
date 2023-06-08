@@ -116,7 +116,7 @@ Introducing new strings
 +++++++++++++++++++++++
 
 You can add new strings in Weblate with :ref:`component-manage_units` turned
-on, but it is usually better to introduce new strigs together with the code
+on, but it is usually better to introduce new strings together with the code
 changes that introduced them.
 
 Monolingual formats need addition of the new string to
@@ -131,7 +131,7 @@ needed to update existing translations, see :ref:`updating-target-files`.
 
 .. hint::
 
-   You might want to integrate this into your contrinuous integration pipelines
+   You might want to integrate this into your continuous integration pipelines
    to make new strings automatically appear for translation. Such pipeline
    should also cover :ref:`avoid-merge-conflicts`.
 

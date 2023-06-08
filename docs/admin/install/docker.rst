@@ -105,7 +105,7 @@ Please choose a tag that matches your environment and expectations:
 
 Every image is tested by our CI before it gets published, so even the `bleeding` version should be quite safe to use.
 
-Full list of published tags acan be found at `GitHub Packages`_
+Full list of published tags can be found at `GitHub Packages`_
 
 .. _GitHub Packages: https://github.com/WeblateOrg/docker/pkgs/container/weblate/versions?filters%5Bversion_type%5D=tagged
 
@@ -1544,7 +1544,7 @@ To enable support for Sentry, set following:
 
 .. envvar:: SENTRY_TRACES_SAMPLE_RATE
 
-   Confgure sampling rate for performance monitoring. Set to 1 trace all events, 0 (the default) disables tracing.
+   Confgure sampling rate for performance monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
 
    **Example:**
 
@@ -1555,7 +1555,7 @@ To enable support for Sentry, set following:
 
 .. envvar:: SENTRY_PROFILES_SAMPLE_RATE
 
-   Confgure sampling rate for profiling monitoring. Set to 1 trace all events, 0 (the default) disables tracing.
+   Confgure sampling rate for profiling monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
 
    **Example:**
 
