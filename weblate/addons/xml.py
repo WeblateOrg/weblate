@@ -16,8 +16,7 @@ class XMLCustomizeAddon(StoreBaseAddon):
     name = "weblate.xml.customize"
     verbose = gettext_lazy("Customize XML output")
     description = gettext_lazy(
-        "Allows adjusting XML output behavior, for example closing tags instead of "
-        "self-closing tags for empty tags."
+        "Allows adjusting XML output behavior, for example closing tags."
     )
     settings_form = XMLCustomizeForm
 

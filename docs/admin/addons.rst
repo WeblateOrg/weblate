@@ -852,8 +852,7 @@ Customize XML output
                 +------------------+----------------------------------------+--+
 :Triggers: storage post-load
 
-Allows adjusting XML output behavior, for example closing tags instead of self-
-closing tags for empty tags.
+Allows adjusting XML output behavior, for example closing tags.
 
 .. _addon-weblate.yaml.customize:
 

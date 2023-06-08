@@ -1137,7 +1137,7 @@ Reused translation
 
 .. versionadded:: 4.18
 
-:Summary: Different strings are translated same.
+:Summary: Different strings are translated the same.
 :Scope: translated strings
 :Check class: ``weblate.checks.consistency.ReusedCheck``
 :Check identifier: ``reused``

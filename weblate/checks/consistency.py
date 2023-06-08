@@ -136,7 +136,7 @@ class ReusedCheck(TargetCheck):
 
     check_id = "reused"
     name = gettext_lazy("Reused translation")
-    description = gettext_lazy("Different strings are translated same.")
+    description = gettext_lazy("Different strings are translated the same.")
     propagates = True
     batch_project_wide = True
     skip_suggestions = True
