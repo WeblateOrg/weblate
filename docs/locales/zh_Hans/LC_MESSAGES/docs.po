@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-07 11:42+0200\n"
-"PO-Revision-Date: 2023-06-08 03:11+0000\n"
+"PO-Revision-Date: 2023-06-08 05:58+0000\n"
 "Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -6648,14 +6648,10 @@ msgid "List of automatic fixes to apply when saving a string."
 msgstr "当存储字符串时应用自动修复列表。"
 
 #: ../../admin/config.rst:159
-#, fuzzy
-#| msgid ""
-#| "Provide a fully-qualified path to the Python class that implementing the "
-#| "autofixer interface."
 msgid ""
 "Provide a fully-qualified path to the Python class that implements the "
 "autofixer interface."
-msgstr "为应用自动修复见面的 Python 类提供完全合规的路径。"
+msgstr "向实现 autofixer 接口的 Python 类提供一个完全合格的路径。"
 
 #: ../../admin/config.rst:162
 msgid "Available fixes:"
@@ -6700,11 +6696,9 @@ msgid "``weblate.trans.autofixes.chars.DevanagariDanda``"
 msgstr "``weblate.trans.autofixes.chars.DevanagariDanda``"
 
 #: ../../admin/config.rst:173
-#, fuzzy
-#| msgid "Replaces sentence full stop in Bangla by Devanagari danda."
 msgid ""
 "Replaces sentence full stop in Bangla by the devanagari danda character."
-msgstr "用梵文 danda 替换孟加拉语中的句号。"
+msgstr "用梵文 danda 字符替换孟加拉语中的句号。"
 
 #: ../../admin/config.rst:175
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
@@ -6779,38 +6773,22 @@ msgid "BASIC_LANGUAGES"
 msgstr "BASIC_LANGUAGES"
 
 #: ../../admin/config.rst:224
-#, fuzzy
-#| msgid ""
-#| "List of languages to offer users for starting new translation. When not "
-#| "specified built-in list is used which includes all commonly used "
-#| "languages, but without country specific variants."
 msgid ""
 "List of languages to offer users for starting a new translation. When not "
 "specified, a built-in list is used (which includes all commonly used "
 "languages, but without country specific variants)."
-msgstr ""
-"提供给用户开始新的翻译的语言列表。当未指定时，使用内建列表，其中包括所有常用"
-"的语言，但没有特定国家/地区的变体。"
+msgstr "提供给用户开始新的翻译的语言列表。当未指定时，使用内建列表（其中包括所有常用"
+"的语言，但没有特定国家/地区的变体）。"
 
 #: ../../admin/config.rst:228
-#, fuzzy
-#| msgid ""
-#| "This only limits non privileged users to add unwanted languages. The "
-#| "project admins are still presented with full selection of languages "
-#| "defined in Weblate."
 msgid ""
 "This only limits non privileged users to add unwanted languages. Project "
 "admins are still presented with the full selection of languages defined in "
 "Weblate."
-msgstr ""
-"这只是限制了非特权用户将不想要的语言添加进来。项目管理员仍然被给出 Weblate 中"
-"定义的所有语言选择。"
+msgstr "这只是限制了非特权用户将不想要的语言添加进来。项目管理员仍然被给出 Weblate "
+"中定义的所有语言选择。"
 
 #: ../../admin/config.rst:233
-#, fuzzy
-#| msgid ""
-#| "This does not define new languages for Weblate, it only filters existing "
-#| "ones in the database."
 msgid ""
 "This does not define new languages for Weblate — it only filters existing "
 "ones in the database."
@@ -6906,12 +6884,6 @@ msgid "Adjust the list of checks to include ones relevant to you."
 msgstr "调整检查列表，来包括与你相关的那些检查。"
 
 #: ../../admin/config.rst:322
-#, fuzzy
-#| msgid ""
-#| "All built-in :ref:`checks` are turned on by default, from where you can "
-#| "change these settings. By default they are commented out in :ref:`sample-"
-#| "configuration` so that default values are used. New checks then carried "
-#| "out for each new Weblate version."
 msgid ""
 "All built-in :ref:`checks` are turned on by default, from where you can "
 "change these settings. By default they are commented out in :ref:`sample-"
@@ -6919,8 +6891,8 @@ msgid ""
 "out for each new Weblate version."
 msgstr ""
 "所有内建的 :ref:`checks` 默认都打开，可以从那里更改设置。它们在 :ref:`sample-"
-"configuration` 中被默认注释掉，从而使用默认值。然后每个新的 Weblate 版本执行"
-"新的检查。"
+"configuration` 中被默认注释掉，从而使用默认值。然后每个新的 Weblate "
+"版本执行新的检查。"
 
 #: ../../admin/config.rst:326
 msgid "You can turn off all checks:"
@@ -6931,18 +6903,13 @@ msgid "You can turn on only a few:"
 msgstr "可以只打开一部分检查："
 
 #: ../../admin/config.rst:344
-#, fuzzy
-#| msgid ""
-#| "Changing this setting only affects newly changed translations, existing "
-#| "checks will still be stored in the database. To also apply changes to the "
-#| "stored translations, run :djadmin:`updatechecks`."
 msgid ""
 "Changing this setting only affects newly changed translations. Existing "
 "checks will still be stored in the database. To also apply changes to the "
 "stored translations, run :wladmin:`updatechecks`."
 msgstr ""
 "更改这些设置只影响新更改的翻译，现存的检查仍然存储在数据库中。为了将更改同样"
-"应用到存储的翻译中，运行 :djadmin:`updatechecks`。"
+"应用到存储的翻译中，运行 :wladmin:`updatechecks`。"
 
 #: ../../admin/config.rst:350 ../../admin/translating.rst:93
 msgid ":ref:`checks`, :ref:`custom-checks`"
@@ -6969,31 +6936,22 @@ msgid ""
 msgstr "通过后台任务方式提交待处理更改之间的小时数。"
 
 #: ../../admin/config.rst:371
-#, fuzzy
-#| msgid ""
-#| ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
-#| "cron`, :djadmin:`commit_pending`"
 msgid ""
 ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
 "cron`, :wladmin:`commit_pending`"
 msgstr ""
-":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
-"cron`, :djadmin:`commit_pending`"
+":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-cron`"
+", :wladmin:`commit_pending`"
 
 #: ../../admin/config.rst:380
 msgid "CONTACT_FORM"
 msgstr "CONTACT_FORM"
 
 #: ../../admin/config.rst:384
-#, fuzzy
-#| msgid ""
-#| "Configures how e-mail from the contact form is being sent. Choose a "
-#| "configuration that matches your mail server configuration."
 msgid ""
 "Configures how e-mail from the contact form is being sent. Choose a "
 "configuration that matches the configuration of your mail server."
-msgstr ""
-"配置来自联系表单的电子邮件的发送方式。选择与您的电子邮件服务器配置相匹配的配"
+msgstr "配置来自联系表单的电子邮件的发送方式。选择与您的电子邮件服务器配置相匹配的配"
 "置。"
 
 #: ../../admin/config.rst:387
@@ -7079,8 +7037,6 @@ msgid ":file:`vcs`"
 msgstr ":file:`vcs`"
 
 #: ../../admin/config.rst:414
-#, fuzzy
-#| msgid "Version control repositories for translations."
 msgid "Version-control repositories for translations."
 msgstr "翻译的版本控制仓库。"
 
@@ -7089,8 +7045,6 @@ msgid ":file:`backups`"
 msgstr ":file:`backups`"
 
 #: ../../admin/config.rst:416
-#, fuzzy
-#| msgid "Daily backup data, please check :ref:`backup-dumps` for details."
 msgid "Daily backup data. Please check :ref:`backup-dumps` for details."
 msgstr "每日备份数据，详情请查阅 :ref:`backup-dumps`。"
 
@@ -7109,10 +7063,8 @@ msgid ":file:`cache`"
 msgstr ":file:`home`"
 
 #: ../../admin/config.rst:420
-#, fuzzy
-#| msgid "Various caches, can be placed elsewhere using :setting:`CACHE_DIR`."
 msgid "Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`."
-msgstr "可使用 :setting:`CACHE_DIR`将多个缓存置于别处。"
+msgstr "各种缓存。可使用 :setting:`CACHE_DIR`置于别处。"
 
 #: ../../admin/config.rst:426
 msgid ""
@@ -7164,8 +7116,6 @@ msgid "DEFAULT_ACCESS_CONTROL"
 msgstr "DEFAULT_ACCESS_CONTROL"
 
 #: ../../admin/config.rst:468
-#, fuzzy
-#| msgid "The default access control setting for new projects:"
 msgid "The default access-control setting for new projects:"
 msgstr "新项目的默认访问控制设置："
 
@@ -7248,10 +7198,8 @@ msgid "DEFAULT_ADDONS"
 msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:539
-#, fuzzy
-#| msgid "Default add-ons to install on every created component."
 msgid "Default add-ons to install for every created component."
-msgstr "安装在每个创建的部件上的默认附加组件。"
+msgstr "安装在每个创建的部件中的默认附加组件。"
 
 #: ../../admin/config.rst:543
 msgid "This setting affects only newly created components."
@@ -7266,18 +7214,14 @@ msgid "Example:"
 msgstr "示例："
 
 #: ../../admin/config.rst:565
-#, fuzzy
-#| msgid ":djadmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
 msgid ":wladmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
-msgstr ":djadmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
+msgstr ":wladmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
 
 #: ../../admin/config.rst:572
 msgid "DEFAULT_COMMITER_EMAIL"
 msgstr "DEFAULT_COMMITER_EMAIL"
 
 #: ../../admin/config.rst:574
-#, fuzzy
-#| msgid "Committer e-mail address defaulting to ``noreply@weblate.org``."
 msgid "Committer e-mail address, defaulting to ``noreply@weblate.org``."
 msgstr "提交者电子邮箱地址默认为 ``noreply@weblate.org``。"
 
@@ -7290,8 +7234,6 @@ msgid "DEFAULT_COMMITER_NAME"
 msgstr "DEFAULT_COMMITER_NAME"
 
 #: ../../admin/config.rst:585
-#, fuzzy
-#| msgid "Committer name defaulting to ``Weblate``."
 msgid "Committer name, defaulting to ``Weblate``."
 msgstr "提交者姓名默认为 ``Weblate``。"
 
@@ -7304,10 +7246,8 @@ msgid "DEFAULT_LANGUAGE"
 msgstr "DEFAULT_LANGUAGE"
 
 #: ../../admin/config.rst:598
-#, fuzzy
-#| msgid "Merge style for any new components."
 msgid ":ref:`component-source_language` for any new components."
-msgstr "任何新部件的合并风格。"
+msgstr "任何新部件的 :ref:`component-source_language`。"
 
 #: ../../admin/config.rst:600
 msgid ""
@@ -7324,10 +7264,8 @@ msgid "DEFAULT_MERGE_STYLE"
 msgstr "DEFAULT_MERGE_STYLE"
 
 #: ../../admin/config.rst:614
-#, fuzzy
-#| msgid "Merge style for any new components."
 msgid ":ref:`component-merge_style` for any new components."
-msgstr "任何新部件的合并风格。"
+msgstr "任何新部件的 :ref:`component-merge_style`。"
 
 #: ../../admin/config.rst:616
 msgid "`rebase` - default"
@@ -7346,16 +7284,12 @@ msgid "DEFAULT_SHARED_TM"
 msgstr "DEFAULT_SHARED_TM"
 
 #: ../../admin/config.rst:631
-#, fuzzy
-#| msgid ""
-#| "Configures default value of :ref:`project-use_shared_tm` and :ref:"
-#| "`project-contribute_shared_tm`."
 msgid ""
 "Configures the default value of :ref:`project-use_shared_tm` and :ref:"
 "`project-contribute_shared_tm`."
 msgstr ""
-"配置 :ref:`project-use_shared_tm` 和 :ref:`project-contribute_shared_tm` 的默"
-"认值。"
+"配置 :ref:`project-use_shared_tm` 和 :ref:`project-contribute_shared_tm` "
+"的默认值。"
 
 #: ../../admin/config.rst:636
 msgid "DEFAULT_TRANSLATION_PROPAGATION"
@@ -7382,10 +7316,6 @@ msgid "ENABLE_AVATARS"
 msgstr "ENABLE_AVATARS"
 
 #: ../../admin/config.rst:659
-#, fuzzy
-#| msgid ""
-#| "Whether to turn on Gravatar-based avatars for users. By default this is "
-#| "on."
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
 msgstr "是否为用户开启基于 Gravatar 的头像。默认开启。"
 
@@ -7406,10 +7336,8 @@ msgid "ENABLE_HOOKS"
 msgstr "ENABLE_HOOKS"
 
 #: ../../admin/config.rst:675
-#, fuzzy
-#| msgid "Whether to enable anonymous remote hooks."
 msgid "Whether to turn on anonymous remote hooks."
-msgstr "是否允许匿名远程钩子。"
+msgstr "是否打开匿名远程钩子。"
 
 #: ../../admin/config.rst:679
 msgid ":ref:`hooks`"
@@ -7428,28 +7356,15 @@ msgstr ""
 "对 URL。"
 
 #: ../../admin/config.rst:689
-#, fuzzy
-#| msgid ""
-#| "In the default configuration this is also used for several Django "
-#| "settings related to HTTPS - it enables secure cookies, toggles HSTS or "
-#| "enables redirection to HTTPS URL."
 msgid ""
 "In the default configuration this is also used for several Django settings "
 "related to HTTPS — it enables secure cookies, toggles HSTS or enables "
 "redirection to a HTTPS URL."
 msgstr ""
-"在默认配置中，这还用于与 HTTPS 相关的几个 Django 设置 —— 启用安全 Cookie、切"
-"换 HSTS 或允许重定向到 HTTPS URL。"
+"在默认配置中，这还用于与 HTTPS 相关的几个 Django 设置 — 启用安全 Cookie、"
+"切换 HSTS 或允许重定向到 HTTPS URL。"
 
 #: ../../admin/config.rst:693
-#, fuzzy
-#| msgid ""
-#| "The HTTPS redirection might be problematic in some cases and you might "
-#| "hit issue with infinite redirection in case you are using a reverse proxy "
-#| "doing SSL termination which does not correctly pass protocol headers to "
-#| "Django. Please tweak your reverse proxy configuration to emit ``X-"
-#| "Forwarded-Proto`` or ``Forwarded`` headers or configure :setting:`django:"
-#| "SECURE_PROXY_SSL_HEADER` to let Django correctly detect the SSL status."
 msgid ""
 "The HTTPS redirection might be problematic in some cases and you might hit "
 "an issue with infinite redirection in case you are using a reverse proxy "
@@ -7458,11 +7373,11 @@ msgid ""
 "Proto`` or ``Forwarded`` headers or configure :setting:`django:"
 "SECURE_PROXY_SSL_HEADER` to let Django correctly detect the SSL status."
 msgstr ""
-"在一些情况下 HTTPS 重定向会有问题，您可以在使用反向代理进行 SSL 终端连接的情"
-"况下碰到无限重定向的问题，使用反向代理进行 SSL 终端连接不能将协议标头正确地传"
-"递给 Django。请调整自己的反向代理配置，去掉 ``X-Forwarded-Proto`` 或 "
-"``Forwarded`` 标头，或者配置 :setting:`django:SECURE_PROXY_SSL_HEADER`，让 "
-"Django 正确地检测 SSL 状态。"
+"在一些情况下 HTTPS 重定向会有问题，您可以在使用反向代理进行 SSL "
+"终端连接的情况下碰到无限重定向的问题，使用反向代理进行 SSL "
+"终端连接不能将协议标头正确地传递给 Django。请调整自己的反向代理配置，去掉 ``X"
+"-Forwarded-Proto`` 或 ``Forwarded`` 标头，或者配置 "
+":setting:`django:SECURE_PROXY_SSL_HEADER`，让 Django 正确地检测 SSL 状态。"
 
 #: ../../admin/config.rst:702
 msgid ""
@@ -7490,24 +7405,16 @@ msgid "EXTRA_HTML_HEAD"
 msgstr "EXTRA_HTML_HEAD"
 
 #: ../../admin/config.rst:722
-#, fuzzy
-#| msgid ""
-#| "Insert additional markup into HTML header. Can be used for verification "
-#| "of site ownership, for example:"
 msgid ""
 "Insert additional markup into the HTML header. Can be used for verification "
 "of site ownership, for example:"
 msgstr "将附加标记插入 HTML 标头。可用于验证站点所有权，示例："
 
 #: ../../admin/config.rst:730
-#, fuzzy
-#| msgid ""
-#| "No sanitization is performed on the string, it is inserted as is into the "
-#| "HTML header."
 msgid ""
 "No sanitization is performed on the string. It is inserted as-is into the "
 "HTML header."
-msgstr "不对字符串进行整理，它按原样插入到 HTML 标头中。"
+msgstr "未对字符串进行清洁操作，它按原样插入到 HTML 标头中。"
 
 #: ../../admin/config.rst:735
 msgid "GET_HELP_URL"
@@ -7615,30 +7522,18 @@ msgid "HIDE_VERSION"
 msgstr "HIDE_VERSION"
 
 #: ../../admin/config.rst:880
-#, fuzzy
-#| msgid ""
-#| "Hides version information from unauthenticated users. This also makes all "
-#| "documentation links point to latest version instead of the documentation "
-#| "matching currently installed version."
 msgid ""
 "Hides version info from unauthenticated users. This also makes all "
 "documentation links point to the latest version instead of the documentation "
 "matching the currently installed version."
-msgstr ""
-"对未经身份验证用户隐藏版本信息。这也会使所有文档链接都指向最新的版本，而不是"
+msgstr "对未经身份验证用户隐藏版本信息。这也会使所有文档链接都指向最新的版本，而不是"
 "与当前安装版本相匹配的文档。"
 
 #: ../../admin/config.rst:884
-#, fuzzy
-#| msgid ""
-#| "Hiding version is recommended security practice in some corporations, but "
-#| "it doesn't prevent attacker to figure out version by probing the behavior."
 msgid ""
 "Hiding the version is a recommended security practice in some corporations, "
 "does not prevent an attacker from figuring out version by probing behavior."
-msgstr ""
-"一些公司推荐在安全实践上推荐隐藏版本，但不能防止攻击者通过试探性为来找出版"
-"本。"
+msgstr "隐藏版本是某些企业推荐的安全实践，但不能防止攻击者通过试探行为来找出版本。"
 
 #: ../../admin/config.rst:889
 msgid "This is turned off by default."
@@ -7746,15 +7641,10 @@ msgstr ""
 "client-ip`` ），并且可以配置标头的哪个地址在这里用作客户端 IP 地址。"
 
 #: ../../admin/config.rst:967
-#, fuzzy
-#| msgid ""
-#| "Setting this affects the security of your installation, you should only "
-#| "configure it to use trusted proxies for determining IP address."
 msgid ""
 "Setting this affects the security of your installation. You should only "
 "configure it to use trusted proxies for determining the IP address."
-msgstr ""
-"设置这个会影响你安装的安全性，应该只配置它来使用信任的代理来确定 IP 地址。"
+msgstr "设置这个会影响你安装的安全性，应该只配置它来使用信任的代理来确定 IP 地址。"
 
 #: ../../admin/config.rst:970
 msgid "Defaults to 0."
@@ -7779,14 +7669,10 @@ msgid "You need :ref:`legal` installed to make this work."
 msgstr "你需要安装 :ref:`legal` 才能让其生效。"
 
 #: ../../admin/config.rst:991
-#, fuzzy
-#| msgid ""
-#| "Date of last update of terms of service documents. Whenever the date "
-#| "changes, users are required to agree with the terms of service."
 msgid ""
 "Date of last update of terms of service documents. Whenever the date "
 "changes, users are required to agree with the updated terms of service."
-msgstr "服务条款文件的最后更新日期。每当日期更改时，用户都需要同意服务条款。"
+msgstr "服务条款文件的最后更新日期。每当日期更改时，用户都需要同意更新的服务条款。"
 
 #: ../../admin/config.rst:1003
 msgid "LEGAL_URL"
@@ -7797,16 +7683,11 @@ msgid "URL where your Weblate instance shows its legal documents."
 msgstr "你的 Weblate 实例显示其法律文件的 URL。"
 
 #: ../../admin/config.rst:1011
-#, fuzzy
-#| msgid ""
-#| "Useful if you host your legal documents outside Weblate for embedding "
-#| "them inside Weblate, please check :ref:`legal` for details."
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate. Please check :ref:`legal` for details."
-msgstr ""
-"在将你的法律文件保存在 Weblate 之外，而将其嵌入 Weblate 的情况下有用。细节请"
-"查看 :ref:`legal`。"
+msgstr "在将你的法律文件保存在 Weblate 之外，而将其嵌入 Weblate 的情况下有用。"
+"细节请查看 :ref:`legal`。"
 
 #: ../../admin/config.rst:1022
 msgid ":setting:`PRIVACY_URL`"
@@ -7944,16 +7825,11 @@ msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 msgstr "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 
 #: ../../admin/config.rst:1156
-#, fuzzy
-#| msgid ""
-#| "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
-#| "users are allowed to access the sign in page."
 msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the sign-in page."
-msgstr ""
-"用于 :setting:`LOGIN_REQUIRED_URLS` 的例外列表。如果未指定，则允许用户访问登"
-"录页。"
+msgstr "用于 :setting:`LOGIN_REQUIRED_URLS` "
+"的例外列表。如果未指定，则允许用户访问登录页。"
 
 #: ../../admin/config.rst:1159
 msgid "Some of exceptions you might want to include:"
@@ -7964,12 +7840,10 @@ msgid "MATOMO_SITE_ID"
 msgstr "MATOMO_SITE_ID"
 
 #: ../../admin/config.rst:1179
-#, fuzzy
-#| msgid "ID of a site in Matomo (formerly Piwik) you want to track."
 msgid ""
 "ID of the site in Matomo (formerly Piwik) you want to use for tracking "
 "Weblate."
-msgstr "你想要跟踪的 Matomo（以前的 Piwik）中的网站 ID。"
+msgstr "你想用来跟踪 Weblate 的 Matomo（以前的 Piwik）网站的 ID。"
 
 #: ../../admin/config.rst:1183 ../../admin/config.rst:1200
 msgid "This integration does not support the Matomo Tag Manager."
@@ -8092,10 +7966,6 @@ msgid "PROJECT_BACKUP_KEEP_COUNT"
 msgstr "PROJECT_BACKUP_KEEP_COUNT"
 
 #: ../../admin/config.rst:1319
-#, fuzzy
-#| msgid ""
-#| "Defines how many backups per project are kept on the server. It defaults "
-#| "to 3."
 msgid ""
 "Defines how many backups per project are kept on the server. Defaults to 3."
 msgstr "定义每个项目在服务器上保留多少备份，它默认为3。"
@@ -8164,9 +8034,6 @@ msgid "PROJECT_WEB_RESTRICT_NUMERIC"
 msgstr "PROJECT_WEB_RESTRICT_NUMERIC"
 
 #: ../../admin/config.rst:1383
-#, fuzzy
-#| msgid ""
-#| "Reject using numeric IP address in project website. Enabled by default."
 msgid "Reject using numeric IP address in project website. On by default."
 msgstr "拒绝在项目网站中使用数字 IP 地址。默认启用。"
 
@@ -8224,8 +8091,6 @@ msgid "How long authentication is accepted after rate limiting applies."
 msgstr "应用次数限制后，可接受多少次身份认证。"
 
 #: ../../admin/config.rst:1432
-#, fuzzy
-#| msgid "An amount of seconds defaulting to 300 (5 minutes)."
 msgid "An amount of seconds, defaulting to 300 (5 minutes)."
 msgstr "秒数默认为 300 （ 5 分钟）。"
 
@@ -8269,22 +8134,15 @@ msgstr ""
 "证后端，来进行身份验证和添加身份验证。"
 
 #: ../../admin/config.rst:1468
-#, fuzzy
-#| msgid ""
-#| "It is recommended to keep :setting:`REGISTRATION_OPEN` enabled while "
-#| "limiting registration backends, otherwise users will be able to register, "
-#| "but Weblate will not show links to register in the user interface."
 msgid ""
 "It is recommended to keep :setting:`REGISTRATION_OPEN` on while limiting "
 "registration backends, otherwise users will be able to register, but Weblate "
 "will not show links to register in the user interface."
 msgstr ""
-"当限制注册后端时，推荐保持 :setting:`REGISTRATION_OPEN` 为开启状态，否则用户"
-"将能够注册，但Weblate不会在用户界面显示注册的链接。"
+"限制注册后端的同时，推荐保持 :setting:`REGISTRATION_OPEN` "
+"为开启状态，否则用户将能够注册，但Weblate不会在用户界面显示注册的链接。"
 
 #: ../../admin/config.rst:1480
-#, fuzzy
-#| msgid "The backend names match names used in URL for authentication."
 msgid "The backend names match names used in the URL for authentication."
 msgstr "与身份验证 URL 中使用的名称匹配的后端名称。"
 
@@ -8345,16 +8203,10 @@ msgid "REGISTRATION_OPEN"
 msgstr "REGISTRATION_OPEN"
 
 #: ../../admin/config.rst:1521
-#, fuzzy
-#| msgid ""
-#| "Whether registration of new accounts is currently permitted. This "
-#| "optional setting can remain the default ``True``, or changed to ``False``."
 msgid ""
 "Whether registration of new accounts is currently permitted. Defaults to "
 "enabled."
-msgstr ""
-"是否注册新账户在当前是允许的。这个可选设置可以保持默认为 ``True``，或更改为 "
-"``False``。"
+msgstr "当前是否允许注册新账户。默认为允许。"
 
 #: ../../admin/config.rst:1524
 msgid ""
@@ -8395,18 +8247,12 @@ msgstr ""
 "项。"
 
 #: ../../admin/config.rst:1552
-#, fuzzy
-#| msgid ""
-#| "Disabled by default to not allow adding other authentication backends to "
-#| "existing account. Rebinding can lead to account compromise when using "
-#| "more third-party authentication backends."
 msgid ""
 "Off by default to not allow adding other authentication backends to an "
 "existing account. Rebinding can lead to account compromise when using more "
 "third-party authentication backends."
-msgstr ""
-"默认禁用，不允许添加其他身份验证后端到现有账户。使用更多第三方身份验证后端"
-"时，重新绑定可导致账户沦陷。"
+msgstr "默认禁用，不允许添加其他身份验证后端到现有账户。使用更多第三方身份验证后端时"
+"，重新绑定可导致账户沦陷。"
 
 #: ../../admin/config.rst:1559
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -8493,38 +8339,24 @@ msgid "SITE_DOMAIN"
 msgstr "SITE_DOMAIN"
 
 #: ../../admin/config.rst:1629
-#, fuzzy
-#| msgid ""
-#| "Configures site domain. This is necessary to produce correct absolute "
-#| "links in many scopes (for example activation e-mails, notifications or "
-#| "RSS feeds)."
 msgid ""
 "Configures site domain. Necessary to produce correct absolute links in many "
 "scopes (for example activation e-mails, notifications or RSS feeds)."
-msgstr ""
-"配置网站域名。这对于在很多地方获得正确的绝对链接是必要的（例如激活电子邮箱、"
+msgstr "配置网站域名。这对于在很多地方获得正确的绝对链接是必要的（例如激活电子邮箱、"
 "通知或 RSS 订阅源）。"
 
 #: ../../admin/config.rst:1632
-#, fuzzy
-#| msgid ""
-#| "In case Weblate is running on non-standard port, include it here as well."
 msgid "If Weblate is running on a non-standard port, include it here as well."
 msgstr "在 Weblate 运行在非标准端口时，这里同样要包括它。"
 
 #: ../../admin/config.rst:1646
-#, fuzzy
-#| msgid ""
-#| "This setting should only contain the domain name. For configuring "
-#| "protocol, (enabling and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and "
-#| "for changing URL, use :setting:`URL_PREFIX`."
 msgid ""
 "This setting should only contain the domain name. For configuring protocol, "
 "(turning on and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for "
 "changing the URL, use :setting:`URL_PREFIX`."
 msgstr ""
-"这个设置应该只包含域名。对于配置协议，（允许或强制 HTTPS ）使用 :setting:"
-"`ENABLE_HTTPS` ；对于修改 URL，使用 :setting:`URL_PREFIX`。"
+"这个设置应该只包含域名。对于配置协议，（开启并强制 HTTPS ）使用 "
+":setting:`ENABLE_HTTPS` ；对于修改 URL，使用 :setting:`URL_PREFIX`。"
 
 #: ../../admin/config.rst:1652
 msgid ""
@@ -8568,22 +8400,15 @@ msgid "SINGLE_PROJECT"
 msgstr "SINGLE_PROJECT"
 
 #: ../../admin/config.rst:1690
-#, fuzzy
-#| msgid ""
-#| "Redirects users directly to a project or component instead of showing the "
-#| "dashboard. You can either set it to ``True`` and in this case it only "
-#| "works in case there is actually only single project in Weblate. "
-#| "Alternatively set the project slug, and it will redirect unconditionally "
-#| "to this project."
 msgid ""
 "Redirects users directly to a project or component instead of showing the "
 "dashboard. You can either set it to ``True`` so it only works if there is "
 "actually only single project in Weblate. Alternatively, set the project "
 "slug, and it will redirect unconditionally to this project."
 msgstr ""
-"将用户直接重定向到项目或部件，而不是显示操作面板。可以将其设置为 ``True``，在"
-"这种情况下，只在 Weblate 实际只有单一的项目时有用。另外可以设置项目标识串，将"
-"无条件地重定向到这个项目。"
+"将用户直接重定向到项目或部件，而不是显示操作面板。可以将其设置为 ``True``，"
+"这样它只在 Weblate 中确实只有单一的项目时生效。另外可以设置项目标识串，将无条"
+"件地重定向到这个项目。"
 
 #: ../../admin/config.rst:1697
 msgid ""
@@ -8596,43 +8421,27 @@ msgid "SSH_EXTRA_ARGS"
 msgstr "SSH_EXTRA_ARGS"
 
 #: ../../admin/config.rst:1713
-#, fuzzy
-#| msgid ""
-#| "Allows to add custom parameters when Weblate is invoking SSH. This is "
-#| "useful when connecting to servers using legacy encryption or other non-"
-#| "standard features."
 msgid ""
 "Allows adding custom parameters when Weblate is invoking SSH. Useful when "
 "connecting to servers using legacy encryption or other non-standard features."
-msgstr ""
-"允许在Weblate调用SSH时添加自定义参数。这会在连接到使用传统加密或其他非标准功"
-"能的服务器时帮助巨大。"
+msgstr "允许在 Weblate 调用SSH时添加自定义参数。这会在连接到使用传统加密或其他非标准"
+"功能的服务器时帮助巨大。"
 
 #: ../../admin/config.rst:1716
-#, fuzzy
-#| msgid ""
-#| "For example when SSH connection in Weblate fails with `Unable to "
-#| "negotiate with legacyhost: no matching key exchange method found. Their "
-#| "offer: diffie-hellman-group1-sha1`, you can enable that using:"
 msgid ""
 "For example when SSH connection in Weblate fails with `Unable to negotiate "
 "with legacyhost: no matching key exchange method found. Their offer: diffie-"
 "hellman-group1-sha1`, you can turn that on using:"
 msgstr ""
 "例如，当Weblate的SSH连接失败并提示`Unable to negotiate with legacyhost: no "
-"matching key exchange method found. Their offer: diffie-hellman-group1-sha1`"
-"时，你可以用以下方式启用："
+"matching key exchange method found. Their offer: diffie-hellman-"
+"group1-sha1`时，你可以用以下方式启用："
 
 #: ../../admin/config.rst:1725
-#, fuzzy
-#| msgid ""
-#| "The string is evaluated by shell, so make sure to quote any whitespace "
-#| "and special characters."
 msgid ""
 "The string is evaluated by the shell, so ensure any whitespace and special "
 "characters is quoted."
-msgstr ""
-"该字符串会用于 shell 计算，因此请确保任何空格和特殊字符都用引号包起来。"
+msgstr "该字符串由 shell 评估，因此请确保任何空格和特殊字符都用引号括起来。"
 
 #: ../../admin/config.rst:1730
 msgid "`OpenSSH Legacy Options <https://www.openssh.com/legacy.html>`_"
@@ -8661,15 +8470,11 @@ msgid "UNUSED_ALERT_DAYS"
 msgstr "UNUSED_ALERT_DAYS"
 
 #: ../../admin/config.rst:1756
-#, fuzzy
-#| msgid "Configures when :guilabel:`Component seems unused` alert is trigged."
 msgid ""
 "Configures when the :guilabel:`Component seems unused` alert is triggered."
-msgstr "配置何时触发 :guilabel:`该部件从未使用` 警报。"
+msgstr "配置何时触发 :guilabel:`该部件似乎从未使用` 警报。"
 
 #: ../../admin/config.rst:1758
-#, fuzzy
-#| msgid "Defaults to 365 days, set to 0 to disable it."
 msgid "Defaults to 365 days, set to 0 to turn it off."
 msgstr "默认为 365 天，设置为 0 则禁用。"
 
@@ -8678,32 +8483,20 @@ msgid "UPDATE_LANGUAGES"
 msgstr "UPDATE_LANGUAGES"
 
 #: ../../admin/config.rst:1767
-#, fuzzy
-#| msgid ""
-#| "Controls whether languages database should be updated when running "
-#| "database migration and is enabled by default. This setting has no effect "
-#| "on invocation of :djadmin:`setuplang`."
 msgid ""
 "Controls whether languages database should be updated when running database "
 "migration and is on by default. This setting has no effect on invocation of :"
 "wladmin:`setuplang`."
-msgstr ""
-"控制在运行数据库迁移时是否应该更新语言数据库，这在默认情况下是启用的。这个设"
-"置对 :djadmin:`setuplang` 的调用没有影响。"
+msgstr "控制在运行数据库迁移时是否应该更新语言数据库，默认开启。这个设置对 "
+":wladmin:`setuplang` 的调用没有影响。"
 
 #: ../../admin/config.rst:1773
-#, fuzzy
-#| msgid ""
-#| "The languages display might become inconsistent with this. Weblate "
-#| "language definitions extend over time and it will not display language "
-#| "code for the defined languages."
 msgid ""
 "The languages display might become inconsistent with this. Weblate language "
 "definitions expand over time and it will not display language code for the "
 "defined languages."
-msgstr ""
-"语言显示可能会与此不一致。Weblate 语言定义会随着时间的推移而扩展，并且它不会"
-"显示所定义语言的语言代码。"
+msgstr "语言显示可能会与此不一致。Weblate "
+"语言定义会随着时间的推移而扩展，并且它不会显示所定义语言的语言代码。"
 
 #: ../../admin/config.rst:1779
 msgid ":ref:`included-languages`"
@@ -8761,10 +8554,6 @@ msgid ""
 msgstr "这个速率限制 Weblate 对这些服务的调用，避免服务过载。"
 
 #: ../../admin/config.rst:1821
-#, fuzzy
-#| msgid ""
-#| "If you are being limited by secondary rate limiter at GitHub, increasing "
-#| "this might help."
 msgid ""
 "If you are being limited by secondary rate-limiter at GitHub, increasing "
 "this might help."
@@ -8838,18 +8627,12 @@ msgstr ""
 "有内建附加组件，当扩展列表时您可能希望保持现有的附加组件处于启用状态，例如："
 
 #: ../../admin/config.rst:1918
-#, fuzzy
-#| msgid ""
-#| "Removing the add-on from the list does not uninstall it from the "
-#| "components. Weblate will crash in that case. Please uninstall add-on from "
-#| "all components prior to removing it from this list."
 msgid ""
 "Removing the add-on from the list does not uninstall it from the components. "
 "Weblate will crash in that case. Please uninstall the add-on from all "
 "components prior to removing it from this list."
-msgstr ""
-"从列表中删除附加组件并不能将其从部件中卸载。Weblate 在这种情况下会崩溃。请先"
-"从所有部件中卸载附加组件，然后再将其从此列表中删除。"
+msgstr "从列表中删除附加组件并不能将其从部件中卸载。Weblate "
+"在这种情况下会崩溃。请先从所有部件中卸载附加组件，然后再将其从此列表中删除。"
 
 #: ../../admin/config.rst:1924
 msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
@@ -8919,16 +8702,11 @@ msgid "WEBSITE_REQUIRED"
 msgstr "WEBSITE_REQUIRED"
 
 #: ../../admin/config.rst:1998
-#, fuzzy
-#| msgid ""
-#| "Defines whether :ref:`project-web` has to be specified when creating a "
-#| "project. Turned on by default as that suits public server setups."
 msgid ""
 "Defines whether :ref:`project-web` has to be specified when creating a "
 "project. On by default, as that suits public server setups."
-msgstr ""
-"定义了在创建项目时是否需要指定 :ref:`project-web`。默认打开，因为这适合公共服"
-"务器的设置。"
+msgstr "定义了在创建项目时是否需要指定 :ref:`project-"
+"web`。默认打开，因为这适合公共服务器的设置。"
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
@@ -8959,14 +8737,9 @@ msgid "Developers make changes and push them to the VCS repository."
 msgstr "开发人员进行更改并将其推送到版本控制系统（VCS）仓库。"
 
 #: ../../admin/continuous.rst:18
-#, fuzzy
-#| msgid ""
-#| "Optionally the translation files are updated (this depends on the file "
-#| "format, see :ref:`translations-update`)."
 msgid ""
 "Optionally the translation files are updated, see :ref:`translations-update`."
-msgstr ""
-"可以选择更新翻译文件（这取决于文件格式，请参阅 :ref:`translations-update`）。"
+msgstr "可以选择更新翻译文件，请参阅 :ref:`translations-update`。"
 
 #: ../../admin/continuous.rst:19
 msgid "Weblate pulls changes from the VCS repository, see :ref:`update-vcs`."
@@ -9046,14 +8819,10 @@ msgid ""
 msgstr "启用 :setting:`AUTO_UPDATE` 以自动更新你的 Weblate 实例上的所有部件"
 
 #: ../../admin/continuous.rst:68
-#, fuzzy
-#| msgid ""
-#| "Execute :djadmin:`updategit` (with selection of project or ``--all`` to "
-#| "update all)"
 msgid ""
 "Execute :wladmin:`updategit` (with selection of project or ``--all`` to "
 "update all)"
-msgstr "执行 :djadmin:`updategit` （选择项目，或 ``--all`` 来更新全部）"
+msgstr "执行 :wladmin:`updategit` （选择项目，或 ``--all`` 来更新全部）"
 
 #: ../../admin/continuous.rst:70
 msgid ""
@@ -10511,10 +10280,8 @@ msgid "It is recommended to run Weblate with a PostgreSQL database server."
 msgstr "推荐使用 PostgreSQL 数据库服务器来运行 Weblate。"
 
 #: ../../admin/install.rst:327
-#, fuzzy
-#| msgid "PostgreSQL password."
 msgid "PostgreSQL 12 and higher is supported."
-msgstr "PostgreSQL 密码。"
+msgstr "支持 PostgreSQL 12 及更高版本。"
 
 #: ../../admin/install.rst:331
 msgid ""
@@ -10628,10 +10395,8 @@ msgstr ""
 "限制，我们建议对新安装使用 :ref:`postgresql`。"
 
 #: ../../admin/install.rst:441
-#, fuzzy
-#| msgid "Weblate requires MySQL at least 5.7.8 or MariaDB at least 10.2.7."
 msgid "Weblate requires MySQL at least 8 or MariaDB at least 10.4."
-msgstr "Weblate 需要至少 5.7.8 版的或至少 10.2.7 版的 MariaDB。"
+msgstr "Weblate 需要至少 8.0 版的 MySQL 或至少 10.4 版的 MariaDB。"
 
 #: ../../admin/install.rst:443
 msgid "Following configuration is recommended for Weblate:"
@@ -11020,18 +10785,12 @@ msgid "Filling up the database"
 msgstr "填满数据库"
 
 #: ../../admin/install.rst:746
-#, fuzzy
-#| msgid ""
-#| "After your configuration is ready, you can run :samp:`weblate migrate` to "
-#| "create the database structure. Now you should be able to create "
-#| "translation projects using the admin interface."
 msgid ""
 "After your configuration is ready, you can run :wladmin:`migrate` to create "
 "the database structure. Now you should be able to create translation "
 "projects using the admin interface."
-msgstr ""
-"在配置准备好之后，可以运行 :samp:`weblate migrate` 来建立数据库结构。现在你将"
-"能够使用管理界面建立翻译项目。"
+msgstr "在配置准备好之后，可以运行 :wladmin:`migrate` "
+"来建立数据库结构。现在你将能够使用管理界面建立翻译项目。"
 
 #: ../../admin/install.rst:750
 msgid ""
@@ -11388,16 +11147,11 @@ msgid "Configuration health check (hourly)."
 msgstr "配置健康性的检查（每小时）。"
 
 #: ../../admin/install.rst:1052
-#, fuzzy
-#| msgid ""
-#| "Committing pending changes (hourly), see :ref:`lazy-commit` and :djadmin:"
-#| "`commit_pending`."
 msgid ""
 "Committing pending changes (hourly), see :ref:`lazy-commit` and :wladmin:"
 "`commit_pending`."
-msgstr ""
-"提交待处理的更改（每小时），请参见 :ref:`lazy-commit` 和 :djadmin:"
-"`commit_pending`。"
+msgstr "提交待处理的更改（每小时），请参见 :ref:`lazy-commit` 和 "
+":wladmin:`commit_pending`。"
 
 #: ../../admin/install.rst:1053
 msgid "Updating component alerts (daily)."
@@ -11408,22 +11162,14 @@ msgid "Update remote branches (nightly), see :setting:`AUTO_UPDATE`."
 msgstr "更新远程分支（每晚），请参见 :setting:`AUTO_UPDATE`。"
 
 #: ../../admin/install.rst:1055
-#, fuzzy
-#| msgid ""
-#| "Translation memory backup to JSON (daily), see :djadmin:`dump_memory`."
 msgid "Translation memory backup to JSON (daily), see :wladmin:`dump_memory`."
-msgstr "翻译记忆库备份到 JSON （每天），请参见 :djadmin:`dump_memory`。"
+msgstr "翻译记忆库备份到 JSON （每天），请参见 :wladmin:`dump_memory`。"
 
 #: ../../admin/install.rst:1056
-#, fuzzy
-#| msgid ""
-#| "Fulltext and database maintenance tasks (daily and weekly tasks), see :"
-#| "djadmin:`cleanuptrans`."
 msgid ""
 "Fulltext and database maintenance tasks (daily and weekly tasks), see :"
 "wladmin:`cleanuptrans`."
-msgstr ""
-"全文本和数据库维护任务（每天和每周任务），请参见 :djadmin:`cleanuptrans`。"
+msgstr "全文本和数据库维护任务（每天和每周任务），请参见 :wladmin:`cleanuptrans`。"
 
 #: ../../admin/install.rst:1060
 msgid ""
@@ -12011,21 +11757,15 @@ msgid "Monitoring Celery status"
 msgstr "监测 Celery 状态"
 
 #: ../../admin/install.rst:1458
-#, fuzzy
-#| msgid ""
-#| "You can find current length of the Celery task queues in the :ref:"
-#| "`management-interface` or you can use :djadmin:`celery_queues` on the "
-#| "command-line. In case the queue will get too long, you will also get "
-#| "configuration error in the admin interface."
 msgid ""
 "You can find current length of the Celery task queues in the :ref:"
 "`management-interface` or you can use :wladmin:`celery_queues` on the "
 "command-line. In case the queue will get too long, you will also get "
 "configuration error in the admin interface."
 msgstr ""
-"你可以在 :ref:`management-interface` 中找到 Celery 任务队列的当前长度，或者你"
-"可以使用在命令中使用 :djadmin:`celery_queues`。如果队列太长，你也会在管理界面"
-"中得到配置错误。"
+"你可以在 :ref:`management-interface` 中找到 Celery 任务队列的当前长度，"
+"或者你可以使用在命令中使用 "
+":wladmin:`celery_queues`。如果队列太长，你也会在管理界面中得到配置错误。"
 
 #: ../../admin/install.rst:1465
 msgid ""
@@ -12037,11 +11777,6 @@ msgstr ""
 "情况下，推荐配置 :ref:`collecting-errors`。"
 
 #: ../../admin/install.rst:1471
-#, fuzzy
-#| msgid ""
-#| ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
-#| "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
-#| "daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:`celery_queues`"
 msgid ""
 ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
@@ -12049,7 +11784,7 @@ msgid ""
 msgstr ""
 ":ref:`monitoring`, :ref:`faq-monitoring`, :doc:`celery:userguide/"
 "configuration`, :doc:`celery:userguide/workers`, :doc:`celery:userguide/"
-"daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:`celery_queues`"
+"daemonizing`, :doc:`celery:userguide/monitoring`, :wladmin:`celery_queues`"
 
 #: ../../admin/install.rst:1482
 msgid "Monitoring Weblate"
@@ -12273,18 +12008,13 @@ msgid "Installation"
 msgstr "安装"
 
 #: ../../admin/install/docker.rst:15
-#, fuzzy
-#| msgid ""
-#| "The following examples assume you have a working Docker environment, with "
-#| "``docker-compose`` installed. Please check the Docker documentation for "
-#| "instructions."
 msgid ""
 "The following examples assume you have a working Docker environment, with "
 "``docker-compose-plugin`` installed. Please check the Docker documentation "
 "for instructions."
 msgstr ""
-"以下示例假设您拥有一个工作正常的 Docker 环境，并安装了 ``docker-compose``。请"
-"查看 Docker 文档以获取说明。"
+"以下示例假设您拥有一个工作正常的 Docker 环境，并安装了 ``docker-compose-"
+"plugin``。请查看 Docker 文档以获取说明。"
 
 #: ../../admin/install/docker.rst:18
 msgid "Clone the weblate-docker repo:"
@@ -12337,21 +12067,16 @@ msgid ":ref:`invoke-manage`"
 msgstr ":ref:`invoke-manage`"
 
 #: ../../admin/install/docker.rst:69
-#, fuzzy
-#| msgid "Choosing Docker hub tag"
 msgid "Choosing Docker image registry"
-msgstr "选择Docker hub标签"
+msgstr "选择 Docker 镜像 registry"
 
 #: ../../admin/install/docker.rst:71
 msgid "Weblate containers are published to following registries:"
 msgstr ""
 
 #: ../../admin/install/docker.rst:73
-#, fuzzy
-#| msgid ""
-#| "The image is published on Docker Hub: https://hub.docker.com/r/weblate/wlc"
 msgid "Docker Hub, see https://hub.docker.com/r/weblate/weblate"
-msgstr "该映像发布在 Docker Hub： https://hub.docker.com/r/weblate/wlc"
+msgstr "Docker Hub，见 https://hub.docker.com/r/weblate/weblate"
 
 #: ../../admin/install/docker.rst:74
 msgid ""
@@ -12366,10 +12091,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:82
-#, fuzzy
-#| msgid "Choosing Docker hub tag"
 msgid "Choosing Docker image tag"
-msgstr "选择Docker hub标签"
+msgstr "选择 Docker 镜像标签"
 
 #: ../../admin/install/docker.rst:84
 msgid "Please choose a tag that matches your environment and expectations:"
@@ -12412,26 +12135,20 @@ msgid "Weblate stable release"
 msgstr "Weblate 稳定发行版"
 
 #: ../../admin/install/docker.rst:91
-#, fuzzy
-#| msgid "Rolling updates in a production environment"
 msgid "Rolling updates within a major version in a production environment"
-msgstr "在生产环境中滚动更新"
+msgstr "生产环境下大版本内的滚动更新"
 
 #: ../../admin/install/docker.rst:93
 msgid "``<MAJOR>.<MINOR>``"
 msgstr ""
 
 #: ../../admin/install/docker.rst:93
-#, fuzzy
-#| msgid "Rolling updates in a production environment"
 msgid "Rolling updates within a minor version in a production environment"
-msgstr "在生产环境中滚动更新"
+msgstr "生产环境下小版本内的滚动更新"
 
 #: ../../admin/install/docker.rst:95
-#, fuzzy
-#| msgid "``<VERSION>-<PATCH>``"
 msgid "``<VERSION>.<PATCH>``"
-msgstr "``<VERSION>-<PATCH>``"
+msgstr "``<VERSION>.<PATCH>``"
 
 #: ../../admin/install/docker.rst:95
 msgid "Well defined deploy in a production environment"
@@ -12583,16 +12300,11 @@ msgstr ""
 "`docker-compose-https.override.yml` 文件："
 
 #: ../../admin/install/docker.rst:197
-#, fuzzy
-#| msgid ""
-#| "Whenever invoking :program:`docker-compose` you need to pass both files "
-#| "to it, and then do:"
 msgid ""
 "Whenever invoking :program:`docker compose` you need to pass both files to "
 "it, and then do:"
-msgstr ""
-"每当调用 :program:`docker-compose` 时，您都需要将两个文件都传递给它，然后执行"
-"以下操作："
+msgstr "每当调用 :program:`docker compose` "
+"时，您都需要将两个文件都传递给它，然后执行以下操作："
 
 #: ../../admin/install/docker.rst:208
 msgid "Upgrading the Docker container"
@@ -12608,19 +12320,14 @@ msgstr ""
 "级 PostgreSQL 会很痛苦，并且在大多数情况下不会带来很多好处。"
 
 #: ../../admin/install/docker.rst:216
-#, fuzzy
-#| msgid ""
-#| "Since Weblate 4.10-1, the Docker container uses Django 4.0 what requires "
-#| "PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate. "
-#| "See :ref:`upgrade-4.10` and :ref:`docker-postgres-upgrade`."
 msgid ""
 "Since Weblate 4.17-1, the Docker container uses Django 4.2 what requires "
 "PostgreSQL 12 or newer, please upgrade it prior to upgrading Weblate. See :"
 "ref:`docker-postgres-upgrade`."
 msgstr ""
-"从 Weblate 4.10-1 开始，Docker 容器使用 Django 4.0 需要 PostgreSQL 10 或更高"
-"版本，请在升级 Weblate 之前对其进行升级。参见 :ref:`upgrade-4.10` 和 :ref:"
-"`docker-postgres-upgrade`。"
+"从 Weblate 4.17-1 开始，Docker 容器使用需要 PostgreSQL 12 或更高版本的 "
+"Django 4.2，请在升级 Weblate 之前对其进行升级。参见 :ref:`docker-postgres-"
+"upgrade`。"
 
 #: ../../admin/install/docker.rst:220
 msgid ""
@@ -13444,16 +13151,12 @@ msgid "Enables :ref:`github_auth`."
 msgstr "允许 :ref:`github_auth`。"
 
 #: ../../admin/install/docker.rst:1094
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "GitHub Enterprise Edition"
-msgstr "GitHub 身份验证"
+msgstr "GitHub 企业版"
 
 #: ../../admin/install/docker.rst:1102
-#, fuzzy
-#| msgid "Enables :ref:`github_auth`."
 msgid "Enables :ref:`github_ee_auth`."
-msgstr "允许 :ref:`github_auth`。"
+msgstr "启用 :ref:`github_ee_auth`."
 
 #: ../../admin/install/docker.rst:1105
 msgid "Bitbucket"
@@ -13924,12 +13627,10 @@ msgid "Your Sentry DSN."
 msgstr "您的 Sentry DSN。"
 
 #: ../../admin/install/docker.rst:1543
-#, fuzzy
-#| msgid "Your Sentry Environment (optional)."
 msgid ""
 "Your Sentry Environment (optional), defaults to :envvar:"
 "`WEBLATE_SITE_DOMAIN`."
-msgstr "您的 Sentry 环境（可选）。"
+msgstr "您的 Sentry 环境（可选）。默认为 :envvar:`WEBLATE_SITE_DOMAIN`。"
 
 #: ../../admin/install/docker.rst:1547
 msgid ""
@@ -14947,13 +14648,6 @@ msgid "Built-in language definitions"
 msgstr "内置语言定义"
 
 #: ../../admin/languages.rst:14
-#, fuzzy
-#| msgid ""
-#| "Definitions for about 600 languages are included in Weblate and the list "
-#| "is extended in every release. Whenever Weblate is upgraded (more "
-#| "specifically whenever :program:`weblate migrate` is executed, see :ref:"
-#| "`generic-upgrade-instructions`) the database of languages is updated to "
-#| "include all language definitions shipped in Weblate."
 msgid ""
 "Definitions for about 600 languages are included in Weblate and the list is "
 "extended in every release. Whenever Weblate is upgraded (more specifically "
@@ -14961,24 +14655,20 @@ msgid ""
 "instructions`) the database of languages is updated to include all language "
 "definitions shipped in Weblate."
 msgstr ""
-"Weblate 中包含了大约 600 种语言的定义，而且该语言列表在每个发行版中都会进行扩"
-"充。每当升级 Weblate 时（更确切地说，是每当执行 :program:`weblate migrate` "
-"时，请参见 :ref:`generic-upgrade-instructions`）语言数据库都会更新，以包含 "
-"Weblate 提供的所有语言定义。"
+"Weblate 中包含了大约 600 "
+"种语言的定义，而且该语言列表在每个发行版中都会进行扩充。每当升级 Weblate "
+"时（更确切地说，是每当执行 :wladmin:` migrate` 时，请参见 :ref:`generic-"
+"upgrade-instructions`）语言数据库都会更新，以包含 Weblate "
+"提供的所有语言定义。"
 
 #: ../../admin/languages.rst:20
-#, fuzzy
-#| msgid ""
-#| "This feature can be disable using :setting:`UPDATE_LANGUAGES`. You can "
-#| "also enforce updating the database to match Weblate built-in data using :"
-#| "djadmin:`setuplang`."
 msgid ""
 "This feature can be disable using :setting:`UPDATE_LANGUAGES`. You can also "
 "enforce updating the database to match Weblate built-in data using :wladmin:"
 "`setuplang`."
 msgstr ""
-"这个特性可以使用 :setting:`UPDATE_LANGUAGES` 来禁止。还可以使用 :djadmin:"
-"`setuplang` 来强制更新数据库，从而匹配 Weblate 内建数据。"
+"这个特性可以使用 :setting:`UPDATE_LANGUAGES` 来禁止。还可以使用 "
+":wladmin:`setuplang` 来强制更新数据库，从而匹配 Weblate 内建数据。"
 
 #: ../../admin/languages.rst:26
 msgid ""
