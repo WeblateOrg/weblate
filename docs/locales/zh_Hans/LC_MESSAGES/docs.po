@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-07 11:42+0200\n"
-"PO-Revision-Date: 2023-06-08 07:22+0000\n"
+"PO-Revision-Date: 2023-06-08 18:18+0000\n"
 "Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -5204,6 +5204,9 @@ msgid ""
 "can be used consistently in all translations. Also useful in combination "
 "with ``read-only``, for example in product names."
 msgstr ""
+"用在 "
+":ref:`glossary`。将字符串复制进所有术语表语言，以便在所有翻译中使用相同表述。"
+"和 ``read-only`` 搭配用在产品名等地方也有用。"
 
 #: ../../admin/checks.rst:59
 msgid "``priority:N``"
@@ -8171,7 +8174,7 @@ msgstr "REGISTRATION_CAPTCHA"
 msgid ""
 "Whether registration of new accounts is protected by a CAPTCHA. Defaults to "
 "enabled."
-msgstr ""
+msgstr "新账户注册是否受 CAPTCHA 的保护。此功能默认开启。"
 
 #: ../../admin/config.rst:1494
 msgid ""
@@ -10386,6 +10389,9 @@ msgid ""
 "and to migrate existing installs to PostgreSQL, see :ref:`database-"
 "migration`."
 msgstr ""
+"虽然 Weblate 仍继续支持 MySQL 和 MariaDB，我们的主要精力已经在 PostgreSQL "
+"上。新安装推荐使用 PostgreSQL，要迁移现有安装到 PostgreSQL，请见 :ref"
+":`database-migration`。"
 
 #: ../../admin/install.rst:432
 msgid ""
@@ -12085,7 +12091,7 @@ msgstr "选择 Docker 镜像 registry"
 
 #: ../../admin/install/docker.rst:71
 msgid "Weblate containers are published to following registries:"
-msgstr ""
+msgstr "Weblate 容器发布到下列镜像库："
 
 #: ../../admin/install/docker.rst:73
 msgid "Docker Hub, see https://hub.docker.com/r/weblate/weblate"
@@ -12096,12 +12102,14 @@ msgid ""
 "GitHub Packages registry, see https://github.com/WeblateOrg/docker/pkgs/"
 "container/weblate"
 msgstr ""
+"GitHub Packages 镜像库，见 https://github.com/WeblateOrg/docker/pkgs/"
+"container/weblate"
 
 #: ../../admin/install/docker.rst:78
 msgid ""
 "All examples currently fetch images from Docker Hub, please adjust the "
 "configuration accordingly to use a different registry."
-msgstr ""
+msgstr "所有示例目前从 Docker Hub 获取镜像，请相应调整配置来使用另一个镜像库。"
 
 #: ../../admin/install/docker.rst:82
 msgid "Choosing Docker image tag"
@@ -12109,7 +12117,7 @@ msgstr "选择 Docker 镜像标签"
 
 #: ../../admin/install/docker.rst:84
 msgid "Please choose a tag that matches your environment and expectations:"
-msgstr ""
+msgstr "请选择匹配你的环境和预期的标签："
 
 #: ../../admin/install/docker.rst:87
 msgid "Tag name"
@@ -12140,7 +12148,7 @@ msgstr "在生产环境中滚动更新"
 
 #: ../../admin/install/docker.rst:91
 msgid "``<MAJOR>``"
-msgstr ""
+msgstr "``<MAJOR>``"
 
 #: ../../admin/install/docker.rst:91 ../../admin/install/docker.rst:93
 #: ../../admin/install/docker.rst:95
@@ -12153,7 +12161,7 @@ msgstr "生产环境下大版本内的滚动更新"
 
 #: ../../admin/install/docker.rst:93
 msgid "``<MAJOR>.<MINOR>``"
-msgstr ""
+msgstr "``<MAJOR>.<MINOR>``"
 
 #: ../../admin/install/docker.rst:93
 msgid "Rolling updates within a minor version in a production environment"
@@ -12221,7 +12229,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:108
 msgid "Full list of published tags acan be found at `GitHub Packages`_"
-msgstr ""
+msgstr "可以在 `GitHub Packages`_ 找到的已发布标签的完整列表"
 
 #: ../../admin/install/docker.rst:115
 msgid "Docker container with HTTPS support"
@@ -12424,7 +12432,7 @@ msgstr "从备份恢复数据库："
 #: ../../admin/install/docker.rst:301 ../../admin/install/docker.rst:311
 msgid ""
 "Please check that the database name matches :envvar:`POSTGRES_DATABASE`."
-msgstr ""
+msgstr "请检查数据库名称匹配 :envvar:`POSTGRES_DATABASE`。"
 
 #: ../../admin/install/docker.rst:303
 msgid ""
@@ -12574,13 +12582,14 @@ msgstr ":ref:`production-debug`"
 msgid ""
 "Configures the logging verbosity. Set this to ``DEBUG`` to get more detailed "
 "logs."
-msgstr ""
+msgstr "配置日志记录详细程度，将此设为 ``DEBUG`` 来获得更详细的日志。"
 
 #: ../../admin/install/docker.rst:427
 msgid ""
 "Defaults to ``INFO`` when :envvar:`WEBLATE_DEBUG` is turned off, ``DEBUG`` "
 "is used when debug mode is turned on."
-msgstr ""
+msgstr ":envvar:`WEBLATE_DEBUG` 关闭时，默认为 ``INFO``，开启调试模式时也会使用 "
+"``DEBUG`` 级别。"
 
 #: ../../admin/install/docker.rst:431
 msgid "Configures the logging of the database queries verbosity."
@@ -13649,13 +13658,13 @@ msgstr "您的 Sentry 环境（可选）。默认为 :envvar:`WEBLATE_SITE_DOMAI
 msgid ""
 "Confgure sampling rate for performance monitoring. Set to 1 trace all "
 "events, 0 (the default) disables tracing."
-msgstr ""
+msgstr "配置性能监控采样率。设为 1 跟踪所有事件，0（默认值）禁用跟踪。"
 
 #: ../../admin/install/docker.rst:1558
 msgid ""
 "Confgure sampling rate for profiling monitoring. Set to 1 trace all events, "
 "0 (the default) disables tracing."
-msgstr ""
+msgstr "配置个人资料监控采样率。设为 1 跟踪所有事件，0（默认）禁用跟踪。"
 
 #: ../../admin/install/docker.rst:1568
 msgid "Localization CDN"
@@ -16619,7 +16628,7 @@ msgstr "更新现有的服务配置。"
 
 #: ../../admin/management.rst:614
 msgid "To install :ref:`mt-deepl`:"
-msgstr ""
+msgstr "安装 :ref:`mt-deepl`:"
 
 #: ../../admin/management.rst:622
 #, fuzzy
@@ -16730,7 +16739,8 @@ msgstr "迁移"
 msgid ""
 "Migrates database to current Weblate schema. The command line options are "
 "described at Django :djadmin:`django:migrate`."
-msgstr ""
+msgstr "迁移数据库到当前 Weblate 方案。命令行选项描述见 Django "
+":djadmin:`django:migrate`。"
 
 #: ../../admin/management.rst:714
 msgid ""
@@ -16743,7 +16753,7 @@ msgstr ""
 
 #: ../../admin/management.rst:720
 msgid ":djadmin:`django:migrate`, :ref:`tables-setup`"
-msgstr ""
+msgstr ":djadmin:`django:migrate`, :ref:`tables-setup`"
 
 #: ../../admin/management.rst:724
 msgid "move_language"
@@ -17901,13 +17911,14 @@ msgstr "是否贡献到共享翻译记忆库，请参阅 :ref:`shared-tm` 以获
 msgid ""
 "This also affects whether the project can be used as source for :ref:"
 "`automatic-translation`."
-msgstr ""
+msgstr "这也影响项目能否被用作 :ref:`automatic-translation` 的来源。"
 
 #: ../../admin/projects.rst:192
 msgid ""
 "This option is unavailable on Hosted Weblate, it is toggled together with :"
 "ref:`project-use_shared_tm`."
-msgstr ""
+msgstr "此选项在 Hosted Weblate 中不可用。开启/关闭该选项会同时打开/关闭 :ref"
+":`project-use_shared_tm`。"
 
 #: ../../admin/projects.rst:199
 msgid "Configure per project access control, see :ref:`acl` for more details."
@@ -18119,7 +18130,8 @@ msgstr "仓库推送 URL"
 msgid ""
 "Repository URL used for pushing. The behavior of this depends on :ref:"
 "`component-vcs`, and this is in more detail covered in :ref:`push-changes`."
-msgstr ""
+msgstr "用于推送的仓库 URL，其行为取决于 :ref:`component-vcs`。更多详细信息见 :ref"
+":`push-changes`。"
 
 #: ../../admin/projects.rst:354 ../../admin/projects.rst:394
 #: ../../admin/projects.rst:403
@@ -18266,15 +18278,16 @@ msgstr "截屏文件掩码"
 msgid ""
 "Mask of files to allow discovery/update of screenshots, including path from "
 "vcs repository. It should include one \"*\" replacing screenshot file name."
-msgstr ""
+msgstr "允许截屏发现/更新的文件的掩码，包括来自版本控制系统仓库的路径。"
+"它应该包括一个替换截屏文件名的 \"*\"。"
 
 #: ../../admin/projects.rst:443
 msgid "Allowed formats are JPEG, PNG, APNG and GIF."
-msgstr ""
+msgstr "允许的格式是 JPEG、PNG、APNG 和 GIF。"
 
 #: ../../admin/projects.rst:445
 msgid "For example ``docs/*.png``."
-msgstr ""
+msgstr "比如 ``docs/*.png``."
 
 #: ../../admin/projects.rst:450 ../../formats/android.rst:64
 #: ../../formats/apple.rst:30 ../../formats/appstore.rst:32
@@ -19803,13 +19816,14 @@ msgstr ""
 msgid ""
 "Some file formats support storing explanation within the file, see :ref:"
 "`format-explanation`."
-msgstr ""
+msgstr "某些文件格式支持在文件内存储解释信息，见 :ref:`format-explanation`。"
 
 #: ../../admin/translating.rst:116
 msgid ""
 "Weblate can also display description present in the translation file for "
 "some formats, see :ref:`format-description`."
-msgstr ""
+msgstr "Weblate 也可以为某些格式展示存在于翻译文件中的描述信息，见 :ref:`format-"
+"description`。"
 
 #: ../../admin/translating.rst:122
 msgid "Visual context for strings"
@@ -19847,14 +19861,15 @@ msgstr "上传截图后，就可以在这个界面进行管理以及和源字符
 msgid ""
 "You can add or update screenshots directly from your Version Control System "
 "(VCS) repository."
-msgstr ""
+msgstr "你可以直接从你的版本控制系统（VCS）仓库添加或更新截屏。"
 
 #: ../../admin/translating.rst:145
 msgid ""
 "To enable this feature, you can either set a screenshot file mask when "
 "creating a component, which will be monitored for updates in the repository, "
 "or you can add or update screenshots when uploading them manually."
-msgstr ""
+msgstr "要开启此功能，你可以在创建组件时设置屏幕截图文件掩码，以便在仓库中监视该组件"
+"的更新。你也可以在手动上传截屏文件时添加或更新它们。"
 
 #: ../../admin/translating.rst:149
 msgid ""
@@ -19862,7 +19877,8 @@ msgid ""
 "changes. Existing screenshots in the repository will be updated, and new "
 "screenshots matching the specified screenshot file mask will be added to the "
 "component."
-msgstr ""
+msgstr "更新仓库时，系统会自动扫描更改。仓库中的现有截屏会被更新，匹配指定截屏文件掩"
+"码的新截屏会被添加到部件中。"
 
 #: ../../admin/translating.rst:158
 #, fuzzy
@@ -20618,6 +20634,8 @@ msgid ""
 "`docker-postgres-upgrade` for upgrade instructions. Weblate itself supports "
 "older versions as well, when appropriate Django version is installed."
 msgstr ""
+"Docker 容器现在需要 PostgreSQL 12 或更新版本，升级说明请见 :ref:`docker-"
+"postgres-upgrade`。装有合适的 Django 版本时，Weblate 自身同样支持旧版本。"
 
 #: ../../admin/upgrade.rst:401
 msgid ""
@@ -20626,6 +20644,9 @@ msgid ""
 "prior to migration if you want to continue using MySQL. Please consider "
 "switching to PostgreSQL, see :ref:`database-migration`."
 msgstr ""
+"受限于 Python 数据库驱动限制，MySQL 迁移会尝试加载所有指标到内存中。"
+"如果想要继续使用 MySQL， 你可能需要在迁移前删减指标。请考虑切换到 "
+"PostgreSQL，见 :ref:`database-migration`。"
 
 #: ../../admin/upgrade.rst:409
 msgid "Upgrade from 4.17 to 4.18"
@@ -20634,7 +20655,7 @@ msgstr "从 4.17 升级到 4.18"
 #: ../../admin/upgrade.rst:413
 msgid ""
 "Dropped support for PostgreSQL 10, 11, MySQL 5.7 and MariaDB 10.2, 10.3."
-msgstr ""
+msgstr "不再支持 PostgreSQL 10, 11、 MySQL 5.7 和 MariaDB 10.2, 10.3。"
 
 #: ../../admin/upgrade.rst:414
 msgid "Dropped support for Python 3.7."
@@ -20644,7 +20665,8 @@ msgstr "不再支持 Python 3.7。"
 msgid ""
 "The :ref:`fluent` format changed identification of some strings, you might "
 "need to force reloading of the translation files to see the changes."
-msgstr ""
+msgstr ":ref:`fluent` "
+"格式更改了某些字符串的身份，你可能需要强制重新加载翻译文件来查看变化。"
 
 #: ../../admin/upgrade.rst:423
 msgid "Upgrading from Python 2 to Python 3"
@@ -23003,7 +23025,7 @@ msgstr "统计"
 msgid ""
 "There are several statistics endpoints for objects and all of them contain "
 "same structure."
-msgstr ""
+msgstr "有几个对象的统计端点，所有端点包含相同的结构。"
 
 #: ../../api.rst:2419
 msgid "URL path"
@@ -23063,7 +23085,7 @@ msgstr "对象名称"
 
 #: ../../api.rst:2442
 msgid "URL to access the object (if applicable)"
-msgstr ""
+msgstr "访问对象的 URL （如果适用）"
 
 #: ../../api.rst:2443
 msgid "URL to access the translation (if applicable)"
@@ -23445,7 +23467,7 @@ msgstr "扩展了对 Fluent 文件格式的支持。"
 
 #: ../../changes.rst:10
 msgid "Avoiding signing-out user in some rate-limits."
-msgstr ""
+msgstr "避免在某些速率限制中造成用户退出登录。"
 
 #: ../../changes.rst:11
 msgid "Added support for storing glossary explanation in TBX format."
@@ -23471,7 +23493,8 @@ msgstr "改进了翻译记忆库的性能。"
 msgid ""
 "Project stats exports to JSON/CSV now include more details; it now matches "
 "content available in the API."
-msgstr ""
+msgstr "JSON/CSV 格式的项目统计数据导出现在包括更多细节；它现在匹配 API "
+"中存在的内容。"
 
 #: ../../changes.rst:17
 msgid "Added check for reused translation."
@@ -33851,6 +33874,9 @@ msgid ""
 "exporter` is turned on) as additional remote and fetch translations update "
 "from it."
 msgstr ""
+"Weblate 将更新的字符串保存在一个数据库中并将它们提交到本地版本控制仓库。"
+"你可以将 Weblate 仓库添加为额外远端（当 :ref:`git-exporter` 处于开启状态） "
+"并从它那里获取翻译更新。"
 
 #: ../../devel/integration.rst:29
 msgid ""
@@ -34018,6 +34044,8 @@ msgid ""
 "on, but it is usually better to introduce new strigs together with the code "
 "changes that introduced them."
 msgstr ""
+"你可以在 :ref:`component-manage_units` 开启时在 Weblate 中添加新字符串，但通"
+"常来说更好的做法是引入新字符串的同时，一并引入相应的代码更改。"
 
 #: ../../devel/integration.rst:122
 msgid ""
@@ -34026,6 +34054,9 @@ msgid ""
 "code. You might want to introduce review of those strings using :ref:`source-"
 "quality-gateway`."
 msgstr ""
+"单语言格式需要添加新字符串到 :ref:`component-"
+"template`。这通常由开发者在开发代码时完成。你可能想要用 :ref:`source-quality-"
+"gateway` 引入对这些字符串的审校。"
 
 #: ../../devel/integration.rst:127
 msgid ""
@@ -34035,6 +34066,9 @@ msgid ""
 "step needed to update existing translations, see :ref:`updating-target-"
 "files`."
 msgstr ""
+"双语言格式通常使用某些工具从源代码中提取字符串。具体操作方法请参考你的本地化"
+"框架文档。一旦字符串被提取，可能需要额外步骤来更新现有的翻译，见 :ref"
+":`updating-target-files`。"
 
 #: ../../devel/integration.rst:134
 msgid ""
@@ -34042,11 +34076,14 @@ msgid ""
 "to make new strings automatically appear for translation. Such pipeline "
 "should also cover :ref:`avoid-merge-conflicts`."
 msgstr ""
+"你可能想把这个整合到你的持续化集成管道中让新的待翻译字符串自动出现。"
+"这样的管道也应覆盖 :ref:`avoid-merge-conflicts`。"
 
 #: ../../devel/integration.rst:140
 msgid ""
 ":ref:`updating-target-files`, :doc:`/devel/gettext`, :doc:`/devel/sphinx`"
 msgstr ""
+":ref:`updating-target-files`, :doc:`/devel/gettext`, :doc:`/devel/sphinx`"
 
 #: ../../devel/integration.rst:147
 msgid "Managing version control repository"
@@ -34109,13 +34146,14 @@ msgid ""
 "A word is any sequence of characters (letters, numerics, special characters) "
 "between whitespace (spaces, tabs, newlines). In the example string below, "
 "the word count is 9."
-msgstr ""
+msgstr "一个词是空白符号（空格、tab、换行）间字符的任意序列。在下方示例字符串中，"
+"词数目是 9。"
 
 #: ../../devel/reporting.rst:27
 msgid ""
 "For plural strings, the number of words is counted as the sum of words for "
 "all plural forms."
-msgstr ""
+msgstr "对于复数字符串，按照所有复数形式的词的总数计算词数。"
 
 #: ../../devel/reporting.rst:33
 msgid "Translator credits"
@@ -35599,6 +35637,8 @@ msgid ""
 ":ref:`translations-update`, :ref:`updating-target-files`, :doc:`/devel/"
 "gettext`, :doc:`/devel/sphinx`"
 msgstr ""
+":ref:`translations-update`, :ref:`updating-target-files`, :doc:`/devel/"
+"gettext`, :doc:`/devel/sphinx`"
 
 #: ../../faq.rst:410
 msgid "How to handle renaming translation files?"
@@ -36295,7 +36335,8 @@ msgid ""
 "Many file formats only differentiate \"Untranslated\" and \"Translated\" "
 "strings. With some formats it is possible to store more fine-grained state "
 "information, such as \"Needs editing\" or \"Approved\"."
-msgstr ""
+msgstr "许多文件格式只区分 “未翻译” 和 “已翻译”字符串。而某些格式可以储存更精细的状态"
+"信息，比如“需要编辑”或“已批准”。"
 
 #: ../../formats.rst:396
 msgid "Source string description"
@@ -36315,12 +36356,16 @@ msgid ""
 "ref:`arb`, :ref:`dotnet`). Many other formats extract closest comment as "
 "source string description."
 msgstr ""
+"有几个格式原生支持向译者提供附加信息（比如，:ref:`xliff`, :ref:`gettext`, "
+":ref:`webex`, :ref:`csv`, :ref:`xlsx`, :ref:`qtling`, :ref:`go-i18n-json`, "
+":ref:`gotext-json`, :ref:`arb`, "
+":ref:`dotnet`）。许多其他格式提取最近注释作为源字符串描述。"
 
 #: ../../formats.rst:411
 msgid ""
 "The :ref:`additional-explanation` on strings can be stored and parsed from a "
 "few file formats."
-msgstr ""
+msgstr "字符串的 :ref:`additional-explanation`可被存储并从一些文件格式被解析。"
 
 #: ../../formats.rst:414
 msgid "Currently supported only in :ref:`tbx`."
@@ -36342,7 +36387,8 @@ msgid ""
 "This information is typically available in bilingual formats where strings "
 "are extracted from the source code using tools. For example :ref:`gettext` "
 "and :ref:`qtling`."
-msgstr ""
+msgstr "此信息通常在双语言格式中可用，这些格式中，使用工具从源代码中提取字符串。比如"
+"，:ref:`gettext` 和 :ref:`qtling`。"
 
 #: ../../formats.rst:432
 msgid ""
@@ -36390,7 +36436,8 @@ msgstr "上下文用于区分双语格式下用于不同领域的相同字符串
 msgid ""
 "For monolingual formats the string identifier (often called key) can serve "
 "the same purpose and additional context is not necessary."
-msgstr ""
+msgstr "对单语言格式，字符串标识符（常被称为 "
+"key）可以服务于相同目的，而且不需要额外的上下文。"
 
 #: ../../formats.rst:467
 msgid "Pluralized strings"
@@ -37877,6 +37924,8 @@ msgid ""
 "Source string explanation is saved and loaded from the ``<descrip>`` tag, "
 "translation string explanation from ``<node from=\"translator\">``."
 msgstr ""
+"源字符串解释从 ``<descrip>`` 标签保存和加载，翻译字符串解释从 ``<node from="
+"\"translator\">`` 保存和加载。"
 
 #: ../../formats/tbx.rst:14
 msgid "TBX is an XML format for the exchange of terminology data."
@@ -40675,7 +40724,8 @@ msgstr "``regex:REGEX``"
 msgid ""
 "Check that fails if the same translation is used on different source "
 "strings. Such translations can be intentional, but can also confuse users."
-msgstr ""
+msgstr "如相同译文用于不同的源字符串，则该项检查失败。这样的翻译也许是有意为之，但也"
+"可能是用户搞不清意思。"
 
 #: ../../user/checks.rst:1152
 msgid "Same plurals"
@@ -42494,7 +42544,7 @@ msgstr "搜索用户"
 
 #: ../../user/search.rst:171
 msgid "The user browsing has similar search abilities:"
-msgstr ""
+msgstr "用户浏览有类似的搜索能力："
 
 #: ../../user/search.rst:173
 msgid "``username:TEXT``"
@@ -42528,7 +42578,7 @@ msgstr "``translates:TEXT``"
 
 #: ../../user/search.rst:182
 msgid "User has contributed to a given language in the past month."
-msgstr ""
+msgstr "用户在过去一个月对给定的语言作出了贡献。"
 
 #: ../../user/search.rst:184
 msgid "``contributes:TEXT``"
@@ -42536,7 +42586,7 @@ msgstr "``contributes:TEXT``"
 
 #: ../../user/search.rst:184
 msgid "User has contributed to a given project or component in the past month."
-msgstr ""
+msgstr "用户在过去一个月内对给定的项目或部件作出了贡献。"
 
 #: ../../user/search.rst:186
 msgid "Additional lookups are available in the :ref:`management-interface`:"
