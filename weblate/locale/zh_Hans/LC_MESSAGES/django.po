@@ -47,8 +47,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-07 09:41+0000\n"
-"PO-Revision-Date: 2023-05-28 07:48+0000\n"
-"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
+"PO-Revision-Date: 2023-06-08 03:10+0000\n"
+"Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -151,10 +151,8 @@ msgid ""
 msgstr "请使用英语与我们联系，否则我们可能无法处理您的请求。"
 
 #: weblate/accounts/forms.py:413
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "E-mail with a confirmation link will be sent here."
-msgstr "激活电子邮件将发送到这里。"
+msgstr "将发送带确认链接的电子邮件到此处。"
 
 #: weblate/accounts/forms.py:455
 msgid "New password"
@@ -969,14 +967,10 @@ msgid "You can also request a new password, if you have lost your credentials."
 msgstr "如果您丢失了凭据，也可以请求新密码。"
 
 #: weblate/accounts/views.py:1198
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the verification token "
-#| "probably expired."
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
-msgstr "尝试再次注册以验证您的身份，验证令牌可能已过期。"
+msgstr "尝试再次注册来验证你的身份，确认链接可能过期了。"
 
 #: weblate/accounts/views.py:1206
 msgid "Could not authenticate due to invalid session state."
@@ -2221,10 +2215,8 @@ msgid "Components"
 msgstr "部件"
 
 #: weblate/auth/models.py:131
-#, fuzzy
-#| msgid "You do not have permission to create components in any projects."
 msgid "Empty selection grants access to all components in project scope."
-msgstr "您没有在任何项目中创建部件的权限。"
+msgstr "什么都不选授予访问项目所有部件的权限。"
 
 #: weblate/auth/models.py:141
 msgid "Language selection"
@@ -2365,10 +2357,8 @@ msgid "Insufficient privileges for editing source strings."
 msgstr "编辑源字符串的权限不足。"
 
 #: weblate/auth/permissions.py:163
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Suggestion voting is disabled."
-msgstr "源字符串编辑被禁止。"
+msgstr "建议投票被禁用。"
 
 #: weblate/auth/permissions.py:173
 msgid ""
@@ -2381,10 +2371,8 @@ msgid "Pay the bills to unlock this project."
 msgstr "付费以解锁这一项目。"
 
 #: weblate/auth/permissions.py:209
-#, fuzzy
-#| msgid "This string seems to already exist."
 msgid "The string is read only."
-msgstr "此字符串似乎已存在。"
+msgstr "此字符串只读。"
 
 #: weblate/auth/permissions.py:215
 msgid ""
@@ -2393,26 +2381,20 @@ msgid ""
 msgstr "仅审校员可以更改已核准字符串，如果您认为该字符串应该修改，请添加建议。"
 
 #: weblate/auth/permissions.py:221
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "The translation is read only."
-msgstr "此翻译已锁定。"
+msgstr "此翻译只读。"
 
 #: weblate/auth/permissions.py:238
 msgid "Add the string to the source language instead."
 msgstr ""
 
 #: weblate/auth/permissions.py:242
-#, fuzzy
-#| msgid "Unsupported component configuration"
 msgid "Adding strings is disabled in the component configuration."
-msgstr "不支持的部件配置"
+msgstr "部件配置中禁用了添加字符串。"
 
 #: weblate/auth/permissions.py:259 weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "File format does not support this."
-msgstr "检测到的文件格式不支持。"
+msgstr "文件格式不支持这个。"
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2709,16 +2691,12 @@ msgid ""
 msgstr "此字符串在此项目中有不止一种译文，或者在某些部件中未翻译。"
 
 #: weblate/checks/consistency.py:138
-#, fuzzy
-#| msgid "Removed translation"
 msgid "Reused translation"
-msgstr "删除了译文"
+msgstr "重用的翻译"
 
 #: weblate/checks/consistency.py:139
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Different strings are translated same."
-msgstr "没有要翻译的字符串"
+msgstr "不同字符串译文相同。"
 
 #: weblate/checks/consistency.py:214
 msgid "Has been translated"
@@ -4298,10 +4276,8 @@ msgid "Screenshot name"
 msgstr "截图名称"
 
 #: weblate/screenshots/models.py:51
-#, fuzzy
-#| msgid "Repository branch to translate"
 msgid "Repository path to screenshot"
-msgstr "要翻译的仓库分支"
+msgstr "截屏的仓库路径"
 
 #: weblate/screenshots/models.py:52
 msgid "Scan for screenshot file change on repository update."
@@ -4548,10 +4524,8 @@ msgstr "统计"
 
 #: weblate/templates/accounts/add-mail.html:4
 #: weblate/templates/accounts/email.html:17
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Add new e-mail address"
-msgstr "使用账户电子邮箱地址"
+msgstr "添加新的电子邮件地址"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -4563,10 +4537,8 @@ msgid "Your profile"
 msgstr "您的个人资料"
 
 #: weblate/templates/accounts/confirm.html:14
-#, fuzzy
-#| msgid "Could not remove user identity"
 msgid "Confirm adding user identity"
-msgstr "无法删除用户身份"
+msgstr "确认添加用户身份"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #: weblate/templates/accounts/confirm.html:18
@@ -4577,10 +4549,8 @@ msgid ""
 msgstr "确认完后，您将可以使用%(backend_verbose)s （%(uid)s）认证到 Weblate。"
 
 #: weblate/templates/accounts/confirm.html:24
-#, fuzzy
-#| msgid "Configure"
 msgid "Confirm"
-msgstr "配置"
+msgstr "确认"
 
 #: weblate/templates/accounts/contact.html:15
 msgid ""
@@ -4901,10 +4871,8 @@ msgid "Disconnect"
 msgstr "解绑"
 
 #: weblate/templates/accounts/profile.html:156
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new user identity"
-msgstr "添加新用户"
+msgstr "添加新的用户身份"
 
 #: weblate/templates/accounts/profile.html:166
 #: weblate/templates/component.html:104
@@ -5207,10 +5175,8 @@ msgid_plural "%(count)s comments"
 msgstr[0] "%(count)s 条评论"
 
 #: weblate/templates/accounts/user.html:141
-#, fuzzy
-#| msgid "Contributors"
 msgid "Contributed to"
-msgstr "贡献者"
+msgstr "贡献项目"
 
 #: weblate/templates/accounts/user.html:144
 msgid "Activity"
@@ -5274,10 +5240,8 @@ msgid "Browse all watched projects"
 msgstr "浏览所有已关注项目"
 
 #: weblate/templates/accounts/user.html:192
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes made by this user"
-msgstr "浏览该用户的所有更改"
+msgstr "浏览该用户所做的所有更改"
 
 #: weblate/templates/accounts/user.html:253
 msgid "Group"
@@ -5290,9 +5254,6 @@ msgid "Members"
 msgstr "成员"
 
 #: weblate/templates/accounts/user.html:264
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgctxt "No project associated with group"
 msgid "None"
 msgstr "无"
@@ -5682,10 +5643,8 @@ msgid "Add"
 msgstr "添加"
 
 #: weblate/templates/auth/teams-components.html:6
-#, fuzzy
-#| msgid "No components were matched!"
 msgid "No components specified"
-msgstr "没有匹配的组件!"
+msgstr "没有指定部件"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -6889,32 +6848,26 @@ msgid "Commit"
 msgstr "提交"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s change"
-#| msgid_plural "%(count)s changes"
+#, python-format
 msgid "%(count)s pending change"
 msgid_plural "%(count)s pending changes"
-msgstr[0] "%(count)s 个更改"
+msgstr[0] "%(count)s 个待定更改"
 
 #: weblate/templates/js/git-status.html:32
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "将待处理的更改提交到 Weblate 仓库"
+msgstr "这会提交任何存在于 Weblate 但不存在于仓库中的待定更改。"
 
 #: weblate/templates/js/git-status.html:38
 msgid "Push"
 msgstr "推送"
 
 #: weblate/templates/js/git-status.html:41
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s 条评论"
+msgstr[0] "%(count)s 个对外提交"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Update"
@@ -6925,30 +6878,22 @@ msgid "Update with merge"
 msgstr ""
 
 #: weblate/templates/js/git-status.html:61
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Update with rebase"
-msgstr "更新质量检查"
+msgstr "用变基更新"
 
 #: weblate/templates/js/git-status.html:64
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid "Update with merge without fast-forward"
-msgstr "不快进合并"
+msgstr "用没有快进的合并更新"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "%(count)s 条评论"
+msgstr[0] "%(count)s 个缺失的提交"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy
-#| msgid "Resetting the repository will throw away all local changes!"
 msgid "This will update the Weblate repository with the upstream changes."
-msgstr "重设代码库将丢失所有本地修改！"
+msgstr "这会用上游更改更新 Weblate 仓库。"
 
 #: weblate/templates/js/git-status.html:80
 msgid "Allow changes to the Weblate repository"
@@ -6968,28 +6913,20 @@ msgid "Lock"
 msgstr "锁定"
 
 #: weblate/templates/js/git-status.html:87
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are locked"
-msgstr "Weblate 翻译"
+msgstr "Weblate 翻译被锁"
 
 #: weblate/templates/js/git-status.html:89
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are open"
-msgstr "Weblate 翻译"
+msgstr "Weblate 翻译开放"
 
 #: weblate/templates/js/git-status.html:93
-#, fuzzy
-#| msgid "Locking prevents translators from doing changes"
 msgid "Locking prevents translators from doing changes."
-msgstr "锁定以防止译者进行更改"
+msgstr "锁定以防止译者进行更改。"
 
 #: weblate/templates/js/git-status.html:105
-#, fuzzy
-#| msgid "Danger (red)"
 msgid "Danger zone"
-msgstr "危险（红色）"
+msgstr "危险区域"
 
 #: weblate/templates/js/git-status.html:110
 #: weblate/templates/translate.html:495
@@ -7001,14 +6938,10 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "重置Weblate仓库中的所有更改"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid ""
-#| "Resetting removes all changes in Weblate so that the repository matches "
-#| "upstream. Use with caution."
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream."
-msgstr "重置会删除Weblate中的所有更改，以便仓库与上游匹配。谨慎使用。"
+msgstr "重置会删除 Weblate 中的所有更改，以便仓库与上游相匹配。"
 
 #: weblate/templates/js/git-status.html:116
 msgid ""
@@ -7031,10 +6964,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/js/git-status.html:126
-#, fuzzy
-#| msgid "Prevent any changes in the Weblate repository"
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "防止Weblate仓库中的任何更改"
+msgstr "在 Weblate 仓库中有一些垃圾时使用。"
 
 #: weblate/templates/js/git-status.html:130
 msgid "Synchronize"
@@ -7045,10 +6976,8 @@ msgid "Force writing all translations to the Weblate repository"
 msgstr "强制将所有翻译写入 Weblate 仓库"
 
 #: weblate/templates/js/git-status.html:135
-#, fuzzy
-#| msgid "Force writing all translations to the Weblate repository"
 msgid "Forces writing all strings to the translation files."
-msgstr "强制将所有翻译写入 Weblate 仓库"
+msgstr "强制将所有字符串写入翻译文件。"
 
 #: weblate/templates/js/git-status.html:136
 msgid ""
@@ -7061,24 +6990,17 @@ msgid "Rescan"
 msgstr ""
 
 #: weblate/templates/js/git-status.html:142
-#, fuzzy
-#| msgid "Cleanup all untracked files in the Weblate repository"
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "清理Weblate仓库中所有无路径的文件"
+msgstr "重新扫描 Weblate 仓库中的所有翻译文件"
 
 #: weblate/templates/js/git-status.html:145
-#, fuzzy
-#| msgid "Removes current translation from the repository."
 msgid "Loads translations from the files into Weblate."
-msgstr "从代码库中移除当前翻译。"
+msgstr "从文件加载翻译到 Weblate。"
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid ""
 "Use when Weblate missed some of the strings after updating the repository."
-msgstr "Weblate 无法在更新仓库时拉取上游更改。"
+msgstr "当 Weblate 在更新仓库后缺少一些字符串时使用。"
 
 #: weblate/templates/js/git-status.html:151
 msgid "Use these operations with caution, they can lead to data loss."
@@ -7300,17 +7222,11 @@ msgid ""
 msgstr "如果你喜欢 Weblate 并想继续使用它，就去请求批准你的自由套餐吧。"
 
 #: weblate/templates/mail/billing_expired.html:18
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "Your billing plan has expired. Please renew it to continue using the service."
-msgstr "您的付费套餐已过期，如果您想要继续使用该服务，请续订。"
+msgstr "您的付费套餐已过期，请续订以继续使用服务。"
 
 #: weblate/templates/mail/billing_expired.html:23
-#, fuzzy
-#| msgid "This billing plan covers following projects:"
 msgid "This billing plan covers the following projects:"
 msgstr "本付费套餐包括以下项目:"
 
@@ -7329,25 +7245,18 @@ msgid "All projects covered by this billing plan have been removed."
 msgstr "此付费套餐包括的所有项目都已删除。"
 
 #: weblate/templates/mail/billing_expired.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all projects within this billing plan "
-#| "will be removed on %(date)s."
+#, python-format
 msgid ""
 "If you don't issue the payment, all projects within this billing plan will "
 "be removed on %(date)s."
-msgstr "如果您不付款，此付费套餐中的所有项目将在 %(date)s被删除。"
+msgstr "如果您不付款，此付费套餐中的所有项目将在 %(date)s 被删除。"
 
 #: weblate/templates/mail/billing_expired.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "If your Libre hosting will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting is not approved for it, all projects within this "
 "billing plan will be removed on %(date)s."
-msgstr ""
-"如果您的自由托管未被批准，该付费套餐中的所有项目都将在 %(date)s被删除。"
+msgstr "如果您的自由托管未被批准，该付费套餐中的所有项目将在 %(date)s 被删除。"
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -7801,10 +7710,8 @@ msgid "Refresh support status"
 msgstr "刷新支持状态"
 
 #: weblate/templates/manage/index.html:55
-#, fuzzy
-#| msgid "Manage support package"
 msgid "Support package limits"
-msgstr "管理支持包"
+msgstr "支持包限制"
 
 #: weblate/templates/manage/index.html:67
 msgid "Support expiry"
@@ -9184,10 +9091,8 @@ msgid "Accept and edit"
 msgstr "接受并编辑"
 
 #: weblate/templates/snippets/suggestions.html:42
-#, fuzzy
-#| msgid "Delete suggestion"
 msgid "Reject suggestion"
-msgstr "删除建议"
+msgstr "拒绝建议"
 
 #: weblate/templates/snippets/suggestions.html:55
 msgid "Suggested change:"
@@ -9965,10 +9870,8 @@ msgstr ""
 "常工作。但如果仓库内容不同，最好创建新的翻译部件。"
 
 #: weblate/templates/translate.html:56
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Open in Zen mode"
-msgstr "在禅模式下编辑"
+msgstr "在禅模式下打开"
 
 #: weblate/templates/translate.html:56 weblate/templates/translation.html:193
 #: weblate/templates/zen.html:26
@@ -10098,33 +10001,24 @@ msgid "Difference to current string"
 msgstr "与当前字符串之间的差异"
 
 #: weblate/templates/translate.html:310
-#, fuzzy
-#| msgid "The following string has the same context and source."
-#| msgid_plural "The following strings have the same context and source."
 msgid "This string has the same context and source."
 msgid_plural "These strings have the same context and source."
-msgstr[0] "下列字符串有相同的上下文和原文。"
+msgstr[0] "字符串上下文和来源均相同。"
 
 #: weblate/templates/translate.html:318
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has a different context, but the same source."
 msgid_plural "These strings have differing context, but the same source."
-msgstr[0] "此信息在项目中有不止一种翻译方式"
+msgstr[0] "字符串上下文不同，但来源相同。"
 
 #: weblate/templates/translate.html:326
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has a different source, but the same context."
 msgid_plural "These strings have differing sources, but the same context."
-msgstr[0] "此信息在项目中有不止一种翻译方式"
+msgstr[0] "字符串来源不同，但上下文相同。"
 
 #: weblate/templates/translate.html:334
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has a different source and context."
 msgid_plural "These strings have differing sources and context."
-msgstr[0] "此信息在项目中有不止一种翻译方式"
+msgstr[0] "字符串来源和上下文均不同。"
 
 #: weblate/templates/translate.html:344
 msgid "Apply selected translation to all propagated strings"
@@ -10139,10 +10033,8 @@ msgid "Browse all string changes"
 msgstr "浏览字符串所有的变化"
 
 #: weblate/templates/translate.html:377
-#, fuzzy
-#| msgid "Suggested change:"
 msgid "Suggested change"
-msgstr "建议的更改："
+msgstr "建议的更改"
 
 #: weblate/templates/translate.html:379
 msgid "Origin"
@@ -10232,10 +10124,8 @@ msgid "String age"
 msgstr "字符串添加时间"
 
 #: weblate/templates/translate.html:696 weblate/utils/views.py:123
-#, fuzzy
-#| msgid "Past due date"
 msgid "Last updated"
-msgstr "过期日期"
+msgstr "上次更新"
 
 #: weblate/templates/translate.html:702
 msgid "Source string age"
@@ -10652,16 +10542,12 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "额外的解释，用于阐明字符串的含义或用法。"
 
 #: weblate/trans/forms.py:507
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string explanation"
-msgstr "源字符串位置"
+msgstr "源字符串解释"
 
 #: weblate/trans/forms.py:509
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Translation explanation"
-msgstr "翻译通知"
+msgstr "译文解释"
 
 #: weblate/trans/forms.py:526
 msgid "The source string has changed meanwhile. Please check your changes."
@@ -11642,18 +11528,14 @@ msgid "Removed comment"
 msgstr "删除了评论"
 
 #: weblate/trans/models/change.py:401
-#, fuzzy
-#| msgid "Resolved comment"
 msgctxt "Name of event in the history"
 msgid "Resolved comment"
-msgstr "解决了评论"
+msgstr "已解决的评论"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:404
-#, fuzzy
-#| msgid "Explanation"
 msgid "Explanation updated"
-msgstr "解释"
+msgstr "解释已更新"
 
 #: weblate/trans/models/change.py:476
 msgid "New string to translate"
@@ -11869,10 +11751,8 @@ msgstr ""
 "*/LC_MESSAGES/django.po。"
 
 #: weblate/trans/models/component.py:378
-#, fuzzy
-#| msgid "Screenshot details"
 msgid "Screenshot file mask"
-msgstr "截图详情"
+msgstr "截屏文件掩码"
 
 #: weblate/trans/models/component.py:383
 msgid ""
@@ -12133,10 +12013,9 @@ msgid "File does not exist."
 msgstr "文件不存在。"
 
 #: weblate/trans/models/component.py:1644
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Failed to push %(component)s: %(error_text)s"
-msgstr "解析文件 %(file)s 失败: %(error)s"
+msgstr "未能推送 %(component)s：%(error_text)s"
 
 #: weblate/trans/models/component.py:1665
 #, python-format
@@ -12186,15 +12065,14 @@ msgid "The file mask did not match any files."
 msgstr "此文件掩码不匹配任何文件。"
 
 #: weblate/trans/models/component.py:2547
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the file mask "
-#| "and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
 "%(filename2)s Please adjust the file mask and use components for translating "
 "different resources."
-msgstr "%s 语言有不止一个文件，请调整文件掩码并使用部件来翻译不同的资源。"
+msgstr ""
+"%(language)s 语言有不止一个文件：%(filename1)s、%(filename2)s "
+"请调整文件掩码并使用部件来翻译不同的资源。"
 
 #: weblate/trans/models/component.py:2565
 msgid "Could not find any matching language, please check the file mask."
@@ -12504,10 +12382,8 @@ msgid "This string seems to already exist."
 msgstr "此字符串似乎已存在。"
 
 #: weblate/trans/models/translation.py:1643
-#, fuzzy
-#| msgid "Duplicated string for translation."
 msgid "Failed adding string, no translation found."
-msgstr "在译文中重复的字符串。"
+msgstr "添加字符串失败，没找到翻译。"
 
 #: weblate/trans/models/unit.py:930
 #, python-format
@@ -13215,10 +13091,8 @@ msgid "Translation files have been synchronized."
 msgstr "已同步翻译文件。"
 
 #: weblate/trans/views/git.py:130
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Translations have been updated."
-msgstr "翻译评论已删除。"
+msgstr "翻译已更新。"
 
 #: weblate/trans/views/lock.py:28
 msgid "Component is now locked for translation updates!"
@@ -13611,16 +13485,12 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "参数 %(field)s 出错：%(error)s"
 
 #: weblate/vcs/base.py:60
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream repository."
-msgstr "Weblate 无法将更改推送到上游仓库。"
+msgstr "这会推送更改到上游仓库。"
 
 #: weblate/vcs/git.py:49
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Git repository."
-msgstr "Weblate 无法将更改推送到上游仓库。"
+msgstr "这会推送更改到上游 Git 仓库。"
 
 #: weblate/vcs/git.py:515
 msgid "Possible cleanups:"
@@ -13631,20 +13501,16 @@ msgid "This will push changes to Gerrit for a review."
 msgstr ""
 
 #: weblate/vcs/git.py:548
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "This will commit changes to the Subversion repository."
-msgstr "将更改提交到内部仓库"
+msgstr "这会提交更改到子版本仓库。"
 
 #: weblate/vcs/git.py:713
 msgid "Git with force push"
 msgstr "Git 强制推送"
 
 #: weblate/vcs/git.py:717
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will force push changes to the upstream repository."
-msgstr "Weblate 无法将更改推送到上游仓库。"
+msgstr "这会强制推送更改到上游仓库。"
 
 #: weblate/vcs/git.py:1025
 msgid "GitHub pull request"
@@ -13687,16 +13553,12 @@ msgid "Bitbucket Server pull request"
 msgstr "Bitbucket 服务器拉取请求"
 
 #: weblate/vcs/git.py:1542
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create Bitbucket Server pull request."
-msgstr "Bitbucket 服务器拉取请求"
+msgstr "这会推送更改并创建 Bitbucket 服务器拉取请求。"
 
 #: weblate/vcs/mercurial.py:40
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr "Weblate 无法将更改推送到上游仓库。"
+msgstr "这会推送更改到上游 Mercurial 仓库。"
 
 #: weblate/vcs/ssh.py:30
 msgctxt "SSH key type"
