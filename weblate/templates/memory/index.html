@@ -96,7 +96,13 @@
   {% for item in entries_origin %}
   <tr>
     <td></td>
-    <td>{{ item.origin }}</td>
+    <td>
+      {% if item.url %}
+        <a href="{{ item.url }}">{{ item.origin }}</a>
+      {% else %}
+        {{ item.origin }}
+      {% endif %}
+    </td>
     <td class="number">{{ item.id__count|intcomma }}</td>
     <td>
       <a href="{{ download_url }}?origin={{ item.origin }}" class="btn btn-primary">{% trans "Download as JSON" %}</a>

@@ -149,9 +149,29 @@ class MemoryView(TemplateView):
         return Memory.objects.filter_type(**self.objects)
 
     def get_origins(self):
-        result = list(
-            self.entries.values("origin").order_by("origin").annotate(Count("id"))
+        def get_url(slug: str) -> str:
+            try:
+                project, component = slug.split("/")
+            except ValueError:
+                return ""
+            return reverse(
+                "component", kwargs={"project": project, "component": component}
+            )
+
+        from_file = list(
+            self.entries.filter(from_file=True)
+            .values("origin")
+            .order_by("origin")
+            .annotate(Count("id"))
         )
+        result = list(
+            self.entries.filter(from_file=False)
+            .values("origin")
+            .order_by("origin")
+            .annotate(Count("id"))
+        )
+        for entry in result:
+            entry["url"] = get_url(entry["origin"])
         if "project" in self.objects:
             slugs = {
                 component.full_slug
@@ -162,8 +182,15 @@ class MemoryView(TemplateView):
                 entry["can_rebuild"] = entry["origin"] in slugs
             # Add missing ones
             for missing in slugs - existing:
-                result.append({"origin": missing, "id__count": 0, "can_rebuild": True})
-        return result
+                result.append(
+                    {
+                        "origin": missing,
+                        "id__count": 0,
+                        "can_rebuild": True,
+                        "url": get_url(missing),
+                    }
+                )
+        return from_file + result
 
     def get_languages(self):
         if "manage" in self.kwargs:
