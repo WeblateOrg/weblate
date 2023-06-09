@@ -15,6 +15,7 @@ from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.html import format_html
+from django.utils.translation import gettext
 from django_filters import rest_framework as filters
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
@@ -1557,7 +1558,6 @@ class Metrics(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
-        """Return a list of all users."""
         stats = GlobalStats()
         return Response(
             {
@@ -1578,6 +1578,37 @@ class Metrics(APIView):
                 "name": settings.SITE_TITLE,
             }
         )
+
+
+class Search(APIView):
+    """Site-wide search endpoint."""
+
+    def get(self, request, format=None):
+        user = request.user
+        projects = user.allowed_projects
+        results = []
+        query = request.GET.get("q")
+        if query:
+            for project in projects.filter(name__icontains=query)[:5]:
+                results.append(
+                    {
+                        "url": project.get_absolute_url(),
+                        "name": project.name,
+                        "category": gettext("Project"),
+                    }
+                )
+            for component in Component.objects.filter(
+                project__in=projects, name__icontains=query
+            )[:5]:
+                results.append(
+                    {
+                        "url": component.get_absolute_url(),
+                        "name": component.name,
+                        "category": gettext("Component"),
+                    }
+                )
+
+        return Response(results)
 
 
 class TasksViewSet(ViewSet):

@@ -17,6 +17,7 @@ from weblate.api.views import (
     ProjectViewSet,
     RoleViewSet,
     ScreenshotViewSet,
+    Search,
     TasksViewSet,
     TranslationViewSet,
     UnitViewSet,
@@ -44,5 +45,6 @@ router.register("addons", AddonViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path("metrics/", Metrics.as_view(), name="metrics"),
+    path("search/", Search.as_view(), name="search"),
     path("", include(router.urls)),
 ]

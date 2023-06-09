@@ -3560,6 +3560,31 @@ class MetricsAPITest(APIBaseTest):
         self.assertEqual(current - 1, int(response["X-RateLimit-Remaining"]))
 
 
+class SearchAPITest(APIBaseTest):
+    def test_blank(self):
+        self.authenticate()
+        response = self.client.get(reverse("api:search"))
+        self.assertEqual(response.data, [])
+
+    def test_result(self):
+        response = self.client.get(reverse("api:search"), {"q": "test"})
+        self.assertEqual(
+            response.data,
+            [
+                {
+                    "category": "Project",
+                    "name": "Test",
+                    "url": "/projects/test/",
+                },
+                {
+                    "category": "Component",
+                    "name": "Test",
+                    "url": "/projects/test/test/",
+                },
+            ],
+        )
+
+
 class ComponentListAPITest(APIBaseTest):
     def setUp(self):
         super().setUp()

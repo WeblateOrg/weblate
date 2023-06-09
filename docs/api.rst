@@ -2471,6 +2471,20 @@ Metrics
     :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
     :>json string name: Configured server name
 
+Search
++++++++
+
+.. http:get:: /api/search/
+
+   .. versionadded:: 4.18
+
+   Returns site-wide search results as a list. There is no pagination on the
+   result set, only first few matches are returned for each category.
+
+   :>json str name: Name of the matched item.
+   :>json str url: Web URL of the matched item.
+   :>json str category: Category of the matched item.
+
 .. _hooks:
 
 Notification hooks
