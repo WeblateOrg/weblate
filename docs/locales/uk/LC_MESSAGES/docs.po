@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-09 13:26+0200\n"
-"PO-Revision-Date: 2023-06-08 18:18+0000\n"
+"PO-Revision-Date: 2023-06-10 03:26+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -20,8 +20,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.18-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
@@ -3473,14 +3473,10 @@ msgid "Include closing tag for blank XML tags"
 msgstr "Включати завершальний теґ для порожніх теґів XML"
 
 #: ../../admin/addons.rst:855
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid "Allows adjusting XML output behavior, for example closing tags."
 msgstr ""
-"Дозволяє налаштовувати поведінку виводу YAML, наприклад, довжину рядка або "
-"нові рядки."
+"Дозволяє налаштовувати поведінку виводу XML, наприклад, обробку завершальних "
+"теґів."
 
 #: ../../admin/addons.rst:860
 msgid "Customize YAML output"
@@ -4348,16 +4344,12 @@ msgstr ""
 "орендованого простору, що, зазвичай, є бажаним."
 
 #: ../../admin/auth.rst:301
-#, fuzzy
-#| msgid ""
-#| "*Secret value* is displayed once you generate a secret for an applicatio. "
-#| "*Secret ID* is not used in Weblate."
 msgid ""
 "*Secret value* is displayed once you generate a secret for an application. "
 "*Secret ID* is not used in Weblate."
 msgstr ""
-"*Значення ключа* буде показано одразу після створення ключа для програми. "
-"*Ідентифікатор ключа* у Weblate не використовують."
+"*Значення ключа* буде показано одразу після створення ключа для програми. *"
+"Ідентифікатор ключа* у Weblate не використовують."
 
 #: ../../admin/auth.rst:340
 msgid ":doc:`psa:backends/azuread`"
@@ -5591,12 +5583,6 @@ msgid "Customizing behavior using flags"
 msgstr "Налаштовування поведінки за допомогою прапорців"
 
 #: ../../admin/checks.rst:29
-#, fuzzy
-#| msgid ""
-#| "You can fine-tune the Weblate behavior by using flags. This can be done "
-#| "on the source string level (see :ref:`additional`), or in the :ref:"
-#| "`component` (:ref:`component-check_flags`). Some file formats also allow "
-#| "to specify flags directly in the format (see :ref:`formats`)."
 msgid ""
 "You can fine-tune Weblate's behavior by using flags. The flags provide "
 "visual feedback to the translators and help them to improve their "
@@ -5605,17 +5591,14 @@ msgid ""
 "Some file formats also allow to specify flags directly in the format (see :"
 "ref:`formats`)."
 msgstr ""
-"Ви можете скоригувати поведінку Weblate за допомогою прапорців. Зробити це "
-"можна на рівні початкових рядків (див. :ref:`additional`) або на рівні :ref:"
-"`component` (:ref:`component-check_flags`). Для деяких форматів файлів можна "
-"вказати прапорці безпосередньо у записі формату (див. :ref:`formats`)."
+"Ви можете скоригувати поведінку Weblate за допомогою прапорців. Прапорці "
+"надають візуальні настанови перекладачам і допомагають їм удосконалити "
+"переклад. Зробити це можна на рівні початкових рядків (див. "
+":ref:`additional`) або на рівні :ref:`component` (:ref:`component-"
+"check_flags`). Для деяких форматів файлів можна вказати прапорці "
+"безпосередньо у записі формату (див. :ref:`formats`)."
 
 #: ../../admin/checks.rst:35
-#, fuzzy
-#| msgid ""
-#| "The flags are comma-separated, the parameters are separated with colon. "
-#| "You can use quotes to include whitespace or special chars in the string. "
-#| "For example:"
 msgid ""
 "The flags are comma-separated; if they have parameters, they are separated "
 "with colon. You can use quotes to include whitespaces or special characters "
@@ -5639,12 +5622,16 @@ msgid ""
 "A failing check will be triggered if the string '### Index' is translated as "
 "'# Indice'"
 msgstr ""
+"Перевірка незмінності заголовка документа Markdown після перекладу: "
+"перевірку не буде пройдено, якщо рядок «### Index» перекладено як «# Indice»"
 
 #: ../../admin/checks.rst:60
 msgid ""
 "To make sure that internal links are not being translated (i.e. `[test](../"
 "checks)` does not become `[test](../chequeos)`."
 msgstr ""
+"Забезпечення незмінності внутрішніх посилань після перекладу (тобто "
+"`[test](../checks)` не повинно перетворитися на `[test](../chequeos)`."
 
 #: ../../admin/checks.rst:65
 msgid "Here is a list of flags currently accepted:"
@@ -6086,17 +6073,14 @@ msgid "``md-text``"
 msgstr "``md-text``"
 
 #: ../../admin/checks.rst:155
-#, fuzzy
-#| msgid ""
-#| "Treat text as a Markdown document. Enable :ref:`check-md-link`, :ref:"
-#| "`check-md-reflink`, and :ref:`check-md-syntax` quality checks."
 msgid ""
 "Treat text as a Markdown document, and provide Markdown syntax highlighting "
 "on the translation text area. Enables :ref:`check-md-link`, :ref:`check-md-"
 "reflink`, and :ref:`check-md-syntax` quality checks."
 msgstr ""
-"Вважати текст документом Markdown. Увімкнути перевірки якості :ref:`check-md-"
-"link`, :ref:`check-md-reflink` та :ref:`check-md-syntax`."
+"Вважати текст документом Markdown і забезпечити підсвічування синтаксичних "
+"конструкцій Markdown у області тексту перекладу. Увімкнути перевірки якості "
+":ref:`check-md-link`, :ref:`check-md-reflink` та :ref:`check-md-syntax`."
 
 #: ../../admin/checks.rst:157
 #, fuzzy
@@ -13364,8 +13348,6 @@ msgstr ""
 "користування."
 
 #: ../../admin/install/docker.rst:108
-#, fuzzy
-#| msgid "Full list of published tags acan be found at `GitHub Packages`_"
 msgid "Full list of published tags can be found at `GitHub Packages`_"
 msgstr "Повний список оприлюднених міток можна знайти серед `GitHub Packages`_"
 
@@ -14918,10 +14900,6 @@ msgstr ""
 "`WEBLATE_SITE_DOMAIN`."
 
 #: ../../admin/install/docker.rst:1547
-#, fuzzy
-#| msgid ""
-#| "Confgure sampling rate for performance monitoring. Set to 1 trace all "
-#| "events, 0 (the default) disables tracing."
 msgid ""
 "Confgure sampling rate for performance monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
@@ -14930,10 +14908,6 @@ msgstr ""
 "стеження за усіма подіями, 0 (типове значення) вимикає трасування."
 
 #: ../../admin/install/docker.rst:1558
-#, fuzzy
-#| msgid ""
-#| "Confgure sampling rate for profiling monitoring. Set to 1 trace all "
-#| "events, 0 (the default) disables tracing."
 msgid ""
 "Confgure sampling rate for profiling monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
@@ -15205,16 +15179,16 @@ msgstr ""
 "`Документація з томів Docker <https://docs.docker.com/storage/volumes/>`_"
 
 #: ../../admin/install/docker.rst:1741
-#, fuzzy
-#| msgid "Local filesystem"
 msgid "Read-only root filesystem"
-msgstr "Локальна файлова система"
+msgstr "Призначена лише для читання коренева файлова система"
 
 #: ../../admin/install/docker.rst:1745
 msgid ""
 "When running the container with a read-only root filesytem, two additional "
 "`tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
 msgstr ""
+"Якщо запущено контейнер із призначеної лише для читання кореневої файлової "
+"системи, потрібні два додаткових томи `tmpfs` — :file:`/tmp` і :file:`/run`."
 
 #: ../../admin/install/docker.rst:1752
 msgid "Configuration beyond environment variables"
@@ -25308,20 +25282,21 @@ msgid ""
 "Returns site-wide search results as a list. There is no pagination on the "
 "result set, only first few matches are returned for each category."
 msgstr ""
+"Повертати результати пошуку за сайтом як список. Поділу на сторінки не "
+"передбачено, для кожної категорії буде повернуто лише перші декілька "
+"відповідників."
 
 #: ../../api.rst:2484
-#, fuzzy
-#| msgid "Name of generated file"
 msgid "Name of the matched item."
-msgstr "Назва створеного файла"
+msgstr "Назва відповідного запису."
 
 #: ../../api.rst:2485
 msgid "Web URL of the matched item."
-msgstr ""
+msgstr "Вебадреса відповідного запису."
 
 #: ../../api.rst:2486
 msgid "Category of the matched item."
-msgstr ""
+msgstr "Категорія відповідного запису."
 
 #: ../../api.rst:2491
 msgid "Notification hooks"
@@ -25629,10 +25604,8 @@ msgid "Weblate 4.18"
 msgstr "Weblate 4.18"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on June 15th 2022."
 msgid "Released on June 15th 2023."
-msgstr "Випущено 15 червня 2022 року."
+msgstr "Випущено 15 червня 2023 року."
 
 #: ../../changes.rst:6
 msgid "Improved API error messages on permission denied."
@@ -25698,22 +25671,25 @@ msgstr ""
 #: ../../changes.rst:19
 msgid "Added dark theme; browser-following and manual setting are available."
 msgstr ""
+"Додано темну тему; передбачено використання теми браузера або встановлення "
+"параметрів вручну."
 
 #: ../../changes.rst:20
 msgid "The Docker container can now be used with read-only root filesystem."
 msgstr ""
+"У новій версії контейнером Docker можна скористатися з придатної лише для "
+"читання кореневої файлової системи."
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Added confirmation before removing a user from a project."
 msgid "Added username autocompletion when adding users to a project."
-msgstr "Додано підтвердження перед вилученням користувача з проєкту."
+msgstr ""
+"Додано автоматичне доповнення імені користувача при додаванні користувачів "
+"до проєкту."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Added support for creating projects and components by users."
 msgid "Added site-wide search for projects, components, languages and users."
-msgstr "Додано підтримку створення проєктів і складників користувачами."
+msgstr ""
+"Додано загальносистемний пошук проєктів, складників, мов і користувачів."
 
 #: ../../changes.rst:24
 msgid ""
@@ -35580,19 +35556,19 @@ msgstr "*Спеціальні символи*"
 
 #: ../../contributing/schemas.rst:19
 msgid "theme"
-msgstr ""
+msgstr "theme"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Theme*"
-msgstr ""
+msgstr "*Тема*"
 
 #: ../../contributing/schemas.rst:19
 msgid "auto"
-msgstr ""
+msgstr "auto"
 
 #: ../../contributing/schemas.rst:19
 msgid "^(auto|dark|light)$"
-msgstr ""
+msgstr "^(auto|dark|light)$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**dashboard\\_view**"
@@ -37288,11 +37264,6 @@ msgid "Introducing new strings"
 msgstr "Додавання нових рядків"
 
 #: ../../devel/integration.rst:118
-#, fuzzy
-#| msgid ""
-#| "You can add new strings in Weblate with :ref:`component-manage_units` "
-#| "turned on, but it is usually better to introduce new strigs together with "
-#| "the code changes that introduced them."
 msgid ""
 "You can add new strings in Weblate with :ref:`component-manage_units` turned "
 "on, but it is usually better to introduce new strings together with the code "
@@ -37329,11 +37300,6 @@ msgstr ""
 "перекладів, див. :ref:`updating-target-files`."
 
 #: ../../devel/integration.rst:134
-#, fuzzy
-#| msgid ""
-#| "You might want to integrate this into your contrinuous integration "
-#| "pipelines to make new strings automatically appear for translation. Such "
-#| "pipeline should also cover :ref:`avoid-merge-conflicts`."
 msgid ""
 "You might want to integrate this into your continuous integration pipelines "
 "to make new strings automatically appear for translation. Such pipeline "
@@ -38400,10 +38366,6 @@ msgstr ""
 "`Засоби` під час перекладу (якщо увімкнено :ref:`component-manage_units`):"
 
 #: ../../devel/translations.rst:142
-#, fuzzy
-#| msgid ""
-#| "There the variant source string has to at most 768 characters long. This "
-#| "is technical limitation due to compatibility with MySQL database."
 msgid ""
 "The variant source string has to be at most 768 characters long. This is a "
 "technical limitation due to compatibility with MySQL database."
@@ -42782,11 +42744,6 @@ msgid "Formatted strings"
 msgstr "Форматовані рядки"
 
 #: ../../user/checks.rst:173
-#, fuzzy
-#| msgid ""
-#| "Checks that formatting in strings are replicated between both source and "
-#| "translation. Omitting format strings in translation usually causes severe "
-#| "problems, so the formatting in strings should usually match the source."
 msgid ""
 "Checks that the formatting in strings is replicated between both source and "
 "translation. Omitting format strings in translation usually causes severe "
@@ -42813,20 +42770,14 @@ msgstr ""
 "не створено за допомогою :program:`xgettext`."
 
 #: ../../user/checks.rst:183
-#, fuzzy
-#| msgid ""
-#| "This can be done per unit (see :ref:`additional`) or in :ref:`component`. "
-#| "Having it defined per component is simpler, but can lead to false "
-#| "positives in case the string is not interpreted as a formatting string, "
-#| "but format string syntax happens to be used."
 msgid ""
 "This can be done per string (see :ref:`additional`) or in a :ref:"
 "`component`. Having it defined per component is simpler, but it can lead to "
 "false positives in case the string is not interpreted as a formatting "
 "string, but format string syntax happens to be used."
 msgstr ""
-"Це можна зробити на рівні модуля перекладу (див. :ref:`additional`) або у :"
-"ref:`складнику <component>`. Визначити перевірку на рівні складника "
+"Це можна зробити на рівні рядка перекладу (див. :ref:`additional`) або у "
+":ref:`складнику <component>`. Визначити перевірку на рівні складника "
 "простіше, але це може призвести до помилкових спрацювань, якщо рядок не "
 "позначено як форматований, але у ньому все ж використано синтаксис рядків "
 "форматування."
@@ -44499,8 +44450,6 @@ msgid "Reused translation"
 msgstr "Повторно використаний переклад"
 
 #: ../../user/checks.rst:1140
-#, fuzzy
-#| msgid "Different strings are translated same."
 msgid "Different strings are translated the same."
 msgstr "Різні рядки перекладено однаково."
 
@@ -45796,13 +45745,15 @@ msgstr "Налаштування"
 
 #: ../../user/profile.rst:111
 msgid "Theme"
-msgstr ""
+msgstr "Тема"
 
 #: ../../user/profile.rst:113
 msgid ""
 "Choose whether Weblate follows system settings for dark or light theme, or "
 "choose one of them manually."
 msgstr ""
+"Визначає, використовуватиме Weblate параметри системи для темної або світлої "
+"теми чи користувач вибере їх вручну."
 
 #: ../../user/profile.rst:116
 msgid "Default dashboard view"
