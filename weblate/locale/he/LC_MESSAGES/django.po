@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2023-06-09 07:13+0000\n"
+"POT-Creation-Date: 2023-06-09 11:25+0000\n"
 "PO-Revision-Date: 2023-06-09 09:32+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
@@ -31,7 +31,7 @@ msgid "None"
 msgstr "אין"
 
 #: weblate/accounts/avatar.py:109 weblate/templates/accounts/profile.html:206
-#: weblate/templates/accounts/user.html:22 weblate/templates/base.html:246
+#: weblate/templates/accounts/user.html:22 weblate/templates/base.html:254
 #: weblate/templates/snippets/user-list.html:14
 msgid "User avatar"
 msgstr "תמונה מייצגת למשתמש"
@@ -758,7 +758,7 @@ msgstr "אזכור בתגובה"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:605 weblate/templates/translate.html:421
-#: weblate/trans/forms.py:1024
+#: weblate/trans/forms.py:1034
 msgid "New comment"
 msgstr "הערה חדשה"
 
@@ -768,7 +768,7 @@ msgid "Changed string"
 msgstr "מחרוזת שהשתנתה"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:637 weblate/trans/forms.py:2336
+#: weblate/accounts/notifications.py:637 weblate/trans/forms.py:2351
 msgid "Translated string"
 msgstr "תורגמה מחרוזת"
 
@@ -893,7 +893,7 @@ msgid "Too many messages sent, please try again later."
 msgstr "נשלחו יותר מדי הודעות, נא לנסות שוב מאוחר יותר."
 
 #: weblate/accounts/views.py:472 weblate/templates/accounts/contact.html:6
-#: weblate/templates/base.html:280 weblate/templates/footer.html:16
+#: weblate/templates/base.html:288 weblate/templates/footer.html:16
 msgid "Contact"
 msgstr "יצירת קשר"
 
@@ -926,7 +926,7 @@ msgstr "ניסיון בחינם"
 #: weblate/templates/404.html:18 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:29
 #: weblate/templates/accounts/login.html:39
-#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:220
+#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:228
 msgid "Sign in"
 msgstr "כניסה"
 
@@ -1351,8 +1351,8 @@ msgstr "ביטוי רגולרי להתאמת קובצי תרגום מולם"
 
 #: weblate/addons/forms.py:268
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
-#: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:578
-#: weblate/trans/forms.py:1752 weblate/trans/models/component.py:429
+#: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:588
+#: weblate/trans/forms.py:1767 weblate/trans/models/component.py:434
 msgid "File format"
 msgstr "תבנית קובץ"
 
@@ -1372,7 +1372,7 @@ msgstr "ניתן להשאיר ריק לקובצי תרגום דו־לשוניי�
 msgid "Define the base file for new translations"
 msgstr "הגדרת קובץ בסיס לתרגומים חדשים"
 
-#: weblate/addons/forms.py:289 weblate/trans/models/component.py:423
+#: weblate/addons/forms.py:289 weblate/trans/models/component.py:428
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1381,11 +1381,11 @@ msgstr ""
 
 #: weblate/addons/forms.py:294
 #: weblate/templates/trans/alert/inexistantfiles.html:13
-#: weblate/trans/models/component.py:407
+#: weblate/trans/models/component.py:412
 msgid "Intermediate language file"
 msgstr "קובץ שפת ביניים"
 
-#: weblate/addons/forms.py:298 weblate/trans/models/component.py:411
+#: weblate/addons/forms.py:298 weblate/trans/models/component.py:416
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
@@ -1394,7 +1394,7 @@ msgstr ""
 "שם הקובץ של קובץ תרגום הביניים. בקרוב המקרים קובץ תרגום זה מסופק על ידי "
 "המפתחים ונעשה בו שימוש בעת יצירת מחרוזות מקור אמתיות."
 
-#: weblate/addons/forms.py:305 weblate/trans/models/component.py:632
+#: weblate/addons/forms.py:305 weblate/trans/models/component.py:637
 msgid "Language filter"
 msgstr "מסנן השפות"
 
@@ -1684,6 +1684,44 @@ msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr "מאפשר את התאמת התנהגות הפלט של YAML, למשל אורך שורות או שורות חדשות."
 
+#: weblate/api/views.py:1598 weblate/auth/models.py:738
+#: weblate/templates/accounts/user.html:252 weblate/templates/check.html:19
+#: weblate/templates/data.html:28 weblate/templates/data.html:62
+#: weblate/templates/data.html:103 weblate/templates/language.html:44
+#: weblate/templates/list-projects.html:5
+#: weblate/templates/snippets/list-objects.html:23 weblate/trans/forms.py:1729
+#: weblate/trans/forms.py:1815 weblate/trans/forms.py:2608
+#: weblate/trans/models/announcement.py:74
+#: weblate/trans/models/component.py:292 weblate/trans/models/component.py:317
+msgid "Project"
+msgstr "מיזם"
+
+#: weblate/api/views.py:1606 weblate/templates/addons/discovery_preview.html:5
+#: weblate/templates/check_project.html:20
+#: weblate/templates/component-list.html:30
+#: weblate/templates/language-project.html:60
+#: weblate/templates/project.html:136 weblate/templates/translate.html:296
+#: weblate/templates/translation.html:203 weblate/trans/forms.py:917
+#: weblate/trans/forms.py:1673 weblate/trans/models/announcement.py:81
+msgid "Component"
+msgstr "רכיב"
+
+#: weblate/api/views.py:1614
+msgid "User"
+msgstr "משתמש"
+
+#: weblate/api/views.py:1622 weblate/fonts/models.py:136
+#: weblate/templates/component.html:130 weblate/templates/languages.html:11
+#: weblate/templates/project.html:162
+#: weblate/templates/screenshots/screenshot_detail.html:87
+#: weblate/templates/snippets/embed-units.html:15
+#: weblate/templates/trans/alert/duplicatelanguage.html:41
+#: weblate/templates/trans/alert/duplicatestring.html:10
+#: weblate/trans/forms.py:1091 weblate/trans/forms.py:1241
+#: weblate/trans/forms.py:2611 weblate/trans/models/announcement.py:88
+msgid "Language"
+msgstr "שפה"
+
 #: weblate/auth/admin.py:150 weblate/auth/admin.py:155
 msgid "Personal info"
 msgstr "פרטים אישיים"
@@ -1799,7 +1837,7 @@ msgid "Add screenshot"
 msgstr "הוספת צילום מסך"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:57 weblate/templates/base.html:343
+#: weblate/auth/data.py:57 weblate/templates/base.html:351
 #: weblate/templates/screenshots/screenshot_detail.html:70
 msgid "Edit screenshot"
 msgstr "עריכת צילום מסך"
@@ -2173,7 +2211,7 @@ msgstr "%s (הרשאות לכלל האתר)"
 #: weblate/templates/manage/performance.html:72
 #: weblate/templates/manage/teams.html:25
 #: weblate/templates/trans/project-access.html:147
-#: weblate/templates/trans/project-access.html:236 weblate/trans/forms.py:1464
+#: weblate/templates/trans/project-access.html:236 weblate/trans/forms.py:1479
 msgid "Name"
 msgstr "שם"
 
@@ -2217,7 +2255,7 @@ msgstr "מרשימת רכיבים"
 
 #: weblate/auth/models.py:124 weblate/billing/admin.py:58
 #: weblate/billing/models.py:278 weblate/templates/accounts/profile.html:220
-#: weblate/templates/auth/team.html:51 weblate/templates/base.html:130
+#: weblate/templates/auth/team.html:51 weblate/templates/base.html:137
 #: weblate/templates/billing/list.html:9
 #: weblate/templates/billing/status.html:95 weblate/templates/language.html:19
 #: weblate/templates/manage/teams.html:28 weblate/templates/projects.html:5
@@ -2233,8 +2271,8 @@ msgstr "מיזמים"
 #: weblate/templates/mail/base.html:82 weblate/templates/manage/teams.html:29
 #: weblate/templates/project.html:30 weblate/templates/snippets/info.html:409
 #: weblate/templates/snippets/info.html:445
-#: weblate/templates/trans/project-access.html:150 weblate/trans/forms.py:871
-#: weblate/trans/forms.py:2069
+#: weblate/templates/trans/project-access.html:150 weblate/trans/forms.py:881
+#: weblate/trans/forms.py:2084
 msgid "Components"
 msgstr "רכיבים"
 
@@ -2249,7 +2287,7 @@ msgid "Language selection"
 msgstr "בחירת שפות"
 
 #: weblate/auth/models.py:144 weblate/templates/auth/teams-languages.html:4
-#: weblate/trans/forms.py:1040 weblate/trans/forms.py:1227
+#: weblate/trans/forms.py:1050 weblate/trans/forms.py:1242
 msgid "All languages"
 msgstr "כל השפות"
 
@@ -2257,7 +2295,7 @@ msgstr "כל השפות"
 #: weblate/lang/views.py:46 weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:39
 #: weblate/templates/accounts/profile.html:221
-#: weblate/templates/auth/team.html:47 weblate/templates/base.html:147
+#: weblate/templates/auth/team.html:47 weblate/templates/base.html:154
 #: weblate/templates/component.html:32 weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
 #: weblate/templates/lang/plural_form.html:6 weblate/templates/language.html:8
@@ -2267,7 +2305,7 @@ msgstr "כל השפות"
 #: weblate/templates/snippets/info.html:438
 #: weblate/templates/trans/change_list.html:20
 #: weblate/templates/trans/project-access.html:149 weblate/trans/admin.py:81
-#: weblate/trans/forms.py:1062 weblate/trans/forms.py:2221
+#: weblate/trans/forms.py:1072 weblate/trans/forms.py:2236
 #: weblate/wladmin/models.py:160
 msgid "Languages"
 msgstr "שפות"
@@ -2338,20 +2376,9 @@ msgstr "משתמשים עם כתובות דוא״ל שמתאימות לחיפו�
 msgid "Group to assign"
 msgstr "קבוצה להקצאה"
 
-#: weblate/auth/models.py:734 weblate/trans/forms.py:1184
+#: weblate/auth/models.py:734 weblate/trans/forms.py:1194
 msgid "User to block"
 msgstr "משתמש לחסימה"
-
-#: weblate/auth/models.py:738 weblate/templates/accounts/user.html:252
-#: weblate/templates/check.html:19 weblate/templates/data.html:28
-#: weblate/templates/data.html:62 weblate/templates/data.html:103
-#: weblate/templates/language.html:44 weblate/templates/list-projects.html:5
-#: weblate/templates/snippets/list-objects.html:23 weblate/trans/forms.py:1714
-#: weblate/trans/forms.py:1800 weblate/trans/forms.py:2593
-#: weblate/trans/models/announcement.py:74
-#: weblate/trans/models/component.py:287 weblate/trans/models/component.py:312
-msgid "Project"
-msgstr "מיזם"
 
 #: weblate/auth/models.py:740
 msgid "Block expiry"
@@ -2814,7 +2841,7 @@ msgstr "זיהוי אוטומטי של Java MessageFormat"
 
 #: weblate/checks/flags.py:41
 #: weblate/templates/snippets/unit-readonly-badge.html:12
-#: weblate/templates/translate.html:223 weblate/trans/forms.py:480
+#: weblate/templates/translate.html:223 weblate/trans/forms.py:490
 msgid "Read only"
 msgstr "לקריאה בלבד"
 
@@ -2860,7 +2887,7 @@ msgstr "דגלוני ICU MessageFormat"
 msgid "ICU MessageFormat tag prefix"
 msgstr "קידומת תגית ICU MessageFormat"
 
-#: weblate/checks/flags.py:59 weblate/trans/models/component.py:654
+#: weblate/checks/flags.py:59 weblate/trans/models/component.py:659
 #: weblate/utils/views.py:118
 msgid "Priority"
 msgstr "עדיפות"
@@ -3332,17 +3359,6 @@ msgstr "ייעשה שימוש בגופן בררת המחדל אלמלא השפה
 msgid "Font"
 msgstr "גופן"
 
-#: weblate/fonts/models.py:136 weblate/templates/component.html:130
-#: weblate/templates/languages.html:11 weblate/templates/project.html:162
-#: weblate/templates/screenshots/screenshot_detail.html:87
-#: weblate/templates/snippets/embed-units.html:15
-#: weblate/templates/trans/alert/duplicatelanguage.html:41
-#: weblate/templates/trans/alert/duplicatestring.html:10
-#: weblate/trans/forms.py:1081 weblate/trans/forms.py:1226
-#: weblate/trans/forms.py:2596 weblate/trans/models/announcement.py:88
-msgid "Language"
-msgstr "שפה"
-
 #: weblate/fonts/validators.py:17 weblate/fonts/validators.py:21
 #: weblate/utils/validators.py:153
 msgid "Unsupported file format."
@@ -3436,7 +3452,7 @@ msgstr "CSV"
 msgid "XLSX"
 msgstr "XLSX"
 
-#: weblate/formats/exporters.py:426 weblate/trans/forms.py:1207
+#: weblate/formats/exporters.py:426 weblate/trans/forms.py:1222
 msgid "JSON"
 msgstr "JSON"
 
@@ -3667,7 +3683,7 @@ msgstr "מונח שלא לתרגום"
 
 #: weblate/glossary/forms.py:97 weblate/templates/mail/base.html:35
 #: weblate/templates/snippets/component-glossary-badge.html:4
-#: weblate/templates/translate.html:556 weblate/trans/forms.py:1474
+#: weblate/templates/translate.html:556 weblate/trans/forms.py:1489
 msgid "Glossary"
 msgstr "מונחון"
 
@@ -3743,212 +3759,212 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "שלושה"
 
-#: weblate/lang/models.py:563 weblate/templates/addons/generate_help.html:12
+#: weblate/lang/models.py:566 weblate/templates/addons/generate_help.html:12
 #: weblate/templates/snippets/info.html:17
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Language code"
 msgstr "קוד שפה"
 
-#: weblate/lang/models.py:566 weblate/templates/addons/generate_help.html:10
+#: weblate/lang/models.py:569 weblate/templates/addons/generate_help.html:10
 msgid "Language name"
 msgstr "שם השפה"
 
-#: weblate/lang/models.py:569 weblate/templates/snippets/info.html:34
+#: weblate/lang/models.py:572 weblate/templates/snippets/info.html:34
 msgid "Text direction"
 msgstr "כיוון טקסט"
 
-#: weblate/lang/models.py:574
+#: weblate/lang/models.py:577
 msgid "Left to right"
 msgstr "משמאל לימין"
 
-#: weblate/lang/models.py:575
+#: weblate/lang/models.py:578
 msgid "Right to left"
 msgstr "מימין לשמאל"
 
-#: weblate/lang/models.py:579 weblate/templates/snippets/info.html:39
+#: weblate/lang/models.py:582 weblate/templates/snippets/info.html:39
 msgid "Number of speakers"
 msgstr "מספר הדוברים"
 
-#: weblate/lang/models.py:580
+#: weblate/lang/models.py:583
 msgid "Number of people speaking this language."
 msgstr "מספר האנשים שמדברים את השפה הזאת."
 
-#: weblate/lang/models.py:661
+#: weblate/lang/models.py:664
 msgctxt "Plural type"
 msgid "None"
 msgstr "אין"
 
-#: weblate/lang/models.py:665
+#: weblate/lang/models.py:668
 msgctxt "Plural type"
 msgid "One/other"
 msgstr "אחד/אחר"
 
-#: weblate/lang/models.py:669
+#: weblate/lang/models.py:672
 msgctxt "Plural type"
 msgid "One/few/other"
 msgstr "אחד/מעטים/אחר"
 
-#: weblate/lang/models.py:673
+#: weblate/lang/models.py:676
 msgctxt "Plural type"
 msgid "Arabic languages"
 msgstr "שפות ערביות"
 
-#: weblate/lang/models.py:677
+#: weblate/lang/models.py:680
 msgctxt "Plural type"
 msgid "Zero/one/other"
 msgstr "אפס/אחד/אחר"
 
-#: weblate/lang/models.py:681
+#: weblate/lang/models.py:684
 msgctxt "Plural type"
 msgid "One/two/other"
 msgstr "אחד/שניים/אחר"
 
-#: weblate/lang/models.py:685
+#: weblate/lang/models.py:688
 msgctxt "Plural type"
 msgid "One/other/two"
 msgstr "אחד/אחר/שניים"
 
-#: weblate/lang/models.py:689
+#: weblate/lang/models.py:692
 msgctxt "Plural type"
 msgid "One/two/few/other"
 msgstr "אחד/שניים/מעטים/אחר"
 
-#: weblate/lang/models.py:693
+#: weblate/lang/models.py:696
 msgctxt "Plural type"
 msgid "Other/one/two/few"
 msgstr "אחר/אחד/שניים/מעטים"
 
-#: weblate/lang/models.py:697
+#: weblate/lang/models.py:700
 msgctxt "Plural type"
 msgid "One/two/three/other"
 msgstr "אחד/שניים/שלושה/אחר"
 
-#: weblate/lang/models.py:701
+#: weblate/lang/models.py:704
 msgctxt "Plural type"
 msgid "One/other/zero"
 msgstr "אחד/אחר/אפס"
 
-#: weblate/lang/models.py:705
+#: weblate/lang/models.py:708
 msgctxt "Plural type"
 msgid "One/few/many/other"
 msgstr "אחד/מעטים/רבים/אחר"
 
-#: weblate/lang/models.py:709
+#: weblate/lang/models.py:712
 msgctxt "Plural type"
 msgid "Two/other"
 msgstr "שניים/אחר"
 
-#: weblate/lang/models.py:713
+#: weblate/lang/models.py:716
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
 msgstr "אחד/שניים/מעטים/רבים/אחר"
 
-#: weblate/lang/models.py:717
+#: weblate/lang/models.py:720
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
 msgstr "אפס/אחד/שניים/מעטים/רבים/אחר"
 
-#: weblate/lang/models.py:721
+#: weblate/lang/models.py:724
 msgctxt "Plural type"
 msgid "Zero/other"
 msgstr "אפס/אחר"
 
-#: weblate/lang/models.py:725
+#: weblate/lang/models.py:728
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
 msgstr "אפס/אחד/מעטים/אחר"
 
-#: weblate/lang/models.py:729
+#: weblate/lang/models.py:732
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
 msgstr "אפס/אחד/שניים/מעטים/אחר"
 
-#: weblate/lang/models.py:733
+#: weblate/lang/models.py:736
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
 msgstr "אפס/אחד/שניים/אחר"
 
-#: weblate/lang/models.py:737
+#: weblate/lang/models.py:740
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
 msgstr "אפס/אחד/מעטים/רבים/אחר"
 
-#: weblate/lang/models.py:741
+#: weblate/lang/models.py:744
 msgctxt "Plural type"
 msgid "One/many/other"
 msgstr "אחד/רבים/אחר"
 
-#: weblate/lang/models.py:745
+#: weblate/lang/models.py:748
 msgctxt "Plural type"
 msgid "Zero/one/many/other"
 msgstr "אפס/אחד/רבים/אחר"
 
-#: weblate/lang/models.py:749
+#: weblate/lang/models.py:752
 msgctxt "Plural type"
 msgid "One/few/many"
 msgstr "אחד/מעטים/רבים"
 
-#: weblate/lang/models.py:753
+#: weblate/lang/models.py:756
 msgctxt "Plural type"
 msgid "Unknown"
 msgstr "לא ידוע"
 
-#: weblate/lang/models.py:764
+#: weblate/lang/models.py:767
 msgid "Plural definition source"
 msgstr "מקור הגדרת ריבוי"
 
-#: weblate/lang/models.py:766
+#: weblate/lang/models.py:769
 msgid "Default plural"
 msgstr "ריבוי כבררת מחדל"
 
-#: weblate/lang/models.py:767
+#: weblate/lang/models.py:770
 msgid "gettext plural formula"
 msgstr "נוסחת ריבוי של gettext"
 
-#: weblate/lang/models.py:768
+#: weblate/lang/models.py:771
 msgid "stringsdict plural"
 msgstr "ריבוי ב־stringsdict"
 
-#: weblate/lang/models.py:769
+#: weblate/lang/models.py:772
 msgid "CLDR v38+ plural"
 msgstr "כללי ריבוי של CLDR v38+‎"
 
-#: weblate/lang/models.py:770
+#: weblate/lang/models.py:773
 msgid "Android plural"
 msgstr "ריבוי של Android"
 
-#: weblate/lang/models.py:771
+#: weblate/lang/models.py:774
 msgid "Manually entered formula"
 msgstr "נוסחה שהוקלדה ידנית"
 
-#: weblate/lang/models.py:775 weblate/templates/snippets/info.html:54
+#: weblate/lang/models.py:778 weblate/templates/snippets/info.html:54
 msgid "Number of plurals"
 msgstr "מספר צורות הריבוי"
 
-#: weblate/lang/models.py:781 weblate/templates/snippets/info.html:77
+#: weblate/lang/models.py:784 weblate/templates/snippets/info.html:77
 #: weblate/templates/snippets/plural-formula.html:4
 msgid "Plural formula"
 msgstr "נוסחת ריבוי"
 
-#: weblate/lang/models.py:786 weblate/templates/snippets/info.html:58
+#: weblate/lang/models.py:789 weblate/templates/snippets/info.html:58
 msgid "Plural type"
 msgstr "סוג ריבוי"
 
 #. Translators: Label for plurals with example counts
-#: weblate/lang/models.py:874
+#: weblate/lang/models.py:877
 #, python-brace-format
 msgid "For example: {0}"
 msgstr "לדוגמה: {0}"
 
-#: weblate/lang/models.py:885
+#: weblate/lang/models.py:888
 msgid "Singular"
 msgstr "יחיד"
 
-#: weblate/lang/models.py:887
+#: weblate/lang/models.py:890
 msgid "Plural"
 msgstr "רבים"
 
-#: weblate/lang/models.py:888
+#: weblate/lang/models.py:891
 #, python-format
 msgid "Plural form %d"
 msgstr "צורת ריבוי %d"
@@ -4208,7 +4224,7 @@ msgstr "שם האזור"
 msgid "Service is currently not available."
 msgstr "השירות אינו זמין כעת."
 
-#: weblate/memory/forms.py:14 weblate/trans/forms.py:602
+#: weblate/memory/forms.py:14 weblate/trans/forms.py:612
 msgid "File"
 msgstr "קובץ"
 
@@ -4407,12 +4423,12 @@ msgid "Insufficient privileges to display this page."
 msgstr "אין לך מספיק הרשאות להצגת עמוד זה."
 
 #: weblate/templates/403.html:20 weblate/templates/404.html:20
-#: weblate/templates/base.html:128 weblate/templates/base.html:299
+#: weblate/templates/base.html:135 weblate/templates/base.html:307
 msgid "Dashboard"
 msgstr "לוח ראשי"
 
 #: weblate/templates/403.html:21 weblate/templates/404.html:21
-#: weblate/templates/base.html:142
+#: weblate/templates/base.html:149
 msgid "Browse all projects"
 msgstr "עיון בכל המיזמים"
 
@@ -4496,12 +4512,12 @@ msgstr ""
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:7 weblate/templates/about/stats.html:7
-#: weblate/templates/base.html:281 weblate/templates/footer.html:6
+#: weblate/templates/base.html:289 weblate/templates/footer.html:6
 #: weblate/trans/views/about.py:17 weblate/trans/views/about.py:29
 msgid "About Weblate"
 msgstr "על אודות Weblate"
 
-#: weblate/templates/about/index.html:18 weblate/templates/base.html:285
+#: weblate/templates/about/index.html:18 weblate/templates/base.html:293
 #: weblate/templates/footer.html:18 weblate/templates/manage/index.html:96
 msgid "Donate to Weblate"
 msgstr "תרומה ל־Weblate"
@@ -4527,7 +4543,7 @@ msgstr ""
 "ישנה גם אפשרות לאחסון מסחרי, המחיר ההתחלתי שלנו הוא 19 אירו לחודש, ניתן "
 "ליצור קשר לפרטים נוספים."
 
-#: weblate/templates/about/index.html:36 weblate/templates/base.html:235
+#: weblate/templates/about/index.html:36 weblate/templates/base.html:243
 #: weblate/templates/snippets/billing-failure.html:9
 msgid "Ask for Libre hosting"
 msgstr "בקשת אירוח חופשי"
@@ -4611,8 +4627,8 @@ msgstr "להשתמש בכתובת הדוא״ל של החשבון"
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
-#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:244
-#: weblate/templates/base.html:247 weblate/templates/billing/detail.html:8
+#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:252
+#: weblate/templates/base.html:255 weblate/templates/billing/detail.html:8
 #: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "הפרופיל שלך"
@@ -4747,7 +4763,7 @@ msgid "Please fix errors in the registration form."
 msgstr "נא לתקן שגיאות בטופס ההרשמה."
 
 #: weblate/templates/accounts/email.html:27
-#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:218
+#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:226
 #: weblate/templates/engage.html:62
 msgid "Register"
 msgstr "רישום"
@@ -4867,7 +4883,7 @@ msgstr "פרופיל"
 #: weblate/templates/trans/project-access.html:20
 #: weblate/templates/trans/project-access.html:42
 #: weblate/templates/trans/project-access.html:141
-#: weblate/templates/trans/project-access.html:238 weblate/trans/forms.py:2680
+#: weblate/templates/trans/project-access.html:238 weblate/trans/forms.py:2695
 #: weblate/wladmin/views.py:68
 msgid "Teams"
 msgstr "צוותים"
@@ -4955,7 +4971,7 @@ msgstr "זהות"
 msgid "User ID"
 msgstr "מזהה משתמש"
 
-#: weblate/templates/accounts/profile.html:126 weblate/trans/forms.py:2599
+#: weblate/templates/accounts/profile.html:126 weblate/trans/forms.py:2614
 msgid "Action"
 msgstr "פעולה"
 
@@ -5316,7 +5332,7 @@ msgstr "זהויות משתמש"
 #: weblate/templates/billing/detail.html:9
 #: weblate/templates/billing/overview.html:6
 #: weblate/templates/manage/billing.html:7 weblate/templates/project.html:104
-#: weblate/templates/snippets/info.html:102 weblate/trans/forms.py:2105
+#: weblate/templates/snippets/info.html:102 weblate/trans/forms.py:2120
 #: weblate/wladmin/views.py:74
 msgid "Billing"
 msgstr "חיוב"
@@ -5345,7 +5361,7 @@ msgstr "עריכה"
 #: weblate/templates/mail/todo_strings.html:8
 #: weblate/templates/snippets/embed-units.html:12
 #: weblate/templates/translate.html:88 weblate/templates/translate.html:298
-#: weblate/templates/translate.html:376 weblate/trans/forms.py:1481
+#: weblate/templates/translate.html:376 weblate/trans/forms.py:1496
 msgid "Translation"
 msgstr "תרגום"
 
@@ -5428,7 +5444,7 @@ msgstr "מחיקה"
 
 #: weblate/templates/accounts/user.html:307
 #: weblate/templates/auth/team.html:156 weblate/templates/auth/team.html:177
-#: weblate/templates/base.html:336 weblate/templates/base.html:344
+#: weblate/templates/base.html:344 weblate/templates/base.html:352
 #: weblate/templates/manage/backups.html:77
 #: weblate/templates/manage/backups.html:86
 #: weblate/templates/manage/teams.html:67
@@ -5556,16 +5572,6 @@ msgid "The localizable elements have to match configured CSS selector."
 msgstr "הרכיבים שמיועדים לתרגום חייבים להתאים לבורר ה־CSS שהוגדר."
 
 #: weblate/templates/addons/discovery_preview.html:5
-#: weblate/templates/check_project.html:20
-#: weblate/templates/component-list.html:30
-#: weblate/templates/language-project.html:60
-#: weblate/templates/project.html:136 weblate/templates/translate.html:296
-#: weblate/templates/translation.html:203 weblate/trans/forms.py:907
-#: weblate/trans/forms.py:1658 weblate/trans/models/announcement.py:81
-msgid "Component"
-msgstr "רכיב"
-
-#: weblate/templates/addons/discovery_preview.html:5
 msgid "Matched files"
 msgstr "קבצים שנמצאו"
 
@@ -5581,7 +5587,7 @@ msgstr "הרכיבים הבאים ייווצרו"
 #: weblate/templates/addons/discovery_preview.html:38
 #: weblate/templates/snippets/info.html:217
 #: weblate/templates/trans/alert/inexistantfiles.html:11
-#: weblate/trans/models/component.py:388
+#: weblate/trans/models/component.py:393
 msgid "Monolingual base language file"
 msgstr "קובץ בסיס שפה חד לשוני"
 
@@ -5589,7 +5595,7 @@ msgstr "קובץ בסיס שפה חד לשוני"
 #: weblate/templates/addons/discovery_preview.html:40
 #: weblate/templates/snippets/info.html:211
 #: weblate/templates/trans/discover-choice.html:5
-#: weblate/trans/models/component.py:368
+#: weblate/trans/models/component.py:373
 msgid "File mask"
 msgstr "מסכת קבצים"
 
@@ -5620,7 +5626,7 @@ msgid "Translation filename"
 msgstr "שם קובץ תרגום"
 
 #: weblate/templates/addons/generate_help.html:22
-#: weblate/trans/models/component.py:275
+#: weblate/trans/models/component.py:280
 msgid "Component name"
 msgstr "שם רכיב"
 
@@ -5629,7 +5635,7 @@ msgid "Component URL slug"
 msgstr "כתובת מופשטת של רכיב"
 
 #: weblate/templates/addons/generate_help.html:26
-#: weblate/trans/models/project.py:82
+#: weblate/trans/models/project.py:85
 msgid "Project name"
 msgstr "שם המיזם"
 
@@ -5651,7 +5657,7 @@ msgstr "המחרוזות ייווצרו לפי התבנית הבאה:"
 #: weblate/templates/snippets/unit-readonly-badge.html:6
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#: weblate/templates/translate.html:86 weblate/trans/forms.py:2317
+#: weblate/templates/translate.html:86 weblate/trans/forms.py:2332
 #: weblate/utils/views.py:120
 msgid "Source string"
 msgstr "מחרוזת מקור"
@@ -5671,7 +5677,7 @@ msgstr ""
 
 #: weblate/templates/auth/team.html:12
 #: weblate/templates/trans/project-access.html:11
-#: weblate/trans/models/project.py:131
+#: weblate/trans/models/project.py:134
 msgid "Access control"
 msgstr "בקרת גישה"
 
@@ -5691,7 +5697,7 @@ msgstr "בקרת גישה"
 msgid "Manage"
 msgstr "ניהול"
 
-#: weblate/templates/auth/team.html:26 weblate/templates/base.html:260
+#: weblate/templates/auth/team.html:26 weblate/templates/base.html:268
 #: weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:99
 #: weblate/templates/project-settings.html:8 weblate/templates/project.html:99
@@ -5711,7 +5717,7 @@ msgstr "הוספת הקצאה אוטומטית"
 msgid "Last sign in"
 msgstr "כניסה אחרונה"
 
-#: weblate/templates/auth/team.html:97 weblate/trans/forms.py:1177
+#: weblate/templates/auth/team.html:97 weblate/trans/forms.py:1187
 msgid "Team administrator"
 msgstr "הנהלת צוות"
 
@@ -5782,79 +5788,95 @@ msgstr "אין אף רכיבים תואמים!"
 msgid "Access only"
 msgstr "גישה בלבד"
 
-#: weblate/templates/base.html:117
+#: weblate/templates/base.html:119
 msgid "Toggle navigation"
 msgstr "החלפת ניווט"
 
-#: weblate/templates/base.html:139
+#: weblate/templates/base.html:131 weblate/templates/component.html:37
+#: weblate/templates/dashboard/user.html:38
+#: weblate/templates/language-project.html:19
+#: weblate/templates/language.html:21 weblate/templates/manage/users.html:45
+#: weblate/templates/project.html:33
+#: weblate/templates/screenshots/screenshot_detail.html:51
+#: weblate/templates/search.html:18
+#: weblate/templates/snippets/search-form.html:9
+#: weblate/templates/snippets/search-form.html:16
+#: weblate/templates/snippets/user-query-field.html:4
+#: weblate/templates/trans/change_list.html:55
+#: weblate/templates/trans/change_list.html:60
+#: weblate/templates/translate.html:371 weblate/templates/translation.html:39
+msgid "Search"
+msgstr "חיפוש"
+
+#: weblate/templates/base.html:146
 msgid "Manage watched projects"
 msgstr "ניהול מיזמים במעקב"
 
-#: weblate/templates/base.html:156
+#: weblate/templates/base.html:163
 msgid "Manage translated languages"
 msgstr "ניהול שפות מתורגמות"
 
-#: weblate/templates/base.html:159
+#: weblate/templates/base.html:166
 msgid "Browse all languages"
 msgstr "עיון בכל השפות"
 
-#: weblate/templates/base.html:163 weblate/templates/check.html:7
+#: weblate/templates/base.html:170 weblate/templates/check.html:7
 #: weblate/templates/check_component.html:7
 #: weblate/templates/check_project.html:7 weblate/templates/checks.html:7
 #: weblate/templates/snippets/list-objects.html:83
 msgid "Checks"
 msgstr "בדיקות"
 
-#: weblate/templates/base.html:169
+#: weblate/templates/base.html:176
 #, python-format
 msgid "Failing checks in %(project)s — %(language)s"
 msgstr "בדיקות שנכשלו במיזם %(project)s — %(language)s"
 
-#: weblate/templates/base.html:180
+#: weblate/templates/base.html:187
 #, python-format
 msgid "Failing checks in %(project)s"
 msgstr "בדיקות שנכשלו במיזם %(project)s"
 
-#: weblate/templates/base.html:186
+#: weblate/templates/base.html:193
 #, python-format
 msgid "Failing checks in %(language)s"
 msgstr "בדיקות שנכשלו ב%(language)s"
 
-#: weblate/templates/base.html:190
+#: weblate/templates/base.html:197
 msgid "Checks overview"
 msgstr "סקירת בדיקות"
 
-#: weblate/templates/base.html:200 weblate/templates/base.html:202
+#: weblate/templates/base.html:208 weblate/templates/base.html:210
 msgid "Administration"
 msgstr "הנהלה"
 
-#: weblate/templates/base.html:207 weblate/templates/base.html:209
+#: weblate/templates/base.html:215 weblate/templates/base.html:217
 #: weblate/templates/manage/performance.html:19
 msgid "Configuration errors"
 msgstr "שגיאות בהגדרות"
 
-#: weblate/templates/base.html:228 weblate/templates/billing/status.html:99
+#: weblate/templates/base.html:236 weblate/templates/billing/status.html:99
 #: weblate/templates/trans/project_form.html:23
 msgid "Add new translation project"
 msgstr "הוספת מיזם תרגום חדש"
 
-#: weblate/templates/base.html:229 weblate/templates/project.html:88
+#: weblate/templates/base.html:237 weblate/templates/project.html:88
 #: weblate/templates/project.html:142
 #: weblate/templates/snippets/project-component-settings.html:18
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
 msgstr "הוספת רכיב תרגום חדש"
 
-#: weblate/templates/base.html:233
+#: weblate/templates/base.html:241
 msgid "Try Weblate for free"
 msgstr "אפשר להתנסות ב־Weblate בחינם"
 
-#: weblate/templates/base.html:257
+#: weblate/templates/base.html:265
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid "Billing overview"
 msgstr "סקירת חיוב"
 
-#: weblate/templates/base.html:259 weblate/templates/component.html:89
+#: weblate/templates/base.html:267 weblate/templates/component.html:89
 #: weblate/templates/memory/index.html:12
 #: weblate/templates/memory/index.html:15
 #: weblate/templates/memory/index.html:18 weblate/templates/project.html:83
@@ -5864,24 +5886,24 @@ msgstr "סקירת חיוב"
 msgid "Translation memory"
 msgstr "זיכרון תרגום"
 
-#: weblate/templates/base.html:262 weblate/wladmin/sites.py:189
+#: weblate/templates/base.html:270 weblate/wladmin/sites.py:189
 #: weblate/wladmin/templates/admin/base.html:14
 msgid "Sign out"
 msgstr "יציאה"
 
-#: weblate/templates/base.html:269 weblate/templates/base.html:271
+#: weblate/templates/base.html:277 weblate/templates/base.html:279
 msgid "Help"
 msgstr "עזרה"
 
-#: weblate/templates/base.html:275
+#: weblate/templates/base.html:283
 msgid "Get support"
 msgstr "קבלת תמיכה"
 
-#: weblate/templates/base.html:278 weblate/templates/manage/index.html:98
+#: weblate/templates/base.html:286 weblate/templates/manage/index.html:98
 msgid "Get help"
 msgstr "קבלת עזרה"
 
-#: weblate/templates/base.html:283 weblate/templates/check.html:50
+#: weblate/templates/base.html:291 weblate/templates/check.html:50
 #: weblate/templates/check_component.html:72
 #: weblate/templates/check_project.html:51 weblate/templates/checks.html:48
 #: weblate/templates/documentation-icon.html:4 weblate/templates/footer.html:17
@@ -5896,16 +5918,16 @@ msgstr "קבלת עזרה"
 msgid "Documentation"
 msgstr "תיעוד"
 
-#: weblate/templates/base.html:284
+#: weblate/templates/base.html:292
 msgid "Contribute to Weblate"
 msgstr "התנדבות ב־Weblate"
 
-#: weblate/templates/base.html:310 weblate/templates/manage/index.html:46
+#: weblate/templates/base.html:318 weblate/templates/manage/index.html:46
 msgid ""
 "Your Weblate is exceeding service limits. Please upgrade the subscription."
 msgstr "ה־Weblate שלך חורג מגבולות השירות. נא לעדכן את המינוי."
 
-#: weblate/templates/base.html:343
+#: weblate/templates/base.html:351
 #: weblate/templates/screenshots/screenshot_detail.html:82
 msgid "Screenshot details"
 msgstr "פרטי צילום מסך"
@@ -6148,7 +6170,7 @@ msgstr ""
 "הגישה שלך למיזם הזה."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:82
-#: weblate/trans/forms.py:1993 weblate/trans/forms.py:2035
+#: weblate/trans/forms.py:2008 weblate/trans/forms.py:2050
 msgid "You do not have permission to change project access control."
 msgstr "אין לך הרשאות לשנות את בקרת הגישה של המיזם."
 
@@ -6217,7 +6239,7 @@ msgstr ""
 
 #: weblate/templates/component-list.html:19 weblate/templates/component.html:53
 #: weblate/templates/language-project.html:30 weblate/templates/project.html:52
-#: weblate/templates/translation.html:50 weblate/trans/forms.py:1537
+#: weblate/templates/translation.html:50 weblate/trans/forms.py:1552
 msgid "Files"
 msgstr "קבצים"
 
@@ -6260,21 +6282,6 @@ msgstr "מידע"
 #: weblate/templates/component.html:35 weblate/wladmin/views.py:65
 msgid "Alerts"
 msgstr "דיווחים"
-
-#: weblate/templates/component.html:37 weblate/templates/dashboard/user.html:38
-#: weblate/templates/language-project.html:19
-#: weblate/templates/language.html:21 weblate/templates/manage/users.html:45
-#: weblate/templates/project.html:33
-#: weblate/templates/screenshots/screenshot_detail.html:51
-#: weblate/templates/search.html:18
-#: weblate/templates/snippets/search-form.html:9
-#: weblate/templates/snippets/search-form.html:16
-#: weblate/templates/snippets/user-query-field.html:4
-#: weblate/templates/trans/change_list.html:55
-#: weblate/templates/trans/change_list.html:60
-#: weblate/templates/translate.html:371 weblate/templates/translation.html:39
-msgid "Search"
-msgstr "חיפוש"
 
 #: weblate/templates/component.html:40 weblate/templates/dashboard/user.html:29
 #: weblate/templates/language-project.html:22 weblate/templates/project.html:36
@@ -6527,7 +6534,7 @@ msgstr "מדווחת על מספר המחרוזות והמילים שתורגמ�
 #: weblate/templates/snippets/info.html:164
 #: weblate/templates/snippets/libre-checklist.html:32
 #: weblate/templates/trans/other-row.html:22
-#: weblate/trans/models/component.py:497
+#: weblate/trans/models/component.py:502
 msgid "Contributor agreement"
 msgstr "הסכם תרומה"
 
@@ -8716,7 +8723,7 @@ msgid "Loading results…"
 msgstr "התוצאות נטענות…"
 
 #: weblate/templates/snippets/git-info.html:10
-#: weblate/trans/models/component.py:303
+#: weblate/trans/models/component.py:308
 msgid "Source code repository"
 msgstr "מאגר קוד מקור"
 
@@ -8731,8 +8738,8 @@ msgstr "רכיב זה מקושר אל המאגר %(target)s."
 msgid "Repository URL copied to clipboard."
 msgstr "כתובת המאגר הועתק ללוח הגזירים."
 
-#: weblate/templates/snippets/git-info.html:27 weblate/trans/forms.py:1671
-#: weblate/trans/models/component.py:352
+#: weblate/templates/snippets/git-info.html:27 weblate/trans/forms.py:1686
+#: weblate/trans/models/component.py:357
 msgid "Repository branch"
 msgstr "ענף מאגר"
 
@@ -8789,7 +8796,7 @@ msgstr "ריבוי: %(source_description)s"
 msgid "Plurals"
 msgstr "רבים"
 
-#: weblate/templates/snippets/info.html:85 weblate/trans/models/project.py:96
+#: weblate/templates/snippets/info.html:85 weblate/trans/models/project.py:99
 msgid "Project website"
 msgstr "אתר המיזם"
 
@@ -8803,7 +8810,7 @@ msgstr "מתחזקי המיזם"
 
 #: weblate/templates/snippets/info.html:128
 #: weblate/templates/snippets/info.html:151
-#: weblate/trans/models/component.py:490
+#: weblate/trans/models/component.py:495
 msgid "Translation license"
 msgstr "רישיון תרגום"
 
@@ -9097,7 +9104,7 @@ msgstr "ללא תרגום"
 #: weblate/templates/snippets/list-objects.html:93
 #: weblate/templates/trans/suggestion_list.html:8
 #: weblate/templates/translate.html:241 weblate/templates/translate.html:453
-#: weblate/trans/forms.py:1483
+#: weblate/trans/forms.py:1498
 msgid "Suggestions"
 msgstr "הצעות"
 
@@ -9182,7 +9189,7 @@ msgstr "הבאה"
 msgid "Last"
 msgstr "אחרונה"
 
-#: weblate/templates/snippets/progress.html:5 weblate/trans/forms.py:447
+#: weblate/templates/snippets/progress.html:5 weblate/trans/forms.py:457
 msgid "Approved"
 msgstr "אושרה"
 
@@ -9437,7 +9444,7 @@ msgstr "לא ניתן לערוך מחרוזות מקור, אך ניתן למחו
 msgid "The source string cannot be edited."
 msgstr "לא ניתן לערוך את מחרוזת המקור."
 
-#: weblate/templates/snippets/user-list.html:21 weblate/trans/forms.py:151
+#: weblate/templates/snippets/user-list.html:21 weblate/trans/forms.py:161
 msgid "Could not find any such user."
 msgstr "לא ניתן למצוא משתמש כזה."
 
@@ -9655,7 +9662,7 @@ msgid "Following files are no longer present in the repository:"
 msgstr "הקבצים הבאים אינם קיימים עוד במאגר:"
 
 #: weblate/templates/trans/alert/inexistantfiles.html:15
-#: weblate/trans/models/component.py:419
+#: weblate/trans/models/component.py:424
 msgid "Template for new translations"
 msgstr "תבנית לתרגומים חדשים"
 
@@ -9725,7 +9732,7 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "ל־Weblate אין אפשרות לדחוף את השינויים למאגר המקור."
 
 #: weblate/templates/trans/alert/pushfailure.html:9
-#: weblate/trans/models/component.py:2743
+#: weblate/trans/models/component.py:2748
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -9772,7 +9779,7 @@ msgstr ""
 "ידנית או להגדיר דחיפה עם התלייה כדי להפוך את התהליך לאוטומטי."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
-#: weblate/trans/models/component.py:291
+#: weblate/trans/models/component.py:296
 msgid "Version control system"
 msgstr "מערכת בקרת גרסאות"
 
@@ -10105,7 +10112,7 @@ msgid "Propagated"
 msgstr "זהים"
 
 #: weblate/templates/trans/other-row.html:18
-#: weblate/trans/models/component.py:436
+#: weblate/trans/models/component.py:441
 msgid "Locked"
 msgstr "נעול"
 
@@ -10265,12 +10272,12 @@ msgid "Intermediate language"
 msgstr "שפת ביניים"
 
 #: weblate/templates/translate.html:137 weblate/templates/translate.html:627
-#: weblate/templates/zen-units.html:31 weblate/trans/forms.py:454
+#: weblate/templates/zen-units.html:31 weblate/trans/forms.py:464
 #: weblate/trans/models/unit.py:317
 msgid "Explanation"
 msgstr "הסבר"
 
-#: weblate/templates/translate.html:161 weblate/trans/forms.py:1008
+#: weblate/templates/translate.html:161 weblate/trans/forms.py:1018
 msgid "Report issue with the source string"
 msgstr "דיווח על בעיה עם מחרוזת המקור"
 
@@ -10716,7 +10723,7 @@ msgstr ""
 msgid "Color variants:"
 msgstr "גוונים:"
 
-#: weblate/templates/widgets.html:57 weblate/trans/forms.py:1208
+#: weblate/templates/widgets.html:57 weblate/trans/forms.py:1223
 msgid "HTML"
 msgstr "HTML"
 
@@ -10728,7 +10735,7 @@ msgstr "קוד BB"
 msgid "Markdown"
 msgstr "Markdown"
 
-#: weblate/templates/widgets.html:60 weblate/trans/forms.py:1206
+#: weblate/templates/widgets.html:60 weblate/trans/forms.py:1221
 msgid "reStructuredText"
 msgstr "reStructuredText"
 
@@ -10890,210 +10897,210 @@ msgstr "עם תווית: {}"
 msgid "Invalid checksum specified!"
 msgstr "מחרוזת הבדיקה שסופקה שגויה!"
 
-#: weblate/trans/forms.py:146
+#: weblate/trans/forms.py:156
 msgid "Missing username or e-mail."
 msgstr "שם משתמש או דוא״ל חסרים."
 
-#: weblate/trans/forms.py:153
+#: weblate/trans/forms.py:163
 msgid "More possible users were found."
 msgstr "נמצאו משתמשים אפשריים נוספים."
 
-#: weblate/trans/forms.py:206 weblate/trans/forms.py:214
+#: weblate/trans/forms.py:216 weblate/trans/forms.py:224
 msgid "Toggle text direction"
 msgstr "החלפת כיוון טקסט"
 
-#: weblate/trans/forms.py:311
+#: weblate/trans/forms.py:321
 msgid "Alternative translation"
 msgstr "תרגום חלופי"
 
-#: weblate/trans/forms.py:375
+#: weblate/trans/forms.py:385
 msgid "Search filter"
 msgstr "מסנן חיפוש"
 
-#: weblate/trans/forms.py:380
+#: weblate/trans/forms.py:390
 msgid "Please choose a valid filter type."
 msgstr "נא לבחור בסוג מסנן תקני."
 
-#: weblate/trans/forms.py:412
+#: weblate/trans/forms.py:422
 msgid "The string you wanted to translate is no longer available."
 msgstr "המחרוזת שרצית לתרגם אינה זמינה עוד."
 
-#: weblate/trans/forms.py:426 weblate/trans/forms.py:445
+#: weblate/trans/forms.py:436 weblate/trans/forms.py:455
 msgid "Needs editing"
 msgstr "טעונת שיפור"
 
-#: weblate/trans/forms.py:428
+#: weblate/trans/forms.py:438
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
 "מחרוזות תסומנה כ„טעונות שיפור” לאחר שינוי במחרוזת המקור או לאחר סימון ידני."
 
-#: weblate/trans/forms.py:443
+#: weblate/trans/forms.py:453
 msgid "Review state"
 msgstr "מצב סקירה"
 
-#: weblate/trans/forms.py:446 weblate/trans/forms.py:2461
+#: weblate/trans/forms.py:456 weblate/trans/forms.py:2476
 msgid "Waiting for review"
 msgstr "בהמתנה לסקירה"
 
-#: weblate/trans/forms.py:456 weblate/trans/models/unit.py:321
+#: weblate/trans/forms.py:466 weblate/trans/models/unit.py:321
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "הסבר נוסף כדי להבהיר את המשמעות או את אופן השימוש במחרוזת."
 
-#: weblate/trans/forms.py:507
+#: weblate/trans/forms.py:517
 #, fuzzy
 #| msgid "Source string location"
 msgid "Source string explanation"
 msgstr "מיקום מחרוזת מקור"
 
-#: weblate/trans/forms.py:509
+#: weblate/trans/forms.py:519
 #, fuzzy
 #| msgid "Translation notifications"
 msgid "Translation explanation"
 msgstr "התרעות על תרגום"
 
-#: weblate/trans/forms.py:526
+#: weblate/trans/forms.py:536
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "מחרוזת המקור נערכה בינתיים. נא לבדוק את השינויים שלך."
 
-#: weblate/trans/forms.py:537
+#: weblate/trans/forms.py:547
 msgid ""
 "The translation of the string has changed meanwhile. Please check your "
 "changes."
 msgstr "תרגום המחרוזת נערך בינתיים. נא לבדוק את השינויים שלך."
 
-#: weblate/trans/forms.py:548
+#: weblate/trans/forms.py:558
 msgid "Translation text too long!"
 msgstr "טקסט התרגום ארוך מדי!"
 
-#: weblate/trans/forms.py:605
+#: weblate/trans/forms.py:615
 msgid "File upload mode"
 msgstr "מצב העלאת קבצים"
 
-#: weblate/trans/forms.py:607 weblate/trans/forms.py:949
+#: weblate/trans/forms.py:617 weblate/trans/forms.py:959
 msgid "Add as translation"
 msgstr "הוספה כתרגום"
 
-#: weblate/trans/forms.py:608 weblate/trans/forms.py:953
+#: weblate/trans/forms.py:618 weblate/trans/forms.py:963
 msgid "Add as approved translation"
 msgstr "הוספה כתרגום מאושר"
 
-#: weblate/trans/forms.py:609 weblate/trans/forms.py:948
+#: weblate/trans/forms.py:619 weblate/trans/forms.py:958
 msgid "Add as suggestion"
 msgstr "הוספה כהצעה"
 
-#: weblate/trans/forms.py:610
+#: weblate/trans/forms.py:620
 msgid "Add as translation needing edit"
 msgstr "הוספה כתרגום טעון שיפור"
 
-#: weblate/trans/forms.py:611
+#: weblate/trans/forms.py:621
 msgid "Replace existing translation file"
 msgstr "החלפת קובץ תרגום קיים"
 
-#: weblate/trans/forms.py:612
+#: weblate/trans/forms.py:622
 msgid "Update source strings"
 msgstr "עדכון מחרוזות מקור"
 
-#: weblate/trans/forms.py:613
+#: weblate/trans/forms.py:623
 msgid "Add new strings"
 msgstr "הוספת מחרוזות חדשות"
 
-#: weblate/trans/forms.py:619
+#: weblate/trans/forms.py:629
 msgid "Processing of \"Needs editing\" strings"
 msgstr "עיבוד מחרוזות „טעונות שיפור”"
 
-#: weblate/trans/forms.py:621
+#: weblate/trans/forms.py:631
 msgid "Do not import"
 msgstr "לא לייבא"
 
-#: weblate/trans/forms.py:622
+#: weblate/trans/forms.py:632
 msgid "Import as \"Needs editing\""
 msgstr "ייבוא בתור „טעונת שיפור”"
 
-#: weblate/trans/forms.py:623
+#: weblate/trans/forms.py:633
 msgid "Import as translated"
 msgstr "ייבוא המחרוזת כמתורגמת"
 
-#: weblate/trans/forms.py:649
+#: weblate/trans/forms.py:659
 msgid "Conflict handling"
 msgstr "טיפול בסתירות"
 
-#: weblate/trans/forms.py:651
+#: weblate/trans/forms.py:661
 msgid ""
 "Whether to overwrite existing translations if the string is already "
 "translated."
 msgstr "האם לשכתב את התרגומים הקיימים אם המחרוזת כבר מתורגמת."
 
-#: weblate/trans/forms.py:655
+#: weblate/trans/forms.py:665
 msgid "Change only untranslated strings"
 msgstr "החלפת מחרוזות שלא תורגמו בלבד"
 
-#: weblate/trans/forms.py:656
+#: weblate/trans/forms.py:666
 msgid "Change translated strings"
 msgstr "החלפת מחרוזות שלא תורגמו"
 
-#: weblate/trans/forms.py:659
+#: weblate/trans/forms.py:669
 msgid "Change translated and approved strings"
 msgstr "עריכת מחרוזות מתורגמות ומאושרות"
 
-#: weblate/trans/forms.py:670
+#: weblate/trans/forms.py:680
 msgid "Author name"
 msgstr "שם מחבר"
 
-#: weblate/trans/forms.py:671
+#: weblate/trans/forms.py:681
 msgid "Author e-mail"
 msgstr "דוא״ל מחבר"
 
-#: weblate/trans/forms.py:821
+#: weblate/trans/forms.py:831
 msgid "Could not find the merged string."
 msgstr "לא ניתן למצוא את המחרוזת שמוזגה."
 
-#: weblate/trans/forms.py:825
+#: weblate/trans/forms.py:835
 msgid "Could not find merged string."
 msgstr "לא ניתן למצוא את המחרוזת שמוזגה."
 
-#: weblate/trans/forms.py:843
+#: weblate/trans/forms.py:853
 msgid "Could not find the reverted change."
 msgstr "לא ניתן למצוא את השינוי ששוחזר."
 
-#: weblate/trans/forms.py:851
+#: weblate/trans/forms.py:861
 msgid "Automatic translation mode"
 msgstr "מצב תרגום אוטומטי"
 
-#: weblate/trans/forms.py:858
+#: weblate/trans/forms.py:868
 msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr "נא לשים לב שתרגום כל המחרוזות ימחק את כל התרגומים הקיימים."
 
-#: weblate/trans/forms.py:863
+#: weblate/trans/forms.py:873
 msgid "Source of automated translations"
 msgstr "מקור של תרגומים אוטומטיים"
 
-#: weblate/trans/forms.py:865
+#: weblate/trans/forms.py:875
 msgid "Other translation components"
 msgstr "רכיבי תרגום אחרים"
 
-#: weblate/trans/forms.py:866
+#: weblate/trans/forms.py:876
 msgid "Machine translation"
 msgstr "תרגום מכונה"
 
-#: weblate/trans/forms.py:874
+#: weblate/trans/forms.py:884
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr "הפעלת תרומה לזיכרון תרגום משותף למיזם כדי לקבל גישה לרכיבים נוספים."
 
-#: weblate/trans/forms.py:880
+#: weblate/trans/forms.py:890
 msgid "Machine translation engines"
 msgstr "מנועי תרגום מכונה"
 
-#: weblate/trans/forms.py:883
+#: weblate/trans/forms.py:893
 msgid "Score threshold"
 msgstr "סף ניקוד"
 
-#: weblate/trans/forms.py:909
+#: weblate/trans/forms.py:919
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
@@ -11101,267 +11108,267 @@ msgstr ""
 "נא לבחור שם מופשט של רכיב שישמש כמקור, כשריק יעשה שימוש בכל הרכיבים במיזם "
 "הנוכחי."
 
-#: weblate/trans/forms.py:920
+#: weblate/trans/forms.py:930
 msgid "All components in current project"
 msgstr "כל הרכיבים במיזם הנוכחי"
 
-#: weblate/trans/forms.py:950
+#: weblate/trans/forms.py:960
 msgid "Add as \"Needing edit\""
 msgstr "הוספה כ„טעונת שיפור”"
 
-#: weblate/trans/forms.py:973 weblate/trans/forms.py:982
-#: weblate/trans/forms.py:990
+#: weblate/trans/forms.py:983 weblate/trans/forms.py:992
+#: weblate/trans/forms.py:1000
 msgid "Component not found!"
 msgstr "הרכיב לא נמצא!"
 
-#: weblate/trans/forms.py:992
+#: weblate/trans/forms.py:1002
 msgid "Please provide valid component slug!"
 msgstr "נא לספק שם מופשט תקני לרכיב!"
 
-#: weblate/trans/forms.py:1000
+#: weblate/trans/forms.py:1010
 msgid "Scope"
 msgstr "היקף"
 
-#: weblate/trans/forms.py:1002
+#: weblate/trans/forms.py:1012
 msgid ""
 "Is your comment specific to this translation, or generic for all of them?"
 msgstr "האם ההערה שלך היא נקודתית לתרגום הזה או כללית לכולם?"
 
-#: weblate/trans/forms.py:1013
+#: weblate/trans/forms.py:1023
 msgid "Source string comment, suggestions for changes to this string"
 msgstr "הערה על מחרוזת המקור, הצעות לשינוי המחרוזת הזו"
 
-#: weblate/trans/forms.py:1018
+#: weblate/trans/forms.py:1028
 msgid "Translation comment, discussions with other translators"
 msgstr "הערת תרגום, דיון עם מתרגמים אחרים"
 
-#: weblate/trans/forms.py:1025 weblate/trans/models/announcement.py:70
-#: weblate/trans/models/project.py:104
+#: weblate/trans/forms.py:1035 weblate/trans/models/announcement.py:70
+#: weblate/trans/models/project.py:107
 msgid "You can use Markdown and mention users by @username."
 msgstr "ניתן להשתמש ב־Markdown או לאזכר משתמשים לפי @שם_המשתמש שלהם."
 
-#: weblate/trans/forms.py:1043
+#: weblate/trans/forms.py:1053
 msgid "All components"
 msgstr "כל הרכיבים"
 
-#: weblate/trans/forms.py:1093
+#: weblate/trans/forms.py:1103
 msgid "Please choose"
 msgstr "נא לבחור"
 
-#: weblate/trans/forms.py:1165
+#: weblate/trans/forms.py:1175
 msgid "User to add"
 msgstr "משתמש להוספה"
 
-#: weblate/trans/forms.py:1168 weblate/trans/forms.py:1186
+#: weblate/trans/forms.py:1178 weblate/trans/forms.py:1196
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr "נא להקליד שם חשבון קיים או כתובת דוא״ל ב־Weblate."
 
-#: weblate/trans/forms.py:1178
+#: weblate/trans/forms.py:1188
 msgid "Allow user to add or remove users from a team."
 msgstr "לאפשר למשתמש להוסיף או להסיר משתמשים מהצוות."
 
-#: weblate/trans/forms.py:1190
+#: weblate/trans/forms.py:1200
 msgid "Block duration"
 msgstr "משך חסימה"
 
-#: weblate/trans/forms.py:1192
+#: weblate/trans/forms.py:1202
 msgid "Block the user until I unblock"
 msgstr "לחסום את המשתמש עד שאשחררו"
 
-#: weblate/trans/forms.py:1193
+#: weblate/trans/forms.py:1203
 msgid "Block the user for one day"
 msgstr "לחסום את המשתמש ליום"
 
-#: weblate/trans/forms.py:1194
+#: weblate/trans/forms.py:1204
 msgid "Block the user for one week"
 msgstr "לחסום את המשתמש לשבוע"
 
-#: weblate/trans/forms.py:1195
+#: weblate/trans/forms.py:1205
 msgid "Block the user for one month"
 msgstr "לחסום את המשתמש לחודש"
 
-#: weblate/trans/forms.py:1203
+#: weblate/trans/forms.py:1218
 msgid "Report format"
 msgstr "תבנית הדוח"
 
-#: weblate/trans/forms.py:1204
+#: weblate/trans/forms.py:1219
 msgid "Choose a file format for the report"
 msgstr "יש לבחור בתבנית קובץ לדוח"
 
-#: weblate/trans/forms.py:1212
+#: weblate/trans/forms.py:1227
 msgid "Report period"
 msgstr "תקופת הדוח"
 
-#: weblate/trans/forms.py:1214
+#: weblate/trans/forms.py:1229
 msgid "Last 30 days"
 msgstr "30 הימים האחרונים"
 
-#: weblate/trans/forms.py:1215
+#: weblate/trans/forms.py:1230
 msgid "This month"
 msgstr "החודש"
 
-#: weblate/trans/forms.py:1216
+#: weblate/trans/forms.py:1231
 msgid "Last month"
 msgstr "חודש שעבר"
 
-#: weblate/trans/forms.py:1217
+#: weblate/trans/forms.py:1232
 msgid "This year"
 msgstr "השנה"
 
-#: weblate/trans/forms.py:1218
+#: weblate/trans/forms.py:1233
 msgid "Last year"
 msgstr "שנה שעברה"
 
-#: weblate/trans/forms.py:1219
+#: weblate/trans/forms.py:1234
 msgid "As specified below"
 msgstr "כמצוין להלן"
 
-#: weblate/trans/forms.py:1223 weblate/trans/forms.py:2607
+#: weblate/trans/forms.py:1238 weblate/trans/forms.py:2622
 msgid "Starting date"
 msgstr "תאריך התחלה"
 
-#: weblate/trans/forms.py:1224 weblate/trans/forms.py:2608
+#: weblate/trans/forms.py:1239 weblate/trans/forms.py:2623
 msgid "Ending date"
 msgstr "תאריך סיום"
 
-#: weblate/trans/forms.py:1282 weblate/trans/forms.py:1284
+#: weblate/trans/forms.py:1297 weblate/trans/forms.py:1299
 msgid "Missing date!"
 msgstr "חסר תאריך!"
 
-#: weblate/trans/forms.py:1296
+#: weblate/trans/forms.py:1311
 msgid "The starting date has to be before the ending date."
 msgstr "מועד ההתחלה חייב להקדים את מועד הסיום."
 
-#: weblate/trans/forms.py:1314
+#: weblate/trans/forms.py:1329
 msgid "You do not have permission to access this component."
 msgstr "אין לך הרשאות לגשת לרכיב הזה."
 
-#: weblate/trans/forms.py:1371
+#: weblate/trans/forms.py:1386
 msgid "This field has been identified as spam!"
 msgstr "השדה הזה זוהה כספאם!"
 
-#: weblate/trans/forms.py:1463 weblate/trans/forms.py:2042
+#: weblate/trans/forms.py:1478 weblate/trans/forms.py:2057
 msgid "Basic"
 msgstr "בסיסי"
 
-#: weblate/trans/forms.py:1465
+#: weblate/trans/forms.py:1480
 msgid "License"
 msgstr "רישיון"
 
-#: weblate/trans/forms.py:1466
+#: weblate/trans/forms.py:1481
 msgid "Upstream links"
 msgstr "קישורים לקוד במקור"
 
-#: weblate/trans/forms.py:1468
+#: weblate/trans/forms.py:1483
 msgid "Listing and access"
 msgstr "הצגה וגישה"
 
-#: weblate/trans/forms.py:1489
+#: weblate/trans/forms.py:1504
 msgid "Translation settings"
 msgstr "הגדרות תרגום"
 
-#: weblate/trans/forms.py:1499
+#: weblate/trans/forms.py:1514
 msgid "Version control"
 msgstr "ניהול גרסאות"
 
-#: weblate/trans/forms.py:1501
+#: weblate/trans/forms.py:1516
 msgid "Locations"
 msgstr "מיקומים"
 
-#: weblate/trans/forms.py:1511
+#: weblate/trans/forms.py:1526
 msgid "Version control settings"
 msgstr "מערכת בקרת גרסאות"
 
-#: weblate/trans/forms.py:1520 weblate/trans/forms.py:1522
+#: weblate/trans/forms.py:1535 weblate/trans/forms.py:1537
 msgid "Commit messages"
 msgstr "הודעות הגשה"
 
-#: weblate/trans/forms.py:1539
+#: weblate/trans/forms.py:1554
 msgid "Translation files"
 msgstr "קובצי תרגום"
 
-#: weblate/trans/forms.py:1546
+#: weblate/trans/forms.py:1561
 msgid "Monolingual translations"
 msgstr "תרגומים חד־לשוניים"
 
-#: weblate/trans/forms.py:1552
+#: weblate/trans/forms.py:1567
 msgid "Adding new languages"
 msgstr "הוספת שפות חדשות"
 
-#: weblate/trans/forms.py:1659
+#: weblate/trans/forms.py:1674
 msgid "Select an existing component configuration to copy."
 msgstr "נא לבחור בתצורת רכיב קיימת להעתיק ממנה."
 
-#: weblate/trans/forms.py:1741 weblate/trans/forms.py:1746
+#: weblate/trans/forms.py:1756 weblate/trans/forms.py:1761
 msgid "A component with the same name already exists."
 msgstr "כבר קיים רכיב בשם הזה."
 
-#: weblate/trans/forms.py:1766
+#: weblate/trans/forms.py:1781
 msgid "ZIP file containing translations"
 msgstr "קובץ ZIP שמכיל תרגומים"
 
-#: weblate/trans/forms.py:1780
+#: weblate/trans/forms.py:1795
 msgid "Document to translate"
 msgstr "מסמך לתרגום"
 
-#: weblate/trans/forms.py:1852
+#: weblate/trans/forms.py:1867
 msgid "Choose translation files to import"
 msgstr "נא לבחור קובצי תרגום לייבוא"
 
-#: weblate/trans/forms.py:1853
+#: weblate/trans/forms.py:1868
 msgid "Specify configuration manually"
 msgstr "לציין תצורה ידנית"
 
-#: weblate/trans/forms.py:2006
+#: weblate/trans/forms.py:2021
 #, python-format
 msgid ""
 "You must specify a license for these components to make them publicly "
 "accessible: %s"
 msgstr "עליך לציין רישיון לרכיבים האלה כדי להגיש אותם לרשות הציבור: %s"
 
-#: weblate/trans/forms.py:2049
+#: weblate/trans/forms.py:2064
 msgid "Access"
 msgstr "גישה"
 
-#: weblate/trans/forms.py:2058
+#: weblate/trans/forms.py:2073
 msgid "Workflow"
 msgstr "רצף עבודה"
 
-#: weblate/trans/forms.py:2083
+#: weblate/trans/forms.py:2098
 msgid ""
 "Uses and contributes to the pool of shared translations between projects."
 msgstr "משתמש ותורם למאגר התרגומים המשותפים בין מיזמים."
 
-#: weblate/trans/forms.py:2149
+#: weblate/trans/forms.py:2164
 msgid "ZIP file containing project backup"
 msgstr "קובץ ZIP שמכיל את גיבוי המיזם"
 
-#: weblate/trans/forms.py:2171
+#: weblate/trans/forms.py:2186
 #, python-format
 msgid "Failed to load project backup: %s"
 msgstr "טעינת גיבוי המיזם נכשלה: %s"
 
-#: weblate/trans/forms.py:2179
+#: weblate/trans/forms.py:2194
 msgid "Optional additional filter applied to the strings"
 msgstr "מסנן רשות נוסף חל על המחרוזות"
 
-#: weblate/trans/forms.py:2182
+#: weblate/trans/forms.py:2197
 msgid "Search string"
 msgstr "מחרוזת חיפוש"
 
-#: weblate/trans/forms.py:2186
+#: weblate/trans/forms.py:2201
 msgid "Case-sensitive string to search for and replace."
 msgstr "מחרוזת תלוית רישיות לחיפוש והחלפה."
 
-#: weblate/trans/forms.py:2189
+#: weblate/trans/forms.py:2204
 msgid "Replacement string"
 msgstr "מחרוזת החלפה"
 
-#: weblate/trans/forms.py:2277
+#: weblate/trans/forms.py:2292
 msgid "Translation key"
 msgstr "מפתח תרגום"
 
-#: weblate/trans/forms.py:2279
+#: weblate/trans/forms.py:2294
 msgid ""
 "Key used to identify the string in the translation file. File-format "
 "specific rules might apply."
@@ -11369,90 +11376,90 @@ msgstr ""
 "מפתח משמש לזיהוי המחרוזת בקובץ התרגום. עשויים לחול כללים נקודתיים לתבנית "
 "קובץ."
 
-#: weblate/trans/forms.py:2285
+#: weblate/trans/forms.py:2300
 msgid "Source language text"
 msgstr "טקסט בשפת המקור"
 
-#: weblate/trans/forms.py:2287
+#: weblate/trans/forms.py:2302
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr "ניתן לערוך זאת בהמשך כמו כל מחרוזת אחרת בשפת המקור."
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/forms.py:2305 weblate/trans/models/component.py:3503
+#: weblate/trans/forms.py:2320 weblate/trans/models/component.py:3508
 msgid "Context"
 msgstr "הקשר"
 
-#: weblate/trans/forms.py:2306
+#: weblate/trans/forms.py:2321
 msgid "Optional context to clarify the source strings."
 msgstr "הקשר כרשות כדי להסביר על מחרוזות המקור."
 
-#: weblate/trans/forms.py:2313
+#: weblate/trans/forms.py:2328
 msgid "Auto-adjust context when an identical string already exists."
 msgstr "להתאים את ההקשר אוטומטית כאשר מחרוזת זהה כבר קיימת."
 
-#: weblate/trans/forms.py:2338
+#: weblate/trans/forms.py:2353
 msgid "You can edit this later, as with any other string in the translation."
 msgstr "ניתן לערוך זאת בהמשך כמו כל מחרוזת אחרת בתרגום."
 
-#: weblate/trans/forms.py:2418
+#: weblate/trans/forms.py:2433
 msgid "State to set"
 msgstr "מצב להגדרה"
 
-#: weblate/trans/forms.py:2419
+#: weblate/trans/forms.py:2434
 msgid "Do not change"
 msgstr "לא לשנות"
 
-#: weblate/trans/forms.py:2422
+#: weblate/trans/forms.py:2437
 msgid "Translation flags to add"
 msgstr "דגלוני שפה להוספה"
 
-#: weblate/trans/forms.py:2425
+#: weblate/trans/forms.py:2440
 msgid "Translation flags to remove"
 msgstr "דגלוני שפה להסרה"
 
-#: weblate/trans/forms.py:2429
+#: weblate/trans/forms.py:2444
 msgid "Labels to add"
 msgstr "תוויות להוספה"
 
-#: weblate/trans/forms.py:2435
+#: weblate/trans/forms.py:2450
 msgid "Labels to remove"
 msgstr "תוויות להסרה"
 
-#: weblate/trans/forms.py:2482
+#: weblate/trans/forms.py:2497
 msgid "I accept the contributor agreement"
 msgstr "הסכם התרומה מקובל עלי"
 
-#: weblate/trans/forms.py:2511
+#: weblate/trans/forms.py:2526
 msgid "The slug does not match the one marked for deletion!"
 msgstr "השם המופשט אינו תואם את זה שסומן למחיקה!"
 
-#: weblate/trans/forms.py:2517 weblate/trans/forms.py:2536
-#: weblate/trans/forms.py:2547 weblate/trans/forms.py:2556
+#: weblate/trans/forms.py:2532 weblate/trans/forms.py:2551
+#: weblate/trans/forms.py:2562 weblate/trans/forms.py:2571
 msgid "Removal confirmation"
 msgstr "אישור הסרה"
 
-#: weblate/trans/forms.py:2519
+#: weblate/trans/forms.py:2534
 msgid "Please type in the full slug of the translation to confirm."
 msgstr "נא להקליד את השם המופשט המלא כדי לאשר."
 
-#: weblate/trans/forms.py:2538
+#: weblate/trans/forms.py:2553
 msgid "Please type in the full slug of the component to confirm."
 msgstr "נא להקליד את השם המופשט המלא של הרכיב כדי לאשר."
 
-#: weblate/trans/forms.py:2548
+#: weblate/trans/forms.py:2563
 msgid "Please type in the slug of the project to confirm."
 msgstr "נא להקליד את השם המופשט המלא של המיזם כדי לאשר."
 
-#: weblate/trans/forms.py:2558
+#: weblate/trans/forms.py:2573
 msgid "Please type in the slug of the project and language to confirm."
 msgstr "נא להקליד את השם המופשט המלא של המיזם והשפה כדי לאשר."
 
-#: weblate/trans/forms.py:2605
+#: weblate/trans/forms.py:2620
 msgid "Author username"
 msgstr "שם המשתמש של המחבר"
 
-#: weblate/trans/forms.py:2659
+#: weblate/trans/forms.py:2674
 msgid "Expiry cannot be in the past."
 msgstr "התפוגה לא יכולה להיות בעבר."
 
@@ -12081,22 +12088,22 @@ msgstr "החלפת בסיס"
 msgid "Merge without fast-forward"
 msgstr "מיזוג ללא הרצה קדימה"
 
-#: weblate/trans/models/component.py:277
-#: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:85
+#: weblate/trans/models/component.py:282
+#: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:88
 msgid "Display name"
 msgstr "שם תצוגה"
 
-#: weblate/trans/models/component.py:280
-#: weblate/trans/models/componentlist.py:32 weblate/trans/models/project.py:89
+#: weblate/trans/models/component.py:285
+#: weblate/trans/models/componentlist.py:32 weblate/trans/models/project.py:92
 msgid "URL slug"
 msgstr "כתובת מופשטת"
 
-#: weblate/trans/models/component.py:282
-#: weblate/trans/models/componentlist.py:36 weblate/trans/models/project.py:92
+#: weblate/trans/models/component.py:287
+#: weblate/trans/models/componentlist.py:36 weblate/trans/models/project.py:95
 msgid "Name used in URLs and filenames."
 msgstr "השם המשמש לכתובות ולשמות הקבצים."
 
-#: weblate/trans/models/component.py:294
+#: weblate/trans/models/component.py:299
 msgid ""
 "Version control system to use to access your repository containing "
 "translations. You can also choose additional integration with third party "
@@ -12105,7 +12112,7 @@ msgstr ""
 "מערכת ניהול גרסאות לשימוש לטובת גישה למאגר שלך שמכיל תרגומים. ניתן לבחור "
 "שילוב נוסף מול ספקי צד שלישי להגשת בקשות מיזוג."
 
-#: weblate/trans/models/component.py:306
+#: weblate/trans/models/component.py:311
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -12113,19 +12120,19 @@ msgstr ""
 "כתובת של מאגר, יש להשתמש ב־weblate://project/component כדי לשתף אותו עם רכיב "
 "אחר."
 
-#: weblate/trans/models/component.py:318
+#: weblate/trans/models/component.py:323
 msgid "Repository push URL"
 msgstr "כתובת הדחיפה למאגר"
 
-#: weblate/trans/models/component.py:321
+#: weblate/trans/models/component.py:326
 msgid "URL of a push repository, pushing is turned off if empty."
 msgstr "כתובת של מאגר לדחיפה, הדחיפה מושבתת אם שדה זה ריק."
 
-#: weblate/trans/models/component.py:326
+#: weblate/trans/models/component.py:331
 msgid "Repository browser"
 msgstr "סייר מאגרים"
 
-#: weblate/trans/models/component.py:328
+#: weblate/trans/models/component.py:333
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
@@ -12135,38 +12142,38 @@ msgstr ""
 "{{line}} לציון שם קובץ ושורה. אולי עדיף לך להסיר את התיקייה בהתחלה עם "
 "{{filename|parentdir}}."
 
-#: weblate/trans/models/component.py:336
+#: weblate/trans/models/component.py:341
 msgid "Exported repository URL"
 msgstr "כתובת מאגר מיוצא"
 
-#: weblate/trans/models/component.py:339
+#: weblate/trans/models/component.py:344
 msgid "URL of repository where users can fetch changes from Weblate"
 msgstr "כתובת של מאגר ממנו יכולים משתמשים לקבל שינויים מ־Weblate"
 
-#: weblate/trans/models/component.py:344
+#: weblate/trans/models/component.py:349
 msgid "Source string bug reporting address"
 msgstr "כתובת לדיווח על שגיאות במחרוזות המקור"
 
-#: weblate/trans/models/component.py:346
+#: weblate/trans/models/component.py:351
 msgid ""
 "E-mail address for reports on errors in source strings. Leave empty for no e-"
 "mails."
 msgstr ""
 "כתובת דוא״ל לדיווח על שגיאות במחרוזות המקור, יש להשאיר ריק אם אין כתובת כזו."
 
-#: weblate/trans/models/component.py:354
+#: weblate/trans/models/component.py:359
 msgid "Repository branch to translate"
 msgstr "ענף מאגר לתרגום"
 
-#: weblate/trans/models/component.py:359
+#: weblate/trans/models/component.py:364
 msgid "Push branch"
 msgstr "ענף דחיפה"
 
-#: weblate/trans/models/component.py:362
+#: weblate/trans/models/component.py:367
 msgid "Branch for pushing changes, leave empty to use repository branch"
 msgstr "ענף לדחיפת שינויים, יש להשאיר ריק כדי להשתמש בענף של המאגר"
 
-#: weblate/trans/models/component.py:372
+#: weblate/trans/models/component.py:377
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
@@ -12174,19 +12181,19 @@ msgstr ""
 "נתיב הקבצים לתרגום ביחס לשורש מערכת הקבצים, ניתן להשתמש ב־* במקום קוד השפה, "
 "למשל: po/*.po או locale/*/LC_MESSAGES/django.po."
 
-#: weblate/trans/models/component.py:378
+#: weblate/trans/models/component.py:383
 #, fuzzy
 #| msgid "Screenshot details"
 msgid "Screenshot file mask"
 msgstr "פרטי צילום מסך"
 
-#: weblate/trans/models/component.py:383
+#: weblate/trans/models/component.py:388
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
 msgstr ""
 
-#: weblate/trans/models/component.py:392
+#: weblate/trans/models/component.py:397
 msgid ""
 "Filename of translation base file, containing all strings and their source; "
 "it is recommended for monolingual translation formats."
@@ -12194,103 +12201,103 @@ msgstr ""
 "שם הקובץ של קובץ בסיס התרגומים, קובץ זה מכיל את כל המחרוזות והמקור שלהן, "
 "מומלץ עבור תבניות תרגום חד־לשוני."
 
-#: weblate/trans/models/component.py:399
+#: weblate/trans/models/component.py:404
 msgid "Edit base file"
 msgstr "עריכת קובץ בסיס"
 
-#: weblate/trans/models/component.py:402
+#: weblate/trans/models/component.py:407
 msgid ""
 "Whether users will be able to edit the base file for monolingual "
 "translations."
 msgstr "האם משתמשים יוכלו לערוך קובץ בסיס עבור תרגומים חד־לשוניים."
 
-#: weblate/trans/models/component.py:439
+#: weblate/trans/models/component.py:444
 msgid "Locked component will not get any translation updates."
 msgstr "רכיב נעול לא יקבל עדכוני תרגומים."
 
-#: weblate/trans/models/component.py:443
+#: weblate/trans/models/component.py:448
 msgid "Allow translation propagation"
 msgstr "לאפשר הפצת תרגום"
 
-#: weblate/trans/models/component.py:447
+#: weblate/trans/models/component.py:452
 msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr "האם עדכוני תרגום בתוך רכיבים אחרים אמור לגרום לתרגום אוטומטי במיזם זה"
 
-#: weblate/trans/models/component.py:452
+#: weblate/trans/models/component.py:457
 msgid "Turn on suggestions"
 msgstr "הפעלת הצעות"
 
-#: weblate/trans/models/component.py:454
+#: weblate/trans/models/component.py:459
 msgid "Whether to allow translation suggestions at all."
 msgstr "האם לאפשר הצעות לתרגום בכלל."
 
-#: weblate/trans/models/component.py:457
+#: weblate/trans/models/component.py:462
 msgid "Suggestion voting"
 msgstr "הצבעה על הצעות"
 
-#: weblate/trans/models/component.py:460
+#: weblate/trans/models/component.py:465
 msgid "Users can only vote for suggestions and can’t make direct translations."
 msgstr "משתמשים יכולים להצביע להצעות ולא יכולים לתרגם ישירות."
 
-#: weblate/trans/models/component.py:464
+#: weblate/trans/models/component.py:469
 msgid "Autoaccept suggestions"
 msgstr "קבלת הצעות אוטומטית"
 
-#: weblate/trans/models/component.py:467
+#: weblate/trans/models/component.py:472
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to turn it "
 "off."
 msgstr ""
 "קבלת הצעות באופן אוטומטי אם ישנה לפחות כמות כזו של קולות, 0 כדי להשבית."
 
-#: weblate/trans/models/component.py:473 weblate/trans/models/unit.py:308
+#: weblate/trans/models/component.py:478 weblate/trans/models/unit.py:308
 msgid "Translation flags"
 msgstr "דגלוני תרגום"
 
-#: weblate/trans/models/component.py:476 weblate/trans/models/unit.py:311
+#: weblate/trans/models/component.py:481 weblate/trans/models/unit.py:311
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "דגלונים נוספים עם הפרדה לפסיקים להשפעה על ההתנהגות של Weblate."
 
-#: weblate/trans/models/component.py:482
+#: weblate/trans/models/component.py:487
 msgid "Enforced checks"
 msgstr "בדיקות שנאכפות"
 
-#: weblate/trans/models/component.py:483
+#: weblate/trans/models/component.py:488
 msgid "List of checks which can not be ignored."
 msgstr "רשימה של בדיקות שלא ניתן להתעלם מהן."
 
-#: weblate/trans/models/component.py:501
+#: weblate/trans/models/component.py:506
 msgid ""
 "User agreement which needs to be approved before a user can translate this "
 "component."
 msgstr "הסכם משתמש אותו יש לאשר לפני שמשתמש יכול לתרגם את הרכיב הזה."
 
-#: weblate/trans/models/component.py:508
+#: weblate/trans/models/component.py:513
 msgid "Adding new translation"
 msgstr "הוספת תרגום חדש"
 
-#: weblate/trans/models/component.py:512
+#: weblate/trans/models/component.py:517
 msgid "How to handle requests for creating new translations."
 msgstr "כיצד לטפל בבקשות ליצירת תרגומים חדשים."
 
-#: weblate/trans/models/component.py:515
+#: weblate/trans/models/component.py:520
 msgid "Language code style"
 msgstr "סגנון קוד שפה"
 
-#: weblate/trans/models/component.py:521
+#: weblate/trans/models/component.py:526
 msgid ""
 "Customize language code used to generate the filename for translations "
 "created by Weblate."
 msgstr ""
 "ניתן להתאים את קוד השפה כדי לייצר שם קובץ לתרגומים שנוצרו על ידי Weblate."
 
-#: weblate/trans/models/component.py:526
+#: weblate/trans/models/component.py:531
 msgid "Manage strings"
 msgstr "ניהול מחרוזות"
 
-#: weblate/trans/models/component.py:529
+#: weblate/trans/models/component.py:534
 msgid ""
 "Enables adding and removing strings straight from Weblate. If your strings "
 "are extracted from the source code or managed externally you probably want "
@@ -12299,203 +12306,203 @@ msgstr ""
 "מאפשר הוספת והסרת מחרוזות ישירות מ־Weblate. אם המחרוזות שלך מחולצות אוטומטית "
 "מקוד המקור או מנוהלות חיצונית, עדיף להשבית את האפשרות הזאת."
 
-#: weblate/trans/models/component.py:537
+#: weblate/trans/models/component.py:542
 msgid "Merge style"
 msgstr "סגנון המיזוג"
 
-#: weblate/trans/models/component.py:542
+#: weblate/trans/models/component.py:547
 msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr "להגדיר האם Weblate אמור למזג אל מאגר המקור או לבסס את השינויים עליו."
 
-#: weblate/trans/models/component.py:547
+#: weblate/trans/models/component.py:552
 msgid "Commit message when translating"
 msgstr "הודעת הגשה בעת תרגום"
 
-#: weblate/trans/models/component.py:549 weblate/trans/models/component.py:558
-#: weblate/trans/models/component.py:567 weblate/trans/models/component.py:576
-#: weblate/trans/models/component.py:585 weblate/trans/models/component.py:594
+#: weblate/trans/models/component.py:554 weblate/trans/models/component.py:563
+#: weblate/trans/models/component.py:572 weblate/trans/models/component.py:581
+#: weblate/trans/models/component.py:590 weblate/trans/models/component.py:599
 msgid ""
 "You can use template language for various info, please consult the "
 "documentation for more details."
 msgstr ""
 "ניתן להשתמש בשפת תבנית לקבל מידע מגוון, נא לעיין בתיעוד לקבלת פרטים נוספים."
 
-#: weblate/trans/models/component.py:556
+#: weblate/trans/models/component.py:561
 msgid "Commit message when adding translation"
 msgstr "הודעת הגשה בעת הוספת תרגום"
 
-#: weblate/trans/models/component.py:565
+#: weblate/trans/models/component.py:570
 msgid "Commit message when removing translation"
 msgstr "הודעת הגשה בעת הסרת תרגום"
 
-#: weblate/trans/models/component.py:574
+#: weblate/trans/models/component.py:579
 msgid "Commit message when merging translation"
 msgstr "הודעת הגשה בעת מיזוג תרגום"
 
-#: weblate/trans/models/component.py:583
+#: weblate/trans/models/component.py:588
 msgid "Commit message when add-on makes a change"
 msgstr "הודעת הגשה כשתוסף עורך שינוי"
 
-#: weblate/trans/models/component.py:592
+#: weblate/trans/models/component.py:597
 msgid "Merge request message"
 msgstr "הודעת בקשת המיזוג"
 
-#: weblate/trans/models/component.py:601
+#: weblate/trans/models/component.py:606
 msgid "Push on commit"
 msgstr "דחיפה עם ההגשה"
 
-#: weblate/trans/models/component.py:604
+#: weblate/trans/models/component.py:609
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "האם יש לדחוף את המאגר בחזרה למקור עם כל הגשה של תרגום."
 
-#: weblate/trans/models/component.py:608
+#: weblate/trans/models/component.py:613
 msgid "Age of changes to commit"
 msgstr "גיל של שינויים להגשה"
 
-#: weblate/trans/models/component.py:612
+#: weblate/trans/models/component.py:617
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr "הזמן בשעות שלאחריו השינויים הממתינים יוגשו למערכת ניהול הגרסאות."
 
-#: weblate/trans/models/component.py:617
+#: weblate/trans/models/component.py:622
 msgid "Lock on error"
 msgstr "לנעול עם שגיאה"
 
-#: weblate/trans/models/component.py:620
+#: weblate/trans/models/component.py:625
 msgid "Whether the component should be locked on repository errors."
 msgstr "האם על הרכיב להינעל עקב שגיאות במאגר."
 
-#: weblate/trans/models/component.py:626
+#: weblate/trans/models/component.py:631
 msgid "Source language"
 msgstr "שפת המקור"
 
-#: weblate/trans/models/component.py:627
+#: weblate/trans/models/component.py:632
 msgid "Language used for source strings in all components"
 msgstr "שפה המשמשת למחרוזות המקור של כל הרכיבים"
 
-#: weblate/trans/models/component.py:636
+#: weblate/trans/models/component.py:641
 msgid ""
 "Regular expression used to filter translation files when scanning for file "
 "mask."
 msgstr "ביטוי רגולרי שמשמש לסינון קובצי תרגומים בעת סריקה אחר מסכת קובץ."
 
-#: weblate/trans/models/component.py:641
+#: weblate/trans/models/component.py:646
 msgid "Variants regular expression"
 msgstr "ביטוי רגולרי להגוונים"
 
-#: weblate/trans/models/component.py:647
+#: weblate/trans/models/component.py:652
 msgid "Regular expression used to determine variants of a string."
 msgstr "ביטוי רגולרי שמשמש לאכוף הגוונים של מחרוזת."
 
-#: weblate/trans/models/component.py:656
+#: weblate/trans/models/component.py:661
 msgid "Components with higher priority are offered first to translators."
 msgstr "רכיבים עם עדיפות גבוהה יותר מוצעים תחילה למתרגמים."
 
-#: weblate/trans/models/component.py:660
+#: weblate/trans/models/component.py:665
 msgid "Restricted component"
 msgstr "רכיב מוגבל"
 
-#: weblate/trans/models/component.py:664
+#: weblate/trans/models/component.py:669
 msgid ""
 "Restrict access to the component to only those explicitly given permission."
 msgstr "הגבלת גישה לרכיב למעט הרשאות שניתנו במפורש."
 
-#: weblate/trans/models/component.py:671
+#: weblate/trans/models/component.py:676
 msgid "Share in projects"
 msgstr "שיתוף במיזמים"
 
-#: weblate/trans/models/component.py:675
+#: weblate/trans/models/component.py:680
 msgid "Choose additional projects where this component will be listed."
 msgstr "נא לבחור מיזמים נוספים בהם אמור להופיע הרכיב הזה."
 
-#: weblate/trans/models/component.py:681
+#: weblate/trans/models/component.py:686
 msgid "Use as a glossary"
 msgstr "להשתמש כמונחון"
 
-#: weblate/trans/models/component.py:686
+#: weblate/trans/models/component.py:691
 msgid "Glossary color"
 msgstr "צבע מונחון"
 
-#: weblate/trans/models/component.py:1405
+#: weblate/trans/models/component.py:1410
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr "לא ניתן לאמת את מפתח ה־SSH, נא להוסיף אות בעמוד ה־SSH במנשק הניהול."
 
-#: weblate/trans/models/component.py:1414
+#: weblate/trans/models/component.py:1419
 msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
 msgstr ""
 "המאגר דורש אימות, נא לספק פרטי גישה בכתובת או להשתמש בגישה דרך SSH במקום."
 
-#: weblate/trans/models/component.py:1420
+#: weblate/trans/models/component.py:1425
 #, python-format
 msgid "Could not fetch the repository: %s"
 msgstr "לא ניתן לקבל את המאגר: %s"
 
-#: weblate/trans/models/component.py:1489
-#: weblate/trans/models/component.py:2637
-#: weblate/trans/models/component.py:2696
+#: weblate/trans/models/component.py:1494
+#: weblate/trans/models/component.py:2642
+#: weblate/trans/models/component.py:2701
 msgid "File does not exist."
 msgstr "קובץ לא קיים."
 
-#: weblate/trans/models/component.py:1661
+#: weblate/trans/models/component.py:1666
 #, fuzzy, python-format
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Failed to push %(component)s: %(error_text)s"
 msgstr "ניתוח הקובץ %(file)s נכשל: %(error)s"
 
-#: weblate/trans/models/component.py:1682
+#: weblate/trans/models/component.py:1687
 #, python-format
 msgid "Push is turned off for %s."
 msgstr "בוטלה דחיפה עבור %s."
 
-#: weblate/trans/models/component.py:1742
+#: weblate/trans/models/component.py:1747
 #, python-format
 msgid "Could not reset to remote branch on %s."
 msgstr "לא ניתן לאפס את הענף המרוחק ב־%s."
 
-#: weblate/trans/models/component.py:1775
+#: weblate/trans/models/component.py:1780
 #, python-format
 msgid "Could not clean the repository on %s."
 msgstr "לא ניתן לנקות את המאגר שב־%s."
 
-#: weblate/trans/models/component.py:1968
+#: weblate/trans/models/component.py:1973
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr "לא ניתן להחליף את הבסיס של הענף המקומי לענף המרוחק %s."
 
-#: weblate/trans/models/component.py:1974
+#: weblate/trans/models/component.py:1979
 #, python-format
 msgid "Could not merge remote branch into %s."
 msgstr "לא ניתן למזג את הענף המרוחק לתוך %s."
 
-#: weblate/trans/models/component.py:2512
+#: weblate/trans/models/component.py:2517
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr "קישור שגוי למיזם Weblate, יש להשתמש בצורה weblate://project/component."
 
-#: weblate/trans/models/component.py:2522
+#: weblate/trans/models/component.py:2527
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr "קישור שגוי למיזם Weblate, לא ניתן לקשר למאגר מקושר!"
 
-#: weblate/trans/models/component.py:2531
+#: weblate/trans/models/component.py:2536
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr "קישור שגוי למיזם Weblate, לא ניתן לקשר אותו לעצמו!"
 
-#: weblate/trans/models/component.py:2542
+#: weblate/trans/models/component.py:2547
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
 msgstr "האפשרות אינה זמינה במאגרים מקושרים. יעשה שימוש בהגדרות מהרכיב המקושר."
 
-#: weblate/trans/models/component.py:2554
+#: weblate/trans/models/component.py:2559
 msgid "The file mask did not match any files."
 msgstr "המסכה אינה תואמת קבצים כלשהם."
 
-#: weblate/trans/models/component.py:2564
+#: weblate/trans/models/component.py:2569
 #, fuzzy, python-format
 #| msgid ""
 #| "There is more than one file for %s language, please adjust the file mask "
@@ -12508,11 +12515,11 @@ msgstr ""
 "יש יותר מקובץ אחד ל%s, נא להתאים את מסכת הקבצים ולהשתמש ברכיבים כדי לתרגם "
 "משאבים שונים."
 
-#: weblate/trans/models/component.py:2582
+#: weblate/trans/models/component.py:2587
 msgid "Could not find any matching language, please check the file mask."
 msgstr "לא ניתן למצוא שפה תואמת כלשהי, נא לבדוק את מסכת הקובץ."
 
-#: weblate/trans/models/component.py:2602
+#: weblate/trans/models/component.py:2607
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
@@ -12521,137 +12528,137 @@ msgstr[1] "לא ניתן לפענח את %d הקבצים התואמים."
 msgstr[2] "לא ניתן לפענח את %d הקבצים התואמים."
 msgstr[3] "לא ניתן לפענח את %d הקבצים התואמים."
 
-#: weblate/trans/models/component.py:2630
+#: weblate/trans/models/component.py:2635
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
 msgstr ""
 "הגדרת את Weblate להוספת קובצי תרגום חדשים, אך לא סיפקת קובץ בסיס לעשות זאת."
 
-#: weblate/trans/models/component.py:2641
+#: weblate/trans/models/component.py:2646
 #, python-format
 msgid "Failed to parse base file for new translations: %s"
 msgstr "פענוח קובץ הבסיס לאיתור תרגומים חדשים נכשל: %s"
 
-#: weblate/trans/models/component.py:2645
+#: weblate/trans/models/component.py:2650
 msgid "Unrecognized base file for new translations."
 msgstr "קובץ בסיס בלתי מזוהה לתרגומים חדשים."
 
-#: weblate/trans/models/component.py:2656
+#: weblate/trans/models/component.py:2661
 msgid "You can not use a base file for bilingual translation."
 msgstr "לא ניתן להשתמש בקובץ בסיס עבור תרגום דו־לשוני."
 
-#: weblate/trans/models/component.py:2662
-#: weblate/trans/models/component.py:2678
+#: weblate/trans/models/component.py:2667
+#: weblate/trans/models/component.py:2683
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr "לא ניתן להשתמש בקובץ שפת ביניים מבלי תבנית עריכה."
 
-#: weblate/trans/models/component.py:2670
+#: weblate/trans/models/component.py:2675
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
 msgstr ""
 "קובץ שפת ביניים חייב להיות שונה מקובץ השפה הבסיסי החד־לשוני. מוטב להשאיר ריק."
 
-#: weblate/trans/models/component.py:2685
+#: weblate/trans/models/component.py:2690
 msgid "Using a .pot file as base file is unsupported."
 msgstr "אין תמיכה בשימוש בקובץ ‎.pot כבסיס."
 
-#: weblate/trans/models/component.py:2701
+#: weblate/trans/models/component.py:2706
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "לא ניתן לפענח את קובץ בסיס התרגום: %s"
 
-#: weblate/trans/models/component.py:2712
+#: weblate/trans/models/component.py:2717
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "שפת התבנית ({0}) אינה תואמת את שפת המקור ({1})!"
 
-#: weblate/trans/models/component.py:2718
+#: weblate/trans/models/component.py:2723
 msgid "You can not use a monolingual translation without a base file."
 msgstr "לא ניתן להשתמש בתרגום חד־לשוני ללא קובץ בסיס."
 
-#: weblate/trans/models/component.py:2748
+#: weblate/trans/models/component.py:2753
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "לא ניתן לעדכן מאגר: %s"
 
-#: weblate/trans/models/component.py:2766
+#: weblate/trans/models/component.py:2771
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
 msgstr "נא למלא את כתובת ההנחיות או להשתמש באפשרות אחרת להוספת שפה חדשה."
 
-#: weblate/trans/models/component.py:2797
+#: weblate/trans/models/component.py:2802
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr "לא ניתן להחליף את שפת המקור, במקום זאת יש ליצור את הרכיב מחדש."
 
-#: weblate/trans/models/component.py:2805
+#: weblate/trans/models/component.py:2810
 msgid "Component with this URL slug already exists in the project."
 msgstr "כבר קיים רכיב עם הכתובת הייצוגית הזאת במיזם."
 
-#: weblate/trans/models/component.py:2810
+#: weblate/trans/models/component.py:2815
 msgid "Component with this name already exists in the project."
 msgstr "כבר קיים רכיב בשם הזה במיזם."
 
-#: weblate/trans/models/component.py:2836
+#: weblate/trans/models/component.py:2841
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr "לא ניתן לאמת את התאמות הקבצים עקב ביטוי רגולרי שגוי."
 
-#: weblate/trans/models/component.py:2847
+#: weblate/trans/models/component.py:2852
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "קבלת הצעות אוטומטית פועלת רק כשההצבעה פעילה."
 
-#: weblate/trans/models/component.py:3326
+#: weblate/trans/models/component.py:3331
 msgid "Could not add new translation file."
 msgstr "לא ניתן להוסיף קובץ תרגום חדש."
 
-#: weblate/trans/models/component.py:3333
+#: weblate/trans/models/component.py:3338
 msgid "You do not have permissions to add new translation file."
 msgstr "אין לך הרשאה להוסיף קובץ תרגום חדש."
 
-#: weblate/trans/models/component.py:3341
-#: weblate/trans/models/component.py:3349
+#: weblate/trans/models/component.py:3346
+#: weblate/trans/models/component.py:3354
 msgid "The monolingual base language file is invalid."
 msgstr "קובץ שפת הבסיס החד לשוני שגוי."
 
-#: weblate/trans/models/component.py:3354
+#: weblate/trans/models/component.py:3359
 msgid "The template for new translations is invalid."
 msgstr "התבנית לתרגומים חדשים שגויה."
 
-#: weblate/trans/models/component.py:3390
+#: weblate/trans/models/component.py:3395
 msgid "The given language is used as a source language."
 msgstr "השפה הנבחרת משמשת כשפת מקור."
 
-#: weblate/trans/models/component.py:3395
+#: weblate/trans/models/component.py:3400
 msgid "The given language already exists."
 msgstr "השפה הנבחרת כבר קיימת."
 
-#: weblate/trans/models/component.py:3402
+#: weblate/trans/models/component.py:3407
 msgid "The given language is filtered by the language filter."
 msgstr "השפה הנבחרת מסוננת על ידי מסנן השפות."
 
-#: weblate/trans/models/component.py:3426
+#: weblate/trans/models/component.py:3431
 msgid "Translation file already exists!"
 msgstr "קובץ התרגום כבר קיים!"
 
-#: weblate/trans/models/component.py:3457 weblate/trans/views/basic.py:453
+#: weblate/trans/models/component.py:3462 weblate/trans/views/basic.py:453
 msgid "The translation will be updated in the background."
 msgstr "התרגום יעודכן ברקע."
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3505 weblate/utils/views.py:127
+#: weblate/trans/models/component.py:3510 weblate/utils/views.py:127
 msgctxt "Translation key"
 msgid "Key"
 msgstr "מפתח"
 
-#: weblate/trans/models/component.py:3583
+#: weblate/trans/models/component.py:3588
 msgid "Add new glossary term"
 msgstr "הוספת מונח חדש למונחון"
 
-#: weblate/trans/models/component.py:3584
+#: weblate/trans/models/component.py:3589
 msgid "Add new translation string"
 msgstr "הוספת מחרוזת תרגום חדשה"
 
@@ -12688,88 +12695,88 @@ msgstr "ביטוי רגולרי שמשמש להתאמת השם המופשט של
 msgid "Component list to assign"
 msgstr "רשימת רכיבים להקצאה"
 
-#: weblate/trans/models/project.py:75
+#: weblate/trans/models/project.py:78
 msgid "Public"
 msgstr "ציבורי"
 
-#: weblate/trans/models/project.py:76
+#: weblate/trans/models/project.py:79
 msgid "Protected"
 msgstr "מוגן"
 
-#: weblate/trans/models/project.py:77
+#: weblate/trans/models/project.py:80
 msgid "Private"
 msgstr "פרטי"
 
-#: weblate/trans/models/project.py:78
+#: weblate/trans/models/project.py:81
 msgid "Custom"
 msgstr "התאמה אישית"
 
-#: weblate/trans/models/project.py:98
+#: weblate/trans/models/project.py:101
 msgid "Main website of translated project."
 msgstr "האתר הראשי של המיזם המתורגם."
 
-#: weblate/trans/models/project.py:102
+#: weblate/trans/models/project.py:105
 msgid "Translation instructions"
 msgstr "הנחיות לתרגום"
 
-#: weblate/trans/models/project.py:108
+#: weblate/trans/models/project.py:111
 msgid "Set \"Language-Team\" header"
 msgstr "הגדרת הכותרת „Language-Team”"
 
-#: weblate/trans/models/project.py:111
+#: weblate/trans/models/project.py:114
 msgid "Lets Weblate update the \"Language-Team\" file header of your project."
 msgstr "לאפשר ל־Weblate לעדכן את צוות התרגום („Language-Team”) בכותרות הקבצים."
 
-#: weblate/trans/models/project.py:115
+#: weblate/trans/models/project.py:118
 msgid "Use shared translation memory"
 msgstr "שימוש בזיכרון תרגום משותף"
 
-#: weblate/trans/models/project.py:118
+#: weblate/trans/models/project.py:121
 msgid "Uses the pool of shared translations between projects."
 msgstr "משתמש במאגר התרגומים המשותפים בין מיזמים."
 
-#: weblate/trans/models/project.py:122
+#: weblate/trans/models/project.py:125
 msgid "Contribute to shared translation memory"
 msgstr "תרגום לזיכרון התרגום המשותף"
 
-#: weblate/trans/models/project.py:125
+#: weblate/trans/models/project.py:128
 msgid "Contributes to the pool of shared translations between projects."
 msgstr "תורם למאגר התרגום המשותף בין מיזמים."
 
-#: weblate/trans/models/project.py:133
+#: weblate/trans/models/project.py:136
 msgid ""
 "How to restrict access to this project is detailed in the documentation."
 msgstr "אופן הגבלת הגישה למיזם זה מפורטת בתיעוד."
 
-#: weblate/trans/models/project.py:138
+#: weblate/trans/models/project.py:141
 msgid "Enable reviews"
 msgstr "הפעלת סקירות"
 
-#: weblate/trans/models/project.py:140
+#: weblate/trans/models/project.py:143
 msgid "Requires dedicated reviewers to approve translations."
 msgstr "נדרשים סוקרים מסוימים כדי לאשר תרגומים."
 
-#: weblate/trans/models/project.py:143
+#: weblate/trans/models/project.py:146
 msgid "Enable source reviews"
 msgstr "הפעלת סקירות מקור"
 
-#: weblate/trans/models/project.py:146
+#: weblate/trans/models/project.py:149
 msgid "Requires dedicated reviewers to approve source strings."
 msgstr "נדרשים סוקרים מסוימים כדי לאשר מחרוזות מקור."
 
-#: weblate/trans/models/project.py:150
+#: weblate/trans/models/project.py:153
 msgid "Enable hooks"
 msgstr "לאפשר התלייה"
 
-#: weblate/trans/models/project.py:153
+#: weblate/trans/models/project.py:156
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr "האם לאפשר לעדכן את המאגר הזה באמצעות התליות מרחוק."
 
-#: weblate/trans/models/project.py:157
+#: weblate/trans/models/project.py:160
 msgid "Language aliases"
 msgstr "כינויי שפות"
 
-#: weblate/trans/models/project.py:161
+#: weblate/trans/models/project.py:164
 msgid ""
 "Comma-separated list of language code mappings, for example: en_GB:en,en_US:"
 "en"
@@ -15669,9 +15676,6 @@ msgstr "נוצר חשבון המשתמש {}."
 
 #~ msgid "Weblate owes its existence to these projects."
 #~ msgstr "ללא מיזמים אלה מערכת Weblate לא הייתה קיימת."
-
-#~ msgid "User"
-#~ msgstr "משתמש"
 
 #~ msgid ""
 #~ "There has been a change in translation on %(translation)s at "
