@@ -3,6 +3,7 @@
 {% load translations %}
 {% load compress %}
 {% load icons %}
+{% load permissions %}
 
 <!DOCTYPE html>
 
@@ -196,7 +197,8 @@ var _rollbarConfig = {
       <ul class="nav navbar-nav navbar-right flip">
 
         {# Superuser link to admin #}
-        {% if user.is_superuser %}
+        {% perm "management.use" user as user_can_manage %}
+        {% if user_can_manage %}
         <li>
           <a class="button" id="admin-button" href="{% url 'manage' %}" title="{% trans "Administration" %}">
             {% icon "wrench.svg" %}
