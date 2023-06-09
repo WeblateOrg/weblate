@@ -1202,7 +1202,6 @@ $(function () {
               if (autoCompleteInput.value.length) autoCompleteJS.start();
             },
             selection(event) {
-              console.log(this, event);
               const feedback = event.detail;
               autoCompleteInput.blur();
               const selection =
@@ -1213,6 +1212,50 @@ $(function () {
         },
       });
     });
+
+  /* Site-wide search */
+  let siteSearch = new autoComplete({
+    /*name: "sitewide-search",*/
+    selector: "#sitewide-search",
+    debounce: 300,
+    resultsList: {
+      class: "autoComplete dropdown-menu",
+    },
+    resultItem: {
+      class: "autoComplete_result",
+      element: (item, data) => {
+        item.textContent = "";
+        let child = document.createElement("a");
+        child.setAttribute("href", data.value.url);
+        child.textContent = `${data.value.name} `;
+        let category = document.createElement("span");
+        category.setAttribute("class", "badge");
+        category.textContent = data.value.category;
+        child.appendChild(category);
+        item.appendChild(child);
+      },
+      selected: "autoComplete_selected",
+    },
+    data: {
+      keys: ["name"],
+      src: async (query) => {
+        try {
+          const source = await fetch(`/api/search/?q=${query}`);
+          const data = await source.json();
+          return data;
+        } catch (error) {
+          return error;
+        }
+      },
+    },
+    events: {
+      input: {
+        focus() {
+          if (siteSearch.input.value.length) siteSearch.start();
+        },
+      },
+    },
+  });
 
   /* Warn users that they do not want to use developer console in most cases */
   console.log(

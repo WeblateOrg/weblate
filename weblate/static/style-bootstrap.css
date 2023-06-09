@@ -1869,8 +1869,17 @@ h5.list-group-item-heading {
 .autoComplete:not([hidden]) {
   display: block;
 }
-.autoComplete {
+.autoComplete_wrapper {
   position: relative;
+}
+.autoComplete {
+  position: absolute;
+  top: 100%;
+}
+.navbar .autoComplete {
+  margin-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 @-webkit-keyframes flags-updated {

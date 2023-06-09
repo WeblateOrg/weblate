@@ -126,6 +126,11 @@ var _rollbarConfig = {
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="wl-navbar-main">
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" id="sitewide-search" placeholder="{% translate "Search" %}">
+        </div>
+      </form>
       <ul class="nav navbar-nav">
         <li><a href="{% url 'home' %}">{% trans "Dashboard" %}</a></li>
         <li class="dropdown">

@@ -19,6 +19,7 @@ Not yet released.
 * Added dark theme; browser-following and manual setting are available.
 * The Docker container can now be used with read-only root filesystem.
 * Added username autocompletion when adding users to a project.
+* Added site-wide search for projects and components.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 
