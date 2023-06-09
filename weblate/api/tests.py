@@ -3581,7 +3581,19 @@ class SearchAPITest(APIBaseTest):
                     "name": "Test",
                     "url": "/projects/test/test/",
                 },
+                {
+                    "category": "User",
+                    "name": "apitest",
+                    "url": "/user/apitest/",
+                },
             ],
+        )
+
+    def test_language(self):
+        response = self.client.get(reverse("api:search"), {"q": "czech"})
+        self.assertEqual(
+            response.data,
+            [{"category": "Language", "name": "Czech", "url": "/languages/cs/"}],
         )
 
 

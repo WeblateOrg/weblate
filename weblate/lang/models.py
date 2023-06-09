@@ -407,6 +407,9 @@ class LanguageQuerySet(models.QuerySet):
                 continue
         return None
 
+    def search(self, query: str):
+        return self.filter(Q(name__icontains=query) | Q(code__icontains=query))
+
 
 class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
     use_in_migrations = True

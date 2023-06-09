@@ -1607,6 +1607,22 @@ class Search(APIView):
                         "category": gettext("Component"),
                     }
                 )
+            for user in User.objects.search(query)[:5]:
+                results.append(
+                    {
+                        "url": user.get_absolute_url(),
+                        "name": user.username,
+                        "category": gettext("User"),
+                    }
+                )
+            for language in Language.objects.search(query)[:5]:
+                results.append(
+                    {
+                        "url": language.get_absolute_url(),
+                        "name": language.name,
+                        "category": gettext("Language"),
+                    }
+                )
 
         return Response(results)
 
