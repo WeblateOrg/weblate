@@ -139,7 +139,7 @@ The additional variant for a string can also be added using the :guilabel:`Tools
 
 .. note::
 
-   There the variant source string has to at most 768 characters long. This is
+   The variant source string has to be at most 768 characters long. This is a
    technical limitation due to compatibility with MySQL database.
 
 .. seealso::
