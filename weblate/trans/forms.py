@@ -140,6 +140,16 @@ class ChecksumField(forms.CharField):
 
 
 class UserField(forms.CharField):
+    def widget_attrs(self, widget):
+        attrs = super().widget_attrs(widget)
+        attrs["dir"] = "ltr"
+        attrs["class"] = "user-autocomplete"
+        attrs["spellcheck"] = "false"
+        attrs["autocorrect"] = "off"
+        attrs["autocomplete"] = "off"
+        attrs["autocapitalize"] = "off"
+        return attrs
+
     def clean(self, value):
         if not value:
             if self.required:
@@ -1196,6 +1206,11 @@ class UserBlockForm(forms.Form):
         ),
         required=False,
     )
+
+    def __init__(self, *args, **kwargs):
+        if "auto_id" not in kwargs:
+            kwargs["auto_id"] = "id_block_%s"
+        super().__init__(*args, **kwargs)
 
 
 class ReportsForm(forms.Form):

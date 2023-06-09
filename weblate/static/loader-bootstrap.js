@@ -1155,6 +1155,65 @@ $(function () {
     }
   });
 
+  /* User autocomplete */
+  document
+    .querySelectorAll(".user-autocomplete")
+    .forEach((autoCompleteInput) => {
+      let autoCompleteJS = new autoComplete({
+        selector: () => {
+          return autoCompleteInput;
+        },
+        debounce: 300,
+        resultsList: {
+          class: "autoComplete dropdown-menu",
+        },
+        resultItem: {
+          class: "autoComplete_result",
+          element: (item, data) => {
+            item.textContent = "";
+            let child = document.createElement("a");
+            child.textContent = data.value.full_name;
+            item.appendChild(child);
+          },
+          selected: "autoComplete_selected",
+        },
+        data: {
+          keys: ["username"],
+          src: async (query) => {
+            try {
+              // Fetch Data from external Source
+              const source = await fetch(`/api/users/?username=${query}`);
+              // Data should be an array of `Objects` or `Strings`
+              const data = await source.json();
+              return data.results.map((user) => {
+                return {
+                  username: user.username,
+                  full_name: `${user.full_name} (${user.username})`,
+                };
+              });
+            } catch (error) {
+              return error;
+            }
+          },
+        },
+        events: {
+          input: {
+            focus() {
+              if (autoCompleteInput.value.length) autoCompleteJS.start();
+            },
+            selection(event) {
+              console.log(this, event);
+              const feedback = event.detail;
+              autoCompleteInput.blur();
+              const selection =
+                feedback.selection.value[feedback.selection.key];
+              autoCompleteInput.value = selection;
+            },
+          },
+        },
+      });
+    });
+
   /* Warn users that they do not want to use developer console in most cases */
   console.log(
     "%c%s",
