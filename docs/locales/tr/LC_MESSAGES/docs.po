@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-09 13:26+0200\n"
-"PO-Revision-Date: 2023-06-09 16:47+0000\n"
+"PO-Revision-Date: 2023-06-10 03:26+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -4303,6 +4303,8 @@ msgid ""
 "*Secret value* is displayed once you generate a secret for an application. "
 "*Secret ID* is not used in Weblate."
 msgstr ""
+"Bir uygulama için bir parola oluşturduğunuzda *Gizli değer (Secret value)* "
+"görüntülenir. *Gizli kimlik (Secret ID)* Weblate üzerinde kullanılmaz."
 
 #: ../../admin/auth.rst:340
 msgid ":doc:`psa:backends/azuread`"
@@ -5516,12 +5518,6 @@ msgid "Customizing behavior using flags"
 msgstr "Parametreleri kullanarak davranışı özelleştirmek"
 
 #: ../../admin/checks.rst:29
-#, fuzzy
-#| msgid ""
-#| "You can fine-tune the Weblate behavior by using flags. This can be done "
-#| "on the source string level (see :ref:`additional`), or in the :ref:"
-#| "`component` (:ref:`component-check_flags`). Some file formats also allow "
-#| "to specify flags directly in the format (see :ref:`formats`)."
 msgid ""
 "You can fine-tune Weblate's behavior by using flags. The flags provide "
 "visual feedback to the translators and help them to improve their "
@@ -5530,25 +5526,21 @@ msgid ""
 "Some file formats also allow to specify flags directly in the format (see :"
 "ref:`formats`)."
 msgstr ""
-"İmleri kullanarak Weblate davranışını ince ayarlayabilirsiniz. Bu işlem "
-"kaynak dizge düzeyinde (bilgi almak için: :ref:`additional`) ya da :ref:"
-"`component` (:ref:`component-check_flags`) içinde yapılabilir. Bazı dosya "
-"biçimleri, imlerin doğrudan biçimde belirtilmesini de sağlar (bilgi almak "
-"için: :ref:`formats`."
+"İmleri kullanarak Weblate davranışında ince ayarlar yapabilirsiniz. İmler "
+"çevirmenlere görsel bildirim sağlayarak çeviriyi iyileştirmelerine yardımcı "
+"olur. Bu işlem kaynak dizge düzeyinde (bilgi almak için: :ref:`additional`) "
+"ya da :ref:`component` (:ref:`component-check_flags`) içinde yapılabilir. "
+"Bazı dosya biçimleri, imlerin doğrudan biçimde belirtilmesini de sağlar ("
+"bilgi almak için: :ref:`formats`."
 
 #: ../../admin/checks.rst:35
-#, fuzzy
-#| msgid ""
-#| "The flags are comma-separated, the parameters are separated with colon. "
-#| "You can use quotes to include whitespace or special chars in the string. "
-#| "For example:"
 msgid ""
 "The flags are comma-separated; if they have parameters, they are separated "
 "with colon. You can use quotes to include whitespaces or special characters "
 "in the string. For example:"
 msgstr ""
-"İmler virgül ile ayrılır. Parametreler iki nokta üst üste ile ayrılır. "
-"Dizgeye boşluk veya özel karakterler eklemek için tırnak işaretleri "
+"İmler virgül ile ayrılır. Parametreleri varsa iki nokta üst üste ile "
+"ayrılır. Dizgeye boşluk veya özel karakterler eklemek için tırnak işaretleri "
 "kullanabilirsiniz. Örneğin:"
 
 #: ../../admin/checks.rst:43
@@ -5565,12 +5557,16 @@ msgid ""
 "A failing check will be triggered if the string '### Index' is translated as "
 "'# Indice'"
 msgstr ""
+"Çevirmenlerin bir Markdown belgesinin başlığını değiştirmediğini doğrulamak "
+"için: ‘### Index’ dizgesi ‘# Indice’ olarak çevrilirse denetim başarısız olur"
 
 #: ../../admin/checks.rst:60
 msgid ""
 "To make sure that internal links are not being translated (i.e. `[test](../"
 "checks)` does not become `[test](../chequeos)`."
 msgstr ""
+"İç bağlantıların çevrilmediğinden emin olmak için (`[test](../checks)`, "
+"`[test](../chequeos)` olarak çevrilmez."
 
 #: ../../admin/checks.rst:65
 msgid "Here is a list of flags currently accepted:"
@@ -6023,18 +6019,14 @@ msgid "``md-text``"
 msgstr ""
 
 #: ../../admin/checks.rst:155
-#, fuzzy
-#| msgid ""
-#| "Treat text as a Markdown document. Enable :ref:`check-md-link`, :ref:"
-#| "`check-md-reflink`, and :ref:`check-md-syntax` quality checks."
 msgid ""
 "Treat text as a Markdown document, and provide Markdown syntax highlighting "
 "on the translation text area. Enables :ref:`check-md-link`, :ref:`check-md-"
 "reflink`, and :ref:`check-md-syntax` quality checks."
 msgstr ""
-"Metnin Markdown belgesi olarak işlenmesini sağlar. :ref:`check-md-link`, :"
-"ref:`check-md-reflink` ve :ref:`check-md-syntax` kalite denetimlerini "
-"etkinleştirin."
+"Metnin Markdown belgesi olarak işlenmesini sağlar. Çeviri metni alanında "
+"markdown sözdizimi vurgulanır. :ref:`check-md-link`, :ref:`check-md-reflink` "
+"ve :ref:`check-md-syntax` kalite denetimlerini etkinleştirir."
 
 #: ../../admin/checks.rst:157
 #, fuzzy
@@ -13240,6 +13232,7 @@ msgstr ""
 #: ../../admin/install/docker.rst:108
 msgid "Full list of published tags can be found at `GitHub Packages`_"
 msgstr ""
+"Yayınlanmış etiketlerin tam listesi `GitHub paketleri`_ içinde bulunabilir"
 
 #: ../../admin/install/docker.rst:115
 msgid "Docker container with HTTPS support"
@@ -14794,12 +14787,16 @@ msgid ""
 "Confgure sampling rate for performance monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
+"Başarım izlemesi için örnekleme hızını yapılandırın. Tüm olayların izlenmesi "
+"için 1, izlemenin devre dışı bırakılması için 0 (varsayılan)."
 
 #: ../../admin/install/docker.rst:1558
 msgid ""
 "Confgure sampling rate for profiling monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
+"Profil oluşturma izlemesi için örnekleme hızını yapılandırın. Tüm olayların "
+"izlenmesi için 1, izlemenin devre dışı bırakılması için 0 (varsayılan)."
 
 #: ../../admin/install/docker.rst:1568
 msgid "Localization CDN"
@@ -15057,16 +15054,16 @@ msgstr ""
 "`Docker birimleri belgeleri <https://docs.docker.com/storage/volumes/>`_"
 
 #: ../../admin/install/docker.rst:1741
-#, fuzzy
-#| msgid "Local filesystem"
 msgid "Read-only root filesystem"
-msgstr "Yerel dosya sistemi"
+msgstr "Salt okunur kök dosya sistemi"
 
 #: ../../admin/install/docker.rst:1745
 msgid ""
 "When running the container with a read-only root filesytem, two additional "
 "`tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
 msgstr ""
+"Kapsayıcı salt okunur bir kök dosya sistemiyle çalıştırırken, iki ek `tmpfs` "
+"birimi gerekir - :file:`/tmp` ve :file:`/run`."
 
 #: ../../admin/install/docker.rst:1752
 msgid "Configuration beyond environment variables"
@@ -25055,20 +25052,20 @@ msgid ""
 "Returns site-wide search results as a list. There is no pagination on the "
 "result set, only first few matches are returned for each category."
 msgstr ""
+"Site genelinde arama sonuçlarını bir liste olarak döndürür. Sonuç kümesinde "
+"sayfalama yoktur. Her kategori için yalnızca ilk birkaç eşleşme döndürülür."
 
 #: ../../api.rst:2484
-#, fuzzy
-#| msgid "Name of generated file"
 msgid "Name of the matched item."
-msgstr "Oluşturulacak dosyanın adı"
+msgstr "Eşleşen ögenin adı."
 
 #: ../../api.rst:2485
 msgid "Web URL of the matched item."
-msgstr ""
+msgstr "Eşleşen ögenin internet adresi."
 
 #: ../../api.rst:2486
 msgid "Category of the matched item."
-msgstr ""
+msgstr "Eşleşen ögenin kategorisi."
 
 #: ../../api.rst:2491
 msgid "Notification hooks"
@@ -25375,10 +25372,8 @@ msgid "Weblate 4.18"
 msgstr "Weblate 4.18"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on June 15th 2022."
 msgid "Released on June 15th 2023."
-msgstr "15 Haziran 2022 tarihinde yayınlandı."
+msgstr "15 Haziran 2023 tarihinde yayınlandı."
 
 #: ../../changes.rst:6
 msgid "Improved API error messages on permission denied."
@@ -25441,22 +25436,25 @@ msgstr "Kendiliğinden önerilerde önerilen değişikliğin vurgulanması sağl
 #: ../../changes.rst:19
 msgid "Added dark theme; browser-following and manual setting are available."
 msgstr ""
+"Koyu tema eklendi. Tarayıcı ile aynı ve el ile ayarlama seçenekleri "
+"bulunuyor."
 
 #: ../../changes.rst:20
 msgid "The Docker container can now be used with read-only root filesystem."
 msgstr ""
+"Docker kapsayıcısı artık salt okunur kök dosya sistemiyle kullanılabiliyor."
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Added confirmation before removing a user from a project."
 msgid "Added username autocompletion when adding users to a project."
-msgstr "Bir kullanıcının bir projeden kaldırılması için onay adımı eklendi."
+msgstr ""
+"Bir projeye kullanıcı eklenirken kullanıcı adının otomatik olarak "
+"tamamlanması sağlandı."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Added support for creating projects and components by users."
 msgid "Added site-wide search for projects, components, languages and users."
-msgstr "Kullanıcılar tarafından proje ve bileşen oluşturma özelliği eklendi."
+msgstr ""
+"Projeler, bileşenler, diller ve kullanıcılar için site genelinde arama "
+"özelliği eklendi."
 
 #: ../../changes.rst:24
 msgid ""
@@ -35158,19 +35156,19 @@ msgstr "*Özel karakterler*"
 
 #: ../../contributing/schemas.rst:19
 msgid "theme"
-msgstr ""
+msgstr "tema"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Theme*"
-msgstr ""
+msgstr "*Tema*"
 
 #: ../../contributing/schemas.rst:19
 msgid "auto"
-msgstr ""
+msgstr "auto"
 
 #: ../../contributing/schemas.rst:19
 msgid "^(auto|dark|light)$"
-msgstr ""
+msgstr "^(auto|dark|light)$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**dashboard\\_view**"
@@ -36852,6 +36850,9 @@ msgid ""
 "on, but it is usually better to introduce new strings together with the code "
 "changes that introduced them."
 msgstr ""
+":ref:`component-manage_units` açıkken Weblate üzerine yeni dizgeler "
+"ekleyebilirsiniz. Ancak genellikle yeni dizgeleri onları tanıtan kod "
+"değişiklikleriyle birlikte sunmak daha iyidir."
 
 #: ../../devel/integration.rst:122
 msgid ""
@@ -36885,6 +36886,9 @@ msgid ""
 "to make new strings automatically appear for translation. Such pipeline "
 "should also cover :ref:`avoid-merge-conflicts`."
 msgstr ""
+"Yeni dizgelerin kendiliğinden çeviri olarak görünmesini sağlamak için bunu "
+"sürekli bütünleştirme altyapınızla birleştirmek isteyebilirsiniz. Bu "
+"altyapıda :ref:`avoid-merge-conflicts` seçeneği de kapsanmalıdır."
 
 #: ../../devel/integration.rst:140
 msgid ""
@@ -37923,10 +37927,6 @@ msgstr ""
 "eklenebilir (:ref:`component-manage_units` seçeneği açıldığında):"
 
 #: ../../devel/translations.rst:142
-#, fuzzy
-#| msgid ""
-#| "There the variant source string has to at most 768 characters long. This "
-#| "is technical limitation due to compatibility with MySQL database."
 msgid ""
 "The variant source string has to be at most 768 characters long. This is a "
 "technical limitation due to compatibility with MySQL database."
@@ -42256,18 +42256,13 @@ msgid "Formatted strings"
 msgstr "Biçimlendirilmiş dizgeler"
 
 #: ../../user/checks.rst:173
-#, fuzzy
-#| msgid ""
-#| "Checks that formatting in strings are replicated between both source and "
-#| "translation. Omitting format strings in translation usually causes severe "
-#| "problems, so the formatting in strings should usually match the source."
 msgid ""
 "Checks that the formatting in strings is replicated between both source and "
 "translation. Omitting format strings in translation usually causes severe "
 "problems, so the formatting in strings should usually match the source."
 msgstr ""
 "Kaynak dizgelerdeki biçimlendirmenin çeviride de olup olmadığını denetler. "
-"Çeviride biçim dizelerinin atlanması genellikle ciddi sorunlara neden olur. "
+"Çeviride biçim dizgelerinin atlanması genellikle ciddi sorunlara neden olur. "
 "Bu nedenle dizgelerdeki biçimlendirme genellikle kaynakla aynı olmalıdır."
 
 #: ../../user/checks.rst:177
@@ -42286,23 +42281,17 @@ msgstr ""
 "eklemeniz gerekir."
 
 #: ../../user/checks.rst:183
-#, fuzzy
-#| msgid ""
-#| "This can be done per unit (see :ref:`additional`) or in :ref:`component`. "
-#| "Having it defined per component is simpler, but can lead to false "
-#| "positives in case the string is not interpreted as a formatting string, "
-#| "but format string syntax happens to be used."
 msgid ""
 "This can be done per string (see :ref:`additional`) or in a :ref:"
 "`component`. Having it defined per component is simpler, but it can lead to "
 "false positives in case the string is not interpreted as a formatting "
 "string, but format string syntax happens to be used."
 msgstr ""
-"Bu, her birim içinde (bilgi almak için :ref:`additional`) ya da :ref:"
-"`component` içinde yapılabilir. Her bileşen için tanımlanması daha basittir, "
-"ancak dizgenin bir biçimlendirme dizgesi olarak yorumlanmaması durumunda "
-"yanlış pozitif sonuçlara yol açabilir. Ancak biçim dizgesi söz dizimi "
-"kullanılır."
+"Bu, her birim içinde (bilgi almak için :ref:`additional`) ya da "
+":ref:`component` içinde yapılabilir. Her bileşen için tanımlanması daha "
+"basittir. Bununla birlikte dizgenin bir biçimlendirme dizgesi olarak "
+"yorumlanmaması yanlış pozitif sonuçlara yol açabilir. Ancak biçim dizgesi "
+"söz dizimi kullanılır."
 
 #: ../../user/checks.rst:190
 msgid ""
@@ -43947,7 +43936,7 @@ msgstr "Yeniden kullanılan çeviri"
 
 #: ../../user/checks.rst:1140
 msgid "Different strings are translated the same."
-msgstr "Farklı dizgelerin çevirisi aynı."
+msgstr "Farklı dizgelerin çevirileri aynı."
 
 #: ../../user/checks.rst:1142
 msgid "``weblate.checks.consistency.ReusedCheck``"
@@ -45226,6 +45215,8 @@ msgid ""
 "Choose whether Weblate follows system settings for dark or light theme, or "
 "choose one of them manually."
 msgstr ""
+"Weblate temasını, sistem temasını izleyecek şekilde seçin ya da el ile koyu "
+"ya da açık olarak belirtin."
 
 #: ../../user/profile.rst:116
 msgid "Default dashboard view"
