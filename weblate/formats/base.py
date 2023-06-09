@@ -535,7 +535,7 @@ class TranslationFormat:
     @staticmethod
     def get_language_posix_long(code: str) -> str:
         return EXPAND_LANGS.get(code, code)
-    
+
     @staticmethod
     def get_language_posix_long_lowercase(code: str) -> str:
         return EXPAND_LANGS.get(code, code).lower()
