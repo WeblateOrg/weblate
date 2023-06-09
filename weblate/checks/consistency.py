@@ -176,7 +176,7 @@ class ReusedCheck(TargetCheck):
 
         return ngettext(
             "Other source string: %s", "Other source strings: %s", len(other_sources)
-        ) % ", ".join(gettext('"%s"') % source for source in other_sources)
+        ) % ", ".join(gettext("“%s”") % source for source in other_sources)
 
     def check_single(self, source, target, unit):
         """We don't check target strings here."""
