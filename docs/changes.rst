@@ -1,7 +1,7 @@
 Weblate 4.18
 ------------
 
-Not yet released.
+Released on June 15th 2023.
 
 * Improved API error messages on permission denied.
 * Reduced false positives of the XML checks.
