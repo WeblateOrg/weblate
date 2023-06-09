@@ -269,6 +269,11 @@ class ComponentQuerySet(models.QuerySet):
 
         return self
 
+    def search(self, query: str):
+        return self.filter(
+            Q(name__icontains=query) | Q(slug__icontains=query)
+        ).select_related("project")
+
 
 class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     name = models.CharField(

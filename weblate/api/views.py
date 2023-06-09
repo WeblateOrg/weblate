@@ -1586,10 +1586,11 @@ class Search(APIView):
     def get(self, request, format=None):
         user = request.user
         projects = user.allowed_projects
+        components = Component.objects.filter(project__in=projects)
         results = []
         query = request.GET.get("q")
         if query:
-            for project in projects.filter(name__icontains=query)[:5]:
+            for project in projects.search(query)[:5]:
                 results.append(
                     {
                         "url": project.get_absolute_url(),
@@ -1597,9 +1598,7 @@ class Search(APIView):
                         "category": gettext("Project"),
                     }
                 )
-            for component in Component.objects.filter(
-                project__in=projects, name__icontains=query
-            )[:5]:
+            for component in components.search(query)[:5]:
                 results.append(
                     {
                         "url": component.get_absolute_url(),

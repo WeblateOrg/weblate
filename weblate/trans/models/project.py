@@ -11,7 +11,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, transaction
-from django.db.models import Count, Value
+from django.db.models import Count, Q, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -38,6 +38,9 @@ from weblate.utils.validators import (
 class ProjectQuerySet(models.QuerySet):
     def order(self):
         return self.order_by("name")
+
+    def search(self, query: str):
+        return self.filter(Q(name__icontains=query) | Q(slug__icontains=query))
 
 
 def prefetch_project_flags(projects):
