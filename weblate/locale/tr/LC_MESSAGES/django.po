@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-09 11:25+0000\n"
-"PO-Revision-Date: 2023-04-23 16:44+0000\n"
+"PO-Revision-Date: 2023-06-09 16:39+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -65,7 +65,7 @@ msgstr "Ad soyad"
 
 #: weblate/accounts/forms.py:111
 msgid "Name is also used in version control commits."
-msgstr ""
+msgstr "Bu ad ayrıca sürüm denetimi sistemi işlemeleri için de kullanılır."
 
 #: weblate/accounts/forms.py:171 weblate/accounts/models.py:587
 msgid "Commit e-mail"
@@ -77,7 +77,7 @@ msgstr "Hesap e-postası kullanılsın"
 
 #: weblate/accounts/forms.py:173
 msgid "Choose commit e-mail from verified addresses."
-msgstr ""
+msgstr "Doğrulanmış adreslerden işleme e-posta adresini seçer."
 
 #: weblate/accounts/forms.py:207 weblate/accounts/models.py:581
 msgid "Public e-mail"
@@ -102,7 +102,7 @@ msgstr "E-posta"
 
 #: weblate/accounts/forms.py:341
 msgid "Choose primary e-mail from verified addresses."
-msgstr ""
+msgstr "Doğrulanmış adreslerden birincil e-posta adresini seçer."
 
 #: weblate/accounts/forms.py:388
 msgid "Subject"
@@ -130,10 +130,8 @@ msgstr ""
 "Lütfen bize İngilizce olarak yazın. Yoksa isteğinizi işleme koyamayabiliriz."
 
 #: weblate/accounts/forms.py:414
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "E-mail with a confirmation link will be sent here."
-msgstr "Etkinleştirme e-postası bu adrese gönderilecektir."
+msgstr "Doğrulama bağlantısının bulunduğu e-posta bu adrese gönderilecektir."
 
 #: weblate/accounts/forms.py:456
 msgid "New password"
@@ -1008,10 +1006,6 @@ msgid "You can also request a new password, if you have lost your credentials."
 msgstr "Kimlik bilgilerinizi kaybettiyseniz, yeni bir parola isteyebilirsiniz."
 
 #: weblate/accounts/views.py:1198
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the verification token "
-#| "probably expired."
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
@@ -2353,10 +2347,8 @@ msgid "Components"
 msgstr "Bileşenler"
 
 #: weblate/auth/models.py:131
-#, fuzzy
-#| msgid "You do not have permission to create components in any projects."
 msgid "Empty selection grants access to all components in project scope."
-msgstr "Herhangi bir projede bileşen oluşturma izniniz yok."
+msgstr "Boş bırakıldığında, proje kapsamındaki tüm bileşenlere erişim sağlanır."
 
 #: weblate/auth/models.py:141
 msgid "Language selection"
@@ -2465,7 +2457,7 @@ msgstr "Engelleme süresi sonu"
 
 #: weblate/auth/permissions.py:132
 msgid "Can not perform this operation without an e-mail."
-msgstr ""
+msgstr "Bir e-posta adresi olmadan bu işlem yapılamaz."
 
 #: weblate/auth/permissions.py:137 weblate/templates/translate.html:201
 #: weblate/templates/translate.html:221
@@ -2490,10 +2482,8 @@ msgid "Insufficient privileges for editing source strings."
 msgstr "İzinler kaynak dizgeleri düzenlemek yetersiz."
 
 #: weblate/auth/permissions.py:163
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Suggestion voting is disabled."
-msgstr "Kaynak dizge düzenlemesi devre dışı bırakılmış."
+msgstr "Öneri oylaması devre dışı bırakılmış."
 
 #: weblate/auth/permissions.py:173
 msgid ""
@@ -2525,10 +2515,8 @@ msgid "Reviews are not enabled."
 msgstr "Hizmet şu anda kullanılamıyor."
 
 #: weblate/auth/permissions.py:211
-#, fuzzy
-#| msgid "This string seems to already exist."
 msgid "The string is read only."
-msgstr "Bu dizge zaten var gibi görünüyor."
+msgstr "Dizge salt okunur."
 
 #: weblate/auth/permissions.py:217
 msgid ""
@@ -2539,26 +2527,20 @@ msgstr ""
 "değişmesi gerektiğini düşünüyorsanız lütfen bir öneri yapın."
 
 #: weblate/auth/permissions.py:223
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "The translation is read only."
-msgstr "Bu çeviri kilitli."
+msgstr "Çeviri salt okunur."
 
 #: weblate/auth/permissions.py:240
 msgid "Add the string to the source language instead."
-msgstr ""
+msgstr "Bunun yerine dizgeyi kaynak dile ekleyin."
 
 #: weblate/auth/permissions.py:244
-#, fuzzy
-#| msgid "Unsupported component configuration"
 msgid "Adding strings is disabled in the component configuration."
-msgstr "Bileşen yapılandırması desteklenmiyor"
+msgstr "Dizge ekleme özelliği bileşen yapılandırmasında devre dışı bırakılmış."
 
 #: weblate/auth/permissions.py:261 weblate/auth/permissions.py:278
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "File format does not support this."
-msgstr "Algılanan dosya biçimi desteklenmiyor."
+msgstr "Dosya biçimi bunu desteklenmiyor."
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2864,10 +2846,8 @@ msgstr ""
 "çevrilmemiş."
 
 #: weblate/checks/consistency.py:138
-#, fuzzy
-#| msgid "Removed translation"
 msgid "Reused translation"
-msgstr "Çeviri kaldırıldı"
+msgstr "Yeniden kullanılan çeviri"
 
 #: weblate/checks/consistency.py:139
 #, fuzzy
@@ -3433,8 +3413,8 @@ msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespaces and special characters."
 msgstr ""
-"Bu yazı tipi grubunun seçilmesi için denetimlerinde kullanacağınız "
-"tanımlayıcı. Boşluk ve özel karakterler kullanmayın."
+"Bu yazı tipi grubunun seçilmesi için denetimlerinde kullanacağınız belirteç. "
+"Boşluk ve özel karakterler kullanmayın."
 
 #: weblate/fonts/models.py:104 weblate/templates/fonts/font_list.html:26
 #: weblate/templates/fonts/fontgroup_detail.html:19
@@ -4466,14 +4446,12 @@ msgid "Screenshot name"
 msgstr "Ekran görüntüsü adı"
 
 #: weblate/screenshots/models.py:51
-#, fuzzy
-#| msgid "Repository branch to translate"
 msgid "Repository path to screenshot"
-msgstr "Çevrilecek depo dalı"
+msgstr "Ekran görüntüsünün depo yolu"
 
 #: weblate/screenshots/models.py:52
 msgid "Scan for screenshot file change on repository update."
-msgstr ""
+msgstr "Depo güncellemesinde ekran görüntüsü değişiklikleri taranır."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_detail.html:58
@@ -4727,10 +4705,8 @@ msgstr "İstatistikler"
 
 #: weblate/templates/accounts/add-mail.html:4
 #: weblate/templates/accounts/email.html:17
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Add new e-mail address"
-msgstr "Hesap e-postası kullanılsın"
+msgstr "Yeni e-posta adresi ekle"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -4742,10 +4718,8 @@ msgid "Your profile"
 msgstr "Profiliniz"
 
 #: weblate/templates/accounts/confirm.html:14
-#, fuzzy
-#| msgid "Could not remove user identity"
 msgid "Confirm adding user identity"
-msgstr "Kullanıcı kimliği kaldırılamadı"
+msgstr "Kullanıcı kimliğini kaldırmayı onaylayın"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #: weblate/templates/accounts/confirm.html:18
@@ -4758,10 +4732,8 @@ msgstr ""
 "kullanarak kimliğinizi doğrulayabilirsiniz."
 
 #: weblate/templates/accounts/confirm.html:24
-#, fuzzy
-#| msgid "Configure"
 msgid "Confirm"
-msgstr "Yapılandır"
+msgstr "Onayla"
 
 #: weblate/templates/accounts/contact.html:15
 msgid ""
@@ -5104,10 +5076,8 @@ msgid "Disconnect"
 msgstr "Bağlantıyı kes"
 
 #: weblate/templates/accounts/profile.html:156
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new user identity"
-msgstr "Yeni kullanıcı ekle"
+msgstr "Yeni kullanıcı kimliği ekle"
 
 #: weblate/templates/accounts/profile.html:166
 #: weblate/templates/component.html:104
@@ -5430,8 +5400,6 @@ msgstr[0] "%(count)s yorum"
 msgstr[1] "%(count)s yorum"
 
 #: weblate/templates/accounts/user.html:141
-#, fuzzy
-#| msgid "Contributors"
 msgid "Contributed to"
 msgstr "Katkıda bulunan"
 
@@ -5497,8 +5465,6 @@ msgid "Browse all watched projects"
 msgstr "İzlenen tüm projeleri görüntüle"
 
 #: weblate/templates/accounts/user.html:192
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes made by this user"
 msgstr "Kullanıcının tüm değişikliklerine göz at"
 
@@ -5513,12 +5479,9 @@ msgid "Members"
 msgstr "Üyeler"
 
 #: weblate/templates/accounts/user.html:264
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgctxt "No project associated with group"
 msgid "None"
-msgstr "Bilinmiyor"
+msgstr "Yok"
 
 #: weblate/templates/accounts/user.html:269
 msgid "Remove user from this group"
@@ -5900,10 +5863,8 @@ msgid "Add"
 msgstr "Ekle"
 
 #: weblate/templates/auth/teams-components.html:6
-#, fuzzy
-#| msgid "No components were matched!"
 msgid "No components specified"
-msgstr "Hiç bileşen eşleşmedi!"
+msgstr "Herhangi bir bileşen belirtilmemiş"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7173,34 +7134,30 @@ msgid "Commit"
 msgstr "İşle"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s change"
-#| msgid_plural "%(count)s changes"
+#, python-format
 msgid "%(count)s pending change"
 msgid_plural "%(count)s pending changes"
-msgstr[0] "%(count)s değişiklik"
-msgstr[1] "%(count)s değişiklik"
+msgstr[0] "%(count)s bekleyen değişiklik"
+msgstr[1] "%(count)s bekleyen değişiklik"
 
 #: weblate/templates/js/git-status.html:32
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "Bekleyen değişiklikleri Weblate deposuna işle"
+msgstr ""
+"Bu işlem depo değişikliklerini değil Weblate üzerinde bekleyen "
+"değişiklikleri işler."
 
 #: weblate/templates/js/git-status.html:38
 msgid "Push"
 msgstr "İt"
 
 #: weblate/templates/js/git-status.html:41
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s yorum"
-msgstr[1] "%(count)s yorum"
+msgstr[0] "%(count)s giden işleme"
+msgstr[1] "%(count)s giden işleme"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Update"
@@ -7208,37 +7165,26 @@ msgstr "Güncelle"
 
 #: weblate/templates/js/git-status.html:58
 msgid "Update with merge"
-msgstr ""
+msgstr "Birleştirerek güncelle"
 
 #: weblate/templates/js/git-status.html:61
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Update with rebase"
-msgstr "Kalite denetimlerini güncelle"
+msgstr "Yeniden yerleştirerek güncelle"
 
 #: weblate/templates/js/git-status.html:64
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid "Update with merge without fast-forward"
-msgstr "Hızlı ilerleme olmadan birleştirme"
+msgstr "Birleştirerek hızlı ilerleme olmadan güncelle"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "%(count)s yorum"
-msgstr[1] "%(count)s yorum"
+msgstr[0] "%(count)s işleme eksik"
+msgstr[1] "%(count)s işleme eksik"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy
-#| msgid ""
-#| "When updating the repository Weblate was unable to merge the upstream "
-#| "changes."
 msgid "This will update the Weblate repository with the upstream changes."
-msgstr ""
-"Havuz güncelleştirirken Weblate yukarı akış değişikliklerini birleştiremedi."
+msgstr "Bu işlem Weblate deposunu yukarı akış değişiklikleri ile günceller."
 
 #: weblate/templates/js/git-status.html:80
 msgid "Allow changes to the Weblate repository"
@@ -7258,10 +7204,8 @@ msgid "Lock"
 msgstr "Kilitle"
 
 #: weblate/templates/js/git-status.html:87
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are locked"
-msgstr "Weblate çevirileri"
+msgstr "Weblate çevirileri kilitli"
 
 #: weblate/templates/js/git-status.html:89
 #, fuzzy
@@ -7270,16 +7214,12 @@ msgid "Weblate translations are unlocked"
 msgstr "Weblate çevirileri"
 
 #: weblate/templates/js/git-status.html:93
-#, fuzzy
-#| msgid "Locking prevents translators from doing changes"
 msgid "Locking prevents translators from doing changes."
-msgstr "Kilitleme, çevirmenlerin değişiklikler yapmasını önler"
+msgstr "Kilitleme, çevirmenlerin değişiklikler yapmasını önler."
 
 #: weblate/templates/js/git-status.html:105
-#, fuzzy
-#| msgid "Danger (red)"
 msgid "Danger zone"
-msgstr "Tehlike (kırmızı)"
+msgstr "Tehlikeli bölge"
 
 #: weblate/templates/js/git-status.html:110
 #: weblate/templates/translate.html:495
@@ -7291,22 +7231,20 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Weblate deposundaki tüm değişiklikleri sıfırla"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid ""
-#| "Resetting removes all changes in Weblate so that the repository matches "
-#| "upstream. Use with caution."
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream."
 msgstr ""
 "Sıfırlama, Weblate üzerindeki tüm değişiklikleri kaldırır. Böylece depo "
-"yukarı akışla eşleşir. Dikkatle kullanın."
+"yukarı akışla eşleşir."
 
 #: weblate/templates/js/git-status.html:116
 msgid ""
 "Use when you want to discard changes in Weblate and bring it in sync with "
 "upstream repository."
 msgstr ""
+"Weblate üzerindeki değişiklikleri yok saymak ve yukarı akış deposuyla "
+"eşitlemek istediğinizde kullanın."
 
 #: weblate/templates/js/git-status.html:120
 msgid "Cleanup"
@@ -7321,60 +7259,55 @@ msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
+"Temizleme, sürüm denetimi tarafından izlenmeyen tüm dosyaları depodan "
+"kaldırır."
 
 #: weblate/templates/js/git-status.html:126
-#, fuzzy
-#| msgid "Prevent any changes in the Weblate repository"
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Weblate deposunda herhangi bir değişiklik yapılamasın"
+msgstr "Weblate deposunda herhangi bir gereksiz öge kaldığında kullanın."
 
 #: weblate/templates/js/git-status.html:130
 msgid "Synchronize"
-msgstr ""
+msgstr "Eşitle"
 
 #: weblate/templates/js/git-status.html:132
 msgid "Force writing all translations to the Weblate repository"
 msgstr "Tüm çevirilerin Weblate deposuna yazılması dayatılsın"
 
 #: weblate/templates/js/git-status.html:135
-#, fuzzy
-#| msgid "Force writing all translations to the Weblate repository"
 msgid "Forces writing all strings to the translation files."
-msgstr "Tüm çevirilerin Weblate deposuna yazılması dayatılsın"
+msgstr "Tüm dizgelerin çeviri dosyalarına yazılmasını dayatır."
 
 #: weblate/templates/js/git-status.html:136
 msgid ""
 "Use this when repository files became out of sync with Weblate for some "
 "reason."
 msgstr ""
+"Bu işlemi depo dosyaları herhangi bir nedenle Weblate ile eşitlenmediğinde "
+"kullanın."
 
 #: weblate/templates/js/git-status.html:140
 msgid "Rescan"
-msgstr ""
+msgstr "Yeniden tara"
 
 #: weblate/templates/js/git-status.html:142
-#, fuzzy
-#| msgid "Cleanup all untracked files in the Weblate repository"
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "Weblate deposundaki tüm izlenemeyen dosyaları temizle"
+msgstr "Weblate deposundaki tüm çeviri dosyalarını yeniden tarar"
 
 #: weblate/templates/js/git-status.html:145
-#, fuzzy
-#| msgid "Removes current translation from the repository."
 msgid "Loads translations from the files into Weblate."
-msgstr "Şu anki çeviriyi havuzdan kaldırır."
+msgstr "Çevirileri dosyalardan Weblate üzerinde yükler."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid ""
 "Use when Weblate missed some of the strings after updating the repository."
-msgstr "Weblate, depoyu güncellerken yukarı akış değişikliklerini alamadı."
+msgstr ""
+"Bu işlemi depo güncellendikten sonra Weblate üzerinde bazı dizgeler eksik "
+"kalıyorsa kullanın."
 
 #: weblate/templates/js/git-status.html:151
 msgid "Use these operations with caution, they can lead to data loss."
-msgstr ""
+msgstr "Veri kaybına neden olabileceğinden, bu işlemleri dikkatli kullanın."
 
 #: weblate/templates/js/git-status.html:160
 #, python-format
@@ -7420,7 +7353,7 @@ msgstr "Kullanıcıyı engelle"
 #: weblate/templates/last-changes-content.html:58
 #: weblate/templates/snippets/suggestions.html:41
 msgid "Rejection reason"
-msgstr ""
+msgstr "Red nedeni"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:70
@@ -7598,10 +7531,6 @@ msgstr ""
 "planınızın onaylanması isteğinde bulunun."
 
 #: weblate/templates/mail/billing_expired.html:18
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "Your billing plan has expired. Please renew it to continue using the service."
 msgstr ""
@@ -7609,8 +7538,6 @@ msgstr ""
 "istiyorsanız, lütfen yenileyin."
 
 #: weblate/templates/mail/billing_expired.html:23
-#, fuzzy
-#| msgid "This billing plan covers following projects:"
 msgid "This billing plan covers the following projects:"
 msgstr "Bu faturalama planında şu projeler bulunuyor:"
 
@@ -7623,16 +7550,15 @@ msgid ""
 "There are no projects attached to this billing plan. (There might be "
 "projects in other billing plans of yours.)"
 msgstr ""
+"Bu faturalama planı ile ilişkili herhangi bir proje yok. (Diğer faturalama "
+"planlarınızda projeler olabilir.)"
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
 msgstr "Bu faturalama planının kapsadığı tüm projeler silindi."
 
 #: weblate/templates/mail/billing_expired.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all projects within this billing plan "
-#| "will be removed on %(date)s."
+#, python-format
 msgid ""
 "If you don't issue the payment, all projects within this billing plan will "
 "be removed on %(date)s."
@@ -7641,15 +7567,12 @@ msgstr ""
 "tarihinde silinecek."
 
 #: weblate/templates/mail/billing_expired.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "If your Libre hosting will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting is not approved for it, all projects within this "
 "billing plan will be removed on %(date)s."
 msgstr ""
-"Özgür barındırmanız onaylanmayacaksa, bu faturalama planındaki tüm projeler "
+"Özgür barındırmanız onaylanmazsa, bu faturalama planındaki tüm projeler "
 "%(date)s tarihinde silinecek."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
@@ -8127,10 +8050,8 @@ msgid "Refresh support status"
 msgstr "Destek durumunu yenile"
 
 #: weblate/templates/manage/index.html:55
-#, fuzzy
-#| msgid "Manage support package"
 msgid "Support package limits"
-msgstr "Destek paketi yönetimi"
+msgstr "Destek paketi sınırları"
 
 #: weblate/templates/manage/index.html:67
 msgid "Support expiry"
@@ -9585,10 +9506,8 @@ msgid "Accept and edit"
 msgstr "Kabul et ve düzenle"
 
 #: weblate/templates/snippets/suggestions.html:42
-#, fuzzy
-#| msgid "Delete suggestion"
 msgid "Reject suggestion"
-msgstr "Öneri silme"
+msgstr "Öneriyi reddet"
 
 #: weblate/templates/snippets/suggestions.html:55
 msgid "Suggested change:"
@@ -9837,7 +9756,7 @@ msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
-"Lütfen tanımlayıcıları aynı olan yinelenen dizgeleri çeviri dosyalarından "
+"Lütfen belirteçleri aynı olan yinelenen dizgeleri çeviri dosyalarından "
 "kaldırarak bu sorunu düzeltin."
 
 #: weblate/templates/trans/alert/inexistantfiles.html:4
@@ -10438,10 +10357,8 @@ msgstr ""
 "farklıysa yeni çeviri bileşeni oluşturmak daha iyi olabilir."
 
 #: weblate/templates/translate.html:56
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Open in Zen mode"
-msgstr "Zen kipinde düzenle"
+msgstr "Zen kipinde aç"
 
 #: weblate/templates/translate.html:56 weblate/templates/translation.html:193
 #: weblate/templates/zen.html:26
@@ -10571,37 +10488,28 @@ msgid "Difference to current string"
 msgstr "Geçerli dizgeyle fark"
 
 #: weblate/templates/translate.html:310
-#, fuzzy
-#| msgid "The following string has the same context and source."
-#| msgid_plural "The following strings have the same context and source."
 msgid "This string has the same context and source."
 msgid_plural "These strings have the same context and source."
 msgstr[0] "Şu dizgenin bağlamı ve kaynağı aynı."
-msgstr[1] "Şu dizgelerinn bağlamı ve kaynağı aynı."
+msgstr[1] "Şu dizgelerin bağlamları ve kaynakları aynı."
 
 #: weblate/templates/translate.html:318
-#, fuzzy
-#| msgid "This string has different context but same source."
 msgid "This string has a different context, but the same source."
 msgid_plural "These strings have differing context, but the same source."
-msgstr[0] "Bu satır farklı bağlama ancak aynı kaynağa sahip."
-msgstr[1] "Bu satır farklı bağlama ancak aynı kaynağa sahip."
+msgstr[0] "Şu dizgenin bağlamı farklı ancak kaynağı aynı."
+msgstr[1] "Şu dizgelerin bağlamları farklı ancak kaynakları aynı."
 
 #: weblate/templates/translate.html:326
-#, fuzzy
-#| msgid "This string has different source but same context."
 msgid "This string has a different source, but the same context."
 msgid_plural "These strings have differing sources, but the same context."
-msgstr[0] "Bu satır farklı kaynağa ancak aynı bağlama sahip."
-msgstr[1] "Bu satır farklı kaynağa ancak aynı bağlama sahip."
+msgstr[0] "Şu dizgenin kaynağı farklı ancak bağlamı aynı."
+msgstr[1] "Şu dizgelerin kaynakları farklı ancak bağlamları aynı."
 
 #: weblate/templates/translate.html:334
-#, fuzzy
-#| msgid "This string has different source but same context."
 msgid "This string has a different source and context."
 msgid_plural "These strings have differing sources and context."
-msgstr[0] "Bu satır farklı kaynağa ancak aynı bağlama sahip."
-msgstr[1] "Bu satır farklı kaynağa ancak aynı bağlama sahip."
+msgstr[0] "Şu dizgenin kaynağı ve bağlamı farklı."
+msgstr[1] "Şu dizgelerin kaynakları ve bağlamları farklı."
 
 #: weblate/templates/translate.html:344
 msgid "Apply selected translation to all propagated strings"
@@ -10613,13 +10521,11 @@ msgstr "Seçilmiş çeviriyi geçerli dizgeye uygula"
 
 #: weblate/templates/translate.html:360
 msgid "Browse all string changes"
-msgstr "Tüm dizge değişikliklerine gözat"
+msgstr "Tüm dizge değişikliklerine göz at"
 
 #: weblate/templates/translate.html:377
-#, fuzzy
-#| msgid "Suggested change:"
 msgid "Suggested change"
-msgstr "Önerilen değişiklik:"
+msgstr "Önerilen değişiklik"
 
 #: weblate/templates/translate.html:379
 msgid "Origin"
@@ -10713,10 +10619,8 @@ msgid "String age"
 msgstr "Dizge yaşı"
 
 #: weblate/templates/translate.html:696 weblate/utils/views.py:123
-#, fuzzy
-#| msgid "Past due date"
 msgid "Last updated"
-msgstr "Tamamlanma tarihi geçmiş"
+msgstr "Son güncellenme"
 
 #: weblate/templates/translate.html:702
 msgid "Source string age"
@@ -11155,16 +11059,12 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Dizgenin anlamını veya kullanımını netleştiren ek açıklama."
 
 #: weblate/trans/forms.py:517
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string explanation"
-msgstr "Kaynak dizge konumu"
+msgstr "Kaynak dizge açıklaması"
 
 #: weblate/trans/forms.py:519
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Translation explanation"
-msgstr "Çeviri bildirimleri"
+msgstr "Çeviri açıklaması"
 
 #: weblate/trans/forms.py:536
 msgid "The source string has changed meanwhile. Please check your changes."
@@ -12169,18 +12069,14 @@ msgid "Removed comment"
 msgstr "Yorum silindi"
 
 #: weblate/trans/models/change.py:401
-#, fuzzy
-#| msgid "Resolved comment"
 msgctxt "Name of event in the history"
 msgid "Resolved comment"
-msgstr "Çözümlenmiş yorum"
+msgstr "Yorum çözümlendi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:404
-#, fuzzy
-#| msgid "Explanation"
 msgid "Explanation updated"
-msgstr "Açıklama"
+msgstr "Açıklama güncellendi"
 
 #: weblate/trans/models/change.py:476
 msgid "New string to translate"
@@ -12409,16 +12305,16 @@ msgstr ""
 "kullanın. Örnek: po/*.po ya da locale/*/LC_MESSAGES/django.po."
 
 #: weblate/trans/models/component.py:383
-#, fuzzy
-#| msgid "Screenshot details"
 msgid "Screenshot file mask"
-msgstr "Ekran görüntüsü ayrıntıları"
+msgstr "Ekran dosya maskesi"
 
 #: weblate/trans/models/component.py:388
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
 msgstr ""
+"Depo kök klasörüne göre ekran görüntülerinin yolu. Örneğin: docs/screenshots/"
+"*.png."
 
 #: weblate/trans/models/component.py:397
 msgid ""
@@ -12697,10 +12593,9 @@ msgid "File does not exist."
 msgstr "Dosya bulunamadı."
 
 #: weblate/trans/models/component.py:1666
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Failed to push %(component)s: %(error_text)s"
-msgstr "%(file)s dosyası işlenemedi: %(error)s"
+msgstr "%(component)s itilemedi: %(error_text)s"
 
 #: weblate/trans/models/component.py:1687
 #, python-format
@@ -12758,17 +12653,15 @@ msgid "The file mask did not match any files."
 msgstr "Dosya maskesi hiçbir dosyayla eşleşmedi."
 
 #: weblate/trans/models/component.py:2569
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the file mask "
-#| "and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
 "%(filename2)s Please adjust the file mask and use components for translating "
 "different resources."
 msgstr ""
-"%s dili için birden fazla dosya var. Lütfen dosya maskesini ayarlayın ve "
-"farklı kaynakları çevirmek için bileşenleri kullanın."
+"%(language)s dil için birden fazla dosya var: %(filename1)s, %(filename2)s. "
+"Lütfen dosya maskesini ayarlayın ve farklı kaynakları çevirmek için "
+"bileşenleri kullanın."
 
 #: weblate/trans/models/component.py:2587
 msgid "Could not find any matching language, please check the file mask."
@@ -13099,10 +12992,8 @@ msgid "This string seems to already exist."
 msgstr "Bu dizge zaten var gibi görünüyor."
 
 #: weblate/trans/models/translation.py:1643
-#, fuzzy
-#| msgid "Upload strings for translation"
 msgid "Failed adding string, no translation found."
-msgstr "Çeviri için satırları yükleyin"
+msgstr "Dizge eklenemedi. Herhangi bir çeviri bulunamadı."
 
 #: weblate/trans/models/unit.py:930
 #, python-format
@@ -13842,10 +13733,8 @@ msgid "Translation files have been synchronized."
 msgstr "Çeviri dosyaları eşitlendi."
 
 #: weblate/trans/views/git.py:130
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Translations have been updated."
-msgstr "Çeviri yorumu silindi."
+msgstr "Çeviriler güncellendi."
 
 #: weblate/trans/views/lock.py:28
 msgid "Component is now locked for translation updates!"
@@ -14250,16 +14139,12 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "%(field)s parametresinde hata: %(error)s"
 
 #: weblate/vcs/base.py:60
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream repository."
-msgstr "Weblate, değişiklikleri yukarı akış deposuna itemedi."
+msgstr "Bu işlem değişiklikleri yukarı akış deposuna iter."
 
 #: weblate/vcs/git.py:49
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Git repository."
-msgstr "Weblate, değişiklikleri yukarı akış deposuna itemedi."
+msgstr "Bu işlem değişiklikleri Git yukarı akış deposuna iter."
 
 #: weblate/vcs/git.py:515
 msgid "Possible cleanups:"
@@ -14267,23 +14152,19 @@ msgstr "Yapılabilecek temizlikler:"
 
 #: weblate/vcs/git.py:525
 msgid "This will push changes to Gerrit for a review."
-msgstr ""
+msgstr "Bu işlem değişiklikleri gözden geçirilmek üzere Gerrit üzerine iter."
 
 #: weblate/vcs/git.py:548
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "This will commit changes to the Subversion repository."
-msgstr "Değişiklikleri iç depoya işleme"
+msgstr "Bu işlem değişiklikleri Subversion deposuna işler."
 
 #: weblate/vcs/git.py:713
 msgid "Git with force push"
 msgstr "Git (itme dayatması ile)"
 
 #: weblate/vcs/git.py:717
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will force push changes to the upstream repository."
-msgstr "Weblate, değişiklikleri yukarı akış deposuna itemedi."
+msgstr "Bu işlem değişikliklerin yukarı akış deposuna itilmesini dayatır."
 
 #: weblate/vcs/git.py:1025
 msgid "GitHub pull request"
@@ -14291,7 +14172,7 @@ msgstr "GitHub çekme isteği"
 
 #: weblate/vcs/git.py:1029
 msgid "This will push changes and create GitHub pull request."
-msgstr ""
+msgstr "Bu işlem değişiklikleri iter ve GitHub çekme isteği oluşturur."
 
 #: weblate/vcs/git.py:1129
 msgid "Gitea pull request"
@@ -14299,7 +14180,7 @@ msgstr "Gitea çekme isteği"
 
 #: weblate/vcs/git.py:1133
 msgid "This will push changes and create Gitea pull request."
-msgstr ""
+msgstr "Bu işlem değişiklikleri iter ve Gitea çekme isteği oluşturur."
 
 #: weblate/vcs/git.py:1201
 msgid "No remote repository"
@@ -14311,7 +14192,7 @@ msgstr "GitLab birleştirme isteği"
 
 #: weblate/vcs/git.py:1310
 msgid "This will push changes and create GitLab merge request."
-msgstr ""
+msgstr "Bu işlem değişiklikleri iter ve GitLab çekme isteği oluşturur."
 
 #: weblate/vcs/git.py:1446
 msgid "Pagure merge request"
@@ -14319,23 +14200,19 @@ msgstr "Pagure birleştirme isteği"
 
 #: weblate/vcs/git.py:1450
 msgid "This will push changes and create Pagure merge request."
-msgstr ""
+msgstr "Bu işlem değişiklikleri iter ve Pagure birleştirme isteği oluşturur."
 
 #: weblate/vcs/git.py:1536
 msgid "Bitbucket Server pull request"
 msgstr "Bitbucket sunucusu çekme isteği"
 
 #: weblate/vcs/git.py:1542
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create Bitbucket Server pull request."
-msgstr "Bitbucket sunucusu çekme isteği"
+msgstr "Bu işlem değişiklikleri iter ve Bitbucket çekme isteği oluşturur."
 
 #: weblate/vcs/mercurial.py:40
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr "Weblate, değişiklikleri yukarı akış deposuna itemedi."
+msgstr "Bu işlem değişiklikleri Mercurial yukarı akış deposuna iter."
 
 #: weblate/vcs/ssh.py:30
 msgctxt "SSH key type"
@@ -14549,6 +14426,8 @@ msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in discover."
 msgstr ""
+"Keşif sırasında Weblate kopyanızın tanınmasını kolaylaştırmak için "
+"ayarlardaki SITE_TITLE ögesini değiştirin."
 
 #: weblate/wladmin/views.py:186
 msgid "Activation completed."
