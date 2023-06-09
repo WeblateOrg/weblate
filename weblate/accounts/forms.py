@@ -262,6 +262,7 @@ class UserSettingsForm(ProfileBaseForm):
     class Meta:
         model = Profile
         fields = (
+            "theme",
             "hide_completed",
             "translate_mode",
             "zen_mode",
