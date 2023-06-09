@@ -1027,11 +1027,23 @@ class Unit(models.Model, LoggerMixin):
             Change.ACTION_AUTO,
             Change.ACTION_BULK_EDIT,
         ):
+            old_translated = self.translation.stats.translated
+
             # Update translation stats
             self.translation.invalidate_cache()
 
             # Update user stats
             change.author.profile.increase_count("translated")
+
+            # Force commiting on completing translation
+            translated = self.translation.stats.translated
+            if old_translated < translated and translated == self.translation.stats.all:
+                Change.objects.create(
+                    translation=self.translation,
+                    action=Change.ACTION_COMPLETE,
+                    user=change.user,
+                    author=change.author,
+                )
 
         # Update related source strings if working on a template
         if self.translation.is_template and self.old_unit["target"] != self.target:
