@@ -6,7 +6,7 @@ from functools import reduce
 
 from django.db.models import Count, Prefetch, Q, Value
 from django.db.models.functions import MD5
-from django.utils.translation import gettext, gettext_lazy
+from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.checks.base import TargetCheck
 from weblate.utils.state import STATE_TRANSLATED
@@ -141,9 +141,21 @@ class ReusedCheck(TargetCheck):
     batch_project_wide = True
     skip_suggestions = True
 
-    def check_target_unit(self, sources, targets, unit):
+    def get_same_target_units(self, unit):
         from weblate.trans.models import Unit
 
+        translation = unit.translation
+        component = translation.component
+        return Unit.objects.filter(
+            target__md5=MD5(Value(unit.target)),
+            translation__component__project_id=component.project_id,
+            translation__language_id=translation.language_id,
+            translation__component__source_language_id=component.source_language_id,
+            translation__component__allow_translation_propagation=True,
+            translation__plural_id=translation.plural_id,
+        ).exclude(source__md5=MD5(Value(unit.source)))
+
+    def check_target_unit(self, sources, targets, unit):
         translation = unit.translation
         component = translation.component
         if not component.allow_translation_propagation:
@@ -153,16 +165,18 @@ class ReusedCheck(TargetCheck):
         if component.batch_checks:
             return self.handle_batch(unit, component)
 
-        same_target_units = Unit.objects.filter(
-            target__md5=MD5(Value(unit.target)),
-            translation__component__project_id=component.project_id,
-            translation__language_id=translation.language_id,
-            translation__component__source_language_id=component.source_language_id,
-            translation__component__allow_translation_propagation=True,
-            translation__plural_id=translation.plural_id,
-        ).exclude(source__md5=MD5(Value(unit.source)))
+        return self.get_same_target_units(unit).exists()
 
-        return same_target_units.exists()
+    def get_description(self, check_obj):
+        other_sources = (
+            self.get_same_target_units(check_obj.unit)
+            .values_list("source", flat=True)
+            .distinct()
+        )
+
+        return ngettext(
+            "Other source string: %s", "Other source strings: %s", len(other_sources)
+        ) % ", ".join(gettext('"%s"') % source for source in other_sources)
 
     def check_single(self, source, target, unit):
         """We don't check target strings here."""
