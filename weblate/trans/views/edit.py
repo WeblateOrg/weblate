@@ -120,7 +120,7 @@ def get_other_units(unit):
         return result
 
     units = Unit.objects.filter(
-        query,
+        query | (Q(target=unit.target) & Q(state__gte=STATE_TRANSLATED)),
         translation__component__project=component.project,
         translation__language=translation.language,
     )
