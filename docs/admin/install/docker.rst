@@ -1737,6 +1737,14 @@ as that is user used inside the container.
 
    `Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_
 
+Read-only root filesystem
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 4.18
+
+When running the container with a read-only root filesytem, two additional
+`tmpfs` volumes are required - :file:`/tmp` and :file:`/run`.
+
 
 .. _docker-custom-config:
 
