@@ -32,7 +32,7 @@ can be done on the source string level (see :ref:`additional`), or in the :ref:`
 (:ref:`component-check_flags`). Some file formats also allow to specify flags
 directly in the format (see :ref:`formats`).
 
-The flags are comma-separated,; if they have parameters, they are separated
+The flags are comma-separated; if they have parameters, they are separated
 with colon. You can use quotes to include whitespaces or special characters
 in the string. For example:
 
