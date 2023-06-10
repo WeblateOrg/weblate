@@ -1602,7 +1602,7 @@ class Search(APIView):
                 results.append(
                     {
                         "url": component.get_absolute_url(),
-                        "name": component.name,
+                        "name": str(component),
                         "category": gettext("Component"),
                     }
                 )
