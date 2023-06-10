@@ -31,13 +31,14 @@
 # Ishika Jain <ishikajn8126@gmail.com>, 2022.
 # tachyglossues <tachyglossues@gmail.com>, 2023.
 # CreaZyp154 <cyril@strahm.org>, 2023.
+# Nifou <nifou@mailfence.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-09 11:25+0000\n"
-"PO-Revision-Date: 2023-06-10 07:50+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"PO-Revision-Date: 2023-06-10 11:27+0000\n"
+"Last-Translator: Nifou <nifou@mailfence.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -526,7 +527,7 @@ msgstr "Thème"
 #: weblate/accounts/models.py:403
 msgctxt "Theme selection"
 msgid "Sync with system"
-msgstr ""
+msgstr "Synchroniser avec le système"
 
 #: weblate/accounts/models.py:404
 msgctxt "Theme selection"
@@ -1795,14 +1796,10 @@ msgid "Customize XML output"
 msgstr "Personnaliser la sortie XML"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid "Allows adjusting XML output behavior, for example closing tags."
 msgstr ""
-"Permet de paramétrer le comportement de la sortie YAML, par exemple la "
-"longueur des lignes ou le saut de ligne."
+"Permet de paramétrer le comportement de la sortie XML, par exemple les "
+"balises fermantes."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -4550,6 +4547,8 @@ msgstr "Chemin d’accès au dépôt de la capture d’écran"
 #: weblate/screenshots/models.py:52
 msgid "Scan for screenshot file change on repository update."
 msgstr ""
+"Recherche de modifications de la capture d'écran lors de la mise à jour du "
+"dépôt."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_detail.html:58
@@ -7318,10 +7317,8 @@ msgid "Update with rebase"
 msgstr "Mettre à jour avec rebase"
 
 #: weblate/templates/js/git-status.html:64
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid "Update with merge without fast-forward"
-msgstr "Fusionner sans « fast-forward »"
+msgstr "Met à jour en fusionnant sans « fast-forward »"
 
 #: weblate/templates/js/git-status.html:70
 #, python-format
@@ -7331,14 +7328,8 @@ msgstr[0] "%(count)s commit manquant"
 msgstr[1] "%(count)s commits manquants"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy
-#| msgid ""
-#| "When updating the repository Weblate was unable to merge the upstream "
-#| "changes."
 msgid "This will update the Weblate repository with the upstream changes."
-msgstr ""
-"Lors de la mise à jour du dépôt, Weblate n'est pas parvenu à fusionner les "
-"modifications amont."
+msgstr "Cela va mettre à jour le dépôt Weblate avec les modifications en amont."
 
 #: weblate/templates/js/git-status.html:80
 msgid "Allow changes to the Weblate repository"
@@ -7395,6 +7386,8 @@ msgid ""
 "Use when you want to discard changes in Weblate and bring it in sync with "
 "upstream repository."
 msgstr ""
+"A utiliser lorsque vous souhaitez supprimer les modifications dans Weblate "
+"et les synchroniser avec le dépôt en amont."
 
 #: weblate/templates/js/git-status.html:120
 msgid "Cleanup"
@@ -7409,12 +7402,13 @@ msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
+"Le nettoyage supprime tous les fichiers qui ne sont pas suivis par le "
+"gestionnaire de versions du dépôt."
 
 #: weblate/templates/js/git-status.html:126
-#, fuzzy
-#| msgid "Prevent any changes in the Weblate repository"
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Interdire toute modification dans le dépôt Weblate"
+msgstr ""
+"A utiliser lorsque qu'il reste des données inutiles dans le dépôt Weblate."
 
 #: weblate/templates/js/git-status.html:130
 msgid "Synchronize"
@@ -7433,6 +7427,8 @@ msgid ""
 "Use this when repository files became out of sync with Weblate for some "
 "reason."
 msgstr ""
+"A utiliser lorsque les fichiers du dépôt ne sont plus synchronisées avec "
+"Weblate pour une raison quelconque."
 
 #: weblate/templates/js/git-status.html:140
 msgid "Rescan"
@@ -7447,14 +7443,11 @@ msgid "Loads translations from the files into Weblate."
 msgstr "Charge les traductions des fichiers dans Weblate."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid ""
 "Use when Weblate missed some of the strings after updating the repository."
 msgstr ""
-"Weblate n’a pas pu récupérer les modifications amont lors de la mise à jour "
-"du dépôt."
+"A utiliser lorsque Weblate a oublié certaines chaînes après avoir mis à jour "
+"le dépôt."
 
 #: weblate/templates/js/git-status.html:151
 msgid "Use these operations with caution, they can lead to data loss."
@@ -7705,6 +7698,8 @@ msgid ""
 "There are no projects attached to this billing plan. (There might be "
 "projects in other billing plans of yours.)"
 msgstr ""
+"Il n'y a pas de projets attachés à cette abonnement. (Il peut y avoir des "
+"projets dans d'autres de vos abonnements)"
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
@@ -8212,10 +8207,8 @@ msgid "Refresh support status"
 msgstr "Actualiser le statut de l’assistance"
 
 #: weblate/templates/manage/index.html:55
-#, fuzzy
-#| msgid "Manage support package"
 msgid "Support package limits"
-msgstr "Gérer le service d’assistance"
+msgstr "Limites du service d’assistance"
 
 #: weblate/templates/manage/index.html:67
 msgid "Support expiry"
@@ -11274,16 +11267,12 @@ msgstr ""
 "chaîne."
 
 #: weblate/trans/forms.py:517
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string explanation"
-msgstr "Emplacement de la chaîne source"
+msgstr "Explication de la chaîne source"
 
 #: weblate/trans/forms.py:519
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Translation explanation"
-msgstr "Notifications sur les traductions"
+msgstr "Explication de la traduction"
 
 #: weblate/trans/forms.py:536
 msgid "The source string has changed meanwhile. Please check your changes."
@@ -12316,10 +12305,8 @@ msgstr "Commentaire résolu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:404
-#, fuzzy
-#| msgid "Explanation"
 msgid "Explanation updated"
-msgstr "Explication"
+msgstr "Explication mise à jour"
 
 #: weblate/trans/models/change.py:476
 msgid "New string to translate"
@@ -12557,16 +12544,16 @@ msgstr ""
 "LC_MESSAGES/django.po."
 
 #: weblate/trans/models/component.py:383
-#, fuzzy
-#| msgid "Screenshot details"
 msgid "Screenshot file mask"
-msgstr "Détails de la capture écran"
+msgstr "Masque du fichier de capture d'écran"
 
 #: weblate/trans/models/component.py:388
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
 msgstr ""
+"Chemin des captures d'écran relatif à la racine du dépot, par exemple docs/"
+"screenshots/*.png."
 
 #: weblate/trans/models/component.py:397
 msgid ""
@@ -14428,16 +14415,12 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Erreur dans le paramètre %(field)s&nbsp;: %(error)s"
 
 #: weblate/vcs/base.py:60
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream repository."
-msgstr "Weblate n’a pas pu pousser les modifications vers le dépôt amont."
+msgstr "Cela va pousser les modifications vers le dépôt en amont."
 
 #: weblate/vcs/git.py:49
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Git repository."
-msgstr "Weblate n’a pas pu pousser les modifications vers le dépôt amont."
+msgstr "Cela va pousser les modifications vers le dépôt Git en amont."
 
 #: weblate/vcs/git.py:515
 msgid "Possible cleanups:"
@@ -14445,23 +14428,19 @@ msgstr "Nettoyages possibles :"
 
 #: weblate/vcs/git.py:525
 msgid "This will push changes to Gerrit for a review."
-msgstr ""
+msgstr "Cela va pousser les modifications vers Gerrit pour une relecture."
 
 #: weblate/vcs/git.py:548
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "This will commit changes to the Subversion repository."
-msgstr "Commiter les modifications dans le dépôt interne"
+msgstr "Cela va commiter les modifications dans le dépôt Subversion."
 
 #: weblate/vcs/git.py:713
 msgid "Git with force push"
 msgstr "Git avec force push"
 
 #: weblate/vcs/git.py:717
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will force push changes to the upstream repository."
-msgstr "Weblate n’a pas pu pousser les modifications vers le dépôt amont."
+msgstr "Cela va pousser en force les modifications vers le dépôt amont."
 
 #: weblate/vcs/git.py:1025
 msgid "GitHub pull request"
@@ -14470,6 +14449,7 @@ msgstr "Demande de tirage GitHub"
 #: weblate/vcs/git.py:1029
 msgid "This will push changes and create GitHub pull request."
 msgstr ""
+"Cela va pousser les modifications et créer une demande de tirage sur Github."
 
 #: weblate/vcs/git.py:1129
 msgid "Gitea pull request"
@@ -14478,6 +14458,7 @@ msgstr "Demande de tirage Gitea"
 #: weblate/vcs/git.py:1133
 msgid "This will push changes and create Gitea pull request."
 msgstr ""
+"Cela va pousser les modifications et créer une demande de tirage sur Gitea."
 
 #: weblate/vcs/git.py:1201
 msgid "No remote repository"
@@ -14490,6 +14471,7 @@ msgstr "Demande de fusion GitLab"
 #: weblate/vcs/git.py:1310
 msgid "This will push changes and create GitLab merge request."
 msgstr ""
+"Cela va pousser les modifications et créer une demande de fusion sur Gitlab."
 
 #: weblate/vcs/git.py:1446
 msgid "Pagure merge request"
@@ -14498,22 +14480,21 @@ msgstr "Demande de fusion Pagure"
 #: weblate/vcs/git.py:1450
 msgid "This will push changes and create Pagure merge request."
 msgstr ""
+"Cela va pousser les modifications et créer une demande de fusion sur Pagure."
 
 #: weblate/vcs/git.py:1536
 msgid "Bitbucket Server pull request"
 msgstr "Pull request du serveur Bitbucket"
 
 #: weblate/vcs/git.py:1542
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create Bitbucket Server pull request."
-msgstr "Pull request du serveur Bitbucket"
+msgstr ""
+"Cela va pousser les modifications et créer une demande de tirage sur "
+"Bitbucket Server."
 
 #: weblate/vcs/mercurial.py:40
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr "Weblate n’a pas pu pousser les modifications vers le dépôt amont."
+msgstr "Cela va pousser les modifications vers le dépôt Mercurial en amont."
 
 #: weblate/vcs/ssh.py:30
 msgctxt "SSH key type"
