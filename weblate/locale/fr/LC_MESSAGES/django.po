@@ -36,7 +36,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-09 11:25+0000\n"
-"PO-Revision-Date: 2023-06-10 07:01+0000\n"
+"PO-Revision-Date: 2023-06-10 07:50+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -529,11 +529,9 @@ msgid "Sync with system"
 msgstr ""
 
 #: weblate/accounts/models.py:404
-#, fuzzy
-#| msgid "Insights"
 msgctxt "Theme selection"
 msgid "Light"
-msgstr "Suivi"
+msgstr "Clair"
 
 #: weblate/accounts/models.py:405
 msgctxt "Theme selection"
@@ -2564,22 +2562,16 @@ msgid "Pay the bills to unlock this project."
 msgstr "Payez la facture pour déverrouiller ce projet."
 
 #: weblate/auth/permissions.py:190
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Source string reviews are not enabled."
-msgstr "La modification de la chaîne source est désactivée."
+msgstr "La révision des chaînes sources est désactivée."
 
 #: weblate/auth/permissions.py:191
-#, fuzzy
-#| msgid "Translation reverted"
 msgid "Translation reviews are not enabled."
-msgstr "Traduction restaurée"
+msgstr "La révision des traductions est désactivée."
 
 #: weblate/auth/permissions.py:198
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Reviews are not enabled."
-msgstr "Service actuellement non disponible."
+msgstr "Les révisions sont désactivées."
 
 #: weblate/auth/permissions.py:211
 msgid "The string is read only."
@@ -2938,10 +2930,8 @@ msgid "Reused translation"
 msgstr "Traduction réutilisée"
 
 #: weblate/checks/consistency.py:139
-#, fuzzy
-#| msgid "Different strings are translated same."
 msgid "Different strings are translated the same."
-msgstr "Différentes chaînes sont traduites de la même manière."
+msgstr "Différentes chaînes sont traduites de manière identique."
 
 #: weblate/checks/consistency.py:214
 msgid "Has been translated"
@@ -7372,10 +7362,8 @@ msgid "Weblate translations are locked"
 msgstr "Les traductions Weblate sont verrouillées"
 
 #: weblate/templates/js/git-status.html:89
-#, fuzzy
-#| msgid "Weblate translations are locked"
 msgid "Weblate translations are unlocked"
-msgstr "Les traductions Weblate sont verrouillées"
+msgstr "Les traductions Weblate sont déverrouillées"
 
 #: weblate/templates/js/git-status.html:93
 msgid "Locking prevents translators from doing changes."
@@ -7395,16 +7383,12 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Réinitialiser toutes les modifications dans le dépôt Weblate"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid ""
-#| "Resetting removes all changes in Weblate so that the repository matches "
-#| "upstream. Use with caution."
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream."
 msgstr ""
 "La réinitialisation supprime toutes les modifications faites dans Weblate "
-"afin que le dépôt corresponde à l’amont. À utiliser avec prudence."
+"afin que le dépôt corresponde à l’amont."
 
 #: weblate/templates/js/git-status.html:116
 msgid ""
@@ -7441,10 +7425,8 @@ msgid "Force writing all translations to the Weblate repository"
 msgstr "Forcer l’écriture de toutes les traductions dans le dépôt Weblate"
 
 #: weblate/templates/js/git-status.html:135
-#, fuzzy
-#| msgid "Force writing all translations to the Weblate repository"
 msgid "Forces writing all strings to the translation files."
-msgstr "Forcer l’écriture de toutes les traductions dans le dépôt Weblate"
+msgstr "Force l’écriture de toutes les chaînes dans les fichiers de traduction."
 
 #: weblate/templates/js/git-status.html:136
 msgid ""
@@ -7524,7 +7506,7 @@ msgstr "Bloquer l’utilisateur"
 #: weblate/templates/last-changes-content.html:58
 #: weblate/templates/snippets/suggestions.html:41
 msgid "Rejection reason"
-msgstr ""
+msgstr "Motif du rejet"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:70
@@ -7704,21 +7686,15 @@ msgstr ""
 "simplement l’approbation de votre offre libre."
 
 #: weblate/templates/mail/billing_expired.html:18
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "Your billing plan has expired. Please renew it to continue using the service."
 msgstr ""
-"Votre mode de facturation a expiré, si vous souhaitez continuer à utiliser "
-"ce service, renouvelez-le."
+"Votre mode de facturation a expiré. Veuillez le renouveler si vous souhaitez "
+"continuer à utiliser le service."
 
 #: weblate/templates/mail/billing_expired.html:23
-#, fuzzy
-#| msgid "This billing plan covers following projects:"
 msgid "This billing plan covers the following projects:"
-msgstr "Ce plan de facturation couvre les projets suivants :"
+msgstr "Ce plan de facturation couvre les projets suivants&nbsp;:"
 
 #: weblate/templates/mail/billing_expired.html:30
 msgid "Remove the project"
@@ -7736,10 +7712,7 @@ msgstr ""
 "Tous les projets couverts par ce plan de facturation ont été supprimés."
 
 #: weblate/templates/mail/billing_expired.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all projects within this billing plan "
-#| "will be removed on %(date)s."
+#, python-format
 msgid ""
 "If you don't issue the payment, all projects within this billing plan will "
 "be removed on %(date)s."
@@ -7748,10 +7721,7 @@ msgstr ""
 "facturation seront supprimés le %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "If your Libre hosting will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting is not approved for it, all projects within this "
 "billing plan will be removed on %(date)s."
@@ -9715,10 +9685,8 @@ msgid "Accept and edit"
 msgstr "Accepter et modifier"
 
 #: weblate/templates/snippets/suggestions.html:42
-#, fuzzy
-#| msgid "Delete suggestion"
 msgid "Reject suggestion"
-msgstr "Supprimer une suggestion"
+msgstr "Rejeter la suggestion"
 
 #: weblate/templates/snippets/suggestions.html:55
 msgid "Suggested change:"
@@ -10595,10 +10563,8 @@ msgstr ""
 "préférable de créer un nouveau composant de traduction."
 
 #: weblate/templates/translate.html:56
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Open in Zen mode"
-msgstr "Modifier en mode Zen"
+msgstr "Ouvrir en mode Zen"
 
 #: weblate/templates/translate.html:56 weblate/templates/translation.html:193
 #: weblate/templates/zen.html:26
@@ -10730,13 +10696,10 @@ msgid "Difference to current string"
 msgstr "Différence avec la chaîne actuelle"
 
 #: weblate/templates/translate.html:310
-#, fuzzy
-#| msgid "The following string has the same context and source."
-#| msgid_plural "The following strings have the same context and source."
 msgid "This string has the same context and source."
 msgid_plural "These strings have the same context and source."
-msgstr[0] "La chaîne suivante a le même contexte et la même source."
-msgstr[1] "Les chaînes suivantes ont le même contexte et la même source."
+msgstr[0] "La chaîne a le même contexte et la même source."
+msgstr[1] "Les chaînes ont le même contexte et la même source."
 
 #: weblate/templates/translate.html:318
 msgid "This string has a different context, but the same source."
@@ -10866,10 +10829,8 @@ msgid "String age"
 msgstr "Âge de la chaîne"
 
 #: weblate/templates/translate.html:696 weblate/utils/views.py:123
-#, fuzzy
-#| msgid "Past due date"
 msgid "Last updated"
-msgstr "Date d’échéance dépassée"
+msgstr "Date de dernière mise à jour"
 
 #: weblate/templates/translate.html:702
 msgid "Source string age"
@@ -12349,8 +12310,6 @@ msgid "Removed comment"
 msgstr "Commentaire supprimé"
 
 #: weblate/trans/models/change.py:401
-#, fuzzy
-#| msgid "Resolved comment"
 msgctxt "Name of event in the history"
 msgid "Resolved comment"
 msgstr "Commentaire résolu"
@@ -13306,10 +13265,8 @@ msgid "This string seems to already exist."
 msgstr "Il semble que cette chaîne existe déjà."
 
 #: weblate/trans/models/translation.py:1643
-#, fuzzy
-#| msgid "Upload strings for translation"
 msgid "Failed adding string, no translation found."
-msgstr "Téléverser les chaînes à traduire"
+msgstr "Erreur lors de l'ajout de la chaîne, aucune traduction n'a été trouvée."
 
 #: weblate/trans/models/unit.py:930
 #, python-format
@@ -14057,10 +14014,8 @@ msgid "Translation files have been synchronized."
 msgstr "Les fichiers de traduction ont été synchronisés."
 
 #: weblate/trans/views/git.py:130
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Translations have been updated."
-msgstr "Le commentaire de traduction a été supprimé."
+msgstr "La traduction a été mise à jour."
 
 #: weblate/trans/views/lock.py:28
 msgid "Component is now locked for translation updates!"
