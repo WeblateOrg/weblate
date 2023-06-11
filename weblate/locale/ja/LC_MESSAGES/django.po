@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-09 11:25+0000\n"
-"PO-Revision-Date: 2023-06-05 06:32+0000\n"
+"PO-Revision-Date: 2023-06-12 06:51+0000\n"
 "Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -71,7 +71,7 @@ msgstr "フルネーム"
 
 #: weblate/accounts/forms.py:111
 msgid "Name is also used in version control commits."
-msgstr ""
+msgstr "名前はバージョンコントロールシステムのコミットにも使われます。"
 
 #: weblate/accounts/forms.py:171 weblate/accounts/models.py:587
 msgid "Commit e-mail"
@@ -83,7 +83,7 @@ msgstr "アカウントのメールアドレスを使用する"
 
 #: weblate/accounts/forms.py:173
 msgid "Choose commit e-mail from verified addresses."
-msgstr ""
+msgstr "コミットに使うメールアドレスを認証済みのアドレスから選んでください。"
 
 #: weblate/accounts/forms.py:207 weblate/accounts/models.py:581
 msgid "Public e-mail"
@@ -137,10 +137,8 @@ msgstr ""
 "す。"
 
 #: weblate/accounts/forms.py:414
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "E-mail with a confirmation link will be sent here."
-msgstr "このアドレスに承認メールを送信します。"
+msgstr "このアドレスに確認のリンクを載せたメールを送信します。"
 
 #: weblate/accounts/forms.py:456
 msgid "New password"
@@ -495,24 +493,22 @@ msgstr "理解できる言語を指定すると、その言語の翻訳を原文
 
 #: weblate/accounts/models.py:400
 msgid "Theme"
-msgstr ""
+msgstr "テーマ"
 
 #: weblate/accounts/models.py:403
 msgctxt "Theme selection"
 msgid "Sync with system"
-msgstr ""
+msgstr "システムに合わせる"
 
 #: weblate/accounts/models.py:404
-#, fuzzy
-#| msgid "Insights"
 msgctxt "Theme selection"
 msgid "Light"
-msgstr "詳細"
+msgstr "ライト"
 
 #: weblate/accounts/models.py:405
 msgctxt "Theme selection"
 msgid "Dark"
-msgstr ""
+msgstr "ダーク"
 
 #: weblate/accounts/models.py:409
 msgid "Hide completed translations on the dashboard"
@@ -2323,10 +2319,9 @@ msgid "Components"
 msgstr "コンポーネント"
 
 #: weblate/auth/models.py:131
-#, fuzzy
-#| msgid "You do not have permission to create components in any projects."
 msgid "Empty selection grants access to all components in project scope."
-msgstr "どのプロジェクトに対してもコンポーネントを作成する権限がありません。"
+msgstr "何も選択しないと、プロジェクトの全てのコンポーネントに対するアクセスを許可し"
+"ます。"
 
 #: weblate/auth/models.py:141
 msgid "Language selection"
@@ -2435,7 +2430,7 @@ msgstr "ブロック期間"
 
 #: weblate/auth/permissions.py:132
 msgid "Can not perform this operation without an e-mail."
-msgstr ""
+msgstr "メールアドレスを登録しないとこの操作はできません。"
 
 #: weblate/auth/permissions.py:137 weblate/templates/translate.html:201
 #: weblate/templates/translate.html:221
@@ -2459,10 +2454,8 @@ msgid "Insufficient privileges for editing source strings."
 msgstr "原文を編集する権限はありません。"
 
 #: weblate/auth/permissions.py:163
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Suggestion voting is disabled."
-msgstr "原文の編集は無効です。"
+msgstr "提案への投票は無効になっています。"
 
 #: weblate/auth/permissions.py:173
 msgid ""
@@ -2476,28 +2469,20 @@ msgid "Pay the bills to unlock this project."
 msgstr "プロジェクトのロックを解除するには、料金を支払ってください。"
 
 #: weblate/auth/permissions.py:190
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Source string reviews are not enabled."
-msgstr "原文の編集は無効です。"
+msgstr "原文の査読は無効になっています。"
 
 #: weblate/auth/permissions.py:191
-#, fuzzy
-#| msgid "Translation reverted"
 msgid "Translation reviews are not enabled."
-msgstr "翻訳の差し戻し"
+msgstr "翻訳の査読は無効になっています。"
 
 #: weblate/auth/permissions.py:198
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Reviews are not enabled."
-msgstr "現在、サービスは利用できません。"
+msgstr "査読は無効になっています。"
 
 #: weblate/auth/permissions.py:211
-#, fuzzy
-#| msgid "This string seems to already exist."
 msgid "The string is read only."
-msgstr "この文字列はすでに存在しています。"
+msgstr "この文字列は読み取り専用です。"
 
 #: weblate/auth/permissions.py:217
 msgid ""
@@ -2508,26 +2493,20 @@ msgstr ""
 "考えの場合は、提案を追加してください。"
 
 #: weblate/auth/permissions.py:223
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "The translation is read only."
-msgstr "この翻訳は現在ロックされています。"
+msgstr "この翻訳は読み取り専用です。"
 
 #: weblate/auth/permissions.py:240
 msgid "Add the string to the source language instead."
-msgstr ""
+msgstr "代わりに原文の言語に文字列を追加してください。"
 
 #: weblate/auth/permissions.py:244
-#, fuzzy
-#| msgid "Unsupported component configuration"
 msgid "Adding strings is disabled in the component configuration."
-msgstr "未対応のコンポーネント構成"
+msgstr "文字列の追加はコンポーネントの設定で無効になっています。"
 
 #: weblate/auth/permissions.py:261 weblate/auth/permissions.py:278
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "File format does not support this."
-msgstr "検出したファイル形式はサポートしていません。"
+msgstr "ファイル形式がこの操作に対応していません。"
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2838,10 +2817,8 @@ msgid "Reused translation"
 msgstr "翻訳の削除"
 
 #: weblate/checks/consistency.py:139
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Different strings are translated the same."
-msgstr "翻訳対象の文字列がありません"
+msgstr "異なる文字列が同じように翻訳されています。"
 
 #: weblate/checks/consistency.py:214
 msgid "Has been translated"
@@ -4422,14 +4399,12 @@ msgid "Screenshot name"
 msgstr "スクリーンショットの名前"
 
 #: weblate/screenshots/models.py:51
-#, fuzzy
-#| msgid "Repository branch to translate"
 msgid "Repository path to screenshot"
-msgstr "翻訳するリポジトリブランチ"
+msgstr "スクリーンショットのリポジトリのパス"
 
 #: weblate/screenshots/models.py:52
 msgid "Scan for screenshot file change on repository update."
-msgstr ""
+msgstr "リポジトリの更新時にスクリーンショットの変更がないか調べます。"
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_detail.html:58
@@ -4685,10 +4660,8 @@ msgstr "統計データ"
 
 #: weblate/templates/accounts/add-mail.html:4
 #: weblate/templates/accounts/email.html:17
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Add new e-mail address"
-msgstr "アカウントのメールアドレスを使用する"
+msgstr "新しいメールアドレスを追加する"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -4716,10 +4689,8 @@ msgstr ""
 "証できるようになります。"
 
 #: weblate/templates/accounts/confirm.html:24
-#, fuzzy
-#| msgid "Configure"
 msgid "Confirm"
-msgstr "設定"
+msgstr "承認"
 
 #: weblate/templates/accounts/contact.html:15
 msgid ""
@@ -5459,9 +5430,6 @@ msgid "Members"
 msgstr "メンバー"
 
 #: weblate/templates/accounts/user.html:264
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgctxt "No project associated with group"
 msgid "None"
 msgstr "なし"
@@ -7239,33 +7207,30 @@ msgstr "クリーンアップ"
 
 #: weblate/templates/js/git-status.html:122
 msgid "Cleanup all untracked files in the Weblate repository"
-msgstr "Weblate のリポジトリ内の未記録のファイルをクリーンアップする"
+msgstr "Weblate のリポジトリにある未追跡のファイルをクリーンアップする"
 
 #: weblate/templates/js/git-status.html:125
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
-msgstr ""
+msgstr "バージョンコントロールシステムで追跡されていない全てのファイルをリポジトリか"
+"ら削除します。"
 
 #: weblate/templates/js/git-status.html:126
-#, fuzzy
-#| msgid "Prevent any changes in the Weblate repository"
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Weblate のリポジトリ内での変更をすべて禁止する"
+msgstr "Weblate リポジトリにゴミが残ってしまっている場合に使います。"
 
 #: weblate/templates/js/git-status.html:130
 msgid "Synchronize"
-msgstr ""
+msgstr "同期"
 
 #: weblate/templates/js/git-status.html:132
 msgid "Force writing all translations to the Weblate repository"
 msgstr "すべての翻訳を Weblate リポジトリに強制的に書き込む"
 
 #: weblate/templates/js/git-status.html:135
-#, fuzzy
-#| msgid "Force writing all translations to the Weblate repository"
 msgid "Forces writing all strings to the translation files."
-msgstr "すべての翻訳を Weblate リポジトリに強制的に書き込む"
+msgstr "すべての文字列を翻訳ファイルに強制的に書き込みます。"
 
 #: weblate/templates/js/git-status.html:136
 msgid ""
@@ -11031,16 +10996,12 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "文字列の意味や使い方を明確にするための追加説明。"
 
 #: weblate/trans/forms.py:517
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string explanation"
-msgstr "原文の記載位置"
+msgstr "原文の説明"
 
 #: weblate/trans/forms.py:519
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Translation explanation"
-msgstr "翻訳の通知"
+msgstr "翻訳の説明"
 
 #: weblate/trans/forms.py:536
 msgid "The source string has changed meanwhile. Please check your changes."
@@ -12030,11 +11991,9 @@ msgid "Removed comment"
 msgstr "コメントの削除"
 
 #: weblate/trans/models/change.py:401
-#, fuzzy
-#| msgid "Resolved comment"
 msgctxt "Name of event in the history"
 msgid "Resolved comment"
-msgstr "解決したコメント"
+msgstr "コメントの解決"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:404
