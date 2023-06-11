@@ -3578,7 +3578,7 @@ class SearchAPITest(APIBaseTest):
                 },
                 {
                     "category": "Component",
-                    "name": "Test",
+                    "name": "Test/Test",
                     "url": "/projects/test/test/",
                 },
                 {

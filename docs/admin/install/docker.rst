@@ -1553,7 +1553,7 @@ To enable support for Sentry, set following:
 
 .. envvar:: SENTRY_TRACES_SAMPLE_RATE
 
-   Confgure sampling rate for performance monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
+   Configure sampling rate for performance monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
 
    **Example:**
 
@@ -1564,7 +1564,7 @@ To enable support for Sentry, set following:
 
 .. envvar:: SENTRY_PROFILES_SAMPLE_RATE
 
-   Confgure sampling rate for profiling monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
+   Configure sampling rate for profiling monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
 
    **Example:**
 

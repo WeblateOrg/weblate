@@ -715,7 +715,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         verbose_name_plural = "Components"
 
     def __str__(self):
-        return "/".join((str(self.project), self.name))
+        return f"{self.project}/{self.name}"
 
     def save(self, *args, **kwargs):
         """
