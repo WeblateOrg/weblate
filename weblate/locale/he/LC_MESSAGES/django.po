@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-09 11:25+0000\n"
-"PO-Revision-Date: 2023-06-12 07:51+0000\n"
+"PO-Revision-Date: 2023-06-12 09:01+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -5268,10 +5268,8 @@ msgstr[2] "%(count)s תגובות"
 msgstr[3] "%(count)s תגובות"
 
 #: weblate/templates/accounts/user.html:141
-#, fuzzy
-#| msgid "Contributors"
 msgid "Contributed to"
-msgstr "תורמים"
+msgstr "תרומה לטובת"
 
 #: weblate/templates/accounts/user.html:144
 msgid "Activity"
@@ -7002,15 +7000,13 @@ msgid "Push"
 msgstr "דחיפה"
 
 #: weblate/templates/js/git-status.html:41
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "תגובה אחת"
-msgstr[1] "%(count)s תגובות"
-msgstr[2] "%(count)s תגובות"
-msgstr[3] "%(count)s תגובות"
+msgstr[0] "הגשה יוצאת"
+msgstr[1] "%(count)s הגשות יוצאות"
+msgstr[2] "%(count)s הגשות יוצאות"
+msgstr[3] "%(count)s הגשות יוצאות"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Update"
@@ -7021,33 +7017,25 @@ msgid "Update with merge"
 msgstr "עדכון עם מיזוג"
 
 #: weblate/templates/js/git-status.html:61
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Update with rebase"
-msgstr "עדכון בדיקות איכות"
+msgstr "עדכון עם ביסוס מחדש (rebase)"
 
 #: weblate/templates/js/git-status.html:64
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid "Update with merge without fast-forward"
-msgstr "מיזוג ללא הרצה קדימה"
+msgstr "עדכון עם מיזוג ללא הרצה קדימה"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "תגובה אחת"
-msgstr[1] "%(count)s תגובות"
-msgstr[2] "%(count)s תגובות"
-msgstr[3] "%(count)s תגובות"
+msgstr[0] "הגשה חסרה"
+msgstr[1] "%(count)s הגשות חסרות"
+msgstr[2] "%(count)s הגשות חסרות"
+msgstr[3] "%(count)s הגשות חסרות"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy
-#| msgid "Locking the translation will prevent others to work on translation."
 msgid "This will update the Weblate repository with the upstream changes."
-msgstr "נעילת התרגום תמנע מאחרים לעבוד על התרגום."
+msgstr "פעולה זו תעדכן את המאגר ב־Weblate בשינויים מהמקור."
 
 #: weblate/templates/js/git-status.html:80
 msgid "Allow changes to the Weblate repository"
@@ -7071,10 +7059,8 @@ msgid "Weblate translations are locked"
 msgstr "תרגומי Weblate נעולים"
 
 #: weblate/templates/js/git-status.html:89
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are unlocked"
-msgstr "תרגומי Weblate"
+msgstr "תרגומי Weblate משוחררים"
 
 #: weblate/templates/js/git-status.html:93
 msgid "Locking prevents translators from doing changes."
@@ -7103,7 +7089,7 @@ msgstr "איפוס מסיר את כל השינויים ב־Weblate כדי שהמ
 msgid ""
 "Use when you want to discard changes in Weblate and bring it in sync with "
 "upstream repository."
-msgstr ""
+msgstr "יש להשתמש כדי להשליך את השינוים ב־Weblate ולסנכרן מול מאגר המקור."
 
 #: weblate/templates/js/git-status.html:120
 msgid "Cleanup"
@@ -7117,13 +7103,11 @@ msgstr "ניקוי כל הקבצים שאינם מסומנים במאגר ב־We
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
-msgstr ""
+msgstr "ניקוי מפנה את כל הקבצים שאינם במעקב על ידי בקרת הגרסאות מהמאגר."
 
 #: weblate/templates/js/git-status.html:126
-#, fuzzy
-#| msgid "Prevent any changes in the Weblate repository"
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "מניעת שינויים במאגר ב־Weblate"
+msgstr "להשתמש כאשר נותר קצת זבל במאגר של Weblate."
 
 #: weblate/templates/js/git-status.html:130
 msgid "Synchronize"
@@ -7141,35 +7125,28 @@ msgstr "מאלץ את כתיבת כל המחרוזות לקובצי תרגום."
 msgid ""
 "Use this when repository files became out of sync with Weblate for some "
 "reason."
-msgstr ""
+msgstr "יש להשתמש כאשר קובצי המאגר יוצאים מסנכרון מול Weblate מסיבה כלשהי."
 
 #: weblate/templates/js/git-status.html:140
 msgid "Rescan"
-msgstr ""
+msgstr "סריקה מחדש"
 
 #: weblate/templates/js/git-status.html:142
-#, fuzzy
-#| msgid "Cleanup all untracked files in the Weblate repository"
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "ניקוי כל הקבצים שאינם מסומנים במאגר ב־Weblate"
+msgstr "לסרוק מחדש את כל קובצי התרגום במאגר ה־Weblate"
 
 #: weblate/templates/js/git-status.html:145
-#, fuzzy
-#| msgid "Removes current translation from the repository."
 msgid "Loads translations from the files into Weblate."
-msgstr "הסרת התרגומים הנוכחיים מהמאגר."
+msgstr "טען תרגומים מהקבצים ל־Weblate."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid ""
 "Use when Weblate missed some of the strings after updating the repository."
-msgstr "ל־Weblate אין אפשרות לאחזר את השינויים מהמקור בזמן עדכון המאגר."
+msgstr "להשתמש כאשר התפספסו כמה מהמחרוזות על ידי Weblate לאחר עדכון המאגר."
 
 #: weblate/templates/js/git-status.html:151
 msgid "Use these operations with caution, they can lead to data loss."
-msgstr ""
+msgstr "יש להשתמש בפעולות האלו בזהירות, הן עלולות להוביל לאובדן מידע."
 
 #: weblate/templates/js/git-status.html:160
 #, python-format
@@ -7215,7 +7192,7 @@ msgstr "חסימת משתמש"
 #: weblate/templates/last-changes-content.html:58
 #: weblate/templates/snippets/suggestions.html:41
 msgid "Rejection reason"
-msgstr ""
+msgstr "סיבת הדחייה"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:70
@@ -7397,19 +7374,13 @@ msgstr ""
 "החופשית שלך."
 
 #: weblate/templates/mail/billing_expired.html:18
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "Your billing plan has expired. Please renew it to continue using the service."
-msgstr "תכנית החיוב שלך פגה, כדי להמשיך ולהשתמש בשירות, יש לחדש אותה."
+msgstr "תוכנית החיוב שלך פגה, יש לחדש אותה כדי להמשיך ולהשתמש בשירות."
 
 #: weblate/templates/mail/billing_expired.html:23
-#, fuzzy
-#| msgid "This billing plan covers following projects:"
 msgid "This billing plan covers the following projects:"
-msgstr "תכנית החיוב מכסה את המיזמים הבאים:"
+msgstr "תוכנית החיוב מכסה את המיזמים הבאים:"
 
 #: weblate/templates/mail/billing_expired.html:30
 msgid "Remove the project"
@@ -7420,6 +7391,8 @@ msgid ""
 "There are no projects attached to this billing plan. (There might be "
 "projects in other billing plans of yours.)"
 msgstr ""
+"אין מיזמים שצמודים לתוכנית החיוב הזאת. (יכולים להיות מיזמים בתוכניות חיוב "
+"אחרות שלך.)"
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
@@ -7434,16 +7407,13 @@ msgstr ""
 "אם התשלום לא ייגבה, כל המיזמים במסגרת תכנית החיוב הזאת יוסרו ב־%(date)s."
 
 #: weblate/templates/mail/billing_expired.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "If your Libre hosting will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting is not approved for it, all projects within this "
 "billing plan will be removed on %(date)s."
 msgstr ""
-"אם האירוח החינמי שלך לא יאושר, כל המיזמים במסגרת תוכנית החיוב הזאת יוסרו ב־"
-"%(date)s."
+"אם האירוח החינמי שלך לא יאושר עבורו, כל המיזמים במסגרת תוכנית החיוב הזאת "
+"יוסרו ב־%(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -10289,9 +10259,6 @@ msgid "Difference to current string"
 msgstr "הבדל מול המחרוזת הנוכחית"
 
 #: weblate/templates/translate.html:310
-#, fuzzy
-#| msgid "The following string has the same context and source."
-#| msgid_plural "The following strings have the same context and source."
 msgid "This string has the same context and source."
 msgid_plural "These strings have the same context and source."
 msgstr[0] "למחרוזת הזו יש הקשר ומקור זהים."
@@ -12094,7 +12061,7 @@ msgstr "מסכת שם קובץ צילום מסך"
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
-msgstr "נתיב לצילומי מך ביחס לבסיס המאגר, למשל:"
+msgstr "נתיב לצילומי מסך ביחס לבסיס המאגר, למשל: docs/screenshots/*.png."
 
 #: weblate/trans/models/component.py:397
 msgid ""
@@ -12405,17 +12372,14 @@ msgid "The file mask did not match any files."
 msgstr "המסכה אינה תואמת קבצים כלשהם."
 
 #: weblate/trans/models/component.py:2569
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the file mask "
-#| "and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
 "%(filename2)s Please adjust the file mask and use components for translating "
 "different resources."
 msgstr ""
-"יש יותר מקובץ אחד ל%s, נא להתאים את מסכת הקבצים ולהשתמש ברכיבים כדי לתרגם "
-"משאבים שונים."
+"יש יותר מקובץ אחד ל%(language)s:‏ %(filename1)s,‏ %(filename2)s, נא להתאים "
+"את מסכת הקבצים ולהשתמש ברכיבים כדי לתרגם משאבים שונים."
 
 #: weblate/trans/models/component.py:2587
 msgid "Could not find any matching language, please check the file mask."
@@ -13925,10 +13889,8 @@ msgid "Git with force push"
 msgstr "Git עם אילוץ דחיפה"
 
 #: weblate/vcs/git.py:717
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will force push changes to the upstream repository."
-msgstr "ל־Weblate אין אפשרות לדחוף את השינויים למאגר המקור."
+msgstr "פעולה זו תדחף את השינויים למאגר המקור."
 
 #: weblate/vcs/git.py:1025
 msgid "GitHub pull request"
@@ -13936,7 +13898,7 @@ msgstr "בקשת דחיפה ל־GitHub"
 
 #: weblate/vcs/git.py:1029
 msgid "This will push changes and create GitHub pull request."
-msgstr ""
+msgstr "פעולה זו תדחף את השינויים ותיצור בקשת דחיפה ב־GitHub."
 
 #: weblate/vcs/git.py:1129
 msgid "Gitea pull request"
@@ -13944,7 +13906,7 @@ msgstr "בקשת דחיפה ל־Gitea"
 
 #: weblate/vcs/git.py:1133
 msgid "This will push changes and create Gitea pull request."
-msgstr ""
+msgstr "פעולה זו תדחף ינויים ותיצור בקשת דחיפה ב־Gitea."
 
 #: weblate/vcs/git.py:1201
 msgid "No remote repository"
@@ -13956,7 +13918,7 @@ msgstr "בקשת מיזוג ל־GitLab"
 
 #: weblate/vcs/git.py:1310
 msgid "This will push changes and create GitLab merge request."
-msgstr ""
+msgstr "פעולה זו תדחף שינויים ותיצור בקשת מיזוג ב־GitLab."
 
 #: weblate/vcs/git.py:1446
 msgid "Pagure merge request"
@@ -13964,7 +13926,7 @@ msgstr "בקשת מיזוג ל־Pagure"
 
 #: weblate/vcs/git.py:1450
 msgid "This will push changes and create Pagure merge request."
-msgstr ""
+msgstr "פעולה זו תדחף שינויים ותיצור בקשת מיזוג ב־Pagure."
 
 #: weblate/vcs/git.py:1536
 msgid "Bitbucket Server pull request"
@@ -13975,10 +13937,8 @@ msgid "This will push changes and create Bitbucket Server pull request."
 msgstr "פעולה זו תדחף שינויים ותיצור בקשת דחיפה לשרת Bitbucket."
 
 #: weblate/vcs/mercurial.py:40
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr "ל־Weblate אין אפשרות לדחוף את השינויים למאגר המקור."
+msgstr "פעולה זו תדחף שינויים למאגר ה־Mercurial המקורי."
 
 #: weblate/vcs/ssh.py:30
 msgctxt "SSH key type"
@@ -14188,6 +14148,8 @@ msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in discover."
 msgstr ""
+"נא לשנות את SITE_TITLE (כותרת האתר) בהגדרות כדי להקל על זיהוי וגילוי ה־"
+"Weblate שלך."
 
 #: weblate/wladmin/views.py:186
 msgid "Activation completed."
