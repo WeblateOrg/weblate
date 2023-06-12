@@ -129,7 +129,7 @@ def check_can_edit(user, permission, obj, is_vote=False):
 
     # Email is needed for user to be able to edit
     if user.is_authenticated and not user.email:
-        return Denied(gettext("Can not perform this operation without an e-mail."))
+        return Denied(gettext("Can not perform this operation without an e-mail address."))
 
     if component:
         # Check component lock
@@ -142,7 +142,7 @@ def check_can_edit(user, permission, obj, is_vote=False):
         ):
             return Denied(
                 gettext(
-                    "Contributing to this translation requires you agree to its contributor agreement."
+                    "Contributing to this translation requires agreeing to its contributor agreement."
                 )
             )
 
