@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Git based version control system abstraction for Weblate needs."""
+"""Git-based version-control-system abstraction for Weblate needs."""
 
 import logging
 import os
@@ -242,7 +242,7 @@ class GitRepository(Repository):
 
     def show(self, revision):
         """
-        Helper method to get content of revision.
+        Helper method to get the content of the revision.
 
         Used in tests.
         """
@@ -256,7 +256,7 @@ class GitRepository(Repository):
         return []
 
     def _get_revision_info(self, revision):
-        """Return dictionary with detailed revision information."""
+        """Return dictionary with detailed revision info."""
         text = self.execute(
             ["log", "-1", "--format=fuller", "--date=rfc", "--abbrev-commit", revision],
             needs_lock=False,
@@ -427,7 +427,7 @@ class GitRepository(Repository):
                 (
                     'merge "weblate-merge-gettext-po"',
                     "name",
-                    "Weblate merge driver for Gettext PO files",
+                    "Weblate merge driver for gettext PO files",
                 )
             )
             updates.append(
@@ -1039,7 +1039,9 @@ class GithubRepository(GitMergeRequestBase):
     identifier = "github"
     _version = None
     API_TEMPLATE = "{scheme}://{host}/{suffix}repos/{owner}/{slug}"
-    push_label = gettext_lazy("This will push changes and create GitHub pull request.")
+    push_label = gettext_lazy(
+        "This will push changes and create a GitHub pull request."
+    )
 
     def format_api_host(self, host):
         if host == "github.com":
@@ -1151,7 +1153,7 @@ class GiteaRepository(GitMergeRequestBase):
     identifier = "gitea"
     _version = None
     API_TEMPLATE = "{scheme}://{host}/api/v1/repos/{owner}/{slug}"
-    push_label = gettext_lazy("This will push changes and create Gitea pull request.")
+    push_label = gettext_lazy("This will push changes and create a Gitea pull request.")
 
     def create_fork(self, credentials: Dict):
         fork_url = "{}/forks".format(credentials["url"])
@@ -1328,15 +1330,17 @@ class GitLabRepository(GitMergeRequestBase):
     identifier = "gitlab"
     _version = None
     API_TEMPLATE = "{scheme}://{host}/api/v4/projects/{owner_url}%2F{slug_url}"
-    push_label = gettext_lazy("This will push changes and create GitLab merge request.")
+    push_label = gettext_lazy(
+        "This will push changes and create a GitLab merge request."
+    )
 
     def get_forked_url(self, credentials: Dict) -> str:
         """
         Returns GitLab API URL for the forked repository.
 
-        To send a MR to GitLab via API, one needs to send request to
+        To send a MR to GitLab via API, one needs to send request to the
         API URL of the forked repository along with the target project ID
-        unlike GitHub where the PR is sent to the target project's API URL.
+        (unlike GitHub where the PR is sent to the target project's API URL).
         """
         target_path = credentials["url"].split("/")[-1]
         cmd = ["remote", "get-url", "--push", credentials["username"]]
@@ -1388,8 +1392,8 @@ class GitLabRepository(GitMergeRequestBase):
         fork_url = "{}/fork".format(credentials["url"])
         forked_repo = None
 
-        # Check if Fork already exists owned by current user. If the
-        # fork already exists, set that fork as remote.
+        # Check if a fork already exists owned by the current user.
+        # If fork already exists, set that fork as remote.
         # Else, create a new fork
         response_data, response, error = self.request("get", credentials, get_fork_url)
         for fork in response_data:
@@ -1438,9 +1442,9 @@ class GitLabRepository(GitMergeRequestBase):
         target_project_id = None
         pr_url = "{}/merge_requests".format(credentials["url"])
         if fork_remote != "origin":
-            # GitLab MR works a little different from GitHub. The MR needs
+            # GitLab MR works a little differently from GitHub. The MR needs
             # to be sent with the fork's API URL along with a parameter mentioning
-            # the target project id
+            # the target project ID
             target_project_id = self.get_target_project_id(credentials)
             pr_url = f"{self.get_forked_url(credentials)}/merge_requests"
 
@@ -1468,7 +1472,9 @@ class PagureRepository(GitMergeRequestBase):
     identifier = "pagure"
     _version = None
     API_TEMPLATE = "{scheme}://{host}/api/0"
-    push_label = gettext_lazy("This will push changes and create Pagure merge request.")
+    push_label = gettext_lazy(
+        "This will push changes and create a Pagure merge request."
+    )
 
     def create_fork(self, credentials: Dict):
         fork_url = "{}/fork".format(credentials["url"])
@@ -1479,7 +1485,7 @@ class PagureRepository(GitMergeRequestBase):
         }
 
         if credentials["owner"]:
-            # We have no information whether the URL part is namespace
+            # We have no info on whether the URL part is namespace
             # or username, try both
             params = [
                 {"namespace": credentials["owner"]},
@@ -1510,7 +1516,8 @@ class PagureRepository(GitMergeRequestBase):
         """
         Create pull request.
 
-        Use to merge branch in forked repository into branch of remote repository.
+        Use to merge a branch in the forked repository
+        into a branch of thr remote repository.
         """
         if credentials["owner"]:
             pr_list_url = "{url}/{owner}/{slug}/pull-requests".format(**credentials)
@@ -1560,7 +1567,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
     API_TEMPLATE = "{scheme}://{host}/rest/api/1.0/projects/{owner}/repos/{slug}"
     bb_fork: Dict = {}
     push_label = gettext_lazy(
-        "This will push changes and create Bitbucket Server pull request."
+        "This will push changes and create a Bitbucket Server pull request."
     )
 
     def get_headers(self, credentials: Dict):
@@ -1574,8 +1581,8 @@ class BitbucketServerRepository(GitMergeRequestBase):
         )
         self.bb_fork = bb_fork
 
-        # If fork already exists, get forks from origin and find the user's fork.
-        # Since Bitbucket uses projectKey which can be any string(that is not
+        # If A fork already exists, get forks from origin and find the user's fork.
+        # Since Bitbucket uses projectKey which can be any string (that is not
         # at all related to its name) we need to compare user's forks against
         # remote.
         if "This repository URL is already taken." in error_message:
@@ -1679,11 +1686,11 @@ class BitbucketServerRepository(GitMergeRequestBase):
         )
 
         """
-        Bitbucket Server will return error if PR already exists. The push
-        method in parent class will push changes to the correct fork or
-        branch, and always call this create_pull_request method after. If PR
-        exist already just do nothing because Bitbucket will automatically
-        update the PR if the from ref is updated.
+        Bitbucket Server will return an error if a PR already exists.
+        The push method in the parent class pushes changes to the correct
+        fork or branch, and always calls this create_pull_request method after.
+        If the PR exists already just do nothing because Bitbucket will
+        auto-update the PR if the from ref is updated.
         """
         if "id" not in response_data:
             pr_exist_message = (
