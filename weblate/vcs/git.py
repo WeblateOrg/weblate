@@ -1039,7 +1039,9 @@ class GithubRepository(GitMergeRequestBase):
     identifier = "github"
     _version = None
     API_TEMPLATE = "{scheme}://{host}/{suffix}repos/{owner}/{slug}"
-    push_label = gettext_lazy("This will push changes and create a GitHub pull request.")
+    push_label = gettext_lazy(
+        "This will push changes and create a GitHub pull request."
+    )
 
     def format_api_host(self, host):
         if host == "github.com":
@@ -1328,7 +1330,9 @@ class GitLabRepository(GitMergeRequestBase):
     identifier = "gitlab"
     _version = None
     API_TEMPLATE = "{scheme}://{host}/api/v4/projects/{owner_url}%2F{slug_url}"
-    push_label = gettext_lazy("This will push changes and create a GitLab merge request.")
+    push_label = gettext_lazy(
+        "This will push changes and create a GitLab merge request."
+    )
 
     def get_forked_url(self, credentials: Dict) -> str:
         """
@@ -1468,7 +1472,9 @@ class PagureRepository(GitMergeRequestBase):
     identifier = "pagure"
     _version = None
     API_TEMPLATE = "{scheme}://{host}/api/0"
-    push_label = gettext_lazy("This will push changes and create a Pagure merge request.")
+    push_label = gettext_lazy(
+        "This will push changes and create a Pagure merge request."
+    )
 
     def create_fork(self, credentials: Dict):
         fork_url = "{}/fork".format(credentials["url"])
