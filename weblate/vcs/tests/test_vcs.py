@@ -544,34 +544,69 @@ class VCSGiteaTest(VCSGitUpstreamTest):
     def test_api_url_try_gitea(self):
         self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
+        )
+        self.repo.component.repo = "http://try.gitea.io/WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_credentials()["url"],
+            "http://try.gitea.io/api/v1/repos/WeblateOrg/test",
+        )
+        self.repo.component.repo = "git@try.gitea.io:WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_credentials()["url"],
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test/"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "git@try.gitea.io:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "try.gitea.io:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "try.gitea.io:WeblateOrg/test.github.io"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test.github.io",
         )
+        with override_settings(
+            GITEA_CREDENTIALS={
+                "try.gitea.io": {"username": "test", "token": "token", "scheme": "http"}
+            }
+        ):
+            self.repo.component.repo = "git@try.gitea.io:WeblateOrg/test.git"
+            self.assertEqual(
+                self.repo.get_credentials()["url"],
+                "http://try.gitea.io/api/v1/repos/WeblateOrg/test",
+            )
+
+        with override_settings(
+            GITEA_CREDENTIALS={
+                "try.gitea.io": {
+                    "username": "test",
+                    "token": "token",
+                    "scheme": "https",
+                }
+            }
+        ):
+            self.repo.component.repo = "http://try.gitea.io/WeblateOrg/test/"
+            self.assertEqual(
+                self.repo.get_credentials()["url"],
+                "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
+            )
 
     @responses.activate
     def test_push(self, branch=""):
@@ -661,59 +696,77 @@ class VCSGitHubTest(VCSGitUpstreamTest):
     def test_api_url_github_com(self):
         self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0], "https://api.github.com/repos/WeblateOrg/test"
+            self.repo.get_credentials()["url"],
+            "https://api.github.com/repos/WeblateOrg/test",
+        )
+        self.repo.component.repo = "http://github.com/WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_credentials()["url"],
+            "http://api.github.com/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "https://github.com/WeblateOrg/test"
         self.assertEqual(
-            self.repo.get_api_url()[0], "https://api.github.com/repos/WeblateOrg/test"
+            self.repo.get_credentials()["url"],
+            "https://api.github.com/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "https://github.com/WeblateOrg/test/"
         self.assertEqual(
-            self.repo.get_api_url()[0], "https://api.github.com/repos/WeblateOrg/test"
+            self.repo.get_credentials()["url"],
+            "https://api.github.com/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "git@github.com:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0], "https://api.github.com/repos/WeblateOrg/test"
+            self.repo.get_credentials()["url"],
+            "https://api.github.com/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "github.com:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0], "https://api.github.com/repos/WeblateOrg/test"
+            self.repo.get_credentials()["url"],
+            "https://api.github.com/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "github.com:WeblateOrg/test.github.io"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://api.github.com/repos/WeblateOrg/test.github.io",
         )
 
+    @override_settings(
+        GITHUB_CREDENTIALS={
+            "self-hosted-ghes.com": {
+                "username": "test",
+                "token": "token",
+            }
+        }
+    )
     def test_api_url_ghes(self):
         self.repo.component.repo = "https://self-hosted-ghes.com/WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "https://self-hosted-ghes.com/WeblateOrg/test"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "https://self-hosted-ghes.com/WeblateOrg/test/"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "git@self-hosted-ghes.com:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "self-hosted-ghes.com:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test",
         )
         self.repo.component.repo = "self-hosted-ghes.com:WeblateOrg/test.github.io"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test.github.io",
         )
 
@@ -902,41 +955,61 @@ class VCSGitLabTest(VCSGitUpstreamTest):
     def test_api_url(self):
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
+        )
+        self.repo.component.repo = "http://gitlab.com/WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_credentials()["url"],
+            "http://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
         )
         self.repo.component.repo = "https://user:pass@gitlab.com/WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
         )
         self.repo.component.repo = "git@gitlab.com:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
         )
+
+    @override_settings(
+        GITLAB_CREDENTIALS={
+            "gitlab.example.com": {"username": "test", "token": "token"}
+        }
+    )
+    def test_api_url_self_hosted(self):
         self.repo.component.repo = "git@gitlab.example.com:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             "https://gitlab.example.com/api/v4/projects/WeblateOrg%2Ftest",
         )
         self.repo.component.repo = "git@gitlab.example.com:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url(),
-            (
-                "https://gitlab.example.com/api/v4/projects/WeblateOrg%2Ftest",
-                "WeblateOrg",
-                "test",
-            ),
+            self.repo.get_credentials(),
+            {
+                "url": "https://gitlab.example.com/api/v4/projects/WeblateOrg%2Ftest",
+                "owner": "WeblateOrg",
+                "slug": "test",
+                "hostname": "gitlab.example.com",
+                "scheme": "https",
+                "username": "test",
+                "token": "token",
+            },
         )
         self.repo.component.repo = "git@gitlab.example.com:foo/bar/test.git"
         self.assertEqual(
-            self.repo.get_api_url(),
-            (
-                "https://gitlab.example.com/api/v4/projects/foo%2Fbar%2Ftest",
-                "foo",
-                "bar/test",
-            ),
+            self.repo.get_credentials(),
+            {
+                "url": "https://gitlab.example.com/api/v4/projects/foo%2Fbar%2Ftest",
+                "owner": "foo",
+                "slug": "bar/test",
+                "hostname": "gitlab.example.com",
+                "scheme": "https",
+                "username": "test",
+                "token": "token",
+            },
         )
 
     @responses.activate
@@ -1497,32 +1570,32 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
     def test_api_url(self):
         self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
         )
         self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
         )
         self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo/"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
         )
         self.repo.component.repo = "git@api.selfhosted.com:bb_pk/bb_repo.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
         )
         self.repo.component.repo = "api.selfhosted.com:bb_pk/bb_repo.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
         )
         self.repo.component.repo = "api.selfhosted.com:bb_pk/bb_repo.com"
         self.assertEqual(
-            self.repo.get_api_url()[0],
+            self.repo.get_credentials()["url"],
             f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo.com",
         )
 

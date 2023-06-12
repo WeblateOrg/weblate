@@ -257,6 +257,7 @@ class TranslationFormat:
     create_style = "create"
     has_multiple_strings: bool = False
     supports_explanation: bool = False
+    strict_format_plurals: bool = False
     plural_preference: Optional[Tuple[int, ...]] = None
 
     @classmethod

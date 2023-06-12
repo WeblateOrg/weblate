@@ -753,10 +753,12 @@ List for credentials for Gitea servers.
         "try.gitea.io": {
             "username": "weblate",
             "token": "your-api-token",
+            "protocol": "https",
         },
         "gitea.example.com": {
             "username": "weblate",
             "token": "another-api-token",
+            "protocol": "https",
         },
     }
 
@@ -782,10 +784,12 @@ List for credentials for GitLab servers.
         "gitlab.com": {
             "username": "weblate",
             "token": "your-api-token",
+            "protocol": "https",
         },
         "gitlab.example.com": {
             "username": "weblate",
             "token": "another-api-token",
+            "protocol": "https",
         },
     }
 
@@ -809,10 +813,12 @@ List for credentials for GitHub servers.
         "api.github.com": {
             "username": "weblate",
             "token": "your-api-token",
+            "protocol": "https",
         },
         "github.example.com": {
             "username": "weblate",
             "token": "another-api-token",
+            "protocol": "https",
         },
     }
 
@@ -838,6 +844,7 @@ List for credentials for Bitbucket servers.
         "git.self-hosted.com": {
             "username": "weblate",
             "token": "http-access-token",
+            "protocol": "https",
         },
     }
 
@@ -1241,10 +1248,12 @@ List for credentials for Pagure servers.
         "pagure.io": {
             "username": "weblate",
             "token": "your-api-token",
+            "protocol": "https",
         },
         "pagure.example.com": {
             "username": "weblate",
             "token": "another-api-token",
+            "protocol": "https",
         },
     }
 

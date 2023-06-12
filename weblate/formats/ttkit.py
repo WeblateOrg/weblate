@@ -1392,6 +1392,7 @@ class AndroidFormat(TTKitFormat):
         Plural.SOURCE_CLDR,
         Plural.SOURCE_DEFAULT,
     )
+    strict_format_plurals: bool = True
 
 
 class DictStoreMixin:

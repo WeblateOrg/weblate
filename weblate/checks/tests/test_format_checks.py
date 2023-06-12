@@ -1011,7 +1011,9 @@ class PluralTest(FixtureTestCase):
 
     def test_arabic(self):
         arabic = Language.objects.get(code="ar")
-        translation = Translation(language=arabic, plural=arabic.plural)
+        translation = Translation(
+            language=arabic, plural=arabic.plural, component=Component(file_format="po")
+        )
         # Singular, correct format string
         self.assertFalse(self.do_check(["hello %s"], ["hell %s"], translation))
         # Singular, missing format string
@@ -1033,9 +1035,36 @@ class PluralTest(FixtureTestCase):
             )
         )
 
+    def test_non_format_singular_fa(self):
+        czech = Language.objects.get(code="fa")
+        translation = Translation(
+            language=czech, plural=czech.plural, component=Component(file_format="po")
+        )
+        self.assertFalse(
+            self.do_check(
+                ["One apple", "%d apples"],
+                ["Jedno jablko", "%d jablka"],
+                translation,
+            )
+        )
+        translation = Translation(
+            language=czech,
+            plural=czech.plural,
+            component=Component(file_format="aresource"),
+        )
+        self.assertTrue(
+            self.do_check(
+                ["One apple", "%d apples"],
+                ["Jedno jablko", "%d jablka"],
+                translation,
+            )
+        )
+
     def test_non_format_singular(self):
         czech = Language.objects.get(code="cs")
-        translation = Translation(language=czech, plural=czech.plural)
+        translation = Translation(
+            language=czech, plural=czech.plural, component=Component(file_format="po")
+        )
         self.assertFalse(
             self.do_check(
                 ["One apple", "%d apples"],
@@ -1096,7 +1125,11 @@ class PluralTest(FixtureTestCase):
 
     def test_non_format_singular_named_kab(self):
         language = Language.objects.get(code="kab")
-        translation = Translation(language=language, plural=language.plural)
+        translation = Translation(
+            language=language,
+            plural=language.plural,
+            component=Component(file_format="po"),
+        )
         self.assertFalse(
             self.do_check(
                 ["One apple", "%(count)s apples"],
@@ -1107,7 +1140,11 @@ class PluralTest(FixtureTestCase):
 
     def test_french_singular(self):
         language = Language.objects.get(code="fr")
-        translation = Translation(language=language, plural=language.plural)
+        translation = Translation(
+            language=language,
+            plural=language.plural,
+            component=Component(file_format="po"),
+        )
         self.assertFalse(
             self.do_check(
                 ["One apple", "%(count)s apples"],
