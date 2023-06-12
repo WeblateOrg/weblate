@@ -1687,8 +1687,8 @@ class BitbucketServerRepository(GitMergeRequestBase):
 
         """
         Bitbucket Server will return an error if a PR already exists.
-        The push method in the parent class will push changes to the correct
-        fork or branch, and always callS this create_pull_request method after.
+        The push method in the parent class pushes changes to the correct
+        fork or branch, and always calls this create_pull_request method after.
         If the PR exists already just do nothing because Bitbucket will
         auto-update the PR if the from ref is updated.
         """
