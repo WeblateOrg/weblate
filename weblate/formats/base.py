@@ -538,6 +538,10 @@ class TranslationFormat:
         return EXPAND_LANGS.get(code, code)
 
     @staticmethod
+    def get_language_posix_long_lowercase(code: str) -> str:
+        return EXPAND_LANGS.get(code, code).lower()
+
+    @staticmethod
     def get_language_linux(code: str) -> str:
         """Linux doesn't use Hans/Hant, but rather TW/CN variants."""
         return LEGACY_CODES.get(code, code)

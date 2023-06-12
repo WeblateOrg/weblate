@@ -124,6 +124,12 @@ LANGUAGE_CODE_STYLE_CHOICES = (
         ),
     ),
     (
+        "posix_long_lowercase",
+        gettext_lazy(
+            "POSIX style using underscore as a separator, including country code (lowercase)"
+        ),
+    ),
+    (
         "bcp_long",
         gettext_lazy("BCP style using hyphen as a separator, including country code"),
     ),

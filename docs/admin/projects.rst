@@ -680,6 +680,9 @@ POSIX style using underscore as a separator
 POSIX style using underscore as a separator, including country code
    POSIX style language code including the country code even when not necessary
    (for example ``cs_CZ``).
+POSIX style using underscore as a separator, including country code (lowercase)
+   POSIX style language code including the country code even when not necessary (lowercase)
+   (for example ``cs_cz``).
 BCP style using hyphen as a separator
    Typically used on web platforms, produces language codes like
    ``pt-BR``.

@@ -194,6 +194,7 @@ class NewLangTest(ViewTestCase):
         perform("", "pt_BR", self.expected_lang_code)
         perform("posix", "pt_BR", "pt_BR")
         perform("posix_long", "ms", "ms_MY")
+        perform("posix_long_lowercase", "ms", "ms_my")
         perform("bcp", "pt_BR", "pt-BR")
         perform("bcp_long", "ms", "ms-MY")
         perform("android", "pt_BR", "pt-rBR")
