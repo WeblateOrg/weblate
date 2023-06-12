@@ -291,9 +291,16 @@ class BaseFormatCheck(TargetCheck):
             targets[0],
             # Allow to skip format string in case there is single plural or in special
             # case of 0, 1 plural. It is technically wrong, but in many cases there
-            # won't be 0 so don't trigger too many false positives
+            # won't be 0 so don't trigger too many false positives.
+            # Some formats do strict linting here, so be strict on those as well.
             len(sources) > 1
-            and (len(plural_examples[0]) == 1 or plural_examples[0] == ["0", "1"]),
+            and (
+                len(plural_examples[0]) == 1
+                or (
+                    plural_examples[0] == ["0", "1"]
+                    and not unit.translation.component.file_format_cls.strict_format_plurals
+                )
+            ),
             unit,
         )
 
