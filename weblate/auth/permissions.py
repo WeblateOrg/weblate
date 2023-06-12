@@ -129,7 +129,9 @@ def check_can_edit(user, permission, obj, is_vote=False):
 
     # Email is needed for user to be able to edit
     if user.is_authenticated and not user.email:
-        return Denied(gettext("Can not perform this operation without an e-mail address."))
+        return Denied(
+            gettext("Can not perform this operation without an e-mail address.")
+        )
 
     if component:
         # Check component lock
