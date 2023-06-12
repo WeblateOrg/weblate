@@ -1548,9 +1548,8 @@ class BitbucketServerRepository(GitMergeRequestBase):
         return headers
 
     def create_fork(self, credentials: Dict):
-        fork_url, owner, slug = self.get_api_url()
         bb_fork, response, error_message = self.request(
-            "post", credentials, fork_url, json={}
+            "post", credentials, credentials["url"], json={}
         )
         self.bb_fork = bb_fork
 
@@ -1571,8 +1570,8 @@ class BitbucketServerRepository(GitMergeRequestBase):
                         fork_slug = f["origin"]["slug"]
                         fork_project_key = f["origin"]["project"]["key"]
                         if (
-                            fork_slug == slug
-                            and fork_project_key.upper() == owner.upper()
+                            fork_slug == credentials["slug"]
+                            and fork_project_key.upper() == credentials["owner"].upper()
                         ):
                             self.bb_fork = f
                             break
