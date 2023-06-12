@@ -743,18 +743,16 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.execute(cmd)
         self.clean_revision_cache()
 
-    def get_api_url(self) -> Tuple[str, str, str]:
+    def parse_repo_url(self) -> Tuple[str, str, str, str]:
         repo = self.component.repo
         parsed = urllib.parse.urlparse(repo)
         host = parsed.hostname
-        protocol = parsed.scheme
-        if not protocol:
-            protocol = "https"
+        scheme = parsed.scheme
         if not host:
             # Assume SSH URL
             host, path = repo.split(":")
             host = host.split("@")[-1]
-            protocol = "https"
+            scheme = None
         else:
             path = parsed.path
         parts = path.split(":")[-1].rstrip("/").split("/")
@@ -771,38 +769,48 @@ class GitMergeRequestBase(GitForcePushRepository):
                 continue
             slug_parts.insert(-1, part)
         slug = "/".join(slug_parts)
-        return (
-            self.API_TEMPLATE.format(
-                host=self.format_api_host(host),
-                owner=owner,
-                slug=slug,
-                owner_url=urllib.parse.quote_plus(owner),
-                slug_url=urllib.parse.quote_plus(slug),
-                protocol=protocol,
-            ),
-            owner,
-            slug,
+        return (scheme, host, owner, slug)
+
+    def format_url(
+        self, scheme: str, hostname: str, owner: str, slug: str, **extra: str
+    ) -> str:
+        return self.API_TEMPLATE.format(
+            host=hostname,
+            owner=owner,
+            slug=slug,
+            owner_url=urllib.parse.quote_plus(owner),
+            slug_url=urllib.parse.quote_plus(slug),
+            scheme=scheme,
+            **extra,
         )
 
-    def get_credentials(self) -> Dict:
-        url, owner, slug = self.get_api_url()
-        hostname = urllib.parse.urlparse(url).hostname.lower()
+    def get_credentials(self) -> Dict[str, str]:
+        scheme, host, owner, slug = self.parse_repo_url()
+        hostname = self.format_api_host(host).lower()
 
-        credentials = getattr(settings, f"{self.identifier.upper()}_CREDENTIALS")
-        if hostname not in credentials:
+        configuration = getattr(settings, f"{self.identifier.upper()}_CREDENTIALS")
+        try:
+            credentials = configuration[hostname]
+        except KeyError:
             raise RepositoryException(
                 0, f"{self.name} API access for {hostname} is not configured"
             )
-        username = credentials[hostname]["username"]
-        token = credentials[hostname]["token"]
+
+        # Scheme overide
+        if "scheme" in credentials:
+            scheme = credentials["scheme"]
+        # Fallback to https
+        if not scheme or scheme == "ssh":
+            scheme = "https"
 
         return {
-            "url": url,
+            "url": self.format_url(scheme, hostname, owner, slug),
             "owner": owner,
             "slug": slug,
             "hostname": hostname,
-            "username": username,
-            "token": token,
+            "username": credentials["username"],
+            "token": credentials["token"],
+            "scheme": scheme,
         }
 
     @classmethod
@@ -1030,16 +1038,24 @@ class GithubRepository(GitMergeRequestBase):
     name = gettext_lazy("GitHub pull request")
     identifier = "github"
     _version = None
-    API_TEMPLATE = "{protocol}://{host}/repos/{owner}/{slug}"
+    API_TEMPLATE = "{scheme}://{host}/{suffix}repos/{owner}/{slug}"
     push_label = gettext_lazy("This will push changes and create GitHub pull request.")
 
     def format_api_host(self, host):
+        if host == "github.com":
+            return "api.github.com"
+        return host
+
+    def format_url(
+        self, scheme: str, hostname: str, owner: str, slug: str, **extra: str
+    ) -> str:
+        suffix = ""
         # In case the hostname of the repository does not point to "github.com" assume
         # that it is on a GitHub Enterprise server, which has uses a different base URL
         # for the API:
-        if host != "github.com":
-            return f"{host}/api/v3"
-        return "api.github.com"
+        if hostname != "api.github.com":
+            suffix = "api/v3/"
+        return super().format_url(scheme, hostname, owner, slug, suffix=suffix, **extra)
 
     def get_headers(self, credentials: Dict):
         headers = super().get_headers(credentials)
@@ -1134,7 +1150,7 @@ class GiteaRepository(GitMergeRequestBase):
     name = gettext_lazy("Gitea pull request")
     identifier = "gitea"
     _version = None
-    API_TEMPLATE = "{protocol}://{host}/api/v1/repos/{owner}/{slug}"
+    API_TEMPLATE = "{scheme}://{host}/api/v1/repos/{owner}/{slug}"
     push_label = gettext_lazy("This will push changes and create Gitea pull request.")
 
     def create_fork(self, credentials: Dict):
@@ -1311,7 +1327,7 @@ class GitLabRepository(GitMergeRequestBase):
     name = gettext_lazy("GitLab merge request")
     identifier = "gitlab"
     _version = None
-    API_TEMPLATE = "{protocol}://{host}/api/v4/projects/{owner_url}%2F{slug_url}"
+    API_TEMPLATE = "{scheme}://{host}/api/v4/projects/{owner_url}%2F{slug_url}"
     push_label = gettext_lazy("This will push changes and create GitLab merge request.")
 
     def get_forked_url(self, credentials: Dict) -> str:
@@ -1451,7 +1467,7 @@ class PagureRepository(GitMergeRequestBase):
     name = gettext_lazy("Pagure merge request")
     identifier = "pagure"
     _version = None
-    API_TEMPLATE = "{protocol}://{host}/api/0"
+    API_TEMPLATE = "{scheme}://{host}/api/0"
     push_label = gettext_lazy("This will push changes and create Pagure merge request.")
 
     def create_fork(self, credentials: Dict):
@@ -1541,7 +1557,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
     name = gettext_lazy("Bitbucket Server pull request")
     identifier = "bitbucketserver"
     _version = None
-    API_TEMPLATE = "{protocol}://{host}/rest/api/1.0/projects/{owner}/repos/{slug}"
+    API_TEMPLATE = "{scheme}://{host}/rest/api/1.0/projects/{owner}/repos/{slug}"
     bb_fork: Dict = {}
     push_label = gettext_lazy(
         "This will push changes and create Bitbucket Server pull request."
