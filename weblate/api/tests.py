@@ -2246,7 +2246,9 @@ class TranslationAPITest(APIBaseTest):
             request={"q": 'source:r".*world.*"', "format": "invalid"},
             code=400,
         )
-        self.assertContains(response, "File format not supported", status_code=400)
+        self.assertContains(
+            response, "Conversion to invalid is not supported", status_code=400
+        )
 
     def test_download_invalid_format_url(self):
         args = {"format": "invalid"}
