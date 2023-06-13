@@ -11869,7 +11869,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":56,"../scope.js":65,"@sentry/utils":105}],82:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.54.0';
+const SDK_VERSION = '7.55.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -11918,7 +11918,12 @@ const NETWORK_BODY_MAX_SIZE = 150000;
 /* The max size of a single console arg that is captured. Any arg larger than this will be truncated. */
 const CONSOLE_ARG_MAX_SIZE = 5000;
 
-var NodeType$1;
+/* Min. time to wait before we consider something a slow click. */
+const SLOW_CLICK_THRESHOLD = 3000;
+/* For scroll actions after a click, we only look for a very short time period to detect programmatic scrolling. */
+const SLOW_CLICK_SCROLL_TIMEOUT = 300;
+
+var NodeType;
 (function (NodeType) {
     NodeType[NodeType["Document"] = 0] = "Document";
     NodeType[NodeType["DocumentType"] = 1] = "DocumentType";
@@ -11926,7 +11931,7 @@ var NodeType$1;
     NodeType[NodeType["Text"] = 3] = "Text";
     NodeType[NodeType["CDATA"] = 4] = "CDATA";
     NodeType[NodeType["Comment"] = 5] = "Comment";
-})(NodeType$1 || (NodeType$1 = {}));
+})(NodeType || (NodeType = {}));
 
 function isElement(n) {
     return n.nodeType === n.ELEMENT_NODE;
@@ -12330,7 +12335,7 @@ function serializeNode(n, options) {
         case n.DOCUMENT_NODE:
             if (n.compatMode !== 'CSS1Compat') {
                 return {
-                    type: NodeType$1.Document,
+                    type: NodeType.Document,
                     childNodes: [],
                     compatMode: n.compatMode,
                     rootId,
@@ -12338,14 +12343,14 @@ function serializeNode(n, options) {
             }
             else {
                 return {
-                    type: NodeType$1.Document,
+                    type: NodeType.Document,
                     childNodes: [],
                     rootId,
                 };
             }
         case n.DOCUMENT_TYPE_NODE:
             return {
-                type: NodeType$1.DocumentType,
+                type: NodeType.DocumentType,
                 name: n.name,
                 publicId: n.publicId,
                 systemId: n.systemId,
@@ -12489,7 +12494,7 @@ function serializeNode(n, options) {
                 delete attributes.src;
             }
             return {
-                type: NodeType$1.Element,
+                type: NodeType.Element,
                 tagName,
                 attributes,
                 childNodes: [],
@@ -12543,20 +12548,20 @@ function serializeNode(n, options) {
                     : defaultMaskFn(textContent);
             }
             return {
-                type: NodeType$1.Text,
+                type: NodeType.Text,
                 textContent: textContent || '',
                 isStyle,
                 rootId,
             };
         case n.CDATA_SECTION_NODE:
             return {
-                type: NodeType$1.CDATA,
+                type: NodeType.CDATA,
                 textContent: '',
                 rootId,
             };
         case n.COMMENT_NODE:
             return {
-                type: NodeType$1.Comment,
+                type: NodeType.Comment,
                 textContent: n.textContent || '',
                 rootId,
             };
@@ -12573,10 +12578,10 @@ function lowerIfExists(maybeAttr) {
     }
 }
 function slimDOMExcluded(sn, slimDOMOptions) {
-    if (slimDOMOptions.comment && sn.type === NodeType$1.Comment) {
+    if (slimDOMOptions.comment && sn.type === NodeType.Comment) {
         return true;
     }
-    else if (sn.type === NodeType$1.Element) {
+    else if (sn.type === NodeType.Element) {
         if (slimDOMOptions.script &&
             (sn.tagName === 'script' ||
                 (sn.tagName === 'link' &&
@@ -12677,7 +12682,7 @@ function serializeNodeWithId(n, options) {
     }
     else if (slimDOMExcluded(_serializedNode, slimDOMOptions) ||
         (!preserveWhiteSpace &&
-            _serializedNode.type === NodeType$1.Text &&
+            _serializedNode.type === NodeType.Text &&
             !_serializedNode.isStyle &&
             !_serializedNode.textContent.replace(/^\s+|\s+$/gm, '').length)) {
         id = IGNORED_NODE;
@@ -12695,17 +12700,17 @@ function serializeNodeWithId(n, options) {
         onSerialize(n);
     }
     let recordChild = !skipChild;
-    if (serializedNode.type === NodeType$1.Element) {
+    if (serializedNode.type === NodeType.Element) {
         recordChild = recordChild && !serializedNode.needBlock;
         delete serializedNode.needBlock;
         if (n.shadowRoot)
             serializedNode.isShadowHost = true;
     }
-    if ((serializedNode.type === NodeType$1.Document ||
-        serializedNode.type === NodeType$1.Element) &&
+    if ((serializedNode.type === NodeType.Document ||
+        serializedNode.type === NodeType.Element) &&
         recordChild) {
         if (slimDOMOptions.headWhitespace &&
-            _serializedNode.type === NodeType$1.Element &&
+            _serializedNode.type === NodeType.Element &&
             _serializedNode.tagName === 'head') {
             preserveWhiteSpace = false;
         }
@@ -12755,7 +12760,7 @@ function serializeNodeWithId(n, options) {
     if (n.parentNode && isShadowRoot(n.parentNode)) {
         serializedNode.isShadow = true;
     }
-    if (serializedNode.type === NodeType$1.Element &&
+    if (serializedNode.type === NodeType.Element &&
         serializedNode.tagName === 'iframe') {
         onceIframeLoaded(n, () => {
             const iframeDoc = n.contentDocument;
@@ -12871,7 +12876,7 @@ function skipAttribute(tagName, attributeName, value) {
     return ((tagName === 'video' || tagName === 'audio') && attributeName === 'autoplay');
 }
 
-var EventType$1;
+exports.EventType = void 0;
 (function (EventType) {
     EventType[EventType["DomContentLoaded"] = 0] = "DomContentLoaded";
     EventType[EventType["Load"] = 1] = "Load";
@@ -12880,7 +12885,7 @@ var EventType$1;
     EventType[EventType["Meta"] = 4] = "Meta";
     EventType[EventType["Custom"] = 5] = "Custom";
     EventType[EventType["Plugin"] = 6] = "Plugin";
-})(EventType$1 || (EventType$1 = {}));
+})(exports.EventType || (exports.EventType = {}));
 var IncrementalSource;
 (function (IncrementalSource) {
     IncrementalSource[IncrementalSource["Mutation"] = 0] = "Mutation";
@@ -13180,7 +13185,7 @@ function polyfill(win = window) {
 }
 function isIframeINode(node) {
     if ('__sn' in node) {
-        return (node.__sn.type === NodeType$1.Element && node.__sn.tagName === 'iframe');
+        return (node.__sn.type === NodeType.Element && node.__sn.tagName === 'iframe');
     }
     return false;
 }
@@ -14853,17 +14858,17 @@ function record(options = {}) {
     wrappedEmit = (e, isCheckout) => {
         var _a;
         if (((_a = mutationBuffers[0]) === null || _a === void 0 ? void 0 : _a.isFrozen()) &&
-            e.type !== EventType$1.FullSnapshot &&
-            !(e.type === EventType$1.IncrementalSnapshot &&
+            e.type !== exports.EventType.FullSnapshot &&
+            !(e.type === exports.EventType.IncrementalSnapshot &&
                 e.data.source === IncrementalSource.Mutation)) {
             mutationBuffers.forEach((buf) => buf.unfreeze());
         }
         emit(eventProcessor(e), isCheckout);
-        if (e.type === EventType$1.FullSnapshot) {
+        if (e.type === exports.EventType.FullSnapshot) {
             lastFullSnapshotEvent = e;
             incrementalSnapshotCount = 0;
         }
-        else if (e.type === EventType$1.IncrementalSnapshot) {
+        else if (e.type === exports.EventType.IncrementalSnapshot) {
             if (e.data.source === IncrementalSource.Mutation &&
                 e.data.isAttachIframe) {
                 return;
@@ -14879,16 +14884,16 @@ function record(options = {}) {
     };
     const wrappedMutationEmit = (m) => {
         wrappedEmit(wrapEvent({
-            type: EventType$1.IncrementalSnapshot,
+            type: exports.EventType.IncrementalSnapshot,
             data: Object.assign({ source: IncrementalSource.Mutation }, m),
         }));
     };
     const wrappedScrollEmit = (p) => wrappedEmit(wrapEvent({
-        type: EventType$1.IncrementalSnapshot,
+        type: exports.EventType.IncrementalSnapshot,
         data: Object.assign({ source: IncrementalSource.Scroll }, p),
     }));
     const wrappedCanvasMutationEmit = (p) => wrappedEmit(wrapEvent({
-        type: EventType$1.IncrementalSnapshot,
+        type: exports.EventType.IncrementalSnapshot,
         data: Object.assign({ source: IncrementalSource.CanvasMutation }, p),
     }));
     const iframeManager = new IframeManager({
@@ -14933,7 +14938,7 @@ function record(options = {}) {
     takeFullSnapshot = (isCheckout = false) => {
         var _a, _b, _c, _d;
         wrappedEmit(wrapEvent({
-            type: EventType$1.Meta,
+            type: exports.EventType.Meta,
             data: {
                 href: window.location.href,
                 width: getWindowWidth(),
@@ -14976,7 +14981,7 @@ function record(options = {}) {
         }
         mirror.map = idNodeMap;
         wrappedEmit(wrapEvent({
-            type: EventType$1.FullSnapshot,
+            type: exports.EventType.FullSnapshot,
             data: {
                 node,
                 initialOffset: {
@@ -15001,7 +15006,7 @@ function record(options = {}) {
         const handlers = [];
         handlers.push(on('DOMContentLoaded', () => {
             wrappedEmit(wrapEvent({
-                type: EventType$1.DomContentLoaded,
+                type: exports.EventType.DomContentLoaded,
                 data: {},
             }));
         }));
@@ -15011,40 +15016,40 @@ function record(options = {}) {
                 onMutation,
                 mutationCb: wrappedMutationEmit,
                 mousemoveCb: (positions, source) => wrappedEmit(wrapEvent({
-                    type: EventType$1.IncrementalSnapshot,
+                    type: exports.EventType.IncrementalSnapshot,
                     data: {
                         source,
                         positions,
                     },
                 })),
                 mouseInteractionCb: (d) => wrappedEmit(wrapEvent({
-                    type: EventType$1.IncrementalSnapshot,
+                    type: exports.EventType.IncrementalSnapshot,
                     data: Object.assign({ source: IncrementalSource.MouseInteraction }, d),
                 })),
                 scrollCb: wrappedScrollEmit,
                 viewportResizeCb: (d) => wrappedEmit(wrapEvent({
-                    type: EventType$1.IncrementalSnapshot,
+                    type: exports.EventType.IncrementalSnapshot,
                     data: Object.assign({ source: IncrementalSource.ViewportResize }, d),
                 })),
                 inputCb: (v) => wrappedEmit(wrapEvent({
-                    type: EventType$1.IncrementalSnapshot,
+                    type: exports.EventType.IncrementalSnapshot,
                     data: Object.assign({ source: IncrementalSource.Input }, v),
                 })),
                 mediaInteractionCb: (p) => wrappedEmit(wrapEvent({
-                    type: EventType$1.IncrementalSnapshot,
+                    type: exports.EventType.IncrementalSnapshot,
                     data: Object.assign({ source: IncrementalSource.MediaInteraction }, p),
                 })),
                 styleSheetRuleCb: (r) => wrappedEmit(wrapEvent({
-                    type: EventType$1.IncrementalSnapshot,
+                    type: exports.EventType.IncrementalSnapshot,
                     data: Object.assign({ source: IncrementalSource.StyleSheetRule }, r),
                 })),
                 styleDeclarationCb: (r) => wrappedEmit(wrapEvent({
-                    type: EventType$1.IncrementalSnapshot,
+                    type: exports.EventType.IncrementalSnapshot,
                     data: Object.assign({ source: IncrementalSource.StyleDeclaration }, r),
                 })),
                 canvasMutationCb: wrappedCanvasMutationEmit,
                 fontCb: (p) => wrappedEmit(wrapEvent({
-                    type: EventType$1.IncrementalSnapshot,
+                    type: exports.EventType.IncrementalSnapshot,
                     data: Object.assign({ source: IncrementalSource.Font }, p),
                 })),
                 blockClass,
@@ -15077,7 +15082,7 @@ function record(options = {}) {
                     observer: p.observer,
                     options: p.options,
                     callback: (payload) => wrappedEmit(wrapEvent({
-                        type: EventType$1.Plugin,
+                        type: exports.EventType.Plugin,
                         data: {
                             plugin: p.name,
                             payload,
@@ -15105,7 +15110,7 @@ function record(options = {}) {
         else {
             handlers.push(on('load', () => {
                 wrappedEmit(wrapEvent({
-                    type: EventType$1.Load,
+                    type: exports.EventType.Load,
                     data: {},
                 }));
                 init();
@@ -15124,7 +15129,7 @@ record.addCustomEvent = (tag, payload) => {
         throw new Error('please add custom event after start recording');
     }
     wrappedEmit(wrapEvent({
-        type: EventType$1.Custom,
+        type: exports.EventType.Custom,
         data: {
             tag,
             payload,
@@ -15155,7 +15160,7 @@ function createBreadcrumb(
   };
 }
 
-var NodeType;
+exports.NodeType = void 0;
 (function (NodeType) {
     NodeType[NodeType["Document"] = 0] = "Document";
     NodeType[NodeType["DocumentType"] = 1] = "DocumentType";
@@ -15163,7 +15168,7 @@ var NodeType;
     NodeType[NodeType["Text"] = 3] = "Text";
     NodeType[NodeType["CDATA"] = 4] = "CDATA";
     NodeType[NodeType["Comment"] = 5] = "Comment";
-})(NodeType || (NodeType = {}));
+})(exports.NodeType || (exports.NodeType = {}));
 
 /**
  * Add a breadcrumb event to replay.
@@ -15181,7 +15186,7 @@ function addBreadcrumbEvent(replay, breadcrumb) {
 
   replay.addUpdate(() => {
     void replay.throttledAddEvent({
-      type: EventType$1.Custom,
+      type: exports.EventType.Custom,
       // TODO: We were converting from ms to seconds for breadcrumbs, spans,
       // but maybe we should just keep them as milliseconds
       timestamp: (breadcrumb.timestamp || 0) * 1000,
@@ -15303,15 +15308,16 @@ function handleSlowClick(
   addBreadcrumbEvent(replay, breadcrumb);
 }
 
-const SLOW_CLICK_IGNORE_TAGS = ['SELECT', 'OPTION'];
+const SLOW_CLICK_TAGS = ['A', 'BUTTON', 'INPUT'];
 
+/** exported for tests only */
 function ignoreElement(node, config) {
-  // If <input> tag, we only want to consider input[type='submit'] & input[type='button']
-  if (node.tagName === 'INPUT' && !['submit', 'button'].includes(node.getAttribute('type') || '')) {
+  if (!SLOW_CLICK_TAGS.includes(node.tagName)) {
     return true;
   }
 
-  if (SLOW_CLICK_IGNORE_TAGS.includes(node.tagName)) {
+  // If <input> tag, we only want to consider input[type='submit'] & input[type='button']
+  if (node.tagName === 'INPUT' && !['submit', 'button'].includes(node.getAttribute('type') || '')) {
     return true;
   }
 
@@ -15344,6 +15350,8 @@ const ATTRIBUTES_TO_RECORD = new Set([
   'title',
   'data-test-id',
   'data-testid',
+  'disabled',
+  'aria-disabled',
 ]);
 
 /**
@@ -15369,14 +15377,14 @@ function getAttributesToRecord(attributes) {
 const handleDomListener = (
   replay,
 ) => {
-  const slowClickExperiment = replay.getOptions()._experiments.slowClicks;
+  const { slowClickTimeout, slowClickIgnoreSelectors } = replay.getOptions();
 
-  const slowClickConfig = slowClickExperiment
+  const slowClickConfig = slowClickTimeout
     ? {
-        threshold: slowClickExperiment.threshold,
-        timeout: slowClickExperiment.timeout,
-        scrollTimeout: slowClickExperiment.scrollTimeout,
-        ignoreSelector: slowClickExperiment.ignoreSelectors ? slowClickExperiment.ignoreSelectors.join(',') : '',
+        threshold: Math.min(SLOW_CLICK_THRESHOLD, slowClickTimeout),
+        timeout: slowClickTimeout,
+        scrollTimeout: SLOW_CLICK_SCROLL_TIMEOUT,
+        ignoreSelector: slowClickIgnoreSelectors ? slowClickIgnoreSelectors.join(',') : '',
       }
     : undefined;
 
@@ -15410,7 +15418,7 @@ const handleDomListener = (
 /** Get the base DOM breadcrumb. */
 function getBaseDomBreadcrumb(target, message) {
   // `__sn` property is the serialized node created by rrweb
-  const serializedNode = target && isRrwebNode(target) && target.__sn.type === NodeType.Element ? target.__sn : null;
+  const serializedNode = target && isRrwebNode(target) && target.__sn.type === exports.NodeType.Element ? target.__sn : null;
 
   return {
     message,
@@ -15423,7 +15431,7 @@ function getBaseDomBreadcrumb(target, message) {
             textContent: target
               ? Array.from(target.childNodes)
                   .map(
-                    (node) => '__sn' in node && node.__sn.type === NodeType.Text && node.__sn.textContent,
+                    (node) => '__sn' in node && node.__sn.type === exports.NodeType.Text && node.__sn.textContent,
                   )
                   .filter(Boolean) // filter out empty values
                   .map(text => (text ).trim())
@@ -15505,7 +15513,10 @@ function handleKeyboardEvent(replay, event) {
     return;
   }
 
-  replay.triggerUserActivity();
+  // Update user activity, but do not restart recording as it can create
+  // noisy/low-value replays (e.g. user comes back from idle, hits alt-tab, new
+  // session with a single "keydown" breadcrumb is created)
+  replay.updateUserActivity();
 
   const breadcrumb = getKeyboardBreadcrumb(event);
 
@@ -16256,11 +16267,13 @@ function getSession({
     // within "max session time").
     const isExpired = isSessionExpired(session, timeouts);
 
-    if (!isExpired) {
+    if (!isExpired || (allowBuffering && session.shouldRefresh)) {
       return { type: 'saved', session };
     } else if (!session.shouldRefresh) {
-      // In this case, stop
-      // This is the case if we have an error session that is completed (=triggered an error)
+      // This is the case if we have an error session that is completed
+      // (=triggered an error). Session will continue as session-based replay,
+      // and when this session is expired, it will not be renewed until user
+      // reloads.
       const discardedSession = makeSession({ sampled: false });
       return { type: 'new', session: discardedSession };
     } else {
@@ -16278,22 +16291,9 @@ function getSession({
   return { type: 'new', session: newSession };
 }
 
-/* eslint-disable @typescript-eslint/naming-convention */
-
-var EventType; (function (EventType) {
-  const DomContentLoaded = 0; EventType[EventType["DomContentLoaded"] = DomContentLoaded] = "DomContentLoaded";
-  const Load = 1; EventType[EventType["Load"] = Load] = "Load";
-  const FullSnapshot = 2; EventType[EventType["FullSnapshot"] = FullSnapshot] = "FullSnapshot";
-  const IncrementalSnapshot = 3; EventType[EventType["IncrementalSnapshot"] = IncrementalSnapshot] = "IncrementalSnapshot";
-  const Meta = 4; EventType[EventType["Meta"] = Meta] = "Meta";
-  const Custom = 5; EventType[EventType["Custom"] = Custom] = "Custom";
-  const Plugin = 6; EventType[EventType["Plugin"] = Plugin] = "Plugin";
-})(EventType || (EventType = {}));
-
-/**
- * This is a partial copy of rrweb's eventWithTime type which only contains the properties
- * we specifcally need in the SDK.
- */
+function isCustomEvent(event) {
+  return event.type === exports.EventType.Custom;
+}
 
 /**
  * Add an event to the event buffer.
@@ -16332,7 +16332,7 @@ async function addEvent(
     const replayOptions = replay.getOptions();
 
     const eventAfterPossibleCallback =
-      typeof replayOptions.beforeAddRecordingEvent === 'function' && event.type === EventType.Custom
+      typeof replayOptions.beforeAddRecordingEvent === 'function' && isCustomEvent(event)
         ? replayOptions.beforeAddRecordingEvent(event)
         : event;
 
@@ -16547,7 +16547,7 @@ function createPerformanceSpans(
 ) {
   return entries.map(({ type, start, end, name, data }) => {
     const response = replay.throttledAddEvent({
-      type: EventType$1.Custom,
+      type: exports.EventType.Custom,
       timestamp: start,
       data: {
         tag: 'performanceSpan',
@@ -17781,6 +17781,10 @@ function _isFetchHint(hint) {
 
 let _LAST_BREADCRUMB = null;
 
+function isBreadcrumbWithCategory(breadcrumb) {
+  return !!breadcrumb.category;
+}
+
 const handleScopeListener =
   (replay) =>
   (scope) => {
@@ -17816,9 +17820,9 @@ function handleScope(scope) {
   _LAST_BREADCRUMB = newBreadcrumb;
 
   if (
-    newBreadcrumb.category &&
-    (['fetch', 'xhr', 'sentry.event', 'sentry.transaction'].includes(newBreadcrumb.category) ||
-      newBreadcrumb.category.startsWith('ui.'))
+    !isBreadcrumbWithCategory(newBreadcrumb) ||
+    ['fetch', 'xhr', 'sentry.event', 'sentry.transaction'].includes(newBreadcrumb.category) ||
+    newBreadcrumb.category.startsWith('ui.')
   ) {
     return null;
   }
@@ -17831,7 +17835,9 @@ function handleScope(scope) {
 }
 
 /** exported for tests only */
-function normalizeConsoleBreadcrumb(breadcrumb) {
+function normalizeConsoleBreadcrumb(
+  breadcrumb,
+) {
   const args = breadcrumb.data && breadcrumb.data.arguments;
 
   if (!Array.isArray(args) || args.length === 0) {
@@ -18280,6 +18286,10 @@ function getHandleRecordingEmit(replay) {
         // a previous session ID. In this case, we want to buffer events
         // for a set amount of time before flushing. This can help avoid
         // capturing replays of users that immediately close the window.
+        // TODO: We should check `recordingMode` here and do nothing if it's
+        // buffer, instead of checking inside of timeout, this will make our
+        // tests a bit cleaner as we will need to wait on the delay in order to
+        // do nothing.
         setTimeout(() => replay.conditionalFlush(), options._experiments.delayFlushOnCheckout);
 
         // Cancel any previously debounced flushes to ensure there are no [near]
@@ -18315,7 +18325,7 @@ function getHandleRecordingEmit(replay) {
 function createOptionsEvent(replay) {
   const options = replay.getOptions();
   return {
-    type: EventType.Custom,
+    type: exports.EventType.Custom,
     timestamp: Date.now(),
     data: {
       tag: 'options',
@@ -19046,6 +19056,8 @@ class ReplayContainer  {
       return this.flushImmediate();
     }
 
+    const activityTime = Date.now();
+
     // Allow flush to complete before resuming as a session recording, otherwise
     // the checkout from `startRecording` may be included in the payload.
     // Prefer to keep the error replay as a separate (and smaller) segment
@@ -19067,6 +19079,18 @@ class ReplayContainer  {
     // Once this session ends, we do not want to refresh it
     if (this.session) {
       this.session.shouldRefresh = false;
+
+      // It's possible that the session lifespan is > max session lifespan
+      // because we have been buffering beyond max session lifespan (we ignore
+      // expiration given that `shouldRefresh` is true). Since we flip
+      // `shouldRefresh`, the session could be considered expired due to
+      // lifespan, which is not what we want. Update session start date to be
+      // the current timestamp, so that session is not considered to be
+      // expired. This means that max replay duration can be MAX_SESSION_LIFE +
+      // (length of buffer), which we are ok with.
+      this._updateUserActivity(activityTime);
+      this._updateSessionActivity(activityTime);
+      this.session.started = activityTime;
       this._maybeSaveSession();
     }
 
@@ -19127,6 +19151,18 @@ class ReplayContainer  {
     // Otherwise... recording was never suspended, continue as normalish
     this.checkAndHandleExpiredSession();
 
+    this._updateSessionActivity();
+  }
+
+  /**
+   * Updates the user activity timestamp *without* resuming
+   * recording. Some user events (e.g. keydown) can be create
+   * low-value replays that only contain the keypress as a
+   * breadcrumb. Instead this would require other events to
+   * create a new replay after a session has expired.
+   */
+   updateUserActivity() {
+    this._updateUserActivity();
     this._updateSessionActivity();
   }
 
@@ -19250,7 +19286,7 @@ class ReplayContainer  {
 
       this.addUpdate(() => {
         void addEvent(this, {
-          type: EventType$1.Custom,
+          type: exports.EventType.Custom,
           timestamp: breadcrumb.timestamp || 0,
           data: {
             tag: 'breadcrumb',
@@ -19320,7 +19356,7 @@ class ReplayContainer  {
       stickySession: Boolean(this._options.stickySession),
       currentSession: this.session,
       sessionSampleRate: this._options.sessionSampleRate,
-      allowBuffering: this._options.errorSampleRate > 0,
+      allowBuffering: this._options.errorSampleRate > 0 || this.recordingMode === 'buffer',
     });
 
     // If session was newly created (i.e. was not loaded from storage), then
@@ -19516,7 +19552,7 @@ class ReplayContainer  {
    _createCustomBreadcrumb(breadcrumb) {
     this.addUpdate(() => {
       void this.throttledAddEvent({
-        type: EventType$1.Custom,
+        type: exports.EventType.Custom,
         timestamp: breadcrumb.timestamp || 0,
         data: {
           tag: 'breadcrumb',
@@ -19890,6 +19926,9 @@ class Replay  {
     mutationBreadcrumbLimit = 750,
     mutationLimit = 10000,
 
+    slowClickTimeout = 7000,
+    slowClickIgnoreSelectors = [],
+
     networkDetailAllowUrls = [],
     networkCaptureBodies = true,
     networkRequestHeaders = [],
@@ -19959,6 +19998,8 @@ class Replay  {
       maskAllText,
       mutationBreadcrumbLimit,
       mutationLimit,
+      slowClickTimeout,
+      slowClickIgnoreSelectors,
       networkDetailAllowUrls,
       networkCaptureBodies,
       networkRequestHeaders: _getMergedNetworkHeaders(networkRequestHeaders),
