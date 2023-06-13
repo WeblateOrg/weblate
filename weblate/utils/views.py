@@ -305,9 +305,9 @@ def download_translation_file(
         try:
             exporter_cls = EXPORTERS[fmt]
         except KeyError:
-            raise Http404("File format not supported")
+            raise Http404(f"Conversion to {fmt} is not supported")
         if not exporter_cls.supports(translation):
-            raise Http404("File format not supported")
+            raise Http404("File format is not compatible with this translation")
         exporter = exporter_cls(translation=translation)
         units = translation.unit_set.prefetch_full().order_by("position")
         if query_string:
