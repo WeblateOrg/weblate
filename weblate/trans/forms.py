@@ -1569,6 +1569,10 @@ class ComponentSettingsForm(
                         "new_lang",
                         "language_code_style",
                     ),
+                    Fieldset(
+                        gettext("Screenshots"),
+                        "screenshot_filemask",
+                    ),
                     css_id="files",
                 ),
                 template="layout/pills.html",
