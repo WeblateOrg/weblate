@@ -1128,6 +1128,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.generate.GenerateFileAddon",
     "weblate.addons.generate.PseudolocaleAddon",
     "weblate.addons.generate.PrefillAddon",
+    "weblate.addons.generate.FillReadOnlyAddon",
     "weblate.addons.json.JSONCustomizeAddon",
     "weblate.addons.xml.XMLCustomizeAddon",
     "weblate.addons.properties.PropertiesSortAddon",

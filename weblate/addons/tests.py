@@ -27,7 +27,12 @@ from weblate.addons.flags import (
     SourceEditAddon,
     TargetEditAddon,
 )
-from weblate.addons.generate import GenerateFileAddon, PrefillAddon, PseudolocaleAddon
+from weblate.addons.generate import (
+    FillReadOnlyAddon,
+    GenerateFileAddon,
+    PrefillAddon,
+    PseudolocaleAddon,
+)
 from weblate.addons.gettext import (
     GenerateMoAddon,
     GettextAuthorComments,
@@ -342,6 +347,31 @@ class GettextAddonTest(ViewTestCase):
                 for text in unit.get_target_plurals():
                     self.assertIn(text, sources)
         self.assertFalse(Unit.objects.filter(pending=True).exists())
+
+    def test_read_only(self):
+        self.assertTrue(FillReadOnlyAddon.can_install(self.component, None))
+        addon = FillReadOnlyAddon.create(self.component)
+        for translation in self.component.translation_set.prefetch():
+            if translation.is_source:
+                continue
+            self.assertEqual(translation.stats.readonly, 0)
+        unit = self.get_unit().source_unit
+        unit.extra_flags = "read-only"
+        unit.save(same_content=True, update_fields=["extra_flags"])
+        for translation in self.component.translation_set.prefetch():
+            if translation.is_source:
+                continue
+            translation.invalidate_cache()
+            self.assertEqual(translation.stats.readonly, 1)
+            unit = translation.unit_set.get(state=STATE_READONLY)
+            self.assertEqual(unit.target, "")
+        addon.daily(self.component)
+        for translation in self.component.translation_set.prefetch():
+            if translation.is_source:
+                continue
+            self.assertEqual(translation.stats.readonly, 1)
+            unit = translation.unit_set.get(state=STATE_READONLY)
+            self.assertEqual(unit.target, unit.source)
 
 
 class AppStoreAddonTest(ViewTestCase):

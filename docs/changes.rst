@@ -20,6 +20,7 @@ Released on June 15th 2023.
 * The Docker container can now be used with read-only root filesystem.
 * Added username autocompletion when adding users to a project.
 * Added site-wide search for projects, components, languages and users.
+* New add-on Fill read-only strings with source.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 

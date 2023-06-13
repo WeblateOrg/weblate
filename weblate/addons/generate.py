@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.db.models import Q
+from django.db.models import F, Q
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
@@ -206,6 +206,35 @@ class PrefillAddon(LocaleGenerateAddonBase):
                 translation,
                 target_state=STATE_FUZZY,
                 query=Q(state=STATE_EMPTY),
+            )
+        if updated:
+            component.commit_pending("add-on", None)
+
+
+class FillReadOnlyAddon(LocaleGenerateAddonBase):
+    name = "weblate.generate.fill_read_only"
+    verbose = gettext_lazy("Fill read-only strings with source")
+    description = gettext_lazy(
+        "Fills in translation of read-only strings with source string."
+    )
+
+    def daily(self, component):
+        self.do_update(component)
+
+    def component_update(self, component):
+        self.do_update(component)
+
+    def do_update(self, component):
+        source_translation = component.source_translation
+        updated = 0
+        for translation in component.translation_set.prefetch():
+            if translation.is_source:
+                continue
+            updated += self.generate_translation(
+                source_translation,
+                translation,
+                target_state=STATE_READONLY,
+                query=Q(state=STATE_READONLY) & ~Q(target=F("source")),
             )
         if updated:
             component.commit_pending("add-on", None)

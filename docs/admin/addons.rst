@@ -55,7 +55,7 @@ Automatic translation
                 |                 |                                  |                                                                                                      |
                 |                 |                                  | ``mt`` -- Machine translation                                                                        |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
-                | ``component``   | Components                       | Enter slug of a component to use as source, keep blank to use all components in the current project. |
+                | ``component``   | Component                        | Enter slug of a component to use as source, keep blank to use all components in the current project. |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
                 | ``engines``     | Machine translation engines      |                                                                                                      |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
@@ -444,6 +444,19 @@ translations created by the developers.
 .. seealso::
 
    :ref:`states`
+
+.. _addon-weblate.generate.fill_read_only:
+
+Fill read-only strings with source
+----------------------------------
+
+.. versionadded:: 4.18
+
+:Add-on ID: ``weblate.generate.fill_read_only``
+:Configuration: `This add-on has no configuration.`
+:Triggers: component update, daily
+
+Fills in translation of read-only strings with source string.
 
 .. _addon-weblate.generate.generate:
 
