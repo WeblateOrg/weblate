@@ -329,8 +329,6 @@ def perform_translation(unit, form, request):
         unit.translation.component.is_glossary
         and unit.explanation != form.cleaned_data["explanation"]
     )
-    if change_explanation:
-        unit.explanation = form.cleaned_data["explanation"]
     # Save
     saved = unit.translate(
         user,
@@ -340,7 +338,7 @@ def perform_translation(unit, form, request):
         add_alternative=add_alternative,
     )
     # Make sure explanation is saved
-    if not saved and change_explanation:
+    if change_explanation:
         unit.update_explanation(form.cleaned_data["explanation"], user)
 
     # Warn about applied fixups
