@@ -14,7 +14,7 @@ class ScreenshotEditForm(forms.ModelForm):
 
     class Meta:
         model = Screenshot
-        fields = ("name", "image")
+        fields = ("name", "image", "repository_filename")
 
 
 class LanguageChoiceField(forms.ModelChoiceField):
