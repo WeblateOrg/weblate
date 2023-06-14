@@ -1264,6 +1264,7 @@ def social_complete(request, backend):  # noqa: C901
     try:
         return complete(request, backend)
     except InvalidEmail:
+        report_error()
         return auth_redirect_token(request)
     except AuthMissingParameter as error:
         report_error()
