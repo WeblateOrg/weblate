@@ -43,7 +43,7 @@ class WeblateTranslation(InternalMachineTranslation):
         ).prefetch()
 
         # We want only close matches here
-        adjust_similarity_threshold(0.95)
+        adjust_similarity_threshold(0.98)
 
         for munit in matching_units:
             source = munit.source_string
