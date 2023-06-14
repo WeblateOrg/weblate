@@ -28,6 +28,9 @@
   {% format_translation item.context item.translation.component.source_language wrap=True simple=True %}
 </td>
 <td>
+  {% format_translation item.source item.translation.component.source_language wrap=True simple=True %}
+</td>
+<td>
   <label for="merge_{{ item.pk }}">
     {% format_translation item.target item.translation.language item.translation.plural simple=True %}
   </label>
