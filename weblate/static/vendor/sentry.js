@@ -11869,7 +11869,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":56,"../scope.js":65,"@sentry/utils":105}],82:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.55.1';
+const SDK_VERSION = '7.55.2';
 
 exports.SDK_VERSION = SDK_VERSION;
 
