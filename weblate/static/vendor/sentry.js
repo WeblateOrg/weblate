@@ -11869,7 +11869,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":56,"../scope.js":65,"@sentry/utils":105}],82:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.55.0';
+const SDK_VERSION = '7.55.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -11923,7 +11923,7 @@ const SLOW_CLICK_THRESHOLD = 3000;
 /* For scroll actions after a click, we only look for a very short time period to detect programmatic scrolling. */
 const SLOW_CLICK_SCROLL_TIMEOUT = 300;
 
-var NodeType;
+var NodeType$1;
 (function (NodeType) {
     NodeType[NodeType["Document"] = 0] = "Document";
     NodeType[NodeType["DocumentType"] = 1] = "DocumentType";
@@ -11931,7 +11931,7 @@ var NodeType;
     NodeType[NodeType["Text"] = 3] = "Text";
     NodeType[NodeType["CDATA"] = 4] = "CDATA";
     NodeType[NodeType["Comment"] = 5] = "Comment";
-})(NodeType || (NodeType = {}));
+})(NodeType$1 || (NodeType$1 = {}));
 
 function isElement(n) {
     return n.nodeType === n.ELEMENT_NODE;
@@ -12335,7 +12335,7 @@ function serializeNode(n, options) {
         case n.DOCUMENT_NODE:
             if (n.compatMode !== 'CSS1Compat') {
                 return {
-                    type: NodeType.Document,
+                    type: NodeType$1.Document,
                     childNodes: [],
                     compatMode: n.compatMode,
                     rootId,
@@ -12343,14 +12343,14 @@ function serializeNode(n, options) {
             }
             else {
                 return {
-                    type: NodeType.Document,
+                    type: NodeType$1.Document,
                     childNodes: [],
                     rootId,
                 };
             }
         case n.DOCUMENT_TYPE_NODE:
             return {
-                type: NodeType.DocumentType,
+                type: NodeType$1.DocumentType,
                 name: n.name,
                 publicId: n.publicId,
                 systemId: n.systemId,
@@ -12494,7 +12494,7 @@ function serializeNode(n, options) {
                 delete attributes.src;
             }
             return {
-                type: NodeType.Element,
+                type: NodeType$1.Element,
                 tagName,
                 attributes,
                 childNodes: [],
@@ -12548,20 +12548,20 @@ function serializeNode(n, options) {
                     : defaultMaskFn(textContent);
             }
             return {
-                type: NodeType.Text,
+                type: NodeType$1.Text,
                 textContent: textContent || '',
                 isStyle,
                 rootId,
             };
         case n.CDATA_SECTION_NODE:
             return {
-                type: NodeType.CDATA,
+                type: NodeType$1.CDATA,
                 textContent: '',
                 rootId,
             };
         case n.COMMENT_NODE:
             return {
-                type: NodeType.Comment,
+                type: NodeType$1.Comment,
                 textContent: n.textContent || '',
                 rootId,
             };
@@ -12578,10 +12578,10 @@ function lowerIfExists(maybeAttr) {
     }
 }
 function slimDOMExcluded(sn, slimDOMOptions) {
-    if (slimDOMOptions.comment && sn.type === NodeType.Comment) {
+    if (slimDOMOptions.comment && sn.type === NodeType$1.Comment) {
         return true;
     }
-    else if (sn.type === NodeType.Element) {
+    else if (sn.type === NodeType$1.Element) {
         if (slimDOMOptions.script &&
             (sn.tagName === 'script' ||
                 (sn.tagName === 'link' &&
@@ -12682,7 +12682,7 @@ function serializeNodeWithId(n, options) {
     }
     else if (slimDOMExcluded(_serializedNode, slimDOMOptions) ||
         (!preserveWhiteSpace &&
-            _serializedNode.type === NodeType.Text &&
+            _serializedNode.type === NodeType$1.Text &&
             !_serializedNode.isStyle &&
             !_serializedNode.textContent.replace(/^\s+|\s+$/gm, '').length)) {
         id = IGNORED_NODE;
@@ -12700,17 +12700,17 @@ function serializeNodeWithId(n, options) {
         onSerialize(n);
     }
     let recordChild = !skipChild;
-    if (serializedNode.type === NodeType.Element) {
+    if (serializedNode.type === NodeType$1.Element) {
         recordChild = recordChild && !serializedNode.needBlock;
         delete serializedNode.needBlock;
         if (n.shadowRoot)
             serializedNode.isShadowHost = true;
     }
-    if ((serializedNode.type === NodeType.Document ||
-        serializedNode.type === NodeType.Element) &&
+    if ((serializedNode.type === NodeType$1.Document ||
+        serializedNode.type === NodeType$1.Element) &&
         recordChild) {
         if (slimDOMOptions.headWhitespace &&
-            _serializedNode.type === NodeType.Element &&
+            _serializedNode.type === NodeType$1.Element &&
             _serializedNode.tagName === 'head') {
             preserveWhiteSpace = false;
         }
@@ -12760,7 +12760,7 @@ function serializeNodeWithId(n, options) {
     if (n.parentNode && isShadowRoot(n.parentNode)) {
         serializedNode.isShadow = true;
     }
-    if (serializedNode.type === NodeType.Element &&
+    if (serializedNode.type === NodeType$1.Element &&
         serializedNode.tagName === 'iframe') {
         onceIframeLoaded(n, () => {
             const iframeDoc = n.contentDocument;
@@ -12876,7 +12876,7 @@ function skipAttribute(tagName, attributeName, value) {
     return ((tagName === 'video' || tagName === 'audio') && attributeName === 'autoplay');
 }
 
-exports.EventType = void 0;
+var EventType;
 (function (EventType) {
     EventType[EventType["DomContentLoaded"] = 0] = "DomContentLoaded";
     EventType[EventType["Load"] = 1] = "Load";
@@ -12885,7 +12885,7 @@ exports.EventType = void 0;
     EventType[EventType["Meta"] = 4] = "Meta";
     EventType[EventType["Custom"] = 5] = "Custom";
     EventType[EventType["Plugin"] = 6] = "Plugin";
-})(exports.EventType || (exports.EventType = {}));
+})(EventType || (EventType = {}));
 var IncrementalSource;
 (function (IncrementalSource) {
     IncrementalSource[IncrementalSource["Mutation"] = 0] = "Mutation";
@@ -13185,7 +13185,7 @@ function polyfill(win = window) {
 }
 function isIframeINode(node) {
     if ('__sn' in node) {
-        return (node.__sn.type === NodeType.Element && node.__sn.tagName === 'iframe');
+        return (node.__sn.type === NodeType$1.Element && node.__sn.tagName === 'iframe');
     }
     return false;
 }
@@ -14858,17 +14858,17 @@ function record(options = {}) {
     wrappedEmit = (e, isCheckout) => {
         var _a;
         if (((_a = mutationBuffers[0]) === null || _a === void 0 ? void 0 : _a.isFrozen()) &&
-            e.type !== exports.EventType.FullSnapshot &&
-            !(e.type === exports.EventType.IncrementalSnapshot &&
+            e.type !== EventType.FullSnapshot &&
+            !(e.type === EventType.IncrementalSnapshot &&
                 e.data.source === IncrementalSource.Mutation)) {
             mutationBuffers.forEach((buf) => buf.unfreeze());
         }
         emit(eventProcessor(e), isCheckout);
-        if (e.type === exports.EventType.FullSnapshot) {
+        if (e.type === EventType.FullSnapshot) {
             lastFullSnapshotEvent = e;
             incrementalSnapshotCount = 0;
         }
-        else if (e.type === exports.EventType.IncrementalSnapshot) {
+        else if (e.type === EventType.IncrementalSnapshot) {
             if (e.data.source === IncrementalSource.Mutation &&
                 e.data.isAttachIframe) {
                 return;
@@ -14884,16 +14884,16 @@ function record(options = {}) {
     };
     const wrappedMutationEmit = (m) => {
         wrappedEmit(wrapEvent({
-            type: exports.EventType.IncrementalSnapshot,
+            type: EventType.IncrementalSnapshot,
             data: Object.assign({ source: IncrementalSource.Mutation }, m),
         }));
     };
     const wrappedScrollEmit = (p) => wrappedEmit(wrapEvent({
-        type: exports.EventType.IncrementalSnapshot,
+        type: EventType.IncrementalSnapshot,
         data: Object.assign({ source: IncrementalSource.Scroll }, p),
     }));
     const wrappedCanvasMutationEmit = (p) => wrappedEmit(wrapEvent({
-        type: exports.EventType.IncrementalSnapshot,
+        type: EventType.IncrementalSnapshot,
         data: Object.assign({ source: IncrementalSource.CanvasMutation }, p),
     }));
     const iframeManager = new IframeManager({
@@ -14938,7 +14938,7 @@ function record(options = {}) {
     takeFullSnapshot = (isCheckout = false) => {
         var _a, _b, _c, _d;
         wrappedEmit(wrapEvent({
-            type: exports.EventType.Meta,
+            type: EventType.Meta,
             data: {
                 href: window.location.href,
                 width: getWindowWidth(),
@@ -14981,7 +14981,7 @@ function record(options = {}) {
         }
         mirror.map = idNodeMap;
         wrappedEmit(wrapEvent({
-            type: exports.EventType.FullSnapshot,
+            type: EventType.FullSnapshot,
             data: {
                 node,
                 initialOffset: {
@@ -15006,7 +15006,7 @@ function record(options = {}) {
         const handlers = [];
         handlers.push(on('DOMContentLoaded', () => {
             wrappedEmit(wrapEvent({
-                type: exports.EventType.DomContentLoaded,
+                type: EventType.DomContentLoaded,
                 data: {},
             }));
         }));
@@ -15016,40 +15016,40 @@ function record(options = {}) {
                 onMutation,
                 mutationCb: wrappedMutationEmit,
                 mousemoveCb: (positions, source) => wrappedEmit(wrapEvent({
-                    type: exports.EventType.IncrementalSnapshot,
+                    type: EventType.IncrementalSnapshot,
                     data: {
                         source,
                         positions,
                     },
                 })),
                 mouseInteractionCb: (d) => wrappedEmit(wrapEvent({
-                    type: exports.EventType.IncrementalSnapshot,
+                    type: EventType.IncrementalSnapshot,
                     data: Object.assign({ source: IncrementalSource.MouseInteraction }, d),
                 })),
                 scrollCb: wrappedScrollEmit,
                 viewportResizeCb: (d) => wrappedEmit(wrapEvent({
-                    type: exports.EventType.IncrementalSnapshot,
+                    type: EventType.IncrementalSnapshot,
                     data: Object.assign({ source: IncrementalSource.ViewportResize }, d),
                 })),
                 inputCb: (v) => wrappedEmit(wrapEvent({
-                    type: exports.EventType.IncrementalSnapshot,
+                    type: EventType.IncrementalSnapshot,
                     data: Object.assign({ source: IncrementalSource.Input }, v),
                 })),
                 mediaInteractionCb: (p) => wrappedEmit(wrapEvent({
-                    type: exports.EventType.IncrementalSnapshot,
+                    type: EventType.IncrementalSnapshot,
                     data: Object.assign({ source: IncrementalSource.MediaInteraction }, p),
                 })),
                 styleSheetRuleCb: (r) => wrappedEmit(wrapEvent({
-                    type: exports.EventType.IncrementalSnapshot,
+                    type: EventType.IncrementalSnapshot,
                     data: Object.assign({ source: IncrementalSource.StyleSheetRule }, r),
                 })),
                 styleDeclarationCb: (r) => wrappedEmit(wrapEvent({
-                    type: exports.EventType.IncrementalSnapshot,
+                    type: EventType.IncrementalSnapshot,
                     data: Object.assign({ source: IncrementalSource.StyleDeclaration }, r),
                 })),
                 canvasMutationCb: wrappedCanvasMutationEmit,
                 fontCb: (p) => wrappedEmit(wrapEvent({
-                    type: exports.EventType.IncrementalSnapshot,
+                    type: EventType.IncrementalSnapshot,
                     data: Object.assign({ source: IncrementalSource.Font }, p),
                 })),
                 blockClass,
@@ -15082,7 +15082,7 @@ function record(options = {}) {
                     observer: p.observer,
                     options: p.options,
                     callback: (payload) => wrappedEmit(wrapEvent({
-                        type: exports.EventType.Plugin,
+                        type: EventType.Plugin,
                         data: {
                             plugin: p.name,
                             payload,
@@ -15110,7 +15110,7 @@ function record(options = {}) {
         else {
             handlers.push(on('load', () => {
                 wrappedEmit(wrapEvent({
-                    type: exports.EventType.Load,
+                    type: EventType.Load,
                     data: {},
                 }));
                 init();
@@ -15129,7 +15129,7 @@ record.addCustomEvent = (tag, payload) => {
         throw new Error('please add custom event after start recording');
     }
     wrappedEmit(wrapEvent({
-        type: exports.EventType.Custom,
+        type: EventType.Custom,
         data: {
             tag,
             payload,
@@ -15160,7 +15160,7 @@ function createBreadcrumb(
   };
 }
 
-exports.NodeType = void 0;
+var NodeType;
 (function (NodeType) {
     NodeType[NodeType["Document"] = 0] = "Document";
     NodeType[NodeType["DocumentType"] = 1] = "DocumentType";
@@ -15168,7 +15168,7 @@ exports.NodeType = void 0;
     NodeType[NodeType["Text"] = 3] = "Text";
     NodeType[NodeType["CDATA"] = 4] = "CDATA";
     NodeType[NodeType["Comment"] = 5] = "Comment";
-})(exports.NodeType || (exports.NodeType = {}));
+})(NodeType || (NodeType = {}));
 
 /**
  * Add a breadcrumb event to replay.
@@ -15186,7 +15186,7 @@ function addBreadcrumbEvent(replay, breadcrumb) {
 
   replay.addUpdate(() => {
     void replay.throttledAddEvent({
-      type: exports.EventType.Custom,
+      type: EventType.Custom,
       // TODO: We were converting from ms to seconds for breadcrumbs, spans,
       // but maybe we should just keep them as milliseconds
       timestamp: (breadcrumb.timestamp || 0) * 1000,
@@ -15418,7 +15418,7 @@ const handleDomListener = (
 /** Get the base DOM breadcrumb. */
 function getBaseDomBreadcrumb(target, message) {
   // `__sn` property is the serialized node created by rrweb
-  const serializedNode = target && isRrwebNode(target) && target.__sn.type === exports.NodeType.Element ? target.__sn : null;
+  const serializedNode = target && isRrwebNode(target) && target.__sn.type === NodeType.Element ? target.__sn : null;
 
   return {
     message,
@@ -15431,7 +15431,7 @@ function getBaseDomBreadcrumb(target, message) {
             textContent: target
               ? Array.from(target.childNodes)
                   .map(
-                    (node) => '__sn' in node && node.__sn.type === exports.NodeType.Text && node.__sn.textContent,
+                    (node) => '__sn' in node && node.__sn.type === NodeType.Text && node.__sn.textContent,
                   )
                   .filter(Boolean) // filter out empty values
                   .map(text => (text ).trim())
@@ -16292,7 +16292,7 @@ function getSession({
 }
 
 function isCustomEvent(event) {
-  return event.type === exports.EventType.Custom;
+  return event.type === EventType.Custom;
 }
 
 /**
@@ -16547,7 +16547,7 @@ function createPerformanceSpans(
 ) {
   return entries.map(({ type, start, end, name, data }) => {
     const response = replay.throttledAddEvent({
-      type: exports.EventType.Custom,
+      type: EventType.Custom,
       timestamp: start,
       data: {
         tag: 'performanceSpan',
@@ -18325,7 +18325,7 @@ function getHandleRecordingEmit(replay) {
 function createOptionsEvent(replay) {
   const options = replay.getOptions();
   return {
-    type: exports.EventType.Custom,
+    type: EventType.Custom,
     timestamp: Date.now(),
     data: {
       tag: 'options',
@@ -19286,7 +19286,7 @@ class ReplayContainer  {
 
       this.addUpdate(() => {
         void addEvent(this, {
-          type: exports.EventType.Custom,
+          type: EventType.Custom,
           timestamp: breadcrumb.timestamp || 0,
           data: {
             tag: 'breadcrumb',
@@ -19552,7 +19552,7 @@ class ReplayContainer  {
    _createCustomBreadcrumb(breadcrumb) {
     this.addUpdate(() => {
       void this.throttledAddEvent({
-        type: exports.EventType.Custom,
+        type: EventType.Custom,
         timestamp: breadcrumb.timestamp || 0,
         data: {
           tag: 'breadcrumb',
