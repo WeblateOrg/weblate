@@ -206,14 +206,18 @@ var _rollbarConfig = {
         {% if user_can_manage %}
         <li>
           <a class="button" id="admin-button" href="{% url 'manage' %}" title="{% trans "Administration" %}">
-            {% icon "wrench.svg" %}
+            <span class="hidden-xs">
+              {% icon "wrench.svg" %}
+            </span>
             <span class="visible-xs-inline">{% trans "Administration" %}</span>
           </a>
         </li>
         {% if configuration_errors.exists %}
         <li>
           <a class="button red" id="errors-button" href="{% url 'manage-performance' %}" title="{% trans "Configuration errors" %}">
-            {% icon "alert.svg" %}
+            <span class="hidden-xs">
+              {% icon "alert.svg" %}
+            </span>
             <span class="visible-xs-inline">{% trans "Configuration errors" %}</span>
           </a>
         </li>
@@ -231,7 +235,11 @@ var _rollbarConfig = {
         {# Adding new translations #}
         {% if user.is_authenticated %}
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% icon "plus.svg" %} <b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <span class="hidden-xs">{% icon "plus.svg" %}</span>
+            <span class="visible-xs-inline">{% trans "Add" %}</span>
+            <b class="caret"></b>
+          </a>
           <ul class="dropdown-menu">
             <li><a href="{% url 'create-project' %}">{% trans "Add new translation project" %}</a></li>
             <li><a href="{% url 'create-component' %}">{% trans "Add new translation component" %}</a></li>
@@ -251,7 +259,9 @@ var _rollbarConfig = {
         <li class="dropdown">
           <a href="#" id="user-dropdown" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Your profile" %}">
             {% if enable_avatars %}
-            <img class="avatar" alt="{% trans "User avatar" %}" src="{% url 'user_avatar' user=user.username size=24 %}" />
+            <span class="hidden-xs">
+              <img class="avatar" alt="{% trans "User avatar" %}" src="{% url 'user_avatar' user=user.username size=24 %}" />
+            </span>
             <span class="visible-xs-inline">{% trans "Your profile" %}</span>
             {% else %}
             {{ user.profile.get_user_name }}
@@ -275,8 +285,11 @@ var _rollbarConfig = {
         {# Support menu #}
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Help" %}">
-            {% icon "dots.svg" %}
-            <span class="visible-xs-inline">{% trans "Help" %}</span>
+            <span class="hidden-xs">{% icon "dots.svg" %}</span>
+            <span class="visible-xs-inline">
+              {% trans "Help" %}
+              <b class="caret"></b>
+            </span>
           </a>
           <ul class="dropdown-menu">
             {% if not support_status.has_support %}
