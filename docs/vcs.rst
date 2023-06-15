@@ -483,9 +483,6 @@ environment variable set to the :setting:`DATA_DIR`:
 Local files
 -----------
 
-Git
----
-
 .. hint::
 
    Underneath, this uses :ref:`vcs-git`. It requires Git installed and allows
