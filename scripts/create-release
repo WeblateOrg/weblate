@@ -64,8 +64,7 @@ if [ "$DO_TAG" -eq 1 ] ; then
     cd ~/weblate/weblate
 
     # PyPi archive upload
-    twine upload --sign --identity 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D "dist/$tarver.tar.gz"
-    twine upload --sign --identity 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D "dist/$tarver*.whl"
+    twine upload "dist/$tarver.tar.gz" "dist/$tarver*.whl"
 
     # Sign remaining files
     gpg --detach-sign --armor --local-user 63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D "dist/$tarver.tar.xz"
