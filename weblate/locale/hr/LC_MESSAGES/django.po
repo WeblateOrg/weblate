@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-15 06:53+0000\n"
-"PO-Revision-Date: 2023-06-02 06:31+0000\n"
+"PO-Revision-Date: 2023-06-16 11:20+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -19,9 +19,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.18.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -2181,7 +2181,7 @@ msgstr "Korisnici"
 #: weblate/auth/data.py:237
 msgctxt "Access-control group"
 msgid "Reviewers"
-msgstr "Recenzenti"
+msgstr "Pregledatelji"
 
 #: weblate/auth/data.py:242
 msgctxt "Access-control group"
@@ -2492,22 +2492,16 @@ msgid "Pay the bills to unlock this project."
 msgstr "Za otključavanje ovog projekta, plati račune."
 
 #: weblate/auth/permissions.py:192
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Source string reviews are not enabled."
-msgstr "Mijenjanje izvornog izraza je deaktivirano."
+msgstr "Pregledavanje izvornih izraza nije aktivirano."
 
 #: weblate/auth/permissions.py:193
-#, fuzzy
-#| msgid "Translation reverted"
 msgid "Translation reviews are not enabled."
-msgstr "Prijevod vraćen"
+msgstr "Pregledavanje prijevoda nije aktivirano."
 
 #: weblate/auth/permissions.py:200
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Reviews are not enabled."
-msgstr "Usluga trenutačno nije dostupna."
+msgstr "Pregledavanje nije aktivirano."
 
 #: weblate/auth/permissions.py:213
 #, fuzzy
@@ -2520,8 +2514,8 @@ msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"Samo recenzenti mogu mijenjati odobrene izraze. Dodaj prijedlog, ako misliš "
-"da se prijedlog treba promijeniti."
+"Samo pregledatelji mogu mijenjati odobrene izraze. Dodaj prijedlog ako "
+"misliš da se izraz treba promijeniti."
 
 #: weblate/auth/permissions.py:225
 #, fuzzy
@@ -2534,10 +2528,8 @@ msgid "Add the string to the source language instead."
 msgstr ""
 
 #: weblate/auth/permissions.py:246
-#, fuzzy
-#| msgid "Unsupported component configuration"
 msgid "Adding strings is disabled in the component configuration."
-msgstr "Nepodržana konfiguracija komponente"
+msgstr "Dodavanje izraza je deaktivirano u konfiguraciji komponente."
 
 #: weblate/auth/permissions.py:263 weblate/auth/permissions.py:280
 #, fuzzy
@@ -8711,7 +8703,7 @@ msgstr "Pokušaj ponovo kasnije."
 
 #: weblate/templates/replace.html:24
 msgid "Please review and confirm the search and replace results."
-msgstr "Pregledaj i potvrdi rezultate pretrage i zamjene."
+msgstr "Pregledaj i potvrdi rezultate funkcije „Traži i zamijeni”."
 
 #: weblate/templates/replace.html:28
 msgid ""
@@ -13059,7 +13051,7 @@ msgstr ""
 
 #: weblate/trans/models/project.py:141
 msgid "Enable reviews"
-msgstr "Aktiviraj recenzije"
+msgstr "Aktiviraj pregledavanje"
 
 #: weblate/trans/models/project.py:143
 msgid "Requires dedicated reviewers to approve translations."
@@ -13067,7 +13059,7 @@ msgstr "Zahtijeva imenovane recenzente za odobravanje prijevoda."
 
 #: weblate/trans/models/project.py:146
 msgid "Enable source reviews"
-msgstr "Aktiviraj recenzije izvora"
+msgstr "Aktiviraj pregledavanje izvora"
 
 #: weblate/trans/models/project.py:149
 msgid "Requires dedicated reviewers to approve source strings."
@@ -13133,7 +13125,7 @@ msgstr "Prazni izrazi zahtijevaju prazno stanje."
 
 #: weblate/trans/models/translation.py:1628
 msgid "Approved state is not available as reviews are not enabled."
-msgstr "Odobreno stanje nije dostupno jer pregledi nisu aktivirani."
+msgstr "Odobreno stanje nije dostupno jer pregledavanje nije aktivirano."
 
 #: weblate/trans/models/translation.py:1636
 msgid "This string seems to already exist."
