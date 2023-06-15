@@ -47,8 +47,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-15 06:53+0000\n"
-"PO-Revision-Date: 2023-06-14 06:07+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2023-06-15 09:48+0000\n"
+"Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -56,7 +56,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 4.18\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1540,16 +1540,12 @@ msgid "Fills in translation strings with source string."
 msgstr "用源字符串填充翻译字符串。"
 
 #: weblate/addons/generate.py:216
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "用原文预填充译文"
+msgstr "用原文填充只读字符串"
 
 #: weblate/addons/generate.py:218
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "用源字符串填充翻译字符串。"
+msgstr "用源字符串填充只读字符串的翻译。"
 
 #: weblate/addons/gettext.py:26
 msgid "Generate MO files"
@@ -2388,8 +2384,6 @@ msgid "Block expiry"
 msgstr "阻止过期"
 
 #: weblate/auth/permissions.py:133
-#, fuzzy
-#| msgid "Can not perform this operation without an e-mail."
 msgid "Can not perform this operation without an e-mail address."
 msgstr "没有电子邮箱无法执行此操作。"
 
@@ -2399,10 +2393,6 @@ msgid "This translation is currently locked."
 msgstr "该翻译当前被锁定。"
 
 #: weblate/auth/permissions.py:147
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires you agree to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "agreement."
@@ -2773,16 +2763,15 @@ msgid "Different strings are translated the same."
 msgstr "不同字符串译文相同。"
 
 #: weblate/checks/consistency.py:178
-#, fuzzy, python-format
-#| msgid "Update source strings"
+#, python-format
 msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
-msgstr[0] "更新源字符串"
+msgstr[0] "其他源字符串：%s"
 
 #: weblate/checks/consistency.py:179
 #, python-format
 msgid "“%s”"
-msgstr ""
+msgstr "“%s”"
 
 #: weblate/checks/consistency.py:228
 msgid "Has been translated"
@@ -11689,12 +11678,10 @@ msgid "POSIX style using underscore as a separator, including country code"
 msgstr "POSIX 风格，使用下划线作为分隔符，包括国家地区代码"
 
 #: weblate/trans/models/component.py:129
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator, including country code"
 msgid ""
 "POSIX style using underscore as a separator, including country code "
 "(lowercase)"
-msgstr "POSIX 风格，使用下划线作为分隔符，包括国家地区代码"
+msgstr "POSIX 风格，使用下划线作为分隔符，包括国家地区代码（小写）"
 
 #: weblate/trans/models/component.py:134
 msgid "BCP style using hyphen as a separator, including country code"
@@ -13592,8 +13579,6 @@ msgid "GitHub pull request"
 msgstr "GitHub 拉取请求"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "This will push changes and create GitHub pull request."
 msgid "This will push changes and create a GitHub pull request."
 msgstr "这会推送更改并创建 GitHub 拉取请求。"
 
@@ -13602,8 +13587,6 @@ msgid "Gitea pull request"
 msgstr "Gitea 拉取请求"
 
 #: weblate/vcs/git.py:1156
-#, fuzzy
-#| msgid "This will push changes and create Gitea pull request."
 msgid "This will push changes and create a Gitea pull request."
 msgstr "这会推送更改并创建 Gitea 拉取请求。"
 
@@ -13616,8 +13599,6 @@ msgid "GitLab merge request"
 msgstr "GitLab 合并请求"
 
 #: weblate/vcs/git.py:1334
-#, fuzzy
-#| msgid "This will push changes and create GitLab merge request."
 msgid "This will push changes and create a GitLab merge request."
 msgstr "这会推送更改并创建 GitLab 合并请求。"
 
@@ -13626,8 +13607,6 @@ msgid "Pagure merge request"
 msgstr "Pagure 合并请求"
 
 #: weblate/vcs/git.py:1476
-#, fuzzy
-#| msgid "This will push changes and create Pagure merge request."
 msgid "This will push changes and create a Pagure merge request."
 msgstr "这会推送更改并创建 Pagure 合并请求。"
 
@@ -13636,8 +13615,6 @@ msgid "Bitbucket Server pull request"
 msgstr "Bitbucket 服务器拉取请求"
 
 #: weblate/vcs/git.py:1570
-#, fuzzy
-#| msgid "This will push changes and create Bitbucket Server pull request."
 msgid "This will push changes and create a Bitbucket Server pull request."
 msgstr "这会推送更改并创建 Bitbucket 服务器拉取请求。"
 
