@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-15 06:53+0000\n"
-"PO-Revision-Date: 2023-06-14 06:07+0000\n"
+"PO-Revision-Date: 2023-06-16 11:20+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 4.18.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -493,24 +493,22 @@ msgstr ""
 
 #: weblate/accounts/models.py:400
 msgid "Theme"
-msgstr ""
+msgstr "Thema"
 
 #: weblate/accounts/models.py:403
 msgctxt "Theme selection"
 msgid "Sync with system"
-msgstr ""
+msgstr "Systeemthema"
 
 #: weblate/accounts/models.py:404
-#, fuzzy
-#| msgid "Insights"
 msgctxt "Theme selection"
 msgid "Light"
-msgstr "Inzicht"
+msgstr "Licht thema"
 
 #: weblate/accounts/models.py:405
 msgctxt "Theme selection"
 msgid "Dark"
-msgstr ""
+msgstr "Donker thema"
 
 #: weblate/accounts/models.py:409
 msgid "Hide completed translations on the dashboard"
@@ -1608,16 +1606,13 @@ msgid "Fills in translation strings with source string."
 msgstr "Vult de brontekenreeksen in in de vertaalvakken."
 
 #: weblate/addons/generate.py:216
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Vertaling vooraf invullen met brontekenreeks"
+msgstr "Alleen-lezentekenreeksen opvullen met brontekenreeks"
 
 #: weblate/addons/generate.py:218
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Vult de brontekenreeksen in in de vertaalvakken."
+msgstr ""
+"Vult de vertaling van alleen-lezentekenreeksen in met de brontekenreeks."
 
 #: weblate/addons/gettext.py:26
 msgid "Generate MO files"
@@ -1753,12 +1748,8 @@ msgid "Customize XML output"
 msgstr "Xml-uitvoer aanpassen"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid "Allows adjusting XML output behavior, for example closing tags."
-msgstr "Pas het yaml-uitvoergedrag aan, zoals de regellengte of regeleinden."
+msgstr "Pas het xml-uitvoergedrag aan, zoals de sluittags."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -2475,8 +2466,6 @@ msgid "Block expiry"
 msgstr "Vergrendeling verloopt"
 
 #: weblate/auth/permissions.py:133
-#, fuzzy
-#| msgid "Can not perform this operation without an e-mail."
 msgid "Can not perform this operation without an e-mail address."
 msgstr "Deze actie kan niet zonder e-mailadres worden uitgevoerd."
 
@@ -2486,10 +2475,6 @@ msgid "This translation is currently locked."
 msgstr "Deze vertaling is momenteel vergrendeld."
 
 #: weblate/auth/permissions.py:147
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires you agree to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "agreement."
@@ -2556,16 +2541,13 @@ msgid "Add the string to the source language instead."
 msgstr "Voeg de tekenreeks toe aan de brontaal."
 
 #: weblate/auth/permissions.py:246
-#, fuzzy
-#| msgid "Unsupported component configuration"
 msgid "Adding strings is disabled in the component configuration."
-msgstr "Niet-ondersteunde onderdeelconfiguratie"
+msgstr ""
+"Het toevoegen van tekenreeksen is uitgeschakeld in de onderdeelinstellingen."
 
 #: weblate/auth/permissions.py:263 weblate/auth/permissions.py:280
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "File format does not support this."
-msgstr "Het gedetecteerde bestandsformaat wordt niet ondersteund."
+msgstr "Het bestandsformaat ondersteunt dit niet."
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2871,29 +2853,24 @@ msgstr ""
 "onderdelen nog niet vertaald."
 
 #: weblate/checks/consistency.py:138
-#, fuzzy
-#| msgid "Removed translation"
 msgid "Reused translation"
-msgstr "Verwijderde vertaling"
+msgstr "Hergebruikte vertaling"
 
 #: weblate/checks/consistency.py:139
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Different strings are translated the same."
-msgstr "Er zijn geen tekenreeksen om te vertalen"
+msgstr "Verschillende tekenreeksen zijn hetzelfde vertaald."
 
 #: weblate/checks/consistency.py:178
-#, fuzzy, python-format
-#| msgid "Update source strings"
+#, python-format
 msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
-msgstr[0] "Brontekenreeksen bijwerken"
-msgstr[1] "Brontekenreeksen bijwerken"
+msgstr[0] "Andere brontekenreeks: %s"
+msgstr[1] "Andere brontekenreeksen: %s"
 
 #: weblate/checks/consistency.py:179
 #, python-format
 msgid "“%s”"
-msgstr ""
+msgstr "“%s”"
 
 #: weblate/checks/consistency.py:228
 msgid "Has been translated"
@@ -4491,14 +4468,14 @@ msgid "Screenshot name"
 msgstr "Naam van schermfoto"
 
 #: weblate/screenshots/models.py:51
-#, fuzzy
-#| msgid "Repository branch to translate"
 msgid "Repository path to screenshot"
-msgstr "Te vertalen opslagruimtetak"
+msgstr "Opslagruimtelocatie van schermfoto"
 
 #: weblate/screenshots/models.py:52
 msgid "Scan for screenshot file change on repository update."
 msgstr ""
+"Zoek naar nieuwe versies van schermfoto's na het bijwerken van de "
+"opslagruimte."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_detail.html:58
@@ -4751,10 +4728,8 @@ msgstr "Statistieken"
 
 #: weblate/templates/accounts/add-mail.html:4
 #: weblate/templates/accounts/email.html:17
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Add new e-mail address"
-msgstr "E-mailadres van account gebruiken"
+msgstr "E-mailadres toevoegen"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -4766,10 +4741,8 @@ msgid "Your profile"
 msgstr "Uw profiel"
 
 #: weblate/templates/accounts/confirm.html:14
-#, fuzzy
-#| msgid "Could not remove user identity"
 msgid "Confirm adding user identity"
-msgstr "Kan de gebruikersidentiteit niet verwijderen"
+msgstr "Gebruikersidentiteit bevestigen"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #: weblate/templates/accounts/confirm.html:18
@@ -4781,10 +4754,8 @@ msgstr ""
 "Na bevestiging kunt u inloggen bij Weblate met %(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/confirm.html:24
-#, fuzzy
-#| msgid "Configure"
 msgid "Confirm"
-msgstr "Configureren"
+msgstr "Bevestigen"
 
 #: weblate/templates/accounts/contact.html:15
 msgid ""
@@ -5130,10 +5101,8 @@ msgid "Disconnect"
 msgstr "Verbinding verbreken"
 
 #: weblate/templates/accounts/profile.html:156
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new user identity"
-msgstr "Gebruiker toevoegen"
+msgstr "Gebruikersidentiteit toevoegen"
 
 #: weblate/templates/accounts/profile.html:166
 #: weblate/templates/component.html:104
@@ -5460,10 +5429,8 @@ msgstr[0] "%(count)s opmerking"
 msgstr[1] "%(count)s opmerkingen"
 
 #: weblate/templates/accounts/user.html:141
-#, fuzzy
-#| msgid "Contributors"
 msgid "Contributed to"
-msgstr "Medewerkers"
+msgstr "Bijgedragen aan"
 
 #: weblate/templates/accounts/user.html:144
 msgid "Activity"
@@ -5527,8 +5494,6 @@ msgid "Browse all watched projects"
 msgstr "Alle gevolgde projecten tonen"
 
 #: weblate/templates/accounts/user.html:192
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes made by this user"
 msgstr "Alle aanpassingen van deze gebruiker tonen"
 
@@ -5543,9 +5508,6 @@ msgid "Members"
 msgstr "Leden"
 
 #: weblate/templates/accounts/user.html:264
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgctxt "No project associated with group"
 msgid "None"
 msgstr "Geen"
@@ -5941,10 +5903,8 @@ msgid "Add"
 msgstr "Toevoegen"
 
 #: weblate/templates/auth/teams-components.html:6
-#, fuzzy
-#| msgid "No components were matched!"
 msgid "No components specified"
-msgstr "Geen overeenkomende onderdelen!"
+msgstr "Geen onderdelen gekozen"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7213,34 +7173,30 @@ msgid "Commit"
 msgstr "Toepassen"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s change"
-#| msgid_plural "%(count)s changes"
+#, python-format
 msgid "%(count)s pending change"
 msgid_plural "%(count)s pending changes"
-msgstr[0] "%(count)s aanpassing"
-msgstr[1] "%(count)s aanpassingen"
+msgstr[0] "%(count)s openstaande aanpassing"
+msgstr[1] "%(count)s openstaande aanpassingen"
 
 #: weblate/templates/js/git-status.html:32
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "Openstaande wijzigingen doorvoeren in de Weblate-opslagruimte"
+msgstr ""
+"Hiermee worden openstaande aanpassingen op Weblate toegevoegd aan de "
+"opslagruimte."
 
 #: weblate/templates/js/git-status.html:38
 msgid "Push"
 msgstr "Pushen"
 
 #: weblate/templates/js/git-status.html:41
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s opmerking"
-msgstr[1] "%(count)s opmerkingen"
+msgstr[0] "%(count)s uitgaande commit"
+msgstr[1] "%(count)s uitgaande commits"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Update"
@@ -7248,34 +7204,28 @@ msgstr "Bijwerken"
 
 #: weblate/templates/js/git-status.html:58
 msgid "Update with merge"
-msgstr ""
+msgstr "Bijwerken middels samenvoegen"
 
 #: weblate/templates/js/git-status.html:61
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Update with rebase"
-msgstr "Kwaliteitscontrole bijwerken"
+msgstr "Bijwerken middels herbaseren"
 
 #: weblate/templates/js/git-status.html:64
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid "Update with merge without fast-forward"
-msgstr "Samenvoegen zonder vooruitspoelen"
+msgstr "Bijwerken middels samenvoegen zonder vooruitspoelen"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "%(count)s opmerking"
-msgstr[1] "%(count)s opmerkingen"
+msgstr[0] "%(count)s ontbrekende commit"
+msgstr[1] "%(count)s ontbrekende commits"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy
-#| msgid "Resetting the repository will throw away all local changes!"
 msgid "This will update the Weblate repository with the upstream changes."
-msgstr "Resetten van het repository zal alle lokale wijzigingen verwijderen!"
+msgstr ""
+"Hiermee wordt de Weblate-opslagruimte bijgewerkt met de bovenstroomse "
+"aanpassingen."
 
 #: weblate/templates/js/git-status.html:80
 msgid "Allow changes to the Weblate repository"
@@ -7295,28 +7245,20 @@ msgid "Lock"
 msgstr "Vergrendelen"
 
 #: weblate/templates/js/git-status.html:87
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are locked"
-msgstr "Weblate-vertalingen"
+msgstr "Weblate-vertalingen zijn vergrendeld"
 
 #: weblate/templates/js/git-status.html:89
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are unlocked"
-msgstr "Weblate-vertalingen"
+msgstr "Weblate-vertalingen zijn ontgrendeld"
 
 #: weblate/templates/js/git-status.html:93
-#, fuzzy
-#| msgid "Locking prevents translators from doing changes"
 msgid "Locking prevents translators from doing changes."
-msgstr "Vergrendelen voorkomt dat vertalers aanpassingen kunnen doen"
+msgstr "Vergrendelen voorkomt dat vertalers aanpassingen kunnen doen."
 
 #: weblate/templates/js/git-status.html:105
-#, fuzzy
-#| msgid "Danger (red)"
 msgid "Danger zone"
-msgstr "Gevaar (rood)"
+msgstr "Gevarenzone"
 
 #: weblate/templates/js/git-status.html:110
 #: weblate/templates/translate.html:496
@@ -7328,23 +7270,20 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Alle aanpassingen in de Weblate-opslagruimte herstellen"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid ""
-#| "Resetting removes all changes in Weblate so that the repository matches "
-#| "upstream. Use with caution."
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream."
 msgstr ""
 "Met de optie ‘Herstellen’ worden alle wijzigingen in Weblate ongedaan "
-"gemaakt om overeen te komen met de bovenstroomse opslagruimte. Wees "
-"voorzichtig."
+"gemaakt om overeen te komen met de bovenstroomse opslagruimte."
 
 #: weblate/templates/js/git-status.html:116
 msgid ""
 "Use when you want to discard changes in Weblate and bring it in sync with "
 "upstream repository."
 msgstr ""
+"Gebruik dit als u aanpassingen op Weblate wilt negeren en wilt "
+"synchroniseren met de bovenstroomse opslagruimte."
 
 #: weblate/templates/js/git-status.html:120
 msgid "Cleanup"
@@ -7359,62 +7298,57 @@ msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
+"Hiermee worden alle bestanden die niet onder toezicht van versiebeheer staan "
+"uit de opslagruimte verwijderd."
 
 #: weblate/templates/js/git-status.html:126
-#, fuzzy
-#| msgid "Prevent any changes in the Weblate repository"
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Wijzigingen aan de Weblate-opslagruimte voorkomen"
+msgstr "Gebruik indien er rommel is achtergebleven op de Weblate-opslagruimte."
 
 #: weblate/templates/js/git-status.html:130
 msgid "Synchronize"
-msgstr ""
+msgstr "Synchroniseren"
 
 #: weblate/templates/js/git-status.html:132
 msgid "Force writing all translations to the Weblate repository"
 msgstr "Alle vertalingen gedwongen wegschrijven naar de Weblate-opslagruimte"
 
 #: weblate/templates/js/git-status.html:135
-#, fuzzy
-#| msgid "Force writing all translations to the Weblate repository"
 msgid "Forces writing all strings to the translation files."
-msgstr "Alle vertalingen gedwongen wegschrijven naar de Weblate-opslagruimte"
+msgstr "Schrijf alle tekenreeksen gedwongen weg naar de vertaalbestanden."
 
 #: weblate/templates/js/git-status.html:136
 msgid ""
 "Use this when repository files became out of sync with Weblate for some "
 "reason."
 msgstr ""
+"Gebruik indien de opslagruimtebestanden niet meer gesynchroniseerd zijn met "
+"Weblate."
 
 #: weblate/templates/js/git-status.html:140
 msgid "Rescan"
-msgstr ""
+msgstr "Opnieuw doorzoeken"
 
 #: weblate/templates/js/git-status.html:142
-#, fuzzy
-#| msgid "Cleanup all untracked files in the Weblate repository"
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "Alle ongetraceerde bestanden in de Weblate-opslagruimte opruimen"
+msgstr "Doorzoek alle vertaalbestanden in de Weblate-opslagruimte opnieuw"
 
 #: weblate/templates/js/git-status.html:145
-#, fuzzy
-#| msgid "Removes current translation from the repository."
 msgid "Loads translations from the files into Weblate."
-msgstr "Hiermee verwijdert u de huidige vertaling uit de opslagruimte."
+msgstr "Hiermee importeert u vertalingen uit de bestanden naar Weblate."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid ""
 "Use when Weblate missed some of the strings after updating the repository."
 msgstr ""
-"Weblate kon de stroomopwaartse wijzigingen niet ophalen tijdens het "
+"Gebruik indien Weblate enkele tekenreeksen heeft overgeslagen na het "
 "bijwerken van de opslagruimte."
 
 #: weblate/templates/js/git-status.html:151
 msgid "Use these operations with caution, they can lead to data loss."
 msgstr ""
+"Let op: wees voorzichtig met het gebruik van deze acties, anders kan er "
+"gegevensverlies optreden."
 
 #: weblate/templates/js/git-status.html:160
 #, python-format
@@ -7460,7 +7394,7 @@ msgstr "Gebruiker blokkeren"
 #: weblate/templates/last-changes-content.html:58
 #: weblate/templates/snippets/suggestions.html:41
 msgid "Rejection reason"
-msgstr ""
+msgstr "Afwijsreden"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:70
@@ -7641,21 +7575,15 @@ msgstr ""
 "goedkeuring van uw vrijesoftwarepakket."
 
 #: weblate/templates/mail/billing_expired.html:18
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "Your billing plan has expired. Please renew it to continue using the service."
 msgstr ""
-"Uw facturatiepakket is verlopen. Als u de dienst wilt blijven gebruiken, "
-"vernieuw het dan."
+"Uw facturatiepakket is verlopen. Vernieuw het pakket als u de dienst wilt "
+"blijven gebruiken."
 
 #: weblate/templates/mail/billing_expired.html:23
-#, fuzzy
-#| msgid "This billing plan covers following projects:"
 msgid "This billing plan covers the following projects:"
-msgstr "Het hostingplan is te gebruiken voor de volgende projecten:"
+msgstr "Dit facturatiepakket is te gebruiken voor de volgende projecten:"
 
 #: weblate/templates/mail/billing_expired.html:30
 msgid "Remove the project"
@@ -7666,6 +7594,8 @@ msgid ""
 "There are no projects attached to this billing plan. (There might be "
 "projects in other billing plans of yours.)"
 msgstr ""
+"Er zijn geen projecten gekoppeld aan dit pakket. (Wellicht zijn er projecten "
+"in andere pakketten van u.)"
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
@@ -7673,10 +7603,7 @@ msgstr ""
 "Alle projecten die door dit facturatiepakket werden gedekt, zijn verwijderd."
 
 #: weblate/templates/mail/billing_expired.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all projects within this billing plan "
-#| "will be removed on %(date)s."
+#, python-format
 msgid ""
 "If you don't issue the payment, all projects within this billing plan will "
 "be removed on %(date)s."
@@ -7685,10 +7612,7 @@ msgstr ""
 "facturatiepakket verwijderd worden op %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "If your Libre hosting will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting is not approved for it, all projects within this "
 "billing plan will be removed on %(date)s."
@@ -8175,10 +8099,8 @@ msgid "Refresh support status"
 msgstr "Ondersteuningsstatus herladen"
 
 #: weblate/templates/manage/index.html:55
-#, fuzzy
-#| msgid "Manage support package"
 msgid "Support package limits"
-msgstr "Ondersteuningspakket beheren"
+msgstr "Beperkingen van ondersteuningspakket"
 
 #: weblate/templates/manage/index.html:67
 msgid "Support expiry"
@@ -9632,10 +9554,8 @@ msgid "Accept and edit"
 msgstr "Aanvaarden en bewerken"
 
 #: weblate/templates/snippets/suggestions.html:42
-#, fuzzy
-#| msgid "Delete suggestion"
 msgid "Reject suggestion"
-msgstr "Suggestie verwijderen"
+msgstr "Suggestie negeren"
 
 #: weblate/templates/snippets/suggestions.html:55
 msgid "Suggested change:"
@@ -10498,10 +10418,8 @@ msgstr ""
 "te maken."
 
 #: weblate/templates/translate.html:56
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Open in Zen mode"
-msgstr "Bewerken in zen-modus"
+msgstr "Openen in zenmodus"
 
 #: weblate/templates/translate.html:56 weblate/templates/translation.html:193
 #: weblate/templates/zen.html:26
@@ -10633,37 +10551,28 @@ msgid "Difference to current string"
 msgstr "Verschil met huidige tekenreeks"
 
 #: weblate/templates/translate.html:311
-#, fuzzy
-#| msgid "The following string has the same context and source."
-#| msgid_plural "The following strings have the same context and source."
 msgid "This string has the same context and source."
 msgid_plural "These strings have the same context and source."
-msgstr[0] "De volgende tekenreeks heeft dezelfde context en bron."
-msgstr[1] "De volgende tekenreeksen hebben dezelfde context en bron."
+msgstr[0] "Deze tekenreeks heeft dezelfde context en bron."
+msgstr[1] "Deze tekenreeksen hebben dezelfde context en bron."
 
 #: weblate/templates/translate.html:319
-#, fuzzy
-#| msgid "This string has different context but same source."
 msgid "This string has a different context, but the same source."
 msgid_plural "These strings have differing context, but the same source."
-msgstr[0] "Deze tekenreeks werd reeds vertaald in het verleden"
-msgstr[1] "Deze tekenreeks werd reeds vertaald in het verleden"
+msgstr[0] "Deze tekenreeks heeft een andere context, maar dezelfde bron."
+msgstr[1] "Deze tekenreeksen hebben een andere context, maar dezelfde bron."
 
 #: weblate/templates/translate.html:327
-#, fuzzy
-#| msgid "This string has different source but same context."
 msgid "This string has a different source, but the same context."
 msgid_plural "These strings have differing sources, but the same context."
-msgstr[0] "Deze tekenreeks werd reeds vertaald in het verleden"
-msgstr[1] "Deze tekenreeks werd reeds vertaald in het verleden"
+msgstr[0] "Deze tekenreeks heeft een andere bron, maar dezelfde context."
+msgstr[1] "Deze tekenreeksen hebben een andere bron, maar dezelfde context."
 
 #: weblate/templates/translate.html:335
-#, fuzzy
-#| msgid "This string has different source but same context."
 msgid "This string has a different source and context."
 msgid_plural "These strings have differing sources and context."
-msgstr[0] "Deze tekenreeks werd reeds vertaald in het verleden"
-msgstr[1] "Deze tekenreeks werd reeds vertaald in het verleden"
+msgstr[0] "Deze tekenreeks heeft een andere bron en context."
+msgstr[1] "Deze tekenreeksen hebben een andere bron en context."
 
 #: weblate/templates/translate.html:345
 msgid "Apply selected translation to all propagated strings"
@@ -10678,10 +10587,8 @@ msgid "Browse all string changes"
 msgstr "Alle tekenreekswijzigingen bekijken"
 
 #: weblate/templates/translate.html:378
-#, fuzzy
-#| msgid "Suggested change:"
 msgid "Suggested change"
-msgstr "Aanbevolen wijziging:"
+msgstr "Aanbevolen wijziging"
 
 #: weblate/templates/translate.html:380
 msgid "Origin"
@@ -10777,10 +10684,8 @@ msgid "String age"
 msgstr "Ouderdom van tekenreeks"
 
 #: weblate/templates/translate.html:697 weblate/utils/views.py:123
-#, fuzzy
-#| msgid "Past due date"
 msgid "Last updated"
-msgstr "Voorbij vervaldatum"
+msgstr "Laatst bijgewerkt"
 
 #: weblate/templates/translate.html:703
 msgid "Source string age"
@@ -11109,7 +11014,7 @@ msgstr "Onvertaalde tekenreeksen"
 
 #: weblate/trans/filter.py:21 weblate/trans/filter.py:118
 msgid "Strings marked for edit"
-msgstr "Te beoordelen tekenreeksen"
+msgstr "Te bewerken tekenreeksen"
 
 #: weblate/trans/filter.py:23
 msgid "Strings with variants"
@@ -11224,16 +11129,12 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Aanvullende uitleg over de betekenis of het gebruik van de tekenreeks."
 
 #: weblate/trans/forms.py:517
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string explanation"
-msgstr "Locatie van brontekenreeks"
+msgstr "Uitleg omtrent brontekenreeks"
 
 #: weblate/trans/forms.py:519
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Translation explanation"
-msgstr "Vertaalmeldingen"
+msgstr "Vertaaluitleg"
 
 #: weblate/trans/forms.py:536
 msgid "The source string has changed meanwhile. Please check your changes."
@@ -12245,18 +12146,14 @@ msgid "Removed comment"
 msgstr "De reactie is verwijderd"
 
 #: weblate/trans/models/change.py:401
-#, fuzzy
-#| msgid "Resolved comment"
 msgctxt "Name of event in the history"
 msgid "Resolved comment"
 msgstr "Reactie opgelost"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:404
-#, fuzzy
-#| msgid "Explanation"
 msgid "Explanation updated"
-msgstr "Uitleg"
+msgstr "Uitleg bijgewerkt"
 
 #: weblate/trans/models/change.py:476
 msgid "New string to translate"
@@ -12350,13 +12247,12 @@ msgstr ""
 "POSIX-stijl met onderliggend streepje als scheidingsteken, inclusief landcode"
 
 #: weblate/trans/models/component.py:129
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator, including country code"
 msgid ""
 "POSIX style using underscore as a separator, including country code "
 "(lowercase)"
 msgstr ""
-"POSIX-stijl met onderliggend streepje als scheidingsteken, inclusief landcode"
+"POSIX-stijl met onderliggend streepje als scheidingsteken, inclusief "
+"landcode (kleine letters)"
 
 #: weblate/trans/models/component.py:134
 msgid "BCP style using hyphen as a separator, including country code"
@@ -12500,16 +12396,16 @@ msgstr ""
 "LC_MESSAGES/django.po."
 
 #: weblate/trans/models/component.py:389
-#, fuzzy
-#| msgid "Screenshot details"
 msgid "Screenshot file mask"
-msgstr "Schermfoto-informatie"
+msgstr "Schermfoto-bestandsmasker"
 
 #: weblate/trans/models/component.py:394
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
 msgstr ""
+"De locatie van schermfoto's vanaf de hoofdmap. Voorbeeld: docs/screenshots/*."
+"png."
 
 #: weblate/trans/models/component.py:403
 msgid ""
@@ -12796,10 +12692,9 @@ msgid "File does not exist."
 msgstr "Dit bestand bestaat niet."
 
 #: weblate/trans/models/component.py:1672
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Failed to push %(component)s: %(error_text)s"
-msgstr "%(file)s kan niet worden verwerkt: %(error)s"
+msgstr "%(component)s kan niet worden verwerkt: %(error_text)s"
 
 #: weblate/trans/models/component.py:1693
 #, python-format
@@ -12857,17 +12752,15 @@ msgid "The file mask did not match any files."
 msgstr "Het bestandsmasker komt met geen enkel bestand overeen."
 
 #: weblate/trans/models/component.py:2575
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the file mask "
-#| "and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
 "%(filename2)s Please adjust the file mask and use components for translating "
 "different resources."
 msgstr ""
-"Er is meer dan één bestand van dezelfde taal (%s). Pas het bestandsmasker "
-"aan en gebruik onderdelen om verschillende bronnen te vertalen."
+"Er is meer dan één bestand van de %(language)se taal: %(filename1)s, "
+"%(filename2)s. Pas het bestandsmasker aan en gebruik onderdelen om "
+"verschillende bronnen te vertalen."
 
 #: weblate/trans/models/component.py:2593
 msgid "Could not find any matching language, please check the file mask."
@@ -13200,10 +13093,8 @@ msgid "This string seems to already exist."
 msgstr "Deze tekenreeks lijkt reeds aanwezig."
 
 #: weblate/trans/models/translation.py:1643
-#, fuzzy
-#| msgid "Duplicated string for translation."
 msgid "Failed adding string, no translation found."
-msgstr "Gedupliceerde tekenreeks voor vertaling."
+msgstr "De tekenreeks kan niet worden toegevoegd omdat er geen vertaling is."
 
 #: weblate/trans/models/unit.py:930
 #, python-format
@@ -13948,10 +13839,8 @@ msgid "Translation files have been synchronized."
 msgstr "De vertaalbestanden zijn gesynchroniseerd."
 
 #: weblate/trans/views/git.py:130
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Translations have been updated."
-msgstr "De vertaalopmerking is verwijderd."
+msgstr "De vertalingen zijn bijgewerkt."
 
 #: weblate/trans/views/lock.py:28
 msgid "Component is now locked for translation updates!"
@@ -14362,19 +14251,14 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Fout in parameter %(field)s: %(error)s"
 
 #: weblate/vcs/base.py:60
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream repository."
 msgstr ""
-"Weblate kon de wijzigingen niet doorvoeren naar de stroomopwaartse "
-"opslagruimte."
+"Hiermee worden aanpassingen doorgevoerd naar de bovenstroomse opslagruimte."
 
 #: weblate/vcs/git.py:49
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Git repository."
 msgstr ""
-"Weblate kon de wijzigingen niet doorvoeren naar de stroomopwaartse "
+"Hiermee worden aanpassingen doorgevoerd naar de bovenstroomse Git-"
 "opslagruimte."
 
 #: weblate/vcs/git.py:515
@@ -14383,24 +14267,21 @@ msgstr "Mogelijke opruimingen:"
 
 #: weblate/vcs/git.py:525
 msgid "This will push changes to Gerrit for a review."
-msgstr ""
+msgstr "Hiermee worden aanpassingen doorgevoerd naar Gerrit voor beoordeling."
 
 #: weblate/vcs/git.py:548
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "This will commit changes to the Subversion repository."
-msgstr "Wijzigingen doorvoeren in de interne opslagruimte"
+msgstr ""
+"Hiermee worden aanpassingen doorgevoerd naar de Subversion-opslagruimte."
 
 #: weblate/vcs/git.py:713
 msgid "Git with force push"
 msgstr "Git met afgedwongen push"
 
 #: weblate/vcs/git.py:717
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will force push changes to the upstream repository."
 msgstr ""
-"Weblate kon de wijzigingen niet doorvoeren naar de stroomopwaartse "
+"Hiermee worden aanpassingen gedwongen doorgevoerd naar de bovenstroomse "
 "opslagruimte."
 
 #: weblate/vcs/git.py:1038
@@ -14408,20 +14289,20 @@ msgid "GitHub pull request"
 msgstr "‘Pull request’ op GitHub"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a GitHub pull request."
-msgstr "‘Pull request’ op Bitbucket"
+msgstr ""
+"Hiermee worden aanpassingen doorgevoerd en een ‘pull request’ op GitHub "
+"aangemaakt."
 
 #: weblate/vcs/git.py:1152
 msgid "Gitea pull request"
 msgstr "‘Pull request’ op Gitea"
 
 #: weblate/vcs/git.py:1156
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a Gitea pull request."
-msgstr "‘Pull request’ op Bitbucket"
+msgstr ""
+"Hiermee worden aanpassingen doorgevoerd en een ‘pull request’ op Gitea "
+"aangemaakt."
 
 #: weblate/vcs/git.py:1224
 msgid "No remote repository"
@@ -14432,38 +14313,34 @@ msgid "GitLab merge request"
 msgstr "GitLab-samenvoegverzoek"
 
 #: weblate/vcs/git.py:1334
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a GitLab merge request."
-msgstr "‘Pull request’ op Bitbucket"
+msgstr ""
+"Hiermee worden aanpassingen doorgevoerd en een samenvoegverzoek op GitLab "
+"aangemaakt."
 
 #: weblate/vcs/git.py:1471
 msgid "Pagure merge request"
 msgstr "Pagure-samenvoegverzoek"
 
 #: weblate/vcs/git.py:1476
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a Pagure merge request."
-msgstr "‘Pull request’ op Bitbucket"
+msgstr ""
+"Hiermee worden aanpassingen doorgevoerd en een samenvoegverzoek op Pagure "
+"aangemaakt."
 
 #: weblate/vcs/git.py:1564
 msgid "Bitbucket Server pull request"
 msgstr "‘Pull request’ op Bitbucket"
 
 #: weblate/vcs/git.py:1570
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a Bitbucket Server pull request."
-msgstr "‘Pull request’ op Bitbucket"
+msgstr ""
+"Hiermee worden aanpassingen doorgevoerd en een ‘pull request’ op Bitbucket "
+"aangemaakt."
 
 #: weblate/vcs/mercurial.py:40
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr ""
-"Weblate kon de wijzigingen niet doorvoeren naar de stroomopwaartse "
-"opslagruimte."
+msgstr "Hiermee worden aanpassingen doorgevoerd naar de Mercurial-opslagruimte."
 
 #: weblate/vcs/ssh.py:30
 msgctxt "SSH key type"
@@ -14678,6 +14555,8 @@ msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in discover."
 msgstr ""
+"Pas ‘SITE_TILE’ aan in de instellingen om uw Weblate makkelijk herkenbaar te "
+"maken."
 
 #: weblate/wladmin/views.py:186
 msgid "Activation completed."
