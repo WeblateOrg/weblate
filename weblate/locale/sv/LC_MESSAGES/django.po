@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-15 06:53+0000\n"
-"PO-Revision-Date: 2023-06-10 03:26+0000\n"
+"PO-Revision-Date: 2023-06-16 11:20+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 4.18.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1586,16 +1586,12 @@ msgid "Fills in translation strings with source string."
 msgstr "Fyller i översättningssträngar med källsträng."
 
 #: weblate/addons/generate.py:216
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Förfyll översättning med källa"
+msgstr "Fyll skrivskyddade strängar med källsträngen"
 
 #: weblate/addons/generate.py:218
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Fyller i översättningssträngar med källsträng."
+msgstr "Fyller i översättningen av skrivskyddade strängar med källsträngen."
 
 #: weblate/addons/gettext.py:26
 msgid "Generate MO files"
@@ -2338,10 +2334,8 @@ msgid "Components"
 msgstr "Komponenter"
 
 #: weblate/auth/models.py:131
-#, fuzzy
-#| msgid "You do not have permission to create components in any projects."
 msgid "Empty selection grants access to all components in project scope."
-msgstr "Du har inte behörighet att lägga till komponenter i något projekt."
+msgstr "Tomt urval ger tillgång till alla komponenter i projektets omfattning."
 
 #: weblate/auth/models.py:141
 msgid "Language selection"
@@ -2450,7 +2444,7 @@ msgstr "Blockering upphör"
 
 #: weblate/auth/permissions.py:133
 msgid "Can not perform this operation without an e-mail address."
-msgstr ""
+msgstr "Kan inte utföra denna operation utan en mejladress."
 
 #: weblate/auth/permissions.py:139 weblate/templates/translate.html:201
 #: weblate/templates/translate.html:221
@@ -2458,10 +2452,6 @@ msgid "This translation is currently locked."
 msgstr "Översättningen är för tillfället låst."
 
 #: weblate/auth/permissions.py:147
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires you agree to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "agreement."
@@ -2480,10 +2470,8 @@ msgid "Insufficient privileges for editing source strings."
 msgstr "Otillräckliga behörigheter för att redigera källsträngar."
 
 #: weblate/auth/permissions.py:165
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Suggestion voting is disabled."
-msgstr "Redigering av källsträngar är inaktiverad."
+msgstr "Röstning på förslag är inaktiverad."
 
 #: weblate/auth/permissions.py:175
 msgid ""
@@ -2496,28 +2484,20 @@ msgid "Pay the bills to unlock this project."
 msgstr "Betala räkningarna för att låsa upp projektet."
 
 #: weblate/auth/permissions.py:192
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Source string reviews are not enabled."
-msgstr "Redigering av källsträngar är inaktiverad."
+msgstr "Granskningar av källsträngar är inte aktiverade."
 
 #: weblate/auth/permissions.py:193
-#, fuzzy
-#| msgid "Translation reverted"
 msgid "Translation reviews are not enabled."
-msgstr "Översättning återställd"
+msgstr "Översättningsgranskningar är inte aktiverade."
 
 #: weblate/auth/permissions.py:200
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Reviews are not enabled."
-msgstr "Tjänsten är för närvarande inte tillgänglig."
+msgstr "Granskningar är inte aktiverade."
 
 #: weblate/auth/permissions.py:213
-#, fuzzy
-#| msgid "This string seems to already exist."
 msgid "The string is read only."
-msgstr "Denna sträng verkar redan existera."
+msgstr "Strängen är skrivskyddad."
 
 #: weblate/auth/permissions.py:219
 msgid ""
@@ -2528,26 +2508,20 @@ msgstr ""
 "tycker att strängen bör ändras."
 
 #: weblate/auth/permissions.py:225
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "The translation is read only."
-msgstr "Översättningen är låst."
+msgstr "Översättningen är skrivskyddad."
 
 #: weblate/auth/permissions.py:242
 msgid "Add the string to the source language instead."
-msgstr ""
+msgstr "Lägg till strängen till källspråket istället."
 
 #: weblate/auth/permissions.py:246
-#, fuzzy
-#| msgid "Unsupported component configuration"
 msgid "Adding strings is disabled in the component configuration."
-msgstr "Komponentkonfigurationen stöds inte"
+msgstr "Att lägga till strängar är inaktiverat i komponentkonfigurationen."
 
 #: weblate/auth/permissions.py:263 weblate/auth/permissions.py:280
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "File format does not support this."
-msgstr "Det upptäckta filformatet stöds inte."
+msgstr "Filformatet stöder inte detta."
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2853,29 +2827,24 @@ msgstr ""
 "översatt i vissa komponenter."
 
 #: weblate/checks/consistency.py:138
-#, fuzzy
-#| msgid "Removed translation"
 msgid "Reused translation"
-msgstr "Borttagen översättning"
+msgstr "Återanvänd översättning"
 
 #: weblate/checks/consistency.py:139
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Different strings are translated the same."
-msgstr "Inga strängar att översätta"
+msgstr "Olika strängar översätts likadant."
 
 #: weblate/checks/consistency.py:178
-#, fuzzy, python-format
-#| msgid "Update source strings"
+#, python-format
 msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
-msgstr[0] "Uppdatera källsträngar"
-msgstr[1] "Uppdatera källsträngar"
+msgstr[0] "Annan källsträng: %s"
+msgstr[1] "Andra källsträngar: %s"
 
 #: weblate/checks/consistency.py:179
 #, python-format
 msgid "“%s”"
-msgstr ""
+msgstr "\"%s\""
 
 #: weblate/checks/consistency.py:228
 msgid "Has been translated"
@@ -4467,14 +4436,12 @@ msgid "Screenshot name"
 msgstr "Namn på skärmdump"
 
 #: weblate/screenshots/models.py:51
-#, fuzzy
-#| msgid "Repository branch to translate"
 msgid "Repository path to screenshot"
-msgstr "Arkivgren att översätta"
+msgstr "Arkivsökväg till skärmdump"
 
 #: weblate/screenshots/models.py:52
 msgid "Scan for screenshot file change on repository update."
-msgstr ""
+msgstr "Sök efter ändringar i skärmdumpsfiler vid uppdatering av arkiv."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_detail.html:58
@@ -4728,10 +4695,8 @@ msgstr "Statistik"
 
 #: weblate/templates/accounts/add-mail.html:4
 #: weblate/templates/accounts/email.html:17
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Add new e-mail address"
-msgstr "Använd kontots mejladress"
+msgstr "Lägg till ny mejladress"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -4743,10 +4708,8 @@ msgid "Your profile"
 msgstr "Din profil"
 
 #: weblate/templates/accounts/confirm.html:14
-#, fuzzy
-#| msgid "Could not remove user identity"
 msgid "Confirm adding user identity"
-msgstr "Det gick inte att ta bort användaridentitet"
+msgstr "Bekräfta tillägg av användaridentitet"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #: weblate/templates/accounts/confirm.html:18
@@ -4759,10 +4722,8 @@ msgstr ""
 "%(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/confirm.html:24
-#, fuzzy
-#| msgid "Configure"
 msgid "Confirm"
-msgstr "Konfigurera"
+msgstr "Bekräfta"
 
 #: weblate/templates/accounts/contact.html:15
 msgid ""
@@ -5105,10 +5066,8 @@ msgid "Disconnect"
 msgstr "Koppla bort"
 
 #: weblate/templates/accounts/profile.html:156
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new user identity"
-msgstr "Lägg till ny användare"
+msgstr "Lägg till ny användaridentitet"
 
 #: weblate/templates/accounts/profile.html:166
 #: weblate/templates/component.html:104
@@ -5432,10 +5391,8 @@ msgstr[0] "%(count)s kommentar"
 msgstr[1] "%(count)s kommentarer"
 
 #: weblate/templates/accounts/user.html:141
-#, fuzzy
-#| msgid "Contributors"
 msgid "Contributed to"
-msgstr "Bidragsgivare"
+msgstr "Bidragit till"
 
 #: weblate/templates/accounts/user.html:144
 msgid "Activity"
@@ -5499,10 +5456,8 @@ msgid "Browse all watched projects"
 msgstr "Bläddra bland alla bevakade projekt"
 
 #: weblate/templates/accounts/user.html:192
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes made by this user"
-msgstr "Utforska alla ändringar för användaren"
+msgstr "Bläddra bland alla ändringar som gjorts av denna användare"
 
 #: weblate/templates/accounts/user.html:253
 msgid "Group"
@@ -5515,12 +5470,9 @@ msgid "Members"
 msgstr "Medlemmar"
 
 #: weblate/templates/accounts/user.html:264
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgctxt "No project associated with group"
 msgid "None"
-msgstr "Ingen"
+msgstr "Inget"
 
 #: weblate/templates/accounts/user.html:269
 msgid "Remove user from this group"
@@ -5906,10 +5858,8 @@ msgid "Add"
 msgstr "Lägg till"
 
 #: weblate/templates/auth/teams-components.html:6
-#, fuzzy
-#| msgid "No components were matched!"
 msgid "No components specified"
-msgstr "Inga komponenter matchade!"
+msgstr "Inga komponenter specificerade"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7166,34 +7116,30 @@ msgid "Commit"
 msgstr "Verkställ"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s change"
-#| msgid_plural "%(count)s changes"
+#, python-format
 msgid "%(count)s pending change"
 msgid_plural "%(count)s pending changes"
-msgstr[0] "%(count)s ändring"
-msgstr[1] "%(count)s ändringar"
+msgstr[0] "%(count)s väntande förändring"
+msgstr[1] "%(count)s väntande förändringar"
 
 #: weblate/templates/js/git-status.html:32
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "Verkställ väntande ändringar i Weblate-arkivet"
+msgstr ""
+"Detta kommer att genomföra alla väntande ändringar som finns i Weblate men "
+"inte i arkivet."
 
 #: weblate/templates/js/git-status.html:38
 msgid "Push"
 msgstr "Skicka"
 
 #: weblate/templates/js/git-status.html:41
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s kommentar"
-msgstr[1] "%(count)s kommentarer"
+msgstr[0] "%(count)s utgående arkivering"
+msgstr[1] "%(count)s utgående arkiveringar"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Update"
@@ -7201,34 +7147,26 @@ msgstr "Uppdatera"
 
 #: weblate/templates/js/git-status.html:58
 msgid "Update with merge"
-msgstr ""
+msgstr "Uppdatera med sammanslagning"
 
 #: weblate/templates/js/git-status.html:61
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Update with rebase"
-msgstr "Uppdatera kvalitetskontroller"
+msgstr "Uppdatera med ombasering (rebase)"
 
 #: weblate/templates/js/git-status.html:64
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid "Update with merge without fast-forward"
-msgstr "Sammanfoga utan snabbspolning"
+msgstr "Uppdatera med sammanslagning utan snabbspolning"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "%(count)s kommentar"
-msgstr[1] "%(count)s kommentarer"
+msgstr[0] "%(count)s saknad arkivering"
+msgstr[1] "%(count)s saknade arkiveringar"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy
-#| msgid "Resetting the repository will throw away all local changes!"
 msgid "This will update the Weblate repository with the upstream changes."
-msgstr "Återställning av förrådet kommer kasta bort alla lokala ändringar!"
+msgstr "Detta kommer att uppdatera Weblate-arkivet med uppströmsändringarna."
 
 #: weblate/templates/js/git-status.html:80
 msgid "Allow changes to the Weblate repository"
@@ -7248,28 +7186,20 @@ msgid "Lock"
 msgstr "Lås"
 
 #: weblate/templates/js/git-status.html:87
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are locked"
-msgstr "Weblate-översättningar"
+msgstr "Weblate-översättningar är låsta"
 
 #: weblate/templates/js/git-status.html:89
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are unlocked"
-msgstr "Weblate-översättningar"
+msgstr "Weblate-översättningar är upplåsta"
 
 #: weblate/templates/js/git-status.html:93
-#, fuzzy
-#| msgid "Locking prevents translators from doing changes"
 msgid "Locking prevents translators from doing changes."
-msgstr "Låsning hindrar översättare från att göra ändringar"
+msgstr "Låsning hindrar översättare från att göra ändringar."
 
 #: weblate/templates/js/git-status.html:105
-#, fuzzy
-#| msgid "Danger (red)"
 msgid "Danger zone"
-msgstr "Fara (red)"
+msgstr "Farliga zonen"
 
 #: weblate/templates/js/git-status.html:110
 #: weblate/templates/translate.html:496
@@ -7281,91 +7211,83 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Återställ alla ändringar i Weblate-arkivet"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid ""
-#| "Resetting removes all changes in Weblate so that the repository matches "
-#| "upstream. Use with caution."
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream."
 msgstr ""
-"Återställ tar bort alla ändringar i Weblate så att arkivet matchar "
-"uppströms. Använd med försiktighet."
+"Återställing tar bort alla ändringar i Weblate så att arkivet matchar "
+"uppströms."
 
 #: weblate/templates/js/git-status.html:116
 msgid ""
 "Use when you want to discard changes in Weblate and bring it in sync with "
 "upstream repository."
 msgstr ""
+"Använd när du vill kassera ändringar i Weblate och synkronisera det med "
+"uppströmsarkivet."
 
 #: weblate/templates/js/git-status.html:120
 msgid "Cleanup"
-msgstr "Rensa upp"
+msgstr "Städa"
 
 #: weblate/templates/js/git-status.html:122
 msgid "Cleanup all untracked files in the Weblate repository"
-msgstr "Rensa bort alla ospårade filer i Weblate-arkivet"
+msgstr "Städning tar bort alla ospårade filer i Weblate-arkivet"
 
 #: weblate/templates/js/git-status.html:125
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
+"Städning tar bort alla filer som inte spåras av versionshanteringen från "
+"arkivet."
 
 #: weblate/templates/js/git-status.html:126
-#, fuzzy
-#| msgid "Prevent any changes in the Weblate repository"
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Förhindra ändringar i Weblate-arkivet"
+msgstr "Använd när det finns skräp kvar i Weblate-arkivet."
 
 #: weblate/templates/js/git-status.html:130
 msgid "Synchronize"
-msgstr ""
+msgstr "Synkronisera"
 
 #: weblate/templates/js/git-status.html:132
 msgid "Force writing all translations to the Weblate repository"
 msgstr "Tvinga alla översättningar att skrivas till Weblate-arkivet"
 
 #: weblate/templates/js/git-status.html:135
-#, fuzzy
-#| msgid "Force writing all translations to the Weblate repository"
 msgid "Forces writing all strings to the translation files."
-msgstr "Tvinga alla översättningar att skrivas till Weblate-arkivet"
+msgstr "Tvingar skrivning av alla strängar till översättningsfilerna."
 
 #: weblate/templates/js/git-status.html:136
 msgid ""
 "Use this when repository files became out of sync with Weblate for some "
 "reason."
 msgstr ""
+"Använd detta när arkivfiler av någon anledning blivit osynkroniserade med "
+"Weblate."
 
 #: weblate/templates/js/git-status.html:140
 msgid "Rescan"
-msgstr ""
+msgstr "Skanna igen"
 
 #: weblate/templates/js/git-status.html:142
-#, fuzzy
-#| msgid "Cleanup all untracked files in the Weblate repository"
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "Rensa bort alla ospårade filer i Weblate-arkivet"
+msgstr "Skanna om alla översättningsfiler i Weblate-arkivet"
 
 #: weblate/templates/js/git-status.html:145
-#, fuzzy
-#| msgid "Choose translation files to import"
 msgid "Loads translations from the files into Weblate."
-msgstr "Välj översättningsfiler att importera"
+msgstr "Laddar översättningar från filerna till Weblate."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid ""
 "Use when Weblate missed some of the strings after updating the repository."
 msgstr ""
-"Weblate kunde inte hämta uppströmsändringar vid uppdatering av arkivet."
+"Använd när Weblate missade några av strängarna efter uppdatering av arkivet."
 
 #: weblate/templates/js/git-status.html:151
 msgid "Use these operations with caution, they can lead to data loss."
 msgstr ""
+"Använd dessa operationer med försiktighet, de kan leda till dataförlust."
 
 #: weblate/templates/js/git-status.html:160
 #, python-format
@@ -7411,7 +7333,7 @@ msgstr "Blockera användare"
 #: weblate/templates/last-changes-content.html:58
 #: weblate/templates/snippets/suggestions.html:41
 msgid "Rejection reason"
-msgstr ""
+msgstr "Orsak till avslag"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:70
@@ -7593,21 +7515,14 @@ msgstr ""
 "godkännande av din libre-plan."
 
 #: weblate/templates/mail/billing_expired.html:18
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "Your billing plan has expired. Please renew it to continue using the service."
 msgstr ""
-"Din prenumeration har löpt ut, om du vill fortsätta att använda tjänsten, "
-"vänligen förnya den."
+"Din prenumeration har löpt ut. Förnya den för att fortsätta använda tjänsten."
 
 #: weblate/templates/mail/billing_expired.html:23
-#, fuzzy
-#| msgid "This billing plan covers following projects:"
 msgid "This billing plan covers the following projects:"
-msgstr "Faktureringsplanen täcker följande projekt:"
+msgstr "Prenumerationen täcker följande projekt:"
 
 #: weblate/templates/mail/billing_expired.html:30
 msgid "Remove the project"
@@ -7618,34 +7533,30 @@ msgid ""
 "There are no projects attached to this billing plan. (There might be "
 "projects in other billing plans of yours.)"
 msgstr ""
+"Det finns inga projekt kopplade till prenumerationen. (Det kan finnas "
+"projekt i dina andra prenumerationer)"
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
 msgstr "Alla projekt som omfattas av denna faktureringsplan har tagits bort."
 
 #: weblate/templates/mail/billing_expired.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all projects within this billing plan "
-#| "will be removed on %(date)s."
+#, python-format
 msgid ""
 "If you don't issue the payment, all projects within this billing plan will "
 "be removed on %(date)s."
 msgstr ""
-"Om du inte utför betalningen, tas alla projekt inom denna faktureringsplan "
-"bort %(date)s."
+"Om du inte utför betalningen, tas alla projekt inom denna prenumeration bort "
+"%(date)s."
 
 #: weblate/templates/mail/billing_expired.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "If your Libre hosting will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting is not approved for it, all projects within this "
 "billing plan will be removed on %(date)s."
 msgstr ""
 "Om din fria (libre) hosting inte godkänns kommer alla projekt inom denna "
-"faktureringsplan att tas bort den %(date)s."
+"prenumeration att tas bort %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -8125,10 +8036,8 @@ msgid "Refresh support status"
 msgstr "Uppdatera supportstatus"
 
 #: weblate/templates/manage/index.html:55
-#, fuzzy
-#| msgid "Manage support package"
 msgid "Support package limits"
-msgstr "Hantera supportpaket"
+msgstr "Gränser för supportpaket"
 
 #: weblate/templates/manage/index.html:67
 msgid "Support expiry"
@@ -9584,10 +9493,8 @@ msgid "Accept and edit"
 msgstr "Acceptera och redigera"
 
 #: weblate/templates/snippets/suggestions.html:42
-#, fuzzy
-#| msgid "Delete suggestion"
 msgid "Reject suggestion"
-msgstr "Ta bort förslag"
+msgstr "Avvisa förslag"
 
 #: weblate/templates/snippets/suggestions.html:55
 msgid "Suggested change:"
@@ -10442,10 +10349,8 @@ msgstr ""
 "en ny översättningskomponent."
 
 #: weblate/templates/translate.html:56
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Open in Zen mode"
-msgstr "Redigera i Zen-läge"
+msgstr "Öppna i Zen-läge"
 
 #: weblate/templates/translate.html:56 weblate/templates/translation.html:193
 #: weblate/templates/zen.html:26
@@ -10576,29 +10481,22 @@ msgid "Difference to current string"
 msgstr "Skillnad mot aktuell sträng"
 
 #: weblate/templates/translate.html:311
-#, fuzzy
-#| msgid "The following string has the same context and source."
-#| msgid_plural "The following strings have the same context and source."
 msgid "This string has the same context and source."
 msgid_plural "These strings have the same context and source."
-msgstr[0] "Följande sträng har samma kontext och källa."
-msgstr[1] "Följande strängar har samma kontext och källa."
+msgstr[0] "Denna sträng har samma kontext och källa."
+msgstr[1] "Dessa strängar har samma kontext och källa."
 
 #: weblate/templates/translate.html:319
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has a different context, but the same source."
 msgid_plural "These strings have differing context, but the same source."
-msgstr[0] "Detta meddelande har mer än en översättning i detta projekt"
-msgstr[1] "Detta meddelande har mer än en översättning i detta projekt"
+msgstr[0] "Denna sträng har ett annat kontext, men samma källa."
+msgstr[1] "Dessa strängar har olika kontext, men samma källa."
 
 #: weblate/templates/translate.html:327
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has a different source, but the same context."
 msgid_plural "These strings have differing sources, but the same context."
-msgstr[0] "Detta meddelande har mer än en översättning i detta projekt"
-msgstr[1] "Detta meddelande har mer än en översättning i detta projekt"
+msgstr[0] "Denna sträng har en annan källa, men samma kontext."
+msgstr[1] "Dessa strängar har olika källor, men samma kontext."
 
 #: weblate/templates/translate.html:335
 #, fuzzy
