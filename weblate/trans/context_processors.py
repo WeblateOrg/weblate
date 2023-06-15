@@ -121,8 +121,11 @@ def weblate_context(request):
 
     # Load user translations if user is authenticated
     watched_projects = None
-    if hasattr(request, "user") and request.user.is_authenticated:
-        watched_projects = request.user.watched_projects
+    theme = "auto"
+    if hasattr(request, "user"):
+        if request.user.is_authenticated:
+            watched_projects = request.user.watched_projects
+        theme = request.user.profile.theme
 
     if settings.OFFER_HOSTING:
         description = gettext(
@@ -176,6 +179,7 @@ def weblate_context(request):
         "preconnect_list": get_preconnect_list(),
         "custom_css_hash": CustomCSSView.get_hash(request),
         "interledger_payment_pointer": get_interledger_payment_pointer(),
+        "theme": theme,
     }
 
     add_error_logging_context(context)

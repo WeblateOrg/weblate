@@ -12,6 +12,11 @@
   {% endif %}
   <link rel="stylesheet" type="text/css" href="{% static 'vendor/multi.css' %}{{ cache_param }}" />
   <link rel="stylesheet" type="text/css" href="{% static 'style-bootstrap.css' %}{{ cache_param }}" />
+{% if theme == "auto" %}
+  <link rel="stylesheet" type="text/css" href="{% static 'style-dark.css' %}{{ cache_param }}" media="(prefers-color-scheme: dark)" />
+{% elif user.profile.theme == "dark" %}
+  <link rel="stylesheet" type="text/css" href="{% static 'style-dark.css' %}{{ cache_param }}" />
+{% endif %}
 {% endcompress %}
 {% if fonts_cdn_url %}
   <link rel="stylesheet" type="text/css" href="{{ fonts_cdn_url }}font-source/source-sans-3.css" />
@@ -19,9 +24,4 @@
 {% endif %}
 {% if custom_css_hash %}
   <link rel="stylesheet" type="text/css" href="{% url "css-custom" %}?{{ custom_css_hash }}" />
-{% endif %}
-{% if user.profile.theme == "auto" %}
-  <link rel="stylesheet" type="text/css" href="{% static 'style-dark.css' %}{{ cache_param }}" media="(prefers-color-scheme: dark)" />
-{% elif user.profile.theme == "dark" %}
-  <link rel="stylesheet" type="text/css" href="{% static 'style-dark.css' %}{{ cache_param }}" />
 {% endif %}

@@ -414,6 +414,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 * Dropped support for Python 3.7.
 * The :ref:`fluent` format changed identification of some strings, you might
   need to force reloading of the translation files to see the changes.
+* There are several changes in :file:`settings_example.py`, most notable is change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings accordingly.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
