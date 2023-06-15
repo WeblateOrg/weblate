@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-15 08:54+0200\n"
-"PO-Revision-Date: 2023-06-15 09:55+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-06-15 12:13+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -2605,22 +2605,18 @@ msgstr ""
 "розробниками."
 
 #: ../../admin/addons.rst:451
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Заповнити переклади початковими рядками"
+msgstr "Заповнити придатні лише для читання рядки початковими рядками"
 
 #: ../../admin/addons.rst:455
-#, fuzzy
-#| msgid "``weblate.generate.prefill``"
 msgid "``weblate.generate.fill_read_only``"
-msgstr "``weblate.generate.prefill``"
+msgstr "``weblate.generate.fill_read_only``"
 
 #: ../../admin/addons.rst:459
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Заповнює рядки перекладу початковими рядками."
+msgstr ""
+"Заповнює рядки перекладу, які призначено лише для читання, початковими "
+"рядками."
 
 #: ../../admin/addons.rst:464
 msgid "Statistics generator"
@@ -7944,12 +7940,14 @@ msgid ""
 "host. The API host might be different from what you use in the web browser, "
 "for example GitHub API is accessed as ``api.github.com``."
 msgstr ""
+"Словник налаштувань складається з реєстраційних даних, які визначено для "
+"кожного вузла API. Вузол API може відрізнятися від того, яким ви "
+"користуєтеся у браузері. Наприклад, доступ до програмного інтерфейсу GitHub "
+"здійснюється за допомогою ``api.github.com``."
 
 #: ../../snippets/vcs-credentials.rst:5
-#, fuzzy
-#| msgid "The following metrics are available for each:"
 msgid "The following configuration is available for each host:"
-msgstr "Наступні дані доступні для кожного з таких пунктів:"
+msgstr "Для кожного вузла доступні такі налаштування:"
 
 #: ../../admin/machine.rst:353 ../../admin/machine.rst:403
 #: ../../snippets/vcs-credentials.rst:7
@@ -7958,7 +7956,7 @@ msgstr "``username``"
 
 #: ../../snippets/vcs-credentials.rst:8
 msgid "API user, required."
-msgstr ""
+msgstr "Користувач API, має бути вказано обов'язково."
 
 #: ../../snippets/vcs-credentials.rst:9
 msgid "``token``"
@@ -7966,7 +7964,7 @@ msgstr "``token``"
 
 #: ../../snippets/vcs-credentials.rst:10
 msgid "API token for the API user, required."
-msgstr ""
+msgstr "Жетон для користувача API, має бути вказано обов'язково."
 
 #: ../../snippets/vcs-credentials.rst:16
 msgid "``scheme``"
@@ -7978,6 +7976,10 @@ msgid ""
 "and falls backs to ``https``. If you are running the API server internally, "
 "you might want to use ``http`` instead, but consider security."
 msgstr ""
+"Перевизначено схеми. Weblate намагається обробити схему з адреси сховища, і "
+"якщо не вдасться, використовує ``https``. Якщо ви працюєте з сервером "
+"програмного інтерфейсу у внутрішній мережі, можна скористатися замість неї "
+"``http``, але зважайте на захист."
 
 #: ../../snippets/vcs-credentials.rst:20
 msgid ""
@@ -7985,10 +7987,12 @@ msgid ""
 "and the credentials are built out of that. An example configuration for "
 "GitHub might look like:"
 msgstr ""
+"У контейнері Docker реєстраційні дані налаштовуються у трьох змінних, на "
+"основі яких здійснюється доступ. Приклад налаштувань для GitHub:"
 
 #: ../../snippets/vcs-credentials.rst:30
 msgid "Will be used as:"
-msgstr ""
+msgstr "Буде використано так:"
 
 #: ../../admin/config.rst:763
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
@@ -14414,7 +14418,7 @@ msgstr "Параметри надавача профілів SAML, див. :ref:
 
 #: ../../admin/install/docker.rst:1243
 msgid "SAML attributes mapping."
-msgstr ""
+msgstr "Прив'язка атрибутів SAML."
 
 #: ../../admin/install/docker.rst:1247
 msgid "Other authentication settings"
@@ -14807,10 +14811,6 @@ msgstr ""
 "`WEBLATE_SITE_DOMAIN`."
 
 #: ../../admin/install/docker.rst:1556
-#, fuzzy
-#| msgid ""
-#| "Confgure sampling rate for performance monitoring. Set to 1 to trace all "
-#| "events, 0 (the default) disables tracing."
 msgid ""
 "Configure sampling rate for performance monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
@@ -14819,10 +14819,6 @@ msgstr ""
 "стеження за усіма подіями, 0 (типове значення) вимикає трасування."
 
 #: ../../admin/install/docker.rst:1567
-#, fuzzy
-#| msgid ""
-#| "Confgure sampling rate for profiling monitoring. Set to 1 to trace all "
-#| "events, 0 (the default) disables tracing."
 msgid ""
 "Configure sampling rate for profiling monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
@@ -20323,24 +20319,20 @@ msgstr ""
 "потреби (наприклад, ``cs_CZ``)."
 
 #: ../../admin/projects.rst:684
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator, including country code"
 msgid ""
 "POSIX style using underscore as a separator, including country code "
 "(lowercase)"
-msgstr "Стиль POSIX з підкресленням як роздільником, включно із кодом країни"
+msgstr ""
+"Стиль POSIX з підкресленням як роздільником, включно із кодом країни (нижнім "
+"регістром)"
 
 #: ../../admin/projects.rst:684
-#, fuzzy
-#| msgid ""
-#| "POSIX style language code including the country code even when not "
-#| "necessary (for example ``cs_CZ``)."
 msgid ""
 "POSIX style language code including the country code even when not necessary "
 "(lowercase) (for example ``cs_cz``)."
 msgstr ""
 "Код мови у стилі POSIX. Включає код країни, навіть якщо у цьому немає "
-"потреби (наприклад, ``cs_CZ``)."
+"потреби (нижнім регістром) (наприклад, ``cs_cz``)."
 
 #: ../../admin/projects.rst:687
 msgid "BCP style using hyphen as a separator"
@@ -22515,18 +22507,14 @@ msgstr ""
 "зміни."
 
 #: ../../admin/upgrade.rst:417
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "middleware changes, please adjust your settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings "
 "accordingly."
 msgstr ""
-"До :file:`settings_example.py` внесено декілька змін. Найпомітнішими є зміна "
-"проміжного програмного забезпечення. Будь ласка, скоригуйте параметри "
-"відповідним чином."
+"До :file:`settings_example.py` внесено декілька змін. Найпомітнішою є зміна "
+"у ``COMPRESS_OFFLINE_CONTEXT``. Будь ласка, скоригуйте параметри відповідним "
+"чином."
 
 #: ../../admin/upgrade.rst:424
 msgid "Upgrading from Python 2 to Python 3"
@@ -25553,10 +25541,10 @@ msgstr ""
 "Додано загальносистемний пошук проєктів, складників, мов і користувачів."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "New add-on Fill read-only strings with source."
-msgstr "Заповнити переклади початковими рядками"
+msgstr ""
+"Новий додаток заповнення перекладів призначених лише для читання рядків "
+"початковими рядками."
 
 #: ../../changes.rst:25
 msgid ""
@@ -34410,7 +34398,7 @@ msgstr "Michael Totschnig"
 
 #: ../../../BACKERS.rst:18
 msgid "James Valleroy"
-msgstr ""
+msgstr "James Valleroy"
 
 #: ../../../BACKERS.rst:20
 msgid ""
