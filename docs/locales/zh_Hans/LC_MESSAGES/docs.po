@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-15 08:54+0200\n"
-"PO-Revision-Date: 2023-06-15 09:55+0000\n"
+"PO-Revision-Date: 2023-06-15 12:13+0000\n"
 "Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -7349,6 +7349,9 @@ msgid ""
 "host. The API host might be different from what you use in the web browser, "
 "for example GitHub API is accessed as ``api.github.com``."
 msgstr ""
+"配置目录由为每个 API 主机定义的凭据所组成。API "
+"主机可能和你在网页浏览器中所用的不同，比如 GitHub API 访问地址为 ``api.github"
+".com``."
 
 #: ../../snippets/vcs-credentials.rst:5
 msgid "The following configuration is available for each host:"
@@ -7361,7 +7364,7 @@ msgstr "``username``"
 
 #: ../../snippets/vcs-credentials.rst:8
 msgid "API user, required."
-msgstr ""
+msgstr "API 用户，必填。"
 
 #: ../../snippets/vcs-credentials.rst:9
 msgid "``token``"
@@ -7369,7 +7372,7 @@ msgstr "``token``"
 
 #: ../../snippets/vcs-credentials.rst:10
 msgid "API token for the API user, required."
-msgstr ""
+msgstr "API 用户的 API 令牌，必填。"
 
 #: ../../snippets/vcs-credentials.rst:16
 msgid "``scheme``"
@@ -7381,17 +7384,20 @@ msgid ""
 "and falls backs to ``https``. If you are running the API server internally, "
 "you might want to use ``http`` instead, but consider security."
 msgstr ""
+"方案覆盖。Weblate 尝试从仓库 URL 解析方案并退回到 ``https``。"
+"如果你正在内部运行 API 服务器，你也许想转而使用 ``http``，但考虑安全性。"
 
 #: ../../snippets/vcs-credentials.rst:20
 msgid ""
 "In the Docker container, the credentials are configured in three variables "
 "and the credentials are built out of that. An example configuration for "
 "GitHub might look like:"
-msgstr ""
+msgstr "在 Docker 容器中，用三个变量配置凭据，且基于这些变量构造凭据。GitHub "
+"的示例配置看起来可能像是这样："
 
 #: ../../snippets/vcs-credentials.rst:30
 msgid "Will be used as:"
-msgstr ""
+msgstr "将用作："
 
 #: ../../admin/config.rst:763
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
@@ -13243,7 +13249,7 @@ msgstr "SAML 身份提供者设置，请参见 :ref:`saml-auth`。"
 
 #: ../../admin/install/docker.rst:1243
 msgid "SAML attributes mapping."
-msgstr ""
+msgstr "SAML 属性映射。"
 
 #: ../../admin/install/docker.rst:1247
 msgid "Other authentication settings"
@@ -20573,17 +20579,13 @@ msgstr ""
 "看变化。"
 
 #: ../../admin/upgrade.rst:417
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "middleware changes, please adjust your settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings "
 "accordingly."
 msgstr ""
-"在 :file:`settings_example.py` 中有几项更改，最显著的是中间件的更改，请由此调"
-"整你的设置。"
+":file:`settings_example.py` 中有几项更改，最显著的是 "
+"``COMPRESS_OFFLINE_CONTEXT` `的更改，请相应调整你的设置。"
 
 #: ../../admin/upgrade.rst:424
 msgid "Upgrading from Python 2 to Python 3"
@@ -23453,10 +23455,8 @@ msgid "Added site-wide search for projects, components, languages and users."
 msgstr "新增在站点范围内搜索项目、部件、语言和用户。"
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "New add-on Fill read-only strings with source."
-msgstr "用原文预填充译文"
+msgstr "新附加组件，允许用原文填充只读字符串。"
 
 #: ../../changes.rst:25
 msgid ""
@@ -31495,7 +31495,7 @@ msgstr "Michael Totschnig"
 
 #: ../../../BACKERS.rst:18
 msgid "James Valleroy"
-msgstr ""
+msgstr "James Valleroy"
 
 #: ../../../BACKERS.rst:20
 msgid ""
