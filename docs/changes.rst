@@ -3,6 +3,9 @@ Weblate 4.18.1
 
 Not yet released.
 
+* Fixed language code format for i18next.
+* Fixed CSS compression with dark theme.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/101?closed=1>`__.
 
 Weblate 4.18
