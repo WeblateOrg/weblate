@@ -1448,6 +1448,7 @@ class I18NextFormat(JSONFormat):
     loader = ("jsonl10n", "I18NextFile")
     autoload = ()
     check_flags = ("i18next-interpolation",)
+    language_format: str = "bcp"
 
 
 class I18NextV4Format(I18NextFormat):
