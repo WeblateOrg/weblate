@@ -1606,7 +1606,7 @@ class Search(APIView):
                         "category": gettext("Component"),
                     }
                 )
-            for user in User.objects.search(query)[:5]:
+            for user in User.objects.search(query, parser="plain")[:5]:
                 results.append(
                     {
                         "url": user.get_absolute_url(),
