@@ -37,7 +37,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-15 06:53+0000\n"
-"PO-Revision-Date: 2023-06-12 06:51+0000\n"
+"PO-Revision-Date: 2023-06-16 11:20+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -46,7 +46,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 4.18.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1660,16 +1660,13 @@ msgid "Fills in translation strings with source string."
 msgstr "Alimente les chaînes de traduction avec la chaîne source."
 
 #: weblate/addons/generate.py:216
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Pré-remplir la traduction avec la source"
+msgstr "Copier les chaînes sources dans les chaînes en lecture seule"
 
 #: weblate/addons/generate.py:218
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Alimente les chaînes de traduction avec la chaîne source."
+msgstr ""
+"Alimente chaque chaîne de traduction en lecture seule avec la chaîne source."
 
 #: weblate/addons/gettext.py:26
 msgid "Generate MO files"
@@ -2528,10 +2525,8 @@ msgid "Block expiry"
 msgstr "Expiration du blocage"
 
 #: weblate/auth/permissions.py:133
-#, fuzzy
-#| msgid "Can not perform this operation without an e-mail."
 msgid "Can not perform this operation without an e-mail address."
-msgstr "Impossible d’effectuer cette opération sans courriel."
+msgstr "Impossible d’effectuer cette opération sans une adresse de courriel."
 
 #: weblate/auth/permissions.py:139 weblate/templates/translate.html:201
 #: weblate/templates/translate.html:221
@@ -2539,15 +2534,11 @@ msgid "This translation is currently locked."
 msgstr "Cette traduction est actuellement verrouillée."
 
 #: weblate/auth/permissions.py:147
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires you agree to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "agreement."
 msgstr ""
-"Votre participation à cette traduction exige que vous acceptiez un accord de "
+"Pour participer à cette traduction, vous devez accepter son accord de "
 "contribution."
 
 #: weblate/auth/permissions.py:153 weblate/templates/translate.html:207
@@ -2949,17 +2940,16 @@ msgid "Different strings are translated the same."
 msgstr "Différentes chaînes sont traduites de manière identique."
 
 #: weblate/checks/consistency.py:178
-#, fuzzy, python-format
-#| msgid "Update source strings"
+#, python-format
 msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
-msgstr[0] "Mettre à jour les chaînes sources"
-msgstr[1] "Mettre à jour les chaînes sources"
+msgstr[0] "Autre chaîne source : %s"
+msgstr[1] "Autres chaînes sources : %s"
 
 #: weblate/checks/consistency.py:179
 #, python-format
 msgid "“%s”"
-msgstr ""
+msgstr "“%s”"
 
 #: weblate/checks/consistency.py:228
 msgid "Has been translated"
@@ -12432,14 +12422,12 @@ msgstr ""
 "pays"
 
 #: weblate/trans/models/component.py:129
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator, including country code"
 msgid ""
 "POSIX style using underscore as a separator, including country code "
 "(lowercase)"
 msgstr ""
 "Style POSIX utilisant le tiret du bas comme séparateur et incluant le code "
-"pays"
+"pays (en minuscules)"
 
 #: weblate/trans/models/component.py:134
 msgid "BCP style using hyphen as a separator, including country code"
@@ -14491,8 +14479,6 @@ msgid "GitHub pull request"
 msgstr "Demande de tirage GitHub"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "This will push changes and create GitHub pull request."
 msgid "This will push changes and create a GitHub pull request."
 msgstr ""
 "Cela va pousser les modifications et créer une demande de tirage sur Github."
@@ -14502,8 +14488,6 @@ msgid "Gitea pull request"
 msgstr "Demande de tirage Gitea"
 
 #: weblate/vcs/git.py:1156
-#, fuzzy
-#| msgid "This will push changes and create Gitea pull request."
 msgid "This will push changes and create a Gitea pull request."
 msgstr ""
 "Cela va pousser les modifications et créer une demande de tirage sur Gitea."
@@ -14517,8 +14501,6 @@ msgid "GitLab merge request"
 msgstr "Demande de fusion GitLab"
 
 #: weblate/vcs/git.py:1334
-#, fuzzy
-#| msgid "This will push changes and create GitLab merge request."
 msgid "This will push changes and create a GitLab merge request."
 msgstr ""
 "Cela va pousser les modifications et créer une demande de fusion sur Gitlab."
@@ -14528,8 +14510,6 @@ msgid "Pagure merge request"
 msgstr "Demande de fusion Pagure"
 
 #: weblate/vcs/git.py:1476
-#, fuzzy
-#| msgid "This will push changes and create Pagure merge request."
 msgid "This will push changes and create a Pagure merge request."
 msgstr ""
 "Cela va pousser les modifications et créer une demande de fusion sur Pagure."
@@ -14539,8 +14519,6 @@ msgid "Bitbucket Server pull request"
 msgstr "Pull request du serveur Bitbucket"
 
 #: weblate/vcs/git.py:1570
-#, fuzzy
-#| msgid "This will push changes and create Bitbucket Server pull request."
 msgid "This will push changes and create a Bitbucket Server pull request."
 msgstr ""
 "Cela va pousser les modifications et créer une demande de tirage sur "
