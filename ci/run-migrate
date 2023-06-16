@@ -33,7 +33,11 @@ check
 git checkout "$TAG"
 check
 # Use clean virtualenv for each version, this avoids pip problems when trying to downgrade from current versions
-virtualenv --python python3.7 ".venv-$TAG"
+if [ "$1" = "4.18" ] ; then
+  virtualenv --python python3.11 ".venv-$TAG"
+else
+  virtualenv --python python3.7 ".venv-$TAG"
+fi
 check
 # shellcheck source=/dev/null
 . ".venv-$TAG/bin/activate"
