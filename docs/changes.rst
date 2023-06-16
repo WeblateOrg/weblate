@@ -1,7 +1,7 @@
 Weblate 4.18.1
 --------------
 
-Not yet released.
+Released on June 16th 2023.
 
 * Fixed language code format for i18next.
 * Fixed CSS compression with dark theme.
