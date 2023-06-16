@@ -247,7 +247,12 @@ class UserQuerySet(models.QuerySet):
 
     def search(self, query: str, parser: str = "user", **context):
         """High level wrapper for searching."""
-        result = self.filter(parse_query(query, parser=parser, **context))
+        if parser == "plain":
+            result = self.filter(
+                Q(username__icontains=query) | Q(full_name__icontains=query)
+            )
+        else:
+            result = self.filter(parse_query(query, parser=parser, **context))
         return result.distinct()
 
 
