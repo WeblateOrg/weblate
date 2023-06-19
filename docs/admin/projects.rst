@@ -437,12 +437,32 @@ to be escaped as ``[[]`` or ``[]]``.
 Screenshot file mask
 ++++++++++++++++++++
 
-Mask of files to allow discovery/update of screenshots, including path from vcs repository.
-It should include one "*" replacing screenshot file name.
+This feature allows the discovery and updating of screenshots through screenshot file masks, using paths from the VCS repository.
+This operates at the component level and necessitates the use of an asterisk "*" to replace the screenshot file name.
 
 Allowed formats are JPEG, PNG, APNG and GIF.
 
-For example ``docs/*.png``.
+Note:
+
+1. The filemask and screenshot filemask are not related. Configure them separatly.
+2. It is a manual job to link a discovered screenshot in a component to a specific translation key.
+
+For example:
+
+Let's assume your VCS repository has a structure like this:
+
+.. code-block:: text
+
+    component_A
+    └── docs
+        ├── image1.png
+        └── image2.jpg
+
+For component_A, you want to allow discovery and updates of PNG screenshots.
+You'd set the screenshot mask for component_A as ``component_A/docs/*.png``.
+This means any PNG images under docs in component_A can be discovered and updated.
+So, if you want to update ``image1.png``, the new screenshot you provide should be named ``image1.png``,
+matching the existing ``filename``, and stored under ``component_A/docs/``.
 
 .. _component-template:
 
