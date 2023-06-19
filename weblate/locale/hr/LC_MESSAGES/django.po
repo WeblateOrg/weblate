@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-15 06:53+0000\n"
-"PO-Revision-Date: 2023-06-17 13:22+0000\n"
+"PO-Revision-Date: 2023-06-21 23:49+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -7268,6 +7268,8 @@ msgid ""
 "Use this when repository files became out of sync with Weblate for some "
 "reason."
 msgstr ""
+"Koristi ovo kada datoteke repozitorija iz nekog razloga nisu sinkronizirane "
+"s Weblateom."
 
 #: weblate/templates/js/git-status.html:140
 msgid "Rescan"
@@ -7338,7 +7340,7 @@ msgstr "Blokiraj korisnika"
 #: weblate/templates/last-changes-content.html:58
 #: weblate/templates/snippets/suggestions.html:41
 msgid "Rejection reason"
-msgstr ""
+msgstr "Razlog za odbijanje"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:70
@@ -7519,18 +7521,11 @@ msgstr ""
 "zatraži odobrenje za tvoju slobodnu tarifu."
 
 #: weblate/templates/mail/billing_expired.html:18
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "Your billing plan has expired. Please renew it to continue using the service."
-msgstr ""
-"Tvoja tarifa je istekla. Ako i dalje želiš koristiti uslugu, obnovi je."
+msgstr "Tvoja tarifa je istekla. Obnovi je ako i dalje želiš koristiti uslugu."
 
 #: weblate/templates/mail/billing_expired.html:23
-#, fuzzy
-#| msgid "This billing plan covers following projects:"
 msgid "This billing plan covers the following projects:"
 msgstr "Ova tarifa pokriva sljedeće projekte:"
 
@@ -7549,26 +7544,20 @@ msgid "All projects covered by this billing plan have been removed."
 msgstr "Svi projekti koji su pokriveni ovom tarifom su uklonjeni."
 
 #: weblate/templates/mail/billing_expired.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all projects within this billing plan "
-#| "will be removed on %(date)s."
+#, python-format
 msgid ""
 "If you don't issue the payment, all projects within this billing plan will "
 "be removed on %(date)s."
 msgstr "Ako ne platiš, svi projekti unutar ove tarife uklonit će se %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "If your Libre hosting will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting is not approved for it, all projects within this "
 "billing plan will be removed on %(date)s."
 msgstr ""
-"Ako se tvoj slobodni hosting ne odobri, svi projekti unutar ove tarife "
-"uklonit će se %(date)s."
+"Ako se tvoj slobodni hosting ne odobri, svi projekti unutar ove tarife će se "
+"ukloniti %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -8047,10 +8036,8 @@ msgid "Refresh support status"
 msgstr "Aktualiziraj stanje podrške"
 
 #: weblate/templates/manage/index.html:55
-#, fuzzy
-#| msgid "Manage support package"
 msgid "Support package limits"
-msgstr "Upravljaj paketom za podršku"
+msgstr "Ograničenja paketa podrške"
 
 #: weblate/templates/manage/index.html:67
 msgid "Support expiry"
@@ -10377,10 +10364,8 @@ msgstr ""
 "bolje stvoriti novu prevodilačku komponentu."
 
 #: weblate/templates/translate.html:56
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Open in Zen mode"
-msgstr "Uredi u zen modusu"
+msgstr "Otvori u Zen modusu"
 
 #: weblate/templates/translate.html:56 weblate/templates/translation.html:193
 #: weblate/templates/zen.html:26
@@ -10510,36 +10495,25 @@ msgid "Difference to current string"
 msgstr "Razlika s trenutačnim izrazom"
 
 #: weblate/templates/translate.html:311
-#, fuzzy
-#| msgid "The following string has the same context and source."
-#| msgid_plural "The following strings have the same context and source."
 msgid "This string has the same context and source."
 msgid_plural "These strings have the same context and source."
-msgstr[0] "Sljedeći izraz ima isti kontekst i izvor."
-msgstr[1] "Sljedeći izrazi imaju isti kontekst i izvor."
-msgstr[2] "Sljedeći izrazi imaju isti kontekst i izvor."
+msgstr[0] "Ovaj izraz ima isti kontekst i izvor."
+msgstr[1] "Ovi izrazi imaju isti kontekst i izvor."
+msgstr[2] "Ovi izrazi imaju isti kontekst i izvor."
 
 #: weblate/templates/translate.html:319
-#, fuzzy
-#| msgid "The following string has different context, but the same source."
-#| msgid_plural ""
-#| "The following strings have different contexts, but the same source."
 msgid "This string has a different context, but the same source."
 msgid_plural "These strings have differing context, but the same source."
-msgstr[0] "Sljedeći izraz ima drugačiji kontekst, ali isti izvor."
-msgstr[1] "Sljedeći izrazi imaju drugačije kontekste, ali isti izvor."
-msgstr[2] "Sljedeći izrazi imaju drugačije kontekste, ali isti izvor."
+msgstr[0] "Ovaj izraz ima drugačiji kontekst, ali isti izvor."
+msgstr[1] "Ovi izrazi imaju drugačije kontekste, ali isti izvor."
+msgstr[2] "Ovi izrazi imaju drugačije kontekste, ali isti izvor."
 
 #: weblate/templates/translate.html:327
-#, fuzzy
-#| msgid "The following string has a different source, but the same context."
-#| msgid_plural ""
-#| "The following strings have different sources, but the same context."
 msgid "This string has a different source, but the same context."
 msgid_plural "These strings have differing sources, but the same context."
-msgstr[0] "Sljedeći izraz ima drugačiji izvor, ali isti kontekst."
-msgstr[1] "Sljedeći izrazi imaju drugačije izvore, ali isti kontekst."
-msgstr[2] "Sljedeći izrazi imaju drugačije izvore, ali isti kontekst."
+msgstr[0] "Ovaj izraz ima drugačiji izvor, ali isti kontekst."
+msgstr[1] "Ovi izrazi imaju drugačije izvore, ali isti kontekst."
+msgstr[2] "Ovi izrazi imaju drugačije izvore, ali isti kontekst."
 
 #: weblate/templates/translate.html:335
 #, fuzzy
@@ -11099,19 +11073,15 @@ msgstr "Čeka na pregled"
 
 #: weblate/trans/forms.py:466 weblate/trans/models/unit.py:321
 msgid "Additional explanation to clarify meaning or usage of the string."
-msgstr "Dodatno pojašnjenje značenja ili upotrebe izraza."
+msgstr "Dodatno objašnjenje značenja ili upotrebe izraza."
 
 #: weblate/trans/forms.py:517
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string explanation"
-msgstr "Mjesto izvornog izraza"
+msgstr "Objašnjenje za izvorni izraz"
 
 #: weblate/trans/forms.py:519
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Translation explanation"
-msgstr "Prevodilačke obavijesti"
+msgstr "Objašnjenje za prijevod"
 
 #: weblate/trans/forms.py:536
 msgid "The source string has changed meanwhile. Please check your changes."
@@ -12108,18 +12078,14 @@ msgid "Removed comment"
 msgstr "Uklonjen komentar"
 
 #: weblate/trans/models/change.py:401
-#, fuzzy
-#| msgid "Resolved comment"
 msgctxt "Name of event in the history"
 msgid "Resolved comment"
 msgstr "Riješeni komentar"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:404
-#, fuzzy
-#| msgid "Explanation"
 msgid "Explanation updated"
-msgstr "Objašnjenje"
+msgstr "Aktualizirano objašnjenje"
 
 #: weblate/trans/models/change.py:476
 msgid "New string to translate"
@@ -12213,13 +12179,12 @@ msgstr ""
 "POSIX stil koristeći podvlaku kao znak razdvajanja, uključujući kôd zemlje"
 
 #: weblate/trans/models/component.py:129
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator, including country code"
 msgid ""
 "POSIX style using underscore as a separator, including country code "
 "(lowercase)"
 msgstr ""
-"POSIX stil koristeći podvlaku kao znak razdvajanja, uključujući kôd zemlje"
+"POSIX stil koristeći podvlaku kao znak razdvajanja, uključujući kôd zemlje ("
+"mala slova)"
 
 #: weblate/trans/models/component.py:134
 msgid "BCP style using hyphen as a separator, including country code"
@@ -12359,16 +12324,16 @@ msgstr ""
 "umjesto jezičnog koda, npr.: po/*.po ili locale/*/LC_MESSAGES/django.po."
 
 #: weblate/trans/models/component.py:389
-#, fuzzy
-#| msgid "Screenshot details"
 msgid "Screenshot file mask"
-msgstr "Podaci snimke ekrana"
+msgstr "Maska snimke ekrana"
 
 #: weblate/trans/models/component.py:394
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
 msgstr ""
+"Staza snimki ekrana u odnosu na korijen repozitorija, na primjer: docs/"
+"screenshots/*.png."
 
 #: weblate/trans/models/component.py:403
 msgid ""
@@ -13806,10 +13771,8 @@ msgid "Translation files have been synchronized."
 msgstr "Prevodilačke datoteke su sinkronizirane."
 
 #: weblate/trans/views/git.py:130
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Translations have been updated."
-msgstr "Komentar za prijevod je izbrisan."
+msgstr "Prijevodi su aktualizirani."
 
 #: weblate/trans/views/lock.py:28
 msgid "Component is now locked for translation updates!"
@@ -14215,16 +14178,12 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Greška u parametru %(field)s: %(error)s"
 
 #: weblate/vcs/base.py:60
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream repository."
-msgstr "Weblate nije mogao prenijeti promjene u izvorni repozitorij."
+msgstr "Ovo će poslati promjene u izvorni repozitorij."
 
 #: weblate/vcs/git.py:49
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Git repository."
-msgstr "Weblate nije mogao prenijeti promjene u izvorni repozitorij."
+msgstr "Ovo će poslati promjene u izvorni Git repozitorij."
 
 #: weblate/vcs/git.py:515
 msgid "Possible cleanups:"
@@ -14232,7 +14191,7 @@ msgstr "Moguća čišćenja:"
 
 #: weblate/vcs/git.py:525
 msgid "This will push changes to Gerrit for a review."
-msgstr ""
+msgstr "Ovo će poslati promjene u Gerrit za pregled."
 
 #: weblate/vcs/git.py:548
 msgid "This will commit changes to the Subversion repository."
@@ -14243,10 +14202,8 @@ msgid "Git with force push"
 msgstr "Git s prisilnim prijenosom"
 
 #: weblate/vcs/git.py:717
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will force push changes to the upstream repository."
-msgstr "Weblate nije mogao prenijeti promjene u izvorni repozitorij."
+msgstr "Ovo će prisilno poslati promjene u izvorni repozitorij."
 
 #: weblate/vcs/git.py:1038
 msgid "GitHub pull request"
