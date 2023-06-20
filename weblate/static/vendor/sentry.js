@@ -11632,9 +11632,9 @@ function prepareEvent(
   applyClientOptions(prepared, options);
   applyIntegrationsMetadata(prepared, integrations);
 
-  // Only apply debug metadata to error events.
+  // Only put debug IDs onto frames for error events.
   if (event.type === undefined) {
-    applyDebugMetadata(prepared, options.stackParser);
+    applyDebugIds(prepared, options.stackParser);
   }
 
   // If we have scope given to us, use it as the base for further modifications.
@@ -11669,6 +11669,14 @@ function prepareEvent(
   }
 
   return result.then(evt => {
+    if (evt) {
+      // We apply the debug_meta field only after all event processors have ran, so that if any event processors modified
+      // file names (e.g.the RewriteFrames integration) the filename -> debug ID relationship isn't destroyed.
+      // This should not cause any PII issues, since we're only moving data that is already on the event and not adding
+      // any new data
+      applyDebugMeta(evt);
+    }
+
     if (typeof normalizeDepth === 'number' && normalizeDepth > 0) {
       return normalizeEvent(evt, normalizeDepth, normalizeMaxBreadth);
     }
@@ -11715,9 +11723,9 @@ function applyClientOptions(event, options) {
 const debugIdStackParserCache = new WeakMap();
 
 /**
- * Applies debug metadata images to the event in order to apply source maps by looking up their debug ID.
+ * Puts debug IDs into the stack frames of an error event.
  */
-function applyDebugMetadata(event, stackParser) {
+function applyDebugIds(event, stackParser) {
   const debugIdMap = utils.GLOBAL_OBJ._sentryDebugIds;
 
   if (!debugIdMap) {
@@ -11754,15 +11762,39 @@ function applyDebugMetadata(event, stackParser) {
     return acc;
   }, {});
 
-  // Get a Set of filenames in the stack trace
-  const errorFileNames = new Set();
   try {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     event.exception.values.forEach(exception => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       exception.stacktrace.frames.forEach(frame => {
         if (frame.filename) {
-          errorFileNames.add(frame.filename);
+          frame.debug_id = filenameDebugIdMap[frame.filename];
+        }
+      });
+    });
+  } catch (e) {
+    // To save bundle size we're just try catching here instead of checking for the existence of all the different objects.
+  }
+}
+
+/**
+ * Moves debug IDs from the stack frames of an error event into the debug_meta field.
+ */
+function applyDebugMeta(event) {
+  // Extract debug IDs and filenames from the stack frames on the event.
+  const filenameDebugIdMap = {};
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    event.exception.values.forEach(exception => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      exception.stacktrace.frames.forEach(frame => {
+        if (frame.debug_id) {
+          if (frame.abs_path) {
+            filenameDebugIdMap[frame.abs_path] = frame.debug_id;
+          } else if (frame.filename) {
+            filenameDebugIdMap[frame.filename] = frame.debug_id;
+          }
+          delete frame.debug_id;
         }
       });
     });
@@ -11770,18 +11802,20 @@ function applyDebugMetadata(event, stackParser) {
     // To save bundle size we're just try catching here instead of checking for the existence of all the different objects.
   }
 
+  if (Object.keys(filenameDebugIdMap).length === 0) {
+    return;
+  }
+
   // Fill debug_meta information
   event.debug_meta = event.debug_meta || {};
   event.debug_meta.images = event.debug_meta.images || [];
   const images = event.debug_meta.images;
-  errorFileNames.forEach(filename => {
-    if (filenameDebugIdMap[filename]) {
-      images.push({
-        type: 'sourcemap',
-        code_file: filename,
-        debug_id: filenameDebugIdMap[filename],
-      });
-    }
+  Object.keys(filenameDebugIdMap).forEach(filename => {
+    images.push({
+      type: 'sourcemap',
+      code_file: filename,
+      debug_id: filenameDebugIdMap[filename],
+    });
   });
 }
 
@@ -11862,14 +11896,15 @@ function normalizeEvent(event, depth, maxBreadth) {
   return normalized;
 }
 
-exports.applyDebugMetadata = applyDebugMetadata;
+exports.applyDebugIds = applyDebugIds;
+exports.applyDebugMeta = applyDebugMeta;
 exports.prepareEvent = prepareEvent;
 
 
 },{"../constants.js":56,"../scope.js":65,"@sentry/utils":105}],82:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.55.2';
+const SDK_VERSION = '7.56.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -11922,6 +11957,11 @@ const CONSOLE_ARG_MAX_SIZE = 5000;
 const SLOW_CLICK_THRESHOLD = 3000;
 /* For scroll actions after a click, we only look for a very short time period to detect programmatic scrolling. */
 const SLOW_CLICK_SCROLL_TIMEOUT = 300;
+/* Clicks in this time period are considered e.g. double/triple clicks. */
+const MULTI_CLICK_TIMEOUT = 1000;
+
+/** When encountering a total segment size exceeding this size, stop the replay (as we cannot properly ingest it). */
+const REPLAY_MAX_EVENT_BUFFER_SIZE = 20000000; // ~20MB
 
 var NodeType$1;
 (function (NodeType) {
@@ -15148,29 +15188,6 @@ record.takeFullSnapshot = (isCheckout) => {
 record.mirror = mirror;
 
 /**
- * Create a breadcrumb for a replay.
- */
-function createBreadcrumb(
-  breadcrumb,
-) {
-  return {
-    timestamp: Date.now() / 1000,
-    type: 'default',
-    ...breadcrumb,
-  };
-}
-
-var NodeType;
-(function (NodeType) {
-    NodeType[NodeType["Document"] = 0] = "Document";
-    NodeType[NodeType["DocumentType"] = 1] = "DocumentType";
-    NodeType[NodeType["Element"] = 2] = "Element";
-    NodeType[NodeType["Text"] = 3] = "Text";
-    NodeType[NodeType["CDATA"] = 4] = "CDATA";
-    NodeType[NodeType["Comment"] = 5] = "Comment";
-})(NodeType || (NodeType = {}));
-
-/**
  * Add a breadcrumb event to replay.
  */
 function addBreadcrumbEvent(replay, breadcrumb) {
@@ -15202,116 +15219,324 @@ function addBreadcrumbEvent(replay, breadcrumb) {
   });
 }
 
+const INTERACTIVE_SELECTOR = 'button,a';
+
 /**
- * Detect a slow click on a button/a tag,
- * and potentially create a corresponding breadcrumb.
+ * For clicks, we check if the target is inside of a button or link
+ * If so, we use this as the target instead
+ * This is useful because if you click on the image in <button><img></button>,
+ * The target will be the image, not the button, which we don't want here
  */
-function detectSlowClick(
-  replay,
-  config,
-  clickBreadcrumb,
-  node,
-) {
-  if (ignoreElement(node, config)) {
-    return;
+function getClickTargetNode(event) {
+  const target = getTargetNode(event);
+
+  if (!target || !(target instanceof Element)) {
+    return target;
   }
 
-  /*
-    We consider a slow click a click on a button/a, which does not trigger one of:
-     - DOM mutation
-     - Scroll (within 100ms)
-     Within the given threshold time.
-     After time timeout time, we stop listening and mark it as a slow click anyhow.
-  */
+  const closestInteractive = target.closest(INTERACTIVE_SELECTOR);
+  return closestInteractive || target;
+}
 
-  let cleanup = () => {
-    // replaced further down
+/** Get the event target node. */
+function getTargetNode(event) {
+  if (isEventWithTarget(event)) {
+    return event.target ;
+  }
+
+  return event;
+}
+
+function isEventWithTarget(event) {
+  return typeof event === 'object' && !!event && 'target' in event;
+}
+
+let handlers;
+
+/**
+ * Register a handler to be called when `window.open()` is called.
+ * Returns a cleanup function.
+ */
+function onWindowOpen(cb) {
+  // Ensure to only register this once
+  if (!handlers) {
+    handlers = [];
+    monkeyPatchWindowOpen();
+  }
+
+  handlers.push(cb);
+
+  return () => {
+    const pos = handlers ? handlers.indexOf(cb) : -1;
+    if (pos > -1) {
+      (handlers ).splice(pos, 1);
+    }
   };
+}
 
-  // After timeout time, def. consider this a slow click, and stop watching for mutations
-  const timeout = setTimeout(() => {
-    handleSlowClick(replay, clickBreadcrumb, config.timeout, 'timeout');
-    cleanup();
-  }, config.timeout);
+function monkeyPatchWindowOpen() {
+  utils.fill(WINDOW, 'open', function (originalWindowOpen) {
+    return function (...args) {
+      if (handlers) {
+        try {
+          handlers.forEach(handler => handler());
+        } catch (e) {
+          // ignore errors in here
+        }
+      }
 
-  const mutationHandler = () => {
-    maybeHandleSlowClick(replay, clickBreadcrumb, config.threshold, config.timeout, 'mutation');
-    cleanup();
-  };
-
-  const scrollHandler = () => {
-    maybeHandleSlowClick(replay, clickBreadcrumb, config.scrollTimeout, config.timeout, 'scroll');
-    cleanup();
-  };
-
-  const obs = new MutationObserver(mutationHandler);
-
-  obs.observe(WINDOW.document.documentElement, {
-    attributes: true,
-    characterData: true,
-    childList: true,
-    subtree: true,
+      return originalWindowOpen.apply(WINDOW, args);
+    };
   });
-
-  WINDOW.addEventListener('scroll', scrollHandler);
-
-  // Stop listening to scroll timeouts early
-  const scrollTimeout = setTimeout(() => {
-    WINDOW.removeEventListener('scroll', scrollHandler);
-  }, config.scrollTimeout);
-
-  cleanup = () => {
-    clearTimeout(timeout);
-    clearTimeout(scrollTimeout);
-    obs.disconnect();
-    WINDOW.removeEventListener('scroll', scrollHandler);
-  };
 }
 
-function maybeHandleSlowClick(
-  replay,
-  clickBreadcrumb,
-  threshold,
-  timeout,
-  endReason,
-) {
-  const now = Date.now();
-  const timeAfterClickMs = now - clickBreadcrumb.timestamp * 1000;
+/** Handle a click. */
+function handleClick(clickDetector, clickBreadcrumb, node) {
+  clickDetector.handleClick(clickBreadcrumb, node);
+}
 
-  if (timeAfterClickMs > threshold) {
-    handleSlowClick(replay, clickBreadcrumb, Math.min(timeAfterClickMs, timeout), endReason);
-    return true;
+/** A click detector class that can be used to detect slow or rage clicks on elements. */
+class ClickDetector  {
+  // protected for testing
+   __init() {this._lastMutation = 0;}
+   __init2() {this._lastScroll = 0;}
+
+   __init3() {this._clicks = [];}
+
+   constructor(
+    replay,
+    slowClickConfig,
+    // Just for easier testing
+    _addBreadcrumbEvent = addBreadcrumbEvent,
+  ) {ClickDetector.prototype.__init.call(this);ClickDetector.prototype.__init2.call(this);ClickDetector.prototype.__init3.call(this);
+    // We want everything in s, but options are in ms
+    this._timeout = slowClickConfig.timeout / 1000;
+    this._multiClickTimeout = slowClickConfig.multiClickTimeout / 1000;
+    this._threshold = slowClickConfig.threshold / 1000;
+    this._scollTimeout = slowClickConfig.scrollTimeout / 1000;
+    this._replay = replay;
+    this._ignoreSelector = slowClickConfig.ignoreSelector;
+    this._addBreadcrumbEvent = _addBreadcrumbEvent;
   }
 
-  return false;
-}
+  /** Register click detection handlers on mutation or scroll. */
+   addListeners() {
+    const mutationHandler = () => {
+      this._lastMutation = nowInSeconds();
+    };
 
-function handleSlowClick(
-  replay,
-  clickBreadcrumb,
-  timeAfterClickMs,
-  endReason,
-) {
-  const breadcrumb = {
-    message: clickBreadcrumb.message,
-    timestamp: clickBreadcrumb.timestamp,
-    category: 'ui.slowClickDetected',
-    data: {
-      ...clickBreadcrumb.data,
-      url: WINDOW.location.href,
-      // TODO FN: add parametrized route, when possible
-      timeAfterClickMs,
-      endReason,
-    },
-  };
+    const scrollHandler = () => {
+      this._lastScroll = nowInSeconds();
+    };
 
-  addBreadcrumbEvent(replay, breadcrumb);
+    const cleanupWindowOpen = onWindowOpen(() => {
+      // Treat window.open as mutation
+      this._lastMutation = nowInSeconds();
+    });
+
+    const clickHandler = (event) => {
+      if (!event.target) {
+        return;
+      }
+
+      const node = getClickTargetNode(event);
+      if (node) {
+        this._handleMultiClick(node );
+      }
+    };
+
+    const obs = new MutationObserver(mutationHandler);
+
+    obs.observe(WINDOW.document.documentElement, {
+      attributes: true,
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+
+    WINDOW.addEventListener('scroll', scrollHandler, { passive: true });
+    WINDOW.addEventListener('click', clickHandler, { passive: true });
+
+    this._teardown = () => {
+      WINDOW.removeEventListener('scroll', scrollHandler);
+      WINDOW.removeEventListener('click', clickHandler);
+      cleanupWindowOpen();
+
+      obs.disconnect();
+      this._clicks = [];
+      this._lastMutation = 0;
+      this._lastScroll = 0;
+    };
+  }
+
+  /** Clean up listeners. */
+   removeListeners() {
+    if (this._teardown) {
+      this._teardown();
+    }
+
+    if (this._checkClickTimeout) {
+      clearTimeout(this._checkClickTimeout);
+    }
+  }
+
+  /** Handle a click */
+   handleClick(breadcrumb, node) {
+    if (ignoreElement(node, this._ignoreSelector) || !isClickBreadcrumb(breadcrumb)) {
+      return;
+    }
+
+    const click = this._getClick(node);
+
+    if (click) {
+      // this means a click on the same element was captured in the last 1s, so we consider this a multi click
+      return;
+    }
+
+    const newClick = {
+      timestamp: breadcrumb.timestamp,
+      clickBreadcrumb: breadcrumb,
+      // Set this to 0 so we know it originates from the click breadcrumb
+      clickCount: 0,
+      node,
+    };
+    this._clicks.push(newClick);
+
+    // If this is the first new click, set a timeout to check for multi clicks
+    if (this._clicks.length === 1) {
+      this._scheduleCheckClicks();
+    }
+  }
+
+  /** Count multiple clicks on elements. */
+   _handleMultiClick(node) {
+    const click = this._getClick(node);
+
+    if (!click) {
+      return;
+    }
+
+    click.clickCount++;
+  }
+
+  /** Try to get an existing click on the given element. */
+   _getClick(node) {
+    const now = nowInSeconds();
+
+    // Find any click on the same element in the last second
+    // If one exists, we consider this click as a double/triple/etc click
+    return this._clicks.find(click => click.node === node && now - click.timestamp < this._multiClickTimeout);
+  }
+
+  /** Check the clicks that happened. */
+   _checkClicks() {
+    const timedOutClicks = [];
+
+    const now = nowInSeconds();
+
+    this._clicks.forEach(click => {
+      if (!click.mutationAfter && this._lastMutation) {
+        click.mutationAfter = click.timestamp <= this._lastMutation ? this._lastMutation - click.timestamp : undefined;
+      }
+      if (!click.scrollAfter && this._lastScroll) {
+        click.scrollAfter = click.timestamp <= this._lastScroll ? this._lastScroll - click.timestamp : undefined;
+      }
+
+      // If an action happens after the multi click threshold, we can skip waiting and handle the click right away
+      const actionTime = click.scrollAfter || click.mutationAfter || 0;
+      if (actionTime && actionTime >= this._multiClickTimeout) {
+        timedOutClicks.push(click);
+        return;
+      }
+
+      if (click.timestamp + this._timeout <= now) {
+        timedOutClicks.push(click);
+      }
+    });
+
+    // Remove "old" clicks
+    for (const click of timedOutClicks) {
+      this._generateBreadcrumbs(click);
+
+      const pos = this._clicks.indexOf(click);
+      if (pos !== -1) {
+        this._clicks.splice(pos, 1);
+      }
+    }
+
+    // Trigger new check, unless no clicks left
+    if (this._clicks.length) {
+      this._scheduleCheckClicks();
+    }
+  }
+
+  /** Generate matching breadcrumb(s) for the click. */
+   _generateBreadcrumbs(click) {
+    const replay = this._replay;
+    const hadScroll = click.scrollAfter && click.scrollAfter <= this._scollTimeout;
+    const hadMutation = click.mutationAfter && click.mutationAfter <= this._threshold;
+
+    const isSlowClick = !hadScroll && !hadMutation;
+    const { clickCount, clickBreadcrumb } = click;
+
+    // Slow click
+    if (isSlowClick) {
+      // If `mutationAfter` is set, it means a mutation happened after the threshold, but before the timeout
+      // If not, it means we just timed out without scroll & mutation
+      const timeAfterClickMs = Math.min(click.mutationAfter || this._timeout, this._timeout) * 1000;
+      const endReason = timeAfterClickMs < this._timeout * 1000 ? 'mutation' : 'timeout';
+
+      const breadcrumb = {
+        type: 'default',
+        message: clickBreadcrumb.message,
+        timestamp: clickBreadcrumb.timestamp,
+        category: 'ui.slowClickDetected',
+        data: {
+          ...clickBreadcrumb.data,
+          url: WINDOW.location.href,
+          route: replay.getCurrentRoute(),
+          timeAfterClickMs,
+          endReason,
+          // If clickCount === 0, it means multiClick was not correctly captured here
+          // - we still want to send 1 in this case
+          clickCount: clickCount || 1,
+        },
+      };
+
+      this._addBreadcrumbEvent(replay, breadcrumb);
+      return;
+    }
+
+    // Multi click
+    if (clickCount > 1) {
+      const breadcrumb = {
+        type: 'default',
+        message: clickBreadcrumb.message,
+        timestamp: clickBreadcrumb.timestamp,
+        category: 'ui.multiClick',
+        data: {
+          ...clickBreadcrumb.data,
+          url: WINDOW.location.href,
+          route: replay.getCurrentRoute(),
+          clickCount,
+          metric: true,
+        },
+      };
+
+      this._addBreadcrumbEvent(replay, breadcrumb);
+    }
+  }
+
+  /** Schedule to check current clicks. */
+   _scheduleCheckClicks() {
+    this._checkClickTimeout = setTimeout(() => this._checkClicks(), 1000);
+  }
 }
 
 const SLOW_CLICK_TAGS = ['A', 'BUTTON', 'INPUT'];
 
 /** exported for tests only */
-function ignoreElement(node, config) {
+function ignoreElement(node, ignoreSelector) {
   if (!SLOW_CLICK_TAGS.includes(node.tagName)) {
     return true;
   }
@@ -15331,12 +15556,44 @@ function ignoreElement(node, config) {
     return true;
   }
 
-  if (config.ignoreSelector && node.matches(config.ignoreSelector)) {
+  if (ignoreSelector && node.matches(ignoreSelector)) {
     return true;
   }
 
   return false;
 }
+
+function isClickBreadcrumb(breadcrumb) {
+  return !!(breadcrumb.data && typeof breadcrumb.data.nodeId === 'number' && breadcrumb.timestamp);
+}
+
+// This is good enough for us, and is easier to test/mock than `timestampInSeconds`
+function nowInSeconds() {
+  return Date.now() / 1000;
+}
+
+/**
+ * Create a breadcrumb for a replay.
+ */
+function createBreadcrumb(
+  breadcrumb,
+) {
+  return {
+    timestamp: Date.now() / 1000,
+    type: 'default',
+    ...breadcrumb,
+  };
+}
+
+var NodeType;
+(function (NodeType) {
+    NodeType[NodeType["Document"] = 0] = "Document";
+    NodeType[NodeType["DocumentType"] = 1] = "DocumentType";
+    NodeType[NodeType["Element"] = 2] = "Element";
+    NodeType[NodeType["Text"] = 3] = "Text";
+    NodeType[NodeType["CDATA"] = 4] = "CDATA";
+    NodeType[NodeType["Comment"] = 5] = "Comment";
+})(NodeType || (NodeType = {}));
 
 // Note that these are the serialized attributes and not attributes directly on
 // the DOM Node. Attributes we are interested in:
@@ -15377,17 +15634,6 @@ function getAttributesToRecord(attributes) {
 const handleDomListener = (
   replay,
 ) => {
-  const { slowClickTimeout, slowClickIgnoreSelectors } = replay.getOptions();
-
-  const slowClickConfig = slowClickTimeout
-    ? {
-        threshold: Math.min(SLOW_CLICK_THRESHOLD, slowClickTimeout),
-        timeout: slowClickTimeout,
-        scrollTimeout: SLOW_CLICK_SCROLL_TIMEOUT,
-        ignoreSelector: slowClickIgnoreSelectors ? slowClickIgnoreSelectors.join(',') : '',
-      }
-    : undefined;
-
   return (handlerData) => {
     if (!replay.isEnabled()) {
       return;
@@ -15402,10 +15648,9 @@ const handleDomListener = (
     const isClick = handlerData.name === 'click';
     const event = isClick && (handlerData.event );
     // Ignore clicks if ctrl/alt/meta keys are held down as they alter behavior of clicks (e.g. open in new tab)
-    if (isClick && slowClickConfig && event && !event.altKey && !event.metaKey && !event.ctrlKey) {
-      detectSlowClick(
-        replay,
-        slowClickConfig,
+    if (isClick && replay.clickDetector && event && !event.altKey && !event.metaKey && !event.ctrlKey) {
+      handleClick(
+        replay.clickDetector,
         result ,
         getClickTargetNode(handlerData.event) ,
       );
@@ -15476,35 +15721,6 @@ function getDomTarget(handlerData) {
 
 function isRrwebNode(node) {
   return '__sn' in node;
-}
-
-function getTargetNode(event) {
-  if (isEventWithTarget(event)) {
-    return event.target ;
-  }
-
-  return event;
-}
-
-const INTERACTIVE_SELECTOR = 'button,a';
-
-// For clicks, we check if the target is inside of a button or link
-// If so, we use this as the target instead
-// This is useful because if you click on the image in <button><img></button>,
-// The target will be the image, not the button, which we don't want here
-function getClickTargetNode(event) {
-  const target = getTargetNode(event);
-
-  if (!target || !(target instanceof Element)) {
-    return target;
-  }
-
-  const closestInteractive = target.closest(INTERACTIVE_SELECTOR);
-  return closestInteractive || target;
-}
-
-function isEventWithTarget(event) {
-  return typeof event === 'object' && !!event && 'target' in event;
 }
 
 /** Handle keyboard events & create breadcrumbs. */
@@ -15719,7 +15935,9 @@ function timestampToMs(timestamp) {
 class EventBufferArray  {
   /** All the events that are buffered to be sent. */
 
-   constructor() {
+   __init() {this._totalSize = 0;}
+
+   constructor() {EventBufferArray.prototype.__init.call(this);
     this.events = [];
   }
 
@@ -15740,6 +15958,12 @@ class EventBufferArray  {
 
   /** @inheritdoc */
    async addEvent(event) {
+    const eventSize = JSON.stringify(event).length;
+    this._totalSize += eventSize;
+    if (this._totalSize > REPLAY_MAX_EVENT_BUFFER_SIZE) {
+      throw new EventBufferSizeExceededError();
+    }
+
     this.events.push(event);
   }
 
@@ -15750,7 +15974,7 @@ class EventBufferArray  {
       // events member so that we do not lose new events while uploading
       // attachment.
       const eventsRet = this.events;
-      this.events = [];
+      this.clear();
       resolve(JSON.stringify(eventsRet));
     });
   }
@@ -15758,6 +15982,7 @@ class EventBufferArray  {
   /** @inheritdoc */
    clear() {
     this.events = [];
+    this._totalSize = 0;
   }
 
   /** @inheritdoc */
@@ -15878,7 +16103,9 @@ class WorkerHandler {
  */
 class EventBufferCompressionWorker  {
 
-   constructor(worker) {
+   __init() {this._totalSize = 0;}
+
+   constructor(worker) {EventBufferCompressionWorker.prototype.__init.call(this);
     this._worker = new WorkerHandler(worker);
     this._earliestTimestamp = null;
   }
@@ -15919,7 +16146,14 @@ class EventBufferCompressionWorker  {
       this._earliestTimestamp = timestamp;
     }
 
-    return this._sendEventToWorker(event);
+    const data = JSON.stringify(event);
+    this._totalSize += data.length;
+
+    if (this._totalSize > REPLAY_MAX_EVENT_BUFFER_SIZE) {
+      return Promise.reject(new EventBufferSizeExceededError());
+    }
+
+    return this._sendEventToWorker(data);
   }
 
   /**
@@ -15932,6 +16166,7 @@ class EventBufferCompressionWorker  {
   /** @inheritdoc */
    clear() {
     this._earliestTimestamp = null;
+    this._totalSize = 0;
     // We do not wait on this, as we assume the order of messages is consistent for the worker
     void this._worker.postMessage('clear');
   }
@@ -15944,8 +16179,8 @@ class EventBufferCompressionWorker  {
   /**
    * Send the event to the worker.
    */
-   _sendEventToWorker(event) {
-    return this._worker.postMessage('addEvent', JSON.stringify(event));
+   _sendEventToWorker(data) {
+    return this._worker.postMessage('addEvent', data);
   }
 
   /**
@@ -15955,6 +16190,7 @@ class EventBufferCompressionWorker  {
     const response = await this._worker.postMessage('finish');
 
     this._earliestTimestamp = null;
+    this._totalSize = 0;
 
     return response;
   }
@@ -16080,6 +16316,13 @@ function createEventBuffer({ useCompression }) {
 
   (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Using simple buffer');
   return new EventBufferArray();
+}
+
+/** This error indicates that the event buffer size exceeded the limit.. */
+class EventBufferSizeExceededError extends Error {
+   constructor() {
+    super(`Event buffer exceeded maximum size of ${REPLAY_MAX_EVENT_BUFFER_SIZE}.`);
+  }
 }
 
 /**
@@ -16342,8 +16585,10 @@ async function addEvent(
 
     return await replay.eventBuffer.addEvent(eventAfterPossibleCallback);
   } catch (error) {
+    const reason = error && error instanceof EventBufferSizeExceededError ? 'addEventSizeExceeded' : 'addEvent';
+
     (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error(error);
-    await replay.stop('addEvent');
+    await replay.stop(reason);
 
     const client = core.getCurrentHub().getClient();
 
@@ -18812,6 +19057,22 @@ class ReplayContainer  {
       // ... per 5s
       5,
     );
+
+    const { slowClickTimeout, slowClickIgnoreSelectors } = this.getOptions();
+
+    const slowClickConfig = slowClickTimeout
+      ? {
+          threshold: Math.min(SLOW_CLICK_THRESHOLD, slowClickTimeout),
+          timeout: slowClickTimeout,
+          scrollTimeout: SLOW_CLICK_SCROLL_TIMEOUT,
+          ignoreSelector: slowClickIgnoreSelectors ? slowClickIgnoreSelectors.join(',') : '',
+          multiClickTimeout: MULTI_CLICK_TIMEOUT,
+        }
+      : undefined;
+
+    if (slowClickConfig) {
+      this.clickDetector = new ClickDetector(this, slowClickConfig);
+    }
   }
 
   /** Get the event context. */
@@ -19390,6 +19651,10 @@ class ReplayContainer  {
       WINDOW.addEventListener('focus', this._handleWindowFocus);
       WINDOW.addEventListener('keydown', this._handleKeyboardEvent);
 
+      if (this.clickDetector) {
+        this.clickDetector.addListeners();
+      }
+
       // There is no way to remove these listeners, so ensure they are only added once
       if (!this._hasInitializedCoreListeners) {
         addGlobalListeners(this);
@@ -19418,6 +19683,10 @@ class ReplayContainer  {
       WINDOW.removeEventListener('blur', this._handleWindowBlur);
       WINDOW.removeEventListener('focus', this._handleWindowFocus);
       WINDOW.removeEventListener('keydown', this._handleKeyboardEvent);
+
+      if (this.clickDetector) {
+        this.clickDetector.removeListeners();
+      }
 
       if (this._performanceObserver) {
         this._performanceObserver.disconnect();
