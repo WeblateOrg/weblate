@@ -32,13 +32,14 @@
 # Felipe Nogueira <contato.fnog@gmail.com>, 2023.
 # Felipe Bertola <eduardodelphinodepaula@gmail.com>, 2023.
 # relaxeaza <relaxeaza@outlook.com>, 2023.
+# Jessica Patricio <jessicacacau@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-15 06:53+0000\n"
-"PO-Revision-Date: 2023-06-07 12:53+0000\n"
-"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"PO-Revision-Date: 2023-06-21 23:49+0000\n"
+"Last-Translator: Jessica Patricio <jessicacacau@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -46,7 +47,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 4.18.1\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -506,12 +507,12 @@ msgstr ""
 
 #: weblate/accounts/models.py:400
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: weblate/accounts/models.py:403
 msgctxt "Theme selection"
 msgid "Sync with system"
-msgstr ""
+msgstr "Sincronizar com o sistema"
 
 #: weblate/accounts/models.py:404
 #, fuzzy
@@ -523,7 +524,7 @@ msgstr "Insights"
 #: weblate/accounts/models.py:405
 msgctxt "Theme selection"
 msgid "Dark"
-msgstr ""
+msgstr "Escuro"
 
 #: weblate/accounts/models.py:409
 msgid "Hide completed translations on the dashboard"
@@ -1623,16 +1624,12 @@ msgid "Fills in translation strings with source string."
 msgstr "Preenche textos de tradução com texto fonte."
 
 #: weblate/addons/generate.py:216
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Preencher tradução com fonte"
+msgstr "Preencher textos somente leitura com a fonte"
 
 #: weblate/addons/generate.py:218
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Preenche textos de tradução com texto fonte."
+msgstr "Preenche a tradução de textos somente leitura com o texto fonte."
 
 #: weblate/addons/gettext.py:26
 msgid "Generate MO files"
@@ -2547,10 +2544,8 @@ msgid "Source string reviews are not enabled."
 msgstr "A edição de texto fonte está desabilitada."
 
 #: weblate/auth/permissions.py:193
-#, fuzzy
-#| msgid "Translation reverted"
 msgid "Translation reviews are not enabled."
-msgstr "Tradução revertida"
+msgstr "As revisões de tradução não estão habilitadas."
 
 #: weblate/auth/permissions.py:200
 #, fuzzy
@@ -2578,13 +2573,11 @@ msgstr "Esta tradução está bloqueada."
 
 #: weblate/auth/permissions.py:242
 msgid "Add the string to the source language instead."
-msgstr ""
+msgstr "Em vez disso, adicionar o texto ao idioma fonte."
 
 #: weblate/auth/permissions.py:246
-#, fuzzy
-#| msgid "Unsupported component configuration"
 msgid "Adding strings is disabled in the component configuration."
-msgstr "Configuração de componente sem suporte"
+msgstr "A adição de texto está desativada na configuração do componente."
 
 #: weblate/auth/permissions.py:263 weblate/auth/permissions.py:280
 #, fuzzy
@@ -2901,23 +2894,20 @@ msgid "Reused translation"
 msgstr "Tradução removida"
 
 #: weblate/checks/consistency.py:139
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Different strings are translated the same."
-msgstr "Nenhum texto para ser traduzido"
+msgstr "Textos diferentes estão traduzidos da mesma forma."
 
 #: weblate/checks/consistency.py:178
-#, fuzzy, python-format
-#| msgid "Update source strings"
+#, python-format
 msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
-msgstr[0] "Atualizar textos fonte"
-msgstr[1] "Atualizar textos fonte"
+msgstr[0] "Outro texto fonte: %s"
+msgstr[1] "Outros textos fonte: %s"
 
 #: weblate/checks/consistency.py:179
 #, python-format
 msgid "“%s”"
-msgstr ""
+msgstr "“%s”"
 
 #: weblate/checks/consistency.py:228
 msgid "Has been translated"
@@ -4523,6 +4513,8 @@ msgstr "Ramo do repositório a traduzir"
 #: weblate/screenshots/models.py:52
 msgid "Scan for screenshot file change on repository update."
 msgstr ""
+"Verificar se há alteração no arquivo de captura de tela na atualização do "
+"repositório."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_detail.html:58
@@ -5966,10 +5958,8 @@ msgid "Add"
 msgstr "Adicionar"
 
 #: weblate/templates/auth/teams-components.html:6
-#, fuzzy
-#| msgid "No components were matched!"
 msgid "No components specified"
-msgstr "Nenhum componente correspondente!"
+msgstr "Nenhum componente especificado"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7246,12 +7236,12 @@ msgstr[0] "%(count)s alteração"
 msgstr[1] "%(count)s alterações"
 
 #: weblate/templates/js/git-status.html:32
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "Confirme as alterações pendentes no repositório Weblate"
+msgstr ""
+"Isto confirmará quaisquer alterações pendentes presentes no Weblate e não no "
+"repositório."
 
 #: weblate/templates/js/git-status.html:38
 msgid "Push"
@@ -7272,7 +7262,7 @@ msgstr "Atualizar"
 
 #: weblate/templates/js/git-status.html:58
 msgid "Update with merge"
-msgstr ""
+msgstr "Atualização com merge"
 
 #: weblate/templates/js/git-status.html:61
 #, fuzzy
@@ -7335,10 +7325,8 @@ msgid "Weblate translations are unlocked"
 msgstr "Traduções do Weblate"
 
 #: weblate/templates/js/git-status.html:93
-#, fuzzy
-#| msgid "Locking prevents translators from doing changes"
 msgid "Locking prevents translators from doing changes."
-msgstr "O bloqueio impede que os tradutores façam alterações"
+msgstr "O bloqueio impede que os tradutores façam alterações."
 
 #: weblate/templates/js/git-status.html:105
 #, fuzzy
@@ -7372,6 +7360,8 @@ msgid ""
 "Use when you want to discard changes in Weblate and bring it in sync with "
 "upstream repository."
 msgstr ""
+"Use quando quiser descartar alterações no Weblate e sincronizá-las com o "
+"repositório upstream."
 
 #: weblate/templates/js/git-status.html:120
 msgid "Cleanup"
@@ -7386,36 +7376,36 @@ msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
+"A limpeza remove do repositório todos os arquivos que não são rastreados "
+"pelo controle de versão."
 
 #: weblate/templates/js/git-status.html:126
-#, fuzzy
-#| msgid "Prevent any changes in the Weblate repository"
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Evitar qualquer alteração no repositório Weblate"
+msgstr "Usar quando houver algum lixo restante no repositório do Weblate."
 
 #: weblate/templates/js/git-status.html:130
 msgid "Synchronize"
-msgstr ""
+msgstr "Sincronizar"
 
 #: weblate/templates/js/git-status.html:132
 msgid "Force writing all translations to the Weblate repository"
 msgstr "Forçar a escrever todas as traduções para o repositório Weblate"
 
 #: weblate/templates/js/git-status.html:135
-#, fuzzy
-#| msgid "Force writing all translations to the Weblate repository"
 msgid "Forces writing all strings to the translation files."
-msgstr "Forçar a escrever todas as traduções para o repositório Weblate"
+msgstr "Força a escrita de todos os textos nos arquivos de tradução."
 
 #: weblate/templates/js/git-status.html:136
 msgid ""
 "Use this when repository files became out of sync with Weblate for some "
 "reason."
 msgstr ""
+"Use isso quando os arquivos do repositório ficarem fora de sincronia com o "
+"Weblate por algum motivo."
 
 #: weblate/templates/js/git-status.html:140
 msgid "Rescan"
-msgstr ""
+msgstr "Verificar novamente"
 
 #: weblate/templates/js/git-status.html:142
 #, fuzzy
@@ -7442,6 +7432,7 @@ msgstr ""
 #: weblate/templates/js/git-status.html:151
 msgid "Use these operations with caution, they can lead to data loss."
 msgstr ""
+"Use essas operações com cuidado, pois elas podem levar à perda de dados."
 
 #: weblate/templates/js/git-status.html:160
 #, python-format
@@ -7487,7 +7478,7 @@ msgstr "Bloquear usuário"
 #: weblate/templates/last-changes-content.html:58
 #: weblate/templates/snippets/suggestions.html:41
 msgid "Rejection reason"
-msgstr ""
+msgstr "Motivo da rejeição"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:70
@@ -7692,6 +7683,8 @@ msgid ""
 "There are no projects attached to this billing plan. (There might be "
 "projects in other billing plans of yours.)"
 msgstr ""
+"Não há projetos vinculados a esse plano de cobrança. (Podem haver projetos "
+"em outros planos de cobranças seus.)"
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
@@ -10674,28 +10667,22 @@ msgstr[0] "O seguinte texto tem o mesmo contexto e fonte."
 msgstr[1] "Os seguintes textos têm o mesmo contexto e fonte."
 
 #: weblate/templates/translate.html:319
-#, fuzzy
-#| msgid "This string has different context but same source."
 msgid "This string has a different context, but the same source."
 msgid_plural "These strings have differing context, but the same source."
-msgstr[0] "Este texto tem contexto diferente mas a mesma fonte."
-msgstr[1] "Este texto tem contexto diferente mas a mesma fonte."
+msgstr[0] "Este texto tem um contexto diferente, mas a mesma fonte."
+msgstr[1] "Estes textos tem contextos diferentes, mas a mesma fonte."
 
 #: weblate/templates/translate.html:327
-#, fuzzy
-#| msgid "This string has different source but same context."
 msgid "This string has a different source, but the same context."
 msgid_plural "These strings have differing sources, but the same context."
-msgstr[0] "Este texto tem fonte diferente mas mesmo contexto."
-msgstr[1] "Este texto tem fonte diferente mas mesmo contexto."
+msgstr[0] "Este texto tem uma fonte diferente, mas o mesmo contexto."
+msgstr[1] "Estes textos tem fontes diferentes, mas o mesmo contexto."
 
 #: weblate/templates/translate.html:335
-#, fuzzy
-#| msgid "This string has different source but same context."
 msgid "This string has a different source and context."
 msgid_plural "These strings have differing sources and context."
-msgstr[0] "Este texto tem fonte diferente mas mesmo contexto."
-msgstr[1] "Este texto tem fonte diferente mas mesmo contexto."
+msgstr[0] "Este texto tem fonte e contexto diferentes."
+msgstr[1] "Estes textos tem fontes e contextos diferentes."
 
 #: weblate/templates/translate.html:345
 msgid "Apply selected translation to all propagated strings"
@@ -10710,10 +10697,8 @@ msgid "Browse all string changes"
 msgstr "Visualizar todas as alterações de texto"
 
 #: weblate/templates/translate.html:378
-#, fuzzy
-#| msgid "Suggested change:"
 msgid "Suggested change"
-msgstr "Alteração sugerida:"
+msgstr "Alteração sugerida"
 
 #: weblate/templates/translate.html:380
 msgid "Origin"
@@ -12531,6 +12516,8 @@ msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
 msgstr ""
+"Caminho das capturas de tela em relação à raiz do repositório, por exemplo: "
+"docs/screenshots/*.png."
 
 #: weblate/trans/models/component.py:403
 msgid ""
@@ -12816,10 +12803,9 @@ msgid "File does not exist."
 msgstr "O arquivo não existe."
 
 #: weblate/trans/models/component.py:1672
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Failed to push %(component)s: %(error_text)s"
-msgstr "Falha ao analisar arquivo %(file)s: %(error)s"
+msgstr "Falha ao enviar %(component)s: %(error_text)s"
 
 #: weblate/trans/models/component.py:1693
 #, python-format
@@ -12875,17 +12861,15 @@ msgid "The file mask did not match any files."
 msgstr "A máscara de arquivo não corresponde a nenhum arquivo."
 
 #: weblate/trans/models/component.py:2575
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the file mask "
-#| "and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
 "%(filename2)s Please adjust the file mask and use components for translating "
 "different resources."
 msgstr ""
-"Existe mais de um arquivo para o idioma %s, ajuste a máscara de arquivo e "
-"use os componentes para traduzir os diferentes recursos."
+"Existe mais de um arquivo para o idioma %(language)s: %(filename1)s, "
+"%(filename2)s Ajuste a máscara do arquivo e use os componentes para traduzir "
+"os diferentes recursos."
 
 #: weblate/trans/models/component.py:2593
 msgid "Could not find any matching language, please check the file mask."
@@ -13217,10 +13201,8 @@ msgid "This string seems to already exist."
 msgstr "Este texto parece já existir."
 
 #: weblate/trans/models/translation.py:1643
-#, fuzzy
-#| msgid "Upload strings for translation"
 msgid "Failed adding string, no translation found."
-msgstr "Enviar textos para tradução"
+msgstr "Falha ao adicionar texto, nenhuma tradução encontrada."
 
 #: weblate/trans/models/unit.py:930
 #, python-format
@@ -14390,13 +14372,11 @@ msgstr "Configurações inclinados:"
 
 #: weblate/vcs/git.py:525
 msgid "This will push changes to Gerrit for a review."
-msgstr ""
+msgstr "Isso enviará as alterações para o Gerrit para revisão."
 
 #: weblate/vcs/git.py:548
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "This will commit changes to the Subversion repository."
-msgstr "Fazer commit das alterações para o repositório interno"
+msgstr "Isto fará alterações no repositório Subversion."
 
 #: weblate/vcs/git.py:713
 msgid "Git with force push"
@@ -14415,20 +14395,16 @@ msgid "GitHub pull request"
 msgstr "Pull request do GitHub"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a GitHub pull request."
-msgstr "Pull request do Bitbucket"
+msgstr "Isto fará o push das alterações e criará um pull request do GitHub."
 
 #: weblate/vcs/git.py:1152
 msgid "Gitea pull request"
 msgstr "Pull request do Gitea"
 
 #: weblate/vcs/git.py:1156
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a Gitea pull request."
-msgstr "Pull request do Bitbucket"
+msgstr "Isto fará o push das alterações e criará um pull request do Gitea."
 
 #: weblate/vcs/git.py:1224
 msgid "No remote repository"
@@ -14439,30 +14415,25 @@ msgid "GitLab merge request"
 msgstr "Merge request do GitLab"
 
 #: weblate/vcs/git.py:1334
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a GitLab merge request."
-msgstr "Pull request do Bitbucket"
+msgstr "Isto fará o push das alterações e criará um merge request do GitLab."
 
 #: weblate/vcs/git.py:1471
 msgid "Pagure merge request"
 msgstr "merge request do Pagure"
 
 #: weblate/vcs/git.py:1476
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a Pagure merge request."
-msgstr "Pull request do Bitbucket"
+msgstr "Isto fará o push das alterações e criará um merge request do Pagure."
 
 #: weblate/vcs/git.py:1564
 msgid "Bitbucket Server pull request"
 msgstr "Pull request do Bitbucket"
 
 #: weblate/vcs/git.py:1570
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a Bitbucket Server pull request."
-msgstr "Pull request do Bitbucket"
+msgstr ""
+"Isto fará o push das alterações e criará um pull request do Bitbucket Server."
 
 #: weblate/vcs/mercurial.py:40
 #, fuzzy
@@ -14684,6 +14655,8 @@ msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in discover."
 msgstr ""
+"Altere o SITE_TITLE nas configurações para facilitar o reconhecimento do seu "
+"Weblate no discover."
 
 #: weblate/wladmin/views.py:186
 msgid "Activation completed."
