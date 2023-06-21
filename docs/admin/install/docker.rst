@@ -147,8 +147,8 @@ If you already host other sites on the same server, it is likely ports ``80`` an
 .. code-block:: nginx
 
     server {
-        listen 443;
-        listen [::]:443;
+        listen 443 ssl;
+        listen [::]:443 ssl;
 
         server_name <SITE_URL>;
         ssl_certificate /etc/letsencrypt/live/<SITE>/fullchain.pem;
