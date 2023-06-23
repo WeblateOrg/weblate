@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-15 08:54+0200\n"
-"PO-Revision-Date: 2023-06-15 09:53+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-06-23 15:39+0000\n"
+"Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
 "Language: tr\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18\n"
+"X-Generator: Weblate 4.18.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -1245,7 +1245,7 @@ msgstr "Öneriler"
 
 #: ../../admin/access.rst:543
 msgid "Accept suggestion"
-msgstr "Öneriyi kabul etme"
+msgstr "Öneriyi onaylama"
 
 #: ../../admin/access.rst:545
 msgid "Add suggestion"
@@ -2595,22 +2595,16 @@ msgstr ""
 "düzenleyebilirsiniz."
 
 #: ../../admin/addons.rst:451
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Çeviriyi kaynak dizgeyle önceden doldurma"
+msgstr "Salt okunur dizgeleri kaynakla doldur"
 
 #: ../../admin/addons.rst:455
-#, fuzzy
-#| msgid "``weblate.generate.prefill``"
 msgid "``weblate.generate.fill_read_only``"
-msgstr "``weblate.generate.prefill``"
+msgstr "``weblate.generate.fill_read_only``"
 
 #: ../../admin/addons.rst:459
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Çeviri dizgelerini kaynak dizgeler ile doldurur."
+msgstr "Salt okunur dizgelerin çevirilerini kaynak dizgeler ile doldurur."
 
 #: ../../admin/addons.rst:464
 msgid "Statistics generator"
@@ -7905,12 +7899,13 @@ msgid ""
 "host. The API host might be different from what you use in the web browser, "
 "for example GitHub API is accessed as ``api.github.com``."
 msgstr ""
+"Yapılandırma sözlüğü, her API sunucusu için tanımlanan kimlik bilgilerinden "
+"oluşur. API sunucusu, tarayıcıda kullandığınızdan farklı olabilir. Örneğin "
+"GitHub API uygulamasına ``api.github.com`` olarak erişilir."
 
 #: ../../snippets/vcs-credentials.rst:5
-#, fuzzy
-#| msgid "The following metrics are available for each:"
 msgid "The following configuration is available for each host:"
-msgstr "Şunların her biri için şu ölçümler kullanılabilir:"
+msgstr "Her sunucu için şu yapılandırma kullanılabilir:"
 
 #: ../../admin/machine.rst:353 ../../admin/machine.rst:403
 #: ../../snippets/vcs-credentials.rst:7
@@ -7919,7 +7914,7 @@ msgstr "``username``"
 
 #: ../../snippets/vcs-credentials.rst:8
 msgid "API user, required."
-msgstr ""
+msgstr "API kullanıcısı, zorunludur."
 
 #: ../../snippets/vcs-credentials.rst:9
 msgid "``token``"
@@ -7927,7 +7922,7 @@ msgstr "``token``"
 
 #: ../../snippets/vcs-credentials.rst:10
 msgid "API token for the API user, required."
-msgstr ""
+msgstr "API kullanıcısı için API belirteci, zorunludur."
 
 #: ../../snippets/vcs-credentials.rst:16
 msgid "``scheme``"
@@ -7939,6 +7934,10 @@ msgid ""
 "and falls backs to ``https``. If you are running the API server internally, "
 "you might want to use ``http`` instead, but consider security."
 msgstr ""
+"Şema değişikliği. Weblate, depo adresinden şemayı ayrıştırmaya çalışır ve "
+"``https`` adresine geri döner. API sunucusunu içeride çalıştırıyorsanız, "
+"bunun yerine ``http`` adresini kullanmak isteyebilirsiniz, ancak güvenliği "
+"göz önünde bulundurun."
 
 #: ../../snippets/vcs-credentials.rst:20
 msgid ""
@@ -7946,10 +7945,13 @@ msgid ""
 "and the credentials are built out of that. An example configuration for "
 "GitHub might look like:"
 msgstr ""
+"Docker kapsayıcısında, kimlik doğrulama bilgileri üç değişkende "
+"yapılandırılır ve kimlik doğrulama bilgileri bundan oluşturulur. GitHub için "
+"örnek bir yapılandırma şöyle görünebilir:"
 
 #: ../../snippets/vcs-credentials.rst:30
 msgid "Will be used as:"
-msgstr ""
+msgstr "Şu olarak kullanılacak:"
 
 #: ../../admin/config.rst:763
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
@@ -14331,7 +14333,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1243
 msgid "SAML attributes mapping."
-msgstr ""
+msgstr "SAML öznitelikleri eşleştirmesi."
 
 #: ../../admin/install/docker.rst:1247
 msgid "Other authentication settings"
@@ -14721,10 +14723,6 @@ msgstr ""
 "`WEBLATE_SITE_DOMAIN`."
 
 #: ../../admin/install/docker.rst:1556
-#, fuzzy
-#| msgid ""
-#| "Confgure sampling rate for performance monitoring. Set to 1 to trace all "
-#| "events, 0 (the default) disables tracing."
 msgid ""
 "Configure sampling rate for performance monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
@@ -14733,10 +14731,6 @@ msgstr ""
 "için 1, izlemenin devre dışı bırakılması için 0 (varsayılan)."
 
 #: ../../admin/install/docker.rst:1567
-#, fuzzy
-#| msgid ""
-#| "Confgure sampling rate for profiling monitoring. Set to 1 to trace all "
-#| "events, 0 (the default) disables tracing."
 msgid ""
 "Configure sampling rate for profiling monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
@@ -19932,7 +19926,7 @@ msgstr ""
 #: ../../admin/projects.rst:564 ../../workflows.rst:84 ../../workflows.rst:115
 #: ../../workflows.rst:149
 msgid "Autoaccept suggestions"
-msgstr "Öneriler kendiliğinden kabul edilsin"
+msgstr "Öneriler kendiliğinden onaylansın"
 
 #: ../../admin/projects.rst:566
 msgid "Automatically accept voted suggestions, see :ref:`voting`."
@@ -20164,24 +20158,20 @@ msgstr ""
 "(``tr_TR`` gibi)."
 
 #: ../../admin/projects.rst:684
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator, including country code"
 msgid ""
 "POSIX style using underscore as a separator, including country code "
 "(lowercase)"
-msgstr "Ülke kodu ile birlikte ayraç olarak alt çizgi kullanan POSIX biçemi"
+msgstr ""
+"Ülke kodu ile birlikte ayraç olarak alt çizgi kullanan POSIX biçemi (küçük "
+"harf)"
 
 #: ../../admin/projects.rst:684
-#, fuzzy
-#| msgid ""
-#| "POSIX style language code including the country code even when not "
-#| "necessary (for example ``cs_CZ``)."
 msgid ""
 "POSIX style language code including the country code even when not necessary "
 "(lowercase) (for example ``cs_cz``)."
 msgstr ""
-"Gerekli olmadığında bile ülke kodunu içeren POSIX biçemindeki dil kodu "
-"(``tr_TR`` gibi)."
+"Gerekli olmadığında bile ülke kodunu içeren POSIX biçemindeki dil kodu ("
+"küçük harf) (``tr_TR`` gibi)."
 
 #: ../../admin/projects.rst:687
 msgid "BCP style using hyphen as a separator"
@@ -22335,17 +22325,13 @@ msgstr ""
 "görmek için çeviri dosyalarının yeniden yüklenmesini dayatmanız gerekebilir."
 
 #: ../../admin/upgrade.rst:417
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "middleware changes, please adjust your settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings "
 "accordingly."
 msgstr ""
-":file:`settings_example.py` içinde birkaç değişiklik yapıldı. En önemlileri "
-"ara yazılım değişiklikleri. Lütfen ayarlarınızı buna göre yapın."
+":file:`settings_example.py` içinde birkaç değişiklik yapıldı. En önemli "
+"değişiklik ``COMPRESS_OFFLINE_CONTEXT``. Lütfen ayarlarınızı buna göre yapın."
 
 #: ../../admin/upgrade.rst:424
 msgid "Upgrading from Python 2 to Python 3"
@@ -24306,7 +24292,7 @@ msgstr "Ayrıntılı çeviri istatistiklerini görüntüler."
 
 #: ../../api.rst:1994
 msgid "Returns a list of memory results."
-msgstr "Bileşen listelerinin listesini görüntüler."
+msgstr "Bellek sonuçlarının listesini görüntüler."
 
 #: ../../api.rst:1998
 msgid "Deletes a memory object"
@@ -25380,10 +25366,8 @@ msgstr ""
 "özelliği eklendi."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "New add-on Fill read-only strings with source."
-msgstr "Çeviriyi kaynak dizgeyle önceden doldurma"
+msgstr "Salt okunur dizgeleri kaynak ile dolduran yeni eklenti."
 
 #: ../../changes.rst:25
 msgid ""
@@ -34083,7 +34067,7 @@ msgstr "Michael Totschnig"
 
 #: ../../../BACKERS.rst:18
 msgid "James Valleroy"
-msgstr ""
+msgstr "James Valleroy"
 
 #: ../../../BACKERS.rst:20
 msgid ""
