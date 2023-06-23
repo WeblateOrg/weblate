@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-15 06:53+0000\n"
-"PO-Revision-Date: 2023-06-10 07:01+0000\n"
+"PO-Revision-Date: 2023-06-23 15:38+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 4.18.1\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1599,16 +1599,12 @@ msgid "Fills in translation strings with source string."
 msgstr "Çeviri dizgelerini kaynak dizgeler ile doldurur."
 
 #: weblate/addons/generate.py:216
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Çeviriyi kaynak dizgeyle önceden doldurma"
+msgstr "Salt okunur dizgeleri kaynakla doldur"
 
 #: weblate/addons/generate.py:218
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Çeviri dizgelerini kaynak dizgeler ile doldurur."
+msgstr "Salt okunur dizgelerin çevirilerini kaynak dizgeler ile doldurur."
 
 #: weblate/addons/gettext.py:26
 msgid "Generate MO files"
@@ -1966,7 +1962,7 @@ msgstr "Kaynak dizgeleri düzenleme"
 #. Translators: Permission name
 #: weblate/auth/data.py:77
 msgid "Accept suggestion"
-msgstr "Öneriyi kabul etme"
+msgstr "Öneriyi onaylama"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:79
@@ -2462,10 +2458,8 @@ msgid "Block expiry"
 msgstr "Engelleme süresi sonu"
 
 #: weblate/auth/permissions.py:133
-#, fuzzy
-#| msgid "Can not perform this operation without an e-mail."
 msgid "Can not perform this operation without an e-mail address."
-msgstr "Bir e-posta adresi olmadan bu işlem yapılamaz."
+msgstr "Bu işlem bir e-posta adresi olmadan yapılamaz."
 
 #: weblate/auth/permissions.py:139 weblate/templates/translate.html:201
 #: weblate/templates/translate.html:221
@@ -2473,15 +2467,11 @@ msgid "This translation is currently locked."
 msgstr "Bu çeviri kilitlenmiş."
 
 #: weblate/auth/permissions.py:147
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires you agree to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "agreement."
 msgstr ""
-"Bu çeviriye katkıda bulunmak için katılımcı anlaşmasını kabul etmelisiniz."
+"Bu çeviriye katkıda bulunmak için katılımcı anlaşması kabul edilmelidir."
 
 #: weblate/auth/permissions.py:153 weblate/templates/translate.html:207
 #: weblate/trans/views/edit.py:420 weblate/trans/views/edit.py:442
@@ -2860,17 +2850,16 @@ msgid "Different strings are translated the same."
 msgstr "Farklı dizgelerin çevirileri aynı."
 
 #: weblate/checks/consistency.py:178
-#, fuzzy, python-format
-#| msgid "Update source strings"
+#, python-format
 msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
-msgstr[0] "Kaynak dizgeler güncellensin"
-msgstr[1] "Kaynak dizgeler güncellensin"
+msgstr[0] "Diğer kaynak dizge: %s"
+msgstr[1] "Diğer kaynak dizgeler: %s"
 
 #: weblate/checks/consistency.py:179
 #, python-format
 msgid "“%s”"
-msgstr ""
+msgstr "“%s”"
 
 #: weblate/checks/consistency.py:228
 msgid "Has been translated"
@@ -9515,7 +9504,7 @@ msgstr "Karşı oy verilen"
 
 #: weblate/templates/snippets/suggestions.html:34
 msgid "Accept"
-msgstr "Kabul et"
+msgstr "Onayla"
 
 #: weblate/templates/snippets/suggestions.html:35
 msgid "Accept and edit"
@@ -11837,7 +11826,7 @@ msgstr "Yorum eklendi"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:285
 msgid "Suggestion accepted"
-msgstr "Öneri kabul edildi"
+msgstr "Öneri onaylandı"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:287
@@ -12184,12 +12173,12 @@ msgid "POSIX style using underscore as a separator, including country code"
 msgstr "Ülke kodu ile birlikte ayraç olarak alt çizgi kullanan POSIX biçemi"
 
 #: weblate/trans/models/component.py:129
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator, including country code"
 msgid ""
 "POSIX style using underscore as a separator, including country code "
 "(lowercase)"
-msgstr "Ülke kodu ile birlikte ayraç olarak alt çizgi kullanan POSIX biçemi"
+msgstr ""
+"Ülke kodu ile birlikte ayraç olarak alt çizgi kullanan POSIX biçemi (küçük "
+"harf)"
 
 #: weblate/trans/models/component.py:134
 msgid "BCP style using hyphen as a separator, including country code"
@@ -12395,14 +12384,14 @@ msgstr ""
 
 #: weblate/trans/models/component.py:475
 msgid "Autoaccept suggestions"
-msgstr "Öneriler kendiliğinden kabul edilsin"
+msgstr "Öneriler kendiliğinden onaylansın"
 
 #: weblate/trans/models/component.py:478
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to turn it "
 "off."
 msgstr ""
-"Belirtilen oylama sayısına ulaşan öneriler kendiliğinden kabul edilir. Bu "
+"Belirtilen oylama sayısına ulaşan öneriler kendiliğinden onaylanır. Bu "
 "özelliği devre dışı bırakmak için 0 yazın."
 
 #: weblate/trans/models/component.py:484 weblate/trans/models/unit.py:308
@@ -12786,8 +12775,8 @@ msgstr "Kurallı ifade geçersiz olduğundan dosya eşleşmeleri doğrulanamıyo
 #: weblate/trans/models/component.py:2858
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
-"Öneriler, yalnızca oylama özelliği etkinleştirildiğinde kendiliğinden kabul "
-"edilebilir."
+"Öneriler, yalnızca oylama özelliği etkinleştirildiğinde kendiliğinden "
+"onaylanabilir."
 
 #: weblate/trans/models/component.py:3337
 msgid "Could not add new translation file."
@@ -12969,7 +12958,7 @@ msgstr ""
 
 #: weblate/trans/models/suggestion.py:122
 msgid "Failed to accept suggestion!"
-msgstr "Öneri kabul edilemedi!"
+msgstr "Öneri onaylanamadı!"
 
 #: weblate/trans/models/translation.py:202
 #, python-format
@@ -13636,7 +13625,7 @@ msgstr "Boş çeviriye geri dönülemez!"
 
 #: weblate/trans/views/edit.py:486
 msgid "You do not have privilege to accept suggestions!"
-msgstr "Önerileri kabul etme izniniz yok!"
+msgstr "Önerileri onaylama izniniz yok!"
 
 #: weblate/trans/views/edit.py:492
 msgid "You do not have privilege to delete suggestions!"
@@ -14195,8 +14184,6 @@ msgid "GitHub pull request"
 msgstr "GitHub çekme isteği"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "This will push changes and create GitHub pull request."
 msgid "This will push changes and create a GitHub pull request."
 msgstr "Bu işlem değişiklikleri iter ve GitHub çekme isteği oluşturur."
 
@@ -14205,8 +14192,6 @@ msgid "Gitea pull request"
 msgstr "Gitea çekme isteği"
 
 #: weblate/vcs/git.py:1156
-#, fuzzy
-#| msgid "This will push changes and create Gitea pull request."
 msgid "This will push changes and create a Gitea pull request."
 msgstr "Bu işlem değişiklikleri iter ve Gitea çekme isteği oluşturur."
 
@@ -14219,8 +14204,6 @@ msgid "GitLab merge request"
 msgstr "GitLab birleştirme isteği"
 
 #: weblate/vcs/git.py:1334
-#, fuzzy
-#| msgid "This will push changes and create GitLab merge request."
 msgid "This will push changes and create a GitLab merge request."
 msgstr "Bu işlem değişiklikleri iter ve GitLab çekme isteği oluşturur."
 
@@ -14229,8 +14212,6 @@ msgid "Pagure merge request"
 msgstr "Pagure birleştirme isteği"
 
 #: weblate/vcs/git.py:1476
-#, fuzzy
-#| msgid "This will push changes and create Pagure merge request."
 msgid "This will push changes and create a Pagure merge request."
 msgstr "Bu işlem değişiklikleri iter ve Pagure birleştirme isteği oluşturur."
 
@@ -14239,8 +14220,6 @@ msgid "Bitbucket Server pull request"
 msgstr "Bitbucket sunucusu çekme isteği"
 
 #: weblate/vcs/git.py:1570
-#, fuzzy
-#| msgid "This will push changes and create Bitbucket Server pull request."
 msgid "This will push changes and create a Bitbucket Server pull request."
 msgstr "Bu işlem değişiklikleri iter ve Bitbucket çekme isteği oluşturur."
 
