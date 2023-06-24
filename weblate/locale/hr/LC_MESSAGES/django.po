@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-15 06:53+0000\n"
-"PO-Revision-Date: 2023-06-21 23:49+0000\n"
+"PO-Revision-Date: 2023-06-24 17:53+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -7135,14 +7135,12 @@ msgid "Push"
 msgstr "Prenesi"
 
 #: weblate/templates/js/git-status.html:41
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s komentar"
-msgstr[1] "%(count)s komentara"
-msgstr[2] "%(count)s komentara"
+msgstr[0] "%(count)s izlazna promjena"
+msgstr[1] "%(count)s izlazne promjene"
+msgstr[2] "%(count)s izlaznih promjena"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Update"
@@ -7150,17 +7148,15 @@ msgstr "Aktualiziraj"
 
 #: weblate/templates/js/git-status.html:58
 msgid "Update with merge"
-msgstr ""
+msgstr "Aktualiziraj sa sjedinjavanjem"
 
 #: weblate/templates/js/git-status.html:61
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Update with rebase"
-msgstr "Aktualiziraj provjere kvalitete"
+msgstr "Aktualiziraj s premještanjem"
 
 #: weblate/templates/js/git-status.html:64
 msgid "Update with merge without fast-forward"
-msgstr "Aktualiziraj pomoću sjedinjavanja bez funkcije fast-forward"
+msgstr "Aktualiziraj sa sjedinjavanjem bez funkcije fast-forward"
 
 #: weblate/templates/js/git-status.html:70
 #, python-format
@@ -7257,11 +7253,11 @@ msgstr "Sinkroniziraj"
 
 #: weblate/templates/js/git-status.html:132
 msgid "Force writing all translations to the Weblate repository"
-msgstr "Prisili pisanje svih prijevoda u Weblate repozitorij"
+msgstr "Prisili zapisivanje svih prijevoda u Weblate repozitorij"
 
 #: weblate/templates/js/git-status.html:135
 msgid "Forces writing all strings to the translation files."
-msgstr "Prisili pisanje svih prijevoda u prevodilačke datoteke."
+msgstr "Prisili zapisivanje svih prijevoda u prevodilačke datoteke."
 
 #: weblate/templates/js/git-status.html:136
 msgid ""
@@ -7273,13 +7269,11 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:140
 msgid "Rescan"
-msgstr ""
+msgstr "Pretraži ponovo"
 
 #: weblate/templates/js/git-status.html:142
-#, fuzzy
-#| msgid "Cleanup all untracked files in the Weblate repository"
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "Počisti sve nepraćene datoteke u Weblate repozitoriju"
+msgstr "Pretraži ponovo sve prevodilačke datoteke u Weblate repozitoriju"
 
 #: weblate/templates/js/git-status.html:145
 msgid "Loads translations from the files into Weblate."
@@ -7289,12 +7283,12 @@ msgstr "Učitava prijevode iz datoteka u Weblate."
 msgid ""
 "Use when Weblate missed some of the strings after updating the repository."
 msgstr ""
-"Koristi kada je Weblate propustio neke izraze nakon aktualiziranja "
+"Koristi ovo kada je Weblate propustio neke izraze nakon aktualiziranja "
 "repozitorija."
 
 #: weblate/templates/js/git-status.html:151
 msgid "Use these operations with caution, they can lead to data loss."
-msgstr "Koristi ove radnje s oprezom jer mogu prouzročiti gubitak podataka."
+msgstr "Koristi ove radnje s oprezom jer mogu prouzročiti gubljenje podataka."
 
 #: weblate/templates/js/git-status.html:160
 #, python-format
@@ -7538,6 +7532,8 @@ msgid ""
 "There are no projects attached to this billing plan. (There might be "
 "projects in other billing plans of yours.)"
 msgstr ""
+"Nijedan projekt nije povezan s ovom tarifom. (Možda postoje projekti u nekim "
+"od tvojih drugih tarifa.)"
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
@@ -9223,9 +9219,9 @@ msgid ""
 "system commits and provide your contribution under license defined by each "
 "translated project."
 msgstr ""
-"Registracijom pristaješ na upotrebu tvog imena i e-mail adrese u promjenama "
-"sustava za kontrolu verzija, kao i na doprinošenje pod licencom koja je "
-"definirana svaki prevedeni projekt."
+"Registracijom pristaješ na upotrebu tvog imena i e-mail adrese za spremanje "
+"promjena u sustavu za kontrolu verzija, kao i na doprinošenje pod licencom "
+"koju definirana svaki projekt."
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -10516,14 +10512,11 @@ msgstr[1] "Ovi izrazi imaju drugačije izvore, ali isti kontekst."
 msgstr[2] "Ovi izrazi imaju drugačije izvore, ali isti kontekst."
 
 #: weblate/templates/translate.html:335
-#, fuzzy
-#| msgid "The following string has a different source and different context."
-#| msgid_plural "The following strings have different sources and context."
 msgid "This string has a different source and context."
 msgid_plural "These strings have differing sources and context."
-msgstr[0] "Sljedeći izraz ima drugačiji izvor i drugačiji kontekst."
-msgstr[1] "Sljedeći izrazi imaju drugačije izvore i drugačiji kontekst."
-msgstr[2] "Sljedeći izrazi imaju drugačije izvore i drugačiji kontekst."
+msgstr[0] "Ovaj izraz ima drugačiji izvor i kontekst."
+msgstr[1] "Ovi izrazi imaju drugačije izvore i kontekst."
+msgstr[2] "Ovi izrazi imaju drugačije izvore i kontekst."
 
 #: weblate/templates/translate.html:345
 msgid "Apply selected translation to all propagated strings"
@@ -14466,6 +14459,8 @@ msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in discover."
 msgstr ""
+"Promijeni SITE_TITLE (naslov web-stranice) u postavkama kako bi se tvoj "
+"Weblate lakše prepoznao u otkrivanju."
 
 #: weblate/wladmin/views.py:186
 msgid "Activation completed."
