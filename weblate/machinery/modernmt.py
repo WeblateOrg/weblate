@@ -20,6 +20,8 @@ class ModernMTTranslation(MachineTranslation):
     settings_form = ModernMTMachineryForm
 
     language_map = {
+        "fa": "pes",
+        "pt": "pt-PT",
         "sr_Cyrl": "sr",
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh-CN",
