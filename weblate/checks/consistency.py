@@ -132,7 +132,12 @@ class ConsistencyCheck(TargetCheck):
 
 
 class ReusedCheck(TargetCheck):
-    """Check for reused translations."""
+    """
+    Check for reused translations.
+
+    This is skipped for languages with a single plural form as that causes too
+    many false positives, see https://github.com/WeblateOrg/weblate/issues/9450
+    """
 
     check_id = "reused"
     name = gettext_lazy("Reused translation")
@@ -140,6 +145,11 @@ class ReusedCheck(TargetCheck):
     propagates = True
     batch_project_wide = True
     skip_suggestions = True
+
+    def should_skip(self, unit):
+        if unit.translation.plural.number <= 1:
+            return True
+        return super().should_skip(unit)
 
     def get_same_target_units(self, unit):
         from weblate.trans.models import Unit
@@ -153,6 +163,7 @@ class ReusedCheck(TargetCheck):
             translation__component__source_language_id=component.source_language_id,
             translation__component__allow_translation_propagation=True,
             translation__plural_id=translation.plural_id,
+            translation__plural__number__gt=1,
         ).exclude(source__md5=MD5(Value(unit.source)))
 
     def check_target_unit(self, sources, targets, unit):
