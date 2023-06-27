@@ -61,6 +61,7 @@ sed \
     -e 's@"Report-Msgid-Bugs-To:.*@"Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\\n"@' \
     -e 's/"Project-Id-Version:.*/"Project-Id-Version: Weblate '"$version"'\\n"/' \
     -e 's/SOME DESCRIPTIVE TITLE./Weblate localization./' \
+    -e '/^# FIRST AUTHOR/ D' \
     -e "/^# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER/ D" \
     -e "/^# Copyright (C) [0-9– -]* Michal Čihař/ D" \
     -e "/^# This file is distributed under the same license as the/ D" \
