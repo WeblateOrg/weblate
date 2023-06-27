@@ -1,16 +1,16 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 # Weblate localization.
 # Balázs Meskó <meskobalazs@mailbox.org>, 2023.
+# Balázs Úr <balazs@urbalazs.hu>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 08:56+0200\n"
-"PO-Revision-Date: 2023-06-15 09:52+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-06-28 07:26+0000\n"
+"Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
 "Language: hu\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18\n"
+"X-Generator: Weblate 4.18.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -90,7 +90,7 @@ msgstr "Bármely hitelesített felhasználó közreműködhet."
 
 #: ../../admin/access.rst:44
 msgid "VCS repository might be exposed to everybody."
-msgstr "A verziókezelő tárolója mindenki számára hozzáférhető lehet."
+msgstr "A verziókövető tárolója mindenki számára hozzáférhető lehet."
 
 #: ../../admin/access.rst:46
 msgid ""
@@ -110,7 +110,7 @@ msgstr "Csak a kiválasztott felhasználók járulhatnak hozzá."
 #: ../../admin/access.rst:52 ../../admin/access.rst:60
 #: ../../admin/access.rst:68
 msgid "Only chosen users can access VCS repository."
-msgstr "Csak a kiválasztott felhasználók férhetnek hozzá a verziókezelőhöz."
+msgstr "Csak a kiválasztott felhasználók férhetnek hozzá a verziókövetőhöz."
 
 #: ../../admin/access.rst:54
 msgid ""
@@ -333,7 +333,7 @@ msgstr ""
 
 #: ../../admin/access.rst:159
 msgid "Team administrators"
-msgstr "Csapatadminisztrátorok"
+msgstr "Csapatrendszergazdák"
 
 #: ../../admin/access.rst:163
 msgid ""
@@ -1078,7 +1078,7 @@ msgstr "Szöveg eltávolítása"
 
 #: ../../admin/access.rst:533
 msgid "Dismiss failing check"
-msgstr "Sikertelen ellenőrzés elvetése"
+msgstr "Sikertelen ellenőrzés eltüntetése"
 
 #: ../../admin/access.rst:535
 msgid "Edit strings"
@@ -1506,7 +1506,7 @@ msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
-"Vegye figyelembe, hogy az összes szöveg fordítása elveti az összes meglévő "
+"Ne feledje, hogy az összes szöveg fordítása elveti az összes meglévő "
 "fordítást."
 
 #: ../../admin/addons.rst:42
@@ -1567,8 +1567,8 @@ msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Adja meg a forrásként használandó összetevő keresőbarát webcímét, hagyja "
-"üresen a jelenlegi projekt összes összetevőjének használatához."
+"Adja meg a forrásként használandó összetevő keresőbarát URL-ét. Hagyja "
+"üresen a jelenlegi projektben lévő összes összetevő használatához."
 
 #: ../../admin/addons.rst:60
 msgid "``engines``"
@@ -1680,7 +1680,7 @@ msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
-"A jelenlegi tárolóban vagy távoli webcímeken lévő feldolgozandó fájlnevek "
+"A jelenlegi tárolóban vagy távoli URL-eken lévő feldolgozandó fájlnevek "
 "listája a lefordítható szövegekhez."
 
 #: ../../admin/addons.rst:95
@@ -1692,8 +1692,8 @@ msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
-"Fordításokat tesz közzé a tartalomszolgáltató hálózatba, a JavaScript vagy a "
-"HTML lokalizációjához."
+"Közzéteszi a fordításokat a tartalomkézbesítési hálózatban a JavaScript vagy "
+"HTML honosításokban való használathoz."
 
 #: ../../admin/addons.rst:100
 msgid ""
@@ -1794,7 +1794,8 @@ msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
-"Konzisztens nyelvkészletet biztosít a projekt összes összetevője számára."
+"Azt biztosítja, hogy következetes nyelvkészlet legyen használva egy "
+"projekten belüli összes összetevőben."
 
 #: ../../admin/addons.rst:163
 msgid ""
@@ -1926,8 +1927,7 @@ msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
 msgstr ""
-"A fordítási fájlok szűréséhez használt reguláris kifejezés a fájlmaszk "
-"keresésekor."
+"Reguláris kifejezés a fordítási fájlok szűréséhez a fájlmaszk keresésekor."
 
 #: ../../admin/addons.rst:194
 msgid "``copy_addons``"
@@ -1935,7 +1935,7 @@ msgstr "``copy_addons``"
 
 #: ../../admin/addons.rst:194
 msgid "Clone add-ons from the main component to the newly created ones"
-msgstr "Kiegészítők klónozása a fő összetevőből az újonnan létrehozottba"
+msgstr "Kiegészítők klónozása a fő összetevőből az újonnan létrehozottakba"
 
 #: ../../admin/addons.rst:196
 msgid "``remove``"
@@ -2359,7 +2359,7 @@ msgstr "Összetevő neve"
 
 #: ../../admin/addons.rst:358
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr "Szövegek jelzőinek, címkéinek vagy állapotának tömeges szerkesztése."
+msgstr "Szövegek jelzőinek, címkéinek vagy állapotainak tömeges szerkesztése."
 
 #: ../../admin/addons.rst:360
 msgid ""
@@ -2429,11 +2429,10 @@ msgid ""
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Amikor új lefordítható szöveg került importálásra a verziókezelő "
-"rendszerből, és az megegyezik egy forrásszöveggel, akkor az szerkesztést "
-"igénylőként lesz megjelölve a Weblate-ben. Ez különösen olyan "
-"fájlformátumoknál hasznos, amelyek az összes szöveget tartalmazzák, még "
-"akkor is ha azok nincsenek lefordítva."
+"Amikor új lefordítható szöveg kerül importálásra a verziókövető rendszerből, "
+"és az megegyezik egy forrásszöveggel, akkor az szerkesztést igénylőként lesz "
+"megjelölve a Weblate-ben. Ez különösen olyan fájlformátumoknál hasznos, "
+"amelyek forrásszövegeket tartalmaznak a lefordítatlan szövegekhez."
 
 #: ../../admin/addons.rst:407
 msgid ""
@@ -2484,20 +2483,16 @@ msgstr ""
 "fordításokat."
 
 #: ../../admin/addons.rst:451
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Fordítás előzetes kitöltése a forrással"
+msgstr "Csak olvasható szövegek kitöltése a forrással"
 
 #: ../../admin/addons.rst:455
 msgid "``weblate.generate.fill_read_only``"
 msgstr ""
 
 #: ../../admin/addons.rst:459
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Kitölti a fordítási szövegeket a forrásszövegekkel."
+msgstr "Kitölti a csak olvasható szövegek fordítását a forrásszöveggel."
 
 #: ../../admin/addons.rst:464
 msgid "Statistics generator"
@@ -2586,7 +2581,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:519
 msgid "Pseudolocale generation"
-msgstr "Pseudolocale generáció"
+msgstr "Pszeudo területi beállítás előállítása"
 
 #: ../../admin/addons.rst:523
 msgid "``weblate.generate.pseudolocale``"
@@ -2606,7 +2601,7 @@ msgstr "Célfordítás"
 
 #: ../../admin/addons.rst:527
 msgid "All strings in this translation will be overwritten"
-msgstr "Az összes fordítás felül lesz írva"
+msgstr "Az ebben a fordításban lévő összes szöveg felül lesz írva"
 
 #: ../../admin/addons.rst:529
 msgid "``prefix``"
@@ -2614,7 +2609,7 @@ msgstr "``prefix``"
 
 #: ../../admin/addons.rst:529
 msgid "Fixed string prefix"
-msgstr "Kötött szövegelőtag"
+msgstr "Rögzített szövegelőtag"
 
 #: ../../admin/addons.rst:531
 msgid "``var_prefix``"
@@ -2630,7 +2625,7 @@ msgstr "``suffix``"
 
 #: ../../admin/addons.rst:533
 msgid "Fixed string suffix"
-msgstr "Kötött szövegutótag"
+msgstr "Rögzített szövegutótag"
 
 #: ../../admin/addons.rst:535
 msgid "``var_suffix``"
@@ -2661,7 +2656,7 @@ msgstr "``include_readonly``"
 
 #: ../../admin/addons.rst:539
 msgid "Include read-only strings"
-msgstr "Írásvédett szövegek belevétele"
+msgstr "Csak olvasható szövegek felvétele"
 
 #: ../../admin/addons.rst:543
 msgid ""
@@ -2669,7 +2664,7 @@ msgid ""
 "automatically."
 msgstr ""
 "Előállít egy fordítást úgy, hogy automatikusan előtagot és utótagot ad hozzá "
-"a forrás karakterláncokhoz."
+"a forrásszövegekhez."
 
 #: ../../admin/addons.rst:546
 msgid ""
@@ -2698,7 +2693,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:561
 msgid "The strings will be generated using following pattern:"
-msgstr "A szövegek a következő minta alapján lesznek előállítva:"
+msgstr "A szövegek a következő minta használatával lesznek előállítva:"
 
 #: ../../admin/addons.rst:563
 msgid ""
@@ -2741,8 +2736,8 @@ msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Frissíti a PO-fájl fejlécében lévő megjegyzés részt a közreműködők neveinek "
-"és a közreműködések éveinek felvételéhez."
+"Frissíti a PO-fájl fejlécének megjegyzés részét a közreműködők neveinek és a "
+"közreműködések éveinek felvételéhez."
 
 #: ../../admin/addons.rst:598
 msgid "The PO file header will look like this:"
@@ -2789,8 +2784,8 @@ msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"Alapértelmezetten a gettext tördeli a sorokat a 77. karakternél és a "
-"soremeléseknél. A --no-wrap paraméterrel csak a soremeléseknél tördel."
+"Alapértelmezetten a gettext tördeli a sorokat a 77. karakternél és az új "
+"soroknál. A --no-wrap paraméterrel csak az új soroknál végez tördelést."
 
 #: ../../admin/addons.rst:630
 #, fuzzy
@@ -2997,7 +2992,7 @@ msgstr "``append_trailers``"
 
 #: ../../admin/addons.rst:728
 msgid "Append trailers to squashed commit message"
-msgstr "Zárósorok hozzáfűzése az összevont véglegesítési üzenethez"
+msgstr "Zárósorok hozzáfűzése az összevont véglegesítésüzenethez"
 
 #: ../../admin/addons.rst:728
 msgid ""
@@ -3005,9 +3000,9 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
-"A zárósorok az RFC 822-es e-mail-fejlécekhez hasonlóak és a "
-"véglegesítésüzenet egyébként szabad szöveges részének végén szerepelnek, "
-"mint például „Co-authored-by: …”."
+"A zárósorok az RFC 822-es e-mail-fejlécekhez hasonló sorok a "
+"véglegesítésüzenet egyébként szabad szöveges részének végén, mint például "
+"„Co-authored-by: …”."
 
 #: ../../admin/addons.rst:730
 msgid "``commit_message``"
@@ -3141,7 +3136,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:784
 msgid "Formats and sorts the Java properties file."
-msgstr "Formázza és rendezi a Java properties fájlt."
+msgstr "Megformázza és rendezi a Java properties fájlt."
 
 #: ../../admin/addons.rst:786
 msgid "Consolidates newlines to Unix ones."
@@ -3276,17 +3271,13 @@ msgstr "``closing_tags``"
 
 #: ../../admin/addons.rst:864
 msgid "Include closing tag for blank XML tags"
-msgstr "Záró címke belevétele az üres XML címkéknél"
+msgstr "Záró címke felvétele az üres XML-címkéknél"
 
 #: ../../admin/addons.rst:868
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid "Allows adjusting XML output behavior, for example closing tags."
 msgstr ""
-"Lehetővé teszi a YAML kimenet viselkedésének beállítását, például a sor "
-"hosszát vagy az új sorokat."
+"Lehetővé teszi az XML kimenet viselkedésének beállítását, például a záró "
+"címkéket."
 
 #: ../../admin/addons.rst:873
 msgid "Customize YAML output"
@@ -9628,7 +9619,7 @@ msgstr ""
 
 #: ../../admin/install.rst:80
 msgid "translation-finder"
-msgstr ""
+msgstr "fordításkereső"
 
 #: ../../admin/install.rst:81
 msgid "https://github.com/WeblateOrg/translation-finder"
@@ -13998,7 +13989,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:145
 msgid "Plural formula"
-msgstr "Többes számú képlet"
+msgstr "Többes szám képlet"
 
 #: ../../admin/languages.rst:147
 msgid ""
@@ -14569,6 +14560,8 @@ msgstr "Hitelesítés"
 #: ../../admin/machine.rst:287
 msgid "Regional or multi-service can be specified using region field below."
 msgstr ""
+"A regionális vagy többes szolgáltatás a lenti régió mező használatával "
+"adható meg."
 
 #: ../../admin/machine.rst:291
 msgid "``api.cognitive.microsoft.com`` -- Global"
@@ -17045,10 +17038,8 @@ msgid ":ref:`bimono`, :ref:`faq-duplicate-files`"
 msgstr ""
 
 #: ../../admin/projects.rst:438
-#, fuzzy
-#| msgid "Screenshot details"
 msgid "Screenshot file mask"
-msgstr "Képernyőkép részletei"
+msgstr "Képernyőkép fájlmaszkja"
 
 #: ../../admin/projects.rst:440
 msgid ""
@@ -17459,13 +17450,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:684
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator, including country code"
 msgid ""
 "POSIX style using underscore as a separator, including country code "
 "(lowercase)"
 msgstr ""
-"Elválasztóként aláhúzást használó POSIX stílus, beleértve az országkódot is"
+"Elválasztóként aláhúzást használó POSIX stílus, beleértve az országkódot is "
+"(kisbetűs)"
 
 #: ../../admin/projects.rst:684
 msgid ""
@@ -17495,7 +17485,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:692
 msgid "BCP style using hyphen as a separator, legacy language codes"
-msgstr "Elválasztóként kötőjelet és örökölt nyelvkódot használó BCP stílus"
+msgstr "Elválasztóként kötőjelet és örökölt nyelvkódokat használó BCP stílus"
 
 #: ../../admin/projects.rst:693
 msgid "Uses legacy codes for Chinese and BCP style notation."
@@ -17535,7 +17525,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:704
 msgid "Linux style"
-msgstr "Linuxos stílus"
+msgstr "Linux stílus"
 
 #: ../../admin/projects.rst:704
 msgid ""
@@ -17838,7 +17828,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:902
 msgid "Share in projects"
-msgstr "Megosztás a projektekben"
+msgstr "Megosztás projektekben"
 
 #: ../../admin/projects.rst:904
 msgid ""
@@ -18313,7 +18303,7 @@ msgstr ""
 
 #: ../../admin/support.rst:55
 msgid "Discover Weblate"
-msgstr "Weblate felfedezése"
+msgstr "A Weblate felfedezése"
 
 #: ../../admin/support.rst:59
 msgid ""
@@ -20073,7 +20063,7 @@ msgstr ""
 #: ../../api.rst:1910 ../../api.rst:1921 ../../api.rst:1949 ../../api.rst:1962
 #: ../../api.rst:1975
 msgid "Project URL slug"
-msgstr "Projekt keresőbarát webcíme"
+msgstr "Projekt keresőbarát URL-e"
 
 #: ../../api.rst:805
 msgid "project name"
@@ -20141,7 +20131,7 @@ msgstr ""
 #: ../../api.rst:1864 ../../api.rst:1884 ../../api.rst:1912 ../../api.rst:1923
 #: ../../api.rst:1951 ../../api.rst:1964 ../../api.rst:1977
 msgid "Component URL slug"
-msgstr "Összetevő keresőbarát webcíme"
+msgstr "Összetevő keresőbarát URL-e"
 
 #: ../../api.rst:845
 msgid "Edit a project by a :http:method:`PUT` request."
@@ -21657,7 +21647,7 @@ msgstr ""
 
 #: ../../api.rst:2454
 msgid "Metrics"
-msgstr ""
+msgstr "Mérőszámok"
 
 #: ../../api.rst:2458
 msgid "Returns server metrics."
@@ -35368,7 +35358,7 @@ msgstr ""
 
 #: ../../formats.rst:482
 msgid "Read-only strings"
-msgstr "Írásvédett szövegek"
+msgstr "Csak olvasható szövegek"
 
 #: ../../formats.rst:486
 msgid ""
@@ -36814,11 +36804,11 @@ msgstr "Egyszerű szöveges fájl"
 
 #: ../../formats/txt.rst:14
 msgid "DokuWiki text file"
-msgstr "DokuWiki szöveges fájl"
+msgstr "DokuWiki-szövegfájl"
 
 #: ../../formats/txt.rst:15
 msgid "MediaWiki text file"
-msgstr "MediaWiki szöveges fájl"
+msgstr "MediaWiki-szövegfájl"
 
 #: ../../formats/txt.rst:19
 msgid ":doc:`tt:formats/text`"
@@ -37616,7 +37606,7 @@ msgstr "Verziókövető-integráció"
 
 #: ../../user/checks.rst:44
 msgid "Devanagari danda"
-msgstr ""
+msgstr "Dévanágari danda"
 
 #: ../../user/checks.rst:46
 msgid "Replaces wrong full stop in Devanagari by Devanagari danda (``।``)."
@@ -37676,7 +37666,7 @@ msgstr ""
 
 #: ../../user/checks.rst:86
 msgid "BBCode markup"
-msgstr "BB kód jelölő"
+msgstr "BBCode jelölő"
 
 #: ../../user/checks.rst:0
 #, fuzzy
@@ -38085,14 +38075,14 @@ msgstr ""
 
 #: ../../user/checks.rst:297
 msgid "ICU MessageFormat"
-msgstr "ICU MessageFormat"
+msgstr "ICU-üzenetformátum"
 
 #: ../../user/checks.rst:301
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
-"Szintaktikai hibák vagy helykitöltő egyezési problémák az ICU MessageFormat "
-"szövegekben."
+"Szintaktikai hibák és/vagy helykitöltő egyezési problémák az ICU-"
+"üzenetformátum szövegeiben."
 
 #: ../../user/checks.rst:303
 #, fuzzy
@@ -38245,11 +38235,11 @@ msgstr ""
 
 #: ../../user/checks.rst:388
 msgid "Java MessageFormat"
-msgstr "Java MessageFormat"
+msgstr "Java-üzenetformátum"
 
 #: ../../user/checks.rst:390
 msgid "Java MessageFormat string does not match source"
-msgstr "A Java MessageFormat szöveg nem egyezik a forrással"
+msgstr "A Java-üzenetformátum szöveg nem egyezik a forrással"
 
 #: ../../user/checks.rst:392
 msgid "``weblate.checks.format.JavaMessageFormatCheck``"
@@ -39160,7 +39150,7 @@ msgstr "Nem egyező sortörések"
 
 #: ../../user/checks.rst:1015
 msgid "Number of new lines in translation does not match source"
-msgstr "Az új sorok száma a fordításban nem egyezik a forrással"
+msgstr "A fordításban lévő új sorok száma nem egyezik a forrással"
 
 #: ../../user/checks.rst:1017
 msgid "``weblate.checks.chars.NewLineCountCheck``"
@@ -39305,16 +39295,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:1136
-#, fuzzy
-#| msgid "Removed translation"
 msgid "Reused translation"
-msgstr "Fordítás eltávolítva"
+msgstr "Újrahasznált fordítás"
 
 #: ../../user/checks.rst:1140
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Different strings are translated the same."
-msgstr "Nincsenek lefordítandó szövegek"
+msgstr "Különböző szövegek ugyanúgy vannak lefordítva."
 
 #: ../../user/checks.rst:1142
 #, fuzzy
@@ -39536,11 +39522,11 @@ msgstr ""
 
 #: ../../user/checks.rst:1296
 msgid "URL"
-msgstr "Webcím"
+msgstr "URL"
 
 #: ../../user/checks.rst:1300
 msgid "The translation does not contain an URL"
-msgstr "A fordítás nem tartalmaz webcímet"
+msgstr "A fordítás nem tartalmaz URL-t"
 
 #: ../../user/checks.rst:1302
 msgid "``weblate.checks.markup.URLCheck``"
@@ -39693,11 +39679,11 @@ msgstr ""
 
 #: ../../user/checks.rst:1406
 msgid "ICU MessageFormat syntax"
-msgstr "ICU MessageFormat szintaxis"
+msgstr "ICU-üzenetformátum szintaxisa"
 
 #: ../../user/checks.rst:1410
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr "Szintaktikai hibák az ICU MessageFormat szövegekben."
+msgstr "Szintaktikai hibák az ICU-üzenetformátum szövegeiben."
 
 #: ../../user/checks.rst:1412
 #, fuzzy
@@ -40221,7 +40207,7 @@ msgstr ""
 
 #: ../../user/glossary.rst:89
 msgid "Terminology"
-msgstr "Szakkifejezés"
+msgstr "Szakkifejezések"
 
 #: ../../user/glossary.rst:93
 msgid ""
@@ -40409,7 +40395,7 @@ msgstr "Beállítások"
 
 #: ../../user/profile.rst:111
 msgid "Theme"
-msgstr ""
+msgstr "Téma"
 
 #: ../../user/profile.rst:113
 msgid ""
@@ -41003,7 +40989,7 @@ msgstr ""
 
 #: ../../user/search.rst:144
 msgid "Regular expressions"
-msgstr "Reguláris kifejezés"
+msgstr "Reguláris kifejezések"
 
 #: ../../user/search.rst:146
 msgid ""
@@ -41275,7 +41261,7 @@ msgstr "Sikertelen ellenőrzések találhatók"
 
 #: ../../user/translating.rst:100
 msgid "Automatically translated"
-msgstr "Automatikusan fordítva"
+msgstr "Automatikusan lefordítva"
 
 #: ../../user/translating.rst:101
 #, fuzzy
