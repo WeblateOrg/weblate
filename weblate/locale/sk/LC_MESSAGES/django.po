@@ -1,6 +1,8 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Weblate localization.
 # Marek Ľach <mareklachbc@tutanota.com>, 2019.
 # Martin Lacina <martin@whistler.sk>, 2019.
 # Petra Zavadska <petra.zavadska@gmail.com>, 2019.
@@ -19,9 +21,9 @@
 # Milan <brnecovsky@gmail.com>, 2023.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 4.18\n"
+"Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2023-06-15 06:53+0000\n"
+"POT-Creation-Date: 2023-06-27 07:48+0000\n"
 "PO-Revision-Date: 2023-04-02 01:09+0000\n"
 "Last-Translator: Milan <mobrcian@hotmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
@@ -55,7 +57,7 @@ msgid "This username is already taken. Please choose another."
 msgstr "Toto užívateľské meno je už obsadené. Prosím, zvoľte si iné."
 
 #: weblate/accounts/forms.py:110 weblate/accounts/forms.py:848
-#: weblate/auth/models.py:331 weblate/templates/auth/team.html:86
+#: weblate/auth/models.py:336 weblate/templates/auth/team.html:86
 #: weblate/templates/trans/project-access.html:37
 msgid "Full name"
 msgstr "Celé meno"
@@ -90,7 +92,7 @@ msgid "Component list: %s"
 msgstr "Zoznam komponentov: %s"
 
 #: weblate/accounts/forms.py:340 weblate/accounts/forms.py:413
-#: weblate/accounts/templatetags/authnames.py:22 weblate/auth/models.py:337
+#: weblate/accounts/templatetags/authnames.py:22 weblate/auth/models.py:342
 #: weblate/templates/accounts/user.html:203
 #: weblate/templates/trans/project-access.html:39 weblate/utils/fields.py:76
 #: weblate/wladmin/forms.py:43
@@ -292,13 +294,13 @@ msgstr ""
 "Obdržíte upozornenia len pre vami prekladané jazyky v komponente "
 "%(component)s."
 
-#: weblate/accounts/forms.py:847 weblate/auth/models.py:318
+#: weblate/accounts/forms.py:847 weblate/auth/models.py:323
 #: weblate/templates/auth/team.html:85
 #: weblate/templates/trans/project-access.html:36 weblate/utils/forms.py:52
 msgid "Username"
 msgstr "Užívateľské meno"
 
-#: weblate/accounts/forms.py:849 weblate/auth/models.py:361
+#: weblate/accounts/forms.py:849 weblate/auth/models.py:366
 msgid "Date joined"
 msgstr "Dátum pripojenia sa"
 
@@ -1920,7 +1922,7 @@ msgstr ""
 "Umožňuje prispôsobenie správania JSON výstupu, napríklad odsadenie alebo "
 "zotriedenie."
 
-#: weblate/api/views.py:1598 weblate/auth/models.py:738
+#: weblate/api/views.py:1598 weblate/auth/models.py:743
 #: weblate/templates/accounts/user.html:252 weblate/templates/check.html:19
 #: weblate/templates/data.html:28 weblate/templates/data.html:62
 #: weblate/templates/data.html:103 weblate/templates/language.html:44
@@ -2620,7 +2622,7 @@ msgstr "Administrácia"
 msgid "The administrator can add or remove users from a team."
 msgstr ""
 
-#: weblate/auth/models.py:322 weblate/utils/forms.py:49
+#: weblate/auth/models.py:327 weblate/utils/forms.py:49
 #: weblate/utils/validators.py:163
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -2629,70 +2631,70 @@ msgstr ""
 "Užívateľské meno môže obsahovať len písmená, číslice alebo nasledujúce "
 "znaky: @ . + - _"
 
-#: weblate/auth/models.py:327
+#: weblate/auth/models.py:332
 msgid "A user with that username already exists."
 msgstr "Používateľ s takýmto používateľským menom už existuje."
 
-#: weblate/auth/models.py:343
+#: weblate/auth/models.py:348
 #, fuzzy
 #| msgid "superuser status"
 msgid "Superuser status"
 msgstr "status superpoužívateľa"
 
-#: weblate/auth/models.py:345
+#: weblate/auth/models.py:350
 #, fuzzy
 #| msgid "User with reviewer permissions"
 msgid "User has all possible permissions."
 msgstr "Používateľ s právami recenzenta"
 
-#: weblate/auth/models.py:348 weblate/billing/models.py:157
+#: weblate/auth/models.py:353 weblate/billing/models.py:157
 #: weblate/templates/check.html:22 weblate/templates/check_component.html:24
 #: weblate/templates/check_project.html:23 weblate/templates/checks.html:21
 msgid "Active"
 msgstr "Aktívny"
 
-#: weblate/auth/models.py:350
+#: weblate/auth/models.py:355
 msgid "Mark user as inactive instead of removing."
 msgstr "Označiť používateľa ako neaktívneho namiesto jeho odobratia."
 
-#: weblate/auth/models.py:358 weblate/templates/trans/project-access.html:237
+#: weblate/auth/models.py:363 weblate/templates/trans/project-access.html:237
 #, fuzzy
 #| msgid "Expired"
 msgid "Expires"
 msgstr "Expirovaný"
 
-#: weblate/auth/models.py:365 weblate/templates/accounts/user.html:152
+#: weblate/auth/models.py:370 weblate/templates/accounts/user.html:152
 msgid "Groups"
 msgstr "Skupiny"
 
-#: weblate/auth/models.py:368
+#: weblate/auth/models.py:373
 msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr ""
 "Používateľovi sú udelené všetky povolenia, ktoré sú súčasťou členstva v "
 "týchto skupinách."
 
-#: weblate/auth/models.py:710
+#: weblate/auth/models.py:715
 #, fuzzy
 #| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression for e-mail address"
 msgstr "Regulárny výraz použitý pre kontrolu zhody používateľovho emailu."
 
-#: weblate/auth/models.py:714
+#: weblate/auth/models.py:719
 msgid "Users with e-mail addresses found to match will be added to this group."
 msgstr ""
 
-#: weblate/auth/models.py:719
+#: weblate/auth/models.py:724
 msgid "Group to assign"
 msgstr "Skupina na pridelenie"
 
-#: weblate/auth/models.py:734 weblate/trans/forms.py:1194
+#: weblate/auth/models.py:739 weblate/trans/forms.py:1194
 #, fuzzy
 #| msgid "User to add"
 msgid "User to block"
 msgstr "Užívateľ"
 
-#: weblate/auth/models.py:740
+#: weblate/auth/models.py:745
 #, fuzzy
 #| msgid "Lock expires:"
 msgid "Block expiry"
@@ -4104,135 +4106,135 @@ msgstr "WebExtension JSON súbor"
 msgid "i18next JSON file v3"
 msgstr "i18next JSON súbor"
 
-#: weblate/formats/ttkit.py:1454
+#: weblate/formats/ttkit.py:1455
 #, fuzzy
 #| msgid "i18next JSON file"
 msgid "i18next JSON file v4"
 msgstr "i18next JSON súbor"
 
-#: weblate/formats/ttkit.py:1460
+#: weblate/formats/ttkit.py:1461
 #, fuzzy
 #| msgid "i18next JSON file"
 msgid "go-i18n v1 JSON file"
 msgstr "i18next JSON súbor"
 
-#: weblate/formats/ttkit.py:1467
+#: weblate/formats/ttkit.py:1468
 #, fuzzy
 #| msgid "i18next JSON file"
 msgid "go-i18n v2 JSON file"
 msgstr "i18next JSON súbor"
 
-#: weblate/formats/ttkit.py:1474
+#: weblate/formats/ttkit.py:1475
 #, fuzzy
 #| msgid "RC file"
 msgid "ARB file"
 msgstr "RC súbor"
 
-#: weblate/formats/ttkit.py:1483
+#: weblate/formats/ttkit.py:1484
 #, fuzzy
 #| msgid "Gettext PO file"
 msgid "gotext JSON file"
 msgstr "Gettext PO súbor"
 
-#: weblate/formats/ttkit.py:1491
+#: weblate/formats/ttkit.py:1492
 msgid "CSV file"
 msgstr "CSV súbor"
 
-#: weblate/formats/ttkit.py:1577
+#: weblate/formats/ttkit.py:1578
 #, fuzzy
 #| msgid "CSV file"
 msgid "CSV file (UTF-8)"
 msgstr "CSV súbor"
 
-#: weblate/formats/ttkit.py:1584
+#: weblate/formats/ttkit.py:1585
 msgid "Simple CSV file"
 msgstr "Jednoduchý CSV súbor"
 
-#: weblate/formats/ttkit.py:1602
+#: weblate/formats/ttkit.py:1603
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Jednoduchý CSV súbor (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1609
+#: weblate/formats/ttkit.py:1610
 #, fuzzy
 #| msgid "Simple CSV file"
 msgid "Simple CSV file (UTF-8)"
 msgstr "Jednoduchý CSV súbor"
 
-#: weblate/formats/ttkit.py:1616
+#: weblate/formats/ttkit.py:1617
 msgid "YAML file"
 msgstr "YAML súbor"
 
-#: weblate/formats/ttkit.py:1635
+#: weblate/formats/ttkit.py:1636
 msgid "Ruby YAML file"
 msgstr "Ruby YAML súbor"
 
-#: weblate/formats/ttkit.py:1642
+#: weblate/formats/ttkit.py:1643
 msgid "DTD file"
 msgstr "DTD súbor"
 
-#: weblate/formats/ttkit.py:1685
+#: weblate/formats/ttkit.py:1686
 msgid "SubRip subtitle file"
 msgstr "SubRip súbor s titulkami"
 
-#: weblate/formats/ttkit.py:1700
+#: weblate/formats/ttkit.py:1701
 #, fuzzy
 #| msgid "MicroDVD subtitles file"
 msgid "MicroDVD subtitle file"
 msgstr "MicroDVD súbor s titulkami"
 
-#: weblate/formats/ttkit.py:1707
+#: weblate/formats/ttkit.py:1708
 #, fuzzy
 #| msgid "Advanced Substation Alpha subtitles file"
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Advanced Substation Alpha súbor s titulkami"
 
-#: weblate/formats/ttkit.py:1714
+#: weblate/formats/ttkit.py:1715
 #, fuzzy
 #| msgid "Substation Alpha subtitles file"
 msgid "SubStation Alpha subtitle file"
 msgstr "Substation Alpha súbor s titulkami"
 
-#: weblate/formats/ttkit.py:1721
+#: weblate/formats/ttkit.py:1722
 #, fuzzy
 #| msgid "YAML file"
 msgid "Flat XML file"
 msgstr "YAML súbor"
 
-#: weblate/formats/ttkit.py:1730
+#: weblate/formats/ttkit.py:1731
 #, fuzzy
 #| msgid "Repository details"
 msgid "ResourceDictionary file"
 msgstr "Podrobnosti repozitára"
 
-#: weblate/formats/ttkit.py:1743
+#: weblate/formats/ttkit.py:1744
 #, fuzzy
 #| msgid "YAML file"
 msgid "INI file"
 msgstr "YAML súbor"
 
-#: weblate/formats/ttkit.py:1782
+#: weblate/formats/ttkit.py:1783
 msgid "Inno Setup INI file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1950
+#: weblate/formats/ttkit.py:1951
 #, fuzzy
 #| msgid "TermBase eXchange (TBX)"
 msgid "TermBase eXchange file"
 msgstr "TermBase eXchange (TBX)"
 
-#: weblate/formats/ttkit.py:1981
+#: weblate/formats/ttkit.py:1982
 #, fuzzy
 #| msgid "Failing file"
 msgid "mi18n lang file"
 msgstr "Zlyhávajúci súbor"
 
-#: weblate/formats/ttkit.py:1990
+#: weblate/formats/ttkit.py:1991
 #, fuzzy
 #| msgid "Strings with comments"
 msgid "Stringsdict file"
 msgstr "Reťazce s komentármi"
 
-#: weblate/formats/ttkit.py:2054
+#: weblate/formats/ttkit.py:2055
 #, fuzzy
 #| msgid "Font file"
 msgid "Fluent file"

@@ -1,6 +1,8 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Weblate localization.
 # Thomas De Rocker <thomasderocker@outlook.com>, 2018, 2019, 2020, 2021, 2023.
 # Nathan Follens <nthn@unseen.is>, 2019.
 # anonymous <noreply@weblate.org>, 2019, 2020.
@@ -17,9 +19,9 @@
 # mm4c <oldblue@vivaldi.net>, 2022.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 4.18\n"
+"Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2023-06-15 06:53+0000\n"
+"POT-Creation-Date: 2023-06-27 07:48+0000\n"
 "PO-Revision-Date: 2023-06-16 11:20+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
@@ -53,7 +55,7 @@ msgid "This username is already taken. Please choose another."
 msgstr "Deze gebruikersnaam is niet beschikbaar - kies een andere."
 
 #: weblate/accounts/forms.py:110 weblate/accounts/forms.py:848
-#: weblate/auth/models.py:331 weblate/templates/auth/team.html:86
+#: weblate/auth/models.py:336 weblate/templates/auth/team.html:86
 #: weblate/templates/trans/project-access.html:37
 msgid "Full name"
 msgstr "Volledige naam"
@@ -88,7 +90,7 @@ msgid "Component list: %s"
 msgstr "Onderdelenlijst: %s"
 
 #: weblate/accounts/forms.py:340 weblate/accounts/forms.py:413
-#: weblate/accounts/templatetags/authnames.py:22 weblate/auth/models.py:337
+#: weblate/accounts/templatetags/authnames.py:22 weblate/auth/models.py:342
 #: weblate/templates/accounts/user.html:203
 #: weblate/templates/trans/project-access.html:39 weblate/utils/fields.py:76
 #: weblate/wladmin/forms.py:43
@@ -292,13 +294,13 @@ msgstr ""
 "U ontvangt deze meldingen alleen voor door u toegevoegde vertalingen in "
 "%(component)s."
 
-#: weblate/accounts/forms.py:847 weblate/auth/models.py:318
+#: weblate/accounts/forms.py:847 weblate/auth/models.py:323
 #: weblate/templates/auth/team.html:85
 #: weblate/templates/trans/project-access.html:36 weblate/utils/forms.py:52
 msgid "Username"
 msgstr "Gebruikersnaam"
 
-#: weblate/accounts/forms.py:849 weblate/auth/models.py:361
+#: weblate/accounts/forms.py:849 weblate/auth/models.py:366
 msgid "Date joined"
 msgstr "Lid sinds"
 
@@ -1760,7 +1762,7 @@ msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr "Pas het yaml-uitvoergedrag aan, zoals de regellengte of regeleinden."
 
-#: weblate/api/views.py:1598 weblate/auth/models.py:738
+#: weblate/api/views.py:1598 weblate/auth/models.py:743
 #: weblate/templates/accounts/user.html:252 weblate/templates/check.html:19
 #: weblate/templates/data.html:28 weblate/templates/data.html:62
 #: weblate/templates/data.html:103 weblate/templates/language.html:44
@@ -2397,7 +2399,7 @@ msgstr "Teambeheerders"
 msgid "The administrator can add or remove users from a team."
 msgstr "De beheerder kan gebruikers toevoegen aan of verwijderen uit een team."
 
-#: weblate/auth/models.py:322 weblate/utils/forms.py:49
+#: weblate/auth/models.py:327 weblate/utils/forms.py:49
 #: weblate/utils/validators.py:163
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -2406,62 +2408,62 @@ msgstr ""
 "De gebruikersnaam mag alleen letters, cijfers of de volgende tekens "
 "bevatten: @ . + - _"
 
-#: weblate/auth/models.py:327
+#: weblate/auth/models.py:332
 msgid "A user with that username already exists."
 msgstr "Er is al een gebruiker met deze gebruikersnaam."
 
-#: weblate/auth/models.py:343
+#: weblate/auth/models.py:348
 msgid "Superuser status"
 msgstr "Supergebruikerstatus"
 
-#: weblate/auth/models.py:345
+#: weblate/auth/models.py:350
 msgid "User has all possible permissions."
 msgstr "Deze gebruiker heeft alle mogelijke bevoegdheden."
 
-#: weblate/auth/models.py:348 weblate/billing/models.py:157
+#: weblate/auth/models.py:353 weblate/billing/models.py:157
 #: weblate/templates/check.html:22 weblate/templates/check_component.html:24
 #: weblate/templates/check_project.html:23 weblate/templates/checks.html:21
 msgid "Active"
 msgstr "Actief"
 
-#: weblate/auth/models.py:350
+#: weblate/auth/models.py:355
 msgid "Mark user as inactive instead of removing."
 msgstr "Gebruiker markeren als inactief in plaats van verwijderen."
 
-#: weblate/auth/models.py:358 weblate/templates/trans/project-access.html:237
+#: weblate/auth/models.py:363 weblate/templates/trans/project-access.html:237
 msgid "Expires"
 msgstr "Verloopt op"
 
-#: weblate/auth/models.py:365 weblate/templates/accounts/user.html:152
+#: weblate/auth/models.py:370 weblate/templates/accounts/user.html:152
 msgid "Groups"
 msgstr "Groepen"
 
-#: weblate/auth/models.py:368
+#: weblate/auth/models.py:373
 msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr ""
 "De gebruiker krijgt alle bevoegdheden die opgenomen zijn in het lidmaatschap "
 "van deze groepen."
 
-#: weblate/auth/models.py:710
+#: weblate/auth/models.py:715
 msgid "Regular expression for e-mail address"
 msgstr "Reguliere uitdrukking (regex) gebruikt voor het e-mailadres"
 
-#: weblate/auth/models.py:714
+#: weblate/auth/models.py:719
 msgid "Users with e-mail addresses found to match will be added to this group."
 msgstr ""
 "Gebruikers met een overeenkomend e-mailadres worden toegevoegd aan deze "
 "groep."
 
-#: weblate/auth/models.py:719
+#: weblate/auth/models.py:724
 msgid "Group to assign"
 msgstr "Toe te wijzen groep"
 
-#: weblate/auth/models.py:734 weblate/trans/forms.py:1194
+#: weblate/auth/models.py:739 weblate/trans/forms.py:1194
 msgid "User to block"
 msgstr "De te blokkeren gebruiker"
 
-#: weblate/auth/models.py:740
+#: weblate/auth/models.py:745
 msgid "Block expiry"
 msgstr "Vergrendeling verloopt"
 
@@ -3653,103 +3655,103 @@ msgstr "WebExtension json-bestand"
 msgid "i18next JSON file v3"
 msgstr "i18next json-bestand (v3)"
 
-#: weblate/formats/ttkit.py:1454
+#: weblate/formats/ttkit.py:1455
 msgid "i18next JSON file v4"
 msgstr "i18next json-bestand (v4)"
 
-#: weblate/formats/ttkit.py:1460
+#: weblate/formats/ttkit.py:1461
 msgid "go-i18n v1 JSON file"
 msgstr "go-i18n v1 json-bestand"
 
-#: weblate/formats/ttkit.py:1467
+#: weblate/formats/ttkit.py:1468
 msgid "go-i18n v2 JSON file"
 msgstr "go-i18n v2 json-bestand"
 
-#: weblate/formats/ttkit.py:1474
+#: weblate/formats/ttkit.py:1475
 msgid "ARB file"
 msgstr "ARB-bestand"
 
-#: weblate/formats/ttkit.py:1483
+#: weblate/formats/ttkit.py:1484
 msgid "gotext JSON file"
 msgstr "gotext json-bestand"
 
-#: weblate/formats/ttkit.py:1491
+#: weblate/formats/ttkit.py:1492
 msgid "CSV file"
 msgstr "Csv-bestand"
 
-#: weblate/formats/ttkit.py:1577
+#: weblate/formats/ttkit.py:1578
 msgid "CSV file (UTF-8)"
 msgstr "Csv-bestand (UTF-8)"
 
-#: weblate/formats/ttkit.py:1584
+#: weblate/formats/ttkit.py:1585
 msgid "Simple CSV file"
 msgstr "Eenvoudig csv-bestand"
 
-#: weblate/formats/ttkit.py:1602
+#: weblate/formats/ttkit.py:1603
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Eenvoudig csv-bestand (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1609
+#: weblate/formats/ttkit.py:1610
 msgid "Simple CSV file (UTF-8)"
 msgstr "Eenvoudig csv-bestand (UTF-8)"
 
-#: weblate/formats/ttkit.py:1616
+#: weblate/formats/ttkit.py:1617
 msgid "YAML file"
 msgstr "YAML-bestand"
 
-#: weblate/formats/ttkit.py:1635
+#: weblate/formats/ttkit.py:1636
 msgid "Ruby YAML file"
 msgstr "Ruby YAML-bestand"
 
-#: weblate/formats/ttkit.py:1642
+#: weblate/formats/ttkit.py:1643
 msgid "DTD file"
 msgstr "DTD-bestand"
 
-#: weblate/formats/ttkit.py:1685
+#: weblate/formats/ttkit.py:1686
 msgid "SubRip subtitle file"
 msgstr "SubRip-ondertitelbestand"
 
-#: weblate/formats/ttkit.py:1700
+#: weblate/formats/ttkit.py:1701
 msgid "MicroDVD subtitle file"
 msgstr "MicroDVD-ondertitelbestand"
 
-#: weblate/formats/ttkit.py:1707
+#: weblate/formats/ttkit.py:1708
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Advanced SubStation Alpha-ondertitelbestand"
 
-#: weblate/formats/ttkit.py:1714
+#: weblate/formats/ttkit.py:1715
 msgid "SubStation Alpha subtitle file"
 msgstr "SubStation Alpha-ondertitelbestand"
 
-#: weblate/formats/ttkit.py:1721
+#: weblate/formats/ttkit.py:1722
 msgid "Flat XML file"
 msgstr "Plat XML-bestand"
 
-#: weblate/formats/ttkit.py:1730
+#: weblate/formats/ttkit.py:1731
 msgid "ResourceDictionary file"
 msgstr "ResourceDictionary-bestand"
 
-#: weblate/formats/ttkit.py:1743
+#: weblate/formats/ttkit.py:1744
 msgid "INI file"
 msgstr "INI-bestand"
 
-#: weblate/formats/ttkit.py:1782
+#: weblate/formats/ttkit.py:1783
 msgid "Inno Setup INI file"
 msgstr "Inno Setup INI-bestand"
 
-#: weblate/formats/ttkit.py:1950
+#: weblate/formats/ttkit.py:1951
 msgid "TermBase eXchange file"
 msgstr "Term Base eXchange-bestand"
 
-#: weblate/formats/ttkit.py:1981
+#: weblate/formats/ttkit.py:1982
 msgid "mi18n lang file"
 msgstr "mi18n-taalbestand"
 
-#: weblate/formats/ttkit.py:1990
+#: weblate/formats/ttkit.py:1991
 msgid "Stringsdict file"
 msgstr "Stringsdict-bestand"
 
-#: weblate/formats/ttkit.py:2054
+#: weblate/formats/ttkit.py:2055
 msgid "Fluent file"
 msgstr "Fluent-bestand"
 
@@ -14340,7 +14342,8 @@ msgstr ""
 
 #: weblate/vcs/mercurial.py:40
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr "Hiermee worden aanpassingen doorgevoerd naar de Mercurial-opslagruimte."
+msgstr ""
+"Hiermee worden aanpassingen doorgevoerd naar de Mercurial-opslagruimte."
 
 #: weblate/vcs/ssh.py:30
 msgctxt "SSH key type"

@@ -1,6 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # translation of weblate-website-ja.po to Japanese
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
 # Yasuhiko Kamata <belphegor@belbel.or.jp>, 2015, 2018.
 # Kyotaro Iijima <kyotaro.eyes@gmail.com>, 2018, 2019, 2020, 2021, 2022, 2023.
 # Tetsuro Shimazaki <shimazaki@shima-office.com>, 2018, 2019, 2020, 2021, 2022.
@@ -28,9 +30,9 @@
 # yangyangdaji <1504305527@qq.com>, 2023.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 4.18\n"
+"Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2023-06-15 06:53+0000\n"
+"POT-Creation-Date: 2023-06-27 07:48+0000\n"
 "PO-Revision-Date: 2023-06-26 07:49+0000\n"
 "Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -65,7 +67,7 @@ msgid "This username is already taken. Please choose another."
 msgstr "このユーザー名はすでに使用されています。別の名前にしてください。"
 
 #: weblate/accounts/forms.py:110 weblate/accounts/forms.py:848
-#: weblate/auth/models.py:331 weblate/templates/auth/team.html:86
+#: weblate/auth/models.py:336 weblate/templates/auth/team.html:86
 #: weblate/templates/trans/project-access.html:37
 msgid "Full name"
 msgstr "フルネーム"
@@ -100,7 +102,7 @@ msgid "Component list: %s"
 msgstr "コンポーネント リスト: %s"
 
 #: weblate/accounts/forms.py:340 weblate/accounts/forms.py:413
-#: weblate/accounts/templatetags/authnames.py:22 weblate/auth/models.py:337
+#: weblate/accounts/templatetags/authnames.py:22 weblate/auth/models.py:342
 #: weblate/templates/accounts/user.html:203
 #: weblate/templates/trans/project-access.html:39 weblate/utils/fields.py:76
 #: weblate/wladmin/forms.py:43
@@ -297,13 +299,13 @@ msgid ""
 msgstr ""
 "%(component)s コンポーネントでは、翻訳をした言語のみ次の通知が届きます。"
 
-#: weblate/accounts/forms.py:847 weblate/auth/models.py:318
+#: weblate/accounts/forms.py:847 weblate/auth/models.py:323
 #: weblate/templates/auth/team.html:85
 #: weblate/templates/trans/project-access.html:36 weblate/utils/forms.py:52
 msgid "Username"
 msgstr "ユーザー名"
 
-#: weblate/accounts/forms.py:849 weblate/auth/models.py:361
+#: weblate/accounts/forms.py:849 weblate/auth/models.py:366
 msgid "Date joined"
 msgstr "参加日"
 
@@ -1004,7 +1006,8 @@ msgstr "資格情報を紛失した場合でも、新しいパスワードを申
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
-msgstr "身元を確認するために、もう一度登録してください。おそらく確認リンクの有効期限"
+msgstr ""
+"身元を確認するために、もう一度登録してください。おそらく確認リンクの有効期限"
 "が切れています。"
 
 #: weblate/accounts/views.py:1206
@@ -1730,7 +1733,7 @@ msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr "行の長さや改行など、YAML 出力形式の変更ができます。"
 
-#: weblate/api/views.py:1598 weblate/auth/models.py:738
+#: weblate/api/views.py:1598 weblate/auth/models.py:743
 #: weblate/templates/accounts/user.html:252 weblate/templates/check.html:19
 #: weblate/templates/data.html:28 weblate/templates/data.html:62
 #: weblate/templates/data.html:103 weblate/templates/language.html:44
@@ -2368,7 +2371,7 @@ msgstr "チーム管理者"
 msgid "The administrator can add or remove users from a team."
 msgstr "管理者は、チームにユーザーを追加または削除ができます。"
 
-#: weblate/auth/models.py:322 weblate/utils/forms.py:49
+#: weblate/auth/models.py:327 weblate/utils/forms.py:49
 #: weblate/utils/validators.py:163
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -2377,59 +2380,59 @@ msgstr ""
 "ユーザー名にはアルファベットと数字のほか、以下の文字を使うことができます: "
 "@ . + - _ (アットマーク、ピリオド、プラス、マイナス、アンダーバーの半角文字)"
 
-#: weblate/auth/models.py:327
+#: weblate/auth/models.py:332
 msgid "A user with that username already exists."
 msgstr "指定したユーザー名はすでに存在しています。"
 
-#: weblate/auth/models.py:343
+#: weblate/auth/models.py:348
 msgid "Superuser status"
 msgstr "スーパーユーザーの状態"
 
-#: weblate/auth/models.py:345
+#: weblate/auth/models.py:350
 msgid "User has all possible permissions."
 msgstr "ユーザーはすべての権限を持っています。"
 
-#: weblate/auth/models.py:348 weblate/billing/models.py:157
+#: weblate/auth/models.py:353 weblate/billing/models.py:157
 #: weblate/templates/check.html:22 weblate/templates/check_component.html:24
 #: weblate/templates/check_project.html:23 weblate/templates/checks.html:21
 msgid "Active"
 msgstr "有効"
 
-#: weblate/auth/models.py:350
+#: weblate/auth/models.py:355
 msgid "Mark user as inactive instead of removing."
 msgstr "ユーザーを削除せず無効化できます。"
 
-#: weblate/auth/models.py:358 weblate/templates/trans/project-access.html:237
+#: weblate/auth/models.py:363 weblate/templates/trans/project-access.html:237
 msgid "Expires"
 msgstr "有効期限"
 
-#: weblate/auth/models.py:365 weblate/templates/accounts/user.html:152
+#: weblate/auth/models.py:370 weblate/templates/accounts/user.html:152
 msgid "Groups"
 msgstr "グループ"
 
-#: weblate/auth/models.py:368
+#: weblate/auth/models.py:373
 msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr ""
 "ユーザーには、所属するグループに設定されたアクセス権がすべて与えられます。"
 
-#: weblate/auth/models.py:710
+#: weblate/auth/models.py:715
 msgid "Regular expression for e-mail address"
 msgstr "メール アドレスの正規表現"
 
-#: weblate/auth/models.py:714
+#: weblate/auth/models.py:719
 msgid "Users with e-mail addresses found to match will be added to this group."
 msgstr "メールアドレスが一致するユーザーは、このグループに追加されます。"
 
-#: weblate/auth/models.py:719
+#: weblate/auth/models.py:724
 msgid "Group to assign"
 msgstr "割り当てるグループ"
 
-#: weblate/auth/models.py:734 weblate/trans/forms.py:1194
+#: weblate/auth/models.py:739 weblate/trans/forms.py:1194
 msgid "User to block"
 msgstr "ブロックするユーザー"
 
-#: weblate/auth/models.py:740
+#: weblate/auth/models.py:745
 msgid "Block expiry"
 msgstr "ブロック期間"
 
@@ -3613,103 +3616,103 @@ msgstr "WebExtension JSON ファイル"
 msgid "i18next JSON file v3"
 msgstr "i18next JSON v3 ファイル"
 
-#: weblate/formats/ttkit.py:1454
+#: weblate/formats/ttkit.py:1455
 msgid "i18next JSON file v4"
 msgstr "i18next JSON v4 ファイル"
 
-#: weblate/formats/ttkit.py:1460
+#: weblate/formats/ttkit.py:1461
 msgid "go-i18n v1 JSON file"
 msgstr "go-i18n v1 JSON ファイル"
 
-#: weblate/formats/ttkit.py:1467
+#: weblate/formats/ttkit.py:1468
 msgid "go-i18n v2 JSON file"
 msgstr "go-i18n v2 JSON ファイル"
 
-#: weblate/formats/ttkit.py:1474
+#: weblate/formats/ttkit.py:1475
 msgid "ARB file"
 msgstr "ARB ファイル"
 
-#: weblate/formats/ttkit.py:1483
+#: weblate/formats/ttkit.py:1484
 msgid "gotext JSON file"
 msgstr "gotext JSON ファイル"
 
-#: weblate/formats/ttkit.py:1491
+#: weblate/formats/ttkit.py:1492
 msgid "CSV file"
 msgstr "CSV ファイル"
 
-#: weblate/formats/ttkit.py:1577
+#: weblate/formats/ttkit.py:1578
 msgid "CSV file (UTF-8)"
 msgstr "CSV ファイル（UTF-8）"
 
-#: weblate/formats/ttkit.py:1584
+#: weblate/formats/ttkit.py:1585
 msgid "Simple CSV file"
 msgstr "シンプルな CSV ファイル"
 
-#: weblate/formats/ttkit.py:1602
+#: weblate/formats/ttkit.py:1603
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "シンプルな CSV ファイル (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1609
+#: weblate/formats/ttkit.py:1610
 msgid "Simple CSV file (UTF-8)"
 msgstr "シンプルな CSV ファイル（UTF-8）"
 
-#: weblate/formats/ttkit.py:1616
+#: weblate/formats/ttkit.py:1617
 msgid "YAML file"
 msgstr "YAML ファイル"
 
-#: weblate/formats/ttkit.py:1635
+#: weblate/formats/ttkit.py:1636
 msgid "Ruby YAML file"
 msgstr "Ruby YAML ファイル"
 
-#: weblate/formats/ttkit.py:1642
+#: weblate/formats/ttkit.py:1643
 msgid "DTD file"
 msgstr "DTD ファイル"
 
-#: weblate/formats/ttkit.py:1685
+#: weblate/formats/ttkit.py:1686
 msgid "SubRip subtitle file"
 msgstr "SubRip 字幕ファイル"
 
-#: weblate/formats/ttkit.py:1700
+#: weblate/formats/ttkit.py:1701
 msgid "MicroDVD subtitle file"
 msgstr "MicroDVD 字幕ファイル"
 
-#: weblate/formats/ttkit.py:1707
+#: weblate/formats/ttkit.py:1708
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Advanced Substation Alpha 字幕ファイル"
 
-#: weblate/formats/ttkit.py:1714
+#: weblate/formats/ttkit.py:1715
 msgid "SubStation Alpha subtitle file"
 msgstr "Substation Alpha 字幕ファイル"
 
-#: weblate/formats/ttkit.py:1721
+#: weblate/formats/ttkit.py:1722
 msgid "Flat XML file"
 msgstr "Flat XML ファイル"
 
-#: weblate/formats/ttkit.py:1730
+#: weblate/formats/ttkit.py:1731
 msgid "ResourceDictionary file"
 msgstr "ResourceDictionary ファイル"
 
-#: weblate/formats/ttkit.py:1743
+#: weblate/formats/ttkit.py:1744
 msgid "INI file"
 msgstr "INI ファイル"
 
-#: weblate/formats/ttkit.py:1782
+#: weblate/formats/ttkit.py:1783
 msgid "Inno Setup INI file"
 msgstr "Inno Setup INI ファイル"
 
-#: weblate/formats/ttkit.py:1950
+#: weblate/formats/ttkit.py:1951
 msgid "TermBase eXchange file"
 msgstr "TermBase eXchange ファイル"
 
-#: weblate/formats/ttkit.py:1981
+#: weblate/formats/ttkit.py:1982
 msgid "mi18n lang file"
 msgstr "mi18n lang ファイル"
 
-#: weblate/formats/ttkit.py:1990
+#: weblate/formats/ttkit.py:1991
 msgid "Stringsdict file"
 msgstr "Stringsdict ファイル"
 
-#: weblate/formats/ttkit.py:2054
+#: weblate/formats/ttkit.py:2055
 msgid "Fluent file"
 msgstr "Fluent ファイル"
 
@@ -10455,12 +10458,14 @@ msgstr[0] "この文字列は同じコンテキストかつ同じ原文です。
 #: weblate/templates/translate.html:319
 msgid "This string has a different context, but the same source."
 msgid_plural "These strings have differing context, but the same source."
-msgstr[0] "この文字列は同じ原文ですが、異なるコンテキストで用いられているものです。"
+msgstr[0] ""
+"この文字列は同じ原文ですが、異なるコンテキストで用いられているものです。"
 
 #: weblate/templates/translate.html:327
 msgid "This string has a different source, but the same context."
 msgid_plural "These strings have differing sources, but the same context."
-msgstr[0] "この文字列は同じコンテキストで用いられているものですが、異なる原文です。"
+msgstr[0] ""
+"この文字列は同じコンテキストで用いられているものですが、異なる原文です。"
 
 #: weblate/templates/translate.html:335
 msgid "This string has a different source and context."
