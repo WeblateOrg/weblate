@@ -46,12 +46,9 @@ class RawQuotedString(QuotedString):
     def __init__(self, quote_char, esc_char="\\"):
         super().__init__(quote_char, esc_char=esc_char, convert_whitespace_escapes=True)
         # unlike the QuotedString this replaces only escaped quotes and not all chars
-        self.escCharReplacePattern = (
-            re.escape(esc_char)
-            + "(["
-            + re.escape(quote_char)
-            + re.escape(esc_char)
-            + "])"
+        self.unquote_scan_re = re.compile(
+            rf"({'|'.join(re.escape(k) for k in self.ws_map)})|({re.escape(self.escChar)}[{re.escape(quote_char)}{re.escape(esc_char)}])|(\n|.)",
+            flags=self.flags,
         )
 
 
