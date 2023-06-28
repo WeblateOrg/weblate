@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 # translation of weblate-website-ja.po to Japanese
 # Yasuhiko Kamata <belphegor@belbel.or.jp>, 2015, 2018.
 # Kyotaro Iijima <kyotaro.eyes@gmail.com>, 2018, 2019, 2020, 2021, 2022, 2023.
@@ -33,8 +32,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 07:48+0000\n"
-"PO-Revision-Date: 2023-06-26 07:49+0000\n"
-"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2023-06-29 15:53+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -111,7 +110,8 @@ msgstr "メールアドレス"
 
 #: weblate/accounts/forms.py:341
 msgid "Choose primary e-mail from verified addresses."
-msgstr ""
+msgstr "優先的に使用するメールアドレスを、認証済みのメールアドレスから選択してくださ"
+"い。"
 
 #: weblate/accounts/forms.py:388
 msgid "Subject"
@@ -1582,11 +1582,11 @@ msgstr "初期値として原文を翻訳に代入する。"
 
 #: weblate/addons/generate.py:216
 msgid "Fill read-only strings with source"
-msgstr "読み取り専用の文字列を原文で埋める"
+msgstr "翻訳済みの文字列が編集禁止の場合は、原文を翻訳に代入する"
 
 #: weblate/addons/generate.py:218
 msgid "Fills in translation of read-only strings with source string."
-msgstr "読み取り専用の文字列の翻訳を原文で埋めます。"
+msgstr "翻訳済みの文字列が編集禁止の場合は、原文を翻訳に代入します。"
 
 #: weblate/addons/gettext.py:26
 msgid "Generate MO files"
@@ -1717,12 +1717,8 @@ msgid "Customize XML output"
 msgstr "XML 出力形式のカスタマイズ"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid "Allows adjusting XML output behavior, for example closing tags."
-msgstr "行の長さや改行など、YAML 出力形式の変更ができます。"
+msgstr "XML 出力形式の変更ができます。例: 閉じタグの扱い。"
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -2150,7 +2146,7 @@ msgstr "リポジトリの管理"
 #: weblate/auth/data.py:220
 msgctxt "Access-control role"
 msgid "Billing"
-msgstr "課金"
+msgstr "請求"
 
 #: weblate/auth/data.py:226
 msgctxt "Access-control group"
@@ -2437,8 +2433,6 @@ msgid "Block expiry"
 msgstr "ブロック期間"
 
 #: weblate/auth/permissions.py:133
-#, fuzzy
-#| msgid "Can not perform this operation without an e-mail."
 msgid "Can not perform this operation without an e-mail address."
 msgstr "メールアドレスを登録しないとこの操作はできません。"
 
@@ -2448,10 +2442,6 @@ msgid "This translation is currently locked."
 msgstr "この翻訳は現在ロックされています。"
 
 #: weblate/auth/permissions.py:147
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires you agree to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "agreement."
@@ -2496,7 +2486,7 @@ msgstr "査読は無効になっています。"
 
 #: weblate/auth/permissions.py:213
 msgid "The string is read only."
-msgstr "この文字列は読み取り専用です。"
+msgstr "この文字列の編集は禁止されています。"
 
 #: weblate/auth/permissions.py:219
 msgid ""
@@ -2508,7 +2498,7 @@ msgstr ""
 
 #: weblate/auth/permissions.py:225
 msgid "The translation is read only."
-msgstr "この翻訳は読み取り専用です。"
+msgstr "この翻訳の編集は禁止されています。"
 
 #: weblate/auth/permissions.py:242
 msgid "Add the string to the source language instead."
@@ -2632,9 +2622,7 @@ msgstr "ライセンスがありません"
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
-msgstr ""
-"この通知の配信を停止するには、請求金額をを支払うか、プロジェクトを削除しま"
-"す。"
+msgstr "この通知の配信を停止するには、請求金額を支払うか、プロジェクトを削除します。"
 
 #: weblate/billing/tasks.py:88
 msgid ""
@@ -2825,26 +2813,23 @@ msgstr ""
 "翻訳されていないものもあります。"
 
 #: weblate/checks/consistency.py:138
-#, fuzzy
-#| msgid "Removed translation"
 msgid "Reused translation"
-msgstr "翻訳の削除"
+msgstr "再利用された翻訳"
 
 #: weblate/checks/consistency.py:139
 msgid "Different strings are translated the same."
 msgstr "異なる文字列が同じように翻訳されています。"
 
 #: weblate/checks/consistency.py:178
-#, fuzzy, python-format
-#| msgid "Update source strings"
+#, python-format
 msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
-msgstr[0] "原文の更新"
+msgstr[0] "他の原文: %s"
 
 #: weblate/checks/consistency.py:179
 #, python-format
 msgid "“%s”"
-msgstr ""
+msgstr "“%s”"
 
 #: weblate/checks/consistency.py:228
 msgid "Has been translated"
@@ -4699,10 +4684,8 @@ msgid "Your profile"
 msgstr "ユーザー情報"
 
 #: weblate/templates/accounts/confirm.html:14
-#, fuzzy
-#| msgid "Could not remove user identity"
 msgid "Confirm adding user identity"
-msgstr "ユーザー認証方法を削除できませんでした"
+msgstr "ユーザー ID 追加の確認"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #: weblate/templates/accounts/confirm.html:18
@@ -5057,8 +5040,6 @@ msgid "Disconnect"
 msgstr "削除"
 
 #: weblate/templates/accounts/profile.html:156
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new user identity"
 msgstr "新しいユーザーの追加"
 
@@ -5373,10 +5354,8 @@ msgid_plural "%(count)s comments"
 msgstr[0] "%(count)s 個のコメント"
 
 #: weblate/templates/accounts/user.html:141
-#, fuzzy
-#| msgid "Contributors"
 msgid "Contributed to"
-msgstr "貢献者"
+msgstr "貢献先："
 
 #: weblate/templates/accounts/user.html:144
 msgid "Activity"
@@ -5440,10 +5419,8 @@ msgid "Browse all watched projects"
 msgstr "監視中のプロジェクトをすべて表示する"
 
 #: weblate/templates/accounts/user.html:192
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes made by this user"
-msgstr "ユーザーが行った変更をすべて表示"
+msgstr "ユーザーが行ったすべての変更を表示"
 
 #: weblate/templates/accounts/user.html:253
 msgid "Group"
@@ -5847,10 +5824,8 @@ msgid "Add"
 msgstr "追加"
 
 #: weblate/templates/auth/teams-components.html:6
-#, fuzzy
-#| msgid "No components were matched!"
 msgid "No components specified"
-msgstr "コンポーネントには何もマッチしませんでした！"
+msgstr "コンポーネントが指定されていません"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -5942,7 +5917,7 @@ msgstr "Weblate を無料で試す"
 #: weblate/templates/base.html:275
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid "Billing overview"
-msgstr "課金の概要"
+msgstr "請求の概要"
 
 #: weblate/templates/base.html:277 weblate/templates/component.html:89
 #: weblate/templates/memory/index.html:12
@@ -6132,9 +6107,8 @@ msgstr "サブスクリプションまたは支払予定はありません。"
 msgid ""
 "If you miss access to billing of your project, please ask its admins to "
 "grant you access."
-msgstr ""
-"プロジェクトの請求書を閲覧できない場合は、プロジェクトの管理者にアクセス権を"
-"依頼してください。"
+msgstr "プロジェクトの請求項目を閲覧できない場合は、プロジェクトの管理者にアクセス権"
+"を依頼してください。"
 
 #: weblate/templates/billing/overview.html:25
 #: weblate/templates/projects.html:16
@@ -6250,7 +6224,7 @@ msgstr "プロジェクトのアクセス制御を変更するための権限が
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:84
 #: weblate/templates/snippets/billing-failure.html:12
 msgid "Check your billing status"
-msgstr "課金状態の確認"
+msgstr "請求状況の確認"
 
 #: weblate/templates/browse.html:23
 #: weblate/templates/snippets/list-objects.html:131
@@ -7099,32 +7073,27 @@ msgid "Commit"
 msgstr "コミット"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s change"
-#| msgid_plural "%(count)s changes"
+#, python-format
 msgid "%(count)s pending change"
 msgid_plural "%(count)s pending changes"
-msgstr[0] "%(count)s 回変更"
+msgstr[0] "%(count)s 個の保留中を変更する"
 
 #: weblate/templates/js/git-status.html:32
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "保留中の変更を Weblate のリポジトリにコミットする"
+msgstr "これにより、Weblate "
+"に存在し、リポジトリに存在しない保留中の変更がコミットされます。"
 
 #: weblate/templates/js/git-status.html:38
 msgid "Push"
 msgstr "プッシュ"
 
 #: weblate/templates/js/git-status.html:41
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s 個のコメント"
+msgstr[0] "%(count)s 個の送信予定のコメント"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Update"
@@ -7132,33 +7101,25 @@ msgstr "更新"
 
 #: weblate/templates/js/git-status.html:58
 msgid "Update with merge"
-msgstr ""
+msgstr "マージして更新"
 
 #: weblate/templates/js/git-status.html:61
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Update with rebase"
-msgstr "検査結果の更新"
+msgstr "リベースして更新"
 
 #: weblate/templates/js/git-status.html:64
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid "Update with merge without fast-forward"
-msgstr "fast-forward なしでマージする"
+msgstr "fast-forward なしでマージ"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "%(count)s 個のコメント"
+msgstr[0] "%(count)s 個の不足したコミット"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy
-#| msgid "Resetting the repository will throw away all local changes!"
 msgid "This will update the Weblate repository with the upstream changes."
-msgstr "リポジトリをリセットすると、手元の変更は全て失われます！"
+msgstr "これにより、Weblate のリポジトリが上流の変更と同期されます。"
 
 #: weblate/templates/js/git-status.html:80
 msgid "Allow changes to the Weblate repository"
@@ -7178,28 +7139,20 @@ msgid "Lock"
 msgstr "ロック"
 
 #: weblate/templates/js/git-status.html:87
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are locked"
-msgstr "Weblate 翻訳"
+msgstr "Weblate 翻訳はロックされています"
 
 #: weblate/templates/js/git-status.html:89
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are unlocked"
-msgstr "Weblate 翻訳"
+msgstr "Weblate 翻訳のロックが解除されました"
 
 #: weblate/templates/js/git-status.html:93
-#, fuzzy
-#| msgid "Locking prevents translators from doing changes"
 msgid "Locking prevents translators from doing changes."
-msgstr "ロックすると、翻訳者は変更できなくなります"
+msgstr "ロックすると、翻訳者は変更ができなくなります。"
 
 #: weblate/templates/js/git-status.html:105
-#, fuzzy
-#| msgid "Danger (red)"
 msgid "Danger zone"
-msgstr "危険 (赤)"
+msgstr "要注意"
 
 #: weblate/templates/js/git-status.html:110
 #: weblate/templates/translate.html:496
@@ -7211,22 +7164,17 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Weblate のリポジトリ内のすべての変更をリセットする"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid ""
-#| "Resetting removes all changes in Weblate so that the repository matches "
-#| "upstream. Use with caution."
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream."
-msgstr ""
-"リセットすると、リポジトリを上流と一致させ、Weblate のすべての変更を削除しま"
-"す。注意して使用してください。"
+msgstr "リセットすると、リポジトリを上流と一致させ、Weblate "
+"のすべての変更を削除します。"
 
 #: weblate/templates/js/git-status.html:116
 msgid ""
 "Use when you want to discard changes in Weblate and bring it in sync with "
 "upstream repository."
-msgstr ""
+msgstr "Weblate からの変更を破棄し、上流リポジトリと同期させる場合に使用します。"
 
 #: weblate/templates/js/git-status.html:120
 msgid "Cleanup"
@@ -7264,35 +7212,30 @@ msgstr "すべての文字列を翻訳ファイルに強制的に書き込みま
 msgid ""
 "Use this when repository files became out of sync with Weblate for some "
 "reason."
-msgstr ""
+msgstr "何らかの理由でリポジトリのファイルが Weblate "
+"と同期しなくなった場合に使用します。"
 
 #: weblate/templates/js/git-status.html:140
 msgid "Rescan"
-msgstr ""
+msgstr "再スキャン"
 
 #: weblate/templates/js/git-status.html:142
-#, fuzzy
-#| msgid "Cleanup all untracked files in the Weblate repository"
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "Weblate のリポジトリ内の未記録のファイルをクリーンアップする"
+msgstr "Weblate リポジトリ内のすべての翻訳ファイルを再スキャンします。"
 
 #: weblate/templates/js/git-status.html:145
-#, fuzzy
-#| msgid "Removes current translation from the repository."
 msgid "Loads translations from the files into Weblate."
-msgstr "現在の翻訳をリポジトリから削除する。"
+msgstr "翻訳をファイルから Weblate に読み込みます。"
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid ""
 "Use when Weblate missed some of the strings after updating the repository."
-msgstr "Weblate はリポジトリの更新中に上流の変更を取得できませんでした。"
+msgstr "リポジトリの更新後に Weblate で一部の文字列が欠落した場合に使用します。"
 
 #: weblate/templates/js/git-status.html:151
 msgid "Use these operations with caution, they can lead to data loss."
-msgstr ""
+msgstr "これらの操作は注意して使用してください。データの損失が発生することがあります"
+"。"
 
 #: weblate/templates/js/git-status.html:160
 #, python-format
@@ -7338,7 +7281,7 @@ msgstr "ユーザーのブロック"
 #: weblate/templates/last-changes-content.html:58
 #: weblate/templates/snippets/suggestions.html:41
 msgid "Rejection reason"
-msgstr ""
+msgstr "不採用理由"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:70
@@ -7516,19 +7459,12 @@ msgstr ""
 "ください。"
 
 #: weblate/templates/mail/billing_expired.html:18
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "Your billing plan has expired. Please renew it to continue using the service."
-msgstr ""
-"料金プランの有効期限が切れていますので、引き続きサービスをご利用になる場合は"
-"更新してください。"
+msgstr "ご使用の料金プランの有効期限が切れました。引き続きサービスをご利用になる場合"
+"は更新してください。"
 
 #: weblate/templates/mail/billing_expired.html:23
-#, fuzzy
-#| msgid "This billing plan covers following projects:"
 msgid "This billing plan covers the following projects:"
 msgstr "この料金プランの対象プロジェクト:"
 
@@ -7540,35 +7476,28 @@ msgstr "プロジェクトの削除"
 msgid ""
 "There are no projects attached to this billing plan. (There might be "
 "projects in other billing plans of yours.)"
-msgstr ""
+msgstr "この料金プランには、該当するプロジェクトはありません。（他の料金プランにはあ"
+"なたのプロジェクトがあるかもしれません。）"
 
 #: weblate/templates/mail/billing_expired.html:40
 msgid "All projects covered by this billing plan have been removed."
 msgstr "この料金プランを適用しているすべてのプロジェクトを削除しました。"
 
 #: weblate/templates/mail/billing_expired.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all projects within this billing plan "
-#| "will be removed on %(date)s."
+#, python-format
 msgid ""
 "If you don't issue the payment, all projects within this billing plan will "
 "be removed on %(date)s."
-msgstr ""
-"お支払いいただけない場合、%(date)s にこの料金プランを適用しているすべてのプロ"
-"ジェクトを削除します。"
+msgstr "もし支払い手続きが行われない場合、この料金プラン内のすべてのプロジェクトは "
+"%(date)s に削除されます。"
 
 #: weblate/templates/mail/billing_expired.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "If your Libre hosting will not be approved, all projects within this "
-#| "billing plan will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your Libre hosting is not approved for it, all projects within this "
 "billing plan will be removed on %(date)s."
-msgstr ""
-"Libre ホスティングとして承認されない場合、料金プランに含まれるすべてのプロ"
-"ジェクトは %(date)s 日後に削除されます。"
+msgstr "Libre ホスティングとして承認されていない場合、"
+"この料金プラン内のすべてのプロジェクトは %(date)s 日に削除されます。"
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -8044,10 +7973,8 @@ msgid "Refresh support status"
 msgstr "サポート状態の更新"
 
 #: weblate/templates/manage/index.html:55
-#, fuzzy
-#| msgid "Manage support package"
 msgid "Support package limits"
-msgstr "サポート パッケージの管理"
+msgstr "サポート パッケージの制限"
 
 #: weblate/templates/manage/index.html:67
 msgid "Support expiry"
@@ -9474,10 +9401,8 @@ msgid "Accept and edit"
 msgstr "採用して編集"
 
 #: weblate/templates/snippets/suggestions.html:42
-#, fuzzy
-#| msgid "Delete suggestion"
 msgid "Reject suggestion"
-msgstr "提案の削除"
+msgstr "提案の却下"
 
 #: weblate/templates/snippets/suggestions.html:55
 msgid "Suggested change:"
@@ -10318,8 +10243,6 @@ msgstr ""
 "合は、新しい翻訳コンポーネントの作成を勧めます。"
 
 #: weblate/templates/translate.html:56
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Open in Zen mode"
 msgstr "Zen モードで編集"
 
@@ -12243,16 +12166,14 @@ msgstr ""
 "を使用します（例: po/*.po または locale/*/LC_MESSAGES/django.po）。"
 
 #: weblate/trans/models/component.py:389
-#, fuzzy
-#| msgid "Screenshot details"
 msgid "Screenshot file mask"
-msgstr "スクリーンショットの詳細"
+msgstr "スクリーンショット ファイルのマスク"
 
 #: weblate/trans/models/component.py:394
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
-msgstr ""
+msgstr "リポジトリルートからのスクリーンショットのパス。例: docs/screenshots/*.png。"
 
 #: weblate/trans/models/component.py:403
 msgid ""
@@ -12524,10 +12445,9 @@ msgid "File does not exist."
 msgstr "ファイルが存在しません。"
 
 #: weblate/trans/models/component.py:1672
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Failed to push %(component)s: %(error_text)s"
-msgstr "ファイル %(file)s の解析に失敗しました: %(error)s"
+msgstr "プッシュに失敗した %(component)s: %(error_text)s"
 
 #: weblate/trans/models/component.py:1693
 #, python-format
@@ -12585,17 +12505,15 @@ msgid "The file mask did not match any files."
 msgstr "ファイル マスクは、どのファイルにも一致しません。"
 
 #: weblate/trans/models/component.py:2575
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the file mask "
-#| "and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
 "%(filename2)s Please adjust the file mask and use components for translating "
 "different resources."
 msgstr ""
-"%s 言語用のファイルが複数あります。ファイル マスクを修正し、個別のリソースを"
-"翻訳するためのコンポーネントを使用してください。"
+"%(language)s 言語用のファイルが複数あります。%(filename1)s、%(filename2)s。"
+"ファイル マスクを修正し、個別のリソースを翻訳するためのコンポーネントを使用し"
+"てください。"
 
 #: weblate/trans/models/component.py:2593
 msgid "Could not find any matching language, please check the file mask."
@@ -12918,10 +12836,8 @@ msgid "This string seems to already exist."
 msgstr "この文字列はすでに存在しています。"
 
 #: weblate/trans/models/translation.py:1643
-#, fuzzy
-#| msgid "Upload strings for translation"
 msgid "Failed adding string, no translation found."
-msgstr "翻訳用の原文のアップロード"
+msgstr "文字列の追加に失敗しました。翻訳が見つかりません。"
 
 #: weblate/trans/models/unit.py:930
 #, python-format
@@ -13643,10 +13559,8 @@ msgid "Translation files have been synchronized."
 msgstr "翻訳ファイルが同期されました。"
 
 #: weblate/trans/views/git.py:130
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Translations have been updated."
-msgstr "翻訳文へのコメントを削除しました。"
+msgstr "翻訳を更新しました。"
 
 #: weblate/trans/views/lock.py:28
 msgid "Component is now locked for translation updates!"
@@ -14044,16 +13958,12 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "パラメータ %(field)s 内でエラー: %(error)s"
 
 #: weblate/vcs/base.py:60
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream repository."
-msgstr "Weblate は変更を上流のリポジトリにプッシュできませんでした。"
+msgstr "これにより、変更が上流のリポジトリにプッシュされます。"
 
 #: weblate/vcs/git.py:49
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Git repository."
-msgstr "Weblate は変更を上流のリポジトリにプッシュできませんでした。"
+msgstr "これにより、変更が上流の Git リポジトリにプッシュされます。"
 
 #: weblate/vcs/git.py:515
 msgid "Possible cleanups:"
@@ -14061,43 +13971,35 @@ msgstr "可能なクリーンアップ:"
 
 #: weblate/vcs/git.py:525
 msgid "This will push changes to Gerrit for a review."
-msgstr ""
+msgstr "これにより、査読のために Gerrit に変更がプッシュされます。"
 
 #: weblate/vcs/git.py:548
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "This will commit changes to the Subversion repository."
-msgstr "内部リポジトリへの変更点のコミット"
+msgstr "これにより、変更が Subversion リポジトリにコミットされます。"
 
 #: weblate/vcs/git.py:713
 msgid "Git with force push"
 msgstr "Git に強制プッシュ"
 
 #: weblate/vcs/git.py:717
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will force push changes to the upstream repository."
-msgstr "Weblate は変更を上流のリポジトリにプッシュできませんでした。"
+msgstr "これにより、変更が上流リポジトリに強制的にプッシュされます。"
 
 #: weblate/vcs/git.py:1038
 msgid "GitHub pull request"
 msgstr "GitHub プルリクエスト"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a GitHub pull request."
-msgstr "Bitbucket Server プルリクエスト"
+msgstr "これにより、変更がプッシュされ、GitHub プル リクエストが作成されます。"
 
 #: weblate/vcs/git.py:1152
 msgid "Gitea pull request"
 msgstr "Gitea プルリクエスト"
 
 #: weblate/vcs/git.py:1156
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a Gitea pull request."
-msgstr "Bitbucket Server プルリクエスト"
+msgstr "これにより、変更がプッシュされ、Gitea プル リクエストが作成されます。"
 
 #: weblate/vcs/git.py:1224
 msgid "No remote repository"
@@ -14108,36 +14010,29 @@ msgid "GitLab merge request"
 msgstr "GitLab マージリクエスト"
 
 #: weblate/vcs/git.py:1334
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a GitLab merge request."
-msgstr "Bitbucket Server プルリクエスト"
+msgstr "これにより、変更がプッシュされ、GitLab マージ リクエストが作成されます。"
 
 #: weblate/vcs/git.py:1471
 msgid "Pagure merge request"
 msgstr "Pagure マージリクエスト"
 
 #: weblate/vcs/git.py:1476
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a Pagure merge request."
-msgstr "Bitbucket Server プルリクエスト"
+msgstr "これにより、変更がプッシュされ、Pagure マージ リクエストが作成されます。"
 
 #: weblate/vcs/git.py:1564
 msgid "Bitbucket Server pull request"
 msgstr "Bitbucket Server プルリクエスト"
 
 #: weblate/vcs/git.py:1570
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a Bitbucket Server pull request."
-msgstr "Bitbucket Server プルリクエスト"
+msgstr "これにより、変更がプッシュされ、Bitbucket Server プル "
+"リクエストが作成されます。"
 
 #: weblate/vcs/mercurial.py:40
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr "Weblate は変更を上流のリポジトリにプッシュできませんでした。"
+msgstr "これにより、上流の Mercurial リポジトリに変更がプッシュされます。"
 
 #: weblate/vcs/ssh.py:30
 msgctxt "SSH key type"
@@ -14354,6 +14249,8 @@ msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in discover."
 msgstr ""
+"あなたの Weblate を、「Weblate プロジェクトの探索」で認知度を高めるために、"
+"設定から SITE_TITLE を変更してください。"
 
 #: weblate/wladmin/views.py:186
 msgid "Activation completed."
