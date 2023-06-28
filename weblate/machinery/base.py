@@ -472,15 +472,15 @@ class MachineTranslation:
                 self._translate(source, language, text, unit, user, threshold=threshold)
                 for text in plural_mapper.map(unit)
             ]
-            n = len(translation_lists)
-            translation = result.setdefault("translation", [""] * n)
-            quality = result.setdefault("quality", [0] * n)
-            for i, possible_translations in enumerate(translation_lists):
+            plural_count = len(translation_lists)
+            translation = result.setdefault("translation", [""] * plural_count)
+            quality = result.setdefault("quality", [0] * plural_count)
+            for plural, possible_translations in enumerate(translation_lists):
                 for item in possible_translations:
-                    if quality[i] > item["quality"]:
+                    if quality[plural] > item["quality"]:
                         continue
-                    quality[i] = item["quality"]
-                    translation[i] = item["text"]
+                    quality[plural] = item["quality"]
+                    translation[plural] = item["text"]
 
 
 class InternalMachineTranslation(MachineTranslation):
