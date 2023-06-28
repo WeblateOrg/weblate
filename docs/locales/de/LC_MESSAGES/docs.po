@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 08:56+0200\n"
-"PO-Revision-Date: 2023-06-28 07:33+0000\n"
+"PO-Revision-Date: 2023-06-28 08:15+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -7142,10 +7142,6 @@ msgid "AUTH_PASSWORD_DAYS"
 msgstr "AUTH_PASSWORD_DAYS"
 
 #: ../../admin/config.rst:139
-#, fuzzy
-#| msgid ""
-#| "How many days will Weblate reject reusing previously used password for an "
-#| "user."
 msgid ""
 "How many days Weblate rejects reusing a previously used password for a user."
 msgstr ""
@@ -7316,47 +7312,33 @@ msgid "BASIC_LANGUAGES"
 msgstr "BASIC_LANGUAGES"
 
 #: ../../admin/config.rst:224
-#, fuzzy
-#| msgid ""
-#| "List of languages to offer users for starting new translation. When not "
-#| "specified built-in list is used which includes all commonly used "
-#| "languages, but without country specific variants."
 msgid ""
 "List of languages to offer users for starting a new translation. When not "
 "specified, a built-in list is used (which includes all commonly used "
 "languages, but without country specific variants)."
 msgstr ""
-"Liste der Sprachen, die dem Benutzer zum Starten einer neuen Übersetzung "
-"angeboten wird. Wenn nicht angegeben, wird die integrierte Liste mit allen "
-"häufig verwendeten Sprachen verwendet, jedoch ohne länderspezifische "
-"Varianten."
+"Liste der Sprachen, die den Benutzern für den Start einer neuen Übersetzung "
+"angeboten werden. Wenn nichts angegeben ist, wird eine integrierte Liste "
+"verwendet (die alle gängigen Sprachen enthält, aber keine länderspezifischen "
+"Varianten)."
 
 #: ../../admin/config.rst:228
-#, fuzzy
-#| msgid ""
-#| "This only limits non privileged users to add unwanted languages. The "
-#| "project admins are still presented with full selection of languages "
-#| "defined in Weblate."
 msgid ""
 "This only limits non privileged users to add unwanted languages. Project "
 "admins are still presented with the full selection of languages defined in "
 "Weblate."
 msgstr ""
 "Dies schränkt nur nicht privilegierte Benutzer ein, unerwünschte Sprachen "
-"hinzuzufügen. Den Projektadministratoren steht nach wie vor die volle "
+"hinzuzufügen. Den Projektadministratoren steht nach wie vor die gesamte "
 "Auswahl der in Weblate definierten Sprachen zur Verfügung."
 
 #: ../../admin/config.rst:233
-#, fuzzy
-#| msgid ""
-#| "This does not define new languages for Weblate, it only filters existing "
-#| "ones in the database."
 msgid ""
 "This does not define new languages for Weblate — it only filters existing "
 "ones in the database."
 msgstr ""
-"Damit werden keine neuen Sprachen für Weblate definiert, sondern nur die in "
-"der Datenbank vorhandenen gefiltert."
+"Damit werden keine neuen Sprachen für Weblate definiert – es werden nur die "
+"in der Datenbank vorhandenen gefiltert."
 
 #: ../../admin/config.rst:244 ../../faq.rst:369
 msgid ":ref:`languages`"
@@ -7459,21 +7441,15 @@ msgstr ""
 "Prüfungen an."
 
 #: ../../admin/config.rst:322
-#, fuzzy
-#| msgid ""
-#| "All built-in :ref:`checks` are turned on by default, from where you can "
-#| "change these settings. By default they are commented out in :ref:`sample-"
-#| "configuration` so that default values are used. New checks then carried "
-#| "out for each new Weblate version."
 msgid ""
 "All built-in :ref:`checks` are turned on by default, from where you can "
 "change these settings. By default they are commented out in :ref:`sample-"
 "configuration` so that default values are used. New checks are then carried "
 "out for each new Weblate version."
 msgstr ""
-"Alle integrierten :ref:`Qualitätsprüfungen` sind standardmäßig aktiviert, "
-"von wo aus Sie diese Einstellungen ändern können. Standardmäßig sind sie in :"
-"ref:`Muster-Konfiguration` auskommentiert, sodass Standardwerte verwendet "
+"Alle integrierten :ref:`checks` sind standardmäßig aktiviert, von wo aus Sie "
+"diese Einstellungen ändern können. Standardmäßig sind sie in der :ref"
+":`sample-configuration` auskommentiert, so dass Standardwerte verwendet "
 "werden. Für jede neue Weblate-Version werden dann neue Qualitätsprüfungen "
 "durchgeführt."
 
@@ -7486,20 +7462,15 @@ msgid "You can turn on only a few:"
 msgstr "Sie können nur ein paar einschalten:"
 
 #: ../../admin/config.rst:344
-#, fuzzy
-#| msgid ""
-#| "Changing this setting only affects newly changed translations, existing "
-#| "checks will still be stored in the database. To also apply changes to the "
-#| "stored translations, run :djadmin:`updatechecks`."
 msgid ""
 "Changing this setting only affects newly changed translations. Existing "
 "checks will still be stored in the database. To also apply changes to the "
 "stored translations, run :wladmin:`updatechecks`."
 msgstr ""
 "Eine Änderung dieser Einstellung wirkt sich nur auf neu geänderte "
-"Übersetzungen aus, bestehende Qualitätsprüfungen werden weiterhin in der "
+"Übersetzungen aus. Bestehende Qualitätsprüfungen werden weiterhin in der "
 "Datenbank gespeichert. Um auch Änderungen an den gespeicherten Übersetzungen "
-"vorzunehmen, führen Sie :djadmin:`updatechecks` aus."
+"vorzunehmen, führen Sie :wladmin:`updatechecks` aus."
 
 #: ../../admin/config.rst:350 ../../admin/translating.rst:93
 msgid ":ref:`checks`, :ref:`custom-checks`"
@@ -7530,32 +7501,25 @@ msgstr ""
 "Hintergrundaufgabe."
 
 #: ../../admin/config.rst:371
-#, fuzzy
-#| msgid ""
-#| ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
-#| "cron`, :djadmin:`commit_pending`"
 msgid ""
 ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
 "cron`, :wladmin:`commit_pending`"
 msgstr ""
-":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
-"cron`, :djadmin:`commit_pending`"
+":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-cron`"
+", :wladmin:`commit_pending`"
 
 #: ../../admin/config.rst:380
 msgid "CONTACT_FORM"
 msgstr "CONTACT_FORM"
 
 #: ../../admin/config.rst:384
-#, fuzzy
-#| msgid ""
-#| "Configures how e-mail from the contact form is being sent. Choose a "
-#| "configuration that matches your mail server configuration."
 msgid ""
 "Configures how e-mail from the contact form is being sent. Choose a "
 "configuration that matches the configuration of your mail server."
 msgstr ""
-"Legt fest, wie E-Mails aus dem Kontaktformular gesendet werden. Wählen Sie "
-"eine Konfiguration, die Ihrer Mail-Server-Konfiguration entspricht."
+"Legt fest, wie E-Mails aus dem Kontaktformular gesendet werden sollen. "
+"Wählen Sie eine Konfiguration, die der Konfiguration Ihres Mailservers "
+"entspricht."
 
 #: ../../admin/config.rst:387
 msgid "``\"reply-to\"``"
@@ -7653,10 +7617,10 @@ msgid ":file:`backups`"
 msgstr ":file:`backups`"
 
 #: ../../admin/config.rst:416
-#, fuzzy
-#| msgid "Daily backup data, please check :ref:`backup-dumps` for details."
 msgid "Daily backup data. Please check :ref:`backup-dumps` for details."
-msgstr "Tägliche Sicherungsdaten, siehe :ref:`backup-dumps` für Details."
+msgstr ""
+"Tägliche Sicherungsdaten. Bitte sehen Sie sich :ref:`backup-dumps` für "
+"Details an."
 
 #: ../../admin/config.rst:417
 msgid ":file:`fonts`:"
@@ -7671,11 +7635,9 @@ msgid ":file:`cache`"
 msgstr ":file:`cache`"
 
 #: ../../admin/config.rst:420
-#, fuzzy
-#| msgid "Various caches, can be placed elsewhere using :setting:`CACHE_DIR`."
 msgid "Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`."
 msgstr ""
-"Verschiedene Caches können mit :setting:`CACHE_DIR` an anderer Stelle "
+"Verschiedene Caches. Kann mit :setting:`CACHE_DIR` an anderer Stelle "
 "platziert werden."
 
 #: ../../admin/config.rst:426
@@ -7735,8 +7697,6 @@ msgid "DEFAULT_ACCESS_CONTROL"
 msgstr "DEFAULT_ACCESS_CONTROL"
 
 #: ../../admin/config.rst:468
-#, fuzzy
-#| msgid "The default access control setting for new projects:"
 msgid "The default access-control setting for new projects:"
 msgstr "Die Standardeinstellung der Zugriffssteuerung für neue Projekte:"
 
@@ -7821,8 +7781,6 @@ msgid "DEFAULT_ADDONS"
 msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:539
-#, fuzzy
-#| msgid "Default add-ons to install on every created component."
 msgid "Default add-ons to install for every created component."
 msgstr ""
 "Standard-Erweiterungen, die für jede erstellte Komponente installiert werden."
@@ -7848,12 +7806,8 @@ msgid "DEFAULT_COMMITER_EMAIL"
 msgstr "DEFAULT_COMMITER_EMAIL"
 
 #: ../../admin/config.rst:574
-#, fuzzy
-#| msgid "Committer e-mail address defaulting to ``noreply@weblate.org``."
 msgid "Committer e-mail address, defaulting to ``noreply@weblate.org``."
-msgstr ""
-"Die E-Mail-Adresse des Committers ist standardmäßig auf ``noreply@weblate."
-"org`` eingestellt."
+msgstr "E-Mail-Adresse des Committers, standardmäßig ``noreply@weblate.org``."
 
 #: ../../admin/config.rst:578
 msgid ":setting:`DEFAULT_COMMITER_NAME`"
@@ -7864,10 +7818,8 @@ msgid "DEFAULT_COMMITER_NAME"
 msgstr "DEFAULT_COMMITER_NAME"
 
 #: ../../admin/config.rst:585
-#, fuzzy
-#| msgid "Committer name defaulting to ``Weblate``."
 msgid "Committer name, defaulting to ``Weblate``."
-msgstr "Der Name des Committers ist standardmäßig ``Weblate``."
+msgstr "Name des Committers, standardmäßig ``Weblate``."
 
 #: ../../admin/config.rst:589
 msgid ":setting:`DEFAULT_COMMITER_EMAIL`"
@@ -8151,7 +8103,7 @@ msgstr ""
 
 #: ../../snippets/vcs-credentials.rst:30
 msgid "Will be used as:"
-msgstr ""
+msgstr "Wird verwendet als:"
 
 #: ../../admin/config.rst:763
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
