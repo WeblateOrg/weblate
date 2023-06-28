@@ -24,7 +24,9 @@
       var $el = $(e.target);
       var raw = $el.parent().parent().data("raw");
 
-      $(this.$translationArea.get(raw.plural_form)).replaceValue(raw.text);
+      raw.plural_forms.forEach((plural_form) => {
+        $(this.$translationArea.get(plural_form)).replaceValue(raw.text);
+      });
       autosize.update(this.$translationArea);
       WLT.Utils.markFuzzy(this.$translationForm);
     });
@@ -34,7 +36,9 @@
       var $el = $(e.target);
       var raw = $el.parent().parent().data("raw");
 
-      $(this.$translationArea.get(raw.plural_form)).replaceValue(raw.text);
+      raw.plural_forms.forEach((plural_form) => {
+        $(this.$translationArea.get(plural_form)).replaceValue(raw.text);
+      });
       autosize.update(this.$translationArea);
       WLT.Utils.markTranslated(this.$translationForm);
       submitForm({ target: this.$translationArea });
@@ -565,6 +569,7 @@
     }
 
     renderTranslation(el, service) {
+      el.plural_forms = [];
       var row = $("<tr/>").data("raw", el);
       row.append(
         $("<td/>")
@@ -682,6 +687,10 @@
             base.text == translation.text &&
             base.source == translation.source
           ) {
+            // Add plural
+            if (!base.plural_forms.includes(translation.plural_form)) {
+              base.plural_forms.push(translation.plural_form);
+            }
             // Add origin to current ones
             var current = $this.children("td:nth-child(4)");
             if (base.quality < translation.quality) {
