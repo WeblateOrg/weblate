@@ -916,11 +916,15 @@ class PluralMapper:
 
     @cached_property
     def _target_map(self):
-        source_map = {
-            examples[0]: i
-            for i, examples in self.source_plural.examples.items()
-            if len(examples) == 1
-        }
+        exact_source_map = {}
+        all_source_map = {}
+        for i, examples in self.source_plural.examples.items():
+            if len(examples) == 1:
+                exact_source_map[examples[0]] = i
+            else:
+                for example in examples:
+                    all_source_map[example] = i
+
         target_plural = self.target_plural
         target_map = []
         last = target_plural.number - 1
@@ -928,8 +932,10 @@ class PluralMapper:
             examples = target_plural.examples.get(i, ())
             if len(examples) == 1:
                 number = examples[0]
-                if number in source_map:
-                    target_map.append((source_map[number], None))
+                if number in exact_source_map:
+                    target_map.append((exact_source_map[number], None))
+                elif number in all_source_map:
+                    target_map.append((all_source_map[number], number))
                 else:
                     target_map.append((-1, number))
             elif i == last:

@@ -17,7 +17,8 @@ from weblate_language_data.languages import LANGUAGES
 from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS
 
 from weblate.lang import data
-from weblate.lang.models import Language, Plural, get_plural_type
+from weblate.lang.models import Language, Plural, PluralMapper, get_plural_type
+from weblate.trans.models import Unit
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.db import using_postgresql
@@ -520,3 +521,48 @@ class PluralTest(BaseTestCase):
         for plural in plurals:
             self.assertIn(plural, choices)
             self.assertIn(plural, data.PLURAL_NAMES)
+
+
+class PluralMapperTestCase(FixtureTestCase):
+    def test_english_czech(self):
+        english = Language.objects.get(code="en")
+        czech = Language.objects.get(code="cs")
+        mapper = PluralMapper(english.plural, czech.plural)
+        self.assertEqual(mapper._target_map, ((0, None), (None, None), (-1, None)))
+        unit = Unit.objects.get(
+            translation__language=english, id_hash=2097404709965985808
+        )
+        self.assertEqual(
+            mapper.map(unit),
+            ["Orangutan has %d banana.\n", "", "Orangutan has %d bananas.\n"],
+        )
+
+    def test_russian_english(self):
+        russian = Language.objects.get(code="ru")
+        english = Language.objects.get(code="en")
+        mapper = PluralMapper(russian.plural, english.plural)
+        self.assertEqual(mapper._target_map, ((0, "1"), (-1, None)))
+        # Use English here to test incomplete plural set in the source string
+        unit = Unit.objects.get(
+            translation__language=english, id_hash=2097404709965985808
+        )
+        self.assertEqual(
+            mapper.map(unit),
+            ["Orangutan has %d banana.\n", "Orangutan has %d bananas.\n"],
+        )
+
+    def test_russian_english_interpolate(self):
+        russian = Language.objects.get(code="ru")
+        english = Language.objects.get(code="en")
+        mapper = PluralMapper(russian.plural, english.plural)
+        self.assertEqual(mapper._target_map, ((0, "1"), (-1, None)))
+        # Use English here to test incomplete plural set in the source string
+        unit = Unit.objects.get(
+            translation__language=english, id_hash=2097404709965985808
+        )
+        unit.extra_flags = "python-brace-format"
+        unit.source = unit.source.replace("%d", "{count}")
+        self.assertEqual(
+            mapper.map(unit),
+            ["Orangutan has 1 banana.\n", "Orangutan has {count} bananas.\n"],
+        )
