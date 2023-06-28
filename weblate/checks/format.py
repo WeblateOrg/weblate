@@ -437,16 +437,15 @@ class BaseFormatCheck(TargetCheck):
         """
         if not self.plural_parameter_regexp:
             # Interpolation isn't available for this format.
-            return ""
+            raise ValueError("Unsupported interpolation!")
         it = self.plural_parameter_regexp.finditer(text)
         match = next(it, None)
-        if match:
-            if next(it, None):
-                # We've found two matching placeholders. We have no way to
-                # determine which one we should replace, so we give up.
-                return ""
-        else:
-            return ""
+        if not match:
+            return text
+        if next(it, None):
+            # We've found two matching placeholders. We have no way to
+            # determine which one we should replace, so we give up.
+            return text
         return text[: match.start()] + str(number) + text[match.end() :]
 
 
