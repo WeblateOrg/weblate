@@ -1,3 +1,10 @@
+Weblate 5.0
+-----------
+
+Not yet released.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/99?closed=1>`__.
+
 Weblate 4.18.1
 --------------
 
