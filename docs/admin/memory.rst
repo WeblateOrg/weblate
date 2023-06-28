@@ -64,6 +64,10 @@ installations, as it can have severe implications:
 * The translations can be used by anybody else.
 * This might lead to disclosing secret information.
 
+.. seealso::
+
+   :ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`
+
 Managing translation memory
 ---------------------------
 
