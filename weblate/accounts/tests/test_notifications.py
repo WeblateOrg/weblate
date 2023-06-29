@@ -223,8 +223,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             action=Change.ACTION_CHANGE,
         )
 
-        # Check mail - ChangedStringNotificaton and TranslatedStringNotificaton
-        self.validate_notifications(2, "[Weblate] New translation in Test/Test — Czech")
+        # Check mail - TranslatedStringNotificaton
+        self.validate_notifications(1, "[Weblate] New translation in Test/Test — Czech")
 
     def test_notify_approved_translation(self):
         Change.objects.create(
@@ -234,11 +234,10 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             action=Change.ACTION_APPROVE,
         )
 
-        # Check mail - ChangedStringNotificaton and ApprovedStringNotificaton
+        # Check mail - ApprovedStringNotificaton
         self.validate_notifications(
-            2,
+            1,
             subjects=[
-                "[Weblate] New translation in Test/Test — Czech",
                 "[Weblate] Approved translation in Test/Test — Czech",
             ],
         )
@@ -328,9 +327,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         change = self.get_unit().recent_content_changes[0]
         change.user = self.anotheruser
         change.save()
-        # Notification for other user edit
-        # ChangedStringNotificaton and TranslatedStringNotificaton
-        self.assertEqual(len(mail.outbox), 2)
+        # Notification for other user edit via  TranslatedStringNotificaton
+        self.assertEqual(len(mail.outbox), 1)
         mail.outbox = []
 
     def test_notify_new_component(self):
