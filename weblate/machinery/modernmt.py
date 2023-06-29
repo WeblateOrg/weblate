@@ -22,7 +22,7 @@ class ModernMTTranslation(MachineTranslation):
     language_map = {
         "fa": "pes",
         "pt": "pt-PT",
-        "sr_Cyrl": "sr",
+        "sr": "sr-Cyrl",
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh-CN",
     }
