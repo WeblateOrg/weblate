@@ -88,6 +88,7 @@ class Notification:
     def __init__(self, outgoing, perm_cache=None):
         self.outgoing = outgoing
         self.subscription_cache = {}
+        self.child_notify = None
         if perm_cache is not None:
             self.perm_cache = perm_cache
         else:
@@ -425,18 +426,14 @@ class MergeFailureNotification(Notification):
     verbose = gettext_lazy("Repository failure")
     template_name = "repository_error"
 
-    def __init__(self, outgoing, perm_cache=None):
-        super().__init__(outgoing, perm_cache)
-        self.fake_notify = None
-
     def should_skip(self, user, change):
         fake = copy(change)
         fake.action = Change.ACTION_ALERT
         fake.alert = Alert(name="MergeFailure", details={"error": ""})
-        if self.fake_notify is None:
-            self.fake_notify = NewAlertNotificaton(None, self.perm_cache)
+        if self.child_notify is None:
+            self.child_notify = NewAlertNotificaton(None, self.perm_cache)
         return bool(
-            list(self.fake_notify.get_users(FREQ_INSTANT, fake, users=[user.pk]))
+            list(self.child_notify.get_users(FREQ_INSTANT, fake, users=[user.pk]))
         )
 
 
@@ -528,15 +525,11 @@ class LastAuthorCommentNotificaton(Notification):
     ignore_watched = True
     required_attr = "comment"
 
-    def __init__(self, outgoing, perm_cache=None):
-        super().__init__(outgoing, perm_cache)
-        self.fake_notify = None
-
     def should_skip(self, user, change):
-        if self.fake_notify is None:
-            self.fake_notify = MentionCommentNotificaton(None, self.perm_cache)
+        if self.child_notify is None:
+            self.child_notify = MentionCommentNotificaton(None, self.perm_cache)
         return bool(
-            list(self.fake_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
+            list(self.child_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
         )
 
     def get_users(
@@ -564,15 +557,11 @@ class MentionCommentNotificaton(Notification):
     ignore_watched = True
     required_attr = "comment"
 
-    def __init__(self, outgoing, perm_cache=None):
-        super().__init__(outgoing, perm_cache)
-        self.fake_notify = None
-
     def should_skip(self, user, change):
-        if self.fake_notify is None:
-            self.fake_notify = NewCommentNotificaton(None, self.perm_cache)
+        if self.child_notify is None:
+            self.child_notify = NewCommentNotificaton(None, self.perm_cache)
         return bool(
-            list(self.fake_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
+            list(self.child_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
         )
 
     def get_users(
@@ -629,15 +618,11 @@ class ChangedStringNotificaton(Notification):
     template_name = "changed_translation"
     filter_languages = True
 
-    def __init__(self, outgoing, perm_cache=None):
-        super().__init__(outgoing, perm_cache)
-        self.fake_notify = None
-
     def should_skip(self, user, change):
-        if self.fake_notify is None:
-            self.fake_notify = TranslatedStringNotificaton(None, self.perm_cache)
+        if self.child_notify is None:
+            self.child_notify = TranslatedStringNotificaton(None, self.perm_cache)
         return bool(
-            list(self.fake_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
+            list(self.child_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
         )
 
 
