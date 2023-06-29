@@ -5,7 +5,7 @@
 from collections import defaultdict
 from copy import copy
 from email.utils import formataddr
-from typing import Iterable, Optional
+from typing import Any, Iterable, List, Optional
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
@@ -84,6 +84,7 @@ class Notification:
     ignore_watched: bool = False
     any_watched: bool = False
     required_attr: Optional[str] = None
+    skip_when_notify: List[Any] = []
 
     def __init__(self, outgoing, perm_cache=None):
         self.outgoing = outgoing
@@ -340,8 +341,24 @@ class Notification:
                 self.get_headers(context),
             )
 
+    def _convert_change_skip(self, change):
+        return change
+
     def should_skip(self, user, change):
-        return False
+        if not self.skip_when_notify:
+            return False
+        if self.child_notify is None:
+            self.child_notify = [
+                notify_class(None, self.perm_cache)
+                for notify_class in self.skip_when_notify
+            ]
+        converted_change = self._convert_change_skip(change)
+        return any(
+            list(
+                child_notify.get_users(FREQ_INSTANT, converted_change, users=[user.pk])
+            )
+            for child_notify in self.child_notify
+        )
 
     def notify_immediate(self, change):
         for user in self.get_users(FREQ_INSTANT, change):
@@ -413,28 +430,6 @@ class Notification:
 
     def notify_monthly(self):
         self.notify_digest(FREQ_MONTHLY, self.filter_changes(months=1))
-
-
-@register_notification
-class MergeFailureNotification(Notification):
-    actions = (
-        Change.ACTION_FAILED_MERGE,
-        Change.ACTION_FAILED_REBASE,
-        Change.ACTION_FAILED_PUSH,
-    )
-    # Translators: Notification name
-    verbose = gettext_lazy("Repository failure")
-    template_name = "repository_error"
-
-    def should_skip(self, user, change):
-        fake = copy(change)
-        fake.action = Change.ACTION_ALERT
-        fake.alert = Alert(name="MergeFailure", details={"error": ""})
-        if self.child_notify is None:
-            self.child_notify = NewAlertNotificaton(None, self.perm_cache)
-        return bool(
-            list(self.child_notify.get_users(FREQ_INSTANT, fake, users=[user.pk]))
-        )
 
 
 @register_notification
@@ -517,35 +512,26 @@ class NewSuggestionNotificaton(Notification):
 
 
 @register_notification
-class LastAuthorCommentNotificaton(Notification):
+class NewCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
     # Translators: Notification name
-    verbose = gettext_lazy("Comment on own translation")
+    verbose = gettext_lazy("New comment")
     template_name = "new_comment"
-    ignore_watched = True
+    filter_languages = True
     required_attr = "comment"
 
-    def should_skip(self, user, change):
-        if self.child_notify is None:
-            self.child_notify = MentionCommentNotificaton(None, self.perm_cache)
-        return bool(
-            list(self.child_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
-        )
+    def get_language_filter(self, change, translation):
+        if not change.comment.unit.is_source:
+            return translation.language
+        return None
 
-    def get_users(
-        self,
-        frequency,
-        change=None,
-        project=None,
-        component=None,
-        translation=None,
-        users=None,
-    ):
-        last_author = change.unit.get_last_content_change()[0]
-        users = [] if last_author.is_anonymous else [last_author.pk]
-        return super().get_users(
-            frequency, change, project, component, translation, users
-        )
+    def notify_immediate(self, change):
+        super().notify_immediate(change)
+
+        # Notify upstream
+        report_source_bugs = change.component.report_source_bugs
+        if change.comment and change.comment.unit.is_source and report_source_bugs:
+            self.send_immediate("en", report_source_bugs, change)
 
 
 @register_notification
@@ -556,13 +542,7 @@ class MentionCommentNotificaton(Notification):
     template_name = "new_comment"
     ignore_watched = True
     required_attr = "comment"
-
-    def should_skip(self, user, change):
-        if self.child_notify is None:
-            self.child_notify = NewCommentNotificaton(None, self.perm_cache)
-        return bool(
-            list(self.child_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
-        )
+    skip_when_notify = [NewCommentNotificaton]
 
     def get_users(
         self,
@@ -588,41 +568,28 @@ class MentionCommentNotificaton(Notification):
 
 
 @register_notification
-class NewCommentNotificaton(Notification):
+class LastAuthorCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
     # Translators: Notification name
-    verbose = gettext_lazy("New comment")
+    verbose = gettext_lazy("Comment on own translation")
     template_name = "new_comment"
-    filter_languages = True
+    ignore_watched = True
     required_attr = "comment"
+    skip_when_notify = [MentionCommentNotificaton]
 
-    def get_language_filter(self, change, translation):
-        if not change.comment.unit.is_source:
-            return translation.language
-        return None
-
-    def notify_immediate(self, change):
-        super().notify_immediate(change)
-
-        # Notify upstream
-        report_source_bugs = change.component.report_source_bugs
-        if change.comment and change.comment.unit.is_source and report_source_bugs:
-            self.send_immediate("en", report_source_bugs, change)
-
-
-@register_notification
-class ChangedStringNotificaton(Notification):
-    actions = Change.ACTIONS_CONTENT
-    # Translators: Notification name
-    verbose = gettext_lazy("Changed string")
-    template_name = "changed_translation"
-    filter_languages = True
-
-    def should_skip(self, user, change):
-        if self.child_notify is None:
-            self.child_notify = TranslatedStringNotificaton(None, self.perm_cache)
-        return bool(
-            list(self.child_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
+    def get_users(
+        self,
+        frequency,
+        change=None,
+        project=None,
+        component=None,
+        translation=None,
+        users=None,
+    ):
+        last_author = change.unit.get_last_content_change()[0]
+        users = [] if last_author.is_anonymous else [last_author.pk]
+        return super().get_users(
+            frequency, change, project, component, translation, users
         )
 
 
@@ -642,6 +609,16 @@ class ApprovedStringNotificaton(Notification):
     verbose = gettext_lazy("Approved string")
     template_name = "approved_string"
     filter_languages = True
+
+
+@register_notification
+class ChangedStringNotificaton(Notification):
+    actions = Change.ACTIONS_CONTENT
+    # Translators: Notification name
+    verbose = gettext_lazy("Changed string")
+    template_name = "changed_translation"
+    filter_languages = True
+    skip_when_notify = [TranslatedStringNotificaton, ApprovedStringNotificaton]
 
 
 @register_notification
@@ -718,6 +695,25 @@ class NewAlertNotificaton(Notification):
             fake.project = fake.component.project
             return bool(list(self.get_users(FREQ_INSTANT, fake, users=[user.pk])))
         return False
+
+
+@register_notification
+class MergeFailureNotification(Notification):
+    actions = (
+        Change.ACTION_FAILED_MERGE,
+        Change.ACTION_FAILED_REBASE,
+        Change.ACTION_FAILED_PUSH,
+    )
+    # Translators: Notification name
+    verbose = gettext_lazy("Repository failure")
+    template_name = "repository_error"
+    skip_when_notify = [NewAlertNotificaton]
+
+    def _convert_change_skip(self, change):
+        fake = copy(change)
+        fake.action = Change.ACTION_ALERT
+        fake.alert = Alert(name="MergeFailure", details={"error": ""})
+        return fake
 
 
 class SummaryNotification(Notification):
