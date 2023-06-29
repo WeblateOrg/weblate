@@ -654,6 +654,7 @@ def translate(request, project, component, lang):  # noqa: C901
             "prev_unit_url": base_unit_url + str(offset - 1),
             "object": obj,
             "project": project,
+            "component": obj.component,
             "unit": unit,
             "nearby": unit.nearby(user.profile.nearby_strings),
             "nearby_keys": unit.nearby_keys(user.profile.nearby_strings),
@@ -875,6 +876,7 @@ def zen(request, project, component, lang):
         {
             "object": obj,
             "project": project,
+            "component": obj.component,
             "unitdata": unitdata,
             "search_query": search_result["query"],
             "filter_name": search_result["name"],
@@ -906,6 +908,7 @@ def load_zen(request, project, component, lang):
         {
             "object": obj,
             "project": project,
+            "component": obj.component,
             "unitdata": unitdata,
             "search_query": search_result["query"],
             "search_url": search_result["url"],
@@ -1029,6 +1032,7 @@ def browse(request, project, component, lang):
         {
             "object": obj,
             "project": project,
+            "component": getattr(obj, "component", None),
             "units": units,
             "search_query": search_result["query"],
             "search_url": search_result["url"],

@@ -159,6 +159,7 @@ def search(request, project=None, component=None, lang=None):
         obj = get_component(request, project, component)
         context["component"] = obj
         context["project"] = obj.project
+        context["component"] = obj
         context["back_url"] = obj.get_absolute_url()
     elif project:
         obj = get_project(request, project)

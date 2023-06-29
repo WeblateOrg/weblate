@@ -252,6 +252,7 @@ def show_component(request, project, component):
             "allow_index": True,
             "object": obj,
             "project": obj.project,
+            "component": obj,
             "translations": translations,
             "reports_form": ReportsForm({"component": obj}),
             "last_changes": last_changes,
@@ -343,6 +344,7 @@ def show_translation(request, project, component, lang):
             "allow_index": True,
             "object": obj,
             "project": project,
+            "component": obj.component,
             "form": form,
             "download_form": DownloadForm(obj, auto_id="id_dl_%s"),
             "autoform": optional_form(
@@ -465,7 +467,13 @@ def new_language(request, project, component):
     return render(
         request,
         "new-language.html",
-        {"object": obj, "project": obj.project, "form": form, "can_add": can_add},
+        {
+            "object": obj,
+            "project": obj.project,
+            "component": obj,
+            "form": form,
+            "can_add": can_add,
+        },
     )
 
 
@@ -504,6 +512,7 @@ def guide(request, project, component):
         {
             "object": obj,
             "project": obj.project,
+            "component": obj,
             "guidelines": obj.guidelines,
         },
     )

@@ -87,6 +87,7 @@ def matrix(request, project, component):
         {
             "object": obj,
             "project": obj.project,
+            "component": obj,
             "languages": languages,
             "language_codes": language_codes,
             "languages_form": form,
