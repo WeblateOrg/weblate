@@ -172,7 +172,7 @@ def generate_counts(user, start_date, end_date, language_code: str, **kwargs):
     base = Change.objects.content().filter(unit__isnull=False)
     base = base.filter(author=user) if user else base.filter(author__isnull=False)
     if language_code:
-        Change.objects.filter(language__code=language_code)
+        base = base.filter(language__code=language_code)
 
     changes = base.filter(
         timestamp__range=(start_date, end_date), **kwargs
