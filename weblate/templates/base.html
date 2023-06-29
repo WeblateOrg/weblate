@@ -244,7 +244,10 @@ var _rollbarConfig = {
             <li><a href="{% url 'create-project' %}">{% trans "Add new translation project" %}</a></li>
             <li><a href="{% url 'create-component' %}{% if project %}?project={{ project.id }}{% endif %}">{% trans "Add new translation component" %}</a></li>
             {% if component %}
-              <li><a href="{% url "new-language" project=component.project.slug component=component.slug %}">{% trans "Start new translation" %}</a></li>
+              {% perm 'translation.add' component as user_can_add_translation %}
+              {% if user_can_add_translation %}
+                <li><a href="{% url "new-language" project=component.project.slug component=component.slug %}">{% trans "Start new translation" %}</a></li>
+              {% endif %}
             {% endif %}
             {% if offer_hosting %}
               <li role="separator" class="divider"></li>
