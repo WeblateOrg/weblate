@@ -242,7 +242,7 @@ var _rollbarConfig = {
           </a>
           <ul class="dropdown-menu">
             <li><a href="{% url 'create-project' %}">{% trans "Add new translation project" %}</a></li>
-            <li><a href="{% url 'create-component' %}">{% trans "Add new translation component" %}</a></li>
+            <li><a href="{% url 'create-component' %}{% if project %}?project={{ project.id }}{% endif %}">{% trans "Add new translation component" %}</a></li>
             {% if offer_hosting %}
               <li role="separator" class="divider"></li>
               {% if payment_enabled %}
