@@ -2021,7 +2021,7 @@ class StringsdictFormat(DictStoreMixin, TTKitFormat):
         from weblate.lang.models import Plural
 
         return language.plural_set.get_or_create(
-            source=Plural.SOURCE_STRINGSDICT,
+            source=Plural.SOURCE_CLDR_ZERO,
             defaults={
                 "formula": FORMULA_WITH_ZERO[plural.formula],
                 "number": plural.number + 1,

@@ -759,7 +759,7 @@ class Plural(models.Model):
     SOURCE_DEFAULT = 0
     SOURCE_GETTEXT = 1
     SOURCE_MANUAL = 2
-    SOURCE_STRINGSDICT = 3
+    SOURCE_CLDR_ZERO = 3
     SOURCE_CLDR = 4
     SOURCE_ANDROID = 5
     source = models.SmallIntegerField(
@@ -768,7 +768,7 @@ class Plural(models.Model):
         choices=(
             (SOURCE_DEFAULT, gettext_lazy("Default plural")),
             (SOURCE_GETTEXT, gettext_lazy("gettext plural formula")),
-            (SOURCE_STRINGSDICT, gettext_lazy("stringsdict plural")),
+            (SOURCE_CLDR_ZERO, gettext_lazy("CLDR plural with zero")),
             (SOURCE_CLDR, gettext_lazy("CLDR v38+ plural")),
             (SOURCE_ANDROID, gettext_lazy("Android plural")),
             (SOURCE_MANUAL, gettext_lazy("Manually entered formula")),
