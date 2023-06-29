@@ -12,7 +12,7 @@ from django.contrib import admin
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Prefetch, Q
-from django.db.models.signals import m2m_changed, post_save
+from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
@@ -561,7 +561,28 @@ class Invoice(models.Model):
 def update_project_bill(sender, instance, **kwargs):
     if isinstance(instance, Component):
         instance = instance.project
-    for billing in instance.billing_set.iterator():
+    for billing in instance.billing_set.all():
+        billing.check_limits()
+
+
+@receiver(pre_delete, sender=Project)
+@receiver(pre_delete, sender=Component)
+@disable_for_loaddata
+def record_project_bill(sender, instance, **kwargs):
+    if isinstance(instance, Component):
+        instance = instance.project
+    # Track billings to update for delete_project_bill
+    instance.billings_to_update = list(instance.billing_set.all())
+
+
+@receiver(post_delete, sender=Project)
+@receiver(post_delete, sender=Component)
+@disable_for_loaddata
+def delete_project_bill(sender, instance, **kwargs):
+    if isinstance(instance, Component):
+        instance = instance.project
+    # This is set in record_project_bill
+    for billing in instance.billings_to_update:
         billing.check_limits()
 
 

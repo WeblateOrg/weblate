@@ -58,6 +58,7 @@ class BillingTest(TestCase):
         )
         self.billing.projects.add(project)
         project.add_user(self.user, "Billing")
+        return project
 
     def test_view_billing(self):
         self.add_project()
@@ -88,9 +89,12 @@ class BillingTest(TestCase):
         self.add_project()
         self.refresh_from_db()
         self.assertTrue(self.billing.in_limits)
-        self.add_project()
+        project = self.add_project()
         self.refresh_from_db()
         self.assertFalse(self.billing.in_limits)
+        project.delete()
+        self.refresh_from_db()
+        self.assertTrue(self.billing.in_limits)
 
     def test_commands(self):
         out = StringIO()
