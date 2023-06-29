@@ -629,6 +629,17 @@ class ChangedStringNotificaton(Notification):
     template_name = "changed_translation"
     filter_languages = True
 
+    def __init__(self, outgoing, perm_cache=None):
+        super().__init__(outgoing, perm_cache)
+        self.fake_notify = None
+
+    def should_skip(self, user, change):
+        if self.fake_notify is None:
+            self.fake_notify = TranslatedStringNotificaton(None, self.perm_cache)
+        return bool(
+            list(self.fake_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
+        )
+
 
 @register_notification
 class TranslatedStringNotificaton(Notification):
