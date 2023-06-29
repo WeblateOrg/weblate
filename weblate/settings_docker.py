@@ -1229,6 +1229,7 @@ FONTS_CDN_URL = None
 # Django compressor offline mode
 COMPRESS_OFFLINE = True
 COMPRESS_OFFLINE_CONTEXT = "weblate.utils.compress.offline_context"
+COMPRESS_CSS_HASHING_METHOD = "content"
 
 # Require login for all URLs
 if REQUIRE_LOGIN:
