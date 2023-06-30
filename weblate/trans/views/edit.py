@@ -654,7 +654,9 @@ def translate(request, project, component, lang):  # noqa: C901
             "prev_unit_url": base_unit_url + str(offset - 1),
             "object": obj,
             "project": project,
-            "component": obj.component,
+            "component": obj.component
+            if not isinstance(obj, ProjectLanguage)
+            else None,
             "unit": unit,
             "nearby": unit.nearby(user.profile.nearby_strings),
             "nearby_keys": unit.nearby_keys(user.profile.nearby_strings),
