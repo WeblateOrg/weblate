@@ -842,4 +842,4 @@ You can either define which project or component to update (for example
 .. note::
 
     Usually it is better to configure hooks in the repository to trigger
-    :ref:`hooks`, instead of regular polling by :wladmin:`updategit`.
+    :ref:`hooks`, instead of regular triggering the updates by :wladmin:`updategit`.
