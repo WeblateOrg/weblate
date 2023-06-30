@@ -1935,7 +1935,7 @@ class TBXUnit(TTKitUnit):
 
     @cached_property
     def explanation(self) -> str:
-        return self._get_notes("definition")
+        return self._get_notes("translator")
 
     def set_source_explanation(self, explanation: str):
         if explanation or self.source_explanation:
@@ -1944,7 +1944,7 @@ class TBXUnit(TTKitUnit):
 
     @cached_property
     def source_explanation(self) -> str:
-        return self._get_notes("source-explanation")
+        return self._get_notes("definition")
 
 
 class TBXFormat(TTKitFormat):
