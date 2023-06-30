@@ -3,6 +3,12 @@ Weblate 4.18.2
 
 Not yet released.
 
+* Fixed parsing notes from TBX.
+* Fixed query parsing in navigation bar search.
+* Fixed language filtering in reports.
+* Improved ModernMT languages mapping.
+* Disabled reused checks on languages with a single plural form.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/102?closed=1>`__.
 
 Weblate 4.18.1
