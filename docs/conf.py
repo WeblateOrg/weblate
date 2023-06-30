@@ -41,7 +41,7 @@ copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "4.18.1"
+release = "4.18.2"
 
 
 # -- General configuration ---------------------------------------------------
