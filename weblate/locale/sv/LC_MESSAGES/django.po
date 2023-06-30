@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 # Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>, 2018, 2019.
 # Johan Jacobsson <johan.jacobsson@telia.com>, 2018, 2019, 2020, 2021, 2022, 2023.
 # Stefan Gagner <stefan@mei-ya.se>, 2018.
@@ -18,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 07:48+0000\n"
-"PO-Revision-Date: 2023-06-16 11:20+0000\n"
+"PO-Revision-Date: 2023-07-02 19:50+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -27,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18.1-dev\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -10503,12 +10502,10 @@ msgstr[0] "Denna sträng har en annan källa, men samma kontext."
 msgstr[1] "Dessa strängar har olika källor, men samma kontext."
 
 #: weblate/templates/translate.html:335
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has a different source and context."
 msgid_plural "These strings have differing sources and context."
-msgstr[0] "Detta meddelande har mer än en översättning i detta projekt"
-msgstr[1] "Detta meddelande har mer än en översättning i detta projekt"
+msgstr[0] "Den här strängen har en annan källa och kontext."
+msgstr[1] "Dessa strängar har andra källor och kontext."
 
 #: weblate/templates/translate.html:345
 msgid "Apply selected translation to all propagated strings"
@@ -10523,10 +10520,8 @@ msgid "Browse all string changes"
 msgstr "Utforska alla strängändringar"
 
 #: weblate/templates/translate.html:378
-#, fuzzy
-#| msgid "Suggested change:"
 msgid "Suggested change"
-msgstr "Föreslagen ändring:"
+msgstr "Föreslagen ändring"
 
 #: weblate/templates/translate.html:380
 msgid "Origin"
@@ -10621,10 +10616,8 @@ msgid "String age"
 msgstr "Strängålder"
 
 #: weblate/templates/translate.html:697 weblate/utils/views.py:123
-#, fuzzy
-#| msgid "Past due date"
 msgid "Last updated"
-msgstr "Passerat förfallodatum"
+msgstr "Senast uppdaterad"
 
 #: weblate/templates/translate.html:703
 msgid "Source string age"
@@ -11065,16 +11058,12 @@ msgstr ""
 "strängen."
 
 #: weblate/trans/forms.py:517
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string explanation"
-msgstr "Källsträngens plats"
+msgstr "Förklaring av källsträng"
 
 #: weblate/trans/forms.py:519
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Translation explanation"
-msgstr "Översättningsaviseringar"
+msgstr "Förklaring till översättning"
 
 #: weblate/trans/forms.py:536
 msgid "The source string has changed meanwhile. Please check your changes."
@@ -12077,18 +12066,14 @@ msgid "Removed comment"
 msgstr "Borttagen kommentar"
 
 #: weblate/trans/models/change.py:401
-#, fuzzy
-#| msgid "Resolved comment"
 msgctxt "Name of event in the history"
 msgid "Resolved comment"
-msgstr "Löst kommentar"
+msgstr "Besvarad kommentar"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:404
-#, fuzzy
-#| msgid "Explanation"
 msgid "Explanation updated"
-msgstr "Förklaring"
+msgstr "Förklaring uppdaterad"
 
 #: weblate/trans/models/change.py:476
 msgid "New string to translate"
@@ -12179,12 +12164,10 @@ msgid "POSIX style using underscore as a separator, including country code"
 msgstr "POSIX-stil med understreck som avgränsare, inklusive landskod"
 
 #: weblate/trans/models/component.py:129
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator, including country code"
 msgid ""
 "POSIX style using underscore as a separator, including country code "
 "(lowercase)"
-msgstr "POSIX-stil med understreck som avgränsare, inklusive landskod"
+msgstr "POSIX-stil med understreck som avgränsare, inklusive landskod (gemener)"
 
 #: weblate/trans/models/component.py:134
 msgid "BCP style using hyphen as a separator, including country code"
@@ -12321,16 +12304,16 @@ msgstr ""
 "språkkod, till exempel: po/*.po ellerr locale/*/LC_MESSAGES/django.po."
 
 #: weblate/trans/models/component.py:389
-#, fuzzy
-#| msgid "Screenshot details"
 msgid "Screenshot file mask"
-msgstr "Detaljer för skärmdump"
+msgstr "Filmask för skärmdump"
 
 #: weblate/trans/models/component.py:394
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
 msgstr ""
+"Sökväg för skärmdumpar i förhållande till arkivroten, till exempel: docs/"
+"screenshots/*.png."
 
 #: weblate/trans/models/component.py:403
 msgid ""
@@ -12611,10 +12594,9 @@ msgid "File does not exist."
 msgstr "Fil existerar inte."
 
 #: weblate/trans/models/component.py:1672
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Failed to push %(component)s: %(error_text)s"
-msgstr "Kunde inte tolka filen %(file)s: %(error)s"
+msgstr "Det gick inte att pusha %(component)s: %(error_text)s"
 
 #: weblate/trans/models/component.py:1693
 #, python-format
@@ -12670,17 +12652,15 @@ msgid "The file mask did not match any files."
 msgstr "Filmasken matchade inte några filer."
 
 #: weblate/trans/models/component.py:2575
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the file mask "
-#| "and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
 "%(filename2)s Please adjust the file mask and use components for translating "
 "different resources."
 msgstr ""
-"Det finns mer än en fil för språk %s. Justera filmasken och använd "
-"komponenter för att översätta en annan resurs."
+"Det finns mer än en fil för %(language)s språk: %(filename1)s, %(filename2)s "
+"Vänligen justera filmasken och använd komponenter för att översätta olika "
+"resurser."
 
 #: weblate/trans/models/component.py:2593
 msgid "Could not find any matching language, please check the file mask."
@@ -13007,10 +12987,8 @@ msgid "This string seems to already exist."
 msgstr "Denna sträng verkar redan existera."
 
 #: weblate/trans/models/translation.py:1643
-#, fuzzy
-#| msgid "Duplicated string for translation."
 msgid "Failed adding string, no translation found."
-msgstr "Duplicerad sträng för översättning."
+msgstr "Det gick inte att lägga till sträng, ingen översättning hittades."
 
 #: weblate/trans/models/unit.py:930
 #, python-format
@@ -13752,10 +13730,8 @@ msgid "Translation files have been synchronized."
 msgstr "Översättningsfiler har synkroniserats."
 
 #: weblate/trans/views/git.py:130
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Translations have been updated."
-msgstr "Översättningskommentaren har tagits bort."
+msgstr "Översättningar har uppdaterats."
 
 #: weblate/trans/views/lock.py:28
 msgid "Component is now locked for translation updates!"
@@ -14157,16 +14133,12 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Fel i parameter %(field)s: %(error)s"
 
 #: weblate/vcs/base.py:60
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream repository."
-msgstr "Weblate kunde inte pusha ändringar till uppströmsarkivet."
+msgstr "Detta kommer att pusha ändringar till uppströmsarkivet."
 
 #: weblate/vcs/git.py:49
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Git repository."
-msgstr "Weblate kunde inte pusha ändringar till uppströmsarkivet."
+msgstr "Detta kommer att pusha ändringar till uppströms Git-arkiv."
 
 #: weblate/vcs/git.py:515
 msgid "Possible cleanups:"
@@ -14174,13 +14146,11 @@ msgstr "Möjliga uppstädningar:"
 
 #: weblate/vcs/git.py:525
 msgid "This will push changes to Gerrit for a review."
-msgstr ""
+msgstr "Detta kommer att pusha ändringar till Gerrit för granskning."
 
 #: weblate/vcs/git.py:548
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "This will commit changes to the Subversion repository."
-msgstr "Arkivera ändringar i det interna arkivet"
+msgstr "Detta kommer att arkivera ändringar i Subversion-arkivet."
 
 #: weblate/vcs/git.py:713
 msgid "Git with force push"
