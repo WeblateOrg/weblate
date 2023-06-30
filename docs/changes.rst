@@ -1,7 +1,7 @@
 Weblate 4.18.2
 --------------
 
-Not yet released.
+Released on June 30th 2023.
 
 * Fixed parsing notes from TBX.
 * Fixed query parsing in navigation bar search.
