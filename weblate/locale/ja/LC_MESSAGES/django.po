@@ -32,8 +32,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 07:48+0000\n"
-"PO-Revision-Date: 2023-06-29 15:53+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"PO-Revision-Date: 2023-07-02 19:50+0000\n"
+"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1585,6 +1585,7 @@ msgid "Fill read-only strings with source"
 msgstr "翻訳済みの文字列が編集禁止の場合は、原文を翻訳に代入する"
 
 #: weblate/addons/generate.py:218
+#, fuzzy
 msgid "Fills in translation of read-only strings with source string."
 msgstr "翻訳済みの文字列が編集禁止の場合は、原文を翻訳に代入します。"
 
@@ -4685,7 +4686,7 @@ msgstr "ユーザー情報"
 
 #: weblate/templates/accounts/confirm.html:14
 msgid "Confirm adding user identity"
-msgstr "ユーザー ID 追加の確認"
+msgstr "ユーザー認証方法追加の確認"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #: weblate/templates/accounts/confirm.html:18
@@ -5041,7 +5042,7 @@ msgstr "削除"
 
 #: weblate/templates/accounts/profile.html:156
 msgid "Add new user identity"
-msgstr "新しいユーザーの追加"
+msgstr "新しいユーザー認証方法の追加"
 
 #: weblate/templates/accounts/profile.html:166
 #: weblate/templates/component.html:104
@@ -7076,7 +7077,7 @@ msgstr "コミット"
 #, python-format
 msgid "%(count)s pending change"
 msgid_plural "%(count)s pending changes"
-msgstr[0] "%(count)s 個の保留中を変更する"
+msgstr[0] "%(count)s 個の保留中の変更"
 
 #: weblate/templates/js/git-status.html:32
 msgid ""
@@ -7093,7 +7094,7 @@ msgstr "プッシュ"
 #, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s 個の送信予定のコメント"
+msgstr[0] "%(count)s 個の送信予定のコミット"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Update"
@@ -7496,8 +7497,8 @@ msgstr "もし支払い手続きが行われない場合、この料金プラン
 msgid ""
 "If your Libre hosting is not approved for it, all projects within this "
 "billing plan will be removed on %(date)s."
-msgstr "Libre ホスティングとして承認されていない場合、"
-"この料金プラン内のすべてのプロジェクトは %(date)s 日に削除されます。"
+msgstr "Libre ホスティングとして承認されない場合、"
+"この料金プラン内のすべてのプロジェクトは %(date)s に削除されます。"
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -12447,7 +12448,7 @@ msgstr "ファイルが存在しません。"
 #: weblate/trans/models/component.py:1672
 #, python-format
 msgid "Failed to push %(component)s: %(error_text)s"
-msgstr "プッシュに失敗した %(component)s: %(error_text)s"
+msgstr "%(component)s のプッシュに失敗しました: %(error_text)s"
 
 #: weblate/trans/models/component.py:1693
 #, python-format
