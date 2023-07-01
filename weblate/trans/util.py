@@ -6,7 +6,7 @@ import locale
 import os
 import sys
 from types import GeneratorType
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from urllib.parse import urlparse
 
 from django.core.cache import cache
@@ -112,7 +112,7 @@ def translation_percent(translated, total, zero_complete=True):
     return perc
 
 
-def get_clean_env(extra: Dict = None, extra_path: str = None):
+def get_clean_env(extra: Optional[Dict] = None, extra_path: Optional[str] = None):
     """Return cleaned up environment for subprocess execution."""
     environ = {
         "LANG": "C.UTF-8",
@@ -215,9 +215,9 @@ def get_project_description(project):
 def render(
     request,
     template_name: str,
-    context: Dict[str, Any] = None,
-    content_type: str = None,
-    status: int = None,
+    context: Optional[Dict[str, Any]] = None,
+    content_type: Optional[str] = None,
+    status: Optional[int] = None,
     using=None,
 ):
     """Wrapper around Django render to extend context."""

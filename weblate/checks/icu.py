@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from collections import defaultdict
+from typing import Optional
 
 from django.utils.translation import gettext, gettext_lazy
 from pyicumessageformat import Parser
@@ -72,7 +73,7 @@ def parse_icu(
     source: str,
     allow_tags: bool,
     strict_tags: bool,
-    tag_prefix: str = None,
+    tag_prefix: Optional[str] = None,
     want_tokens=False,
 ):
     """Parse an ICU MessageFormat message."""

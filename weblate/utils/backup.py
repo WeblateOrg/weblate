@@ -7,7 +7,7 @@ import os
 import string
 import subprocess
 from random import SystemRandom
-from typing import Dict, List
+from typing import Dict, List, Optional
 from urllib.parse import urlparse
 
 import borg
@@ -73,7 +73,7 @@ def tag_cache_dirs():
                 handle.write(CACHEDIR)
 
 
-def run_borg(cmd: List[str], env: Dict[str, str] = None) -> str:
+def run_borg(cmd: List[str], env: Optional[Dict[str, str]] = None) -> str:
     """Wrapper to execute borgbackup."""
     with backup_lock():
         SSH_WRAPPER.create()
