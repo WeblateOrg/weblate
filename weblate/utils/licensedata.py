@@ -195,6 +195,12 @@ LICENSES = (
         True,
     ),
     (
+        "ASWF-Digital-Assets-1.1",
+        "ASWF Digital Assets License 1.1",
+        "https://spdx.org/licenses/ASWF-Digital-Assets-1.1.html",
+        False,
+    ),
+    (
         "ASWF-Digital-Assets-1.0",
         "ASWF Digital Assets License version 1.0",
         "https://spdx.org/licenses/ASWF-Digital-Assets-1.0.html",
@@ -238,6 +244,12 @@ LICENSES = (
         "BlueOak-1.0.0",
         "Blue Oak Model License 1.0.0",
         "https://spdx.org/licenses/BlueOak-1.0.0.html",
+        False,
+    ),
+    (
+        "Boehm-GC",
+        "Boehm-Demers-Weiser GC License",
+        "https://spdx.org/licenses/Boehm-GC.html",
         False,
     ),
     (
@@ -928,12 +940,6 @@ LICENSES = (
         True,
     ),
     (
-        "cryptsetup-OpenSSL-exception",
-        "cryptsetup OpenSSL exception",
-        "https://spdx.org/licenses/cryptsetup-OpenSSL-exception.html",
-        False,
-    ),
-    (
         "CrystalStacker",
         "CrystalStacker License",
         "https://spdx.org/licenses/CrystalStacker.html",
@@ -953,6 +959,7 @@ LICENSES = (
         "https://spdx.org/licenses/DL-DE-BY-2.0.html",
         False,
     ),
+    ("dtoa", "David M. Gay dtoa License", "https://spdx.org/licenses/dtoa.html", False),
     (
         "DRL-1.0",
         "Detection Rule License 1.0",
@@ -1431,6 +1438,12 @@ LICENSES = (
     ),
     ("Info-ZIP", "Info-ZIP License", "https://spdx.org/licenses/Info-ZIP.html", False),
     (
+        "Inner-Net-2.0",
+        "Inner Net License v2.0",
+        "https://spdx.org/licenses/Inner-Net-2.0.html",
+        False,
+    ),
+    (
         "Intel-ACPI",
         "Intel ACPI Software License Agreement",
         "https://spdx.org/licenses/Intel-ACPI.html",
@@ -1534,12 +1547,6 @@ LICENSES = (
     ),
     ("Libpng", "libpng License", "https://spdx.org/licenses/Libpng.html", False),
     (
-        "libpri-OpenH323-exception",
-        "libpri OpenH323 exception",
-        "https://spdx.org/licenses/libpri-OpenH323-exception.html",
-        False,
-    ),
-    (
         "libselinux-1.0",
         "libselinux public domain notice",
         "https://spdx.org/licenses/libselinux-1.0.html",
@@ -1589,15 +1596,27 @@ LICENSES = (
         False,
     ),
     (
+        "Linux-man-pages-1-para",
+        "Linux man-pages - 1 paragraph",
+        "https://spdx.org/licenses/Linux-man-pages-1-para.html",
+        False,
+    ),
+    (
         "Linux-man-pages-copyleft",
         "Linux man-pages Copyleft",
         "https://spdx.org/licenses/Linux-man-pages-copyleft.html",
         False,
     ),
     (
-        "Linux-man-pages-one-para",
-        "Linux man-pages One Paragraph",
-        "https://spdx.org/licenses/Linux-man-pages-one-para.html",
+        "Linux-man-pages-copyleft-2-para",
+        "Linux man-pages Copyleft - 2 paragraphs",
+        "https://spdx.org/licenses/Linux-man-pages-copyleft-2-para.html",
+        False,
+    ),
+    (
+        "Linux-man-pages-copyleft-var",
+        "Linux man-pages Copyleft Variant",
+        "https://spdx.org/licenses/Linux-man-pages-copyleft-var.html",
         False,
     ),
     (
@@ -2453,6 +2472,12 @@ LICENSES = (
         "Unicode-TOU",
         "Unicode Terms of Use",
         "https://spdx.org/licenses/Unicode-TOU.html",
+        False,
+    ),
+    (
+        "OPL-UK-3.0",
+        "United    Kingdom Open Parliament Licence v3.0",
+        "https://spdx.org/licenses/OPL-UK-3.0.html",
         False,
     ),
     (
