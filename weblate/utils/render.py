@@ -25,6 +25,8 @@ FORBIDDEN_URL_SCHEMES = {
 
 
 class InvalidString(str):
+    __slots__ = ()
+
     def __mod__(self, other):
         raise TemplateSyntaxError(gettext('Undefined variable: "%s"') % other)
 
