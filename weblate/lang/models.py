@@ -172,9 +172,7 @@ class LanguageQuerySet(models.QuerySet):
         code = code.replace(" ", "").replace("(", "").replace(")", "")
 
         # Strip leading and trailing .
-        code = code.strip(".")
-
-        return code
+        return code.strip(".")
 
     def aliases_get(self, code, expanded_code=None):
         code = code.lower()
