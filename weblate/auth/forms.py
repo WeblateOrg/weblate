@@ -15,8 +15,8 @@ from social_django.views import complete
 from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog
 from weblate.accounts.strategy import create_session
-from weblate.auth.data import SELECTION_MANUAL
-from weblate.auth.models import Group, User, get_anonymous
+from weblate.auth.data import GLOBAL_PERM_NAMES, SELECTION_MANUAL
+from weblate.auth.models import Group, Role, User, get_anonymous
 from weblate.trans.models import Change
 from weblate.utils import messages
 from weblate.utils.errors import report_error
@@ -178,6 +178,10 @@ class ProjectTeamForm(BaseTeamForm):
     def __init__(self, project, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["components"].queryset = project.component_set.order()
+        # Exclude site-wide permissions here
+        self.fields["roles"].queryset = Role.objects.exclude(
+            permissions__codename__in=GLOBAL_PERM_NAMES
+        )
 
 
 class SitewideTeamForm(BaseTeamForm):
