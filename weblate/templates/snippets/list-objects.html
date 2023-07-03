@@ -119,11 +119,16 @@
 <tr id="{{ row_id }}">
 <td class="actions" rowspan="2">
 {% if object.is_ghost %}
+  {% perm 'translation.add' object.component as user_can_add_translation %}
+  {% if user_can_add_translation %}
     <form action="{% url 'new-language' project=object.component.project.slug component=object.component.slug %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="lang" value="{{ object.language.code }}" />
         <button type="submit" alt="{% trans "Create translation" %}" title="{% trans "Create translation" %}" class="btn btn-link green">{% icon "plus.svg" %}</button>
     </form>
+  {% else %}
+    <span class="gray" title="{% trans "Cannot add translation right now" %}">{% icon "plus.svg" %}</span>
+  {% endif %}
 {% else %}
     {% if translate_url %}
         <a href="{{ translate_url }}{% if object.stats.todo %}?q=state:&lt;translated{% endif %}" class="btn btn-link green" title="{% trans "Translate" %}" alt="{% trans "Translate" %}">{% icon "pencil.svg" %}</a>
