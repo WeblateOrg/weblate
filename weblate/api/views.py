@@ -155,9 +155,7 @@ class MultipleFieldMixin:
         queryset = self.get_queryset()
         # Apply any filter backends
         queryset = self.filter_queryset(queryset)
-        lookup = {}
-        for field in self.lookup_fields:
-            lookup[field] = self.kwargs[field]
+        lookup = {field: self.kwargs[field] for field in self.lookup_fields}
         # Lookup the object
         return get_object_or_404(queryset, **lookup)
 

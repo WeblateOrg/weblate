@@ -26,12 +26,7 @@ class ResxUpdateAddon(BaseCleanupAddon):
 
     @staticmethod
     def build_index(storage):
-        index = {}
-
-        for unit in storage.units:
-            index[unit.getid()] = unit
-
-        return index
+        return {unit.getid(): unit for unit in storage.units}
 
     def build_indexes(self):
         index = self.build_index(self.template_store)
