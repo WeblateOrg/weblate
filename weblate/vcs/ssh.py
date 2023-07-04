@@ -7,7 +7,7 @@ import os
 import stat
 import subprocess
 from base64 import b64decode, b64encode
-from typing import Dict, Tuple
+from typing import Dict, Optional, Tuple
 
 from django.conf import settings
 from django.core.management.utils import find_command
@@ -85,7 +85,9 @@ def get_host_keys():
     return result
 
 
-def get_key_data_raw(key_type: str = "rsa", kind: str = "public") -> Tuple[str, str]:
+def get_key_data_raw(
+    key_type: str = "rsa", kind: str = "public"
+) -> Tuple[str, Optional[str]]:
     """Returns raw public key data."""
     # Read key data if it exists
     filename = KEYS[key_type][kind]
