@@ -275,6 +275,7 @@ class BaseFormatCheck(TargetCheck):
         # Use plural as source in case singular misses format string and plural has it
         if (
             len(sources) > 1
+            and self.regexp
             and not self.extract_matches(sources[0])
             and self.extract_matches(sources[1])
         ):
