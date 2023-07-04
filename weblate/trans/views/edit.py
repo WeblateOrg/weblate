@@ -878,7 +878,9 @@ def zen(request, project, component, lang):
         {
             "object": obj,
             "project": project,
-            "component": obj.component,
+            "component": obj.component
+            if not isinstance(obj, ProjectLanguage)
+            else None,
             "unitdata": unitdata,
             "search_query": search_result["query"],
             "filter_name": search_result["name"],
@@ -910,7 +912,9 @@ def load_zen(request, project, component, lang):
         {
             "object": obj,
             "project": project,
-            "component": obj.component,
+            "component": obj.component
+            if not isinstance(obj, ProjectLanguage)
+            else None,
             "unitdata": unitdata,
             "search_query": search_result["query"],
             "search_url": search_result["url"],
