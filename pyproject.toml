@@ -65,6 +65,9 @@ ignore = [
   "TRY003",  # WONTFIX: Avoid specifying long messages outside the exception class
   "TRY200",  # TODO: Use `raise from` to specify exception cause
   "B904",  # TODO: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
+  "PERF203",  # WONTFIX: This rule is only enforced for Python versions prior to 3.1
+  "PERF401",  # BUG: https://github.com/astral-sh/ruff/issues/5500
+  "PERF402",  # BUG: https://github.com/astral-sh/ruff/issues/5494
   "PLR0911",  # WONTFIX: Too many return statements
   "PLR0912",  # WONTFIX: Too many branches
   "PLR0913",  # WONTFIX: Too many arguments to function call
