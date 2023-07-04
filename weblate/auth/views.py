@@ -108,7 +108,7 @@ class TeamUpdateView(UpdateView):
             fallback = reverse("manage-teams")
         else:
             fallback = reverse("manage_access") + "#teams"
-        if self.object.internal:
+        if self.object.internal and not self.object.defining_project:
             messages.error(request, gettext("Cannot remove built-in team!"))
         else:
             self.object.delete()
