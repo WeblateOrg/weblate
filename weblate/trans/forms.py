@@ -778,8 +778,7 @@ class SearchForm(forms.Form):
                 # Convert date to string
                 items.append((param, value.date().isoformat()))
             elif isinstance(value, list):
-                for val in value:
-                    items.append((param, val))
+                items.extend((param, val) for val in value)
             elif isinstance(value, User):
                 items.append((param, value.username))
             elif value:
@@ -1908,8 +1907,9 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
         # Allow all VCS now (to handle zip file upload case)
         self.fields["vcs"].choices = VCS_REGISTRY.get_choices()
         self.discovered = self.perform_discovery(request, kwargs)
-        for i, value in enumerate(self.discovered):
-            self.fields["discovery"].choices.append((i, self.render_choice(value)))
+        self.fields["discovery"].choices.extend(
+            (i, self.render_choice(value)) for i, value in enumerate(self.discovered)
+        )
 
     def perform_discovery(self, request, kwargs):
         if "data" in kwargs and "create_discovery" in request.session:

@@ -211,10 +211,11 @@ class XMLTagsCheck(BaseXMLCheck):
             return []
         if not self.can_parse_xml(source):
             return []
-        ret = []
         # Include XML markup
-        for match in XML_MATCH.finditer(source):
-            ret.append((match.start(), match.end(), match.group()))
+        ret = [
+            (match.start(), match.end(), match.group())
+            for match in XML_MATCH.finditer(source)
+        ]
         # Add XML entities
         skipranges = [x[:2] for x in ret]
         skipranges.append((len(source), len(source)))

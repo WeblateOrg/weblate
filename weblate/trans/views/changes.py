@@ -104,8 +104,7 @@ class ChangesView(ListView):
                 )
 
         url = list(url.items())
-        for action in self.actions:
-            url.append(("action", action))
+        url.extend(("action", action) for action in self.actions)
 
         if self.start_date:
             url.append(("start_date", self.start_date.date()))

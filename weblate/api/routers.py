@@ -29,14 +29,11 @@ class WeblateRouter(routers.DefaultRouter):
 
         lookup_value = getattr(viewset, "lookup_value_regex", "[^/]+")
 
-        result = []
-
-        for field in lookup_fields:
-            result.append(
-                base_regex.format(
-                    lookup_prefix=lookup_prefix,
-                    lookup_url_kwarg=field,
-                    lookup_value=lookup_value,
-                )
+        return "/".join(
+            base_regex.format(
+                lookup_prefix=lookup_prefix,
+                lookup_url_kwarg=field,
+                lookup_value=lookup_value,
             )
-        return "/".join(result)
+            for field in lookup_fields
+        )

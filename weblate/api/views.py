@@ -1590,38 +1590,38 @@ class Search(APIView):
         results = []
         query = request.GET.get("q")
         if query:
-            for project in projects.search(query)[:5]:
-                results.append(
-                    {
-                        "url": project.get_absolute_url(),
-                        "name": project.name,
-                        "category": gettext("Project"),
-                    }
-                )
-            for component in components.search(query)[:5]:
-                results.append(
-                    {
-                        "url": component.get_absolute_url(),
-                        "name": str(component),
-                        "category": gettext("Component"),
-                    }
-                )
-            for user in User.objects.search(query, parser="plain")[:5]:
-                results.append(
-                    {
-                        "url": user.get_absolute_url(),
-                        "name": user.username,
-                        "category": gettext("User"),
-                    }
-                )
-            for language in Language.objects.search(query)[:5]:
-                results.append(
-                    {
-                        "url": language.get_absolute_url(),
-                        "name": language.name,
-                        "category": gettext("Language"),
-                    }
-                )
+            results.extend(
+                {
+                    "url": project.get_absolute_url(),
+                    "name": project.name,
+                    "category": gettext("Project"),
+                }
+                for project in projects.search(query)[:5]
+            )
+            results.extend(
+                {
+                    "url": component.get_absolute_url(),
+                    "name": str(component),
+                    "category": gettext("Component"),
+                }
+                for component in components.search(query)[:5]
+            )
+            results.extend(
+                {
+                    "url": user.get_absolute_url(),
+                    "name": user.username,
+                    "category": gettext("User"),
+                }
+                for user in User.objects.search(query, parser="plain")[:5]
+            )
+            results.extend(
+                {
+                    "url": language.get_absolute_url(),
+                    "name": language.name,
+                    "category": gettext("Language"),
+                }
+                for language in Language.objects.search(query)[:5]
+            )
 
         return Response(results)
 

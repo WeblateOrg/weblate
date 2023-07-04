@@ -36,12 +36,15 @@ def get_license_choices():
         result = [("proprietary", "Proprietary")]
     else:
         result = []
-    for name, verbose, _url, _is_libre in LICENSES:
-        if license_filter is not None and name not in license_filter:
-            continue
-        result.append((name, verbose))
 
-    for name, verbose, _url, _is_libre in settings.LICENSE_EXTRA:
-        result.append((name, verbose))
+    result.extend(
+        (name, verbose)
+        for name, verbose, _url, _is_libre in LICENSES
+        if license_filter is None or name in license_filter
+    )
+
+    result.extend(
+        (name, verbose) for name, verbose, _url, _is_libre in settings.LICENSE_EXTRA
+    )
 
     return result

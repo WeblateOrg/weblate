@@ -360,9 +360,10 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
         if "-missing" in flags:
             return
 
-        for name in src_vars:
-            if name not in tgt_vars:
-                result["missing"].append(name)
+        missing = [name for name in src_vars if name not in tgt_vars]
+
+        if missing:
+            result["missing"] = missing
 
     def check_for_other(self, result, name, data, flags):
         """Ensure types with sub-messages have other."""

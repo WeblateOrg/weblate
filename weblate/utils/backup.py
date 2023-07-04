@@ -61,9 +61,11 @@ def tag_cache_dirs():
         data_dir("projectbackups"),
     ]
     # Django file based caches
-    for cache in settings.CACHES.values():
-        if cache["BACKEND"] == "django.core.cache.backends.filebased.FileBasedCache":
-            dirs.append(cache["LOCATION"])
+    dirs.extend(
+        cache["LOCATION"]
+        for cache in settings.CACHES.values()
+        if cache["BACKEND"] == "django.core.cache.backends.filebased.FileBasedCache"
+    )
 
     # Create CACHEDIR.TAG in each cache dir
     for name in dirs:

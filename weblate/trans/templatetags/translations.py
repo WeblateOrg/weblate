@@ -666,8 +666,6 @@ def try_linkify_filename(
 @register.simple_tag
 def get_location_links(profile, unit):
     """Generate links to source files where translation was used."""
-    ret = []
-
     # Fallback to source unit if it has more information
     if not unit.location and unit.source_unit.location:
         unit = unit.source_unit
@@ -681,38 +679,47 @@ def get_location_links(profile, unit):
         return gettext("string ID %s") % unit.location
 
     # Go through all locations separated by comma
-    for location, filename, line in unit.get_locations():
-        ret.append(
-            try_linkify_filename(location, filename, line, unit, profile, "wrap-text")
-        )
     return format_html_join(
-        format_html('\n<span class="divisor">•</span>\n'), "{}", ((v,) for v in ret)
+        format_html('\n<span class="divisor">•</span>\n'),
+        "{}",
+        (
+            (
+                try_linkify_filename(
+                    location, filename, line, unit, profile, "wrap-text"
+                ),
+            )
+            for location, filename, line in unit.get_locations()
+        ),
     )
 
 
 @register.simple_tag(takes_context=True)
 def announcements(context, project=None, component=None, language=None):
     """Display announcement messages for given context."""
-    ret = []
-
     user = context["user"]
 
-    for announcement in Announcement.objects.context_filter(
-        project, component, language
-    ):
-        ret.append(
-            render_to_string(
-                "message.html",
-                {
-                    "tags": f"{announcement.category} announcement",
-                    "message": render_markdown(announcement.message),
-                    "announcement": announcement,
-                    "can_delete": user.has_perm("announcement.delete", announcement),
-                },
+    return format_html_join(
+        "\n",
+        "{}",
+        (
+            (
+                render_to_string(
+                    "message.html",
+                    {
+                        "tags": f"{announcement.category} announcement",
+                        "message": render_markdown(announcement.message),
+                        "announcement": announcement,
+                        "can_delete": user.has_perm(
+                            "announcement.delete", announcement
+                        ),
+                    },
+                ),
             )
-        )
-
-    return format_html_join("\n", "{}", ((v,) for v in ret))
+            for announcement in Announcement.objects.context_filter(
+                project, component, language
+            )
+        ),
+    )
 
 
 @register.simple_tag(takes_context=True)
