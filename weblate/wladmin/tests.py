@@ -403,4 +403,4 @@ class AdminTest(ViewTestCase):
                 "project_selection": "1",
             },
         )
-        self.assertContains(response, "prohibited for built-in teams")
+        self.assertContains(response, "Cannot change this on a built-in team")
