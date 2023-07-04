@@ -6,12 +6,14 @@ from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.utils.translation import gettext
 from django.views.generic import UpdateView
 
 from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm
 from weblate.auth.models import AutoGroup, Group
 from weblate.trans.forms import UserAddTeamForm, UserManageForm
 from weblate.trans.util import redirect_next
+from weblate.utils import messages
 from weblate.utils.views import get_paginator, show_form_errors
 from weblate.wladmin.forms import ChangedCharField
 
@@ -106,7 +108,10 @@ class TeamUpdateView(UpdateView):
             fallback = reverse("manage-teams")
         else:
             fallback = reverse("manage_access") + "#teams"
-        self.object.delete()
+        if self.object.internal:
+            messages.error(request, gettext("Cannot remove built-in team!"))
+        else:
+            self.object.delete()
         return redirect_next(request.POST.get("next"), fallback)
 
     def post(self, request, **kwargs):
