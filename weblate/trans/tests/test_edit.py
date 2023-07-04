@@ -943,9 +943,7 @@ class EditComplexTest(ViewTestCase):
         url = self.get_unit("Hello, world!\n").get_absolute_url()
         response = self.client.get(url)
         form = response.context["form"]
-        params = {}
-        for field in form.fields:
-            params[field] = form[field].value()
+        params = {field: form[field].value() for field in form.fields}
         params["target_0"] = "Nazdar svete!\n"
         response = self.client.post(url, params)
         unit = self.get_unit()

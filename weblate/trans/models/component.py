@@ -255,9 +255,7 @@ class ComponentQuerySet(models.QuerySet):
 
     def prefetch_source_stats(self):
         """Prefetch source stats."""
-        lookup = {}
-        for component in self:
-            lookup[component.id] = component
+        lookup = {component.id: component for component in self}
 
         if lookup:
             for translation in prefetch_stats(
