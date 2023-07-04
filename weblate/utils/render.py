@@ -85,7 +85,7 @@ def render_template(template, **kwargs):
                 },
             )
         )
-        if component.linked_childs:
+        if component.pk and component.linked_childs:
             kwargs["component_linked_childs"] = [
                 {
                     "project_name": linked.project.name,
