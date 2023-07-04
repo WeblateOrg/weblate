@@ -906,9 +906,10 @@ class ProjectStats(BaseStats):
         )
 
     def get_language_stats(self):
-        result = []
-        for language in self._object.languages:
-            result.append(self.get_single_language_stats(language))
+        result = [
+            self.get_single_language_stats(language)
+            for language in self._object.languages
+        ]
         return prefetch_stats(result)
 
     def _prefetch_basic(self):

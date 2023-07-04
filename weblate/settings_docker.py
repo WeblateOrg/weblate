@@ -521,11 +521,12 @@ if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
             "WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)"
         )
 
-        SEARCH_UNION = []
-        for string in os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION").split(
-            os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION_DELIMITER", "|")
-        ):
-            SEARCH_UNION.append(LDAPSearch(string, ldap.SCOPE_SUBTREE, SEARCH_FILTER))
+        SEARCH_UNION = [
+            LDAPSearch(string, ldap.SCOPE_SUBTREE, SEARCH_FILTER)
+            for string in os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION").split(
+                os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION_DELIMITER", "|")
+            )
+        ]
 
         AUTH_LDAP_USER_SEARCH = LDAPSearchUnion(*SEARCH_UNION)
 

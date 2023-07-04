@@ -105,8 +105,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
 
         # Add missing codes
         if codes:
-            for code in codes:
-                lines.append(f"{code}\n")
+            lines.extend(f"{code}\n" for code in codes)
             changed = True
 
         return changed, lines

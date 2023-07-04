@@ -936,8 +936,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                         line = error.get("message", str(error))
                     errors.append(line)
             elif isinstance(messages, dict):
-                for key, error in messages.items():
-                    errors.append(f"{key}: {error}")
+                errors.extend(f"{key}: {error}" for key, error in messages.items())
             else:
                 self.log(
                     f"failed to parse HTTP response message: {messages!r}",
@@ -1644,11 +1643,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
         if error_message or not users:
             return []
 
-        reviewers = []
-        for user in users:
-            reviewers.append({"user": user})
-
-        return reviewers
+        return [{"user": user} for user in users]
 
     def create_pull_request(
         self, credentials: Dict, origin_branch: str, fork_remote: str, fork_branch: str

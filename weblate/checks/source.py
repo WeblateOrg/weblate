@@ -75,18 +75,20 @@ class MultipleFailingCheck(SourceCheck):
         for check in related:
             checks[check.check].append(check)
 
-        output = [gettext("Following checks are failing:")]
-        for check_list in checks.values():
-            output.append(
+        output = [(gettext("Following checks are failing:"),)]
+        output.extend(
+            (
                 "{}: {}".format(
                     check_list[0].get_name(),
                     ", ".join(
                         str(check.unit.translation.language) for check in check_list
                     ),
-                )
+                ),
             )
+            for check_list in checks.values()
+        )
 
-        return format_html_join(format_html("<br>"), "{}", ((v,) for v in output))
+        return format_html_join(format_html("<br>"), "{}", output)
 
 
 class LongUntranslatedCheck(SourceCheck):

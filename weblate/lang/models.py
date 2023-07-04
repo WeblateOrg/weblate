@@ -179,9 +179,11 @@ class LanguageQuerySet(models.QuerySet):
         # Normalize script suffix
         code = code.replace("_latin", "@latin").replace("_cyrillic", "@cyrillic")
         codes = [code]
-        for replacement in ("+", "-", "-r", "_r"):
-            if replacement in code:
-                codes.append(code.replace(replacement, "_"))
+        codes.extend(
+            code.replace(replacement, "_")
+            for replacement in ("+", "-", "-r", "_r")
+            if replacement in code
+        )
         if expanded_code and expanded_code != code:
             codes.append(expanded_code)
 
