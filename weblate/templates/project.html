@@ -86,6 +86,13 @@
         {% endif %}
         {% if user_can_edit_project %}
           <li><a href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a></li>
+          {% if offer_hosting %}
+            {% for billing in object.billings %}
+              {% if billing.is_libre_trial %}
+                <li><a href="{{ billing.get_absolute_url }}">{% trans "Request approval for Libre hosting" %}</a></li>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
         {% endif %}
         {% if user_can_manage_acl %}
           <li><a href="{% url 'manage-access' project=object.slug %}#users">{% trans "Users" %}</a></li>
