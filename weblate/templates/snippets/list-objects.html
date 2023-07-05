@@ -15,7 +15,23 @@
   {% if not hide_details %}
     <thead class="sticky-header">
       <tr>
-        <th class="sort-skip"></th>
+        <th class="sort-skip">
+          {% if add_link == "translation" %}
+            {% if user_can_add_translation %}
+              <a class="btn btn-link btn-sm" href="{% url "new-language" project=object.project.slug component=object.slug %}" title="{% trans "Start new translation" %}">{% icon "plus.svg" %}</a>
+            {% else %}
+              <a class="btn btn-link btn-sm" disabled href="#" title="{% if user.is_authenticated %}{% trans "You don't have permission to start a new translation" %}{% else %}{% trans "Please sign in to start new translation"%}{% endif %}">{% icon "plus.svg" %}</a>
+            {% endif %}
+          {% elif add_link == "component" %}
+            {% if user_can_edit_project %}
+              <a class="btn btn-link btn-sm" href="{% url 'create-component' %}?project={{ object.pk }}" title="{% trans "Add new translation component" %}">{% icon "plus.svg" %}</a>
+            {% endif %}
+          {% elif add_link == "language" %}
+            {% if user_can_add_language %}
+            <a class="btn btn-link btn-sm" href="{% url 'create-language' %}" title="{% trans "Add language" %}">{% icon "plus.svg" %}</a>
+            {% endif %}
+          {% endif %}
+        </th>
         <th title="{% trans "Sort this column" %}" class="sort-cell">
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "name" %}-{% endif %}name">
@@ -204,4 +220,23 @@
 </table>
 {% else %}
 <p><em>{% trans "Nothing to list here." %}</em></p>
+
+<p>
+  {% if add_link == "translation" %}
+    {% if user_can_add_translation %}
+      <a class="btn btn-primary" href="{% url "new-language" project=object.project.slug component=object.slug %}">{% trans "Start new translation" %}</a>
+    {% else %}
+      <a class="btn btn-primary" disabled href="#" title="{% if user.is_authenticated %}{% trans "You don't have permission to start a new translation" %}{% else %}{% trans "Please sign in to start new translation"%}{% endif %}">{% trans "Start new translation" %}</a>
+    {% endif %}
+  {% elif add_link == "component" %}
+    {% if user_can_edit_project %}
+      <a class="btn btn-primary" href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
+    {% endif %}
+  {% elif add_link == "language" %}
+    {% if user_can_add_language %}
+    <a class="btn btn-primary" href="{% url 'create-language' %}">{% trans "Add language" %}</a>
+    {% endif %}
+  {% endif %}
+</p>
+
 {% endif %}

@@ -140,23 +140,9 @@
 <div class="tab-content">
 <div class="tab-pane active" id="components">
 
-{% include "snippets/list-objects.html" with objects=components name_source="name" label=_("Component") %}
+{% include "snippets/list-objects.html" with objects=components name_source="name" label=_("Component") add_link="component" %}
 
 {% include "paginator.html" with page_obj=components %}
-
-{% if user_can_edit_project %}
-<p>
-  <a class="btn btn-primary project-add-component" href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
-
-  {% if offer_hosting %}
-    {% for billing in object.billings %}
-      {% if billing.is_libre_trial %}
-        <a href="{{ billing.get_absolute_url }}" class="btn btn-primary">{% trans "Request approval for Libre hosting" %}</a>
-      {% endif %}
-    {% endfor %}
-  {% endif %}
-</p>
-{% endif %}
 
 </div>
 
