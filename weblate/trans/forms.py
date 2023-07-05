@@ -278,7 +278,13 @@ class PluralTextarea(forms.Textarea):
         unit = value
         values = unit.get_target_plurals()
         translation = unit.translation
-        lang = translation.language
+        lang_label = lang = translation.language
+        if "zen-mode" in self.attrs:
+            lang_label = format_html(
+                '<a class="language" href="{}">{}</a>',
+                unit.get_absolute_url(),
+                lang_label,
+            )
         plural = translation.plural
         tabindex = self.attrs["tabindex"]
         plurals = unit.get_source_plurals()
@@ -314,7 +320,7 @@ class PluralTextarea(forms.Textarea):
             # Render textare
             textarea = super().render(fieldname, val, attrs, renderer, **kwargs)
             # Label for plural
-            label = lang
+            label = lang_label
             if show_plural_labels:
                 label = format_html("{}, {}", label, plural.get_plural_label(idx))
             elif translation.component.is_multivalue and idx > 0:
@@ -577,6 +583,7 @@ class ZenTranslationForm(TranslationForm):
         self.helper.form_tag = True
         self.helper.disable_csrf = False
         self.helper.layout.append(Field("checksum"))
+        self.fields["target"].widget.attrs["zen-mode"] = True
         if not user.has_perm("unit.edit", unit):
             for field in ["target", "fuzzy", "review"]:
                 self.fields[field].widget.attrs["disabled"] = 1
