@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 # Weblate localization.
 # Arif Budiman <arifpedia@gmail.com>, 2016-2018, 2019, 2020.
 # Andika Triwidada <andika@gmail.com>, 2018, 2020, 2022.
@@ -32,8 +31,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 07:48+0000\n"
-"PO-Revision-Date: 2023-06-09 10:20+0000\n"
-"Last-Translator: Linerly <linerly@protonmail.com>\n"
+"PO-Revision-Date: 2023-07-07 17:50+0000\n"
+"Last-Translator: Taufik Adi Wicaksono <taufikadi.wicaksono@tutamail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
 "Language: id\n"
@@ -41,7 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1625,16 +1624,12 @@ msgid "Fills in translation strings with source string."
 msgstr "Mengisi string terjemahan dengan string sumber."
 
 #: weblate/addons/generate.py:216
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Mengisi terjemahan dengan sumber"
+msgstr "Isi string hanya-baca dengan sumber"
 
 #: weblate/addons/generate.py:218
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Mengisi string terjemahan dengan string sumber."
+msgstr "Isi terjemahan string hanya-baca dengan string sumber."
 
 #: weblate/addons/gettext.py:26
 msgid "Generate MO files"
@@ -2488,10 +2483,8 @@ msgid "Block expiry"
 msgstr "Blokir kedaluwarsa"
 
 #: weblate/auth/permissions.py:133
-#, fuzzy
-#| msgid "Can not perform this operation without an e-mail."
 msgid "Can not perform this operation without an e-mail address."
-msgstr "Tidak dapat melakukan tindakan ini tanpa surel."
+msgstr "Tidak dapat melakukan tindakan ini tanpa alamat surel."
 
 #: weblate/auth/permissions.py:139 weblate/templates/translate.html:201
 #: weblate/templates/translate.html:221
@@ -2499,16 +2492,12 @@ msgid "This translation is currently locked."
 msgstr "Terjemahan ini tengah dikunci."
 
 #: weblate/auth/permissions.py:147
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires you agree to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "agreement."
 msgstr ""
-"Berkontribusi pada terjemahan ini mengharuskan Anda menyetujui perjanjian "
-"kontributornya."
+"Berkontribusi pada terjemahan ini mengharuskan Anda untuk menyetujui "
+"perjanjian kontributornya."
 
 #: weblate/auth/permissions.py:153 weblate/templates/translate.html:207
 #: weblate/trans/views/edit.py:420 weblate/trans/views/edit.py:442
@@ -2887,16 +2876,15 @@ msgid "Different strings are translated the same."
 msgstr "String yang berbeda‐beda diterjemahkan secara sama."
 
 #: weblate/checks/consistency.py:178
-#, fuzzy, python-format
-#| msgid "Update source strings"
+#, python-format
 msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
-msgstr[0] "Perbarui string sumber"
+msgstr[0] "String sumber lainnya: %s"
 
 #: weblate/checks/consistency.py:179
 #, python-format
 msgid "“%s”"
-msgstr ""
+msgstr "“%s”"
 
 #: weblate/checks/consistency.py:228
 msgid "Has been translated"
@@ -12194,13 +12182,12 @@ msgstr ""
 "Gaya POSIX menggunakan garis bawah sebagai pemisah, termasuk kode negara"
 
 #: weblate/trans/models/component.py:129
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator, including country code"
 msgid ""
 "POSIX style using underscore as a separator, including country code "
 "(lowercase)"
 msgstr ""
-"Gaya POSIX menggunakan garis bawah sebagai pemisah, termasuk kode negara"
+"Gaya POSIX menggunakan garis bawah sebagai pemisah, termasuk kode negara ("
+"huruf kecil)"
 
 #: weblate/trans/models/component.py:134
 msgid "BCP style using hyphen as a separator, including country code"
@@ -14190,8 +14177,6 @@ msgid "GitHub pull request"
 msgstr "Permintaan pull GitHub"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "This will push changes and create GitHub pull request."
 msgid "This will push changes and create a GitHub pull request."
 msgstr "Ini akan mendorong perubahan dan membuat permintaan penarikan GitHub."
 
@@ -14200,8 +14185,6 @@ msgid "Gitea pull request"
 msgstr "Permintaan pull Gitea"
 
 #: weblate/vcs/git.py:1156
-#, fuzzy
-#| msgid "This will push changes and create Gitea pull request."
 msgid "This will push changes and create a Gitea pull request."
 msgstr "Ini akan mendorong perubahan dan membuat permintaan penarikan Gitea."
 
@@ -14214,8 +14197,6 @@ msgid "GitLab merge request"
 msgstr "Permintaan penggabungan GitLab"
 
 #: weblate/vcs/git.py:1334
-#, fuzzy
-#| msgid "This will push changes and create GitLab merge request."
 msgid "This will push changes and create a GitLab merge request."
 msgstr ""
 "Ini akan mendorong perubahan dan membuat permintaan penggabungan GitLab."
@@ -14225,8 +14206,6 @@ msgid "Pagure merge request"
 msgstr "Permintaan penggabungan Pagure"
 
 #: weblate/vcs/git.py:1476
-#, fuzzy
-#| msgid "This will push changes and create Pagure merge request."
 msgid "This will push changes and create a Pagure merge request."
 msgstr ""
 "Ini akan mendorong perubahan dan membuat permintaan penggabungan Pagure."
@@ -14236,8 +14215,6 @@ msgid "Bitbucket Server pull request"
 msgstr "Permintaan tarik Bitbucket Server"
 
 #: weblate/vcs/git.py:1570
-#, fuzzy
-#| msgid "This will push changes and create Bitbucket Server pull request."
 msgid "This will push changes and create a Bitbucket Server pull request."
 msgstr ""
 "Ini akan mendorong perubahan dan membuat permintaan penarikan Bitbucket "
