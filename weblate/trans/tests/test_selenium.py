@@ -962,7 +962,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Click on add component
         with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.CLASS_NAME, "project-add-component"))
+            self.click(self.driver.find_element(By.ID, "list-add-button"))
 
         # Add component
         self.driver.find_element(By.ID, "id_name").send_keys("Language names")
