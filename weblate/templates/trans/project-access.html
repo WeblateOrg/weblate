@@ -277,8 +277,9 @@
           <tr>
             <th>{% trans "Your personal API key:" %}</th>
             <td>
-                {{ user.auth_token.key }}
-                <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" data-clipboard-message="{% trans "API key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+              <button type="button" class="btn btn-link btn-xs" data-toggle="collapse" data-target="#apiKey" title="{% trans "Show/hide API key" %}">{% icon "eye.svg" %}</button>
+              <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" data-clipboard-message="{% trans "API key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+              <div class="collapse" id="apiKey">{{ user.auth_token.key }}</div>
             </td>
           </tr>
         </table>
