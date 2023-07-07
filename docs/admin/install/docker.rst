@@ -1758,7 +1758,7 @@ Read-only root filesystem
 
 .. versionadded:: 4.18
 
-When running the container with a read-only root filesytem, two additional
+When running the container with a read-only root filesystem, two additional
 `tmpfs` volumes are required - :file:`/tmp` and :file:`/run`.
 
 

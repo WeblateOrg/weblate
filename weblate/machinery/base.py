@@ -277,7 +277,7 @@ class MachineTranslation:
 
     def make_re_placeholder(self, text: str):
         """Convert placeholder into a regular expression."""
-        # Allow addditional space before ]
+        # Allow additional space before ]
         return re.escape(text[:-1]) + " *" + re.escape(text[-1:])
 
     def format_replacement(self, h_start: int, h_end: int, h_text: str):

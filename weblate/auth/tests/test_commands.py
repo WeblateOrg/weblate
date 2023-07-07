@@ -32,7 +32,7 @@ class CommandTest(TestCase, TempDirMixin):
         user = User.objects.get(username="admin")
         self.assertEqual(user.full_name, "Weblate Admin")
         self.assertTrue(user.check_password("admin"))
-        # Ensure the passord is not changed when not needed
+        # Ensure the password is not changed when not needed
         old = user.password
         call_command("createadmin", password="admin", update=True)
         user = User.objects.get(username="admin")

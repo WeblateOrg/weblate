@@ -41,7 +41,7 @@ def add_glossary_term(request, unit_id):
                 "snippets/glossary.html",
                 {
                     "glossary": (
-                        # distinct is needed as get_glossary_terms is distict
+                        # distinct is needed as get_glossary_terms is distinct
                         # and mixed queries can not be combined
                         get_glossary_terms(unit)
                         | translation.unit_set.filter(pk__in=terms).distinct()

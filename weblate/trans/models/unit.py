@@ -1035,7 +1035,7 @@ class Unit(models.Model, LoggerMixin):
             # Update user stats
             change.author.profile.increase_count("translated")
 
-            # Force commiting on completing translation
+            # Force committing on completing translation
             translated = self.translation.stats.translated
             if old_translated < translated and translated == self.translation.stats.all:
                 Change.objects.create(

@@ -20,7 +20,7 @@ BUILT_IN_ROLES = {role[0] for role in ROLES}
 
 
 def block_group_edit(obj):
-    """Whether to allo user editing of an group."""
+    """Whether to allow user editing of a group."""
     return obj and obj.internal
 
 
