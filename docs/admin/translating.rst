@@ -104,7 +104,7 @@ Explanation
 
 .. versionchanged:: 4.18
 
-   Support for synching explanation with a file was introduced.
+   Support for syncing explanation with a file was introduced.
 
 Use the explanation to clarify scope or usage of the translation. You can use
 Markdown to include links and other markup.

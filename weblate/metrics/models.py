@@ -142,7 +142,7 @@ class MetricManager(models.Manager):
         if data:
             db_data = [data.pop(name, 0) for name in METRIC_ORDER]
             if data:
-                raise ValueError(f"Usupported data: {data}")
+                raise ValueError(f"Unsupported data: {data}")
 
         metric, created = self.get_or_create(
             scope=scope,

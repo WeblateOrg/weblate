@@ -796,7 +796,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                 0, f"{self.name} API access for {hostname} is not configured"
             )
 
-        # Scheme overide
+        # Scheme override
         if "scheme" in credentials:
             scheme = credentials["scheme"]
         # Fallback to https
