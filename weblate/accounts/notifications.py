@@ -595,9 +595,9 @@ class LastAuthorCommentNotificaton(Notification):
 
 @register_notification
 class TranslatedStringNotificaton(Notification):
-    actions = (Change.ACTION_CHANGE, Change.ACTION_NEW)
+    actions = (Change.ACTION_CHANGE, Change.ACTION_NEW, Change.ACTION_ACCEPT)
     # Translators: Notification name
-    verbose = gettext_lazy("Translated string")
+    verbose = gettext_lazy("Edited string")
     template_name = "translated_string"
     filter_languages = True
 
