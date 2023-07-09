@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 08:56+0200\n"
-"PO-Revision-Date: 2023-06-28 07:26+0000\n"
-"Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2023-07-09 01:31+0000\n"
+"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.0-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -103,7 +103,7 @@ msgstr "任何已验证用户均可参与贡献。"
 
 #: ../../admin/access.rst:44
 msgid "VCS repository might be exposed to everybody."
-msgstr "版本控制系统（VCS）仓库可能会暴露给所有人。"
+msgstr "版本控制系统仓库可能会暴露给所有人。"
 
 #: ../../admin/access.rst:46
 msgid ""
@@ -124,7 +124,7 @@ msgstr "只允许指定的用户贡献。"
 #: ../../admin/access.rst:52 ../../admin/access.rst:60
 #: ../../admin/access.rst:68
 msgid "Only chosen users can access VCS repository."
-msgstr "只有指定的用户可访问版本控制系统（VCS）仓库。"
+msgstr "只有指定的用户可访问版本控制系统仓库。"
 
 #: ../../admin/access.rst:54
 msgid ""
@@ -316,11 +316,11 @@ msgstr "可以使用自动翻译。"
 
 #: ../../admin/access.rst:148 ../../admin/access.rst:567
 msgid "VCS"
-msgstr "版本控制系统（VCS）"
+msgstr "版本控制系统"
 
 #: ../../admin/access.rst:148
 msgid "Can manage VCS and access the exported repository."
-msgstr "可以管理版本控制系统（VCS）并访问导出的仓库。"
+msgstr "可以管理版本控制系统并访问导出的仓库。"
 
 #: ../../admin/access.rst:151 ../../admin/optionals.rst:61
 msgid "Billing"
@@ -857,9 +857,8 @@ msgstr "审校 ``foo/bar`` 西班牙语翻译（而非其他地方）中的字�
 msgid ""
 "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes "
 "made by translators for all languages."
-msgstr ""
-"管理整个 ``foo/bar`` 仓库的版本控制系统（VCS），例如提交所有语言的译者所做的"
-"待处理更改。"
+msgstr "管理整个 ``foo/bar`` "
+"仓库的版本控制系统，例如提交所有语言的译者所做的待处理更改。"
 
 #: ../../admin/access.rst:440
 msgid "Automatic team assignments"
@@ -1955,7 +1954,7 @@ msgstr "仓库更新后"
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
-msgstr "根据版本控制系统（VCS）中文件更改的情况来自动添加或删除项目部件。"
+msgstr "根据版本控制系统中文件更改的情况来自动添加或删除项目部件。"
 
 #: ../../admin/addons.rst:205
 msgid ""
@@ -2232,10 +2231,10 @@ msgid ""
 "resources too."
 msgstr ""
 "部件发现附加组件使用 :ref:`internal-urls`。这是在多个部件之间共享版本控制系统"
-"（VCS）设置的便捷方式。链接的部件使用主部件的本地仓库，其设置方法是将 "
-"``weblate://project/main-component`` 填入各部件的 :ref:`component-repo` 字段"
-"（在 :guilabel:`管理` ↓ :guilabel:`设置` ↓ :guilabel:`版本控制系统`)。这也节"
-"省了配置和系统资源的时间。"
+"设置的便捷方式。链接的部件使用主部件的本地仓库，其设置方法是将 ``weblate://"
+"project/main-component`` 填入各部件的 :ref:`component-repo` 字段（在 "
+":guilabel:`管理` ↓ :guilabel:`设置` ↓ "
+":guilabel:`版本控制系统`)。这也节省了配置和系统资源的时间。"
 
 #: ../../admin/addons.rst:324
 msgid ":ref:`markup`, :wladmin:`import_project`"
@@ -2386,8 +2385,8 @@ msgid ""
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"每当从版本控制系统（VCS） 导入新的可翻译字符串并与源字符串匹配时，就会在 "
-"Weblate 中标记为需要编辑。对于包含未翻译字符串的源字符串的文件格式尤其有用。"
+"每当从版本控制系统导入新的可翻译字符串并与源字符串匹配时，就会在 Weblate "
+"中标记为需要编辑。对于包含未翻译字符串的源字符串的文件格式尤其有用。"
 
 #: ../../admin/addons.rst:407
 msgid ""
@@ -2415,9 +2414,8 @@ msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
-msgstr ""
-"每当一个新的源字符串从版本控制系统（VCS）中导入时，它将在 Weblate 中被标记为"
-"需要编辑。这样就可以简单地筛选并编辑开发者编写的源字符串。"
+msgstr "每当一个新的源字符串从版本控制系统中导入时，它将在 Weblate "
+"中被标记为需要编辑。这样就可以简单地筛选并编辑开发者编写的源字符串。"
 
 #: ../../admin/addons.rst:434
 msgid "Flag new translations as \"Needs editing\""
@@ -2432,9 +2430,8 @@ msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
-msgstr ""
-"每当一个新的可翻译字符串从版本控制系统（VCS）中导入时，它将在 Weblate 中被标"
-"记为需要编辑。这样就可以简单地筛选并编辑开发者创建的翻译。"
+msgstr "每当一个新的可翻译字符串从版本控制系统中导入时，它将在 Weblate "
+"中被标记为需要编辑。这样就可以简单地筛选并编辑开发者创建的翻译。"
 
 #: ../../admin/addons.rst:451
 msgid "Fill read-only strings with source"
@@ -3303,9 +3300,7 @@ msgstr "安装方法请参见 :ref:`custom-addon-modules`。"
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
-msgstr ""
-"对于任何给定的部件，当前路径设置为版本控制系统（VCS）仓库的根目录时，执行脚"
-"本。"
+msgstr "对于任何给定的部件，当前路径设置为版本控制系统仓库的根目录时，执行脚本。"
 
 #: ../../admin/addons.rst:943
 msgid "Additionally, the following environment variables are available:"
@@ -3321,7 +3316,7 @@ msgstr "上游仓库 URL。"
 
 #: ../../admin/addons.rst:955
 msgid "Absolute path to VCS repository."
-msgstr "版本控制系统（VCS）仓库的绝对路径。"
+msgstr "版本控制系统仓库的绝对路径。"
 
 #: ../../admin/addons.rst:959
 msgid "Repository branch configured in the current component."
@@ -3393,8 +3388,8 @@ msgid ""
 "changes. To achieve this, please remember Weblate only sees files committed "
 "to the VCS, so you need to commit changes as a part of the script."
 msgstr ""
-"可用于在 VCS 上游源更改时更新翻译文件。为了实现这个功能，请记住 Weblate 只能"
-"看到提交给版本控制系统（VCS）的文件，所以您需要将更改作为脚本的一部分提交。"
+"可用于在 VCS 上游源更改时更新翻译文件。为了实现这个功能，请记住 Weblate "
+"只能看到提交给版本控制系统的文件，所以您需要将更改作为脚本的一部分提交。"
 
 #: ../../admin/addons.rst:1034
 msgid "For example with Gulp you can do it using following code:"
@@ -6897,9 +6892,8 @@ msgid ""
 "The folder Weblate stores all data in. It contains links to VCS "
 "repositories, a fulltext index and various configuration files for external "
 "tools."
-msgstr ""
-"Weblate 存储所有数据的文件夹。它包含指向版本控制系统（VCS）仓库、全文索引和外"
-"部工具的各种配置文件。"
+msgstr "Weblate 存储所有数据的文件夹。它包含指向版本控制系统仓库、全文索引和外部工具"
+"的各种配置文件。"
 
 #: ../../admin/config.rst:401
 msgid "The following subdirectories usually exist:"
@@ -7476,9 +7470,9 @@ msgid ""
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
-"例如，它将显示 ``https://git.example.com/repo.git`` 不会显示 ``https://user:"
-"password@git.example.com/repo.git``。它也尝试以相似的方式清除版本控制系统"
-"（VCS）错误信息。"
+"例如，它将显示 ``https://git.example.com/repo.git`` 不会显示 "
+"``https://user:password@git.example.com/repo."
+"git``。它也尝试以相似的方式清除版本控制系统错误信息。"
 
 #: ../../admin/config.rst:867
 msgid "On by default."
@@ -8543,7 +8537,7 @@ msgstr "VCS_BACKENDS"
 
 #: ../../admin/config.rst:1824
 msgid "Configuration of available VCS backends."
-msgstr "可用的版本控制系统（VCS）后端的配置。"
+msgstr "可用的版本控制系统后端的配置。"
 
 #: ../../admin/config.rst:1828
 msgid "Weblate tries to use all supported back-ends you have the tools for."
@@ -8551,7 +8545,7 @@ msgstr "Weblate 尝试使用你所有工具支持的后端。"
 
 #: ../../admin/config.rst:1832
 msgid "You can limit choices or add custom VCS back-ends by using this."
-msgstr "可以使用这个来限制选择或添加定制版本控制系统（VCS）后端。"
+msgstr "可以使用这个来限制选择或添加定制版本控制系统后端。"
 
 #: ../../admin/config.rst:1840 ../../faq.rst:514
 msgid ":ref:`vcs`"
@@ -8710,7 +8704,7 @@ msgstr "这是过程："
 
 #: ../../admin/continuous.rst:17
 msgid "Developers make changes and push them to the VCS repository."
-msgstr "开发人员进行更改并将其推送到版本控制系统（VCS）仓库。"
+msgstr "开发人员进行更改并将其推送到版本控制系统仓库。"
 
 #: ../../admin/continuous.rst:18
 msgid ""
@@ -8719,8 +8713,7 @@ msgstr "可以选择更新翻译文件，请参阅 :ref:`translations-update`。
 
 #: ../../admin/continuous.rst:19
 msgid "Weblate pulls changes from the VCS repository, see :ref:`update-vcs`."
-msgstr ""
-"Weblate 从版本控制系统（VCS）仓库中拉取更改，请参阅 :ref:`update-vcs`。"
+msgstr "Weblate 从版本控制系统仓库中拉取更改，请参阅 :ref:`update-vcs`。"
 
 #: ../../admin/continuous.rst:20
 msgid ""
@@ -9289,8 +9282,8 @@ msgid ""
 "the :guilabel:`Managers` group, see :ref:`privileges`)."
 msgstr ""
 "Weblate 会尽可能将同一作者的提交分组到一个提交中。这大大减少了提交的数量，但"
-"是如果你想同步版本控制系统（VCS）仓库，例如合并，你可能需要明确地告诉它去做提"
-"交（这对 :guilabel:`管理者` 组是默认允许的，参见 :ref:`privileges`）。"
+"是如果你想同步版本控制系统仓库，例如合并，你可能需要明确地告诉它去做提交（"
+"这对 :guilabel:`管理者` 组是默认允许的，参见 :ref:`privileges`）。"
 
 #: ../../admin/continuous.rst:371
 msgid ""
@@ -10580,9 +10573,8 @@ msgid ""
 "Weblate does execute VCS commands and those accept proxy configuration from "
 "environment. The recommended approach is to define proxy settings in :file:"
 "`settings.py`:"
-msgstr ""
-"Weblate 执行版本控制系统（VCS）命令，这些命令接受来自环境的代理配置。推荐在 :"
-"file:`settings.py` 中定义代理设置："
+msgstr "Weblate 执行版本控制系统命令，这些命令接受来自环境的代理配置。推荐在 "
+":file:`settings.py` 中定义代理设置："
 
 #: ../../admin/install.rst:609
 msgid ""
@@ -11885,7 +11877,7 @@ msgstr "在数据库之间进行迁移的内容，见 :ref:`database-migration`�
 
 #: ../../admin/install.rst:1570
 msgid "Migrating VCS repositories"
-msgstr "迁移版本控制系统（VCS）仓库"
+msgstr "迁移版本控制系统仓库"
 
 #: ../../admin/install.rst:1572
 msgid ""
@@ -11893,8 +11885,9 @@ msgid ""
 "well. You can simply copy them or use :command:`rsync` to do the migration "
 "more effectively."
 msgstr ""
-"存储在 :setting:`DATA_DIR` 下的版本控制系统（VCS）同样需要迁移。您可以简单地"
-"复制它们，或使用 :command:`rsync` 来更有效地迁移。"
+"存储在 :setting:`DATA_DIR` "
+"下的版本控制系统同样需要迁移。您可以简单地复制它们，或使用 :command:`rsync` "
+"来更有效地迁移。"
 
 #: ../../admin/install.rst:1577
 msgid "Other notes"
@@ -14565,9 +14558,8 @@ msgid ""
 "Create a component which is the real object for translation - it points to "
 "the VCS repository, and selects which files to translate. See :ref:"
 "`component` for more details."
-msgstr ""
-"新建一个部件，该部件是要翻译的实际对象——它指向版本控制系统（VCS）仓库，并选择"
-"要翻译的文件。更多详细信息请参见 :ref:`component`。"
+msgstr "新建一个部件，该部件是要翻译的实际对象——它指向版本控制系统仓库，并选择要翻译"
+"的文件。更多详细信息请参见 :ref:`component`。"
 
 #: ../../admin/install/steps/install-after.rst:25
 msgid ""
@@ -16214,7 +16206,7 @@ msgstr "指定从哪里导入部件。"
 
 #: ../../admin/management.rst:337
 msgid "Use the given VCS repository from this component for all of them."
-msgstr "对所有的使用来自这个部件的给定版本控制系统（VCS）仓库。"
+msgstr "对所有的使用来自这个部件的给定版本控制系统仓库。"
 
 #: ../../admin/management.rst:341
 msgid "Skip (already) imported components."
@@ -16370,8 +16362,7 @@ msgstr ""
 msgid ""
 "You can specify which component will be chosen as the main one—the one "
 "actually containing the VCS repository."
-msgstr ""
-"你可以指定哪个部件作为主部件——即真正包含版本控制系统（VCS）仓库的部件。"
+msgstr "你可以指定哪个部件作为主部件——即真正包含版本控制系统仓库的部件。"
 
 #: ../../admin/management.rst:447
 msgid "Specify the overall, project or component translation license."
@@ -16587,8 +16578,7 @@ msgstr "loadpo"
 msgid ""
 "Reloads translations from disk (for example in case you have done some "
 "updates in the VCS repository)."
-msgstr ""
-"从磁盘重新加载翻译（例如，您在版本控制系统（VCS）仓库中进行了一些更新）。"
+msgstr "从磁盘重新加载翻译（例如，您在版本控制系统仓库中进行了一些更新）。"
 
 #: ../../admin/management.rst:671
 msgid "Force update, even if the files should be up-to-date."
@@ -16605,9 +16595,9 @@ msgid ""
 "underlying Weblate VCS repository or in some special cases following an "
 "upgrade."
 msgstr ""
-"你很少需要调用这个命令，Weblate 会在每次版本控制系统（VCS）更新时自动加载更改"
-"的文件。如果您手动更改了 Weblate 的底层版本控制系统（VCS）仓库，或者在升级后"
-"的某些特殊情况下，则需要调用这个命令。"
+"你很少需要调用这个命令，Weblate "
+"会在每次版本控制系统更新时自动加载更改的文件。如果您手动更改了 Weblate "
+"的底层版本控制系统仓库，或者在升级后的某些特殊情况下，则需要调用这个命令。"
 
 #: ../../admin/management.rst:687
 msgid "lock_translation"
@@ -16681,7 +16671,7 @@ msgstr "pushgit"
 
 #: ../../admin/management.rst:750
 msgid "Pushes committed changes to the upstream VCS repository."
-msgstr "将提交的更改推送到上游的版本控制系统（VCS）仓库。"
+msgstr "将提交的更改推送到上游的版本控制系统仓库。"
 
 #: ../../admin/management.rst:754
 msgid "Force commits any pending changes, prior to pushing."
@@ -16771,7 +16761,7 @@ msgstr "updategit"
 
 #: ../../admin/management.rst:837
 msgid "Fetches remote VCS repositories and updates the internal cache."
-msgstr "取回远程版本控制系统（VCS）仓库并更新内部缓存。"
+msgstr "取回远程版本控制系统仓库并更新内部缓存。"
 
 #: ../../admin/management.rst:844
 msgid ""
@@ -17496,7 +17486,7 @@ msgstr "翻译组织"
 msgid ""
 "Weblate organizes translatable VCS content of project/components into a tree-"
 "like structure."
-msgstr "Weblate 将项目/部件的可翻译版本控制系统（VCS）内容组织成树状结构。"
+msgstr "Weblate 将项目/部件的可翻译版本控制系统内容组织成树状结构。"
 
 #: ../../admin/projects.rst:9
 msgid ""
@@ -17512,9 +17502,8 @@ msgid ""
 "On the level above, :ref:`component`, which is actually the component to "
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
-msgstr ""
-"在上面的级别上，即 :ref:`component`，实际上是要翻译的部件，您定义要使用的版本"
-"控制系统（VCS）仓库以及要翻译的文件掩码。"
+msgstr "在上面的级别上，即 :ref:`component`，实际上是要翻译的部件，您定义要使用的版本"
+"控制系统仓库以及要翻译的文件掩码。"
 
 #: ../../admin/projects.rst:17
 msgid ""
@@ -17522,9 +17511,9 @@ msgid ""
 "automatically by Weblate as translation files (which match :ref:`component-"
 "filemask` defined in :ref:`component`) appear in the VCS repository."
 msgstr ""
-"在 :ref:`component` 上方有单独的翻译，当版本控制系统（VCS）仓库中出现翻译文件"
-"（与 :ref:`component` 中定义的 :ref:`component-filemask` 匹配）时，Weblate 会"
-"自动处理这些翻译。"
+"在 :ref:`component` 上方有单独的翻译，当版本控制系统仓库中出现翻译文件（与 "
+":ref:`component` 中定义的 :ref:`component-filemask` 匹配）时，Weblate "
+"会自动处理这些翻译。"
 
 #: ../../admin/projects.rst:20
 msgid ""
@@ -17540,9 +17529,9 @@ msgid ""
 "feature is highly recommended when you have many components sharing the same "
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
-"您可以使用 :ref:`internal-urls` 共享克隆的版本控制系统（VCS）仓库。当您有许多"
-"共享同一版本控制系统（VCS）的部件时，强烈推荐使用此功能。它提高了性能并减少了"
-"所需的磁盘空间。"
+"您可以使用 :ref:`internal-urls` 共享克隆的版本控制系统仓库。当您有许多共享同"
+"一版本控制系统的部件时，强烈推荐使用此功能。它提高了性能并减少了所需的磁盘空"
+"间。"
 
 #: ../../admin/projects.rst:33
 msgid "Adding translation projects and components"
@@ -17915,9 +17904,8 @@ msgid ""
 "Weblate automatically fetches from this VCS, and finds all matching "
 "translatable files."
 msgstr ""
-"部件是用于翻译的内容的分组。您输入版本控制系统（VCS）仓库位置和想要翻译那个文"
-"件的掩码，Weblate 会自动地从 这个版本控制系统（VCS）中取回，并找到所有匹配的"
-"翻译文件。"
+"部件是用于翻译的内容的分组。您输入版本控制系统仓库位置和想要翻译那个文件的掩"
+"码，Weblate 会自动地从 这个版本控制系统中取回，并找到所有匹配的翻译文件。"
 
 #: ../../admin/projects.rst:277
 msgid ""
@@ -17957,8 +17945,7 @@ msgstr ""
 msgid ""
 "The component contains all important parameters for working with the VCS, "
 "and for getting translations out of it:"
-msgstr ""
-"使用版本控制系统（VCS）工作的所有重要参数都包含在部件中，并且从中取出翻译："
+msgstr "使用版本控制系统工作的所有重要参数都包含在部件中，并且从中取出翻译："
 
 #: ../../admin/projects.rst:299 ../../admin/projects.rst:964
 msgid "Component name"
@@ -17987,11 +17974,11 @@ msgstr "部件所属的 :ref:`project`。"
 
 #: ../../admin/projects.rst:320
 msgid "Version control system"
-msgstr "版本控制系统（VCS）"
+msgstr "版本控制系统"
 
 #: ../../admin/projects.rst:322
 msgid "VCS to use, see :ref:`vcs` for details."
-msgstr "使用的版本控制系统（VCS），细节请参见： :ref:`vcs`。"
+msgstr "使用的版本控制系统，细节请参见： :ref:`vcs`。"
 
 #: ../../admin/projects.rst:326 ../../admin/projects.rst:412
 msgid ":ref:`push-changes`"
@@ -18003,7 +17990,7 @@ msgstr "源代码仓库"
 
 #: ../../admin/projects.rst:333
 msgid "VCS repository used to pull changes."
-msgstr "版本控制系统（VCS）仓库，用于拉取更改。"
+msgstr "版本控制系统仓库，用于拉取更改。"
 
 #: ../../admin/projects.rst:337
 msgid "See :ref:`vcs-repos` for more details on specifying URLs."
@@ -18015,7 +18002,7 @@ msgid ""
 "indicating that the repository should be shared with another component. See :"
 "ref:`internal-urls` for more details."
 msgstr ""
-"这可以是真实的版本控制系统（VCS）的 URL，也可以是 ``weblate://project/"
+"这可以是真实的版本控制系统的 URL，也可以是 ``weblate://project/"
 "component``，表示与其它部件共享该仓库。更多细节请参见 :ref:`internal-urls`。"
 
 #: ../../admin/projects.rst:348
@@ -18099,7 +18086,7 @@ msgstr "仓库分支"
 #: ../../admin/projects.rst:392
 msgid ""
 "Which branch to checkout from the VCS, and where to look for translations."
-msgstr "从版本控制系统（VCS）核实哪个分支，以及从哪里寻找翻译。"
+msgstr "从版本控制系统核实哪个分支，以及从哪里寻找翻译。"
 
 #: ../../admin/projects.rst:399
 msgid "Push branch"
@@ -18113,8 +18100,7 @@ msgstr "用于推送更改的分支，留空则使用 :ref:`component-branch`。
 msgid ""
 "This is currently only supported for Git, GitLab and GitHub, it is ignored "
 "for other VCS integrations."
-msgstr ""
-"此功能目前只支持 Git、GitLab 和 GitHub，不支持其他版本控制系统（VCS）集成。"
+msgstr "此功能目前只支持 Git、GitLab 和 GitHub，不支持其他版本控制系统集成。"
 
 #: ../../admin/projects.rst:417 ../../devel/gettext.rst:226
 #: ../../formats/android.rst:62 ../../formats/apple.rst:28
@@ -19297,9 +19283,8 @@ msgstr "导入速度"
 msgid ""
 "Fetching VCS repository and importing translations to Weblate can be a "
 "lengthy process, depending on size of your translations. Here are some tips:"
-msgstr ""
-"从版本控制系统（VCS）仓库获取并将翻译导入 Weblate 可能会是漫长的过程，具体取"
-"决于您的翻译的大小。以下是一些提示："
+msgstr "从版本控制系统仓库获取并将翻译导入 Weblate "
+"可能会是漫长的过程，具体取决于您的翻译的大小。以下是一些提示："
 
 #: ../../admin/projects.rst:1053
 msgid "Optimize configuration"
@@ -19773,7 +19758,7 @@ msgstr "上传截图后，就可以在这个界面进行管理以及和源字符
 msgid ""
 "You can add or update screenshots directly from your Version Control System "
 "(VCS) repository."
-msgstr "你可以直接从你的版本控制系统（VCS）仓库添加或更新截屏。"
+msgstr "你可以直接从你的版本控制系统仓库添加或更新截屏。"
 
 #: ../../admin/translating.rst:145
 msgid ""
@@ -20447,9 +20432,9 @@ msgid ""
 "`WEBLATE_GITHUB_HOST` and :setting:`GITHUB_CREDENTIALS`."
 msgstr ""
 "**在 4.14.2 版中的变化：** 弃用通过 _TOKEN/_USERNAME 配置而不是 _CREDENTIALS "
-"列表对版本控制系统（VCS）服务 API 密钥进行不安全配置。在 Docker 中，请添加匹"
-"配的 _HOST 指令。示例参考 :envvar:`WEBLATE_GITHUB_HOST` 和 :setting:"
-"`GITHUB_CREDENTIALS`。"
+"列表对版本控制系统服务 API 密钥进行不安全配置。在 Docker 中，请添加匹配的 "
+"_HOST 指令。示例参考 :envvar:`WEBLATE_GITHUB_HOST` 和 "
+":setting:`GITHUB_CREDENTIALS`。"
 
 #: ../../admin/upgrade.rst:355
 msgid "Upgrade from 4.14 to 4.15"
@@ -21562,9 +21547,9 @@ msgid ""
 "detailed status use :http:get:`/api/components/(string:project)/(string:"
 "component)/repository/`."
 msgstr ""
-"返回版本控制系统（VCS）仓库状态的信息。这个端点只包含项目所有仓库的整体概况。"
-"为了得到更多细节，请使用 :http:get:`/api/components/(string:project)/(string:"
-"component)/repository/`。"
+"返回版本控制系统仓库状态的信息。这个端点只包含项目所有仓库的整体概况。为了得"
+"到更多细节，请使用 :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`。"
 
 #: ../../api.rst:876 ../../api.rst:1481
 msgid "whether there are any pending changes to commit"
@@ -21580,7 +21565,7 @@ msgstr "是否有本地更改要推送"
 
 #: ../../api.rst:893 ../../api.rst:1958
 msgid "Performs given operation on the VCS repository."
-msgstr "在版本控制系统（VCS）仓库上执行给定的操作。"
+msgstr "在版本控制系统仓库上执行给定的操作。"
 
 #: ../../api.rst:898
 msgid ""
@@ -21635,8 +21620,7 @@ msgstr "在给定的项目中新建翻译部件。"
 msgid ""
 "Use :ref:`internal-urls` when creating multiple components from a single VCS "
 "repository."
-msgstr ""
-"从单个版本控制系统（VCS）仓库创建多个部件时，请使用 :ref:`internal-urls`。"
+msgstr "从单个版本控制系统仓库创建多个部件时，请使用 :ref:`internal-urls`。"
 
 #: ../../api.rst:967
 msgid ""
@@ -21987,7 +21971,7 @@ msgstr "部件的标识串"
 
 #: ../../api.rst:1266 ../../api.rst:1351
 msgid "VCS repository URL"
-msgstr "版本控制系统（VCS）仓库的URL"
+msgstr "版本控制系统仓库的URL"
 
 #: ../../api.rst:1340
 msgid "Edit a component by a :http:method:`PUT` request."
@@ -21995,7 +21979,7 @@ msgstr "通过 :http:method:`PUT` 请求编辑一个部件。"
 
 #: ../../api.rst:1346
 msgid "VCS repository branch"
-msgstr "版本控制系统（VCS）仓库分支"
+msgstr "版本控制系统仓库分支"
 
 #: ../../api.rst:1347
 msgid "file format of translations"
@@ -22076,7 +22060,7 @@ msgstr "是否锁定的布尔值。"
 
 #: ../../api.rst:1473 ../../api.rst:1945
 msgid "Returns information about VCS repository status."
-msgstr "返回版本控制系统（VCS）仓库状态的信息。"
+msgstr "返回版本控制系统仓库状态的信息。"
 
 #: ../../api.rst:1475
 msgid ""
@@ -22090,7 +22074,7 @@ msgstr "远程提交说明"
 
 #: ../../api.rst:1485
 msgid "VCS repository status as reported by VCS"
-msgstr "由版本控制系统（VCS）报告的 VCS 状态"
+msgstr "由版本控制系统报告的 VCS 状态"
 
 #: ../../api.rst:1486
 msgid "Text describing merge failure or null if there is none"
@@ -22098,7 +22082,7 @@ msgstr "描述合并失败的文本，没有的话为空"
 
 #: ../../api.rst:1490
 msgid "Performs the given operation on a VCS repository."
-msgstr "在版本控制系统（VCS）仓库执行给定的操作。"
+msgstr "在版本控制系统仓库执行给定的操作。"
 
 #: ../../api.rst:1492 ../../api.rst:1960
 msgid ""
@@ -22368,9 +22352,8 @@ msgstr "为项目打开对共享翻译记忆库的贡献，以访问其他部件
 msgid ""
 "Download current translation file as it is stored in the VCS (without the "
 "``format`` parameter) or converted to another format (see :ref:`download`)."
-msgstr ""
-"下载存储在版本控制系统（VCS）中的当前翻译文件（不带 ``format`` 参数）或将其转"
-"换为另一格式（见 :ref:`download`）。"
+msgstr "下载存储在版本控制系统中的当前翻译文件（不带 ``format`` "
+"参数）或将其转换为另一格式（见 :ref:`download`）。"
 
 #: ../../api.rst:1902
 msgid ""
@@ -22379,9 +22362,9 @@ msgid ""
 "parameter differs and without such parameter you get translation file as "
 "stored in VCS."
 msgstr ""
-"这个 API 端点使用了不同于 API 其余的逻辑来输出，它在整个文件而不是在数据上操"
-"作。接受的 ``format`` 参数组不同，没有这个参数会将翻译文件存储在版本控制系统"
-"（VCS）中。"
+"这个 API 端点使用了不同于 API "
+"其余的逻辑来输出，它在整个文件而不是在数据上操作。接受的 ``format`` "
+"参数组不同，没有这个参数会将翻译文件存储在版本控制系统中。"
 
 #: ../../api.rst:1907
 msgid ""
@@ -23110,7 +23093,7 @@ msgstr "通知钩子"
 msgid ""
 "Notification hooks allow external applications to notify Weblate that the "
 "VCS repository has been updated."
-msgstr "通知钩子允许外部应用来通知 Weblate 版本控制系统（VCS）仓库已经更新。"
+msgstr "通知钩子允许外部应用来通知 Weblate 版本控制系统仓库已经更新。"
 
 #: ../../api.rst:2496
 msgid ""
@@ -23939,9 +23922,8 @@ msgstr "改进了字幕翻译的字符串状态处理。"
 msgid ""
 "Deprecated insecure configuration of VCS service API keys via _TOKEN/"
 "_USERNAME configuration instead of _CREDENTIALS list."
-msgstr ""
-"已弃用通过 _TOKEN/_USERNAME 配置而不是 _CREDENTIALS 列表对 版本控制系统"
-"（VCS）服务 API 密钥进行不安全配置。"
+msgstr "已弃用通过 _TOKEN/_USERNAME 配置而不是 _CREDENTIALS 列表对 版本控制系统服务 "
+"API 密钥进行不安全配置。"
 
 #: ../../changes.rst:188
 msgid "Fixed processing of some uploaded CSV files."
@@ -26042,7 +26024,7 @@ msgstr "修复了启用尾注时的 Git 挤压提交问题。"
 
 #: ../../changes.rst:829
 msgid "Fixed creating local VCS components using API."
-msgstr "修复了使用 API 创建本地版本控制系统（VCS）部件。"
+msgstr "修复了使用 API 创建本地版本控制系统部件。"
 
 #: ../../changes.rst:832
 msgid "Weblate 4.2.1"
@@ -26804,7 +26786,7 @@ msgstr "发布于 2020 年 2 月 17 日。"
 
 #: ../../changes.rst:1070
 msgid "Allow using VCS push URL during component creation via API."
-msgstr "允许通过 API 新建部件的过程中使用版本控制系统（VCS）推送 URL。"
+msgstr "允许通过 API 新建部件的过程中使用版本控制系统推送 URL。"
 
 #: ../../changes.rst:1071
 msgid "Rendered width check now shows image with the render."
@@ -27345,7 +27327,7 @@ msgstr "为用上传来替换文件内容添加了支持。"
 
 #: ../../changes.rst:1234
 msgid "Add support for translating non VCS based content."
-msgstr "为翻译非基于版本控制系统（VCS）的内容添加了支持。"
+msgstr "为翻译非基于版本控制系统的内容添加了支持。"
 
 #: ../../changes.rst:1235
 msgid "Added OpenGraph widget image to use on social networks."
@@ -27604,7 +27586,7 @@ msgstr "指示项目列表中管理的项目。"
 
 #: ../../changes.rst:1312
 msgid "Allow update to recover from missing VCS repository."
-msgstr "允许更新而从丢失的版本控制系统（VCS）仓库恢复。"
+msgstr "允许更新而从丢失的版本控制系统仓库恢复。"
 
 #: ../../changes.rst:1315
 msgid "Weblate 3.6"
@@ -29435,7 +29417,7 @@ msgstr "几个 URLs 已经更改，可能必须要更新您的书签。"
 
 #: ../../changes.rst:1912
 msgid "Hook scripts are executed with VCS root as current directory."
-msgstr "钩子脚本以版本控制系统（VCS）root 作为当前目录执行。"
+msgstr "钩子脚本以版本控制系统root 作为当前目录执行。"
 
 #: ../../changes.rst:1913
 msgid ""
@@ -29708,7 +29690,7 @@ msgstr "使用 Bootsctrap 的新的仓库 UI。"
 
 #: ../../changes.rst:1997
 msgid "Rewritten VCS backend."
-msgstr "重写了版本控制系统（VCS）后端。"
+msgstr "重写了版本控制系统后端。"
 
 #: ../../changes.rst:1999
 msgid "Added whiteboard for site wide messages."
@@ -33553,7 +33535,7 @@ msgstr "值"
 
 #: ../../devel/gettext.rst:224
 msgid "URL of the VCS repository with your project"
-msgstr "您的项目的版本控制系统（VCS）仓库的 URL"
+msgstr "您的项目的版本控制系统仓库的 URL"
 
 #: ../../devel/gettext.rst:226 ../../formats/gettext.rst:96
 #: ../../formats/gettext.rst:108
@@ -33840,8 +33822,8 @@ msgid ""
 "repository. The import process will guide you through configuring your "
 "translations into components."
 msgstr ""
-"Weblate 在开发时一直注意将版本管理系统（VCS）集成作为核心功能。因此，最简单的"
-"方法是授予 Weblate 访问仓库的权限。导入过程将指导您将翻译配置进部件。"
+"Weblate 在开发时一直注意将版本控制系统集成作为核心功能。因此，"
+"最简单的方法是授予 Weblate 访问仓库的权限。导入过程将指导您将翻译配置进部件。"
 
 #: ../../devel/integration.rst:13
 msgid ""
@@ -33924,9 +33906,8 @@ msgstr ""
 msgid ""
 "If you’re not using a VCS integration, you can use UI or :doc:`/api` to "
 "update translations to match your code base."
-msgstr ""
-"如果你没在用一个版本管理系统（VCS）集成，可以使用 UI 或 :doc:`/api` 来更新翻"
-"译，从而与您的码基匹配。"
+msgstr "如果你没在用一个版本控制系统集成，可以使用 UI 或 :doc:`/api` "
+"来更新翻译，从而与您的码基匹配。"
 
 #: ../../devel/integration.rst:60
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
@@ -33943,9 +33924,9 @@ msgid ""
 "strings. Any way of adding strings will be picked up, but consider using :"
 "ref:`source-quality-gateway` to avoid introducing errors."
 msgstr ""
-"如您的翻译文件与代码一起存储在一个版本控制系统（VCS）中，您很可能有一个现有的"
-"工作流供开发人员引入新的字符串。任何添加字符串的方法都将被采用，但请考虑使"
-"用 :ref:`source-quality-gateway` 以避免引入错误。"
+"如您的翻译文件与代码一起存储在一个版本控制系统中，您很可能有一个现有的工作流"
+"供开发人员引入新的字符串。任何添加字符串的方法都将被采用，但请考虑使用 :ref"
+":`source-quality-gateway` 以避免引入错误。"
 
 #: ../../devel/integration.rst:73
 msgid ""
@@ -35376,9 +35357,8 @@ msgstr ""
 msgid ""
 "The author of every commit (if the underlying VCS supports it) is still "
 "recorded correctly as the user that made the translation."
-msgstr ""
-"（如果下层的版本管理系统 VCS 支持它的话），每个提交的作者仍会被正确地记录为进"
-"行翻译的用户。"
+msgstr "（如果下层的版本控制系统支持它的话），每个提交的作者仍会被正确地记录为进行翻"
+"译的用户。"
 
 #: ../../faq.rst:268
 msgid ""
@@ -35785,7 +35765,7 @@ msgstr "功能"
 
 #: ../../faq.rst:497
 msgid "Does Weblate support other VCSes than Git and Mercurial?"
-msgstr "Weblate 支持 Git 和 Mercurial 以外的其它版本控制系统（VCS）吗？"
+msgstr "Weblate 支持 Git 和 Mercurial 以外的其它版本控制系统吗？"
 
 #: ../../faq.rst:499
 msgid ""
@@ -35794,9 +35774,9 @@ msgid ""
 "and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to "
 "write backends for other VCSes."
 msgstr ""
-"Weblate 当前不原生支持除 :ref:`vcs-git`\\ （扩展支持 :ref:`vcs-github`、:ref:"
-"`vcs-gerrit` 和 :ref:`vcs-git-svn`）和 :ref:`vcs-mercurial` 以外的任何版本控"
-"制系统（VCS），但可以为其他版本控制系统（VCS）编写后端。"
+"Weblate 当前不原生支持除 :ref:`vcs-git`\\ （扩展支持 :ref:`vcs-github`、:ref"
+":`vcs-gerrit` 和 :ref:`vcs-git-svn`）和 :ref:`vcs-mercurial` "
+"以外的任何版本控制系统，但可以为其他版本控制系统编写后端。"
 
 #: ../../faq.rst:504
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
@@ -35804,7 +35784,7 @@ msgstr "还可以在 Git 中使用 :ref:`vcs-git-helpers` 来访问其它 VCS。
 
 #: ../../faq.rst:506
 msgid "Weblate also supports VCS-less operation, see :ref:`vcs-local`."
-msgstr "Weblate 还支持无版本控制系统（VCS）的操作，请参见 :ref:`vcs-local`。"
+msgstr "Weblate 还支持无版本控制系统的操作，请参见 :ref:`vcs-local`。"
 
 #: ../../faq.rst:510
 msgid ""
@@ -35812,9 +35792,9 @@ msgid ""
 "and could probably be adjusted to work with anything other than Git and "
 "Mercurial, but somebody has to implement this support."
 msgstr ""
-"对于其它版本控制系统（VCS）的原生支持，Weblate 需要使用分布式版本控制系统"
-"（VCS），并可能会调整为能与除 Git 和 Mercurial 以外的任何东西一起使用，必须有"
-"人来实现这项支持。"
+"对于其它版本控制系统的原生支持，Weblate 需要使用分布式版本控制系统，"
+"并可能会调整为能与除 Git 和 Mercurial "
+"以外的任何东西一起使用，必须有人来实现这项支持。"
 
 #: ../../faq.rst:517
 msgid "How does Weblate credit translators?"
@@ -35826,9 +35806,8 @@ msgid ""
 "name. This way every single change has proper authorship, and you can track "
 "it down using the standard VCS tools you use for code."
 msgstr ""
-"Weblate 中所做的每个更改都将以译者的名称提交到版本控制系统（VCS）中。这样，每"
-"个更改都具有适当的作者身份，您可以使用用于代码的标准版本控制系统（VCS）工具来"
-"进行跟踪。"
+"Weblate 中所做的每个更改都将以译者的名称提交到版本控制系统中。这样，每个更改"
+"都具有适当的作者身份，您可以使用用于代码的标准版本控制系统工具来进行跟踪。"
 
 #: ../../faq.rst:523
 msgid ""
@@ -39932,9 +39911,8 @@ msgstr "``translated``"
 msgid ""
 "Means a string has been translated already. This can happen when the "
 "translations have been reverted in VCS or lost otherwise."
-msgstr ""
-"表示一条字符串已经被翻译。当译文已在版本控制系统（VCS）中恢复或以其他方式丢失"
-"时，可能会发生这种情况。"
+msgstr "表示一条字符串已经被翻译。当译文已在版本控制系统中恢复或以其他方式丢失时，可"
+"能会发生这种情况。"
 
 #: ../../user/checks.rst:684
 msgid "Inconsistent"
@@ -41684,9 +41662,8 @@ msgstr ""
 msgid ""
 "The user profile contains your preferences. Name and e-mail address is used "
 "in VCS commits, so keep this info accurate."
-msgstr ""
-"用户配置文件包含您的首选项。名称和电子邮箱地址在版本控制系统（VCS）提交中使"
-"用，因此请保持此信息准确无误。"
+msgstr "用户配置文件包含您的首选项。名称和电子邮箱地址在版本控制系统提交中使用，因此"
+"请保持此信息准确无误。"
 
 #: ../../user/profile.rst:68
 msgid "All language selections only offer currently translated languages."
@@ -41782,8 +41759,9 @@ msgid ""
 "By setting the :guilabel:`Editor link`, you use your local editor to open "
 "the VCS source code file of translated strings. You can use :ref:`markup`."
 msgstr ""
-"通过设置 :guilabel:`编辑器链接`，您可以使用本地编辑器打开翻译字符串的版本控制"
-"系统（VCS） 源代码文件。你可以使用 :ref:`markup`。"
+"通过设置 :guilabel:`编辑器链接`，"
+"您可以使用本地编辑器打开翻译字符串的版本控制系统 源代码文件。你可以使用 "
+":ref:`markup`。"
 
 #: ../../user/profile.rst:138
 msgid ""
@@ -42086,7 +42064,7 @@ msgstr "``pending:BOOLEAN``"
 
 #: ../../user/search.rst:52
 msgid "String pending for flushing to VCS."
-msgstr "待刷新到版本控制系统（VCS）的字符串。"
+msgstr "待刷新到版本控制系统的字符串。"
 
 #: ../../user/search.rst:53
 msgid "``has:TEXT``"
@@ -43342,7 +43320,7 @@ msgid ""
 "repositories or for push URLs the setup is more complex and requires "
 "authentication."
 msgstr ""
-"您要使用的版本控制系统（VCS）仓库必须可供 Weblate 访问。对于公开可用的仓库，"
+"您要使用的版本控制系统仓库必须可供 Weblate 访问。对于公开可用的仓库，"
 "您只需要输入正确的 URL（例如 ``https://github.com/WeblateOrg/weblate."
 "git``），但对于私有仓库或推送 URL，设置更加复杂并且需要验证。"
 
@@ -43541,8 +43519,8 @@ msgid ""
 "main(referenced) component."
 msgstr ""
 "通过在其他（链接）组件中将其位置称为“weblate://project/component”，在不同组件"
-"之间共享一个仓库设置。这样，链接的组件使用主（引用）组件的版本控制系统（VCS）"
-"仓库配置。"
+"之间共享一个仓库设置。这样，链接的组件使用主（引用）组件的版本控制系统仓库配"
+"置。"
 
 #: ../../vcs.rst:144
 msgid "Removing main component also removes linked components."
@@ -43631,9 +43609,9 @@ msgid ""
 "documentation <https://curl.se/docs/>`_) or by enforcing it in the VCS "
 "configuration, for example:"
 msgstr ""
-"这可以使用 ``http_proxy`` 、 ``https_proxy`` 和 ``all_proxy`` 环境变量来完成"
-"（如 `cURL 文档 <https://curl.se/docs/>`_ 中所述）或通过在版本控制系统（VCS）"
-"配置中强制执行，例如："
+"这可以使用 ``http_proxy`` 、 ``https_proxy`` 和 ``all_proxy`` "
+"环境变量来完成（如 `cURL 文档 <https://curl.se/docs/>`_ "
+"中所述）或通过在版本控制系统配置中强制执行，例如："
 
 #: ../../vcs.rst:190
 msgid ""
@@ -43963,7 +43941,7 @@ msgstr "Mercurial"
 
 #: ../../vcs.rst:428
 msgid "Mercurial is another VCS you can use directly in Weblate."
-msgstr "Mercurial 是另一个可以在 Weblate 中直接使用的版本控制系统（VCS）。"
+msgstr "Mercurial 是另一个可以在 Weblate 中直接使用的版本控制系统。"
 
 #: ../../vcs.rst:432
 msgid ""
@@ -44048,9 +44026,8 @@ msgid ""
 "translations, you already have a repository within Weblate can base your "
 "integration on."
 msgstr ""
-"在后台 Weblate 为您创建一个 Git 仓库并跟踪所有更改。如果您以后决定使用 版本控"
-"制系统（VCS）来存储翻译，您已经在 Weblate 中有一个仓库可以作为您的集成的基"
-"础。"
+"在后台 Weblate 为您创建一个 Git 仓库并跟踪所有更改。如果您以后决定使用 "
+"版本控制系统来存储翻译，您已经在 Weblate 中有一个仓库可以作为您的集成的基础。"
 
 #: ../../wlc.rst:8
 msgid "Weblate Client"
@@ -44425,8 +44402,8 @@ msgid ""
 "file:`.weblate` configuration in the VCS repository so that wlc knows which "
 "server it should talk to."
 msgstr ""
-"这样，您就可以在版本控制系统（VCS）仓库中使用 :file:`.weblate` 配置时，将密钥"
-"存储在个人设置中，以便 wlc 知道它应该与哪个服务器通信。"
+"这样，您就可以在版本控制系统仓库中使用 :file:`.weblate` "
+"配置时，将密钥存储在个人设置中，以便 wlc 知道它应该与哪个服务器通信。"
 
 #: ../../wlc.rst:342
 msgid "Examples"
