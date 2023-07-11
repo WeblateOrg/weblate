@@ -20,8 +20,12 @@ Configuring Weblate
 
         weblate migrate
 
-#. Create an account for the administrator user and copy its password
-   to the clipboard, and also save it for later use:
+#.  Create an account for the administrator user. This command will generate an admin password for the first use.
+    Copy the password to the clipboard, and also save it for later use:
+
+    If you previously missed/lost the admin password, you can generate a new one with the following command:   
+
+        weblate createadmin --update
 
    .. code-block:: sh
 
