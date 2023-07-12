@@ -9,7 +9,7 @@ from typing import Optional
 import sentry_sdk
 from django.core.cache import cache
 from filelock import FileLock, Timeout
-from redis_lock import AlreadyAcquired, Lock, NotAcquired
+from redis_lock import AlreadyAcquired, NotAcquired
 
 from weblate.utils.cache import IS_USING_REDIS
 
@@ -41,9 +41,8 @@ class WeblateLock:
         if self.use_redis:
             # Prefer Redis locking as it works distributed
             self._name = self._format_template(cache_template)
-            self._lock = Lock(
-                cache.client.get_client(),
-                name=self._name,
+            self._lock = cache.lock(
+                key=self._name,
                 expire=60,
                 auto_renewal=True,
             )
