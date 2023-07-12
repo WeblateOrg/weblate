@@ -156,7 +156,7 @@ maintenance` lets you manipulate with the repository.
    whenever there are changes and there is usually no need to manually
    manipulate with it.
 
-.. image:: /screenshots/component-repository.png
+.. image:: /screenshots/component-repository.webp
 
 .. seealso::
 

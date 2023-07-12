@@ -90,7 +90,7 @@ memories. It can be used to download, wipe or import translation memory.
 
     :ref:`schema-memory`
 
-.. image:: /screenshots/memory.png
+.. image:: /screenshots/memory.webp
 
 Management interface
 ++++++++++++++++++++

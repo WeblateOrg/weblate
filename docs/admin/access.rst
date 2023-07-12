@@ -77,7 +77,7 @@ You can limit user’s access to individual projects by selecting a different
 configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each respective
 project.
 
-.. image:: /screenshots/project-access.png
+.. image:: /screenshots/project-access.webp
 
 The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 
@@ -150,7 +150,7 @@ VCS
 Billing
     Can access billing info and settings (see :ref:`billing`).
 
-.. image:: /screenshots/manage-users.png
+.. image:: /screenshots/manage-users.webp
 
 These features are available on the :guilabel:`Access control` page, which can be
 accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.

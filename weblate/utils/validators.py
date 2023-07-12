@@ -26,7 +26,7 @@ EMAIL_BLACKLIST = re.compile(r"^([./|]|.*([@%!`#&?]|/\.\./))")
 # Matches Git condition on "name consists only of disallowed characters"
 CRUD_RE = re.compile(r"^[.,;:<>\"'\\]+$")
 
-ALLOWED_IMAGES = {"image/jpeg", "image/png", "image/apng", "image/gif"}
+ALLOWED_IMAGES = {"image/jpeg", "image/png", "image/apng", "image/gif", "image/webp"}
 
 # File formats we do not accept on translation/glossary upload
 FORBIDDEN_EXTENSIONS = {

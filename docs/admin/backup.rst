@@ -52,7 +52,7 @@ The backups using Borg are incremental and Weblate is configured to keep followi
 * Weekly backups for 8 weeks back
 * Monthly backups for 6 months back
 
-.. image:: /screenshots/backups.png
+.. image:: /screenshots/backups.webp
 
 .. _borg-keys:
 
