@@ -42,7 +42,7 @@ class WeblateLock:
             self._name = self._format_template(cache_template)
             self._lock = cache.lock(
                 key=self._name,
-                expire=60,
+                expire=3600,
                 auto_renewal=True,
             )
             self._enter_implementation = self._enter_redis
