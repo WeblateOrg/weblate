@@ -1210,7 +1210,10 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         try:
             return self.repository.get_revision_info(self.local_revision)
         except RepositoryException:
-            self.store_local_revision()
+            try:
+                self.store_local_revision()
+            except RepositoryException:
+                return None
             return self.repository.get_revision_info(self.local_revision)
 
     @perform_on_link
