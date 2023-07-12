@@ -214,6 +214,10 @@ class SameCheckTest(CheckTestCase):
     def test_same_placeholders(self):
         self.do_test(True, ("%location%", "%location%", ""))
         self.do_test(False, ("%location%", "%location%.", "placeholders:%location%"))
+        self.do_test(
+            False,
+            ("%SCHOOLING_PERIOD%", "%SCHOOLING_PERIOD%.", r'placeholders:r"%\w+%"'),
+        )
 
     def test_same_project(self):
         self.do_test(False, ("MockProject", "MockProject", ""))
