@@ -79,13 +79,10 @@ def strip_format(msg, flags):
     return regex.sub("", msg)
 
 
-def strip_string(msg, flags):
+def strip_string(msg):
     """Strip (usually) untranslated parts from the string."""
     # Strip HTML markup
     stripped = strip_tags(msg)
-
-    # Strip format strings
-    stripped = strip_format(stripped, flags)
 
     # Remove emojis
     stripped = EMOJI_RE.sub(" ", stripped)
@@ -142,11 +139,22 @@ class SameCheck(TargetCheck):
         from weblate.checks.flags import TYPED_FLAGS
         from weblate.glossary.models import get_glossary_terms
 
-        if "strict-same" in unit.all_flags:
-            return False
         # Ignore some docbook tags
         if unit.note.startswith("Tag: ") and unit.note[5:] in DB_TAGS:
             return True
+
+        stripped = source
+        flags = unit.all_flags
+
+        # Strip format strings
+        stripped = strip_format(stripped, flags)
+
+        # Strip placeholder strings
+        if "placeholders" in TYPED_FLAGS and "placeholders" in flags:
+            stripped = strip_placeholders(stripped, unit)
+
+        if "strict-same" in flags:
+            return not stripped
 
         # Ignore name of the project
         extra_ignore = set(
@@ -166,8 +174,7 @@ class SameCheck(TargetCheck):
             return True
 
         # Strip glossary terms
-        stripped = source
-        if "check-glossary" in unit.all_flags:
+        if "check-glossary" in flags:
             # Extract untranslatable terms
             terms = [
                 re.escape(term.source)
@@ -177,12 +184,8 @@ class SameCheck(TargetCheck):
             if terms:
                 stripped = re.sub("|".join(terms), "", source, flags=re.IGNORECASE)
 
-        # Strip format strings
-        stripped = strip_string(stripped, unit.all_flags)
-
-        # Strip placeholder strings
-        if "placeholders" in TYPED_FLAGS and "placeholders" in unit.all_flags:
-            stripped = strip_placeholders(stripped, unit)
+        # Strip typically untranslatable parts
+        stripped = strip_string(stripped)
 
         # Ignore strings which don't contain any string to translate
         # or just single letter (usually unit or something like that)
