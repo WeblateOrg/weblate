@@ -1257,6 +1257,10 @@ $(function () {
     },
   });
 
+  document.querySelectorAll("link[as=style]").forEach((linkElement) => {
+    linkElement.setAttribute("rel", "stylesheet");
+  });
+
   /* Warn users that they do not want to use developer console in most cases */
   console.log(
     "%c%s",
