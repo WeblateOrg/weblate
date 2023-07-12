@@ -23,9 +23,13 @@ Configuring Weblate
 #. Create an account for the administrator user. This command will generate an admin password for the first use.
    Copy the password to the clipboard, and also save it for later use:
 
+<<<<<<< HEAD
    If you previously missed/lost the admin password, you can generate a new one with the following command:   
    
    .. code-block:: sh
+=======
+    If you previously missed/lost the admin password, you can generate a new one with the following command:
+>>>>>>> 8150c151791012f106a73fec9c0c833df8cc7d23
 
         weblate createadmin --update
 
