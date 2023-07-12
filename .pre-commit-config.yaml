@@ -38,7 +38,7 @@ repos:
   - id: ruff
     args: [--fix, --exit-non-zero-on-fix]
 - repo: https://github.com/psf/black
-  rev: 23.3.0
+  rev: 23.7.0
   hooks:
   - id: black
 - repo: https://github.com/asottile/blacken-docs
@@ -75,14 +75,14 @@ repos:
   - id: eslint
     args: [--format=compact]
     additional_dependencies:
-    - prettier@2.8.8
+    - prettier@3.0.0
     - eslint@8.44.0
     - eslint-plugin-import@2.27.5
     - eslint-plugin-node@11.1.0
     - eslint-plugin-promise@6.1.1
     - eslint-plugin-standard@4.1.0
     - eslint-config-prettier@8.8.0
-    - eslint-plugin-prettier@4.2.1
+    - eslint-plugin-prettier@5.0.0
 - repo: https://github.com/awebdeveloper/pre-commit-stylelint
   rev: 0.0.2
   hooks:
