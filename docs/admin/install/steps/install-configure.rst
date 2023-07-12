@@ -24,8 +24,8 @@ Configuring Weblate
    Copy the password to the clipboard, and also save it for later use:
 
 <<<<<<< HEAD
-   If you previously missed/lost the admin password, you can generate a new one with the following command:   
-   
+   If you previously missed/lost the admin password, you can generate a new one with the following command:
+
    .. code-block:: sh
 =======
     If you previously missed/lost the admin password, you can generate a new one with the following command:
