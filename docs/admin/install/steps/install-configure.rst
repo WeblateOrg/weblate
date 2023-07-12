@@ -20,12 +20,28 @@ Configuring Weblate
 
         weblate migrate
 
-#. Create an account for the administrator user and copy its password
+   .. seealso::
+
+      :wladmin:`migrate`
+
+#. Create an account and generate the password for the administrator user and copy its password
    to the clipboard, and also save it for later use:
 
    .. code-block:: sh
 
         weblate createadmin
+
+   .. hint::
+
+      If you previously missed/lost the admin password, you can generate a new one with the following command:
+
+      .. code-block:: sh
+
+         weblate createadmin --update
+
+   .. seealso::
+
+      :wladmin:`createadmin`
 
 #. Collect the static files for your web server (see :ref:`server` and :ref:`static-files`):
 
