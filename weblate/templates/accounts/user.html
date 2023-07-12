@@ -208,7 +208,11 @@
           <tr>
             <th>{% auth_name social.provider ' ' %}</th>
             <td>{{ social.uid }}</td>
-            <td>{% for verified in social.verifiedemail_set.all %}{{ verified.email }}{% endfor %}</td>
+            <td>
+              {% for verified in social.verifiedemail_set.all %}
+                {{ verified.email }}{% if not loop.last %},{% endif %}
+              {% endfor %}
+            </td>
           </tr>
         {% endfor %}
       </tbody>
