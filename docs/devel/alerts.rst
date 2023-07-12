@@ -34,7 +34,7 @@ but will disappear once the underlying problem has been fixed.
 
 A component with both duplicated strings and languages looks like this:
 
-.. image:: /screenshots/alerts.png
+.. image:: /screenshots/alerts.webp
 
 .. seealso::
 

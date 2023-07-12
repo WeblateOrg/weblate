@@ -11,7 +11,7 @@ The support for several machine translation and translation memory services is
 built-in. Each service can be turned on by the administrator for whole site or
 at the project settings:
 
-.. image:: /screenshots/project-machinery.png
+.. image:: /screenshots/project-machinery.webp
 
 .. note::
 

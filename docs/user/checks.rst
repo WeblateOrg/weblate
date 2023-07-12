@@ -7,7 +7,7 @@ translation is in good shape. The checks can be ignored in case of false positiv
 Once submitting a translation with a failing check, this is immediately shown to
 the user:
 
-.. image:: /screenshots/checks.png
+.. image:: /screenshots/checks.webp
 
 
 .. _autofix:
@@ -193,7 +193,7 @@ happens to be used.
 Besides checking, this will also highlight the formatting strings to easily
 insert them into translated strings:
 
-.. image:: /screenshots/format-highlight.png
+.. image:: /screenshots/format-highlight.webp
 
 .. _check-angularjs-format:
 
