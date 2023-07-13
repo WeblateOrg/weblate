@@ -3,9 +3,16 @@ Weblate 5.0
 
 Not yet released.
 
-* Improved plurals handling in machine translation.
+New features:
+*
 
-`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/99?closed=1>`__.
+Improved:
+* Plurals handling in machine translation.
+
+Fixed:
+*
+
+`All changes of this version in detail <https://github.com/WeblateOrg/weblate/milestone/99?closed=1>`__.
 
 Weblate 4.18.2
 --------------
