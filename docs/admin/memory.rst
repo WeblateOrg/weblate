@@ -73,10 +73,12 @@ Managing translation memory
 User interface
 ++++++++++++++
 
-Available by clicking ones user avatar in the top-right corner of the
-interface and selecting "Translation memory" from the dropdown menu.
-Entries attributed to the user are listed as a total, and for each respective
-project contributed to, with options to download (as JSON, or TMX) or delete them.
+Personal translation memory management is available by clicking the 
+user avatar in the top-right corner of the UI and selecting 
+"Translation memory" from the dropdown menu.
+Entries attributed to the user are listed in scopes – total, for each respective
+project, component, or language contributed to, with options to download 
+(as JSON, or TMX) or delete them.
 
 .. versionadded:: 3.2
 
