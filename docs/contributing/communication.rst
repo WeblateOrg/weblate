@@ -3,13 +3,13 @@ Weblate Contributer Communication Guidelines
 
 GitHub Issues
 -------------
-`GitHub Issues <https://github.com/WeblateOrg/weblate/issues>`_ is where bugs can be reported, and features can be requested. 
-Issue submission form provides templates for each to simplify issue creation, and review and implementation process; 
+`GitHub Issues <https://github.com/WeblateOrg/weblate/issues>`_ is where bugs can be reported, and features can be requested.
+Issue submission form provides templates for each to simplify issue creation, and review and implementation process;
 it also guides to other places with information like documentation, Discussions, HackerOne program, and Weblate Care.
 
 Weblate GitHub Discussions
 ------------------
-`GitHub Discussions <https://github.com/WeblateOrg/weblate/discussions>`_ is a community place. 
+`GitHub Discussions <https://github.com/WeblateOrg/weblate/discussions>`_ is a community place.
 Ideas, Polls, Q&A, and Show and Tell categories can be selected when posting there.
 General category fits all posts outside those defined categories. Weblate team members ocassionally
 visit Discussions and can also be mentioned by their GitHub usernames.
