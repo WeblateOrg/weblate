@@ -2,9 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 from collections import Counter, defaultdict
-from typing import Optional, Pattern
+from typing import Pattern
 
 from django.utils.functional import SimpleLazyObject
 from django.utils.html import format_html, format_html_join
@@ -257,8 +259,8 @@ FLAG_RULES = {
 class BaseFormatCheck(TargetCheck):
     """Base class for format string checks."""
 
-    regexp: Optional[Pattern[str]] = None
-    plural_parameter_regexp: Optional[Pattern[str]] = None
+    regexp: Pattern[str] | None = None
+    plural_parameter_regexp: Pattern[str] | None = None
     default_disabled = True
     normalize_remove = None
 

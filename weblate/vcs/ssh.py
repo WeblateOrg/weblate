@@ -2,12 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import hashlib
 import os
 import stat
 import subprocess
 from base64 import b64decode, b64encode
-from typing import Dict, Optional, Tuple
 
 from django.conf import settings
 from django.core.management.utils import find_command
@@ -87,7 +88,7 @@ def get_host_keys():
 
 def get_key_data_raw(
     key_type: str = "rsa", kind: str = "public"
-) -> Tuple[str, Optional[str]]:
+) -> tuple[str, str | None]:
     """Returns raw public key data."""
     # Read key data if it exists
     filename = KEYS[key_type][kind]
@@ -98,7 +99,7 @@ def get_key_data_raw(
     return filename, None
 
 
-def get_key_data(key_type: str = "rsa") -> Dict[str, str]:
+def get_key_data(key_type: str = "rsa") -> dict[str, str]:
     """Parse host key and returns it."""
     filename, key_data = get_key_data_raw(key_type)
     if key_data is not None:
@@ -118,7 +119,7 @@ def get_key_data(key_type: str = "rsa") -> Dict[str, str]:
     }
 
 
-def get_all_key_data() -> Dict[str, Dict[str, str]]:
+def get_all_key_data() -> dict[str, dict[str, str]]:
     """Return all supported SSH keys."""
     return {key_type: get_key_data(key_type) for key_type in KEYS}
 

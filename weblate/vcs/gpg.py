@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import subprocess
-from typing import Optional
 
 from django.conf import settings
 from django.core.cache import cache
@@ -24,7 +25,7 @@ def gpg_error(name: str, error: Exception, silent: bool = False):
         )
 
 
-def generate_gpg_key() -> Optional[str]:
+def generate_gpg_key() -> str | None:
     try:
         subprocess.run(
             [
@@ -51,7 +52,7 @@ def generate_gpg_key() -> Optional[str]:
     return get_gpg_key()
 
 
-def get_gpg_key(silent=False) -> Optional[str]:
+def get_gpg_key(silent=False) -> str | None:
     try:
         result = subprocess.run(
             [
@@ -82,7 +83,7 @@ def gpg_cache_key(suffix: str) -> str:
     )
 
 
-def get_gpg_sign_key() -> Optional[str]:
+def get_gpg_sign_key() -> str | None:
     """High level wrapper to cache key ID."""
     if not settings.WEBLATE_GPG_IDENTITY:
         return None
@@ -97,7 +98,7 @@ def get_gpg_sign_key() -> Optional[str]:
     return keyid
 
 
-def get_gpg_public_key() -> Optional[str]:
+def get_gpg_public_key() -> str | None:
     key = get_gpg_sign_key()
     if key is None:
         return None

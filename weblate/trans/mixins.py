@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
-from typing import Optional
 
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -15,7 +16,7 @@ from weblate.logger import LOGGER
 class URLMixin:
     """Mixin for models providing standard shortcut API for few standard URLs."""
 
-    _reverse_url_name: Optional[str] = None
+    _reverse_url_name: str | None = None
 
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""

@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
-from typing import List
 
 from celery.schedules import crontab
 from django.db import Error as DjangoDatabaseError
@@ -69,7 +70,7 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
 
 
 @app.task(trail=False)
-def language_consistency(project_id: int, language_ids: List[int]):
+def language_consistency(project_id: int, language_ids: list[int]):
     project = Project.objects.get(pk=project_id)
     languages = Language.objects.filter(id__in=language_ids)
 

@@ -2,11 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import copy
 import os.path
 import shutil
 import tempfile
-from typing import Dict
 from unittest import SkipTest
 from unittest.mock import patch
 
@@ -1173,7 +1174,7 @@ class VCSPagureTest(VCSGitUpstreamTest):
     _vcs = "git"
     _sets_push = False
 
-    def mock_responses(self, pr_response: Dict, existing_response: Dict):
+    def mock_responses(self, pr_response: dict, existing_response: dict):
         """Mock response helper function."""
         responses.add(
             responses.POST,

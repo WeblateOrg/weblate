@@ -2,8 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
-from typing import Generator, List, Optional, Tuple
+from typing import Generator
 
 from django.conf import settings
 from django.core.cache import cache
@@ -360,13 +362,13 @@ class Unit(models.Model, LoggerMixin):
         self,
         same_content: bool = False,
         run_checks: bool = True,
-        propagate_checks: Optional[bool] = None,
+        propagate_checks: bool | None = None,
         force_insert: bool = False,
         force_update: bool = False,
         only_save: bool = False,
         sync_terminology: bool = True,
         using=None,
-        update_fields: Optional[List[str]] = None,
+        update_fields: list[str] | None = None,
     ):
         """Wrapper around save to run checks or update fulltext."""
         # Store number of words
@@ -1195,7 +1197,7 @@ class Unit(models.Model, LoggerMixin):
             if not comment.resolved and comment.unit_id == self.id
         ]
 
-    def run_checks(self, propagate: Optional[bool] = None):  # noqa: C901
+    def run_checks(self, propagate: bool | None = None):  # noqa: C901
         """Update checks for this unit."""
         needs_propagate = bool(propagate)
 
@@ -1559,7 +1561,7 @@ class Unit(models.Model, LoggerMixin):
             return get_anonymous(), timezone.now()
         return change.author or get_anonymous(), change.timestamp
 
-    def get_locations(self) -> Generator[Tuple[str, str, str], None, None]:
+    def get_locations(self) -> Generator[tuple[str, str, str], None, None]:
         """Returns list of location filenames."""
         for location in self.location.split(","):
             location = location.strip()

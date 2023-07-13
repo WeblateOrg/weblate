@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
-from typing import Optional
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext
@@ -42,7 +43,7 @@ def validate_check_flags(val):
     flags.validate()
 
 
-def validate_language_code(code: Optional[str], filename: str, required: bool = False):
+def validate_language_code(code: str | None, filename: str, required: bool = False):
     if not code:
         if not required:
             return None

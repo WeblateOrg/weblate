@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from typing import List, Optional
+from __future__ import annotations
 
 from celery import current_task
 from django.conf import settings
@@ -79,7 +79,7 @@ class AutoTranslate:
                 self.user.profile.increase_count("translated", self.updated)
 
     @transaction.atomic
-    def process_others(self, source: Optional[int]):
+    def process_others(self, source: int | None):
         """Perform automatic translation based on other components."""
         kwargs = {
             "translation__plural": self.translation.plural,
@@ -190,7 +190,7 @@ class AutoTranslate:
             if unit.machinery and any(unit.machinery["quality"])
         }
 
-    def process_mt(self, engines: List[str], threshold: int):
+    def process_mt(self, engines: list[str], threshold: int):
         """Perform automatic translation based on machine translation."""
         translations = self.fetch_mt(engines, int(threshold))
 

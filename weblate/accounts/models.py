@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import datetime
-from typing import Set
 
 from appconf import AppConf
 from django.conf import settings
@@ -699,7 +700,7 @@ class Profile(models.Model):
         return result
 
     @cached_property
-    def primary_language_ids(self) -> Set[int]:
+    def primary_language_ids(self) -> set[int]:
         return {language.pk for language in self.all_languages}
 
     @cached_property
@@ -710,7 +711,7 @@ class Profile(models.Model):
         ).distinct()
 
     @cached_property
-    def secondary_language_ids(self) -> Set[int]:
+    def secondary_language_ids(self) -> set[int]:
         return set(self.secondary_languages.values_list("pk", flat=True))
 
     def get_translation_order(self, translation) -> int:

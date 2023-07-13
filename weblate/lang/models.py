@@ -2,11 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 from collections import defaultdict
 from gettext import c2py
 from itertools import chain
-from typing import Callable, Optional
+from typing import Callable
 from weakref import WeakValueDictionary
 
 from appconf import AppConf
@@ -83,8 +85,8 @@ def is_same_plural(
     our_formula: str,
     number: int,
     formula: str,
-    our_function: Optional[Callable] = None,
-    plural_function: Optional[Callable] = None,
+    our_function: Callable | None = None,
+    plural_function: Callable | None = None,
 ):
     if our_function is None:
         try:

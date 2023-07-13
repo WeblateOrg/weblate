@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os.path
-from typing import Optional, Tuple
 
 from celery.result import AsyncResult
 from django.conf import settings
@@ -161,7 +162,7 @@ class MultipleFieldMixin:
 
 
 class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
-    raw_urls: Tuple[str, ...] = ()
+    raw_urls: tuple[str, ...] = ()
     raw_formats = EXPORTERS
 
     def perform_content_negotiation(self, request, force=False):
@@ -1630,7 +1631,7 @@ class Search(APIView):
 
 
 class TasksViewSet(ViewSet):
-    def get_task(self, request, pk, permission: Optional[str] = None) -> AsyncResult:
+    def get_task(self, request, pk, permission: str | None = None) -> AsyncResult:
         task = AsyncResult(str(pk))
         result = task.result
         if task.state == "PENDING" or isinstance(result, Exception):

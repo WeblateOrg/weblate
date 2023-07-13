@@ -4,7 +4,7 @@
 
 """Charting library for Weblate."""
 
-from typing import Optional
+from __future__ import annotations
 
 from django.http import JsonResponse
 
@@ -14,10 +14,10 @@ from weblate.metrics.wrapper import MetricsWrapper
 
 def monthly_activity_json(
     request,
-    project: Optional[str] = None,
-    component: Optional[str] = None,
-    lang: Optional[str] = None,
-    user: Optional[str] = None,
+    project: str | None = None,
+    component: str | None = None,
+    lang: str | None = None,
+    user: str | None = None,
 ):
     """Return monthly activity for matching changes as json."""
     metrics = MetricsWrapper(None, Metric.SCOPE_GLOBAL, 0)

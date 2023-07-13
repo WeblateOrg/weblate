@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from email.headerregistry import Address
-from typing import Set
 
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
@@ -56,7 +57,7 @@ def migrate_permissions(model):
     model.objects.exclude(id__in=ids).delete()
 
 
-def migrate_roles(model, perm_model) -> Set[str]:
+def migrate_roles(model, perm_model) -> set[str]:
     """Create roles as defined in the data."""
     result = set()
     for role, permissions in ROLES:

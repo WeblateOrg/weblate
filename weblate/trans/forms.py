@@ -2,12 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import copy
 import json
 import re
 from datetime import date, datetime, timedelta
 from secrets import token_hex
-from typing import Dict, List, Optional
 
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
@@ -1695,7 +1696,7 @@ class ComponentSelectForm(ComponentNameForm):
 class ComponentBranchForm(ComponentSelectForm):
     branch = forms.ChoiceField(label=gettext_lazy("Repository branch"))
 
-    branch_data: Dict[int, List[str]] = {}
+    branch_data: dict[int, list[str]] = {}
     instance = None
 
     def __init__(self, *args, **kwargs):
@@ -2262,9 +2263,7 @@ class NewUnitBaseForm(forms.Form):
         required=False,
     )
 
-    def __init__(
-        self, translation, user, tabindex: Optional[int] = None, *args, **kwargs
-    ):
+    def __init__(self, translation, user, tabindex: int | None = None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.tabindex = tabindex or 200
         self.translation = translation
@@ -2316,9 +2315,7 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
         required=True,
     )
 
-    def __init__(
-        self, translation, user, tabindex: Optional[int] = None, *args, **kwargs
-    ):
+    def __init__(self, translation, user, tabindex: int | None = None, *args, **kwargs):
         super().__init__(translation, user, tabindex, *args, **kwargs)
         self.fields["context"].widget.attrs["tabindex"] = self.tabindex
         self.fields["source"].widget.attrs["tabindex"] = self.tabindex + 1
@@ -2344,9 +2341,7 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
         required=True,
     )
 
-    def __init__(
-        self, translation, user, tabindex: Optional[int] = None, *args, **kwargs
-    ):
+    def __init__(self, translation, user, tabindex: int | None = None, *args, **kwargs):
         super().__init__(translation, user, tabindex, *args, **kwargs)
         self.fields["context"].widget.attrs["tabindex"] = self.tabindex
         self.fields["context"].label = translation.component.context_label
@@ -2366,9 +2361,7 @@ class NewBilingualUnitForm(NewBilingualSourceUnitForm):
         required=True,
     )
 
-    def __init__(
-        self, translation, user, tabindex: Optional[int] = None, *args, **kwargs
-    ):
+    def __init__(self, translation, user, tabindex: int | None = None, *args, **kwargs):
         super().__init__(translation, user, tabindex, *args, **kwargs)
         self.fields["target"].widget.attrs["tabindex"] = self.tabindex + 2
         self.fields["target"].widget.profile = user.profile
@@ -2376,9 +2369,7 @@ class NewBilingualUnitForm(NewBilingualSourceUnitForm):
 
 
 class NewBilingualGlossarySourceUnitForm(GlossaryAddMixin, NewBilingualSourceUnitForm):
-    def __init__(
-        self, translation, user, tabindex: Optional[int] = None, *args, **kwargs
-    ):
+    def __init__(self, translation, user, tabindex: int | None = None, *args, **kwargs):
         if kwargs["initial"] is None:
             kwargs["initial"] = {}
         kwargs["initial"]["terminology"] = True

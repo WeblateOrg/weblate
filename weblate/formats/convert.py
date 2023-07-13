@@ -4,11 +4,13 @@
 
 """Translate Toolkit converter based file format wrappers."""
 
+from __future__ import annotations
+
 import codecs
 import os
 import shutil
 from io import BytesIO
-from typing import Callable, List, Optional, Union
+from typing import Callable
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
@@ -142,7 +144,7 @@ class ConvertFormat(TranslationFormat):
         filename: str,
         language: str,  # noqa: ARG003
         base: str,
-        callback: Optional[Callable] = None,  # noqa: ARG003
+        callback: Callable | None = None,  # noqa: ARG003
     ):
         """Handle creation of new translation file."""
         if not base:
@@ -155,7 +157,7 @@ class ConvertFormat(TranslationFormat):
         cls,
         base: str,
         monolingual: bool,  # noqa: ARG003
-        errors: Optional[List] = None,
+        errors: list | None = None,
         fast: bool = False,
     ) -> bool:
         """Check whether base is valid."""
@@ -181,12 +183,12 @@ class ConvertFormat(TranslationFormat):
     def create_unit(
         self,
         key: str,
-        source: Union[str, List[str]],
-        target: Optional[Union[str, List[str]]] = None,
+        source: str | list[str],
+        target: str | list[str] | None = None,
     ):
         raise ValueError("Not supported")
 
-    def cleanup_unused(self) -> List[str]:
+    def cleanup_unused(self) -> list[str]:
         """
         Bring target in sync with the source.
 

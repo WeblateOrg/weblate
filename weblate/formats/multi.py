@@ -4,7 +4,7 @@
 
 """Translate Toolkit based file-format wrappers for multi string support."""
 
-from typing import List, Union
+from __future__ import annotations
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
@@ -63,7 +63,7 @@ class MultiUnit(TranslationUnit):
     def is_readonly(self):
         return any(unit.is_readonly() for unit in self.units)
 
-    def set_target(self, target: Union[str, List[str]]):
+    def set_target(self, target: str | list[str]):
         """Set translation unit target."""
         self._invalidate_target()
 
