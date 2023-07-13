@@ -32,7 +32,8 @@ Translation-memory scopes
    In earlier versions translation memory could be only loaded from a file
    corresponding to the current imported translation memory scope.
 
-The translation-memory scopes ensure privacy, while enabling sharing translations.
+The translation-memory scopes ensure privacy for different projects and users. 
+Sharing of translations is also available.
 
 Imported translation memory
 +++++++++++++++++++++++++++
