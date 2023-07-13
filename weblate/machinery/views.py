@@ -1,23 +1,10 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-from typing import Dict, Optional
+from __future__ import annotations
+
+from itertools import chain
 
 from django.core.exceptions import PermissionDenied
 from django.http import (
@@ -29,7 +16,7 @@ from django.http import (
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -38,6 +25,7 @@ from weblate.configuration.models import Setting
 from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Unit
+from weblate.utils.diff import Differ
 from weblate.utils.errors import report_error
 from weblate.utils.views import get_project
 from weblate.wladmin.views import MENU as MANAGE_MENU
@@ -68,7 +56,7 @@ class MachineryConfiguration:
     def __init__(
         self,
         machinery,
-        configuration: Optional[Dict[str, str]],
+        configuration: dict[str, str] | None,
         sitewide: bool = False,
         project=None,
         is_configured: bool = True,
@@ -164,7 +152,7 @@ class ListMachineryProjectView(MachineryProjectMixin, ListMachineryView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_perm("project.edit", self.project):
-            raise PermissionDenied()
+            raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -179,7 +167,10 @@ class EditMachineryView(FormView):
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.machinery_id = kwargs["machinery"]
-        self.machinery = MACHINERY[self.machinery_id]
+        try:
+            self.machinery = MACHINERY[self.machinery_id]
+        except KeyError:
+            raise Http404("Invalid service specified")
         self.project = None
         self.post_setup(request, kwargs)
 
@@ -193,7 +184,7 @@ class EditMachineryView(FormView):
 
     @cached_property
     def settings_dict(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def post_setup(self, request, kwargs):
         return
@@ -216,10 +207,10 @@ class EditMachineryView(FormView):
         return super().form_valid(form)
 
     def save_settings(self, data):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def delete_service(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def enable_service(self):
         return
@@ -269,7 +260,7 @@ class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_perm("machinery.edit"):
-            raise PermissionDenied()
+            raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -294,7 +285,7 @@ class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_perm("project.edit", self.project):
-            raise PermissionDenied()
+            raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -304,14 +295,15 @@ class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
 
 
 def handle_machinery(request, service, unit, search=None):
-    if service not in MACHINERY:
-        raise Http404("Invalid service specified")
-
     translation = unit.translation
+    component = translation.component
     if not request.user.has_perm("machinery.view", translation):
-        raise PermissionDenied()
+        raise PermissionDenied
 
-    translation_service_class = MACHINERY[service]
+    try:
+        translation_service_class = MACHINERY[service]
+    except KeyError:
+        raise Http404("Invalid service specified")
 
     # Error response
     response = {
@@ -323,22 +315,33 @@ def handle_machinery(request, service, unit, search=None):
         "service": translation_service_class.name,
     }
 
-    machinery_settings = translation.component.project.get_machinery_settings()
+    machinery_settings = component.project.get_machinery_settings()
+    differ = Differ()
+    targets = unit.get_target_plurals()
 
     try:
         translation_service = translation_service_class(machinery_settings[service])
     except KeyError:
-        response["responseDetails"] = _("Service is currently not available.")
+        response["responseDetails"] = gettext("Service is currently not available.")
     else:
         try:
-            response["translations"] = translation_service.translate(
-                unit, request.user, search=search
-            )
+            if search:
+                translations = translation_service.search(unit, search, request.user)
+            else:
+                translations = translation_service.translate(unit, request.user)
+                for plural_form, possible_translations in enumerate(translations):
+                    for item in possible_translations:
+                        item["plural_form"] = plural_form
+                        item["diff"] = differ.highlight(
+                            item["text"], targets[plural_form]
+                        )
+                translations = list(chain.from_iterable(translations))
+            response["translations"] = translations
             response["responseStatus"] = 200
         except MachineTranslationError as exc:
             response["responseDetails"] = str(exc)
         except Exception as error:
-            report_error()
+            report_error(project=component.project)
             response["responseDetails"] = f"{error.__class__.__name__}: {error}"
 
     if response["responseStatus"] != 200:

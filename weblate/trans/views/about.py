@@ -1,24 +1,9 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.db.models import Sum
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 from django.views.generic import TemplateView
 
 from weblate.accounts.models import Profile
@@ -26,12 +11,12 @@ from weblate.metrics.models import Metric
 from weblate.utils.requirements import get_versions_list
 from weblate.utils.stats import GlobalStats
 from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
-from weblate.vcs.ssh import get_key_data
+from weblate.vcs.ssh import get_all_key_data
 
 MENU = (
-    ("index", "about", _("About Weblate")),
-    ("stats", "stats", _("Statistics")),
-    ("keys", "keys", _("Keys")),
+    ("index", "about", gettext_lazy("About Weblate")),
+    ("stats", "stats", gettext_lazy("Statistics")),
+    ("keys", "keys", gettext_lazy("Keys")),
 )
 
 
@@ -41,7 +26,7 @@ class AboutView(TemplateView):
     def page_context(self, context):
         context.update(
             {
-                "title": _("About Weblate"),
+                "title": gettext("About Weblate"),
                 "versions": get_versions_list(),
                 "allow_index": True,
             }
@@ -65,12 +50,12 @@ class StatsView(AboutView):
     page = "stats"
 
     def page_context(self, context):
-        context["title"] = _("Weblate statistics")
+        context["title"] = gettext("Weblate statistics")
 
         stats = GlobalStats()
 
         totals = Profile.objects.aggregate(Sum("translated"))
-        metrics = Metric.objects.get_current(None, Metric.SCOPE_GLOBAL, 0)
+        metrics = Metric.objects.get_current_metric(None, Metric.SCOPE_GLOBAL, 0)
 
         context["total_translations"] = totals["translated__sum"]
         context["stats"] = stats
@@ -95,10 +80,10 @@ class KeysView(AboutView):
     def page_context(self, context):
         context.update(
             {
-                "title": _("Weblate keys"),
+                "title": gettext("Weblate keys"),
                 "gpg_key_id": get_gpg_sign_key(),
                 "gpg_key": get_gpg_public_key(),
-                "ssh_key": get_key_data(),
+                "public_ssh_keys": get_all_key_data(),
                 "allow_index": True,
             }
         )

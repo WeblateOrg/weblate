@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for data exports."""
 
@@ -59,13 +44,13 @@ class ExportsViewTest(FixtureTestCase):
     def test_export_project_stats(self):
         response = self.client.get(reverse("export_stats", kwargs=self.kw_project))
         parsed = json.loads(response.content.decode())
-        self.assertIn("Czech", [i["language"] for i in parsed])
+        self.assertIn("Czech", [i["name"] for i in parsed])
 
     def test_export_project_stats_csv(self):
         response = self.client.get(
             reverse("export_stats", kwargs=self.kw_project), {"format": "csv"}
         )
-        self.assertContains(response, "language,code")
+        self.assertContains(response, "name,code")
 
     def test_data(self):
         response = self.client.get(reverse("data_project", kwargs=self.kw_project))

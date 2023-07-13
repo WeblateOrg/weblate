@@ -1,29 +1,13 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.auth.decorators import permission_required
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.utils.http import urlencode
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.generic import CreateView, UpdateView
 
 from weblate.lang.forms import LanguageForm, PluralForm
@@ -59,7 +43,7 @@ def show_languages(request):
         {
             "allow_index": True,
             "languages": prefetch_stats(sort_objects(languages)),
-            "title": _("Languages"),
+            "title": gettext("Languages"),
             "global_stats": GlobalStats(),
         },
     )
@@ -79,11 +63,11 @@ def show_language(request, lang):
     if request.method == "POST" and user.has_perm("language.edit"):
         if obj.translation_set.exists():
             messages.error(
-                request, _("Remove all translations using this language first.")
+                request, gettext("Remove all translations using this language first.")
             )
         else:
             obj.delete()
-            messages.success(request, _("Language %s removed.") % obj)
+            messages.success(request, gettext("Language %s removed.") % obj)
             return redirect("languages")
 
     last_changes = Change.objects.last_changes(user).filter(language=obj)[:10].preload()
@@ -123,8 +107,8 @@ def show_project(request, lang, project):
     user = request.user
 
     last_changes = (
-        Change.objects.last_changes(user)
-        .filter(language=language_object, project=project_object)[:10]
+        Change.objects.last_changes(user, project=project_object)
+        .filter(language=language_object)[:10]
         .preload()
     )
 

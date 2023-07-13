@@ -73,6 +73,8 @@
 </form>
 
 </div>
+{% else %}
+  <p>{% trans "You don't have permission to start a new translation" %}</p>
 {% endif %}
 
 {% endblock %}

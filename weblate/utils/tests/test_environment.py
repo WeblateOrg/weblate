@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
 
@@ -28,6 +12,7 @@ from weblate.utils.environment import (
     get_env_int,
     get_env_list,
     get_env_map,
+    get_env_ratelimit,
     modify_env_list,
 )
 
@@ -85,14 +70,26 @@ class EnvTest(SimpleTestCase):
     def test_get_env_credentials(self):
         os.environ["WEBLATE_TEST_USERNAME"] = "user"
         os.environ["WEBLATE_TEST_TOKEN"] = "token"
-        self.assertEqual(get_env_credentials("TEST"), ("user", "token", {}))
+        with self.assertRaises(ValueError):
+            get_env_credentials("TEST")
 
         os.environ["WEBLATE_TEST_HOST"] = "host"
         self.assertEqual(
             get_env_credentials("TEST"),
-            (None, None, {"host": {"username": "user", "token": "token"}}),
+            {"host": {"username": "user", "token": "token"}},
         )
 
         del os.environ["WEBLATE_TEST_USERNAME"]
         del os.environ["WEBLATE_TEST_TOKEN"]
         del os.environ["WEBLATE_TEST_HOST"]
+
+    def test_get_env_ratelimit(self):
+        os.environ["RATELIMIT_ANON"] = "1/hour"
+        self.assertEqual(
+            get_env_ratelimit("RATELIMIT_ANON", ""),
+            "1/hour",
+        )
+        os.environ["RATELIMIT_ANON"] = "1"
+        with self.assertRaises(ValueError):
+            get_env_ratelimit("RATELIMIT_ANON", "")
+        del os.environ["RATELIMIT_ANON"]

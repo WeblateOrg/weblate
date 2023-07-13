@@ -1,13 +1,18 @@
 #!/bin/sh
+
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # Packs test data for Weblate
 set -e
 
 # Output directory
-OUT=`pwd`/weblate/trans/tests/data/
+OUT="$(pwd)/weblate/trans/tests/data/"
 
 # Working directory
-WD=`mktemp -d`
-cd $WD
+WD=$(mktemp -d)
+cd "$WD"
 
 # Close bare Git repo
 git clone --bare https://github.com/WeblateOrg/test.git test-base-repo.git
@@ -52,11 +57,11 @@ chmod +x test-base-repo.svn/hooks/pre-revprop-change
 cd test-data
 svn import -m 'Import git files
 
-Zkouška' . file://$WD/test-base-repo.svn/trunk
+Zkouška' . "file://$WD/test-base-repo.svn/trunk"
 cd ..
 # Reset timestamps
-svn propset -r0 --revprop svn:date "2019-01-01T00:44:04.921324Z" file://$WD/test-base-repo.svn/trunk
-svn propset -rHEAD --revprop svn:date "2019-02-02T00:44:04.921324Z" file://$WD/test-base-repo.svn/trunk
+svn propset -r0 --revprop svn:date "2019-01-01T00:44:04.921324Z" "file://$WD/test-base-repo.svn/trunk"
+svn propset -rHEAD --revprop svn:date "2019-02-02T00:44:04.921324Z" "file://$WD/test-base-repo.svn/trunk"
 
 # Pack them
 reproducible_tar() {
@@ -65,9 +70,9 @@ reproducible_tar() {
       --owner=0 --group=0 --numeric-owner \
       -cf "$@"
 }
-reproducible_tar $OUT/test-base-repo.hg.tar test-base-repo.hg
-reproducible_tar $OUT/test-base-repo.git.tar test-base-repo.git
-reproducible_tar $OUT/test-base-repo.svn.tar test-base-repo.svn
+reproducible_tar "$OUT/test-base-repo.hg.tar" test-base-repo.hg
+reproducible_tar "$OUT/test-base-repo.git.tar" test-base-repo.git
+reproducible_tar "$OUT/test-base-repo.svn.tar" test-base-repo.svn
 
 # Remove working dir
-rm -rf $WD
+rm -rf "$WD"

@@ -1,27 +1,13 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """File format specific behavior."""
 
+from weblate.formats.multi import MultiCSVUtf8Format
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import join_plural
 
-from ..multi import MultiCSVUtf8Format
 from .test_formats import AutoFormatTest
 
 TEST_CSV = get_test_file("fr-multi.csv")
@@ -70,7 +56,7 @@ class MultiCSVUtf8FormatTest(AutoFormatTest):
         self.assertEqual(testdata.decode().splitlines(), newdata.decode().splitlines())
 
     def test_edit(self):
-        newdata = super().test_edit()
+        newdata = super()._test_save(self.EDIT_TARGET)
         self.maxDiff = None
         self.assertEqual(
             newdata.decode().splitlines(),
@@ -78,7 +64,7 @@ class MultiCSVUtf8FormatTest(AutoFormatTest):
         )
 
     def test_edit_add(self):
-        newdata = self.test_save(
+        newdata = self._test_save(
             [
                 "Infarctus myocardique",
                 "Infarctus du myocarde",

@@ -3,8 +3,6 @@
 Add-ons
 =======
 
-.. versionadded:: 2.19
-
 Add-ons provide ways to customize and automate the translation workflow.
 Admins can add and manage add-ons from the :guilabel:`Manage` ↓ :guilabel:`Add-ons` menu of each respective
 translation component.
@@ -12,9 +10,9 @@ translation component.
 .. hint::
 
    You can also configure add-ons using :ref:`API <addons-api>`,
-   :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`.
+   :setting:`DEFAULT_ADDONS`, or :wladmin:`install_addon`.
 
-.. image:: /screenshots/addons.png
+.. image:: /screenshots/addons.webp
 
 Built-in add-ons
 ++++++++++++++++
@@ -57,7 +55,7 @@ Automatic translation
                 |                 |                                  |                                                                                                      |
                 |                 |                                  | ``mt`` -- Machine translation                                                                        |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
-                | ``component``   | Components                       | Enter slug of a component to use as source, keep blank to use all components in the current project. |
+                | ``component``   | Component                        | Enter slug of a component to use as source, keep blank to use all components in the current project. |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
                 | ``engines``     | Machine translation engines      |                                                                                                      |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
@@ -204,19 +202,113 @@ Component discovery
 Automatically adds or removes project components based on file changes in the
 version control system.
 
-Triggered each time the VCS is updated, and otherwise similar to
-the :djadmin:`import_project` management command. This way you can track
-multiple translation components within one VCS.
-
 The matching is done using regular expressions
 enabling complex configuration, but some knowledge is required to do so.
 Some examples for common use cases can be found in
 the add-on help section.
 
+The regular expression to match translation files has to contain two named
+groups to match component and language. All named groups in the regular
+expression can be used as variables in the template fields.
+
+You can use Django template markup in all filename fields, for example:
+
+``{{ component }}``
+   Component filename match
+``{{ component|title }}``
+   Component filename with upper case first letter
+``{{ path }}: {{ component }}``
+   Custom match group from the regular expression
+
 Once you hit :guilabel:`Save`, a preview of matching components will be presented,
 from where you can check whether the configuration actually matches your needs:
 
-.. image:: /screenshots/addon-discovery.png
+.. image:: /screenshots/addon-discovery.webp
+
+Component discovery examples
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+One folder per language
+#######################
+
+One folder per language containing translation files for components.
+
+Regular expression:
+   ``(?P<language>[^/.]*)/(?P<component>[^/]*)\.po``
+Matching files:
+   - :file:`cs/application.po`
+   - :file:`cs/website.po`
+   - :file:`de/application.po`
+   - :file:`de/website.po`
+
+Gettext locales layout
+######################
+
+Usual structure for storing gettext PO files.
+
+Regular expression:
+   ``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\.po``
+Matching files:
+   - :file:`locale/cs/LC_MESSAGES/application.po`
+   - :file:`locale/cs/LC_MESSAGES/website.po`
+   - :file:`locale/de/LC_MESSAGES/application.po`
+   - :file:`locale/de/LC_MESSAGES/website.po`
+
+Complex filenames
+#################
+
+Using both component and language name within filename.
+
+Regular expression:
+   ``src/locale/(?P<component>[^/]*)\.(?P<language>[^/.]*)\.po``
+Matching files:
+   - :file:`src/locale/application.cs.po`
+   - :file:`src/locale/website.cs.po`
+   - :file:`src/locale/application.de.po`
+   - :file:`src/locale/website.de.po`
+
+Repeated language code
+######################
+
+Using language in both path and filename.
+
+Regular expression:
+   ``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\.po``
+Matching files:
+   - :file:`locale/cs/application/cs.po`
+   - :file:`locale/cs/website/cs.po`
+   - :file:`locale/de/application/de.po`
+   - :file:`locale/de/website/de.po`
+
+
+Splitted Android strings
+########################
+
+Android resource strings, split into several files.
+
+Regular expression:
+   ``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\.xml``
+Matching files:
+   - :file:`res/values-cs/strings-about.xml`
+   - :file:`res/values-cs/strings-help.xml`
+   - :file:`res/values-de/strings-about.xml`
+   - :file:`res/values-de/strings-help.xml`
+
+Matching multiple paths
+#######################
+
+Multi-module Maven project with Java properties translations.
+
+Regular expression:
+   ``(?P<originalHierarchy>.+/)(?P<component>[^/]*)/src/main/resources/ApplicationResources_(?P<language>[^/.]*)\.properties``
+Component name:
+   ``{{ originalHierarchy }}: {{ component }}``
+Matching files:
+   - :file:`parent/module1/submodule/src/main/resources/ApplicationResources_fr.properties`
+   - :file:`parent/module1/submodule/src/main/resources/ApplicationResource_es.properties`
+   - :file:`parent/module2/src/main/resources/ApplicationResource_de.properties`
+   - :file:`parent/module2/src/main/resources/ApplicationResource_ro.properties`
+
 
 .. hint::
 
@@ -229,7 +321,8 @@ from where you can check whether the configuration actually matches your needs:
 
 .. seealso::
 
-    :ref:`markup`
+   :ref:`markup`,
+   :wladmin:`import_project`
 
 .. _addon-weblate.flags.bulk:
 
@@ -351,6 +444,19 @@ translations created by the developers.
 .. seealso::
 
    :ref:`states`
+
+.. _addon-weblate.generate.fill_read_only:
+
+Fill read-only strings with source
+----------------------------------
+
+.. versionadded:: 4.18
+
+:Add-on ID: ``weblate.generate.fill_read_only``
+:Configuration: `This add-on has no configuration.`
+:Triggers: component update, daily
+
+Fills in translation of read-only strings with source string.
 
 .. _addon-weblate.generate.generate:
 
@@ -493,7 +599,7 @@ The PO file header will look like this:
 
 .. code-block:: po
 
-    # Michal Čihař <michal@cihar.com>, 2012, 2018, 2019, 2020.
+    # Michal Čihař <michal@weblate.org>, 2012, 2018, 2019, 2020.
     # Pavel Borecki <pavel@example.com>, 2018, 2019.
     # Filip Hron <filip@example.com>, 2018, 2019.
     # anonymous <noreply@weblate.org>, 2019.
@@ -568,6 +674,13 @@ Generate MO files
 Automatically generates a MO file for every changed PO file.
 
 The location of the generated MO file can be customized and the field for it uses :ref:`markup`.
+
+.. note::
+
+   If a translation is removed, its PO file will be deleted from the
+   repository, but the MO file generated by this add-on will not.  The MO file
+   must be removed from the upstream manually.
+
 
 .. _addon-weblate.gettext.msgmerge:
 
@@ -739,6 +852,21 @@ Unused strings are removed, and new ones added as copies of the source string.
 
    :ref:`faq-cleanup`
 
+.. _addon-weblate.xml.customize:
+
+Customize XML output
+--------------------
+
+.. versionadded:: 4.15
+
+:Add-on ID: ``weblate.xml.customize``
+:Configuration: +------------------+----------------------------------------+--+
+                | ``closing_tags`` | Include closing tag for blank XML tags |  |
+                +------------------+----------------------------------------+--+
+:Triggers: storage post-load
+
+Allows adjusting XML output behavior, for example closing tags.
+
 .. _addon-weblate.yaml.customize:
 
 Customize YAML output
@@ -828,8 +956,6 @@ Additionally, the following environment variables are available:
 
 .. envvar:: WL_BRANCH
 
-    .. versionadded:: 2.11
-
     Repository branch configured in the current component.
 
 .. envvar:: WL_FILEMASK
@@ -841,8 +967,6 @@ Additionally, the following environment variables are available:
     Filename of template for monolingual translations (can be empty).
 
 .. envvar:: WL_NEW_BASE
-
-    .. versionadded:: 2.14
 
     Filename of the file used for creating new translations (can be
     empty).

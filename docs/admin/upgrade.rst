@@ -62,7 +62,7 @@ work, but is not as well tested as single version upgrades.
         cd weblate-src
         git pull
         # Update Weblate inside your virtualenv
-        . ~/weblate-env/bin/pip install -e .
+        . ~/weblate-env/bin/pip install -e '.[all]'
         # Install dependencies directly when not using virtualenv
         pip install --upgrade -r requirements.txt
         # Install optional dependencies directly when not using virtualenv
@@ -206,7 +206,7 @@ Notable configuration or dependencies changes:
 
 .. versionchanged:: 4.4.1
 
-   * :ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. This will change identification of translation strings in such files breaking links to Weblate extended data such as screenshots or review states. Please make sure you commit pending changes in such files prior upgrading and it is recommended to force loading of affected component using :djadmin:`loadpo`.
+   * :ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. This will change identification of translation strings in such files breaking links to Weblate extended data such as screenshots or review states. Please make sure you commit pending changes in such files prior upgrading and it is recommended to force loading of affected component using :wladmin:`loadpo`.
    * Increased minimal required version of translate-toolkit to address several file format issues.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
@@ -332,6 +332,8 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+.. _up-4-14:
+
 Upgrade from 4.13 to 4.14
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -342,6 +344,86 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
   use ``java-printf-format`` instead of ``java-format`` and ``java-format``
   instead of ``java-messageformat``.
 * The `jellyfish` dependency has been replaced by `rapidfuzz`.
+* **Changed in 4.14.2:** Deprecated insecure configuration of VCS service API
+  keys via _TOKEN/_USERNAME configuration instead of _CREDENTIALS list. In
+  Docker, please add matching _HOST directive. For example see
+  :envvar:`WEBLATE_GITHUB_HOST` and :setting:`GITHUB_CREDENTIALS`.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.14 to 4.15
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Weblate now requires ``btree_gin`` extension in PostgreSQL. The migration process
+  will install it if it has sufficient privileges. See :ref:`dbsetup-postgres` for manual setup.
+* The Docker image no longer enables debug mode by default. In case you want
+  it, enable it in the environment using :envvar:`WEBLATE_DEBUG`.
+* The database migration make take hours on larger instances due to recreating some
+  of the indexes.
+* **Changed in 4.15.1:** The default value for ``DEFAULT_PAGINATION_CLASS`` in
+  rest framework settings was changed.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.15 to 4.16
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Celery beat is now storing the tasks schedule in the database,
+  ``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be
+  changed for that.
+* The deprecated VCS setting for credentials is no longer supported, see :ref:`up-4-14`.
+* Upgrade of `django-crispy-forms` requires changes in :setting:`django:INSTALLED_APPS`.
+* Integration of `django-cors-headers` requires changes in :setting:`django:INSTALLED_APPS` and :setting:`django:MIDDLEWARE`.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.16 to 4.17
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Migration to rewritten metrics storage might take considerable time on larger
+  Weblate instance (expect around 15 minutes per GB of ``metrics_metric``
+  table). To reduce downtime, you can copy
+  :file:`weblate/metrics/migrations/*.py` from Weblate 4.17 to 4.16 and start
+  the migration in the background. Once it is completed, perform full upgrade
+  as usual.
+* Docker container now requires PostgreSQL 12 or newer, please see
+  :ref:`docker-postgres-upgrade` for upgrade instructions. Weblate itself
+  supports older versions as well, when appropriate Django version is installed.
+
+.. warning::
+
+   Migration on MySQL will try to load all metrics into memory due to
+   limitation of the Python database driver. You might need to prune metrics
+   prior to migration if you want to continue using MySQL. Please consider
+   switching to PostgreSQL, see :ref:`database-migration`.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.17 to 4.18
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Dropped support for PostgreSQL 10, 11, MySQL 5.7 and MariaDB 10.2, 10.3.
+* Dropped support for Python 3.7.
+* The :ref:`fluent` format changed identification of some strings, you might
+  need to force reloading of the translation files to see the changes.
+* There are several changes in :file:`settings_example.py`, most notable is change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings accordingly.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.18 to 5.0
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are several changes in :file:`settings_example.py`, most notable is change in ``CACHES``, please adjust your settings accordingly.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -492,4 +574,4 @@ Migrating from Pootle
 
 As Weblate was originally written as replacement from Pootle, it is supported
 to migrate user accounts from Pootle. You can dump the users from Pootle and
-import them using :djadmin:`importusers`.
+import them using :wladmin:`importusers`.

@@ -1,26 +1,10 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for creating projects and models."""
 
-
-from django.test.utils import modify_settings
+from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 
 from weblate.lang.models import get_default_lang
@@ -121,7 +105,8 @@ class CreateTest(ViewTestCase):
             "source_language": get_default_lang(),
         }
         params.update(kwargs)
-        response = self.client.post(reverse("create-component-vcs"), params)
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(reverse("create-component-vcs"), params)
         if result:
             self.assertEqual(response.status_code, 302)
         else:
@@ -180,13 +165,15 @@ class CreateTest(ViewTestCase):
             "repo": self.component.repo,
             "source_language": get_default_lang(),
         }
-        response = self.client.post(reverse("create-component-vcs"), params)
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(reverse("create-component-vcs"), params)
         self.assertContains(response, self.component.get_repo_link_url())
         self.assertContains(response, "po/*.po")
 
         # Display form
         params["discovery"] = "4"
-        response = self.client.post(reverse("create-component-vcs"), params)
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(reverse("create-component-vcs"), params)
         self.assertContains(response, self.component.get_repo_link_url())
         self.assertContains(response, "po/*.po")
 
@@ -196,16 +183,17 @@ class CreateTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-        response = self.client.post(
-            reverse("create-component"),
-            {
-                "origin": "existing",
-                "name": "Create Component",
-                "slug": "create-component",
-                "component": self.component.pk,
-            },
-            follow=True,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(
+                reverse("create-component"),
+                {
+                    "origin": "existing",
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "component": self.component.pk,
+                },
+                follow=True,
+            )
         self.assertContains(response, self.component.get_repo_link_url())
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
@@ -214,17 +202,18 @@ class CreateTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-        response = self.client.post(
-            reverse("create-component"),
-            {
-                "origin": "branch",
-                "name": "Create Component",
-                "slug": "create-component",
-                "component": self.component.pk,
-                "branch": "translations",
-            },
-            follow=True,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(
+                reverse("create-component"),
+                {
+                    "origin": "branch",
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "component": self.component.pk,
+                    "branch": "translations",
+                },
+                follow=True,
+            )
         self.assertContains(response, "The file mask did not match any files")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
@@ -237,24 +226,27 @@ class CreateTest(ViewTestCase):
             project=self.project, name="Android", slug="android"
         )
 
-        response = self.client.post(
-            reverse("create-component"),
-            {
-                "origin": "branch",
-                "name": "Create Component",
-                "slug": "create-component",
-                "component": component.pk,
-                "branch": "translations",
-            },
-            follow=True,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(
+                reverse("create-component"),
+                {
+                    "origin": "branch",
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "component": component.pk,
+                    "branch": "translations",
+                },
+                follow=True,
+            )
         self.assertContains(response, "Return to the component")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_invalid_zip(self):
         self.user.is_superuser = True
         self.user.save()
-        with open(TEST_INVALID_ZIP, "rb") as handle:
+        with open(TEST_INVALID_ZIP, "rb") as handle, override_settings(
+            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        ):
             response = self.client.post(
                 reverse("create-component-zip"),
                 {
@@ -271,7 +263,9 @@ class CreateTest(ViewTestCase):
     def test_create_zip(self):
         self.user.is_superuser = True
         self.user.save()
-        with open(TEST_ZIP, "rb") as handle:
+        with open(TEST_ZIP, "rb") as handle, override_settings(
+            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        ):
             response = self.client.post(
                 reverse("create-component-zip"),
                 {
@@ -284,18 +278,19 @@ class CreateTest(ViewTestCase):
             )
         self.assertContains(response, "*.po")
 
-        response = self.client.post(
-            reverse("create-component-zip"),
-            {
-                "name": "Create Component",
-                "slug": "create-component",
-                "project": self.project.pk,
-                "vcs": "local",
-                "repo": "local:",
-                "discovery": "0",
-                "source_language": get_default_lang(),
-            },
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(
+                reverse("create-component-zip"),
+                {
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "project": self.project.pk,
+                    "vcs": "local",
+                    "repo": "local:",
+                    "discovery": "0",
+                    "source_language": get_default_lang(),
+                },
+            )
         self.assertContains(response, "Adding new translation")
         self.assertContains(response, "*.po")
 
@@ -303,7 +298,9 @@ class CreateTest(ViewTestCase):
     def test_create_doc(self):
         self.user.is_superuser = True
         self.user.save()
-        with open(TEST_HTML, "rb") as handle:
+        with open(TEST_HTML, "rb") as handle, override_settings(
+            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        ):
             response = self.client.post(
                 reverse("create-component-doc"),
                 {
@@ -316,23 +313,25 @@ class CreateTest(ViewTestCase):
             )
         self.assertContains(response, "*.html")
 
-        response = self.client.post(
-            reverse("create-component-doc"),
-            {
-                "name": "Create Component",
-                "slug": "create-component",
-                "project": self.project.pk,
-                "vcs": "local",
-                "repo": "local:",
-                "discovery": "0",
-                "source_language": get_default_lang(),
-            },
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(
+                reverse("create-component-doc"),
+                {
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "project": self.project.pk,
+                    "vcs": "local",
+                    "repo": "local:",
+                    "discovery": "0",
+                    "source_language": get_default_lang(),
+                },
+            )
         self.assertContains(response, "Adding new translation")
         self.assertContains(response, "*.html")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_scratch(self):
+        @override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES)
         def create():
             return self.client.post(
                 reverse("create-component"),
@@ -363,18 +362,19 @@ class CreateTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-        response = self.client.post(
-            reverse("create-component"),
-            {
-                "origin": "scratch",
-                "name": "Create Component",
-                "slug": "create-component",
-                "project": self.project.pk,
-                "file_format": "aresource",
-                "source_language": get_default_lang(),
-            },
-            follow=True,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(
+                reverse("create-component"),
+                {
+                    "origin": "scratch",
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "project": self.project.pk,
+                    "file_format": "aresource",
+                    "source_language": get_default_lang(),
+                },
+                follow=True,
+            )
         self.assertContains(response, "Test/Create Component")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
@@ -383,18 +383,19 @@ class CreateTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-        response = self.client.post(
-            reverse("create-component"),
-            {
-                "origin": "scratch",
-                "name": "Create Component",
-                "slug": "create-component",
-                "project": self.project.pk,
-                "file_format": "po",
-                "source_language": get_default_lang(),
-            },
-            follow=True,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(
+                reverse("create-component"),
+                {
+                    "origin": "scratch",
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "project": self.project.pk,
+                    "file_format": "po",
+                    "source_language": get_default_lang(),
+                },
+                follow=True,
+            )
         self.assertContains(response, "Test/Create Component")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
@@ -403,16 +404,17 @@ class CreateTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-        response = self.client.post(
-            reverse("create-component"),
-            {
-                "origin": "scratch",
-                "name": "Create Component",
-                "slug": "create-component",
-                "project": self.project.pk,
-                "file_format": "strings",
-                "source_language": get_default_lang(),
-            },
-            follow=True,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(
+                reverse("create-component"),
+                {
+                    "origin": "scratch",
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "project": self.project.pk,
+                    "file_format": "strings",
+                    "source_language": get_default_lang(),
+                },
+                follow=True,
+            )
         self.assertContains(response, "Test/Create Component")

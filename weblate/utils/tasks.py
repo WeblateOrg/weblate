@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import gzip
 import os
@@ -96,7 +81,7 @@ def database_backup():
         compress = settings.DATABASE_BACKUP == "compressed"
 
         out_compressed = data_dir("backups", "database.sql.gz")
-        out_plain = data_dir("backups", "database.sql")
+        out_text = data_dir("backups", "database.sql")
 
         if using_postgresql():
             cmd = ["pg_dump", "--dbname", database["NAME"]]
@@ -112,14 +97,14 @@ def database_backup():
                 cmd.extend(["--compress", "6"])
                 compress = False
             else:
-                cmd.extend(["--file", out_plain])
+                cmd.extend(["--file", out_text])
 
             env["PGPASSWORD"] = database["PASSWORD"]
         else:
             cmd = [
                 "mysqldump",
                 "--result-file",
-                out_plain,
+                out_text,
                 "--single-transaction",
                 "--skip-lock-tables",
             ]
@@ -155,10 +140,9 @@ def database_backup():
             raise
 
         if compress:
-            with open(out_plain, "rb") as f_in:
-                with gzip.open(out_compressed, "wb") as f_out:
-                    shutil.copyfileobj(f_in, f_out)
-            os.unlink(out_plain)
+            with open(out_text, "rb") as f_in, gzip.open(out_compressed, "wb") as f_out:
+                shutil.copyfileobj(f_in, f_out)
+            os.unlink(out_text)
 
 
 @app.on_after_finalize.connect

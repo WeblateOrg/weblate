@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import difflib
 
@@ -24,7 +9,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
 from PIL import Image
@@ -42,6 +27,7 @@ try:
         from tesserocr import RIL, PyTessBaseAPI
     HAS_OCR = True
 except ImportError:
+    PyTessBaseAPI = None
     HAS_OCR = False
 
 
@@ -85,7 +71,7 @@ class ScreenshotList(ListView, ComponentViewMixin):
     def post(self, request, **kwargs):
         component = self.get_component()
         if not request.user.has_perm("screenshot.add", component):
-            raise PermissionDenied()
+            raise PermissionDenied
         self._add_form = ScreenshotForm(component, request.POST, request.FILES)
         if self._add_form.is_valid():
             obj = Screenshot.objects.create(
@@ -101,14 +87,14 @@ class ScreenshotList(ListView, ComponentViewMixin):
             try_add_source(request, obj)
             messages.success(
                 request,
-                _(
+                gettext(
                     "Screenshot has been uploaded, "
                     "you can now assign it to source strings."
                 ),
             )
             return redirect(obj)
         messages.error(
-            request, _("Failed to upload screenshot, please fix errors below.")
+            request, gettext("Failed to upload screenshot, please fix errors below.")
         )
         return self.get(request, **kwargs)
 
@@ -159,13 +145,13 @@ def delete_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
     component = obj.translation.component
     if not request.user.has_perm("screenshot.delete", obj.translation):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     kwargs = {"project": component.project.slug, "component": component.slug}
 
     obj.delete()
 
-    messages.success(request, _("Screenshot %s has been deleted.") % obj.name)
+    messages.success(request, gettext("Screenshot %s has been deleted.") % obj.name)
 
     return redirect("screenshots", **kwargs)
 
@@ -173,7 +159,7 @@ def delete_screenshot(request, pk):
 def get_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
     if not request.user.has_perm("screenshot.edit", obj.translation.component):
-        raise PermissionDenied()
+        raise PermissionDenied
     return obj
 
 
@@ -184,7 +170,7 @@ def remove_source(request, pk):
 
     obj.units.remove(request.POST["source"])
 
-    messages.success(request, _("Source has been removed."))
+    messages.success(request, gettext("Source has been removed."))
 
     return redirect(obj)
 
@@ -233,16 +219,20 @@ def search_source(request, pk):
     )
 
 
-def ocr_extract(api, image, strings):
-    """Extract closes matches from an image."""
+def ocr_get_strings(api, image):
     api.SetImage(image)
     for item in api.GetComponentImages(RIL.TEXTLINE, True):
         api.SetRectangle(item[1]["x"], item[1]["y"], item[1]["w"], item[1]["h"])
-        ocr_result = api.GetUTF8Text()
-        parts = [ocr_result] + ocr_result.split("|") + ocr_result.split()
+        yield api.GetUTF8Text()
+    api.Clear()
+
+
+def ocr_extract(api, image, strings):
+    """Extract closes matches from an image."""
+    for ocr_result in ocr_get_strings(api, image):
+        parts = [ocr_result, *ocr_result.split("|"), *ocr_result.split()]
         for part in parts:
             yield from difflib.get_close_matches(part, strings, cutoff=0.9)
-    api.Clear()
 
 
 @login_required

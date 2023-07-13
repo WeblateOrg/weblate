@@ -1,34 +1,22 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
+
 import os.path
 import shutil
 import sys
 from datetime import timedelta
 from tarfile import TarFile
 from tempfile import mkdtemp
-from typing import Set
 from unittest import SkipTest
 
 from celery.contrib.testing.tasks import ping
 from celery.result import allow_join_result
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
+from django.test.utils import override_settings
 from django.utils import timezone
 from django.utils.functional import cached_property
 
@@ -78,12 +66,14 @@ def create_another_user():
 class RepoTestMixin:
     """Mixin for testing with test repositories."""
 
-    updated_base_repos: Set[str] = set()
+    updated_base_repos: set[str] = set()
+    CREATE_GLOSSARIES: bool = False
 
     local_repo_path = "local:"
 
     def optional_extract(self, output, tarname):
-        """Extract test repository data if needed.
+        """
+        Extract test repository data if needed.
 
         Checks whether directory exists or is older than archive.
         """
@@ -92,7 +82,6 @@ class RepoTestMixin:
         if not os.path.exists(output) or os.path.getmtime(output) < os.path.getmtime(
             tarname
         ):
-
             # Remove directory if outdated
             if os.path.exists(output):
                 remove_tree(output)
@@ -224,18 +213,19 @@ class RepoTestMixin:
             else:
                 branch = VCS_REGISTRY[vcs].get_remote_branch(repo)
 
-        return Component.objects.create(
-            repo=repo,
-            push=push,
-            branch=branch,
-            filemask=mask,
-            template=template,
-            file_format=file_format,
-            repoweb=REPOWEB_URL,
-            new_base=new_base,
-            vcs=vcs,
-            **kwargs,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            return Component.objects.create(
+                repo=repo,
+                push=push,
+                branch=branch,
+                filemask=mask,
+                template=template,
+                file_format=file_format,
+                repoweb=REPOWEB_URL,
+                new_base=new_base,
+                vcs=vcs,
+                **kwargs,
+            )
 
     @staticmethod
     def configure_mt():
@@ -404,29 +394,31 @@ class RepoTestMixin:
 
     def create_link(self, **kwargs):
         parent = self.create_iphone(*kwargs)
-        return Component.objects.create(
-            name="Test2",
-            slug="test2",
-            project=parent.project,
-            repo="weblate://test/test",
-            file_format="po",
-            filemask="po/*.po",
-            new_lang="contact",
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            return Component.objects.create(
+                name="Test2",
+                slug="test2",
+                project=parent.project,
+                repo="weblate://test/test",
+                file_format="po",
+                filemask="po/*.po",
+                new_lang="contact",
+            )
 
     def create_link_existing(self):
         component = self.component
         if "linked_childs" in component.__dict__:
             del component.__dict__["linked_childs"]
-        return Component.objects.create(
-            name="Test2",
-            slug="test2",
-            project=self.project,
-            repo=component.get_repo_link_url(),
-            file_format="po",
-            filemask="po-duplicates/*.dpo",
-            new_lang="contact",
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            return Component.objects.create(
+                name="Test2",
+                slug="test2",
+                project=self.project,
+                repo=component.get_repo_link_url(),
+                file_format="po",
+                filemask="po-duplicates/*.dpo",
+                new_lang="contact",
+            )
 
 
 class TempDirMixin:

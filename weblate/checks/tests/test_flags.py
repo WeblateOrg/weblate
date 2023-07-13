@@ -1,26 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 
 from weblate.checks.flags import TYPED_FLAGS, TYPED_FLAGS_ARGS, Flags
+from weblate.trans.defines import VARIANT_KEY_LENGTH
 
 
 class FlagTest(SimpleTestCase):
@@ -115,6 +101,7 @@ class FlagTest(SimpleTestCase):
         values = flags.get_value("placeholders")
         self.assertEqual(len(values), 1)
         self.assertEqual(values[0].pattern, ".*")
+        self.assertEqual(flags.format(), 'placeholders:r".*"')
 
     def test_whitespace(self):
         self.assertEqual(Flags("  foo    , bar  ").items(), {"foo", "bar"})
@@ -181,3 +168,10 @@ class FlagTest(SimpleTestCase):
         self.assertEqual(
             flags.format(), r'''variant:"Long string with \"quotes\" and 'quotes'."'''
         )
+
+    def test_validate_variant(self):
+        name = "x" * VARIANT_KEY_LENGTH
+        Flags(f"variant:{name}").validate()
+        name = "x" * (VARIANT_KEY_LENGTH + 1)
+        with self.assertRaises(ValidationError):
+            Flags(f"variant:{name}").validate()

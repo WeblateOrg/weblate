@@ -1,28 +1,46 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-from unittest import TestCase
+from unittest import SkipTest, TestCase
 
-from weblate.utils.db import re_escape
+from weblate.trans.models import Unit
+from weblate.utils.db import re_escape, using_postgresql
+
+BASE_SQL = 'SELECT "trans_unit"."id" FROM "trans_unit" WHERE '
 
 
 class DbTest(TestCase):
     def test_re_escape(self):
         self.assertEqual(re_escape("[a-z]"), "\\[a\\-z\\]")
         self.assertEqual(re_escape("a{1,4}"), "a\\{1,4\\}")
+
+
+class PostgreSQLOperatorTesT(TestCase):
+    def setUp(self):
+        if not using_postgresql():
+            raise SkipTest("PostgreSQL only test.")
+
+    def test_search(self):
+        queryset = Unit.objects.filter(source__search="test").only("id")
+        self.assertEqual(
+            str(queryset.query),
+            BASE_SQL + '"trans_unit"."source" % test = true',
+        )
+        queryset = Unit.objects.filter(source__search="'''").only("id")
+        self.assertEqual(
+            str(queryset.query),
+            BASE_SQL + """"trans_unit"."source"::text || '' LIKE %'''%""",
+        )
+
+    def test_substring(self):
+        queryset = Unit.objects.filter(source__substring="test").only("id")
+        self.assertEqual(
+            str(queryset.query),
+            BASE_SQL + '"trans_unit"."source" ILIKE %test%',
+        )
+        queryset = Unit.objects.filter(source__substring="'''").only("id")
+        self.assertEqual(
+            str(queryset.query),
+            BASE_SQL + """"trans_unit"."source"::text || '' LIKE %'''%""",
+        )

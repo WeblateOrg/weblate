@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import csv
 
@@ -25,9 +10,7 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.http import urlencode
-from django.utils.translation import activate
-from django.utils.translation import gettext as _
-from django.utils.translation import pgettext
+from django.utils.translation import activate, gettext, pgettext
 from django.views.generic.list import ListView
 
 from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
@@ -56,6 +39,7 @@ class ChangesView(ListView):
         self.actions = set()
         self.start_date = None
         self.end_date = None
+        self.changes_form = None
 
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
@@ -120,8 +104,7 @@ class ChangesView(ListView):
                 )
 
         url = list(url.items())
-        for action in self.actions:
-            url.append(("action", action))
+        url.extend(("action", action) for action in self.actions)
 
         if self.start_date:
             url.append(("start_date", self.start_date.date()))
@@ -134,7 +117,7 @@ class ChangesView(ListView):
 
         context["query_string"] = urlencode(url)
 
-        context["form"] = ChangesForm(self.request, data=self.request.GET)
+        context["form"] = self.changes_form
 
         context["search_items"] = url
 
@@ -152,7 +135,7 @@ class ChangesView(ListView):
                 form.cleaned_data.get("lang"),
             )
         except Http404:
-            messages.error(self.request, _("Failed to find matching project!"))
+            messages.error(self.request, gettext("Failed to find matching project!"))
 
     def _get_unit(self, form):
         unit = form.cleaned_data.get("string")
@@ -168,7 +151,9 @@ class ChangesView(ListView):
             try:
                 self.language = Language.objects.get(code=form.cleaned_data["lang"])
             except Language.DoesNotExist:
-                messages.error(self.request, _("Failed to find matching language!"))
+                messages.error(
+                    self.request, gettext("Failed to find matching language!")
+                )
 
     def _get_queryset_user(self, form):
         """Filtering by user."""
@@ -176,10 +161,10 @@ class ChangesView(ListView):
             try:
                 self.user = User.objects.get(username=form.cleaned_data["user"])
             except User.DoesNotExist:
-                messages.error(self.request, _("Failed to find matching user!"))
+                messages.error(self.request, gettext("Failed to find matching user!"))
 
     def _get_request_params(self):
-        form = ChangesForm(self.request, data=self.request.GET)
+        self.changes_form = form = ChangesForm(self.request, data=self.request.GET)
         if form.is_valid():
             if "action" in form.cleaned_data:
                 self.actions.update(form.cleaned_data["action"])
@@ -201,17 +186,12 @@ class ChangesView(ListView):
             self._get_queryset_user(form)
 
             self._get_request_params()
+        else:
+            self.changes_form = ChangesForm(self.request, data=self.request.GET)
 
-        result = Change.objects.last_changes(self.request.user)
-
-        if self.unit is not None:
-            result = result.filter(unit=self.unit)
-        elif self.translation is not None:
-            result = result.filter(translation=self.translation)
-        elif self.component is not None:
-            result = result.filter(component=self.component)
-        elif self.project is not None:
-            result = result.filter(project=self.project)
+        result = Change.objects.last_changes(
+            self.request.user, self.unit, self.translation, self.component, self.project
+        )
 
         if self.language is not None:
             result = result.filter(language=self.language)
@@ -231,6 +211,8 @@ class ChangesView(ListView):
         return result
 
     def paginate_queryset(self, queryset, page_size):
+        if not self.changes_form.is_valid():
+            queryset = queryset.none()
         paginator, page, queryset, is_paginated = super().paginate_queryset(
             queryset, page_size
         )
@@ -255,7 +237,7 @@ class ChangesCSVView(ChangesView):
                     break
 
         if not request.user.has_perm("change.download", acl_obj):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         # Always output in english
         activate("en")
@@ -290,15 +272,15 @@ def show_change(request, pk):
     change = get_object_or_404(Change, pk=pk)
     acl_obj = change.translation or change.component or change.project
     if not request.user.has_perm("unit.edit", acl_obj):
-        raise PermissionDenied()
+        raise PermissionDenied
     others = request.GET.getlist("other")
     changes = None
     if others:
-        changes = Change.objects.filter(pk__in=others + [change.pk])
+        changes = Change.objects.filter(pk__in=[*others, change.pk])
         for change in changes:
             acl_obj = change.translation or change.component or change.project
             if not request.user.has_perm("unit.edit", acl_obj):
-                raise PermissionDenied()
+                raise PermissionDenied
     if change.action not in NOTIFICATIONS_ACTIONS:
         content = ""
     else:

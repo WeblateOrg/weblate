@@ -1,25 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 import os
-from typing import List
 
+from celery.schedules import crontab
 from django.db import Error as DjangoDatabaseError
 from django.db import transaction
 from django.db.models import Q
@@ -47,7 +34,7 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
     for filename in files.splitlines():
         filename = filename.strip()
         try:
-            if filename.startswith("http://") or filename.startswith("https://"):
+            if filename.startswith(("http://", "https://")):
                 with request("get", filename) as handle:
                     content = handle.text
             else:
@@ -83,7 +70,7 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
 
 
 @app.task(trail=False)
-def language_consistency(project_id: int, language_ids: List[int]):
+def language_consistency(project_id: int, language_ids: list[int]):
     project = Project.objects.get(pk=project_id)
     languages = Language.objects.filter(id__in=language_ids)
 
@@ -119,6 +106,14 @@ def daily_addons():
                 handle_addon_error(addon, addon.component)
 
 
+@app.task(trail=False)
+def postconfigure_addon(addon_id: int):
+    addon = Addon.objects.get(pk=addon_id)
+    addon.addon.post_configure_run()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(3600 * 24, daily_addons.s(), name="daily-addons")
+    sender.add_periodic_task(
+        crontab(hour=4, minute=45), daily_addons.s(), name="daily-addons"
+    )

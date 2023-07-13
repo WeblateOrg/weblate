@@ -1,29 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import csv
 
 from django.http import HttpResponse, JsonResponse
 
 from weblate.api.serializers import StatisticsSerializer
-from weblate.trans.stats import get_project_stats
 from weblate.utils.views import get_component, get_project
 
 
@@ -32,68 +15,52 @@ def export_stats_project(request, project):
     obj = get_project(request, project)
 
     return export_response(
-        request,
-        f"stats-{obj.slug}.csv",
-        (
-            "language",
-            "code",
-            "total",
-            "translated",
-            "translated_percent",
-            "total_words",
-            "translated_words",
-            "translated_words_percent",
-            "total_chars",
-            "translated_chars",
-            "translated_chars_percent",
-        ),
-        get_project_stats(obj),
+        request, f"stats-{obj.slug}.csv", obj.stats.get_language_stats()
     )
 
 
 def export_stats(request, project, component):
     """Export stats in JSON format."""
-    subprj = get_component(request, project, component)
-    translations = subprj.translation_set.order_by("language_code")
+    component = get_component(request, project, component)
+    translations = component.translation_set.order_by("language_code")
 
     return export_response(
-        request,
-        f"stats-{subprj.project.slug}-{subprj.slug}.csv",
-        (
-            "name",
-            "code",
-            "total",
-            "translated",
-            "translated_percent",
-            "translated_words_percent",
-            "total_words",
-            "translated_words",
-            "total_chars",
-            "translated_chars",
-            "translated_chars_percent",
-            "failing",
-            "failing_percent",
-            "fuzzy",
-            "fuzzy_percent",
-            "url_translate",
-            "url",
-            "translate_url",
-            "last_change",
-            "last_author",
-            "recent_changes",
-            "readonly",
-            "readonly_percent",
-            "approved",
-            "approved_percent",
-            "suggestions",
-            "comments",
-        ),
-        StatisticsSerializer(translations, many=True).data,
+        request, f"stats-{component.project.slug}-{component.slug}.csv", translations
     )
 
 
-def export_response(request, filename, fields, data):
+def export_response(request, filename, objects):
     """Generic handler for stats exports."""
+    fields = (
+        "name",
+        "code",
+        "total",
+        "translated",
+        "translated_percent",
+        "translated_words_percent",
+        "total_words",
+        "translated_words",
+        "total_chars",
+        "translated_chars",
+        "translated_chars_percent",
+        "failing",
+        "failing_percent",
+        "fuzzy",
+        "fuzzy_percent",
+        "url_translate",
+        "url",
+        "translate_url",
+        "last_change",
+        "last_author",
+        "recent_changes",
+        "readonly",
+        "readonly_percent",
+        "approved",
+        "approved_percent",
+        "suggestions",
+        "comments",
+    )
+    data = StatisticsSerializer(objects, many=True).data
     output = request.GET.get("format", "json")
     if output not in ("json", "csv"):
         output = "json"

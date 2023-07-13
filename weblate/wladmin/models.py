@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
 
@@ -23,6 +8,7 @@ import dateutil.parser
 from appconf import AppConf
 from django.conf import settings
 from django.contrib.admin import ModelAdmin
+from django.core.cache import cache
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy
@@ -39,6 +25,7 @@ from weblate.utils.backup import (
     prune,
     supports_cleanup,
 )
+from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.requests import request
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
@@ -66,7 +53,9 @@ class ConfigurationError(models.Model):
     ignored = models.BooleanField(default=False, db_index=True)
 
     class Meta:
-        index_together = [("ignored", "timestamp")]
+        indexes = [
+            models.Index(fields=["ignored", "timestamp"]),
+        ]
         verbose_name = "Configuration error"
         verbose_name_plural = "Configuration errors"
 
@@ -97,6 +86,7 @@ class SupportStatus(models.Model):
     expiry = models.DateTimeField(db_index=True, null=True)
     in_limits = models.BooleanField(default=True)
     discoverable = models.BooleanField(default=False)
+    limits = models.JSONField(default=dict)
 
     objects = SupportStatusManager()
 
@@ -147,10 +137,42 @@ class SupportStatus(models.Model):
         self.name = payload["name"]
         self.expiry = dateutil.parser.parse(payload["expiry"])
         self.in_limits = payload["in_limits"]
+        self.limits = payload["limits"]
         if payload["backup_repository"]:
             BackupService.objects.get_or_create(
                 repository=payload["backup_repository"], defaults={"enabled": False}
             )
+        # Invalidate support status cache
+        cache.delete(SUPPORT_STATUS_CACHE_KEY)
+
+    def get_limits_details(self):
+        stats = GlobalStats()
+        current_values = {
+            "hosted_words": stats.all_words,
+            "source_strings": stats.source_strings,
+            "projects": Project.objects.count(),
+            "languages": stats.languages,
+        }
+        names = {
+            "hosted_words": gettext_lazy("Hosted words"),
+            "source_strings": gettext_lazy("Source strings"),
+            "projects": gettext_lazy("Projects"),
+            "languages": gettext_lazy("Languages"),
+        }
+        result = []
+        for limit, value in self.limits.items():
+            if not value or limit not in names:
+                continue
+            current = current_values[limit]
+            result.append(
+                {
+                    "name": names[limit],
+                    "limit": value,
+                    "current": current,
+                    "in_limit": current < value,
+                }
+            )
+        return result
 
 
 class BackupService(models.Model):

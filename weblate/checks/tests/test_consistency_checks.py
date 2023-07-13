@@ -1,31 +1,23 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for consistency checks."""
 
 from django.test import TestCase
 
-from weblate.checks.consistency import PluralsCheck, SamePluralsCheck, TranslatedCheck
+from weblate.checks.consistency import (
+    ConsistencyCheck,
+    PluralsCheck,
+    ReusedCheck,
+    SamePluralsCheck,
+    TranslatedCheck,
+)
 from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.models import Change
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class PluralsCheckTest(TestCase):
@@ -112,3 +104,75 @@ class TranslatedCheckTest(ViewTestCase):
             self.check.get_description(check),
             'Previous translation was "Nazdar svete!\n".',
         )
+
+
+class ConsistencyCheckTest(ViewTestCase):
+    def setUp(self):
+        super().setUp()
+        self.other = self.create_link_existing()
+        self.translation_1 = self.component.translation_set.get(language__code="cs")
+        self.translation_2 = self.other.translation_set.get(language__code="cs")
+        self._id_hash = 1000
+
+    def add_unit(
+        self,
+        translation,
+        context: str,
+        source: str,
+        target: str,
+        increment: bool = True,
+    ):
+        if increment:
+            self._id_hash += 1
+        return translation.unit_set.create(
+            id_hash=self._id_hash,
+            position=self._id_hash,
+            context=context,
+            source=source,
+            target=target,
+            state=STATE_TRANSLATED,
+        )
+
+    def test_reuse(self):
+        check = ReusedCheck()
+        self.assertEqual(check.check_component(self.component), [])
+
+        # Add non-triggering units
+        unit = self.add_unit(self.translation_1, "one", "One", "Jeden")
+        unit = self.add_unit(self.translation_2, "one", "One", "Jeden", increment=False)
+        self.assertFalse(check.check_target_unit([], [], unit))
+        self.assertEqual(check.check_component(self.component), [])
+
+        # Add triggering unit
+        unit = self.add_unit(self.translation_2, "two", "Two", "Jeden")
+        self.assertTrue(check.check_target_unit([], [], unit))
+
+        self.assertNotEqual(check.check_component(self.component), [])
+
+    def test_reuse_nocontext(self):
+        check = ReusedCheck()
+        self.assertEqual(check.check_component(self.component), [])
+
+        # Add non-triggering units
+        unit = self.add_unit(self.translation_1, "", "One", "Jeden")
+        unit = self.add_unit(self.translation_2, "", "One", "Jeden", increment=False)
+        self.assertFalse(check.check_target_unit([], [], unit))
+        self.assertEqual(check.check_component(self.component), [])
+
+        # Add triggering unit
+        unit = self.add_unit(self.translation_2, "", "Two", "Jeden")
+        self.assertTrue(check.check_target_unit([], [], unit))
+
+        self.assertNotEqual(check.check_component(self.component), [])
+
+    def test_consistency(self):
+        check = ConsistencyCheck()
+        self.assertEqual(check.check_component(self.component), [])
+
+        # Add triggering units
+        unit = self.add_unit(self.translation_1, "one", "One", "Jeden")
+        self.assertFalse(check.check_target_unit([], [], unit))
+        unit = self.add_unit(self.translation_2, "one", "One", "Jedna", increment=False)
+        self.assertTrue(check.check_target_unit([], [], unit))
+
+        self.assertNotEqual(check.check_component(self.component), [])

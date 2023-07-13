@@ -1,9 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 name: Test
 
 on:
   push:
     branches-ignore:
-    - dependabot/**
     - deepsource-fix-**
     - renovate/**
     - weblate
@@ -17,11 +20,10 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         python-version:
-        - '3.7'
         - '3.8'
         - '3.9'
         - '3.10'
@@ -30,25 +32,19 @@ jobs:
         database: [postgresql]
         include:
           # Reduced testing for mysql
-        - python-version: 3.7
-          requirements: minimal
-          database: mysql
-        - python-version: 3.9
+        - python-version: 3.11
           requirements: latest
           database: mysql
           # Reduced testing for mariadb
-        - python-version: 3.7
-          requirements: minimal
-          database: mariadb
-        - python-version: 3.9
+        - python-version: 3.11
           requirements: latest
           database: mariadb
           # Reduced testing for minimal deps
-        - python-version: 3.7
+        - python-version: 3.8
           requirements: minimal
           database: postgresql
           # Reduced testing for edge deps
-        - python-version: 3.9
+        - python-version: 3.11
           requirements: edge
           database: postgresql
     name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
@@ -99,7 +95,7 @@ jobs:
       run: |
         coverage combine
         coverage xml
-    - uses: codecov/codecov-action@v3.1.1
+    - uses: codecov/codecov-action@v3.1.4
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: unittests
@@ -111,7 +107,7 @@ jobs:
       run: |
         curl https://deepsource.io/cli | sh
         ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
-    - uses: actions/upload-artifact@v3.1.1
+    - uses: actions/upload-artifact@v3.1.2
       if: always()
       with:
         name: Screenshots

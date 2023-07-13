@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from datetime import timedelta
 
@@ -76,28 +60,40 @@ class ReportsTest(BaseReportsTest):
             None,
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1),
+            "",
             translation__component=self.component,
         )
         self.assertEqual(data, [])
 
     def test_credits_one(self, expected_count=1):
         self.add_change()
+        expected = [
+            {"Czech": [("weblate@example.org", "Weblate <b>Test</b>", expected_count)]}
+        ]
         data = generate_credits(
             None,
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1),
+            "",
             translation__component=self.component,
         )
-        self.assertEqual(
-            data,
-            [
-                {
-                    "Czech": [
-                        ("weblate@example.org", "Weblate <b>Test</b>", expected_count)
-                    ]
-                }
-            ],
+        self.assertEqual(data, expected)
+        data = generate_credits(
+            None,
+            timezone.now() - timedelta(days=1),
+            timezone.now() + timedelta(days=1),
+            "cs",
+            translation__component=self.component,
         )
+        self.assertEqual(data, expected)
+        data = generate_credits(
+            None,
+            timezone.now() - timedelta(days=1),
+            timezone.now() + timedelta(days=1),
+            "de",
+            translation__component=self.component,
+        )
+        self.assertEqual(data, [])
 
     def test_credits_more(self):
         self.edit_unit("Hello, world!\n", "Nazdar svete2!\n")
@@ -109,6 +105,15 @@ class ReportsTest(BaseReportsTest):
             None,
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1),
+            "",
+            component=self.component,
+        )
+        self.assertEqual(data, COUNTS_DATA)
+        data = generate_counts(
+            None,
+            timezone.now() - timedelta(days=1),
+            timezone.now() + timedelta(days=1),
+            "cs",
             component=self.component,
         )
         self.assertEqual(data, COUNTS_DATA)

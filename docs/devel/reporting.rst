@@ -6,12 +6,26 @@ period. A summary of contributions to any given component over time is
 provided. The reporting tool is found in the :guilabel:`Insights` menu of any
 translation component, project or on the dashboard:
 
-.. image:: /screenshots/reporting.png
+.. image:: /screenshots/reporting.webp
 
 Several reporting tools are available on this page and all can produce output
 in HTML, reStructuredText or JSON. The first two formats are suitable for
 embedding statistics into existing documentation, while JSON is useful for further
 processing of the data.
+
+Number of words
+---------------
+
+A word is any sequence of characters (letters, numerics, special characters) between whitespace (spaces, tabs, newlines).
+In the example string below, the word count is 9.
+
+.. code-block:: text
+
+   I've just realized that they have 5 %(color)s cats.
+
+
+For plural strings, the number of words is counted as the sum of words for all
+plural forms.
 
 .. _credits:
 

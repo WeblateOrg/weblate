@@ -1,29 +1,15 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 from datetime import timedelta
-from typing import Dict
 
 from django.conf import settings
 from django.utils import timezone
 
-from .base import MachineTranslation
+from .base import MachineTranslation, MachineTranslationError
 from .forms import MicrosoftMachineryForm
 
 TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken?Subscription-Key={2}"
@@ -48,19 +34,17 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         "bs-latn": "bs-Latn",
         "sr-latn": "sr-Latn",
         "sr-cyrl": "sr-Cyrl",
+        "mn": "mn-Mong",
     }
 
-    def __init__(self, settings: Dict[str, str]):
+    def __init__(self, settings: dict[str, str]):
         """Check configuration."""
         super().__init__(settings)
         self._access_token = None
         self._token_expiry = None
 
         # check settings for Microsoft region prefix
-        if not self.settings["region"]:
-            region = ""
-        else:
-            region = f"{self.settings['region']}."
+        region = "" if not self.settings["region"] else f"{self.settings['region']}."
 
         self._cognitive_token_url = TOKEN_URL.format(
             region,
@@ -104,7 +88,8 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         return super().map_language_code(code).replace("_", "-")
 
     def download_languages(self):
-        """Download list of supported languages from a service.
+        """
+        Download list of supported languages from a service.
 
         Example of the response:
 
@@ -124,7 +109,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
         # We should get an object, string usually means an error
         if isinstance(payload, str):
-            raise Exception(payload)
+            raise MachineTranslationError(payload)
 
         return payload["translation"].keys()
 
@@ -135,7 +120,6 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
     ):
         """Download list of possible translations from a service."""

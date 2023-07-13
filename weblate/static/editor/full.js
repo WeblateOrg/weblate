@@ -1,3 +1,7 @@
+// Copyright © Michal Čihař <michal@weblate.org>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 (function () {
   var EditorBase = WLT.Editor.Base;
 
@@ -18,9 +22,11 @@
     /* Copy machinery results */
     this.$editor.on("click", ".js-copy-machinery", (e) => {
       var $el = $(e.target);
-      var text = $el.parent().parent().data("raw").text;
+      var raw = $el.parent().parent().data("raw");
 
-      this.$translationArea.replaceValue(text);
+      raw.plural_forms.forEach((plural_form) => {
+        $(this.$translationArea.get(plural_form)).replaceValue(raw.text);
+      });
       autosize.update(this.$translationArea);
       WLT.Utils.markFuzzy(this.$translationForm);
     });
@@ -28,9 +34,11 @@
     /* Copy and save machinery results */
     this.$editor.on("click", ".js-copy-save-machinery", (e) => {
       var $el = $(e.target);
-      var text = $el.parent().parent().data("raw").text;
+      var raw = $el.parent().parent().data("raw");
 
-      this.$translationArea.replaceValue(text);
+      raw.plural_forms.forEach((plural_form) => {
+        $(this.$translationArea.get(plural_form)).replaceValue(raw.text);
+      });
       autosize.update(this.$translationArea);
       WLT.Utils.markTranslated(this.$translationForm);
       submitForm({ target: this.$translationArea });
@@ -98,9 +106,12 @@
       $('input[name="fuzzy"]').click();
       return false;
     });
-    Mousetrap.bindGlobal("mod+shift+enter", function (e) {
+    Mousetrap.bindGlobal("mod+shift+enter", function (e, combo) {
       $('input[name="fuzzy"]').prop("checked", false);
-      return submitForm(e);
+      return submitForm(e, combo);
+    });
+    Mousetrap.bindGlobal("alt+enter", function (e, combo) {
+      return submitForm(e, combo, 'button[name="suggest"]');
     });
     Mousetrap.bindGlobal("mod+e", () => {
       this.$translationArea.get(0).focus();
@@ -470,7 +481,6 @@
 
       var target = $(e.currentTarget);
       var text = target.find(".target").text();
-      console.log(target);
       if (target.hasClass("warning")) {
         text = target.find(".source").text();
       }
@@ -558,6 +568,7 @@
     }
 
     renderTranslation(el, service) {
+      el.plural_forms = [el.plural_form];
       var row = $("<tr/>").data("raw", el);
       row.append(
         $("<td/>")
@@ -566,6 +577,7 @@
           .attr("dir", this.state.dir)
           .text(el.text),
       );
+      row.append($("<td>").html(el.diff));
       row.append($("<td/>").attr("class", "machinery-text").text(el.source));
       row.append(service);
 
@@ -580,13 +592,13 @@
         $(
           "<td>" +
             '<a class="js-copy-machinery btn btn-warning">' +
-            gettext("Copy") +
+            gettext("Clone to translation") +
             '<span class="mt-number text-info"></span>' +
             "</a>" +
             "</td>" +
             "<td>" +
             '<a class="js-copy-save-machinery btn btn-primary">' +
-            gettext("Copy and save") +
+            gettext("Accept") +
             "</a>" +
             "</td>",
         ),
@@ -674,8 +686,12 @@
             base.text == translation.text &&
             base.source == translation.source
           ) {
+            // Add plural
+            if (!base.plural_forms.includes(translation.plural_form)) {
+              base.plural_forms.push(translation.plural_form);
+            }
             // Add origin to current ones
-            var current = $this.children("td:nth-child(3)");
+            var current = $this.children("td:nth-child(4)");
             if (base.quality < translation.quality) {
               service.append("<br/>");
               service.append(current.html());

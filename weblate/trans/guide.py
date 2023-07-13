@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
 
@@ -23,7 +8,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.models import ADDONS
 from weblate.trans.models import Change
@@ -48,7 +33,7 @@ class Guideline:
         self.passed = self.is_passing()
 
     def is_passing(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def is_relevant(self):
         return True
@@ -77,7 +62,7 @@ class Group(Guideline):
 
 @register
 class VCSGroup(Group):
-    description = _("Version control integration")
+    description = gettext_lazy("Version control integration")
 
     def get_doc_url(self, user=None):
         return get_doc_url("vcs", user=user)
@@ -85,7 +70,7 @@ class VCSGroup(Group):
 
 @register
 class HookGuideline(Guideline):
-    description = _(
+    description = gettext_lazy(
         "Configure repository hooks for automated flow of updates to Weblate."
     )
     url = "settings"
@@ -106,7 +91,7 @@ class HookGuideline(Guideline):
 
 @register
 class PushGuideline(Guideline):
-    description = _(
+    description = gettext_lazy(
         "Configure push URL for automated flow of translations from Weblate."
     )
     url = "settings"
@@ -121,7 +106,7 @@ class PushGuideline(Guideline):
 
 @register
 class CommunityGroup(Group):
-    description = _("Building community")
+    description = gettext_lazy("Building community")
 
     def get_doc_url(self, user=None):
         return get_doc_url("devel/community", user=user)
@@ -129,7 +114,9 @@ class CommunityGroup(Group):
 
 @register
 class InstructionsGuideline(Guideline):
-    description = _("Define translation instructions to give translators a guideline.")
+    description = gettext_lazy(
+        "Define translation instructions to give translators a guideline."
+    )
 
     def is_passing(self):
         return bool(self.component.project.instructions)
@@ -145,7 +132,9 @@ class InstructionsGuideline(Guideline):
 
 @register
 class LicenseGuideline(Guideline):
-    description = _("Make your translations available under a libre license.")
+    description = gettext_lazy(
+        "Make your translations available under a libre license."
+    )
     url = "settings"
     anchor = "basic"
 
@@ -161,12 +150,12 @@ class LicenseGuideline(Guideline):
 
 @register
 class AlertGuideline(Guideline):
-    description = _("Fix this component to clear its alerts.")
+    description = gettext_lazy("Fix this component to clear its alerts.")
     url = "component"
     anchor = "alerts"
 
     def is_passing(self):
-        return not self.component.all_alerts
+        return not self.component.all_active_alerts
 
     def get_doc_url(self, user=None):
         return get_doc_url("devel/alerts", user=user)
@@ -174,7 +163,7 @@ class AlertGuideline(Guideline):
 
 @register
 class ContextGroup(Group):
-    description = _("Provide context to the translators")
+    description = gettext_lazy("Provide context to the translators")
 
     def get_doc_url(self, user=None):
         return get_doc_url("admin/translating", "additional", user=user)
@@ -182,7 +171,7 @@ class ContextGroup(Group):
 
 @register
 class ScreenshotGuideline(Guideline):
-    description = _("Add screenshots to show where strings are being used.")
+    description = gettext_lazy("Add screenshots to show where strings are being used.")
     url = "screenshots"
 
     def is_passing(self):
@@ -196,7 +185,9 @@ class ScreenshotGuideline(Guideline):
 
 @register
 class FlagsGuideline(Guideline):
-    description = _("Use flags to indicate special strings in your translation.")
+    description = gettext_lazy(
+        "Use flags to indicate special strings in your translation."
+    )
     url = "settings"
     anchor = "translation"
 
@@ -214,7 +205,9 @@ class FlagsGuideline(Guideline):
 
 @register
 class SafeHTMLGuideline(Guideline):
-    description = _("Add safe-html flag to avoid dangerous HTML from translators.")
+    description = gettext_lazy(
+        "Add safe-html flag to avoid dangerous HTML from translators."
+    )
     url = "settings"
     anchor = "translation"
 
@@ -243,7 +236,7 @@ class SafeHTMLGuideline(Guideline):
 
 @register
 class AddonsGroup(Group):
-    description = _("Workflow customization")
+    description = gettext_lazy("Workflow customization")
 
     def get_doc_url(self, user=None):
         return get_doc_url("admin/addons", user=user)

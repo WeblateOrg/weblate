@@ -1,3 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 # This file is maintained in https://github.com/WeblateOrg/meta/
 name: Sync labels
 
@@ -15,7 +19,7 @@ permissions:
 jobs:
   build:
     name: Sync labels
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
     - uses: micnncim/action-label-syncer@v1.3.0

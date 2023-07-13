@@ -1,3 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 # This file is maintained in https://github.com/WeblateOrg/meta/
 
 name: Pull request automation
@@ -12,11 +16,13 @@ permissions:
 jobs:
   weblate_automerge:
     permissions:
-      pull-requests: write # for actions-ecosystem/action-add-labels to add label
-    runs-on: ubuntu-20.04
+      pull-requests: write
+      contents: write
+    runs-on: ubuntu-latest
     name: Weblate automerge
-    if: ${{ github.actor == 'weblate' || github.actor == 'pre-commit-ci[bot]' }}
+    if: github.actor == 'weblate'
     steps:
-    - uses: actions-ecosystem/action-add-labels@v1.1.3
+    - uses: peter-evans/enable-pull-request-automerge@v3
       with:
-        labels: automerge
+        pull-request-number: ${{ github.event.pull_request.number }}
+        merge-method: rebase

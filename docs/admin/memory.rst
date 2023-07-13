@@ -4,8 +4,6 @@
 Translation Memory
 ==================
 
-.. versionadded:: 2.20
-
 Weblate comes with a built-in translation memory consisting of the following:
 
 * Manually imported translation memory (see :ref:`memory-user`).
@@ -38,7 +36,7 @@ translations, to suit the desired behavior.
 Imported translation memory
 +++++++++++++++++++++++++++
 
-Importing arbitrary translation memory data using the :djadmin:`import_memory`
+Importing arbitrary translation memory data using the :wladmin:`import_memory`
 command makes memory content available to all users and projects.
 
 Per user translation memory
@@ -66,6 +64,10 @@ installations, as it can have severe implications:
 * The translations can be used by anybody else.
 * This might lead to disclosing secret information.
 
+.. seealso::
+
+   :ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`
+
 Managing translation memory
 ---------------------------
 
@@ -88,7 +90,7 @@ memories. It can be used to download, wipe or import translation memory.
 
     :ref:`schema-memory`
 
-.. image:: /screenshots/memory.png
+.. image:: /screenshots/memory.webp
 
 Management interface
 ++++++++++++++++++++
@@ -97,7 +99,7 @@ There are several management commands to manipulate the translation memory
 content. These operate on the translation memory as whole, unfiltered by scopes (unless
 requested by parameters):
 
-:djadmin:`dump_memory`
+:wladmin:`dump_memory`
     Exports the memory into JSON
-:djadmin:`import_memory`
+:wladmin:`import_memory`
     Imports TMX or JSON files into the translation memory

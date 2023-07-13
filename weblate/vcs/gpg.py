@@ -1,25 +1,10 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
 
 import subprocess
-from typing import Optional
 
 from django.conf import settings
 from django.core.cache import cache
@@ -40,7 +25,7 @@ def gpg_error(name: str, error: Exception, silent: bool = False):
         )
 
 
-def generate_gpg_key() -> Optional[str]:
+def generate_gpg_key() -> str | None:
     try:
         subprocess.run(
             [
@@ -61,13 +46,13 @@ def generate_gpg_key() -> Optional[str]:
             text=True,
             check=True,
         )
-        return get_gpg_key()
     except (subprocess.CalledProcessError, OSError) as error:
         gpg_error("GPG key generating", error)
         return None
+    return get_gpg_key()
 
 
-def get_gpg_key(silent=False) -> Optional[str]:
+def get_gpg_key(silent=False) -> str | None:
     try:
         result = subprocess.run(
             [
@@ -82,14 +67,14 @@ def get_gpg_key(silent=False) -> Optional[str]:
             text=True,
             check=True,
         )
-        for line in result.stdout.splitlines():
-            if not line.startswith("fpr:"):
-                continue
-            return line.split(":")[9]
-        return None
     except (subprocess.CalledProcessError, OSError) as error:
         gpg_error("GPG key listing", error, silent)
         return None
+    for line in result.stdout.splitlines():
+        if not line.startswith("fpr:"):
+            continue
+        return line.split(":")[9]
+    return None
 
 
 def gpg_cache_key(suffix: str) -> str:
@@ -98,7 +83,7 @@ def gpg_cache_key(suffix: str) -> str:
     )
 
 
-def get_gpg_sign_key() -> Optional[str]:
+def get_gpg_sign_key() -> str | None:
     """High level wrapper to cache key ID."""
     if not settings.WEBLATE_GPG_IDENTITY:
         return None
@@ -113,7 +98,7 @@ def get_gpg_sign_key() -> Optional[str]:
     return keyid
 
 
-def get_gpg_public_key() -> Optional[str]:
+def get_gpg_public_key() -> str | None:
     key = get_gpg_sign_key()
     if key is None:
         return None
@@ -128,9 +113,9 @@ def get_gpg_public_key() -> Optional[str]:
                 text=True,
                 check=True,
             )
-            data = result.stdout
-            cache.set(cache_key, data, 7 * 86400)
         except (subprocess.CalledProcessError, OSError) as error:
             gpg_error("GPG key public", error)
             return None
+        data = result.stdout
+        cache.set(cache_key, data, 7 * 86400)
     return data

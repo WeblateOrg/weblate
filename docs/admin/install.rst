@@ -324,6 +324,8 @@ Database setup for Weblate
 
 It is recommended to run Weblate with a PostgreSQL database server.
 
+PostgreSQL 12 and higher is supported.
+
 .. seealso::
 
    :ref:`production-database`,
@@ -373,7 +375,8 @@ It is usually a good idea to run Weblate in a separate database, and separate us
 
    .. code-block:: postgres
 
-        CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA weblate;
+        CREATE EXTENSION IF NOT EXISTS pg_trgm;
+        CREATE EXTENSION IF NOT EXISTS btree_gin;
 
 .. _config-postgresql:
 
@@ -419,18 +422,23 @@ role Weblate should alter during the database migration.
 MySQL and MariaDB
 +++++++++++++++++
 
-.. hint::
+.. warning::
 
-    Some Weblate features will perform better with :ref:`postgresql`. This
-    includes searching and translation memory, which both utilize full-text
-    features in the database and PostgreSQL implementation is superior.
+   While MySQL and MariaDB support is still maintained in Weblate, our primary
+   focus is PostgreSQL. It is recommended to use PostgreSQL for new installs,
+   and to migrate existing installs to PostgreSQL, see
+   :ref:`database-migration`.
+
+   Some Weblate features will perform better with :ref:`postgresql`. This
+   includes searching and translation memory, which both utilize full-text
+   features in the database and PostgreSQL implementation is superior.
 
 Weblate can be also used with MySQL or MariaDB, please see
 :ref:`django:mysql-notes` and :ref:`django:mariadb-notes` for caveats using
 Django with those. Because of the limitations it is recommended to use
 :ref:`postgresql` for new installations.
 
-Weblate requires MySQL at least 5.7.8 or MariaDB at least 10.2.7.
+Weblate requires MySQL at least 8 or MariaDB at least 10.4.
 
 Following configuration is recommended for Weblate:
 
@@ -736,12 +744,8 @@ Filling up the database
 -----------------------
 
 After your configuration is ready, you can run
-:samp:`weblate migrate` to create the database structure. Now you should be
+:wladmin:`migrate` to create the database structure. Now you should be
 able to create translation projects using the admin interface.
-
-In case you want to run an installation non interactively, you can use
-:samp:`weblate migrate --noinput`, and then create an admin user using
-:djadmin:`createadmin` command.
 
 Once you are done, you should also check the :guilabel:`Performance report` in the
 admin interface, which will give you hints of potential non optimal configuration on your
@@ -761,7 +765,7 @@ For a production setup you should carry out adjustments described in the followi
 The most critical settings will trigger a warning, which is indicated by an
 exclamation mark in the top bar if signed in as a superuser:
 
-.. image:: /screenshots/admin-wrench.png
+.. image:: /screenshots/admin-wrench.webp
 
 It is also recommended to inspect checks triggered by Django (though you might not
 need to fix all of them):
@@ -1045,11 +1049,11 @@ For optimal performance, it is good idea to run some maintenance tasks in the
 background. This is now automatically done by :ref:`celery` and covers following tasks:
 
 * Configuration health check (hourly).
-* Committing pending changes (hourly), see :ref:`lazy-commit` and :djadmin:`commit_pending`.
+* Committing pending changes (hourly), see :ref:`lazy-commit` and :wladmin:`commit_pending`.
 * Updating component alerts (daily).
 * Update remote branches (nightly), see :setting:`AUTO_UPDATE`.
-* Translation memory backup to JSON (daily), see :djadmin:`dump_memory`.
-* Fulltext and database maintenance tasks (daily and weekly tasks), see :djadmin:`cleanuptrans`.
+* Translation memory backup to JSON (daily), see :wladmin:`dump_memory`.
+* Fulltext and database maintenance tasks (daily and weekly tasks), see :wladmin:`cleanuptrans`.
 
 .. versionchanged:: 3.2
 
@@ -1216,11 +1220,6 @@ For testing purposes, you can use the built-in web server in Django:
 Serving static files
 ++++++++++++++++++++
 
-.. versionchanged:: 2.4
-
-    Prior to version 2.4, Weblate didn't properly use the Django static files
-    framework and the setup was more complex.
-
 Django needs to collect its static files in a single directory. To do so,
 execute :samp:`weblate collectstatic --noinput`. This will copy the static
 files into a directory specified by the :setting:`django:STATIC_ROOT` setting (this defaults to
@@ -1311,6 +1310,8 @@ The following configuration runs Weblate as WSGI, you need to have enabled
     variant of the modwsgi. Usually it is available as a separate package, for
     example ``libapache2-mod-wsgi-py3``.
 
+    Use matching Python version to install Weblate.
+
 .. seealso::
 
     :ref:`production-encoding`,
@@ -1334,8 +1335,6 @@ The following configuration runs Weblate in Gunicorn and Apache 2.4
 
 Running Weblate under path
 ++++++++++++++++++++++++++
-
-.. versionadded:: 1.3
 
 It is recommended to use prefork MPM when using WSGI with Weblate.
 
@@ -1457,7 +1456,7 @@ Monitoring Celery status
 ++++++++++++++++++++++++
 
 You can find current length of the Celery task queues in the
-:ref:`management-interface` or you can use :djadmin:`celery_queues` on the
+:ref:`management-interface` or you can use :wladmin:`celery_queues` on the
 command-line. In case the queue will get too long, you will also get
 configuration error in the admin interface.
 
@@ -1475,7 +1474,7 @@ configuration error in the admin interface.
    :doc:`celery:userguide/workers`,
    :doc:`celery:userguide/daemonizing`,
    :doc:`celery:userguide/monitoring`,
-   :djadmin:`celery_queues`
+   :wladmin:`celery_queues`
 
 .. _monitoring:
 
@@ -1542,7 +1541,7 @@ In short, you need to adjust :file:`settings.py`:
 Everything else is integrated automatically, you will now collect both server
 and client side errors.
 
-.. note:
+.. note::
 
     Error logging also includes exceptions that were gracefully handled, but
     might indicate a problem - such as failed parsing of an uploaded file.
@@ -1558,21 +1557,14 @@ Migrating database
 ++++++++++++++++++
 
 Depending on your database backend, you might have several options to migrate
-the database. The most straightforward one is to dump the database on one
-server and import it on the new one. Alternatively you can use replication in
+the database. The most straightforward approach is to use database native
+tools, as they are usually the most effective (e.g. :command:`mysqldump` or
+:command:`pg_dump`). Alternatively you can use replication in
 case your database supports it.
 
-The best approach is to use database native tools, as they are usually the most
-effective (e.g. :command:`mysqldump` or :command:`pg_dump`). If you want to
-migrate between different databases, the only option might be to use Django
-management to dump and import the database:
+.. seealso::
 
-.. code-block:: sh
-
-    # Export current data
-    weblate dumpdata > /tmp/weblate.dump
-    # Import dump
-    weblate loaddata /tmp/weblate.dump
+   Migrating between databases described in :ref:`database-migration`.
 
 Migrating VCS repositories
 +++++++++++++++++++++++++++

@@ -21,9 +21,11 @@ Bitnami Weblate stack
 ---------------------
 
 Bitnami provides a Weblate stack for many platforms at
-<https://bitnami.com/stack/weblate>. The setup will be adjusted during
-installation, see <https://bitnami.com/stack/weblate/README.txt> for more
-documentation.
+<https://bitnami.com/stack/weblate>.
+
+.. seealso::
+
+   `Weblate packaged by Bitnami <https://docs.bitnami.com/general/apps/weblate/>`_
 
 Weblate Cloudron Package
 ------------------------

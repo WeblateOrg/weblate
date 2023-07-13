@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from datetime import timedelta
 
@@ -50,33 +35,16 @@ def collect_metrics():
 @app.task(trail=False)
 def cleanup_metrics():
     """Remove stale metrics."""
-    # Remove metrics for deleted objects
-    projects = Project.objects.values_list("pk", flat=True)
-    Metric.objects.filter(scope=Metric.SCOPE_PROJECT).exclude(
-        relation__in=projects
-    ).delete()
-    Metric.objects.filter(scope=Metric.SCOPE_PROJECT_LANGUAGE).exclude(
-        relation__in=projects
-    ).delete()
-    Metric.objects.filter(scope=Metric.SCOPE_COMPONENT).exclude(
-        relation__in=Component.objects.values_list("pk", flat=True)
-    ).delete()
-    Metric.objects.filter(scope=Metric.SCOPE_TRANSLATION).exclude(
-        relation__in=Translation.objects.values_list("pk", flat=True)
-    ).delete()
-    Metric.objects.filter(scope=Metric.SCOPE_USER).exclude(
-        relation__in=User.objects.values_list("pk", flat=True)
-    ).delete()
-    Metric.objects.filter(scope=Metric.SCOPE_COMPONENT_LIST).exclude(
-        relation__in=ComponentList.objects.values_list("pk", flat=True)
-    ).delete()
-    Metric.objects.filter(scope=Metric.SCOPE_LANGUAGE).exclude(
-        relation__in=Language.objects.values_list("pk", flat=True)
-    ).delete()
-
+    today = timezone.now().date()
     # Remove past metrics, but we need data for last 24 months
-    cutoff = timezone.now() - timedelta(days=800)
-    Metric.objects.filter(date__lte=cutoff).delete()
+    Metric.objects.filter(date__lte=today - timedelta(days=800)).delete()
+
+    # Remove detailed data for past metrics, we need details only for two months
+    # - avoid filtering on data field as that one is not indexed
+    # - wipe only interval of data with assumption that this task is executed daily
+    Metric.objects.filter(
+        date__range=(today - timedelta(days=75), today - timedelta(days=65))
+    ).update(data=None)
 
 
 @app.on_after_finalize.connect

@@ -13,7 +13,7 @@ Installation
 ------------
 
 The following examples assume you have a working Docker environment, with
-``docker-compose`` installed. Please check the Docker documentation for instructions.
+``docker-compose-plugin`` installed. Please check the Docker documentation for instructions.
 
 1. Clone the weblate-docker repo:
 
@@ -54,15 +54,9 @@ The following examples assume you have a working Docker environment, with
 
    .. code-block:: sh
 
-        docker-compose up
+        docker compose up
 
 Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` container.
-
-.. versionchanged:: 2.15-2
-
-    The setup has changed recently, priorly there was separate web server
-    container, since 2.15-2 the web server is embedded in the Weblate
-    container.
 
 .. versionchanged:: 3.7.1-6
 
@@ -71,28 +65,49 @@ Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` con
 
 .. seealso:: :ref:`invoke-manage`
 
-Choosing Docker hub tag
------------------------
+Choosing Docker image registry
+------------------------------
 
-You can use following tags on Docker hub, see https://hub.docker.com/r/weblate/weblate/tags/ for full list of available ones.
+Weblate containers are published to following registries:
 
-+-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
-| Tag name                | Description                                                                                                | Use case                                             |
-+=========================+============================================================================================================+======================================================+
-|``latest``               | Weblate stable release, matches latest tagged release                                                      | Rolling updates in a production environment          |
-+-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
-|``<VERSION>-<PATCH>``    | Weblate stable release                                                                                     | Well defined deploy in a production environment      |
-+-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
-|``edge``                 | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Rolling updates in a staging environment             |
-+-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
-|``edge-<DATE>-<SHA>``    | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Well defined deploy in a staging environment         |
-+-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
-|``bleeding``             | Development version Weblate from Git                                                                       | Rollling updates to test upcoming Weblate features   |
-+-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
-|``bleeding-<DATE>-<SHA>``| Development version Weblate from Git                                                                       | Well defined deploy to test upcoming Weblate features|
-+-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+* Docker Hub, see https://hub.docker.com/r/weblate/weblate
+* GitHub Packages registry, see https://github.com/WeblateOrg/docker/pkgs/container/weblate
+
+.. note::
+
+   All examples currently fetch images from Docker Hub, please adjust the
+   configuration accordingly to use a different registry.
+
+Choosing Docker image tag
+-------------------------
+
+Please choose a tag that matches your environment and expectations:
+
++-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Tag name                | Description                                                                                                | Use case                                                                    |
++=========================+============================================================================================================+=============================================================================+
+|``latest``               | Weblate stable release, matches latest tagged release                                                      | Rolling updates in a production environment                                 |
++-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``<MAJOR>``              | Weblate stable release                                                                                     | Rolling updates within a major version in a production environment          |
++-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``<MAJOR>.<MINOR>``      | Weblate stable release                                                                                     | Rolling updates within a minor version in a production environment          |
++-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``<VERSION>.<PATCH>``    | Weblate stable release                                                                                     | Well defined deploy in a production environment                             |
++-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``edge``                 | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Rolling updates in a staging environment                                    |
++-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``edge-<DATE>-<SHA>``    | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Well defined deploy in a staging environment                                |
++-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``bleeding``             | Development version Weblate from Git                                                                       | Rollling updates to test upcoming Weblate features                          |
++-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``bleeding-<DATE>-<SHA>``| Development version Weblate from Git                                                                       | Well defined deploy to test upcoming Weblate features                       |
++-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
 
 Every image is tested by our CI before it gets published, so even the `bleeding` version should be quite safe to use.
+
+Full list of published tags can be found at `GitHub Packages`_
+
+.. _GitHub Packages: https://github.com/WeblateOrg/docker/pkgs/container/weblate/versions?filters%5Bversion_type%5D=tagged
 
 .. _docker-ssl:
 
@@ -132,8 +147,8 @@ If you already host other sites on the same server, it is likely ports ``80`` an
 .. code-block:: nginx
 
     server {
-        listen 443;
-        listen [::]:443;
+        listen 443 ssl;
+        listen [::]:443 ssl;
 
         server_name <SITE_URL>;
         ssl_certificate /etc/letsencrypt/live/<SITE>/fullchain.pem;
@@ -150,6 +165,9 @@ If you already host other sites on the same server, it is likely ports ``80`` an
     }
 
 Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual values from your environment.
+
+
+.. _docker-https-portal:
 
 Automatic SSL certificates using Let’s Encrypt
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -176,13 +194,13 @@ a :file:`docker-compose-https.override.yml` file with your settings:
         environment:
           DOMAINS: 'weblate.example.com -> http://weblate:8080'
 
-Whenever invoking :program:`docker-compose` you need to pass both files to it,
+Whenever invoking :program:`docker compose` you need to pass both files to it,
 and then do:
 
 .. code-block:: console
 
-    docker-compose -f docker-compose-https.yml -f docker-compose-https.override.yml build
-    docker-compose -f docker-compose-https.yml -f docker-compose-https.override.yml up
+    docker compose -f docker-compose-https.yml -f docker-compose-https.override.yml build
+    docker compose -f docker-compose-https.yml -f docker-compose-https.override.yml up
 
 .. _upgrading-docker:
 
@@ -193,11 +211,11 @@ Usually it is good idea to only update the Weblate container and keep the Postgr
 container at the version you have, as upgrading PostgreSQL is quite painful and in most
 cases does not bring many benefits.
 
-.. versionchanged:: 4.10-1
+.. versionchanged:: 4.17-1
 
-   Since Weblate 4.10-1, the Docker container uses Django 4.0 what requires
-   PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate.
-   See :ref:`upgrade-4.10` and :ref:`docker-postgres-upgrade`.
+   Since Weblate 4.17-1, the Docker container uses Django 4.2 what requires
+   PostgreSQL 12 or newer, please upgrade it prior to upgrading Weblate.
+   See :ref:`docker-postgres-upgrade`.
 
 You can do this by sticking with the existing docker-compose and just pull
 the latest images and then restart:
@@ -205,13 +223,13 @@ the latest images and then restart:
 .. code-block:: sh
 
    # Fetch latest versions of the images
-   docker-compose pull
+   docker compose pull
    # Stop and destroy the containers
-   docker-compose down
+   docker compose down
    # Spawn new containers in the background
-   docker-compose up -d
+   docker compose up -d
    # Follow the logs during upgrade
-   docker-compose logs -f
+   docker compose logs -f
 
 The Weblate database should be automatically migrated on first startup, and there
 should be no need for additional manual actions.
@@ -243,26 +261,26 @@ of upgrading.
 
    .. code-block:: shell
 
-      docker-compose stop weblate cache
+      docker compose stop weblate cache
 
 2. Backup the database:
 
    .. code-block:: shell
 
-      docker-compose exec database pg_dumpall --clean --username weblate > backup.sql
+      docker compose exec database pg_dumpall --clean --if-exists --username weblate > backup.sql
 
 3. Stop the database container:
 
    .. code-block:: shell
 
-      docker-compose stop database
+      docker compose stop database
 
 4. Remove the PostgreSQL volume:
 
    .. code-block:: shell
 
-      docker-compose rm -v database
-      docker volume remove weblate_postgres-data
+      docker compose rm -v database
+      docker volume remove weblate-docker_postgres-data
 
 5. Adjust :file:`docker-compose.yml` to use new PostgreSQL version.
 
@@ -270,19 +288,33 @@ of upgrading.
 
    .. code-block:: shell
 
-      docker-compose up -d database
+      docker compose up -d database
 
 7. Restore the database from the backup:
 
    .. code-block:: shell
 
-      cat backup.sql | docker-compose exec -T database psql --username weblate --dbname postgres
+      cat backup.sql | docker compose exec -T database psql --username weblate --dbname weblate
 
-8. Start all remaining containers:
+   .. hint::
+
+      Please check that the database name matches :envvar:`POSTGRES_DATABASE`.
+
+8. (Optional) Update password for the Weblate user. This might be needed when migrating to PostgreSQL 14 or 15 as way of storing passwords has been changed:
 
    .. code-block:: shell
 
-      docker-compose up -d
+      docker compose exec -T database psql --username weblate --dbname weblate -c "ALTER USER weblate WITH PASSWORD 'weblate'"
+
+   .. hint::
+
+      Please check that the database name matches :envvar:`POSTGRES_DATABASE`.
+
+9. Start all remaining containers:
+
+   .. code-block:: shell
+
+      docker compose up -d
 
 .. _docker-admin-login:
 
@@ -364,7 +396,11 @@ You can find example setup in the ``docker-compose`` repo as
 Docker environment variables
 ----------------------------
 
-Many of Weblate's :ref:`config` can be set in the Docker container using environment variables:
+Many of Weblate's :ref:`config` can be set in the Docker container using
+the environment variables described below.
+
+If you need to define a setting not exposed through Docker environment
+variables, see :ref:`docker-custom-config`.
 
 Generic settings
 ~~~~~~~~~~~~~~~~
@@ -386,7 +422,9 @@ Generic settings
 
 .. envvar:: WEBLATE_LOGLEVEL
 
-    Configures the logging verbosity.
+    Configures the logging verbosity. Set this to ``DEBUG`` to get more detailed logs.
+
+    Defaults to ``INFO`` when :envvar:`WEBLATE_DEBUG` is turned off, ``DEBUG`` is used when debug mode is turned on.
 
 .. envvar:: WEBLATE_LOGLEVEL_DATABASE
 
@@ -525,6 +563,13 @@ Generic settings
           WEBLATE_REGISTRATION_OPEN: 0
           WEBLATE_REGISTRATION_ALLOW_BACKENDS: azuread-oauth2,azuread-tenant-oauth2
 
+
+.. envvar:: WEBLATE_REGISTRATION_REBIND
+
+   .. versionadded:: 4.16
+
+   Configures :std:setting:`REGISTRATION_REBIND`.
+
 .. envvar:: WEBLATE_TIME_ZONE
 
     Configures the used time zone in Weblate, see :std:setting:`django:TIME_ZONE`.
@@ -643,6 +688,13 @@ Generic settings
 
     You can either replace whole settings, or modify default value using ``ADD`` and ``REMOVE`` variables.
 
+    To enforce authentication for the contact form, do:
+
+    .. code-block:: yaml
+
+       environment:
+         WEBLATE_REMOVE_LOGIN_REQUIRED_URLS_EXCEPTIONS: /contact/$
+
 .. envvar:: WEBLATE_GOOGLE_ANALYTICS_ID
 
     Configures ID for Google Analytics by changing :setting:`GOOGLE_ANALYTICS_ID`.
@@ -652,8 +704,7 @@ Generic settings
 .. envvar:: WEBLATE_GITHUB_HOST
 
     Configures GitHub pull-requests integration by changing
-    :setting:`GITHUB_CREDENTIALS` (if :envvar:`WEBLATE_GITHUB_HOST` is set), or
-    :setting:`GITHUB_USERNAME` and :setting:`GITHUB_TOKEN`.
+    :setting:`GITHUB_CREDENTIALS`.
 
     .. seealso::
 
@@ -664,8 +715,15 @@ Generic settings
 .. envvar:: WEBLATE_GITLAB_HOST
 
     Configures GitLab merge-requests integration  by changing
-    :setting:`GITLAB_CREDENTIALS` (if :envvar:`WEBLATE_GITLAB_HOST` is set), or
-    :setting:`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN`.
+    :setting:`GITLAB_CREDENTIALS`.
+
+    **Example:**
+
+    .. code-block:: sh
+
+       WEBLATE_GITLAB_USERNAME=weblate
+       WEBLATE_GITLAB_HOST=gitlab.com
+       WEBLATE_GITLAB_TOKEN=token
 
     .. seealso::
 
@@ -676,8 +734,7 @@ Generic settings
 .. envvar:: WEBLATE_GITEA_HOST
 
     Configures Gitea pull-requests integration by changing
-    :setting:`GITEA_CREDENTIALS` (if :envvar:`WEBLATE_GITEA_HOST` is set), or
-    :setting:`GITEA_USERNAME` and :setting:`GITEA_TOKEN`.
+    :setting:`GITEA_CREDENTIALS`.
 
     .. seealso::
 
@@ -689,12 +746,22 @@ Generic settings
 .. envvar:: WEBLATE_PAGURE_HOST
 
     Configures Pagure merge-requests integration  by changing
-    :setting:`PAGURE_CREDENTIALS` (if :envvar:`WEBLATE_PAGURE_HOST` is set), or
-    :setting:`PAGURE_USERNAME` and :setting:`PAGURE_TOKEN`.
+    :setting:`PAGURE_CREDENTIALS`.
 
     .. seealso::
 
        :ref:`vcs-pagure`
+
+.. envvar:: WEBLATE_BITBUCKETSERVER_USERNAME
+.. envvar:: WEBLATE_BITBUCKETSERVER_TOKEN
+.. envvar:: WEBLATE_BITBUCKETSERVER_HOST
+
+    Configures Bitbucket Server pull-requests integration by changing
+    :setting:`BITBUCKETSERVER_CREDENTIALS`.
+
+    .. seealso::
+
+       :ref:`vcs-bitbucket-server`
 
 .. envvar:: WEBLATE_DEFAULT_PULL_MESSAGE
 
@@ -840,6 +907,12 @@ Generic settings
 
    Configures :setting:`ENABLE_AVATARS`.
 
+.. envvar:: WEBLATE_AVATAR_URL_PREFIX
+
+   .. versionadded:: 4.15
+
+   Configures :setting:`AVATAR_URL_PREFIX`.
+
 .. envvar:: WEBLATE_LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
 
    .. versionadded:: 4.9
@@ -856,13 +929,74 @@ Generic settings
 
    .. versionadded:: 4.9
 
-   Configures :setting:`BORG_EXTRA_ARGS`.
+   Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+        environment:
+          WEBLATE_BORG_EXTRA_ARGS: --exclude,vcs/
 
 .. envvar:: WEBLATE_ENABLE_SHARING
 
    .. versionadded:: 4.14.1
 
    Configures :setting:`ENABLE_SHARING`.
+
+.. envvar:: WEBLATE_EXTRA_HTML_HEAD
+
+   .. versionadded:: 4.15
+
+   Configures :setting:`EXTRA_HTML_HEAD`.
+
+.. envvar:: WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE
+
+   .. versionadded:: 4.15
+
+   Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`.
+
+.. envvar:: WEBLATE_PRIVATE_COMMIT_EMAIL_OPT_IN
+
+   .. versionadded:: 4.15
+
+   Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`.
+
+.. envvar:: WEBLATE_UNUSED_ALERT_DAYS
+
+   .. versionadded:: 4.17
+
+   Configures :setting:`UNUSED_ALERT_DAYS`.
+
+.. envvar:: WEBLATE_CORS_ALLOWED_ORIGINS
+
+   .. versionadded:: 4.16
+
+   Allow CORS requests from given origins.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+        environment:
+          WEBLATE_CORS_ALLOWED_ORIGINS: https://example.com,https://weblate.org
+
+
+.. envvar:: CLIENT_MAX_BODY_SIZE
+
+   .. versionadded:: 4.16.3
+
+   Configures maximal body size accepted by the built-in web server.
+
+   .. code-block:: yaml
+
+        environment:
+            CLIENT_MAX_BODY_SIZE: 200m
+
+   .. hint::
+
+      This variable intentionally lacks ``WEBLATE_`` prefix as it is shared
+      with third-party container used in :ref:`docker-https-portal`.
 
 .. _docker-machine:
 
@@ -970,6 +1104,17 @@ GitHub
 
     Enables :ref:`github_auth`.
 
+GitHub Enterprise Edition
++++++++++++++++++++++++++
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_SECRET
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_URL
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE
+
+    Enables :ref:`github_ee_auth`.
+
 Bitbucket
 +++++++++
 
@@ -1006,6 +1151,15 @@ GitLab
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITLAB_API_URL
 
     Enables :ref:`gitlab_auth`.
+
+Gitea
++++++
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITEA_API_URL
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITEA_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITEA_SECRET
+
+   Enables Gitea authentication.
 
 Azure Active Directory
 ++++++++++++++++++++++
@@ -1048,6 +1202,7 @@ setting following variables to any value.
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_FEDORA
 .. envvar:: WEBLATE_SOCIAL_AUTH_OPENSUSE
+.. envvar:: WEBLATE_SOCIAL_AUTH_OPENINFRA
 .. envvar:: WEBLATE_SOCIAL_AUTH_UBUNTU
 
 Slack
@@ -1069,7 +1224,7 @@ OpenID Connect
 .. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_SECRET
 .. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY
 
-   Configures generic OpenID Connect intergration.
+   Configures generic OpenID Connect integration.
 
    .. seealso::
 
@@ -1091,6 +1246,15 @@ In case you want to use own keys, place the certificate and private key in
 .. envvar:: WEBLATE_SAML_IDP_TITLE
 
     SAML Identity Provider settings, see :ref:`saml-auth`.
+
+.. envvar:: WEBLATE_SAML_ID_ATTR_NAME
+.. envvar:: WEBLATE_SAML_ID_ATTR_USERNAME
+.. envvar:: WEBLATE_SAML_ID_ATTR_EMAIL
+.. envvar:: WEBLATE_SAML_ID_ATTR_USER_PERMANENT_ID
+
+   .. versionadded:: 4.18
+
+   SAML attributes mapping.
 
 
 Other authentication settings
@@ -1399,7 +1563,29 @@ To enable support for Sentry, set following:
 
 .. envvar:: SENTRY_ENVIRONMENT
 
-    Your Sentry Environment (optional).
+    Your Sentry Environment (optional), defaults to :envvar:`WEBLATE_SITE_DOMAIN`.
+
+.. envvar:: SENTRY_TRACES_SAMPLE_RATE
+
+   Configure sampling rate for performance monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+       environment:
+         SENTRY_TRACES_SAMPLE_RATE: 0.5
+
+.. envvar:: SENTRY_PROFILES_SAMPLE_RATE
+
+   Configure sampling rate for profiling monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+       environment:
+         SENTRY_PROFILES_SAMPLE_RATE: 0.5
 
 Localization CDN
 ~~~~~~~~~~~~~~~~
@@ -1564,8 +1750,8 @@ consist of name of your docker-compose directory, container, and volume names).
 In the container it is mounted as :file:`/app/data`.
 
 The cache volume is mounted as :file:`/app/cache` and is used to store static
-files. Its content is recreated on container startup and the volume can be
-mounted using ephemeral filesystem such as `tmpfs`.
+files and :setting:`CACHE_DIR`. Its content is recreated on container startup
+and the volume can be mounted using ephemeral filesystem such as `tmpfs`.
 
 When creating the volumes manually, the directories should be owned by UID 1000
 as that is user used inside the container.
@@ -1574,24 +1760,120 @@ as that is user used inside the container.
 
    `Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_
 
-Further configuration customization
------------------------------------
+Read-only root filesystem
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can further customize Weblate installation in the data volume, see
-:ref:`docker-volume`.
+.. versionadded:: 4.18
+
+When running the container with a read-only root filesystem, two additional
+`tmpfs` volumes are required - :file:`/tmp` and :file:`/run`.
+
 
 .. _docker-custom-config:
 
-Custom configuration files
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Configuration beyond environment variables
+------------------------------------------
 
-You can additionally override the configuration in
-:file:`/app/data/settings-override.py` (see :ref:`docker-volume`). This is
-executed at the end of built-in settings, after all environment settings
-are loaded, and you can adjust or override them.
+:ref:`Docker environment variables <docker-environment>` are intended to expose
+most :ref:`configuration settings <config>` of relevance for Weblate
+installations.
+
+If you find a setting that is not exposed as an environment variable, and you
+believe that it should be, feel free to :ref:`ask for it to be exposed in a
+future version of Weblate <report-issue>`.
+
+If you need to modify a setting that is not exposed as a Docker environment
+variable, you can still do so, either :ref:`from the data volume
+<docker-settings-override>` or :ref:`extending the Docker image
+<docker-custom-settings>`.
+
+.. seealso::
+
+   :doc:`../customize`
+
+.. _docker-settings-override:
+
+Overriding settings from the data volume
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can create a file at :file:`/app/data/settings-override.py`, i.e. at the
+root of the :ref:`data volume <docker-volume>`, to extend or override settings
+defined through environment variables.
+
+
+.. _docker-custom-settings:
+
+Overriding settings by extending the Docker image
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To override settings at the Docker image level instead of from the data volume:
+
+#.  :ref:`Create a custom Python package <custom-module>`.
+
+#.  Add a module to your package that imports all settings from
+    ``weblate.settings_docker``.
+
+    For example, within the example package structure defined at
+    :ref:`custom-module`, you could create a file at
+    ``weblate_customization/weblate_customization/settings.py`` with the
+    following initial code:
+
+    .. code-block:: python
+
+        from weblate.settings_docker import *
+
+#.  Create a custom ``Dockerfile`` that inherits from the official Weblate
+    Docker image, and then installs your package and points the
+    ``DJANGO_SETTINGS_MODULE`` environment variable to your settings module:
+
+    .. code-block:: docker
+
+        FROM weblate/weblate
+
+        USER root
+
+        COPY weblate_customization /usr/src/weblate_customization
+        RUN pip install --no-cache-dir /usr/src/weblate_customization
+        ENV DJANGO_SETTINGS_MODULE=weblate_customization.settings
+
+        USER 1000
+
+#.  Instead of using the official Weblate Docker image, build a custom image
+    from this ``Dockerfile`` file.
+
+    There is `no clean way <https://github.com/docker/compose/issues/7231>`__
+    to do this with ``docker-compose.override.yml``. You *could* add
+    ``build: .`` to the ``weblate`` node in that file, but then your custom
+    image will be tagged as ``weblate/weblate`` in your system, which could be
+    problematic.
+
+    So, instead of using the ``docker-compose.yml`` straight from the `official
+    repository <https://github.com/WeblateOrg/docker-compose>`__, unmodified,
+    and extending it through ``docker-compose.override.yml``, you may want to
+    make a copy of the official ``docker-compose.yml`` file, and edit your copy
+    to replace ``image: weblate/weblate`` with ``build: .``.
+
+    See the `Compose file build reference`_ for details on building images from
+    source when using ``docker-compose``.
+
+    .. _Compose file build reference: https://docs.docker.com/compose/compose-file/build/
+
+#.  Extend your custom settings module to define or redefine settings.
+
+    You can define settings before or after the import statement above to
+    determine which settings take precedence. Settings defined before the
+    import statement can be overridden by environment variables and setting
+    overrides defined in the data volume. Setting defined after the import
+    statement cannot be overridden.
+
+    You can also go further. For example, you can reproduce some of the things
+    that ``weblate.docker_settings`` `does
+    <https://github.com/WeblateOrg/weblate/blob/main/weblate/settings_docker.py>`__,
+    such as exposing settings as environment variables, or allow overriding
+    settings from Python files in the data volume.
 
 Replacing logo and other static files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------------
 
 .. versionadded:: 3.8-5
 
@@ -1621,26 +1903,32 @@ it as separate volume to the Docker container, for example:
     environment:
       WEBLATE_ADD_APPS: weblate_customization
 
-Adding own Python modules
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. versionadded:: 3.8-5
-
-You can place own Python modules in :file:`/app/data/python/` (see
-:ref:`docker-volume`) and they can be then loaded by Weblate, most likely by
-using :ref:`docker-custom-config`.
-
-.. seealso::
-
-   :doc:`../customize`
-
 Configuring PostgreSQL server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
-The PostgtreSQL container uses default PostgreSQL configuration and it won't
+The PostgreSQL container uses default PostgreSQL configuration and it won't
 effectively utilize your CPU cores or memory. It is recommended to customize
 the configuration to improve the performance.
 
 The configuration can be adjusted as described in `Database Configuration` at
 https://hub.docker.com/_/postgres. The configuration matching your environment
 can be generated using https://pgtune.leopard.in.ua/.
+
+Container internals
+-------------------
+
+The container is using :program:`supervisor` to start individual services. In
+case of :ref:`docker-scaling`, it only starts single service in a container.
+
+To check the services status use:
+
+.. code-block:: sh
+
+    docker compose exec --user weblate weblate supervisorctl status
+
+There are individual services for each Celery queue (see :ref:`celery` for
+details). You can stop processing some tasks by stopping the appropriate worker:
+
+.. code-block:: sh
+
+    docker compose exec --user weblate weblate supervisorctl stop celery-translate

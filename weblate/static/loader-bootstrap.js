@@ -1,3 +1,7 @@
+// Copyright © Michal Čihař <michal@weblate.org>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 var loading = [];
 
 // Remove some weird things from location hash
@@ -97,7 +101,7 @@ jQuery.fn.extend({
   },
 });
 
-function submitForm(evt) {
+function submitForm(evt, combo, selector) {
   var $target = $(evt.target);
   var $form = $target.closest("form");
 
@@ -105,18 +109,22 @@ function submitForm(evt) {
     $form = $(".translation-form");
   }
   if ($form.length > 0) {
-    let submits = $form.find('input[type="submit"]');
+    if (typeof selector !== "undefined") {
+      $form.find(selector).click();
+    } else {
+      let submits = $form.find('input[type="submit"]');
 
-    if (submits.length === 0) {
-      submits = $form.find('button[type="submit"]');
-    }
-    if (submits.length > 0) {
-      submits[0].click();
+      if (submits.length === 0) {
+        submits = $form.find('button[type="submit"]');
+      }
+      if (submits.length > 0) {
+        submits[0].click();
+      }
     }
   }
   return false;
 }
-Mousetrap.bindGlobal(["alt+enter", "mod+enter"], submitForm);
+Mousetrap.bindGlobal("mod+enter", submitForm);
 
 function screenshotStart() {
   $("#search-results tbody.unit-listing-body").empty();
@@ -371,6 +379,9 @@ function initHighlight(root) {
     if (editor.readOnly) {
       highlight.classList.add("readonly");
     }
+    if (editor.disabled) {
+      highlight.classList.add("disabled");
+    }
     highlight.setAttribute("role", "status");
     if (editor.hasAttribute("dir")) {
       highlight.setAttribute("dir", editor.getAttribute("dir"));
@@ -523,7 +534,10 @@ $(function () {
       activeTab.tab("show");
       window.scrollTo(0, 0);
     } else {
-      document.getElementById(location.hash.substr(1)).scrollIntoView();
+      let anchor = document.getElementById(location.hash.substr(1));
+      if (anchor !== null) {
+        anchor.scrollIntoView();
+      }
     }
   } else if (
     $(".translation-tabs").length > 0 &&
@@ -618,82 +632,6 @@ $(function () {
     $("form#disconnect-form").attr("action", $(this).attr("href")).submit();
   });
 
-  /* Check if browser provides native datepicker */
-  if (Modernizr.inputtypes.date) {
-    $(document).off(".datepicker.data-api");
-  }
-
-  /* Datepicker localization */
-  var week_start = "1";
-
-  if (typeof django !== "undefined") {
-    week_start = django.formats.FIRST_DAY_OF_WEEK;
-  }
-  $.fn.datepicker.dates.en = {
-    days: [
-      gettext("Sunday"),
-      gettext("Monday"),
-      gettext("Tuesday"),
-      gettext("Wednesday"),
-      gettext("Thursday"),
-      gettext("Friday"),
-      gettext("Saturday"),
-      gettext("Sunday"),
-    ],
-    daysShort: [
-      pgettext("Short (for example three letter) name of day in week", "Sun"),
-      pgettext("Short (for example three letter) name of day in week", "Mon"),
-      pgettext("Short (for example three letter) name of day in week", "Tue"),
-      pgettext("Short (for example three letter) name of day in week", "Wed"),
-      pgettext("Short (for example three letter) name of day in week", "Thu"),
-      pgettext("Short (for example three letter) name of day in week", "Fri"),
-      pgettext("Short (for example three letter) name of day in week", "Sat"),
-      pgettext("Short (for example three letter) name of day in week", "Sun"),
-    ],
-    daysMin: [
-      pgettext("Minimal (for example two letter) name of day in week", "Su"),
-      pgettext("Minimal (for example two letter) name of day in week", "Mo"),
-      pgettext("Minimal (for example two letter) name of day in week", "Tu"),
-      pgettext("Minimal (for example two letter) name of day in week", "We"),
-      pgettext("Minimal (for example two letter) name of day in week", "Th"),
-      pgettext("Minimal (for example two letter) name of day in week", "Fr"),
-      pgettext("Minimal (for example two letter) name of day in week", "Sa"),
-      pgettext("Minimal (for example two letter) name of day in week", "Su"),
-    ],
-    months: [
-      gettext("January"),
-      gettext("February"),
-      gettext("March"),
-      gettext("April"),
-      gettext("May"),
-      gettext("June"),
-      gettext("July"),
-      gettext("August"),
-      gettext("September"),
-      gettext("October"),
-      gettext("November"),
-      gettext("December"),
-    ],
-    monthsShort: [
-      pgettext("Short name of month", "Jan"),
-      pgettext("Short name of month", "Feb"),
-      pgettext("Short name of month", "Mar"),
-      pgettext("Short name of month", "Apr"),
-      pgettext("Short name of month", "May"),
-      pgettext("Short name of month", "Jun"),
-      pgettext("Short name of month", "Jul"),
-      pgettext("Short name of month", "Aug"),
-      pgettext("Short name of month", "Sep"),
-      pgettext("Short name of month", "Oct"),
-      pgettext("Short name of month", "Nov"),
-      pgettext("Short name of month", "Dec"),
-    ],
-    today: gettext("Today"),
-    clear: gettext("Clear"),
-    weekStart: week_start,
-    titleFormat: "MM yyyy",
-  };
-
   $(".dropdown-menu")
     .find("form")
     .click(function (e) {
@@ -720,7 +658,13 @@ $(function () {
     var $this = $(this);
     $("#imagepreview").attr("src", $this.attr("href"));
     $("#screenshotModal").text($this.attr("title"));
-    $("#modalEditLink").attr("href", $this.data("edit"));
+
+    var detailsLink = $("#modalDetailsLink");
+    detailsLink.attr("href", $this.data("details-url"));
+    if ($this.data("can-edit")) {
+      detailsLink.text(detailsLink.data("edit-text"));
+    }
+
     $("#imagemodal").modal("show");
     return false;
   });
@@ -795,12 +739,6 @@ $(function () {
     });
   }
 
-  /*
-   * Disable modal enforce focus to fix compatibility
-   * issues with ClipboardJS, see https://stackoverflow.com/a/40862005/225718
-   */
-  $.fn.modal.Constructor.prototype.enforceFocus = function () {};
-
   /* Focus first input in modal */
   $(document).on("shown.bs.modal", function (event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
@@ -814,17 +752,20 @@ $(function () {
   });
 
   /* Copy to clipboard */
-  var clipboard = new ClipboardJS("[data-clipboard-text]");
-  clipboard.on("success", function (e) {
-    var text =
-      e.trigger.getAttribute("data-clipboard-message") ||
-      gettext("Text copied to clipboard.");
-    addAlert(text, (kind = "info"));
-  });
-  clipboard.on("error", function (e) {
-    addAlert(gettext("Please press Ctrl+C to copy."), (kind = "danger"));
-  });
   $("[data-clipboard-text]").on("click", function (e) {
+    navigator.clipboard
+      .writeText(this.getAttribute("data-clipboard-text"))
+      .then(
+        () => {
+          var text =
+            this.getAttribute("data-clipboard-message") ||
+            gettext("Text copied to clipboard.");
+          addAlert(text, (kind = "info"));
+        },
+        () => {
+          addAlert(gettext("Please press Ctrl+C to copy."), (kind = "danger"));
+        },
+      );
     e.preventDefault();
   });
 
@@ -973,9 +914,11 @@ $(function () {
 
   /* Click to edit position inline. Disable when clicked outside or pressed ESC */
   $("#position-input").on("click", function () {
+    var $form = $(this).closest("form");
     $("#position-input").hide();
+    $form.find("input[name=offset]").prop("disabled", false);
     $("#position-input-editable").show();
-    $("#position-input-editable input").focus();
+    $("#position-input-editable-input").attr("type", "number").focus();
     document.addEventListener("click", clickedOutsideEditableInput);
     document.addEventListener("keyup", pressedEscape);
   });
@@ -985,6 +928,7 @@ $(function () {
       event.target != $("#position-input")[0]
     ) {
       $("#position-input").show();
+      $("#position-input-editable-input").attr("type", "hidden");
       $("#position-input-editable").hide();
       document.removeEventListener("click", clickedOutsideEditableInput);
       document.removeEventListener("keyup", pressedEscape);
@@ -993,6 +937,7 @@ $(function () {
   var pressedEscape = function (event) {
     if (event.key == "Escape" && event.target != $("#position-input")[0]) {
       $("#position-input").show();
+      $("#position-input-editable-input").attr("type", "hidden");
       $("#position-input-editable").hide();
       document.removeEventListener("click", clickedOutsideEditableInput);
       document.removeEventListener("keyup", pressedEscape);
@@ -1024,7 +969,7 @@ $(function () {
       $group.find("input[name=q]").val($this.data("field"));
       if ($this.closest(".result-page-form").length) {
         var $form = $this.closest("form");
-        $form.find("input[name=offset]").val("1");
+        $form.find("input[name=offset]").prop("disabled", true);
         $form.submit();
       }
     }
@@ -1048,7 +993,7 @@ $(function () {
     }
   });
   $(".search-group input")
-    .not("#id_q,#id_position,#id_term")
+    .not("#id_q,#id_position,#id_term,#position-input-editable-input")
     .on("keydown", function (event) {
       if (event.key === "Enter") {
         $(this).closest(".input-group").find(".search-add").click();
@@ -1058,7 +1003,7 @@ $(function () {
     });
   $("#id_q").on("change", function (event) {
     var $form = $(this).closest("form");
-    $form.find("input[name=offset]").val("1");
+    $form.find("input[name=offset]").prop("disabled", true);
   });
   $(".search-add").click(function () {
     var group = $(this).closest(".search-group");
@@ -1201,24 +1146,137 @@ $(function () {
     $(this).closest("tr").toggleClass("warning", this.checked);
   });
 
+  /* Suggestion rejection */
+  $(".rejection-reason").on("keydown", function (event) {
+    if (event.key === "Enter") {
+      $(this).closest("form").find("[name='delete']").click();
+      event.preventDefault();
+      return false;
+    }
+  });
+
+  /* User autocomplete */
+  document
+    .querySelectorAll(".user-autocomplete")
+    .forEach((autoCompleteInput) => {
+      let autoCompleteJS = new autoComplete({
+        selector: () => {
+          return autoCompleteInput;
+        },
+        debounce: 300,
+        resultsList: {
+          class: "autoComplete dropdown-menu",
+        },
+        resultItem: {
+          class: "autoComplete_result",
+          element: (item, data) => {
+            item.textContent = "";
+            let child = document.createElement("a");
+            child.textContent = data.value.full_name;
+            item.appendChild(child);
+          },
+          selected: "autoComplete_selected",
+        },
+        data: {
+          keys: ["username"],
+          src: async (query) => {
+            try {
+              // Fetch Data from external Source
+              const source = await fetch(`/api/users/?username=${query}`);
+              // Data should be an array of `Objects` or `Strings`
+              const data = await source.json();
+              return data.results.map((user) => {
+                return {
+                  username: user.username,
+                  full_name: `${user.full_name} (${user.username})`,
+                };
+              });
+            } catch (error) {
+              return error;
+            }
+          },
+        },
+        events: {
+          input: {
+            focus() {
+              if (autoCompleteInput.value.length) autoCompleteJS.start();
+            },
+            selection(event) {
+              const feedback = event.detail;
+              autoCompleteInput.blur();
+              const selection =
+                feedback.selection.value[feedback.selection.key];
+              autoCompleteInput.value = selection;
+            },
+          },
+        },
+      });
+    });
+
+  /* Site-wide search */
+  let siteSearch = new autoComplete({
+    /*name: "sitewide-search",*/
+    selector: "#sitewide-search",
+    debounce: 300,
+    resultsList: {
+      class: "autoComplete dropdown-menu",
+    },
+    resultItem: {
+      class: "autoComplete_result",
+      element: (item, data) => {
+        item.textContent = "";
+        let child = document.createElement("a");
+        child.setAttribute("href", data.value.url);
+        child.textContent = `${data.value.name} `;
+        let category = document.createElement("span");
+        category.setAttribute("class", "badge");
+        category.textContent = data.value.category;
+        child.appendChild(category);
+        item.appendChild(child);
+      },
+      selected: "autoComplete_selected",
+    },
+    data: {
+      keys: ["name"],
+      src: async (query) => {
+        try {
+          const source = await fetch(`/api/search/?q=${query}`);
+          const data = await source.json();
+          return data;
+        } catch (error) {
+          return error;
+        }
+      },
+    },
+    events: {
+      input: {
+        focus() {
+          if (siteSearch.input.value.length) siteSearch.start();
+        },
+      },
+    },
+  });
+
+  document.querySelectorAll("link[as=style]").forEach((linkElement) => {
+    linkElement.setAttribute("rel", "stylesheet");
+  });
+
   /* Warn users that they do not want to use developer console in most cases */
   console.log(
-    "%c" +
-      pgettext("Alert to user when opening browser developer console", "Stop!"),
+    "%c%s",
     "color: red; font-weight: bold; font-size: 50px; font-family: sans-serif; -webkit-text-stroke: 1px black;",
+    pgettext("Alert to user when opening browser developer console", "Stop!"),
   );
   console.log(
-    "%c" +
-      gettext(
-        "This is a browser feature intended for developers. If someone told you to copy-paste something here, they are likely trying to compromise your Weblate account.",
-      ),
+    "%c%s",
     "font-size: 20px; font-family: sans-serif",
+    gettext(
+      "This is a browser feature intended for developers. If someone told you to copy-paste something here, they are likely trying to compromise your Weblate account.",
+    ),
   );
   console.log(
-    "%c" +
-      gettext(
-        "See https://en.wikipedia.org/wiki/Self-XSS for more information.",
-      ),
+    "%c%s",
     "font-size: 20px; font-family: sans-serif",
+    gettext("See https://en.wikipedia.org/wiki/Self-XSS for more information."),
   );
 });
