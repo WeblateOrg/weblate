@@ -24,7 +24,7 @@ turned on by default.
 
 .. _memory-scopes:
 
-Translation-memory scopes
+Translation memory scopes
 -------------------------
 
 .. versionadded:: 3.2
@@ -120,7 +120,7 @@ at the top of the screen, and then "Translation memory".
 Management interface
 ++++++++++++++++++++
 
-Several management commands can manipulate translation-memory content.
+Several management commands can manipulate translation memory content.
 These operate on the translation memory as a whole, unfiltered by scopes
 (unless requested by parameters):
 
