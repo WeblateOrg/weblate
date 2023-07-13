@@ -4,12 +4,15 @@ Weblate 5.0
 Not yet released.
 
 New features:
+
 *
 
 Improved:
+
 * Plurals handling in machine translation.
 
 Fixed:
+
 *
 
 `All changes of this version in detail <https://github.com/WeblateOrg/weblate/milestone/99?closed=1>`__.
