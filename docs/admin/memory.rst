@@ -24,7 +24,7 @@ turned on by default.
 
 .. _memory-scopes:
 
-Translation memory scopes
+Translation-memory scopes
 -------------------------
 
 .. versionadded:: 3.2
@@ -32,7 +32,7 @@ Translation memory scopes
    In earlier versions translation memory could be only loaded from a file
    corresponding to the current imported translation memory scope.
 
-The translation memory scopes ensure privacy, while enabling sharing translations.
+The translation-memory scopes ensure privacy, while enabling sharing translations.
 
 Imported translation memory
 +++++++++++++++++++++++++++
