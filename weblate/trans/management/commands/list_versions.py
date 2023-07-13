@@ -52,7 +52,5 @@ class Command(BaseCommand):
         )
         self.write_item(
             "Platform",
-            "{} {} ({})".format(
-                platform.system(), platform.release(), platform.machine()
-            ),
+            f"{platform.system()} {platform.release()} ({platform.machine()})",
         )
