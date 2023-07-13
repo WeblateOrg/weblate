@@ -417,9 +417,7 @@ class Unit(models.Model, LoggerMixin):
             self.sync_terminology()
 
     def get_absolute_url(self):
-        return "{}?checksum={}".format(
-            self.translation.get_translate_url(), self.checksum
-        )
+        return f"{self.translation.get_translate_url()}?checksum={self.checksum}"
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""

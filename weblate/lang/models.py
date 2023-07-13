@@ -489,9 +489,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                         setattr(plural, item, plural_data[item])
                 if modified:
                     logger(
-                        "Updated default plural {} for language {}".format(
-                            plural_formula, code
-                        )
+                        f"Updated default plural {plural_formula} for language {code}"
                     )
                     plural.save()
             else:
@@ -499,11 +497,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                     source=Plural.SOURCE_DEFAULT, language=lang, **plural_data
                 )
                 plurals[code][Plural.SOURCE_DEFAULT].append(plural)
-                logger(
-                    "Created default plural {} for language {}".format(
-                        plural_formula, code
-                    )
-                )
+                logger(f"Created default plural {plural_formula} for language {code}")
 
         # Create addditiona plurals
         extra_plurals = (
