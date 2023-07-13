@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from datetime import timedelta
-from typing import Dict
 
 from django.conf import settings
 from django.utils import timezone
@@ -36,7 +37,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         "mn": "mn-Mong",
     }
 
-    def __init__(self, settings: Dict[str, str]):
+    def __init__(self, settings: dict[str, str]):
         """Check configuration."""
         super().__init__(settings)
         self._access_token = None

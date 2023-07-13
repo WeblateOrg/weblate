@@ -3,11 +3,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Backup automation based on borg."""
+from __future__ import annotations
+
 import os
 import string
 import subprocess
 from random import SystemRandom
-from typing import Dict, List, Optional
 from urllib.parse import urlparse
 
 import borg
@@ -75,7 +76,7 @@ def tag_cache_dirs():
                 handle.write(CACHEDIR)
 
 
-def run_borg(cmd: List[str], env: Optional[Dict[str, str]] = None) -> str:
+def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> str:
     """Wrapper to execute borgbackup."""
     with backup_lock():
         SSH_WRAPPER.create()

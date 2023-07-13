@@ -4,9 +4,10 @@
 
 """Helper methods for views."""
 
+from __future__ import annotations
+
 import os
 from time import mktime
-from typing import List, Optional
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -281,7 +282,7 @@ def iter_files(filenames):
             yield filename
 
 
-def zip_download(root: str, filenames: List[str], name: str = "translations"):
+def zip_download(root: str, filenames: list[str], name: str = "translations"):
     response = HttpResponse(content_type="application/zip")
     with ZipFile(response, "w") as zipfile:
         for filename in iter_files(filenames):
@@ -298,8 +299,8 @@ def zip_download(root: str, filenames: List[str], name: str = "translations"):
 def download_translation_file(
     request,
     translation: Translation,
-    fmt: Optional[str] = None,
-    query_string: Optional[str] = None,
+    fmt: str | None = None,
+    query_string: str | None = None,
 ):
     if fmt is not None:
         try:

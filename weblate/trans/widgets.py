@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os.path
-from typing import Tuple
 
 import cairo
 import gi
@@ -54,7 +55,7 @@ class Widget:
 
     name = ""
     verbose = ""
-    colors: Tuple[str, ...] = ()
+    colors: tuple[str, ...] = ()
     extension = "png"
     content_type = "image/png"
     order = 100
@@ -93,7 +94,7 @@ class ContentWidget(Widget):
 class BitmapWidget(ContentWidget):
     """Base class for bitmap rendering widgets."""
 
-    colors: Tuple[str, ...] = ("grey", "white", "black")
+    colors: tuple[str, ...] = ("grey", "white", "black")
     extension = "png"
     content_type = "image/png"
     order = 100
@@ -282,7 +283,7 @@ class SmallWidget(BitmapWidget):
 @register_widget
 class OpenGraphWidget(NormalWidget):
     name = "open"
-    colors: Tuple[str, ...] = ("graph",)
+    colors: tuple[str, ...] = ("graph",)
     order = 120
     lines = False
     offset = 300
@@ -356,7 +357,7 @@ class BadgeWidget(RedirectWidget):
     """Legacy badge which used to render PNG."""
 
     name = "status"
-    colors: Tuple[str, ...] = ("badge",)
+    colors: tuple[str, ...] = ("badge",)
 
 
 @register_widget
@@ -364,13 +365,13 @@ class ShieldsBadgeWidget(RedirectWidget):
     """Legacy badge which used to redirect to shields.io."""
 
     name = "shields"
-    colors: Tuple[str, ...] = ("badge",)
+    colors: tuple[str, ...] = ("badge",)
 
 
 @register_widget
 class SVGBadgeWidget(SVGWidget):
     name = "svg"
-    colors: Tuple[str, ...] = ("badge",)
+    colors: tuple[str, ...] = ("badge",)
     order = 80
     template_name = "svg/badge.svg"
     verbose = gettext_lazy("Status badge")
@@ -422,7 +423,7 @@ class SVGBadgeWidget(SVGWidget):
 class MultiLanguageWidget(SVGWidget):
     name = "multi"
     order = 81
-    colors: Tuple[str, ...] = ("auto", "red", "green", "blue")
+    colors: tuple[str, ...] = ("auto", "red", "green", "blue")
     template_name = "svg/multi-language-badge.svg"
     verbose = pgettext_lazy("Status widget name", "Vertical language bar chart")
 

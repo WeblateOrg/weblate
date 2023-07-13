@@ -2,12 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import re
 from collections import defaultdict
 from datetime import timedelta
 from importlib import import_module
-from typing import Optional
 
 import social_django.utils
 from django.conf import settings
@@ -916,7 +917,7 @@ def reset_password_set(request):
     )
 
 
-def get_registration_hint(email: str) -> Optional[str]:
+def get_registration_hint(email: str) -> str | None:
     domain = email.rsplit("@", 1)[-1]
     return settings.REGISTRATION_HINTS.get(domain)
 

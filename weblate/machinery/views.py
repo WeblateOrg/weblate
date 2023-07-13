@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from itertools import chain
-from typing import Dict, Optional
 
 from django.core.exceptions import PermissionDenied
 from django.http import (
@@ -55,7 +56,7 @@ class MachineryConfiguration:
     def __init__(
         self,
         machinery,
-        configuration: Optional[Dict[str, str]],
+        configuration: dict[str, str] | None,
         sitewide: bool = False,
         project=None,
         is_configured: bool = True,

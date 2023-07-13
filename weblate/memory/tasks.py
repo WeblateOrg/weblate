@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from typing import Optional
+from __future__ import annotations
 
 from django.db import transaction
 
@@ -13,7 +13,7 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 @app.task(trail=False)
-def import_memory(project_id: int, component_id: Optional[int] = None):
+def import_memory(project_id: int, component_id: int | None = None):
     from weblate.trans.models import Project, Unit
 
     project = Project.objects.get(pk=project_id)

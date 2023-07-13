@@ -2,10 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import logging
 import sys
 from json import JSONDecodeError
-from typing import Optional
 
 import sentry_sdk
 from django.conf import settings
@@ -33,7 +34,7 @@ def report_error(
     cause: str = "Handled exception",
     skip_sentry: bool = False,
     print_tb: bool = False,
-    extra_log: Optional[str] = None,
+    extra_log: str | None = None,
     project=None,
     message: bool = False,
 ):

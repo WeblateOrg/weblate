@@ -2,9 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from calendar import monthrange
 from datetime import date, timedelta
-from typing import Dict
 
 from django.core.cache import cache
 from django.utils import timezone
@@ -91,7 +92,7 @@ class MetricsWrapper:
     def contributors(self):
         return self.current.get("contributors", 0)
 
-    def calculate_trend_percent(self, key, modkey, base: Dict, origin: Dict):
+    def calculate_trend_percent(self, key, modkey, base: dict, origin: dict):
         total = base.get(key, 0)
         if not total:
             return 0
@@ -110,7 +111,7 @@ class MetricsWrapper:
         past = 100 * past / divisor
         return total - past
 
-    def calculate_trend(self, key, base: Dict, origin: Dict):
+    def calculate_trend(self, key, base: dict, origin: dict):
         total = base.get(key, 0)
         if not total:
             return 0

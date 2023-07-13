@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import re
 import time
@@ -10,7 +12,7 @@ from copy import copy
 from datetime import datetime, timedelta
 from glob import glob
 from itertools import chain
-from typing import Any, Dict, List, Optional
+from typing import Any
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 from uuid import uuid4
@@ -1125,7 +1127,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         result = []
         raw = []
 
-        def append(text: Optional[str]):
+        def append(text: str | None):
             if raw:
                 result.append(re.escape("".join(raw)))
                 raw.clear()
@@ -1237,7 +1239,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         self,
         filename: str,
         line: str,
-        template: Optional[str] = None,
+        template: str | None = None,
         user=None,
     ):
         """
@@ -1878,15 +1880,15 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     def commit_files(
         self,
-        template: Optional[str] = None,
-        author: Optional[str] = None,
-        timestamp: Optional[datetime] = None,
-        files: Optional[List[str]] = None,
+        template: str | None = None,
+        author: str | None = None,
+        timestamp: datetime | None = None,
+        files: list[str] | None = None,
         signals: bool = True,
         skip_push: bool = False,
-        extra_context: Optional[Dict[str, Any]] = None,
-        message: Optional[str] = None,
-        component: Optional[models.Model] = None,
+        extra_context: dict[str, Any] | None = None,
+        message: str | None = None,
+        component: models.Model | None = None,
     ):
         """Commits files to the repository."""
         linked = self.linked_component
@@ -1963,7 +1965,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     @perform_on_link
     def update_branch(
-        self, request=None, method: Optional[str] = None, skip_push: bool = False
+        self, request=None, method: str | None = None, skip_push: bool = False
     ):
         """Update current branch to match remote (if possible)."""
         if method is None:
@@ -2183,11 +2185,11 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     def create_translations(
         self,
         force: bool = False,
-        langs: Optional[List[str]] = None,
+        langs: list[str] | None = None,
         request=None,
         changed_template: bool = False,
         from_link: bool = False,
-        change: Optional[int] = None,
+        change: int | None = None,
     ):
         """Load translations from VCS."""
         try:
@@ -2233,11 +2235,11 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     def _create_translations(  # noqa: C901
         self,
         force: bool = False,
-        langs: Optional[List[str]] = None,
+        langs: list[str] | None = None,
         request=None,
         changed_template: bool = False,
         from_link: bool = False,
-        change: Optional[int] = None,
+        change: int | None = None,
     ):
         """Load translations from VCS."""
         self.store_background_task()
@@ -2620,7 +2622,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 )
             )
 
-    def is_valid_base_for_new(self, errors: Optional[List] = None, fast: bool = False):
+    def is_valid_base_for_new(self, errors: list | None = None, fast: bool = False):
         filename = self.get_new_base_filename()
         template = self.has_template()
         return self.file_format_cls.is_valid_base_for_new(

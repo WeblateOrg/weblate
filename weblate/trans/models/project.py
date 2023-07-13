@@ -2,10 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import os.path
 from datetime import datetime
-from typing import Optional
 
 from django.conf import settings
 from django.core.cache import cache
@@ -254,7 +255,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             return {}
         return dict(part.split(":") for part in self.language_aliases.split(","))
 
-    def add_user(self, user, group: Optional[str] = None):
+    def add_user(self, user, group: str | None = None):
         """Add user based on username or email address."""
         implicit_group = False
         if group is None:
@@ -468,7 +469,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         slug: str,
         source_language,
         file_format: str,
-        has_template: Optional[bool] = None,
+        has_template: bool | None = None,
         is_glossary: bool = False,
         **kwargs,
     ):

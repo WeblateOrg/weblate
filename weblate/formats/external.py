@@ -4,9 +4,11 @@
 
 """External file format specific behavior."""
 
+from __future__ import annotations
+
 import os
 from io import BytesIO, StringIO
-from typing import Callable, Optional
+from typing import Callable
 from zipfile import BadZipFile
 
 from django.utils.translation import gettext_lazy
@@ -104,7 +106,7 @@ class XlsxFormat(CSVFormat):
         filename: str,
         language: str,
         base: str,
-        callback: Optional[Callable] = None,
+        callback: Callable | None = None,
     ):
         """Handle creation of new translation file."""
         if not base:

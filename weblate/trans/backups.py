@@ -4,12 +4,14 @@
 
 """Project level backups."""
 
+from __future__ import annotations
+
 import json
 import os
 from datetime import datetime
 from itertools import chain
 from shutil import copyfileobj
-from typing import Callable, Dict, List, Optional
+from typing import Callable
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -45,7 +47,7 @@ class ProjectBackup:
     VCS_PREFIX = "vcs/"
     VCS_PREFIX_LEN = len(VCS_PREFIX)
 
-    def __init__(self, filename: Optional[str] = None):
+    def __init__(self, filename: str | None = None):
         self.data = {}
         self.filename = filename
         self.timestamp = timezone.now()
@@ -64,7 +66,7 @@ class ProjectBackup:
         validate_schema(self.data, "weblate-backup.schema.json")
 
     def backup_property(
-        self, obj, field: str, extras: Optional[Dict[str, Callable]] = None
+        self, obj, field: str, extras: dict[str, Callable] | None = None
     ):
         if extras and field in extras:
             return extras[field](obj)
@@ -89,7 +91,7 @@ class ProjectBackup:
         return value
 
     def backup_object(
-        self, obj, properties: List[str], extras: Optional[Dict[str, Callable]] = None
+        self, obj, properties: list[str], extras: dict[str, Callable] | None = None
     ):
         return {field: self.backup_property(obj, field, extras) for field in properties}
 
@@ -321,7 +323,7 @@ class ProjectBackup:
         validate_schema(data, "weblate-memory.schema.json")
         return data
 
-    def load_components(self, zipfile, callback: Optional[Callable] = None):
+    def load_components(self, zipfile, callback: Callable | None = None):
         for component in self.list_components(zipfile):
             with zipfile.open(component) as handle:
                 data = json.load(handle)
@@ -365,9 +367,7 @@ class ProjectBackup:
 
         return self.user_cache[username]
 
-    def restore_with_user(
-        self, data, field: str = "user", remove: Optional[str] = None
-    ):
+    def restore_with_user(self, data, field: str = "user", remove: str | None = None):
         data = data.copy()
         if remove is not None:
             data.pop(remove)

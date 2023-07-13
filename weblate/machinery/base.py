@@ -4,12 +4,13 @@
 
 """Base code for machine translation services."""
 
+from __future__ import annotations
+
 import random
 import re
 import time
 from hashlib import md5
 from itertools import chain
-from typing import Dict, List
 from urllib.parse import quote
 
 from django.core.cache import cache
@@ -53,7 +54,7 @@ class MachineTranslation:
     max_score = 100
     rank_boost = 0
     cache_translations = True
-    language_map: Dict[str, str] = {}
+    language_map: dict[str, str] = {}
     same_languages = False
     do_cleanup = True
     # Batch size is currently used in autotranslate
@@ -69,7 +70,7 @@ class MachineTranslation:
     def get_rank(cls):
         return cls.max_score + cls.rank_boost
 
-    def __init__(self, settings: Dict[str, str]):
+    def __init__(self, settings: dict[str, str]):
         """Create new machine translation object."""
         self.mtid = self.get_identifier()
         self.rate_limit_cache = f"{self.mtid}-rate-limit"
@@ -307,7 +308,7 @@ class MachineTranslation:
 
         return "".join(parts), replacements
 
-    def uncleanup_results(self, replacements: Dict[str, str], results: List[str]):
+    def uncleanup_results(self, replacements: dict[str, str], results: list[str]):
         """Reverts replacements done by cleanup_text."""
         keys = ("text", "source")
         for result in results:

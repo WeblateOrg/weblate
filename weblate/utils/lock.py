@@ -2,9 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 from contextlib import suppress
-from typing import Optional
 
 import sentry_sdk
 from django.core.cache import cache
@@ -28,7 +29,7 @@ class WeblateLock:
         key: int,
         slug: str,
         cache_template: str = "lock:{scope}:{key}",
-        file_template: Optional[str] = "{slug}-{scope}.lock",
+        file_template: str | None = "{slug}-{scope}.lock",
         timeout: int = 1,
     ):
         self._timeout = timeout

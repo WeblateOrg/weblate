@@ -2,12 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from contextlib import suppress
 from copy import copy
 from datetime import timedelta
 from itertools import chain
 from types import GeneratorType
-from typing import Optional
 from uuid import uuid4
 
 import sentry_sdk
@@ -204,13 +205,13 @@ class BaseStats:
 
     def get_invalidate_keys(
         self,
-        language: Optional[Language] = None,
+        language: Language | None = None,
         childs: bool = False,
         parents: bool = True,
     ):
         return {self.cache_key, GlobalStats().cache_key}
 
-    def invalidate(self, language: Optional[Language] = None, childs: bool = False):
+    def invalidate(self, language: Language | None = None, childs: bool = False):
         """Invalidate local and cache data."""
         self.clear()
         keys = self.get_invalidate_keys(language, childs)
@@ -338,7 +339,7 @@ class TranslationStats(BaseStats):
 
     def get_invalidate_keys(
         self,
-        language: Optional[Language] = None,
+        language: Language | None = None,
         childs: bool = False,
         parents: bool = True,
     ):
@@ -690,7 +691,7 @@ class ComponentStats(LanguageStats):
 
     def get_invalidate_keys(
         self,
-        language: Optional[Language] = None,
+        language: Language | None = None,
         childs: bool = False,
         parents: bool = True,
     ):
@@ -879,7 +880,7 @@ class ProjectStats(BaseStats):
 
     def get_invalidate_keys(
         self,
-        language: Optional[Language] = None,
+        language: Language | None = None,
         childs: bool = False,
         parents: bool = True,
     ):

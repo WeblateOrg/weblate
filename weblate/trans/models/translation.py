@@ -2,12 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import codecs
 import os
 import tempfile
-from datetime import datetime
 from itertools import chain
-from typing import BinaryIO, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, BinaryIO
 
 import sentry_sdk
 from django.core.cache import cache
@@ -50,6 +51,9 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import GhostStats, TranslationStats
+
+if TYPE_CHECKING:
+    from datetime import datetime
 
 
 class TranslationManager(models.Manager):
@@ -305,8 +309,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     def sync_unit(
         self,
-        dbunits: Dict[int, Unit],
-        updated: Dict[int, Unit],
+        dbunits: dict[int, Unit],
+        updated: dict[int, Unit],
         id_hash: int,
         unit,
         pos: int,
@@ -686,10 +690,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         self,
         user,
         author: str,
-        timestamp: Optional[datetime] = None,
+        timestamp: datetime | None = None,
         skip_push=False,
         signals=True,
-        template: Optional[str] = None,
+        template: str | None = None,
         store_hash: bool = True,
     ):
         """Wrapper for committing translation to git."""
@@ -1180,8 +1184,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         request,
         fileobj: BinaryIO,
         conflicts: str,
-        author_name: Optional[str] = None,
-        author_email: Optional[str] = None,
+        author_name: str | None = None,
+        author_email: str | None = None,
         method: str = "translate",
         fuzzy: str = "",
     ):
@@ -1362,15 +1366,15 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         self,
         request,
         context: str,
-        source: Union[str, List[str]],
-        target: Optional[Union[str, List[str]]] = None,
+        source: str | list[str],
+        target: str | list[str] | None = None,
         extra_flags: str = "",
         explanation: str = "",
         auto_context: bool = False,
         is_batch_update: bool = False,
         skip_existing: bool = False,
         sync_terminology: bool = True,
-        state: Optional[int] = None,
+        state: int | None = None,
     ):
         if isinstance(source, list):
             source = join_plural(source)
@@ -1600,12 +1604,12 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def validate_new_unit_data(
         self,
         context: str,
-        source: Union[str, List[str]],
-        target: Optional[Union[str, List[str]]] = None,
+        source: str | list[str],
+        target: str | list[str] | None = None,
         auto_context: bool = False,
-        extra_flags: Optional[str] = None,
+        extra_flags: str | None = None,
         explanation: str = "",
-        state: Optional[int] = None,
+        state: int | None = None,
     ):
         extra = {}
         if isinstance(source, str):

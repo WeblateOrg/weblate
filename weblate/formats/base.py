@@ -4,10 +4,12 @@
 
 """Base classes for file formats."""
 
+from __future__ import annotations
+
 import os
 import tempfile
 from copy import copy
-from typing import Any, Callable, Dict, List, Optional, Tuple, Type, Union
+from typing import Any, Callable
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
@@ -215,7 +217,7 @@ class TranslationUnit:
         """Check whether unit is read only."""
         return False
 
-    def set_target(self, target: Union[str, List[str]]):
+    def set_target(self, target: str | list[str]):
         """Set translation unit target."""
         raise NotImplementedError
 
@@ -242,23 +244,23 @@ class TranslationFormat:
 
     name: str = ""
     format_id: str = ""
-    monolingual: Optional[bool] = None
-    check_flags: Tuple[str, ...] = ()
-    unit_class: Type[TranslationUnit] = TranslationUnit
-    autoload: Tuple[str, ...] = ()
+    monolingual: bool | None = None
+    check_flags: tuple[str, ...] = ()
+    unit_class: type[TranslationUnit] = TranslationUnit
+    autoload: tuple[str, ...] = ()
     can_add_unit: bool = True
     can_delete_unit: bool = True
     language_format: str = "posix"
     simple_filename: bool = True
-    new_translation: Optional[Union[str, bytes]] = None
-    autoaddon: Dict[str, Dict[str, str]] = {}
+    new_translation: str | bytes | None = None
+    autoaddon: dict[str, dict[str, str]] = {}
     create_empty_bilingual: bool = False
     bilingual_class = None
     create_style = "create"
     has_multiple_strings: bool = False
     supports_explanation: bool = False
     strict_format_plurals: bool = False
-    plural_preference: Optional[Tuple[int, ...]] = None
+    plural_preference: tuple[int, ...] | None = None
 
     @classmethod
     def get_identifier(cls):
@@ -269,8 +271,8 @@ class TranslationFormat:
         cls,
         storefile,
         template_store=None,
-        language_code: Optional[str] = None,
-        source_language: Optional[str] = None,
+        language_code: str | None = None,
+        source_language: str | None = None,
         is_template: bool = False,
     ):
         """
@@ -291,8 +293,8 @@ class TranslationFormat:
         self,
         storefile,
         template_store=None,
-        language_code: Optional[str] = None,
-        source_language: Optional[str] = None,
+        language_code: str | None = None,
+        source_language: str | None = None,
         is_template: bool = False,
     ):
         """Create file format object, wrapping up translate-toolkit's store."""
@@ -369,8 +371,8 @@ class TranslationFormat:
         return {unit.id_hash: unit for unit in self.template_units}
 
     def find_unit_template(
-        self, context: str, source: str, id_hash: Optional[int] = None
-    ) -> Optional[Any]:
+        self, context: str, source: str, id_hash: int | None = None
+    ) -> Any | None:
         if id_hash is None:
             id_hash = self._calculate_string_hash(context, source)
         try:
@@ -379,7 +381,7 @@ class TranslationFormat:
         except KeyError:
             return None
 
-    def _find_unit_monolingual(self, context: str, source: str) -> Tuple[Any, bool]:
+    def _find_unit_monolingual(self, context: str, source: str) -> tuple[Any, bool]:
         # We search by ID when using template
         id_hash = self._calculate_string_hash(context, source)
         try:
@@ -405,14 +407,14 @@ class TranslationFormat:
             self.has_template or self.is_template, get_string(source), context
         )
 
-    def _find_unit_bilingual(self, context: str, source: str) -> Tuple[Any, bool]:
+    def _find_unit_bilingual(self, context: str, source: str) -> tuple[Any, bool]:
         id_hash = self._calculate_string_hash(context, source)
         try:
             return (self._unit_index[id_hash], False)
         except KeyError:
             raise UnitNotFound(context, source)
 
-    def find_unit(self, context: str, source: Optional[str] = None) -> Tuple[Any, bool]:
+    def find_unit(self, context: str, source: str | None = None) -> tuple[Any, bool]:
         """
         Find unit by context and source.
 
@@ -508,14 +510,14 @@ class TranslationFormat:
         cls,
         base: str,
         monolingual: bool,
-        errors: Optional[List] = None,
+        errors: list | None = None,
         fast: bool = False,
     ) -> bool:
         """Check whether base is valid."""
         raise NotImplementedError
 
     @classmethod
-    def get_language_code(cls, code: str, language_format: Optional[str] = None) -> str:
+    def get_language_code(cls, code: str, language_format: str | None = None) -> str:
         """Do any possible formatting needed for language code."""
         if not language_format:
             language_format = cls.language_format
@@ -597,7 +599,7 @@ class TranslationFormat:
         filename: str,
         language: str,
         base: str,
-        callback: Optional[Callable] = None,
+        callback: Callable | None = None,
     ):
         """Add new language file."""
         # Create directory for a translation
@@ -617,7 +619,7 @@ class TranslationFormat:
         filename: str,
         language: str,
         base: str,
-        callback: Optional[Callable] = None,
+        callback: Callable | None = None,
     ):
         """Handle creation of new translation file."""
         raise NotImplementedError
@@ -648,16 +650,16 @@ class TranslationFormat:
     def create_unit(
         self,
         key: str,
-        source: Union[str, List[str]],
-        target: Optional[Union[str, List[str]]] = None,
+        source: str | list[str],
+        target: str | list[str] | None = None,
     ):
         raise NotImplementedError
 
     def new_unit(
         self,
         key: str,
-        source: Union[str, List[str]],
-        target: Optional[Union[str, List[str]]] = None,
+        source: str | list[str],
+        target: str | list[str] | None = None,
         skip_build: bool = False,
     ):
         """Add new unit to monolingual store."""
@@ -701,10 +703,10 @@ class TranslationFormat:
     def add_breadcrumb(cls, message, **data):
         add_breadcrumb(category="storage", message=message, **data)
 
-    def delete_unit(self, ttkit_unit) -> Optional[str]:
+    def delete_unit(self, ttkit_unit) -> str | None:
         raise NotImplementedError
 
-    def cleanup_unused(self) -> List[str]:
+    def cleanup_unused(self) -> list[str]:
         """Removes unused strings, returning list of additional changed files."""
         if not self.template_store:
             return []
@@ -727,7 +729,7 @@ class TranslationFormat:
         self._invalidate_units()
         return result
 
-    def cleanup_blank(self) -> List[str]:
+    def cleanup_blank(self) -> list[str]:
         """
         Removes strings without translations.
 
@@ -752,7 +754,7 @@ class TranslationFormat:
         self._invalidate_units()
         return result
 
-    def remove_unit(self, ttkit_unit) -> List[str]:
+    def remove_unit(self, ttkit_unit) -> list[str]:
         """High level wrapper for unit removal."""
         changed = False
 

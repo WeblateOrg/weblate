@@ -2,9 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import datetime
 from itertools import zip_longest
-from typing import Dict, Optional, Set
 
 from django.core.cache import cache
 from django.db import models
@@ -76,7 +77,7 @@ METRIC_ORDER = [
 
 
 class MetricQuerySet(models.QuerySet):
-    def get_kwargs(self, scope: int, relation: int, secondary: int = 0) -> Dict:
+    def get_kwargs(self, scope: int, relation: int, secondary: int = 0) -> dict:
         """Build the query params."""
         kwargs = {
             "scope": scope,
@@ -89,13 +90,13 @@ class MetricQuerySet(models.QuerySet):
 
     def filter_metric(
         self, scope: int, relation: int, secondary: int = 0
-    ) -> "MetricQuerySet":
+    ) -> MetricQuerySet:
         kwargs = self.get_kwargs(scope, relation, secondary)
         return self.filter(**kwargs)
 
     def get_current_metric(
         self, obj, scope: int, relation: int, secondary: int = 0
-    ) -> "Metric":
+    ) -> Metric:
         today = timezone.now().date()
         yesterday = today - datetime.timedelta(days=1)
 
@@ -122,9 +123,9 @@ class MetricQuerySet(models.QuerySet):
 class MetricManager(models.Manager):
     def create_metrics(
         self,
-        data: Dict,
-        stats: Optional[Dict],
-        keys: Set,
+        data: dict,
+        stats: dict | None,
+        keys: set,
         scope: int,
         relation: int,
         secondary: int = 0,
@@ -446,7 +447,7 @@ class Metric(models.Model):
         return f"<{self.scope}.{self.relation}>:{self.date}:{self.changes} {self.data}"
 
     @cached_property
-    def dict_data(self) -> Dict:
+    def dict_data(self) -> dict:
         return dict(zip_longest(METRIC_ORDER, self.data or [], fillvalue=0))
 
     def __getitem__(self, item: str):

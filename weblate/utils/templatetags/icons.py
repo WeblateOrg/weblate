@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
-from typing import Dict
 
 from django import template
 from django.conf import settings
@@ -14,7 +15,7 @@ from weblate.utils.errors import report_error
 
 register = template.Library()
 
-CACHE: Dict[str, str] = {}
+CACHE: dict[str, str] = {}
 
 SPIN = '<span class="icon-spin" {} {}>{}</span>'
 

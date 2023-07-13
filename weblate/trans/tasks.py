@@ -2,11 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import time
 from datetime import datetime, timedelta
 from glob import glob
-from typing import List, Optional
 
 from celery import current_task
 from celery.schedules import crontab
@@ -72,7 +73,7 @@ def perform_update(cls, pk, auto=False, obj=None):
 def perform_load(
     pk: int,
     force: bool = False,
-    langs: Optional[List[str]] = None,
+    langs: list[str] | None = None,
     changed_template: bool = False,
     from_link: bool = False,
 ):
@@ -348,7 +349,7 @@ def component_removal(pk, uid):
 
 
 @app.task(trail=False)
-def project_removal(pk: int, uid: Optional[int]):
+def project_removal(pk: int, uid: int | None):
     user = get_anonymous() if uid is None else User.objects.get(pk=uid)
     try:
         project = Project.objects.get(pk=pk)
@@ -377,10 +378,10 @@ def auto_translate(
     mode: str,
     filter_type: str,
     auto_source: str,
-    component: Optional[int],
-    engines: List[str],
+    component: int | None,
+    engines: list[str],
     threshold: int,
-    translation: Optional[Translation] = None,
+    translation: Translation | None = None,
     component_wide: bool = False,
 ):
     if translation is None:
@@ -437,9 +438,9 @@ def auto_translate_component(
     mode: str,
     filter_type: str,
     auto_source: str,
-    engines: List[str],
+    engines: list[str],
     threshold: int,
-    component: Optional[int],
+    component: int | None,
 ):
     component_obj = Component.objects.get(pk=component_id)
 

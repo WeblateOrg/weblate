@@ -2,10 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from collections import defaultdict
 from copy import copy
 from email.utils import formataddr
-from typing import Any, Iterable, List, Optional
+from typing import Any, Iterable
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
@@ -83,8 +85,8 @@ class Notification:
     filter_languages: bool = False
     ignore_watched: bool = False
     any_watched: bool = False
-    required_attr: Optional[str] = None
-    skip_when_notify: List[Any] = []
+    required_attr: str | None = None
+    skip_when_notify: list[Any] = []
 
     def __init__(self, outgoing, perm_cache=None):
         self.outgoing = outgoing
