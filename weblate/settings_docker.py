@@ -1159,7 +1159,7 @@ REDIS_PROTO = "rediss" if get_env_bool("REDIS_TLS") else "redis"
 # Configuration for caching
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
+        "BACKEND": "redis_lock.django_cache.RedisCache",
         "LOCATION": "{}://{}:{}/{}".format(
             REDIS_PROTO,
             os.environ.get("REDIS_HOST", "cache"),

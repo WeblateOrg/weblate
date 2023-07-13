@@ -714,7 +714,7 @@ class TranslationFormat:
         result = []
 
         # Iterate over copy of a list as we are changing it when removing units
-        for unit in self.all_store_units[:]:
+        for unit in list(self.all_store_units):
             if self.unit_class(self, None, unit).context not in existing:
                 item = self.delete_unit(unit)
                 if item is not None:
@@ -738,7 +738,7 @@ class TranslationFormat:
         result = []
 
         # Iterate over copy of a list as we are changing it when removing units
-        for ttkit_unit in self.all_store_units[:]:
+        for ttkit_unit in list(self.all_store_units):
             target = self.unit_class(self, ttkit_unit, ttkit_unit).target
             if not target or (isinstance(target, list) and not any(target)):
                 item = self.delete_unit(ttkit_unit)

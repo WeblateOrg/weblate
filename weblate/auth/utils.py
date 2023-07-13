@@ -109,4 +109,10 @@ def create_anonymous(model, group_model, update=True):
 
 def format_address(display_name, email):
     """Format e-mail address with display name."""
-    return str(Address(display_name=display_name, addr_spec=email))
+    # While Address does quote the name following RFC 5322,
+    # git still doesn't like <> being used in the string
+    return str(
+        Address(
+            display_name=display_name.replace("<", "").replace(">", ""), addr_spec=email
+        )
+    )

@@ -1935,6 +1935,18 @@ class ComponentAPITest(APIBaseTest):
             self.component_kwargs,
             method="post",
             code=201,
+            request={"language_code": "fa"},
+        )
+
+    def test_create_translation_existing(self):
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=400,
             request={"language_code": "cs"},
         )
 
@@ -1953,7 +1965,7 @@ class ComponentAPITest(APIBaseTest):
             self.component_kwargs,
             method="post",
             code=403,
-            request={"language_code": "cs"},
+            request={"language_code": "fa"},
         )
 
     def test_download_translation_zip_ok(self):
