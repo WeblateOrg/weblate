@@ -1411,10 +1411,11 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 kwargs["pending"] = not is_source
             if kwargs["pending"]:
                 kwargs["details"] = {"add_unit": True}
+            if (self.is_source and is_source) or (not self.is_source and not is_source):
+                kwargs["explanation"] = explanation
             if is_source:
                 current_target = source
                 kwargs["extra_flags"] = extra_flags
-                kwargs["explanation"] = explanation
             else:
                 current_target = target
             if current_target is None:
