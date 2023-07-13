@@ -444,7 +444,7 @@ Allowed formats are JPEG, PNG, APNG and GIF.
 
 Note:
 
-1. The filemask and screenshot filemask are not related. Configure them separatly.
+1. The file mask and screenshot file mask are not related. Configure them separately.
 2. It is a manual job to link a discovered screenshot in a component to a specific translation key.
 
 For example:
@@ -459,7 +459,7 @@ Let's assume your VCS repository has a structure like this:
         └── image2.jpg
 
 For component_A, you want to allow discovery and updates of PNG screenshots.
-You'd set the screenshot mask for component_A as ``component_A/docs/*.png``.
+You'd set the screenshot file mask for component_A as ``component_A/docs/*.png``.
 This means any PNG images under docs in component_A can be discovered and updated.
 So, if you want to update ``image1.png``, the new screenshot you provide should be named ``image1.png``,
 matching the existing ``filename``, and stored under ``component_A/docs/``.
