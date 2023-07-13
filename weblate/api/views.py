@@ -822,14 +822,19 @@ class ComponentViewSet(
             try:
                 language = Language.objects.get(code=language_code)
             except Language.DoesNotExist:
-                raise ValidationError(
-                    f"No language code {language_code!r} found!", "invalid"
-                )
+                raise ValidationError(f"No language code {language_code!r} found!")
 
             if not obj.can_add_new_language(request.user):
                 self.permission_denied(request, message=obj.new_lang_error_message)
 
             translation = obj.add_new_language(language, request)
+            if translation is None:
+                storage = get_messages(request)
+                error = f"Failed to add {language_code!r}!"
+                if storage:
+                    error = "\n".join(m.message for m in storage)
+                raise ValidationError(error)
+
             serializer = TranslationSerializer(
                 translation, context={"request": request}, remove_fields=("component",)
             )
