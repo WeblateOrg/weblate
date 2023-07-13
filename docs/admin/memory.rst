@@ -80,12 +80,12 @@ project contributed to, with options to download (as JSON, or TMX) or delete the
 
 .. versionadded:: 3.2
 
-In the basic user-interface you can manage per-user and per-project translation
+In the basic user interface you can manage per-user and per-project translation
 memories. It can be used to download, wipe or import translation memory.
 
 .. versionadded:: 3.8
 
-There are multiple options for downloading the translation memory of the whole platform.
+There are multiple options for downloading the translation memory of the whole instance.
 
 .. hint::
 
@@ -111,7 +111,7 @@ There is a platform-wide interface to manage the translation memory.
 
 .. versionadded:: 4.12
 
-It has the same options as the user-interface, but also allows
+It has the same options as the user interface, but also allows
 rebuilding parts of or the entire translation memory.
 All old entries can be flushed and re-created from a component or project by
 selecting "Administration" from amidst the different tabs
