@@ -1,33 +1,18 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 import os
 import os.path
 from datetime import datetime
-from glob import glob
-from typing import Optional
 
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, transaction
-from django.db.models import Count, Value
+from django.db.models import Count, Q, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -43,18 +28,30 @@ from weblate.trans.mixins import CacheKeyMixin, PathMixin, URLMixin
 from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectStats
-from weblate.utils.validators import validate_language_aliases, validate_slug
+from weblate.utils.validators import (
+    validate_language_aliases,
+    validate_project_name,
+    validate_project_web,
+    validate_slug,
+)
 
 
 class ProjectQuerySet(models.QuerySet):
     def order(self):
         return self.order_by("name")
 
+    def search(self, query: str):
+        return self.filter(Q(name__icontains=query) | Q(slug__icontains=query))
+
 
 def prefetch_project_flags(projects):
     lookup = {project.id: project for project in projects}
     if lookup:
         queryset = Project.objects.filter(id__in=lookup.keys()).values("id")
+        # Fallback value for locking and alerts
+        for project in projects:
+            project.__dict__["locked"] = True
+            project.__dict__["has_alerts"] = False
         # Indicate alerts
         for alert in queryset.filter(component__alert__dismissed=False).annotate(
             Count("component__alert")
@@ -62,9 +59,6 @@ def prefetch_project_flags(projects):
             lookup[alert["id"]].__dict__["has_alerts"] = bool(
                 alert["component__alert__count"]
             )
-        # Fallback value for locking
-        for project in projects:
-            project.__dict__["locked"] = True
         # Filter unlocked projects
         for locks in (
             queryset.filter(component__locked=False)
@@ -93,6 +87,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         max_length=PROJECT_NAME_LENGTH,
         unique=True,
         help_text=gettext_lazy("Display name"),
+        validators=[validate_project_name],
     )
     slug = models.SlugField(
         verbose_name=gettext_lazy("URL slug"),
@@ -105,6 +100,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         verbose_name=gettext_lazy("Project website"),
         blank=not settings.WEBSITE_REQUIRED,
         help_text=gettext_lazy("Main website of translated project."),
+        validators=[validate_project_web],
     )
     instructions = models.TextField(
         verbose_name=gettext_lazy("Translation instructions"),
@@ -116,7 +112,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         verbose_name=gettext_lazy('Set "Language-Team" header'),
         default=True,
         help_text=gettext_lazy(
-            'Lets Weblate update the "Language-Team" file header ' "of your project."
+            'Lets Weblate update the "Language-Team" file header of your project.'
         ),
     )
     use_shared_tm = models.BooleanField(
@@ -259,7 +255,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             return {}
         return dict(part.split(":") for part in self.language_aliases.split(","))
 
-    def add_user(self, user, group: Optional[str] = None):
+    def add_user(self, user, group: str | None = None):
         """Add user based on username or email address."""
         implicit_group = False
         if group is None:
@@ -363,8 +359,12 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         return self.on_repo_components(True, "do_cleanup", request)
 
     def do_file_sync(self, request=None):
-        """Push all Git repos."""
+        """Force updating of all files."""
         return self.on_repo_components(True, "do_file_sync", request)
+
+    def do_file_scan(self, request=None):
+        """Rescanls all VCS repos."""
+        return self.on_repo_components(True, "do_file_scan", request)
 
     def has_push_configuration(self):
         """Check whether any suprojects can push."""
@@ -428,7 +428,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         )
 
     @cached_property
-    def all_alerts(self):
+    def all_active_alerts(self):
         from weblate.trans.models import Alert
 
         result = Alert.objects.filter(component__project=self, dismissed=False)
@@ -437,7 +437,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     @cached_property
     def has_alerts(self):
-        return self.all_alerts.exists()
+        return self.all_active_alerts.exists()
 
     @cached_property
     def all_admins(self):
@@ -445,9 +445,23 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
         return User.objects.all_admins(self).select_related("profile")
 
+    def get_child_components_access(self, user):
+        """
+        Lists child components.
+
+        This is slower than child_components, but allows additional
+        filtering on the result.
+        """
+        child_components = (
+            self.component_set.distinct() | self.shared_components.distinct()
+        )
+        return child_components.filter_access(user).order()
+
     @cached_property
     def child_components(self):
-        return self.component_set.distinct() | self.shared_components.distinct()
+        own = self.component_set.all()
+        shared = self.shared_components.all()
+        return own.union(shared)
 
     def scratch_create_component(
         self,
@@ -455,7 +469,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         slug: str,
         source_language,
         file_format: str,
-        has_template: Optional[bool] = None,
+        has_template: bool | None = None,
         is_glossary: bool = False,
         **kwargs,
     ):
@@ -534,7 +548,9 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                         "name": entry.name,
                         "path": os.path.join(backup_dir, entry.name),
                         "timestamp": make_aware(
-                            datetime.fromtimestamp(int(entry.name.split(".")[0]))
+                            datetime.fromtimestamp(  # noqa: DTZ006
+                                int(entry.name.split(".")[0])
+                            )
                         ),
                         "size": entry.stat().st_size // 1024,
                     }

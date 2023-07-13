@@ -1,7 +1,12 @@
 #!/bin/sh
+
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # Testsuite executor
 
-. ci/lib
+. ci/lib.sh
 
 run_coverage ./manage.py compilemessages
 check

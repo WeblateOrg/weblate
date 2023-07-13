@@ -25,10 +25,17 @@ If you are not familiar with Python, you might want to look into `Python For
 Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the
 basics and pointing to further tutorials.
 
-To write some custom Python code (called a module), a
-place to store it is needed, either in the system path (usually something like
+To write a file with custom Python code (called a module), a place to store it
+is needed, either in the system path (usually something like
 :file:`/usr/lib/python3.9/site-packages/`) or in the Weblate directory, which
 is also added to the interpreter search path.
+
+.. versionadded:: 3.8-5
+
+   When :ref:`using Docker <docker-deploy>`, you can place Python modules in
+   :file:`/app/data/python/` (see :ref:`docker-volume`), so they can be loaded
+   by Weblate, for example from a :ref:`settings override file
+   <docker-settings-override>`.
 
 Better yet, turn your customization into a proper Python package:
 
@@ -57,7 +64,7 @@ Better yet, turn your customization into a proper Python package:
 6. Once installed, the module can be used in the Weblate configuration
    (for example ``weblate_customization.checks.FooCheck``).
 
-Your module structure should look like this:
+Your package structure should look like this:
 
 .. code-block:: text
 

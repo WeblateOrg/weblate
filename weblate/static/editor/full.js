@@ -1,3 +1,7 @@
+// Copyright © Michal Čihař <michal@weblate.org>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 (function () {
   var EditorBase = WLT.Editor.Base;
 
@@ -18,9 +22,11 @@
     /* Copy machinery results */
     this.$editor.on("click", ".js-copy-machinery", (e) => {
       var $el = $(e.target);
-      var text = $el.parent().parent().data("raw").text;
+      var raw = $el.parent().parent().data("raw");
 
-      this.$translationArea.replaceValue(text);
+      raw.plural_forms.forEach((plural_form) => {
+        $(this.$translationArea.get(plural_form)).replaceValue(raw.text);
+      });
       autosize.update(this.$translationArea);
       WLT.Utils.markFuzzy(this.$translationForm);
     });
@@ -28,9 +34,11 @@
     /* Copy and save machinery results */
     this.$editor.on("click", ".js-copy-save-machinery", (e) => {
       var $el = $(e.target);
-      var text = $el.parent().parent().data("raw").text;
+      var raw = $el.parent().parent().data("raw");
 
-      this.$translationArea.replaceValue(text);
+      raw.plural_forms.forEach((plural_form) => {
+        $(this.$translationArea.get(plural_form)).replaceValue(raw.text);
+      });
       autosize.update(this.$translationArea);
       WLT.Utils.markTranslated(this.$translationForm);
       submitForm({ target: this.$translationArea });
@@ -80,7 +88,7 @@
       function (e) {
         window.location = $("#button-next").attr("href");
         return false;
-      }
+      },
     );
     Mousetrap.bindGlobal(["alt+pageup", "mod+up", "alt+up"], function (e) {
       window.location = $("#button-prev").attr("href");
@@ -98,9 +106,12 @@
       $('input[name="fuzzy"]').click();
       return false;
     });
-    Mousetrap.bindGlobal("mod+shift+enter", function (e) {
+    Mousetrap.bindGlobal("mod+shift+enter", function (e, combo) {
       $('input[name="fuzzy"]').prop("checked", false);
-      return submitForm(e);
+      return submitForm(e, combo);
+    });
+    Mousetrap.bindGlobal("alt+enter", function (e, combo) {
+      return submitForm(e, combo, 'button[name="suggest"]');
     });
     Mousetrap.bindGlobal("mod+e", () => {
       this.$translationArea.get(0).focus();
@@ -141,7 +152,7 @@
         {
           scrollTop: $("#comment-form").offset().top,
         },
-        1000
+        1000,
       );
       $("#id_comment").focus();
     });
@@ -279,7 +290,7 @@
   FullEditor.prototype.processMachineryError = function (
     jqXHR,
     textStatus,
-    errorThrown
+    errorThrown,
   ) {
     decreaseLoading("machinery");
     if (jqXHR.state() !== "rejected") {
@@ -288,7 +299,7 @@
           " " +
           textStatus +
           ": " +
-          errorThrown
+          errorThrown,
       );
     }
   };
@@ -298,7 +309,7 @@
     if (data.responseStatus !== 200) {
       var msg = interpolate(
         gettext("The request for machine translation using %s has failed:"),
-        [data.service]
+        [data.service],
       );
       addAlert(msg + " " + data.responseDetails);
 
@@ -442,7 +453,7 @@
         } else {
           title = interpolate(
             gettext("Press Ctrl+I then %s to dismiss this."),
-            [key]
+            [key],
           );
         }
         $number.html($("<kbd/>").attr("title", title).text(key));
@@ -452,7 +463,7 @@
           function (e) {
             $this.find(".check-dismiss-single").click();
             return false;
-          }
+          },
         );
       } else {
         $number.html("");
@@ -470,7 +481,6 @@
 
       var target = $(e.currentTarget);
       var text = target.find(".target").text();
-      console.log(target);
       if (target.hasClass("warning")) {
         text = target.find(".source").text();
       }
@@ -490,7 +500,7 @@
       }
       /* Relies on clone source implementation */
       let cloneElement = document.querySelector(
-        ".source-language-group [data-clone-text]"
+        ".source-language-group [data-clone-text]",
       );
       if (cloneElement !== null) {
         let source = cloneElement.getAttribute("data-clone-text");
@@ -499,7 +509,7 @@
           let term_target = document.getElementById("id_add_term_target");
           term_source.value = source;
           term_target.value = document.querySelector(
-            ".translation-editor"
+            ".translation-editor",
           ).value;
         }
       }
@@ -558,14 +568,16 @@
     }
 
     renderTranslation(el, service) {
+      el.plural_forms = [el.plural_form];
       var row = $("<tr/>").data("raw", el);
       row.append(
         $("<td/>")
           .attr("class", "target machinery-text")
           .attr("lang", this.state.lang)
           .attr("dir", this.state.dir)
-          .text(el.text)
+          .text(el.text),
       );
+      row.append($("<td>").html(el.diff));
       row.append($("<td/>").attr("class", "machinery-text").text(el.source));
       row.append(service);
 
@@ -580,16 +592,16 @@
         $(
           "<td>" +
             '<a class="js-copy-machinery btn btn-warning">' +
-            gettext("Copy") +
+            gettext("Clone to translation") +
             '<span class="mt-number text-info"></span>' +
             "</a>" +
             "</td>" +
             "<td>" +
             '<a class="js-copy-save-machinery btn btn-primary">' +
-            gettext("Copy and save") +
+            gettext("Accept") +
             "</a>" +
-            "</td>"
-        )
+            "</td>",
+        ),
       );
 
       if (this.state.weblateTranslationMemory.has(el.text)) {
@@ -599,8 +611,8 @@
               '<a class="js-delete-machinery btn btn-danger" data-toggle="modal" data-target="#delete-url-modal">' +
               gettext("Delete entry") +
               "</a>" +
-              "</td>"
-          )
+              "</td>",
+          ),
         );
       } else {
         row.append($("<td></td>"));
@@ -674,8 +686,12 @@
             base.text == translation.text &&
             base.source == translation.source
           ) {
+            // Add plural
+            if (!base.plural_forms.includes(translation.plural_form)) {
+              base.plural_forms.push(translation.plural_form);
+            }
             // Add origin to current ones
-            var current = $this.children("td:nth-child(3)");
+            var current = $this.children("td:nth-child(4)");
             if (base.quality < translation.quality) {
               service.append("<br/>");
               service.append(current.html());

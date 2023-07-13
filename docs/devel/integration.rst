@@ -21,13 +21,16 @@ all the translations without integration.
 Fetching updated translations from Weblate
 ++++++++++++++++++++++++++++++++++++++++++
 
-To fetch updated strings from Weblate, you can simply fetch the underlying Git
-repository (either from filesystem, or it can be made available through
-:ref:`git-exporter`). Prior to this, you might want to commit any pending
+Weblate stores updated strings in a database and commits them to a local
+version control repository. You can add Weblate repository (when
+:ref:`git-exporter` is turned on) as additional remote and fetch translations
+update from it.
+
+Prior to this, you might want to commit any pending
 changes (see :ref:`lazy-commit`). You can do so in the user interface
 (in the :guilabel:`Repository maintenance`) or from the command-line using :ref:`wlc`.
 
-This can be automated if you grant Weblate push access to your repository and
+Pushing changes can be automated if you grant Weblate push access to your repository and
 configure :ref:`component-push` in the :ref:`component`, see :ref:`push-changes`.
 
 Alternatively, you can use :doc:`/api` to update translations
@@ -106,6 +109,38 @@ using :guilabel:`Update source strings` :ref:`upload-method` or using
    :ref:`addon-weblate.resx.update`,
    :ref:`addon-weblate.gettext.msgmerge`
 
+
+.. _translations-update:
+
+Introducing new strings
++++++++++++++++++++++++
+
+You can add new strings in Weblate with :ref:`component-manage_units` turned
+on, but it is usually better to introduce new strings together with the code
+changes that introduced them.
+
+Monolingual formats need addition of the new string to
+:ref:`component-template`. This is typically done by the developers during
+developing the code. You might want to introduce review of those strings using
+:ref:`source-quality-gateway`.
+
+Bilingual formats typically extract strings from the source code using some
+tooling. Follow your localization framework documentation for instructions how
+to do that. Once the strings are extracted, there might be an additional step
+needed to update existing translations, see :ref:`updating-target-files`.
+
+.. hint::
+
+   You might want to integrate this into your continuous integration pipelines
+   to make new strings automatically appear for translation. Such pipeline
+   should also cover :ref:`avoid-merge-conflicts`.
+
+.. seealso::
+
+   :ref:`updating-target-files`,
+   :doc:`/devel/gettext`,
+   :doc:`/devel/sphinx`
+
 .. _manage-vcs:
 
 Managing version control repository
@@ -121,44 +156,7 @@ maintenance` lets you manipulate with the repository.
    whenever there are changes and there is usually no need to manually
    manipulate with it.
 
-.. image:: /screenshots/component-repository.png
-
-Following operations are available:
-
-:guilabel:`Commit`
-
-   Commits any pending changes present in Weblate database and not in the
-   repository, see :ref:`lazy-commit`.
-
-:guilabel:`Push`
-
-   Pushes changes to the upstream repository, if configured by :ref:`component-push`.
-
-:guilabel:`Update`, :guilabel:`Pull`, :guilabel:`Rebase`
-
-   Updates Weblate repository with upstream changes. It uses
-   :ref:`component-merge_style` when choosing :guilabel:`Update` or you can
-   choose different one from the dropdown menu.
-
-:guilabel:`Lock`
-
-   Locking prevents translators from doing changes
-
-:guilabel:`Reset` from :guilabel:`Maintenance`
-
-   Resets any changes done in Weblate to match upstream repository. This will
-   discard all translations done in Weblate and not present in the upstream
-   repository.
-
-:guilabel:`Cleanup` from :guilabel:`Maintenance`
-
-   Removes untracked files from the repository. These could be result of
-   misbehaving add-ons or bugs.
-
-:guilabel:`Force synchronization` from :guilabel:`Maintenance`
-
-   Forces writing all strings to the translation files. Use this when
-   repository files became out of sync with Weblate for some reason.
+.. image:: /screenshots/component-repository.webp
 
 .. seealso::
 

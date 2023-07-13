@@ -1,3 +1,7 @@
+// Copyright © Michal Čihař <michal@weblate.org>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 var WLT = WLT || {};
 
 WLT.Config = (function () {
@@ -88,7 +92,7 @@ WLT.Editor = (function () {
       } else {
         addAlert(
           gettext("Please select target plural by clicking."),
-          (kind = "info")
+          (kind = "info"),
         );
         editors.addClass("editor-click-select");
         editors.click(function () {
@@ -190,14 +194,14 @@ WLT.Editor = (function () {
       function (e) {
         $(hlNumberSelector).show();
       },
-      "keydown"
+      "keydown",
     );
     Mousetrap.bindGlobal(
       "mod",
       function (e) {
         $(hlNumberSelector).hide();
       },
-      "keyup"
+      "keyup",
     );
   };
 

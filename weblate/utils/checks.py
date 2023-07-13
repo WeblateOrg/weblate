@@ -1,28 +1,13 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import errno
 import os
 import sys
 import time
 from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import timedelta
 from distutils.version import LooseVersion
 from itertools import chain
 
@@ -33,6 +18,7 @@ from django.core.cache import cache
 from django.core.checks import Critical, Error, Info
 from django.core.mail import get_connection
 from django.db import DatabaseError
+from django.utils import timezone
 
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.data import data_dir
@@ -105,7 +91,7 @@ DOC_LINKS = {
     "weblate.C037": ("admin/install", "production-database"),
     "weblate.C038": ("admin/install", "production-database"),
     "weblate.W039": ("admin/machine",),
-    "weblate.W040": ("vcs",),
+    "weblate.C040": ("vcs",),
 }
 
 
@@ -398,7 +384,6 @@ def check_data_writable(app_configs=None, **kwargs):
         data_dir("home"),
         data_dir("ssh"),
         data_dir("vcs"),
-        data_dir("celery"),
         data_dir("backups"),
         data_dir("fonts"),
         data_dir("cache", "fonts"),
@@ -506,7 +491,7 @@ def download_version_info():
     for version, info in response.json()["releases"].items():
         if not info:
             continue
-        result.append(Release(version, parse(info[0]["upload_time"])))
+        result.append(Release(version, parse(info[0]["upload_time_iso_8601"])))
     return sorted(result, key=lambda x: x[1], reverse=True)
 
 
@@ -533,7 +518,7 @@ def check_version(app_configs=None, **kwargs):
         return []
     if LooseVersion(latest.version) > LooseVersion(VERSION_BASE):
         # With release every two months, this gets triggered after three releases
-        if latest.timestamp + timedelta(days=180) < datetime.now():
+        if latest.timestamp + timedelta(days=180) < timezone.now():
             return [
                 weblate_check(
                     "weblate.C031",

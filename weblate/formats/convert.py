@@ -1,32 +1,20 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Translate Toolkit converter based file format wrappers."""
+
+from __future__ import annotations
 
 import codecs
 import os
 import shutil
 from io import BytesIO
-from typing import Callable, List, Optional, Union
+from typing import Callable
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 from translate.convert.po2html import po2html
 from translate.convert.po2idml import translate_idml, write_idml
 from translate.convert.po2rc import rerc
@@ -121,7 +109,7 @@ class ConvertFormat(TranslationFormat):
 
     def save_content(self, handle):
         """Store content to file."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def save(self):
         """Save underlying store to disk."""
@@ -129,16 +117,16 @@ class ConvertFormat(TranslationFormat):
 
     @staticmethod
     def convertfile(storefile, template_store):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @staticmethod
-    def needs_target_sync(template_store):
+    def needs_target_sync(template_store):  # noqa: ARG004
         return False
 
     def load(self, storefile, template_store):
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
-            storefile = open(storefile, "rb")
+            storefile = open(storefile, "rb")  # noqa: SIM115
         # Adjust store to have translations
         store = self.convertfile(storefile, template_store)
         if self.needs_target_sync(template_store):
@@ -154,9 +142,9 @@ class ConvertFormat(TranslationFormat):
     def create_new_file(
         cls,
         filename: str,
-        language: str,
+        language: str,  # noqa: ARG003
         base: str,
-        callback: Optional[Callable] = None,
+        callback: Callable | None = None,  # noqa: ARG003
     ):
         """Handle creation of new translation file."""
         if not base:
@@ -168,8 +156,8 @@ class ConvertFormat(TranslationFormat):
     def is_valid_base_for_new(
         cls,
         base: str,
-        monolingual: bool,
-        errors: Optional[List] = None,
+        monolingual: bool,  # noqa: ARG003
+        errors: list | None = None,
         fast: bool = False,
     ) -> bool:
         """Check whether base is valid."""
@@ -178,10 +166,12 @@ class ConvertFormat(TranslationFormat):
         try:
             if not fast:
                 cls(base, None)
-            return True
-        except Exception:
+        except Exception as exception:
+            if errors is not None:
+                errors.append(exception)
             report_error(cause="File parse error")
             return False
+        return True
 
     def add_unit(self, ttkit_unit):
         self.store.addunit(ttkit_unit)
@@ -193,12 +183,12 @@ class ConvertFormat(TranslationFormat):
     def create_unit(
         self,
         key: str,
-        source: Union[str, List[str]],
-        target: Optional[Union[str, List[str]]] = None,
+        source: str | list[str],
+        target: str | list[str] | None = None,
     ):
         raise ValueError("Not supported")
 
-    def cleanup_unused(self) -> List[str]:
+    def cleanup_unused(self) -> list[str]:
         """
         Bring target in sync with the source.
 
@@ -237,7 +227,7 @@ class ConvertFormat(TranslationFormat):
 
 
 class HTMLFormat(ConvertFormat):
-    name = _("HTML file")
+    name = gettext_lazy("HTML file")
     autoload = ("*.htm", "*.html")
     format_id = "html"
     check_flags = ("safe-html", "strict-same")
@@ -256,7 +246,7 @@ class HTMLFormat(ConvertFormat):
             templatename = templatename.name
         with open(templatename, "rb") as templatefile:
             outputstring = converter.mergestore(
-                self.store, templatefile, includefuzzy=False
+                self.store, templatefile, includefuzzy=True
             )
         handle.write(outputstring.encode("utf-8"))
 
@@ -272,7 +262,7 @@ class HTMLFormat(ConvertFormat):
 
 
 class OpenDocumentFormat(ConvertFormat):
-    name = _("OpenDocument file")
+    name = gettext_lazy("OpenDocument file")
     autoload = (
         "*.sxw",
         "*.odt",
@@ -297,7 +287,7 @@ class OpenDocumentFormat(ConvertFormat):
     unit_class = ConvertXliffUnit
 
     @staticmethod
-    def convertfile(storefile, template_store):
+    def convertfile(storefile, template_store):  # noqa: ARG004
         store = xlifffile()
         store.setfilename(store.getfilenode("NoName"), "odf")
         contents = open_odf(storefile)
@@ -313,7 +303,7 @@ class OpenDocumentFormat(ConvertFormat):
             templatename = templatename.name
         # This is workaround for weird fuzzy handling in translate-toolkit
         for unit in self.all_units:
-            if unit.xliff_state == "translated":
+            if any(state == "translated" for state in unit.get_xliff_states()):
                 unit.set_state(STATE_APPROVED)
 
         with open(templatename, "rb") as templatefile:
@@ -331,18 +321,18 @@ class OpenDocumentFormat(ConvertFormat):
         return "odt"
 
     @staticmethod
-    def needs_target_sync(template_store):
+    def needs_target_sync(template_store):  # noqa: ARG004
         return True
 
 
 class IDMLFormat(ConvertFormat):
-    name = _("IDML file")
+    name = gettext_lazy("IDML file")
     autoload = ("*.idml", "*.idms")
     format_id = "idml"
     check_flags = ("strict-same",)
 
     @staticmethod
-    def convertfile(storefile, template_store):
+    def convertfile(storefile, template_store):  # noqa: ARG004
         store = pofile()
 
         contents = open_idml(storefile)
@@ -389,12 +379,12 @@ class IDMLFormat(ConvertFormat):
         return "idml"
 
     @staticmethod
-    def needs_target_sync(template_store):
+    def needs_target_sync(template_store):  # noqa: ARG004
         return True
 
 
 class WindowsRCFormat(ConvertFormat):
-    name = _("RC file")
+    name = gettext_lazy("RC file")
     format_id = "rc"
     autoload = ("*.rc",)
     language_format = "bcp"
@@ -462,7 +452,7 @@ class WindowsRCFormat(ConvertFormat):
 
 
 class PlainTextFormat(ConvertFormat):
-    name = _("Plain text file")
+    name = gettext_lazy("Plain text file")
     format_id = "txt"
     autoload = ("*.txt",)
     flavour = "plain"
@@ -500,14 +490,14 @@ class PlainTextFormat(ConvertFormat):
 
 
 class DokuWikiFormat(PlainTextFormat):
-    name = _("DokuWiki text file")
+    name = gettext_lazy("DokuWiki text file")
     format_id = "dokuwiki"
     autoload = ("*.dw",)
     flavour = "dokuwiki"
 
 
 class MediaWikiFormat(PlainTextFormat):
-    name = _("MediaWiki text file")
+    name = gettext_lazy("MediaWiki text file")
     format_id = "mediawiki"
     autoload = ("*.mw",)
     flavour = "mediawiki"

@@ -48,7 +48,7 @@ ready(() => {
         .then((data) => {
           sessionStorage.setItem(
             "WLCDN",
-            JSON.stringify({ language: language, data: data })
+            JSON.stringify({ language: language, data: data }),
           );
           translateDocument(data);
         });

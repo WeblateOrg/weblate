@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 set -e -x
 
 CI_DATABASE="$1"
@@ -8,7 +12,7 @@ mkdir -p /run/user/1000
 chown -R 1000:1000 /run/user/1000
 
 # Add PostgreSQL repo
-echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 curl -L https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
 # Update package lists
@@ -29,7 +33,6 @@ apt-get install -y \
     subversion \
     postgresql-client-15 \
     pkg-config \
-    python-dev \
     libxml2-dev \
     libacl1-dev \
     libxmlsec1-dev \
@@ -39,12 +42,10 @@ apt-get install -y \
     libldap2-dev \
     libssl-dev \
     libffi-dev \
-    libenchant1c2a \
     libgirepository1.0-dev \
     libcairo-dev \
     liblz4-dev \
     gir1.2-pango-1.0 \
-    cython \
     tesseract-ocr
 
 # Remove MySQL 8.x client, use older MariaDB one to ensure compatibility

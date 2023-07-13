@@ -1,29 +1,17 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Project level backups."""
+
+from __future__ import annotations
 
 import json
 import os
 from datetime import datetime
 from itertools import chain
 from shutil import copyfileobj
-from typing import Callable, Dict, List, Optional
+from typing import Callable
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -48,7 +36,6 @@ from weblate.trans.models import (
     Unit,
     Vote,
 )
-from weblate.trans.tasks import update_checks
 from weblate.utils.data import data_dir
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.validators import validate_filename
@@ -60,7 +47,7 @@ class ProjectBackup:
     VCS_PREFIX = "vcs/"
     VCS_PREFIX_LEN = len(VCS_PREFIX)
 
-    def __init__(self, filename: Optional[str] = None):
+    def __init__(self, filename: str | None = None):
         self.data = {}
         self.filename = filename
         self.timestamp = timezone.now()
@@ -79,7 +66,7 @@ class ProjectBackup:
         validate_schema(self.data, "weblate-backup.schema.json")
 
     def backup_property(
-        self, obj, field: str, extras: Optional[Dict[str, Callable]] = None
+        self, obj, field: str, extras: dict[str, Callable] | None = None
     ):
         if extras and field in extras:
             return extras[field](obj)
@@ -104,7 +91,7 @@ class ProjectBackup:
         return value
 
     def backup_object(
-        self, obj, properties: List[str], extras: Optional[Dict[str, Callable]] = None
+        self, obj, properties: list[str], extras: dict[str, Callable] | None = None
     ):
         return {field: self.backup_property(obj, field, extras) for field in properties}
 
@@ -134,6 +121,9 @@ class ProjectBackup:
         for folder, _subfolders, filenames in os.walk(directory):
             for filename in filenames:
                 path = os.path.join(folder, filename)
+                # zipfile does not support storing symlinks, it dereferences them
+                if os.path.islink(path):
+                    continue
                 backupzip.write(
                     path, os.path.join(target, os.path.relpath(path, directory))
                 )
@@ -144,9 +134,17 @@ class ProjectBackup:
 
     def generate_filename(self, project):
         backup_dir = data_dir("projectbackups", f"{project.pk}")
+        backup_info = os.path.join(backup_dir, "README.txt")
         timestamp = int(self.timestamp.timestamp())
         if not os.path.exists(backup_dir):
             os.makedirs(backup_dir)
+        if not os.path.exists(backup_info):
+            with open(backup_info, "w") as handle:
+                handle.write(f"# Weblate project backups for {project.name}\n")
+                handle.write(f"slug={project.slug}\n")
+                handle.write(f"web={project.web}\n")
+                for billing in project.billings:
+                    handle.write(f"billing={billing.id}\n")
         while os.path.exists(
             os.path.join(backup_dir, f"{timestamp}.zip")
         ) or os.path.exists(os.path.join(backup_dir, f"{timestamp}.zip.part")):
@@ -325,7 +323,7 @@ class ProjectBackup:
         validate_schema(data, "weblate-memory.schema.json")
         return data
 
-    def load_components(self, zipfile, callback: Optional[Callable] = None):
+    def load_components(self, zipfile, callback: Callable | None = None):
         for component in self.list_components(zipfile):
             with zipfile.open(component) as handle:
                 data = json.load(handle)
@@ -369,20 +367,25 @@ class ProjectBackup:
 
         return self.user_cache[username]
 
-    def restore_with_user(
-        self, data, field: str = "user", remove: Optional[str] = None
-    ):
+    def restore_with_user(self, data, field: str = "user", remove: str | None = None):
         data = data.copy()
         if remove is not None:
             data.pop(remove)
         data[field] = self.restore_user(data[field])
         return data
 
-    def restore_component(self, zipfile, data):
+    def restore_component(self, zipfile, data):  # noqa: C901
         kwargs = data["component"].copy()
         source_language = kwargs["source_language"] = self.import_language(
             kwargs["source_language"]
         )
+        # Regenerate git export URL
+        if "weblate.gitexport" in settings.INSTALLED_APPS:
+            from weblate.gitexport.models import get_export_url_path
+
+            kwargs["git_export"] = get_export_url_path(
+                self.project.slug, kwargs["slug"]
+            )
         # Use bulk create to avoid triggering save() and any signals
         component = Component.objects.bulk_create(
             [Component(project=self.project, **kwargs)]
@@ -393,9 +396,8 @@ class ProjectBackup:
         source_translation_id = -1
         for item in data["translations"]:
             language = self.import_language(item["language_code"])
-            try:
-                plural = language.plural_set.get(**item["plural"])
-            except Plural.DoesNotExist:
+            plural = language.plural_set.filter(**item["plural"]).first()
+            if plural is None:
                 if item["plural"]["source"] == Plural.SOURCE_DEFAULT:
                     plural = language.plural
                 elif item["plural"]["source"] in (
@@ -511,7 +513,7 @@ class ProjectBackup:
             screenshot.import_handle.close()
 
         # Trigger checks update, the implementation might have changed
-        transaction.on_commit(lambda: update_checks.delay(component.id))
+        component.schedule_update_checks()
 
     def import_language(self, code: str):
         if self.languages_cache is None:
@@ -590,11 +592,11 @@ class ProjectBackup:
         if not os.path.exists(backup_dir):
             os.makedirs(backup_dir)
         timestamp = int(timezone.now().timestamp())
+        # self.filename is a file object from upload here
+        self.filename.seek(0)
         while os.path.exists(os.path.join(backup_dir, f"{timestamp}.zip")):
             timestamp += 1
         filename = os.path.join(backup_dir, f"{timestamp}.zip")
-        # self.filename is a file object from upload here
-        self.filename.seek(0)
-        with open(filename, "wb") as target:
+        with open(filename, "xb") as target:
             copyfileobj(self.filename, target)
         return filename

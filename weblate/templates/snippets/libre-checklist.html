@@ -15,15 +15,7 @@
     {% if not check.component.is_glossary %}
     <p>
       {% icon "comment.svg" %}
-      <a href="{% url "guide" project=check.component.project.slug component=check.component.slug %}">{% trans "Unmet guidelines from the community localization checklist:" %}</a>
-
-      <ul>
-        {% for guide in check.component.guidelines %}
-          {% if guide.is_relevant and not guide.group and not guide.passed %}
-            <li>{{ guide.description }}</li>
-          {% endif %}
-        {% endfor %}
-      </ul>
+      <a href="{% url "guide" project=check.component.project.slug component=check.component.slug %}">{% trans "Review guidelines from the community localization checklist." %}</a>
     <p>
     {% endif %}
     {% if check.component.agreement %}

@@ -1,10 +1,12 @@
-{% load static %}
 {% load i18n %}
+{% load icons %}
 
 {% for icon, text, url in icons %}
 {% spaceless %}
 {% if url %}<a href="{{ url }}">{% endif %}
-<img src="{% static icon %}" title="{{ text }}" alt="{{ text }}" class="state-icon" />
+<span class="state-icon {% if icon == "state/ghost.svg"%} grey{% endif %}{% if icon == "state/alert.svg"%} red{% endif %}" title="{{ text }}" alt="{{ text }}">
+  {% icon icon %}
+</span>
 {% if url %}</a>{% endif %}
 {% endspaceless %}
 {% endfor %}

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for rendering quality checks."""
 
@@ -61,7 +46,7 @@ class MaxSizeCheckTest(FontTestCase):
     def test_custom_font(self):
         self.add_font_group()
         self.assertFalse(self.perform_check("short", "max-size:500,font-family:droid"))
-        self.assertEqual(self.check.last_font, "Droid Sans Fallback Regular")
+        self.assertEqual(self.check.last_font, "Kurinto Sans Regular")
 
     def test_custom_font_override(self):
         group = self.add_font_group()
@@ -69,4 +54,4 @@ class MaxSizeCheckTest(FontTestCase):
             group=group, language=self.get_translation().language, font=group.font
         )
         self.assertFalse(self.perform_check("short", "max-size:500,font-family:droid"))
-        self.assertEqual(self.check.last_font, "Droid Sans Fallback Regular")
+        self.assertEqual(self.check.last_font, "Kurinto Sans Regular")

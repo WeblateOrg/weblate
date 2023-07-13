@@ -1,31 +1,19 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-from typing import List, Optional
+from __future__ import annotations
 
 from celery import current_task
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.db.models.functions import MD5
 
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Change, Component, Suggestion, Unit
-from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.trans.util import split_plural
+from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 
 class AutoTranslate:
@@ -44,7 +32,11 @@ class AutoTranslate:
         self.mode = mode
         self.updated = 0
         self.progress_steps = 0
-        self.target_state = STATE_FUZZY if mode == "fuzzy" else STATE_TRANSLATED
+        self.target_state = STATE_TRANSLATED
+        if mode == "fuzzy":
+            self.target_state = STATE_FUZZY
+        elif mode == "approved":
+            self.target_state = STATE_APPROVED
         self.component_wide = component_wide
 
     def get_units(self, filter_mode=True):
@@ -64,7 +56,11 @@ class AutoTranslate:
             )
 
     def update(self, unit, state, target):
-        if self.mode == "suggest" or len(target) > unit.get_max_length():
+        if isinstance(target, str):
+            target = [target]
+        if self.mode == "suggest" or any(
+            len(item) > unit.get_max_length() for item in target
+        ):
             Suggestion.objects.add(unit, target, None, False)
         else:
             unit.is_batch_update = True
@@ -83,10 +79,10 @@ class AutoTranslate:
                 self.user.profile.increase_count("translated", self.updated)
 
     @transaction.atomic
-    def process_others(self, source: Optional[int]):
+    def process_others(self, source: int | None):
         """Perform automatic translation based on other components."""
         kwargs = {
-            "translation__language": self.translation.language,
+            "translation__plural": self.translation.plural,
             "state__gte": STATE_TRANSLATED,
         }
         source_language = self.translation.component.source_language
@@ -96,9 +92,13 @@ class AutoTranslate:
 
             if (
                 not component.project.contribute_shared_tm
-                and not component.project != self.translation.component.project
-            ) or component.source_language != source_language:
-                raise PermissionDenied()
+                and component.project != self.translation.component.project
+            ):
+                raise PermissionDenied(
+                    "Project has disabled contribution to shared translation memory."
+                )
+            if component.source_language != source_language:
+                raise PermissionDenied("Component have different source languages.")
             kwargs["translation__component"] = component
         else:
             project = self.translation.component.project
@@ -106,14 +106,23 @@ class AutoTranslate:
             kwargs["translation__component__source_language"] = source_language
             exclude["translation"] = self.translation
         sources = Unit.objects.filter(**kwargs)
+
+        # Use memory_db for the query in case it exists. This is supposed
+        # to be a read-only replica for offloading expensive translation
+        # queries.
+        if "memory_db" in settings.DATABASES:
+            sources = sources.using("memory_db")
+
         if exclude:
             sources = sources.exclude(**exclude)
 
         # Fetch translations
         translations = {
-            source: (state, target)
+            source: split_plural(target)
             for source, state, target in sources.filter(
-                source__in=self.get_units().values("source")
+                source__md5__in=self.get_units()
+                .annotate(source__md5=MD5("source"))
+                .values("source__md5")
             ).values_list("source", "state", "target")
         }
 
@@ -130,7 +139,7 @@ class AutoTranslate:
         for pos, unit in enumerate(units):
             # Get update
             try:
-                state, target = translations[unit.source]
+                target = translations[unit.source]
             except KeyError:
                 # Happens on MySQL due to case-insensitive lookup
                 continue
@@ -138,10 +147,10 @@ class AutoTranslate:
             self.set_progress(pos)
 
             # No save if translation is same or unit does not exist
-            if unit.state == state and unit.target == target:
+            if unit.state == self.target_state and unit.target == target:
                 continue
             # Copy translation
-            self.update(unit, state, target)
+            self.update(unit, self.target_state, target)
 
         self.post_process()
 
@@ -178,10 +187,10 @@ class AutoTranslate:
         return {
             unit.id: unit.machinery["translation"]
             for unit in units
-            if unit.machinery["best"] >= threshold
+            if unit.machinery and any(unit.machinery["quality"])
         }
 
-    def process_mt(self, engines: List[str], threshold: int):
+    def process_mt(self, engines: list[str], threshold: int):
         """Perform automatic translation based on machine translation."""
         translations = self.fetch_mt(engines, int(threshold))
 

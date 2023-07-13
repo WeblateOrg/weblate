@@ -1,22 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+# Copyright © WofWca <wofwca@protonmail.com>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-# Copyright © 2022 WofWca <wofwca@protonmail.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """File format specific behavior."""
 
 import os.path
@@ -37,6 +23,8 @@ from weblate.formats.ttkit import (
     DTDFormat,
     FlatXMLFormat,
     FluentFormat,
+    GoI18JSONFormat,
+    GoI18V2JSONFormat,
     GWTFormat,
     INIFormat,
     InnoSetupINIFormat,
@@ -74,6 +62,8 @@ TEST_CSV_NOHEAD = get_test_file("cs.csv")
 TEST_FLATXML = get_test_file("cs-flat.xml")
 TEST_RESOURCEDICTIONARY = get_test_file("cs.xaml")
 TEST_JSON = get_test_file("cs.json")
+TEST_GO18N_V1_JSON = get_test_file("cs-go18n-v1.json")
+TEST_GO18N_V2_JSON = get_test_file("cs-go18n-v2.json")
 TEST_NESTED_JSON = get_test_file("cs-nested.json")
 TEST_WEBEXT_JSON = get_test_file("cs-webext.json")
 TEST_PHP = get_test_file("cs.php")
@@ -220,7 +210,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         self.assertEqual(storage.mimetype(), self.MIME)
         self.assertEqual(storage.extension(), self.EXT)
 
-    def test_save(self, edit=None):
+    def _test_save(self, edit=None):
         # Read test content
         with open(self.FILE, "rb") as handle:
             testdata = handle.read()
@@ -254,11 +244,15 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
             self.assert_same(newdata, testdata)
         return newdata
 
+    def test_save(self):
+        self._test_save()
+
     def test_edit(self):
-        return self.test_save(self.EDIT_TARGET)
+        self._test_save(self.EDIT_TARGET)
 
     def assert_same(self, newdata, testdata):
-        """Content aware comparison.
+        """
+        Content aware comparison.
 
         This can be implemented in subclasses to implement content aware comparing of
         translation files.
@@ -282,10 +276,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         if self.MATCH is None:
             self.assertTrue(os.path.isdir(out))
         else:
-            if isinstance(self.MATCH, bytes):
-                mode = "rb"
-            else:
-                mode = "r"
+            mode = "rb" if isinstance(self.MATCH, bytes) else "r"
             with open(out, mode) as handle:
                 data = handle.read()
             self.assertIn(self.MATCH, data)
@@ -543,6 +534,30 @@ class WebExtesionJSONFormatTest(JSONFormatTest):
     MONOLINGUAL = True
 
 
+class GoI18NV1JSONFormatTest(JSONFormatTest):
+    FORMAT = GoI18JSONFormat
+    FILE = TEST_GO18N_V1_JSON
+    COUNT = 4
+    MASK = "go-i18n-json/*.json"
+    EXPECTED_PATH = "go-i18n-json/cs_CZ.json"
+    FIND_CONTEXT = "hello"
+    NEW_UNIT_MATCH = (
+        b'{\n        "id": "key",\n        "translation": "Source string"\n    }\n'
+    )
+    MONOLINGUAL = True
+
+
+class GoI18NV2JSONFormatTest(JSONFormatTest):
+    FORMAT = GoI18V2JSONFormat
+    FILE = TEST_GO18N_V2_JSON
+    COUNT = 4
+    MASK = "go-i18n-json-v2/*.json"
+    EXPECTED_PATH = "go-i18n-json-v2/cs_CZ.json"
+    FIND_CONTEXT = "hello"
+    NEW_UNIT_MATCH = b'\n    "key": "Source string"\n'
+    MONOLINGUAL = True
+
+
 class PhpFormatTest(AutoFormatTest):
     FORMAT = PhpFormat
     FILE = TEST_PHP
@@ -736,14 +751,8 @@ class PoXliffFormatTest(XMLMixin, AutoFormatTest):
 class PoXliffFormatTest2(PoXliffFormatTest):
     FILE = TEST_POXLIFF
     BASE = TEST_POXLIFF
-    EXPECTED_FLAGS = ", ".join(
-        (
-            "c-format",
-            "font-family:ubuntu",
-            "font-size:22",
-            "font-weight:bold",
-            "max-size:100",
-        )
+    EXPECTED_FLAGS = (
+        "c-format, font-family:ubuntu, font-size:22, font-weight:bold, max-size:100"
     )
     FIND_CONTEXT = "cs.po///2"
     COUNT = 4
@@ -866,7 +875,7 @@ class CSVFormatNoHeadTest(CSVFormatTest):
     EXPECTED_FLAGS = ""
     NEW_UNIT_MATCH = b'"Source string",""\r\n'
 
-    def test_save(self, edit=False):
+    def _test_save(self, edit=False):
         raise SkipTest("Saving currently adds field headers")
 
 
@@ -1003,9 +1012,9 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
             self.EXPECTED_PATH,
         )
 
-    def test_save(self, edit=False):
+    def _test_save(self, edit=False):
         self.maxDiff = None
-        super().test_save(edit)
+        super()._test_save(edit)
 
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
@@ -1126,9 +1135,9 @@ class XWikiFullPageFormatTest(AutoFormatTest):
         # to be able to add new units.
         pass
 
-    def test_save(self, edit=False):
+    def _test_save(self, edit=False):
         self.maxDiff = None
-        super().test_save(edit)
+        super()._test_save(edit)
 
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 

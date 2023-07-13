@@ -11,7 +11,7 @@ The support for several machine translation and translation memory services is
 built-in. Each service can be turned on by the administrator for whole site or
 at the project settings:
 
-.. image:: /screenshots/project-machinery.png
+.. image:: /screenshots/project-machinery.webp
 
 .. note::
 
@@ -114,8 +114,6 @@ This service uses an API and you need to obtain an ID and API key from Baidu to 
 DeepL
 -----
 
-.. versionadded:: 2.20
-
 :Service ID: ``deepl``
 :Configuration: +---------+---------+--+
                 | ``url`` | API URL |  |
@@ -149,6 +147,9 @@ https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX
 
 Replace the XXX with your auth_key. If you receive a JSON object which contains
 "Bonjour", you have the correct URL; if not, try the other three.
+
+Weblate supports DeepL formality, it will choose matching one based on the
+language (for example, there is ``de@formal`` and ``de@informal``).
 
 .. seealso::
 
@@ -248,8 +249,6 @@ and there are several mirrors available to use the API for free.
 Microsoft Terminology
 ---------------------
 
-.. versionadded:: 2.19
-
 :Service ID: ``microsoft-terminology``
 :Configuration: `This service has no configuration.`
 
@@ -259,7 +258,7 @@ Language Portal through a web service.
 
 .. seealso::
 
-    `Microsoft Terminology Service API <https://www.microsoft.com/en-us/language/Microsoft-Terminology-API>`_
+    `Microsoft language resources <https://learn.microsoft.com/en-us/globalization/reference/microsoft-language-resources>`_
 
 
 .. _mt-microsoft-translator:
@@ -267,28 +266,36 @@ Language Portal through a web service.
 Microsoft Translator
 --------------------
 
-.. versionadded:: 2.10
-
 :Service ID: ``microsoft-translator``
-:Configuration: +------------------+--------------------------+--------------------------------------------------------------------+
-                | ``key``          | API key                  |                                                                    |
-                +------------------+--------------------------+--------------------------------------------------------------------+
-                | ``endpoint_url`` | Application endpoint URL |                                                                    |
-                +------------------+--------------------------+--------------------------------------------------------------------+
-                | ``base_url``     | Application base URL     | Available choices:                                                 |
-                |                  |                          |                                                                    |
-                |                  |                          | ``api.cognitive.microsofttranslator.com`` -- Global (non-regional) |
-                |                  |                          |                                                                    |
-                |                  |                          | ``api-apc.cognitive.microsofttranslator.com`` -- Asia Pacific      |
-                |                  |                          |                                                                    |
-                |                  |                          | ``api-eur.cognitive.microsofttranslator.com`` -- Europe            |
-                |                  |                          |                                                                    |
-                |                  |                          | ``api-nam.cognitive.microsofttranslator.com`` -- North America     |
-                |                  |                          |                                                                    |
-                |                  |                          | ``api.translator.azure.cn`` -- China                               |
-                +------------------+--------------------------+--------------------------------------------------------------------+
-                | ``region``       | Application region       |                                                                    |
-                +------------------+--------------------------+--------------------------------------------------------------------+
+:Configuration: +------------------+-------------------------------+-----------------------------------------------------------------------+
+                | ``key``          | API key                       |                                                                       |
+                +------------------+-------------------------------+-----------------------------------------------------------------------+
+                | ``base_url``     | Application base URL          | Available choices:                                                    |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api.cognitive.microsofttranslator.com`` -- Global (non-regional)    |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api-apc.cognitive.microsofttranslator.com`` -- Asia Pacific         |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api-eur.cognitive.microsofttranslator.com`` -- Europe               |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api-nam.cognitive.microsofttranslator.com`` -- North America        |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api.translator.azure.cn`` -- China                                  |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api.cognitive.microsofttranslator.us`` -- Azure US Government cloud |
+                +------------------+-------------------------------+-----------------------------------------------------------------------+
+                | ``endpoint_url`` | Authentication service URL    | Regional or multi-service can be specified using region field below.  |
+                |                  |                               |                                                                       |
+                |                  |                               | Available choices:                                                    |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api.cognitive.microsoft.com`` -- Global                             |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api.cognitive.azure.cn`` -- China                                   |
+                |                  |                               |                                                                       |
+                |                  |                               | ``api.cognitive.microsoft.us`` -- Azure US Government cloud           |
+                +------------------+-------------------------------+-----------------------------------------------------------------------+
+                | ``region``       | Authentication service region |                                                                       |
+                +------------------+-------------------------------+-----------------------------------------------------------------------+
 
 Machine translation service provided by Microsoft in Azure portal as a one of
 Cognitive Services.
@@ -388,17 +395,19 @@ SAP Translation Hub
 -------------------
 
 :Service ID: ``sap-translation-hub``
-:Configuration: +---------------+----------------------------+--+
-                | ``url``       | API URL                    |  |
-                +---------------+----------------------------+--+
-                | ``key``       | API key                    |  |
-                +---------------+----------------------------+--+
-                | ``username``  | SAP username               |  |
-                +---------------+----------------------------+--+
-                | ``password``  | SAP password               |  |
-                +---------------+----------------------------+--+
-                | ``enable_mt`` | Enable machine translation |  |
-                +---------------+----------------------------+--+
+:Configuration: +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``url``       | API URL                    |                                                                                                                                                 |
+                +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``key``       | API key                    |                                                                                                                                                 |
+                +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``username``  | SAP username               |                                                                                                                                                 |
+                +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``password``  | SAP password               |                                                                                                                                                 |
+                +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``enable_mt`` | Enable machine translation |                                                                                                                                                 |
+                +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``domain``    | Translation domain         | The ID of a translation domain, for example, BC. If you do not specify a domain, the method searches for translations in all available domains. |
+                +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Machine translation service provided by SAP.
 
@@ -457,6 +466,26 @@ amaGama server, which is an enhanced version of tmserver.
     :doc:`virtaal:amagama`,
     `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
 
+.. _mt-ibm:
+
+IBM Watson Language Translator
+------------------------------
+
+:Service ID: ``ibm``
+:Configuration: +---------+---------+--+
+                | ``url`` | API URL |  |
+                +---------+---------+--+
+                | ``key`` | API key |  |
+                +---------+---------+--+
+
+IBM Watson Language Translator translates text from one language to another.
+The service offers multiple domain-specific models.
+
+.. seealso::
+
+    `Watson Language Translator <https://www.ibm.com/products/natural-language-processing>`_,
+    `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-translator>`_
+
 .. _mt-weblate:
 
 Weblate
@@ -474,8 +503,6 @@ existing strings.
 
 Weblate Translation Memory
 --------------------------
-
-.. versionadded:: 2.20
 
 :Service ID: ``weblate-translation-memory``
 :Configuration: `This service has no configuration.`

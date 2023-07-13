@@ -1,24 +1,9 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.db.models import Q
-from django.utils.translation import gettext_lazy as _
+from django.db.models import F, Q
+from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_DAILY, EVENT_PRE_COMMIT
@@ -38,8 +23,8 @@ from weblate.utils.state import (
 class GenerateFileAddon(BaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = "weblate.generate.generate"
-    verbose = _("Statistics generator")
-    description = _(
+    verbose = gettext_lazy("Statistics generator")
+    description = gettext_lazy(
         "Generates a file containing detailed info about the translation status."
     )
     settings_form = GenerateForm
@@ -123,16 +108,16 @@ class LocaleGenerateAddonBase(BaseAddon):
         return updated
 
     def daily(self, component):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def component_update(self, component):
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class PseudolocaleAddon(LocaleGenerateAddonBase):
     name = "weblate.generate.pseudolocale"
-    verbose = _("Pseudolocale generation")
-    description = _(
+    verbose = gettext_lazy("Pseudolocale generation")
+    description = gettext_lazy(
         "Generates a translation by adding prefix and suffix "
         "to source strings automatically."
     )
@@ -160,7 +145,7 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
             target_translation = self.get_target_translation(component)
         except Translation.DoesNotExist:
             # Uninstall misconfigured add-on
-            report_error(cause="add-on error")
+            report_error(cause="add-on error", project=component.project)
             self.instance.disable()
             return
         self.generate_translation(
@@ -185,7 +170,8 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
             pass
         super().post_uninstall()
 
-    def post_configure(self, run: bool = True):
+    def post_configure_run(self):
+        super().post_configure_run()
         try:
             target_translation = self.get_target_translation(self.instance.component)
             flags = Flags(target_translation.check_flags)
@@ -194,13 +180,12 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
             target_translation.save(update_fields=["check_flags"])
         except Translation.DoesNotExist:
             pass
-        super().post_configure(run=run)
 
 
 class PrefillAddon(LocaleGenerateAddonBase):
     name = "weblate.generate.prefill"
-    verbose = _("Prefill translation with source")
-    description = _("Fills in translation strings with source string.")
+    verbose = gettext_lazy("Prefill translation with source")
+    description = gettext_lazy("Fills in translation strings with source string.")
 
     def daily(self, component):
         # Check all strings
@@ -221,6 +206,35 @@ class PrefillAddon(LocaleGenerateAddonBase):
                 translation,
                 target_state=STATE_FUZZY,
                 query=Q(state=STATE_EMPTY),
+            )
+        if updated:
+            component.commit_pending("add-on", None)
+
+
+class FillReadOnlyAddon(LocaleGenerateAddonBase):
+    name = "weblate.generate.fill_read_only"
+    verbose = gettext_lazy("Fill read-only strings with source")
+    description = gettext_lazy(
+        "Fills in translation of read-only strings with source string."
+    )
+
+    def daily(self, component):
+        self.do_update(component)
+
+    def component_update(self, component):
+        self.do_update(component)
+
+    def do_update(self, component):
+        source_translation = component.source_translation
+        updated = 0
+        for translation in component.translation_set.prefetch():
+            if translation.is_source:
+                continue
+            updated += self.generate_translation(
+                source_translation,
+                translation,
+                target_state=STATE_READONLY,
+                query=Q(state=STATE_READONLY) & ~Q(target=F("source")),
             )
         if updated:
             component.commit_pending("add-on", None)

@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for translation views."""
 
@@ -124,10 +109,10 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.target, self.target)
         self.assertFalse(unit.has_failing_check)
 
-        # Should have was translated check
+        # Should not have was translated check
         self.edit_unit(self.source, "")
         unit = self.get_unit(source=self.source)
-        self.assertTrue(unit.has_failing_check)
+        self.assertFalse(unit.has_failing_check)
 
     def add_unit(self, key, force_source: bool = False):
         if force_source or self.component.has_template():
@@ -211,12 +196,12 @@ class EditValidationTest(ViewTestCase):
     def test_edit_invalid(self):
         """Editing with invalid params."""
         response = self.edit()
-        self.assertContains(response, "Missing translated string!")
+        self.assertContains(response, "This field is required.")
 
     def test_suggest_invalid(self):
         """Suggesting with invalid params."""
         response = self.edit(suggest="1")
-        self.assertContains(response, "Missing translated string!")
+        self.assertContains(response, "This field is required.")
 
     def test_merge(self):
         """Merging with invalid parameter."""
@@ -958,9 +943,7 @@ class EditComplexTest(ViewTestCase):
         url = self.get_unit("Hello, world!\n").get_absolute_url()
         response = self.client.get(url)
         form = response.context["form"]
-        params = {}
-        for field in form.fields.keys():
-            params[field] = form[field].value()
+        params = {field: form[field].value() for field in form.fields}
         params["target_0"] = "Nazdar svete!\n"
         response = self.client.post(url, params)
         unit = self.get_unit()

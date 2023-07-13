@@ -1,9 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 name: Rundev
 
 on:
   push:
     branches-ignore:
-    - dependabot/**
     - deepsource-fix-**
     - renovate/**
     - weblate
@@ -17,7 +20,7 @@ permissions:
 
 jobs:
   rundev:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     name: Test development Docker
     env:
       PYTHONUNBUFFERED: 1

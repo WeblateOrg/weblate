@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
 import re
@@ -126,11 +110,12 @@ def update_project(request, project):
 
 
 def parse_hook_payload(request):
-    """Parse hook payload.
+    """
+    Parse hook payload.
 
     We handle both application/x-www-form-urlencoded and application/json.
     """
-    if "application/json" in request.META["CONTENT_TYPE"].lower():
+    if "application/json" in request.headers["content-type"].lower():
         return json.loads(request.body.decode())
     return json.loads(request.POST["payload"])
 
@@ -138,7 +123,8 @@ def parse_hook_payload(request):
 @require_POST
 @csrf_exempt
 def vcs_service_hook(request, service):
-    """Shared code between VCS service hooks.
+    """
+    Shared code between VCS service hooks.
 
     Currently used for bitbucket_hook, github_hook and gitlab_hook, but should be usable
     for other VCS services (Google Code, custom coded sites, etc.) too.
@@ -308,7 +294,7 @@ def bitbucket_extract_repo_url(data, repository):
 def bitbucket_hook_helper(data, request):
     """API to handle service hooks from Bitbucket."""
     # Bitbucket ping event
-    if request and request.META.get("HTTP_X_EVENT_KEY") not in (
+    if request and request.headers.get("x-event-key") not in (
         "repo:push",
         "repo:refs_changed",
         "pullrequest:fulfilled",
@@ -360,7 +346,7 @@ def bitbucket_hook_helper(data, request):
 def github_hook_helper(data, request):
     """API to handle commit hooks from GitHub."""
     # Ignore non push events
-    if request and request.META.get("HTTP_X_GITHUB_EVENT") != "push":
+    if request and request.headers.get("x-github-event") != "push":
         return None
     # Parse owner, branch and repository name
     o_data = data["repository"]["owner"]
@@ -443,13 +429,16 @@ def gitlab_hook_helper(data, request):
         data["repository"]["git_ssh_url"],
         data["repository"]["homepage"],
     ]
+    full_name = ssh_url.split(":", 1)[1]
+    if full_name.endswith(".git"):
+        full_name = full_name[:-4]
 
     return {
         "service_long_name": "GitLab",
         "repo_url": data["repository"]["homepage"],
         "repos": repos,
         "branch": branch,
-        "full_name": ssh_url.split(":", 1)[1],
+        "full_name": full_name,
     }
 
 

@@ -38,7 +38,7 @@ Sharing of translations is also available.
 Imported translation memory
 +++++++++++++++++++++++++++
 
-Importing arbitrary translation memory data using the :djadmin:`import_memory`
+Importing arbitrary translation memory data using the :wladmin:`import_memory`
 command makes memory content available to all users and projects.
 
 Per-user translation memory
@@ -65,6 +65,10 @@ installations, as it can have severe implications:
 
 * The translations can be used by anybody else.
 * This might lead to disclosing secret information.
+
+.. seealso::
+
+   :ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`
 
 Managing translation memory
 ---------------------------
@@ -99,7 +103,7 @@ There are multiple options for downloading the translation memory of the whole i
 
     :ref:`schema-memory`
 
-.. image:: /screenshots/memory.png
+.. image:: /screenshots/memory.webp
 
 .. versionadded:: 3.8
 
@@ -127,9 +131,9 @@ Several management commands can manipulate translation memory content.
 These operate on the translation memory as a whole, unfiltered by scopes
 (unless requested by parameters):
 
-:djadmin:`dump_memory`
+:wladmin:`dump_memory`
     Exports the memory into JSON
-:djadmin:`import_memory`
+:wladmin:`import_memory`
     Imports TMX or JSON files into the translation memory
 
 .. versionadded:: 4.14

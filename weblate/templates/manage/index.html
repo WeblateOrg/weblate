@@ -23,10 +23,10 @@
     {% trans "Weblate support status" %}
   </h4>
 </div>
-  <table class="table table-condensed table-striped">
+  <table class="table table-striped table-supportstatus">
   <tr>
   <th>{% trans "Weblate version" %}</th>
-  <td>
+  <td colspan="3">
     {% if git_revision %}
       {{ version }} — <a href="{{ git_revision_link }}">{{ git_revision }}</a>
     {% elif git_revision_link %}
@@ -38,26 +38,41 @@
   </tr>
   <tr>
   <th>{% trans "Support status" %}</th>
-  <td>
+  <td colspan="3">
+    <a href="" class="pull-right flip btn btn-link link-post" data-href="{% url 'manage-activate' %}" data-params='{"refresh":1}'>{% trans "Refresh support status" %}</a>
     {{ support.get_verbose }}
     {% if not support.in_limits %}
     <div class="alert alert-danger" role="alert">
-    {% trans "Exceeding service limits" %}
+      {% trans "Your Weblate is exceeding service limits. Please upgrade the subscription." %}
     </div>
     {% endif %}
   </td>
   </tr>
   {% if support.expiry %}
+    {% with support.get_limits_details as limit_details %}
+      {% if limit_details %}
+        <tr>
+        <th rowspan="{{ limit_details|length }}">{% trans "Support package limits" %}</th>
+        {% for limit in limit_details %}
+          {% if not forloop.first %}
+            <tr>
+          {% endif %}
+          <td>{{ limit.name }}</td>
+          {% include "billing/used.html" with max=limit.limit total=limit.limit used=limit.current %}
+          </tr>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
   <tr>
   <th>{% trans "Support expiry" %}</th>
-  <td>{{ support.expiry|naturaltime }}</td>
+  <td colspan="3">{{ support.expiry|naturaltime }}</td>
   </tr>
   {% endif %}
   {% if support.secret %}
   <tr>
   <th>{% trans "Discover Weblate" %}</th>
-  <td>
-    <a href="https://weblate.org/discover/" class="btn-inline pull-right flip">{% trans "Browse discovery" %}</a>
+  <td colspan="3">
+    <a href="https://weblate.org/discover/" class="btn btn-link pull-right flip">{% trans "Browse discovery" %}</a>
     {% if support.discoverable %}
       {% trans "Your Weblate is listed on weblate.org" %}
       <br />

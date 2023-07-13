@@ -1,3 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 name: Scorecards supply-chain security
 on:
   # Only the default branch is supported.
@@ -25,12 +29,12 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3.1.0
+      uses: actions/checkout@v3.5.3
       with:
         persist-credentials: false
 
     - name: Run analysis
-      uses: ossf/scorecard-action@v2.0.6
+      uses: ossf/scorecard-action@v2.2.0
       with:
         results_file: results.sarif
         results_format: sarif
@@ -49,7 +53,7 @@ jobs:
       # Upload the results as artifacts (optional). Commenting out will disable uploads of run results in SARIF
       # format to the repository Actions tab.
     - name: Upload artifact
-      uses: actions/upload-artifact@v3.1.1
+      uses: actions/upload-artifact@v3.1.2
       with:
         name: SARIF file
         path: results.sarif
@@ -57,6 +61,6 @@ jobs:
 
       # Upload the results to GitHub's code scanning dashboard.
     - name: Upload to code-scanning
-      uses: github/codeql-action/upload-sarif@v2.1.29
+      uses: github/codeql-action/upload-sarif@v2.20.3
       with:
         sarif_file: results.sarif

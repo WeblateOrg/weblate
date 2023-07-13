@@ -1,31 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
+import re
 from html import escape, unescape
 
 from django.conf import settings
 
 from .base import MachineTranslation
 from .forms import DeepLMachineryForm
-
-# Extracted from https://www.deepl.com/docs-api/translating-text/response/
-FORMAL_LANGUAGES = {"DE", "FR", "IT", "ES", "NL", "PL", "PT-PT", "PT-BR", "RU"}
 
 
 class DeepLTranslation(MachineTranslation):
@@ -37,6 +20,7 @@ class DeepLTranslation(MachineTranslation):
     max_score = 91
     language_map = {
         "zh_hans": "zh",
+        "pt": "pt-pt",
     }
     force_uncleanup = True
     hightlight_syntax = True
@@ -64,12 +48,16 @@ class DeepLTranslation(MachineTranslation):
         response = self.request(
             "get", self.get_api_url("languages"), params={"type": "target"}
         )
-        target_languages = {x["language"] for x in response.json()}
+        # Plain English is not listed, but is supported
+        target_languages = {"EN"}
 
-        for lang in FORMAL_LANGUAGES:
-            if lang in target_languages:
-                target_languages.add(f"{lang}@FORMAL")
-                target_languages.add(f"{lang}@INFORMAL")
+        # Handle formality extensions
+        for item in response.json():
+            lang_code = item["language"]
+            target_languages.add(lang_code)
+            if item.get("supports_formality"):
+                target_languages.add(f"{lang_code}@FORMAL")
+                target_languages.add(f"{lang_code}@INFORMAL")
 
         return (
             (source, target)
@@ -88,7 +76,6 @@ class DeepLTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
     ):
         """Download list of possible translations from a service."""
@@ -130,4 +117,7 @@ class DeepLTranslation(MachineTranslation):
 
     def format_replacement(self, h_start: int, h_end: int, h_text: str):
         """Generates a single replacement."""
-        return f'<x id="{h_start}"></x>'
+        return f'<x id="{h_start}"></x>'  # noqa: B028
+
+    def make_re_placeholder(self, text: str):
+        return re.escape(text)

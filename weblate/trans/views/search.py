@@ -1,29 +1,13 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.utils.translation import gettext as _
-from django.utils.translation import ngettext
+from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
@@ -82,7 +66,7 @@ def parse_url(request, project, component=None, lang=None):
         context["components"] = [obj.component]
 
     if not request.user.has_perm("unit.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     return obj, unit_set, context
 
@@ -95,7 +79,7 @@ def search_replace(request, project, component=None, lang=None):
     form = ReplaceForm(request.POST)
 
     if not form.is_valid():
-        messages.error(request, _("Failed to process form!"))
+        messages.error(request, gettext("Failed to process form!"))
         show_form_errors(request, form)
         return redirect(obj)
 
@@ -105,16 +89,21 @@ def search_replace(request, project, component=None, lang=None):
 
     matching = unit_set.filter(target__contains=search_text)
     if query:
-        matching = matching.search(query, distinct=False)
+        matching = matching.search(query)
 
     updated = 0
-    if matching.exists():
+
+    matching_ids = list(matching.order_by("id").values_list("id", flat=True)[:251])
+
+    if matching_ids:
+        if len(matching_ids) == 251:
+            matching_ids = matching_ids[:250]
+            limited = True
+
+        matching = Unit.objects.filter(id__in=matching_ids).prefetch()
+
         confirm = ReplaceConfirmForm(matching, request.POST)
         limited = False
-
-        if matching.count() > 300:
-            matching = matching.order_by("id")[:250]
-            limited = True
 
         if not confirm.is_valid():
             for unit in matching:
@@ -148,7 +137,7 @@ def search_replace(request, project, component=None, lang=None):
     import_message(
         request,
         updated,
-        _("Search and replace completed, no strings were updated."),
+        gettext("Search and replace completed, no strings were updated."),
         ngettext(
             "Search and replace completed, %d string was updated.",
             "Search and replace completed, %d strings were updated.",
@@ -170,6 +159,7 @@ def search(request, project=None, component=None, lang=None):
         obj = get_component(request, project, component)
         context["component"] = obj
         context["project"] = obj.project
+        context["component"] = obj
         context["back_url"] = obj.get_absolute_url()
     elif project:
         obj = get_project(request, project)
@@ -222,7 +212,7 @@ def search(request, project=None, component=None, lang=None):
                 "search_form": search_form,
                 "show_results": True,
                 "page_obj": units,
-                "title": _("Search for %s") % (search_form.cleaned_data["q"]),
+                "title": gettext("Search for %s") % (search_form.cleaned_data["q"]),
                 "query_string": search_form.urlencode(),
                 "search_url": search_form.urlencode(),
                 "search_query": search_form.cleaned_data["q"],
@@ -233,9 +223,11 @@ def search(request, project=None, component=None, lang=None):
             }
         )
     elif is_ratelimited:
-        messages.error(request, _("Too many search queries, please try again later."))
+        messages.error(
+            request, gettext("Too many search queries, please try again later.")
+        )
     elif request.GET:
-        messages.error(request, _("Invalid search query!"))
+        messages.error(request, gettext("Invalid search query!"))
         show_form_errors(request, search_form)
 
     return render(request, "search.html", context)
@@ -248,12 +240,12 @@ def bulk_edit(request, project, component=None, lang=None):
     obj, unit_set, context = parse_url(request, project, component, lang)
 
     if not request.user.has_perm("translation.auto", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     form = BulkEditForm(request.user, obj, request.POST, project=context["project"])
 
     if not form.is_valid():
-        messages.error(request, _("Failed to process form!"))
+        messages.error(request, gettext("Failed to process form!"))
         show_form_errors(request, form)
         return redirect(obj)
 
@@ -273,7 +265,7 @@ def bulk_edit(request, project, component=None, lang=None):
     import_message(
         request,
         updated,
-        _("Bulk edit completed, no strings were updated."),
+        gettext("Bulk edit completed, no strings were updated."),
         ngettext(
             "Bulk edit completed, %d string was updated.",
             "Bulk edit completed, %d strings were updated.",

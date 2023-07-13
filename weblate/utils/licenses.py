@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from itertools import chain
 
@@ -52,12 +36,15 @@ def get_license_choices():
         result = [("proprietary", "Proprietary")]
     else:
         result = []
-    for name, verbose, _url, _is_libre in LICENSES:
-        if license_filter is not None and name not in license_filter:
-            continue
-        result.append((name, verbose))
 
-    for name, verbose, _url, _is_libre in settings.LICENSE_EXTRA:
-        result.append((name, verbose))
+    result.extend(
+        (name, verbose)
+        for name, verbose, _url, _is_libre in LICENSES
+        if license_filter is None or name in license_filter
+    )
+
+    result.extend(
+        (name, verbose) for name, verbose, _url, _is_libre in settings.LICENSE_EXTRA
+    )
 
     return result

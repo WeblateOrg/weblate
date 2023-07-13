@@ -1,28 +1,13 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.http.response import HttpResponseServerError
 from django.shortcuts import get_object_or_404
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
 from weblate.checks.flags import Flags
@@ -44,7 +29,7 @@ def edit_context(request, pk):
     do_add = "addflag" in request.POST
     if do_add or "removeflag" in request.POST:
         if not request.user.has_perm("unit.flag", unit.translation):
-            raise PermissionDenied()
+            raise PermissionDenied
         flag = request.POST.get("addflag", request.POST.get("removeflag"))
         flags = unit.get_unit_flags()
         if (
@@ -63,16 +48,15 @@ def edit_context(request, pk):
             unit.extra_flags = new_flags
             unit.save(same_content=True, update_fields=["extra_flags"])
     else:
-
         if not request.user.has_perm("source.edit", unit.translation):
-            raise PermissionDenied()
+            raise PermissionDenied
 
         form = ContextForm(request.POST, instance=unit, user=request.user)
 
         if form.is_valid():
             form.save()
         else:
-            messages.error(request, _("Failed to change additional string info!"))
+            messages.error(request, gettext("Failed to change additional string info!"))
             show_form_errors(request, form)
 
     return redirect_next(request.POST.get("next"), unit.get_absolute_url())
@@ -103,6 +87,7 @@ def matrix(request, project, component):
         {
             "object": obj,
             "project": obj.project,
+            "component": obj,
             "languages": languages,
             "language_codes": language_codes,
             "languages_form": form,

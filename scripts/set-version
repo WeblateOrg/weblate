@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 import os
 import re
 import subprocess
@@ -41,6 +45,7 @@ milestones_api = "https://api.github.com/repos/WeblateOrg/weblate/milestones"
 api_auth = f"token {config['github.com'][0]['oauth_token']}"
 headers = {"Authorization": api_auth, "Accept": "application/vnd.github.v3+json"}
 response = requests.get(milestones_api, headers=headers)
+response.raise_for_status()
 milestone_url = None
 for milestone in response.json():
     if milestone["title"] == version:
@@ -52,8 +57,8 @@ if milestone_url is None:
 
 # Set version in the files
 replace_file("weblate/utils/version.py", "^VERSION =.*", f'VERSION = "{version}-dev"')
-replace_file("docs/conf.py", "release =.*", f'release = "{version}"')
-replace_file("setup.py", "version=.*", f'version="{version}",')
+replace_file("docs/conf.py", "release =.*", f"release = {version!r}")
+replace_file("setup.py", "version=.*", f"version={version!r},")
 
 # Update changelog
 title = f"Weblate {version}"
@@ -68,15 +73,11 @@ Not yet released.
 """
 prepend_file("docs/changes.rst", header)
 
-subprocess.check_call(
-    [
-        "git",
-        "commit",
-        "-m",
-        f"Setting version to {version}",
-        "weblate/utils/version.py",
-        "docs/conf.py",
-        "docs/changes.rst",
-        "setup.py",
-    ]
-)
+files = [
+    "weblate/utils/version.py",
+    "docs/conf.py",
+    "docs/changes.rst",
+    "setup.py",
+]
+subprocess.run(["pre-commit", "run", "--files", *files])
+subprocess.check_call(["git", "commit", "-m", f"Setting version to {version}", *files])
