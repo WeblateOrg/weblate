@@ -32,7 +32,7 @@ Translation-memory scopes
    In earlier versions translation memory could be only loaded from a file
    corresponding to the current imported translation memory scope.
 
-The translation-memory scopes ensure privacy for different projects and users. 
+The translation-memory scopes ensure privacy for different projects and users.
 Sharing of translations is also available.
 
 Imported translation memory
@@ -78,11 +78,11 @@ Managing translation memory
 User interface
 ++++++++++++++
 
-Personal translation memory management is available by clicking the 
-user avatar in the top-right corner of the UI and selecting 
+Personal translation memory management is available by clicking the
+user avatar in the top-right corner of the UI and selecting
 "Translation memory" from the dropdown menu.
 Entries attributed to the user are listed in scopes – total, for each respective
-project, component, or language contributed to, with options to download 
+project, component, or language contributed to, with options to download
 (as JSON, or TMX) or delete them.
 
 .. versionadded:: 3.2
