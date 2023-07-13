@@ -315,9 +315,7 @@ def download_translation_file(
             units = units.search(query_string)
         exporter.add_units(units)
         response = exporter.get_response(
-            "{{project}}-{}-{{language}}.{{extension}}".format(
-                translation.component.slug
-            )
+            f"{{project}}-{translation.component.slug}-{{language}}.{{extension}}"
         )
     else:
         # Force flushing pending units

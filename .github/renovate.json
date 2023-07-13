@@ -87,6 +87,17 @@
         "#\\s?renovate: image=(?<depName>.*?)\\s?appVersion:\\s?\\\"?(?<currentValue>[\\w+\\.\\-]*)"
       ],
       "datasourceTemplate": "docker"
+    },
+    {
+      "fileMatch": [
+        "weblate_web/data.py"
+      ],
+      "matchStrings": [
+        "VERSION = \"(?<currentValue>.*?)\""
+      ],
+      "depNameTemplate": "Weblate",
+      "datasourceTemplate": "pypi",
+      "versioningTemplate": "pep440"
     }
   ]
 }
