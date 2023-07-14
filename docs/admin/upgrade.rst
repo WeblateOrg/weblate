@@ -113,6 +113,10 @@ work, but is not as well tested as single version upgrades.
 Version specific instructions
 -----------------------------
 
+.. versionchanged:: 5.0
+
+   Version specific instructions are now included in the release notes, see :doc:`/changes`.
+
 Upgrade from an older major version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
