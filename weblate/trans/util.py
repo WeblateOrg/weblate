@@ -36,10 +36,10 @@ PRIORITY_CHOICES = (
 
 # Initialize to sane locales for strxfrm
 try:
-    locale.setlocale(locale.LC_ALL, ("C", "UTF-8"))
+    locale.setlocale(locale.LC_ALL, ("en_US", "UTF-8"))
 except locale.Error:
     try:
-        locale.setlocale(locale.LC_ALL, ("en_US", "UTF-8"))
+        locale.setlocale(locale.LC_ALL, ("C", "UTF-8"))
     except locale.Error:
         LOCALE_SETUP = False
 
