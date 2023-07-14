@@ -113,26 +113,22 @@ work, but is not as well tested as single version upgrades.
 Version specific instructions
 -----------------------------
 
-Upgrade from 2.x
-~~~~~~~~~~~~~~~~
+Upgrade from an older major version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you are upgrading from 2.x release, always first upgrade to 3.0.1 and then
-continue upgrading in the 3.x series. Upgrades skipping this step are not
+Upgrades across major versions are not supported. Always upgrade to the latest
+patch level for the initial major release. Upgrades skipping this step are not
 supported and will break.
 
-.. seealso::
+If you are upgrading from the 2.x release, always first upgrade to 3.0.1
+and then continue upgrading within the 3.x series.
 
-   `Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs.weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_
-
-Upgrade from 3.x
-~~~~~~~~~~~~~~~~
-
-If you are upgrading from 3.x release, always first upgrade to 4.0.4 or 4.1.1
-and then continue upgrading in the 4.x series. Upgrades skipping this step are
-not supported and will break.
+If you are upgrading from the 3.x release, always first upgrade to 4.0.4
+and then continue upgrading within the 4.x series.
 
 .. seealso::
 
+   `Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs.weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_,
    `Upgrade from 3.11 to 4.0 in Weblate 4.0 documentation <https://docs.weblate.org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_
 
 Upgrade from 4.0 to 4.1
