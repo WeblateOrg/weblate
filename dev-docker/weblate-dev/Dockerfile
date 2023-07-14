@@ -15,8 +15,6 @@ FROM weblate/weblate:bleeding
 
 #WORKDIR /srv
 
-# TODO: put some new dependencies here
-
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
