@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 # Weblate localization.
 # bovirus <roberto.boriotti@canon-europe.com>, 2018, 2019, 2020, 2021.
 # Piero <p.passerini@gmail.com>, 2018.
@@ -38,8 +37,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 07:48+0000\n"
-"PO-Revision-Date: 2023-06-09 10:20+0000\n"
-"Last-Translator: bovirus <roberto.boriotti@canon.it>\n"
+"PO-Revision-Date: 2023-07-15 13:23+0000\n"
+"Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -47,7 +46,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.0-dev\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: weblate/accounts/avatar.py:84
@@ -786,7 +785,7 @@ msgstr "Nuova stringa"
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:507 weblate/trans/models/change.py:359
 msgid "New contributor"
-msgstr "Nuovo contributore"
+msgstr "Nuovo collaboratore"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:516
@@ -1000,7 +999,7 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:134
 #: weblate/wladmin/templates/admin/base.html:12
 msgid "Change password"
-msgstr "Modifica password"
+msgstr "Cambia password"
 
 #: weblate/accounts/views.py:897
 msgid "Password reset has been already completed."
@@ -1627,16 +1626,13 @@ msgid "Fills in translation strings with source string."
 msgstr "Riempi le stringhe da tradurre con la stringa sorgente."
 
 #: weblate/addons/generate.py:216
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Pre completamento traduzione con sorgente"
+msgstr "Riempi le stringhe di sola lettura con i sorgenti"
 
 #: weblate/addons/generate.py:218
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Riempi le stringhe da tradurre con la stringa sorgente."
+msgstr ""
+"Riempie la traduzione di stringhe di sola lettura con stringhe sorgenti."
 
 #: weblate/addons/gettext.py:26
 msgid "Generate MO files"
@@ -1692,7 +1688,7 @@ msgstr ""
 
 #: weblate/addons/gettext.py:317
 msgid "Contributors in comment"
-msgstr "Contributori nel commento"
+msgstr "Collaboratori nel commento"
 
 #: weblate/addons/gettext.py:319
 msgid ""
@@ -1700,7 +1696,7 @@ msgid ""
 "and years of contributions."
 msgstr ""
 "Aggiorna la parte di commento dell'intestazione del file PO per includere i "
-"nomi dei contributori e gli anni di contribuzione."
+"nomi dei collaboratori e gli anni di collaborazione."
 
 #: weblate/addons/git.py:19
 msgid "Squash Git commits"
@@ -2494,10 +2490,8 @@ msgid "Block expiry"
 msgstr "Scadenza del blocco"
 
 #: weblate/auth/permissions.py:133
-#, fuzzy
-#| msgid "Can not perform this operation without an e-mail."
 msgid "Can not perform this operation without an e-mail address."
-msgstr "Impossibile eseguire questa operazione senza una email."
+msgstr "Impossibile eseguire questa operazione senza un indirizzo email."
 
 #: weblate/auth/permissions.py:139 weblate/templates/translate.html:201
 #: weblate/templates/translate.html:221
@@ -2505,16 +2499,12 @@ msgid "This translation is currently locked."
 msgstr "Questa traduzione è attualmente bloccata."
 
 #: weblate/auth/permissions.py:147
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires you agree to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "agreement."
 msgstr ""
-"er contribuire a questa traduzione devi accettare il suo contratto di "
-"contributore."
+"Contribuire a questa traduzione richiede l'accettazione dell'accordo di "
+"collaboratore."
 
 #: weblate/auth/permissions.py:153 weblate/templates/translate.html:207
 #: weblate/trans/views/edit.py:420 weblate/trans/views/edit.py:442
@@ -2902,17 +2892,16 @@ msgid "Different strings are translated the same."
 msgstr "Stringhe diverse vengono tradotte allo stesso modo."
 
 #: weblate/checks/consistency.py:178
-#, fuzzy, python-format
-#| msgid "Update source strings"
+#, python-format
 msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
-msgstr[0] "Aggiorna stringhe sorgente"
-msgstr[1] "Aggiorna stringhe sorgente"
+msgstr[0] "Altra stringa sorgente: %s"
+msgstr[1] "Altre stringhe sorgenti: %s"
 
 #: weblate/checks/consistency.py:179
 #, python-format
 msgid "“%s”"
-msgstr ""
+msgstr "“%s”"
 
 #: weblate/checks/consistency.py:228
 msgid "Has been translated"
@@ -5016,7 +5005,7 @@ msgstr ""
 
 #: weblate/templates/accounts/password.html:23
 msgid "Change my password"
-msgstr "Modifica password"
+msgstr "Cambia la mia password"
 
 #: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:461
 #: weblate/trans/views/files.py:152
@@ -5303,12 +5292,12 @@ msgid ""
 "project."
 msgstr ""
 "Registrandoti acconsenti che il tuo nome e la tua email vengano utilizzati "
-"nei messaggi delle modifiche e di fornire la tua contribuzione sotto la "
+"nei messaggi delle modifiche e di fornire la tua collaborazione sotto la "
 "licenza definita da ogni progetto di localizzazione."
 
 #: weblate/templates/accounts/profile.html:357
 msgid "You have agreed to the following as a contributor:"
-msgstr "Hai accettato quanto segue come contributore:"
+msgstr "Hai accettato quanto segue come collaboratore:"
 
 #: weblate/templates/accounts/profile.html:372
 msgid "Licenses for individual translations"
@@ -6452,7 +6441,7 @@ msgstr "Ritorna al componente dopo il completamento"
 #: weblate/templates/language-project.html:18 weblate/templates/project.html:32
 #: weblate/templates/translation.html:38
 msgid "Info"
-msgstr "Informazioni"
+msgstr "Info"
 
 #: weblate/templates/component.html:35 weblate/wladmin/views.py:65
 msgid "Alerts"
@@ -6702,7 +6691,7 @@ msgstr "Genera"
 #: weblate/templates/component.html:331
 #: weblate/templates/dashboard/user.html:117 weblate/templates/project.html:310
 msgid "Contributor stats"
-msgstr "Statistiche contributore"
+msgstr "Statistiche collaboratore"
 
 #: weblate/templates/component.html:335
 #: weblate/templates/dashboard/user.html:121 weblate/templates/project.html:314
@@ -7713,7 +7702,7 @@ msgstr "Vecchio accordo:"
 
 #: weblate/templates/mail/component_license.html:18
 msgid "There was no contributor agreement before."
-msgstr "Prima non c'era alcun accordo per la contribuzione."
+msgstr "Prima non c'era alcun accordo per la collaborazione."
 
 #: weblate/templates/mail/component_license.html:21
 msgid "New agreement:"
@@ -7806,12 +7795,12 @@ msgstr "Congratulazioni"
 #: weblate/templates/mail/new_contributor.html:8
 #, python-format
 msgid "The user %(username)s has just made a first contribution."
-msgstr "L'utente %(username)s ha appena fatto la sua prima contribuzione."
+msgstr "L'utente %(username)s ha appena fatto la sua prima collaborazione."
 
 #: weblate/templates/mail/new_contributor_subject.txt:3
 #, python-format
 msgid "New contributor in %(translation)s"
-msgstr "Nuovo contributore in %(translation)s"
+msgstr "Nuovo collaboratore in %(translation)s"
 
 #: weblate/templates/mail/new_language.html:8
 msgid "Added language"
@@ -9186,7 +9175,7 @@ msgstr "Numeri in sintesi"
 #: weblate/templates/snippets/info.html:487
 #: weblate/templates/snippets/info.html:525
 msgid "Contributors"
-msgstr "Contributori"
+msgstr "Collaboratori"
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -9886,7 +9875,7 @@ msgid ""
 "terms apply to contributions."
 msgstr ""
 "Qualsiasi progetto pubblicamente disponibile deve possedere una licenza "
-"definita che indichi quali termini applicare alle contribuzioni."
+"definita che indichi quali termini applicare alle collaborazioni."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:2
 msgid ""
@@ -10960,7 +10949,7 @@ msgid ""
 msgstr ""
 "Puoi usare i seguenti widget per promuovere la traduzione del tuo progetto. "
 "Possono aumentare la visibilità dei progetti di traduzione e portare nuovi "
-"contributori."
+"collaboratori."
 
 #: weblate/templates/widgets.html:47
 msgid "Color variants:"
@@ -11340,7 +11329,7 @@ msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
-"Per ottenere accesso ai componenti aggiuntivi abilita la contribuzione al "
+"Per ottenere accesso ai componenti aggiuntivi abilita la collaborazione al "
 "progetto alla memoria traduzione condivisa per il progetto."
 
 #: weblate/trans/forms.py:890
@@ -12308,12 +12297,12 @@ msgid "POSIX style using underscore as a separator, including country code"
 msgstr "Stile POSIX con trattino basso come separatore, incluso codice nazione"
 
 #: weblate/trans/models/component.py:129
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator, including country code"
 msgid ""
 "POSIX style using underscore as a separator, including country code "
 "(lowercase)"
-msgstr "Stile POSIX con trattino basso come separatore, incluso codice nazione"
+msgstr ""
+"Stile POSIX con trattino basso come separatore, incluso codice nazione "
+"(minuscolo)"
 
 #: weblate/trans/models/component.py:134
 msgid "BCP style using hyphen as a separator, including country code"
@@ -13893,7 +13882,7 @@ msgstr "Tutti i repository sono stati aggiornati."
 
 #: weblate/trans/views/git.py:76
 msgid "All repositories were pushed."
-msgstr "Tutti i repository sono stati aggiornati."
+msgstr "Tutti i repository sono stati caricati."
 
 #: weblate/trans/views/git.py:88
 msgid "All repositories have been reset."
@@ -14345,8 +14334,6 @@ msgid "GitHub pull request"
 msgstr "Pull request GitHub"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "This will push changes and create GitHub pull request."
 msgid "This will push changes and create a GitHub pull request."
 msgstr "Questo invierà le modifiche e creerà una richiesta pull GitHub."
 
@@ -14355,8 +14342,6 @@ msgid "Gitea pull request"
 msgstr "Pull request Gitea"
 
 #: weblate/vcs/git.py:1156
-#, fuzzy
-#| msgid "This will push changes and create Gitea pull request."
 msgid "This will push changes and create a Gitea pull request."
 msgstr "Questo invierà le modifiche e creerà una richiesta pull Gitea."
 
@@ -14369,8 +14354,6 @@ msgid "GitLab merge request"
 msgstr "Richiesta unione GitHub"
 
 #: weblate/vcs/git.py:1334
-#, fuzzy
-#| msgid "This will push changes and create GitLab merge request."
 msgid "This will push changes and create a GitLab merge request."
 msgstr "Questo invierà le modifiche e creerà una richiesta unione GitLab."
 
@@ -14379,8 +14362,6 @@ msgid "Pagure merge request"
 msgstr "Richiesta unione Pagure"
 
 #: weblate/vcs/git.py:1476
-#, fuzzy
-#| msgid "This will push changes and create Pagure merge request."
 msgid "This will push changes and create a Pagure merge request."
 msgstr "Questo invierà le modifiche e creerà una richiesta unione Pagure."
 
@@ -14389,8 +14370,6 @@ msgid "Bitbucket Server pull request"
 msgstr "Richiesta pull del server Bitbucket"
 
 #: weblate/vcs/git.py:1570
-#, fuzzy
-#| msgid "This will push changes and create Bitbucket Server pull request."
 msgid "This will push changes and create a Bitbucket Server pull request."
 msgstr ""
 "Questo invierà le modifiche e creerà una richiesta pull Bitbucket Server."
