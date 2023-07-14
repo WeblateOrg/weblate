@@ -19,6 +19,8 @@ Not yet released.
 * :ref:`addon-weblate.cleanup.blank` and :ref:`addon-weblate.cleanup.generic` now remove all strings at once.
 * Language filtering in :doc:`/devel/reporting`.
 
+**Compatibility**
+
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
