@@ -113,18 +113,18 @@ work, but is not as well tested as single version upgrades.
 Version specific instructions
 -----------------------------
 
-Upgrade from older major version
+Upgrade from an older major version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Upgrades across major versions are not supported. Always upgrade to latest
-patch level for the initial major release.  Upgrades skipping this step are not
+Upgrades across major versions are not supported. Always upgrade to the latest
+patch level for the initial major release. Upgrades skipping this step are not
 supported and will break.
 
-If you are upgrading from 2.x release, always first upgrade to 3.0.1 and then
-continue upgrading in the 3.x series.
+If you are upgrading from the 2.x release, always first upgrade to 3.0.1 
+and then continue upgrading within the 3.x series.
 
-If you are upgrading from 3.x release, always first upgrade to 4.0.4
-and then continue upgrading in the 4.x series.
+If you are upgrading from the 3.x release, always first upgrade to 4.0.4 
+and then continue upgrading within the 4.x series.
 
 .. seealso::
 
