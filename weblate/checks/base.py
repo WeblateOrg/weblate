@@ -277,12 +277,12 @@ class TargetCheck(Check):
 
     def get_missing_text(self, values: Iterable[str]):
         return self.get_values_text(
-            gettext("Following format strings are missing: {}"), values
+            gettext("The following format strings are missing: {}"), values
         )
 
     def get_extra_text(self, values: Iterable[str]):
         return self.get_values_text(
-            gettext("Following format strings are extra: {}"), values
+            gettext("The following format strings are extra: {}"), values
         )
 
 
