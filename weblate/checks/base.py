@@ -292,7 +292,7 @@ class SourceCheck(Check):
     source = True
 
     def check_single(self, source, target, unit):
-        """We don't check target strings here."""
+        """Target strings are checked in check_target_unit."""
         return False
 
     def check_source_unit(self, source, unit):

@@ -35,7 +35,7 @@ class PluralsCheck(TargetCheck):
         return "" in targets
 
     def check_single(self, source, target, unit):
-        """We don't check target strings here."""
+        """Target strings are checked in check_target_unit."""
         return False
 
 
@@ -55,7 +55,7 @@ class SamePluralsCheck(TargetCheck):
         return len(set(targets)) == 1
 
     def check_single(self, source, target, unit):
-        """We don't check target strings here."""
+        """Target strings are checked in check_target_unit."""
         return False
 
 
@@ -90,7 +90,7 @@ class ConsistencyCheck(TargetCheck):
         return False
 
     def check_single(self, source, target, unit):
-        """We don't check target strings here."""
+        """Target strings are checked in check_target_unit."""
         return False
 
     def check_component(self, component):
@@ -190,7 +190,7 @@ class ReusedCheck(TargetCheck):
         ) % ", ".join(gettext("“%s”") % source for source in other_sources)
 
     def check_single(self, source, target, unit):
-        """We don't check target strings here."""
+        """Target strings are checked in check_target_unit."""
         return False
 
     def check_component(self, component):
@@ -289,7 +289,7 @@ class TranslatedCheck(TargetCheck):
         return False
 
     def check_single(self, source, target, unit):
-        """We don't check target strings here."""
+        """Target strings are checked in check_target_unit."""
         return False
 
     def get_fixup(self, unit):
