@@ -54,25 +54,25 @@ it gives you various stats of translators’ work.
 All stats are available in four variants:
 
 `Total`
-   Overall number of edited strings.
+   Overall number of all edited strings.
 `New`
-   Newly translated strings which didn't have a translation before.
+   Amount of newly translated strings which didn't have a translation before.
 `Approved`
-   Tally of string approvals in the review workflow (see :ref:`reviews`).
+   Amount of strings approved in the review workflow (see :ref:`reviews`).
 `Edited`
-   Edited strings which had a translation before.
+   Amount of edited strings which had a translation before.
 
 The following metrics are available for each:
 
 `Count`
-   Number of strings.
+   Amount of strings.
 `Edits`
-   Number of edited characters in the string, measured in Damerau–Levenshtein distance.
+   Amount of edited characters in the string, measured in Damerau–Levenshtein distance.
 `Source words`
-   Number of words in the source string.
+   Amount of words in the source string.
 `Source characters`
-   Number of characters in the source string.
+   Amount of characters in the source string.
 `Target words`
-   Number of words in the translated string.
+   Amount of words in the translated string.
 `Target characters`
-   Number of characters in the translated string.
+   Amount of characters in the translated string.
