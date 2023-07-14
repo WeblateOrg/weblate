@@ -241,6 +241,36 @@
         </tr>
       {% endfor %}
     </tbody>
+    {% with invitations=user.invitation_set.all %}
+      {% if invitations %}
+        <tbody>
+        {% for invitation in invitations %}
+          {% with group=invitation.group %}
+            <tr>
+              <td>
+                <a href="{{ invitation.get_absolute_url }}">
+                  {{ group }}
+                  <span class="badge">{% translate "Pending invitation" %}</span>
+                </a>
+              </td>
+              <td>
+                {% include "auth/teams-roles.html" %}
+              </td>
+              <td>
+                {% include "auth/teams-projects.html" %}
+              </td>
+              <td>
+                {% include "auth/teams-languages.html" %}
+              </td>
+              <td>
+                {% include "auth/teams-components.html" %}
+              </td>
+            </tr>
+          {% endwith %}
+        {% endfor %}
+        </tbody>
+      {% endif %}
+    {% endwith %}
   </table>
 </div>
 

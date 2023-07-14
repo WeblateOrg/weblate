@@ -62,6 +62,7 @@ from weblate.utils.forms import (
     SearchField,
     SortedSelect,
     SortedSelectMultiple,
+    UserField,
     UsernameField,
 )
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
@@ -138,30 +139,6 @@ class ChecksumField(forms.CharField):
             return checksum_to_hash(value)
         except ValueError:
             raise ValidationError(gettext("Invalid checksum specified!"))
-
-
-class UserField(forms.CharField):
-    def widget_attrs(self, widget):
-        attrs = super().widget_attrs(widget)
-        attrs["dir"] = "ltr"
-        attrs["class"] = "user-autocomplete"
-        attrs["spellcheck"] = "false"
-        attrs["autocorrect"] = "off"
-        attrs["autocomplete"] = "off"
-        attrs["autocapitalize"] = "off"
-        return attrs
-
-    def clean(self, value):
-        if not value:
-            if self.required:
-                raise ValidationError(gettext("Missing username or e-mail."))
-            return None
-        try:
-            return User.objects.get(Q(username=value) | Q(email=value))
-        except User.DoesNotExist:
-            raise ValidationError(gettext("Could not find any such user."))
-        except User.MultipleObjectsReturned:
-            raise ValidationError(gettext("More possible users were found."))
 
 
 class FlagField(forms.CharField):

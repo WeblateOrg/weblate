@@ -96,7 +96,7 @@ from weblate.accounts.notifications import (
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
 from weblate.accounts.utils import remove_user
 from weblate.auth.forms import UserEditForm
-from weblate.auth.models import User, get_auth_keys
+from weblate.auth.models import Invitation, User, get_auth_keys
 from weblate.auth.utils import format_address
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Suggestion, Translation
@@ -150,8 +150,6 @@ class EmailSentView(TemplateView):
         context["validity"] = settings.AUTH_TOKEN_VALID // 3600
         context["is_reset"] = False
         context["is_remove"] = False
-        # This view is not visible for invitation that's
-        # why don't handle user_invite here
         if self.request.flags["password_reset"]:
             context["title"] = gettext("Password reset")
             context["is_reset"] = True
@@ -170,7 +168,6 @@ class EmailSentView(TemplateView):
         request.flags = {
             "password_reset": request.session["password_reset"],
             "account_remove": request.session["account_remove"],
-            "user_invite": request.session["user_invite"],
         }
 
         # Remove session for not authenticated user here.
@@ -761,7 +758,6 @@ def fake_email_sent(request, reset=False):
     request.session["registration-email-sent"] = True
     request.session["password_reset"] = reset
     request.session["account_remove"] = False
-    request.session["user_invite"] = False
     return redirect("email-sent")
 
 
@@ -770,15 +766,32 @@ def register(request):
     """Registration form."""
     captcha = None
 
-    if request.method == "POST":
+    # Fetch invitation
+    invitation = None
+    initial = {}
+    if invitation_pk := request.session.get("invitation_link"):
+        try:
+            invitation = Invitation.objects.get(pk=invitation_pk)
+        except Invitation.DoesNotExist:
+            del request.session["invitation_link"]
+        else:
+            initial["email"] = invitation.email
+
+    # Allow registration at all?
+    registration_open = settings.REGISTRATION_OPEN or bool(invitation)
+
+    # Get list of allowed backends
+    backends = get_auth_keys()
+    if settings.REGISTRATION_ALLOW_BACKENDS and not invitation:
+        backends = backends & set(settings.REGISTRATION_ALLOW_BACKENDS)
+    elif not registration_open:
+        backends = set()
+
+    if request.method == "POST" and "email" in backends:
         form = RegistrationForm(request, request.POST)
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request, form, request.POST)
-        if (
-            (captcha is None or captcha.is_valid())
-            and form.is_valid()
-            and settings.REGISTRATION_OPEN
-        ):
+        if (captcha is None or captcha.is_valid()) and form.is_valid():
             if captcha:
                 captcha.cleanup_session(request)
             if form.cleaned_data["email_user"]:
@@ -789,18 +802,12 @@ def register(request):
             store_userid(request)
             return social_complete(request, "email")
     else:
-        form = RegistrationForm(request)
+        form = RegistrationForm(request, initial=initial)
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request)
 
-    backends = get_auth_keys()
-    if settings.REGISTRATION_ALLOW_BACKENDS:
-        backends = backends & set(settings.REGISTRATION_ALLOW_BACKENDS)
-    elif not settings.REGISTRATION_OPEN:
-        backends = set()
-
     # Redirect if there is only one backend
-    if len(backends) == 1 and "email" not in backends:
+    if len(backends) == 1 and "email" not in backends and not invitation:
         return redirect_single(request, backends.pop())
 
     return render(
@@ -812,6 +819,7 @@ def register(request):
             "title": gettext("User registration"),
             "form": form,
             "captcha_form": captcha,
+            "invitation": invitation,
         },
     )
 
@@ -958,7 +966,7 @@ def reset_password(request):
                     form.cleaned_data["email_user"], request, "reset-request"
                 )
                 if not audit.check_rate_limit(request):
-                    store_userid(request, True)
+                    store_userid(request, reset=True)
                     return social_complete(request, "email")
             else:
                 email = form.cleaned_data["email"]
@@ -1110,12 +1118,11 @@ class SuggestionView(ListView):
         return result
 
 
-def store_userid(request, reset=False, remove=False, invite=False):
+def store_userid(request, *, reset: bool = False, remove: bool = False):
     """Store user ID in the session."""
     request.session["social_auth_user"] = request.user.pk
     request.session["password_reset"] = reset
     request.session["account_remove"] = remove
-    request.session["user_invite"] = invite
 
 
 @require_POST

@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+import uuid
 from collections import defaultdict
 from functools import cache as functools_cache
 from itertools import chain
@@ -904,6 +905,84 @@ def setup_project_groups(
             continue
         group.projects.add(instance)
         group.roles.add(Role.objects.get(name=ACL_GROUPS[group_name]))
+
+
+class Invitation(models.Model):
+    """
+    User invitation store.
+
+    Either user or e-mail attribute is set, this is to invite current and new users.
+    """
+
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(
+        User, on_delete=models.deletion.CASCADE, related_name="created_invitation_set"
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.deletion.CASCADE,
+        null=True,
+        verbose_name=gettext_lazy("User to add"),
+        help_text=gettext_lazy(
+            "Please type in an existing Weblate account name or e-mail address."
+        ),
+    )
+    group = models.ForeignKey(
+        Group,
+        verbose_name=gettext_lazy("Group"),
+        help_text=gettext_lazy(
+            "The user is granted all permissions included in "
+            "membership of these groups."
+        ),
+        on_delete=models.deletion.CASCADE,
+    )
+    email = EmailField(
+        gettext_lazy("E-mail"),
+        blank=True,
+    )
+    is_superuser = models.BooleanField(
+        gettext_lazy("Superuser status"),
+        default=False,
+        help_text=gettext_lazy("User has all possible permissions."),
+    )
+
+    def __str__(self):
+        return f"invitation {self.uuid} for {self.user or self.email} to {self.group}"
+
+    def get_absolute_url(self):
+        return reverse("invitation", kwargs={"pk": self.uuid})
+
+    def send_email(self):
+        from weblate.accounts.notifications import send_notification_email
+
+        send_notification_email(
+            None,
+            [self.email] if self.email else [self.user.email],
+            "invite",
+            info=f"{self}",
+            context={"invitation": self, "validity": settings.AUTH_TOKEN_VALID // 3600},
+        )
+
+    def accept(self, request, user: User):
+        from weblate.accounts.models import AuditLog
+
+        if self.user and self.user != user:
+            raise ValueError("User mismatch on accept!")
+
+        user.groups.add(self.group)
+
+        if self.is_superuser:
+            user.is_superuser = True
+            user.save(update_fields=["is_superuser"])
+
+        AuditLog.objects.create(
+            user=user,
+            request=request,
+            activity="accepted",
+            username=self.author.username,
+        )
+        self.delete()
 
 
 class WeblateAuthConf(AppConf):

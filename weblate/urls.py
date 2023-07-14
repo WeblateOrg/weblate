@@ -387,11 +387,6 @@ real_patterns = [
         name="delete-user",
     ),
     path(
-        "access/<name:project>/resend/",
-        weblate.trans.views.acl.resend_invitation,
-        name="resend_invitation",
-    ),
-    path(
         "access/<name:project>/set/",
         weblate.trans.views.acl.set_groups,
         name="set-groups",

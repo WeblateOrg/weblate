@@ -156,6 +156,7 @@ ACCOUNT_ACTIVITY = {
     "removed": gettext_lazy("Account and all private data removed."),
     "tos": gettext_lazy("Agreement with Terms of Service {date}."),
     "invited": gettext_lazy("Invited to {site_title} by {username}."),
+    "accepted": gettext_lazy("Accepted invitation from {username}."),
     "trial": gettext_lazy("Started trial period."),
     "sent-email": gettext_lazy("Sent confirmation mail to {email}."),
     "autocreated": gettext_lazy(

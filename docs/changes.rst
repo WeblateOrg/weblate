@@ -7,6 +7,7 @@ Not yet released.
 
 * :doc:`/formats/markdown` support, thanks to Anders Kaplan.
 * :doc:`/formats/fluent` now has better syntax checks thanks to Henry Wilkes.
+* Inviting users now works with all authentication methods.
 
 **Improvements**
 
@@ -23,6 +24,7 @@ Not yet released.
 * Faster adding terms to glossary.
 * Better preserve translation on source file change in :doc:`/formats/html` and :doc:`/formats/txt`.
 * Added indication of automatic assignment to team listing.
+* Users now have to confirm invitations to become team members.
 
 **Bug fixes**
 
@@ -39,7 +41,7 @@ Not yet released.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-* There are several changes in :file:`settings_example.py`, most notable is change in ``CACHES``, please adjust your settings accordingly.
+* There are several changes in :file:`settings_example.py`, most notable is changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your settings accordingly.
 * Several previously optional dependencies are now required.
 * The database upgrade can take considerable time on larger sites due to structure changes.
 

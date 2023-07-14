@@ -6,6 +6,7 @@ from crispy_forms.layout import Div, Field
 from crispy_forms.utils import TEMPLATE_PACK
 from django import forms
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils.translation import gettext, gettext_lazy
 
@@ -56,6 +57,44 @@ class UsernameField(forms.CharField):
         self.valid = None
 
         super().__init__(*args, **params)
+
+
+class UserField(forms.CharField):
+    def __init__(
+        self,
+        queryset=None,
+        empty_label="---------",
+        to_field_name=None,
+        limit_choices_to=None,
+        blank=None,
+        **kwargs,
+    ):
+        # This swallows some parameters to mimic ModelChoiceField API
+        super().__init__(**kwargs)
+
+    def widget_attrs(self, widget):
+        attrs = super().widget_attrs(widget)
+        attrs["dir"] = "ltr"
+        attrs["class"] = "user-autocomplete"
+        attrs["spellcheck"] = "false"
+        attrs["autocorrect"] = "off"
+        attrs["autocomplete"] = "off"
+        attrs["autocapitalize"] = "off"
+        return attrs
+
+    def clean(self, value):
+        from weblate.auth.models import User
+
+        if not value:
+            if self.required:
+                raise ValidationError(gettext("Missing username or e-mail."))
+            return None
+        try:
+            return User.objects.get(Q(username=value) | Q(email=value))
+        except User.DoesNotExist:
+            raise ValidationError(gettext("Could not find any such user."))
+        except User.MultipleObjectsReturned:
+            raise ValidationError(gettext("More possible users were found."))
 
 
 class EmailField(forms.EmailField):
