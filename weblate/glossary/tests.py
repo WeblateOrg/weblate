@@ -394,9 +394,17 @@ class GlossaryTest(ViewTestCase):
 
         self.assertEqual(
             set(
-                glossary_units.filter(translation__language_code="en").values_list(
+                glossary_units.filter(translation__language_code="cs").values_list(
                     "explanation", flat=True
                 )
             ),
             {"explained 1", "explained 2"},
+        )
+        self.assertEqual(
+            set(
+                glossary_units.filter(translation__language_code="en").values_list(
+                    "explanation", flat=True
+                )
+            ),
+            {""},
         )
