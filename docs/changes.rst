@@ -21,6 +21,8 @@ Not yet released.
 
 **Compatibility**
 
+* Python 3.9 or newer is now required.
+
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.

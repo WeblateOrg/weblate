@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import re
 from io import StringIO
-from typing import Iterable
+from typing import TYPE_CHECKING
 
 from django.http import Http404
 from django.utils.html import conditional_escape, format_html, format_html_join
@@ -16,6 +16,9 @@ from lxml.etree import XMLSyntaxError
 from siphashc import siphash
 
 from weblate.utils.docs import get_doc_url
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 
 class Check:

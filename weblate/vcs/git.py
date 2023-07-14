@@ -14,7 +14,7 @@ import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
 from json import JSONDecodeError, dumps
 from time import sleep, time
-from typing import TYPE_CHECKING, Iterator
+from typing import TYPE_CHECKING
 from zipfile import ZipFile
 
 import requests
@@ -36,6 +36,7 @@ from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.gpg import get_gpg_sign_key
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
     from datetime import datetime
 
 

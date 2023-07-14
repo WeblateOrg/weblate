@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import re
-from typing import Generator
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.cache import cache
@@ -50,6 +50,9 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 SIMPLE_FILTERS = {
     "fuzzy": {"state": STATE_FUZZY},

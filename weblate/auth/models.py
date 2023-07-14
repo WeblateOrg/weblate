@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
-from functools import lru_cache
+from functools import cache as functools_cache
 from itertools import chain
 
 import sentry_sdk
@@ -257,8 +257,7 @@ class UserQuerySet(models.QuerySet):
         return result.distinct()
 
 
-# TODO: Use functools.cache when Python 3.9+
-@lru_cache(maxsize=None)
+@functools_cache
 def get_anonymous():
     """Return an anonymous user."""
     return User.objects.select_related("profile").get(
