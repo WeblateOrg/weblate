@@ -468,7 +468,7 @@ class BasePrintfCheck(BaseFormatCheck):
         return f"%{string}"
 
     def cleanup_string(self, text):
-        """Remove locale specific code from format string."""
+        """Remove locale-specific code from format string."""
         if "'" in text:
             return text.replace("'", "")
         return text
