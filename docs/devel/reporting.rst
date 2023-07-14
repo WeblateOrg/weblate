@@ -3,8 +3,8 @@ Translation progress reporting
 
 Reporting features give insight into translation progress over a given period.
 A summary of contributions to any given component over time is provided.
-The reporting tool is found in the :guilabel:`Insights` menu of any
-translation component and project, and shown on the dashboard:
+The reporting tool is found in the :guilabel:`Insights` menu of the dashboard:, 
+or any translation component, or project:
 
 .. image:: /screenshots/reporting.png
 
