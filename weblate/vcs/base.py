@@ -11,7 +11,7 @@ import logging
 import os
 import os.path
 import subprocess
-from typing import TYPE_CHECKING, Iterator
+from typing import TYPE_CHECKING
 
 from dateutil import parser
 from django.core.cache import cache
@@ -25,6 +25,7 @@ from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
     from datetime import datetime
 
 LOGGER = logging.getLogger("weblate.vcs")

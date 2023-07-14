@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import re
-from typing import Generator
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.cache import cache
@@ -50,6 +50,9 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 SIMPLE_FILTERS = {
     "fuzzy": {"state": STATE_FUZZY},
@@ -417,9 +420,7 @@ class Unit(models.Model, LoggerMixin):
             self.sync_terminology()
 
     def get_absolute_url(self):
-        return "{}?checksum={}".format(
-            self.translation.get_translate_url(), self.checksum
-        )
+        return f"{self.translation.get_translate_url()}?checksum={self.checksum}"
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""

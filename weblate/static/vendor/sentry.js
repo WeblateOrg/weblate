@@ -3203,6 +3203,7 @@ class Prisma  {
     // https://github.com/getsentry/sentry-javascript/issues/7216#issuecomment-1602375012
     // In the future we might explore providing a dedicated PrismaClient middleware instead of this hack.
     if (isValidPrismaClient(options.client) && !options.client._sentryInstrumented) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       utils.addNonEnumerableProperty(options.client , '_sentryInstrumented', true);
 
       options.client.$use((params, next) => {
@@ -12117,7 +12118,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":54,"../scope.js":63,"@sentry/utils":106}],81:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.58.0';
+const SDK_VERSION = '7.58.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 

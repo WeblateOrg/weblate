@@ -24,7 +24,7 @@ Configuring Weblate
 
       :wladmin:`migrate`
 
-#. Create an administrator user account, generate its password, and copy the password
+#. Create an administrator user account ``admin``, generate its password, and copy it
    to the clipboard; remember to save it for later use:
 
    .. code-block:: sh

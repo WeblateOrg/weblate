@@ -10,7 +10,7 @@ import os
 import os.path
 import re
 from configparser import RawConfigParser
-from typing import TYPE_CHECKING, Iterator
+from typing import TYPE_CHECKING
 
 from django.utils.translation import gettext_lazy
 
@@ -19,6 +19,7 @@ from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.ssh import SSH_WRAPPER
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
     from datetime import datetime
 
 

@@ -380,5 +380,5 @@ by following the backing up and restoration instructions above.
 
 .. seealso::
 
-   :ref:`py3`,
+   `Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_,
    :ref:`database-migration`

@@ -1,36 +1,5 @@
-Weblate 5.0
------------
-
-Not yet released.
-
-**New features**
-
-* WebP is now supported for :ref:`screenshots`.
-
-**Improvements**
-
-* Plurals handling in machine translation.
-* :ref:`check-same` check now honors placeholders even in the strict mode.
-* :ref:`check-reused` is no longer triggered for languages with a single plural form.
-* Avoid duplicate notification when a user is subscribed to overlapping scopes.
-
-**Bug fixes**
-
-* User names handling while committing to Git.
-* :ref:`addon-weblate.cleanup.blank` and :ref:`addon-weblate.cleanup.generic` now remove all strings at once.
-* Language filtering in :doc:`/devel/reporting`.
-
-**Compatibility**
-
-* Python 3.9 or newer is now required.
-
-**Upgrading**
-
-Please follow :ref:`generic-upgrade-instructions` in order to perform update.
-
-* There are several changes in :file:`settings_example.py`, most notable is change in ``CACHES``, please adjust your settings accordingly.
-
-`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/99?closed=1>`__.
+Weblate 4.x series
+==================
 
 Weblate 4.18.2
 --------------
@@ -198,7 +167,7 @@ Weblate 4.15
 
 Released on December 16th 2022.
 
-* Added support for browsing all changes for an individual string.
+* Added support for browsing changes for a individual string.
 * Fixed plurals handling in automatic translation from other components.
 * Added keyboard shortcut Alt+Enter to submit string as a suggestion.
 * Added support for placeables in the Fluent format.
@@ -228,16 +197,16 @@ Released on November 5th 2022.
 
 * Added support for removing entries from translation memory.
 * Improved analysis on the duplicate language alert.
-* Improved accurancy of the consecutive duplicated-words check.
+* Improved accuracy of the consecutive duplicated words check.
 * Improved scaling of sending many notifications.
-* Improved string-state handling for subtitle translation.
+* Improved string state handling for subtitle translation.
 * Deprecated insecure configuration of VCS service API keys via _TOKEN/_USERNAME configuration instead of _CREDENTIALS list.
 * Fixed processing of some uploaded CSV files.
 * Improved whitespace changes handling in diff display.
-* Added link for managing automatic suggestions to the management pages.
+* Added automatic suggestions management link to management pages.
 * Track comment removal/resolving in history.
 * Fixed restoring project backups with linked components.
-* Fixed CAPTCHA entering on unsuccessful registration.
+* Fixed captcha entering on unsuccessful registration.
 * Improved languages support in DeepL.
 * Improved webhooks compatibility with authenticated repositories.
 * Added support for Python 3.11.
@@ -250,14 +219,14 @@ Weblate 4.14.1
 Released on September 15th 2022.
 
 * Fixed generating project backups in some situations.
-* Improved error reporting when uploading files.
+* Improved error reporting on file upload.
 * Fetch all user verified e-mails from GitHub during authentication.
 * Avoid matching glossary terms on context or keys.
 * Added notifications for string removals.
 * Improved management of untranslatable terms in glossary.
 * List number of team members on team management page.
 * Add group management interface.
-* Always show review stats when reviews are turned on.
+* Always show review stats when reviews are enabled.
 * Added searching support in units API.
 * Fixed progress bar display for read-only strings in the review workflow.
 * Improved Burmese punctuation check.
@@ -293,11 +262,11 @@ Released on July 1st 2022.
 
 * Fixed tracking suggestions in history.
 * Fixed parsing reverse proxy info from Cloudflare.
-* Make parse errors lock translation of a component.
+* Make parse error lock a component from translating.
 * Fixed configuring intermediate file in the discovery add-on.
 * Fixed DeepL translations behavior with placeholders.
 * Fixed untranslating strings via API.
-* Added support for removing a user from a group via API.
+* Added support for removing user from a group via API.
 * Fixed audit log for user invitation e-mails.
 * Fixed flag names for Java formatting strings.
 
@@ -310,16 +279,16 @@ Released on June 15th 2022.
 
 * Changed behavior of updating language names.
 * Added pagination to projects listing.
-* API for creating new units now returns info about newly created unit.
+* API for creating new units now returns information about newly created unit.
 * Component discovery now supports configuring an intermediate language.
 * Added fixed encoding variants to CSV formats.
 * Changed handling of context and location for some formats to better fit underlying implementation.
-* Added support for the ResourceDictionary format.
-* Improved progress-bar colors for color-blind people.
-* Fixed variants cleanup when removing strings.
+* Added support for ResourceDictionary format.
+* Improved progress bar colors for color blind.
+* Fixed variants cleanup on string removal.
 * Compatibility with Django 4.1.
 * Added support for storing escaped XML elements in XLIFF.
-* Improved formatting of placeholder-check errors.
+* Improved formatting of placeholder check errors.
 * Redirect /.well-known/change-password to /accounts/password/.
 * Machine translation services are now configurable per project.
 * Added separate permission for resolving comments and grant it to the :guilabel:`Review strings` role.
@@ -333,9 +302,9 @@ Weblate 4.12.2
 
 Released on May 11th 2022.
 
-* Fixed rebuilding project translation-memory for some components.
+* Fixed rebuilding project translation memory for some components.
 * Fixed sorting components by untranslated strings.
-* Fixed possible loss of translations while adding a new language.
+* Fixed possible loss of translations while adding new language.
 * Ensure Weblate SSH key is generated during migrations.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/83?closed=1>`__.
@@ -364,12 +333,12 @@ Released on April 20th 2022.
 * Added ``ignore-all-checks`` flag to ignore all quality checks on a string.
 * Avoid :ref:`addon-weblate.generate.pseudolocale` add-on to trigger failing checks.
 * Added support for :ref:`vcs-gitea`.
-* Added Linux-style language code to :ref:`component-language_code_style`.
+* Added Linux style language code to :ref:`component-language_code_style`.
 * Added support for rebuilding project translation memory.
 * Improved API for creating components from a file.
 * Add copy and clone buttons to other translations.
-* Make merge request message configurable at the component level.
-* Improved behavior of maximal-length restriction with XML tags.
+* Make merge request message configurable at component level.
+* Improved maximal length restriction behavior with XML tags.
 * Fixed loading Fluent files with additional comments.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?closed=1>`__.
@@ -416,10 +385,10 @@ Released on February 25th 2022.
 * Track string changes from the repository.
 * Sticky header on translations listing to improve navigation.
 * Fixed untranslating strings in :ref:`javaprop`.
-* Fixed Git operation with non-ASCII branch names.
+* Fixed Git operation with non-ascii branch names.
 * New add-on :ref:`addon-weblate.generate.prefill`.
 * Added :guilabel:`Merge without fast-forward` :ref:`component-merge_style`.
-* Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on triggering for newly added strings.
+* Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on newly added strings.
 * Improved punctuation checks for Burmese.
 * Added support for defining custom teams at project level to grant users access, see :ref:`manage-acl`.
 * Added documentation links to alerts.
@@ -451,7 +420,7 @@ Weblate 4.10
 Released on December 16th 2021.
 
 * Added support for formality and placeholders with DeepL.
-* Bulk edit and search-and-replace are now available on project and language level.
+* Bulk edit and search and replace are now available on project and language level.
 * Added filtering to search and replace.
 * Fixed: "Perform automatic translation" privilege is no longer part of the *Languages* group.
 * "Perform automatic translation" is in the *Administration* and the new *Automatic translation* group.
@@ -1031,3 +1000,33 @@ Weblate 4.0.1
 Released on April 16th 2020.
 
 * Fixed package installation from PyPI.
+
+Weblate 4.0
+-----------
+
+Released on April 16th 2020.
+
+* Weblate now requires Python 3.6 or newer.
+* Added management overview of component alerts.
+* Added component alert for broken repository browser URLs.
+* Improved sign in and registration pages.
+* Project access control and workflow configuration integrated to project settings.
+* Added check and highlighter for i18next interpolation and nesting.
+* Added check and highlighter for percent placeholders.
+* Display suggestions failing checks.
+* Record source string changes in history.
+* Upgraded Microsoft Translator to version 3 API.
+* Reimplemented translation memory backend.
+* Added support for several ``is:`` lookups in :doc:`/user/search`.
+* Allow to make :ref:`check-same` avoid internal blacklist.
+* Improved comments extraction from monolingual po files.
+* Renamed whiteboard messages to announcements.
+* Fixed occasional problems with registration mails.
+* Improved LINGUAS update add-on to handle more syntax variants.
+* Fixed editing monolingual XLIFF source file.
+* Added support for exact matching in :doc:`/user/search`.
+* Extended API to cover screenshots, users, groups, componentlists and extended creating projects.
+* Add support for source upload on bilingual translations.
+* Added support for intermediate language from developers.
+* Added support for source strings review.
+* Extended download options for platform wide translation memory.

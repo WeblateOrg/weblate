@@ -7,7 +7,7 @@ from __future__ import annotations
 from collections import defaultdict
 from copy import copy
 from email.utils import formataddr
-from typing import Any, Iterable
+from typing import TYPE_CHECKING, Any
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
@@ -34,6 +34,9 @@ from weblate.utils.ratelimit import rate_limit
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.version import USER_AGENT
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 FREQ_NONE = 0
 FREQ_INSTANT = 1

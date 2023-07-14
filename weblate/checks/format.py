@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import re
 from collections import Counter, defaultdict
-from typing import Pattern
+from re import Pattern
 
 from django.utils.functional import SimpleLazyObject
 from django.utils.html import format_html, format_html_join
