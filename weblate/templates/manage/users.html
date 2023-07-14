@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load icons %}
 {% load translations %}
 {% load permissions %}
 {% load crispy_forms_tags %}
@@ -34,6 +35,64 @@
   </div>
 </div>
 </form>
+
+{% if invitations %}
+<div class="panel panel-default">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Pending invitations" %}</h4></div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>{% trans "Username" %}</th>
+        <th>{% trans "Full name" %}</th>
+        <th>{% trans "E-mail" %}</th>
+        <th>{% trans "Projects" %}</th>
+        <th>{% trans "Teams" %}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for invitation in invitations %}
+        <tr>
+          {% if invitation.user %}
+            <td><a href="{{ invitation.user.get_absolute_url }}">{{ invitation.user.username }}</a></td>
+            <td>{{ invitation.user.full_name }}</td>
+            <td>{{ invitation.user.email }}</td>
+          {% else %}
+            <td></td>
+            <td></td>
+            <td>{{ invitation.email }}</td>
+          {% endif %}
+          <td>
+            {% if invitation.group.defining_project %}
+              <a href="{{ invitation.group.defining_project.get_absolute_url }}">{{ invitation.group.defining_project }}</a>
+            {% endif %}
+          </td>
+          <td>
+            <span class="badge">{{ invitation.group }}</span>
+          </td>
+          <td>
+            <form action="{{ invitation.get_absolute_url }}" method="post" class="inlineform">
+              {% csrf_token %}
+              <input type="hidden" name="action" value="resend" />
+              <button type="submit" class="btn btn-link btn-xs" title="{% trans "Resend invitation" %}">
+              {% icon 'refresh.svg' %}
+              </button>
+            </form>
+            <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ site_url }}{{ invitation.get_absolute_url }}" data-clipboard-message="{% trans "Invitation link copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+            <form action="{{ invitation.get_absolute_url }}" method="post" class="inlineform">
+              {% csrf_token %}
+              <input type="hidden" name="action" value="remove" />
+              <button type="submit" class="btn btn-link btn-xs red" title="{% trans "Remove invitation" %}">
+              {% icon 'delete.svg' %}
+              </button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
 
 <form method="GET" action="{% url "manage-users-check" %}">
 <div class="panel panel-default">

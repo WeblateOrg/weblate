@@ -6,6 +6,7 @@ from django.conf import settings
 from django.urls import include, path
 
 import weblate.accounts.views
+import weblate.auth.views
 from weblate.utils.urls import register_weblate_converters
 
 register_weblate_converters()
@@ -72,6 +73,11 @@ urlpatterns = [
     path("login/", weblate.accounts.views.WeblateLoginView.as_view(), name="login"),
     path("register/", weblate.accounts.views.register, name="register"),
     path("email/", weblate.accounts.views.email_login, name="email_login"),
+    path(
+        "invitation/<uuid:pk>/",
+        weblate.auth.views.InvitationView.as_view(),
+        name="invitation",
+    ),
     path("", include((social_urls, "social_auth"), namespace="social")),
 ]
 

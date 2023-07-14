@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% if invitation.group.defining_project %}
+  {% blocktranslate with invitation_author=invitation.author.full_name project_name=invitation.group.defining_project team_name=invitation.group %}You were invited to {{ site_title }} by {{ invitation_author }} to collaborate on {{ project_name }} and join the {{ team_name }} team.{% endblocktranslate %}
+{% else %}
+  {% blocktranslate with invitation_author=invitation.author.full_name team_name=invitation.group %}You were invited to {{ site_title }} by {{ invitation_author }} to join the {{ team_name }} team.{% endblocktranslate %}
+{% endif %}

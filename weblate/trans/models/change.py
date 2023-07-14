@@ -25,6 +25,7 @@ from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.alert import ALERTS
 from weblate.trans.models.project import Project
+from weblate.utils.pii import mask_email
 from weblate.utils.state import STATE_LOOKUP
 
 
@@ -727,9 +728,13 @@ class Change(models.Model, UserDisplayMixin):
                     return name
             return "Unknown {}".format(details["access_control"])
         if self.action in user_actions:
+            if "username" in details:
+                result = details["username"]
+            else:
+                result = mask_email(details["email"])
             if "group" in details:
-                return "{username} ({group})".format(**details)
-            return details["username"]
+                result = "result ({details['group']})"
+            return result
         if self.action in (
             self.ACTION_ADDED_LANGUAGE,
             self.ACTION_REQUESTED_LANGUAGE,

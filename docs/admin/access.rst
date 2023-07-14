@@ -162,21 +162,27 @@ team. This is useful in case you want to build self-governed teams.
 New user invitation
 ^^^^^^^^^^^^^^^^^^^
 
-Also, besides adding an existing user to the project, it is possible to invite
-new ones. Any new user will be created immediately, but the account will
-remain inactive until signing in with a link in the invitation sent via an e-mail.
+Adding existing users will send them invitation to confirm. With
+:setting:`REGISTRATION_OPEN` the administrator can also invite new users using
+e-mail. Invited users have to complete the registration process to get access
+to the project.
+
 It is not required to have any site-wide privileges in order to do so, access management
 permission on the project’s scope (e.g. a membership in the `Administration`
 team) would be sufficient.
 
 .. hint::
 
-   If the invited user missed the validity of the invitation, they can set their
-   password using invited e-mail address in the password reset form as the account
-   is created already.
+   If the invited user missed the validity of the invitation, a new invitation
+   has to be created.
 
 The same kind of invitations are available site-wide from the
 :ref:`management interface <management-interface>` on the :guilabel:`Users` tab.
+
+.. versionchanged:: 5.0
+
+   Weblate now does not automatically create accounts or add users to the
+   teams. This is only done after confirmation from the user.
 
 .. _block-user:
 

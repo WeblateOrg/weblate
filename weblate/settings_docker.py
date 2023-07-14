@@ -562,6 +562,7 @@ SOCIAL_AUTH_PIPELINE = [
     "weblate.accounts.pipeline.user_full_name",
     "weblate.accounts.pipeline.store_email",
     "weblate.accounts.pipeline.notify_connect",
+    "weblate.accounts.pipeline.handle_invite",
     "weblate.accounts.pipeline.password_reset",
 ]
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
