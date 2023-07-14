@@ -138,17 +138,6 @@ and then continue upgrading within the 4.x series.
 ..
   TODO: Add link to Weblate 5.0 docs once it is built
 
-.. _py3:
-
-Upgrading from Python 2 to Python 3
------------------------------------
-
-Weblate no longer supports Python older than 3.6. In case you are still running
-on older version, please perform migration to Python 3 first on existing
-version and upgrade later. See `Upgrading from Python 2 to Python 3 in the Weblate
-3.11.1 documentation
-<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_.
-
 .. _database-migration:
 
 Migrating from other databases to PostgreSQL
