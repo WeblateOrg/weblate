@@ -32,6 +32,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         "tlh-qaak": "tlh-Piqd",
         "nb": "no",
         "bs-latn": "bs-Latn",
+        "sr": "sr-Latn",
         "sr-latn": "sr-Latn",
         "sr-cyrl": "sr-Cyrl",
         "mn": "mn-Mong",
