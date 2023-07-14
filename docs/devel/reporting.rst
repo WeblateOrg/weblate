@@ -48,8 +48,8 @@ Generates the number of translated words and strings by translator name:
 .. literalinclude:: reporting-example.rst
     :language: rst
 
-This can be useful if you pay your translators based on the amount of work done,
-as it grants various statistics to that effect.
+This can be useful if you pay your translators based on the amount of work done;
+it gives you various stats of translators’ work.
 
 All stats are available in four variants:
 
