@@ -114,7 +114,7 @@ Version specific instructions
 -----------------------------
 
 Upgrade from an older major version
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Upgrades across major versions are not supported. Always upgrade to the latest
 patch level for the initial major release. Upgrades skipping this step are not
