@@ -18,6 +18,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Component, Project
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
+from weblate.utils.lock import WeblateLockTimeout
 from weblate.utils.requests import request
 
 IGNORED_TAGS = {"script", "style"}
@@ -69,7 +70,12 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
         component.delete_alert("CDNAddonError")
 
 
-@app.task(trail=False)
+@app.task(
+    trail=False,
+    autoretry_for=(WeblateLockTimeout,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
+)
 def language_consistency(project_id: int, language_ids: list[int]):
     project = Project.objects.get(pk=project_id)
     languages = Language.objects.filter(id__in=language_ids)
