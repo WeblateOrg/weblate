@@ -164,12 +164,6 @@ Reviews can be turned on in the project configuration, from the
 :guilabel:`Workflow` subpage of project settings (to be found in the
 :guilabel:`Manage` → :guilabel:`Settings` menu):
 
-.. note::
-
-    Depending on your Weblate configuration, the setting might not be available.
-    For example on Hosted Weblate this is not available for projects hosted
-    for free.
-
 .. image:: /screenshots/project-workflow.webp
 
 .. _source-quality-gateway:
