@@ -1675,10 +1675,7 @@ a.language:hover {
 .token.function-name,
 .token.constant,
 .token.symbol,
-.token.deleted {
-  color: #c92c2c;
-}
-
+.token.deleted,
 .token.selector,
 .token.attr-name,
 .token.string,
@@ -1692,14 +1689,13 @@ a.language:hover {
 .token.operator,
 .token.entity,
 .token.url,
-.token.variable {
-  color: #a67f59;
-}
-
+.token.variable,
 .token.atrule,
 .token.attr-value,
 .token.keyword,
-.token.class-name {
+.token.class-name,
+.language-css .token.string,
+.style .token.string {
   color: #1990b8;
 }
 
@@ -1708,12 +1704,8 @@ a.language:hover {
   color: #e90;
 }
 
-.language-css .token.string,
-.style .token.string {
-  color: #a67f59;
-}
 .token.namespace {
-  opacity: 0.7;
+  opacity: 0.8;
 }
 .markdown p:last-child {
   margin-bottom: 0;
