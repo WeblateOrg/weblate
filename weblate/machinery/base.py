@@ -1,35 +1,26 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Base code for machine translation services."""
 
+from __future__ import annotations
+
 import random
+import re
 import time
 from hashlib import md5
-from typing import Dict, List
+from itertools import chain
+from urllib.parse import quote
 
 from django.core.cache import cache
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
+from django.utils.translation import gettext
 from requests.exceptions import HTTPError
 
 from weblate.checks.utils import highlight_string
-from weblate.lang.models import Language
+from weblate.lang.models import Language, PluralMapper
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash
@@ -48,10 +39,6 @@ class MachineTranslationError(Exception):
     """Generic Machine translation error."""
 
 
-class MissingConfiguration(ImproperlyConfigured):
-    """Exception raised when configuration is wrong."""
-
-
 class MachineryRateLimit(MachineTranslationError):
     """Raised when rate limiting is detected."""
 
@@ -67,39 +54,79 @@ class MachineTranslation:
     max_score = 100
     rank_boost = 0
     cache_translations = True
-    language_map: Dict[str, str] = {}
+    language_map: dict[str, str] = {}
     same_languages = False
     do_cleanup = True
+    # Batch size is currently used in autotranslate
     batch_size = 20
     accounting_key = "external"
     force_uncleanup = False
     hightlight_syntax = False
+    settings_form = None
+    validate_payload = ("en", "de", "test", None, None, 75)
+    request_timeout = 5
 
     @classmethod
     def get_rank(cls):
         return cls.max_score + cls.rank_boost
 
-    def __init__(self):
+    def __init__(self, settings: dict[str, str]):
         """Create new machine translation object."""
-        self.mtid = self.name.lower().replace(" ", "-")
+        self.mtid = self.get_identifier()
         self.rate_limit_cache = f"{self.mtid}-rate-limit"
         self.languages_cache = f"{self.mtid}-languages"
         self.comparer = Comparer()
         self.supported_languages_error = None
         self.supported_languages_error_age = 0
+        self.settings = settings
 
     def delete_cache(self):
         cache.delete_many([self.rate_limit_cache, self.languages_cache])
 
-    def get_identifier(self):
-        return self.mtid
+    @staticmethod
+    def migrate_settings():
+        # TODO: Drop in Weblate 5.1
+        return {}
+
+    def validate_settings(self):
+        try:
+            self.download_languages()
+        except Exception as error:
+            raise ValidationError(
+                gettext("Failed to fetch supported languages: %s") % error
+            )
+        try:
+            self.download_translations(*self.validate_payload)
+        except Exception as error:
+            raise ValidationError(gettext("Failed to fetch translation: %s") % error)
+
+    @property
+    def api_base_url(self):
+        base = self.settings["url"]
+        if base.endswith("/"):
+            base = base.rstrip("/")
+        return base
+
+    def get_api_url(self, *parts):
+        """Generates service URL gracefully handle trailing slashes."""
+        return "/".join(
+            chain([self.api_base_url], (quote(part, b"") for part in parts))
+        )
+
+    @classmethod
+    def get_identifier(cls):
+        return cls.name.lower().replace(" ", "-")
+
+    @classmethod
+    def get_doc_anchor(cls):
+        return f"mt-{cls.get_identifier()}"
 
     def account_usage(self, project, delta: int = 1):
         key = f"machinery-accounting:{self.accounting_key}:{project.id}"
         try:
             cache.incr(key, delta=delta)
         except ValueError:
-            cache.set(key, delta)
+            cache.set(key, delta, 24 * 3600)
 
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
@@ -119,7 +146,9 @@ class MachineTranslation:
             headers.update(self.get_authentication())
 
         # Fire request
-        response = request(method, url, headers=headers, timeout=5.0, **kwargs)
+        response = request(
+            method, url, headers=headers, timeout=self.request_timeout, **kwargs
+        )
 
         # Directly raise error when response is empty
         if response.content:
@@ -149,10 +178,10 @@ class MachineTranslation:
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
     ):
-        """Download list of possible translations from a service.
+        """
+        Download list of possible translations from a service.
 
         Should return dict with translation text, translation quality, source of
         translation, source string.
@@ -161,7 +190,7 @@ class MachineTranslation:
         better hint and text parameter as source string if you do no fuzzy
         matching.
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def map_language_code(self, code):
         """Map language code to service specific."""
@@ -170,10 +199,6 @@ class MachineTranslation:
         if code in self.language_map:
             return self.language_map[code]
         return code
-
-    def convert_language(self, language):
-        """Convert language to service specific object."""
-        return self.map_language_code(language.code)
 
     def report_error(self, message):
         """Wrapper for handling error situations."""
@@ -251,13 +276,17 @@ class MachineTranslation:
         """Escaping of the text with replacements."""
         return text
 
+    def make_re_placeholder(self, text: str):
+        """Convert placeholder into a regular expression."""
+        # Allow additional space before ]
+        return re.escape(text[:-1]) + " *" + re.escape(text[-1:])
+
     def format_replacement(self, h_start: int, h_end: int, h_text: str):
         """Generates a single replacement."""
         return f"[X{h_start}X]"
 
-    def cleanup_text(self, unit):
+    def cleanup_text(self, text, unit):
         """Removes placeholder to avoid confusing the machine translation."""
-        text = unit.source_string
         replacements = {}
         if not self.do_cleanup:
             return text, replacements
@@ -279,32 +308,30 @@ class MachineTranslation:
 
         return "".join(parts), replacements
 
-    def uncleanup_results(self, replacements: Dict[str, str], results: List[str]):
+    def uncleanup_results(self, replacements: dict[str, str], results: list[str]):
         """Reverts replacements done by cleanup_text."""
         keys = ("text", "source")
         for result in results:
             for key in keys:
                 text = result[key]
                 for source, target in replacements.items():
-                    text = text.replace(source, target)
+                    text = re.sub(self.make_re_placeholder(source), target, text)
                 result[key] = self.unescape_text(text)
 
-    def get_variants(self, language):
-        code = self.convert_language(language)
-        yield code
-        if not isinstance(code, str):
-            return
+    def get_language_possibilities(self, language):
+        code = language.code
+        yield self.map_language_code(code)
         code = code.replace("-", "_")
-        if "_" in code:
-            yield code.split("_")[0]
+        while "_" in code:
+            code = code.rsplit("_", 1)[0]
+            yield self.map_language_code(code)
 
     def get_languages(self, source_language, target_language):
-
         if source_language == target_language and not self.same_languages:
             raise UnsupportedLanguage("Same languages")
 
-        for source in self.get_variants(source_language):
-            for target in self.get_variants(target_language):
+        for source in self.get_language_possibilities(source_language):
+            for target in self.get_language_possibilities(target_language):
                 if self.is_supported(source, target):
                     return source, target
 
@@ -325,7 +352,25 @@ class MachineTranslation:
             return cache_key, result
         return cache_key, None
 
-    def translate(self, unit, user=None, search=None, threshold: int = 75):
+    def search(self, unit, text, user):
+        """Search for known translations of `text`."""
+        translation = unit.translation
+        try:
+            source, language = self.get_languages(
+                translation.component.source_language, translation.language
+            )
+        except UnsupportedLanguage:
+            unit.translation.log_debug(
+                "machinery failed: not supported language pair: %s - %s",
+                translation.component.source_language.code,
+                translation.language.code,
+            )
+            return []
+
+        self.account_usage(translation.component.project)
+        return self._translate(source, language, text, unit, user, threshold=10)
+
+    def translate(self, unit, user=None, threshold: int = 75):
         """Return list of machine translations."""
         translation = unit.translation
         try:
@@ -341,16 +386,17 @@ class MachineTranslation:
             return []
 
         self.account_usage(translation.component.project)
-        return self._translate(source, language, unit, user, search, threshold)
 
-    def _translate(
-        self, source, language, unit, user=None, search=None, threshold: int = 75
-    ):
-        if search:
-            replacements = {}
-            text = search
-        else:
-            text, replacements = self.cleanup_text(unit)
+        source_plural = translation.component.source_language.plural
+        target_plural = translation.plural
+        plural_mapper = PluralMapper(source_plural, target_plural)
+        return [
+            self._translate(source, language, text, unit, user, threshold=threshold)
+            for text in plural_mapper.map(unit)
+        ]
+
+    def _translate(self, source, language, text, unit, user=None, threshold: int = 75):
+        text, replacements = self.cleanup_text(text, unit)
 
         if not text or self.is_rate_limited():
             return []
@@ -362,22 +408,18 @@ class MachineTranslation:
             return result
 
         try:
-            result = list(
-                self.download_translations(
+            result = [
+                item
+                for item in self.download_translations(
                     source,
                     language,
                     text,
                     unit,
                     user,
-                    search=bool(search),
                     threshold=threshold,
                 )
-            )
-            if replacements or self.force_uncleanup:
-                self.uncleanup_results(replacements, result)
-            if cache_key:
-                cache.set(cache_key, result, 30 * 86400)
-            return result
+                if item["quality"] >= threshold
+            ]
         except Exception as exc:
             if self.is_rate_limit_error(exc):
                 self.set_rate_limit()
@@ -385,7 +427,12 @@ class MachineTranslation:
             self.report_error("Failed to fetch translations from %s")
             if isinstance(exc, MachineTranslationError):
                 raise
-            raise MachineTranslationError(self.get_error_message(exc))
+            raise MachineTranslationError(self.get_error_message(exc)) from exc
+        if replacements or self.force_uncleanup:
+            self.uncleanup_results(replacements, result)
+        if cache_key:
+            cache.set(cache_key, result, 30 * 86400)
+        return result
 
     def get_error_message(self, exc):
         return f"{exc.__class__.__name__}: {exc}"
@@ -412,17 +459,43 @@ class MachineTranslation:
             return
 
         self.account_usage(translation.component.project, delta=len(units))
-        self._batch_translate(source, language, units, user=user, threshold=threshold)
 
-    def _batch_translate(self, source, language, units, user=None, threshold: int = 75):
+        source_plural = translation.component.source_language.plural
+        target_plural = translation.plural
+        plural_mapper = PluralMapper(source_plural, target_plural)
         for unit in units:
             result = unit.machinery
-            if result["best"] >= self.max_score:
+            if result is None:
+                result = unit.machinery = {}
+            elif min(result.get("quality", ()), default=0) >= self.max_score:
                 continue
-            for item in self._translate(
-                source, language, unit, user=user, threshold=threshold
-            ):
-                if result["best"] > item["quality"]:
-                    continue
-                result["best"] = item["quality"]
-                result["translation"] = item["text"]
+            translation_lists = [
+                self._translate(source, language, text, unit, user, threshold=threshold)
+                for text in plural_mapper.map(unit)
+            ]
+            plural_count = len(translation_lists)
+            translation = result.setdefault("translation", [""] * plural_count)
+            quality = result.setdefault("quality", [0] * plural_count)
+            for plural, possible_translations in enumerate(translation_lists):
+                for item in possible_translations:
+                    if quality[plural] > item["quality"]:
+                        continue
+                    quality[plural] = item["quality"]
+                    translation[plural] = item["text"]
+
+
+class InternalMachineTranslation(MachineTranslation):
+    do_cleanup = False
+    accounting_key = "internal"
+    cache_translations = False
+
+    def is_supported(self, source, language):
+        """Any language is supported."""
+        return True
+
+    def is_rate_limited(self):
+        """Disable rate limiting."""
+        return False
+
+    def get_language_possibilities(self, language):
+        yield get_machinery_language(language)

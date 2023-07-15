@@ -17,22 +17,31 @@
 {% endif %}
 
 {% else %}
+
+
+<ul class="nav nav-pills">
+  <li role="presentation" class="active"><a href="#create" data-toggle="tab">{% trans "Add new translation project" %}</a></li>
+  <li role="presentation"><a href="#import" data-toggle="tab">{% trans "Import translation project" %}</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div class="tab-pane active" id="create">
 <form action="{% url 'create-project' %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
-<div class="panel panel-default">
-<div class="panel-heading">
-<h4 class="panel-title">
-{% documentation_icon 'admin/projects' 'project' right=True %}
-{% trans "Add new translation project" %}
-</h4>
-</div>
-<div class="panel-body">
 {% crispy form %}
-</div>
-<div class="panel-footer">
 <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
-</div>
-</div>
 </form>
+</div>
+
+<div class="tab-pane" id="import">
+<form action="{% url 'create-project-import' %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+{% crispy import_form %}
+<input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" />
+</form>
+</div>
+
+</div>
 {% endif %}
 {% endblock %}

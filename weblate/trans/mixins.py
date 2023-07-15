@@ -1,24 +1,10 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 import os
-from typing import Optional
 
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -30,11 +16,11 @@ from weblate.logger import LOGGER
 class URLMixin:
     """Mixin for models providing standard shortcut API for few standard URLs."""
 
-    _reverse_url_name: Optional[str] = None
+    _reverse_url_name: str | None = None
 
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def reverse_url(self, name=None):
         """Generic reverser for URL."""
@@ -65,6 +51,9 @@ class URLMixin:
     def get_file_sync_url(self):
         return self.reverse_url("file_sync")
 
+    def get_file_scan_url(self):
+        return self.reverse_url("file_scan")
+
     def get_lock_url(self):
         return self.reverse_url("lock")
 
@@ -87,19 +76,19 @@ class LoggerMixin:
 
     def log_debug(self, msg, *args):
         self.log_hook("DEBUG", msg, *args)
-        return LOGGER.debug(": ".join((self.full_slug, msg)), *args)
+        return LOGGER.debug(f"{self.full_slug}: {msg}", *args)
 
     def log_info(self, msg, *args):
         self.log_hook("INFO", msg, *args)
-        return LOGGER.info(": ".join((self.full_slug, msg)), *args)
+        return LOGGER.info(f"{self.full_slug}: {msg}", *args)
 
     def log_warning(self, msg, *args):
         self.log_hook("WARNING", msg, *args)
-        return LOGGER.warning(": ".join((self.full_slug, msg)), *args)
+        return LOGGER.warning(f"{self.full_slug}: {msg}", *args)
 
     def log_error(self, msg, *args):
         self.log_hook("ERROR", msg, *args)
-        return LOGGER.error(": ".join((self.full_slug, msg)), *args)
+        return LOGGER.error(f"{self.full_slug}: {msg}", *args)
 
 
 class PathMixin(LoggerMixin):
@@ -107,7 +96,7 @@ class PathMixin(LoggerMixin):
 
     def _get_path(self):
         """Actual calculation of path."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @cached_property
     def full_path(self):

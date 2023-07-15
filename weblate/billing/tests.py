@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os.path
 from datetime import timedelta
@@ -34,6 +19,7 @@ from weblate.billing.models import Billing, Invoice, Plan
 from weblate.billing.tasks import (
     billing_alert,
     billing_check,
+    billing_notify,
     notify_expired,
     perform_removal,
     schedule_removal,
@@ -72,6 +58,7 @@ class BillingTest(TestCase):
         )
         self.billing.projects.add(project)
         project.add_user(self.user, "Billing")
+        return project
 
     def test_view_billing(self):
         self.add_project()
@@ -102,9 +89,12 @@ class BillingTest(TestCase):
         self.add_project()
         self.refresh_from_db()
         self.assertTrue(self.billing.in_limits)
-        self.add_project()
+        project = self.add_project()
         self.refresh_from_db()
         self.assertFalse(self.billing.in_limits)
+        project.delete()
+        self.refresh_from_db()
+        self.assertTrue(self.billing.in_limits)
 
     def test_commands(self):
         out = StringIO()
@@ -132,6 +122,13 @@ class BillingTest(TestCase):
             " * test0, test1 (Basic plan)\n",
         )
         call_command("billing_check", "--notify", stdout=out)
+        self.assertEqual(len(mail.outbox), 1)
+
+    def test_billing_notify(self):
+        self.assertEqual(len(mail.outbox), 0)
+        self.add_project()
+        self.add_project()
+        billing_notify()
         self.assertEqual(len(mail.outbox), 1)
 
     def test_invoice_validation(self):

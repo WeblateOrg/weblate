@@ -3,6 +3,35 @@
 Backing up and moving Weblate
 =============================
 
+.. _projectbackup:
+
+Project level backups
+---------------------
+
+.. versionadded:: 4.14
+
+.. warning::
+
+   Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ as a database.
+
+The project backups all translation content from Weblate (project, components,
+translations, string comments, suggestions or checks). It is suitable for
+transferring a project to another Weblate instance.
+
+You can perform a project backup in :guilabel:`Manage` ↓ :guilabel:`Backups`.
+The backup can be restored when creating a project (see
+:ref:`adding-projects`).
+
+The backups currently do not include access control information and history.
+
+The comments and suggestions are backed up with an username of user who did
+create them. Upon import it is assigned to a matching user. If there is no user
+with such username, it is assigned to anonymous user.
+
+The generated backups are kept on the server as configured by
+:setting:`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT`
+(it defaults to keep at most 3 backups for 30 days).
+
 Automated backup using BorgBackup
 ---------------------------------
 
@@ -23,7 +52,7 @@ The backups using Borg are incremental and Weblate is configured to keep followi
 * Weekly backups for 8 weeks back
 * Monthly backups for 6 months back
 
-.. image:: /screenshots/backups.png
+.. image:: /screenshots/backups.webp
 
 .. _borg-keys:
 
@@ -213,7 +242,7 @@ tools such as :program:`pg_dump` or :program:`mysqldump`. It usually performs
 better than Django backup, and it restores complete tables with all their data.
 
 You can restore this backup in a newer Weblate release, it will perform all the
-necessary migrations when running in :djadmin:`django:migrate`. Please consult
+necessary migrations when running in :wladmin:`migrate`. Please consult
 :doc:`upgrade` on more detailed info on how to upgrade between versions.
 
 Django database backup
@@ -227,7 +256,7 @@ Prior to restoring the database you need to be running exactly the same Weblate
 version the backup was made on. This is necessary as the database structure does
 change between releases and you would end up corrupting the data in some way.
 After installing the same version, run all database migrations using
-:djadmin:`django:migrate`.
+:wladmin:`migrate`.
 
 Afterwards some entries will already be created in the database and you
 will have them in the database backup as well. The recommended approach is to
@@ -337,7 +366,7 @@ Restoring manual backup
 
 1. Restore all data you have backed up.
 
-2. Update all repositories using :djadmin:`updategit`.
+2. Update all repositories using :wladmin:`updategit`.
 
    .. code-block:: sh
 
@@ -351,5 +380,5 @@ by following the backing up and restoration instructions above.
 
 .. seealso::
 
-   :ref:`py3`,
+   `Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_,
    :ref:`database-migration`

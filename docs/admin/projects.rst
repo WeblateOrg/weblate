@@ -50,16 +50,16 @@ based on your plans allowance from the user account that manages billing.
 
 You can view your current billing plan on a separate page:
 
-.. image:: /screenshots/user-billing.png
+.. image:: /screenshots/user-billing.webp
 
 The project creation can be initiated from there, or using the menu in the navigation
 bar, filling in basic info about the translation project to complete addition of it:
 
-.. image:: /screenshots/user-add-project.png
+.. image:: /screenshots/user-add-project.webp
 
 After creating the project, you are taken directly to the project page:
 
-.. image:: /screenshots/user-add-project-done.png
+.. image:: /screenshots/user-add-project-done.webp
 
 Creating a new translation component can be initiated via a single click there.
 The process of creating a component is multi-staged and automatically detects most
@@ -85,15 +85,15 @@ for additional files or branches using same repository.
 
 First you need to fill in name and repository location:
 
-.. image:: /screenshots/user-add-component-init.png
+.. image:: /screenshots/user-add-component-init.webp
 
 On the next page, you are presented with a list of discovered translatable resources:
 
-.. image:: /screenshots/user-add-component-discovery.png
+.. image:: /screenshots/user-add-component-discovery.webp
 
 As a last step, you review the translation component info and fill in optional details:
 
-.. image:: /screenshots/user-add-component.png
+.. image:: /screenshots/user-add-component.webp
 
 .. seealso::
 
@@ -125,6 +125,10 @@ Project name
 
 Verbose project name, used to display the project name.
 
+.. seealso::
+
+   :setting:`PROJECT_NAME_RESTRICT_RE`
+
 .. _project-slug:
 
 URL slug
@@ -140,6 +144,12 @@ Project website
 URL where translators can find more info about the project.
 
 This is a required parameter unless turned off by :setting:`WEBSITE_REQUIRED`.
+
+.. seealso::
+
+   :setting:`PROJECT_WEB_RESTRICT_HOST`,
+   :setting:`PROJECT_WEB_RESTRICT_NUMERIC`,
+   :setting:`PROJECT_WEB_RESTRICT_RE`
 
 .. _project-instructions:
 
@@ -164,7 +174,7 @@ Use shared translation memory
 
 Whether to use shared translation memory, see :ref:`shared-tm` for more details.
 
-Default value is determined by :setting:`DEFAULT_SHARED_TM`.
+The default value can be changed by :setting:`DEFAULT_SHARED_TM`.
 
 .. _project-contribute_shared_tm:
 
@@ -173,7 +183,13 @@ Contribute to shared translation memory
 
 Whether to contribute to shared translation memory, see :ref:`shared-tm` for more details.
 
-Default value is determined by :setting:`DEFAULT_SHARED_TM`.
+This also affects whether the project can be used as source for :ref:`automatic-translation`.
+
+The default value can be changed by :setting:`DEFAULT_SHARED_TM`.
+
+.. note::
+
+    This option is unavailable on Hosted Weblate, it is toggled together with :ref:`project-use_shared_tm`.
 
 .. _project-access_control:
 
@@ -182,7 +198,7 @@ Access control
 
 Configure per project access control, see :ref:`acl` for more details.
 
-Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
+The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 
 .. _project-translation_review:
 
@@ -241,6 +257,8 @@ Using non standard code: ``ia_FOO:ia``
 
 .. seealso::
 
+    :ref:`adding-translation`,
+    :ref:`language-code`,
     :ref:`language-parsing-codes`
 
 .. _component:
@@ -329,9 +347,9 @@ VCS repository used to pull changes.
 Repository push URL
 +++++++++++++++++++
 
-Repository URL used for pushing. This setting is used only for :ref:`vcs-git`
-and :ref:`vcs-mercurial` and push support is turned off for these when this is
-empty.
+Repository URL used for pushing. The behavior of this depends on
+:ref:`component-vcs`, and this is in more detail covered in
+:ref:`push-changes`.
 
 For linked repositories, this is not used and setting from linked component applies.
 
@@ -414,6 +432,38 @@ to be escaped as ``[[]`` or ``[]]``.
    :ref:`bimono`,
    :ref:`faq-duplicate-files`
 
+.. _component-screenshot_filemask:
+
+Screenshot file mask
+++++++++++++++++++++
+
+This feature allows the discovery and updating of screenshots through screenshot file masks, using paths from the VCS repository.
+This operates at the component level and necessitates the use of an asterisk "*" to replace the screenshot file name.
+
+Allowed formats are JPEG, PNG, APNG and GIF.
+
+Note:
+
+1. The file mask and screenshot file mask are not related. Configure them separately.
+2. It is a manual job to link a discovered screenshot in a component to a specific translation key.
+
+For example:
+
+Let's assume your VCS repository has a structure like this:
+
+.. code-block:: text
+
+    component_A
+    └── docs
+        ├── image1.png
+        └── image2.jpg
+
+For component_A, you want to allow discovery and updates of PNG screenshots.
+You'd set the screenshot file mask for component_A as ``component_A/docs/*.png``.
+This means any PNG images under docs in component_A can be discovered and updated.
+So, if you want to update ``image1.png``, the new screenshot you provide should be named ``image1.png``,
+matching the existing ``filename``, and stored under ``component_A/docs/``.
+
 .. _component-template:
 
 Monolingual base language file
@@ -458,7 +508,15 @@ provides :ref:`source-quality-gateway`.
 Template for new translations
 +++++++++++++++++++++++++++++
 
-Base file used to generate new translations, e.g. ``.pot`` file with gettext.
+Base file used to generate new translations.
+
+* Keep this field empty for most of the monoligual formats. Those are typically able to start from an empty file.
+* Choose ``.pot`` file with GNU gettext PO files.
+* Choose blank file without translations, if you have one.
+* Choose :ref:`component-template` for monolingual formats that need a full set of keys present.
+* Choose :ref:`component-template` for document translations.
+* Choose any translation file for others.
+* Template file can be the same as the base file in most cases.
 
 .. hint::
 
@@ -469,7 +527,6 @@ Base file used to generate new translations, e.g. ``.pot`` file with gettext.
 .. seealso::
 
    :ref:`adding-translation`,
-   :ref:`new-translations`,
    :ref:`component-new_lang`,
    :ref:`bimono`,
    :ref:`faq-duplicate-files`
@@ -593,7 +650,7 @@ Disable adding new translations
 .. seealso::
 
    :ref:`adding-translation`,
-   :ref:`new-translations`
+   :ref:`component-new_base`
 
 .. _component-manage_units:
 
@@ -630,11 +687,48 @@ Language code style
 Customize language code used to generate the filename for translations
 created by Weblate.
 
+.. note::
+
+   Weblate recognizes any of the language codes when parsing translation files,
+   following settings only influences how new files are created.
+
+Default based on the file format
+   Dependent on file format, for most of them POSIX is used.
+POSIX style using underscore as a separator
+   Typically used by gettext and related tools, produces language codes like
+   ``pt_BR``.
+POSIX style using underscore as a separator, including country code
+   POSIX style language code including the country code even when not necessary
+   (for example ``cs_CZ``).
+POSIX style using underscore as a separator, including country code (lowercase)
+   POSIX style language code including the country code even when not necessary (lowercase)
+   (for example ``cs_cz``).
+BCP style using hyphen as a separator
+   Typically used on web platforms, produces language codes like
+   ``pt-BR``.
+BCP style using hyphen as a separator, including country code
+   BCP style language code including the country code even when not necessary
+   (for example ``cs-CZ``).
+BCP style using hyphen as a separator, legacy language codes
+   Uses legacy codes for Chinese and BCP style notation.
+BCP style using hyphen as a separator, lower cased
+   BCP style notation, all in lower case (for example ``cs-cz``).
+Apple App Store metadata style
+   Style suitable for uploading metadata to Apple App Store.
+Google Play metadata style
+   Style suitable for uploading metadata to Google Play Store.
+Android style
+   Only used in Android apps, produces language codes like
+   ``pt-rBR``.
+Linux style
+   Locales as used by Linux, uses legacy codes for Chinese and POSIX style notation.
+
 .. seealso::
 
-    :ref:`new-translations`,
+    :ref:`adding-translation`,
     :ref:`language-code`,
-    :ref:`language-parsing-codes`
+    :ref:`language-parsing-codes`,
+    :ref:`project-language_aliases`
 
 .. _component-merge_style:
 
@@ -700,7 +794,7 @@ Age of changes to commit
 ++++++++++++++++++++++++
 
 Sets how old (in hours) changes have to be before they are committed by
-background task or the :djadmin:`commit_pending` management command. All
+background task or the :wladmin:`commit_pending` management command. All
 changes in a component are committed once there is at least one change
 older than this period.
 
@@ -794,10 +888,16 @@ Priority
 
 Components with higher priority are offered first to translators.
 
+.. versionchanged:: 4.15
+
+   This now also affects ordering of matched glossary terms.
+
 .. _component-restricted:
 
 Restricted access
 +++++++++++++++++
+
+.. include:: /snippets/not-hosted.rst
 
 By default the component is visible to anybody who has access to the project,
 even if the person can not perform any changes in the component. This makes it
@@ -922,6 +1022,10 @@ The following variables are available in the repository browser or editor templa
 ``{{filename}}``
    filename, you can also strip leading parts using the ``parentdir`` filter, for example ``{{filename|parentdir}}``
 
+.. hint::
+
+   In some places additional variables can be available, see :ref:`addon-weblate.discovery.discovery`.
+
 You can combine them with filters:
 
 .. code-block:: django
@@ -1003,7 +1107,7 @@ Automatic creation of components
 In case your project has dozen of translation files (e.g. for different
 gettext domains, or parts of Android apps), you might want to import them
 automatically. This can either be achieved from the command-line by using
-:djadmin:`import_project` or :djadmin:`import_json`, or by installing the
+:wladmin:`import_project` or :wladmin:`import_json`, or by installing the
 :ref:`addon-weblate.discovery.discovery` add-on.
 
 To use the add-on, you first need to create a component for one translation
@@ -1011,8 +1115,8 @@ file (choose the one that is the least likely to be renamed or removed in future
 and install the add-on on this component.
 
 For the management commands, you need to create a project which will contain all
-components and then run :djadmin:`import_project` or
-:djadmin:`import_json`.
+components and then run :wladmin:`import_project` or
+:wladmin:`import_json`.
 
 .. seealso::
 

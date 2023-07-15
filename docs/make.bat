@@ -1,3 +1,7 @@
+REM Copyright © Michal Čihař <michal@weblate.org>
+REM
+REM SPDX-License-Identifier: GPL-3.0-or-later
+
 @ECHO OFF
 
 pushd %~dp0

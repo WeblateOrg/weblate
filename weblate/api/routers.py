@@ -1,29 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from rest_framework import routers
 
 
 class WeblateRouter(routers.DefaultRouter):
     def get_lookup_regex(self, viewset, lookup_prefix=""):
-        """Get lookup regex for a viewset.
+        """
+        Get lookup regex for a viewset.
 
         Given a viewset, return the portion of URL regex that is used
         to match against a single instance.
@@ -44,14 +29,11 @@ class WeblateRouter(routers.DefaultRouter):
 
         lookup_value = getattr(viewset, "lookup_value_regex", "[^/]+")
 
-        result = []
-
-        for field in lookup_fields:
-            result.append(
-                base_regex.format(
-                    lookup_prefix=lookup_prefix,
-                    lookup_url_kwarg=field,
-                    lookup_value=lookup_value,
-                )
+        return "/".join(
+            base_regex.format(
+                lookup_prefix=lookup_prefix,
+                lookup_url_kwarg=field,
+                lookup_value=lookup_value,
             )
-        return "/".join(result)
+            for field in lookup_fields
+        )

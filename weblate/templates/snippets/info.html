@@ -22,7 +22,7 @@
         {{ language.code }}
         </td>
         </tr>
-        {% with language.get_aliases_names as aliases %}
+        {% with aliases=language.get_aliases_names %}
           {% if aliases %}
             <tr>
             <th>{% trans "Aliased language codes" %}</th>
@@ -34,7 +34,12 @@
         <th>{% trans "Text direction" %}</th>
         <td colspan="2">{{ language.get_direction_display }}</td>
         </tr>
-
+        {% if language.population %}
+        <tr>
+        <th>{% trans "Number of speakers" %}</th>
+        <td colspan="2">{{ language.population|intcomma }}</td>
+        </tr>
+        {% endif %}
         {% for plural in language.plural_set.order %}
           <tr class="info">
             <th colspan="3">
@@ -141,6 +146,31 @@
       {% endif %}
 
       {% if component %}
+        {% if component.license %}
+        <tr>
+        <th>{% trans "Translation license" %}</th>
+        <td class="full-cell">
+        {% if component.license_url %}
+        <a href="{{ component.license_url }}">{{ component.get_license_display }}</a>
+        {% else %}
+        {{ component.get_license_display }}
+        {% endif %}
+        </td>
+        </tr>
+        {% endif %}
+
+        {% if component.agreement %}
+        <tr>
+        <th>{% trans "Contributor agreement" %}</th>
+        <td class="full-cell">
+          {% if user.is_authenticated %}
+            <a class="btn btn-primary pull-right flip" href="{% url 'contributor-agreement' project=component.project.slug component=component.slug %}">{% trans "View" %}</a>
+          {% endif %}
+          {{ component.agreement|markdown }}
+        </td>
+        </tr>
+        {% endif %}
+
         <tr>
         <th>{% trans "Translation process" %}</th>
         <td class="full-cell">
@@ -173,32 +203,7 @@
         {% endif %}
         </ul>
         </td>
-
-
-        {% if component.license %}
-        <tr>
-        <th>{% trans "Translation license" %}</th>
-        <td class="full-cell">
-        {% if component.license_url %}
-        <a href="{{ component.license_url }}">{{ component.get_license_display }}</a>
-        {% else %}
-        {{ component.get_license_display }}
-        {% endif %}
-        </td>
         </tr>
-        {% endif %}
-
-        {% if component.agreement %}
-        <tr>
-        <th>{% trans "Contributor agreement" %}</th>
-        <td class="full-cell">
-          {% if user.is_authenticated %}
-            <a class="btn btn-primary pull-right flip" href="{% url 'contributor-agreement' project=component.project.slug component=component.slug %}">{% trans "View" %}</a>
-          {% endif %}
-          {{ component.agreement|markdown }}
-        </td>
-        </tr>
-        {% endif %}
 
         {% include "snippets/git-info.html" with object=component %}
 
@@ -301,7 +306,7 @@
       <td class="number">{{ stats.source_chars|intcomma }}</td>
       </tr>
       {% endif %}
-      {% if stats.approved %}
+      {% if stats.has_review %}
       <tr>
       <th>{% trans "Approved" context "Number of strings" %}</th>
       <td class="number">{{ stats.approved_percent|percent_format }}</td>
@@ -477,8 +482,10 @@
           </div>
           <div class="col-sm-3">
             <div class="metric">
-              <div class="metric-number">{{ metrics.contributors|number_format }}</div>
-              <div class="metric-text">{% trans "Contributors" %}</div>
+              <a href="{% url "user_list" %}?q={% if object.code %}translates:{{object.code|urlencode}}{% elif object.language.code %}translates:{{object.language.code|urlencode}}{% endif %} {% if component %}contributes:{{ component.full_slug|urlencode }}{% elif project %}contributes:{{ project.slug|urlencode }}{% endif %}">
+                <div class="metric-number">{{ metrics.contributors|number_format }}</div>
+                <div class="metric-text">{% trans "Contributors" %}</div>
+              </a>
             </div>
           </div>
         </div>

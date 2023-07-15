@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Helper for quality checks tests."""
 
@@ -56,6 +41,7 @@ class MockComponent:
         self.project = MockProject()
         self.name = "MockComponent"
         self.file_format = "auto"
+        self.is_multivalue = False
 
 
 class MockTranslation:
@@ -66,6 +52,7 @@ class MockTranslation:
         self.component = MockComponent()
         self.is_template = False
         self.is_source = False
+        self.plural = self.language.plural
 
     @staticmethod
     def log_debug(text, *args):
@@ -83,14 +70,19 @@ class MockUnit:
         self.id_hash = id_hash
         self.flags = Flags(flags)
         self.translation = MockTranslation(code)
-        self.source = source
+        if isinstance(source, str) or source is None:
+            self.source = source
+            self.sources = [source]
+        else:
+            self.source = source[0]
+            self.sources = source
         self.fuzzy = False
         self.translated = True
         self.readonly = False
         self.state = 20
         self.note = note
         self.check_cache = {}
-        self.machinery = {"best": -1}
+        self.machinery = None
         self.is_source = is_source
 
     @property
@@ -98,7 +90,7 @@ class MockUnit:
         return self.flags
 
     def get_source_plurals(self):
-        return [self.source]
+        return self.sources
 
     @property
     def source_string(self):
@@ -146,7 +138,9 @@ class CheckTestCase(SimpleTestCase):
             return
 
         # Verify check logic
-        result = self.check.check_single(data[0], data[1], unit)
+        result = self.check.check_single(
+            data[0][0] if isinstance(data[0], list) else data[0], data[1], unit
+        )
         if expected:
             self.assertTrue(result, msg=f"Check did not fire for {params}")
         else:

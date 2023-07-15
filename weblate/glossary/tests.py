@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for glossary manipulations."""
 
@@ -93,6 +78,8 @@ more options)</p>
 class GlossaryTest(ViewTestCase):
     """Testing of glossary manipulations."""
 
+    CREATE_GLOSSARIES: bool = True
+
     def setUp(self):
         super().setUp()
         self.glossary_component = self.project.glossaries[0]
@@ -102,7 +89,7 @@ class GlossaryTest(ViewTestCase):
 
     @classmethod
     def _databases_support_transactions(cls):
-        # This is workaroud for MySQL as FULL TEXT index does not work
+        # This is workaround for MySQL as FULL TEXT index does not work
         # well inside a transaction, so we avoid using transactions for
         # tests. Otherwise we end up with no matches for the query.
         # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
@@ -407,9 +394,17 @@ class GlossaryTest(ViewTestCase):
 
         self.assertEqual(
             set(
-                glossary_units.filter(translation__language_code="en").values_list(
+                glossary_units.filter(translation__language_code="cs").values_list(
                     "explanation", flat=True
                 )
             ),
             {"explained 1", "explained 2"},
+        )
+        self.assertEqual(
+            set(
+                glossary_units.filter(translation__language_code="en").values_list(
+                    "explanation", flat=True
+                )
+            ),
+            {""},
         )

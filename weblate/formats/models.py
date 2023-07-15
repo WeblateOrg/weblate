@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from appconf import AppConf
 from django.utils.functional import cached_property
@@ -101,6 +85,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.PoMonoFormat",
         "weblate.formats.ttkit.TSFormat",
         "weblate.formats.ttkit.XliffFormat",
+        "weblate.formats.ttkit.RichXliffFormat",
         "weblate.formats.ttkit.PoXliffFormat",
         "weblate.formats.ttkit.StringsFormat",
         "weblate.formats.ttkit.StringsUtf8Format",
@@ -109,6 +94,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.PropertiesFormat",
         "weblate.formats.ttkit.JoomlaFormat",
         "weblate.formats.ttkit.GWTFormat",
+        "weblate.formats.ttkit.GWTISOFormat",
         "weblate.formats.ttkit.PhpFormat",
         "weblate.formats.ttkit.LaravelPhpFormat",
         "weblate.formats.ttkit.RESXFormat",
@@ -117,10 +103,15 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.JSONNestedFormat",
         "weblate.formats.ttkit.WebExtensionJSONFormat",
         "weblate.formats.ttkit.I18NextFormat",
+        "weblate.formats.ttkit.I18NextV4Format",
         "weblate.formats.ttkit.GoI18JSONFormat",
+        "weblate.formats.ttkit.GoI18V2JSONFormat",
+        "weblate.formats.ttkit.GoTextFormat",
         "weblate.formats.ttkit.ARBFormat",
         "weblate.formats.ttkit.CSVFormat",
+        "weblate.formats.ttkit.CSVUtf8Format",
         "weblate.formats.ttkit.CSVSimpleFormat",
+        "weblate.formats.ttkit.CSVUtf8SimpleFormat",
         "weblate.formats.ttkit.CSVSimpleFormatISO",
         "weblate.formats.ttkit.YAMLFormat",
         "weblate.formats.ttkit.RubyYAMLFormat",
@@ -130,6 +121,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.SubStationAlphaFormat",
         "weblate.formats.ttkit.DTDFormat",
         "weblate.formats.ttkit.FlatXMLFormat",
+        "weblate.formats.ttkit.ResourceDictionaryFormat",
         "weblate.formats.ttkit.INIFormat",
         "weblate.formats.ttkit.InnoSetupINIFormat",
         "weblate.formats.ttkit.PropertiesMi18nFormat",
@@ -148,6 +140,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.TBXFormat",
         "weblate.formats.ttkit.StringsdictFormat",
         "weblate.formats.ttkit.FluentFormat",
+        "weblate.formats.multi.MultiCSVUtf8Format",
     )
 
     class Meta:

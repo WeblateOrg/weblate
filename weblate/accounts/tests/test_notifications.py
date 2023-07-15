@@ -1,26 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for notitifications."""
 
+from __future__ import annotations
+
 from copy import deepcopy
-from typing import List, Optional
 
 from django.conf import settings
 from django.core import mail
@@ -98,7 +84,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
     def validate_notifications(
-        self, count, subject: Optional[str] = None, subjects: Optional[List[str]] = None
+        self, count, subject: str | None = None, subjects: list[str] | None = None
     ):
         for i, message in enumerate(mail.outbox):
             self.assertNotIn("TEMPLATE_BUG", message.subject)
@@ -238,8 +224,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             action=Change.ACTION_CHANGE,
         )
 
-        # Check mail - ChangedStringNotificaton and TranslatedStringNotificaton
-        self.validate_notifications(2, "[Weblate] New translation in Test/Test — Czech")
+        # Check mail - TranslatedStringNotificaton
+        self.validate_notifications(1, "[Weblate] New translation in Test/Test — Czech")
 
     def test_notify_approved_translation(self):
         Change.objects.create(
@@ -249,11 +235,10 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             action=Change.ACTION_APPROVE,
         )
 
-        # Check mail - ChangedStringNotificaton and ApprovedStringNotificaton
+        # Check mail - ApprovedStringNotificaton
         self.validate_notifications(
-            2,
+            1,
             subjects=[
-                "[Weblate] New translation in Test/Test — Czech",
                 "[Weblate] Approved translation in Test/Test — Czech",
             ],
         )
@@ -343,9 +328,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         change = self.get_unit().recent_content_changes[0]
         change.user = self.anotheruser
         change.save()
-        # Notification for other user edit
-        # ChangedStringNotificaton and TranslatedStringNotificaton
-        self.assertEqual(len(mail.outbox), 2)
+        # Notification for other user edit via  TranslatedStringNotificaton
+        self.assertEqual(len(mail.outbox), 1)
         mail.outbox = []
 
     def test_notify_new_component(self):
@@ -357,6 +341,20 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def test_notify_new_announcement(self):
         Announcement.objects.create(component=self.component, message="Hello word")
         self.validate_notifications(1, "[Weblate] New announcement on Test")
+        mail.outbox = []
+        Announcement.objects.create(
+            component=self.component,
+            language=Language.objects.get(code="cs"),
+            message="Hello word",
+        )
+        self.validate_notifications(1, "[Weblate] New announcement on Test")
+        mail.outbox = []
+        Announcement.objects.create(
+            component=self.component,
+            language=Language.objects.get(code="de"),
+            message="Hello word",
+        )
+        self.validate_notifications(0)
         mail.outbox = []
         Announcement.objects.create(message="Hello global word")
         self.validate_notifications(

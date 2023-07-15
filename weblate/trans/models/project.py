@@ -1,72 +1,67 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 import os
 import os.path
-from typing import Optional
+from datetime import datetime
 
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, transaction
-from django.db.models import Count, Value
+from django.db.models import Count, Q, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
+from django.utils.timezone import make_aware
 from django.utils.translation import gettext_lazy
 
+from weblate.configuration.models import Setting
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, PathMixin, URLMixin
 from weblate.utils.data import data_dir
-from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectStats
-from weblate.utils.validators import validate_language_aliases, validate_slug
+from weblate.utils.validators import (
+    validate_language_aliases,
+    validate_project_name,
+    validate_project_web,
+    validate_slug,
+)
 
 
-class ProjectQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
+class ProjectQuerySet(models.QuerySet):
     def order(self):
         return self.order_by("name")
+
+    def search(self, query: str):
+        return self.filter(Q(name__icontains=query) | Q(slug__icontains=query))
 
 
 def prefetch_project_flags(projects):
     lookup = {project.id: project for project in projects}
     if lookup:
+        queryset = Project.objects.filter(id__in=lookup.keys()).values("id")
+        # Fallback value for locking and alerts
+        for project in projects:
+            project.__dict__["locked"] = True
+            project.__dict__["has_alerts"] = False
         # Indicate alerts
-        for alert in (
-            projects.values("id")
-            .filter(component__alert__dismissed=False)
-            .annotate(Count("component__alert"))
+        for alert in queryset.filter(component__alert__dismissed=False).annotate(
+            Count("component__alert")
         ):
             lookup[alert["id"]].__dict__["has_alerts"] = bool(
                 alert["component__alert__count"]
             )
-        # Fallback value for locking
-        for project in projects:
-            project.__dict__["locked"] = True
         # Filter unlocked projects
         for locks in (
-            projects.filter(component__locked=False)
-            .values("id")
+            queryset.filter(component__locked=False)
             .distinct()
             .annotate(Count("component__id"))
         ):
@@ -74,7 +69,7 @@ def prefetch_project_flags(projects):
     return projects
 
 
-class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin):
+class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     ACCESS_PUBLIC = 0
     ACCESS_PROTECTED = 1
     ACCESS_PRIVATE = 100
@@ -92,6 +87,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         max_length=PROJECT_NAME_LENGTH,
         unique=True,
         help_text=gettext_lazy("Display name"),
+        validators=[validate_project_name],
     )
     slug = models.SlugField(
         verbose_name=gettext_lazy("URL slug"),
@@ -104,6 +100,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         verbose_name=gettext_lazy("Project website"),
         blank=not settings.WEBSITE_REQUIRED,
         help_text=gettext_lazy("Main website of translated project."),
+        validators=[validate_project_web],
     )
     instructions = models.TextField(
         verbose_name=gettext_lazy("Translation instructions"),
@@ -115,7 +112,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         verbose_name=gettext_lazy('Set "Language-Team" header'),
         default=True,
         help_text=gettext_lazy(
-            'Lets Weblate update the "Language-Team" file header ' "of your project."
+            'Lets Weblate update the "Language-Team" file header of your project.'
         ),
     )
     use_shared_tm = models.BooleanField(
@@ -170,6 +167,8 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         ),
         validators=[validate_language_aliases],
     )
+
+    machinery_settings = models.JSONField(default=dict, blank=True)
 
     is_lockable = True
     _reverse_url_name = "project"
@@ -256,7 +255,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
             return {}
         return dict(part.split(":") for part in self.language_aliases.split(","))
 
-    def add_user(self, user, group: Optional[str] = None):
+    def add_user(self, user, group: str | None = None):
         """Add user based on username or email address."""
         implicit_group = False
         if group is None:
@@ -323,16 +322,15 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         """Check whether there are some not committed changes."""
         return self.count_pending_units > 0
 
-    def on_repo_components(self, default, call, *args, **kwargs):
+    def on_repo_components(self, use_all: bool, func: str, *args, **kwargs):
         """Wrapper for operations on repository."""
-        ret = default
-        for component in self.all_repo_components:
-            res = getattr(component, call)(*args, **kwargs)
-            if default:
-                ret = ret & res
-            else:
-                ret = ret | res
-        return ret
+        generator = (
+            getattr(component, func)(*args, **kwargs)
+            for component in self.all_repo_components
+        )
+        if use_all:
+            return all(generator)
+        return any(generator)
 
     def commit_pending(self, reason, user):
         """Commit any pending changes."""
@@ -361,8 +359,16 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         return self.on_repo_components(True, "do_cleanup", request)
 
     def do_file_sync(self, request=None):
-        """Push all Git repos."""
+        """Force updating of all files."""
         return self.on_repo_components(True, "do_file_sync", request)
+
+    def do_file_scan(self, request=None):
+        """Rescanls all VCS repos."""
+        return self.on_repo_components(True, "do_file_scan", request)
+
+    def has_push_configuration(self):
+        """Check whether any suprojects can push."""
+        return self.on_repo_components(False, "has_push_configuration")
 
     def can_push(self):
         """Check whether any suprojects can push."""
@@ -422,7 +428,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         )
 
     @cached_property
-    def all_alerts(self):
+    def all_active_alerts(self):
         from weblate.trans.models import Alert
 
         result = Alert.objects.filter(component__project=self, dismissed=False)
@@ -431,7 +437,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
 
     @cached_property
     def has_alerts(self):
-        return self.all_alerts.exists()
+        return self.all_active_alerts.exists()
 
     @cached_property
     def all_admins(self):
@@ -439,12 +445,33 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
 
         return User.objects.all_admins(self).select_related("profile")
 
+    def get_child_components_access(self, user):
+        """
+        Lists child components.
+
+        This is slower than child_components, but allows additional
+        filtering on the result.
+        """
+        child_components = (
+            self.component_set.distinct() | self.shared_components.distinct()
+        )
+        return child_components.filter_access(user).order()
+
     @cached_property
     def child_components(self):
-        return self.component_set.distinct() | self.shared_components.distinct()
+        own = self.component_set.all()
+        shared = self.shared_components.all()
+        return own.union(shared)
 
     def scratch_create_component(
-        self, name, slug, source_language, file_format, has_template=None, **kwargs
+        self,
+        name: str,
+        slug: str,
+        source_language,
+        file_format: str,
+        has_template: bool | None = None,
+        is_glossary: bool = False,
+        **kwargs,
     ):
         format_cls = FILE_FORMATS[file_format]
         if has_template is None:
@@ -453,19 +480,24 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
             template = f"{source_language.code}.{format_cls.extension()}"
         else:
             template = ""
-        # Create component
-        return self.component_set.create(
-            file_format=file_format,
-            filemask=f"*.{format_cls.extension()}",
-            template=template,
-            vcs="local",
-            repo="local:",
-            source_language=source_language,
-            name=name,
-            slug=slug,
-            manage_units=True,
-            **kwargs,
+        kwargs.update(
+            {
+                "file_format": file_format,
+                "filemask": f"*.{format_cls.extension()}",
+                "template": template,
+                "vcs": "local",
+                "repo": "local:",
+                "source_language": source_language,
+                "manage_units": True,
+                "is_glossary": is_glossary,
+            }
         )
+        # Create component
+        if is_glossary:
+            return self.component_set.get_or_create(
+                name=name, slug=slug, defaults=kwargs
+            )[0]
+        return self.component_set.create(name=name, slug=slug, **kwargs)
 
     @cached_property
     def glossaries(self):
@@ -491,3 +523,40 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
             result = get_glossary_automaton(self)
             cache.set(self.glossary_automaton_key, result, 24 * 3600)
         return result
+
+    def get_machinery_settings(self):
+        settings = Setting.objects.get_settings_dict(Setting.CATEGORY_MT)
+        for item, value in self.machinery_settings.items():
+            if value is None:
+                if item in settings:
+                    del settings[item]
+            else:
+                settings[item] = value
+        return settings
+
+    def list_backups(self):
+        backup_dir = data_dir("projectbackups", f"{self.pk}")
+        result = []
+        if not os.path.exists(backup_dir):
+            return result
+        with os.scandir(backup_dir) as iterator:
+            for entry in iterator:
+                if not entry.name.endswith(".zip"):
+                    continue
+                result.append(
+                    {
+                        "name": entry.name,
+                        "path": os.path.join(backup_dir, entry.name),
+                        "timestamp": make_aware(
+                            datetime.fromtimestamp(  # noqa: DTZ006
+                                int(entry.name.split(".")[0])
+                            )
+                        ),
+                        "size": entry.stat().st_size // 1024,
+                    }
+                )
+        return sorted(result, key=lambda item: item["timestamp"], reverse=True)
+
+    @cached_property
+    def enable_review(self):
+        return self.translation_review or self.source_review

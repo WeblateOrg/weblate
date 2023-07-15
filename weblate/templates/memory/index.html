@@ -96,7 +96,13 @@
   {% for item in entries_origin %}
   <tr>
     <td></td>
-    <td>{{ item.origin }}</td>
+    <td>
+      {% if item.url %}
+        <a href="{{ item.url }}">{{ item.origin }}</a>
+      {% else %}
+        {{ item.origin }}
+      {% endif %}
+    </td>
     <td class="number">{{ item.id__count|intcomma }}</td>
     <td>
       <a href="{{ download_url }}?origin={{ item.origin }}" class="btn btn-primary">{% trans "Download as JSON" %}</a>
@@ -125,7 +131,7 @@
         </div><!-- /.modal -->
         </form>
       {% endif %}
-      {% if rebuild_url %}
+      {% if rebuild_url and item.can_rebuild %}
       <a href="#" data-toggle="modal" data-target="#rebuild_memory_form_{{ item.origin|hash_text }}" class="btn btn-warning">{% trans "Rebuild" %}</a>
         <form action="{{ rebuild_url }}" method="POST" class="inlineform">
         {% csrf_token %}
@@ -151,6 +157,17 @@
         </form>
       {% endif %}
     </td>
+  </tr>
+  {% endfor %}
+  {% for item in entries_languages %}
+  <tr>
+    <td>{% blocktrans with source_language=item.source_language target_language=item.target_language %}Entries for {{ source_language }} to {{ target_language }}{% endblocktrans %}</td>
+    <td></td>
+    <td class="number">{{ item.id__count|intcomma }}</td>
+    <td>
+      <a href="{{ download_url }}?source_language={{ item.source_language.id }}&amp;target_language={{ item.target_language.id }}" class="btn btn-primary">{% trans "Download as JSON" %}</a>
+      <a href="{{ download_url }}?format=tmx&amp;source_language={{ item.source_language.id }}&amp;target_language={{ item.target_language.id }}" class="btn btn-primary">{% trans "Download as TMX" %}</a>
+    </tr>
   </tr>
   {% endfor %}
   {% if project %}

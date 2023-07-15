@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import subprocess
 import tempfile
@@ -30,7 +15,6 @@ from weblate.trans.models import Project
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
-from weblate.utils.files import remove_tree
 
 
 class GitExportTest(ViewTestCase):
@@ -171,10 +155,9 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
         self.user = create_test_user()
 
     def test_clone(self):
-        testdir = tempfile.mkdtemp()
-        if self.acl:
-            self.component.project.add_user(self.user, "VCS")
-        try:
+        with tempfile.TemporaryDirectory() as testdir:
+            if self.acl:
+                self.component.project.add_user(self.user, "VCS")
             url = (
                 get_export_url(self.component)
                 .replace("http://example.com", self.live_server_url)
@@ -192,8 +175,6 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
             )
             output = process.communicate()[0]
             retcode = process.poll()
-        finally:
-            remove_tree(testdir)
 
         check = self.assertEqual if self.acl else self.assertNotEqual
         check(retcode, 0, f"Failed: {output}")

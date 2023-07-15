@@ -3,6 +3,7 @@
     :maxdepth: 1
 
     contributing/index
+    contributing/communication
     contributing/start
     contributing/code
     contributing/debugging

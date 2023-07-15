@@ -9,7 +9,7 @@
   </p>
 {% endif %}
 
-{% with unit.source_unit.screenshots.order as screenshots %}
+{% with screenshots=unit.source_unit.screenshots.order  %}
 {% if screenshots %}
     <h2>{% trans "Screenshot context" %}</h2>
 

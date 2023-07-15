@@ -1,24 +1,10 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
@@ -35,7 +21,7 @@ def project_labels(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     if request.method == "POST":
         form = LabelForm(request.POST)
@@ -47,7 +33,14 @@ def project_labels(request, project):
         form = LabelForm()
 
     return render(
-        request, "project-labels.html", {"object": obj, "project": obj, "form": form}
+        request,
+        "project-labels.html",
+        {
+            "object": obj,
+            "project": obj,
+            "form": form,
+            "labels": obj.label_set.annotate(string_count=Count("unit__id")),
+        },
     )
 
 
@@ -57,7 +50,7 @@ def label_edit(request, project, pk):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     label = get_object_or_404(Label, pk=pk, project=obj)
 
@@ -83,7 +76,7 @@ def label_delete(request, project, pk):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.edit", obj):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     label = get_object_or_404(Label, pk=pk, project=obj)
 

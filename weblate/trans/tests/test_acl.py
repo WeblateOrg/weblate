@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for ACL management."""
 
@@ -268,10 +253,7 @@ class ACLTest(FixtureTestCase):
 
     def test_acl_groups(self):
         """Test handling ACL groups."""
-        if "weblate.billing" in settings.INSTALLED_APPS:
-            billing_group = 1
-        else:
-            billing_group = 0
+        billing_group = 1 if "weblate.billing" in settings.INSTALLED_APPS else 0
         self.project.defined_groups.all().delete()
         self.project.access_control = Project.ACCESS_PUBLIC
         self.project.translation_review = False
@@ -349,8 +331,8 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, "Administration")
         group = self.project.defined_groups.get(name="Memory")
         response = self.client.post(
-            reverse("delete-project-group", kwargs=self.kw_project),
-            {"group": group.pk},
+            group.get_absolute_url(),
+            {"delete": group.pk},
         )
         self.assertRedirects(response, self.access_url + "#teams")
         self.assertFalse(Group.objects.filter(pk=group.pk).exists())
@@ -375,18 +357,17 @@ class ACLTest(FixtureTestCase):
         self.assertEqual(group.defining_project, self.project)
         self.assertEqual(group.language_selection, 0)
         self.assertEqual(list(group.languages.values_list("code", flat=True)), ["cs"])
+        self.assertEqual(
+            set(group.roles.values_list("name", flat=True)), {"Power user"}
+        )
         return group
 
-    def test_edit_group(self):
-        group = self.test_create_group()
-
-        kwargs = {"pk": group.pk}
-        kwargs.update(self.kw_project)
-
+    def test_create_group_all_lang(self):
+        self.project.add_user(self.user, "Administration")
         response = self.client.post(
-            reverse("edit-project-group", kwargs=kwargs),
+            reverse("create-project-group", kwargs=self.kw_project),
             {
-                "name": "Global team",
+                "name": "All team",
                 "roles": list(
                     Role.objects.filter(name="Power user").values_list("pk", flat=True)
                 ),
@@ -397,6 +378,35 @@ class ACLTest(FixtureTestCase):
             },
         )
         self.assertRedirects(response, self.access_url + "#teams")
+        group = Group.objects.get(name="All team")
+        self.assertEqual(group.defining_project, self.project)
+        self.assertEqual(group.language_selection, 1)
+        self.assertNotEqual(
+            list(group.languages.values_list("code", flat=True)), ["cs"]
+        )
+        self.assertEqual(
+            set(group.roles.values_list("name", flat=True)), {"Power user"}
+        )
+
+    def test_edit_group(self):
+        group = self.test_create_group()
+
+        response = self.client.post(
+            group.get_absolute_url(),
+            {
+                "name": "Global team",
+                "roles": list(
+                    Role.objects.filter(name="Power user").values_list("pk", flat=True)
+                ),
+                "language_selection": 1,
+                "languages": list(
+                    Language.objects.filter(code="cs").values_list("pk", flat=True)
+                ),
+                "autogroup_set-TOTAL_FORMS": "0",
+                "autogroup_set-INITIAL_FORMS": "0",
+            },
+        )
+        self.assertRedirects(response, group.get_absolute_url())
         group = Group.objects.get(name="Global team")
         self.assertEqual(group.defining_project, self.project)
         self.assertEqual(group.language_selection, 1)

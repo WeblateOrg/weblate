@@ -15,7 +15,7 @@
 {% block content %}
 
 {% perm 'screenshot.delete' object.translation.component as user_can_delete_screenshot %}
-{% perm 'screenshot.edit' object.translation.component as user_can_change_screenshot %}
+{% perm 'screenshot.edit' object.translation.component as user_can_edit_screenshot %}
 
 
 <div class="panel panel-default" id="sources-listing" data-href="{% url 'screenshot-js-get' pk=object.pk %}">
@@ -26,7 +26,7 @@
   </div>
 </div>
 
-{% if user_can_change_screenshot %}
+{% if user_can_edit_screenshot %}
 <form id="screenshot-add-form" action="{% url 'screenshot-js-add' pk=object.pk %}">
 {% csrf_token %}
 <input type="hidden" name="source" id="add-source" />
@@ -63,7 +63,7 @@
 </div>
 </div>
 
-{% if user_can_change_screenshot %}
+{% if user_can_edit_screenshot %}
 <form action="{{ object.get_absolute_url }}" method="POST" enctype="multipart/form-data">
 {% csrf_token %}
 <div class="panel panel-default">

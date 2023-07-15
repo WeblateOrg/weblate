@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import django.contrib.sitemaps.views
 import django.views.i18n
@@ -30,10 +15,12 @@ import weblate.accounts.urls
 import weblate.accounts.views
 import weblate.addons.views
 import weblate.api.urls
+import weblate.auth.views
 import weblate.checks.views
 import weblate.fonts.views
 import weblate.glossary.views
 import weblate.lang.views
+import weblate.machinery.views
 import weblate.memory.views
 import weblate.screenshots.views
 import weblate.trans.views.about
@@ -81,6 +68,10 @@ handler404 = weblate.trans.views.error.not_found
 handler500 = weblate.trans.views.error.server_error
 
 widget_pattern = "<word:widget>-<word:color>.<extension:extension>"
+
+URL_PREFIX = settings.URL_PREFIX
+if URL_PREFIX:
+    URL_PREFIX = URL_PREFIX.strip("/") + "/"
 
 real_patterns = [
     path("", weblate.trans.views.dashboard.home, name="home"),
@@ -296,6 +287,16 @@ real_patterns = [
         name="settings",
     ),
     path(
+        "backups/<name:project>/",
+        weblate.trans.views.settings.BackupsView.as_view(),
+        name="backups",
+    ),
+    path(
+        "backups/<name:project>/<name:backup>",
+        weblate.trans.views.settings.BackupsDownloadView.as_view(),
+        name="backups-download",
+    ),
+    path(
         "labels/<name:project>/",
         weblate.trans.views.labels.project_labels,
         name="labels",
@@ -329,6 +330,11 @@ real_patterns = [
         "create/project/",
         weblate.trans.views.create.CreateProject.as_view(),
         name="create-project",
+    ),
+    path(
+        "create/project/import/",
+        weblate.trans.views.create.ImportProject.as_view(),
+        name="create-project-import",
     ),
     path(
         "create/component/",
@@ -391,26 +397,16 @@ real_patterns = [
         name="set-groups",
     ),
     path(
-        "access/<name:project>/team/delete/",
-        weblate.trans.views.acl.delete_group,
-        name="delete-project-group",
-    ),
-    path(
         "access/<name:project>/team/create/",
         weblate.trans.views.acl.create_group,
         name="create-project-group",
-    ),
-    path(
-        "access/<name:project>/team/<int:pk>/",
-        weblate.trans.views.acl.edit_group,
-        name="edit-project-group",
     ),
     path(
         "token/<name:project>/create/",
         weblate.trans.views.acl.create_token,
         name="create-project-token",
     ),
-    # Used by weblate.org to reder own activity chart on homepage
+    # Used by weblate.org to render own activity chart on homepage
     path(
         "activity/month.json",
         weblate.trans.views.charts.monthly_activity_json,
@@ -524,6 +520,22 @@ real_patterns = [
         weblate.trans.views.git.file_sync_translation,
         name="file_sync_translation",
     ),
+    # VCS manipulation - force scan
+    path(
+        "file-scan/<name:project>/",
+        weblate.trans.views.git.file_scan_project,
+        name="file_scan_project",
+    ),
+    path(
+        "file-scan/<name:project>/<name:component>/",
+        weblate.trans.views.git.file_scan_component,
+        name="file_scan_component",
+    ),
+    path(
+        "file-scan/<name:project>/<name:component>/<name:lang>/",
+        weblate.trans.views.git.file_scan_translation,
+        name="file_scan_translation",
+    ),
     path(
         "progress/<name:project>/<name:component>/",
         weblate.trans.views.settings.component_progress,
@@ -571,7 +583,7 @@ real_patterns = [
         weblate.trans.views.settings.remove_translation,
         name="remove_translation",
     ),
-    # Project renameing and moving
+    # Project renaming and moving
     path(
         "rename/<name:project>/",
         weblate.trans.views.settings.rename_project,
@@ -732,6 +744,27 @@ real_patterns = [
         weblate.memory.views.DownloadView.as_view(),
         name="memory-download",
     ),
+    # Machinery
+    path(
+        "manage/machinery/",
+        management_access(weblate.machinery.views.ListMachineryGlobalView.as_view()),
+        name="manage-machinery",
+    ),
+    path(
+        "manage/machinery/<name:machinery>/",
+        management_access(weblate.machinery.views.EditMachineryGlobalView.as_view()),
+        name="machinery-edit",
+    ),
+    path(
+        "machinery/<name:project>/",
+        weblate.machinery.views.ListMachineryProjectView.as_view(),
+        name="machinery-list",
+    ),
+    path(
+        "machinery/<name:project>/<name:machinery>/",
+        weblate.machinery.views.EditMachineryProjectView.as_view(),
+        name="machinery-edit",
+    ),
     # Languages browsing
     path("languages/", weblate.lang.views.show_languages, name="languages"),
     path(
@@ -848,9 +881,21 @@ real_patterns = [
         weblate.trans.views.widgets.widgets,
         name="widgets",
     ),
-    path("widgets/", RedirectView.as_view(url="/projects/", permanent=True)),
+    path(
+        "widgets/",
+        RedirectView.as_view(
+            url=f"/{URL_PREFIX}projects/",
+            permanent=True,
+        ),
+    ),
     # Data exports pages
-    path("data/", RedirectView.as_view(url="/projects/", permanent=True)),
+    path(
+        "data/",
+        RedirectView.as_view(
+            url=f"/{URL_PREFIX}projects/",
+            permanent=True,
+        ),
+    ),
     path(
         "data/<name:project>/",
         weblate.trans.views.basic.data_project,
@@ -884,12 +929,12 @@ real_patterns = [
     path("js/matomo/", weblate.trans.views.js.matomo, name="js-matomo"),
     path(
         "js/translate/<name:service>/<int:unit_id>/",
-        weblate.trans.views.js.translate,
+        weblate.machinery.views.translate,
         name="js-translate",
     ),
     path(
         "js/memory/<int:unit_id>/",
-        weblate.trans.views.js.memory,
+        weblate.machinery.views.memory,
         name="js-memory",
     ),
     path(
@@ -949,6 +994,16 @@ real_patterns = [
         name="manage-users",
     ),
     path(
+        "manage/teams/",
+        weblate.wladmin.views.TeamListView.as_view(),
+        name="manage-teams",
+    ),
+    path(
+        "teams/<int:pk>/",
+        weblate.auth.views.TeamUpdateView.as_view(),
+        name="team",
+    ),
+    path(
         "manage/users/check/",
         weblate.wladmin.views.users_check,
         name="manage-users-check",
@@ -983,6 +1038,11 @@ real_patterns = [
     path("user/", weblate.accounts.views.UserList.as_view(), name="user_list"),
     path(
         "user/<name:user>/", weblate.accounts.views.UserPage.as_view(), name="user_page"
+    ),
+    path(
+        "user/<name:user>/contributions/",
+        weblate.accounts.views.user_contributions,
+        name="user_contributions",
     ),
     path(
         "user/<name:user>/suggestions/",
@@ -1032,18 +1092,23 @@ real_patterns = [
     re_path(
         r"^(android-chrome|favicon)-(?P<size>192|512)x(?P=size)\.png$",
         RedirectView.as_view(
-            url=settings.STATIC_URL + "weblate-%(size)s.png", permanent=True
+            url=settings.STATIC_URL + "weblate-%(size)s.png",
+            permanent=True,
         ),
     ),
     path(
         "apple-touch-icon.png",
         RedirectView.as_view(
-            url=settings.STATIC_URL + "weblate-180.png", permanent=True
+            url=settings.STATIC_URL + "weblate-180.png",
+            permanent=True,
         ),
     ),
     path(
         "favicon.ico",
-        RedirectView.as_view(url=settings.STATIC_URL + "favicon.ico", permanent=True),
+        RedirectView.as_view(
+            url=settings.STATIC_URL + "favicon.ico",
+            permanent=True,
+        ),
     ),
     path(
         "robots.txt",
@@ -1067,11 +1132,15 @@ real_patterns = [
             )
         ),
     ),
+    # Redirects for .well-known
+    path(
+        ".well-known/change-password",
+        RedirectView.as_view(url=f"/{URL_PREFIX}accounts/password/", permanent=True),
+    ),
 ]
 
 # Billing integration
 if "weblate.billing" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     import weblate.billing.views
 
     real_patterns += [
@@ -1087,7 +1156,6 @@ if "weblate.billing" in settings.INSTALLED_APPS:
 
 # Git exporter integration
 if "weblate.gitexport" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     import weblate.gitexport.views
 
     real_patterns += [
@@ -1095,7 +1163,7 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
         path(
             "projects/<name:project>/<name:component>/<gitpath:path>",
             RedirectView.as_view(
-                url="/git/%(project)s/%(component)s/%(path)s",
+                url=f"/{URL_PREFIX}git/%(project)s/%(component)s/%(path)s",
                 permanent=True,
                 query_string=True,
             ),
@@ -1103,7 +1171,7 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
         path(
             "projects/<name:project>/<name:component>.git/<gitpath:path>",
             RedirectView.as_view(
-                url="/git/%(project)s/%(component)s/%(path)s",
+                url=f"/{URL_PREFIX}git/%(project)s/%(component)s/%(path)s",
                 permanent=True,
                 query_string=True,
             ),
@@ -1112,7 +1180,7 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
         path(
             "git/<name:project>/<name:component>.git/<optionalpath:path>",
             RedirectView.as_view(
-                url="/git/%(project)s/%(component)s/%(path)s",
+                url=f"/{URL_PREFIX}git/%(project)s/%(component)s/%(path)s",
                 permanent=True,
                 query_string=True,
             ),
@@ -1121,7 +1189,7 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
         path(
             "projects/<name:project>/<name:component>/info/refs",
             RedirectView.as_view(
-                url="/git/%(project)s/%(component)s/%(path)s",
+                url=f"/{URL_PREFIX}git/%(project)s/%(component)s/%(path)s",
                 permanent=True,
                 query_string=True,
             ),
@@ -1135,7 +1203,6 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
 
 # Legal integartion
 if "weblate.legal" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     import weblate.legal.views
 
     real_patterns += [
@@ -1163,14 +1230,12 @@ if settings.DEBUG:
 
 # Django debug toolbar integration
 if settings.DEBUG and "debug_toolbar" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     import debug_toolbar
 
     real_patterns += [path("__debug__/", include(debug_toolbar.urls))]
 
 # Hosted Weblate integration
 if "wlhosted.integrations" in settings.INSTALLED_APPS:
-    # pylint: disable=wrong-import-position
     from wlhosted.integrations.views import CreateBillingView
 
     real_patterns += [
@@ -1184,7 +1249,7 @@ if "djangosaml2idp" in settings.INSTALLED_APPS:
     ]
 
 # Handle URL prefix configuration
-if not settings.URL_PREFIX:
+if not URL_PREFIX:
     urlpatterns = real_patterns
 else:
-    urlpatterns = [path(settings.URL_PREFIX.strip("/") + "/", include(real_patterns))]
+    urlpatterns = [path(URL_PREFIX, include(real_patterns))]

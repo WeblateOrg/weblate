@@ -6,7 +6,7 @@ Translation Memory
 
 .. versionadded:: 2.20
 
-Weblate comes with a built-in translation memory consisting of the following:
+Weblate comes with a built-in translation memory consisting of:
 
 * Manually imported translation memory (see :ref:`memory-user`).
 * Automatically stored translations performed in Weblate (depending on :ref:`memory-scopes`).
@@ -18,13 +18,13 @@ Content in the translation memory can be applied one of two ways:
 * Automatically, by translating strings using :ref:`auto-translation`, or
   :ref:`addon-weblate.autotranslate.autotranslate` add-on.
 
-For installation tips, see :ref:`weblate-translation-memory`, which is
+For installation tips, see :ref:`mt-weblate-translation-memory`, which is
 turned on by default.
 
 
 .. _memory-scopes:
 
-Translation memory scopes
+Translation-memory scopes
 -------------------------
 
 .. versionadded:: 3.2
@@ -32,21 +32,21 @@ Translation memory scopes
    In earlier versions translation memory could be only loaded from a file
    corresponding to the current imported translation memory scope.
 
-The translation memory scopes are there to allow both privacy and sharing of
-translations, to suit the desired behavior.
+The translation-memory scopes ensure privacy for different projects and users.
+Sharing of translations is also available.
 
 Imported translation memory
 +++++++++++++++++++++++++++
 
-Importing arbitrary translation memory data using the :djadmin:`import_memory`
+Importing arbitrary translation memory data using the :wladmin:`import_memory`
 command makes memory content available to all users and projects.
 
-Per user translation memory
+Per-user translation memory
 +++++++++++++++++++++++++++
 
 Stores all user translations automatically in the personal translation memory of each respective user.
 
-Per project translation memory
+Per-project translation memory
 ++++++++++++++++++++++++++++++
 
 All translations within a project are automatically stored in a project
@@ -66,6 +66,10 @@ installations, as it can have severe implications:
 * The translations can be used by anybody else.
 * This might lead to disclosing secret information.
 
+.. seealso::
+
+   :ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`
+
 Managing translation memory
 ---------------------------
 
@@ -74,30 +78,66 @@ Managing translation memory
 User interface
 ++++++++++++++
 
+Personal translation memory management is available by clicking the
+user avatar in the top-right corner of the UI and selecting
+"Translation memory" from the dropdown menu.
+Entries attributed to the user are listed in scopes – total, for each respective
+project, component, or language contributed to, with options to download
+(as JSON, or TMX) or delete them.
+
 .. versionadded:: 3.2
 
-In the basic user interface you can manage per user and per project translation
+In the basic user interface you can manage per-user and per-project translation
 memories. It can be used to download, wipe or import translation memory.
+
+.. versionadded:: 3.8
+
+There are multiple options for downloading the translation memory of the whole instance.
 
 .. hint::
 
-    Translation memory in JSON can be imported into Weblate, TMX is provided for
-    interoperability with other tools.
+    Translation memory in JSON can be imported into Weblate, the TMX format
+    is provided for interoperability with other tools.
 
 .. seealso::
 
     :ref:`schema-memory`
 
-.. image:: /screenshots/memory.png
+.. image:: /screenshots/memory.webp
+
+.. versionadded:: 3.8
+
+You can search for translations in the view built for this.
+
+Admin interface
++++++++++++++++
+
+.. versionadded:: 3.5
+
+There is a platform-wide interface to manage the translation memory.
+
+.. versionadded:: 4.12
+
+It has the same options as the user interface, but also allows
+rebuilding parts of or the entire translation memory.
+All old entries can be flushed and re-created from a component or project by
+selecting "Administration" from amidst the different tabs
+at the top of the screen, and then "Translation memory".
 
 Management interface
 ++++++++++++++++++++
 
-There are several management commands to manipulate the translation memory
-content. These operate on the translation memory as whole, unfiltered by scopes (unless
-requested by parameters):
+Several management commands can manipulate translation memory content.
+These operate on the translation memory as a whole, unfiltered by scopes
+(unless requested by parameters):
 
-:djadmin:`dump_memory`
+:wladmin:`dump_memory`
     Exports the memory into JSON
-:djadmin:`import_memory`
+:wladmin:`import_memory`
     Imports TMX or JSON files into the translation memory
+
+.. versionadded:: 4.14
+
+The Weblate API covers the translation memory.
+This allows automating manipulation for different purposes,
+or based on events in the translation cycle.

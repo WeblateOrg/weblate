@@ -1,30 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.utils.html import escape
+from django.utils.html import format_html
 from django.utils.http import urlencode
-from django.utils.safestring import mark_safe
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 
 from weblate.formats.models import EXPORTERS
@@ -39,6 +23,7 @@ from weblate.trans.forms import (
     ComponentRenameForm,
     DownloadForm,
     ProjectDeleteForm,
+    ProjectFilterForm,
     ProjectRenameForm,
     ReplaceForm,
     ReportsForm,
@@ -62,6 +47,7 @@ from weblate.utils.views import (
     get_project,
     get_translation,
     optional_form,
+    show_form_errors,
     try_set_language,
 )
 
@@ -69,15 +55,33 @@ from weblate.utils.views import (
 @never_cache
 def list_projects(request):
     """List all projects."""
+    query_string = ""
+    projects = request.user.allowed_projects
+    form = ProjectFilterForm(request.GET)
+    if form.is_valid():
+        query = {}
+        if form.cleaned_data["owned"]:
+            user = form.cleaned_data["owned"]
+            query["owned"] = user.username
+            projects = (user.owned_projects & projects.distinct()).order()
+        elif form.cleaned_data["watched"]:
+            user = form.cleaned_data["watched"]
+            query["watched"] = user.username
+            projects = (user.watched_projects & projects).order()
+        query_string = urlencode(query)
+    else:
+        show_form_errors(request, form)
+
     return render(
         request,
         "projects.html",
         {
             "allow_index": True,
             "projects": prefetch_project_flags(
-                prefetch_stats(request.user.allowed_projects)
+                get_paginator(request, prefetch_stats(projects))
             ),
-            "title": _("Projects"),
+            "title": gettext("Projects"),
+            "query_string": query_string,
         },
     )
 
@@ -95,12 +99,19 @@ def add_ghost_translations(component, user, translations, generator, **kwargs):
 def show_engage(request, project, lang=None):
     # Get project object, skipping ACL
     obj = get_project(request, project, skip_acl=True)
+    guessed_language = None
 
     # Handle language parameter
     if lang is not None:
         language = get_object_or_404(Language, code=lang)
     else:
         language = None
+        guessed_language = (
+            Language.objects.filter(translation__component__project=obj)
+            .exclude(component__project=obj)
+            .distinct()
+            .get_request_language(request)
+        )
     full_stats = obj.stats
     if language:
         try_set_language(lang)
@@ -120,12 +131,11 @@ def show_engage(request, project, lang=None):
             "total": obj.stats.source_strings,
             "percent": stats_obj.translated_percent,
             "language": language,
-            "project_link": mark_safe(
-                '<a href="{}">{}</a>'.format(
-                    escape(obj.get_absolute_url()), escape(obj.name)
-                )
+            "guessed_language": guessed_language,
+            "project_link": format_html(
+                '<a href="{}">{}</a>', obj.get_absolute_url(), obj.name
             ),
-            "title": _("Get involved in {0}!").format(obj),
+            "title": gettext("Get involved in {0}!").format(obj),
         },
     )
 
@@ -144,9 +154,7 @@ def show_project(request, project):
         .preload()
     )
 
-    all_components = prefetch_stats(
-        obj.child_components.filter_access(user).prefetch().order()
-    )
+    all_components = prefetch_stats(obj.get_child_components_access(user).prefetch())
     all_components = get_paginator(request, all_components)
     for component in all_components:
         component.is_shared = None if component.project == obj else component.project
@@ -182,7 +190,7 @@ def show_project(request, project):
             "project": obj,
             "last_changes": last_changes,
             "last_announcements": last_announcements,
-            "reports_form": ReportsForm(),
+            "reports_form": ReportsForm({"project": obj}),
             "last_changes_url": urlencode({"project": obj.slug}),
             "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(request.user),
@@ -244,8 +252,9 @@ def show_component(request, project, component):
             "allow_index": True,
             "object": obj,
             "project": obj.project,
+            "component": obj,
             "translations": translations,
-            "reports_form": ReportsForm(),
+            "reports_form": ReportsForm({"component": obj}),
             "last_changes": last_changes,
             "last_changes_url": urlencode(
                 {"component": obj.slug, "project": obj.project.slug}
@@ -283,7 +292,7 @@ def show_component(request, project, component):
                 instance=obj,
             ),
             "search_form": SearchForm(request.user),
-            "alerts": obj.all_alerts
+            "alerts": obj.all_active_alerts
             if "alerts" not in request.GET
             else obj.alert_set.all(),
         },
@@ -317,9 +326,9 @@ def show_translation(request, project, component, lang):
     # adds quick way to create translations in other components
     existing = {translation.component.slug for translation in other_translations}
     existing.add(component.slug)
-    for test_component in project.child_components.filter_access(user).exclude(
-        slug__in=existing
-    ):
+    for test_component in project.child_components:
+        if test_component.slug in existing:
+            continue
         if test_component.can_add_new_language(user, fast=True):
             other_translations.append(GhostTranslation(test_component, obj.language))
 
@@ -335,10 +344,16 @@ def show_translation(request, project, component, lang):
             "allow_index": True,
             "object": obj,
             "project": project,
+            "component": obj.component,
             "form": form,
-            "download_form": DownloadForm(auto_id="id_dl_%s"),
+            "download_form": DownloadForm(obj, auto_id="id_dl_%s"),
             "autoform": optional_form(
-                AutoForm, user, "translation.auto", obj, obj=component
+                AutoForm,
+                user,
+                "translation.auto",
+                obj,
+                obj=component,
+                user=user,
             ),
             "search_form": search_form,
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
@@ -374,7 +389,9 @@ def data_project(request, project):
         "data.html",
         {
             "object": obj,
-            "components": obj.child_components.filter_access(request.user).order(),
+            "components": obj.get_child_components_access(request.user)
+            .prefetch()
+            .order(),
             "project": obj,
         },
     )
@@ -382,7 +399,7 @@ def data_project(request, project):
 
 @never_cache
 @login_required
-@session_ratelimit_post("language")
+@session_ratelimit_post("language", logout_user=False)
 @transaction.atomic
 def new_language(request, project, component):
     obj = get_component(request, project, component)
@@ -390,6 +407,7 @@ def new_language(request, project, component):
 
     form_class = get_new_language_form(request, obj)
     can_add = obj.can_add_new_language(user)
+    added = False
 
     if request.method == "POST":
         form = form_class(obj, request.POST)
@@ -411,6 +429,7 @@ def new_language(request, project, component):
                             language, request, create_translations=False
                         )
                         if translation:
+                            added = True
                             kwargs["translation"] = translation
                             if len(langs) == 1:
                                 result = translation
@@ -423,30 +442,38 @@ def new_language(request, project, component):
                         )
                         messages.success(
                             request,
-                            _(
+                            gettext(
                                 "A request for a new translation has been "
                                 "sent to the project's maintainers."
                             ),
                         )
                 try:
-                    if not obj.create_translations(request=request):
+                    if added and not obj.create_translations(request=request):
                         messages.warning(
                             request,
-                            _("The translation will be updated in the background."),
+                            gettext(
+                                "The translation will be updated in the background."
+                            ),
                         )
                 except FileParseError:
                     pass
             if user.has_perm("component.edit", obj):
                 reset_rate_limit("language", request)
             return redirect(result)
-        messages.error(request, _("Please fix errors in the form."))
+        messages.error(request, gettext("Please fix errors in the form."))
     else:
         form = form_class(obj)
 
     return render(
         request,
         "new-language.html",
-        {"object": obj, "project": obj.project, "form": form, "can_add": can_add},
+        {
+            "object": obj,
+            "project": obj.project,
+            "component": obj,
+            "form": form,
+            "can_add": can_add,
+        },
     )
 
 
@@ -485,6 +512,7 @@ def guide(request, project, component):
         {
             "object": obj,
             "project": obj.project,
+            "component": obj,
             "guidelines": obj.guidelines,
         },
     )

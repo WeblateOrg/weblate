@@ -1,27 +1,11 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
 from django.views.generic import ListView, UpdateView
 
 from weblate.addons.models import ADDONS, Addon
@@ -72,6 +56,7 @@ class AddonList(AddonViewMixin, ListView):
 
     def post(self, request, **kwargs):
         component = self.get_component()
+        component.acting_user = request.user
         name = request.POST.get("name")
         addon = ADDONS.get(name)
         installed = {x.addon.name for x in self.get_queryset()}
@@ -81,7 +66,7 @@ class AddonList(AddonViewMixin, ListView):
             or not addon.can_install(component, request.user)
             or (name in installed and not addon.multiple)
         ):
-            return self.redirect_list(_("Invalid add-on name specified!"))
+            return self.redirect_list(gettext("Invalid add-on name specified!"))
 
         form = None
         if addon.settings_form is None:
@@ -94,7 +79,9 @@ class AddonList(AddonViewMixin, ListView):
                 if addon.stay_on_create:
                     messages.info(
                         self.request,
-                        _("Add-on installed, please review integration instructions."),
+                        gettext(
+                            "Add-on installed, please review integration instructions."
+                        ),
                     )
                     return redirect(instance)
                 return self.redirect_list()
@@ -130,6 +117,7 @@ class AddonDetail(AddonViewMixin, UpdateView):
 
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
+        obj.component.acting_user = request.user
         if "delete" in request.POST:
             obj.delete()
             return self.redirect_list()

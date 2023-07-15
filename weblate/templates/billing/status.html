@@ -3,7 +3,7 @@
 {% load humanize %}
 {% load icons %}
 
-  {% with billing.plan as plan %}
+  {% with plan=billing.plan %}
   <table class="table">
   <tr>
     <th>{% trans "Current plan" %}</th>
@@ -74,21 +74,15 @@
     </td>
   </tr>
   <tr><th>{% trans "Strings limit" %}</th>
-  {% with plan.limit_strings as max and plan.display_limit_strings as total and billing.count_strings as used %}
-  {% include "billing/used.html" %}
-  {% endwith %}
+  {% include "billing/used.html" with max=plan.limit_strings total=plan.display_limit_strings used=billing.count_strings %}
   </tr>
   <tr><th>{% trans "Languages limit" %}</th>
-  {% with plan.limit_languages as max and plan.display_limit_languages as total and billing.count_languages as used %}
-  {% include "billing/used.html" %}
-  {% endwith %}
+  {% include "billing/used.html" with max=plan.limit_languages total=plan.display_limit_languages used=billing.count_languages %}
   </tr>
   <tr><th>{% trans "Last invoice" %}</th>
   <td colspan="2">{{ billing.last_invoice }}</td></tr>
   <tr><th>{% trans "Projects limit" %}</th>
-  {% with plan.limit_projects as max and plan.display_limit_projects as total and billing.all_projects|length as used %}
-  {% include "billing/used.html" %}
-  {% endwith %}
+  {% include "billing/used.html" with max=plan.limit_projects total=plan.display_limit_projects used=billing.all_projects|length %}
   </tr>
   {% if billing.all_projects %}
     <tr>

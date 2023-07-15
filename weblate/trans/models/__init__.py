@@ -1,21 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 import os
 
 from django.db.models.signals import m2m_changed, post_delete, post_save
@@ -162,13 +148,7 @@ def post_delete_linked(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Comment)
 @receiver(post_save, sender=Suggestion)
-@receiver(post_delete, sender=Suggestion)
 @disable_for_loaddata
 def stats_invalidate(sender, instance, **kwargs):
     """Invalidate stats on new comment or suggestion."""
-    # Invalidate stats counts
-    instance.unit.translation.invalidate_cache()
-    # Invalidate unit cached properties
-    for key in ["all_comments", "suggestions"]:
-        if key in instance.__dict__:
-            del instance.__dict__[key]
+    instance.unit.invalidate_related_cache()

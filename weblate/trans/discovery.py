@@ -1,22 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
 import re
@@ -66,12 +50,13 @@ class ComponentDiscovery:
     def __init__(
         self,
         component,
-        match,
-        name_template,
-        file_format,
-        language_regex="^[^.]+$",
-        base_file_template="",
-        new_base_template="",
+        match: str,
+        name_template: str,
+        file_format: str,
+        language_regex: str = "^[^.]+$",
+        base_file_template: str = "",
+        new_base_template: str = "",
+        intermediate_template: str = "",
         path=None,
         copy_addons=True,
     ):
@@ -84,6 +69,7 @@ class ComponentDiscovery:
         self.name_template = name_template
         self.base_file_template = base_file_template
         self.new_base_template = new_base_template
+        self.intermediate_template = intermediate_template
         self.language_re = language_regex
         self.language_match = re.compile(language_regex)
         self.file_format = file_format
@@ -98,6 +84,7 @@ class ComponentDiscovery:
             "language_regex",
             "base_file_template",
             "new_base_template",
+            "intermediate_template",
             "file_format",
             "copy_addons",
         )
@@ -141,9 +128,11 @@ class ComponentDiscovery:
 
                 # Calculate file mask for match
                 replacements = [(matches.start("language"), matches.end("language"))]
-                for group in matches.groupdict().keys():
-                    if group.startswith("_language_"):
-                        replacements.append((matches.start(group), matches.end(group)))
+                replacements.extend(
+                    (matches.start(group), matches.end(group))
+                    for group in matches.groupdict()
+                    if group.startswith("_language_")
+                )
                 maskparts = []
                 maskpath = path
                 for start, end in sorted(replacements, reverse=True):
@@ -175,6 +164,9 @@ class ComponentDiscovery:
                     "files_langs": {(path, groups["language"])},
                     "base_file": render_template(self.base_file_template, **groups),
                     "new_base": render_template(self.new_base_template, **groups),
+                    "intermediate": render_template(
+                        self.intermediate_template, **groups
+                    ),
                     "mask": mask,
                     "name": name,
                     "slug": slugify(name),
@@ -201,8 +193,8 @@ class ComponentDiscovery:
             return result
 
         # Get name and slug
-        name = get_val("name")
-        slug = get_val("slug")
+        name = get_val("name") or "Component"
+        slug = get_val("slug") or "component"
 
         # Copy attributes from main component
         for key in COPY_ATTRIBUTES:
@@ -237,6 +229,7 @@ class ComponentDiscovery:
                 "template": match["base_file"],
                 "filemask": match["mask"],
                 "new_base": match["new_base"],
+                "intermediate": match["intermediate"],
                 "file_format": self.file_format,
                 "language_regex": self.language_re,
                 "addons_from": main.pk if self.copy_addons and main else None,
@@ -263,9 +256,8 @@ class ComponentDiscovery:
                 # Valid new base?
                 if os.path.exists(component.get_new_base_filename()):
                     continue
-            else:
-                if component.get_mask_matches():
-                    continue
+            elif component.get_mask_matches():
+                continue
 
             # Delete as needed files seem to be missing
             deleted.append((None, component))
@@ -289,6 +281,9 @@ class ComponentDiscovery:
             return False
 
         if not valid_file(match["new_base"]):
+            return False
+
+        if not valid_file(match["intermediate"]):
             return False
 
         return True

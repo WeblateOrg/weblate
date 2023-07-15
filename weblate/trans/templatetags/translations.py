@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
 from collections import defaultdict
@@ -29,7 +14,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import number_format as django_number_format
-from django.utils.html import escape, urlize
+from django.utils.html import escape, format_html, format_html_join, urlize
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from siphashc import siphash
@@ -60,20 +45,21 @@ from weblate.utils.views import SORT_CHOICES
 register = template.Library()
 
 HIGHLIGTH_SPACE = '<span class="hlspace">{}</span>{}'
-SPACE_TEMPLATE = '<span class="{}"><span class="sr-only">{}</span></span>'
+SPACE_TEMPLATE = '<span class="{}">{}</span>'
 SPACE_SPACE = SPACE_TEMPLATE.format("space-space", " ")
 SPACE_NL = HIGHLIGTH_SPACE.format(SPACE_TEMPLATE.format("space-nl", ""), "<br />")
-SPACE_START = '<span class="hlspace"><span class="space-space"><span class="sr-only">'
-SPACE_MIDDLE = '</span></span><span class="space-space"><span class="sr-only">'
-SPACE_END = "</span></span></span>"
+SPACE_START = '<span class="hlspace"><span class="space-space">'
+SPACE_MIDDLE_1 = "</span>"
+SPACE_MIDDLE_2 = '<span class="space-space">'
+SPACE_END = "</span></span>"
 
 GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 
 # This should match whitespace_regex in weblate/static/loader-bootstrap.js
 WHITESPACE_REGEX = (
     r"(\t|\u00A0|\u1680|\u2000|\u2001|\u2002|\u2003|"
-    + r"\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u200A|"
-    + r"\u202F|\u205F|\u3000)"
+    r"\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u200A|"
+    r"\u202F|\u205F|\u3000)"
 )
 WHITESPACE_RE = re.compile(WHITESPACE_REGEX, re.MULTILINE)
 MULTISPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
@@ -87,14 +73,25 @@ NAME_MAPPING = {
 
 FLAG_TEMPLATE = '<span title="{0}" class="{1}">{2}</span>'
 
-SOURCE_LINK = """
-<a href="{0}" target="_blank" rel="noopener noreferrer"
-    class="wrap-text" dir="ltr">{1}</a>
-"""
+SOURCE_LINK = (
+    '<a href="{0}" target="_blank" rel="noopener noreferrer"'
+    ' class="{2}" dir="ltr">{1}</a>'
+)
+HLCHECK = '<span class="hlcheck" data-value="{}"><span class="highlight-number"></span>'
 
 
 class Formatter:
-    def __init__(self, idx, value, unit, terms, diff, search_match, match):
+    def __init__(
+        self,
+        idx,
+        value,
+        unit,
+        terms,
+        diff,
+        search_match,
+        match,
+        whitespace: bool = True,
+    ):
         # Inputs
         self.idx = idx
         self.cleaned_value = self.value = value
@@ -106,19 +103,21 @@ class Formatter:
         # Tags output
         self.tags = [[] for i in range(len(value) + 1)]
         self.dmp = diff_match_patch()
+        self.whitespace = whitespace
 
     def parse(self):
-        if self.diff:
-            self.parse_diff()
         if self.unit:
             self.parse_highlight()
         if self.terms:
             self.parse_glossary()
         if self.search_match:
             self.parse_search()
-        self.parse_whitespace()
+        if self.whitespace:
+            self.parse_whitespace()
+        if self.diff:
+            self.parse_diff()
 
-    def parse_diff(self):
+    def parse_diff(self):  # noqa: C901
         """Highlights diff, including extra whitespace."""
         dmp = self.dmp
         diff = dmp.diff_main(self.diff[self.idx], self.value)
@@ -132,9 +131,43 @@ class Formatter:
                 formatter.parse()
                 self.tags[offset].append(f"<del>{formatter.format()}</del>")
             elif op == dmp.DIFF_INSERT:
-                self.tags[offset].append("<ins>")
+                # Rearrange space highlighting
+                move_space = False
+                start_space = -1
+                for pos, tag in enumerate(self.tags[offset]):
+                    if tag == SPACE_MIDDLE_2:
+                        self.tags[offset][pos] = SPACE_MIDDLE_1
+                        move_space = True
+                        break
+                    if tag == SPACE_START:
+                        start_space = pos
+                        break
+
+                if start_space != -1:
+                    self.tags[offset].insert(start_space, "<ins>")
+                    last_middle = None
+                    for i in range(len(data)):
+                        tagoffset = offset + i + 1
+                        for pos, tag in enumerate(self.tags[tagoffset]):
+                            if tag == SPACE_END:
+                                # Whitespace ends within <ins>
+                                start_space = -1
+                                break
+                            if tag == SPACE_MIDDLE_2:
+                                last_middle = (tagoffset, pos)
+                        if start_space == -1:
+                            break
+                    if start_space != -1 and last_middle is not None:
+                        self.tags[tagoffset][pos] = SPACE_MIDDLE_1
+
+                else:
+                    self.tags[offset].append("<ins>")
+                if move_space:
+                    self.tags[offset].append(SPACE_START)
                 offset += len(data)
-                self.tags[offset].insert(0, "</ins>")
+                self.tags[offset].append("</ins>")
+                if start_space != -1:
+                    self.tags[offset].append(SPACE_START)
             elif op == dmp.DIFF_EQUAL:
                 offset += len(data)
 
@@ -142,10 +175,8 @@ class Formatter:
         """Highlights unit placeables."""
         highlights = highlight_string(self.value, self.unit)
         cleaned_value = list(self.value)
-        for start, end, _content in highlights:
-            self.tags[start].append(
-                '<span class="hlcheck"><span class="highlight-number"></span>'
-            )
+        for start, end, content in highlights:
+            self.tags[start].append(format_html(HLCHECK, content))
             self.tags[end].insert(0, "</span>")
             cleaned_value[start:end] = [" "] * (end - start)
 
@@ -179,14 +210,27 @@ class Formatter:
 
     def parse_glossary(self):
         """Highlights glossary entries."""
+        # Annotate string with glossary terms
+        locations = defaultdict(list)
         for htext, entries in self.terms.items():
             for match in re.finditer(
                 rf"(\W|^)({re.escape(htext)})(\W|$)", self.cleaned_value, re.IGNORECASE
             ):
-                self.tags[match.start(2)].append(
+                for i in range(match.start(2), match.end(2)):
+                    locations[i].extend(entries)
+                locations[match.end(2)].extend([])
+
+        # Render span tags for each glossary term match
+        last_entries = []
+        for position, entries in sorted(locations.items()):
+            if last_entries and entries != last_entries:
+                self.tags[position].insert(0, "</span>")
+
+            if entries and entries != last_entries:
+                self.tags[position].append(
                     GLOSSARY_TEMPLATE.format(self.format_terms(entries))
                 )
-                self.tags[match.end(2)].insert(0, "</span>")
+            last_entries = entries
 
     def parse_search(self):
         """Highlights search matches."""
@@ -194,7 +238,7 @@ class Formatter:
         if self.match == "search":
             tag = "hlmatch"
 
-        start_tag = f'<span class="{tag}">'
+        start_tag = format_html('<span class="{}">', tag)
         end_tag = "</span>"
 
         for match in re.finditer(
@@ -208,38 +252,41 @@ class Formatter:
         for match in MULTISPACE_RE.finditer(self.value):
             self.tags[match.start()].append(SPACE_START)
             for i in range(match.start() + 1, match.end()):
-                self.tags[i].insert(0, SPACE_MIDDLE)
+                self.tags[i].insert(0, SPACE_MIDDLE_1)
+                self.tags[i].append(SPACE_MIDDLE_2)
             self.tags[match.end()].insert(0, SPACE_END)
 
         for match in WHITESPACE_RE.finditer(self.value):
             whitespace = match.group(0)
-            if whitespace == "\t":
-                cls = "space-tab"
-            else:
-                cls = "space-space"
+            cls = "space-tab" if whitespace == "\t" else "space-space"
             title = get_display_char(whitespace)[0]
             self.tags[match.start()].append(
-                '<span class="hlspace">'
-                f'<span class="{cls}" title="{title}">'
-                '<span class="sr-only">'
+                format_html(
+                    '<span class="hlspace"><span class="{}" title="{}">', cls, title
+                )
             )
-            self.tags[match.end()].insert(0, "</span></span></span>")
+            self.tags[match.end()].insert(0, "</span></span>")
 
     def format(self):
         tags = self.tags
         value = self.value
-        newline = SPACE_NL.format(gettext("New line"))
+        newline = format_html(SPACE_NL, gettext("New line"))
         output = []
         was_cr = False
         newlines = {"\r", "\n"}
         for pos, char in enumerate(value):
             # Special case for single whitespace char in diff
-            if char == " " and "<ins>" in tags[pos] and "</ins>" in tags[pos + 1]:
+            if (
+                char == " "
+                and "<ins>" in tags[pos]
+                and SPACE_START not in tags[pos]
+                and "</ins>" in tags[pos + 1]
+            ):
                 tags[pos].append(SPACE_START)
                 tags[pos + 1].insert(0, SPACE_END)
 
             output.append("".join(tags[pos]))
-            if char in newlines:
+            if char in newlines and self.whitespace:
                 is_cr = char == "\r"
                 if was_cr and not is_cr:
                     # treat "\r\n" as single newline
@@ -262,22 +309,18 @@ def format_translation(
     search_match=None,
     simple: bool = False,
     wrap: bool = False,
-    noformat: bool = False,
-    num_plurals=2,
     unit=None,
     match="search",
     glossary=None,
+    whitespace: bool = True,
 ):
     """Nicely formats translation text possibly handling plurals or diff."""
     # Split plurals to separate strings
     plurals = split_plural(value)
+    is_multivalue = unit is not None and unit.translation.component.is_multivalue
 
     if plural is None:
         plural = language.plural
-
-    # Show plurals?
-    if int(num_plurals) <= 1:
-        plurals = plurals[-1:]
 
     # Split diff plurals
     if diff is not None:
@@ -295,12 +338,14 @@ def format_translation(
     has_content = False
 
     for idx, text in enumerate(plurals):
-        formatter = Formatter(idx, text, unit, terms, diff, search_match, match)
+        formatter = Formatter(
+            idx, text, unit, terms, diff, search_match, match, whitespace=whitespace
+        )
         formatter.parse()
 
         # Show label for plural (if there are any)
         title = ""
-        if len(plurals) > 1:
+        if len(plurals) > 1 and not is_multivalue:
             title = plural.get_plural_name(idx)
 
         # Join paragraphs
@@ -311,7 +356,6 @@ def format_translation(
 
     return {
         "simple": simple,
-        "noformat": noformat,
         "wrap": wrap,
         "items": parts,
         "language": language,
@@ -385,9 +429,6 @@ def show_message(tags, message):
 
 def naturaltime_past(value, now):
     """Handling of past dates for naturaltime."""
-    # this function is huge
-    # pylint: disable=too-many-branches,too-many-return-statements
-
     delta = now - value
 
     if delta.days >= 365:
@@ -442,9 +483,6 @@ def naturaltime_past(value, now):
 
 def naturaltime_future(value, now):
     """Handling of future dates for naturaltime."""
-    # this function is huge
-    # pylint: disable=too-many-branches,too-many-return-statements
-
     delta = value - now
 
     if delta.days >= 365:
@@ -499,7 +537,8 @@ def naturaltime_future(value, now):
 
 @register.filter(is_safe=True)
 def naturaltime(value, now=None):
-    """Heavily based on Django's django.contrib.humanize implementation of naturaltime.
+    """
+    Heavily based on Django's django.contrib.humanize implementation of naturaltime.
 
     For date and time values shows how many seconds, minutes or hours ago compared to
     current timestamp returns representing string.
@@ -514,10 +553,8 @@ def naturaltime(value, now=None):
         text = naturaltime_past(value, now)
     else:
         text = naturaltime_future(value, now)
-    return mark_safe(
-        '<span title="{}">{}</span>'.format(
-            escape(value.replace(microsecond=0).isoformat()), escape(text)
-        )
+    return format_html(
+        '<span title="{}">{}</span>', value.replace(microsecond=0).isoformat(), text
     )
 
 
@@ -528,12 +565,13 @@ def get_stats(obj):
 
 
 def translation_progress_data(
-    total: int, readonly: int, approved: int, translated: int
+    total: int, readonly: int, approved: int, translated: int, has_review: bool
 ):
-    translated -= approved
-    if approved:
+    if has_review:
+        translated -= approved
         approved += readonly
         translated -= readonly
+
     bad = total - approved - translated
     return {
         "approved": f"{translation_percent(approved, total, False):.1f}",
@@ -550,6 +588,7 @@ def translation_progress(obj):
         stats.readonly,
         stats.approved,
         stats.translated - stats.translated_checks,
+        stats.has_review,
     )
 
 
@@ -561,6 +600,7 @@ def words_progress(obj):
         stats.readonly_words,
         stats.approved_words,
         stats.translated_words - stats.translated_checks_words,
+        stats.has_review,
     )
 
 
@@ -602,11 +642,30 @@ def unit_state_title(unit) -> str:
     return "; ".join(state)
 
 
+def try_linkify_filename(
+    text, filename: str, line: str, unit, profile, link_class: str = ""
+):
+    """
+    Attempt to convert `text` to a repo link to `filename:line`.
+
+    If the `text` is prefixed with http:// or https://, the
+    link will be an absolute link to the specified resource.
+    """
+    link = None
+    if re.search(r"^https?://", text):
+        link = text
+    elif profile:
+        link = unit.translation.component.get_repoweb_link(
+            filename, line, profile.editor_link
+        )
+    if link:
+        return format_html(SOURCE_LINK, link, text, link_class)
+    return text
+
+
 @register.simple_tag
 def get_location_links(profile, unit):
     """Generate links to source files where translation was used."""
-    ret = []
-
     # Fallback to source unit if it has more information
     if not unit.location and unit.source_unit.location:
         unit = unit.source_unit
@@ -620,54 +679,59 @@ def get_location_links(profile, unit):
         return gettext("string ID %s") % unit.location
 
     # Go through all locations separated by comma
-    for location, filename, line in unit.get_locations():
-        link = None
-        if profile:
-            link = unit.translation.component.get_repoweb_link(
-                filename, line, profile.editor_link
+    return format_html_join(
+        format_html('\n<span class="divisor">•</span>\n'),
+        "{}",
+        (
+            (
+                try_linkify_filename(
+                    location, filename, line, unit, profile, "wrap-text"
+                ),
             )
-        if link is None:
-            ret.append(escape(location))
-        else:
-            ret.append(SOURCE_LINK.format(escape(link), escape(location)))
-    return mark_safe('\n<span class="divisor">•</span>\n'.join(ret))
+            for location, filename, line in unit.get_locations()
+        ),
+    )
 
 
 @register.simple_tag(takes_context=True)
 def announcements(context, project=None, component=None, language=None):
     """Display announcement messages for given context."""
-    ret = []
-
     user = context["user"]
 
-    for announcement in Announcement.objects.context_filter(
-        project, component, language
-    ):
-        ret.append(
-            render_to_string(
-                "message.html",
-                {
-                    "tags": " ".join((announcement.category, "announcement")),
-                    "message": render_markdown(announcement.message),
-                    "announcement": announcement,
-                    "can_delete": user.has_perm("announcement.delete", announcement),
-                },
+    return format_html_join(
+        "\n",
+        "{}",
+        (
+            (
+                render_to_string(
+                    "message.html",
+                    {
+                        "tags": f"{announcement.category} announcement",
+                        "message": render_markdown(announcement.message),
+                        "announcement": announcement,
+                        "can_delete": user.has_perm(
+                            "announcement.delete", announcement
+                        ),
+                    },
+                ),
             )
-        )
-
-    return mark_safe("\n".join(ret))
+            for announcement in Announcement.objects.context_filter(
+                project, component, language
+            )
+        ),
+    )
 
 
 @register.simple_tag(takes_context=True)
 def active_tab(context, slug):
     active = "active" if slug == context["active_tab_slug"] else ""
-    return mark_safe(f'class="tab-pane {active}" id="{slug}"')
+    return format_html('class="tab-pane {}" id="{}"', active, slug)
 
 
 @register.simple_tag(takes_context=True)
 def active_link(context, slug):
     if slug == context["active_tab_slug"]:
-        return mark_safe('class="active"')
+        return format_html('class="active"')
     return ""
 
 
@@ -760,7 +824,7 @@ def component_alerts(component):
             None,
         )
 
-    if component.all_alerts:
+    if component.all_active_alerts:
         yield (
             "state/alert.svg",
             gettext("Fix this component to clear its alerts."),
@@ -869,12 +933,13 @@ def indicate_alerts(context, obj):
 
 @register.filter(is_safe=True)
 def markdown(text):
-    return mark_safe(f'<div class="markdown">{render_markdown(text)}</div>')
+    return format_html('<div class="markdown">{}</div>', render_markdown(text))
 
 
 @register.filter
 def choiceval(boundfield):
-    """Get literal value from a field's choices.
+    """
+    Get literal value from a field's choices.
 
     Empty value is returned if value is not selected or invalid.
     """
@@ -923,10 +988,12 @@ def number_format(number):
     format_string = "%s"
     if number > 99999999:
         number = number // 1000000
-        format_string = "%s M"
+        # Translators: Number format, in millions (mega)
+        format_string = gettext("%s M")
     elif number > 99999:
         number = number // 1000
-        format_string = "%s k"
+        # Translators: Number format, in thousands (kilo)
+        format_string = gettext("%s k")
     return format_string % django_number_format(number, force_grouping=True)
 
 
@@ -941,10 +1008,11 @@ def trend_format(number):
     number = abs(number)
     if number < 0.1:
         return "—"
-    return mark_safe(
-        '{}{} <span class="{}"></span>'.format(
-            prefix, escape(percent_format(number)), trend
-        )
+    return format_html(
+        '{}{} <span class="{}"></span>',
+        prefix,
+        percent_format(number),
+        trend,
     )
 
 

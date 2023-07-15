@@ -1,0 +1,11 @@
+{% load i18n %}
+{% load translations %}
+
+<div class="form-group">
+  <label for="exampleInputEmail1">{% trans "Importing backup" %}</label>
+   <p class="help-block">
+      {% blocktrans with server=projectbackup.data.metadata.server domain=projectbackup.data.metadata.domain version=projectbackup.data.metadata.version %}Created on {{ server }} ({{domain}}) by Weblate {{version}}{% endblocktrans %}
+    </p>
+    <p class="help-block">{{ projectbackup.timestamp|naturaltime }}
+    </p>
+</div>

@@ -1,30 +1,18 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from urllib.parse import urlparse
 
 from django.conf import settings
+from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_ipv46_address
 from django.http import Http404, HttpResponsePermanentRedirect
+from django.shortcuts import redirect
 from django.urls import is_valid_path, reverse
 from django.utils.http import escape_leading_slashes
+from django.utils.translation import gettext_lazy
 
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project
@@ -42,7 +30,8 @@ INLINE_PATHS = {"social:begin", "djangosaml2idp:saml_login_process"}
 
 
 class ProxyMiddleware:
-    """Middleware that updates REMOTE_ADDR from proxy.
+    """
+    Middleware that updates REMOTE_ADDR from proxy.
 
     Note that this can have security implications and settings have to match your actual
     proxy setup.
@@ -62,7 +51,7 @@ class ProxyMiddleware:
             proxy = request.META.get(settings.IP_PROXY_HEADER)
         if proxy:
             # X_FORWARDED_FOR returns client1, proxy1, proxy2,...
-            address = proxy.split(", ")[settings.IP_PROXY_OFFSET].strip()
+            address = proxy.split(",")[settings.IP_PROXY_OFFSET].strip()
             try:
                 validate_ipv46_address(address)
                 request.META["REMOTE_ADDR"] = address
@@ -151,6 +140,14 @@ class RedirectMiddleware:
         request.user.check_access_component(component)
         return component
 
+    def check_existing_translations(self, slug, project):
+        """
+        Check in existing translations for specific language.
+
+        Return False if language translation not present, else True.
+        """
+        return any(lang.name == slug for lang in project.languages)
+
     def process_exception(self, request, exception):
         if not isinstance(exception, Http404):
             return None
@@ -161,12 +158,13 @@ class RedirectMiddleware:
             return None
 
         kwargs = dict(resolver_match.kwargs)
-
+        new_lang = None
         if "lang" in kwargs:
             language = self.fixup_language(kwargs["lang"])
             if language is None:
                 return None
             kwargs["lang"] = language.code
+            new_lang = language.name
 
         if "project" in kwargs:
             project = self.fixup_project(kwargs["project"], request)
@@ -179,6 +177,25 @@ class RedirectMiddleware:
                 if component is None:
                     return None
                 kwargs["component"] = component.slug
+
+                if new_lang:
+                    existing_trans = self.check_existing_translations(new_lang, project)
+                    if not existing_trans:
+                        messages.add_message(
+                            request,
+                            messages.INFO,
+                            gettext_lazy(
+                                "%s translation is currently not available, "
+                                "but can be added."
+                            )
+                            % new_lang,
+                        )
+                        return redirect(
+                            reverse(
+                                "component",
+                                args=[kwargs["project"], kwargs["component"]],
+                            )
+                        )
 
         if kwargs != resolver_match.kwargs:
             query = request.META["QUERY_STRING"]

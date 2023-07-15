@@ -1,27 +1,14 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from contextlib import suppress
 from copy import copy
 from datetime import timedelta
 from itertools import chain
 from types import GeneratorType
-from typing import Optional
 from uuid import uuid4
 
 import sentry_sdk
@@ -71,7 +58,7 @@ BASIC_KEYS = frozenset(
     + ["last_changed", "last_author"]
 )
 SOURCE_KEYS = frozenset(
-    list(BASIC_KEYS) + ["source_strings", "source_words", "source_chars"]
+    [*list(BASIC_KEYS), "source_strings", "source_words", "source_chars"]
 )
 
 
@@ -81,10 +68,8 @@ def aggregate(stats, item, stats_obj):
         if stats_obj.last_changed and (not last or last < stats_obj.last_changed):
             stats["last_changed"] = stats_obj.last_changed
             stats["last_author"] = stats_obj.last_author
-    elif item == "last_author":
-        # Already handled above
-        return
-    else:
+    elif item != "last_author":
+        # The last_author is calculated with last_changed
         stats[item] += getattr(stats_obj, item)
 
 
@@ -220,13 +205,13 @@ class BaseStats:
 
     def get_invalidate_keys(
         self,
-        language: Optional[Language] = None,
+        language: Language | None = None,
         childs: bool = False,
         parents: bool = True,
     ):
         return {self.cache_key, GlobalStats().cache_key}
 
-    def invalidate(self, language: Optional[Language] = None, childs: bool = False):
+    def invalidate(self, language: Language | None = None, childs: bool = False):
         """Invalidate local and cache data."""
         self.clear()
         keys = self.get_invalidate_keys(language, childs)
@@ -246,7 +231,7 @@ class BaseStats:
 
     def calculate_item(self, item):
         """Calculate stats for translation."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def ensure_basic(self, save=True):
         """Ensure we have basic stats."""
@@ -267,7 +252,7 @@ class BaseStats:
             self._prefetch_basic()
 
     def _prefetch_basic(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def calculate_percents(self, item, total=None):
         """Calculate percent value for given item."""
@@ -319,7 +304,8 @@ class BaseStats:
 
 
 class DummyTranslationStats(BaseStats):
-    """Dummy stats to report 0 in all cases.
+    """
+    Dummy stats to report 0 in all cases.
 
     Used when given language does not exist in a component.
     """
@@ -353,26 +339,23 @@ class TranslationStats(BaseStats):
 
     def get_invalidate_keys(
         self,
-        language: Optional[Language] = None,
+        language: Language | None = None,
         childs: bool = False,
         parents: bool = True,
     ):
         result = super().get_invalidate_keys(language, childs, parents)
-        try:
+        # Happens when deleting language from the admin interface
+        with suppress(ObjectDoesNotExist):
             result.update(self._object.language.stats.get_invalidate_keys())
-        except ObjectDoesNotExist:
-            # Happens when deleting language from the admin interface
-            pass
+
         if parents:
-            try:
+            # Happens when deleting language from the admin interface
+            with suppress(ObjectDoesNotExist):
                 result.update(
                     self._object.component.stats.get_invalidate_keys(
                         language=self._object.language
                     )
                 )
-            except ObjectDoesNotExist:
-                # Happens when deleting language from the admin interface
-                pass
         return result
 
     @property
@@ -484,7 +467,7 @@ class TranslationStats(BaseStats):
     def get_last_change_obj(self):
         from weblate.trans.models import Change
 
-        cache_key = f"last-content-change-{self._object.pk}"
+        cache_key = Change.get_last_change_cache_key(self._object.pk)
         change_pk = cache.get(cache_key)
         if change_pk:
             try:
@@ -495,8 +478,7 @@ class TranslationStats(BaseStats):
             last_change = self._object.change_set.content().order()[0]
         except IndexError:
             return None
-
-        cache.set(cache_key, last_change.pk, 180 * 86400)
+        last_change.update_cache_last_change()
         return last_change
 
     def fetch_last_change(self):
@@ -670,10 +652,7 @@ class ComponentStats(LanguageStats):
 
     @cached_property
     def has_review(self):
-        return (
-            self._object.project.source_review
-            or self._object.project.translation_review
-        )
+        return self._object.enable_review
 
     @cached_property
     def lazy_translated_percent_key(self):
@@ -712,7 +691,7 @@ class ComponentStats(LanguageStats):
 
     def get_invalidate_keys(
         self,
-        language: Optional[Language] = None,
+        language: Language | None = None,
         childs: bool = False,
         parents: bool = True,
     ):
@@ -749,6 +728,14 @@ class ProjectLanguageComponent:
     def translation_set(self):
         return self.parent.translation_set
 
+    @property
+    def context_label(self):
+        return self.translation_set[0].component.context_label
+
+    @property
+    def source_language(self):
+        return self.translation_set[0].component.source_language
+
 
 class ProjectLanguage:
     """Wrapper class used in project-language listings and stats."""
@@ -760,6 +747,10 @@ class ProjectLanguage:
 
     def __str__(self):
         return f"{self.project} - {self.language}"
+
+    @property
+    def code(self):
+        return self.language.code
 
     @property
     def full_slug(self):
@@ -804,13 +795,9 @@ class ProjectLanguage:
 
     @cached_property
     def translation_set(self):
-        result = (
-            self.language.translation_set.prefetch()
-            .filter(
-                Q(component__project=self.project) | Q(component__links=self.project)
-            )
-            .distinct()
-            .order_by("component__priority", "component__name")
+        all_langs = self.language.translation_set.prefetch()
+        result = all_langs.filter(component__project=self.project).union(
+            all_langs.filter(component__links=self.project)
         )
         for item in result:
             item.is_shared = (
@@ -818,7 +805,10 @@ class ProjectLanguage:
                 if item.component.project == self.project
                 else item.component.project
             )
-        return result
+        return sorted(
+            result,
+            key=lambda trans: (trans.component.priority, trans.component.name.lower()),
+        )
 
     @cached_property
     def is_source(self):
@@ -886,11 +876,11 @@ class ProjectStats(BaseStats):
 
     @cached_property
     def has_review(self):
-        return self._object.source_review or self._object.translation_review
+        return self._object.enable_review
 
     def get_invalidate_keys(
         self,
-        language: Optional[Language] = None,
+        language: Language | None = None,
         childs: bool = False,
         parents: bool = True,
     ):
@@ -917,9 +907,10 @@ class ProjectStats(BaseStats):
         )
 
     def get_language_stats(self):
-        result = []
-        for language in self._object.languages:
-            result.append(self.get_single_language_stats(language))
+        result = [
+            self.get_single_language_stats(language)
+            for language in self._object.languages
+        ]
         return prefetch_stats(result)
 
     def _prefetch_basic(self):
@@ -982,7 +973,6 @@ class GlobalStats(BaseStats):
         return prefetch_stats(Project.objects.iterator())
 
     def _prefetch_basic(self):
-
         stats = zero_stats(self.basic_keys)
         for project in self.project_set:
             stats_obj = project.stats
@@ -1040,6 +1030,9 @@ class GhostStats(BaseStats):
 
     def save(self):
         return
+
+    def load(self):
+        return {}
 
     def get_absolute_url(self):
         return None

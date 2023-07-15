@@ -1,7 +1,7 @@
 Building translators community
 ==============================
 
-Following these recommendations supports the creation of a full, multilingual post-editing tool. Good translations are defined through the systemic-functional model of House which aims at a contextual correct translation. Write your own `post-editing guide <https://www.taus.net/academy/best-practices/postedit-best-practices/machine-translation-post-editing-guidelines>`_ and alter these recommendations to fit your own definitions. In most cases the `browser-plugin of languageTool <https://languagetool.org/#firefox_chrome>`_  is useful as the proof-reading tool.
+Following these recommendations supports the creation of a full, multilingual post-editing tool. Good translations are defined through the systemic-functional model of House which aims at a contextual correct translation. Write your own `post-editing guide <https://en.wikipedia.org/wiki/Postediting>`_ and alter these recommendations to fit your own definitions. In most cases the `browser-plugin of languageTool <https://languagetool.org/#firefox_chrome>`_  is useful as the proof-reading tool.
 
 Community localization checklist
 --------------------------------
@@ -12,7 +12,7 @@ The :guilabel:`Community localization checklist` which can be found in the
 menu of each component can give you guidance to make your
 localization process easy for community translators.
 
-.. image:: /screenshots/guide.png
+.. image:: /screenshots/guide.webp
 
 Terminology management
 ----------------------
@@ -41,5 +41,4 @@ Sources
 -------
 1. Marina Sanchez-Torron and Philipp Koehn in Machine Translation Quality and Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/machine-translation-quality.pdf
 2. Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine Orientierungs-hilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten der Übersetzungskritik starting on page number 101
-3. post-editing guide, Sharon O'Brien and Fred Hollowood in MT Post-editing Guidelines, 2010 https://www.taus.net/academy/best-practices/postedit-best-practices/machine-translation-post-editing-guidelines
-4. neural fuzzy repair, Bram Bulté and Arda Tezcan in Neural Fuzzy Repair: Integrating Fuzzy Matches into Neural MachineTranslation, 2019 https://aclanthology.org/P19-1175.pdf
+3. neural fuzzy repair, Bram Bulté and Arda Tezcan in Neural Fuzzy Repair: Integrating Fuzzy Matches into Neural MachineTranslation, 2019 https://aclanthology.org/P19-1175.pdf

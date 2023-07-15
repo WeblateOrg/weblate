@@ -1,29 +1,16 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for translation views."""
+
 
 import time
 from unittest import SkipTest
 
 from django.urls import reverse
 
+from weblate.addons.resx import ResxUpdateAddon
 from weblate.checks.models import Check
 from weblate.trans.models import Change, Component, Unit
 from weblate.trans.tests.test_views import ViewTestCase
@@ -122,10 +109,10 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.target, self.target)
         self.assertFalse(unit.has_failing_check)
 
-        # Should have was translated check
+        # Should not have was translated check
         self.edit_unit(self.source, "")
         unit = self.get_unit(source=self.source)
-        self.assertTrue(unit.has_failing_check)
+        self.assertFalse(unit.has_failing_check)
 
     def add_unit(self, key, force_source: bool = False):
         if force_source or self.component.has_template():
@@ -209,12 +196,12 @@ class EditValidationTest(ViewTestCase):
     def test_edit_invalid(self):
         """Editing with invalid params."""
         response = self.edit()
-        self.assertContains(response, "Missing translated string!")
+        self.assertContains(response, "This field is required.")
 
     def test_suggest_invalid(self):
         """Suggesting with invalid params."""
         response = self.edit(suggest="1")
-        self.assertContains(response, "Missing translated string!")
+        self.assertContains(response, "This field is required.")
 
     def test_merge(self):
         """Merging with invalid parameter."""
@@ -286,9 +273,25 @@ class EditResourceTest(EditTest):
             self.component.commit_pending("test", None)
         self.assertEqual(Unit.objects.filter(pending=True).count(), 0)
         self.assertEqual(Unit.objects.filter(context="key").count(), 2)
+        self.assertEqual(
+            Unit.objects.filter(context="key", state=STATE_TRANSLATED).count(), 2
+        )
+        self.component.create_translations(force=True)
+        self.assertEqual(
+            Unit.objects.filter(context="key", state=STATE_TRANSLATED).count(), 2
+        )
 
     def test_new_unit_translate_commit_translation(self, commit_translation=False):
         self.test_new_unit_translate(commit_translation=True)
+
+
+class EditResxTest(EditTest):
+    has_plurals = False
+
+    def create_component(self):
+        component = self.create_resx()
+        ResxUpdateAddon.create(component)
+        return component
 
 
 class EditLanguageTest(EditTest):
@@ -400,6 +403,7 @@ class EditPoMonoTest(EditTest):
 
     def test_remove_unit(self):
         self.assertEqual(self.component.stats.all, 16)
+        unit_count = Unit.objects.count()
         unit = self.get_unit()
         # Deleting translation unit
         response = self.client.post(reverse("delete-unit", kwargs={"unit_id": unit.pk}))
@@ -422,6 +426,7 @@ class EditPoMonoTest(EditTest):
         self.assertEqual(response.status_code, 302)
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.stats.all, 12)
+        self.assertEqual(unit_count - 4, Unit.objects.count())
 
 
 class EditIphoneTest(EditTest):
@@ -920,7 +925,7 @@ class EditComplexTest(ViewTestCase):
             "Hello, world!\n", "Nazdar svete!\n", contentsum="aaa"
         )
         # We should get an error message
-        self.assertContains(response, "Source string has been changed meanwhile")
+        self.assertContains(response, "The source string has changed meanwhile.")
         self.assert_backend(0)
 
     def test_edit_changed_translation(self):
@@ -930,7 +935,7 @@ class EditComplexTest(ViewTestCase):
         )
         # We should get an error message
         self.assertContains(
-            response, "Translation of the string has been changed meanwhile"
+            response, "The translation of the string has changed meanwhile."
         )
         self.assert_backend(0)
 
@@ -938,12 +943,35 @@ class EditComplexTest(ViewTestCase):
         url = self.get_unit("Hello, world!\n").get_absolute_url()
         response = self.client.get(url)
         form = response.context["form"]
-        params = {}
-        for field in form.fields.keys():
-            params[field] = form[field].value()
+        params = {field: form[field].value() for field in form.fields}
         params["target_0"] = "Nazdar svete!\n"
         response = self.client.post(url, params)
         unit = self.get_unit()
         self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(1)
+
+    def test_remove_unit(self):
+        self.component.manage_units = True
+        self.component.save()
+        self.user.is_superuser = True
+        self.user.save()
+
+        unit_count = Unit.objects.count()
+        unit = self.get_unit()
+        source_unit = unit.source_unit
+        all_units = source_unit.unit_set.exclude(pk__in=[unit.pk, source_unit.pk])
+        # Delete all other units
+        for i, other in enumerate(all_units):
+            response = self.client.post(
+                reverse("delete-unit", kwargs={"unit_id": other.pk})
+            )
+            self.assertEqual(response.status_code, 302)
+            self.assertEqual(unit_count - 1 - i, Unit.objects.count())
+        # Deleting translation unit
+        response = self.client.post(reverse("delete-unit", kwargs={"unit_id": unit.pk}))
+        self.assertEqual(response.status_code, 302)
+
+        # The source unit should be now removed as well
+        self.assertFalse(Unit.objects.filter(pk=source_unit.pk).exists())
+        self.assertEqual(unit_count - 4, Unit.objects.count())

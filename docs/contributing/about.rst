@@ -28,7 +28,7 @@ https://github.com/WeblateOrg/graphics.
 Leadership
 ----------
 
-This project is maintained by Michal Čihař, who can be reached at michal@cihar.com.
+This project is maintained by Michal Čihař, who can be reached at michal@weblate.org.
 
 Authors
 -------

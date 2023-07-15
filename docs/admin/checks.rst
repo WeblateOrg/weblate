@@ -26,17 +26,41 @@ in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`.
 Customizing behavior using flags
 --------------------------------
 
-You can fine-tune the Weblate behavior by using flags. This can be done on
-the source string level (see :ref:`additional`), or in the :ref:`component`
+You can fine-tune Weblate's behavior by using flags. The flags provide visual
+feedback to the translators and help them to improve their translation. This
+can be done on the source string level (see :ref:`additional`), or in the :ref:`component`
 (:ref:`component-check_flags`). Some file formats also allow to specify flags
 directly in the format (see :ref:`formats`).
 
-The flags are comma-separated, the parameters are separated with colon. You can
-use quotes to include whitespace or special chars in the string. For example:
+The flags are comma-separated; if they have parameters, they are separated
+with colon. You can use quotes to include whitespaces or special characters
+in the string. For example:
 
 .. code-block:: text
 
    placeholders:"special:value":"other value", regex:.*
+
+Both single and double quotes are accepted, special characters are being escaped using backslash:
+
+.. code-block:: text
+
+   placeholders:"quoted \"string\"":'single \'quoted\''
+
+.. code-block:: text
+
+   placeholders:r"^#*"
+
+To verify that translators do not change the heading of a Markdown document:
+A failing check will be triggered if the string '### Index' is translated as '# Indice'
+
+.. code-block:: text
+
+   placeholders:r"\]\([^h].*?\)"
+
+To make sure that internal links are not being translated (i.e. `[test](../checks)`
+does not become `[test](../chequeos)`.
+
+
 
 Here is a list of flags currently accepted:
 
@@ -46,6 +70,8 @@ Here is a list of flags currently accepted:
     Uses DOS end-of-line markers instead of Unix ones (``\r\n`` instead of ``\n``).
 ``read-only``
     The string is read-only and should not be edited in Weblate, see :ref:`read-only-strings`.
+``terminology``
+    Used in :ref:`glossary`. Copies the string into all glossary languages so it can be used consistently in all translations. Also useful in combination with ``read-only``, for example in product names.
 ``priority:N``
     Priority of the string. Higher priority strings are presented first for translation.
     The default priority is 100, the higher priority a string has, the earlier it is
@@ -95,10 +121,10 @@ Here is a list of flags currently accepted:
     Enable the :ref:`check-i18next-interpolation` quality check.
 ``icu-message-format``
     Enable the :ref:`check-icu-message-format` quality check.
+``java-printf-format``
+    Enable the :ref:`check-java-printf-format` quality check.
 ``java-format``
     Enable the :ref:`check-java-format` quality check.
-``java-messageformat``
-    Enable the :ref:`check-java-messageformat` quality check.
 ``javascript-format``
     Enable the :ref:`check-javascript-format` quality check.
 ``lua-format``
@@ -126,8 +152,10 @@ Here is a list of flags currently accepted:
 ``vue-format``
     Enable the :ref:`check-vue-format` quality check.
 ``md-text``
-    Treat text as a Markdown document.
-    Enable :ref:`check-md-link`, :ref:`check-md-reflink`, and :ref:`check-md-syntax` quality checks.
+    Treat text as a Markdown document, and provide Markdown syntax highlighting on the translation text area.
+    Enables :ref:`check-md-link`, :ref:`check-md-reflink`, and :ref:`check-md-syntax` quality checks.
+``case-insensitive``
+    Adjust checks behavior to be case-insensitive. Currently affects only :ref:`check-placeholders` quality check.
 ``safe-html``
     Enable the :ref:`check-safe-html` quality check.
 ``url``
@@ -155,10 +183,10 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-i18next-interpolation` quality check.
 ``ignore-icu-message-format``
     Skip the :ref:`check-icu-message-format` quality check.
+``ignore-java-printf-format``
+    Skip the :ref:`check-java-printf-format` quality check.
 ``ignore-java-format``
     Skip the :ref:`check-java-format` quality check.
-``ignore-java-messageformat``
-    Skip the :ref:`check-java-messageformat` quality check.
 ``ignore-javascript-format``
     Skip the :ref:`check-javascript-format` quality check.
 ``ignore-lua-format``
@@ -225,6 +253,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-punctuation-spacing` quality check.
 ``ignore-regex``
     Skip the :ref:`check-regex` quality check.
+``ignore-reused``
+    Skip the :ref:`check-reused` quality check.
 ``ignore-same-plurals``
     Skip the :ref:`check-same-plurals` quality check.
 ``ignore-begin-newline``
@@ -277,8 +307,18 @@ Enforcing checks
 
 You can configure a list of checks which can not be ignored by setting
 :ref:`component-enforced_checks` in :ref:`component`. Each listed check can not
-be ignored in the user interface and any string failing this check is marked as
+be dismissed in the user interface and any string failing this check is marked as
 :guilabel:`Needs editing` (see :ref:`states`).
+
+.. note::
+
+   Turning on check enforcing doesn't enable it automatically. The check can be
+   turned on by adding the corresponding flag to string or component flags.
+
+   .. seealso::
+
+      :ref:`additional`,
+      :ref:`component-check_flags`
 
 .. _fonts:
 
@@ -305,20 +345,20 @@ the check.
 The font-groups allow you to define different fonts for different languages,
 which is typically needed for non-latin languages:
 
-.. image:: /screenshots/font-group-edit.png
+.. image:: /screenshots/font-group-edit.webp
 
 The font-groups are identified by name, which can not contain whitespace or
 special characters, so that it can be easily used in the check definition:
 
-.. image:: /screenshots/font-group-list.png
+.. image:: /screenshots/font-group-list.webp
 
 Font-family and style is automatically recognized after uploading them:
 
-.. image:: /screenshots/font-edit.png
+.. image:: /screenshots/font-edit.webp
 
 You can have a number of fonts loaded into Weblate:
 
-.. image:: /screenshots/font-list.png
+.. image:: /screenshots/font-list.webp
 
 To use the fonts for checking the string length, pass it the appropriate
 flags (see :ref:`custom-checks`). You will probably need the following ones:

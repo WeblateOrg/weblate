@@ -1,35 +1,22 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import social_core.backends.utils
+from crispy_forms.helper import FormHelper
 from django import forms
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.http import HttpRequest
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy
 from social_core.backends.email import EmailAuth
 from social_django.views import complete
 
 from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog
 from weblate.accounts.strategy import create_session
-from weblate.auth.data import SELECTION_MANUAL
-from weblate.auth.models import Group, User, get_anonymous
+from weblate.auth.data import GLOBAL_PERM_NAMES, SELECTION_MANUAL
+from weblate.auth.models import Group, Role, User, get_anonymous
 from weblate.trans.models import Change
 from weblate.utils import messages
 from weblate.utils.errors import report_error
@@ -101,7 +88,7 @@ class InviteUserForm(forms.ModelForm, UniqueEmailMixin):
                 send_invitation(
                     request, project.name if project else settings.SITE_TITLE, user
                 )
-                messages.success(request, _("User invitation e-mail was sent."))
+                messages.success(request, gettext("User invitation e-mail was sent."))
             except Exception:
                 report_error(cause="Failed to send an invitation")
                 raise
@@ -110,7 +97,7 @@ class InviteUserForm(forms.ModelForm, UniqueEmailMixin):
 
 class AdminInviteUserForm(InviteUserForm):
     send_email = forms.BooleanField(
-        label=_("Send e-mail invitation to the user"),
+        label=gettext_lazy("Send e-mail invitation to the user"),
         initial=True,
         required=False,
     )
@@ -124,7 +111,7 @@ class UserEditForm(AdminInviteUserForm):
     create = False
 
     send_email = forms.BooleanField(
-        label=_("Resend e-mail invitation to the user"),
+        label=gettext_lazy("Resend e-mail invitation to the user"),
         initial=False,
         required=False,
     )
@@ -134,10 +121,32 @@ class UserEditForm(AdminInviteUserForm):
         fields = ["username", "full_name", "email", "is_superuser", "is_active"]
 
 
-class SimpleGroupForm(forms.ModelForm):
+class BaseTeamForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = ["name", "roles", "language_selection", "languages"]
+        fields = ["name", "roles", "language_selection", "languages", "components"]
+
+    internal_fields = [
+        "name",
+        "project_selection",
+        "language_selection",
+    ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+
+    def clean(self):
+        super().clean()
+        if self.instance.internal:
+            for field in self.internal_fields:
+                if field in self.cleaned_data and self.cleaned_data[field] != getattr(
+                    self.instance, field
+                ):
+                    raise ValidationError(
+                        {field: gettext("Cannot change this on a built-in team.")}
+                    )
 
     def save(self, commit=True, project=None):
         if not commit:
@@ -150,8 +159,35 @@ class SimpleGroupForm(forms.ModelForm):
 
         # Save languages only for manual selection, otherwise
         # it would override logic from Group.save()
-        if self.instance.language_selection == SELECTION_MANUAL:
-            self._save_m2m()
+        if self.instance.language_selection != SELECTION_MANUAL:
+            self.cleaned_data.pop("languages", None)
+        if self.instance.project_selection != SELECTION_MANUAL:
+            self.cleaned_data.pop("projects", None)
+        self._save_m2m()
         if project:
             self.instance.projects.add(project)
         return self.instance
+
+
+class ProjectTeamForm(BaseTeamForm):
+    def __init__(self, project, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["components"].queryset = project.component_set.order()
+        # Exclude site-wide permissions here
+        self.fields["roles"].queryset = Role.objects.exclude(
+            permissions__codename__in=GLOBAL_PERM_NAMES
+        )
+
+
+class SitewideTeamForm(BaseTeamForm):
+    class Meta:
+        model = Group
+        fields = [
+            "name",
+            "roles",
+            "project_selection",
+            "projects",
+            "componentlists",
+            "language_selection",
+            "languages",
+        ]

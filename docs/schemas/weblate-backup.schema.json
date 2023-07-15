@@ -1,0 +1,245 @@
+{
+  "$id": "https://weblate.org/schemas/weblate-backup.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "definitions": {},
+  "title": "Weblate backup",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "project",
+    "labels"
+  ],
+  "properties": {
+    "metadata": {
+      "$id": "#root/metadata",
+      "title": "Export metadata",
+      "type": "object",
+      "required": [
+        "version",
+        "server",
+        "domain",
+        "timestamp"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "$id": "#root/metadata/version",
+          "title": "Weblate version",
+          "type": "string",
+          "default": "",
+          "examples": [
+            "4.13"
+          ]
+        },
+        "server": {
+          "$id": "#root/metadata/server",
+          "title": "Server name",
+          "type": "string",
+          "default": "",
+          "examples": [
+            "Weblate"
+          ]
+        },
+        "domain": {
+          "$id": "#root/metadata/domain",
+          "title": "Server domain",
+          "type": "string",
+          "format": "hostname",
+          "default": "",
+          "examples": [
+            "weblate.example.com"
+          ]
+        },
+        "timestamp": {
+          "$id": "#root/metadata/timestamp",
+          "title": "Export timestamp",
+          "type": "string",
+          "format": "date-time",
+          "default": "",
+          "examples": [
+            "2019-11-18T18:53:54.862Z"
+          ]
+        }
+      }
+    },
+    "project": {
+      "$id": "#root/project",
+      "title": "Project",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "slug",
+        "web",
+        "instructions",
+        "access_control",
+        "language_aliases",
+        "set_language_team",
+        "use_shared_tm",
+        "contribute_shared_tm",
+        "translation_review",
+        "source_review",
+        "enable_hooks"
+      ],
+      "properties": {
+        "name": {
+          "$id": "#root/project/name",
+          "title": "Project name",
+          "type": "string",
+          "default": "",
+          "examples": [
+            "Hello"
+          ]
+        },
+        "slug": {
+          "$id": "#root/project/slug",
+          "title": "URL slug",
+          "type": "string",
+          "default": "",
+          "examples": [
+            "hello"
+          ]
+        },
+        "web": {
+          "$id": "#root/project/web",
+          "title": "",
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "iri"
+            },
+            {
+              "type": "string",
+              "maxLength": 0
+            }
+          ],
+          "default": "Project website",
+          "examples": [
+            "https://weblate.org/"
+          ]
+        },
+        "instructions": {
+          "$id": "#root/project/instructions",
+          "title": "Translation instructions",
+          "type": "string",
+          "default": ""
+        },
+        "access_control": {
+          "$id": "#root/project/access_control",
+          "title": "Access control",
+          "type": "integer",
+          "enum": [
+            0,
+            1,
+            100,
+            200
+          ],
+          "default": 0,
+          "examples": [
+            0
+          ]
+        },
+        "language_aliases": {
+          "$id": "#root/project/language_aliases",
+          "title": "Language aliases",
+          "type": "string",
+          "default": "",
+          "examples": [
+            ""
+          ]
+        },
+        "set_language_team": {
+          "$id": "#root/project/set_language_team",
+          "title": "Set \"Language-Team\" header",
+          "type": "boolean",
+          "default": false
+        },
+        "use_shared_tm": {
+          "$id": "#root/project/use_shared_tm",
+          "title": "Use shared translation memory",
+          "type": "boolean",
+          "default": false
+        },
+        "contribute_shared_tm": {
+          "$id": "#root/project/contribute_shared_tm",
+          "title": "Contribute to shared translation memory",
+          "type": "boolean",
+          "default": false
+        },
+        "translation_review": {
+          "$id": "#root/project/translation_review",
+          "title": "Enable reviews",
+          "type": "boolean",
+          "default": false
+        },
+        "source_review": {
+          "$id": "#root/project/source_review",
+          "title": "Enable source reviews",
+          "type": "boolean",
+          "default": false
+        },
+        "enable_hooks": {
+          "$id": "#root/project/enable_hooks",
+          "title": "Enable hooks",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "labels": {
+      "$id": "#root/labels",
+      "title": "Project labels",
+      "type": "array",
+      "default": [],
+      "items": {
+        "$id": "#root/labels/items",
+        "title": "Items",
+        "type": "object",
+        "required": [
+          "name",
+          "color"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "$id": "#root/auditlog/items/name",
+            "title": "Label name",
+            "type": "string",
+            "default": "",
+            "examples": [
+              "Label"
+            ]
+          },
+          "color": {
+            "$id": "#root/auditlog/items/color",
+            "title": "Color",
+            "type": "string",
+            "default": "",
+            "examples": [
+              "navy"
+            ],
+            "enum": [
+              "navy",
+              "blue",
+              "aqua",
+              "teal",
+              "olive",
+              "green",
+              "lime",
+              "yellow",
+              "orange",
+              "red",
+              "maroon",
+              "fuchsia",
+              "purple",
+              "black",
+              "gray",
+              "silver"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

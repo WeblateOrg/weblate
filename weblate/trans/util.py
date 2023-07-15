@@ -1,36 +1,22 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 import locale
 import os
 import sys
-from typing import Dict
+from types import GeneratorType
+from typing import Any
 from urllib.parse import urlparse
 
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import redirect, resolve_url
 from django.shortcuts import render as django_render
-from django.shortcuts import resolve_url
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 from lxml import etree
 from translate.misc.multistring import multistring
 from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
@@ -78,7 +64,7 @@ def get_string(text):
         return ""
     if isinstance(text, multistring):
         return join_plural(get_string(str(item)) for item in text.strings)
-    if isinstance(text, list):
+    if isinstance(text, (list, GeneratorType)):
         return join_plural(get_string(str(item)) for item in text)
     if isinstance(text, str):
         # Remove possible surrogates in the string. There doesn't seem to be
@@ -96,7 +82,8 @@ def is_repo_link(val):
 
 
 def get_distinct_translations(units):
-    """Return list of distinct translations.
+    """
+    Return list of distinct translations.
 
     It should be possible to use distinct('target') since Django 1.4, but it is not
     supported with MySQL, so let's emulate that based on presumption we won't get too
@@ -127,7 +114,7 @@ def translation_percent(translated, total, zero_complete=True):
     return perc
 
 
-def get_clean_env(extra: Dict = None, extra_path: str = None):
+def get_clean_env(extra: dict | None = None, extra_path: str | None = None):
     """Return cleaned up environment for subprocess execution."""
     environ = {
         "LANG": "C.UTF-8",
@@ -221,19 +208,33 @@ def get_project_description(project):
     if count is None:
         count = project.stats.languages
         cache.set(cache_key, count, 6 * 3600)
-    return _(
+    return gettext(
         "{0} is being translated into {1} languages using Weblate. "
         "Join the translation or start translating your own project."
     ).format(project, count)
 
 
-def render(request, template, context=None, status=None):
+def render(
+    request,
+    template_name: str,
+    context: dict[str, Any] | None = None,
+    content_type: str | None = None,
+    status: int | None = None,
+    using=None,
+):
     """Wrapper around Django render to extend context."""
     if context is None:
         context = {}
     if "project" in context and context["project"] is not None:
         context["description"] = get_project_description(context["project"])
-    return django_render(request, template, context, status=status)
+    return django_render(
+        request,
+        template_name=template_name,
+        context=context,
+        content_type=content_type,
+        status=status,
+        using=using,
+    )
 
 
 def path_separator(path):
@@ -270,7 +271,8 @@ def redirect_next(next_url, fallback):
 
 
 def xliff_string_to_rich(string):
-    """Convert XLIFF string to StringElement.
+    """
+    Convert XLIFF string to StringElement.
 
     Transform a string containing XLIFF placeholders as XML into a rich content
     (StringElement)
@@ -281,7 +283,8 @@ def xliff_string_to_rich(string):
 
 
 def rich_to_xliff_string(string_elements):
-    """Convert StringElement to XLIFF string.
+    """
+    Convert StringElement to XLIFF string.
 
     Transform rich content (StringElement) into a string with placeholder kept as XML
     """
@@ -323,3 +326,8 @@ def check_upload_method_permissions(user, translation, method: str):
     if method == "replace":
         return translation.filename and user.has_perm("component.edit", translation)
     raise ValueError(f"Invalid method: {method}")
+
+
+def is_unused_string(string: str):
+    """Check whether string should not be used."""
+    return string.startswith("<unused singular")

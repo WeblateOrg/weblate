@@ -1,21 +1,7 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Test for search views."""
 
 import re
@@ -34,7 +20,7 @@ from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 class SearchViewTest(ViewTestCase):
     @classmethod
     def _databases_support_transactions(cls):
-        # This is workaroud for MySQL as FULL TEXT index does not work
+        # This is workaround for MySQL as FULL TEXT index does not work
         # well inside a transaction, so we avoid using transactions for
         # tests. Otherwise we end up with no matches for the query.
         # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
@@ -367,6 +353,12 @@ class BulkEditTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_project),
+            {"q": "state:needs-editing", "state": -1, "add_labels": label.pk},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, no strings were updated.")
         unit = self.get_unit()
         self.assertIn(label, unit.all_labels)
         self.assertEqual(getattr(unit.translation.stats, f"label:{label.name}"), 1)
@@ -382,6 +374,12 @@ class BulkEditTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_project),
+            {"q": "state:needs-editing", "state": -1, "remove_labels": label.pk},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, no strings were updated.")
         unit = self.get_unit()
         self.assertNotIn(label, unit.labels.all())
         self.assertEqual(getattr(unit.translation.stats, f"label:{label.name}"), 0)
@@ -392,16 +390,44 @@ class BulkEditTest(ViewTestCase):
             0,
         )
 
-    def test_source_state(self):
-        mono = Component.objects.create(
-            name="Test2",
-            slug="test2",
-            project=self.project,
-            repo="weblate://test/test",
-            file_format="json",
-            filemask="json-mono/*.json",
-            template="json-mono/en.json",
+    def test_bulk_translation_label(self):
+        label = self.project.label_set.create(
+            name="Automatically translated", color="black"
         )
+        unit = self.get_unit()
+        unit.labels.add(label)
+        # Clear local outdated cache
+        unit.translation.stats.clear()
+        self.assertEqual(
+            getattr(unit.translation.stats, f"label:{label.name}"),
+            1,
+        )
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_project),
+            {"q": "state:>=empty", "state": -1, "remove_labels": label.pk},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        unit = self.get_unit()
+        self.assertNotIn(label, unit.labels.all())
+        # Clear local outdated cache
+        unit.translation.stats.clear()
+        self.assertEqual(
+            getattr(unit.translation.stats, f"label:{label.name}"),
+            0,
+        )
+
+    def test_source_state(self):
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            mono = Component.objects.create(
+                name="Test2",
+                slug="test2",
+                project=self.project,
+                repo="weblate://test/test",
+                file_format="json",
+                filemask="json-mono/*.json",
+                template="json-mono/en.json",
+            )
         # Translate single unit
         translation = mono.translation_set.get(language_code="cs")
         translation.unit_set.get(context="hello").translate(

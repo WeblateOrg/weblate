@@ -1,26 +1,13 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Helper methods for views."""
+
+from __future__ import annotations
 
 import os
 from time import mktime
-from typing import Optional
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -28,9 +15,7 @@ from django.core.paginator import EmptyPage, Paginator
 from django.http import FileResponse, Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.http import http_date
-from django.utils.translation import activate
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy, pgettext_lazy
+from django.utils.translation import activate, gettext, gettext_lazy, pgettext_lazy
 from django.views.decorators.gzip import gzip_page
 from django.views.generic.edit import FormView
 
@@ -38,7 +23,6 @@ from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.trans.models import Component, Project, Translation
 from weblate.utils import messages
 from weblate.utils.errors import report_error
-from weblate.utils.lock import WeblateLockTimeout
 from weblate.vcs.git import LocalRepository
 
 SORT_KEYS = {
@@ -47,6 +31,7 @@ SORT_KEYS = {
     "untranslated": lambda x: x.stats.todo,
     "untranslated_words": lambda x: x.stats.todo_words,
     "untranslated_chars": lambda x: x.stats.todo_chars,
+    "nottranslated": lambda x: x.stats.nottranslated,
     "checks": lambda x: x.stats.allchecks,
     "suggestions": lambda x: x.stats.suggestions,
     "comments": lambda x: x.stats.comments,
@@ -112,7 +97,6 @@ def get_paginator(request, object_list, page_limit=None):
 
 
 class ComponentViewMixin:
-
     # This should be done in setup once we drop support for older Django
     def get_component(self):
         return get_component(
@@ -137,10 +121,12 @@ SORT_CHOICES = {
     "source": gettext_lazy("Source string"),
     "target": gettext_lazy("Target string"),
     "timestamp": gettext_lazy("String age"),
+    "last_updated": gettext_lazy("Last updated"),
     "num_words": gettext_lazy("Number of words"),
     "num_comments": gettext_lazy("Number of comments"),
     "num_failing_checks": gettext_lazy("Number of failing checks"),
     "context": pgettext_lazy("Translation key", "Key"),
+    "location": gettext_lazy("String location"),
 }
 
 SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items()}
@@ -154,7 +140,7 @@ def get_sort_name(request, obj=None):
         default = "-priority,position"
     sort_query = request.GET.get("sort_by", default)
     sort_params = sort_query.replace("-", "")
-    sort_name = SORT_LOOKUP.get(sort_params, _("Position and priority"))
+    sort_name = SORT_LOOKUP.get(sort_params, gettext("Position and priority"))
     return {
         "query": sort_query,
         "name": sort_name,
@@ -296,7 +282,7 @@ def iter_files(filenames):
             yield filename
 
 
-def zip_download(root, filenames, name="translations"):
+def zip_download(root: str, filenames: list[str], name: str = "translations"):
     response = HttpResponse(content_type="application/zip")
     with ZipFile(response, "w") as zipfile:
         for filename in iter_files(filenames):
@@ -313,32 +299,30 @@ def zip_download(root, filenames, name="translations"):
 def download_translation_file(
     request,
     translation: Translation,
-    fmt: Optional[str] = None,
-    query_string: Optional[str] = None,
+    fmt: str | None = None,
+    query_string: str | None = None,
 ):
     if fmt is not None:
         try:
             exporter_cls = EXPORTERS[fmt]
         except KeyError:
-            raise Http404("File format not supported")
+            raise Http404(f"Conversion to {fmt} is not supported")
         if not exporter_cls.supports(translation):
-            raise Http404("File format not supported")
+            raise Http404("File format is not compatible with this translation")
         exporter = exporter_cls(translation=translation)
         units = translation.unit_set.prefetch_full().order_by("position")
         if query_string:
-            units = units.search(query_string).distinct()
+            units = units.search(query_string)
         exporter.add_units(units)
         response = exporter.get_response(
-            "{{project}}-{0}-{{language}}.{{extension}}".format(
-                translation.component.slug
-            )
+            f"{{project}}-{translation.component.slug}-{{language}}.{{extension}}"
         )
     else:
         # Force flushing pending units
         try:
             translation.commit_pending("download", None)
-        except WeblateLockTimeout:
-            report_error(cause="Download commit")
+        except Exception:
+            report_error(cause="Download commit", project=translation.component.project)
 
         filenames = translation.filenames
 
@@ -351,7 +335,7 @@ def download_translation_file(
                 raise Http404("File not found")
             # Create response
             response = FileResponse(
-                open(filenames[0], "rb"),
+                open(filenames[0], "rb"),  # noqa: SIM115
                 content_type=translation.component.file_format_cls.mimetype(),
             )
         else:
@@ -385,7 +369,7 @@ def get_form_errors(form):
         yield error
     for field in form:
         for error in field.errors:
-            yield _("Error in parameter %(field)s: %(error)s") % {
+            yield gettext("Error in parameter %(field)s: %(error)s") % {
                 "field": field.name,
                 "error": error,
             }

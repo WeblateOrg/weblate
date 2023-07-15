@@ -1,28 +1,16 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+import json
 
 from django.conf import settings
+from django.utils.functional import cached_property
 from google.cloud.translate_v3 import TranslationServiceClient
 from google.oauth2 import service_account
 
-from weblate.machinery.base import MissingConfiguration
-from weblate.machinery.google import GoogleBaseTranslation
+from .forms import GoogleV3MachineryForm
+from .google import GoogleBaseTranslation
 
 
 class GoogleV3Translation(GoogleBaseTranslation):
@@ -31,21 +19,29 @@ class GoogleV3Translation(GoogleBaseTranslation):
     setup = None
     name = "Google Translate API v3"
     max_score = 90
+    settings_form = GoogleV3MachineryForm
 
-    def __init__(self):
-        """Check configuration."""
-        super().__init__()
-        credentials = settings.MT_GOOGLE_CREDENTIALS
-        project = settings.MT_GOOGLE_PROJECT
-        location = settings.MT_GOOGLE_LOCATION
+    @cached_property
+    def client(self):
+        credentials = service_account.Credentials.from_service_account_info(
+            json.loads(self.settings["credentials"])
+        )
+        return TranslationServiceClient(credentials=credentials)
 
-        if credentials is None or project is None:
-            raise MissingConfiguration("Google Translate requires API key and project")
+    @cached_property
+    def parent(self):
+        project = self.settings["project"]
+        location = self.settings["location"]
+        return f"projects/{project}/locations/{location}"
 
-        credentials = service_account.Credentials.from_service_account_file(credentials)
-
-        self.client = TranslationServiceClient(credentials=credentials)
-        self.parent = f"projects/{project}/locations/{location}"
+    @staticmethod
+    def migrate_settings():
+        with open(settings.MT_GOOGLE_CREDENTIALS) as handle:
+            return {
+                "credentials": handle.read(),
+                "project": settings.MT_GOOGLE_PROJECT,
+                "location": settings.MT_GOOGLE_LOCATION,
+            }
 
     def download_languages(self):
         """List of supported languages."""
@@ -59,7 +55,6 @@ class GoogleV3Translation(GoogleBaseTranslation):
         text: str,
         unit,
         user,
-        search: bool,
         threshold: int = 75,
     ):
         """Download list of possible translations from a service."""
@@ -68,6 +63,7 @@ class GoogleV3Translation(GoogleBaseTranslation):
             "contents": [text],
             "target_language_code": language,
             "source_language_code": source,
+            "mime_type": "text/plain",
         }
         response = self.client.translate_text(request)
 

@@ -127,9 +127,8 @@ from additional member(s) before it is accepted as a translation.
 Dedicated reviewers
 -------------------
 
-.. versionadded:: 2.18
 
-    Proper review workflow is supported since Weblate 2.18.
+.. versionadded:: 2.18
 
 With dedicated reviewers you have two groups of users, one able to submit
 translations, and one able to review them to ensure translations are
@@ -168,13 +167,13 @@ Reviews can be turned on in the project configuration, from the
 :guilabel:`Workflow` subpage of project settings (to be found in the
 :guilabel:`Manage` → :guilabel:`Settings` menu):
 
-.. image:: /screenshots/project-workflow.png
-
 .. note::
 
     Depending on your Weblate configuration, the setting might not be available.
     For example on Hosted Weblate this is not available for projects hosted
     for free.
+
+.. image:: /screenshots/project-workflow.webp
 
 .. _source-quality-gateway:
 

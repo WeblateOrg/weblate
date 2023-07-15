@@ -27,7 +27,7 @@ Alternatively, report to security@weblate.org, which ends up on
 HackerOne as well.
 
 If you don't want to use HackerOne, for whatever reason, you can send the report
-by e-mail to michal@cihar.com. You can choose to encrypt it using this PGP key
+by e-mail to michal@weblate.org. You can choose to encrypt it using this PGP key
 `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`. You can also get the PGP
 key from `Keybase <https://keybase.io/nijel>`_.
 

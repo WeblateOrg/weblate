@@ -1,5 +1,11 @@
 {% load i18n %}
 {% load icons %}
+{% load translations %}
+
+{% if languages_addon %}
+  {% trans 'The “Add missing languages” add-on is installed on this component, removed language might be re-added by it again.' as msg %}
+  {% show_message 'warning' msg %}
+{% endif %}
 
 <p>
 {% blocktrans %}This action cannot be undone. This will permanently delete the {{ object }} translation and all related content.{% endblocktrans %}

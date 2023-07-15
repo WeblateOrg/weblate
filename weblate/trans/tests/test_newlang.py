@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for adding new language."""
 
@@ -49,8 +34,9 @@ class NewLangTest(ViewTestCase):
 
         # Test there is no add form
         response = self.client.get(reverse("component", kwargs=self.kw_component))
-        self.assertContains(response, "Start new translation")
+        self.assertNotContains(response, "Start new translation")
         self.assertContains(response, "permission to start a new translation")
+        self.assertNotContains(response, "/new-lang/")
 
         # Test adding fails
         response = self.client.post(
@@ -66,7 +52,8 @@ class NewLangTest(ViewTestCase):
         self.component.save()
 
         response = self.client.get(reverse("component", kwargs=self.kw_component))
-        self.assertContains(response, "Start new translation")
+        self.assertNotContains(response, "Start new translation")
+        self.assertContains(response, "permission to start a new translation")
         self.assertNotContains(response, "/new-lang/")
 
     def test_url(self):
@@ -209,6 +196,7 @@ class NewLangTest(ViewTestCase):
         perform("", "pt_BR", self.expected_lang_code)
         perform("posix", "pt_BR", "pt_BR")
         perform("posix_long", "ms", "ms_MY")
+        perform("posix_long_lowercase", "ms", "ms_my")
         perform("bcp", "pt_BR", "pt-BR")
         perform("bcp_long", "ms", "ms-MY")
         perform("android", "pt_BR", "pt-rBR")

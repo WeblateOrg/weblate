@@ -1,26 +1,12 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Test for automatic translation."""
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.trans.models import Component
@@ -34,19 +20,22 @@ class AutoTranslationTest(ViewTestCase):
         # Need extra power
         self.user.is_superuser = True
         self.user.save()
-        self.component2 = Component.objects.create(
-            name="Test 2",
-            slug="test-2",
-            project=self.project,
-            repo=self.git_repo_path,
-            push=self.git_repo_path,
-            vcs="git",
-            filemask="po/*.po",
-            template="",
-            file_format="po",
-            new_base="",
-            allow_translation_propagation=False,
-        )
+        self.project.translation_review = True
+        self.project.save()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            self.component2 = Component.objects.create(
+                name="Test 2",
+                slug="test-2",
+                project=self.project,
+                repo=self.git_repo_path,
+                push=self.git_repo_path,
+                vcs="git",
+                filemask="po/*.po",
+                template="",
+                file_format="po",
+                new_base="",
+                allow_translation_propagation=False,
+            )
 
     def test_none(self):
         """Test for automatic translation with no content."""
@@ -97,6 +86,11 @@ class AutoTranslationTest(ViewTestCase):
         """Test for automatic suggestion."""
         self.perform_auto(mode="suggest")
         self.perform_auto(0, 1, mode="suggest")
+
+    def test_approved(self):
+        """Test for automatic suggestion."""
+        self.perform_auto(mode="approved")
+        self.perform_auto(0, 1, mode="approved")
 
     def test_inconsistent(self):
         self.perform_auto(0, filter_type="check:inconsistent")
@@ -175,7 +169,7 @@ class AutoTranslationTest(ViewTestCase):
 class AutoTranslationMtTest(ViewTestCase):
     @classmethod
     def _databases_support_transactions(cls):
-        # This is workaroud for MySQL as FULL TEXT index does not work
+        # This is workaround for MySQL as FULL TEXT index does not work
         # well inside a transaction, so we avoid using transactions for
         # tests. Otherwise we end up with no matches for the query.
         # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
@@ -188,20 +182,22 @@ class AutoTranslationMtTest(ViewTestCase):
         # Need extra power
         self.user.is_superuser = True
         self.user.save()
-        self.component3 = Component.objects.create(
-            name="Test 3",
-            slug="test-3",
-            project=self.project,
-            repo=self.git_repo_path,
-            push=self.git_repo_path,
-            vcs="git",
-            filemask="po/*.po",
-            template="",
-            file_format="po",
-            new_base="",
-            allow_translation_propagation=False,
-        )
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            self.component3 = Component.objects.create(
+                name="Test 3",
+                slug="test-3",
+                project=self.project,
+                repo=self.git_repo_path,
+                push=self.git_repo_path,
+                vcs="git",
+                filemask="po/*.po",
+                template="",
+                file_format="po",
+                new_base="",
+                allow_translation_propagation=False,
+            )
         self.update_fulltext_index()
+        self.configure_mt()
 
     def test_none(self):
         """Test for automatic translation with no content."""
@@ -240,6 +236,12 @@ class AutoTranslationMtTest(ViewTestCase):
     def test_different(self):
         """Test for automatic translation with different content."""
         self.perform_auto(engines=["weblate"], threshold=80)
+
+    def test_multi(self):
+        """Test for automatic translation with more providers."""
+        self.perform_auto(
+            engines=["weblate", "weblate-translation-memory"], threshold=80
+        )
 
     def test_inconsistent(self):
         self.perform_auto(

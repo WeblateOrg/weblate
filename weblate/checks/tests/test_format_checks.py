@@ -1,21 +1,6 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for quality checks."""
 
@@ -171,10 +156,15 @@ class PythonFormatCheckTest(CheckTestCase):
             extra_flags="python-format",
         )
         check = Check(unit=unit)
-        self.assertEqual(
+        self.assertHTMLEqual(
             self.check.get_description(check),
-            "Following format strings are missing: %(count)d<br />"
-            "Following format strings are extra: %(languages)d",
+            """
+            The following format strings are missing:
+            <span class="hlcheck" data-value="%(count)d">%(count)d</span>
+            <br />
+            The following format strings are extra:
+            <span class="hlcheck" data-value="%(languages)d">%(languages)d</span>
+            """,
         )
 
     def test_description_nolocation(self):
@@ -186,7 +176,27 @@ class PythonFormatCheckTest(CheckTestCase):
         check = Check(unit=unit)
         self.assertEqual(
             self.check.get_description(check),
-            "Following format strings are wrongly ordered: %d, %s",
+            "The following format strings are in the wrong order: %d, %s",
+        )
+
+    def test_duplicated_format(self):
+        self.assertEqual(
+            self.check.check_format(
+                "%(LANGUAGE)s %(classF)s %(mailto)s %(classS)s %(mail)s",
+                "%(classF)s %(LANGUAGE)s %(classF)s %(mailto)s %(classS)s %(mail)s",
+                False,
+                None,
+            ),
+            {"missing": [], "extra": ["(classF)s"]},
+        )
+        self.assertEqual(
+            self.check.check_format(
+                "%(test)s%(test)s%(test)s%(test)s",
+                "%(test)s%(test)s%(test)s",
+                False,
+                None,
+            ),
+            {"missing": ["(test)s"], "extra": []},
         )
 
 
@@ -347,8 +357,9 @@ class CFormatCheckTest(CheckTestCase):
         self.assertTrue(self.check.check_format("%s string", "%c string", False, None))
 
     def test_wrong_named_format(self):
-        self.assertTrue(
-            self.check.check_format("%10s string", "%20s string", False, None)
+        self.assertEqual(
+            self.check.check_format("%10s string", "%20s string", False, None),
+            {"missing": ["10s"], "extra": ["20s"]},
         )
 
     def test_reorder_format(self):
@@ -362,13 +373,14 @@ class CFormatCheckTest(CheckTestCase):
         )
 
     def test_ld_format(self):
-        self.assertFalse(
+        self.assertEqual(
             self.check.check_format(
                 "%ld bytes (free %ld bytes, used %ld bytes)",
                 "%l octets (%l octets libres, %l octets utilisés)",
                 True,
                 None,
-            )
+            ),
+            {"missing": ["ld", "ld", "ld"], "extra": ["l", "l", "l"]},
         )
 
     def test_parenthesis(self):
@@ -559,8 +571,9 @@ class CSharpFormatCheckTest(CheckTestCase):
         )
 
     def test_wrong_format(self):
-        self.assertTrue(
-            self.check.check_format("{0} string", "{1} string", False, None)
+        self.assertEqual(
+            self.check.check_format("{0} string", "{1} string", False, None),
+            {"missing": ["0"], "extra": ["1"]},
         )
 
     def test_missing_named_format_ignore(self):
@@ -570,8 +583,9 @@ class CSharpFormatCheckTest(CheckTestCase):
         self.assertFalse(self.check.check_format("{{ 0 }}", "string", False, None))
 
     def test_wrong_attribute_format(self):
-        self.assertTrue(
-            self.check.check_format("{0} string", "{1} string", False, None)
+        self.assertEqual(
+            self.check.check_format("{0} string", "{1} string", False, None),
+            {"missing": ["0"], "extra": ["1"]},
         )
 
     def test_reordered_format(self):
@@ -586,7 +600,7 @@ class JavaFormatCheckTest(CheckTestCase):
     def setUp(self):
         super().setUp()
         self.test_highlight = (
-            "java-format",
+            "java-printf-format",
             "%1s string %2s",
             [(0, 3, "%1s"), (11, 14, "%2s")],
         )
@@ -644,7 +658,7 @@ class JavaMessageFormatCheckTest(CheckTestCase):
     def setUp(self):
         super().setUp()
         self.test_highlight = (
-            "java-messageformat",
+            "java-format",
             "{0}string{1}",
             [(0, 3, "{0}"), (9, 12, "{1}")],
         )
@@ -730,12 +744,16 @@ class JavaMessageFormatCheckTest(CheckTestCase):
     def test_skip(self):
         unit = MockUnit(source="source")
         self.assertTrue(self.check.should_skip(unit))
-        unit = MockUnit(source="source", flags="java-messageformat")
+        unit = MockUnit(source="source", flags="java-format")
         self.assertFalse(self.check.should_skip(unit))
         unit = MockUnit(source="source", flags="auto-java-messageformat")
         self.assertTrue(self.check.should_skip(unit))
         unit = MockUnit(source="{0}", flags="auto-java-messageformat")
         self.assertFalse(self.check.should_skip(unit))
+        unit = MockUnit(
+            source="{0}", flags="auto-java-messageformat,ignore-java-format"
+        )
+        self.assertTrue(self.check.should_skip(unit))
 
     def test_quotes(self):
         self.assertFalse(
@@ -758,7 +776,7 @@ class JavaMessageFormatCheckTest(CheckTestCase):
         unit = Unit(
             source="{0}''s brush is {1} centimeters tall",
             target="{0}'s brush is {1} centimeters tall",
-            extra_flags="java-messageformat",
+            extra_flags="java-format",
             translation=Translation(
                 component=Component(
                     file_format="auto",
@@ -993,7 +1011,9 @@ class PluralTest(FixtureTestCase):
 
     def test_arabic(self):
         arabic = Language.objects.get(code="ar")
-        translation = Translation(language=arabic, plural=arabic.plural)
+        translation = Translation(
+            language=arabic, plural=arabic.plural, component=Component(file_format="po")
+        )
         # Singular, correct format string
         self.assertFalse(self.do_check(["hello %s"], ["hell %s"], translation))
         # Singular, missing format string
@@ -1015,9 +1035,36 @@ class PluralTest(FixtureTestCase):
             )
         )
 
+    def test_non_format_singular_fa(self):
+        czech = Language.objects.get(code="fa")
+        translation = Translation(
+            language=czech, plural=czech.plural, component=Component(file_format="po")
+        )
+        self.assertFalse(
+            self.do_check(
+                ["One apple", "%d apples"],
+                ["Jedno jablko", "%d jablka"],
+                translation,
+            )
+        )
+        translation = Translation(
+            language=czech,
+            plural=czech.plural,
+            component=Component(file_format="aresource"),
+        )
+        self.assertTrue(
+            self.do_check(
+                ["One apple", "%d apples"],
+                ["Jedno jablko", "%d jablka"],
+                translation,
+            )
+        )
+
     def test_non_format_singular(self):
         czech = Language.objects.get(code="cs")
-        translation = Translation(language=czech, plural=czech.plural)
+        translation = Translation(
+            language=czech, plural=czech.plural, component=Component(file_format="po")
+        )
         self.assertFalse(
             self.do_check(
                 ["One apple", "%d apples"],
@@ -1078,7 +1125,11 @@ class PluralTest(FixtureTestCase):
 
     def test_non_format_singular_named_kab(self):
         language = Language.objects.get(code="kab")
-        translation = Translation(language=language, plural=language.plural)
+        translation = Translation(
+            language=language,
+            plural=language.plural,
+            component=Component(file_format="po"),
+        )
         self.assertFalse(
             self.do_check(
                 ["One apple", "%(count)s apples"],
@@ -1089,7 +1140,11 @@ class PluralTest(FixtureTestCase):
 
     def test_french_singular(self):
         language = Language.objects.get(code="fr")
-        translation = Translation(language=language, plural=language.plural)
+        translation = Translation(
+            language=language,
+            plural=language.plural,
+            component=Component(file_format="po"),
+        )
         self.assertFalse(
             self.do_check(
                 ["One apple", "%(count)s apples"],
@@ -1210,10 +1265,15 @@ class ESTemplateLiteralsCheckTest(CheckTestCase):
             extra_flags="es-format",
         )
         check = Check(unit=unit)
-        self.assertEqual(
+        self.assertHTMLEqual(
             self.check.get_description(check),
-            "Following format strings are missing: ${foo}<br />"
-            "Following format strings are extra: ${bar}",
+            """
+            The following format strings are missing:
+            <span class="hlcheck" data-value="${foo}">${foo}</span>
+            <br />
+            The following format strings are extra:
+            <span class="hlcheck" data-value="${bar}">${bar}</span>
+            """,
         )
 
 

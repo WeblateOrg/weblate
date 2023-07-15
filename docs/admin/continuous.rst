@@ -15,7 +15,7 @@ instead of working through huge amount of new text just prior to release.
 This is the process:
 
 1. Developers make changes and push them to the VCS repository.
-2. Optionally the translation files are updated (this depends on the file format, see :ref:`translations-update`).
+2. Optionally the translation files are updated, see :ref:`translations-update`.
 3. Weblate pulls changes from the VCS repository, see :ref:`update-vcs`.
 4. Once Weblate detects changes in translations, translators are notified based on their subscription settings.
 5. Translators submit translations using the Weblate web interface, or upload offline changes.
@@ -59,12 +59,13 @@ source.
   * :ref:`bitbucket-setup`
   * :ref:`pagure-setup`
   * :ref:`azure-setup`
+  * :ref:`gitea-setup`
 
 * Manually trigger update either in the repository management or using :ref:`api` or :ref:`wlc`
 
 * Enable :setting:`AUTO_UPDATE` to automatically update all components on your Weblate instance
 
-* Execute :djadmin:`updategit` (with selection of project or ``--all`` to update all)
+* Execute :wladmin:`updategit` (with selection of project or ``--all`` to update all)
 
 Whenever Weblate updates the repository, the post-update addons will be
 triggered, see :ref:`addons`.
@@ -224,7 +225,7 @@ settings`.
 
 .. seealso::
 
-   `Web hooks in Azure DevOps manual <https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=azure-devops>`_,
+   `Web hooks in Azure DevOps manual <https://learn.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=azure-devops>`_,
    :http:post:`/hooks/azure/`, :ref:`hosted-push`
 
 .. _gitea-setup:
@@ -283,9 +284,9 @@ under :guilabel:`Repository maintenance` or using API via :option:`wlc push`.
 The push options differ based on the :ref:`vcs` used, more details are found in that chapter.
 
 In case you do not want direct pushes by Weblate, there is support for
-:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-pagure` pull requests or
+:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure` pull requests or
 :ref:`vcs-gerrit` reviews, you can activate these by choosing
-:guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gerrit` or
+:guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit` or
 :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`.
 
 Overall, following options are available with Git, GitHub and GitLab:
@@ -299,6 +300,12 @@ Overall, following options are available with Git, GitHub and GitLab:
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | Push to separate branch           | :ref:`vcs-git`                | SSH URL                       | Branch name                   |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| No push                           | :ref:`vcs-mercurial`          | `empty`                       | `empty`                       |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Push directly                     | :ref:`vcs-mercurial`          | SSH URL                       | `empty`                       |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Push to separate branch           | :ref:`vcs-mercurial`          | SSH URL                       | Branch name                   |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | GitHub pull request from fork     | :ref:`vcs-github`             | `empty`                       | `empty`                       |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | GitHub pull request from branch   | :ref:`vcs-github`             | SSH URL [#empty]_             | Branch name                   |
@@ -306,6 +313,10 @@ Overall, following options are available with Git, GitHub and GitLab:
 | GitLab merge request from fork    | :ref:`vcs-gitlab`             | `empty`                       | `empty`                       |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | GitLab merge request from branch  | :ref:`vcs-gitlab`             | SSH URL [#empty]_             | Branch name                   |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Gitea merge request from fork     | :ref:`vcs-gitea`              | `empty`                       | `empty`                       |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Gitea merge request from branch   | :ref:`vcs-gitea`              | SSH URL [#empty]_             | Branch name                   |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | Pagure merge request from fork    | :ref:`vcs-pagure`             | `empty`                       | `empty`                       |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
@@ -363,6 +374,7 @@ fulfilled:
 * Somebody else changes an already changed string.
 * A merge from upstream occurs.
 * An explicit commit is requested.
+* A file download is requested.
 * Change is older than period defined as :ref:`component-commit_pending_age` on :ref:`component`.
 
 .. hint::
@@ -372,10 +384,11 @@ fulfilled:
    :ref:`addon-weblate.git.squash` add-on in that case.
 
 If you want to commit changes more frequently and without checking of age, you
-can schedule a regular task to perform a commit:
-
-.. literalinclude:: ../../weblate/examples/beat-settings.py
-    :language: python
+can schedule a regular task to perform a commit. This can be done using
+:guilabel:`Periodic Tasks` in :ref:`admin-interface`. First create desired
+:guilabel:`Interval` (for example 120 seconds). Then add new periodic task and
+choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with
+``{"hours": 0}`` as :guilabel:`Keyword Arguments` and desired interval.
 
 .. _processing:
 
@@ -413,6 +426,8 @@ Consistency check
 The :ref:`check-inconsistent` check fires whenever the strings are different.
 You can utilize this to review such differences manually and choose the right
 translation.
+
+.. _automatic-translation:
 
 Automatic translation
 +++++++++++++++++++++

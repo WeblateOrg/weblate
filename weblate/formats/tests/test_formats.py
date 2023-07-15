@@ -1,21 +1,8 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+# Copyright © WofWca <wofwca@protonmail.com>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """File format specific behavior."""
 
 import os.path
@@ -36,6 +23,8 @@ from weblate.formats.ttkit import (
     DTDFormat,
     FlatXMLFormat,
     FluentFormat,
+    GoI18JSONFormat,
+    GoI18V2JSONFormat,
     GWTFormat,
     INIFormat,
     InnoSetupINIFormat,
@@ -47,7 +36,9 @@ from weblate.formats.ttkit import (
     PoFormat,
     PoXliffFormat,
     PropertiesFormat,
+    ResourceDictionaryFormat,
     RESXFormat,
+    RichXliffFormat,
     RubyYAMLFormat,
     StringsdictFormat,
     TBXFormat,
@@ -69,7 +60,10 @@ TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
 TEST_CSV_NOHEAD = get_test_file("cs.csv")
 TEST_FLATXML = get_test_file("cs-flat.xml")
+TEST_RESOURCEDICTIONARY = get_test_file("cs.xaml")
 TEST_JSON = get_test_file("cs.json")
+TEST_GO18N_V1_JSON = get_test_file("cs-go18n-v1.json")
+TEST_GO18N_V2_JSON = get_test_file("cs-go18n-v2.json")
 TEST_NESTED_JSON = get_test_file("cs-nested.json")
 TEST_WEBEXT_JSON = get_test_file("cs-webext.json")
 TEST_PHP = get_test_file("cs.php")
@@ -138,7 +132,7 @@ class AutoLoadTest(TestCase):
         self.single_test(TEST_ANDROID, AndroidFormat)
 
     def test_xliff(self):
-        self.single_test(TEST_XLIFF, XliffFormat)
+        self.single_test(TEST_XLIFF, RichXliffFormat)
 
     def test_resx(self):
         if "resx" not in FILE_FORMATS:
@@ -170,9 +164,10 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     FORMAT = AutodetectFormat
     FILE = TEST_PO
     BASE = TEST_POT
+    TEMPLATE = None
     MIME = "text/x-gettext-catalog"
     EXT = "po"
-    COUNT = 5
+    COUNT = 4
     MATCH = "msgid_plural"
     MASK = "po/*.po"
     EXPECTED_PATH = "po/cs_CZ.po"
@@ -187,11 +182,15 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     EDIT_TARGET = "Nazdar, svete!\n"
     MONOLINGUAL = False
 
+    @classmethod
+    def setUpClass(cls):
+        if cls.FORMAT.format_id not in FILE_FORMATS:
+            raise SkipTest(f"File format {cls.FORMAT!r} is not supported!")
+        super().setUpClass()
+
     def setUp(self):
         super().setUp()
         self.create_temp()
-        if self.FORMAT.format_id not in FILE_FORMATS:
-            raise SkipTest(f"File format {self.FORMAT!r} is not supported!")
 
     def tearDown(self):
         super().tearDown()
@@ -199,7 +198,10 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
 
     def parse_file(self, filename):
         if self.MONOLINGUAL:
-            return self.FORMAT(filename, template_store=self.FORMAT(filename))
+            return self.FORMAT(
+                filename,
+                template_store=self.FORMAT(self.TEMPLATE or filename, is_template=True),
+            )
         return self.FORMAT(filename)
 
     def test_parse(self):
@@ -208,7 +210,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         self.assertEqual(storage.mimetype(), self.MIME)
         self.assertEqual(storage.extension(), self.EXT)
 
-    def test_save(self, edit=False):
+    def _test_save(self, edit=None):
         # Read test content
         with open(self.FILE, "rb") as handle:
             testdata = handle.read()
@@ -225,7 +227,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
 
         if edit:
             units = storage.all_units
-            units[self.EDIT_OFFSET].set_target(self.EDIT_TARGET)
+            units[self.EDIT_OFFSET].set_target(edit)
 
         # Save test file
         storage.save()
@@ -240,12 +242,17 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
                 self.assert_same(newdata, testdata)
         else:
             self.assert_same(newdata, testdata)
+        return newdata
+
+    def test_save(self):
+        self._test_save()
 
     def test_edit(self):
-        self.test_save(True)
+        self._test_save(self.EDIT_TARGET)
 
     def assert_same(self, newdata, testdata):
-        """Content aware comparison.
+        """
+        Content aware comparison.
 
         This can be implemented in subclasses to implement content aware comparing of
         translation files.
@@ -257,7 +264,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         unit, add = storage.find_unit(self.FIND_CONTEXT, self.FIND)
         self.assertFalse(add)
         if self.COUNT == 0:
-            self.assertIn(unit, None)
+            self.assertIsNone(unit)
         else:
             self.assertIsNotNone(unit)
             self.assertEqual(unit.target, self.FIND_MATCH)
@@ -269,10 +276,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         if self.MATCH is None:
             self.assertTrue(os.path.isdir(out))
         else:
-            if isinstance(self.MATCH, bytes):
-                mode = "rb"
-            else:
-                mode = "r"
+            mode = "rb" if isinstance(self.MATCH, bytes) else "r"
             with open(out, mode) as handle:
                 data = handle.read()
             self.assertIn(self.MATCH, data)
@@ -318,11 +322,19 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
             self.assertIn(self.NEW_UNIT_MATCH, newdata)
 
     def test_flags(self):
-        """Check flags on first translatable unit."""
-        storage = self.parse_file(self.FILE)
-        for unit in storage.content_units:
-            self.assertEqual(unit.flags, self.EXPECTED_FLAGS)
-            break
+        """
+        Check flags on corresponding translatable units.
+
+        If `EXPECTED_FLAGS` is a string instead of a list, check the first units.
+        """
+        units = self.parse_file(self.FILE).content_units
+        if type(self.EXPECTED_FLAGS) is list:
+            expected_list = self.EXPECTED_FLAGS
+        else:
+            expected_list = [self.EXPECTED_FLAGS]
+        for i, expected_flag in enumerate(expected_list):
+            unit = units[i]
+            self.assertEqual(unit.flags, expected_flag)
 
 
 class XMLMixin:
@@ -386,7 +398,7 @@ class PoFormatTest(AutoFormatTest):
         # Test adding unit matching obsolete one
         storage = self.FORMAT(TEST_PO)
         # Remove duplicate entry
-        unit = storage.all_units[1]
+        unit = storage.all_units[0]
         self.assertEqual(unit.source, "Hello, world!\n")
         storage.delete_unit(unit.unit)
 
@@ -414,7 +426,7 @@ class PropertiesFormatTest(AutoFormatTest):
     COUNT = 12
     EXT = "properties"
     MASK = "java/swing_messages_*.properties"
-    EXPECTED_PATH = "java/swing_messages_cs-CZ.properties"
+    EXPECTED_PATH = "java/swing_messages_cs_CZ.properties"
     FIND = "IGNORE"
     FIND_CONTEXT = "IGNORE"
     FIND_MATCH = "Ignore"
@@ -437,7 +449,7 @@ class GWTFormatTest(AutoFormatTest):
     COUNT = 1
     EXT = "properties"
     MASK = "gwt/gwt_*.properties"
-    EXPECTED_PATH = "gwt/gwt_cs-CZ.properties"
+    EXPECTED_PATH = "gwt/gwt_cs_CZ.properties"
     FIND = "cartItems"
     FIND_CONTEXT = "cartItems"
     FIND_MATCH = (
@@ -515,7 +527,34 @@ class WebExtesionJSONFormatTest(JSONFormatTest):
     EXPECTED_PATH = "webextension/_locales/cs_CZ/messages.json"
     FIND_CONTEXT = "hello"
     NEW_UNIT_MATCH = b'\n    "key": {\n        "message": "Source string"\n    }\n'
-    EXPECTED_FLAGS = "placeholders:$URL$"
+    EXPECTED_FLAGS = [
+        "placeholders:$URL$,case-insensitive",
+        "placeholders:$COUNT$,case-insensitive",
+    ]
+    MONOLINGUAL = True
+
+
+class GoI18NV1JSONFormatTest(JSONFormatTest):
+    FORMAT = GoI18JSONFormat
+    FILE = TEST_GO18N_V1_JSON
+    COUNT = 4
+    MASK = "go-i18n-json/*.json"
+    EXPECTED_PATH = "go-i18n-json/cs_CZ.json"
+    FIND_CONTEXT = "hello"
+    NEW_UNIT_MATCH = (
+        b'{\n        "id": "key",\n        "translation": "Source string"\n    }\n'
+    )
+    MONOLINGUAL = True
+
+
+class GoI18NV2JSONFormatTest(JSONFormatTest):
+    FORMAT = GoI18V2JSONFormat
+    FILE = TEST_GO18N_V2_JSON
+    COUNT = 4
+    MASK = "go-i18n-json-v2/*.json"
+    EXPECTED_PATH = "go-i18n-json-v2/cs_CZ.json"
+    FIND_CONTEXT = "hello"
+    NEW_UNIT_MATCH = b'\n    "key": "Source string"\n'
     MONOLINGUAL = True
 
 
@@ -586,7 +625,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
-    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
+    EXPECTED_FLAGS = "c-format, max-length:100"
 
     def test_set_state(self):
         # Read test content
@@ -609,7 +648,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
 
         # Verify the state is set
         with open(testfile) as handle:
-            self.assertIn("<target>test</target>", handle.read())
+            self.assertIn('<target state="translated">test</target>', handle.read())
 
         # Update first unit as fuzzy
         storage = self.parse_file(testfile)
@@ -625,7 +664,12 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
             )
 
 
-class XliffIdFormatTest(XliffFormatTest):
+class RichXliffFormatTest(XliffFormatTest):
+    FORMAT = RichXliffFormat
+    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
+
+
+class XliffIdFormatTest(RichXliffFormatTest):
     FILE = TEST_XLIFF_ID
     BASE = TEST_XLIFF_ID
     FIND_CONTEXT = "hello"
@@ -701,24 +745,17 @@ class PoXliffFormatTest(XMLMixin, AutoFormatTest):
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
-    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
+    EXPECTED_FLAGS = "c-format, max-length:100"
 
 
 class PoXliffFormatTest2(PoXliffFormatTest):
     FILE = TEST_POXLIFF
     BASE = TEST_POXLIFF
-    EXPECTED_FLAGS = ", ".join(
-        (
-            "c-format",
-            "font-family:ubuntu",
-            "font-size:22",
-            "font-weight:bold",
-            "max-size:100",
-            "xml-text",
-        )
+    EXPECTED_FLAGS = (
+        "c-format, font-family:ubuntu, font-size:22, font-weight:bold, max-size:100"
     )
     FIND_CONTEXT = "cs.po///2"
-    COUNT = 5
+    COUNT = 4
     MATCH = '<file original="cs.po"'
     FIND_MATCH = "Ahoj světe!\n"
 
@@ -733,7 +770,7 @@ class RESXFormatTest(XMLMixin, AutoFormatTest):
     EXPECTED_PATH = "resx/cs-CZ.resx"
     FIND = "Hello"
     FIND_CONTEXT = "Hello"
-    FIND_MATCH = ""
+    FIND_MATCH = "Hello, world!"
     MATCH = "text/microsoft-resx"
     BASE = ""
     NEW_UNIT_MATCH = (
@@ -838,7 +875,7 @@ class CSVFormatNoHeadTest(CSVFormatTest):
     EXPECTED_FLAGS = ""
     NEW_UNIT_MATCH = b'"Source string",""\r\n'
 
-    def test_save(self, edit=False):
+    def _test_save(self, edit=False):
         raise SkipTest("Saving currently adds field headers")
 
 
@@ -861,6 +898,24 @@ class FlatXMLFormatTest(AutoFormatTest):
     FIND_CONTEXT = "hello_world"
     FIND_MATCH = "Hello World!"
     NEW_UNIT_MATCH = b'<str key="key">Source string</str>\n'
+    EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
+
+
+class ResourceDictionaryFormatTest(AutoFormatTest):
+    FORMAT = ResourceDictionaryFormat
+    FILE = TEST_RESOURCEDICTIONARY
+    MIME = "application/xaml+xml"
+    COUNT = 2
+    EXT = "xaml"
+    MASK = "Languages/*.xaml"
+    BASE = TEST_RESOURCEDICTIONARY
+    EXPECTED_PATH = "Languages/cs-CZ.xaml"
+    MATCH = "hello"
+    FIND = "Hello World!"
+    FIND_CONTEXT = "hello_world"
+    FIND_MATCH = "Hello World!"
+    NEW_UNIT_MATCH = b'<system:String x:Key="key">Source string</system:String>\n'
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True
 
@@ -957,9 +1012,9 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
             self.EXPECTED_PATH,
         )
 
-    def test_save(self, edit=False):
+    def _test_save(self, edit=False):
         self.maxDiff = None
-        super().test_save(edit)
+        super()._test_save(edit)
 
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
@@ -1008,7 +1063,9 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
             translation_file, Language.objects.get(code="fr"), self.BASE
         )
         translation_data = self.FORMAT(
-            storefile=translation_file, template_store=storage, language_code="fr"
+            storefile=translation_file,
+            template_store=storage.template_store,
+            language_code="fr",
         )
         translation_units = translation_data.all_units
         self.assertEqual(self.COUNT, len(translation_units))
@@ -1056,6 +1113,7 @@ class XWikiFullPageFormatTest(AutoFormatTest):
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
     EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
     EDIT_TARGET = """= Titre=\n"
                 "\n"
                 "* [[Bac à sable>>Sandbox.TestPage1]]\n"
@@ -1077,9 +1135,9 @@ class XWikiFullPageFormatTest(AutoFormatTest):
         # to be able to add new units.
         pass
 
-    def test_save(self, edit=False):
+    def _test_save(self, edit=False):
         self.maxDiff = None
-        super().test_save(edit)
+        super()._test_save(edit)
 
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
@@ -1129,7 +1187,9 @@ class XWikiFullPageFormatTest(AutoFormatTest):
             translation_file, Language.objects.get(code="it"), self.BASE
         )
         translation_data = self.FORMAT(
-            storefile=translation_file, template_store=storage, language_code="it"
+            storefile=translation_file,
+            template_store=storage.template_store,
+            language_code="it",
         )
         translation_units = translation_data.all_units
         self.assertEqual(self.COUNT, len(translation_units))

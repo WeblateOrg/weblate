@@ -1,31 +1,18 @@
+# Copyright © Michal Čihař <michal@weblate.org>
 #
-# Copyright © 2012–2022 Michal Čihař <michal@cihar.com>
-#
-# This file is part of Weblate <https://weblate.org/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
 
 from calendar import monthrange
 from datetime import date, timedelta
-from typing import Dict
 
 from django.core.cache import cache
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import pgettext_lazy
 
-from weblate.metrics.models import METRIC_CHANGES, Metric
+from weblate.metrics.models import Metric
 
 MONTH_NAMES = [
     pgettext_lazy("Short name of month", "Jan"),
@@ -49,20 +36,42 @@ class MetricsWrapper:
         self.scope = scope
         self.relation = relation
         self.secondary = secondary
+        self._data = None
+
+    def _ensure_data(self):
+        if self._data is None:
+            metrics = Metric.objects.filter_metric(
+                self.scope, self.relation, self.secondary
+            )
+            today = timezone.now().date()
+            dates = [today - timedelta(days=days) for days in [0, 1, 30, 31, 60, 61]]
+            metrics = metrics.filter(date__in=dates)
+
+            current = past_30 = past_60 = None
+            for metric in metrics:
+                if metric.date in dates[0:2] and current is None:
+                    current = metric
+                if metric.date in dates[2:4] and past_30 is None:
+                    past_30 = metric
+                if metric.date in dates[4:6] and past_60 is None:
+                    past_30 = metric
+
+            self._data = (current or Metric(), past_30 or Metric(), past_60 or Metric())
 
     @cached_property
     def current(self):
-        return Metric.objects.get_current(
-            self.obj, self.scope, self.relation, self.secondary
-        )
+        self._ensure_data()
+        return self._data[0]
 
     @cached_property
     def past_30(self):
-        return Metric.objects.get_past(self.scope, self.relation, self.secondary, 30)
+        self._ensure_data()
+        return self._data[1]
 
     @cached_property
     def past_60(self):
-        return Metric.objects.get_past(self.scope, self.relation, self.secondary, 60)
+        self._ensure_data()
+        return self._data[2]
 
     @property
     def all_words(self):
@@ -83,7 +92,7 @@ class MetricsWrapper:
     def contributors(self):
         return self.current.get("contributors", 0)
 
-    def calculate_trend_percent(self, key, modkey, base: Dict, origin: Dict):
+    def calculate_trend_percent(self, key, modkey, base: dict, origin: dict):
         total = base.get(key, 0)
         if not total:
             return 0
@@ -102,7 +111,7 @@ class MetricsWrapper:
         past = 100 * past / divisor
         return total - past
 
-    def calculate_trend(self, key, base: Dict, origin: Dict):
+    def calculate_trend(self, key, base: dict, origin: dict):
         total = base.get(key, 0)
         if not total:
             return 0
@@ -202,9 +211,8 @@ class MetricsWrapper:
         result = dict(
             Metric.objects.filter(
                 date__in=[start - timedelta(days=i) for i in range(days + 1)],
-                kind=METRIC_CHANGES,
                 **kwargs,
-            ).values_list("date", "value")
+            ).values_list("date", "changes")
         )
         for offset in range(days):
             current = start - timedelta(days=offset)
@@ -218,7 +226,7 @@ class MetricsWrapper:
 
     @cached_property
     def daily_activity(self):
-        today = date.today()
+        today = timezone.now().date()
         result = [0] * 52
         for pos, value in self.get_daily_activity(today, 52).items():
             result[51 - (today - pos).days] = value
@@ -238,14 +246,15 @@ class MetricsWrapper:
         numdays = monthrange(year, month)[1]
         daily = self.get_daily_activity(date(year, month, numdays), numdays - 1)
         result = sum(daily.values())
-        cache.set(cache_key, result, None)
+        # Cache for one year
+        cache.set(cache_key, result, 365 * 24 * 3600)
         return result
 
     @cached_property
     def monthly_activity(self):
         months = []
         prefetch = []
-        last_month_date = date.today().replace(day=1) - timedelta(days=1)
+        last_month_date = timezone.now().date().replace(day=1) - timedelta(days=1)
         month = last_month_date.month
         year = last_month_date.year
         for _dummy in range(12):
@@ -258,32 +267,25 @@ class MetricsWrapper:
                 year -= 1
 
         cached_results = cache.get_many(prefetch)
-        result = []
-        for year, month in reversed(months):
-            result.append(
-                {
-                    "month": month,
-                    "year": year,
-                    "previous_year": year - 1,
-                    "month_name": MONTH_NAMES[month - 1],
-                    "start_date": date(year, month, 1),
-                    "end_date": date(year, month, monthrange(year, month)[1]),
-                    "previous_start_date": date(year - 1, month, 1),
-                    "previous_end_date": date(
-                        year - 1, month, monthrange(year - 1, month)[1]
-                    ),
-                    "current": self.get_month_activity(year, month, cached_results),
-                    "previous": self.get_month_activity(
-                        year - 1, month, cached_results
-                    ),
-                }
-            )
+        result = [
+            {
+                "month": month,
+                "year": year,
+                "previous_year": year - 1,
+                "month_name": MONTH_NAMES[month - 1],
+                "start_date": date(year, month, 1),
+                "end_date": date(year, month, monthrange(year, month)[1]),
+                "previous_start_date": date(year - 1, month, 1),
+                "previous_end_date": date(
+                    year - 1, month, monthrange(year - 1, month)[1]
+                ),
+                "current": self.get_month_activity(year, month, cached_results),
+                "previous": self.get_month_activity(year - 1, month, cached_results),
+            }
+            for year, month in reversed(months)
+        ]
 
-        maximum = max(
-            max(item["current"] for item in result),
-            max(item["previous"] for item in result),
-            1,
-        )
+        maximum = max(1, *(max(item["current"], item["previous"]) for item in result))
         for item in result:
             item["current_height"] = 140 * item["current"] // maximum
             item["current_offset"] = 140 - item["current_height"]
