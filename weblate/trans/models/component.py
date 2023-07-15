@@ -472,7 +472,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         ),
     )
     suggestion_autoaccept = models.PositiveSmallIntegerField(
-        verbose_name=gettext_lazy("Auto-accept suggestions"),
+        verbose_name=gettext_lazy("Automatically accept suggestions"),
         default=0,
         help_text=gettext_lazy(
             "Automatically accept suggestions with this number of votes,"
