@@ -179,7 +179,7 @@ addressing this — because it creates an additional quality gateway for the
 strings between developers and translators.
 
 By setting :ref:`component-intermediate`, this file will be used for translating strings
-to the source language by translators/editors. Once this stage is done, strings are available for 
+to the source language by translators/editors. Once this stage is done, strings are available for
 translations to target languages, based on the polished, official source language.
 
 .. graphviz::
