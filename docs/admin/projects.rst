@@ -581,7 +581,7 @@ Turns on vote casting for suggestions, see :ref:`voting`.
 .. _component-suggestion_autoaccept:
 
 Automatically accept suggestions
-+++++++++++++++++++++++
+++++++++++++++++++++++++++++++++
 
 Automatically accept voted suggestions, see :ref:`voting`.
 
