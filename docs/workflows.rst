@@ -3,7 +3,7 @@
 Translation workflows
 =====================
 
-Using Weblate raises quality, reduces manual work, and brings everyone 
+Using Weblate raises quality, reduces manual work, and brings everyone
 involved in the localization process closer to each other.
 It is up to you to decide how many of Weblate features you want to make use of.
 
