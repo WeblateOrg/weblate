@@ -116,7 +116,7 @@ def add_user(request, project):
             )
             messages.success(request, gettext("User has been added to this project."))
         except Group.DoesNotExist:
-            messages.error(request, gettext("Failed to find group to add a user!"))
+            messages.error(request, gettext("Could not find group to add a user!"))
 
     return redirect("manage-access", project=obj.slug)
 
@@ -182,7 +182,7 @@ def invite_user(request, project):
             form.save(request, obj)
             messages.success(request, gettext("User has been invited to this project."))
         except Group.DoesNotExist:
-            messages.error(request, gettext("Failed to find group to add a user!"))
+            messages.error(request, gettext("Could not find group to add a user!"))
 
     return redirect("manage-access", project=obj.slug)
 

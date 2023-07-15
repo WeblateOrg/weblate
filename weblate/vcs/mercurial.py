@@ -245,7 +245,7 @@ class HgRepository(Repository):
         output = cls._popen(["version", "-q"], merge_err=False)
         matches = cls.VERSION_RE.match(output)
         if matches is None:
-            raise OSError(f"Failed to parse version string: {output}")
+            raise OSError(f"Could not parse version string: {output}")
         return matches.group(1)
 
     def commit(

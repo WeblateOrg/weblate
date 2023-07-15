@@ -625,7 +625,7 @@ class ComponentSerializer(RemovableSerializer):
                 create_component_from_zip(attrs)
             except BadZipfile:
                 raise serializers.ValidationError(
-                    {"zipfile": "Failed to parse uploaded ZIP file."}
+                    {"zipfile": "Could not parse uploaded ZIP file."}
                 )
             attrs.pop("zipfile")
         # Handle non-component arg

@@ -56,7 +56,7 @@ def edit_context(request, pk):
         if form.is_valid():
             form.save()
         else:
-            messages.error(request, gettext("Failed to change additional string info!"))
+            messages.error(request, gettext("Could not change additional string info!"))
             show_form_errors(request, form)
 
     return redirect_next(request.POST.get("next"), unit.get_absolute_url())

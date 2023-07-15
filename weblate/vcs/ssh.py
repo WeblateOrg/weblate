@@ -164,7 +164,7 @@ def generate_ssh_key(request, key_type: str = "rsa"):
     except (subprocess.CalledProcessError, OSError) as exc:
         messages.error(
             request,
-            gettext("Failed to generate key: %s") % getattr(exc, "output", str(exc)),
+            gettext("Could not generate key: %s") % getattr(exc, "output", str(exc)),
         )
         return
 
@@ -223,15 +223,15 @@ def add_host_key(request, host, port=""):
                             handle.write("\n")
             else:
                 messages.error(
-                    request, gettext("Failed to fetch public key for a host!")
+                    request, gettext("Could not fetch public key for a host!")
                 )
         except subprocess.CalledProcessError as exc:
             messages.error(
                 request,
-                gettext("Failed to get host key: %s") % exc.stderr or exc.stdout,
+                gettext("Could not get host key: %s") % exc.stderr or exc.stdout,
             )
         except OSError as exc:
-            messages.error(request, gettext("Failed to get host key: %s") % str(exc))
+            messages.error(request, gettext("Could not get host key: %s") % str(exc))
 
 
 GITHUB_RSA_KEY = (

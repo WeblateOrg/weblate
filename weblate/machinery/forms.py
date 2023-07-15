@@ -189,7 +189,7 @@ class GoogleV3MachineryForm(BaseMachineryForm):
         try:
             json.loads(self.cleaned_data["credentials"])
         except json.JSONDecodeError as error:
-            raise ValidationError(gettext("Failed to parse JSON: %s") % error)
+            raise ValidationError(gettext("Could not parse JSON: %s") % error)
         return self.cleaned_data["credentials"]
 
 

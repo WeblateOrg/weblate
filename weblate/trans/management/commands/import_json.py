@@ -67,7 +67,7 @@ class Command(BaseCommand):
         try:
             data = json.load(options["json-file"])
         except ValueError:
-            raise CommandError("Failed to parse JSON file!")
+            raise CommandError("Could not parse JSON file!")
         finally:
             options["json-file"].close()
 

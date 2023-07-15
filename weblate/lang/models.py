@@ -814,7 +814,7 @@ class Plural(models.Model):
         try:
             return c2py(self.formula if self.formula else "0")
         except ValueError as error:
-            raise ValueError(f"Failed to compile formula {self.formula!r}: {error}")
+            raise ValueError(f"Could not compile formula {self.formula!r}: {error}")
 
     @cached_property
     def examples(self):
@@ -831,7 +831,7 @@ class Plural(models.Model):
     def parse_plural_forms(plurals):
         matches = PLURAL_RE.match(plurals)
         if matches is None:
-            raise ValueError("Failed to parse plural forms")
+            raise ValueError("Could not parse plural forms")
 
         number = int(matches.group(1))
         formula = matches.group(2)

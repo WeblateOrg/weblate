@@ -91,7 +91,7 @@ class GitRepository(Repository):
             # Parses 'ref: refs/heads/main\tHEAD'
             return line.split("\t")[0].split("refs/heads/")[1]
 
-        raise RepositoryError(0, "Failed to figure out remote branch")
+        raise RepositoryError(0, "Could not figure out remote branch")
 
     @staticmethod
     def git_config_update(filename: str, *updates: tuple[str, str, str]):
@@ -893,8 +893,8 @@ class GitMergeRequestBase(GitForcePushRepository):
         if response.status_code == 404:
             error = f"Repository not found. Check whether exists and {username} has access to it."
         if error.strip():
-            return f"Failed to fork repository at {hostname}: {error}"
-        return f"Failed to fork repository at {hostname}"
+            return f"Could not fork repository at {hostname}: {error}"
+        return f"Could not fork repository at {hostname}"
 
     def create_pull_request(
         self, credentials: dict, origin_branch: str, fork_remote: str, fork_branch: str
@@ -1365,7 +1365,7 @@ class GitLabRepository(GitMergeRequestBase):
             "get", credentials, credentials["url"]
         )
         if "id" not in response_data:
-            raise RepositoryError(0, f"Failed to get project: {error}")
+            raise RepositoryError(0, f"Could not get project: {error}")
         return response_data["id"]
 
     def configure_fork_features(self, credentials: dict, forked_url: str):
@@ -1389,7 +1389,7 @@ class GitLabRepository(GitMergeRequestBase):
             "put", credentials, forked_url, json=access_level_dict
         )
         if "web_url" not in response_data:
-            raise RepositoryError(0, f"Failed to modify fork {error}")
+            raise RepositoryError(0, f"Could not modify fork {error}")
 
     def create_fork(self, credentials: dict):
         get_fork_url = "{}/forks?owned=True".format(credentials["url"])
@@ -1469,7 +1469,7 @@ class GitLabRepository(GitMergeRequestBase):
             "web_url" not in response_data
             and "open merge request already exists" not in error
         ):
-            raise RepositoryError(-1, f"Failed to create pull request: {error}")
+            raise RepositoryError(-1, f"Could not create pull request: {error}")
 
 
 class PagureRepository(GitMergeRequestBase):

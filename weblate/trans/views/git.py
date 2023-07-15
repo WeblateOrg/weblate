@@ -25,7 +25,7 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
     except WeblateLockTimeoutError:
         messages.error(
             request,
-            gettext("Failed to lock the repository, another operation is in progress."),
+            gettext("Could not lock the repository, another operation is in progress."),
         )
         if isinstance(obj, Project):
             report_error(project=obj)

@@ -27,25 +27,25 @@ class ChangesTest(ViewTestCase):
     def test_filter(self):
         response = self.client.get(reverse("changes"), {"project": "test"})
         self.assertContains(response, "Resource update")
-        self.assertNotContains(response, "Failed to find matching project!")
+        self.assertNotContains(response, "Could not find matching project!")
         response = self.client.get(
             reverse("changes"), {"project": "test", "component": "test"}
         )
         self.assertContains(response, "Resource update")
-        self.assertNotContains(response, "Failed to find matching project!")
+        self.assertNotContains(response, "Could not find matching project!")
         response = self.client.get(
             reverse("changes"), {"project": "test", "component": "test", "lang": "cs"}
         )
         self.assertContains(response, "Resource update")
-        self.assertNotContains(response, "Failed to find matching project!")
+        self.assertNotContains(response, "Could not find matching project!")
         response = self.client.get(reverse("changes"), {"lang": "cs"})
         self.assertContains(response, "Resource update")
-        self.assertNotContains(response, "Failed to find matching language!")
+        self.assertNotContains(response, "Could not find matching language!")
         response = self.client.get(
             reverse("changes"), {"project": "testx", "component": "test", "lang": "cs"}
         )
         self.assertContains(response, "Resource update")
-        self.assertContains(response, "Failed to find matching project!")
+        self.assertContains(response, "Could not find matching project!")
         response = self.client.get(
             reverse("changes"),
             {"project": "\000testx", "component": "test", "lang": "cs"},

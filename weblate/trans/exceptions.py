@@ -27,4 +27,4 @@ class InvalidTemplateError(WeblateError):
 
 
 class FailedCommitError(WeblateError):
-    """Failed to commit file."""
+    """Could not commit file."""

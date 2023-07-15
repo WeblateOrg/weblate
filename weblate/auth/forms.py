@@ -90,7 +90,7 @@ class InviteUserForm(forms.ModelForm, UniqueEmailMixin):
                 )
                 messages.success(request, gettext("User invitation e-mail was sent."))
             except Exception:
-                report_error(cause="Failed to send an invitation")
+                report_error(cause="Could not send an invitation")
                 raise
         return user
 

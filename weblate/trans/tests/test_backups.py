@@ -207,7 +207,7 @@ class BackupsTest(ViewTestCase):
                 },
                 follow=True,
             )
-            self.assertContains(response, "Failed to load project backup")
+            self.assertContains(response, "Could not load project backup")
 
         with open(TEST_BACKUP, "rb") as handle:
             response = self.client.post(

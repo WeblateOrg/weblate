@@ -294,7 +294,7 @@ def check_database(app_configs, **kwargs):
         errors.append(
             weblate_check(
                 "weblate.C037",
-                f"Failed to connect to the database: {error}",
+                f"Could not connect to the database: {error}",
             )
         )
 

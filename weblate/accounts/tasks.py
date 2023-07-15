@@ -126,7 +126,7 @@ def send_mails(mails):
     try:
         connection.open()
     except Exception:
-        report_error(cause="Failed to send notifications")
+        report_error(cause="Could not send notifications")
         connection.close()
         return
 

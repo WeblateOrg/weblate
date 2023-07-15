@@ -148,7 +148,7 @@ def get_versions():
     try:
         result.append(("Git", "https://git-scm.com/", GitRepository.get_version()))
     except OSError as exc:
-        raise ImproperlyConfigured("Failed to run git, please install it.") from exc
+        raise ImproperlyConfigured("Could not run git, please install it.") from exc
 
     return result
 

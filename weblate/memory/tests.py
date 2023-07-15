@@ -265,21 +265,21 @@ class MemoryViewTest(FixtureTestCase):
         if fail:
             self.assertContains(response, "Permission Denied", status_code=403)
         else:
-            self.assertContains(response, "Failed to parse JSON file")
+            self.assertContains(response, "Could not parse JSON file")
 
         # Test invalid upload
         response = self.upload_file("memory-broken.json", **kwargs)
         if fail:
             self.assertContains(response, "Permission Denied", status_code=403)
         else:
-            self.assertContains(response, "Failed to parse JSON file")
+            self.assertContains(response, "Could not parse JSON file")
 
         # Test invalid upload
         response = self.upload_file("memory-invalid.json", **kwargs)
         if fail:
             self.assertContains(response, "Permission Denied", status_code=403)
         else:
-            self.assertContains(response, "Failed to parse JSON file")
+            self.assertContains(response, "Could not parse JSON file")
 
     def test_memory_project(self):
         self.test_memory("Number of entries for Test", True, kwargs=self.kw_project)

@@ -722,7 +722,7 @@ def auto_translation(request, project, component, lang):
     autoform = AutoForm(translation.component, request.user, request.POST)
 
     if translation.component.locked or not autoform.is_valid():
-        messages.error(request, gettext("Failed to process form!"))
+        messages.error(request, gettext("Could not process form!"))
         show_form_errors(request, autoform)
         return redirect(translation)
 
@@ -785,7 +785,7 @@ def comment(request, pk):
                 scope.labels.add(label)
         messages.success(request, gettext("Posted new comment"))
     else:
-        messages.error(request, gettext("Failed to add comment!"))
+        messages.error(request, gettext("Could not add comment!"))
 
     return redirect_next(request.POST.get("next"), unit)
 
@@ -1010,7 +1010,7 @@ def delete_unit(request, unit_id):
         unit.translation.delete_unit(request, unit)
     except FileParseError as error:
         unit.translation.component.update_import_alerts(delete=False)
-        messages.error(request, gettext("Failed to remove the string: %s") % error)
+        messages.error(request, gettext("Could not remove the string: %s") % error)
         return redirect(unit)
     # Remove cached search results as we've just removed one of the unit there
     cleanup_session(request.session, delete_all=True)

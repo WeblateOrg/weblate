@@ -223,5 +223,5 @@ def check_fonts(app_configs=None, **kwargs):
     try:
         render_size("Kurinto Sans", Pango.Weight.NORMAL, 11, 0, "test")
     except Exception as error:
-        return [weblate_check("weblate.C024", f"Failed to use Pango: {error}")]
+        return [weblate_check("weblate.C024", f"Could not use Pango: {error}")]
     return []

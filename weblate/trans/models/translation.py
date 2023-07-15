@@ -212,7 +212,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             self.load_store()
         except Exception as error:
             raise ValidationError(
-                gettext("Failed to parse file %(file)s: %(error)s")
+                gettext("Could not parse file %(file)s: %(error)s")
                 % {"file": self.filename, "error": str(error)}
             )
 
@@ -485,7 +485,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
             except FileParseError as error:
                 report_error(
-                    cause="Failed to parse file on update",
+                    cause="Could not parse file on update",
                     project=self.component.project,
                 )
                 self.log_warning("skipping update due to parse error: %s", error)
@@ -616,7 +616,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             store = self.store
         except FileParseError as error:
             report_error(
-                cause="Failed to parse file on commit", project=self.component.project
+                cause="Could not parse file on commit", project=self.component.project
             )
             self.log_error("skipping commit due to error: %s", error)
             return False
@@ -625,7 +625,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             store.ensure_index()
         except ValueError as error:
             report_error(
-                cause="Failed to parse file on commit", project=self.component.project
+                cause="Could not parse file on commit", project=self.component.project
             )
             self.log_error("skipping commit due to error: %s", error)
             return False
@@ -783,7 +783,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 except Exception as error:
                     self.component.handle_parse_error(error, self, reraise=False)
                     report_error(
-                        cause="Failed to update unit", project=self.component.project
+                        cause="Could not update unit", project=self.component.project
                     )
                     continue
 
@@ -1034,7 +1034,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 component.commit_pending("source update", request.user)
             except Exception as error:
                 raise FailedCommitError(
-                    gettext("Failed to commit pending changes: %s")
+                    gettext("Could not commit pending changes: %s")
                     % str(error).replace(self.component.full_path, "")
                 )
 
@@ -1116,7 +1116,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     self.commit_pending("replace file", request.user)
             except Exception as error:
                 raise FailedCommitError(
-                    gettext("Failed to commit pending changes: %s")
+                    gettext("Could not commit pending changes: %s")
                     % str(error).replace(self.component.full_path, "")
                 )
             # This will throw an exception in case of error
@@ -1234,7 +1234,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     component.commit_pending("upload", request.user)
                 except Exception as error:
                     raise FailedCommitError(
-                        gettext("Failed to commit pending changes: %s")
+                        gettext("Could not commit pending changes: %s")
                         % str(error).replace(self.component.full_path, "")
                     )
 

@@ -64,9 +64,9 @@ class ViewTest(FixtureTestCase):
     def test_upload_fail(self):
         self.make_manager()
         response = self.do_upload(name="")
-        self.assertContains(response, "Failed to upload screenshot")
+        self.assertContains(response, "Could not upload screenshot")
         response = self.do_upload(image="")
-        self.assertContains(response, "Failed to upload screenshot")
+        self.assertContains(response, "Could not upload screenshot")
 
     def test_upload_source(self):
         self.make_manager()
@@ -161,7 +161,7 @@ class ViewTest(FixtureTestCase):
         )
 
         self.assertTrue(
-            matches, f"Failed to find string in tesseract results: {result}"
+            matches, f"Could not find string in tesseract results: {result}"
         )
 
     def test_ocr(self):
