@@ -6,12 +6,6 @@ Access control
 Weblate comes with a fine-grained privilege system to assign user permissions
 for the whole instance, or in a limited scope.
 
-.. versionchanged:: 3.0
-
-    Before Weblate 3.0, the privilege system was based on Django privilege system only,
-    but is specifically built for Weblate now. If using anything older, please consult
-    the documentation for the specific version you are using.
-
 .. _access-simple:
 
 Simple access control
@@ -180,11 +174,6 @@ team) would be sufficient.
    If the invited user missed the validity of the invitation, they can set their
    password using invited e-mail address in the password reset form as the account
    is created already.
-
-.. versionadded:: 3.11
-
-  It is possible to resend the e-mail for user invitations (invalidating any
-  previously sent invitation).
 
 The same kind of invitations are available site-wide from the
 :ref:`management interface <management-interface>` on the :guilabel:`Users` tab.

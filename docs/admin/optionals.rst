@@ -215,8 +215,6 @@ Following content is sent to Akismet for checking:
 Signing Git commits with GnuPG
 ------------------------------
 
-.. versionadded:: 3.1
-
 All commits can be signed by the GnuPG key of the Weblate instance.
 
 1. Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a GnuPG
@@ -240,10 +238,6 @@ the "About" page:
 
 Rate limiting
 -------------
-
-.. versionchanged:: 3.2
-
-      The rate limiting now accepts more fine-grained configuration.
 
 .. versionchanged:: 4.6
 

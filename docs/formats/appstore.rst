@@ -3,8 +3,6 @@
 App store metadata files
 ------------------------
 
-.. versionadded:: 3.5
-
 Metadata used for publishing apps in various app stores can be translated.
 Currently the following tools are compatible:
 

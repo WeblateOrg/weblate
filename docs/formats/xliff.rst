@@ -35,10 +35,6 @@ Weblate supports XLIFF in several variants:
 Translation states
 +++++++++++++++++++
 
-.. versionchanged:: 3.3
-
-   Weblate ignored the ``state`` attribute prior to the 3.3 release.
-
 The ``state`` attribute in the file is partially processed and mapped to the
 "Needs edit" state in Weblate (the following states are used to flag the string as
 needing edit if there is a target present: ``new``, ``needs-translation``,

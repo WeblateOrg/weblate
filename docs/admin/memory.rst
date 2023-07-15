@@ -4,8 +4,6 @@
 Translation Memory
 ==================
 
-.. versionadded:: 2.20
-
 Weblate comes with a built-in translation memory consisting of:
 
 * Manually imported translation memory (see :ref:`memory-user`).
@@ -26,11 +24,6 @@ turned on by default.
 
 Translation-memory scopes
 -------------------------
-
-.. versionadded:: 3.2
-
-   In earlier versions translation memory could be only loaded from a file
-   corresponding to the current imported translation memory scope.
 
 The translation-memory scopes ensure privacy for different projects and users.
 Sharing of translations is also available.
@@ -85,12 +78,8 @@ Entries attributed to the user are listed in scopes – total, for each respecti
 project, component, or language contributed to, with options to download
 (as JSON, or TMX) or delete them.
 
-.. versionadded:: 3.2
-
 In the basic user interface you can manage per-user and per-project translation
 memories. It can be used to download, wipe or import translation memory.
-
-.. versionadded:: 3.8
 
 There are multiple options for downloading the translation memory of the whole instance.
 
@@ -105,14 +94,10 @@ There are multiple options for downloading the translation memory of the whole i
 
 .. image:: /screenshots/memory.webp
 
-.. versionadded:: 3.8
-
 You can search for translations in the view built for this.
 
 Admin interface
 +++++++++++++++
-
-.. versionadded:: 3.5
 
 There is a platform-wide interface to manage the translation memory.
 

@@ -58,11 +58,6 @@ The following examples assume you have a working Docker environment, with
 
 Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` container.
 
-.. versionchanged:: 3.7.1-6
-
-   In July 2019 (starting with the 3.7.1-6 tag), the containers are not running
-   as a root user. This has changed the exposed port from 80 to 8080.
-
 .. seealso:: :ref:`invoke-manage`
 
 Choosing Docker image registry
@@ -119,8 +114,6 @@ section only mentions differences compared to it.
 
 Using own SSL certificates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. versionadded:: 3.8-3
 
 In case you have own SSL certificate you want to use, simply place the files
 into the Weblate data volume (see :ref:`docker-volume`):
@@ -1623,8 +1616,6 @@ Localization CDN
 Changing enabled apps, checks, add-ons or autofixes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: 3.8-5
-
 The built-in configuration of enabled checks, add-ons or autofixes can be
 adjusted by the following variables:
 
@@ -1874,8 +1865,6 @@ To override settings at the Docker image level instead of from the data volume:
 
 Replacing logo and other static files
 -------------------------------------
-
-.. versionadded:: 3.8-5
 
 The static files coming with Weblate can be overridden by placing into
 :file:`/app/data/python/customize/static` (see :ref:`docker-volume`). For

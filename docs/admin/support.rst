@@ -12,9 +12,6 @@ offerings at <https://weblate.org/support/>.
 Integrating support
 -------------------
 
-
-.. versionadded:: 3.8
-
 Purchased support packages can optionally be integrated into your Weblate
 `subscription management <https://weblate.org/user/>`_ interface, from where you will find a link to it.
 Basic instance details about your installation are also reported back to Weblate this way.

@@ -726,8 +726,6 @@ This check applies to all components in a project that have
 Kashida letter used
 ~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: 3.5
-
 :Summary: The decorative kashida letters should not be used
 :Scope: translated strings
 :Check class: ``weblate.checks.chars.KashidaCheck``
@@ -746,8 +744,6 @@ also known as Tatweel.
 
 Markdown links
 ~~~~~~~~~~~~~~
-
-.. versionadded:: 3.5
 
 :Summary: Markdown links do not match source
 :Scope: translated strings
@@ -768,8 +764,6 @@ Markdown links do not match source.
 Markdown references
 ~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: 3.5
-
 :Summary: Markdown link references do not match source
 :Scope: translated strings
 :Check class: ``weblate.checks.markup.MarkdownRefLinkCheck``
@@ -787,8 +781,6 @@ Markdown link references do not match source.
 
 Markdown syntax
 ~~~~~~~~~~~~~~~
-
-.. versionadded:: 3.5
 
 :Summary: Markdown syntax does not match source
 :Scope: translated strings
@@ -843,8 +835,6 @@ Maximum size of translation
 :Check identifier: ``max-size``
 :Flag to enable: ``max-size``
 :Flag to ignore: ``ignore-max-size``
-
-.. versionadded:: 3.7
 
 Translation rendered text should not exceed given size. It renders the text
 with line wrapping and checks if it fits into given boundaries.
@@ -1044,8 +1034,6 @@ the plural form is in use.
 Placeholders
 ~~~~~~~~~~~~
 
-.. versionadded:: 3.9
-
 :Summary: Translation is missing some placeholders
 :Scope: translated strings
 :Check class: ``weblate.checks.placeholders.PlaceholderCheck``
@@ -1090,8 +1078,6 @@ You can also have case insensitive placeholders:
 Punctuation spacing
 ~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: 3.9
-
 :Summary: Missing non breakable space before double punctuation sign
 :Scope: translated strings
 :Check class: ``weblate.checks.chars.PunctuationSpacingCheck``
@@ -1112,8 +1098,6 @@ punctuation sign is a typographic rule.
 
 Regular expression
 ~~~~~~~~~~~~~~~~~~
-
-.. versionadded:: 3.9
 
 :Summary: Translation does not match regular expression
 :Scope: translated strings
@@ -1266,8 +1250,6 @@ can be disabled by adding ``strict-same`` flag to string or component.
 Unsafe HTML
 ~~~~~~~~~~~
 
-.. versionadded:: 3.9
-
 :Summary: The translation uses unsafe HTML markup
 :Scope: translated strings
 :Check class: ``weblate.checks.markup.SafeHTMLCheck``
@@ -1294,8 +1276,6 @@ autofixer which can automatically sanitize the markup.
 
 URL
 ~~~
-
-.. versionadded:: 3.5
 
 :Summary: The translation does not contain an URL
 :Scope: translated strings

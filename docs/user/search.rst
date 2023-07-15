@@ -6,8 +6,6 @@ Searching
 Searching for strings
 +++++++++++++++++++++
 
-.. versionadded:: 3.9
-
 Advanced queries using boolean operations, parentheses, or field specific lookup can be used to
 find the strings you want.
 

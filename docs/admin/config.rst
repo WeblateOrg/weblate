@@ -43,8 +43,6 @@ Username of users that are not signed in.
 AUDITLOG_EXPIRY
 ---------------
 
-.. versionadded:: 3.6
-
 How many days Weblate should keep audit logs (which contain info about account
 activity).
 
@@ -74,12 +72,6 @@ Defaults to 10.
 
 AUTO_UPDATE
 -----------
-
-.. versionadded:: 3.2
-
-.. versionchanged:: 3.11
-
-   The original on/off option was changed to differentiate which strings are accepted.
 
 Updates all repositories on a daily basis.
 
@@ -354,8 +346,6 @@ You can turn on only a few:
 COMMENT_CLEANUP_DAYS
 --------------------
 
-.. versionadded:: 3.6
-
 Delete comments after a given number of days.
 Defaults to ``None``, meaning no deletion at all.
 
@@ -445,8 +435,6 @@ Defaults to ``/home/weblate/data``, but it is expected to be configured.
 DATABASE_BACKUP
 ---------------
 
-.. versionadded:: 3.1
-
 Whether the database backups should be stored as plain text, compressed or skipped.
 The authorized values are:
 
@@ -462,8 +450,6 @@ The authorized values are:
 
 DEFAULT_ACCESS_CONTROL
 ----------------------
-
-.. versionadded:: 3.3
 
 The default access-control setting for new projects:
 
@@ -609,8 +595,6 @@ Defaults to `en`. The matching language object needs to exist in the database.
 DEFAULT_MERGE_STYLE
 -------------------
 
-.. versionadded:: 3.4
-
 :ref:`component-merge_style` for any new components.
 
 * `rebase` - default
@@ -625,8 +609,6 @@ DEFAULT_MERGE_STYLE
 
 DEFAULT_SHARED_TM
 -----------------
-
-.. versionadded:: 3.2
 
 Configures the default value of :ref:`project-use_shared_tm` and :ref:`project-contribute_shared_tm`.
 
@@ -997,8 +979,6 @@ users are required to agree with the updated terms of service.
 
 LEGAL_URL
 ---------
-
-.. versionadded:: 3.5
 
 URL where your Weblate instance shows its legal documents.
 
@@ -1402,8 +1382,6 @@ Defines a regular expression to restrict project websites. Any matching URLs wil
 RATELIMIT_ATTEMPTS
 ------------------
 
-.. versionadded:: 3.2
-
 Maximum number of authentication attempts before rate limiting is applied.
 
 Defaults to 5.
@@ -1419,8 +1397,6 @@ Defaults to 5.
 RATELIMIT_WINDOW
 ----------------
 
-.. versionadded:: 3.2
-
 How long authentication is accepted after rate limiting applies.
 
 An amount of seconds, defaulting to 300 (5 minutes).
@@ -1435,8 +1411,6 @@ An amount of seconds, defaulting to 300 (5 minutes).
 
 RATELIMIT_LOCKOUT
 -----------------
-
-.. versionadded:: 3.2
 
 How long authentication is locked after rate limiting applies.
 
@@ -1581,8 +1555,6 @@ require authentication for all API endpoints.
 SENTRY_DSN
 ----------
 
-.. versionadded:: 3.9
-
 Sentry DSN to use for :ref:`collecting-errors`.
 
 .. seealso::
@@ -1679,17 +1651,10 @@ The default value is:
 SINGLE_PROJECT
 --------------
 
-.. versionadded:: 3.8
-
 Redirects users directly to a project or component instead of showing
 the dashboard. You can either set it to ``True`` so it only works
 if there is actually only single project in Weblate. Alternatively, set
 the project slug, and it will redirect unconditionally to this project.
-
-.. versionchanged:: 3.11
-
-   The setting now also accepts a project slug, to force displaying that
-   single project.
 
 Example:
 
@@ -1734,8 +1699,6 @@ The URL where your Weblate instance reports its status.
 
 SUGGESTION_CLEANUP_DAYS
 -----------------------
-
-.. versionadded:: 3.2.1
 
 Automatically deletes suggestions after a given number of days.
 Defaults to ``None``, meaning no deletions.
@@ -1844,8 +1807,6 @@ Configuration of available VCS backends.
 VCS_CLONE_DEPTH
 ---------------
 
-.. versionadded:: 3.10.2
-
 Configures how deep cloning of repositories Weblate should do.
 
 .. note::
@@ -1937,8 +1898,6 @@ or glossaries in various file formats.
 WEBLATE_FORMATS
 ---------------
 
-.. versionadded:: 3.0
-
 List of file formats available for use.
 
 .. note::
@@ -1967,8 +1926,6 @@ List of machinery services available for use.
 
 WEBLATE_GPG_IDENTITY
 --------------------
-
-.. versionadded:: 3.1
 
 Identity used by Weblate to sign Git commits, for example:
 

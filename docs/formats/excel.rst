@@ -3,8 +3,6 @@
 Excel Open XML
 --------------
 
-.. versionadded:: 3.2
-
 Excel Open XML (.xlsx) files can be imported and exported.
 
 When uploading XLSX files for translation, be aware that only the active

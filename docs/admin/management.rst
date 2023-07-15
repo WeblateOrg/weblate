@@ -171,8 +171,6 @@ celery_queues
 
 .. weblate-admin:: celery_queues
 
-.. versionadded:: 3.7
-
 Displays length of Celery task queues.
 
 checkgit
@@ -381,13 +379,9 @@ import_project
 
 .. weblate-admin:: import_project <project> <gitrepo> <branch> <filemask>
 
-.. versionchanged:: 3.0
-
-    The import_project command is now based on the
-    :ref:`addon-weblate.discovery.discovery` add-on, leading to some
-    changes in behavior and what parameters are accepted.
-
-Batch imports components into project based on the file mask.
+Batch imports components into project based on the file mask. It is based on
+the :ref:`addon-weblate.discovery.discovery` add-on, so you might want to use
+that instead.
 
 `<project>` names an existing project, into which the components are to
 be imported.
@@ -559,8 +553,6 @@ You can dump users from the existing Django installation using:
 install_addon
 -------------
 
-.. versionadded:: 3.2
-
 .. weblate-admin:: install_addon --addon ADDON <project|project/component>
 
 Installs an add-on to a set of components.
@@ -724,8 +716,6 @@ move_language
 -------------
 
 .. weblate-admin:: move_language source target
-
-.. versionadded:: 3.0
 
 Allows you to merge language content. This is useful when updating to a new
 version which contains aliases for previously unknown languages that have been
