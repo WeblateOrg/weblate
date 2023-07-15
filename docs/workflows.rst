@@ -3,12 +3,12 @@
 Translation workflows
 =====================
 
-Using Weblate is a process bringing your users closer to you, where you are
-closer to your translators. It is up to you to decide how many of its
-features you want to make use of.
+Using Weblate raises quality, reduces manual work, and brings everyone 
+involved in the localization process closer to each other.
+It is up to you to decide how many of Weblate features you want to make use of.
 
 The following is not a complete list of ways to configure Weblate.
-You can base other workflows on the most examples listed here.
+You can base other workflows on the examples listed here.
 
 Translation access
 ------------------
