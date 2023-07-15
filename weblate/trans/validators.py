@@ -24,7 +24,7 @@ def validate_filemask(val):
 
 
 def validate_autoaccept(val):
-    """Validate correct value for automatically accept."""
+    """Validate correct value for automatical acceptance."""
     if val == 1:
         raise ValidationError(
             gettext(
