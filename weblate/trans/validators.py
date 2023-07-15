@@ -24,11 +24,11 @@ def validate_filemask(val):
 
 
 def validate_autoaccept(val):
-    """Validate correct value for auto-accept."""
+    """Validate correct value for automatically accept."""
     if val == 1:
         raise ValidationError(
             gettext(
-                "A value of 1 is not allowed for auto-accept as "
+                "A value of 1 is not allowed for automatical acceptance as "
                 "it would permit users to vote on their own suggestions."
             )
         )
