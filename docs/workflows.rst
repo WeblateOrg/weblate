@@ -127,9 +127,6 @@ from additional member(s) before it is accepted as a translation.
 Dedicated reviewers
 -------------------
 
-
-.. versionadded:: 2.18
-
 With dedicated reviewers you have two groups of users, one able to submit
 translations, and one able to review them to ensure translations are
 consistent and that the quality is good.
