@@ -171,10 +171,10 @@ Reviews can be turned on in the project configuration, from the
 Quality gateway for the source strings
 --------------------------------------
 
-Usually, the original source language strings come from the developers 
+Usually, the original source language strings come from the developers
 as they write the code. However, developers are
 often not native speakers of the source language and may not be capable of
-attaining the desired source-string quality. Intermediate translation can help you 
+attaining the desired source-string quality. Intermediate translation can help you
 addressing this — because it creates an additional quality gateway for the
 strings between developers and translators.
 
