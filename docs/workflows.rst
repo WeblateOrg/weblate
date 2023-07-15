@@ -171,16 +171,14 @@ Reviews can be turned on in the project configuration, from the
 Quality gateway for the source strings
 --------------------------------------
 
-Usually, the original source language strings come from the developers
-as they write the code. However, developers are
-often not native speakers of the source language and may not be capable of
-attaining the desired source-string quality. Intermediate translation can help you
-addressing this — because it creates an additional quality gateway for the
-strings between developers and translators.
+Attaining the desired source-string quality poses a challenge.
+Intermediate translation can help address this — as it creates an
+additional quality gateway between e.g. developers and translators for the strings.
 
-By setting :ref:`component-intermediate`, this file will be used for translating strings
-to the source language by translators/editors. Once this stage is done, strings are available for
-translations to target languages, based on the polished, official source language.
+By setting :ref:`component-intermediate`, this file is used for translating strings
+to the source language by translators/editors. Once this stage is done,
+strings are available for translations to target languages,
+based on what is now a polished source language.
 
 .. graphviz::
 
