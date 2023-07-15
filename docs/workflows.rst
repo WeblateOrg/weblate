@@ -71,24 +71,24 @@ This is also the default setup in Weblate.
 * Suggestions are optional ways to suggest changes, when translators are not
   sure about the change.
 
-+------------------------+-------------+------------------------------------+
-| Setting                |   Value     |   Note                             |
-+========================+=============+====================================+
-| Enable reviews         | off         | Configured at project level.       |
-+------------------------+-------------+------------------------------------+
-| Enable suggestions     | on          | Useful for users to be able        |
-|                        |             | to suggest when they are not sure. |
-+------------------------+-------------+------------------------------------+
-| Suggestion voting      | off         |                                    |
-+------------------------+-------------+------------------------------------+
-| Auto-accept suggestions| 0           |                                    |
-+------------------------+-------------+------------------------------------+
-| Translators group      | `Users`     | Or `Translate` with                |
-|                        |             | :ref:`per-project access control   |
-|                        |             | <manage-acl>`.                     |
-+------------------------+-------------+------------------------------------+
-| Reviewers group        | N/A         | Not used.                          |
-+------------------------+-------------+------------------------------------+
++----------------------------------+-------------+------------------------------------+
+| Setting                          |   Value     |   Note                             |
++==================================+=============+====================================+
+| Enable reviews                   | off         | Configured at project level.       |
++----------------------------------+-------------+------------------------------------+
+| Enable suggestions               | on          | Useful for users to be able        |
+|                                  |             | to suggest when they are not sure. |
++----------------------------------+-------------+------------------------------------+
+| Suggestion voting                | off         |                                    |
++----------------------------------+-------------+------------------------------------+
+| Automatically accept suggestions | 0           |                                    |
++----------------------------------+-------------+------------------------------------+
+| Translators group                | `Users`     | Or `Translate` with                |
+|                                  |             | :ref:`per-project access control   |
+|                                  |             | <manage-acl>`.                     |
++----------------------------------+-------------+------------------------------------+
+| Reviewers group                  | N/A         | Not used.                          |
++----------------------------------+-------------+------------------------------------+
 
 
 .. _peer-review:
@@ -103,24 +103,24 @@ from additional member(s) before it is accepted as a translation.
 * *Any user* can vote for suggestions.
 * Suggestions become translations when given a predetermined number of votes.
 
-+------------------------+-------------+------------------------------------+
-| Setting                |   Value     |   Note                             |
-+========================+=============+====================================+
-| Enable reviews         | off         | Configured at project level.       |
-+------------------------+-------------+------------------------------------+
-| Enable suggestions     | on          |                                    |
-+------------------------+-------------+------------------------------------+
-| Suggestion voting      | off         |                                    |
-+------------------------+-------------+------------------------------------+
-| Auto-accept suggestions| 1           | You can set higher value to        |
-|                        |             | require more peer reviews.         |
-+------------------------+-------------+------------------------------------+
-| Translators group      | `Users`     | Or `Translate` with                |
-|                        |             | :ref:`per-project access control   |
-|                        |             | <manage-acl>`.                     |
-+------------------------+-------------+------------------------------------+
-| Reviewers group        | N/A         | Not used, all translators review.  |
-+------------------------+-------------+------------------------------------+
++---------------------------------+-------------+------------------------------------+
+| Setting                         |   Value     |   Note                             |
++=================================+=============+====================================+
+| Enable reviews                  | off         | Configured at project level.       |
++---------------------------------+-------------+------------------------------------+
+| Enable suggestions              | on          |                                    |
++---------------------------------+-------------+------------------------------------+
+| Suggestion voting               | off         |                                    |
++---------------------------------+-------------+------------------------------------+
+| Automatically accept suggestions| 1           | You can set higher value to        |
+|                                 |             | require more peer reviews.         |
++---------------------------------+-------------+------------------------------------+
+| Translators group               | `Users`     | Or `Translate` with                |
+|                                 |             | :ref:`per-project access control   |
+|                                 |             | <manage-acl>`.                     |
++---------------------------------+-------------+------------------------------------+
+| Reviewers group                 | N/A         | Not used, all translators review.  |
++---------------------------------+-------------+------------------------------------+
 
 .. _reviews:
 
@@ -136,26 +136,26 @@ consistent and that the quality is good.
 * *Reviewer* can edit all translations (including approved ones).
 * Suggestions can also be used to suggest changes for approved strings.
 
-+------------------------+-------------+------------------------------------+
-| Setting                |   Value     |   Note                             |
-+========================+=============+====================================+
-| Enable reviews         | on          | Configured at project level.       |
-+------------------------+-------------+------------------------------------+
-| Enable suggestions     | off         | Useful for users to be able        |
-|                        |             | to suggest when they are not sure. |
-+------------------------+-------------+------------------------------------+
-| Suggestion voting      | off         |                                    |
-+------------------------+-------------+------------------------------------+
-| Auto-accept suggestions| 0           |                                    |
-+------------------------+-------------+------------------------------------+
-| Translators group      | `Users`     | Or `Translate` with                |
-|                        |             | :ref:`per-project access control   |
-|                        |             | <manage-acl>`.                     |
-+------------------------+-------------+------------------------------------+
-| Reviewers group        | `Reviewers` | Or `Review` with                   |
-|                        |             | :ref:`per-project access control   |
-|                        |             | <manage-acl>`.                     |
-+------------------------+-------------+------------------------------------+
++---------------------------------+-------------+------------------------------------+
+| Setting                         |   Value     |   Note                             |
++=================================+=============+====================================+
+| Enable reviews                  | on          | Configured at project level.       |
++---------------------------------+-------------+------------------------------------+
+| Enable suggestions              | off         | Useful for users to be able        |
+|                                 |             | to suggest when they are not sure. |
++---------------------------------+-------------+------------------------------------+
+| Suggestion voting               | off         |                                    |
++---------------------------------+-------------+------------------------------------+
+| Automatically accept suggestions| 0           |                                    |
++---------------------------------+-------------+------------------------------------+
+| Translators group               | `Users`     | Or `Translate` with                |
+|                                 |             | :ref:`per-project access control   |
+|                                 |             | <manage-acl>`.                     |
++---------------------------------+-------------+------------------------------------+
+| Reviewers group                 | `Reviewers` | Or `Review` with                   |
+|                                 |             | :ref:`per-project access control   |
+|                                 |             | <manage-acl>`.                     |
++---------------------------------+-------------+------------------------------------+
 
 Turning on reviews
 ------------------
