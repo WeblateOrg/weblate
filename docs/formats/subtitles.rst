@@ -3,8 +3,6 @@
 Subtitle files
 --------------
 
-.. versionadded:: 3.7
-
 Weblate can translate various subtitle files:
 
 * SubRip subtitle file (``*.srt``)

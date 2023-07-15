@@ -156,8 +156,6 @@ individual packages for documentation. You won't need those if using prebuilt
 Pango and Cairo
 +++++++++++++++
 
-.. versionchanged:: 3.7
-
 Weblate uses Pango and Cairo for rendering bitmap widgets (see
 :ref:`promotion`) and rendering checks (see :ref:`fonts`). To properly install
 Python bindings for those you need to install system libraries first - you need
@@ -1036,7 +1034,7 @@ Running maintenance tasks
 +++++++++++++++++++++++++
 
 For optimal performance, it is good idea to run some maintenance tasks in the
-background. This is now automatically done by :ref:`celery` and covers following tasks:
+background. This is automatically done by :ref:`celery` and covers following tasks:
 
 * Configuration health check (hourly).
 * Committing pending changes (hourly), see :ref:`lazy-commit` and :wladmin:`commit_pending`.
@@ -1044,11 +1042,6 @@ background. This is now automatically done by :ref:`celery` and covers following
 * Update remote branches (nightly), see :setting:`AUTO_UPDATE`.
 * Translation memory backup to JSON (daily), see :wladmin:`dump_memory`.
 * Fulltext and database maintenance tasks (daily and weekly tasks), see :wladmin:`cleanuptrans`.
-
-.. versionchanged:: 3.2
-
-   Since version 3.2, the default way of executing these tasks is using Celery
-   and Weblate already comes with proper configuration, see :ref:`celery`.
 
 .. _production-encoding:
 
@@ -1344,8 +1337,6 @@ Additionally, you will have to adjust :file:`weblate/settings.py`:
 
 Background tasks using Celery
 -----------------------------
-
-.. versionadded:: 3.2
 
 Weblate uses Celery to execute regular and background tasks. You are supposed
 to run a Celery service that will execute these. For example, it is responsible

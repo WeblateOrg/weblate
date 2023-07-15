@@ -100,8 +100,6 @@ see all variants of the string at one place.
 Automated key based variants
 ++++++++++++++++++++++++++++
 
-.. versionadded:: 3.11
-
 You can define regular expression to group the strings based on the key of
 monolingual translations in the :ref:`component`:
 

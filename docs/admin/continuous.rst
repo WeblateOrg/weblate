@@ -196,8 +196,6 @@ with destination to ``/hooks/gitlab/`` URL on your Weblate installation
 Automatically receiving changes from Pagure
 +++++++++++++++++++++++++++++++++++++++++++
 
-.. versionadded:: 3.3
-
 Weblate has support for Pagure hooks, add a webhook
 with destination to ``/hooks/pagure/`` URL on your Weblate installation (for
 example ``https://hosted.weblate.org/hooks/pagure/``). This can be done in
@@ -213,8 +211,6 @@ example ``https://hosted.weblate.org/hooks/pagure/``). This can be done in
 
 Automatically receiving changes from Azure Repos
 ++++++++++++++++++++++++++++++++++++++++++++++++
-
-.. versionadded:: 3.8
 
 Weblate has support for Azure Repos web hooks, add a webhook for
 :guilabel:`Code pushed` event with destination to ``/hooks/azure/`` URL on your
@@ -233,8 +229,6 @@ settings`.
 Automatically receiving changes from Gitea Repos
 ++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. versionadded:: 3.9
-
 Weblate has support for Gitea webhooks, add a :guilabel:`Gitea Webhook` for
 :guilabel:`Push events` event with destination to ``/hooks/gitea/`` URL on your
 Weblate installation (for example ``https://hosted.weblate.org/hooks/gitea/``).
@@ -249,8 +243,6 @@ This can be done in :guilabel:`Webhooks` under repository :guilabel:`Settings`.
 
 Automatically receiving changes from Gitee Repos
 ++++++++++++++++++++++++++++++++++++++++++++++++
-
-.. versionadded:: 3.9
 
 Weblate has support for Gitee webhooks, add a :guilabel:`WebHook` for
 :guilabel:`Push` event with destination to ``/hooks/gitee/`` URL on your

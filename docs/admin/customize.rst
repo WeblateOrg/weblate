@@ -30,7 +30,7 @@ is needed, either in the system path (usually something like
 :file:`/usr/lib/python3.9/site-packages/`) or in the Weblate directory, which
 is also added to the interpreter search path.
 
-.. versionadded:: 3.8-5
+.. hint::
 
    When :ref:`using Docker <docker-deploy>`, you can place Python modules in
    :file:`/app/data/python/` (see :ref:`docker-volume`), so they can be loaded

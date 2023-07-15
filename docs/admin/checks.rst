@@ -303,8 +303,6 @@ settings and in the translation file itself (for example in GNU gettext).
 Enforcing checks
 ----------------
 
-.. versionadded:: 3.11
-
 You can configure a list of checks which can not be ignored by setting
 :ref:`component-enforced_checks` in :ref:`component`. Each listed check can not
 be dismissed in the user interface and any string failing this check is marked as
@@ -324,8 +322,6 @@ be dismissed in the user interface and any string failing this check is marked a
 
 Managing fonts
 --------------
-
-.. versionadded:: 3.7
 
 .. hint::
 

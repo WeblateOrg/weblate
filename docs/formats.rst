@@ -481,8 +481,6 @@ for that.
 Read-only strings
 +++++++++++++++++
 
-.. versionadded:: 3.10
-
 Read-only strings from translation files will be included, but
 can not be edited in Weblate. This feature is natively supported by few formats
 (:ref:`xliff` and :ref:`aresource`), but can be emulated in others by adding a

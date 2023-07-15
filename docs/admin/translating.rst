@@ -76,11 +76,6 @@ using the ``priority`` flag.
 Translation flags
 +++++++++++++++++
 
-.. versionchanged:: 3.3
-
-      Previously called :guilabel:`Quality checks flags`, it no
-      longer configures only checks.
-
 Customization of quality checks and other Weblate behavior, see
 :ref:`custom-checks`.
 

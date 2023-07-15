@@ -786,8 +786,6 @@ Projects
 
 .. http:post:: /api/projects/
 
-    .. versionadded:: 3.9
-
     Creates a new project.
 
     :param name: Project name
@@ -849,8 +847,6 @@ Projects
     :type project: string
 
 .. http:delete:: /api/projects/(string:project)/
-
-    .. versionadded:: 3.9
 
     Deletes a project.
 
@@ -946,8 +942,6 @@ Projects
     :>json array results: array of component objects; see :http:get:`/api/components/(string:project)/(string:component)/`
 
 .. http:post:: /api/projects/(string:project)/components/
-
-    .. versionadded:: 3.9
 
     .. versionchanged:: 4.3
 
@@ -1108,8 +1102,6 @@ Projects
 
     Returns paginated statistics for all languages within a project.
 
-    .. versionadded:: 3.8
-
     :param project: Project URL slug
     :type project: string
     :>json array results: array of translation statistics objects
@@ -1125,8 +1117,6 @@ Projects
 .. http:get:: /api/projects/(string:project)/statistics/
 
     Returns statistics for a project.
-
-    .. versionadded:: 3.8
 
     :param project: Project URL slug
     :type project: string
@@ -1355,8 +1345,6 @@ Components
     :<json string vcs: version control system
 
 .. http:delete:: /api/components/(string:project)/(string:component)/
-
-    .. versionadded:: 3.9
 
     Deletes a component.
 
@@ -1816,8 +1804,6 @@ Translations
 
 
 .. http:delete:: /api/translations/(string:project)/(string:component)/(string:language)/
-
-    .. versionadded:: 3.9
 
     Deletes a translation.
 
@@ -2568,8 +2554,6 @@ update individual repositories; see
 
 .. http:post:: /hooks/pagure/
 
-    .. versionadded:: 3.3
-
     Special hook for handling Pagure notifications and automatically
     updating matching components.
 
@@ -2583,8 +2567,6 @@ update individual repositories; see
             For enabling hooks for whole Weblate
 
 .. http:post:: /hooks/azure/
-
-    .. versionadded:: 3.8
 
     Special hook for handling Azure DevOps notifications and automatically
     updating matching components.
@@ -2605,8 +2587,6 @@ update individual repositories; see
 
 .. http:post:: /hooks/gitea/
 
-    .. versionadded:: 3.9
-
     Special hook for handling Gitea Webhook notifications and automatically
     updating matching components.
 
@@ -2620,8 +2600,6 @@ update individual repositories; see
             For enabling hooks for whole Weblate
 
 .. http:post:: /hooks/gitee/
-
-    .. versionadded:: 3.9
 
     Special hook for handling Gitee Webhook notifications and automatically
     updating matching components.

@@ -32,16 +32,6 @@ monolingual ones) supported by Translate Toolkit, see :ref:`formats`.
 Adding translation projects and components
 ------------------------------------------
 
-.. versionchanged:: 3.2
-
-   An interface for adding projects and components is included,
-   and you no longer have to use :ref:`admin-interface`.
-
-.. versionchanged:: 3.4
-
-   The process of adding components is now multi staged,
-   with automated discovery of most parameters.
-
 Based on your permissions, new translation projects and components can be
 created. It is always permitted for users with the :guilabel:`Add new projects`
 permission, and if your instance uses billing (e.g. like

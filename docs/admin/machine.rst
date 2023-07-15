@@ -69,8 +69,6 @@ The recommended way to use Apertium is to run your own Apertium-APy server.
 AWS
 ---
 
-.. versionadded:: 3.1
-
 :Service ID: ``aws``
 :Configuration: +------------+----------------+--+
                 | ``key``    | Access key ID  |  |
@@ -91,8 +89,6 @@ to and from English across a breadth of supported languages.
 
 Baidu
 -----
-
-.. versionadded:: 3.2
 
 :Service ID: ``baidu``
 :Configuration: +------------+---------------+--+
@@ -372,8 +368,6 @@ You can also ask them for more.
 Netease Sight
 -------------
 
-.. versionadded:: 3.3
-
 :Service ID: ``netease-sight``
 :Configuration: +------------+---------------+--+
                 | ``key``    | Client ID     |  |
@@ -534,8 +528,6 @@ This service uses a Translation API, and you need to obtain an API key from Yand
 
 Youdao Zhiyun
 -------------
-
-.. versionadded:: 3.2
 
 :Service ID: ``youdao-zhiyun``
 :Configuration: +------------+---------------+--+

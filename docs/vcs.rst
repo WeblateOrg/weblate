@@ -295,8 +295,6 @@ Weblate settings to make this work. Once configured, you will see a
 GitLab merge requests
 ---------------------
 
-.. versionadded:: 3.9
-
 This just adds a thin layer atop :ref:`vcs-git` using the `GitLab API`_ to allow
 pushing translation changes as merge requests instead of
 pushing directly to the repository.
@@ -487,8 +485,6 @@ Local files
 
    Underneath, this uses :ref:`vcs-git`. It requires Git installed and allows
    you to switch to using Git natively with full history of your translations.
-
-.. versionadded:: 3.8
 
 Weblate can also operate without a remote VCS. The initial translations are
 imported by uploading them. Later you can replace individual files by file upload,
