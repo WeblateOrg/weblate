@@ -135,7 +135,7 @@ class ChangesView(ListView):
                 form.cleaned_data.get("lang"),
             )
         except Http404:
-            messages.error(self.request, gettext("Failed to find matching project!"))
+            messages.error(self.request, gettext("Could not find matching project!"))
 
     def _get_unit(self, form):
         unit = form.cleaned_data.get("string")
@@ -152,7 +152,7 @@ class ChangesView(ListView):
                 self.language = Language.objects.get(code=form.cleaned_data["lang"])
             except Language.DoesNotExist:
                 messages.error(
-                    self.request, gettext("Failed to find matching language!")
+                    self.request, gettext("Could not find matching language!")
                 )
 
     def _get_queryset_user(self, form):
@@ -161,7 +161,7 @@ class ChangesView(ListView):
             try:
                 self.user = User.objects.get(username=form.cleaned_data["user"])
             except User.DoesNotExist:
-                messages.error(self.request, gettext("Failed to find matching user!"))
+                messages.error(self.request, gettext("Could not find matching user!"))
 
     def _get_request_params(self):
         self.changes_form = form = ChangesForm(self.request, data=self.request.GET)

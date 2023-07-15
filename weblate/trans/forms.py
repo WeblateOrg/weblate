@@ -2195,7 +2195,7 @@ class ProjectImportForm(BillingMixin, forms.Form):
         try:
             backup.validate()
         except Exception as error:
-            raise ValidationError(gettext("Failed to load project backup: %s") % error)
+            raise ValidationError(gettext("Could not load project backup: %s") % error)
         self.cleaned_data["projectbackup"] = backup
         return zipfile
 

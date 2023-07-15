@@ -79,7 +79,7 @@ def search_replace(request, project, component=None, lang=None):
     form = ReplaceForm(request.POST)
 
     if not form.is_valid():
-        messages.error(request, gettext("Failed to process form!"))
+        messages.error(request, gettext("Could not process form!"))
         show_form_errors(request, form)
         return redirect(obj)
 
@@ -245,7 +245,7 @@ def bulk_edit(request, project, component=None, lang=None):
     form = BulkEditForm(request.user, obj, request.POST, project=context["project"])
 
     if not form.is_valid():
-        messages.error(request, gettext("Failed to process form!"))
+        messages.error(request, gettext("Could not process form!"))
         show_form_errors(request, form)
         return redirect(obj)
 

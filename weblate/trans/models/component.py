@@ -1672,7 +1672,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                             return self.push_repo(request, retry=False)
                 messages.error(
                     request,
-                    gettext("Failed to push %(component)s: %(error_text)s")
+                    gettext("Could not push %(component)s: %(error_text)s")
                     % {
                         "component": self,
                         "error_text": error_text,
@@ -1844,7 +1844,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 self.template_store  # noqa: B018
             except FileParseError as error:
                 report_error(
-                    cause="Failed to parse template file on commit",
+                    cause="Could not parse template file on commit",
                     project=self.project,
                 )
                 self.log_error("skipping commit due to error: %s", error)
@@ -2652,7 +2652,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         # File is present, but it is not valid
         if errors:
             message = gettext(
-                "Failed to parse base file for new translations: %s"
+                "Could not parse base file for new translations: %s"
             ) % ", ".join(str(error) for error in errors)
             raise ValidationError({"new_base": message})
         raise ValidationError(

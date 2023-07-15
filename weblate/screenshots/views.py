@@ -245,7 +245,7 @@ class ScreenshotList(ListView, ComponentViewMixin):
             )
             return redirect(obj)
         messages.error(
-            request, gettext("Failed to upload screenshot, please fix errors below.")
+            request, gettext("Could not upload screenshot, please fix errors below.")
         )
         return self.get(request, **kwargs)
 

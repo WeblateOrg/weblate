@@ -119,7 +119,7 @@ class Suggestion(models.Model, UserDisplayMixin):
     @transaction.atomic
     def accept(self, request, permission="suggestion.accept"):
         if not request.user.has_perm(permission, self.unit):
-            messages.error(request, gettext("Failed to accept suggestion!"))
+            messages.error(request, gettext("Could not accept suggestion!"))
             return
 
         # Skip if there is no change

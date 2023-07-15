@@ -257,7 +257,7 @@ class CreateTest(ViewTestCase):
                     "source_language": get_default_lang(),
                 },
             )
-        self.assertContains(response, "Failed to parse uploaded ZIP file.")
+        self.assertContains(response, "Could not parse uploaded ZIP file.")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_zip(self):

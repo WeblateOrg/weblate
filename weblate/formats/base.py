@@ -329,7 +329,7 @@ class TranslationFormat:
         if not self.is_valid():
             raise ValueError(
                 gettext(
-                    "Failed to load strings from the file, try choosing other format."
+                    "Could not load strings from the file, try choosing other format."
                 )
             )
         self.ensure_index()

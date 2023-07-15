@@ -93,12 +93,12 @@ class MachineTranslation:
             self.download_languages()
         except Exception as error:
             raise ValidationError(
-                gettext("Failed to fetch supported languages: %s") % error
+                gettext("Could not fetch supported languages: %s") % error
             )
         try:
             self.download_translations(*self.validate_payload)
         except Exception as error:
-            raise ValidationError(gettext("Failed to fetch translation: %s") % error)
+            raise ValidationError(gettext("Could not fetch translation: %s") % error)
 
     @property
     def api_base_url(self):
@@ -222,7 +222,7 @@ class MachineTranslation:
         except Exception as exc:
             self.supported_languages_error = exc
             self.supported_languages_error_age = time.time()
-            self.report_error("Failed to fetch languages from %s, using defaults")
+            self.report_error("Could not fetch languages from %s, using defaults")
             return set()
 
         # Update cache
@@ -424,7 +424,7 @@ class MachineTranslation:
             if self.is_rate_limit_error(exc):
                 self.set_rate_limit()
 
-            self.report_error("Failed to fetch translations from %s")
+            self.report_error("Could not fetch translations from %s")
             if isinstance(exc, MachineTranslationError):
                 raise
             raise MachineTranslationError(self.get_error_message(exc)) from exc

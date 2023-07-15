@@ -1400,7 +1400,7 @@ class DictStoreMixin:
         try:
             id_class.from_string(context)
         except Exception as error:
-            raise ValidationError(gettext("Failed to parse the key: %s") % error)
+            raise ValidationError(gettext("Could not parse the key: %s") % error)
 
 
 class JSONFormat(DictStoreMixin, TTKitFormat):

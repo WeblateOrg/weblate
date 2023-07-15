@@ -831,7 +831,7 @@ class ComponentViewSet(
             translation = obj.add_new_language(language, request)
             if translation is None:
                 storage = get_messages(request)
-                error = f"Failed to add {language_code!r}!"
+                error = f"Could not add {language_code!r}!"
                 if storage:
                     error = "\n".join(m.message for m in storage)
                 raise ValidationError(error)
@@ -1038,7 +1038,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                 parse_query(query_string)
             except Exception as error:
                 report_error(project=obj.component.project)
-                raise ValidationError({"q": f"Failed to parse query string: {error}"})
+                raise ValidationError({"q": f"Could not parse query string: {error}"})
             try:
                 return download_translation_file(request, obj, fmt, query_string)
             except Http404 as error:
@@ -1134,7 +1134,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             parse_query(query_string)
         except Exception as error:
             report_error()
-            raise ValidationError(f"Failed to parse query string: {error}")
+            raise ValidationError(f"Could not parse query string: {error}")
 
         queryset = obj.unit_set.search(query_string).order_by("id").prefetch()
         page = self.paginate_queryset(queryset)
@@ -1249,7 +1249,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             parse_query(query_string)
         except Exception as error:
             report_error()
-            raise ValidationError(f"Failed to parse query string: {error}")
+            raise ValidationError(f"Could not parse query string: {error}")
         if query_string:
             result = result.search(query_string)
         return result
@@ -1335,7 +1335,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         except FileParseError as error:
             obj.translation.component.update_import_alerts(delete=False)
             return Response(
-                data={"error": f"Failed to remove the string: {error}"},
+                data={"error": f"Could not remove the string: {error}"},
                 status=HTTP_500_INTERNAL_SERVER_ERROR,
             )
         return Response(status=HTTP_204_NO_CONTENT)

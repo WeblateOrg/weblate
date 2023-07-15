@@ -112,13 +112,13 @@ class MemoryManager(models.Manager):
         try:
             data = json.loads(force_str(content))
         except ValueError as error:
-            report_error(cause="Failed to parse memory")
-            raise MemoryImportError(gettext("Failed to parse JSON file: %s") % error)
+            report_error(cause="Could not parse memory")
+            raise MemoryImportError(gettext("Could not parse JSON file: %s") % error)
         try:
             validate(data, load_schema("weblate-memory.schema.json"))
         except ValidationError as error:
-            report_error(cause="Failed to validate memory")
-            raise MemoryImportError(gettext("Failed to parse JSON file: %s") % error)
+            report_error(cause="Could not validate memory")
+            raise MemoryImportError(gettext("Could not parse JSON file: %s") % error)
         found = 0
         lang_cache = {}
         for entry in data:
@@ -146,8 +146,8 @@ class MemoryManager(models.Manager):
         try:
             storage = tmxfile.parsefile(fileobj)
         except (SyntaxError, AssertionError):
-            report_error(cause="Failed to parse")
-            raise MemoryImportError(gettext("Failed to parse TMX file!"))
+            report_error(cause="Could not parse")
+            raise MemoryImportError(gettext("Could not parse TMX file!"))
         header = next(
             storage.document.getroot().iterchildren(storage.namespaced("header"))
         )
@@ -160,7 +160,7 @@ class MemoryManager(models.Manager):
         try:
             source_language = Language.objects.get_by_code(srclang, lang_cache, langmap)
         except Language.DoesNotExist:
-            raise MemoryImportError(gettext("Failed to find language %s!") % srclang)
+            raise MemoryImportError(gettext("Could not find language %s!") % srclang)
 
         found = 0
         for unit in storage.units:
@@ -177,7 +177,7 @@ class MemoryManager(models.Manager):
                     )
                 except Language.DoesNotExist:
                     raise MemoryImportError(
-                        gettext("Failed to find language %s!") % header.get("srclang")
+                        gettext("Could not find language %s!") % header.get("srclang")
                     )
                 translations[language.code] = text
 

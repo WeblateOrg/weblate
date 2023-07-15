@@ -103,7 +103,7 @@ def validate_screenshot_image(component, filename):
             image_file = File(f, name=os.path.basename(filename))
             validate_bitmap(image_file)
     except ValidationError:
-        report_error(cause="Failed to validate image from repository")
+        report_error(cause="Could not validate image from repository")
         return False
     return True
 

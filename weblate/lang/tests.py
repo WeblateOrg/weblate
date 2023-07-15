@@ -196,7 +196,7 @@ class LanguagesTest(BaseTestCase, metaclass=TestSequenceMeta):
         self.assertEqual(
             create,
             not bool(lang.pk),
-            f"Failed to assert creation for {original}: {create}",
+            f"Could not assert creation for {original}: {create}",
         )
         # Create language
         lang = Language.objects.auto_get_or_create(original)
