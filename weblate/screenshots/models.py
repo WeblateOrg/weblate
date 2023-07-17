@@ -55,7 +55,7 @@ class Screenshot(models.Model, UserDisplayMixin):
     )
     image = ScreenshotField(
         verbose_name=gettext_lazy("Image"),
-        help_text=gettext_lazy("Upload JPEG or PNG images up to 2000x2000 pixels."),
+        help_text=gettext_lazy("Upload image up to 2000x2000 pixels."),
         upload_to="screenshots/",
     )
     translation = models.ForeignKey(Translation, on_delete=models.deletion.CASCADE)
