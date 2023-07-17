@@ -638,11 +638,6 @@ class XliffUnit(TTKitUnit):
             return resname
         return self.mainunit.getid().replace(ID_SEPARATOR, "///")
 
-    @cached_property
-    def locations(self):
-        """Return comma separated list of locations."""
-        return ""
-
     def is_translated(self):
         """
         Check whether unit is translated.
