@@ -50,17 +50,6 @@ class FileFormatLoader(ClassLoader):
             result.append("weblate.formats.ttkit.TBXFormat")
         return result
 
-    def load_data(self):
-        result = super().load_data()
-        for fileformat in list(result.values()):
-            try:
-                fileformat.get_class()
-            except (AttributeError, ImportError) as error:
-                result.pop(fileformat.format_id)
-                self.errors[fileformat.format_id] = str(error)
-
-        return result
-
 
 FILE_FORMATS = FileFormatLoader()
 
