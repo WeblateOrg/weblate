@@ -9,14 +9,14 @@ from io import BytesIO
 from openpyxl import load_workbook
 
 from weblate.formats.external import XlsxFormat
-from weblate.formats.tests.test_formats import AutoFormatTest
+from weblate.formats.tests.test_formats import BaseFormatTest
 from weblate.trans.tests.utils import get_test_file
 
 XLSX_FILE = get_test_file("cs-mono.xlsx")
 JAPANESE_FILE = get_test_file("ja.xlsx")
 
 
-class XlsxFormatTest(AutoFormatTest):
+class XlsxFormatTest(BaseFormatTest):
     FORMAT = XlsxFormat
     FILE = XLSX_FILE
     MIME = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"

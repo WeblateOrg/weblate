@@ -16,7 +16,7 @@ from weblate.formats.convert import (
     WindowsRCFormat,
 )
 from weblate.formats.helpers import BytesIOMode
-from weblate.formats.tests.test_formats import AutoFormatTest
+from weblate.formats.tests.test_formats import BaseFormatTest
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -27,7 +27,7 @@ TEST_RC = get_test_file("cs-CZ.rc")
 TEST_TXT = get_test_file("cs.txt")
 
 
-class ConvertFormatTest(AutoFormatTest):
+class ConvertFormatTest(BaseFormatTest):
     NEW_UNIT_MATCH = None
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True

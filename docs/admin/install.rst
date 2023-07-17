@@ -94,20 +94,12 @@ of them in :file:`requirements-optional.txt`.
 
 ``Mercurial`` (optional for :ref:`vcs-mercurial` repositories support)
     https://www.mercurial-scm.org/
-``phply`` (optional for :ref:`php`)
-    https://github.com/viraptor/phply
 ``tesserocr`` (optional for OCR in :ref:`screenshots`)
     https://github.com/sirfz/tesserocr
 ``python-akismet`` (optional for :ref:`spam-protection`)
     https://github.com/Nekmo/python-akismet
-``ruamel.yaml`` (optional for :ref:`yaml`)
-    https://pypi.org/project/ruamel.yaml/
 ``Zeep`` (optional for :ref:`mt-microsoft-terminology`)
     https://docs.python-zeep.org/
-``aeidon`` (optional for :ref:`subtitles`)
-    https://pypi.org/project/aeidon/
-``fluent.syntax`` (optional for :ref:`fluent`)
-    https://projectfluent.org/
 
 .. hint::
 
