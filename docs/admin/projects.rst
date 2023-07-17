@@ -430,7 +430,7 @@ Screenshot file mask
 This feature allows the discovery and updating of screenshots through screenshot file masks, using paths from the VCS repository.
 This operates at the component level and necessitates the use of an asterisk "*" to replace the screenshot file name.
 
-Allowed formats are JPEG, PNG, APNG and GIF.
+Allowed formats are WebP, JPEG, PNG, APNG and GIF.
 
 Note:
 
