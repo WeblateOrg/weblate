@@ -13,6 +13,7 @@ Not yet released.
 * WebP is now supported for :ref:`screenshots`.
 * Avoid duplicate notification when a user is subscribed to overlapping scopes.
 * Improved OCR support for non-English languages in :ref:`screenshots`.
+* :ref:`xliff` now supports displaying source string location.
 
 **Bug fixes**
 
