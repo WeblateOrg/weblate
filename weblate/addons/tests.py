@@ -1073,16 +1073,19 @@ class TestRemoval(ViewTestCase):
     def install(self):
         self.assertTrue(RemoveComments.can_install(self.component, None))
         self.assertTrue(RemoveSuggestions.can_install(self.component, None))
-        RemoveSuggestions.create(self.component, configuration={"age": 7})
-        RemoveComments.create(self.component, configuration={"age": 7})
+        return (
+            RemoveSuggestions.create(self.component, configuration={"age": 7}),
+            RemoveComments.create(self.component, configuration={"age": 7}),
+        )
 
     def assert_count(self, comments=0, suggestions=0):
         self.assertEqual(Comment.objects.count(), comments)
         self.assertEqual(Suggestion.objects.count(), suggestions)
 
     def test_noop(self):
-        self.install()
-        daily_addons()
+        suggestions, comments = self.install()
+        suggestions.daily(self.component)
+        comments.daily(self.component)
         self.assert_count()
 
     def add_content(self):
@@ -1091,9 +1094,10 @@ class TestRemoval(ViewTestCase):
         unit.suggestion_set.create(user=None, target="suggestion")
 
     def test_current(self):
-        self.install()
+        suggestions, comments = self.install()
         self.add_content()
-        daily_addons()
+        suggestions.daily(self.component)
+        comments.daily(self.component)
         self.assert_count(1, 1)
 
     @staticmethod
@@ -1103,21 +1107,27 @@ class TestRemoval(ViewTestCase):
         Suggestion.objects.all().update(timestamp=old)
 
     def test_old(self):
-        self.install()
+        suggestions, comments = self.install()
         self.add_content()
         self.age_content()
-        daily_addons()
+        suggestions.daily(self.component)
+        comments.daily(self.component)
         self.assert_count()
 
     def test_votes(self):
-        self.install()
+        suggestions, comments = self.install()
         self.add_content()
         self.age_content()
         Vote.objects.create(
             user=self.user, suggestion=Suggestion.objects.all()[0], value=1
         )
-        daily_addons()
+        suggestions.daily(self.component)
+        comments.daily(self.component)
         self.assert_count(suggestions=1)
+
+    def test_daily(self):
+        self.install()
+        daily_addons()
 
 
 class AutoTranslateAddonTest(ViewTestCase):

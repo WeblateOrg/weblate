@@ -9,7 +9,8 @@ import os
 from celery.schedules import crontab
 from django.db import Error as DjangoDatabaseError
 from django.db import transaction
-from django.db.models import Q
+from django.db.models import F, Q
+from django.utils import timezone
 from lxml import html
 
 from weblate.addons.events import EVENT_DAILY
@@ -99,9 +100,11 @@ def language_consistency(project_id: int, language_ids: list[int]):
 
 @app.task(trail=False)
 def daily_addons():
-    for addon in Addon.objects.filter(event__event=EVENT_DAILY).prefetch_related(
-        "component"
-    ):
+    today = timezone.now()
+    addons = Addon.objects.annotate(hourmod=F("component_id") % 24).filter(
+        hourmod=today.hour, event__event=EVENT_DAILY
+    )
+    for addon in addons.prefetch_related("component"):
         with transaction.atomic():
             addon.component.log_debug("running daily add-on: %s", addon.name)
             try:
@@ -120,6 +123,4 @@ def postconfigure_addon(addon_id: int):
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(
-        crontab(hour=4, minute=45), daily_addons.s(), name="daily-addons"
-    )
+    sender.add_periodic_task(crontab(minute=45), daily_addons.s(), name="daily-addons")
