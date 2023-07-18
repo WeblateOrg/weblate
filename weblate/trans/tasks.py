@@ -514,10 +514,12 @@ def update_checks(pk: int, update_token: str, update_state: bool = False):
 
 @app.task(trail=False)
 def daily_update_checks():
-    components = Component.objects.all()
-    today = timezone.now().date()
     if settings.BACKGROUND_TASKS == "never":
         return
+    today = timezone.now()
+    components = Component.objects.annotate(hourmod=F("id") % 24).filter(
+        hourmod=today.hour
+    )
     if settings.BACKGROUND_TASKS == "monthly":
         components = components.annotate(idmod=F("id") % 30).filter(idmod=today.day)
     elif settings.BACKGROUND_TASKS == "weekly":
@@ -582,7 +584,7 @@ def setup_periodic_tasks(sender, **kwargs):
         crontab(hour=3, minute=5), update_remotes.s(), name="update-remotes"
     )
     sender.add_periodic_task(
-        crontab(hour=3, minute=30), daily_update_checks.s(), name="daily-update-checks"
+        crontab(minute=30), daily_update_checks.s(), name="daily-update-checks"
     )
     sender.add_periodic_task(
         crontab(hour=3, minute=45), repository_alerts.s(), name="repository-alerts"
