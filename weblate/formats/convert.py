@@ -17,12 +17,14 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from translate.convert.po2html import po2html
 from translate.convert.po2idml import translate_idml, write_idml
+from translate.convert.po2md import MarkdownTranslator
 from translate.convert.po2rc import rerc
 from translate.convert.po2txt import po2txt
 from translate.convert.rc2po import rc2po
 from translate.convert.xliff2odf import translate_odf, write_odf
 from translate.storage.html import htmlfile
 from translate.storage.idml import INLINE_ELEMENTS, NO_TRANSLATE_ELEMENTS, open_idml
+from translate.storage.markdown import MarkdownFile
 from translate.storage.odf_io import open_odf
 from translate.storage.odf_shared import inline_elements, no_translate_content_elements
 from translate.storage.po import pofile
@@ -115,8 +117,7 @@ class ConvertFormat(TranslationFormat):
         """Save underlying store to disk."""
         self.save_atomic(self.storefile, self.save_content)
 
-    @staticmethod
-    def convertfile(storefile, template_store):
+    def convertfile(self, storefile, template_store):
         raise NotImplementedError
 
     @staticmethod
@@ -198,8 +199,7 @@ class ConvertFormat(TranslationFormat):
         self.save()
         return []
 
-    @staticmethod
-    def convert_to_po(parser, template_store):
+    def convert_to_po(self, parser, template_store, use_location: bool = True):
         store = pofile()
         if template_store:
             parser.makeindex()
@@ -208,13 +208,15 @@ class ConvertFormat(TranslationFormat):
                 locations = unit.unit.getlocations()
                 thepo.addlocations(locations)
                 thepo.addnote(unit.unit.getnotes(), "developer")
-                for location in locations:
-                    try:
-                        translation = parser.locationindex[location]
-                        thepo.target = translation.source
-                        break
-                    except KeyError:
-                        continue
+                # Try to import translation from the file
+                if use_location:
+                    for location in locations:
+                        try:
+                            translation = parser.locationindex[location]
+                            thepo.target = translation.source
+                            break
+                        except KeyError:
+                            continue
         else:
             for htmlunit in parser.units:
                 # Source file
@@ -232,11 +234,10 @@ class HTMLFormat(ConvertFormat):
     format_id = "html"
     check_flags = ("safe-html", "strict-same")
 
-    @classmethod
-    def convertfile(cls, storefile, template_store):
+    def convertfile(self, storefile, template_store):
         # Fake input file with a blank filename
         htmlparser = htmlfile(inputfile=BytesIOMode("", storefile.read()))
-        return cls.convert_to_po(htmlparser, template_store)
+        return self.convert_to_po(htmlparser, template_store)
 
     def save_content(self, handle):
         """Store content to file."""
@@ -259,6 +260,39 @@ class HTMLFormat(ConvertFormat):
     def extension():
         """Return most common file extension for format."""
         return "html"
+
+
+class MarkdownFormat(ConvertFormat):
+    name = gettext_lazy("Markdown file")
+    autoload = ("*.md", "*.markdown")
+    format_id = "markdown"
+    check_flags = ("safe-html", "strict-same", "md-text")
+
+    def convertfile(self, storefile, template_store):
+        # Fake input file with a blank filename
+        mdparser = MarkdownFile(inputfile=BytesIOMode("", storefile.read()))
+        return self.convert_to_po(mdparser, template_store, use_location=False)
+
+    def save_content(self, handle):
+        """Store content to file."""
+        converter = MarkdownTranslator(
+            inputstore=self.store, includefuzzy=True, outputthreshold=None, maxlength=80
+        )
+        templatename = self.template_store.storefile
+        if hasattr(templatename, "name"):
+            templatename = templatename.name
+        with open(templatename, "rb") as templatefile:
+            converter.translate(templatefile, handle)
+
+    @staticmethod
+    def mimetype():
+        """Return most common mime type for format."""
+        return "text/markdown"
+
+    @staticmethod
+    def extension():
+        """Return most common file extension for format."""
+        return "md"
 
 
 class OpenDocumentFormat(ConvertFormat):
@@ -403,8 +437,7 @@ class WindowsRCFormat(ConvertFormat):
         """Return most common file extension for format."""
         return "rc"
 
-    @staticmethod
-    def convertfile(storefile, template_store):
+    def convertfile(self, storefile, template_store):
         input_store = rcfile()
         input_store.parse(storefile.read())
         converter = rc2po()
@@ -467,12 +500,11 @@ class PlainTextFormat(ConvertFormat):
         """Return most common file extension for format."""
         return "txt"
 
-    @classmethod
-    def convertfile(cls, storefile, template_store):
-        input_store = TxtFile(encoding="utf-8", flavour=cls.flavour)
+    def convertfile(self, storefile, template_store):
+        input_store = TxtFile(encoding="utf-8", flavour=self.flavour)
         input_store.parse(storefile.readlines())
         input_store.filename = os.path.basename(storefile.name)
-        return cls.convert_to_po(input_store, template_store)
+        return self.convert_to_po(input_store, template_store)
 
     def save_content(self, handle):
         """Store content to file."""

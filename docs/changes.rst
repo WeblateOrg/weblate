@@ -5,6 +5,8 @@ Not yet released.
 
 **New features**
 
+* :doc:`/formats/markdown` support, thanks to Anders Kaplan.
+
 **Improvements**
 
 * Plurals handling in machine translation.

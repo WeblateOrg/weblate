@@ -11,6 +11,7 @@ from unittest import SkipTest
 from weblate.formats.convert import (
     HTMLFormat,
     IDMLFormat,
+    MarkdownFormat,
     OpenDocumentFormat,
     PlainTextFormat,
     WindowsRCFormat,
@@ -22,6 +23,7 @@ from weblate.utils.state import STATE_TRANSLATED
 
 IDML_FILE = get_test_file("en.idml")
 HTML_FILE = get_test_file("cs.html")
+MARKDOWN_FILE = get_test_file("cs.md")
 OPENDOCUMENT_FILE = get_test_file("cs.odt")
 TEST_RC = get_test_file("cs-CZ.rc")
 TEST_TXT = get_test_file("cs.txt")
@@ -96,6 +98,34 @@ class HTMLFormatTest(ConvertFormatTest):
     CONVERT_TEMPLATE = "<html><body><p>Hello</p><p>Bye</p></body></html>"
     CONVERT_TRANSLATION = "<html><body><p>Ahoj</p><p></p></body></html>"
     CONVERT_EXPECTED = "<html><body><p>Ahoj</p><p>Nazdar</p></body></html>"
+
+
+class MarkdownFormatTest(ConvertFormatTest):
+    FORMAT = MarkdownFormat
+    FILE = MARKDOWN_FILE
+    MIME = "text/markdown"
+    EXT = "md"
+    COUNT = 5
+    MASK = "*/translations.md"
+    EXPECTED_PATH = "cs_CZ/translations.md"
+    FIND = "Orangutan has five bananas."
+    FIND_MATCH = "Orangutan has five bananas."
+    MATCH = b"#"
+    NEW_UNIT_MATCH = None
+    BASE = MARKDOWN_FILE
+    EXPECTED_FLAGS = ""
+    EDIT_OFFSET = 1
+
+    CONVERT_TEMPLATE = """# Hello
+
+Bye
+"""
+    CONVERT_TRANSLATION = """# Ahoj
+"""
+    CONVERT_EXPECTED = """# Ahoj
+
+Nazdar
+"""
 
 
 class OpenDocumentFormatTest(ConvertFormatTest):

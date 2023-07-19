@@ -280,6 +280,14 @@ Translation types capabilities
      - no
      - no
      -
+   * - :ref:`markdown`
+     - mono
+     - no
+     - no
+     - no
+     - no
+     - no
+     -
    * - :ref:`odf`
      - mono
      - no
