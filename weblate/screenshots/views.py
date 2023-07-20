@@ -2,7 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import difflib
+import os
+from contextlib import contextmanager
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -14,13 +19,20 @@ from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
 from PIL import Image
 
+from weblate.logger import LOGGER
 from weblate.screenshots.forms import ScreenshotEditForm, ScreenshotForm, SearchForm
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Change, Unit
 from weblate.utils import messages
+from weblate.utils.data import data_dir
 from weblate.utils.locale import c_locale
+from weblate.utils.lock import WeblateLock
+from weblate.utils.requests import request
 from weblate.utils.search import parse_query
 from weblate.utils.views import ComponentViewMixin
+
+if TYPE_CHECKING:
+    from weblate.lang.models import Language
 
 with c_locale():
     from tesserocr import OEM, PSM, RIL, PyTessBaseAPI
@@ -129,6 +141,43 @@ TESSERACT_LANGUAGES = {
     "vi": "vie",  # Vietnamese
     "yi": "yid",  # Yiddish
 }
+
+TESSERACT_URL = "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/{}"
+
+
+def ensure_tesseract_language(lang: str):
+    """
+    Ensure that tesseract trained data is present for a language.
+
+    It also always includes eng (English) and osd (Orientation and script detection).
+    """
+    tessdata = data_dir("cache", "tesseract")
+
+    # Operate with a lock held to avoid concurrent downloads
+    with WeblateLock(
+        data_dir("home"),
+        "screenshots:tesseract-download",
+        0,
+        "screenshots:tesseract-download",
+        timeout=600,
+    ):
+        if not os.path.isdir(tessdata):
+            os.makedirs(tessdata)
+
+        for code in (lang, "eng", "osd"):
+            filename = f"{code}.traineddata"
+            full_name = os.path.join(tessdata, filename)
+            if os.path.exists(full_name):
+                continue
+
+            url = TESSERACT_URL.format(filename)
+
+            LOGGER.debug("downloading tesseract data %s", url)
+
+            response = request("GET", url, allow_redirects=True)
+
+            with open(full_name, "xb") as handle:
+                handle.write(response.content)
 
 
 def try_add_source(request, obj):
@@ -335,6 +384,28 @@ def ocr_extract(api, image, strings):
             yield from difflib.get_close_matches(part, strings, cutoff=0.9)
 
 
+@contextmanager
+def get_tesseract(language: Language) -> PyTessBaseAPI:
+    # Get matching language
+    try:
+        tess_language = TESSERACT_LANGUAGES[language.code]
+    except KeyError:
+        try:
+            tess_language = TESSERACT_LANGUAGES[language.base_code]
+        except KeyError:
+            tess_language = "eng"
+
+    ensure_tesseract_language(tess_language)
+
+    with c_locale(), PyTessBaseAPI(
+        path=data_dir("cache", "tesseract") + "/",
+        psm=PSM.SPARSE_TEXT_OSD,
+        oem=OEM.LSTM_ONLY,
+        lang=tess_language,
+    ) as api:
+        yield api
+
+
 @login_required
 @require_POST
 def ocr_search(request, pk):
@@ -355,16 +426,7 @@ def ocr_search(request, pk):
     strings = tuple(sources.keys())
 
     # Extract and match strings
-    try:
-        tess_language = TESSERACT_LANGUAGES[translation.language.code]
-    except KeyError:
-        try:
-            tess_language = TESSERACT_LANGUAGES[translation.language.base_code]
-        except KeyError:
-            tess_language = "eng"
-    with c_locale(), PyTessBaseAPI(
-        psm=PSM.SPARSE_TEXT_OSD, oem=OEM.LSTM_ONLY, lang=tess_language
-    ) as api:
+    with get_tesseract(translation.language) as api:
         results = {
             sources[match]
             for image in (original_image, scaled_image)
