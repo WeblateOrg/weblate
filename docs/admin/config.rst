@@ -278,6 +278,17 @@ network filesystem.
 
 The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 
+The following subdirectories usually exist:
+
+:file:`fonts`
+   :program:`font-config` cache for :ref:`fonts`.
+:file:`avatar`
+   Cached user avatars, see :ref:`avatars`.
+:file:`static`
+   Default location for static Django files, specified by :setting:`django:STATIC_ROOT`. See :ref:`static-files`.
+:file:`tesseract`
+   OCR trained data for :ref:`screenshots`.
+
 .. setting:: CSP_SCRIPT_SRC
 .. setting:: CSP_IMG_SRC
 .. setting:: CSP_CONNECT_SRC
@@ -404,10 +415,6 @@ The following subdirectories usually exist:
     Home directory used for invoking scripts.
 :file:`ssh`
     SSH keys and configuration.
-:file:`static`
-    Default location for static Django files, specified by :setting:`django:STATIC_ROOT`. See :ref:`static-files`.
-
-    The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 :file:`media`
     Default location for Django media files, specified by :setting:`django:MEDIA_ROOT`. Contains uploaded screenshots, see :ref:`screenshots`.
 :file:`vcs`

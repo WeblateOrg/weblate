@@ -175,6 +175,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 * The deprecated VCS setting for credentials is no longer supported, see :ref:`up-4-14`.
 * Upgrade of `django-crispy-forms` requires changes in :setting:`django:INSTALLED_APPS`.
 * Integration of `django-cors-headers` requires changes in :setting:`django:INSTALLED_APPS` and :setting:`django:MIDDLEWARE`.
+* Introduction of :setting:`CACHE_DIR` changed default value of :setting:`django:STATIC_ROOT`. You might need to adjust :ref:`static-files` accordingly.
 
 Weblate 4.15.2
 --------------
