@@ -1206,14 +1206,14 @@ Serving static files
 Django needs to collect its static files in a single directory. To do so,
 execute :samp:`weblate collectstatic --noinput`. This will copy the static
 files into a directory specified by the :setting:`django:STATIC_ROOT` setting (this defaults to
-a ``static`` directory inside :setting:`DATA_DIR`).
+a ``static`` directory inside :setting:`CACHE_DIR`).
 
 It is recommended to serve static files directly from your web server, you should
 use that for the following paths:
 
 :file:`/static/`
     Serves static files for Weblate and the admin interface
-    (from defined by ``STATIC_ROOT``).
+    (from defined by :setting:`django:STATIC_ROOT`).
 :file:`/media/`
     Used for user media uploads (e.g. screenshots).
 :file:`/favicon.ico`
