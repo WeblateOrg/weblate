@@ -7,7 +7,6 @@ import tempfile
 from difflib import get_close_matches
 from itertools import chain
 from shutil import copyfile
-from unittest import SkipTest
 
 from django.core.files import File
 from django.urls import reverse
@@ -15,7 +14,6 @@ from django.utils import timezone
 from PIL import Image
 from rest_framework.test import APITestCase
 
-import weblate.screenshots.views
 from weblate.screenshots.models import Screenshot
 from weblate.screenshots.views import PyTessBaseAPI, ocr_get_strings
 from weblate.trans.tests.test_models import RepoTestCase
@@ -151,9 +149,6 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(screenshot.units.count(), 0)
 
     def test_ocr_backend(self):
-        if not weblate.screenshots.views.HAS_OCR:
-            raise SkipTest("OCR not supported")
-
         # Convert to greyscale
         image = Image.open(TEST_SCREENSHOT).convert("L")
 
@@ -174,8 +169,6 @@ class ViewTest(FixtureTestCase):
         )
 
     def test_ocr(self):
-        if not weblate.screenshots.views.HAS_OCR:
-            raise SkipTest("OCR not supported")
         self.make_manager()
         self.do_upload()
         screenshot = Screenshot.objects.all()[0]
@@ -193,24 +186,6 @@ class ViewTest(FixtureTestCase):
             data["results"],
             "OCR recognition not working, no recognized strings found",
         )
-
-    def test_ocr_disabled(self):
-        orig = weblate.screenshots.views.HAS_OCR
-        weblate.screenshots.views.HAS_OCR = False
-        try:
-            self.make_manager()
-            self.do_upload()
-            screenshot = Screenshot.objects.all()[0]
-
-            # Search for string
-            response = self.client.post(
-                reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
-            )
-            data = response.json()
-
-            self.assertEqual(data["responseCode"], 500)
-        finally:
-            weblate.screenshots.views.HAS_OCR = orig
 
     def test_translation_manipulations(self):
         self.make_manager()

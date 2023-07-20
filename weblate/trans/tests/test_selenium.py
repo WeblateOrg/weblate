@@ -25,7 +25,6 @@ from selenium.webdriver.support.expected_conditions import (
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
-import weblate.screenshots.views
 from weblate.fonts.tests.utils import FONT
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project, Unit
@@ -524,11 +523,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             element.submit()
 
         # Perform OCR
-        if weblate.screenshots.views.HAS_OCR:
-            self.click(htmlid="screenshots-auto")
-            wait_search()
+        self.click(htmlid="screenshots-auto")
+        wait_search()
 
-            self.screenshot("screenshot-ocr.png")
+        self.screenshot("screenshot-ocr.png")
 
         # Add string manually
         self.driver.find_element(By.ID, "search-input").send_keys(f"{text!r}")
