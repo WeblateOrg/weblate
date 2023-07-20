@@ -25,6 +25,111 @@ from weblate.utils.views import ComponentViewMixin
 with c_locale():
     from tesserocr import OEM, PSM, RIL, PyTessBaseAPI
 
+TESSERACT_LANGUAGES = {
+    "af": "afr",  # Afrikaans
+    "am": "amh",  # Amharic
+    "ar": "ara",  # Arabic
+    "as": "asm",  # Assamese
+    "az": "aze",  # Azerbaijani
+    "az@Cyrl": "aze_cyrl",  # Azerbaijani - Cyrillic
+    "be": "bel",  # Belarusian
+    "bn": "ben",  # Bengali
+    "bo": "bod",  # Tibetan
+    "bs": "bos",  # Bosnian
+    "bg": "bul",  # Bulgarian
+    "ca": "cat",  # Catalan; Valencian
+    "ceb": "ceb",  # Cebuano
+    "cs": "ces",  # Czech
+    "zh_Hans": "chi_sim",  # Chinese - Simplified
+    "zh_Hant": "chi_tra",  # Chinese - Traditional
+    "chr": "chr",  # Cherokee
+    "cy": "cym",  # Welsh
+    "da": "dan",  # Danish
+    "de": "deu",  # German
+    "dz": "dzo",  # Dzongkha
+    "el": "ell",  # Greek, Modern (1453-)
+    "en": "eng",  # English
+    "enm": "enm",  # English, Middle (1100-1500)
+    "eo": "epo",  # Esperanto
+    "et": "est",  # Estonian
+    "eu": "eus",  # Basque
+    "fa": "fas",  # Persian
+    "fi": "fin",  # Finnish
+    "fr": "fra",  # French
+    "frk": "frk",  # German Fraktur
+    "frm": "frm",  # French, Middle (ca. 1400-1600)
+    "ga": "gle",  # Irish
+    "gl": "glg",  # Galician
+    "grc": "grc",  # Greek, Ancient (-1453)
+    "gu": "guj",  # Gujarati
+    "ht": "hat",  # Haitian; Haitian Creole
+    "he": "heb",  # Hebrew
+    "hi": "hin",  # Hindi
+    "hr": "hrv",  # Croatian
+    "hu": "hun",  # Hungarian
+    "iu": "iku",  # Inuktitut
+    "id": "ind",  # Indonesian
+    "is": "isl",  # Icelandic
+    "it": "ita",  # Italian
+    #    "": "ita_old",  # Italian - Old
+    "jv": "jav",  # Javanese
+    "ja": "jpn",  # Japanese
+    "kn": "kan",  # Kannada
+    "ka": "kat",  # Georgian
+    #    "": "kat_old",  # Georgian - Old
+    "kk": "kaz",  # Kazakh
+    "km": "khm",  # Central Khmer
+    "ky": "kir",  # Kirghiz; Kyrgyz
+    "ko": "kor",  # Korean
+    "ku": "kur",  # Kurdish
+    "lo": "lao",  # Lao
+    "la": "lat",  # Latin
+    "lv": "lav",  # Latvian
+    "lt": "lit",  # Lithuanian
+    "ml": "mal",  # Malayalam
+    "mr": "mar",  # Marathi
+    "mk": "mkd",  # Macedonian
+    "mt": "mlt",  # Maltese
+    "ms": "msa",  # Malay
+    "my": "mya",  # Burmese
+    "ne": "nep",  # Nepali
+    "nl": "nld",  # Dutch; Flemish
+    "nb_NO": "nor",  # Norwegian
+    #    "": "ori",  # Oriya
+    "pa": "pan",  # Panjabi; Punjabi
+    "pl": "pol",  # Polish
+    "pt": "por",  # Portuguese
+    "ps": "pus",  # Pushto; Pashto
+    "ro": "ron",  # Romanian; Moldavian; Moldovan
+    "ru": "rus",  # Russian
+    "sa": "san",  # Sanskrit
+    "si": "sin",  # Sinhala; Sinhalese
+    "sk": "slk",  # Slovak
+    "sl": "slv",  # Slovenian
+    "es": "spa",  # Spanish; Castilian
+    #    "": "spa_old",  # Spanish; Castilian - Old
+    "sq": "sqi",  # Albanian
+    "sr": "srp",  # Serbian
+    "sr_Latn": "srp_latn",  # Serbian - Latin
+    "sw": "swa",  # Swahili
+    "sv": "swe",  # Swedish
+    "syr": "syr",  # Syriac
+    "ta": "tam",  # Tamil
+    "te": "tel",  # Telugu
+    "tg": "tgk",  # Tajik
+    "tl": "tgl",  # Tagalog
+    "th": "tha",  # Thai
+    "ti": "tir",  # Tigrinya
+    "tr": "tur",  # Turkish
+    "ug": "uig",  # Uighur; Uyghur
+    "uk": "ukr",  # Ukrainian
+    "ur": "urd",  # Urdu
+    "uz_Latn": "uzb",  # Uzbek
+    "uz": "uzb_cyrl",  # Uzbek - Cyrillic
+    "vi": "vie",  # Vietnamese
+    "yi": "yid",  # Yiddish
+}
+
 
 def try_add_source(request, obj):
     if "source" not in request.POST:
@@ -250,7 +355,16 @@ def ocr_search(request, pk):
     strings = tuple(sources.keys())
 
     # Extract and match strings
-    with c_locale(), PyTessBaseAPI(psm=PSM.SPARSE_TEXT_OSD, oem=OEM.LSTM_ONLY) as api:
+    try:
+        tess_language = TESSERACT_LANGUAGES[translation.language.code]
+    except KeyError:
+        try:
+            tess_language = TESSERACT_LANGUAGES[translation.language.base_code]
+        except KeyError:
+            tess_language = "eng"
+    with c_locale(), PyTessBaseAPI(
+        psm=PSM.SPARSE_TEXT_OSD, oem=OEM.LSTM_ONLY, lang=tess_language
+    ) as api:
         results = {
             sources[match]
             for image in (original_image, scaled_image)
