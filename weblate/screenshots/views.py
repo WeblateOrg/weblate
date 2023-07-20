@@ -24,7 +24,7 @@ from weblate.utils.views import ComponentViewMixin
 
 try:
     with c_locale():
-        from tesserocr import PSM, RIL, PyTessBaseAPI
+        from tesserocr import OEM, PSM, RIL, PyTessBaseAPI
     HAS_OCR = True
 except ImportError:
     PyTessBaseAPI = None
@@ -257,7 +257,7 @@ def ocr_search(request, pk):
     strings = tuple(sources.keys())
 
     # Extract and match strings
-    with c_locale(), PyTessBaseAPI(psm=PSM.SPARSE_TEXT_OSD) as api:
+    with c_locale(), PyTessBaseAPI(psm=PSM.SPARSE_TEXT_OSD, oem=OEM.LSTM_ONLY) as api:
         results = {
             sources[match]
             for image in (original_image, scaled_image)
