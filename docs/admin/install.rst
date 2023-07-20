@@ -94,8 +94,6 @@ of them in :file:`requirements-optional.txt`.
 
 ``Mercurial`` (optional for :ref:`vcs-mercurial` repositories support)
     https://www.mercurial-scm.org/
-``tesserocr`` (optional for OCR in :ref:`screenshots`)
-    https://github.com/sirfz/tesserocr
 ``python-akismet`` (optional for :ref:`spam-protection`)
     https://github.com/Nekmo/python-akismet
 ``Zeep`` (optional for :ref:`mt-microsoft-terminology`)

@@ -22,13 +22,8 @@ from weblate.utils.locale import c_locale
 from weblate.utils.search import parse_query
 from weblate.utils.views import ComponentViewMixin
 
-try:
-    with c_locale():
-        from tesserocr import OEM, PSM, RIL, PyTessBaseAPI
-    HAS_OCR = True
-except ImportError:
-    PyTessBaseAPI = None
-    HAS_OCR = False
+with c_locale():
+    from tesserocr import OEM, PSM, RIL, PyTessBaseAPI
 
 
 def try_add_source(request, obj):
@@ -239,8 +234,6 @@ def ocr_extract(api, image, strings):
 @require_POST
 def ocr_search(request, pk):
     obj = get_screenshot(request, pk)
-    if not HAS_OCR:
-        return search_results(request, 500, obj)
     translation = obj.translation
 
     # Load image
