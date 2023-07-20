@@ -5801,9 +5801,9 @@ function convertJSSelfProfileToSampledFormat(input) {
       if (profile.frames[stackTop.frameId] === undefined) {
         profile.frames[stackTop.frameId] = {
           function: frame.name,
-          file: frame.resourceId ? input.resources[frame.resourceId] : undefined,
-          line: frame.line,
-          column: frame.column,
+          abs_path: typeof frame.resourceId === 'number' ? input.resources[frame.resourceId] : undefined,
+          lineno: frame.line,
+          colno: frame.column,
         };
       }
 
@@ -12376,7 +12376,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":54,"../scope.js":65,"@sentry/utils":108}],83:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.59.2';
+const SDK_VERSION = '7.59.3';
 
 exports.SDK_VERSION = SDK_VERSION;
 
