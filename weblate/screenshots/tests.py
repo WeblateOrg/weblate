@@ -14,13 +14,13 @@ from django.utils import timezone
 from PIL import Image
 from rest_framework.test import APITestCase
 
+from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
-from weblate.screenshots.views import PyTessBaseAPI, ocr_get_strings
+from weblate.screenshots.views import get_tesseract, ocr_get_strings
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
 from weblate.utils.db import using_postgresql
-from weblate.utils.locale import c_locale
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 
@@ -153,7 +153,7 @@ class ViewTest(FixtureTestCase):
         image = Image.open(TEST_SCREENSHOT).convert("L")
 
         # Extract strings
-        with c_locale(), PyTessBaseAPI() as api:
+        with get_tesseract(Language.objects.get(code="en")) as api:
             result = list(ocr_get_strings(api, image))
 
         # Reverse logic would make sense here, but we want to use same order as in views.py
