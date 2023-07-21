@@ -11,7 +11,6 @@ from shutil import copyfile
 from django.core.files import File
 from django.urls import reverse
 from django.utils import timezone
-from PIL import Image
 from rest_framework.test import APITestCase
 
 from weblate.lang.models import Language
@@ -149,12 +148,9 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(screenshot.units.count(), 0)
 
     def test_ocr_backend(self):
-        # Convert to greyscale
-        image = Image.open(TEST_SCREENSHOT).convert("L")
-
         # Extract strings
         with get_tesseract(Language.objects.get(code="en")) as api:
-            result = list(ocr_get_strings(api, image))
+            result = list(ocr_get_strings(api, TEST_SCREENSHOT, 72))
 
         # Reverse logic would make sense here, but we want to use same order as in views.py
         matches = list(
