@@ -9,6 +9,7 @@ import os
 from contextlib import contextmanager
 from typing import TYPE_CHECKING
 
+import sentry_sdk
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
@@ -35,7 +36,7 @@ if TYPE_CHECKING:
     from weblate.lang.models import Language
 
 with c_locale():
-    from tesserocr import OEM, PSM, RIL, PyTessBaseAPI
+    from tesserocr import OEM, PSM, RIL, PyTessBaseAPI, iterate_level
 
 TESSERACT_LANGUAGES = {
     "af": "afr",  # Afrikaans
@@ -160,7 +161,7 @@ def ensure_tesseract_language(lang: str):
         0,
         "screenshots:tesseract-download",
         timeout=600,
-    ):
+    ), sentry_sdk.start_span(op="ocr.models"):
         if not os.path.isdir(tessdata):
             os.makedirs(tessdata)
 
@@ -174,7 +175,8 @@ def ensure_tesseract_language(lang: str):
 
             LOGGER.debug("downloading tesseract data %s", url)
 
-            response = request("GET", url, allow_redirects=True)
+            with sentry_sdk.start_span(op="ocr.download", description=url):
+                response = request("GET", url, allow_redirects=True)
 
             with open(full_name, "xb") as handle:
                 handle.write(response.content)
@@ -368,17 +370,25 @@ def search_source(request, pk):
     )
 
 
-def ocr_get_strings(api, image):
-    api.SetImage(image)
-    for item in api.GetComponentImages(RIL.TEXTLINE, True):
-        api.SetRectangle(item[1]["x"], item[1]["y"], item[1]["w"], item[1]["h"])
-        yield api.GetUTF8Text()
+def ocr_get_strings(api, image: str, resolution: int = 72):
+    api.SetImageFile(image)
+    api.SetSourceResolution(resolution)
+
+    with sentry_sdk.start_span(op="ocr.recognize", description=image):
+        api.Recognize()
+
+    with sentry_sdk.start_span(op="ocr.iterate", description=image):
+        iterator = api.GetIterator()
+        level = RIL.TEXTLINE
+        for r in iterate_level(iterator, level):
+            with sentry_sdk.start_span(op="ocr.text", description=image):
+                yield r.GetUTF8Text(level)
     api.Clear()
 
 
-def ocr_extract(api, image, strings):
+def ocr_extract(api, image: str, strings, resolution: int):
     """Extract closes matches from an image."""
-    for ocr_result in ocr_get_strings(api, image):
+    for ocr_result in ocr_get_strings(api, image, resolution):
         parts = [ocr_result, *ocr_result.split("|"), *ocr_result.split()]
         for part in parts:
             yield from difflib.get_close_matches(part, strings, cutoff=0.9)
@@ -412,30 +422,17 @@ def ocr_search(request, pk):
     obj = get_screenshot(request, pk)
     translation = obj.translation
 
-    # Load image
-    original_image = Image.open(obj.image.path)
-    # Convert to greyscale
-    original_image = original_image.convert("L")
-    # Resize image (tesseract works best around 300dpi)
-    scaled_image = original_image.copy().resize(
-        [size * 4 for size in original_image.size], Image.BICUBIC
-    )
-
     # Find all our strings
     sources = dict(translation.unit_set.values_list("source", "pk"))
     strings = tuple(sources.keys())
 
     # Extract and match strings
-    with get_tesseract(translation.language) as api:
+    with Image.open(obj.image.path), get_tesseract(translation.language) as api:
         results = {
             sources[match]
-            for image in (original_image, scaled_image)
-            for match in ocr_extract(api, image, strings)
+            for resolution in (72, 300)
+            for match in ocr_extract(api, obj.image.path, strings, resolution)
         }
-
-    # Close images
-    original_image.close()
-    scaled_image.close()
 
     return search_results(
         request, 200, obj, translation.unit_set.filter(pk__in=results)
