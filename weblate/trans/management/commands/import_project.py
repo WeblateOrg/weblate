@@ -310,7 +310,7 @@ class Command(BaseCommand):
                     continue
             # Pick random
             if component is None:
-                match = list(discovery.matched_components.values())[0]
+                match = next(iter(discovery.matched_components.values()))
 
         try:
             if component is None:
