@@ -100,7 +100,7 @@ def is_same_plural(
         except ValueError:
             return False
 
-    if number != -1 and number != our_number:
+    if number not in (-1, our_number):
         return False
     if formula == our_formula:
         return True
