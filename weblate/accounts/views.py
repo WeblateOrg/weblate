@@ -117,7 +117,9 @@ Message from %(name)s <%(email)s>:
 """
 
 
-TEMPLATE_FOOTER = """
+MESSAGE_TEMPLATE = """
+{message}
+
 --
 User: {username}
 IP address: {address}
@@ -199,13 +201,11 @@ def mail_admins_contact(request, subject, message, context, sender, to):
 
     mail = EmailMultiAlternatives(
         subject=f"{settings.EMAIL_SUBJECT_PREFIX}{subject % context}",
-        body="{}\n{}".format(
-            message % context,
-            TEMPLATE_FOOTER.format(
-                address=get_ip_address(request),
-                agent=get_user_agent(request),
-                username=request.user.username,
-            ),
+        body=MESSAGE_TEMPLATE.format(
+            message=message % context,
+            address=get_ip_address(request),
+            agent=get_user_agent(request),
+            username=request.user.username,
         ),
         to=to,
         **kwargs,
