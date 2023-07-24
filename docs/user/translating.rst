@@ -148,7 +148,7 @@ by the Unicode Consortium is a more detailed description.
 
 .. seealso::
 
-   :ref:`plural-formula`
+   :ref:`plural-definitions`
 
 .. image:: /screenshots/plurals.webp
 
