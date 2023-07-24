@@ -140,7 +140,7 @@ Number of speakers
 Number of worldwide speakers of this language.
 
 
-.. _plurals:
+.. _plural-definitions:
 
 Plural definitions
 ------------------
