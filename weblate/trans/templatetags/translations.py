@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 from collections import defaultdict
 from datetime import date
@@ -301,22 +303,91 @@ class Formatter:
 
 
 @register.inclusion_tag("snippets/format-translation.html")
+def format_unit_target(
+    unit,
+    value: str | None = None,
+    diff=None,
+    search_match: str | None = None,
+    match: str = "search",
+    simple: bool = False,
+    wrap: bool = False,
+):
+    return format_translation(
+        plurals=unit.get_target_plurals() if value is None else split_plural(value),
+        language=unit.translation.language,
+        plural=unit.translation.plural,
+        unit=unit,
+        diff=diff,
+        search_match=search_match,
+        match=match,
+        simple=simple,
+        wrap=wrap,
+    )
+
+
+@register.inclusion_tag("snippets/format-translation.html")
+def format_unit_source(
+    unit,
+    value: str | None = None,
+    diff=None,
+    search_match: str | None = None,
+    match: str = "search",
+    simple: bool = False,
+    glossary=None,
+    wrap: bool = False,
+):
+    source_translation = unit.translation.component.source_translation
+    return format_translation(
+        plurals=unit.get_source_plurals() if value is None else split_plural(value),
+        language=source_translation.language,
+        plural=source_translation.plural,
+        unit=unit,
+        diff=diff,
+        search_match=search_match,
+        match=match,
+        simple=simple,
+        glossary=glossary,
+        wrap=wrap,
+    )
+
+
+@register.inclusion_tag("snippets/format-translation.html")
+def format_source_string(
+    value: str,
+    unit,
+    search_match: str | None = None,
+    match: str = "search",
+    simple: bool = False,
+    glossary=None,
+    wrap: bool = False,
+    whitespace: bool = True,
+):
+    """Formats simple string as in the unit source language."""
+    return format_translation(
+        plurals=[value],
+        language=unit.translation.component.source_language,
+        search_match=search_match,
+        match=match,
+        simple=simple,
+        wrap=wrap,
+        whitespace=whitespace,
+    )
+
+
 def format_translation(
-    value,
-    language,
+    plurals: list[str],
+    language=None,
     plural=None,
     diff=None,
-    search_match=None,
+    search_match: str | None = None,
     simple: bool = False,
     wrap: bool = False,
     unit=None,
-    match="search",
+    match: str = "search",
     glossary=None,
     whitespace: bool = True,
 ):
     """Nicely formats translation text possibly handling plurals or diff."""
-    # Split plurals to separate strings
-    plurals = split_plural(value)
     is_multivalue = unit is not None and unit.translation.component.is_multivalue
 
     if plural is None:

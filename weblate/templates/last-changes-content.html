@@ -63,7 +63,7 @@
                 </div>
                 {% endif %}
                 <label>{{ change.unit.translation.component.source_language }}</label>
-                {% format_translation change.get_source change.unit.translation.component.source_language %}
+                {% format_unit_source change.unit value=change.get_source %}
                 <label>
                     {{ change.unit.translation.language }}
                     {% comment %}Translators: Number of edits on a change in Damerau–Levenshtein distance{% endcomment %}
@@ -75,12 +75,12 @@
                       <span class="badge">{{ change.get_state_display }}</span>
                     {% endif %}
                 </label>
-                {% format_translation change.target change.unit.translation.language change.unit.translation.plural diff=change.old %}
+                {% format_unit_target change.unit value=change.target diff=change.old %}
             {% elif change.show_source %}
               {% if change.target %}
-                {% format_translation change.target change.component.source_language diff=change.old %}
+                {% format_unit_target change.unit value=change.target diff=change.old %}
               {% else %}
-                {% format_translation change.unit.source change.component.source_language %}
+                {% format_unit_source change.unit %}
               {% endif %}
             {% elif change.target %}
                 <pre>{{ change.target }}</pre>

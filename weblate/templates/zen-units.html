@@ -57,7 +57,7 @@
   {% if user.profile.hide_source_secondary %}
     {% include "snippets/note-badge.html" with unit=item.unit %}
   {% endif %}
-  {% format_translation unit.target unit.translation.language unit.translation.plural unit=unit %}
+  {% format_unit_target unit %}
 </div>
 {% endfor %}
 {% endif %}
@@ -65,7 +65,7 @@
 {% if item.unit.previous_source and item.unit.fuzzy %}
 <div class="form-group">
 <label>{% trans "Source change" %}</label>
-{% format_translation item.unit.source item.unit.translation.component.source_language diff=item.unit.previous_source %}
+{% format_unit_source item.unit diff=item.unit.previous_source %}
 </div>
 {% endif %}
 
@@ -73,7 +73,7 @@
 <div class="form-group">
   <a href="{{ item.unit.source_unit.get_absolute_url }}" class="language">{{ item.unit.translation.component.source_language }}</a>
   {% include "snippets/note-badge.html" with unit=item.unit %}
-  {% format_translation item.unit.source item.unit.translation.component.source_language search_match=search_query unit=item.unit glossary=item.glossary %}
+  {% format_unit_source item.unit search_match=search_query glossary=item.glossary %}
 </div>
 {% endif %}
 
