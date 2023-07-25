@@ -1229,8 +1229,7 @@ class Unit(models.Model, LoggerMixin):
                 if check in old_checks:
                     # We already have this check
                     old_checks.remove(check)
-                    # Propagation is handled in
-                    # weblate.checks.models.remove_complimentary_checks
+                    # Propagation is handled later in this method
                 else:
                     # Create new check
                     create.append(Check(unit=self, dismissed=False, name=check))
