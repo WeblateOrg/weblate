@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 08:56+0200\n"
-"PO-Revision-Date: 2023-07-25 01:26+0000\n"
+"PO-Revision-Date: 2023-07-26 14:06+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -1064,7 +1064,7 @@ msgstr "Liste der Berechtigungen und integrierten Rollen"
 #: ../../admin/access.rst:485 ../../admin/optionals.rst:259
 #: ../../user/checks.rst:0
 msgid "Scope"
-msgstr "Zielgruppe"
+msgstr "Bereich"
 
 #: ../../admin/access.rst:485
 msgid "Permission"
@@ -5401,7 +5401,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:309
 msgid "Version control repositories"
-msgstr "Repositorys der Versionskontrolle"
+msgstr "Repositorys der Versionsverwaltung"
 
 #: ../../admin/backup.rst:311
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
@@ -7000,7 +7000,7 @@ msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
 msgstr ""
-"Maximale Anzahl der fehlgeschlagenen Authentifizierungsversuche, bevor die "
+"Maximale Anzahl von fehlgeschlagenen Authentifizierungsversuchen, bevor die "
 "Ratenbegrenzung angewendet wird."
 
 #: ../../admin/config.rst:60
@@ -7622,7 +7622,7 @@ msgstr ":file:`vcs`"
 
 #: ../../admin/config.rst:414
 msgid "Version-control repositories for translations."
-msgstr "Versionsverwaltung-Repositorys für Übersetzungen."
+msgstr "Versionsverwaltungs-Repositorys für Übersetzungen."
 
 #: ../../admin/config.rst:415
 msgid ":file:`backups`"
@@ -8381,15 +8381,14 @@ msgstr "LEGAL_URL"
 
 #: ../../admin/config.rst:1003
 msgid "URL where your Weblate instance shows its legal documents."
-msgstr ""
-"URL, unter der Ihre Weblate-Instanz ihre juristischen Dokumente anzeigt."
+msgstr "URL, unter der Ihre Weblate-Instanz ihre rechtlichen Dokumente anzeigt."
 
 #: ../../admin/config.rst:1007
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate. Please check :ref:`legal` for details."
 msgstr ""
-"Nützlich, wenn Sie Ihre juristischen Dokumente außerhalb von Weblate hosten, "
+"Nützlich, wenn Sie Ihre rechtlichen Dokumente außerhalb von Weblate hosten, "
 "um sie in Weblate einzubetten. Bitte schauen Sie sich :ref:`legal` für "
 "Details an."
 
@@ -8563,7 +8562,7 @@ msgid ""
 "ID of the site in Matomo (formerly Piwik) you want to use for tracking "
 "Weblate."
 msgstr ""
-"ID der Website in Matomo (ehemals Piwik), die Sie für das Tracking von "
+"ID der Website in Matomo (ehemals Piwik), die Sie für die Nachverfolgung von "
 "Weblate verwenden möchten."
 
 #: ../../admin/config.rst:1179 ../../admin/config.rst:1196
@@ -8584,9 +8583,9 @@ msgid ""
 "installation you want to use to track Weblate use. Please check <https://"
 "matomo.org/> for more details."
 msgstr ""
-"Vollständige URL (einschließlich nachgestelltem Schrägstrich) einer Matomo "
-"(ehemals Piwik)-Installation, mit der Sie die Nutzung von Weblate verfolgen "
-"möchten. Weitere Einzelheiten finden Sie unter <https://matomo.org/>."
+"Vollständige URL (einschließlich nachgestelltem Schrägstrich) einer Matomo ("
+"ehemals Piwik)-Installation, um die Nutzung von Weblate nachzuverfolgen. "
+"Weitere Einzelheiten finden Sie unter <https://matomo.org/>."
 
 #: ../../admin/config.rst:1207
 msgid ":setting:`MATOMO_SITE_ID`"
@@ -8603,7 +8602,7 @@ msgid ""
 msgstr ""
 "Wie viele Zeichenketten um die aktuell übersetzte Zeichenkette herum "
 "angezeigt werden sollen. Dies ist nur ein Standardwert, Benutzer können dies "
-"in :ref:`Benutzerprofil` anpassen."
+"im :ref:`user-profile` anpassen."
 
 #: ../../admin/config.rst:1219
 msgid "DEFAULT_PAGE_LIMIT"
@@ -8640,7 +8639,7 @@ msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate, please check :ref:`legal` for details."
 msgstr ""
-"Nützlich, wenn Sie Ihre juristischen Dokumente außerhalb von Weblate hosten, "
+"Nützlich, wenn Sie Ihre rechtlichen Dokumente außerhalb von Weblate hosten, "
 "um sie in Weblate einzubetten. Bitte schauen Sie sich :ref:`legal` für "
 "Details an."
 
@@ -8808,7 +8807,7 @@ msgstr "RATELIMIT_ATTEMPTS"
 msgid ""
 "Maximum number of authentication attempts before rate limiting is applied."
 msgstr ""
-"Maximale Anzahl von Authentifizierungsversuchen, bevor eine Ratenbegrenzung "
+"Maximale Anzahl von Authentifizierungsversuchen, bevor die Ratenbegrenzung "
 "angewendet wird."
 
 #: ../../admin/config.rst:1409
@@ -8828,7 +8827,8 @@ msgstr "RATELIMIT_WINDOW"
 #: ../../admin/config.rst:1424
 msgid "How long authentication is accepted after rate limiting applies."
 msgstr ""
-"Wie lange die Authentifizierung nach der Ratenbegrenzung akzeptiert wird."
+"Wie lange die Authentifizierung nach angewendeter Ratenbegrenzung akzeptiert "
+"wird."
 
 #: ../../admin/config.rst:1426
 msgid "An amount of seconds, defaulting to 300 (5 minutes)."
@@ -8849,7 +8849,8 @@ msgstr "RATELIMIT_LOCKOUT"
 #: ../../admin/config.rst:1441
 msgid "How long authentication is locked after rate limiting applies."
 msgstr ""
-"Wie lange die Authentifizierung nach der Ratenbegrenzung akzeptiert wird."
+"Wie lange die Authentifizierung nach angewendeter Ratenbegrenzung gesperrt "
+"ist."
 
 #: ../../admin/config.rst:1443
 msgid "An amount of seconds defaulting to 600 (10 minutes)."
@@ -10347,7 +10348,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:2
 msgid "Customizing Weblate"
-msgstr "Anpassen von Weblate"
+msgstr "Weblate anpassen"
 
 #: ../../admin/customize.rst:4
 msgid ""
@@ -10377,7 +10378,7 @@ msgstr ":ref:`contributing`"
 
 #: ../../admin/customize.rst:22
 msgid "Creating a Python module"
-msgstr "Erstellung eines Python-Moduls"
+msgstr "Erstellen eines Python-Moduls"
 
 #: ../../admin/customize.rst:24
 msgid ""
@@ -17947,7 +17948,7 @@ msgid ""
 "for the `<gitrepo>`."
 msgstr ""
 "Das `<gitrepo>` definiert die zu verwendende Git-Repository-URL, und "
-"`<branch>` steht für den Git-Zweig. Um zusätzliche Übersetzungskomponenten "
+"`<branch>` steht für den Git-Branch. Um zusätzliche Übersetzungskomponenten "
 "aus einer bestehenden Weblate-Komponente zu importieren, verwenden Sie eine "
 "`weblate://<project>/<component>`-URL für das `<gitrepo>`."
 
@@ -18700,8 +18701,8 @@ msgstr ""
 #: ../../admin/optionals.rst:16
 msgid "Add ``weblate.gitexport`` to installed apps in :file:`settings.py`:"
 msgstr ""
-"``weblate.gitexport`` zu installierten Anwendungen in :file:`settings.py` "
-"hinzufügen:"
+"``weblate.gitexport`` zu den installierten Anwendungen in :file:`settings.py`"
+" hinzufügen:"
 
 #: ../../admin/optionals.rst:22
 msgid ""
@@ -18742,6 +18743,10 @@ msgid ""
 "requires an API token which can be obtained in your :ref:`user profile <user-"
 "profile>`:"
 msgstr ""
+"Um die Repositorys mit eingeschränktem Zugriff zu durchsuchen (mit :ref"
+":`Projekt-Zugriffssteuerung <acl>` auf `Privat` oder wenn "
+":setting:`REQUIRE_LOGIN` aktiviert ist), ist ein API-Token erforderlich, das "
+"Sie in Ihrem :ref:`Benutzerprofil <user-profile>` erhalten können:"
 
 #: ../../admin/optionals.rst:53
 msgid ""
@@ -18758,16 +18763,22 @@ msgid ""
 "This is used on `Hosted Weblate <https://weblate.org/hosting/>`_ to define "
 "billing plans, track invoices and usage limits."
 msgstr ""
+"Dies wird auf `Hosted Weblate <https://weblate.org/hosting/>`_ verwendet, um "
+"Abrechnungspläne festzulegen, Rechnungen und Nutzungsgrenzen nachzuverfolgen."
 
 #: ../../admin/optionals.rst:69
 msgid "1. Add ``weblate.billing`` to installed apps in :file:`settings.py`:"
 msgstr ""
+"1. ``weblate.billing`` zu den installierten Anwendungen in :file:`settings."
+"py` hinzufügen:"
 
 #: ../../admin/optionals.rst:76 ../../admin/optionals.rst:151
 msgid ""
 "Run the database migration to optionally install additional database "
 "structures for the module:"
 msgstr ""
+"Die Datenbankmigration ausführen, um optional zusätzliche "
+"Datenbankstrukturen für das Modul zu installieren:"
 
 #: ../../admin/optionals.rst:85
 msgid ""
@@ -18775,6 +18786,9 @@ msgid ""
 "with billing enabled will get new :guilabel:`Billing` tab in their :ref:"
 "`user-profile`."
 msgstr ""
+"Nach der Installation können Sie die Abrechnung in der Adminoberfläche "
+"steuern. Benutzer mit aktivierter Abrechnung erhalten einen neuen Reiter "
+":guilabel:`Abrechnung` in ihrem :ref:`user-profile`."
 
 #: ../../admin/optionals.rst:89
 msgid ""
@@ -18782,12 +18796,19 @@ msgid ""
 "and components without being superusers (see :ref:`adding-projects`). This "
 "is possible when following conditions are met:"
 msgstr ""
+"Das Abrechnungsmodul erlaubt es Projektadministratoren zusätzlich, neue "
+"Projekte und Komponenten zu erstellen, ohne Superuser zu sein (siehe :ref"
+":`Adding-projects`). Dies ist möglich, wenn die folgenden Bedingungen "
+"erfüllt sind:"
 
 #: ../../admin/optionals.rst:93
 msgid ""
 "The billing is in its configured limits (any overusage results in blocking "
 "of project/component creation) and paid (if its price is non zero)"
 msgstr ""
+"Die Abrechnung liegt innerhalb der konfigurierten Grenzen (jede "
+"Überschreitung führt zu einer Blockierung der Projekt-/Komponentenerstellung)"
+" und ist bezahlt (wenn der Preis nicht Null ist)"
 
 #: ../../admin/optionals.rst:95
 msgid ""
@@ -18795,12 +18816,19 @@ msgid ""
 "billing (the latter is necessary when creating new billing for users to be "
 "able to import new projects)."
 msgstr ""
+"Der Benutzer ist Administrator eines bestehenden Projekts mit Abrechnung "
+"oder der Benutzer ist Eigentümer der Abrechnung (letzteres ist erforderlich, "
+"wenn neue Abrechnungen erstellt werden, damit die Benutzer neue Projekte "
+"importieren können)."
 
 #: ../../admin/optionals.rst:99
 msgid ""
 "Upon project creation user is able to choose which billing should be charged "
 "for the project in case he has access to more of them."
 msgstr ""
+"Bei der Projekterstellung kann der Benutzer auswählen, welche Abrechnung für "
+"das Projekt berechnet werden soll, falls er Zugang zu mehreren Abrechnungen "
+"hat."
 
 #: ../../admin/optionals.rst:106
 msgid "Legal"
@@ -18812,6 +18840,10 @@ msgid ""
 "required legal documents. It comes provided with blank documents, and you "
 "are expected to fill out the following templates in the documents:"
 msgstr ""
+"Dies wird auf `Hosted Weblate <https://weblate.org/hosting/>`_ verwendet, um "
+"die erforderlichen rechtlichen Dokumente bereitzustellen. Es wird mit leeren "
+"Dokumenten geliefert, und es wird erwartet, dass Sie die folgenden Vorlagen "
+"in den Dokumenten ausfüllen:"
 
 #: ../../admin/optionals.rst:112
 msgid ":file:`legal/documents/tos.html`"
@@ -18819,7 +18851,7 @@ msgstr ":file:`legal/documents/tos.html`"
 
 #: ../../admin/optionals.rst:113
 msgid "Terms of service document"
-msgstr ""
+msgstr "Dokument zu den Nutzungsbedingungen"
 
 #: ../../admin/optionals.rst:114
 msgid ":file:`legal/documents/privacy.html`"
@@ -18827,7 +18859,7 @@ msgstr ":file:`legal/documents/privacy.html`"
 
 #: ../../admin/optionals.rst:115
 msgid "Privacy policy document"
-msgstr ""
+msgstr "Dokument zu den Datenschutzbestimmungen"
 
 #: ../../admin/optionals.rst:117
 msgid ":file:`legal/documents/summary.html`"
@@ -18836,6 +18868,8 @@ msgstr ":file:`legal/documents/summary.html`"
 #: ../../admin/optionals.rst:117
 msgid "Short overview of the terms of service and privacy policy"
 msgstr ""
+"Kurze Übersicht über die Allgemeinen Geschäftsbedingungen und "
+"Datenschutzerklärung"
 
 #: ../../admin/optionals.rst:119
 msgid ""
@@ -18843,6 +18877,9 @@ msgid ""
 "`LEGAL_TOS_DATE` so that users are forced to agree with the updated "
 "documents."
 msgstr ""
+"Wenn Sie die Nutzungsbedingungen ändern, passen Sie bitte "
+":setting:`LEGAL_TOS_DATE` so an, dass die Benutzer gezwungen sind, den "
+"aktualisierten Dokumenten zuzustimmen."
 
 #: ../../admin/optionals.rst:125
 msgid ""
@@ -18850,32 +18887,43 @@ msgid ""
 "repository <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/"
 "templates/legal/documents>."
 msgstr ""
+"Rechtliche Dokumente für den Hosted Weblate-Dienst sind in diesem Git-"
+"Repository <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/"
+"templates/legal/documents> verfügbar."
 
 #: ../../admin/optionals.rst:128
 msgid ""
 "Most likely these will not be directly usable to you, but might come in "
 "handy as a starting point if adjusted to meet your needs."
 msgstr ""
+"Höchstwahrscheinlich sind diese für Sie nicht direkt verwendbar, können aber "
+"als Ausgangspunkt nützlich sein, wenn Sie sie an Ihre Bedürfnisse anpassen."
 
 #: ../../admin/optionals.rst:134
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
 msgstr ""
+"1. ``weblate.legal`` zu den installierten Anwendungen in :file:`settings.py` "
+"hinzufügen:"
 
 #: ../../admin/optionals.rst:157
 msgid ""
 "Edit the legal documents in the :file:`weblate/legal/templates/legal/` "
 "folder to match your service."
 msgstr ""
+"Die Rechtsdokumente im Ordner :file:`weblate/legal/templates/legal/` "
+"bearbeiten, um sie an Ihren Dienst anzupassen."
 
 #: ../../admin/optionals.rst:162
 msgid ""
 "After installation and editing, the legal documents are shown in the Weblate "
 "UI."
 msgstr ""
+"Nach der Installation und Bearbeitung werden die Rechtsdokumente in der "
+"Weblate-Benutzeroberfläche angezeigt."
 
 #: ../../admin/optionals.rst:167
 msgid "Avatars"
-msgstr ""
+msgstr "Avatare"
 
 #: ../../admin/optionals.rst:169
 msgid ""
@@ -18884,18 +18932,23 @@ msgid ""
 "from e-mails addresses configured for it can be turned off using :setting:"
 "`ENABLE_AVATARS`."
 msgstr ""
+"Avatare werden standardmäßig heruntergeladen und serverseitig "
+"zwischengespeichert, um Informationslecks zu den Websites, die sie anbieten, "
+"zu reduzieren. Die integrierte Unterstützung für das Abrufen von Avataren "
+"von E-Mail-Adressen, die dafür konfiguriert sind, kann mit "
+":setting:`ENABLE_AVATARS` deaktiviert werden."
 
 #: ../../admin/optionals.rst:173
 msgid "Weblate currently supports:"
-msgstr ""
+msgstr "Weblate unterstützt derzeit:"
 
 #: ../../admin/optionals.rst:175
 msgid "`Gravatar <https://gravatar.com/>`_"
-msgstr ""
+msgstr "`Gravatar <https://gravatar.com/>`_"
 
 #: ../../admin/optionals.rst:176
 msgid "`Libravatar <https://www.libravatar.org/>`_"
-msgstr ""
+msgstr "`Libravatar <https://www.libravatar.org/>`_"
 
 #: ../../admin/optionals.rst:180
 msgid ""
@@ -18907,33 +18960,39 @@ msgstr ""
 
 #: ../../admin/optionals.rst:187
 msgid "Spam protection"
-msgstr ""
+msgstr "Spamschutz"
 
 #: ../../admin/optionals.rst:189
 msgid ""
 "You can protect against spamming by users by using the `Akismet <https://"
 "akismet.com/>`_ service."
 msgstr ""
+"Sie können sich vor Spamming durch Nutzer schützen, indem Sie den Dienst `"
+"Akismet <https://akismet.com/>`_ nutzen."
 
 #: ../../admin/optionals.rst:192
 msgid ""
 "Install the `akismet` Python module (this is already included in the "
 "official Docker image)."
 msgstr ""
+"Das Python-Modul `akismet` installieren (dieses ist bereits im offiziellen "
+"Docker-Image enthalten)."
 
 #: ../../admin/optionals.rst:193
 msgid "Obtain the Akismet API key."
-msgstr ""
+msgstr "Den Akismet-API-Schlüssel erhalten."
 
 #: ../../admin/optionals.rst:194
 msgid ""
 "Store it as :setting:`AKISMET_API_KEY` or :envvar:`WEBLATE_AKISMET_API_KEY` "
 "in Docker."
 msgstr ""
+"Als :setting:`AKISMET_API_KEY` oder :envvar:`WEBLATE_AKISMET_API_KEY` in "
+"Docker speichern."
 
 #: ../../admin/optionals.rst:196
 msgid "Following content is sent to Akismet for checking:"
-msgstr ""
+msgstr "Der folgende Inhalt wird zur Überprüfung an Akismet gesendet:"
 
 #: ../../admin/optionals.rst:198
 msgid "Suggestions from unauthenticated users"
@@ -18948,6 +19007,8 @@ msgid ""
 "This (among other things) relies on IP address of the client, please see :"
 "ref:`reverse-proxy` for properly configuring that."
 msgstr ""
+"Dies hängt (unter anderem) von der IP-Adresse des Clients ab, bitte lesen "
+"Sie :ref:`reverse-proxy` für die richtige Konfiguration."
 
 #: ../../admin/optionals.rst:208
 msgid ""
@@ -18959,33 +19020,42 @@ msgstr ""
 
 #: ../../admin/optionals.rst:216
 msgid "Signing Git commits with GnuPG"
-msgstr ""
+msgstr "Git-Commits mit GnuPG signieren"
 
 #: ../../admin/optionals.rst:220
 msgid "All commits can be signed by the GnuPG key of the Weblate instance."
 msgstr ""
+"Alle Commits können mit dem GnuPG-Schlüssel der Weblate-Instanz signiert "
+"werden."
 
 #: ../../admin/optionals.rst:222
 msgid ""
 "1. Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a GnuPG "
 "key when needed and will use it to sign all translation commits.)"
 msgstr ""
+"1. :setting:`WEBLATE_GPG_IDENTITY` einschalten. (Weblate generiert bei "
+"Bedarf einen GnuPG-Schlüssel und verwendet ihn zum Signieren aller Commits "
+"von Übersetzungen.)"
 
 #: ../../admin/optionals.rst:225
 msgid "This feature needs GnuPG 2.1 or newer installed."
-msgstr ""
+msgstr "Für diese Funktion muss GnuPG 2.1 oder neuer installiert sein."
 
 #: ../../admin/optionals.rst:227
 msgid ""
 "You can find the key in the :setting:`DATA_DIR` and the public key is shown "
 "on the \"About\" page:"
 msgstr ""
+"Sie finden den Schlüssel in setting:`DATA_DIR` und der öffentliche Schlüssel "
+"wird auf der „Über“-Seite angezeigt:"
 
 #: ../../admin/optionals.rst:232
 msgid ""
 "2. Alternatively you can also import existing keys into Weblate, just set "
 "``HOME=$DATA_DIR/home`` when invoking gpg."
 msgstr ""
+"2. Alternativ können Sie auch bestehende Schlüssel in Weblate importieren, "
+"indem Sie beim Aufruf von gpg ``HOME=$DATA_DIR/home`` setzen."
 
 #: ../../admin/optionals.rst:237
 msgid ":setting:`WEBLATE_GPG_IDENTITY`"
@@ -19001,7 +19071,7 @@ msgstr "Die Ratenbegrenzung lässt nun eine feiner abgestufte Konfiguration zu."
 
 #: ../../admin/optionals.rst:250 ../../changes.rst:593
 msgid "The rate limiting no longer applies to superusers."
-msgstr ""
+msgstr "Die Ratenbegrenzung gilt nicht mehr für Superuser."
 
 #: ../../admin/optionals.rst:252
 msgid ""
@@ -19012,26 +19082,33 @@ msgid ""
 "``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``. The "
 "table below is a full list of available scopes."
 msgstr ""
+"Mehrere Vorgänge in Weblate sind ratenbegrenzt. Innerhalb von "
+":setting:`RATELIMIT_WINDOW` Sekunden sind maximal "
+":setting:`RATELIMIT_ATTEMPTS` Versuche erlaubt. Danach wird der Benutzer für "
+":setting:`RATELIMIT_LOCKOUT` gesperrt. Es gibt auch bereichsspezifische "
+"Einstellungen, zum Beispiel ``RATELIMIT_CONTACT_ATTEMPTS`` oder "
+"``RATELIMIT_TRANSLATE_ATTEMPTS``. Die nachstehende Tabelle enthält eine "
+"vollständige Liste der verfügbaren Bereiche."
 
 #: ../../admin/optionals.rst:256
 msgid "The following operations are subject to rate limiting:"
-msgstr ""
+msgstr "Die folgenden Vorgänge unterliegen der Ratenbegrenzung:"
 
 #: ../../admin/optionals.rst:259
 msgid "Name"
-msgstr "Name"
+msgstr "Bezeichnung"
 
 #: ../../admin/optionals.rst:259
 msgid "Allowed attempts"
-msgstr ""
+msgstr "Erlaubte Versuche"
 
 #: ../../admin/optionals.rst:259
 msgid "Ratelimit window"
-msgstr ""
+msgstr "Ratenbegrenzungsfenster"
 
 #: ../../admin/optionals.rst:259
 msgid "Lockout period"
-msgstr ""
+msgstr "Sperrdauer"
 
 #: ../../admin/optionals.rst:261 ../../user/profile.rst:5
 msgid "Registration"
@@ -19097,7 +19174,7 @@ msgstr "60"
 
 #: ../../admin/optionals.rst:269 ../../user/translating.rst:110
 msgid "Translating"
-msgstr ""
+msgstr "Übersetzen"
 
 #: ../../admin/optionals.rst:269
 msgid "``TRANSLATE``"
@@ -19109,7 +19186,7 @@ msgstr "30"
 
 #: ../../admin/optionals.rst:271
 msgid "Adding to glossary"
-msgstr ""
+msgstr "Zum Glossar hinzufügen"
 
 #: ../../admin/optionals.rst:271
 msgid "``GLOSSARY``"
@@ -19137,6 +19214,9 @@ msgid ""
 "authentication will be turned off on the account until having gone through "
 "the process of having its password reset."
 msgstr ""
+"Wenn die Anmeldung eines Benutzers nicht innerhalb von "
+":setting:`AUTH_LOCK_ATTEMPTS` erfolgt, wird die Passwortauthentifizierung "
+"für das Konto deaktiviert, bis das Passwort zurückgesetzt wurde."
 
 #: ../../admin/optionals.rst:281
 msgid ""
@@ -19144,10 +19224,15 @@ msgid ""
 "``WEBLATE_`` prefix to the setting name, for example :setting:"
 "`RATELIMIT_ATTEMPTS` becomes :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
 msgstr ""
+"Die Einstellungen können auch im Docker-Container angewandt werden, indem "
+"der Präfix ``WEBLATE_`` an den Einstellungsnamen angehängt wird, z. B. wird "
+":setting:`RATELIMIT_ATTEMPTS` zu :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
 
 #: ../../admin/optionals.rst:283
 msgid "The API has separate rate limiting settings, see :ref:`api-rate`."
 msgstr ""
+"Die API verfügt über separate Einstellungen zur Ratenbegrenzung, siehe :ref"
+":`api-rate`."
 
 #: ../../admin/optionals.rst:287
 msgid ":ref:`user-rate`, :ref:`reverse-proxy`, :ref:`api-rate`"
@@ -19155,7 +19240,7 @@ msgstr ":ref:`user-rate`, :ref:`reverse-proxy`, :ref:`api-rate`"
 
 #: ../../admin/optionals.rst:292
 msgid "Fedora Messaging integration"
-msgstr "Integration von Fedora-Messaging"
+msgstr "Fedora Messaging integrieren"
 
 #: ../../admin/optionals.rst:294
 msgid ""
@@ -19163,6 +19248,9 @@ msgid ""
 "Weblate. You can hook additional services on changes happening in Weblate "
 "using this."
 msgstr ""
+"Fedora Messaging ist ein AMQP-basierter Publisher für alle Änderungen, die "
+"in Weblate stattfinden. Damit können Sie zusätzliche Dienste mit Weblate-"
+"Änderungen verbinden."
 
 #: ../../admin/optionals.rst:297
 msgid ""
@@ -19170,6 +19258,9 @@ msgid ""
 "``weblate-fedora-messaging``. Please see <https://github.com/WeblateOrg/"
 "fedora_messaging/> for setup instructions."
 msgstr ""
+"Die Integration von Fedora Messaging ist als separates Python-Modul "
+"``weblate-fedora-messaging`` verfügbar. Bitte lesen Sie <https://github.com/"
+"WeblateOrg/fedora_messaging/> für Anweisungen zur Einrichtung."
 
 #: ../../admin/projects.rst:2 ../../user/translating.rst:26
 msgid "Translation projects"
@@ -19177,13 +19268,15 @@ msgstr "Übersetzungsprojekte"
 
 #: ../../admin/projects.rst:5
 msgid "Translation organization"
-msgstr ""
+msgstr "Übersetzungsorganisation"
 
 #: ../../admin/projects.rst:7
 msgid ""
 "Weblate organizes translatable VCS content of project/components into a tree-"
 "like structure."
 msgstr ""
+"Weblate organisiert die übersetzbaren VCS-Inhalte von Projekten/Komponenten "
+"in einer baumartigen Struktur."
 
 #: ../../admin/projects.rst:9
 msgid ""
@@ -19191,6 +19284,9 @@ msgid ""
 "translations belonging together (for example translation of an application "
 "in several versions and/or accompanying documentation)."
 msgstr ""
+"Das unterste Objekt ist die :ref:`project`, die alle zusammengehörenden "
+"Übersetzungen enthalten soll (z. B. Übersetzung einer Anwendung in mehreren "
+"Versionen und/oder Begleitdokumentation)."
 
 #: ../../admin/projects.rst:13
 msgid ""
@@ -19198,6 +19294,9 @@ msgid ""
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
 msgstr ""
+"Auf der darüber liegenden Ebene die :ref:`component`, welche die eigentlich "
+"zu übersetzende Komponente ist, definieren Sie das zu verwendende VCS-"
+"Repository und die Maske der zu übersetzenden Dateien."
 
 #: ../../admin/projects.rst:17
 msgid ""
@@ -19205,12 +19304,19 @@ msgid ""
 "automatically by Weblate as translation files (which match :ref:`component-"
 "filemask` defined in :ref:`component`) appear in the VCS repository."
 msgstr ""
+"Oberhalb der :ref:`component` gibt es individuelle Übersetzungen, die von "
+"Weblate automatisch behandelt werden, wenn Übersetzungsdateien (die mit der "
+"in der :ref:`component` definierten :ref:`component-filemask` übereinstimmen)"
+" im VCS-Repository erscheinen."
 
 #: ../../admin/projects.rst:20
 msgid ""
 "Weblate supports a wide range of translation formats (both bilingual and "
 "monolingual ones) supported by Translate Toolkit, see :ref:`formats`."
 msgstr ""
+"Weblate unterstützt eine breite Palette von Übersetzungsformaten (sowohl "
+"zweisprachige als auch einsprachige), die vom Translate Toolkit unterstützt "
+"werden, siehe :ref:`formats`."
 
 #: ../../admin/projects.rst:25
 msgid ""
@@ -19218,22 +19324,30 @@ msgid ""
 "feature is highly recommended when you have many components sharing the same "
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
+"Sie können geklonte VCS-Repositorys mit :ref:`internal-urls` freigeben. Die "
+"Verwendung dieser Funktion wird dringend empfohlen, wenn viele Komponenten "
+"dasselbe VCS gemeinsam nutzen. Sie verbessert die Leistung und verringert "
+"den benötigten Speicherplatz."
 
 #: ../../admin/projects.rst:33
 msgid "Adding translation projects and components"
-msgstr ""
+msgstr "Übersetzungsprojekte und Komponenten hinzufügen"
 
 #: ../../admin/projects.rst:37
 msgid ""
 "An interface for adding projects and components is included, and you no "
 "longer have to use :ref:`admin-interface`."
 msgstr ""
+"Eine Oberfläche zum Hinzufügen von Projekten und Komponenten ist enthalten, "
+"und Sie müssen nicht mehr die :ref:`admin-interface` verwenden."
 
 #: ../../admin/projects.rst:42
 msgid ""
 "The process of adding components is now multi staged, with automated "
 "discovery of most parameters."
 msgstr ""
+"Der Prozess des Hinzufügens von Komponenten ist jetzt mehrstufig und die "
+"meisten Parameter werden automatisch ermittelt."
 
 #: ../../admin/projects.rst:45
 msgid ""
@@ -19243,10 +19357,18 @@ msgid ""
 "hosted.weblate.org/ see :ref:`billing`), you can also create those based on "
 "your plans allowance from the user account that manages billing."
 msgstr ""
+"Je nach Ihren Berechtigungen können Sie neue Übersetzungsprojekte und "
+"Komponenten erstellen. Für Benutzer mit der Berechtigung :guilabel:`Neue "
+"Projekte hinzufügen` ist dies immer erlaubt, und wenn Ihre Instanz ein "
+"Abrechnungsmodell verwendet (wie z. B. https://hosted.weblate.org/ siehe "
+":ref:`billing`), können Sie diese auch auf der Grundlage Ihrer Pläne von dem "
+"Benutzerkonto erstellen, das die Abrechnung verwaltet."
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
 msgstr ""
+"Sie können Ihr aktuelles Abrechnungsmodell auf einer separaten Seite "
+"einsehen:"
 
 #: ../../admin/projects.rst:55
 msgid ""
@@ -19254,10 +19376,16 @@ msgid ""
 "navigation bar, filling in basic info about the translation project to "
 "complete addition of it:"
 msgstr ""
+"Die Projekterstellung kann von dort aus oder über das Menü in der "
+"Navigationsleiste eingeleitet werden, wobei die grundlegenden Informationen "
+"über das Übersetzungsprojekt eingegeben werden müssen, um es vollständig zu "
+"ergänzen:"
 
 #: ../../admin/projects.rst:60
 msgid "After creating the project, you are taken directly to the project page:"
 msgstr ""
+"Nach der Erstellung des Projekts werden Sie direkt zur Projektseite "
+"weitergeleitet:"
 
 #: ../../admin/projects.rst:64
 msgid ""
@@ -19266,14 +19394,18 @@ msgid ""
 "detects most translation parameters. There are several approaches to "
 "creating component:"
 msgstr ""
+"Die Erstellung einer neuen Übersetzungskomponente kann dort mit einem "
+"einzigen Klick gestartet werden. Der Prozess der Komponentenerstellung ist "
+"mehrstufig und erkennt die meisten Übersetzungsparameter automatisch. Es "
+"gibt mehrere Ansätze zum Erstellen einer Komponente:"
 
 #: ../../admin/projects.rst:68
 msgid "From version control"
-msgstr "Von der Versionskontrolle"
+msgstr "Von der Versionsverwaltung"
 
 #: ../../admin/projects.rst:69
 msgid "Creates component from remote version control repository."
-msgstr ""
+msgstr "Erzeugt eine Komponente aus einem Remote-VCS-Repository."
 
 #: ../../admin/projects.rst:70
 msgid "From existing component"
@@ -19283,10 +19415,12 @@ msgstr "Aus vorhandener Komponente"
 msgid ""
 "Creates additional component to existing one by choosing different files."
 msgstr ""
+"Erzeugt eine zusätzliche Komponente zu einer bestehenden durch Auswahl "
+"verschiedener Dateien."
 
 #: ../../admin/projects.rst:72
 msgid "Additional branch"
-msgstr "Zusätzlicher Zweig"
+msgstr "Zusätzlicher Branch"
 
 #: ../../admin/projects.rst:73
 msgid ""
@@ -19726,7 +19860,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:390
 msgid "Repository branch"
-msgstr "Repository-Zweig"
+msgstr "Repository-Branch"
 
 #: ../../admin/projects.rst:392
 msgid ""
@@ -20854,7 +20988,7 @@ msgstr "``{{branch}}``"
 
 #: ../../admin/projects.rst:999
 msgid "current branch"
-msgstr "Aktueller Zweig"
+msgstr "Aktueller Branch"
 
 #: ../../admin/projects.rst:1000
 msgid "``{{line}}``"
@@ -25980,7 +26114,7 @@ msgstr "Veröffentlicht am 1. Juli 2022."
 
 #: ../../changes.rst:247
 msgid "Fixed tracking suggestions in history."
-msgstr "Tracking-Vorschläge im Verlauf behoben."
+msgstr "Nachverfolgungsvorschläge im Verlauf behoben."
 
 #: ../../changes.rst:248
 msgid "Fixed parsing reverse proxy info from Cloudflare."
@@ -26176,7 +26310,7 @@ msgstr "Verbesserte Syntaxfehlerbehandlung im Fluent-Format."
 
 #: ../../changes.rst:303
 msgid "Fixed avatar display in notification e-mails."
-msgstr "Die Anzeige vom Profilbild in Benachrichtigungs-E-Mails korrigiert."
+msgstr "Die Anzeige von Avataren in Benachrichtigungs-E-Mails korrigiert."
 
 #: ../../changes.rst:304
 msgid "Add support for web monetization."
@@ -26401,7 +26535,7 @@ msgstr ""
 
 #: ../../changes.rst:369
 msgid "Track string changes from the repository."
-msgstr "Zeichenkettenveränderungen im Repository verfolgen."
+msgstr "Zeichenkettenveränderungen im Repository nachverfolgen."
 
 #: ../../changes.rst:370
 msgid "Sticky header on translations listing to improve navigation."
@@ -26792,7 +26926,7 @@ msgid ""
 "footer."
 msgstr ""
 "Die Einstellung :setting:`PRIVACY_URL` hinzugefügt, um einen Link zur "
-"Datenschutzbestimmungen in die Fußzeile einzufügen."
+"Datenschutzrichtlinie in die Fußzeile einzufügen."
 
 #: ../../changes.rst:472
 msgid "Hide member e-mail addresses from project admins."
@@ -27379,7 +27513,7 @@ msgstr "Verbesserte Markdown-Link-Prüfungen."
 
 #: ../../changes.rst:647
 msgid "Indicate glossary and source language in breadcrumbs."
-msgstr ""
+msgstr "Das Glossar und die Ausgangssprache als Brotkrumen anzeigen."
 
 #: ../../changes.rst:648
 msgid "Paginated component listing of huge projects."
@@ -27959,7 +28093,7 @@ msgstr "Unterstützung von Markdown in der Mitwirkungsvereinbarung."
 
 #: ../../changes.rst:807
 msgid "Improved source strings tracking."
-msgstr "Verbesserte Verfolgung von Ausgangszeichenketten."
+msgstr "Verbesserte Nachverfolgung von Ausgangszeichenketten."
 
 #: ../../changes.rst:808
 msgid "Improved JSON, YAML and CSV formats compatibility."
@@ -29016,7 +29150,7 @@ msgstr "Unterstützung für anpassbare security.txt hinzugefügt."
 
 #: ../../changes.rst:1130
 msgid "Improved breadcrumbs in changelog."
-msgstr ""
+msgstr "Verbesserte Brotkrumen im Änderungsprotokoll."
 
 #: ../../changes.rst:1131
 msgid "Improved translations listing on dashboard."
@@ -30625,6 +30759,7 @@ msgstr ""
 #: ../../changes.rst:1621
 msgid "Added optional spam protection for suggestions using Akismet."
 msgstr ""
+"Optionaler Spamschutz von Akismet für Übersetzungsvorschläge hinzugefügt."
 
 #: ../../changes.rst:1624
 msgid "Weblate 2.16"
@@ -31982,7 +32117,7 @@ msgstr ""
 
 #: ../../changes.rst:2047
 msgid "Better tracking of source strings."
-msgstr ""
+msgstr "Bessere Nachverfolgung von Ausgangszeichenketten."
 
 #: ../../changes.rst:2048
 msgid "Captcha protection for registration."
@@ -32088,6 +32223,8 @@ msgstr ""
 #: ../../changes.rst:2082
 msgid "Tracking of translation history and option to revert it."
 msgstr ""
+"Nachverfolgung des Übersetzungsverlaufs und Möglichkeit, ihn rückgängig zu "
+"machen."
 
 #: ../../changes.rst:2083
 msgid "Added support for Google Translate API."
@@ -32348,7 +32485,7 @@ msgstr ""
 
 #: ../../changes.rst:2161
 msgid "Better changes log tracking."
-msgstr ""
+msgstr "Bessere Nachverfolgung des Änderungsprotokolls."
 
 #: ../../changes.rst:2162
 msgid "Changes can now be monitored using RSS."
@@ -32410,7 +32547,7 @@ msgstr ""
 
 #: ../../changes.rst:2179
 msgid "Simple antispam protection."
-msgstr ""
+msgstr "Einfacher Schutz vor Spam."
 
 #: ../../changes.rst:2180
 msgid "Better layout of main page."
@@ -37211,12 +37348,13 @@ msgid ""
 "quite a lot, and it is not possible to simply merge translation changes "
 "between them."
 msgstr ""
-"Weblate unterstützt das Pushen von Übersetzungsänderungen innerhalb eines :"
-"ref:`Projekts`. Für jede :ref:`Komponente`, die dies aktiviert hat "
+"Weblate unterstützt das Pushen von Übersetzungsänderungen innerhalb einer "
+":ref:`project`. Für jede :ref:`component`, die dies aktiviert hat "
 "(Standardeinstellung), wird die vorgenommene Änderung automatisch an andere "
-"weitergegeben. Auf diese Weise werden die Übersetzungen synchron gehalten, "
-"auch wenn die Zweige selbst schon sehr weit auseinander liegen und es nicht "
-"möglich ist, Übersetzungsänderungen einfach zwischen ihnen zusammenzuführen."
+"Komponenten weitergegeben. Auf diese Weise werden die Übersetzungen synchron "
+"gehalten, auch wenn die Branches selbst schon sehr weit auseinander liegen "
+"und es nicht möglich ist, Übersetzungsänderungen einfach zwischen ihnen "
+"zusammenzuführen."
 
 #: ../../faq.rst:161
 msgid ""
