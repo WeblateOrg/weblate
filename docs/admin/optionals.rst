@@ -232,6 +232,13 @@ the "About" page:
 2. Alternatively you can also import existing keys into Weblate, just set
 ``HOME=$DATA_DIR/home`` when invoking gpg.
 
+.. hint::
+
+   The key material is cached by Weblate for a long period. In case you let
+   Weblate generate a key with :setting:`WEBLATE_GPG_IDENTITY` and then import
+   key with the same identity to use an existing key, purging redis cache is
+   recommended to see the effect of such change.
+
 .. seealso::
 
     :setting:`WEBLATE_GPG_IDENTITY`
