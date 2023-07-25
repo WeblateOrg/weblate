@@ -31,7 +31,7 @@ class Check:
     source = False
     ignore_untranslated = True
     default_disabled = False
-    propagates = False
+    propagates: str = ""
     param_type = None
     always_display = False
     batch_project_wide = False

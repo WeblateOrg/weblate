@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from functools import reduce
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -1233,14 +1234,14 @@ class Unit(models.Model, LoggerMixin):
                 else:
                     # Create new check
                     create.append(Check(unit=self, dismissed=False, name=check))
-                    needs_propagate |= check_obj.propagates
+                    needs_propagate |= bool(check_obj.propagates)
 
         if create:
             Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
 
         # Propagate checks which need it (for example consistency)
         if (needs_propagate and propagate is not False) or propagate is True:
-            for unit in self.same_source_units:
+            for unit in self.same_source_units | self.same_target_units:
                 try:
                     # Ensure we get a fresh copy of checks
                     # It might be modified meanwhile by propagating to other units
@@ -1258,16 +1259,23 @@ class Unit(models.Model, LoggerMixin):
         if old_checks:
             Check.objects.filter(unit=self, name__in=old_checks).delete()
             propagated_old_checks = []
+            propagated_filters = set()
             for check_name in old_checks:
                 try:
                     if CHECKS[check_name].propagates:
+                        propagated_filters.add(CHECKS[check_name].propagates)
                         propagated_old_checks.append(check_name)
                 except KeyError:
                     # Skip disabled/removed checks
                     continue
+            units = reduce(
+                lambda x, y: x | getattr(self, y),
+                propagated_filters,
+                Unit.objects.none(),
+            )
             if propagated_old_checks:
                 Check.objects.filter(
-                    unit__in=self.same_source_units, name__in=propagated_old_checks
+                    unit__in=units, name__in=propagated_old_checks
                 ).delete()
                 for other in self.same_source_units:
                     other.translation.invalidate_cache()
@@ -1509,6 +1517,20 @@ class Unit(models.Model, LoggerMixin):
                 translation__plural_id=self.translation.plural_id,
             )
         )
+
+    @cached_property
+    def same_target_units(self):
+        translation = self.translation
+        component = translation.component
+        return Unit.objects.filter(
+            target__md5=MD5(Value(self.target)),
+            translation__component__project_id=component.project_id,
+            translation__language_id=translation.language_id,
+            translation__component__source_language_id=component.source_language_id,
+            translation__component__allow_translation_propagation=True,
+            translation__plural_id=translation.plural_id,
+            translation__plural__number__gt=1,
+        ).exclude(source__md5=MD5(Value(self.source)))
 
     def get_max_length(self):
         """Returns maximal translation length."""
