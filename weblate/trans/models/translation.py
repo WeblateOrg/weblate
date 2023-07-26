@@ -1475,12 +1475,12 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                             sync_terminology=False,
                         )
                         changes.append(
-                            Change(
-                                unit=unit,
-                                action=Change.ACTION_NEW_UNIT,
-                                target=current_target,
+                            unit.generate_change(
                                 user=user,
                                 author=user,
+                                change_action=Change.ACTION_NEW_UNIT,
+                                check_new=False,
+                                save=False,
                             )
                         )
                 except IntegrityError:
