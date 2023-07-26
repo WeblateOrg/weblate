@@ -1421,7 +1421,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             if current_target is None:
                 current_target = ""
             if isinstance(current_target, list):
+                has_translation = any(current_target)
                 current_target = join_plural(current_target)
+            else:
+                has_translation = bool(current_target)
             id_hash = component.file_format_cls.unit_class.calculate_id_hash(
                 has_template, source, context
             )
@@ -1446,10 +1449,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 except Unit.DoesNotExist:
                     pass
             if unit is None:
-                if state is None:
-                    unit_state = (
-                        STATE_TRANSLATED if bool(current_target) else STATE_EMPTY
-                    )
+                if has_translation and (state is None or state == STATE_EMPTY):
+                    unit_state = STATE_TRANSLATED
+                elif not has_translation and (state is None or state != STATE_EMPTY):
+                    unit_state = STATE_EMPTY
                 else:
                     unit_state = state
                 unit = Unit(
