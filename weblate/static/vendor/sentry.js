@@ -12385,7 +12385,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":54,"../scope.js":65,"@sentry/utils":108}],83:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.60.0';
+const SDK_VERSION = '7.60.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -16129,8 +16129,16 @@ const handleDomListener = (
 
     const isClick = handlerData.name === 'click';
     const event = isClick && (handlerData.event );
-    // Ignore clicks if ctrl/alt/meta keys are held down as they alter behavior of clicks (e.g. open in new tab)
-    if (isClick && replay.clickDetector && event && !event.altKey && !event.metaKey && !event.ctrlKey) {
+    // Ignore clicks if ctrl/alt/meta/shift keys are held down as they alter behavior of clicks (e.g. open in new tab)
+    if (
+      isClick &&
+      replay.clickDetector &&
+      event &&
+      !event.altKey &&
+      !event.metaKey &&
+      !event.ctrlKey &&
+      !event.shiftKey
+    ) {
       handleClick(
         replay.clickDetector,
         result ,
@@ -19014,6 +19022,11 @@ function getHandleRecordingEmit(replay) {
       if (replay.recordingMode === 'buffer' && replay.session && replay.eventBuffer) {
         const earliestEvent = replay.eventBuffer.getEarliestTimestamp();
         if (earliestEvent) {
+          // eslint-disable-next-line no-console
+          const log = replay.getOptions()._experiments.traceInternals ? console.info : utils.logger.info;
+          (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+            log(`[Replay] Updating session start time to earliest event in buffer at ${earliestEvent}`);
+
           replay.session.started = earliestEvent;
 
           if (replay.getOptions().stickySession) {
@@ -19795,6 +19808,10 @@ class ReplayContainer  {
 
     const activityTime = Date.now();
 
+    // eslint-disable-next-line no-console
+    const log = this.getOptions()._experiments.traceInternals ? console.info : utils.logger.info;
+    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && log(`[Replay] Converting buffer to session, starting at ${activityTime}`);
+
     // Allow flush to complete before resuming as a session recording, otherwise
     // the checkout from `startRecording` may be included in the payload.
     // Prefer to keep the error replay as a separate (and smaller) segment
@@ -20350,9 +20367,6 @@ class ReplayContainer  {
 
     const earliestEvent = eventBuffer.getEarliestTimestamp();
     if (earliestEvent && earliestEvent < this._context.initialTimestamp) {
-      // eslint-disable-next-line no-console
-      const log = this.getOptions()._experiments.traceInternals ? console.info : utils.logger.info;
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && log(`[Replay] Updating initial timestamp to ${earliestEvent}`);
       this._context.initialTimestamp = earliestEvent;
     }
   }
@@ -20467,7 +20481,7 @@ class ReplayContainer  {
       return;
     }
 
-    const start = this._context.initialTimestamp;
+    const start = this.session.started;
     const now = Date.now();
     const duration = now - start;
 
