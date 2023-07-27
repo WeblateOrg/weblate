@@ -26,8 +26,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 08:56+0200\n"
-"PO-Revision-Date: 2023-07-26 14:06+0000\n"
-"Last-Translator: Paolo Lazzara <pl.news@pm.me>\n"
+"PO-Revision-Date: 2023-07-29 14:21+0000\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -1481,7 +1481,7 @@ msgstr "`Gäste`"
 
 #: ../../admin/access.rst:619
 msgid "Defines permissions for non-authenticated users."
-msgstr "Legt die Berechtigungen für nicht authentifizierte Benutzer fest."
+msgstr "Legt die Berechtigungen für unauthentifizierte Benutzer fest."
 
 #: ../../admin/access.rst:621
 msgid ""
@@ -1495,8 +1495,8 @@ msgid ""
 "You can remove roles from this team to limit permissions for non-"
 "authenticated users."
 msgstr ""
-"Sie können Rollen aus diesem Team entfernen, um die Berechtigungen für nicht-"
-"authentifizierte Benutzer einzuschränken."
+"Sie können Rollen aus diesem Team entfernen, um die Berechtigungen für "
+"unauthentifizierte Benutzer einzuschränken."
 
 #: ../../admin/access.rst:626
 msgid "Default roles: `Add suggestion`, `Access repository`"
@@ -2141,7 +2141,7 @@ msgid ""
 "the version control system."
 msgstr ""
 "Automatisches Hinzufügen oder Entfernen von Projektkomponenten basierend auf "
-"den Dateiänderungen im Versionskontrollsystem."
+"den Dateiänderungen in der Versionsverwaltung."
 
 #: ../../admin/addons.rst:205
 msgid ""
@@ -2427,12 +2427,12 @@ msgid ""
 "respective component. This saves time with configuration and system "
 "resources too."
 msgstr ""
-"Die Erweiterung zur Komponentenerkennung verwendet :ref:`internal-urls`. Es "
-"ist ein bequemer Weg, um das VCS-Setup zwischen mehreren Komponenten zu "
+"Die Erweiterung zur Komponentenerkennung verwendet :ref:`internal-urls`. "
+"Dies ist ein bequemer Weg, um das VCS-Setup zwischen mehreren Komponenten zu "
 "teilen. Verknüpfte Komponenten verwenden das lokale Repository der "
-"Hauptkomponente, das durch Eintragen von ``weblate://project/main-"
-"component`` in das Feld :ref:`component-repo` (in :guilabel:`Verwalten` ↓ :"
-"guilabel:`Einstellungen` ↓ :guilabel:`Versionsverwaltung`) der jeweiligen "
+"Hauptkomponente, das durch Eintragen von ``weblate://project/main-component``"
+" in das Feld :ref:`component-repo` (in :guilabel:`Verwalten` ↓ "
+":guilabel:`Einstellungen` ↓ :guilabel:`Versionsverwaltung`) der jeweiligen "
 "Komponente eingerichtet wird. Dies spart Zeit bei der Konfiguration und auch "
 "Systemressourcen."
 
@@ -3736,7 +3736,7 @@ msgstr "Backups, siehe :doc:`backup`"
 
 #: ../../admin/admin.rst:16
 msgid "Shared translation memory, see :doc:`memory`"
-msgstr "Gemeinsamer Übersetzungsspeicher, siehe :doc:`Speicher`"
+msgstr "Geteilter Übersetzungsspeicher, siehe :doc:`memory`"
 
 #: ../../admin/admin.rst:17
 msgid "Performance report to review Weblate health and length of Celery queues"
@@ -7043,7 +7043,7 @@ msgid ""
 "accepted."
 msgstr ""
 "Die ursprüngliche Option „Ein/Aus“ wurde geändert, um zu unterscheiden, "
-"welche Zeichenketten akzeptiert werden."
+"welche Zeichenketten angenommen werden."
 
 #: ../../admin/config.rst:84
 msgid "Updates all repositories on a daily basis."
@@ -9985,7 +9985,7 @@ msgstr ""
 "werden, dass Änderungen automatisch bei jedem Commit gepusht werden (dies "
 "ist die Voreinstellung, siehe :ref:`component-push_on_commit`). Wenn Sie "
 "nicht möchten, dass Änderungen automatisch gepusht werden, können Sie dies "
-"manuell unter :guilabel:`Paketquellwartung` oder über die API per :option:`"
+"manuell unter :guilabel:`Repository-Wartung` oder über die API per :option:`"
 "wlc push` tun."
 
 #: ../../admin/continuous.rst:284
@@ -18050,7 +18050,7 @@ msgid ""
 "In case you need to specify which version control system to use, you can do "
 "it here. The default version control is Git."
 msgstr ""
-"Falls angegeben werden muss, welches Versionskontrollsystem verwendet werden "
+"Falls angegeben werden muss, welche Versionsverwaltung verwendet werden "
 "soll, kann man dies hier tun. Die Standardversionsverwaltung ist Git."
 
 #: ../../admin/management.rst:458
@@ -19416,8 +19416,8 @@ msgstr "Aus vorhandener Komponente"
 msgid ""
 "Creates additional component to existing one by choosing different files."
 msgstr ""
-"Erzeugt eine zusätzliche Komponente zu einer bestehenden durch Auswahl "
-"verschiedener Dateien."
+"Erzeugt eine zusätzliche Komponente zu einer bereits bestehenden durch "
+"Auswahl verschiedener Dateien."
 
 #: ../../admin/projects.rst:72
 msgid "Additional branch"
@@ -19427,8 +19427,8 @@ msgstr "Zusätzlicher Branch"
 msgid ""
 "Creates additional component to existing one, just for different branch."
 msgstr ""
-"Erzeugt eine zusätzliche Komponente zu einem bereits existierenden, "
-"lediglich für einen anderen Zweig."
+"Erzeugt eine zusätzliche Komponente zu einer bereits bestehenden, lediglich "
+"für einen anderen Branch."
 
 #: ../../admin/projects.rst:76
 msgid "Upload translations files"
@@ -19440,6 +19440,9 @@ msgid ""
 "or do not want to integrate it with Weblate. You can later update the "
 "content using the web interface or :ref:`api`."
 msgstr ""
+"Übersetzungsdateien in Weblate hochladen, falls es keine Versionskontrolle "
+"gibt oder diese nicht in Weblate integriert werden soll. Die Inhalte können "
+"später über die Weboberfläche oder :ref:`api` aktualisiert werden."
 
 #: ../../admin/projects.rst:78
 msgid "Translate document"
@@ -19448,8 +19451,8 @@ msgstr "Dokument übersetzen"
 #: ../../admin/projects.rst:79
 msgid "Upload single document or translation file and translate that."
 msgstr ""
-"Laden Sie ein einzelnes Dokument oder eine Übersetzungsdatei hoch und "
-"übersetzen Sie diese."
+"Ein einzelnes Dokument oder eine Übersetzungsdatei hochladen und diese "
+"übersetzen."
 
 #: ../../admin/projects.rst:81
 msgid "Start from scratch"
@@ -19458,28 +19461,37 @@ msgstr "Bei Null anfangen"
 #: ../../admin/projects.rst:81
 msgid "Create blank translation project and add strings manually."
 msgstr ""
+"Ein leeres Übersetzungsprojekt erstellen und Zeichenketten manuell "
+"hinzufügen."
 
 #: ../../admin/projects.rst:83
 msgid ""
 "Once you have existing translation components, you can also easily add new "
 "ones for additional files or branches using same repository."
 msgstr ""
+"Sobald Sie über bestehende Übersetzungskomponenten verfügen, können Sie auch "
+"leicht neue Komponenten für zusätzliche Dateien oder Branches hinzufügen, "
+"indem Sie dasselbe Repository verwenden."
 
 #: ../../admin/projects.rst:86
 msgid "First you need to fill in name and repository location:"
-msgstr ""
+msgstr "Zunächst müssen Sie den Namen und Speicherort des Repositorys eingeben:"
 
 #: ../../admin/projects.rst:90
 msgid ""
 "On the next page, you are presented with a list of discovered translatable "
 "resources:"
 msgstr ""
+"Auf der nächsten Seite wird Ihnen eine Liste der gefundenen übersetzbaren "
+"Ressourcen angezeigt:"
 
 #: ../../admin/projects.rst:94
 msgid ""
 "As a last step, you review the translation component info and fill in "
 "optional details:"
 msgstr ""
+"In einem letzten Schritt überprüfen Sie die Informationen zur "
+"Übersetzungskomponente und füllen optionale Details aus:"
 
 #: ../../admin/projects.rst:100
 msgid ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
@@ -19498,6 +19510,13 @@ msgid ""
 "single project (unless turned off in the component configuration), see :ref:"
 "`memory`."
 msgstr ""
+"Erstellen Sie ein Übersetzungsprojekt und fügen Sie darin eine neue "
+"Komponente für die Übersetzung ein. Das Projekt ist wie ein Regal, in dem "
+"echte Übersetzungen gestapelt werden. Alle Komponenten im selben Projekt "
+"teilen sich Vorschläge und ihr Wörterbuch; die Übersetzungen werden auch "
+"automatisch durch alle Komponenten in einem einzelnen Projekt weitergegeben ("
+"es sei denn, sie sind in der Komponentenkonfiguration ausgeschaltet), siehe "
+":ref:`memory`."
 
 #: ../../admin/projects.rst:117 ../../admin/projects.rst:275
 msgid ":doc:`/devel/integration`"
@@ -19506,6 +19525,8 @@ msgstr ":doc:`/devel/integration`"
 #: ../../admin/projects.rst:119
 msgid "These basic attributes set up and inform translators of a project:"
 msgstr ""
+"Mit diesen grundlegenden Attributen werden die Übersetzer eines Projekts "
+"eingerichtet und informiert:"
 
 #: ../../admin/projects.rst:124 ../../admin/projects.rst:968 ../../api.rst:792
 #: ../../contributing/about.rst:11
@@ -19515,6 +19536,7 @@ msgstr "Projektname"
 #: ../../admin/projects.rst:126
 msgid "Verbose project name, used to display the project name."
 msgstr ""
+"Ausführlicher Projektname, der zur Anzeige des Projektnamens verwendet wird."
 
 #: ../../admin/projects.rst:130
 msgid ":setting:`PROJECT_NAME_RESTRICT_RE`"
@@ -19526,7 +19548,7 @@ msgstr "URL-Kurzbegriff"
 
 #: ../../admin/projects.rst:137
 msgid "Project name suitable for URLs."
-msgstr ""
+msgstr "Für URLs geeigneter Projektname."
 
 #: ../../admin/projects.rst:142 ../../api.rst:796
 #: ../../contributing/about.rst:16
@@ -19536,12 +19558,16 @@ msgstr "Projektseite"
 #: ../../admin/projects.rst:144
 msgid "URL where translators can find more info about the project."
 msgstr ""
+"URL, unter der Übersetzer weitere Informationen über das Projekt finden "
+"können."
 
 #: ../../admin/projects.rst:146
 msgid ""
 "This is a required parameter unless turned off by :setting:"
 "`WEBSITE_REQUIRED`."
 msgstr ""
+"Dieser Parameter ist obligatorisch, sofern er nicht durch "
+":setting:`WEBSITE_REQUIRED` ausgeschaltet wird."
 
 #: ../../admin/projects.rst:150
 msgid ""
@@ -19561,6 +19587,9 @@ msgid ""
 "information useful for translators. Markdown can be used for text formatting "
 "or inserting links."
 msgstr ""
+"Text, der den Lokalisierungsprozess im Projekt beschreibt, sowie alle "
+"anderen für Übersetzer nützlichen Informationen. Markdown kann zur "
+"Textformatierung oder zum Einfügen von Links verwendet werden."
 
 #: ../../admin/projects.rst:165
 msgid "Set \"Language-Team\" header"
@@ -19571,8 +19600,8 @@ msgid ""
 "Whether Weblate should manage the ``Language-Team`` header (this is a :ref:"
 "`gettext` only feature right now)."
 msgstr ""
-"Ob Weblate den ``Language-Team`` Header verwalten soll (dies ist zur Zeit "
-"nur eine :ref:`gettext` Funktion)."
+"Ob Weblate den ``Language-Team``-Header verwalten soll (dies ist zur Zeit "
+"nur eine :ref:`gettext`-Funktion)."
 
 #: ../../admin/projects.rst:173
 msgid "Use shared translation memory"
@@ -19583,6 +19612,8 @@ msgid ""
 "Whether to use shared translation memory, see :ref:`shared-tm` for more "
 "details."
 msgstr ""
+"Ob ein gemeinsamer Übersetzungsspeicher verwendet werden soll, siehe :ref"
+":`shared-tm` für weitere Details."
 
 #: ../../admin/projects.rst:177 ../../admin/projects.rst:188
 msgid "The default value can be changed by :setting:`DEFAULT_SHARED_TM`."
@@ -19598,22 +19629,30 @@ msgid ""
 "Whether to contribute to shared translation memory, see :ref:`shared-tm` for "
 "more details."
 msgstr ""
+"Ob zum gemeinsamen Übersetzungsspeicher beigetragen werden soll, siehe :ref"
+":`shared-tm` für weitere Details."
 
 #: ../../admin/projects.rst:186
 msgid ""
 "This also affects whether the project can be used as source for :ref:"
 "`automatic-translation`."
 msgstr ""
+"Dies wirkt sich auch darauf aus, ob das Projekt als Quelle für die :ref"
+":`automatic-translation` verwendet werden kann."
 
 #: ../../admin/projects.rst:192
 msgid ""
 "This option is unavailable on Hosted Weblate, it is toggled together with :"
 "ref:`project-use_shared_tm`."
 msgstr ""
+"Diese Option ist auf Hosted Weblate nicht verfügbar, sie wird zusammen mit "
+":ref:`project-use_shared_tm` umgeschaltet."
 
 #: ../../admin/projects.rst:199
 msgid "Configure per project access control, see :ref:`acl` for more details."
 msgstr ""
+"Die Zugriffssteuerung pro Projekt konfigurieren, siehe :ref:`acl` für "
+"weitere Details."
 
 #: ../../admin/projects.rst:206 ../../workflows.rst:77 ../../workflows.rst:109
 #: ../../workflows.rst:142
@@ -19623,6 +19662,7 @@ msgstr "Überprüfung aktivieren"
 #: ../../admin/projects.rst:208
 msgid "Enable review workflow for translations, see :ref:`reviews`."
 msgstr ""
+"Den Überprüfungsablauf für Übersetzungen aktivieren, siehe :ref:`reviews`."
 
 #: ../../admin/projects.rst:213
 msgid "Enable source reviews"
@@ -19631,6 +19671,8 @@ msgstr "Quellenüberprüfung aktivieren"
 #: ../../admin/projects.rst:215
 msgid "Enable review workflow for source strings, see :ref:`source-reviews`."
 msgstr ""
+"Den Überprüfungsablauf für Ausgangszeichenketten aktivieren, siehe :ref"
+":`source-reviews`."
 
 #: ../../admin/projects.rst:219 ../../faq.rst:319
 msgid ":ref:`report-source`, :ref:`user-comments`"
@@ -19644,7 +19686,7 @@ msgstr "Hooks aktivieren"
 msgid ""
 "Whether unauthenticated :ref:`hooks` are to be used for this repository."
 msgstr ""
-"Ob nicht authentifizierte :ref:`Hooks` für dieses Repository verwendet "
+"Ob nicht authentifizierte :ref:`hooks` für dieses Repository verwendet "
 "werden sollen."
 
 #: ../../admin/projects.rst:231
@@ -19666,20 +19708,27 @@ msgid ""
 "to get a consistent view in Weblate or in case you want to use non-standard "
 "naming of your translation files."
 msgstr ""
+"Definieren Sie die Zuordnung von Sprachcodes beim Import von Übersetzungen "
+"in Weblate. Verwenden Sie dies, wenn die Sprachcodes in Ihren Repositorys "
+"inkonsistent sind und Sie eine konsistente Ansicht in Weblate erhalten "
+"möchten oder wenn Sie nicht standardisierte Namen für Ihre "
+"Übersetzungsdateien verwenden möchten."
 
 #: ../../admin/projects.rst:246
 msgid ""
 "The typical use case might be mapping American English to English: ``en_US:"
 "en``"
 msgstr ""
+"Ein typischer Anwendungsfall wäre die Zuordnung von amerikanischem Englisch "
+"auf Englisch: ``en_US:en``"
 
 #: ../../admin/projects.rst:248
 msgid "Multiple mappings to be separated by comma: ``en_GB:en,en_US:en``"
-msgstr ""
+msgstr "Mehrere Zuordnungen sind durch Komma zu trennen: ``en_GB:en,en_US:en``"
 
 #: ../../admin/projects.rst:250
 msgid "Using non standard code: ``ia_FOO:ia``"
-msgstr ""
+msgstr "Verwendung von Nicht-Standard-Code: ``ia_FOO:ia``"
 
 #: ../../admin/projects.rst:254
 msgid ""
@@ -19687,6 +19736,10 @@ msgid ""
 "matches are case sensitive, so make sure you use the source language codes "
 "in same form as used in the filenames."
 msgstr ""
+"Die Sprachcodes werden beim Abgleich mit den Übersetzungsdateien zugeordnet, "
+"wobei zwischen Groß- und Kleinschreibung unterschieden wird. Achten Sie also "
+"darauf, dass Sie die Sprachcodes der Ausgangssprache in der gleichen Form "
+"wie in den Dateinamen verwenden."
 
 #: ../../admin/projects.rst:260
 msgid ""
@@ -19707,11 +19760,16 @@ msgid ""
 "Weblate automatically fetches from this VCS, and finds all matching "
 "translatable files."
 msgstr ""
+"Eine Komponente ist eine Gruppierung von etwas, das übersetzt werden soll. "
+"Sie geben den Ort des VCS-Repositorys und die Dateimaske für die zu "
+"übersetzenden Dateien an, und Weblate holt sie automatisch aus diesem VCS "
+"und findet alle passenden übersetzbaren Dateien."
 
 #: ../../admin/projects.rst:277
 msgid ""
 "You can find some examples of typical configurations in the :ref:`formats`."
 msgstr ""
+"Einige Beispiele für typische Konfigurationen finden Sie in :ref:`formats`."
 
 #: ../../admin/projects.rst:281
 msgid ""
@@ -19719,6 +19777,10 @@ msgid ""
 "split the translation by anything that makes sense in your case (individual "
 "apps or add-ons, book chapters or websites)."
 msgstr ""
+"Es wird empfohlen, die Übersetzungskomponenten auf eine vernünftige Größe zu "
+"beschränken – teilen Sie die Übersetzung nach allem auf, was in Ihrem Fall "
+"sinnvoll ist (einzelne Anwendungen oder Erweiterungen, Buchkapitel oder "
+"Websites)."
 
 #: ../../admin/projects.rst:285
 msgid ""
@@ -19726,6 +19788,9 @@ msgid ""
 "to split work and coordinate among translators with such large translation "
 "components."
 msgstr ""
+"Weblate bewältigt problemlos Übersetzungen mit 10000 Zeichenketten, aber bei "
+"so großen Übersetzungskomponenten ist es schwieriger, die Arbeit aufzuteilen "
+"und unter den Übersetzern zu koordinieren."
 
 #: ../../admin/projects.rst:288
 msgid ""
@@ -19734,20 +19799,28 @@ msgid ""
 "the definition and report this back to the Weblate authors, so that the "
 "missing languages can be included in next release."
 msgstr ""
+"Sollte die Sprachdefinition für eine Übersetzung fehlen, wird eine leere "
+"Definition erstellt und als „cs_CZ (generiert)“ bezeichnet. Sie sollten die "
+"Definition anpassen und dies an die Weblate-Autoren zurückmelden, damit die "
+"fehlenden Sprachen in die nächste Version aufgenommen werden können."
 
 #: ../../admin/projects.rst:293
 msgid ""
 "The component contains all important parameters for working with the VCS, "
 "and for getting translations out of it:"
 msgstr ""
+"Die Komponente enthält alle wichtigen Parameter für die Arbeit mit dem VCS "
+"und für die Erstellung von Übersetzungen daraus:"
 
 #: ../../admin/projects.rst:299 ../../admin/projects.rst:964
 msgid "Component name"
-msgstr "Name der Komponente"
+msgstr "Komponentenname"
 
 #: ../../admin/projects.rst:301
 msgid "Verbose component name, used to display the component name."
 msgstr ""
+"Ausführlicher Komponentenname, der zur Anzeige des Komponentennamens "
+"verwendet wird."
 
 #: ../../admin/projects.rst:306 ../../admin/projects.rst:966 ../../api.rst:2212
 #: ../../api.rst:2282 ../../api.rst:2378
@@ -19756,7 +19829,7 @@ msgstr "Komponenten-Slug"
 
 #: ../../admin/projects.rst:308
 msgid "Component name suitable for URLs."
-msgstr ""
+msgstr "Für URLs geeigneter Komponentenname."
 
 #: ../../admin/projects.rst:313
 msgid "Component project"
@@ -19764,7 +19837,7 @@ msgstr "Komponenten-Projekt"
 
 #: ../../admin/projects.rst:315
 msgid ":ref:`project` where the component belongs."
-msgstr ":ref:`Projekt`, zu dem die Komponente gehört."
+msgstr ":ref:`project`, zu dem die Komponente gehört."
 
 #: ../../admin/projects.rst:320
 msgid "Version control system"
@@ -19772,7 +19845,7 @@ msgstr "Versionsverwaltung"
 
 #: ../../admin/projects.rst:322
 msgid "VCS to use, see :ref:`vcs` for details."
-msgstr ""
+msgstr "Zu verwendendes VCS, siehe :ref:`vcs` für Details."
 
 #: ../../admin/projects.rst:326 ../../admin/projects.rst:412
 msgid ":ref:`push-changes`"
@@ -19784,11 +19857,11 @@ msgstr "Quellcode-Repository"
 
 #: ../../admin/projects.rst:333
 msgid "VCS repository used to pull changes."
-msgstr ""
+msgstr "VCS-Repository, das zum Ziehen von Änderungen verwendet wird."
 
 #: ../../admin/projects.rst:337
 msgid "See :ref:`vcs-repos` for more details on specifying URLs."
-msgstr ""
+msgstr "Siehe :ref:`vcs-repos` für weitere Details zur Angabe von URLs."
 
 #: ../../admin/projects.rst:341
 msgid ""
@@ -19796,16 +19869,22 @@ msgid ""
 "indicating that the repository should be shared with another component. See :"
 "ref:`internal-urls` for more details."
 msgstr ""
+"Dies kann entweder eine echte VCS-URL oder ``weblate://project/component`` "
+"sein, die angibt, dass das Repository mit einer anderen Komponente geteilt "
+"werden soll. Siehe :ref:`internal-urls` für weitere Details."
 
 #: ../../admin/projects.rst:348
 msgid "Repository push URL"
-msgstr "Push-URL für Repository"
+msgstr "Repository-Push-URL"
 
 #: ../../admin/projects.rst:350
 msgid ""
 "Repository URL used for pushing. The behavior of this depends on :ref:"
 "`component-vcs`, and this is in more detail covered in :ref:`push-changes`."
 msgstr ""
+"Repository-URL, die für das Pushen verwendet wird. Das Verhalten hängt von "
+"der :ref:`component-vcs` ab, und dies wird in :ref:`push-changes` "
+"detaillierter behandelt."
 
 #: ../../admin/projects.rst:354 ../../admin/projects.rst:394
 #: ../../admin/projects.rst:403
@@ -19813,16 +19892,21 @@ msgid ""
 "For linked repositories, this is not used and setting from linked component "
 "applies."
 msgstr ""
+"Für verknüpfte Repositorys wird dies nicht verwendet und es gilt die "
+"Einstellung der verknüpften Komponente."
 
 #: ../../admin/projects.rst:358
 msgid ""
 "See :ref:`vcs-repos` for more details on how to specify a repository URL "
 "and :ref:`push-changes` for more details on pushing changes from Weblate."
 msgstr ""
+"Siehe :ref:`vcs-repos` für weitere Details, wie man eine Repository-URL "
+"angibt und :ref:`push-changes` für weitere Details, wie man Änderungen von "
+"Weblate überträgt."
 
 #: ../../admin/projects.rst:364
 msgid "Repository browser"
-msgstr "Paketquellnavigator"
+msgstr "Repository-Browser"
 
 #: ../../admin/projects.rst:366
 msgid ""
@@ -19830,12 +19914,17 @@ msgid ""
 "messages). When empty, no such links will be generated. You can use :ref:"
 "`markup`."
 msgstr ""
+"URL des Repository-Browsers, der zur Anzeige der Quelldateien verwendet wird "
+"(Ort der verwendeten Nachrichten). Wenn leer, werden keine derartigen Links "
+"erzeugt. Es kann :ref:`markup` verwendet werden."
 
 #: ../../admin/projects.rst:369
 msgid ""
 "For example on GitHub, use something like: ``https://github.com/WeblateOrg/"
 "hello/blob/{{branch}}/{{filename}}#L{{line}}``"
 msgstr ""
+"Verwenden Sie auf GitHub zum Beispiel etwas wie: ``https://github.com/"
+"WeblateOrg/hello/blob/{{branch}}/{{filename}}#L{{line}}``"
 
 #: ../../admin/projects.rst:372
 msgid ""
@@ -19851,7 +19940,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:380
 msgid "Exported repository URL"
-msgstr "Exportierte Paketquelladresse"
+msgstr "Exportierte Repository-URL"
 
 #: ../../admin/projects.rst:382
 msgid ""
@@ -19860,6 +19949,11 @@ msgid ""
 "merge changes. You can use :ref:`git-exporter` to automate this for Git "
 "repositories."
 msgstr ""
+"URL, unter der die von Weblate vorgenommenen Änderungen exportiert werden. "
+"Dies ist wichtig, wenn :ref:`continuous-translation` nicht verwendet wird, "
+"oder wenn Änderungen manuell zusammengeführt werden müssen. :ref:`git-"
+"exporter` kann verwendet werden, um dies für Git-Repositorys zu "
+"automatisieren."
 
 #: ../../admin/projects.rst:390
 msgid "Repository branch"
@@ -19869,6 +19963,8 @@ msgstr "Repository-Branch"
 msgid ""
 "Which branch to checkout from the VCS, and where to look for translations."
 msgstr ""
+"Welcher Branch aus dem VCS ausgecheckt werden soll und in welchem nach "
+"Übersetzungen gesucht werden soll."
 
 #: ../../admin/projects.rst:399
 msgid "Push branch"
@@ -19877,12 +19973,16 @@ msgstr "Push Branch"
 #: ../../admin/projects.rst:401
 msgid "Branch for pushing changes, leave empty to use :ref:`component-branch`."
 msgstr ""
+"Branch zum Pushen von Änderungen, leer lassen, um :ref:`component-branch` zu "
+"verwenden."
 
 #: ../../admin/projects.rst:407
 msgid ""
 "This is currently only supported for Git, GitLab and GitHub, it is ignored "
 "for other VCS integrations."
 msgstr ""
+"Dies wird derzeit nur für Git, GitLab und GitHub unterstützt, für andere VCS-"
+"Integrationen wird es ignoriert."
 
 #: ../../admin/projects.rst:417 ../../devel/gettext.rst:226
 #: ../../formats/android.rst:62 ../../formats/apple.rst:28
@@ -19915,6 +20015,11 @@ msgid ""
 "processed). In case your repository contains more than one translation file "
 "(e.g. more gettext domains), you need to create a component for each of them."
 msgstr ""
+"Maske der zu übersetzenden Dateien, einschließlich Pfad. Sie sollte einen „*“"
+" enthalten, der den Sprachcode ersetzt (siehe :ref:`languages` für "
+"Informationen darüber, wie dieser verarbeitet wird). Falls das Repository "
+"mehr als eine Übersetzungsdatei enthält (z. B. mehrere gettext-Domains), "
+"müssen Sie für jede dieser Dateien eine Komponente erstellen."
 
 #: ../../admin/projects.rst:425
 msgid "For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``."
@@ -19925,6 +20030,8 @@ msgid ""
 "In case your filename contains special characters such as ``[``, ``]``, "
 "these need to be escaped as ``[[]`` or ``[]]``."
 msgstr ""
+"Falls der Dateiname Sonderzeichen wie ``[``, ``]`` enthält, müssen diese als "
+"``[[]`` oder ``[]]`` maskiert werden."
 
 #: ../../admin/projects.rst:432 ../../admin/projects.rst:456
 msgid ":ref:`bimono`, :ref:`faq-duplicate-files`"
@@ -19932,13 +20039,18 @@ msgstr ":ref:`bimono`, :ref:`faq-duplicate-files`"
 
 #: ../../admin/projects.rst:438
 msgid "Screenshot file mask"
-msgstr "Bildschirmfotodatei-Maske"
+msgstr "Bildschirmfoto-Dateimaske"
 
 #: ../../admin/projects.rst:440
 msgid ""
 "Mask of files to allow discovery/update of screenshots, including path from "
 "vcs repository. It should include one \"*\" replacing screenshot file name."
 msgstr ""
+"Diese Funktion ermöglicht das Erkennen und Aktualisieren von Bildschirmfotos "
+"durch Bildschirmfoto-Dateimasken unter Verwendung von Pfaden aus dem VCS-"
+"Repository. Dies funktioniert auf Komponentenebene und erfordert die "
+"Verwendung eines Sternchens „*“ als Ersatz für den Namen der Bildschirmfoto-"
+"Datei."
 
 #: ../../admin/projects.rst:443
 msgid "Allowed formats are JPEG, PNG, APNG and GIF."
@@ -19974,7 +20086,7 @@ msgstr "Einsprachige Basis-Sprachdatei"
 
 #: ../../admin/projects.rst:452
 msgid "Base file containing string definitions for :ref:`monolingual`."
-msgstr ""
+msgstr "Basisdatei mit Zeichenkette-Definitionen für :ref:`monolingual`."
 
 #: ../../admin/projects.rst:462
 msgid "Edit base file"
@@ -19983,6 +20095,7 @@ msgstr "Basisdatei bearbeiten"
 #: ../../admin/projects.rst:464
 msgid "Whether to allow editing the base file for :ref:`monolingual`."
 msgstr ""
+"Ob die Bearbeitung der Basisdatei für :ref:`monolingual` erlaubt werden soll."
 
 #: ../../admin/projects.rst:471
 msgid ""
@@ -19990,6 +20103,9 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
+"Zwischensprachdatei für :ref:`monolingual`. In den meisten Fällen handelt es "
+"sich dabei um eine von den Entwicklern bereitgestellte Übersetzungsdatei, "
+"die bei der Erstellung der eigentlichen Ausgangszeichenketten verwendet wird."
 
 #: ../../admin/projects.rst:475
 msgid ""
@@ -19998,6 +20114,11 @@ msgid ""
 "into the source language, translating to other languages is prohibited. This "
 "provides :ref:`source-quality-gateway`."
 msgstr ""
+"Wenn diese Option gesetzt ist, basieren die Ausgangszeichenketten auf dieser "
+"Datei, aber alle anderen Sprachen basieren auf :ref:`component-template`. "
+"Falls die Zeichenkette nicht in die Ausgangssprache übersetzt wird, ist die "
+"Übersetzung in andere Sprachen verboten. Dies bietet :ref:`source-quality-"
+"gateway`."
 
 #: ../../admin/projects.rst:482
 msgid ""
@@ -20118,17 +20239,26 @@ msgid ""
 "translating, sometimes it's desirable to have make use of a translation more "
 "than once."
 msgstr ""
+"Sie können die Weitergabe von Übersetzungen aus anderen Komponenten "
+"desselben Projekts an diese Komponente ausschalten. Dies hängt wirklich "
+"davon ab, was Sie übersetzen, manchmal ist es wünschenswert, eine "
+"Übersetzung mehr als einmal zu verwenden."
 
 #: ../../admin/projects.rst:538
 msgid ""
 "It's usually a good idea to turn this off for monolingual translations, "
 "unless you are using the same IDs across the whole project."
 msgstr ""
+"Es ist normalerweise eine gute Idee, diese Funktion für einsprachige "
+"Übersetzungen zu deaktivieren, es sei denn, Sie verwenden dieselben IDs für "
+"das gesamte Projekt."
 
 #: ../../admin/projects.rst:541
 msgid ""
 "Default value can be changed by :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
+"Der Standardwert kann durch :setting:`DEFAULT_TRANSLATION_PROPAGATION` "
+"geändert werden."
 
 #: ../../admin/projects.rst:545 ../../faq.rst:170 ../../faq.rst:185
 #: ../../user/checks.rst:721 ../../user/translating.rst:374
@@ -20142,12 +20272,12 @@ msgstr "Vorschläge aktivieren"
 
 #: ../../admin/projects.rst:552
 msgid "Whether translation suggestions are accepted for this component."
-msgstr ""
+msgstr "Ob Übersetzungsvorschläge für diese Komponente angenommen werden."
 
 #: ../../admin/projects.rst:557 ../../admin/translating.rst:7
 #: ../../workflows.rst:82 ../../workflows.rst:113 ../../workflows.rst:147
 msgid "Suggestion voting"
-msgstr "Abstimmen über Vorschläge"
+msgstr "Über Vorschläge abstimmen"
 
 #: ../../admin/projects.rst:559
 msgid "Turns on vote casting for suggestions, see :ref:`voting`."
@@ -20161,6 +20291,7 @@ msgstr "Vorschläge automatisch annehmen"
 #: ../../admin/projects.rst:566
 msgid "Automatically accept voted suggestions, see :ref:`voting`."
 msgstr ""
+"Vorschlagsabstimmungen werden automatisch angenommen, siehe :ref:`Voting`."
 
 #: ../../admin/projects.rst:571 ../../admin/translating.rst:77
 #: ../../formats.rst:430
@@ -20172,6 +20303,8 @@ msgid ""
 "Customization of quality checks and other Weblate behavior, see :ref:`custom-"
 "checks`."
 msgstr ""
+"Anpassen von Qualitätsprüfungen und anderem Verhalten von Weblate, siehe :ref"
+":`custom-checks`."
 
 #: ../../admin/projects.rst:578
 msgid "Enforced checks"
@@ -20195,13 +20328,15 @@ msgstr ""
 
 #: ../../admin/projects.rst:591
 msgid "Translation license"
-msgstr "Lizenzierung der Übersetzung"
+msgstr "Übersetzungslizenz"
 
 #: ../../admin/projects.rst:593
 msgid ""
 "License of the translation (does not need to be the same as the source code "
 "license)."
 msgstr ""
+"Lizenz der Übersetzung (muss nicht mit der Lizenz des Quellcodes "
+"übereinstimmen)."
 
 #: ../../admin/projects.rst:600
 msgid ""
@@ -20219,10 +20354,12 @@ msgstr "Neue Übersetzung hinzufügen"
 msgid ""
 "How to handle requests for creation of new languages. Available options:"
 msgstr ""
+"Wie man mit Anfragen zur Erstellung neuer Sprachen umgeht. Verfügbare "
+"Optionen:"
 
 #: ../../admin/projects.rst:612
 msgid "Contact maintainers"
-msgstr "Maintainer kontaktieren"
+msgstr "Projektbetreuer kontaktieren"
 
 #: ../../admin/projects.rst:611
 msgid ""
@@ -20236,7 +20373,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:616
 msgid "Point to translation instructions URL"
-msgstr "Geben Sie die URL für die Übersetzungsanweisungen an"
+msgstr "Die URL für die Übersetzungsanweisungen angeben"
 
 #: ../../admin/projects.rst:615
 msgid ""
@@ -20258,6 +20395,8 @@ msgid ""
 "User can select language and Weblate automatically creates the file for it "
 "and translation can begin."
 msgstr ""
+"Der Benutzer kann eine Sprache auswählen, Weblate erstellt automatisch die "
+"entsprechende Datei und die Übersetzung kann beginnen."
 
 #: ../../admin/projects.rst:622
 msgid "Disable adding new translations"
@@ -20266,6 +20405,8 @@ msgstr "Hinzufügen neuer Übersetzungen deaktivieren"
 #: ../../admin/projects.rst:622
 msgid "There will be no option for user to start new translation."
 msgstr ""
+"Es gibt keine Möglichkeit für den Benutzer, eine neue Übersetzung zu "
+"beginnen."
 
 #: ../../admin/projects.rst:626
 msgid ""
@@ -20273,6 +20414,10 @@ msgid ""
 "it is possible (either :ref:`component-new_base` or the file format supports "
 "starting from an empty file)."
 msgstr ""
+"Die Projektadministratoren können neue Übersetzungen hinzufügen, auch wenn "
+"dies hier deaktiviert ist, wenn dies möglich ist (entweder :ref:`component-"
+"new_base` oder das Dateiformat unterstützt den Beginn von einer leeren "
+"Datei)."
 
 #: ../../admin/projects.rst:632
 msgid ":ref:`adding-translation`, :ref:`component-new_base`"
@@ -20300,6 +20445,13 @@ msgid ""
 "translation files). In Weblate you can manage strings for every translation "
 "and it does not enforce the strings in all translations to be consistent."
 msgstr ""
+"Bei zweisprachigen Formaten werden die Zeichenketten in der Regel aus dem "
+"Quellcode extrahiert (z. B. mit :program:`xgettext`), und das Hinzufügen "
+"neuer Zeichenketten in Weblate sollte deaktiviert werden (sie würden bei der "
+"nächsten Aktualisierung der Übersetzungsdateien verworfen werden). In "
+"Weblate können Sie Zeichenketten für jede Übersetzung verwalten, und es wird "
+"nicht erzwungen, dass die Zeichenketten in allen Übersetzungen konsistent "
+"sind."
 
 #: ../../admin/projects.rst:652
 msgid ""
@@ -20307,6 +20459,10 @@ msgid ""
 "are automatically added or removed in the translations. The strings appear "
 "in the translation files once they are translated."
 msgstr ""
+"Bei einsprachigen Formaten werden die Zeichenketten nur in der "
+"Ausgangssprache verwaltet und in den Übersetzungen automatisch hinzugefügt "
+"oder entfernt. Die Zeichenketten erscheinen in den Übersetzungsdateien, "
+"sobald sie übersetzt sind."
 
 #: ../../admin/projects.rst:658
 msgid ""
@@ -20482,32 +20638,43 @@ msgid ""
 "You can configure how updates from the upstream repository are handled. The "
 "actual implementation depends on VCS, see :doc:`/vcs`."
 msgstr ""
+"Sie können konfigurieren, wie Aktualisierungen aus dem Upstream-Repository "
+"behandelt werden sollen. Die tatsächliche Implementierung hängt vom VCS ab, "
+"siehe :doc:`/vcs`."
 
 #: ../../admin/projects.rst:729
 msgid "Rebase"
-msgstr "Umbasieren (rebase)"
+msgstr "Umbasieren (Rebase)"
 
 #: ../../admin/projects.rst:722
 msgid ""
 "Rebases Weblate commits on top of upstream repository on update. This "
 "provides clean history without extra merge commits."
 msgstr ""
+"Setzt Weblate-Commits beim Aktualisieren auf das Upstream-Repository um. "
+"Dies bietet einen sauberen Verlauf ohne zusätzliche Merge Commits."
 
 #: ../../admin/projects.rst:725
 msgid ""
 "Rebasing can cause you trouble in case of complicated merges, so carefully "
 "consider whether or not you want to enable them."
 msgstr ""
+"Das Umbasieren kann bei komplizierten Zusammenführungen zu Problemen führen, "
+"daher sollten Sie sorgfältig abwägen, ob Sie diese Funktion aktivieren "
+"wollen oder nicht."
 
 #: ../../admin/projects.rst:728
 msgid ""
 "You might need to enable force pushing by choosing :ref:`vcs-git-force-push` "
 "as :ref:`component-vcs`, especially when pushing to a different branch."
 msgstr ""
+"Möglicherweise müssen Sie erzwungenes Pushen aktivieren, indem Sie :ref:`vcs-"
+"git-force-push` als :ref:`component-vcs` wählen, insbesondere wenn Sie auf "
+"einen anderen Branch pushen."
 
 #: ../../admin/projects.rst:734
 msgid "Merge"
-msgstr "Zusammenführen"
+msgstr "Zusammenführen (Merge)"
 
 #: ../../admin/projects.rst:732
 msgid ""
@@ -20515,10 +20682,13 @@ msgid ""
 "utilizes fast-forward when possible. This is the safest way, but might "
 "produce a lot of merge commits."
 msgstr ""
+"Änderungen im Upstream-Repository werden in Weblate zusammengeführt. Bei "
+"dieser Einstellung wird, wenn möglich, Fast-Forward verwendet. Dies ist der "
+"sicherste Weg, kann aber eine Menge Merge Commits erzeugen."
 
 #: ../../admin/projects.rst:739
 msgid "Merge without fast-forward"
-msgstr "Zusammenführen ohne Fast-Forward"
+msgstr "Zusammenführen (Merge) ohne Fast-Forward"
 
 #: ../../admin/projects.rst:737
 msgid ""
@@ -20526,10 +20696,15 @@ msgid ""
 "commit every time (even when fast-forward would be possible). Every Weblate "
 "change will appear as a merge commit in Weblate repository."
 msgstr ""
+"Änderungen im Upstream-Repository werden in Weblate zusammengeführt, wobei "
+"jedes Mal ein Merge Commit durchgeführt wird (auch wenn ein Fast-Forward "
+"möglich wäre). Jede Weblate-Änderung wird als Merge Commit im Weblate-"
+"Repository angezeigt."
 
 #: ../../admin/projects.rst:741
 msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
 msgstr ""
+"Der Standardwert kann durch :setting:`DEFAULT_MERGE_STYLE` geändert werden."
 
 #: ../../admin/projects.rst:751
 msgid "Commit, add, delete, merge, add-on, and merge request messages"
@@ -20539,6 +20714,8 @@ msgstr ""
 #: ../../admin/projects.rst:753
 msgid "Message used when committing a translation, see :ref:`markup`."
 msgstr ""
+"Nachricht, die beim Übertragen einer Übersetzung verwendet wird, siehe "
+":ref:`markup`."
 
 #: ../../admin/projects.rst:755
 msgid ""
@@ -20547,10 +20724,10 @@ msgid ""
 "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:"
 "`DEFAULT_PULL_MESSAGE`."
 msgstr ""
-"Die Standardwerte können durch das setzen von :setting:"
-"`DEFAULT_ADD_MESSAGE`, :setting:`DEFAULT_ADDON_MESSAGE`, :setting:"
-"`DEFAULT_COMMIT_MESSAGE`, :setting:`DEFAULT_DELETE_MESSAGE`, :setting:"
-"`DEFAULT_MERGE_MESSAGE` und :setting:`DEFAULT_PULL_MESSAGE` geändert werden."
+"Die Standardwerte können durch das Setzen von :setting:`DEFAULT_ADD_MESSAGE`"
+", :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, "
+":setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE` und "
+":setting:`DEFAULT_PULL_MESSAGE` geändert werden."
 
 #: ../../admin/projects.rst:763
 msgid "Push on commit"
@@ -20815,7 +20992,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:943
 msgid "Template markup"
-msgstr ""
+msgstr "Markup-Vorlage"
 
 #: ../../admin/projects.rst:945
 msgid ""
@@ -20823,6 +21000,9 @@ msgid ""
 "is needed. It is based on :doc:`django:ref/templates/language`, so it can be "
 "quite powerful."
 msgstr ""
+"Weblate verwendet eine einfache Auszeichnungssprache an mehreren Stellen, an "
+"denen die Wiedergabe von Text erforderlich ist. Sie basiert auf :doc:`django:"
+"ref/templates/language`, kann also recht mächtig sein."
 
 #: ../../admin/projects.rst:949
 msgid "Currently it is used in:"
@@ -20850,7 +21030,7 @@ msgstr ":ref:`addon-script`"
 
 #: ../../admin/projects.rst:957
 msgid "There following variables are available in the component templates:"
-msgstr ""
+msgstr "Die folgenden Variablen sind in den Komponentenvorlagen verfügbar:"
 
 #: ../../admin/projects.rst:959
 msgid "``{{ language_code }}``"
@@ -20887,7 +21067,7 @@ msgstr "``{{ url }}``"
 
 #: ../../admin/projects.rst:972
 msgid "Translation URL"
-msgstr "Übersetzungs URL"
+msgstr "Übersetzungs-URL"
 
 #: ../../admin/projects.rst:973
 msgid "``{{ filename }}``"
@@ -21268,7 +21448,8 @@ msgstr ""
 #: ../../admin/support.rst:78
 msgid "Listing your server without a support subscription in Discover Weblate:"
 msgstr ""
-"Auflistung Ihres Servers ohne ein Support-Abonnement in Discover Weblate:"
+"Auflistung Ihres Servers ohne ein Support-Abonnement in „Entdecken Sie "
+"Weblate“:"
 
 #: ../../admin/support.rst:80
 msgid "Register yourself at <https://weblate.org/user/>"
@@ -21315,12 +21496,12 @@ msgid ""
 "vote from the user making the suggestion if it is cast)."
 msgstr ""
 "Jeder kann standardmäßig Vorschläge hinzufügen, die von angemeldeten "
-"Benutzern akzeptiert werden. Die Vorschlagsabstimmung kann verwendet werden, "
+"Benutzern angenommen werden. Die Vorschlagsabstimmung kann verwendet werden, "
 "um eine Zeichenkette automatisch zu verwenden, wenn mehr als ein "
-"angemeldeter Benutzer zustimmt. Dies wird unter der :ref:`component` mit :"
-"guilabel:`Abstimmen über Vorschläge` eingeschaltet. :guilabel:`Vorschläge "
-"automatisch annehmen` setzt einen Schwellenwert für angenommene Vorschläge "
-"(dies schließt die Stimme des vorschlagenden Benutzers ein, sofern sie "
+"angemeldeter Benutzer zustimmt. Dies wird unter der :ref:`component` mit "
+":guilabel:`Abstimmen über Vorschläge` eingeschaltet. :guilabel:`Vorschläge "
+"automatisch annehmen` setzt einen Schwellenwert für angenommene Vorschläge ("
+"dies schließt die Stimme des vorschlagenden Benutzers ein, sofern sie "
 "abgegeben wird)."
 
 #: ../../admin/translating.rst:18
@@ -26218,7 +26399,7 @@ msgstr "Kompatibilität mit Django 4.1."
 #: ../../changes.rst:274
 msgid "Added support for storing escaped XML elements in XLIFF."
 msgstr ""
-"Unterstützung für das Speichern von XML-Elementen mit Escapezeichen in XLIFF "
+"Unterstützung für das Speichern von maskierten XML-Elementen in XLIFF "
 "hinzugefügt."
 
 #: ../../changes.rst:275
@@ -26560,8 +26741,8 @@ msgstr "Neue Erweiterung :ref:`addon-weblate.generate.prefill`."
 msgid ""
 "Added :guilabel:`Merge without fast-forward` :ref:`component-merge_style`."
 msgstr ""
-":ref:`component-merge_style` :guilabel:`Zusammenführen ohne Fast-Forward` "
-"hinzugefügt."
+":ref:`component-merge_style` :guilabel:`Zusammenführen (Merge) ohne Fast-"
+"Forward` hinzugefügt."
 
 #: ../../changes.rst:375
 msgid ""
@@ -26580,7 +26761,7 @@ msgid ""
 "Added support for defining custom teams at project level to grant users "
 "access, see :ref:`manage-acl`."
 msgstr ""
-"Unterstützung zur Festlegung benutzerdefinerter Teams auf Projektebene, um "
+"Unterstützung zur Festlegung benutzerdefinierter Teams auf Projektebene, um "
 "Benutzerzugriffe zu gewähren, hinzugefügt, siehe :ref:`manage-acl`."
 
 #: ../../changes.rst:378
@@ -27446,7 +27627,7 @@ msgstr "Erlaubt das Hochladen von Bildschirmfotos von einer Übersetzungsseite."
 
 #: ../../changes.rst:626
 msgid "Added forced file synchronization to the repository maintenance."
-msgstr "Erzwungene Dateisynchronisation zur Paketquellwartung hinzugefügt."
+msgstr "Erzwungene Dateisynchronisation zur Repository-Wartung hinzugefügt."
 
 #: ../../changes.rst:627
 msgid "Fixed automatic suggestions for languages with a longer code."
@@ -29393,6 +29574,8 @@ msgstr ""
 #: ../../changes.rst:1200
 msgid "Allow to configure contributing to shared translation memory."
 msgstr ""
+"Die Konfiguration von Beiträgen zum gemeinsamen Übersetzungsspeicher "
+"ermöglicht."
 
 #: ../../changes.rst:1201
 msgid "Added ZIP download for more translation files."
@@ -36072,9 +36255,8 @@ msgid ""
 "maintenance`) or from the command-line using :ref:`wlc`."
 msgstr ""
 "Zuvor sollten Sie alle ausstehenden Änderungen übertragen (siehe :ref:`lazy-"
-"commit`). Sie können dies in der Benutzeroberfläche (unter "
-":guilabel:`Paketquellwartung`) oder über die Kommandozeile mit :ref:`wlc` "
-"tun."
+"commit`). Sie können dies in der Benutzeroberfläche (unter :guilabel"
+":`Repository-Wartung`) oder über die Kommandozeile mit :ref:`wlc` tun."
 
 #: ../../devel/integration.rst:33
 msgid ""
@@ -36255,7 +36437,7 @@ msgid ""
 msgstr ""
 "Weblate speichert alle Übersetzungen im Repository der Versionsverwaltung. "
 "Es kann entweder mit einem Upstream-Repository verbunden sein, oder nur "
-"intern sein. Mit der :guilabel:`Paketquellwartung` können Sie das "
+"intern sein. Mit der :guilabel:`Repository-Wartung` können Sie das "
 "beeinflussen."
 
 #: ../../devel/integration.rst:155
@@ -40144,6 +40326,8 @@ msgid ""
 "Simple XLIFF file where content of the elements is stored as plain text (all "
 "XML elements being escaped)."
 msgstr ""
+"Einfache XLIFF-Datei, in welcher der Inhalt der Elemente als reiner Text "
+"gespeichert ist (alle XML-Elemente sind maskiert)."
 
 #: ../../formats/xliff.rst:18
 msgid "`XLIFF with placeables support`"
@@ -40151,7 +40335,7 @@ msgstr "`XLIFF mit Platzhalterunterstützung`"
 
 #: ../../formats/xliff.rst:19
 msgid "Standard XLIFF supporting placeables and other XML elements."
-msgstr ""
+msgstr "Standard-XLIFF mit Platzhalterunterstützung und anderen XML-Elementen."
 
 #: ../../formats/xliff.rst:22
 msgid "`XLIFF with gettext extensions`"
@@ -44640,15 +44824,16 @@ msgstr "Es gibt zwei verschiedene Übersetzungsmodi:"
 
 #: ../../user/translating.rst:10
 msgid "The project accepts direct translations"
-msgstr "Das Projekt akzeptiert unmittelbare Übersetzungen"
+msgstr "Das Projekt akzeptiert direkte Übersetzungen"
 
 #: ../../user/translating.rst:11
 msgid ""
 "The project only accepts suggestions, which are automatically validated once "
 "a defined number of votes is reached"
 msgstr ""
-"Das Projekt akzeptiert nur Vorschläge, die automatisch für gültig erklärt "
-"werden, sobald eine definierte Anzahl an Stimmen abgegeben wurden"
+"Das Projekt akzeptiert nur Übersetzungsvorschläge, die automatisch für "
+"gültig erklärt werden, sobald eine vorgegebene Anzahl an Stimmen abgegeben "
+"wurde"
 
 #: ../../user/translating.rst:13
 msgid "Please see :ref:`workflows` for more info on translation workflow."
@@ -45812,6 +45997,8 @@ msgid ""
 "See :ref:`vcs-repos` for info on how to access different kinds of "
 "repositories."
 msgstr ""
+"Siehe :ref:`vcs-repos` für Informationen darüber, wie man auf verschiedene "
+"Arten von Repositorys zugreifen kann."
 
 #: ../../vcs.rst:216
 msgid "Git with force push"
@@ -46765,7 +46952,7 @@ msgid ""
 msgstr ""
 "In diesem Arbeitsablauf kann jeder Übersetzungsvorschläge einbringen, die "
 "von weiteren Mitgliedern genehmigt werden müssen, bevor sie als Übersetzung "
-"akzeptiert werden."
+"angenommen werden."
 
 #: ../../workflows.rst:102
 msgid "*Any user* can add suggestions."
