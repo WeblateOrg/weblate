@@ -290,6 +290,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 language_code=self.language_code,
                 source_language=self.component.source_language.code,
                 is_template=self.is_template,
+                existing_units=self.unit_set.all(),
             )
             store_post_load.send(sender=self.__class__, translation=self, store=store)
             return store

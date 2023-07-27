@@ -9,6 +9,7 @@ from __future__ import annotations
 import codecs
 import os
 import shutil
+from collections import defaultdict
 from io import BytesIO
 from typing import Callable
 from zipfile import ZipFile
@@ -201,6 +202,13 @@ class ConvertFormat(TranslationFormat):
 
     def convert_to_po(self, parser, template_store, use_location: bool = True):
         store = pofile()
+        # Prepare index of existing translations
+        unitindex = defaultdict(list)
+        for unit in self.existing_units:
+            for source in unit.get_source_plurals():
+                unitindex[source].append(unit)
+
+        # Convert store
         if template_store:
             parser.makeindex()
             for unit in template_store.content_units:
@@ -208,8 +216,8 @@ class ConvertFormat(TranslationFormat):
                 locations = unit.unit.getlocations()
                 thepo.addlocations(locations)
                 thepo.addnote(unit.unit.getnotes(), "developer")
-                # Try to import translation from the file
-                if use_location:
+                # Try to import initial translation from the file
+                if use_location and not unitindex:
                     for location in locations:
                         try:
                             translation = parser.locationindex[location]
@@ -224,7 +232,27 @@ class ConvertFormat(TranslationFormat):
                 thepo.target = htmlunit.source
                 thepo.addlocations(htmlunit.getlocations())
                 thepo.addnote(htmlunit.getnotes(), "developer")
+
+        # Handle duplicate strings (use context to differentiate them)
         store.removeduplicates("msgctxt")
+
+        # Merge existing translations
+        if unitindex:
+            for unit in store.units:
+                possible_translations = unitindex[unit.source]
+                # Single match
+                if len(possible_translations) == 1:
+                    unit.target = possible_translations[0].target
+                    continue
+                # None match
+                if not possible_translations:
+                    continue
+                # Multiple matches
+                for translation in possible_translations:
+                    if translation.context == unit.getcontext():
+                        unit.target = translation.target
+                        break
+
         return store
 
 

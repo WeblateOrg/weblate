@@ -8,6 +8,7 @@ import os
 from tempfile import NamedTemporaryFile
 from unittest import SkipTest
 
+from weblate.checks.tests.test_checks import MockUnit
 from weblate.formats.convert import (
     HTMLFormat,
     IDMLFormat,
@@ -37,6 +38,7 @@ class ConvertFormatTest(BaseFormatTest):
     CONVERT_TEMPLATE = ""
     CONVERT_TRANSLATION = ""
     CONVERT_EXPECTED = ""
+    CONVERT_EXISTING = []
 
     def test_convert(self):
         if not self.CONVERT_TEMPLATE:
@@ -54,6 +56,7 @@ class ConvertFormatTest(BaseFormatTest):
             storage = self.FORMAT(
                 translation.name,
                 template_store=self.FORMAT(template.name, is_template=True),
+                existing_units=self.CONVERT_EXISTING,
             )
 
             # Ensure it is parsed correctly
@@ -109,7 +112,7 @@ class MarkdownFormatTest(ConvertFormatTest):
     MASK = "*/translations.md"
     EXPECTED_PATH = "cs_CZ/translations.md"
     FIND = "Orangutan has five bananas."
-    FIND_MATCH = "Orangutan has five bananas."
+    FIND_MATCH = ""
     MATCH = b"#"
     NEW_UNIT_MATCH = None
     BASE = MARKDOWN_FILE
@@ -126,6 +129,49 @@ Bye
 
 Nazdar
 """
+    CONVERT_EXISTING = [MockUnit(source="Hello", target="Ahoj")]
+
+    def test_existing_units(self):
+        with open(self.FILE, "rb") as handle:
+            testdata = handle.read()
+
+        # Create test file
+        testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
+
+        # Write test data to file
+        with open(testfile, "wb") as handle:
+            handle.write(testdata)
+
+        # Parse test file
+        storage = self.FORMAT(
+            testfile,
+            template_store=self.FORMAT(testfile, is_template=True),
+            existing_units=[
+                MockUnit(
+                    source="Orangutan has five bananas.",
+                    target="Orangutan má pět banánů.",
+                )
+            ],
+        )
+
+        # Save test file
+        storage.save()
+
+        # Read new content
+        with open(testfile) as handle:
+            newdata = handle.read()
+
+        self.assertEqual(
+            newdata,
+            """# Ahoj světe!
+
+Orangutan má pět banánů.
+
+Try Weblate at [weblate.org](https://demo.weblate.org/)!
+
+*Thank you for using Weblate.*
+""",
+        )
 
 
 class OpenDocumentFormatTest(ConvertFormatTest):

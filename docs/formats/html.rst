@@ -7,6 +7,8 @@ HTML files
 
 The translatable content is extracted from the HTML files and offered for the translation.
 
+.. include:: /snippets/format-database-backed.rst
+
 .. seealso::
 
    :doc:`tt:formats/html`

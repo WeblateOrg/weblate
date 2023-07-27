@@ -9,6 +9,8 @@ Markdown files
 
 The translatable content is extracted from the Markdown files and offered for the translation.
 
+.. include:: /snippets/format-database-backed.rst
+
 .. seealso::
 
    :doc:`tt:formats/md`

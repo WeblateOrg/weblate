@@ -14,6 +14,8 @@ There are three flavors of this format:
 * DokuWiki text file
 * MediaWiki text file
 
+.. include:: /snippets/format-database-backed.rst
+
 .. seealso::
 
    :doc:`tt:formats/text`

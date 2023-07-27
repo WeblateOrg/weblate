@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os.path
 from fnmatch import fnmatch
+from typing import Any
 
 from translate.storage import factory
 
@@ -89,6 +90,7 @@ class AutodetectFormat(TTKitFormat):
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
+        existing_units: list[Any] | None = None,
     ):
         """
         Parse store and returns TTKitFormat instance.
@@ -108,12 +110,14 @@ class AutodetectFormat(TTKitFormat):
                     language_code=language_code,
                     source_language=source_language,
                     is_template=is_template,
+                    existing_units=existing_units,
                 )
         return cls(
             storefile,
             template_store=template_store,
             language_code=language_code,
             is_template=is_template,
+            existing_units=existing_units,
         )
 
     @classmethod

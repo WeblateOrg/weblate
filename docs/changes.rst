@@ -19,6 +19,7 @@ Not yet released.
 * Rendering strings with plurals, placeholders or alternative translations.
 * User API now includes last sign in date.
 * User API token is now hidden for privacy reasons by default.
+* Better preserve translation on source file change in :doc:`/formats/html` and :doc:`/formats/txt`.
 
 **Bug fixes**
 
