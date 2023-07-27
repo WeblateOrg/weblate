@@ -63,7 +63,14 @@ class MockUnit:
     """Mock unit object."""
 
     def __init__(
-        self, id_hash=None, flags="", code="cs", source="", note="", is_source=None
+        self,
+        id_hash=None,
+        flags="",
+        code="cs",
+        source="",
+        note="",
+        is_source=None,
+        target="",
     ):
         if id_hash is None:
             id_hash = random.randint(0, 65536)  # noqa: S311
@@ -80,6 +87,7 @@ class MockUnit:
         self.translated = True
         self.readonly = False
         self.state = 20
+        self.target = target
         self.note = note
         self.check_cache = {}
         self.machinery = None

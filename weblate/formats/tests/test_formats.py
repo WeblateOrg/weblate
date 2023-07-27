@@ -246,7 +246,8 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         This can be implemented in subclasses to implement content aware comparing of
         translation files.
         """
-        self.assertEqual(testdata.strip(), newdata.strip())
+        self.maxDiff = None
+        self.assertEqual(testdata.decode().strip(), newdata.decode().strip())
 
     def test_find(self):
         storage = self.parse_file(self.FILE)

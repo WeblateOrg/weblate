@@ -274,6 +274,7 @@ class TranslationFormat:
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
+        existing_units: list[Any] | None = None,
     ):
         """
         Parse store and returns TranslationFormat instance.
@@ -287,6 +288,7 @@ class TranslationFormat:
             language_code=language_code,
             source_language=source_language,
             is_template=is_template,
+            existing_units=existing_units,
         )
 
     def __init__(
@@ -296,6 +298,7 @@ class TranslationFormat:
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
+        existing_units: list[Any] | None = None,
     ):
         """Create file format object, wrapping up translate-toolkit's store."""
         if not isinstance(storefile, str) and not hasattr(storefile, "mode"):
@@ -307,6 +310,7 @@ class TranslationFormat:
         # Remember template
         self.template_store = template_store
         self.is_template = is_template
+        self.existing_units = [] if existing_units is None else existing_units
 
         # Load store
         self.store = self.load(storefile, template_store)

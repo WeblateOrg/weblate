@@ -12,7 +12,7 @@ import inspect
 import os
 import re
 import subprocess
-from typing import Callable
+from typing import Any, Callable
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -238,6 +238,7 @@ class TTKitFormat(TranslationFormat):
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
+        existing_units: list[Any] | None = None,
     ):
         super().__init__(
             storefile,
@@ -245,6 +246,7 @@ class TTKitFormat(TranslationFormat):
             language_code=language_code,
             is_template=is_template,
             source_language=source_language,
+            existing_units=existing_units,
         )
 
     @staticmethod
@@ -1500,6 +1502,7 @@ class CSVFormat(TTKitFormat):
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
+        existing_units: list[Any] | None = None,
     ):
         super().__init__(
             storefile,
@@ -1507,6 +1510,7 @@ class CSVFormat(TTKitFormat):
             language_code=language_code,
             source_language=source_language,
             is_template=is_template,
+            existing_units=existing_units,
         )
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
@@ -1963,6 +1967,7 @@ class TBXFormat(TTKitFormat):
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
+        existing_units: list[Any] | None = None,
     ):
         super().__init__(
             storefile,
@@ -1970,6 +1975,7 @@ class TBXFormat(TTKitFormat):
             language_code=language_code,
             is_template=is_template,
             source_language=source_language,
+            existing_units=existing_units,
         )
         # Add language header if not present
         self.store.addheader()
