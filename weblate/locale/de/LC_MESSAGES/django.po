@@ -48,7 +48,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 07:48+0000\n"
-"PO-Revision-Date: 2023-07-26 14:06+0000\n"
+"PO-Revision-Date: 2023-07-29 14:21+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -92,7 +92,7 @@ msgstr "Vollständiger Name"
 
 #: weblate/accounts/forms.py:111
 msgid "Name is also used in version control commits."
-msgstr "Der Name wird auch in Versionsverwaltungsübertragungen verwendet."
+msgstr "Der Name wird auch in Commits der Versionsverwaltung verwendet."
 
 #: weblate/accounts/forms.py:171 weblate/accounts/models.py:587
 msgid "Commit e-mail"
@@ -253,8 +253,8 @@ msgstr "Komponente: {}"
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
 msgstr ""
-"Sie erhalten eine Benachrichtigung für jedes dieser Ereignisse in nicht "
-"beobachteten Projekten."
+"Sie erhalten eine Benachrichtigung für jedes dieser Ereignisse in "
+"unbeobachteten Projekten."
 
 #: weblate/accounts/forms.py:769
 msgid ""
@@ -292,7 +292,7 @@ msgid ""
 "non-watched projects."
 msgstr ""
 "Sie erhalten diese Benachrichtigungen nur für von Ihnen übersetzte Sprachen "
-"in nicht beobachteten Projekten."
+"in unbeobachteten Projekten."
 
 #: weblate/accounts/forms.py:794
 msgid ""
@@ -572,8 +572,8 @@ msgid ""
 "placeholders."
 msgstr ""
 "Geben Sie eine benutzerdefinierte URL ein, die als Link zum Quellcode "
-"verwendet werden soll. Sie können {{branch}} für den Zweig, {{filename}}} "
-"und {{line}} als Dateiname und Zeilenplatzhalter verwenden."
+"verwendet werden soll. Sie können {{branch}} für den Branch, {{filename}}} "
+"und {{line}} als Platzhalter für Dateinamen und Zeile verwenden."
 
 #: weblate/accounts/models.py:435
 msgid "Translation editor mode"
@@ -1215,7 +1215,7 @@ msgid ""
 "the version control system."
 msgstr ""
 "Automatisches Hinzufügen oder Entfernen von Projektkomponenten basierend auf "
-"den Dateiänderungen im Versionskontrollsystem."
+"den Dateiänderungen in der Versionsverwaltung."
 
 #: weblate/addons/example.py:20
 msgid "Example add-on"
@@ -2573,8 +2573,8 @@ msgstr "Das Abstimmen über Vorschläge ist deaktiviert."
 msgid ""
 "This translation only accepts suggestions, and these are approved by voting."
 msgstr ""
-"Diese Übersetzung akzeptiert nur Vorschläge, und diese werden durch "
-"Abstimmung genehmigt."
+"Für diese Übersetzung werden nur Vorschläge angenommen, die durch Abstimmung "
+"genehmigt werden."
 
 #: weblate/auth/permissions.py:181
 #: weblate/templates/snippets/project/state.html:6
@@ -5891,7 +5891,7 @@ msgstr "Übersetzungsdateiname"
 #: weblate/templates/addons/generate_help.html:22
 #: weblate/trans/models/component.py:286
 msgid "Component name"
-msgstr "Name der Komponente"
+msgstr "Komponentenname"
 
 #: weblate/templates/addons/generate_help.html:24
 msgid "Component URL slug"
@@ -6624,7 +6624,7 @@ msgstr "Neue Übersetzung starten"
 #: weblate/templates/component.html:85 weblate/templates/project.html:80
 #: weblate/templates/translation.html:90
 msgid "Repository maintenance"
-msgstr "Paketquellwartung"
+msgstr "Repository-Wartung"
 
 #: weblate/templates/component.html:88
 #: weblate/templates/screenshots/screenshot_detail.html:11
@@ -7378,15 +7378,15 @@ msgstr "Aktualisieren"
 
 #: weblate/templates/js/git-status.html:58
 msgid "Update with merge"
-msgstr "Aktualisierung mit Zusammenführung"
+msgstr "Aktualisieren mit Zusammenführen (Merge)"
 
 #: weblate/templates/js/git-status.html:61
 msgid "Update with rebase"
-msgstr "Aktualisierung mit Umbasieren"
+msgstr "Aktualisieren mit Umbasieren (Rebase)"
 
 #: weblate/templates/js/git-status.html:64
 msgid "Update with merge without fast-forward"
-msgstr "Aktualisierung mit Zusammenführung ohne Schnellvorlauf"
+msgstr "Aktualisieren mit Zusammenführen (Merge) ohne Fast-Forward"
 
 #: weblate/templates/js/git-status.html:70
 #, python-format
@@ -7532,11 +7532,11 @@ msgstr "Repository für %(component)s"
 
 #: weblate/templates/js/git-status.html:166
 msgid "Repository details"
-msgstr "Paketquelldetails"
+msgstr "Repository-Details"
 
 #: weblate/templates/js/git-status.html:174
 msgid "Repository changes"
-msgstr "Paketquelländerungen"
+msgstr "Repository-Änderungen"
 
 #: weblate/templates/lang/create.html:7 weblate/templates/languages.html:15
 msgid "Add language"
@@ -7965,8 +7965,8 @@ msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "upon next update."
 msgstr ""
-"Bitte fügen Sie die Sprachdatei zur Versionsverwaltung hinzu, Weblate wird "
-"sie bei der nächsten Aktualisierung automatisch entdecken."
+"Bitte fügen Sie die Sprachdatei zum VCS hinzu, Weblate wird diese bei der "
+"nächsten Aktualisierung automatisch erkennen."
 
 #: weblate/templates/mail/new_language.html:21
 msgid ""
@@ -9140,7 +9140,7 @@ msgstr "Projektbetreuer"
 #: weblate/templates/snippets/info.html:151
 #: weblate/trans/models/component.py:501
 msgid "Translation license"
-msgstr "Lizenzierung der Übersetzung"
+msgstr "Übersetzungslizenz"
 
 #: weblate/templates/snippets/info.html:142
 msgid "Automatic component list assignment"
@@ -9161,9 +9161,9 @@ msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
 msgstr[0] ""
-"Vorschläge mit einer Stimme werden automatisch als Übersetzung akzeptiert."
+"Vorschläge mit einer Stimme werden automatisch als Übersetzung angenommen."
 msgstr[1] ""
-"Übersetzungsvorschläge werden automatisch als Übersetzung akzeptiert, sobald "
+"Übersetzungsvorschläge werden automatisch als Übersetzung angenommen, sobald "
 "sie %(count)s Stimmen haben."
 
 #: weblate/templates/snippets/info.html:182
@@ -10116,9 +10116,9 @@ msgid ""
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
-"Sie können Git mit Force Push als Versionskontrollsystem in der "
+"Sie können Git mit Force Push als Versionsverwaltung in der "
 "Komponentenkonfiguration auswählen, um das Remote-Repository nach dem "
-"Umstellen von Commits in Weblate zu überschreiben."
+"Umbasieren von Commits in Weblate zu überschreiben."
 
 #: weblate/templates/trans/alert/pushfailure.html:22
 msgid ""
@@ -10289,8 +10289,8 @@ msgid ""
 "Create a new translation component from remote version control system "
 "repository."
 msgstr ""
-"Erstellen Sie eine neue Übersetzungskomponente aus dem "
-"Versionskontrollsystem des Repositorys."
+"Erstellen Sie eine neue Übersetzungskomponente aus der Versionsverwaltung "
+"des Repositorys."
 
 #: weblate/templates/trans/component_create.html:53
 #: weblate/templates/trans/component_create.html:66
@@ -10316,7 +10316,7 @@ msgid ""
 "Create a new translation component for an additional branch of the existing "
 "translation component."
 msgstr ""
-"Erstellen Sie eine neue Übersetzungskomponente für einen zusätzlichen Zweig "
+"Erstellen Sie eine neue Übersetzungskomponente für einen zusätzlichen Branch "
 "der bestehenden Übersetzungskomponente."
 
 #: weblate/templates/trans/component_create.html:79
@@ -10324,8 +10324,8 @@ msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
 msgstr ""
-"Die neue Komponente wird für den ausgewählten Zweig mit genau der gleichen "
-"Konfiguration wie die bestehende erstellt."
+"Die neue Komponente wird für den ausgewählten Branch mit genau der gleichen "
+"Konfiguration wie die bestehende Komponente erstellt."
 
 #: weblate/templates/trans/component_create.html:91
 msgid ""
@@ -12473,12 +12473,12 @@ msgstr ""
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:108
 msgid "Contact maintainers"
-msgstr "Maintainer kontaktieren"
+msgstr "Projektbetreuer kontaktieren"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:110
 msgid "Point to translation instructions URL"
-msgstr "Geben Sie die URL für die Übersetzungsanweisungen an"
+msgstr "Die URL für die Übersetzungsanweisungen angeben"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:112
@@ -12544,15 +12544,15 @@ msgstr "Linux-Stil"
 
 #: weblate/trans/models/component.py:148
 msgid "Merge"
-msgstr "Zusammenführen"
+msgstr "Zusammenführen (Merge)"
 
 #: weblate/trans/models/component.py:149
 msgid "Rebase"
-msgstr "Umbasieren (rebase)"
+msgstr "Umbasieren (Rebase)"
 
 #: weblate/trans/models/component.py:150
 msgid "Merge without fast-forward"
-msgstr "Zusammenführen ohne Fast-Forward"
+msgstr "Zusammenführen (Merge) ohne Fast-Forward"
 
 #: weblate/trans/models/component.py:288
 #: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:88
@@ -12575,7 +12575,7 @@ msgid ""
 "translations. You can also choose additional integration with third party "
 "providers to submit merge requests."
 msgstr ""
-"Versionskontrollsystem, mit dem Sie auf Ihr Repository mit Übersetzungen "
+"Versionsverwaltung, mit der Sie auf Ihr Repository mit Übersetzungen "
 "zugreifen können. Sie können auch die zusätzliche Integration mit "
 "Drittanbietern wählen, um Merge Requests zu übermitteln."
 
@@ -12589,7 +12589,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:329
 msgid "Repository push URL"
-msgstr "Push-URL für Repository"
+msgstr "Repository-Push-URL"
 
 #: weblate/trans/models/component.py:332
 msgid "URL of a push repository, pushing is turned off if empty."
@@ -12597,7 +12597,7 @@ msgstr "URL des Repositorys für Push. Falls leer, ist Push deaktiviert."
 
 #: weblate/trans/models/component.py:337
 msgid "Repository browser"
-msgstr "Paketquellnavigator"
+msgstr "Repository-Browser"
 
 #: weblate/trans/models/component.py:339
 msgid ""
@@ -12605,14 +12605,14 @@ msgid ""
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"Verknüpfung zum Paketquellnavigator, verwenden Sie {{branch}} für Zweig, "
+"Verknüpfung zum Repository-Browser, verwenden Sie {{branch}} für den Branch, "
 "{{filename}} und {{line}} als Platzhalter für Dateinamen und Zeile. Sie "
 "können das führende Verzeichnis durch Verwendung von {{filename|parentdir}} "
 "entfernen."
 
 #: weblate/trans/models/component.py:347
 msgid "Exported repository URL"
-msgstr "Exportierte Paketquelladresse"
+msgstr "Exportierte Repository-URL"
 
 #: weblate/trans/models/component.py:350
 msgid "URL of repository where users can fetch changes from Weblate"
@@ -12633,7 +12633,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:365
 msgid "Repository branch to translate"
-msgstr "Zu übersetzender Paketquellzweig"
+msgstr "Zu übersetzender Repository-Branch"
 
 #: weblate/trans/models/component.py:370
 msgid "Push branch"
@@ -12656,7 +12656,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:389
 msgid "Screenshot file mask"
-msgstr "Bildschirmfotodatei-Maske"
+msgstr "Bildschirmfoto-Dateimaske"
 
 #: weblate/trans/models/component.py:394
 msgid ""
@@ -12712,13 +12712,13 @@ msgstr "Ob Übersetzungs-Vorschläge überhaupt erlaubt sind."
 
 #: weblate/trans/models/component.py:468
 msgid "Suggestion voting"
-msgstr "Abstimmen über Vorschläge"
+msgstr "Über Vorschläge abstimmen"
 
 #: weblate/trans/models/component.py:471
 msgid "Users can only vote for suggestions and can’t make direct translations."
 msgstr ""
-"Benutzer können nur über Vorschläge abstimmen und können keine direkten "
-"Übersetzungen vornehmen."
+"Benutzer können nur über Vorschläge abstimmen und nicht direkt Übersetzungen "
+"vornehmen."
 
 #: weblate/trans/models/component.py:475
 msgid "Autoaccept suggestions"
@@ -12729,8 +12729,8 @@ msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to turn it "
 "off."
 msgstr ""
-"Akzeptiert automatisch Vorschläge mit dieser Anzahl von Stimmen, verwenden "
-"Sie 0, um sie auszuschalten."
+"Vorschläge mit dieser Anzahl von Stimmen werden automatisch angenommen, zum "
+"Ausschalten auf 0 setzen."
 
 #: weblate/trans/models/component.py:484 weblate/trans/models/unit.py:308
 msgid "Translation flags"
@@ -13065,7 +13065,7 @@ msgstr ""
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr ""
-"Eine Zwischensprachedatei kann nicht ohne Bearbeitungvorlage verwendet "
+"Eine Zwischensprachedatei kann nicht ohne Bearbeitungsvorlage verwendet "
 "werden."
 
 #: weblate/trans/models/component.py:2681
@@ -13788,7 +13788,7 @@ msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
-"Ein Wert von 1 ist für die Autoakzeptanz nicht erlaubt, da er es den "
+"Ein Wert von 1 für die Autoakzeptanz ist nicht erlaubt, da dies den "
 "Benutzern ermöglichen würde, über ihre eigenen Vorschläge abzustimmen."
 
 #: weblate/trans/validators.py:41
