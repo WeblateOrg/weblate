@@ -100,7 +100,7 @@
     {% if user.profile.hide_source_secondary %}
       {% include "snippets/note-badge.html" with unit=unit %}
     {% endif %}
-    {% format_unit_target secondary_unit search_match=search_query %}
+    {% format_unit_target secondary_unit search_match=search_query show_copy=True %}
     </div>
     {% endfor %}
     {% endif %}
@@ -125,7 +125,7 @@
             <!-- editing template -->
             <div class="form-group">
             <label>{% trans "Intermediate language" %}</label>
-            {% format_unit_source unit search_match=search_query %}
+            {% format_unit_source unit search_match=search_query show_copy=True %}
             </div>
         {% endif %}
     {% endif %}

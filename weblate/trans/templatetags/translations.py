@@ -335,6 +335,7 @@ def format_unit_source(
     simple: bool = False,
     glossary=None,
     wrap: bool = False,
+    show_copy: bool = False,
 ):
     source_translation = unit.translation.component.source_translation
     return format_translation(
@@ -361,6 +362,7 @@ def format_source_string(
     glossary=None,
     wrap: bool = False,
     whitespace: bool = True,
+    show_copy: bool = False,
 ):
     """Formats simple string as in the unit source language."""
     return format_translation(
@@ -371,6 +373,7 @@ def format_source_string(
         simple=simple,
         wrap=wrap,
         whitespace=whitespace,
+        show_copy=show_copy,
     )
 
 
@@ -386,6 +389,7 @@ def format_translation(
     match: str = "search",
     glossary=None,
     whitespace: bool = True,
+    show_copy: bool = False,
 ):
     """Nicely formats translation text possibly handling plurals or diff."""
     is_multivalue = unit is not None and unit.translation.component.is_multivalue
@@ -422,7 +426,13 @@ def format_translation(
         # Join paragraphs
         content = formatter.format()
 
-        parts.append({"title": title, "content": content, "copy": escape(text)})
+        parts.append(
+            {
+                "title": title,
+                "content": content,
+                "copy": escape(text) if show_copy else "",
+            }
+        )
         has_content |= bool(content)
 
     return {

@@ -57,7 +57,7 @@
   {% if user.profile.hide_source_secondary %}
     {% include "snippets/note-badge.html" with unit=item.unit %}
   {% endif %}
-  {% format_unit_target unit %}
+  {% format_unit_target unit show_copy=True %}
 </div>
 {% endfor %}
 {% endif %}
@@ -73,7 +73,7 @@
 <div class="form-group">
   <a href="{{ item.unit.source_unit.get_absolute_url }}" class="language">{{ item.unit.translation.component.source_language }}</a>
   {% include "snippets/note-badge.html" with unit=item.unit %}
-  {% format_unit_source item.unit search_match=search_query glossary=item.glossary %}
+  {% format_unit_source item.unit search_match=search_query glossary=item.glossary show_copy=True %}
 </div>
 {% endif %}
 
