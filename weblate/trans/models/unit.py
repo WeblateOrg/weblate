@@ -1209,12 +1209,7 @@ class Unit(models.Model, LoggerMixin):
         old_checks = self.all_checks_names
         create = []
 
-        if self.translation.component.is_glossary:
-            # We might eventually run some checks on glossary
-            checks = {}
-            meth = "check_source"
-            args = src, self
-        elif self.is_source:
+        if self.is_source:
             checks = CHECKS.source
             meth = "check_source"
             args = src, self
@@ -1222,6 +1217,9 @@ class Unit(models.Model, LoggerMixin):
             checks = {} if self.readonly else CHECKS.target
             meth = "check_target"
             args = src, tgt, self
+        if self.translation.component.is_glossary:
+            # We might eventually run some checks on glossary
+            checks = {}
 
         # Run all checks
         for check, check_obj in checks.items():
