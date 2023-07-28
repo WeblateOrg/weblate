@@ -1277,7 +1277,7 @@ class Unit(models.Model, LoggerMixin):
                 Check.objects.filter(
                     unit__in=units, name__in=propagated_old_checks
                 ).delete()
-                for other in self.same_source_units:
+                for other in units:
                     other.translation.invalidate_cache()
                     other.clear_checks_cache()
 
