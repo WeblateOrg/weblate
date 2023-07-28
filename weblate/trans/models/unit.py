@@ -1260,12 +1260,13 @@ class Unit(models.Model, LoggerMixin):
             propagated_filters = set()
             for check_name in old_checks:
                 try:
-                    if CHECKS[check_name].propagates:
-                        propagated_filters.add(CHECKS[check_name].propagates)
-                        propagated_old_checks.append(check_name)
+                    check_propagates = CHECKS[check_name].propagates
                 except KeyError:
                     # Skip disabled/removed checks
                     continue
+                if check_propagates:
+                    propagated_filters.add(check_propagates)
+                    propagated_old_checks.append(check_name)
             units = reduce(
                 lambda x, y: x | getattr(self, y),
                 propagated_filters,
