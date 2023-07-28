@@ -109,7 +109,7 @@
     {% if unit.previous_source and unit.fuzzy %}
     <div class="form-group">
     <label>{% trans "Source change" %}</label>
-    {% format_unit_source diff=unit.previous_source %}
+    {% format_unit_source unit diff=unit.previous_source %}
     </div>
     {% endif %}
 
