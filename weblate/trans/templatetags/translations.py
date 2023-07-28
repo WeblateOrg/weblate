@@ -311,6 +311,7 @@ def format_unit_target(
     match: str = "search",
     simple: bool = False,
     wrap: bool = False,
+    show_copy: bool = False,
 ):
     return format_translation(
         plurals=unit.get_target_plurals() if value is None else split_plural(value),
@@ -322,6 +323,7 @@ def format_unit_target(
         match=match,
         simple=simple,
         wrap=wrap,
+        show_copy=show_copy,
     )
 
 
@@ -349,6 +351,7 @@ def format_unit_source(
         simple=simple,
         glossary=glossary,
         wrap=wrap,
+        show_copy=show_copy,
     )
 
 
@@ -362,7 +365,6 @@ def format_source_string(
     glossary=None,
     wrap: bool = False,
     whitespace: bool = True,
-    show_copy: bool = False,
 ):
     """Formats simple string as in the unit source language."""
     return format_translation(
@@ -373,7 +375,6 @@ def format_source_string(
         simple=simple,
         wrap=wrap,
         whitespace=whitespace,
-        show_copy=show_copy,
     )
 
 
