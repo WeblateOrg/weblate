@@ -12,8 +12,9 @@ Not yet released.
 * :ref:`check-reused` is no longer triggered for languages with a single plural form.
 * WebP is now supported for :ref:`screenshots`.
 * Avoid duplicate notification when a user is subscribed to overlapping scopes.
-* Improved OCR support for non-English languages in :ref:`screenshots`.
+* OCR support for non-English languages in :ref:`screenshots`.
 * :ref:`xliff` now supports displaying source string location.
+* Rendering strings with plurals, placeholders or alternative translations.
 
 **Bug fixes**
 
