@@ -161,7 +161,7 @@
             <a title="{% trans "Report issue with the source string" %}" href="#" class="btn btn-link btn-xs bug-comment">{% icon "bug.svg" %}</a>
             {% endif %}
             {% include "snippets/note-badge.html" with unit=unit %}
-            {% format_unit_source unit search_match=search_query glossary=glossary %}
+            {% format_unit_source unit search_match=search_query glossary=glossary show_copy=True %}
           </div>
         {% endif %}
     {% endif %}
