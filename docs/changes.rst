@@ -15,6 +15,7 @@ Not yet released.
 * OCR support for non-English languages in :ref:`screenshots`.
 * :ref:`xliff` now supports displaying source string location.
 * Rendering strings with plurals, placeholders or alternative translations.
+* User API now includes last sign in date.
 
 **Bug fixes**
 

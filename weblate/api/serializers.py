@@ -202,6 +202,7 @@ class FullUserSerializer(serializers.ModelSerializer):
             "is_active",
             "is_bot",
             "date_joined",
+            "last_login",
             "url",
             "statistics_url",
         )
