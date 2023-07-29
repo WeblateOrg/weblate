@@ -119,8 +119,10 @@ def get_other_units(unit):
     else:
         return result
 
+    if unit.target:
+        query = query | (Q(target=unit.target) & Q(state__gte=STATE_TRANSLATED))
     units = Unit.objects.filter(
-        query | (Q(target=unit.target) & Q(state__gte=STATE_TRANSLATED)),
+        query,
         translation__component__project=component.project,
         translation__language=translation.language,
     )
