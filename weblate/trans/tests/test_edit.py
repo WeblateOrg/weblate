@@ -658,7 +658,10 @@ class ZenViewTest(ViewTestCase):
     def test_browse(self):
         response = self.client.get(reverse("browse", kwargs=self.kw_translation))
         self.assertContains(response, "Thank you for using Weblate.")
-        self.assertContains(response, "Orangutan has %d banana")
+        self.assertContains(
+            response,
+            'Orangutan has <span class="hlcheck" data-value="%d"><span class="highlight-number"></span>%d</span> banana.',
+        )
 
 
 class EditComplexTest(ViewTestCase):
