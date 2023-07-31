@@ -88,9 +88,18 @@ def get_version_module(name, optional=False):
         raise ImproperlyConfigured(
             "Missing dependency {0}, please install using: pip install {0}".format(name)
         )
+    url = package.get("Home-page")
+    if url is None:
+        for project_url in package.get_all("Project-URL"):
+            name, current_url = project_url.split(",", 1)
+            if name.lower().strip() == "homepage":
+                url = current_url.strip()
+                break
+    if url is None:
+        url = f"https://pypi.org/project/{name}/"
     return (
         package.get("Name"),
-        package.get("Home-page"),
+        url,
         package.get("Version"),
     )
 
