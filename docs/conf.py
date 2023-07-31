@@ -304,6 +304,8 @@ linkcheck_ignore = [
     "https://translate.yandex.com/",
     # These are PDF and fails with Unicode decode error
     "http://ftp.pwg.org/",
+    # Access to our service has been temporarily blocked
+    "https://yandex.com/dev/translate/",
 ]
 
 # HTTP docs
