@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 # Weblate localization.
 # Domen <mitenem@outlook.com>, 2018, 2019, 2020.
 # Štefan Baebler <stefan.baebler@gmail.com>, 2019, 2020, 2021.
@@ -13,22 +12,23 @@
 # Matej U <mateju@src.gnome.org>, 2021, 2022.
 # Michal Čihař <michal@weblate.org>, 2022.
 # Jadran Rudec <jrudec@gmail.com>, 2023.
+# Damjan Gerl <damjan@damjan.net>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 07:48+0000\n"
-"PO-Revision-Date: 2023-03-16 12:41+0000\n"
-"Last-Translator: Jadran Rudec <jrudec@gmail.com>\n"
+"PO-Revision-Date: 2023-08-01 17:10+0000\n"
+"Last-Translator: Damjan Gerl <damjan@damjan.net>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/"
 "application/sl/>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
-"%100==4 ? 2 : 3;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3;\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -80,10 +80,8 @@ msgid "Public e-mail"
 msgstr "Javni elektronski naslov"
 
 #: weblate/accounts/forms.py:208
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Do not publicly display e-mail address"
-msgstr "Vnesite veljaven e-poštni naslov."
+msgstr "E-poštnega naslova ne objavljaj javno"
 
 #: weblate/accounts/forms.py:314
 #, python-format
@@ -100,7 +98,7 @@ msgstr "E-pošta"
 
 #: weblate/accounts/forms.py:341
 msgid "Choose primary e-mail from verified addresses."
-msgstr ""
+msgstr "Med preverjenimi naslovi izberi primarni e-poštni naslov."
 
 #: weblate/accounts/forms.py:388
 msgid "Subject"
@@ -129,10 +127,8 @@ msgstr ""
 "bomo mogli obdelati vaše zahteve."
 
 #: weblate/accounts/forms.py:414
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "E-mail with a confirmation link will be sent here."
-msgstr "Aktivacijsko e-pošto bomo poslali sem."
+msgstr "E-pošta s potrditveno povezavo bo poslana sem."
 
 #: weblate/accounts/forms.py:456
 msgid "New password"
@@ -409,10 +405,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Strinjanje s Pogoji uporabe {date}."
 
 #: weblate/accounts/models.py:157
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "K Weblate vas je povabil/a uporabnik/ca {username}."
+msgstr "Na {site_title} te je povabil/a {username}."
 
 #: weblate/accounts/models.py:158
 msgid "Started trial period."
@@ -495,24 +490,22 @@ msgstr ""
 
 #: weblate/accounts/models.py:400
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: weblate/accounts/models.py:403
 msgctxt "Theme selection"
 msgid "Sync with system"
-msgstr ""
+msgstr "Sinhronizacija s sistemom"
 
 #: weblate/accounts/models.py:404
-#, fuzzy
-#| msgid "Insights"
 msgctxt "Theme selection"
 msgid "Light"
-msgstr "Vpogledi"
+msgstr "Svetla"
 
 #: weblate/accounts/models.py:405
 msgctxt "Theme selection"
 msgid "Dark"
-msgstr ""
+msgstr "Temna"
 
 #: weblate/accounts/models.py:409
 msgid "Hide completed translations on the dashboard"
@@ -1014,16 +1007,12 @@ msgid "You can also request a new password, if you have lost your credentials."
 msgstr "Lahko tudi zaprosite za novo geslo, če ste ga pozabili."
 
 #: weblate/accounts/views.py:1198
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the verification token "
-#| "probably expired."
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
 msgstr ""
-"Poskusite se ponovno registrirati, da preverite svojo identiteto. "
-"Najverjetneje je potekel žeton za preverjanje."
+"Poskusi se znova registrirati, da preveriš svojo identiteto, potrditvena "
+"povezava je verjetno potekla."
 
 #: weblate/accounts/views.py:1206
 msgid "Could not authenticate due to invalid session state."
@@ -1182,6 +1171,9 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
+"Kadarkoli je nov izvorni niz uvožen iz VCS, je označen, da ga je treba "
+"urediti v Weblate. Na ta način lahko enostavno filtriraš in urejaš izvorne "
+"nize, ki so jih napisali razvijalci."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new translations as \"Needs editing\""
@@ -1217,10 +1209,8 @@ msgstr ""
 #: weblate/templates/language-project.html:109
 #: weblate/templates/project.html:67 weblate/templates/project.html:211
 #: weblate/templates/translation.html:71 weblate/templates/translation.html:272
-#, fuzzy
-#| msgid "Full editor"
 msgid "Bulk edit"
-msgstr "Polni urejevalnik"
+msgstr "Množično urejanje"
 
 #: weblate/addons/flags.py:90
 msgid "Bulk edit flags, labels, or states of strings."
@@ -1247,16 +1237,15 @@ msgid "Long lines wrapping"
 msgstr "Prelom dolgih vrstic"
 
 #: weblate/addons/forms.py:109
-#, fuzzy
-#| msgid "Wrap lines at 77 characters and at newlines"
 msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
-msgstr "Prelomi vrstice pri 77 znakih in znakih za novo vrstico"
+msgstr ""
+"Prelomi vrstice pri 77 znakih in znakih za novo vrstico (privzeto xgettext)"
 
 #: weblate/addons/forms.py:114
-#, fuzzy
-#| msgid "Only wrap lines at newlines"
 msgid "Only wrap lines at newlines (like 'xgettext --no-wrap')"
-msgstr "Prelomi vrstice le pri znakih za novo vrstico"
+msgstr ""
+"Prelomi vrstice le pri znakih za novo vrstico (na primer »xgettext ---no-"
+"wrap«)"
 
 #: weblate/addons/forms.py:116 weblate/addons/forms.py:228
 msgid "No line wrapping"
@@ -1267,28 +1256,27 @@ msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
+"Funkcija gettext privzeto prelomi vrstice pri 77 znakih in znakih za novo "
+"vrstico. S parametrom --no-wrap se prelom opravi samo pri znakih za novo "
+"vrstico."
 
 #: weblate/addons/forms.py:129
-#, fuzzy
-#| msgid "Not translated strings"
 msgid "Keep previous msgids of translated strings"
-msgstr "Neprevedeni nizi"
+msgstr "Ohrani prejšnje msgide prevedenih nizov"
 
 #: weblate/addons/forms.py:134
-#, fuzzy
-#| msgid "Not translated strings"
 msgid "Remove locations of translated strings"
-msgstr "Neprevedeni nizi"
+msgstr "Odstrani lokacije prevedenih nizov"
 
 #: weblate/addons/forms.py:139
 msgid "Use fuzzy matching"
-msgstr ""
+msgstr "Uporabi mehko ujemanje"
 
 #: weblate/addons/forms.py:145
 #, fuzzy
 #| msgid "C format string"
 msgid "Commit squashing"
-msgstr "Oblika niza C"
+msgstr "Uveljavi squashing"
 
 #: weblate/addons/forms.py:148
 #, fuzzy
@@ -1397,11 +1385,12 @@ msgstr ""
 
 #: weblate/addons/forms.py:253
 msgid "Voting threshold"
-msgstr ""
+msgstr "Glasovalni prag"
 
 #: weblate/addons/forms.py:257
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
+"Prag za odstranitev. To polje nima učinka, če je glasovanje izklopljeno."
 
 #: weblate/addons/forms.py:264
 msgid "Regular expression to match translation files against"
@@ -7069,7 +7058,7 @@ msgstr "Nimate pravic za spreminjanje nadzora dostopa do projekta."
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:84
 #: weblate/templates/snippets/billing-failure.html:12
 msgid "Check your billing status"
-msgstr ""
+msgstr "Preverjanje stanja obračunavanja"
 
 #: weblate/templates/browse.html:23
 #: weblate/templates/snippets/list-objects.html:131
