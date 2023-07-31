@@ -34,8 +34,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 07:48+0000\n"
-"PO-Revision-Date: 2023-07-29 14:21+0000\n"
-"Last-Translator: k ks <kmshts@naver.com>\n"
+"PO-Revision-Date: 2023-08-01 17:10+0000\n"
+"Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -87,7 +87,7 @@ msgstr "계정의 전자우편 주소를 사용"
 
 #: weblate/accounts/forms.py:173
 msgid "Choose commit e-mail from verified addresses."
-msgstr ""
+msgstr "확인된 주소에서 커밋 이메일을 선택합니다."
 
 #: weblate/accounts/forms.py:207 weblate/accounts/models.py:581
 msgid "Public e-mail"
@@ -112,7 +112,7 @@ msgstr "전자우편"
 
 #: weblate/accounts/forms.py:341
 msgid "Choose primary e-mail from verified addresses."
-msgstr ""
+msgstr "확인된 주소에서 기본 이메일을 선택합니다."
 
 #: weblate/accounts/forms.py:388
 msgid "Subject"
@@ -139,10 +139,8 @@ msgid ""
 msgstr "영어로 문의해주셔야 원활한 지원이 가능합니다."
 
 #: weblate/accounts/forms.py:414
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "E-mail with a confirmation link will be sent here."
-msgstr "본인 확인용 전자우편이 이 주소로 전송됩니다."
+msgstr "확인 링크가 포함된 이메일이 여기로 전송됩니다."
 
 #: weblate/accounts/forms.py:456
 msgid "New password"
@@ -496,24 +494,22 @@ msgstr ""
 
 #: weblate/accounts/models.py:400
 msgid "Theme"
-msgstr ""
+msgstr "테마"
 
 #: weblate/accounts/models.py:403
 msgctxt "Theme selection"
 msgid "Sync with system"
-msgstr ""
+msgstr "시스템과 동기화"
 
 #: weblate/accounts/models.py:404
-#, fuzzy
-#| msgid "Insights"
 msgctxt "Theme selection"
 msgid "Light"
-msgstr "탐색"
+msgstr "밝은 테마"
 
 #: weblate/accounts/models.py:405
 msgctxt "Theme selection"
 msgid "Dark"
-msgstr ""
+msgstr "어두운 테마"
 
 #: weblate/accounts/models.py:409
 msgid "Hide completed translations on the dashboard"
@@ -1004,15 +1000,10 @@ msgid "You can also request a new password, if you have lost your credentials."
 msgstr "자격 증명을 분실한 경우 새 비밀번호를 요청할 수도 있습니다."
 
 #: weblate/accounts/views.py:1198
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the verification token "
-#| "probably expired."
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
-msgstr ""
-"다시 등록하여 신원을 확인해 보십시오. 확인 토큰이 만료되었을 수 있습니다."
+msgstr "신원 확인을 위해 다시 등록해 보세요. 확인 링크가 만료되었을 수 있습니다."
 
 #: weblate/accounts/views.py:1206
 msgid "Could not authenticate due to invalid session state."
@@ -1575,16 +1566,12 @@ msgid "Fills in translation strings with source string."
 msgstr "원문 문자열을 번역 문자열에 입력합니다."
 
 #: weblate/addons/generate.py:216
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "미리 원문을 번역에 입력하기"
+msgstr "읽기 전용 문자열을 원본으로 채우기"
 
 #: weblate/addons/generate.py:218
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "원문 문자열을 번역 문자열에 입력합니다."
+msgstr "읽기 전용 문자열의 번역을 원본 문자열로 채웁니다."
 
 #: weblate/addons/gettext.py:26
 msgid "Generate MO files"
@@ -1715,12 +1702,8 @@ msgid "Customize XML output"
 msgstr "XML 출력 사용자 정의"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid "Allows adjusting XML output behavior, for example closing tags."
-msgstr "길이나 줄바꿈같은 YAML 출력 방식을 조정하도록 합니다."
+msgstr "태그를 닫는 등의 XML 출력 동작을 조정할 수 있습니다."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -2324,10 +2307,8 @@ msgid "Components"
 msgstr "구성요소"
 
 #: weblate/auth/models.py:131
-#, fuzzy
-#| msgid "You do not have permission to create components in any projects."
 msgid "Empty selection grants access to all components in project scope."
-msgstr "모든 프로젝트에서 구성요소를 만들 권한이 없습니다."
+msgstr "빈 선택항목은 프로젝트 범위의 모든 구성요소에 대한 액세스 권한을 부여합니다."
 
 #: weblate/auth/models.py:141
 msgid "Language selection"
@@ -2435,7 +2416,7 @@ msgstr "블록 만료"
 
 #: weblate/auth/permissions.py:133
 msgid "Can not perform this operation without an e-mail address."
-msgstr ""
+msgstr "이메일 주소가 없으면 이 작업을 수행할 수 없습니다."
 
 #: weblate/auth/permissions.py:139 weblate/templates/translate.html:201
 #: weblate/templates/translate.html:221
@@ -2443,10 +2424,6 @@ msgid "This translation is currently locked."
 msgstr "이 번역은 현재 잠겨있습니다."
 
 #: weblate/auth/permissions.py:147
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires you agree to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "agreement."
@@ -2463,10 +2440,8 @@ msgid "Insufficient privileges for editing source strings."
 msgstr "원본 문자열을 편집할 권한이 없습니다."
 
 #: weblate/auth/permissions.py:165
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Suggestion voting is disabled."
-msgstr "원천 문자열 편집이 비활성화 되었습니다."
+msgstr "제안 투표는 비활성화되어 있습니다."
 
 #: weblate/auth/permissions.py:175
 msgid ""
@@ -2479,28 +2454,20 @@ msgid "Pay the bills to unlock this project."
 msgstr "프로젝트를 잠금 해제하려면 금액을 지불하여야 합니다."
 
 #: weblate/auth/permissions.py:192
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Source string reviews are not enabled."
-msgstr "원천 문자열 편집이 비활성화 되었습니다."
+msgstr "원본 문자열 검토는 활성화되어 있지 않습니다."
 
 #: weblate/auth/permissions.py:193
-#, fuzzy
-#| msgid "Translation reverted"
 msgid "Translation reviews are not enabled."
-msgstr "되돌린 번역"
+msgstr "번역 검토가 활성화되어 있지 않습니다."
 
 #: weblate/auth/permissions.py:200
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Reviews are not enabled."
-msgstr "서비스를 현재 사용할 수 없습니다."
+msgstr "검토가 활성화되어 있지 않습니다."
 
 #: weblate/auth/permissions.py:213
-#, fuzzy
-#| msgid "This string seems to already exist."
 msgid "The string is read only."
-msgstr "문자열이 이미 존재합니다."
+msgstr "문자열이 읽기 전용입니다."
 
 #: weblate/auth/permissions.py:219
 msgid ""
@@ -2511,24 +2478,20 @@ msgstr ""
 "제안을 추가하세요."
 
 #: weblate/auth/permissions.py:225
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "The translation is read only."
-msgstr "이 번역은 잠겨있습니다."
+msgstr "번역이 읽기 전용입니다."
 
 #: weblate/auth/permissions.py:242
 msgid "Add the string to the source language instead."
-msgstr ""
+msgstr "대신 원본 언어에 문자열을 추가합니다."
 
 #: weblate/auth/permissions.py:246
 msgid "Adding strings is disabled in the component configuration."
 msgstr "구성요소 구성에서 문자열 추가가 비활성화되어 있습니다."
 
 #: weblate/auth/permissions.py:263 weblate/auth/permissions.py:280
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "File format does not support this."
-msgstr "이 파일 형식은 지원되지 않습니다."
+msgstr "파일 형식이 이를 지원하지 않습니다."
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2827,16 +2790,12 @@ msgstr ""
 "서 번역되지 않았습니다."
 
 #: weblate/checks/consistency.py:138
-#, fuzzy
-#| msgid "Removed translation"
 msgid "Reused translation"
-msgstr "제거된 번역"
+msgstr "재사용된 번역"
 
 #: weblate/checks/consistency.py:139
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Different strings are translated the same."
-msgstr "번역할 문자열이 없음"
+msgstr "다른 문자열은 동일하게 번역됩니다."
 
 #: weblate/checks/consistency.py:178
 #, python-format
@@ -2847,7 +2806,7 @@ msgstr[0] "다른 원본 문자열: %s"
 #: weblate/checks/consistency.py:179
 #, python-format
 msgid "“%s”"
-msgstr ""
+msgstr "“%s”"
 
 #: weblate/checks/consistency.py:228
 msgid "Has been translated"
@@ -4427,14 +4386,12 @@ msgid "Screenshot name"
 msgstr "스크린숏 이름"
 
 #: weblate/screenshots/models.py:51
-#, fuzzy
-#| msgid "Repository branch to translate"
 msgid "Repository path to screenshot"
-msgstr "번역할 저장소 분기"
+msgstr "스크린숏의 저장소 경로"
 
 #: weblate/screenshots/models.py:52
 msgid "Scan for screenshot file change on repository update."
-msgstr ""
+msgstr "저장소 업데이트 시 스크린숏 파일 변경사항을 검색합니다."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_detail.html:58
@@ -4684,10 +4641,8 @@ msgstr "통계"
 
 #: weblate/templates/accounts/add-mail.html:4
 #: weblate/templates/accounts/email.html:17
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Add new e-mail address"
-msgstr "계정의 전자우편 주소를 사용"
+msgstr "새 이메일 주소 추가"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -4699,10 +4654,8 @@ msgid "Your profile"
 msgstr "당신의 프로필"
 
 #: weblate/templates/accounts/confirm.html:14
-#, fuzzy
-#| msgid "Could not remove user identity"
 msgid "Confirm adding user identity"
-msgstr "사용자 ID를 제거할 수 없습니다"
+msgstr "사용자 ID 추가 확인"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #: weblate/templates/accounts/confirm.html:18
@@ -4715,10 +4668,8 @@ msgstr ""
 "할 수 있습니다."
 
 #: weblate/templates/accounts/confirm.html:24
-#, fuzzy
-#| msgid "Configure"
 msgid "Confirm"
-msgstr "구성하기"
+msgstr "확인하기"
 
 #: weblate/templates/accounts/contact.html:15
 msgid ""
@@ -5046,10 +4997,8 @@ msgid "Disconnect"
 msgstr "연결해제"
 
 #: weblate/templates/accounts/profile.html:156
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new user identity"
-msgstr "새 사용자 추가"
+msgstr "새 사용자 ID 추가"
 
 #: weblate/templates/accounts/profile.html:166
 #: weblate/templates/component.html:104
@@ -5358,10 +5307,8 @@ msgid_plural "%(count)s comments"
 msgstr[0] "%(count)s개 의견"
 
 #: weblate/templates/accounts/user.html:141
-#, fuzzy
-#| msgid "Contributors"
 msgid "Contributed to"
-msgstr "기여자"
+msgstr "기여한 프로젝트"
 
 #: weblate/templates/accounts/user.html:144
 msgid "Activity"
@@ -5425,10 +5372,8 @@ msgid "Browse all watched projects"
 msgstr "참여중인 모든 프로젝트 찾아보기"
 
 #: weblate/templates/accounts/user.html:192
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes made by this user"
-msgstr "사용자의 모든 변경 사항 찾아보기"
+msgstr "이 사용자가 변경한 모든 내용 찾아보기"
 
 #: weblate/templates/accounts/user.html:253
 msgid "Group"
@@ -5441,9 +5386,6 @@ msgid "Members"
 msgstr "회원"
 
 #: weblate/templates/accounts/user.html:264
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgctxt "No project associated with group"
 msgid "None"
 msgstr "없음"
@@ -7060,32 +7002,27 @@ msgid "Commit"
 msgstr "커밋"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s change"
-#| msgid_plural "%(count)s changes"
+#, python-format
 msgid "%(count)s pending change"
 msgid_plural "%(count)s pending changes"
-msgstr[0] "%(count)s 개의 변경"
+msgstr[0] "보류중인 변경사항 %(count)s개"
 
 #: weblate/templates/js/git-status.html:32
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "웹레이트 저장소에 보류중인 변경사항 커밋하기"
+msgstr "이렇게 하면 저장소가 아닌 웹레이트에 있는 모든 보류 중인 변경사항이 "
+"커밋됩니다."
 
 #: weblate/templates/js/git-status.html:38
 msgid "Push"
 msgstr "푸시하기"
 
 #: weblate/templates/js/git-status.html:41
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s개 의견"
+msgstr[0] "나가는 커밋 %(count)s개"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Update"
@@ -7093,27 +7030,21 @@ msgstr "갱신"
 
 #: weblate/templates/js/git-status.html:58
 msgid "Update with merge"
-msgstr ""
+msgstr "병합으로 업데이트"
 
 #: weblate/templates/js/git-status.html:61
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Update with rebase"
-msgstr "품질 검사 업데이트"
+msgstr "Rebase로 업데이트"
 
 #: weblate/templates/js/git-status.html:64
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid "Update with merge without fast-forward"
-msgstr "빨리 감기 없이 병합"
+msgstr "빨리 감기 없이 병합으로 업데이트"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "%(count)s개 의견"
+msgstr[0] "누락된 커밋 %(count)s개"
 
 #: weblate/templates/js/git-status.html:73
 msgid "This will update the Weblate repository with the upstream changes."
@@ -7137,28 +7068,20 @@ msgid "Lock"
 msgstr "잠금"
 
 #: weblate/templates/js/git-status.html:87
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are locked"
-msgstr "웹레이트 번역"
+msgstr "웹레이트 번역이 잠겨 있습니다"
 
 #: weblate/templates/js/git-status.html:89
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are unlocked"
-msgstr "웹레이트 번역"
+msgstr "웹레이트 번역이 잠금 해제됩니다"
 
 #: weblate/templates/js/git-status.html:93
-#, fuzzy
-#| msgid "Locking prevents translators from doing changes"
 msgid "Locking prevents translators from doing changes."
-msgstr "잠금은 변환자가 변경을 수행할 수 없도록 합니다"
+msgstr "잠금을 사용하면 번역자가 변경 작업을 수행할 수 없습니다."
 
 #: weblate/templates/js/git-status.html:105
-#, fuzzy
-#| msgid "Danger (red)"
 msgid "Danger zone"
-msgstr "위험 (빨간색)"
+msgstr "위험 구역"
 
 #: weblate/templates/js/git-status.html:110
 #: weblate/templates/translate.html:496
@@ -7170,22 +7093,18 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "웹레이트 저장소의 모든 변경사항 재설정"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid ""
-#| "Resetting removes all changes in Weblate so that the repository matches "
-#| "upstream. Use with caution."
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream."
-msgstr ""
-"재설정하면 웹레이트의 모든 변경사항이 제거되어 저장소가 업스트림과 일치하게 "
-"됩니다. 주의해서 사용하세요."
+msgstr "재설정하면 웹레이트의 모든 변경사항이 제거되어 저장소가 업스트림과 일치하게 "
+"됩니다."
 
 #: weblate/templates/js/git-status.html:116
 msgid ""
 "Use when you want to discard changes in Weblate and bring it in sync with "
 "upstream repository."
-msgstr ""
+msgstr "웹레이트의 변경내용을 삭제하고 업스트림 저장소와 동기화하려는 경우에 "
+"사용합니다."
 
 #: weblate/templates/js/git-status.html:120
 msgid "Cleanup"
@@ -7199,49 +7118,41 @@ msgstr "웹레이트 저장소에서 추적되지 않은 모든 파일 정리하
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
-msgstr ""
+msgstr "정리는 버전 제어에 의해 추적되지 않는 모든 파일을 저장소에서 제거합니다."
 
 #: weblate/templates/js/git-status.html:126
-#, fuzzy
-#| msgid "Prevent any changes in the Weblate repository"
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "웹레이트 저장소의 모든 변경 방지하기"
+msgstr "웹레이트 저장소에 약간의 찌꺼기가 남아있을 때 사용합니다."
 
 #: weblate/templates/js/git-status.html:130
 msgid "Synchronize"
-msgstr ""
+msgstr "동기화"
 
 #: weblate/templates/js/git-status.html:132
 msgid "Force writing all translations to the Weblate repository"
 msgstr "웹레이트 저장소에 모든 번역을 강제로 작성"
 
 #: weblate/templates/js/git-status.html:135
-#, fuzzy
-#| msgid "Force writing all translations to the Weblate repository"
 msgid "Forces writing all strings to the translation files."
-msgstr "웹레이트 저장소에 모든 번역을 강제로 작성"
+msgstr "모든 문자열을 번역 파일에 강제로 기록합니다."
 
 #: weblate/templates/js/git-status.html:136
 msgid ""
 "Use this when repository files became out of sync with Weblate for some "
 "reason."
-msgstr ""
+msgstr "저장소 파일이 어떤 이유로 웹레이트와 동기화되지 않았을 때 사용합니다."
 
 #: weblate/templates/js/git-status.html:140
 msgid "Rescan"
-msgstr ""
+msgstr "재검색"
 
 #: weblate/templates/js/git-status.html:142
-#, fuzzy
-#| msgid "Cleanup all untracked files in the Weblate repository"
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "웹레이트 저장소에서 추적되지 않은 모든 파일 정리하기"
+msgstr "웹레이트 저장소에 있는 모든 번역 파일 다시 검색하기"
 
 #: weblate/templates/js/git-status.html:145
-#, fuzzy
-#| msgid "Removes current translation from the repository."
 msgid "Loads translations from the files into Weblate."
-msgstr "저장소에서 현재 번역을 제거합니다."
+msgstr "파일에서 웹레이트에 번역을 불러옵니다."
 
 #: weblate/templates/js/git-status.html:146
 #, fuzzy
@@ -10380,25 +10291,19 @@ msgid_plural "These strings have the same context and source."
 msgstr[0] "다음 문자열은 문맥과 원본 문자열이 같습니다."
 
 #: weblate/templates/translate.html:319
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has a different context, but the same source."
 msgid_plural "These strings have differing context, but the same source."
-msgstr[0] "이 프로젝트에서 이 메세지는 하나 이상의 번역을 가지고 있습니다"
+msgstr[0] "이러한 문자열들은 컨텍스트는 다르지만 원본은 동일합니다."
 
 #: weblate/templates/translate.html:327
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has a different source, but the same context."
 msgid_plural "These strings have differing sources, but the same context."
-msgstr[0] "이 프로젝트에서 이 메세지는 하나 이상의 번역을 가지고 있습니다"
+msgstr[0] "이러한 문자열들의 원본은 다르지만, 컨텍스트는 동일합니다."
 
 #: weblate/templates/translate.html:335
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has a different source and context."
 msgid_plural "These strings have differing sources and context."
-msgstr[0] "이 프로젝트에서 이 메세지는 하나 이상의 번역을 가지고 있습니다"
+msgstr[0] "이러한 문자열들은 원본과 컨텍스트가 다릅니다."
 
 #: weblate/templates/translate.html:345
 msgid "Apply selected translation to all propagated strings"
@@ -13980,10 +13885,8 @@ msgid "This will push changes to Gerrit for a review."
 msgstr ""
 
 #: weblate/vcs/git.py:548
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "This will commit changes to the Subversion repository."
-msgstr "내부 저장소에 변경 사항 커밋하기"
+msgstr "이렇게 하면 Subversion 저장소에 변경사항이 커밋됩니다."
 
 #: weblate/vcs/git.py:713
 msgid "Git with force push"
@@ -14000,20 +13903,16 @@ msgid "GitHub pull request"
 msgstr "GitHub 끌어오기 요청"
 
 #: weblate/vcs/git.py:1043
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a GitHub pull request."
-msgstr "Bitbucket 서버 풀 리퀘스트"
+msgstr "이렇게 하면 변경사항이 푸시되고 GitHub 풀 리퀘스트가 생성됩니다."
 
 #: weblate/vcs/git.py:1152
 msgid "Gitea pull request"
 msgstr "Gitea 꺼내기 요청"
 
 #: weblate/vcs/git.py:1156
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a Gitea pull request."
-msgstr "Bitbucket 서버 풀 리퀘스트"
+msgstr "이렇게 하면 변경사항이 푸시되고 Gitea 풀 리퀘스트가 생성됩니다."
 
 #: weblate/vcs/git.py:1224
 msgid "No remote repository"
@@ -14024,30 +13923,24 @@ msgid "GitLab merge request"
 msgstr "GitLab 병합 요청"
 
 #: weblate/vcs/git.py:1334
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a GitLab merge request."
-msgstr "Bitbucket 서버 풀 리퀘스트"
+msgstr "이렇게 하면 변경사항을 푸시하고 GitLab 병합 요청을 생성합니다."
 
 #: weblate/vcs/git.py:1471
 msgid "Pagure merge request"
 msgstr "Pagure 병합 요청"
 
 #: weblate/vcs/git.py:1476
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a Pagure merge request."
-msgstr "Bitbucket 서버 풀 리퀘스트"
+msgstr "이렇게 하면 변경사항이 푸시되고 Pagure 병합 요청이 생성됩니다."
 
 #: weblate/vcs/git.py:1564
 msgid "Bitbucket Server pull request"
 msgstr "Bitbucket 서버 풀 리퀘스트"
 
 #: weblate/vcs/git.py:1570
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "This will push changes and create a Bitbucket Server pull request."
-msgstr "Bitbucket 서버 풀 리퀘스트"
+msgstr "이렇게 하면 변경사항이 푸시되고 BitBucket Server 풀 리퀘스트가 만들어집니다."
 
 #: weblate/vcs/mercurial.py:40
 #, fuzzy
