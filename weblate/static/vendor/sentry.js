@@ -10687,15 +10687,22 @@ class IdleTransaction extends transaction.Transaction {
             utils.logger.log('[Tracing] cancelling span since transaction ended early', JSON.stringify(span, undefined, 2));
         }
 
-        const keepSpan = span.startTimestamp < endTimestamp;
-        if (!keepSpan) {
-          (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-            utils.logger.log(
-              '[Tracing] discarding Span since it happened after Transaction was finished',
-              JSON.stringify(span, undefined, 2),
-            );
+        const spanStartedBeforeTransactionFinish = span.startTimestamp < endTimestamp;
+
+        // Add a delta with idle timeout so that we prevent false positives
+        const timeoutWithMarginOfError = (this._finalTimeout + this._idleTimeout) / 1000;
+        const spanEndedBeforeFinalTimeout = span.endTimestamp - this.startTimestamp < timeoutWithMarginOfError;
+
+        if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+          const stringifiedSpan = JSON.stringify(span, undefined, 2);
+          if (!spanStartedBeforeTransactionFinish) {
+            utils.logger.log('[Tracing] discarding Span since it happened after Transaction was finished', stringifiedSpan);
+          } else if (!spanEndedBeforeFinalTimeout) {
+            utils.logger.log('[Tracing] discarding Span since it finished after Transaction final timeout', stringifiedSpan);
+          }
         }
-        return keepSpan;
+
+        return spanStartedBeforeTransactionFinish && spanEndedBeforeFinalTimeout;
       });
 
       (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Tracing] flushing IdleTransaction');
@@ -12385,7 +12392,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":54,"../scope.js":65,"@sentry/utils":108}],83:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.60.1';
+const SDK_VERSION = '7.61.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
