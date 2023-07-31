@@ -1311,6 +1311,7 @@ def social_complete(request, backend):  # noqa: C901
             ),
         )
     except ValidationError as error:
+        report_error()
         return registration_fail(request, str(error))
 
 
