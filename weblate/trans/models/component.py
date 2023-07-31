@@ -2741,7 +2741,14 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             return
 
         if self.vcs != "local" and self.repo == "local:":
-            raise ValidationError({"vcs": "Use local VCS for local: URL."})
+            raise ValidationError(
+                {"vcs": gettext("Choose No remote repository for local: URL.")}
+            )
+
+        if self.vcs == "local" and self.push:
+            raise ValidationError(
+                {"push": gettext("Push URL is not used without a remote repository.")}
+            )
 
         # Validate VCS repo
         try:
