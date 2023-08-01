@@ -1292,7 +1292,7 @@ class VCSGerritTest(VCSGitUpstreamTest):
         hook = os.path.join(repo.path, ".git", "hooks", "commit-msg")
         with open(hook, "w") as handle:
             handle.write("#!/bin/sh\nexit 0\n")
-        os.chmod(hook, 0o755)
+        os.chmod(hook, 0o755)  # noqa: S103, nosec
 
 
 class VCSSubversionTest(VCSGitTest):
