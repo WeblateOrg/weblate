@@ -442,7 +442,7 @@ class MachineTranslation:
         salt = str(random.randint(0, 10000000000))
 
         payload = appid + text + salt + secret
-        digest = md5(payload.encode()).hexdigest()  # nosec
+        digest = md5(payload.encode()).hexdigest()  # noqa: S324, nosec
 
         return salt, digest
 
