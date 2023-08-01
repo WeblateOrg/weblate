@@ -315,26 +315,43 @@ class GlossaryTest(ViewTestCase):
             {"thank"},
         )
 
-    def test_add(self):
-        """Test for adding term from translate page."""
+    def do_add_unit(self, **kwargs):
         unit = self.get_unit("Thank you for using Weblate.")
         # Add term
         response = self.client.post(
             reverse("js-add-glossary", kwargs={"unit_id": unit.pk}),
-            {"source": "source", "target": "překlad", "translation": self.glossary.pk},
+            {
+                "source": "source",
+                "target": "překlad",
+                "translation": self.glossary.pk,
+                **kwargs,
+            },
         )
         content = json.loads(response.content.decode())
         self.assertEqual(content["responseCode"], 200)
 
+    def test_add(self):
+        """Test for adding term from translate page."""
+        start = Unit.objects.count()
+        self.do_add_unit()
+        # Should be added to the source and translation only
+        self.assertEqual(Unit.objects.count(), start + 2)
+
+    def test_add_terminology(self):
+        start = Unit.objects.count()
+        self.do_add_unit(terminology=1)
+        # Should be added to all languages
+        self.assertEqual(Unit.objects.count(), start + 4)
+
     def test_add_duplicate(self):
-        self.test_add()
-        self.test_add()
+        self.do_add_unit()
+        self.do_add_unit()
 
     def test_terminology(self):
         start = Unit.objects.count()
 
         # Add single term
-        self.test_add()
+        self.do_add_unit()
 
         # Verify it has been added to single language (+ source)
         unit = self.glossary_component.source_translation.unit_set.get(source="source")
