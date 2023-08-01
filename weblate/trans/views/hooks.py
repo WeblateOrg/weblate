@@ -136,8 +136,8 @@ def vcs_service_hook(request, service):
     # Get service helper
     try:
         hook_helper = HOOK_HANDLERS[service]
-    except KeyError:
-        raise Http404(f"Hook {service} not supported")
+    except KeyError as exc:
+        raise Http404(f"Hook {service} not supported") from exc
 
     # Check if we got payload
     try:

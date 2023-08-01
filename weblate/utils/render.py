@@ -118,7 +118,9 @@ def validate_render(value, **kwargs):
     try:
         return render_template(value, **kwargs)
     except Exception as err:
-        raise ValidationError(gettext("Failed to render template: {}").format(err))
+        raise ValidationError(
+            gettext("Failed to render template: {}").format(err)
+        ) from err
 
 
 def validate_render_component(value, translation=None, **kwargs):

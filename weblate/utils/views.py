@@ -305,8 +305,8 @@ def download_translation_file(
     if fmt is not None:
         try:
             exporter_cls = EXPORTERS[fmt]
-        except KeyError:
-            raise Http404(f"Conversion to {fmt} is not supported")
+        except KeyError as exc:
+            raise Http404(f"Conversion to {fmt} is not supported") from exc
         if not exporter_cls.supports(translation):
             raise Http404("File format is not compatible with this translation")
         exporter = exporter_cls(translation=translation)

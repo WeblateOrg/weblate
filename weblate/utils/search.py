@@ -159,8 +159,8 @@ class BaseTermExpr:
             return int(text)
         try:
             return STATE_NAMES[text]
-        except KeyError:
-            raise ValueError(gettext("Unsupported state: {}").format(text))
+        except KeyError as exc:
+            raise ValueError(gettext("Unsupported state: {}").format(text)) from exc
 
     def convert_bool(self, text):
         ltext = text.lower()
@@ -229,7 +229,7 @@ class BaseTermExpr:
                 ),
             )
         except ParserError as error:
-            raise ValueError(gettext("Invalid timestamp: {}").format(error))
+            raise ValueError(gettext("Invalid timestamp: {}").format(error)) from error
         if result.hour == 5 and result.minute == 55 and result.second == 55:
             return (
                 result.replace(hour=0, minute=0, second=0, microsecond=0),
@@ -295,7 +295,7 @@ class BaseTermExpr:
             except re.error as error:
                 raise ValueError(
                     gettext("Invalid regular expression: {}").format(error)
-                )
+                ) from error
             from weblate.trans.models import Unit
 
             with transaction.atomic():
@@ -304,7 +304,7 @@ class BaseTermExpr:
                         test__trgm_regex=match.expr
                     ).exists()
                 except DataError as error:
-                    raise ValueError(str(error))
+                    raise ValueError(str(error)) from error
             return Q(**{self.field_name(field, "trgm_regex"): match.expr})
 
         if isinstance(match, tuple):

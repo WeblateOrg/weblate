@@ -796,10 +796,10 @@ class GitMergeRequestBase(GitForcePushRepository):
         configuration = getattr(settings, f"{self.identifier.upper()}_CREDENTIALS")
         try:
             credentials = configuration[hostname]
-        except KeyError:
+        except KeyError as exc:
             raise RepositoryException(
                 0, f"{self.name} API access for {hostname} is not configured"
-            )
+            ) from exc
 
         # Scheme override
         if "scheme" in credentials:
@@ -1010,7 +1010,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                     )
                 except (OSError, HTTPError) as error:
                     report_error(cause="request")
-                    raise RepositoryException(0, str(error))
+                    raise RepositoryException(0, str(error)) from error
 
                 # GitHub recommends a delay between 2 requests of at least 1s,
                 # but in reality this hits secondary rate limits.
@@ -1022,7 +1022,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                 except JSONDecodeError as error:
                     report_error(cause="request json decoding")
                     response.raise_for_status()
-                    raise RepositoryException(0, str(error))
+                    raise RepositoryException(0, str(error)) from error
 
                 if self.should_retry(response, response_data):
                     do_retry = True

@@ -74,7 +74,7 @@ class WeblateLock:
         try:
             self._lock.acquire()
         except Timeout as error:
-            raise WeblateLockTimeout(str(error))
+            raise WeblateLockTimeout(str(error)) from error
 
     def __enter__(self):
         self._depth += 1
