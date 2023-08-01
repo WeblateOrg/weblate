@@ -82,7 +82,12 @@ from weblate.utils.colors import COLOR_CHOICES
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.fields import EmailField, JSONField
-from weblate.utils.licenses import get_license_choices, get_license_url, is_libre
+from weblate.utils.licenses import (
+    get_license_choices,
+    get_license_name,
+    get_license_url,
+    is_libre,
+)
 from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import (
     render_template,
@@ -3503,6 +3508,10 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     @cached_property
     def license_url(self):
         return get_license_url(self.license)
+
+    def get_license_display(self):
+        # Override Django implementation as that rebuilds the dict every time
+        return get_license_name(self.license)
 
     @property
     def license_badge(self):
