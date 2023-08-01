@@ -299,7 +299,7 @@ class Formatter:
                 output.append(escape(char))
         # Trailing tags
         output.append("".join(tags[len(value)]))
-        return mark_safe("".join(output))
+        return mark_safe("".join(output))  # noqa: S308
 
 
 @register.inclusion_tag("snippets/format-translation.html")
@@ -1128,4 +1128,6 @@ def any_unit_has_context(units):
 def urlize_ugc(value, autoescape=True):
     """Convert URLs in plain text into clickable links."""
     html = urlize(value, nofollow=True, autoescape=autoescape)
-    return mark_safe(html.replace('rel="nofollow"', 'rel="ugc" target="_blank"'))
+    return mark_safe(  # noqa: S308
+        html.replace('rel="nofollow"', 'rel="ugc" target="_blank"')
+    )
