@@ -347,7 +347,7 @@ class SSHWrapper:
             with open(filename, "w") as handle:
                 handle.write(self.get_content(find_command(command)))
 
-            os.chmod(filename, 0o755)  # nosec
+            os.chmod(filename, 0o755)  # noqa: S103, nosec
 
 
 SSH_WRAPPER = SSHWrapper()
