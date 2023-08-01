@@ -6,7 +6,6 @@
 
 from io import BytesIO
 from urllib.parse import urlsplit
-from xml.dom import minidom
 from zipfile import ZipFile
 
 from django.contrib.messages import get_messages
@@ -31,6 +30,7 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.db import using_postgresql
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.xml import parse_xml
 
 
 class RegistrationTestMixin:
@@ -204,8 +204,8 @@ class ViewTestCase(RepoTestCase):
         """Check whether response is a SVG image."""
         # Check response status code
         self.assertEqual(response.status_code, 200)
-        dom = minidom.parseString(response.content)
-        self.assertEqual(dom.firstChild.nodeName, "svg")
+        tree = parse_xml(response.content)
+        self.assertEqual(tree.tag, "{http://www.w3.org/2000/svg}svg")
 
     def assert_backend(self, expected_translated, language="cs"):
         """Check that backend has correct data."""
