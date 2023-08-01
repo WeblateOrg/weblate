@@ -100,7 +100,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Build Chrome driver
         options = Options()
         # Run headless
-        options.headless = True
+        options.add_argument("--headless=new")
         # Seems to help in some corner cases, see
         # https://stackoverflow.com/a/50642913/225718
         options.add_argument("--no-sandbox")
