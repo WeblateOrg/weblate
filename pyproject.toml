@@ -52,7 +52,20 @@ ignore = [
   "FIX002",  # CONFIG: we use TODO
   "TD002",  # CONFIG: no detailed TODO documentation is required
   "TD003",  # CONFIG: no detailed TODO documentation is required
-  "S",  # TODO: annotate possible security risks
+  "S113",  # TODO: Probable use of requests call without timeout
+  "S603",  # TODO: `subprocess` call: check for execution of untrusted input
+  "S607",  # TODO: Starting a process with a partial executable path
+  "S320",  # TODO: Using `lxml` to parse untrusted data is known to be vulnerable to XML attacks
+  "S318",  # TODO: Using `xml` to parse untrusted data is known to be vulnerable to XML attacks
+  "S314",  # TODO: Using `xml` to parse untrusted data is known to be vulnerable to XML attacks; use `defusedxml` equivalents
+  "S102",  # TODO: Use of `exec` detected
+  "S324",  # TODO: Probable use of insecure hash functions in `hashlib`: `sha1`
+  "S110",  # TODO: `try`-`except`-`pass` detected, consider logging the exception
+  "S106",  # TODO: Possible hardcoded password assigned to argument: "password"
+  "S103",  # TODO: `os.chmod` setting a permissive mask `0o755` on file or directory
+  "S311",  # TODO:  Standard pseudo-random generators are not suitable for cryptographic purposes
+  "S105",  # TODO: Possible hardcoded password assigned to
+  "S308",  # TODO: Use of `mark_safe` may expose cross-site scripting vulnerabilities
   "EM",  # TODO: Exception strings
   "PTH",  # TODO: Not using pathlib
   "FBT",  # TODO: Boolean in function definition
