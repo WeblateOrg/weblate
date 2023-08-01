@@ -186,7 +186,7 @@ class PluralTextarea(forms.Textarea):
                     name,
                     format_html(
                         'data-value="{}"',
-                        mark_safe(
+                        mark_safe(  # noqa: S308
                             value.encode("ascii", "xmlcharrefreplace").decode("ascii")
                         ),
                     ),
@@ -251,7 +251,7 @@ class PluralTextarea(forms.Textarea):
                     name,
                     format_html(
                         'data-value="{}"',
-                        mark_safe(
+                        mark_safe(  # noqa: S308
                             value.encode("ascii", "xmlcharrefreplace").decode("ascii")
                         ),
                     ),

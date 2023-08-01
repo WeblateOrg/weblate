@@ -62,4 +62,4 @@ def render_markdown(text):
                 part, user.get_absolute_url(), user.get_visible_name()
             )
     text = "".join(parts)
-    return mark_safe(MARKDOWN(text))
+    return mark_safe(MARKDOWN(text))  # noqa: S308
