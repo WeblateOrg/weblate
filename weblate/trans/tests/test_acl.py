@@ -337,7 +337,7 @@ class ACLTest(FixtureTestCase):
         self.assertRedirects(response, self.access_url + "#teams")
         self.assertFalse(Group.objects.filter(pk=group.pk).exists())
 
-    def test_create_group(self):
+    def create_test_group(self):
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("create-project-group", kwargs=self.kw_project),
@@ -353,14 +353,16 @@ class ACLTest(FixtureTestCase):
             },
         )
         self.assertRedirects(response, self.access_url + "#teams")
-        group = Group.objects.get(name="Czech team")
+        return Group.objects.get(name="Czech team")
+
+    def test_create_group(self):
+        group = self.create_test_group()
         self.assertEqual(group.defining_project, self.project)
         self.assertEqual(group.language_selection, 0)
         self.assertEqual(list(group.languages.values_list("code", flat=True)), ["cs"])
         self.assertEqual(
             set(group.roles.values_list("name", flat=True)), {"Power user"}
         )
-        return group
 
     def test_create_group_all_lang(self):
         self.project.add_user(self.user, "Administration")
@@ -389,7 +391,7 @@ class ACLTest(FixtureTestCase):
         )
 
     def test_edit_group(self):
-        group = self.test_create_group()
+        group = self.create_test_group()
 
         response = self.client.post(
             group.get_absolute_url(),

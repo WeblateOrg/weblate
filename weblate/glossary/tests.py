@@ -274,18 +274,21 @@ class GlossaryTest(ViewTestCase):
             {"Reach", "The Reach", "Town"},
         )
 
-    def test_get_long(self):
-        """Test parsing long source string."""
+    def get_long_unit(self):
         unit = self.get_unit()
         unit.source = LONG
         unit.save()
+        return unit
+
+    def test_get_long(self):
+        """Test parsing long source string."""
+        unit = self.get_long_unit()
         self.assertEqual(
             set(get_glossary_terms(unit).values_list("source", flat=True)), set()
         )
-        return unit
 
     def test_stoplist(self):
-        unit = self.test_get_long()
+        unit = self.get_long_unit()
         self.add_term("the blue", "modrý")
         self.add_term("the red", "červený")
         unit.glossary_terms = None
