@@ -59,7 +59,6 @@ ignore = [
   "S314",  # TODO: Using `xml` to parse untrusted data is known to be vulnerable to XML attacks; use `defusedxml` equivalents
   "S102",  # TODO: Use of `exec` detected
   "S110",  # TODO: `try`-`except`-`pass` detected, consider logging the exception
-  "S105",  # TODO: Possible hardcoded password assigned to
   "S308",  # TODO: Use of `mark_safe` may expose cross-site scripting vulnerabilities
   "EM",  # TODO: Exception strings
   "PTH",  # TODO: Not using pathlib
@@ -106,8 +105,8 @@ max-complexity = 16
 "scripts/*" = ["T201", "T203"]
 "weblate/*/management/commands/*.py" = ["A003"]  # Needed by Django API
 "weblate/*/migrations/*.py" = ["C405", "E501", "N806", "DJ01"]
-"weblate/*/tests.py" = ["S106"]
-"weblate/*/tests/test_*.py" = ["S106"]
+"weblate/*/tests.py" = ["S106", "S105"]
+"weblate/*/tests/test_*.py" = ["S106", "S105"]
 "weblate/addons/management/commands/list_addons.py" = ["E501"]
 "weblate/addons/utils.py" = ["N806"]
 "weblate/auth/migrations/0018_fixup_role.py" = ["T201", "N806"]
