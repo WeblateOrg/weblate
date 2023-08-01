@@ -12,11 +12,12 @@ from tarfile import TarFile
 from tempfile import mkdtemp
 from unittest import SkipTest
 
+import social_core.backends.utils
 from celery.contrib.testing.tasks import ping
 from celery.result import allow_join_result
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
-from django.test.utils import override_settings
+from django.test.utils import modify_settings, override_settings
 from django.utils import timezone
 from django.utils.functional import cached_property
 
@@ -453,3 +454,30 @@ def create_test_billing(user, invoice=True):
             end=timezone.now() + timedelta(days=1),
         )
     return billing
+
+
+class SocialCacheMixin:
+    """
+    Safely changes AUTHENTICATION_BACKENDS.
+
+    Purge social_core authentication backends cache needs to be done upon any
+    change to AUTHENTICATION_BACKENDS.
+    """
+
+    def enable(self):
+        super().enable()
+        social_core.backends.utils.BACKENDSCACHE = {}
+
+    def disable(self):
+        super().disable()
+        social_core.backends.utils.BACKENDSCACHE = {}
+
+
+# Lowercase name to be consistent with Django
+class social_core_override_settings(SocialCacheMixin, override_settings):  # noqa: N801
+    pass
+
+
+# Lowercase name to be consistent with Django
+class social_core_modify_settings(SocialCacheMixin, modify_settings):  # noqa: N801
+    pass
