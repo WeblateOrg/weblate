@@ -7,12 +7,12 @@ from __future__ import annotations
 from weblate.lang.models import Language
 from weblate.trans.models import Component
 from weblate.utils.celery import app
-from weblate.utils.lock import WeblateLockTimeout
+from weblate.utils.lock import WeblateLockTimeoutError
 
 
 @app.task(
     trail=False,
-    autoretry_for=(Component.DoesNotExist, WeblateLockTimeout),
+    autoretry_for=(Component.DoesNotExist, WeblateLockTimeoutError),
     retry_backoff=60,
 )
 def sync_glossary_languages(pk: int, component: Component | None = None):
@@ -42,7 +42,7 @@ def sync_glossary_languages(pk: int, component: Component | None = None):
 
 @app.task(
     trail=False,
-    autoretry_for=(Component.DoesNotExist, WeblateLockTimeout),
+    autoretry_for=(Component.DoesNotExist, WeblateLockTimeoutError),
     retry_backoff=60,
 )
 def sync_terminology(pk: int, component: Component | None = None):

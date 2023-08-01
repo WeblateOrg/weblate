@@ -90,7 +90,7 @@ GOOGLEPLAY_CODES = {
 }
 
 
-class UnitNotFound(Exception):
+class UnitNotFoundError(Exception):
     def __str__(self):
         args = list(self.args)
         if "" in args:
@@ -387,7 +387,7 @@ class TranslationFormat:
         try:
             result = self._unit_index[id_hash]
         except KeyError:
-            raise UnitNotFound(context, source)
+            raise UnitNotFoundError(context, source)
 
         add = False
         if not result.has_unit():
@@ -412,7 +412,7 @@ class TranslationFormat:
         try:
             return (self._unit_index[id_hash], False)
         except KeyError:
-            raise UnitNotFound(context, source)
+            raise UnitNotFoundError(context, source)
 
     def find_unit(self, context: str, source: str | None = None) -> tuple[Any, bool]:
         """

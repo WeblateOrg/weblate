@@ -14,7 +14,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from weblate.addons.autotranslate import AutoTranslateAddon
-from weblate.addons.base import TestAddon, TestCrashAddon, TestException
+from weblate.addons.base import TestAddon, TestCrashAddon, TestError
 from weblate.addons.cdn import CDNJSAddon
 from weblate.addons.cleanup import CleanupAddon, RemoveBlankAddon
 from weblate.addons.consistency import LangaugeConsistencyAddon
@@ -156,7 +156,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.assertTrue(Addon.objects.filter(name=TestCrashAddon.name).exists())
         ADDONS[TestCrashAddon.get_identifier()] = TestCrashAddon
 
-        with self.assertRaises(TestException):
+        with self.assertRaises(TestError):
             addon.post_update(self.component, "head", False)
 
         # The crash should be handled here and addon uninstalled

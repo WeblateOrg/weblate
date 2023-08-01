@@ -19,7 +19,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Component, Project
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
-from weblate.utils.lock import WeblateLockTimeout
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.requests import request
 
 IGNORED_TAGS = {"script", "style"}
@@ -73,7 +73,7 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
 
 @app.task(
     trail=False,
-    autoretry_for=(WeblateLockTimeout,),
+    autoretry_for=(WeblateLockTimeoutError,),
     retry_backoff=600,
     retry_backoff_max=3600,
 )

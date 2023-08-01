@@ -23,7 +23,7 @@ from django.utils.translation import gettext
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.auto import try_load
-from weblate.formats.base import UnitNotFound
+from weblate.formats.base import UnitNotFoundError
 from weblate.formats.helpers import CONTROLCHARS, BytesIOMode
 from weblate.lang.models import Language, Plural
 from weblate.trans.checklists import TranslationChecklist
@@ -31,7 +31,7 @@ from weblate.trans.defines import FILENAME_LENGTH
 from weblate.trans.exceptions import (
     FailedCommitError,
     FileParseError,
-    PluralFormsMismatch,
+    PluralFormsMismatchError,
 )
 from weblate.trans.mixins import CacheKeyMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
@@ -449,7 +449,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                             else:
                                 # Patch unit to have matching source
                                 unit.source = translated_unit.source
-                        except UnitNotFound:
+                        except UnitNotFoundError:
                             pass
 
                     try:
@@ -755,7 +755,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             else:
                 try:
                     pounit, add = store.find_unit(unit.context, unit.source)
-                except UnitNotFound:
+                except UnitNotFoundError:
                     # Bail out if we have not found anything
                     report_error(
                         cause="String disappeared", project=self.component.project
@@ -1266,7 +1266,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     pass
                 else:
                     if not self.plural.same_plural(number, formula):
-                        raise PluralFormsMismatch
+                        raise PluralFormsMismatchError
 
             if method in ("translate", "fuzzy", "approve"):
                 # Merge on units level
@@ -1548,7 +1548,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 # Does unit exist in the file?
                 try:
                     pounit, add = translation.store.find_unit(unit.context, unit.source)
-                except UnitNotFound:
+                except UnitNotFoundError:
                     continue
                 if add:
                     continue

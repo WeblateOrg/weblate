@@ -29,10 +29,10 @@ from requests.exceptions import HTTPError
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import is_excluded, remove_tree
-from weblate.utils.lock import WeblateLock, WeblateLockTimeout
+from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
 from weblate.utils.xml import parse_xml
-from weblate.vcs.base import Repository, RepositoryException
+from weblate.vcs.base import Repository, RepositoryError
 from weblate.vcs.gpg import get_gpg_sign_key
 
 if TYPE_CHECKING:
@@ -82,7 +82,7 @@ class GitRepository(Repository):
             return super().get_remote_branch(repo)
         try:
             result = cls._popen(["ls-remote", "--symref", "--", repo, "HEAD"])
-        except RepositoryException:
+        except RepositoryError:
             report_error(cause="Listing remote branch")
             return super().get_remote_branch(repo)
         for line in result.splitlines():
@@ -91,7 +91,7 @@ class GitRepository(Repository):
             # Parses 'ref: refs/heads/main\tHEAD'
             return line.split("\t")[0].split("refs/heads/")[1]
 
-        raise RepositoryException(0, "Failed to figure out remote branch")
+        raise RepositoryError(0, "Failed to figure out remote branch")
 
     @staticmethod
     def git_config_update(filename: str, *updates: tuple[str, str, str]):
@@ -182,7 +182,7 @@ class GitRepository(Repository):
     def has_rev(self, rev):
         try:
             self.execute(["rev-parse", "--verify", rev], needs_lock=False)
-        except RepositoryException:
+        except RepositoryError:
             return False
         return True
 
@@ -324,7 +324,7 @@ class GitRepository(Repository):
             for name in files:
                 try:
                     self.execute(["add", "--force", "--", self.resolve_symlinks(name)])
-                except RepositoryException:
+                except RepositoryError:
                     continue
         else:
             self.execute(["add", self.path])
@@ -489,7 +489,7 @@ class GitRepository(Repository):
             # Doing initial fetch
             try:
                 self.execute(["fetch", "origin", *self.get_depth()])
-            except RepositoryException as error:
+            except RepositoryError as error:
                 if error.retcode == 1 and not error.args[0]:
                     # Fetch with --depth fails on blank repo
                     self.execute(["fetch", "origin"])
@@ -540,7 +540,7 @@ class GitWithGerritRepository(GitRepository):
         if self.needs_push():
             try:
                 self.execute(["review", "--yes", self.branch])
-            except RepositoryException as error:
+            except RepositoryError as error:
                 if "(no new changes)" in str(error):
                     return
                 raise
@@ -628,12 +628,12 @@ class SubversionRepository(GitRepository):
         """
         try:
             existing = self.get_config("svn-remote.svn.url")
-        except RepositoryException:
+        except RepositoryError:
             existing = None
         if existing:
             # The URL is root of the repository, while we get full path
             if not pull_url.startswith(existing):
-                raise RepositoryException(-1, "Can not switch subversion URL")
+                raise RepositoryError(-1, "Can not switch subversion URL")
             return
         args, self._fetch_revision = self.get_remote_args(pull_url, self.path)
         self.execute(["svn", "init", *args])
@@ -797,7 +797,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         try:
             credentials = configuration[hostname]
         except KeyError as exc:
-            raise RepositoryException(
+            raise RepositoryError(
                 0, f"{self.name} API access for {hostname} is not configured"
             ) from exc
 
@@ -1010,7 +1010,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                     )
                 except (OSError, HTTPError) as error:
                     report_error(cause="request")
-                    raise RepositoryException(0, str(error)) from error
+                    raise RepositoryError(0, str(error)) from error
 
                 # GitHub recommends a delay between 2 requests of at least 1s,
                 # but in reality this hits secondary rate limits.
@@ -1022,17 +1022,17 @@ class GitMergeRequestBase(GitForcePushRepository):
                 except JSONDecodeError as error:
                     report_error(cause="request json decoding")
                     response.raise_for_status()
-                    raise RepositoryException(0, str(error)) from error
+                    raise RepositoryError(0, str(error)) from error
 
                 if self.should_retry(response, response_data):
                     do_retry = True
-        except WeblateLockTimeout:
+        except WeblateLockTimeoutError:
             do_retry = True
 
         if do_retry:
             retry += 1
             if retry > 10:
-                raise RepositoryException(0, "Too many retries")
+                raise RepositoryError(0, "Too many retries")
             return self.request(method, credentials, url, data, params, json, retry)
 
         return response_data, response, self.get_error_message(response_data)
@@ -1088,7 +1088,7 @@ class GithubRepository(GitMergeRequestBase):
         # exists in the remote side.
         response_data, response, error = self.request("post", credentials, fork_url)
         if "ssh_url" not in response_data:
-            raise RepositoryException(
+            raise RepositoryError(
                 0, self.get_fork_failed_message(error, credentials, response)
             )
         self.configure_fork_remote(response_data["ssh_url"], credentials["username"])
@@ -1149,7 +1149,7 @@ class GithubRepository(GitMergeRequestBase):
                         )
                         return
 
-            raise RepositoryException(0, f"Pull request failed: {error_message}")
+            raise RepositoryError(0, f"Pull request failed: {error_message}")
 
 
 class GiteaRepository(GitMergeRequestBase):
@@ -1176,7 +1176,7 @@ class GiteaRepository(GitMergeRequestBase):
                 "get", credentials, credentials["url"]
             )
         if "ssh_url" not in response_data:
-            raise RepositoryException(
+            raise RepositoryError(
                 0, self.get_fork_failed_message(error, credentials, response)
             )
         self.configure_fork_remote(response_data["ssh_url"], credentials["username"])
@@ -1219,7 +1219,7 @@ class GiteaRepository(GitMergeRequestBase):
             if "pull request already exists for these targets" in error_message:
                 return
 
-            raise RepositoryException(0, f"Pull request failed: {error_message}")
+            raise RepositoryError(0, f"Pull request failed: {error_message}")
 
 
 class LocalRepository(GitRepository):
@@ -1365,7 +1365,7 @@ class GitLabRepository(GitMergeRequestBase):
             "get", credentials, credentials["url"]
         )
         if "id" not in response_data:
-            raise RepositoryException(0, f"Failed to get project: {error}")
+            raise RepositoryError(0, f"Failed to get project: {error}")
         return response_data["id"]
 
     def configure_fork_features(self, credentials: dict, forked_url: str):
@@ -1389,7 +1389,7 @@ class GitLabRepository(GitMergeRequestBase):
             "put", credentials, forked_url, json=access_level_dict
         )
         if "web_url" not in response_data:
-            raise RepositoryException(0, f"Failed to modify fork {error}")
+            raise RepositoryError(0, f"Failed to modify fork {error}")
 
     def create_fork(self, credentials: dict):
         get_fork_url = "{}/forks?owned=True".format(credentials["url"])
@@ -1426,7 +1426,7 @@ class GitLabRepository(GitMergeRequestBase):
                 )
 
             if "ssh_url_to_repo" not in forked_repo:
-                raise RepositoryException(
+                raise RepositoryError(
                     0, self.get_fork_failed_message(error, credentials, response)
                 )
 
@@ -1468,7 +1468,7 @@ class GitLabRepository(GitMergeRequestBase):
             "web_url" not in response_data
             and "open merge request already exists" not in error
         ):
-            raise RepositoryException(-1, f"Failed to create pull request: {error}")
+            raise RepositoryError(-1, f"Failed to create pull request: {error}")
 
 
 class PagureRepository(GitMergeRequestBase):
@@ -1507,7 +1507,7 @@ class PagureRepository(GitMergeRequestBase):
                 break
 
         if '" cloned to "' not in error and "already exists" not in error:
-            raise RepositoryException(
+            raise RepositoryError(
                 0, self.get_fork_failed_message(error, credentials, response)
             )
 
@@ -1537,9 +1537,7 @@ class PagureRepository(GitMergeRequestBase):
             "get", credentials, pr_list_url, params={"author": credentials["username"]}
         )
         if error_message:
-            raise RepositoryException(
-                0, f"Pull request listing failed: {error_message}"
-            )
+            raise RepositoryError(0, f"Pull request listing failed: {error_message}")
 
         if response_data["total_requests"] > 0:
             # Open pull request from us is already there
@@ -1561,7 +1559,7 @@ class PagureRepository(GitMergeRequestBase):
         )
 
         if "id" not in response_data:
-            raise RepositoryException(0, f"Pull request failed: {error_message}")
+            raise RepositoryError(0, f"Pull request failed: {error_message}")
 
 
 class BitbucketServerRepository(GitMergeRequestBase):
@@ -1621,7 +1619,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
                     remote_url = link["href"]
 
         if not remote_url:
-            raise RepositoryException(
+            raise RepositoryError(
                 0, self.get_fork_failed_message(error_message, credentials, response)
             )
 
@@ -1699,4 +1697,4 @@ class BitbucketServerRepository(GitMergeRequestBase):
             )
             if pr_exist_message in error_message:
                 return
-            raise RepositoryException(0, f"Pull request failed: {error_message}")
+            raise RepositoryError(0, f"Pull request failed: {error_message}")

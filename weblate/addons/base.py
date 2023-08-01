@@ -367,7 +367,7 @@ class UpdateBaseAddon(BaseAddon):
         self.commit_and_push(component, skip_push=skip_push)
 
 
-class TestException(Exception):
+class TestError(Exception):
     pass
 
 
@@ -380,7 +380,7 @@ class TestCrashAddon(UpdateBaseAddon):
 
     def update_translations(self, component, previous_head):
         if previous_head:
-            raise TestException("Test error")
+            raise TestError("Test error")
 
     @classmethod
     def can_install(cls, component, user):  # noqa: ARG003

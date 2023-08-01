@@ -9,7 +9,7 @@ import os
 from django.conf import settings
 from django.db import migrations
 
-from weblate.vcs.base import RepositoryException
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import LocalRepository
 
 
@@ -44,7 +44,7 @@ def migrate_glossaries(apps, schema_editor):
         with repo.lock:
             try:
                 repo.remove([file_path], "Removing stale glossary file")
-            except RepositoryException:
+            except RepositoryError:
                 if os.path.exists(file_path):
                     os.unlink(file_path)
 

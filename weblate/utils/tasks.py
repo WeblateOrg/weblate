@@ -26,7 +26,7 @@ from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.db import using_postgresql
 from weblate.utils.errors import add_breadcrumb, report_error
-from weblate.utils.lock import WeblateLockTimeout
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.vcs.models import VCS_REGISTRY
 
 
@@ -51,7 +51,7 @@ def heartbeat():
     )
 
 
-@app.task(trail=False, autoretry_for=(WeblateLockTimeout,))
+@app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
 def settings_backup():
     with backup_lock():
         # Expand settings in case it contains non-trivial code
@@ -71,7 +71,7 @@ def settings_backup():
             yaml.dump(dict(os.environ), handle)
 
 
-@app.task(trail=False, autoretry_for=(WeblateLockTimeout,))
+@app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
 def database_backup():
     if settings.DATABASE_BACKUP == "none":
         return

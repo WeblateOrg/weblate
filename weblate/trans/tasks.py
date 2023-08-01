@@ -37,14 +37,14 @@ from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import remove_tree
-from weblate.utils.lock import WeblateLockTimeout
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.stats import prefetch_stats
-from weblate.vcs.base import RepositoryException
+from weblate.vcs.base import RepositoryError
 
 
 @app.task(
     trail=False,
-    autoretry_for=(WeblateLockTimeout,),
+    autoretry_for=(WeblateLockTimeoutError,),
     retry_backoff=600,
     retry_backoff_max=3600,
 )
@@ -66,7 +66,7 @@ def perform_update(cls, pk, auto=False, obj=None):
 
 @app.task(
     trail=False,
-    autoretry_for=(WeblateLockTimeout,),
+    autoretry_for=(WeblateLockTimeoutError,),
     retry_backoff=600,
     retry_backoff_max=3600,
 )
@@ -85,7 +85,7 @@ def perform_load(
 
 @app.task(
     trail=False,
-    autoretry_for=(WeblateLockTimeout,),
+    autoretry_for=(WeblateLockTimeoutError,),
     retry_backoff=600,
     retry_backoff_max=3600,
 )
@@ -96,7 +96,7 @@ def perform_commit(pk, *args):
 
 @app.task(
     trail=False,
-    autoretry_for=(WeblateLockTimeout,),
+    autoretry_for=(WeblateLockTimeoutError,),
     retry_backoff=600,
     retry_backoff_max=3600,
 )
@@ -120,7 +120,7 @@ def update_component_stats(pk):
 
 @app.task(
     trail=False,
-    autoretry_for=(WeblateLockTimeout,),
+    autoretry_for=(WeblateLockTimeoutError,),
     retry_backoff=600,
     retry_backoff_max=3600,
 )
@@ -285,7 +285,7 @@ def repository_alerts(threshold=settings.REPOSITORY_ALERT_THRESHOLD):
                 component.add_alert("RepositoryChanges")
             else:
                 component.delete_alert("RepositoryChanges")
-        except RepositoryException as error:
+        except RepositoryError as error:
             report_error(
                 cause="Could not check repository status", project=component.project
             )
@@ -368,7 +368,7 @@ def project_removal(pk: int, uid: int | None):
 
 @app.task(
     trail=False,
-    autoretry_for=(WeblateLockTimeout,),
+    autoretry_for=(WeblateLockTimeoutError,),
     retry_backoff=600,
     retry_backoff_max=3600,
 )
@@ -429,7 +429,7 @@ def auto_translate(
 
 @app.task(
     trail=False,
-    autoretry_for=(WeblateLockTimeout,),
+    autoretry_for=(WeblateLockTimeoutError,),
     retry_backoff=600,
     retry_backoff_max=3600,
 )
