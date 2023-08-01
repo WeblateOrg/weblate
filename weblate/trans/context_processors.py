@@ -109,7 +109,7 @@ def get_interledger_payment_pointer():
     if not interledger_payment_pointers:
         return None
 
-    return random.choice(interledger_payment_pointers)
+    return random.choice(interledger_payment_pointers)  # noqa: S311
 
 
 def weblate_context(request):
@@ -168,7 +168,6 @@ def weblate_context(request):
         "site_url": get_site_url(),
         "site_domain": get_site_domain(),
         "login_redirect_url": login_redirect_url,
-        "has_ocr": weblate.screenshots.views.HAS_OCR,
         "has_antispam": bool(settings.AKISMET_API_KEY),
         "has_sentry": bool(settings.SENTRY_DSN),
         "watched_projects": watched_projects,

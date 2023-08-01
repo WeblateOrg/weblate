@@ -275,6 +275,7 @@ Users
     :>json boolean is_active: whether the user is active
     :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
+    :>json string last_login: date the user last signed in
     :>json array groups: link to associated groups; see :http:get:`/api/groups/(int:id)/`
 
     **Example JSON data:**

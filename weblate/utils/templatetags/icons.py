@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
-from typing import Dict
 
 from django import template
 from django.conf import settings
@@ -14,7 +15,7 @@ from weblate.utils.errors import report_error
 
 register = template.Library()
 
-CACHE: Dict[str, str] = {}
+CACHE: dict[str, str] = {}
 
 SPIN = '<span class="icon-spin" {} {}>{}</span>'
 
@@ -36,7 +37,7 @@ def icon(name):
             icon_file = os.path.join(settings.STATIC_ROOT, "icons", name)
         try:
             with open(icon_file) as handle:
-                CACHE[name] = mark_safe(handle.read())
+                CACHE[name] = mark_safe(handle.read())  # noqa: S308
         except OSError:
             report_error(cause="Failed to load icon")
             return ""

@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 # Weblate localization.
 # yangyangdaji <1504305527@qq.com>, 2022.
 # bovirus <roberto.boriotti@canon.it>, 2022, 2023.
@@ -15,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 08:56+0200\n"
-"PO-Revision-Date: 2023-06-15 09:55+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-07-17 20:11+0000\n"
+"Last-Translator: bovirus <roberto.boriotti@canon.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "documentation/it/>\n"
 "Language: it\n"
@@ -24,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18\n"
+"X-Generator: Weblate 5.0-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -79,6 +78,9 @@ msgid ""
 "guilabel:`Public`. You can switch to the paid plan if you want to restrict "
 "access to your project."
 msgstr ""
+"I progetti che eseguono il piano gratuito Libre su Hosted Weblate sono "
+"sempre :guilabel:`Public`. Se desideri limitare l'accesso al tuo progetto "
+"puoi passare al piano a pagamento."
 
 #: ../../admin/access.rst:36
 msgid ""
@@ -91,7 +93,7 @@ msgstr ""
 
 #: ../../admin/access.rst:45 ../../admin/config.rst:471
 msgid ":guilabel:`Public`"
-msgstr ""
+msgstr ":guilabel:`Pubblico`"
 
 #: ../../admin/access.rst:40 ../../admin/access.rst:48
 msgid "Visible to everybody."
@@ -99,7 +101,7 @@ msgstr "Visibile a tutti."
 
 #: ../../admin/access.rst:42
 msgid "Any authenticated user can contribute."
-msgstr "Può contribuire qualsiasi utente registrato."
+msgstr "Può collaborare qualsiasi utente registrato."
 
 #: ../../admin/access.rst:44
 msgid "VCS repository might be exposed to everybody."
@@ -110,15 +112,17 @@ msgid ""
 "**Choose this for open-source projects, or when your Weblate instance is "
 "private or locked-down.**"
 msgstr ""
+"**Scegli questa opzione per progetti open source o quando la tua istanza "
+"Weblate è privata o bloccata.**"
 
 #: ../../admin/access.rst:53 ../../admin/config.rst:473
 msgid ":guilabel:`Protected`"
-msgstr ""
+msgstr ":guilabel:`Protetto`"
 
 #: ../../admin/access.rst:50 ../../admin/access.rst:58
 #: ../../admin/access.rst:66
 msgid "Only chosen users can contribute."
-msgstr "Possono contribuire solo gli utenti selezionati."
+msgstr "Possono collaborare solo gli utenti selezionati."
 
 #: ../../admin/access.rst:52 ../../admin/access.rst:60
 #: ../../admin/access.rst:68
@@ -133,7 +137,7 @@ msgstr ""
 
 #: ../../admin/access.rst:61 ../../admin/config.rst:475
 msgid ":guilabel:`Private`"
-msgstr ""
+msgstr ":guilabel:`Privato`"
 
 #: ../../admin/access.rst:56 ../../admin/access.rst:64
 msgid "Visible only to chosen users."
@@ -146,15 +150,15 @@ msgstr ""
 
 #: ../../admin/access.rst:74 ../../admin/config.rst:477
 msgid ":guilabel:`Custom`"
-msgstr ""
+msgstr ":guilabel:`Personalizzato`"
 
 #: ../../admin/access.rst:70
 msgid "Not available on Hosted Weblate."
-msgstr ""
+msgstr "Non disponibile su Hosted Weblate"
 
 #: ../../admin/access.rst:72
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
-msgstr ""
+msgstr "Dovrai impostare tutti i permessi usando :ref: `custom-acl`."
 
 #: ../../admin/access.rst:74
 msgid ""
@@ -420,9 +424,9 @@ msgid ""
 "project if he has permissions for that, but he won't be able to contribute."
 msgstr ""
 "Nel caso in cui alcuni utenti si comportino male nel tuo progetto, hai "
-"un'opzione per impedire loro di contribuire. L'utente bloccato potrà "
+"un'opzione per impedire loro di collaborare. L'utente bloccato potrà "
 "comunque vedere il progetto se dispone dei permessi per farlo, ma non potrà "
-"contribuire."
+"collaborare."
 
 #: ../../admin/access.rst:204
 msgid "Per-project permission management"
@@ -2130,10 +2134,8 @@ msgid "Component discovery examples"
 msgstr "Scoperta dei componenti"
 
 #: ../../admin/addons.rst:232
-#, fuzzy
-#| msgid "Deletes the Glossary."
 msgid "One folder per language"
-msgstr "Elimina il glossario."
+msgstr "Una cartella per lingua"
 
 #: ../../admin/addons.rst:234
 msgid "One folder per language containing translation files for components."
@@ -2143,10 +2145,8 @@ msgstr ""
 #: ../../admin/addons.rst:236 ../../admin/addons.rst:249
 #: ../../admin/addons.rst:262 ../../admin/addons.rst:275
 #: ../../admin/addons.rst:289 ../../admin/addons.rst:302
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular expression:"
-msgstr "Espressione regolare"
+msgstr "Espressione regolare:"
 
 #: ../../admin/addons.rst:237
 msgid "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
@@ -2155,10 +2155,8 @@ msgstr ""
 #: ../../admin/addons.rst:242 ../../admin/addons.rst:255
 #: ../../admin/addons.rst:268 ../../admin/addons.rst:282
 #: ../../admin/addons.rst:295 ../../admin/addons.rst:311
-#, fuzzy
-#| msgid "Matched files"
 msgid "Matching files:"
-msgstr "File corrispondenti"
+msgstr "File corrispondenti:"
 
 #: ../../admin/addons.rst:239
 msgid ":file:`cs/application.po`"
@@ -2312,10 +2310,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:304
-#, fuzzy
-#| msgid "Component name"
 msgid "Component name:"
-msgstr "Nome componente"
+msgstr "Nome componente:"
 
 #: ../../admin/addons.rst:305
 msgid "``{{ originalHierarchy }}: {{ component }}``"
@@ -2569,24 +2565,21 @@ msgstr ""
 "facilmente filtrare e modificare le traduzioni scritte dagli sviluppatori."
 
 #: ../../admin/addons.rst:451
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Pre completamento traduzione con sorgente"
+msgstr "Riempi le stringhe di sola lettura con i sorgenti"
 
 #: ../../admin/addons.rst:455
 msgid "``weblate.generate.fill_read_only``"
 msgstr ""
 
 #: ../../admin/addons.rst:459
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Riempi le stringhe da tradurre con la stringa sorgente."
+msgstr ""
+"Riempie la traduzione di stringhe di sola lettura con le stringhe sorgenti."
 
 #: ../../admin/addons.rst:464
 msgid "Statistics generator"
-msgstr "Generatore di statistiche"
+msgstr "Generatore statistiche"
 
 #: ../../admin/addons.rst:466
 msgid "``weblate.generate.generate``"
@@ -2809,7 +2802,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:589
 msgid "Contributors in comment"
-msgstr "Contributori nel commento"
+msgstr "Collaboratori nel commento"
 
 #: ../../admin/addons.rst:591
 msgid "``weblate.gettext.authors``"
@@ -2821,7 +2814,7 @@ msgid ""
 "and years of contributions."
 msgstr ""
 "Aggiorna la parte di commento dell'intestazione del file PO per includere i "
-"nomi dei contributori e gli anni di contribuzione."
+"nomi dei collaboratori e gli anni che hanno contribuito."
 
 #: ../../admin/addons.rst:598
 msgid "The PO file header will look like this:"
@@ -17484,12 +17477,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:684
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator, including country code"
 msgid ""
 "POSIX style using underscore as a separator, including country code "
 "(lowercase)"
-msgstr "Stile POSIX con trattino basso come separatore, incluso codice nazione"
+msgstr ""
+"Stile POSIX con trattino basso come separatore, incluso codice nazione "
+"(minuscolo)"
 
 #: ../../admin/projects.rst:684
 msgid ""
@@ -20954,8 +20947,8 @@ msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
-"Per ottenere accesso ai componenti aggiuntivi abilita la contribuzione al "
-"progetto alla memoria traduzione condivisa per il progetto."
+"Per ottenere l'accesso ai componenti aggiuntivi attiva il contributo alla "
+"memoria di traduzione condivisa del progetto."
 
 #: ../../api.rst:1897
 msgid ""
@@ -24645,20 +24638,20 @@ msgid "Moved text direction toggle to get more space for the visual keyboard."
 msgstr ""
 
 #: ../../changes.rst:682
-#, fuzzy
-#| msgid "Projects with contribution"
 msgid "Added option to automatically watch projects user-contributed to."
-msgstr "Progetti con contribuzioni"
+msgstr ""
+"Aggiunta opzione per monitorare automaticamente i progetti a cui l'utente ha "
+"contribuito."
 
 #: ../../changes.rst:683
 msgid "Added check whether translation matches the glossary."
-msgstr ""
+msgstr "Aggiunto controllo se la traduzione corrisponde al glossario."
 
 #: ../../changes.rst:684
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Added support for customizing navigation text color."
-msgstr "Aggiunto supporto per riordinare le modifiche effettuate."
+msgstr ""
+"Aggiunto il supporto per la personalizzazione del colore del testo di "
+"navigazione."
 
 #: ../../changes.rst:686
 msgid ""
@@ -33137,7 +33130,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:58
 msgid "Contributor stats"
-msgstr "Statistiche contributore"
+msgstr "Statistiche collaboratore"
 
 #: ../../devel/reporting.rst:60
 msgid ""

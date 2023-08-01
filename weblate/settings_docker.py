@@ -521,11 +521,12 @@ if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
             "WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)"
         )
 
-        SEARCH_UNION = []
-        for string in os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION").split(
-            os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION_DELIMITER", "|")
-        ):
-            SEARCH_UNION.append(LDAPSearch(string, ldap.SCOPE_SUBTREE, SEARCH_FILTER))
+        SEARCH_UNION = [
+            LDAPSearch(string, ldap.SCOPE_SUBTREE, SEARCH_FILTER)
+            for string in os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION").split(
+                os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION_DELIMITER", "|")
+            )
+        ]
 
         AUTH_LDAP_USER_SEARCH = LDAPSearchUnion(*SEARCH_UNION)
 
@@ -1158,7 +1159,7 @@ REDIS_PROTO = "rediss" if get_env_bool("REDIS_TLS") else "redis"
 # Configuration for caching
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
+        "BACKEND": "redis_lock.django_cache.RedisCache",
         "LOCATION": "{}://{}:{}/{}".format(
             REDIS_PROTO,
             os.environ.get("REDIS_HOST", "cache"),
@@ -1437,4 +1438,4 @@ ADDITIONAL_CONFIG = "/app/data/settings-override.py"
 if os.path.exists(ADDITIONAL_CONFIG):
     with open(ADDITIONAL_CONFIG) as handle:
         code = compile(handle.read(), ADDITIONAL_CONFIG, "exec")
-        exec(code)
+        exec(code)  # noqa: S102

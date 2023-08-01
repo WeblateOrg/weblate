@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from collections import defaultdict
-from typing import Optional
 
 from django.utils.translation import gettext, gettext_lazy
 from pyicumessageformat import Parser
@@ -73,7 +74,7 @@ def parse_icu(
     source: str,
     allow_tags: bool,
     strict_tags: bool,
-    tag_prefix: Optional[str] = None,
+    tag_prefix: str | None = None,
     want_tokens=False,
 ):
     """Parse an ICU MessageFormat message."""
@@ -360,9 +361,10 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
         if "-missing" in flags:
             return
 
-        for name in src_vars:
-            if name not in tgt_vars:
-                result["missing"].append(name)
+        missing = [name for name in src_vars if name not in tgt_vars]
+
+        if missing:
+            result["missing"] = missing
 
     def check_for_other(self, result, name, data, flags):
         """Ensure types with sub-messages have other."""

@@ -4,12 +4,13 @@
 
 """Base code for machine translation services."""
 
+from __future__ import annotations
+
 import random
 import re
 import time
 from hashlib import md5
 from itertools import chain
-from typing import Dict, List
 from urllib.parse import quote
 
 from django.core.cache import cache
@@ -38,11 +39,11 @@ class MachineTranslationError(Exception):
     """Generic Machine translation error."""
 
 
-class MachineryRateLimit(MachineTranslationError):
+class MachineryRateLimitError(MachineTranslationError):
     """Raised when rate limiting is detected."""
 
 
-class UnsupportedLanguage(MachineTranslationError):
+class UnsupportedLanguageError(MachineTranslationError):
     """Raised when language is not supported."""
 
 
@@ -53,7 +54,7 @@ class MachineTranslation:
     max_score = 100
     rank_boost = 0
     cache_translations = True
-    language_map: Dict[str, str] = {}
+    language_map: dict[str, str] = {}
     same_languages = False
     do_cleanup = True
     # Batch size is currently used in autotranslate
@@ -69,7 +70,7 @@ class MachineTranslation:
     def get_rank(cls):
         return cls.max_score + cls.rank_boost
 
-    def __init__(self, settings: Dict[str, str]):
+    def __init__(self, settings: dict[str, str]):
         """Create new machine translation object."""
         self.mtid = self.get_identifier()
         self.rate_limit_cache = f"{self.mtid}-rate-limit"
@@ -243,7 +244,7 @@ class MachineTranslation:
         return cache.set(self.rate_limit_cache, True, 1800)
 
     def is_rate_limit_error(self, exc):
-        if isinstance(exc, MachineryRateLimit):
+        if isinstance(exc, MachineryRateLimitError):
             return True
         if not isinstance(exc, HTTPError):
             return False
@@ -277,7 +278,7 @@ class MachineTranslation:
 
     def make_re_placeholder(self, text: str):
         """Convert placeholder into a regular expression."""
-        # Allow addditional space before ]
+        # Allow additional space before ]
         return re.escape(text[:-1]) + " *" + re.escape(text[-1:])
 
     def format_replacement(self, h_start: int, h_end: int, h_text: str):
@@ -307,7 +308,7 @@ class MachineTranslation:
 
         return "".join(parts), replacements
 
-    def uncleanup_results(self, replacements: Dict[str, str], results: List[str]):
+    def uncleanup_results(self, replacements: dict[str, str], results: list[str]):
         """Reverts replacements done by cleanup_text."""
         keys = ("text", "source")
         for result in results:
@@ -327,7 +328,7 @@ class MachineTranslation:
 
     def get_languages(self, source_language, target_language):
         if source_language == target_language and not self.same_languages:
-            raise UnsupportedLanguage("Same languages")
+            raise UnsupportedLanguageError("Same languages")
 
         for source in self.get_language_possibilities(source_language):
             for target in self.get_language_possibilities(target_language):
@@ -340,7 +341,7 @@ class MachineTranslation:
             self.supported_languages_error = None
             self.supported_languages_error_age = 0
 
-        raise UnsupportedLanguage("Not supported")
+        raise UnsupportedLanguageError("Not supported")
 
     def get_cached(self, source, language, text, threshold, replacements):
         cache_key = self.translate_cache_key(source, language, text, threshold)
@@ -358,7 +359,7 @@ class MachineTranslation:
             source, language = self.get_languages(
                 translation.component.source_language, translation.language
             )
-        except UnsupportedLanguage:
+        except UnsupportedLanguageError:
             unit.translation.log_debug(
                 "machinery failed: not supported language pair: %s - %s",
                 translation.component.source_language.code,
@@ -376,7 +377,7 @@ class MachineTranslation:
             source, language = self.get_languages(
                 translation.component.source_language, translation.language
             )
-        except UnsupportedLanguage:
+        except UnsupportedLanguageError:
             unit.translation.log_debug(
                 "machinery failed: not supported language pair: %s - %s",
                 translation.component.source_language.code,
@@ -427,10 +428,10 @@ class MachineTranslation:
             if isinstance(exc, MachineTranslationError):
                 raise
             raise MachineTranslationError(self.get_error_message(exc)) from exc
-        if replacements or self.force_uncleanup:
-            self.uncleanup_results(replacements, result)
         if cache_key:
             cache.set(cache_key, result, 30 * 86400)
+        if replacements or self.force_uncleanup:
+            self.uncleanup_results(replacements, result)
         return result
 
     def get_error_message(self, exc):
@@ -438,10 +439,10 @@ class MachineTranslation:
 
     def signed_salt(self, appid, secret, text):
         """Generates salt and sign as used by Chinese services."""
-        salt = str(random.randint(0, 10000000000))
+        salt = str(random.randint(0, 10000000000))  # noqa: S311
 
         payload = appid + text + salt + secret
-        digest = md5(payload.encode()).hexdigest()  # nosec
+        digest = md5(payload.encode()).hexdigest()  # noqa: S324, nosec
 
         return salt, digest
 
@@ -454,7 +455,7 @@ class MachineTranslation:
             source, language = self.get_languages(
                 translation.component.source_language, translation.language
             )
-        except UnsupportedLanguage:
+        except UnsupportedLanguageError:
             return
 
         self.account_usage(translation.component.project, delta=len(units))

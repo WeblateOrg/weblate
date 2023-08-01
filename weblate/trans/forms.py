@@ -2,12 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import copy
 import json
 import re
 from datetime import date, datetime, timedelta
 from secrets import token_hex
-from typing import Dict, List, Optional
 
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
@@ -185,7 +186,7 @@ class PluralTextarea(forms.Textarea):
                     name,
                     format_html(
                         'data-value="{}"',
-                        mark_safe(
+                        mark_safe(  # noqa: S308
                             value.encode("ascii", "xmlcharrefreplace").decode("ascii")
                         ),
                     ),
@@ -250,7 +251,7 @@ class PluralTextarea(forms.Textarea):
                     name,
                     format_html(
                         'data-value="{}"',
-                        mark_safe(
+                        mark_safe(  # noqa: S308
                             value.encode("ascii", "xmlcharrefreplace").decode("ascii")
                         ),
                     ),
@@ -278,7 +279,13 @@ class PluralTextarea(forms.Textarea):
         unit = value
         values = unit.get_target_plurals()
         translation = unit.translation
-        lang = translation.language
+        lang_label = lang = translation.language
+        if "zen-mode" in self.attrs:
+            lang_label = format_html(
+                '<a class="language" href="{}">{}</a>',
+                unit.get_absolute_url(),
+                lang_label,
+            )
         plural = translation.plural
         tabindex = self.attrs["tabindex"]
         plurals = unit.get_source_plurals()
@@ -314,7 +321,7 @@ class PluralTextarea(forms.Textarea):
             # Render textare
             textarea = super().render(fieldname, val, attrs, renderer, **kwargs)
             # Label for plural
-            label = lang
+            label = lang_label
             if show_plural_labels:
                 label = format_html("{}, {}", label, plural.get_plural_label(idx))
             elif translation.component.is_multivalue and idx > 0:
@@ -577,6 +584,7 @@ class ZenTranslationForm(TranslationForm):
         self.helper.form_tag = True
         self.helper.disable_csrf = False
         self.helper.layout.append(Field("checksum"))
+        self.fields["target"].widget.attrs["zen-mode"] = True
         if not user.has_perm("unit.edit", unit):
             for field in ["target", "fuzzy", "review"]:
                 self.fields[field].widget.attrs["disabled"] = 1
@@ -778,8 +786,7 @@ class SearchForm(forms.Form):
                 # Convert date to string
                 items.append((param, value.date().isoformat()))
             elif isinstance(value, list):
-                for val in value:
-                    items.append((param, val))
+                items.extend((param, val) for val in value)
             elif isinstance(value, User):
                 items.append((param, value.username))
             elif value:
@@ -1689,7 +1696,7 @@ class ComponentSelectForm(ComponentNameForm):
 class ComponentBranchForm(ComponentSelectForm):
     branch = forms.ChoiceField(label=gettext_lazy("Repository branch"))
 
-    branch_data: Dict[int, List[str]] = {}
+    branch_data: dict[int, list[str]] = {}
     instance = None
 
     def __init__(self, *args, **kwargs):
@@ -1908,8 +1915,9 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
         # Allow all VCS now (to handle zip file upload case)
         self.fields["vcs"].choices = VCS_REGISTRY.get_choices()
         self.discovered = self.perform_discovery(request, kwargs)
-        for i, value in enumerate(self.discovered):
-            self.fields["discovery"].choices.append((i, self.render_choice(value)))
+        self.fields["discovery"].choices.extend(
+            (i, self.render_choice(value)) for i, value in enumerate(self.discovered)
+        )
 
     def perform_discovery(self, request, kwargs):
         if "data" in kwargs and "create_discovery" in request.session:
@@ -2255,9 +2263,7 @@ class NewUnitBaseForm(forms.Form):
         required=False,
     )
 
-    def __init__(
-        self, translation, user, tabindex: Optional[int] = None, *args, **kwargs
-    ):
+    def __init__(self, translation, user, tabindex: int | None = None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.tabindex = tabindex or 200
         self.translation = translation
@@ -2309,9 +2315,7 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
         required=True,
     )
 
-    def __init__(
-        self, translation, user, tabindex: Optional[int] = None, *args, **kwargs
-    ):
+    def __init__(self, translation, user, tabindex: int | None = None, *args, **kwargs):
         super().__init__(translation, user, tabindex, *args, **kwargs)
         self.fields["context"].widget.attrs["tabindex"] = self.tabindex
         self.fields["source"].widget.attrs["tabindex"] = self.tabindex + 1
@@ -2337,9 +2341,7 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
         required=True,
     )
 
-    def __init__(
-        self, translation, user, tabindex: Optional[int] = None, *args, **kwargs
-    ):
+    def __init__(self, translation, user, tabindex: int | None = None, *args, **kwargs):
         super().__init__(translation, user, tabindex, *args, **kwargs)
         self.fields["context"].widget.attrs["tabindex"] = self.tabindex
         self.fields["context"].label = translation.component.context_label
@@ -2359,9 +2361,7 @@ class NewBilingualUnitForm(NewBilingualSourceUnitForm):
         required=True,
     )
 
-    def __init__(
-        self, translation, user, tabindex: Optional[int] = None, *args, **kwargs
-    ):
+    def __init__(self, translation, user, tabindex: int | None = None, *args, **kwargs):
         super().__init__(translation, user, tabindex, *args, **kwargs)
         self.fields["target"].widget.attrs["tabindex"] = self.tabindex + 2
         self.fields["target"].widget.profile = user.profile
@@ -2369,9 +2369,7 @@ class NewBilingualUnitForm(NewBilingualSourceUnitForm):
 
 
 class NewBilingualGlossarySourceUnitForm(GlossaryAddMixin, NewBilingualSourceUnitForm):
-    def __init__(
-        self, translation, user, tabindex: Optional[int] = None, *args, **kwargs
-    ):
+    def __init__(self, translation, user, tabindex: int | None = None, *args, **kwargs):
         if kwargs["initial"] is None:
             kwargs["initial"] = {}
         kwargs["initial"]["terminology"] = True

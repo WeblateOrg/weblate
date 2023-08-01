@@ -2,9 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from calendar import monthrange
 from datetime import date, timedelta
-from typing import Dict
 
 from django.core.cache import cache
 from django.utils import timezone
@@ -91,7 +92,7 @@ class MetricsWrapper:
     def contributors(self):
         return self.current.get("contributors", 0)
 
-    def calculate_trend_percent(self, key, modkey, base: Dict, origin: Dict):
+    def calculate_trend_percent(self, key, modkey, base: dict, origin: dict):
         total = base.get(key, 0)
         if not total:
             return 0
@@ -110,7 +111,7 @@ class MetricsWrapper:
         past = 100 * past / divisor
         return total - past
 
-    def calculate_trend(self, key, base: Dict, origin: Dict):
+    def calculate_trend(self, key, base: dict, origin: dict):
         total = base.get(key, 0)
         if not total:
             return 0
@@ -266,26 +267,23 @@ class MetricsWrapper:
                 year -= 1
 
         cached_results = cache.get_many(prefetch)
-        result = []
-        for year, month in reversed(months):
-            result.append(
-                {
-                    "month": month,
-                    "year": year,
-                    "previous_year": year - 1,
-                    "month_name": MONTH_NAMES[month - 1],
-                    "start_date": date(year, month, 1),
-                    "end_date": date(year, month, monthrange(year, month)[1]),
-                    "previous_start_date": date(year - 1, month, 1),
-                    "previous_end_date": date(
-                        year - 1, month, monthrange(year - 1, month)[1]
-                    ),
-                    "current": self.get_month_activity(year, month, cached_results),
-                    "previous": self.get_month_activity(
-                        year - 1, month, cached_results
-                    ),
-                }
-            )
+        result = [
+            {
+                "month": month,
+                "year": year,
+                "previous_year": year - 1,
+                "month_name": MONTH_NAMES[month - 1],
+                "start_date": date(year, month, 1),
+                "end_date": date(year, month, monthrange(year, month)[1]),
+                "previous_start_date": date(year - 1, month, 1),
+                "previous_end_date": date(
+                    year - 1, month, monthrange(year - 1, month)[1]
+                ),
+                "current": self.get_month_activity(year, month, cached_results),
+                "previous": self.get_month_activity(year - 1, month, cached_results),
+            }
+            for year, month in reversed(months)
+        ]
 
         maximum = max(1, *(max(item["current"], item["previous"]) for item in result))
         for item in result:

@@ -6,14 +6,14 @@
 
 import os.path
 
-from weblate.formats.tests.test_formats import AutoFormatTest
+from weblate.formats.tests.test_formats import BaseFormatTest
 from weblate.formats.txt import AppStoreFormat
 from weblate.trans.tests.utils import get_test_file
 
 APPSTORE_FILE = get_test_file("short_description.txt")
 
 
-class AppStoreFormatTest(AutoFormatTest):
+class AppStoreFormatTest(BaseFormatTest):
     FORMAT = AppStoreFormat
     FILE = APPSTORE_FILE
     MIME = "text/plain"

@@ -12,7 +12,7 @@ translation component.
    You can also configure add-ons using :ref:`API <addons-api>`,
    :setting:`DEFAULT_ADDONS`, or :wladmin:`install_addon`.
 
-.. image:: /screenshots/addons.png
+.. image:: /screenshots/addons.webp
 
 Built-in add-ons
 ++++++++++++++++
@@ -223,7 +223,7 @@ You can use Django template markup in all filename fields, for example:
 Once you hit :guilabel:`Save`, a preview of matching components will be presented,
 from where you can check whether the configuration actually matches your needs:
 
-.. image:: /screenshots/addon-discovery.png
+.. image:: /screenshots/addon-discovery.webp
 
 Component discovery examples
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

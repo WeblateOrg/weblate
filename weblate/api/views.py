@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os.path
-from typing import Optional, Tuple
 
 from celery.result import AsyncResult
 from django.conf import settings
@@ -155,15 +156,13 @@ class MultipleFieldMixin:
         queryset = self.get_queryset()
         # Apply any filter backends
         queryset = self.filter_queryset(queryset)
-        lookup = {}
-        for field in self.lookup_fields:
-            lookup[field] = self.kwargs[field]
+        lookup = {field: self.kwargs[field] for field in self.lookup_fields}
         # Lookup the object
         return get_object_or_404(queryset, **lookup)
 
 
 class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
-    raw_urls: Tuple[str, ...] = ()
+    raw_urls: tuple[str, ...] = ()
     raw_formats = EXPORTERS
 
     def perform_content_negotiation(self, request, force=False):
@@ -824,14 +823,19 @@ class ComponentViewSet(
             try:
                 language = Language.objects.get(code=language_code)
             except Language.DoesNotExist:
-                raise ValidationError(
-                    f"No language code {language_code!r} found!", "invalid"
-                )
+                raise ValidationError(f"No language code {language_code!r} found!")
 
             if not obj.can_add_new_language(request.user):
                 self.permission_denied(request, message=obj.new_lang_error_message)
 
             translation = obj.add_new_language(language, request)
+            if translation is None:
+                storage = get_messages(request)
+                error = f"Failed to add {language_code!r}!"
+                if storage:
+                    error = "\n".join(m.message for m in storage)
+                raise ValidationError(error)
+
             serializer = TranslationSerializer(
                 translation, context={"request": request}, remove_fields=("component",)
             )
@@ -1590,44 +1594,44 @@ class Search(APIView):
         results = []
         query = request.GET.get("q")
         if query:
-            for project in projects.search(query)[:5]:
-                results.append(
-                    {
-                        "url": project.get_absolute_url(),
-                        "name": project.name,
-                        "category": gettext("Project"),
-                    }
-                )
-            for component in components.search(query)[:5]:
-                results.append(
-                    {
-                        "url": component.get_absolute_url(),
-                        "name": str(component),
-                        "category": gettext("Component"),
-                    }
-                )
-            for user in User.objects.search(query, parser="plain")[:5]:
-                results.append(
-                    {
-                        "url": user.get_absolute_url(),
-                        "name": user.username,
-                        "category": gettext("User"),
-                    }
-                )
-            for language in Language.objects.search(query)[:5]:
-                results.append(
-                    {
-                        "url": language.get_absolute_url(),
-                        "name": language.name,
-                        "category": gettext("Language"),
-                    }
-                )
+            results.extend(
+                {
+                    "url": project.get_absolute_url(),
+                    "name": project.name,
+                    "category": gettext("Project"),
+                }
+                for project in projects.search(query)[:5]
+            )
+            results.extend(
+                {
+                    "url": component.get_absolute_url(),
+                    "name": str(component),
+                    "category": gettext("Component"),
+                }
+                for component in components.search(query)[:5]
+            )
+            results.extend(
+                {
+                    "url": user.get_absolute_url(),
+                    "name": user.username,
+                    "category": gettext("User"),
+                }
+                for user in User.objects.search(query, parser="plain")[:5]
+            )
+            results.extend(
+                {
+                    "url": language.get_absolute_url(),
+                    "name": language.name,
+                    "category": gettext("Language"),
+                }
+                for language in Language.objects.search(query)[:5]
+            )
 
         return Response(results)
 
 
 class TasksViewSet(ViewSet):
-    def get_task(self, request, pk, permission: Optional[str] = None) -> AsyncResult:
+    def get_task(self, request, pk, permission: str | None = None) -> AsyncResult:
         task = AsyncResult(str(pk))
         result = task.result
         if task.state == "PENDING" or isinstance(result, Exception):

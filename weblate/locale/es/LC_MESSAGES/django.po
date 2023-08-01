@@ -1,7 +1,6 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 # Weblate localization.
 # Laura Arjona Reina <larjona@larjona.net>, 2018.
 # Franco <francobenedetti.59+github1@gmail.com>, 2018, 2019, 2020, 2021, 2022.
@@ -18,7 +17,7 @@
 # Eduardo de Miguel <shide.shugo@gmail.com>, 2021.
 # Joaquin Gomez <joa97@hotmail.com.ar>, 2021.
 # David Leal <halfpacho@gmail.com>, 2021, 2022, 2023.
-# Jorge Maldonado Ventura <jorgesumle@freakspot.net>, 2021.
+# Jorge Maldonado Ventura <jorgesumle@freakspot.net>, 2021, 2023.
 # Vladimir Knobel <vladimir.knobel@gmail.com>, 2021.
 # Javier Llorente <javier@opensuse.org>, 2021, 2023.
 # Adrián López Galera <adrlopgal@disroot.org>, 2021.
@@ -31,13 +30,14 @@
 # gallegonovato <fran-carro@hotmail.es>, 2022, 2023.
 # j_chan <jennifer.chan.p@gmail.com>, 2023.
 # Juan <benitesjn@gmail.com>, 2023.
+# David Obando <loquisgg123@protonmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 07:48+0000\n"
-"PO-Revision-Date: 2023-06-08 03:10+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"PO-Revision-Date: 2023-07-10 21:55+0000\n"
+"Last-Translator: Jorge Maldonado Ventura <jorgesumle@freakspot.net>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -45,7 +45,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -147,10 +147,8 @@ msgstr ""
 "contrario es posible que no podamos tramitar su solicitud."
 
 #: weblate/accounts/forms.py:414
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "E-mail with a confirmation link will be sent here."
-msgstr "El mensaje de activación se enviará aquí."
+msgstr "El mensaje con un enlace de confirmación se enviará aquí."
 
 #: weblate/accounts/forms.py:456
 msgid "New password"
@@ -515,24 +513,22 @@ msgstr ""
 
 #: weblate/accounts/models.py:400
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: weblate/accounts/models.py:403
 msgctxt "Theme selection"
 msgid "Sync with system"
-msgstr ""
+msgstr "Sincronizar con el sistema"
 
 #: weblate/accounts/models.py:404
-#, fuzzy
-#| msgid "Insights"
 msgctxt "Theme selection"
 msgid "Light"
-msgstr "Seguimiento"
+msgstr "Claro"
 
 #: weblate/accounts/models.py:405
 msgctxt "Theme selection"
 msgid "Dark"
-msgstr ""
+msgstr "Oscuro"
 
 #: weblate/accounts/models.py:409
 msgid "Hide completed translations on the dashboard"
@@ -1041,16 +1037,12 @@ msgstr ""
 "nueva."
 
 #: weblate/accounts/views.py:1198
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the verification token "
-#| "probably expired."
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
 msgstr ""
 "Pruebe a registrarse de nuevo para verificar su identidad; probablemente ha "
-"vencido la ficha de verificación."
+"vencido la ficha de confirmación."
 
 #: weblate/accounts/views.py:1206
 msgid "Could not authenticate due to invalid session state."
@@ -1646,16 +1638,12 @@ msgid "Fills in translation strings with source string."
 msgstr "Completa las cadenas de traducción con las de origen."
 
 #: weblate/addons/generate.py:216
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Prerrellenar traducción con original"
+msgstr "Llenar las líneas de solo lectura con la fuente"
 
 #: weblate/addons/generate.py:218
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Completa las cadenas de traducción con las de origen."
+msgstr "Completa las cadenas de traducción de solo lectura con las de origen."
 
 #: weblate/addons/gettext.py:26
 msgid "Generate MO files"
@@ -1797,8 +1785,8 @@ msgstr "Personalizar la salida XML"
 #| "newlines."
 msgid "Allows adjusting XML output behavior, for example closing tags."
 msgstr ""
-"Permite ajustar el comportamiento de salida de YAML, como la longitud de los "
-"renglones y los saltos."
+"Permite ajustar el comportamiento de salida de XML, por ejemplo cerrando "
+"etiquetas."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"

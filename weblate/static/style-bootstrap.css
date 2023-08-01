@@ -1675,10 +1675,7 @@ a.language:hover {
 .token.function-name,
 .token.constant,
 .token.symbol,
-.token.deleted {
-  color: #c92c2c;
-}
-
+.token.deleted,
 .token.selector,
 .token.attr-name,
 .token.string,
@@ -1692,15 +1689,13 @@ a.language:hover {
 .token.operator,
 .token.entity,
 .token.url,
-.token.variable {
-  color: #a67f59;
-  background: rgba(255, 255, 255, 0.5);
-}
-
+.token.variable,
 .token.atrule,
 .token.attr-value,
 .token.keyword,
-.token.class-name {
+.token.class-name,
+.language-css .token.string,
+.style .token.string {
   color: #1990b8;
 }
 
@@ -1709,13 +1704,8 @@ a.language:hover {
   color: #e90;
 }
 
-.language-css .token.string,
-.style .token.string {
-  color: #a67f59;
-  background: rgba(255, 255, 255, 0.5);
-}
 .token.namespace {
-  opacity: 0.7;
+  opacity: 0.8;
 }
 .markdown p:last-child {
   margin-bottom: 0;
@@ -1896,6 +1886,18 @@ h5.list-group-item-heading {
   margin-top: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.sort-skip .btn-sm {
+  padding: 0;
+}
+
+.auth-token {
+  filter: blur(5px);
+  transition: all 70ms linear;
+}
+.auth-token.visible {
+  filter: none;
 }
 
 @-webkit-keyframes flags-updated {

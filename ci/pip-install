@@ -19,7 +19,7 @@ if [ "${1:-latest}" = migrations ] ; then
     # shellcheck disable=SC2046
     pip install $(grep -E '^(psycopg|mysqlclient)' requirements-optional.txt)
     # shellcheck disable=SC2046
-    pip install $(grep -E '^coverage[>=<]' requirements-test.txt)
+    pip install $(grep -E '^coverage[>=<]' requirements-ci.txt)
     pip install -r requirements.txt
 elif [ "${1:-latest}" = minimal ] ; then
     # Build list of minimal requirements

@@ -4,7 +4,7 @@
 
 """Definition of permissions and default roles and groups."""
 
-from typing import Optional
+from __future__ import annotations
 
 from django.utils.translation import gettext_noop
 
@@ -142,7 +142,7 @@ GLOBAL_PERMISSIONS = (
 GLOBAL_PERM_NAMES = {perm[0] for perm in GLOBAL_PERMISSIONS}
 
 
-def filter_perms(prefix: str, exclude: Optional[set] = None):
+def filter_perms(prefix: str, exclude: set | None = None):
     """Filter permission based on prefix."""
     result = {perm[0] for perm in PERMISSIONS if perm[0].startswith(prefix)}
     if exclude:

@@ -4,9 +4,10 @@
 
 """Automatic detection of file format."""
 
+from __future__ import annotations
+
 import os.path
 from fnmatch import fnmatch
-from typing import Optional
 
 from translate.storage import factory
 
@@ -85,8 +86,8 @@ class AutodetectFormat(TTKitFormat):
         cls,
         storefile,
         template_store=None,
-        language_code: Optional[str] = None,
-        source_language: Optional[str] = None,
+        language_code: str | None = None,
+        source_language: str | None = None,
         is_template: bool = False,
     ):
         """

@@ -14,7 +14,7 @@ on:
     - .github/workflows/label-sync.yml
 
 permissions:
-  contents: read
+  issues: write
 
 jobs:
   build:
@@ -22,9 +22,6 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
-    - uses: micnncim/action-label-syncer@v1.3.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_REPOSITORY: ${{ github.repository }}
+    - uses: srealmoreno/label-sync-action@v1
       with:
-        manifest: .github/labels.yml
+        clean-labels: true

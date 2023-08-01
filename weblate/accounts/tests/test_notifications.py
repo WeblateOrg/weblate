@@ -4,8 +4,9 @@
 
 """Tests for notitifications."""
 
+from __future__ import annotations
+
 from copy import deepcopy
-from typing import List, Optional
 
 from django.conf import settings
 from django.core import mail
@@ -83,7 +84,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
     def validate_notifications(
-        self, count, subject: Optional[str] = None, subjects: Optional[List[str]] = None
+        self, count, subject: str | None = None, subjects: list[str] | None = None
     ):
         for i, message in enumerate(mail.outbox):
             self.assertNotIn("TEMPLATE_BUG", message.subject)

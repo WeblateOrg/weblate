@@ -2,8 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
-from typing import Generator, List, Optional, Tuple
+from functools import reduce
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.cache import cache
@@ -48,6 +51,9 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 SIMPLE_FILTERS = {
     "fuzzy": {"state": STATE_FUZZY},
@@ -360,13 +366,13 @@ class Unit(models.Model, LoggerMixin):
         self,
         same_content: bool = False,
         run_checks: bool = True,
-        propagate_checks: Optional[bool] = None,
+        propagate_checks: bool | None = None,
         force_insert: bool = False,
         force_update: bool = False,
         only_save: bool = False,
         sync_terminology: bool = True,
         using=None,
-        update_fields: Optional[List[str]] = None,
+        update_fields: list[str] | None = None,
     ):
         """Wrapper around save to run checks or update fulltext."""
         # Store number of words
@@ -415,9 +421,7 @@ class Unit(models.Model, LoggerMixin):
             self.sync_terminology()
 
     def get_absolute_url(self):
-        return "{}?checksum={}".format(
-            self.translation.get_translate_url(), self.checksum
-        )
+        return f"{self.translation.get_translate_url()}?checksum={self.checksum}"
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
@@ -1035,7 +1039,7 @@ class Unit(models.Model, LoggerMixin):
             # Update user stats
             change.author.profile.increase_count("translated")
 
-            # Force commiting on completing translation
+            # Force committing on completing translation
             translated = self.translation.stats.translated
             if old_translated < translated and translated == self.translation.stats.all:
                 Change.objects.create(
@@ -1195,7 +1199,7 @@ class Unit(models.Model, LoggerMixin):
             if not comment.resolved and comment.unit_id == self.id
         ]
 
-    def run_checks(self, propagate: Optional[bool] = None):  # noqa: C901
+    def run_checks(self, propagate: bool | None = None):  # noqa: C901
         """Update checks for this unit."""
         needs_propagate = bool(propagate)
 
@@ -1205,12 +1209,7 @@ class Unit(models.Model, LoggerMixin):
         old_checks = self.all_checks_names
         create = []
 
-        if self.translation.component.is_glossary:
-            # We might eventually run some checks on glossary
-            checks = {}
-            meth = "check_source"
-            args = src, self
-        elif self.is_source:
+        if self.is_source:
             checks = CHECKS.source
             meth = "check_source"
             args = src, self
@@ -1218,6 +1217,9 @@ class Unit(models.Model, LoggerMixin):
             checks = {} if self.readonly else CHECKS.target
             meth = "check_target"
             args = src, tgt, self
+        if self.translation.component.is_glossary:
+            # We might eventually run some checks on glossary
+            checks = {}
 
         # Run all checks
         for check, check_obj in checks.items():
@@ -1226,19 +1228,18 @@ class Unit(models.Model, LoggerMixin):
                 if check in old_checks:
                     # We already have this check
                     old_checks.remove(check)
-                    # Propagation is handled in
-                    # weblate.checks.models.remove_complimentary_checks
+                    # Propagation is handled later in this method
                 else:
                     # Create new check
                     create.append(Check(unit=self, dismissed=False, name=check))
-                    needs_propagate |= check_obj.propagates
+                    needs_propagate |= bool(check_obj.propagates)
 
         if create:
             Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
 
         # Propagate checks which need it (for example consistency)
         if (needs_propagate and propagate is not False) or propagate is True:
-            for unit in self.same_source_units:
+            for unit in self.same_source_units | self.same_target_units:
                 try:
                     # Ensure we get a fresh copy of checks
                     # It might be modified meanwhile by propagating to other units
@@ -1256,18 +1257,26 @@ class Unit(models.Model, LoggerMixin):
         if old_checks:
             Check.objects.filter(unit=self, name__in=old_checks).delete()
             propagated_old_checks = []
+            propagated_filters = set()
             for check_name in old_checks:
                 try:
-                    if CHECKS[check_name].propagates:
-                        propagated_old_checks.append(check_name)
+                    check_propagates = CHECKS[check_name].propagates
                 except KeyError:
                     # Skip disabled/removed checks
                     continue
+                if check_propagates:
+                    propagated_filters.add(check_propagates)
+                    propagated_old_checks.append(check_name)
+            units = reduce(
+                lambda x, y: x | getattr(self, y),
+                propagated_filters,
+                Unit.objects.none(),
+            )
             if propagated_old_checks:
                 Check.objects.filter(
-                    unit__in=self.same_source_units, name__in=propagated_old_checks
+                    unit__in=units, name__in=propagated_old_checks
                 ).delete()
-                for other in self.same_source_units:
+                for other in units:
                     other.translation.invalidate_cache()
                     other.clear_checks_cache()
 
@@ -1508,6 +1517,20 @@ class Unit(models.Model, LoggerMixin):
             )
         )
 
+    @cached_property
+    def same_target_units(self):
+        translation = self.translation
+        component = translation.component
+        return Unit.objects.filter(
+            target__md5=MD5(Value(self.target)),
+            translation__component__project_id=component.project_id,
+            translation__language_id=translation.language_id,
+            translation__component__source_language_id=component.source_language_id,
+            translation__component__allow_translation_propagation=True,
+            translation__plural_id=translation.plural_id,
+            translation__plural__number__gt=1,
+        ).exclude(source__md5=MD5(Value(self.source)))
+
     def get_max_length(self):
         """Returns maximal translation length."""
         # Fallback to reasonably big value
@@ -1559,7 +1582,7 @@ class Unit(models.Model, LoggerMixin):
             return get_anonymous(), timezone.now()
         return change.author or get_anonymous(), change.timestamp
 
-    def get_locations(self) -> Generator[Tuple[str, str, str], None, None]:
+    def get_locations(self) -> Generator[tuple[str, str, str], None, None]:
         """Returns list of location filenames."""
         for location in self.location.split(","):
             location = location.strip()

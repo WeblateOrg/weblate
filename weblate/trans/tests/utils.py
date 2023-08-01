@@ -2,13 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os.path
 import shutil
 import sys
 from datetime import timedelta
 from tarfile import TarFile
 from tempfile import mkdtemp
-from typing import Set
 from unittest import SkipTest
 
 from celery.contrib.testing.tasks import ping
@@ -65,7 +66,7 @@ def create_another_user():
 class RepoTestMixin:
     """Mixin for testing with test repositories."""
 
-    updated_base_repos: Set[str] = set()
+    updated_base_repos: set[str] = set()
     CREATE_GLOSSARIES: bool = False
 
     local_repo_path = "local:"

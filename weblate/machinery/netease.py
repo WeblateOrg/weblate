@@ -38,12 +38,12 @@ class NeteaseSightTranslation(MachineTranslation):
 
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
-        nonce = str(random.randint(1000, 99999999))
+        nonce = str(random.randint(1000, 99999999))  # noqa: S311
         timestamp = str(int(1000 * time.monotonic()))
 
         sign = self.settings["secret"] + nonce + timestamp
         sign = sign.encode()
-        sign = sha1(sign).hexdigest()  # nosec
+        sign = sha1(sign).hexdigest()  # noqa: S324, nosec
 
         return {
             "Content-Type": "application/json",

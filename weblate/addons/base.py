@@ -2,11 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import subprocess
 from contextlib import suppress
 from itertools import chain
-from typing import List, Optional, Tuple
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -34,7 +35,7 @@ from weblate.utils.validators import validate_filename
 class BaseAddon:
     """Base class for Weblate add-ons."""
 
-    events: Tuple[int, ...] = ()
+    events: tuple[int, ...] = ()
     settings_form = None
     name = ""
     compat = {}
@@ -45,7 +46,7 @@ class BaseAddon:
     project_scope = False
     repo_scope = False
     has_summary = False
-    alert: Optional[str] = None
+    alert: str | None = None
     trigger_update = False
     stay_on_create = False
 
@@ -262,7 +263,7 @@ class BaseAddon:
             component.delete_alert(self.alert)
 
     def commit_and_push(
-        self, component, files: Optional[List[str]] = None, skip_push: bool = False
+        self, component, files: list[str] | None = None, skip_push: bool = False
     ):
         if files is None:
             files = list(
@@ -366,7 +367,7 @@ class UpdateBaseAddon(BaseAddon):
         self.commit_and_push(component, skip_push=skip_push)
 
 
-class TestException(Exception):
+class TestError(Exception):
     pass
 
 
@@ -379,7 +380,7 @@ class TestCrashAddon(UpdateBaseAddon):
 
     def update_translations(self, component, previous_head):
         if previous_head:
-            raise TestException("Test error")
+            raise TestError("Test error")
 
     @classmethod
     def can_install(cls, component, user):  # noqa: ARG003

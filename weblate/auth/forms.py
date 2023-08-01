@@ -145,12 +145,7 @@ class BaseTeamForm(forms.ModelForm):
                     self.instance, field
                 ):
                     raise ValidationError(
-                        {
-                            field: gettext(
-                                "Changing of %s is prohibited for built-in teams."
-                            )
-                            % field
-                        }
+                        {field: gettext("Cannot change this on a built-in team.")}
                     )
 
     def save(self, commit=True, project=None):

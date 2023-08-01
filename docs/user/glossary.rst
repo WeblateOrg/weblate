@@ -37,11 +37,11 @@ component.
 The glossary component looks like any other component in Weblate with added
 colored label:
 
-.. image:: /screenshots/glossary-component.png
+.. image:: /screenshots/glossary-component.webp
 
 You can browse all glossary terms:
 
-.. image:: /screenshots/glossary-browse.png
+.. image:: /screenshots/glossary-browse.webp
 
 or edit them as any translations.
 
@@ -51,7 +51,7 @@ Glossary terms
 Glossary terms are translated the same way regular strings are. You can
 toggle additional features using the :guilabel:`Tools` menu for each term.
 
-.. image:: /screenshots/glossary-tools.png
+.. image:: /screenshots/glossary-tools.webp
 
 Untranslatable terms
 ++++++++++++++++++++

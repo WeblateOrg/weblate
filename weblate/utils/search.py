@@ -2,11 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 from datetime import datetime, timedelta
 from functools import lru_cache, reduce
 from itertools import chain
-from typing import Dict, Set
 
 from dateutil.parser import ParserError, parse
 from django.db import transaction
@@ -127,10 +128,10 @@ def build_parser(term_expression: object):
 
 
 class BaseTermExpr:
-    PLAIN_FIELDS: Set[str] = set()
-    NONTEXT_FIELDS: Dict[str, str] = {}
-    STRING_FIELD_MAP: Dict[str, str] = {}
-    EXACT_FIELD_MAP: Dict[str, str] = {}
+    PLAIN_FIELDS: set[str] = set()
+    NONTEXT_FIELDS: dict[str, str] = {}
+    STRING_FIELD_MAP: dict[str, str] = {}
+    EXACT_FIELD_MAP: dict[str, str] = {}
     enable_fulltext = True
 
     def __init__(self, tokens):
@@ -158,8 +159,8 @@ class BaseTermExpr:
             return int(text)
         try:
             return STATE_NAMES[text]
-        except KeyError:
-            raise ValueError(gettext("Unsupported state: {}").format(text))
+        except KeyError as exc:
+            raise ValueError(gettext("Unsupported state: {}").format(text)) from exc
 
     def convert_bool(self, text):
         ltext = text.lower()
@@ -228,7 +229,7 @@ class BaseTermExpr:
                 ),
             )
         except ParserError as error:
-            raise ValueError(gettext("Invalid timestamp: {}").format(error))
+            raise ValueError(gettext("Invalid timestamp: {}").format(error)) from error
         if result.hour == 5 and result.minute == 55 and result.second == 55:
             return (
                 result.replace(hour=0, minute=0, second=0, microsecond=0),
@@ -270,7 +271,7 @@ class BaseTermExpr:
     def convert_non_field(self):
         raise NotImplementedError
 
-    def as_query(self, context: Dict):
+    def as_query(self, context: dict):
         field = self.field
         match = self.match
         # Simple term based search
@@ -294,7 +295,7 @@ class BaseTermExpr:
             except re.error as error:
                 raise ValueError(
                     gettext("Invalid regular expression: {}").format(error)
-                )
+                ) from error
             from weblate.trans.models import Unit
 
             with transaction.atomic():
@@ -303,7 +304,7 @@ class BaseTermExpr:
                         test__trgm_regex=match.expr
                     ).exists()
                 except DataError as error:
-                    raise ValueError(str(error))
+                    raise ValueError(str(error)) from error
             return Q(**{self.field_name(field, "trgm_regex"): match.expr})
 
         if isinstance(match, tuple):
@@ -327,16 +328,16 @@ class BaseTermExpr:
     def field_extra(self, field, query, match):
         return query
 
-    def is_field(self, text, context: Dict):
+    def is_field(self, text, context: dict):
         raise ValueError(f"Unsupported is lookup: {text}")
 
-    def has_field(self, text, context: Dict):  # noqa: C901
+    def has_field(self, text, context: dict):  # noqa: C901
         raise ValueError(f"Unsupported has lookup: {text}")
 
 
 class UnitTermExpr(BaseTermExpr):
-    PLAIN_FIELDS: Set[str] = {"source", "target", "context", "note", "location"}
-    NONTEXT_FIELDS: Dict[str, str] = {
+    PLAIN_FIELDS: set[str] = {"source", "target", "context", "note", "location"}
+    NONTEXT_FIELDS: dict[str, str] = {
         "priority": "priority",
         "id": "id",
         "state": "state",
@@ -347,14 +348,14 @@ class UnitTermExpr(BaseTermExpr):
         "added": "timestamp",
         "change_action": "change__action",
     }
-    STRING_FIELD_MAP: Dict[str, str] = {
+    STRING_FIELD_MAP: dict[str, str] = {
         "suggestion": "suggestion__target",
         "comment": "comment__comment",
         "resolved_comment": "comment__comment",
         "key": "context",
         "explanation": "source_unit__explanation",
     }
-    EXACT_FIELD_MAP: Dict[str, str] = {
+    EXACT_FIELD_MAP: dict[str, str] = {
         "check": "check__name",
         "dismissed_check": "check__name",
         "language": "translation__language__code",
@@ -367,7 +368,7 @@ class UnitTermExpr(BaseTermExpr):
         "screenshot": "source_unit__screenshots__name",
     }
 
-    def is_field(self, text, context: Dict):
+    def is_field(self, text, context: dict):
         if text in ("read-only", "readonly"):
             return Q(state=STATE_READONLY)
         if text == "approved":
@@ -383,7 +384,7 @@ class UnitTermExpr(BaseTermExpr):
 
         return super().is_field(text, context)
 
-    def has_field(self, text, context: Dict):  # noqa: C901
+    def has_field(self, text, context: dict):  # noqa: C901
         if text == "plural":
             return Q(source__search=PLURAL_SEPARATOR)
         if text == "suggestion":
@@ -491,11 +492,11 @@ class UnitTermExpr(BaseTermExpr):
 
 
 class UserTermExpr(BaseTermExpr):
-    PLAIN_FIELDS: Set[str] = {"username", "full_name"}
-    NONTEXT_FIELDS: Dict[str, str] = {
+    PLAIN_FIELDS: set[str] = {"username", "full_name"}
+    NONTEXT_FIELDS: dict[str, str] = {
         "joined": "date_joined",
     }
-    EXACT_FIELD_MAP: Dict[str, str] = {
+    EXACT_FIELD_MAP: dict[str, str] = {
         "language": "profile__languages__code",
         "translates": "change__language__code",
     }
@@ -515,7 +516,7 @@ class UserTermExpr(BaseTermExpr):
 
         return super().field_extra(field, query, match)
 
-    def contributes_field(self, text, context: Dict):
+    def contributes_field(self, text, context: dict):
         if "/" in text:
             project, component = text.split("/", 1)
             query = Q(change__project__slug__iexact=project) & Q(
@@ -529,7 +530,7 @@ class UserTermExpr(BaseTermExpr):
 
 
 class SuperuserUserTermExpr(UserTermExpr):
-    STRING_FIELD_MAP: Dict[str, str] = {
+    STRING_FIELD_MAP: dict[str, str] = {
         "email": "social_auth__verifiedemail__email",
     }
 
@@ -540,7 +541,7 @@ class SuperuserUserTermExpr(UserTermExpr):
             | Q(social_auth__verifiedemail__email__iexact=self.match)
         )
 
-    def is_field(self, text, context: Dict):
+    def is_field(self, text, context: dict):
         if text == "active":
             return Q(is_active=True)
         if text == "bot":
@@ -556,7 +557,7 @@ PARSERS = {
 }
 
 
-def parser_to_query(obj, context: Dict):
+def parser_to_query(obj, context: dict):
     # Simple lookups
     if isinstance(obj, BaseTermExpr):
         return obj.as_query(context)

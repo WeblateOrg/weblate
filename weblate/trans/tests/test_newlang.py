@@ -34,8 +34,9 @@ class NewLangTest(ViewTestCase):
 
         # Test there is no add form
         response = self.client.get(reverse("component", kwargs=self.kw_component))
-        self.assertContains(response, "Start new translation")
+        self.assertNotContains(response, "Start new translation")
         self.assertContains(response, "permission to start a new translation")
+        self.assertNotContains(response, "/new-lang/")
 
         # Test adding fails
         response = self.client.post(
@@ -51,7 +52,8 @@ class NewLangTest(ViewTestCase):
         self.component.save()
 
         response = self.client.get(reverse("component", kwargs=self.kw_component))
-        self.assertContains(response, "Start new translation")
+        self.assertNotContains(response, "Start new translation")
+        self.assertContains(response, "permission to start a new translation")
         self.assertNotContains(response, "/new-lang/")
 
     def test_url(self):

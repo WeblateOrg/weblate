@@ -37,14 +37,12 @@
   {% include "screenshots/screenshot_sources_search.html" %}
   </div>
   <div class="panel-footer">
-    {% if has_ocr %}
     <div class="pull-right flip">
     <form class="form-inline">
       {% csrf_token %}
       <button data-href="{% url 'screenshot-js-ocr' pk=object.pk %}" class="btn btn-warning" id="screenshots-auto">{% trans "Automatically recognize" %}</button>
     </form>
     </div>
-    {% endif %}
     <form class="form-inline double-submission">
       {% csrf_token %}
       <input type="text" required="yes" name="q" id="search-input" placeholder="{% trans "Source string search" %}" />

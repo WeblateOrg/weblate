@@ -2,12 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import re
 from collections import defaultdict
 from datetime import timedelta
 from importlib import import_module
-from typing import Optional
 
 import social_django.utils
 from django.conf import settings
@@ -116,7 +117,9 @@ Message from %(name)s <%(email)s>:
 """
 
 
-TEMPLATE_FOOTER = """
+MESSAGE_TEMPLATE = """
+{message}
+
 --
 User: {username}
 IP address: {address}
@@ -198,13 +201,11 @@ def mail_admins_contact(request, subject, message, context, sender, to):
 
     mail = EmailMultiAlternatives(
         subject=f"{settings.EMAIL_SUBJECT_PREFIX}{subject % context}",
-        body="{}\n{}".format(
-            message % context,
-            TEMPLATE_FOOTER.format(
-                address=get_ip_address(request),
-                agent=get_user_agent(request),
-                username=request.user.username,
-            ),
+        body=MESSAGE_TEMPLATE.format(
+            message=message % context,
+            address=get_ip_address(request),
+            agent=get_user_agent(request),
+            username=request.user.username,
         ),
         to=to,
         **kwargs,
@@ -916,7 +917,7 @@ def reset_password_set(request):
     )
 
 
-def get_registration_hint(email: str) -> Optional[str]:
+def get_registration_hint(email: str) -> str | None:
     domain = email.rsplit("@", 1)[-1]
     return settings.REGISTRATION_HINTS.get(domain)
 
@@ -1310,6 +1311,7 @@ def social_complete(request, backend):  # noqa: C901
             ),
         )
     except ValidationError as error:
+        report_error()
         return registration_fail(request, str(error))
 
 

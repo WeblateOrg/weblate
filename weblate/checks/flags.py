@@ -1,10 +1,12 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+# ruff: noqa: S105
+
+from __future__ import annotations
 
 import re
 from functools import lru_cache
-from typing import Tuple
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy
@@ -77,7 +79,7 @@ def _parse_flags_text(flags: str):
     state = 0
     name = None
     value = []
-    tokens = list(FlagsParser.parseString(flags, parseAll=True))
+    tokens = list(FlagsParser.parse_string(flags, parseAll=True))
     for pos, token in enumerate(tokens):
         if state == 0 and token == ",":
             pass
@@ -137,7 +139,7 @@ def _parse_flags_text(flags: str):
 
 
 @lru_cache(maxsize=512)
-def parse_flags_text(flags: str) -> Tuple:
+def parse_flags_text(flags: str) -> tuple:
     """Parse comma separated list of flags."""
     return tuple(_parse_flags_text(flags))
 

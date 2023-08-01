@@ -50,16 +50,16 @@ based on your plans allowance from the user account that manages billing.
 
 You can view your current billing plan on a separate page:
 
-.. image:: /screenshots/user-billing.png
+.. image:: /screenshots/user-billing.webp
 
 The project creation can be initiated from there, or using the menu in the navigation
 bar, filling in basic info about the translation project to complete addition of it:
 
-.. image:: /screenshots/user-add-project.png
+.. image:: /screenshots/user-add-project.webp
 
 After creating the project, you are taken directly to the project page:
 
-.. image:: /screenshots/user-add-project-done.png
+.. image:: /screenshots/user-add-project-done.webp
 
 Creating a new translation component can be initiated via a single click there.
 The process of creating a component is multi-staged and automatically detects most
@@ -85,15 +85,15 @@ for additional files or branches using same repository.
 
 First you need to fill in name and repository location:
 
-.. image:: /screenshots/user-add-component-init.png
+.. image:: /screenshots/user-add-component-init.webp
 
 On the next page, you are presented with a list of discovered translatable resources:
 
-.. image:: /screenshots/user-add-component-discovery.png
+.. image:: /screenshots/user-add-component-discovery.webp
 
 As a last step, you review the translation component info and fill in optional details:
 
-.. image:: /screenshots/user-add-component.png
+.. image:: /screenshots/user-add-component.webp
 
 .. seealso::
 
@@ -437,12 +437,32 @@ to be escaped as ``[[]`` or ``[]]``.
 Screenshot file mask
 ++++++++++++++++++++
 
-Mask of files to allow discovery/update of screenshots, including path from vcs repository.
-It should include one "*" replacing screenshot file name.
+This feature allows the discovery and updating of screenshots through screenshot file masks, using paths from the VCS repository.
+This operates at the component level and necessitates the use of an asterisk "*" to replace the screenshot file name.
 
 Allowed formats are JPEG, PNG, APNG and GIF.
 
-For example ``docs/*.png``.
+Note:
+
+1. The file mask and screenshot file mask are not related. Configure them separately.
+2. It is a manual job to link a discovered screenshot in a component to a specific translation key.
+
+For example:
+
+Let's assume your VCS repository has a structure like this:
+
+.. code-block:: text
+
+    component_A
+    └── docs
+        ├── image1.png
+        └── image2.jpg
+
+For component_A, you want to allow discovery and updates of PNG screenshots.
+You'd set the screenshot file mask for component_A as ``component_A/docs/*.png``.
+This means any PNG images under docs in component_A can be discovered and updated.
+So, if you want to update ``image1.png``, the new screenshot you provide should be named ``image1.png``,
+matching the existing ``filename``, and stored under ``component_A/docs/``.
 
 .. _component-template:
 

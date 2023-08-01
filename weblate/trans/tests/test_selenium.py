@@ -25,7 +25,6 @@ from selenium.webdriver.support.expected_conditions import (
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
-import weblate.screenshots.views
 from weblate.fonts.tests.utils import FONT
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project, Unit
@@ -101,7 +100,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Build Chrome driver
         options = Options()
         # Run headless
-        options.headless = True
+        options.add_argument("--headless=new")
         # Seems to help in some corner cases, see
         # https://stackoverflow.com/a/50642913/225718
         options.add_argument("--no-sandbox")
@@ -524,11 +523,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             element.submit()
 
         # Perform OCR
-        if weblate.screenshots.views.HAS_OCR:
-            self.click(htmlid="screenshots-auto")
-            wait_search()
+        self.click(htmlid="screenshots-auto")
+        wait_search()
 
-            self.screenshot("screenshot-ocr.png")
+        self.screenshot("screenshot-ocr.png")
 
         # Add string manually
         self.driver.find_element(By.ID, "search-input").send_keys(f"{text!r}")
@@ -962,7 +960,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Click on add component
         with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.CLASS_NAME, "project-add-component"))
+            self.click(self.driver.find_element(By.ID, "list-add-button"))
 
         # Add component
         self.driver.find_element(By.ID, "id_name").send_keys("Language names")

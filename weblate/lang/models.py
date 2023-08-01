@@ -2,11 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 from collections import defaultdict
 from gettext import c2py
 from itertools import chain
-from typing import Callable, Optional
+from typing import Callable
 from weakref import WeakValueDictionary
 
 from appconf import AppConf
@@ -83,8 +85,8 @@ def is_same_plural(
     our_formula: str,
     number: int,
     formula: str,
-    our_function: Optional[Callable] = None,
-    plural_function: Optional[Callable] = None,
+    our_function: Callable | None = None,
+    plural_function: Callable | None = None,
 ):
     if our_function is None:
         try:
@@ -98,7 +100,7 @@ def is_same_plural(
         except ValueError:
             return False
 
-    if number != -1 and number != our_number:
+    if number not in (-1, our_number):
         return False
     if formula == our_formula:
         return True
@@ -179,9 +181,11 @@ class LanguageQuerySet(models.QuerySet):
         # Normalize script suffix
         code = code.replace("_latin", "@latin").replace("_cyrillic", "@cyrillic")
         codes = [code]
-        for replacement in ("+", "-", "-r", "_r"):
-            if replacement in code:
-                codes.append(code.replace(replacement, "_"))
+        codes.extend(
+            code.replace(replacement, "_")
+            for replacement in ("+", "-", "-r", "_r")
+            if replacement in code
+        )
         if expanded_code and expanded_code != code:
             codes.append(expanded_code)
 
@@ -485,9 +489,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                         setattr(plural, item, plural_data[item])
                 if modified:
                     logger(
-                        "Updated default plural {} for language {}".format(
-                            plural_formula, code
-                        )
+                        f"Updated default plural {plural_formula} for language {code}"
                     )
                     plural.save()
             else:
@@ -495,11 +497,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                     source=Plural.SOURCE_DEFAULT, language=lang, **plural_data
                 )
                 plurals[code][Plural.SOURCE_DEFAULT].append(plural)
-                logger(
-                    "Created default plural {} for language {}".format(
-                        plural_formula, code
-                    )
-                )
+                logger(f"Created default plural {plural_formula} for language {code}")
 
         # Create addditiona plurals
         extra_plurals = (

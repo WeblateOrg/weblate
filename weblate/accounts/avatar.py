@@ -24,7 +24,7 @@ def avatar_for_email(email, size=80):
     if not email:
         email = "noreply@weblate.org"
 
-    mail_hash = hashlib.md5(email.lower().encode()).hexdigest()  # nosec
+    mail_hash = hashlib.md5(email.lower().encode()).hexdigest()  # noqa: S324, nosec
 
     return "{}avatar/{}?d={}&s={}".format(
         settings.AVATAR_URL_PREFIX,

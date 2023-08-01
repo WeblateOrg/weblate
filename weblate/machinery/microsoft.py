@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from datetime import timedelta
-from typing import Dict
 
 from django.conf import settings
 from django.utils import timezone
@@ -11,7 +12,7 @@ from django.utils import timezone
 from .base import MachineTranslation, MachineTranslationError
 from .forms import MicrosoftMachineryForm
 
-TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken?Subscription-Key={2}"
+TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken?Subscription-Key={2}"  # noqa: S105
 TOKEN_EXPIRY = timedelta(minutes=9)
 
 
@@ -31,12 +32,13 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         "tlh-qaak": "tlh-Piqd",
         "nb": "no",
         "bs-latn": "bs-Latn",
+        "sr": "sr-Latn",
         "sr-latn": "sr-Latn",
         "sr-cyrl": "sr-Cyrl",
         "mn": "mn-Mong",
     }
 
-    def __init__(self, settings: Dict[str, str]):
+    def __init__(self, settings: dict[str, str]):
         """Check configuration."""
         super().__init__(settings)
         self._access_token = None

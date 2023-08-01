@@ -2,11 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 from collections import defaultdict
-from functools import lru_cache
+from functools import cache as functools_cache
 from itertools import chain
-from typing import Optional, Set
 
 import sentry_sdk
 from appconf import AppConf
@@ -256,8 +257,7 @@ class UserQuerySet(models.QuerySet):
         return result.distinct()
 
 
-# TODO: Use functools.cache when Python 3.9+
-@lru_cache(maxsize=None)
+@functools_cache
 def get_anonymous():
     """Return an anonymous user."""
     return User.objects.select_related("profile").get(
@@ -703,7 +703,7 @@ class User(AbstractBaseUser):
             return self.username
         return self.full_name
 
-    def get_author_name(self, address: Optional[str] = None) -> str:
+    def get_author_name(self, address: str | None = None) -> str:
         """Return formatted author name with e-mail."""
         return format_address(
             self.get_visible_name(), address or self.profile.get_commit_email()
@@ -844,7 +844,7 @@ def setup_project_groups(
     sender,
     instance,
     created: bool = False,
-    new_roles: Optional[Set[str]] = None,
+    new_roles: set[str] | None = None,
     **kwargs,
 ):
     """Set up group objects upon saving project."""

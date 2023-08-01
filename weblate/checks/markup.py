@@ -2,8 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
-from typing import Any, Tuple
+from typing import Any
 
 import nh3
 from django.core.exceptions import ValidationError
@@ -105,7 +107,7 @@ class BBCodeCheck(TargetCheck):
 
 
 class BaseXMLCheck(TargetCheck):
-    def detect_xml_wrapping(self, text: str) -> Tuple[Any, bool]:
+    def detect_xml_wrapping(self, text: str) -> tuple[Any, bool]:
         """Detect whether wrapping is desired."""
         try:
             return self.parse_xml(text, True), True
@@ -211,10 +213,11 @@ class XMLTagsCheck(BaseXMLCheck):
             return []
         if not self.can_parse_xml(source):
             return []
-        ret = []
         # Include XML markup
-        for match in XML_MATCH.finditer(source):
-            ret.append((match.start(), match.end(), match.group()))
+        ret = [
+            (match.start(), match.end(), match.group())
+            for match in XML_MATCH.finditer(source)
+        ]
         # Add XML entities
         skipranges = [x[:2] for x in ret]
         skipranges.append((len(source), len(source)))

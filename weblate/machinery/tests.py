@@ -2,10 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import json
 from copy import copy
 from io import StringIO
-from typing import Type
 from unittest import SkipTest
 from unittest.mock import Mock, patch
 from urllib.parse import parse_qs
@@ -30,7 +31,7 @@ from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
 from weblate.machinery.base import (
-    MachineryRateLimit,
+    MachineryRateLimitError,
     MachineTranslation,
     MachineTranslationError,
 )
@@ -292,7 +293,7 @@ MS_SUPPORTED_LANG_RESP = {"translation": {"cs": "data", "en": "data", "es": "dat
 class BaseMachineTranslationTest(TestCase):
     """Testing of machine translation core."""
 
-    MACHINE_CLS: Type[MachineTranslation] = DummyTranslation
+    MACHINE_CLS: type[MachineTranslation] = DummyTranslation
     ENGLISH = "en"
     SUPPORTED = "cs"
     SUPPORTED_VARIANT = "cs_CZ"
@@ -933,7 +934,7 @@ class BaiduTranslationTest(BaseMachineTranslationTest):
         responses.add(
             responses.GET, BAIDU_API, json={"error_code": "54003", "error_msg": "Error"}
         )
-        with self.assertRaises(MachineryRateLimit):
+        with self.assertRaises(MachineryRateLimitError):
             self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, 0)
 
     @responses.activate

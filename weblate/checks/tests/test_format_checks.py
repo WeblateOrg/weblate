@@ -159,10 +159,10 @@ class PythonFormatCheckTest(CheckTestCase):
         self.assertHTMLEqual(
             self.check.get_description(check),
             """
-            Following format strings are missing:
+            The following format strings are missing:
             <span class="hlcheck" data-value="%(count)d">%(count)d</span>
             <br />
-            Following format strings are extra:
+            The following format strings are extra:
             <span class="hlcheck" data-value="%(languages)d">%(languages)d</span>
             """,
         )
@@ -176,7 +176,7 @@ class PythonFormatCheckTest(CheckTestCase):
         check = Check(unit=unit)
         self.assertEqual(
             self.check.get_description(check),
-            "Following format strings are wrongly ordered: %d, %s",
+            "The following format strings are in the wrong order: %d, %s",
         )
 
     def test_duplicated_format(self):
@@ -1268,10 +1268,10 @@ class ESTemplateLiteralsCheckTest(CheckTestCase):
         self.assertHTMLEqual(
             self.check.get_description(check),
             """
-            Following format strings are missing:
+            The following format strings are missing:
             <span class="hlcheck" data-value="${foo}">${foo}</span>
             <br />
-            Following format strings are extra:
+            The following format strings are extra:
             <span class="hlcheck" data-value="${bar}">${bar}</span>
             """,
         )

@@ -2,18 +2,22 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
-from io import StringIO
-from typing import Iterable
+from typing import TYPE_CHECKING
 
 from django.http import Http404
 from django.utils.html import conditional_escape, format_html, format_html_join
 from django.utils.translation import gettext
 from lxml import etree
-from lxml.etree import XMLSyntaxError
 from siphashc import siphash
 
 from weblate.utils.docs import get_doc_url
+from weblate.utils.xml import parse_xml
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 
 class Check:
@@ -26,7 +30,7 @@ class Check:
     source = False
     ignore_untranslated = True
     default_disabled = False
-    propagates = False
+    propagates: str = ""
     param_type = None
     always_display = False
     batch_project_wide = False
@@ -154,8 +158,8 @@ class Check:
     def get_replacement_function(self, unit):
         def strip_xml(content):
             try:
-                tree = etree.parse(StringIO(f"<x>{content}</x>"))
-            except XMLSyntaxError:
+                tree = parse_xml(f"<x>{content}</x>")
+            except etree.XMLSyntaxError:
                 return content
             return etree.tostring(tree, encoding="unicode", method="text")
 
@@ -272,12 +276,12 @@ class TargetCheck(Check):
 
     def get_missing_text(self, values: Iterable[str]):
         return self.get_values_text(
-            gettext("Following format strings are missing: {}"), values
+            gettext("The following format strings are missing: {}"), values
         )
 
     def get_extra_text(self, values: Iterable[str]):
         return self.get_values_text(
-            gettext("Following format strings are extra: {}"), values
+            gettext("The following format strings are extra: {}"), values
         )
 
 
@@ -287,7 +291,7 @@ class SourceCheck(Check):
     source = True
 
     def check_single(self, source, target, unit):
-        """We don't check target strings here."""
+        """Target strings are checked in check_target_unit."""
         return False
 
     def check_source_unit(self, source, unit):

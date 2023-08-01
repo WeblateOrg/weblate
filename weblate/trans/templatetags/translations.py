@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 from collections import defaultdict
 from datetime import date
@@ -297,26 +299,100 @@ class Formatter:
                 output.append(escape(char))
         # Trailing tags
         output.append("".join(tags[len(value)]))
-        return mark_safe("".join(output))
+        return mark_safe("".join(output))  # noqa: S308
 
 
 @register.inclusion_tag("snippets/format-translation.html")
+def format_unit_target(
+    unit,
+    value: str | None = None,
+    diff=None,
+    search_match: str | None = None,
+    match: str = "search",
+    simple: bool = False,
+    wrap: bool = False,
+    show_copy: bool = False,
+):
+    return format_translation(
+        plurals=unit.get_target_plurals() if value is None else split_plural(value),
+        language=unit.translation.language,
+        plural=unit.translation.plural,
+        unit=unit,
+        diff=diff,
+        search_match=search_match,
+        match=match,
+        simple=simple,
+        wrap=wrap,
+        show_copy=show_copy,
+    )
+
+
+@register.inclusion_tag("snippets/format-translation.html")
+def format_unit_source(
+    unit,
+    value: str | None = None,
+    diff=None,
+    search_match: str | None = None,
+    match: str = "search",
+    simple: bool = False,
+    glossary=None,
+    wrap: bool = False,
+    show_copy: bool = False,
+):
+    source_translation = unit.translation.component.source_translation
+    return format_translation(
+        plurals=unit.get_source_plurals() if value is None else split_plural(value),
+        language=source_translation.language,
+        plural=source_translation.plural,
+        unit=unit,
+        diff=diff,
+        search_match=search_match,
+        match=match,
+        simple=simple,
+        glossary=glossary,
+        wrap=wrap,
+        show_copy=show_copy,
+    )
+
+
+@register.inclusion_tag("snippets/format-translation.html")
+def format_source_string(
+    value: str,
+    unit,
+    search_match: str | None = None,
+    match: str = "search",
+    simple: bool = False,
+    glossary=None,
+    wrap: bool = False,
+    whitespace: bool = True,
+):
+    """Formats simple string as in the unit source language."""
+    return format_translation(
+        plurals=[value],
+        language=unit.translation.component.source_language,
+        search_match=search_match,
+        match=match,
+        simple=simple,
+        wrap=wrap,
+        whitespace=whitespace,
+    )
+
+
 def format_translation(
-    value,
-    language,
+    plurals: list[str],
+    language=None,
     plural=None,
     diff=None,
-    search_match=None,
+    search_match: str | None = None,
     simple: bool = False,
     wrap: bool = False,
     unit=None,
-    match="search",
+    match: str = "search",
     glossary=None,
     whitespace: bool = True,
+    show_copy: bool = False,
 ):
     """Nicely formats translation text possibly handling plurals or diff."""
-    # Split plurals to separate strings
-    plurals = split_plural(value)
     is_multivalue = unit is not None and unit.translation.component.is_multivalue
 
     if plural is None:
@@ -351,7 +427,13 @@ def format_translation(
         # Join paragraphs
         content = formatter.format()
 
-        parts.append({"title": title, "content": content, "copy": escape(text)})
+        parts.append(
+            {
+                "title": title,
+                "content": content,
+                "copy": escape(text) if show_copy else "",
+            }
+        )
         has_content |= bool(content)
 
     return {
@@ -666,8 +748,6 @@ def try_linkify_filename(
 @register.simple_tag
 def get_location_links(profile, unit):
     """Generate links to source files where translation was used."""
-    ret = []
-
     # Fallback to source unit if it has more information
     if not unit.location and unit.source_unit.location:
         unit = unit.source_unit
@@ -681,38 +761,47 @@ def get_location_links(profile, unit):
         return gettext("string ID %s") % unit.location
 
     # Go through all locations separated by comma
-    for location, filename, line in unit.get_locations():
-        ret.append(
-            try_linkify_filename(location, filename, line, unit, profile, "wrap-text")
-        )
     return format_html_join(
-        format_html('\n<span class="divisor">•</span>\n'), "{}", ((v,) for v in ret)
+        format_html('\n<span class="divisor">•</span>\n'),
+        "{}",
+        (
+            (
+                try_linkify_filename(
+                    location, filename, line, unit, profile, "wrap-text"
+                ),
+            )
+            for location, filename, line in unit.get_locations()
+        ),
     )
 
 
 @register.simple_tag(takes_context=True)
 def announcements(context, project=None, component=None, language=None):
     """Display announcement messages for given context."""
-    ret = []
-
     user = context["user"]
 
-    for announcement in Announcement.objects.context_filter(
-        project, component, language
-    ):
-        ret.append(
-            render_to_string(
-                "message.html",
-                {
-                    "tags": f"{announcement.category} announcement",
-                    "message": render_markdown(announcement.message),
-                    "announcement": announcement,
-                    "can_delete": user.has_perm("announcement.delete", announcement),
-                },
+    return format_html_join(
+        "\n",
+        "{}",
+        (
+            (
+                render_to_string(
+                    "message.html",
+                    {
+                        "tags": f"{announcement.category} announcement",
+                        "message": render_markdown(announcement.message),
+                        "announcement": announcement,
+                        "can_delete": user.has_perm(
+                            "announcement.delete", announcement
+                        ),
+                    },
+                ),
             )
-        )
-
-    return format_html_join("\n", "{}", ((v,) for v in ret))
+            for announcement in Announcement.objects.context_filter(
+                project, component, language
+            )
+        ),
+    )
 
 
 @register.simple_tag(takes_context=True)
@@ -1039,4 +1128,6 @@ def any_unit_has_context(units):
 def urlize_ugc(value, autoescape=True):
     """Convert URLs in plain text into clickable links."""
     html = urlize(value, nofollow=True, autoescape=autoescape)
-    return mark_safe(html.replace('rel="nofollow"', 'rel="ugc" target="_blank"'))
+    return mark_safe(  # noqa: S308
+        html.replace('rel="nofollow"', 'rel="ugc" target="_blank"')
+    )

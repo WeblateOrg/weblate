@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from typing import Optional
+from __future__ import annotations
 
 from django.core.cache import cache
 from django.http import HttpResponse
@@ -46,7 +46,7 @@ class CustomCSSView(TemplateView):
         cache.delete(cls.cache_key)
 
     @classmethod
-    def get_hash(cls, request) -> Optional[str]:
+    def get_hash(cls, request) -> str | None:
         css = cls.get_css(request)
         if not css:
             return None

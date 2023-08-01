@@ -11,7 +11,7 @@ The support for several machine translation and translation memory services is
 built-in. Each service can be turned on by the administrator for whole site or
 at the project settings:
 
-.. image:: /screenshots/project-machinery.png
+.. image:: /screenshots/project-machinery.webp
 
 .. note::
 
@@ -258,7 +258,7 @@ Language Portal through a web service.
 
 .. seealso::
 
-    `Microsoft Terminology Service API <https://www.microsoft.com/en-us/language/Microsoft-Terminology-API>`_
+    `Microsoft language resources <https://learn.microsoft.com/en-us/globalization/reference/microsoft-language-resources>`_
 
 
 .. _mt-microsoft-translator:
@@ -319,9 +319,9 @@ With new Azure keys, you also need to set ``region`` to locale of your service.
 
    `Cognitive Services - Text Translation API <https://azure.microsoft.com/en-us/products/cognitive-services/translator/>`_,
    `Microsoft Azure Portal <https://portal.azure.com/>`_,
-   `Base URLs <https://learn.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#base-urls>`_,
-   `"Authenticating with a Multi-service resource" <https://learn.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_
-   `"Authenticating with an access token" section <https://learn.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-an-access-token>`_
+   `Base URLs <https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-reference#base-urls>`_,
+   `"Authenticating with a Multi-service resource" <https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_
+   `"Authenticating with an access token" section <https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-reference#authenticating-with-an-access-token>`_
 
 .. _mt-modernmt:
 
@@ -483,7 +483,7 @@ The service offers multiple domain-specific models.
 
 .. seealso::
 
-    `Watson Language Translator <https://www.ibm.com/products/ibm-watson-natural-language-processing>`_,
+    `Watson Language Translator <https://www.ibm.com/products/natural-language-processing>`_,
     `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-translator>`_
 
 .. _mt-weblate:

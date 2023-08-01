@@ -126,7 +126,7 @@ class ProfileBaseForm(forms.ModelForm):
             # this is partial form. This is really bound to how Profile.clean
             # behaves.
             ignored_fields = ("dashboard_component_list", "dashboard_view")
-            for field_name, _error_list in error.error_dict.items():
+            for field_name in error.error_dict:
                 if field_name in ignored_fields and not hasattr(self, field_name):
                     return
         super().add_error(field, error)
@@ -310,8 +310,10 @@ class DashboardSettingsForm(ProfileBaseForm):
                 for choice in choices
                 if choice[0] != Profile.DASHBOARD_COMPONENT_LISTS
             ]
-        for clist in component_lists:
-            choices.append((100 + clist.id, gettext("Component list: %s") % clist.name))
+        choices.extend(
+            (100 + clist.id, gettext("Component list: %s") % clist.name)
+            for clist in component_lists
+        )
         self.fields["dashboard_view"].choices = choices
         if (
             self.instance.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST

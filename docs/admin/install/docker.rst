@@ -688,6 +688,13 @@ Generic settings
 
     You can either replace whole settings, or modify default value using ``ADD`` and ``REMOVE`` variables.
 
+    To enforce authentication for the contact form, do:
+
+    .. code-block:: yaml
+
+       environment:
+         WEBLATE_REMOVE_LOGIN_REQUIRED_URLS_EXCEPTIONS: /contact/$
+
 .. envvar:: WEBLATE_GOOGLE_ANALYTICS_ID
 
     Configures ID for Google Analytics by changing :setting:`GOOGLE_ANALYTICS_ID`.
@@ -922,7 +929,14 @@ Generic settings
 
    .. versionadded:: 4.9
 
-   Configures :setting:`BORG_EXTRA_ARGS`.
+   Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+        environment:
+          WEBLATE_BORG_EXTRA_ARGS: --exclude,vcs/
 
 .. envvar:: WEBLATE_ENABLE_SHARING
 
@@ -1751,7 +1765,7 @@ Read-only root filesystem
 
 .. versionadded:: 4.18
 
-When running the container with a read-only root filesytem, two additional
+When running the container with a read-only root filesystem, two additional
 `tmpfs` volumes are required - :file:`/tmp` and :file:`/run`.
 
 

@@ -90,8 +90,12 @@ class ModernMTTranslation(MachineTranslation):
             content = exc.read()
             try:
                 data = json.loads(content)
-                return data["error"]["message"]  # noqa: TRY300
-            except Exception:
+            except json.JSONDecodeError:
+                data = {}
+
+            try:
+                return data["error"]["message"]
+            except KeyError:
                 pass
 
         return super().get_error_message(exc)

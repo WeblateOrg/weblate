@@ -44,7 +44,7 @@ with open(os.path.expanduser("~/.config/hub")) as handle:
 milestones_api = "https://api.github.com/repos/WeblateOrg/weblate/milestones"
 api_auth = f"token {config['github.com'][0]['oauth_token']}"
 headers = {"Authorization": api_auth, "Accept": "application/vnd.github.v3+json"}
-response = requests.get(milestones_api, headers=headers)
+response = requests.get(milestones_api, headers=headers, timeout=1)
 response.raise_for_status()
 milestone_url = None
 for milestone in response.json():
@@ -52,7 +52,9 @@ for milestone in response.json():
         milestone_url = milestone["html_url"]
 
 if milestone_url is None:
-    response = requests.post(milestones_api, headers=headers, json={"title": version})
+    response = requests.post(
+        milestones_api, headers=headers, json={"title": version}, timeout=1
+    )
     milestone_url = response.json()["html_url"]
 
 # Set version in the files
@@ -67,6 +69,18 @@ header = f"""{title}
 {underline}
 
 Not yet released.
+
+**New features**
+
+**Improvements**
+
+**Bug fixes**
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 `All changes in detail <{milestone_url}?closed=1>`__.
 

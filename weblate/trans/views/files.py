@@ -10,7 +10,7 @@ from django.utils.translation import gettext, ngettext
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
-from weblate.trans.exceptions import FailedCommitError, PluralFormsMismatch
+from weblate.trans.exceptions import FailedCommitError, PluralFormsMismatchError
 from weblate.trans.forms import DownloadForm, get_upload_form
 from weblate.trans.models import ComponentList, Project, Translation
 from weblate.utils import messages
@@ -190,7 +190,7 @@ def upload_translation(request, project, component, lang):
             messages.warning(request, message)
         else:
             messages.success(request, message)
-    except PluralFormsMismatch:
+    except PluralFormsMismatchError:
         messages.error(
             request,
             gettext(

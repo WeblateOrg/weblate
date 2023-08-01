@@ -8,7 +8,6 @@ import sys
 import time
 from collections import defaultdict
 from datetime import timedelta
-from distutils.version import LooseVersion
 from itertools import chain
 
 from celery.exceptions import TimeoutError
@@ -19,6 +18,7 @@ from django.core.checks import Critical, Error, Info
 from django.core.mail import get_connection
 from django.db import DatabaseError
 from django.utils import timezone
+from packaging.version import Version
 
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.data import data_dir
@@ -516,7 +516,7 @@ def check_version(app_configs=None, **kwargs):
         latest = get_latest_version()
     except (ValueError, OSError):
         return []
-    if LooseVersion(latest.version) > LooseVersion(VERSION_BASE):
+    if Version(latest.version) > Version(VERSION_BASE):
         # With release every two months, this gets triggered after three releases
         if latest.timestamp + timedelta(days=180) < timezone.now():
             return [
@@ -530,9 +530,7 @@ def check_version(app_configs=None, **kwargs):
         return [
             weblate_check(
                 "weblate.I031",
-                "New Weblate version is available, please upgrade to {}.".format(
-                    latest.version
-                ),
+                f"New Weblate version is available, please upgrade to {latest.version}.",
                 Info,
             )
         ]

@@ -510,9 +510,7 @@ class Invoice(models.Model):
         verbose_name_plural = "Invoices"
 
     def __str__(self):
-        return "{} - {}: {}".format(
-            self.start, self.end, self.billing if self.billing_id else None
-        )
+        return f"{self.start} - {self.end}: {self.billing if self.billing_id else None}"
 
     @cached_property
     def filename(self):

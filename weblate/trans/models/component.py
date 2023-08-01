@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import re
 import time
@@ -10,7 +12,7 @@ from copy import copy
 from datetime import datetime, timedelta
 from glob import glob
 from itertools import chain
-from typing import Any, Dict, List, Optional
+from typing import Any
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 from uuid import uuid4
@@ -44,7 +46,7 @@ from weblate.trans.defines import (
     PROJECT_NAME_LENGTH,
     REPO_LENGTH,
 )
-from weblate.trans.exceptions import FileParseError, InvalidTemplate
+from weblate.trans.exceptions import FileParseError, InvalidTemplateError
 from weblate.trans.fields import RegexField
 from weblate.trans.mixins import CacheKeyMixin, PathMixin, URLMixin
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT
@@ -81,7 +83,7 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.fields import EmailField, JSONField
 from weblate.utils.licenses import get_license_choices, get_license_url, is_libre
-from weblate.utils.lock import WeblateLock, WeblateLockTimeout
+from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import (
     render_template,
     validate_render_addon,
@@ -98,7 +100,7 @@ from weblate.utils.validators import (
     validate_re_nonempty,
     validate_slug,
 )
-from weblate.vcs.base import RepositoryException
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
@@ -255,9 +257,7 @@ class ComponentQuerySet(models.QuerySet):
 
     def prefetch_source_stats(self):
         """Prefetch source stats."""
-        lookup = {}
-        for component in self:
-            lookup[component.id] = component
+        lookup = {component.id: component for component in self}
 
         if lookup:
             for translation in prefetch_stats(
@@ -1127,7 +1127,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         result = []
         raw = []
 
-        def append(text: Optional[str]):
+        def append(text: str | None):
             if raw:
                 result.append(re.escape("".join(raw)))
                 raw.clear()
@@ -1202,7 +1202,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             return None
         try:
             return self.repository.get_revision_info(self.remote_revision)
-        except RepositoryException:
+        except RepositoryError:
             return None
 
     def get_last_commit(self):
@@ -1211,8 +1211,11 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             return None
         try:
             return self.repository.get_revision_info(self.local_revision)
-        except RepositoryException:
-            self.store_local_revision()
+        except RepositoryError:
+            try:
+                self.store_local_revision()
+            except RepositoryError:
+                return None
             return self.repository.get_revision_info(self.local_revision)
 
     @perform_on_link
@@ -1236,7 +1239,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         self,
         filename: str,
         line: str,
-        template: Optional[str] = None,
+        template: str | None = None,
         user=None,
     ):
         """
@@ -1373,7 +1376,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         return None
 
     def error_text(self, error):
-        """Returns text message for a RepositoryException."""
+        """Returns text message for a RepositoryError."""
         message = error.get_message()
         if not settings.HIDE_REPO_CREDENTIALS:
             return message
@@ -1441,13 +1444,13 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 start = time.monotonic()
                 try:
                     previous_revision = self.repository.last_remote_revision
-                except RepositoryException:
+                except RepositoryError:
                     # Repository not yet configured
                     previous_revision = None
                 self.repository.update_remote()
                 timediff = time.monotonic() - start
                 self.log_info("update took %.2f seconds", timediff)
-        except RepositoryException as error:
+        except RepositoryError as error:
             report_error(cause="Could not update the repository", project=self.project)
             error_text = self.error_text(error)
             if validate:
@@ -1462,7 +1465,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         try:
             # This can actually fail without a remote repo
             remote_revision = self.repository.last_remote_revision
-        except RepositoryException:
+        except RepositoryError:
             remote_revision = None
         if previous_revision and remote_revision:
             if previous_revision == remote_revision:
@@ -1563,7 +1566,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             # do we have something to merge?
             try:
                 needs_merge = self.repo_needs_merge()
-            except RepositoryException:
+            except RepositoryError:
                 # Not yet configured repository
                 needs_merge = True
 
@@ -1581,7 +1584,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             # update local branch
             try:
                 result = self.update_branch(request, method=method, skip_push=True)
-            except RepositoryException:
+            except RepositoryError:
                 result = False
 
         if result:
@@ -1641,7 +1644,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             self.log_info("pushing to remote repo")
             try:
                 self.repository.push(self.push_branch)
-            except RepositoryException as error:
+            except RepositoryError as error:
                 error_text = self.error_text(error)
                 report_error(cause="Could not push the repo", project=self.project)
                 Change.objects.create(
@@ -1660,7 +1663,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                     ):
                         try:
                             self.repository.unshallow()
-                        except RepositoryException:
+                        except RepositoryError:
                             report_error(
                                 cause="Could not unshallow the repo",
                                 project=self.project,
@@ -1744,7 +1747,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             try:
                 self.log_info("resetting to remote repo")
                 self.repository.reset()
-            except RepositoryException:
+            except RepositoryError:
                 report_error(
                     cause="Could not reset the repository", project=self.project
                 )
@@ -1777,7 +1780,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             try:
                 self.log_info("cleaning up the repo")
                 self.repository.cleanup()
-            except RepositoryException:
+            except RepositoryError:
                 report_error(
                     cause="Could not clean the repository", project=self.project
                 )
@@ -1877,15 +1880,15 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     def commit_files(
         self,
-        template: Optional[str] = None,
-        author: Optional[str] = None,
-        timestamp: Optional[datetime] = None,
-        files: Optional[List[str]] = None,
+        template: str | None = None,
+        author: str | None = None,
+        timestamp: datetime | None = None,
+        files: list[str] | None = None,
         signals: bool = True,
         skip_push: bool = False,
-        extra_context: Optional[Dict[str, Any]] = None,
-        message: Optional[str] = None,
-        component: Optional[models.Model] = None,
+        extra_context: dict[str, Any] | None = None,
+        message: str | None = None,
+        component: models.Model | None = None,
     ):
         """Commits files to the repository."""
         linked = self.linked_component
@@ -1962,7 +1965,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     @perform_on_link
     def update_branch(
-        self, request=None, method: Optional[str] = None, skip_push: bool = False
+        self, request=None, method: str | None = None, skip_push: bool = False
     ):
         """Update current branch to match remote (if possible)."""
         if method is None:
@@ -1998,7 +2001,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 self.log_info(
                     "%s remote into repo %s..%s", method, previous_head, new_head
                 )
-            except RepositoryException as error:
+            except RepositoryError as error:
                 # Report error
                 report_error(cause=f"Failed {method}", project=self.project)
 
@@ -2182,11 +2185,11 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     def create_translations(
         self,
         force: bool = False,
-        langs: Optional[List[str]] = None,
+        langs: list[str] | None = None,
         request=None,
         changed_template: bool = False,
         from_link: bool = False,
-        change: Optional[int] = None,
+        change: int | None = None,
     ):
         """Load translations from VCS."""
         try:
@@ -2196,7 +2199,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 return self._create_translations(
                     force, langs, request, changed_template, from_link, change
                 )
-        except WeblateLockTimeout:
+        except WeblateLockTimeoutError:
             if settings.CELERY_TASK_ALWAYS_EAGER:
                 # Retry will not address anything
                 raise
@@ -2224,19 +2227,19 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             try:
                 self.template_store.check_valid()
             except ValueError as exc:
-                raise InvalidTemplate(FileParseError(str(exc)))
+                raise InvalidTemplateError(FileParseError(str(exc)))
             except FileParseError as exc:
-                raise InvalidTemplate(exc)
+                raise InvalidTemplateError(exc)
         self._template_check_done = True
 
     def _create_translations(  # noqa: C901
         self,
         force: bool = False,
-        langs: Optional[List[str]] = None,
+        langs: list[str] | None = None,
         request=None,
         changed_template: bool = False,
         from_link: bool = False,
-        change: Optional[int] = None,
+        change: int | None = None,
     ):
         """Load translations from VCS."""
         self.store_background_task()
@@ -2326,7 +2329,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                         request=request,
                         change=change,
                     )
-                except InvalidTemplate as error:
+                except InvalidTemplateError as error:
                     self.log_warning(
                         "skipping update due to error in parsing template: %s",
                         error.nested,
@@ -2619,7 +2622,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 )
             )
 
-    def is_valid_base_for_new(self, errors: Optional[List] = None, fast: bool = False):
+    def is_valid_base_for_new(self, errors: list | None = None, fast: bool = False):
         filename = self.get_new_base_filename()
         template = self.has_template()
         return self.file_format_cls.is_valid_base_for_new(
@@ -2738,14 +2741,21 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             return
 
         if self.vcs != "local" and self.repo == "local:":
-            raise ValidationError({"vcs": "Use local VCS for local: URL."})
+            raise ValidationError(
+                {"vcs": gettext("Choose No remote repository for local: URL.")}
+            )
+
+        if self.vcs == "local" and self.push:
+            raise ValidationError(
+                {"push": gettext("Push URL is not used without a remote repository.")}
+            )
 
         # Validate VCS repo
         try:
             self.set_default_branch()
 
             self.sync_git_repo(validate=True, skip_push=True)
-        except RepositoryException as exc:
+        except RepositoryError as exc:
             text = self.error_text(exc)
             if "terminal prompts disabled" in text:
                 raise ValidationError(
@@ -3198,7 +3208,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     def count_repo_missing(self):
         try:
             return self.repository.count_missing()
-        except RepositoryException as error:
+        except RepositoryError as error:
             report_error(cause="Could check merge needed", project=self.project)
             self.add_alert("MergeFailure", error=self.error_text(error))
             return 0
@@ -3206,7 +3216,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     def _get_count_repo_outgoing(self, retry: bool = True):
         try:
             return self.repository.count_outgoing()
-        except RepositoryException as error:
+        except RepositoryError as error:
             error_text = self.error_text(error)
             if retry and "Host key verification failed" in error_text:
                 self.add_ssh_host_key()

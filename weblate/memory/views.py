@@ -181,15 +181,15 @@ class MemoryView(TemplateView):
             for entry in result:
                 entry["can_rebuild"] = entry["origin"] in slugs
             # Add missing ones
-            for missing in slugs - existing:
-                result.append(
-                    {
-                        "origin": missing,
-                        "id__count": 0,
-                        "can_rebuild": True,
-                        "url": get_url(missing),
-                    }
-                )
+            result.extend(
+                {
+                    "origin": missing,
+                    "id__count": 0,
+                    "can_rebuild": True,
+                    "url": get_url(missing),
+                }
+                for missing in slugs - existing
+            )
         return from_file + result
 
     def get_languages(self):

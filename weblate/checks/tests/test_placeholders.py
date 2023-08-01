@@ -55,7 +55,7 @@ class PlaceholdersTest(CheckTestCase):
         self.assertHTMLEqual(
             self.check.get_description(check),
             """
-            Following format strings are missing:
+            The following format strings are missing:
             <span class="hlcheck" data-value="$URL$">$URL$</span>
             """,
         )
@@ -81,10 +81,10 @@ class PlaceholdersTest(CheckTestCase):
         self.assertHTMLEqual(
             self.check.get_description(check),
             """
-            Following format strings are missing:
+            The following format strings are missing:
             <span class="hlcheck" data-value="$URL$">$URL$</span>
             <br />
-            Following format strings are extra:
+            The following format strings are extra:
             <span class="hlcheck" data-value="$FOO$">$FOO$</span>
             """,
         )
@@ -110,7 +110,7 @@ class PlaceholdersTest(CheckTestCase):
         self.assertHTMLEqual(
             self.check.get_description(check),
             """
-            Following format strings are missing:
+            The following format strings are missing:
             <span class="hlcheck" data-value=" {URL} ">
             <span class="hlspace"><span class="space-space">
             </span></span>
@@ -119,7 +119,7 @@ class PlaceholdersTest(CheckTestCase):
             </span></span>
             </span>
             <br />
-            Following format strings are extra:
+            The following format strings are extra:
             <span class="hlcheck" data-value=" {URL}">
             <span class="hlspace"><span class="space-space">
             </span></span>

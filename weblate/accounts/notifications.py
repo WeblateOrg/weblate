@@ -2,10 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from collections import defaultdict
 from copy import copy
 from email.utils import formataddr
-from typing import Any, Iterable, List, Optional
+from typing import TYPE_CHECKING, Any
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
@@ -32,6 +34,9 @@ from weblate.utils.ratelimit import rate_limit
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.version import USER_AGENT
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 FREQ_NONE = 0
 FREQ_INSTANT = 1
@@ -83,8 +88,8 @@ class Notification:
     filter_languages: bool = False
     ignore_watched: bool = False
     any_watched: bool = False
-    required_attr: Optional[str] = None
-    skip_when_notify: List[Any] = []
+    required_attr: str | None = None
+    skip_when_notify: list[Any] = []
 
     def __init__(self, outgoing, perm_cache=None):
         self.outgoing = outgoing
@@ -595,9 +600,9 @@ class LastAuthorCommentNotificaton(Notification):
 
 @register_notification
 class TranslatedStringNotificaton(Notification):
-    actions = (Change.ACTION_CHANGE, Change.ACTION_NEW)
+    actions = (Change.ACTION_CHANGE, Change.ACTION_NEW, Change.ACTION_ACCEPT)
     # Translators: Notification name
-    verbose = gettext_lazy("Translated string")
+    verbose = gettext_lazy("Edited string")
     template_name = "translated_string"
     filter_languages = True
 

@@ -277,7 +277,8 @@
           <tr>
             <th>{% trans "Your personal API key:" %}</th>
             <td>
-                {{ user.auth_token.key }}
+                <span class="auth-token">{{ user.auth_token.key }}</span>
+                <button type="button" class="btn btn-link btn-xs" data-visibility=".auth-token" title="{% trans "Toogle API key visibility" %}">{% icon "eye.svg" %}</button>
                 <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" data-clipboard-message="{% trans "API key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
             </td>
           </tr>

@@ -27,8 +27,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 
 def setup(app):
-    app.add_css_file("https://s.weblate.org/cdn/font-source/source-sans-3.css")
-    app.add_css_file("https://s.weblate.org/cdn/font-source/source-code-pro.css")
     # Used in Sphinx docs, needed for intersphinx links to it
     app.add_object_type(
         "confval",
@@ -306,6 +304,8 @@ linkcheck_ignore = [
     "https://translate.yandex.com/",
     # These are PDF and fails with Unicode decode error
     "http://ftp.pwg.org/",
+    # Access to our service has been temporarily blocked
+    "https://yandex.com/dev/translate/",
 ]
 
 # HTTP docs

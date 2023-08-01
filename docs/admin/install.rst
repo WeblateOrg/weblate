@@ -66,7 +66,7 @@ Python dependencies
 +++++++++++++++++++
 
 Weblate is written in `Python <https://www.python.org/>`_ and supports Python
-3.6 or newer. You can install dependencies using pip or from your
+3.9 or newer. You can install dependencies using pip or from your
 distribution packages, full list is available in :file:`requirements.txt`.
 
 Most notable dependencies:
@@ -94,20 +94,10 @@ of them in :file:`requirements-optional.txt`.
 
 ``Mercurial`` (optional for :ref:`vcs-mercurial` repositories support)
     https://www.mercurial-scm.org/
-``phply`` (optional for :ref:`php`)
-    https://github.com/viraptor/phply
-``tesserocr`` (optional for OCR in :ref:`screenshots`)
-    https://github.com/sirfz/tesserocr
 ``python-akismet`` (optional for :ref:`spam-protection`)
     https://github.com/Nekmo/python-akismet
-``ruamel.yaml`` (optional for :ref:`yaml`)
-    https://pypi.org/project/ruamel.yaml/
 ``Zeep`` (optional for :ref:`mt-microsoft-terminology`)
     https://docs.python-zeep.org/
-``aeidon`` (optional for :ref:`subtitles`)
-    https://pypi.org/project/aeidon/
-``fluent.syntax`` (optional for :ref:`fluent`)
-    https://projectfluent.org/
 
 .. hint::
 
@@ -765,7 +755,7 @@ For a production setup you should carry out adjustments described in the followi
 The most critical settings will trigger a warning, which is indicated by an
 exclamation mark in the top bar if signed in as a superuser:
 
-.. image:: /screenshots/admin-wrench.png
+.. image:: /screenshots/admin-wrench.webp
 
 It is also recommended to inspect checks triggered by Django (though you might not
 need to fix all of them):

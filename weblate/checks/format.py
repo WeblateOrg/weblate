@@ -2,9 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 from collections import Counter, defaultdict
-from typing import Optional, Pattern
+from re import Pattern
 
 from django.utils.functional import SimpleLazyObject
 from django.utils.html import format_html, format_html_join
@@ -257,8 +259,8 @@ FLAG_RULES = {
 class BaseFormatCheck(TargetCheck):
     """Base class for format string checks."""
 
-    regexp: Optional[Pattern[str]] = None
-    plural_parameter_regexp: Optional[Pattern[str]] = None
+    regexp: Pattern[str] | None = None
+    plural_parameter_regexp: Pattern[str] | None = None
     default_disabled = True
     normalize_remove = None
 
@@ -275,6 +277,7 @@ class BaseFormatCheck(TargetCheck):
         # Use plural as source in case singular misses format string and plural has it
         if (
             len(sources) > 1
+            and self.regexp
             and not self.extract_matches(sources[0])
             and self.extract_matches(sources[1])
         ):
@@ -376,7 +379,7 @@ class BaseFormatCheck(TargetCheck):
         return False
 
     def check_single(self, source, target, unit):
-        """We don't check target strings here."""
+        """Target strings are checked in check_target_unit."""
         return False
 
     def check_highlight(self, source, unit):
@@ -393,7 +396,7 @@ class BaseFormatCheck(TargetCheck):
             and set(result["missing"]) == set(result["extra"])
         ):
             yield gettext(
-                "Following format strings are wrongly ordered: %s"
+                "The following format strings are in the wrong order: %s"
             ) % ", ".join(self.format_string(x) for x in sorted(set(result["missing"])))
         else:
             if result["missing"]:
@@ -465,7 +468,7 @@ class BasePrintfCheck(BaseFormatCheck):
         return f"%{string}"
 
     def cleanup_string(self, text):
-        """Remove locale specific code from format string."""
+        """Remove locale-specific code from format string."""
         if "'" in text:
             return text.replace("'", "")
         return text

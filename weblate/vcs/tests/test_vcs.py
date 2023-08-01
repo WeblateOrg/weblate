@@ -2,11 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import copy
 import os.path
 import shutil
 import tempfile
-from typing import Dict
 from unittest import SkipTest
 from unittest.mock import patch
 
@@ -18,7 +19,7 @@ from responses import matchers
 
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
-from weblate.vcs.base import RepositoryException
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import (
     BitbucketServerRepository,
     GiteaRepository,
@@ -273,13 +274,13 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_merge_conflict(self):
         self.add_remote_commit(conflict=True)
         self.test_commit()
-        with self.assertRaises(RepositoryException):
+        with self.assertRaises(RepositoryError):
             self.test_merge()
 
     def test_rebase_conflict(self):
         self.add_remote_commit(conflict=True)
         self.test_commit()
-        with self.assertRaises(RepositoryException):
+        with self.assertRaises(RepositoryError):
             self.test_rebase()
 
     def test_upstream_changes(self):
@@ -454,7 +455,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.repo.lock:
             if self._sets_push:
                 self.repo.configure_remote("pullurl", "", "branch")
-                with self.assertRaises(RepositoryException):
+                with self.assertRaises(RepositoryError):
                     self.repo.get_config("remote.origin.pushURL")
                 self.repo.configure_remote("pullurl", "push", "branch")
                 self.assertEqual(self.repo.get_config("remote.origin.pushURL"), "push")
@@ -465,7 +466,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
                 # Try to remove it
                 self.repo.configure_remote("pullurl", None, "branch")
 
-                with self.assertRaises(RepositoryException):
+                with self.assertRaises(RepositoryError):
                     self.repo.get_config("remote.origin.pushURL")
 
     def test_configure_branch(self):
@@ -473,7 +474,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.repo.lock:
             self.repo.configure_branch(self.repo.get_remote_branch(self.tempdir))
 
-            with self.assertRaises(RepositoryException):
+            with self.assertRaises(RepositoryError):
                 self.repo.configure_branch("branch")
 
     def test_get_file(self):
@@ -641,7 +642,7 @@ class VCSGiteaTest(VCSGitUpstreamTest):
         # Mock PR to return error
         self.mock_responses(pr_status=422, pr_response={"message": "Some error"})
 
-        with self.assertRaises(RepositoryException):
+        with self.assertRaises(RepositoryError):
             super().test_push(branch)
         mock_push_to_fork.stop()
 
@@ -803,7 +804,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         # Mock PR to return error
         self.mock_responses(pr_status=422, pr_response={"message": "Some error"})
 
-        with self.assertRaises(RepositoryException):
+        with self.assertRaises(RepositoryError):
             super().test_push(branch)
         mock_push_to_fork.stop()
 
@@ -1115,7 +1116,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             },
             repo_state=403,
         )
-        with self.assertRaises(RepositoryException):
+        with self.assertRaises(RepositoryError):
             super().test_push(branch)
         mock_push_to_fork.stop()
 
@@ -1140,7 +1141,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
 
         # Mock post, put and get requests for both the fork and PR requests sent.
         self.mock_responses(pr_status=422, pr_response={"message": "Some error"})
-        with self.assertRaises(RepositoryException):
+        with self.assertRaises(RepositoryError):
             super().test_push(branch)
         mock_push_to_fork.stop()
 
@@ -1173,7 +1174,7 @@ class VCSPagureTest(VCSGitUpstreamTest):
     _vcs = "git"
     _sets_push = False
 
-    def mock_responses(self, pr_response: Dict, existing_response: Dict):
+    def mock_responses(self, pr_response: dict, existing_response: dict):
         """Mock response helper function."""
         responses.add(
             responses.POST,
@@ -1291,7 +1292,7 @@ class VCSGerritTest(VCSGitUpstreamTest):
         hook = os.path.join(repo.path, ".git", "hooks", "commit-msg")
         with open(hook, "w") as handle:
             handle.write("#!/bin/sh\nexit 0\n")
-        os.chmod(hook, 0o755)
+        os.chmod(hook, 0o755)  # noqa: S103, nosec
 
 
 class VCSSubversionTest(VCSGitTest):
@@ -1313,7 +1314,7 @@ class VCSSubversionTest(VCSGitTest):
         self.assertIn("nothing to commit", status)
 
     def test_configure_remote(self):
-        with self.repo.lock, self.assertRaises(RepositoryException):
+        with self.repo.lock, self.assertRaises(RepositoryError):
             self.repo.configure_remote("pullurl", "pushurl", "branch")
         self.verify_pull_url()
 
@@ -1324,7 +1325,7 @@ class VCSSubversionTest(VCSGitTest):
                 self.format_local_path(self.subversion_repo_path),
                 "main",
             )
-            with self.assertRaises(RepositoryException):
+            with self.assertRaises(RepositoryError):
                 self.repo.configure_remote("pullurl", "", "branch")
         self.verify_pull_url()
 
@@ -1705,7 +1706,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         self.mock_repo_response(200)  # get target repo info
         self.mock_reviewer_reponse(200, branch)  # get default reviewers
         self.mock_pr_response(401)  # create pr error
-        with self.assertRaises(RepositoryException):
+        with self.assertRaises(RepositoryError):
             super().test_push(branch)
         mock_push_to_fork.stop()
 
@@ -1742,7 +1743,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         mock_push_to_fork.return_value = ""
 
         self.mock_fork_response(status=401)
-        with self.assertRaises(RepositoryException):
+        with self.assertRaises(RepositoryError):
             super().test_push(branch)
         mock_push_to_fork.stop()
 
@@ -1761,6 +1762,6 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         self.mock_fork_response(status=409)  # fork already exists
         # can't find fork that should exist
         self.mock_repo_forks_response(status=204, pages=3)
-        with self.assertRaises(RepositoryException):
+        with self.assertRaises(RepositoryError):
             super().test_push(branch)
         mock_push_to_fork.stop()

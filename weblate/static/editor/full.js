@@ -481,7 +481,6 @@
 
       var target = $(e.currentTarget);
       var text = target.find(".target").text();
-      console.log(target);
       if (target.hasClass("warning")) {
         text = target.find(".source").text();
       }
@@ -569,7 +568,7 @@
     }
 
     renderTranslation(el, service) {
-      el.plural_forms = [];
+      el.plural_forms = [el.plural_form];
       var row = $("<tr/>").data("raw", el);
       row.append(
         $("<td/>")

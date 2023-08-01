@@ -658,7 +658,10 @@ class ZenViewTest(ViewTestCase):
     def test_browse(self):
         response = self.client.get(reverse("browse", kwargs=self.kw_translation))
         self.assertContains(response, "Thank you for using Weblate.")
-        self.assertContains(response, "Orangutan has %d banana")
+        self.assertContains(
+            response,
+            'Orangutan has <span class="hlcheck" data-value="%d"><span class="highlight-number"></span>%d</span> banana.',
+        )
 
 
 class EditComplexTest(ViewTestCase):
@@ -943,9 +946,7 @@ class EditComplexTest(ViewTestCase):
         url = self.get_unit("Hello, world!\n").get_absolute_url()
         response = self.client.get(url)
         form = response.context["form"]
-        params = {}
-        for field in form.fields:
-            params[field] = form[field].value()
+        params = {field: form[field].value() for field in form.fields}
         params["target_0"] = "Nazdar svete!\n"
         response = self.client.post(url, params)
         unit = self.get_unit()

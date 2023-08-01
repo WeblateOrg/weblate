@@ -293,7 +293,8 @@
 <tr>
 <th>{% trans "Your personal API key:" %}</th>
 <td>
-    {{ user.auth_token.key }}
+    <span class="auth-token">{{ user.auth_token.key }}</span>
+    <button type="button" class="btn btn-link btn-xs" data-visibility=".auth-token" title="{% trans "Toogle API key visibility" %}">{% icon "eye.svg" %}</button>
     <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" data-clipboard-message="{% trans "API key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
     <a href="" class="pull-right flip btn btn-primary link-post" data-href="{% url 'reset-api-key' %}">{% trans "Regenerate API key" %}</a>
 </td>
@@ -309,7 +310,7 @@
 <td colspan="2">
 <pre dir="ltr">
 curl \
-    -H "Authorization: Token {{ user.auth_token.key }}" \
+    -H "Authorization: Token <span class="auth-token">{{ user.auth_token.key }}</span>" \
     {{ site_url }}{% url 'api:api-root' %}
 </pre>
 </td>
@@ -321,7 +322,7 @@ curl \
 <td colspan="2">
 <pre dir="ltr">
 wlc \
-    --key {{ user.auth_token.key }} \
+    --key <span class="auth-token">{{ user.auth_token.key }}</span> \
     --url {{ site_url }}{% url 'api:api-root' %} \
     list-projects
 </pre>
@@ -336,7 +337,7 @@ wlc \
   <div class="panel-body">
     <p>{% blocktrans %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktrans %}</p>
     <pre dir="ltr">
-git clone 'https://{{ user.username|urlencode }}:{{ user.auth_token.key }}@{{ site_domain }}/git/PROJECT/COMPONENT/'</pre>
+git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ user.auth_token.key }}</span>@{{ site_domain }}/git/PROJECT/COMPONENT/'</pre>
   </div>
 </div>
 {% endif %}

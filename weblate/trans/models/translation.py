@@ -2,12 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import codecs
 import os
 import tempfile
-from datetime import datetime
 from itertools import chain
-from typing import BinaryIO, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, BinaryIO
 
 import sentry_sdk
 from django.core.cache import cache
@@ -22,7 +23,7 @@ from django.utils.translation import gettext
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.auto import try_load
-from weblate.formats.base import UnitNotFound
+from weblate.formats.base import UnitNotFoundError
 from weblate.formats.helpers import CONTROLCHARS, BytesIOMode
 from weblate.lang.models import Language, Plural
 from weblate.trans.checklists import TranslationChecklist
@@ -30,7 +31,7 @@ from weblate.trans.defines import FILENAME_LENGTH
 from weblate.trans.exceptions import (
     FailedCommitError,
     FileParseError,
-    PluralFormsMismatch,
+    PluralFormsMismatchError,
 )
 from weblate.trans.mixins import CacheKeyMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
@@ -50,6 +51,9 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import GhostStats, TranslationStats
+
+if TYPE_CHECKING:
+    from datetime import datetime
 
 
 class TranslationManager(models.Manager):
@@ -305,8 +309,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     def sync_unit(
         self,
-        dbunits: Dict[int, Unit],
-        updated: Dict[int, Unit],
+        dbunits: dict[int, Unit],
+        updated: dict[int, Unit],
         id_hash: int,
         unit,
         pos: int,
@@ -445,7 +449,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                             else:
                                 # Patch unit to have matching source
                                 unit.source = translated_unit.source
-                        except UnitNotFound:
+                        except UnitNotFoundError:
                             pass
 
                     try:
@@ -686,10 +690,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         self,
         user,
         author: str,
-        timestamp: Optional[datetime] = None,
+        timestamp: datetime | None = None,
         skip_push=False,
         signals=True,
-        template: Optional[str] = None,
+        template: str | None = None,
         store_hash: bool = True,
     ):
         """Wrapper for committing translation to git."""
@@ -751,7 +755,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             else:
                 try:
                     pounit, add = store.find_unit(unit.context, unit.source)
-                except UnitNotFound:
+                except UnitNotFoundError:
                     # Bail out if we have not found anything
                     report_error(
                         cause="String disappeared", project=self.component.project
@@ -1180,8 +1184,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         request,
         fileobj: BinaryIO,
         conflicts: str,
-        author_name: Optional[str] = None,
-        author_email: Optional[str] = None,
+        author_name: str | None = None,
+        author_email: str | None = None,
         method: str = "translate",
         fuzzy: str = "",
     ):
@@ -1262,7 +1266,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     pass
                 else:
                     if not self.plural.same_plural(number, formula):
-                        raise PluralFormsMismatch
+                        raise PluralFormsMismatchError
 
             if method in ("translate", "fuzzy", "approve"):
                 # Merge on units level
@@ -1362,15 +1366,15 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         self,
         request,
         context: str,
-        source: Union[str, List[str]],
-        target: Optional[Union[str, List[str]]] = None,
+        source: str | list[str],
+        target: str | list[str] | None = None,
         extra_flags: str = "",
         explanation: str = "",
         auto_context: bool = False,
         is_batch_update: bool = False,
         skip_existing: bool = False,
         sync_terminology: bool = True,
-        state: Optional[int] = None,
+        state: int | None = None,
     ):
         if isinstance(source, list):
             source = join_plural(source)
@@ -1407,16 +1411,20 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 kwargs["pending"] = not is_source
             if kwargs["pending"]:
                 kwargs["details"] = {"add_unit": True}
+            if (self.is_source and is_source) or (not self.is_source and not is_source):
+                kwargs["explanation"] = explanation
             if is_source:
                 current_target = source
                 kwargs["extra_flags"] = extra_flags
-                kwargs["explanation"] = explanation
             else:
                 current_target = target
             if current_target is None:
                 current_target = ""
             if isinstance(current_target, list):
+                has_translation = any(current_target)
                 current_target = join_plural(current_target)
+            else:
+                has_translation = bool(current_target)
             id_hash = component.file_format_cls.unit_class.calculate_id_hash(
                 has_template, source, context
             )
@@ -1441,10 +1449,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 except Unit.DoesNotExist:
                     pass
             if unit is None:
-                if state is None:
-                    unit_state = (
-                        STATE_TRANSLATED if bool(current_target) else STATE_EMPTY
-                    )
+                if has_translation and (state is None or state == STATE_EMPTY):
+                    unit_state = STATE_TRANSLATED
+                elif not has_translation and (state is None or state != STATE_EMPTY):
+                    unit_state = STATE_EMPTY
                 else:
                     unit_state = state
                 unit = Unit(
@@ -1467,12 +1475,12 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                             sync_terminology=False,
                         )
                         changes.append(
-                            Change(
-                                unit=unit,
-                                action=Change.ACTION_NEW_UNIT,
-                                target=current_target,
+                            unit.generate_change(
                                 user=user,
                                 author=user,
+                                change_action=Change.ACTION_NEW_UNIT,
+                                check_new=False,
+                                save=False,
                             )
                         )
                 except IntegrityError:
@@ -1540,7 +1548,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 # Does unit exist in the file?
                 try:
                     pounit, add = translation.store.find_unit(unit.context, unit.source)
-                except UnitNotFound:
+                except UnitNotFoundError:
                     continue
                 if add:
                     continue
@@ -1600,12 +1608,12 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     def validate_new_unit_data(
         self,
         context: str,
-        source: Union[str, List[str]],
-        target: Optional[Union[str, List[str]]] = None,
+        source: str | list[str],
+        target: str | list[str] | None = None,
         auto_context: bool = False,
-        extra_flags: Optional[str] = None,
+        extra_flags: str | None = None,
         explanation: str = "",
-        state: Optional[int] = None,
+        state: int | None = None,
     ):
         extra = {}
         if isinstance(source, str):

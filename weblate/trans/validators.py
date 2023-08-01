@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
-from typing import Optional
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext
@@ -38,11 +39,11 @@ def validate_check_flags(val):
     try:
         flags = Flags(val)
     except (ParseException, re.error) as error:
-        raise ValidationError(gettext("Failed to parse flags: %s") % error)
+        raise ValidationError(gettext("Failed to parse flags: %s") % error) from error
     flags.validate()
 
 
-def validate_language_code(code: Optional[str], filename: str, required: bool = False):
+def validate_language_code(code: str | None, filename: str, required: bool = False):
     if not code:
         if not required:
             return None
