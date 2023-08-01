@@ -109,7 +109,7 @@ def get_interledger_payment_pointer():
     if not interledger_payment_pointers:
         return None
 
-    return random.choice(interledger_payment_pointers)
+    return random.choice(interledger_payment_pointers)  # noqa: S311
 
 
 def weblate_context(request):
