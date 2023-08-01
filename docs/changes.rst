@@ -16,6 +16,7 @@ Not yet released.
 * :ref:`xliff` now supports displaying source string location.
 * Rendering strings with plurals, placeholders or alternative translations.
 * User API now includes last sign in date.
+* User API token is now hidden for privacy reasons by default.
 
 **Bug fixes**
 
