@@ -4,9 +4,8 @@
 
 """Tests for sitemaps."""
 
-from xml.etree import ElementTree
-
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.utils.xml import parse_xml
 
 
 class SitemapTest(FixtureTestCase):
@@ -16,11 +15,11 @@ class SitemapTest(FixtureTestCase):
         self.assertContains(response, "<sitemapindex")
 
         # Parse it
-        tree = ElementTree.fromstring(response.content)
+        tree = parse_xml(response.content)
         sitemaps = tree.findall("{http://www.sitemaps.org/schemas/sitemap/0.9}sitemap")
         for sitemap in sitemaps:
             location = sitemap.find("{http://www.sitemaps.org/schemas/sitemap/0.9}loc")
             response = self.client.get(location.text)
             self.assertContains(response, "<urlset")
             # Try if it's a valid XML
-            ElementTree.fromstring(response.content)
+            parse_xml(response.content)
