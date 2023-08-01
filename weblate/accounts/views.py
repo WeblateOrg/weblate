@@ -303,7 +303,8 @@ def get_notification_forms(request):
 @never_cache
 @login_required
 def user_profile(request):
-    profile = request.user.profile
+    user = request.user
+    profile = user.profile
     profile.fixup_profile(request)
 
     form_classes = [
@@ -331,16 +332,22 @@ def user_profile(request):
 
             # Redirect after saving (and possibly changing language)
             return redirect_profile(request.POST.get("activetab"))
-    elif not request.user.has_usable_password() and "email" in all_backends:
+    elif not user.has_usable_password() and "email" in all_backends:
         messages.warning(request, render_to_string("accounts/password-warning.html"))
 
-    social = request.user.social_auth.all()
+    social = user.social_auth.all()
     social_names = [assoc.provider for assoc in social]
     new_backends = [
         x for x in sorted(all_backends) if x == "email" or x not in social_names
     ]
+    user_translation_ids = set(
+        Change.objects.filter(
+            user=user, timestamp__gte=timezone.now() - timedelta(days=90)
+        ).values_list("translation", flat=True)
+    )
     license_components = (
-        Component.objects.filter_access(request.user)
+        Component.objects.filter_access(user)
+        .filter(translation__id__in=user_translation_ids)
         .exclude(license="")
         .prefetch(alerts=False)
         .order_by("license")
@@ -359,7 +366,7 @@ def user_profile(request):
             "userform": forms[6],
             "notification_forms": forms[7:],
             "all_forms": forms,
-            "user_groups": request.user.groups.prefetch_related(
+            "user_groups": user.groups.prefetch_related(
                 "roles", "projects", "languages", "components"
             ),
             "profile": profile,
@@ -368,7 +375,7 @@ def user_profile(request):
             "associated": social,
             "new_backends": new_backends,
             "has_email_auth": "email" in all_backends,
-            "auditlog": request.user.auditlog_set.order()[:20],
+            "auditlog": user.auditlog_set.order()[:20],
         },
     )
 
