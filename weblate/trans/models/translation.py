@@ -1374,7 +1374,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         auto_context: bool = False,
         is_batch_update: bool = False,
         skip_existing: bool = False,
-        sync_terminology: bool = True,
         state: int | None = None,
     ):
         if isinstance(source, list):
@@ -1382,12 +1381,21 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         user = request.user if request else None
         component = self.component
         if self.is_source:
-            translations = [self]
-            translations.extend(
-                component.translation_set.exclude(id=self.id).select_related("language")
+            translations = (
+                self,
+                *component.translation_set.exclude(id=self.id).select_related(
+                    "language"
+                ),
+            )
+        elif component.is_glossary and "terminology" in Flags(extra_flags):
+            translations = (
+                component.source_translation,
+                *component.translation_set.exclude(
+                    id=component.source_translation.id
+                ).select_related("language"),
             )
         else:
-            translations = [component.source_translation, self]
+            translations = (component.source_translation, self)
         has_template = component.has_template()
         source_unit = None
         result = None
@@ -1504,8 +1512,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 component.update_variants(
                     updated_units=Unit.objects.filter(pk__in=unit_ids)
                 )
-            if sync_terminology:
-                component.schedule_sync_terminology()
             component.invalidate_cache()
             component_post_update.send(sender=self.__class__, component=component)
             self.was_new = 1
@@ -1601,7 +1607,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 "",
                 is_batch_update=True,
                 skip_existing=True,
-                sync_terminology=False,
             )
             self.was_new += 1
         self.notify_new(None)
