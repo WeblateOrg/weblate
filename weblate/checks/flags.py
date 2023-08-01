@@ -79,7 +79,7 @@ def _parse_flags_text(flags: str):
     state = 0
     name = None
     value = []
-    tokens = list(FlagsParser.parseString(flags, parseAll=True))
+    tokens = list(FlagsParser.parse_string(flags, parseAll=True))
     for pos, token in enumerate(tokens):
         if state == 0 and token == ",":
             pass
