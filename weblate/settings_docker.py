@@ -1438,4 +1438,4 @@ ADDITIONAL_CONFIG = "/app/data/settings-override.py"
 if os.path.exists(ADDITIONAL_CONFIG):
     with open(ADDITIONAL_CONFIG) as handle:
         code = compile(handle.read(), ADDITIONAL_CONFIG, "exec")
-        exec(code)
+        exec(code)  # noqa: S102
