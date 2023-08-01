@@ -14,7 +14,7 @@ LANG_RE = re.compile(".*<td> *([a-z][a-z](-[A-Z][A-Z])?) *</td>.*")
 
 CODES = set()
 
-response = requests.get(URL)
+response = requests.get(URL, timeout=1)
 parse = False
 for line in response.text.splitlines():
     if parse:
