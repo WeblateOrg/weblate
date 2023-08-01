@@ -12,7 +12,7 @@ from django.utils import timezone
 from .base import MachineTranslation, MachineTranslationError
 from .forms import MicrosoftMachineryForm
 
-TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken?Subscription-Key={2}"
+TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken?Subscription-Key={2}"  # noqa: S105
 TOKEN_EXPIRY = timedelta(minutes=9)
 
 
