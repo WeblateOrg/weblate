@@ -11,7 +11,7 @@ from weblate.trans.models import Component, Project
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
 from weblate.utils.errors import report_error
-from weblate.utils.lock import WeblateLockTimeout
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.views import get_component, get_project, get_translation
 
 
@@ -22,7 +22,7 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
         # With False the call is supposed to show errors on its own
         if result is None or result:
             messages.success(request, message)
-    except WeblateLockTimeout:
+    except WeblateLockTimeoutError:
         messages.error(
             request,
             gettext("Failed to lock the repository, another operation is in progress."),

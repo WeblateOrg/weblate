@@ -31,7 +31,7 @@ from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
 from weblate.machinery.base import (
-    MachineryRateLimit,
+    MachineryRateLimitError,
     MachineTranslation,
     MachineTranslationError,
 )
@@ -934,7 +934,7 @@ class BaiduTranslationTest(BaseMachineTranslationTest):
         responses.add(
             responses.GET, BAIDU_API, json={"error_code": "54003", "error_msg": "Error"}
         )
-        with self.assertRaises(MachineryRateLimit):
+        with self.assertRaises(MachineryRateLimitError):
             self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, 0)
 
     @responses.activate

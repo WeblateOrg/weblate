@@ -31,7 +31,7 @@ if TYPE_CHECKING:
 LOGGER = logging.getLogger("weblate.vcs")
 
 
-class RepositoryException(Exception):
+class RepositoryError(Exception):
     """Error while working with a repository."""
 
     def __init__(self, retcode, message):
@@ -181,7 +181,7 @@ class Repository:
     ):
         """Execute the command using popen."""
         if args is None:
-            raise RepositoryException(0, "Not supported functionality")
+            raise RepositoryError(0, "Not supported functionality")
         if not fullcmd:
             args = [cls._cmd, *list(args)]
         text_cmd = " ".join(args)
@@ -209,7 +209,7 @@ class Repository:
             cwd=cwd,
         )
         if process.returncode:
-            raise RepositoryException(
+            raise RepositoryError(
                 process.returncode, process.stdout + (process.stderr or "")
             )
         return process.stdout
@@ -238,7 +238,7 @@ class Repository:
                 merge_err=merge_err,
                 stdin=stdin,
             )
-        except RepositoryException as error:
+        except RepositoryError as error:
             if not is_status and not self.local:
                 self.log_status(error)
             raise
@@ -248,7 +248,7 @@ class Repository:
         try:
             self.log(f"failure {error}")
             self.log(self.status())
-        except RepositoryException:
+        except RepositoryError:
             pass
 
     def clean_revision_cache(self):

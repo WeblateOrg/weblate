@@ -5,7 +5,7 @@
 
 from django.conf import settings
 
-from .base import MachineryRateLimit, MachineTranslation, MachineTranslationError
+from .base import MachineryRateLimitError, MachineTranslation, MachineTranslationError
 from .forms import KeySecretMachineryForm
 
 BAIDU_API = "http://api.fanyi.baidu.com/api/trans/vip/translate"
@@ -110,7 +110,7 @@ class BaiduTranslation(MachineTranslation):
                 pass
             else:
                 if error_code == 54003:
-                    raise MachineryRateLimit(payload["error_msg"])
+                    raise MachineryRateLimitError(payload["error_msg"])
             raise MachineTranslationError(
                 "Error {error_code}: {error_msg}".format(**payload)
             )

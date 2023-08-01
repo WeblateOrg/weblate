@@ -39,11 +39,11 @@ class MachineTranslationError(Exception):
     """Generic Machine translation error."""
 
 
-class MachineryRateLimit(MachineTranslationError):
+class MachineryRateLimitError(MachineTranslationError):
     """Raised when rate limiting is detected."""
 
 
-class UnsupportedLanguage(MachineTranslationError):
+class UnsupportedLanguageError(MachineTranslationError):
     """Raised when language is not supported."""
 
 
@@ -244,7 +244,7 @@ class MachineTranslation:
         return cache.set(self.rate_limit_cache, True, 1800)
 
     def is_rate_limit_error(self, exc):
-        if isinstance(exc, MachineryRateLimit):
+        if isinstance(exc, MachineryRateLimitError):
             return True
         if not isinstance(exc, HTTPError):
             return False
@@ -328,7 +328,7 @@ class MachineTranslation:
 
     def get_languages(self, source_language, target_language):
         if source_language == target_language and not self.same_languages:
-            raise UnsupportedLanguage("Same languages")
+            raise UnsupportedLanguageError("Same languages")
 
         for source in self.get_language_possibilities(source_language):
             for target in self.get_language_possibilities(target_language):
@@ -341,7 +341,7 @@ class MachineTranslation:
             self.supported_languages_error = None
             self.supported_languages_error_age = 0
 
-        raise UnsupportedLanguage("Not supported")
+        raise UnsupportedLanguageError("Not supported")
 
     def get_cached(self, source, language, text, threshold, replacements):
         cache_key = self.translate_cache_key(source, language, text, threshold)
@@ -359,7 +359,7 @@ class MachineTranslation:
             source, language = self.get_languages(
                 translation.component.source_language, translation.language
             )
-        except UnsupportedLanguage:
+        except UnsupportedLanguageError:
             unit.translation.log_debug(
                 "machinery failed: not supported language pair: %s - %s",
                 translation.component.source_language.code,
@@ -377,7 +377,7 @@ class MachineTranslation:
             source, language = self.get_languages(
                 translation.component.source_language, translation.language
             )
-        except UnsupportedLanguage:
+        except UnsupportedLanguageError:
             unit.translation.log_debug(
                 "machinery failed: not supported language pair: %s - %s",
                 translation.component.source_language.code,
@@ -455,7 +455,7 @@ class MachineTranslation:
             source, language = self.get_languages(
                 translation.component.source_language, translation.language
             )
-        except UnsupportedLanguage:
+        except UnsupportedLanguageError:
             return
 
         self.account_usage(translation.component.project, delta=len(units))

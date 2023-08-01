@@ -17,7 +17,7 @@ from weblate.trans.models import Component, Project
 from weblate.trans.util import is_repo_link
 from weblate.utils.files import remove_tree
 from weblate.utils.management.base import BaseCommand
-from weblate.vcs.base import RepositoryException
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.models import VCS_REGISTRY
 
 
@@ -141,7 +141,7 @@ class Command(BaseCommand):
         self.logger.info("Cloning git repository...")
         try:
             gitrepo = VCS_REGISTRY[self.vcs].clone(repo, workdir, branch)
-        except RepositoryException as error:
+        except RepositoryError as error:
             raise CommandError(f"Failed clone: {error}")
         self.logger.info("Updating working copy in git repository...")
         with gitrepo.lock:
