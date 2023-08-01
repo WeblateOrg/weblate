@@ -4,6 +4,7 @@
 
 import json
 import os
+from tempfile import TemporaryDirectory
 
 import responses
 from django.conf import settings
@@ -291,32 +292,33 @@ class AdminTest(ViewTestCase):
     @responses.activate
     @override_settings(SITE_TITLE="Test Weblate")
     def test_activation_hosted(self):
-        responses.add(
-            responses.POST,
-            settings.SUPPORT_API_URL,
-            body=json.dumps(
-                {
-                    "name": "hosted",
-                    "backup_repository": "/tmp/xxx",
-                    "expiry": timezone.now(),
-                    "in_limits": True,
-                    "limits": {},
-                },
-                cls=DjangoJSONEncoder,
-            ),
-        )
-        self.client.post(reverse("manage-activate"), {"secret": "123456"})
-        status = SupportStatus.objects.get()
-        self.assertEqual(status.name, "hosted")
-        backup = BackupService.objects.get()
-        self.assertEqual(backup.repository, "/tmp/xxx")
-        self.assertFalse(backup.enabled)
+        with TemporaryDirectory() as tempdir:
+            responses.add(
+                responses.POST,
+                settings.SUPPORT_API_URL,
+                body=json.dumps(
+                    {
+                        "name": "hosted",
+                        "backup_repository": tempdir,
+                        "expiry": timezone.now(),
+                        "in_limits": True,
+                        "limits": {},
+                    },
+                    cls=DjangoJSONEncoder,
+                ),
+            )
+            self.client.post(reverse("manage-activate"), {"secret": "123456"})
+            status = SupportStatus.objects.get()
+            self.assertEqual(status.name, "hosted")
+            backup = BackupService.objects.get()
+            self.assertEqual(backup.repository, tempdir)
+            self.assertFalse(backup.enabled)
 
-        self.assertFalse(status.discoverable)
+            self.assertFalse(status.discoverable)
 
-        self.client.post(reverse("manage-discovery"))
-        status = SupportStatus.objects.get()
-        self.assertTrue(status.discoverable)
+            self.client.post(reverse("manage-discovery"))
+            status = SupportStatus.objects.get()
+            self.assertTrue(status.discoverable)
 
     def test_group_management(self):
         # Add form
