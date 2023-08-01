@@ -3,12 +3,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import subprocess
-from distutils.version import LooseVersion
 from unittest import SkipTest
 
 from django.core.cache import cache
 from django.test import TestCase
 from django.test.utils import override_settings
+from packaging.version import Version
 
 import weblate.vcs.gpg
 from weblate.utils.checks import check_data_writable
@@ -36,7 +36,7 @@ class GPGTest(TestCase):
                 capture_output=True,
             )
             version = result.stdout.splitlines()[0].strip().rsplit(None, 1)[-1]
-            if LooseVersion(version) < LooseVersion("2.1"):
+            if Version(version) < Version("2.1"):
                 cls.gpg_error = "gpg too old"
         except (subprocess.CalledProcessError, OSError):
             cls.gpg_error = "gpg not found"
