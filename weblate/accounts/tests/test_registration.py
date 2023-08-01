@@ -17,7 +17,7 @@ from weblate.accounts.models import VerifiedEmail
 from weblate.accounts.tasks import cleanup_social_auth
 from weblate.auth.models import User
 from weblate.trans.tests.test_views import RegistrationTestMixin
-from weblate.trans.tests.utils import get_test_file
+from weblate.trans.tests.utils import get_test_file, social_core_override_settings
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.ratelimit import reset_rate_limit
 
@@ -553,7 +553,7 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertRedirects(response, "/accounts/profile/#account")
 
     @responses.activate
-    @override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
+    @social_core_override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
     def test_github(self, confirm=None, fail=False):
         """Test GitHub integration."""
         responses.add(
@@ -675,7 +675,7 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
 
-    @override_settings(
+    @social_core_override_settings(
         AUTHENTICATION_BACKENDS=SAML_BACKENDS,
         SOCIAL_AUTH_SAML_SP_PUBLIC_CERT=SAML_CERT,
         SOCIAL_AUTH_SAML_SP_PRIVATE_KEY=SAML_KEY,
@@ -745,7 +745,7 @@ class NoCookieCleanupRegistrationTest(CookieRegistrationTest):
     social_cleanup = True
 
 
-@override_settings(
+@social_core_override_settings(
     AUTHENTICATION_BACKENDS=[
         "social_core.backends.email.EmailAuth",
         "social_core.backends.username.UsernameAuth",

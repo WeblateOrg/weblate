@@ -35,6 +35,7 @@ from weblate.trans.tests.utils import (
     create_test_billing,
     create_test_user,
     get_test_file,
+    social_core_override_settings,
 )
 from weblate.utils.db import using_postgresql
 from weblate.vcs.ssh import get_key_data
@@ -433,7 +434,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Statistics")
         self.screenshot("activity.png")
 
-    @override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
+    @social_core_override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
     def test_auth_backends(self):
         user = self.do_login()
         user.social_auth.create(provider="google-oauth2", uid=user.email)
