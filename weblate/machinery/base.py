@@ -439,7 +439,7 @@ class MachineTranslation:
 
     def signed_salt(self, appid, secret, text):
         """Generates salt and sign as used by Chinese services."""
-        salt = str(random.randint(0, 10000000000))
+        salt = str(random.randint(0, 10000000000))  # noqa: S311
 
         payload = appid + text + salt + secret
         digest = md5(payload.encode()).hexdigest()  # noqa: S324, nosec

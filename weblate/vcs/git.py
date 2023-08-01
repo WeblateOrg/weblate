@@ -1416,7 +1416,8 @@ class GitLabRepository(GitMergeRequestBase):
                 and "has already been taken" in error
             ):
                 fork_name = "{}-{}".format(
-                    credentials["url"].split("%2F")[-1], random.randint(1000, 9999)
+                    credentials["url"].split("%2F")[-1],
+                    random.randint(1000, 9999),  # noqa: S311
                 )
                 forked_repo, response, error = self.request(
                     "post",
