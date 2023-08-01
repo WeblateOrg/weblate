@@ -465,14 +465,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                             newunit,
                             repr(newunit.source),
                         )
-                        self.update_changes.append(
-                            Change(
-                                unit=newunit,
-                                action=Change.ACTION_DUPLICATE_STRING,
-                                user=user,
-                                author=user,
-                            )
-                        )
                         self.component.trigger_alert(
                             "DuplicateString",
                             language_code=self.language.code,

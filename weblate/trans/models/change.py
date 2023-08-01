@@ -214,7 +214,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_NEW_SOURCE = 13
     ACTION_LOCK = 14
     ACTION_UNLOCK = 15
-    ACTION_DUPLICATE_STRING = 16
+    # Used to be ACTION_DUPLICATE_STRING = 16
     ACTION_COMMIT = 17
     ACTION_PUSH = 18
     ACTION_RESET = 19
@@ -293,8 +293,6 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_LOCK, gettext_lazy("Component locked")),
         # Translators: Name of event in the history
         (ACTION_UNLOCK, gettext_lazy("Component unlocked")),
-        # Translators: Name of event in the history
-        (ACTION_DUPLICATE_STRING, gettext_lazy("Found duplicated string")),
         # Translators: Name of event in the history
         (ACTION_COMMIT, gettext_lazy("Committed changes")),
         # Translators: Name of event in the history
