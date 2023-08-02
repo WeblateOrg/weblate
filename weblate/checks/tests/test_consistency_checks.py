@@ -124,9 +124,18 @@ class ConsistencyCheckTest(ViewTestCase):
     ):
         if increment:
             self._id_hash += 1
+        source_unit = translation.component.source_translation.unit_set.create(
+            id_hash=self._id_hash,
+            position=self._id_hash,
+            context=context,
+            source=source,
+            target=source,
+            state=STATE_TRANSLATED,
+        )
         return translation.unit_set.create(
             id_hash=self._id_hash,
             position=self._id_hash,
+            source_unit=source_unit,
             context=context,
             source=source,
             target=target,
