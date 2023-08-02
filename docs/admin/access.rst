@@ -434,15 +434,16 @@ the following rules:
 Automatic team assignments
 +++++++++++++++++++++++++++
 
-On the bottom of the :guilabel:`Group` editing page in the
-:ref:`Django admin interface <admin-interface>`, you can specify
-:guilabel:`Automatic team assignments`, which is a list of regular expressions
+While editing the :guilabel:`Team`, you can specify
+:guilabel:`Automatic assignments`, which is a list of regular expressions
 used to automatically assign newly created users to a team based on their
 e-mail addresses. This assignment only happens upon account creation.
 
 The most common use-case for the feature is to assign all new users to some
-default team. In order to do so, you will probably want to keep the default
-value (``^.*$``) in the regular expression field. Another use-case for this option might be to
+default team. This behavior is used for the default `Users` and `Guest` teams
+(see :ref:`default-teams`). Use regular expression ``^.*$`` to match all users.
+
+Another use-case for this option might be to
 give some additional privileges to employees of your company by default.
 Assuming all of them use corporate e-mail addresses on your domain, this can
 be accomplished with an expression like ``^.*@mycompany.com``.
