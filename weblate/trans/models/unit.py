@@ -1009,7 +1009,7 @@ class Unit(models.Model, LoggerMixin):
         # Unit is pending for write
         self.pending = True
         # Update translated flag (not fuzzy and at least one translation)
-        translation = bool(max(self.get_target_plurals()))
+        translation = any(self.get_target_plurals())
         if self.state >= STATE_TRANSLATED and not translation:
             self.state = STATE_EMPTY
         elif self.state == STATE_EMPTY and translation:
@@ -1376,7 +1376,7 @@ class Unit(models.Model, LoggerMixin):
                 new_target = [""]
         # Update unit and save it
         self.target = join_plural(new_target)
-        not_empty = bool(max(new_target))
+        not_empty = any(new_target)
 
         # Newlines fixup
         if "dos-eol" in self.all_flags:
