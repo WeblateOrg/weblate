@@ -714,7 +714,7 @@ class AutoGroup(models.Model):
     match = RegexField(
         verbose_name=gettext_lazy("Regular expression for e-mail address"),
         max_length=200,
-        default="^.*$",
+        default="^$",
         help_text=gettext_lazy(
             "Users with e-mail addresses found to match will be added to this group."
         ),
