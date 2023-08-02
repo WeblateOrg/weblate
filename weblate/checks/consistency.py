@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from functools import reduce
 
 from django.db.models import Count, Prefetch, Q
@@ -68,9 +70,12 @@ class ConsistencyCheck(TargetCheck):
         "or is untranslated in some components."
     )
     ignore_untranslated = False
-    propagates = "same_source_units"
+    propagates = True
     batch_project_wide = True
     skip_suggestions = True
+
+    def get_propagated_units(self, unit, target: str | None = None):
+        return unit.same_source_units
 
     def check_target_unit(self, sources, targets, unit):
         component = unit.translation.component
@@ -81,7 +86,7 @@ class ConsistencyCheck(TargetCheck):
         if component.batch_checks:
             return self.handle_batch(unit, component)
 
-        for other in unit.same_source_units:
+        for other in self.get_propagated_units(unit):
             if unit.target == other.target:
                 continue
             if unit.translated or other.translated:
@@ -141,9 +146,16 @@ class ReusedCheck(TargetCheck):
     check_id = "reused"
     name = gettext_lazy("Reused translation")
     description = gettext_lazy("Different strings are translated the same.")
-    propagates = "same_target_units"
+    propagates = True
     batch_project_wide = True
     skip_suggestions = True
+
+    def get_propagated_units(self, unit, target: str | None = None):
+        from weblate.trans.models import Unit
+
+        if target is None:
+            return unit.same_target_units
+        return Unit.objects.same_target(unit, target)
 
     def should_skip(self, unit):
         if unit.translation.plural.number <= 1:
@@ -160,7 +172,7 @@ class ReusedCheck(TargetCheck):
         if component.batch_checks:
             return self.handle_batch(unit, component)
 
-        return unit.same_target_units.exists()
+        return self.get_propagated_units(unit).exists()
 
     def get_description(self, check_obj):
         other_sources = check_obj.unit.same_target_units.values_list(

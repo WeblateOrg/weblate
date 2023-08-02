@@ -158,6 +158,16 @@ class ConsistencyCheckTest(ViewTestCase):
 
         self.assertNotEqual(check.check_component(self.component), [])
 
+        # Run all checks
+        unit.run_checks()
+        # All three units should be now failing
+        self.assertEqual(Check.objects.filter(name="reused").count(), 3)
+
+        # Change translation
+        unit.translate(self.user, "Dva", STATE_TRANSLATED)
+        # No units should be now failing
+        self.assertEqual(Check.objects.filter(name="reused").count(), 0)
+
     def test_reuse_nocontext(self):
         check = ReusedCheck()
         self.assertEqual(check.check_component(self.component), [])
