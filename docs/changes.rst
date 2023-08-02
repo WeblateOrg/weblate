@@ -21,6 +21,7 @@ Not yet released.
 * User API token is now hidden for privacy reasons by default.
 * Faster adding terms to glossary.
 * Better preserve translation on source file change in :doc:`/formats/html` and :doc:`/formats/txt`.
+* Added indication of automatic assignment to team listing.
 
 **Bug fixes**
 

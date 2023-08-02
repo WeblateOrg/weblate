@@ -251,7 +251,7 @@ def manage_access(request, project):
 
     groups = (
         obj.defined_groups.order()
-        .annotate(Count("user"))
+        .annotate(Count("user"), Count("autogroup"))
         .prefetch_related("languages", "components")
     )
     users = (
