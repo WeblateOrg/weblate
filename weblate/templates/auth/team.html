@@ -60,6 +60,9 @@
   </div>
   {% if form %}
     <div class="tab-pane" id="auto">
+      <p>
+        {% trans "Automatically add newly created users to this team based on their e-mail address." %} {% documentation_icon 'admin/access' 'autoteam' %}
+      </p>
       {{ auto_formset | crispy }}
       <div class="multiFieldEmpty hidden">
         {{ auto_formset.empty_form | crispy }}
