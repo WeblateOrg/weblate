@@ -440,6 +440,12 @@ class Unit(models.Model, LoggerMixin):
         if "state" in self.__dict__:
             self.store_old_unit(self)
 
+    def invalidate_checks_cache(self):
+        self.check_cache = {}
+        for key in ["same_source_units", "same_target_units"]:
+            if key in self.__dict__:
+                del self.__dict__[key]
+
     def store_old_unit(self, unit):
         self.old_unit = {
             "state": unit.state,
@@ -1354,6 +1360,9 @@ class Unit(models.Model, LoggerMixin):
         Propagation is currently disabled on import.
         """
         component = self.translation.component
+
+        # Force flushing checks cache
+        self.invalidate_checks_cache()
 
         # Fetch current copy from database and lock it for update
         old_unit = Unit.objects.select_for_update().get(pk=self.pk)
