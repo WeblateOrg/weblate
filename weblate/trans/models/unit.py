@@ -5,7 +5,6 @@
 from __future__ import annotations
 
 import re
-from functools import reduce
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -155,6 +154,21 @@ class UnitQuerySet(models.QuerySet):
         if exclude:
             result = result.exclude(pk=unit.id)
         return result
+
+    def same_target(self, unit: Unit, target: str | None = None):
+        if target is None:
+            target = unit.target
+        translation = unit.translation
+        component = translation.component
+        return self.filter(
+            target__md5=MD5(Value(target)),
+            translation__component__project_id=component.project_id,
+            translation__language_id=translation.language_id,
+            translation__component__source_language_id=component.source_language_id,
+            translation__component__allow_translation_propagation=True,
+            translation__plural_id=translation.plural_id,
+            translation__plural__number__gt=1,
+        ).exclude(source__md5=MD5(Value(unit.source)))
 
     def order_by_request(self, form_data, obj):
         sort_list_request = form_data.get("sort_by", "").split(",")
@@ -1207,7 +1221,7 @@ class Unit(models.Model, LoggerMixin):
 
     def run_checks(self, propagate: bool | None = None):  # noqa: C901
         """Update checks for this unit."""
-        needs_propagate = bool(propagate)
+        bool(propagate)
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
@@ -1228,6 +1242,10 @@ class Unit(models.Model, LoggerMixin):
             checks = {}
 
         # Run all checks
+        if propagate is True:
+            propagated_units = self.same_source_units
+        else:
+            propagated_units = Unit.objects.none()
         for check, check_obj in checks.items():
             # Does the check fire?
             if getattr(check_obj, meth)(*args):
@@ -1238,14 +1256,15 @@ class Unit(models.Model, LoggerMixin):
                 else:
                     # Create new check
                     create.append(Check(unit=self, dismissed=False, name=check))
-                    needs_propagate |= bool(check_obj.propagates)
+                    if check_obj.propagates:
+                        propagated_units |= check_obj.get_propagated_units(self)
 
         if create:
             Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
 
         # Propagate checks which need it (for example consistency)
-        if (needs_propagate and propagate is not False) or propagate is True:
-            for unit in self.same_source_units | self.same_target_units:
+        if propagate is not False and propagated_units:
+            for unit in propagated_units:
                 try:
                     # Ensure we get a fresh copy of checks
                     # It might be modified meanwhile by propagating to other units
@@ -1261,28 +1280,25 @@ class Unit(models.Model, LoggerMixin):
 
         # Delete no longer failing checks
         if old_checks:
+            propagated_units = Unit.objects.none()
             Check.objects.filter(unit=self, name__in=old_checks).delete()
             propagated_old_checks = []
-            propagated_filters = set()
             for check_name in old_checks:
                 try:
-                    check_propagates = CHECKS[check_name].propagates
+                    check_obj = CHECKS[check_name]
                 except KeyError:
                     # Skip disabled/removed checks
                     continue
-                if check_propagates:
-                    propagated_filters.add(check_propagates)
+                if check_obj.propagates:
+                    propagated_units |= check_obj.get_propagated_units(
+                        self, self.old_unit["target"]
+                    )
                     propagated_old_checks.append(check_name)
-            units = reduce(
-                lambda x, y: x | getattr(self, y),
-                propagated_filters,
-                Unit.objects.none(),
-            )
             if propagated_old_checks:
                 Check.objects.filter(
-                    unit__in=units, name__in=propagated_old_checks
+                    unit__in=propagated_units, name__in=propagated_old_checks
                 ).delete()
-                for other in units:
+                for other in propagated_units:
                     other.translation.invalidate_cache()
                     other.clear_checks_cache()
 
@@ -1528,17 +1544,7 @@ class Unit(models.Model, LoggerMixin):
 
     @cached_property
     def same_target_units(self):
-        translation = self.translation
-        component = translation.component
-        return Unit.objects.filter(
-            target__md5=MD5(Value(self.target)),
-            translation__component__project_id=component.project_id,
-            translation__language_id=translation.language_id,
-            translation__component__source_language_id=component.source_language_id,
-            translation__component__allow_translation_propagation=True,
-            translation__plural_id=translation.plural_id,
-            translation__plural__number__gt=1,
-        ).exclude(source__md5=MD5(Value(self.source)))
+        return Unit.objects.same_target(self)
 
     def get_max_length(self):
         """Returns maximal translation length."""

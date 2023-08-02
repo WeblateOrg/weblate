@@ -30,7 +30,7 @@ class Check:
     source = False
     ignore_untranslated = True
     default_disabled = False
-    propagates: str = ""
+    propagates: bool = False
     param_type = None
     always_display = False
     batch_project_wide = False
@@ -38,6 +38,11 @@ class Check:
 
     def get_identifier(self):
         return self.check_id
+
+    def get_propagated_units(self, unit, target: str | None = None):
+        from weblate.trans.models import Unit
+
+        return Unit.objects.none()
 
     def __init__(self):
         id_dash = self.check_id.replace("_", "-")
