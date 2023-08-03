@@ -127,6 +127,8 @@ def backup(location: str, passphrase: str) -> str:
         "--exclude-caches",
         "--exclude",
         "*/.config/borg",
+        "--exclude",
+        "lost+found",
         "--compression",
         "auto,zstd",
     ]
