@@ -226,12 +226,12 @@ variable. For example:
    Here is a { message }, a { message.attribute } a { -term } and a { $variable }.
    Within a function { NUMBER($num, minimumFractionDigits: 2) }
 
-Generally, we expect translated Messages or Terms to contain the same references
-as the source, although not necessarily in the same order of appearance. So this
-check ensures that translations use the same references in their value as the
-source value, the same number of times, and with no additions. For Messages,
-this will also check that each Attribute in the translation uses the same
-references as the matching Attribute in the source.
+Generally, translated Messages or Terms are expected to contain the same
+references as the source, although not necessarily in the same order of
+appearance. So this check ensures that translations use the same references in
+their value as the source value, the same number of times, and with no
+additions. For Messages, this will also check that each Attribute in the
+translation uses the same references as the matching Attribute in the source.
 
 When the source or translation contains Fluent Select Expressions, then each
 possible variant in the source must be matched with at least one variant in the
@@ -247,7 +247,7 @@ example:
 
    { $num ->
        [one] an apple
-     \*[other] { $num } apples
+      *[other] { $num } apples
    }
 
 Here, for the purposes of this check, the ``[one]`` variant will also be
@@ -263,7 +263,7 @@ considered locale-specific. For example:
 
    { -term.starts-with-vowel ->
        [yes] an { -term }
-     \*[no] a { -term }
+      *[no] a { -term }
    }
 
 Here a reference to ``-term.starts-with-vowel`` is not expected to appear in
@@ -309,9 +309,10 @@ When the source or translation contains Fluent Select Expressions, then each
 possible variant in the source must be matched with at least one variant in the
 translation with the same HTML elements, and vice versa.
 
-If using a Fluent DOM package, this will ensure that the translation also
-includes any required ``data-l10n-name`` elements that appear in the source, or
-any of the allowed inline elements like ``<br>``.
+When using Fluent in combination with the Fluent DOM package, this check will
+ensure that the translation also includes any required ``data-l10n-name``
+elements that appear in the source, or any of the allowed inline elements like
+``<br>``.
 
 For example, the following source:
 
@@ -331,7 +332,7 @@ but not:
 
    Translated message <img data-l10n-name="new-val"/> with icon
 
-or
+nor
 
 .. code-block:: text
 
@@ -1611,20 +1612,20 @@ values, so can be arbitrary strings. For Terms, the Fluent Attributes are
 often language properties that can only be referenced in the selectors of Fluent
 Select Expressions.
 
-Generally, we expect most Fluent values not to contain any HTML markup.
-Therefore we do not expect or want translators and developers to have to care
-about strictly avoiding *any* technical HTML5 parsing errors (let alone XHTML
-parsing errors). Instead, we just want to warn them when they may have
-unintentionally opened a HTML tag or inserted a character reference.
+Generally, most Fluent values are not expected to contain any HTML markup.
+Therefore, this check does not expect or want translators and developers to have
+to care about strictly avoiding *any* technical HTML5 parsing errors (let alone
+XHTML parsing errors). Instead, this check will just want to warn them when they
+may have unintentionally opened a HTML tag or inserted a character reference.
 
 Moreover, for the Fluent values that intentionally contain HTML tags or
-character references, we want to verify "good practices", such as matching
-closing and ending tags, valid character references, and quoted attribute
-values. In addition, whilst HTML5 specification technically allows for quite
-arbitrary tag and attribute names, this check will restrain them to some basic
-ASCII values that should cover the standard HTML5 element tags and attributes,
-as well as allow *some* custom element or attribute names. This is partially
-to ensure that the user is using HTML intentionally.
+character references, this check will verify some "good practices", such as
+matching closing and ending tags, valid character references, and quoted
+attribute values. In addition, whilst the HTML5 specification technically allows
+for quite arbitrary tag and attribute names, this check will restrain them to
+some basic ASCII values that should cover the standard HTML5 element tags and
+attributes, as well as allow *some* custom element or attribute names. This is
+partially to ensure that the user is using HTML intentionally.
 
 Examples:
 
@@ -1645,12 +1646,12 @@ Value                 Warns?   Reason
 ``three&lte;four``    yes      The ``&lte;`` part would be converted to ``<e;``.
 ``three&lf;four``     yes      The character reference is not valid.
 ``three<{ $val }``    yes      The Fluent variable may unintentionally become a tag.
-``&l{ $val }``        yes      The Fluent variable may unintentionally become a character reference
+``&l{ $val }``        yes      The Fluent variable may unintentionally become a character reference.
 ===================   ======   ======
 
 .. note::
 
-   This check will not ensure the inner HTML is *safe* or sanitized, and is not
+   This check will *not* ensure the inner HTML is safe or sanitized, and is not
    meant to protect against malicious attempts to alter the inner HTML.
    Moreover, it should be remembered that Fluent variables and references may
    expand to arbitrary strings, so could expand to arbitrary HTML unless they

@@ -625,7 +625,7 @@ class FluentReferencesCheck(TargetCheck):
     | Here is a { message }, a { message.attribute } a { -term } and a { $variable }.
     | Within a function { NUMBER($num, minimumFractionDigits: 2) }
 
-    Generally, we expect translated Messages or Terms to contain the same
+    Generally, translated Messages or Terms are expected to contain the same
     references as the source, although not necessarily in the same order of
     appearance. So this check ensures that translations use the same references
     in their value as the source value, the same number of times, and with no
