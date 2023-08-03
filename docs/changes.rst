@@ -6,6 +6,7 @@ Not yet released.
 **New features**
 
 * :doc:`/formats/markdown` support, thanks to Anders Kaplan.
+* :doc:`/formats/fluent` now has better syntax checks thanks to Henry Wilkes.
 
 **Improvements**
 
