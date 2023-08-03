@@ -12,8 +12,16 @@ PostgreSQL is set up as the default database.
 Installation
 ------------
 
-The following examples assume you have a working Docker environment, with
-``docker-compose-plugin`` installed. Please check the Docker documentation for instructions.
+.. hint::
+
+   The following examples assume you have a working Docker environment, with
+   ``docker-compose-plugin`` installed. Please check the Docker documentation
+   for instructions.
+
+This creates a Weblate deployment server via HTTP, so you should place it
+behind HTTPS terminating proxy. You can also deploy with a HTTPS proxy, see
+:ref:`docker-https-portal`.  For larger setups, please see
+:ref:`docker-scaling`.
 
 1. Clone the weblate-docker repo:
 
