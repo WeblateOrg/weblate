@@ -1660,8 +1660,12 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 )
                 if retry:
                     if "Host key verification failed" in error_text:
+                        # Try adding SSH key and retry
                         self.add_ssh_host_key()
                         return self.push_repo(request, retry=False)
+                    if "fetch first" in error_text:
+                        # Upstream has moved, try additional update via calling do_push
+                        return self.do_push(request, retry=False)
                     if (
                         "shallow update not allowed" in error_text
                         or "expected old/new/ref, got 'shallow" in error_text
