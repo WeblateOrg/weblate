@@ -23,7 +23,6 @@ from django.utils.translation import gettext, gettext_lazy, ngettext
 from weblate.auth.models import User
 from weblate.trans.models import Component, Project
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.fields import JSONField
 from weblate.utils.stats import prefetch_stats
 
 
@@ -184,7 +183,7 @@ class Billing(models.Model):
     )
     # Payment detailed information, used for integration
     # with payment processor
-    payment = JSONField(editable=False, default=dict)
+    payment = models.JSONField(editable=False, default=dict)
 
     objects = BillingManager.from_queryset(BillingQuerySet)()
 
@@ -501,7 +500,7 @@ class Invoice(models.Model):
     note = models.TextField(blank=True)
     # Payment detailed information, used for integration
     # with payment processor
-    payment = JSONField(editable=False, default=dict)
+    payment = models.JSONField(editable=False, default=dict)
 
     objects = InvoiceQuerySet.as_manager()
 

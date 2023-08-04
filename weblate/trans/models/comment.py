@@ -8,7 +8,6 @@ from django.db import models
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
 from weblate.utils.antispam import report_spam
-from weblate.utils.fields import JSONField
 from weblate.utils.request import get_ip_address, get_user_agent_raw
 
 
@@ -52,7 +51,7 @@ class Comment(models.Model, UserDisplayMixin):
     )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
     resolved = models.BooleanField(default=False, db_index=True)
-    userdetails = JSONField()
+    userdetails = models.JSONField(default=dict)
 
     objects = CommentManager.from_queryset(CommentQuerySet)()
 

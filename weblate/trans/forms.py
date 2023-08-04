@@ -1370,9 +1370,18 @@ class SelectChecksWidget(SortedSelectMultiple):
         return json.dumps(value)
 
 
-class SelectChecksField(forms.CharField):
+class SelectChecksField(forms.JSONField):
     def to_python(self, value):
-        return value
+        if value in self.empty_values:
+            return []
+        return super().to_python(value)
+
+    def bound_data(self, data, initial):
+        if data is None:
+            return []
+        if isinstance(data, list):
+            data = json.dumps(data)
+        return super().bound_data(data, initial)
 
 
 class ComponentDocsMixin:

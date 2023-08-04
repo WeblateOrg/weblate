@@ -13,6 +13,30 @@ from weblate.utils import forms
 from weblate.utils.validators import validate_email
 
 
+# TODO: Drop this in Weblate 5.1
+def migrate_json_field(model, db_alias: str, field: str):
+    """Migration from custom JSONField to Django native one."""
+    updates = []
+    new_field = f"{field}_new"
+
+    for obj in model.objects.using(db_alias).all():
+        value = getattr(obj, field)
+        # Skip anything blank, it is the default value of the field
+        if not value:
+            continue
+
+        setattr(obj, new_field, value)
+        updates.append(obj)
+        if len(updates) > 1000:
+            model.objects.using(db_alias).bulk_update(updates, [new_field])
+            updates = []
+
+    if updates:
+        model.objects.using(db_alias).bulk_update(updates, [new_field])
+        updates = []
+
+
+# TODO: Drop this in Weblate 5.1
 class JSONField(models.TextField):
     """JSON serializaed TextField."""
 

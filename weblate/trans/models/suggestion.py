@@ -15,7 +15,6 @@ from weblate.trans.models.change import Change
 from weblate.trans.util import join_plural, split_plural
 from weblate.utils import messages
 from weblate.utils.antispam import report_spam
-from weblate.utils.fields import JSONField
 from weblate.utils.request import get_ip_address, get_user_agent_raw
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -97,7 +96,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
-    userdetails = JSONField()
+    userdetails = models.JSONField(default=dict)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     votes = models.ManyToManyField(

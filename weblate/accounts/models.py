@@ -32,7 +32,7 @@ from weblate.trans.defines import EMAIL_LENGTH
 from weblate.trans.models import ComponentList
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.fields import EmailField, JSONField
+from weblate.utils.fields import EmailField
 from weblate.utils.render import validate_editor
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.token import get_token
@@ -264,7 +264,7 @@ class AuditLog(models.Model):
         choices=[(a, a) for a in sorted(ACCOUNT_ACTIVITY.keys())],
         db_index=True,
     )
-    params = JSONField()
+    params = models.JSONField(default=dict)
     address = models.GenericIPAddressField(null=True)
     user_agent = models.CharField(max_length=200, default="")
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
