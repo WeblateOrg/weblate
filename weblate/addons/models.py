@@ -42,7 +42,6 @@ from weblate.trans.signals import (
 from weblate.utils.classloader import ClassLoader
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
-from weblate.utils.fields import JSONField
 
 # Initialize addons registry
 ADDONS = ClassLoader("WEBLATE_ADDONS", False)
@@ -64,8 +63,8 @@ class AddonQuerySet(models.QuerySet):
 class Addon(models.Model):
     component = models.ForeignKey(Component, on_delete=models.deletion.CASCADE)
     name = models.CharField(max_length=100)
-    configuration = JSONField()
-    state = JSONField()
+    configuration = models.JSONField(default=dict)
+    state = models.JSONField(default=dict)
     project_scope = models.BooleanField(default=False, db_index=True)
     repo_scope = models.BooleanField(default=False, db_index=True)
 

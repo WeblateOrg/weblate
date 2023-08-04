@@ -12,8 +12,6 @@ from django.utils.translation import gettext_lazy
 from weblate_language_data.ambiguous import AMBIGUOUS
 from weblate_language_data.countries import DEFAULT_LANGS
 
-from weblate.utils.fields import JSONField
-
 ALERTS = {}
 ALERTS_IMPORT = set()
 
@@ -32,7 +30,7 @@ class Alert(models.Model):
     updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=150)
     dismissed = models.BooleanField(default=False, db_index=True)
-    details = JSONField(default=dict)
+    details = models.JSONField(default=dict)
 
     class Meta:
         unique_together = [("component", "name")]

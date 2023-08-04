@@ -25,7 +25,6 @@ from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.alert import ALERTS
 from weblate.trans.models.project import Project
-from weblate.utils.fields import JSONField
 from weblate.utils.state import STATE_LOOKUP
 
 
@@ -524,7 +523,7 @@ class Change(models.Model, UserDisplayMixin):
     )
     target = models.TextField(default="", blank=True)
     old = models.TextField(default="", blank=True)
-    details = JSONField()
+    details = models.JSONField(default=dict)
 
     objects = ChangeManager.from_queryset(ChangeQuerySet)()
 

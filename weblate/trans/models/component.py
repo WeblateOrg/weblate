@@ -81,7 +81,7 @@ from weblate.utils.celery import get_task_progress, is_task_ready
 from weblate.utils.colors import COLOR_CHOICES
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
-from weblate.utils.fields import EmailField, JSONField
+from weblate.utils.fields import EmailField
 from weblate.utils.licenses import (
     get_license_choices,
     get_license_name,
@@ -494,7 +494,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         validators=[validate_check_flags],
         blank=True,
     )
-    enforced_checks = JSONField(
+    enforced_checks = models.JSONField(
         verbose_name=gettext_lazy("Enforced checks"),
         help_text=gettext_lazy("List of checks which can not be ignored."),
         default=list,

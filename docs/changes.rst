@@ -41,5 +41,6 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are several changes in :file:`settings_example.py`, most notable is change in ``CACHES``, please adjust your settings accordingly.
 * Several previously optional dependencies are now required.
+* The database upgrade can take considerable time on larger sites due to structure changes.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/99?closed=1>`__.
