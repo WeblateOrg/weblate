@@ -82,11 +82,11 @@ class BrowserTracing  {
   /**
    * @inheritDoc
    */
-   __init() {this.name = BROWSER_TRACING_INTEGRATION_ID;}
 
-   __init2() {this._hasSetTracePropagationTargets = false;}
+   constructor(_options) {
+    this.name = BROWSER_TRACING_INTEGRATION_ID;
+    this._hasSetTracePropagationTargets = false;
 
-   constructor(_options) {BrowserTracing.prototype.__init.call(this);BrowserTracing.prototype.__init2.call(this);
     core.addTracingExtensions();
 
     if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
@@ -1126,7 +1126,7 @@ function fetchCallback(
     const options = handlerData.args[1];
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-    options.headers = addTracingHeadersToFetchRequest(request, client, scope, options);
+    options.headers = addTracingHeadersToFetchRequest(request, client, scope, options, span);
   }
 
   return span;
@@ -1142,8 +1142,9 @@ function addTracingHeadersToFetchRequest(
   options
 
 ,
+  requestSpan,
 ) {
-  const span = scope.getSpan();
+  const span = requestSpan || scope.getSpan();
 
   const transaction = span && span.transaction;
 
@@ -2137,7 +2138,6 @@ class Apollo  {
   /**
    * @inheritDoc
    */
-   __init() {this.name = Apollo.id;}
 
   /**
    * @inheritDoc
@@ -2146,7 +2146,8 @@ class Apollo  {
     options = {
       useNestjs: false,
     },
-  ) {Apollo.prototype.__init.call(this);
+  ) {
+    this.name = Apollo.id;
     this._useNest = !!options.useNestjs;
   }
 
@@ -2326,7 +2327,6 @@ class Express  {
   /**
    * @inheritDoc
    */
-   __init() {this.name = Express.id;}
 
   /**
    * Express App instance
@@ -2335,7 +2335,8 @@ class Express  {
   /**
    * @inheritDoc
    */
-   constructor(options = {}) {Express.prototype.__init.call(this);
+   constructor(options = {}) {
+    this.name = Express.id;
     this._router = options.router || options.app;
     this._methods = (Array.isArray(options.methods) ? options.methods : []).concat('use');
   }
@@ -2658,7 +2659,7 @@ const utils = require('@sentry/utils');
 const nodeUtils = require('./utils/node-utils.js');
 
 /** Tracing integration for graphql package */
-class GraphQL  {constructor() { GraphQL.prototype.__init.call(this); }
+class GraphQL  {
   /**
    * @inheritDoc
    */
@@ -2667,7 +2668,10 @@ class GraphQL  {constructor() { GraphQL.prototype.__init.call(this); }
   /**
    * @inheritDoc
    */
-   __init() {this.name = GraphQL.id;}
+
+   constructor() {
+    this.name = GraphQL.id;
+  }
 
   /** @inheritdoc */
    loadDependency() {
@@ -2872,12 +2876,12 @@ class Mongo  {
   /**
    * @inheritDoc
    */
-   __init() {this.name = Mongo.id;}
 
   /**
    * @inheritDoc
    */
-   constructor(options = {}) {Mongo.prototype.__init.call(this);
+   constructor(options = {}) {
+    this.name = Mongo.id;
     this._operations = Array.isArray(options.operations) ? options.operations : (OPERATIONS );
     this._describeOperations = 'describeOperations' in options ? options.describeOperations : true;
     this._useMongoose = !!options.useMongoose;
@@ -3038,7 +3042,7 @@ const utils = require('@sentry/utils');
 const nodeUtils = require('./utils/node-utils.js');
 
 /** Tracing integration for node-mysql package */
-class Mysql  {constructor() { Mysql.prototype.__init.call(this); }
+class Mysql  {
   /**
    * @inheritDoc
    */
@@ -3047,7 +3051,10 @@ class Mysql  {constructor() { Mysql.prototype.__init.call(this); }
   /**
    * @inheritDoc
    */
-   __init() {this.name = Mysql.id;}
+
+   constructor() {
+    this.name = Mysql.id;
+  }
 
   /** @inheritdoc */
    loadDependency() {
@@ -3129,9 +3136,9 @@ class Postgres  {
   /**
    * @inheritDoc
    */
-   __init() {this.name = Postgres.id;}
 
-   constructor(options = {}) {Postgres.prototype.__init.call(this);
+   constructor(options = {}) {
+    this.name = Postgres.id;
     this._usePgNative = !!options.usePgNative;
   }
 
@@ -3236,12 +3243,13 @@ class Prisma  {
   /**
    * @inheritDoc
    */
-   __init() {this.name = Prisma.id;}
 
   /**
    * @inheritDoc
    */
-   constructor(options = {}) {Prisma.prototype.__init.call(this);
+   constructor(options = {}) {
+    this.name = Prisma.id;
+
     // We instrument the PrismaClient inside the constructor and not inside `setupOnce` because in some cases of server-side
     // bundling (Next.js) multiple Prisma clients can be instantiated, even though users don't intend to. When instrumenting
     // in setupOnce we can only ever instrument one client.
@@ -4059,7 +4067,6 @@ class Breadcrumbs  {
   /**
    * @inheritDoc
    */
-   __init() {this.name = Breadcrumbs.id;}
 
   /**
    * Options of the breadcrumbs integration.
@@ -4069,7 +4076,8 @@ class Breadcrumbs  {
   /**
    * @inheritDoc
    */
-   constructor(options) {Breadcrumbs.prototype.__init.call(this);
+   constructor(options) {
+    this.name = Breadcrumbs.id;
     this.options = {
       console: true,
       dom: true,
@@ -4363,7 +4371,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const utils = require('@sentry/utils');
 
 /** Deduplication filter */
-class Dedupe  {constructor() { Dedupe.prototype.__init.call(this); }
+class Dedupe  {
   /**
    * @inheritDoc
    */
@@ -4372,11 +4380,14 @@ class Dedupe  {constructor() { Dedupe.prototype.__init.call(this); }
   /**
    * @inheritDoc
    */
-   __init() {this.name = Dedupe.id;}
 
   /**
    * @inheritDoc
    */
+
+   constructor() {
+    this.name = Dedupe.id;
+  }
 
   /**
    * @inheritDoc
@@ -4592,7 +4603,6 @@ class GlobalHandlers  {
   /**
    * @inheritDoc
    */
-   __init() {this.name = GlobalHandlers.id;}
 
   /** JSDoc */
 
@@ -4600,17 +4610,19 @@ class GlobalHandlers  {
    * Stores references functions to installing handlers. Will set to undefined
    * after they have been run so that they are not used twice.
    */
-   __init2() {this._installFunc = {
-    onerror: _installGlobalOnErrorHandler,
-    onunhandledrejection: _installGlobalOnUnhandledRejectionHandler,
-  };}
 
   /** JSDoc */
-   constructor(options) {GlobalHandlers.prototype.__init.call(this);GlobalHandlers.prototype.__init2.call(this);
+   constructor(options) {
+    this.name = GlobalHandlers.id;
     this._options = {
       onerror: true,
       onunhandledrejection: true,
       ...options,
+    };
+
+    this._installFunc = {
+      onerror: _installGlobalOnErrorHandler,
+      onunhandledrejection: _installGlobalOnUnhandledRejectionHandler,
     };
   }
   /**
@@ -4831,7 +4843,7 @@ const core = require('@sentry/core');
 const helpers = require('../helpers.js');
 
 /** HttpContext integration collects information about HTTP request headers */
-class HttpContext  {constructor() { HttpContext.prototype.__init.call(this); }
+class HttpContext  {
   /**
    * @inheritDoc
    */
@@ -4840,7 +4852,10 @@ class HttpContext  {constructor() { HttpContext.prototype.__init.call(this); }
   /**
    * @inheritDoc
    */
-   __init() {this.name = HttpContext.id;}
+
+   constructor() {
+    this.name = HttpContext.id;
+  }
 
   /**
    * @inheritDoc
@@ -4914,7 +4929,6 @@ class LinkedErrors  {
   /**
    * @inheritDoc
    */
-    __init() {this.name = LinkedErrors.id;}
 
   /**
    * @inheritDoc
@@ -4927,7 +4941,8 @@ class LinkedErrors  {
   /**
    * @inheritDoc
    */
-   constructor(options = {}) {LinkedErrors.prototype.__init.call(this);
+   constructor(options = {}) {
+    this.name = LinkedErrors.id;
     this._key = options.key || DEFAULT_KEY;
     this._limit = options.limit || DEFAULT_LIMIT;
   }
@@ -5012,14 +5027,14 @@ class TryCatch  {
   /**
    * @inheritDoc
    */
-   __init() {this.name = TryCatch.id;}
 
   /** JSDoc */
 
   /**
    * @inheritDoc
    */
-   constructor(options) {TryCatch.prototype.__init.call(this);
+   constructor(options) {
+    this.name = TryCatch.id;
     this._options = {
       XMLHttpRequest: true,
       eventTarget: true,
@@ -5511,9 +5526,12 @@ const utils = require('./utils.js');
  *
  * @experimental
  */
-class BrowserProfilingIntegration  {constructor() { BrowserProfilingIntegration.prototype.__init.call(this);BrowserProfilingIntegration.prototype.__init2.call(this); }
-    __init() {this.name = 'BrowserProfilingIntegration';}
-   __init2() {this.getCurrentHub = undefined;}
+class BrowserProfilingIntegration  {
+   static __initStatic() {this.id = 'BrowserProfilingIntegration';}
+
+   constructor() {
+    this.name = BrowserProfilingIntegration.id;
+  }
 
   /**
    * @inheritDoc
@@ -5575,7 +5593,7 @@ class BrowserProfilingIntegration  {constructor() { BrowserProfilingIntegration.
       utils$1.logger.warn('[Profiling] Client does not support hooks, profiling will be disabled');
     }
   }
-}
+} BrowserProfilingIntegration.__initStatic();
 
 exports.BrowserProfilingIntegration = BrowserProfilingIntegration;
 
@@ -7067,27 +7085,27 @@ class BaseClient {
   /** The client Dsn, if specified in options. Without this Dsn, the SDK will be disabled. */
 
   /** Array of set up integrations. */
-   __init() {this._integrations = {};}
 
   /** Indicates whether this client's integrations have been set up. */
-   __init2() {this._integrationsInitialized = false;}
 
   /** Number of calls being processed */
-   __init3() {this._numProcessing = 0;}
 
   /** Holds flushable  */
-   __init4() {this._outcomes = {};}
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-   __init5() {this._hooks = {};}
 
   /**
    * Initializes this client instance.
    *
    * @param options Options for the client.
    */
-   constructor(options) {BaseClient.prototype.__init.call(this);BaseClient.prototype.__init2.call(this);BaseClient.prototype.__init3.call(this);BaseClient.prototype.__init4.call(this);BaseClient.prototype.__init5.call(this);
+   constructor(options) {
     this._options = options;
+    this._integrations = {};
+    this._integrationsInitialized = false;
+    this._numProcessing = 0;
+    this._outcomes = {};
+    this._hooks = {};
 
     if (options.dsn) {
       this._dsn = utils.makeDsn(options.dsn);
@@ -8875,7 +8893,7 @@ const utils = require('@sentry/utils');
 let originalFunctionToString;
 
 /** Patch toString calls to return proper name for wrapped functions */
-class FunctionToString  {constructor() { FunctionToString.prototype.__init.call(this); }
+class FunctionToString  {
   /**
    * @inheritDoc
    */
@@ -8884,7 +8902,10 @@ class FunctionToString  {constructor() { FunctionToString.prototype.__init.call(
   /**
    * @inheritDoc
    */
-   __init() {this.name = FunctionToString.id;}
+
+   constructor() {
+    this.name = FunctionToString.id;
+  }
 
   /**
    * @inheritDoc
@@ -8941,9 +8962,11 @@ class InboundFilters  {
   /**
    * @inheritDoc
    */
-   __init() {this.name = InboundFilters.id;}
 
-   constructor(  _options = {}) {this._options = _options;InboundFilters.prototype.__init.call(this);}
+   constructor(options = {}) {
+    this.name = InboundFilters.id;
+    this._options = options;
+  }
 
   /**
    * @inheritDoc
@@ -9156,7 +9179,7 @@ const metadata = require('../metadata.js');
  * under the `module_metadata` property. This can be used to help in tagging or routing of events from different teams
  * our sources
  */
-class ModuleMetadata  {constructor() { ModuleMetadata.prototype.__init.call(this); }
+class ModuleMetadata  {
   /*
    * @inheritDoc
    */
@@ -9165,7 +9188,10 @@ class ModuleMetadata  {constructor() { ModuleMetadata.prototype.__init.call(this
   /**
    * @inheritDoc
    */
-   __init() {this.name = ModuleMetadata.id;}
+
+   constructor() {
+    this.name = ModuleMetadata.id;
+  }
 
   /**
    * @inheritDoc
@@ -10116,13 +10142,13 @@ const hub = require('./hub.js');
  * @inheritdoc
  */
 class SessionFlusher  {
-    __init() {this.flushTimeout = 60;}
-   __init2() {this._pendingAggregates = {};}
 
-   __init3() {this._isEnabled = true;}
-
-   constructor(client, attrs) {SessionFlusher.prototype.__init.call(this);SessionFlusher.prototype.__init2.call(this);SessionFlusher.prototype.__init3.call(this);
+   constructor(client, attrs) {
     this._client = client;
+    this.flushTimeout = 60;
+    this._pendingAggregates = {};
+    this._isEnabled = true;
+
     // Call to setInterval, so that flush is called every 60 seconds
     this._intervalId = setInterval(() => this.flush(), this.flushTimeout * 1000);
     this._sessionAttrs = attrs;
@@ -10601,26 +10627,18 @@ class IdleTransactionSpanRecorder extends span.SpanRecorder {
  */
 class IdleTransaction extends transaction.Transaction {
   // Activities store a list of active spans
-   __init() {this.activities = {};}
 
   // Track state of activities in previous heartbeat
 
   // Amount of times heartbeat has counted. Will cause transaction to finish after 3 beats.
-   __init2() {this._heartbeatCounter = 0;}
 
   // We should not use heartbeat if we finished a transaction
-   __init3() {this._finished = false;}
 
   // Idle timeout was canceled and we should finish the transaction with the last span end.
-   __init4() {this._idleTimeoutCanceledPermanently = false;}
-
-    __init5() {this._beforeFinishCallbacks = [];}
 
   /**
    * Timer that tracks Transaction idleTimeout
    */
-
-   __init6() {this._finishReason = IDLE_TRANSACTION_FINISH_REASONS[4];}
 
    constructor(
     transactionContext,
@@ -10638,7 +10656,14 @@ class IdleTransaction extends transaction.Transaction {
     // Whether or not the transaction should put itself on the scope when it starts and pop itself off when it ends
       _onScope = false,
   ) {
-    super(transactionContext, _idleHub);this._idleHub = _idleHub;this._idleTimeout = _idleTimeout;this._finalTimeout = _finalTimeout;this._heartbeatInterval = _heartbeatInterval;this._onScope = _onScope;IdleTransaction.prototype.__init.call(this);IdleTransaction.prototype.__init2.call(this);IdleTransaction.prototype.__init3.call(this);IdleTransaction.prototype.__init4.call(this);IdleTransaction.prototype.__init5.call(this);IdleTransaction.prototype.__init6.call(this);
+    super(transactionContext, _idleHub);this._idleHub = _idleHub;this._idleTimeout = _idleTimeout;this._finalTimeout = _finalTimeout;this._heartbeatInterval = _heartbeatInterval;this._onScope = _onScope;
+    this.activities = {};
+    this._heartbeatCounter = 0;
+    this._finished = false;
+    this._idleTimeoutCanceledPermanently = false;
+    this._beforeFinishCallbacks = [];
+    this._finishReason = IDLE_TRANSACTION_FINISH_REASONS[4];
+
     if (_onScope) {
       // We set the transaction here on the scope so error events pick up the trace
       // context and attach it to the error.
@@ -10907,10 +10932,10 @@ const utils = require('@sentry/utils');
  * @hidden
  */
 class SpanRecorder {
-   __init() {this.spans = [];}
 
-   constructor(maxlen = 1000) {SpanRecorder.prototype.__init.call(this);
+   constructor(maxlen = 1000) {
     this._maxlen = maxlen;
+    this.spans = [];
   }
 
   /**
@@ -10935,12 +10960,10 @@ class Span  {
   /**
    * @inheritDoc
    */
-   __init2() {this.traceId = utils.uuid4();}
 
   /**
    * @inheritDoc
    */
-   __init3() {this.spanId = utils.uuid4().substring(16);}
 
   /**
    * @inheritDoc
@@ -10957,7 +10980,6 @@ class Span  {
   /**
    * Timestamp in seconds when the span was created.
    */
-   __init4() {this.startTimestamp = utils.timestampInSeconds();}
 
   /**
    * Timestamp in seconds when the span ended.
@@ -10974,13 +10996,11 @@ class Span  {
   /**
    * @inheritDoc
    */
-   __init5() {this.tags = {};}
 
   /**
    * @inheritDoc
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-   __init6() {this.data = {};}
 
   /**
    * List of spans that were finalized
@@ -10993,7 +11013,6 @@ class Span  {
   /**
    * The instrumenter that created this span.
    */
-   __init7() {this.instrumenter = 'sentry';}
 
   /**
    * You should never call the constructor manually, always use `Sentry.startTransaction()`
@@ -11002,7 +11021,14 @@ class Span  {
    * @hideconstructor
    * @hidden
    */
-   constructor(spanContext) {Span.prototype.__init2.call(this);Span.prototype.__init3.call(this);Span.prototype.__init4.call(this);Span.prototype.__init5.call(this);Span.prototype.__init6.call(this);Span.prototype.__init7.call(this);
+   constructor(spanContext) {
+    this.traceId = utils.uuid4();
+    this.spanId = utils.uuid4().substring(16);
+    this.startTimestamp = utils.timestampInSeconds();
+    this.tags = {};
+    this.data = {};
+    this.instrumenter = 'sentry';
+
     if (!spanContext) {
       return this;
     }
@@ -11418,12 +11444,6 @@ class Transaction extends span.Span  {
    * The reference to the current hub.
    */
 
-   __init() {this._measurements = {};}
-
-   __init2() {this._contexts = {};}
-
-   __init3() {this._frozenDynamicSamplingContext = undefined;}
-
   /**
    * This constructor should never be called manually. Those instrumenting tracing should use
    * `Sentry.startTransaction()`, and internal methods should use `hub.startTransaction()`.
@@ -11432,7 +11452,11 @@ class Transaction extends span.Span  {
    * @hidden
    */
    constructor(transactionContext, hub$1) {
-    super(transactionContext);Transaction.prototype.__init.call(this);Transaction.prototype.__init2.call(this);Transaction.prototype.__init3.call(this);
+    super(transactionContext);
+
+    this._measurements = {};
+    this._contexts = {};
+
     this._hub = hub$1 || hub.getCurrentHub();
 
     this._name = transactionContext.name || '';
@@ -12392,7 +12416,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":54,"../scope.js":65,"@sentry/utils":108}],83:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.61.0';
+const SDK_VERSION = '7.61.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -15805,17 +15829,17 @@ function handleClick(clickDetector, clickBreadcrumb, node) {
 /** A click detector class that can be used to detect slow or rage clicks on elements. */
 class ClickDetector  {
   // protected for testing
-   __init() {this._lastMutation = 0;}
-   __init2() {this._lastScroll = 0;}
-
-   __init3() {this._clicks = [];}
 
    constructor(
     replay,
     slowClickConfig,
     // Just for easier testing
     _addBreadcrumbEvent = addBreadcrumbEvent,
-  ) {ClickDetector.prototype.__init.call(this);ClickDetector.prototype.__init2.call(this);ClickDetector.prototype.__init3.call(this);
+  ) {
+    this._lastMutation = 0;
+    this._lastScroll = 0;
+    this._clicks = [];
+
     // We want everything in s, but options are in ms
     this._timeout = slowClickConfig.timeout / 1000;
     this._threshold = slowClickConfig.threshold / 1000;
@@ -16417,6 +16441,32 @@ function t(t){let e=t.length;for(;--e>=0;)t[e]=0}const e=new Uint8Array([0,0,0,0
 
 function e(){const e=new Blob([r]);return URL.createObjectURL(e)}
 
+/**
+ * Log a message in debug mode, and add a breadcrumb when _experiment.traceInternals is enabled.
+ */
+function logInfo(message, shouldAddBreadcrumb) {
+  if (!(typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+    return;
+  }
+
+  utils.logger.info(message);
+
+  if (shouldAddBreadcrumb) {
+    const hub = core.getCurrentHub();
+    hub.addBreadcrumb(
+      {
+        category: 'console',
+        data: {
+          logger: 'replay',
+        },
+        level: 'info',
+        message,
+      },
+      { level: 'info' },
+    );
+  }
+}
+
 /** This error indicates that the event buffer size exceeded the limit.. */
 class EventBufferSizeExceededError extends Error {
    constructor() {
@@ -16431,10 +16481,9 @@ class EventBufferSizeExceededError extends Error {
 class EventBufferArray  {
   /** All the events that are buffered to be sent. */
 
-   __init() {this._totalSize = 0;}
-
-   constructor() {EventBufferArray.prototype.__init.call(this);
+   constructor() {
     this.events = [];
+    this._totalSize = 0;
   }
 
   /** @inheritdoc */
@@ -16543,7 +16592,7 @@ class WorkerHandler {
    * Destroy the worker.
    */
    destroy() {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Destroying compression worker');
+    logInfo('[Replay] Destroying compression worker');
     this._worker.terminate();
   }
 
@@ -16599,11 +16648,10 @@ class WorkerHandler {
  */
 class EventBufferCompressionWorker  {
 
-   __init() {this._totalSize = 0;}
-
-   constructor(worker) {EventBufferCompressionWorker.prototype.__init.call(this);
+   constructor(worker) {
     this._worker = new WorkerHandler(worker);
     this._earliestTimestamp = null;
+    this._totalSize = 0;
   }
 
   /** @inheritdoc */
@@ -16762,7 +16810,7 @@ class EventBufferProxy  {
     } catch (error) {
       // If the worker fails to load, we fall back to the simple buffer.
       // Nothing more to do from our side here
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Failed to load the compression worker, falling back to simple buffer');
+      logInfo('[Replay] Failed to load the compression worker, falling back to simple buffer');
       return;
     }
 
@@ -16801,16 +16849,16 @@ function createEventBuffer({ useCompression }) {
     try {
       const workerUrl = e();
 
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Using compression worker');
+      logInfo('[Replay] Using compression worker');
       const worker = new Worker(workerUrl);
       return new EventBufferProxy(worker);
     } catch (error) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Failed to create compression worker');
+      logInfo('[Replay] Failed to create compression worker');
       // Fall back to use simple event buffer array
     }
   }
 
-  (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Using simple buffer');
+  logInfo('[Replay] Using simple buffer');
   return new EventBufferArray();
 }
 
@@ -16923,6 +16971,7 @@ function makeSession(session) {
   const lastActivity = session.lastActivity || now;
   const segmentId = session.segmentId || 0;
   const sampled = session.sampled;
+  const shouldRefresh = typeof session.shouldRefresh === 'boolean' ? session.shouldRefresh : true;
 
   return {
     id,
@@ -16930,7 +16979,7 @@ function makeSession(session) {
     lastActivity,
     segmentId,
     sampled,
-    shouldRefresh: true,
+    shouldRefresh,
   };
 }
 
@@ -16952,8 +17001,6 @@ function createSession({ sessionSampleRate, allowBuffering, stickySession = fals
     sampled,
   });
 
-  (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`[Replay] Creating new session: ${session.id}`);
-
   if (stickySession) {
     saveSession(session);
   }
@@ -16964,7 +17011,7 @@ function createSession({ sessionSampleRate, allowBuffering, stickySession = fals
 /**
  * Fetches a session from storage
  */
-function fetchSession() {
+function fetchSession(traceInternals) {
   if (!hasSessionStorage()) {
     return null;
   }
@@ -16978,6 +17025,8 @@ function fetchSession() {
     }
 
     const sessionObj = JSON.parse(sessionStringFromStorage) ;
+
+    logInfo('[Replay] Loading existing session', traceInternals);
 
     return makeSession(sessionObj);
   } catch (e) {
@@ -16994,9 +17043,10 @@ function getSession({
   stickySession,
   sessionSampleRate,
   allowBuffering,
+  traceInternals,
 }) {
   // If session exists and is passed, use it instead of always hitting session storage
-  const session = currentSession || (stickySession && fetchSession());
+  const session = currentSession || (stickySession && fetchSession(traceInternals));
 
   if (session) {
     // If there is a session, check if it is valid (e.g. "last activity" time
@@ -17012,9 +17062,10 @@ function getSession({
       // and when this session is expired, it will not be renewed until user
       // reloads.
       const discardedSession = makeSession({ sampled: false });
+      logInfo('[Replay] Session should not be refreshed', traceInternals);
       return { type: 'new', session: discardedSession };
     } else {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Session has expired');
+      logInfo('[Replay] Session has expired', traceInternals);
     }
     // Otherwise continue to create a new session
   }
@@ -17024,6 +17075,7 @@ function getSession({
     sessionSampleRate,
     allowBuffering,
   });
+  logInfo('[Replay] Created new session', traceInternals);
 
   return { type: 'new', session: newSession };
 }
@@ -17130,7 +17182,7 @@ function handleAfterSendEvent(replay) {
   const enforceStatusCode = isBaseTransportSend();
 
   return (event, sendResponse) => {
-    if (!isErrorEvent(event) && !isTransactionEvent(event)) {
+    if (!replay.isEnabled() || (!isErrorEvent(event) && !isTransactionEvent(event))) {
       return;
     }
 
@@ -17143,36 +17195,47 @@ function handleAfterSendEvent(replay) {
       return;
     }
 
-    // Collect traceIds in _context regardless of `recordingMode`
-    // In error mode, _context gets cleared on every checkout
-    if (isTransactionEvent(event) && event.contexts && event.contexts.trace && event.contexts.trace.trace_id) {
-      replay.getContext().traceIds.add(event.contexts.trace.trace_id );
+    if (isTransactionEvent(event)) {
+      handleTransactionEvent(replay, event);
       return;
     }
 
-    // Everything below is just for error events
-    if (!isErrorEvent(event)) {
-      return;
-    }
-
-    // Add error to list of errorIds of replay. This is ok to do even if not
-    // sampled because context will get reset at next checkout.
-    // XXX: There is also a race condition where it's possible to capture an
-    // error to Sentry before Replay SDK has loaded, but response returns after
-    // it was loaded, and this gets called.
-    if (event.event_id) {
-      replay.getContext().errorIds.add(event.event_id);
-    }
-
-    // If error event is tagged with replay id it means it was sampled (when in buffer mode)
-    // Need to be very careful that this does not cause an infinite loop
-    if (replay.recordingMode === 'buffer' && event.tags && event.tags.replayId) {
-      setTimeout(() => {
-        // Capture current event buffer as new replay
-        void replay.sendBufferedReplayOrFlush();
-      });
-    }
+    handleErrorEvent(replay, event);
   };
+}
+
+function handleTransactionEvent(replay, event) {
+  const replayContext = replay.getContext();
+
+  // Collect traceIds in _context regardless of `recordingMode`
+  // In error mode, _context gets cleared on every checkout
+  // We limit to max. 100 transactions linked
+  if (event.contexts && event.contexts.trace && event.contexts.trace.trace_id && replayContext.traceIds.size < 100) {
+    replayContext.traceIds.add(event.contexts.trace.trace_id );
+  }
+}
+
+function handleErrorEvent(replay, event) {
+  const replayContext = replay.getContext();
+
+  // Add error to list of errorIds of replay. This is ok to do even if not
+  // sampled because context will get reset at next checkout.
+  // XXX: There is also a race condition where it's possible to capture an
+  // error to Sentry before Replay SDK has loaded, but response returns after
+  // it was loaded, and this gets called.
+  // We limit to max. 100 errors linked
+  if (event.event_id && replayContext.errorIds.size < 100) {
+    replayContext.errorIds.add(event.event_id);
+  }
+
+  // If error event is tagged with replay id it means it was sampled (when in buffer mode)
+  // Need to be very careful that this does not cause an infinite loop
+  if (replay.recordingMode === 'buffer' && event.tags && event.tags.replayId) {
+    setTimeout(() => {
+      // Capture current event buffer as new replay
+      void replay.sendBufferedReplayOrFlush();
+    });
+  }
 }
 
 function isBaseTransportSend() {
@@ -17248,6 +17311,11 @@ function handleGlobalEventListener(
   const afterSendHandler = includeAfterSendEventHandling ? handleAfterSendEvent(replay) : undefined;
 
   return (event, hint) => {
+    // Do nothing if replay has been disabled
+    if (!replay.isEnabled()) {
+      return event;
+    }
+
     if (isReplayEvent(event)) {
       // Replays have separate set of breadcrumbs, do not include breadcrumbs
       // from core SDK
@@ -19029,10 +19097,10 @@ function getHandleRecordingEmit(replay) {
       if (replay.recordingMode === 'buffer' && replay.session && replay.eventBuffer) {
         const earliestEvent = replay.eventBuffer.getEarliestTimestamp();
         if (earliestEvent) {
-          // eslint-disable-next-line no-console
-          const log = replay.getOptions()._experiments.traceInternals ? console.info : utils.logger.info;
-          (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-            log(`[Replay] Updating session start time to earliest event in buffer at ${earliestEvent}`);
+          logInfo(
+            `[Replay] Updating session start time to earliest event in buffer to ${new Date(earliestEvent)}`,
+            replay.getOptions()._experiments.traceInternals,
+          );
 
           replay.session.started = earliestEvent;
 
@@ -19246,7 +19314,7 @@ async function sendReplayRequest({
   if (!replayEvent) {
     // Taken from baseclient's `_processEvent` method, where this is handled for errors/transactions
     client.recordDroppedEvent('event_processor', 'replay', baseEvent);
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('An event processor returned `null`, will not send event.');
+    logInfo('An event processor returned `null`, will not send event.');
     return;
   }
 
@@ -19459,12 +19527,10 @@ function throttle(
  * The main replay container class, which holds all the state and methods for recording and sending replays.
  */
 class ReplayContainer  {
-   __init() {this.eventBuffer = null;}
 
   /**
    * List of PerformanceEntry from PerformanceObserver
    */
-   __init2() {this.performanceEvents = [];}
 
   /**
    * Recording can happen in one of three modes:
@@ -19473,7 +19539,6 @@ class ReplayContainer  {
    *     - having replaysOnErrorSampleRate > 0 to capture replay when an error occurs
    *     - or calling `flush()` to send the replay
    */
-   __init3() {this.recordingMode = 'session';}
 
   /**
    * The current or last active transcation.
@@ -19484,62 +19549,60 @@ class ReplayContainer  {
    * These are here so we can overwrite them in tests etc.
    * @hidden
    */
-    __init4() {this.timeouts = {
-    sessionIdlePause: SESSION_IDLE_PAUSE_DURATION,
-    sessionIdleExpire: SESSION_IDLE_EXPIRE_DURATION,
-    maxSessionLife: MAX_SESSION_LIFE,
-  }; }
 
   /**
    * Options to pass to `rrweb.record()`
    */
 
-   __init5() {this._performanceObserver = null;}
-
-   __init6() {this._flushLock = null;}
-
   /**
    * Timestamp of the last user activity. This lives across sessions.
    */
-   __init7() {this._lastActivity = Date.now();}
 
   /**
    * Is the integration currently active?
    */
-   __init8() {this._isEnabled = false;}
 
   /**
    * Paused is a state where:
    * - DOM Recording is not listening at all
    * - Nothing will be added to event buffer (e.g. core SDK events)
    */
-   __init9() {this._isPaused = false;}
 
   /**
    * Have we attached listeners to the core SDK?
    * Note we have to track this as there is no way to remove instrumentation handlers.
    */
-   __init10() {this._hasInitializedCoreListeners = false;}
 
   /**
    * Function to stop recording
    */
-   __init11() {this._stopRecording = null;}
-
-   __init12() {this._context = {
-    errorIds: new Set(),
-    traceIds: new Set(),
-    urls: [],
-    initialTimestamp: Date.now(),
-    initialUrl: '',
-  };}
 
    constructor({
     options,
     recordingOptions,
   }
 
-) {ReplayContainer.prototype.__init.call(this);ReplayContainer.prototype.__init2.call(this);ReplayContainer.prototype.__init3.call(this);ReplayContainer.prototype.__init4.call(this);ReplayContainer.prototype.__init5.call(this);ReplayContainer.prototype.__init6.call(this);ReplayContainer.prototype.__init7.call(this);ReplayContainer.prototype.__init8.call(this);ReplayContainer.prototype.__init9.call(this);ReplayContainer.prototype.__init10.call(this);ReplayContainer.prototype.__init11.call(this);ReplayContainer.prototype.__init12.call(this);ReplayContainer.prototype.__init13.call(this);ReplayContainer.prototype.__init14.call(this);ReplayContainer.prototype.__init15.call(this);ReplayContainer.prototype.__init16.call(this);ReplayContainer.prototype.__init17.call(this);ReplayContainer.prototype.__init18.call(this);
+) {ReplayContainer.prototype.__init.call(this);ReplayContainer.prototype.__init2.call(this);ReplayContainer.prototype.__init3.call(this);ReplayContainer.prototype.__init4.call(this);ReplayContainer.prototype.__init5.call(this);ReplayContainer.prototype.__init6.call(this);
+    this.eventBuffer = null;
+    this.performanceEvents = [];
+    this.recordingMode = 'session';
+    this.timeouts = {
+      sessionIdlePause: SESSION_IDLE_PAUSE_DURATION,
+      sessionIdleExpire: SESSION_IDLE_EXPIRE_DURATION,
+      maxSessionLife: MAX_SESSION_LIFE,
+    } ;
+    this._lastActivity = Date.now();
+    this._isEnabled = false;
+    this._isPaused = false;
+    this._hasInitializedCoreListeners = false;
+    this._context = {
+      errorIds: new Set(),
+      traceIds: new Set(),
+      urls: [],
+      initialTimestamp: Date.now(),
+      initialUrl: '',
+    };
+
     this._recordingOptions = recordingOptions;
     this._options = options;
 
@@ -19628,6 +19691,8 @@ class ReplayContainer  {
       this.recordingMode = 'buffer';
     }
 
+    logInfo(`[Replay] Starting replay in ${this.recordingMode} mode`, this._options._experiments.traceInternals);
+
     this._initializeRecording();
   }
 
@@ -19647,6 +19712,8 @@ class ReplayContainer  {
       throw new Error('Replay buffering is in progress, call `flush()` to save the replay');
     }
 
+    logInfo('[Replay] Starting replay in session mode', this._options._experiments.traceInternals);
+
     const previousSessionId = this.session && this.session.id;
 
     const { session } = getSession({
@@ -19656,6 +19723,7 @@ class ReplayContainer  {
       // This is intentional: create a new session-based replay when calling `start()`
       sessionSampleRate: 1,
       allowBuffering: false,
+      traceInternals: this._options._experiments.traceInternals,
     });
 
     session.previousSessionId = previousSessionId;
@@ -19673,6 +19741,8 @@ class ReplayContainer  {
       throw new Error('Replay recording is already in progress');
     }
 
+    logInfo('[Replay] Starting replay in buffer mode', this._options._experiments.traceInternals);
+
     const previousSessionId = this.session && this.session.id;
 
     const { session } = getSession({
@@ -19681,6 +19751,7 @@ class ReplayContainer  {
       currentSession: this.session,
       sessionSampleRate: 0,
       allowBuffering: true,
+      traceInternals: this._options._experiments.traceInternals,
     });
 
     session.previousSessionId = previousSessionId;
@@ -19741,15 +19812,10 @@ class ReplayContainer  {
     }
 
     try {
-      if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
-        const msg = `[Replay] Stopping Replay${reason ? ` triggered by ${reason}` : ''}`;
-
-        // When `traceInternals` is enabled, we want to log this to the console
-        // Else, use the regular debug output
-        // eslint-disable-next-line
-        const log = this.getOptions()._experiments.traceInternals ? console.warn : utils.logger.log;
-        log(msg);
-      }
+      logInfo(
+        `[Replay] Stopping Replay${reason ? ` triggered by ${reason}` : ''}`,
+        this._options._experiments.traceInternals,
+      );
 
       // We can't move `_isEnabled` after awaiting a flush, otherwise we can
       // enter into an infinite loop when `stop()` is called while flushing.
@@ -19782,8 +19848,14 @@ class ReplayContainer  {
    * not as thorough of a shutdown as `stop()`.
    */
    pause() {
+    if (this._isPaused) {
+      return;
+    }
+
     this._isPaused = true;
     this.stopRecording();
+
+    logInfo('[Replay] Pausing replay', this._options._experiments.traceInternals);
   }
 
   /**
@@ -19793,12 +19865,14 @@ class ReplayContainer  {
    * new DOM checkout.`
    */
    resume() {
-    if (!this._loadAndCheckSession()) {
+    if (!this._isPaused || !this._loadAndCheckSession()) {
       return;
     }
 
     this._isPaused = false;
     this.startRecording();
+
+    logInfo('[Replay] Resuming replay', this._options._experiments.traceInternals);
   }
 
   /**
@@ -19815,9 +19889,7 @@ class ReplayContainer  {
 
     const activityTime = Date.now();
 
-    // eslint-disable-next-line no-console
-    const log = this.getOptions()._experiments.traceInternals ? console.info : utils.logger.info;
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && log(`[Replay] Converting buffer to session, starting at ${activityTime}`);
+    logInfo('[Replay] Converting buffer to session', this._options._experiments.traceInternals);
 
     // Allow flush to complete before resuming as a session recording, otherwise
     // the checkout from `startRecording` may be included in the payload.
@@ -19831,10 +19903,12 @@ class ReplayContainer  {
       return;
     }
 
-    // Re-start recording, but in "session" recording mode
+    // To avoid race conditions where this is called multiple times, we check here again that we are still buffering
+    if ((this.recordingMode ) === 'session') {
+      return;
+    }
 
-    // Reset all "capture on error" configuration before
-    // starting a new recording
+    // Re-start recording in session-mode
     this.recordingMode = 'session';
 
     // Once this session ends, we do not want to refresh it
@@ -19851,7 +19925,6 @@ class ReplayContainer  {
       // (length of buffer), which we are ok with.
       this._updateUserActivity(activityTime);
       this._updateSessionActivity(activityTime);
-      this.session.started = activityTime;
       this._maybeSaveSession();
     }
 
@@ -20125,6 +20198,7 @@ class ReplayContainer  {
       currentSession: this.session,
       sessionSampleRate: this._options.sessionSampleRate,
       allowBuffering: this._options.errorSampleRate > 0 || this.recordingMode === 'buffer',
+      traceInternals: this._options._experiments.traceInternals,
     });
 
     // If session was newly created (i.e. was not loaded from storage), then
@@ -20141,7 +20215,7 @@ class ReplayContainer  {
     this.session = session;
 
     if (!this.session.sampled) {
-      void this.stop('session unsampled');
+      void this.stop('session not refreshed');
       return false;
     }
 
@@ -20197,7 +20271,7 @@ class ReplayContainer  {
 
       if (this._performanceObserver) {
         this._performanceObserver.disconnect();
-        this._performanceObserver = null;
+        this._performanceObserver = undefined;
       }
     } catch (err) {
       this._handleException(err);
@@ -20210,7 +20284,7 @@ class ReplayContainer  {
    * be hidden. Likewise, moving a different window to cover the contents of the
    * page will also trigger a change to a hidden state.
    */
-   __init13() {this._handleVisibilityChange = () => {
+   __init() {this._handleVisibilityChange = () => {
     if (WINDOW.document.visibilityState === 'visible') {
       this._doChangeToForegroundTasks();
     } else {
@@ -20221,7 +20295,7 @@ class ReplayContainer  {
   /**
    * Handle when page is blurred
    */
-   __init14() {this._handleWindowBlur = () => {
+   __init2() {this._handleWindowBlur = () => {
     const breadcrumb = createBreadcrumb({
       category: 'ui.blur',
     });
@@ -20234,7 +20308,7 @@ class ReplayContainer  {
   /**
    * Handle when page is focused
    */
-   __init15() {this._handleWindowFocus = () => {
+   __init3() {this._handleWindowFocus = () => {
     const breadcrumb = createBreadcrumb({
       category: 'ui.focus',
     });
@@ -20245,7 +20319,7 @@ class ReplayContainer  {
   };}
 
   /** Ensure page remains active when a key is pressed. */
-   __init16() {this._handleKeyboardEvent = (event) => {
+   __init4() {this._handleKeyboardEvent = (event) => {
     handleKeyboardEvent(this, event);
   };}
 
@@ -20283,7 +20357,7 @@ class ReplayContainer  {
       // If the user has come back to the page within SESSION_IDLE_PAUSE_DURATION
       // ms, we will re-use the existing session, otherwise create a new
       // session
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Document has become active, but session has expired');
+      logInfo('[Replay] Document has become active, but session has expired');
       return;
     }
 
@@ -20298,7 +20372,7 @@ class ReplayContainer  {
    */
    _triggerFullSnapshot(checkout = true) {
     try {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Taking full rrweb snapshot');
+      logInfo('[Replay] Taking full rrweb snapshot');
       record.takeFullSnapshot(checkout);
     } catch (err) {
       this._handleException(err);
@@ -20468,7 +20542,7 @@ class ReplayContainer  {
    * Flush recording data to Sentry. Creates a lock so that only a single flush
    * can be active at a time. Do not call this directly.
    */
-   __init17() {this._flush = async ({
+   __init5() {this._flush = async ({
     force = false,
   }
 
@@ -20494,14 +20568,18 @@ class ReplayContainer  {
 
     // If session is too short, or too long (allow some wiggle room over maxSessionLife), do not send it
     // This _should_ not happen, but it may happen if flush is triggered due to a page activity change or similar
-    if (duration < this._options.minReplayDuration || duration > this.timeouts.maxSessionLife + 5000) {
-      // eslint-disable-next-line no-console
-      const log = this.getOptions()._experiments.traceInternals ? console.warn : utils.logger.warn;
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-        log(
-          `[Replay] Session duration (${Math.floor(duration / 1000)}s) is too short or too long, not sending replay.`,
-        );
+    const tooShort = duration < this._options.minReplayDuration;
+    const tooLong = duration > this.timeouts.maxSessionLife + 5000;
+    if (tooShort || tooLong) {
+      logInfo(
+        `[Replay] Session duration (${Math.floor(duration / 1000)}s) is too ${
+          tooShort ? 'short' : 'long'
+        }, not sending replay.`,
+      );
 
+      if (tooShort) {
+        this._debouncedFlush();
+      }
       return;
     }
 
@@ -20513,7 +20591,7 @@ class ReplayContainer  {
     if (!this._flushLock) {
       this._flushLock = this._runFlush();
       await this._flushLock;
-      this._flushLock = null;
+      this._flushLock = undefined;
       return;
     }
 
@@ -20540,7 +20618,7 @@ class ReplayContainer  {
   }
 
   /** Handler for rrweb.record.onMutation */
-   __init18() {this._onMutationHandler = (mutations) => {
+   __init6() {this._onMutationHandler = (mutations) => {
     const count = mutations.length;
 
     const mutationLimit = this._options.mutationLimit;
@@ -20690,7 +20768,6 @@ class Replay  {
   /**
    * @inheritDoc
    */
-   __init() {this.name = Replay.id;}
 
   /**
    * Options to pass to `rrweb.record()`
@@ -20750,7 +20827,9 @@ class Replay  {
     maskTextSelector,
     // eslint-disable-next-line deprecation/deprecation
     ignoreClass,
-  } = {}) {Replay.prototype.__init.call(this);
+  } = {}) {
+    this.name = Replay.id;
+
     this._recordingOptions = {
       maskAllInputs,
       maskAllText,
@@ -23818,7 +23897,7 @@ function addContextToFrame(lines, frame, linesOfContext = 5) {
   }
 
   const maxLines = lines.length;
-  const sourceLine = Math.max(Math.min(maxLines, frame.lineno - 1), 0);
+  const sourceLine = Math.max(Math.min(maxLines - 1, frame.lineno - 1), 0);
 
   frame.pre_context = lines
     .slice(Math.max(0, sourceLine - linesOfContext), sourceLine)
@@ -25429,6 +25508,7 @@ const nodeStackTrace = require('./node-stack-trace.js');
 const STACKTRACE_FRAME_LIMIT = 50;
 // Used to sanitize webpack (error: *) wrapped stack errors
 const WEBPACK_ERROR_REGEXP = /\(error: (.*)\)/;
+const STRIP_FRAME_REGEXP = /captureMessage|captureException/;
 
 /**
  * Creates a stack parser with the supplied line parsers
@@ -25506,24 +25586,34 @@ function stripSentryFramesAndReverse(stack) {
     return [];
   }
 
-  const localStack = stack.slice(0, STACKTRACE_FRAME_LIMIT);
+  const localStack = Array.from(stack);
 
-  const lastFrameFunction = localStack[localStack.length - 1].function;
   // If stack starts with one of our API calls, remove it (starts, meaning it's the top of the stack - aka last call)
-  if (lastFrameFunction && /sentryWrapped/.test(lastFrameFunction)) {
+  if (/sentryWrapped/.test(localStack[localStack.length - 1].function || '')) {
     localStack.pop();
   }
 
   // Reversing in the middle of the procedure allows us to just pop the values off the stack
   localStack.reverse();
 
-  const firstFrameFunction = localStack[localStack.length - 1].function;
   // If stack ends with one of our internal API calls, remove it (ends, meaning it's the bottom of the stack - aka top-most call)
-  if (firstFrameFunction && /captureMessage|captureException/.test(firstFrameFunction)) {
+  if (STRIP_FRAME_REGEXP.test(localStack[localStack.length - 1].function || '')) {
     localStack.pop();
+
+    // When using synthetic events, we will have a 2 levels deep stack, as `new Error('Sentry syntheticException')`
+    // is produced within the hub itself, making it:
+    //
+    //   Sentry.captureException()
+    //   getCurrentHub().captureException()
+    //
+    // instead of just the top `Sentry` call itself.
+    // This forces us to possibly strip an additional frame in the exact same was as above.
+    if (STRIP_FRAME_REGEXP.test(localStack[localStack.length - 1].function || '')) {
+      localStack.pop();
+    }
   }
 
-  return localStack.map(frame => ({
+  return localStack.slice(0, STACKTRACE_FRAME_LIMIT).map(frame => ({
     ...frame,
     filename: frame.filename || localStack[localStack.length - 1].filename,
     function: frame.function || '?',
@@ -25925,12 +26015,13 @@ function rejectedSyncPromise(reason) {
  * but is not async internally
  */
 class SyncPromise {
-   __init() {this._state = States.PENDING;}
-   __init2() {this._handlers = [];}
 
    constructor(
     executor,
-  ) {SyncPromise.prototype.__init.call(this);SyncPromise.prototype.__init2.call(this);SyncPromise.prototype.__init3.call(this);SyncPromise.prototype.__init4.call(this);SyncPromise.prototype.__init5.call(this);SyncPromise.prototype.__init6.call(this);
+  ) {SyncPromise.prototype.__init.call(this);SyncPromise.prototype.__init2.call(this);SyncPromise.prototype.__init3.call(this);SyncPromise.prototype.__init4.call(this);
+    this._state = States.PENDING;
+    this._handlers = [];
+
     try {
       executor(this._resolve, this._reject);
     } catch (e) {
@@ -26015,17 +26106,17 @@ class SyncPromise {
   }
 
   /** JSDoc */
-    __init3() {this._resolve = (value) => {
+    __init() {this._resolve = (value) => {
     this._setResult(States.RESOLVED, value);
   };}
 
   /** JSDoc */
-    __init4() {this._reject = (reason) => {
+    __init2() {this._reject = (reason) => {
     this._setResult(States.REJECTED, reason);
   };}
 
   /** JSDoc */
-    __init5() {this._setResult = (state, value) => {
+    __init3() {this._setResult = (state, value) => {
     if (this._state !== States.PENDING) {
       return;
     }
@@ -26042,7 +26133,7 @@ class SyncPromise {
   };}
 
   /** JSDoc */
-    __init6() {this._executeHandlers = () => {
+    __init4() {this._executeHandlers = () => {
     if (this._state === States.PENDING) {
       return;
     }
