@@ -175,9 +175,11 @@ class ReusedCheck(TargetCheck):
         return self.get_propagated_units(unit).exists()
 
     def get_description(self, check_obj):
-        other_sources = check_obj.unit.same_target_units.values_list(
-            "source", flat=True
-        ).distinct()
+        other_sources = (
+            self.get_propagated_units(check_obj.unit)
+            .values_list("source", flat=True)
+            .distinct()
+        )
 
         return ngettext(
             "Other source string: %s", "Other source strings: %s", len(other_sources)
