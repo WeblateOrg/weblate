@@ -1299,7 +1299,8 @@ class Unit(models.Model, LoggerMixin):
                     unit__in=propagated_units, name__in=propagated_old_checks
                 ).delete()
                 for other in propagated_units:
-                    other.translation.invalidate_cache()
+                    if other.translation != self.translation:
+                        other.translation.invalidate_cache()
                     other.clear_checks_cache()
 
         # Trigger source checks on target check update (multiple failing checks)
