@@ -74,6 +74,9 @@ class ConsistencyCheck(TargetCheck):
     batch_project_wide = True
     skip_suggestions = True
 
+    def get_propagated_value(self, unit):
+        return unit.target
+
     def get_propagated_units(self, unit, target: str | None = None):
         return unit.same_source_units
 
@@ -149,6 +152,9 @@ class ReusedCheck(TargetCheck):
     propagates = True
     batch_project_wide = True
     skip_suggestions = True
+
+    def get_propagated_value(self, unit):
+        return unit.source
 
     def get_propagated_units(self, unit, target: str | None = None):
         from weblate.trans.models import Unit

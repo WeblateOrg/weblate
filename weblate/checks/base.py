@@ -39,6 +39,9 @@ class Check:
     def get_identifier(self):
         return self.check_id
 
+    def get_propagated_value(self, unit):
+        return None
+
     def get_propagated_units(self, unit, target: str | None = None):
         from weblate.trans.models import Unit
 

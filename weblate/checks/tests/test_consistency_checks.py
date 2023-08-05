@@ -153,18 +153,25 @@ class ConsistencyCheckTest(ViewTestCase):
         self.assertEqual(check.check_component(self.component), [])
 
         # Add triggering unit
-        unit = self.add_unit(self.translation_2, "two", "Two", "Jeden")
-        self.assertTrue(check.check_target_unit([], [], unit))
+        unit2 = self.add_unit(self.translation_2, "two", "Two", "Jeden")
+        self.assertTrue(check.check_target_unit([], [], unit2))
+        # Add another triggering unit
+        unit3 = self.add_unit(self.translation_2, "three", "Three", "Jeden")
+        self.assertTrue(check.check_target_unit([], [], unit3))
 
         self.assertNotEqual(check.check_component(self.component), [])
 
         # Run all checks
-        unit.run_checks()
-        # All three units should be now failing
-        self.assertEqual(Check.objects.filter(name="reused").count(), 3)
+        unit2.run_checks()
+        # All four units should be now failing
+        self.assertEqual(Check.objects.filter(name="reused").count(), 4)
 
         # Change translation
-        unit.translate(self.user, "Dva", STATE_TRANSLATED)
+        unit2.translate(self.user, "Dva", STATE_TRANSLATED)
+        # Some units should be now failing
+        self.assertEqual(Check.objects.filter(name="reused").count(), 3)
+        # Change translation
+        unit3.translate(self.user, "Tři", STATE_TRANSLATED)
         # No units should be now failing
         self.assertEqual(Check.objects.filter(name="reused").count(), 0)
 

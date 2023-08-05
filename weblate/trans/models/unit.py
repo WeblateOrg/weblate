@@ -1282,7 +1282,6 @@ class Unit(models.Model, LoggerMixin):
         if old_checks:
             propagated_units = Unit.objects.none()
             Check.objects.filter(unit=self, name__in=old_checks).delete()
-            propagated_old_checks = []
             for check_name in old_checks:
                 try:
                     check_obj = CHECKS[check_name]
@@ -1290,18 +1289,19 @@ class Unit(models.Model, LoggerMixin):
                     # Skip disabled/removed checks
                     continue
                 if check_obj.propagates:
-                    propagated_units |= check_obj.get_propagated_units(
+                    propagated_units = check_obj.get_propagated_units(
                         self, self.old_unit["target"]
                     )
-                    propagated_old_checks.append(check_name)
-            if propagated_old_checks:
-                Check.objects.filter(
-                    unit__in=propagated_units, name__in=propagated_old_checks
-                ).delete()
-                for other in propagated_units:
-                    if other.translation != self.translation:
-                        other.translation.invalidate_cache()
-                    other.clear_checks_cache()
+                    values = {
+                        check_obj.get_propagated_value(other)
+                        for other in propagated_units
+                    }
+                    if len(values) == 1:
+                        for other in propagated_units:
+                            other.check_set.filter(name=check_name).delete()
+                            if other.translation != self.translation:
+                                other.translation.invalidate_cache()
+                            other.clear_checks_cache()
 
         # Trigger source checks on target check update (multiple failing checks)
         if (create or old_checks) and not self.is_source:
