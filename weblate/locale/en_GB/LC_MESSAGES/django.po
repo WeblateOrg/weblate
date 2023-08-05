@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.18.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-06-27 07:48+0000\n"
-"PO-Revision-Date: 2023-07-18 21:06+0000\n"
+"PO-Revision-Date: 2023-08-06 06:43+0000\n"
 "Last-Translator: Andi Chandler <andi@gowling.com>\n"
 "Language-Team: English (United Kingdom) <https://hosted.weblate.org/projects/"
 "weblate/application/en_GB/>\n"
@@ -496,16 +496,14 @@ msgid "Sync with system"
 msgstr "Sync with system"
 
 #: weblate/accounts/models.py:404
-#, fuzzy
-#| msgid "Insights"
 msgctxt "Theme selection"
 msgid "Light"
-msgstr "Insights"
+msgstr "Light"
 
 #: weblate/accounts/models.py:405
 msgctxt "Theme selection"
 msgid "Dark"
-msgstr ""
+msgstr "Dark"
 
 #: weblate/accounts/models.py:409
 msgid "Hide completed translations on the dashboard"
@@ -1000,22 +998,16 @@ msgid "Please check if you have already registered an account."
 msgstr "Please check if you have already registered an account."
 
 #: weblate/accounts/views.py:1187
-#, fuzzy
-#| msgid "You can not change password to the one you were using!"
 msgid "You can also request a new password, if you have lost your credentials."
-msgstr "You can not change password to the one you were using!"
+msgstr "You can also request a new password, if you have lost your credentials."
 
 #: weblate/accounts/views.py:1198
-#, fuzzy
-#| msgid ""
-#| "Could not verify your registration! The verification token has probably "
-#| "expired. Please try to register again."
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
 msgstr ""
-"Could not verify your registration! The verification token has probably "
-"expired. Please try to register again."
+"Try registering again to verify your identity, the confirmation link "
+"probably expired."
 
 #: weblate/accounts/views.py:1206
 msgid "Could not authenticate due to invalid session state."
@@ -1048,45 +1040,27 @@ msgid "The server does not allow authentication."
 msgstr "The server does not allow authentication."
 
 #: weblate/accounts/views.py:1297
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail or "
-#| "username is already in use for another account."
 msgid "The supplied e-mail address is already in use for another account."
-msgstr ""
-"Could not complete registration. The supplied authentication, e-mail or "
-"username is already in use for another account."
+msgstr "The supplied e-mail address is already in use for another account."
 
 #: weblate/accounts/views.py:1303
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "The supplied username is already in use for another account."
-msgstr "This username is already taken. Please choose another."
+msgstr "The supplied username is already in use for another account."
 
 #: weblate/accounts/views.py:1309
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail or "
-#| "username is already in use for another account."
 msgid "The supplied user identity is already in use for another account."
-msgstr ""
-"Could not complete registration. The supplied authentication, e-mail or "
-"username is already in use for another account."
+msgstr "The supplied user identity is already in use for another account."
 
 #: weblate/accounts/views.py:1336 weblate/accounts/views.py:1349
 msgid "Notification settings adjusted."
 msgstr "Notification settings adjusted."
 
 #: weblate/accounts/views.py:1354
-#, fuzzy
-#| msgid ""
-#| "The notification change link is no longer valid, please log in to "
-#| "configure notifications."
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
 msgstr ""
-"The notification change link is no longer valid, please log in to configure "
+"The notification change link is no longer valid, please sign in to configure "
 "notifications."
 
 #. Translators: Name of event in the history
@@ -1100,24 +1074,28 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
+"Automatically translates strings using machine translation or other "
+"components."
 
 #: weblate/addons/base.py:325 weblate/trans/views/create.py:243
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
+"The repository is outdated, you might not get expected results until you "
+"update it."
 
 #: weblate/addons/cdn.py:25
-#, fuzzy
-#| msgid "JavaScript format"
 msgid "JavaScript localization CDN"
-msgstr "JavaScript format"
+msgstr "JavaScript localisation CDN"
 
 #: weblate/addons/cdn.py:27
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
+"Publishes translations into the content delivery network for use in "
+"JavaScript or HTML localisation."
 
 #: weblate/addons/cleanup.py:22
 msgid "Cleanup translation files"
@@ -1134,56 +1112,44 @@ msgstr ""
 "in the base file."
 
 #: weblate/addons/cleanup.py:48
-#, fuzzy
-#| msgid "Review strings"
 msgid "Remove blank strings"
-msgstr "Review strings"
+msgstr "Remove blank strings"
 
 #: weblate/addons/cleanup.py:50
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
 msgid "Removes strings without a translation from translation files."
-msgstr "New string to translate in %(translation)s"
+msgstr "Removes strings without a translation from translation files."
 
 #: weblate/addons/consistency.py:17
-#, fuzzy
-#| msgid "No adding of language"
 msgid "Add missing languages"
-msgstr "No adding of language"
+msgstr "Add missing languages"
 
 #: weblate/addons/consistency.py:19
 msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
+"Ensures a consistent set of languages is used for all components within a "
+"project."
 
 #: weblate/addons/discovery.py:17
 msgid "Component discovery"
 msgstr "Component discovery"
 
 #: weblate/addons/discovery.py:19
-#, fuzzy
-#| msgid ""
-#| "This addon automatically adds or removes components to the project based "
-#| "on file changes in the version control system."
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr ""
-"This addon automatically adds or removes components to the project based on "
-"file changes in the version control system."
+"Automatically adds or removes project components based on file changes in "
+"the version control system."
 
 #: weblate/addons/example.py:20
-#, fuzzy
-#| msgid "Example addon"
 msgid "Example add-on"
-msgstr "Example addon"
+msgstr "Example add-on"
 
 #: weblate/addons/example.py:22
-#, fuzzy
-#| msgid "This addon does nothing it is just an example."
 msgid "This add-on does nothing it is just an example."
-msgstr "This addon does nothing it is just an example."
+msgstr "This add-on does nothing it is just an example."
 
 #: weblate/addons/example_pre.py:20
 msgid "Execute script before commit"
@@ -1226,21 +1192,14 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Flag unchanged translations as ‘Needs editing’"
 
 #: weblate/addons/flags.py:70
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches source strings, it is flagged as needing editing in Weblate. This "
-#| "is especially useful for file formats that include all strings even if "
-#| "they are not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Whenever a new translatable string is imported from the VCS and it matches "
-"source strings, it is flagged as needing editing in Weblate. This is "
-"especially useful for file formats that include all strings even if they are "
-"not translated."
+"Whenever a new translatable string is imported from the VCS and it matches a "
+"source string, it is flagged as needing editing in Weblate. Especially "
+"useful for file formats that include source strings for untranslated strings."
 
 #: weblate/addons/flags.py:89 weblate/templates/component.html:68
 #: weblate/templates/component.html:212
@@ -1248,14 +1207,12 @@ msgstr ""
 #: weblate/templates/language-project.html:109
 #: weblate/templates/project.html:67 weblate/templates/project.html:211
 #: weblate/templates/translation.html:71 weblate/templates/translation.html:272
-#, fuzzy
-#| msgid "Full editor"
 msgid "Bulk edit"
-msgstr "Full editor"
+msgstr "Bulk edit"
 
 #: weblate/addons/flags.py:90
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr ""
+msgstr "Bulk edit flags, labels, or states of strings."
 
 #: weblate/addons/forms.py:41
 msgid "Path of generated MO file"
@@ -1278,10 +1235,8 @@ msgid "Long lines wrapping"
 msgstr "Long lines wrapping"
 
 #: weblate/addons/forms.py:109
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
-msgstr "Wrap lines at 77 chars and at newlines"
+msgstr "Wrap lines at 77 characters and at newlines (xgettext default)"
 
 #: weblate/addons/forms.py:114
 #, fuzzy
