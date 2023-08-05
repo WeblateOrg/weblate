@@ -19,7 +19,7 @@ def migrate_json_field(model, db_alias: str, field: str):
     updates = []
     new_field = f"{field}_new"
 
-    for obj in model.objects.using(db_alias).all():
+    for obj in model.objects.using(db_alias).iterator():
         value = getattr(obj, field)
         # Skip anything blank, it is the default value of the field
         if not value:
