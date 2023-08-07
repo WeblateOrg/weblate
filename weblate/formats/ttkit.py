@@ -67,7 +67,7 @@ class TTKitUnit(TranslationUnit):
     @cached_property
     def locations(self):
         """Return a comma-separated list of locations."""
-        return ", ".join(x for x in self.mainunit.getlocations() if x is not None)
+        return ", ".join(self.mainunit.getlocations())
 
     @cached_property
     def source(self):
