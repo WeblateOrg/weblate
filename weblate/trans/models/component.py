@@ -28,7 +28,6 @@ from django.db import IntegrityError, models, transaction
 from django.db.models import Count, F, Q
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
-from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
@@ -97,7 +96,6 @@ from weblate.utils.render import (
     validate_repoweb,
 )
 from weblate.utils.requests import get_uri_error
-from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ComponentStats, prefetch_stats
 from weblate.utils.validators import (
@@ -711,7 +709,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     objects = ComponentQuerySet.as_manager()
 
     is_lockable = True
-    _reverse_url_name = "component"
+    remove_permission = "component.edit"
+    settings_permission = "component.edit"
 
     class Meta:
         unique_together = (("project", "name"), ("project", "slug"))
@@ -1158,17 +1157,16 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         """Return kwargs for URL reversing."""
         return {"project": self.project.slug, "component": self.slug}
 
+    def get_url_path(self):
+        return (*self.project.get_url_path(), self.slug)
+
     def get_widgets_url(self):
         """Return absolute URL for widgets."""
-        return get_site_url(
-            "{}?component={}".format(
-                reverse("widgets", kwargs={"project": self.project.slug}), self.slug
-            )
-        )
+        return f"{self.project.get_widgets_url()}?component={self.slug}"
 
     def get_share_url(self):
         """Return absolute shareable URL."""
-        return get_site_url(reverse("engage", kwargs={"project": self.project.slug}))
+        return self.project.get_share_url()
 
     @perform_on_link
     def _get_path(self):
@@ -3491,16 +3489,22 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
 
     def do_lock(self, user, lock: bool = True, auto: bool = False):
         """Lock or unlock component."""
-        if self.locked != lock:
-            self.locked = lock
-            # We avoid save here because it has unwanted side effects
-            Component.objects.filter(pk=self.pk).update(locked=lock)
-            Change.objects.create(
-                component=self,
-                user=user,
-                action=Change.ACTION_LOCK if lock else Change.ACTION_UNLOCK,
-                details={"auto": auto},
-            )
+        from weblate.trans.tasks import perform_commit
+
+        if self.locked == lock:
+            return
+
+        self.locked = lock
+        # We avoid save here because it has unwanted side effects
+        Component.objects.filter(pk=self.pk).update(locked=lock)
+        Change.objects.create(
+            component=self,
+            user=user,
+            action=Change.ACTION_LOCK if lock else Change.ACTION_UNLOCK,
+            details={"auto": auto},
+        )
+        if lock and not auto:
+            perform_commit.delay(self.pk, "lock", None)
 
     @cached_property
     def libre_license(self):
@@ -3646,6 +3650,12 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                 self.pk, update_token, update_state=update_state
             )
         )
+
+    @property
+    def all_repo_components(self):
+        if self.is_repo_link:
+            return [self.linked_component]
+        return [self]
 
 
 @receiver(m2m_changed, sender=Component.links.through)

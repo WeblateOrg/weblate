@@ -867,7 +867,7 @@ def get_translate_url(context, obj, glossary_browse=True):
         name = "zen"
     else:
         name = "translate"
-    return reverse(name, kwargs=obj.get_reverse_url_kwargs())
+    return reverse(name, kwargs={"path": obj.get_url_path()})
 
 
 @register.simple_tag(takes_context=True)
@@ -933,7 +933,7 @@ def component_alerts(component):
         yield (
             "state/update.svg",
             gettext("Updating translation component…"),
-            reverse("component_progress", kwargs=component.get_reverse_url_kwargs())
+            reverse("component_progress", kwargs={"path": component.get_url_path()})
             + "?info=1",
         )
 

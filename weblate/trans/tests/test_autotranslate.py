@@ -49,8 +49,8 @@ class AutoTranslationTest(ViewTestCase):
 
     def perform_auto(self, expected=1, expected_count=None, **kwargs):
         self.make_different()
-        params = {"project": "test", "lang": "cs", "component": "test-2"}
-        url = reverse("auto_translation", kwargs=params)
+        path_params = {"path": [*self.component2.get_url_path(), "cs"]}
+        url = reverse("auto_translation", kwargs=path_params)
         kwargs["auto_source"] = "others"
         kwargs["threshold"] = "100"
         if "filter_type" not in kwargs:
@@ -67,7 +67,7 @@ class AutoTranslationTest(ViewTestCase):
                 response, "Automatic translation completed, no strings were updated."
             )
 
-        self.assertRedirects(response, reverse("translation", kwargs=params))
+        self.assertRedirects(response, reverse("show", kwargs=path_params))
         # Check we've translated something
         translation = self.component2.translation_set.get(language_code="cs")
         translation.invalidate_cache()
@@ -210,8 +210,8 @@ class AutoTranslationMtTest(ViewTestCase):
 
     def perform_auto(self, expected=1, **kwargs):
         self.make_different()
-        params = {"project": "test", "lang": "cs", "component": "test-3"}
-        url = reverse("auto_translation", kwargs=params)
+        path_params = {"path": [*self.component3.get_url_path(), "cs"]}
+        url = reverse("auto_translation", kwargs=path_params)
         kwargs["auto_source"] = "mt"
         if "filter_type" not in kwargs:
             kwargs["filter_type"] = "todo"
@@ -227,7 +227,7 @@ class AutoTranslationMtTest(ViewTestCase):
                 response, "Automatic translation completed, no strings were updated."
             )
 
-        self.assertRedirects(response, reverse("translation", kwargs=params))
+        self.assertRedirects(response, reverse("show", kwargs=path_params))
         # Check we've translated something
         translation = self.component3.translation_set.get(language_code="cs")
         translation.invalidate_cache()

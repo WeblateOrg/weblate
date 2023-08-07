@@ -23,34 +23,26 @@ SUPPORTED_VCS = {
 }
 
 
-def get_export_url_path(project: str, component: str) -> str:
-    return get_site_url(
-        reverse(
-            "git-export",
-            kwargs={
-                "project": project,
-                "component": component,
-                "path": "",
-            },
-        )
-    )
-
-
 def get_export_url(component: Component) -> str:
     """Return Git export URL for component."""
-    return get_export_url_path(component.project.slug, component.slug)
+    url = reverse(
+        "git-export",
+        kwargs={"path": component.get_url_path(), "git_request": "info/refs"},
+    )
+    # Strip trailing info/refs part:
+    return get_site_url(url[:-9])
 
 
 @receiver(pre_save, sender=Component)
 @disable_for_loaddata
-def save_component(sender, instance, **kwargs):
+def update_component_git_export(sender, instance, **kwargs):
     if not instance.is_repo_link and instance.vcs in SUPPORTED_VCS:
         instance.git_export = get_export_url(instance)
 
 
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
-def save_project(sender, instance, **kwargs):
+def update_project_git_export(sender, instance, **kwargs):
     for component in instance.component_set.iterator():
         if not component.is_repo_link and component.vcs in SUPPORTED_VCS:
             new_url = get_export_url(component)

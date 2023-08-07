@@ -23,14 +23,14 @@ from PIL import Image
 from weblate.logger import LOGGER
 from weblate.screenshots.forms import ScreenshotEditForm, ScreenshotForm, SearchForm
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Change, Unit
+from weblate.trans.models import Change, Component, Unit
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.locale import c_locale
 from weblate.utils.lock import WeblateLock
 from weblate.utils.requests import request
 from weblate.utils.search import parse_query
-from weblate.utils.views import ComponentViewMixin
+from weblate.utils.views import PathViewMixin
 
 if TYPE_CHECKING:
     from weblate.lang.models import Language
@@ -195,32 +195,36 @@ def try_add_source(request, obj):
     return True
 
 
-class ScreenshotList(ListView, ComponentViewMixin):
+class ScreenshotList(ListView, PathViewMixin):
     paginate_by = 25
     model = Screenshot
+    supported_path_types = (Component,)
     _add_form = None
 
     def get_queryset(self):
-        self.kwargs["component"] = self.get_component()
         return (
-            Screenshot.objects.filter(translation__component=self.kwargs["component"])
+            Screenshot.objects.filter(translation__component=self.component)
             .prefetch_related("translation__language")
             .order()
         )
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
-        component = self.kwargs["component"]
-        result["object"] = component
-        if self.request.user.has_perm("screenshot.add", component):
+        result["object"] = self.component
+        if self.request.user.has_perm("screenshot.add", self.component):
             if self._add_form is not None:
                 result["add_form"] = self._add_form
             else:
-                result["add_form"] = ScreenshotForm(component)
+                result["add_form"] = ScreenshotForm(self.component)
         return result
 
+    def get(self, request, **kwargs):
+        if not hasattr(self, "component"):
+            self.component = self.get_path_object()
+        return super().get(request, **kwargs)
+
     def post(self, request, **kwargs):
-        component = self.get_component()
+        self.component = component = self.get_path_object()
         if not request.user.has_perm("screenshot.add", component):
             raise PermissionDenied
         self._add_form = ScreenshotForm(component, request.POST, request.FILES)
@@ -298,13 +302,11 @@ def delete_screenshot(request, pk):
     if not request.user.has_perm("screenshot.delete", obj.translation):
         raise PermissionDenied
 
-    kwargs = {"project": component.project.slug, "component": component.slug}
-
     obj.delete()
 
     messages.success(request, gettext("Screenshot %s has been deleted.") % obj.name)
 
-    return redirect("screenshots", **kwargs)
+    return redirect("screenshots", {"path": component.get_url_path()})
 
 
 def get_screenshot(request, pk):

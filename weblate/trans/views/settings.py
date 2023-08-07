@@ -7,26 +7,23 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, View
 
-from weblate.lang.models import Language
 from weblate.trans.forms import (
     AnnouncementForm,
-    ComponentDeleteForm,
+    BaseDeleteForm,
     ComponentMoveForm,
     ComponentRenameForm,
     ComponentSettingsForm,
-    ProjectDeleteForm,
-    ProjectLanguageDeleteForm,
     ProjectRenameForm,
     ProjectSettingsForm,
-    TranslationDeleteForm,
 )
-from weblate.trans.models import Announcement, Component
+from weblate.trans.models import Announcement, Component, Project, Translation
 from weblate.trans.tasks import (
     component_removal,
     create_project_backup,
@@ -36,27 +33,30 @@ from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
 from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import (
-    get_component,
-    get_project,
-    get_translation,
+    parse_path,
     show_form_errors,
 )
 
 
 @never_cache
 @login_required
-def change_project(request, project):
-    obj = get_project(request, project)
-
-    if not request.user.has_perm("project.edit", obj):
+def change(request, path):
+    obj = parse_path(request, path, (Component, Project))
+    if not request.user.has_perm(obj.settings_permission, obj):
         raise Http404
 
+    if isinstance(obj, Component):
+        return change_component(request, obj)
+    return change_project(request, obj)
+
+
+def change_project(request, obj):
     if request.method == "POST":
         settings_form = ProjectSettingsForm(request, request.POST, instance=obj)
         if settings_form.is_valid():
             settings_form.save()
             messages.success(request, gettext("Settings saved"))
-            return redirect("settings", project=obj.slug)
+            return redirect("settings", path=obj.get_url_path())
         messages.error(
             request, gettext("Invalid settings. Please check the form for errors.")
         )
@@ -70,11 +70,7 @@ def change_project(request, project):
     )
 
 
-@never_cache
-@login_required
-def change_component(request, project, component):
-    obj = get_component(request, project, component)
-
+def change_component(request, obj):
     if not request.user.has_perm("component.edit", obj):
         raise Http404
 
@@ -83,7 +79,7 @@ def change_component(request, project, component):
         if form.is_valid():
             form.save()
             messages.success(request, gettext("Settings saved"))
-            return redirect("settings", project=obj.project.slug, component=obj.slug)
+            return redirect("settings", path=obj.get_url_path())
         messages.error(
             request, gettext("Invalid settings. Please check the form for errors.")
         )
@@ -112,8 +108,8 @@ def change_component(request, project, component):
 @never_cache
 @login_required
 @require_POST
-def dismiss_alert(request, project, component):
-    obj = get_component(request, project, component)
+def dismiss_alert(request, path):
+    obj = parse_path(request, path, (Component,))
 
     if not request.user.has_perm("component.edit", obj):
         raise Http404
@@ -131,82 +127,39 @@ def dismiss_alert(request, project, component):
 
 @login_required
 @require_POST
-def remove_translation(request, project, component, lang):
-    obj = get_translation(request, project, component, lang)
+def remove(request, path):
+    obj = parse_path(request, path, (Translation, Component, Project, ProjectLanguage))
 
-    if not request.user.has_perm("translation.delete", obj):
+    if not request.user.has_perm(obj.remove_permission, obj):
         raise PermissionDenied
 
-    form = TranslationDeleteForm(obj, request.POST)
+    form = BaseDeleteForm(obj, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
         return redirect_param(obj, "#delete")
 
-    obj.remove(request.user)
-    messages.success(request, gettext("The translation has been removed."))
+    if isinstance(obj, Translation):
+        parent = obj.component
+        obj.remove(request.user)
+        messages.success(request, gettext("The translation has been removed."))
+    elif isinstance(obj, Component):
+        parent = obj.project
+        component_removal.delay(obj.pk, request.user.pk)
+        messages.success(
+            request, gettext("The translation component was scheduled for removal.")
+        )
+    elif isinstance(obj, Project):
+        parent = reverse("home")
+        project_removal.delay(obj.pk, request.user.pk)
+        messages.success(request, gettext("The project was scheduled for removal."))
+    elif isinstance(obj, ProjectLanguage):
+        parent = obj.project
+        for translation in obj.translation_set:
+            translation.remove(request.user)
 
-    return redirect(obj.component)
+        messages.success(request, gettext("A language in the project was removed."))
 
-
-@login_required
-@require_POST
-def remove_component(request, project, component):
-    obj = get_component(request, project, component)
-
-    if not request.user.has_perm("component.edit", obj):
-        raise PermissionDenied
-
-    form = ComponentDeleteForm(obj, request.POST)
-    if not form.is_valid():
-        show_form_errors(request, form)
-        return redirect_param(obj, "#delete")
-
-    component_removal.delay(obj.pk, request.user.pk)
-    messages.success(
-        request, gettext("The translation component was scheduled for removal.")
-    )
-
-    return redirect(obj.project)
-
-
-@login_required
-@require_POST
-def remove_project(request, project):
-    obj = get_project(request, project)
-
-    if not request.user.has_perm("project.edit", obj):
-        raise PermissionDenied
-
-    form = ProjectDeleteForm(obj, request.POST)
-    if not form.is_valid():
-        show_form_errors(request, form)
-        return redirect_param(obj, "#delete")
-
-    project_removal.delay(obj.pk, request.user.pk)
-    messages.success(request, gettext("The project was scheduled for removal."))
-    return redirect("home")
-
-
-@login_required
-@require_POST
-def remove_project_language(request, project, lang):
-    project_object = get_project(request, project)
-    language_object = get_object_or_404(Language, code=lang)
-    obj = ProjectLanguage(project_object, language_object)
-
-    if not request.user.has_perm("translation.delete", obj):
-        raise PermissionDenied
-
-    form = ProjectLanguageDeleteForm(obj, request.POST)
-    if not form.is_valid():
-        show_form_errors(request, form)
-        return redirect_param(obj, "#delete")
-
-    for translation in obj.translation_set:
-        translation.remove(request.user)
-
-    messages.success(request, gettext("A language in the project was removed."))
-    return redirect(project_object)
+    return redirect(parent)
 
 
 def perform_rename(form_cls, request, obj, perm: str):
@@ -243,29 +196,24 @@ def perform_rename(form_cls, request, obj, perm: str):
 
 @login_required
 @require_POST
-def rename_component(request, project, component):
-    obj = get_component(request, project, component)
-    return perform_rename(ComponentRenameForm, request, obj, "component.edit")
-
-
-@login_required
-@require_POST
-def move_component(request, project, component):
-    obj = get_component(request, project, component)
+def move(request, path):
+    obj = parse_path(request, path, (Component,))
     return perform_rename(ComponentMoveForm, request, obj, "project.edit")
 
 
 @login_required
 @require_POST
-def rename_project(request, project):
-    obj = get_project(request, project)
+def rename(request, path):
+    obj = parse_path(request, path, (Component, Project))
+    if isinstance(obj, Component):
+        return perform_rename(ComponentRenameForm, request, obj, "component.edit")
     return perform_rename(ProjectRenameForm, request, obj, "project.edit")
 
 
 @login_required
 @require_POST
-def announcement_translation(request, project, component, lang):
-    obj = get_translation(request, project, component, lang)
+def announcement(request, path):
+    obj = parse_path(request, path, (Translation, Component, Project))
 
     if not request.user.has_perm("component.edit", obj):
         raise PermissionDenied
@@ -274,52 +222,24 @@ def announcement_translation(request, project, component, lang):
     if not form.is_valid():
         show_form_errors(request, form)
         return redirect_param(obj, "#announcement")
+
+    # Scope specific attributes
+    scope = {}
+    if isinstance(obj, Translation):
+        scope["project"] = obj.component.project
+        scope["component"] = obj.component
+        scope["language"] = obj.language
+    elif isinstance(obj, Component):
+        scope["project"] = obj.project
+        scope["component"] = obj
+    elif isinstance(obj, Project):
+        scope["project"] = obj
 
     Announcement.objects.create(
         user=request.user,
-        project=obj.component.project,
-        component=obj.component,
-        language=obj.language,
+        **scope,
         **form.cleaned_data,
     )
-
-    return redirect(obj)
-
-
-@login_required
-@require_POST
-def announcement_component(request, project, component):
-    obj = get_component(request, project, component)
-
-    if not request.user.has_perm("component.edit", obj):
-        raise PermissionDenied
-
-    form = AnnouncementForm(request.POST)
-    if not form.is_valid():
-        show_form_errors(request, form)
-        return redirect_param(obj, "#announcement")
-
-    Announcement.objects.create(
-        user=request.user, project=obj.project, component=obj, **form.cleaned_data
-    )
-
-    return redirect(obj)
-
-
-@login_required
-@require_POST
-def announcement_project(request, project):
-    obj = get_project(request, project)
-
-    if not request.user.has_perm("project.edit", obj):
-        raise PermissionDenied
-
-    form = AnnouncementForm(request.POST)
-    if not form.is_valid():
-        show_form_errors(request, form)
-        return redirect_param(obj, "#announcement")
-
-    Announcement.objects.create(user=request.user, project=obj, **form.cleaned_data)
 
     return redirect(obj)
 
@@ -336,11 +256,11 @@ def announcement_delete(request, pk):
 
 
 @login_required
-def component_progress(request, project, component):
-    obj = get_component(request, project, component)
-    return_url = "component" if "info" in request.GET else "guide"
+def component_progress(request, path):
+    obj = parse_path(request, path, (Component,))
+    return_url = "show" if "info" in request.GET else "guide"
     if not obj.in_progress():
-        return redirect(return_url, **obj.get_reverse_url_kwargs())
+        return redirect(return_url, path=obj.get_url_path())
 
     progress, log = obj.get_progress()
 
@@ -359,7 +279,7 @@ def component_progress(request, project, component):
 class BackupsMixin:
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
-        self.obj = get_project(request, kwargs["project"])
+        self.obj = parse_path(request, [kwargs["project"]], (Project,))
         if not request.user.has_perm("project.edit", self.obj):
             raise PermissionDenied
 

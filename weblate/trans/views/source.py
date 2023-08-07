@@ -11,12 +11,11 @@ from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
 from weblate.checks.flags import Flags
-from weblate.lang.models import Language
 from weblate.trans.forms import ContextForm, MatrixLanguageForm
-from weblate.trans.models import Unit
+from weblate.trans.models import Component, Unit
 from weblate.trans.util import redirect_next, render
 from weblate.utils import messages
-from weblate.utils.views import get_component, show_form_errors
+from weblate.utils.views import parse_path, show_form_errors
 
 
 @require_POST
@@ -63,12 +62,12 @@ def edit_context(request, pk):
 
 
 @login_required
-def matrix(request, project, component):
+def matrix(request, path):
     """Matrix view of all strings."""
-    obj = get_component(request, project, component)
+    obj = parse_path(request, path, (Component,))
 
     show = False
-    languages = None
+    translations = None
     language_codes = None
 
     if "lang" in request.GET:
@@ -78,8 +77,14 @@ def matrix(request, project, component):
         form = MatrixLanguageForm(obj)
 
     if show:
-        languages = Language.objects.filter(code__in=form.cleaned_data["lang"]).order()
-        language_codes = ",".join(languages.values_list("code", flat=True))
+        translations = (
+            obj.translation_set.filter(language__code__in=form.cleaned_data["lang"])
+            .select_related("language")
+            .order()
+        )
+        language_codes = ",".join(
+            translation.language.code for translation in translations
+        )
 
     return render(
         request,
@@ -88,7 +93,7 @@ def matrix(request, project, component):
             "object": obj,
             "project": obj.project,
             "component": obj,
-            "languages": languages,
+            "translations": translations,
             "language_codes": language_codes,
             "languages_form": form,
         },
@@ -96,9 +101,9 @@ def matrix(request, project, component):
 
 
 @login_required
-def matrix_load(request, project, component):
+def matrix_load(request, path):
     """Backend for matrix view of all strings."""
-    obj = get_component(request, project, component)
+    obj = parse_path(request, path, (Component,))
 
     try:
         offset = int(request.GET.get("offset", ""))

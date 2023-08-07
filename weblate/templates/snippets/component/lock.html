@@ -8,7 +8,7 @@
 {% perm 'component.lock' object as user_can_lock_component %}
 <div class="pull-right flip">
   {% if user_can_lock_component %}
-    <a href="" class="btn btn-warning link-post" data-href="{{ object.get_unlock_url }}">{% trans "Unlock" %}</a>
+    <a href="" class="btn btn-warning link-post" data-href="{% url 'unlock' path=object.get_url_path %}">{% trans "Unlock" %}</a>
   {% endif %}
   {% if user.is_authenticated %}
     <a href="" class="btn btn-primary link-post" data-href="{% url 'subscribe' %}" data-params='{"onetime":"LockNotification","component":{{object.pk }}}'>{% trans "Get notified when this project is unlocked again" %}</a>

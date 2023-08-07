@@ -102,9 +102,7 @@ class GlossaryTest(ViewTestCase):
             params = {"file": handle, "method": "add"}
             params.update(kwargs)
             return self.client.post(
-                reverse(
-                    "upload_translation", kwargs=self.glossary.get_reverse_url_kwargs()
-                ),
+                reverse("upload", kwargs={"path": self.glossary.get_url_path()}),
                 params,
             )
 

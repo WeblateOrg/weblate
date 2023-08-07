@@ -48,7 +48,9 @@ class ViewTest(FixtureTestCase):
             }
             data.update(kwargs)
             return self.client.post(
-                reverse("screenshots", kwargs=self.kw_component), data, follow=True
+                reverse("screenshots", kwargs=self.kw_component),
+                data,
+                follow=True,
             )
 
     def test_upload_denied(self):

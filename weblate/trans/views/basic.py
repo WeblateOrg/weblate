@@ -33,20 +33,22 @@ from weblate.trans.forms import (
     get_new_unit_form,
     get_upload_form,
 )
-from weblate.trans.models import Change, ComponentList, Translation
+from weblate.trans.models import Change, Component, ComponentList, Project, Translation
 from weblate.trans.models.component import prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render, sort_unicode
 from weblate.utils import messages
 from weblate.utils.ratelimit import reset_rate_limit, session_ratelimit_post
-from weblate.utils.stats import GhostProjectLanguageStats, prefetch_stats
+from weblate.utils.stats import (
+    GhostProjectLanguageStats,
+    ProjectLanguage,
+    prefetch_stats,
+)
 from weblate.utils.views import (
-    get_component,
     get_paginator,
-    get_project,
-    get_translation,
     optional_form,
+    parse_path,
     show_form_errors,
     try_set_language,
 )
@@ -96,15 +98,21 @@ def add_ghost_translations(component, user, translations, generator, **kwargs):
             translations.append(generator(component, language, **kwargs))
 
 
-def show_engage(request, project, lang=None):
+def show_engage(request, path):
+    # Legacy URL
+    if len(path) == 2:
+        return redirect("engage", permanent=True, path=[path[0], "-", path[1]])
     # Get project object, skipping ACL
-    obj = get_project(request, project, skip_acl=True)
-    guessed_language = None
+    obj = parse_path(request, path, (ProjectLanguage, Project), skip_acl=True)
 
-    # Handle language parameter
-    if lang is not None:
-        language = get_object_or_404(Language, code=lang)
+    translate_object = None
+    if isinstance(obj, ProjectLanguage):
+        language = obj.language
+        try_set_language(language.code)
+        translate_object = obj
+        project = obj.project
     else:
+        project = obj
         language = None
         guessed_language = (
             Language.objects.filter(translation__component__project=obj)
@@ -112,9 +120,12 @@ def show_engage(request, project, lang=None):
             .distinct()
             .get_request_language(request)
         )
+        if guessed_language:
+            translate_object = ProjectLanguage(
+                project=project, language=guessed_language
+            )
     full_stats = obj.stats
     if language:
-        try_set_language(lang)
         stats_obj = full_stats.get_single_language_stats(language)
     else:
         stats_obj = full_stats
@@ -125,24 +136,32 @@ def show_engage(request, project, lang=None):
         {
             "allow_index": True,
             "object": obj,
-            "project": obj,
-            "full_stats": full_stats,
+            "project": project,
+            "full_stats": obj.stats,
             "languages": stats_obj.languages,
             "total": obj.stats.source_strings,
             "percent": stats_obj.translated_percent,
             "language": language,
-            "guessed_language": guessed_language,
+            "translate_object": translate_object,
             "project_link": format_html(
-                '<a href="{}">{}</a>', obj.get_absolute_url(), obj.name
+                '<a href="{}">{}</a>', project.get_absolute_url(), project.name
             ),
-            "title": gettext("Get involved in {0}!").format(obj),
+            "title": gettext("Get involved in {0}!").format(project),
         },
     )
 
 
 @never_cache
-def show_project(request, project):
-    obj = get_project(request, project)
+def show(request, path):
+    obj = parse_path(request, path, (Translation, Component, Project))
+    if isinstance(obj, Project):
+        return show_project(request, obj)
+    if isinstance(obj, Component):
+        return show_component(request, obj)
+    return show_translation(request, obj)
+
+
+def show_project(request, obj):
     obj.stats.ensure_basic()
     user = request.user
 
@@ -227,9 +246,7 @@ def show_project(request, project):
     )
 
 
-@never_cache
-def show_component(request, project, component):
-    obj = get_component(request, project, component)
+def show_component(request, obj):
     obj.stats.ensure_basic()
     user = request.user
 
@@ -299,9 +316,7 @@ def show_component(request, project, component):
     )
 
 
-@never_cache
-def show_translation(request, project, component, lang):
-    obj = get_translation(request, project, component, lang)
+def show_translation(request, obj):
     component = obj.component
     project = component.project
     obj.stats.ensure_all()
@@ -383,7 +398,7 @@ def show_translation(request, project, component, lang):
 
 @never_cache
 def data_project(request, project):
-    obj = get_project(request, project)
+    obj = parse_path(request, [project], (Project,))
     return render(
         request,
         "data.html",
@@ -401,8 +416,8 @@ def data_project(request, project):
 @login_required
 @session_ratelimit_post("language", logout_user=False)
 @transaction.atomic
-def new_language(request, project, component):
-    obj = get_component(request, project, component)
+def new_language(request, path):
+    obj = parse_path(request, path, (Component,))
     user = request.user
 
     form_class = get_new_language_form(request, obj)
@@ -503,8 +518,8 @@ def show_component_list(request, name):
 
 
 @never_cache
-def guide(request, project, component):
-    obj = get_component(request, project, component)
+def guide(request, path):
+    obj = parse_path(request, path, (Component,))
 
     return render(
         request,

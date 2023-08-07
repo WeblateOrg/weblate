@@ -26,7 +26,7 @@
 <td>{{ label.name }}</td>
 <td><span class="label label-{{label.color }}">{{ label.get_color_display }}</span></td>
 <td class="number">
-  <a href="{% url 'search' project=object.slug %}?q={{ label.filter_name }}">
+  <a href="{% url 'search' path=object.get_url_path %}?q={{ label.filter_name }}">
     {{ label.string_count|intcomma }}
   </a>
 </td>

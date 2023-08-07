@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 from time import mktime
+from typing import Any
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -20,9 +21,11 @@ from django.views.decorators.gzip import gzip_page
 from django.views.generic.edit import FormView
 
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
-from weblate.trans.models import Component, Project, Translation
+from weblate.lang.models import Language
+from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.utils import messages
 from weblate.utils.errors import report_error
+from weblate.utils.stats import ProjectLanguage
 from weblate.vcs.git import LocalRepository
 
 SORT_KEYS = {
@@ -96,21 +99,13 @@ def get_paginator(request, object_list, page_limit=None):
         return paginator.page(paginator.num_pages)
 
 
-class ComponentViewMixin:
-    # This should be done in setup once we drop support for older Django
-    def get_component(self):
-        return get_component(
-            self.request, self.kwargs["project"], self.kwargs["component"]
-        )
+class PathViewMixin:
+    supported_path_types = None
 
-
-class ProjectViewMixin:
-    project = None
-
-    # This should be done in setup once we drop support for older Django
-    def dispatch(self, request, *args, **kwargs):
-        self.project = get_project(self.request, self.kwargs["project"])
-        return super().dispatch(request, *args, **kwargs)
+    def get_path_object(self):
+        if self.supported_path_types is None:
+            raise ValueError("Specifying supported path types is required")
+        return parse_path(self.request, self.kwargs["path"], self.supported_path_types)
 
 
 SORT_CHOICES = {
@@ -147,6 +142,89 @@ def get_sort_name(request, obj=None):
     }
 
 
+def _parse_path(request, path: tuple[str], *, skip_acl: bool = False):
+    path = list(path)
+    # First level is always project
+    project = get_object_or_404(Project, slug=path.pop(0))
+    if not skip_acl:
+        request.user.check_access(project)
+    project.acting_user = request.user
+    if not path:
+        return project
+
+    # Project/language special case
+    if path[0] == "-" and len(path) == 2:
+        language = get_object_or_404(Language, code=path[1])
+        return ProjectLanguage(project, language)
+
+    # Component/category structure
+    parent = project
+    component = None
+    while path:
+        slug = path.pop(0)
+        try:
+            component = parent.component_set.get(slug=slug)
+        except Component.DoesNotExist as error:
+            raise Http404(f"Object {slug} not found in {parent}") from error
+        else:
+            if not skip_acl:
+                request.user.check_access_component(component)
+            component.acting_user = request.user
+            break
+
+    # Nothing left, return current object
+    if not path:
+        return component
+
+    if len(path) > 1:
+        raise Http404(f"Invalid path left: {'/'.join(path)}")
+
+    return get_object_or_404(component.translation_set, language__code=path[0])
+
+
+def parse_path(
+    request, path: list[str] | None, types: tuple[Any], *, skip_acl: bool = False
+):
+    if None in types and not path:
+        return None
+    result = _parse_path(request, path, skip_acl=skip_acl)
+    if not isinstance(result, types):
+        raise Http404(f"Not supported object type: {result}")
+    return result
+
+
+def parse_path_units(request, path: list[str], types: tuple[Any]):
+    obj = parse_path(request, path, types)
+
+    context = {"components": None}
+    if isinstance(obj, Translation):
+        unit_set = obj.unit_set.all()
+        context["translation"] = obj
+        context["component"] = obj.component
+        context["project"] = obj.component.project
+        context["components"] = [obj.component]
+    elif isinstance(obj, Component):
+        unit_set = Unit.objects.filter(translation__component=obj)
+        context["component"] = obj
+        context["project"] = obj.project
+        context["components"] = [obj]
+    elif isinstance(obj, Project):
+        unit_set = Unit.objects.filter(translation__component__project=obj)
+        context["project"] = obj
+    elif isinstance(obj, ProjectLanguage):
+        unit_set = Unit.objects.filter(
+            translation__component__project=obj.project,
+            translation__language=obj.language,
+        )
+        context["project"] = obj.project
+        context["language"] = obj.language
+    else:
+        raise TypeError("Unsupported result: {obj}")
+
+    return obj, unit_set, context
+
+
+# TODO: Drop
 def get_translation(request, project, component, lang, skip_acl=False):
     """Return translation matching parameters."""
     translation = get_object_or_404(
@@ -161,6 +239,7 @@ def get_translation(request, project, component, lang, skip_acl=False):
     return translation
 
 
+# TODO: Drop
 def get_component(request, project, component, skip_acl=False):
     """Return component matching parameters."""
     component = get_object_or_404(
@@ -174,15 +253,7 @@ def get_component(request, project, component, skip_acl=False):
     return component
 
 
-def get_project(request, project, skip_acl=False):
-    """Return project matching parameters."""
-    project = get_object_or_404(Project, slug=project)
-    if not skip_acl:
-        request.user.check_access(project)
-    project.acting_user = request.user
-    return project
-
-
+# TODO: Drop
 def get_project_translation(request, project=None, component=None, lang=None):
     """Return project, component, translation tuple for given parameters."""
     if lang and component:
@@ -198,7 +269,7 @@ def get_project_translation(request, project=None, component=None, lang=None):
             project = component.project
         elif project:
             # Only project defined?
-            project = get_project(request, project)
+            project = parse_path(request, [project], (Project,))
 
     # Return tuple
     return project or None, component or None, translation or None

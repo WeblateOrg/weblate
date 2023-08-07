@@ -28,7 +28,7 @@
 <div class="panel-footer">
 <form class="form-inline">
   <div class="form-group">
-<a href="{% url return_url project=object.project.slug component=object.slug %}" class="btn btn-primary" id="progress-return">{% trans "Return to the component" %}</a>
+<a href="{% url return_url path=object.get_url_path %}" class="btn btn-primary" id="progress-return">{% trans "Return to the component" %}</a>
 {% if user_can_edit_component %}
 <a href="#" class="btn btn-danger" id="terminate-task-button">{% trans "Abort the update" %}</a>
 {% endif %}

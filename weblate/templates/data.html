@@ -33,14 +33,14 @@
 <tbody>
 <tr>
 <th>{{ object }}</th>
-<td>{{ site_url }}{% url 'rss-project' project=object.slug %}</td>
-<td><a href="{{ site_url }}{% url 'rss-project' project=object.slug %}">{% trans "RSS" %}</a></td>
+<td>{{ site_url }}{% url 'rss' path=object.get_url_path %}</td>
+<td><a href="{{ site_url }}{% url 'rss' path=object.get_url_path %}">{% trans "RSS" %}</a></td>
 </tr>
 {% for component in components %}
 <tr>
 <th>{{ component }}</th>
-<td>{{ site_url }}{% url 'rss-component' project=object.slug component=component.slug %}</td>
-<td><a href="{{ site_url }}{% url 'rss-component' project=object.slug component=component.slug %}">{% trans "RSS" %}</a></td>
+<td>{{ site_url }}{% url 'rss' path=component.get_url_path %}</td>
+<td><a href="{{ site_url }}{% url 'rss' path=component.get_url_path %}">{% trans "RSS" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>

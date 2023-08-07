@@ -18,11 +18,7 @@ from django.views.decorators.http import require_POST
 from weblate.accounts.models import AuditLog
 from weblate.accounts.utils import remove_user
 from weblate.auth.data import SELECTION_ALL
-from weblate.auth.forms import (
-    InviteEmailForm,
-    InviteUserForm,
-    ProjectTeamForm,
-)
+from weblate.auth.forms import InviteEmailForm, InviteUserForm, ProjectTeamForm
 from weblate.auth.models import Invitation, User
 from weblate.trans.forms import (
     ProjectTokenCreateForm,
@@ -30,10 +26,10 @@ from weblate.trans.forms import (
     UserBlockForm,
     UserManageForm,
 )
-from weblate.trans.models import Change
+from weblate.trans.models import Change, Project
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
-from weblate.utils.views import get_project, show_form_errors
+from weblate.utils.views import parse_path, show_form_errors
 from weblate.vcs.ssh import get_all_key_data
 
 
@@ -45,7 +41,7 @@ def check_user_form(
 
     This is simple helper to perform needed validation for all user management views.
     """
-    obj = get_project(request, project)
+    obj = parse_path(request, [project], (Project,))
 
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied
@@ -223,7 +219,7 @@ def delete_user(request, project):
 @login_required
 def manage_access(request, project):
     """User management view."""
-    obj = get_project(request, project)
+    obj = parse_path(request, [project], (Project,))
 
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied
@@ -298,7 +294,7 @@ def manage_access(request, project):
 @login_required
 def create_token(request, project):
     """Create project token."""
-    obj = get_project(request, project)
+    obj = parse_path(request, [project], (Project,))
 
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied
@@ -323,7 +319,7 @@ def create_token(request, project):
 @login_required
 def create_group(request, project):
     """Delete project group."""
-    obj = get_project(request, project)
+    obj = parse_path(request, [project], (Project,))
 
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied

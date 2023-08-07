@@ -16,52 +16,16 @@ from weblate.logger import LOGGER
 class URLMixin:
     """Mixin for models providing standard shortcut API for few standard URLs."""
 
-    _reverse_url_name: str | None = None
-
+    # TODO: remove
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
         raise NotImplementedError
 
-    def reverse_url(self, name=None):
-        """Generic reverser for URL."""
-        if name is None:
-            urlname = self._reverse_url_name
-        else:
-            urlname = f"{name}_{self._reverse_url_name}"
-        return reverse(urlname, kwargs=self.get_reverse_url_kwargs())
+    def get_url_path(self):
+        raise NotImplementedError
 
     def get_absolute_url(self):
-        return self.reverse_url()
-
-    def get_commit_url(self):
-        return self.reverse_url("commit")
-
-    def get_update_url(self):
-        return self.reverse_url("update")
-
-    def get_push_url(self):
-        return self.reverse_url("push")
-
-    def get_reset_url(self):
-        return self.reverse_url("reset")
-
-    def get_cleanup_url(self):
-        return self.reverse_url("cleanup")
-
-    def get_file_sync_url(self):
-        return self.reverse_url("file_sync")
-
-    def get_file_scan_url(self):
-        return self.reverse_url("file_scan")
-
-    def get_lock_url(self):
-        return self.reverse_url("lock")
-
-    def get_unlock_url(self):
-        return self.reverse_url("unlock")
-
-    def get_remove_url(self):
-        return self.reverse_url("remove")
+        return reverse("show", kwargs={"path": self.get_url_path()})
 
 
 class LoggerMixin:

@@ -740,6 +740,8 @@ class ProjectLanguageComponent:
 class ProjectLanguage:
     """Wrapper class used in project-language listings and stats."""
 
+    remove_permission = "translation.delete"
+
     def __init__(self, project, language: Language):
         self.project = project
         self.language = language
@@ -768,15 +770,12 @@ class ProjectLanguage:
     def cache_key(self):
         return f"{self.project.cache_key}-{self.language.pk}"
 
+    def get_url_path(self):
+        return [*self.project.get_url_path(), "-", self.language.code]
+
     def get_absolute_url(self):
         return reverse(
             "project-language",
-            kwargs={"lang": self.language.code, "project": self.project.slug},
-        )
-
-    def get_remove_url(self):
-        return reverse(
-            "remove-project-language",
             kwargs={"lang": self.language.code, "project": self.project.slug},
         )
 
@@ -788,10 +787,7 @@ class ProjectLanguage:
         }
 
     def get_translate_url(self):
-        return reverse(
-            "translate",
-            kwargs=self.get_reverse_url_kwargs(),
-        )
+        return reverse("translate", kwargs={"path": self.get_url_path()})
 
     @cached_property
     def translation_set(self):

@@ -125,12 +125,12 @@ class DashboardTest(ViewTestCase):
     @override_settings(SINGLE_PROJECT=True)
     def test_single_project(self):
         response = self.client.get(reverse("home"))
-        self.assertRedirects(response, reverse("component", kwargs=self.kw_component))
+        self.assertRedirects(response, self.component.get_absolute_url())
 
     @override_settings(SINGLE_PROJECT="test")
     def test_single_project_slug(self):
         response = self.client.get(reverse("home"))
-        self.assertRedirects(response, reverse("project", kwargs=self.kw_project))
+        self.assertRedirects(response, self.project.get_absolute_url())
 
     @override_settings(SINGLE_PROJECT=True)
     def test_single_project_restricted(self):

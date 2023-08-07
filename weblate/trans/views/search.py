@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
@@ -19,62 +18,30 @@ from weblate.trans.forms import (
     ReplaceForm,
     SearchForm,
 )
-from weblate.trans.models import Change, Unit
+from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import (
-    get_component,
     get_paginator,
-    get_project,
     get_sort_name,
-    get_translation,
     import_message,
+    parse_path,
+    parse_path_units,
     show_form_errors,
 )
 
 
-def parse_url(request, project, component=None, lang=None):
-    context = {"components": None}
-    if component is None:
-        if lang is None:
-            obj = get_project(request, project)
-            unit_set = Unit.objects.filter(translation__component__project=obj)
-            context["project"] = obj
-        else:
-            project = get_project(request, project)
-            language = get_object_or_404(Language, code=lang)
-            obj = ProjectLanguage(project, language)
-            unit_set = Unit.objects.filter(
-                translation__component__project=project, translation__language=language
-            )
-            context["project"] = project
-            context["language"] = language
-    elif lang is None:
-        obj = get_component(request, project, component)
-        unit_set = Unit.objects.filter(translation__component=obj)
-        context["component"] = obj
-        context["project"] = obj.project
-        context["components"] = [obj]
-    else:
-        obj = get_translation(request, project, component, lang)
-        unit_set = obj.unit_set.all()
-        context["translation"] = obj
-        context["component"] = obj.component
-        context["project"] = obj.component.project
-        context["components"] = [obj.component]
+@login_required
+@require_POST
+def search_replace(request, path):
+    obj, unit_set, context = parse_path_units(
+        request, path, (Translation, Component, Project, ProjectLanguage)
+    )
 
     if not request.user.has_perm("unit.edit", obj):
         raise PermissionDenied
-
-    return obj, unit_set, context
-
-
-@login_required
-@require_POST
-def search_replace(request, project, component=None, lang=None):
-    obj, unit_set, context = parse_url(request, project, component, lang)
 
     form = ReplaceForm(request.POST)
 
@@ -149,39 +116,30 @@ def search_replace(request, project, component=None, lang=None):
 
 
 @never_cache
-def search(request, project=None, component=None, lang=None):
+def search(request, path=None, lang=None):
     """Perform site-wide search on units."""
     is_ratelimited = not check_rate_limit("search", request)
     search_form = SearchForm(user=request.user, data=request.GET)
     sort = get_sort_name(request)
     context = {"search_form": search_form}
-    if component:
-        obj = get_component(request, project, component)
+    obj = parse_path(
+        request, path, (Component, Project, ProjectLanguage, Translation, None)
+    )
+    context["back_url"] = obj.get_absolute_url() if obj is not None else None
+    if isinstance(obj, Component):
         context["component"] = obj
         context["project"] = obj.project
-        context["component"] = obj
-        context["back_url"] = obj.get_absolute_url()
-    elif project:
-        obj = get_project(request, project)
+    elif isinstance(obj, ProjectLanguage):
+        context["project"] = obj.project
+    elif isinstance(obj, Translation):
+        context["component"] = obj.component
+        context["project"] = obj.component.project
+    elif isinstance(obj, Project):
         context["project"] = obj
-        context["back_url"] = obj.get_absolute_url()
-    else:
-        obj = None
-        context["back_url"] = None
-    if lang:
+    elif lang:
         s_language = get_object_or_404(Language, code=lang)
         context["language"] = s_language
-        if obj:
-            if component:
-                context["back_url"] = obj.translation_set.get(
-                    language=s_language
-                ).get_absolute_url()
-            else:
-                context["back_url"] = reverse(
-                    "project-language", kwargs={"project": project, "lang": lang}
-                )
-        else:
-            context["back_url"] = s_language.get_absolute_url()
+        context["back_url"] = s_language.get_absolute_url()
 
     if not is_ratelimited and request.GET and search_form.is_valid():
         # This is ugly way to hide query builder when showing results
@@ -191,9 +149,9 @@ def search(request, project=None, component=None, lang=None):
         search_form.is_valid()
         # Filter results by ACL
         units = Unit.objects.prefetch_full().prefetch()
-        if component:
+        if isinstance(obj, Component):
             units = units.filter(translation__component=obj)
-        elif project:
+        elif isinstance(obj, Project):
             units = units.filter(translation__component__project=obj)
         else:
             units = units.filter_access(request.user)
@@ -236,10 +194,14 @@ def search(request, project=None, component=None, lang=None):
 @login_required
 @require_POST
 @never_cache
-def bulk_edit(request, project, component=None, lang=None):
-    obj, unit_set, context = parse_url(request, project, component, lang)
+def bulk_edit(request, path):
+    obj, unit_set, context = parse_path_units(
+        request, path, (Translation, Component, Project, ProjectLanguage)
+    )
 
-    if not request.user.has_perm("translation.auto", obj):
+    if not request.user.has_perm("translation.auto", obj) or not request.user.has_perm(
+        "unit.edit", obj
+    ):
         raise PermissionDenied
 
     form = BulkEditForm(request.user, obj, request.POST, project=context["project"])

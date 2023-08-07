@@ -137,7 +137,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     objects = TranslationManager.from_queryset(TranslationQuerySet)()
 
     is_lockable = False
-    _reverse_url_name = "translation"
+    remove_permission = "translation.delete"
+    settings_permission = "component.edit"
 
     class Meta:
         app_label = "trans"
@@ -238,14 +239,15 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             "lang": self.language.code,
         }
 
+    def get_url_path(self):
+        return (*self.component.get_url_path(), self.language.code)
+
     def get_widgets_url(self):
         """Return absolute URL for widgets."""
-        return get_site_url(
-            "{}?lang={}&component={}".format(
-                reverse("widgets", kwargs={"project": self.component.project.slug}),
-                self.language.code,
-                self.component.slug,
-            )
+        return "{}?lang={}&component={}".format(
+            self.component.project.get_widgets_url(),
+            self.language.code,
+            self.component.slug,
         )
 
     def get_share_url(self):
@@ -253,15 +255,12 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return get_site_url(
             reverse(
                 "engage",
-                kwargs={
-                    "project": self.component.project.slug,
-                    "lang": self.language.code,
-                },
+                kwargs={"path": [self.component.project.slug, "-", self.language.code]},
             )
         )
 
     def get_translate_url(self):
-        return reverse("translate", kwargs=self.get_reverse_url_kwargs())
+        return reverse("translate", kwargs={"path": self.get_url_path()})
 
     def get_filename(self):
         """Return absolute filename."""
@@ -1657,6 +1656,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 explanation=explanation,
             )
             return
+
+    @property
+    def all_repo_components(self):
+        return self.component.all_repo_components
 
 
 class GhostTranslation:

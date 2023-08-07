@@ -18,8 +18,9 @@ from django.views.decorators.csrf import csrf_exempt
 from weblate.auth.models import User
 from weblate.gitexport.models import SUPPORTED_VCS
 from weblate.gitexport.utils import find_git_http_backend
+from weblate.trans.models import Component
 from weblate.utils.errors import report_error
-from weblate.utils.views import get_component
+from weblate.utils.views import parse_path
 
 
 def response_authenticate():
@@ -55,38 +56,33 @@ def authenticate(request, auth):
 
 @never_cache
 @csrf_exempt
-def git_export(request, project, component, path):
+def git_export(request, path, git_request):
     """
     Git HTTP server view.
 
     Wrapper around git-http-backend to provide Git repositories export over HTTP.
     Performs permission checks and hands over execution to the wrapper.
     """
-    # Probably browser access
-    if not path:
-        return redirect(
-            "component", project=project, component=component, permanent=False
-        )
-    # Strip possible double path separators
-    path = path.lstrip("/\\")
-
-    # HTTP authentication
-    auth = request.headers.get("authorization", b"")
-
     # Reject non pull access early
     if request.GET.get("service", "") not in ("", "git-upload-pack"):
         raise PermissionDenied("Only pull is supported")
 
+    # HTTP authentication
+    auth = request.headers.get("authorization", b"")
+
     if auth and not authenticate(request, auth):
         return response_authenticate()
 
-    # Permissions
     try:
-        obj = get_component(request, project, component)
+        obj = parse_path(request, path, (Component,))
     except Http404:
         if not request.user.is_authenticated:
             return response_authenticate()
         raise
+    # Strip possible double path separators
+    git_request = git_request.lstrip("/\\")
+
+    # Permissions
     if not request.user.has_perm("vcs.access", obj):
         if not request.user.is_authenticated:
             return response_authenticate()
@@ -94,19 +90,24 @@ def git_export(request, project, component, path):
     if obj.vcs not in SUPPORTED_VCS:
         raise Http404("Not a git repository")
     if obj.is_repo_link:
-        kwargs = obj.linked_component.get_reverse_url_kwargs()
-        kwargs["path"] = path
         return redirect(
             "{}?{}".format(
-                reverse("git-export", kwargs=kwargs), request.META["QUERY_STRING"]
+                reverse(
+                    "git-export",
+                    kwargs={
+                        "path": obj.linked_component.get_url_path(),
+                        "git_request": git_request,
+                    },
+                ),
+                request.META["QUERY_STRING"],
             ),
             permanent=True,
         )
 
-    return run_git_http(request, obj, path)
+    return run_git_http(request, obj, git_request)
 
 
-def run_git_http(request, obj, path):
+def run_git_http(request, obj, git_request):
     """Git HTTP backend execution wrapper."""
     # Find Git HTTP backend
     git_http_backend = find_git_http_backend()
@@ -117,7 +118,7 @@ def run_git_http(request, obj, path):
     query = request.META.get("QUERY_STRING", "")
     process_env = {
         "REQUEST_METHOD": request.method,
-        "PATH_TRANSLATED": os.path.join(obj.full_path, path),
+        "PATH_TRANSLATED": os.path.join(obj.full_path, git_request),
         "GIT_HTTP_EXPORT_ALL": "1",
         "CONTENT_TYPE": request.headers.get("content-type", ""),
         "QUERY_STRING": query,

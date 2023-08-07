@@ -48,8 +48,8 @@ class ChecksViewTest(ViewTestCase):
         self.assertRedirects(
             response,
             reverse(
-                "show_check_project",
-                kwargs={"name": "same", "project": self.project.slug},
+                "show_check_path",
+                kwargs={"name": "same", "path": self.project.get_url_path()},
             ),
         )
         response = self.client.get(
@@ -60,16 +60,16 @@ class ChecksViewTest(ViewTestCase):
     def test_project(self):
         response = self.client.get(
             reverse(
-                "show_check_project",
-                kwargs={"name": "same", "project": self.project.slug},
+                "show_check_path",
+                kwargs={"name": "same", "path": self.project.get_url_path()},
             )
         )
         self.assertContains(response, "/same/")
 
         response = self.client.get(
             reverse(
-                "show_check_project",
-                kwargs={"name": "same", "project": self.project.slug},
+                "show_check_path",
+                kwargs={"name": "same", "path": self.project.get_url_path()},
             ),
             {"lang": "cs"},
         )
@@ -77,16 +77,16 @@ class ChecksViewTest(ViewTestCase):
 
         response = self.client.get(
             reverse(
-                "show_check_project",
-                kwargs={"name": "ellipsis", "project": self.project.slug},
+                "show_check_path",
+                kwargs={"name": "ellipsis", "path": self.project.get_url_path()},
             )
         )
         self.assertContains(response, "…")
 
         response = self.client.get(
             reverse(
-                "show_check_project",
-                kwargs={"name": "non-existing", "project": self.project.slug},
+                "show_check_path",
+                kwargs={"name": "non-existing", "path": self.project.get_url_path()},
             )
         )
         self.assertEqual(response.status_code, 404)
@@ -94,23 +94,18 @@ class ChecksViewTest(ViewTestCase):
     def test_component(self):
         response = self.client.get(
             reverse(
-                "show_check_component",
-                kwargs={
-                    "name": "same",
-                    "project": self.project.slug,
-                    "component": self.component.slug,
-                },
+                "show_check_path",
+                kwargs={"name": "same", "path": self.component.get_url_path()},
             )
         )
         self.assertContains(response, "/same/")
 
         response = self.client.get(
             reverse(
-                "show_check_component",
+                "show_check_path",
                 kwargs={
                     "name": "multiple_failures",
-                    "project": self.project.slug,
-                    "component": self.component.slug,
+                    "path": self.component.get_url_path(),
                 },
             )
         )
@@ -118,12 +113,8 @@ class ChecksViewTest(ViewTestCase):
 
         response = self.client.get(
             reverse(
-                "show_check_component",
-                kwargs={
-                    "name": "non-existing",
-                    "project": self.project.slug,
-                    "component": self.component.slug,
-                },
+                "show_check_path",
+                kwargs={"name": "non-existing", "path": self.component.get_url_path()},
             )
         )
         self.assertEqual(response.status_code, 404)

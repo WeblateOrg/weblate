@@ -85,28 +85,37 @@ class ViewTestCase(RepoTestCase):
         # Create project to have some test base
         self.component = self.create_component()
         self.project = self.component.project
+        self.translation = self.get_translation()
         # Invalidate caches
         self.project.stats.invalidate()
         cache.clear()
         # Login
         self.client.login(username="testuser", password="testpassword")
         # Prepopulate kwargs
-        self.kw_project = {"project": self.project.slug}
-        self.kw_component = {
-            "project": self.project.slug,
-            "component": self.component.slug,
-        }
-        self.kw_translation = {
-            "project": self.project.slug,
-            "component": self.component.slug,
-            "lang": "cs",
-        }
-        self.kw_lang_project = {"project": self.project.slug, "lang": "cs"}
 
-        # Store URL for testing
-        self.translation_url = self.get_translation().get_absolute_url()
-        self.project_url = self.project.get_absolute_url()
-        self.component_url = self.component.get_absolute_url()
+    @property
+    def kw_project(self):
+        return {"project": self.project.slug}
+
+    @property
+    def kw_component(self):
+        return {"path": self.component.get_url_path()}
+
+    @property
+    def kw_translation(self):
+        return {"path": self.translation.get_url_path()}
+
+    @property
+    def translation_url(self):
+        return self.translation.get_absolute_url()
+
+    @property
+    def project_url(self):
+        return self.project.get_absolute_url()
+
+    @property
+    def component_url(self):
+        return self.component.get_absolute_url()
 
     def tearDown(self):
         super().tearDown()
@@ -326,23 +335,23 @@ class TranslationManipulationTest(ViewTestCase):
 
 class BasicViewTest(ViewTestCase):
     def test_view_project(self):
-        response = self.client.get(reverse("project", kwargs=self.kw_project))
+        response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, "test/test")
         self.assertNotContains(response, "Spanish")
 
     def test_view_project_ghost(self):
         self.user.profile.languages.add(Language.objects.get(code="es"))
-        response = self.client.get(reverse("project", kwargs=self.kw_project))
+        response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, "Spanish")
 
     def test_view_component(self):
-        response = self.client.get(reverse("component", kwargs=self.kw_component))
+        response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, "Test/Test")
         self.assertNotContains(response, "Spanish")
 
     def test_view_component_ghost(self):
         self.user.profile.languages.add(Language.objects.get(code="es"))
-        response = self.client.get(reverse("component", kwargs=self.kw_component))
+        response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, "Spanish")
 
     def test_view_component_guide(self):
@@ -350,7 +359,7 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, "Test/Test")
 
     def test_view_translation(self):
-        response = self.client.get(reverse("translation", kwargs=self.kw_translation))
+        response = self.client.get(self.translation.get_absolute_url())
         self.assertContains(response, "Test/Test")
 
     def test_view_translation_others(self):
@@ -366,65 +375,63 @@ class BasicViewTest(ViewTestCase):
                 new_lang="add",
             )
         # Existing translation
-        response = self.client.get(reverse("translation", kwargs=self.kw_translation))
+        response = self.client.get(self.translation.get_absolute_url())
         self.assertContains(response, other.name)
         # Ghost translation
-        kwargs = {}
-        kwargs.update(self.kw_translation)
-        kwargs["lang"] = "it"
-        response = self.client.get(reverse("translation", kwargs=kwargs))
+        kwargs = {"path": [*self.component.get_url_path(), "it"]}
+        response = self.client.get(reverse("show", kwargs=kwargs))
         self.assertContains(response, other.name)
 
     def test_view_redirect(self):
         """Test case insensitive lookups and aliases in middleware."""
         # Non existing fails with 404
-        kwargs = {"project": "invalid"}
-        response = self.client.get(reverse("project", kwargs=kwargs))
+        response = self.client.get(reverse("show", kwargs={"path": ["invalid"]}))
         self.assertEqual(response.status_code, 404)
 
         # Different casing should redirect, MySQL always does case insensitive lookups
-        kwargs["project"] = self.project.slug.upper()
         if using_postgresql():
-            response = self.client.get(reverse("project", kwargs=kwargs))
+            response = self.client.get(
+                reverse("show", kwargs={"path": [self.project.slug.upper()]})
+            )
             self.assertRedirects(
-                response, reverse("project", kwargs=self.kw_project), status_code=301
+                response, self.project.get_absolute_url(), status_code=301
             )
 
         # Non existing fails with 404
-        kwargs["component"] = "invalid"
-        response = self.client.get(reverse("component", kwargs=kwargs))
+        kwargs = {"path": [*self.project.get_url_path(), "invalid"]}
+        response = self.client.get(reverse("show", kwargs=kwargs))
         self.assertEqual(response.status_code, 404)
 
         # Different casing should redirect, MySQL always does case insensitive lookups
-        kwargs["component"] = self.component.slug.upper()
+        kwargs["path"][-1] = self.component.slug.upper()
         if using_postgresql():
-            response = self.client.get(reverse("component", kwargs=kwargs))
+            response = self.client.get(reverse("show", kwargs=kwargs))
             self.assertRedirects(
                 response,
-                reverse("component", kwargs=self.kw_component),
+                self.component.get_absolute_url(),
                 status_code=301,
             )
 
         # Non existing fails with 404
-        kwargs["lang"] = "cs-DE"
-        response = self.client.get(reverse("translation", kwargs=kwargs))
+        kwargs["path"][-1] = self.component.slug
+        kwargs["path"].append("cs-DE")
+        response = self.client.get(reverse("show", kwargs=kwargs))
         self.assertEqual(response.status_code, 404)
 
         # Aliased language should redirect
-        kwargs["lang"] = "czech"
-        response = self.client.get(reverse("translation", kwargs=kwargs))
+        kwargs["path"][-1] = "czech"
+        response = self.client.get(reverse("show", kwargs=kwargs))
         self.assertRedirects(
             response,
-            reverse("translation", kwargs=self.kw_translation),
+            self.translation.get_absolute_url(),
             status_code=301,
         )
 
         # Non existing translated language should redirect with an info message
-        self.kw_component["lang"] = "Hindi"
-        response = self.client.get(reverse("translation", kwargs=self.kw_component))
-        self.kw_component.pop("lang")
+        kwargs["path"][-1] = "Hindi"
+        response = self.client.get(reverse("show", kwargs=kwargs))
         self.assertRedirects(
-            response, reverse("component", kwargs=self.kw_component), status_code=302
+            response, self.component.get_absolute_url(), status_code=302
         )
         messages = [m.message for m in get_messages(response.wsgi_request)]
         self.assertIn("Hindi translation is currently not available", messages[0])
@@ -522,9 +529,8 @@ class SourceStringsTest(ViewTestCase):
         self.assertEqual(unit.extra_flags, "ignore-same")
 
     def test_view_source(self):
-        kwargs = {"lang": "en"}
-        kwargs.update(self.kw_component)
-        response = self.client.get(reverse("translation", kwargs=kwargs))
+        kwargs = {"path": [*self.component.get_url_path(), "en"]}
+        response = self.client.get(reverse("show", kwargs=kwargs))
         self.assertContains(response, "Test/Test")
 
     def test_matrix(self):

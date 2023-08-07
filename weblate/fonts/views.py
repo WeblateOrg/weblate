@@ -11,8 +11,15 @@ from django.views.generic import DetailView, ListView
 
 from weblate.fonts.forms import FontForm, FontGroupForm, FontOverrideForm
 from weblate.fonts.models import Font, FontGroup
+from weblate.trans.models import Project
 from weblate.utils import messages
-from weblate.utils.views import ProjectViewMixin
+from weblate.utils.views import parse_path
+
+
+class ProjectViewMixin:
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.project = parse_path(request, [self.kwargs["project"]], (Project,))
 
 
 @method_decorator(login_required, name="dispatch")

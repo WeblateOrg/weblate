@@ -26,7 +26,6 @@ from django.views.decorators.http import require_POST
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import get_glossary_terms
-from weblate.lang.models import Language
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import (
@@ -41,7 +40,7 @@ from weblate.trans.forms import (
     ZenTranslationForm,
     get_new_unit_form,
 )
-from weblate.trans.models import Change, Comment, Suggestion, Unit, Vote
+from weblate.trans.models import Change, Comment, Suggestion, Translation, Unit, Vote
 from weblate.trans.tasks import auto_translate
 from weblate.trans.templatetags.translations import (
     try_linkify_filename,
@@ -57,31 +56,13 @@ from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import (
-    get_project,
     get_sort_name,
-    get_translation,
+    parse_path,
+    parse_path_units,
     show_form_errors,
 )
 
 SESSION_SEARCH_CACHE_TTL = 1800
-
-
-def parse_params(request, project, component, lang):
-    """Parses base object and unit set from request."""
-    if component == "-":
-        project = get_project(request, project)
-        language = get_object_or_404(Language, code=lang)
-        obj = ProjectLanguage(project, language)
-        unit_set = Unit.objects.filter(
-            translation__component__project=project, translation__language=language
-        )
-    else:
-        # Translation case
-        obj = get_translation(request, project, component, lang)
-        unit_set = obj.unit_set
-        project = obj.component.project
-
-    return obj, project, unit_set
 
 
 def get_other_units(unit):
@@ -547,9 +528,12 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
     return HttpResponseRedirect(redirect_url)
 
 
-def translate(request, project, component, lang):  # noqa: C901
+def translate(request, path):  # noqa: C901
     """Generic entry point for translating, suggesting and searching."""
-    obj, project, unit_set = parse_params(request, project, component, lang)
+    obj, unit_set, context = parse_path_units(
+        request, path, (Translation, ProjectLanguage)
+    )
+    project = context["project"]
     user = request.user
 
     # Search results
@@ -713,8 +697,8 @@ def translate(request, project, component, lang):  # noqa: C901
 
 @require_POST
 @login_required
-def auto_translation(request, project, component, lang):
-    translation = get_translation(request, project, component, lang)
+def auto_translation(request, path):
+    translation = parse_path(request, path, (Translation,))
     project = translation.component.project
     if not request.user.has_perm("translation.auto", project):
         raise PermissionDenied
@@ -863,9 +847,12 @@ def get_zen_unitdata(obj, project, unit_set, request):
     return search_result, unitdata
 
 
-def zen(request, project, component, lang):
+def zen(request, path):
     """Generic entry point for translating, suggesting and searching."""
-    obj, project, unit_set = parse_params(request, project, component, lang)
+    obj, unit_set, context = parse_path_units(
+        request, path, (Translation, ProjectLanguage)
+    )
+    project = context["project"]
 
     search_result, unitdata = get_zen_unitdata(obj, project, unit_set, request)
     sort = get_sort_name(request, obj)
@@ -898,9 +885,12 @@ def zen(request, project, component, lang):
     )
 
 
-def load_zen(request, project, component, lang):
+def load_zen(request, path):
     """Load additional units for zen editor."""
-    obj, project, unit_set = parse_params(request, project, component, lang)
+    obj, unit_set, context = parse_path_units(
+        request, path, (Translation, ProjectLanguage)
+    )
+    project = context["project"]
 
     search_result, unitdata = get_zen_unitdata(obj, project, unit_set, request)
 
@@ -927,9 +917,11 @@ def load_zen(request, project, component, lang):
 
 @login_required
 @require_POST
-def save_zen(request, project, component, lang):
+def save_zen(request, path):
     """Save handler for zen mode."""
-    _obj, _project, unit_set = parse_params(request, project, component, lang)
+    _obj, unit_set, _context = parse_path_units(
+        request, path, (Translation, ProjectLanguage)
+    )
 
     checksum_form = ChecksumForm(unit_set, request.POST)
     if not checksum_form.is_valid():
@@ -981,8 +973,8 @@ def save_zen(request, project, component, lang):
 
 @require_POST
 @login_required
-def new_unit(request, project, component, lang):
-    translation = get_translation(request, project, component, lang)
+def new_unit(request, path):
+    translation = parse_path(request, path, (Translation,))
     if not request.user.has_perm("unit.add", translation):
         raise PermissionDenied
 
@@ -1017,9 +1009,12 @@ def delete_unit(request, unit_id):
     return redirect(unit.translation)
 
 
-def browse(request, project, component, lang):
+def browse(request, path):
     """Strings browsing."""
-    obj, project, unit_set = parse_params(request, project, component, lang)
+    obj, unit_set, context = parse_path_units(
+        request, path, (Translation, ProjectLanguage)
+    )
+    project = context["project"]
     search_result = search(obj, project, unit_set, request, blank=True, use_cache=False)
     offset = search_result["offset"]
     page = 20
@@ -1028,7 +1023,7 @@ def browse(request, project, component, lang):
     )
 
     base_unit_url = "{}?{}&offset=".format(
-        reverse("browse", kwargs=obj.get_reverse_url_kwargs()),
+        reverse("browse", kwargs={"path": obj.get_url_path()}),
         search_result["url"],
     )
     num_results = ceil(len(search_result["ids"]) / page)

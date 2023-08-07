@@ -10,15 +10,15 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
 from weblate.trans.forms import LabelForm
-from weblate.trans.models import Label
+from weblate.trans.models import Label, Project
 from weblate.trans.util import render
-from weblate.utils.views import get_project
+from weblate.utils.views import parse_path
 
 
 @login_required
 @never_cache
 def project_labels(request, project):
-    obj = get_project(request, project)
+    obj = parse_path(request, [project], (Project,))
 
     if not request.user.has_perm("project.edit", obj):
         raise PermissionDenied
@@ -47,7 +47,7 @@ def project_labels(request, project):
 @login_required
 @never_cache
 def label_edit(request, project, pk):
-    obj = get_project(request, project)
+    obj = parse_path(request, [project], (Project,))
 
     if not request.user.has_perm("project.edit", obj):
         raise PermissionDenied
@@ -73,7 +73,7 @@ def label_edit(request, project, pk):
 @never_cache
 @require_POST
 def label_delete(request, project, pk):
-    obj = get_project(request, project)
+    obj = parse_path(request, [project], (Project,))
 
     if not request.user.has_perm("project.edit", obj):
         raise PermissionDenied

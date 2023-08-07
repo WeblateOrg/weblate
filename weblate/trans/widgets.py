@@ -59,7 +59,6 @@ class Widget:
     extension = "png"
     content_type = "image/png"
     order = 100
-    show = True
 
     def __init__(self, obj, color=None, lang=None):
         """Create Widget object."""
@@ -98,7 +97,6 @@ class BitmapWidget(ContentWidget):
     extension = "png"
     content_type = "image/png"
     order = 100
-    show = True
     head_template = '<span letter_spacing="-500"><b>{}</b></span>'
     foot_template = '<span letter_spacing="1000">{}</span>'
     font_size = 10
@@ -207,25 +205,6 @@ class SVGWidget(ContentWidget):
     def render(self, response):
         """Rendering method to be implemented."""
         raise NotImplementedError
-
-
-class RedirectWidget(Widget):
-    """Generic redirect widget class."""
-
-    show = False
-
-    def redirect(self):
-        """Redirect to matching SVG badge."""
-        kwargs = {
-            "project": self.obj.slug,
-            "widget": "svg",
-            "color": "badge",
-            "extension": "svg",
-        }
-        if self.lang:
-            kwargs["lang"] = self.lang.code
-            return reverse("widget-image", kwargs=kwargs)
-        return reverse("widget-image", kwargs=kwargs)
 
 
 @register_widget
@@ -350,22 +329,6 @@ class SiteOpenGraphWidget(OpenGraphWidget):
 
     def get_text_params(self):
         return {}
-
-
-@register_widget
-class BadgeWidget(RedirectWidget):
-    """Legacy badge which used to render PNG."""
-
-    name = "status"
-    colors: tuple[str, ...] = ("badge",)
-
-
-@register_widget
-class ShieldsBadgeWidget(RedirectWidget):
-    """Legacy badge which used to redirect to shields.io."""
-
-    name = "shields"
-    colors: tuple[str, ...] = ("badge",)
 
 
 @register_widget

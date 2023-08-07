@@ -6,8 +6,8 @@
 {% block breadcrumbs %}
 <li><a href="{% url 'checks' %}">{% trans "Checks" %}</a></li>
 <li><a href="{% url 'show_check' name=check.check_id %}">{{ check.name }}</a></li>
-<li><a href="{% url 'show_check_project' name=check.check_id project=component.project.slug %}">{{ component.project }}</a></li>
-<li><a href="{% url 'show_check_component' name=check.check_id project=component.project.slug component=component.slug %}">{{ component.name }}</a></li>
+<li><a href="{% url 'show_check_path' name=check.check_id path=component.project.get_url_path %}">{{ component.project }}</a></li>
+<li><a href="{% url 'show_check_path' name=check.check_id path=component.get_url_path %}">{{ component.name }}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -27,7 +27,7 @@
     </thead>
     <tbody>
     {% for obj in translations %}
-        {% url 'translate' project=component.project.slug component=component.slug lang=obj.language.code as translate_url %}
+        {% url 'show' path=obj.get_url_path as translate_url %}
         <tr>
             <th>
                 <a href="{{ translate_url }}?q={{ check.url_id }}">

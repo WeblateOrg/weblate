@@ -6,7 +6,7 @@ from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
 from weblate.trans.models import Change, Component, Project, Translation
-from weblate.utils.stats import prefetch_stats
+from weblate.utils.stats import ProjectLanguage, prefetch_stats
 
 
 class PagesSitemap(Sitemap):
@@ -87,10 +87,10 @@ class EngageSitemap(ProjectSitemap):
     priority = 1.0
 
     def location(self, obj):
-        return reverse("engage", kwargs={"project": obj.slug})
+        return reverse("engage", kwargs={"path": obj.get_url_path()})
 
 
-class EngageLangSitemap(Sitemap):
+class EngageLangSitemap(EngageSitemap):
     """Wrapper to generate sitemap for all per language engage pages."""
 
     priority = 0.9
@@ -100,10 +100,11 @@ class EngageLangSitemap(Sitemap):
         projects = Project.objects.filter(
             access_control__lt=Project.ACCESS_PRIVATE
         ).order_by("id")
-        return [(project, lang) for project in projects for lang in project.languages]
-
-    def location(self, obj):
-        return reverse("engage", kwargs={"project": obj[0].slug, "lang": obj[1].code})
+        return [
+            ProjectLanguage(project=project, language=lang)
+            for project in projects
+            for lang in project.languages
+        ]
 
 
 SITEMAPS = {

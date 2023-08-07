@@ -556,7 +556,7 @@ class ZenTranslationForm(TranslationForm):
     def __init__(self, user, unit, *args, **kwargs):
         super().__init__(user, unit, *args, **kwargs)
         self.helper.form_action = reverse(
-            "save_zen", kwargs=unit.translation.get_reverse_url_kwargs()
+            "save_zen", kwargs={"path": unit.translation.get_url_path()}
         )
         self.helper.form_tag = True
         self.helper.disable_csrf = False
@@ -1030,23 +1030,27 @@ class CommentForm(forms.Form):
 class EngageForm(forms.Form):
     """Form to choose language for engagement widgets."""
 
-    lang = forms.ChoiceField(
-        required=False, choices=[("", gettext_lazy("All languages"))]
+    lang = forms.ModelChoiceField(
+        Language.objects.none(),
+        empty_label=gettext_lazy("All languages"),
+        required=False,
+        to_field_name="code",
     )
-    component = forms.ChoiceField(
-        required=False, choices=[("", gettext_lazy("All components"))]
+    component = forms.ModelChoiceField(
+        Component.objects.none(),
+        required=False,
+        empty_label=gettext_lazy("All components"),
+        to_field_name="slug",
     )
 
     def __init__(self, user, project, *args, **kwargs):
         """Dynamically generate choices for used languages in the project."""
         super().__init__(*args, **kwargs)
 
-        self.fields["lang"].choices += project.languages.as_choices()
-        self.fields["component"].choices += (
-            project.component_set.filter_access(user)
-            .order()
-            .values_list("slug", "name")
-        )
+        self.fields["lang"].queryset = project.languages
+        self.fields["component"].queryset = project.component_set.filter_access(
+            user
+        ).order()
 
 
 class NewLanguageOwnerForm(forms.Form):
