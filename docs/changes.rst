@@ -25,6 +25,7 @@ Not yet released.
 * Better preserve translation on source file change in :doc:`/formats/html` and :doc:`/formats/txt`.
 * Added indication of automatic assignment to team listing.
 * Users now have to confirm invitations to become team members.
+* :ref:`check-formats` can now check all plural forms with the ``strict-format`` flag.
 
 **Bug fixes**
 
