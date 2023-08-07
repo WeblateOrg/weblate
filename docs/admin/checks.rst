@@ -107,6 +107,8 @@ Here is a list of flags currently accepted:
     Indicates forbidden translation in a glossary, see :ref:`glossary-forbidden`.
 ``strict-same``
     Make "Unchanged translation" avoid using built-in words blacklist, see :ref:`check-same`.
+``strict-format``
+    Make format checks enforce using format even for plural forms with a single value, see :ref:`check-formats`.
 ``check-glossary``
     Enable the :ref:`check-check-glossary` quality check.
 ``angularjs-format``

@@ -297,6 +297,7 @@ class BaseFormatCheck(TargetCheck):
             # won't be 0 so don't trigger too many false positives.
             # Some formats do strict linting here, so be strict on those as well.
             len(sources) > 1
+            and "strict-format" not in unit.all_flags
             and (
                 len(plural_examples[0]) == 1
                 or (
