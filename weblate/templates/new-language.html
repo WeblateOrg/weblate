@@ -17,13 +17,13 @@
 
 <div class="tab-pane" id="newlang">
 
-<form action="{% url 'new-language' project=object.project.slug component=object.slug %}" method="post">
+<form action="{% url 'new-language' path=object.get_url_path %}" method="post">
 {% csrf_token %}
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Start new translation" %}</h4></div>
   <div class="panel-body">
 {% if object.new_lang == 'url' and not can_add %}
-<p><a href="{% url 'project' project=object.project.slug %}#information">{% trans "The translator instructions has info on how to start translating into other languages." %}</a></p>
+<p><a href="{{ object.project.get_absolute_url }}#information">{% trans "The translator instructions has info on how to start translating into other languages." %}</a></p>
 {% else %}
 <p>
   {% trans "Please choose the language you want to translate to." %}

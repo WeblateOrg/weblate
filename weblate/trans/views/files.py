@@ -9,18 +9,16 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.http import require_POST
 
-from weblate.lang.models import Language
 from weblate.trans.exceptions import FailedCommitError, PluralFormsMismatchError
 from weblate.trans.forms import DownloadForm, get_upload_form
-from weblate.trans.models import ComponentList, Project, Translation
+from weblate.trans.models import Component, ComponentList, Project, Translation
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
+from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import (
     download_translation_file,
-    get_component,
-    get_project,
-    get_translation,
+    parse_path,
     show_form_errors,
     zip_download,
 )
@@ -73,68 +71,55 @@ def download_component_list(request, name):
     )
 
 
-def download_component(request, project, component):
-    obj = get_component(request, project, component)
-    if not request.user.has_perm("translation.download", obj):
-        raise PermissionDenied
-    return download_multi(
-        obj.translation_set.all(),
-        [obj],
-        request.GET.get("format"),
-        name=obj.full_slug.replace("/", "-"),
-    )
-
-
-def download_project(request, project):
-    obj = get_project(request, project)
-    if not request.user.has_perm("translation.download", obj):
-        raise PermissionDenied
-    components = obj.component_set.filter_access(request.user)
-    return download_multi(
-        Translation.objects.filter(component__in=components),
-        [obj],
-        request.GET.get("format"),
-        name=obj.slug,
-    )
-
-
-def download_lang_project(request, lang, project):
-    obj = get_project(request, project)
-    if not request.user.has_perm("translation.download", obj):
-        raise PermissionDenied
-    langobj = get_object_or_404(Language, code=lang)
-    components = obj.component_set.filter_access(request.user)
-    return download_multi(
-        Translation.objects.filter(component__in=components, language=langobj),
-        [obj],
-        request.GET.get("format"),
-        name=f"{obj.slug}-{langobj.code}",
-    )
-
-
-def download_translation(request, project, component, lang):
-    obj = get_translation(request, project, component, lang)
+def download(request, path):
+    """Handling of translation uploads."""
+    obj = parse_path(request, path, (Translation, Component, Project, ProjectLanguage))
     if not request.user.has_perm("translation.download", obj):
         raise PermissionDenied
 
-    kwargs = {}
+    if isinstance(obj, Translation):
+        kwargs = {}
 
-    if "format" in request.GET or "q" in request.GET:
-        form = DownloadForm(obj, request.GET)
-        if not form.is_valid():
-            show_form_errors(request, form)
-            return redirect(obj)
+        if "format" in request.GET or "q" in request.GET:
+            form = DownloadForm(obj, request.GET)
+            if not form.is_valid():
+                show_form_errors(request, form)
+                return redirect(obj)
 
-        kwargs["query_string"] = form.cleaned_data.get("q", "")
-        kwargs["fmt"] = form.cleaned_data["format"]
+            kwargs["query_string"] = form.cleaned_data.get("q", "")
+            kwargs["fmt"] = form.cleaned_data["format"]
 
-    return download_translation_file(request, obj, **kwargs)
+        return download_translation_file(request, obj, **kwargs)
+    if isinstance(obj, ProjectLanguage):
+        components = obj.project.component_set.filter_access(request.user)
+        return download_multi(
+            Translation.objects.filter(component__in=components, language=obj.language),
+            [obj.project],
+            request.GET.get("format"),
+            name=f"{obj.project.slug}-{obj.language.code}",
+        )
+    if isinstance(obj, Project):
+        components = obj.component_set.filter_access(request.user)
+        return download_multi(
+            Translation.objects.filter(component__in=components),
+            [obj],
+            request.GET.get("format"),
+            name=obj.slug,
+        )
+    if isinstance(obj, Component):
+        return download_multi(
+            obj.translation_set.all(),
+            [obj],
+            request.GET.get("format"),
+            name=obj.full_slug.replace("/", "-"),
+        )
+    raise TypeError(f"Unsupported download: {obj}")
 
 
 @require_POST
-def upload_translation(request, project, component, lang):
+def upload(request, path):
     """Handling of translation uploads."""
-    obj = get_translation(request, project, component, lang)
+    obj = parse_path(request, path, (Translation,))
 
     if not request.user.has_perm("upload.perform", obj):
         raise PermissionDenied

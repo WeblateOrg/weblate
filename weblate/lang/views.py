@@ -18,7 +18,7 @@ from weblate.trans.forms import (
     ReplaceForm,
     SearchForm,
 )
-from weblate.trans.models import Change
+from weblate.trans.models import Change, Project
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import sort_objects
@@ -29,7 +29,7 @@ from weblate.utils.stats import (
     ProjectLanguageStats,
     prefetch_stats,
 )
-from weblate.utils.views import get_project, optional_form
+from weblate.utils.views import optional_form, parse_path
 
 
 def show_languages(request):
@@ -102,7 +102,7 @@ def show_project(request, lang, project):
             return redirect(language_object)
         raise Http404("No Language matches the given query.")
 
-    project_object = get_project(request, project)
+    project_object = parse_path(request, [project], (Project,))
     obj = ProjectLanguage(project_object, language_object)
     user = request.user
 

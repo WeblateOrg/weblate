@@ -99,7 +99,7 @@ from weblate.auth.forms import UserEditForm
 from weblate.auth.models import Invitation, User, get_auth_keys
 from weblate.auth.utils import format_address
 from weblate.logger import LOGGER
-from weblate.trans.models import Change, Component, Suggestion, Translation
+from weblate.trans.models import Change, Component, Project, Suggestion, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.utils import messages
@@ -108,7 +108,7 @@ from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.token import get_token
-from weblate.utils.views import get_component, get_paginator, get_project
+from weblate.utils.views import get_paginator, parse_path
 
 CONTACT_TEMPLATE = """
 Message from %(name)s <%(email)s>:
@@ -1022,35 +1022,37 @@ def userdata(request):
 
 @require_POST
 @login_required
-def watch(request, project, component=None):
+def watch(request, path):
     user = request.user
-    if component:
-        redirect_obj = component_obj = get_component(request, project, component)
-        obj = component_obj.project
+    redirect_obj = obj = parse_path(request, path, (Component, Project))
+    if isinstance(obj, Component):
+        project = obj.project
+
         # Mute project level subscriptions
-        mute_real(user, scope=SCOPE_PROJECT, component=None, project=obj)
+        mute_real(user, scope=SCOPE_PROJECT, component=None, project=project)
         # Manually enable component level subscriptions
         for default_subscription in user.subscription_set.filter(scope=SCOPE_WATCHED):
             subscription, created = user.subscription_set.get_or_create(
                 notification=default_subscription.notification,
                 scope=SCOPE_COMPONENT,
-                component=component_obj,
+                component=obj,
                 project=None,
                 defaults={"frequency": default_subscription.frequency},
             )
             if not created and subscription.frequency != default_subscription.frequency:
                 subscription.frequency = default_subscription.frequency
                 subscription.save(update_fields=["frequency"])
-    else:
-        redirect_obj = obj = get_project(request, project)
+
+        # Watch project
+        obj = project
     user.profile.watched.add(obj)
     return redirect(redirect_obj)
 
 
 @require_POST
 @login_required
-def unwatch(request, project):
-    obj = get_project(request, project)
+def unwatch(request, path):
+    obj = parse_path(request, path, (Project,))
     request.user.profile.watched.remove(obj)
     request.user.subscription_set.filter(
         Q(project=obj) | Q(component__project=obj)
@@ -1074,18 +1076,13 @@ def mute_real(user, **kwargs):
 
 @require_POST
 @login_required
-def mute_component(request, project, component):
-    obj = get_component(request, project, component)
-    mute_real(request.user, scope=SCOPE_COMPONENT, component=obj, project=None)
-    return redirect(
-        "{}?notify_component={}#notifications".format(reverse("profile"), obj.pk)
-    )
-
-
-@require_POST
-@login_required
-def mute_project(request, project):
-    obj = get_project(request, project)
+def mute(request, path):
+    obj = parse_path(request, path, (Component, Project))
+    if isinstance(obj, Component):
+        mute_real(request.user, scope=SCOPE_COMPONENT, component=obj, project=None)
+        return redirect(
+            "{}?notify_component={}#notifications".format(reverse("profile"), obj.pk)
+        )
     mute_real(request.user, scope=SCOPE_PROJECT, component=None, project=obj)
     return redirect(
         "{}?notify_project={}#notifications".format(reverse("profile"), obj.pk)

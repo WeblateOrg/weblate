@@ -479,7 +479,7 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Watch project
-        self.client.post(reverse("watch", kwargs=self.kw_project))
+        self.client.post(reverse("watch", kwargs={"path": self.project.get_url_path()}))
         self.assertEqual(self.user.profile.watched.count(), 1)
         self.assertEqual(
             self.user.subscription_set.filter(project=self.project).count(), 0
@@ -492,13 +492,15 @@ class ProfileTest(FixtureTestCase):
         )
 
         # Mute notifications for project
-        self.client.post(reverse("mute", kwargs=self.kw_project))
+        self.client.post(reverse("mute", kwargs={"path": self.project.get_url_path()}))
         self.assertEqual(
             self.user.subscription_set.filter(project=self.project).count(), 18
         )
 
         # Unwatch project
-        self.client.post(reverse("unwatch", kwargs=self.kw_project))
+        self.client.post(
+            reverse("unwatch", kwargs={"path": self.project.get_url_path()})
+        )
         self.assertEqual(self.user.profile.watched.count(), 0)
         self.assertEqual(
             self.user.subscription_set.filter(project=self.project).count(), 0

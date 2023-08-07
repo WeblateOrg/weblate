@@ -77,8 +77,7 @@ def render_template(template, **kwargs):
             reverse(
                 "widget-image",
                 kwargs={
-                    "project": component.project.slug,
-                    "component": component.slug,
+                    "path": component.get_url_path(),
                     "widget": "horizontal",
                     "color": "auto",
                     "extension": "svg",

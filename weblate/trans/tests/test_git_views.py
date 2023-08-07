@@ -22,10 +22,8 @@ class GitNoChangeProjectTest(ViewTestCase):
         self.user.save()
 
     def get_test_url(self, prefix):
-        return reverse(
-            f"{prefix}_{self.TEST_TYPE}",
-            kwargs=getattr(self, f"kw_{self.TEST_TYPE}"),
-        )
+        obj = getattr(self, self.TEST_TYPE)
+        return reverse(prefix, kwargs={"path": obj.get_url_path()})
 
     def get_expected_redirect(self):
         return getattr(self, f"{self.TEST_TYPE}_url") + "#repository"

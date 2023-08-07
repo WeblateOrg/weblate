@@ -32,7 +32,6 @@ class EditTest(ViewTestCase):
 
     def setUp(self):
         super().setUp()
-        self.translation = self.get_translation()
         self.translate_url = reverse("translate", kwargs=self.kw_translation)
 
     def test_edit(self):
@@ -127,9 +126,7 @@ class EditTest(ViewTestCase):
             reverse(
                 "new-unit",
                 kwargs={
-                    "project": self.component.project.slug,
-                    "component": self.component.slug,
-                    "lang": language,
+                    "path": [self.component.project.slug, self.component.slug, language]
                 },
             ),
             args,
@@ -301,7 +298,7 @@ class EditLanguageTest(EditTest):
         super().setUp()
         self.translate_url = reverse(
             "translate",
-            kwargs={"project": self.project.slug, "lang": "cs", "component": "-"},
+            kwargs={"path": [self.project.slug, "-", "cs"]},
         )
 
     def edit_unit(self, source, target, language="cs", **kwargs):
@@ -325,7 +322,8 @@ class EditResourceSourceTest(ViewTestCase):
 
     def test_edit(self):
         translate_url = reverse(
-            "translate", kwargs={"project": "test", "component": "test", "lang": "en"}
+            "translate",
+            kwargs={"path": self.component.source_translation.get_url_path()},
         )
 
         response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n", "en")
@@ -610,12 +608,14 @@ class ZenViewTest(ViewTestCase):
 
     def test_load_zen_offset(self):
         response = self.client.get(
-            reverse("load_zen", kwargs=self.kw_translation), {"offset": "2"}
+            reverse("load_zen", kwargs=self.kw_translation),
+            {"offset": "2"},
         )
         self.assertNotContains(response, "Hello, world")
         self.assertContains(response, "Orangutan has %d bananas")
         response = self.client.get(
-            reverse("load_zen", kwargs=self.kw_translation), {"offset": "bug"}
+            reverse("load_zen", kwargs=self.kw_translation),
+            {"offset": "bug"},
         )
         self.assertContains(response, "Hello, world")
 
@@ -629,7 +629,8 @@ class ZenViewTest(ViewTestCase):
             "review": "20",
         }
         response = self.client.post(
-            reverse("save_zen", kwargs=self.kw_translation), params
+            reverse("save_zen", kwargs=self.kw_translation),
+            params,
         )
         self.assertContains(
             response,
@@ -649,7 +650,8 @@ class ZenViewTest(ViewTestCase):
             "review": "20",
         }
         response = self.client.post(
-            reverse("save_zen", kwargs=self.kw_translation), params
+            reverse("save_zen", kwargs=self.kw_translation),
+            params,
         )
         self.assertContains(
             response, "Insufficient privileges for saving translations."

@@ -17,17 +17,17 @@ class ExportsViewTest(FixtureTestCase):
         self.assertContains(response, "Test/Test")
 
     def test_view_rss_project(self):
-        response = self.client.get(reverse("rss-project", kwargs=self.kw_project))
+        response = self.client.get(
+            reverse("rss", kwargs={"path": self.project.get_url_path()})
+        )
         self.assertContains(response, "Test/Test")
 
     def test_view_rss_component(self):
-        response = self.client.get(reverse("rss-component", kwargs=self.kw_component))
+        response = self.client.get(reverse("rss", kwargs=self.kw_component))
         self.assertContains(response, "Test/Test")
 
     def test_view_rss_translation(self):
-        response = self.client.get(
-            reverse("rss-translation", kwargs=self.kw_translation)
-        )
+        response = self.client.get(reverse("rss", kwargs=self.kw_translation))
         self.assertContains(response, "Test/Test")
 
     def test_export_stats(self):
@@ -37,18 +37,22 @@ class ExportsViewTest(FixtureTestCase):
 
     def test_export_stats_csv(self):
         response = self.client.get(
-            reverse("export_stats", kwargs=self.kw_component), {"format": "csv"}
+            reverse("export_stats", kwargs=self.kw_component),
+            {"format": "csv"},
         )
         self.assertContains(response, "name,code")
 
     def test_export_project_stats(self):
-        response = self.client.get(reverse("export_stats", kwargs=self.kw_project))
+        response = self.client.get(
+            reverse("export_stats", kwargs={"path": self.project.get_url_path()})
+        )
         parsed = json.loads(response.content.decode())
         self.assertIn("Czech", [i["name"] for i in parsed])
 
     def test_export_project_stats_csv(self):
         response = self.client.get(
-            reverse("export_stats", kwargs=self.kw_project), {"format": "csv"}
+            reverse("export_stats", kwargs={"path": self.project.get_url_path()}),
+            {"format": "csv"},
         )
         self.assertContains(response, "name,code")
 

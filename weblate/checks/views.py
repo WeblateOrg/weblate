@@ -9,12 +9,12 @@ from django.utils.http import urlencode
 from django.utils.translation import gettext
 
 from weblate.checks.models import CHECKS, Check
-from weblate.trans.models import Component, Translation, Unit
+from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.trans.util import redirect_param
 from weblate.utils.db import conditional_sum
 from weblate.utils.forms import FilterForm
 from weblate.utils.state import STATE_TRANSLATED
-from weblate.utils.views import get_component, get_project, show_form_errors
+from weblate.utils.views import parse_path, show_form_errors
 
 
 def encode_optional(params):
@@ -97,9 +97,9 @@ def show_check(request, name):
         # This has to be done after updating url_params
         if form.cleaned_data.get("project") and "/" not in form.cleaned_data["project"]:
             return redirect_param(
-                "show_check_project",
+                "show_check_path",
                 encode_optional(url_params),
-                project=form.cleaned_data["project"],
+                path=[form.cleaned_data["project"]],
                 name=name,
             )
     else:
@@ -136,19 +136,24 @@ def show_check(request, name):
     )
 
 
-def show_check_project(request, name, project):
-    """Show checks failing in a project."""
-    prj = get_project(request, project)
+def show_check_path(request, name, path):
     try:
         check = CHECKS[name]
     except KeyError:
         raise Http404("No check matches the given query.")
+    obj = parse_path(request, path, (Component, Project))
+    if isinstance(obj, Project):
+        return show_check_project(request, check, obj)
+    return show_check_component(request, check, obj)
 
+
+def show_check_project(request, check, project):
+    """Show checks failing in a project."""
     url_params = {}
 
     kwargs = {
-        "project": prj,
-        "translation__unit__check__name": name,
+        "project": project,
+        "translation__unit__check__name": check.name,
     }
 
     form = FilterForm(request.GET)
@@ -184,22 +189,16 @@ def show_check_project(request, name, project):
         "check_project.html",
         {
             "components": components,
-            "title": f"{prj}/{check.name}",
+            "title": f"{project}/{check.name}",
             "check": check,
-            "project": prj,
+            "project": project,
             "url_params": encode_optional(url_params),
         },
     )
 
 
-def show_check_component(request, name, project, component):
+def show_check_component(request, check, component):
     """Show checks failing in a component."""
-    component = get_component(request, project, component)
-    try:
-        check = CHECKS[name]
-    except KeyError:
-        raise Http404("No check matches the given query.")
-
     kwargs = {}
 
     form = FilterForm(request.GET)
@@ -211,7 +210,7 @@ def show_check_component(request, name, project, component):
 
     translations = (
         Translation.objects.filter(
-            component=component, unit__check__name=name, **kwargs
+            component=component, unit__check__name=check.name, **kwargs
         )
         .annotate(
             check_count=Count("unit__check"),

@@ -171,7 +171,8 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     machinery_settings = models.JSONField(default=dict, blank=True)
 
     is_lockable = True
-    _reverse_url_name = "project"
+    remove_permission = "project.edit"
+    settings_permission = "project.edit"
 
     objects = ProjectQuerySet.as_manager()
 
@@ -285,13 +286,16 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         """Return kwargs for URL reversing."""
         return {"project": self.slug}
 
+    def get_url_path(self):
+        return (self.slug,)
+
     def get_widgets_url(self):
         """Return absolute URL for widgets."""
-        return get_site_url(reverse("widgets", kwargs={"project": self.slug}))
+        return get_site_url(reverse("widgets", kwargs={"path": self.get_url_path()}))
 
     def get_share_url(self):
         """Return absolute URL usable for sharing."""
-        return get_site_url(reverse("engage", kwargs={"project": self.slug}))
+        return get_site_url(reverse("engage", kwargs={"path": self.get_url_path()}))
 
     @cached_property
     def locked(self):
@@ -560,3 +564,7 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     @cached_property
     def enable_review(self):
         return self.translation_review or self.source_review
+
+    def do_lock(self, user, lock: bool = True, auto: bool = False):
+        for component in self.component_set.iterator():
+            component.do_lock(user, lock=lock, auto=auto)

@@ -18,6 +18,7 @@ from django.conf import settings
 from django.core.files import File
 from django.db import connection, transaction
 from django.db.models.fields.files import FieldFile
+from django.db.models.signals import pre_save
 from django.utils import timezone
 from weblate_schemas import load_schema, validate_schema
 
@@ -379,17 +380,17 @@ class ProjectBackup:
         source_language = kwargs["source_language"] = self.import_language(
             kwargs["source_language"]
         )
-        # Regenerate git export URL
-        if "weblate.gitexport" in settings.INSTALLED_APPS:
-            from weblate.gitexport.models import get_export_url_path
-
-            kwargs["git_export"] = get_export_url_path(
-                self.project.slug, kwargs["slug"]
-            )
-        # Use bulk create to avoid triggering save() and any signals
-        component = Component.objects.bulk_create(
-            [Component(project=self.project, **kwargs)]
-        )[0]
+        component = Component(project=self.project, **kwargs)
+        # Trigger pre_save to update git export URL
+        pre_save.send(
+            sender=component.__class__,
+            instance=component,
+            raw=False,
+            using=None,
+            update_fields=None,
+        )
+        # Use bulk create to avoid triggering save() and any post_save signals
+        component = Component.objects.bulk_create([component])[0]
 
         # Create translations
         translations = []

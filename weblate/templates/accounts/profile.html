@@ -388,7 +388,7 @@ git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ use
 <p>{% trans "You have agreed to the following as a contributor:" %}</p>
 <ul>
 {% for agreement in agreements %}
-<li><a href="{% url 'contributor-agreement' project=agreement.component.project.slug component=agreement.component.slug %}">{{ agreement.component }}</a></li>
+<li><a href="{% url 'contributor-agreement' path=agreement.component.get_url_path %}">{{ agreement.component }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}

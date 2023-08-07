@@ -107,14 +107,7 @@ class Addon(models.Model):
         )
 
     def get_absolute_url(self):
-        return reverse(
-            "addon-detail",
-            kwargs={
-                "project": self.component.project.slug,
-                "component": self.component.slug,
-                "pk": self.pk,
-            },
-        )
+        return reverse("addon-detail", kwargs={"pk": self.pk})
 
     def store_change(self, action):
         Change.objects.create(

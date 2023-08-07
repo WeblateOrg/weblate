@@ -15,13 +15,13 @@
     {% if not check.component.is_glossary %}
     <p>
       {% icon "comment.svg" %}
-      <a href="{% url "guide" project=check.component.project.slug component=check.component.slug %}">{% trans "Review guidelines from the community localization checklist." %}</a>
+      <a href="{% url "guide" path=check.component.get_url_path %}">{% trans "Review guidelines from the community localization checklist." %}</a>
     <p>
     {% endif %}
     {% if check.component.agreement %}
     <p>
       {% icon "suggest.svg" %}
-      <a href="{% url "component" project=check.component.project.slug component=check.component.slug %}#information">{% trans "Contributor agreement" %}</a>
+      <a href="{{ check.component.get_absolute_url }}#information">{% trans "Contributor agreement" %}</a>
       {{ check.component.agreement|markdown }}
     </p>
     {% endif %}

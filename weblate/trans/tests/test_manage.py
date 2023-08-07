@@ -18,9 +18,7 @@ from weblate.utils.files import remove_tree
 class RemovalTest(ViewTestCase):
     def test_translation(self):
         self.make_manager()
-        kwargs = {"lang": "cs"}
-        kwargs.update(self.kw_component)
-        url = reverse("remove_translation", kwargs=kwargs)
+        url = reverse("remove", kwargs=self.kw_translation)
         response = self.client.post(url, {"confirm": ""}, follow=True)
         self.assertContains(
             response, "The slug does not match the one marked for deletion!"
@@ -30,7 +28,7 @@ class RemovalTest(ViewTestCase):
 
     def test_component(self):
         self.make_manager()
-        url = reverse("remove_component", kwargs=self.kw_component)
+        url = reverse("remove", kwargs=self.kw_component)
         response = self.client.post(url, {"confirm": ""}, follow=True)
         self.assertContains(
             response, "The slug does not match the one marked for deletion!"
@@ -42,7 +40,7 @@ class RemovalTest(ViewTestCase):
 
     def test_project(self):
         self.make_manager()
-        url = reverse("remove_project", kwargs=self.kw_project)
+        url = reverse("remove", kwargs={"path": self.project.get_url_path()})
         response = self.client.post(url, {"confirm": ""}, follow=True)
         self.assertContains(
             response, "The slug does not match the one marked for deletion!"
@@ -53,10 +51,7 @@ class RemovalTest(ViewTestCase):
     def test_project_language(self):
         self.make_manager()
         self.assertEqual(Translation.objects.count(), 4)
-        url = reverse(
-            "remove-project-language",
-            kwargs={"project": self.project.slug, "lang": "cs"},
-        )
+        url = reverse("remove", kwargs={"path": [self.project.slug, "-", "cs"]})
         response = self.client.post(url, {"confirm": ""}, follow=True)
         self.assertContains(
             response, "The slug does not match the one marked for deletion!"
@@ -69,13 +64,14 @@ class RemovalTest(ViewTestCase):
 class RenameTest(ViewTestCase):
     def test_denied(self):
         self.assertNotContains(
-            self.client.get(reverse("project", kwargs=self.kw_project)), "#rename"
+            self.client.get(self.project.get_absolute_url()), "#rename"
         )
         self.assertNotContains(
-            self.client.get(reverse("component", kwargs=self.kw_component)), "#rename"
+            self.client.get(self.component.get_absolute_url()), "#rename"
         )
         response = self.client.post(
-            reverse("rename", kwargs=self.kw_project), {"slug": "xxxx"}
+            reverse("rename", kwargs={"path": self.project.get_url_path()}),
+            {"slug": "xxxx"},
         )
         self.assertEqual(response.status_code, 403)
 
@@ -95,7 +91,7 @@ class RenameTest(ViewTestCase):
         other = Project.objects.create(name="Other project", slug="other")
         # Other project should be visible as target for moving
         self.assertContains(
-            self.client.get(reverse("component", kwargs=self.kw_component)),
+            self.client.get(self.component.get_absolute_url()),
             "Other project",
         )
         response = self.client.post(
@@ -107,7 +103,7 @@ class RenameTest(ViewTestCase):
         self.assertIsNotNone(component.repository.last_remote_revision)
 
     def test_rename_invalid(self):
-        url = reverse("component", kwargs=self.kw_component)
+        url = self.component.get_absolute_url()
         Component.objects.filter(pk=self.component.id).update(filemask="invalid/*.po")
         self.make_manager()
         self.assertContains(self.client.get(url), "#rename")
@@ -121,9 +117,8 @@ class RenameTest(ViewTestCase):
 
     def test_rename_component(self):
         self.make_manager()
-        self.assertContains(
-            self.client.get(reverse("component", kwargs=self.kw_component)), "#rename"
-        )
+        original_url = self.component.get_absolute_url()
+        self.assertContains(self.client.get(original_url), "#rename")
         response = self.client.post(
             reverse("rename", kwargs=self.kw_component), {"slug": "xxxx"}
         )
@@ -134,8 +129,8 @@ class RenameTest(ViewTestCase):
         response = self.client.get(component.get_absolute_url())
         self.assertContains(response, "/projects/test/xxxx/")
 
-        # Test rename redirect in middleware
-        response = self.client.get(reverse("component", kwargs=self.kw_component))
+        # Test rename redirect for the old name in middleware
+        response = self.client.get(original_url)
         self.assertRedirects(response, component.get_absolute_url(), status_code=301)
 
     def test_rename_project(self):
@@ -144,11 +139,10 @@ class RenameTest(ViewTestCase):
         if os.path.exists(target):
             remove_tree(target)
         self.make_manager()
-        self.assertContains(
-            self.client.get(reverse("project", kwargs=self.kw_project)), "#rename"
-        )
+        self.assertContains(self.client.get(self.project.get_absolute_url()), "#rename")
         response = self.client.post(
-            reverse("rename", kwargs=self.kw_project), {"slug": "xxxx"}
+            reverse("rename", kwargs={"path": self.project.get_url_path()}),
+            {"slug": "xxxx"},
         )
         self.assertRedirects(response, "/projects/xxxx/")
         project = Project.objects.get(pk=self.project.pk)
@@ -159,7 +153,7 @@ class RenameTest(ViewTestCase):
             self.assertContains(response, "/projects/xxxx/")
 
         # Test rename redirect in middleware
-        response = self.client.get(reverse("project", kwargs=self.kw_project))
+        response = self.client.get(self.project.get_absolute_url())
         self.assertRedirects(response, project.get_absolute_url(), status_code=301)
 
     def test_rename_project_conflict(self):
@@ -167,7 +161,9 @@ class RenameTest(ViewTestCase):
         self.make_manager()
         Project.objects.create(name="Other project", slug="other")
         response = self.client.post(
-            reverse("rename", kwargs=self.kw_project), {"slug": "other"}, follow=True
+            reverse("rename", kwargs={"path": self.project.get_url_path()}),
+            {"slug": "other"},
+            follow=True,
         )
         self.assertContains(response, "Project with this URL slug already exists.")
 
@@ -201,17 +197,15 @@ class AnnouncementTest(ViewTestCase):
         self.assertEqual(len(mail.outbox), self.outbox)
 
     def test_translation(self):
-        kwargs = {"lang": "cs"}
-        kwargs.update(self.kw_component)
-        url = reverse("announcement_translation", kwargs=kwargs)
+        url = reverse("announcement", kwargs=self.kw_translation)
         self.perform_test(url)
 
     def test_component(self):
-        url = reverse("announcement_component", kwargs=self.kw_component)
+        url = reverse("announcement", kwargs=self.kw_component)
         self.perform_test(url)
 
     def test_project(self):
-        url = reverse("announcement_project", kwargs=self.kw_project)
+        url = reverse("announcement", kwargs={"path": self.project.get_url_path()})
         self.perform_test(url)
 
     def test_delete(self):

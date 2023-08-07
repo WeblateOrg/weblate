@@ -229,7 +229,7 @@ class CreateComponent(BaseCreateView):
 
     def get_success_url(self):
         return reverse(
-            "component_progress", kwargs=self.object.get_reverse_url_kwargs()
+            "component_progress", kwargs={"path": self.object.get_url_path()}
         )
 
     def warn_outdated(self, form):
@@ -497,7 +497,7 @@ class CreateComponentSelection(CreateComponent):
             project = form.cleaned_data["project"]
             component = project.scratch_create_component(**form.cleaned_data)
             return redirect(
-                reverse("component_progress", kwargs=component.get_reverse_url_kwargs())
+                reverse("component_progress", kwargs={"path": component.get_url_path()})
             )
         component = form.cleaned_data["component"]
         if self.origin == "existing":
@@ -513,7 +513,7 @@ class CreateComponentSelection(CreateComponent):
             form.instance.save()
             return redirect(
                 reverse(
-                    "component_progress", kwargs=form.instance.get_reverse_url_kwargs()
+                    "component_progress", kwargs={"path": form.instance.get_url_path()}
                 )
             )
 

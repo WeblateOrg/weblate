@@ -55,7 +55,9 @@ class ChangesView(ListView):
             url["lang"] = self.translation.language.code
             url["component"] = self.translation.component.slug
             url["project"] = self.translation.component.project.slug
-            context["changes_rss"] = reverse("rss-translation", kwargs=url)
+            context["changes_rss"] = reverse(
+                "rss", kwargs={"path": self.translation.get_url_path()}
+            )
             context["title"] = (
                 pgettext("Changes in translation", "Changes in %s") % self.translation
             )
@@ -73,14 +75,18 @@ class ChangesView(ListView):
             context["component"] = self.component
             url["component"] = self.component.slug
             url["project"] = self.component.project.slug
-            context["changes_rss"] = reverse("rss-component", kwargs=url)
+            context["changes_rss"] = reverse(
+                "rss", kwargs={"path": self.component.get_url_path()}
+            )
             context["title"] = (
                 pgettext("Changes in component", "Changes in %s") % self.component
             )
         elif self.project is not None:
             context["project"] = self.project
             url["project"] = self.project.slug
-            context["changes_rss"] = reverse("rss-project", kwargs=url)
+            context["changes_rss"] = reverse(
+                "rss", kwargs={"path": self.project.get_url_path()}
+            )
             context["title"] = (
                 pgettext("Changes in project", "Changes in %s") % self.project
             )
@@ -112,7 +118,7 @@ class ChangesView(ListView):
         if self.end_date:
             url.append(("end_date", self.end_date.date()))
 
-        if not url:
+        if "changes_rss" not in context:
             context["changes_rss"] = reverse("rss")
 
         context["query_string"] = urlencode(url)

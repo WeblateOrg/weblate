@@ -116,14 +116,7 @@ class VariantTest(ViewTestCase):
         source = self.component.translation_set.get(language_code="en")
         base = source.unit_set.get(source="Thank you for using Weblate.")
         response = self.client.post(
-            reverse(
-                "new-unit",
-                kwargs={
-                    "project": self.component.project.slug,
-                    "component": self.component.slug,
-                    "lang": "en",
-                },
-            ),
+            reverse("new-unit", kwargs={"path": source.get_url_path()}),
             {
                 "context": "variantial",
                 "source_0": "Source",
@@ -145,14 +138,7 @@ class VariantTest(ViewTestCase):
 
         base = source.unit_set.get(source="Hello, world!\n")
         response = self.client.post(
-            reverse(
-                "new-unit",
-                kwargs={
-                    "project": self.component.project.slug,
-                    "component": self.component.slug,
-                    "lang": "en",
-                },
-            ),
+            reverse("new-unit", kwargs={"path": source.get_url_path()}),
             {"context": "variant2", "source_0": "Source", "variant": base.id},
             follow=True,
         )
