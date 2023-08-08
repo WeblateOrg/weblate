@@ -10,6 +10,7 @@ from appconf import AppConf
 from django.conf import settings
 from django.contrib import admin
 from django.core.exceptions import ValidationError
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.db.models import Prefetch, Q
 from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
@@ -183,7 +184,7 @@ class Billing(models.Model):
     )
     # Payment detailed information, used for integration
     # with payment processor
-    payment = models.JSONField(editable=False, default=dict)
+    payment = models.JSONField(editable=False, default=dict, encoder=DjangoJSONEncoder)
 
     objects = BillingManager.from_queryset(BillingQuerySet)()
 
