@@ -638,6 +638,10 @@ class Change(models.Model, UserDisplayMixin):
         """Whether to show content as source change."""
         return self.action in (self.ACTION_SOURCE_CHANGE, self.ACTION_NEW_SOURCE)
 
+    def show_removed_string(self):
+        """Whether to show content as source change."""
+        return self.action == self.ACTION_STRING_REMOVE
+
     def show_content(self):
         """Whether to show content as translation."""
         return (

@@ -378,6 +378,19 @@ def format_source_string(
     )
 
 
+@register.inclusion_tag("snippets/format-translation.html")
+def format_language_string(
+    value: str,
+    translation,
+):
+    """Formats simple string as in the language."""
+    return format_translation(
+        plurals=split_plural(value),
+        language=translation.language,
+        plural=translation.plural,
+    )
+
+
 def format_translation(
     plurals: list[str],
     language=None,
