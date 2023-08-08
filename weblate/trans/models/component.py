@@ -2315,12 +2315,6 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
                     filenames = f"{path}, {languages[lang.code].filename}"
                     detail = f"{lang.code} ({codes})"
                     self.log_warning("duplicate language found: %s", detail)
-                    Change.objects.create(
-                        component=self,
-                        user=request.user if request else self.acting_user,
-                        target=detail,
-                        action=Change.ACTION_DUPLICATE_LANGUAGE,
-                    )
                     self.trigger_alert(
                         "DuplicateLanguage",
                         codes=codes,

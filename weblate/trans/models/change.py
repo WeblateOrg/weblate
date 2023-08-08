@@ -238,7 +238,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_MARKED_EDIT = 37
     ACTION_REMOVE_COMPONENT = 38
     ACTION_REMOVE_PROJECT = 39
-    ACTION_DUPLICATE_LANGUAGE = 40
+    # Used to be ACTION_DUPLICATE_LANGUAGE = 40
     ACTION_RENAME_PROJECT = 41
     ACTION_RENAME_COMPONENT = 42
     ACTION_MOVE_COMPONENT = 43
@@ -339,8 +339,6 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_REMOVE_COMPONENT, gettext_lazy("Removed component")),
         # Translators: Name of event in the history
         (ACTION_REMOVE_PROJECT, gettext_lazy("Removed project")),
-        # Translators: Name of event in the history
-        (ACTION_DUPLICATE_LANGUAGE, gettext_lazy("Found duplicated language")),
         # Translators: Name of event in the history
         (ACTION_RENAME_PROJECT, gettext_lazy("Renamed project")),
         # Translators: Name of event in the history
@@ -449,7 +447,6 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_PUSH,
         ACTION_LOCK,
         ACTION_UNLOCK,
-        ACTION_DUPLICATE_LANGUAGE,
     }
 
     # Actions where target is rendered as translation string
