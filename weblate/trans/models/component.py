@@ -406,8 +406,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         blank=True,
         help_text=gettext_lazy(
             "Filename of translation base file, containing all strings "
-            "and their source; it is recommended "
-            "for monolingual translation formats."
+            "and their source "
+            "for monolingual translations."
         ),
         validators=[validate_filename],
     )

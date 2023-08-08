@@ -392,7 +392,7 @@ class Migration(migrations.Migration):
                     "template",
                     models.CharField(
                         blank=True,
-                        help_text="Filename of translation base file, containing all strings and their source; it is recommended for monolingual translation formats.",
+                        help_text="Filename of translation base file, containing all strings and their source for monolingual translations.",
                         max_length=400,
                         validators=[weblate.utils.validators.validate_filename],
                         verbose_name="Monolingual base language file",
