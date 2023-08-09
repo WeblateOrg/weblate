@@ -102,7 +102,8 @@ def validate_screenshot_image(component, filename):
         with open(full_name, "rb") as f:
             image_file = File(f, name=os.path.basename(filename))
             validate_bitmap(image_file)
-    except ValidationError:
+    except ValidationError as error:
+        component.log_error("failed to validate screenshot %s: %s", filename, error)
         report_error(cause="Could not validate image from repository")
         return False
     return True
@@ -120,6 +121,7 @@ def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs):
     # Update existing screenshots
     for screenshot in screenshots:
         filename = screenshot.repository_filename
+        component.log_debug("detected screenshot change in repository: %s", filename)
         changed_files.remove(filename)
 
         if validate_screenshot_image(component, filename):
@@ -127,6 +129,7 @@ def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs):
             with open(full_name, "rb") as f:
                 screenshot.image = File(f, name=os.path.basename(filename))
                 screenshot.save(update_fields=["image"])
+                component.log_info("updated screenshot from repository: %s", filename)
 
     # Add new screenshots matching screenshot filemask
     for filename in changed_files:
@@ -143,3 +146,4 @@ def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs):
                     user=get_anonymous(),
                 )
                 screenshot.save()
+                component.log_info("create screenshot from repository: %s", filename)
