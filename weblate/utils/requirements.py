@@ -86,7 +86,7 @@ def get_version_module(name, optional=False):
         if optional:
             return None
         raise ImproperlyConfigured(
-            "Missing dependency {0}, please install using: pip install {0}".format(name)
+            f"Missing dependency {name}, please install using: pip install {name}"
         ) from exc
     url = package.get("Home-page")
     if url is None:
