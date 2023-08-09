@@ -532,6 +532,7 @@ class Change(models.Model, UserDisplayMixin):
                 fields=["timestamp", "project", "component", "language", "action"]
             ),
             models.Index(fields=["action", "translation", "timestamp"]),
+            models.Index(fields=["user", "timestamp"]),
         ]
         verbose_name = "history event"
         verbose_name_plural = "history events"
