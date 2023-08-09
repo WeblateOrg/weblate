@@ -3273,9 +3273,7 @@ class Prisma  {
       });
     } else {
       (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-        utils.logger.warn(
-          `Unsupported Prisma client provided to PrismaIntegration. Provided client: ${JSON.stringify(options.client)}`,
-        );
+        utils.logger.warn('Unsupported Prisma client provided to PrismaIntegration. Provided client:', options.client);
     }
   }
 
@@ -3982,12 +3980,15 @@ exports.addTracingExtensions = core.addTracingExtensions;
 exports.captureEvent = core.captureEvent;
 exports.captureException = core.captureException;
 exports.captureMessage = core.captureMessage;
+exports.close = core.close;
 exports.configureScope = core.configureScope;
 exports.createTransport = core.createTransport;
 exports.extractTraceparentData = core.extractTraceparentData;
+exports.flush = core.flush;
 exports.getActiveTransaction = core.getActiveTransaction;
 exports.getCurrentHub = core.getCurrentHub;
 exports.getHubFromCarrier = core.getHubFromCarrier;
+exports.lastEventId = core.lastEventId;
 exports.makeMain = core.makeMain;
 exports.makeMultiplexedTransport = core.makeMultiplexedTransport;
 exports.setContext = core.setContext;
@@ -4015,12 +4016,9 @@ exports.eventFromException = eventbuilder.eventFromException;
 exports.eventFromMessage = eventbuilder.eventFromMessage;
 exports.createUserFeedbackEnvelope = userfeedback.createUserFeedbackEnvelope;
 exports.captureUserFeedback = sdk.captureUserFeedback;
-exports.close = sdk.close;
 exports.defaultIntegrations = sdk.defaultIntegrations;
-exports.flush = sdk.flush;
 exports.forceLoad = sdk.forceLoad;
 exports.init = sdk.init;
-exports.lastEventId = sdk.lastEventId;
 exports.onLoad = sdk.onLoad;
 exports.showReportDialog = sdk.showReportDialog;
 exports.wrap = sdk.wrap;
@@ -6229,15 +6227,6 @@ function showReportDialog(options = {}, hub = core.getCurrentHub()) {
 }
 
 /**
- * This is the getter for lastEventId.
- *
- * @returns The last event id of a captured event.
- */
-function lastEventId() {
-  return core.getCurrentHub().lastEventId();
-}
-
-/**
  * This function is here to be API compatible with the loader.
  * @hidden
  */
@@ -6251,40 +6240,6 @@ function forceLoad() {
  */
 function onLoad(callback) {
   callback();
-}
-
-/**
- * Call `flush()` on the current client, if there is one. See {@link Client.flush}.
- *
- * @param timeout Maximum time in ms the client should wait to flush its event queue. Omitting this parameter will cause
- * the client to wait until all events are sent before resolving the promise.
- * @returns A promise which resolves to `true` if the queue successfully drains before the timeout, or `false` if it
- * doesn't (or if there's no client defined).
- */
-function flush(timeout) {
-  const client = core.getCurrentHub().getClient();
-  if (client) {
-    return client.flush(timeout);
-  }
-  (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Cannot flush events. No client defined.');
-  return utils.resolvedSyncPromise(false);
-}
-
-/**
- * Call `close()` on the current client, if there is one. See {@link Client.close}.
- *
- * @param timeout Maximum time in ms the client should wait to flush its event queue before shutting down. Omitting this
- * parameter will cause the client to wait until all events are sent before disabling itself.
- * @returns A promise which resolves to `true` if the queue successfully drains before the timeout, or `false` if it
- * doesn't (or if there's no client defined).
- */
-function close(timeout) {
-  const client = core.getCurrentHub().getClient();
-  if (client) {
-    return client.close(timeout);
-  }
-  (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Cannot flush events and disable SDK. No client defined.');
-  return utils.resolvedSyncPromise(false);
 }
 
 /**
@@ -6352,12 +6307,9 @@ function captureUserFeedback(feedback) {
 }
 
 exports.captureUserFeedback = captureUserFeedback;
-exports.close = close;
 exports.defaultIntegrations = defaultIntegrations;
-exports.flush = flush;
 exports.forceLoad = forceLoad;
 exports.init = init;
-exports.lastEventId = lastEventId;
 exports.onLoad = onLoad;
 exports.showReportDialog = showReportDialog;
 exports.wrap = wrap;
@@ -8074,12 +8026,58 @@ function captureCheckIn(checkIn, upsertMonitorConfig) {
   return utils.uuid4();
 }
 
+/**
+ * Call `flush()` on the current client, if there is one. See {@link Client.flush}.
+ *
+ * @param timeout Maximum time in ms the client should wait to flush its event queue. Omitting this parameter will cause
+ * the client to wait until all events are sent before resolving the promise.
+ * @returns A promise which resolves to `true` if the queue successfully drains before the timeout, or `false` if it
+ * doesn't (or if there's no client defined).
+ */
+async function flush(timeout) {
+  const client = hub.getCurrentHub().getClient();
+  if (client) {
+    return client.flush(timeout);
+  }
+  (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Cannot flush events. No client defined.');
+  return Promise.resolve(false);
+}
+
+/**
+ * Call `close()` on the current client, if there is one. See {@link Client.close}.
+ *
+ * @param timeout Maximum time in ms the client should wait to flush its event queue before shutting down. Omitting this
+ * parameter will cause the client to wait until all events are sent before disabling itself.
+ * @returns A promise which resolves to `true` if the queue successfully drains before the timeout, or `false` if it
+ * doesn't (or if there's no client defined).
+ */
+async function close(timeout) {
+  const client = hub.getCurrentHub().getClient();
+  if (client) {
+    return client.close(timeout);
+  }
+  (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Cannot flush events and disable SDK. No client defined.');
+  return Promise.resolve(false);
+}
+
+/**
+ * This is the getter for lastEventId.
+ *
+ * @returns The last event id of a captured event.
+ */
+function lastEventId() {
+  return hub.getCurrentHub().lastEventId();
+}
+
 exports.addBreadcrumb = addBreadcrumb;
 exports.captureCheckIn = captureCheckIn;
 exports.captureEvent = captureEvent;
 exports.captureException = captureException;
 exports.captureMessage = captureMessage;
+exports.close = close;
 exports.configureScope = configureScope;
+exports.flush = flush;
+exports.lastEventId = lastEventId;
 exports.setContext = setContext;
 exports.setExtra = setExtra;
 exports.setExtras = setExtras;
@@ -8722,7 +8720,10 @@ exports.captureCheckIn = exports$1.captureCheckIn;
 exports.captureEvent = exports$1.captureEvent;
 exports.captureException = exports$1.captureException;
 exports.captureMessage = exports$1.captureMessage;
+exports.close = exports$1.close;
 exports.configureScope = exports$1.configureScope;
+exports.flush = exports$1.flush;
+exports.lastEventId = exports$1.lastEventId;
 exports.setContext = exports$1.setContext;
 exports.setExtra = exports$1.setExtra;
 exports.setExtras = exports$1.setExtras;
@@ -12416,7 +12417,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":54,"../scope.js":65,"@sentry/utils":108}],83:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.61.1';
+const SDK_VERSION = '7.62.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -16452,19 +16453,43 @@ function logInfo(message, shouldAddBreadcrumb) {
   utils.logger.info(message);
 
   if (shouldAddBreadcrumb) {
-    const hub = core.getCurrentHub();
-    hub.addBreadcrumb(
-      {
-        category: 'console',
-        data: {
-          logger: 'replay',
-        },
-        level: 'info',
-        message,
-      },
-      { level: 'info' },
-    );
+    addBreadcrumb(message);
   }
+}
+
+/**
+ * Log a message, and add a breadcrumb in the next tick.
+ * This is necessary when the breadcrumb may be added before the replay is initialized.
+ */
+function logInfoNextTick(message, shouldAddBreadcrumb) {
+  if (!(typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+    return;
+  }
+
+  utils.logger.info(message);
+
+  if (shouldAddBreadcrumb) {
+    // Wait a tick here to avoid race conditions for some initial logs
+    // which may be added before replay is initialized
+    setTimeout(() => {
+      addBreadcrumb(message);
+    }, 0);
+  }
+}
+
+function addBreadcrumb(message) {
+  const hub = core.getCurrentHub();
+  hub.addBreadcrumb(
+    {
+      category: 'console',
+      data: {
+        logger: 'replay',
+      },
+      level: 'info',
+      message,
+    },
+    { level: 'info' },
+  );
 }
 
 /** This error indicates that the event buffer size exceeded the limit.. */
@@ -16481,9 +16506,12 @@ class EventBufferSizeExceededError extends Error {
 class EventBufferArray  {
   /** All the events that are buffered to be sent. */
 
+  /** @inheritdoc */
+
    constructor() {
     this.events = [];
     this._totalSize = 0;
+    this.hasCheckout = false;
   }
 
   /** @inheritdoc */
@@ -16528,6 +16556,7 @@ class EventBufferArray  {
    clear() {
     this.events = [];
     this._totalSize = 0;
+    this.hasCheckout = false;
   }
 
   /** @inheritdoc */
@@ -16647,11 +16676,13 @@ class WorkerHandler {
  * Exported only for testing.
  */
 class EventBufferCompressionWorker  {
+  /** @inheritdoc */
 
    constructor(worker) {
     this._worker = new WorkerHandler(worker);
     this._earliestTimestamp = null;
     this._totalSize = 0;
+    this.hasCheckout = false;
   }
 
   /** @inheritdoc */
@@ -16711,6 +16742,8 @@ class EventBufferCompressionWorker  {
    clear() {
     this._earliestTimestamp = null;
     this._totalSize = 0;
+    this.hasCheckout = false;
+
     // We do not wait on this, as we assume the order of messages is consistent for the worker
     void this._worker.postMessage('clear');
   }
@@ -16763,6 +16796,15 @@ class EventBufferProxy  {
   /** @inheritDoc */
    get hasEvents() {
     return this._used.hasEvents;
+  }
+
+  /** @inheritdoc */
+   get hasCheckout() {
+    return this._used.hasCheckout;
+  }
+  /** @inheritdoc */
+   set hasCheckout(value) {
+    this._used.hasCheckout = value;
   }
 
   /** @inheritDoc */
@@ -17026,7 +17068,7 @@ function fetchSession(traceInternals) {
 
     const sessionObj = JSON.parse(sessionStringFromStorage) ;
 
-    logInfo('[Replay] Loading existing session', traceInternals);
+    logInfoNextTick('[Replay] Loading existing session', traceInternals);
 
     return makeSession(sessionObj);
   } catch (e) {
@@ -17062,10 +17104,10 @@ function getSession({
       // and when this session is expired, it will not be renewed until user
       // reloads.
       const discardedSession = makeSession({ sampled: false });
-      logInfo('[Replay] Session should not be refreshed', traceInternals);
+      logInfoNextTick('[Replay] Session should not be refreshed', traceInternals);
       return { type: 'new', session: discardedSession };
     } else {
-      logInfo('[Replay] Session has expired', traceInternals);
+      logInfoNextTick('[Replay] Session has expired', traceInternals);
     }
     // Otherwise continue to create a new session
   }
@@ -17075,7 +17117,7 @@ function getSession({
     sessionSampleRate,
     allowBuffering,
   });
-  logInfo('[Replay] Created new session', traceInternals);
+  logInfoNextTick('[Replay] Created new session', traceInternals);
 
   return { type: 'new', session: newSession };
 }
@@ -17114,8 +17156,9 @@ async function addEvent(
   }
 
   try {
-    if (isCheckout) {
+    if (isCheckout && replay.recordingMode === 'buffer') {
       replay.eventBuffer.clear();
+      replay.eventBuffer.hasCheckout = true;
     }
 
     const replayOptions = replay.getOptions();
@@ -19691,7 +19734,10 @@ class ReplayContainer  {
       this.recordingMode = 'buffer';
     }
 
-    logInfo(`[Replay] Starting replay in ${this.recordingMode} mode`, this._options._experiments.traceInternals);
+    logInfoNextTick(
+      `[Replay] Starting replay in ${this.recordingMode} mode`,
+      this._options._experiments.traceInternals,
+    );
 
     this._initializeRecording();
   }
@@ -19712,7 +19758,7 @@ class ReplayContainer  {
       throw new Error('Replay buffering is in progress, call `flush()` to save the replay');
     }
 
-    logInfo('[Replay] Starting replay in session mode', this._options._experiments.traceInternals);
+    logInfoNextTick('[Replay] Starting replay in session mode', this._options._experiments.traceInternals);
 
     const previousSessionId = this.session && this.session.id;
 
@@ -19741,7 +19787,7 @@ class ReplayContainer  {
       throw new Error('Replay recording is already in progress');
     }
 
-    logInfo('[Replay] Starting replay in buffer mode', this._options._experiments.traceInternals);
+    logInfoNextTick('[Replay] Starting replay in buffer mode', this._options._experiments.traceInternals);
 
     const previousSessionId = this.session && this.session.id;
 
@@ -20566,6 +20612,9 @@ class ReplayContainer  {
     const now = Date.now();
     const duration = now - start;
 
+    // A flush is about to happen, cancel any queued flushes
+    this._debouncedFlush.cancel();
+
     // If session is too short, or too long (allow some wiggle room over maxSessionLife), do not send it
     // This _should_ not happen, but it may happen if flush is triggered due to a page activity change or similar
     const tooShort = duration < this._options.minReplayDuration;
@@ -20575,6 +20624,7 @@ class ReplayContainer  {
         `[Replay] Session duration (${Math.floor(duration / 1000)}s) is too ${
           tooShort ? 'short' : 'long'
         }, not sending replay.`,
+        this._options._experiments.traceInternals,
       );
 
       if (tooShort) {
@@ -20583,8 +20633,11 @@ class ReplayContainer  {
       return;
     }
 
-    // A flush is about to happen, cancel any queued flushes
-    this._debouncedFlush.cancel();
+    const eventBuffer = this.eventBuffer;
+    if (eventBuffer && this.session.segmentId === 0 && !eventBuffer.hasCheckout) {
+      logInfo('[Replay] Flushing initial segment without checkout.', this._options._experiments.traceInternals);
+      // TODO FN: Evaluate if we want to stop here, or remove this again?
+    }
 
     // this._flushLock acts as a lock so that future calls to `_flush()`
     // will be blocked until this promise resolves
@@ -24763,10 +24816,13 @@ function normalizeArray(parts, allowAboveRoot) {
 
 // Split a filename into [root, dir, basename, ext], unix version
 // 'root' is just a slash, or nothing.
-const splitPathRe = /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^/]+?|)(\.[^./]*|))(?:[/]*)$/;
+const splitPathRe = /^(\S+:\\|\/?)([\s\S]*?)((?:\.{1,2}|[^/\\]+?|)(\.[^./\\]*|))(?:[/\\]*)$/;
 /** JSDoc */
 function splitPath(filename) {
-  const parts = splitPathRe.exec(filename);
+  // Truncate files names greater than 1024 characters to avoid regex dos
+  // https://github.com/getsentry/sentry-javascript/pull/8737#discussion_r1285719172
+  const truncated = filename.length > 1024 ? `<truncated>${filename.slice(-1024)}` : filename;
+  const parts = splitPathRe.exec(truncated);
   return parts ? parts.slice(1) : [];
 }
 
