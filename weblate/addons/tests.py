@@ -713,8 +713,6 @@ class PropertiesAddonTest(ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("java/swing_messages_cs.properties", commit)
         self.component.do_reset()
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
-        self.get_translation().commit_pending("test", None)
         self.assertNotEqual(init_rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("java/swing_messages_cs.properties", commit)
