@@ -17,7 +17,6 @@ Installing on RedHat, Fedora and CentOS
 
 .. code-block:: sh
 
-    dnf install tesseract-langpack-eng tesseract-devel leptonica-devel
     dnf install openldap-devel libsasl2-devel
     dnf install xmlsec1-devel
 
