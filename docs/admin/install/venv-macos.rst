@@ -17,12 +17,6 @@ Make sure pip will be able to find the ``libffi`` and ``openssl`` versions provi
 
     export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig:/usr/local/opt/openssl@3/lib/pkgconfig"
 
-.. include:: steps/install-system-optional.rst
-
-.. code-block:: sh
-
-    brew install tesseract
-
 .. include:: steps/install-system-server.rst
 
 .. code-block:: sh

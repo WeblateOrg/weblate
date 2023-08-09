@@ -18,7 +18,6 @@ Installing on Debian and Ubuntu
 .. code-block:: sh
 
    apt install -y \
-      tesseract-ocr libtesseract-dev libleptonica-dev \
       libldap2-dev libldap-common libsasl2-dev \
       libxmlsec1-dev
 

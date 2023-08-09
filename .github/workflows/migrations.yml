@@ -40,6 +40,9 @@ jobs:
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install $CI_DATABASE
+    - name: Install additional deps
+      # TODO: Remove this in Weblate 5.1 once migtration from 4.x is not supported
+      run: sudo apt-get install libleptonica-dev libtesseract-dev tesseract-ocr
     - name: Set up Python 3.7
       uses: actions/setup-python@v4
       with:

@@ -17,7 +17,6 @@ Installing on SUSE and openSUSE
 
 .. code-block:: sh
 
-    zypper install tesseract-ocr tesseract-devel leptonica-devel
     zypper install libldap2-devel libsasl2-devel
     zypper install libxmlsec1-devel
 
