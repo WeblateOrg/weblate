@@ -2,13 +2,16 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import errno
 import os
 import sys
 import time
 from collections import defaultdict
-from datetime import timedelta
+from datetime import datetime, timedelta
 from itertools import chain
+from typing import NamedTuple
 
 from celery.exceptions import TimeoutError
 from dateutil.parser import parse
@@ -25,7 +28,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.db import using_postgresql
 from weblate.utils.docs import get_doc_url
 from weblate.utils.site import check_domain, get_site_domain
-from weblate.utils.version import VERSION_BASE, Release
+from weblate.utils.version import VERSION_BASE
 
 GOOD_CACHE = {"MemcachedCache", "PyLibMCCache", "DatabaseCache", "RedisCache"}
 DEFAULT_MAILS = {
@@ -480,7 +483,12 @@ def check_diskspace(app_configs=None, **kwargs):
 PYPI = "https://pypi.org/pypi/weblate/json"
 
 # Cache to store fetched PyPI version
-CACHE_KEY = "version-check"
+CACHE_KEY = "weblate-version-check"
+
+
+class Release(NamedTuple):
+    version: str
+    timestamp: datetime
 
 
 def download_version_info():
