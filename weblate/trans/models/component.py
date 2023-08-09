@@ -1749,6 +1749,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     def do_reset(self, request=None):
         """Wrapper for resetting repo to same sources as remote."""
         with self.repository.lock:
+            previous_head = self.repository.last_revision
             # First check we're up to date
             self.update_remote_branch()
 
@@ -1774,6 +1775,8 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             self.delete_alert("MergeFailure")
             self.delete_alert("RepositoryOutdated")
             self.delete_alert("PushFailure")
+
+            self.trigger_post_update(previous_head, False)
 
             # create translation objects for all files
             try:
