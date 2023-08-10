@@ -55,7 +55,7 @@
 </div>
 
 <div class="tab-pane" id="search">
-  <form action="{% url 'search' lang=object.code %}" method="GET">
+  <form action="{% url 'search' path=object.get_url_path %}" method="GET">
     {% include "snippets/search-form.html" %}
   </form>
 </div>

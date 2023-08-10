@@ -5,7 +5,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
@@ -116,14 +116,16 @@ def search_replace(request, path):
 
 
 @never_cache
-def search(request, path=None, lang=None):
+def search(request, path=None):
     """Perform site-wide search on units."""
     is_ratelimited = not check_rate_limit("search", request)
     search_form = SearchForm(user=request.user, data=request.GET)
     sort = get_sort_name(request)
     context = {"search_form": search_form}
     obj = parse_path(
-        request, path, (Component, Project, ProjectLanguage, Translation, None)
+        request,
+        path,
+        (Component, Project, ProjectLanguage, Translation, Language, None),
     )
     context["back_url"] = obj.get_absolute_url() if obj is not None else None
     if isinstance(obj, Component):
@@ -136,10 +138,12 @@ def search(request, path=None, lang=None):
         context["project"] = obj.component.project
     elif isinstance(obj, Project):
         context["project"] = obj
-    elif lang:
-        s_language = get_object_or_404(Language, code=lang)
-        context["language"] = s_language
-        context["back_url"] = s_language.get_absolute_url()
+    elif isinstance(obj, Language):
+        context["language"] = obj
+    elif obj is None:
+        pass
+    else:
+        raise TypeError(f"Not implemented search for {obj}")
 
     if not is_ratelimited and request.GET and search_form.is_valid():
         # This is ugly way to hide query builder when showing results
@@ -149,17 +153,26 @@ def search(request, path=None, lang=None):
         search_form.is_valid()
         # Filter results by ACL
         units = Unit.objects.prefetch_full().prefetch()
-        if isinstance(obj, Component):
+        if isinstance(obj, Translation):
+            units = units.filter(translation=obj)
+        elif isinstance(obj, Component):
             units = units.filter(translation__component=obj)
         elif isinstance(obj, Project):
             units = units.filter(translation__component__project=obj)
-        else:
+        elif isinstance(obj, ProjectLanguage):
+            units = units.filter(
+                translation__component__project=obj.project,
+                translation__language=obj.language,
+            )
+        elif isinstance(obj, Language):
+            units = units.filter_access(request.user).filter(translation__language=obj)
+        elif obj is None:
             units = units.filter_access(request.user)
+        else:
+            raise TypeError(f"Not implemented search for {obj}")
         units = units.search(
             search_form.cleaned_data.get("q", ""), project=context.get("project")
         )
-        if lang:
-            units = units.filter(translation__language=context["language"])
 
         units = get_paginator(
             request, units.order_by_request(search_form.cleaned_data, obj)
@@ -170,6 +183,7 @@ def search(request, path=None, lang=None):
                 "search_form": search_form,
                 "show_results": True,
                 "page_obj": units,
+                "path_obj": obj,
                 "title": gettext("Search for %s") % (search_form.cleaned_data["q"]),
                 "query_string": search_form.urlencode(),
                 "search_url": search_form.urlencode(),

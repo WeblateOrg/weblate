@@ -833,11 +833,6 @@ real_patterns = [
     path(
         "search/<object_path:path>/", weblate.trans.views.search.search, name="search"
     ),
-    path(
-        "search-languages/<name:lang>/",
-        weblate.trans.views.search.search,
-        name="search",
-    ),
     # Health check
     path("healthz/", weblate.trans.views.basic.healthz, name="healthz"),
     # Aliases for static files
