@@ -123,12 +123,16 @@ def show_check(request, name):
         )
         .order()
     )
+    max_value = max(project.check_count for project in projects)
+    for project in projects:
+        project.check_progress = project.check_count * 100 // max_value
+        project.check_obj = check
 
     return render(
         request,
         "check.html",
         {
-            "projects": projects,
+            "rows": projects,
             "title": check.name,
             "check": check,
             "url_params": encode_optional(url_params),
