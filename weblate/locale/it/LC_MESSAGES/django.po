@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-08-10 14:36+0000\n"
+"PO-Revision-Date: 2023-08-10 15:47+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -13572,16 +13572,14 @@ msgstr ""
 "traduzione, aggiungi il file della lingua nel repository."
 
 #: weblate/trans/models/translation.py:216
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not parse file %(file)s: %(error)s"
 msgstr "Impossibile analizzare il file %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1029
 #: weblate/trans/models/translation.py:1111
 #: weblate/trans/models/translation.py:1229
-#, fuzzy, python-format
-#| msgid "Failed to commit pending changes: %s"
+#, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "Impossibile eseguire il commit delle modifiche in sospeso: %s"
 
@@ -14027,10 +14025,9 @@ msgstr ""
 "permetterebbe agli utenti di votare i propri suggerimenti."
 
 #: weblate/trans/validators.py:42
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Could not parse flags: %s"
-msgstr "Errore nell'analisi dei flag: %s"
+msgstr "Impossibile analizzare i flag: %s"
 
 #: weblate/trans/validators.py:51
 #, python-format
@@ -14130,20 +14127,14 @@ msgid "Changes by %s"
 msgstr "Modifiche di %s"
 
 #: weblate/trans/views/changes.py:144
-#, fuzzy
-#| msgid "Failed to find matching project!"
 msgid "Could not find matching project!"
 msgstr "Impossibile trovare il progetto corrispondente!"
 
 #: weblate/trans/views/changes.py:161
-#, fuzzy
-#| msgid "Failed to find matching language!"
 msgid "Could not find matching language!"
 msgstr "Impossibile trovare la lingua corrispondente!"
 
 #: weblate/trans/views/changes.py:170
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Could not find matching user!"
 msgstr "Impossibile trovare l'utente corrispondente!"
 
@@ -14153,10 +14144,8 @@ msgid "Detected license as %s, please check whether it is correct."
 msgstr "Licenza rilevata come %s, controlla se è corretta."
 
 #: weblate/trans/views/create.py:378
-#, fuzzy
-#| msgid "Failed to parse uploaded ZIP file."
 msgid "Could not parse uploaded ZIP file."
-msgstr "Analisi del file ZIP caricato non riuscita."
+msgstr "Impossibile analizzare il file ZIP caricato."
 
 #: weblate/trans/views/dashboard.py:141
 msgid ""
@@ -14251,8 +14240,6 @@ msgstr "Stringa di ricerca non valida!"
 
 #: weblate/trans/views/edit.py:709 weblate/trans/views/search.py:49
 #: weblate/trans/views/search.py:210
-#, fuzzy
-#| msgid "Failed to process form!"
 msgid "Could not process form!"
 msgstr "Impossibile elaborare il modulo!"
 
@@ -14269,10 +14256,8 @@ msgid "Posted new comment"
 msgstr "Nuovo commento inviato"
 
 #: weblate/trans/views/edit.py:772
-#, fuzzy
-#| msgid "Failed to add comment!"
 msgid "Could not add comment!"
-msgstr "Aggiunta commento non riuscita!"
+msgstr "Impossibile aggiungere il commento!"
 
 #: weblate/trans/views/edit.py:791
 msgid "Comment has been deleted."
@@ -14287,8 +14272,7 @@ msgid "New string has been added."
 msgstr "La nuova stringa è stata aggiunta."
 
 #: weblate/trans/views/edit.py:1005
-#, fuzzy, python-format
-#| msgid "Failed to remove the string: %s"
+#, python-format
 msgid "Could not remove the string: %s"
 msgstr "Impossibile rimuovere la stringa: %s"
 
@@ -14330,11 +14314,9 @@ msgid "File upload has failed: %s"
 msgstr "Caricamento del file non riuscito: %s"
 
 #: weblate/trans/views/git.py:28
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation is in progress."
 msgid "Could not lock the repository, another operation is in progress."
 msgstr ""
-"Impossibile bloccare il repository poiché è in corso un'altra operazione."
+"Impossibile bloccare il repository, in quanto è in corso un'altra operazione."
 
 #: weblate/trans/views/git.py:50
 msgid "All repositories were updated."
@@ -14461,10 +14443,8 @@ msgid "Backup scheduled. It will be available soon."
 msgstr "Backup pianificato. Sarà presto disponibile."
 
 #: weblate/trans/views/source.py:58
-#, fuzzy
-#| msgid "Failed to change additional string info!"
 msgid "Could not change additional string info!"
-msgstr "Modifica info aggiuntiva stringa fallita!"
+msgstr "Impossibile modificare le informazioni aggiuntive sulla stringa!"
 
 #: weblate/trans/widgets.py:215
 msgid "Big status badge"
@@ -14611,10 +14591,8 @@ msgid "Undefined variable: \"%s\""
 msgstr "Variabile non definita: \"%s\""
 
 #: weblate/utils/render.py:121
-#, fuzzy
-#| msgid "Failed to render template: {}"
 msgid "Could not render template: {}"
-msgstr "Impossibile generare il modello: {}"
+msgstr "Impossibile eseguire il rendering del modello: {}"
 
 #: weblate/utils/render.py:166
 msgid ""
@@ -14871,8 +14849,7 @@ msgid "[hostname hashed]"
 msgstr "[nome host con hash]"
 
 #: weblate/vcs/ssh.py:167
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Could not generate key: %s"
 msgstr "Impossibile generare la chiave: %s"
 
@@ -14894,14 +14871,11 @@ msgstr ""
 "(%(keytype)s). Verifica che sia corretta."
 
 #: weblate/vcs/ssh.py:226
-#, fuzzy
-#| msgid "Failed to fetch public key for a host!"
 msgid "Could not fetch public key for a host!"
 msgstr "Impossibile ottenere la chiave pubblica per l'host!"
 
 #: weblate/vcs/ssh.py:231 weblate/vcs/ssh.py:234
-#, fuzzy, python-format
-#| msgid "Failed to get host key: %s"
+#, python-format
 msgid "Could not get host key: %s"
 msgstr "Impossibile ottenere la chiave host: %s"
 
