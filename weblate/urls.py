@@ -587,12 +587,19 @@ real_patterns = [
         name="project-language",
     ),
     # Checks browsing
-    path("checks/", weblate.checks.views.show_checks, name="checks"),
-    path("checks/<name:name>/", weblate.checks.views.show_check, name="show_check"),
+    path("checks/", weblate.checks.views.CheckList.as_view(), name="checks"),
+    path(
+        "checks/<name:name>/", weblate.checks.views.CheckList.as_view(), name="checks"
+    ),
+    path(
+        "checks/-/<object_path:path>/",
+        weblate.checks.views.CheckList.as_view(),
+        name="checks",
+    ),
     path(
         "checks/<name:name>/<object_path:path>/",
-        weblate.checks.views.show_check_path,
-        name="show_check_path",
+        weblate.checks.views.CheckList.as_view(),
+        name="checks",
     ),
     # Changes browsing
     path("changes/", ChangesView.as_view(), name="changes"),
