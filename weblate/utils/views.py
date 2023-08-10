@@ -107,6 +107,10 @@ class PathViewMixin:
             raise ValueError("Specifying supported path types is required")
         return parse_path(self.request, self.kwargs["path"], self.supported_path_types)
 
+    def setup(self, request, **kwargs):
+        super().setup(request, **kwargs)
+        self.component = self.get_path_object()
+
 
 SORT_CHOICES = {
     "-priority,position": gettext_lazy("Position and priority"),

@@ -49,10 +49,6 @@ class AddonList(PathViewMixin, ListView):
         )
         return result
 
-    def setup(self, request, **kwargs):
-        super().setup(request, **kwargs)
-        self.component = self.get_path_object()
-
     def post(self, request, **kwargs):
         component = self.component
         component.acting_user = request.user

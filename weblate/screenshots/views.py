@@ -195,7 +195,7 @@ def try_add_source(request, obj):
     return True
 
 
-class ScreenshotList(ListView, PathViewMixin):
+class ScreenshotList(PathViewMixin, ListView):
     paginate_by = 25
     model = Screenshot
     supported_path_types = (Component,)
@@ -218,13 +218,8 @@ class ScreenshotList(ListView, PathViewMixin):
                 result["add_form"] = ScreenshotForm(self.component)
         return result
 
-    def get(self, request, **kwargs):
-        if not hasattr(self, "component"):
-            self.component = self.get_path_object()
-        return super().get(request, **kwargs)
-
     def post(self, request, **kwargs):
-        self.component = component = self.get_path_object()
+        component = self.component
         if not request.user.has_perm("screenshot.add", component):
             raise PermissionDenied
         self._add_form = ScreenshotForm(component, request.POST, request.FILES)
