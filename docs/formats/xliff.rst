@@ -6,6 +6,10 @@ XLIFF
 .. index::
     pair: XLIFF; file format
 
+.. note::
+
+   Weblate currently supports XLIFF 1.2. XLIFF 2.0 is not supported and is not backwards compatible with XLIFF 1.2.
+
 XML-based format created to standardize translation files, but in the end it
 is one of `many standards <https://xkcd.com/927/>`_, in this area.
 
@@ -13,11 +17,11 @@ is one of `many standards <https://xkcd.com/927/>`_, in this area.
 
 Weblate supports XLIFF in several variants:
 
-`XLIFF translation file`
+`XLIFF 1.2 translation file`
    Simple XLIFF file where content of the elements is stored as plain text (all XML elements being escaped).
-`XLIFF with placeables support`
+`XLIFF 1.2 with placeables support`
    Standard XLIFF supporting placeables and other XML elements.
-`XLIFF with gettext extensions`
+`XLIFF 1.2 with gettext extensions`
    XLIFF enriched by `XLIFF 1.2 Representation Guide for Gettext PO`_ to support plurals.
 
 

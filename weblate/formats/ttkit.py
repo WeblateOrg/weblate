@@ -1202,7 +1202,7 @@ class TSFormat(TTKitFormat):
 
 
 class XliffFormat(TTKitFormat):
-    name = gettext_lazy("XLIFF translation file")
+    name = gettext_lazy("XLIFF 1.2 translation file")
     format_id = "plainxliff"
     loader = xlifffile
     autoload = ()
@@ -1232,14 +1232,14 @@ class XliffFormat(TTKitFormat):
 
 
 class RichXliffFormat(XliffFormat):
-    name = gettext_lazy("XLIFF with placeables support")
+    name = gettext_lazy("XLIFF 1.2 with placeables support")
     format_id = "xliff"
     autoload: tuple[str, ...] = ("*.xlf", "*.xliff", "*.sdlxliff", "*.mxliff")
     unit_class = RichXliffUnit
 
 
 class PoXliffFormat(XliffFormat):
-    name = gettext_lazy("XLIFF with gettext extensions")
+    name = gettext_lazy("XLIFF 1.2 with gettext extensions")
     format_id = "poxliff"
     autoload = ("*.poxliff",)
     loader = PoXliffFile
