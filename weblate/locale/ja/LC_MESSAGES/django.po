@@ -1,13 +1,13 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+# Kyotaro Iijima <kyotaro.eyes@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-08-03 21:42+0000\n"
+"PO-Revision-Date: 2023-08-11 08:42+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -396,7 +396,7 @@ msgstr "{username} さんから {site_title} に招待されました。"
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "{username} から招待を受けました。"
 
 #: weblate/accounts/models.py:160
 msgid "Started trial period."
@@ -771,10 +771,8 @@ msgstr "自分の翻訳へのコメント"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:605
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edited string"
-msgstr "文字列を編集"
+msgstr "編集済みの文字列"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:614
@@ -1485,10 +1483,9 @@ msgstr ""
 "モート URL。"
 
 #: weblate/addons/forms.py:507
-#, fuzzy, python-format
-#| msgid "Failed to parse CSS selector: %s"
+#, python-format
 msgid "Could not parse CSS selector: %s"
-msgstr "CSS セレクタの解析に失敗しました: %s"
+msgstr "解析に失敗した CSS セレクタ: %s"
 
 #: weblate/addons/forms.py:513 weblate/billing/models.py:286
 #: weblate/templates/snippets/query-builder.html:14
@@ -1571,9 +1568,8 @@ msgid "Fill read-only strings with source"
 msgstr "翻訳済みの文字列が編集禁止の場合は、原文を翻訳に代入する"
 
 #: weblate/addons/generate.py:218
-#, fuzzy
 msgid "Fills in translation of read-only strings with source string."
-msgstr "翻訳済みの文字列が編集禁止の場合は、原文を翻訳に代入します。"
+msgstr "文字列が編集禁止の場合は、原文を翻訳に代入します。"
 
 #: weblate/addons/gettext.py:26
 msgid "Generate MO files"
@@ -2220,10 +2216,8 @@ msgid "User invitation e-mail was sent."
 msgstr "ユーザー招待メールを送信しました。"
 
 #: weblate/auth/forms.py:123
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot change this on a built-in team."
-msgstr "システム既定のチームでは、%s の変更は禁止されています。"
+msgstr "システム既定のチーム権限では、変更できません。"
 
 #: weblate/auth/models.py:68
 #, python-format
@@ -2507,22 +2501,17 @@ msgid "File format does not support this."
 msgstr "ファイル形式がこの操作に対応していません。"
 
 #: weblate/auth/views.py:115
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot remove built-in team!"
-msgstr "システム既定のチームでは、%s の変更は禁止されています。"
+msgstr "システム既定のチーム権限では、削除できません！"
 
 #: weblate/auth/views.py:189
-#, fuzzy
-#| msgid "User invitation e-mail was sent."
 msgid "User invitation was removed."
-msgstr "ユーザー招待メールを送信しました。"
+msgstr "ユーザーの招待は取り消されました。"
 
 #: weblate/auth/views.py:213
-#, fuzzy, python-format
-#| msgid "Resend e-mail invitation to the user"
+#, python-format
 msgid "Accepted invitation to the %s team."
-msgstr "ユーザーに招待メールを再送信する"
+msgstr "%s チームからの招待を承諾しました。"
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2654,14 +2643,10 @@ msgid "AngularJS interpolation strings do not match source"
 msgstr "原文と AngularJS 補間文字列が一致してないもの"
 
 #: weblate/checks/base.py:287
-#, fuzzy
-#| msgid "Following format strings are missing: {}"
 msgid "The following format strings are missing: {}"
 msgstr "次のフォーマット文字列が足りません: {}"
 
 #: weblate/checks/base.py:292
-#, fuzzy
-#| msgid "Following format strings are extra: {}"
 msgid "The following format strings are extra: {}"
 msgstr "次のフォーマット文字列は余分です: {}"
 
@@ -2906,10 +2891,8 @@ msgid "Strict unchanged check"
 msgstr "厳格な変更なしの確認"
 
 #: weblate/checks/flags.py:45
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strict format string checks"
-msgstr "適正検査に不合格した文字列"
+msgstr "厳密なフォーマット文字列の検査"
 
 #: weblate/checks/flags.py:46 weblate/glossary/forms.py:35
 msgid "Forbidden translation"
@@ -2963,10 +2946,8 @@ msgid "String variant"
 msgstr "文字列の別表記"
 
 #: weblate/checks/flags.py:72
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent type"
-msgstr "Fluent ファイル"
+msgstr "Fluent type"
 
 #: weblate/checks/flags.py:261
 #, python-format
@@ -2993,7 +2974,8 @@ msgstr "翻訳フラグにパラメータがありません: \"%s\""
 msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
-msgstr ""
+msgstr "{sequence} の Fluent 参照は、HTML "
+"タグに展開される場合があります。{suggestion} を使用してみてください。"
 
 #: weblate/checks/fluent/inner_html.py:143
 #, python-brace-format
@@ -3001,6 +2983,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"{sequence} の Fluent 参照は、HTML "
+"文字参照に展開される場合があります。{suggestion} を使用してみてください。"
 
 #: weblate/checks/fluent/inner_html.py:171
 #, python-brace-format
@@ -3008,6 +2992,8 @@ msgid ""
 "The sequence {sequence} begins a HTML closing tag, but the name or syntax is "
 "not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"{sequence} シーケンスは HTML の閉じタグを開始しますが、その名前や構文が無効で"
+"す。閉じタグを使用したくない場合は、{suggestion} を使用してください。"
 
 #: weblate/checks/fluent/inner_html.py:184
 #, python-brace-format
@@ -3015,6 +3001,8 @@ msgid ""
 "The sequence {sequence} begins a HTML tag, but the name is not valid. If you "
 "do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"{sequence} シーケンスは HTMLタグを開始しますが、その名前は無効です。HTML "
+"タグを開始したくない場合は、{suggestion} を使用してください。"
 
 #: weblate/checks/fluent/inner_html.py:197
 #, python-brace-format
@@ -3022,12 +3010,16 @@ msgid ""
 "The sequence {sequence} begins a HTML tag, but the tag is never closed by "
 "{close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"{sequence} シーケンスは HTML タグを開始しますが、そのタグは {close} "
+"によって閉じることはできません。HTML タグを開始したくない場合は、{suggestion}"
+" を使用してください。"
 
 #: weblate/checks/fluent/inner_html.py:211
 #, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
-msgstr ""
+msgstr "Fluent 内部の HTML には {sequence} を含めないでください。{suggestion} "
+"を使用してみてください。"
 
 #: weblate/checks/fluent/inner_html.py:227
 #, python-brace-format
@@ -3036,45 +3028,50 @@ msgid ""
 "not a valid attribute with a value. If you do not want to begin a HTML tag, "
 "use {suggestion}."
 msgstr ""
+"{sequence} シーケンスは HTML タグを開始しますが、シーケンス {attribute} "
+"は値を持つ有効な属性ではありません。HTML "
+"タグを開始したくない場合は、{suggestion} を使用してください。"
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "{tag} タグの HTML 属性名 {name} は無効です。"
 
 #: weblate/checks/fluent/inner_html.py:260
 #, python-brace-format
 msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
-msgstr ""
+msgstr "{tag} タグの HTML {name} 属性値 {value} "
+"は、有効な引用符で囲まれた値ではありません。"
 
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "HTML {name} 属性が {tag} タグに 2 回表示されます。"
 
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "対応する HTML 終了タグがないタグ: {tag}。"
 
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr ""
+msgstr "HTML {name} の void 要素には、終了タグを含めることはできない: {end}。"
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
 msgid ""
 "The HTML {name} element is not a known void element, so should not have a "
 "self-closing tag: {self_close}."
-msgstr ""
+msgstr "HTML {name} 要素は既知の void "
+"要素ではないため、自己終了タグを持つことはできない: {self_close}。"
 
 #: weblate/checks/fluent/inner_html.py:325
 #, python-brace-format
 msgid "The HTML {tag} tag has is missing a matching end tag: {end}."
-msgstr ""
+msgstr "HTML {tag} タグには対応する終了タグがない: {end}。"
 
 #: weblate/checks/fluent/inner_html.py:341
 #, python-brace-format
@@ -3083,43 +3080,46 @@ msgid ""
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
+"シーケンス {sequence} は HTML 文字参照を開始しますが、{semicolon} "
+"で終わりません。文字参照が必要ない場合は、{suggestion} を使用してください。"
 
 #: weblate/checks/fluent/inner_html.py:359
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
-msgstr ""
+msgstr "シーケンス {sequence} は有効な HTML 文字参照ではありません。"
 
 #: weblate/checks/fluent/inner_html.py:941
 msgid "Fluent source inner HTML"
-msgstr ""
+msgstr "Fluent ソース内部の HTML"
 
 #: weblate/checks/fluent/inner_html.py:942
 msgid "Fluent source should be valid inner HTML"
-msgstr ""
+msgstr "Fluent ソースは有効な内部 HTML であることが必要です"
 
 #: weblate/checks/fluent/inner_html.py:1013
 #, python-brace-format
 msgid "Fluent value is missing a HTML {tag} tag."
-msgstr ""
+msgstr "Fluent 値には HTML {tag} タグが欠けています。"
 
 #: weblate/checks/fluent/inner_html.py:1018
 #, python-brace-format
 msgid ""
 "Fluent value is missing a HTML {tag} tag for the following variants: "
 "{variant_list}."
-msgstr ""
+msgstr "Fluent 値には次の別表記用の HTML {tag} タグが欠けています: {variant_list}。"
 
 #: weblate/checks/fluent/inner_html.py:1032
 #, python-brace-format
 msgid "Fluent value has an unexpected extra HTML {tag} tag."
-msgstr ""
+msgstr "Fluent 値に予期しない余分な HTML {tag} タグが含まれています。"
 
 #: weblate/checks/fluent/inner_html.py:1037
 #, python-brace-format
 msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
-msgstr ""
+msgstr "Fluent 値には、次の別表記に対して予期しない余分な HTML {tag} タグがあります: "
+"{variant_list}。"
 
 #: weblate/checks/fluent/inner_html.py:1114
 #, python-brace-format
@@ -3128,12 +3128,16 @@ msgid ""
 "matching variant in the translation with the same set of HTML elements: "
 "{variant_list}."
 msgstr ""
+"元の Fluent 値の次の別表記には、同じ HTML "
+"要素のセットを持つ翻訳に一致する別表記が最低でも 1 つ必要です: "
+"{variant_list}。"
 
 #: weblate/checks/fluent/inner_html.py:1129
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of HTML elements."
-msgstr ""
+msgstr "翻訳された Fluent 値には、元の一致するセットの HTML "
+"要素を持つ一致する別表記がありません。"
 
 #: weblate/checks/fluent/inner_html.py:1136
 #, python-brace-format
@@ -3141,49 +3145,47 @@ msgid ""
 "The following variants in the translated Fluent value do not have a matching "
 "variant in the original with the same set of HTML elements: {variant_list}."
 msgstr ""
+"翻訳された Fluent 値の次の別表記は、元の一致するセットの HTML "
+"要素を持つ一致する別表記がありません: {variant_list}。"
 
 #: weblate/checks/fluent/inner_html.py:1216
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation inner HTML"
-msgstr "現在の翻訳"
+msgstr "Fluent 翻訳内部の HTML"
 
 #: weblate/checks/fluent/inner_html.py:1217
 msgid "Fluent target should be valid inner HTML that matches"
-msgstr ""
+msgstr "Fluent の対象は有効な内部 HTML である必要があり、一致することが必要です"
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
-msgstr ""
+msgstr "Fluent 値が空です。"
 
 #: weblate/checks/fluent/parts.py:65
 msgid "Fluent value should be empty."
-msgstr ""
+msgstr "Fluent 値は空であることが必要です。"
 
 #: weblate/checks/fluent/parts.py:71
 #, python-brace-format
 msgid "Missing Fluent attribute: {hint}"
-msgstr ""
+msgstr "Fluent 属性がありません: {hint}"
 
 #: weblate/checks/fluent/parts.py:80
 #, python-brace-format
 msgid "Unexpected Fluent attribute: {hint}"
-msgstr ""
+msgstr "想定外の Fluent 属性: {hint}"
 
 #: weblate/checks/fluent/parts.py:112
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent parts"
-msgstr "Fluent ファイル"
+msgstr "Fluent パーツ"
 
 #: weblate/checks/fluent/parts.py:113
 msgid "Fluent parts should match"
-msgstr ""
+msgstr "Fluent パーツは一致することが必要です"
 
 #: weblate/checks/fluent/references.py:373
 #, python-brace-format
 msgid "Fluent {attribute} attribute is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "Fluent {attribute} 属性には {reference} Fluent 参照が欠けています。"
 
 #: weblate/checks/fluent/references.py:381
 #, python-brace-format
@@ -3191,25 +3193,28 @@ msgid ""
 "Fluent {attribute} attribute is missing a {reference} Fluent reference for "
 "the following variants: {variant_list}."
 msgstr ""
+"Fluent {attribute} 属性には次のバリアント用の {reference} Fluent "
+"参照が欠けています: {variant_list}。"
 
 #: weblate/checks/fluent/references.py:390
 #, python-brace-format
 msgid "Fluent value is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "Fluent 値に {reference} Fluent 参照が欠けています。"
 
 #: weblate/checks/fluent/references.py:395
 #, python-brace-format
 msgid ""
 "Fluent value is missing a {reference} Fluent reference for the following "
 "variants: {variant_list}."
-msgstr ""
+msgstr "Fluent 値には次の別表記用の {reference} Fluent 参照が欠けています: "
+"{variant_list}。"
 
 #: weblate/checks/fluent/references.py:411
 #, python-brace-format
 msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference."
-msgstr ""
+msgstr "Fluent {attribute} 属性に想定外の余分な {reference} Fluent 参照があります。"
 
 #: weblate/checks/fluent/references.py:419
 #, python-brace-format
@@ -3217,18 +3222,21 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference for the following variants: {variant_list}."
 msgstr ""
+"Fluent {attribute} 属性に想定外の余分な {reference} Fluent "
+"参照が次の別表記用にあります: {variant_list}。"
 
 #: weblate/checks/fluent/references.py:429
 #, python-brace-format
 msgid "Fluent value has an unexpected extra {reference} Fluent reference."
-msgstr ""
+msgstr "Fluent 値に想定外の余分な {reference} Fluent 参照があります。"
 
 #: weblate/checks/fluent/references.py:435
 #, python-brace-format
 msgid ""
 "Fluent value has an unexpected extra {reference} Fluent reference for the "
 "following variants: {variant_list}."
-msgstr ""
+msgstr "Fluent 値に想定外の余分な {reference} Fluent 参照が次の別表記用にあります: "
+"{variant_list}。"
 
 #: weblate/checks/fluent/references.py:524
 #, python-brace-format
@@ -3237,6 +3245,8 @@ msgid ""
 "have at least one matching variant in the translation with the same set of "
 "Fluent references: {variant_list}."
 msgstr ""
+"元の Fluent {attribute} 属性の次の変数は、翻訳で同じセットの Fluent "
+"参照を持つ一致する別表記が最低でも 1 つ必要です: {variant_list}。"
 
 #: weblate/checks/fluent/references.py:534
 #, python-brace-format
@@ -3245,13 +3255,16 @@ msgid ""
 "matching variant in the translation with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"元の Fluent 値の次の別表記は、翻訳で同じセットの Fluent "
+"参照を持つ一致する別表記が最低でも 1 つ必要です: {variant_list}。"
 
 #: weblate/checks/fluent/references.py:550
 #, python-brace-format
 msgid ""
 "The translated Fluent {attribute} attribute does not have a matching variant "
 "in the original with the same set of Fluent references."
-msgstr ""
+msgstr "翻訳された Fluent {attribute} 属性には、元の一致するセットの Fluent "
+"参照を持つ一致する別表記がありません。"
 
 #: weblate/checks/fluent/references.py:558
 #, python-brace-format
@@ -3260,12 +3273,15 @@ msgid ""
 "have a matching variant in the original with the same set of Fluent "
 "references: {variant_list}."
 msgstr ""
+"翻訳された Fluent {attribute} 属性の次の別表記は、元の一致するセットの "
+"Fluent 参照を持つ一致する別表記がありません: {variant_list}。"
 
 #: weblate/checks/fluent/references.py:569
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of Fluent references."
-msgstr ""
+msgstr "翻訳された Fluent 値には、元の一致するセットの Fluent "
+"参照を持つ一致する別表記がありません。"
 
 #: weblate/checks/fluent/references.py:576
 #, python-brace-format
@@ -3274,47 +3290,40 @@ msgid ""
 "variant in the original with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"翻訳された Fluent 値の次の別表記は、元の一致するセットの Fluent "
+"参照を持つ一致する別表記がありません: {variant_list}。"
 
 #: weblate/checks/fluent/references.py:670
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "環境設定"
+msgstr "Fluent 参照"
 
 #: weblate/checks/fluent/references.py:671
 msgid "Fluent references should match"
-msgstr ""
+msgstr "Fluent 参照は一致することが必要です"
 
 #: weblate/checks/fluent/syntax.py:39
 #, python-brace-format
 msgid "Fluent syntax error: {error}."
-msgstr ""
+msgstr "Fluent 構文エラー: {error}。"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "原文をそのまま入力"
+msgstr "Fluent ソース構文"
 
 #: weblate/checks/fluent/syntax.py:48
 msgid "Fluent syntax error in source"
-msgstr ""
+msgstr "Fluent ソースでの構文エラー"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation syntax"
-msgstr "現在の翻訳"
+msgstr "Fluent 翻訳構文"
 
 #: weblate/checks/fluent/syntax.py:65
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in translation"
-msgstr "自分の翻訳へのコメント"
+msgstr "翻訳での Fluent 構文エラー"
 
 #: weblate/checks/format.py:400
-#, fuzzy, python-format
-#| msgid "Following format strings are wrongly ordered: %s"
+#, python-format
 msgid "The following format strings are in the wrong order: %s"
 msgstr "次のフォーマット文字列は順序が間違っています: %s"
 
@@ -3783,8 +3792,6 @@ msgid "Font group deleted."
 msgstr "フォントグループを削除しました。"
 
 #: weblate/formats/base.py:336
-#, fuzzy
-#| msgid "Failed to load strings from the file, try choosing other format."
 msgid "Could not load strings from the file, try choosing other format."
 msgstr "ファイルから文字列を読み込めません。他の形式を選択してください。"
 
@@ -3793,10 +3800,8 @@ msgid "HTML file"
 msgstr "HTML ファイル"
 
 #: weblate/formats/convert.py:294
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown file"
-msgstr "Markdown テキスト"
+msgstr "Markdown ファイル"
 
 #: weblate/formats/convert.py:327
 msgid "OpenDocument file"
@@ -3887,22 +3892,16 @@ msgid "Qt Linguist translation file"
 msgstr "Qt Linguist 翻訳ファイル"
 
 #: weblate/formats/ttkit.py:1205
-#, fuzzy
-#| msgid "XLIFF translation file"
 msgid "XLIFF 1.2 translation file"
-msgstr "XLIFF 翻訳ファイル"
+msgstr "XLIFF 1.2 翻訳ファイル"
 
 #: weblate/formats/ttkit.py:1235
-#, fuzzy
-#| msgid "XLIFF with placeables support"
 msgid "XLIFF 1.2 with placeables support"
-msgstr "配置可能に対応する XLIFF"
+msgstr "placeables に対応した XLIFF 1.2"
 
 #: weblate/formats/ttkit.py:1242
-#, fuzzy
-#| msgid "XLIFF 1.1 with gettext extensions"
 msgid "XLIFF 1.2 with gettext extensions"
-msgstr "gettext 拡張付きの XLIFF 1.1"
+msgstr "gettext 拡張機能に対応した XLIFF 1.2"
 
 #: weblate/formats/ttkit.py:1272
 msgid "iOS strings (UTF-16)"
@@ -3949,8 +3948,7 @@ msgid ".NET resource file"
 msgstr ".NET リソース ファイル"
 
 #: weblate/formats/ttkit.py:1405
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Could not parse the key: %s"
 msgstr "鍵の解析に失敗しました: %s"
 
@@ -4332,7 +4330,7 @@ msgstr "gettext の複数形判定式"
 
 #: weblate/lang/models.py:769
 msgid "CLDR plural with zero"
-msgstr ""
+msgstr "ゼロを含む CLDR 複数形"
 
 #: weblate/lang/models.py:770
 msgid "CLDR v38+ plural"
@@ -4505,14 +4503,12 @@ msgid "Overview"
 msgstr "概要"
 
 #: weblate/machinery/base.py:96
-#, fuzzy, python-format
-#| msgid "Failed to fetch supported languages: %s"
+#, python-format
 msgid "Could not fetch supported languages: %s"
 msgstr "対応している言語の取得に失敗しました: %s"
 
 #: weblate/machinery/base.py:101
-#, fuzzy, python-format
-#| msgid "Failed to fetch translation: %s"
+#, python-format
 msgid "Could not fetch translation: %s"
 msgstr "翻訳の取得に失敗しました: %s"
 
@@ -4615,8 +4611,7 @@ msgid "Google Translate location"
 msgstr "Google 翻訳のロケーション"
 
 #: weblate/machinery/forms.py:192
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON: %s"
+#, python-format
 msgid "Could not parse JSON: %s"
 msgstr "JSON の解析に失敗しました: %s"
 
@@ -4660,14 +4655,11 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "アップロードしたファイル内に正しい項目が見つかりませんでした！"
 
 #: weblate/memory/models.py:116 weblate/memory/models.py:121
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: %s"
+#, python-format
 msgid "Could not parse JSON file: %s"
 msgstr "JSON ファイルの解析に失敗しました: %s"
 
 #: weblate/memory/models.py:150
-#, fuzzy
-#| msgid "Failed to parse TMX file!"
 msgid "Could not parse TMX file!"
 msgstr "TMX ファイルの解析に失敗しました！"
 
@@ -4676,10 +4668,9 @@ msgid "Source language not defined in the TMX file!"
 msgstr "ソース言語が TMX ファイルで定義されていません！"
 
 #: weblate/memory/models.py:163 weblate/memory/models.py:180
-#, fuzzy, python-format
-#| msgid "Failed to find language %s!"
+#, python-format
 msgid "Could not find language %s!"
-msgstr "%s の言語はありません！"
+msgstr "言語 %s はありません！"
 
 #: weblate/memory/models.py:251
 msgctxt "Translation memory category"
@@ -4800,22 +4791,16 @@ msgid "Image"
 msgstr "画像"
 
 #: weblate/screenshots/models.py:58
-#, fuzzy
-#| msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
 msgid "Upload image up to 2000x2000 pixels."
-msgstr ""
-"2000x2000 ピクセル以下の JPEG または PNG 画像をアップロードしてください。"
+msgstr "2000 x 2000 ピクセルまでの画像をアップロードしてください。"
 
 #: weblate/screenshots/views.py:241
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr "スクリーンショットをアップロードしました。これを原文に指定できます。"
 
 #: weblate/screenshots/views.py:247
-#, fuzzy
-#| msgid "Failed to upload screenshot, please fix errors below."
 msgid "Could not upload screenshot, please fix errors below."
-msgstr ""
-"スクリーンショットのアップロードに失敗しました。以下のエラーを修正してくださ"
+msgstr "スクリーンショットのアップロードに失敗しました。以下のエラーを修正してくださ"
 "い。"
 
 #: weblate/screenshots/views.py:302
@@ -5483,10 +5468,8 @@ msgstr "チーム"
 
 #: weblate/templates/accounts/profile.html:253
 #: weblate/templates/trans/project-access.html:95
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitation"
-msgstr "招待状の再送信"
+msgstr "保留中の招待"
 
 #: weblate/templates/accounts/profile.html:279
 msgid "Description"
@@ -5535,10 +5518,8 @@ msgstr "個人用 API キー:"
 #: weblate/templates/accounts/profile.html:327 weblate/templates/data.html:83
 #: weblate/templates/data.html:127
 #: weblate/templates/trans/project-access.html:327
-#, fuzzy
-#| msgid "Changed visibility"
 msgid "Toogle API key visibility"
-msgstr "表示可否の変更"
+msgstr "API キーの表示切り替え"
 
 #: weblate/templates/accounts/profile.html:328
 #: weblate/templates/trans/project-access.html:328
@@ -5603,13 +5584,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "認証プロバイダに転送します。"
 
 #: weblate/templates/accounts/register.html:20
-#, fuzzy
-#| msgid ""
-#| "Please enter the activation token obtained when making the subscription."
 msgid "Please complete the registration to accept the invitation."
-msgstr ""
-"サブスクリプションを作成するときに取得した、有効化のためのトークンを入力して"
-"ください。"
+msgstr "招待を受諾するために登録を完了してください。"
 
 #: weblate/templates/accounts/register.html:38
 msgid "Register in Weblate"
@@ -6232,11 +6208,9 @@ msgstr "コンポーネントが指定されていません"
 
 #: weblate/templates/auth/teams-count.html:5
 msgid "Automatic assignment of users is configured for this team"
-msgstr ""
+msgstr "このチームにはユーザーの自動割り当てが設定されています"
 
 #: weblate/templates/auth/teams-count.html:5
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic assignment"
 msgstr "自動割り当て"
 
@@ -7635,7 +7609,7 @@ msgstr "再スキャン"
 
 #: weblate/templates/js/git-status.html:142
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "Weblate リポジトリ内のすべての翻訳ファイルを再スキャンします。"
+msgstr "Weblate リポジトリ内のすべての翻訳ファイルを再スキャンします"
 
 #: weblate/templates/js/git-status.html:145
 msgid "Loads translations from the files into Weblate."
@@ -7674,11 +7648,11 @@ msgstr "言語の追加"
 
 #: weblate/templates/lang/plural_form.html:15
 msgid "Changing plural rules might not have a desired effect."
-msgstr ""
+msgstr "複数形のルールを変更しても、期待した効果が得られないかもしれません。"
 
 #: weblate/templates/lang/plural_form.html:16
 msgid "Please see a documentation for more info."
-msgstr ""
+msgstr "詳細については、ドキュメントを確認してください。"
 
 #: weblate/templates/language-project.html:69
 #: weblate/templates/language.html:54
@@ -8013,10 +7987,8 @@ msgid "Digest: %(notification_name)s"
 msgstr "要約 : %(notification_name)s"
 
 #: weblate/templates/mail/invite.html:12
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "View invitation"
-msgstr "招待状の再送信"
+msgstr "招待状の表示"
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -8260,10 +8232,8 @@ msgid "Confirm account removal"
 msgstr "アカウント削除の確定"
 
 #: weblate/templates/mail/shared-registration.html:20
-#, fuzzy
-#| msgid "Confirm registration"
 msgid "Confirm invitation"
-msgstr "登録の確定"
+msgstr "招待状の確認"
 
 #: weblate/templates/mail/shared-registration.html:22
 msgid "Confirm registration"
@@ -8674,10 +8644,8 @@ msgid "Add new user"
 msgstr "新しいユーザーの追加"
 
 #: weblate/templates/manage/users.html:41
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitations"
-msgstr "招待状の再送信"
+msgstr "保留中の招待状"
 
 #: weblate/templates/manage/users.html:77
 #: weblate/templates/trans/project-access.html:103
@@ -8686,17 +8654,13 @@ msgstr "招待状の再送信"
 
 #: weblate/templates/manage/users.html:81
 #: weblate/templates/trans/project-access.html:107
-#, fuzzy
-#| msgid "Permalink copied to clipboard."
 msgid "Invitation link copied to clipboard."
-msgstr "パーマリンクをクリップボードにコピーしました。"
+msgstr "招待リンクをクリップボードにコピーしました。"
 
 #: weblate/templates/manage/users.html:85
 #: weblate/templates/trans/project-access.html:111
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Remove invitation"
-msgstr "招待状の再送信"
+msgstr "招待状の削除"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -9450,6 +9414,9 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
+"あなたは、%(project_name)s に協力し、%(team_name)s "
+"チームに参加するために、%(invitation_author)s から %(site_title)s "
+"に招待されました。"
 
 #: weblate/templates/snippets/invite-info.html:6
 #, python-format
@@ -9457,6 +9424,8 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
 msgstr ""
+"あなたは %(invitation_author)s から %(team_name)s チームに参加するために "
+"%(site_title)s に招待されました。"
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -9513,10 +9482,8 @@ msgid "The project has had active development for at least three months."
 msgstr "プロジェクトが、少なくとも 3 か月間は活発に開発を行ってきたこと。"
 
 #: weblate/templates/snippets/libre-checklist.html:18
-#, fuzzy
-#| msgid "Unmet guidelines from the community localization checklist:"
 msgid "Review guidelines from the community localization checklist."
-msgstr "現地化コミュニティのガイドラインを満たしていない検査項目:"
+msgstr "コミュニティの現地語化のチェックリストのガイドラインを確認してください。"
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -9583,10 +9550,8 @@ msgid "Create translation"
 msgstr "翻訳の作成"
 
 #: weblate/templates/snippets/list-objects.html:146
-#, fuzzy
-#| msgid "Could not add new translation file."
 msgid "Cannot add translation right now"
-msgstr "新しい翻訳ファイルを追加できません。"
+msgstr "現在、翻訳の追加はできません"
 
 #: weblate/templates/snippets/list-objects.html:150
 #: weblate/templates/translate.html:30 weblate/templates/translation.html:146
@@ -10307,11 +10272,8 @@ msgstr ""
 "加してください。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
-#, fuzzy
-#| msgid ""
-#| "There is at least one screenshot which is not assigned to any strings."
 msgid "At least one screenshot has no string assigned to it."
-msgstr "文字列に割り当てられていないスクリーンショットが１つ以上あります。"
+msgstr "文字列に割り当てられていないスクリーンショットが最低でも１つあります。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
 msgid "Manage screenshots"
@@ -10619,10 +10581,9 @@ msgid "Edit team membership for %(username)s"
 msgstr "%(username)s が所属するチームの編集"
 
 #: weblate/templates/trans/project-access.html:92
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation for %(email)s"
-msgstr "%(site_title)s への招待"
+msgstr "%(email)s 宛の招待"
 
 #: weblate/templates/trans/project-access.html:121
 msgid ""
@@ -11150,28 +11111,21 @@ msgstr ""
 "メッセージは、指定した期限または削除するまで、翻訳ページに表示されます。"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:9
-#, fuzzy
-#| msgid "Information"
 msgid "Invitations"
-msgstr "統計情報"
+msgstr "招待状"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:10
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Invitation"
-msgstr "招待状の再送信"
+msgstr "招待"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:19
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation to %(project_name)s"
-msgstr "%(site_title)s への招待"
+msgstr "%(project_name)s への招待"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:25
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Accept invitation"
-msgstr "招待状の再送信"
+msgstr "招待の承諾"
 
 #: weblate/templates/widgets.html:6
 msgid "Widgets"
@@ -11825,10 +11779,9 @@ msgid "ZIP file containing project backup"
 msgstr "プロジェクトのバックアップが入った ZIP ファイル"
 
 #: weblate/trans/forms.py:2188
-#, fuzzy, python-format
-#| msgid "Failed to load project backup: %s"
+#, python-format
 msgid "Could not load project backup: %s"
-msgstr "バックアップの読み込みに失敗しました: %s"
+msgstr "プロジェクトのバックアップの読み込みに失敗しました: %s"
 
 #: weblate/trans/forms.py:2196
 msgid "Optional additional filter applied to the strings"
@@ -12668,16 +12621,11 @@ msgstr ""
 "リポジトリルートからのスクリーンショットのパス。例: docs/screenshots/*.png。"
 
 #: weblate/trans/models/component.py:406
-#, fuzzy
-#| msgid ""
-#| "Filename of translation base file, containing all strings and their "
-#| "source; it is recommended for monolingual translation formats."
 msgid ""
 "Filename of translation base file, containing all strings and their source "
 "for monolingual translations."
-msgstr ""
-"すべての文字列とその原文を含む翻訳の、基礎となる翻訳ファイルのファイル名。モ"
-"ノリンガル翻訳のファイル形式に適しています。"
+msgstr "モノリンガル翻訳用のすべての文字列とそのソースを含む翻訳ベースファイルのファ"
+"イル名。"
 
 #: weblate/trans/models/component.py:413
 msgid "Edit base file"
@@ -12941,8 +12889,7 @@ msgid "File does not exist."
 msgstr "ファイルが存在しません。"
 
 #: weblate/trans/models/component.py:1682
-#, fuzzy, python-format
-#| msgid "Failed to push %(component)s: %(error_text)s"
+#, python-format
 msgid "Could not push %(component)s: %(error_text)s"
 msgstr "%(component)s のプッシュに失敗しました: %(error_text)s"
 
@@ -13031,8 +12978,7 @@ msgstr ""
 "ルがありません。"
 
 #: weblate/trans/models/component.py:2659
-#, fuzzy, python-format
-#| msgid "Failed to parse base file for new translations: %s"
+#, python-format
 msgid "Could not parse base file for new translations: %s"
 msgstr "新しい翻訳の基礎となる翻訳ファイルの解析に失敗しました: %s"
 
@@ -13077,16 +13023,13 @@ msgid "You can not use a monolingual translation without a base file."
 msgstr "基礎となる翻訳ファイルがないと、モノリンガル翻訳はできません。"
 
 #: weblate/trans/models/component.py:2749
-#, fuzzy
-#| msgid "No remote repository"
 msgid "Choose No remote repository for local: URL."
-msgstr "リモート リポジトリなし"
+msgstr "ローカルの場合は、ローカルではリモート "
+"リポジトリを使用しないを選択してください: URL。"
 
 #: weblate/trans/models/component.py:2754
-#, fuzzy
-#| msgid "Push URL is not used when repository is linked!"
 msgid "Push URL is not used without a remote repository."
-msgstr "リポジトリがリンクされている場合、送信先の URL は使用されません！"
+msgstr "リモートリポジトリがない場合、プッシュ URL は使用されません。"
 
 #: weblate/trans/models/component.py:2773
 #, python-format
@@ -13300,10 +13243,8 @@ msgid ""
 msgstr "カンマで区切られた言語コード対応表、例: en_GB:en, en_US:en"
 
 #: weblate/trans/models/suggestion.py:121
-#, fuzzy
-#| msgid "Failed to accept suggestion!"
 msgid "Could not accept suggestion!"
-msgstr "提案の採用に失敗しました！"
+msgstr "提案は採用されませんでした！"
 
 #: weblate/trans/models/translation.py:207
 #, python-format
@@ -13315,16 +13256,14 @@ msgstr ""
 "ファイルをリポジトリに追加してください。"
 
 #: weblate/trans/models/translation.py:216
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not parse file %(file)s: %(error)s"
 msgstr "ファイル %(file)s の解析に失敗しました: %(error)s"
 
 #: weblate/trans/models/translation.py:1029
 #: weblate/trans/models/translation.py:1111
 #: weblate/trans/models/translation.py:1229
-#, fuzzy, python-format
-#| msgid "Failed to commit pending changes: %s"
+#, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "保留中の変更のコミットに失敗しました: %s"
 
@@ -13752,8 +13691,7 @@ msgstr ""
 "できてしまうからです。"
 
 #: weblate/trans/validators.py:42
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Could not parse flags: %s"
 msgstr "フラグの解析に失敗しました: %s"
 
@@ -13853,20 +13791,14 @@ msgid "Changes by %s"
 msgstr "%s による変更"
 
 #: weblate/trans/views/changes.py:144
-#, fuzzy
-#| msgid "Failed to find matching project!"
 msgid "Could not find matching project!"
-msgstr "該当するプロジェクトは見つかりません！"
+msgstr "該当するプロジェクトはありません！"
 
 #: weblate/trans/views/changes.py:161
-#, fuzzy
-#| msgid "Failed to find matching language!"
 msgid "Could not find matching language!"
-msgstr "該当する言語は見つかりません！"
+msgstr "該当する言語はありません！"
 
 #: weblate/trans/views/changes.py:170
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Could not find matching user!"
 msgstr "該当するユーザーは見つかりません！"
 
@@ -13876,8 +13808,6 @@ msgid "Detected license as %s, please check whether it is correct."
 msgstr "%s としてライセンスを検出しました。正しいかどうかを確認してください。"
 
 #: weblate/trans/views/create.py:378
-#, fuzzy
-#| msgid "Failed to parse uploaded ZIP file."
 msgid "Could not parse uploaded ZIP file."
 msgstr "アップロードした ZIP ファイルの解析に失敗しました。"
 
@@ -13972,8 +13902,6 @@ msgstr "無効な検索文字列です！"
 
 #: weblate/trans/views/edit.py:709 weblate/trans/views/search.py:49
 #: weblate/trans/views/search.py:210
-#, fuzzy
-#| msgid "Failed to process form!"
 msgid "Could not process form!"
 msgstr "フォームの処理に失敗しました！"
 
@@ -13990,8 +13918,6 @@ msgid "Posted new comment"
 msgstr "新しいコメントを投稿しました"
 
 #: weblate/trans/views/edit.py:772
-#, fuzzy
-#| msgid "Failed to add comment!"
 msgid "Could not add comment!"
 msgstr "コメントの追加に失敗しました！"
 
@@ -14008,8 +13934,7 @@ msgid "New string has been added."
 msgstr "新しい文字列を追加しました。"
 
 #: weblate/trans/views/edit.py:1005
-#, fuzzy, python-format
-#| msgid "Failed to remove the string: %s"
+#, python-format
 msgid "Could not remove the string: %s"
 msgstr "文字列の削除に失敗しました: %s"
 
@@ -14047,8 +13972,6 @@ msgid "File upload has failed: %s"
 msgstr "ファイルのアップロードに失敗しました: %s"
 
 #: weblate/trans/views/git.py:28
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation is in progress."
 msgid "Could not lock the repository, another operation is in progress."
 msgstr "リポジトリのロックに失敗しました。他の処理が実行中です。"
 
@@ -14094,11 +14017,8 @@ msgid "Component is now open for translation updates."
 msgstr "コンポーネントを、翻訳を更新できるよう開放しました。"
 
 #: weblate/trans/views/lock.py:54
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "All components are now open for translation updates."
-msgstr ""
-"すべてのコンポーネントに対して、翻訳を更新できないようにロックしました！"
+msgstr "全コンポーネントの翻訳の更新を許可しました。"
 
 #: weblate/trans/views/search.py:107
 msgid "Search and replace completed, no strings were updated."
@@ -14173,8 +14093,6 @@ msgid "Backup scheduled. It will be available soon."
 msgstr "バックアップを予定しました。まもなく利用可能になります。"
 
 #: weblate/trans/views/source.py:58
-#, fuzzy
-#| msgid "Failed to change additional string info!"
 msgid "Could not change additional string info!"
 msgstr "追加の文字列情報を変更できませんでした！"
 
@@ -14323,10 +14241,8 @@ msgid "Undefined variable: \"%s\""
 msgstr "未定義の変数: \"%s\""
 
 #: weblate/utils/render.py:121
-#, fuzzy
-#| msgid "Failed to render template: {}"
 msgid "Could not render template: {}"
-msgstr "テンプレートの表示に失敗しました：{}"
+msgstr "テンプレートの生成に失敗しました; {}"
 
 #: weblate/utils/render.py:166
 msgid ""
@@ -14586,8 +14502,7 @@ msgid "[hostname hashed]"
 msgstr "[hostname hashed]"
 
 #: weblate/vcs/ssh.py:167
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Could not generate key: %s"
 msgstr "鍵の生成に失敗しました: %s"
 
@@ -14609,14 +14524,11 @@ msgstr ""
 "ました。正しいかどうかご確認ください。"
 
 #: weblate/vcs/ssh.py:226
-#, fuzzy
-#| msgid "Failed to fetch public key for a host!"
 msgid "Could not fetch public key for a host!"
-msgstr "ホストの公開鍵を取得できません！"
+msgstr "ホストの公開鍵を取得できませんでした！"
 
 #: weblate/vcs/ssh.py:231 weblate/vcs/ssh.py:234
-#, fuzzy, python-format
-#| msgid "Failed to get host key: %s"
+#, python-format
 msgid "Could not get host key: %s"
 msgstr "ホスト鍵の取得に失敗しました: %s"
 
