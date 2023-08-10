@@ -152,10 +152,13 @@ class LanguagesForm(ProfileBaseForm):
         self.fields["language"].choices = [
             choice for choice in self.fields["language"].choices if choice[0]
         ]
-        # Limit languages to ones which have translation
-        qs = Language.objects.have_translation()
-        self.fields["languages"].queryset = qs
-        self.fields["secondary_languages"].queryset = qs
+        # Limit languages to ones which have translation, do this by generating choices
+        # instead of queryset as the queryset would be evaluated twice as
+        # ModelChoiceField copies the queryset
+        languages = Language.objects.have_translation()
+        choices = list(languages.as_choices())
+        self.fields["languages"].choices = choices
+        self.fields["secondary_languages"].choices = choices
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
