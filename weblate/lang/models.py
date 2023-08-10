@@ -14,7 +14,7 @@ from weakref import WeakValueDictionary
 from appconf import AppConf
 from django.conf import settings
 from django.db import models, transaction
-from django.db.models import Q
+from django.db.models import Exists, OuterRef, Q
 from django.db.utils import OperationalError
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -346,7 +346,9 @@ class LanguageQuerySet(models.QuerySet):
 
     def have_translation(self):
         """Return list of languages which have at least one translation."""
-        return self.exclude(translation=None).order()
+        from weblate.trans.models import Translation
+
+        return self.filter(Exists(Translation.objects.filter(language=OuterRef("pk"))))
 
     def order(self):
         return self.order_by("name")
