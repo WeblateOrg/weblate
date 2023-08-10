@@ -1,14 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+# bovirus <roberto.boriotti@canon.it>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-08-03 21:42+0000\n"
-"Last-Translator: coronabond <coronabond@airmail.cc>\n"
+"PO-Revision-Date: 2023-08-10 14:36+0000\n"
+"Last-Translator: bovirus <roberto.boriotti@canon.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -399,7 +399,7 @@ msgstr "Invito per {site_title} da {username}."
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "Invito accettato da {username}."
 
 #: weblate/accounts/models.py:160
 msgid "Started trial period."
@@ -782,10 +782,8 @@ msgstr "Commenti alla propria traduzione"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:605
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edited string"
-msgstr "Modifica stringa"
+msgstr "Stringa modificata"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:614
@@ -1520,10 +1518,9 @@ msgstr ""
 "le stringhe traducibili."
 
 #: weblate/addons/forms.py:507
-#, fuzzy, python-format
-#| msgid "Failed to parse CSS selector: %s"
+#, python-format
 msgid "Could not parse CSS selector: %s"
-msgstr "Errore nell'analisi del selettore CSS: %s"
+msgstr "Impossibile analizzare il selettore CSS: %s"
 
 #: weblate/addons/forms.py:513 weblate/billing/models.py:286
 #: weblate/templates/snippets/query-builder.html:14
@@ -2269,10 +2266,8 @@ msgid "User invitation e-mail was sent."
 msgstr "L'email di invito dell'utente è stata inviata."
 
 #: weblate/auth/forms.py:123
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot change this on a built-in team."
-msgstr "La modifica di %s è vietata per i team integrati."
+msgstr "Impossibile modificare questa impostazione in un team integrato."
 
 #: weblate/auth/models.py:68
 #, python-format
@@ -2561,22 +2556,17 @@ msgid "File format does not support this."
 msgstr "Il formato del file non lo supporta."
 
 #: weblate/auth/views.py:115
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot remove built-in team!"
-msgstr "La modifica di %s è vietata per i team integrati."
+msgstr "Impossibile rimuovere il team integrato!"
 
 #: weblate/auth/views.py:189
-#, fuzzy
-#| msgid "User invitation e-mail was sent."
 msgid "User invitation was removed."
-msgstr "L'email di invito dell'utente è stata inviata."
+msgstr "L'invito dell'utente è stato rimosso."
 
 #: weblate/auth/views.py:213
-#, fuzzy, python-format
-#| msgid "Resend e-mail invitation to the user"
+#, python-format
 msgid "Accepted invitation to the %s team."
-msgstr "Invia nuovamente l'invito email all'utente"
+msgstr "Invito al team %s accettato."
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2710,14 +2700,10 @@ msgid "AngularJS interpolation strings do not match source"
 msgstr "Le stringhe interpolazione AngularJS non corrispondono al sorgente"
 
 #: weblate/checks/base.py:287
-#, fuzzy
-#| msgid "Following format strings are missing: {}"
 msgid "The following format strings are missing: {}"
-msgstr "Le seguenti stringhe formato sono mancanti: {}"
+msgstr "Mancano le seguenti stringhe formato: {}"
 
 #: weblate/checks/base.py:292
-#, fuzzy
-#| msgid "Following format strings are extra: {}"
 msgid "The following format strings are extra: {}"
 msgstr "Le seguenti stringhe formato sono extra: {}"
 
@@ -2970,10 +2956,8 @@ msgid "Strict unchanged check"
 msgstr "Controllo rigoroso non modificato"
 
 #: weblate/checks/flags.py:45
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strict format string checks"
-msgstr "Stringhe con controlli non riusciti"
+msgstr "Controlli rigorosi stringhe formato"
 
 #: weblate/checks/flags.py:46 weblate/glossary/forms.py:35
 msgid "Forbidden translation"
@@ -3027,10 +3011,8 @@ msgid "String variant"
 msgstr "Variante stringa"
 
 #: weblate/checks/flags.py:72
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent type"
-msgstr "File Fluent"
+msgstr "Tipo Fluent"
 
 #: weblate/checks/flags.py:261
 #, python-format
@@ -3058,6 +3040,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"Il riferimento Fluent in {sequence} può espandersi in un tag HTML. Puoi "
+"usare {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:143
 #, python-brace-format
@@ -3065,6 +3049,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"Il riferimento Fluent in {sequence} può espandersi in un riferimento as un "
+"carattere HTML. Puoi usare {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:171
 #, python-brace-format
@@ -3072,6 +3058,8 @@ msgid ""
 "The sequence {sequence} begins a HTML closing tag, but the name or syntax is "
 "not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"La sequenza {sequence} inizia un tag di chiusura HTML, ma il nome o la "
+"sintassi non sono validi. Se non vuoi un tag di chiusura, usa {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:184
 #, python-brace-format
@@ -3079,6 +3067,8 @@ msgid ""
 "The sequence {sequence} begins a HTML tag, but the name is not valid. If you "
 "do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"La sequenza {sequence} inizia un tag HTML, ma il nome non è valido. Se non "
+"vuoi iniziare un tag HTML, usa {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:197
 #, python-brace-format
@@ -3086,12 +3076,16 @@ msgid ""
 "The sequence {sequence} begins a HTML tag, but the tag is never closed by "
 "{close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"La sequenza {sequence} inizia un tag HTML, ma il tag non viene mai chiuso da "
+"{close}. Se non vuoi iniziare un tag HTML, usa {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:211
 #, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"L'HTML interno Fluent non dovrebbe includere {sequence}. Puoi usare "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:227
 #, python-brace-format
@@ -3100,11 +3094,14 @@ msgid ""
 "not a valid attribute with a value. If you do not want to begin a HTML tag, "
 "use {suggestion}."
 msgstr ""
+"La sequenza {sequence} inizia un tag HTML, ma la sequenza {attribute} non è "
+"un attributo valido con un valore. Se non vuoi iniziare un tag HTML, usa "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "Il nome dell'attributo HTML {name} per il tag {tag} non è valido."
 
 #: weblate/checks/fluent/inner_html.py:260
 #, python-brace-format
@@ -3112,21 +3109,24 @@ msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
 msgstr ""
+"Il valore dell'attributo HTML {name} {value} per il tag {tag} non è un "
+"valore tra virgolette valido."
 
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "L'attributo HTML {name} appare due volte per il tag {tag}."
 
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "Tag fine HTML senza corrispondenza: {tag}."
 
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
 msgstr ""
+"L'elemento void HTML {name} non dovrebbe avere un tag di chiusura: {end}."
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
@@ -3134,11 +3134,13 @@ msgid ""
 "The HTML {name} element is not a known void element, so should not have a "
 "self-closing tag: {self_close}."
 msgstr ""
+"L'elemento HTML {name} non è un elemento void noto, quindi non dovrebbe "
+"avere un tag di chiusura automatica: {self_close}."
 
 #: weblate/checks/fluent/inner_html.py:325
 #, python-brace-format
 msgid "The HTML {tag} tag has is missing a matching end tag: {end}."
-msgstr ""
+msgstr "Nel tag HTML {tag} manca un tag di chiusura corrispondente: {end}."
 
 #: weblate/checks/fluent/inner_html.py:341
 #, python-brace-format
@@ -3147,24 +3149,27 @@ msgid ""
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
+"La sequenza {sequence} inizierà con un riferimento a caratteri HTML, ma non "
+"terminerà con {semicolon}. Se non vuoi un riferimento al caratterere, usa "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:359
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
-msgstr ""
+msgstr "La sequenza {sequence} non è un riferimento carattere HTML valido."
 
 #: weblate/checks/fluent/inner_html.py:941
 msgid "Fluent source inner HTML"
-msgstr ""
+msgstr "HTML interno sorgente Fluent"
 
 #: weblate/checks/fluent/inner_html.py:942
 msgid "Fluent source should be valid inner HTML"
-msgstr ""
+msgstr "La sorgente Fluent dovrebbe essere un HTML interno valido"
 
 #: weblate/checks/fluent/inner_html.py:1013
 #, python-brace-format
 msgid "Fluent value is missing a HTML {tag} tag."
-msgstr ""
+msgstr "Nel valore Fluent manca un tag HTML {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1018
 #, python-brace-format
@@ -3172,11 +3177,13 @@ msgid ""
 "Fluent value is missing a HTML {tag} tag for the following variants: "
 "{variant_list}."
 msgstr ""
+"Nel valore Fluent manca un tag HTML {tag} per le seguenti varianti: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1032
 #, python-brace-format
 msgid "Fluent value has an unexpected extra HTML {tag} tag."
-msgstr ""
+msgstr "Il valore Fluent ha un tag HTML extra inaspettato {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1037
 #, python-brace-format
@@ -3184,6 +3191,8 @@ msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
 msgstr ""
+"Il valore Fluent ha un tag HTML extra inaspettato {tag} per le seguenti "
+"varianti: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1114
 #, python-brace-format
@@ -3192,12 +3201,17 @@ msgid ""
 "matching variant in the translation with the same set of HTML elements: "
 "{variant_list}."
 msgstr ""
+"Le seguenti varianti nel valore Fluent originale non hanno almeno una "
+"variante corrispondente nella traduzione con lo stesso set di elementi HTML: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1129
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of HTML elements."
 msgstr ""
+"Il valore Fluent tradotto non ha una variante corrispondente nell'originale "
+"con lo stesso set di elementi HTML."
 
 #: weblate/checks/fluent/inner_html.py:1136
 #, python-brace-format
@@ -3205,49 +3219,51 @@ msgid ""
 "The following variants in the translated Fluent value do not have a matching "
 "variant in the original with the same set of HTML elements: {variant_list}."
 msgstr ""
+"Le seguenti varianti nel valore Fluent tradotto non hanno una variante "
+"corrispondente nell'originale con lo stesso set di elementi HTML: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1216
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation inner HTML"
-msgstr "Traduzione attuale"
+msgstr "Traduzione Fluent HTML interno"
 
 #: weblate/checks/fluent/inner_html.py:1217
 msgid "Fluent target should be valid inner HTML that matches"
 msgstr ""
+"Il target Fluent dovrebbe essere un codice HTML interno valido che "
+"corrisponda"
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
-msgstr ""
+msgstr "Il valore Fluent è vuoto."
 
 #: weblate/checks/fluent/parts.py:65
 msgid "Fluent value should be empty."
-msgstr ""
+msgstr "Il valore Fluent deve essere vuoto."
 
 #: weblate/checks/fluent/parts.py:71
 #, python-brace-format
 msgid "Missing Fluent attribute: {hint}"
-msgstr ""
+msgstr "Attributo Fluent mancante: {hint}"
 
 #: weblate/checks/fluent/parts.py:80
 #, python-brace-format
 msgid "Unexpected Fluent attribute: {hint}"
-msgstr ""
+msgstr "Attributo Fluent inaspettato: {hint}"
 
 #: weblate/checks/fluent/parts.py:112
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent parts"
-msgstr "File Fluent"
+msgstr "Parti Fluent"
 
 #: weblate/checks/fluent/parts.py:113
 msgid "Fluent parts should match"
-msgstr ""
+msgstr "Le parti Fluent devono corrispondere"
 
 #: weblate/checks/fluent/references.py:373
 #, python-brace-format
 msgid "Fluent {attribute} attribute is missing a {reference} Fluent reference."
 msgstr ""
+"Nell'attributo {attribute} Fluent manca un riferimento Fluent {reference}."
 
 #: weblate/checks/fluent/references.py:381
 #, python-brace-format
@@ -3255,11 +3271,13 @@ msgid ""
 "Fluent {attribute} attribute is missing a {reference} Fluent reference for "
 "the following variants: {variant_list}."
 msgstr ""
+"Nell'attributo {attribute} fluente manca un riferimento Fluent {reference} "
+"per le seguenti varianti: {variant_list}."
 
 #: weblate/checks/fluent/references.py:390
 #, python-brace-format
 msgid "Fluent value is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "Al valore Fluent manca un riferimento Fluent {reference}."
 
 #: weblate/checks/fluent/references.py:395
 #, python-brace-format
@@ -3267,6 +3285,8 @@ msgid ""
 "Fluent value is missing a {reference} Fluent reference for the following "
 "variants: {variant_list}."
 msgstr ""
+"Nel valore Fluent manca un riferimento Fluent {reference} per le seguenti "
+"varianti: {variant_list}."
 
 #: weblate/checks/fluent/references.py:411
 #, python-brace-format
@@ -3274,6 +3294,8 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference."
 msgstr ""
+"L'attributo Fluent {attribute} ha un riferimento Fluent extra inaspettato "
+"{reference}."
 
 #: weblate/checks/fluent/references.py:419
 #, python-brace-format
@@ -3281,11 +3303,14 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference for the following variants: {variant_list}."
 msgstr ""
+"L'attributo Fluent {attribute} ha un riferimento Fluent extra inaspettato "
+"{reference} per le seguenti varianti: {variant_list}."
 
 #: weblate/checks/fluent/references.py:429
 #, python-brace-format
 msgid "Fluent value has an unexpected extra {reference} Fluent reference."
 msgstr ""
+"Il valore Fluent ha un riferimento Fluent extra inaspettato {reference}."
 
 #: weblate/checks/fluent/references.py:435
 #, python-brace-format
@@ -3293,6 +3318,8 @@ msgid ""
 "Fluent value has an unexpected extra {reference} Fluent reference for the "
 "following variants: {variant_list}."
 msgstr ""
+"Il valore Fluent ha un riferimento Fluent extra inaspettato {reference} per "
+"le seguenti varianti: {variant_list}."
 
 #: weblate/checks/fluent/references.py:524
 #, python-brace-format
@@ -3301,6 +3328,9 @@ msgid ""
 "have at least one matching variant in the translation with the same set of "
 "Fluent references: {variant_list}."
 msgstr ""
+"Le seguenti varianti nell'attributo originale Fluent {attribute} non hanno "
+"almeno una variante corrispondente nella traduzione con lo stesso set di "
+"riferimenti Fluent: {variant_list}."
 
 #: weblate/checks/fluent/references.py:534
 #, python-brace-format
@@ -3309,6 +3339,9 @@ msgid ""
 "matching variant in the translation with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"Le seguenti varianti nel valore Fluent originale non hanno almeno una "
+"variante corrispondente nella traduzione con lo stesso set di riferimenti "
+"Fluent: {variant_list}."
 
 #: weblate/checks/fluent/references.py:550
 #, python-brace-format
@@ -3316,6 +3349,8 @@ msgid ""
 "The translated Fluent {attribute} attribute does not have a matching variant "
 "in the original with the same set of Fluent references."
 msgstr ""
+"L'attributo Fluent tradotto {attribute} non ha una variante corrispondente "
+"nell'originale con lo stesso set di riferimenti Fluent."
 
 #: weblate/checks/fluent/references.py:558
 #, python-brace-format
@@ -3324,12 +3359,17 @@ msgid ""
 "have a matching variant in the original with the same set of Fluent "
 "references: {variant_list}."
 msgstr ""
+"Le seguenti varianti nell'attributo Fluent tradotto {attribute} non hanno "
+"una variante corrispondente nell'originale con lo stesso set di riferimenti "
+"Fluent: {variant_list}."
 
 #: weblate/checks/fluent/references.py:569
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of Fluent references."
 msgstr ""
+"Il valore Fluent tradotto non ha una variante corrispondente nell'originale "
+"con lo stesso set di riferimenti Fluent."
 
 #: weblate/checks/fluent/references.py:576
 #, python-brace-format
@@ -3338,49 +3378,43 @@ msgid ""
 "variant in the original with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"Le seguenti varianti nel valore Fluent tradotto non hanno una variante "
+"corrispondente nell'originale con lo stesso set di riferimenti Fluent: "
+"{variant_list}."
 
 #: weblate/checks/fluent/references.py:670
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "Impostazioni"
+msgstr "Riferimenti Fluent"
 
 #: weblate/checks/fluent/references.py:671
 msgid "Fluent references should match"
-msgstr ""
+msgstr "I riferimenti Fluent devono corrispondere"
 
 #: weblate/checks/fluent/syntax.py:39
 #, python-brace-format
 msgid "Fluent syntax error: {error}."
-msgstr ""
+msgstr "Errore sintassi Fluent: {error}."
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "Usa la stringa sorgente"
+msgstr "Sintassi Fluent sorgente"
 
 #: weblate/checks/fluent/syntax.py:48
 msgid "Fluent syntax error in source"
-msgstr ""
+msgstr "Errore sintassi Fluent nel codice sorgente"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation syntax"
-msgstr "Traduzione attuale"
+msgstr "Sintassi Fluent traduzione"
 
 #: weblate/checks/fluent/syntax.py:65
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in translation"
-msgstr "Commenti alla propria traduzione"
+msgstr "Errore sintassi Fluent nella traduzione"
 
 #: weblate/checks/format.py:400
-#, fuzzy, python-format
-#| msgid "Following format strings are wrongly ordered: %s"
+#, python-format
 msgid "The following format strings are in the wrong order: %s"
-msgstr "Le seguenti stringhe formato sono ordinate in modo errato: %s"
+msgstr "Le seguenti stringhe formato sono nell'ordine errato: %s"
 
 #: weblate/checks/format.py:482
 msgid "Python format"
@@ -3857,22 +3891,18 @@ msgid "Font group deleted."
 msgstr "Gruppo del tipo di carattere eliminato."
 
 #: weblate/formats/base.py:336
-#, fuzzy
-#| msgid "Failed to load strings from the file, try choosing other format."
 msgid "Could not load strings from the file, try choosing other format."
 msgstr ""
-"Caricamento delle stringhe dal file non riuscito, riprova scegliendo un "
-"altro formato."
+"Impossibile caricare le stringhe dal file, prova a scegliere un altro "
+"formato."
 
 #: weblate/formats/convert.py:260
 msgid "HTML file"
 msgstr "File HTML"
 
 #: weblate/formats/convert.py:294
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown file"
-msgstr "Testo Markdown"
+msgstr "File Markdown"
 
 #: weblate/formats/convert.py:327
 msgid "OpenDocument file"
@@ -3963,22 +3993,16 @@ msgid "Qt Linguist translation file"
 msgstr "File traduzione QT Linguist"
 
 #: weblate/formats/ttkit.py:1205
-#, fuzzy
-#| msgid "XLIFF translation file"
 msgid "XLIFF 1.2 translation file"
-msgstr "File traduzione XLIFF"
+msgstr "File traduzione XLIFF 1.2"
 
 #: weblate/formats/ttkit.py:1235
-#, fuzzy
-#| msgid "XLIFF with placeables support"
 msgid "XLIFF 1.2 with placeables support"
-msgstr "XLIFF con supporto posizionabili"
+msgstr "XLIFF 1.2 con supporto posizionabili"
 
 #: weblate/formats/ttkit.py:1242
-#, fuzzy
-#| msgid "XLIFF 1.1 with gettext extensions"
 msgid "XLIFF 1.2 with gettext extensions"
-msgstr "XLIFF 1.1 con estensioni gettext"
+msgstr "XLIFF 1.2 con estensioni gettext"
 
 #: weblate/formats/ttkit.py:1272
 msgid "iOS strings (UTF-16)"
@@ -4025,8 +4049,7 @@ msgid ".NET resource file"
 msgstr "File risorse .NET"
 
 #: weblate/formats/ttkit.py:1405
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Could not parse the key: %s"
 msgstr "Impossibile analizzare la chiave: %s"
 
@@ -4408,7 +4431,7 @@ msgstr "Formula plurale gettext"
 
 #: weblate/lang/models.py:769
 msgid "CLDR plural with zero"
-msgstr ""
+msgstr "CLDR plurale con zero"
 
 #: weblate/lang/models.py:770
 msgid "CLDR v38+ plural"
@@ -4584,14 +4607,12 @@ msgid "Overview"
 msgstr "Panoramica"
 
 #: weblate/machinery/base.py:96
-#, fuzzy, python-format
-#| msgid "Failed to fetch supported languages: %s"
+#, python-format
 msgid "Could not fetch supported languages: %s"
 msgstr "Impossibile recuperare le lingue supportate: %s"
 
 #: weblate/machinery/base.py:101
-#, fuzzy, python-format
-#| msgid "Failed to fetch translation: %s"
+#, python-format
 msgid "Could not fetch translation: %s"
 msgstr "Impossibile recuperare la traduzione: %s"
 
@@ -4696,8 +4717,7 @@ msgid "Google Translate location"
 msgstr "Posizione Google Translate"
 
 #: weblate/machinery/forms.py:192
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON: %s"
+#, python-format
 msgid "Could not parse JSON: %s"
 msgstr "Impossibile analizzare JSON: %s"
 
@@ -4741,24 +4761,20 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "Non ho trovato elementi validi nel file caricato!"
 
 #: weblate/memory/models.py:116 weblate/memory/models.py:121
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: %s"
+#, python-format
 msgid "Could not parse JSON file: %s"
-msgstr "Analisi file JSON non riuscita: %s"
+msgstr "Impossibile analizzare il file JSON: %s"
 
 #: weblate/memory/models.py:150
-#, fuzzy
-#| msgid "Failed to parse TMX file!"
 msgid "Could not parse TMX file!"
-msgstr "Analisi file TMX non riuscita!"
+msgstr "Impossibile analizzare il file TMX!"
 
 #: weblate/memory/models.py:158
 msgid "Source language not defined in the TMX file!"
 msgstr "Lingua sorgente non definita nel file TMX!"
 
 #: weblate/memory/models.py:163 weblate/memory/models.py:180
-#, fuzzy, python-format
-#| msgid "Failed to find language %s!"
+#, python-format
 msgid "Could not find language %s!"
 msgstr "Impossibile trovare la lingua %s!"
 
@@ -4885,10 +4901,8 @@ msgid "Image"
 msgstr "Immagine"
 
 #: weblate/screenshots/models.py:58
-#, fuzzy
-#| msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
 msgid "Upload image up to 2000x2000 pixels."
-msgstr "Carica immagini JPEG o PNG fino a 2000x2000 pixel."
+msgstr "Carica immagini fino a 2000x2000 pixel."
 
 #: weblate/screenshots/views.py:241
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
@@ -4896,12 +4910,9 @@ msgstr ""
 "La schermata è stata caricata, ora puoi assegnarla alle stringhe di origine."
 
 #: weblate/screenshots/views.py:247
-#, fuzzy
-#| msgid "Failed to upload screenshot, please fix errors below."
 msgid "Could not upload screenshot, please fix errors below."
 msgstr ""
-"Il caricamento della schermata non è riuscito, correggi gli errori sotto "
-"indicati."
+"Impossibile caricare la schermata, correggi gli errori indicati di seguito."
 
 #: weblate/screenshots/views.py:302
 #, python-format
@@ -5573,10 +5584,8 @@ msgstr "Team"
 
 #: weblate/templates/accounts/profile.html:253
 #: weblate/templates/trans/project-access.html:95
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitation"
-msgstr "Reinvia l'invito"
+msgstr "Invito in attesa"
 
 #: weblate/templates/accounts/profile.html:279
 msgid "Description"
@@ -5629,10 +5638,8 @@ msgstr "La tua chiave personale API:"
 #: weblate/templates/accounts/profile.html:327 weblate/templates/data.html:83
 #: weblate/templates/data.html:127
 #: weblate/templates/trans/project-access.html:327
-#, fuzzy
-#| msgid "Changed visibility"
 msgid "Toogle API key visibility"
-msgstr "Visibilità modificata"
+msgstr "Abilita/disabilita visibilità chiave API Google"
 
 #: weblate/templates/accounts/profile.html:328
 #: weblate/templates/trans/project-access.html:328
@@ -5699,11 +5706,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "Ti stiamo reindirizzando al provider di autenticazione."
 
 #: weblate/templates/accounts/register.html:20
-#, fuzzy
-#| msgid ""
-#| "Please enter the activation token obtained when making the subscription."
 msgid "Please complete the registration to accept the invitation."
-msgstr "Inserisci il token di attivazione ottenuto al momento dell'iscrizione."
+msgstr "Per accettare l'invito completare la registrazione."
 
 #: weblate/templates/accounts/register.html:38
 msgid "Register in Weblate"
@@ -6336,13 +6340,11 @@ msgstr "Nessun componente specificato"
 
 #: weblate/templates/auth/teams-count.html:5
 msgid "Automatic assignment of users is configured for this team"
-msgstr ""
+msgstr "Per questo team è configurata l'assegnazione automatica degli utenti"
 
 #: weblate/templates/auth/teams-count.html:5
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic assignment"
-msgstr "Assegnazioni automatiche"
+msgstr "Assegnazione automatica"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7801,10 +7803,11 @@ msgstr "Aggiungi lingua"
 #: weblate/templates/lang/plural_form.html:15
 msgid "Changing plural rules might not have a desired effect."
 msgstr ""
+"La modifica delle regole dei plurali potrebbe non avere l'effetto desiderato."
 
 #: weblate/templates/lang/plural_form.html:16
 msgid "Please see a documentation for more info."
-msgstr ""
+msgstr "Per maggiori informazioni consulta la documentazione."
 
 #: weblate/templates/language-project.html:69
 #: weblate/templates/language.html:54
@@ -8147,10 +8150,8 @@ msgid "Digest: %(notification_name)s"
 msgstr "Riassunto: %(notification_name)s"
 
 #: weblate/templates/mail/invite.html:12
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "View invitation"
-msgstr "Reinvia l'invito"
+msgstr "Visualizza invito"
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -8398,10 +8399,8 @@ msgid "Confirm account removal"
 msgstr "Conferma rimozione account"
 
 #: weblate/templates/mail/shared-registration.html:20
-#, fuzzy
-#| msgid "Confirm registration"
 msgid "Confirm invitation"
-msgstr "Conferma la registrazione"
+msgstr "Conferma invito"
 
 #: weblate/templates/mail/shared-registration.html:22
 msgid "Confirm registration"
@@ -8821,10 +8820,8 @@ msgid "Add new user"
 msgstr "Aggiungi nuovo utente"
 
 #: weblate/templates/manage/users.html:41
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitations"
-msgstr "Reinvia l'invito"
+msgstr "Inviti in attesa"
 
 #: weblate/templates/manage/users.html:77
 #: weblate/templates/trans/project-access.html:103
@@ -8833,17 +8830,13 @@ msgstr "Reinvia l'invito"
 
 #: weblate/templates/manage/users.html:81
 #: weblate/templates/trans/project-access.html:107
-#, fuzzy
-#| msgid "Permalink copied to clipboard."
 msgid "Invitation link copied to clipboard."
-msgstr "Collegamento permanente copiato negli Appunti."
+msgstr "Collegamento invito copiato negli appunti."
 
 #: weblate/templates/manage/users.html:85
 #: weblate/templates/trans/project-access.html:111
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Remove invitation"
-msgstr "Reinvia l'invito"
+msgstr "Rimuovi invito"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -9618,6 +9611,8 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
+"Sei stato invitato in %(site_title)s da %(invitation_author)s per "
+"collaborare a %(project_name)s e unirti al team di %(team_name)s."
 
 #: weblate/templates/snippets/invite-info.html:6
 #, python-format
@@ -9625,6 +9620,8 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
 msgstr ""
+"Sei stato invitato in %(site_title)s da %(invitation_author)s per unirti al "
+"team di %(team_name)s."
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -9685,12 +9682,9 @@ msgid "The project has had active development for at least three months."
 msgstr "Il progetto ha avuto uno sviluppo attivo da almeno tre mesi."
 
 #: weblate/templates/snippets/libre-checklist.html:18
-#, fuzzy
-#| msgid "Unmet guidelines from the community localization checklist:"
 msgid "Review guidelines from the community localization checklist."
 msgstr ""
-"Linee guida non soddisfatte dall'elenco di controllo della localizzazione "
-"della comunità:"
+"Esamina le linee guida dall'elenco di controllo comunità localizzazione."
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -9758,10 +9752,8 @@ msgid "Create translation"
 msgstr "Crea traduzione"
 
 #: weblate/templates/snippets/list-objects.html:146
-#, fuzzy
-#| msgid "Could not add new translation file."
 msgid "Cannot add translation right now"
-msgstr "Impossibile aggiungere un nuovo file di traduzione."
+msgstr "Impossibile aggiungere la traduzione in questo momento"
 
 #: weblate/templates/snippets/list-objects.html:150
 #: weblate/templates/translate.html:30 weblate/templates/translation.html:146
@@ -10499,11 +10491,8 @@ msgstr ""
 "stringa o componente."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
-#, fuzzy
-#| msgid ""
-#| "There is at least one screenshot which is not assigned to any strings."
 msgid "At least one screenshot has no string assigned to it."
-msgstr "C'è almeno uno screenshot che non è assegnato ad alcuna stringa."
+msgstr "Almeno una schermata non ha una stringa assegnata."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
 msgid "Manage screenshots"
@@ -10819,10 +10808,9 @@ msgid "Edit team membership for %(username)s"
 msgstr "Modifica appartenenza al team per %(username)s"
 
 #: weblate/templates/trans/project-access.html:92
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation for %(email)s"
-msgstr "Invito a %(site_title)s"
+msgstr "Invito per %(email)s"
 
 #: weblate/templates/trans/project-access.html:121
 msgid ""
@@ -11379,28 +11367,21 @@ msgstr ""
 "scadenza o eliminazione."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:9
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Invitations"
-msgstr "Reinvia l'invito"
+msgstr "Inviti"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:10
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Invitation"
-msgstr "Reinvia l'invito"
+msgstr "Invito"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:19
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation to %(project_name)s"
-msgstr "Invito a %(site_title)s"
+msgstr "Invito a %(project_name)s"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:25
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Accept invitation"
-msgstr "Reinvia l'invito"
+msgstr "Accetta invito"
 
 #: weblate/templates/widgets.html:6
 msgid "Widgets"
@@ -12063,8 +12044,7 @@ msgid "ZIP file containing project backup"
 msgstr "File ZIP contenente il backup del progetto"
 
 #: weblate/trans/forms.py:2188
-#, fuzzy, python-format
-#| msgid "Failed to load project backup: %s"
+#, python-format
 msgid "Could not load project backup: %s"
 msgstr "Impossibile caricare il backup del progetto: %s"
 
@@ -12925,16 +12905,12 @@ msgstr ""
 "screenshots/*.png."
 
 #: weblate/trans/models/component.py:406
-#, fuzzy
-#| msgid ""
-#| "Filename of translation base file, containing all strings and their "
-#| "source; it is recommended for monolingual translation formats."
 msgid ""
 "Filename of translation base file, containing all strings and their source "
 "for monolingual translations."
 msgstr ""
-"Nome del file della traduzione base, che contiene tutte le stringhe e la "
-"loro sorgente; è consigliato per i formati di traduzione monolingue."
+"Nome file del file di base della traduzione, contenente tutte le stringhe e "
+"la loro sorgente per le traduzioni monolingue."
 
 #: weblate/trans/models/component.py:413
 msgid "Edit base file"
@@ -13214,8 +13190,7 @@ msgid "File does not exist."
 msgstr "Il file non esiste."
 
 #: weblate/trans/models/component.py:1682
-#, fuzzy, python-format
-#| msgid "Failed to push %(component)s: %(error_text)s"
+#, python-format
 msgid "Could not push %(component)s: %(error_text)s"
 msgstr "Impossibile inviare %(component)s: %(error_text)s"
 
@@ -13306,10 +13281,9 @@ msgstr ""
 "fornito il file di base per farlo."
 
 #: weblate/trans/models/component.py:2659
-#, fuzzy, python-format
-#| msgid "Failed to parse base file for new translations: %s"
+#, python-format
 msgid "Could not parse base file for new translations: %s"
-msgstr "Analisi fallita file base per le nuove traduzioni: %s"
+msgstr "Impossibile analizzare il file di base per le nuove traduzioni: %s"
 
 #: weblate/trans/models/component.py:2663
 msgid "Unrecognized base file for new translations."
@@ -13353,16 +13327,12 @@ msgid "You can not use a monolingual translation without a base file."
 msgstr "Non è possibile usare la traduzione monolingue senza un file base."
 
 #: weblate/trans/models/component.py:2749
-#, fuzzy
-#| msgid "No remote repository"
 msgid "Choose No remote repository for local: URL."
-msgstr "Nessun repository remoto"
+msgstr "Scegli Nessun repository remoto per locale: URL."
 
 #: weblate/trans/models/component.py:2754
-#, fuzzy
-#| msgid "Push URL is not used when repository is linked!"
 msgid "Push URL is not used without a remote repository."
-msgstr "L'URL push non è usato quando il repository è collegato!"
+msgstr "L'URL push non è usato senza un repository remoto."
 
 #: weblate/trans/models/component.py:2773
 #, python-format
@@ -13589,10 +13559,8 @@ msgstr ""
 "en_US:en"
 
 #: weblate/trans/models/suggestion.py:121
-#, fuzzy
-#| msgid "Failed to accept suggestion!"
 msgid "Could not accept suggestion!"
-msgstr "Impossibile accettare suggerimenti!"
+msgstr "Impossibile accettare il suggerimento!"
 
 #: weblate/trans/models/translation.py:207
 #, python-format
@@ -14410,11 +14378,9 @@ msgid "Component is now open for translation updates."
 msgstr "Il componente è ora aperto per gli aggiornamenti della traduzione."
 
 #: weblate/trans/views/lock.py:54
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "All components are now open for translation updates."
 msgstr ""
-"Tutti i componenti sono ora bloccati per gli aggiornamenti della traduzione!"
+"Tutti i componenti sono ora aperti per gli aggiornamenti della traduzione."
 
 #: weblate/trans/views/search.py:107
 msgid "Search and replace completed, no strings were updated."
