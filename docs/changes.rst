@@ -26,6 +26,7 @@ Not yet released.
 * Added indication of automatic assignment to team listing.
 * Users now have to confirm invitations to become team members.
 * :ref:`check-formats` can now check all plural forms with the ``strict-format`` flag.
+* :doc:`/user/checks` browsing experience.
 
 **Bug fixes**
 

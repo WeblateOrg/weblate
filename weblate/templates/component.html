@@ -68,7 +68,7 @@
       <li><a href="#bulk-edit" data-toggle="tab">{% trans "Bulk edit" %}</a></li>
       {% endif %}
       <li><a href="{% url 'data_project' project=object.project.slug %}">{% trans "Data exports" %}</a></li>
-      <li><a href="{% url 'checks' %}?project={{ object.project.slug}}&amp;component={{ object.slug }}">{% trans "Failing checks" %}</a></li>
+      <li><a href="{% url 'checks' path=object.get_url_path %}">{% trans "Failing checks" %}</a></li>
       <li><a href="{% url 'matrix' path=object.get_url_path %}">{% trans "Matrix view" %}</a></li>
       {% if user_can_add_translation %}
       <li><a href="{% url "new-language" path=object.get_url_path %}">{% trans "Start new translation" %}</a></li>

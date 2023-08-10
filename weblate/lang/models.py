@@ -604,6 +604,9 @@ class Language(models.Model, CacheKeyMixin):
     def get_absolute_url(self):
         return reverse("show_language", kwargs={"lang": self.code})
 
+    def get_url_path(self):
+        return ("-", "-", self.code)
+
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
         from weblate.utils.stats import LanguageStats

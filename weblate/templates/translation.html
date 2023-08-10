@@ -74,7 +74,7 @@
       <li><a href="#auto" data-toggle="tab">{% trans "Automatic translation" %}</a></li>
       {% endif %}
       <li><a href="{% url 'data_project' project=object.component.project.slug  %}">{% trans "Data exports" %}</a></li>
-      <li><a href="{% url 'checks' %}?project={{ object.component.project.slug}}&amp;component={{ object.component.slug }}&amp;language={{ object.language.code }}">{% trans "Failing checks" %}</a></li>
+      <li><a href="{% url 'checks' path=object.get_url_path %}">{% trans "Failing checks" %}</a></li>
       {% if user_can_add_unit %}
       <li><a href="#new" data-toggle="tab">{{ object.component.get_add_label }}</a></li>
       {% endif %}

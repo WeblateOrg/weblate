@@ -26,6 +26,7 @@ from weblate.accounts.models import Profile
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
+from weblate.lang.models import Language
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import (
     Announcement,
@@ -1144,3 +1145,40 @@ def urlize_ugc(value, autoescape=True):
     return mark_safe(  # noqa: S308
         html.replace('rel="nofollow"', 'rel="ugc" target="_blank"')
     )
+
+
+def get_breadcrumbs(path_object):
+    if isinstance(path_object, Translation):
+        yield from get_breadcrumbs(path_object.component)
+        yield path_object.get_absolute_url(), path_object.language
+    elif isinstance(path_object, Component):
+        yield from get_breadcrumbs(path_object.project)
+        yield path_object.get_absolute_url(), path_object.name
+    elif isinstance(path_object, Project):
+        yield path_object.get_absolute_url(), path_object.name
+    elif isinstance(path_object, Language):
+        yield reverse("languages"), gettext("Languages")
+        yield path_object.get_absolute_url(), path_object
+    elif isinstance(path_object, ProjectLanguage):
+        yield f"{path_object.project.get_absolute_url()}#languages", path_object.project.name
+        yield reverse(
+            "project-language",
+            kwargs={
+                "project": path_object.project.slug,
+                "lang": path_object.language.code,
+            },
+        ), path_object.language
+    else:
+        raise TypeError(f"No breadcrumbs for {path_object}")
+
+
+@register.simple_tag
+def path_object_breadcrumbs(path_object):
+    return format_html_join(
+        "\n", '<li><a href="{}">{}</a></li>', get_breadcrumbs(path_object)
+    )
+
+
+@register.simple_tag
+def get_projectlanguage(project, language):
+    return ProjectLanguage(project=project, language=language)

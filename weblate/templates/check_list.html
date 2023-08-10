@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load humanize %}
+
+{% block breadcrumbs %}
+  {% if path_object %}
+    {% path_object_breadcrumbs path_object %}
+    <li><a href="{% url 'checks' path=path_object.get_url_path name="-" %}">{% trans "Checks" %}</a></li>
+    {% if check %}
+      <li><a href="{% url 'checks' path=path_object.get_url_path name=check.check_id %}">{{ check.name }}</a></li>
+    {% endif %}
+  {% elif check and not path_object %}
+    <li><a href="{% url 'checks' %}">{% trans "Checks" %}</a></li>
+    <li><a href="{% url 'checks' name=check.check_id %}">{{ check.name }}</a></li>
+  {% else %}
+    <li><a href="{% url 'checks' %}">{% trans "Checks" %}</a></li>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<table class="sort table progress-table table-listing">
+    <thead>
+        <tr>
+            <th>{{ column_title }}</th>
+            <th class="number">{% trans "Total" %}</th>
+            <th class="number">{% trans "Dismissed" %}</th>
+            <th class="number">{% trans "Active" %}</th>
+            <th class="number">{% trans "Translated" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+      {% for row in object_list %}
+        <tr data-href="{{ row.row_url }}" class="clickable-row" id="row-{{ row.pk }}">
+          <th>
+            <a href="{{ row.row_url }}">{{ row.row_title }}</a>
+          </th>
+          <td class="number" data-value="{{ row.check_count }}">
+            {% if translate_links %}
+              <a href="{{ row.get_translate_url }}?q={{ row.check_obj.url_id }} OR dismissed_{{ row.check_obj.url_id }}">
+                {{ row.check_count |intcomma}}
+              </a>
+            {% else %}
+              {{ row.check_count |intcomma}}
+            {% endif %}
+          </td>
+          <td class="number" data-value="{{ row.dismissed_check_count }}">
+            {% if translate_links %}
+              <a href="{{ row.get_translate_url }}?q=dismissed_{{ row.check_obj.url_id }}">
+                {{ row.dismissed_check_count |intcomma}}
+              </a>
+            {% else %}
+              {{ row.dismissed_check_count |intcomma}}
+            {% endif %}
+          </td>
+          <td class="number" data-value="{{ row.active_check_count }}">
+            {% if translate_links %}
+              <a href="{{ row.get_translate_url }}?q={{ row.check_obj.url_id }}">
+                {{ row.active_check_count |intcomma}}
+              </a>
+            {% else %}
+              {{ row.active_check_count |intcomma}}
+            {% endif %}
+          </td>
+          <td class="number" data-value="{{ row.translated_check_count }}">
+            {% if translate_links %}
+              <a href="{{ row.get_translate_url }}?q={{ row.check_obj.url_id }} AND state:&gt;=translated">
+                {{ row.translated_check_count |intcomma}}
+              </a>
+            {% else %}
+              {{ row.translated_check_count |intcomma}}
+            {% endif %}
+          </td>
+        </tr>
+        <tr data-parent="row-{{ row.pk }}">
+          <td colspan="5" class="progress-row autocolspan">
+            <div class="progress">
+              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{ row.check_progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ row.check_progress }}%;"></div>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+</table>
+
+{% if check %}
+  <p>
+    <a class="btn btn-primary" href="{% documentation check %}">{% trans "View check documentation" %}</a>
+  </p>
+{% endif %}
+{% endblock %}

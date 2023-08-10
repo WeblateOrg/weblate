@@ -44,7 +44,7 @@
       {% if bulk_state_form %}
           <li><a href="#bulk-edit" data-toggle="tab">{% trans "Bulk edit" %}</a></li>
       {% endif %}
-      <li><a href="{% url 'checks' %}?lang={{ language.code }}&amp;project={{ project.slug }}">{% trans "Failing checks" %}</a></li>
+      <li><a href="{% url 'checks' path=object.get_url_path %}">{% trans "Failing checks" %}</a></li>
       {% if delete_form %}
       <li role="separator" class="divider"></li>
       <li><a href="#delete" data-toggle="tab">{% trans "Removal" %}</a></li>

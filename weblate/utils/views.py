@@ -150,6 +150,11 @@ def get_sort_name(request, obj=None):
 
 def _parse_path(request, path: tuple[str], *, skip_acl: bool = False):
     path = list(path)
+
+    # Language URL
+    if path[:2] == ["-", "-"] and len(path) == 3:
+        return get_object_or_404(Language, code=path[2])
+
     # First level is always project
     project = get_object_or_404(Project, slug=path.pop(0))
     if not skip_acl:
