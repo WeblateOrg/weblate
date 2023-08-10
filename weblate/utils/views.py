@@ -105,7 +105,9 @@ class PathViewMixin:
     def get_path_object(self):
         if self.supported_path_types is None:
             raise ValueError("Specifying supported path types is required")
-        return parse_path(self.request, self.kwargs["path"], self.supported_path_types)
+        return parse_path(
+            self.request, self.kwargs.get("path", ""), self.supported_path_types
+        )
 
     def setup(self, request, **kwargs):
         super().setup(request, **kwargs)
@@ -191,6 +193,7 @@ def parse_path(
 ):
     if None in types and not path:
         return None
+    types = tuple(x for x in types if x is not None)
     result = _parse_path(request, path, skip_acl=skip_acl)
     if not isinstance(result, types):
         raise Http404(f"Not supported object type: {result}")
