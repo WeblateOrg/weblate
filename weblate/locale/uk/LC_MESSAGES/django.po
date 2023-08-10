@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-08-10 15:47+0000\n"
+"PO-Revision-Date: 2023-08-10 17:46+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -3317,6 +3317,8 @@ msgid ""
 "Fluent value has an unexpected extra {reference} Fluent reference for the "
 "following variants: {variant_list}."
 msgstr ""
+"У значенні Fluent міститься неочікуване зайве посилання Fluent {reference} "
+"для таких варіантів: {variant_list}."
 
 #: weblate/checks/fluent/references.py:524
 #, python-brace-format
@@ -3325,6 +3327,9 @@ msgid ""
 "have at least one matching variant in the translation with the same set of "
 "Fluent references: {variant_list}."
 msgstr ""
+"Вказані нижче варіанти у початковому атрибуті Fluent{attribute} не мають "
+"принаймні одного відповідного варіанта у перекладі із тим самим набором "
+"посилань Fluent: {variant_list}."
 
 #: weblate/checks/fluent/references.py:534
 #, python-brace-format
@@ -3333,6 +3338,9 @@ msgid ""
 "matching variant in the translation with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"Вказані нижче варіанти у початковому значенні Fluent не мають принаймні "
+"одного відповідного варіанта у перекладі із тим самим набором посилань "
+"Fluent: {variant_list}."
 
 #: weblate/checks/fluent/references.py:550
 #, python-brace-format
@@ -3340,6 +3348,8 @@ msgid ""
 "The translated Fluent {attribute} attribute does not have a matching variant "
 "in the original with the same set of Fluent references."
 msgstr ""
+"У перекладеному атрибуті Fluent {attribute} немає відповідного варіанта у "
+"початковому рядку із тим самим набором посилань Fluent."
 
 #: weblate/checks/fluent/references.py:558
 #, python-brace-format
@@ -3348,12 +3358,17 @@ msgid ""
 "have a matching variant in the original with the same set of Fluent "
 "references: {variant_list}."
 msgstr ""
+"Вказані нижче варіанти у перекладеному атрибуті Fluent {attribute} не мають "
+"відповідних варіантів у початковому рядку із тим самим набором посилань "
+"Fluent: {variant_list}."
 
 #: weblate/checks/fluent/references.py:569
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of Fluent references."
 msgstr ""
+"У перекладеному значенні Fluent немає відповідного варіанта у початковому "
+"рядку із тим самим набором посилань Fluent."
 
 #: weblate/checks/fluent/references.py:576
 #, python-brace-format
@@ -3362,49 +3377,43 @@ msgid ""
 "variant in the original with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"Вказані нижче варіанти у перекладеному значенні Fluent не мають відповідних "
+"варіантів у початковому рядку із тим самим набором посилань Fluent: "
+"{variant_list}."
 
 #: weblate/checks/fluent/references.py:670
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "Налаштування"
+msgstr "Посилання Fluent"
 
 #: weblate/checks/fluent/references.py:671
 msgid "Fluent references should match"
-msgstr ""
+msgstr "Посилання Fluent мають бути відповідними"
 
 #: weblate/checks/fluent/syntax.py:39
 #, python-brace-format
 msgid "Fluent syntax error: {error}."
-msgstr ""
+msgstr "Синтаксична помилка Fluent: {error}."
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "Заповнити джерельним рядком"
+msgstr "Синтаксис початкового коду Fluent"
 
 #: weblate/checks/fluent/syntax.py:48
 msgid "Fluent syntax error in source"
-msgstr ""
+msgstr "Синтаксична помилка Fluent у початковому коді"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation syntax"
-msgstr "Поточний переклад"
+msgstr "Синтаксис перекладу Fluent"
 
 #: weblate/checks/fluent/syntax.py:65
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in translation"
-msgstr "Коментар до перекладу творця"
+msgstr "Синтаксична помилка Fluent у перекладі"
 
 #: weblate/checks/format.py:400
-#, fuzzy, python-format
-#| msgid "Following format strings are wrongly ordered: %s"
+#, python-format
 msgid "The following format strings are in the wrong order: %s"
-msgstr "Помилковий порядок рядків форматування: %s"
+msgstr "Вказані нижче рядки форматування вказано у помилковому порядку: %s"
 
 #: weblate/checks/format.py:482
 msgid "Python format"
@@ -3876,8 +3885,6 @@ msgid "Font group deleted."
 msgstr "Групу шрифтів видалено."
 
 #: weblate/formats/base.py:336
-#, fuzzy
-#| msgid "Failed to load strings from the file, try choosing other format."
 msgid "Could not load strings from the file, try choosing other format."
 msgstr "Не вдалося завантажити рядки з файлу, спробуйте вибрати інший формат."
 
@@ -3886,10 +3893,8 @@ msgid "HTML file"
 msgstr "Файл HTML"
 
 #: weblate/formats/convert.py:294
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown file"
-msgstr "Текст Markdown"
+msgstr "Файл Markdown"
 
 #: weblate/formats/convert.py:327
 msgid "OpenDocument file"
@@ -3980,22 +3985,16 @@ msgid "Qt Linguist translation file"
 msgstr "файл перекладу Qt Linguist"
 
 #: weblate/formats/ttkit.py:1205
-#, fuzzy
-#| msgid "XLIFF translation file"
 msgid "XLIFF 1.2 translation file"
-msgstr "Файл перекладу XLIFF"
+msgstr "Файл перекладу XLIFF 1.2"
 
 #: weblate/formats/ttkit.py:1235
-#, fuzzy
-#| msgid "XLIFF with placeables support"
 msgid "XLIFF 1.2 with placeables support"
-msgstr "XLIFF із підтримкою замінників"
+msgstr "XLIFF 1.2 із підтримкою замінників"
 
 #: weblate/formats/ttkit.py:1242
-#, fuzzy
-#| msgid "XLIFF 1.1 with gettext extensions"
 msgid "XLIFF 1.2 with gettext extensions"
-msgstr "XLIFF 1.1 із розширеннями gettext"
+msgstr "XLIFF 1.2 із розширеннями gettext"
 
 #: weblate/formats/ttkit.py:1272
 msgid "iOS strings (UTF-16)"
@@ -4042,8 +4041,7 @@ msgid ".NET resource file"
 msgstr "Файл ресурсів .NET"
 
 #: weblate/formats/ttkit.py:1405
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Could not parse the key: %s"
 msgstr "Не вдалося обробити ключ: %s"
 
@@ -4425,7 +4423,7 @@ msgstr "формула множини gettext"
 
 #: weblate/lang/models.py:769
 msgid "CLDR plural with zero"
-msgstr ""
+msgstr "Форма множини CLDR з нулем"
 
 #: weblate/lang/models.py:770
 msgid "CLDR v38+ plural"
@@ -4600,14 +4598,12 @@ msgid "Overview"
 msgstr "Огляд"
 
 #: weblate/machinery/base.py:96
-#, fuzzy, python-format
-#| msgid "Failed to fetch supported languages: %s"
+#, python-format
 msgid "Could not fetch supported languages: %s"
 msgstr "Не вдалося отримати список підтримуваних мов: %s"
 
 #: weblate/machinery/base.py:101
-#, fuzzy, python-format
-#| msgid "Failed to fetch translation: %s"
+#, python-format
 msgid "Could not fetch translation: %s"
 msgstr "Не вдалося отримати переклад: %s"
 
@@ -4712,8 +4708,7 @@ msgid "Google Translate location"
 msgstr "Місце Google Перекладач"
 
 #: weblate/machinery/forms.py:192
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON: %s"
+#, python-format
 msgid "Could not parse JSON: %s"
 msgstr "Не вдалося обробити JSON: %s"
 
@@ -4757,14 +4752,11 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "Немає дійсних записів у вивантаженому файлі!"
 
 #: weblate/memory/models.py:116 weblate/memory/models.py:121
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: %s"
+#, python-format
 msgid "Could not parse JSON file: %s"
 msgstr "Не вдалося проаналізувати файл JSON: %s"
 
 #: weblate/memory/models.py:150
-#, fuzzy
-#| msgid "Failed to parse TMX file!"
 msgid "Could not parse TMX file!"
 msgstr "Не вдалося розібрати файл TMX!"
 
@@ -4773,8 +4765,7 @@ msgid "Source language not defined in the TMX file!"
 msgstr "У файлі TMX не визначено початкової мови!"
 
 #: weblate/memory/models.py:163 weblate/memory/models.py:180
-#, fuzzy, python-format
-#| msgid "Failed to find language %s!"
+#, python-format
 msgid "Could not find language %s!"
 msgstr "Не вдалося знайти мову %s!"
 
@@ -4897,12 +4888,8 @@ msgid "Image"
 msgstr "Малюнок"
 
 #: weblate/screenshots/models.py:58
-#, fuzzy
-#| msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
 msgid "Upload image up to 2000x2000 pixels."
-msgstr ""
-"Вивантажте зображення JPEG або PNG роздільною здатністю до 2000x2000 "
-"пікселів."
+msgstr "Вивантажте зображення з роздільною здатністю до 2000x2000 пікселів."
 
 #: weblate/screenshots/views.py:241
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
@@ -4911,8 +4898,6 @@ msgstr ""
 "рядками."
 
 #: weblate/screenshots/views.py:247
-#, fuzzy
-#| msgid "Failed to upload screenshot, please fix errors below."
 msgid "Could not upload screenshot, please fix errors below."
 msgstr ""
 "Не вдалося вивантажити знімок екрана. Будь ласка, виправте вказані нижче "
@@ -5594,10 +5579,8 @@ msgstr "Команда"
 
 #: weblate/templates/accounts/profile.html:253
 #: weblate/templates/trans/project-access.html:95
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitation"
-msgstr "Повторне надсилання запрошення"
+msgstr "Запрошення у черзі обробки"
 
 #: weblate/templates/accounts/profile.html:279
 msgid "Description"
@@ -5649,10 +5632,8 @@ msgstr "Ваш особистий ключ API:"
 #: weblate/templates/accounts/profile.html:327 weblate/templates/data.html:83
 #: weblate/templates/data.html:127
 #: weblate/templates/trans/project-access.html:327
-#, fuzzy
-#| msgid "Changed visibility"
 msgid "Toogle API key visibility"
-msgstr "Змінена видимість"
+msgstr "Перемкнути видимість ключа API"
 
 #: weblate/templates/accounts/profile.html:328
 #: weblate/templates/trans/project-access.html:328
@@ -5719,12 +5700,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "Перенаправляємо вас на постачальника розпізнавання."
 
 #: weblate/templates/accounts/register.html:20
-#, fuzzy
-#| msgid ""
-#| "Please enter the activation token obtained when making the subscription."
 msgid "Please complete the registration to accept the invitation."
-msgstr ""
-"Будь ласка, введіть активаційний токен, отриманий при оформленні підписки."
+msgstr "Будь ласка, завершіть реєстрацію, щоб прийняти запрошення."
 
 #: weblate/templates/accounts/register.html:38
 msgid "Register in Weblate"
@@ -6369,13 +6346,11 @@ msgstr "Не вказано жодного складника"
 
 #: weblate/templates/auth/teams-count.html:5
 msgid "Automatic assignment of users is configured for this team"
-msgstr ""
+msgstr "Для цієї команди налаштовано автоматичне призначення користувачів"
 
 #: weblate/templates/auth/teams-count.html:5
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic assignment"
-msgstr "Автоматичні призначення"
+msgstr "Автоматичне призначення"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7848,11 +7823,11 @@ msgstr "Додати мову"
 
 #: weblate/templates/lang/plural_form.html:15
 msgid "Changing plural rules might not have a desired effect."
-msgstr ""
+msgstr "Зміна правил утворення форм множини може не мати бажаного ефекту."
 
 #: weblate/templates/lang/plural_form.html:16
 msgid "Please see a documentation for more info."
-msgstr ""
+msgstr "Щоб дізнатися більше, будь ласка, ознайомтеся із документацією."
 
 #: weblate/templates/language-project.html:69
 #: weblate/templates/language.html:54
@@ -8192,10 +8167,8 @@ msgid "Digest: %(notification_name)s"
 msgstr "Зведення: %(notification_name)s"
 
 #: weblate/templates/mail/invite.html:12
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "View invitation"
-msgstr "Повторне надсилання запрошення"
+msgstr "Переглянути запрошення"
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -8883,17 +8856,13 @@ msgstr "Повторне надсилання запрошення"
 
 #: weblate/templates/manage/users.html:81
 #: weblate/templates/trans/project-access.html:107
-#, fuzzy
-#| msgid "Permalink copied to clipboard."
 msgid "Invitation link copied to clipboard."
-msgstr "Стале посилання скопійовано до буфера."
+msgstr "Посилання на запрошення скопійовано до буфера обміну даними."
 
 #: weblate/templates/manage/users.html:85
 #: weblate/templates/trans/project-access.html:111
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Remove invitation"
-msgstr "Повторне надсилання запрошення"
+msgstr "Вилучити запрошення"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -9674,6 +9643,8 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
+"%(invitation_author)s запрошує вас на %(site_title)s для співпраці у "
+"%(project_name)s і долучення до команди %(team_name)s."
 
 #: weblate/templates/snippets/invite-info.html:6
 #, python-format
@@ -9681,6 +9652,8 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
 msgstr ""
+"%(invitation_author)s запрошує вас на %(site_title)s долучитися до команди "
+"%(team_name)s."
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -9740,10 +9713,8 @@ msgid "The project has had active development for at least three months."
 msgstr "Проєкт перебуває у активній розробці принаймні три місяці."
 
 #: weblate/templates/snippets/libre-checklist.html:18
-#, fuzzy
-#| msgid "Unmet guidelines from the community localization checklist:"
 msgid "Review guidelines from the community localization checklist."
-msgstr "Не виконані настанови зі списку перевірок локалізації спільнотою:"
+msgstr "Переглянути настанови зі списку локалізації спільнотою."
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -9813,10 +9784,8 @@ msgid "Create translation"
 msgstr "Створити переклад"
 
 #: weblate/templates/snippets/list-objects.html:146
-#, fuzzy
-#| msgid "Could not add new translation file."
 msgid "Cannot add translation right now"
-msgstr "Не вдалося розібрати файли перекладу."
+msgstr "Не вдалося додати переклад зараз"
 
 #: weblate/templates/snippets/list-objects.html:150
 #: weblate/templates/translate.html:30 weblate/templates/translation.html:146
@@ -10553,12 +10522,8 @@ msgstr ""
 "рядка або прапорців складника."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
-#, fuzzy
-#| msgid ""
-#| "There is at least one screenshot which is not assigned to any strings."
 msgid "At least one screenshot has no string assigned to it."
-msgstr ""
-"Існує принаймні один знімок екрана, який не повʼязано з жодним із рядків."
+msgstr "Принаймні з одним знімком вікна не пов'язано жодного рядка."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
 msgid "Manage screenshots"
@@ -10868,10 +10833,9 @@ msgid "Edit team membership for %(username)s"
 msgstr "Редагувати членство у командах %(username)s"
 
 #: weblate/templates/trans/project-access.html:92
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation for %(email)s"
-msgstr "Запрошення у %(site_title)s"
+msgstr "Запрошення для %(email)s"
 
 #: weblate/templates/trans/project-access.html:121
 msgid ""
@@ -11439,28 +11403,21 @@ msgstr ""
 "до вилучення."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:9
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Invitations"
-msgstr "Повторне надсилання запрошення"
+msgstr "Запрошення"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:10
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Invitation"
-msgstr "Повторне надсилання запрошення"
+msgstr "Запрошення"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:19
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation to %(project_name)s"
-msgstr "Запрошення у %(site_title)s"
+msgstr "Запрошення до %(project_name)s"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:25
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Accept invitation"
-msgstr "Повторне надсилання запрошення"
+msgstr "Прийняти запрошення"
 
 #: weblate/templates/widgets.html:6
 msgid "Widgets"
@@ -12117,8 +12074,7 @@ msgid "ZIP file containing project backup"
 msgstr "ZIP-файл, що містить резервну копію проєкту"
 
 #: weblate/trans/forms.py:2188
-#, fuzzy, python-format
-#| msgid "Failed to load project backup: %s"
+#, python-format
 msgid "Could not load project backup: %s"
 msgstr "Не вдалося завантажити резервну копію проєкту: %s"
 
@@ -12982,16 +12938,12 @@ msgstr ""
 "screenshots/*.png."
 
 #: weblate/trans/models/component.py:406
-#, fuzzy
-#| msgid ""
-#| "Filename of translation base file, containing all strings and their "
-#| "source; it is recommended for monolingual translation formats."
 msgid ""
 "Filename of translation base file, containing all strings and their source "
 "for monolingual translations."
 msgstr ""
 "Назва базового файлу перекладу, який містить весь переклад та відповідні "
-"початкові рядки. Радимо користуватися для одномовних форматів."
+"початкові рядки для одномовних перекладів."
 
 #: weblate/trans/models/component.py:413
 msgid "Edit base file"
@@ -13260,8 +13212,7 @@ msgid "File does not exist."
 msgstr "Файлу не існує."
 
 #: weblate/trans/models/component.py:1682
-#, fuzzy, python-format
-#| msgid "Failed to push %(component)s: %(error_text)s"
+#, python-format
 msgid "Could not push %(component)s: %(error_text)s"
 msgstr "Не вдалося записати %(component)s: %(error_text)s"
 
@@ -13355,10 +13306,9 @@ msgstr ""
 "основного файлу для цього."
 
 #: weblate/trans/models/component.py:2659
-#, fuzzy, python-format
-#| msgid "Failed to parse base file for new translations: %s"
+#, python-format
 msgid "Could not parse base file for new translations: %s"
-msgstr "Не вдалося визначити основний файл для нових перекладів: %s"
+msgstr "Не вдалося обробити базовий файл для нових перекладів: %s"
 
 #: weblate/trans/models/component.py:2663
 msgid "Unrecognized base file for new translations."
@@ -13401,16 +13351,12 @@ msgid "You can not use a monolingual translation without a base file."
 msgstr "Неможливо використовувати одномовний переклад без основного файлу."
 
 #: weblate/trans/models/component.py:2749
-#, fuzzy
-#| msgid "No remote repository"
 msgid "Choose No remote repository for local: URL."
-msgstr "Немає віддаленого репозиторію"
+msgstr "Виберіть «Немає віддаленого репозиторію» для адреси local:."
 
 #: weblate/trans/models/component.py:2754
-#, fuzzy
-#| msgid "Push changes to the remote repository"
 msgid "Push URL is not used without a remote repository."
-msgstr "Записати зміни до віддаленого репозиторію"
+msgstr "Адресу записування не буде використано без віддаленого сховища."
 
 #: weblate/trans/models/component.py:2773
 #, python-format
@@ -13631,8 +13577,6 @@ msgstr ""
 "Список відокремлених комами привʼязок кодів мов. Приклад: en_GB:en,en_US:en"
 
 #: weblate/trans/models/suggestion.py:121
-#, fuzzy
-#| msgid "Failed to accept suggestion!"
 msgid "Could not accept suggestion!"
 msgstr "Не вдалося прийняти пропозицію!"
 
@@ -13646,16 +13590,14 @@ msgstr ""
 "репозиторій."
 
 #: weblate/trans/models/translation.py:216
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not parse file %(file)s: %(error)s"
-msgstr "Не вдалося прочитати файл %(file)s: %(error)s"
+msgstr "Не вдалося обробити файл %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1029
 #: weblate/trans/models/translation.py:1111
 #: weblate/trans/models/translation.py:1229
-#, fuzzy, python-format
-#| msgid "Failed to commit pending changes: %s"
+#, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "Не вдалося надіслати очікувані зміни: %s"
 
@@ -14131,8 +14073,7 @@ msgstr ""
 "кожен користувач відразу ж голосує за власну пропозицію."
 
 #: weblate/trans/validators.py:42
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Could not parse flags: %s"
 msgstr "Не вдалося обробити прапорці: %s"
 
@@ -14232,20 +14173,14 @@ msgid "Changes by %s"
 msgstr "Зміни користавача %s"
 
 #: weblate/trans/views/changes.py:144
-#, fuzzy
-#| msgid "Failed to find matching project!"
 msgid "Could not find matching project!"
 msgstr "Не вдалося знайти відповідний проєкт!"
 
 #: weblate/trans/views/changes.py:161
-#, fuzzy
-#| msgid "Failed to find matching language!"
 msgid "Could not find matching language!"
 msgstr "Не вдалося знайти відповідну мову!"
 
 #: weblate/trans/views/changes.py:170
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Could not find matching user!"
 msgstr "Не вдалося знайти відповідного користувача!"
 
@@ -14257,8 +14192,6 @@ msgstr ""
 "правильним."
 
 #: weblate/trans/views/create.py:378
-#, fuzzy
-#| msgid "Failed to parse uploaded ZIP file."
 msgid "Could not parse uploaded ZIP file."
 msgstr "Не вдалося розібрати завантажений ZIP-файл."
 
@@ -14352,8 +14285,6 @@ msgstr "Хибний пошуковий рядок!"
 
 #: weblate/trans/views/edit.py:709 weblate/trans/views/search.py:49
 #: weblate/trans/views/search.py:210
-#, fuzzy
-#| msgid "Failed to process form!"
 msgid "Could not process form!"
 msgstr "Не вдалося обробити форму!"
 
@@ -14370,8 +14301,6 @@ msgid "Posted new comment"
 msgstr "Опублікований новий коментар"
 
 #: weblate/trans/views/edit.py:772
-#, fuzzy
-#| msgid "Failed to add comment!"
 msgid "Could not add comment!"
 msgstr "Не вдалося додати коментар!"
 
@@ -14388,8 +14317,7 @@ msgid "New string has been added."
 msgstr "Новий рядок додано."
 
 #: weblate/trans/views/edit.py:1005
-#, fuzzy, python-format
-#| msgid "Failed to remove the string: %s"
+#, python-format
 msgid "Could not remove the string: %s"
 msgstr "Не вдалося вилучити рядок: %s"
 
@@ -14437,8 +14365,6 @@ msgid "File upload has failed: %s"
 msgstr "Не вдалося завантажити файл: %s"
 
 #: weblate/trans/views/git.py:28
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation is in progress."
 msgid "Could not lock the repository, another operation is in progress."
 msgstr "Не вдалося заблокувати репозиторій, триває інша операція."
 
@@ -14483,10 +14409,8 @@ msgid "Component is now open for translation updates."
 msgstr "Складник наразі відкрито для оновлення перекладів."
 
 #: weblate/trans/views/lock.py:54
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "All components are now open for translation updates."
-msgstr "Усі складники тепер заблоковані для оновлення перекладів!"
+msgstr "Усі складники тепер відкрито для оновлення перекладів."
 
 #: weblate/trans/views/search.py:107
 msgid "Search and replace completed, no strings were updated."
@@ -14569,8 +14493,6 @@ msgid "Backup scheduled. It will be available soon."
 msgstr "Заплановано резервне копіювання. Невдовзі матимете резервну копію."
 
 #: weblate/trans/views/source.py:58
-#, fuzzy
-#| msgid "Failed to change additional string info!"
 msgid "Could not change additional string info!"
 msgstr "Не вдалося змінити додаткові відомості щодо рядка!"
 
@@ -14719,8 +14641,6 @@ msgid "Undefined variable: \"%s\""
 msgstr "Невизначена змінна: \"%s\""
 
 #: weblate/utils/render.py:121
-#, fuzzy
-#| msgid "Failed to render template: {}"
 msgid "Could not render template: {}"
 msgstr "Не вдалося відтворити шаблон: {}"
 
@@ -14986,8 +14906,7 @@ msgid "[hostname hashed]"
 msgstr "[хешована назва вузла]"
 
 #: weblate/vcs/ssh.py:167
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Could not generate key: %s"
 msgstr "Не вдалося створити ключ: %s"
 
@@ -15009,14 +14928,11 @@ msgstr ""
 "Будь ласка, перевірте, чи все правильно."
 
 #: weblate/vcs/ssh.py:226
-#, fuzzy
-#| msgid "Failed to fetch public key for a host!"
 msgid "Could not fetch public key for a host!"
 msgstr "Не вдалося стягнути публічний ключ для вузла!"
 
 #: weblate/vcs/ssh.py:231 weblate/vcs/ssh.py:234
-#, fuzzy, python-format
-#| msgid "Failed to get host key: %s"
+#, python-format
 msgid "Could not get host key: %s"
 msgstr "Не вдалося отримати ключ: %s"
 
