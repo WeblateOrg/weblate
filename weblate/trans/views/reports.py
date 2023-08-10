@@ -12,10 +12,7 @@ from weblate.lang.models import Language
 from weblate.trans.forms import ReportsForm
 from weblate.trans.models import Change, Component, Project
 from weblate.trans.util import redirect_param
-from weblate.utils.views import (
-    parse_path,
-    show_form_errors,
-)
+from weblate.utils.views import parse_path, show_form_errors
 
 # Header, two longer fields for name and email, shorter fields for numbers
 RST_HEADING = " ".join(["=" * 40] * 2 + ["=" * 24] * 20)

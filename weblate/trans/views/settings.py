@@ -32,10 +32,7 @@ from weblate.trans.tasks import (
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
 from weblate.utils.stats import ProjectLanguage
-from weblate.utils.views import (
-    parse_path,
-    show_form_errors,
-)
+from weblate.utils.views import parse_path, show_form_errors
 
 
 @never_cache
