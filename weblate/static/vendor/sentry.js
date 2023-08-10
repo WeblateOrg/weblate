@@ -2987,13 +2987,14 @@ class Mongo  {
     args,
   ) {
     const data = {
-      collectionName: collection.collectionName,
-      dbName: collection.dbName,
-      namespace: collection.namespace,
       'db.system': 'mongodb',
+      'db.name': collection.dbName,
+      'db.operation': operation,
+      'db.mongodb.collection': collection.collectionName,
     };
     const spanContext = {
       op: 'db',
+      // TODO v8: Use `${collection.collectionName}.${operation}`
       description: operation,
       data,
     };
@@ -3017,7 +3018,7 @@ class Mongo  {
         data[signature[1]] = typeof reduce === 'string' ? reduce : reduce.name || '<anonymous>';
       } else {
         for (let i = 0; i < signature.length; i++) {
-          data[signature[i]] = JSON.stringify(args[i]);
+          data[`db.mongodb.${signature[i]}`] = JSON.stringify(args[i]);
         }
       }
     } catch (_oO) {
@@ -3077,6 +3078,32 @@ class Mysql  {
       return;
     }
 
+    let mySqlConfig = undefined;
+
+    try {
+      pkg.prototype.connect = new Proxy(pkg.prototype.connect, {
+        apply(wrappingTarget, thisArg, args) {
+          if (!mySqlConfig) {
+            mySqlConfig = thisArg.config;
+          }
+          return wrappingTarget.apply(thisArg, args);
+        },
+      });
+    } catch (e) {
+      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Mysql Integration was unable to instrument `mysql` config.');
+    }
+
+    function spanDataFromConfig() {
+      if (!mySqlConfig) {
+        return {};
+      }
+      return {
+        'server.address': mySqlConfig.host,
+        'server.port': mySqlConfig.port,
+        'db.user': mySqlConfig.user,
+      };
+    }
+
     // The original function will have one of these signatures:
     //    function (callback) => void
     //    function (options, callback) => void
@@ -3089,6 +3116,7 @@ class Mysql  {
           description: typeof options === 'string' ? options : (options ).sql,
           op: 'db',
           data: {
+            ...spanDataFromConfig(),
             'db.system': 'mysql',
           },
         })]);
@@ -3181,12 +3209,32 @@ class Postgres  {
       return function ( config, values, callback) {
         const scope = getCurrentHub().getScope();
         const parentSpan = _optionalChain([scope, 'optionalAccess', _4 => _4.getSpan, 'call', _5 => _5()]);
+
+        const data = {
+          'db.system': 'postgresql',
+        };
+
+        try {
+          if (this.database) {
+            data['db.name'] = this.database;
+          }
+          if (this.host) {
+            data['server.address'] = this.host;
+          }
+          if (this.port) {
+            data['server.port'] = this.port;
+          }
+          if (this.user) {
+            data['db.user'] = this.user;
+          }
+        } catch (e) {
+          // ignore
+        }
+
         const span = _optionalChain([parentSpan, 'optionalAccess', _6 => _6.startChild, 'call', _7 => _7({
           description: typeof config === 'string' ? config : (config ).text,
           op: 'db',
-          data: {
-            'db.system': 'postgresql',
-          },
+          data,
         })]);
 
         if (typeof callback === 'function') {
@@ -4014,6 +4062,7 @@ exports.opera11StackLineParser = stackParsers.opera11StackLineParser;
 exports.winjsStackLineParser = stackParsers.winjsStackLineParser;
 exports.eventFromException = eventbuilder.eventFromException;
 exports.eventFromMessage = eventbuilder.eventFromMessage;
+exports.exceptionFromError = eventbuilder.exceptionFromError;
 exports.createUserFeedbackEnvelope = userfeedback.createUserFeedbackEnvelope;
 exports.captureUserFeedback = sdk.captureUserFeedback;
 exports.defaultIntegrations = sdk.defaultIntegrations;
@@ -12417,7 +12466,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":54,"../scope.js":65,"@sentry/utils":108}],83:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.62.0';
+const SDK_VERSION = '7.63.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -15924,6 +15973,14 @@ class ClickDetector  {
       clickCount: 0,
       node,
     };
+
+    // If there was a click in the last 1s on the same element, ignore it - only keep a single reference per second
+    if (
+      this._clicks.some(click => click.node === newClick.node && Math.abs(click.timestamp - newClick.timestamp) < 1)
+    ) {
+      return;
+    }
+
     this._clicks.push(newClick);
 
     // If this is the first new click, set a timeout to check for multi clicks
@@ -16862,12 +16919,14 @@ class EventBufferProxy  {
 
   /** Switch the used buffer to the compression worker. */
    async _switchToCompressionWorker() {
-    const { events } = this._fallback;
+    const { events, hasCheckout } = this._fallback;
 
     const addEventPromises = [];
     for (const event of events) {
       addEventPromises.push(this._compression.addEvent(event));
     }
+
+    this._compression.hasCheckout = hasCheckout;
 
     // We switch over to the new buffer immediately - any further events will be added
     // after the previously buffered ones
@@ -17155,9 +17214,21 @@ async function addEvent(
     return null;
   }
 
+  // Throw out events that are +60min from the initial timestamp
+  if (timestampInMs > replay.getContext().initialTimestamp + replay.timeouts.maxSessionLife) {
+    logInfo(
+      `[Replay] Skipping event with timestamp ${timestampInMs} because it is after maxSessionLife`,
+      replay.getOptions()._experiments.traceInternals,
+    );
+    return null;
+  }
+
   try {
     if (isCheckout && replay.recordingMode === 'buffer') {
       replay.eventBuffer.clear();
+    }
+
+    if (isCheckout) {
       replay.eventBuffer.hasCheckout = true;
     }
 
@@ -17174,7 +17245,7 @@ async function addEvent(
     const reason = error && error instanceof EventBufferSizeExceededError ? 'addEventSizeExceeded' : 'addEvent';
 
     (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error(error);
-    await replay.stop(reason);
+    await replay.stop({ reason });
 
     const client = core.getCurrentHub().getClient();
 
@@ -19852,7 +19923,7 @@ class ReplayContainer  {
    * Currently, this needs to be manually called (e.g. for tests). Sentry SDK
    * does not support a teardown
    */
-   async stop(reason) {
+   async stop({ forceFlush = false, reason } = {}) {
     if (!this._isEnabled) {
       return;
     }
@@ -19872,7 +19943,7 @@ class ReplayContainer  {
       this._debouncedFlush.cancel();
       // See comment above re: `_isEnabled`, we "force" a flush, ignoring the
       // `_isEnabled` state of the plugin since it was disabled above.
-      if (this.recordingMode === 'session') {
+      if (forceFlush) {
         await this._flush({ force: true });
       }
 
@@ -20261,7 +20332,7 @@ class ReplayContainer  {
     this.session = session;
 
     if (!this.session.sampled) {
-      void this.stop('session not refreshed');
+      void this.stop({ reason: 'session not refreshed' });
       return false;
     }
 
@@ -20551,6 +20622,15 @@ class ReplayContainer  {
       // Note this empties the event buffer regardless of outcome of sending replay
       const recordingData = await this.eventBuffer.finish();
 
+      const timestamp = Date.now();
+
+      // Check total duration again, to avoid sending outdated stuff
+      // We leave 30s wiggle room to accomodate late flushing etc.
+      // This _could_ happen when the browser is suspended during flushing, in which case we just want to stop
+      if (timestamp - this._context.initialTimestamp > this.timeouts.maxSessionLife + 30000) {
+        throw new Error('Session is too long, not sending replay');
+      }
+
       // NOTE: Copy values from instance members, as it's possible they could
       // change before the flush finishes.
       const replayId = this.session.id;
@@ -20566,7 +20646,7 @@ class ReplayContainer  {
         eventContext,
         session: this.session,
         options: this.getOptions(),
-        timestamp: Date.now(),
+        timestamp,
       });
     } catch (err) {
       this._handleException(err);
@@ -20574,7 +20654,7 @@ class ReplayContainer  {
       // This means we retried 3 times and all of them failed,
       // or we ran into a problem we don't want to retry, like rate limiting.
       // In this case, we want to completely stop the replay - otherwise, we may get inconsistent segments
-      void this.stop('sendReplay');
+      void this.stop({ reason: 'sendReplay' });
 
       const client = core.getCurrentHub().getClient();
 
@@ -20693,7 +20773,7 @@ class ReplayContainer  {
 
     // Stop replay if over the mutation limit
     if (overMutationLimit) {
-      void this.stop('mutationLimit');
+      void this.stop({ reason: 'mutationLimit', forceFlush: this.recordingMode === 'session' });
       return false;
     }
 
@@ -21044,7 +21124,7 @@ Sentry.init({ replaysOnErrorSampleRate: ${errorSampleRate} })`,
       return Promise.resolve();
     }
 
-    return this._replay.stop();
+    return this._replay.stop({ forceFlush: this._replay.recordingMode === 'session' });
   }
 
   /**
