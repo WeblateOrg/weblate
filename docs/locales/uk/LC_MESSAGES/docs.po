@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 12:41+0200\n"
-"PO-Revision-Date: 2023-08-10 18:36+0000\n"
+"PO-Revision-Date: 2023-08-10 19:53+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -370,6 +370,11 @@ msgid ""
 "mail. Invited users have to complete the registration process to get access "
 "to the project."
 msgstr ""
+"У відповідь на додавання наявних користувачів їм буде надіслано запрошення "
+"для підтвердження. За допомогою :setting:`REGISTRATION_OPEN` адміністратор "
+"також може запросити нових користувачів електронною поштою. Запрошені "
+"користувачі мають завершити процес реєстрації для отримання доступу до "
+"проєкту."
 
 #: ../../admin/access.rst:170
 msgid ""
@@ -382,19 +387,12 @@ msgstr ""
 "наприклад, членства у команді `Administration`)."
 
 #: ../../admin/access.rst:176
-#, fuzzy
-#| msgid ""
-#| "If the invited user missed the validity of the invitation, they can set "
-#| "their password using invited e-mail address in the password reset form as "
-#| "the account is created already."
 msgid ""
 "If the invited user missed the validity of the invitation, a new invitation "
 "has to be created."
 msgstr ""
-"Якщо запрошеним користувачем пропущено строк чинності запрошення, він або "
-"вона може встановити пароль, вказавши адресу електронної пошти запрошення у "
-"формі скидання пароля, оскільки обліковий запис для відповідного користувача "
-"вже створено."
+"Якщо запрошений користувач пропустить строк чинності запрошення, доведеться "
+"створювати нове запрошення."
 
 #: ../../admin/access.rst:179
 msgid ""
@@ -409,6 +407,9 @@ msgid ""
 "Weblate now does not automatically create accounts or add users to the "
 "teams. This is only done after confirmation from the user."
 msgstr ""
+"Нові версії Weblate не створюватимуть облікові записи і не додаватимуть "
+"записи користувачів до команд автоматично. Ці дії буде виконано лише після "
+"підтвердження з боку користувача."
 
 #: ../../admin/access.rst:190
 msgid "Blocking users"
@@ -5456,17 +5457,14 @@ msgstr ""
 "і відновлення резервних копій, які наведено вище."
 
 #: ../../admin/backup.rst:381
-#, fuzzy
-#| msgid ""
-#| "`Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs."
-#| "weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_"
 msgid ""
 "`Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation "
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
 "from-python-2-to-python-3>`_, :ref:`database-migration`"
 msgstr ""
-"`Документація із оновлення з 2.20 до 3.0 у документації до Weblate 3.0 "
-"<https://docs.weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_"
+"`Оновлення з Python 2 до Python 3 у документації з Weblate 3.11.1 "
+"<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
+"from-python-2-to-python-3>`_, :ref:`database-migration`"
 
 #: ../../admin/checks.rst:2 ../../user/checks.rst:2
 msgid "Checks and fixups"
@@ -5787,6 +5785,8 @@ msgid ""
 "Make format checks enforce using format even for plural forms with a single "
 "value, see :ref:`check-formats`."
 msgstr ""
+"Примусово використати форматування для форм множити із єдиним значенням, "
+"див. :ref:`check-formats`."
 
 #: ../../admin/checks.rst:112 ../../user/checks.rst:136
 msgid "``check-glossary``"
@@ -7341,6 +7341,7 @@ msgstr ":file:`ssh`"
 #: ../../admin/config.rst:282
 msgid "OCR trained data for :ref:`screenshots`."
 msgstr ""
+"Дані навченого розпізнавання тексту для :ref:`знімків вікон <screenshots>`."
 
 #: ../../admin/config.rst:291
 msgid ""
@@ -13037,6 +13038,10 @@ msgid ""
 "ref:`docker-https-portal`.  For larger setups, please see :ref:`docker-"
 "scaling`."
 msgstr ""
+"Створює сервер розгортання Weblate за допомогою HTTP, тому ви маєте "
+"розмістити його за проксі-сервером із перериванням HTTPS. Ви також можете "
+"розгорнути систему з проксі-сервером HTTPS, див. :ref:`docker-https-portal`. "
+"Для більших конфігурацій, будь ласка, див. :ref:`docker-scaling`."
 
 #: ../../admin/install/docker.rst:26
 msgid "Clone the weblate-docker repo:"
@@ -13917,7 +13922,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:692
 msgid "To enforce authentication for the contact form, do:"
-msgstr ""
+msgstr "Для примусового використання форми контакту виконайте такі дії:"
 
 #: ../../admin/install/docker.rst:701
 msgid ""
@@ -15750,23 +15755,21 @@ msgid ":wladmin:`migrate`"
 msgstr ":wladmin:`import_memory`"
 
 #: ../../admin/install/steps/install-configure.rst:27
-#, fuzzy
-#| msgid ""
-#| "Create an account for the administrator user and copy its password to the "
-#| "clipboard, and also save it for later use:"
 msgid ""
 "Create an administrator user account ``admin``, generate its password, and "
 "copy it to the clipboard; remember to save it for later use:"
 msgstr ""
-"Створіть обліковий запис адміністративного користувача і скопіюйте його "
-"пароль до буфера обміну, а також збережіть його для користування в "
-"подальшому:"
+"Створіть обліковий запис адміністративного користувача ``admin``, створіть "
+"пароль для нього і скопіюйте його до буфера обміну даних; не забудьте "
+"зберегти його для подальшого використання:"
 
 #: ../../admin/install/steps/install-configure.rst:36
 msgid ""
 "If you previously missed/lost the admin password, you can generate a new one "
 "with the following command:"
 msgstr ""
+"Якщо ви втратили пароль адміністратора або не знаєте його, ви можете "
+"створити новий за допомогою такої команди:"
 
 #: ../../admin/install/steps/install-configure.rst:44
 #, fuzzy
@@ -16184,12 +16187,17 @@ msgid ""
 "Weblate comes with a built-in set of plural definitions. These are based on "
 "file-format specifications, CLDR, and other sources."
 msgstr ""
+"Weblate постачається із вбудованим набором визначень форм множини. Цей набір "
+"засновано на специфікаціях у форматах файлів, CLDR та інших джерел."
 
 #: ../../admin/languages.rst:153
 msgid ""
 "Doing changes to the built-in plural definitions will most likely won't have "
 "desired effect, as these rules need to match underlying implementation."
 msgstr ""
+"Внесення змін до вбудованих визначень форм множини найімовірніше не матиме "
+"бажаного результату, оскільки ці правила мають відповідати базовій "
+"реалізації."
 
 #: ../../admin/languages.rst:156
 msgid ""
@@ -16197,6 +16205,10 @@ msgid ""
 "strings, but not parsing and storing strigs to the files. Should you think "
 "Weblate behaves incorrectly, please file a issue in our issue tracker."
 msgstr ""
+"Зміна кількості форм множини або формули форм множини впливає лише на показ "
+"рядків, але не на обробку і зберігання рядків до файлів. Якщо ви вважаєте, "
+"що Weblate працює неправильно, будь ласка, створіть повідомлення про ваду у "
+"нашій системі стеження за вадами."
 
 #: ../../admin/languages.rst:164
 msgid "Plural number"
@@ -17768,19 +17780,14 @@ msgid "import_project"
 msgstr "import_project"
 
 #: ../../admin/management.rst:382
-#, fuzzy
-#| msgid ""
-#| "The import_project command is now based on the :ref:`addon-weblate."
-#| "discovery.discovery` add-on, leading to some changes in behavior and what "
-#| "parameters are accepted."
 msgid ""
 "Batch imports components into project based on the file mask. It is based on "
 "the :ref:`addon-weblate.discovery.discovery` add-on, so you might want to "
 "use that instead."
 msgstr ""
-"Роботу команди import_project у поточній версії засновано на додатку :ref:"
-"`addon-weblate.discovery.discovery`. Це призвело до деяких змін у поведінці "
-"і параметрах, які приймає команда."
+"Пакетне імпортування компонентів до проєкту на основі маски файлів. Його "
+"засновано на додатку :ref:`addon-weblate.discovery.discovery`, тому, "
+"можливо, вам варто скористатися саме ним."
 
 #: ../../admin/management.rst:386
 msgid ""
@@ -18380,16 +18387,13 @@ msgid "Translation-memory scopes"
 msgstr "Області дії пам'яті перекладів"
 
 #: ../../admin/memory.rst:28
-#, fuzzy
-#| msgid ""
-#| "The translation memory scopes are there to allow both privacy and sharing "
-#| "of translations, to suit the desired behavior."
 msgid ""
 "The translation-memory scopes ensure privacy for different projects and "
 "users. Sharing of translations is also available."
 msgstr ""
-"Області пам'яті перекладів використовуються для забезпечення "
-"конфіденційності та поширення перекладів, залежно від бажаної поведінки."
+"Області дії пам'яті перекладів забезпечують конфіденційність для різних "
+"проєктів і користувачів. Також передбачено можливості зі спільного "
+"використання перекладів."
 
 #: ../../admin/memory.rst:32
 msgid "Imported translation memory"
