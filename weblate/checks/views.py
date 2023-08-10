@@ -153,7 +153,7 @@ def show_check_project(request, check, project):
 
     kwargs = {
         "project": project,
-        "translation__unit__check__name": check.name,
+        "translation__unit__check__name": check.check_id,
     }
 
     form = FilterForm(request.GET)
@@ -210,7 +210,7 @@ def show_check_component(request, check, component):
 
     translations = (
         Translation.objects.filter(
-            component=component, unit__check__name=check.name, **kwargs
+            component=component, unit__check__name=check.check_id, **kwargs
         )
         .annotate(
             check_count=Count("unit__check"),
