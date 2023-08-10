@@ -5,6 +5,7 @@
 from django.conf import settings
 from django.utils.translation import gettext
 
+from weblate.lang.models import Language
 from weblate.trans.models import (
     Component,
     ComponentList,
@@ -79,6 +80,8 @@ def check_permission(user, permission, obj):
             permission in permissions
             for permissions, _langs in user.component_permissions[obj.pk]
         )
+    if isinstance(obj, Unit):
+        obj = obj.translation
     if isinstance(obj, Translation):
         lang = obj.language_id
         return (
@@ -377,7 +380,7 @@ def check_translation_delete(user, permission, obj):
 
 @register_perm("reports.view", "change.download")
 def check_possibly_global(user, permission, obj):
-    if obj is None:
+    if obj is None or isinstance(obj, Language):
         return user.is_superuser
     return check_permission(user, permission, obj)
 

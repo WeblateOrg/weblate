@@ -779,13 +779,6 @@ class ProjectLanguage:
             kwargs={"lang": self.language.code, "project": self.project.slug},
         )
 
-    def get_reverse_url_kwargs(self):
-        return {
-            "lang": self.language.code,
-            "project": self.project.slug,
-            "component": "-",
-        }
-
     def get_translate_url(self):
         return reverse("translate", kwargs={"path": self.get_url_path()})
 
@@ -812,6 +805,10 @@ class ProjectLanguage:
             self.language.id == component.source_language_id
             for component in self.project.child_components
         )
+
+    @cached_property
+    def change_set(self):
+        return self.project.change_set.filter(language=self.language)
 
 
 class ProjectLanguageStats(LanguageStats):

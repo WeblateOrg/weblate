@@ -20,42 +20,34 @@ class ChangesTest(ViewTestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_basic_csv(self):
-        self.make_manager()
+        self.user.is_superuser = True
+        self.user.save()
         response = self.client.get(reverse("changes-csv"))
         self.assertContains(response, "timestamp,")
 
     def test_filter(self):
-        response = self.client.get(reverse("changes"), {"project": "test"})
+        response = self.client.get(reverse("changes", kwargs={"path": ["test"]}))
         self.assertContains(response, "Resource update")
-        self.assertNotContains(response, "Could not find matching project!")
         response = self.client.get(
-            reverse("changes"), {"project": "test", "component": "test"}
+            reverse("changes", kwargs={"path": ["test", "test"]})
         )
         self.assertContains(response, "Resource update")
-        self.assertNotContains(response, "Could not find matching project!")
         response = self.client.get(
-            reverse("changes"), {"project": "test", "component": "test", "lang": "cs"}
+            reverse("changes", kwargs={"path": ["test", "test", "cs"]})
         )
         self.assertContains(response, "Resource update")
-        self.assertNotContains(response, "Could not find matching project!")
-        response = self.client.get(reverse("changes"), {"lang": "cs"})
-        self.assertContains(response, "Resource update")
-        self.assertNotContains(response, "Could not find matching language!")
         response = self.client.get(
-            reverse("changes"), {"project": "testx", "component": "test", "lang": "cs"}
+            reverse("changes", kwargs={"path": ["-", "-", "cs"]})
         )
         self.assertContains(response, "Resource update")
-        self.assertContains(response, "Could not find matching project!")
         response = self.client.get(
-            reverse("changes"),
-            {"project": "\000testx", "component": "test", "lang": "cs"},
+            reverse("changes", kwargs={"path": ["testx", "test", "cs"]})
         )
-        self.assertContains(response, "Resource update")
-        self.assertContains(response, "testx is not one of the available choices")
+        self.assertEqual(response.status_code, 404)
 
     def test_string(self):
         response = self.client.get(
-            reverse("changes"), {"string": Unit.objects.first().pk}
+            reverse("changes", kwargs={"path": Unit.objects.first().get_url_path()})
         )
         self.assertContains(response, "New source string")
         self.assertContains(response, "Changes of string in")

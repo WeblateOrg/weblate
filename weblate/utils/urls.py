@@ -23,7 +23,7 @@ class WidgetExtensionConverter(StringConverter):
 
 
 class ObjectPathConverter(PathConverter):
-    regex = "[^/]+(/[^/]+){0,2}"
+    regex = "[^/]+(/[^/]+){0,3}"
 
     def to_python(self, value):
         return value.split("/")

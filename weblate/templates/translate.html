@@ -358,7 +358,7 @@
 <div class="tab-pane" id="history">
 {% include "last-changes-content.html" %}
 
-<a class="btn btn-link" href="{% url 'changes' %}?string={{ unit.pk }}">{% trans "Browse all string changes" %}</a>
+<a class="btn btn-link" href="{% url 'changes' path=unit.get_url_path %}">{% trans "Browse all string changes" %}</a>
 </div>
 
 {% if user_can_use_machinery %}

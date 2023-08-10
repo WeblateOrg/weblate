@@ -16,11 +16,6 @@ from weblate.logger import LOGGER
 class URLMixin:
     """Mixin for models providing standard shortcut API for few standard URLs."""
 
-    # TODO: remove
-    def get_reverse_url_kwargs(self):
-        """Return kwargs for URL reversing."""
-        raise NotImplementedError
-
     def get_url_path(self):
         raise NotImplementedError
 

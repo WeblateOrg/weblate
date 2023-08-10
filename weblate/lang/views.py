@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import permission_required
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
-from django.utils.http import urlencode
 from django.utils.translation import gettext
 from django.views.generic import CreateView, UpdateView
 
@@ -86,7 +85,6 @@ def show_language(request, lang):
             "allow_index": True,
             "object": obj,
             "last_changes": last_changes,
-            "last_changes_url": urlencode({"lang": obj.code}),
             "search_form": SearchForm(user, language=obj),
             "projects": projects,
         },
@@ -132,9 +130,6 @@ def show_project(request, lang, project):
             "project": project_object,
             "object": obj,
             "last_changes": last_changes,
-            "last_changes_url": urlencode(
-                {"lang": language_object.code, "project": project_object.slug}
-            ),
             "translations": translations,
             "title": f"{project_object} - {language_object}",
             "search_form": SearchForm(user, language=language_object),

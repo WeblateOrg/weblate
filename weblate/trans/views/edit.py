@@ -19,7 +19,6 @@ from django.http import (
 )
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.utils.http import urlencode
 from django.utils.translation import gettext, gettext_noop
 from django.views.decorators.http import require_POST
 
@@ -671,7 +670,6 @@ def translate(request, path):  # noqa: C901
             "screenshots": (
                 unit.source_unit.screenshots.all() | unit.screenshots.all()
             ).order,
-            "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
             "display_checks": list(get_display_checks(unit)),
             "comments_to_check": unit.unresolved_comments,
             "machinery_services": json.dumps(

@@ -282,10 +282,6 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         groups = self.defined_groups.all()
         user.groups.remove(*groups)
 
-    def get_reverse_url_kwargs(self):
-        """Return kwargs for URL reversing."""
-        return {"project": self.slug}
-
     def get_url_path(self):
         return (self.slug,)
 

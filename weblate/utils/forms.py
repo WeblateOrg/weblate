@@ -174,10 +174,3 @@ class SearchField(Field):
             (key, FILTERS.get_filter_name(key), FILTERS.get_filter_query(key))
             for key in filter_keys
         ]
-
-
-class FilterForm(forms.Form):
-    project = forms.SlugField(required=False)
-    component = forms.SlugField(required=False)
-    lang = forms.SlugField(required=False)
-    user = UsernameField(required=False)

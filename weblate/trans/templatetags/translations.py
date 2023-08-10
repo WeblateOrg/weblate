@@ -34,6 +34,7 @@ from weblate.trans.models import (
     ContributorAgreement,
     Project,
     Translation,
+    Unit,
 )
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.specialchars import get_display_char
@@ -1148,7 +1149,10 @@ def urlize_ugc(value, autoescape=True):
 
 
 def get_breadcrumbs(path_object):
-    if isinstance(path_object, Translation):
+    if isinstance(path_object, Unit):
+        yield from get_breadcrumbs(path_object.translation)
+        yield path_object.get_absolute_url(), path_object.pk
+    elif isinstance(path_object, Translation):
         yield from get_breadcrumbs(path_object.component)
         yield path_object.get_absolute_url(), path_object.language
     elif isinstance(path_object, Component):

@@ -38,6 +38,7 @@ Not yet released.
 **Compatibility**
 
 * Python 3.9 or newer is now required.
+* Several UI URLs have been changed to be able to handle categories.
 
 **Upgrading**
 

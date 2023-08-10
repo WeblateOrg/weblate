@@ -187,10 +187,21 @@ def _parse_path(request, path: tuple[str], *, skip_acl: bool = False):
     if not path:
         return component
 
+    translation = get_object_or_404(
+        component.translation_set, language__code=path.pop(0)
+    )
+    if not path:
+        return translation
+
     if len(path) > 1:
         raise Http404(f"Invalid path left: {'/'.join(path)}")
 
-    return get_object_or_404(component.translation_set, language__code=path[0])
+    unitid = path.pop(0)
+
+    if not unitid.isdigit:
+        raise Http404(f"Invalid unit id: {unitid}")
+
+    return get_object_or_404(translation.unit_set, pk=int(unitid))
 
 
 def parse_path(
@@ -234,57 +245,6 @@ def parse_path_units(request, path: list[str], types: tuple[Any]):
         raise TypeError("Unsupported result: {obj}")
 
     return obj, unit_set, context
-
-
-# TODO: Drop
-def get_translation(request, project, component, lang, skip_acl=False):
-    """Return translation matching parameters."""
-    translation = get_object_or_404(
-        Translation.objects.prefetch(),
-        language__code=lang,
-        component__slug=component,
-        component__project__slug=project,
-    )
-
-    if not skip_acl:
-        request.user.check_access_component(translation.component)
-    return translation
-
-
-# TODO: Drop
-def get_component(request, project, component, skip_acl=False):
-    """Return component matching parameters."""
-    component = get_object_or_404(
-        Component.objects.prefetch(),
-        project__slug=project,
-        slug=component,
-    )
-    if not skip_acl:
-        request.user.check_access_component(component)
-    component.acting_user = request.user
-    return component
-
-
-# TODO: Drop
-def get_project_translation(request, project=None, component=None, lang=None):
-    """Return project, component, translation tuple for given parameters."""
-    if lang and component:
-        # Language defined? We can get all
-        translation = get_translation(request, project, component, lang)
-        component = translation.component
-        project = component.project
-    else:
-        translation = None
-        if component:
-            # Component defined?
-            component = get_component(request, project, component)
-            project = component.project
-        elif project:
-            # Only project defined?
-            project = parse_path(request, [project], (Project,))
-
-    # Return tuple
-    return project or None, component or None, translation or None
 
 
 def guess_filemask_from_doc(data):
