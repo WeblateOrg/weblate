@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-08-10 15:47+0000\n"
+"PO-Revision-Date: 2023-08-10 17:07+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -5620,10 +5620,8 @@ msgstr "Twój osobisty klucz API:"
 #: weblate/templates/accounts/profile.html:327 weblate/templates/data.html:83
 #: weblate/templates/data.html:127
 #: weblate/templates/trans/project-access.html:327
-#, fuzzy
-#| msgid "Changed visibility"
 msgid "Toogle API key visibility"
-msgstr "Zmieniono widoczność"
+msgstr "Zmień widoczność klucza API"
 
 #: weblate/templates/accounts/profile.html:328
 #: weblate/templates/trans/project-access.html:328
@@ -5690,11 +5688,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "Przekierowywanie do dostawcy uwierzytelniania."
 
 #: weblate/templates/accounts/register.html:20
-#, fuzzy
-#| msgid ""
-#| "Please enter the activation token obtained when making the subscription."
 msgid "Please complete the registration to accept the invitation."
-msgstr "Proszę wpisać token aktywacyjny uzyskany przy składaniu subskrypcji."
+msgstr "Dokończ rejestrację, aby zaakceptować zaproszenie."
 
 #: weblate/templates/accounts/register.html:38
 msgid "Register in Weblate"
@@ -6251,7 +6246,7 @@ msgstr "Ustawienia"
 
 #: weblate/templates/auth/team.html:28
 msgid "Automatic assignments"
-msgstr "Przypisania automatyczne"
+msgstr "Automatyczne przypisywania"
 
 #: weblate/templates/auth/team.html:67
 msgid "Add automatic assignment"
@@ -6330,12 +6325,11 @@ msgstr "Nie określono komponentów"
 #: weblate/templates/auth/teams-count.html:5
 msgid "Automatic assignment of users is configured for this team"
 msgstr ""
+"Automatyczne przypisywanie użytkowników jest skonfigurowane dla tego zespołu"
 
 #: weblate/templates/auth/teams-count.html:5
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic assignment"
-msgstr "Przypisania automatyczne"
+msgstr "Automatyczne przypisywanie"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7799,11 +7793,11 @@ msgstr "Dodaj język"
 
 #: weblate/templates/lang/plural_form.html:15
 msgid "Changing plural rules might not have a desired effect."
-msgstr ""
+msgstr "Zmiana reguł liczby mnogiej może nie przynieść pożądanego efektu."
 
 #: weblate/templates/lang/plural_form.html:16
 msgid "Please see a documentation for more info."
-msgstr ""
+msgstr "Więcej informacji można znaleźć w dokumentacji."
 
 #: weblate/templates/language-project.html:69
 #: weblate/templates/language.html:54
@@ -8141,10 +8135,8 @@ msgid "Digest: %(notification_name)s"
 msgstr "Podsumowanie: %(notification_name)s"
 
 #: weblate/templates/mail/invite.html:12
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "View invitation"
-msgstr "Wyślij ponownie zaproszenie"
+msgstr "Wyświetl zaproszenie"
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -8395,10 +8387,8 @@ msgid "Confirm account removal"
 msgstr "Potwierdź usunięcie konta"
 
 #: weblate/templates/mail/shared-registration.html:20
-#, fuzzy
-#| msgid "Confirm registration"
 msgid "Confirm invitation"
-msgstr "Potwierdź rejestrację"
+msgstr "Potwierdź zaproszenie"
 
 #: weblate/templates/mail/shared-registration.html:22
 msgid "Confirm registration"
@@ -8825,10 +8815,8 @@ msgid "Add new user"
 msgstr "Dodaj nowego użytkownika"
 
 #: weblate/templates/manage/users.html:41
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitations"
-msgstr "Wyślij ponownie zaproszenie"
+msgstr "Oczekujące zaproszenia"
 
 #: weblate/templates/manage/users.html:77
 #: weblate/templates/trans/project-access.html:103
@@ -8837,17 +8825,13 @@ msgstr "Wyślij ponownie zaproszenie"
 
 #: weblate/templates/manage/users.html:81
 #: weblate/templates/trans/project-access.html:107
-#, fuzzy
-#| msgid "Permalink copied to clipboard."
 msgid "Invitation link copied to clipboard."
-msgstr "Bezpośredni odnośnik skopiowany do schowka."
+msgstr "Link do zaproszenia został skopiowany do schowka."
 
 #: weblate/templates/manage/users.html:85
 #: weblate/templates/trans/project-access.html:111
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Remove invitation"
-msgstr "Wyślij ponownie zaproszenie"
+msgstr "Usuń zaproszenie"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -9622,6 +9606,8 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
+"Zostałeś zaproszony do %(site_title)s przez %(invitation_author)s do "
+"współpracy nad %(project_name)s i dołączenia do zespołu %(team_name)s."
 
 #: weblate/templates/snippets/invite-info.html:6
 #, python-format
@@ -9629,6 +9615,8 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
 msgstr ""
+"Zostałeś zaproszony do %(site_title)s przez %(invitation_author)s, aby "
+"dołączyć do zespołu %(team_name)s."
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -9688,10 +9676,8 @@ msgid "The project has had active development for at least three months."
 msgstr "Projekt jest aktywnie rozwijany od co najmniej trzech miesięcy."
 
 #: weblate/templates/snippets/libre-checklist.html:18
-#, fuzzy
-#| msgid "Unmet guidelines from the community localization checklist:"
 msgid "Review guidelines from the community localization checklist."
-msgstr "Niespełnione wytyczne z listy kontrolnej lokalizacji społeczności:"
+msgstr "Przejrzyj wytyczne z listy kontrolnej lokalizacji społeczności."
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -9760,10 +9746,8 @@ msgid "Create translation"
 msgstr "Utwórz tłumaczenie"
 
 #: weblate/templates/snippets/list-objects.html:146
-#, fuzzy
-#| msgid "Could not add new translation file."
 msgid "Cannot add translation right now"
-msgstr "Nie udało się dodać nowego pliku tłumaczenia."
+msgstr "Nie można teraz dodać tłumaczenia"
 
 #: weblate/templates/snippets/list-objects.html:150
 #: weblate/templates/translate.html:30 weblate/templates/translation.html:146
@@ -10503,13 +10487,8 @@ msgstr ""
 "komponentu."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
-#, fuzzy
-#| msgid ""
-#| "There is at least one screenshot which is not assigned to any strings."
 msgid "At least one screenshot has no string assigned to it."
-msgstr ""
-"Istnieje co najmniej jeden zrzut ekranu, który nie jest przypisany do "
-"żadnego łańcucha."
+msgstr "Co najmniej jeden zrzut ekranu nie ma przypisanego ciągu."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
 msgid "Manage screenshots"
@@ -10822,10 +10801,9 @@ msgid "Edit team membership for %(username)s"
 msgstr "Edytuj członkostwo w zespole dla %(username)s"
 
 #: weblate/templates/trans/project-access.html:92
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation for %(email)s"
-msgstr "Zaproszenie do strony %(site_title)s"
+msgstr "Zaproszenie do %(email)s"
 
 #: weblate/templates/trans/project-access.html:121
 msgid ""
@@ -11386,28 +11364,21 @@ msgstr ""
 "usunięcia."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:9
-#, fuzzy
-#| msgid "Information"
 msgid "Invitations"
-msgstr "Informacje"
+msgstr "Zaproszenia"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:10
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Invitation"
-msgstr "Wyślij ponownie zaproszenie"
+msgstr "Zaproszenie"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:19
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation to %(project_name)s"
-msgstr "Zaproszenie do strony %(site_title)s"
+msgstr "Zaproszenie do %(project_name)s"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:25
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Accept invitation"
-msgstr "Wyślij ponownie zaproszenie"
+msgstr "Zaakceptuj zaproszenie"
 
 #: weblate/templates/widgets.html:6
 msgid "Widgets"
@@ -12070,10 +12041,9 @@ msgid "ZIP file containing project backup"
 msgstr "Plik ZIP zawierający kopię zapasową projektu"
 
 #: weblate/trans/forms.py:2188
-#, fuzzy, python-format
-#| msgid "Failed to load project backup: %s"
+#, python-format
 msgid "Could not load project backup: %s"
-msgstr "Nie udało się wczytać kopii zapasowej projektu: %s"
+msgstr "Nie udało się załadować kopii zapasowej projektu: %s"
 
 #: weblate/trans/forms.py:2196
 msgid "Optional additional filter applied to the strings"
@@ -12929,16 +12899,12 @@ msgstr ""
 "przykład: docs/screenshots/*.png."
 
 #: weblate/trans/models/component.py:406
-#, fuzzy
-#| msgid ""
-#| "Filename of translation base file, containing all strings and their "
-#| "source; it is recommended for monolingual translation formats."
 msgid ""
 "Filename of translation base file, containing all strings and their source "
 "for monolingual translations."
 msgstr ""
-"Nazwa pliku bazowego tłumaczenia, zawierającego wszystkie łańcuchy i ich "
-"źródło; jest zalecany dla formatów tłumaczeń jednojęzycznych."
+"Nazwa pliku bazowego tłumaczenia zawierającego wszystkie łańcuchy i ich "
+"źródło dla tłumaczeń jednojęzycznych."
 
 #: weblate/trans/models/component.py:413
 msgid "Edit base file"
@@ -13218,8 +13184,7 @@ msgid "File does not exist."
 msgstr "Plik nie istnieje."
 
 #: weblate/trans/models/component.py:1682
-#, fuzzy, python-format
-#| msgid "Failed to push %(component)s: %(error_text)s"
+#, python-format
 msgid "Could not push %(component)s: %(error_text)s"
 msgstr "Nie udało się wypchnąć %(component)s: %(error_text)s"
 
@@ -13308,12 +13273,9 @@ msgstr ""
 "udostępniłeś pliku bazowego."
 
 #: weblate/trans/models/component.py:2659
-#, fuzzy, python-format
-#| msgid "Failed to parse base file for new translations: %s"
+#, python-format
 msgid "Could not parse base file for new translations: %s"
-msgstr ""
-"Nie udało się przeanalizować pliku podstawowego pod kątem nowych tłumaczeń: "
-"%s"
+msgstr "Nie udało się przeanalizować pliku bazowego dla nowych tłumaczeń: %s"
 
 #: weblate/trans/models/component.py:2663
 msgid "Unrecognized base file for new translations."
@@ -13356,16 +13318,12 @@ msgid "You can not use a monolingual translation without a base file."
 msgstr "Nie możesz używać tłumaczenia jednojęzycznego bez pliku bazowego."
 
 #: weblate/trans/models/component.py:2749
-#, fuzzy
-#| msgid "No remote repository"
 msgid "Choose No remote repository for local: URL."
-msgstr "Brak zdalnego repozytorium"
+msgstr "Wybierz Brak zdalnego repozytorium dla lokalnego: URL."
 
 #: weblate/trans/models/component.py:2754
-#, fuzzy
-#| msgid "Push URL is not used when repository is linked!"
 msgid "Push URL is not used without a remote repository."
-msgstr "Push URL nie jest używane, gdy repozytorium jest powiązane!"
+msgstr "Adres URL push nie jest używany bez zdalnego repozytorium."
 
 #: weblate/trans/models/component.py:2773
 #, python-format
@@ -13585,8 +13543,6 @@ msgstr ""
 "en_US:en"
 
 #: weblate/trans/models/suggestion.py:121
-#, fuzzy
-#| msgid "Failed to accept suggestion!"
 msgid "Could not accept suggestion!"
 msgstr "Nie udało się zaakceptować sugestii!"
 
@@ -13600,16 +13556,14 @@ msgstr ""
 "dodać plik języka do repozytorium."
 
 #: weblate/trans/models/translation.py:216
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not parse file %(file)s: %(error)s"
-msgstr "Nie udało się przetworzyć pliku %(file)s: %(error)s"
+msgstr "Nie udało się przeanalizować pliku %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1029
 #: weblate/trans/models/translation.py:1111
 #: weblate/trans/models/translation.py:1229
-#, fuzzy, python-format
-#| msgid "Failed to commit pending changes: %s"
+#, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "Nie udało się scommitować oczekujących zmian: %s"
 
@@ -14070,8 +14024,7 @@ msgstr ""
 "pozwoliłaby użytkownikom głosować na własne sugestie."
 
 #: weblate/trans/validators.py:42
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Could not parse flags: %s"
 msgstr "Nie udało się przeanalizować flag: %s"
 
@@ -14168,22 +14121,16 @@ msgid "Changes by %s"
 msgstr "Zmiany użytkownika %s"
 
 #: weblate/trans/views/changes.py:144
-#, fuzzy
-#| msgid "Failed to find matching project!"
 msgid "Could not find matching project!"
-msgstr "Nie udało się odnaleźć pasującego projektu!"
+msgstr "Nie udało się znaleźć pasującego projektu!"
 
 #: weblate/trans/views/changes.py:161
-#, fuzzy
-#| msgid "Failed to find matching language!"
 msgid "Could not find matching language!"
-msgstr "Nie udało się odnaleźć pasującego języka!"
+msgstr "Nie udało się znaleźć pasującego języka!"
 
 #: weblate/trans/views/changes.py:170
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Could not find matching user!"
-msgstr "Nie udało się odnaleźć pasującego użytkownika!"
+msgstr "Nie udało się znaleźć pasującego użytkownika!"
 
 #: weblate/trans/views/create.py:273
 #, python-format
@@ -14191,8 +14138,6 @@ msgid "Detected license as %s, please check whether it is correct."
 msgstr "Wykryto licencję %s, sprawdź, czy jest poprawna."
 
 #: weblate/trans/views/create.py:378
-#, fuzzy
-#| msgid "Failed to parse uploaded ZIP file."
 msgid "Could not parse uploaded ZIP file."
 msgstr "Nie udało się przeanalizować przesłanego pliku ZIP."
 
@@ -14288,8 +14233,6 @@ msgstr "Nieprawidłowy szukany ciąg!"
 
 #: weblate/trans/views/edit.py:709 weblate/trans/views/search.py:49
 #: weblate/trans/views/search.py:210
-#, fuzzy
-#| msgid "Failed to process form!"
 msgid "Could not process form!"
 msgstr "Nie udało się przetworzyć formularza!"
 
@@ -14306,8 +14249,6 @@ msgid "Posted new comment"
 msgstr "Dodano nowy komentarz"
 
 #: weblate/trans/views/edit.py:772
-#, fuzzy
-#| msgid "Failed to add comment!"
 msgid "Could not add comment!"
 msgstr "Nie udało się dodać komentarza!"
 
@@ -14324,8 +14265,7 @@ msgid "New string has been added."
 msgstr "Dodano nowy ciąg znaków."
 
 #: weblate/trans/views/edit.py:1005
-#, fuzzy, python-format
-#| msgid "Failed to remove the string: %s"
+#, python-format
 msgid "Could not remove the string: %s"
 msgstr "Nie udało się usunąć ciągu: %s"
 
@@ -14370,10 +14310,8 @@ msgid "File upload has failed: %s"
 msgstr "Nie udało się przesłać pliku: %s"
 
 #: weblate/trans/views/git.py:28
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation is in progress."
 msgid "Could not lock the repository, another operation is in progress."
-msgstr "Nie można zablokować repozytorium, trwa kolejna operacja."
+msgstr "Nie udało się zablokować repozytorium, trwa inna operacja."
 
 #: weblate/trans/views/git.py:50
 msgid "All repositories were updated."
@@ -14416,10 +14354,8 @@ msgid "Component is now open for translation updates."
 msgstr "Komponent jest obecnie gotowy do aktualizacji tłumaczenia."
 
 #: weblate/trans/views/lock.py:54
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "All components are now open for translation updates."
-msgstr "Wszystkie komponenty są teraz zablokowane dla aktualizacji tłumaczeń!"
+msgstr "Wszystkie komponenty są teraz otwarte do aktualizacji tłumaczeń."
 
 #: weblate/trans/views/search.py:107
 msgid "Search and replace completed, no strings were updated."
@@ -14504,8 +14440,6 @@ msgid "Backup scheduled. It will be available soon."
 msgstr "Zaplanowano kopię zapasową. Będzie dostępna wkrótce."
 
 #: weblate/trans/views/source.py:58
-#, fuzzy
-#| msgid "Failed to change additional string info!"
 msgid "Could not change additional string info!"
 msgstr "Nie udało się zmienić dodatkowych informacji o ciągu!"
 
@@ -14654,10 +14588,8 @@ msgid "Undefined variable: \"%s\""
 msgstr "Niezdefiniowana zmienna: \"%s\""
 
 #: weblate/utils/render.py:121
-#, fuzzy
-#| msgid "Failed to render template: {}"
 msgid "Could not render template: {}"
-msgstr "Nie powiodło się renderowanie szablonu: {}"
+msgstr "Nie udało się wyrenderować szablonu: {}"
 
 #: weblate/utils/render.py:166
 msgid ""
@@ -14914,8 +14846,7 @@ msgid "[hostname hashed]"
 msgstr "[haszowana nazwa hosta]"
 
 #: weblate/vcs/ssh.py:167
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Could not generate key: %s"
 msgstr "Nie udało się wygenerować klucza: %s"
 
@@ -14937,16 +14868,13 @@ msgstr ""
 "(%(keytype)s). Prosimy o zweryfikowanie ich poprawności."
 
 #: weblate/vcs/ssh.py:226
-#, fuzzy
-#| msgid "Failed to fetch public key for a host!"
 msgid "Could not fetch public key for a host!"
 msgstr "Nie udało się pobrać klucza publicznego hosta!"
 
 #: weblate/vcs/ssh.py:231 weblate/vcs/ssh.py:234
-#, fuzzy, python-format
-#| msgid "Failed to get host key: %s"
+#, python-format
 msgid "Could not get host key: %s"
-msgstr "Nie udało się pobrać klucza: %s"
+msgstr "Nie udało się uzyskać klucza hosta: %s"
 
 #: weblate/wladmin/forms.py:15
 msgid "Activation token"
