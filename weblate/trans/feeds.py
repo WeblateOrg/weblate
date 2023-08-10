@@ -9,7 +9,8 @@ from django.urls import reverse
 from django.utils.translation import gettext
 
 from weblate.lang.models import Language
-from weblate.trans.models import Change, Component, Project, Translation
+from weblate.trans.models import Change, Component, Project, Translation, Unit
+from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import parse_path
 
 
@@ -50,7 +51,11 @@ class TranslationChangesFeed(ChangesFeed):
     """RSS feed for changes in translation."""
 
     def get_object(self, request, path):
-        return parse_path(request, path, (Translation, Component, Project))
+        return parse_path(
+            request,
+            path,
+            (Translation, Component, Project, Language, Unit, ProjectLanguage),
+        )
 
     def title(self, obj):
         return gettext("Recent changes in %s") % obj

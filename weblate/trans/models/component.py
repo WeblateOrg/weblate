@@ -1153,10 +1153,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin):
     def full_slug(self):
         return f"{self.project.slug}/{self.slug}"
 
-    def get_reverse_url_kwargs(self):
-        """Return kwargs for URL reversing."""
-        return {"project": self.project.slug, "component": self.slug}
-
     def get_url_path(self):
         return (*self.project.get_url_path(), self.slug)
 

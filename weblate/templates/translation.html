@@ -216,7 +216,7 @@
 
 <div class="tab-pane" id="history">
 {% include "last-changes-content.html" %}
-<a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all translation changes" %}</a>
+<a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% trans "Browse all translation changes" %}</a>
 </div>
 
 

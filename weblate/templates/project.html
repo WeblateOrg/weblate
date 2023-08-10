@@ -158,13 +158,13 @@
 
 <div class="tab-pane" id="history">
 {% include "last-changes-content.html" %}
-<a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all project changes" %}</a>
+<a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% trans "Browse all project changes" %}</a>
 </div>
 
 {% if last_announcements %}
 <div class="tab-pane" id="announcement-history">
 {% include "last-changes-content.html" with last_changes=last_announcements %}
-<a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}&amp;action=46">{% trans "Browse all project changes" %}</a>
+<a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}?action=46">{% trans "Browse all project changes" %}</a>
 </div>
 {% endif %}
 

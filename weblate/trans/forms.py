@@ -57,7 +57,6 @@ from weblate.utils.forms import (
     ColorWidget,
     ContextDiv,
     EmailField,
-    FilterForm,
     QueryField,
     SearchField,
     SortedSelect,
@@ -2581,27 +2580,7 @@ class AnnouncementForm(forms.ModelForm):
         }
 
 
-class ChangesFilterForm(FilterForm):
-    string = forms.ModelChoiceField(
-        Unit.objects.none(),
-        widget=forms.HiddenInput,
-        required=False,
-    )
-
-    def __init__(self, request, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["string"].queryset = Unit.objects.filter(
-            translation__component__project__in=request.user.allowed_projects
-        )
-
-
 class ChangesForm(forms.Form):
-    project = forms.ChoiceField(
-        label=gettext_lazy("Project"), choices=[("", "")], required=False
-    )
-    lang = forms.ChoiceField(
-        label=gettext_lazy("Language"), choices=[("", "")], required=False
-    )
     action = forms.MultipleChoiceField(
         label=gettext_lazy("Action"),
         required=False,
@@ -2614,12 +2593,34 @@ class ChangesForm(forms.Form):
     start_date = WeblateDateField(label=gettext_lazy("Starting date"), required=False)
     end_date = WeblateDateField(label=gettext_lazy("Ending date"), required=False)
 
-    def __init__(self, request, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["lang"].choices += Language.objects.have_translation().as_choices()
-        self.fields["project"].choices += [
-            (project.slug, project.name) for project in request.user.allowed_projects
-        ]
+    def clean_user(self):
+        username = self.cleaned_data.get("user")
+        if not username:
+            return None
+        try:
+            return User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise forms.ValidationError(gettext("Could not find matching user!"))
+
+    def items(self):
+        items = []
+        for param in sorted(self.cleaned_data):
+            value = self.cleaned_data[param]
+            # We don't care about empty values
+            if not value:
+                continue
+            if isinstance(value, datetime):
+                # Convert date to string
+                items.append((param, value.date().isoformat()))
+            elif isinstance(value, User):
+                items.append((param, value.username))
+            else:
+                # It should be a string here
+                items.append((param, value))
+        return items
+
+    def urlencode(self):
+        return urlencode(self.items())
 
 
 class LabelForm(forms.ModelForm):

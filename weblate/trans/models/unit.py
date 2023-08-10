@@ -437,6 +437,9 @@ class Unit(models.Model, LoggerMixin):
     def get_absolute_url(self):
         return f"{self.translation.get_translate_url()}?checksum={self.checksum}"
 
+    def get_url_path(self):
+        return (*self.translation.get_url_path(), str(self.pk))
+
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
         super().__init__(*args, **kwargs)

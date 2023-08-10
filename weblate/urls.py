@@ -603,7 +603,11 @@ real_patterns = [
     ),
     # Changes browsing
     path("changes/", ChangesView.as_view(), name="changes"),
+    path("changes/browse/<object_path:path>/", ChangesView.as_view(), name="changes"),
     path("changes/csv/", ChangesCSVView.as_view(), name="changes-csv"),
+    path(
+        "changes/csv/<object_path:path>/", ChangesCSVView.as_view(), name="changes-csv"
+    ),
     path("changes/render/<int:pk>/", show_change, name="show_change"),
     # Notification hooks
     path(

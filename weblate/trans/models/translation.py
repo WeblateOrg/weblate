@@ -231,14 +231,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             )
             self.was_new = 0
 
-    def get_reverse_url_kwargs(self):
-        """Return kwargs for URL reversing."""
-        return {
-            "project": self.component.project.slug,
-            "component": self.component.slug,
-            "lang": self.language.code,
-        }
-
     def get_url_path(self):
         return (*self.component.get_url_path(), self.language.code)
 

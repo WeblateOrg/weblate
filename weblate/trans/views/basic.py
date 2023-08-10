@@ -215,7 +215,6 @@ def show_project(request, obj):
             "last_changes": last_changes,
             "last_announcements": last_announcements,
             "reports_form": ReportsForm({"project": obj}),
-            "last_changes_url": urlencode({"project": obj.slug}),
             "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(request.user),
             "announcement_form": optional_form(
@@ -278,9 +277,6 @@ def show_component(request, obj):
             "translations": translations,
             "reports_form": ReportsForm({"component": obj}),
             "last_changes": last_changes,
-            "last_changes_url": urlencode(
-                {"component": obj.slug, "project": obj.project.slug}
-            ),
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
             "bulk_state_form": optional_form(
                 BulkEditForm,
@@ -394,7 +390,6 @@ def show_translation(request, obj):
                 TranslationDeleteForm, user, "translation.delete", obj, obj=obj
             ),
             "last_changes": last_changes,
-            "last_changes_url": urlencode(obj.get_reverse_url_kwargs()),
             "other_translations": other_translations,
             "exporters": EXPORTERS.list_exporters(obj),
         },
