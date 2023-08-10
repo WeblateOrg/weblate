@@ -1,14 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+# nautilusx <translate@disroot.org>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-07-29 18:11+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"PO-Revision-Date: 2023-08-10 19:53+0000\n"
+"Last-Translator: nautilusx <translate@disroot.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
 "Language: de\n"
@@ -409,7 +409,7 @@ msgstr "Eingeladen zu {site_title} von {username}."
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "Einladung von {username} angenommen."
 
 #: weblate/accounts/models.py:160
 msgid "Started trial period."
@@ -801,10 +801,8 @@ msgstr "Kommentar zur eigenen Übersetzung"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:605
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edited string"
-msgstr "String bearbeiten"
+msgstr "Bearbeitete Zeichenkette"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:614
@@ -1553,10 +1551,9 @@ msgstr ""
 "übersetzbaren Zeichenketten analysiert werden sollen."
 
 #: weblate/addons/forms.py:507
-#, fuzzy, python-format
-#| msgid "Failed to parse CSS selector: %s"
+#, python-format
 msgid "Could not parse CSS selector: %s"
-msgstr "Fehler beim Analysieren des CSS-Selektors: %s"
+msgstr "CSS-Selektor konnte nicht analysiert werden: %s"
 
 #: weblate/addons/forms.py:513 weblate/billing/models.py:286
 #: weblate/templates/snippets/query-builder.html:14
@@ -2304,10 +2301,8 @@ msgid "User invitation e-mail was sent."
 msgstr "E-Mail-Einladung wurde versendet."
 
 #: weblate/auth/forms.py:123
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot change this on a built-in team."
-msgstr "Das Ändern von %s ist für integrierte Teams verboten."
+msgstr "Dies kann in einem integrierten Team nicht geändert werden."
 
 #: weblate/auth/models.py:68
 #, python-format
@@ -2603,22 +2598,17 @@ msgid "File format does not support this."
 msgstr "Das Dateiformat unterstützt dies nicht."
 
 #: weblate/auth/views.py:115
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot remove built-in team!"
-msgstr "Das Ändern von %s ist für integrierte Teams verboten."
+msgstr "Integriertes Team kann nicht entfernt werden!"
 
 #: weblate/auth/views.py:189
-#, fuzzy
-#| msgid "User invitation e-mail was sent."
 msgid "User invitation was removed."
-msgstr "E-Mail-Einladung wurde versendet."
+msgstr "Benutzereinladung wurde entfernt."
 
 #: weblate/auth/views.py:213
-#, fuzzy, python-format
-#| msgid "Resend e-mail invitation to the user"
+#, python-format
 msgid "Accepted invitation to the %s team."
-msgstr "E-Mail-Einladung erneut an den Benutzer senden"
+msgstr "Einladung zum %s Team wurde angenommen."
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2755,16 +2745,12 @@ msgstr ""
 "Ausgangszeichenkette"
 
 #: weblate/checks/base.py:287
-#, fuzzy
-#| msgid "Following format strings are missing: {}"
 msgid "The following format strings are missing: {}"
-msgstr "Folgende Formatzeichenketten fehlen: {}"
+msgstr "Die folgenden Formatzeichenketten fehlen: {}"
 
 #: weblate/checks/base.py:292
-#, fuzzy
-#| msgid "Following format strings are extra: {}"
 msgid "The following format strings are extra: {}"
-msgstr "Folgende Formatzeichenketten sind extra: {}"
+msgstr "Die folgenden Formatzeichenketten sind extra: {}"
 
 #: weblate/checks/chars.py:21
 msgid "Starting newline"
@@ -3026,10 +3012,8 @@ msgid "Strict unchanged check"
 msgstr "Strenge unveränderte Prüfung"
 
 #: weblate/checks/flags.py:45
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strict format string checks"
-msgstr "Zeichenketten mit fehlgeschlagenen Qualitätsprüfungen"
+msgstr "Strenge Qualitätsprüfungen der Formatzeichenketten"
 
 #: weblate/checks/flags.py:46 weblate/glossary/forms.py:35
 msgid "Forbidden translation"
@@ -15143,10 +15127,9 @@ msgid "[hostname hashed]"
 msgstr "[Hostname gehasht]"
 
 #: weblate/vcs/ssh.py:167
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Could not generate key: %s"
-msgstr "Fehler beim Generieren des Schlüssels: %s"
+msgstr "Schlüssel konnte nicht erzeugt werden: %s"
 
 #: weblate/vcs/ssh.py:175
 msgid "Created new SSH key."
@@ -15166,16 +15149,13 @@ msgstr ""
 "hinzugefügt, bitte die Korrektheit prüfen."
 
 #: weblate/vcs/ssh.py:226
-#, fuzzy
-#| msgid "Failed to fetch public key for a host!"
 msgid "Could not fetch public key for a host!"
-msgstr "Abrufen des öffentlichen Schlüssels für einen Host fehlgeschlagen!"
+msgstr "Öffentlicher Schlüssel für einen Host konnte nicht abgerufen werden!"
 
 #: weblate/vcs/ssh.py:231 weblate/vcs/ssh.py:234
-#, fuzzy, python-format
-#| msgid "Failed to get host key: %s"
+#, python-format
 msgid "Could not get host key: %s"
-msgstr "Fehler beim Abrufen des Schlüssels: %s"
+msgstr "Hostschlüssel konnte nicht abgerufen werden: %s"
 
 #: weblate/wladmin/forms.py:15
 msgid "Activation token"
