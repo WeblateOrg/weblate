@@ -109,7 +109,7 @@ class PathViewMixin:
 
     def setup(self, request, **kwargs):
         super().setup(request, **kwargs)
-        self.component = self.get_path_object()
+        self.path_object = self.get_path_object()
 
 
 SORT_CHOICES = {

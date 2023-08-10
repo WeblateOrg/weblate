@@ -203,23 +203,23 @@ class ScreenshotList(PathViewMixin, ListView):
 
     def get_queryset(self):
         return (
-            Screenshot.objects.filter(translation__component=self.component)
+            Screenshot.objects.filter(translation__component=self.path_object)
             .prefetch_related("translation__language")
             .order()
         )
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
-        result["object"] = self.component
-        if self.request.user.has_perm("screenshot.add", self.component):
+        result["object"] = self.path_object
+        if self.request.user.has_perm("screenshot.add", self.path_object):
             if self._add_form is not None:
                 result["add_form"] = self._add_form
             else:
-                result["add_form"] = ScreenshotForm(self.component)
+                result["add_form"] = ScreenshotForm(self.path_object)
         return result
 
     def post(self, request, **kwargs):
-        component = self.component
+        component = self.path_object
         if not request.user.has_perm("screenshot.add", component):
             raise PermissionDenied
         self._add_form = ScreenshotForm(component, request.POST, request.FILES)

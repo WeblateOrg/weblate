@@ -20,13 +20,13 @@ class AddonList(PathViewMixin, ListView):
     supported_path_types = (Component,)
 
     def get_queryset(self):
-        if not self.request.user.has_perm("component.edit", self.component):
+        if not self.request.user.has_perm("component.edit", self.path_object):
             raise PermissionDenied("Can not edit component")
-        self.kwargs["component_obj"] = self.component
-        return Addon.objects.filter_component(self.component)
+        self.kwargs["component_obj"] = self.path_object
+        return Addon.objects.filter_component(self.path_object)
 
     def get_success_url(self):
-        return reverse("addons", kwargs={"path": self.component.get_url_path()})
+        return reverse("addons", kwargs={"path": self.path_object.get_url_path()})
 
     def redirect_list(self, message=None):
         if message:
@@ -50,7 +50,7 @@ class AddonList(PathViewMixin, ListView):
         return result
 
     def post(self, request, **kwargs):
-        component = self.component
+        component = self.path_object
         component.acting_user = request.user
         name = request.POST.get("name")
         addon = ADDONS.get(name)
