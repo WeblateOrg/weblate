@@ -3382,6 +3382,18 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
             return False
         return self.is_valid_base_for_new(fast=fast)
 
+    def format_new_language_code(self, language):
+        # Language code used for file
+        code = self.file_format_cls.get_language_code(
+            language.code, self.language_code_style
+        )
+
+        # Apply language aliases
+        language_aliases = {v: k for k, v in self.project.language_aliases_dict.items()}
+        if code in language_aliases:
+            code = language_aliases[code]
+        return code
+
     @transaction.atomic
     def add_new_language(
         self,
@@ -3398,12 +3410,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
         file_format = self.file_format_cls
 
         # Language code used for file
-        code = file_format.get_language_code(language.code, self.language_code_style)
-
-        # Apply language aliases
-        language_aliases = {v: k for k, v in self.project.language_aliases_dict.items()}
-        if code in language_aliases:
-            code = language_aliases[code]
+        code = self.format_new_language_code(language)
 
         # Check if resulting language is not present
         new_lang = Language.objects.fuzzy_get(

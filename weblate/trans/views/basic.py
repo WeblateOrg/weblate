@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import re
+
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse
@@ -94,6 +96,9 @@ def add_ghost_translations(component, user, translations, generator, **kwargs):
         existing = {translation.language.code for translation in translations}
         for language in user.profile.all_languages:
             if language.code in existing:
+                continue
+            code = component.format_new_language_code(language)
+            if re.match(component.language_regex, code) is None:
                 continue
             translations.append(generator(component, language, **kwargs))
 
