@@ -413,7 +413,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         frequency=FREQ_DAILY,
         notify=notify_daily,
         change=Change.ACTION_FAILED_MERGE,
-        subj="Repository failure",
+        subj="Repository operation failed",
     ):
         Subscription.objects.filter(
             frequency=FREQ_INSTANT,
@@ -445,7 +445,10 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.test_digest(FREQ_MONTHLY, notify_monthly)
 
     def test_digest_new_lang(self):
-        self.test_digest(change=Change.ACTION_REQUESTED_LANGUAGE, subj="New language")
+        self.test_digest(
+            change=Change.ACTION_REQUESTED_LANGUAGE,
+            subj="New language was added or requested",
+        )
 
     def test_reminder(
         self,
