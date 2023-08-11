@@ -427,6 +427,8 @@ Generic settings
 
     Defaults to ``INFO`` when :envvar:`WEBLATE_DEBUG` is turned off, ``DEBUG`` is used when debug mode is turned on.
 
+    For more silent logging use ``ERROR`` or ``WARNING``.
+
 .. envvar:: WEBLATE_LOGLEVEL_DATABASE
 
     Configures the logging of the database queries verbosity.
