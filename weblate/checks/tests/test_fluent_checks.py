@@ -1910,49 +1910,49 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "<span>hello</ span>",
                 fluent_type,
-                "The sequence <code>&lt;/</code> begins a HTML closing tag, "
+                "The sequence <code>&lt;/</code> begins with a HTML closing tag, "
                 "but the name or syntax is not valid. If you do not want a "
                 "closing tag, use <code>&amp;lt;/</code>.",
             )
             self.assert_html_error(
                 "hello</>",
                 fluent_type,
-                "The sequence <code>&lt;/</code> begins a HTML closing tag, "
+                "The sequence <code>&lt;/</code> begins with a HTML closing tag, "
                 "but the name or syntax is not valid. If you do not want a "
                 "closing tag, use <code>&amp;lt;/</code>.",
             )
             self.assert_html_error(
                 "hello</",
                 fluent_type,
-                "The sequence <code>&lt;/</code> begins a HTML closing tag, "
+                "The sequence <code>&lt;/</code> begins with a HTML closing tag, "
                 "but the name or syntax is not valid. If you do not want a "
                 "closing tag, use <code>&amp;lt;/</code>.",
             )
             self.assert_html_error(
                 "<span>hello</span",
                 fluent_type,
-                "The sequence <code>&lt;/span</code> begins a HTML closing tag, "
+                "The sequence <code>&lt;/span</code> begins with a HTML closing tag, "
                 "but the name or syntax is not valid. If you do not want a "
                 "closing tag, use <code>&amp;lt;/span</code>.",
             )
             self.assert_html_error(
                 "<span>hello</span hidden=''>",
                 fluent_type,
-                "The sequence <code>&lt;/span</code> begins a HTML closing tag, "
+                "The sequence <code>&lt;/span</code> begins with a HTML closing tag, "
                 "but the name or syntax is not valid. If you do not want a "
                 "closing tag, use <code>&amp;lt;/span</code>.",
             )
             self.assert_html_error(
                 "<span>hello</5>",
                 fluent_type,
-                "The sequence <code>&lt;/5</code> begins a HTML closing tag, "
+                "The sequence <code>&lt;/5</code> begins with a HTML closing tag, "
                 "but the name or syntax is not valid. If you do not want a "
                 "closing tag, use <code>&amp;lt;/5</code>.",
             )
             self.assert_html_error(
                 "<span>hello</sp~n>",
                 fluent_type,
-                "The sequence <code>&lt;/sp~n</code> begins a HTML closing tag, "
+                "The sequence <code>&lt;/sp~n</code> begins with a HTML closing tag, "
                 "but the name or syntax is not valid. If you do not want a "
                 "closing tag, use <code>&amp;lt;/sp~n</code>.",
             )
@@ -1961,7 +1961,7 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "a <sp~n and",
                 fluent_type,
-                "The sequence <code>&lt;sp~n</code> begins a HTML tag, "
+                "The sequence <code>&lt;sp~n</code> begins with a HTML tag, "
                 "but the name is not valid. If you do not want to begin a HTML "
                 "tag, use <code>&amp;lt;sp~n</code>.",
             )
@@ -1969,14 +1969,14 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 'a { "<" }sp~n and',
                 fluent_type,
-                "The sequence <code>&lt;sp~n</code> begins a HTML tag, "
+                "The sequence <code>&lt;sp~n</code> begins with a HTML tag, "
                 "but the name is not valid. If you do not want to begin a HTML "
                 "tag, use <code>&amp;lt;sp~n</code>.",
             )
             self.assert_html_error(
                 "a <sp~n> and </sp~n>",
                 fluent_type,
-                "The sequence <code>&lt;sp~n</code> begins a HTML tag, "
+                "The sequence <code>&lt;sp~n</code> begins with a HTML tag, "
                 "but the name is not valid. If you do not want to begin a HTML "
                 "tag, use <code>&amp;lt;sp~n</code>.",
             )
@@ -1985,7 +1985,7 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "a <my-😄> and </my-😄>",
                 fluent_type,
-                "The sequence <code>&lt;my-😄</code> begins a HTML tag, "
+                "The sequence <code>&lt;my-😄</code> begins with a HTML tag, "
                 "but the name is not valid. If you do not want to begin a HTML "
                 "tag, use <code>&amp;lt;my-😄</code>.",
             )
@@ -1994,21 +1994,21 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "a <div",
                 fluent_type,
-                "The sequence <code>&lt;div</code> begins a HTML tag, "
+                "The sequence <code>&lt;div</code> begins with a HTML tag, "
                 "but the tag is never closed by <code>></code>. If you do not "
                 "want to begin a HTML tag, use <code>&amp;lt;div</code>.",
             )
             self.assert_html_error(
                 "a <div data-val=''",
                 fluent_type,
-                "The sequence <code>&lt;div</code> begins a HTML tag, "
+                "The sequence <code>&lt;div</code> begins with a HTML tag, "
                 "but the tag is never closed by <code>></code>. If you do not "
                 "want to begin a HTML tag, use <code>&amp;lt;div</code>.",
             )
             self.assert_html_error(
                 "a <img data-val='a' \n\t",
                 fluent_type,
-                "The sequence <code>&lt;img</code> begins a HTML tag, "
+                "The sequence <code>&lt;img</code> begins with a HTML tag, "
                 "but the tag is never closed by <code>></code>. If you do not "
                 "want to begin a HTML tag, use <code>&amp;lt;img</code>.",
             )
@@ -2017,7 +2017,7 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "a <span attr",
                 fluent_type,
-                "The sequence <code>&lt;span</code> begins a HTML tag, "
+                "The sequence <code>&lt;span</code> begins with a HTML tag, "
                 "but the sequence <code>attr</code> is not a valid attribute "
                 "with a value. If you do not want to begin a HTML tag, use "
                 "<code>&amp;lt;span</code>.",
@@ -2025,7 +2025,7 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "a <span class='val' attr and more",
                 fluent_type,
-                "The sequence <code>&lt;span</code> begins a HTML tag, "
+                "The sequence <code>&lt;span</code> begins with a HTML tag, "
                 "but the sequence <code>attr</code> is not a valid attribute "
                 "with a value. If you do not want to begin a HTML tag, use "
                 "<code>&amp;lt;span</code>.",
@@ -2033,7 +2033,7 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "a <p><em att*va>content</em></p>",
                 fluent_type,
-                "The sequence <code>&lt;em</code> begins a HTML tag, "
+                "The sequence <code>&lt;em</code> begins with a HTML tag, "
                 "but the sequence <code>att*va</code> is not a valid attribute "
                 "with a value. If you do not want to begin a HTML tag, use "
                 "<code>&amp;lt;em</code>.",
@@ -2042,7 +2042,7 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "a <p><img attr></p>",
                 fluent_type,
-                "The sequence <code>&lt;img</code> begins a HTML tag, "
+                "The sequence <code>&lt;img</code> begins with a HTML tag, "
                 "but the sequence <code>attr</code> is not a valid attribute "
                 "with a value. If you do not want to begin a HTML tag, use "
                 "<code>&amp;lt;img</code>.",
@@ -2247,7 +2247,7 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "a <{ $var ->\n  [zero] none\n *[other] { $var }\n}",
                 fluent_type,
-                "The sequence <code>&lt;none</code> begins a HTML tag, "
+                "The sequence <code>&lt;none</code> begins with a HTML tag, "
                 "but the tag is never closed by <code>></code>. If you do not "
                 "want to begin a HTML tag, use <code>&amp;lt;none</code>.",
             )
