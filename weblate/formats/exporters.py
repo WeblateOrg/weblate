@@ -123,7 +123,8 @@ class BaseExporter:
         output = self.build_unit(unit)
         # Location needs to be set prior to ID to avoid overwrite
         # on some formats (for example xliff)
-        for location in unit.location.split():
+        for location in unit.location.split(","):
+            location = location.strip()
             if location:
                 output.addlocation(location)
 

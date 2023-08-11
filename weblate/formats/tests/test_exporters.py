@@ -97,6 +97,14 @@ class PoExporterTest(BaseTestCase):
     def test_unit_markup(self):
         self.check_unit(source="<b>foo</b>", target="<b>bar</b>")
 
+    def test_unit_location(self):
+        self.check_unit(source="xxx", target="yyy", location="file.c:333, file.c:444")
+
+    def test_unit_location_custom(self):
+        self.check_unit(
+            source="xxx", target="yyy", location="docs/config.md:block 1 (header)"
+        )
+
     def test_unit_special(self):
         self.check_unit(source="bar\x1e\x1efoo", target="br\x1eff")
 
