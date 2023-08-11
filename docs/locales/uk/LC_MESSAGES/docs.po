@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 12:41+0200\n"
-"PO-Revision-Date: 2023-08-11 17:36+0000\n"
+"PO-Revision-Date: 2023-08-11 20:24+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -43092,6 +43092,10 @@ msgid ""
 "the variant's key may have made the reference redundant for that variant. "
 "For example:"
 msgstr ""
+"Більше того, якщо посилання на змінну є одразу у виборі виразу вибору і "
+"одному з його варіантів, можна також перевірити, чи в усіх варіантах "
+"міститься це посилання. Припущення може полягати у тому, що ключ варіанта "
+"може робити посилання зайвим для варіанта. Приклад:"
 
 #: ../../user/checks.rst:253
 msgid ""
@@ -43109,6 +43113,11 @@ msgid ""
 "content of the string that the end-user will see, and the presence of a "
 "Select Expression is considered locale-specific. For example:"
 msgstr ""
+"Втім, посилання у виборі виразу вибору, яке може бути лише змінною атрибута "
+"терміна у синтаксисі Fluent, не буде вважатися саме собою обов'язковим "
+"посиланням, оскільки вони не формують самі текстові дані рядка, які побачить "
+"кінцевий користувач, а наявність виразу вибору вважатиметься специфічною для "
+"локалі. Приклад:"
 
 #: ../../user/checks.rst:269
 msgid ""
@@ -43180,6 +43189,14 @@ msgid ""
 "there are multiple elements in the value, they need not appear in the same "
 "order in the translation value."
 msgstr ""
+"По-друге, елементи HTML, які буде виявлено у перекладеному значенні, буде "
+"порівняно із елементами HTML, які виявлено у початковому значенні. Два "
+"елементи вважатимуться відповідними, якщо у них точно та сама назва теґу, "
+"точно ті самі атрибути і значення, а усі успадковані елементи також є "
+"відповідними. Ця перевірка забезпечує наявність усіх елементів початкового "
+"коду у перекладі, у тій самій кількості, без додавання додаткових елементів. "
+"Якщо у значенні декілька елементів, у перекладі вони можуть з'являтися в "
+"іншому порядку."
 
 #: ../../user/checks.rst:308
 msgid ""
@@ -43187,6 +43204,9 @@ msgid ""
 "possible variant in the source must be matched with at least one variant in "
 "the translation with the same HTML elements, and vice versa."
 msgstr ""
+"Якщо у початкових даних або перекладі містяться вирази вибору Fluent, "
+"кожному можливому варіанту у початковому коді має відповідати принаймні один "
+"варіант у перекладі із тими самими елементами HTML, і навпаки."
 
 #: ../../user/checks.rst:312
 msgid ""
@@ -43194,6 +43214,9 @@ msgid ""
 "includes any required ``data-l10n-name`` elements that appear in the source, "
 "or any of the allowed inline elements like ``<br>``."
 msgstr ""
+"Якщо використано пакунок DOM Fluent, забезпечує наявність у перекладі усіх "
+"обов'язкових елементів ``data-l10n-name`` початкового коду або будь-яких "
+"дозволених вбудованих елементів, зокрема ``<br>``."
 
 #: ../../user/checks.rst:316
 msgid "For example, the following source:"
@@ -43201,7 +43224,7 @@ msgstr "Наприклад, такий початковий код:"
 
 #: ../../user/checks.rst:322
 msgid "would match with:"
-msgstr ""
+msgstr "має відповідати:"
 
 #: ../../user/checks.rst:328
 msgid "but not:"
@@ -43216,6 +43239,8 @@ msgid ""
 ":ref:`check-fluent-source-inner-html`, `Fluent DOM <https://projectfluent."
 "org/dom-l10n-documentation/overview.html>`_"
 msgstr ""
+":ref:`check-fluent-source-inner-html`, `Fluent DOM <https://projectfluent."
+"org/dom-l10n-documentation/overview.html>`_"
 
 #: ../../user/checks.rst:348
 msgid "Fluent translation syntax"
@@ -43244,6 +43269,10 @@ msgid ""
 "variants, including plurals. This check ensures that the syntax used in the "
 "translation will be valid for Fluent."
 msgstr ""
+"У Weblate рядки Fluent використовують синтаксис Fluent для посилань та "
+"змінних, але також для складніших речей, зокрема визначення атрибутів та "
+"варіантів вибору, зокрема форм множини. Ця перевірка забезпечує коректність "
+"синтаксису Fluent перекладу."
 
 #: ../../user/checks.rst:366
 msgid ""
@@ -43252,6 +43281,10 @@ msgid ""
 "mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax."
 "html>`_"
 msgstr ""
+":ref:`check-fluent-source-syntax`, `Настанови щодо синтаксису Fluent "
+"<https://projectfluent.org/fluent/guide/>`_ `Настанови щодо базового "
+"синтаксису Mozilla <https://mozilla-l10n.github.io/localizer-documentation/"
+"tools/fluent/basic_syntax.html>`_"
 
 #: ../../user/checks.rst:373
 msgid "Formatted strings"
@@ -43290,6 +43323,10 @@ msgid ""
 "these cases (`One apple` instead of `%d apple`). Turn this of by adding "
 "``strict-format`` flag."
 msgstr ""
+"Більшість перевірок форматування надають змогу пропускати рядки форматування "
+"для форм множини, якщо така форма множини є єдиною. Уможливлює для "
+"перекладачів написання кращих рядків для цих випадків (`Одне яблуко` замість "
+"`%d яблуко`). Вимикається прапорцем ``strict-format``."
 
 #: ../../user/checks.rst:389
 msgid ""
@@ -45340,6 +45377,10 @@ msgid ""
 "meant to be used directly as ``.innerHTML`` (rather than ``.textContent``) "
 "for some HTML element. For example, when using the Fluent DOM package."
 msgstr ""
+"Fluent часто використовують у контекстах, де значення для повідомлення (або "
+"терміна) має бути використано безпосередньо як ``.innerHTML`` (а не як ``."
+"textContent``) для якогось елемента HTML. Прикладом є використання пакунка "
+"DOM Fluent."
 
 #: ../../user/checks.rst:1607
 msgid ""
@@ -45348,6 +45389,11 @@ msgid ""
 "be some \"unintended\" loss of the string, without being too strict about "
 "technical parsing errors that do *not* lead to a loss of the string."
 msgstr ""
+"Призначенням цієї перевірки є передбачення того, як буде оброблено значення "
+"як вбудований код HTML, припускаючи сумісний із HTML5 обробник, для "
+"виявлення випадків, коли відбудеться «ненавмисна» втрата рядка, без "
+"надмірної строгості щодо помилок технічної обробки, які *не* призводять до "
+"втрати рядка."
 
 #: ../../user/checks.rst:1612
 msgid ""
@@ -45357,6 +45403,11 @@ msgid ""
 "Attributes are often language properties that can only be referenced in the "
 "selectors of Fluent Select Expressions."
 msgstr ""
+"Цю перевірку буде застосовано до значення повідомлень або термінів Fluent, "
+"але не до їхніх атрибутів. Для повідомлень атрибути Fluent часто є просто "
+"значенням атрибутів HTML, тому можуть бути довільними рядками. Для термінів "
+"атрибути Fluent часто є властивостями мови, посилання на які можливі лише у "
+"виборі виразів вибору Fluent."
 
 #: ../../user/checks.rst:1618
 msgid ""
@@ -45366,6 +45417,11 @@ msgid ""
 "XHTML parsing errors). Instead, we just want to warn them when they may have "
 "unintentionally opened a HTML tag or inserted a character reference."
 msgstr ""
+"Загалом, ми очікуємо, що більшість значень Fluent не містять розмітки HTML. "
+"Тому ми не очікуємо і не хочемо, щоб перекладачі або розробники переймалися "
+"строгим униканням *будь-яких* технічних помилок обробки HTML5 (окрім помилок "
+"обробки XHTML). Замість цього, ми просто хочемо попередити їх, якщо вони "
+"ненавмисно відкрили теґ HTML або вставили символьне посилання."
 
 #: ../../user/checks.rst:1624
 msgid ""
@@ -45378,6 +45434,15 @@ msgid ""
 "attributes, as well as allow *some* custom element or attribute names. This "
 "is partially to ensure that the user is using HTML intentionally."
 msgstr ""
+"Більше того, для значень Fluent, які навмисно містять теґи HTML або "
+"символьні посилання, ми хочемо перевірити «правильність», зокрема "
+"відповідність завершальних або кінцевих теґів, коректність символьних "
+"посилань та лапки у значеннях атрибутів. Крім того, хоча специфікація HTML5 "
+"технічно дозволяє майже довільні назви теґів та атрибутів, ця перевірка "
+"обмежує їх певними базовими значеннями у ASCII, серед яких містяться усі "
+"стандартні теґи та атрибути елементів HTML5, а також дозволяє *деякі* "
+"нетипові назви елементів або атрибутів. Таким чином, частково можна "
+"забезпечити «навмисність» використання HTML."
 
 #: ../../user/checks.rst:1633
 msgid "Examples:"
@@ -45397,7 +45462,7 @@ msgstr "``three<four``"
 
 #: ../../user/checks.rst:1638
 msgid "The ``<four`` part would be lost as ``.innerHTML``."
-msgstr ""
+msgstr "Частину ``<four`` буде втрачено як ``.innerHTML``."
 
 #: ../../user/checks.rst:1639
 msgid "``three < four``"
@@ -45405,7 +45470,7 @@ msgstr "``three < four``"
 
 #: ../../user/checks.rst:1639
 msgid "The ``.innerHTML`` would match the ``.textContent``."
-msgstr ""
+msgstr "``.innerHTML`` має відповідати ``.textContent``."
 
 #: ../../user/checks.rst:1640
 msgid "``three <four>``"
@@ -45422,6 +45487,7 @@ msgstr "``three <four/>``"
 #: ../../user/checks.rst:1641
 msgid "``four`` is not a HTML void element, so should not self-close."
 msgstr ""
+"``four`` не є порожнім елементом HTML, отже, самозавершення не повинно бути."
 
 #: ../../user/checks.rst:1642
 msgid "``<a-b>text</a-b>``"
@@ -45429,7 +45495,7 @@ msgstr "``<a-b>text</a-b>``"
 
 #: ../../user/checks.rst:1642
 msgid "Custom element tag with a matching closing tag."
-msgstr ""
+msgstr "Нетиповий теґ елемента із відповідним завершальним теґом."
 
 #: ../../user/checks.rst:1643
 msgid "``a <img/> b``"
@@ -45437,7 +45503,7 @@ msgstr "``a <img/> b``"
 
 #: ../../user/checks.rst:1643
 msgid "``img`` is a HTML void element. Self-closing is allowed."
-msgstr ""
+msgstr "``img`` є порожнім елементом HTML. Самозавершення дозволено."
 
 #: ../../user/checks.rst:1644
 msgid "``a <br> b``"
@@ -45445,7 +45511,7 @@ msgstr "``a <br> b``"
 
 #: ../../user/checks.rst:1644
 msgid "``br`` is a HTML void element."
-msgstr ""
+msgstr "``br`` є порожнім елементом HTML."
 
 #: ../../user/checks.rst:1645
 msgid "``<img class=a/>``"
@@ -45461,7 +45527,7 @@ msgstr "``<aØ attr=''/>``"
 
 #: ../../user/checks.rst:1646
 msgid "Non-ASCII tag name."
-msgstr ""
+msgstr "Назва теґу поза ASCII."
 
 #: ../../user/checks.rst:1647
 msgid "``kind&ethical``"
@@ -45469,7 +45535,7 @@ msgstr "``kind&ethical``"
 
 #: ../../user/checks.rst:1647
 msgid "The ``&eth`` part would be converted to ``ð``."
-msgstr ""
+msgstr "Частину ``&eth`` має бути перетворено на ``ð``."
 
 #: ../../user/checks.rst:1648
 msgid "``kind&eth;ical``"
@@ -45477,7 +45543,7 @@ msgstr "``kind&eth;ical``"
 
 #: ../../user/checks.rst:1648
 msgid "The character reference seems to be intentional."
-msgstr ""
+msgstr "Символьне посилання, здається, є навмисним."
 
 #: ../../user/checks.rst:1649
 msgid "``three&lte;four``"
@@ -45485,7 +45551,7 @@ msgstr "``three&lte;four``"
 
 #: ../../user/checks.rst:1649
 msgid "The ``&lte;`` part would be converted to ``<e;``."
-msgstr ""
+msgstr "Частину ``&lte;`` має бути перетворено на ``<e;``."
 
 #: ../../user/checks.rst:1650
 msgid "``three&lf;four``"
@@ -45501,7 +45567,7 @@ msgstr "``three<{ $val }``"
 
 #: ../../user/checks.rst:1651
 msgid "The Fluent variable may unintentionally become a tag."
-msgstr ""
+msgstr "Змінну Fluent може бути ненавмисно перетворено на теґ."
 
 #: ../../user/checks.rst:1652
 msgid "``&l{ $val }``"
@@ -45509,7 +45575,7 @@ msgstr "``&l{ $val }``"
 
 #: ../../user/checks.rst:1652
 msgid "The Fluent variable may unintentionally become a character reference"
-msgstr ""
+msgstr "Змінну Fluent може бути ненавмисно перетворено на символьне посилання"
 
 #: ../../user/checks.rst:1657
 msgid ""
@@ -45521,18 +45587,29 @@ msgid ""
 "reference will trigger this check since even an escaped value could lead to "
 "unexpected results."
 msgstr ""
+"Ця перевірка не забезпечує *безпечності* або притомності вбудованого коду "
+"HTML і не захищає від зловмисних спроб змінити вбудований код HTML. Більше "
+"того, слід пам'ятати, що змінні і посилання Fluent може бути розгорнуто до "
+"довільних рядків, тому можливе розгортання до довільного коду HTML, якщо "
+"рядки не екрановано. Виключення: символ ``<`` або ``&`` перед посиланням "
+"Fluent спричиняє спрацювання цієї перевірки, оскільки навіть екрановане "
+"значення може призвести до неочікуваних результатів."
 
 #: ../../user/checks.rst:1667
 msgid ""
 "The Fluent DOM package has further limitations, such as allowed tags and "
 "attributes, which this check will not enforce."
 msgstr ""
+"Пакунок DOM Fluent містить додаткові обмеження, зокрема список дозволених "
+"теґів та атрибутів, які ця перевірка не обмежує примусово."
 
 #: ../../user/checks.rst:1672
 msgid ""
 ":ref:`check-fluent-target-inner-html`, `Fluent DOM <https://projectfluent."
 "org/dom-l10n-documentation/overview.html>`_"
 msgstr ""
+":ref:`check-fluent-target-inner-html`, `Fluent DOM <https://projectfluent."
+"org/dom-l10n-documentation/overview.html>`_"
 
 #: ../../user/checks.rst:1678
 msgid "Fluent source syntax"
@@ -45561,6 +45638,10 @@ msgid ""
 "variants, including plurals. This check ensures that the syntax used in "
 "source will be valid for Fluent."
 msgstr ""
+"У Weblate рядки Fluent використовують синтаксис Fluent для посилань та "
+"змінних, але також для складніших речей, зокрема визначення атрибутів та "
+"варіантів вибору, зокрема форм множини. Ця перевірка забезпечує коректність "
+"синтаксису Fluent початкових даних."
 
 #: ../../user/checks.rst:1696
 msgid ""
@@ -45569,6 +45650,10 @@ msgid ""
 "mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax."
 "html>`_"
 msgstr ""
+":ref:`check-fluent-target-syntax`, `Настанови щодо синтаксису Fluent "
+"<https://projectfluent.org/fluent/guide/>`_ `Настанови щодо базового "
+"синтаксису Mozilla <https://mozilla-l10n.github.io/localizer-documentation/"
+"tools/fluent/basic_syntax.html>`_"
 
 #: ../../user/checks.rst:1703
 msgid "ICU MessageFormat syntax"
