@@ -1221,8 +1221,6 @@ class Unit(models.Model, LoggerMixin):
 
     def run_checks(self, propagate: bool | None = None):  # noqa: C901
         """Update checks for this unit."""
-        bool(propagate)
-
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
 
