@@ -290,7 +290,6 @@ class Migration(migrations.Migration):
             options={"verbose_name": "Project", "verbose_name_plural": "Projects"},
             bases=(
                 models.Model,
-                weblate.trans.mixins.URLMixin,
                 weblate.trans.mixins.PathMixin,
             ),
         ),
@@ -704,7 +703,6 @@ class Migration(migrations.Migration):
             },
             bases=(
                 models.Model,
-                weblate.trans.mixins.URLMixin,
                 weblate.trans.mixins.PathMixin,
             ),
         ),
