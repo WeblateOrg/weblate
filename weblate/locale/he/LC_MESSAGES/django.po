@@ -1,13 +1,13 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-07-25 01:26+0000\n"
+"PO-Revision-Date: 2023-08-11 08:42+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -388,7 +388,7 @@ msgstr "התקבלה הזמנה אל {site_title} מאת {username}."
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "נענית בחיוב להזמנה של {username}."
 
 #: weblate/accounts/models.py:160
 msgid "Started trial period."
@@ -756,10 +756,8 @@ msgstr "הוספת הערה על תרגום שלך"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:605
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edited string"
-msgstr "עריכת מחרוזת"
+msgstr "מחרוזת שנערכה"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:614
@@ -1456,10 +1454,9 @@ msgstr ""
 "לתרגום."
 
 #: weblate/addons/forms.py:507
-#, fuzzy, python-format
-#| msgid "Failed to parse CSS selector: %s"
+#, python-format
 msgid "Could not parse CSS selector: %s"
-msgstr "פענוח בורר ה־CSS נכשל: %s"
+msgstr "לא ניתן לפענח בורר CSS:‏ %s"
 
 #: weblate/addons/forms.py:513 weblate/billing/models.py:286
 #: weblate/templates/snippets/query-builder.html:14
@@ -2188,10 +2185,8 @@ msgid "User invitation e-mail was sent."
 msgstr "נשלחה הזמנה למשתמש דרך דוא״ל."
 
 #: weblate/auth/forms.py:123
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot change this on a built-in team."
-msgstr "החלפת %s אסורה בצוותים מובנים."
+msgstr "לא ניתן להחליף את זה בצוות מובנה."
 
 #: weblate/auth/models.py:68
 #, python-format
@@ -2469,22 +2464,17 @@ msgid "File format does not support this."
 msgstr "סוג הקובץ לא תומך בזה."
 
 #: weblate/auth/views.py:115
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot remove built-in team!"
-msgstr "החלפת %s אסורה בצוותים מובנים."
+msgstr "לא ניתן להסיר צוות מובנה!"
 
 #: weblate/auth/views.py:189
-#, fuzzy
-#| msgid "User invitation e-mail was sent."
 msgid "User invitation was removed."
-msgstr "נשלחה הזמנה למשתמש דרך דוא״ל."
+msgstr "ההזמנה למשתמש הוסרה."
 
 #: weblate/auth/views.py:213
-#, fuzzy, python-format
-#| msgid "Resend e-mail invitation to the user"
+#, python-format
 msgid "Accepted invitation to the %s team."
-msgstr "שליחת הזמנה למשתמש בדוא״ל שוב"
+msgstr "ההזמנה לצוות %s נענתה בחיוב."
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2617,14 +2607,10 @@ msgid "AngularJS interpolation strings do not match source"
 msgstr "מחרוזות השזירה של AngularJS אינן תואמות למקור"
 
 #: weblate/checks/base.py:287
-#, fuzzy
-#| msgid "Following format strings are missing: {}"
 msgid "The following format strings are missing: {}"
 msgstr "מחרוזות התבנית הבאות חסרות: {}"
 
 #: weblate/checks/base.py:292
-#, fuzzy
-#| msgid "Following format strings are extra: {}"
 msgid "The following format strings are extra: {}"
 msgstr "מחרוזות התבנית הבאות הן תוספת: {}"
 
@@ -2871,10 +2857,8 @@ msgid "Strict unchanged check"
 msgstr "בדיקת „נותרו ללא שינוי” קשוחה"
 
 #: weblate/checks/flags.py:45
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strict format string checks"
-msgstr "מחרוזות עם בדיקות כלשהן שנכשלו"
+msgstr "בדיקות תבניות מחרוזות נוקשות"
 
 #: weblate/checks/flags.py:46 weblate/glossary/forms.py:35
 msgid "Forbidden translation"
@@ -2928,10 +2912,8 @@ msgid "String variant"
 msgstr "הגוונים של מחרוזת"
 
 #: weblate/checks/flags.py:72
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent type"
-msgstr "קובץ Fluent"
+msgstr "סוג Fluent"
 
 #: weblate/checks/flags.py:261
 #, python-format
@@ -2973,6 +2955,8 @@ msgid ""
 "The sequence {sequence} begins a HTML closing tag, but the name or syntax is "
 "not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"הרצף {sequence} נפתח בתגית סגירה של HTML, אך השם או התחביר שגוי. אם אין לך "
+"צורך בתגית סגירה, כדאי להשתמש ב{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:184
 #, python-brace-format
@@ -3123,27 +3107,25 @@ msgstr ""
 
 #: weblate/checks/fluent/parts.py:65
 msgid "Fluent value should be empty."
-msgstr ""
+msgstr "ערך ה־Fluent צריך להיות ריק."
 
 #: weblate/checks/fluent/parts.py:71
 #, python-brace-format
 msgid "Missing Fluent attribute: {hint}"
-msgstr ""
+msgstr "מאפיין Fluent חסר: {hint}"
 
 #: weblate/checks/fluent/parts.py:80
 #, python-brace-format
 msgid "Unexpected Fluent attribute: {hint}"
-msgstr ""
+msgstr "מאפיין Fluent מפתיע: {hint}"
 
 #: weblate/checks/fluent/parts.py:112
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent parts"
-msgstr "קובץ Fluent"
+msgstr "חלקי Fluent"
 
 #: weblate/checks/fluent/parts.py:113
 msgid "Fluent parts should match"
-msgstr ""
+msgstr "חלקי ה־Fluent צריכים להיות תואמים"
 
 #: weblate/checks/fluent/references.py:373
 #, python-brace-format
@@ -3241,10 +3223,8 @@ msgid ""
 msgstr ""
 
 #: weblate/checks/fluent/references.py:670
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "העדפות"
+msgstr "העדפות Fluent"
 
 #: weblate/checks/fluent/references.py:671
 msgid "Fluent references should match"
@@ -3253,29 +3233,23 @@ msgstr ""
 #: weblate/checks/fluent/syntax.py:39
 #, python-brace-format
 msgid "Fluent syntax error: {error}."
-msgstr ""
+msgstr "שגיאת תחביר Fluent:‏ {error}."
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "יש למלא במחרוזת המקור"
+msgstr "תחביר מקור Fluent"
 
 #: weblate/checks/fluent/syntax.py:48
 msgid "Fluent syntax error in source"
-msgstr ""
+msgstr "שגיאת תחביר Fluent במקור"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation syntax"
-msgstr "תרגום נוכחי"
+msgstr "תחביר תרגום Fluent"
 
 #: weblate/checks/fluent/syntax.py:65
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in translation"
-msgstr "הוספת הערה על תרגום שלך"
+msgstr "שגיאת תחביר Fluent בתרגום"
 
 #: weblate/checks/format.py:400
 #, fuzzy, python-format
@@ -3851,22 +3825,16 @@ msgid "Qt Linguist translation file"
 msgstr "קובץ תרגום של Qt Linguist"
 
 #: weblate/formats/ttkit.py:1205
-#, fuzzy
-#| msgid "XLIFF translation file"
 msgid "XLIFF 1.2 translation file"
-msgstr "קובץ תרגום XLIFF"
+msgstr "קובץ תרגום XLIFF 1.2"
 
 #: weblate/formats/ttkit.py:1235
-#, fuzzy
-#| msgid "XLIFF with placeables support"
 msgid "XLIFF 1.2 with placeables support"
-msgstr "תמיכה ב־XLIFF עם ממלאי מקום"
+msgstr "תמיכה ב־XLIFF 1.2 עם ממלאי מקום"
 
 #: weblate/formats/ttkit.py:1242
-#, fuzzy
-#| msgid "XLIFF 1.1 with gettext extensions"
 msgid "XLIFF 1.2 with gettext extensions"
-msgstr "XLIFF 1.1 עם הרחבות gettext"
+msgstr "XLIFF 1.2 עם הרחבות gettext"
 
 #: weblate/formats/ttkit.py:1272
 msgid "iOS strings (UTF-16)"
@@ -3913,10 +3881,9 @@ msgid ".NET resource file"
 msgstr "קובץ מקור ‎.NET"
 
 #: weblate/formats/ttkit.py:1405
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Could not parse the key: %s"
-msgstr "פענוח המפתח נכשל: %s"
+msgstr "לא ניתן לפענח את המפתח: %s"
 
 #: weblate/formats/ttkit.py:1409
 msgid "JSON file"
@@ -4296,7 +4263,7 @@ msgstr "נוסחת ריבוי של gettext"
 
 #: weblate/lang/models.py:769
 msgid "CLDR plural with zero"
-msgstr ""
+msgstr "צורת ריבוי CLDR עם אפס"
 
 #: weblate/lang/models.py:770
 msgid "CLDR v38+ plural"
@@ -4466,16 +4433,14 @@ msgid "Overview"
 msgstr "סקירה"
 
 #: weblate/machinery/base.py:96
-#, fuzzy, python-format
-#| msgid "Failed to fetch supported languages: %s"
+#, python-format
 msgid "Could not fetch supported languages: %s"
-msgstr "משיכת השפות הנתמכות נכשלה: %s"
+msgstr "לא ניתן למשוך את השפות הנתמכות: %s"
 
 #: weblate/machinery/base.py:101
-#, fuzzy, python-format
-#| msgid "Failed to fetch translation: %s"
+#, python-format
 msgid "Could not fetch translation: %s"
-msgstr "משיכת התרגום נכשלה: %s"
+msgstr "לא יתן למשוך את התרגומים: %s"
 
 #: weblate/machinery/forms.py:33 weblate/machinery/forms.py:60
 #: weblate/machinery/forms.py:77 weblate/machinery/forms.py:84
@@ -4621,26 +4586,22 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "לא נמצאו רשומות תקניות בקובץ שהועלה!"
 
 #: weblate/memory/models.py:116 weblate/memory/models.py:121
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: %s"
+#, python-format
 msgid "Could not parse JSON file: %s"
-msgstr "פענוח קובץ ה־JSON נכשל: %s"
+msgstr "לא ניתן לפענח קובץ JSON‏: %s"
 
 #: weblate/memory/models.py:150
-#, fuzzy
-#| msgid "Failed to parse TMX file!"
 msgid "Could not parse TMX file!"
-msgstr "פענוח קובץ ה־TMX נכשל!"
+msgstr "לא ניתן לפענח קובץ TMX!"
 
 #: weblate/memory/models.py:158
 msgid "Source language not defined in the TMX file!"
 msgstr "שפת המקור לא מוגדרת בקובץ ה־TMX!"
 
 #: weblate/memory/models.py:163 weblate/memory/models.py:180
-#, fuzzy, python-format
-#| msgid "Failed to find language %s!"
+#, python-format
 msgid "Could not find language %s!"
-msgstr "איתור השפה %s נכשל!"
+msgstr "לא ניתן לאתר את השפה %s!"
 
 #: weblate/memory/models.py:251
 msgctxt "Translation memory category"
@@ -4761,20 +4722,16 @@ msgid "Image"
 msgstr "תמונה"
 
 #: weblate/screenshots/models.py:58
-#, fuzzy
-#| msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
 msgid "Upload image up to 2000x2000 pixels."
-msgstr "ניתן להעלות תמונות JPEG או PNG עד לגודל של 2000×2000 פיקסלים."
+msgstr "ניתן להעלות תמונה עד לגודל של 2000×2000 פיקסלים."
 
 #: weblate/screenshots/views.py:241
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr "צילום המסך נשלח, כעת ניתן לשייך אותו למחרוזות מקור."
 
 #: weblate/screenshots/views.py:247
-#, fuzzy
-#| msgid "Failed to upload screenshot, please fix errors below."
 msgid "Could not upload screenshot, please fix errors below."
-msgstr "העלאת צילום המסך נכשלה, נא לתקן את השגיאות שלהלן."
+msgstr "לא ניתן להעלות צילום מסך, נא לתקן את השגיאות שלהלן."
 
 #: weblate/screenshots/views.py:302
 #, python-format
@@ -5422,10 +5379,8 @@ msgstr "צוות"
 
 #: weblate/templates/accounts/profile.html:253
 #: weblate/templates/trans/project-access.html:95
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitation"
-msgstr "שליחת ההזמנה מחדש"
+msgstr "הזמנה ממתינה"
 
 #: weblate/templates/accounts/profile.html:279
 msgid "Description"
@@ -6175,10 +6130,8 @@ msgid "Automatic assignment of users is configured for this team"
 msgstr ""
 
 #: weblate/templates/auth/teams-count.html:5
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic assignment"
-msgstr "הקצאות אוטומטיות"
+msgstr "הקצאה אוטומטית"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -7614,11 +7567,11 @@ msgstr "הוספת שפה"
 
 #: weblate/templates/lang/plural_form.html:15
 msgid "Changing plural rules might not have a desired effect."
-msgstr ""
+msgstr "שינוי כללי הריבוי עשוי לגרום לתופעות לא רצויות."
 
 #: weblate/templates/lang/plural_form.html:16
 msgid "Please see a documentation for more info."
-msgstr ""
+msgstr "נא לעיין בתיעוד למידע נוסף."
 
 #: weblate/templates/language-project.html:69
 #: weblate/templates/language.html:54
@@ -7954,10 +7907,8 @@ msgid "Digest: %(notification_name)s"
 msgstr "עדכון מרוכז: %(notification_name)s"
 
 #: weblate/templates/mail/invite.html:12
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "View invitation"
-msgstr "שליחת ההזמנה מחדש"
+msgstr "הצגת הזמנה"
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -8200,10 +8151,8 @@ msgid "Confirm account removal"
 msgstr "אישור הסרת חשבון"
 
 #: weblate/templates/mail/shared-registration.html:20
-#, fuzzy
-#| msgid "Confirm registration"
 msgid "Confirm invitation"
-msgstr "אישור רישום"
+msgstr "אישור הזמנה"
 
 #: weblate/templates/mail/shared-registration.html:22
 msgid "Confirm registration"
@@ -8617,10 +8566,8 @@ msgid "Add new user"
 msgstr "הוספת משתמש חדש"
 
 #: weblate/templates/manage/users.html:41
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitations"
-msgstr "שליחת ההזמנה מחדש"
+msgstr "הזמנות ממתינות"
 
 #: weblate/templates/manage/users.html:77
 #: weblate/templates/trans/project-access.html:103
@@ -8629,17 +8576,13 @@ msgstr "שליחת ההזמנה מחדש"
 
 #: weblate/templates/manage/users.html:81
 #: weblate/templates/trans/project-access.html:107
-#, fuzzy
-#| msgid "Permalink copied to clipboard."
 msgid "Invitation link copied to clipboard."
-msgstr "הקישור הקבוע הועתק ללוח הגזירים."
+msgstr "קישור ההזמנה הועתק ללוח הגזירים."
 
 #: weblate/templates/manage/users.html:85
 #: weblate/templates/trans/project-access.html:111
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Remove invitation"
-msgstr "שליחת ההזמנה מחדש"
+msgstr "הסרת הזמנה"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -9444,10 +9387,8 @@ msgid "The project has had active development for at least three months."
 msgstr "יש פעילות פיתוח במיזם בשלושה החודשים האחרונים לפחות."
 
 #: weblate/templates/snippets/libre-checklist.html:18
-#, fuzzy
-#| msgid "Unmet guidelines from the community localization checklist:"
 msgid "Review guidelines from the community localization checklist."
-msgstr "הנחיות שלא מולאו מרשימת מטלות התרגום של הקהילה:"
+msgstr "סקירת ההנחיות מרשימת מטלות התרגום של הקהילה."
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -9517,10 +9458,8 @@ msgid "Create translation"
 msgstr "יצירת תרגום"
 
 #: weblate/templates/snippets/list-objects.html:146
-#, fuzzy
-#| msgid "Could not add new translation file."
 msgid "Cannot add translation right now"
-msgstr "לא ניתן להוסיף קובץ תרגום חדש."
+msgstr "לא ניתן להוסיף תרגום כרגע"
 
 #: weblate/templates/snippets/list-objects.html:150
 #: weblate/templates/translate.html:30 weblate/templates/translation.html:146
@@ -10528,10 +10467,9 @@ msgid "Edit team membership for %(username)s"
 msgstr "עריכת החברות של %(username)s בצוות"
 
 #: weblate/templates/trans/project-access.html:92
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation for %(email)s"
-msgstr "הזמנה אל %(site_title)s"
+msgstr "הזמנה עבור %(email)s"
 
 #: weblate/templates/trans/project-access.html:121
 msgid ""
@@ -11076,28 +11014,21 @@ msgid ""
 msgstr "ההודעה מופיעה בעמוד התרגום עד למועד תפוגתה או עד למחיקתה."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:9
-#, fuzzy
-#| msgid "Instructions"
 msgid "Invitations"
-msgstr "הנחיות"
+msgstr "הזמנות"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:10
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Invitation"
-msgstr "שליחת ההזמנה מחדש"
+msgstr "הזמנה"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:19
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation to %(project_name)s"
-msgstr "הזמנה אל %(site_title)s"
+msgstr "הזמנה אל %(project_name)s"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:25
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Accept invitation"
-msgstr "שליחת ההזמנה מחדש"
+msgstr "אישור ההזמנה"
 
 #: weblate/templates/widgets.html:6
 msgid "Widgets"
@@ -12846,10 +12777,9 @@ msgid "File does not exist."
 msgstr "קובץ לא קיים."
 
 #: weblate/trans/models/component.py:1682
-#, fuzzy, python-format
-#| msgid "Failed to push %(component)s: %(error_text)s"
+#, python-format
 msgid "Could not push %(component)s: %(error_text)s"
-msgstr "דחיפת %(component)s נכשלה: %(error_text)s"
+msgstr "לא ניתן לדחוף את %(component)s‏: %(error_text)s"
 
 #: weblate/trans/models/component.py:1703
 #, python-format
@@ -12974,16 +12904,12 @@ msgid "You can not use a monolingual translation without a base file."
 msgstr "לא ניתן להשתמש בתרגום חד־לשוני ללא קובץ בסיס."
 
 #: weblate/trans/models/component.py:2749
-#, fuzzy
-#| msgid "No remote repository"
 msgid "Choose No remote repository for local: URL."
-msgstr "אין מאגר מרוחק"
+msgstr "יש לבחור באין מאגר מרוחק לכתובות מסוג local:‎ (מקומי)."
 
 #: weblate/trans/models/component.py:2754
-#, fuzzy
-#| msgid "Push URL is not used when repository is linked!"
 msgid "Push URL is not used without a remote repository."
-msgstr "לא נעשה שימוש בכתובת הדחיפה כאשר המאגר מקושר!"
+msgstr "לא נעשה שימוש בכתובת הדחיפה ללא מאגר מרוחק."
 
 #: weblate/trans/models/component.py:2773
 #, python-format
@@ -13935,10 +13861,9 @@ msgid "New string has been added."
 msgstr "נוספה מחרוזת חדשה."
 
 #: weblate/trans/views/edit.py:1005
-#, fuzzy, python-format
-#| msgid "Failed to remove the string: %s"
+#, python-format
 msgid "Could not remove the string: %s"
-msgstr "הסרת המחרוזת נכשלה: %s"
+msgstr "לא ניתן להסיר את המחרוזת: %s"
 
 #: weblate/trans/views/error.py:22
 msgid "Bad Request"
@@ -14028,10 +13953,8 @@ msgid "Component is now open for translation updates."
 msgstr "הרכיב פתוח כעת לעדכוני תרגום."
 
 #: weblate/trans/views/lock.py:54
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "All components are now open for translation updates."
-msgstr "כל הרכיבים נעולים כעת מפני עדכוני תרגום!"
+msgstr "כל הרכיבים פתוחים כעת לעדכוני תרגום."
 
 #: weblate/trans/views/search.py:107
 msgid "Search and replace completed, no strings were updated."
@@ -14518,10 +14441,9 @@ msgid "[hostname hashed]"
 msgstr "[שם המארח מוצפן]"
 
 #: weblate/vcs/ssh.py:167
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Could not generate key: %s"
-msgstr "יצירת המפתח נכשלה: %s"
+msgstr "לא ניתן ליצור מפתח: %s"
 
 #: weblate/vcs/ssh.py:175
 msgid "Created new SSH key."
@@ -14547,10 +14469,9 @@ msgid "Could not fetch public key for a host!"
 msgstr "אחזור מפתח ציבורי למארח נכשל!"
 
 #: weblate/vcs/ssh.py:231 weblate/vcs/ssh.py:234
-#, fuzzy, python-format
-#| msgid "Failed to get host key: %s"
+#, python-format
 msgid "Could not get host key: %s"
-msgstr "קבלת מפתח המארח נכשלה: %s"
+msgstr "לא ניתן לקבל מפתח מארח: %s"
 
 #: weblate/wladmin/forms.py:15
 msgid "Activation token"
