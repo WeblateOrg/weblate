@@ -24,7 +24,7 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
 from weblate.trans.defines import PROJECT_NAME_LENGTH
-from weblate.trans.mixins import CacheKeyMixin, PathMixin, URLMixin
+from weblate.trans.mixins import CacheKeyMixin, PathMixin
 from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectStats
@@ -69,7 +69,7 @@ def prefetch_project_flags(projects):
     return projects
 
 
-class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
+class Project(models.Model, PathMixin, CacheKeyMixin):
     ACCESS_PUBLIC = 0
     ACCESS_PROTECTED = 1
     ACCESS_PRIVATE = 100
@@ -300,9 +300,6 @@ class Project(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     @cached_property
     def locked(self):
         return self.component_set.filter(locked=False).count() == 0
-
-    def _get_path(self):
-        return os.path.join(data_dir("vcs"), self.slug)
 
     @cached_property
     def languages(self):

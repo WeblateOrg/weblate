@@ -47,7 +47,7 @@ from weblate.trans.defines import (
 )
 from weblate.trans.exceptions import FileParseError, InvalidTemplateError
 from weblate.trans.fields import RegexField
-from weblate.trans.mixins import CacheKeyMixin, PathMixin, URLMixin
+from weblate.trans.mixins import CacheKeyMixin, PathMixin
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT
 from weblate.trans.models.change import Change
 from weblate.trans.models.translation import Translation
@@ -284,7 +284,7 @@ class ComponentQuerySet(models.QuerySet):
         ).select_related("project")
 
 
-class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
+class Component(models.Model, PathMixin, CacheKeyMixin):
     name = models.CharField(
         verbose_name=gettext_lazy("Component name"),
         max_length=COMPONENT_NAME_LENGTH,
@@ -1171,7 +1171,7 @@ class Component(models.Model, URLMixin, PathMixin, CacheKeyMixin):
     @perform_on_link
     def _get_path(self):
         """Return full path to component VCS repository."""
-        return os.path.join(self.project.full_path, self.slug)
+        return super()._get_path()
 
     @perform_on_link
     def has_push_configuration(self):

@@ -11,6 +11,7 @@ from django.utils.functional import cached_property
 
 from weblate.accounts.avatar import get_user_display
 from weblate.logger import LOGGER
+from weblate.utils.data import data_dir
 
 
 class URLMixin:
@@ -55,12 +56,12 @@ class LoggerMixin:
         return LOGGER.error(f"{self.full_slug}: {msg}", *args)
 
 
-class PathMixin(LoggerMixin):
+class PathMixin(LoggerMixin, URLMixin):
     """Mixin for models with path manipulations."""
 
     def _get_path(self):
         """Actual calculation of path."""
-        raise NotImplementedError
+        return os.path.join(data_dir("vcs"), *self.get_url_path())
 
     @cached_property
     def full_path(self):
