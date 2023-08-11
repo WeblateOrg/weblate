@@ -175,7 +175,8 @@ class RenameTest(ViewTestCase):
             reverse("rename", kwargs=self.kw_component), {"slug": "test2"}, follow=True
         )
         self.assertContains(
-            response, "Component with this URL slug already exists in the project."
+            response,
+            "Component or category with the same URL slug already exists at this level.",
         )
 
 

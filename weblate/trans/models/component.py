@@ -47,7 +47,7 @@ from weblate.trans.defines import (
 )
 from weblate.trans.exceptions import FileParseError, InvalidTemplateError
 from weblate.trans.fields import RegexField
-from weblate.trans.mixins import CacheKeyMixin, PathMixin
+from weblate.trans.mixins import CacheKeyMixin, ComponentCategoryMixin, PathMixin
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT
 from weblate.trans.models.change import Change
 from weblate.trans.models.translation import Translation
@@ -284,7 +284,7 @@ class ComponentQuerySet(models.QuerySet):
         ).select_related("project")
 
 
-class Component(models.Model, PathMixin, CacheKeyMixin):
+class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     name = models.CharField(
         verbose_name=gettext_lazy("Component name"),
         max_length=COMPONENT_NAME_LENGTH,
@@ -300,6 +300,13 @@ class Component(models.Model, PathMixin, CacheKeyMixin):
         "Project",
         verbose_name=gettext_lazy("Project"),
         on_delete=models.deletion.CASCADE,
+    )
+    category = models.ForeignKey(
+        "Category",
+        verbose_name=gettext_lazy("Category"),
+        on_delete=models.deletion.CASCADE,
+        null=True,
+        blank=True,
     )
     vcs = models.CharField(
         verbose_name=gettext_lazy("Version control system"),
@@ -713,13 +720,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin):
     settings_permission = "component.edit"
 
     class Meta:
-        unique_together = (("project", "name"), ("project", "slug"))
         app_label = "trans"
         verbose_name = "Component"
         verbose_name_plural = "Components"
 
     def __str__(self):
-        return f"{self.project}/{self.name}"
+        return f"{self.category or self.project}/{self.name}"
 
     def save(self, *args, **kwargs):
         """
@@ -839,13 +845,16 @@ class Component(models.Model, PathMixin, CacheKeyMixin):
     def generate_changes(self, old):
         def getvalue(base, attribute):
             result = getattr(base, attribute)
-            # Use slug for Project instances
+            if result is None:
+                return ""
+            # Use slug for Category/Project instances
             return getattr(result, "slug", result)
 
         tracked = (
             ("license", Change.ACTION_LICENSE_CHANGE),
             ("agreement", Change.ACTION_AGREEMENT_CHANGE),
             ("slug", Change.ACTION_RENAME_COMPONENT),
+            ("category", Change.ACTION_MOVE_COMPONENT),
             ("project", Change.ACTION_MOVE_COMPONENT),
         )
         for attribute, action in tracked:
@@ -1155,7 +1164,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin):
         return re.compile(f"^{regex}$")
 
     def get_url_path(self):
-        return (*self.project.get_url_path(), self.slug)
+        parent = self.category or self.project
+        return (*parent.get_url_path(), self.slug)
 
     def get_widgets_url(self):
         """Return absolute URL for widgets."""
@@ -2515,6 +2525,16 @@ class Component(models.Model, PathMixin, CacheKeyMixin):
         if not self.branch and not self.is_repo_link:
             self.branch = VCS_REGISTRY[self.vcs].get_remote_branch(self.repo)
 
+    def clean_category(self):
+        if self.category:
+            if self.category.project != self.project:
+                raise ValidationError(
+                    {"category": gettext("Category does not belong to this project.")}
+                )
+            if self.links.exists():
+                message = gettext("Categorized component can not be shared.")
+                raise ValidationError({"category": message, "links": message})
+
     def clean_repo_link(self):
         """Validate repository link."""
         if self.is_repo_link:
@@ -2770,13 +2790,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin):
             msg = gettext("Could not update repository: %s") % text
             raise ValidationError({"repo": msg})
 
-    def clean_unique_together(self, field: str, msg: str, lookup: str):
-        matching = Component.objects.filter(project=self.project, **{field: lookup})
-        if self.id:
-            matching = matching.exclude(pk=self.id)
-        if matching.exists():
-            raise ValidationError({field: msg})
-
     def clean(self):
         """
         Validator fetches repository.
@@ -2822,21 +2835,14 @@ class Component(models.Model, PathMixin, CacheKeyMixin):
                     }
                 )
 
-        self.clean_unique_together(
-            "slug",
-            gettext("Component with this URL slug already exists in the project."),
-            self.slug,
-        )
-        self.clean_unique_together(
-            "name",
-            gettext("Component with this name already exists in the project."),
-            self.name,
-        )
+        self.clean_unique_together()
 
         # Check repo if config was changes
         if changed_git:
             self.drop_repository_cache()
             self.clean_repo()
+
+        self.clean_category()
 
         # Template validation
         self.clean_template()

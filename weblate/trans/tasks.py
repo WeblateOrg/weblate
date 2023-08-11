@@ -26,6 +26,7 @@ from weblate.machinery.base import MachineTranslationError
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
+    Category,
     Change,
     Comment,
     Component,
@@ -346,6 +347,27 @@ def component_removal(pk, uid):
                 component.schedule_update_checks()
     except Component.DoesNotExist:
         return
+
+
+@app.task(trail=False)
+def category_removal(pk, uid):
+    user = User.objects.get(pk=uid)
+    try:
+        category = Category.objects.get(pk=pk)
+    except Category.DoesNotExist:
+        return
+    for child in category.category_set.all():
+        category_removal(child.pk, uid)
+    for component in category.component_set.all():
+        component_removal(component.pk, uid)
+    Change.objects.create(
+        project=category.project,
+        action=Change.ACTION_REMOVE_CATEGORY,
+        target=category.slug,
+        user=user,
+        author=user,
+    )
+    category.delete()
 
 
 @app.task(trail=False)

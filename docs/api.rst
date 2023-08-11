@@ -156,6 +156,17 @@ form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON
         -H "Authorization: Token TOKEN" \
         http://example.com/api/components/hello/weblate/repository/
 
+.. _api-category:
+
+Components and categories
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To access a component which is nested inside a :ref:`category`, you need to URL
+encode the category name into a component name separated with a slash. For
+example ``usage`` placed in a ``docs`` category needs to be used as
+``docs%2Fusage``. Full URL in this case would be for example
+``https://example.com/api/components/hello/docs%2Fusage/repository/``.
+
 .. _api-rate:
 
 API rate limiting
@@ -1124,6 +1135,15 @@ Projects
     .. seealso::
 
        Returned attributes are described in :ref:`api-statistics`.
+
+.. http:get:: /api/projects/(string:project)/categories/
+
+   .. versionadded:: 5.0
+
+    Returns statistics for a project. See :http:get:`/api/categories/(int:id)/` for field definitions.
+
+    :param project: Project URL slug
+    :type project: string
 
 Components
 ++++++++++
@@ -2471,6 +2491,61 @@ Search
    :>json str name: Name of the matched item.
    :>json str url: Web URL of the matched item.
    :>json str category: Category of the matched item.
+
+Categories
+++++++++++
+
+.. http:get:: /api/categories/
+
+   .. versionadded:: 5.0
+
+   Lists available categories. See :http:get:`/api/categories/(int:id)/` for field definitions.
+
+.. http:post:: /api/categories/
+
+   .. versionadded:: 5.0
+
+   Creates a new category. See :http:get:`/api/categories/(int:id)/` for field definitions.
+
+.. http:get:: /api/categories/(int:id)/
+
+   .. versionadded:: 5.0
+
+   :param id: Category ID
+   :type id: int
+   :>json str name: Name of category.
+   :>json str slug: Slug of category.
+   :>json str project: Link to a project.
+   :>json str category: Link to a parent category.
+
+.. http:patch:: /api/categories/(int:id)/
+
+   .. versionadded:: 5.0
+
+    Edit partial information about cateogry.
+
+    :param id: Category ID
+    :type id: int
+    :>json object configuration: Optional cateogry configuration
+
+.. http:put:: /api/categories/(int:id)/
+
+   .. versionadded:: 5.0
+
+    Edit full information about cateogry.
+
+    :param id: Category ID
+    :type id: int
+    :>json object configuration: Optional cateogry configuration
+
+.. http:delete:: /api/categories/(int:id)/
+
+   .. versionadded:: 5.0
+
+    Delete cateogry.
+
+    :param id: Category ID
+    :type id: int
 
 .. _hooks:
 

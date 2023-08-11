@@ -100,7 +100,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         format: str = "multipart",
     ):
         self.authenticate(superuser)
-        url = reverse(name, kwargs=kwargs)
+        url = name if name.startswith(("http:", "/")) else reverse(name, kwargs=kwargs)
         response = getattr(self.client, method)(url, request, format)
         content = response.content if hasattr(response, "content") else "<stream>"
 
@@ -1187,6 +1187,23 @@ class ProjectAPITest(APIBaseTest):
         component = Component.objects.get(slug="other", project__slug="test")
         self.assertTrue(component.manage_units)
         self.assertTrue(response.data["manage_units"])
+        # Creating duplicate
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "name": "Other",
+                "slug": "other",
+                "repo": self.format_local_path(self.git_repo_path),
+                "filemask": "android/values-*/strings.xml",
+                "file_format": "aresource",
+                "template": "android/values/strings.xml",
+                "new_lang": "none",
+            },
+        )
 
     def test_create_component_autoshare(self):
         repo = self.component.repo
@@ -3830,3 +3847,91 @@ class AddonAPITest(APIBaseTest):
             request={"configuration": expected},
         )
         self.assertEqual(self.component.addon_set.get().configuration, expected)
+
+
+class CategoryAPITest(APIBaseTest):
+    def create_category(self):
+        return self.do_request(
+            "api:category-list",
+            method="post",
+            superuser=True,
+            request={
+                "name": "Category Test",
+                "slug": "category-test",
+                "project": reverse("api:project-detail", kwargs=self.project_kwargs),
+            },
+            code=201,
+        )
+
+    def list_categories(self):
+        return self.do_request(
+            "api:category-list",
+            method="get",
+            superuser=True,
+        )
+
+    def test_create(self):
+        response = self.list_categories()
+        self.assertEqual(response.data["count"], 0)
+        self.create_category()
+        response = self.list_categories()
+        self.assertEqual(response.data["count"], 1)
+        request = self.do_request("api:project-categories", self.project_kwargs)
+        self.assertEqual(request.data["count"], 1)
+
+    def test_delete(self):
+        response = self.create_category()
+        category_url = response.data["url"]
+        response = self.do_request(
+            category_url,
+            method="delete",
+            code=403,
+        )
+        response = self.do_request(
+            category_url,
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+        response = self.list_categories()
+        self.assertEqual(response.data["count"], 0)
+
+    def test_rename(self):
+        response = self.create_category()
+        category_url = response.data["url"]
+        response = self.do_request(
+            category_url,
+            method="patch",
+            code=403,
+        )
+        response = self.do_request(
+            category_url,
+            method="patch",
+            superuser=True,
+            request={"slug": "test"},
+            code=400,
+        )
+        response = self.do_request(
+            category_url,
+            method="patch",
+            superuser=True,
+            request={"slug": "test-unused"},
+        )
+
+    def test_component(self):
+        response = self.create_category()
+        category_url = response.data["url"]
+        component_url = reverse("api:component-detail", kwargs=self.component_kwargs)
+        response = self.do_request(
+            component_url,
+            request={"category": category_url},
+            method="patch",
+            superuser=True,
+        )
+        # Old URL should no longer work
+        self.do_request(component_url, code=404)
+        # But new one should
+        response = self.do_request(response.data["url"])
+        self.assertIn("category-test%252Ftest", response.data["url"])
+        component = Component.objects.get(pk=self.component.pk)
+        self.assertEqual(component.get_url_path(), ("test", "category-test", "test"))

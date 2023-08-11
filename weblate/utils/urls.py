@@ -5,6 +5,10 @@
 from django.urls import register_converter
 from django.urls.converters import PathConverter, StringConverter
 
+from weblate.trans.defines import CATEGORY_DEPTH
+
+URL_DEPTH = CATEGORY_DEPTH + 3
+
 
 class WeblateSlugConverter(StringConverter):
     regex = "[^/]+"
@@ -23,7 +27,7 @@ class WidgetExtensionConverter(StringConverter):
 
 
 class ObjectPathConverter(PathConverter):
-    regex = "[^/]+(/[^/]+){0,3}"
+    regex = f"[^/]+(/[^/]+){{0,{URL_DEPTH}}}"
 
     def to_python(self, value):
         return value.split("/")

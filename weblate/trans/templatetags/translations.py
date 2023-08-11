@@ -29,6 +29,7 @@ from weblate.lang.models import Language
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import (
     Announcement,
+    Category,
     Component,
     ContributorAgreement,
     Project,
@@ -43,7 +44,12 @@ from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
 from weblate.utils.messages import get_message_kind as get_message_kind_impl
-from weblate.utils.stats import BaseStats, GhostProjectLanguageStats, ProjectLanguage
+from weblate.utils.stats import (
+    BaseStats,
+    CategoryLanguage,
+    GhostProjectLanguageStats,
+    ProjectLanguage,
+)
 from weblate.utils.views import SORT_CHOICES
 
 register = template.Library()
@@ -1152,7 +1158,22 @@ def get_breadcrumbs(path_object):
         yield from get_breadcrumbs(path_object.component)
         yield path_object.get_absolute_url(), path_object.language
     elif isinstance(path_object, Component):
-        yield from get_breadcrumbs(path_object.project)
+        if path_object.category:
+            yield from get_breadcrumbs(path_object.category)
+        else:
+            yield from get_breadcrumbs(path_object.project)
+        yield path_object.get_absolute_url(), format_html(
+            "{}{}",
+            path_object.name,
+            render_to_string(
+                "snippets/component-glossary-badge.html", {"object": path_object}
+            ),
+        )
+    elif isinstance(path_object, Category):
+        if path_object.category:
+            yield from get_breadcrumbs(path_object.category)
+        else:
+            yield from get_breadcrumbs(path_object.project)
         yield path_object.get_absolute_url(), path_object.name
     elif isinstance(path_object, Project):
         yield path_object.get_absolute_url(), path_object.name
@@ -1161,6 +1182,13 @@ def get_breadcrumbs(path_object):
         yield path_object.get_absolute_url(), path_object
     elif isinstance(path_object, ProjectLanguage):
         yield f"{path_object.project.get_absolute_url()}#languages", path_object.project.name
+        yield path_object.get_absolute_url(), path_object.language
+    elif isinstance(path_object, CategoryLanguage):
+        if path_object.category.category:
+            yield from get_breadcrumbs(path_object.category.category)
+        else:
+            yield from get_breadcrumbs(path_object.category.project)
+        yield f"{path_object.category.get_absolute_url()}#languages", path_object.category.name
         yield path_object.get_absolute_url(), path_object.language
     else:
         raise TypeError(f"No breadcrumbs for {path_object}")

@@ -6,8 +6,10 @@ from __future__ import annotations
 
 import os
 
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.functional import cached_property
+from django.utils.translation import gettext
 
 from weblate.accounts.avatar import get_user_display
 from weblate.logger import LOGGER
@@ -110,3 +112,42 @@ class CacheKeyMixin:
     @cached_property
     def cache_key(self):
         return f"{self.__class__.__name__}-{self.pk}"
+
+
+class ComponentCategoryMixin:
+    def _clean_unique_together(self, field: str, msg: str, lookup: str):
+        if self.category:
+            matching_components = self.category.component_set.filter(**{field: lookup})
+            matching_categories = self.category.category_set.filter(**{field: lookup})
+        else:
+            matching_components = self.project.component_set.filter(
+                category=None, **{field: lookup}
+            )
+            matching_categories = self.project.category_set.filter(
+                category=None, **{field: lookup}
+            )
+
+        if self.id:
+            if self.__class__.__name__ == "Component":
+                matching_components = matching_components.exclude(pk=self.id)
+            else:
+                matching_categories = matching_categories.exclude(pk=self.id)
+
+        if matching_categories.exists() or matching_components.exists():
+            raise ValidationError({field: msg})
+
+    def clean_unique_together(self):
+        self._clean_unique_together(
+            "slug",
+            gettext(
+                "Component or category with the same URL slug already exists at this level."
+            ),
+            self.slug,
+        )
+        self._clean_unique_together(
+            "name",
+            gettext(
+                "Component or category with the same name already exists at this level."
+            ),
+            self.name,
+        )

@@ -6,13 +6,13 @@
 
 {% init_unique_row_id %}
 
-{% if objects %}
+{% if objects or list_categories %}
   {% if objects.paginator.num_pages > 1 %}
     <table class="table progress-table autocolspan table-listing">
   {% else %}
     <table class="sort table progress-table autocolspan table-listing">
   {% endif %}
-  {% if not hide_details %}
+  {% if not hide_details and not hide_header %}
     <thead class="sticky-header">
       <tr>
         <th class="sort-skip">
@@ -128,6 +128,30 @@
 
 
 <tbody>
+{% for category in list_categories %}
+  {% get_unique_row_id object as row_id %}
+  <tr id="{{ row_id }}">
+    <td class="actions" rowspan="2">
+      <a href="{{ category.get_absolute_url }}" class="btn btn-link green" title="{% trans "Browse" %}" alt="{% trans "Browse" %}">{% icon "folder-multiple-outline.svg" %}</a>
+    </td>
+    <th class="object-link">
+      <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+    </th>
+    {% include "snippets/list-objects-percent.html" with percent=category.stats.translated_percent value=category.stats.translated query="q=state:>=translated" all=category.stats.all %}
+    {% if not hide_details %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.todo query="q=state:<translated" class="zero-width-640" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.todo_words query="q=state:<translated" class="zero-width-720" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.todo_chars query="q=state:<translated" class="zero-width-1200" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.nottranslated query="q=state:empty" class="zero-width-1400" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.allchecks query="q=has:check" class="zero-width-768" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-900" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.comments query="q=has:comment#comments" class="zero-width-1000" %}
+    {% endif %}
+  </tr>
+  <tr data-parent="{{ row_id }}">
+    <td colspan="7" class="progress-row autocolspan">{% translation_progress category.stats %}</td>
+  </tr>
+{% endfor %}
 {% for object in objects %}
 {% get_translate_url object as translate_url %}
 {% get_browse_url object as browse_url %}
@@ -149,7 +173,7 @@
     {% if translate_url %}
         <a href="{{ translate_url }}{% if object.stats.todo %}?q=state:&lt;translated{% endif %}" class="btn btn-link green" title="{% trans "Translate" %}" alt="{% trans "Translate" %}">{% icon "pencil.svg" %}</a>
     {% else %}
-        <a href="{{ browse_url }}" class="btn btn-link green" title="{% trans "Browse" %}" alt="{% trans "Browse" %}">{% icon "folder-search-outline.svg" %}</a>
+        <a href="{{ browse_url }}" class="btn btn-link green" title="{% trans "Browse" %}" alt="{% trans "Browse" %}">{% icon "folder-outline.svg" %}</a>
     {% endif %}
 {% endif %}
 </td>
@@ -230,7 +254,11 @@
     {% endif %}
   {% elif add_link == "component" %}
     {% if user_can_edit_project %}
-      <a class="btn btn-primary" id="list-add-button" href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
+      {% if object.project %}
+        <a class="btn btn-primary" id="list-add-button" href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% trans "Add new translation component" %}</a>
+      {% else %}
+        <a class="btn btn-primary" id="list-add-button" href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
+      {% endif %}
     {% endif %}
   {% elif add_link == "language" %}
     {% if user_can_add_language %}

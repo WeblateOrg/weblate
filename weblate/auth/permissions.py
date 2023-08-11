@@ -7,6 +7,7 @@ from django.utils.translation import gettext
 
 from weblate.lang.models import Language
 from weblate.trans.models import (
+    Category,
     Component,
     ComponentList,
     ContributorAgreement,
@@ -14,7 +15,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.utils.stats import ProjectLanguage
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
 SPECIALS = {}
 
@@ -58,6 +59,10 @@ def check_permission(user, permission, obj):
     if user.is_superuser:
         return True
     if isinstance(obj, ProjectLanguage):
+        obj = obj.project
+    if isinstance(obj, CategoryLanguage):
+        obj = obj.category.project
+    if isinstance(obj, Category):
         obj = obj.project
     if isinstance(obj, Project):
         return any(
@@ -125,8 +130,10 @@ def check_can_edit(user, permission, obj, is_vote=False):
         project = component.project
     elif isinstance(obj, Project):
         project = obj
-    elif isinstance(obj, ProjectLanguage):
+    elif isinstance(obj, (ProjectLanguage, Category)):
         project = obj.project
+    elif isinstance(obj, CategoryLanguage):
+        project = obj.category.project
     else:
         raise TypeError(f"Unknown object for permission check: {obj.__class__}")
 
@@ -195,7 +202,16 @@ def check_unit_review(user, permission, obj, skip_enabled=False):
                     return Denied(gettext("Source string reviews are not enabled."))
                 return Denied(gettext("Translation reviews are not enabled."))
         else:
-            if isinstance(obj, (Component, ProjectLanguage)):
+            if isinstance(obj, CategoryLanguage):
+                project = obj.category.project
+            elif isinstance(
+                obj,
+                (
+                    Component,
+                    ProjectLanguage,
+                    Category,
+                ),
+            ):
                 project = obj.project
             else:
                 project = obj

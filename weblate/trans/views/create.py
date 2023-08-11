@@ -33,7 +33,7 @@ from weblate.trans.forms import (
     ProjectImportCreateForm,
     ProjectImportForm,
 )
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Category, Component, Project
 from weblate.trans.tasks import perform_update
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
@@ -203,7 +203,8 @@ class CreateComponent(BaseCreateView):
     model = Component
     projects = None
     stage = None
-    selected_project = ""
+    selected_project = None
+    selected_category = None
     basic_fields = ("repo", "name", "slug", "vcs", "source_language")
     empty_form = False
     form_class = ComponentInitCreateForm
@@ -304,7 +305,9 @@ class CreateComponent(BaseCreateView):
         form = super().get_form(form_class)
         if "project" in form.fields:
             project_field = form.fields["project"]
+            category_field = form.fields["category"]
             project_field.queryset = self.projects
+            category_field.queryset = Category.objects.filter(project__in=self.projects)
             project_field.empty_label = None
             if self.selected_project:
                 project_field.initial = self.selected_project
@@ -312,6 +315,8 @@ class CreateComponent(BaseCreateView):
                     form.fields["source_language"].initial = Component.objects.filter(
                         project=self.selected_project
                     )[0].source_language_id
+                if self.selected_category:
+                    category_field.initial = self.selected_category
         self.empty_form = False
         return form
 
@@ -327,7 +332,13 @@ class CreateComponent(BaseCreateView):
                 request.POST.get("project", request.GET.get("project", ""))
             )
         except ValueError:
-            self.selected_project = ""
+            self.selected_project = None
+        try:
+            self.selected_category = int(
+                request.POST.get("category", request.GET.get("category", ""))
+            )
+        except ValueError:
+            self.selected_category = None
         if request.user.is_superuser:
             self.projects = Project.objects.order()
         elif self.has_billing:

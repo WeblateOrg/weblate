@@ -48,7 +48,15 @@ from weblate.trans.defines import (
     REPO_LENGTH,
 )
 from weblate.trans.filter import FILTERS, get_filter_choice
-from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
+from weblate.trans.models import (
+    Announcement,
+    Category,
+    Change,
+    Component,
+    Label,
+    Project,
+    Unit,
+)
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
@@ -1611,6 +1619,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
         model = Component
         fields = [
             "project",
+            "category",
             "name",
             "slug",
             "vcs",
@@ -1724,6 +1733,13 @@ class ComponentProjectForm(ComponentNameForm):
     project = forms.ModelChoiceField(
         queryset=Project.objects.none(), label=gettext_lazy("Project")
     )
+    category = forms.ModelChoiceField(
+        queryset=Category.objects.all(),
+        label=gettext_lazy("Category"),
+        widget=forms.HiddenInput,
+        blank=True,
+        required=False,
+    )
     source_language = forms.ModelChoiceField(
         widget=SortedSelect,
         label=Component.source_language.field.verbose_name,
@@ -1745,17 +1761,16 @@ class ComponentProjectForm(ComponentNameForm):
     def clean(self):
         if "project" not in self.cleaned_data:
             return
+
         project = self.cleaned_data["project"]
-        name = self.cleaned_data.get("name")
-        if name and project.component_set.filter(name__iexact=name).exists():
-            raise ValidationError(
-                {"name": gettext("A component with the same name already exists.")}
-            )
-        slug = self.cleaned_data.get("slug")
-        if slug and project.component_set.filter(slug__iexact=slug).exists():
-            raise ValidationError(
-                {"slug": gettext("A component with the same name already exists.")}
-            )
+        name = self.cleaned_data.get("name", "")
+        slug = self.cleaned_data.get("slug", "")
+        category = self.cleaned_data.get("category")
+
+        fake = Component(project=project, category=category, name=name, slug=slug)
+        fake.clean_unique_together()
+        # Check if category is from this project
+        fake.clean_category()
 
 
 class ComponentScratchCreateForm(ComponentProjectForm):
@@ -1800,16 +1815,8 @@ class ComponentDocCreateForm(ComponentProjectForm):
 
 
 class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
-    """
-    Component creation form.
+    """Component creation form."""
 
-    This is mostly copied from the Component model. Probably should be extracted to a
-    standalone Repository model…
-    """
-
-    project = forms.ModelChoiceField(
-        queryset=Project.objects.none(), label=gettext_lazy("Project")
-    )
     vcs = forms.ChoiceField(
         label=Component.vcs.field.verbose_name,
         help_text=Component.vcs.field.help_text,
@@ -1844,7 +1851,9 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
             )
         )
         instance.validate_unique()
+        instance.clean_unique_together()
         instance.clean_repo()
+        instance.clean_category()
         self.instance = instance
 
         # Create linked repos automatically
@@ -1946,16 +1955,57 @@ class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
         fields = ["slug"]
 
 
+class CategoryRenameForm(SettingsBaseForm):
+    """Category rename form."""
+
+    class Meta:
+        model = Category
+        fields = ["name", "slug"]
+
+
+class AddCategoryForm(SettingsBaseForm):
+    class Meta:
+        model = Category
+        fields = ["name", "slug"]
+
+    def __init__(self, request, parent, *args, **kwargs):
+        self.parent = parent
+        super().__init__(request, *args, **kwargs)
+
+    def clean(self):
+        if isinstance(self.parent, Category):
+            self.instance.category = self.parent
+            self.instance.project = self.parent.project
+        else:
+            self.instance.project = self.parent
+
+
+class CategoryMoveForm(SettingsBaseForm):
+    """Category rename form."""
+
+    class Meta:
+        model = Category
+        fields = ["project", "category"]
+
+    def __init__(self, request, *args, **kwargs):
+        super().__init__(request, *args, **kwargs)
+        self.fields["project"].queryset = request.user.managed_projects
+        self.fields["category"].queryset = self.instance.project.category_set.exclude(
+            pk=self.instance.pk
+        )
+
+
 class ComponentMoveForm(SettingsBaseForm, ComponentDocsMixin):
     """Component renaming form."""
 
     class Meta:
         model = Component
-        fields = ["project"]
+        fields = ["project", "category"]
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(request, *args, **kwargs)
         self.fields["project"].queryset = request.user.managed_projects
+        self.fields["category"].queryset = self.instance.project.category_set.all()
 
 
 class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin):
@@ -2553,6 +2603,15 @@ class ProjectDeleteForm(BaseDeleteForm):
     warning_template = "trans/delete-project.html"
 
 
+class CategoryDeleteForm(BaseDeleteForm):
+    confirm = forms.CharField(
+        label=gettext_lazy("Removal confirmation"),
+        help_text=gettext_lazy("Please type in the slug of the category to confirm."),
+        required=True,
+    )
+    warning_template = "trans/delete-category.html"
+
+
 class ProjectLanguageDeleteForm(BaseDeleteForm):
     confirm = forms.CharField(
         label=gettext_lazy("Removal confirmation"),
@@ -2562,6 +2621,17 @@ class ProjectLanguageDeleteForm(BaseDeleteForm):
         required=True,
     )
     warning_template = "trans/delete-project-language.html"
+
+
+class CategoryLanguageDeleteForm(BaseDeleteForm):
+    confirm = forms.CharField(
+        label=gettext_lazy("Removal confirmation"),
+        help_text=gettext_lazy(
+            "Please type in the slug of the category and language to confirm."
+        ),
+        required=True,
+    )
+    warning_template = "trans/delete-category-language.html"
 
 
 class AnnouncementForm(forms.ModelForm):

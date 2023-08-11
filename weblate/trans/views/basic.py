@@ -19,9 +19,14 @@ from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import (
+    AddCategoryForm,
     AnnouncementForm,
     AutoForm,
     BulkEditForm,
+    CategoryDeleteForm,
+    CategoryLanguageDeleteForm,
+    CategoryMoveForm,
+    CategoryRenameForm,
     ComponentDeleteForm,
     ComponentMoveForm,
     ComponentRenameForm,
@@ -38,7 +43,14 @@ from weblate.trans.forms import (
     get_new_unit_form,
     get_upload_form,
 )
-from weblate.trans.models import Change, Component, ComponentList, Project, Translation
+from weblate.trans.models import (
+    Category,
+    Change,
+    Component,
+    ComponentList,
+    Project,
+    Translation,
+)
 from weblate.trans.models.component import prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
@@ -46,6 +58,7 @@ from weblate.trans.util import render, sort_unicode
 from weblate.utils import messages
 from weblate.utils.ratelimit import reset_rate_limit, session_ratelimit_post
 from weblate.utils.stats import (
+    CategoryLanguage,
     GhostProjectLanguageStats,
     ProjectLanguage,
     prefetch_stats,
@@ -162,14 +175,31 @@ def show_engage(request, path):
 
 @never_cache
 def show(request, path):
-    obj = parse_path(request, path, (Translation, Component, Project, ProjectLanguage))
+    obj = parse_path(
+        request,
+        path,
+        (
+            Translation,
+            Component,
+            Project,
+            ProjectLanguage,
+            Category,
+            CategoryLanguage,
+        ),
+    )
     if isinstance(obj, Project):
         return show_project(request, obj)
     if isinstance(obj, Component):
         return show_component(request, obj)
     if isinstance(obj, ProjectLanguage):
         return show_project_language(request, obj)
-    return show_translation(request, obj)
+    if isinstance(obj, Category):
+        return show_category(request, obj)
+    if isinstance(obj, CategoryLanguage):
+        return show_category_language(request, obj)
+    if isinstance(obj, Translation):
+        return show_translation(request, obj)
+    raise TypeError(f"Not supported show: {obj}")
 
 
 def show_project_language(request, obj):
@@ -230,17 +260,72 @@ def show_project_language(request, obj):
     )
 
 
+def show_category_language(request, obj):
+    language_object = obj.language
+    category_object = obj.category
+    user = request.user
+
+    last_changes = (
+        Change.objects.for_category(category_object)
+        .last_changes(user)
+        .filter(language=language_object)[:10]
+        .preload()
+    )
+
+    translations = list(obj.translation_set)
+
+    # Add ghost translations
+    if user.is_authenticated:
+        existing = {translation.component.slug for translation in translations}
+        for component in category_object.component_set.all():
+            if component.slug in existing:
+                continue
+            if component.can_add_new_language(user, fast=True):
+                translations.append(GhostTranslation(component, language_object))
+
+    return render(
+        request,
+        "category-project.html",
+        {
+            "allow_index": True,
+            "language": language_object,
+            "category": category_object,
+            "object": obj,
+            "path_object": obj,
+            "last_changes": last_changes,
+            "translations": translations,
+            "title": f"{category_object} - {language_object}",
+            "search_form": SearchForm(user, language=language_object),
+            "licenses": obj.category.get_child_components_access(user)
+            .exclude(license="")
+            .order_by("license"),
+            "language_stats": category_object.stats.get_single_language_stats(
+                language_object
+            ),
+            "delete_form": optional_form(
+                CategoryLanguageDeleteForm, user, "translation.delete", obj, obj=obj
+            ),
+            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
+            "bulk_state_form": optional_form(
+                BulkEditForm,
+                user,
+                "translation.auto",
+                obj,
+                user=user,
+                obj=obj,
+                project=obj.category.project,
+            ),
+        },
+    )
+
+
 def show_project(request, obj):
     obj.stats.ensure_basic()
     user = request.user
 
-    last_changes = obj.change_set.prefetch().order()[:10].preload()
-    last_announcements = (
-        obj.change_set.prefetch()
-        .order()
-        .filter(action=Change.ACTION_ANNOUNCEMENT)[:10]
-        .preload()
-    )
+    all_changes = obj.change_set.prefetch().order()
+    last_changes = all_changes[:10].preload()
+    last_announcements = all_changes.filter_announcements()[:10].preload()
 
     all_components = prefetch_stats(obj.get_child_components_access(user).prefetch())
     all_components = get_paginator(request, all_components)
@@ -285,6 +370,7 @@ def show_project(request, obj):
             "announcement_form": optional_form(
                 AnnouncementForm, user, "project.edit", obj
             ),
+            "add_form": AddCategoryForm(request, obj),
             "delete_form": optional_form(
                 ProjectDeleteForm, user, "project.edit", obj, obj=obj
             ),
@@ -307,6 +393,91 @@ def show_project(request, obj):
                 project=obj,
             ),
             "components": components,
+            "categories": obj.category_set.filter(category=None),
+            "licenses": sorted(
+                (component for component in all_components if component.license),
+                key=lambda component: component.license,
+            ),
+        },
+    )
+
+
+def show_category(request, obj):
+    obj.stats.ensure_basic()
+    user = request.user
+
+    all_changes = Change.objects.for_category(obj).prefetch().order()
+    last_changes = all_changes[:10].preload()
+    last_announcements = all_changes.filter_announcements()[:10].preload()
+
+    all_components = prefetch_stats(obj.get_child_components_access(user).prefetch())
+    all_components = get_paginator(request, all_components)
+
+    language_stats = obj.stats.get_language_stats()
+    # Show ghost translations for user languages
+    component = None
+    for component in all_components:
+        if component.can_add_new_language(user, fast=True):
+            break
+    if component:
+        add_ghost_translations(
+            component,
+            user,
+            language_stats,
+            GhostProjectLanguageStats,
+        )
+
+    language_stats = sort_unicode(
+        language_stats,
+        lambda x: f"{user.profile.get_translation_order(x)}-{x.language}",
+    )
+
+    components = prefetch_tasks(all_components)
+
+    return render(
+        request,
+        "category.html",
+        {
+            "allow_index": True,
+            "object": obj,
+            "path_object": obj,
+            "project": obj,
+            "add_form": AddCategoryForm(request, obj),
+            "last_changes": last_changes,
+            "last_announcements": last_announcements,
+            "language_stats": [stat.obj or stat for stat in language_stats],
+            "search_form": SearchForm(user),
+            "delete_form": optional_form(
+                CategoryDeleteForm, user, "project.edit", obj, obj=obj
+            ),
+            "rename_form": optional_form(
+                CategoryRenameForm,
+                user,
+                "project.edit",
+                obj,
+                request=request,
+                instance=obj,
+            ),
+            "move_form": optional_form(
+                CategoryMoveForm,
+                user,
+                "project.edit",
+                obj,
+                request=request,
+                instance=obj,
+            ),
+            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
+            "bulk_state_form": optional_form(
+                BulkEditForm,
+                user,
+                "translation.auto",
+                obj,
+                user=user,
+                obj=obj,
+                project=obj.project,
+            ),
+            "components": components,
+            "categories": obj.category_set.all(),
             "licenses": sorted(
                 (component for component in all_components if component.license),
                 key=lambda component: component.license,
