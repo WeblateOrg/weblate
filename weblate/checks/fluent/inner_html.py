@@ -168,7 +168,7 @@ class _HTMLInvalidEndTagError(_HTMLInvalidTagSequenceError):
     def description(self) -> SafeString:
         return format_html_code(
             gettext(
-                "The sequence {sequence} begins a HTML closing tag, "
+                "The sequence {sequence} begins with a HTML closing tag, "
                 "but the name or syntax is not valid. "
                 "If you do not want a closing tag, use {suggestion}."
             ),
@@ -181,7 +181,7 @@ class _HTMLInvalidStartTagNameError(_HTMLInvalidTagSequenceError):
     def description(self) -> SafeString:
         return format_html_code(
             gettext(
-                "The sequence {sequence} begins a HTML tag, "
+                "The sequence {sequence} begins with a HTML tag, "
                 "but the name is not valid. "
                 "If you do not want to begin a HTML tag, use {suggestion}."
             ),
@@ -194,7 +194,7 @@ class _HTMLStartTagNotClosedError(_HTMLInvalidTagSequenceError):
     def description(self) -> SafeString:
         return format_html_code(
             gettext(
-                "The sequence {sequence} begins a HTML tag, "
+                "The sequence {sequence} begins with a HTML tag, "
                 "but the tag is never closed by {close}. "
                 "If you do not want to begin a HTML tag, use {suggestion}."
             ),
@@ -224,7 +224,7 @@ class _HTMLUnexpectedAttributeError(_HTMLInvalidTagSequenceError):
     def description(self) -> SafeString:
         return format_html_code(
             gettext(
-                "The sequence {sequence} begins a HTML tag, "
+                "The sequence {sequence} begins with a HTML tag, "
                 "but the sequence {attribute} is not a valid attribute "
                 "with a value. "
                 "If you do not want to begin a HTML tag, use {suggestion}."
