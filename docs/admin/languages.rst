@@ -154,7 +154,7 @@ file-format specifications, CLDR, and other sources.
    desired effect, as these rules need to match underlying implementation.
 
    Changing plural number or formula will affect only displaying of the
-   strings, but not parsing and storing strigs to the files. Should you think
+   strings, but not parsing and storing strings to the files. Should you think
    Weblate behaves incorrectly, please file a issue in our issue tracker.
 
 

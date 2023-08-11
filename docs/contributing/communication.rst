@@ -11,7 +11,7 @@ Weblate GitHub Discussions
 --------------------------
 `GitHub Discussions <https://github.com/WeblateOrg/weblate/discussions>`_ is a community place.
 Ideas, Polls, Q&A, and Show and Tell categories can be selected when posting there.
-General category fits all posts outside those defined categories. Weblate team members ocassionally
+General category fits all posts outside those defined categories. Weblate team members occasionally
 visit Discussions and can also be mentioned by their GitHub usernames.
 
 Weblate on Mastodon
