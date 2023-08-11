@@ -372,6 +372,25 @@ class DiscoveryForm(BaseAddonForm):
         )
 
     def clean(self):
+        if file_format := self.cleaned_data.get("file_format"):
+            is_monolingual = FILE_FORMATS[file_format].monolingual
+            if is_monolingual and not self.cleaned_data["base_file_template"]:
+                raise forms.ValidationError(
+                    {
+                        "base_file_template": gettext(
+                            "You can not use a monolingual translation without a base file."
+                        )
+                    }
+                )
+            if is_monolingual is False and self.cleaned_data["base_file_template"]:
+                raise forms.ValidationError(
+                    {
+                        "base_file_template": gettext(
+                            "You can not use a base file for bilingual translation."
+                        )
+                    }
+                )
+
         self.cleaned_data["preview"] = False
 
         # There are some other errors or the form was loaded from db
