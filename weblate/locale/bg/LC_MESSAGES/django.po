@@ -1,14 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+# Любомир Василев <lyubomirv@gmx.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-07-20 11:06+0000\n"
-"Last-Translator: Salif Mehmed <mail@salif.eu>\n"
+"PO-Revision-Date: 2023-08-11 08:42+0000\n"
+"Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -399,7 +399,7 @@ msgstr "Поканен в {site_title} от {username}."
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "Приета покана от {username}."
 
 #: weblate/accounts/models.py:160
 msgid "Started trial period."
@@ -779,10 +779,8 @@ msgstr "Коментар по собствен превод"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:605
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edited string"
-msgstr "Редактиране на текста"
+msgstr "Редактиран низ"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:614
@@ -1517,8 +1515,7 @@ msgstr ""
 "анализирани за извличане на низове за превод."
 
 #: weblate/addons/forms.py:507
-#, fuzzy, python-format
-#| msgid "Failed to parse CSS selector: %s"
+#, python-format
 msgid "Could not parse CSS selector: %s"
 msgstr "Селекторът за CSS не може да бъде анализиран: %s"
 
@@ -1604,16 +1601,13 @@ msgid "Fills in translation strings with source string."
 msgstr "Попълва преводите като се използват изходните низове."
 
 #: weblate/addons/generate.py:216
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Предварително попълване на превода с изходния низ"
+msgstr "Попълване на низовете само за четене с изходния низ"
 
 #: weblate/addons/generate.py:218
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Попълва преводите като се използват изходните низове."
+msgstr ""
+"Попълва преводите на низовете само за четене използвайки изходните низове."
 
 #: weblate/addons/gettext.py:26
 msgid "Generate MO files"
@@ -2269,10 +2263,8 @@ msgid "User invitation e-mail was sent."
 msgstr "Имейлът за покана на потребител е изпратен."
 
 #: weblate/auth/forms.py:123
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot change this on a built-in team."
-msgstr "Промяната на „%s“ е забранена за вградените екипи."
+msgstr "Промяната на това е забранена за вградените екипи."
 
 #: weblate/auth/models.py:68
 #, python-format
@@ -2475,10 +2467,8 @@ msgid "Group"
 msgstr "Група"
 
 #: weblate/auth/permissions.py:133
-#, fuzzy
-#| msgid "Can not perform this operation without an e-mail."
 msgid "Can not perform this operation without an e-mail address."
-msgstr "Тази операция не може да бъде извършена без е-поща."
+msgstr "Тази операция не може да бъде извършена без адрес на е-поща."
 
 #: weblate/auth/permissions.py:139 weblate/templates/translate.html:201
 #: weblate/templates/translate.html:221
@@ -2486,10 +2476,6 @@ msgid "This translation is currently locked."
 msgstr "Този превод в момента е заключен."
 
 #: weblate/auth/permissions.py:147
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires you agree to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "agreement."
@@ -2562,22 +2548,17 @@ msgid "File format does not support this."
 msgstr "Файловият формат не поддържа това."
 
 #: weblate/auth/views.py:115
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot remove built-in team!"
-msgstr "Промяната на „%s“ е забранена за вградените екипи."
+msgstr "Не могат да се премахват вградени екипи!"
 
 #: weblate/auth/views.py:189
-#, fuzzy
-#| msgid "User invitation e-mail was sent."
 msgid "User invitation was removed."
-msgstr "Имейлът за покана на потребител е изпратен."
+msgstr "Поканата към потребителя е премахната."
 
 #: weblate/auth/views.py:213
-#, fuzzy, python-format
-#| msgid "Resend e-mail invitation to the user"
+#, python-format
 msgid "Accepted invitation to the %s team."
-msgstr "Повторно изпращане на е-писмото с поканата към потребителя"
+msgstr "Приета покана за екипа %s."
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2711,14 +2692,10 @@ msgid "AngularJS interpolation strings do not match source"
 msgstr "Низовете за интерполация на AngularJS не съвпадат с изходните"
 
 #: weblate/checks/base.py:287
-#, fuzzy
-#| msgid "Following format strings are missing: {}"
 msgid "The following format strings are missing: {}"
 msgstr "Следните низове за форматиране липсват: {}"
 
 #: weblate/checks/base.py:292
-#, fuzzy
-#| msgid "Following format strings are extra: {}"
 msgid "The following format strings are extra: {}"
 msgstr "Следните низове за форматиране са излишни: {}"
 
@@ -2896,12 +2873,11 @@ msgid "Different strings are translated the same."
 msgstr "Различни низове имат един и същ превод."
 
 #: weblate/checks/consistency.py:191
-#, fuzzy, python-format
-#| msgid "Update source strings"
+#, python-format
 msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
-msgstr[0] "Обновяване на изходните низове"
-msgstr[1] "Обновяване на изходните низове"
+msgstr[0] "Друг изходен низ: %s"
+msgstr[1] "Други изходни низове: %s"
 
 #: weblate/checks/consistency.py:192
 #, python-format
