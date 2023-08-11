@@ -4,11 +4,16 @@ Translation projects
 Translation organization
 ------------------------
 
-Weblate organizes translatable VCS content of project/components into a tree-like structure.
+Weblate organizes translatable VCS content of project/components into a
+tree-like structure. You can additionally organize components within a project
+using categories.
 
 * The bottom level object is :ref:`project`, which should hold all translations belonging
   together (for example translation of an application in several versions
   and/or accompanying documentation).
+
+* The middle level is optionally created by :ref:`category`. The categories can
+  be nested to achieve more complex structure.
 
 * On the level above, :ref:`component`, which is
   actually the component to translate, you define the VCS repository to use, and
@@ -946,6 +951,14 @@ Glossary color
 ++++++++++++++
 
 Display color for a glossary used when showing word matches.
+
+.. _category:
+
+Category
+--------
+
+Categories are there to give structure to components within a project. You can
+nest them to achieve a more complex structure.
 
 .. _markup:
 

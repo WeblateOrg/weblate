@@ -15,23 +15,27 @@ from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, View
 
 from weblate.trans.forms import (
+    AddCategoryForm,
     AnnouncementForm,
     BaseDeleteForm,
+    CategoryMoveForm,
+    CategoryRenameForm,
     ComponentMoveForm,
     ComponentRenameForm,
     ComponentSettingsForm,
     ProjectRenameForm,
     ProjectSettingsForm,
 )
-from weblate.trans.models import Announcement, Component, Project, Translation
+from weblate.trans.models import Announcement, Category, Component, Project, Translation
 from weblate.trans.tasks import (
+    category_removal,
     component_removal,
     create_project_backup,
     project_removal,
 )
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
-from weblate.utils.stats import ProjectLanguage
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import parse_path, show_form_errors
 
 
@@ -125,7 +129,11 @@ def dismiss_alert(request, path):
 @login_required
 @require_POST
 def remove(request, path):
-    obj = parse_path(request, path, (Translation, Component, Project, ProjectLanguage))
+    obj = parse_path(
+        request,
+        path,
+        (Translation, Component, Project, ProjectLanguage, CategoryLanguage, Category),
+    )
 
     if not request.user.has_perm(obj.remove_permission, obj):
         raise PermissionDenied
@@ -140,11 +148,15 @@ def remove(request, path):
         obj.remove(request.user)
         messages.success(request, gettext("The translation has been removed."))
     elif isinstance(obj, Component):
-        parent = obj.project
+        parent = obj.category or obj.project
         component_removal.delay(obj.pk, request.user.pk)
         messages.success(
             request, gettext("The translation component was scheduled for removal.")
         )
+    elif isinstance(obj, Category):
+        parent = obj.category or obj.project
+        category_removal.delay(obj.pk, request.user.pk)
+        messages.success(request, gettext("The category was scheduled for removal."))
     elif isinstance(obj, Project):
         parent = reverse("home")
         project_removal.delay(obj.pk, request.user.pk)
@@ -155,6 +167,12 @@ def remove(request, path):
             translation.remove(request.user)
 
         messages.success(request, gettext("A language in the project was removed."))
+    elif isinstance(obj, CategoryLanguage):
+        parent = obj.project
+        for translation in obj.translation_set:
+            translation.remove(request.user)
+
+        messages.success(request, gettext("A language in the category was removed."))
 
     return redirect(parent)
 
@@ -194,17 +212,35 @@ def perform_rename(form_cls, request, obj, perm: str):
 @login_required
 @require_POST
 def move(request, path):
-    obj = parse_path(request, path, (Component,))
+    obj = parse_path(request, path, (Component, Category))
+    if isinstance(obj, Category):
+        return perform_rename(CategoryMoveForm, request, obj, "project.edit")
     return perform_rename(ComponentMoveForm, request, obj, "project.edit")
 
 
 @login_required
 @require_POST
 def rename(request, path):
-    obj = parse_path(request, path, (Component, Project))
+    obj = parse_path(request, path, (Component, Project, Category))
     if isinstance(obj, Component):
         return perform_rename(ComponentRenameForm, request, obj, "component.edit")
+    if isinstance(obj, Category):
+        return perform_rename(CategoryRenameForm, request, obj, "project.edit")
     return perform_rename(ProjectRenameForm, request, obj, "project.edit")
+
+
+@login_required
+@require_POST
+def add_category(request, path):
+    obj = parse_path(request, path, (Project, Category))
+    if not request.user.has_perm("project.edit", obj):
+        raise PermissionDenied
+    form = AddCategoryForm(request, obj, request.POST)
+    if not form.is_valid():
+        show_form_errors(request, form)
+        return redirect_param(obj, "#rename")
+    form.save()
+    return redirect(form.instance)
 
 
 @login_required

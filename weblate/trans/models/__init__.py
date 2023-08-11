@@ -11,6 +11,7 @@ from weblate.trans.models._conf import WeblateConf
 from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.alert import Alert
 from weblate.trans.models.announcement import Announcement
+from weblate.trans.models.category import Category
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.component import Component
@@ -27,6 +28,7 @@ from weblate.utils.files import remove_tree
 
 __all__ = [
     "Project",
+    "Category",
     "Component",
     "Translation",
     "Unit",

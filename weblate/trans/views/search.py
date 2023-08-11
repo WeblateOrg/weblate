@@ -18,16 +18,15 @@ from weblate.trans.forms import (
     ReplaceForm,
     SearchForm,
 )
-from weblate.trans.models import Change, Component, Project, Translation, Unit
+from weblate.trans.models import Category, Change, Component, Project, Translation, Unit
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.ratelimit import check_rate_limit
-from weblate.utils.stats import ProjectLanguage
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import (
     get_paginator,
     get_sort_name,
     import_message,
-    parse_path,
     parse_path_units,
     show_form_errors,
 )
@@ -37,7 +36,9 @@ from weblate.utils.views import (
 @require_POST
 def search_replace(request, path):
     obj, unit_set, context = parse_path_units(
-        request, path, (Translation, Component, Project, ProjectLanguage)
+        request,
+        path,
+        (Translation, Component, Project, ProjectLanguage, Category, CategoryLanguage),
     )
 
     if not request.user.has_perm("unit.edit", obj):
@@ -121,29 +122,23 @@ def search(request, path=None):
     is_ratelimited = not check_rate_limit("search", request)
     search_form = SearchForm(user=request.user, data=request.GET)
     sort = get_sort_name(request)
-    context = {"search_form": search_form}
-    obj = parse_path(
+    obj, unit_set, context = parse_path_units(
         request,
         path,
-        (Component, Project, ProjectLanguage, Translation, Language, None),
+        (
+            Component,
+            Project,
+            ProjectLanguage,
+            Translation,
+            Category,
+            CategoryLanguage,
+            Language,
+            None,
+        ),
     )
+
+    context["search_form"] = search_form
     context["back_url"] = obj.get_absolute_url() if obj is not None else None
-    if isinstance(obj, Component):
-        context["component"] = obj
-        context["project"] = obj.project
-    elif isinstance(obj, ProjectLanguage):
-        context["project"] = obj.project
-    elif isinstance(obj, Translation):
-        context["component"] = obj.component
-        context["project"] = obj.component.project
-    elif isinstance(obj, Project):
-        context["project"] = obj
-    elif isinstance(obj, Language):
-        context["language"] = obj
-    elif obj is None:
-        pass
-    else:
-        raise TypeError(f"Not implemented search for {obj}")
 
     if not is_ratelimited and request.GET and search_form.is_valid():
         # This is ugly way to hide query builder when showing results
@@ -151,27 +146,12 @@ def search(request, path=None):
             user=request.user, data=request.GET, show_builder=False
         )
         search_form.is_valid()
-        # Filter results by ACL
-        units = Unit.objects.prefetch_full().prefetch()
-        if isinstance(obj, Translation):
-            units = units.filter(translation=obj)
-        elif isinstance(obj, Component):
-            units = units.filter(translation__component=obj)
-        elif isinstance(obj, Project):
-            units = units.filter(translation__component__project=obj)
-        elif isinstance(obj, ProjectLanguage):
-            units = units.filter(
-                translation__component__project=obj.project,
-                translation__language=obj.language,
+        units = (
+            unit_set.prefetch_full()
+            .prefetch()
+            .search(
+                search_form.cleaned_data.get("q", ""), project=context.get("project")
             )
-        elif isinstance(obj, Language):
-            units = units.filter_access(request.user).filter(translation__language=obj)
-        elif obj is None:
-            units = units.filter_access(request.user)
-        else:
-            raise TypeError(f"Not implemented search for {obj}")
-        units = units.search(
-            search_form.cleaned_data.get("q", ""), project=context.get("project")
         )
 
         units = get_paginator(
@@ -210,7 +190,9 @@ def search(request, path=None):
 @never_cache
 def bulk_edit(request, path):
     obj, unit_set, context = parse_path_units(
-        request, path, (Translation, Component, Project, ProjectLanguage)
+        request,
+        path,
+        (Translation, Component, Project, ProjectLanguage, Category, CategoryLanguage),
     )
 
     if not request.user.has_perm("translation.auto", obj) or not request.user.has_perm(

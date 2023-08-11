@@ -7,12 +7,14 @@
 from __future__ import annotations
 
 import os
+from contextlib import suppress
 from time import mktime
 from typing import Any
 from zipfile import ZipFile
 
 from django.conf import settings
 from django.core.paginator import EmptyPage, Paginator
+from django.db.models import Q
 from django.http import FileResponse, Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.http import http_date
@@ -22,10 +24,10 @@ from django.views.generic.edit import FormView
 
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.models import Language
-from weblate.trans.models import Component, Project, Translation, Unit
+from weblate.trans.models import Category, Component, Project, Translation, Unit
 from weblate.utils import messages
 from weblate.utils.errors import report_error
-from weblate.utils.stats import ProjectLanguage
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.vcs.git import LocalRepository
 
 SORT_KEYS = {
@@ -169,27 +171,39 @@ def _parse_path(request, path: tuple[str], *, skip_acl: bool = False):
         return ProjectLanguage(project, language)
 
     # Component/category structure
-    parent = project
-    component = None
+    current = project
+    category_args = {"category": None}
     while path:
         slug = path.pop(0)
-        try:
-            component = parent.component_set.get(slug=slug)
-        except Component.DoesNotExist as error:
-            raise Http404(f"Object {slug} not found in {parent}") from error
-        else:
+
+        # Category/language special case
+        if slug == "-" and len(path) == 1:
+            language = get_object_or_404(Language, code=path[0])
+            return CategoryLanguage(current, language)
+
+        # Try component first
+        with suppress(Component.DoesNotExist):
+            current = current.component_set.get(slug=slug, **category_args)
             if not skip_acl:
-                request.user.check_access_component(component)
-            component.acting_user = request.user
+                request.user.check_access_component(current)
+            current.acting_user = request.user
             break
+
+        # Try category
+        with suppress(Category.DoesNotExist):
+            current = current.category_set.get(slug=slug, **category_args)
+            current.acting_user = request.user
+            category_args = {}
+            continue
+
+        # Nothing more to try
+        raise Http404(f"Object {slug} not found in {current}")
 
     # Nothing left, return current object
     if not path:
-        return component
+        return current
 
-    translation = get_object_or_404(
-        component.translation_set, language__code=path.pop(0)
-    )
+    translation = get_object_or_404(current.translation_set, language__code=path.pop(0))
     if not path:
         return translation
 
@@ -241,6 +255,29 @@ def parse_path_units(request, path: list[str], types: tuple[Any]):
         )
         context["project"] = obj.project
         context["language"] = obj.language
+    elif isinstance(obj, Category):
+        unit_set = Unit.objects.filter(
+            Q(translation__component__category=obj)
+            | Q(translation__component__category__category=obj)
+            | Q(translation__component__category__category__category=obj)
+        )
+        context["project"] = obj.project
+    elif isinstance(obj, CategoryLanguage):
+        unit_set = Unit.objects.filter(
+            Q(translation__component__category=obj.category)
+            | Q(translation__component__category__category=obj.category)
+            | Q(translation__component__category__category__category=obj.category),
+            translation__language=obj.language,
+        )
+        context["project"] = obj.category.project
+        context["language"] = obj.language
+    elif isinstance(obj, Language):
+        unit_set = Unit.objects.filter_access(request.user).filter(
+            translation__language=obj
+        )
+        context["language"] = obj
+    elif obj is None:
+        unit_set = Unit.objects.filter_access(request.user)
     else:
         raise TypeError("Unsupported result: {obj}")
 

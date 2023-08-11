@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os.path
+from urllib.parse import unquote
 
 from celery.result import AsyncResult
 from django.conf import settings
@@ -44,6 +45,7 @@ from weblate.api.serializers import (
     AddonSerializer,
     BasicUserSerializer,
     BilingualUnitSerializer,
+    CategorySerializer,
     ChangeSerializer,
     ComponentListSerializer,
     ComponentSerializer,
@@ -77,6 +79,7 @@ from weblate.screenshots.models import Screenshot
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import AutoForm
 from weblate.trans.models import (
+    Category,
     Change,
     Component,
     ComponentList,
@@ -85,7 +88,12 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.tasks import auto_translate, component_removal, project_removal
+from weblate.trans.tasks import (
+    auto_translate,
+    category_removal,
+    component_removal,
+    project_removal,
+)
 from weblate.trans.views.files import download_multi
 from weblate.utils.celery import get_queue_stats, get_task_progress, is_task_ready
 from weblate.utils.docs import get_doc_url
@@ -156,7 +164,33 @@ class MultipleFieldMixin:
         queryset = self.get_queryset()
         # Apply any filter backends
         queryset = self.filter_queryset(queryset)
-        lookup = {field: self.kwargs[field] for field in self.lookup_fields}
+        # Generate lookup
+        lookup = {}
+        category_path = ""
+        for field in reversed(self.lookup_fields):
+            if field not in ("category__slug", "slug"):
+                lookup[field] = self.kwargs[field]
+            else:
+                category_prefix = field[:-4]
+                was_category = False
+                was_slug = False
+                # Fetch component part for possible category
+                for category in reversed(unquote(self.kwargs[field]).split("/")):
+                    if not was_slug:
+                        # Component filter
+                        lookup[field] = category
+                        was_slug = True
+                    else:
+                        # Strip "slug" from category field
+                        category_path = f"category__{category_path}"
+                        lookup[f"{category_prefix}{category_path}slug"] = category
+                        was_category = True
+                if not was_category:
+                    # No category
+                    lookup[
+                        f"{category_prefix}{'__' if category_prefix else ''}category"
+                    ] = None
+
         # Lookup the object
         return get_object_or_404(queryset, **lookup)
 
@@ -681,6 +715,17 @@ class ProjectViewSet(
         serializer = ComponentSerializer(
             page, many=True, context={"request": request}, remove_fields=("project",)
         )
+
+        return self.get_paginated_response(serializer.data)
+
+    @action(detail=True, methods=["get"])
+    def categories(self, request, **kwargs):
+        obj = self.get_object()
+
+        queryset = obj.category_set.order_by("id")
+        page = self.paginate_queryset(queryset)
+
+        serializer = CategorySerializer(page, many=True, context={"request": request})
 
         return self.get_paginated_response(serializer.data)
 
@@ -1554,6 +1599,52 @@ class ComponentListViewSet(viewsets.ModelViewSet):
             raise Http404(str(error))
         obj.components.remove(component)
         return Response(status=HTTP_204_NO_CONTENT)
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    """Category API."""
+
+    queryset = Category.objects.none()
+    serializer_class = CategorySerializer
+    lookup_field = "pk"
+
+    def get_queryset(self):
+        return Category.objects.filter(
+            project__in=self.request.user.allowed_projects
+        ).order_by("id")
+
+    def perm_check(self, request, instance):
+        if not request.user.has_perm("project.edit", instance):
+            self.permission_denied(request, "Can not manage categories")
+
+    def update(self, request, *args, **kwargs):
+        self.perm_check(request, self.get_object())
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perm_check(request, instance)
+        category_removal.delay(instance.pk, request.user.pk)
+        return Response(status=HTTP_204_NO_CONTENT)
+
+    def perform_create(self, serializer):
+        if not self.request.user.has_perm(
+            "project.edit", serializer.validated_data["project"]
+        ):
+            self.permission_denied(
+                self.request, "Can not manage categories in this project"
+            )
+        serializer.save()
+
+    def perform_update(self, serializer):
+        if not self.request.user.has_perm(
+            "project.edit",
+            serializer.validated_data.get("project", serializer.instance.project),
+        ):
+            self.permission_denied(
+                self.request, "Can not manage categories in this project"
+            )
+        serializer.save()
 
 
 class Metrics(APIView):

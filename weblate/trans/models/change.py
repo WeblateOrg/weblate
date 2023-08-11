@@ -37,6 +37,16 @@ class ChangeQuerySet(models.QuerySet):
             base = base.prefetch()
         return base.filter(action__in=Change.ACTIONS_CONTENT)
 
+    def for_category(self, category):
+        return self.filter(
+            Q(component__category=category)
+            | Q(component__category__category=category)
+            | Q(component__category__category__category=category)
+        )
+
+    def filter_announcements(self):
+        return self.filter(action=Change.ACTION_ANNOUNCEMENT)
+
     def count_stats(self, days: int, step: int, dtstart: datetime):
         """Count the number of changes in a given period grouped by step days."""
         # Count number of changes
@@ -265,6 +275,9 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_COMMENT_DELETE = 64
     ACTION_COMMENT_RESOLVE = 65
     ACTION_EXPLANATION = 66
+    ACTION_REMOVE_CATEGORY = 67
+    ACTION_RENAME_CATEGORY = 68
+    ACTION_MOVE_CATEGORY = 69
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -398,6 +411,12 @@ class Change(models.Model, UserDisplayMixin):
         ),
         # Translators: Name of event in the history
         (ACTION_EXPLANATION, gettext_lazy("Explanation updated")),
+        # Translators: Name of event in the history
+        (ACTION_REMOVE_CATEGORY, gettext_lazy("Removed category")),
+        # Translators: Name of event in the history
+        (ACTION_RENAME_CATEGORY, gettext_lazy("Renamed category")),
+        # Translators: Name of event in the history
+        (ACTION_MOVE_CATEGORY, gettext_lazy("Moved category")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {

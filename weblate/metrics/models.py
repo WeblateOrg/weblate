@@ -19,9 +19,21 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Change, Component, ComponentList, Project, Translation
+from weblate.trans.models import (
+    Category,
+    Change,
+    Component,
+    ComponentList,
+    Project,
+    Translation,
+)
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.stats import GlobalStats, ProjectLanguage, prefetch_stats
+from weblate.utils.stats import (
+    CategoryLanguage,
+    GlobalStats,
+    ProjectLanguage,
+    prefetch_stats,
+)
 
 BASIC_KEYS = {
     "all",
@@ -191,6 +203,12 @@ class MetricManager(models.Manager):
             changes = obj.change_set.all()
         elif isinstance(obj, ComponentList):
             changes = Change.objects.filter(component__in=obj.components.all())
+        elif isinstance(obj, CategoryLanguage):
+            changes = Change.objects.for_category(obj.category).filter(
+                translation__language=obj.language
+            )
+        elif isinstance(obj, Category):
+            changes = Change.objects.for_category(obj.category)
         elif isinstance(obj, ProjectLanguage):
             changes = obj.project.change_set.filter(translation__language=obj.language)
         elif isinstance(obj, Language):
@@ -215,10 +233,14 @@ class MetricManager(models.Manager):
             return self.collect_component(obj)
         if isinstance(obj, Project):
             return self.collect_project(obj)
+        if isinstance(obj, Category):
+            return self.collect_category(obj)
         if isinstance(obj, ComponentList):
             return self.collect_component_list(obj)
         if isinstance(obj, ProjectLanguage):
             return self.collect_project_language(obj)
+        if isinstance(obj, CategoryLanguage):
+            return self.collect_category_language(obj)
         if isinstance(obj, Language):
             return self.collect_language(obj)
         raise ValueError(f"Unsupported type for metrics: {obj!r}")
@@ -270,6 +292,61 @@ class MetricManager(models.Manager):
             Metric.SCOPE_PROJECT_LANGUAGE,
             project.pk,
             project_language.language.pk,
+        )
+
+    def collect_category_language(self, category_language: CategoryLanguage):
+        category = category_language.category
+        changes = category.project.change_set.for_category(category).filter(
+            translation__language=category_language.language
+        )
+
+        data = {
+            "changes": changes.filter(
+                timestamp__date=timezone.now().date() - datetime.timedelta(days=1),
+            ).count(),
+            "contributors": changes.filter(
+                timestamp__date__gte=timezone.now().date()
+                - datetime.timedelta(days=30),
+            )
+            .values("user")
+            .distinct()
+            .count(),
+        }
+
+        return self.create_metrics(
+            data,
+            category_language.stats,
+            SOURCE_KEYS,
+            Metric.SCOPE_CATEGORY_LANGUAGE,
+            category.project.pk,
+            category_language.language.pk,
+        )
+
+    def collect_category(self, category: Category):
+        languages = prefetch_stats(
+            [CategoryLanguage(category, language) for language in category.languages]
+        )
+        for category_language in languages:
+            self.collect_category_language(category_language)
+        changes = Change.objects.for_category(category)
+        data = {
+            "components": category.component_set.count(),
+            "translations": Translation.objects.filter(
+                component__category=category
+            ).count(),
+            "changes": changes.filter(
+                timestamp__date=timezone.now().date() - datetime.timedelta(days=1)
+            ).count(),
+            "contributors": changes.filter(
+                timestamp__date__gte=timezone.now().date() - datetime.timedelta(days=30)
+            )
+            .values("user")
+            .distinct()
+            .count(),
+        }
+
+        return self.create_metrics(
+            data, category.stats, SOURCE_KEYS, Metric.SCOPE_CATEGORY, category.pk
         )
 
     def collect_project(self, project: Project):
@@ -427,6 +504,8 @@ class Metric(models.Model):
     SCOPE_COMPONENT_LIST = 5
     SCOPE_PROJECT_LANGUAGE = 6
     SCOPE_LANGUAGE = 7
+    SCOPE_CATEGORY = 8
+    SCOPE_CATEGORY_LANGUAGE = 9
 
     id = models.BigAutoField(primary_key=True)  # noqa: A003
     date = models.DateField(default=datetime.date.today)
@@ -466,6 +545,15 @@ def create_metrics_project(sender, instance, created=False, **kwargs):
         )
 
 
+@receiver(post_save, sender=Category)
+@disable_for_loaddata
+def create_metrics_category(sender, instance, created=False, **kwargs):
+    if created:
+        Metric.objects.initialize_metrics(
+            scope=Metric.SCOPE_CATEGORY, relation=instance.pk
+        )
+
+
 @receiver(post_save, sender=Component)
 @disable_for_loaddata
 def create_metrics_component(sender, instance, created=False, **kwargs):
@@ -489,6 +577,15 @@ def create_metrics_translation(sender, instance, created=False, **kwargs):
 def create_metrics_user(sender, instance, created=False, **kwargs):
     if created:
         Metric.objects.initialize_metrics(scope=Metric.SCOPE_USER, relation=instance.pk)
+
+
+@receiver(post_delete, sender=Category)
+@disable_for_loaddata
+def delete_metrics_category(sender, instance, **kwargs):
+    Metric.objects.filter(
+        scope__in=(Metric.SCOPE_CATEGORY_LANGUAGE, Metric.SCOPE_CATEGORY),
+        relation=instance.pk,
+    ).delete()
 
 
 @receiver(post_delete, sender=Project)

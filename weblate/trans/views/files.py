@@ -5,17 +5,24 @@
 import os
 
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.http import require_POST
 
 from weblate.trans.exceptions import FailedCommitError, PluralFormsMismatchError
 from weblate.trans.forms import DownloadForm, get_upload_form
-from weblate.trans.models import Component, ComponentList, Project, Translation
+from weblate.trans.models import (
+    Category,
+    Component,
+    ComponentList,
+    Project,
+    Translation,
+)
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
-from weblate.utils.stats import ProjectLanguage
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import (
     download_translation_file,
     parse_path,
@@ -73,7 +80,11 @@ def download_component_list(request, name):
 
 def download(request, path):
     """Handling of translation uploads."""
-    obj = parse_path(request, path, (Translation, Component, Project, ProjectLanguage))
+    obj = parse_path(
+        request,
+        path,
+        (Translation, Component, Project, ProjectLanguage, Category, CategoryLanguage),
+    )
     if not request.user.has_perm("translation.download", obj):
         raise PermissionDenied
 
@@ -100,6 +111,32 @@ def download(request, path):
         )
     if isinstance(obj, Project):
         components = obj.component_set.filter_access(request.user)
+        return download_multi(
+            Translation.objects.filter(component__in=components),
+            [obj],
+            request.GET.get("format"),
+            name=obj.slug,
+        )
+    if isinstance(obj, CategoryLanguage):
+        components = obj.category.project.component_set.filter_access(
+            request.user
+        ).filter(
+            Q(category=obj.category)
+            | Q(category__category=obj.category)
+            | Q(category__category__category=obj.category)
+        )
+        return download_multi(
+            Translation.objects.filter(component__in=components, language=obj.language),
+            [obj.category.project],
+            request.GET.get("format"),
+            name=f"{obj.category.slug}-{obj.language.code}",
+        )
+    if isinstance(obj, Category):
+        components = obj.project.component_set.filter_access(request.user).filter(
+            Q(category=obj)
+            | Q(category__category=obj)
+            | Q(category__category__category=obj)
+        )
         return download_multi(
             Translation.objects.filter(component__in=components),
             [obj],

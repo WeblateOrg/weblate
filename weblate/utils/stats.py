@@ -621,10 +621,21 @@ class LanguageStats(BaseStats):
     def prefetch_source(self):
         return
 
+    @cached_property
+    def category_set(self):
+        # Used in CategoryLanguageStats
+        return []
+
     def _prefetch_basic(self):
         stats = zero_stats(self.basic_keys)
         for translation in self.translation_set:
             stats_obj = translation.stats
+            stats_obj.ensure_basic()
+            for item in BASIC_KEYS:
+                aggregate(stats, item, stats_obj)
+            self.calculate_source(stats_obj, stats)
+        for category in self.category_set:
+            stats_obj = category.stats
             stats_obj.ensure_basic()
             for item in BASIC_KEYS:
                 aggregate(stats, item, stats_obj)
@@ -641,6 +652,8 @@ class LanguageStats(BaseStats):
         result = 0
         for translation in self.translation_set:
             result += getattr(translation.stats, item)
+        for category in self.category_set:
+            result += getattr(category.stats, item)
         self.store(item, result)
 
 
@@ -699,6 +712,8 @@ class ComponentStats(LanguageStats):
         result = super().get_invalidate_keys(language, childs, parents)
         if parents:
             result.update(self._object.project.stats.get_invalidate_keys(language))
+            if self._object.category:
+                result.update(self._object.category.stats.get_invalidate_keys(language))
             for clist in self._object.componentlist_set.iterator():
                 result.update(clist.stats.get_invalidate_keys())
         if childs:
@@ -824,6 +839,12 @@ class ProjectLanguageStats(LanguageStats):
         return prefetch_stats(self.project.component_set.prefetch_source_stats())
 
     @cached_property
+    def category_set(self):
+        if self._project_stats:
+            return self._project_stats.category_set
+        return prefetch_stats(self.project.category_set.all())
+
+    @cached_property
     def translation_set(self):
         return prefetch_stats(
             self.language.translation_set.filter(component__in=self.component_set)
@@ -836,6 +857,11 @@ class ProjectLanguageStats(LanguageStats):
         chars = words = strings = 0
         for component in self.component_set:
             stats_obj = component.source_translation.stats
+            chars += stats_obj.all_chars
+            words += stats_obj.all_words
+            strings += stats_obj.all
+        for category in self.category_set:
+            stats_obj = category.stats
             chars += stats_obj.all_chars
             words += stats_obj.all_words
             strings += stats_obj.all
@@ -856,6 +882,209 @@ class ProjectLanguageStats(LanguageStats):
             self.language.id == component.source_language_id
             for component in self.project.child_components
         )
+
+
+class CategoryLanguage(BaseURLMixin):
+    """Wrapper class used in category-language listings and stats."""
+
+    remove_permission = "translation.delete"
+
+    def __init__(self, category, language: Language):
+        self.category = category
+        self.language = language
+        self.component = ProjectLanguageComponent(self)
+
+    def __str__(self):
+        return f"{self.category} - {self.language}"
+
+    @property
+    def code(self):
+        return self.language.code
+
+    @cached_property
+    def stats(self):
+        return CategoryLanguageStats(self)
+
+    @cached_property
+    def pk(self):
+        return f"{self.category.pk}-{self.language.pk}"
+
+    @cached_property
+    def cache_key(self):
+        return f"{self.category.cache_key}-{self.language.pk}"
+
+    def get_url_path(self):
+        return [*self.category.get_url_path(), "-", self.language.code]
+
+    def get_absolute_url(self):
+        return reverse("show", kwargs={"path": self.get_url_path()})
+
+    def get_translate_url(self):
+        return reverse("translate", kwargs={"path": self.get_url_path()})
+
+    @cached_property
+    def translation_set(self):
+        result = self.language.translation_set.filter(
+            component__category=self.category
+        ).prefetch()
+        for item in result:
+            item.is_shared = (
+                None
+                if item.component.project == self.category.project
+                else item.component.project
+            )
+        return sorted(
+            result,
+            key=lambda trans: (trans.component.priority, trans.component.name.lower()),
+        )
+
+    @cached_property
+    def is_source(self):
+        return all(
+            self.language.id == component.source_language_id
+            for component in self.category.component_set.all()
+        )
+
+    @cached_property
+    def change_set(self):
+        return self.language.change_set.filter(component__category=self.category)
+
+
+class CategoryLanguageStats(LanguageStats):
+    def __init__(self, obj: CategoryLanguage, category_stats=None):
+        self.language = obj.language
+        self.category = obj.category
+        self._category_stats = category_stats
+        super().__init__(obj)
+        obj.stats = self
+
+    @cached_property
+    def has_review(self):
+        return (
+            self.category.project.source_review
+            or self.category.project.translation_review
+        )
+
+    @cached_property
+    def component_set(self):
+        if self._category_stats:
+            return self._category_stats.component_set
+        return prefetch_stats(self.category.component_set.prefetch_source_stats())
+
+    @cached_property
+    def category_set(self):
+        if self._category_stats:
+            return self._category_stats.category_set
+        return prefetch_stats(self.category.category_set.all())
+
+    @cached_property
+    def translation_set(self):
+        return prefetch_stats(
+            self.language.translation_set.filter(component__in=self.component_set)
+        )
+
+    def calculate_source(self, stats_obj, stats):
+        return
+
+    def prefetch_source(self):
+        chars = words = strings = 0
+        for component in self.component_set:
+            stats_obj = component.source_translation.stats
+            chars += stats_obj.all_chars
+            words += stats_obj.all_words
+            strings += stats_obj.all
+        for category in self.category_set:
+            stats_obj = category.stats
+            chars += stats_obj.all_chars
+            words += stats_obj.all_words
+            strings += stats_obj.all
+        self.store("source_chars", chars)
+        self.store("source_words", words)
+        self.store("source_strings", strings)
+
+    def _prefetch_basic(self):
+        super()._prefetch_basic()
+        self.store("languages", 1)
+
+    def get_single_language_stats(self, language):
+        return self
+
+    @cached_property
+    def is_source(self):
+        return all(
+            self.language.id == component.source_language_id
+            for component in self.category.component_set.all()
+        )
+
+
+class CategoryStats(BaseStats):
+    basic_keys = SOURCE_KEYS
+
+    def get_invalidate_keys(
+        self,
+        language: Language | None = None,
+        childs: bool = False,
+        parents: bool = True,
+    ):
+        result = super().get_invalidate_keys(language, childs, parents)
+        if parents:
+            result.update(self._object.project.stats.get_invalidate_keys(language))
+            if self._object.category:
+                result.update(self._object.category.stats.get_invalidate_keys(language))
+            if language:
+                result.update(
+                    self.get_single_language_stats(language).get_invalidate_keys()
+                )
+            else:
+                for lang in self._object.languages:
+                    result.update(
+                        self.get_single_language_stats(lang).get_invalidate_keys()
+                    )
+        return result
+
+    @cached_property
+    def component_set(self):
+        return prefetch_stats(self._object.component_set.prefetch_source_stats())
+
+    @cached_property
+    def category_set(self):
+        return prefetch_stats(self._object.category_set.all())
+
+    def _prefetch_basic(self):
+        stats = zero_stats(self.basic_keys)
+        for component in self.component_set:
+            stats_obj = component.stats
+            stats_obj.ensure_basic()
+            for item in self.basic_keys:
+                aggregate(stats, item, stats_obj)
+        for category in self.category_set:
+            stats_obj = category.stats
+            stats_obj.ensure_basic()
+            for item in self.basic_keys:
+                aggregate(stats, item, stats_obj)
+        for key, value in stats.items():
+            self.store(key, value)
+
+    def calculate_item(self, item):
+        """Calculate stats for translation."""
+        result = 0
+        for component in self.component_set:
+            result += getattr(component.stats, item)
+        for category in self.category_set:
+            result += getattr(category.stats, item)
+        self.store(item, result)
+
+    def get_single_language_stats(self, language):
+        return CategoryLanguageStats(
+            CategoryLanguage(self._object, language), category_stats=self
+        )
+
+    def get_language_stats(self):
+        result = [
+            self.get_single_language_stats(language)
+            for language in self._object.languages
+        ]
+        return prefetch_stats(result)
 
 
 class ProjectStats(BaseStats):
@@ -885,6 +1114,10 @@ class ProjectStats(BaseStats):
         return result
 
     @cached_property
+    def category_set(self):
+        return prefetch_stats(self._object.category_set.filter(category=None).all())
+
+    @cached_property
     def component_set(self):
         return prefetch_stats(self._object.component_set.prefetch_source_stats())
 
@@ -908,6 +1141,12 @@ class ProjectStats(BaseStats):
             for item in self.basic_keys:
                 aggregate(stats, item, stats_obj)
 
+        for category in self.category_set:
+            stats_obj = category.stats
+            stats_obj.ensure_basic()
+            for item in self.basic_keys:
+                aggregate(stats, item, stats_obj)
+
         for key, value in stats.items():
             self.store(key, value)
 
@@ -918,6 +1157,8 @@ class ProjectStats(BaseStats):
         result = 0
         for component in self.component_set:
             result += getattr(component.stats, item)
+        for category in self.category_set:
+            result += getattr(category.stats, item)
         self.store(item, result)
 
 

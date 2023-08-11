@@ -408,6 +408,11 @@ real_patterns = [
         "rename/<object_path:path>/", weblate.trans.views.settings.rename, name="rename"
     ),
     path("move/<object_path:path>/", weblate.trans.views.settings.move, name="move"),
+    path(
+        "category/add/<object_path:path>/",
+        weblate.trans.views.settings.add_category,
+        name="add-category",
+    ),
     # Alerts dismiss
     path(
         "alerts/<object_path:path>/dismiss/",

@@ -43,6 +43,7 @@ COPY_ATTRIBUTES = (
     "edit_template",
     "manage_units",
     "variant_regex",
+    "category",
 )
 
 
