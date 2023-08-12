@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 12:41+0200\n"
-"PO-Revision-Date: 2023-08-12 09:59+0000\n"
+"PO-Revision-Date: 2023-08-13 02:08+0000\n"
 "Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -5302,7 +5302,7 @@ msgstr "``strict-format``"
 msgid ""
 "Make format checks enforce using format even for plural forms with a single "
 "value, see :ref:`check-formats`."
-msgstr "让格式检查强制使用格式，及时对单一值的复数形式也是如此，见 :ref:`check-"
+msgstr "让格式检查强制使用格式，即使对单一值的复数形式也是如此，见 :ref:`check-"
 "formats`。"
 
 #: ../../admin/checks.rst:112 ../../user/checks.rst:136
@@ -14837,7 +14837,7 @@ msgstr "Weblate 有内置的复数定义集。它们时基于文件格式规范�
 msgid ""
 "Doing changes to the built-in plural definitions will most likely won't have "
 "desired effect, as these rules need to match underlying implementation."
-msgstr "更改内置的复数定义很肯恶搞不会生产你期望的效果，因为这些规则需匹配底层实现。"
+msgstr "更改内置的复数定义很可能不会生产你期望的效果，因为这些规则需匹配底层实现。"
 
 #: ../../admin/languages.rst:156
 msgid ""
@@ -19829,7 +19829,7 @@ msgid ""
 msgstr ""
 "除了 :ref:`additional`，截图在 :guilabel:`工具` 菜单下有个单独的管理界面。上"
 "传截图，将它们手动分配给源字符串，或者使用光学字符识别（OCR）来进行，"
-"方法是按下 :guilabel:`Automatically recognize` 按钮。"
+"方法是按下 :guilabel:`自动识别` 按钮。"
 
 #: ../../admin/translating.rst:133
 msgid ""
@@ -27525,7 +27525,7 @@ msgid ""
 "accordingly."
 msgstr ""
 ":setting:`CACHE_DIR` 的引入更改了 :setting:`django:STATIC_ROOT`的默认值。 "
-"你可能需要响应调整 :ref:`static-files`。"
+"你可能需要相应调整 :ref:`static-files`。"
 
 #: ../../changes/v4.rst:181
 msgid "Weblate 4.15.2"
@@ -31178,7 +31178,7 @@ msgstr ""
 "`GitHub Discussions <https://github.com/WeblateOrg/weblate/discussions>`_ "
 "是一个社区。在此发帖时可以选择 Ideas、Polls,、Q&A 和 Show and Tell 分类。"
 "General 分类则适合所有不在这些定义的分类中的帖子。Weblate 团队成员偶尔会访问 "
-"Discussions，用户也通过 @ 成员的用户名。"
+"Discussions，用户也可 @ 成员的用户名。"
 
 #: ../../contributing/communication.rst:18
 msgid "Weblate on Mastodon"
@@ -31211,6 +31211,12 @@ msgid ""
 "the chat by specifying a nickname or as a guest by default. Weblate team "
 "members do not visit here."
 msgstr ""
+"`Libera.Chat <https://web.libera.chat/#weblate>`_ 是一个 FOSS 项目社区的 IRC "
+"网络。它可以用来非正式地询问基础问题或开始社区对话。这个平台可以被认为是类似"
+"于面对面的交流，只有当前在聊天室（频道）中的人可能回应你的消息。"
+"当沟通指引不建议在 GitHub Discussions 或 GitHub Issues "
+"发帖的情况下，你可以用它进行沟通。无需账户；用户可以指定昵称或者默认以 guest "
+"身份进入聊天 。Weblate 团队用户不会访问此地。"
 
 #: ../../contributing/debugging.rst:2
 msgid "Debugging Weblate"
@@ -31782,7 +31788,7 @@ msgstr "James Valleroy"
 
 #: ../../../BACKERS.rst:19
 msgid "wallabag.org"
-msgstr ""
+msgstr "wallabag.org"
 
 #: ../../../BACKERS.rst:21
 msgid ""
@@ -37499,6 +37505,9 @@ msgid ""
 "imported to Weblate because it can not be done reliably. The source of truth "
 "for the translations is Weblate not the translated file."
 msgstr ""
+"和其他多数格式不同，翻译文件的更改不会被导入到 "
+"Weblate，因为无法可靠地完成这一任务。翻译真实性源自 Weblate "
+"而不是已翻译的文件。"
 
 #: ../../formats/html.rst:14
 msgid ":doc:`tt:formats/html`"
@@ -38365,7 +38374,7 @@ msgstr "XLIFF"
 msgid ""
 "Weblate currently supports XLIFF 1.2. XLIFF 2.0 is not supported and is not "
 "backwards compatible with XLIFF 1.2."
-msgstr ""
+msgstr "Weblate 当前支持 XLIFF 1.2。XLIFF 2.0 不受支持且不向后兼容 XLIFF 1.2。"
 
 #: ../../formats/xliff.rst:13
 msgid ""
@@ -39389,6 +39398,9 @@ msgid ""
 "all these parts appear within the same block, using Fluent-like syntax to "
 "specify the attributes. For example:"
 msgstr ""
+"每条 Fluent 消息可以有一个可选值（主文本内容）以及多个可选属性，每个属性是该"
+"消息的”一部分“。Weblate 中所有这些部分出现在同一区块内，使用类 Fluent "
+"语法来指定属性。比如："
 
 #: ../../user/checks.rst:192
 msgid ""
@@ -39397,6 +39409,8 @@ msgid ""
 "that the same attributes used in the source Message also appear in the "
 "translation, with no additions."
 msgstr ""
+"此检查确保如果源消息有一个值，那已翻译的消息也有一个，或者如果源消息没有，已"
+"翻译消息也没有。这也检查用于源消息的相同属性也出现在翻译中，且不会有添加。"
 
 #: ../../user/checks.rst:199
 msgid ""
@@ -39404,6 +39418,8 @@ msgid ""
 "and Term attributes tend to be locale-specific (used for grammar rules, "
 "etc.), and are not expected to appear in all translations."
 msgstr ""
+"此检查不应用于 Fluent Terms，因 Terms 始终有一个值。此外， Term "
+"属性往往随区域设置不同而不同（用于语法规则等），且预计不会出现在所有翻译中。"
 
 #: ../../user/checks.rst:205
 msgid ""
@@ -39412,7 +39428,7 @@ msgstr "`Fluent 属性 <https://projectfluent.org/>`_"
 
 #: ../../user/checks.rst:210
 msgid "Fluent references"
-msgstr "Fluent 首选项"
+msgstr "Fluent 参考"
 
 #: ../../user/checks.rst:214
 msgid "Fluent references should match"
@@ -39434,7 +39450,7 @@ msgstr "``ignore-fluent-references``"
 msgid ""
 "A Fluent Message or Term can reference another Message, Term, Attribute, or "
 "a variable. For example:"
-msgstr ""
+msgstr "Fluent 消息或 Term 可参考另一个消息、术语、属性或变量。比如："
 
 #: ../../user/checks.rst:229
 msgid ""
@@ -39445,6 +39461,9 @@ msgid ""
 "additions. For Messages, this will also check that each Attribute in the "
 "translation uses the same references as the matching Attribute in the source."
 msgstr ""
+"我们通常期待翻译的消息或术语包含和原文相同的参考，虽然这些参考未必以相同顺序"
+"出现。所以此检查确保翻译值和原文值所用的参考内容一样，次数相同且无额外添加。"
+"对于消息，这还检查翻译中的每个属性和原文中相匹配属性所用的参考相同。"
 
 #: ../../user/checks.rst:236
 msgid ""
@@ -39452,6 +39471,8 @@ msgid ""
 "possible variant in the source must be matched with at least one variant in "
 "the translation with the same references, and vice versa."
 msgstr ""
+"当原文或翻译包含 Fluent Select Expressions 时，原文中每个可能的变体必须与翻译"
+"中至少一个变体具有相同的参考而相匹配，反过来也是如此。"
 
 #: ../../user/checks.rst:240
 msgid ""
@@ -39461,12 +39482,15 @@ msgid ""
 "the variant's key may have made the reference redundant for that variant. "
 "For example:"
 msgstr ""
+"此外，如果一个可变参考同时出现在 Select Expression 的选择器中和其自身变体中的"
+"一个时，所有变体也可以被认为它们似乎也包含那个参考。这里的假设是变体的密钥可"
+"能使得参考对于那个变体而言变得多余。比如："
 
 #: ../../user/checks.rst:253
 msgid ""
 "Here, for the purposes of this check, the ``[one]`` variant will also be "
 "considered to contain the ``$num`` reference."
-msgstr ""
+msgstr "在这里，出于此项检查的目的， ``[one]`` 变体也会被认为包含 ``$num`` 参考。"
 
 #: ../../user/checks.rst:256
 msgid ""
@@ -39476,12 +39500,17 @@ msgid ""
 "content of the string that the end-user will see, and the presence of a "
 "Select Expression is considered locale-specific. For example:"
 msgstr ""
+"不过，Select Expression 选择器内的参考（只能是依照 Fluent 语法的一个术语属性"
+"的一个变量）不会将自己计为一个必需的参考，因为它们不形成终端用户会见到的字符"
+"串的实际文本内容，且Select Expression "
+"的存在被认为是随区域设置变化而变化的。比如："
 
 #: ../../user/checks.rst:269
 msgid ""
 "Here a reference to ``-term.starts-with-vowel`` is not expected to appear in "
 "translations, but a reference to ``-term`` is."
-msgstr ""
+msgstr "此处对 `-term.starts-with-vowel`` 的提及预期不会出现在翻译中，但对 ``-term`` "
+"的提及预期会出现。"
 
 #: ../../user/checks.rst:274
 msgid ""
@@ -39490,6 +39519,10 @@ msgid ""
 "references.html>`_ `Fluent Select Expressions <https://projectfluent.org/"
 "fluent/guide/selectors.html>`_"
 msgstr ""
+"`Fluent 变量 <https://projectfluent.org/fluent/guide/variables.html>`_ `"
+"Fluent 消息和术语参考 <https://projectfluent.org/fluent/guide/references."
+"html>`_ `Fluent Select Expressions <https://projectfluent.org/fluent/guide/"
+"selectors.html>`_"
 
 #: ../../user/checks.rst:281
 msgid "Fluent translation inner HTML"
@@ -39515,7 +39548,7 @@ msgstr "``ignore-fluent-target-inner-html``"
 msgid ""
 "This check will verify that the translated value of a Message or Term "
 "contains the same HTML elements as the source value."
-msgstr ""
+msgstr "此检查验证一条消息或术语的已翻译值包含和原文值相同的 HTML 元素。"
 
 #: ../../user/checks.rst:295
 msgid ""
@@ -39523,6 +39556,8 @@ msgid ""
 "check, then this check will do nothing. Otherwise, the translated value will "
 "also be checked under the same conditions."
 msgstr ""
+"首先，如果原文值未通过 :ref:`check-fluent-source-inner-"
+"html`检查，那么此检查什么事都不会做。不然，翻译的值也会以相同的条件被检查。"
 
 #: ../../user/checks.rst:299
 msgid ""
@@ -39535,6 +39570,11 @@ msgid ""
 "there are multiple elements in the value, they need not appear in the same "
 "order in the translation value."
 msgstr ""
+"其次，在已翻译值中找到的 HTML 元素会和在原文值中找到的 HTML "
+"元素进行比较。如果这两类元素的标签、属性和值完全一样，且它们 ancestor 的标签"
+"、属性和值也完全一样，那么它们也是相匹配的。此检查确保原文中的所有元素均会出"
+"现在译文某处，且出现次数一样，不会添加额外元素。当值中含有多个元素，它们的出"
+"现顺序无需和翻译值一样。"
 
 #: ../../user/checks.rst:308
 msgid ""
@@ -39542,6 +39582,9 @@ msgid ""
 "possible variant in the source must be matched with at least one variant in "
 "the translation with the same HTML elements, and vice versa."
 msgstr ""
+"当原文或翻译包含 Fluent Select Expressions，"
+"那么原文中每个可能的变体必需与翻译中的至少一个变体拥有相同的 HTML "
+"元素而互相匹配，反过来也是如此。"
 
 #: ../../user/checks.rst:312
 msgid ""
@@ -39549,6 +39592,8 @@ msgid ""
 "includes any required ``data-l10n-name`` elements that appear in the source, "
 "or any of the allowed inline elements like ``<br>``."
 msgstr ""
+"如果使用 Fluent DOM 包，那么这会保证翻译也包含出现在原文中的任何必需的 "
+"``data-l10n-name``元素，或被允许的内联元素中的任何一个，比如 ``<br>`` 。"
 
 #: ../../user/checks.rst:316
 msgid "For example, the following source:"
@@ -39556,11 +39601,11 @@ msgstr "比如，以下原文："
 
 #: ../../user/checks.rst:322
 msgid "would match with:"
-msgstr ""
+msgstr "预期匹配项："
 
 #: ../../user/checks.rst:328
 msgid "but not:"
-msgstr ""
+msgstr "但不是："
 
 #: ../../user/checks.rst:334
 msgid "or"
@@ -39571,6 +39616,8 @@ msgid ""
 ":ref:`check-fluent-source-inner-html`, `Fluent DOM <https://projectfluent."
 "org/dom-l10n-documentation/overview.html>`_"
 msgstr ""
+":ref:`check-fluent-source-inner-html`, `Fluent DOM <https://projectfluent."
+"org/dom-l10n-documentation/overview.html>`_"
 
 #: ../../user/checks.rst:348
 msgid "Fluent translation syntax"
@@ -39599,6 +39646,9 @@ msgid ""
 "variants, including plurals. This check ensures that the syntax used in the "
 "translation will be valid for Fluent."
 msgstr ""
+"Weblate 中，Fluent 字符串对参考和变量使用 Fluent "
+"语法，该语法同样用于更为复杂的功能，比如定义属性和选择器变体，包括复数。"
+"此检查确保用于翻译的语法对 Fluent 有效。"
 
 #: ../../user/checks.rst:366
 msgid ""
@@ -39607,6 +39657,9 @@ msgid ""
 "mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax."
 "html>`_"
 msgstr ""
+":ref:`check-fluent-source-syntax`, `Fluent 语法指南 <https://projectfluent."
+"org/fluent/guide/>`_ `Mozilla 基础语法指南 <https://mozilla-l10n.github.io/"
+"localizer-documentation/tools/fluent/basic_syntax.html>`_"
 
 #: ../../user/checks.rst:373
 msgid "Formatted strings"
@@ -39641,6 +39694,9 @@ msgid ""
 "these cases (`One apple` instead of `%d apple`). Turn this of by adding "
 "``strict-format`` flag."
 msgstr ""
+"多数格式检查允许省略有单一计数的复数形式的格式字符串。这允许译者在这些情形下"
+"写出更好的译文（`One apple` 而非`%d apple`）。添加 ``strict-"
+"format``标记关闭这个。"
 
 #: ../../user/checks.rst:389
 msgid ""
@@ -41585,6 +41641,8 @@ msgid ""
 "meant to be used directly as ``.innerHTML`` (rather than ``.textContent``) "
 "for some HTML element. For example, when using the Fluent DOM package."
 msgstr ""
+"在消息（或术语）的值打算被直接用做某些 HTML 元素的 ``.innerHTML`` （而非 ``."
+"textContent`` ）的上下文环境中常常用到 Fluent。比如，使用 Fluent DOM 包时。"
 
 #: ../../user/checks.rst:1607
 msgid ""
@@ -41593,6 +41651,9 @@ msgid ""
 "be some \"unintended\" loss of the string, without being too strict about "
 "technical parsing errors that do *not* lead to a loss of the string."
 msgstr ""
+"这个检查的目的是预测值会被如何解析为内部 HTML，假定 HTML coforming 解析器，来"
+"捕捉有一些“未预期的”字符串损失的情况而无需对不会造成字符串损失的技术性解析错"
+"误过于苛责。"
 
 #: ../../user/checks.rst:1612
 msgid ""
@@ -41602,6 +41663,9 @@ msgid ""
 "Attributes are often language properties that can only be referenced in the "
 "selectors of Fluent Select Expressions."
 msgstr ""
+"此检查应用于 Fluent 消息或术语的值，但不应用于它们的属性。对于消息而言，"
+"Fluent 属性常常不过是 HTML 属性值，因此可以是任意字符串。对于术语来说，"
+"Fluent 属性常常是只能在 Fluent Select Expressions 选择器中提到的语言属性。"
 
 #: ../../user/checks.rst:1618
 msgid ""
@@ -41611,6 +41675,10 @@ msgid ""
 "XHTML parsing errors). Instead, we just want to warn them when they may have "
 "unintentionally opened a HTML tag or inserted a character reference."
 msgstr ""
+"我们通常预期多数 Fluent 值不会包含任何 HTML "
+"markup。我们因而不预期或者希望译者和开发者不得不花心思避免*任何*的技术性 "
+"HTML5 解析错误（更别提 XHTML 解析错误了）。"
+"我们只是想警告在译者和开发者可能无意打开了 HTML 标签或插入了字符参考时示警。"
 
 #: ../../user/checks.rst:1624
 msgid ""
@@ -41623,6 +41691,12 @@ msgid ""
 "attributes, as well as allow *some* custom element or attribute names. This "
 "is partially to ensure that the user is using HTML intentionally."
 msgstr ""
+"此外，对有意包含 HTML 标签或字符参考的 Fluent 值，我们想验证“良好实践”，比如"
+"匹配关闭和结束标签，有效字符参考以及引用的属性值。另外，虽然 HTML5 "
+"规范在技术上允许安静的任意标签和属性名称，"
+"此检查会将它们限制到应该可以涵盖标准 HTML5 元素标签和属性的基本 ASCII "
+"值，以及允许*一些*自定义元素或属性名称。"
+"这么做的部分原因是确保用户知道自己在使用 HTML。"
 
 #: ../../user/checks.rst:1633
 msgid "Examples:"
@@ -41630,11 +41704,11 @@ msgstr "示例："
 
 #: ../../user/checks.rst:1636
 msgid "Warns?"
-msgstr ""
+msgstr "警告？"
 
 #: ../../user/checks.rst:1636
 msgid "Reason"
-msgstr ""
+msgstr "原因"
 
 #: ../../user/checks.rst:1638
 msgid "``three<four``"
@@ -41642,7 +41716,7 @@ msgstr "``three<four``"
 
 #: ../../user/checks.rst:1638
 msgid "The ``<four`` part would be lost as ``.innerHTML``."
-msgstr ""
+msgstr "``<four`` 部分会丢失为 ``.innerHTML`` ."
 
 #: ../../user/checks.rst:1639
 msgid "``three < four``"
@@ -41650,7 +41724,7 @@ msgstr "``three < four``"
 
 #: ../../user/checks.rst:1639
 msgid "The ``.innerHTML`` would match the ``.textContent``."
-msgstr ""
+msgstr "``.innerHTML`` 会匹配 ``.textContent``."
 
 #: ../../user/checks.rst:1640
 msgid "``three <four>``"
@@ -41666,7 +41740,7 @@ msgstr "``three <four/>``"
 
 #: ../../user/checks.rst:1641
 msgid "``four`` is not a HTML void element, so should not self-close."
-msgstr ""
+msgstr "``four`` 不是 HTML 空元素，因此不应 self-close。"
 
 #: ../../user/checks.rst:1642
 msgid "``<a-b>text</a-b>``"
@@ -41674,27 +41748,27 @@ msgstr "``<a-b>文本</a-b>``"
 
 #: ../../user/checks.rst:1642
 msgid "Custom element tag with a matching closing tag."
-msgstr ""
+msgstr "定制带相配关闭标签的元素标签。"
 
 #: ../../user/checks.rst:1643
 msgid "``a <img/> b``"
-msgstr ""
+msgstr "``a <img/> b``"
 
 #: ../../user/checks.rst:1643
 msgid "``img`` is a HTML void element. Self-closing is allowed."
-msgstr ""
+msgstr "``img`` 是 HTML 空元素。允许 Self-closing。"
 
 #: ../../user/checks.rst:1644
 msgid "``a <br> b``"
-msgstr ""
+msgstr "``a <br> b``"
 
 #: ../../user/checks.rst:1644
 msgid "``br`` is a HTML void element."
-msgstr ""
+msgstr "``br`` 是 HTML 空元素。"
 
 #: ../../user/checks.rst:1645
 msgid "``<img class=a/>``"
-msgstr ""
+msgstr "``<img class=a/>``"
 
 #: ../../user/checks.rst:1645
 msgid "The attribute value is not quoted."
@@ -41702,35 +41776,35 @@ msgstr "属性值未被引用。"
 
 #: ../../user/checks.rst:1646
 msgid "``<aØ attr=''/>``"
-msgstr ""
+msgstr "``<aØ attr=''/>``"
 
 #: ../../user/checks.rst:1646
 msgid "Non-ASCII tag name."
-msgstr ""
+msgstr "非 ASCII 标签名。"
 
 #: ../../user/checks.rst:1647
 msgid "``kind&ethical``"
-msgstr ""
+msgstr "``kind&ethical``"
 
 #: ../../user/checks.rst:1647
 msgid "The ``&eth`` part would be converted to ``ð``."
-msgstr ""
+msgstr "``&eth`` 部分将被转换成 ``ð`` 。"
 
 #: ../../user/checks.rst:1648
 msgid "``kind&eth;ical``"
-msgstr ""
+msgstr "``kind&eth;ical``"
 
 #: ../../user/checks.rst:1648
 msgid "The character reference seems to be intentional."
-msgstr ""
+msgstr "此字符参考似乎是有意为之。"
 
 #: ../../user/checks.rst:1649
 msgid "``three&lte;four``"
-msgstr ""
+msgstr "``three&lte;four``"
 
 #: ../../user/checks.rst:1649
 msgid "The ``&lte;`` part would be converted to ``<e;``."
-msgstr ""
+msgstr "``&lte;`` 部分会转换为 ``<e;``."
 
 #: ../../user/checks.rst:1650
 msgid "``three&lf;four``"
@@ -41742,19 +41816,19 @@ msgstr "字符参考无效。"
 
 #: ../../user/checks.rst:1651
 msgid "``three<{ $val }``"
-msgstr ""
+msgstr "``three<{ $val }``"
 
 #: ../../user/checks.rst:1651
 msgid "The Fluent variable may unintentionally become a tag."
-msgstr ""
+msgstr "Fluent 变量可能会无意间成为标签。"
 
 #: ../../user/checks.rst:1652
 msgid "``&l{ $val }``"
-msgstr ""
+msgstr "``&l{ $val }``"
 
 #: ../../user/checks.rst:1652
 msgid "The Fluent variable may unintentionally become a character reference"
-msgstr ""
+msgstr "Fluent 变量可能会无意间成为字符参考"
 
 #: ../../user/checks.rst:1657
 msgid ""
@@ -41766,18 +41840,25 @@ msgid ""
 "reference will trigger this check since even an escaped value could lead to "
 "unexpected results."
 msgstr ""
+"此检查不会确保内部 HTML 是*安全的*或干净的，且不是为了防止修改内部 HTML "
+"的恶意企图。此外，应该记住的是由于 Fluent "
+"变量和参考可以扩展成任意字符串，因此除非被转义，它们可以被扩展成任意 HTML。"
+"一个例外是 Fluent 参考前的 ``<`` 或 ``&`` "
+"字符会触发此检查，因为即使是转义值也可以导致意想不到的结果。"
 
 #: ../../user/checks.rst:1667
 msgid ""
 "The Fluent DOM package has further limitations, such as allowed tags and "
 "attributes, which this check will not enforce."
-msgstr ""
+msgstr "Fluent DOM 包有进一步的限制，比如允许的标签和属性，此项检查不会强制它们。"
 
 #: ../../user/checks.rst:1672
 msgid ""
 ":ref:`check-fluent-target-inner-html`, `Fluent DOM <https://projectfluent."
 "org/dom-l10n-documentation/overview.html>`_"
 msgstr ""
+":ref:`check-fluent-target-inner-html`, `Fluent DOM <https://projectfluent."
+"org/dom-l10n-documentation/overview.html>`_"
 
 #: ../../user/checks.rst:1678
 msgid "Fluent source syntax"
@@ -41806,6 +41887,9 @@ msgid ""
 "variants, including plurals. This check ensures that the syntax used in "
 "source will be valid for Fluent."
 msgstr ""
+"Weblate 中，Fluent 字符串对参考和变量使用 Fluent "
+"语法，该语法同样用于更为复杂的功能，比如定义属性和选择器变体，包括复数。"
+"此检查确保用于原文的语法对 Fluent 有效。"
 
 #: ../../user/checks.rst:1696
 msgid ""
@@ -41814,6 +41898,9 @@ msgid ""
 "mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax."
 "html>`_"
 msgstr ""
+":ref:`check-fluent-target-syntax`, `Fluent 语法指南 <https://projectfluent."
+"org/fluent/guide/>`_ `Mozilla 基础语法指南 <https://mozilla-l10n.github.io/"
+"localizer-documentation/tools/fluent/basic_syntax.html>`_"
 
 #: ../../user/checks.rst:1703
 msgid "ICU MessageFormat syntax"
