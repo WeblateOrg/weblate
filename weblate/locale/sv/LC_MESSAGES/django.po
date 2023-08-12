@@ -1,13 +1,13 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+# Johan Jacobsson <johan.jacobsson@telia.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-07-05 22:51+0000\n"
+"PO-Revision-Date: 2023-08-13 02:08+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -395,7 +395,7 @@ msgstr "Inbjuden till {site_title} av {username}."
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "Accepterad inbjudan från {username}."
 
 #: weblate/accounts/models.py:160
 msgid "Started trial period."
@@ -777,10 +777,8 @@ msgstr "Kommentar på egen översättning"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:605
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edited string"
-msgstr "Redigera sträng"
+msgstr "Redigerad sträng"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:614
@@ -1503,10 +1501,9 @@ msgstr ""
 "för översättningsbara strängar."
 
 #: weblate/addons/forms.py:507
-#, fuzzy, python-format
-#| msgid "Failed to parse CSS selector: %s"
+#, python-format
 msgid "Could not parse CSS selector: %s"
-msgstr "Det gick inte att tolka CSS-selektorn: %s"
+msgstr "Kunde inte tolka CSS-selector: %s"
 
 #: weblate/addons/forms.py:513 weblate/billing/models.py:286
 #: weblate/templates/snippets/query-builder.html:14
@@ -2248,10 +2245,8 @@ msgid "User invitation e-mail was sent."
 msgstr "Användarinbjudan har skickats via mejl."
 
 #: weblate/auth/forms.py:123
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot change this on a built-in team."
-msgstr "Ändring av %s är förbjudet för inbyggda team."
+msgstr "Kan inte ändra detta för ett inbyggt team."
 
 #: weblate/auth/models.py:68
 #, python-format
@@ -2534,22 +2529,17 @@ msgid "File format does not support this."
 msgstr "Filformatet stöder inte detta."
 
 #: weblate/auth/views.py:115
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot remove built-in team!"
-msgstr "Ändring av %s är förbjudet för inbyggda team."
+msgstr "Kan inte ta bort inbyggt team!"
 
 #: weblate/auth/views.py:189
-#, fuzzy
-#| msgid "User invitation e-mail was sent."
 msgid "User invitation was removed."
-msgstr "Användarinbjudan har skickats via mejl."
+msgstr "Användarinbjudan togs bort."
 
 #: weblate/auth/views.py:213
-#, fuzzy, python-format
-#| msgid "Resend e-mail invitation to the user"
+#, python-format
 msgid "Accepted invitation to the %s team."
-msgstr "Skicka mejlinbjudan till användaren på nytt"
+msgstr "Accepterade inbjudan till teamet %s"
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2682,14 +2672,10 @@ msgid "AngularJS interpolation strings do not match source"
 msgstr "AngularJS-interpolationssträngar matchar inte källan"
 
 #: weblate/checks/base.py:287
-#, fuzzy
-#| msgid "Following format strings are missing: {}"
 msgid "The following format strings are missing: {}"
 msgstr "Följande formatsträngar saknas: {}"
 
 #: weblate/checks/base.py:292
-#, fuzzy
-#| msgid "Following format strings are extra: {}"
 msgid "The following format strings are extra: {}"
 msgstr "Följande formatsträngar är extra: {}"
 
@@ -2936,10 +2922,8 @@ msgid "Strict unchanged check"
 msgstr "Strikt oförändrad kontroll"
 
 #: weblate/checks/flags.py:45
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strict format string checks"
-msgstr "Strängar med fallerande kontroller"
+msgstr "Strikt kontroll av formatsträngar"
 
 #: weblate/checks/flags.py:46 weblate/glossary/forms.py:35
 msgid "Forbidden translation"
@@ -2993,10 +2977,8 @@ msgid "String variant"
 msgstr "Strängvariant"
 
 #: weblate/checks/flags.py:72
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent type"
-msgstr "Fluent-fil"
+msgstr "Fluent-typ"
 
 #: weblate/checks/flags.py:261
 #, python-format
@@ -3024,6 +3006,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"Fluent-referensen i {sequence} kan expandera till en HTML-tagg. Använd "
+"hellre {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:143
 #, python-brace-format
@@ -3031,6 +3015,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"Fluent-referensen i {sequence} kan utvidgas till en HTML-teckenreferens. "
+"Använd hellre {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:171
 #, python-brace-format
@@ -3038,6 +3024,9 @@ msgid ""
 "The sequence {sequence} begins a HTML closing tag, but the name or syntax is "
 "not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"Sekvensen {sequence} inleder en HTML-avslutningstagg, men namnet eller "
+"syntaxen är inte giltig. Om du inte vill ha en avslutande tagg, använd "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:184
 #, python-brace-format
@@ -3045,6 +3034,8 @@ msgid ""
 "The sequence {sequence} begins a HTML tag, but the name is not valid. If you "
 "do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Sekvensen {sequence} inleder en HTML-tagg, men namnet är inte giltigt. Om du "
+"inte vill inleda en HTML-tagg använder du {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:197
 #, python-brace-format
@@ -3052,12 +3043,15 @@ msgid ""
 "The sequence {sequence} begins a HTML tag, but the tag is never closed by "
 "{close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Sekvensen {sequence} inleder en HTML-tagg, men taggen avslutas aldrig av "
+"{close}. Om du inte vill inleda en HTML-tagg, använd {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:211
 #, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"Fluent inre HTML bör inte innehålla {sequence}. Använd hellre {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:227
 #, python-brace-format
@@ -3066,11 +3060,14 @@ msgid ""
 "not a valid attribute with a value. If you do not want to begin a HTML tag, "
 "use {suggestion}."
 msgstr ""
+"Sekvensen {sequence} inleder en HTML-tagg, men sekvensen {attribute} är inte "
+"ett giltigt attribut med ett värde. Om du inte vill inleda en HTML-tagg, "
+"använd {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "HTML-attributnamnet {name} för taggen {tag} är ogiltigt."
 
 #: weblate/checks/fluent/inner_html.py:260
 #, python-brace-format
@@ -3078,21 +3075,23 @@ msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
 msgstr ""
+"HTML-attributet {name} med värdet {value} för taggen {tag} är inte ett "
+"giltigt citerat värde."
 
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "HTML-attributet {name} finns två gånger för taggen {tag}."
 
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "Omatchad HTML-sluttagg: {tag}."
 
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr ""
+msgstr "HTML-elementet {name} ska inte ha en sluttagg: {end}."
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
@@ -3100,11 +3099,13 @@ msgid ""
 "The HTML {name} element is not a known void element, so should not have a "
 "self-closing tag: {self_close}."
 msgstr ""
+"HTML-elementet {name} är inte ett känt tomt element, så det bör inte ha en "
+"självstängande tagg: {self_close}."
 
 #: weblate/checks/fluent/inner_html.py:325
 #, python-brace-format
 msgid "The HTML {tag} tag has is missing a matching end tag: {end}."
-msgstr ""
+msgstr "HTML-taggen {tag} saknar en matchande sluttagg: {end}."
 
 #: weblate/checks/fluent/inner_html.py:341
 #, python-brace-format
@@ -3113,24 +3114,26 @@ msgid ""
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
+"Sekvensen {sequence} inleder en HTML-teckenreferens, men slutar inte med "
+"{semicolon}. Om du inte vill ha en teckenreferens, använd {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:359
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
-msgstr ""
+msgstr "Sekvensen {sequence} är inte en giltig HTML-teckenreferens."
 
 #: weblate/checks/fluent/inner_html.py:941
 msgid "Fluent source inner HTML"
-msgstr ""
+msgstr "Fluent källkod för inre HTML"
 
 #: weblate/checks/fluent/inner_html.py:942
 msgid "Fluent source should be valid inner HTML"
-msgstr ""
+msgstr "Fluent källkod ska vara giltig inre HTML"
 
 #: weblate/checks/fluent/inner_html.py:1013
 #, python-brace-format
 msgid "Fluent value is missing a HTML {tag} tag."
-msgstr ""
+msgstr "Fluent-värde saknar en HTML-tagg {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1018
 #, python-brace-format
@@ -3138,6 +3141,8 @@ msgid ""
 "Fluent value is missing a HTML {tag} tag for the following variants: "
 "{variant_list}."
 msgstr ""
+"Fluent-värde saknar en HTML-tagg {tag} för följande varianter: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1032
 #, python-brace-format
