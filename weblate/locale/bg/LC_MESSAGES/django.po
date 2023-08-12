@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-08-11 08:42+0000\n"
+"PO-Revision-Date: 2023-08-13 02:08+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -2882,7 +2882,7 @@ msgstr[1] "Други изходни низове: %s"
 #: weblate/checks/consistency.py:192
 #, python-format
 msgid "“%s”"
-msgstr ""
+msgstr "„%s“"
 
 #: weblate/checks/consistency.py:241
 msgid "Has been translated"
@@ -2942,10 +2942,8 @@ msgid "Strict unchanged check"
 msgstr "Строга проверка за непроменен низ"
 
 #: weblate/checks/flags.py:45
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strict format string checks"
-msgstr "Текстове с различни неуспешни проверки"
+msgstr "Строги проверки на низовете за форматиране"
 
 #: weblate/checks/flags.py:46 weblate/glossary/forms.py:35
 msgid "Forbidden translation"
@@ -2999,10 +2997,8 @@ msgid "String variant"
 msgstr "Вариант на низа"
 
 #: weblate/checks/flags.py:72
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent type"
-msgstr "Файл на Fluent"
+msgstr "Променлив тип"
 
 #: weblate/checks/flags.py:261
 #, python-format
@@ -3030,6 +3026,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"Променливата препратка в {sequence} може да се разгъне до елемент от HTML. "
+"Може би е по-добре да използвате {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:143
 #, python-brace-format
@@ -3037,6 +3035,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"Променливата препратка в {sequence} може да се разгъне до знакова препратка "
+"от HTML. Може би е по-добре да използвате {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:171
 #, python-brace-format
@@ -3044,6 +3044,9 @@ msgid ""
 "The sequence {sequence} begins a HTML closing tag, but the name or syntax is "
 "not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"Последователността {sequence} започва със затварящ елемент от HTML, но името "
+"или синтаксисът е неправилен. Ако не искате затварящ елемент, използвайте "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:184
 #, python-brace-format
@@ -3051,6 +3054,9 @@ msgid ""
 "The sequence {sequence} begins a HTML tag, but the name is not valid. If you "
 "do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Последователността {sequence} започва с елемент от HTML, но името е "
+"неправилно. Ако не искате да започвате с елемент от HTML, използвайте "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:197
 #, python-brace-format
@@ -3058,12 +3064,17 @@ msgid ""
 "The sequence {sequence} begins a HTML tag, but the tag is never closed by "
 "{close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Последователността {sequence} започва елемент от HTML, но този елемент не е "
+"затворен чрез {close}. Ако не искате да започвате елемент от HTML, "
+"използвайте {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:211
 #, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"Променливият вътрешен HTML не бива да включва {sequence}. Може би е по-добре "
+"да използвате {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:227
 #, python-brace-format
@@ -3072,11 +3083,14 @@ msgid ""
 "not a valid attribute with a value. If you do not want to begin a HTML tag, "
 "use {suggestion}."
 msgstr ""
+"Последователността {sequence} започва елемент от HTML, но последователността "
+"{attribute} не е правилен атрибут със стойност. Ако не искате да започвате "
+"елемент от HTML, използвайте {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "Елементът {tag} не може да има атрибут с име {name}."
 
 #: weblate/checks/fluent/inner_html.py:260
 #, python-brace-format
@@ -3084,21 +3098,23 @@ msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
 msgstr ""
+"Стойността {value} на атрибута {name} от елемента {tag} не е правилна "
+"стойност в кавички."
 
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "Атрибутът {name} се среща два пъти в елемента {tag}."
 
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "Липсва съответстващ затварящ елемент от HTML: {tag}."
 
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr ""
+msgstr "Празният елемент {name} не трябва да има затварящ елемент {end}."
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
@@ -3106,11 +3122,13 @@ msgid ""
 "The HTML {name} element is not a known void element, so should not have a "
 "self-closing tag: {self_close}."
 msgstr ""
+"Елементът {name} не е познат празен елемент, така че не трябва да има "
+"самозатварящ елемент: {self_close}."
 
 #: weblate/checks/fluent/inner_html.py:325
 #, python-brace-format
 msgid "The HTML {tag} tag has is missing a matching end tag: {end}."
-msgstr ""
+msgstr "Липсва затварящ елемент за елемента {tag}: {end}."
 
 #: weblate/checks/fluent/inner_html.py:341
 #, python-brace-format
