@@ -2,13 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Kyotaro Iijima <kyotaro.eyes@gmail.com>, 2023.
+# amano <amano@users.noreply.hosted.weblate.org>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-08-11 08:42+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"PO-Revision-Date: 2023-08-12 09:59+0000\n"
+"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -396,7 +397,7 @@ msgstr "{username} さんから {site_title} に招待されました。"
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr "{username} から招待を受けました。"
+msgstr "{username} からの招待を承諾しました。"
 
 #: weblate/accounts/models.py:160
 msgid "Started trial period."
@@ -2217,7 +2218,7 @@ msgstr "ユーザー招待メールを送信しました。"
 
 #: weblate/auth/forms.py:123
 msgid "Cannot change this on a built-in team."
-msgstr "システム既定のチーム権限では、変更できません。"
+msgstr "既定のチームでは、これは変更できません。"
 
 #: weblate/auth/models.py:68
 #, python-format
@@ -2502,7 +2503,7 @@ msgstr "ファイル形式がこの操作に対応していません。"
 
 #: weblate/auth/views.py:115
 msgid "Cannot remove built-in team!"
-msgstr "システム既定のチーム権限では、削除できません！"
+msgstr "既定のチームは削除できません！"
 
 #: weblate/auth/views.py:189
 msgid "User invitation was removed."
@@ -3239,7 +3240,7 @@ msgstr "Fluent 値に想定外の余分な {reference} Fluent 参照が次の別
 "{variant_list}。"
 
 #: weblate/checks/fluent/references.py:524
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The following variants in the original Fluent {attribute} attribute do not "
 "have at least one matching variant in the translation with the same set of "
@@ -3312,7 +3313,7 @@ msgstr "Fluent ソース構文"
 
 #: weblate/checks/fluent/syntax.py:48
 msgid "Fluent syntax error in source"
-msgstr "Fluent ソースでの構文エラー"
+msgstr "原文での Fluent 構文エラー"
 
 #: weblate/checks/fluent/syntax.py:64
 msgid "Fluent translation syntax"
@@ -5585,7 +5586,7 @@ msgstr "認証プロバイダに転送します。"
 
 #: weblate/templates/accounts/register.html:20
 msgid "Please complete the registration to accept the invitation."
-msgstr "招待を受諾するために登録を完了してください。"
+msgstr "招待を承諾するために登録を完了してください。"
 
 #: weblate/templates/accounts/register.html:38
 msgid "Register in Weblate"
@@ -9414,9 +9415,8 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
-"あなたは、%(project_name)s に協力し、%(team_name)s "
-"チームに参加するために、%(invitation_author)s から %(site_title)s "
-"に招待されました。"
+"%(project_name)s に協力し、%(team_name)s チームに参加するよう "
+"%(invitation_author)s から %(site_title)s に招待されました。"
 
 #: weblate/templates/snippets/invite-info.html:6
 #, python-format
@@ -9424,8 +9424,8 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
 msgstr ""
-"あなたは %(invitation_author)s から %(team_name)s チームに参加するために "
-"%(site_title)s に招待されました。"
+"%(invitation_author)s から %(team_name)s チームに参加するよう %(site_title)s "
+"に招待されました。"
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -13024,8 +13024,7 @@ msgstr "基礎となる翻訳ファイルがないと、モノリンガル翻訳
 
 #: weblate/trans/models/component.py:2749
 msgid "Choose No remote repository for local: URL."
-msgstr "ローカルの場合は、ローカルではリモート "
-"リポジトリを使用しないを選択してください: URL。"
+msgstr "URL が local: の場合はリモート リポジトリなしを選択してください。"
 
 #: weblate/trans/models/component.py:2754
 msgid "Push URL is not used without a remote repository."
@@ -13244,7 +13243,7 @@ msgstr "カンマで区切られた言語コード対応表、例: en_GB:en, en_
 
 #: weblate/trans/models/suggestion.py:121
 msgid "Could not accept suggestion!"
-msgstr "提案は採用されませんでした！"
+msgstr "提案を採用できませんでした！"
 
 #: weblate/trans/models/translation.py:207
 #, python-format
@@ -13792,11 +13791,11 @@ msgstr "%s による変更"
 
 #: weblate/trans/views/changes.py:144
 msgid "Could not find matching project!"
-msgstr "該当するプロジェクトはありません！"
+msgstr "該当するプロジェクトは見つかりません！"
 
 #: weblate/trans/views/changes.py:161
 msgid "Could not find matching language!"
-msgstr "該当する言語はありません！"
+msgstr "該当する言語は見つかりません！"
 
 #: weblate/trans/views/changes.py:170
 msgid "Could not find matching user!"
