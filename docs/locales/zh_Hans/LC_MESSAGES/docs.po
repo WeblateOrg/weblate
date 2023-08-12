@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 12:41+0200\n"
-"PO-Revision-Date: 2023-08-11 09:18+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-08-12 09:59+0000\n"
+"Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -340,39 +340,23 @@ msgid ""
 "mail. Invited users have to complete the registration process to get access "
 "to the project."
 msgstr ""
+"添加现有用户将给这些用户发送邀请进行确认。借助 setting:`REGISTRATION_OPEN`，"
+"管理员还可以使用电子邮件邀请新用户。被邀请的用户必须完成注册过程才能访问项目"
+"。"
 
 #: ../../admin/access.rst:170
-#, fuzzy
-#| msgid ""
-#| "Also, besides adding an existing user to the project, it is possible to "
-#| "invite new ones. Any new user will be created immediately, but the "
-#| "account will remain inactive until signing in with a link in the "
-#| "invitation sent via an e-mail. It is not required to have any site-wide "
-#| "privileges in order to do so, access management permission on the "
-#| "project’s scope (e.g. a membership in the `Administration` team) would be "
-#| "sufficient."
 msgid ""
 "It is not required to have any site-wide privileges in order to do so, "
 "access management permission on the project’s scope (e.g. a membership in "
 "the `Administration` team) would be sufficient."
-msgstr ""
-"此外，除了将现有用户添加到项目之外，还可以邀请新用户。将立即创建任何新用户，"
-"但是该账户将保持不活动状态，直到使用通过电子邮件发送的邀请中的链接登录为止。"
-"不需要具有任何站点范围的权限，就可以这么做，项目级别的访问管理权限（如 "
+msgstr "进行此操作不需要有任何站点范围的权限，项目级别的访问管理权限（如 "
 "`Administration` 团队成员资格）就足够了。"
 
 #: ../../admin/access.rst:176
-#, fuzzy
-#| msgid ""
-#| "If the invited user missed the validity of the invitation, they can set "
-#| "their password using invited e-mail address in the password reset form as "
-#| "the account is created already."
 msgid ""
 "If the invited user missed the validity of the invitation, a new invitation "
 "has to be created."
-msgstr ""
-"如果被邀请的用户错过了邀请的有效性，则可以在密码重置表单中使用被邀请的电子邮"
-"箱地址设置密码，因为已经创建了账户。"
+msgstr "如果被邀请的用户错过了邀请的有效期，必须下创建新邀请。"
 
 #: ../../admin/access.rst:179
 msgid ""
@@ -386,7 +370,8 @@ msgstr ""
 msgid ""
 "Weblate now does not automatically create accounts or add users to the "
 "teams. This is only done after confirmation from the user."
-msgstr ""
+msgstr "Weblate "
+"现在不自动创建账户或添加用户到团队中。此类操作只有在用户确认后才会进行。"
 
 #: ../../admin/access.rst:190
 msgid "Blocking users"
@@ -5022,17 +5007,14 @@ msgid ""
 msgstr "按照上面备份与恢复说明，将你的安装迁移到不同系统。"
 
 #: ../../admin/backup.rst:381
-#, fuzzy
-#| msgid ""
-#| "`Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs."
-#| "weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_"
 msgid ""
 "`Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation "
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
 "from-python-2-to-python-3>`_, :ref:`database-migration`"
 msgstr ""
-"`Weblate 3.0 文档中关于从 2.20 升级到 3.0 <https://docs.weblate.org/en/"
-"weblate-3.0.1/admin/upgrade.html#upgrade-3>`_"
+"`Weblate 3.11.1 文档中关于从 Python 2 升级到 Python 3 的内容 <https://docs."
+"weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-"
+"python-3>`_, :ref:`database-migration`"
 
 #: ../../admin/checks.rst:2 ../../user/checks.rst:2
 msgid "Checks and fixups"
@@ -5320,7 +5302,8 @@ msgstr "``strict-format``"
 msgid ""
 "Make format checks enforce using format even for plural forms with a single "
 "value, see :ref:`check-formats`."
-msgstr ""
+msgstr "让格式检查强制使用格式，及时对单一值的复数形式也是如此，见 :ref:`check-"
+"formats`。"
 
 #: ../../admin/checks.rst:112 ../../user/checks.rst:136
 msgid "``check-glossary``"
@@ -6768,17 +6751,15 @@ msgstr ":file:`fonts`"
 
 #: ../../admin/config.rst:276
 msgid ":program:`font-config` cache for :ref:`fonts`."
-msgstr ""
+msgstr ":ref:`fonts`的 :program:`font-config` 缓存。"
 
 #: ../../admin/config.rst:277
 msgid ":file:`avatar`"
 msgstr ":file:`avatar`"
 
 #: ../../admin/config.rst:278
-#, fuzzy
-#| msgid "Celery scheduler data, see :ref:`celery`."
 msgid "Cached user avatars, see :ref:`avatars`."
-msgstr "Celery 调度程序数据，见 :ref:`celery`。"
+msgstr "缓存的用户头像，见 :ref:`avatars`。"
 
 #: ../../admin/config.rst:279
 msgid ":file:`static`"
@@ -6798,7 +6779,7 @@ msgstr ":file:`tesseract`"
 
 #: ../../admin/config.rst:282
 msgid "OCR trained data for :ref:`screenshots`."
-msgstr ""
+msgstr ":ref:`screenshots`的 OCR 训练数据。"
 
 #: ../../admin/config.rst:291
 msgid ""
@@ -9729,21 +9710,15 @@ msgid "Weblate Cloudron Package"
 msgstr "Weblate Cloudron 包"
 
 #: ../../admin/deployments.rst:33
-#, fuzzy
-#| msgid ""
-#| "`Cloudron <https://cloudron.io/>`_ is a platform for self-hosting web "
-#| "applications. Weblate installed with Cloudron will be automatically kept "
-#| "up-to-date. The package is maintained by the Cloudron team at their "
-#| "`Weblate package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgid ""
 "`Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web "
 "applications. Weblate installed with Cloudron will be automatically kept up-"
 "to-date. The package is maintained by the Cloudron team at their `Weblate "
 "package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgstr ""
-"`Cloudron <https://cloudron.io/>`_ 是自托管 web 应用的平台。安装有 Cloudron "
-"的 Weblate 会自动更新。软件包由 Cloudron 团队在它们的 `Weblate package repo "
-"<https://git.cloudron.io/cloudron/weblate-app>`_ 上维护。"
+"`Cloudron <https://www.cloudron.io/>`_ 是自托管 web 应用的平台。安装有 "
+"Cloudron 的 Weblate 会自动更新。软件包由 Cloudron 团队在它们的 `Weblate "
+"package repo <https://git.cloudron.io/cloudron/weblate-app>`_ 上维护。"
 
 #: ../../admin/deployments.rst:-1
 msgid "Install Weblate with Cloudron"
@@ -9875,19 +9850,14 @@ msgid "Python dependencies"
 msgstr "Python 依赖项"
 
 #: ../../admin/install.rst:68
-#, fuzzy
-#| msgid ""
-#| "Weblate is written in `Python <https://www.python.org/>`_ and supports "
-#| "Python 3.6 or newer. You can install dependencies using pip or from your "
-#| "distribution packages, full list is available in :file:`requirements.txt`."
 msgid ""
 "Weblate is written in `Python <https://www.python.org/>`_ and supports "
 "Python 3.9 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
-"Weblate 是用 `Python <https://www.python.org/>`_ 编写的，并且支持 Python 3.6 "
-"或更新版本。可以使用 pip 或你的分发包来安装依赖项，完整列表可在 :file:"
-"`requirements.txt` 中找到。"
+"Weblate 是用 `Python <https://www.python.org/>`_ 编写的，并且支持 Python 3.9 "
+"或更新版本。可以使用 pip 或你的分发包来安装依赖项，完整列表可在 "
+":file:`requirements.txt` 中找到。"
 
 #: ../../admin/install.rst:72
 msgid "Most notable dependencies:"
@@ -11107,18 +11077,12 @@ msgid "Running maintenance tasks"
 msgstr "运行维护任务"
 
 #: ../../admin/install.rst:1036
-#, fuzzy
-#| msgid ""
-#| "For optimal performance, it is good idea to run some maintenance tasks in "
-#| "the background. This is now automatically done by :ref:`celery` and "
-#| "covers following tasks:"
 msgid ""
 "For optimal performance, it is good idea to run some maintenance tasks in "
 "the background. This is automatically done by :ref:`celery` and covers "
 "following tasks:"
-msgstr ""
-"为了优化性能，在后台运行一些维护任务是个好方法。现在这由 :ref:`celery` 自动进"
-"行，并且包括后面的任务："
+msgstr "为了优化性能，在后台运行一些维护任务是个好方法。这由 :ref:`celery` "
+"自动进行，并且包括下列任务："
 
 #: ../../admin/install.rst:1039
 msgid "Configuration health check (hourly)."
@@ -11385,13 +11349,6 @@ msgid "Serving static files"
 msgstr "为静态文件提供服务"
 
 #: ../../admin/install.rst:1206
-#, fuzzy
-#| msgid ""
-#| "Django needs to collect its static files in a single directory. To do so, "
-#| "execute :samp:`weblate collectstatic --noinput`. This will copy the "
-#| "static files into a directory specified by the :setting:`django:"
-#| "STATIC_ROOT` setting (this defaults to a ``static`` directory inside :"
-#| "setting:`DATA_DIR`)."
 msgid ""
 "Django needs to collect its static files in a single directory. To do so, "
 "execute :samp:`weblate collectstatic --noinput`. This will copy the static "
@@ -11401,7 +11358,7 @@ msgid ""
 msgstr ""
 "Django 需要将其静态文件收集在一个单一文件夹中。为此，执行 :samp:`weblate "
 "collectstatic --noinput`。这会将静态文件复制到 :setting:`django:STATIC_ROOT` "
-"设置指定的文件夹中（这默认为 :setting:`DATA_DIR` 内的 ``static`` 文件夹）。"
+"设置指定的文件夹中（这默认为 :setting:`CACHE_DIR`内的 ``static`` 文件夹）。"
 
 #: ../../admin/install.rst:1211
 msgid ""
@@ -11415,14 +11372,11 @@ msgid ":file:`/static/`"
 msgstr ":file:`/static/`"
 
 #: ../../admin/install.rst:1215
-#, fuzzy
-#| msgid ""
-#| "Serves static files for Weblate and the admin interface (from defined by "
-#| "``STATIC_ROOT``)."
 msgid ""
 "Serves static files for Weblate and the admin interface (from defined by :"
 "setting:`django:STATIC_ROOT`)."
-msgstr "为 Weblate 的静态文件和 管理界面（由 ``STATIC_ROOT`` 定义）提供服务。"
+msgstr "给 Weblate 和管理界面提供静态文件（文件源由 "
+":setting:`django:STATIC_ROOT`定义）。"
 
 #: ../../admin/install.rst:1217
 msgid ":file:`/media/`"
@@ -12007,6 +11961,9 @@ msgid ""
 "ref:`docker-https-portal`.  For larger setups, please see :ref:`docker-"
 "scaling`."
 msgstr ""
+"这会通过 HTTP 创建一个 Weblate 部署服务器，你应将它置于 HTTPS 终止代理之后。"
+"你也可以用 HTTPS 代理进行部署，参见 :ref:`docker-https-portal`。  "
+"对于更大型的安装设置，请见 :ref:`docker-scaling`。"
 
 #: ../../admin/install/docker.rst:26
 msgid "Clone the weblate-docker repo:"
@@ -13027,11 +12984,9 @@ msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgstr "配置 :setting:`SSH_EXTRA_ARGS`。"
 
 #: ../../admin/install/docker.rst:933
-#, fuzzy
-#| msgid "Configures :setting:`BORG_EXTRA_ARGS`."
 msgid ""
 "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
-msgstr "配置 :setting:`BORG_EXTRA_ARGS`。"
+msgstr "配置 :setting:`BORG_EXTRA_ARGS` ，其为英文逗号所分隔的参数列表。"
 
 #: ../../admin/install/docker.rst:946
 msgid "Configures :setting:`ENABLE_SHARING`."
@@ -13870,16 +13825,11 @@ msgid "Read-only root filesystem"
 msgstr "只读根文件系统"
 
 #: ../../admin/install/docker.rst:1767
-#, fuzzy
-#| msgid ""
-#| "When running the container with a read-only root filesytem, two "
-#| "additional `tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
 msgid ""
 "When running the container with a read-only root filesystem, two additional "
 "`tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
-msgstr ""
-"运行只读根文件系统的容器时，需要两个额外的 `tmpfs` 卷 - :file:`/tmp` 和 :"
-"file:`/run`。"
+msgstr "运行只读根文件系统的容器时，需要两个额外的 `tmpfs` 卷 - :file:`/tmp` 和 "
+":file:`/run`。"
 
 #: ../../admin/install/docker.rst:1774
 msgid "Configuration beyond environment variables"
@@ -14490,21 +14440,17 @@ msgid ":wladmin:`migrate`"
 msgstr ":wladmin:`migrate`"
 
 #: ../../admin/install/steps/install-configure.rst:27
-#, fuzzy
-#| msgid ""
-#| "Create an account for the administrator user and copy its password to the "
-#| "clipboard, and also save it for later use:"
 msgid ""
 "Create an administrator user account ``admin``, generate its password, and "
 "copy it to the clipboard; remember to save it for later use:"
-msgstr ""
-"为管理员用户创建一个账户并将其密码复制到剪贴板，并保存该账户以供以后使用："
+msgstr "创建管理员用户账户 "
+"``admin``，生成账户密码并将密码复制到剪贴板；记得保存密码供日后使用："
 
 #: ../../admin/install/steps/install-configure.rst:36
 msgid ""
 "If you previously missed/lost the admin password, you can generate a new one "
 "with the following command:"
-msgstr ""
+msgstr "如果你之前丢失了 admin 密码，可以使用以下命令生成一个新的 admin 密码："
 
 #: ../../admin/install/steps/install-configure.rst:44
 msgid ":wladmin:`createadmin`"
@@ -14666,13 +14612,6 @@ msgid "Built-in language definitions"
 msgstr "内置语言定义"
 
 #: ../../admin/languages.rst:14
-#, fuzzy
-#| msgid ""
-#| "Definitions for about 600 languages are included in Weblate and the list "
-#| "is extended in every release. Whenever Weblate is upgraded (more "
-#| "specifically whenever :wladmin:`migrate` is executed, see :ref:`generic-"
-#| "upgrade-instructions`) the database of languages is updated to include "
-#| "all language definitions shipped in Weblate."
 msgid ""
 "Definitions for about 650 languages are included in Weblate and the list is "
 "extended in every release. Whenever Weblate is upgraded (more specifically "
@@ -14680,10 +14619,11 @@ msgid ""
 "instructions`) the database of languages is updated to include all language "
 "definitions shipped in Weblate."
 msgstr ""
-"Weblate 中包含了大约 600 种语言的定义，而且该语言列表在每个发行版中都会进行扩"
-"充。每当升级 Weblate 时（更确切地说，是每当执行 :wladmin:` migrate` 时，请参"
-"见 :ref:`generic-upgrade-instructions`）语言数据库都会更新，以包含 Weblate 提"
-"供的所有语言定义。"
+"Weblate 中包含了大约 650 "
+"种语言的定义，而且该语言列表在每个发行版中都会进行扩充。每当升级 Weblate "
+"时（更确切地说，是每当执行 :wladmin:` migrate` 时，请参见 :ref:`generic-"
+"upgrade-instructions`）语言数据库都会更新，以包含 Weblate "
+"提供的所有语言定义。"
 
 #: ../../admin/languages.rst:20
 msgid ""
@@ -14884,22 +14824,20 @@ msgid "Number of worldwide speakers of this language."
 msgstr "全世界说这种语言的人的数目。"
 
 #: ../../admin/languages.rst:146
-#, fuzzy
-#| msgid "Plural definition source"
 msgid "Plural definitions"
-msgstr "复数定义源"
+msgstr "复数定义"
 
 #: ../../admin/languages.rst:148
 msgid ""
 "Weblate comes with a built-in set of plural definitions. These are based on "
 "file-format specifications, CLDR, and other sources."
-msgstr ""
+msgstr "Weblate 有内置的复数定义集。它们时基于文件格式规范、CLDR及其他来源。"
 
 #: ../../admin/languages.rst:153
 msgid ""
 "Doing changes to the built-in plural definitions will most likely won't have "
 "desired effect, as these rules need to match underlying implementation."
-msgstr ""
+msgstr "更改内置的复数定义很肯恶搞不会生产你期望的效果，因为这些规则需匹配底层实现。"
 
 #: ../../admin/languages.rst:156
 msgid ""
@@ -14907,6 +14845,8 @@ msgid ""
 "strings, but not parsing and storing strings to the files. Should you think "
 "Weblate behaves incorrectly, please file a issue in our issue tracker."
 msgstr ""
+"更改复数或配方只会影响字符串显示，但不会影响解析字符串并将字符串存储到文件中"
+"。如果你认为 Weblate 的行为有误，请在我们的问题追踪器上新开一个问题。"
 
 #: ../../admin/languages.rst:164
 msgid "Plural number"
@@ -15454,16 +15394,12 @@ msgstr ""
 "用户界面（UI）字符串。"
 
 #: ../../admin/machine.rst:257
-#, fuzzy
-#| msgid ""
-#| "`Microsoft Terminology Service API <https://www.microsoft.com/en-us/"
-#| "language/Microsoft-Terminology-API>`_"
 msgid ""
 "`Microsoft language resources <https://learn.microsoft.com/en-us/"
 "globalization/reference/microsoft-language-resources>`_"
 msgstr ""
-"`微软术语服务 API <https://www.microsoft.com/zh-cn/language/Microsoft-"
-"Terminology-API>`_"
+"`Microsoft 语言资源s <https://learn.microsoft.com/en-us/globalization/"
+"reference/microsoft-language-resources>`_"
 
 #: ../../admin/machine.rst:263 ../../changes/v0.rst:76
 msgid "Microsoft Translator"
@@ -15568,18 +15504,6 @@ msgid "For Azure China, please use your endpoint from the Azure Portal."
 msgstr "中国区 Azure 请使用你在 Azure 门户的端点。"
 
 #: ../../admin/machine.rst:316
-#, fuzzy
-#| msgid ""
-#| "`Cognitive Services - Text Translation API <https://azure.microsoft.com/"
-#| "en-us/products/cognitive-services/translator/>`_, `Microsoft Azure Portal "
-#| "<https://portal.azure.com/>`_, `Base URLs <https://learn.microsoft.com/en-"
-#| "us/azure/cognitive-services/translator/reference/v3-0-reference#base-"
-#| "urls>`_, `\"Authenticating with a Multi-service resource\" <https://learn."
-#| "microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-"
-#| "reference#authenticating-with-a-multi-service-resource>`_ `"
-#| "\"Authenticating with an access token\" section <https://learn.microsoft."
-#| "com/en-us/azure/cognitive-services/translator/reference/v3-0-"
-#| "reference#authenticating-with-an-access-token>`_"
 msgid ""
 "`Cognitive Services - Text Translation API <https://azure.microsoft.com/en-"
 "us/products/cognitive-services/translator/>`_, `Microsoft Azure Portal "
@@ -15592,15 +15516,15 @@ msgid ""
 "services/translator/reference/v3-0-reference#authenticating-with-an-access-"
 "token>`_"
 msgstr ""
-"`认知服务 - 文本翻译 API <https://azure.microsoft.com/zh-cn/products/"
-"cognitive-services/translator/>`_ ， `Microsoft Azure 门户 <https://portal."
-"azure.com/>`_ ， `基 URL <https://learn.microsoft.com/zh-cn/azure/cognitive-"
-"services/translator/reference/v3-0-reference#base-urls>`_ ， `“使用多服务资源"
-"进行身份验证” <https://learn.microsoft.com/zh-cn/azure/cognitive-services/"
-"translator/reference/v3-0-reference#authenticating-with-a-multi-service-"
-"resource>`_ ， `“使用访问令牌进行身份验证”部分 <https://learn.microsoft.com/"
-"zh-cn/azure/cognitive-services/translator/reference/v3-0-"
-"reference#authenticating-with-an-access-token>`_"
+"`认知服务 - 文本翻译 API <https://azure.microsoft.com/en-us/products/"
+"cognitive-services/translator/>`_, `Microsoft Azure 门户 <https://portal."
+"azure.com/>`_, `基 URLs <https://learn.microsoft.com/en-us/azure/ai-services/"
+"translator/reference/v3-0-reference#base-urls>`_, `"
+"\"使用多服务资源进行身份验证\" <https://learn.microsoft.com/en-us/azure/"
+"ai-services/translator/reference/v3-0-reference#authenticating-with-a-multi-"
+"service-resource>`_ `\"使用访问令牌验证身份\" 部分 <https://learn.microsoft."
+"com/en-us/azure/ai-services/translator/reference/v3-0-reference"
+"#authenticating-with-an-access-token>`_"
 
 #: ../../admin/machine.rst:325
 msgid "ModernMT"
@@ -15806,19 +15730,14 @@ msgstr ""
 "个域名特定的模型。"
 
 #: ../../admin/machine.rst:480
-#, fuzzy
-#| msgid ""
-#| "`Watson Language Translator <https://www.ibm.com/products/ibm-watson-"
-#| "natural-language-processing>`_, `IBM Cloud API Docs <https://cloud.ibm."
-#| "com/apidocs/language-translator>`_"
 msgid ""
 "`Watson Language Translator <https://www.ibm.com/products/natural-language-"
 "processing>`_, `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-"
 "translator>`_"
 msgstr ""
-"`Watson Language Translator <https://www.ibm.com/products/ibm-watson-natural-"
-"language-processing>`_, `IBM Cloud API 文档 <https://cloud.ibm.com/apidocs/"
-"language-translator>`_"
+"`Watson 语言翻译工具 <https://www.ibm.com/products/natural-language-"
+"processing>`_, `IBM Cloud API 文档 <https://cloud.ibm.com/apidocs/language-"
+"translator>`_"
 
 #: ../../../README.rst:-1 ../../admin/machine.rst:486
 msgid "Weblate"
@@ -16358,18 +16277,13 @@ msgid "import_project"
 msgstr "import_project"
 
 #: ../../admin/management.rst:382
-#, fuzzy
-#| msgid ""
-#| "The import_project command is now based on the :ref:`addon-weblate."
-#| "discovery.discovery` add-on, leading to some changes in behavior and what "
-#| "parameters are accepted."
 msgid ""
 "Batch imports components into project based on the file mask. It is based on "
 "the :ref:`addon-weblate.discovery.discovery` add-on, so you might want to "
 "use that instead."
 msgstr ""
-"import_project 命令现在基于 :ref:`addon-weblate.discovery.discovery` 附加组"
-"件，导致一些行为的更改，并接受一些参数。"
+"基于文件掩码批量导入部件到项目中。它基于 :ref:`addon-weblate.discovery."
+"discovery` 附加组件，你或许想使用该附加组件。"
 
 #: ../../admin/management.rst:386
 msgid ""
@@ -16863,28 +16777,19 @@ msgid "Fetches remote VCS repositories and updates the internal cache."
 msgstr "取回远程版本控制系统仓库并更新内部缓存。"
 
 #: ../../admin/management.rst:834
-#, fuzzy
-#| msgid ""
-#| "Usually it is better to configure hooks in the repository to trigger :ref:"
-#| "`hooks`, instead of regular polling by :wladmin:`updategit`."
 msgid ""
 "Usually it is better to configure hooks in the repository to trigger :ref:"
 "`hooks`, instead of regular triggering the updates by :wladmin:`updategit`."
-msgstr ""
-"通常最好在仓库中配置钩子，来触发 :ref:`hooks`，而不是常规的通过 :wladmin:"
-"`updategit` 来拉取。"
+msgstr "通常最好在仓库中配置钩子，来触发 :ref:`hooks`，而不是定期通过 "
+":wladmin:`updategit` 来触发更新。"
 
 #: ../../admin/memory.rst:5
 msgid "Translation Memory"
 msgstr "翻译记忆库"
 
 #: ../../admin/memory.rst:7
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with a built-in translation memory consisting of the "
-#| "following:"
 msgid "Weblate comes with a built-in translation memory consisting of:"
-msgstr "Weblate 带有内建的翻译记忆库，包括下面的："
+msgstr "Weblate 带有内建的翻译记忆库，其组成部分为："
 
 #: ../../admin/memory.rst:9
 msgid "Manually imported translation memory (see :ref:`memory-user`)."
@@ -16924,20 +16829,14 @@ msgstr ""
 "对于安装提示，请参见 :ref:`mt-weblate-translation-memory`，它默认是打开的。"
 
 #: ../../admin/memory.rst:26
-#, fuzzy
-#| msgid "Translation memory scopes"
 msgid "Translation-memory scopes"
 msgstr "翻译记忆库的范围"
 
 #: ../../admin/memory.rst:28
-#, fuzzy
-#| msgid ""
-#| "The translation memory scopes are there to allow both privacy and sharing "
-#| "of translations, to suit the desired behavior."
 msgid ""
 "The translation-memory scopes ensure privacy for different projects and "
 "users. Sharing of translations is also available."
-msgstr "翻译记忆库的范围这样允许私有或译者共享，来适应所需要的行为。"
+msgstr "翻译记忆库的范围确保不同项目和用户的隐私。也可以用来共享译文。"
 
 #: ../../admin/memory.rst:32
 msgid "Imported translation memory"
@@ -16953,10 +16852,8 @@ msgstr ""
 "所有的用户和项目。"
 
 #: ../../admin/memory.rst:38
-#, fuzzy
-#| msgid "Per user translation memory"
 msgid "Per-user translation memory"
-msgstr "每名用户的翻译记忆库"
+msgstr "以用户为基准的翻译记忆库"
 
 #: ../../admin/memory.rst:40
 msgid ""
@@ -16965,10 +16862,8 @@ msgid ""
 msgstr "在每个单独用户的个人翻译记忆库中自动存储用户的翻译。"
 
 #: ../../admin/memory.rst:43
-#, fuzzy
-#| msgid "Per project translation memory"
 msgid "Per-project translation memory"
-msgstr "每个项目的翻译记忆库"
+msgstr "以项目为基准的翻译记忆库"
 
 #: ../../admin/memory.rst:45
 msgid ""
@@ -17024,38 +16919,29 @@ msgid ""
 "scopes – total, for each respective project, component, or language "
 "contributed to, with options to download (as JSON, or TMX) or delete them."
 msgstr ""
+"要管理个人翻译记忆库请单击用户界面右上角的用户头像，从下拉菜单中选中“翻译记忆"
+"库”。归属于用户的条目按不同范围列出，分别为总数、每个单独项目、部件或作出贡献"
+"的语言，另有下载为 JSON 或 TMX 文件或删除条目的选项。"
 
 #: ../../admin/memory.rst:81
-#, fuzzy
-#| msgid ""
-#| "In the basic user interface you can manage per user and per project "
-#| "translation memories. It can be used to download, wipe or import "
-#| "translation memory."
 msgid ""
 "In the basic user interface you can manage per-user and per-project "
 "translation memories. It can be used to download, wipe or import translation "
 "memory."
-msgstr ""
-"在基本上用户界面上，可以管理每名用户每个项目的项目翻译记忆库。它可以用于下"
-"载、消除或导入翻译记忆库。"
+msgstr "在基本上用户界面上，可以管理每名用户每个项目的项目翻译记忆库。它可以用于下载"
+"、消除或导入翻译记忆库。"
 
 #: ../../admin/memory.rst:84
-#, fuzzy
-#| msgid "Allow downloading project translation memory per language."
 msgid ""
 "There are multiple options for downloading the translation memory of the "
 "whole instance."
-msgstr "允许按语言下载项目翻译记忆库。"
+msgstr "有多个选项来下载整个实例的翻译记忆库。"
 
 #: ../../admin/memory.rst:88
-#, fuzzy
-#| msgid ""
-#| "Translation memory in JSON can be imported into Weblate, TMX is provided "
-#| "for interoperability with other tools."
 msgid ""
 "Translation memory in JSON can be imported into Weblate, the TMX format is "
 "provided for interoperability with other tools."
-msgstr "JSON 的翻译记忆库可以导入 Weblate，提供了 TMX 与其他工具进行互操作。"
+msgstr "JSON 的翻译记忆库可以导入 Weblate，提供了 TMX 格式与其他工具进行互操作。"
 
 #: ../../admin/memory.rst:93
 msgid ":ref:`schema-memory`"
@@ -17066,16 +16952,12 @@ msgid "You can search for translations in the view built for this."
 msgstr "你可以在为译文搜索而构建的视图中搜索译文。"
 
 #: ../../admin/memory.rst:100
-#, fuzzy
-#| msgid "Django admin interface"
 msgid "Admin interface"
-msgstr "Django 管理界面"
+msgstr "管理界面"
 
 #: ../../admin/memory.rst:102
-#, fuzzy
-#| msgid "Added interface to manage global translation memory."
 msgid "There is a platform-wide interface to manage the translation memory."
-msgstr "添加了管理全体翻译记忆库的界面。"
+msgstr "有一个平台级别的接口来管理翻译记忆库。"
 
 #: ../../admin/memory.rst:106
 msgid ""
@@ -17085,20 +16967,17 @@ msgid ""
 "from amidst the different tabs at the top of the screen, and then "
 "\"Translation memory\"."
 msgstr ""
+"它的选项和用户界面相同但还允许重建整个翻译记忆库的一部分。可从部件或项目清理"
+"掉和重建所有的旧条目，方法是从屏幕顶部不同选项卡中间选择“管理”选项卡，接着选"
+"中”翻译记忆库“。"
 
 #: ../../admin/memory.rst:115
-#, fuzzy
-#| msgid ""
-#| "There are several management commands to manipulate the translation "
-#| "memory content. These operate on the translation memory as whole, "
-#| "unfiltered by scopes (unless requested by parameters):"
 msgid ""
 "Several management commands can manipulate translation memory content. These "
 "operate on the translation memory as a whole, unfiltered by scopes (unless "
 "requested by parameters):"
-msgstr ""
-"有几个管理命令来操作翻译记忆库的内容。它们整体操作翻译记忆库，不会被范围来筛"
-"选（除非被参数请求）："
+msgstr "有几个管理命令可以控制翻译记忆库的内容。这些命令将翻译记忆库视同一个整体进行"
+"操作，不受范围影响（除非通过参数进行请求）："
 
 #: ../../admin/memory.rst:119
 msgid ":wladmin:`dump_memory`"
@@ -17117,7 +16996,8 @@ msgid ""
 "The Weblate API covers the translation memory. This allows automating "
 "manipulation for different purposes, or based on events in the translation "
 "cycle."
-msgstr ""
+msgstr "Weblate API "
+"涵盖了翻译记忆库。这允许出于不同目的或基于翻译周期事件自动操控记忆库内容。"
 
 #: ../../admin/optionals.rst:2
 msgid "Optional Weblate modules"
@@ -17460,6 +17340,10 @@ msgid ""
 "key with the same identity to use an existing key, purging redis cache is "
 "recommended to see the effect of such change."
 msgstr ""
+"Weblate 会将关键材料缓存很长一段时间。如果你通过 "
+":setting:`WEBLATE_GPG_IDENTITY`让 Weblate "
+"生成一个密钥，接着用相同身份导入密钥来使用现有密钥的话，建议清空 redis "
+"缓存来查看此类更改的效果。"
 
 #: ../../admin/optionals.rst:242
 msgid ":setting:`WEBLATE_GPG_IDENTITY`"
@@ -18327,25 +18211,17 @@ msgid "Screenshot file mask"
 msgstr "截屏文件掩码"
 
 #: ../../admin/projects.rst:430
-#, fuzzy
-#| msgid ""
-#| "Mask of files to allow discovery/update of screenshots, including path "
-#| "from vcs repository. It should include one \"*\" replacing screenshot "
-#| "file name."
 msgid ""
 "This feature allows the discovery and updating of screenshots through "
 "screenshot file masks, using paths from the VCS repository. This operates at "
 "the component level and necessitates the use of an asterisk \"*\" to replace "
 "the screenshot file name."
-msgstr ""
-"允许截屏发现/更新的文件的掩码，包括来自版本控制系统仓库的路径。它应该包括一个"
-"替换截屏文件名的 \"*\"。"
+msgstr "此功能使用 VCS 仓库路径通过截屏文件掩码来发现和更新截屏。"
+"此功能运行在组件级别且必须使用星号 \"*\" 来替换截屏文件名。"
 
 #: ../../admin/projects.rst:433
-#, fuzzy
-#| msgid "Allowed formats are JPEG, PNG, APNG and GIF."
 msgid "Allowed formats are WebP, JPEG, PNG, APNG and GIF."
-msgstr "允许的格式是 JPEG、PNG、APNG 和 GIF。"
+msgstr "允许的格式是 WebP、JPEG、PNG、APNG 和 GIF。"
 
 #: ../../admin/projects.rst:435
 msgid "Note:"
@@ -18355,17 +18231,17 @@ msgstr "备注："
 msgid ""
 "The file mask and screenshot file mask are not related. Configure them "
 "separately."
-msgstr ""
+msgstr "文件掩码和截屏文件掩码并不相关，请分别配置它们。"
 
 #: ../../admin/projects.rst:438
 msgid ""
 "It is a manual job to link a discovered screenshot in a component to a "
 "specific translation key."
-msgstr ""
+msgstr "需要手动将部件中发现的截屏链接到特定的翻译密钥。"
 
 #: ../../admin/projects.rst:442
 msgid "Let's assume your VCS repository has a structure like this:"
-msgstr ""
+msgstr "让我们假定你的 VCS 仓库有一个类似这样的结构："
 
 #: ../../admin/projects.rst:451
 msgid ""
@@ -18376,6 +18252,11 @@ msgid ""
 "you provide should be named ``image1.png``, matching the existing "
 "``filename``, and stored under ``component_A/docs/``."
 msgstr ""
+"对于 A 部件，你想允许 PNG 截屏发现和更新。你会把 A 部件的截屏文件掩码设置为 "
+"``component_A/docs/*.png``。这表示部件 A 中 doc 目录下的任意 PNG "
+"格式图片可被发现并更新。因此，若你想更新 ``image1.png``，"
+"你提供的新截屏应当命名为 ``image1.png``来匹配现有的 ``filename``，并保存在 ``"
+"component_A/docs/`` 下."
 
 #: ../../admin/projects.rst:460 ../../formats/android.rst:64
 #: ../../formats/apple.rst:30 ../../formats/appstore.rst:30
@@ -18462,7 +18343,7 @@ msgstr ""
 #: ../../formats/xliff.rst:140 ../../formats/xliff.rst:152
 #: ../../formats/yaml.rst:34
 msgid "Template for new translations"
-msgstr "新翻译的翻译模版"
+msgstr "新翻译的模版"
 
 #: ../../admin/projects.rst:501
 msgid "Base file used to generate new translations."
@@ -19897,10 +19778,8 @@ msgid "In previous versions this has been called :guilabel:`Extra context`."
 msgstr "在以前的版本中这被称为 :guilabel:`额外上下文`。"
 
 #: ../../admin/translating.rst:102
-#, fuzzy
-#| msgid "Support for synching explanation with a file was introduced."
 msgid "Support for syncing explanation with a file was introduced."
-msgstr "引入了支持使用文件来同步字符串或翻译的解释。"
+msgstr "引入了支持使用文件来同步字符串或翻译的解释的功能。"
 
 #: ../../admin/translating.rst:104
 msgid ""
@@ -19942,12 +19821,6 @@ msgid "The uploaded screenshot is shown in the translation context sidebar:"
 msgstr "上传的截屏显示在翻译上下文侧栏中："
 
 #: ../../admin/translating.rst:127
-#, fuzzy
-#| msgid ""
-#| "In addition to :ref:`additional`, screenshots have a separate management "
-#| "interface under the :guilabel:`Tools` menu. Upload screenshots, assign "
-#| "them to source strings manually, or use optical character recognition to "
-#| "do so."
 msgid ""
 "In addition to :ref:`additional`, screenshots have a separate management "
 "interface under the :guilabel:`Tools` menu. Upload screenshots, assign them "
@@ -19955,7 +19828,8 @@ msgid ""
 "so by pressing the :guilabel:`Automatically recognize` button."
 msgstr ""
 "除了 :ref:`additional`，截图在 :guilabel:`工具` 菜单下有个单独的管理界面。上"
-"传截图，将它们手动分配给源字符串，或者使用光学字符识别（OCR）来进行。"
+"传截图，将它们手动分配给源字符串，或者使用光学字符识别（OCR）来进行，"
+"方法是按下 :guilabel:`Automatically recognize` 按钮。"
 
 #: ../../admin/translating.rst:133
 msgid ""
@@ -20135,66 +20009,43 @@ msgstr "与特定版本相关的指示"
 msgid ""
 "Version specific instructions are now included in the release notes, see :"
 "doc:`/changes`."
-msgstr ""
+msgstr "特定版本的操作指南现在包含在发行日志中，见 :doc:`/changes`。"
 
 #: ../../admin/upgrade.rst:121
 msgid "Upgrade from an older major version"
 msgstr "从较旧的大版本进行升级"
 
 #: ../../admin/upgrade.rst:123
-#, fuzzy
-#| msgid ""
-#| "If you are upgrading from 2.x release, always first upgrade to 3.0.1 and "
-#| "then continue upgrading in the 3.x series. Upgrades skipping this step "
-#| "are not supported and will break."
 msgid ""
 "Upgrades across major versions are not supported. Always upgrade to the "
 "latest patch level for the initial major release. Upgrades skipping this "
 "step are not supported and will break."
-msgstr ""
-"如果从 2.x 发布版本升级，首先总是升级到 3.0.1，然后继续在 3.x 系列中升级。跳"
-"过这步的升级不被支持，并且会中断。"
+msgstr "不支持跨大版本的升级。始终先升级到初始大版本的最新补丁级别。跳过此步骤进行升"
+"级不受支持，并且会搞砸升级。"
 
 #: ../../admin/upgrade.rst:127
-#, fuzzy
-#| msgid ""
-#| "If you are upgrading from 2.x release, always first upgrade to 3.0.1 and "
-#| "then continue upgrading in the 3.x series. Upgrades skipping this step "
-#| "are not supported and will break."
 msgid ""
 "If you are upgrading from the 2.x release, always first upgrade to 3.0.1 and "
 "then continue upgrading within the 3.x series."
-msgstr ""
-"如果从 2.x 发布版本升级，首先总是升级到 3.0.1，然后继续在 3.x 系列中升级。跳"
-"过这步的升级不被支持，并且会中断。"
+msgstr "如果从 2.x 发布版本升级，首先总是升级到 3.0.1，然后继续在 3.x 系列内升级。"
 
 #: ../../admin/upgrade.rst:130
-#, fuzzy
-#| msgid ""
-#| "If you are upgrading from 3.x release, always first upgrade to 4.0.4 or "
-#| "4.1.1 and then continue upgrading in the 4.x series. Upgrades skipping "
-#| "this step are not supported and will break."
 msgid ""
 "If you are upgrading from the 3.x release, always first upgrade to 4.0.4 and "
 "then continue upgrading within the 4.x series."
-msgstr ""
-"如果从 3.x 发布版本升级，首先总是升级到 4.0.4 或 4.1.1，然后继续在 4.x 系列中"
-"升级。跳过这步的升级不被支持，并且会中断。"
+msgstr "如果从 3.x 发布版本升级，首先总是升级到 4.0.4，然后继续在 4.x 系列中升级。"
 
 #: ../../admin/upgrade.rst:135
-#, fuzzy
-#| msgid ""
-#| "`Upgrade from 3.11 to 4.0 in Weblate 4.0 documentation <https://docs."
-#| "weblate.org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-"
-#| "to-4-0>`_"
 msgid ""
 "`Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs.weblate."
 "org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_, `Upgrade from 3.11 to "
 "4.0 in Weblate 4.0 documentation <https://docs.weblate.org/en/weblate-4.0.4/"
 "admin/upgrade.html#upgrade-from-3-11-to-4-0>`_"
 msgstr ""
-"`Weblate 4.0 文档中关于从 3.11 升级到 4.0 <https://docs.weblate.org/en/"
-"weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_"
+"`Weblate 3.0 文档中关于从 2.20 升级到 3.0 的内容 <https://docs.weblate.org/"
+"en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_, `Weblate 4.0 文档中关于从 "
+"3.11 升级到 4.0 <https://docs.weblate.org/en/weblate-4.0.4/admin/upgrade.html"
+"#upgrade-from-3-11-to-4-0>`_"
 
 #: ../../admin/upgrade.rst:144
 msgid "Migrating from other databases to PostgreSQL"
@@ -20442,16 +20293,11 @@ msgid "Project scoped tokens were introduced in the 4.10 release."
 msgstr "在 4.10 版本中引入了项目范围的令牌。"
 
 #: ../../api.rst:62
-#, fuzzy
-#| msgid ""
-#| "Each user has his personal access token which can be obtained in the user "
-#| "profile. Newly generated user tokens have the ``wlu_`` prefix."
 msgid ""
 "Each user has a personal access token which can be obtained in the user "
 "profile. Newly generated user tokens have the ``wlu_`` prefix."
-msgstr ""
-"每个用户都有自己的个人访问令牌,可以在用户档案中获得。新生成的用户访问令牌带"
-"有 ``wlu_`` 前缀。"
+msgstr "每个用户都有自己的个人访问令牌,可以在用户档案中获得。"
+"新生成的用户访问令牌带有 ``wlu_`` 前缀。"
 
 #: ../../api.rst:65
 msgid ""
@@ -20667,10 +20513,8 @@ msgid "date the user is created"
 msgstr "创建用户的日期"
 
 #: ../../api.rst:278
-#, fuzzy
-#| msgid "date the user is created"
 msgid "date the user last signed in"
-msgstr "创建用户的日期"
+msgstr "用户最后登录日期"
 
 #: ../../api.rst:279
 msgid "link to associated groups; see :http:get:`/api/groups/(int:id)/`"
@@ -22976,10 +22820,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS（英文） <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.0"
 msgid "Weblate 5.0"
-msgstr "Weblate 4.0"
+msgstr "Weblate 5.0"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -22987,26 +22829,24 @@ msgstr "尚未发布。"
 
 #: ../../changes.rst:6
 msgid "**New features**"
-msgstr ""
+msgstr "**新功能**"
 
 #: ../../changes.rst:8
 msgid ":doc:`/formats/markdown` support, thanks to Anders Kaplan."
-msgstr ""
+msgstr ":doc:`/formats/markdown` 支持， 感谢 Anders Kaplan。"
 
 #: ../../changes.rst:9
 msgid ""
 ":doc:`/formats/fluent` now has better syntax checks thanks to Henry Wilkes."
-msgstr ""
+msgstr ":doc:`/formats/fluent` 现在有更好的语法检查，感谢 Henry Wilkes。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Fixed inviting users when e-mail authentication is disabled."
 msgid "Inviting users now works with all authentication methods."
-msgstr "修复了电子邮件身份验证被禁用时邀请用户的问题。"
+msgstr "用户邀请现对所有身份验证方式均正常工作。"
 
 #: ../../changes.rst:12
 msgid "**Improvements**"
-msgstr ""
+msgstr "**改进**"
 
 #: ../../changes.rst:14
 msgid "Plurals handling in machine translation."
@@ -23015,128 +22855,100 @@ msgstr "机器翻译的复数处理。"
 #: ../../changes.rst:15
 msgid ""
 ":ref:`check-same` check now honors placeholders even in the strict mode."
-msgstr ""
+msgstr ":ref:`check-same` 检查现在遵守占位符，即使在严格模式下也是如此。"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ""
-#| "Fixed displaying of plural source for languages with single plural form."
 msgid ""
 ":ref:`check-reused` is no longer triggered for languages with a single "
 "plural form."
-msgstr "修复了具有单复数形式的语言的复数原文显示问题。"
+msgstr "不再对单一复数形式的语言触发 :ref:`check-reused`。"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Added support for animated screenshots."
 msgid "WebP is now supported for :ref:`screenshots`."
-msgstr "为动画屏幕截图添加了支持。"
+msgstr ":ref:`screenshots`现已支持 WebP 格式。"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Avoid sending notifications for not subscribed languages."
 msgid ""
 "Avoid duplicate notification when a user is subscribed to overlapping scopes."
-msgstr "避免发送未订阅语言的通知。"
+msgstr "当用户订阅重叠范围时避免重复通知。"
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Added support for animated screenshots."
 msgid "OCR support for non-English languages in :ref:`screenshots`."
-msgstr "为动画屏幕截图添加了支持。"
+msgstr ":ref:`screenshots`支持非英语语言的 OCR。"
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Allow absolute links in source string locations."
 msgid ":ref:`xliff` now supports displaying source string location."
-msgstr "允许源字符串位置中的绝对链接。"
+msgstr ":ref:`xliff` 现支持展示源字符串位置。"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Improve handling of placeholders in machine translations."
 msgid ""
 "Rendering strings with plurals, placeholders or alternative translations."
-msgstr "改进机器翻译中的占位符处理。"
+msgstr "用复数、占位符或备选翻译渲染字符串。"
 
 #: ../../changes.rst:22
 msgid "User API now includes last sign in date."
-msgstr ""
+msgstr "用户 API 现包含最后登录日期。"
 
 #: ../../changes.rst:23
 msgid "User API token is now hidden for privacy reasons by default."
-msgstr ""
+msgstr "出于隐私原因，用户 API 令牌现默认处于隐藏状态。"
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Fixed adding words to glossary."
 msgid "Faster adding terms to glossary."
-msgstr "修复了向术语表添加单词。"
+msgstr "更快地向术语表添加术语。"
 
 #: ../../changes.rst:25
 msgid ""
 "Better preserve translation on source file change in :doc:`/formats/html` "
 "and :doc:`/formats/txt`."
-msgstr ""
+msgstr ":doc:`/formats/html` 和 :doc:`/formats/txt`源文件更改时更好地保留翻译。"
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Added visual indication of component alerts in navigation."
 msgid "Added indication of automatic assignment to team listing."
-msgstr "在导航栏中添加了部件警报的视觉指示。"
+msgstr "团队列举增加了自动分配标识。"
 
 #: ../../changes.rst:27
 msgid "Users now have to confirm invitations to become team members."
-msgstr ""
+msgstr "用户现在必须确认邀请方可成为团队成员。"
 
 #: ../../changes.rst:28
 msgid ""
 ":ref:`check-formats` can now check all plural forms with the ``strict-"
 "format`` flag."
-msgstr ""
+msgstr ":ref:`check-formats` 现在可以检查所有带 ``strict-format`` 标记的复数形式。"
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "**languages**"
 msgid "**Bug fixes**"
-msgstr "**languages**"
+msgstr "**Bug 修复**"
 
 #: ../../changes.rst:32
 msgid "User names handling while committing to Git."
-msgstr ""
+msgstr "提交到 Git 时的用户名处理。"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
-#| "translation keys."
 msgid ""
 ":ref:`addon-weblate.cleanup.blank` and :ref:`addon-weblate.cleanup.generic` "
 "now remove all strings at once."
 msgstr ""
-"如果只想删除陈旧的翻译键，那么使用 :ref:`addon-weblate.cleanup.generic`。"
+":ref:`addon-weblate.cleanup.blank` 和 :ref:`addon-weblate.cleanup.generic` "
+"现立即删除所有字符串。"
 
 #: ../../changes.rst:34
 msgid "Language filtering in :doc:`/devel/reporting`."
 msgstr ":doc:`/devel/reporting`中的语言过滤。"
 
 #: ../../changes.rst:35
-#, fuzzy
-#| msgid "Reduced false negatives for unchanged translation check."
 msgid ""
 "Reduced false positives of :ref:`check-reused` when fixing the translation."
-msgstr "减少了未更改的译文检查的误报。"
+msgstr "减少了 :ref:`check-reused`修复译文时造成的误报。"
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid "**activity**"
 msgid "**Compatibility**"
-msgstr "**activity**"
+msgstr "**兼容性**"
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid "Django 3.1 is now required."
 msgid "Python 3.9 or newer is now required."
-msgstr "现在需要 Django 3.1。"
+msgstr "现在需要 Python 3.9 或更新版本。"
 
 #: ../../changes.rst:41 ../../changes/v4.rst:53 ../../changes/v4.rst:85
 #: ../../changes/v4.rst:168 ../../changes/v4.rst:236 ../../changes/v4.rst:317
@@ -23145,10 +22957,8 @@ msgstr "现在需要 Django 3.1。"
 #: ../../changes/v4.rst:696 ../../changes/v4.rst:767 ../../changes/v4.rst:858
 #: ../../changes/v4.rst:933 ../../changes/v4.rst:1019 ../../changes/v4.rst:1094
 #: ../../changes/v4.rst:1167
-#, fuzzy
-#| msgid "Upgrading Weblate"
 msgid "**Upgrading**"
-msgstr "升级 Weblate"
+msgstr "**升级**"
 
 #: ../../changes.rst:43 ../../changes/v4.rst:55 ../../changes/v4.rst:87
 #: ../../changes/v4.rst:170 ../../changes/v4.rst:238 ../../changes/v4.rst:319
@@ -23162,44 +22972,31 @@ msgid ""
 msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
 
 #: ../../changes.rst:45
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings "
-#| "accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
 "settings accordingly."
 msgstr ""
-":file:`settings_example.py` 中有几项更改，最显著的是 "
-"``COMPRESS_OFFLINE_CONTEXT` `的更改，请相应调整你的设置。"
+":file:`settings_example.py` 中有几项更改，最显著的是 ``CACHES`` 和 "
+"``SOCIAL_AUTH_PIPELINE``中的更改，请相应调整你的设置。"
 
 #: ../../changes.rst:46
 msgid "Several previously optional dependencies are now required."
-msgstr ""
+msgstr "先前几个可选的依赖项现在变为必需。"
 
 #: ../../changes.rst:47
-#, fuzzy
-#| msgid ""
-#| "The database migration make take hours on larger instances due to "
-#| "recreating some of the indexes."
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "structure changes."
-msgstr "由于要重新创建一些索引，数据库迁移在较大的实例上可能需要花费数小时。"
+msgstr "由于结构变化，在较大站点上升级数据库可能会花掉相当长的时间。"
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/97?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/99?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/97?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"99?closed=1>`__。"
 
 #: ../../changes/v0.rst:2
 msgid "Weblate 0.x series"
@@ -27253,63 +27050,44 @@ msgid "Add support for providing additional textual context."
 msgstr "为提供另外的文本上下文添加支持。"
 
 #: ../../changes/v4.rst:2
-#, fuzzy
-#| msgid "Weblate 3.x series"
 msgid "Weblate 4.x series"
-msgstr "Weblate 3.x 系列"
+msgstr "Weblate 4.x 系列"
 
 #: ../../changes/v4.rst:5
-#, fuzzy
-#| msgid "Weblate 4.18.1"
 msgid "Weblate 4.18.2"
-msgstr "Weblate 4.18.1"
+msgstr "Weblate 4.18.2"
 
 #: ../../changes/v4.rst:7
-#, fuzzy
-#| msgid "Released on June 30th 2021."
 msgid "Released on June 30th 2023."
-msgstr "发布于 2017 年 7 月 30 日。"
+msgstr "发布于 2023 年 6 月 30 日。"
 
 #: ../../changes/v4.rst:9
-#, fuzzy
-#| msgid "Fixed parsing of location from CSV files."
 msgid "Fixed parsing notes from TBX."
-msgstr "修复了从 CSV 文件解析位置的错误。"
+msgstr "修复了解析来自 TBX 附注的问题。"
 
 #: ../../changes/v4.rst:10
 msgid "Fixed query parsing in navigation bar search."
-msgstr ""
+msgstr "修复了导航栏搜索查询解析的问题。"
 
 #: ../../changes/v4.rst:11
-#, fuzzy
-#| msgid "Fixed UI language selection in some cases."
 msgid "Fixed language filtering in reports."
-msgstr "修复了一些情况下的 UI 语言选择。"
+msgstr "修复了报告中的语言筛选。"
 
 #: ../../changes/v4.rst:12
-#, fuzzy
-#| msgid "Improved language code parsing."
 msgid "Improved ModernMT languages mapping."
-msgstr "改进了语言代码解析。"
+msgstr "改进了 ModernMT 语言映射。"
 
 #: ../../changes/v4.rst:13
-#, fuzzy
-#| msgid ""
-#| "Fixed displaying of plural source for languages with single plural form."
 msgid "Disabled reused checks on languages with a single plural form."
-msgstr "修复了具有单复数形式的语言的复数原文显示问题。"
+msgstr "对单一复数形式语言停用了译文重用检查。"
 
 #: ../../changes/v4.rst:15
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/101?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/102?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/101?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"102?closed=1>`__。"
 
 #: ../../changes/v4.rst:18
 msgid "Weblate 4.18.1"
@@ -27741,17 +27519,13 @@ msgstr ""
 "setting:`django:MIDDLEWARE` 中做出更改。"
 
 #: ../../changes/v4.rst:178
-#, fuzzy
-#| msgid ""
-#| "Default location for static Django files, specified by :setting:`django:"
-#| "STATIC_ROOT`. See :ref:`static-files`."
 msgid ""
 "Introduction of :setting:`CACHE_DIR` changed default value of :setting:"
 "`django:STATIC_ROOT`. You might need to adjust :ref:`static-files` "
 "accordingly."
 msgstr ""
-"静态 Django 文件的默认位置，由 :setting:`django:STATIC_ROOT`指定。见 :ref:"
-"`static-files`。"
+":setting:`CACHE_DIR` 的引入更改了 :setting:`django:STATIC_ROOT`的默认值。 "
+"你可能需要响应调整 :ref:`static-files`。"
 
 #: ../../changes/v4.rst:181
 msgid "Weblate 4.15.2"
@@ -27843,10 +27617,8 @@ msgid "Released on December 16th 2022."
 msgstr "发布于 2022 年 12 月 16 日。"
 
 #: ../../changes/v4.rst:213
-#, fuzzy
-#| msgid "Added support for browsing changes for a individual string."
 msgid "Added support for browsing all changes for an individual string."
-msgstr "新增支持浏览单条字符串的更改。"
+msgstr "新增支持浏览单条字符串的所有更改。"
 
 #: ../../changes/v4.rst:214
 msgid "Fixed plurals handling in automatic translation from other components."
@@ -27984,8 +27756,6 @@ msgid "Improved analysis on the duplicate language alert."
 msgstr "改善了对重复语言警告的分析。"
 
 #: ../../changes/v4.rst:257
-#, fuzzy
-#| msgid "Improved accurancy of the consecutive duplicated words check."
 msgid "Improved accurancy of the consecutive duplicated-words check."
 msgstr "提高了连续重复的单词检查的准确性。"
 
@@ -27994,8 +27764,6 @@ msgid "Improved scaling of sending many notifications."
 msgstr "改进了发送许多通知的缩放。"
 
 #: ../../changes/v4.rst:259
-#, fuzzy
-#| msgid "Improved string state handling for subtitle translation."
 msgid "Improved string-state handling for subtitle translation."
 msgstr "改进了字幕翻译的字符串状态处理。"
 
@@ -28016,10 +27784,8 @@ msgid "Improved whitespace changes handling in diff display."
 msgstr "改进了差异显示中的空白更改处理。"
 
 #: ../../changes/v4.rst:263
-#, fuzzy
-#| msgid "Added automatic suggestions management link to management pages."
 msgid "Added link for managing automatic suggestions to the management pages."
-msgstr "管理页面添加了自动建议管理链接。"
+msgstr "管理页面添加了管理自动建议的链接。"
 
 #: ../../changes/v4.rst:264
 msgid "Track comment removal/resolving in history."
@@ -28030,8 +27796,6 @@ msgid "Fixed restoring project backups with linked components."
 msgstr "修复了还原带链接部件的项目备份的问题。"
 
 #: ../../changes/v4.rst:266
-#, fuzzy
-#| msgid "Fixed captcha entering on unsuccessful registration."
 msgid "Fixed CAPTCHA entering on unsuccessful registration."
 msgstr "修复了注册失败时的 captcha 验证码输入。"
 
@@ -28068,8 +27832,6 @@ msgid "Fixed generating project backups in some situations."
 msgstr "修复了在某些情况下生成项目备份的问题。"
 
 #: ../../changes/v4.rst:279
-#, fuzzy
-#| msgid "Improved error reporting on file upload."
 msgid "Improved error reporting when uploading files."
 msgstr "改进了文件上传时的错误报告。"
 
@@ -28098,8 +27860,6 @@ msgid "Add group management interface."
 msgstr "添加群组管理界面。"
 
 #: ../../changes/v4.rst:286
-#, fuzzy
-#| msgid "Always show review stats when reviews are enabled."
 msgid "Always show review stats when reviews are turned on."
 msgstr "启用审校时始终显示审校统计数据。"
 
@@ -28241,10 +28001,8 @@ msgid "Fixed parsing reverse proxy info from Cloudflare."
 msgstr "修复了从 Cloudflare 解析反向代理信息的问题。"
 
 #: ../../changes/v4.rst:338
-#, fuzzy
-#| msgid "Unlocks translation of Weblate component."
 msgid "Make parse errors lock translation of a component."
-msgstr "解锁 Weblate 部件的翻译。"
+msgstr "解析出错锁定部件翻译。"
 
 #: ../../changes/v4.rst:339
 msgid "Fixed configuring intermediate file in the discovery add-on."
@@ -28259,10 +28017,8 @@ msgid "Fixed untranslating strings via API."
 msgstr "通过 API 修复了未翻译的字符串。"
 
 #: ../../changes/v4.rst:342
-#, fuzzy
-#| msgid "Added support for removing user from a group via API."
 msgid "Added support for removing a user from a group via API."
-msgstr "添加了对通过 API 从群组中删除用户的支持。"
+msgstr "新增支持通过 API 从群组中删除一名用户。"
 
 #: ../../changes/v4.rst:343
 msgid "Fixed audit log for user invitation e-mails."
@@ -28297,10 +28053,6 @@ msgid "Added pagination to projects listing."
 msgstr "为项目列表添加了分页。"
 
 #: ../../changes/v4.rst:355
-#, fuzzy
-#| msgid ""
-#| "API for creating new units now returns information about newly created "
-#| "unit."
 msgid "API for creating new units now returns info about newly created unit."
 msgstr "用于创建新单元的 API 现在返回有关新创建单元的信息。"
 
@@ -28319,22 +28071,16 @@ msgid ""
 msgstr "改变了对某些格式的上下文和位置的处理以更好地适应底层实现。"
 
 #: ../../changes/v4.rst:359
-#, fuzzy
-#| msgid "Added support for ResourceDictionary format."
 msgid "Added support for the ResourceDictionary format."
 msgstr "新增支持 ResourceDictionary 格式。"
 
 #: ../../changes/v4.rst:360
-#, fuzzy
-#| msgid "Improved progress bar colors for color blind."
 msgid "Improved progress-bar colors for color-blind people."
 msgstr "为色盲用户改进了进度条颜色。"
 
 #: ../../changes/v4.rst:361
-#, fuzzy
-#| msgid "Fixed variants cleanup on string removal."
 msgid "Fixed variants cleanup when removing strings."
-msgstr "修复了字符串删除时变体处理的问题。"
+msgstr "修复了字符串删除时变体清理的问题。"
 
 #: ../../changes/v4.rst:362
 msgid "Compatibility with Django 4.1."
@@ -28345,8 +28091,6 @@ msgid "Added support for storing escaped XML elements in XLIFF."
 msgstr "新增支持以 XLIFF 格式储存转义 XML 元素。"
 
 #: ../../changes/v4.rst:364
-#, fuzzy
-#| msgid "Improved formatting of placeholder check errors."
 msgid "Improved formatting of placeholder-check errors."
 msgstr "改进了占位符检查错误的格式化。"
 
@@ -28415,8 +28159,6 @@ msgid "Released on May 11th 2022."
 msgstr "发布于 2022 年 5 月 11 日。"
 
 #: ../../changes/v4.rst:391
-#, fuzzy
-#| msgid "Fixed rebuilding project translation memory for some components."
 msgid "Fixed rebuilding project translation-memory for some components."
 msgstr "修复了重建某些部件的项目翻译记忆库的问题。"
 
@@ -28425,8 +28167,6 @@ msgid "Fixed sorting components by untranslated strings."
 msgstr "修复了按未翻译字符串排序部件的问题。"
 
 #: ../../changes/v4.rst:393
-#, fuzzy
-#| msgid "Fixed possible loss of translations while adding new language."
 msgid "Fixed possible loss of translations while adding a new language."
 msgstr "修复了添加新语言时可能丢失翻译的问题。"
 
@@ -28516,13 +28256,9 @@ msgid "Added support for :ref:`vcs-gitea`."
 msgstr "新增了对 :ref:`vcs-gitea` 的支持。"
 
 #: ../../changes/v4.rst:422
-#, fuzzy
-#| msgid ""
-#| "Added Linux style language code to :ref:`component-language_code_style`."
 msgid ""
 "Added Linux-style language code to :ref:`component-language_code_style`."
-msgstr ""
-"在 :ref:`component-language_code_style` 中添加了 Linux 风格的语言代码。"
+msgstr "在 :ref:`component-language_code_style` 中添加了 Linux 风格的语言代码。"
 
 #: ../../changes/v4.rst:423
 msgid "Added support for rebuilding project translation memory."
@@ -28537,16 +28273,12 @@ msgid "Add copy and clone buttons to other translations."
 msgstr "将复制和克隆按钮添加到其他翻译。"
 
 #: ../../changes/v4.rst:426
-#, fuzzy
-#| msgid "Make merge request message configurable at component level."
 msgid "Make merge request message configurable at the component level."
-msgstr "使合并请求说明可在部件层次上进行配置。"
+msgstr "使合并请求说明可在部件级别上进行配置。"
 
 #: ../../changes/v4.rst:427
-#, fuzzy
-#| msgid "Improved maximal length restriction behavior with XML tags."
 msgid "Improved behavior of maximal-length restriction with XML tags."
-msgstr "改进了XML标签的最大长度限制行为。"
+msgstr "改进了 XML 标签最大长度限制的行为。"
 
 #: ../../changes/v4.rst:428
 msgid "Fixed loading Fluent files with additional comments."
@@ -28702,10 +28434,8 @@ msgid "Fixed untranslating strings in :ref:`javaprop`."
 msgstr "修复了不翻译 :ref:`javaprop` 中的字符串的问题。"
 
 #: ../../changes/v4.rst:480
-#, fuzzy
-#| msgid "Fixed Git operation with non-ascii branch names."
 msgid "Fixed Git operation with non-ASCII branch names."
-msgstr "修复了具有非 ASCII 分支名称的 Git 操作。"
+msgstr "修复了非 ASCII 分支名称 Git 操作 的问题。"
 
 #: ../../changes/v4.rst:481
 msgid "New add-on :ref:`addon-weblate.generate.prefill`."
@@ -28717,16 +28447,11 @@ msgid ""
 msgstr "添加了 :guilabel:`不快进合并 ` 的 :ref:`component-merge_style`。"
 
 #: ../../changes/v4.rst:483
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on "
-#| "newly added strings."
 msgid ""
 "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on triggering for "
 "newly added strings."
-msgstr ""
-"修复了 :ref:`addon-weblate.autotranslate.autotranslate` 附加组件在新添加的字"
-"符串触发的问题。"
+msgstr "修复了新添加的字符串触发 :ref:`addon-weblate.autotranslate.autotranslate` "
+"的问题。"
 
 #: ../../changes/v4.rst:484
 msgid "Improved punctuation checks for Burmese."
@@ -28850,14 +28575,10 @@ msgid "Added support for formality and placeholders with DeepL."
 msgstr "新增对 DeepL Formality 参数和占位符的支持。"
 
 #: ../../changes/v4.rst:526
-#, fuzzy
-#| msgid ""
-#| "Bulk edit and search and replace are now available on project and "
-#| "language level."
 msgid ""
 "Bulk edit and search-and-replace are now available on project and language "
 "level."
-msgstr "批量编辑、搜索和替换现在可以在项目和语言层面上使用。"
+msgstr "批量编辑、搜索和替换现在可以在项目和语言级别上使用。"
 
 #: ../../changes/v4.rst:527
 msgid "Added filtering to search and replace."
@@ -31107,10 +30828,8 @@ msgid "Reimplemented translation memory backend."
 msgstr "重新实现了翻译记忆库后端。"
 
 #: ../../changes/v4.rst:1253
-#, fuzzy
-#| msgid "Added support for several ``is:`` lookups in :doc:`user/search`."
 msgid "Added support for several ``is:`` lookups in :doc:`/user/search`."
-msgstr "为在 :doc:`user/search` 中查找几个 ``is:`` 添加了支持。"
+msgstr "新增支持在 :doc:`user/search` 中同时使用几个 ``is:``进行查找 。"
 
 #: ../../changes/v4.rst:1254
 msgid "Allow to make :ref:`check-same` avoid internal blacklist."
@@ -31137,10 +30856,8 @@ msgid "Fixed editing monolingual XLIFF source file."
 msgstr "修复了编辑单语言 XLIFF 源文件。"
 
 #: ../../changes/v4.rst:1260
-#, fuzzy
-#| msgid "Added support for exact matching in :doc:`user/search`."
 msgid "Added support for exact matching in :doc:`/user/search`."
-msgstr "为 :doc:`user/search` 中的准确匹配添加了支持。"
+msgstr "新增支持 :doc:`/user/search`的精确匹配。"
 
 #: ../../changes/v4.rst:1261
 msgid ""
@@ -31427,13 +31144,11 @@ msgstr "还能够手动触发检查，来检查所有文件的运行："
 
 #: ../../contributing/communication.rst:2
 msgid "Weblate Contributor Communication Guidelines"
-msgstr ""
+msgstr "Weblate 贡献者沟通指引"
 
 #: ../../contributing/communication.rst:5
-#, fuzzy
-#| msgid "GitHub username"
 msgid "GitHub Issues"
-msgstr "GitHub 用户名"
+msgstr "GitHub Issues"
 
 #: ../../contributing/communication.rst:6
 msgid ""
@@ -31443,12 +31158,14 @@ msgid ""
 "implementation process; it also guides to other places with information like "
 "documentation, Discussions, HackerOne program, and Weblate Care."
 msgstr ""
+"`GitHub Issues <https://github.com/WeblateOrg/weblate/issues>`_ 是报告 bug 和"
+"请求新功能的所在。问题提交表单提供了模板来简化问题创建以及审阅和实现过程。它"
+"还指引用户前往有信息的地方，像是文档、Discussions、HackerOne 项目和 Weblate "
+"Care。"
 
 #: ../../contributing/communication.rst:11
-#, fuzzy
-#| msgid "Weblate discussions"
 msgid "Weblate GitHub Discussions"
-msgstr "Weblate 讨论"
+msgstr "Github 上的 Weblate 讨论"
 
 #: ../../contributing/communication.rst:12
 msgid ""
@@ -31458,12 +31175,14 @@ msgid ""
 "defined categories. Weblate team members occasionally visit Discussions and "
 "can also be mentioned by their GitHub usernames."
 msgstr ""
+"`GitHub Discussions <https://github.com/WeblateOrg/weblate/discussions>`_ "
+"是一个社区。在此发帖时可以选择 Ideas、Polls,、Q&A 和 Show and Tell 分类。"
+"General 分类则适合所有不在这些定义的分类中的帖子。Weblate 团队成员偶尔会访问 "
+"Discussions，用户也通过 @ 成员的用户名。"
 
 #: ../../contributing/communication.rst:18
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Weblate on Mastodon"
-msgstr "Weblate 配置"
+msgstr "Mastondon 上的 Weblate"
 
 #: ../../contributing/communication.rst:19
 msgid ""
@@ -31472,10 +31191,13 @@ msgid ""
 "<https://fosstodon.org/@weblate>`_ on Mastodon. The Weblate team boosts good "
 "moods and bright ideas!"
 msgstr ""
+"如果你想吸引 Weblate 用户、成员、粉丝和开发者社区，你可以在 Mastodon "
+"上关注并提及 `@weblate@fosstodon.org <https://fosstodon.org/@weblate>`_ 。"
+"Weblate 团队会转发好心情和聪明的点子！"
 
 #: ../../contributing/communication.rst:22
 msgid "Libera.Chat"
-msgstr ""
+msgstr "Libera.Chat"
 
 #: ../../contributing/communication.rst:23
 msgid ""
@@ -34646,38 +34368,26 @@ msgid "Translation progress reporting"
 msgstr "翻译进度报告"
 
 #: ../../devel/reporting.rst:4
-#, fuzzy
-#| msgid ""
-#| "Reporting features give insight into how a translation progresses over a "
-#| "given period. A summary of contributions to any given component over time "
-#| "is provided. The reporting tool is found in the :guilabel:`Insights` menu "
-#| "of any translation component, project or on the dashboard:"
 msgid ""
 "Reporting features give insight into translation progress over a given "
 "period. A summary of contributions to any given component over time is "
 "provided. The reporting tool is found in the :guilabel:`Insights` menu of "
 "the dashboard, any translation component, or project:"
 msgstr ""
-"报告功能可以让人深入了解翻译在指定时期内的进展情况。它提供了任何给定部件在某"
-"段时间内的贡献总结。报告工具可以在任何翻译部件、项目或操作面板上的 :guilabel:"
-"`洞察` 菜单中找到："
+"报告功能可以让人深入了解给定时期内的翻译进展情况。它提供了任何给定部件在某段"
+"时间内的贡献总结。报告工具可以在任意翻译部件或项目的操作面板上的 "
+":guilabel:`洞察` 菜单中找到："
 
 #: ../../devel/reporting.rst:11
-#, fuzzy
-#| msgid ""
-#| "Several reporting tools are available on this page and all can produce "
-#| "output in HTML, reStructuredText or JSON. The first two formats are "
-#| "suitable for embedding statistics into existing documentation, while JSON "
-#| "is useful for further processing of the data."
 msgid ""
 "Several reporting tools are available on this page, all of which can produce "
 "output in HTML, reStructuredText or JSON. The first two formats are suitable "
 "for embedding statistics into existing documentation, while JSON is useful "
 "for further processing of the data."
 msgstr ""
-"此页面上提供了多种报告工具，它们都可以生成 HTML、reStructuredText 或 JSON 格"
-"式的输出。前两种格式适合于将统计数据嵌入现有文档，而 JSON 对进一步处理数据很"
-"有用。"
+"此页面上提供了多种报告工具，它们都可以生成 HTML、reStructuredText 或 JSON "
+"格式的输出。前两种格式适合于将统计数据嵌入现有文档，而 JSON "
+"对进一步处理数据很有用。"
 
 #: ../../devel/reporting.rst:17
 msgid "Number of words"
@@ -34703,24 +34413,16 @@ msgid "Translator credits"
 msgstr "译者鸣谢表"
 
 #: ../../devel/reporting.rst:35
-#, fuzzy
-#| msgid ""
-#| "Generates a document usable for crediting translators - sorted by "
-#| "language and lists all contributors to a given language:"
 msgid ""
 "Generates a document usable for crediting translators — sorted by language "
 "and lists all contributors for a given language:"
-msgstr "生成用于记录译者的文档——按语言分类，并列出给定语言的所有贡献者："
+msgstr "生成用于记录译者的文档— 按语言分类，并列出给定语言的所有贡献者："
 
 #: ../../devel/reporting.rst:52
-#, fuzzy
-#| msgid ""
-#| "The number in parenthesis indicates number of contributions in given "
-#| "period."
 msgid ""
 "The number in parenthesis indicates the number of contributions in given "
 "period."
-msgstr "括号内的数字表示指定时期内的贡献数量。"
+msgstr "括号内的数字表示给定时期内的贡献数量。"
 
 #: ../../devel/reporting.rst:58
 msgid "Contributor stats"
@@ -34732,63 +34434,48 @@ msgid ""
 msgstr "按译者姓名生成已翻译词与字符串的数量："
 
 #: ../../devel/reporting.rst:65
-#, fuzzy
-#| msgid ""
-#| "It can be useful if you pay your translators based on amount of work, it "
-#| "gives you various stats on translators work."
 msgid ""
 "This can be useful if you pay your translators based on the amount of work "
 "done; it gives you various stats of translators’ work."
-msgstr ""
-"如果您根据工作量来向译者支付报酬，这会很有用，它给出了关于译者工作的各种统计"
-"数据。"
+msgstr "如果您根据完成的工作来向译者支付报酬，这会很有用，它给出了关于译者工作的各种"
+"统计数据。"
 
 #: ../../devel/reporting.rst:68
-#, fuzzy
-#| msgid "All stats are available in three variants:"
 msgid "All stats are available in four variants:"
-msgstr "所有统计数据都提供三种变体："
+msgstr "所有统计数据有四种变体："
 
 #: ../../devel/reporting.rst:70
 msgid "`Total`"
 msgstr "`Total`"
 
 #: ../../devel/reporting.rst:71
-#, fuzzy
-#| msgid "Overall number of edited strings."
 msgid "Overall number of all edited strings."
-msgstr "编辑的字符串的总数。"
+msgstr "所有编辑的字符串的总数。"
 
 #: ../../devel/reporting.rst:72
 msgid "`New`"
 msgstr "`New`"
 
 #: ../../devel/reporting.rst:73
-#, fuzzy
-#| msgid "Newly translated strings which didn't have translation before."
 msgid ""
 "Amount of newly translated strings which didn't have a translation before."
-msgstr "新翻译的字符串（以前没有过翻译）。"
+msgstr "新翻译字符串数（以前没有译文）。"
 
 #: ../../devel/reporting.rst:74
 msgid "`Approved`"
 msgstr "`Approved`"
 
 #: ../../devel/reporting.rst:75
-#, fuzzy
-#| msgid "Count for string approvals in review workflow (see :ref:`reviews`)."
 msgid "Amount of strings approved in the review workflow (see :ref:`reviews`)."
-msgstr "在审校流程中已核准的字符串数量（请参见 :ref:`reviews`）。"
+msgstr "审校流程中核准的字符串数（请参见 :ref:`reviews`）。"
 
 #: ../../devel/reporting.rst:77
 msgid "`Edited`"
 msgstr "`Edited`"
 
 #: ../../devel/reporting.rst:77
-#, fuzzy
-#| msgid "Edited strings which had translation before."
 msgid "Amount of edited strings which had a translation before."
-msgstr "编辑的字符串（以前有过翻译）。"
+msgstr "编辑的字符串数（有过译文）。"
 
 #: ../../devel/reporting.rst:79
 msgid "The following metrics are available for each:"
@@ -34799,20 +34486,14 @@ msgid "`Count`"
 msgstr "`Count`"
 
 #: ../../devel/reporting.rst:82
-#, fuzzy
-#| msgid "Number of strings."
 msgid "Amount of strings."
-msgstr "字符串数量。"
+msgstr "字符串数。"
 
 #: ../../devel/reporting.rst:83
 msgid "`Edits`"
 msgstr "`Edits`"
 
 #: ../../devel/reporting.rst:84
-#, fuzzy
-#| msgid ""
-#| "Number of edited characters in the string, measured in Damerau–"
-#| "Levenshtein distance."
 msgid ""
 "Amount of edited characters in the string, measured in Damerau–Levenshtein "
 "distance."
@@ -34823,8 +34504,6 @@ msgid "`Source words`"
 msgstr "`Source words`"
 
 #: ../../devel/reporting.rst:86
-#, fuzzy
-#| msgid "Number of words in the source string."
 msgid "Amount of words in the source string."
 msgstr "源字符串中的单词数量。"
 
@@ -34833,8 +34512,6 @@ msgid "`Source characters`"
 msgstr "`Source characters`"
 
 #: ../../devel/reporting.rst:88
-#, fuzzy
-#| msgid "Number of characters in the source string."
 msgid "Amount of characters in the source string."
 msgstr "源字符串中的字符数量。"
 
@@ -34843,8 +34520,6 @@ msgid "`Target words`"
 msgstr "`Target words`"
 
 #: ../../devel/reporting.rst:90
-#, fuzzy
-#| msgid "Number of words in the translated string."
 msgid "Amount of words in the translated string."
 msgstr "已翻译字符串中的单词数量。"
 
@@ -34853,8 +34528,6 @@ msgid "`Target characters`"
 msgstr "`Target characters`"
 
 #: ../../devel/reporting.rst:92
-#, fuzzy
-#| msgid "Number of characters in the translated string."
 msgid "Amount of characters in the translated string."
 msgstr "已翻译字符串中的字符数量。"
 
@@ -38197,44 +37870,30 @@ msgid "`Laravel PHP strings`"
 msgstr "`Laravel PHP 字符串`"
 
 #: ../../formats/markdown.rst:4
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown files"
-msgstr "Markdown 文本"
+msgstr "Markdown 文件"
 
 #: ../../formats/markdown.rst:10
-#, fuzzy
-#| msgid ""
-#| "The translatable content is extracted from the HTML files and offered for "
-#| "the translation."
 msgid ""
 "The translatable content is extracted from the Markdown files and offered "
 "for the translation."
-msgstr "从 HTML 文件中提取可翻译内容并提供翻译。"
+msgstr "从 Markdown 文件中提取可翻译内容并供翻译。"
 
 #: ../../formats/markdown.rst:16
-#, fuzzy
-#| msgid ":doc:`tt:formats/dtd`"
 msgid ":doc:`tt:formats/md`"
-msgstr ":doc:`tt:formats/dtd`"
+msgstr ":doc:`tt:formats/md`"
 
 #: ../../formats/markdown.rst:24
-#, fuzzy
-#| msgid "``path/*.odt``"
 msgid "``path/*.md``"
-msgstr "``path/*.odt``"
+msgstr "``path/*.md``"
 
 #: ../../formats/markdown.rst:26 ../../formats/markdown.rst:28
-#, fuzzy
-#| msgid "``path/en.odt``"
 msgid "``path/en.md``"
-msgstr "``path/en.odt``"
+msgstr "``path/en.md``"
 
 #: ../../formats/markdown.rst:30
-#, fuzzy
-#| msgid "Markdown text"
 msgid "`Markdown file`"
-msgstr "Markdown 文本"
+msgstr "`Markdown 文件`"
 
 #: ../../formats/mi18n.rst:4
 msgid "mi18n lang files"
@@ -38729,10 +38388,8 @@ msgid "Weblate supports XLIFF in several variants:"
 msgstr "Weblate 支持数种变体的 XLIFF："
 
 #: ../../formats/xliff.rst:20
-#, fuzzy
-#| msgid "XLIFF translation file"
 msgid "`XLIFF 1.2 translation file`"
-msgstr "XLIFF 翻译文件"
+msgstr "`XLIFF 1.2 翻译文件`"
 
 #: ../../formats/xliff.rst:21
 msgid ""
@@ -38742,20 +38399,16 @@ msgstr ""
 "简单的 XLIFF 文件，其中元素的内容存储为纯文本（所有 XML 元素都被转义）。"
 
 #: ../../formats/xliff.rst:22
-#, fuzzy
-#| msgid "XLIFF with placeables support"
 msgid "`XLIFF 1.2 with placeables support`"
-msgstr "带 placeeables 支持的 XLIFF"
+msgstr "`支持 placeables 的 XLIFF 1.2 `"
 
 #: ../../formats/xliff.rst:23
 msgid "Standard XLIFF supporting placeables and other XML elements."
 msgstr "标准 XLIFF 支持可放置对象和其他 XML 元素。"
 
 #: ../../formats/xliff.rst:26
-#, fuzzy
-#| msgid "XLIFF 1.1 with gettext extensions"
 msgid "`XLIFF 1.2 with gettext extensions`"
-msgstr "带有 gettext 扩展的 XLIFF 1.1"
+msgstr "`带 gettext 扩展的 XLIFF 1.2`"
 
 #: ../../formats/xliff.rst:25
 msgid ""
@@ -39710,20 +39363,16 @@ msgid ""
 msgstr "当在原文中找到双空格时，检查为假，这意味着双空格是故意的。"
 
 #: ../../user/checks.rst:170
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent parts"
-msgstr "Fluent 文件"
+msgstr "Fluent 部分"
 
 #: ../../user/checks.rst:174
 msgid "Fluent parts should match"
-msgstr ""
+msgstr "Fluent 部分应相配"
 
 #: ../../user/checks.rst:176
-#, fuzzy
-#| msgid "``weblate.checks.format.LuaFormatCheck``"
 msgid "``weblate.checks.fluent.parts.FluentPartsCheck``"
-msgstr "``weblate.checks.format.LuaFormatCheck``"
+msgstr "``weblate.checks.fluent.parts.FluentPartsCheck``"
 
 #: ../../user/checks.rst:177 ../../user/checks.rst:178
 msgid "``fluent-parts``"
@@ -39757,27 +39406,21 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:205
-#, fuzzy
-#| msgid "`Project Fluent website <https://projectfluent.org/>`_"
 msgid ""
 "`Fluent Attributes <https://projectfluent.org/fluent/guide/attributes.html>`_"
-msgstr "`Fluent 项目网站 <https://projectfluent.org/>`_"
+msgstr "`Fluent 属性 <https://projectfluent.org/>`_"
 
 #: ../../user/checks.rst:210
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "首选项"
+msgstr "Fluent 首选项"
 
 #: ../../user/checks.rst:214
 msgid "Fluent references should match"
-msgstr ""
+msgstr "Fluent 参考应相配"
 
 #: ../../user/checks.rst:216
-#, fuzzy
-#| msgid "``weblate.checks.format.PercentPlaceholdersCheck``"
 msgid "``weblate.checks.fluent.references.FluentReferencesCheck``"
-msgstr "``weblate.checks.format.PercentPlaceholdersCheck``"
+msgstr "``weblate.checks.fluent.references.FluentReferencesCheck``"
 
 #: ../../user/checks.rst:217 ../../user/checks.rst:218
 msgid "``fluent-references``"
@@ -39849,20 +39492,16 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:281
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation inner HTML"
-msgstr "当前译文"
+msgstr "Fluent 翻译内部 HTML"
 
 #: ../../user/checks.rst:285
 msgid "Fluent target should be valid inner HTML that matches"
-msgstr ""
+msgstr "Fluent 目标应为相配的有效内部 HTML"
 
 #: ../../user/checks.rst:287
-#, fuzzy
-#| msgid "``weblate.checks.format.PercentPlaceholdersCheck``"
 msgid "``weblate.checks.fluent.inner_html.FluentTargetInnerHTMLCheck``"
-msgstr "``weblate.checks.format.PercentPlaceholdersCheck``"
+msgstr "``weblate.checks.fluent.inner_html.FluentTargetInnerHTMLCheck``"
 
 #: ../../user/checks.rst:288 ../../user/checks.rst:289
 msgid "``fluent-target-inner-html``"
@@ -39912,10 +39551,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:316
-#, fuzzy
-#| msgid "For example, this covers:"
 msgid "For example, the following source:"
-msgstr "例如，这涵盖了："
+msgstr "比如，以下原文："
 
 #: ../../user/checks.rst:322
 msgid "would match with:"
@@ -39926,10 +39563,8 @@ msgid "but not:"
 msgstr ""
 
 #: ../../user/checks.rst:334
-#, fuzzy
-#| msgid "Port"
 msgid "or"
-msgstr "端口"
+msgstr "或"
 
 #: ../../user/checks.rst:342
 msgid ""
@@ -39938,22 +39573,16 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:348
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation syntax"
-msgstr "当前译文"
+msgstr "Fluent 翻译语法"
 
 #: ../../user/checks.rst:352
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in translation"
-msgstr "对自己译文的评论"
+msgstr "译文中的 Fluent 语法错误"
 
 #: ../../user/checks.rst:354
-#, fuzzy
-#| msgid "``weblate.checks.qt.QtPluralCheck``"
 msgid "``weblate.checks.fluent.syntax.FluentTargetSyntaxCheck``"
-msgstr "``weblate.checks.qt.QtPluralCheck``"
+msgstr "``weblate.checks.fluent.syntax.FluentTargetSyntaxCheck``"
 
 #: ../../user/checks.rst:355 ../../user/checks.rst:356
 msgid "``fluent-target-syntax``"
@@ -40014,21 +39643,15 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:389
-#, fuzzy
-#| msgid ""
-#| "This can be done per string (see :ref:`additional`) or in a :ref:"
-#| "`component`. Having it defined per component is simpler, but it can lead "
-#| "to false positives in case the string is not interpreted as a formatting "
-#| "string, but format string syntax happens to be used."
 msgid ""
 "The flags can be customized per string (see :ref:`additional`) or in a :ref:"
 "`component`. Having it defined per component is simpler, but it can lead to "
 "false positives in case the string is not interpreted as a formatting "
 "string, but format string syntax happens to be used."
 msgstr ""
-"可以按每条字符串（请参阅 :ref:`additional`）或在 :ref:`component` 中完成此操"
-"作。按部件逐一定义比较简单，但是如果该字符串未解释为格式化字符串，而碰巧使用"
-"了格式化字符串语法，则可能导致误报。"
+"每条字符串可以定制不同的标记（请参阅 :ref:`additional`）或在 :ref:`component`"
+" 中完成此操作。按部件逐一定义比较简单，但是如果该字符串未解释为格式化字符串，"
+"而碰巧使用了格式化字符串语法，则可能导致误报。"
 
 #: ../../user/checks.rst:396
 msgid ""
@@ -41938,17 +41561,15 @@ msgstr ""
 
 #: ../../user/checks.rst:1592
 msgid "Fluent source inner HTML"
-msgstr ""
+msgstr "Fluent 源内部 HTML"
 
 #: ../../user/checks.rst:1596
 msgid "Fluent source should be valid inner HTML"
-msgstr ""
+msgstr "Fluent 源应该是有效的内部 HTML"
 
 #: ../../user/checks.rst:1598
-#, fuzzy
-#| msgid "``weblate.checks.icu.ICUSourceCheck``"
 msgid "``weblate.checks.fluent.inner_html.FluentSourceInnerHTMLCheck``"
-msgstr "``weblate.checks.icu.ICUSourceCheck``"
+msgstr "``weblate.checks.fluent.inner_html.FluentSourceInnerHTMLCheck``"
 
 #: ../../user/checks.rst:1599 ../../user/checks.rst:1600
 msgid "``fluent-source-inner-html``"
@@ -42016,36 +41637,28 @@ msgid "Reason"
 msgstr ""
 
 #: ../../user/checks.rst:1638
-#, fuzzy
-#| msgid "``threshold``"
 msgid "``three<four``"
-msgstr "``threshold``"
+msgstr "``three<four``"
 
 #: ../../user/checks.rst:1638
 msgid "The ``<four`` part would be lost as ``.innerHTML``."
 msgstr ""
 
 #: ../../user/checks.rst:1639
-#, fuzzy
-#| msgid "``threshold``"
 msgid "``three < four``"
-msgstr "``threshold``"
+msgstr "``three < four``"
 
 #: ../../user/checks.rst:1639
 msgid "The ``.innerHTML`` would match the ``.textContent``."
 msgstr ""
 
 #: ../../user/checks.rst:1640
-#, fuzzy
-#| msgid "``threshold``"
 msgid "``three <four>``"
-msgstr "``threshold``"
+msgstr "``three <four>``"
 
 #: ../../user/checks.rst:1640
-#, fuzzy
-#| msgid "Missing query string."
 msgid "Missing a closing tag."
-msgstr "缺少查询字符串。"
+msgstr "缺少一个关闭标签。"
 
 #: ../../user/checks.rst:1641
 msgid "``three <four/>``"
@@ -42084,10 +41697,8 @@ msgid "``<img class=a/>``"
 msgstr ""
 
 #: ../../user/checks.rst:1645
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The attribute value is not quoted."
-msgstr "检测到的文件格式不支持。"
+msgstr "属性值未被引用。"
 
 #: ../../user/checks.rst:1646
 msgid "``<aØ attr=''/>``"
@@ -42122,16 +41733,12 @@ msgid "The ``&lte;`` part would be converted to ``<e;``."
 msgstr ""
 
 #: ../../user/checks.rst:1650
-#, fuzzy
-#| msgid "``threshold``"
 msgid "``three&lf;four``"
-msgstr "``threshold``"
+msgstr "``three&lf;four``"
 
 #: ../../user/checks.rst:1650
-#, fuzzy
-#| msgid "The XML markup is not valid."
 msgid "The character reference is not valid."
-msgstr "此XML标记无效。"
+msgstr "字符参考无效。"
 
 #: ../../user/checks.rst:1651
 msgid "``three<{ $val }``"
@@ -42173,20 +41780,16 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:1678
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "以源字符串填充"
+msgstr "Fluent 源语法"
 
 #: ../../user/checks.rst:1682
 msgid "Fluent syntax error in source"
-msgstr ""
+msgstr "原文中的 Fluent 语法错误"
 
 #: ../../user/checks.rst:1684
-#, fuzzy
-#| msgid "``weblate.checks.icu.ICUSourceCheck``"
 msgid "``weblate.checks.fluent.syntax.FluentSourceSyntaxCheck``"
-msgstr "``weblate.checks.icu.ICUSourceCheck``"
+msgstr "``weblate.checks.fluent.syntax.FluentSourceSyntaxCheck``"
 
 #: ../../user/checks.rst:1685 ../../user/checks.rst:1686
 msgid "``fluent-source-syntax``"
