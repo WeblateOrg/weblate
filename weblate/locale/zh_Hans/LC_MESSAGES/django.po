@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-08-11 08:42+0000\n"
+"PO-Revision-Date: 2023-08-12 09:59+0000\n"
 "Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -380,7 +380,7 @@ msgstr "由 {username} 邀请至 {site_title}。"
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "接受了来自 {username} 的邀请。"
 
 #: weblate/accounts/models.py:160
 msgid "Started trial period."
@@ -741,10 +741,8 @@ msgstr "对自己译文的评论"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:605
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edited string"
-msgstr "编辑字符串"
+msgstr "字符串编辑"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:614
@@ -1428,10 +1426,9 @@ msgid ""
 msgstr "当前仓库或远程 URL 中要解析可翻译字符串的文件名列表。"
 
 #: weblate/addons/forms.py:507
-#, fuzzy, python-format
-#| msgid "Failed to parse CSS selector: %s"
+#, python-format
 msgid "Could not parse CSS selector: %s"
-msgstr "未能解析 CSS 选择器：%s"
+msgstr "无法解析 CSS 选择器：%s"
 
 #: weblate/addons/forms.py:513 weblate/billing/models.py:286
 #: weblate/templates/snippets/query-builder.html:14
@@ -2159,10 +2156,8 @@ msgid "User invitation e-mail was sent."
 msgstr "用户邀请电子邮件已发送。"
 
 #: weblate/auth/forms.py:123
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot change this on a built-in team."
-msgstr "禁止更改内置团队的 %s。"
+msgstr "无法对内置团队更改此项。"
 
 #: weblate/auth/models.py:68
 #, python-format
@@ -2442,10 +2437,8 @@ msgid "Cannot remove built-in team!"
 msgstr "无法删除内置的团队！"
 
 #: weblate/auth/views.py:189
-#, fuzzy
-#| msgid "User invitation e-mail was sent."
 msgid "User invitation was removed."
-msgstr "用户邀请电子邮件已发送。"
+msgstr "用户邀请已删除。"
 
 #: weblate/auth/views.py:213
 #, python-format
@@ -2577,14 +2570,10 @@ msgid "AngularJS interpolation strings do not match source"
 msgstr "AngularJS 插值字符串与原文不匹配"
 
 #: weblate/checks/base.py:287
-#, fuzzy
-#| msgid "Following format strings are missing: {}"
 msgid "The following format strings are missing: {}"
-msgstr "下面的格式字符串缺失：{}"
+msgstr "下列格式字符串缺失：{}"
 
 #: weblate/checks/base.py:292
-#, fuzzy
-#| msgid "Following format strings are extra: {}"
 msgid "The following format strings are extra: {}"
 msgstr "以下格式字符串是多出来的：{}"
 
@@ -2827,10 +2816,8 @@ msgid "Strict unchanged check"
 msgstr "严格的未变更检查"
 
 #: weblate/checks/flags.py:45
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strict format string checks"
-msgstr "任何未通过检查的字符串"
+msgstr "严格的格式字符串检查"
 
 #: weblate/checks/flags.py:46 weblate/glossary/forms.py:35
 msgid "Forbidden translation"
@@ -2884,10 +2871,8 @@ msgid "String variant"
 msgstr "字符串变体"
 
 #: weblate/checks/flags.py:72
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent type"
-msgstr "Fluent 文件"
+msgstr "Fluent 类型"
 
 #: weblate/checks/flags.py:261
 #, python-format
@@ -2914,28 +2899,32 @@ msgstr "缺少的翻译标记：“%s”"
 msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
-msgstr ""
+msgstr "序列 {sequence} 的 Fluent 参考可以扩展成一个 HTML 标签。也许使用 {suggestion}"
+" 。"
 
 #: weblate/checks/fluent/inner_html.py:143
 #, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
-msgstr ""
+msgstr "序列 {sequence} 的 Fluent 参考可以扩展成一个 HTML 字符参考。也许使用 "
+"{suggestion} 。"
 
 #: weblate/checks/fluent/inner_html.py:171
 #, python-brace-format
 msgid ""
 "The sequence {sequence} begins a HTML closing tag, but the name or syntax is "
 "not valid. If you do not want a closing tag, use {suggestion}."
-msgstr ""
+msgstr "该序列 {sequence} 以 HTML "
+"关闭标签开头，但其名称或语法无效。如果你不想要关闭标签，使用 {suggestion} 。"
 
 #: weblate/checks/fluent/inner_html.py:184
 #, python-brace-format
 msgid ""
 "The sequence {sequence} begins a HTML tag, but the name is not valid. If you "
 "do not want to begin a HTML tag, use {suggestion}."
-msgstr ""
+msgstr "该序列 {sequence} 以 HTML 标签开头，但其名称无效。如果你不想以 HTML "
+"标签开头，使用 {suggestion} 。"
 
 #: weblate/checks/fluent/inner_html.py:197
 #, python-brace-format
@@ -2943,12 +2932,14 @@ msgid ""
 "The sequence {sequence} begins a HTML tag, but the tag is never closed by "
 "{close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"序列 {sequence} 以 HTML 标签开头，但该标签从未被 {close} 关闭。如果你不想用 "
+"HTML 标签开头，请使用 {suggestion} 。"
 
 #: weblate/checks/fluent/inner_html.py:211
 #, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
-msgstr ""
+msgstr "Fluent 内部 HTML 不应包含 {sequence}。或许使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:227
 #, python-brace-format
@@ -2957,45 +2948,47 @@ msgid ""
 "not a valid attribute with a value. If you do not want to begin a HTML tag, "
 "use {suggestion}."
 msgstr ""
+"序列 {sequence} 以 HTML 标签开头，但该序列 {attribute} "
+"属性不是带值的有效属性。如果你不想以 HTML 标签开头，请使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "{tag} 标签的 HTML 属性名 {name} 无效。"
 
 #: weblate/checks/fluent/inner_html.py:260
 #, python-brace-format
 msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
-msgstr ""
+msgstr "{tag} 标签的 HTML {name} 属性值 {value} 不是有效的引用值。"
 
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "{tag} 标签出现了两次 HTML {name} 属性。"
 
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "不匹配的 HTML 结束标签：{tag}。"
 
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr ""
+msgstr "HTML {name} 空元素不应有结束标签：{end}。"
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
 msgid ""
 "The HTML {name} element is not a known void element, so should not have a "
 "self-closing tag: {self_close}."
-msgstr ""
+msgstr "HTML {name} 元素不是已知的空元素，因此不应有自关闭标签：{self_close}。"
 
 #: weblate/checks/fluent/inner_html.py:325
 #, python-brace-format
 msgid "The HTML {tag} tag has is missing a matching end tag: {end}."
-msgstr ""
+msgstr "HTML {tag} 标签缺少匹配的结束标签：{end}。"
 
 #: weblate/checks/fluent/inner_html.py:341
 #, python-brace-format
@@ -3004,43 +2997,45 @@ msgid ""
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
+"{sequence} 序列将开始一个 HTML 字符参考，但未以 {semicolon} "
+"结尾。如果你不想要字符参考，使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:359
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
-msgstr ""
+msgstr "{sequence} 序列不是有效的 HTML 字符参考。"
 
 #: weblate/checks/fluent/inner_html.py:941
 msgid "Fluent source inner HTML"
-msgstr ""
+msgstr "Fluent 源内部 HTML"
 
 #: weblate/checks/fluent/inner_html.py:942
 msgid "Fluent source should be valid inner HTML"
-msgstr ""
+msgstr "Fluent 源应该是有效的内部 HTML"
 
 #: weblate/checks/fluent/inner_html.py:1013
 #, python-brace-format
 msgid "Fluent value is missing a HTML {tag} tag."
-msgstr ""
+msgstr "Fluent 值缺少一个 HTML {tag} 标签。"
 
 #: weblate/checks/fluent/inner_html.py:1018
 #, python-brace-format
 msgid ""
 "Fluent value is missing a HTML {tag} tag for the following variants: "
 "{variant_list}."
-msgstr ""
+msgstr "Fluent 值缺少以下变体的 HTML {tag} 标签：{variant_list}。"
 
 #: weblate/checks/fluent/inner_html.py:1032
 #, python-brace-format
 msgid "Fluent value has an unexpected extra HTML {tag} tag."
-msgstr ""
+msgstr "Fluent 值有一个意料之外的额外 HTML {tag} 标签。"
 
 #: weblate/checks/fluent/inner_html.py:1037
 #, python-brace-format
 msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
-msgstr ""
+msgstr "Fluent 值对下列变体有意料之外的额外 HTML {tag} 标签：{variant_list}。"
 
 #: weblate/checks/fluent/inner_html.py:1114
 #, python-brace-format
@@ -3048,89 +3043,88 @@ msgid ""
 "The following variants in the original Fluent value do not have at least one "
 "matching variant in the translation with the same set of HTML elements: "
 "{variant_list}."
-msgstr ""
+msgstr "以下原始 Fluent 值的多个变体中与同一 HTML "
+"元素集相匹配的译文变体数不到一个：{variant_list}。"
 
 #: weblate/checks/fluent/inner_html.py:1129
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of HTML elements."
-msgstr ""
+msgstr "已翻译的 Fluent 值没有一个与同一 HTML 元素集相匹配的原文变体。"
 
 #: weblate/checks/fluent/inner_html.py:1136
 #, python-brace-format
 msgid ""
 "The following variants in the translated Fluent value do not have a matching "
 "variant in the original with the same set of HTML elements: {variant_list}."
-msgstr ""
+msgstr "以下已翻译 Fluent 值中的多个变体中没有一个与同一 HTML "
+"元素集相匹配的原文变体：{variant_list}。"
 
 #: weblate/checks/fluent/inner_html.py:1216
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation inner HTML"
-msgstr "当前译文"
+msgstr "Fluent 翻译内部 HTML"
 
 #: weblate/checks/fluent/inner_html.py:1217
 msgid "Fluent target should be valid inner HTML that matches"
-msgstr ""
+msgstr "Fluent 目标应为相配的有效内部 HTML"
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
-msgstr ""
+msgstr "Fluent 值是空的。"
 
 #: weblate/checks/fluent/parts.py:65
 msgid "Fluent value should be empty."
-msgstr ""
+msgstr "Fluent 值应为空。"
 
 #: weblate/checks/fluent/parts.py:71
 #, python-brace-format
 msgid "Missing Fluent attribute: {hint}"
-msgstr ""
+msgstr "缺少 Fluent 属性：{hint}"
 
 #: weblate/checks/fluent/parts.py:80
 #, python-brace-format
 msgid "Unexpected Fluent attribute: {hint}"
-msgstr ""
+msgstr "意料外的 Fluent 属性：{hint}"
 
 #: weblate/checks/fluent/parts.py:112
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent parts"
-msgstr "Fluent 文件"
+msgstr "Fluent 部分"
 
 #: weblate/checks/fluent/parts.py:113
 msgid "Fluent parts should match"
-msgstr ""
+msgstr "Fluent 部分应相配"
 
 #: weblate/checks/fluent/references.py:373
 #, python-brace-format
 msgid "Fluent {attribute} attribute is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "Fluent {attribute} 属性缺少 {reference} Fluent 参考。"
 
 #: weblate/checks/fluent/references.py:381
 #, python-brace-format
 msgid ""
 "Fluent {attribute} attribute is missing a {reference} Fluent reference for "
 "the following variants: {variant_list}."
-msgstr ""
+msgstr "Fluent {attribute} 属性缺少以下变体的 {reference} Fluent "
+"参考：{variant_list}。"
 
 #: weblate/checks/fluent/references.py:390
 #, python-brace-format
 msgid "Fluent value is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "Fluent 值缺少 {reference} Fluent 参考。"
 
 #: weblate/checks/fluent/references.py:395
 #, python-brace-format
 msgid ""
 "Fluent value is missing a {reference} Fluent reference for the following "
 "variants: {variant_list}."
-msgstr ""
+msgstr "Fluent 值缺少以下变体的 {reference} Fluent 参考：{variant_list}。"
 
 #: weblate/checks/fluent/references.py:411
 #, python-brace-format
 msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference."
-msgstr ""
+msgstr "Fluent {attribute} 属性有意料外的附加 {reference} Fluent 参考。"
 
 #: weblate/checks/fluent/references.py:419
 #, python-brace-format
@@ -3138,18 +3132,20 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference for the following variants: {variant_list}."
 msgstr ""
+"Fluent {attribute} 属性对下列变体有意料外的附加 {reference} Fluent 参考： "
+"{variant_list}。"
 
 #: weblate/checks/fluent/references.py:429
 #, python-brace-format
 msgid "Fluent value has an unexpected extra {reference} Fluent reference."
-msgstr ""
+msgstr "Fluent 值有意料外的附加 {reference} Fluent 参考。"
 
 #: weblate/checks/fluent/references.py:435
 #, python-brace-format
 msgid ""
 "Fluent value has an unexpected extra {reference} Fluent reference for the "
 "following variants: {variant_list}."
-msgstr ""
+msgstr "Fluent 值对下列变体有意料外的附加 {reference} Fluent 参考：{variant_list}。"
 
 #: weblate/checks/fluent/references.py:524
 #, python-brace-format
@@ -3158,6 +3154,8 @@ msgid ""
 "have at least one matching variant in the translation with the same set of "
 "Fluent references: {variant_list}."
 msgstr ""
+"下列原始 Fluent {attribute} 属性的多个变体中与同一 Fluent "
+"参考集相匹配的译文变体数不到一个：{variant_list}。"
 
 #: weblate/checks/fluent/references.py:534
 #, python-brace-format
@@ -3165,14 +3163,16 @@ msgid ""
 "The following variants in the original Fluent value do not have at least one "
 "matching variant in the translation with the same set of Fluent references: "
 "{variant_list}."
-msgstr ""
+msgstr "以下原始 Fluent 值的多个变体中与同一 Fluent "
+"参考相匹配的译文变体数不到一个：{variant_list}。"
 
 #: weblate/checks/fluent/references.py:550
 #, python-brace-format
 msgid ""
 "The translated Fluent {attribute} attribute does not have a matching variant "
 "in the original with the same set of Fluent references."
-msgstr ""
+msgstr "已翻译的 Fluent {attribute} 属性没有一个与同一 Fluent "
+"参考集相匹配的原文变体。"
 
 #: weblate/checks/fluent/references.py:558
 #, python-brace-format
@@ -3181,12 +3181,14 @@ msgid ""
 "have a matching variant in the original with the same set of Fluent "
 "references: {variant_list}."
 msgstr ""
+"下列已翻译的 Fluent {attribute} 属性的多个变体中没有一个与同一 Fluent "
+"参考集相匹配的原文变体：{variant_list}。"
 
 #: weblate/checks/fluent/references.py:569
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of Fluent references."
-msgstr ""
+msgstr "已翻译的 Fluent 值没有一个与同一 Fluent 参考集相匹配的原文变体。"
 
 #: weblate/checks/fluent/references.py:576
 #, python-brace-format
@@ -3194,48 +3196,40 @@ msgid ""
 "The following variants in the translated Fluent value do not have a matching "
 "variant in the original with the same set of Fluent references: "
 "{variant_list}."
-msgstr ""
+msgstr "下列已翻译 Fluent 值的多个变体中没有一个与同一 Fluent "
+"参考集相匹配的原文变体：{variant_list}。"
 
 #: weblate/checks/fluent/references.py:670
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "首选项"
+msgstr "Fluent 首选项"
 
 #: weblate/checks/fluent/references.py:671
 msgid "Fluent references should match"
-msgstr ""
+msgstr "Fluent 参考应相配"
 
 #: weblate/checks/fluent/syntax.py:39
 #, python-brace-format
 msgid "Fluent syntax error: {error}."
-msgstr ""
+msgstr "Fluent 语法错误：{error}。"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "以源字符串填充"
+msgstr "Fluent 源语法"
 
 #: weblate/checks/fluent/syntax.py:48
 msgid "Fluent syntax error in source"
-msgstr ""
+msgstr "原文中的 Fluent 语法错误"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation syntax"
-msgstr "当前译文"
+msgstr "Fluent 翻译语法"
 
 #: weblate/checks/fluent/syntax.py:65
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in translation"
-msgstr "对自己译文的评论"
+msgstr "译文中的 Fluent 语法错误"
 
 #: weblate/checks/format.py:400
-#, fuzzy, python-format
-#| msgid "Following format strings are wrongly ordered: %s"
+#, python-format
 msgid "The following format strings are in the wrong order: %s"
 msgstr "以下格式字符串排序不正确：%s"
 
@@ -3701,8 +3695,6 @@ msgid "Font group deleted."
 msgstr "已删除字体组。"
 
 #: weblate/formats/base.py:336
-#, fuzzy
-#| msgid "Failed to load strings from the file, try choosing other format."
 msgid "Could not load strings from the file, try choosing other format."
 msgstr "无法从文件加载字符串，请尝试选择其他格式。"
 
@@ -3711,10 +3703,8 @@ msgid "HTML file"
 msgstr "HTML 文件"
 
 #: weblate/formats/convert.py:294
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown file"
-msgstr "Markdown 文本"
+msgstr "Markdown 文件"
 
 #: weblate/formats/convert.py:327
 msgid "OpenDocument file"
@@ -3805,22 +3795,16 @@ msgid "Qt Linguist translation file"
 msgstr "Qt Linguist 翻译文件"
 
 #: weblate/formats/ttkit.py:1205
-#, fuzzy
-#| msgid "XLIFF translation file"
 msgid "XLIFF 1.2 translation file"
-msgstr "XLIFF 翻译文件"
+msgstr "XLIFF 1.2 翻译文件"
 
 #: weblate/formats/ttkit.py:1235
-#, fuzzy
-#| msgid "XLIFF with placeables support"
 msgid "XLIFF 1.2 with placeables support"
-msgstr "带 placeeables 支持的 XLIFF"
+msgstr "支持 placeables 的 XLIFF 1.2"
 
 #: weblate/formats/ttkit.py:1242
-#, fuzzy
-#| msgid "XLIFF 1.1 with gettext extensions"
 msgid "XLIFF 1.2 with gettext extensions"
-msgstr "带有 gettext 扩展的 XLIFF 1.1"
+msgstr "带 gettext 扩展的 XLIFF 1.2"
 
 #: weblate/formats/ttkit.py:1272
 msgid "iOS strings (UTF-16)"
@@ -3867,10 +3851,9 @@ msgid ".NET resource file"
 msgstr ".NET 资源文件"
 
 #: weblate/formats/ttkit.py:1405
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Could not parse the key: %s"
-msgstr "解析密钥失败：%s"
+msgstr "无法解析密钥：%s"
 
 #: weblate/formats/ttkit.py:1409
 msgid "JSON file"
@@ -4250,7 +4233,7 @@ msgstr "gettext 复数公式"
 
 #: weblate/lang/models.py:769
 msgid "CLDR plural with zero"
-msgstr ""
+msgstr "CLDR plural with zero"
 
 #: weblate/lang/models.py:770
 msgid "CLDR v38+ plural"
@@ -4415,16 +4398,14 @@ msgid "Overview"
 msgstr "概览"
 
 #: weblate/machinery/base.py:96
-#, fuzzy, python-format
-#| msgid "Failed to fetch supported languages: %s"
+#, python-format
 msgid "Could not fetch supported languages: %s"
-msgstr "未能获取支持的语言：%s"
+msgstr "无法获取受支持的语言：%s"
 
 #: weblate/machinery/base.py:101
-#, fuzzy, python-format
-#| msgid "Failed to fetch translation: %s"
+#, python-format
 msgid "Could not fetch translation: %s"
-msgstr "获取翻译失败：%s"
+msgstr "无法获取译文：%s"
 
 #: weblate/machinery/forms.py:33 weblate/machinery/forms.py:60
 #: weblate/machinery/forms.py:77 weblate/machinery/forms.py:84
@@ -4524,10 +4505,9 @@ msgid "Google Translate location"
 msgstr "Google 翻译位置"
 
 #: weblate/machinery/forms.py:192
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON: %s"
+#, python-format
 msgid "Could not parse JSON: %s"
-msgstr "解析 JSON 文件失败：%s"
+msgstr "无法解析 JSON：%s"
 
 #: weblate/machinery/forms.py:198
 msgctxt "AWS Translate configuration"
@@ -4569,24 +4549,20 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "在上传的文件中未找到有效条目！"
 
 #: weblate/memory/models.py:116 weblate/memory/models.py:121
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: %s"
+#, python-format
 msgid "Could not parse JSON file: %s"
-msgstr "解析 JSON 文件失败：%s"
+msgstr "无法解析 JSON 文件：%s"
 
 #: weblate/memory/models.py:150
-#, fuzzy
-#| msgid "Failed to parse TMX file!"
 msgid "Could not parse TMX file!"
-msgstr "解析 TMX 文件失败！"
+msgstr "无法解析 TMX 文件！"
 
 #: weblate/memory/models.py:158
 msgid "Source language not defined in the TMX file!"
 msgstr "未在 TMX 文件中定义源语言！"
 
 #: weblate/memory/models.py:163 weblate/memory/models.py:180
-#, fuzzy, python-format
-#| msgid "Failed to find language %s!"
+#, python-format
 msgid "Could not find language %s!"
 msgstr "找不到 %s 语言！"
 
@@ -4709,20 +4685,16 @@ msgid "Image"
 msgstr "图片"
 
 #: weblate/screenshots/models.py:58
-#, fuzzy
-#| msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
 msgid "Upload image up to 2000x2000 pixels."
-msgstr "上传 JPEG 或 PNG 图片，最高 2000x2000 像素。"
+msgstr "上传图片的最高像素为 2000x2000。"
 
 #: weblate/screenshots/views.py:241
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr "截图已上传，您现在可以将它指定于源字符串。"
 
 #: weblate/screenshots/views.py:247
-#, fuzzy
-#| msgid "Failed to upload screenshot, please fix errors below."
 msgid "Could not upload screenshot, please fix errors below."
-msgstr "上传截图失败，请修正如下错误。"
+msgstr "无法上传截屏，请修正如下错误。"
 
 #: weblate/screenshots/views.py:302
 #, python-format
@@ -5356,10 +5328,8 @@ msgstr "团队"
 
 #: weblate/templates/accounts/profile.html:253
 #: weblate/templates/trans/project-access.html:95
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitation"
-msgstr "重新发送邀请"
+msgstr "待处理的邀请"
 
 #: weblate/templates/accounts/profile.html:279
 msgid "Description"
@@ -5409,10 +5379,8 @@ msgstr "您的个人 API 密钥："
 #: weblate/templates/accounts/profile.html:327 weblate/templates/data.html:83
 #: weblate/templates/data.html:127
 #: weblate/templates/trans/project-access.html:327
-#, fuzzy
-#| msgid "Changed visibility"
 msgid "Toggle API key visibility"
-msgstr "改变了可见性"
+msgstr "切换 API 密钥可见性"
 
 #: weblate/templates/accounts/profile.html:328
 #: weblate/templates/trans/project-access.html:328
@@ -5474,11 +5442,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "正将您重定向至认证提供方。"
 
 #: weblate/templates/accounts/register.html:20
-#, fuzzy
-#| msgid ""
-#| "Please enter the activation token obtained when making the subscription."
 msgid "Please complete the registration to accept the invitation."
-msgstr "请输入订阅时获得的激活令牌。"
+msgstr "要接受邀请，请先完成注册。"
 
 #: weblate/templates/accounts/register.html:38
 msgid "Register in Weblate"
@@ -6082,11 +6047,9 @@ msgstr "没有指定部件"
 
 #: weblate/templates/auth/teams-count.html:5
 msgid "Automatic assignment of users is configured for this team"
-msgstr ""
+msgstr "为该团队配置了自动用户分配功能"
 
 #: weblate/templates/auth/teams-count.html:5
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic assignment"
 msgstr "自动分配"
 
@@ -7469,11 +7432,11 @@ msgstr "添加语言"
 
 #: weblate/templates/lang/plural_form.html:15
 msgid "Changing plural rules might not have a desired effect."
-msgstr ""
+msgstr "更改复数规则可能不会产生期望的效果。"
 
 #: weblate/templates/lang/plural_form.html:16
 msgid "Please see a documentation for more info."
-msgstr ""
+msgstr "更多信息请见文档。"
 
 #: weblate/templates/language-project.html:69
 #: weblate/templates/language.html:54
@@ -7794,10 +7757,8 @@ msgid "Digest: %(notification_name)s"
 msgstr "摘要：%(notification_name)s"
 
 #: weblate/templates/mail/invite.html:12
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "View invitation"
-msgstr "重新发送邀请"
+msgstr "查看邀请"
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -8026,10 +7987,8 @@ msgid "Confirm account removal"
 msgstr "确认账户删除"
 
 #: weblate/templates/mail/shared-registration.html:20
-#, fuzzy
-#| msgid "Confirm registration"
 msgid "Confirm invitation"
-msgstr "确认注册"
+msgstr "确认邀请"
 
 #: weblate/templates/mail/shared-registration.html:22
 msgid "Confirm registration"
@@ -8428,10 +8387,8 @@ msgid "Add new user"
 msgstr "添加新用户"
 
 #: weblate/templates/manage/users.html:41
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitations"
-msgstr "重新发送邀请"
+msgstr "待处理的邀请"
 
 #: weblate/templates/manage/users.html:77
 #: weblate/templates/trans/project-access.html:103
@@ -8440,17 +8397,13 @@ msgstr "重新发送邀请"
 
 #: weblate/templates/manage/users.html:81
 #: weblate/templates/trans/project-access.html:107
-#, fuzzy
-#| msgid "Permalink copied to clipboard."
 msgid "Invitation link copied to clipboard."
-msgstr "永久链接已复制到剪贴板。"
+msgstr "已复制邀请链接到剪贴板。"
 
 #: weblate/templates/manage/users.html:85
 #: weblate/templates/trans/project-access.html:111
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Remove invitation"
-msgstr "重新发送邀请"
+msgstr "删除邀请"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -9177,13 +9130,16 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
+"你被 %(invitation_author)s 邀请到 %(site_title)s 站点进行 %(project_name)s "
+"项目协作并加入 %(team_name)s 团队。"
 
 #: weblate/templates/snippets/invite-info.html:6
 #, python-format
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
-msgstr ""
+msgstr "你被 %(invitation_author)s 邀请到 %(site_title)s 站点加入 %(team_name)s "
+"团队。"
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -9839,7 +9795,7 @@ msgstr "以下文件不再存在于仓库中："
 #: weblate/templates/trans/alert/inexistantfiles.html:15
 #: weblate/trans/models/component.py:433
 msgid "Template for new translations"
-msgstr "新翻译的翻译模版"
+msgstr "新翻译的模版"
 
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
@@ -9990,11 +9946,8 @@ msgid ""
 msgstr "可以通过将相应的标志添加到字符串或组件标志来打开检查。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
-#, fuzzy
-#| msgid ""
-#| "There is at least one screenshot which is not assigned to any strings."
 msgid "At least one screenshot has no string assigned to it."
-msgstr "至少有一个未分配给任何字符串的屏幕截图。"
+msgstr "至少有一张截屏未分配到字符串。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
 msgid "Manage screenshots"
@@ -10786,16 +10739,12 @@ msgid ""
 msgstr "在到期或被删除前，该消息将一直显示在翻译页面上。"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:9
-#, fuzzy
-#| msgid "Information"
 msgid "Invitations"
-msgstr "信息"
+msgstr "邀请"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:10
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Invitation"
-msgstr "重新发送邀请"
+msgstr "邀请"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:19
 #, python-format
@@ -10803,10 +10752,8 @@ msgid "Invitation to %(project_name)s"
 msgstr "加入 %(project_name)s 项目的邀请"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:25
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Accept invitation"
-msgstr "重新发送邀请"
+msgstr "接受邀请"
 
 #: weblate/templates/widgets.html:6
 msgid "Widgets"
@@ -11446,10 +11393,9 @@ msgid "ZIP file containing project backup"
 msgstr "包含项目备份的 ZIP 文件"
 
 #: weblate/trans/forms.py:2188
-#, fuzzy, python-format
-#| msgid "Failed to load project backup: %s"
+#, python-format
 msgid "Could not load project backup: %s"
-msgstr "加载项目备份失败：%s"
+msgstr "无法加载项目备份：%s"
 
 #: weblate/trans/forms.py:2196
 msgid "Optional additional filter applied to the strings"
@@ -12277,16 +12223,10 @@ msgid ""
 msgstr "相对于仓库根目录的截屏文件路径，如：docs/screenshots/*.png。"
 
 #: weblate/trans/models/component.py:406
-#, fuzzy
-#| msgid ""
-#| "Filename of translation base file, containing all strings and their "
-#| "source; it is recommended for monolingual translation formats."
 msgid ""
 "Filename of translation base file, containing all strings and their source "
 "for monolingual translations."
-msgstr ""
-"翻译所用的译文模版文件的文件名，其中包含所有字符串及其原文；推荐用于单语种翻"
-"译格式。"
+msgstr "基础翻译文件的文件名，此文件包含单语翻译的所有字符串及其原文。"
 
 #: weblate/trans/models/component.py:413
 msgid "Edit base file"
@@ -12533,10 +12473,9 @@ msgid "File does not exist."
 msgstr "文件不存在。"
 
 #: weblate/trans/models/component.py:1682
-#, fuzzy, python-format
-#| msgid "Failed to push %(component)s: %(error_text)s"
+#, python-format
 msgid "Could not push %(component)s: %(error_text)s"
-msgstr "未能推送 %(component)s：%(error_text)s"
+msgstr "无法推送 %(component)s 部件：%(error_text)s"
 
 #: weblate/trans/models/component.py:1703
 #, python-format
@@ -12613,10 +12552,9 @@ msgstr ""
 "您已配置 Weblate 添加新的翻译文件，但并未提供译文模版文件来进行这一操作。"
 
 #: weblate/trans/models/component.py:2659
-#, fuzzy, python-format
-#| msgid "Failed to parse base file for new translations: %s"
+#, python-format
 msgid "Could not parse base file for new translations: %s"
-msgstr "未能解析新翻译的基础文件：%s"
+msgstr "无法解析新翻译的基文件：%s"
 
 #: weblate/trans/models/component.py:2663
 msgid "Unrecognized base file for new translations."
@@ -12868,10 +12806,8 @@ msgid ""
 msgstr "逗号隔开的语言码映射的列表，例如：en_GB:en,en_US:en"
 
 #: weblate/trans/models/suggestion.py:121
-#, fuzzy
-#| msgid "Failed to accept suggestion!"
 msgid "Could not accept suggestion!"
-msgstr "接受建议时出错！"
+msgstr "无法接受建议！"
 
 #: weblate/trans/models/translation.py:207
 #, python-format
@@ -12881,18 +12817,16 @@ msgid ""
 msgstr "仓库中找不到 %s 文件！要添加新译文，请在仓库中添加语言文件。"
 
 #: weblate/trans/models/translation.py:216
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not parse file %(file)s: %(error)s"
-msgstr "解析文件 %(file)s 失败: %(error)s"
+msgstr "无法解析%(file)s 文件: 错误 %(error)s"
 
 #: weblate/trans/models/translation.py:1029
 #: weblate/trans/models/translation.py:1111
 #: weblate/trans/models/translation.py:1229
-#, fuzzy, python-format
-#| msgid "Failed to commit pending changes: %s"
+#, python-format
 msgid "Could not commit pending changes: %s"
-msgstr "未能提交以下待处理的更改：%s"
+msgstr "无法提交待处理的更改：%s"
 
 #: weblate/trans/models/translation.py:1621 weblate/trans/models/unit.py:622
 #, python-format
@@ -13315,8 +13249,7 @@ msgstr ""
 "自动接受的数量不允许设置为 1，因为它允许用户对自己的建议进行投票并自动接受。"
 
 #: weblate/trans/validators.py:42
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Could not parse flags: %s"
 msgstr "无法解析标记：%s"
 
@@ -13412,22 +13345,16 @@ msgid "Changes by %s"
 msgstr "由 %s 进行的改动"
 
 #: weblate/trans/views/changes.py:144
-#, fuzzy
-#| msgid "Failed to find matching project!"
 msgid "Could not find matching project!"
-msgstr "无法选择匹配的项目！"
+msgstr "无法找到匹配的项目！"
 
 #: weblate/trans/views/changes.py:161
-#, fuzzy
-#| msgid "Failed to find matching language!"
 msgid "Could not find matching language!"
-msgstr "找不到匹配的语言！"
+msgstr "无法找到匹配的语言！"
 
 #: weblate/trans/views/changes.py:170
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Could not find matching user!"
-msgstr "找不到匹配的用户！"
+msgstr "无法找到匹配的用户！"
 
 #: weblate/trans/views/create.py:273
 #, python-format
@@ -13435,10 +13362,8 @@ msgid "Detected license as %s, please check whether it is correct."
 msgstr "检测到许可证为 %s，请检查是否正确。"
 
 #: weblate/trans/views/create.py:378
-#, fuzzy
-#| msgid "Failed to parse uploaded ZIP file."
 msgid "Could not parse uploaded ZIP file."
-msgstr "解析上传的ZIP文件失败。"
+msgstr "无法解析已上传的 ZIP 文件。"
 
 #: weblate/trans/views/dashboard.py:141
 msgid ""
@@ -13525,10 +13450,8 @@ msgstr "搜索的字符无效！"
 
 #: weblate/trans/views/edit.py:709 weblate/trans/views/search.py:49
 #: weblate/trans/views/search.py:210
-#, fuzzy
-#| msgid "Failed to process form!"
 msgid "Could not process form!"
-msgstr "处理表单失败！"
+msgstr "无法处理表单！"
 
 #: weblate/trans/views/edit.py:731
 msgid "Automatic translation in progress"
@@ -13543,10 +13466,8 @@ msgid "Posted new comment"
 msgstr "新评论已发表"
 
 #: weblate/trans/views/edit.py:772
-#, fuzzy
-#| msgid "Failed to add comment!"
 msgid "Could not add comment!"
-msgstr "添加评论失败！"
+msgstr "无法添加评论！"
 
 #: weblate/trans/views/edit.py:791
 msgid "Comment has been deleted."
@@ -13561,10 +13482,9 @@ msgid "New string has been added."
 msgstr "已添加新字符串。"
 
 #: weblate/trans/views/edit.py:1005
-#, fuzzy, python-format
-#| msgid "Failed to remove the string: %s"
+#, python-format
 msgid "Could not remove the string: %s"
-msgstr "未能删除字符串：%s"
+msgstr "无法删除字符串：%s"
 
 #: weblate/trans/views/error.py:22
 msgid "Bad Request"
@@ -13599,10 +13519,8 @@ msgid "File upload has failed: %s"
 msgstr "文件上传失败：%s"
 
 #: weblate/trans/views/git.py:28
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation is in progress."
 msgid "Could not lock the repository, another operation is in progress."
-msgstr "锁定失败，正执行其他操作。"
+msgstr "无法锁定仓库，正进行另一个操作。"
 
 #: weblate/trans/views/git.py:50
 msgid "All repositories were updated."
@@ -13721,10 +13639,8 @@ msgid "Backup scheduled. It will be available soon."
 msgstr "已计划备份。它将很快可用。"
 
 #: weblate/trans/views/source.py:58
-#, fuzzy
-#| msgid "Failed to change additional string info!"
 msgid "Could not change additional string info!"
-msgstr "更改附加字符串信息失败！"
+msgstr "无法更改附加字符串信息！"
 
 #: weblate/trans/widgets.py:215
 msgid "Big status badge"
@@ -13871,10 +13787,8 @@ msgid "Undefined variable: \"%s\""
 msgstr "未定义的变量：“%s”"
 
 #: weblate/utils/render.py:121
-#, fuzzy
-#| msgid "Failed to render template: {}"
 msgid "Could not render template: {}"
-msgstr "渲染模版失败：{}"
+msgstr "无法渲染模版：{}"
 
 #: weblate/utils/render.py:166
 msgid ""
@@ -14126,10 +14040,9 @@ msgid "[hostname hashed]"
 msgstr "[主机哈希加密]"
 
 #: weblate/vcs/ssh.py:167
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Could not generate key: %s"
-msgstr "生成密钥失败：%s"
+msgstr "无法生成密钥：%s"
 
 #: weblate/vcs/ssh.py:175
 msgid "Created new SSH key."
@@ -14149,16 +14062,13 @@ msgstr ""
 "正确。"
 
 #: weblate/vcs/ssh.py:226
-#, fuzzy
-#| msgid "Failed to fetch public key for a host!"
 msgid "Could not fetch public key for a host!"
-msgstr "获取一个主机的公钥失败！"
+msgstr "无法获取主机的公钥！"
 
 #: weblate/vcs/ssh.py:231 weblate/vcs/ssh.py:234
-#, fuzzy, python-format
-#| msgid "Failed to get host key: %s"
+#, python-format
 msgid "Could not get host key: %s"
-msgstr "获取主机密钥失败：%s"
+msgstr "无法获取主机密钥：%s"
 
 #: weblate/wladmin/forms.py:15
 msgid "Activation token"
