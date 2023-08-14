@@ -1,13 +1,13 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+# Heimen Stoffels <vistausss@fastmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-06-16 11:20+0000\n"
+"PO-Revision-Date: 2023-08-14 10:45+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18.1-dev\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -401,7 +401,7 @@ msgstr "Uitgenodigd voor {site_title} door {username}."
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "De uitnodiging van {username} is aanvaard."
 
 #: weblate/accounts/models.py:160
 msgid "Started trial period."
@@ -787,10 +787,8 @@ msgstr "Opmerking op eigen vertaling"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:605
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edited string"
-msgstr "Brontekenreeks aanpassen"
+msgstr "Bewerkte brontekenreeks"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:614
@@ -1516,8 +1514,7 @@ msgstr ""
 "moeten worden doorzocht op vertaalbare tekenreeksen."
 
 #: weblate/addons/forms.py:507
-#, fuzzy, python-format
-#| msgid "Failed to parse CSS selector: %s"
+#, python-format
 msgid "Could not parse CSS selector: %s"
 msgstr "Het verwerken van de css-selectie is mislukt: %s"
 
@@ -2261,10 +2258,8 @@ msgid "User invitation e-mail was sent."
 msgstr "De uitnodigingsmail is verzonden."
 
 #: weblate/auth/forms.py:123
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot change this on a built-in team."
-msgstr "%s mag niet worden aangepast omdat het een meegeleverd team betreft."
+msgstr "Het aanpassen bĳ een meegeleverd team is niet mogelĳk."
 
 #: weblate/auth/models.py:68
 #, python-format
@@ -2554,22 +2549,17 @@ msgid "File format does not support this."
 msgstr "Het bestandsformaat ondersteunt dit niet."
 
 #: weblate/auth/views.py:115
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot remove built-in team!"
-msgstr "%s mag niet worden aangepast omdat het een meegeleverd team betreft."
+msgstr "Meegeleverde teams kunnen niet worden verwĳderd!"
 
 #: weblate/auth/views.py:189
-#, fuzzy
-#| msgid "User invitation e-mail was sent."
 msgid "User invitation was removed."
-msgstr "De uitnodigingsmail is verzonden."
+msgstr "De uitnodiging is ingetrokken."
 
 #: weblate/auth/views.py:213
-#, fuzzy, python-format
-#| msgid "Resend e-mail invitation to the user"
+#, python-format
 msgid "Accepted invitation to the %s team."
-msgstr "E-mailuitnodiging opnieuw versturen aan gebruiker"
+msgstr "De uitnodiging van het %s-team is aanvaard."
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2702,14 +2692,10 @@ msgid "AngularJS interpolation strings do not match source"
 msgstr "De AngularJS-interpolatietekenreeksen komen niet overeen met de bron"
 
 #: weblate/checks/base.py:287
-#, fuzzy
-#| msgid "Following format strings are missing: {}"
 msgid "The following format strings are missing: {}"
 msgstr "De volgende notatietekenreeksen ontbreken: {}"
 
 #: weblate/checks/base.py:292
-#, fuzzy
-#| msgid "Following format strings are extra: {}"
 msgid "The following format strings are extra: {}"
 msgstr "De volgende notatietekenreeksen zijn een aanvulling: {}"
 
@@ -2956,10 +2942,8 @@ msgid "Strict unchanged check"
 msgstr "Strenge ongewijzigde controle"
 
 #: weblate/checks/flags.py:45
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strict format string checks"
-msgstr "Tekenreeksen met mislukte controles"
+msgstr "Tekenreeksen met strikte opmaakcontroles"
 
 #: weblate/checks/flags.py:46 weblate/glossary/forms.py:35
 msgid "Forbidden translation"
@@ -3013,10 +2997,8 @@ msgid "String variant"
 msgstr "Tekenreeksvariant"
 
 #: weblate/checks/flags.py:72
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent type"
-msgstr "Fluent-bestand"
+msgstr "Fluent-type"
 
 #: weblate/checks/flags.py:261
 #, python-format
@@ -3044,6 +3026,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"De Fluent-verwĳzing in ‘{sequence}’ kan worden uitgebreid naar een html-tag. "
+"U kunt hiervoor ‘{suggestion}’ gebruiken."
 
 #: weblate/checks/fluent/inner_html.py:143
 #, python-brace-format
@@ -3051,6 +3035,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"De Fluent-verwĳzing in ‘{sequence}’ kan worden uitgebreid naar een html-"
+"tekenverwĳzing. U kunt hiervoor ‘{suggestion}’ gebruiken."
 
 #: weblate/checks/fluent/inner_html.py:171
 #, python-brace-format
@@ -3058,6 +3044,9 @@ msgid ""
 "The sequence {sequence} begins a HTML closing tag, but the name or syntax is "
 "not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"De reeks in ‘{sequence}’ begint met een html-sluittag, maar de naam of "
+"syntaxis is ongeldig. Als u geen sluittag wilt gebruiken, maak dan gebruik "
+"van ‘{suggestion}’."
 
 #: weblate/checks/fluent/inner_html.py:184
 #, python-brace-format
@@ -3065,6 +3054,9 @@ msgid ""
 "The sequence {sequence} begins a HTML tag, but the name is not valid. If you "
 "do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"De reeks in ‘{sequence}’ begint met een html-tag, maar de naam of syntaxis "
+"is ongeldig. Als u geen html-tag wilt gebruiken, maak dan gebruik van "
+"‘{suggestion}’."
 
 #: weblate/checks/fluent/inner_html.py:197
 #, python-brace-format
@@ -3072,12 +3064,17 @@ msgid ""
 "The sequence {sequence} begins a HTML tag, but the tag is never closed by "
 "{close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"De reeks in ‘{sequence}’ begint met een html-tag, maar is niet afgesloten "
+"door middel van ‘{close}’. Als u geen html-tag wilt gebruiken, maak dan "
+"gebruik van ‘{suggestion}’."
 
 #: weblate/checks/fluent/inner_html.py:211
 #, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"De interne Fluent-html mag niet ‘{sequence}’ bevatten. U kunt ‘{suggestion}’ "
+"gebruiken."
 
 #: weblate/checks/fluent/inner_html.py:227
 #, python-brace-format
@@ -3086,11 +3083,14 @@ msgid ""
 "not a valid attribute with a value. If you do not want to begin a HTML tag, "
 "use {suggestion}."
 msgstr ""
+"De reeks in ‘{sequence}’ begint met een html-tag, maar het reeksattribuut "
+"‘{attribute}’ is geen geldig attribuut. Als u geen html-tag wilt gebruiken, "
+"maak dan gebruik van ‘{suggestion}’."
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "De html-attribuutnaam ‘{name}’ van de {tag}-tag is ongeldig."
 
 #: weblate/checks/fluent/inner_html.py:260
 #, python-brace-format
@@ -3098,21 +3098,23 @@ msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
 msgstr ""
+"Het html-attribuut ‘{name}’ met waarde ‘{value}’ van de {tag}-tag is geen "
+"geldige waarde."
 
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "Het html-attribuut ‘{name}’ komt twee keer voor in de {tag}-tag."
 
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "Niet-overeenkomende html-sluittag: {tag}."
 
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr ""
+msgstr "Het html-element ‘{name}’ mag geen sluittag bevatten: {end}."
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
@@ -3120,11 +3122,13 @@ msgid ""
 "The HTML {name} element is not a known void element, so should not have a "
 "self-closing tag: {self_close}."
 msgstr ""
+"Het html-element ‘{name}’ is onbekend als leeg element, dus mag geen "
+"zelfsluitende tag bevatten: {self_close}."
 
 #: weblate/checks/fluent/inner_html.py:325
 #, python-brace-format
 msgid "The HTML {tag} tag has is missing a matching end tag: {end}."
-msgstr ""
+msgstr "De html-tag ‘{tag}’ bevat geen sluittag: {end}."
 
 #: weblate/checks/fluent/inner_html.py:341
 #, python-brace-format
@@ -3133,24 +3137,27 @@ msgid ""
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
+"De reeks in ‘{sequence}’ begint met een html-tekenverwĳzing, maar eindigt "
+"niet op een {semicolon}. Als u geen verwĳzing wilt gebruiken, maak dan "
+"gebruik van ‘{suggestion}’."
 
 #: weblate/checks/fluent/inner_html.py:359
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
-msgstr ""
+msgstr "De reeks ‘{sequence}’ is geen geldige html-tekenverwĳzing."
 
 #: weblate/checks/fluent/inner_html.py:941
 msgid "Fluent source inner HTML"
-msgstr ""
+msgstr "Fluent interne html"
 
 #: weblate/checks/fluent/inner_html.py:942
 msgid "Fluent source should be valid inner HTML"
-msgstr ""
+msgstr "De Fluent-broncode dient geldige interne html te bevatten"
 
 #: weblate/checks/fluent/inner_html.py:1013
 #, python-brace-format
 msgid "Fluent value is missing a HTML {tag} tag."
-msgstr ""
+msgstr "De Fluent-waarde bevat geen html-tag ‘{tag}’."
 
 #: weblate/checks/fluent/inner_html.py:1018
 #, python-brace-format
