@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-08-13 02:08+0000\n"
+"PO-Revision-Date: 2023-08-14 08:20+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -2998,7 +2998,7 @@ msgstr "Вариант на низа"
 
 #: weblate/checks/flags.py:72
 msgid "Fluent type"
-msgstr "Променлив тип"
+msgstr "Тип на Fluent"
 
 #: weblate/checks/flags.py:261
 #, python-format
@@ -3026,7 +3026,7 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
-"Променливата препратка в {sequence} може да се разгъне до елемент от HTML. "
+"Препратката на Fluent в {sequence} може да се разгъне до елемент от HTML. "
 "Може би е по-добре да използвате {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:143
@@ -3035,7 +3035,7 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
-"Променливата препратка в {sequence} може да се разгъне до знакова препратка "
+"Препратката на Fluent в {sequence} може да се разгъне до знакова препратка "
 "от HTML. Може би е по-добре да използвате {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:171
@@ -3073,8 +3073,8 @@ msgstr ""
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
-"Променливият вътрешен HTML не бива да включва {sequence}. Може би е по-добре "
-"да използвате {suggestion}."
+"Вътрешен HTML на Fluent не бива да включва {sequence}. Може би е по-добре да "
+"използвате {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:227
 #, python-brace-format
@@ -3137,11 +3137,14 @@ msgid ""
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
+"Последователността {sequence} ще започне знакова препратка от HTML, но не "
+"завършва с {semicolon}. Ако не искате знакова препратка, използвайте "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:359
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
-msgstr ""
+msgstr "Последователността {sequence} не е правилна знакова препратка от HTML."
 
 #: weblate/checks/fluent/inner_html.py:941
 msgid "Fluent source inner HTML"
@@ -3197,10 +3200,8 @@ msgid ""
 msgstr ""
 
 #: weblate/checks/fluent/inner_html.py:1216
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation inner HTML"
-msgstr "Текущ превод"
+msgstr "Вътрешен HTML на превода на Fluent"
 
 #: weblate/checks/fluent/inner_html.py:1217
 msgid "Fluent target should be valid inner HTML that matches"
@@ -3208,31 +3209,29 @@ msgstr ""
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
-msgstr ""
+msgstr "Стойността на Fluent е празна."
 
 #: weblate/checks/fluent/parts.py:65
 msgid "Fluent value should be empty."
-msgstr ""
+msgstr "Стойността на Fluent трябва да бъде празна."
 
 #: weblate/checks/fluent/parts.py:71
 #, python-brace-format
 msgid "Missing Fluent attribute: {hint}"
-msgstr ""
+msgstr "Липсващ атрибут на Fluent: {hint}"
 
 #: weblate/checks/fluent/parts.py:80
 #, python-brace-format
 msgid "Unexpected Fluent attribute: {hint}"
-msgstr ""
+msgstr "Неочакван атрибут на Fluent: {hint}"
 
 #: weblate/checks/fluent/parts.py:112
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent parts"
-msgstr "Файл на Fluent"
+msgstr "Части на Fluent"
 
 #: weblate/checks/fluent/parts.py:113
 msgid "Fluent parts should match"
-msgstr ""
+msgstr "Частите на Fluent трябва да съвпадат"
 
 #: weblate/checks/fluent/references.py:373
 #, python-brace-format
@@ -3320,6 +3319,8 @@ msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of Fluent references."
 msgstr ""
+"Преведената стойност на Fluent няма съответстващ вариант в оригинала със "
+"същия набор от препратки на Fluent."
 
 #: weblate/checks/fluent/references.py:576
 #, python-brace-format
@@ -3328,49 +3329,42 @@ msgid ""
 "variant in the original with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"Следните варианти в преведената стойност на Fluent нямат съответстващ "
+"вариант в оригинала със същия набор от препратки на Fluent: {variant_list}."
 
 #: weblate/checks/fluent/references.py:670
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "Предпочитания"
+msgstr "Препратки на Fluent"
 
 #: weblate/checks/fluent/references.py:671
 msgid "Fluent references should match"
-msgstr ""
+msgstr "Препратките на Fluent трябва да съвпадат"
 
 #: weblate/checks/fluent/syntax.py:39
 #, python-brace-format
 msgid "Fluent syntax error: {error}."
-msgstr ""
+msgstr "Грешка в синтаксиса на Fluent: {error}."
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "Попълване с оригиналния текст"
+msgstr "Синтаксис на оригинала на Fluent"
 
 #: weblate/checks/fluent/syntax.py:48
 msgid "Fluent syntax error in source"
-msgstr ""
+msgstr "Грешка в синтаксиса на оригинала на Fluent"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation syntax"
-msgstr "Текущ превод"
+msgstr "Синтаксис на превода на Fluent"
 
 #: weblate/checks/fluent/syntax.py:65
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in translation"
-msgstr "Коментар по собствен превод"
+msgstr "Грешка в синтаксиса на превода на Fluent"
 
 #: weblate/checks/format.py:400
-#, fuzzy, python-format
-#| msgid "Following format strings are wrongly ordered: %s"
+#, python-format
 msgid "The following format strings are in the wrong order: %s"
-msgstr "Следните низове за форматиране са подредени грешно: %s"
+msgstr "Следните низове за форматиране са в грешен ред: %s"
 
 #: weblate/checks/format.py:482
 msgid "Python format"
@@ -3848,8 +3842,6 @@ msgid "Font group deleted."
 msgstr "Групата от шрифтове е изтрита."
 
 #: weblate/formats/base.py:336
-#, fuzzy
-#| msgid "Failed to load strings from the file, try choosing other format."
 msgid "Could not load strings from the file, try choosing other format."
 msgstr ""
 "Низовете не могат да бъдат заредени от файла. Опитайте да изберете друг "
@@ -3860,10 +3852,8 @@ msgid "HTML file"
 msgstr "Файл HTML"
 
 #: weblate/formats/convert.py:294
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown file"
-msgstr "Текст с форматиране на Markdown"
+msgstr "Файл с форматиране на Markdown"
 
 #: weblate/formats/convert.py:327
 msgid "OpenDocument file"
@@ -3954,22 +3944,16 @@ msgid "Qt Linguist translation file"
 msgstr "Файл за превод на Qt Linguist"
 
 #: weblate/formats/ttkit.py:1205
-#, fuzzy
-#| msgid "XLIFF translation file"
 msgid "XLIFF 1.2 translation file"
-msgstr "Файл за превод XLIFF"
+msgstr "Файл за превод XLIFF 1.2"
 
 #: weblate/formats/ttkit.py:1235
-#, fuzzy
-#| msgid "XLIFF with placeables support"
 msgid "XLIFF 1.2 with placeables support"
-msgstr "XLIFF с поддръжка на замествания"
+msgstr "XLIFF 1.2 с поддръжка на замествания"
 
 #: weblate/formats/ttkit.py:1242
-#, fuzzy
-#| msgid "XLIFF 1.1 with gettext extensions"
 msgid "XLIFF 1.2 with gettext extensions"
-msgstr "XLIFF 1.1 с разширения на gettext"
+msgstr "XLIFF 1.2 с разширения на gettext"
 
 #: weblate/formats/ttkit.py:1272
 msgid "iOS strings (UTF-16)"
@@ -4016,10 +4000,9 @@ msgid ".NET resource file"
 msgstr "Ресурсен файл на .NET"
 
 #: weblate/formats/ttkit.py:1405
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Could not parse the key: %s"
-msgstr "Неуспешно анализиране на ключ: %s"
+msgstr "Ключът не може да бъде анализиран: %s"
 
 #: weblate/formats/ttkit.py:1409
 msgid "JSON file"
@@ -4399,7 +4382,7 @@ msgstr "Формула за множествено число на gettext"
 
 #: weblate/lang/models.py:769
 msgid "CLDR plural with zero"
-msgstr ""
+msgstr "Множествено число на CLDR, с нула"
 
 #: weblate/lang/models.py:770
 msgid "CLDR v38+ plural"
@@ -4575,14 +4558,12 @@ msgid "Overview"
 msgstr "Общ преглед"
 
 #: weblate/machinery/base.py:96
-#, fuzzy, python-format
-#| msgid "Failed to fetch supported languages: %s"
+#, python-format
 msgid "Could not fetch supported languages: %s"
 msgstr "Неуспешно получаване на поддържаните езици: %s"
 
 #: weblate/machinery/base.py:101
-#, fuzzy, python-format
-#| msgid "Failed to fetch translation: %s"
+#, python-format
 msgid "Could not fetch translation: %s"
 msgstr "Неуспешно получаване на превода: %s"
 
@@ -4687,8 +4668,7 @@ msgid "Google Translate location"
 msgstr "Местоположение на Гугъл Преводач"
 
 #: weblate/machinery/forms.py:192
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON: %s"
+#, python-format
 msgid "Could not parse JSON: %s"
 msgstr "Неуспешен анализ на JSON: %s"
 
@@ -4732,14 +4712,11 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "В качения файл няма валидни записи!"
 
 #: weblate/memory/models.py:116 weblate/memory/models.py:121
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: %s"
+#, python-format
 msgid "Could not parse JSON file: %s"
 msgstr "Неуспешен анализ на файла JSON: %s"
 
 #: weblate/memory/models.py:150
-#, fuzzy
-#| msgid "Failed to parse TMX file!"
 msgid "Could not parse TMX file!"
 msgstr "Неуспешен анализ на файла TMX!"
 
@@ -4748,8 +4725,7 @@ msgid "Source language not defined in the TMX file!"
 msgstr "Във файла TMX няма дефиниран изходен език!"
 
 #: weblate/memory/models.py:163 weblate/memory/models.py:180
-#, fuzzy, python-format
-#| msgid "Failed to find language %s!"
+#, python-format
 msgid "Could not find language %s!"
 msgstr "Не е намерен езикът „%s“!"
 
@@ -4876,11 +4852,8 @@ msgid "Image"
 msgstr "Изображение"
 
 #: weblate/screenshots/models.py:58
-#, fuzzy
-#| msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
 msgid "Upload image up to 2000x2000 pixels."
-msgstr ""
-"Качете изображение във формат JPEG или PNG, не повече от 2000x2000 пиксела."
+msgstr "Качете изображение с размер не повече от 2000x2000 пиксела."
 
 #: weblate/screenshots/views.py:241
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
@@ -4888,12 +4861,9 @@ msgstr ""
 "Снимката на екрана е качена. Вече можете да свържете изходни низове към нея."
 
 #: weblate/screenshots/views.py:247
-#, fuzzy
-#| msgid "Failed to upload screenshot, please fix errors below."
 msgid "Could not upload screenshot, please fix errors below."
 msgstr ""
-"Снимката на екрана не може да бъде качена. Поправете грешките, описани по-"
-"долу."
+"Екранната снимка не може да бъде качена. Поправете грешките, описани по-долу."
 
 #: weblate/screenshots/views.py:302
 #, python-format
@@ -5566,10 +5536,8 @@ msgstr "Екип"
 
 #: weblate/templates/accounts/profile.html:253
 #: weblate/templates/trans/project-access.html:95
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitation"
-msgstr "Повторно изпращане на поканата"
+msgstr "Чакаща покана"
 
 #: weblate/templates/accounts/profile.html:279
 msgid "Description"
@@ -5622,10 +5590,8 @@ msgstr "Личен ключ за ППИ:"
 #: weblate/templates/accounts/profile.html:327 weblate/templates/data.html:83
 #: weblate/templates/data.html:127
 #: weblate/templates/trans/project-access.html:327
-#, fuzzy
-#| msgid "Changed visibility"
 msgid "Toggle API key visibility"
-msgstr "Променена видимост"
+msgstr "Превключване на видимостта на ключа за ППИ"
 
 #: weblate/templates/accounts/profile.html:328
 #: weblate/templates/trans/project-access.html:328
@@ -5692,13 +5658,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "Пренасочваме Ви към доставчика на услугата за удостоверяване."
 
 #: weblate/templates/accounts/register.html:20
-#, fuzzy
-#| msgid ""
-#| "Please enter the activation token obtained when making the subscription."
 msgid "Please complete the registration to accept the invitation."
-msgstr ""
-"Въведете идентификатора за активация, който сте получили при оформянето на "
-"абонамента."
+msgstr "Завършете регистрацията, за да приемете поканата."
 
 #: weblate/templates/accounts/register.html:38
 msgid "Register in Weblate"
@@ -6330,13 +6291,11 @@ msgstr "Няма посочени компоненти"
 
 #: weblate/templates/auth/teams-count.html:5
 msgid "Automatic assignment of users is configured for this team"
-msgstr ""
+msgstr "Автоматичното назначаване на потребителите е настроено за този екип"
 
 #: weblate/templates/auth/teams-count.html:5
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic assignment"
-msgstr "Автоматични назначения"
+msgstr "Автоматично назначение"
 
 #: weblate/templates/auth/teams-roles.html:5
 msgid "Access only"
@@ -6928,7 +6887,6 @@ msgstr "Екранни снимки"
 #: weblate/templates/manage/tools.html:20 weblate/templates/project.html:85
 #: weblate/templates/project.html:224 weblate/templates/translation.html:94
 #: weblate/templates/translation.html:403
-#, fuzzy
 msgid "Post announcement"
 msgstr "Публикуван е обявление"
 
@@ -7797,11 +7755,11 @@ msgstr "Добавяне на език"
 
 #: weblate/templates/lang/plural_form.html:15
 msgid "Changing plural rules might not have a desired effect."
-msgstr ""
+msgstr "Промяната на правилата за множествено число може да няма желания ефект."
 
 #: weblate/templates/lang/plural_form.html:16
 msgid "Please see a documentation for more info."
-msgstr ""
+msgstr "Прегледайте документацията за повече информация."
 
 #: weblate/templates/language-project.html:69
 #: weblate/templates/language.html:54
@@ -8137,10 +8095,8 @@ msgid "Digest: %(notification_name)s"
 msgstr "Резюме: %(notification_name)s"
 
 #: weblate/templates/mail/invite.html:12
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "View invitation"
-msgstr "Повторно изпращане на поканата"
+msgstr "Преглед на поканата"
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -8384,10 +8340,8 @@ msgid "Confirm account removal"
 msgstr "Потвърждаване на изтриването на профила"
 
 #: weblate/templates/mail/shared-registration.html:20
-#, fuzzy
-#| msgid "Confirm registration"
 msgid "Confirm invitation"
-msgstr "Потвърждаване на регистрацията"
+msgstr "Потвърждаване на поканата"
 
 #: weblate/templates/mail/shared-registration.html:22
 msgid "Confirm registration"
@@ -8809,10 +8763,8 @@ msgid "Add new user"
 msgstr "Добавяне на потребител"
 
 #: weblate/templates/manage/users.html:41
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitations"
-msgstr "Повторно изпращане на поканата"
+msgstr "Чакащи покани"
 
 #: weblate/templates/manage/users.html:77
 #: weblate/templates/trans/project-access.html:103
@@ -8821,17 +8773,13 @@ msgstr "Повторно изпращане на поканата"
 
 #: weblate/templates/manage/users.html:81
 #: weblate/templates/trans/project-access.html:107
-#, fuzzy
-#| msgid "Permalink copied to clipboard."
 msgid "Invitation link copied to clipboard."
-msgstr "Постоянната връзка е копирана в буфера за обмен."
+msgstr "Връзката на поканата е копирана в буфера за обмен."
 
 #: weblate/templates/manage/users.html:85
 #: weblate/templates/trans/project-access.html:111
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Remove invitation"
-msgstr "Повторно изпращане на поканата"
+msgstr "Премахване на поканата"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
