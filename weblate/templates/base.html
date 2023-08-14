@@ -186,7 +186,7 @@ var _rollbarConfig = {
             {% endif %}
             {% if languages %}
               {% for language in languages %}
-                <li><a href="{% url 'checks' path=language.get_url_path %} }}">{% blocktrans %}Failing checks in {{ language }}{% endblocktrans %}</a></li>
+                <li><a href="{% url 'checks' path=language.get_url_path %}">{% blocktrans %}Failing checks in {{ language }}{% endblocktrans %}</a></li>
               {% endfor %}
               <li role="separator" class="divider"></li>
             {% endif %}
