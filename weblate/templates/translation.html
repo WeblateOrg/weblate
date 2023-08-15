@@ -7,9 +7,8 @@
 {% load metrics %}
 
 {% block breadcrumbs %}
-<li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
-{% include "snippets/component-breadcrumb.html" with object=object.component %}
-{% include "snippets/translation-breadcrumb.html" %}
+{% path_object_breadcrumbs path_object %}
+
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
 <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
 </a>

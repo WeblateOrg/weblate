@@ -141,6 +141,7 @@ def show_engage(request, path):
         {
             "allow_index": True,
             "object": obj,
+            "path_object": obj,
             "project": project,
             "full_stats": obj.stats,
             "languages": stats_obj.languages,
@@ -211,6 +212,7 @@ def show_project(request, obj):
         {
             "allow_index": True,
             "object": obj,
+            "path_object": obj,
             "project": obj,
             "last_changes": last_changes,
             "last_announcements": last_announcements,
@@ -272,6 +274,7 @@ def show_component(request, obj):
         {
             "allow_index": True,
             "object": obj,
+            "path_object": obj,
             "project": obj.project,
             "component": obj,
             "translations": translations,
@@ -358,6 +361,7 @@ def show_translation(request, obj):
         "translation.html",
         {
             "allow_index": True,
+            "path_object": obj,
             "object": obj,
             "project": project,
             "component": obj.component,
@@ -484,6 +488,7 @@ def new_language(request, path):
         "new-language.html",
         {
             "object": obj,
+            "path_object": obj,
             "project": obj.project,
             "component": obj,
             "form": form,
@@ -526,6 +531,7 @@ def guide(request, path):
         "guide.html",
         {
             "object": obj,
+            "path_object": obj,
             "project": obj.project,
             "component": obj,
             "guidelines": obj.guidelines,

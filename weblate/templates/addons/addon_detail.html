@@ -5,8 +5,7 @@
 {% load permissions %}
 
 {% block breadcrumbs %}
-<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
-{% include "snippets/component-breadcrumb.html" %}
+{% path_object_breadcrumbs object %}
 <li><a href="{% url 'addons' path=object.get_url_path %}">{% trans "Add-ons" %}</a></li>
 <li>
 {% if instance %}

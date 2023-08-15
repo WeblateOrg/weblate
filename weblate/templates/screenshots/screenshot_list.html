@@ -4,10 +4,10 @@
 {% load crispy_forms_tags %}
 {% load humanize %}
 {% load icons %}
+{% load translations %}
 
 {% block breadcrumbs %}
-<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
-{% include "snippets/component-breadcrumb.html" %}
+{% path_object_breadcrumbs object %}
 <li><a href="{% url 'screenshots' path=object.get_url_path %}">{% trans "Screenshots" %}</a></li>
 {% endblock %}
 
