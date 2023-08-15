@@ -632,6 +632,7 @@ def translate(request, path):  # noqa: C901
         request,
         "translate.html",
         {
+            "path_object": obj,
             "this_unit_url": this_unit_url,
             "first_unit_url": base_unit_url + "1",
             "last_unit_url": base_unit_url + str(num_results),
@@ -864,6 +865,7 @@ def zen(request, path):
         "zen.html",
         {
             "object": obj,
+            "path_object": obj,
             "project": project,
             "component": obj.component
             if not isinstance(obj, ProjectLanguage)
@@ -901,6 +903,7 @@ def load_zen(request, path):
         "zen-units.html",
         {
             "object": obj,
+            "path_object": obj,
             "project": project,
             "component": obj.component
             if not isinstance(obj, ProjectLanguage)
@@ -1032,6 +1035,7 @@ def browse(request, path):
         "browse.html",
         {
             "object": obj,
+            "path_object": obj,
             "project": project,
             "component": getattr(obj, "component", None),
             "units": units,

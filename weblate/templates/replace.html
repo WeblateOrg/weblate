@@ -4,18 +4,7 @@
 {% load icons %}
 
 {% block breadcrumbs %}
-<li><a href="{{ project.get_absolute_url }}">{{ project.name }}</a></li>
-{% if component %}
-{% include "snippets/component-breadcrumb.html" with object=component %}
-{% if translation %}
-{% include "snippets/translation-breadcrumb.html" with object=translation %}
-{% endif %}
-{% elif language %}
-<li>
-  <a href="{{ language.get_absolute_url }}">{{ language }}</a>
-</li>
-
-{% endif %}
+{% path_object_breadcrumbs path_object %}
 <li>{% trans "Search and replace" %}</li>
 {% endblock %}
 

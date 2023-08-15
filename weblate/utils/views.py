@@ -219,7 +219,7 @@ def parse_path(
 def parse_path_units(request, path: list[str], types: tuple[Any]):
     obj = parse_path(request, path, types)
 
-    context = {"components": None}
+    context = {"components": None, "path_object": obj}
     if isinstance(obj, Translation):
         unit_set = obj.unit_set.all()
         context["translation"] = obj
