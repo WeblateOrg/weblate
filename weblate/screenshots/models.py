@@ -8,6 +8,7 @@ import os
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.files import File
+from django.core.files.storage import default_storage
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import m2m_changed
@@ -127,7 +128,10 @@ def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs):
         if validate_screenshot_image(component, filename):
             full_name = os.path.join(component.full_path, filename)
             with open(full_name, "rb") as f:
-                screenshot.image = File(f, name=os.path.basename(filename))
+                screenshot.image = File(
+                    f,
+                    name=default_storage.get_available_name(os.path.basename(filename)),
+                )
                 screenshot.save(update_fields=["image"])
                 component.log_info("updated screenshot from repository: %s", filename)
 
@@ -141,7 +145,12 @@ def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs):
                 screenshot = Screenshot.objects.create(
                     name=filename,
                     repository_filename=filename,
-                    image=File(f, name=os.path.basename(filename)),
+                    image=File(
+                        f,
+                        name=default_storage.get_available_name(
+                            os.path.basename(filename)
+                        ),
+                    ),
                     translation=component.source_translation,
                     user=get_anonymous(),
                 )
