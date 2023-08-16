@@ -8,6 +8,7 @@ Not yet released.
 * :doc:`/formats/markdown` support, thanks to Anders Kaplan.
 * :doc:`/formats/fluent` now has better syntax checks thanks to Henry Wilkes.
 * Inviting users now works with all authentication methods.
+* Docker container supports file backed secrets, see :ref:`docker-secrets`.
 
 **Improvements**
 

@@ -7,6 +7,23 @@ from __future__ import annotations
 import os
 
 
+def get_env_str(name: str, default: str | None = None, required: bool = False) -> str:
+    file_env = f"{name}_FILE"
+    if filename := os.environ.get(file_env):
+        try:
+            with open(filename) as handle:
+                result = handle.read()
+        except OSError as error:
+            raise ValueError(
+                f"Failed to open {filename} as specified by {file_env}: {error}"
+            ) from error
+    else:
+        result = os.environ.get(name, default)
+    if required and not result:
+        raise ValueError(f"{name} has to be configured!")
+    return result
+
+
 def get_env_list(name: str, default: list[str] | None = None) -> list[str]:
     """Helper to get list from environment."""
     if name not in os.environ:

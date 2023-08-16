@@ -403,6 +403,41 @@ the environment variables described below.
 If you need to define a setting not exposed through Docker environment
 variables, see :ref:`docker-custom-config`.
 
+.. _docker-secrets:
+
+Passing secrets
+~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.0
+
+Weblate container supports passing secrets as files. To utilize that, append
+``_FILE`` suffix to the environment variable and pass secret file via Docker.
+
+Related :file:`docker-compose.yml` might look like:
+
+.. code-block:: yaml
+
+   services:
+      weblate:
+         environment:
+            POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+         secrets:
+            - db_password
+      database:
+         environment:
+            POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+         secrets:
+            - db_password
+
+
+   secrets:
+      db_password:
+        file: db_password.txt
+
+.. seealso::
+
+   `How to use secrets in Docker Compose <https://docs.docker.com/compose/use-secrets/>`_
+
 Generic settings
 ~~~~~~~~~~~~~~~~
 
@@ -488,18 +523,10 @@ Generic settings
     .. seealso::
 
             :ref:`docker-admin-login`,
+            :ref:`docker-secrets`,
             :envvar:`WEBLATE_ADMIN_PASSWORD`,
-            :envvar:`WEBLATE_ADMIN_PASSWORD_FILE`,
             :envvar:`WEBLATE_ADMIN_NAME`,
             :envvar:`WEBLATE_ADMIN_EMAIL`
-
-.. envvar:: WEBLATE_ADMIN_PASSWORD_FILE
-
-    Sets the path to a file containing the password for the `admin` user.
-
-    .. seealso::
-
-            :envvar:`WEBLATE_ADMIN_PASSWORD`
 
 .. envvar:: WEBLATE_SERVER_EMAIL
 
@@ -1027,12 +1054,6 @@ LDAP
 .. envvar:: WEBLATE_AUTH_LDAP_USER_ATTR_MAP
 .. envvar:: WEBLATE_AUTH_LDAP_BIND_DN
 .. envvar:: WEBLATE_AUTH_LDAP_BIND_PASSWORD
-.. envvar:: WEBLATE_AUTH_LDAP_BIND_PASSWORD_FILE
-
-    Path to the file containing the LDAP server bind password.
-
-    .. seealso:: :envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`
-
 .. envvar:: WEBLATE_AUTH_LDAP_CONNECTION_OPTION_REFERRALS
 .. envvar:: WEBLATE_AUTH_LDAP_USER_SEARCH
 .. envvar:: WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER
@@ -1091,7 +1112,8 @@ LDAP
 
     .. seealso::
 
-        :ref:`ldap-auth`
+         :ref:`docker-secrets`,
+         :ref:`ldap-auth`
 
 GitHub
 ++++++
@@ -1281,9 +1303,9 @@ both Weblate and PostgreSQL containers.
 
     PostgreSQL password.
 
-.. envvar:: POSTGRES_PASSWORD_FILE
+    .. seealso::
 
-    Path to the file containing the PostgreSQL password. Use as an alternative to POSTGRES_PASSWORD.
+         :ref:`docker-secrets`
 
 .. envvar:: POSTGRES_USER
 
@@ -1387,11 +1409,9 @@ instance when running Weblate in Docker.
 
     The Redis server password, not used by default.
 
-.. envvar:: REDIS_PASSWORD_FILE
+    .. seealso::
 
-    Path to the file containing the Redis server password.
-
-    .. seealso:: :envvar:`REDIS_PASSWORD`
+         :ref:`docker-secrets`
 
 .. envvar:: REDIS_TLS
 
@@ -1459,13 +1479,10 @@ Example SSL configuration:
 
     E-mail authentication password.
 
-    .. seealso:: :setting:`django:EMAIL_HOST_PASSWORD`
+    .. seealso::
 
-.. envvar:: WEBLATE_EMAIL_HOST_PASSWORD_FILE
-
-    Path to the file containing the e-mail authentication password.
-
-    .. seealso:: :envvar:`WEBLATE_EMAIL_HOST_PASSWORD`
+         :ref:`docker-secrets`,
+         :setting:`django:EMAIL_HOST_PASSWORD`
 
 .. envvar:: WEBLATE_EMAIL_USE_SSL
 
