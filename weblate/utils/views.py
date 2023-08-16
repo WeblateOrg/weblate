@@ -198,7 +198,7 @@ def _parse_path(request, path: tuple[str], *, skip_acl: bool = False):
 
     unitid = path.pop(0)
 
-    if not unitid.isdigit:
+    if not unitid.isdigit():
         raise Http404(f"Invalid unit id: {unitid}")
 
     return get_object_or_404(translation.unit_set, pk=int(unitid))
