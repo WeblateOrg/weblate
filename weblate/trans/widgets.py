@@ -10,7 +10,6 @@ import cairo
 import gi
 from django.conf import settings
 from django.template.loader import render_to_string
-from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import (
     get_language,
@@ -26,7 +25,7 @@ from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import number_format
 from weblate.trans.util import sort_unicode
 from weblate.utils.site import get_site_url
-from weblate.utils.stats import GlobalStats
+from weblate.utils.stats import GlobalStats, ProjectLanguage
 from weblate.utils.views import get_percent_color
 
 gi.require_version("PangoCairo", "1.0")
@@ -411,6 +410,7 @@ class MultiLanguageWidget(SVGWidget):
                     + 10
                 ),
             )
+            project_language = ProjectLanguage(self.obj, language)
             translations.append(
                 (
                     # Language name
@@ -426,12 +426,7 @@ class MultiLanguageWidget(SVGWidget):
                     # Bar color
                     color,
                     # Row URL
-                    get_site_url(
-                        reverse(
-                            "project-language",
-                            kwargs={"lang": language.code, "project": self.obj.slug},
-                        )
-                    ),
+                    get_site_url(project_language.get_absolute_url()),
                     # Top offset for horizontal
                     10 + int((100 - percent) * 1.5),
                 )

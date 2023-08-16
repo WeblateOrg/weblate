@@ -877,10 +877,8 @@ def get_browse_url(context, obj):
     """Get translate URL based on user preference."""
     # Project listing on language page
     if "language" in context and isinstance(obj, Project):
-        return reverse(
-            "project-language",
-            kwargs={"lang": context["language"].code, "project": obj.slug},
-        )
+        project_language = ProjectLanguage(obj, context["language"])
+        return project_language.get_absolute_url()
 
     return obj.get_absolute_url()
 
@@ -1165,13 +1163,7 @@ def get_breadcrumbs(path_object):
         yield path_object.get_absolute_url(), path_object
     elif isinstance(path_object, ProjectLanguage):
         yield f"{path_object.project.get_absolute_url()}#languages", path_object.project.name
-        yield reverse(
-            "project-language",
-            kwargs={
-                "project": path_object.project.slug,
-                "lang": path_object.language.code,
-            },
-        ), path_object.language
+        yield path_object.get_absolute_url(), path_object.language
     else:
         raise TypeError(f"No breadcrumbs for {path_object}")
 

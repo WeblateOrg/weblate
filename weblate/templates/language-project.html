@@ -5,8 +5,7 @@
 {% load metrics %}
 
 {% block breadcrumbs %}
-<li><a href="{{ project.get_absolute_url }}#languages">{{ project }}</a></li>
-<li><a href="{% url 'project-language' project=project.slug lang=language.code %}">{{ language }}</a></li>
+{% path_object_breadcrumbs path_object %}
 {% endblock %}
 
 {% block content %}

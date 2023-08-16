@@ -363,7 +363,10 @@ class LanguagesViewTest(FixtureTestCase):
 
     def test_project_language(self):
         response = self.client.get(
-            reverse("project-language", kwargs={"lang": "cs", "project": "test"})
+            reverse(
+                "project-language-redirect", kwargs={"lang": "cs", "project": "test"}
+            ),
+            follow=True,
         )
         self.assertContains(response, "Czech")
         self.assertContains(response, "/projects/test/test/cs/")

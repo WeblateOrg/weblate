@@ -8,10 +8,12 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
+from django.views.generic import RedirectView
 
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
@@ -26,6 +28,7 @@ from weblate.trans.forms import (
     DownloadForm,
     ProjectDeleteForm,
     ProjectFilterForm,
+    ProjectLanguageDeleteForm,
     ProjectRenameForm,
     ReplaceForm,
     ReportsForm,
@@ -159,12 +162,72 @@ def show_engage(request, path):
 
 @never_cache
 def show(request, path):
-    obj = parse_path(request, path, (Translation, Component, Project))
+    obj = parse_path(request, path, (Translation, Component, Project, ProjectLanguage))
     if isinstance(obj, Project):
         return show_project(request, obj)
     if isinstance(obj, Component):
         return show_component(request, obj)
+    if isinstance(obj, ProjectLanguage):
+        return show_project_language(request, obj)
     return show_translation(request, obj)
+
+
+def show_project_language(request, obj):
+    language_object = obj.language
+    project_object = obj.project
+    user = request.user
+
+    last_changes = (
+        Change.objects.last_changes(user, project=project_object)
+        .filter(language=language_object)[:10]
+        .preload()
+    )
+
+    translations = list(obj.translation_set)
+
+    # Add ghost translations
+    if user.is_authenticated:
+        existing = {translation.component.slug for translation in translations}
+        for component in project_object.child_components:
+            if component.slug in existing:
+                continue
+            if component.can_add_new_language(user, fast=True):
+                translations.append(GhostTranslation(component, language_object))
+
+    return render(
+        request,
+        "language-project.html",
+        {
+            "allow_index": True,
+            "language": language_object,
+            "project": project_object,
+            "object": obj,
+            "path_object": obj,
+            "last_changes": last_changes,
+            "translations": translations,
+            "title": f"{project_object} - {language_object}",
+            "search_form": SearchForm(user, language=language_object),
+            "licenses": project_object.component_set.exclude(license="").order_by(
+                "license"
+            ),
+            "language_stats": project_object.stats.get_single_language_stats(
+                language_object
+            ),
+            "delete_form": optional_form(
+                ProjectLanguageDeleteForm, user, "translation.delete", obj, obj=obj
+            ),
+            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
+            "bulk_state_form": optional_form(
+                BulkEditForm,
+                user,
+                "translation.auto",
+                obj,
+                user=user,
+                obj=obj,
+                project=obj.project,
+            ),
+        },
+    )
 
 
 def show_project(request, obj):
@@ -537,3 +600,15 @@ def guide(request, path):
             "guidelines": obj.guidelines,
         },
     )
+
+
+class ProjectLanguageRedirectView(RedirectView):
+    permanent = True
+
+    def get_redirect_url(self, project: str, lang: str):
+        return reverse(
+            "show",
+            kwargs={
+                "path": [project, "-", lang],
+            },
+        )
