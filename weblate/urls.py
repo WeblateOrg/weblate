@@ -583,8 +583,8 @@ real_patterns = [
     ),
     path(
         "languages/<name:lang>/<name:project>/",
-        weblate.lang.views.show_project,
-        name="project-language",
+        weblate.trans.views.basic.ProjectLanguageRedirectView.as_view(),
+        name="project-language-redirect",
     ),
     # Checks browsing
     path("checks/", weblate.checks.views.CheckList.as_view(), name="checks"),

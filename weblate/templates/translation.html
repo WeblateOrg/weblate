@@ -201,7 +201,8 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Other components" %}</h4></div>
 {% include "snippets/list-objects.html" with objects=other_translations name_source="component_name" label=_("Component") %}
   <div class="panel-footer">
-    <a href="{% url 'project-language' lang=object.language.code project=object.component.project.slug %}" class="btn btn-primary">{% trans "Browse all components" %}</a>
+    {% get_projectlanguage object.component.project object.language as project_language %}
+    <a href="{{ project_language.get_absolute_url }}" class="btn btn-primary">{% trans "Browse all components" %}</a>
   </div>
 </div>
 {% endif %}

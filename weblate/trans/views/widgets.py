@@ -94,6 +94,8 @@ def widgets(request, path):
 
 
 class WidgetRedirectView(RedirectView):
+    permanent = True
+
     def get_redirect_url(
         self,
         project: str,
