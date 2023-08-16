@@ -396,6 +396,9 @@ def user_remove(request):
         if confirm_form.is_valid():
             store_userid(request, remove=True)
             request.GET = {"email": request.user.email}
+            AuditLog.objects.create(
+                request.user, request, "removal-request", **request.GET
+            )
             return social_complete(request, "email")
     else:
         confirm_form = PasswordConfirmForm(request)
