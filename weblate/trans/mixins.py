@@ -14,22 +14,24 @@ from weblate.logger import LOGGER
 from weblate.utils.data import data_dir
 
 
-class URLMixin:
-    """Mixin for models providing standard shortcut API for few standard URLs."""
-
+class BaseURLMixin:
     def get_url_path(self):
         raise NotImplementedError
+
+    @cached_property
+    def full_slug(self):
+        return "/".join(self.get_url_path())
+
+
+class URLMixin(BaseURLMixin):
+    """Mixin for models providing standard shortcut API for few standard URLs."""
 
     def get_absolute_url(self):
         return reverse("show", kwargs={"path": self.get_url_path()})
 
 
-class LoggerMixin:
+class LoggerMixin(BaseURLMixin):
     """Mixin for models with logging."""
-
-    @cached_property
-    def full_slug(self):
-        return self.slug
 
     def log_hook(self, level, msg, *args):
         return

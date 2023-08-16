@@ -56,7 +56,7 @@ class RemovalTest(ViewTestCase):
         self.assertContains(
             response, "The slug does not match the one marked for deletion!"
         )
-        response = self.client.post(url, {"confirm": "test/cs"}, follow=True)
+        response = self.client.post(url, {"confirm": "test/-/cs"}, follow=True)
         self.assertContains(response, "A language in the project was removed.")
         self.assertEqual(Translation.objects.count(), 3)
 

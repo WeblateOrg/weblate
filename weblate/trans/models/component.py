@@ -1149,10 +1149,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin):
         regex = "".join(result)
         return re.compile(f"^{regex}$")
 
-    @cached_property
-    def full_slug(self):
-        return f"{self.project.slug}/{self.slug}"
-
     def get_url_path(self):
         return (*self.project.get_url_path(), self.slug)
 

@@ -159,12 +159,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         self._invalidate_scheduled = False
         self.update_changes = []
 
-    @cached_property
-    def full_slug(self):
-        return (
-            f"{self.component.project.slug}/{self.component.slug}/{self.language.code}"
-        )
-
     @property
     def code(self):
         return self.language.code

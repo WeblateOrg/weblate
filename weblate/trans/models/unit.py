@@ -503,17 +503,6 @@ class Unit(models.Model, LoggerMixin):
     def has_suggestion(self):
         return bool(self.suggestions)
 
-    @cached_property
-    def full_slug(self):
-        return "/".join(
-            (
-                self.translation.component.project.slug,
-                self.translation.component.slug,
-                self.translation.language.code,
-                str(self.pk),
-            )
-        )
-
     def source_unit_save(self):
         # Run checks, update state and priority if flags changed
         # or running bulk edit

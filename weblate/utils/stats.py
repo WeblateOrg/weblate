@@ -23,6 +23,7 @@ from django.utils.functional import cached_property
 from weblate.checks.models import CHECKS
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
+from weblate.trans.mixins import BaseURLMixin
 from weblate.trans.util import translation_percent
 from weblate.utils.db import conditional_sum
 from weblate.utils.state import (
@@ -737,7 +738,7 @@ class ProjectLanguageComponent:
         return self.translation_set[0].component.source_language
 
 
-class ProjectLanguage:
+class ProjectLanguage(BaseURLMixin):
     """Wrapper class used in project-language listings and stats."""
 
     remove_permission = "translation.delete"
@@ -753,10 +754,6 @@ class ProjectLanguage:
     @property
     def code(self):
         return self.language.code
-
-    @property
-    def full_slug(self):
-        return f"{self.project.slug}/{self.language.code}"
 
     @cached_property
     def stats(self):
