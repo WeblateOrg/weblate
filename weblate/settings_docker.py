@@ -16,14 +16,15 @@ from weblate.utils.environment import (
     get_env_list,
     get_env_map,
     get_env_ratelimit,
+    get_env_str,
     modify_env_list,
 )
 
 # Title of site to use
-SITE_TITLE = os.environ.get("WEBLATE_SITE_TITLE", "Weblate")
+SITE_TITLE = get_env_str("WEBLATE_SITE_TITLE", "Weblate")
 
 # Site domain
-SITE_DOMAIN = os.environ["WEBLATE_SITE_DOMAIN"]
+SITE_DOMAIN = get_env_str("WEBLATE_SITE_DOMAIN", required=True)
 
 # Whether site uses https
 ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS")
@@ -38,8 +39,8 @@ DEBUG = get_env_bool("WEBLATE_DEBUG", False)
 
 ADMINS = (
     (
-        os.environ.get("WEBLATE_ADMIN_NAME", "Weblate Admin"),
-        os.environ.get("WEBLATE_ADMIN_EMAIL", "weblate@example.com"),
+        get_env_str("WEBLATE_ADMIN_NAME", "Weblate Admin"),
+        get_env_str("WEBLATE_ADMIN_EMAIL", "weblate@example.com"),
     ),
 )
 
@@ -50,22 +51,22 @@ DATABASES = {
         # Use 'postgresql' or 'mysql'.
         "ENGINE": "django.db.backends.postgresql",
         # Database name.
-        "NAME": os.environ["POSTGRES_DATABASE"],
+        "NAME": get_env_str("POSTGRES_DATABASE", required=True),
         # Database user.
-        "USER": os.environ["POSTGRES_USER"],
+        "USER": get_env_str("POSTGRES_USER", required=True),
         # Name of role to alter to set parameters in PostgreSQL,
         # use in case role name is different than user used for authentication.
-        "ALTER_ROLE": os.environ.get(
-            "POSTGRES_ALTER_ROLE", os.environ["POSTGRES_USER"]
+        "ALTER_ROLE": get_env_str(
+            "POSTGRES_ALTER_ROLE", get_env_str("POSTGRES_USER", required=True)
         ),
         # Database password.
-        "PASSWORD": os.environ["POSTGRES_PASSWORD"],
+        "PASSWORD": get_env_str("POSTGRES_PASSWORD", required=True),
         # Set to empty string for localhost.
-        "HOST": os.environ["POSTGRES_HOST"],
+        "HOST": get_env_str("POSTGRES_HOST", required=True),
         # Set to empty string for default.
-        "PORT": os.environ["POSTGRES_PORT"],
+        "PORT": get_env_str("POSTGRES_PORT", ""),
         # Customizations for databases.
-        "OPTIONS": {"sslmode": os.environ.get("POSTGRES_SSL_MODE", "prefer")},
+        "OPTIONS": {"sslmode": get_env_str("POSTGRES_SSL_MODE", "prefer")},
         # Persistent connections
         "CONN_MAX_AGE": get_env_int("POSTGRES_CONN_MAX_AGE"),
         # Disable server-side cursors, might be needed with pgbouncer
@@ -76,14 +77,14 @@ DATABASES = {
 }
 
 # Data directory
-DATA_DIR = os.environ.get("WEBLATE_DATA_DIR", "/app/data")
-CACHE_DIR = os.environ.get("WEBLATE_CACHE_DIR", "/app/cache")
+DATA_DIR = get_env_str("WEBLATE_DATA_DIR", "/app/data")
+CACHE_DIR = get_env_str("WEBLATE_CACHE_DIR", "/app/cache")
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = os.environ.get("WEBLATE_TIME_ZONE", "UTC")
+TIME_ZONE = get_env_str("WEBLATE_TIME_ZONE", "UTC")
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -151,7 +152,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 # URL prefix to use, please see documentation for more details
-URL_PREFIX = os.environ.get("WEBLATE_URL_PREFIX", "")
+URL_PREFIX = get_env_str("WEBLATE_URL_PREFIX", "")
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 MEDIA_ROOT = os.path.join(DATA_DIR, "media")
@@ -230,7 +231,7 @@ BITBUCKETSERVER_CREDENTIALS = get_env_credentials("BITBUCKETSERVER")
 # Default pull request message.
 # Please see the documentation for more details.
 if "WEBLATE_DEFAULT_PULL_MESSAGE" in os.environ:
-    DEFAULT_PULL_MESSAGE = os.environ["WEBLATE_DEFAULT_PULL_MESSAGE"]
+    DEFAULT_PULL_MESSAGE = get_env_str("WEBLATE_DEFAULT_PULL_MESSAGE")
 
 # Authentication configuration
 AUTHENTICATION_BACKENDS = ()
@@ -242,133 +243,146 @@ if "WEBLATE_NO_EMAIL_AUTH" not in os.environ:
     AUTHENTICATION_BACKENDS += ("social_core.backends.email.EmailAuth",)
 
 # GitHub auth
-SOCIAL_AUTH_GITHUB_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_GITHUB_KEY", "")
-SOCIAL_AUTH_GITHUB_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_GITHUB_SECRET", "")
-SOCIAL_AUTH_GITHUB_SCOPE = ["user:email"]
+SOCIAL_AUTH_GITHUB_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_GITHUB_KEY")
 if SOCIAL_AUTH_GITHUB_KEY:
+    SOCIAL_AUTH_GITHUB_SCOPE = ["user:email"]
+    SOCIAL_AUTH_GITHUB_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_GITHUB_SECRET", required=True
+    )
     AUTHENTICATION_BACKENDS += ("social_core.backends.github.GithubOAuth2",)
 
 # GitHub org specific auth
-SOCIAL_AUTH_GITHUB_ORG_KEY = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_GITHUB_ORG_KEY", SOCIAL_AUTH_GITHUB_KEY
-)
-SOCIAL_AUTH_GITHUB_ORG_SECRET = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_GITHUB_ORG_SECRET", SOCIAL_AUTH_GITHUB_SECRET
-)
-SOCIAL_AUTH_GITHUB_ORG_NAME = os.environ.get("WEBLATE_SOCIAL_AUTH_GITHUB_ORG_NAME", "")
-SOCIAL_AUTH_GITHUB_ORG_SCOPE = ["user:email", "read:org"]
+SOCIAL_AUTH_GITHUB_ORG_NAME = get_env_str("WEBLATE_SOCIAL_AUTH_GITHUB_ORG_NAME")
 if SOCIAL_AUTH_GITHUB_ORG_NAME:
+    SOCIAL_AUTH_GITHUB_ORG_KEY = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_GITHUB_ORG_KEY", SOCIAL_AUTH_GITHUB_KEY, required=True
+    )
+    SOCIAL_AUTH_GITHUB_ORG_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_GITHUB_ORG_SECRET",
+        SOCIAL_AUTH_GITHUB_SECRET,
+        required=True,
+    )
+    SOCIAL_AUTH_GITHUB_ORG_SCOPE = ["user:email", "read:org"]
     AUTHENTICATION_BACKENDS += ("social_core.backends.github.GithubOrganizationOAuth2",)
 
 # GitHub team specific auth
-SOCIAL_AUTH_GITHUB_TEAM_KEY = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_GITHUB_TEAM_KEY", SOCIAL_AUTH_GITHUB_KEY
-)
-SOCIAL_AUTH_GITHUB_TEAM_SECRET = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_GITHUB_TEAM_SECRET", SOCIAL_AUTH_GITHUB_SECRET
-)
-SOCIAL_AUTH_GITHUB_TEAM_ID = os.environ.get("WEBLATE_SOCIAL_AUTH_GITHUB_TEAM_ID", "")
-SOCIAL_AUTH_GITHUB_TEAM_SCOPE = ["user:email", "read:org"]
+SOCIAL_AUTH_GITHUB_TEAM_ID = get_env_str("WEBLATE_SOCIAL_AUTH_GITHUB_TEAM_ID")
 if SOCIAL_AUTH_GITHUB_TEAM_ID:
+    SOCIAL_AUTH_GITHUB_TEAM_KEY = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_GITHUB_TEAM_KEY", SOCIAL_AUTH_GITHUB_KEY, required=True
+    )
+    SOCIAL_AUTH_GITHUB_TEAM_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_GITHUB_TEAM_SECRET",
+        SOCIAL_AUTH_GITHUB_SECRET,
+        required=True,
+    )
+    SOCIAL_AUTH_GITHUB_TEAM_SCOPE = ["user:email", "read:org"]
     AUTHENTICATION_BACKENDS += ("social_core.backends.github.GithubTeamOAuth2",)
 
 # GitHub Enterprise specific auth
-SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY", ""
-)
-SOCIAL_AUTH_GITHUB_ENTERPRISE_SECRET = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_SECRET", ""
-)
-SOCIAL_AUTH_GITHUB_ENTERPRISE_URL = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_URL", ""
-)
-SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL", ""
-)
-SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE", ""
+SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY = get_env_str(
+    "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY"
 )
 if SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY:
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_SECRET", required=True
+    )
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_URL = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_URL", required=True
+    )
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_API_URL", required=True
+    )
+    SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_GITHUB_ENTERPRISE_SCOPE", required=True
+    )
     AUTHENTICATION_BACKENDS += (
         "social_core.backends.github_enterprise.GithubEnterpriseOAuth2",
     )
 
 
-SOCIAL_AUTH_BITBUCKET_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_BITBUCKET_KEY", "")
-SOCIAL_AUTH_BITBUCKET_SECRET = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_BITBUCKET_SECRET", ""
-)
-SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
+SOCIAL_AUTH_BITBUCKET_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_BITBUCKET_KEY")
 if SOCIAL_AUTH_BITBUCKET_KEY:
+    SOCIAL_AUTH_BITBUCKET_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_BITBUCKET_SECRET", required=True
+    )
+    SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
     AUTHENTICATION_BACKENDS += ("social_core.backends.bitbucket.BitbucketOAuth",)
 
-SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY", ""
+SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY = get_env_str(
+    "WEBLATE_SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY"
 )
-SOCIAL_AUTH_BITBUCKET_OAUTH2_SECRET = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_BITBUCKET_OAUTH2_SECRET", ""
-)
-SOCIAL_AUTH_BITBUCKET_OAUTH2_VERIFIED_EMAILS_ONLY = True
 if SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY:
+    SOCIAL_AUTH_BITBUCKET_OAUTH2_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_BITBUCKET_OAUTH2_SECRET", required=True
+    )
+    SOCIAL_AUTH_BITBUCKET_OAUTH2_VERIFIED_EMAILS_ONLY = True
     AUTHENTICATION_BACKENDS += ("social_core.backends.bitbucket.BitbucketOAuth2",)
 
 
-SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_FACEBOOK_KEY", "")
-SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_FACEBOOK_SECRET", "")
-SOCIAL_AUTH_FACEBOOK_SCOPE = ["email", "public_profile"]
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {"fields": "id,name,email"}
+SOCIAL_AUTH_FACEBOOK_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_FACEBOOK_KEY")
 if SOCIAL_AUTH_FACEBOOK_KEY:
+    SOCIAL_AUTH_FACEBOOK_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_FACEBOOK_SECRET", required=True
+    )
+    SOCIAL_AUTH_FACEBOOK_SCOPE = ["email", "public_profile"]
+    SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {"fields": "id,name,email"}
     AUTHENTICATION_BACKENDS += ("social_core.backends.facebook.FacebookOAuth2",)
 
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY", ""
-)
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET", ""
-)
-SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = get_env_list(
-    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS"
-)
-SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS = get_env_list(
-    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS"
-)
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
 if SOCIAL_AUTH_GOOGLE_OAUTH2_KEY:
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET", required=True
+    )
+    SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = get_env_list(
+        "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS"
+    )
+    SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS = get_env_list(
+        "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS"
+    )
     AUTHENTICATION_BACKENDS += ("social_core.backends.google.GoogleOAuth2",)
 
 
-SOCIAL_AUTH_MUSICBRAINZ_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_MUSICBRAINZ_KEY", "")
-SOCIAL_AUTH_MUSICBRAINZ_SECRET = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_MUSICBRAINZ_SECRET", ""
-)
-if SOCIAL_AUTH_MUSICBRAINZ_KEY and SOCIAL_AUTH_MUSICBRAINZ_SECRET:
+SOCIAL_AUTH_MUSICBRAINZ_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_MUSICBRAINZ_KEY")
+if SOCIAL_AUTH_MUSICBRAINZ_KEY:
+    SOCIAL_AUTH_MUSICBRAINZ_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_MUSICBRAINZ_SECRET", required=True
+    )
     AUTHENTICATION_BACKENDS += ("social_core.backends.musicbrainz.MusicBrainzOAuth2",)
 
 
-SOCIAL_AUTH_GITLAB_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_GITLAB_KEY", "")
-SOCIAL_AUTH_GITLAB_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_GITLAB_SECRET", "")
-SOCIAL_AUTH_GITLAB_SCOPE = ["read_user"]
-if "WEBLATE_SOCIAL_AUTH_GITLAB_API_URL" in os.environ:
-    SOCIAL_AUTH_GITLAB_API_URL = os.environ.get("WEBLATE_SOCIAL_AUTH_GITLAB_API_URL")
+SOCIAL_AUTH_GITLAB_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_GITLAB_KEY")
 if SOCIAL_AUTH_GITLAB_KEY:
+    SOCIAL_AUTH_GITLAB_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_GITLAB_SECRET", required=True
+    )
+    SOCIAL_AUTH_GITLAB_SCOPE = ["read_user"]
+    if "WEBLATE_SOCIAL_AUTH_GITLAB_API_URL" in os.environ:
+        SOCIAL_AUTH_GITLAB_API_URL = get_env_str("WEBLATE_SOCIAL_AUTH_GITLAB_API_URL")
     AUTHENTICATION_BACKENDS += ("social_core.backends.gitlab.GitLabOAuth2",)
 
-SOCIAL_AUTH_AUTH0_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_AUTH0_KEY", "")
-SOCIAL_AUTH_AUTH0_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_AUTH0_SECRET", "")
-SOCIAL_AUTH_AUTH0_DOMAIN = os.environ.get("WEBLATE_SOCIAL_AUTH_AUTH0_DOMAIN", "")
-SOCIAL_AUTH_AUTH0_TITLE = os.environ.get("WEBLATE_SOCIAL_AUTH_AUTH0_TITLE", "")
-SOCIAL_AUTH_AUTH0_IMAGE = os.environ.get("WEBLATE_SOCIAL_AUTH_AUTH0_IMAGE", "")
-SOCIAL_AUTH_AUTH0_SCOPE = ["openid", "profile", "email"]
-if "WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS" in os.environ:
-    SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS = get_env_map(
-        "WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS"
-    )
+SOCIAL_AUTH_AUTH0_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_AUTH0_KEY")
 if SOCIAL_AUTH_AUTH0_KEY:
+    SOCIAL_AUTH_AUTH0_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_AUTH0_SECRET", required=True
+    )
+    SOCIAL_AUTH_AUTH0_DOMAIN = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_AUTH0_DOMAIN", required=True
+    )
+    SOCIAL_AUTH_AUTH0_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_AUTH0_TITLE")
+    SOCIAL_AUTH_AUTH0_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_AUTH0_IMAGE")
+    SOCIAL_AUTH_AUTH0_SCOPE = ["openid", "profile", "email"]
+    if "WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS" in os.environ:
+        SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS = get_env_map(
+            "WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS"
+        )
     AUTHENTICATION_BACKENDS += ("social_core.backends.auth0.Auth0OAuth2",)
 
 
 # SAML
-if "WEBLATE_SAML_IDP_URL" in os.environ:
+WEBLATE_SAML_IDP_URL = get_env_str("WEBLATE_SAML_IDP_URL")
+if WEBLATE_SAML_IDP_URL:
     AUTHENTICATION_BACKENDS += ("social_core.backends.saml.SAMLAuth",)
     # The keys are generated on container startup if missing
     with open("/app/data/ssl/saml.crt") as handle:
@@ -379,15 +393,13 @@ if "WEBLATE_SAML_IDP_URL" in os.environ:
     # Identity Provider
     SOCIAL_AUTH_SAML_ENABLED_IDPS = {
         "weblate": {
-            "entity_id": os.environ.get("WEBLATE_SAML_IDP_ENTITY_ID", ""),
-            "url": os.environ.get("WEBLATE_SAML_IDP_URL", ""),
-            "x509cert": os.environ.get("WEBLATE_SAML_IDP_X509CERT", ""),
-            "attr_name": os.environ.get("WEBLATE_SAML_ID_ATTR_NAME", "full_name"),
-            "attr_username": os.environ.get(
-                "WEBLATE_SAML_ID_ATTR_USERNAME", "username"
-            ),
-            "attr_email": os.environ.get("WEBLATE_SAML_ID_ATTR_EMAIL", "email"),
-            "attr_user_permanent_id": os.environ.get(
+            "entity_id": get_env_str("WEBLATE_SAML_IDP_ENTITY_ID", required=True),
+            "url": WEBLATE_SAML_IDP_URL,
+            "x509cert": get_env_str("WEBLATE_SAML_IDP_X509CERT", required=True),
+            "attr_name": get_env_str("WEBLATE_SAML_ID_ATTR_NAME", "full_name"),
+            "attr_username": get_env_str("WEBLATE_SAML_ID_ATTR_USERNAME", "username"),
+            "attr_email": get_env_str("WEBLATE_SAML_ID_ATTR_EMAIL", "email"),
+            "attr_user_permanent_id": get_env_str(
                 "WEBLATE_SAML_ID_ATTR_USER_PERMANENT_ID",
                 "urn:oid:0.9.2342.19200300.100.1.1",
             ),
@@ -404,53 +416,53 @@ if "WEBLATE_SAML_IDP_URL" in os.environ:
             "url": SITE_URL,
         }
     }
-    SOCIAL_AUTH_SAML_IMAGE = os.environ.get("WEBLATE_SAML_IDP_IMAGE", "")
-    SOCIAL_AUTH_SAML_TITLE = os.environ.get("WEBLATE_SAML_IDP_TITLE", "")
+    SOCIAL_AUTH_SAML_IMAGE = get_env_str("WEBLATE_SAML_IDP_IMAGE")
+    SOCIAL_AUTH_SAML_TITLE = get_env_str("WEBLATE_SAML_IDP_TITLE")
 
 # Azure
-SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY", ""
-)
-SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET", ""
-)
+SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY")
 if SOCIAL_AUTH_AZUREAD_OAUTH2_KEY:
+    SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET", required=True
+    )
     AUTHENTICATION_BACKENDS += ("social_core.backends.azuread.AzureADOAuth2",)
 
 # Azure AD Tenant
-SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY", ""
-)
-SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET", ""
-)
-SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID", ""
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = get_env_str(
+    "WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY"
 )
 if SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY:
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET", required=True
+    )
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID", required=True
+    )
     AUTHENTICATION_BACKENDS += (
         "social_core.backends.azuread_tenant.AzureADTenantOAuth2",
     )
 
 # Keycloak
-SOCIAL_AUTH_KEYCLOAK_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_KEYCLOAK_KEY", "")
-SOCIAL_AUTH_KEYCLOAK_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_KEYCLOAK_SECRET", "")
-SOCIAL_AUTH_KEYCLOAK_PUBLIC_KEY = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_KEYCLOAK_PUBLIC_KEY", ""
-)
-SOCIAL_AUTH_KEYCLOAK_AUTHORIZATION_URL = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_KEYCLOAK_AUTHORIZATION_URL", ""
-)
-SOCIAL_AUTH_KEYCLOAK_ALGORITHM = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ALGORITHM", "RS256"
-)
-SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL = os.environ.get(
-    "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL", ""
-)
-SOCIAL_AUTH_KEYCLOAK_IMAGE = os.environ.get("WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE", "")
-SOCIAL_AUTH_KEYCLOAK_TITLE = os.environ.get("WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE", "")
-SOCIAL_AUTH_KEYCLOAK_ID_KEY = "email"
+SOCIAL_AUTH_KEYCLOAK_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_KEY")
 if SOCIAL_AUTH_KEYCLOAK_KEY:
+    SOCIAL_AUTH_KEYCLOAK_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_SECRET", required=True
+    )
+    SOCIAL_AUTH_KEYCLOAK_PUBLIC_KEY = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_PUBLIC_KEY", required=True
+    )
+    SOCIAL_AUTH_KEYCLOAK_AUTHORIZATION_URL = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_AUTHORIZATION_URL", required=True
+    )
+    SOCIAL_AUTH_KEYCLOAK_ALGORITHM = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ALGORITHM", "RS256"
+    )
+    SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL", required=True
+    )
+    SOCIAL_AUTH_KEYCLOAK_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE")
+    SOCIAL_AUTH_KEYCLOAK_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE")
+    SOCIAL_AUTH_KEYCLOAK_ID_KEY = "email"
     AUTHENTICATION_BACKENDS += ("social_core.backends.keycloak.KeycloakOAuth2",)
 
 # Linux distros
@@ -465,66 +477,68 @@ if "WEBLATE_SOCIAL_AUTH_OPENINFRA" in os.environ:
     AUTHENTICATION_BACKENDS += ("social_core.backends.openinfra.OpenInfraOpenId",)
 
 # Slack
-SOCIAL_AUTH_SLACK_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_SLACK_KEY", "")
-SOCIAL_AUTH_SLACK_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_SLACK_SECRET", "")
+SOCIAL_AUTH_SLACK_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_SLACK_KEY")
 if SOCIAL_AUTH_SLACK_KEY:
+    SOCIAL_AUTH_SLACK_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_SLACK_SECRET", required=True
+    )
     AUTHENTICATION_BACKENDS += ("social_core.backends.slack.SlackOAuth2",)
 
 # Generic OpenID Connect
-if "WEBLATE_SOCIAL_AUTH_OIDC_OIDC_ENDPOINT" in os.environ:
+SOCIAL_AUTH_OIDC_OIDC_ENDPOINT = get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_OIDC_ENDPOINT")
+if SOCIAL_AUTH_OIDC_OIDC_ENDPOINT:
     AUTHENTICATION_BACKENDS += (
         "social_core.backends.open_id_connect.OpenIdConnectAuth",
     )
-    SOCIAL_AUTH_OIDC_OIDC_ENDPOINT = os.environ.get(
-        "WEBLATE_SOCIAL_AUTH_OIDC_OIDC_ENDPOINT", ""
+    SOCIAL_AUTH_OIDC_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_KEY", required=True)
+    SOCIAL_AUTH_OIDC_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_OIDC_SECRET", required=True
     )
-    SOCIAL_AUTH_OIDC_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_OIDC_KEY", "")
-    SOCIAL_AUTH_OIDC_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_OIDC_SECRET", "")
     if "WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY" in os.environ:
         SOCIAL_AUTH_OIDC_USERNAME_KEY = os.environ[
             "WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY"
         ]
 
 # Gitea
-SOCIAL_AUTH_GITEA_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_GITEA_KEY", "")
-SOCIAL_AUTH_GITEA_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_GITEA_SECRET", "")
-if "WEBLATE_SOCIAL_AUTH_GITEA_API_URL" in os.environ:
-    SOCIAL_AUTH_GITEA_API_URL = os.environ.get("WEBLATE_SOCIAL_AUTH_GITEA_API_URL", "")
+SOCIAL_AUTH_GITEA_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_GITEA_KEY")
 if SOCIAL_AUTH_GITEA_KEY:
+    SOCIAL_AUTH_GITEA_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_GITEA_SECRET", required=True
+    )
+    if "WEBLATE_SOCIAL_AUTH_GITEA_API_URL" in os.environ:
+        SOCIAL_AUTH_GITEA_API_URL = get_env_str("WEBLATE_SOCIAL_AUTH_GITEA_API_URL")
     AUTHENTICATION_BACKENDS += ("social_core.backends.gitea.GiteaOAuth2",)
 
 # https://docs.weblate.org/en/latest/admin/auth.html#ldap-authentication
-if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
+AUTH_LDAP_SERVER_URI = get_env_str("WEBLATE_AUTH_LDAP_SERVER_URI")
+if AUTH_LDAP_SERVER_URI:
     import ldap
     from django_auth_ldap.config import LDAPSearch, LDAPSearchUnion
 
-    AUTH_LDAP_SERVER_URI = os.environ.get("WEBLATE_AUTH_LDAP_SERVER_URI")
-    AUTH_LDAP_USER_DN_TEMPLATE = (
-        os.environ.get("WEBLATE_AUTH_LDAP_USER_DN_TEMPLATE") or None
-    )
+    AUTH_LDAP_USER_DN_TEMPLATE = get_env_str("WEBLATE_AUTH_LDAP_USER_DN_TEMPLATE")
     AUTHENTICATION_BACKENDS += ("django_auth_ldap.backend.LDAPBackend",)
     AUTH_LDAP_USER_ATTR_MAP = get_env_map(
         "WEBLATE_AUTH_LDAP_USER_ATTR_MAP", {"full_name": "name", "email": "mail"}
     )
-    AUTH_LDAP_BIND_DN = os.environ.get("WEBLATE_AUTH_LDAP_BIND_DN", "")
-    AUTH_LDAP_BIND_PASSWORD = os.environ.get("WEBLATE_AUTH_LDAP_BIND_PASSWORD", "")
+    AUTH_LDAP_BIND_DN = get_env_str("WEBLATE_AUTH_LDAP_BIND_DN")
+    AUTH_LDAP_BIND_PASSWORD = get_env_str("WEBLATE_AUTH_LDAP_BIND_PASSWORD")
 
     if "WEBLATE_AUTH_LDAP_USER_SEARCH" in os.environ:
         AUTH_LDAP_USER_SEARCH = LDAPSearch(
-            os.environ["WEBLATE_AUTH_LDAP_USER_SEARCH"],
+            get_env_str("WEBLATE_AUTH_LDAP_USER_SEARCH"),
             ldap.SCOPE_SUBTREE,
-            os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)"),
+            get_env_str("WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)"),
         )
 
     if "WEBLATE_AUTH_LDAP_USER_SEARCH_UNION" in os.environ:
-        SEARCH_FILTER = os.environ.get(
+        SEARCH_FILTER = get_env_str(
             "WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)"
         )
 
         SEARCH_UNION = [
             LDAPSearch(string, ldap.SCOPE_SUBTREE, SEARCH_FILTER)
-            for string in os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION").split(
-                os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION_DELIMITER", "|")
+            for string in get_env_str("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION").split(
+                get_env_str("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION_DELIMITER", "|")
             )
         ]
 
@@ -635,10 +649,10 @@ REGISTRATION_REBIND = get_env_bool("WEBLATE_REGISTRATION_REBIND", False)
 REGISTRATION_ALLOW_BACKENDS = get_env_list("WEBLATE_REGISTRATION_ALLOW_BACKENDS")
 
 # Email registration filter
-REGISTRATION_EMAIL_MATCH = os.environ.get("WEBLATE_REGISTRATION_EMAIL_MATCH", ".*")
+REGISTRATION_EMAIL_MATCH = get_env_str("WEBLATE_REGISTRATION_EMAIL_MATCH", ".*")
 
 if "WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE" in os.environ:
-    PRIVATE_COMMIT_EMAIL_TEMPLATE = os.environ["WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE"]
+    PRIVATE_COMMIT_EMAIL_TEMPLATE = get_env_str("WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE")
 PRIVATE_COMMIT_EMAIL_OPT_IN = get_env_bool("WEBLATE_PRIVATE_COMMIT_EMAIL_OPT_IN", True)
 
 # Shortcut for login required setting
@@ -662,12 +676,13 @@ MIDDLEWARE = [
 ]
 
 # Rollbar integration
-if "ROLLBAR_KEY" in os.environ:
+ROLLBAR_KEY = get_env_str("ROLLBAR_KEY")
+if ROLLBAR_KEY:
     MIDDLEWARE.append("rollbar.contrib.django.middleware.RollbarNotifierMiddleware")
 
     ROLLBAR = {
-        "access_token": os.environ["ROLLBAR_KEY"],
-        "environment": os.environ.get("ROLLBAR_ENVIRONMENT", "production"),
+        "access_token": ROLLBAR_KEY,
+        "environment": get_env_str("ROLLBAR_ENVIRONMENT", "production"),
         "branch": "main",
         "root": "/usr/local/lib/python3.9/dist-packages/weblate/",
         "exception_level_filters": [
@@ -741,7 +756,7 @@ DEFAULT_EXCEPTION_REPORTER_FILTER = "weblate.trans.debug.WeblateExceptionReporte
 HAVE_SYSLOG = False
 
 DEFAULT_LOG = "console" if DEBUG or not HAVE_SYSLOG else "syslog"
-DEFAULT_LOGLEVEL = os.environ.get("WEBLATE_LOGLEVEL", "DEBUG" if DEBUG else "INFO")
+DEFAULT_LOGLEVEL = get_env_str("WEBLATE_LOGLEVEL", "DEBUG" if DEBUG else "INFO")
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -809,7 +824,7 @@ LOGGING = {
         # Logging database queries
         "django.db.backends": {
             "handlers": [DEFAULT_LOG],
-            "level": os.environ.get("WEBLATE_LOGLEVEL_DATABASE", "CRITICAL"),
+            "level": get_env_str("WEBLATE_LOGLEVEL_DATABASE", "CRITICAL"),
         },
         "redis_lock": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         "weblate": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
@@ -837,39 +852,37 @@ MT_SERVICES = (
 # Machine translation API keys
 
 # URL of the Apertium APy server
-MT_APERTIUM_APY = os.environ.get("WEBLATE_MT_APERTIUM_APY")
+MT_APERTIUM_APY = get_env_str("WEBLATE_MT_APERTIUM_APY")
 if MT_APERTIUM_APY:
     MT_SERVICES += ("weblate.machinery.apertium.ApertiumAPYTranslation",)
 
 # AWS
-MT_AWS_REGION = os.environ.get("WEBLATE_MT_AWS_REGION")
-MT_AWS_ACCESS_KEY_ID = os.environ.get("WEBLATE_MT_AWS_ACCESS_KEY_ID")
-MT_AWS_SECRET_ACCESS_KEY = os.environ.get("WEBLATE_MT_AWS_SECRET_ACCESS_KEY")
+MT_AWS_REGION = get_env_str("WEBLATE_MT_AWS_REGION")
+MT_AWS_ACCESS_KEY_ID = get_env_str("WEBLATE_MT_AWS_ACCESS_KEY_ID")
+MT_AWS_SECRET_ACCESS_KEY = get_env_str("WEBLATE_MT_AWS_SECRET_ACCESS_KEY")
 if MT_AWS_ACCESS_KEY_ID:
     MT_SERVICES += ("weblate.machinery.aws.AWSTranslation",)
 
 # DeepL API key
-MT_DEEPL_KEY = os.environ.get("WEBLATE_MT_DEEPL_KEY")
-MT_DEEPL_API_URL = os.environ.get(
-    "WEBLATE_MT_DEEPL_API_URL", "https://api.deepl.com/v2/"
-)
+MT_DEEPL_KEY = get_env_str("WEBLATE_MT_DEEPL_KEY")
+MT_DEEPL_API_URL = get_env_str("WEBLATE_MT_DEEPL_API_URL", "https://api.deepl.com/v2/")
 if MT_DEEPL_KEY:
     MT_SERVICES += ("weblate.machinery.deepl.DeepLTranslation",)
 
 # LibreTranslate
-MT_LIBRETRANSLATE_KEY = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_KEY")
-MT_LIBRETRANSLATE_API_URL = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_API_URL")
+MT_LIBRETRANSLATE_KEY = get_env_str("WEBLATE_MT_LIBRETRANSLATE_KEY")
+MT_LIBRETRANSLATE_API_URL = get_env_str("WEBLATE_MT_LIBRETRANSLATE_API_URL")
 if MT_LIBRETRANSLATE_API_URL:
     MT_SERVICES += ("weblate.machinery.libretranslate.LibreTranslateTranslation",)
 
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/
-MT_MICROSOFT_COGNITIVE_KEY = os.environ.get("WEBLATE_MT_MICROSOFT_COGNITIVE_KEY")
-MT_MICROSOFT_REGION = os.environ.get("WEBLATE_MT_MICROSOFT_REGION")
-MT_MICROSOFT_ENDPOINT_URL = os.environ.get(
+MT_MICROSOFT_COGNITIVE_KEY = get_env_str("WEBLATE_MT_MICROSOFT_COGNITIVE_KEY")
+MT_MICROSOFT_REGION = get_env_str("WEBLATE_MT_MICROSOFT_REGION")
+MT_MICROSOFT_ENDPOINT_URL = get_env_str(
     "WEBLATE_MT_MICROSOFT_ENDPOINT_URL", "api.cognitive.microsoft.com"
 )
-MT_MICROSOFT_BASE_URL = os.environ.get(
+MT_MICROSOFT_BASE_URL = get_env_str(
     "WEBLATE_MT_MICROSOFT_BASE_URL", "api.cognitive.microsofttranslator.com"
 )
 
@@ -877,7 +890,7 @@ if MT_MICROSOFT_COGNITIVE_KEY:
     MT_SERVICES += ("weblate.machinery.microsoft.MicrosoftCognitiveTranslation",)
 
 # ModernMT
-MT_MODERNMT_KEY = os.environ.get("WEBLATE_MT_MODERNMT_KEY")
+MT_MODERNMT_KEY = get_env_str("WEBLATE_MT_MODERNMT_KEY")
 if MT_MODERNMT_KEY:
     MT_SERVICES += ("weblate.machinery.modernmt.ModernMTTranslation",)
 
@@ -901,24 +914,24 @@ if "WEBLATE_MT_MICROSOFT_TERMINOLOGY_ENABLED" in os.environ:
     )
 
 # Google API key for Google Translate API
-MT_GOOGLE_KEY = os.environ.get("WEBLATE_MT_GOOGLE_KEY")
+MT_GOOGLE_KEY = get_env_str("WEBLATE_MT_GOOGLE_KEY")
 
 if MT_GOOGLE_KEY:
     MT_SERVICES += ("weblate.machinery.google.GoogleTranslation",)
 
 # Google Translate API V3 (Advanced)
-MT_GOOGLE_CREDENTIALS = os.environ.get("WEBLATE_MT_GOOGLE_CREDENTIALS")
-MT_GOOGLE_PROJECT = os.environ.get("WEBLATE_MT_GOOGLE_PROJECT")
-MT_GOOGLE_LOCATION = os.environ.get("WEBLATE_MT_GOOGLE_LOCATION", "global")
+MT_GOOGLE_CREDENTIALS = get_env_str("WEBLATE_MT_GOOGLE_CREDENTIALS")
+MT_GOOGLE_PROJECT = get_env_str("WEBLATE_MT_GOOGLE_PROJECT")
+MT_GOOGLE_LOCATION = get_env_str("WEBLATE_MT_GOOGLE_LOCATION", "global")
 
 if MT_GOOGLE_CREDENTIALS and MT_GOOGLE_PROJECT:
     MT_SERVICES += ("weblate.machinery.googlev3.GoogleV3Translation",)
 
 # SAP Translation Hub
-MT_SAP_BASE_URL = os.environ.get("WEBLATE_MT_SAP_BASE_URL")
-MT_SAP_SANDBOX_APIKEY = os.environ.get("WEBLATE_MT_SAP_SANDBOX_APIKEY")
-MT_SAP_USERNAME = os.environ.get("WEBLATE_MT_SAP_USERNAME")
-MT_SAP_PASSWORD = os.environ.get("WEBLATE_MT_SAP_PASSWORD")
+MT_SAP_BASE_URL = get_env_str("WEBLATE_MT_SAP_BASE_URL")
+MT_SAP_SANDBOX_APIKEY = get_env_str("WEBLATE_MT_SAP_SANDBOX_APIKEY")
+MT_SAP_USERNAME = get_env_str("WEBLATE_MT_SAP_USERNAME")
+MT_SAP_PASSWORD = get_env_str("WEBLATE_MT_SAP_PASSWORD")
 MT_SAP_USE_MT = get_env_bool("WEBLATE_MT_SAP_USE_MT", True)
 if MT_SAP_BASE_URL:
     MT_SERVICES += ("weblate.machinery.saptranslationhub.SAPTranslationHub",)
@@ -986,7 +999,7 @@ LOGIN_REDIRECT_URL = f"{URL_PREFIX}/"
 ANONYMOUS_USER_NAME = "anonymous"
 
 # Reverse proxy settings
-IP_PROXY_HEADER = os.environ.get("WEBLATE_IP_PROXY_HEADER", "")
+IP_PROXY_HEADER = get_env_str("WEBLATE_IP_PROXY_HEADER")
 IP_BEHIND_REVERSE_PROXY = bool(IP_PROXY_HEADER)
 IP_PROXY_OFFSET = 0
 
@@ -1150,17 +1163,17 @@ WEBLATE_ADDONS = [
 modify_env_list(WEBLATE_ADDONS, "ADDONS")
 
 # E-mail address that error messages come from.
-SERVER_EMAIL = os.environ.get("WEBLATE_SERVER_EMAIL", "weblate@example.com")
+SERVER_EMAIL = get_env_str("WEBLATE_SERVER_EMAIL", "weblate@example.com")
 
 # Default email address to use for various automated correspondence from
 # the site managers. Used for registration emails.
-DEFAULT_FROM_EMAIL = os.environ.get("WEBLATE_DEFAULT_FROM_EMAIL", SERVER_EMAIL)
+DEFAULT_FROM_EMAIL = get_env_str("WEBLATE_DEFAULT_FROM_EMAIL", SERVER_EMAIL)
 
 # List of URLs your site is supposed to serve
 ALLOWED_HOSTS = get_env_list("WEBLATE_ALLOWED_HOSTS", ["*"])
 
 # Extract redis password
-REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD")
+REDIS_PASSWORD = get_env_str("REDIS_PASSWORD")
 REDIS_PROTO = "rediss" if get_env_bool("REDIS_TLS") else "redis"
 
 # Configuration for caching
@@ -1169,7 +1182,7 @@ CACHES = {
         "BACKEND": "redis_lock.django_cache.RedisCache",
         "LOCATION": "{}://{}:{}/{}".format(
             REDIS_PROTO,
-            os.environ.get("REDIS_HOST", "cache"),
+            get_env_str("REDIS_HOST", "cache", required=True),
             get_env_int("REDIS_PORT", 6379),
             get_env_int("REDIS_DB", 1),
         ),
@@ -1264,14 +1277,14 @@ LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
 modify_env_list(LOGIN_REQUIRED_URLS_EXCEPTIONS, "LOGIN_REQUIRED_URLS_EXCEPTIONS")
 
 # Email server
-EMAIL_HOST = os.environ.get("WEBLATE_EMAIL_HOST", "localhost")
-EMAIL_HOST_USER = os.environ.get(
-    "WEBLATE_EMAIL_HOST_USER", os.environ.get("WEBLATE_EMAIL_USER", "")
+EMAIL_HOST = get_env_str("WEBLATE_EMAIL_HOST", "localhost", required=True)
+EMAIL_HOST_USER = get_env_str(
+    "WEBLATE_EMAIL_HOST_USER", get_env_str("WEBLATE_EMAIL_USER")
 )
-EMAIL_HOST_PASSWORD = os.environ.get(
-    "WEBLATE_EMAIL_HOST_PASSWORD", os.environ.get("WEBLATE_EMAIL_PASSWORD", "")
+EMAIL_HOST_PASSWORD = get_env_str(
+    "WEBLATE_EMAIL_HOST_PASSWORD", get_env_str("WEBLATE_EMAIL_PASSWORD")
 )
-EMAIL_PORT = int(os.environ.get("WEBLATE_EMAIL_PORT", "25"))
+EMAIL_PORT = get_env_int("WEBLATE_EMAIL_PORT", 25)
 
 # Detect SSL/TLS setup
 if "WEBLATE_EMAIL_USE_TLS" in os.environ or "WEBLATE_EMAIL_USE_SSL" in os.environ:
@@ -1282,8 +1295,10 @@ elif EMAIL_PORT in (25, 587):
 elif EMAIL_PORT == 465:
     EMAIL_USE_SSL = True
 
-EMAIL_BACKEND = os.environ.get(
-    "WEBLATE_EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = get_env_str(
+    "WEBLATE_EMAIL_BACKEND",
+    "django.core.mail.backends.smtp.EmailBackend",
+    required=True,
 )
 
 # Silence some of the Django system checks
@@ -1303,7 +1318,7 @@ CELERY_TASK_ALWAYS_EAGER = get_env_bool("WEBLATE_CELERY_EAGER")
 CELERY_BROKER_URL = "{}://{}{}:{}/{}".format(
     REDIS_PROTO,
     f":{REDIS_PASSWORD}@" if REDIS_PASSWORD else "",
-    os.environ.get("REDIS_HOST", "cache"),
+    get_env_str("REDIS_HOST", "cache", required=True),
     get_env_int("REDIS_PORT", 6379),
     get_env_int("REDIS_DB", 1),
 )
@@ -1333,7 +1348,7 @@ CORS_ALLOWED_ORIGINS = get_env_list("WEBLATE_CORS_ALLOWED_ORIGINS")
 CORS_URLS_REGEX = r"^/api/.*$"
 
 # Database backup type
-DATABASE_BACKUP = os.environ.get("WEBLATE_DATABASE_BACKUP", "plain")
+DATABASE_BACKUP = get_env_str("WEBLATE_DATABASE_BACKUP", "plain")
 
 # Enable auto updating
 AUTO_UPDATE = get_env_bool("WEBLATE_AUTO_UPDATE")
@@ -1343,8 +1358,8 @@ UPDATE_LANGUAGES = get_env_bool("WEBLATE_UPDATE_LANGUAGES", True)
 
 # Avatars
 ENABLE_AVATARS = get_env_bool("WEBLATE_ENABLE_AVATARS", True)
-AVATAR_URL_PREFIX = os.environ.get(
-    "WEBLATE_AVATAR_URL_PREFIX", "https://www.gravatar.com/"
+AVATAR_URL_PREFIX = get_env_str(
+    "WEBLATE_AVATAR_URL_PREFIX", "https://www.gravatar.com/", required=ENABLE_AVATARS
 )
 
 # Default access control
@@ -1358,25 +1373,27 @@ DEFAULT_TRANSLATION_PROPAGATION = get_env_bool(
     "WEBLATE_DEFAULT_TRANSLATION_PROPAGATION", True
 )
 
-DEFAULT_COMMITER_EMAIL = os.environ.get(
-    "WEBLATE_DEFAULT_COMMITER_EMAIL", "noreply@weblate.org"
+DEFAULT_COMMITER_EMAIL = get_env_str(
+    "WEBLATE_DEFAULT_COMMITER_EMAIL", "noreply@weblate.org", required=True
 )
-DEFAULT_COMMITER_NAME = os.environ.get("WEBLATE_DEFAULT_COMMITER_NAME", "Weblate")
+DEFAULT_COMMITER_NAME = get_env_str(
+    "WEBLATE_DEFAULT_COMMITER_NAME", "Weblate", required=True
+)
 
 DEFAULT_AUTO_WATCH = get_env_bool("WEBLATE_DEFAULT_AUTO_WATCH", True)
 
 DEFAULT_SHARED_TM = get_env_bool("WEBLATE_DEFAULT_SHARED_TM", True)
 
-CONTACT_FORM = os.environ.get("WEBLATE_CONTACT_FORM", "reply-to")
+CONTACT_FORM = get_env_str("WEBLATE_CONTACT_FORM", "reply-to", required=True)
 ADMINS_CONTACT = get_env_list("WEBLATE_ADMINS_CONTACT")
 
-SSH_EXTRA_ARGS = os.environ.get("WEBLATE_SSH_EXTRA_ARGS", "")
+SSH_EXTRA_ARGS = get_env_str("WEBLATE_SSH_EXTRA_ARGS", "")
 
 BORG_EXTRA_ARGS = get_env_list("WEBLATE_BORG_EXTRA_ARGS")
 
 ENABLE_SHARING = get_env_bool("WEBLATE_ENABLE_SHARING")
 
-EXTRA_HTML_HEAD = os.environ.get("WEBLATE_EXTRA_HTML_HEAD", "")
+EXTRA_HTML_HEAD = get_env_str("WEBLATE_EXTRA_HTML_HEAD", "")
 
 UNUSED_ALERT_DAYS = get_env_int("WEBLATE_UNUSED_ALERT_DAYS", 365)
 
@@ -1388,29 +1405,29 @@ for name in os.environ:
         locals()[name[8:]] = get_env_int(name)
 
 # PGP commits signing
-WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY")
+WEBLATE_GPG_IDENTITY = get_env_str("WEBLATE_GPG_IDENTITY")
 
 # Localize CDN addon
-LOCALIZE_CDN_URL = os.environ.get("WEBLATE_LOCALIZE_CDN_URL")
-LOCALIZE_CDN_PATH = os.environ.get("WEBLATE_LOCALIZE_CDN_PATH")
+LOCALIZE_CDN_URL = get_env_str("WEBLATE_LOCALIZE_CDN_URL")
+LOCALIZE_CDN_PATH = get_env_str("WEBLATE_LOCALIZE_CDN_PATH")
 
 # Integration links
-GET_HELP_URL = os.environ.get("WEBLATE_GET_HELP_URL")
-STATUS_URL = os.environ.get("WEBLATE_STATUS_URL")
-LEGAL_URL = os.environ.get("WEBLATE_LEGAL_URL")
-PRIVACY_URL = os.environ.get("WEBLATE_PRIVACY_URL")
+GET_HELP_URL = get_env_str("WEBLATE_GET_HELP_URL")
+STATUS_URL = get_env_str("WEBLATE_STATUS_URL")
+LEGAL_URL = get_env_str("WEBLATE_LEGAL_URL")
+PRIVACY_URL = get_env_str("WEBLATE_PRIVACY_URL")
 
 # Third party services integration
-MATOMO_SITE_ID = os.environ.get("WEBLATE_MATOMO_SITE_ID")
-MATOMO_URL = os.environ.get("WEBLATE_MATOMO_URL")
-GOOGLE_ANALYTICS_ID = os.environ.get("WEBLATE_GOOGLE_ANALYTICS_ID")
-SENTRY_DSN = os.environ.get("SENTRY_DSN")
-SENTRY_ENVIRONMENT = os.environ.get("SENTRY_ENVIRONMENT", SITE_DOMAIN)
+MATOMO_SITE_ID = get_env_str("WEBLATE_MATOMO_SITE_ID")
+MATOMO_URL = get_env_str("WEBLATE_MATOMO_URL")
+GOOGLE_ANALYTICS_ID = get_env_str("WEBLATE_GOOGLE_ANALYTICS_ID")
+SENTRY_DSN = get_env_str("SENTRY_DSN")
+SENTRY_ENVIRONMENT = get_env_str("SENTRY_ENVIRONMENT", SITE_DOMAIN)
 SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE")
 SENTRY_PROFILES_SAMPLE_RATE = get_env_float("SENTRY_PROFILES_SAMPLE_RATE")
-SENTRY_TOKEN = os.environ.get("SENTRY_TOKEN")
+SENTRY_TOKEN = get_env_str("SENTRY_TOKEN")
 SENTRY_SEND_PII = get_env_bool("SENTRY_SEND_PII", True)
-AKISMET_API_KEY = os.environ.get("WEBLATE_AKISMET_API_KEY")
+AKISMET_API_KEY = get_env_str("WEBLATE_AKISMET_API_KEY")
 
 # Web Monetization
 INTERLEDGER_PAYMENT_POINTERS = get_env_list(
@@ -1418,7 +1435,7 @@ INTERLEDGER_PAYMENT_POINTERS = get_env_list(
 )
 
 # Legal integartion
-LEGAL_INTEGRATION = os.environ.get("WEBLATE_LEGAL_INTEGRATION")
+LEGAL_INTEGRATION = get_env_str("WEBLATE_LEGAL_INTEGRATION")
 if LEGAL_INTEGRATION:
     # Hosted Weblate legal documents
     if LEGAL_INTEGRATION == "wllegal":
