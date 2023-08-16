@@ -174,7 +174,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
     @classmethod
     def setUpClass(cls):
         if cls.FORMAT is None:
-            raise SkipTest("Base test class not intented for execution.")
+            raise SkipTest("Base test class not intended for execution.")
         super().setUpClass()
 
     def setUp(self):
