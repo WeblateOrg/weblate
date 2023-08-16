@@ -279,8 +279,8 @@ Matching files:
    - :file:`locale/de/website/de.po`
 
 
-Splitted Android strings
-########################
+Split Android strings
+#####################
 
 Android resource strings, split into several files.
 
