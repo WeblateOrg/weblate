@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 12:41+0200\n"
-"PO-Revision-Date: 2023-08-15 18:17+0000\n"
+"PO-Revision-Date: 2023-08-18 08:58+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -374,43 +374,29 @@ msgid ""
 "mail. Invited users have to complete the registration process to get access "
 "to the project."
 msgstr ""
+"Beim Hinzufügen bestehender Benutzer wird diesen eine Einladung zur "
+"Bestätigung geschickt. Mit :setting:`REGISTRATION_OPEN` kann der "
+"Administrator auch neue Benutzer per E-Mail einladen. Eingeladene Benutzer "
+"müssen den Registrierungsprozess abschließen, um Zugang zum Projekt zu "
+"erhalten."
 
 #: ../../admin/access.rst:170
-#, fuzzy
-#| msgid ""
-#| "Also, besides adding an existing user to the project, it is possible to "
-#| "invite new ones. Any new user will be created immediately, but the "
-#| "account will remain inactive until signing in with a link in the "
-#| "invitation sent via an e-mail. It is not required to have any site-wide "
-#| "privileges in order to do so, access management permission on the "
-#| "project’s scope (e.g. a membership in the `Administration` team) would be "
-#| "sufficient."
 msgid ""
 "It is not required to have any site-wide privileges in order to do so, "
 "access management permission on the project’s scope (e.g. a membership in "
 "the `Administration` team) would be sufficient."
 msgstr ""
-"Neben dem Hinzufügen eines bestehenden Benutzers zum Projekt ist es auch "
-"möglich, neue einzuladen. Jeder neue Benutzer wird sofort erstellt, aber das "
-"Konto bleibt bis zur Anmeldung mit einem Link in der Einladung, die per E-"
-"Mail gesendet wird, inaktiv. Dazu sind keine plattformweiten Berechtigungen "
-"erforderlich, eine Zugriffsverwaltungsberechtigung für den Umfang des "
-"Projekts (z. B. eine Mitgliedschaft im Team `Administration`) wäre "
-"ausreichend."
+"Dazu sind keine plattformweiten Berechtigungen erforderlich, eine "
+"Zugriffsverwaltungsberechtigung für den Projektbereich (z. B. eine "
+"Mitgliedschaft im Team `Administration`) wäre ausreichend."
 
 #: ../../admin/access.rst:176
-#, fuzzy
-#| msgid ""
-#| "If the invited user missed the validity of the invitation, they can set "
-#| "their password using invited e-mail address in the password reset form as "
-#| "the account is created already."
 msgid ""
 "If the invited user missed the validity of the invitation, a new invitation "
 "has to be created."
 msgstr ""
-"Wenn der eingeladene Benutzer die Gültigkeit der Einladung versäumt hat, "
-"kann er sein Passwort mit der eingeladenen E-Mail-Adresse im Formular zum "
-"Zurücksetzen des Passworts festlegen, da das Konto bereits erstellt wurde."
+"Wenn der eingeladene Benutzer die Gültigkeitsdauer der Einladung versäumt "
+"hat, muss eine neue Einladung erstellt werden."
 
 #: ../../admin/access.rst:179
 msgid ""
@@ -426,6 +412,8 @@ msgid ""
 "Weblate now does not automatically create accounts or add users to the "
 "teams. This is only done after confirmation from the user."
 msgstr ""
+"Weblate erstellt jetzt nicht mehr automatisch Konten oder fügt Benutzer zu "
+"den Teams hinzu. Dies geschieht erst nach Bestätigung durch den Benutzer."
 
 #: ../../admin/access.rst:190
 msgid "Blocking users"
@@ -5862,6 +5850,8 @@ msgid ""
 "Make format checks enforce using format even for plural forms with a single "
 "value, see :ref:`check-formats`."
 msgstr ""
+"Erzwingt für Formatprüfungen die Verwendung des Formats auch für "
+"Pluralformen mit einem einzigen Wert, siehe :ref:`check-formats`."
 
 #: ../../admin/checks.rst:112 ../../user/checks.rst:136
 msgid "``check-glossary``"
@@ -7015,8 +7005,8 @@ msgid ""
 "Sign in. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
 msgstr ""
-"Anmelden. Löscht das Kennwort des Kontos und verhindert, dass sich der "
-"Benutzer anmelden kann, ohne ein neues Kennwort anzufordern."
+"Anmelden. Löscht das Passwort des Kontos und verhindert, dass sich der "
+"Benutzer anmelden kann, ohne ein neues Passwort anzufordern."
 
 #: ../../admin/config.rst:62
 msgid ""
@@ -7141,7 +7131,7 @@ msgid ""
 "days)."
 msgstr ""
 "Dauer der Gültigkeit des Authentifizierungstokens und des temporären "
-"Kennworts aus E-Mails zum Zurücksetzen des Kennworts. Wird in Sekunden "
+"Passwort aus E-Mails zum Zurücksetzen des Passworts. Wird in Sekunden "
 "angegeben, Standardwert ist 172800 (2 Tage)."
 
 #: ../../admin/config.rst:129
@@ -7405,17 +7395,15 @@ msgstr ":file:`fonts`"
 
 #: ../../admin/config.rst:276
 msgid ":program:`font-config` cache for :ref:`fonts`."
-msgstr ""
+msgstr ":program:`font-config`-Cache für :ref:`fonts`."
 
 #: ../../admin/config.rst:277
 msgid ":file:`avatar`"
 msgstr ":file:`avatar`"
 
 #: ../../admin/config.rst:278
-#, fuzzy
-#| msgid "Celery scheduler data, see :ref:`celery`."
 msgid "Cached user avatars, see :ref:`avatars`."
-msgstr "Celery Scheduler-Daten, siehe :ref:`celery`."
+msgstr "Zwischengespeicherte Benutzer-Avatare, siehe :ref:`Avatare`."
 
 #: ../../admin/config.rst:279
 msgid ":file:`static`"
@@ -7435,7 +7423,7 @@ msgstr ":file:`tesseract`"
 
 #: ../../admin/config.rst:282
 msgid "OCR trained data for :ref:`screenshots`."
-msgstr ""
+msgstr "OCR-trainierte Daten für :ref:`screenshots`."
 
 #: ../../admin/config.rst:291
 msgid ""
@@ -10667,23 +10655,17 @@ msgid "Weblate Cloudron Package"
 msgstr "Weblate Cloudron-Paket"
 
 #: ../../admin/deployments.rst:33
-#, fuzzy
-#| msgid ""
-#| "`Cloudron <https://cloudron.io/>`_ is a platform for self-hosting web "
-#| "applications. Weblate installed with Cloudron will be automatically kept "
-#| "up-to-date. The package is maintained by the Cloudron team at their "
-#| "`Weblate package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgid ""
 "`Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web "
 "applications. Weblate installed with Cloudron will be automatically kept up-"
 "to-date. The package is maintained by the Cloudron team at their `Weblate "
 "package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgstr ""
-"`Cloudron <https://cloudron.io/>`_ ist eine Plattform für das Selbsthosten "
-"von Webanwendungen. Weblate, das mit Cloudron installiert wird, wird "
-"automatisch auf dem neuesten Stand gehalten. Das Paket wird vom Cloudron-"
-"Team in seinem `Weblate-Paket-Repository <https://git.cloudron.io/cloudron/"
-"weblate-app>`_ gepflegt."
+"`Cloudron <https://www.cloudron.io/>`_ ist eine Plattform für das "
+"Selbsthosten von Webanwendungen. Weblate, das mit Cloudron installiert wird, "
+"wird automatisch auf dem neuesten Stand gehalten. Das Paket wird vom "
+"Cloudron-Team in seinem `Weblate-Paket-Repository <https://git.cloudron.io/"
+"cloudron/weblate-app>`_ gepflegt."
 
 #: ../../admin/deployments.rst:-1
 msgid "Install Weblate with Cloudron"
@@ -10826,18 +10808,13 @@ msgid "Python dependencies"
 msgstr "Python-Abhängigkeiten"
 
 #: ../../admin/install.rst:68
-#, fuzzy
-#| msgid ""
-#| "Weblate is written in `Python <https://www.python.org/>`_ and supports "
-#| "Python 3.6 or newer. You can install dependencies using pip or from your "
-#| "distribution packages, full list is available in :file:`requirements.txt`."
 msgid ""
 "Weblate is written in `Python <https://www.python.org/>`_ and supports "
 "Python 3.9 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
 "Weblate ist in `Python <https://www.python.org/>`_ geschrieben und "
-"unterstützt Python 3.6 oder neuer. Sie können die Abhängigkeiten mit pip "
+"unterstützt Python 3.9 oder neuer. Sie können die Abhängigkeiten mit pip "
 "oder aus Ihren Distributionspaketen installieren, eine vollständige Liste "
 "finden Sie in :file:`requirements.txt`."
 
@@ -12184,18 +12161,13 @@ msgid "Running maintenance tasks"
 msgstr "Ausführen von Wartungsaufgaben"
 
 #: ../../admin/install.rst:1036
-#, fuzzy
-#| msgid ""
-#| "For optimal performance, it is good idea to run some maintenance tasks in "
-#| "the background. This is now automatically done by :ref:`celery` and "
-#| "covers following tasks:"
 msgid ""
 "For optimal performance, it is good idea to run some maintenance tasks in "
 "the background. This is automatically done by :ref:`celery` and covers "
 "following tasks:"
 msgstr ""
-"Für eine optimale Leistung empfiehlt es sich, einige Wartungsaufgaben im "
-"Hintergrund laufen zu lassen. Dies wird nun automatisch von :ref:`celery` "
+"Für eine optimale Leistung ist es empfehlenswert, einige Wartungsaufgaben im "
+"Hintergrund laufen zu lassen. Dies wird automatisch von :ref:`celery` "
 "erledigt und umfasst die folgenden Aufgaben:"
 
 #: ../../admin/install.rst:1039
@@ -12499,13 +12471,6 @@ msgid "Serving static files"
 msgstr "Bereitstellung statischer Dateien"
 
 #: ../../admin/install.rst:1206
-#, fuzzy
-#| msgid ""
-#| "Django needs to collect its static files in a single directory. To do so, "
-#| "execute :samp:`weblate collectstatic --noinput`. This will copy the "
-#| "static files into a directory specified by the :setting:`django:"
-#| "STATIC_ROOT` setting (this defaults to a ``static`` directory inside :"
-#| "setting:`DATA_DIR`)."
 msgid ""
 "Django needs to collect its static files in a single directory. To do so, "
 "execute :samp:`weblate collectstatic --noinput`. This will copy the static "
@@ -12517,7 +12482,7 @@ msgstr ""
 "Um dies zu tun, führen Sie :samp:`weblate collectstatic --noinput` aus. "
 "Dadurch werden die statischen Dateien in ein Verzeichnis kopiert, das durch "
 "die Einstellung :setting:`django:STATIC_ROOT` festgelegt ist (dies ist "
-"standardmäßig ein ``static`` Verzeichnis innerhalb von :setting:`DATA_DIR`)."
+"standardmäßig ein ``static``-Verzeichnis innerhalb von :setting:`CACHE_DIR`)."
 
 #: ../../admin/install.rst:1211
 msgid ""
@@ -12532,16 +12497,12 @@ msgid ":file:`/static/`"
 msgstr ":file:`/static/`"
 
 #: ../../admin/install.rst:1215
-#, fuzzy
-#| msgid ""
-#| "Serves static files for Weblate and the admin interface (from defined by "
-#| "``STATIC_ROOT``)."
 msgid ""
 "Serves static files for Weblate and the admin interface (from defined by :"
 "setting:`django:STATIC_ROOT`)."
 msgstr ""
-"Stellt statische Dateien für Weblate und das Admin-Interface bereit "
-"(definiert durch ``STATIC_ROOT``)."
+"Stellt statische Dateien für Weblate und die Adminoberfläche bereit ("
+"definiert durch :setting:`django:STATIC_ROOT`)."
 
 #: ../../admin/install.rst:1217
 msgid ":file:`/media/`"
@@ -13190,6 +13151,10 @@ msgid ""
 "ref:`docker-https-portal`.  For larger setups, please see :ref:`docker-"
 "scaling`."
 msgstr ""
+"Dadurch wird ein Weblate-Bereitstellungsserver über HTTP erstellt, daher "
+"sollten Sie ihn hinter einem abschließenden HTTPS-Proxy platzieren. Sie "
+"können auch einen HTTPS-Proxy einsetzen, siehe :ref:`docker-https-portal`.  "
+"Für größere Installationen siehe :ref:`docker-scaling`."
 
 #: ../../admin/install/docker.rst:26
 msgid "Clone the weblate-docker repo:"
@@ -13646,7 +13611,7 @@ msgid ""
 msgstr ""
 "Nach der Container-Einrichtung können Sie sich als Benutzer `admin` mit dem "
 "in :envvar:`WEBLATE_ADMIN_PASSWORD` bereitgestellten Passwort oder, falls es "
-"nicht festgelegt wurde, mit einem beim ersten Öffnen erzeugten "
+"nicht festgelegt wurde, mit einem beim ersten Öffnen generierten "
 "Zufallspasswort anmelden."
 
 #: ../../admin/install/docker.rst:329
@@ -14084,10 +14049,9 @@ msgstr ""
 "mittels der Variablen ``ADD`` und ``REMOVE`` ändern."
 
 #: ../../admin/install/docker.rst:692
-#, fuzzy
-#| msgid "Can not change authentication for demo!"
 msgid "To enforce authentication for the contact form, do:"
-msgstr "Legitimierung für Demo kann nicht geändert werden!"
+msgstr ""
+"Um die Authentifizierung für das Kontaktformular zu erzwingen, tun Sie dies:"
 
 #: ../../admin/install/docker.rst:701
 msgid ""
@@ -14314,11 +14278,11 @@ msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgstr "Konfiguriert :setting:`SSH_EXTRA_ARGS`."
 
 #: ../../admin/install/docker.rst:933
-#, fuzzy
-#| msgid "Configures :setting:`BORG_EXTRA_ARGS`."
 msgid ""
 "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
-msgstr "Konfiguriert :setting:`BORG_EXTRA_ARGS`."
+msgstr ""
+"Konfiguriert :setting:`BORG_EXTRA_ARGS` als komma-getrennte Liste von "
+"Argumenten."
 
 #: ../../admin/install/docker.rst:946
 msgid "Configures :setting:`ENABLE_SHARING`."
@@ -14389,7 +14353,8 @@ msgstr "LDAP"
 
 #: ../../admin/install/docker.rst:1030
 msgid "Path to the file containing the LDAP server bind password."
-msgstr "Pfad zu der Datei, die das LDAP-Server-Verbindungskennwort enthält."
+msgstr ""
+"Pfad zu der Datei, die das Passwort für die LDAP-Serververbindung enthält."
 
 #: ../../admin/install/docker.rst:1032
 msgid ":envvar:`WEBLATE_AUTH_LDAP_BIND_PASSWORD`"
@@ -14814,7 +14779,7 @@ msgstr ":setting:`django:EMAIL_HOST_PASSWORD`"
 #: ../../admin/install/docker.rst:1464
 msgid "Path to the file containing the e-mail authentication password."
 msgstr ""
-"Pfad zu der Datei, die das Kennwort für die E-Mail-Authentifizierung enthält."
+"Pfad zu der Datei, die das Passwort für die E-Mail-Authentifizierung enthält."
 
 #: ../../admin/install/docker.rst:1466
 msgid ":envvar:`WEBLATE_EMAIL_HOST_PASSWORD`"
@@ -15236,17 +15201,13 @@ msgid "Read-only root filesystem"
 msgstr "Schreibgeschütztes Root-Dateisystem"
 
 #: ../../admin/install/docker.rst:1767
-#, fuzzy
-#| msgid ""
-#| "When running the container with a read-only root filesytem, two "
-#| "additional `tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
 msgid ""
 "When running the container with a read-only root filesystem, two additional "
 "`tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
 msgstr ""
 "Wenn der Container mit einem schreibgeschützten Root-Dateisystem läuft, "
-"werden zwei zusätzliche `tmpfs`-Volumes benötigt - :file:`/tmp` und :file:`/"
-"run`."
+"werden zwei zusätzliche `tmpfs`-Volumes benötigt - :file:`/tmp` und "
+":file:`/run`."
 
 #: ../../admin/install/docker.rst:1774
 msgid "Configuration beyond environment variables"
@@ -15695,7 +15656,7 @@ msgid ""
 msgstr ""
 "Nach der Container-Einrichtung können Sie sich als Benutzer `admin` mit dem "
 "in :envvar:`WEBLATE_ADMIN_PASSWORD` bereitgestellten Passwort oder, falls es "
-"nicht festgelegt wurde, mit einem beim ersten Start erzeugten "
+"nicht festgelegt wurde, mit einem beim ersten Start generierten "
 "Zufallspasswort anmelden."
 
 #: ../../admin/install/openshift.rst:82
@@ -15942,23 +15903,21 @@ msgid ":wladmin:`migrate`"
 msgstr ":wladmin:`migrate`"
 
 #: ../../admin/install/steps/install-configure.rst:27
-#, fuzzy
-#| msgid ""
-#| "Create an account for the administrator user and copy its password to the "
-#| "clipboard, and also save it for later use:"
 msgid ""
 "Create an administrator user account ``admin``, generate its password, and "
 "copy it to the clipboard; remember to save it for later use:"
 msgstr ""
-"Erstellen Sie ein Benutzerkonto für den Administrator und kopieren Sie "
-"dessen Passwort in die Zwischenablage, und speichern Sie es zur späteren "
-"Verwendung:"
+"Erstellen Sie ein Administrator-Benutzerkonto ``admin``, generieren Sie "
+"dessen Passwort und kopieren Sie es in die Zwischenablage; denken Sie daran, "
+"es zur späteren Verwendung zu speichern:"
 
 #: ../../admin/install/steps/install-configure.rst:36
 msgid ""
 "If you previously missed/lost the admin password, you can generate a new one "
 "with the following command:"
 msgstr ""
+"Wenn Sie das Administratorpasswort vergessen oder verloren haben, können Sie "
+"mit dem folgenden Befehl ein neues Passwort erstellen:"
 
 #: ../../admin/install/steps/install-configure.rst:44
 msgid ":wladmin:`createadmin`"
@@ -16135,13 +16094,6 @@ msgid "Built-in language definitions"
 msgstr "Integrierte Sprachdefinitionen"
 
 #: ../../admin/languages.rst:14
-#, fuzzy
-#| msgid ""
-#| "Definitions for about 600 languages are included in Weblate and the list "
-#| "is extended in every release. Whenever Weblate is upgraded (more "
-#| "specifically whenever :wladmin:`migrate` is executed, see :ref:`generic-"
-#| "upgrade-instructions`) the database of languages is updated to include "
-#| "all language definitions shipped in Weblate."
 msgid ""
 "Definitions for about 650 languages are included in Weblate and the list is "
 "extended in every release. Whenever Weblate is upgraded (more specifically "
@@ -16149,11 +16101,11 @@ msgid ""
 "instructions`) the database of languages is updated to include all language "
 "definitions shipped in Weblate."
 msgstr ""
-"Definitionen für etwa 600 Sprachen sind in Weblate enthalten und die Liste "
-"wird in jeder Version erweitert. Jedes Mal, wenn Weblate aktualisiert wird "
-"(genauer gesagt, wenn :wladmin:`migrate` ausgeführt wird, siehe :ref:"
-"`generic-upgrade-instructions`), wird die Datenbank der Sprachen "
-"aktualisiert, um alle in Weblate enthaltenen Sprachdefinitionen aufzunehmen."
+"Definitionen für etwa 650 Sprachen sind in Weblate enthalten und die Liste "
+"wird in jeder Version erweitert. Jedes Mal, wenn Weblate aktualisiert wird ("
+"genauer gesagt, wenn :wladmin:`migrate` ausgeführt wird, siehe :ref:`generic-"
+"upgrade-instructions`), wird die Datenbank der Sprachen aktualisiert, um "
+"alle in Weblate enthaltenen Sprachdefinitionen aufzunehmen."
 
 #: ../../admin/languages.rst:20
 msgid ""
@@ -16375,10 +16327,8 @@ msgid "Number of worldwide speakers of this language."
 msgstr "Anzahl der weltweiten Sprecher dieser Sprache."
 
 #: ../../admin/languages.rst:146
-#, fuzzy
-#| msgid "Plural definition source"
 msgid "Plural definitions"
-msgstr "Plural-Definitionsquelle"
+msgstr "Pluraldefinitionen"
 
 #: ../../admin/languages.rst:148
 msgid ""
@@ -20213,10 +20163,8 @@ msgstr ""
 "Datei."
 
 #: ../../admin/projects.rst:433
-#, fuzzy
-#| msgid "Allowed formats are JPEG, PNG, APNG and GIF."
 msgid "Allowed formats are WebP, JPEG, PNG, APNG and GIF."
-msgstr "Erlaubte Formate sind JPEG, PNG, APNG und GIF."
+msgstr "Erlaubte Formate sind WebP, JPEG, PNG, APNG and GIF."
 
 #: ../../admin/projects.rst:435
 msgid "Note:"
