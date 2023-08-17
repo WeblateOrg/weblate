@@ -90,8 +90,9 @@ class RedirectMiddleware:
         # missing parameters.
         # Redirecting on API removes authentication headers in many cases,
         # so avoid that as well.
+        # Redirecting requests for Sourcemap files will not do anything good
         if (
-            path.endswith("/")
+            path.endswith(("/", ".map"))
             or request.method != "GET"
             or path.startswith(f"{settings.URL_PREFIX}/api")
         ):
