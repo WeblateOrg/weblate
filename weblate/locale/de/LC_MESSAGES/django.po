@@ -3,13 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # nautilusx <translate@disroot.org>, 2023.
 # VfBFan <drop0815@posteo.de>, 2023.
+# Wuzzy <Wuzzy@disroot.org>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-08-15 18:17+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"PO-Revision-Date: 2023-08-18 08:58+0000\n"
+"Last-Translator: Wuzzy <Wuzzy@disroot.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
 "Language: de\n"
@@ -3097,6 +3098,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"Die Fluent-Referenz in {sequence} könnte zu einem HTML-Tag expandiert "
+"werden. Vielleicht sollten Sie {suggestion} benutzen."
 
 #: weblate/checks/fluent/inner_html.py:143
 #, python-brace-format
@@ -3104,6 +3107,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"Die Fluent-Referenz in {sequence} könnte zu einer HTML-Zeichenreferenz "
+"expandiert werden. Vielleicht sollten Sie {suggestion} benutzen."
 
 #: weblate/checks/fluent/inner_html.py:171
 #, python-brace-format
@@ -3111,6 +3116,9 @@ msgid ""
 "The sequence {sequence} begins a HTML closing tag, but the name or syntax is "
 "not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"Die Sequenz {sequence} fängt mit einem schließenden HTML-Tag an, aber der "
+"Name oder die Syntax ist ungültig. Falls Sie kein schließendes Tag wollen, "
+"benutzen Sie {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:184
 #, python-brace-format
@@ -3118,6 +3126,9 @@ msgid ""
 "The sequence {sequence} begins a HTML tag, but the name is not valid. If you "
 "do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Die Sequenz {sequence} fängt mit einem schließenden HTML-Tag an, aber der "
+"Name ist ungültig. Falls Sie kein schließendes HTML-Tag wollen, benutzen Sie "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:197
 #, python-brace-format
@@ -3125,12 +3136,17 @@ msgid ""
 "The sequence {sequence} begins a HTML tag, but the tag is never closed by "
 "{close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Die Sequenz {sequence} fängt mit einem HTML-Tag an, aber der Tag wird nie "
+"von {close} geschlossen. Falls Sie kein öffnendes HTML-Tag wollen, benutzen "
+"Sie {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:211
 #, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"Inneres Fluent-HTML sollte nicht {sequence} enthalten. Vielleicht sollten "
+"Sie {suggestion} benutzen."
 
 #: weblate/checks/fluent/inner_html.py:227
 #, python-brace-format
@@ -3139,11 +3155,14 @@ msgid ""
 "not a valid attribute with a value. If you do not want to begin a HTML tag, "
 "use {suggestion}."
 msgstr ""
+"Die Sequenz {sequence} startet ein HTML-Tag, aber die Sequenz {attribute} "
+"ist kein gültiges Attribut mit einem Wert. Falls Sie kein HTML-Tag starten "
+"wollen, benutzen Sie {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "Der HTML-Attributname {name} für das Tag {tag} ist ungültig."
 
 #: weblate/checks/fluent/inner_html.py:260
 #, python-brace-format
@@ -3151,21 +3170,23 @@ msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
 msgstr ""
+"Der Wert {value} des HTML-Attibuts {name} für das Tag {tag} ist kein "
+"gültiger mit Anführungszeichen versehener Wert."
 
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "Das HTML-Attribut {name} taucht zwei mal für das Tag {tag} auf."
 
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "Kein passendes HTML-End-Tag: {tag}."
 
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr ""
+msgstr "Das HTML-{name}-Void-Element sollte kein End-Tag haben: {end}."
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
@@ -3173,11 +3194,13 @@ msgid ""
 "The HTML {name} element is not a known void element, so should not have a "
 "self-closing tag: {self_close}."
 msgstr ""
+"Das HTML-Element {name} ist kein bekanntes Void-Element, also sollte es kein "
+"selbstschließendes Tag haben: {self_close}."
 
 #: weblate/checks/fluent/inner_html.py:325
 #, python-brace-format
 msgid "The HTML {tag} tag has is missing a matching end tag: {end}."
-msgstr ""
+msgstr "Dem HTML-Tag {tag} fehlt ein passendes End-Tag: {end}."
 
 #: weblate/checks/fluent/inner_html.py:341
 #, python-brace-format
@@ -3186,24 +3209,27 @@ msgid ""
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
+"Die Sequenz {sequence} wird eine HTML-Zeichenreferenz einläuten, aber endet "
+"nicht mit {semicolon}. Falls Sie keine Zeichenreferenz wollen, benutzen Sie "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:359
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
-msgstr ""
+msgstr "Die Sequenz {sequence} ist keine gültige HTML-Zeichenreferenz."
 
 #: weblate/checks/fluent/inner_html.py:941
 msgid "Fluent source inner HTML"
-msgstr ""
+msgstr "Inneres HTML der Fluent-Quelle"
 
 #: weblate/checks/fluent/inner_html.py:942
 msgid "Fluent source should be valid inner HTML"
-msgstr ""
+msgstr "Fluent-Quelle sollte gültiges inneres HTML sein"
 
 #: weblate/checks/fluent/inner_html.py:1013
 #, python-brace-format
 msgid "Fluent value is missing a HTML {tag} tag."
-msgstr ""
+msgstr "Dem Fluent-Wert fehlt ein HTML-Tag {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1018
 #, python-brace-format
@@ -3211,11 +3237,13 @@ msgid ""
 "Fluent value is missing a HTML {tag} tag for the following variants: "
 "{variant_list}."
 msgstr ""
+"Dem Fluent-Wert fehlt ein HTML-Tag {tag} für die folgenden Varianten: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1032
 #, python-brace-format
 msgid "Fluent value has an unexpected extra HTML {tag} tag."
-msgstr ""
+msgstr "Fluent-Wert hat ein unerwartetes zusätzliches HTML-Tag {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1037
 #, python-brace-format
@@ -3223,6 +3251,8 @@ msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
 msgstr ""
+"Fluent-Wert hat ein unerwartetes zusätzliches HTML-Tag {tag} für die "
+"folgenden Varianten: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1114
 #, python-brace-format
@@ -3231,12 +3261,17 @@ msgid ""
 "matching variant in the translation with the same set of HTML elements: "
 "{variant_list}."
 msgstr ""
+"Die folgenden Varianten im ursprünglichen Fluent-Wert haben nicht mindestens "
+"eine passende Variante in der Übersetzung mit der selben Menge an HTML-"
+"Elementen: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1129
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of HTML elements."
 msgstr ""
+"Der übersetzte Fluent-Wert hat keine passende Variante im Original mit der "
+"selben Menge an HTML-Elementen."
 
 #: weblate/checks/fluent/inner_html.py:1136
 #, python-brace-format
@@ -3244,49 +3279,47 @@ msgid ""
 "The following variants in the translated Fluent value do not have a matching "
 "variant in the original with the same set of HTML elements: {variant_list}."
 msgstr ""
+"Die folgenden Varianten im übersetzten Fluent-Wert haben keine passende "
+"Variante im Original mit der selben Menge an HTML-Elementen: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1216
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation inner HTML"
-msgstr "Aktuelle Übersetzung"
+msgstr "Inneres HTML der Fluent-Übersetzung"
 
 #: weblate/checks/fluent/inner_html.py:1217
 msgid "Fluent target should be valid inner HTML that matches"
-msgstr ""
+msgstr "Fluent-Ziel sollte gültiges inneres HTML sein, welches passt"
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
-msgstr ""
+msgstr "Fluent-Wert ist leer."
 
 #: weblate/checks/fluent/parts.py:65
 msgid "Fluent value should be empty."
-msgstr ""
+msgstr "Fluent-Wert sollte leer sein."
 
 #: weblate/checks/fluent/parts.py:71
 #, python-brace-format
 msgid "Missing Fluent attribute: {hint}"
-msgstr ""
+msgstr "Fehlendes Fluent-Attribut: {hint}"
 
 #: weblate/checks/fluent/parts.py:80
 #, python-brace-format
 msgid "Unexpected Fluent attribute: {hint}"
-msgstr ""
+msgstr "Unerwartetes Fluent-Attribut: {hint}"
 
 #: weblate/checks/fluent/parts.py:112
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent parts"
-msgstr "Fluent-Datei"
+msgstr "Fluent-Teile"
 
 #: weblate/checks/fluent/parts.py:113
 msgid "Fluent parts should match"
-msgstr ""
+msgstr "Fluent-Teile sollten passen"
 
 #: weblate/checks/fluent/references.py:373
 #, python-brace-format
 msgid "Fluent {attribute} attribute is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "Fluent-Attribut {attribute} fehlt eine Fluent-Referenz {reference}."
 
 #: weblate/checks/fluent/references.py:381
 #, python-brace-format
@@ -3294,11 +3327,13 @@ msgid ""
 "Fluent {attribute} attribute is missing a {reference} Fluent reference for "
 "the following variants: {variant_list}."
 msgstr ""
+"Dem Fluent-Attribut {attribute} fehlt eine Fluent-Referenz {reference} für "
+"die folgenden Varianten: {variant_list}."
 
 #: weblate/checks/fluent/references.py:390
 #, python-brace-format
 msgid "Fluent value is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "Fluent-Wert fehlt eine Fluent-Referenz {reference}."
 
 #: weblate/checks/fluent/references.py:395
 #, python-brace-format
@@ -3306,6 +3341,8 @@ msgid ""
 "Fluent value is missing a {reference} Fluent reference for the following "
 "variants: {variant_list}."
 msgstr ""
+"Fluent-Wert felht eine Fluent-Referenz {reference} für die folgenden "
+"Varianten: {variant_list}."
 
 #: weblate/checks/fluent/references.py:411
 #, python-brace-format
@@ -3313,6 +3350,8 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference."
 msgstr ""
+"Fluent-Attribut {attribute} hat eine unerwartete zusätzliche Fluent-Referenz "
+"{reference}."
 
 #: weblate/checks/fluent/references.py:419
 #, python-brace-format
@@ -3320,11 +3359,14 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference for the following variants: {variant_list}."
 msgstr ""
+"Fluent-Attribut {attribute} hat eine unerwartete zusätzliche Fluent-Referenz "
+"{reference} für die folgenden Varianten: {variant_list}."
 
 #: weblate/checks/fluent/references.py:429
 #, python-brace-format
 msgid "Fluent value has an unexpected extra {reference} Fluent reference."
 msgstr ""
+"Fluent-Wert hat eine unerwartete zusätzliche Fluent-Referenz {reference}."
 
 #: weblate/checks/fluent/references.py:435
 #, python-brace-format
@@ -3332,6 +3374,8 @@ msgid ""
 "Fluent value has an unexpected extra {reference} Fluent reference for the "
 "following variants: {variant_list}."
 msgstr ""
+"Fluent-Wert hat eine unerwartete zusätzliche Fluent-Referenz {reference} für "
+"die folgenden Varianten: {variant_list}."
 
 #: weblate/checks/fluent/references.py:524
 #, python-brace-format
@@ -3340,6 +3384,9 @@ msgid ""
 "have at least one matching variant in the translation with the same set of "
 "Fluent references: {variant_list}."
 msgstr ""
+"Die folgenden Varianten im ursprünglichen Fluent-Attribut {attribute} haben "
+"nicht mindestens eine passende Variante in der Übersetzung mit der selben "
+"Menge an Fluent-Referenzen: {variant_list}."
 
 #: weblate/checks/fluent/references.py:534
 #, python-brace-format
@@ -3348,6 +3395,9 @@ msgid ""
 "matching variant in the translation with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"Die folgenden Varianten im ursprünglichen Fluent-Wert haben nicht mindestens "
+"eine passende Variante in der Übersetzung mit der selben Menge an Fluent-"
+"Referenzen: {variant_list}."
 
 #: weblate/checks/fluent/references.py:550
 #, python-brace-format
@@ -3355,6 +3405,8 @@ msgid ""
 "The translated Fluent {attribute} attribute does not have a matching variant "
 "in the original with the same set of Fluent references."
 msgstr ""
+"Das übersetzte Fluent-Attribut {attribute} hat keine passende Variante im "
+"Original mit der selben Menge an Fluent-Referenzen."
 
 #: weblate/checks/fluent/references.py:558
 #, python-brace-format
@@ -3363,12 +3415,17 @@ msgid ""
 "have a matching variant in the original with the same set of Fluent "
 "references: {variant_list}."
 msgstr ""
+"Die folgenden Varianten im übersetzten Fluent-Attribut {attribute} haben "
+"keine passende Variante im Original mit der selben Menge an Fluent-"
+"Referenzen: {variant_list}."
 
 #: weblate/checks/fluent/references.py:569
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of Fluent references."
 msgstr ""
+"Der übersetzte Fluent-Wert hat keine passende Variante im Original mit der "
+"selben Menge an Fluent-Referenzen."
 
 #: weblate/checks/fluent/references.py:576
 #, python-brace-format
@@ -3377,43 +3434,38 @@ msgid ""
 "variant in the original with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"Die folgenden Varianten im übersetzten Fluent-Wert haben keine passende "
+"Variante im Original mit der selben Menge an Fluent-Referenzen: "
+"{variant_list}."
 
 #: weblate/checks/fluent/references.py:670
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "Einstellungen"
+msgstr "Fluent-Referenzen"
 
 #: weblate/checks/fluent/references.py:671
 msgid "Fluent references should match"
-msgstr ""
+msgstr "Fluent-Referenzen sollten passen"
 
 #: weblate/checks/fluent/syntax.py:39
 #, python-brace-format
 msgid "Fluent syntax error: {error}."
-msgstr ""
+msgstr "Fluent-Syntaxfehler: {error}."
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "Ausgangszeichenkette einsetzen"
+msgstr "Fluent-Quellsyntax"
 
 #: weblate/checks/fluent/syntax.py:48
 msgid "Fluent syntax error in source"
-msgstr ""
+msgstr "Fluent-Syntaxfehler in Quelle"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation syntax"
-msgstr "Aktuelle Übersetzung"
+msgstr "Fluent-Übersetzungssyntax"
 
 #: weblate/checks/fluent/syntax.py:65
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in translation"
-msgstr "Kommentar zur eigenen Übersetzung"
+msgstr "Fluent-Syntaxfehler in Übersetzung"
 
 #: weblate/checks/format.py:400
 #, python-format
@@ -7829,7 +7881,7 @@ msgstr "Synchronisieren"
 
 #: weblate/templates/js/git-status.html:132
 msgid "Force writing all translations to the Weblate repository"
-msgstr "Erzwingt das Schreibens aller Übersetzungen in das Weblate-Repository"
+msgstr "Schreiben aller Übersetzungen in das Weblate-Repository erzwingen"
 
 #: weblate/templates/js/git-status.html:135
 msgid "Forces writing all strings to the translation files."
@@ -12869,7 +12921,7 @@ msgstr "Projektbetreuer kontaktieren"
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:115
 msgid "Point to translation instructions URL"
-msgstr "Die URL für die Übersetzungsanweisungen angeben"
+msgstr "Auf die URL für die Übersetzungsanweisungen verweisen"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:117
@@ -12948,7 +13000,7 @@ msgstr "Zusammenführen (Merge) ohne Fast-Forward"
 #: weblate/trans/models/component.py:291
 #: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:89
 msgid "Display name"
-msgstr "Namen anzeigen"
+msgstr "Anzeigename"
 
 #: weblate/trans/models/component.py:294
 #: weblate/trans/models/componentlist.py:32 weblate/trans/models/project.py:93
