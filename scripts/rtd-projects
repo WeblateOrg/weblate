@@ -33,7 +33,10 @@ def get_update(value):
 
 
 git_tag = subprocess.run(
-    ["git", "describe", "--tags", "--abbrev=0"], capture_output=True, text=True
+    ["git", "describe", "--tags", "--abbrev=0"],
+    capture_output=True,
+    text=True,
+    check=True,
 )
 
 LATEST_RELEASE = git_tag.stdout.strip()
