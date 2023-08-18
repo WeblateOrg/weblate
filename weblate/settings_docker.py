@@ -381,8 +381,8 @@ if SOCIAL_AUTH_AUTH0_KEY:
 
 
 # SAML
-WEBLATE_SAML_IDP_URL = get_env_str("WEBLATE_SAML_IDP_URL")
-if WEBLATE_SAML_IDP_URL:
+WEBLATE_SAML_IDP_ENTITY_ID = get_env_str("WEBLATE_SAML_IDP_ENTITY_ID")
+if WEBLATE_SAML_IDP_ENTITY_ID:
     AUTHENTICATION_BACKENDS += ("social_core.backends.saml.SAMLAuth",)
     # The keys are generated on container startup if missing
     with open("/app/data/ssl/saml.crt") as handle:
@@ -393,9 +393,9 @@ if WEBLATE_SAML_IDP_URL:
     # Identity Provider
     SOCIAL_AUTH_SAML_ENABLED_IDPS = {
         "weblate": {
-            "entity_id": get_env_str("WEBLATE_SAML_IDP_ENTITY_ID", required=True),
-            "url": WEBLATE_SAML_IDP_URL,
-            "x509cert": get_env_str("WEBLATE_SAML_IDP_X509CERT", required=True),
+            "entity_id": WEBLATE_SAML_IDP_ENTITY_ID,
+            "url": get_env_str("WEBLATE_SAML_IDP_URL"),
+            "x509cert": get_env_str("WEBLATE_SAML_IDP_X509CERT"),
             "attr_name": get_env_str("WEBLATE_SAML_ID_ATTR_NAME", "full_name"),
             "attr_username": get_env_str("WEBLATE_SAML_ID_ATTR_USERNAME", "username"),
             "attr_email": get_env_str("WEBLATE_SAML_ID_ATTR_EMAIL", "email"),
