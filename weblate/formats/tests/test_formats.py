@@ -318,7 +318,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin):
         If `EXPECTED_FLAGS` is a string instead of a list, check the first units.
         """
         units = self.parse_file(self.FILE).content_units
-        if type(self.EXPECTED_FLAGS) is list:
+        if isinstance(self.EXPECTED_FLAGS, list):
             expected_list = self.EXPECTED_FLAGS
         else:
             expected_list = [self.EXPECTED_FLAGS]
