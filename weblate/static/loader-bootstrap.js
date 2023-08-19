@@ -1257,10 +1257,6 @@ $(function () {
     },
   });
 
-  document.querySelectorAll("link[as=style]").forEach((linkElement) => {
-    linkElement.setAttribute("rel", "stylesheet");
-  });
-
   document.querySelectorAll("[data-visibility]").forEach((toggle) => {
     toggle.addEventListener("click", (event) => {
       document
