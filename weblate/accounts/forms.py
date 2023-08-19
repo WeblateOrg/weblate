@@ -156,7 +156,7 @@ class LanguagesForm(ProfileBaseForm):
         # instead of queryset as the queryset would be evaluated twice as
         # ModelChoiceField copies the queryset
         languages = Language.objects.have_translation()
-        choices = list(languages.as_choices())
+        choices = list(languages.as_choices(use_code=False))
         self.fields["languages"].choices = choices
         self.fields["secondary_languages"].choices = choices
         self.helper = FormHelper(self)

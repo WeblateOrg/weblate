@@ -369,13 +369,13 @@ class LanguageQuerySet(models.QuerySet):
         cache[code] = language
         return language
 
-    def as_choices(self):
+    def as_choices(self, use_code: bool = True):
         return (
             item[:2]
             for item in sort_unicode(
                 (
-                    (code, f"{gettext(name)} ({code})", name)
-                    for name, code in self.values_list("name", "code")
+                    (code if use_code else pk, f"{gettext(name)} ({code})", name)
+                    for pk, name, code in self.values_list("pk", "name", "code")
                 ),
                 lambda tup: tup[2],
             )
