@@ -11,7 +11,7 @@
 <tr id="row-status-{{ item.unit.checksum }}">
 <td colspan="3">
 {% if item.unit.context %}
-  {{ item.unit.context }}
+  {% format_source_string item.unit.context item.unit simple=True wrap=True search_match=search_query whitespace=False %}
 {% else %}
   {{ item.unit.position }}
 {% endif %}
