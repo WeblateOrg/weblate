@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-08-20 14:27+0000\n"
+"PO-Revision-Date: 2023-08-21 09:40+0000\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
@@ -2988,7 +2988,7 @@ msgstr "HTML {name} 元素不是已知的空元素，所以不應該有自閉合
 #: weblate/checks/fluent/inner_html.py:325
 #, python-brace-format
 msgid "The HTML {tag} tag has is missing a matching end tag: {end}."
-msgstr ""
+msgstr "HTML {tag} 標記缺少配對的結束標籤：{end}。"
 
 #: weblate/checks/fluent/inner_html.py:341
 #, python-brace-format
@@ -2997,51 +2997,54 @@ msgid ""
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
+"{sequence} 序列將以 HTML 字元引用開頭，但沒有以 {semicolon} "
+"結尾。如果您不想要字元引用，請使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:359
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
-msgstr ""
+msgstr "{sequence} 序列不是有效的 HTML 字元引用。"
 
 #: weblate/checks/fluent/inner_html.py:941
 msgid "Fluent source inner HTML"
-msgstr ""
+msgstr "Fluent 來源內部 HTML"
 
 #: weblate/checks/fluent/inner_html.py:942
 msgid "Fluent source should be valid inner HTML"
-msgstr ""
+msgstr "Fluent 來源應為有效的內部 HTML"
 
 #: weblate/checks/fluent/inner_html.py:1013
 #, python-brace-format
 msgid "Fluent value is missing a HTML {tag} tag."
-msgstr ""
+msgstr "Fluent 數值缺少一個 HTML {tag} 標記。"
 
 #: weblate/checks/fluent/inner_html.py:1018
 #, python-brace-format
 msgid ""
 "Fluent value is missing a HTML {tag} tag for the following variants: "
 "{variant_list}."
-msgstr ""
+msgstr "這些變型的 Fluent 數值缺少 HTML {tag} 標記：{variant_list}。"
 
 #: weblate/checks/fluent/inner_html.py:1032
 #, python-brace-format
 msgid "Fluent value has an unexpected extra HTML {tag} tag."
-msgstr ""
+msgstr "Fluent 數值有多出來的 HTML {tag} 標記。"
 
 #: weblate/checks/fluent/inner_html.py:1037
 #, python-brace-format
 msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
-msgstr ""
+msgstr "這些變型的 Fluent 數值有多出來的 HTML {tag} 標記：{variant_list}。"
 
 #: weblate/checks/fluent/inner_html.py:1114
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The following variants in the original Fluent value do not have at least one "
 "matching variant in the translation with the same set of HTML elements: "
 "{variant_list}."
-msgstr ""
+msgstr "以下在原始 Fluent 值中的變型，沒有至少一個與翻譯中相同的 HTML "
+"元素集的配對變型：{variant_list}。"
 
 #: weblate/checks/fluent/inner_html.py:1129
 msgid ""
@@ -3104,7 +3107,8 @@ msgstr ""
 msgid ""
 "Fluent {attribute} attribute is missing a {reference} Fluent reference for "
 "the following variants: {variant_list}."
-msgstr ""
+msgstr "這些變型的 Fluent {attribute} 屬性缺少一個 {reference} Fluent "
+"引用：{variant_list}。"
 
 #: weblate/checks/fluent/references.py:390
 #, python-brace-format
