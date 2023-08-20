@@ -1,14 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+# pan93412 <pan93412@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-08-06 06:43+0000\n"
-"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
+"PO-Revision-Date: 2023-08-20 14:27+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -380,7 +380,7 @@ msgstr "由 {username} 邀請至 {site_title}。"
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "已經接受 {username} 的邀請。"
 
 #: weblate/accounts/models.py:160
 msgid "Started trial period."
@@ -740,10 +740,8 @@ msgstr "在自己的譯文有加評註"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:605
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edited string"
-msgstr "編輯字串"
+msgstr "有編輯字串"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:614
@@ -1264,7 +1262,7 @@ msgstr "定位字元"
 
 #: weblate/addons/forms.py:207
 msgid "Include closing tag for blank XML tags"
-msgstr "包含空白的 XML 標籤的結束標籤"
+msgstr "包含空白 XML 標記的結束標記"
 
 #: weblate/addons/forms.py:215
 msgid "YAML indentation"
@@ -1427,8 +1425,7 @@ msgid ""
 msgstr "在目前儲存庫或遠端網址中，要剖析其可翻譯字串的檔案名稱列表。"
 
 #: weblate/addons/forms.py:507
-#, fuzzy, python-format
-#| msgid "Failed to parse CSS selector: %s"
+#, python-format
 msgid "Could not parse CSS selector: %s"
 msgstr "無法解析 CSS 選擇器：%s"
 
@@ -1643,7 +1640,7 @@ msgstr "自訂 XML 輸出"
 
 #: weblate/addons/xml.py:19
 msgid "Allows adjusting XML output behavior, for example closing tags."
-msgstr "允許調整 XML 輸出行為，例如結束標籤。"
+msgstr "允許調整 XML 輸出行為，例如結束標記。"
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -2158,10 +2155,8 @@ msgid "User invitation e-mail was sent."
 msgstr "已寄送使用者邀請 E-mail。"
 
 #: weblate/auth/forms.py:123
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot change this on a built-in team."
-msgstr "禁止內建團隊更改 %s。"
+msgstr "無法更改內建團隊的這個設定。"
 
 #: weblate/auth/models.py:68
 #, python-format
@@ -2438,22 +2433,17 @@ msgid "File format does not support this."
 msgstr "檔案格式不支援本功能。"
 
 #: weblate/auth/views.py:115
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot remove built-in team!"
-msgstr "禁止內建團隊更改 %s。"
+msgstr "無法移除內建團隊！"
 
 #: weblate/auth/views.py:189
-#, fuzzy
-#| msgid "User invitation e-mail was sent."
 msgid "User invitation was removed."
-msgstr "已寄送使用者邀請 E-mail。"
+msgstr "已移除使用者邀請。"
 
 #: weblate/auth/views.py:213
-#, fuzzy, python-format
-#| msgid "Resend e-mail invitation to the user"
+#, python-format
 msgid "Accepted invitation to the %s team."
-msgstr "重新向使用者傳送邀請 E-mail"
+msgstr "已接受加入 %s 團隊的邀請。"
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2580,14 +2570,10 @@ msgid "AngularJS interpolation strings do not match source"
 msgstr "AngularJS 插值字串與來源不符"
 
 #: weblate/checks/base.py:287
-#, fuzzy
-#| msgid "Following format strings are missing: {}"
 msgid "The following format strings are missing: {}"
 msgstr "缺少下列格式字串：{}"
 
 #: weblate/checks/base.py:292
-#, fuzzy
-#| msgid "Following format strings are extra: {}"
 msgid "The following format strings are extra: {}"
 msgstr "多出下列格式字串：{}"
 
@@ -2830,10 +2816,8 @@ msgid "Strict unchanged check"
 msgstr "字串未變更查核"
 
 #: weblate/checks/flags.py:45
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strict format string checks"
-msgstr "任何未通過查核的字串"
+msgstr "嚴格的格式化字串檢查"
 
 #: weblate/checks/flags.py:46 weblate/glossary/forms.py:35
 msgid "Forbidden translation"
@@ -2871,7 +2855,7 @@ msgstr "ICU MessageFormat 旗標"
 
 #: weblate/checks/flags.py:60
 msgid "ICU MessageFormat tag prefix"
-msgstr "ICU MessageFormat 標籤前綴"
+msgstr "ICU MessageFormat 標記前綴"
 
 #: weblate/checks/flags.py:62 weblate/trans/models/component.py:668
 #: weblate/utils/views.py:118
@@ -2887,10 +2871,8 @@ msgid "String variant"
 msgstr "字串變體"
 
 #: weblate/checks/flags.py:72
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent type"
-msgstr "Fluent 檔案"
+msgstr "Fluent 類型"
 
 #: weblate/checks/flags.py:261
 #, python-format
@@ -2917,28 +2899,32 @@ msgstr "翻譯旗標遺失參數：「%s」"
 msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
-msgstr ""
+msgstr "{sequence} 中的 Fluent 引用可能會展開成 HTML 標記。或許可以試試 "
+"{suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:143
 #, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
-msgstr ""
+msgstr "{sequence} 中的 Fluent 引用可能會展開成 HTML 字元引用。或許可以試試 "
+"{suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:171
 #, python-brace-format
 msgid ""
 "The sequence {sequence} begins a HTML closing tag, but the name or syntax is "
 "not valid. If you do not want a closing tag, use {suggestion}."
-msgstr ""
+msgstr "{sequence} 序列的開頭是 HTML "
+"結束標記，但其名稱或語法無效。如果你不想要結束標記，請使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:184
 #, python-brace-format
 msgid ""
 "The sequence {sequence} begins a HTML tag, but the name is not valid. If you "
 "do not want to begin a HTML tag, use {suggestion}."
-msgstr ""
+msgstr "{sequence} 序列的開頭是 HTML 標記，但其名稱無效。如果你不想要以 HTML "
+"標記開頭，請使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:197
 #, python-brace-format
@@ -2946,12 +2932,14 @@ msgid ""
 "The sequence {sequence} begins a HTML tag, but the tag is never closed by "
 "{close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"{sequence} 序列以 HTML 標記開頭，但這個標記完全未以 {close} 閉合。"
+"如果你不想用 HTML 標記開頭，請使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:211
 #, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
-msgstr ""
+msgstr "Fluent 的內部 HTML 不應包含 {sequence}。或許可以試試 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:227
 #, python-brace-format
@@ -2960,40 +2948,42 @@ msgid ""
 "not a valid attribute with a value. If you do not want to begin a HTML tag, "
 "use {suggestion}."
 msgstr ""
+"{sequence} 序列以 HTML 標記開頭，但序列 {attribute} 屬性不是有效的有值屬性。"
+"如果你不想以 HTML 標記開頭，請使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "{tag} 標記的 HTML 屬性名稱 {name} 無效。"
 
 #: weblate/checks/fluent/inner_html.py:260
 #, python-brace-format
 msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
-msgstr ""
+msgstr "{tag} 標記的 HTML {name} 屬性的數值 {value} 無效，前後沒有引號。"
 
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "{tag} 標記出現兩次 HTML {name} 屬性。"
 
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "沒有配對的 HTML 結束標記：{tag}。"
 
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr ""
+msgstr "HTML {name} 空元素不應該有結束標記：{end}。"
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
 msgid ""
 "The HTML {name} element is not a known void element, so should not have a "
 "self-closing tag: {self_close}."
-msgstr ""
+msgstr "HTML {name} 元素不是已知的空元素，所以不應該有自閉合標籤：{self_close}。"
 
 #: weblate/checks/fluent/inner_html.py:325
 #, python-brace-format
@@ -3453,23 +3443,23 @@ msgstr "下列項目的子訊息選擇器不正確：%s"
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
-msgstr "一或多個佔位符應在翻譯中有對應的 XML 標籤：%s"
+msgstr "一或多個佔位符應在翻譯中有對應的 XML 標記：%s"
 
 #: weblate/checks/icu.py:495
 #, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "翻譯中的一或多個佔位符不應為 XML 標籤：%s"
+msgstr "翻譯中的一或多個佔位符不應為 XML 標記：%s"
 
 #: weblate/checks/icu.py:501
 #, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr "翻譯中的一或多個 XML 標籤中有非預期內容：%s"
+msgstr "翻譯中的一或多個 XML 標記中有非預期內容：%s"
 
 #: weblate/checks/icu.py:506
 #, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "翻譯中有一或多個 XML 標籤缺少內容：%s"
+msgstr "翻譯中有一或多個 XML 標記缺少內容：%s"
 
 #: weblate/checks/markup.py:82
 msgid "BBCode markup"
@@ -3493,7 +3483,7 @@ msgstr "XML 標記"
 
 #: weblate/checks/markup.py:189
 msgid "XML tags in translation do not match source"
-msgstr "翻譯中的 XML 標籤與來源不符"
+msgstr "翻譯中的 XML 標記與來源不符"
 
 #: weblate/checks/markup.py:247
 msgid "Markdown references"
@@ -9211,11 +9201,11 @@ msgstr ""
 msgid ""
 "Additional labels can be defined in the <a href=\"%(url)s\">project "
 "settings</a>."
-msgstr "額外標籤可以在<a href=\"%(url)s\">專案設定</a>中定義。"
+msgstr "其他標籤可以在<a href=\"%(url)s\">專案設定</a>中定義。"
 
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrators."
-msgstr "專案管理員可以定義額外標籤。"
+msgstr "專案管理員可以定義其他標籤。"
 
 #: weblate/templates/snippets/libre-basic.html:3
 #, python-format
@@ -11545,7 +11535,7 @@ msgstr "要加入的翻譯旗標"
 
 #: weblate/trans/forms.py:2432
 msgid "Translation flags to remove"
-msgstr "要移除的翻譯標籤"
+msgstr "要移除的翻譯旗標"
 
 #: weblate/trans/forms.py:2436
 msgid "Labels to add"
@@ -12783,7 +12773,7 @@ msgstr "顯示在控制面板中"
 #: weblate/trans/models/componentlist.py:43
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
-msgstr "當啟用時，此組件列表會以標籤頁顯示在控制面板中"
+msgstr "啟用後，這個組件列表會以分頁的形式顯示在控制面板中"
 
 #: weblate/trans/models/componentlist.py:72
 msgid "Project regular expression"
