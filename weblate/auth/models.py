@@ -368,11 +368,11 @@ class User(AbstractBaseUser):
     )
     groups = GroupManyToManyField(
         Group,
-        verbose_name=gettext_lazy("Groups"),
+        verbose_name=gettext_lazy("Teams"),
         blank=True,
         help_text=gettext_lazy(
             "The user is granted all permissions included in "
-            "membership of these groups."
+            "membership of these teams."
         ),
     )
 
@@ -930,10 +930,10 @@ class Invitation(models.Model):
     )
     group = models.ForeignKey(
         Group,
-        verbose_name=gettext_lazy("Group"),
+        verbose_name=gettext_lazy("Team"),
         help_text=gettext_lazy(
             "The user is granted all permissions included in "
-            "membership of these groups."
+            "membership of these teams."
         ),
         on_delete=models.deletion.CASCADE,
     )
