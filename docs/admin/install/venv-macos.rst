@@ -7,15 +7,12 @@ Installing on macOS
 
 .. code-block:: sh
 
-    brew install python pango cairo gobject-introspection libffi glib libyaml
+    brew install python pango cairo gobject-introspection glib libyaml tvuotila/libxmlsec1/libxmlsec1@1.2.37
     pip install virtualenv
 
-Make sure pip will be able to find the ``libffi`` and ``openssl`` versions provided by homebrew
-— this will be needed during the installation build step.
+.. note::
 
-.. code-block:: sh
-
-    export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig:/usr/local/opt/openssl@3/lib/pkgconfig"
+   Using older libxmlsec is needed until https://github.com/xmlsec/python-xmlsec/issues/254 is addressed.
 
 .. include:: steps/install-system-server.rst
 
