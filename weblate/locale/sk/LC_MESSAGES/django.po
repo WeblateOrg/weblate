@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-08-21 09:40+0000\n"
+"PO-Revision-Date: 2023-08-21 14:45+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -9613,16 +9613,13 @@ msgstr "Nedokončené"
 
 #: weblate/templates/snippets/list-objects.html:69
 msgid "Unfinished words"
-msgstr "Nedokončené slova"
+msgstr "Nedokončené slová"
 
 #: weblate/templates/snippets/list-objects.html:79
 msgid "Unfinished characters"
 msgstr "Nedokončené znaky"
 
 #: weblate/templates/snippets/list-objects.html:89
-#, fuzzy
-#| msgctxt "Number of untranslated strings"
-#| msgid "Untranslated"
 msgid "Untranslated"
 msgstr "Nepreložené"
 
@@ -10434,20 +10431,16 @@ msgid "You do not have permission to create components in any projects."
 msgstr "Nemáte povolenie na vytváranie komponentov v žiadnych projektoch."
 
 #: weblate/templates/trans/component_create.html:25
-#, fuzzy
-#| msgid "Version control"
 msgid "From version control"
-msgstr "Správa revízií"
+msgstr "Zo systému správy verzií"
 
 #: weblate/templates/trans/component_create.html:28
 msgid "From existing component"
 msgstr "Z existujúceho komponentu"
 
 #: weblate/templates/trans/component_create.html:31
-#, fuzzy
-#| msgid "Additional message"
 msgid "Additional branch"
-msgstr "Váš odkaz"
+msgstr "Ďalšia vetva"
 
 #: weblate/templates/trans/component_create.html:34
 msgid "Upload translations files"
@@ -10672,10 +10665,8 @@ msgid "This translation"
 msgstr "Tento preklad"
 
 #: weblate/templates/trans/other-row.html:15
-#, fuzzy
-#| msgid "Translated"
 msgid "Propagated"
-msgstr "Preložené"
+msgstr "Rozširované"
 
 #: weblate/templates/trans/other-row.html:18
 #: weblate/trans/models/component.py:450
@@ -11000,14 +10991,12 @@ msgid "Things to check"
 msgstr "Položky na kontrolu"
 
 #: weblate/templates/translate.html:456
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
-msgstr[0] "V preklade je %(count)s nepreložený reťazec."
-msgstr[1] "V preklade sú %(count)s nepreložené reťazce."
-msgstr[2] "V preklade je %(count)s nepreložených reťazcov."
+msgstr[0] "Pre tento reťazec existuje %(count)s návrh."
+msgstr[1] "Pre tento reťazec existujú %(count)s návrhy."
+msgstr[2] "Pre tento reťazec existuje %(count)s návrhov."
 
 #: weblate/templates/translate.html:470
 msgid "Enforced"
@@ -11026,24 +11015,20 @@ msgid "Selecting this option will set the corresponding ignore flag."
 msgstr "Výberom tejto možnosti sa nastaví príslušný označenie ignorovania."
 
 #: weblate/templates/translate.html:522
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s unresolved comment for this string."
 msgid_plural "There are %(count)s unresolved comments for this string."
-msgstr[0] "V preklade je %(count)s nepreložený reťazec."
-msgstr[1] "V preklade sú %(count)s nepreložené reťazce."
-msgstr[2] "V preklade je %(count)s nepreložených reťazcov."
+msgstr[0] "Pre tento reťazec je %(count)s nevyriešený komentár."
+msgstr[1] "Pre tento reťazec sú %(count)s nevyriešené komentáre."
+msgstr[2] "Pre tento reťazec je %(count)s nevyriešených komentárov."
 
 #: weblate/templates/translate.html:536
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s variant of this string."
 msgid_plural "There are %(count)s variants of this string."
-msgstr[0] "V preklade je %(count)s nepreložený reťazec."
-msgstr[1] "V preklade sú %(count)s nepreložené reťazce."
-msgstr[2] "V preklade je %(count)s nepreložených reťazcov."
+msgstr[0] "Existuje %(count)s variant tohto reťazca."
+msgstr[1] "Existujú %(count)s varianty tohto reťazca."
+msgstr[2] "Existuje %(count)s variantov tohto reťazca."
 
 #: weblate/templates/translate.html:553
 #, python-format
@@ -14250,15 +14235,12 @@ msgid "Bulk edit completed, no strings were updated."
 msgstr "Hromadná úprava dokončená, neboli aktualizované žiadne reťazce."
 
 #: weblate/trans/views/search.py:232
-#, fuzzy, python-format
-#| msgid "Search and replace completed, %d string was updated."
-#| msgid_plural "Search and replace completed, %d strings were updated."
+#, python-format
 msgid "Bulk edit completed, %d string was updated."
 msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "Vyhľadanie a nahradenie bolo dokončené, %d reťazec bol upravený."
-msgstr[1] "Vyhľadanie a nahradenie bolo dokončené, %d reťazce boli upravené."
-msgstr[2] ""
-"Vyhľadanie a nahradenie bolo dokončené, %d reťazcov bolo upravených."
+msgstr[0] "Hromadná úprava dokončená, %d reťazec bol aktualizovaný."
+msgstr[1] "Hromadná úprava dokončená, %d reťazce boli aktualizované."
+msgstr[2] "Hromadná úprava dokončená, %d reťazcov bolo aktualizovaných."
 
 #: weblate/trans/views/settings.py:55 weblate/trans/views/settings.py:78
 msgid "Settings saved"
