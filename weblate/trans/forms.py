@@ -2614,6 +2614,8 @@ class ChangesForm(forms.Form):
                 items.append((param, value.date().isoformat()))
             elif isinstance(value, User):
                 items.append((param, value.username))
+            elif isinstance(value, list):
+                items.extend((param, part) for part in value)
             else:
                 # It should be a string here
                 items.append((param, value))
