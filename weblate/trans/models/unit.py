@@ -1602,9 +1602,11 @@ class Unit(models.Model, LoggerMixin):
 
     @cached_property
     def all_labels(self):
+        from weblate.trans.models import Label
+
         if self.is_source:
             return self.labels.all()
-        return self.source_unit.all_labels | self.labels.all()
+        return Label.objects.filter(unit__id__in=(self.id, self.source_unit_id))
 
     def get_flag_actions(self):
         flags = self.all_flags
