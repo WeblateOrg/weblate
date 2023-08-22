@@ -670,7 +670,7 @@ def translate(request, path):  # noqa: C901
             "last_changes": unit.change_set.prefetch().order()[:10].preload("unit"),
             "screenshots": (
                 unit.source_unit.screenshots.all() | unit.screenshots.all()
-            ).order,
+            ).order(),
             "display_checks": list(get_display_checks(unit)),
             "comments_to_check": unit.unresolved_comments,
             "machinery_services": json.dumps(
