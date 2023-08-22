@@ -9,7 +9,6 @@ from collections import defaultdict
 from datetime import date
 from uuid import uuid4
 
-from diff_match_patch import diff_match_patch
 from django import template
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
@@ -39,6 +38,7 @@ from weblate.trans.models import (
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.specialchars import get_display_char
 from weblate.trans.util import split_plural, translation_percent
+from weblate.utils.diff import Differ
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
@@ -106,7 +106,7 @@ class Formatter:
         self.match = match
         # Tags output
         self.tags = [[] for i in range(len(value) + 1)]
-        self.dmp = diff_match_patch()
+        self.differ = Differ()
         self.whitespace = whitespace
 
     def parse(self):
@@ -123,18 +123,16 @@ class Formatter:
 
     def parse_diff(self):  # noqa: C901
         """Highlights diff, including extra whitespace."""
-        dmp = self.dmp
-        diff = dmp.diff_main(self.diff[self.idx], self.value)
-        dmp.diff_cleanupSemantic(diff)
+        diff = self.differ.compare(self.value, self.diff[self.idx])
         offset = 0
         for op, data in diff:
-            if op == dmp.DIFF_DELETE:
+            if op == self.differ.DIFF_DELETE:
                 formatter = Formatter(
                     0, data, self.unit, self.terms, None, self.search_match, self.match
                 )
                 formatter.parse()
                 self.tags[offset].append(f"<del>{formatter.format()}</del>")
-            elif op == dmp.DIFF_INSERT:
+            elif op == self.differ.DIFF_INSERT:
                 # Rearrange space highlighting
                 move_space = False
                 start_space = -1
@@ -172,7 +170,7 @@ class Formatter:
                 self.tags[offset].append("</ins>")
                 if start_space != -1:
                     self.tags[offset].append(SPACE_START)
-            elif op == dmp.DIFF_EQUAL:
+            elif op == self.differ.DIFF_EQUAL:
                 offset += len(data)
 
     def parse_highlight(self):
