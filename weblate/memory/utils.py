@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from weblate.trans.util import split_plural
+
 CATEGORY_FILE = 1
 CATEGORY_SHARED = 2
 CATEGORY_PRIVATE_OFFSET = 10000000
@@ -21,3 +23,8 @@ def parse_category(category):
     if CATEGORY_PRIVATE_OFFSET <= category < CATEGORY_USER_OFFSET:
         return False, False, category - CATEGORY_PRIVATE_OFFSET, None
     return False, False, None, category - CATEGORY_USER_OFFSET
+
+
+def is_valid_entry(source: str, target: str, **kwargs):
+    """Validates whether translation memory entry has content."""
+    return any(split_plural(source)) and any(split_plural(target))
