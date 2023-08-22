@@ -173,7 +173,10 @@ ACCOUNT_ACTIVITY_METHOD = {
         "login": gettext_lazy("Signed in using password."),
         "login-new": gettext_lazy("Signed in using password from a new device."),
         "failed-auth": gettext_lazy("Could not sign in using password."),
-    }
+    },
+    "project": {
+        "invited": gettext_lazy("Invited to {project} by {username}."),
+    },
 }
 
 EXTRA_MESSAGES = {

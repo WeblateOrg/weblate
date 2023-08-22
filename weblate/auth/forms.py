@@ -68,11 +68,15 @@ class InviteUserForm(forms.ModelForm):
                 details=details,
             )
             if self.instance.user:
+                details = {"username": request.user.username}
+                if self.project:
+                    details["project"] = self.project.name
+                    details["method"] = "project"
                 AuditLog.objects.create(
                     user=self.instance.user,
                     request=request,
                     activity="invited",
-                    username=request.user.username,
+                    **details,
                 )
             self.instance.send_email()
             messages.success(request, gettext("User invitation e-mail was sent."))
