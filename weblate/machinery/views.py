@@ -335,6 +335,9 @@ def handle_machinery(request, service, unit, search=None):
                         item["diff"] = differ.highlight(
                             item["text"], targets[plural_form]
                         )
+                        item["source_diff"] = differ.highlight(
+                            item["source"], item["original_source"]
+                        )
                 translations = list(chain.from_iterable(translations))
             response["translations"] = translations
             response["responseStatus"] = 200

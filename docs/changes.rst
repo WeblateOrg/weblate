@@ -28,6 +28,7 @@ Not yet released.
 * Users now have to confirm invitations to become team members.
 * :ref:`check-formats` can now check all plural forms with the ``strict-format`` flag.
 * :doc:`/user/checks` browsing experience.
+* Highlight differences in the source string in automatic suggestions.
 
 **Bug fixes**
 

@@ -578,7 +578,9 @@
           .text(el.text),
       );
       row.append($("<td>").html(el.diff));
-      row.append($("<td/>").attr("class", "machinery-text").text(el.source));
+      row.append(
+        $("<td/>").attr("class", "machinery-text").html(el.source_diff),
+      );
       row.append(service);
 
       /* Quality score as bar with the text */
