@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-08-22 06:40+0000\n"
+"PO-Revision-Date: 2023-08-22 08:17+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -7647,7 +7647,7 @@ msgstr "Synchronizovať"
 
 #: weblate/templates/js/git-status.html:132
 msgid "Force writing all translations to the Weblate repository"
-msgstr "Vynútiť zápis všetkých prekladov do repozitára Weblate"
+msgstr "Vynútenie zápisu všetkých prekladov do repozitárov Weblate"
 
 #: weblate/templates/js/git-status.html:135
 msgid "Forces writing all strings to the translation files."
@@ -8208,12 +8208,12 @@ msgstr "Odstránenie účtu na %(site_title)s"
 #: weblate/templates/mail/repository_error_subject.txt:3
 #, python-format
 msgid "Repository failure in %(component)s"
-msgstr "Zlyhanie repozitára v %(component)s"
+msgstr "Chyba v repozitári na %(component)s"
 
 #: weblate/templates/mail/repository_operation_subject.txt:3
 #, python-format
 msgid "Repository operation in %(component)s"
-msgstr "Repozitárová operácia v %(component)s"
+msgstr "Operácia s repozitárom v %(component)s"
 
 #: weblate/templates/mail/reset-nonexisting.html:7
 #, python-format
@@ -8558,7 +8558,7 @@ msgstr "Zatiaľ nemerané"
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
 msgid "Status of repositories"
-msgstr "Stav Git repozitára"
+msgstr "Stav repozitárov"
 
 #: weblate/templates/manage/repos.html:14
 msgid "This repository is linked to:"
@@ -9222,18 +9222,18 @@ msgstr "Načítanie výsledkov…"
 #: weblate/templates/snippets/git-info.html:10
 #: weblate/trans/models/component.py:317
 msgid "Source code repository"
-msgstr "Zdrojový repozitár"
+msgstr "Repozitár so zdrojovými kódmi"
 
 #: weblate/templates/snippets/git-info.html:19
 #: weblate/trans/templatetags/translations.py:917
 #, python-format
 msgid "This component is linked to the %(target)s repository."
-msgstr "Tento komponent je prepojený s repozitárom %(target)s."
+msgstr "Repozitár pre tento komponent je prepojený s %(target)s."
 
 #: weblate/templates/snippets/git-info.html:21
 #: weblate/templates/snippets/git-info.html:71
 msgid "Repository URL copied to clipboard."
-msgstr "Adresa URL repozitára bola skopírovaná do schránky."
+msgstr "Adresa URL repozitára skopírovaná do schránky."
 
 #: weblate/templates/snippets/git-info.html:27 weblate/trans/forms.py:1687
 #: weblate/trans/models/component.py:366
@@ -10204,7 +10204,8 @@ msgstr "Šablóna pre nové preklady"
 
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
-msgstr "Weblate nemohol zlúčiť upstream zmeny počas aktualizácie repozitára."
+msgstr ""
+"Weblate sa pri aktualizácii repozitára nepodarilo zlúčiť zmeny z pôvodného."
 
 #: weblate/templates/trans/alert/missinglicense.html:2
 msgid ""
@@ -10268,7 +10269,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/pushfailure.html:4
 msgid "Weblate could not push changes to the upstream repository."
-msgstr "Weblate nemohol preniesť zmeny do upstreamového repozitára."
+msgstr "Weblate sa nepodarilo odoslať zmeny do upstream repozitára."
 
 #: weblate/templates/trans/alert/pushfailure.html:9
 #: weblate/trans/models/component.py:2768
@@ -10640,13 +10641,14 @@ msgstr "Rebase Weblate zmeny na vrchole upstream a vyriešiť všetky konflikty.
 
 #: weblate/templates/trans/merge_instructions.html:28
 msgid "Push changes into upstream repository."
-msgstr "Odoslať zmeny do vzdialeného repozitára."
+msgstr "Odošlite zmeny do vzdialeného repozitára."
 
 #: weblate/templates/trans/merge_instructions.html:32
 msgid ""
 "Weblate should now be able to see updated repository and you can unlock it."
 msgstr ""
-"Weblate by teraz mal vidieť aktualizovaný repozitár a môžete ho odomknúť."
+"Weblate by teraz mal mať prístup k opravenému repozitáru a môžete ho "
+"odomknúť."
 
 #: weblate/templates/trans/merge_instructions.html:39
 msgid "Check the FAQ for info on how to resolve this."
@@ -11083,7 +11085,7 @@ msgstr "reťazec %(position)s"
 
 #: weblate/templates/translate.html:719
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "Čakajúce zmeny ešte nie sú potvrdené v repozitári Weblate"
+msgstr "Čakajúce zmeny ešte nezapísané do repozitára Weblate"
 
 #: weblate/templates/translate.html:719
 msgid "pending"
@@ -12099,17 +12101,17 @@ msgstr "Maska duplicitného súboru."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:195
 msgid "Could not merge the repository."
-msgstr "Chyba pri zlučovaní repozitára."
+msgstr "Nepodarilo sa zlúčiť repozitár."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:204
 msgid "Could not update the repository."
-msgstr "Repozitár sa nepodarilo aktualizovať."
+msgstr "Nepodarilo sa aktualizovať repozitár."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:213
 msgid "Could not push the repository."
-msgstr "Repozitár sa nepodarilo stlačiť."
+msgstr "Nepodarilo sa odoslať repozitár."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:254
@@ -12129,7 +12131,7 @@ msgstr "Repozitár je zastaraný."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:274
 msgid "Repository has changes."
-msgstr "Repozitár má zmeny."
+msgstr "Repozitár obsahuje zmeny."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:282
@@ -12305,17 +12307,17 @@ msgstr "Vykonané zmeny"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:301
 msgid "Reset repository"
-msgstr "Obnoviť repozitár"
+msgstr "Obnovený repozitár"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:303
 msgid "Merged repository"
-msgstr "Zlučený repozitár"
+msgstr "Zlúčený repozitár"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:305
 msgid "Rebased repository"
-msgstr "Obnovený repozitár"
+msgstr "Preskladaný repozitár"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:307
@@ -12475,7 +12477,7 @@ msgstr "Nahraná snímka obrazovky"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:383
 msgid "String updated in the repository"
-msgstr "Reťazec aktualizovaný v repozitári"
+msgstr "Reťazec bol zmenený v repozitári"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:385
@@ -12670,16 +12672,16 @@ msgid ""
 "translations. You can also choose additional integration with third party "
 "providers to submit merge requests."
 msgstr ""
-"Systém správy verzií, ktorý sa má použiť na prístup k vášmu repozitáru "
-"obsahujúcemu preklady. Na odoslanie žiadostí o zlúčenie si môžete vybrať aj "
-"dodatočnú integráciu s poskytovateľmi tretích strán."
+"Verzovací systém ktorý používate pre váš repozitár s prekladmi. Môžete si "
+"tiež vybrať integráciu s ďalšími službami na odosielanie požiadaviek na "
+"zlúčenie."
 
 #: weblate/trans/models/component.py:320
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
 msgstr ""
-"URL repozitára, použite weblate://project/component na zdieľanie s iným "
+"URL repozitára, použite weblate://project/component pre zdieľanie s iným "
 "komponentom."
 
 #: weblate/trans/models/component.py:332
@@ -12694,7 +12696,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:340
 msgid "Repository browser"
-msgstr "Prehliadanie repozitára"
+msgstr "Prezeranie repozitára"
 
 #: weblate/trans/models/component.py:342
 msgid ""
@@ -12702,9 +12704,9 @@ msgid ""
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"Odkaz na prehliadač repozitára, použite {{branch}} pre vetvu, {{filename}} a "
-"{{line}} ako zástupné symboly súboru a riadku. Možno budete chcieť odstrániť "
-"vedúci adresár pomocou {{filename|parentdir}}."
+"Odkaz na prezeranie repozitára, použite {{branch}} miesto vetvy, {{filename}}"
+" a {{line}} miesto mena súboru a riadky. Možno budete potrebovať odstrániť "
+"úvodný adresár pomocou {{filename|parentdir}}."
 
 #: weblate/trans/models/component.py:350
 msgid "Exported repository URL"
@@ -12712,7 +12714,7 @@ msgstr "Adresa exportovaného repozitára"
 
 #: weblate/trans/models/component.py:353
 msgid "URL of repository where users can fetch changes from Weblate"
-msgstr "URL repozitára, kde môžu používatelia načítať zmeny z Weblate"
+msgstr "URL repozitára, odkiaľ si používatelia môžu stiahnuť zmeny z Weblate"
 
 #: weblate/trans/models/component.py:358
 msgid "Source string bug reporting address"
