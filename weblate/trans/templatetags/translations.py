@@ -667,11 +667,9 @@ def translation_progress_data(
         approved += readonly
         translated -= readonly
 
-    bad = total - approved - translated
     return {
         "approved": f"{translation_percent(approved, total, False):.1f}",
         "good": f"{translation_percent(translated, total):.1f}",
-        "bad": f"{translation_percent(bad, total, False):.1f}",
     }
 
 
