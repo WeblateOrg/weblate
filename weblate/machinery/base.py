@@ -308,15 +308,17 @@ class MachineTranslation:
 
         return "".join(parts), replacements
 
+    def uncleanup_text(self, replacements: dict[str, str], text: str) -> str:
+        for source, target in replacements.items():
+            text = re.sub(self.make_re_placeholder(source), target, text)
+        return self.unescape_text(text)
+
     def uncleanup_results(self, replacements: dict[str, str], results: list[str]):
         """Reverts replacements done by cleanup_text."""
         keys = ("text", "source")
         for result in results:
             for key in keys:
-                text = result[key]
-                for source, target in replacements.items():
-                    text = re.sub(self.make_re_placeholder(source), target, text)
-                result[key] = self.unescape_text(text)
+                result[key] = self.uncleanup_text(replacements, result[key])
 
     def get_language_possibilities(self, language):
         code = language.code
@@ -396,6 +398,7 @@ class MachineTranslation:
         ]
 
     def _translate(self, source, language, text, unit, user=None, threshold: int = 75):
+        original_source = text
         text, replacements = self.cleanup_text(text, unit)
 
         if not text or self.is_rate_limited():
@@ -433,7 +436,7 @@ class MachineTranslation:
         if replacements or self.force_uncleanup:
             self.uncleanup_results(replacements, result)
         for item in result:
-            item["original_source"] = text
+            item["original_source"] = original_source
         return result
 
     def get_error_message(self, exc):

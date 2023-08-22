@@ -426,6 +426,7 @@ class MachineTranslationTest(BaseMachineTranslationTest):
                         "quality": 100,
                         "service": "Dummy",
                         "source": "Hello, %s!",
+                        "original_source": "Hello, %s!",
                         "text": "Nazdar %s!",
                     }
                 ]
@@ -1296,6 +1297,7 @@ class AWSTranslationTest(BaseMachineTranslationTest):
                             "quality": 88,
                             "service": "AWS",
                             "source": "Hello",
+                            "original_source": "Hello",
                         }
                     ]
                 ],
@@ -1414,8 +1416,10 @@ class ViewsTest(FixtureTestCase):
                     "plural_form": 0,
                     "service": "Dummy",
                     "text": "Nazdar světe!",
+                    "original_source": "Hello, world!\n",
                     "source": "Hello, world!\n",
                     "diff": "<ins>Nazdar světe!</ins>",
+                    "source_diff": "Hello, world!\n",
                 },
                 {
                     "quality": 100,
@@ -1423,7 +1427,9 @@ class ViewsTest(FixtureTestCase):
                     "service": "Dummy",
                     "text": "Ahoj světe!",
                     "source": "Hello, world!\n",
+                    "original_source": "Hello, world!\n",
                     "diff": "<ins>Ahoj světe!</ins>",
+                    "source_diff": "Hello, world!\n",
                 },
             ],
         )

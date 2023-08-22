@@ -57,6 +57,7 @@ class MemoryModelTest(FixtureTestCase):
                     "origin": "File: test",
                     "source": "Hello",
                     "text": "Ahoj",
+                    "original_source": "Hello",
                     "show_quality": True,
                     "delete_url": None,
                 }
@@ -73,6 +74,7 @@ class MemoryModelTest(FixtureTestCase):
                     "service": "Weblate Translation Memory",
                     "origin": "File: test",
                     "source": "Hello",
+                    "original_source": "Hello",
                     "text": "Ahoj",
                     "show_quality": True,
                     "delete_url": f"/api/memory/{Memory.objects.first().pk}/",
