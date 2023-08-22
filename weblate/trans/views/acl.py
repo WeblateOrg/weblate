@@ -46,11 +46,11 @@ def check_user_form(
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied
 
-    form = (
-        form_class(project=obj, data=request.POST)
-        if pass_project
-        else form_class(data=request.POST)
-    )
+    kwargs = {}
+    if pass_project:
+        kwargs["project"] = obj
+
+    form = form_class(data=request.POST, **kwargs)
 
     if form.is_valid():
         return obj, form
