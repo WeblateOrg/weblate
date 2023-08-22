@@ -19,6 +19,7 @@ from weblate.memory.utils import CATEGORY_FILE
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.db import using_postgresql
+from weblate.utils.state import STATE_TRANSLATED
 
 
 def add_document():
@@ -151,6 +152,13 @@ class MemoryModelTest(FixtureTestCase):
 
     def test_import_unit(self):
         unit = self.get_unit()
+        handle_unit_translation_change(unit.id, self.user.id)
+        self.assertEqual(Memory.objects.count(), 0)
+        handle_unit_translation_change(unit.id, self.user.id)
+        self.assertEqual(Memory.objects.count(), 0)
+        unit.translate(self.user, "Nazdar", STATE_TRANSLATED)
+        self.assertEqual(Memory.objects.count(), 3)
+        Memory.objects.all().delete()
         handle_unit_translation_change(unit.id, self.user.id)
         self.assertEqual(Memory.objects.count(), 3)
         handle_unit_translation_change(unit.id, self.user.id)
