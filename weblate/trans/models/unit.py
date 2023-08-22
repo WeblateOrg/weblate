@@ -7,6 +7,7 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING
 
+import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
 from django.db import Error as DjangoDatabaseError
@@ -1309,35 +1310,35 @@ class Unit(models.Model, LoggerMixin):
 
     def nearby(self, count):
         """Return list of nearby messages based on location."""
-        return (
-            self.translation.unit_set.prefetch_full()
-            .order_by("position")
-            .filter(
+        with sentry_sdk.start_span(op="unit.nearby"):
+            result = self.translation.unit_set.prefetch_full().order_by("position")
+            result = result.filter(
                 position__gte=self.position - count,
                 position__lte=self.position + count,
             )
-        )
+            # Force materializing the query
+            list(result)
+            return result
 
     def nearby_keys(self, count):
         # Do not show nearby keys on bilingual
         if not self.translation.component.has_template():
             return []
-        key = self.translation.keys_cache_key
-        key_list = cache.get(key)
-        if key_list is None or self.pk not in key_list:
-            key_list = list(
-                self.translation.unit_set.order_by("context").values_list(
-                    "id", flat=True
+        with sentry_sdk.start_span(op="unit.nearby_keys"):
+            key = self.translation.keys_cache_key
+            key_list = cache.get(key)
+            unit_set = self.translation.unit_set
+            if key_list is None or self.pk not in key_list:
+                key_list = list(
+                    unit_set.order_by("context").values_list("id", flat=True)
                 )
-            )
-            cache.set(key, key_list)
-        offset = key_list.index(self.pk)
-        nearby = key_list[max(offset - count, 0) : offset + count]
-        return (
-            self.translation.unit_set.filter(id__in=nearby)
-            .prefetch_full()
-            .order_by("context")
-        )
+                cache.set(key, key_list)
+            offset = key_list.index(self.pk)
+            nearby = key_list[max(offset - count, 0) : offset + count]
+            result = unit_set.filter(id__in=nearby).prefetch_full().order_by("context")
+            # Force materializing the query
+            list(result)
+            return result
 
     def variants(self):
         if not self.variant:

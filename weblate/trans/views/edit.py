@@ -6,6 +6,7 @@ import json
 import time
 from math import ceil
 
+import sentry_sdk
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
@@ -201,67 +202,70 @@ def search(
     base, project, unit_set, request, blank: bool = False, use_cache: bool = True
 ):
     """Perform search or returns cached search results."""
-    now = int(time.monotonic())
-    # Possible new search
-    form = PositionSearchForm(user=request.user, data=request.GET, show_builder=False)
+    with sentry_sdk.start_span(op="unit.search"):
+        now = int(time.monotonic())
+        # Possible new search
+        form = PositionSearchForm(
+            user=request.user, data=request.GET, show_builder=False
+        )
 
-    # Process form
-    form_valid = form.is_valid()
-    if form_valid:
-        cleaned_data = form.cleaned_data
-        search_url = form.urlencode()
-        search_query = form.get_search_query()
-        name = form.get_name()
-        search_items = form.items()
-    else:
-        cleaned_data = {}
-        show_form_errors(request, form)
-        search_url = ""
-        search_query = ""
-        name = ""
-        search_items = ()
+        # Process form
+        form_valid = form.is_valid()
+        if form_valid:
+            cleaned_data = form.cleaned_data
+            search_url = form.urlencode()
+            search_query = form.get_search_query()
+            name = form.get_name()
+            search_items = form.items()
+        else:
+            cleaned_data = {}
+            show_form_errors(request, form)
+            search_url = ""
+            search_query = ""
+            name = ""
+            search_items = ()
 
-    search_result = {
-        "form": form,
-        "offset": cleaned_data.get("offset", 1),
-    }
-    session_key = f"search_{base.cache_key}_{search_url}"
+        search_result = {
+            "form": form,
+            "offset": cleaned_data.get("offset", 1),
+        }
+        session_key = f"search_{base.cache_key}_{search_url}"
 
-    # Remove old search results
-    cleanup_session(request.session)
+        # Remove old search results
+        cleanup_session(request.session)
 
-    session_data = request.session.get(session_key)
-    if use_cache and session_data and "offset" in request.GET:
-        search_result.update(request.session[session_key])
-        request.session[session_key]["ttl"] = now + SESSION_SEARCH_CACHE_TTL
+        session_data = request.session.get(session_key)
+        if use_cache and session_data and "offset" in request.GET:
+            search_result.update(request.session[session_key])
+            request.session[session_key]["ttl"] = now + SESSION_SEARCH_CACHE_TTL
+            return search_result
+
+        allunits = unit_set.search(cleaned_data.get("q", ""), project=project)
+
+        # Grab unit IDs
+        unit_ids = list(
+            allunits.order_by_request(cleaned_data, base).values_list("id", flat=True)
+        )
+
+        # Check empty search results
+        if not unit_ids and not blank:
+            messages.warning(request, gettext("No strings found!"))
+            return redirect(base)
+
+        store_result = {
+            "query": search_query,
+            "url": search_url,
+            "items": search_items,
+            "key": session_key,
+            "name": str(name),
+            "ids": unit_ids,
+            "ttl": now + SESSION_SEARCH_CACHE_TTL,
+        }
+        if use_cache:
+            request.session[session_key] = store_result
+
+        search_result.update(store_result)
         return search_result
-
-    allunits = unit_set.search(cleaned_data.get("q", ""), project=project)
-
-    # Grab unit IDs
-    unit_ids = list(
-        allunits.order_by_request(cleaned_data, base).values_list("id", flat=True)
-    )
-
-    # Check empty search results
-    if not unit_ids and not blank:
-        messages.warning(request, gettext("No strings found!"))
-        return redirect(base)
-
-    store_result = {
-        "query": search_query,
-        "url": search_url,
-        "items": search_items,
-        "key": session_key,
-        "name": str(name),
-        "ids": unit_ids,
-        "ttl": now + SESSION_SEARCH_CACHE_TTL,
-    }
-    if use_cache:
-        request.session[session_key] = store_result
-
-    search_result.update(store_result)
-    return search_result
 
 
 def perform_suggestion(unit, form, request):
