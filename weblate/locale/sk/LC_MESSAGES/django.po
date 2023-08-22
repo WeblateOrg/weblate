@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-10 10:40+0000\n"
-"PO-Revision-Date: 2023-08-22 09:32+0000\n"
+"PO-Revision-Date: 2023-08-22 10:50+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -73,7 +73,7 @@ msgstr "E-mailovú adresu nezobraziť verejne"
 #: weblate/accounts/forms.py:317
 #, python-format
 msgid "Component list: %s"
-msgstr "Zoznam komponentov: %s"
+msgstr "Zoznam súčastí: %s"
 
 #: weblate/accounts/forms.py:345 weblate/accounts/forms.py:418
 #: weblate/accounts/templatetags/authnames.py:22 weblate/auth/models.py:343
@@ -172,7 +172,7 @@ msgstr "Tento účet je neaktívny."
 
 #: weblate/accounts/forms.py:706
 msgid "Component wide notifications"
-msgstr "Upozorňovania v rámci celého komponentu"
+msgstr "Upozorňovanie v rámci súčasti"
 
 #: weblate/accounts/forms.py:711
 msgid "Translation notifications"
@@ -202,7 +202,7 @@ msgstr "Projekt: {}"
 
 #: weblate/accounts/forms.py:763
 msgid "Component: {}"
-msgstr "Komponent: {}"
+msgstr "Súčasť: {}"
 
 #: weblate/accounts/forms.py:769
 msgid ""
@@ -233,8 +233,7 @@ msgstr "Dostanete upozornenie na každú takúto udalosť v projekte %(project)s
 #: weblate/accounts/forms.py:787
 #, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr ""
-"Dostanete upozornenie na každú takúto udalosť v komponente %(component)s."
+msgstr "Dostanete upozornenie pre každú takúto udalosť v súčasti %(component)s."
 
 #: weblate/accounts/forms.py:794
 msgid ""
@@ -274,8 +273,7 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
-"Dostanete upozornenia len pre vami prekladané jazyky v komponente "
-"%(component)s."
+"Dostanete upozornenie len pre vami prekladané jazyky v súčasti %(component)s."
 
 #: weblate/accounts/forms.py:852 weblate/auth/models.py:324
 #: weblate/templates/auth/team.html:85 weblate/templates/manage/users.html:45
@@ -588,11 +586,11 @@ msgstr "Sledované preklady"
 #: weblate/accounts/models.py:488 weblate/auth/models.py:138
 #: weblate/templates/dashboard/user.html:21
 msgid "Component lists"
-msgstr "Zoznamy komponentov"
+msgstr "Zoznamy súčastí"
 
 #: weblate/accounts/models.py:489 weblate/templates/dashboard/user.html:59
 msgid "Component list"
-msgstr "Zoznam komponentov"
+msgstr "Zoznam súčastí"
 
 #: weblate/accounts/models.py:490 weblate/templates/dashboard/user.html:23
 msgid "Suggested translations"
@@ -604,7 +602,7 @@ msgstr "Prednastavené zobrazenie nástenky"
 
 #: weblate/accounts/models.py:508
 msgid "Default component list"
-msgstr "Predvolený zoznam komponentov"
+msgstr "Predvolený zoznam súčastí"
 
 #: weblate/accounts/models.py:518
 #: weblate/templates/snippets/watch-dropdown.html:28
@@ -681,13 +679,13 @@ msgstr "Spoločnosť"
 #: weblate/accounts/models.py:639
 msgid ""
 "Please choose which component list you want to display on the dashboard."
-msgstr ""
-"Vyberte prosím zoznam komponentov, ktorý chcete zobrazovať na nástenke."
+msgstr "Prosím zvoľte zoznam súčastí, ktorý chcete zobraziť na nástenke."
 
 #: weblate/accounts/models.py:650
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
-"Výber zoznamu komponentov nemá žiaden vplyv, ak nie je zobrazený na nástenke."
+"Zvolenie zoznamu súčastí nemá žiadny efekt, pokiaľ nie je zapnuté jeho "
+"zobrazenie na nástenke."
 
 #: weblate/accounts/models.py:767 weblate/trans/views/edit.py:347
 #, python-format
@@ -732,7 +730,7 @@ msgstr "Operácia na repozitári"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:461
 msgid "Component locking"
-msgstr "Zamknutie komponentu"
+msgstr "Zamknutie súčasti"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:469
@@ -800,7 +798,7 @@ msgstr "Nový jazyk"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:650
 msgid "New translation component"
-msgstr "Nový komponent prekladu"
+msgstr "Nová súčasť prekladu"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
@@ -1069,8 +1067,8 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
-"Automaticky prekladá reťazce pomocou strojového prekladu alebo iných "
-"komponentov."
+"Automaticky prekladá reťazce strojovým prekladom alebo preklady z iných "
+"súčastí."
 
 #: weblate/addons/base.py:326 weblate/trans/views/create.py:243
 msgid ""
@@ -1123,20 +1121,20 @@ msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
-"Zabezpečuje použitie konzistentnej sady jazykov pre všetky komponenty v "
-"rámci projektu."
+"Zabezpečuje, aby sa pre všetky súčasti projektu používala konzistentná sada "
+"jazykov."
 
 #: weblate/addons/discovery.py:17
 msgid "Component discovery"
-msgstr "Zisťovanie komponentov"
+msgstr "Objavovanie súčastí"
 
 #: weblate/addons/discovery.py:19
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr ""
-"Automaticky pridá alebo odoberie komponent z projektu v závislosti na "
-"zmenách súborov v systéme správy verzií zdrojových kódov."
+"Automaticky pridá alebo odoberie súčasti z projektu v závislosti na zmenách "
+"súborov v systéme správy verzií zdrojových kódov."
 
 #: weblate/addons/example.py:20
 msgid "Example add-on"
@@ -1396,7 +1394,7 @@ msgstr "Formát súboru"
 
 #: weblate/addons/forms.py:274
 msgid "Customize the component name"
-msgstr "Prispôsobiť názov komponentu"
+msgstr "Prispôsobiť názov súčasti"
 
 #: weblate/addons/forms.py:279
 msgid "Define the monolingual base filename"
@@ -1447,11 +1445,11 @@ msgstr ""
 
 #: weblate/addons/forms.py:316
 msgid "Clone add-ons from the main component to the newly created ones"
-msgstr "Naklonujte doplnky z hlavného komponentu do novovytvorených"
+msgstr "Kopírovať doplnky pre novo vytvorené súčasti z hlavnej súčasti"
 
 #: weblate/addons/forms.py:322
 msgid "Remove components for inexistent files"
-msgstr "Odsrániť komponenty pre neexistujúce súbory"
+msgstr "Odstrániť súčasti pre neexistujúce súbory"
 
 #: weblate/addons/forms.py:325
 msgid "I confirm the above matches look correct"
@@ -1459,11 +1457,11 @@ msgstr "Potvrdzujem, že vyššie uvedené zhody sa zdajú byť správne"
 
 #: weblate/addons/forms.py:384
 msgid "Please review and confirm the matched components."
-msgstr "Prosím skontrolujte a potvrďte zhodné komponenty."
+msgstr "Skontrolujte a potvrďte zhodujúce sa súčasti."
 
 #: weblate/addons/forms.py:412
 msgid "Please include component markup in the template."
-msgstr "Do šablóny zahrňte označenie komponentov."
+msgstr "Nezabudnite na označenie súčasti."
 
 #: weblate/addons/forms.py:455
 msgid "Translation threshold"
@@ -1761,7 +1759,7 @@ msgstr "Projekt"
 #: weblate/templates/translation.html:203 weblate/trans/forms.py:901
 #: weblate/trans/forms.py:1674 weblate/trans/models/announcement.py:81
 msgid "Component"
-msgstr "Komponent"
+msgstr "Súčasť"
 
 #: weblate/api/views.py:1617
 msgid "User"
@@ -1797,11 +1795,11 @@ msgstr "Dôležité dátumy"
 
 #: weblate/auth/admin.py:218
 msgid "This is not used when a component list is selected."
-msgstr "Toto sa nepoužije pokiaľ je zvolený zoznam komponentov."
+msgstr "Toto sa nepoužije pokiaľ je zvolený zoznam súčastí."
 
 #: weblate/auth/admin.py:225
 msgid "This is not used when a component is selected."
-msgstr "Toto sa nepoužíva, keď je vybratý komponent."
+msgstr "Toto sa nepoužije ak je zvolená súčasť."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:21
@@ -1831,12 +1829,12 @@ msgstr "Vyriešiť komentár"
 #. Translators: Permission name
 #: weblate/auth/data.py:31
 msgid "Edit component settings"
-msgstr "Upraviť nastavenia komponentu"
+msgstr "Upraviť nastavenia súčasti"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:33
 msgid "Lock component, preventing translations"
-msgstr "Uzamknúť komponent, zakázanie prekladania"
+msgstr "Uzamknúť súčasť, zakázanie prekladania"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:35
@@ -2088,7 +2086,7 @@ msgstr "Spravovať autom. prekladače"
 #. Translators: Permission name
 #: weblate/auth/data.py:139
 msgid "Manage component lists"
-msgstr "Spravovať zoznamy komponentov"
+msgstr "Spravovať zoznamy súčastí"
 
 #: weblate/auth/data.py:170
 msgctxt "Access-control role"
@@ -2299,7 +2297,7 @@ msgstr "Všetky chránené projekty"
 
 #: weblate/auth/models.py:121
 msgid "From component list"
-msgstr "Zo zoznamu komponentov"
+msgstr "Zo zoznamu súčastí"
 
 #: weblate/auth/models.py:126 weblate/billing/admin.py:58
 #: weblate/billing/models.py:278 weblate/templates/accounts/profile.html:220
@@ -2323,12 +2321,12 @@ msgstr "Projekty"
 #: weblate/templates/trans/project-access.html:194 weblate/trans/forms.py:865
 #: weblate/trans/forms.py:2086
 msgid "Components"
-msgstr "Komponenty"
+msgstr "Súčasti"
 
 #: weblate/auth/models.py:133
 msgid "Empty selection grants access to all components in project scope."
 msgstr ""
-"Prázdny výber poskytuje prístup ku všetkým komponentom v rozsahu projektu."
+"Prázdny výber poskytuje prístup ku všetkým súčastiam v rozsahu projektu."
 
 #: weblate/auth/models.py:143
 msgid "Language selection"
@@ -2525,7 +2523,7 @@ msgstr "Namiesto toho pridajte reťazec do zdrojového jazyka."
 
 #: weblate/auth/permissions.py:246
 msgid "Adding strings is disabled in the component configuration."
-msgstr "Pridávanie reťazcov je v konfigurácii komponentu zakázané."
+msgstr "Pridávanie reťazcov je v konfigurácii súčasti zakázané."
 
 #: weblate/auth/permissions.py:263 weblate/auth/permissions.py:280
 msgid "File format does not support this."
@@ -2644,9 +2642,9 @@ msgstr[2] "Obsahuje %d projektov"
 #, python-format
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
-msgstr[0] "Obsahuje %d komponent"
-msgstr[1] "Obsahuje %d komponenty"
-msgstr[2] "Obsahuje %d komponentov"
+msgstr[0] "Obsahuje %d súčasť"
+msgstr[1] "Obsahuje %d súčasti"
+msgstr[2] "Obsahuje %d súčastí"
 
 #: weblate/billing/models.py:460
 msgid "Missing license"
@@ -5950,8 +5948,8 @@ msgid ""
 "This add-on is used for the whole project, it is enough to install it for "
 "one component."
 msgstr ""
-"Tento doplnok sa používa pre celý projekt, stačí ho nainštalovať pre jeden "
-"komponent."
+"Tento doplnok funguje na celom projekte, stačí ho nainštalovať pre jednu zo "
+"súčastí."
 
 #: weblate/templates/addons/addon_head.html:7
 msgid "project wide"
@@ -6006,7 +6004,7 @@ msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
 msgstr ""
-"Nepodarilo sa nájsť žiadne ďalšie doplnky kompatibilné s týmto komponentom "
+"Nepodarilo sa nájsť žiadne ďalšie doplnky použiteľné s touto súčasťou "
 "prekladu."
 
 #: weblate/templates/addons/addon_list.html:71
@@ -6032,11 +6030,11 @@ msgstr "Zhodné súbory"
 
 #: weblate/templates/addons/discovery_preview.html:9
 msgid "The following components would be deleted"
-msgstr "Nasledujúce komponenty budú odstránené"
+msgstr "Nasledujúce súčasti by boli zmazané"
 
 #: weblate/templates/addons/discovery_preview.html:15
 msgid "The following components would be created"
-msgstr "Nasledujúce komponenty by sa vytvorili"
+msgstr "Nasledujúce súčasti by boli vytvorené"
 
 #: weblate/templates/addons/discovery_preview.html:21
 #: weblate/templates/addons/discovery_preview.html:38
@@ -6056,11 +6054,11 @@ msgstr "Maska súborov"
 
 #: weblate/templates/addons/discovery_preview.html:32
 msgid "The following components matched existing ones"
-msgstr "Nasledujúce komponenty sa zhodujú s existujúcimi"
+msgstr "Nasledujúce súčasti, ktoré sa zhodujú s tými existujúcimi"
 
 #: weblate/templates/addons/discovery_preview.html:49
 msgid "No matching components were found!"
-msgstr "Neboli nájdené žiadne zodpovedajúce komponenty!"
+msgstr "Neboli nájdené žiadne zodpovedajúce súčasti!"
 
 #: weblate/templates/addons/generate_help.html:6
 msgid ""
@@ -6085,11 +6083,11 @@ msgstr "Názov súboru prekladu"
 #: weblate/templates/addons/generate_help.html:22
 #: weblate/trans/models/component.py:289
 msgid "Component name"
-msgstr "Názov komponentu"
+msgstr "Názov súčasti"
 
 #: weblate/templates/addons/generate_help.html:24
 msgid "Component URL slug"
-msgstr "Komponent URL slug"
+msgstr "URL slug súčasti"
 
 #: weblate/templates/addons/generate_help.html:26
 #: weblate/trans/models/project.py:86
@@ -6122,7 +6120,7 @@ msgstr "Zdrojový reťazec"
 #: weblate/templates/addons/squash_help.html:4
 msgid ""
 "Weblate commits from components within this repository will be squashed."
-msgstr "Zápisy Weblate z komponentov v tomto odkladacom priestore budú zlúčené."
+msgstr "Zápisy Weblate zo súčastí v tomto repozitári budú zlúčené."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
@@ -6240,7 +6238,7 @@ msgstr "Pridať"
 
 #: weblate/templates/auth/teams-components.html:6
 msgid "No components specified"
-msgstr "Nenašli sa žiadne zhody komponentov"
+msgstr "Žiadne špecifikované súčasti"
 
 #: weblate/templates/auth/teams-count.html:5
 msgid "Automatic assignment of users is configured for this team"
@@ -6332,7 +6330,7 @@ msgstr "Pridať nový projekt prekladu"
 #: weblate/templates/snippets/project-component-settings.html:18
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
-msgstr "Pridať nový komponent prekladu"
+msgstr "Pridať novú súčasť prekladu"
 
 #: weblate/templates/base.html:244 weblate/templates/component.html:74
 #: weblate/templates/new-language.html:23
@@ -6738,11 +6736,11 @@ msgstr "Priebeh"
 
 #: weblate/templates/component-progress.html:17
 msgid "Component is being updated…"
-msgstr "Komponent sa aktualizuje…"
+msgstr "Súčasť je aktualizovaná…"
 
 #: weblate/templates/component-progress.html:31 weblate/templates/guide.html:63
 msgid "Return to the component"
-msgstr "Vráťte sa ku komponentu"
+msgstr "Vrátiť sa k súčasti"
 
 #: weblate/templates/component-progress.html:33
 msgid "Abort the update"
@@ -6750,7 +6748,7 @@ msgstr "Zrušte aktualizáciu"
 
 #: weblate/templates/component-progress.html:38
 msgid "Return to the component after completion"
-msgstr "Po dokončení sa vráťte ku komponentu"
+msgstr "Vrátiť sa k súčasti po dokončení"
 
 #: weblate/templates/component.html:33
 #: weblate/templates/language-project.html:18 weblate/templates/project.html:32
@@ -6914,39 +6912,39 @@ msgstr "Použiť"
 
 #: weblate/templates/component.html:221
 msgid "Browse all component changes"
-msgstr "Prechádzať všetky zmeny komponent"
+msgstr "Prechádzať všetky zmeny v súčasti"
 
 #: weblate/templates/component.html:235
 msgid ""
 "The message is shown for all translations within the component, until its "
 "given expiry, or permanently until it is deleted."
 msgstr ""
-"Správa sa zobrazuje pre všetky preklady v týchto komponentov až do jej "
-"expirácie, alebo natrvalo, pokým sa neodstráni."
+"Správa bude zobrazená pre všetky preklady v tejto súčasti do jej ukončenia "
+"alebo zmazania."
 
 #: weblate/templates/component.html:255
 msgid "Rename component"
-msgstr "Premenovať komponent"
+msgstr "Premenovať súčasť"
 
 #: weblate/templates/component.html:258
 msgid ""
 "Renaming the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
-"Premenovaním komponentu sa zmenia všetky jeho adresy URL, používatelia budú "
-"musieť aktualizovať záložky alebo referencie v klonovaných úložiskách!"
+"Premenovanie súčasti tiež zmení jej URL. Používatelia si budú musieť upraviť "
+"záložky alebo sklonované repozitáre!"
 
 #: weblate/templates/component.html:270
 msgid "Move component"
-msgstr "Presunúť komponent"
+msgstr "Presunúť súčasť"
 
 #: weblate/templates/component.html:273
 msgid ""
 "Moving the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
-"Presunutím komponentu sa zmenia všetky jeho adresy URL, používatelia budú "
-"musieť aktualizovať záložky alebo referencie v klonovaných úložiskách!"
+"Presunutie súčasti tiež zmení jej URL. Používatelia si budú musieť upraviť "
+"záložky alebo sklonované repozitáre!"
 
 #: weblate/templates/component.html:278
 msgid "Move"
@@ -6977,9 +6975,9 @@ msgid ""
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"Uvádza všetkých prekladateľov prispievajúcich do tohto komponentu v danom "
-"časovom období. Užitočné na zahrnutie do dokumentácie alebo samotnej "
-"aplikácie, na poďakovanie prekladateľom a generovanie spätnej väzby pre nich."
+"Poďakovanie vypíše všetkých prekladateľov, ktorí do tejto súčasti prispeli v "
+"zadanom období. Prehľad môže byť užitočný na začlenenie do dokumentácie "
+"alebo aplikácie na poďakovanie prekladateľom."
 
 #: weblate/templates/component.html:314 weblate/templates/component.html:333
 #: weblate/templates/dashboard/user.html:106
@@ -7113,13 +7111,13 @@ msgid ""
 "Translation statistics for every component in JSON format lets you use the "
 "data in other websites or tools."
 msgstr ""
-"Štatistika prekladov pre každý komponent vo formáte JSON vám umožňuje "
-"používať údaje na iných webových stránkach alebo nástrojoch."
+"Štatistiky prekladov pre každú súčasť vo formáte JSON umožňujú použiť tieto "
+"údaje v iných webových stránkach alebo nástrojoch."
 
 #: weblate/templates/data.html:80
 msgid ""
 "You can fetch statistics for all translations in one component like this:"
-msgstr "Štatistiku všetkých prekladov môžete načítať v jednom komponente takto:"
+msgstr "Štatistiky pre všetky preklady v súčasti môžete získať takto:"
 
 #: weblate/templates/data.html:92
 msgid "Notification hooks"
