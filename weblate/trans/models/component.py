@@ -1040,10 +1040,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin):
         # SQL query to get source_langauge in case the source translation
         # already exists. The source_language is only fetched in the slow
         # path when creating the translation.
+        language = self.source_language
         try:
-            return self.translation_set.get(language_id=self.source_language_id)
+            result = self.translation_set.select_related("plural").get(
+                language=self.source_language
+            )
         except self.translation_set.model.DoesNotExist:
-            language = self.source_language
             try:
                 with transaction.atomic():
                     return self.translation_set.create(
@@ -1059,6 +1061,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin):
                 except self.translation_set.model.DoesNotExist:
                     pass
                 raise
+        else:
+            result.language = self.source_language
+            return result
 
     def preload_sources(self, sources=None):
         """Preload source objects to improve performance on load."""

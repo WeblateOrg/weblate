@@ -103,6 +103,7 @@ class UnitQuerySet(models.QuerySet):
             "source_unit",
             "source_unit__translation",
             "source_unit__translation__component",
+            "source_unit__translation__component__source_language",
             "source_unit__translation__component__project",
             "check_set",
             models.Prefetch(
