@@ -11,11 +11,10 @@ from types import GeneratorType
 from typing import Any
 from urllib.parse import urlparse
 
-import sentry_sdk
+import django.shortcuts
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, resolve_url
-from django.shortcuts import render as django_render
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext, gettext_lazy
 from lxml import etree
@@ -229,15 +228,14 @@ def render(
     if "project" in context and context["project"] is not None:
         context["description"] = get_project_description(context["project"])
 
-    with sentry_sdk.start_span(op="template.render", description=template_name):
-        return django_render(
-            request,
-            template_name=template_name,
-            context=context,
-            content_type=content_type,
-            status=status,
-            using=using,
-        )
+    return django.shortcuts.render(
+        request,
+        template_name=template_name,
+        context=context,
+        content_type=content_type,
+        status=status,
+        using=using,
+    )
 
 
 def path_separator(path):
