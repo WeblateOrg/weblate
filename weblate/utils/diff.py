@@ -1873,6 +1873,7 @@ class Differ:
         while pointer < len(diffs):
             if (
                 diffs[pointer][0] != self.DIFF_EQUAL
+                and diffs[pointer][1]
                 and diffs[pointer][1][0] in COMPOSITING_CHARS
                 and pointer > 0
                 and diffs[pointer - 1][0] == self.DIFF_EQUAL

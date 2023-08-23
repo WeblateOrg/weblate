@@ -59,3 +59,29 @@ class DifferTestCase(SimpleTestCase):
             ),
             "<ins>א</ins><del>אָ</del>ב<ins>ו</ins><del>וֹ</del>ת <ins>ק</ins><del>קַ</del>דמ<ins>ו</ins><del>וֹנִ</del><ins>נ</ins>ים כפולים של &lt;אדם&gt;",
         )
+
+    def test_sentry_4428(self):
+        self.assertEqual(
+            self.differ.highlight(
+                "<![CDATA[\nSection: perl\nPriority: optional\nStandards-Version: 4.5.1\n\nPackage: libxml-libxml-perl\nVersion: 2.0207-1\nMaintainer: Raphael Hertzog <hertzog@debian.org>\nDepends: libxml2 (>= 2.9.10)\nArchitecture: all\nDescription: Fake package - module manually installed in site_perl\n This is a fake package to let the packaging system\n believe that this Debian package is installed.\n .\n In fact, the package is not installed since a newer version\n of the module has been manually compiled &amp; installed in the\n site_perl directory.\n]]>",
+                "\nSection: perl\nPriority: optional\nStandards-Version: 3.9.6\n\nPackage: libxml-libxml-perl\nVersion: 2.0116-1\nMaintainer: Raphael Hertzog &lt;hertzog@debian.org&gt;\nDepends: libxml2 (&gt;= 2.7.4)\nArchitecture: all\nDescription: Fake package - module manually installed in site_perl\n This is a fake package to let the packaging system\n believe that this Debian package is installed. \n .\n In fact, the package is not installed since a newer version\n of the module has been manually compiled &amp; installed in the\n site_perl directory.",
+            ),
+            """<ins>&lt;![CDATA[</ins>
+<del></del>Section: perl
+Priority: optional
+Standards-Version: <del>3.9.6</del><ins>4.5.1</ins>
+
+Package: libxml-libxml-perl
+Version: 2.0<del>116</del><ins>207</ins>-1
+Maintainer: Raphael Hertzog <del>&amp;lt;</del><ins>&lt;</ins>hertzog@debian.org<del>&amp;gt;</del><ins>&gt;</ins>
+Depends: libxml2 (<del>&amp;gt;= 2.7.4</del><ins>&gt;= 2.9.10</ins>)
+Architecture: all
+Description: Fake package - module manually installed in site_perl
+ This is a fake package to let the packaging system
+ believe that this Debian package is installed.<del> </del>
+ .
+ In fact, the package is not installed since a newer version
+ of the module has been manually compiled &amp;amp; installed in the
+<del></del> site_perl directory.<ins>
+]]&gt;</ins>""",
+        )
