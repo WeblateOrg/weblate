@@ -145,7 +145,7 @@ def get_other_units(unit):
     result["total"] = units_count
     result["skipped"] = units_count > max_units
 
-    for item in units_limited:
+    for item in units_limited.prefetch():
         item.allow_merge = item.differently_translated = (
             item.translated and item.target != unit.target
         )
