@@ -1357,6 +1357,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             source = join_plural(source)
         user = request.user if request else None
         component = self.component
+        add_terminology = False
         if self.is_source:
             translations = (
                 self,
@@ -1365,6 +1366,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 ),
             )
         elif component.is_glossary and "terminology" in Flags(extra_flags):
+            add_terminology = True
             translations = (
                 component.source_translation,
                 *component.translation_set.exclude(
@@ -1402,6 +1404,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             if is_source:
                 current_target = source
                 kwargs["extra_flags"] = extra_flags
+            elif add_terminology and translation != self:
+                current_target = ""
             else:
                 current_target = target
             if current_target is None:
