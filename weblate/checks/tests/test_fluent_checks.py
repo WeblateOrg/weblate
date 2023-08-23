@@ -2162,13 +2162,13 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "open <span>a tag",
                 fluent_type,
-                "The HTML <code>&lt;span&gt;</code> tag has is missing a "
+                "The HTML <code>&lt;span&gt;</code> tag is missing a "
                 "matching end tag: <code>&lt;/span&gt;</code>.",
             )
             self.assert_html_error(
                 "<p>open <span data-val='ok'>a tag <em>",
                 fluent_type,
-                "The HTML <code>&lt;p&gt;</code> tag has is missing a "
+                "The HTML <code>&lt;p&gt;</code> tag is missing a "
                 "matching end tag: <code>&lt;/p&gt;</code>.",
             )
 

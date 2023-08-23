@@ -322,7 +322,7 @@ class _HTMLMissingEndTagError(_HTMLParseError):
 
     def description(self) -> SafeString:
         return format_html_code(
-            gettext("The HTML {tag} tag has is missing a matching end tag: {end}."),
+            gettext("The HTML {tag} tag is missing a matching end tag: {end}."),
             tag=f"<{self.tag}>",
             end=f"</{self.tag}>",
         )
