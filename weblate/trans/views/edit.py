@@ -202,29 +202,27 @@ def search(
     base, project, unit_set, request, blank: bool = False, use_cache: bool = True
 ):
     """Perform search or returns cached search results."""
-    with sentry_sdk.start_span(op="unit.search"):
-        now = int(time.monotonic())
-        # Possible new search
-        form = PositionSearchForm(
-            user=request.user, data=request.GET, show_builder=False
-        )
+    now = int(time.monotonic())
+    # Possible new search
+    form = PositionSearchForm(user=request.user, data=request.GET, show_builder=False)
 
-        # Process form
-        form_valid = form.is_valid()
-        if form_valid:
-            cleaned_data = form.cleaned_data
-            search_url = form.urlencode()
-            search_query = form.get_search_query()
-            name = form.get_name()
-            search_items = form.items()
-        else:
-            cleaned_data = {}
-            show_form_errors(request, form)
-            search_url = ""
-            search_query = ""
-            name = ""
-            search_items = ()
+    # Process form
+    form_valid = form.is_valid()
+    if form_valid:
+        cleaned_data = form.cleaned_data
+        search_url = form.urlencode()
+        search_query = form.get_search_query()
+        name = form.get_name()
+        search_items = form.items()
+    else:
+        cleaned_data = {}
+        show_form_errors(request, form)
+        search_url = ""
+        search_query = ""
+        name = ""
+        search_items = ()
 
+    with sentry_sdk.start_span(op="unit.search", description=search_url):
         search_result = {
             "form": form,
             "offset": cleaned_data.get("offset", 1),
