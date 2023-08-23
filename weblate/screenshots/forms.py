@@ -46,7 +46,7 @@ class ScreenshotForm(forms.ModelForm):
             )
         self.fields["translation"].queryset = translations
         # This is overriden from initial arg of the form
-        self.fields["translation"].initial = initial["translation"]
+        self.fields["translation"].initial = component.source_translation
         self.fields["translation"].empty_label = None
 
 
