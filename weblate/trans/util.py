@@ -11,6 +11,7 @@ from types import GeneratorType
 from typing import Any
 from urllib.parse import urlparse
 
+import sentry_sdk
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, resolve_url
@@ -227,14 +228,16 @@ def render(
         context = {}
     if "project" in context and context["project"] is not None:
         context["description"] = get_project_description(context["project"])
-    return django_render(
-        request,
-        template_name=template_name,
-        context=context,
-        content_type=content_type,
-        status=status,
-        using=using,
-    )
+
+    with sentry_sdk.start_span(op="template.render", description=template_name):
+        return django_render(
+            request,
+            template_name=template_name,
+            context=context,
+            content_type=content_type,
+            status=status,
+            using=using,
+        )
 
 
 def path_separator(path):
