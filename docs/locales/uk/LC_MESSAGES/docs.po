@@ -1,13 +1,13 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+# Yuri Chornoivan <yurchor@ukr.net>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 17:13+0200\n"
-"PO-Revision-Date: 2023-08-11 20:24+0000\n"
+"PO-Revision-Date: 2023-08-25 02:46+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -15,9 +15,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:192
@@ -30002,14 +30002,6 @@ msgstr ""
 "milestone/93?closed=1>`__."
 
 #: ../../changes/v4.rst:89
-#, fuzzy
-#| msgid ""
-#| "Migration to rewritten metrics storage might take considerable time on "
-#| "larger Weblate instance (expect around 15 minutes per GB of "
-#| "``metrics_metric`` table). To reduce downtime, you can copy :file:"
-#| "`weblate/metrics/migrations/*.py` from Weblate 4.17 to 4.16 and start the "
-#| "migration in the background. Once it is completed, perform full upgrade "
-#| "as ususal."
 msgid ""
 "Migration to rewritten metrics storage might take considerable time on "
 "larger Weblate instance (expect around 15 minutes per GB of "
@@ -30511,8 +30503,6 @@ msgid "Improved analysis on the duplicate language alert."
 msgstr "Удосконалено аналіз при попередженні про дублювання мов."
 
 #: ../../changes/v4.rst:257
-#, fuzzy
-#| msgid "Improved accurancy of the consecutive duplicated-words check."
 msgid "Improved accuracy of the consecutive duplicated-words check."
 msgstr "Удосконалено точність перевірки на послідовне дублювання слів."
 
@@ -43284,15 +43274,6 @@ msgstr ""
 "атрибут або змінну. Приклад:"
 
 #: ../../user/checks.rst:229
-#, fuzzy
-#| msgid ""
-#| "Generally, we expect translated Messages or Terms to contain the same "
-#| "references as the source, although not necessarily in the same order of "
-#| "appearance. So this check ensures that translations use the same "
-#| "references in their value as the source value, the same number of times, "
-#| "and with no additions. For Messages, this will also check that each "
-#| "Attribute in the translation uses the same references as the matching "
-#| "Attribute in the source."
 msgid ""
 "Generally, translated Messages or Terms are expected to contain the same "
 "references as the source, although not necessarily in the same order of "
@@ -43301,7 +43282,7 @@ msgid ""
 "additions. For Messages, this will also check that each Attribute in the "
 "translation uses the same references as the matching Attribute in the source."
 msgstr ""
-"Загалом, ми очікуємо, що у перекладених повідомленнях або термінах містяться "
+"Загалом, вважається, що у перекладених повідомленнях або термінах містяться "
 "ті самі посилання, що і у початкових даних, хоча і не обов'язково у тому "
 "самому порядку. Отже, ця перевірка забезпечує використання тих самих "
 "посилань із їхніми значеннями, що і у початкових даних, у перекладах, у тій "
@@ -43560,12 +43541,6 @@ msgstr ""
 "не створено за допомогою :program:`xgettext`."
 
 #: ../../user/checks.rst:386
-#, fuzzy
-#| msgid ""
-#| "Most of the format checks allow omitting format strings for plural forms "
-#| "having a single count. This allows translators to write nicer strings for "
-#| "these cases (`One apple` instead of `%d apple`). Turn this of by adding "
-#| "``strict-format`` flag."
 msgid ""
 "Most of the format checks allow omitting format strings for plural forms "
 "having a single count. This allows translators to write nicer strings for "
@@ -45659,14 +45634,6 @@ msgstr ""
 "виборі виразів вибору Fluent."
 
 #: ../../user/checks.rst:1619
-#, fuzzy
-#| msgid ""
-#| "Generally, we expect most Fluent values not to contain any HTML markup. "
-#| "Therefore we do not expect or want translators and developers to have to "
-#| "care about strictly avoiding *any* technical HTML5 parsing errors (let "
-#| "alone XHTML parsing errors). Instead, we just want to warn them when they "
-#| "may have unintentionally opened a HTML tag or inserted a character "
-#| "reference."
 msgid ""
 "Generally, most Fluent values are not expected to contain any HTML markup. "
 "Therefore, this check does not expect or want translators and developers to "
@@ -45675,24 +45642,13 @@ msgid ""
 "them when they may have unintentionally opened a HTML tag or inserted a "
 "character reference."
 msgstr ""
-"Загалом, ми очікуємо, що більшість значень Fluent не містять розмітки HTML. "
+"Загалом, вважається, що більшість значень Fluent не містять розмітки HTML. "
 "Тому ми не очікуємо і не хочемо, щоб перекладачі або розробники переймалися "
 "строгим униканням *будь-яких* технічних помилок обробки HTML5 (окрім помилок "
 "обробки XHTML). Замість цього, ми просто хочемо попередити їх, якщо вони "
 "ненавмисно відкрили теґ HTML або вставили символьне посилання."
 
 #: ../../user/checks.rst:1625
-#, fuzzy
-#| msgid ""
-#| "Moreover, for the Fluent values that intentionally contain HTML tags or "
-#| "character references, we want to verify \"good practices\", such as "
-#| "matching closing and ending tags, valid character references, and quoted "
-#| "attribute values. In addition, whilst HTML5 specification technically "
-#| "allows for quite arbitrary tag and attribute names, this check will "
-#| "restrain them to some basic ASCII values that should cover the standard "
-#| "HTML5 element tags and attributes, as well as allow *some* custom element "
-#| "or attribute names. This is partially to ensure that the user is using "
-#| "HTML intentionally."
 msgid ""
 "Moreover, for the Fluent values that intentionally contain HTML tags or "
 "character references, this check will verify some \"good practices\", such "
@@ -45843,21 +45799,10 @@ msgid "``&l{ $val }``"
 msgstr "``&l{ $val }``"
 
 #: ../../user/checks.rst:1653
-#, fuzzy
-#| msgid "The Fluent variable may unintentionally become a character reference"
 msgid "The Fluent variable may unintentionally become a character reference."
-msgstr "Змінну Fluent може бути ненавмисно перетворено на символьне посилання"
+msgstr "Змінну Fluent може бути ненавмисно перетворено на символьне посилання."
 
 #: ../../user/checks.rst:1658
-#, fuzzy
-#| msgid ""
-#| "This check will not ensure the inner HTML is *safe* or sanitized, and is "
-#| "not meant to protect against malicious attempts to alter the inner HTML. "
-#| "Moreover, it should be remembered that Fluent variables and references "
-#| "may expand to arbitrary strings, so could expand to arbitrary HTML unless "
-#| "they are escaped. As an exception, a ``<`` or ``&`` character before a "
-#| "Fluent reference will trigger this check since even an escaped value "
-#| "could lead to unexpected results."
 msgid ""
 "This check will *not* ensure the inner HTML is safe or sanitized, and is not "
 "meant to protect against malicious attempts to alter the inner HTML. "
@@ -45867,7 +45812,7 @@ msgid ""
 "reference will trigger this check since even an escaped value could lead to "
 "unexpected results."
 msgstr ""
-"Ця перевірка не забезпечує *безпечності* або притомності вбудованого коду "
+"Ця перевірка *не* забезпечує безпечності або притомності вбудованого коду "
 "HTML і не захищає від зловмисних спроб змінити вбудований код HTML. Більше "
 "того, слід пам'ятати, що змінні і посилання Fluent може бути розгорнуто до "
 "довільних рядків, тому можливе розгортання до довільного коду HTML, якщо "
