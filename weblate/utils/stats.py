@@ -9,7 +9,6 @@ from copy import copy
 from datetime import timedelta
 from itertools import chain
 from types import GeneratorType
-from uuid import uuid4
 
 import sentry_sdk
 from django.core.cache import cache
@@ -26,6 +25,7 @@ from weblate.trans.filter import get_filter_choice
 from weblate.trans.mixins import BaseURLMixin
 from weblate.trans.util import translation_percent
 from weblate.utils.db import conditional_sum
+from weblate.utils.random import get_random_identifier
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -1235,7 +1235,7 @@ class GhostStats(BaseStats):
 
     @cached_property
     def pk(self):
-        return uuid4().hex
+        return get_random_identifier()
 
     def _prefetch_basic(self):
         stats = zero_stats(self.basic_keys)
