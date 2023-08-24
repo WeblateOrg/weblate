@@ -1644,6 +1644,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
             self.permission_denied(
                 self.request, "Can not manage categories in this project"
             )
+        serializer.instance.acting_user = self.request.user
         serializer.save()
 
 
