@@ -700,7 +700,9 @@ def words_progress(obj):
 @register.simple_tag
 def unit_state_class(unit) -> str:
     """Return state flags."""
-    if unit.has_failing_check or not unit.translated:
+    if unit.has_failing_check:
+        return "unit-state-bad"
+    if not unit.translated:
         return "unit-state-todo"
     if unit.approved or (unit.readonly and unit.translation.enable_review):
         return "unit-state-approved"
