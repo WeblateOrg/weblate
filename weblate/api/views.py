@@ -1181,7 +1181,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             report_error()
             raise ValidationError(f"Could not parse query string: {error}")
 
-        queryset = obj.unit_set.search(query_string).order_by("id").prefetch()
+        queryset = obj.unit_set.search(query_string).order_by("id").prefetch_full()
         page = self.paginate_queryset(queryset)
 
         serializer = UnitSerializer(page, many=True, context={"request": request})
