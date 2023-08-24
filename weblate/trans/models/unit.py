@@ -106,6 +106,7 @@ class UnitQuerySet(models.QuerySet):
             "source_unit__translation__component__source_language",
             "source_unit__translation__component__project",
             "check_set",
+            "labels",
             models.Prefetch(
                 "suggestion_set",
                 queryset=Suggestion.objects.order(),
