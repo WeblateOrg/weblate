@@ -72,7 +72,7 @@ def get_glossary_terms(unit):
 
     uses_ngram = source_language.uses_ngram()
 
-    matches = set()
+    terms = set()
     automaton = project.glossary_automaton
     if automaton.kind == ahocorasick.AHOCORASICK:
         # Extract terms present in the source
@@ -81,15 +81,15 @@ def get_glossary_terms(unit):
                 (end + 1 == len(term) or NON_WORD_RE.match(source[end - len(term)]))
                 and (end + 1 == len(source) or NON_WORD_RE.match(source[end + 1]))
             ):
-                matches.add(term)
+                terms.add(term)
 
     if using_postgresql():
-        match = r"^({})$".format("|".join(re_escape(term) for term in matches))
+        match = r"^({})$".format("|".join(re_escape(term) for term in terms))
         # Use regex as that is utilizing pg_trgm index
         query = Q(source__iregex=match) | Q(variant__unit__source__iregex=match)
     else:
         # With MySQL we utilize it does case insensitive lookup
-        query = Q(source__in=matches) | Q(variant__unit__source__in=matches)
+        query = Q(source__in=terms) | Q(variant__unit__source__in=terms)
 
     units = units.filter(
         query,
