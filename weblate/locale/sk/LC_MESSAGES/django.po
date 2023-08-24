@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 15:13+0000\n"
-"PO-Revision-Date: 2023-08-24 18:00+0000\n"
+"PO-Revision-Date: 2023-08-24 20:53+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -692,7 +692,7 @@ msgstr "Spoločnosť"
 #: weblate/accounts/models.py:643
 msgid ""
 "Please choose which component list you want to display on the dashboard."
-msgstr "Prosím zvoľte zoznam súčastí, ktorý chcete zobraziť na nástenke."
+msgstr "Prosím vyberte zoznam súčastí, ktorý chcete zobraziť na nástenke."
 
 #: weblate/accounts/models.py:654
 msgid "Selecting component list has no effect when not shown on the dashboard."
@@ -2325,7 +2325,7 @@ msgstr "Názov"
 
 #: weblate/auth/models.py:80
 msgid "Choose permissions granted to this role."
-msgstr "Zvoľte oprávnenia udelené tejto role."
+msgstr "Vyberte oprávnenia udelené tejto role."
 
 #: weblate/auth/models.py:101 weblate/templates/accounts/profile.html:219
 #: weblate/templates/auth/team.html:43 weblate/templates/manage/teams.html:26
@@ -2335,7 +2335,7 @@ msgstr "Roly"
 
 #: weblate/auth/models.py:103
 msgid "Choose roles granted to this group."
-msgstr "Zvoľte roly pridelené tejto skupine."
+msgstr "Vyberte roly pridelené tejto skupine."
 
 #: weblate/auth/models.py:115
 msgid "Project selection"
@@ -2598,7 +2598,7 @@ msgstr "Namiesto toho pridajte reťazec do zdrojového jazyka."
 
 #: weblate/auth/permissions.py:265
 msgid "Adding strings is disabled in the component configuration."
-msgstr "Pridávanie reťazcov je v konfigurácii súčasti zakázané."
+msgstr "Pridávanie reťazcov je v nastaveniach súčasti zakázané."
 
 #: weblate/auth/permissions.py:282 weblate/auth/permissions.py:299
 msgid "File format does not support this."
@@ -3078,7 +3078,7 @@ msgstr "Chybné parametre charakterizácie prekladu: \"%s\""
 #: weblate/checks/flags.py:275
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
-msgstr "Chýbajúce parametre pre označenie prekladu: \"%s\""
+msgstr "Chýbajúce parametre pre charakterizáciu prekladu: „%s“"
 
 #: weblate/checks/fluent/inner_html.py:128
 #, python-brace-format
@@ -3559,11 +3559,11 @@ msgstr "Nezodpovedá slovníku"
 
 #: weblate/checks/glossary.py:18
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "Tento preklad nezodpovedá termínom zadaným v slovníku."
+msgstr "Tento preklad nezodpovedá výrazom zadaným v slovníku."
 
 #: weblate/checks/glossary.py:69
 msgid "Following terms are not translated according to glossary: {}"
-msgstr "Nasledujúce termíny nie sú preložené ako v slovníku: {}"
+msgstr "Nasledujúce výrazy nie sú preložené ako v slovníku: {}"
 
 #: weblate/checks/icu.py:249
 msgid "ICU MessageFormat syntax"
@@ -3772,7 +3772,7 @@ msgstr "Nepluralizované"
 #: weblate/checks/source.py:26
 msgid "The string is used as plural, but not using plural forms"
 msgstr ""
-"Reťazec sa používa ako množné číslo, ale nepoužíva sa tvary množného čísla"
+"Reťazec je používaný ako tvar množného čísla, ale nepoužíva množné tvary"
 
 #: weblate/checks/source.py:39
 msgid "Ellipsis"
@@ -4196,7 +4196,7 @@ msgstr "Reťazec bude súčasťou slovníka vo všetkých jazykoch"
 
 #: weblate/glossary/forms.py:39
 msgid "Untranslatable term"
-msgstr "Nepreložiteľný termín"
+msgstr "Nepreložiteľný výraz"
 
 #: weblate/glossary/forms.py:97 weblate/templates/mail/base.html:35
 #: weblate/templates/snippets/component-glossary-badge.html:4
@@ -6020,7 +6020,7 @@ msgstr "Doplnky"
 
 #: weblate/templates/addons/addon_detail.html:25
 msgid "Configure add-on"
-msgstr "Konfigurácia doplnku"
+msgstr "Nastaviť doplnok"
 
 #: weblate/templates/addons/addon_head.html:7
 msgid ""
@@ -6088,8 +6088,7 @@ msgstr ""
 
 #: weblate/templates/addons/addon_list.html:70
 msgid "Some add-ons will ask for additional configuration during installation."
-msgstr ""
-"Niektoré doplnky budú počas inštalácie vyžadovať dodatočnú konfiguráciu."
+msgstr "Niektoré doplnky budú počas inštalácie vyžadovať ďalšie nastavenia."
 
 #: weblate/templates/addons/cdnjs.html:5
 msgid "Integration instructions"
@@ -7693,15 +7692,15 @@ msgstr "Aktualizovať"
 
 #: weblate/templates/js/git-status.html:58
 msgid "Update with merge"
-msgstr "Aktualizácia so zlúčením"
+msgstr "Aktualizovať so zlúčením"
 
 #: weblate/templates/js/git-status.html:61
 msgid "Update with rebase"
-msgstr "Aktualizácia s rebase"
+msgstr "Aktualizovať s preskládaním"
 
 #: weblate/templates/js/git-status.html:64
 msgid "Update with merge without fast-forward"
-msgstr "Aktualizácia so zlúčením bez rýchleho pretáčania dopredu"
+msgstr "Aktualizovať so zlúčením bez rýchlo-vpred"
 
 #: weblate/templates/js/git-status.html:70
 #, python-format
@@ -7985,7 +7984,7 @@ msgstr "Nepodarilo sa nájsť žiadne ďalšie služby."
 #: weblate/templates/machinery/list.html:81
 msgid ""
 "Some services will ask for additional configuration during installation."
-msgstr "Niektoré služby si počas inštalácie vyžiadajú dodatočnú konfiguráciu."
+msgstr "Niektoré služby si počas inštalácie vyžiadajú ďalšie nastavenia."
 
 #: weblate/templates/mail/account_activity.html:7
 #, python-format
@@ -9909,7 +9908,7 @@ msgstr "Cieľové reťazce"
 
 #: weblate/templates/snippets/query-builder.html:20
 msgid "Key/Context strings"
-msgstr "Kľúče/kontextové reťazce"
+msgstr "Kľúče/Kontextové reťazce"
 
 #: weblate/templates/snippets/query-builder.html:22
 msgid "Location strings"
@@ -9991,7 +9990,7 @@ msgstr "Všetky nepreložené reťazce pridané počas posledného mesiaca"
 
 #: weblate/templates/snippets/query-builder.html:113
 msgid "Translated strings in a certain language"
-msgstr "Preložené reťazce v niektorom jazyku"
+msgstr "Preložené reťazce v určitom jazyku"
 
 #: weblate/templates/snippets/query-field.html:7 weblate/trans/filter.py:16
 #: weblate/trans/filter.py:114
@@ -11179,7 +11178,8 @@ msgstr "Pre všetky jazyky"
 
 #: weblate/templates/translate.html:486
 msgid "Selecting this option will set the corresponding ignore flag."
-msgstr "Výberom tejto možnosti sa nastaví príslušný označenie ignorovania."
+msgstr ""
+"Výberom tejto možnosti sa nastaví príslušná charakterizácia ignorovania."
 
 #: weblate/templates/translate.html:515
 #, python-format
@@ -11224,7 +11224,7 @@ msgstr "Momentálne nie sú nastavené žiadne štítky."
 
 #: weblate/templates/translate.html:663
 msgid "Flags"
-msgstr "Označenie"
+msgstr "Charakterizácia"
 
 #: weblate/templates/translate.html:669
 msgid "No flags currently set."
@@ -11634,7 +11634,7 @@ msgstr "Nevyhovujúce kontroly: {}"
 
 #: weblate/trans/filter.py:92 weblate/trans/filter.py:136
 msgid "Labeled: {}"
-msgstr "Označené: {}"
+msgstr "Štítok: {}"
 
 #: weblate/trans/forms.py:148
 msgid "Invalid checksum specified!"
@@ -12026,7 +12026,7 @@ msgstr "Pridanie nových jazykov"
 
 #: weblate/trans/forms.py:1679
 msgid "Select an existing component configuration to copy."
-msgstr "Vyberte existujúcu konfiguráciu súčasti, ktorú chcete skopírovať."
+msgstr "Vyberte existujúcu súčasť z ktorej skopírovať nastavenia."
 
 #: weblate/trans/forms.py:1738 weblate/trans/models/announcement.py:95
 #: weblate/trans/models/category.py:40 weblate/trans/models/component.py:306
@@ -12150,11 +12150,11 @@ msgstr "Bez zmeny"
 
 #: weblate/trans/forms.py:2474
 msgid "Translation flags to add"
-msgstr "Označenie prekladu na pridanie"
+msgstr "Charakterizácia prekladu na pridanie"
 
 #: weblate/trans/forms.py:2477
 msgid "Translation flags to remove"
-msgstr "Označenie prekladu na odstránenie"
+msgstr "Charakterizácia prekladu na odstránenie"
 
 #: weblate/trans/forms.py:2481
 msgid "Labels to add"
@@ -12257,13 +12257,13 @@ msgstr "Pridajte obrázky a ukážte, kde sa reťazce používajú."
 
 #: weblate/trans/guide.py:189
 msgid "Use flags to indicate special strings in your translation."
-msgstr "Použite flags na označenie špeciálnych reťazcov vo vašom preklade."
+msgstr "Pomocou charakterizácie označte vo svojom preklade špeciálne reťazce."
 
 #: weblate/trans/guide.py:209
 msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgstr ""
-"Pridajte označenie safe-html, aby ste sa vyhli nebezpečnému HTML zo strany "
-"prekladateľov."
+"Pridajte charakterizáciu safe-html, aby ste sa vyhli nebezpečnému HTML zo "
+"strany prekladateľov."
 
 #: weblate/trans/guide.py:239
 msgid "Workflow customization"
@@ -12346,7 +12346,7 @@ msgstr "Doplnok sa nepodarilo spustiť."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:313
 msgid "Misconfigured monolingual translation."
-msgstr "Nesprávne nakonfigurovaný jednojazyčný preklad."
+msgstr "Nenastavený jednojazyčný preklad."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:321
@@ -12424,7 +12424,7 @@ msgid ""
 "freeze and translation deadline for next release."
 msgstr ""
 "Správa nebude zobrazená po tomto dátume. Použite napríklad na oznámenie "
-"termínu ukončenia prekladov ďalšieho vydania."
+"zmrazenia reťazca a termínu prekladu pre ďalšie vydanie."
 
 #: weblate/trans/models/announcement.py:119
 msgid "Notify users"
@@ -12737,7 +12737,7 @@ msgstr "Doplnok nainštalovaný"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:402
 msgid "Add-on configuration changed"
-msgstr "Konfigurácia doplnku zmenená"
+msgstr "Zmenené nastavenie doplnku"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:404
@@ -13079,7 +13079,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:494 weblate/trans/models/unit.py:331
 msgid "Translation flags"
-msgstr "Označenie prekladu"
+msgstr "Charakterizácia prekladu"
 
 #: weblate/trans/models/component.py:497 weblate/trans/models/unit.py:334
 msgid "Additional comma-separated flags to influence Weblate behavior."
@@ -13143,7 +13143,7 @@ msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
-"Zvoľte či má Weblate zlúčiť vzdialený repozitár alebo preskladať zmeny."
+"Vyberte či má Weblate zlúčiť vzdialený repozitár alebo preskladať zmeny."
 
 #: weblate/trans/models/component.py:568
 msgid "Commit message when translating"
@@ -13247,7 +13247,7 @@ msgstr "Zdieľať v projektoch"
 
 #: weblate/trans/models/component.py:696
 msgid "Choose additional projects where this component will be listed."
-msgstr "Zvoľte ďalšie projekty v ktorých sa bude zobrazovať táto súčasť."
+msgstr "Vyberte ďalšie projekty v ktorých sa bude zobrazovať táto súčasť."
 
 #: weblate/trans/models/component.py:702
 msgid "Use as a glossary"
@@ -14520,8 +14520,7 @@ msgstr "Jazyk v projekte bol odstránený."
 #: weblate/trans/views/settings.py:190
 #, python-format
 msgid "Cannot rename due to outstanding issue in the configuration: %s"
-msgstr ""
-"Nie je možné premenovať z dôvodu nevyriešeného problému v konfigurácii: %s"
+msgstr "Nie je možné premenovať z dôvodu nevyriešeného problému v nastavení: %s"
 
 #: weblate/trans/views/settings.py:327
 msgid "Backup scheduled. It will be available soon."
@@ -15110,7 +15109,7 @@ msgstr "Správy"
 
 #: weblate/wladmin/views.py:59
 msgid "Weblate status"
-msgstr "Štav Weblate"
+msgstr "Stav Weblate"
 
 #: weblate/wladmin/views.py:65
 msgid "Repositories"
@@ -15150,7 +15149,7 @@ msgstr "Záloha bola spustená"
 
 #: weblate/wladmin/views.py:256
 msgid "Could not dismiss the configuration error!"
-msgstr "Chybu konfigurácie sa nepodarilo zrušiť!"
+msgstr "Chybu nastavenia sa nepodarilo zrušiť!"
 
 #~ msgid "Do not notify"
 #~ msgstr "Neupozorňovať"
