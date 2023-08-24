@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2023-08-23 15:49+0000\n"
+"POT-Creation-Date: 2023-08-24 15:13+0000\n"
 "PO-Revision-Date: 2023-05-14 12:55+0000\n"
 "Last-Translator: dreigiau <sterilgrimed23@gmail.com>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/"
@@ -728,133 +728,165 @@ msgstr ""
 "Nid oes modd i chi gyflwyno cyfieithiadau gan nad ydych wedi cadarnhau "
 "cyfeiriad e-bost."
 
-#: weblate/accounts/notifications.py:48
-msgid "Do not notify"
-msgstr "Peidiwch â hysbysu"
-
 #: weblate/accounts/notifications.py:49
+#, fuzzy
+#| msgid "Notifications"
+msgid "No notification"
+msgstr "Hysbysiadau"
+
+#: weblate/accounts/notifications.py:50
 msgid "Instant notification"
 msgstr "Hysbysiad ar unwaith"
 
-#: weblate/accounts/notifications.py:50
+#: weblate/accounts/notifications.py:51
 msgid "Daily digest"
 msgstr "Crynodeb dyddiol"
 
-#: weblate/accounts/notifications.py:51
+#: weblate/accounts/notifications.py:52
 msgid "Weekly digest"
 msgstr "Crynodeb wythnosol"
 
-#: weblate/accounts/notifications.py:52
+#: weblate/accounts/notifications.py:53
 msgid "Monthly digest"
 msgstr "Crynodeb misol"
 
-#. Translators: Notification name
-#: weblate/accounts/notifications.py:450
-msgid "Repository operation"
-msgstr "Gweithrediad yr ystorfa"
+#: weblate/accounts/notifications.py:451
+#, fuzzy
+#| msgid "Update the internal repository"
+msgctxt "Notification name"
+msgid "Operation was performed in the repository"
+msgstr "Diweddaru'r ystorfa fewnol"
 
-#. Translators: Notification name
-#: weblate/accounts/notifications.py:461
-msgid "Component locking"
-msgstr "Cloi cydrannau"
+#: weblate/accounts/notifications.py:462
+#, fuzzy
+#| msgid "Component unlocked"
+msgctxt "Notification name"
+msgid "Component was locked or unlocked"
+msgstr "Cydran wedi'i datgloi"
 
-#. Translators: Notification name
 #: weblate/accounts/notifications.py:469
-msgid "Changed license"
-msgstr "Newid trwydded"
+#, fuzzy
+#| msgid "License changed"
+msgctxt "Notification name"
+msgid "License was changed"
+msgstr "Trwydded wedi newid"
 
-#. Translators: Notification name
-#. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:477 weblate/trans/models/change.py:313
-msgid "Parse error"
+#: weblate/accounts/notifications.py:476
+#, fuzzy
+#| msgid "Parse error"
+msgctxt "Notification name"
+msgid "Parse error occured"
 msgstr "Gwall dosrannu"
 
-#. Translators: Notification name
-#: weblate/accounts/notifications.py:495
-msgid "New string"
-msgstr "Testun newydd"
+#: weblate/accounts/notifications.py:494
+#, fuzzy
+#| msgid "New string to translate"
+#| msgid_plural "New strings to translate"
+msgctxt "Notification name"
+msgid "New string is available for translation"
+msgstr "Testun newydd i'w gyfieithu"
 
-#. Translators: Notification name
-#. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:504 weblate/trans/models/change.py:355
-msgid "New contributor"
-msgstr "Cyfrannwr newydd"
+#: weblate/accounts/notifications.py:504
+#, fuzzy
+#| msgid "Automatic translation"
+msgctxt "Notification name"
+msgid "Contributor made their first translation"
+msgstr "Cyfieithu awtomatig"
 
-#. Translators: Notification name
 #: weblate/accounts/notifications.py:513
-msgid "New suggestion"
-msgstr "Cynnig newydd"
+#, fuzzy
+#| msgid "Suggestion added"
+msgctxt "Notification name"
+msgid "Suggestion was added"
+msgstr "Ychwanegwyd cynnig"
 
-#. Translators: Notification name
-#: weblate/accounts/notifications.py:523 weblate/templates/translate.html:415
-#: weblate/trans/forms.py:1017
-msgid "New comment"
-msgstr "Sylw newydd"
+#: weblate/accounts/notifications.py:522
+#, fuzzy
+#| msgid "Comment added"
+msgctxt "Notification name"
+msgid "Comment was added"
+msgstr "Ychwanegwyd sylw"
 
-#. Translators: Notification name
-#: weblate/accounts/notifications.py:546
-msgid "Mentioned in comment"
+#: weblate/accounts/notifications.py:544
+#, fuzzy
+#| msgid "Mentioned in comment"
+msgctxt "Notification name"
+msgid "You were mentioned in a comment"
 msgstr "Wedi'i grybwyll mewn sylw"
 
-#. Translators: Notification name
-#: weblate/accounts/notifications.py:579
-msgid "Comment on own translation"
-msgstr "Sylw ar eich cyfieithiad chi"
-
-#. Translators: Notification name
-#: weblate/accounts/notifications.py:605
+#: weblate/accounts/notifications.py:576
 #, fuzzy
-#| msgid "Edit strings"
-msgid "Edited string"
-msgstr "Golygu testunau"
+#| msgid "Translation comment"
+msgctxt "Notification name"
+msgid "Your translation received a comment"
+msgstr "Sylw ar gyfieithiad"
 
-#. Translators: Notification name
-#: weblate/accounts/notifications.py:614
-msgid "Approved string"
-msgstr "Testun wedi'i wirio"
+#: weblate/accounts/notifications.py:601
+#, fuzzy
+#| msgid "String changed by"
+msgctxt "Notification name"
+msgid "String was edited by user"
+msgstr "Newidiwyd y testun gan"
 
-#. Translators: Notification name
-#: weblate/accounts/notifications.py:623
-msgid "Changed string"
-msgstr "Testun wedi newid"
+#: weblate/accounts/notifications.py:609
+#, fuzzy
+#| msgid "Mentioned in comment"
+msgctxt "Notification name"
+msgid "String was approved"
+msgstr "Wedi'i grybwyll mewn sylw"
 
-#. Translators: Notification name
-#: weblate/accounts/notifications.py:633
-msgid "New language"
-msgstr "Iaith newydd"
+#: weblate/accounts/notifications.py:617
+#, fuzzy
+#| msgid "String changed by"
+msgctxt "Notification name"
+msgid "String was changed"
+msgstr "Newidiwyd y testun gan"
 
-#. Translators: Notification name
-#: weblate/accounts/notifications.py:650
-msgid "New translation component"
+#: weblate/accounts/notifications.py:626
+msgctxt "Notification name"
+msgid "New language was added or requested"
+msgstr ""
+
+#: weblate/accounts/notifications.py:643
+#, fuzzy
+#| msgid "New translation component"
+msgctxt "Notification name"
+msgid "New translation component was created"
 msgstr "Cydran cyfieithu newydd"
 
-#. Translators: Notification name
-#. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:658 weblate/trans/models/change.py:357
-msgid "New announcement"
-msgstr "Cyhoeddiad newydd"
+#: weblate/accounts/notifications.py:651
+#, fuzzy
+#| msgid "Announcements"
+msgctxt "Notification name"
+msgid "Announcement was published"
+msgstr "Cyhoeddiadau"
 
-#. Translators: Notification name
-#. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:674 weblate/trans/models/change.py:359
-msgid "New alert"
-msgstr "Rhybudd newydd"
+#: weblate/accounts/notifications.py:666
+#, fuzzy
+#| msgid "New translation component"
+msgctxt "Notification name"
+msgid "New alert emerged in a component"
+msgstr "Cydran cyfieithu newydd"
 
-#. Translators: Notification name
-#: weblate/accounts/notifications.py:713
-msgid "Repository failure"
-msgstr "Methiant yr ystorfa"
+#: weblate/accounts/notifications.py:704
+#, fuzzy
+#| msgid "Repository operation"
+msgctxt "Notification name"
+msgid "Repository operation failed"
+msgstr "Gweithrediad yr ystorfa"
 
-#. Translators: Notification name
-#: weblate/accounts/notifications.py:781
-msgid "Pending suggestions"
+#: weblate/accounts/notifications.py:771
+#, fuzzy
+#| msgid "Pending suggestions"
+msgctxt "Notification name"
+msgid "Pending suggestions exist"
 msgstr "Awgrymiadau'n disgwyl sylw"
 
-#. Translators: Notification name
-#: weblate/accounts/notifications.py:792
-#: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:19
-#: weblate/trans/filter.py:116
-msgid "Unfinished strings"
+#: weblate/accounts/notifications.py:781
+#, fuzzy
+#| msgid "Unfinished strings"
+msgctxt "Notification name"
+msgid "Unfinished strings exist"
 msgstr "Testunau heb eu orffen"
 
 #: weblate/accounts/password_validation.py:21
@@ -1098,7 +1130,7 @@ msgstr ""
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:19 weblate/templates/translation.html:73
-#: weblate/templates/translation.html:230 weblate/trans/models/change.py:283
+#: weblate/templates/translation.html:230 weblate/trans/models/change.py:298
 msgid "Automatic translation"
 msgstr "Cyfieithu awtomatig"
 
@@ -1110,7 +1142,7 @@ msgstr ""
 "Mae'r ychwanegyn hwn yn cyfieithu testunau yn awtomatig gyda chyfieithu "
 "peirianyddol neu gydrannau eraill."
 
-#: weblate/addons/base.py:326 weblate/trans/views/create.py:243
+#: weblate/addons/base.py:326 weblate/trans/views/create.py:244
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
@@ -1241,11 +1273,13 @@ msgstr ""
 "olygu yn Weblate. Mae'n arbennig o ddefnyddiol ar gyfer fformatau ffeiliau "
 "sy'n cynnwys testunau ffynhonnell ar gyfer testunau heb eu trosi."
 
-#: weblate/addons/flags.py:89 weblate/templates/component.html:67
-#: weblate/templates/component.html:205
+#: weblate/addons/flags.py:89 weblate/templates/category-project.html:42
+#: weblate/templates/category-project.html:106
+#: weblate/templates/category.html:60 weblate/templates/category.html:163
+#: weblate/templates/component.html:67 weblate/templates/component.html:205
 #: weblate/templates/language-project.html:44
 #: weblate/templates/language-project.html:108
-#: weblate/templates/project.html:67 weblate/templates/project.html:204
+#: weblate/templates/project.html:67 weblate/templates/project.html:205
 #: weblate/templates/translation.html:70 weblate/templates/translation.html:272
 msgid "Bulk edit"
 msgstr "Golygu swmp"
@@ -1434,8 +1468,8 @@ msgstr "Mynegiant rheolaidd i gydweddu ffeiliau cyfieithu yn ei erbyn"
 
 #: weblate/addons/forms.py:268
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
-#: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:572
-#: weblate/trans/forms.py:1763 weblate/trans/models/component.py:443
+#: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:580
+#: weblate/trans/forms.py:1778 weblate/trans/models/component.py:450
 msgid "File format"
 msgstr "Fformat ffeil"
 
@@ -1455,7 +1489,7 @@ msgstr "Gadael yn wag ar gyfer ffeiliau cyfieithu dwyieithog."
 msgid "Define the base file for new translations"
 msgstr "Diffinio'r ffeil sylfaen ar gyfer cyfieithiadau newydd"
 
-#: weblate/addons/forms.py:289 weblate/trans/models/component.py:437
+#: weblate/addons/forms.py:289 weblate/trans/models/component.py:444
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1465,11 +1499,11 @@ msgstr ""
 
 #: weblate/addons/forms.py:294
 #: weblate/templates/trans/alert/inexistantfiles.html:13
-#: weblate/trans/models/component.py:421
+#: weblate/trans/models/component.py:428
 msgid "Intermediate language file"
 msgstr "Ffeil iaith ganolradd"
 
-#: weblate/addons/forms.py:298 weblate/trans/models/component.py:425
+#: weblate/addons/forms.py:298 weblate/trans/models/component.py:432
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
@@ -1479,7 +1513,7 @@ msgstr ""
 "gyfieithu a ddarperir gan ddatblygwyr ac fe'i defnyddir wrth greu testunau "
 "ffynhonnell go iawn."
 
-#: weblate/addons/forms.py:305 weblate/trans/models/component.py:646
+#: weblate/addons/forms.py:305 weblate/trans/models/component.py:653
 msgid "Language filter"
 msgstr "Hidlydd iaith"
 
@@ -1506,11 +1540,11 @@ msgstr "Dileu cydrannau ar gyfer ffeiliau nad ydynt yn bodoli"
 msgid "I confirm the above matches look correct"
 msgstr "Rwy'n cadarnhau fod y cydweddiadau uchod yn edrych yn gywir"
 
-#: weblate/addons/forms.py:381 weblate/trans/models/component.py:2728
+#: weblate/addons/forms.py:381 weblate/trans/models/component.py:2753
 msgid "You can not use a monolingual translation without a base file."
 msgstr ""
 
-#: weblate/addons/forms.py:389 weblate/trans/models/component.py:2666
+#: weblate/addons/forms.py:389 weblate/trans/models/component.py:2691
 msgid "You can not use a base file for bilingual translation."
 msgstr ""
 
@@ -1834,42 +1868,43 @@ msgstr ""
 "Yn caniatáu cyfaddasu ymddygiad allbwn JSON, er enghraifft mewnoliad neu "
 "didoli."
 
-#: weblate/api/views.py:1601 weblate/auth/models.py:744
+#: weblate/api/views.py:1693 weblate/auth/models.py:744
 #: weblate/checks/views.py:220 weblate/checks/views.py:227
 #: weblate/templates/accounts/user.html:256 weblate/templates/data.html:29
 #: weblate/templates/data.html:63 weblate/templates/data.html:104
 #: weblate/templates/language.html:44 weblate/templates/list-projects.html:5
-#: weblate/templates/snippets/list-objects.html:39 weblate/trans/forms.py:1725
-#: weblate/trans/forms.py:1811 weblate/trans/models/announcement.py:74
-#: weblate/trans/models/component.py:301 weblate/trans/models/component.py:326
+#: weblate/templates/snippets/list-objects.html:39 weblate/trans/forms.py:1734
+#: weblate/trans/models/announcement.py:74 weblate/trans/models/category.py:35
+#: weblate/trans/models/component.py:301 weblate/trans/models/component.py:333
 msgid "Project"
 msgstr "Prosiect"
 
-#: weblate/api/views.py:1609 weblate/checks/views.py:222
+#: weblate/api/views.py:1701 weblate/checks/views.py:222
 #: weblate/checks/views.py:229
 #: weblate/templates/addons/discovery_preview.html:5
-#: weblate/templates/component-list.html:30
+#: weblate/templates/category-project.html:57
+#: weblate/templates/category.html:102 weblate/templates/component-list.html:30
 #: weblate/templates/language-project.html:59
-#: weblate/templates/project.html:143 weblate/templates/translate.html:289
-#: weblate/templates/translation.html:202 weblate/trans/forms.py:900
-#: weblate/trans/forms.py:1669 weblate/trans/models/announcement.py:81
+#: weblate/templates/project.html:144 weblate/templates/translate.html:289
+#: weblate/templates/translation.html:202 weblate/trans/forms.py:908
+#: weblate/trans/forms.py:1678 weblate/trans/models/announcement.py:81
 msgid "Component"
 msgstr "Cydran"
 
-#: weblate/api/views.py:1617
+#: weblate/api/views.py:1709
 #, fuzzy
 #| msgid "Users"
 msgid "User"
 msgstr "Defnyddwyr"
 
-#: weblate/api/views.py:1625 weblate/fonts/models.py:136
-#: weblate/templates/component.html:129 weblate/templates/languages.html:12
-#: weblate/templates/project.html:155
+#: weblate/api/views.py:1717 weblate/fonts/models.py:136
+#: weblate/templates/category.html:114 weblate/templates/component.html:129
+#: weblate/templates/languages.html:12 weblate/templates/project.html:156
 #: weblate/templates/screenshots/screenshot_detail.html:84
 #: weblate/templates/snippets/embed-units.html:15
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
 #: weblate/templates/trans/alert/duplicatestring.html:10
-#: weblate/trans/forms.py:1078 weblate/trans/forms.py:1224
+#: weblate/trans/forms.py:1086 weblate/trans/forms.py:1232
 #: weblate/trans/models/announcement.py:88
 msgid "Language"
 msgstr "Iaith"
@@ -2357,7 +2392,7 @@ msgstr "%s (hawliau safle-eang)"
 #: weblate/templates/manage/performance.html:72
 #: weblate/templates/manage/teams.html:25
 #: weblate/templates/trans/project-access.html:191
-#: weblate/templates/trans/project-access.html:282 weblate/trans/forms.py:1471
+#: weblate/templates/trans/project-access.html:282 weblate/trans/forms.py:1479
 msgid "Name"
 msgstr "Enw"
 
@@ -2407,19 +2442,21 @@ msgstr "O'r rhestr gydrannau"
 #: weblate/templates/manage/teams.html:28
 #: weblate/templates/manage/users.html:48 weblate/templates/projects.html:5
 #: weblate/templates/snippets/info.html:397
-#: weblate/templates/snippets/info.html:431 weblate/trans/views/basic.py:90
+#: weblate/templates/snippets/info.html:431 weblate/trans/views/basic.py:103
 #: weblate/wladmin/models.py:159
 msgid "Projects"
 msgstr "Prosiectau"
 
 #: weblate/auth/models.py:130 weblate/templates/accounts/profile.html:222
-#: weblate/templates/auth/team.html:55 weblate/templates/component-list.html:15
+#: weblate/templates/auth/team.html:55
+#: weblate/templates/category-project.html:14
+#: weblate/templates/category.html:28 weblate/templates/component-list.html:15
 #: weblate/templates/language-project.html:16
 #: weblate/templates/mail/base.html:82 weblate/templates/manage/teams.html:29
 #: weblate/templates/project.html:30 weblate/templates/snippets/info.html:409
 #: weblate/templates/snippets/info.html:445
-#: weblate/templates/trans/project-access.html:194 weblate/trans/forms.py:864
-#: weblate/trans/forms.py:2081
+#: weblate/templates/trans/project-access.html:194 weblate/trans/forms.py:872
+#: weblate/trans/forms.py:2131
 msgid "Components"
 msgstr "Cydrannau"
 
@@ -2432,7 +2469,7 @@ msgid "Language selection"
 msgstr "Dewis iaith"
 
 #: weblate/auth/models.py:146 weblate/templates/auth/teams-languages.html:4
-#: weblate/trans/forms.py:1034 weblate/trans/forms.py:1225
+#: weblate/trans/forms.py:1042 weblate/trans/forms.py:1233
 msgid "All languages"
 msgstr "Pob iaith"
 
@@ -2441,7 +2478,8 @@ msgstr "Pob iaith"
 #: weblate/templates/accounts/profile.html:39
 #: weblate/templates/accounts/profile.html:221
 #: weblate/templates/auth/team.html:47 weblate/templates/base.html:149
-#: weblate/templates/component.html:31 weblate/templates/lang/create.html:6
+#: weblate/templates/category.html:29 weblate/templates/component.html:31
+#: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
 #: weblate/templates/lang/plural_form.html:7 weblate/templates/language.html:8
 #: weblate/templates/languages.html:6 weblate/templates/mail/base.html:66
@@ -2449,8 +2487,8 @@ msgstr "Pob iaith"
 #: weblate/templates/project.html:31 weblate/templates/snippets/info.html:403
 #: weblate/templates/snippets/info.html:438
 #: weblate/templates/trans/project-access.html:193 weblate/trans/admin.py:81
-#: weblate/trans/forms.py:1059 weblate/trans/forms.py:2233
-#: weblate/trans/templatetags/translations.py:1160
+#: weblate/trans/forms.py:1067 weblate/trans/forms.py:2283
+#: weblate/trans/templatetags/translations.py:1181
 #: weblate/wladmin/models.py:160
 msgid "Languages"
 msgstr "Ieithoedd"
@@ -2507,7 +2545,7 @@ msgstr "Daw i ben"
 #: weblate/templates/trans/project-access.html:20
 #: weblate/templates/trans/project-access.html:42
 #: weblate/templates/trans/project-access.html:185
-#: weblate/templates/trans/project-access.html:284 weblate/trans/forms.py:2686
+#: weblate/templates/trans/project-access.html:284 weblate/trans/forms.py:2756
 #: weblate/wladmin/views.py:67
 msgid "Teams"
 msgstr "Timoedd"
@@ -2537,7 +2575,7 @@ msgstr ""
 msgid "Group to assign"
 msgstr "Grŵp i'w bennu"
 
-#: weblate/auth/models.py:740 weblate/trans/forms.py:1177
+#: weblate/auth/models.py:740 weblate/trans/forms.py:1185
 msgid "User to block"
 msgstr "Defnyddiwr i’w rhwystro"
 
@@ -2545,12 +2583,12 @@ msgstr "Defnyddiwr i’w rhwystro"
 msgid "Block expiry"
 msgstr "Daw’r bloc i ben"
 
-#: weblate/auth/models.py:926 weblate/trans/forms.py:1158
+#: weblate/auth/models.py:926 weblate/trans/forms.py:1166
 msgid "User to add"
 msgstr "Defnyddiwr i’w ychwanegu"
 
-#: weblate/auth/models.py:928 weblate/trans/forms.py:1161
-#: weblate/trans/forms.py:1179
+#: weblate/auth/models.py:928 weblate/trans/forms.py:1169
+#: weblate/trans/forms.py:1187
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr ""
 
@@ -2558,92 +2596,92 @@ msgstr ""
 msgid "Team"
 msgstr "Tîm"
 
-#: weblate/auth/permissions.py:136
+#: weblate/auth/permissions.py:143
 msgid "Can not perform this operation without an e-mail address."
 msgstr ""
 
-#: weblate/auth/permissions.py:142 weblate/templates/translate.html:194
+#: weblate/auth/permissions.py:149 weblate/templates/translate.html:194
 #: weblate/templates/translate.html:214
 msgid "This translation is currently locked."
 msgstr ""
 
-#: weblate/auth/permissions.py:150
+#: weblate/auth/permissions.py:157
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "agreement."
 msgstr ""
 
-#: weblate/auth/permissions.py:156 weblate/templates/translate.html:200
+#: weblate/auth/permissions.py:163 weblate/templates/translate.html:200
 #: weblate/trans/views/edit.py:404 weblate/trans/views/edit.py:426
 #: weblate/trans/views/edit.py:446 weblate/trans/views/edit.py:945
 msgid "Insufficient privileges for saving translations."
 msgstr ""
 
-#: weblate/auth/permissions.py:164
+#: weblate/auth/permissions.py:171
 msgid "Insufficient privileges for editing source strings."
 msgstr ""
 
-#: weblate/auth/permissions.py:168
+#: weblate/auth/permissions.py:175
 #, fuzzy
 #| msgid "Source string editing is disabled."
 msgid "Suggestion voting is disabled."
 msgstr "Mae golygu testunau ffynhonnell wedi'i analluogi."
 
-#: weblate/auth/permissions.py:178
+#: weblate/auth/permissions.py:185
 msgid ""
 "This translation only accepts suggestions, and these are approved by voting."
 msgstr ""
 
-#: weblate/auth/permissions.py:184
+#: weblate/auth/permissions.py:191
 #: weblate/templates/snippets/project/state.html:6
 msgid "Pay the bills to unlock this project."
 msgstr ""
 
-#: weblate/auth/permissions.py:195
+#: weblate/auth/permissions.py:202
 #, fuzzy
 #| msgid "Source string editing is disabled."
 msgid "Source string reviews are not enabled."
 msgstr "Mae golygu testunau ffynhonnell wedi'i analluogi."
 
-#: weblate/auth/permissions.py:196
+#: weblate/auth/permissions.py:203
 #, fuzzy
 #| msgid "Translation reverted"
 msgid "Translation reviews are not enabled."
 msgstr "Gwrthdröwyd cyfieithiad"
 
-#: weblate/auth/permissions.py:203
+#: weblate/auth/permissions.py:219
 #, fuzzy
 #| msgid "Service is currently not available."
 msgid "Reviews are not enabled."
 msgstr "Nid yw'r gwasanaeth ar gael ar hyn o bryd."
 
-#: weblate/auth/permissions.py:216
+#: weblate/auth/permissions.py:232
 #, fuzzy
 #| msgid "This string seems to already exist."
 msgid "The string is read only."
 msgstr "Mae'n ymddangos bod y testun hwn yn bodoli eisoes."
 
-#: weblate/auth/permissions.py:222
+#: weblate/auth/permissions.py:238
 msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
 
-#: weblate/auth/permissions.py:228
+#: weblate/auth/permissions.py:244
 #, fuzzy
 #| msgid "This translation is forbidden."
 msgid "The translation is read only."
 msgstr "Mae'r cyfieithiad hwn wedi'i wahardd."
 
-#: weblate/auth/permissions.py:245
+#: weblate/auth/permissions.py:261
 msgid "Add the string to the source language instead."
 msgstr ""
 
-#: weblate/auth/permissions.py:249
+#: weblate/auth/permissions.py:265
 msgid "Adding strings is disabled in the component configuration."
 msgstr ""
 
-#: weblate/auth/permissions.py:266 weblate/auth/permissions.py:283
+#: weblate/auth/permissions.py:282 weblate/auth/permissions.py:299
 #, fuzzy
 #| msgid "File does not exist."
 msgid "File format does not support this."
@@ -3073,7 +3111,7 @@ msgstr "Canfod Java MessageFormat yn awtomatig"
 
 #: weblate/checks/flags.py:43
 #: weblate/templates/snippets/unit-readonly-badge.html:12
-#: weblate/templates/translate.html:216 weblate/trans/forms.py:473
+#: weblate/templates/translate.html:216 weblate/trans/forms.py:481
 msgid "Read only"
 msgstr "Darllen-yn-unig"
 
@@ -3127,8 +3165,8 @@ msgstr "Fflagiau ICU MessageFormat"
 msgid "ICU MessageFormat tag prefix"
 msgstr "Java MessageFormat"
 
-#: weblate/checks/flags.py:62 weblate/trans/models/component.py:668
-#: weblate/utils/views.py:120
+#: weblate/checks/flags.py:62 weblate/trans/models/component.py:675
+#: weblate/utils/views.py:122
 msgid "Priority"
 msgstr "Flaenoriaeth"
 
@@ -3896,7 +3934,8 @@ msgstr "Testunau hir heb eu cyfieithu"
 msgid "The string has not been translated for a long time"
 msgstr "Nid yw'r testun wedi'i gyfieithu ers amser maith"
 
-#: weblate/checks/views.py:210 weblate/templates/component.html:70
+#: weblate/checks/views.py:210 weblate/templates/category-project.html:44
+#: weblate/templates/category.html:62 weblate/templates/component.html:70
 #: weblate/templates/language-project.html:46
 #: weblate/templates/language.html:28 weblate/templates/project.html:70
 #: weblate/templates/translation.html:76
@@ -3917,7 +3956,7 @@ msgstr "Gwirio"
 #: weblate/templates/mail/todo_strings.html:8
 #: weblate/templates/snippets/embed-units.html:12
 #: weblate/templates/translate.html:81 weblate/templates/translate.html:292
-#: weblate/templates/translate.html:370 weblate/trans/forms.py:1488
+#: weblate/templates/translate.html:370 weblate/trans/forms.py:1496
 msgid "Translation"
 msgstr "Cyfieithiad"
 
@@ -4069,7 +4108,7 @@ msgstr "CSV"
 msgid "XLSX"
 msgstr "XLSX"
 
-#: weblate/formats/exporters.py:427 weblate/trans/forms.py:1205
+#: weblate/formats/exporters.py:427 weblate/trans/forms.py:1213
 msgid "JSON"
 msgstr "JSON"
 
@@ -4312,7 +4351,7 @@ msgstr "Term anghyfieithiadwy"
 
 #: weblate/glossary/forms.py:97 weblate/templates/mail/base.html:35
 #: weblate/templates/snippets/component-glossary-badge.html:4
-#: weblate/templates/translate.html:550 weblate/trans/forms.py:1481
+#: weblate/templates/translate.html:550 weblate/trans/forms.py:1489
 msgid "Glossary"
 msgstr "Geirfa"
 
@@ -4866,7 +4905,7 @@ msgstr "Enw rhanbarthol"
 msgid "Service is currently not available."
 msgstr "Nid yw'r gwasanaeth ar gael ar hyn o bryd."
 
-#: weblate/memory/forms.py:14 weblate/trans/forms.py:596
+#: weblate/memory/forms.py:14 weblate/trans/forms.py:604
 msgid "File"
 msgstr "Ffeil"
 
@@ -5238,9 +5277,11 @@ msgstr ""
 #: weblate/templates/snippets/git-info.html:56
 #: weblate/templates/snippets/git-info.html:71
 #: weblate/templates/snippets/ssh-key.html:15
+#: weblate/templates/trans/delete-category-language.html:18
+#: weblate/templates/trans/delete-category.html:35
 #: weblate/templates/trans/delete-component.html:24
 #: weblate/templates/trans/delete-project-language.html:18
-#: weblate/templates/trans/delete-project.html:25
+#: weblate/templates/trans/delete-project.html:35
 #: weblate/templates/trans/delete-translation.html:19
 #: weblate/templates/trans/project-access.html:107
 #: weblate/templates/trans/project-access.html:328
@@ -5504,8 +5545,8 @@ msgstr ""
 msgid "Change my password"
 msgstr "Newid fy nghyfrinair"
 
-#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:545
-#: weblate/trans/views/files.py:137
+#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:716
+#: weblate/trans/views/files.py:174
 msgid "Please fix errors in the form."
 msgstr "Trwsiwch wallau yn y ffurflen."
 
@@ -5540,7 +5581,7 @@ msgstr "Log cofnodi"
 
 #: weblate/templates/accounts/profile.html:32
 #: weblate/templates/accounts/profile.html:318
-#: weblate/templates/project.html:99
+#: weblate/templates/project.html:100
 #: weblate/templates/trans/project-access.html:21
 #: weblate/templates/trans/project-access.html:276
 msgid "API access"
@@ -5608,7 +5649,7 @@ msgstr "Hunaniaeth"
 msgid "User ID"
 msgstr "ID defnyddiwr"
 
-#: weblate/templates/accounts/profile.html:126 weblate/trans/forms.py:2581
+#: weblate/templates/accounts/profile.html:126 weblate/trans/forms.py:2651
 msgid "Action"
 msgstr "Gweithred"
 
@@ -5627,9 +5668,10 @@ msgid "Add new user identity"
 msgstr "Ychwanegu defnyddiwr newydd"
 
 #: weblate/templates/accounts/profile.html:166
-#: weblate/templates/component.html:103
+#: weblate/templates/category-project.html:47
+#: weblate/templates/category.html:77 weblate/templates/component.html:103
 #: weblate/templates/language-project.html:49
-#: weblate/templates/project.html:118 weblate/templates/translation.html:97
+#: weblate/templates/project.html:119 weblate/templates/translation.html:97
 msgid "Removal"
 msgstr "Dileu"
 
@@ -5880,7 +5922,7 @@ msgstr "Dechrau’r treial!"
 #: weblate/templates/accounts/user.html:12
 #: weblate/templates/accounts/user_contributions.html:12
 #: weblate/templates/auth/team.html:82 weblate/templates/component.html:93
-#: weblate/templates/manage/users.html:10 weblate/templates/project.html:98
+#: weblate/templates/manage/users.html:10 weblate/templates/project.html:99
 #: weblate/templates/snippets/info.html:415
 #: weblate/templates/snippets/info.html:452
 #: weblate/templates/trans/project-access.html:19
@@ -5982,8 +6024,8 @@ msgstr "Hunaniaethau defnyddwyr"
 #: weblate/templates/accounts/user.html:149
 #: weblate/templates/billing/detail.html:9
 #: weblate/templates/billing/overview.html:6
-#: weblate/templates/manage/billing.html:7 weblate/templates/project.html:111
-#: weblate/templates/snippets/info.html:102 weblate/trans/forms.py:2117
+#: weblate/templates/manage/billing.html:7 weblate/templates/project.html:112
+#: weblate/templates/snippets/info.html:102 weblate/trans/forms.py:2167
 #: weblate/wladmin/views.py:73
 msgid "Billing"
 msgstr "Bilio"
@@ -6235,7 +6277,7 @@ msgstr "Byddai'r cydrannau canlynol yn cael eu creu"
 #: weblate/templates/addons/discovery_preview.html:38
 #: weblate/templates/snippets/info.html:217
 #: weblate/templates/trans/alert/inexistantfiles.html:11
-#: weblate/trans/models/component.py:402
+#: weblate/trans/models/component.py:409
 msgid "Monolingual base language file"
 msgstr ""
 
@@ -6243,7 +6285,7 @@ msgstr ""
 #: weblate/templates/addons/discovery_preview.html:40
 #: weblate/templates/snippets/info.html:211
 #: weblate/templates/trans/discover-choice.html:5
-#: weblate/trans/models/component.py:382
+#: weblate/trans/models/component.py:389
 msgid "File mask"
 msgstr "Masg ffeiliau"
 
@@ -6305,8 +6347,8 @@ msgstr "Bydd y testunau yn cael eu cynhyrchu gan ddefnyddio'r patrwm canlynol:"
 #: weblate/templates/snippets/unit-readonly-badge.html:6
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#: weblate/templates/translate.html:79 weblate/trans/forms.py:2325
-#: weblate/utils/views.py:122
+#: weblate/templates/translate.html:79 weblate/trans/forms.py:2375
+#: weblate/utils/views.py:124
 msgid "Source string"
 msgstr "Testun ffynhonnell"
 
@@ -6327,8 +6369,8 @@ msgstr ""
 msgid "Access control"
 msgstr "Rheoli mynediad"
 
-#: weblate/templates/auth/team.html:14 weblate/templates/component.html:80
-#: weblate/templates/machinery/edit.html:15
+#: weblate/templates/auth/team.html:14 weblate/templates/category.html:68
+#: weblate/templates/component.html:80 weblate/templates/machinery/edit.html:15
 #: weblate/templates/machinery/list.html:14
 #: weblate/templates/manage/alerts.html:6
 #: weblate/templates/manage/appearance.html:9
@@ -6346,7 +6388,7 @@ msgstr "Rheoli"
 #: weblate/templates/auth/team.html:26 weblate/templates/base.html:280
 #: weblate/templates/component-settings.html:8
 #: weblate/templates/component.html:98
-#: weblate/templates/project-settings.html:8 weblate/templates/project.html:106
+#: weblate/templates/project-settings.html:8 weblate/templates/project.html:107
 msgid "Settings"
 msgstr "Gosodiadau"
 
@@ -6371,7 +6413,7 @@ msgstr "Aseinio grŵp yn awtomatig"
 msgid "Last sign in"
 msgstr "Mewngofnodiad diwethaf"
 
-#: weblate/templates/auth/team.html:100 weblate/trans/forms.py:1170
+#: weblate/templates/auth/team.html:100 weblate/trans/forms.py:1178
 msgid "Team administrator"
 msgstr "Gweinyddwr y tîm"
 
@@ -6411,9 +6453,11 @@ msgid "This will remove <b>%(user)s</b> access to this project."
 msgstr ""
 
 #: weblate/templates/auth/team.html:188 weblate/templates/base.html:236
-#: weblate/templates/component.html:237 weblate/templates/lang/create.html:16
+#: weblate/templates/category.html:193 weblate/templates/component.html:237
+#: weblate/templates/lang/create.html:16
 #: weblate/templates/manage/backups.html:110
-#: weblate/templates/manage/users.html:34 weblate/templates/project.html:232
+#: weblate/templates/manage/users.html:34 weblate/templates/project.html:233
+#: weblate/templates/project.html:257
 #: weblate/templates/snippets/query-builder.html:34
 #: weblate/templates/snippets/query-builder.html:51
 #: weblate/templates/snippets/query-builder.html:65
@@ -6456,7 +6500,8 @@ msgstr "Mynediad yn unig"
 msgid "Toggle navigation"
 msgstr "Toglo llywio"
 
-#: weblate/templates/base.html:126 weblate/templates/component.html:36
+#: weblate/templates/base.html:126 weblate/templates/category-project.html:16
+#: weblate/templates/category.html:31 weblate/templates/component.html:36
 #: weblate/templates/dashboard/user.html:38
 #: weblate/templates/language-project.html:18
 #: weblate/templates/language.html:21 weblate/templates/manage/users.html:104
@@ -6523,9 +6568,11 @@ msgstr "Gwallau ffurfweddu"
 msgid "Add new translation project"
 msgstr "Ychwanegu prosiect cyfieithu newydd"
 
-#: weblate/templates/base.html:241 weblate/templates/project.html:88
+#: weblate/templates/base.html:241 weblate/templates/category.html:72
+#: weblate/templates/project.html:89
 #: weblate/templates/snippets/list-objects.html:27
-#: weblate/templates/snippets/list-objects.html:233
+#: weblate/templates/snippets/list-objects.html:258
+#: weblate/templates/snippets/list-objects.html:260
 #: weblate/templates/snippets/project-component-settings.html:18
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
@@ -6535,8 +6582,8 @@ msgstr "Ychwanegu cydran cyfieithu newydd"
 #: weblate/templates/new-language.html:22
 #: weblate/templates/new-language.html:67
 #: weblate/templates/snippets/list-objects.html:21
-#: weblate/templates/snippets/list-objects.html:227
-#: weblate/templates/snippets/list-objects.html:229
+#: weblate/templates/snippets/list-objects.html:251
+#: weblate/templates/snippets/list-objects.html:253
 msgid "Start new translation"
 msgstr "Dechrau cyfieithiad newydd"
 
@@ -6675,7 +6722,7 @@ msgstr "Yn aros am gymeradwyaeth"
 #: weblate/templates/billing/detail.html:110
 #: weblate/templates/billing/detail.html:127
 #: weblate/templates/mail/billing_expired.html:55
-#: weblate/templates/project.html:92
+#: weblate/templates/project.html:93
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
 msgid "Request approval for Libre hosting"
 msgstr ""
@@ -6841,7 +6888,7 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:82
-#: weblate/trans/forms.py:2005 weblate/trans/forms.py:2047
+#: weblate/trans/forms.py:2055 weblate/trans/forms.py:2097
 msgid "You do not have permission to change project access control."
 msgstr ""
 
@@ -6851,7 +6898,8 @@ msgid "Check your billing status"
 msgstr "Gwirio eich statws bilio"
 
 #: weblate/templates/browse.html:20
-#: weblate/templates/snippets/list-objects.html:152
+#: weblate/templates/snippets/list-objects.html:135
+#: weblate/templates/snippets/list-objects.html:176
 #: weblate/templates/translation.html:144
 #: weblate/templates/translation.html:190
 msgid "Browse"
@@ -6861,6 +6909,189 @@ msgstr "Pori"
 #: weblate/trans/views/edit.py:566
 msgid "No strings found!"
 msgstr "Ni chanfuwyd testunau!"
+
+#: weblate/templates/category-project.html:15
+#: weblate/templates/category.html:30 weblate/templates/component.html:32
+#: weblate/templates/language-project.html:17 weblate/templates/project.html:32
+#: weblate/templates/translation.html:37
+msgid "Info"
+msgstr "Gwybodaeth"
+
+#: weblate/templates/category-project.html:19
+#: weblate/templates/category.html:34 weblate/templates/component.html:39
+#: weblate/templates/dashboard/user.html:29
+#: weblate/templates/language-project.html:21 weblate/templates/project.html:36
+#: weblate/templates/translation.html:41
+msgid "Insights"
+msgstr "Mewnwelediadau"
+
+#: weblate/templates/category-project.html:22
+#: weblate/templates/category.html:37 weblate/templates/component.html:42
+#: weblate/templates/dashboard/user.html:32
+#: weblate/templates/language-project.html:24
+#: weblate/templates/language.html:22 weblate/templates/project.html:39
+#: weblate/templates/translate.html:246 weblate/templates/translation.html:44
+msgid "History"
+msgstr "Hanes"
+
+#: weblate/templates/category-project.html:27
+#: weblate/templates/category.html:45 weblate/templates/component-list.html:19
+#: weblate/templates/component.html:52
+#: weblate/templates/language-project.html:29 weblate/templates/project.html:52
+#: weblate/templates/translation.html:49 weblate/trans/forms.py:1552
+msgid "Files"
+msgstr "Ffeiliau"
+
+#: weblate/templates/category-project.html:30
+#: weblate/templates/category.html:48 weblate/templates/component-list.html:22
+#: weblate/templates/component.html:55
+#: weblate/templates/language-project.html:32 weblate/templates/project.html:55
+msgid "Download for offline translation."
+msgstr ""
+
+#: weblate/templates/category-project.html:30
+#: weblate/templates/component-list.html:22
+#: weblate/templates/language-project.html:32
+msgid "Download original translation files as ZIP file"
+msgstr ""
+
+#: weblate/templates/category-project.html:35
+#: weblate/templates/category.html:53 weblate/templates/component.html:60
+#: weblate/templates/language-project.html:37
+#: weblate/templates/language.html:25 weblate/templates/manage/tools.html:9
+#: weblate/templates/project.html:60 weblate/templates/translate.html:170
+#: weblate/templates/translation.html:63 weblate/wladmin/views.py:69
+msgid "Tools"
+msgstr "Offer"
+
+#. Translators: Name of event in the history
+#: weblate/templates/category-project.html:39
+#: weblate/templates/category-project.html:87
+#: weblate/templates/category.html:57 weblate/templates/category.html:144
+#: weblate/templates/component.html:64 weblate/templates/component.html:186
+#: weblate/templates/language-project.html:41
+#: weblate/templates/language-project.html:89 weblate/templates/project.html:64
+#: weblate/templates/project.html:186 weblate/templates/replace.html:8
+#: weblate/templates/translation.html:67 weblate/templates/translation.html:253
+#: weblate/trans/models/change.py:334
+msgid "Search and replace"
+msgstr "Canfod a disodli"
+
+#: weblate/templates/category-project.html:66
+#: weblate/templates/language-project.html:68
+#: weblate/templates/language.html:54
+#, fuzzy
+#| msgid "Default component list"
+msgid "Browse all changes for this language"
+msgstr "Rhestr cydran rhagosodedig"
+
+#: weblate/templates/category-project.html:93
+#: weblate/templates/category.html:150 weblate/templates/component.html:192
+#: weblate/templates/language-project.html:95
+#: weblate/templates/project.html:192 weblate/templates/replace.html:45
+#: weblate/templates/translation.html:259
+msgid "Replace"
+msgstr "Disodli"
+
+#: weblate/templates/category-project.html:112
+#: weblate/templates/category.html:169 weblate/templates/component.html:211
+#: weblate/templates/language-project.html:114
+#: weblate/templates/project.html:211 weblate/templates/translation.html:239
+#: weblate/templates/translation.html:278
+msgid "Apply"
+msgstr "Cymhwyso"
+
+#: weblate/templates/category.html:39 weblate/templates/project.html:41
+msgid "Announcements"
+msgstr "Cyhoeddiadau"
+
+#: weblate/templates/category.html:48 weblate/templates/component.html:55
+#: weblate/templates/project.html:55
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Download translation files as ZIP file"
+msgstr "Glanhau ffeiliau cyfieithu"
+
+#: weblate/templates/category.html:71 weblate/templates/project.html:88
+#, fuzzy
+#| msgid "Add new user"
+msgid "Add new category"
+msgstr "Ychwanegu defnyddiwr newydd"
+
+#: weblate/templates/category.html:76 weblate/templates/category.html:214
+#: weblate/templates/component.html:102 weblate/templates/component.html:262
+#: weblate/templates/project.html:118 weblate/templates/project.html:279
+msgid "Rename"
+msgstr "Ailenwi"
+
+#: weblate/templates/category.html:85 weblate/templates/component.html:111
+#: weblate/templates/project.html:127 weblate/templates/translation.html:105
+msgid "Share"
+msgstr "Rhannu"
+
+#: weblate/templates/category.html:89 weblate/templates/component.html:115
+#: weblate/templates/project.html:131 weblate/templates/translation.html:109
+msgid "Share on Facebook"
+msgstr "Rhannu ar Facebook"
+
+#: weblate/templates/category.html:90 weblate/templates/component.html:116
+#: weblate/templates/project.html:132 weblate/templates/translation.html:110
+#, python-format
+msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
+msgstr ""
+
+#: weblate/templates/category.html:90 weblate/templates/project.html:132
+msgid "Tweet this translation"
+msgstr ""
+
+#: weblate/templates/category.html:91 weblate/templates/component.html:117
+#: weblate/templates/project.html:133 weblate/templates/translation.html:111
+msgid "Engage page"
+msgstr ""
+
+#: weblate/templates/category.html:92 weblate/templates/component.html:118
+#: weblate/templates/project.html:134 weblate/templates/translation.html:112
+msgid "Status widgets"
+msgstr "Wijets statws"
+
+#: weblate/templates/category.html:120 weblate/templates/category.html:126
+#: weblate/templates/project.html:162 weblate/templates/project.html:168
+msgid "Browse all project changes"
+msgstr ""
+
+#: weblate/templates/category.html:186 weblate/templates/project.html:250
+#, fuzzy
+#| msgid "Add a user"
+msgid "Add a category"
+msgstr "Ychwanegu defnyddiwr newydd"
+
+#: weblate/templates/category.html:206
+#, fuzzy
+#| msgid "Rename project"
+msgid "Rename category"
+msgstr "Ailenwi’r prosiect"
+
+#: weblate/templates/category.html:209
+msgid ""
+"Renaming the category will change all URLs, users will have to update "
+"bookmarks or references in cloned repositories!"
+msgstr ""
+
+#: weblate/templates/category.html:221
+#, fuzzy
+#| msgid "Category"
+msgid "Move category"
+msgstr "Categori"
+
+#: weblate/templates/category.html:224
+msgid ""
+"Moving the category will change all its URLs, users will have to update "
+"bookmarks or references in cloned repositories!"
+msgstr ""
+
+#: weblate/templates/category.html:229 weblate/templates/component.html:277
+msgid "Move"
+msgstr "Symud"
 
 #: weblate/templates/check_list.html:27
 msgid "Total"
@@ -6888,22 +7119,6 @@ msgstr "Dogfennaeth"
 msgid "Information"
 msgstr "Gwybodaeth"
 
-#: weblate/templates/component-list.html:19 weblate/templates/component.html:52
-#: weblate/templates/language-project.html:29 weblate/templates/project.html:52
-#: weblate/templates/translation.html:49 weblate/trans/forms.py:1544
-msgid "Files"
-msgstr "Ffeiliau"
-
-#: weblate/templates/component-list.html:22 weblate/templates/component.html:55
-#: weblate/templates/language-project.html:32 weblate/templates/project.html:55
-msgid "Download for offline translation."
-msgstr ""
-
-#: weblate/templates/component-list.html:22
-#: weblate/templates/language-project.html:32
-msgid "Download original translation files as ZIP file"
-msgstr ""
-
 #: weblate/templates/component-progress.html:9
 msgid "Progress"
 msgstr "Cynnydd"
@@ -6924,28 +7139,9 @@ msgstr ""
 msgid "Return to the component after completion"
 msgstr ""
 
-#: weblate/templates/component.html:32
-#: weblate/templates/language-project.html:17 weblate/templates/project.html:32
-#: weblate/templates/translation.html:37
-msgid "Info"
-msgstr "Gwybodaeth"
-
 #: weblate/templates/component.html:34 weblate/wladmin/views.py:64
 msgid "Alerts"
 msgstr "Rhybuddion"
-
-#: weblate/templates/component.html:39 weblate/templates/dashboard/user.html:29
-#: weblate/templates/language-project.html:21 weblate/templates/project.html:36
-#: weblate/templates/translation.html:41
-msgid "Insights"
-msgstr "Mewnwelediadau"
-
-#: weblate/templates/component.html:42 weblate/templates/dashboard/user.html:32
-#: weblate/templates/language-project.html:24
-#: weblate/templates/language.html:22 weblate/templates/project.html:39
-#: weblate/templates/translate.html:246 weblate/templates/translation.html:44
-msgid "History"
-msgstr "Hanes"
 
 #: weblate/templates/component.html:43 weblate/templates/project.html:43
 msgid "Download statistics (CSV)"
@@ -6959,30 +7155,6 @@ msgstr "Lawrlwytho ystadegau (JSON)"
 #: weblate/templates/project.html:46
 msgid "Translation reports"
 msgstr "Adroddion cyfieithu"
-
-#: weblate/templates/component.html:55 weblate/templates/project.html:55
-#, fuzzy
-#| msgid "Cleanup translation files"
-msgid "Download translation files as ZIP file"
-msgstr "Glanhau ffeiliau cyfieithu"
-
-#: weblate/templates/component.html:60
-#: weblate/templates/language-project.html:37
-#: weblate/templates/language.html:25 weblate/templates/manage/tools.html:9
-#: weblate/templates/project.html:60 weblate/templates/translate.html:170
-#: weblate/templates/translation.html:63 weblate/wladmin/views.py:69
-msgid "Tools"
-msgstr "Offer"
-
-#. Translators: Name of event in the history
-#: weblate/templates/component.html:64 weblate/templates/component.html:186
-#: weblate/templates/language-project.html:41
-#: weblate/templates/language-project.html:89 weblate/templates/project.html:64
-#: weblate/templates/project.html:185 weblate/templates/replace.html:8
-#: weblate/templates/translation.html:67 weblate/templates/translation.html:253
-#: weblate/trans/models/change.py:319
-msgid "Search and replace"
-msgstr "Canfod a disodli"
 
 #: weblate/templates/component.html:69 weblate/templates/data.html:8
 #: weblate/templates/project.html:69 weblate/templates/translation.html:75
@@ -7001,13 +7173,13 @@ msgstr "Cynnal a chadw’r ystorfa"
 #: weblate/templates/component.html:87
 #: weblate/templates/screenshots/screenshot_detail.html:10
 #: weblate/templates/screenshots/screenshot_list.html:11
-#: weblate/trans/forms.py:1565
+#: weblate/trans/forms.py:1573
 msgid "Screenshots"
 msgstr "Sgrinluniau"
 
 #: weblate/templates/component.html:90 weblate/templates/component.html:229
 #: weblate/templates/manage/tools.html:20 weblate/templates/project.html:85
-#: weblate/templates/project.html:224 weblate/templates/translation.html:93
+#: weblate/templates/project.html:225 weblate/templates/translation.html:93
 #: weblate/templates/translation.html:403
 msgid "Post announcement"
 msgstr "Creu cyhoeddiad"
@@ -7017,40 +7189,9 @@ msgstr "Creu cyhoeddiad"
 msgid "Community localization checklist"
 msgstr "Rhestr wirio cyfieithu cymunedol"
 
-#: weblate/templates/component.html:102 weblate/templates/component.html:262
-#: weblate/templates/project.html:117 weblate/templates/project.html:257
-msgid "Rename"
-msgstr "Ailenwi"
-
-#: weblate/templates/component.html:111 weblate/templates/project.html:126
-#: weblate/templates/translation.html:105
-msgid "Share"
-msgstr "Rhannu"
-
-#: weblate/templates/component.html:115 weblate/templates/project.html:130
-#: weblate/templates/translation.html:109
-msgid "Share on Facebook"
-msgstr "Rhannu ar Facebook"
-
-#: weblate/templates/component.html:116 weblate/templates/project.html:131
-#: weblate/templates/translation.html:110
-#, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr ""
-
 #: weblate/templates/component.html:116 weblate/templates/translation.html:110
 msgid "Tweet this translation!"
 msgstr ""
-
-#: weblate/templates/component.html:117 weblate/templates/project.html:132
-#: weblate/templates/translation.html:111
-msgid "Engage page"
-msgstr ""
-
-#: weblate/templates/component.html:118 weblate/templates/project.html:133
-#: weblate/templates/translation.html:112
-msgid "Status widgets"
-msgstr "Wijets statws"
 
 #: weblate/templates/component.html:143 weblate/templates/manage/alerts.html:22
 msgid "dismissed"
@@ -7071,20 +7212,6 @@ msgstr "Cau"
 #: weblate/templates/component.html:162
 msgid "Please sign in to see the alerts."
 msgstr ""
-
-#: weblate/templates/component.html:192
-#: weblate/templates/language-project.html:95
-#: weblate/templates/project.html:191 weblate/templates/replace.html:45
-#: weblate/templates/translation.html:259
-msgid "Replace"
-msgstr "Disodli"
-
-#: weblate/templates/component.html:211
-#: weblate/templates/language-project.html:114
-#: weblate/templates/project.html:210 weblate/templates/translation.html:239
-#: weblate/templates/translation.html:278
-msgid "Apply"
-msgstr "Cymhwyso"
 
 #: weblate/templates/component.html:220
 msgid "Browse all component changes"
@@ -7116,24 +7243,20 @@ msgid ""
 "bookmarks or references in cloned repositories!"
 msgstr ""
 
-#: weblate/templates/component.html:277
-msgid "Move"
-msgstr "Symud"
-
-#: weblate/templates/component.html:288 weblate/templates/project.html:267
+#: weblate/templates/component.html:288 weblate/templates/project.html:289
 #: weblate/templates/translate.html:348 weblate/templates/translation.html:425
 msgid "Loading…"
 msgstr "Wrthi'n llwytho…"
 
 #: weblate/templates/component.html:295
-#: weblate/templates/dashboard/user.html:88 weblate/templates/project.html:274
+#: weblate/templates/dashboard/user.html:88 weblate/templates/project.html:296
 msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
 msgstr ""
 
 #: weblate/templates/component.html:305
-#: weblate/templates/dashboard/user.html:98 weblate/templates/project.html:284
+#: weblate/templates/dashboard/user.html:98 weblate/templates/project.html:306
 msgid "Credits"
 msgstr "Cydnabyddiaeth"
 
@@ -7146,18 +7269,18 @@ msgstr ""
 
 #: weblate/templates/component.html:313 weblate/templates/component.html:332
 #: weblate/templates/dashboard/user.html:106
-#: weblate/templates/dashboard/user.html:125 weblate/templates/project.html:292
-#: weblate/templates/project.html:311
+#: weblate/templates/dashboard/user.html:125 weblate/templates/project.html:314
+#: weblate/templates/project.html:333
 msgid "Generate"
 msgstr "Cynhyrchu"
 
 #: weblate/templates/component.html:324
-#: weblate/templates/dashboard/user.html:117 weblate/templates/project.html:303
+#: weblate/templates/dashboard/user.html:117 weblate/templates/project.html:325
 msgid "Contributor stats"
 msgstr "Ystadegau cyfranwr"
 
 #: weblate/templates/component.html:328
-#: weblate/templates/dashboard/user.html:121 weblate/templates/project.html:307
+#: weblate/templates/dashboard/user.html:121 weblate/templates/project.html:329
 msgid "Reports the number of strings and words translated by each translator."
 msgstr ""
 
@@ -7165,7 +7288,7 @@ msgstr ""
 #: weblate/templates/snippets/info.html:164
 #: weblate/templates/snippets/libre-checklist.html:24
 #: weblate/templates/trans/other-row.html:22
-#: weblate/trans/models/component.py:511
+#: weblate/trans/models/component.py:518
 msgid "Contributor agreement"
 msgstr "Cytundeb cyfranwr"
 
@@ -7347,7 +7470,7 @@ msgstr[4] "Iaith"
 msgstr[5] "Iaith"
 
 #: weblate/templates/engage.html:32
-#: weblate/trans/templatetags/translations.py:1074 weblate/trans/widgets.py:87
+#: weblate/trans/templatetags/translations.py:1080 weblate/trans/widgets.py:87
 #, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
@@ -7432,7 +7555,7 @@ msgstr ""
 
 #: weblate/templates/fonts/font_detail.html:9
 #: weblate/templates/fonts/font_list.html:9
-#: weblate/templates/fonts/font_list.html:16 weblate/templates/project.html:102
+#: weblate/templates/fonts/font_list.html:16 weblate/templates/project.html:103
 msgid "Fonts"
 msgstr "Ffontiau"
 
@@ -7870,7 +7993,7 @@ msgstr "Newidiadau i’r ystorfa"
 
 #: weblate/templates/lang/create.html:7
 #: weblate/templates/snippets/list-objects.html:31
-#: weblate/templates/snippets/list-objects.html:237
+#: weblate/templates/snippets/list-objects.html:265
 msgid "Add language"
 msgstr "Ychwanegu iaith"
 
@@ -7881,13 +8004,6 @@ msgstr ""
 #: weblate/templates/lang/plural_form.html:16
 msgid "Please see a documentation for more info."
 msgstr ""
-
-#: weblate/templates/language-project.html:68
-#: weblate/templates/language.html:54
-#, fuzzy
-#| msgid "Default component list"
-msgid "Browse all changes for this language"
-msgstr "Rhestr cydran rhagosodedig"
 
 #: weblate/templates/last-changes-content.html:34
 #: weblate/templates/snippets/suggestions.html:23
@@ -7973,7 +8089,7 @@ msgstr "analluogir"
 #: weblate/templates/machinery/edit.html:12
 #: weblate/templates/machinery/edit.html:16
 #: weblate/templates/machinery/list.html:12
-#: weblate/templates/machinery/list.html:15 weblate/templates/project.html:104
+#: weblate/templates/machinery/list.html:15 weblate/templates/project.html:105
 #: weblate/templates/translate.html:243 weblate/wladmin/views.py:70
 msgid "Automatic suggestions"
 msgstr "Awgrymiadau awtomatig"
@@ -8482,6 +8598,11 @@ msgstr "Lleoliad y testun ffynhonnell"
 msgid "Screenshot context"
 msgstr "Cyd-destun mewn sgrinlun"
 
+#: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:19
+#: weblate/trans/filter.py:116
+msgid "Unfinished strings"
+msgstr "Testunau heb eu orffen"
+
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, python-format
 msgid "%(count)s unfinished string in %(component)s"
@@ -8529,7 +8650,7 @@ msgstr "Addasu gwedd"
 msgid "Reset customization"
 msgstr "Ailosod addasiadau"
 
-#: weblate/templates/manage/backups.html:8 weblate/templates/project.html:105
+#: weblate/templates/manage/backups.html:8 weblate/templates/project.html:106
 #: weblate/templates/trans/backups.html:8 weblate/wladmin/views.py:60
 msgid "Backups"
 msgstr "Copïau wrth gefn"
@@ -9064,7 +9185,7 @@ msgstr ""
 
 #: weblate/templates/new-language.html:76
 #: weblate/templates/snippets/list-objects.html:23
-#: weblate/templates/snippets/list-objects.html:229
+#: weblate/templates/snippets/list-objects.html:253
 msgid "You don't have permission to start a new translation"
 msgstr ""
 
@@ -9083,21 +9204,21 @@ msgstr "%(position)s / %(total)s"
 msgid "Go to position"
 msgstr ""
 
-#: weblate/templates/paginator.html:19
+#: weblate/templates/paginator.html:21
 #: weblate/templates/snippets/position-field.html:24
 msgid "Jump to"
 msgstr "Neidio i"
 
 #. Translators: This is partial position indicator shown when editing position
-#: weblate/templates/paginator.html:22
+#: weblate/templates/paginator.html:24
 #, python-format
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
 
 #: weblate/templates/project-label-edit.html:9
-#: weblate/templates/project-labels.html:10 weblate/templates/project.html:103
-#: weblate/templates/translate.html:650 weblate/trans/models/unit.py:352
-#: weblate/utils/views.py:121
+#: weblate/templates/project-labels.html:10 weblate/templates/project.html:104
+#: weblate/templates/translate.html:650 weblate/trans/models/unit.py:354
+#: weblate/utils/views.py:123
 msgid "Labels"
 msgstr "Labeli"
 
@@ -9121,35 +9242,23 @@ msgstr "Testunau ffynhonnell wedi'u labelu"
 msgid "Add label"
 msgstr "Ychwanegu label"
 
-#: weblate/templates/project.html:41
-msgid "Announcements"
-msgstr "Cyhoeddiadau"
-
-#: weblate/templates/project.html:131
-msgid "Tweet this translation"
-msgstr ""
-
-#: weblate/templates/project.html:161 weblate/templates/project.html:167
-msgid "Browse all project changes"
-msgstr ""
-
-#: weblate/templates/project.html:229
+#: weblate/templates/project.html:230
 msgid ""
 "The message is shown for all translations within the project, until its "
 "given expiry, or permanently until it is deleted."
 msgstr ""
 
-#: weblate/templates/project.html:249
+#: weblate/templates/project.html:271
 msgid "Rename project"
 msgstr "Ailenwi’r prosiect"
 
-#: weblate/templates/project.html:252
+#: weblate/templates/project.html:274
 msgid ""
 "Renaming the project will change all URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
 
-#: weblate/templates/project.html:288
+#: weblate/templates/project.html:310
 msgid ""
 "Lists all translators contributing to this project in a given time period. "
 "Useful for inclusion in documentation or the app itself, to thank "
@@ -9329,7 +9438,7 @@ msgstr "Hyd y testun ffynhonnell"
 msgid "Clone to translation"
 msgstr "Dyblygu i gyfieithiad"
 
-#: weblate/templates/snippets/embed-units.html:48 weblate/utils/views.py:123
+#: weblate/templates/snippets/embed-units.html:48 weblate/utils/views.py:125
 msgid "Target string"
 msgstr "Testun targed"
 
@@ -9346,12 +9455,12 @@ msgid "Loading results…"
 msgstr "Wrthi’n llwytho canlyniadau…"
 
 #: weblate/templates/snippets/git-info.html:10
-#: weblate/trans/models/component.py:317
+#: weblate/trans/models/component.py:324
 msgid "Source code repository"
 msgstr "Ystorfa cod ffynhonnell"
 
 #: weblate/templates/snippets/git-info.html:19
-#: weblate/trans/templatetags/translations.py:915
+#: weblate/trans/templatetags/translations.py:921
 #, python-format
 msgid "This component is linked to the %(target)s repository."
 msgstr ""
@@ -9361,8 +9470,8 @@ msgstr ""
 msgid "Repository URL copied to clipboard."
 msgstr "URL y storfa wedi'i gopïo i'r clipfwrdd."
 
-#: weblate/templates/snippets/git-info.html:27 weblate/trans/forms.py:1682
-#: weblate/trans/models/component.py:366
+#: weblate/templates/snippets/git-info.html:27 weblate/trans/forms.py:1691
+#: weblate/trans/models/component.py:373
 msgid "Repository branch"
 msgstr "Cangen ystorfa"
 
@@ -9390,7 +9499,7 @@ msgid "Weblate repository"
 msgstr "Ystorfa Weblate"
 
 #: weblate/templates/snippets/glossary.html:7
-#: weblate/trans/templatetags/translations.py:736
+#: weblate/trans/templatetags/translations.py:742
 msgid "This translation is forbidden."
 msgstr "Mae'r cyfieithiad hwn wedi'i wahardd."
 
@@ -9441,7 +9550,7 @@ msgstr "Cynhalwyr y prosiect"
 
 #: weblate/templates/snippets/info.html:128
 #: weblate/templates/snippets/info.html:151
-#: weblate/trans/models/component.py:504
+#: weblate/trans/models/component.py:511
 msgid "Translation license"
 msgstr "Trwydded cyfieithu"
 
@@ -9724,7 +9833,7 @@ msgid "No strings to translate"
 msgstr "Dim testunau i'w cyfieithu"
 
 #: weblate/templates/snippets/list-objects.html:23
-#: weblate/templates/snippets/list-objects.html:229
+#: weblate/templates/snippets/list-objects.html:253
 #, fuzzy
 #| msgid "Define the base file for new translations"
 msgid "Please sign in to start new translation"
@@ -9761,7 +9870,7 @@ msgstr "Heb ei gyfieithu"
 #: weblate/templates/snippets/list-objects.html:109
 #: weblate/templates/trans/suggestion_list.html:8
 #: weblate/templates/translate.html:234 weblate/templates/translate.html:447
-#: weblate/trans/forms.py:1490
+#: weblate/trans/forms.py:1498
 msgid "Suggestions"
 msgstr "Cynigion"
 
@@ -9770,23 +9879,23 @@ msgstr "Cynigion"
 msgid "Comments"
 msgstr "Sylwadau"
 
-#: weblate/templates/snippets/list-objects.html:143
+#: weblate/templates/snippets/list-objects.html:167
 msgid "Create translation"
 msgstr "Creu cyfieithiad"
 
-#: weblate/templates/snippets/list-objects.html:146
+#: weblate/templates/snippets/list-objects.html:170
 #, fuzzy
 #| msgid "Download translation file"
 msgid "Cannot add translation right now"
 msgstr "Lawrlwytho ffeil cyfieithiadau"
 
-#: weblate/templates/snippets/list-objects.html:150
+#: weblate/templates/snippets/list-objects.html:174
 #: weblate/templates/translate.html:23 weblate/templates/translation.html:145
 #: weblate/templates/translation.html:191
 msgid "Translate"
 msgstr "Cyfieithu"
 
-#: weblate/templates/snippets/list-objects.html:222
+#: weblate/templates/snippets/list-objects.html:246
 msgid "Nothing to list here."
 msgstr "Dim byd i'w restru yma."
 
@@ -9852,7 +9961,7 @@ msgstr "Nesaf"
 msgid "Last"
 msgstr "Olaf"
 
-#: weblate/templates/snippets/progress.html:5 weblate/trans/forms.py:440
+#: weblate/templates/snippets/progress.html:5 weblate/trans/forms.py:448
 msgid "Approved"
 msgstr "Cymeradwy"
 
@@ -10042,7 +10151,7 @@ msgstr "Lawrlwytho %(key_type)s allwedd breifat"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
-#: weblate/trans/models/change.py:281
+#: weblate/trans/models/change.py:296
 msgid "Suggestion added"
 msgstr "Ychwanegwyd cynnig"
 
@@ -10084,7 +10193,7 @@ msgid "Suggested change:"
 msgstr "Awgrym:"
 
 #: weblate/templates/snippets/suggestions.html:60
-#: weblate/trans/templatetags/translations.py:719
+#: weblate/trans/templatetags/translations.py:725
 msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Gwiriadau anghyflawn:"
@@ -10317,7 +10426,7 @@ msgid "Following files are no longer present in the repository:"
 msgstr ""
 
 #: weblate/templates/trans/alert/inexistantfiles.html:15
-#: weblate/trans/models/component.py:433
+#: weblate/trans/models/component.py:440
 msgid "Template for new translations"
 msgstr "Templed ar gyfer cyfieithiadau newydd"
 
@@ -10384,7 +10493,7 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr ""
 
 #: weblate/templates/trans/alert/pushfailure.html:9
-#: weblate/trans/models/component.py:2760
+#: weblate/trans/models/component.py:2785
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -10420,7 +10529,7 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
-#: weblate/trans/models/component.py:305
+#: weblate/trans/models/component.py:312
 msgid "Version control system"
 msgstr ""
 
@@ -10626,17 +10735,64 @@ msgid ""
 "creating it."
 msgstr ""
 
+#: weblate/templates/trans/delete-category-language.html:4
+#: weblate/templates/trans/delete-project-language.html:4
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete %(object)s "
+"translations and all related content."
+msgstr ""
+
+#: weblate/templates/trans/delete-category-language.html:6
+#: weblate/templates/trans/delete-project-language.html:6
+msgid "The following translations will be removed:"
+msgstr "Bydd y cyfieithiadau canlynol yn cael eu dileu:"
+
+#: weblate/templates/trans/delete-category-language.html:14
+#: weblate/templates/trans/delete-project-language.html:14
+#, fuzzy
+#| msgid "Project name"
+msgid "Project language to remove"
+msgstr "Enw'r prosiect"
+
+#: weblate/templates/trans/delete-category.html:5
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"project and all related content."
+msgstr ""
+
+#: weblate/templates/trans/delete-category.html:6
+#: weblate/templates/trans/delete-project.html:6
+msgid ""
+"This includes, but is not limited to, translation memory, glossaries, or "
+"user permissions."
+msgstr ""
+
+#: weblate/templates/trans/delete-category.html:11
+#: weblate/templates/trans/delete-component.html:8
+#: weblate/templates/trans/delete-project.html:11
+msgid "The following translation components will be removed:"
+msgstr "Bydd y cydrannau cyfieithu canlynol yn cael eu dileu:"
+
+#: weblate/templates/trans/delete-category.html:21
+#: weblate/templates/trans/delete-project.html:21
+#, fuzzy
+#| msgid "The following translations will be removed:"
+msgid "The following translation categories will be removed:"
+msgstr "Bydd y cyfieithiadau canlynol yn cael eu dileu:"
+
+#: weblate/templates/trans/delete-category.html:31
+#: weblate/templates/trans/delete-project.html:31
+msgid "Project to remove"
+msgstr "Prosiect i’w dileu"
+
 #: weblate/templates/trans/delete-component.html:4
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "component and all related content."
 msgstr ""
-
-#: weblate/templates/trans/delete-component.html:8
-#: weblate/templates/trans/delete-project.html:11
-msgid "The following translation components will be removed:"
-msgstr "Bydd y cydrannau cyfieithu canlynol yn cael eu dileu:"
 
 #: weblate/templates/trans/delete-component.html:20
 msgid "Component to remove"
@@ -10646,39 +10802,12 @@ msgstr "Cydran i’w ddileu"
 msgid "I understand the consequences, delete this translation"
 msgstr ""
 
-#: weblate/templates/trans/delete-project-language.html:4
-#, python-format
-msgid ""
-"This action cannot be undone. This will permanently delete %(object)s "
-"translations and all related content."
-msgstr ""
-
-#: weblate/templates/trans/delete-project-language.html:6
-msgid "The following translations will be removed:"
-msgstr "Bydd y cyfieithiadau canlynol yn cael eu dileu:"
-
-#: weblate/templates/trans/delete-project-language.html:14
-#, fuzzy
-#| msgid "Project name"
-msgid "Project language to remove"
-msgstr "Enw'r prosiect"
-
 #: weblate/templates/trans/delete-project.html:5
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"project and all related content."
+"category and all related content."
 msgstr ""
-
-#: weblate/templates/trans/delete-project.html:6
-msgid ""
-"This includes, but is not limited to, translation memory, glossaries, or "
-"user permissions."
-msgstr ""
-
-#: weblate/templates/trans/delete-project.html:21
-msgid "Project to remove"
-msgstr "Prosiect i’w dileu"
 
 #: weblate/templates/trans/delete-translation.html:6
 msgid ""
@@ -10753,7 +10882,7 @@ msgid "Propagated"
 msgstr "Lledaenwyd"
 
 #: weblate/templates/trans/other-row.html:18
-#: weblate/trans/models/component.py:450
+#: weblate/trans/models/component.py:457
 msgid "Locked"
 msgstr "Ar glo"
 
@@ -10915,12 +11044,12 @@ msgid "Intermediate language"
 msgstr "Iaith ganolradd"
 
 #: weblate/templates/translate.html:130 weblate/templates/translate.html:621
-#: weblate/templates/zen-units.html:31 weblate/trans/forms.py:447
-#: weblate/trans/models/unit.py:338
+#: weblate/templates/zen-units.html:31 weblate/trans/forms.py:455
+#: weblate/trans/models/unit.py:340
 msgid "Explanation"
 msgstr "Esboniad"
 
-#: weblate/templates/translate.html:154 weblate/trans/forms.py:1001
+#: weblate/templates/translate.html:154 weblate/trans/forms.py:1009
 msgid "Report issue with the source string"
 msgstr "Rhoi gwybod am broblem gyda'r testun ffynhonnell"
 
@@ -11088,6 +11217,10 @@ msgstr "Lleoliad"
 msgid "Similarity"
 msgstr "Tebygrwydd"
 
+#: weblate/templates/translate.html:415 weblate/trans/forms.py:1025
+msgid "New comment"
+msgstr "Sylw newydd"
+
 #: weblate/templates/translate.html:417
 msgid "Comment on this string for fellow translators and developers to read."
 msgstr ""
@@ -11180,11 +11313,11 @@ msgstr "Fflagiau"
 msgid "No flags currently set."
 msgstr ""
 
-#: weblate/templates/translate.html:684 weblate/utils/views.py:124
+#: weblate/templates/translate.html:684 weblate/utils/views.py:126
 msgid "String age"
 msgstr "Oedran y testun"
 
-#: weblate/templates/translate.html:690 weblate/utils/views.py:125
+#: weblate/templates/translate.html:690 weblate/utils/views.py:127
 #, fuzzy
 #| msgid "Last change"
 msgid "Last updated"
@@ -11409,7 +11542,7 @@ msgstr ""
 msgid "Color variants:"
 msgstr "Amrywiolion lliw:"
 
-#: weblate/templates/widgets.html:57 weblate/trans/forms.py:1206
+#: weblate/templates/widgets.html:57 weblate/trans/forms.py:1214
 msgid "HTML"
 msgstr "HTML"
 
@@ -11421,7 +11554,7 @@ msgstr "BBCode"
 msgid "Markdown"
 msgstr "Markdown"
 
-#: weblate/templates/widgets.html:60 weblate/trans/forms.py:1204
+#: weblate/templates/widgets.html:60 weblate/trans/forms.py:1212
 msgid "reStructuredText"
 msgstr "reStructuredText"
 
@@ -11585,209 +11718,209 @@ msgstr "Wedi methu gwiriad: {}"
 msgid "Labeled: {}"
 msgstr "Wedi'i labelu: {}"
 
-#: weblate/trans/forms.py:140
+#: weblate/trans/forms.py:148
 msgid "Invalid checksum specified!"
 msgstr ""
 
-#: weblate/trans/forms.py:193 weblate/trans/forms.py:201
+#: weblate/trans/forms.py:201 weblate/trans/forms.py:209
 msgid "Toggle text direction"
 msgstr "Toglo cyfeiriad testun"
 
-#: weblate/trans/forms.py:304
+#: weblate/trans/forms.py:312
 msgid "Alternative translation"
 msgstr "Cyfieithiad amgen"
 
-#: weblate/trans/forms.py:368
+#: weblate/trans/forms.py:376
 msgid "Search filter"
 msgstr ""
 
-#: weblate/trans/forms.py:373
+#: weblate/trans/forms.py:381
 msgid "Please choose a valid filter type."
 msgstr ""
 
-#: weblate/trans/forms.py:405
+#: weblate/trans/forms.py:413
 msgid "The string you wanted to translate is no longer available."
 msgstr ""
 
-#: weblate/trans/forms.py:419 weblate/trans/forms.py:438
+#: weblate/trans/forms.py:427 weblate/trans/forms.py:446
 msgid "Needs editing"
 msgstr "Angen golygu"
 
-#: weblate/trans/forms.py:421
+#: weblate/trans/forms.py:429
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
 
-#: weblate/trans/forms.py:436
+#: weblate/trans/forms.py:444
 msgid "Review state"
 msgstr ""
 
-#: weblate/trans/forms.py:439 weblate/trans/forms.py:2463
+#: weblate/trans/forms.py:447 weblate/trans/forms.py:2513
 msgid "Waiting for review"
 msgstr "Aros am adolygiad"
 
-#: weblate/trans/forms.py:449 weblate/trans/models/unit.py:342
+#: weblate/trans/forms.py:457 weblate/trans/models/unit.py:344
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 
-#: weblate/trans/forms.py:500
+#: weblate/trans/forms.py:508
 #, fuzzy
 #| msgid "Source string location"
 msgid "Source string explanation"
 msgstr "Lleoliad y testun ffynhonnell"
 
-#: weblate/trans/forms.py:502
+#: weblate/trans/forms.py:510
 #, fuzzy
 #| msgid "Translation notifications"
 msgid "Translation explanation"
 msgstr "Hysbysiadau cyfieithu"
 
-#: weblate/trans/forms.py:519
+#: weblate/trans/forms.py:527
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
 
-#: weblate/trans/forms.py:530
+#: weblate/trans/forms.py:538
 msgid ""
 "The translation of the string has changed meanwhile. Please check your "
 "changes."
 msgstr ""
 
-#: weblate/trans/forms.py:541
+#: weblate/trans/forms.py:549
 msgid "Translation text too long!"
 msgstr ""
 
-#: weblate/trans/forms.py:599
+#: weblate/trans/forms.py:607
 msgid "File upload mode"
 msgstr "Modd uwchlwytho ffeil"
 
-#: weblate/trans/forms.py:601 weblate/trans/forms.py:942
+#: weblate/trans/forms.py:609 weblate/trans/forms.py:950
 msgid "Add as translation"
 msgstr "Ychwanegu fel cyfieithiad"
 
-#: weblate/trans/forms.py:602 weblate/trans/forms.py:946
+#: weblate/trans/forms.py:610 weblate/trans/forms.py:954
 msgid "Add as approved translation"
 msgstr ""
 
-#: weblate/trans/forms.py:603 weblate/trans/forms.py:941
+#: weblate/trans/forms.py:611 weblate/trans/forms.py:949
 msgid "Add as suggestion"
 msgstr "Ychwanegu fel cynigiad"
 
-#: weblate/trans/forms.py:604
+#: weblate/trans/forms.py:612
 msgid "Add as translation needing edit"
 msgstr ""
 
-#: weblate/trans/forms.py:605
+#: weblate/trans/forms.py:613
 msgid "Replace existing translation file"
 msgstr ""
 
-#: weblate/trans/forms.py:606
+#: weblate/trans/forms.py:614
 msgid "Update source strings"
 msgstr "Diweddaru testunau ffynhonnell"
 
-#: weblate/trans/forms.py:607
+#: weblate/trans/forms.py:615
 msgid "Add new strings"
 msgstr "Ychwanegu testunau newydd"
 
-#: weblate/trans/forms.py:613
+#: weblate/trans/forms.py:621
 msgid "Processing of \"Needs editing\" strings"
 msgstr "Prosesu testunau \"Angen golygu\""
 
-#: weblate/trans/forms.py:615
+#: weblate/trans/forms.py:623
 msgid "Do not import"
 msgstr "Peidio â mewnforio"
 
-#: weblate/trans/forms.py:616
+#: weblate/trans/forms.py:624
 msgid "Import as \"Needs editing\""
 msgstr "Mewnforio fel \"Angen golygu\""
 
-#: weblate/trans/forms.py:617
+#: weblate/trans/forms.py:625
 msgid "Import as translated"
 msgstr "Mewnforio fel cyfieithwyd"
 
-#: weblate/trans/forms.py:643
+#: weblate/trans/forms.py:651
 msgid "Conflict handling"
 msgstr "Trin gwrthdaro"
 
-#: weblate/trans/forms.py:645
+#: weblate/trans/forms.py:653
 msgid ""
 "Whether to overwrite existing translations if the string is already "
 "translated."
 msgstr ""
 
-#: weblate/trans/forms.py:649
+#: weblate/trans/forms.py:657
 msgid "Change only untranslated strings"
 msgstr "Newid testunau heb eu cyfieithu yn unig"
 
-#: weblate/trans/forms.py:650
+#: weblate/trans/forms.py:658
 msgid "Change translated strings"
 msgstr "Newid testunau a gyfieithwyd"
 
-#: weblate/trans/forms.py:653
+#: weblate/trans/forms.py:661
 msgid "Change translated and approved strings"
 msgstr "Newid testunau wedi'u cyfieithu a'u derbyn"
 
-#: weblate/trans/forms.py:664
+#: weblate/trans/forms.py:672
 msgid "Author name"
 msgstr "Enw’r awdur"
 
-#: weblate/trans/forms.py:665
+#: weblate/trans/forms.py:673
 msgid "Author e-mail"
 msgstr "E-bost yr awdur"
 
-#: weblate/trans/forms.py:814
+#: weblate/trans/forms.py:822
 msgid "Could not find the merged string."
 msgstr "Methu canfod y testun cyfun."
 
-#: weblate/trans/forms.py:818
+#: weblate/trans/forms.py:826
 msgid "Could not find merged string."
 msgstr ""
 
-#: weblate/trans/forms.py:836
+#: weblate/trans/forms.py:844
 #, fuzzy
 #| msgid "Could not log in using password."
 msgid "Could not find the reverted change."
 msgstr "Methu mewngofnodi gan ddefnyddio cyfrinair."
 
-#: weblate/trans/forms.py:844
+#: weblate/trans/forms.py:852
 msgid "Automatic translation mode"
 msgstr "Modd cyfieithu awtomatig"
 
-#: weblate/trans/forms.py:851
+#: weblate/trans/forms.py:859
 msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
 
-#: weblate/trans/forms.py:856
+#: weblate/trans/forms.py:864
 #, fuzzy
 #| msgid "Perform automatic translation"
 msgid "Source of automated translations"
 msgstr "Cyflawni cyfieithu awtomatig"
 
-#: weblate/trans/forms.py:858
+#: weblate/trans/forms.py:866
 msgid "Other translation components"
 msgstr ""
 
-#: weblate/trans/forms.py:859
+#: weblate/trans/forms.py:867
 msgid "Machine translation"
 msgstr "Cyfieithu peirianyddol"
 
-#: weblate/trans/forms.py:867
+#: weblate/trans/forms.py:875
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
 
-#: weblate/trans/forms.py:873
+#: weblate/trans/forms.py:881
 msgid "Machine translation engines"
 msgstr "Peiriannau cyfieithu peirianyddol"
 
-#: weblate/trans/forms.py:876
+#: weblate/trans/forms.py:884
 msgid "Score threshold"
 msgstr ""
 
-#: weblate/trans/forms.py:902
+#: weblate/trans/forms.py:910
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
@@ -11795,365 +11928,377 @@ msgstr ""
 "Rhowch slug o gydran i'w defnyddio fel ffynhonnell, cadwch yn wag i "
 "ddefnyddio'r holl gydrannau yn y prosiect cyfredol."
 
-#: weblate/trans/forms.py:913
+#: weblate/trans/forms.py:921
 msgid "All components in current project"
 msgstr ""
 
-#: weblate/trans/forms.py:943
+#: weblate/trans/forms.py:951
 msgid "Add as \"Needing edit\""
 msgstr ""
 
-#: weblate/trans/forms.py:966 weblate/trans/forms.py:975
-#: weblate/trans/forms.py:983
+#: weblate/trans/forms.py:974 weblate/trans/forms.py:983
+#: weblate/trans/forms.py:991
 msgid "Component not found!"
 msgstr "Ni chanfuwyd cydran!"
 
-#: weblate/trans/forms.py:985
+#: weblate/trans/forms.py:993
 msgid "Please provide valid component slug!"
 msgstr "Rhowch slug cydran dilys!"
 
-#: weblate/trans/forms.py:993
+#: weblate/trans/forms.py:1001
 msgid "Scope"
 msgstr "Cwmpas"
 
-#: weblate/trans/forms.py:995
+#: weblate/trans/forms.py:1003
 msgid ""
 "Is your comment specific to this translation, or generic for all of them?"
 msgstr ""
 
-#: weblate/trans/forms.py:1006
+#: weblate/trans/forms.py:1014
 msgid "Source string comment, suggestions for changes to this string"
 msgstr ""
 
-#: weblate/trans/forms.py:1011
+#: weblate/trans/forms.py:1019
 msgid "Translation comment, discussions with other translators"
 msgstr ""
 
-#: weblate/trans/forms.py:1018 weblate/trans/models/announcement.py:70
+#: weblate/trans/forms.py:1026 weblate/trans/models/announcement.py:70
 #: weblate/trans/models/project.py:108
 msgid "You can use Markdown and mention users by @username."
 msgstr ""
 
-#: weblate/trans/forms.py:1041
+#: weblate/trans/forms.py:1049
 msgid "All components"
 msgstr "Pob cydran"
 
-#: weblate/trans/forms.py:1090
+#: weblate/trans/forms.py:1098
 msgid "Please choose"
 msgstr "Dewiswch"
 
-#: weblate/trans/forms.py:1171
+#: weblate/trans/forms.py:1179
 msgid "Allow user to add or remove users from a team."
 msgstr ""
 
-#: weblate/trans/forms.py:1183
+#: weblate/trans/forms.py:1191
 msgid "Block duration"
 msgstr "Hyd y bloc"
 
-#: weblate/trans/forms.py:1185
+#: weblate/trans/forms.py:1193
 msgid "Block the user until I unblock"
 msgstr ""
 
-#: weblate/trans/forms.py:1186
+#: weblate/trans/forms.py:1194
 msgid "Block the user for one day"
 msgstr ""
 
-#: weblate/trans/forms.py:1187
+#: weblate/trans/forms.py:1195
 msgid "Block the user for one week"
 msgstr ""
 
-#: weblate/trans/forms.py:1188
+#: weblate/trans/forms.py:1196
 msgid "Block the user for one month"
 msgstr ""
 
-#: weblate/trans/forms.py:1201
+#: weblate/trans/forms.py:1209
 msgid "Report format"
 msgstr "Fformat yr adroddiad"
 
-#: weblate/trans/forms.py:1202
+#: weblate/trans/forms.py:1210
 msgid "Choose a file format for the report"
 msgstr "Dewiswch fformat ffeil ar gyfer yr adroddiad"
 
-#: weblate/trans/forms.py:1210
+#: weblate/trans/forms.py:1218
 msgid "Report period"
 msgstr ""
 
-#: weblate/trans/forms.py:1212
+#: weblate/trans/forms.py:1220
 msgid "Last 30 days"
 msgstr "Y 30 diwrnod diwethaf"
 
-#: weblate/trans/forms.py:1213
+#: weblate/trans/forms.py:1221
 msgid "This month"
 msgstr "Y mis hwn"
 
-#: weblate/trans/forms.py:1214
+#: weblate/trans/forms.py:1222
 msgid "Last month"
 msgstr "Y mis diwethaf"
 
-#: weblate/trans/forms.py:1215
+#: weblate/trans/forms.py:1223
 msgid "This year"
 msgstr "Eleni"
 
-#: weblate/trans/forms.py:1216
+#: weblate/trans/forms.py:1224
 msgid "Last year"
 msgstr "Y llynedd"
 
-#: weblate/trans/forms.py:1217
+#: weblate/trans/forms.py:1225
 msgid "As specified below"
 msgstr "Fel y nodwyd isod"
 
-#: weblate/trans/forms.py:1221 weblate/trans/forms.py:2589
+#: weblate/trans/forms.py:1229 weblate/trans/forms.py:2659
 msgid "Starting date"
 msgstr "Dyddiad cychwyn"
 
-#: weblate/trans/forms.py:1222 weblate/trans/forms.py:2590
+#: weblate/trans/forms.py:1230 weblate/trans/forms.py:2660
 msgid "Ending date"
 msgstr "Dyddiad gorffen"
 
-#: weblate/trans/forms.py:1280 weblate/trans/forms.py:1282
+#: weblate/trans/forms.py:1288 weblate/trans/forms.py:1290
 msgid "Missing date!"
 msgstr "Dyddiad ar goll!"
 
-#: weblate/trans/forms.py:1294
+#: weblate/trans/forms.py:1302
 msgid "The starting date has to be before the ending date."
 msgstr "Rhaid i'r dyddiad dechrau fod cyn y dyddiad gorffen."
 
-#: weblate/trans/forms.py:1312
+#: weblate/trans/forms.py:1320
 msgid "You do not have permission to access this component."
 msgstr ""
 
-#: weblate/trans/forms.py:1378
+#: weblate/trans/forms.py:1386
 msgid "This field has been identified as spam!"
 msgstr ""
 
-#: weblate/trans/forms.py:1470 weblate/trans/forms.py:2054
+#: weblate/trans/forms.py:1478 weblate/trans/forms.py:2104
 msgid "Basic"
 msgstr "Sylfaenol"
 
-#: weblate/trans/forms.py:1472
+#: weblate/trans/forms.py:1480
 msgid "License"
 msgstr "Trwydded"
 
-#: weblate/trans/forms.py:1473
+#: weblate/trans/forms.py:1481
 msgid "Upstream links"
 msgstr "Dolenni uwch"
 
-#: weblate/trans/forms.py:1475
+#: weblate/trans/forms.py:1483
 msgid "Listing and access"
 msgstr "Rhestru a mynediad"
 
-#: weblate/trans/forms.py:1496
+#: weblate/trans/forms.py:1504
 msgid "Translation settings"
 msgstr "Gosodiadau cyfieithu"
 
-#: weblate/trans/forms.py:1506
+#: weblate/trans/forms.py:1514
 msgid "Version control"
 msgstr "Rheoli fersiwn"
 
-#: weblate/trans/forms.py:1508
+#: weblate/trans/forms.py:1516
 msgid "Locations"
 msgstr "Lleoliadau"
 
-#: weblate/trans/forms.py:1518
+#: weblate/trans/forms.py:1526
 msgid "Version control settings"
 msgstr "Gosodiadau rheoli fersiwn"
 
-#: weblate/trans/forms.py:1527 weblate/trans/forms.py:1529
+#: weblate/trans/forms.py:1535 weblate/trans/forms.py:1537
 msgid "Commit messages"
 msgstr "Negeseuon ymrwymo"
 
-#: weblate/trans/forms.py:1546
+#: weblate/trans/forms.py:1554
 msgid "Translation files"
 msgstr "Ffeiliau cyfieithu"
 
-#: weblate/trans/forms.py:1553
+#: weblate/trans/forms.py:1561
 msgid "Monolingual translations"
 msgstr "Cyfieithiadau uniaith"
 
-#: weblate/trans/forms.py:1559
+#: weblate/trans/forms.py:1567
 msgid "Adding new languages"
 msgstr "Ychwanegu ieithoedd newydd"
 
-#: weblate/trans/forms.py:1670
+#: weblate/trans/forms.py:1679
 msgid "Select an existing component configuration to copy."
 msgstr ""
 
-#: weblate/trans/forms.py:1752 weblate/trans/forms.py:1757
-#, fuzzy
-#| msgid "A user with that username already exists."
-msgid "A component with the same name already exists."
-msgstr "Mae defnyddiwr gyda'r enw defnyddiwr hwnnw eisoes yn bodoli."
+#: weblate/trans/forms.py:1738 weblate/trans/models/announcement.py:95
+#: weblate/trans/models/category.py:40 weblate/trans/models/component.py:306
+msgid "Category"
+msgstr "Categori"
 
-#: weblate/trans/forms.py:1777
+#: weblate/trans/forms.py:1792
 msgid "ZIP file containing translations"
 msgstr ""
 
-#: weblate/trans/forms.py:1791
+#: weblate/trans/forms.py:1806
 msgid "Document to translate"
 msgstr "Dogfen i’w chyfieithu"
 
-#: weblate/trans/forms.py:1863
+#: weblate/trans/forms.py:1872
 msgid "Choose translation files to import"
 msgstr ""
 
-#: weblate/trans/forms.py:1864
+#: weblate/trans/forms.py:1873
 msgid "Specify configuration manually"
 msgstr ""
 
-#: weblate/trans/forms.py:2018
+#: weblate/trans/forms.py:2068
 #, python-format
 msgid ""
 "You must specify a license for these components to make them publicly "
 "accessible: %s"
 msgstr ""
 
-#: weblate/trans/forms.py:2061
+#: weblate/trans/forms.py:2111
 msgid "Access"
 msgstr "Mynediad"
 
-#: weblate/trans/forms.py:2070
+#: weblate/trans/forms.py:2120
 msgid "Workflow"
 msgstr "Llif gwaith"
 
-#: weblate/trans/forms.py:2095
+#: weblate/trans/forms.py:2145
 msgid ""
 "Uses and contributes to the pool of shared translations between projects."
 msgstr ""
 
-#: weblate/trans/forms.py:2161
+#: weblate/trans/forms.py:2211
 msgid "ZIP file containing project backup"
 msgstr ""
 
-#: weblate/trans/forms.py:2183
+#: weblate/trans/forms.py:2233
 #, fuzzy, python-format
 #| msgid "Failed to load project backup: %s"
 msgid "Could not load project backup: %s"
 msgstr "Wedi methu llwytho copi wrth gefn prosiect: %s"
 
-#: weblate/trans/forms.py:2191
+#: weblate/trans/forms.py:2241
 msgid "Optional additional filter applied to the strings"
 msgstr ""
 
-#: weblate/trans/forms.py:2194
+#: weblate/trans/forms.py:2244
 msgid "Search string"
 msgstr "Chwilio testun"
 
-#: weblate/trans/forms.py:2198
+#: weblate/trans/forms.py:2248
 msgid "Case-sensitive string to search for and replace."
 msgstr ""
 
-#: weblate/trans/forms.py:2201
+#: weblate/trans/forms.py:2251
 msgid "Replacement string"
 msgstr "Testun newydd"
 
-#: weblate/trans/forms.py:2287
+#: weblate/trans/forms.py:2337
 msgid "Translation key"
 msgstr "Allwedd cyfieithu"
 
-#: weblate/trans/forms.py:2289
+#: weblate/trans/forms.py:2339
 msgid ""
 "Key used to identify the string in the translation file. File-format "
 "specific rules might apply."
 msgstr ""
 
-#: weblate/trans/forms.py:2295
+#: weblate/trans/forms.py:2345
 msgid "Source language text"
 msgstr "Testun ffynhonnell"
 
-#: weblate/trans/forms.py:2297
+#: weblate/trans/forms.py:2347
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/forms.py:2313 weblate/trans/models/component.py:3537
+#: weblate/trans/forms.py:2363 weblate/trans/models/component.py:3548
 msgid "Context"
 msgstr "Cyd-destun"
 
-#: weblate/trans/forms.py:2314
+#: weblate/trans/forms.py:2364
 msgid "Optional context to clarify the source strings."
 msgstr ""
 
-#: weblate/trans/forms.py:2321
+#: weblate/trans/forms.py:2371
 msgid "Auto-adjust context when an identical string already exists."
 msgstr ""
 
-#: weblate/trans/forms.py:2342
+#: weblate/trans/forms.py:2392
 msgid "Translated string"
 msgstr "Testun wedi'i cyfieithu"
 
-#: weblate/trans/forms.py:2344
+#: weblate/trans/forms.py:2394
 msgid "You can edit this later, as with any other string in the translation."
 msgstr ""
 
-#: weblate/trans/forms.py:2420
+#: weblate/trans/forms.py:2470
 msgid "State to set"
 msgstr "Statws i’w gosod"
 
-#: weblate/trans/forms.py:2421
+#: weblate/trans/forms.py:2471
 msgid "Do not change"
 msgstr "Peidio â newid"
 
-#: weblate/trans/forms.py:2424
+#: weblate/trans/forms.py:2474
 #, fuzzy
 #| msgid "Translation notifications"
 msgid "Translation flags to add"
 msgstr "Hysbysiadau cyfieithu"
 
-#: weblate/trans/forms.py:2427
+#: weblate/trans/forms.py:2477
 #, fuzzy
 #| msgid "Translation editor mode"
 msgid "Translation flags to remove"
 msgstr "Modd golygydd cyfieithu"
 
-#: weblate/trans/forms.py:2431
+#: weblate/trans/forms.py:2481
 msgid "Labels to add"
 msgstr ""
 
-#: weblate/trans/forms.py:2437
+#: weblate/trans/forms.py:2487
 msgid "Labels to remove"
 msgstr "Labeli i'w tynnu"
 
-#: weblate/trans/forms.py:2484
+#: weblate/trans/forms.py:2534
 msgid "I accept the contributor agreement"
 msgstr ""
 
-#: weblate/trans/forms.py:2513
+#: weblate/trans/forms.py:2563
 msgid "The slug does not match the one marked for deletion!"
 msgstr "Nid yw'r slug yn cyfateb i'r un sydd wedi cael ei marcio i'w ddileu!"
 
-#: weblate/trans/forms.py:2519 weblate/trans/forms.py:2538
-#: weblate/trans/forms.py:2549 weblate/trans/forms.py:2558
+#: weblate/trans/forms.py:2569 weblate/trans/forms.py:2588
+#: weblate/trans/forms.py:2599 weblate/trans/forms.py:2608
+#: weblate/trans/forms.py:2617 weblate/trans/forms.py:2628
 msgid "Removal confirmation"
 msgstr "Cadarnhad dileu"
 
-#: weblate/trans/forms.py:2521
+#: weblate/trans/forms.py:2571
 msgid "Please type in the full slug of the translation to confirm."
 msgstr "Teipiwch slug llawn y cyfieithiad i gadarnhau."
 
-#: weblate/trans/forms.py:2540
+#: weblate/trans/forms.py:2590
 msgid "Please type in the full slug of the component to confirm."
 msgstr "Teipiwch slug llawn y gydran i gadarnhau."
 
-#: weblate/trans/forms.py:2550
+#: weblate/trans/forms.py:2600
 msgid "Please type in the slug of the project to confirm."
 msgstr "Teipiwch slug y prosiect i gadarnhau."
 
-#: weblate/trans/forms.py:2560
+#: weblate/trans/forms.py:2609
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please type in the slug of the category to confirm."
+msgstr "Teipiwch slug y prosiect i gadarnhau."
+
+#: weblate/trans/forms.py:2619
 msgid "Please type in the slug of the project and language to confirm."
 msgstr "Teipiwch slug y prosiect a'r iaith i gadarnhau."
 
-#: weblate/trans/forms.py:2587
+#: weblate/trans/forms.py:2630
+#, fuzzy
+#| msgid "Please type in the slug of the project and language to confirm."
+msgid "Please type in the slug of the category and language to confirm."
+msgstr "Teipiwch slug y prosiect a'r iaith i gadarnhau."
+
+#: weblate/trans/forms.py:2657
 msgid "Author username"
 msgstr "Enw defnyddiwr yr awdur"
 
-#: weblate/trans/forms.py:2599
+#: weblate/trans/forms.py:2669
 #, fuzzy
 #| msgid "Could not log in using password."
 msgid "Could not find matching user!"
 msgstr "Methu mewngofnodi gan ddefnyddio cyfrinair."
 
-#: weblate/trans/forms.py:2665
+#: weblate/trans/forms.py:2735
 msgid "Expiry cannot be in the past."
 msgstr ""
 
@@ -12181,7 +12326,7 @@ msgstr ""
 msgid "Make your translations available under a libre license."
 msgstr ""
 
-#: weblate/trans/guide.py:153 weblate/trans/templatetags/translations.py:923
+#: weblate/trans/guide.py:153 weblate/trans/templatetags/translations.py:929
 msgid "Fix this component to clear its alerts."
 msgstr ""
 
@@ -12204,6 +12349,19 @@ msgstr ""
 #: weblate/trans/guide.py:239
 msgid "Workflow customization"
 msgstr "Addasu llif gwaith"
+
+#: weblate/trans/mixins.py:143
+#, fuzzy
+#| msgid "Component with this URL slug already exists in the project."
+msgid ""
+"Component or category with the same URL slug already exists at this level."
+msgstr "Mae cydran gyda'r slug URL hwn eisoes yn bodoli yn y prosiect."
+
+#: weblate/trans/mixins.py:150
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid "Component or category with the same name already exists at this level."
+msgstr "Mae defnyddiwr gyda'r enw defnyddiwr hwnnw eisoes yn bodoli."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:153
@@ -12319,10 +12477,6 @@ msgstr ""
 msgid "Component seems unused."
 msgstr "Mae cydran yn ymddangos heb ei ddefnyddio."
 
-#: weblate/trans/models/announcement.py:95
-msgid "Category"
-msgstr "Categori"
-
 #: weblate/trans/models/announcement.py:96
 msgid "Category defines color used for the message."
 msgstr ""
@@ -12361,182 +12515,220 @@ msgstr "Hysbysu defnyddwyr"
 msgid "Do not specify both component and project!"
 msgstr ""
 
+#: weblate/trans/models/category.py:23
+#, fuzzy
+#| msgid "Category"
+msgid "Category name"
+msgstr "Categori"
+
+#: weblate/trans/models/category.py:25 weblate/trans/models/component.py:291
+#: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:89
+msgid "Display name"
+msgstr "Enw defnyddiwr"
+
+#: weblate/trans/models/category.py:28 weblate/trans/models/component.py:294
+#: weblate/trans/models/componentlist.py:32 weblate/trans/models/project.py:93
+msgid "URL slug"
+msgstr "Slug yr URL"
+
+#: weblate/trans/models/category.py:30 weblate/trans/models/component.py:296
+#: weblate/trans/models/componentlist.py:36 weblate/trans/models/project.py:96
+msgid "Name used in URLs and filenames."
+msgstr ""
+
+#: weblate/trans/models/category.py:87
+msgid "Too deep nesting of categories!"
+msgstr ""
+
+#: weblate/trans/models/category.py:92
+msgid "Parent category has to be in the same project!"
+msgstr ""
+
+#: weblate/trans/models/category.py:97
+msgid "Parent category has to be different!"
+msgstr ""
+
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:271
+#: weblate/trans/models/change.py:286
 msgid "Resource update"
 msgstr "Diweddariad adnodd"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:273
+#: weblate/trans/models/change.py:288
 msgid "Translation completed"
 msgstr "Cwblhawyd y cyfieithiad"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:275
+#: weblate/trans/models/change.py:290
 msgid "Translation changed"
 msgstr "Newidiwyd y cyfieithiad"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:277
+#: weblate/trans/models/change.py:292
 msgid "New translation"
 msgstr "Cyfieithiad newydd"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:279
+#: weblate/trans/models/change.py:294
 msgid "Comment added"
 msgstr "Ychwanegwyd sylw"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:285
+#: weblate/trans/models/change.py:300
 msgid "Suggestion accepted"
 msgstr "Derbyniwyd cynnig"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:287
+#: weblate/trans/models/change.py:302
 msgid "Translation reverted"
 msgstr "Gwrthdröwyd cyfieithiad"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:289
+#: weblate/trans/models/change.py:304
 msgid "Translation uploaded"
 msgstr "Uwchlwythwyd cyfieithiad"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:291
+#: weblate/trans/models/change.py:306
 msgid "New source string"
 msgstr "Testun ffynhonnell newydd"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:293
+#: weblate/trans/models/change.py:308
 msgid "Component locked"
 msgstr "Cydran wedi'i chloi"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:295
+#: weblate/trans/models/change.py:310
 msgid "Component unlocked"
 msgstr "Cydran wedi'i datgloi"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:297
+#: weblate/trans/models/change.py:312
 msgid "Committed changes"
 msgstr "Newidiadau ymrwymedig"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:299
+#: weblate/trans/models/change.py:314
 msgid "Pushed changes"
 msgstr "Newidiadau wedi'u gwthio"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:301
+#: weblate/trans/models/change.py:316
 msgid "Reset repository"
 msgstr "Ailosod ystorfa"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:303
+#: weblate/trans/models/change.py:318
 msgid "Merged repository"
 msgstr "Cyfunwyd ystorfa"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:305
+#: weblate/trans/models/change.py:320
 msgid "Rebased repository"
 msgstr "Ystorfa wedi'i hailseilio"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:307
+#: weblate/trans/models/change.py:322
 msgid "Failed merge on repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:309
+#: weblate/trans/models/change.py:324
 msgid "Failed rebase on repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:311
+#: weblate/trans/models/change.py:326
 msgid "Failed push on repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:315
+#: weblate/trans/models/change.py:328
+msgid "Parse error"
+msgstr "Gwall dosrannu"
+
+#. Translators: Name of event in the history
+#: weblate/trans/models/change.py:330
 msgid "Removed translation"
 msgstr "Dilëwyd cyfieithiad"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:317
+#: weblate/trans/models/change.py:332
 msgid "Suggestion removed"
 msgstr "Dilëwyd sylw"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:321
+#: weblate/trans/models/change.py:336
 msgid "Suggestion removed during cleanup"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:323
+#: weblate/trans/models/change.py:338
 msgid "Source string changed"
 msgstr "Newidiwyd y testun ffynhonnell"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:325
+#: weblate/trans/models/change.py:340
 msgid "New string added"
 msgstr "Ychwanegwyd testun newydd"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:327
+#: weblate/trans/models/change.py:342
 msgid "Bulk status change"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:329
+#: weblate/trans/models/change.py:344
 msgid "Changed visibility"
 msgstr "Newidiwyd gwelededd"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:331
+#: weblate/trans/models/change.py:346
 msgid "Added user"
 msgstr "Ychwanegwyd defnyddiwr"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:333
+#: weblate/trans/models/change.py:348
 msgid "Removed user"
 msgstr "Dilëwyd defnyddiwr"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:335
+#: weblate/trans/models/change.py:350
 msgid "Translation approved"
 msgstr "Gwiriwyd cyfieithiad"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:337
+#: weblate/trans/models/change.py:352
 msgid "Marked for edit"
 msgstr "Marciwyd fel angen golygu"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:339
+#: weblate/trans/models/change.py:354
 msgid "Removed component"
 msgstr "Dilëwyd cydran"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:341
+#: weblate/trans/models/change.py:356
 msgid "Removed project"
 msgstr "Dilëwyd prosiect"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:343
+#: weblate/trans/models/change.py:358
 msgid "Renamed project"
 msgstr "Ailenwyd prosiect"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:345
+#: weblate/trans/models/change.py:360
 msgid "Renamed component"
 msgstr "Ailenwyd cydran"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:347
+#: weblate/trans/models/change.py:362
 msgid "Moved component"
 msgstr "Symudwyd cydran"
 
-#: weblate/trans/models/change.py:352
+#: weblate/trans/models/change.py:367
 #, fuzzy
 #| msgid "translate"
 msgctxt "Name of event in the history"
@@ -12544,95 +12736,110 @@ msgid "New string to translate"
 msgstr "Cyfieithu"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:361
+#: weblate/trans/models/change.py:370
+msgid "New contributor"
+msgstr "Cyfrannwr newydd"
+
+#. Translators: Name of event in the history
+#: weblate/trans/models/change.py:372
+msgid "New announcement"
+msgstr "Cyhoeddiad newydd"
+
+#. Translators: Name of event in the history
+#: weblate/trans/models/change.py:374
+msgid "New alert"
+msgstr "Rhybudd newydd"
+
+#. Translators: Name of event in the history
+#: weblate/trans/models/change.py:376
 msgid "Added new language"
 msgstr "Ychwanegwyd iaith newydd"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:363
+#: weblate/trans/models/change.py:378
 msgid "Requested new language"
 msgstr "Gofynnwyd am iaith newydd"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:365
+#: weblate/trans/models/change.py:380
 msgid "Created project"
 msgstr "Crëwyd prosiect"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:367
+#: weblate/trans/models/change.py:382
 msgid "Created component"
 msgstr "Crëwyd cydran"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:369
+#: weblate/trans/models/change.py:384
 msgid "Invited user"
 msgstr "Gwahoddwyd defnyddiwr"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:371
+#: weblate/trans/models/change.py:386
 #, fuzzy
 #| msgid "View upstream repository location"
 msgid "Received repository notification"
 msgstr "Gweld lleoliad yr ystorfa cyntaf"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:373
+#: weblate/trans/models/change.py:388
 msgid "Replaced file by upload"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:375
+#: weblate/trans/models/change.py:390
 msgid "License changed"
 msgstr "Trwydded wedi newid"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:377
+#: weblate/trans/models/change.py:392
 msgid "Contributor agreement changed"
 msgstr "Newidiwyd cytundeb cyfranwyr"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:379
+#: weblate/trans/models/change.py:394
 msgid "Screnshot added"
 msgstr "Ychwanegwyd sgrinlun"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:381
+#: weblate/trans/models/change.py:396
 msgid "Screnshot uploaded"
 msgstr "Uwchlwythwyd sgrinlun"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:383
+#: weblate/trans/models/change.py:398
 #, fuzzy
 #| msgid "Update the internal repository"
 msgid "String updated in the repository"
 msgstr "Diweddaru'r ystorfa fewnol"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:385
+#: weblate/trans/models/change.py:400
 msgid "Add-on installed"
 msgstr "Ychwanegyn wedi'i osod"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:387
+#: weblate/trans/models/change.py:402
 msgid "Add-on configuration changed"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:389
+#: weblate/trans/models/change.py:404
 msgid "Add-on uninstalled"
 msgstr "Ychwanegyn wedi'i ddadosod"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:391
+#: weblate/trans/models/change.py:406
 msgid "Removed string"
 msgstr "Testun wedi'i dynnu"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:393
+#: weblate/trans/models/change.py:408
 msgid "Removed comment"
 msgstr "Sylw wedi'i ddileu"
 
-#: weblate/trans/models/change.py:397
+#: weblate/trans/models/change.py:412
 #, fuzzy
 #| msgid "Resolved comment"
 msgctxt "Name of event in the history"
@@ -12640,13 +12847,34 @@ msgid "Resolved comment"
 msgstr "Sylw wedi'i ddatrys"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:400
+#: weblate/trans/models/change.py:415
 #, fuzzy
 #| msgid "Explanation"
 msgid "Explanation updated"
 msgstr "Esboniad"
 
-#: weblate/trans/models/change.py:471
+#. Translators: Name of event in the history
+#: weblate/trans/models/change.py:417
+#, fuzzy
+#| msgid "Removed user"
+msgid "Removed category"
+msgstr "Dilëwyd defnyddiwr"
+
+#. Translators: Name of event in the history
+#: weblate/trans/models/change.py:419
+#, fuzzy
+#| msgid "Renamed project"
+msgid "Renamed category"
+msgstr "Ailenwyd prosiect"
+
+#. Translators: Name of event in the history
+#: weblate/trans/models/change.py:421
+#, fuzzy
+#| msgid "Category"
+msgid "Moved category"
+msgstr "Categori"
+
+#: weblate/trans/models/change.py:492
 msgid "New string to translate"
 msgid_plural "New strings to translate"
 msgstr[0] "Testun newydd i'w gyfieithu"
@@ -12656,20 +12884,20 @@ msgstr[3] "Thestun newydd i'w gyfieithu"
 msgstr[4] "Testun newydd i'w gyfieithu"
 msgstr[5] "Testun newydd i'w gyfieithu"
 
-#: weblate/trans/models/change.py:477
+#: weblate/trans/models/change.py:498
 msgid "The component was automatically locked because of an alert."
 msgstr "Cafodd y gydran ei chloi'n awtomatig oherwydd rhybudd."
 
-#: weblate/trans/models/change.py:481
+#: weblate/trans/models/change.py:502
 msgid "Fixing an alert automatically unlocked the component."
 msgstr ""
 
-#: weblate/trans/models/change.py:541
+#: weblate/trans/models/change.py:562
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
-#: weblate/trans/models/change.py:661
+#: weblate/trans/models/change.py:682
 #, python-format
 msgid "%d new string to translate appeared in the translation."
 msgid_plural "%d new strings to translate appeared to the translation."
@@ -12680,24 +12908,24 @@ msgstr[3] "%d thestun newydd i'w gyfieithu."
 msgstr[4] "%d testun newydd i'w gyfieithu."
 msgstr[5] "%d testun newydd i'w gyfieithu."
 
-#: weblate/trans/models/change.py:698
+#: weblate/trans/models/change.py:719
 msgid "The \"{}\" file was changed."
 msgstr ""
 
-#: weblate/trans/models/change.py:702
+#: weblate/trans/models/change.py:723
 msgid "Parsing of the \"{}\" file was enforced."
 msgstr ""
 
-#: weblate/trans/models/change.py:705
+#: weblate/trans/models/change.py:726
 msgid "File {} was added."
 msgstr ""
 
-#: weblate/trans/models/change.py:709
+#: weblate/trans/models/change.py:730
 msgctxt "License information not available"
 msgid "N/A"
 msgstr "Amherthnasol"
 
-#: weblate/trans/models/change.py:711
+#: weblate/trans/models/change.py:732
 #, python-format
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
@@ -12790,47 +13018,32 @@ msgstr "Ail-sefydlu"
 msgid "Merge without fast-forward"
 msgstr ""
 
-#: weblate/trans/models/component.py:291
-#: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:89
-msgid "Display name"
-msgstr "Enw defnyddiwr"
-
-#: weblate/trans/models/component.py:294
-#: weblate/trans/models/componentlist.py:32 weblate/trans/models/project.py:93
-msgid "URL slug"
-msgstr "Slug yr URL"
-
-#: weblate/trans/models/component.py:296
-#: weblate/trans/models/componentlist.py:36 weblate/trans/models/project.py:96
-msgid "Name used in URLs and filenames."
-msgstr ""
-
-#: weblate/trans/models/component.py:308
+#: weblate/trans/models/component.py:315
 msgid ""
 "Version control system to use to access your repository containing "
 "translations. You can also choose additional integration with third party "
 "providers to submit merge requests."
 msgstr ""
 
-#: weblate/trans/models/component.py:320
+#: weblate/trans/models/component.py:327
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
 msgstr ""
 
-#: weblate/trans/models/component.py:332
+#: weblate/trans/models/component.py:339
 msgid "Repository push URL"
 msgstr ""
 
-#: weblate/trans/models/component.py:335
+#: weblate/trans/models/component.py:342
 msgid "URL of a push repository, pushing is turned off if empty."
 msgstr ""
 
-#: weblate/trans/models/component.py:340
+#: weblate/trans/models/component.py:347
 msgid "Repository browser"
 msgstr "Porwr yr ystorfa"
 
-#: weblate/trans/models/component.py:342
+#: weblate/trans/models/component.py:349
 #, fuzzy
 #| msgid ""
 #| "Enter a custom URL to be used as link to the source code. You can use "
@@ -12845,237 +13058,237 @@ msgstr ""
 "ddefnyddio {{branch}} ar gyfer y gangen, {{filename}} a {{line}} fel enw "
 "ffeil a dalfannau llinell."
 
-#: weblate/trans/models/component.py:350
+#: weblate/trans/models/component.py:357
 msgid "Exported repository URL"
 msgstr ""
 
-#: weblate/trans/models/component.py:353
+#: weblate/trans/models/component.py:360
 msgid "URL of repository where users can fetch changes from Weblate"
 msgstr ""
 
-#: weblate/trans/models/component.py:358
+#: weblate/trans/models/component.py:365
 msgid "Source string bug reporting address"
 msgstr ""
 
-#: weblate/trans/models/component.py:360
+#: weblate/trans/models/component.py:367
 msgid ""
 "E-mail address for reports on errors in source strings. Leave empty for no e-"
 "mails."
 msgstr ""
 
-#: weblate/trans/models/component.py:368
+#: weblate/trans/models/component.py:375
 msgid "Repository branch to translate"
 msgstr ""
 
-#: weblate/trans/models/component.py:373
+#: weblate/trans/models/component.py:380
 msgid "Push branch"
 msgstr "Gwthio cangen"
 
-#: weblate/trans/models/component.py:376
+#: weblate/trans/models/component.py:383
 msgid "Branch for pushing changes, leave empty to use repository branch"
 msgstr ""
 
-#: weblate/trans/models/component.py:386
+#: weblate/trans/models/component.py:393
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
 
-#: weblate/trans/models/component.py:392
+#: weblate/trans/models/component.py:399
 #, fuzzy
 #| msgid "Screenshot details"
 msgid "Screenshot file mask"
 msgstr "Manylion sgrinlun"
 
-#: weblate/trans/models/component.py:397
+#: weblate/trans/models/component.py:404
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
 msgstr ""
 
-#: weblate/trans/models/component.py:406
+#: weblate/trans/models/component.py:413
 msgid ""
 "Filename of translation base file, containing all strings and their source "
 "for monolingual translations."
 msgstr ""
 
-#: weblate/trans/models/component.py:413
+#: weblate/trans/models/component.py:420
 msgid "Edit base file"
 msgstr "Golygu ffeil sylfaenol"
 
-#: weblate/trans/models/component.py:416
+#: weblate/trans/models/component.py:423
 msgid ""
 "Whether users will be able to edit the base file for monolingual "
 "translations."
 msgstr ""
 
-#: weblate/trans/models/component.py:453
+#: weblate/trans/models/component.py:460
 msgid "Locked component will not get any translation updates."
 msgstr ""
 
-#: weblate/trans/models/component.py:457
+#: weblate/trans/models/component.py:464
 msgid "Allow translation propagation"
 msgstr ""
 
-#: weblate/trans/models/component.py:461
+#: weblate/trans/models/component.py:468
 msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr ""
 
-#: weblate/trans/models/component.py:466
+#: weblate/trans/models/component.py:473
 msgid "Turn on suggestions"
 msgstr "Galluogi cynigion"
 
-#: weblate/trans/models/component.py:468
+#: weblate/trans/models/component.py:475
 msgid "Whether to allow translation suggestions at all."
 msgstr ""
 
-#: weblate/trans/models/component.py:471
+#: weblate/trans/models/component.py:478
 msgid "Suggestion voting"
 msgstr "Pleidleisio dros gynigion"
 
-#: weblate/trans/models/component.py:474
+#: weblate/trans/models/component.py:481
 msgid "Users can only vote for suggestions and can’t make direct translations."
 msgstr ""
 
-#: weblate/trans/models/component.py:478
+#: weblate/trans/models/component.py:485
 msgid "Autoaccept suggestions"
 msgstr "Derbyn cynigion yn awtomatig"
 
-#: weblate/trans/models/component.py:481
+#: weblate/trans/models/component.py:488
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to turn it "
 "off."
 msgstr ""
 
-#: weblate/trans/models/component.py:487 weblate/trans/models/unit.py:329
+#: weblate/trans/models/component.py:494 weblate/trans/models/unit.py:331
 msgid "Translation flags"
 msgstr "Fflagiau cyfieithu"
 
-#: weblate/trans/models/component.py:490 weblate/trans/models/unit.py:332
+#: weblate/trans/models/component.py:497 weblate/trans/models/unit.py:334
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 
-#: weblate/trans/models/component.py:496
+#: weblate/trans/models/component.py:503
 msgid "Enforced checks"
 msgstr "Gwiriadau gorfodol"
 
-#: weblate/trans/models/component.py:497
+#: weblate/trans/models/component.py:504
 msgid "List of checks which can not be ignored."
 msgstr ""
 
-#: weblate/trans/models/component.py:515
+#: weblate/trans/models/component.py:522
 msgid ""
 "User agreement which needs to be approved before a user can translate this "
 "component."
 msgstr ""
 
-#: weblate/trans/models/component.py:522
+#: weblate/trans/models/component.py:529
 msgid "Adding new translation"
 msgstr "Wrthi’n ychwanegu cyfieithiad newydd"
 
-#: weblate/trans/models/component.py:526
+#: weblate/trans/models/component.py:533
 msgid "How to handle requests for creating new translations."
 msgstr ""
 
-#: weblate/trans/models/component.py:529
+#: weblate/trans/models/component.py:536
 msgid "Language code style"
 msgstr "Arddull cod iaith"
 
-#: weblate/trans/models/component.py:535
+#: weblate/trans/models/component.py:542
 msgid ""
 "Customize language code used to generate the filename for translations "
 "created by Weblate."
 msgstr ""
 
-#: weblate/trans/models/component.py:540
+#: weblate/trans/models/component.py:547
 msgid "Manage strings"
 msgstr "Rheoli testunau"
 
-#: weblate/trans/models/component.py:543
+#: weblate/trans/models/component.py:550
 msgid ""
 "Enables adding and removing strings straight from Weblate. If your strings "
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
 msgstr ""
 
-#: weblate/trans/models/component.py:551
+#: weblate/trans/models/component.py:558
 msgid "Merge style"
 msgstr "Dull cyfuno"
 
-#: weblate/trans/models/component.py:556
+#: weblate/trans/models/component.py:563
 msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
 
-#: weblate/trans/models/component.py:561
+#: weblate/trans/models/component.py:568
 msgid "Commit message when translating"
 msgstr ""
 
-#: weblate/trans/models/component.py:563 weblate/trans/models/component.py:572
-#: weblate/trans/models/component.py:581 weblate/trans/models/component.py:590
-#: weblate/trans/models/component.py:599 weblate/trans/models/component.py:608
+#: weblate/trans/models/component.py:570 weblate/trans/models/component.py:579
+#: weblate/trans/models/component.py:588 weblate/trans/models/component.py:597
+#: weblate/trans/models/component.py:606 weblate/trans/models/component.py:615
 msgid ""
 "You can use template language for various info, please consult the "
 "documentation for more details."
 msgstr ""
 
-#: weblate/trans/models/component.py:570
+#: weblate/trans/models/component.py:577
 msgid "Commit message when adding translation"
 msgstr ""
 
-#: weblate/trans/models/component.py:579
+#: weblate/trans/models/component.py:586
 msgid "Commit message when removing translation"
 msgstr ""
 
-#: weblate/trans/models/component.py:588
+#: weblate/trans/models/component.py:595
 msgid "Commit message when merging translation"
 msgstr ""
 
-#: weblate/trans/models/component.py:597
+#: weblate/trans/models/component.py:604
 msgid "Commit message when add-on makes a change"
 msgstr ""
 
-#: weblate/trans/models/component.py:606
+#: weblate/trans/models/component.py:613
 msgid "Merge request message"
 msgstr ""
 
-#: weblate/trans/models/component.py:615
+#: weblate/trans/models/component.py:622
 msgid "Push on commit"
 msgstr ""
 
-#: weblate/trans/models/component.py:618
+#: weblate/trans/models/component.py:625
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 
-#: weblate/trans/models/component.py:622
+#: weblate/trans/models/component.py:629
 msgid "Age of changes to commit"
 msgstr ""
 
-#: weblate/trans/models/component.py:626
+#: weblate/trans/models/component.py:633
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
 
-#: weblate/trans/models/component.py:631
+#: weblate/trans/models/component.py:638
 msgid "Lock on error"
 msgstr "Cloi ar wall"
 
-#: weblate/trans/models/component.py:634
+#: weblate/trans/models/component.py:641
 msgid "Whether the component should be locked on repository errors."
 msgstr ""
 
-#: weblate/trans/models/component.py:640
+#: weblate/trans/models/component.py:647
 msgid "Source language"
 msgstr "Iaith ffynhonnell"
 
-#: weblate/trans/models/component.py:641
+#: weblate/trans/models/component.py:648
 msgid "Language used for source strings in all components"
 msgstr ""
 
-#: weblate/trans/models/component.py:650
+#: weblate/trans/models/component.py:657
 #, fuzzy
 #| msgid ""
 #| "Regular expression to filter translation against when scanning for "
@@ -13086,124 +13299,132 @@ msgid ""
 msgstr ""
 "Mynegiant rheolaidd i hidlydd hidlo yn ei erbyn wrth sganio am masg ffeil."
 
-#: weblate/trans/models/component.py:655
+#: weblate/trans/models/component.py:662
 msgid "Variants regular expression"
 msgstr "Amrywiadau mynegiant rheolaidd"
 
-#: weblate/trans/models/component.py:661
+#: weblate/trans/models/component.py:668
 #, fuzzy
 #| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression used to determine variants of a string."
 msgstr "Mynegiad rheolaidd wedi'i ddefnyddio i gydweddu e-bost defnyddiwr."
 
-#: weblate/trans/models/component.py:670
+#: weblate/trans/models/component.py:677
 msgid "Components with higher priority are offered first to translators."
 msgstr ""
 
-#: weblate/trans/models/component.py:674
+#: weblate/trans/models/component.py:681
 msgid "Restricted component"
 msgstr "Cydran gyfyngedig"
 
-#: weblate/trans/models/component.py:678
+#: weblate/trans/models/component.py:685
 msgid ""
 "Restrict access to the component to only those explicitly given permission."
 msgstr ""
 
-#: weblate/trans/models/component.py:685
+#: weblate/trans/models/component.py:692
 msgid "Share in projects"
 msgstr "Rhannu mewn prosiectau"
 
-#: weblate/trans/models/component.py:689
+#: weblate/trans/models/component.py:696
 msgid "Choose additional projects where this component will be listed."
 msgstr ""
 
-#: weblate/trans/models/component.py:695
+#: weblate/trans/models/component.py:702
 #, fuzzy
 #| msgctxt "Access-control role"
 #| msgid "Manage glossary"
 msgid "Use as a glossary"
 msgstr "Rheoli geirfa"
 
-#: weblate/trans/models/component.py:700
+#: weblate/trans/models/component.py:707
 msgid "Glossary color"
 msgstr "Lliw y geirfa"
 
-#: weblate/trans/models/component.py:1414
+#: weblate/trans/models/component.py:1429
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
 
-#: weblate/trans/models/component.py:1423
+#: weblate/trans/models/component.py:1438
 msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
 msgstr ""
 
-#: weblate/trans/models/component.py:1429
+#: weblate/trans/models/component.py:1444
 #, python-format
 msgid "Could not fetch the repository: %s"
 msgstr ""
 
-#: weblate/trans/models/component.py:1498
-#: weblate/trans/models/component.py:2647
-#: weblate/trans/models/component.py:2706
+#: weblate/trans/models/component.py:1513
+#: weblate/trans/models/component.py:2672
+#: weblate/trans/models/component.py:2731
 msgid "File does not exist."
 msgstr "Nid yw ffeil yn bodoli."
 
-#: weblate/trans/models/component.py:1674
+#: weblate/trans/models/component.py:1689
 #, python-format
 msgid "Could not push %(component)s: %(error_text)s"
 msgstr ""
 
-#: weblate/trans/models/component.py:1695
+#: weblate/trans/models/component.py:1710
 #, python-format
 msgid "Push is turned off for %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:1756
+#: weblate/trans/models/component.py:1771
 #, python-format
 msgid "Could not reset to remote branch on %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:1791
+#: weblate/trans/models/component.py:1806
 #, python-format
 msgid "Could not clean the repository on %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:1984
+#: weblate/trans/models/component.py:1999
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:1990
+#: weblate/trans/models/component.py:2005
 #, python-format
 msgid "Could not merge remote branch into %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:2522
+#: weblate/trans/models/component.py:2532
+msgid "Category does not belong to this project."
+msgstr ""
+
+#: weblate/trans/models/component.py:2535
+msgid "Categorized component can not be shared."
+msgstr ""
+
+#: weblate/trans/models/component.py:2547
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 
-#: weblate/trans/models/component.py:2532
+#: weblate/trans/models/component.py:2557
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 
-#: weblate/trans/models/component.py:2541
+#: weblate/trans/models/component.py:2566
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 
-#: weblate/trans/models/component.py:2552
+#: weblate/trans/models/component.py:2577
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
 msgstr ""
 
-#: weblate/trans/models/component.py:2564
+#: weblate/trans/models/component.py:2589
 msgid "The file mask did not match any files."
 msgstr ""
 
-#: weblate/trans/models/component.py:2574
+#: weblate/trans/models/component.py:2599
 #, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
@@ -13211,11 +13432,11 @@ msgid ""
 "different resources."
 msgstr ""
 
-#: weblate/trans/models/component.py:2592
+#: weblate/trans/models/component.py:2617
 msgid "Could not find any matching language, please check the file mask."
 msgstr ""
 
-#: weblate/trans/models/component.py:2612
+#: weblate/trans/models/component.py:2637
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
@@ -13226,144 +13447,134 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/models/component.py:2640
+#: weblate/trans/models/component.py:2665
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
 msgstr ""
 
-#: weblate/trans/models/component.py:2651
+#: weblate/trans/models/component.py:2676
 #, fuzzy, python-format
 #| msgid "Failed to parse base file for new translations: %s"
 msgid "Could not parse base file for new translations: %s"
 msgstr "Wedi methu dosrannu'r ffeil sylfaen ar gyfer cyfieithiadau newydd: %s"
 
-#: weblate/trans/models/component.py:2655
+#: weblate/trans/models/component.py:2680
 msgid "Unrecognized base file for new translations."
 msgstr ""
 
-#: weblate/trans/models/component.py:2672
-#: weblate/trans/models/component.py:2688
+#: weblate/trans/models/component.py:2697
+#: weblate/trans/models/component.py:2713
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr ""
 
-#: weblate/trans/models/component.py:2680
+#: weblate/trans/models/component.py:2705
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
 msgstr ""
 
-#: weblate/trans/models/component.py:2695
+#: weblate/trans/models/component.py:2720
 msgid "Using a .pot file as base file is unsupported."
 msgstr ""
 
-#: weblate/trans/models/component.py:2711
+#: weblate/trans/models/component.py:2736
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr ""
 
-#: weblate/trans/models/component.py:2722
+#: weblate/trans/models/component.py:2747
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr ""
 
-#: weblate/trans/models/component.py:2741
+#: weblate/trans/models/component.py:2766
 #, fuzzy
 #| msgid "No remote repository"
 msgid "Choose No remote repository for local: URL."
 msgstr "Dim ystorfa pell"
 
-#: weblate/trans/models/component.py:2746
+#: weblate/trans/models/component.py:2771
 msgid "Push URL is not used without a remote repository."
 msgstr ""
 
-#: weblate/trans/models/component.py:2765
+#: weblate/trans/models/component.py:2790
 #, python-format
 msgid "Could not update repository: %s"
 msgstr ""
 
-#: weblate/trans/models/component.py:2783
+#: weblate/trans/models/component.py:2801
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
 msgstr ""
 
-#: weblate/trans/models/component.py:2814
+#: weblate/trans/models/component.py:2832
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
 
-#: weblate/trans/models/component.py:2822
-msgid "Component with this URL slug already exists in the project."
-msgstr "Mae cydran gyda'r slug URL hwn eisoes yn bodoli yn y prosiect."
-
-#: weblate/trans/models/component.py:2827
-#, fuzzy
-#| msgid "A user with that username already exists."
-msgid "Component with this name already exists in the project."
-msgstr "Mae defnyddiwr gyda'r enw defnyddiwr hwnnw eisoes yn bodoli."
-
-#: weblate/trans/models/component.py:2853
+#: weblate/trans/models/component.py:2864
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 
-#: weblate/trans/models/component.py:2864
+#: weblate/trans/models/component.py:2875
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 
-#: weblate/trans/models/component.py:3343
+#: weblate/trans/models/component.py:3354
 msgid "Could not add new translation file."
 msgstr ""
 
-#: weblate/trans/models/component.py:3350
+#: weblate/trans/models/component.py:3361
 msgid "You do not have permissions to add new translation file."
 msgstr ""
 
-#: weblate/trans/models/component.py:3358
-#: weblate/trans/models/component.py:3366
+#: weblate/trans/models/component.py:3369
+#: weblate/trans/models/component.py:3377
 msgid "The monolingual base language file is invalid."
 msgstr "Mae'r ffeil iaith sylfaenol uniaith yn annilys."
 
-#: weblate/trans/models/component.py:3371
+#: weblate/trans/models/component.py:3382
 msgid "The template for new translations is invalid."
 msgstr "Mae'r templed ar gyfer cyfieithiadau newydd yn annilys."
 
-#: weblate/trans/models/component.py:3414
+#: weblate/trans/models/component.py:3425
 msgid "The given language is used as a source language."
 msgstr ""
 
-#: weblate/trans/models/component.py:3419
+#: weblate/trans/models/component.py:3430
 #, fuzzy
 #| msgid "A user with that username already exists."
 msgid "The given language already exists."
 msgstr "Mae defnyddiwr gyda'r enw defnyddiwr hwnnw eisoes yn bodoli."
 
-#: weblate/trans/models/component.py:3426
+#: weblate/trans/models/component.py:3437
 msgid "The given language is filtered by the language filter."
 msgstr ""
 
-#: weblate/trans/models/component.py:3450
+#: weblate/trans/models/component.py:3461
 msgid "Translation file already exists!"
 msgstr ""
 
-#: weblate/trans/models/component.py:3481 weblate/trans/views/basic.py:537
+#: weblate/trans/models/component.py:3492 weblate/trans/views/basic.py:708
 msgid "The translation will be updated in the background."
 msgstr ""
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3539 weblate/utils/views.py:129
+#: weblate/trans/models/component.py:3550 weblate/utils/views.py:131
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Allwedd"
 
-#: weblate/trans/models/component.py:3617
+#: weblate/trans/models/component.py:3628
 #, fuzzy
 #| msgid "Add glossary entry"
 msgid "Add new glossary term"
 msgstr "Ychwanegu cofnod geirfa"
 
-#: weblate/trans/models/component.py:3618
+#: weblate/trans/models/component.py:3629
 msgid "Add new translation string"
 msgstr ""
 
@@ -13514,73 +13725,73 @@ msgstr "Gwall yn y paramedr %(field)s: %(error)s"
 msgid "Could not commit pending changes: %s"
 msgstr "Wedi methu ymrwymo newidiadau: %s"
 
-#: weblate/trans/models/translation.py:1607 weblate/trans/models/unit.py:615
+#: weblate/trans/models/translation.py:1611 weblate/trans/models/unit.py:617
 #, python-format
 msgid "String contains control character: %s"
 msgstr "Mae'r testun yn cynnwys nod rheoli: %s"
 
-#: weblate/trans/models/translation.py:1612
+#: weblate/trans/models/translation.py:1616
 msgid "Empty state is supported for blank strings only."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1615
+#: weblate/trans/models/translation.py:1619
 msgid "Blank strings require an empty state."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1619
+#: weblate/trans/models/translation.py:1623
 msgid "Approved state is not available as reviews are not enabled."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1627
+#: weblate/trans/models/translation.py:1631
 msgid "This string seems to already exist."
 msgstr "Mae'n ymddangos bod y testun hwn yn bodoli eisoes."
 
-#: weblate/trans/models/translation.py:1634
+#: weblate/trans/models/translation.py:1638
 #, fuzzy
 #| msgid "Failed adding string: %s"
 msgid "Failed adding string, no translation found."
 msgstr "Wedi methu ychwanegu testun: %s"
 
-#: weblate/trans/models/unit.py:946
+#: weblate/trans/models/unit.py:948
 #, python-format
 msgid ""
 "String could not be propagated to %(component)s because you have not agreed "
 "with a contributor agreement."
 msgstr ""
 
-#: weblate/trans/models/unit.py:1435
+#: weblate/trans/models/unit.py:1437
 msgid "Automatically translated"
 msgstr "Wedi'i gyfieithu'n awtomatig"
 
-#: weblate/trans/models/unit.py:1623
+#: weblate/trans/models/unit.py:1625
 msgid "Unmark as read-only"
 msgstr "Dadfarcio fel darllen yn unig"
 
-#: weblate/trans/models/unit.py:1626
+#: weblate/trans/models/unit.py:1628
 msgid "Mark as read-only"
 msgstr "Marcio fel darllen yn unig"
 
-#: weblate/trans/models/unit.py:1630
+#: weblate/trans/models/unit.py:1632
 msgid "Unmark as untranslatable"
 msgstr "Dadfarcio fel anghyfieithadwy"
 
-#: weblate/trans/models/unit.py:1634
+#: weblate/trans/models/unit.py:1636
 msgid "Mark as untranslatable"
 msgstr "Marcio fel anghyfieithadwy"
 
-#: weblate/trans/models/unit.py:1641
+#: weblate/trans/models/unit.py:1643
 msgid "Unmark as forbidden translation"
 msgstr "Dad-farcio fel cyfieithiad gwaharddedig"
 
-#: weblate/trans/models/unit.py:1649
+#: weblate/trans/models/unit.py:1651
 msgid "Mark as forbidden translation"
 msgstr "Marcio fel cyfieithiad gwaharddedig"
 
-#: weblate/trans/models/unit.py:1657
+#: weblate/trans/models/unit.py:1659
 msgid "Unmark as terminology"
 msgstr "Dadfarcio fel terminoleg"
 
-#: weblate/trans/models/unit.py:1665
+#: weblate/trans/models/unit.py:1667
 msgid "Mark as terminology"
 msgstr "Marcio fel terminoleg"
 
@@ -13633,16 +13844,16 @@ msgstr "Em dash"
 msgid "User configured character: {}"
 msgstr ""
 
-#: weblate/trans/tasks.py:409
+#: weblate/trans/tasks.py:431
 #, python-format
 msgid "Automatic translation failed: %s"
 msgstr "Cyfieithu awtomatig wedi methu: %s"
 
-#: weblate/trans/tasks.py:416
+#: weblate/trans/tasks.py:438
 msgid "Automatic translation completed, no strings were updated."
 msgstr ""
 
-#: weblate/trans/tasks.py:421
+#: weblate/trans/tasks.py:443
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
@@ -13653,42 +13864,42 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:73
+#: weblate/trans/templatetags/translations.py:79
 msgid "Good configuration"
 msgstr "Ffurfweddiad da"
 
-#: weblate/trans/templatetags/translations.py:74
+#: weblate/trans/templatetags/translations.py:80
 msgid "Bad configuration"
 msgstr "Ffurfweddiad gwael"
 
-#: weblate/trans/templatetags/translations.py:75
+#: weblate/trans/templatetags/translations.py:81
 msgid "Possible configuration"
 msgstr "Ffurfweddiad posib"
 
-#: weblate/trans/templatetags/translations.py:206
+#: weblate/trans/templatetags/translations.py:212
 #, python-format
 msgid "Forbidden translation: %s"
 msgstr "Cyfieithiad gwaharddedig: %s"
 
-#: weblate/trans/templatetags/translations.py:208
+#: weblate/trans/templatetags/translations.py:214
 #, python-format
 msgid "Untranslatable: %s"
 msgstr "Anghyfieithadwy: %s"
 
-#: weblate/trans/templatetags/translations.py:210
+#: weblate/trans/templatetags/translations.py:216
 #, python-format
 msgid "Glossary translation: %s"
 msgstr "Cyfieithiad geirfa: %s"
 
-#: weblate/trans/templatetags/translations.py:275
+#: weblate/trans/templatetags/translations.py:281
 msgid "New line"
 msgstr "Llinell newydd"
 
-#: weblate/trans/templatetags/translations.py:532
+#: weblate/trans/templatetags/translations.py:538
 msgid "a year ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:533
+#: weblate/trans/templatetags/translations.py:539
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
@@ -13699,11 +13910,11 @@ msgstr[3] "%(count)s blwyddyn yn ôl"
 msgstr[4] "%(count)s blwyddyn yn ôl"
 msgstr[5] "%(count)s blwyddyn yn ôl"
 
-#: weblate/trans/templatetags/translations.py:539
+#: weblate/trans/templatetags/translations.py:545
 msgid "a month ago"
 msgstr "mis yn ôl"
 
-#: weblate/trans/templatetags/translations.py:540
+#: weblate/trans/templatetags/translations.py:546
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
@@ -13714,7 +13925,7 @@ msgstr[3] "%(count)s mis yn ôl"
 msgstr[4] "%(count)s mis yn ôl"
 msgstr[5] "%(count)s mis yn ôl"
 
-#: weblate/trans/templatetags/translations.py:545
+#: weblate/trans/templatetags/translations.py:551
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
@@ -13725,15 +13936,15 @@ msgstr[3] "%(count)s wythnos yn ôl"
 msgstr[4] "%(count)s wythnos yn ôl"
 msgstr[5] "%(count)s wythnos yn ôl"
 
-#: weblate/trans/templatetags/translations.py:550
+#: weblate/trans/templatetags/translations.py:556
 msgid "a week ago"
 msgstr "wythnos yn ôl"
 
-#: weblate/trans/templatetags/translations.py:552
+#: weblate/trans/templatetags/translations.py:558
 msgid "yesterday"
 msgstr "ddoe"
 
-#: weblate/trans/templatetags/translations.py:553
+#: weblate/trans/templatetags/translations.py:559
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
@@ -13744,16 +13955,16 @@ msgstr[3] "%(count)s diwrnod yn ôl"
 msgstr[4] "%(count)s diwrnod yn ôl"
 msgstr[5] "%(count)s diwrnod yn ôl"
 
-#: weblate/trans/templatetags/translations.py:557
-#: weblate/trans/templatetags/translations.py:611
+#: weblate/trans/templatetags/translations.py:563
+#: weblate/trans/templatetags/translations.py:617
 msgid "now"
 msgstr "nawr"
 
-#: weblate/trans/templatetags/translations.py:560
+#: weblate/trans/templatetags/translations.py:566
 msgid "a second ago"
 msgstr "eiliad yn ôl"
 
-#: weblate/trans/templatetags/translations.py:562
+#: weblate/trans/templatetags/translations.py:568
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
@@ -13764,11 +13975,11 @@ msgstr[3] "%(count)s eiliad yn ôl"
 msgstr[4] "%(count)s eiliad yn ôl"
 msgstr[5] "%(count)s eiliad yn ôl"
 
-#: weblate/trans/templatetags/translations.py:567
+#: weblate/trans/templatetags/translations.py:573
 msgid "a minute ago"
 msgstr "munud yn ôl"
 
-#: weblate/trans/templatetags/translations.py:568
+#: weblate/trans/templatetags/translations.py:574
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
@@ -13779,11 +13990,11 @@ msgstr[3] "%(count)s munud yn ôl"
 msgstr[4] "%(count)s munud yn ôl"
 msgstr[5] "%(count)s munud yn ôl"
 
-#: weblate/trans/templatetags/translations.py:573
+#: weblate/trans/templatetags/translations.py:579
 msgid "an hour ago"
 msgstr "awr yn ôl"
 
-#: weblate/trans/templatetags/translations.py:574
+#: weblate/trans/templatetags/translations.py:580
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
@@ -13794,11 +14005,11 @@ msgstr[3] "%(count)s awr yn ôl"
 msgstr[4] "%(count)s awr yn ôl"
 msgstr[5] "%(count)s awr yn ôl"
 
-#: weblate/trans/templatetags/translations.py:586
+#: weblate/trans/templatetags/translations.py:592
 msgid "a year from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:588
+#: weblate/trans/templatetags/translations.py:594
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
@@ -13809,11 +14020,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:593
+#: weblate/trans/templatetags/translations.py:599
 msgid "a month from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:595
+#: weblate/trans/templatetags/translations.py:601
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
@@ -13824,7 +14035,7 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:600
+#: weblate/trans/templatetags/translations.py:606
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
@@ -13835,15 +14046,15 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:604
+#: weblate/trans/templatetags/translations.py:610
 msgid "tomorrow"
 msgstr "yfory"
 
-#: weblate/trans/templatetags/translations.py:606
+#: weblate/trans/templatetags/translations.py:612
 msgid "a week from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:608
+#: weblate/trans/templatetags/translations.py:614
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
@@ -13854,11 +14065,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:614
+#: weblate/trans/templatetags/translations.py:620
 msgid "a second from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:616
+#: weblate/trans/templatetags/translations.py:622
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
@@ -13869,11 +14080,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:621
+#: weblate/trans/templatetags/translations.py:627
 msgid "a minute from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:623
+#: weblate/trans/templatetags/translations.py:629
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
@@ -13884,11 +14095,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:627
+#: weblate/trans/templatetags/translations.py:633
 msgid "an hour from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:628
+#: weblate/trans/templatetags/translations.py:634
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
@@ -13899,52 +14110,52 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:727
+#: weblate/trans/templatetags/translations.py:733
 msgctxt "String state"
 msgid "Dismissed checks:"
 msgstr "Gwiriadau wedi'u hanwybyddu:"
 
-#: weblate/trans/templatetags/translations.py:732
+#: weblate/trans/templatetags/translations.py:738
 msgctxt "String state"
 msgid "Commented"
 msgstr "Sylwyd"
 
-#: weblate/trans/templatetags/translations.py:734
+#: weblate/trans/templatetags/translations.py:740
 msgctxt "String state"
 msgid "Suggested"
 msgstr "Awgrymiadau"
 
-#: weblate/trans/templatetags/translations.py:774
+#: weblate/trans/templatetags/translations.py:780
 #, python-format
 msgid "string ID %s"
 msgstr "ID testun %s"
 
-#: weblate/trans/templatetags/translations.py:906
+#: weblate/trans/templatetags/translations.py:912
 msgid "This language is used for source strings."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:928
-#: weblate/trans/templatetags/translations.py:948
+#: weblate/trans/templatetags/translations.py:934
+#: weblate/trans/templatetags/translations.py:954
 msgid "This translation is locked."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:933
+#: weblate/trans/templatetags/translations.py:939
 msgid "Updating translation component…"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:943
+#: weblate/trans/templatetags/translations.py:949
 msgid "Some of the components within this project have alerts."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:980
+#: weblate/trans/templatetags/translations.py:986
 msgid "You administrate this project."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:993
+#: weblate/trans/templatetags/translations.py:999
 msgid "This translation does not yet exist."
 msgstr "Nid yw'r cyfieithiad hwn yn bodoli eto."
 
-#: weblate/trans/templatetags/translations.py:1006
+#: weblate/trans/templatetags/translations.py:1012
 #, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
@@ -13955,48 +14166,48 @@ msgstr[3] "Ni chyfieithir %(count)s thestun."
 msgstr[4] "Ni chyfieithir %(count)s testun."
 msgstr[5] "Ni chyfieithir %(count)s testun."
 
-#: weblate/trans/templatetags/translations.py:1019
+#: weblate/trans/templatetags/translations.py:1025
 #, python-format
 msgid "Shared from the %s project."
 msgstr "Rhannwyd o'r prosiect %s."
 
-#: weblate/trans/templatetags/translations.py:1043
+#: weblate/trans/templatetags/translations.py:1049
 msgid "enabled"
 msgstr "galluogwyd"
 
 #. Translators: Number format, in millions (mega)
-#: weblate/trans/templatetags/translations.py:1085
+#: weblate/trans/templatetags/translations.py:1091
 #, python-format
 msgid "%s M"
 msgstr "%s M"
 
 #. Translators: Number format, in thousands (kilo)
-#: weblate/trans/templatetags/translations.py:1089
+#: weblate/trans/templatetags/translations.py:1095
 #, python-format
 msgid "%s k"
 msgstr "%s k"
 
-#: weblate/trans/util.py:31
+#: weblate/trans/util.py:30
 msgid "Very high"
 msgstr "Uchel iawn"
 
-#: weblate/trans/util.py:32
+#: weblate/trans/util.py:31
 msgid "High"
 msgstr "Uchel"
 
-#: weblate/trans/util.py:33
+#: weblate/trans/util.py:32
 msgid "Medium"
 msgstr "Canolig"
 
-#: weblate/trans/util.py:34
+#: weblate/trans/util.py:33
 msgid "Low"
 msgstr "Isel"
 
-#: weblate/trans/util.py:35
+#: weblate/trans/util.py:34
 msgid "Very low"
 msgstr "Isel iawn"
 
-#: weblate/trans/util.py:213
+#: weblate/trans/util.py:212
 #, python-brace-format
 msgid ""
 "{0} is being translated into {1} languages using Weblate. Join the "
@@ -14064,12 +14275,12 @@ msgstr "Mae'r tocyn wedi cael ei dynnu o'r prosiect hwn."
 msgid "User has been removed from this project."
 msgstr ""
 
-#: weblate/trans/views/basic.py:158
+#: weblate/trans/views/basic.py:171
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr ""
 
-#: weblate/trans/views/basic.py:528
+#: weblate/trans/views/basic.py:699
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
@@ -14104,12 +14315,12 @@ msgctxt "Changes in language"
 msgid "Changes in %s"
 msgstr "Newidiadau yn %s"
 
-#: weblate/trans/views/create.py:273
+#: weblate/trans/views/create.py:274
 #, python-format
 msgid "Detected license as %s, please check whether it is correct."
 msgstr ""
 
-#: weblate/trans/views/create.py:378
+#: weblate/trans/views/create.py:389
 #, fuzzy
 #| msgid "Could not parse query string: {}"
 msgid "Could not parse uploaded ZIP file."
@@ -14198,8 +14409,8 @@ msgstr "Cynnig annilys!"
 msgid "Invalid search string!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:710 weblate/trans/views/search.py:49
-#: weblate/trans/views/search.py:224
+#: weblate/trans/views/edit.py:710 weblate/trans/views/search.py:50
+#: weblate/trans/views/search.py:206
 msgid "Could not process form!"
 msgstr ""
 
@@ -14248,15 +14459,15 @@ msgstr "Wedi methu dileu'r testun: %s"
 msgid "Bad Request"
 msgstr "Cais Annilys"
 
-#: weblate/trans/views/files.py:129
+#: weblate/trans/views/files.py:166
 msgid "Access denied."
 msgstr "Mynediad wedi ei wrthod."
 
-#: weblate/trans/views/files.py:165
+#: weblate/trans/views/files.py:202
 msgid "No strings were imported from the uploaded file."
 msgstr ""
 
-#: weblate/trans/views/files.py:168
+#: weblate/trans/views/files.py:205
 #, python-brace-format
 msgid ""
 "Processed {0} string from the uploaded files (skipped: {1}, not found: {2}, "
@@ -14271,11 +14482,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/views/files.py:182
+#: weblate/trans/views/files.py:219
 msgid "Plural forms in the uploaded file do not match current translation."
 msgstr ""
 
-#: weblate/trans/views/files.py:191
+#: weblate/trans/views/files.py:228
 #, python-format
 msgid "File upload has failed: %s"
 msgstr ""
@@ -14334,11 +14545,11 @@ msgstr ""
 msgid "All components are now open for translation updates."
 msgstr "Cloi cydran, i atal cyfieithu"
 
-#: weblate/trans/views/search.py:107
+#: weblate/trans/views/search.py:108
 msgid "Search and replace completed, no strings were updated."
 msgstr ""
 
-#: weblate/trans/views/search.py:109
+#: weblate/trans/views/search.py:110
 #, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
@@ -14349,24 +14560,24 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/views/search.py:187
+#: weblate/trans/views/search.py:167
 #, python-format
 msgid "Search for %s"
 msgstr "Chwilio am %s"
 
-#: weblate/trans/views/search.py:199
+#: weblate/trans/views/search.py:179
 msgid "Too many search queries, please try again later."
 msgstr ""
 
-#: weblate/trans/views/search.py:202
+#: weblate/trans/views/search.py:182
 msgid "Invalid search query!"
 msgstr ""
 
-#: weblate/trans/views/search.py:244
+#: weblate/trans/views/search.py:226
 msgid "Bulk edit completed, no strings were updated."
 msgstr ""
 
-#: weblate/trans/views/search.py:246
+#: weblate/trans/views/search.py:228
 #, python-format
 msgid "Bulk edit completed, %d string was updated."
 msgid_plural "Bulk edit completed, %d strings were updated."
@@ -14377,15 +14588,15 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/views/settings.py:55 weblate/trans/views/settings.py:78
+#: weblate/trans/views/settings.py:59 weblate/trans/views/settings.py:82
 msgid "Settings saved"
 msgstr "Cadwyd y gosodiadau"
 
-#: weblate/trans/views/settings.py:58 weblate/trans/views/settings.py:81
+#: weblate/trans/views/settings.py:62 weblate/trans/views/settings.py:85
 msgid "Invalid settings. Please check the form for errors."
 msgstr "Gosodiadau annilys. Gwiriwch y ffurflen am wallau."
 
-#: weblate/trans/views/settings.py:93
+#: weblate/trans/views/settings.py:97
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
@@ -14393,30 +14604,42 @@ msgstr ""
 "Mae'r ystorfa wedi dyddio. Efallai na fyddwch yn cael canlyniadau "
 "disgwyliedig nes i chi ei ddiweddaru."
 
-#: weblate/trans/views/settings.py:141
+#: weblate/trans/views/settings.py:149
 msgid "The translation has been removed."
 msgstr "Dilëwyd y cyfieithiad."
 
-#: weblate/trans/views/settings.py:146
+#: weblate/trans/views/settings.py:154
 #, fuzzy
 #| msgid "Your account has been removed."
 msgid "The translation component was scheduled for removal."
 msgstr "Mae eich cyfrif wedi'i dynnu."
 
-#: weblate/trans/views/settings.py:151
+#: weblate/trans/views/settings.py:159
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "The category was scheduled for removal."
+msgstr "Mae eich cyfrif wedi'i dynnu."
+
+#: weblate/trans/views/settings.py:163
 msgid "The project was scheduled for removal."
 msgstr ""
 
-#: weblate/trans/views/settings.py:157
+#: weblate/trans/views/settings.py:169
 msgid "A language in the project was removed."
 msgstr "Dilëwyd iaith yn y brosiect."
 
-#: weblate/trans/views/settings.py:172
+#: weblate/trans/views/settings.py:175
+#, fuzzy
+#| msgid "A language in the project was removed."
+msgid "A language in the category was removed."
+msgstr "Dilëwyd iaith yn y brosiect."
+
+#: weblate/trans/views/settings.py:190
 #, python-format
 msgid "Cannot rename due to outstanding issue in the configuration: %s"
 msgstr ""
 
-#: weblate/trans/views/settings.py:291
+#: weblate/trans/views/settings.py:327
 msgid "Backup scheduled. It will be available soon."
 msgstr ""
 
@@ -14709,31 +14932,31 @@ msgstr "Gwall cystrawen mewn arallenwau iaith."
 msgid "This URL is prohibited"
 msgstr "Mae’r URL hwn yn waharddedig"
 
-#: weblate/utils/views.py:118 weblate/utils/views.py:144
+#: weblate/utils/views.py:120 weblate/utils/views.py:146
 msgid "Position and priority"
 msgstr "Lleoliad a blaenoriaeth"
 
-#: weblate/utils/views.py:119
+#: weblate/utils/views.py:121
 msgid "Position"
 msgstr "Lleoliad"
 
-#: weblate/utils/views.py:126
+#: weblate/utils/views.py:128
 msgid "Number of words"
 msgstr "Nifer y geiriau"
 
-#: weblate/utils/views.py:127
+#: weblate/utils/views.py:129
 msgid "Number of comments"
 msgstr "Nifer y sylwadau"
 
-#: weblate/utils/views.py:128
+#: weblate/utils/views.py:130
 msgid "Number of failing checks"
 msgstr "Nifer y gwiriadau anghyflawn"
 
-#: weblate/utils/views.py:130
+#: weblate/utils/views.py:132
 msgid "String location"
 msgstr "Lleoliad y testun"
 
-#: weblate/utils/views.py:415
+#: weblate/utils/views.py:452
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Gwall yn y paramedr %(field)s: %(error)s"
@@ -15060,6 +15283,46 @@ msgstr "Cychwynnwyd y broses wrth gefn"
 #: weblate/wladmin/views.py:256
 msgid "Could not dismiss the configuration error!"
 msgstr ""
+
+#~ msgid "Do not notify"
+#~ msgstr "Peidiwch â hysbysu"
+
+#~ msgid "Component locking"
+#~ msgstr "Cloi cydrannau"
+
+#~ msgid "Changed license"
+#~ msgstr "Newid trwydded"
+
+#~ msgid "New string"
+#~ msgstr "Testun newydd"
+
+#~ msgid "New suggestion"
+#~ msgstr "Cynnig newydd"
+
+#~ msgid "Comment on own translation"
+#~ msgstr "Sylw ar eich cyfieithiad chi"
+
+#, fuzzy
+#~| msgid "Edit strings"
+#~ msgid "Edited string"
+#~ msgstr "Golygu testunau"
+
+#~ msgid "Approved string"
+#~ msgstr "Testun wedi'i wirio"
+
+#~ msgid "Changed string"
+#~ msgstr "Testun wedi newid"
+
+#~ msgid "New language"
+#~ msgstr "Iaith newydd"
+
+#~ msgid "Repository failure"
+#~ msgstr "Methiant yr ystorfa"
+
+#, fuzzy
+#~| msgid "A user with that username already exists."
+#~ msgid "Component with this name already exists in the project."
+#~ msgstr "Mae defnyddiwr gyda'r enw defnyddiwr hwnnw eisoes yn bodoli."
 
 #~ msgid "Check details"
 #~ msgstr "Manylion gwirio"
@@ -15562,11 +15825,6 @@ msgstr ""
 #~| msgid "Manage translation memory"
 #~ msgid "Manage translation memory (site wide)"
 #~ msgstr "Rheoli cof cyfieithu"
-
-#, fuzzy
-#~| msgid "Mentioned in comment"
-#~ msgid "String has context"
-#~ msgstr "Wedi'i grybwyll mewn sylw"
 
 #~ msgid "Manage translation memory (on the entire platform)"
 #~ msgstr "Rheoli cof cyfieithu (ar y llwyfan cyfan)"
