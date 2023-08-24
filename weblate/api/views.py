@@ -751,7 +751,7 @@ class ProjectViewSet(
     def changes(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = Change.objects.prefetch().filter(project=obj).order_by("id")
+        queryset = obj.change_set.prefetch().order_by("id")
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
 
@@ -926,7 +926,7 @@ class ComponentViewSet(
     def changes(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = Change.objects.prefetch().filter(component=obj).order_by("id")
+        queryset = obj.change_set.prefetch().order_by("id")
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
 
@@ -1144,7 +1144,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     def changes(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = Change.objects.prefetch().filter(translation=obj).order_by("id")
+        queryset = obj.change_set.prefetch().order_by("id")
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
 
