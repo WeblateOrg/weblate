@@ -15,7 +15,6 @@ from itertools import chain
 from typing import Any
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
-from uuid import uuid4
 
 import sentry_sdk
 from celery import current_task
@@ -88,6 +87,7 @@ from weblate.utils.licenses import (
     is_libre,
 )
 from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
+from weblate.utils.random import get_random_identifier
 from weblate.utils.render import (
     render_template,
     validate_render_addon,
@@ -3653,7 +3653,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     def schedule_update_checks(self, update_state: bool = False):
         from weblate.trans.tasks import update_checks
 
-        update_token = uuid4().hex
+        update_token = get_random_identifier()
         cache.set(self.update_checks_key, update_token)
         transaction.on_commit(
             lambda: update_checks.delay(

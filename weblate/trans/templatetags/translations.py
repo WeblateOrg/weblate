@@ -7,7 +7,6 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 from datetime import date
-from uuid import uuid4
 
 from django import template
 from django.contrib.humanize.templatetags.humanize import intcomma
@@ -44,6 +43,7 @@ from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
 from weblate.utils.messages import get_message_kind as get_message_kind_impl
+from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import (
     BaseStats,
     CategoryLanguage,
@@ -889,7 +889,7 @@ def get_browse_url(context, obj):
 
 @register.simple_tag(takes_context=True)
 def init_unique_row_id(context):
-    context["row_uuid"] = uuid4().hex
+    context["row_uuid"] = get_random_identifier()
     return ""
 
 

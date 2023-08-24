@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from uuid import uuid4
 
 from django.db.models import Count
 from django.http import Http404
@@ -15,6 +14,7 @@ from weblate.checks.models import CHECKS, Check
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.utils.db import conditional_sum
+from weblate.utils.random import get_random_identifier
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import PathViewMixin
@@ -30,7 +30,7 @@ class CheckWrapper:
         translated_check_count: int,
         path_object,
     ):
-        self.pk = uuid4().hex
+        self.pk = get_random_identifier()
         self.name = name
         try:
             self.check_obj = CHECKS[name]
