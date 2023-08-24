@@ -1,13 +1,13 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+# Balázs Úr <balazs@urbalazs.hu>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 15:13+0000\n"
-"PO-Revision-Date: 2023-08-23 13:53+0000\n"
+"PO-Revision-Date: 2023-08-25 02:45+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.0\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -387,10 +387,9 @@ msgid "Account and all private data removed."
 msgstr "A fiók és az összes személyes adat eltávolítva."
 
 #: weblate/accounts/models.py:157
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "Megerősítő levél elküldve erre a címre: {email}."
+msgstr "A fiók eltávolításának megerősítése elküldve a(z) {email} címre."
 
 #: weblate/accounts/models.py:158
 #, python-brace-format
@@ -446,10 +445,9 @@ msgid "Could not sign in using password."
 msgstr "Nem sikerült bejelentkezni a jelszó használatával."
 
 #: weblate/accounts/models.py:178
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "{username} meghívta a(z) {site_title} webhelyre."
+msgstr "{username} meghívta a(z) {project} projektbe."
 
 #: weblate/accounts/models.py:184
 msgid "To restore access to your account, please reset your password."
@@ -728,10 +726,8 @@ msgstr ""
 "sem."
 
 #: weblate/accounts/notifications.py:49
-#, fuzzy
-#| msgid "Notifications"
 msgid "No notification"
-msgstr "Értesítések"
+msgstr "Nincs értesítés"
 
 #: weblate/accounts/notifications.py:50
 msgid "Instant notification"
@@ -750,145 +746,104 @@ msgid "Monthly digest"
 msgstr "Havi összegzés"
 
 #: weblate/accounts/notifications.py:451
-#, fuzzy
-#| msgid "String updated in the repository"
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr "A szöveg frissítve a tárolóban"
+msgstr "A műveletet végre lett hajtva a tárolóban"
 
 #: weblate/accounts/notifications.py:462
-#, fuzzy
-#| msgid "Component unlocked"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr "Összetevő feloldva"
+msgstr "Az összetevő zárolva lett vagy fel lett oldva"
 
 #: weblate/accounts/notifications.py:469
-#, fuzzy
-#| msgid "License changed"
 msgctxt "Notification name"
 msgid "License was changed"
-msgstr "Licenc megváltoztatva"
+msgstr "A licenc meg lett változtatva"
 
 #: weblate/accounts/notifications.py:476
-#, fuzzy
-#| msgid "Parse error"
 msgctxt "Notification name"
 msgid "Parse error occured"
-msgstr "Feldolgozási hiba"
+msgstr "Feldolgozási hiba történt"
 
 #: weblate/accounts/notifications.py:494
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgctxt "Notification name"
 msgid "New string is available for translation"
-msgstr "Új lefordítandó szöveg %(translation)s nyelven"
+msgstr "Új szöveg érhető el a fordításhoz"
 
 #: weblate/accounts/notifications.py:504
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr "Közreműködés a megosztott fordítási memóriában"
+msgstr "A közreműködő elvégezte az első fordítását"
 
 #: weblate/accounts/notifications.py:513
-#, fuzzy
-#| msgid "Suggestion added"
 msgctxt "Notification name"
 msgid "Suggestion was added"
-msgstr "Javaslat hozzáadva"
+msgstr "Javaslat lett hozzáadva"
 
 #: weblate/accounts/notifications.py:522
-#, fuzzy
-#| msgid "Comment added"
 msgctxt "Notification name"
 msgid "Comment was added"
-msgstr "Megjegyzés hozzáadva"
+msgstr "Megjegyzés lett hozzáadva"
 
 #: weblate/accounts/notifications.py:544
-#, fuzzy
-#| msgid "Mentioned in comment"
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
-msgstr "Megemlítve a megjegyezésben"
+msgstr "Megemlítették Önt egy megjegyezésben"
 
 #: weblate/accounts/notifications.py:576
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgctxt "Notification name"
 msgid "Your translation received a comment"
-msgstr "A fordítási projektje eltávolításra került"
+msgstr "A fordítása megjegyzést kapott"
 
 #: weblate/accounts/notifications.py:601
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was edited by user"
-msgstr "A szöveget megváltoztatta"
+msgstr "A szöveget egy felhasználó szerkesztette"
 
 #: weblate/accounts/notifications.py:609
-#, fuzzy
-#| msgid "String has context"
 msgctxt "Notification name"
 msgid "String was approved"
-msgstr "A szövegnek környezete van"
+msgstr "A szöveg jóvá lett hagyva"
 
 #: weblate/accounts/notifications.py:617
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was changed"
-msgstr "A szöveget megváltoztatta"
+msgstr "A szöveg meg lett változtatva"
 
 #: weblate/accounts/notifications.py:626
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Notification name"
 msgid "New language was added or requested"
-msgstr "Új nyelv hozzáadva a(z) %(component)s összetevőhöz"
+msgstr "Új nyelv lett hozzáadva vagy kérve"
 
 #: weblate/accounts/notifications.py:643
-#, fuzzy
-#| msgid "New translation component"
 msgctxt "Notification name"
 msgid "New translation component was created"
-msgstr "Új fordítási összetevő"
+msgstr "Új fordítási összetevő lett létrehozva"
 
 #: weblate/accounts/notifications.py:651
-#, fuzzy
-#| msgid "Announcements"
 msgctxt "Notification name"
 msgid "Announcement was published"
-msgstr "Közlemények"
+msgstr "Bejelentés lett közzétéve"
 
 #: weblate/accounts/notifications.py:666
-#, fuzzy
-#| msgid "New alert on %(component)s"
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
-msgstr "Új riasztás a(z) %(component)s összetevőnél"
+msgstr "Új riasztás jelent meg egy összetevőben"
 
 #: weblate/accounts/notifications.py:704
-#, fuzzy
-#| msgid "Repository operation"
 msgctxt "Notification name"
 msgid "Repository operation failed"
-msgstr "Tárolóművelet"
+msgstr "A tárolóművelet sikertelen"
 
 #: weblate/accounts/notifications.py:771
-#, fuzzy
-#| msgid "Pending suggestions"
 msgctxt "Notification name"
 msgid "Pending suggestions exist"
-msgstr "Függőben lévő javaslatok"
+msgstr "Függőben lévő javaslatok vannak"
 
 #: weblate/accounts/notifications.py:781
-#, fuzzy
-#| msgid "Unfinished strings"
 msgctxt "Notification name"
 msgid "Unfinished strings exist"
-msgstr "Befejezetlen szövegek"
+msgstr "Befejezetlen szövegek vannak"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
@@ -2156,7 +2111,7 @@ msgstr "Szerepek kezelése"
 #. Translators: Permission name
 #: weblate/auth/data.py:133
 msgid "Manage announcements"
-msgstr "Közlemények kezelése"
+msgstr "Bejelentések kezelése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
@@ -2505,14 +2460,10 @@ msgid "Teams"
 msgstr "Csapatok"
 
 #: weblate/auth/models.py:374 weblate/auth/models.py:935
-#, fuzzy
-#| msgid ""
-#| "The user is granted all permissions included in membership of these "
-#| "groups."
 msgid ""
 "The user is granted all permissions included in membership of these teams."
 msgstr ""
-"A felhasználó minden jogosultságot megkapott, amelyet ezen csoportok tagsága "
+"A felhasználó minden jogosultságot megkapott, amelyet ezen csapatok tagsága "
 "tartalmaz."
 
 #: weblate/auth/models.py:716
@@ -3124,10 +3075,7 @@ msgstr ""
 "bontható ki. Esetleg használja a(z) {suggestion} javaslatot."
 
 #: weblate/checks/fluent/inner_html.py:171
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML closing tag, but the name or syntax "
-#| "is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
@@ -3137,10 +3085,7 @@ msgstr ""
 "{suggestion} javaslatot."
 
 #: weblate/checks/fluent/inner_html.py:184
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the name is not valid. If "
-#| "you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
@@ -3150,10 +3095,7 @@ msgstr ""
 "javaslatot."
 
 #: weblate/checks/fluent/inner_html.py:197
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the tag is never closed by "
-#| "{close}. If you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin a HTML tag, use {suggestion}."
@@ -3171,11 +3113,7 @@ msgstr ""
 "használja a(z) {suggestion} javaslatot."
 
 #: weblate/checks/fluent/inner_html.py:227
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the sequence {attribute} "
-#| "is not a valid attribute with a value. If you do not want to begin a HTML "
-#| "tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the sequence {attribute} "
 "is not a valid attribute with a value. If you do not want to begin a HTML "
@@ -5175,7 +5113,7 @@ msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
 msgstr ""
-"Kereskedelmi tárhelyszolgáltatása is van lehetőség, az áraink havi 19 "
+"Kereskedelmi tárhelyszolgáltatásra is van lehetőség, az áraink havi 19 "
 "eurótól kezdődnek. További részletekért lépjen velünk kapcsolatba."
 
 #: weblate/templates/about/index.html:36 weblate/templates/base.html:253
@@ -6356,6 +6294,8 @@ msgid ""
 "Automatically add newly created users to this team based on their e-mail "
 "address."
 msgstr ""
+"Az újonnan létrehozott felhasználók automatikus hozzáadása ehhez a csapathoz "
+"az e-mail-címük alapján."
 
 #: weblate/templates/auth/team.html:70
 msgid "Add automatic assignment"
@@ -6956,7 +6896,7 @@ msgstr "Alkalmaz"
 
 #: weblate/templates/category.html:39 weblate/templates/project.html:41
 msgid "Announcements"
-msgstr "Közlemények"
+msgstr "Bejelentések"
 
 #: weblate/templates/category.html:48 weblate/templates/component.html:55
 #: weblate/templates/project.html:55
@@ -6964,10 +6904,8 @@ msgid "Download translation files as ZIP file"
 msgstr "Fordítási fájlok letöltése ZIP-fájlként"
 
 #: weblate/templates/category.html:71 weblate/templates/project.html:88
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new category"
-msgstr "Új felhasználó hozzáadása"
+msgstr "Új kategória hozzáadása"
 
 #: weblate/templates/category.html:76 weblate/templates/category.html:214
 #: weblate/templates/component.html:102 weblate/templates/component.html:262
@@ -7011,46 +6949,32 @@ msgid "Browse all project changes"
 msgstr "Az összes projektváltoztatás böngészése"
 
 #: weblate/templates/category.html:186 weblate/templates/project.html:250
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add a category"
-msgstr "Felhasználó hozzáadása"
+msgstr "Kategória hozzáadása"
 
 #: weblate/templates/category.html:206
-#, fuzzy
-#| msgid "Rename project"
 msgid "Rename category"
-msgstr "Projekt átnevezése"
+msgstr "Kategória átnevezése"
 
 #: weblate/templates/category.html:209
-#, fuzzy
-#| msgid ""
-#| "Renaming the project will change all URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Renaming the category will change all URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
-"A projekt átnevezése megváltoztatja az összes URL-t. A felhasználóknak "
+"A kategória átnevezése megváltoztatja az összes URL-t. A felhasználóknak "
 "frissíteniük kell a könyvjelzőket vagy a hivatkozásokat a klónozott "
 "tárolókban!"
 
 #: weblate/templates/category.html:221
-#, fuzzy
-#| msgid "Category"
 msgid "Move category"
-msgstr "Kategória"
+msgstr "Kategória áthelyezése"
 
 #: weblate/templates/category.html:224
-#, fuzzy
-#| msgid ""
-#| "Moving the component will change all its URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Moving the category will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
-"Az összetevő áthelyezése megváltoztatja annak összes URL-ét. A "
+"A kategória áthelyezése megváltoztatja annak összes URL-ét. A "
 "felhasználóknak frissíteniük kell a könyvjelzőket vagy a hivatkozásokat a "
 "klónozott tárolókban!"
 
@@ -7075,10 +6999,8 @@ msgid "Translated"
 msgstr "Lefordítva"
 
 #: weblate/templates/check_list.html:89
-#, fuzzy
-#| msgid "Documentation"
 msgid "View check documentation"
-msgstr "Dokumentáció"
+msgstr "Ellenőrzés dokumentációjának megtekintése"
 
 #: weblate/templates/component-list.html:16 weblate/templates/language.html:20
 msgid "Information"
@@ -7147,7 +7069,7 @@ msgstr "Képernyőképek"
 #: weblate/templates/project.html:225 weblate/templates/translation.html:93
 #: weblate/templates/translation.html:403
 msgid "Post announcement"
-msgstr "Közlemény küldése"
+msgstr "Bejelentés küldése"
 
 #: weblate/templates/component.html:96 weblate/templates/guide.html:9
 #: weblate/templates/guide.html:25
@@ -8332,12 +8254,12 @@ msgstr "Bejelentés"
 #: weblate/templates/mail/new_announcement_subject.txt:4
 #, python-format
 msgid "New announcement on %(project)s"
-msgstr "Új közlemény a(z) %(project)s projektnél"
+msgstr "Új bejelentés a(z) %(project)s projektnél"
 
 #: weblate/templates/mail/new_announcement_subject.txt:6
 #, python-format
 msgid "New announcement at %(site_title)s"
-msgstr "Új közlemény a(z) %(site_title)s webhelyen"
+msgstr "Új bejelentés a(z) %(site_title)s webhelyen"
 
 #: weblate/templates/mail/new_comment.html:9
 msgid "Comment"
@@ -9105,7 +9027,7 @@ msgstr "Fordítási memória importálása"
 
 #: weblate/templates/message.html:15
 msgid "Delete announcement"
-msgstr "Közlemény törlése"
+msgstr "Bejelentés törlése"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -10859,10 +10781,8 @@ msgstr "A következő fordítási összetevők lesznek eltávolítva:"
 
 #: weblate/templates/trans/delete-category.html:21
 #: weblate/templates/trans/delete-project.html:21
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "The following translation categories will be removed:"
-msgstr "A következő fordítások lesznek eltávolítva:"
+msgstr "A következő fordítási kategóriák lesznek eltávolítva:"
 
 #: weblate/templates/trans/delete-category.html:31
 #: weblate/templates/trans/delete-project.html:31
@@ -10887,16 +10807,13 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Tisztában vagyok a következményekkel, törölje ezt a fordítást"
 
 #: weblate/templates/trans/delete-project.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "project and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "category and all related content."
 msgstr ""
 "Ezt a műveletet nem lehet visszavonni. Ez véglegesen törli a(z) %(object)s "
-"projektet és az összes kapcsolódó tartalmat."
+"kategóriát és az összes kapcsolódó tartalmat."
 
 #: weblate/templates/trans/delete-translation.html:6
 msgid ""
@@ -12344,20 +12261,16 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Írja be a projekt keresőbarát URL-ét a megerősítéshez."
 
 #: weblate/trans/forms.py:2609
-#, fuzzy
-#| msgid "Please type in the slug of the project to confirm."
 msgid "Please type in the slug of the category to confirm."
-msgstr "Írja be a projekt keresőbarát URL-ét a megerősítéshez."
+msgstr "Írja be a kategória keresőbarát URL-ét a megerősítéshez."
 
 #: weblate/trans/forms.py:2619
 msgid "Please type in the slug of the project and language to confirm."
 msgstr "Írja be a projekt és a nyelv keresőbarát URL-ét a megerősítéshez."
 
 #: weblate/trans/forms.py:2630
-#, fuzzy
-#| msgid "Please type in the slug of the project and language to confirm."
 msgid "Please type in the slug of the category and language to confirm."
-msgstr "Írja be a projekt és a nyelv keresőbarát URL-ét a megerősítéshez."
+msgstr "Írja be a kategória és a nyelv keresőbarát URL-ét a megerősítéshez."
 
 #: weblate/trans/forms.py:2657
 msgid "Author username"
@@ -12430,18 +12343,15 @@ msgid "Workflow customization"
 msgstr "Munkafolyamat személyre szabása"
 
 #: weblate/trans/mixins.py:143
-#, fuzzy
-#| msgid "Component with this URL slug already exists in the project."
 msgid ""
 "Component or category with the same URL slug already exists at this level."
 msgstr ""
-"Ezzel a keresőbarát URL-lel rendelkező összetevő már létezik a projektben."
+"Már létezik ugyanilyen keresőbarát URL-lel rendelkező összetevő vagy "
+"kategória ezen a szinten."
 
 #: weblate/trans/mixins.py:150
-#, fuzzy
-#| msgid "A component with the same name already exists."
 msgid "Component or category with the same name already exists at this level."
-msgstr "Már létezik ugyanilyen nevű összetevő."
+msgstr "Már létezik ugyanilyen nevű összetevő vagy kategória ezen a szinten."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:153
@@ -12596,10 +12506,8 @@ msgid "Do not specify both component and project!"
 msgstr "Ne adjon meg egyszerre összetevőt és projektet!"
 
 #: weblate/trans/models/category.py:23
-#, fuzzy
-#| msgid "Category"
 msgid "Category name"
-msgstr "Kategória"
+msgstr "Kategória neve"
 
 #: weblate/trans/models/category.py:25 weblate/trans/models/component.py:291
 #: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:89
@@ -12618,15 +12526,15 @@ msgstr "Az URL-ekben és fájlnevekben használt név."
 
 #: weblate/trans/models/category.py:87
 msgid "Too deep nesting of categories!"
-msgstr ""
+msgstr "Túl mélyen egymásba ágyazott kategóriák!"
 
 #: weblate/trans/models/category.py:92
 msgid "Parent category has to be in the same project!"
-msgstr ""
+msgstr "A szülőkategóriának ugyanabban a projektben kell lennie!"
 
 #: weblate/trans/models/category.py:97
 msgid "Parent category has to be different!"
-msgstr ""
+msgstr "A szülőkategóriának eltérőnek kell lennie!"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:286
@@ -12821,7 +12729,7 @@ msgstr "Új közreműködő"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:372
 msgid "New announcement"
-msgstr "Új közlemény"
+msgstr "Új bejelentés"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:374
@@ -12925,24 +12833,18 @@ msgstr "Magyarázat frissítve"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:417
-#, fuzzy
-#| msgid "Removed user"
 msgid "Removed category"
-msgstr "Felhasználó eltávolítva"
+msgstr "Kategória eltávolítva"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:419
-#, fuzzy
-#| msgid "Renamed project"
 msgid "Renamed category"
-msgstr "Projekt átnevezve"
+msgstr "Kategória átnevezve"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:421
-#, fuzzy
-#| msgid "Category"
 msgid "Moved category"
-msgstr "Kategória"
+msgstr "Kategória áthelyezve"
 
 #: weblate/trans/models/change.py:492
 msgid "New string to translate"
@@ -13496,16 +13398,12 @@ msgid "Could not merge remote branch into %s."
 msgstr "Nem sikerült beolvasztani a távoli ágat ebbe: %s."
 
 #: weblate/trans/models/component.py:2532
-#, fuzzy
-#| msgid "User has been blocked on this project."
 msgid "Category does not belong to this project."
-msgstr "A felhasználó tiltva lett ennél a projektnél."
+msgstr "A kategória nem tartozik ehhez a projekthez."
 
 #: weblate/trans/models/component.py:2535
-#, fuzzy
-#| msgid "Component list can not be chosen when unused."
 msgid "Categorized component can not be shared."
-msgstr "Az összetevőlistát nem lehet kiválasztani, ha nincs használatban."
+msgstr "A kategorizált összetevőt nem lehet megosztani."
 
 #: weblate/trans/models/component.py:2547
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -14666,10 +14564,8 @@ msgid "The translation component was scheduled for removal."
 msgstr "A fordítási összetevő eltávolításra lett ütemezve."
 
 #: weblate/trans/views/settings.py:159
-#, fuzzy
-#| msgid "The project was scheduled for removal."
 msgid "The category was scheduled for removal."
-msgstr "A projekt eltávolításra lett ütemezve."
+msgstr "A kategória eltávolításra lett ütemezve."
 
 #: weblate/trans/views/settings.py:163
 msgid "The project was scheduled for removal."
@@ -14677,13 +14573,11 @@ msgstr "A projekt eltávolításra lett ütemezve."
 
 #: weblate/trans/views/settings.py:169
 msgid "A language in the project was removed."
-msgstr "A projekt nyelve el lett távolítva."
+msgstr "A projektben lévő egyik nyelv el lett távolítva."
 
 #: weblate/trans/views/settings.py:175
-#, fuzzy
-#| msgid "A language in the project was removed."
 msgid "A language in the category was removed."
-msgstr "A projekt nyelve el lett távolítva."
+msgstr "A kategóriában lévő egyik nyelv el lett távolítva."
 
 #: weblate/trans/views/settings.py:190
 #, python-format
