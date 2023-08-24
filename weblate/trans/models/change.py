@@ -111,6 +111,7 @@ class ChangeQuerySet(models.QuerySet):
         """
         return self.prefetch_related(
             "user",
+            "author",
             "translation",
             "component",
             "project",
