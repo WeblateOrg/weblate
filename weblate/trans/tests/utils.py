@@ -379,16 +379,24 @@ class RepoTestMixin:
         return self._create_component("appstore", "metadata/*", "metadata/en-US")
 
     def create_html(self):
-        return self._create_component("html", "html/*.html", "html/en.html")
+        return self._create_component(
+            "html", "html/*.html", "html/en.html", edit_template=False
+        )
 
     def create_idml(self):
-        return self._create_component("idml", "idml/*.idml", "idml/en.idml")
+        return self._create_component(
+            "idml", "idml/*.idml", "idml/en.idml", edit_template=False
+        )
 
     def create_odt(self):
-        return self._create_component("odf", "odt/*.odt", "odt/en.odt")
+        return self._create_component(
+            "odf", "odt/*.odt", "odt/en.odt", edit_template=False
+        )
 
     def create_winrc(self):
-        return self._create_component("rc", "winrc/*.rc", "winrc/en-US.rc")
+        return self._create_component(
+            "rc", "winrc/*.rc", "winrc/en-US.rc", edit_template=False
+        )
 
     def create_tbx(self):
         return self._create_component("tbx", "tbx/*.tbx")
