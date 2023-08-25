@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 15:13+0000\n"
-"PO-Revision-Date: 2023-08-24 20:53+0000\n"
+"PO-Revision-Date: 2023-08-25 12:48+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1259,8 +1259,8 @@ msgid ""
 "strings written by the developers."
 msgstr ""
 "Bei jedem Import einer neuen Ausgangszeichenkette aus dem VCS wird diese in "
-"Weblate als zu bearbeiten gekennzeichnet. Auf diese Weise können Sie die von "
-"den Entwicklern geschriebenen Ausgangszeichenketten einfach filtern und "
+"Weblate als bearbeitungsbedürftig markiert. Auf diese Weise können Sie die "
+"von den Entwicklern geschriebenen Ausgangszeichenketten einfach filtern und "
 "bearbeiten."
 
 #: weblate/addons/flags.py:50
@@ -1274,7 +1274,7 @@ msgid ""
 "translations created by the developers."
 msgstr ""
 "Bei jedem Import einer neuen übersetzbaren Zeichenkette aus dem VCS wird "
-"diese in Weblate als zu bearbeiten gekennzeichnet. Auf diese Weise können "
+"diese in Weblate als bearbeitungsbedürftig markiert. Auf diese Weise können "
 "Sie die von den Entwicklern erstellten Übersetzungen einfach filtern und "
 "bearbeiten."
 
@@ -1290,8 +1290,8 @@ msgid ""
 msgstr ""
 "Jedes Mal wenn eine neue übersetzbare Zeichenkette aus dem VCS importiert "
 "wird und mit der Ausgangszeichenkette übereinstimmt, wird sie in Weblate als "
-"zu bearbeiten markiert. Dies ist besonders nützlich für Dateiformate, die "
-"nicht übersetzte Ausgangszeichenketten enthalten."
+"bearbeitungsbedürftig markiert. Dies ist besonders nützlich für "
+"Dateiformate, die nicht übersetzte Ausgangszeichenketten enthalten."
 
 #: weblate/addons/flags.py:89 weblate/templates/category-project.html:42
 #: weblate/templates/category-project.html:106
@@ -2561,7 +2561,7 @@ msgstr ""
 
 #: weblate/auth/models.py:725
 msgid "Group to assign"
-msgstr "Gruppe zuordnen"
+msgstr "Zuzuweisende Gruppe"
 
 #: weblate/auth/models.py:740 weblate/trans/forms.py:1185
 msgid "User to block"
@@ -3148,22 +3148,22 @@ msgstr "Fluent-Typ"
 #: weblate/checks/flags.py:261
 #, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "Ungültiges Übersetzungskennzeichen: „%s“"
+msgstr "Ungültige Übersetzungsmarkierung: „%s“"
 
 #: weblate/checks/flags.py:265
 #, python-format
 msgid "The translation flag has no parameters: \"%s\""
-msgstr "Das Übersetzungskennzeichen hat keine Parameter: „%s“"
+msgstr "Die Übersetzungsmarkierung hat keine Parameter: „%s“"
 
 #: weblate/checks/flags.py:271
 #, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
-msgstr "Falsche Parameter für das Übersetzungskennzeichen: „%s“"
+msgstr "Falsche Parameter für die Übersetzungsmarkierung: „%s“"
 
 #: weblate/checks/flags.py:275
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
-msgstr "Fehlende Parameter für das Übersetzungskennzeichen: „%s“"
+msgstr "Fehlende Parameter für die Übersetzungsmarkierung: „%s“"
 
 #: weblate/checks/fluent/inner_html.py:128
 #, python-brace-format
@@ -6326,7 +6326,7 @@ msgstr "Die folgenden Komponenten würden erstellt werden"
 #: weblate/templates/trans/alert/inexistantfiles.html:11
 #: weblate/trans/models/component.py:409
 msgid "Monolingual base language file"
-msgstr "Einsprachige Basis-Sprachdatei"
+msgstr "Einsprachige Basissprachdatei"
 
 #: weblate/templates/addons/discovery_preview.html:23
 #: weblate/templates/addons/discovery_preview.html:40
@@ -6447,7 +6447,7 @@ msgstr "Einstellungen"
 
 #: weblate/templates/auth/team.html:28
 msgid "Automatic assignments"
-msgstr "Automatische Zuordnungen"
+msgstr "Automatische Zuweisungen"
 
 #: weblate/templates/auth/team.html:64
 msgid ""
@@ -6457,7 +6457,7 @@ msgstr ""
 
 #: weblate/templates/auth/team.html:70
 msgid "Add automatic assignment"
-msgstr "Automatische Zuordnung hinzufügen"
+msgstr "Automatische Zuweisung hinzufügen"
 
 #: weblate/templates/auth/team.html:90
 #: weblate/templates/trans/project-access.html:41
@@ -8974,7 +8974,7 @@ msgid ""
 "The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
-"Die Support-Pakete beinhalten prioritäre E-Mail-Unterstützung oder Cloud-"
+"Die Supportpakete beinhalten prioritäre E-Mail-Unterstützung oder Cloud-"
 "Sicherungen für Ihre Weblate-Installation."
 
 #: weblate/templates/manage/snippets/activation-form.html:17
@@ -9607,7 +9607,7 @@ msgstr "Zielzeichenkette"
 
 #: weblate/templates/snippets/embed-units.html:67
 msgid "Assigned screenshots"
-msgstr "Zugeordnete Bildschirmfotos"
+msgstr "Zugewiesene Bildschirmfotos"
 
 #: weblate/templates/snippets/embed-units.html:70
 msgid "Actions"
@@ -9711,7 +9711,7 @@ msgstr "Übersetzungslizenz"
 
 #: weblate/templates/snippets/info.html:142
 msgid "Automatic component list assignment"
-msgstr "Automatische Komponentenlistenzuordnung"
+msgstr "Automatische Komponentenlistenzuweisung"
 
 #: weblate/templates/snippets/info.html:175
 msgid "Translation process"
@@ -9850,7 +9850,7 @@ msgstr "Übersetzt"
 #: weblate/templates/snippets/info.html:339
 msgctxt "Number of strings"
 msgid "Needs editing"
-msgstr "Bearbeitung erforderlich"
+msgstr "Bearbeitungsbedürftig"
 
 #: weblate/templates/snippets/info.html:348
 msgctxt "Number of strings"
@@ -10641,7 +10641,7 @@ msgstr ""
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
 msgid "Please add a monolingual base language file in the component settings."
 msgstr ""
-"Bitte einsprachige Basis-Sprachdatei zur Komponenteneinstellung hinzufügen."
+"Bitte einsprachige Basissprachdatei zur Komponenteneinstellung hinzufügen."
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This project does no longer fit into Libre hosting conditions."
@@ -10799,7 +10799,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "At least one screenshot has no string assigned to it."
-msgstr "Mindestens einem Bildschirmfoto ist keine Zeichenkette zugeordnet."
+msgstr "Mindestens einem Bildschirmfoto ist keine Zeichenkette zugewiesen."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
 msgid "Manage screenshots"
@@ -11976,7 +11976,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:427 weblate/trans/forms.py:446
 msgid "Needs editing"
-msgstr "Bearbeitung erforderlich"
+msgstr "Bearbeitungsbedürftig"
 
 #: weblate/trans/forms.py:429
 msgid ""
@@ -11984,8 +11984,8 @@ msgid ""
 "updated, or when marked as such manually."
 msgstr ""
 "Zeichenketten werden normalerweise nach dem Aktualisieren der "
-"Ausgangszeichenkette als „bearbeitungsbedürftig“ gekennzeichnet oder manuell "
-"als solche gekennzeichnet."
+"Ausgangszeichenkette als „bearbeitungsbedürftig“ markiert oder manuell als "
+"solche markiert."
 
 #: weblate/trans/forms.py:444
 msgid "Review state"
@@ -15114,7 +15114,7 @@ msgstr "Leer"
 #: weblate/utils/state.py:15
 msgctxt "String state"
 msgid "Needs editing"
-msgstr "Bearbeitung erforderlich"
+msgstr "Bearbeitungsbedürftig"
 
 #: weblate/utils/state.py:16
 msgctxt "String state"
