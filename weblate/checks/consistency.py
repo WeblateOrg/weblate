@@ -164,7 +164,7 @@ class ReusedCheck(TargetCheck):
         return Unit.objects.same_target(unit, target)
 
     def should_skip(self, unit):
-        if unit.translation.plural.number <= 1:
+        if unit.translation.plural.number <= 1 or not any(unit.get_target_plurals()):
             return True
         return super().should_skip(unit)
 
@@ -201,6 +201,7 @@ class ReusedCheck(TargetCheck):
             translation__component__allow_translation_propagation=True,
             state__gte=STATE_TRANSLATED,
         )
+        units = units.exclude(target="")
 
         # List strings with different sources
         # Limit this to 100 strings, otherwise the resulting query is way too complex

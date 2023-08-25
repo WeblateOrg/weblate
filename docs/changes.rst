@@ -12,6 +12,7 @@ Not yet released.
 * Creating component within a category.
 * Source strings and state display for converted formats.
 * Block :ref:`component-edit_template` on formats which do not support it.
+* :ref:`check-reused` is no longer triggered for blank strings.
 
 **Compatibility**
 
