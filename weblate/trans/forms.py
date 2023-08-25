@@ -1630,7 +1630,6 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
             "repoweb",
             "file_format",
             "filemask",
-            "screenshot_filemask",
             "template",
             "edit_template",
             "intermediate",
