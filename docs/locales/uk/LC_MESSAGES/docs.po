@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 17:13+0200\n"
-"PO-Revision-Date: 2023-08-25 02:46+0000\n"
+"PO-Revision-Date: 2023-08-25 12:50+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:192
@@ -940,25 +940,17 @@ msgid "Automatic team assignments"
 msgstr "Автоматичні призначення команд"
 
 #: ../../admin/access.rst:437
-#, fuzzy
-#| msgid ""
-#| "On the bottom of the :guilabel:`Group` editing page in the :ref:`Django "
-#| "admin interface <admin-interface>`, you can specify :guilabel:"
-#| "`Automatic team assignments`, which is a list of regular expressions used "
-#| "to automatically assign newly created users to a team based on their e-"
-#| "mail addresses. This assignment only happens upon account creation."
 msgid ""
 "While editing the :guilabel:`Team`, you can specify :guilabel:"
 "`Automatic assignments`, which is a list of regular expressions used to "
 "automatically assign newly created users to a team based on their e-mail "
 "addresses. This assignment only happens upon account creation."
 msgstr ""
-"У нижній частині сторінки редагування :guilabel:`Група` :ref:"
-"`адміністративного інтерфейсу Django <admin-interface>` ви можете вказати :"
-"guilabel:`Автоматичні призначення команд`, тобто список формальних виразів, "
-"які використовуватимуться для автоматичного пов'язування створених записів "
-"користувачів до команди на основі адреси електронної пошти. Ця прив'язка "
-"виконуватиметься лише під час створення облікового запису."
+"При редагуванні :guilabel:`Команди` ви можете вказати :guilabel:`Автоматичні "
+"призначення`, тобто список формальних виразів, які використовуватимуться для "
+"автоматичного пов'язування створених записів користувачів до команди на "
+"основі адреси електронної пошти. Ця прив'язка виконуватиметься лише під час "
+"створення облікового запису."
 
 #: ../../admin/access.rst:442
 msgid ""
@@ -967,30 +959,23 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
+"Найпоширенішим випадком використання для цієї можливості є призначення усіх "
+"нових користувачів до певної типової команди. Це використовується для "
+"типових команд `Користувачі` і `Гість` (див. :ref:`default-teams`). "
+"Скористайтеся формальним виразом ``^.*$`` для встановлення відповідності "
+"усім користувачам."
 
 #: ../../admin/access.rst:446
-#, fuzzy
-#| msgid ""
-#| "The most common use-case for the feature is to assign all new users to "
-#| "some default team. In order to do so, you will probably want to keep the "
-#| "default value (``^.*$``) in the regular expression field. Another use-"
-#| "case for this option might be to give some additional privileges to "
-#| "employees of your company by default. Assuming all of them use corporate "
-#| "e-mail addresses on your domain, this can be accomplished with an "
-#| "expression like ``^.*@mycompany.com``."
 msgid ""
 "Another use-case for this option might be to give some additional privileges "
 "to employees of your company by default. Assuming all of them use corporate "
 "e-mail addresses on your domain, this can be accomplished with an expression "
 "like ``^.*@mycompany.com``."
 msgstr ""
-"Найпоширеніший випадок використання цієї можливості — пов'язування всіх "
-"нових користувачів до певної типової команди. Для цього вам, імовірно, слід "
-"зберегти типове значення (``^.*$``) у полі регулярного виразу. Ще одним "
-"випадком використання цього параметра може бути типове надання певних "
-"додаткових прав доступу працівникам вашої компанії. Припускаючи, що всі вони "
-"користуються корпоративними адресами електронної пошти на вашому домені, "
-"досягти цього можна виразом, подібним до ``^.*@mycompany.com``."
+"Ще одним випадком використання цього параметра може бути типове надання "
+"певних додаткових прав доступу працівникам вашої компанії. Припускаючи, що "
+"всі вони користуються корпоративними адресами електронної пошти на вашому "
+"домені, досягти цього можна виразом, подібним до ``^.*@mycompany.com``."
 
 #: ../../admin/access.rst:453
 msgid ""
@@ -2307,8 +2292,6 @@ msgid ":file:`locale/de/website/de.po`"
 msgstr ":file:`locale/de/website/de.po`"
 
 #: ../../admin/addons.rst:283
-#, fuzzy
-#| msgid "Splitted Android strings"
 msgid "Split Android strings"
 msgstr "Розділені рядки Android"
 
@@ -13621,30 +13604,29 @@ msgstr ""
 "змінних середовища Docker, див. :ref:`docker-custom-config`."
 
 #: ../../admin/install/docker.rst:409
-#, fuzzy
-#| msgid "Client secret"
 msgid "Passing secrets"
-msgstr "Пароль клієнта"
+msgstr "Передавання реєстраційних даних"
 
 #: ../../admin/install/docker.rst:413
 msgid ""
 "Weblate container supports passing secrets as files. To utilize that, append "
 "``_FILE`` suffix to the environment variable and pass secret file via Docker."
 msgstr ""
+"У контейнері Weblate передбачено підтримку передавання реєстраційних даних у "
+"форматі файлів. Щоб скористатися цим, допишіть суфікс ``_FILE`` до змінної "
+"середовища і передайте файл реєстраційних даних через Docker."
 
 #: ../../admin/install/docker.rst:416
 msgid "Related :file:`docker-compose.yml` might look like:"
-msgstr ""
+msgstr "Відповідний :file:`docker-compose.yml` може виглядати так:"
 
 #: ../../admin/install/docker.rst:439
-#, fuzzy
-#| msgid ""
-#| "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgid ""
 "`How to use secrets in Docker Compose <https://docs.docker.com/compose/use-"
 "secrets/>`_"
 msgstr ""
-"`Документація з томів Docker <https://docs.docker.com/storage/volumes/>`_"
+"`Як використати реєстраційні дані у Docker Compose <https://docs.docker.com/"
+"compose/use-secrets/>`_"
 
 #: ../../admin/install/docker.rst:442
 msgid "Generic settings"
@@ -13676,7 +13658,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:465
 msgid "For more silent logging use ``ERROR`` or ``WARNING``."
-msgstr ""
+msgstr "Для скорочення розміру журналу скористайтеся ``ERROR`` або ``WARNING``."
 
 #: ../../admin/install/docker.rst:469
 msgid "Configures the logging of the database queries verbosity."
@@ -13752,19 +13734,14 @@ msgstr ""
 "пароля."
 
 #: ../../admin/install/docker.rst:525
-#, fuzzy
-#| msgid ""
-#| ":ref:`docker-admin-login`, :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:"
-#| "`WEBLATE_ADMIN_PASSWORD_FILE`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":ref:`docker-admin-login`, :ref:`docker-secrets`, :envvar:"
 "`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
-":ref:`docker-admin-login`, :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:"
-"`WEBLATE_ADMIN_PASSWORD_FILE`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":ref:`docker-admin-login`, :ref:`docker-secrets`, "
+":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, "
+":envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:533
 msgid "The email address that error messages are sent from."
@@ -14286,10 +14263,8 @@ msgid "**Example with search and bind against Active Directory:**"
 msgstr "**Приклад із пошуком і прив'язкою до Active Directory:**"
 
 #: ../../admin/install/docker.rst:1115
-#, fuzzy
-#| msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
 msgid ":ref:`docker-secrets`, :ref:`ldap-auth`"
-msgstr ":ref:`ldap-auth`, :ref:`cas-auth`"
+msgstr ":ref:`docker-secrets`, :ref:`ldap-auth`"
 
 #: ../../admin/install/docker.rst:1119
 msgid "GitHub"
@@ -14668,10 +14643,8 @@ msgid "E-mail authentication password."
 msgstr "Пароль для розпізнавання для доступу до електронної пошти."
 
 #: ../../admin/install/docker.rst:1484
-#, fuzzy
-#| msgid ":setting:`django:EMAIL_HOST_PASSWORD`"
 msgid ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
-msgstr ":setting:`django:EMAIL_HOST_PASSWORD`"
+msgstr ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1489
 msgid ""
@@ -15930,6 +15903,8 @@ msgid ""
 "Using older libxmlsec is needed until https://github.com/xmlsec/python-"
 "xmlsec/issues/254 is addressed."
 msgstr ""
+"Використання застарілого libxmlsec потрібне, до того, як буде вирішено "
+"https://github.com/xmlsec/python-xmlsec/issues/254 ."
 
 #: ../../admin/install/venv-redhat.rst:2
 msgid "Installing on RedHat, Fedora and CentOS"
@@ -19182,17 +19157,14 @@ msgid "Translation organization"
 msgstr "Упорядкування перекладів"
 
 #: ../../admin/projects.rst:7
-#, fuzzy
-#| msgid ""
-#| "Weblate organizes translatable VCS content of project/components into a "
-#| "tree-like structure."
 msgid ""
 "Weblate organizes translatable VCS content of project/components into a tree-"
 "like structure. You can additionally organize components within a project "
 "using categories."
 msgstr ""
 "Weblate упорядковує придатні до перекладу дані системи керування версіями "
-"проєкту і складників у деревоподібну структуру."
+"проєкту і складників у деревоподібну структуру. Крім того, ви можете "
+"упорядкувати складники у проєкті за допомогою категорій."
 
 #: ../../admin/projects.rst:11
 msgid ""
@@ -19209,6 +19181,8 @@ msgid ""
 "The middle level is optionally created by :ref:`category`. The categories "
 "can be nested to achieve more complex structure."
 msgstr ""
+"Середній рівень додатково створюється :ref:`категорією <category>`. "
+"Категорії можна вкладати одну в одну для досягнення складнішої структури."
 
 #: ../../admin/projects.rst:18
 msgid ""
@@ -20975,6 +20949,8 @@ msgid ""
 "Categories are there to give structure to components within a project. You "
 "can nest them to achieve a more complex structure."
 msgstr ""
+"Категорії призначено для структурування проєкту. Ви можете вкладати їх одну "
+"в одну для отримання складної структури."
 
 #: ../../admin/projects.rst:966
 msgid "Template markup"
@@ -22320,10 +22296,8 @@ msgid "**CURL JSON example:**"
 msgstr "**Приклад JSON для CURL:**"
 
 #: ../../api.rst:162
-#, fuzzy
-#| msgid "Component name"
 msgid "Components and categories"
-msgstr "Назва складника"
+msgstr "Складники і категорії"
 
 #: ../../api.rst:164
 msgid ""
@@ -22333,6 +22307,12 @@ msgid ""
 "``docs%2Fusage``. Full URL in this case would be for example ``https://"
 "example.com/api/components/hello/docs%2Fusage/repository/``."
 msgstr ""
+"Щоб отримати доступ до складника, який вкладено у :ref:`категорію <category>`"
+", вам слід закодувати назву категорії як адресу до назви складника з "
+"використанням символу похилої риски. Наприклад, для ``usage``, який "
+"розміщено у категорії ``docs``, має бути вказано ``docs%2Fusage``. Повна "
+"адреса у цьому випадку може бути, наприклад, ``https://example.com/api/"
+"components/hello/docs%2Fusage/repository/``."
 
 #: ../../api.rst:173
 msgid "API rate limiting"
@@ -23204,24 +23184,20 @@ msgid ""
 "Returns statistics for a project. See :http:get:`/api/categories/(int:id)/` "
 "for field definitions."
 msgstr ""
+"Повертає статистичні дані щодо проєкту. Визначення полів наведено тут: "
+":http:get:`/api/categories/(int:id)/`."
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "Spam protection"
 msgid "param project"
-msgstr "Захист від спаму"
+msgstr "параметр проєкт"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "Create project"
 msgid "type project"
-msgstr "Створити проєкт"
+msgstr "тип проєкт"
 
 #: ../../api.rst:1146
-#, fuzzy
-#| msgid "*string*"
 msgid "string"
-msgstr "*рядок*"
+msgstr "рядок"
 
 #: ../../api.rst:1153
 msgid ""
@@ -24639,90 +24615,72 @@ msgid "Category of the matched item."
 msgstr "Категорія відповідного запису."
 
 #: ../../api.rst:2496
-#, fuzzy
-#| msgid "Category"
 msgid "Categories"
-msgstr "Категорія"
+msgstr "Категорії"
 
 #: ../../api.rst:2502
 msgid ""
 "Lists available categories. See :http:get:`/api/categories/(int:id)/` for "
 "field definitions."
 msgstr ""
+"Виводить список доступних категорій. Визначення полів наведено тут: "
+":http:get:`/api/categories/(int:id)/`."
 
 #: ../../api.rst:2508
 msgid ""
 "Creates a new category. See :http:get:`/api/categories/(int:id)/` for field "
 "definitions."
 msgstr ""
+"Створює категорію. Визначення полів наведено тут: :http:get:`/api/categories/"
+"(int:id)/`."
 
 #: ../../api.rst:2514 ../../api.rst:2527 ../../api.rst:2537 ../../api.rst:2547
-#, fuzzy
-#| msgid "Category"
 msgid "Category ID"
-msgstr "Категорія"
+msgstr "Ід. категорії"
 
 #: ../../api.rst:2516
-#, fuzzy
-#| msgid "Rename project"
 msgid "Name of category."
-msgstr "Перейменувати проєкт"
+msgstr "Назва категорії."
 
 #: ../../api.rst:2517
-#, fuzzy
-#| msgid "Category"
 msgid "Slug of category."
-msgstr "Категорія"
+msgstr "Позначка категорії."
 
 #: ../../api.rst:2518
-#, fuzzy
-#| msgid "List all projects:"
 msgid "Link to a project."
-msgstr "Список усіх проєктів:"
+msgstr "Посилання на проєкт."
 
 #: ../../api.rst:2519
 msgid "Link to a parent category."
-msgstr ""
+msgstr "Посилання на батьківську категорію."
 
 #: ../../api.rst:2525
-#, fuzzy
-#| msgid "Edit partial information about add-on."
 msgid "Edit partial information about cateogry."
-msgstr "Редагувати часткові відомості щодо додатка."
+msgstr "Редагувати часткові відомості щодо категорії."
 
 #: ../../api.rst:0
 msgid "param id"
-msgstr ""
+msgstr "ідентифікатор параметра"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "type"
 msgid "type id"
-msgstr "тип"
+msgstr "ідентифікатор типу"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "Project configuration"
 msgid ">json object configuration"
-msgstr "Налаштування проєкту"
+msgstr "налаштування об'єкта json"
 
 #: ../../api.rst:2529 ../../api.rst:2539
-#, fuzzy
-#| msgid "Optional add-on configuration"
 msgid "Optional cateogry configuration"
-msgstr "Необов'язкові налаштування додатка"
+msgstr "Необов'язкові налаштування категорії"
 
 #: ../../api.rst:2535
-#, fuzzy
-#| msgid "Edit full information about add-on."
 msgid "Edit full information about cateogry."
-msgstr "Редагувати повні відомості щодо додатка."
+msgstr "Редагувати повні відомості щодо категорії."
 
 #: ../../api.rst:2545
-#, fuzzy
-#| msgid "Deletes the group."
 msgid "Delete cateogry."
-msgstr "Вилучає групу."
+msgstr "Вилучити категорію."
 
 #: ../../api.rst:2553
 msgid "Notification hooks"
@@ -25030,10 +24988,8 @@ msgid "Weblate 5.0"
 msgstr "Weblate 5.0"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on August 21th 2021."
 msgid "Released on August 24th 2023."
-msgstr "Випущено 21 серпня 2021 року."
+msgstr "Випущено 24 серпня 2023 року."
 
 #: ../../changes.rst:6
 msgid "**New features**"
@@ -25044,10 +25000,10 @@ msgid ":doc:`/formats/markdown` support, thanks to Anders Kaplan."
 msgstr "Підтримка :doc:`/formats/markdown` завдяки Anders Kaplan."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Creates translation components in the given project."
 msgid ":ref:`category` can now organize components within a project."
-msgstr "Створює складники перекладу у вказаному проєкті."
+msgstr ""
+"У новій версії для упорядковування складників проєкту можна використовувати "
+":ref:`категорії <category>`."
 
 #: ../../changes.rst:10
 msgid ""
@@ -25062,15 +25018,11 @@ msgstr ""
 "У новій версії запрошення користувачів із усіма способами розпізнавання."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid ""
-#| "The Docker container uses a separate volume for this, see :ref:`docker-"
-#| "volume`."
 msgid ""
 "Docker container supports file backed secrets, see :ref:`docker-secrets`."
 msgstr ""
-"Контейнер Docker використовує для цього окремий том, див. :ref:`docker-"
-"volume`."
+"У контейнері Docker передбачено підтримку реєстраційних даних у файлах, див. "
+":ref:`docker-secrets`."
 
 #: ../../changes.rst:14
 msgid "**Improvements**"
@@ -25172,18 +25124,17 @@ msgstr ""
 
 #: ../../changes.rst:31
 msgid ":doc:`/user/checks` browsing experience."
-msgstr ""
+msgstr "Навігація :doc:`/user/checks`."
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Highlight suggested change in automatic suggestions."
 msgid "Highlight differences in the source string in automatic suggestions."
 msgstr ""
-"Реалізовано підсвічування пропонованої зміни для автоматичних пропозицій."
+"Реалізовано підсвічування різниці у початковому рядку в автоматичних "
+"пропозиціях."
 
 #: ../../changes.rst:33
 msgid "Visual diff now better understands compositing characters."
-msgstr ""
+msgstr "У візуальній різниці удосконалено обробку складених символів."
 
 #: ../../changes.rst:35
 msgid "**Bug fixes**"
@@ -25213,11 +25164,9 @@ msgstr ""
 "перекладу."
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Support for automatic update of screenshots from a repository."
 msgid "Fixed caching issues after updating screenshots from the repository."
 msgstr ""
-"Реалізовано підтримку автоматичного оновлення знімків вікон зі сховища."
+"Виправлено проблеми з кешуванням при оновленні знімків вікон зі сховища."
 
 #: ../../changes.rst:43
 msgid "**Compatibility**"
@@ -25228,10 +25177,10 @@ msgid "Python 3.9 or newer is now required."
 msgstr "Новій версії потрібен Python 3.9 або новіший."
 
 #: ../../changes.rst:46
-#, fuzzy
-#| msgid "Several URLs have changed, you might have to update your bookmarks."
 msgid "Several UI URLs have been changed to be able to handle categories."
-msgstr "Було змінено декілька адрес. Вам варто оновити ваші закладки."
+msgstr ""
+"Змінено декілька адрес у інтерфейсі користувача, щоб мати змогу працювати з "
+"категоріями."
 
 #: ../../changes.rst:48 ../../changes/v4.rst:53 ../../changes/v4.rst:85
 #: ../../changes/v4.rst:168 ../../changes/v4.rst:236 ../../changes/v4.rst:317
@@ -43425,20 +43374,16 @@ msgstr ""
 "варіант у перекладі із тими самими елементами HTML, і навпаки."
 
 #: ../../user/checks.rst:312
-#, fuzzy
-#| msgid ""
-#| "If using a Fluent DOM package, this will ensure that the translation also "
-#| "includes any required ``data-l10n-name`` elements that appear in the "
-#| "source, or any of the allowed inline elements like ``<br>``."
 msgid ""
 "When using Fluent in combination with the Fluent DOM package, this check "
 "will ensure that the translation also includes any required ``data-l10n-"
 "name`` elements that appear in the source, or any of the allowed inline "
 "elements like ``<br>``."
 msgstr ""
-"Якщо використано пакунок DOM Fluent, забезпечує наявність у перекладі усіх "
-"обов'язкових елементів ``data-l10n-name`` початкового коду або будь-яких "
-"дозволених вбудованих елементів, зокрема ``<br>``."
+"При використанні Fluent у поєднанні з пакунком DOM Fluent, ця перевірка "
+"забезпечує наявність у перекладі усіх обов'язкових елементів ``data-l10n-"
+"name`` початкового коду або будь-яких дозволених вбудованих елементів, "
+"зокрема ``<br>``."
 
 #: ../../user/checks.rst:317
 msgid "For example, the following source:"
@@ -43453,10 +43398,8 @@ msgid "but not:"
 msgstr "але не:"
 
 #: ../../user/checks.rst:335
-#, fuzzy
-#| msgid "no"
 msgid "nor"
-msgstr "ні"
+msgstr "і не"
 
 #: ../../user/checks.rst:343
 msgid ""
