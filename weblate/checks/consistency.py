@@ -171,8 +171,6 @@ class ReusedCheck(TargetCheck):
     def check_target_unit(self, sources, targets, unit):
         translation = unit.translation
         component = translation.component
-        if not component.allow_translation_propagation:
-            return False
 
         # Use last result if checks are batched
         if component.batch_checks:
