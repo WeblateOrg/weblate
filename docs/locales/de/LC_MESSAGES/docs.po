@@ -1,13 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+# VfBFan <drop0815@posteo.de>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 17:13+0200\n"
-"PO-Revision-Date: 2023-08-25 02:46+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-08-25 12:49+0000\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -15,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:192
@@ -953,25 +954,17 @@ msgid "Automatic team assignments"
 msgstr "Automatische Teamzuweisungen"
 
 #: ../../admin/access.rst:437
-#, fuzzy
-#| msgid ""
-#| "On the bottom of the :guilabel:`Group` editing page in the :ref:`Django "
-#| "admin interface <admin-interface>`, you can specify :guilabel:"
-#| "`Automatic team assignments`, which is a list of regular expressions used "
-#| "to automatically assign newly created users to a team based on their e-"
-#| "mail addresses. This assignment only happens upon account creation."
 msgid ""
 "While editing the :guilabel:`Team`, you can specify :guilabel:"
 "`Automatic assignments`, which is a list of regular expressions used to "
 "automatically assign newly created users to a team based on their e-mail "
 "addresses. This assignment only happens upon account creation."
 msgstr ""
-"Unten auf der Bearbeitungsseite :guilabel:`Gruppe` in der :ref:`Django-"
-"Administrationsoberfläche <admin-interface>` können Sie :guilabel:"
-"`Automatische Teamzuweisungen` angeben, das ist eine Liste regulärer "
-"Ausdrücke, die verwendet wird, um neu erstellte Benutzer anhand ihrer E-Mail-"
-"Adressen automatisch einem Team zuzuordnen. Diese Zuweisung erfolgt nur bei "
-"der Benutzerkontoerstellung."
+"Beim Bearbeiten des :guilabel:`Team`s können Sie :guilabel:`Automatische "
+"Zuweisungen` angeben. Dabei handelt es sich um eine Liste regulärer "
+"Ausdrücke, mit der neu angelegte Benutzer anhand ihrer E-Mail-Adressen "
+"automatisch einem Team zugewiesen werden. Diese Zuweisung erfolgt nur bei "
+"der Kontoerstellung."
 
 #: ../../admin/access.rst:442
 msgid ""
@@ -980,31 +973,23 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
+"Der häufigste Anwendungsfall für diese Funktion ist es, alle neuen Benutzer "
+"einem Standardteam zuzuweisen. Dieses Verhalten wird für die Standardteams "
+"`Benutzer` und `Gast` verwendet (siehe :ref:`default-teams`). Verwenden Sie "
+"den regulären Ausdruck ``^.*$``, um alle Benutzer zu finden."
 
 #: ../../admin/access.rst:446
-#, fuzzy
-#| msgid ""
-#| "The most common use-case for the feature is to assign all new users to "
-#| "some default team. In order to do so, you will probably want to keep the "
-#| "default value (``^.*$``) in the regular expression field. Another use-"
-#| "case for this option might be to give some additional privileges to "
-#| "employees of your company by default. Assuming all of them use corporate "
-#| "e-mail addresses on your domain, this can be accomplished with an "
-#| "expression like ``^.*@mycompany.com``."
 msgid ""
 "Another use-case for this option might be to give some additional privileges "
 "to employees of your company by default. Assuming all of them use corporate "
 "e-mail addresses on your domain, this can be accomplished with an expression "
 "like ``^.*@mycompany.com``."
 msgstr ""
-"Der häufigste Anwendungsfall für diese Funktion besteht darin, alle neuen "
-"Benutzer einem Standardteam zuzuordnen. Um dies zu erreichen, werden Sie "
-"wahrscheinlich den Standardwert (``^.*$``) im Feld für den regulären "
-"Ausdruck beibehalten wollen. Ein weiterer Anwendungsfall für diese Option "
-"könnte darin bestehen, den Mitarbeitern Ihres Unternehmens standardmäßig "
-"einige zusätzliche Privilegien zu gewähren. Unter der Annahme, dass alle "
-"Mitarbeiter eine Firmen-E-Mail-Adresse in Ihrer Domäne verwenden, lässt sich "
-"dies mit einem Ausdruck wie ``^.*@mycompany.com`` bewerkstelligen."
+"Ein anderer Anwendungsfall für diese Option könnte darin bestehen, den "
+"Mitarbeitern Ihres Unternehmens standardmäßig einige zusätzliche Rechte "
+"einzuräumen. Unter der Annahme, dass alle Mitarbeiter eine Firmen-E-Mail-"
+"Adresse in Ihrer Domäne verwenden, kann dies mit einem Ausdruck wie "
+"``^.*@mycompany.com`` erreicht werden."
 
 #: ../../admin/access.rst:453
 msgid ""
@@ -1665,7 +1650,7 @@ msgstr "``translate`` -- Als Übersetzung hinzufügen"
 
 #: ../../admin/addons.rst:34
 msgid "``fuzzy`` -- Add as \"Needing edit\""
-msgstr "``fuzzy`` -- Als „Zur Bearbeitung“ hinzufügen"
+msgstr "``fuzzy`` -- Als „bearbeitungsbedürftig“ hinzufügen"
 
 #: ../../admin/addons.rst:36
 msgid "``filter_type``"
@@ -1697,7 +1682,7 @@ msgstr "``todo`` -- Unfertige Zeichenketten"
 
 #: ../../admin/addons.rst:46
 msgid "``fuzzy`` -- Strings marked for edit"
-msgstr "``fuzzy`` -- Zur Bearbeitung markierte Zeichenketten"
+msgstr "``fuzzy`` -- Als bearbeitungsbedürftig markierte Zeichenketten"
 
 #: ../../admin/addons.rst:48
 msgid "``check:inconsistent`` -- Failing check: Inconsistent"
@@ -2161,8 +2146,8 @@ msgstr ""
 #: ../../admin/addons.rst:212
 msgid "You can use Django template markup in all filename fields, for example:"
 msgstr ""
-"Sie können Django-Template Markup in allen Dateinamenfeldern verwenden, zum "
-"Beispiel:"
+"Sie können die Auszeichnung von Django-Vorlagen in allen Dateinamenfeldern "
+"verwenden, zum Beispiel:"
 
 #: ../../admin/addons.rst:214
 msgid "``{{ component }}``"
@@ -2330,10 +2315,8 @@ msgid ":file:`locale/de/website/de.po`"
 msgstr ":file:`locale/de/website/de.po`"
 
 #: ../../admin/addons.rst:283
-#, fuzzy
-#| msgid "Splitted Android strings"
 msgid "Split Android strings"
-msgstr "Aufgeteilte Android Strings"
+msgstr "Android Strings aufteilen"
 
 #: ../../admin/addons.rst:285
 msgid "Android resource strings, split into several files."
@@ -2465,7 +2448,7 @@ msgstr "``-1`` -- Nicht ändern"
 
 #: ../../admin/addons.rst:338
 msgid "``10`` -- Needs editing"
-msgstr "``10`` -- Bearbeitung erforderlich"
+msgstr "``10`` -- Bearbeitungsbedürftig"
 
 #: ../../admin/addons.rst:340
 msgid "``20`` -- Translated"
@@ -2587,8 +2570,8 @@ msgid ""
 msgstr ""
 "Jedes Mal wenn eine neue übersetzbare Zeichenkette aus dem VCS importiert "
 "wird und mit der Ausgangszeichenkette übereinstimmt, wird sie in Weblate als "
-"zu bearbeiten markiert. Dies ist besonders nützlich für Dateiformate, die "
-"nicht übersetzte Ausgangszeichenketten enthalten."
+"bearbeitungsbedürftig markiert. Dies ist besonders nützlich für "
+"Dateiformate, die nicht übersetzte Ausgangszeichenketten enthalten."
 
 #: ../../admin/addons.rst:401
 msgid ""
@@ -2618,8 +2601,8 @@ msgid ""
 "strings written by the developers."
 msgstr ""
 "Bei jedem Import einer neuen Ausgangszeichenkette aus dem VCS wird diese in "
-"Weblate als zu bearbeiten gekennzeichnet. Auf diese Weise können Sie die von "
-"den Entwicklern geschriebenen Ausgangszeichenketten einfach filtern und "
+"Weblate als bearbeitungsbedürftig markiert. Auf diese Weise können Sie die "
+"von den Entwicklern geschriebenen Ausgangszeichenketten einfach filtern und "
 "bearbeiten."
 
 #: ../../admin/addons.rst:428
@@ -2637,7 +2620,7 @@ msgid ""
 "translations created by the developers."
 msgstr ""
 "Bei jedem Import einer neuen übersetzbaren Zeichenkette aus dem VCS wird "
-"diese in Weblate als zu bearbeiten gekennzeichnet. Auf diese Weise können "
+"diese in Weblate als bearbeitungsbedürftig markiert. Auf diese Weise können "
 "Sie die von den Entwicklern erstellten Übersetzungen einfach filtern und "
 "bearbeiten."
 
@@ -2695,8 +2678,8 @@ msgid ""
 "`markup` for a detailed markup description."
 msgstr ""
 "Sie können eine Django-Vorlage sowohl im Dateinamen als auch im Inhalt "
-"verwenden, siehe :ref:`markup` für eine detaillierte Beschreibung des "
-"Markups."
+"verwenden, siehe :ref:`markup` für eine detaillierte Beschreibung der "
+"Auszeichnung."
 
 #: ../../admin/addons.rst:473
 msgid "For example generating a summary file for each translation:"
@@ -2734,9 +2717,9 @@ msgid ""
 "strings in the translation files."
 msgstr ""
 "Alle nicht übersetzten Zeichenketten in der Komponente werden mit der "
-"Ausgangszeichenkette gefüllt und als zu bearbeiten markiert. Verwenden Sie "
-"dies, wenn in den Übersetzungsdateien keine leeren Zeichenketten enthalten "
-"sein dürfen."
+"Ausgangszeichenkette gefüllt und als bearbeitungsbedürftig markiert. "
+"Verwenden Sie dies, wenn in den Übersetzungsdateien keine leeren "
+"Zeichenketten enthalten sein dürfen."
 
 #: ../../admin/addons.rst:513
 msgid "Pseudolocale generation"
@@ -6649,11 +6632,10 @@ msgid ""
 "marked as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
 "Sie können eine Liste von Prüfungen konfigurieren, die nicht ignoriert "
-"werden können, indem Sie :ref:`component-enforced_checks` in :ref:"
-"`component` setzen. Jede aufgelistete Prüfung kann in der Benutzeroberfläche "
-"nicht abgelehnt werden und jede Zeichenkette, die diese Prüfung nicht "
-"besteht, wird als :guilabel:`Bearbeitung erforderlich` markiert (siehe :ref:"
-"`states`)."
+"werden können, indem Sie :ref:`component-enforced_checks` in :ref:`component`"
+" setzen. Jede aufgelistete Prüfung kann in der Benutzeroberfläche nicht "
+"abgelehnt werden und jede Zeichenkette, die diese Prüfung nicht besteht, "
+"wird als :guilabel:`Bearbeitungsbedürftig` markiert (siehe :ref:`states`)."
 
 #: ../../admin/checks.rst:315
 msgid ""
@@ -6789,16 +6771,16 @@ msgstr "Unterklasse von `weblate.checks.Check` erstellen"
 
 #: ../../admin/checks.rst:382
 msgid "Set a few attributes."
-msgstr "Legen Sie ein paar Attribute fest."
+msgstr "Ein paar Attribute festlegen."
 
 #: ../../admin/checks.rst:383
 msgid ""
 "Implement either the ``check`` (if you want to deal with plurals in your "
 "code) or the ``check_single`` method (which does it for you)."
 msgstr ""
-"Implementieren Sie entweder die Methode ``check`` (wenn Sie in Ihrem Code "
-"mit Pluralen umgehen wollen) oder die Methode ``check_single`` (die dies für "
-"Sie erledigt)."
+"Entweder die ``check``- (wenn Sie in Ihrem Code mit Pluralformen umgehen "
+"wollen) oder ``check_single``-Methode (die dies für Sie erledigt) "
+"implementieren."
 
 #: ../../admin/checks.rst:386
 msgid "Some examples:"
@@ -6894,7 +6876,7 @@ msgid ""
 msgstr ""
 "Fügen Sie der Liste automatisch Komponenten auf der Grundlage ihres Slugs "
 "hinzu, indem Sie Regeln für die :guilabel:`Automatische "
-"Komponentenlistenzuordnung` erstellen."
+"Komponentenlistenzuweisung` erstellen."
 
 #: ../../admin/componentlists.rst:31
 msgid ""
@@ -6920,7 +6902,7 @@ msgid ""
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
 msgstr ""
-"1. Definieren Sie die :guilabel:`Automatische Komponentenlistenzuordnung` "
+"1. Definieren Sie die :guilabel:`Automatische Komponentenlistenzuweisung` "
 "mit ``^.*$`` als regulären Ausdruck sowohl in den Projekt- als auch in den "
 "Komponentenfeldern, wie auf diesem Bild gezeigt:"
 
@@ -7262,8 +7244,8 @@ msgid ""
 "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:"
 "`check-safe-html`)."
 msgstr ""
-"Entfernt unsichere HTML-Auszeichnungen aus Zeichenketten, die als ``safe-"
-"html`` gekennzeichnet sind (siehe :ref:`check-safe-html`)."
+"Entfernt unsichere HTML-Auszeichnungen von Zeichenketten, die als ``safe-"
+"html`` markiert sind (siehe :ref:`check-safe-html`)."
 
 #: ../../admin/config.rst:169
 msgid "You can select which ones to use:"
@@ -7346,7 +7328,7 @@ msgid ""
 "admins are still presented with the full selection of languages defined in "
 "Weblate."
 msgstr ""
-"Dies schränkt nur nicht privilegierte Benutzer ein, unerwünschte Sprachen "
+"Dies schränkt nur nicht-berechtigte Benutzer ein, unerwünschte Sprachen "
 "hinzuzufügen. Den Projektadministratoren steht nach wie vor die gesamte "
 "Auswahl der in Weblate definierten Sprachen zur Verfügung."
 
@@ -8050,8 +8032,8 @@ msgid ""
 "Insert additional markup into the HTML header. Can be used for verification "
 "of site ownership, for example:"
 msgstr ""
-"Fügen Sie zusätzliches Markup in den HTML-Header ein. Kann zum Beispiel für "
-"die Überprüfung der Eigentümerschaft einer Website verwendet werden:"
+"Fügt eine zusätzliche Auszeichnung in den HTML-Header ein. Kann zum Beispiel "
+"für die Überprüfung der Eigentümerschaft einer Website verwendet werden:"
 
 #: ../../admin/config.rst:719
 msgid ""
@@ -13080,7 +13062,7 @@ msgid ""
 "instance up and running in seconds. All of Weblate's dependencies are "
 "already included. PostgreSQL is set up as the default database."
 msgstr ""
-"Mit der Bereitstellung von Weblate per Docker können Sie Ihre persönliche "
+"Mit der Bereitstellung von Weblate über Docker können Sie Ihre persönliche "
 "Weblate-Instanz in Sekundenschnelle zum Laufen bringen. Alle Abhängigkeiten "
 "von Weblate sind bereits enthalten. PostgreSQL ist als Standarddatenbank "
 "eingerichtet."
@@ -13588,7 +13570,7 @@ msgstr "Entfernen des PostgreSQL-Volumes:"
 #: ../../admin/install/docker.rst:286
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
 msgstr ""
-"Passen Sie :file:`docker-compose.yml` an, um die neue PostgreSQL-Version zu "
+":file:`docker-compose.yml` anpassen, um die neue PostgreSQL-Version zu "
 "verwenden."
 
 #: ../../admin/install/docker.rst:288
@@ -13750,31 +13732,29 @@ msgstr ""
 "Umgebungsvariablen zugänglich ist, siehe :ref:`docker-custom-config`."
 
 #: ../../admin/install/docker.rst:409
-#, fuzzy
-#| msgid "Client secret"
 msgid "Passing secrets"
-msgstr "Client-Geheimnis"
+msgstr "Geheimnisse weitergeben"
 
 #: ../../admin/install/docker.rst:413
 msgid ""
 "Weblate container supports passing secrets as files. To utilize that, append "
 "``_FILE`` suffix to the environment variable and pass secret file via Docker."
 msgstr ""
+"Der Weblate-Container unterstützt die Weitergabe von Geheimnissen als "
+"Dateien. Um dies zu nutzen, hängen Sie das Suffix ``_FILE`` an die "
+"Umgebungsvariable an und übergeben Sie die geheime Datei über Docker."
 
 #: ../../admin/install/docker.rst:416
 msgid "Related :file:`docker-compose.yml` might look like:"
-msgstr ""
+msgstr "Die zugehörige :file:`docker-compose.yml` könnte so aussehen:"
 
 #: ../../admin/install/docker.rst:439
-#, fuzzy
-#| msgid ""
-#| "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgid ""
 "`How to use secrets in Docker Compose <https://docs.docker.com/compose/use-"
 "secrets/>`_"
 msgstr ""
-"`Dokumentation der Docker-Volumes <https://docs.docker.com/storage/volumes/"
-">`_"
+"`Wie man Geheimnisse in Docker Compose verwendet <https://docs.docker.com/"
+"compose/use-secrets/>`_"
 
 #: ../../admin/install/docker.rst:442
 msgid "Generic settings"
@@ -13806,7 +13786,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:465
 msgid "For more silent logging use ``ERROR`` or ``WARNING``."
-msgstr ""
+msgstr "Für eine ruhigere Protokollierung ``ERROR`` oder ``WARNING`` verwenden."
 
 #: ../../admin/install/docker.rst:469
 msgid "Configures the logging of the database queries verbosity."
@@ -13882,19 +13862,14 @@ msgstr ""
 "zufälliges Passwort generieren) oder für die Wiederherstellung des Passworts."
 
 #: ../../admin/install/docker.rst:525
-#, fuzzy
-#| msgid ""
-#| ":ref:`docker-admin-login`, :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:"
-#| "`WEBLATE_ADMIN_PASSWORD_FILE`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":ref:`docker-admin-login`, :ref:`docker-secrets`, :envvar:"
 "`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
-":ref:`docker-admin-login`, :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:"
-"`WEBLATE_ADMIN_PASSWORD_FILE`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":ref:`docker-admin-login`, :ref:`docker-secrets`, "
+":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, "
+":envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:533
 msgid "The email address that error messages are sent from."
@@ -14419,10 +14394,8 @@ msgid "**Example with search and bind against Active Directory:**"
 msgstr "**Beispiel mit Suche und Bindung gegen Active Directory:**"
 
 #: ../../admin/install/docker.rst:1115
-#, fuzzy
-#| msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
 msgid ":ref:`docker-secrets`, :ref:`ldap-auth`"
-msgstr ":ref:`ldap-auth`, :ref:`cas-auth`"
+msgstr ":ref:`docker-secrets`, :ref:`ldap-auth`"
 
 #: ../../admin/install/docker.rst:1119
 msgid "GitHub"
@@ -14803,10 +14776,8 @@ msgid "E-mail authentication password."
 msgstr "Passwort für die E-Mail-Authentifizierung."
 
 #: ../../admin/install/docker.rst:1484
-#, fuzzy
-#| msgid ":setting:`django:EMAIL_HOST_PASSWORD`"
 msgid ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
-msgstr ":setting:`django:EMAIL_HOST_PASSWORD`"
+msgstr ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1489
 msgid ""
@@ -15508,8 +15479,8 @@ msgid ""
 "worker:"
 msgstr ""
 "Für jede Celery-Warteschlange gibt es eigene Dienste (siehe :ref:`celery` "
-"für Details). Sie können die Verarbeitung einiger Aufgaben stoppen, indem "
-"Sie den entsprechenden Worker stoppen:"
+"für Details). Die Verarbeitung einiger Aufgaben kann durch das Anhalten der "
+"entsprechenden Worker gestoppt werden:"
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
@@ -16086,6 +16057,8 @@ msgid ""
 "Using older libxmlsec is needed until https://github.com/xmlsec/python-"
 "xmlsec/issues/254 is addressed."
 msgstr ""
+"Die Verwendung der älteren libxmlsec ist erforderlich, bis https://github."
+"com/xmlsec/python-xmlsec/issues/254 behoben ist."
 
 #: ../../admin/install/venv-redhat.rst:2
 msgid "Installing on RedHat, Fedora and CentOS"
@@ -16474,7 +16447,7 @@ msgid ""
 "included. HTML markup can not be used."
 msgstr ""
 "Der eingegebene Text wird in Absätze formatiert und es können externe Links "
-"eingefügt werden. HTML-Markierungen können nicht verwendet werden."
+"eingefügt werden. HTML-Auszeichnungen können nicht verwendet werden."
 
 #: ../../admin/licensing.rst:31
 msgid "User licenses"
@@ -18245,8 +18218,8 @@ msgid ""
 "Lists supported languages in MediaWiki markup - language codes, English "
 "names and localized names."
 msgstr ""
-"Listet die unterstützten Sprachen im MediaWiki-Markup auf – Sprachcodes, "
-"englische Namen und lokalisierte Namen."
+"Listet die unterstützten Sprachen in der MediaWiki-Auszeichnung auf – "
+"Sprachcodes, englische Namen und lokalisierte Namen."
 
 #: ../../admin/management.rst:624
 msgid ""
@@ -18436,7 +18409,7 @@ msgid ""
 "Configures default groups and optionally assigns all users to that default "
 "group."
 msgstr ""
-"Konfiguriert Standardgruppen und ordnet optional alle Benutzer dieser "
+"Konfiguriert Standardgruppen und weist optional alle Benutzer dieser "
 "Standardgruppe zu."
 
 #: ../../admin/management.rst:781
@@ -19367,17 +19340,14 @@ msgid "Translation organization"
 msgstr "Übersetzungsorganisation"
 
 #: ../../admin/projects.rst:7
-#, fuzzy
-#| msgid ""
-#| "Weblate organizes translatable VCS content of project/components into a "
-#| "tree-like structure."
 msgid ""
 "Weblate organizes translatable VCS content of project/components into a tree-"
 "like structure. You can additionally organize components within a project "
 "using categories."
 msgstr ""
 "Weblate organisiert die übersetzbaren VCS-Inhalte von Projekten/Komponenten "
-"in einer baumartigen Struktur."
+"in einer baumartigen Struktur. Sie können Komponenten innerhalb eines "
+"Projekts zusätzlich über Kategorien organisieren."
 
 #: ../../admin/projects.rst:11
 msgid ""
@@ -19394,6 +19364,9 @@ msgid ""
 "The middle level is optionally created by :ref:`category`. The categories "
 "can be nested to achieve more complex structure."
 msgstr ""
+"Die mittlere Ebene wird optional durch die :ref:`category` erstellt. Die "
+"Kategorien können verschachtelt werden, um eine komplexere Struktur zu "
+"erreichen."
 
 #: ../../admin/projects.rst:18
 msgid ""
@@ -20214,7 +20187,7 @@ msgstr ""
 #: ../../formats/winrc.rst:36 ../../formats/xliff.rst:138
 #: ../../formats/xliff.rst:150 ../../formats/yaml.rst:32
 msgid "Monolingual base language file"
-msgstr "Einsprachige Basis-Sprachdatei"
+msgstr "Einsprachige Basissprachdatei"
 
 #: ../../admin/projects.rst:467
 msgid "Base file containing string definitions for :ref:`monolingual`."
@@ -21148,8 +21121,9 @@ msgid ""
 "Allows using this component as a glossary. You can configure how it will be "
 "listed using :ref:`component-glossary_color`."
 msgstr ""
-"Ermöglicht die Verwendung dieser Komponente als Glossar. Sie können mit :ref:"
-"`component-glossary_color` konfigurieren, wie es aufgelistet werden soll."
+"Ermöglicht die Verwendung dieser Komponente als Glossar. Sie können mit der "
+":ref:`component-glossary_color` konfigurieren, wie es aufgelistet werden "
+"soll."
 
 #: ../../admin/projects.rst:939
 msgid ""
@@ -21190,10 +21164,13 @@ msgid ""
 "Categories are there to give structure to components within a project. You "
 "can nest them to achieve a more complex structure."
 msgstr ""
+"Kategorien sind dazu da, Komponenten innerhalb eines Projekts zu "
+"strukturieren. Sie können sie verschachteln, um eine komplexere Struktur zu "
+"erhalten."
 
 #: ../../admin/projects.rst:966
 msgid "Template markup"
-msgstr "Markup-Vorlage"
+msgstr "Auszeichnungsvorlage"
 
 #: ../../admin/projects.rst:968
 msgid ""
@@ -21604,6 +21581,10 @@ msgid ""
 "you will find a link to it. Basic instance details about your installation "
 "are also reported back to Weblate this way."
 msgstr ""
+"Gekaufte Supportpakete können optional in Ihrer Weblate `"
+"Abonnementverwaltungs <https://weblate.org/user/>`_-Oberfläche integriert "
+"werden, von wo aus Sie einen Link dazu finden. Grundlegende Instanzdetails "
+"über Ihre Installation werden auf diese Weise auch an Weblate zurückgemeldet."
 
 #: ../../admin/support.rst:24
 msgid "Data submitted to the Weblate"
@@ -21611,7 +21592,7 @@ msgstr "An Weblate übermittelte Daten"
 
 #: ../../admin/support.rst:26
 msgid "URL where your Weblate instance is configured"
-msgstr ""
+msgstr "URL, unter der Ihre Weblate-Instanz konfiguriert ist"
 
 #: ../../admin/support.rst:27
 msgid "Your site title"
@@ -21619,37 +21600,39 @@ msgstr "Ihr Seitentitel"
 
 #: ../../admin/support.rst:28
 msgid "The Weblate version you are running"
-msgstr ""
+msgstr "Die von Ihnen verwendete Weblate-Version"
 
 #: ../../admin/support.rst:29
 msgid ""
 "Tallies of some objects in your Weblate database (projects, components, "
 "languages, source strings and users)"
 msgstr ""
+"Zählung einiger Objekte in Ihrer Weblate-Datenbank (Projekte, Komponenten, "
+"Sprachen, Ausgangszeichenketten und Benutzer)"
 
 #: ../../admin/support.rst:30
 msgid "The public SSH key of your instance"
-msgstr ""
+msgstr "Der öffentliche SSH-Schlüssel Ihrer Instanz"
 
 #: ../../admin/support.rst:32
 msgid "Additionally, when :ref:`discover-weblate` is turned on:"
-msgstr ""
+msgstr "Zusätzlich, wenn :ref:`discover-weblate` eingeschaltet ist:"
 
 #: ../../admin/support.rst:34
 msgid "List of public projects (name, URL and website)"
-msgstr ""
+msgstr "Liste der öffentlichen Projekte (Name, URL und Website)"
 
 #: ../../admin/support.rst:36
 msgid "No other data is submitted."
-msgstr ""
+msgstr "Es werden keine weiteren Daten übermittelt."
 
 #: ../../admin/support.rst:39
 msgid "Integration services"
-msgstr "Integration von Diensten"
+msgstr "Dienste integrieren"
 
 #: ../../admin/support.rst:41
 msgid "See if your support package is still valid"
-msgstr ""
+msgstr "Prüfen Sie, ob Ihr Supportpaket noch gültig ist"
 
 #: ../../admin/support.rst:42
 msgid ":ref:`cloudbackup`"
@@ -21664,6 +21647,8 @@ msgid ""
 "Purchased support packages are already activated upon purchase, and can be "
 "used without integrating them."
 msgstr ""
+"Gekaufte Supportpakete sind bereits beim Kauf aktiviert und können ohne "
+"Integration genutzt werden."
 
 #: ../../admin/support.rst:52
 msgid "Discover Weblate"
@@ -21689,6 +21674,8 @@ msgid ""
 "Participating in Discover Weblate makes Weblate submit some information "
 "about your server, please see :ref:`support-data`."
 msgstr ""
+"Durch die Teilnahme an Discover Weblate übermittelt Weblate einige "
+"Informationen über Ihren Server, siehe :ref:`support-data`."
 
 #: ../../admin/support.rst:69
 msgid ""
@@ -21696,6 +21683,9 @@ msgid ""
 "support`) in Discover Weblate all you need to do is turn this on in the "
 "management panel:"
 msgstr ""
+"Um Ihren Server mit einem aktiven Support-Abonnement (siehe :ref:`activate-"
+"support`) in Discover Weblate aufzulisten, müssen Sie dies lediglich in der "
+"Verwaltungsoberfläche aktivieren:"
 
 #: ../../admin/support.rst:75
 msgid "Listing your server without a support subscription in Discover Weblate:"
@@ -21721,6 +21711,9 @@ msgid ""
 "listing in your Weblate management page using :guilabel:`Enable discovery` "
 "button:"
 msgstr ""
+"Bestätigen Sie die Aktivierung des Dienstes in Ihrer Weblate-Installation "
+"und aktivieren Sie die Auflistung in Ihrer Weblate-Verwaltungsseite über die "
+"Schaltfläche :guilabel:`Entdeckung aktivieren`:"
 
 #: ../../admin/support.rst:86
 msgid "Customizing listing"
@@ -21898,7 +21891,7 @@ msgid ""
 msgstr ""
 "Verwenden Sie die Erklärung, um den Umfang oder die Verwendung der "
 "Übersetzung zu verdeutlichen. Sie können Markdown verwenden, um Links und "
-"andere Markierungen einzufügen."
+"andere Auszeichnungen einzufügen."
 
 #: ../../admin/translating.rst:107
 msgid ""
@@ -21945,7 +21938,7 @@ msgid ""
 msgstr ""
 "In Ergänzung zu :ref:`additional` haben Bildschirmfotos eine eigene "
 "Verwaltungsoberfläche unter dem Menü :guilabel:`Werkzeuge`. Laden Sie "
-"Bildschirmfotos hoch, ordnen Sie sie manuell den Ausgangszeichenketten zu "
+"Bildschirmfotos hoch, weisen Sie sie manuell den Ausgangszeichenketten zu "
 "oder verwenden Sie die optische Zeichenerkennung (OCR), indem Sie auf die "
 "Schaltfläche :guilabel:`Automatisch erkennen` klicken."
 
@@ -22138,8 +22131,8 @@ msgstr ""
 #: ../../admin/upgrade.rst:102
 msgid "Verify that your setup is sane (see also :ref:`production`):"
 msgstr ""
-"Überprüfen Sie, ob Ihre Einrichtung in Ordnung ist (siehe auch :ref:"
-"`production`):"
+"Überprüfen, ob Ihre Einrichtung in Ordnung ist (siehe auch "
+":ref:`production`):"
 
 #: ../../admin/upgrade.rst:108
 msgid "Restart Celery worker (see :ref:`celery`)."
@@ -22236,26 +22229,25 @@ msgstr ""
 msgid ""
 "Add PostgreSQL as additional database connection to the :file:`settings.py`:"
 msgstr ""
-"Fügen Sie PostgreSQL als zusätzliche Datenbankverbindung in :file:`settings."
-"py` ein:"
+"PostgreSQL als zusätzliche Datenbankverbindung in :file:`settings.py` "
+"einfügen:"
 
 #: ../../admin/upgrade.rst:219
 msgid "Run migrations and drop any data inserted into the tables:"
 msgstr ""
-"Führen Sie die Migration durch und löschen Sie alle in die Tabellen "
-"eingefügten Daten:"
+"Die Migration durchführen und alle in die Tabellen eingefügten Daten löschen:"
 
 #: ../../admin/upgrade.rst:226
 msgid "Dump legacy database and import to PostgreSQL"
-msgstr "Dump der Legacy-Datenbank und Import in PostgreSQL"
+msgstr "Dump der Legacy-Datenbank und Import in PostgreSQL:"
 
 #: ../../admin/upgrade.rst:233
 msgid ""
 "Adjust :setting:`django:DATABASES` to use just PostgreSQL database as "
 "default, remove legacy connection."
 msgstr ""
-"Passen Sie :setting:`django:DATABASES` an, um nur die PostgreSQL-Datenbank "
-"als Standard zu verwenden, entfernen Sie die Legacy-Verbindung."
+":setting:`django:DATABASES` anpassen, um nur die PostgreSQL-Datenbank als "
+"Standard zu verwenden, die Legacy-Verbindung entfernen."
 
 #: ../../admin/upgrade.rst:236
 msgid "Weblate should be now ready to run from the PostgreSQL database."
@@ -22278,12 +22270,11 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:245
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as a database."
-msgstr ""
-"Passen Sie :file:`settings.py` an, um PostgreSQL als Datenbank zu verwenden."
+msgstr ":file:`settings.py` anpassen, um PostgreSQL als Datenbank zu verwenden."
 
 #: ../../admin/upgrade.rst:247
 msgid "Migrate the schema in the PostgreSQL database:"
-msgstr "Migrieren Sie das Schema in der PostgreSQL-Datenbank:"
+msgstr "Das Schema in der PostgreSQL-Datenbank migrieren:"
 
 #: ../../admin/upgrade.rst:254
 msgid ""
@@ -22531,10 +22522,8 @@ msgid "**CURL JSON example:**"
 msgstr "**CURL-JSON-Beispiel:**"
 
 #: ../../api.rst:162
-#, fuzzy
-#| msgid "Component alerts"
 msgid "Components and categories"
-msgstr "Komponentenwarnungen"
+msgstr "Komponenten und Kategorien"
 
 #: ../../api.rst:164
 msgid ""
@@ -22544,6 +22533,12 @@ msgid ""
 "``docs%2Fusage``. Full URL in this case would be for example ``https://"
 "example.com/api/components/hello/docs%2Fusage/repository/``."
 msgstr ""
+"Um auf eine Komponente zuzugreifen, die in einer :ref:`category` "
+"verschachtelt ist, müssen Sie den Kategorienamen in einen URL-kodierten und "
+"durch einen Schrägstrich getrennten Komponentennamen ändern. Zum Beispiel "
+"``usage`` in einer ``docs`` Kategorie muss als ``docs%2Fusage`` verwendet "
+"werden. Die vollständige URL wäre in diesem Fall zum Beispiel "
+"``https://example.com/api/components/hello/docs%2Fusage/repository/``."
 
 #: ../../api.rst:173
 msgid "API rate limiting"
@@ -23085,7 +23080,7 @@ msgstr "Löscht die Sprache."
 
 #: ../../api.rst:777
 msgid "Returns statistics for a language."
-msgstr "Liefert Statistiken für eine Sprache."
+msgstr "Gibt Statistiken für eine Sprache zurück."
 
 #: ../../api.rst:784 ../../api.rst:1137 ../../api.rst:1667 ../../api.rst:1991
 msgid "Returned attributes are described in :ref:`api-statistics`."
@@ -23427,18 +23422,16 @@ msgid ""
 "Returns statistics for a project. See :http:get:`/api/categories/(int:id)/` "
 "for field definitions."
 msgstr ""
+"Gibt Statistiken für ein Projekt zurück. Siehe :http:get:`/api/categories/"
+"(int:id)/` für Felddefinitionen."
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "Spam protection"
 msgid "param project"
-msgstr "Spamschutz"
+msgstr "Projektparameter"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "Create project"
 msgid "type project"
-msgstr "Projekt erstellen"
+msgstr "Projekttyp"
 
 #: ../../api.rst:1146
 msgid "string"
@@ -24296,7 +24289,7 @@ msgid ""
 "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read only"
 msgstr ""
-"Status der Einheit, 0 – nicht übersetzt, 10 – Bearbeitung erforderlich, 20 – "
+"Status der Einheit, 0 – nicht übersetzt, 10 – bearbeitungsbedürftig, 20 – "
 "übersetzt, 30 – genehmigt, 100 – schreibgeschützt"
 
 #: ../../api.rst:2054
@@ -24377,9 +24370,9 @@ msgid ""
 "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved (need review workflow enabled, see :ref:`reviews`)"
 msgstr ""
-"Status der Einheit, 0 – nicht übersetzt, 10 – Bearbeitung erforderlich, 20 – "
-"übersetzt, 30 – genehmigt (Überprüfungsablauf muss aktiviert sein, siehe :"
-"ref:`reviews`)"
+"Status der Einheit, 0 – nicht übersetzt, 10 – bearbeitungsbedürftig, 20 – "
+"übersetzt, 30 – genehmigt (Überprüfungsablauf muss aktiviert sein, siehe "
+":ref:`reviews`)"
 
 #: ../../api.rst:2083 ../../api.rst:2097
 msgid "labels, available on source units"
@@ -24876,90 +24869,72 @@ msgid "Category of the matched item."
 msgstr "Kategorie des übereinstimmenden Elements."
 
 #: ../../api.rst:2496
-#, fuzzy
-#| msgid "Category"
 msgid "Categories"
-msgstr "Kategorie"
+msgstr "Kategorien"
 
 #: ../../api.rst:2502
 msgid ""
 "Lists available categories. See :http:get:`/api/categories/(int:id)/` for "
 "field definitions."
 msgstr ""
+"Listet die verfügbaren Kategorien auf. Siehe :http:get:`/api/categories/"
+"(int:id)/` für Felddefinitionen."
 
 #: ../../api.rst:2508
 msgid ""
 "Creates a new category. See :http:get:`/api/categories/(int:id)/` for field "
 "definitions."
 msgstr ""
+"Erzeugt eine neue Kategorie. Siehe :http:get:`/api/categories/(int:id)/` für "
+"Felddefinitionen."
 
 #: ../../api.rst:2514 ../../api.rst:2527 ../../api.rst:2537 ../../api.rst:2547
-#, fuzzy
-#| msgid "Category"
 msgid "Category ID"
-msgstr "Kategorie"
+msgstr "Kategorie-ID"
 
 #: ../../api.rst:2516
-#, fuzzy
-#| msgid "Rename project"
 msgid "Name of category."
-msgstr "Projekt umbenennen"
+msgstr "Name der Kategorie."
 
 #: ../../api.rst:2517
-#, fuzzy
-#| msgid "Category"
 msgid "Slug of category."
-msgstr "Kategorie"
+msgstr "Slug der Kategorie."
 
 #: ../../api.rst:2518
-#, fuzzy
-#| msgid "List all projects:"
 msgid "Link to a project."
-msgstr "Alle Projekte auflisten:"
+msgstr "Link zu einem Projekt."
 
 #: ../../api.rst:2519
 msgid "Link to a parent category."
-msgstr ""
+msgstr "Link zu einer übergeordneten Kategorie."
 
 #: ../../api.rst:2525
-#, fuzzy
-#| msgid "Edit partial information about add-on."
 msgid "Edit partial information about cateogry."
-msgstr "Bearbeitet Teilinformationen zur Erweiterung."
+msgstr "Bearbeitet Teilinformationen zur Kategorie."
 
 #: ../../api.rst:0
 msgid "param id"
-msgstr ""
+msgstr "Parameter-ID"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "type"
 msgid "type id"
-msgstr "type"
+msgstr "Typ-ID"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "Project configuration"
 msgid ">json object configuration"
-msgstr "Projektkonfiguration"
+msgstr "JSON Object-Konfiguration"
 
 #: ../../api.rst:2529 ../../api.rst:2539
-#, fuzzy
-#| msgid "Optional add-on configuration"
 msgid "Optional cateogry configuration"
-msgstr "Optionale Konfiguration der Erweiterung"
+msgstr "Optionale Konfiguration der Kategorie"
 
 #: ../../api.rst:2535
-#, fuzzy
-#| msgid "Edit full information about add-on."
 msgid "Edit full information about cateogry."
-msgstr "Bearbeitet alle Informationen zur Erweiterung."
+msgstr "Bearbeitet alle Informationen zur Kategorie."
 
 #: ../../api.rst:2545
-#, fuzzy
-#| msgid "Deletes the group."
 msgid "Delete cateogry."
-msgstr "Löscht die Gruppe."
+msgstr "Löscht die Kategorie."
 
 #: ../../api.rst:2553
 msgid "Notification hooks"
@@ -25269,10 +25244,8 @@ msgid "Weblate 5.0"
 msgstr "Weblate 5.0"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on August 21th 2021."
 msgid "Released on August 24th 2023."
-msgstr "Veröffentlicht am 21. August 2021."
+msgstr "Veröffentlicht am 24. August 2023."
 
 #: ../../changes.rst:6
 msgid "**New features**"
@@ -25283,10 +25256,9 @@ msgid ":doc:`/formats/markdown` support, thanks to Anders Kaplan."
 msgstr ":doc:`/formats/markdown`-Unterstützung, dank Anders Kaplan."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Creates translation components in the given project."
 msgid ":ref:`category` can now organize components within a project."
-msgstr "Erstellt Übersetzungskomponenten im angegebenen Projekt."
+msgstr ""
+":ref:`category` kann nun Komponenten innerhalb eines Projekts organisieren."
 
 #: ../../changes.rst:10
 msgid ""
@@ -25301,50 +25273,45 @@ msgstr ""
 "Authentifizierungsmethoden."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid ""
-#| "The Docker container uses a separate volume for this, see :ref:`docker-"
-#| "volume`."
 msgid ""
 "Docker container supports file backed secrets, see :ref:`docker-secrets`."
 msgstr ""
-"Der Docker-Container verwendet dafür ein eigenes Volume, siehe :ref:`docker-"
-"volume`."
+"Docker-Container unterstützen dateibasierte Geheimnisse, siehe :ref:`docker-"
+"secrets`."
 
 #: ../../changes.rst:14
 msgid "**Improvements**"
 msgstr "**Verbesserungen**"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Improve handling of placeholders in machine translations."
 msgid "Plurals handling in machine translation."
-msgstr ""
-"Verbesserung der Behandlung von Platzhaltern in maschinellen Übersetzungen."
+msgstr "Behandlung von Pluralformen in der maschinellen Übersetzung."
 
 #: ../../changes.rst:17
 msgid ""
 ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgstr ""
+":ref:`check-same`-Prüfung berücksichtigt nun auch im strict-Modus "
+"Platzhalter."
 
 #: ../../changes.rst:18
 msgid ""
 ":ref:`check-reused` is no longer triggered for languages with a single "
 "plural form."
 msgstr ""
+":ref:`check-reused` wird nicht mehr für Sprachen mit einer einzigen "
+"Pluralform ausgelöst."
 
 #: ../../changes.rst:19
 msgid "WebP is now supported for :ref:`screenshots`."
 msgstr ":ref:`screenshots` unterstützt nun WebP."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Avoid sending duplicate notifications for linked component alerts."
 msgid ""
 "Avoid duplicate notification when a user is subscribed to overlapping scopes."
 msgstr ""
-"Vermeidung des Versands von doppelten Benachrichtigungen für verknüpfte "
-"Komponentenwarnungen."
+"Doppelte Benachrichtigungen werden vermieden, wenn ein Benutzer sich "
+"überschneidende Bereiche abonniert hat."
 
 #: ../../changes.rst:21
 msgid "OCR support for non-English languages in :ref:`screenshots`."
@@ -25357,12 +25324,11 @@ msgstr ""
 "Ausgangszeichenkette."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Improve handling of placeholders in machine translations."
 msgid ""
 "Rendering strings with plurals, placeholders or alternative translations."
 msgstr ""
-"Verbesserung der Behandlung von Platzhaltern in maschinellen Übersetzungen."
+"Rendering von Zeichenketten mit Pluralformen, Platzhaltern oder alternativen "
+"Übersetzungen."
 
 #: ../../changes.rst:24
 msgid "User API now includes last sign in date."
@@ -25371,32 +25337,38 @@ msgstr "Die Benutzer-API enthält jetzt das Datum der letzten Anmeldung."
 #: ../../changes.rst:25
 msgid "User API token is now hidden for privacy reasons by default."
 msgstr ""
+"Das Benutzer-API-Token ist jetzt aus Datenschutzgründen standardmäßig "
+"verborgen."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Improved popup for adding terms to glossary."
 msgid "Faster adding terms to glossary."
-msgstr "Verbessertes Popup beim Hinzufügen von Begriffen zum Glossar."
+msgstr "Schnelleres Hinzufügen von Begriffen zum Glossar."
 
 #: ../../changes.rst:27
 msgid ""
 "Better preserve translation on source file change in :doc:`/formats/html` "
 "and :doc:`/formats/txt`."
 msgstr ""
+"Bessere Beibehaltung der Übersetzung bei Quelldateiänderung in :doc:`/"
+"formats/html` und :doc:`/formats/txt`."
 
 #: ../../changes.rst:28
 msgid "Added indication of automatic assignment to team listing."
 msgstr ""
+"In der Teamliste ein Hinweis auf die automatische Zuweisung hinzugefügt."
 
 #: ../../changes.rst:29
 msgid "Users now have to confirm invitations to become team members."
 msgstr ""
+"Benutzer müssen nun Einladungen bestätigen, um Teammitglieder zu werden."
 
 #: ../../changes.rst:30
 msgid ""
 ":ref:`check-formats` can now check all plural forms with the ``strict-"
 "format`` flag."
 msgstr ""
+":ref:`check-formats` können nun alle Pluralformen mit der ``strict-format``-"
+"Markierung prüfen."
 
 #: ../../changes.rst:31
 msgid ":doc:`/user/checks` browsing experience."
@@ -25446,12 +25418,10 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Support for automatic update of screenshots from a repository."
 msgid "Fixed caching issues after updating screenshots from the repository."
 msgstr ""
-"Unterstützung für das automatische Aktualisieren von Bildschirmfotos aus "
-"einem Repository."
+"Caching-Probleme nach dem Aktualisieren von Bildschirmfotos aus dem "
+"Repository behoben."
 
 #: ../../changes.rst:43
 msgid "**Compatibility**"
@@ -25878,7 +25848,7 @@ msgstr ""
 
 #: ../../changes/v1.rst:13
 msgid "Users can now delete their account."
-msgstr ""
+msgstr "Benutzer können nun ihr Benutzerkonto löschen."
 
 #: ../../changes/v1.rst:14
 msgid "Avatars can be disabled."
@@ -26262,7 +26232,8 @@ msgstr ""
 
 #: ../../changes/v1.rst:135
 msgid "Added new checks (BBCode, XML markup and newlines)."
-msgstr "Neue Prüfungen hinzugefügt (BB-Code, XML-Markup und Zeilenumbrüche)."
+msgstr ""
+"Neue Prüfungen hinzugefügt (BBCode, XML-Auszeichnung und Zeilenumbrüche)."
 
 #: ../../changes/v1.rst:136
 msgid "Support for optional rebasing instead of merge."
@@ -26526,7 +26497,8 @@ msgstr ""
 
 #: ../../changes/v2.rst:17
 msgid "Added support for HTML markup in whiteboard messages."
-msgstr "Unterstützung für HTML-Markup in Whiteboard-Nachrichten hinzugefügt."
+msgstr ""
+"Unterstützung für HTML-Auszeichnung in Whiteboard-Nachrichten hinzugefügt."
 
 #: ../../changes/v2.rst:18
 msgid "Added support for mass changing state of strings."
@@ -26759,7 +26731,7 @@ msgstr ""
 
 #: ../../changes/v2.rst:91
 msgid "Users can now delete their own comments."
-msgstr ""
+msgstr "Benutzer können nun ihre eigenen Kommentare löschen."
 
 #: ../../changes/v2.rst:92
 msgid "Added preview step to search and replace feature."
@@ -29350,7 +29322,7 @@ msgstr "Veröffentlicht am 20. Oktober 2018."
 
 #: ../../changes/v3.rst:397
 msgid "Remove no longer needed Babel dependency."
-msgstr ""
+msgstr "Die nicht mehr benötigte Babel-Abhängigkeit entfernt."
 
 #: ../../changes/v3.rst:398
 msgid "Updated language definitions."
@@ -29370,7 +29342,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:402
 msgid "Improved plurals handling."
-msgstr ""
+msgstr "Verbesserte Behandlung von Pluralformen."
 
 #: ../../changes/v3.rst:403
 msgid "Fixed translation upload API failure in some corner cases."
@@ -30320,8 +30292,8 @@ msgstr ""
 #: ../../changes/v4.rst:214
 msgid "Fixed plurals handling in automatic translation from other components."
 msgstr ""
-"Die Behandlung von Pluralen bei der automatischen Übersetzung aus anderen "
-"Komponenten korrigiert."
+"Die Behandlung von Pluralformen bei der automatischen Übersetzung aus "
+"anderen Komponenten korrigiert."
 
 #: ../../changes/v4.rst:215
 msgid "Added keyboard shortcut Alt+Enter to submit string as a suggestion."
@@ -30355,8 +30327,8 @@ msgstr "Verbesserte Auflistung von Zeichenketten mit Pluralformen."
 #: ../../changes/v4.rst:221
 msgid "Added support for adding custom markup to HTML head."
 msgstr ""
-"Unterstützung für das Hinzufügen von benutzerdefiniertem Markup zum HTML-"
-"Header hinzugefügt."
+"Unterstützung für das Hinzufügen von benutzerdefinierter Auszeichnung zum "
+"HTML-Header hinzugefügt."
 
 #: ../../changes/v4.rst:222
 msgid ""
@@ -30477,8 +30449,6 @@ msgid "Improved analysis on the duplicate language alert."
 msgstr "Verbesserte Analyse der Warnung bei doppelter Sprache."
 
 #: ../../changes/v4.rst:257
-#, fuzzy
-#| msgid "Improved accurancy of the consecutive duplicated words check."
 msgid "Improved accuracy of the consecutive duplicated-words check."
 msgstr ""
 "Verbesserte Genauigkeit bei der Prüfung auf aufeinanderfolgende doppelte "
@@ -32907,7 +32877,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:989
 msgid "Fixed component ordering on paginated pages."
-msgstr ""
+msgstr "Die Reihenfolge der Komponenten auf paginierten Seiten korrigiert."
 
 #: ../../changes/v4.rst:990
 msgid "Define source language for a glossary."
@@ -38131,6 +38101,9 @@ msgid ""
 "translation will be removed from the component when Weblate updates local "
 "repository."
 msgstr ""
+"Wenn Sie eine Sprachdatei im verbundenen Remote-Repository löschen, wird die "
+"entsprechende Übersetzung aus der Komponente entfernt, wenn Weblate das "
+"lokale Repository aktualisiert."
 
 #: ../../devel/translations.rst:91
 msgid "String variants"
@@ -38825,7 +38798,7 @@ msgstr "Ausstehende Änderungen in :ref:`manage-vcs` committen."
 
 #: ../../faq.rst:420
 msgid "Merge Weblate changes to the upstream repository."
-msgstr "Weblate-Änderungen in das Upstream-Repository mergen."
+msgstr "Weblate-Änderungen im Upstream-Repository zusammenführen."
 
 #: ../../faq.rst:421
 msgid "Disable receiving updates via hooks using :ref:`project-enable_hooks`."
@@ -38835,7 +38808,7 @@ msgstr ""
 
 #: ../../faq.rst:422
 msgid "Perform the renaming of the files in the repository."
-msgstr "Die Umbenennung der Dateien im Repository durchführen."
+msgstr "Das Umbenennen der Dateien im Repository durchführen."
 
 #: ../../faq.rst:423
 msgid "Update the component configuration to match new file names."
@@ -39168,7 +39141,7 @@ msgstr "ja [#po]_"
 #: ../../formats.rst:58 ../../formats.rst:66 ../../formats.rst:114
 #: ../../formats.rst:210 ../../formats.rst:258
 msgid "needs editing"
-msgstr "Bearbeitung erforderlich"
+msgstr "bearbeitungsbedürftig"
 
 #: ../../formats.rst:59
 msgid ":ref:`mono_gettext`"
@@ -39199,7 +39172,7 @@ msgstr "beides"
 
 #: ../../formats.rst:74
 msgid "needs editing, approved"
-msgstr "Bearbeitung erforderlich, genehmigt"
+msgstr "bearbeitungsbedürftig, genehmigt"
 
 #: ../../formats.rst:75
 msgid ":ref:`javaprop`"
@@ -40712,10 +40685,8 @@ msgid "`Laravel PHP strings`"
 msgstr "`Laravel PHP-Zeichenketten`"
 
 #: ../../formats/markdown.rst:4
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown files"
-msgstr "Markdown-Text"
+msgstr "Markdown-Dateien"
 
 #: ../../formats/markdown.rst:10
 msgid ""
@@ -40724,32 +40695,24 @@ msgid ""
 msgstr ""
 
 #: ../../formats/markdown.rst:16
-#, fuzzy
-#| msgid ":doc:`tt:formats/dtd`"
 msgid ":doc:`tt:formats/md`"
-msgstr ":doc:`tt:formats/dtd`"
+msgstr ":doc:`tt:formats/md`"
 
 #: ../../formats/markdown.rst:24
-#, fuzzy
-#| msgid "``path/*.odt``"
 msgid "``path/*.md``"
-msgstr "``path/*.odt``"
+msgstr "``path/*.md``"
 
 #: ../../formats/markdown.rst:26 ../../formats/markdown.rst:28
-#, fuzzy
-#| msgid "``path/en.odt``"
 msgid "``path/en.md``"
-msgstr "``path/en.odt``"
+msgstr "``path/en.md``"
 
 #: ../../formats/markdown.rst:30
-#, fuzzy
-#| msgid "Markdown text"
 msgid "`Markdown file`"
-msgstr "Markdown-Text"
+msgstr "`Markdown-Datei`"
 
 #: ../../formats/mi18n.rst:4
 msgid "mi18n lang files"
-msgstr "mi18n lang Dateien"
+msgstr "mi18n lang-Dateien"
 
 #: ../../formats/mi18n.rst:11
 msgid ""
@@ -40779,7 +40742,7 @@ msgstr "``en-US.lang``"
 
 #: ../../formats/mi18n.rst:36
 msgid "`mi18n lang file`"
-msgstr "`mi18n lang file`"
+msgstr "`mi18n lang-Datei`"
 
 #: ../../formats/odf.rst:4
 msgid "OpenDocument Format"
@@ -41956,7 +41919,8 @@ msgstr "Unsicheres HTML bereinigen"
 #: ../../user/checks.rst:51
 msgid "When turned on using a ``safe-html`` flag it sanitizes HTML markup."
 msgstr ""
-"Wenn mittels ``safe-html`` Markierung aktiviert, wird HTML Markup bereinigt."
+"Wenn mittels ``safe-html``-Markierung aktiviert, wird die HTML-Auszeichnung "
+"bereinigt."
 
 #: ../../user/checks.rst:55
 msgid ":ref:`check-safe-html`"
@@ -42010,7 +41974,7 @@ msgstr ""
 
 #: ../../user/checks.rst:86
 msgid "BBCode markup"
-msgstr "BBCode-Markup"
+msgstr "BBCode-Auszeichnung"
 
 #: ../../user/checks.rst:0
 msgid "Summary"
@@ -42077,8 +42041,8 @@ msgid ""
 "BBCode represents simple markup, like for example highlighting important "
 "parts of a message in bold font, or italics."
 msgstr ""
-"BBCode steht für einfache Markierungen, wie z. B. das Hervorheben wichtiger "
-"Teile einer Nachricht in Fett- oder Kursivschrift."
+"BBCode steht für einfache Auszeichnungen, wie z. B. das Hervorheben "
+"wichtiger Teile einer Nachricht in Fett- oder Kursivschrift."
 
 #: ../../user/checks.rst:97
 msgid "This check ensures they are also found in translation."
@@ -42405,10 +42369,8 @@ msgid "but not:"
 msgstr ""
 
 #: ../../user/checks.rst:335
-#, fuzzy
-#| msgid "no"
 msgid "nor"
-msgstr "nein"
+msgstr "noch"
 
 #: ../../user/checks.rst:343
 msgid ""
@@ -42473,10 +42435,10 @@ msgid ""
 msgstr ""
 "Weblate unterstützt die Überprüfung von Formatzeichenketten in mehreren "
 "Sprachen. Die Prüfung wird nicht automatisch aktiviert, sondern nur, wenn "
-"eine Zeichenkette entsprechend gekennzeichnet ist (z. B. `c-format` für C-"
-"Format). Gettext fügt dies automatisch hinzu, aber Sie müssen es "
-"wahrscheinlich manuell für andere Dateiformate hinzufügen oder wenn Ihre PO-"
-"Dateien nicht von :program:`xgettext` erzeugt werden."
+"eine Zeichenkette entsprechend markiert ist (z. B. `c-format` für C-Format). "
+"Gettext fügt dies automatisch hinzu, aber Sie müssen es wahrscheinlich "
+"manuell für andere Dateiformate hinzufügen oder wenn Ihre PO-Dateien nicht "
+"von :program:`xgettext` erzeugt werden."
 
 #: ../../user/checks.rst:386
 msgid ""
@@ -44204,7 +44166,7 @@ msgstr "Unsicheres HTML"
 
 #: ../../user/checks.rst:1460
 msgid "The translation uses unsafe HTML markup"
-msgstr "Die Übersetzung verwendet unsichere HTML-Markierungen"
+msgstr "Die Übersetzung verwendet unsichere HTML-Auszeichnungen"
 
 #: ../../user/checks.rst:1462
 msgid "``weblate.checks.markup.SafeHTMLCheck``"
@@ -44216,6 +44178,10 @@ msgid ""
 "``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied "
 "autofixer which can automatically sanitize the markup."
 msgstr ""
+"Die Übersetzung verwendet unsichere HTML-Auszeichnung. Diese Prüfung muss "
+"mit der ``safe-html``-Markierung aktiviert werden (siehe :ref:`custom-"
+"checks`). Es gibt auch einen begleitenden Autofixer, der die Auszeichnung "
+"automatisch bereinigen kann."
 
 #: ../../user/checks.rst:1473
 msgid ""
@@ -44293,9 +44259,9 @@ msgid ""
 "This check is disabled by the ``safe-html`` flag as the HTML cleanup done by "
 "it can produce HTML markup which is not valid XML."
 msgstr ""
-"Diese Prüfung wird durch die Markierung ``safe-html`` deaktiviert, da die "
-"von ihr durchgeführte HTML-Bereinigung HTML-Markup erzeugen kann, das kein "
-"gültiges XML ist."
+"Diese Prüfung wird durch die ``safe-html``-Markierung deaktiviert, da die "
+"von ihr durchgeführte HTML-Bereinigung Auszeichnungen erzeugen kann, die "
+"kein gültiges XML sind."
 
 #: ../../user/checks.rst:1525
 msgid "XML syntax"
@@ -44315,7 +44281,7 @@ msgstr "``xml-invalid``"
 
 #: ../../user/checks.rst:1533
 msgid "The XML markup is not valid."
-msgstr ""
+msgstr "Die XML-Auszeichnung ist nicht gültig."
 
 #: ../../user/checks.rst:1546
 msgid "Zero-width space"
@@ -44980,7 +44946,7 @@ msgstr ""
 
 #: ../../user/files.rst:98
 msgid "Add as translation needing edit (``fuzzy``)"
-msgstr "Als fragwürdige Übersetzung hinzufügen (``fuzzy``)"
+msgstr "Als bearbeitungsbedürftige Übersetzung hinzufügen (``fuzzy``)"
 
 #: ../../user/files.rst:96
 msgid ""
@@ -45060,7 +45026,7 @@ msgstr ""
 
 #: ../../user/files.rst:132
 msgid "Strings needing edit"
-msgstr "Zu bearbeitende Zeichenketten"
+msgstr "Bearbeitungsbedürftige Zeichenketten"
 
 #: ../../user/files.rst:134
 msgid ""
@@ -46458,7 +46424,7 @@ msgid ""
 "alert the translator to a potential formatting issue."
 msgstr ""
 "Alle besonderen Leerzeichen sind rot unterstrichen und durch graue Symbole "
-"gekennzeichnet. Mehr als ein nachfolgendes Leerzeichen ist ebenfalls rot "
+"gekennzeichnet. Mehr als ein nachfolgendes Leerzeichen wird ebenfalls rot "
 "unterstrichen, um den Übersetzer auf ein mögliches Formatierungsproblem "
 "hinzuweisen."
 
@@ -46643,7 +46609,8 @@ msgstr ":kbd:`Cmd+Umschalt+Eingabe`"
 
 #: ../../user/translating.rst:203
 msgid "Unmark translation as needing edit and submit it."
-msgstr "Bearbeitungsmarkierung der Übersetzung aufheben und absenden."
+msgstr ""
+"Markierung der Übersetzung als bearbeitungsbedürftig aufheben und absenden."
 
 #: ../../user/translating.rst:207
 msgid ":kbd:`Alt+Enter` or"
@@ -46786,7 +46753,7 @@ msgstr ":kbd:`Cmd+Y`"
 
 #: ../../user/translating.rst:251
 msgid "Toggle the :guilabel:`Needs editing` checkbox."
-msgstr "Kontrollkästchen :guilabel:`Bearbeitung erforderlich` umschalten."
+msgstr "Kontrollkästchen :guilabel:`Bearbeitungsbedürftig` umschalten."
 
 #: ../../user/translating.rst:259
 msgid "Visual keyboard"
@@ -47394,8 +47361,8 @@ msgid ""
 "%23@bitbucket.org/…``."
 msgstr ""
 "Wenn Ihr Benutzername oder Ihr Passwort Sonderzeichen enthält, müssen diese "
-"in der URL kodiert werden, zum Beispiel ``https://user%40example.com:"
-"%24password%23@bitbucket.org/…``."
+"URL-kodiert sein, zum Beispiel ``https://user%40example."
+"com:%24password%23@bitbucket.org/…``."
 
 #: ../../vcs.rst:175
 msgid "Using proxy"
@@ -48241,7 +48208,7 @@ msgstr ""
 
 #: ../../workflows.rst:37
 msgid "Needs editing"
-msgstr "Bearbeitung erforderlich"
+msgstr "Bearbeitungsbedürftig"
 
 #: ../../workflows.rst:36
 msgid ""
@@ -48253,8 +48220,8 @@ msgstr ""
 "Die Übersetzung muss bearbeitet werden. Dies ist normalerweise das Ergebnis "
 "einer Änderung der Ausgangszeichenkette, eines Fuzzy-Matching oder einer "
 "Aktion des Übersetzers. Die Übersetzung wird in der Datei gespeichert, je "
-"nach Dateiformat kann sie als bearbeitungsbedürftig gekennzeichnet sein "
-"(z. B. durch eine ``fuzzy``-Markierung in der Gettext-Datei)."
+"nach Dateiformat kann sie als bearbeitungsbedürftig markiert sein (z. B. "
+"durch eine ``fuzzy``-Markierung in der Gettext-Datei)."
 
 #: ../../workflows.rst:40
 msgid "Waiting for review"
@@ -48304,9 +48271,9 @@ msgid ""
 "as needing editing."
 msgstr ""
 "Falls das von Ihnen verwendete Dateiformat das Speichern von Zuständen nicht "
-"unterstützt, sollten Sie die Erweiterung :ref:`addon-weblate.flags."
-"same_edit` verwenden, um unveränderte Zeichenketten als zu bearbeiten zu "
-"kennzeichnen."
+"unterstützt, sollten Sie die Erweiterung :ref:`addon-weblate.flags.same_edit`"
+" verwenden, um unveränderte Zeichenketten als bearbeitungsbedürftig zu "
+"markieren."
 
 #: ../../workflows.rst:61
 msgid ":ref:`fmt_capabs`, :ref:`workflows`"
@@ -48540,8 +48507,8 @@ msgid ""
 msgstr ""
 "Bei einsprachigen Formaten verhält sich die Überprüfung der "
 "Ausgangszeichenkette ähnlich wie bei :ref:`reviews` – sobald ein Problem mit "
-"der Ausgangszeichenkette gemeldet wird, wird sie als :guilabel:`Bearbeitung "
-"erforderlich` markiert."
+"der Ausgangszeichenkette gemeldet wird, wird sie als "
+":guilabel:`Bearbeitungsbedürftig` markiert."
 
 #: ../../workflows.rst:243
 msgid ""
@@ -48556,7 +48523,7 @@ msgstr ""
 "extrahiert). In diesem Fall wird das Label :guilabel:`Ausgangszeichenkette "
 "muss überprüft werden` an die Zeichenketten angehängt, die von Übersetzern "
 "gemeldet werden. Sie sollten solche Zeichenketten überprüfen und sie "
-"entweder im Quellcode bearbeiten oder die Kennzeichnung entfernen."
+"entweder im Quellcode bearbeiten oder das Label entfernen."
 
 #: ../../workflows.rst:251
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
