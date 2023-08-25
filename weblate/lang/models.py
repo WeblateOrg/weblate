@@ -825,7 +825,7 @@ class Plural(models.Model):
     def examples(self):
         result = defaultdict(list)
         func = self.plural_function
-        for i in chain(range(0, 10000), range(10000, 2000001, 1000)):
+        for i in chain(range(10000), range(10000, 2000001, 1000)):
             ret = func(i)  # pylint: disable=too-many-function-args
             if len(result[ret]) >= 10:
                 continue
