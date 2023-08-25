@@ -10,6 +10,7 @@ Not yet released.
 **Bug fixes**
 
 * Creating component within a category.
+* Source translation display for converted formats.
 
 **Compatibility**
 

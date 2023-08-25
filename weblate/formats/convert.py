@@ -216,8 +216,10 @@ class ConvertFormat(TranslationFormat):
                 locations = unit.unit.getlocations()
                 thepo.addlocations(locations)
                 thepo.addnote(unit.unit.getnotes(), "developer")
-                # Try to import initial translation from the file
-                if use_location and not unitindex:
+                if self.is_template:
+                    thepo.target = unit.source
+                elif use_location and not unitindex:
+                    # Try to import initial translation from the file
                     for location in locations:
                         try:
                             translation = parser.locationindex[location]
@@ -237,7 +239,7 @@ class ConvertFormat(TranslationFormat):
         store.removeduplicates("msgctxt")
 
         # Merge existing translations
-        if unitindex:
+        if unitindex and not self.is_template:
             for unit in store.units:
                 possible_translations = unitindex[unit.source]
                 # Single match
