@@ -10,7 +10,7 @@ Not yet released.
 **Bug fixes**
 
 * Creating component within a category.
-* Source translation display for converted formats.
+* Source strings and state display for converted formats.
 * Block :ref:`component-edit_template` on formats which do not support it.
 
 **Compatibility**

@@ -56,7 +56,7 @@ class ConvertPoUnit(PoUnit):
         """Check whether unit is translated."""
         if self.parent.is_template:
             return bool(self.target)
-        return self.unit is not None
+        return self.unit is not None and bool(self.target)
 
     def is_fuzzy(self, fallback=False):
         """Check whether unit needs editing."""
