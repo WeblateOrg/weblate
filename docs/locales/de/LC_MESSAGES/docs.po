@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 17:13+0200\n"
-"PO-Revision-Date: 2023-08-25 14:52+0000\n"
+"PO-Revision-Date: 2023-08-26 01:54+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -84,7 +84,7 @@ msgstr "Für alle sichtbar."
 
 #: ../../admin/access.rst:36
 msgid "Any authenticated user can contribute."
-msgstr "Jeder registrierte Benutzer kann übersetzen."
+msgstr "Jeder authentifizierte Benutzer kann übersetzen."
 
 #: ../../admin/access.rst:38
 msgid "VCS repository might be exposed to everybody."
@@ -1459,7 +1459,7 @@ msgstr "`Gäste`"
 
 #: ../../admin/access.rst:615
 msgid "Defines permissions for non-authenticated users."
-msgstr "Legt die Berechtigungen für unauthentifizierte Benutzer fest."
+msgstr "Legt die Berechtigungen für nicht authentifizierte Benutzer fest."
 
 #: ../../admin/access.rst:617
 msgid ""
@@ -1473,8 +1473,8 @@ msgid ""
 "You can remove roles from this team to limit permissions for non-"
 "authenticated users."
 msgstr ""
-"Sie können Rollen aus diesem Team entfernen, um die Berechtigungen für "
-"unauthentifizierte Benutzer einzuschränken."
+"Sie können Rollen aus diesem Team entfernen, um die Berechtigungen für nicht "
+"authentifizierte Benutzer einzuschränken."
 
 #: ../../admin/access.rst:622
 msgid "Default roles: `Add suggestion`, `Access repository`"
@@ -9721,9 +9721,9 @@ msgstr ""
 "eine Art von Nachrichtenextraktionsprozess, um übersetzbare Dateien aus dem "
 "Quellcode zu erzeugen. In manchen Fällen kann dies in zwei Teile aufgeteilt "
 "werden – einer für die Extraktion erzeugt eine Vorlage (z. B. gettext POT "
-"wird mit :program:`xgettext` erzeugt) und ein weiterer Prozess fügt sie in "
-"die tatsächlichen Übersetzungen ein (die gettext PO-Dateien werden mit :"
-"program:`msgmerge` aktualisiert). Sie können den zweiten Schritt innerhalb "
+"wird mit :program:`xgettext` erzeugt) und ein weiterer Prozess führt sie mit "
+"den tatsächlichen Übersetzungen zusammen (die gettext PO-Dateien werden mit "
+":program:`msgmerge` aktualisiert). Sie können den zweiten Schritt innerhalb "
 "von Weblate durchführen. Weblate sorgt dafür, dass alle ausstehenden "
 "Änderungen vor diesem Vorgang berücksichtigt werden."
 
@@ -20755,7 +20755,7 @@ msgid ""
 "Rebases Weblate commits on top of upstream repository on update. This "
 "provides clean history without extra merge commits."
 msgstr ""
-"Setzt Weblate-Commits beim Aktualisieren auf das Upstream-Repository um. "
+"Basiert Weblate-Commits beim Aktualisieren auf das Upstream-Repository um. "
 "Dies bietet einen sauberen Verlauf ohne zusätzliche Merge Commits."
 
 #: ../../admin/projects.rst:740
@@ -20900,8 +20900,8 @@ msgid ""
 "The component will be automatically unlocked once there are no repository "
 "errors left."
 msgstr ""
-"Die Komponente wird automatisch freigeschaltet, sobald keine Repository-"
-"Fehler mehr vorhanden sind."
+"Die Komponente wird automatisch entsperrt, sobald keine Repository-Fehler "
+"mehr vorhanden sind."
 
 #: ../../admin/projects.rst:818
 msgid "Source language"
@@ -22244,8 +22244,8 @@ msgid ""
 "Adjust :setting:`django:DATABASES` to use just PostgreSQL database as "
 "default, remove legacy connection."
 msgstr ""
-":setting:`django:DATABASES` anpassen, um nur die PostgreSQL-Datenbank als "
-"Standard zu verwenden, die Legacy-Verbindung entfernen."
+":setting:`django:DATABASES` anpassen, um standardmäßig nur die PostgreSQL-"
+"Datenbank zu verwenden, die Legacy-Verbindung entfernen."
 
 #: ../../admin/upgrade.rst:236
 msgid "Weblate should be now ready to run from the PostgreSQL database."
@@ -22326,10 +22326,10 @@ msgid ""
 "``Authorization`` header:"
 msgstr ""
 "Die öffentliche Projekt-API ist ohne Authentifizierung verfügbar, allerdings "
-"werden unauthentifizierte Anfragen stark gedrosselt (standardmäßig auf 100 "
-"Anfragen pro Tag), so dass eine Authentifizierung empfohlen wird. Für die "
-"Authentifizierung wird ein Token verwendet, das Sie in Ihrem Profil erhalten "
-"können. Verwenden Sie es in der ``Authorization``-Kopfzeile:"
+"werden nicht authentifizierte Anfragen stark gedrosselt (standardmäßig auf "
+"100 Anfragen pro Tag), so dass eine Authentifizierung empfohlen wird. Für "
+"die Authentifizierung wird ein Token verwendet, das Sie in Ihrem Profil "
+"erhalten können. Verwenden Sie es in der ``Authorization``-Kopfzeile:"
 
 #: ../../api.rst:26
 msgid ""
@@ -23744,8 +23744,8 @@ msgid ""
 "The archive format to use; If not specified, defaults to ``zip``; Supported "
 "formats: ``zip``"
 msgstr ""
-"Das zu verwendende Archivformat; wenn nicht angegeben, wird ``zip`` als "
-"Standardwert verwendet; Unterstützte Formate: ``zip``"
+"Das zu verwendende Archivformat; wenn nicht angegeben, wird standardmäßig "
+"``zip`` verwendet; Unterstützte Formate: ``zip``"
 
 #: ../../api.rst:1403
 msgid "Returns a list of component screenshots."
@@ -25377,12 +25377,10 @@ msgid ":doc:`/user/checks` browsing experience."
 msgstr ""
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Highlight suggested change in automatic suggestions."
 msgid "Highlight differences in the source string in automatic suggestions."
 msgstr ""
-"Die vorgeschlagenen Änderungen in den automatischen Vorschlägen werden nun "
-"markiert."
+"Hervorhebung von Unterschieden in der Ausgangszeichenkette in automatischen "
+"Vorschlägen."
 
 #: ../../changes.rst:33
 msgid "Visual diff now better understands compositing characters."
@@ -25409,10 +25407,8 @@ msgstr ""
 "Übersetzungsschlüssel entfernen wollen."
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid ":wladmin:`list_translators`, :doc:`../devel/reporting`"
 msgid "Language filtering in :doc:`/devel/reporting`."
-msgstr ":wladmin:`list_translators`, :doc:`../devel/reporting`"
+msgstr "Sprachfilterung in :doc:`/devel/reporting`."
 
 #: ../../changes.rst:40
 msgid ""
@@ -30284,11 +30280,9 @@ msgid "Released on December 16th 2022."
 msgstr "Veröffentlicht am 16. Dezember 2022."
 
 #: ../../changes/v4.rst:213
-#, fuzzy
-#| msgid "Added support for browsing changes for a individual string."
 msgid "Added support for browsing all changes for an individual string."
 msgstr ""
-"Unterstützung für das Durchsuchen von Änderungen für eine einzelne "
+"Unterstützung für das Durchsuchen aller Änderungen für eine einzelne "
 "Zeichenkette hinzugefügt."
 
 #: ../../changes/v4.rst:214
@@ -30461,8 +30455,6 @@ msgid "Improved scaling of sending many notifications."
 msgstr "Verbesserte Skalierung des Versands vieler Benachrichtigungen."
 
 #: ../../changes/v4.rst:259
-#, fuzzy
-#| msgid "Improved string state handling for subtitle translation."
 msgid "Improved string-state handling for subtitle translation."
 msgstr ""
 "Verbesserte Behandlung des Zeichenkettenstatus bei der Übersetzung von "
@@ -30503,10 +30495,8 @@ msgstr ""
 "korrigiert."
 
 #: ../../changes/v4.rst:266
-#, fuzzy
-#| msgid "Fixed captcha entering on unsuccessful registration."
 msgid "Fixed CAPTCHA entering on unsuccessful registration."
-msgstr "Captcha-Eingabe bei erfolgloser Registrierung behoben."
+msgstr "Die CAPTCHA-Eingabe bei erfolgloser Registrierung korrigiert."
 
 #: ../../changes/v4.rst:267
 msgid "Improved languages support in DeepL."
@@ -30728,10 +30718,8 @@ msgid "Fixed parsing reverse proxy info from Cloudflare."
 msgstr "Das Parsen von Reverse-Proxy-Informationen von Cloudflare korrigiert."
 
 #: ../../changes/v4.rst:338
-#, fuzzy
-#| msgid "Prevents further translation of a component."
 msgid "Make parse errors lock translation of a component."
-msgstr "Verhindert die weitere Übersetzung einer Komponente."
+msgstr "Analysefehler sperren die Übersetzung einer Komponente."
 
 #: ../../changes/v4.rst:339
 msgid "Fixed configuring intermediate file in the discovery add-on."
@@ -30747,12 +30735,10 @@ msgid "Fixed untranslating strings via API."
 msgstr "Nichtübersetzen von Zeichenketten über die API behoben."
 
 #: ../../changes/v4.rst:342
-#, fuzzy
-#| msgid "Added support for removing user from a group via API."
 msgid "Added support for removing a user from a group via API."
 msgstr ""
-"Unterstützung für das Entfernen von Benutzern aus einer Gruppe über die API "
-"hinzugefügt."
+"Unterstützung für das Entfernen eines Benutzers aus einer Gruppe über die "
+"API hinzugefügt."
 
 #: ../../changes/v4.rst:343
 msgid "Fixed audit log for user invitation e-mails."
@@ -30817,10 +30803,8 @@ msgid "Improved progress-bar colors for color-blind people."
 msgstr ""
 
 #: ../../changes/v4.rst:361
-#, fuzzy
-#| msgid "Fixed variants cleanup on string removal."
 msgid "Fixed variants cleanup when removing strings."
-msgstr "Bereinigung von Varianten beim Entfernen einer Zeichenkette behoben."
+msgstr "Bereinigung von Varianten beim Entfernen von Zeichenketten korrigiert."
 
 #: ../../changes/v4.rst:362
 msgid "Compatibility with Django 4.1."
@@ -30833,10 +30817,8 @@ msgstr ""
 "hinzugefügt."
 
 #: ../../changes/v4.rst:364
-#, fuzzy
-#| msgid "Improved formatting of placeholder check errors."
 msgid "Improved formatting of placeholder-check errors."
-msgstr "Verbesserte Formatierung von Fehlern bei Platzhalterprüfungen."
+msgstr "Verbesserte Formatierung von Fehlern bei der Platzhalterprüfung."
 
 #: ../../changes/v4.rst:365
 msgid "Redirect /.well-known/change-password to /accounts/password/."
@@ -30921,8 +30903,6 @@ msgstr ""
 "behoben."
 
 #: ../../changes/v4.rst:393
-#, fuzzy
-#| msgid "Fixed possible loss of translations while adding new language."
 msgid "Fixed possible loss of translations while adding a new language."
 msgstr ""
 "Möglicher Verlust von Übersetzungen beim Hinzufügen einer neuen Sprache "
@@ -31021,9 +31001,6 @@ msgid "Added support for :ref:`vcs-gitea`."
 msgstr "Unterstützung für :ref:`vcs-gitea` hinzugefügt."
 
 #: ../../changes/v4.rst:422
-#, fuzzy
-#| msgid ""
-#| "Added Linux style language code to :ref:`component-language_code_style`."
 msgid ""
 "Added Linux-style language code to :ref:`component-language_code_style`."
 msgstr ""
@@ -31046,8 +31023,6 @@ msgstr ""
 "Übersetzungen."
 
 #: ../../changes/v4.rst:426
-#, fuzzy
-#| msgid "Make merge request message configurable at component level."
 msgid "Make merge request message configurable at the component level."
 msgstr ""
 "Konfigurierbarkeit der Nachricht für Merge Request auf Komponentenebene."
@@ -31222,16 +31197,12 @@ msgstr ""
 "Forward` hinzugefügt."
 
 #: ../../changes/v4.rst:483
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on "
-#| "newly added strings."
 msgid ""
 "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on triggering for "
 "newly added strings."
 msgstr ""
-"Erweiterungstrigger für neu hinzugefügte Zeichenketten :ref:`addon-weblate."
-"autotranslate.autotranslate` repariert."
+"Die Auslösung der Erweiterung :ref:`addon-weblate.autotranslate."
+"autotranslate` für neu hinzugefügte Zeichenketten korrigiert."
 
 #: ../../changes/v4.rst:484
 msgid "Improved punctuation checks for Burmese."
@@ -31364,10 +31335,6 @@ msgid "Added support for formality and placeholders with DeepL."
 msgstr "Unterstützung für Formalitäten und Platzhalter mit DeepL hinzugefügt."
 
 #: ../../changes/v4.rst:526
-#, fuzzy
-#| msgid ""
-#| "Bulk edit and search and replace are now available on project and "
-#| "language level."
 msgid ""
 "Bulk edit and search-and-replace are now available on project and language "
 "level."
@@ -33249,6 +33216,8 @@ msgid ""
 "The Weblate domain is now configured in the settings, see :setting:"
 "`SITE_DOMAIN`."
 msgstr ""
+"Die Weblate-Domain ist nun in den Einstellungen konfiguriert, siehe "
+":setting:`SITE_DOMAIN`."
 
 #: ../../changes/v4.rst:1092
 msgid "Add support for searching by component and project."
@@ -33780,11 +33749,10 @@ msgid "Reimplemented translation memory backend."
 msgstr ""
 
 #: ../../changes/v4.rst:1253
-#, fuzzy
-#| msgid "Added support for exact matching in :doc:`user/search`."
 msgid "Added support for several ``is:`` lookups in :doc:`/user/search`."
 msgstr ""
-"Unterstützung für exakte Übereinstimmung in :doc:`user/search` hinzugefügt."
+"Unterstützung für mehrere ``is:``-Suchabfragen in :doc:`/user/search` "
+"hinzugefügt."
 
 #: ../../changes/v4.rst:1254
 msgid "Allow to make :ref:`check-same` avoid internal blacklist."
@@ -33813,11 +33781,9 @@ msgid "Fixed editing monolingual XLIFF source file."
 msgstr ""
 
 #: ../../changes/v4.rst:1260
-#, fuzzy
-#| msgid "Added support for exact matching in :doc:`user/search`."
 msgid "Added support for exact matching in :doc:`/user/search`."
 msgstr ""
-"Unterstützung für exakte Übereinstimmung in :doc:`user/search` hinzugefügt."
+"Unterstützung für exakte Übereinstimmung in :doc:`/user/search` hinzugefügt."
 
 #: ../../changes/v4.rst:1261
 msgid ""
@@ -34120,10 +34086,8 @@ msgid "Weblate Contributor Communication Guidelines"
 msgstr ""
 
 #: ../../contributing/communication.rst:5
-#, fuzzy
-#| msgid "GitHub username"
 msgid "GitHub Issues"
-msgstr "GitHub-Benutzername"
+msgstr "GitHub-Issues"
 
 #: ../../contributing/communication.rst:6
 msgid ""
@@ -34135,10 +34099,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/communication.rst:11
-#, fuzzy
-#| msgid "Weblate discussions"
 msgid "Weblate GitHub Discussions"
-msgstr "Weblate-Diskussionen"
+msgstr "Weblate GitHub-Diskussionen"
 
 #: ../../contributing/communication.rst:12
 msgid ""
@@ -34150,10 +34112,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/communication.rst:18
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Weblate on Mastodon"
-msgstr "Weblate-Konfiguration"
+msgstr "Weblate auf Mastodon"
 
 #: ../../contributing/communication.rst:19
 msgid ""
@@ -34165,7 +34125,7 @@ msgstr ""
 
 #: ../../contributing/communication.rst:22
 msgid "Libera.Chat"
-msgstr ""
+msgstr "Libera.Chat"
 
 #: ../../contributing/communication.rst:23
 msgid ""
@@ -34226,7 +34186,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:27
 msgid "Weblate logs"
-msgstr ""
+msgstr "Weblate-Protokolle"
 
 #: ../../contributing/debugging.rst:29
 msgid ""
@@ -34259,7 +34219,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:48
 msgid "Not processing background tasks"
-msgstr ""
+msgstr "Keine Verarbeitung von Hintergrundaufgaben"
 
 #: ../../contributing/debugging.rst:50
 msgid ""
@@ -37248,12 +37208,6 @@ msgstr ""
 "Übersichtsseite:"
 
 #: ../../devel/reporting.rst:11
-#, fuzzy
-#| msgid ""
-#| "Several reporting tools are available on this page and all can produce "
-#| "output in HTML, reStructuredText or JSON. The first two formats are "
-#| "suitable for embedding statistics into existing documentation, while JSON "
-#| "is useful for further processing of the data."
 msgid ""
 "Several reporting tools are available on this page, all of which can produce "
 "output in HTML, reStructuredText or JSON. The first two formats are suitable "
@@ -37323,67 +37277,55 @@ msgstr ""
 "Übersetzernamen:"
 
 #: ../../devel/reporting.rst:65
-#, fuzzy
-#| msgid ""
-#| "It can be useful if you pay your translators based on amount of work, it "
-#| "gives you various stats on translators work."
 msgid ""
 "This can be useful if you pay your translators based on the amount of work "
 "done; it gives you various stats of translators’ work."
 msgstr ""
-"Es kann nützlich sein, wenn Sie Ihre Übersetzer auf der Grundlage des "
-"Arbeitsaufwands bezahlen, da Ihnen verschiedene Statistiken Auskunft über "
+"Dies kann nützlich sein, wenn Sie Ihre Übersetzer auf der Grundlage der "
+"geleisteten Arbeit bezahlen, da Ihnen verschiedene Statistiken Auskunft über "
 "die Übersetzungsarbeit liefern."
 
 #: ../../devel/reporting.rst:68
-#, fuzzy
-#| msgid "All stats are available in three variants:"
 msgid "All stats are available in four variants:"
-msgstr "Alle Statistiken sind in folgenden Varianten verfügbar:"
+msgstr "Alle Statistiken sind in vier Varianten erhältlich:"
 
 #: ../../devel/reporting.rst:70
 msgid "`Total`"
 msgstr "`Gesamt`"
 
 #: ../../devel/reporting.rst:71
-#, fuzzy
-#| msgid "Overall number of edited strings."
 msgid "Overall number of all edited strings."
-msgstr "Gesamtzahl der bearbeiteten Zeichenketten."
+msgstr "Gesamtzahl aller bearbeiteten Zeichenketten."
 
 #: ../../devel/reporting.rst:72
 msgid "`New`"
 msgstr "`Neu`"
 
 #: ../../devel/reporting.rst:73
-#, fuzzy
-#| msgid "Newly translated strings which didn't have translation before."
 msgid ""
 "Amount of newly translated strings which didn't have a translation before."
 msgstr ""
-"Neu übersetzte Zeichenketten, für die es keine vorherige Übersetzung gab."
+"Anzahl der neu übersetzten Zeichenketten, für die es keine vorherige "
+"Übersetzung gab."
 
 #: ../../devel/reporting.rst:74
 msgid "`Approved`"
 msgstr "`Genehmigt`"
 
 #: ../../devel/reporting.rst:75
-#, fuzzy
-#| msgid "Count for string approvals in review workflow (see :ref:`reviews`)."
 msgid "Amount of strings approved in the review workflow (see :ref:`reviews`)."
 msgstr ""
-"Anzahl der genehmigten Zeichenketten im Überprüfungsablauf (siehe :ref:"
-"`reviews`)."
+"Anzahl der genehmigten Zeichenketten im Überprüfungsablauf (siehe "
+":ref:`reviews`)."
 
 #: ../../devel/reporting.rst:77
 msgid "`Edited`"
 msgstr "`Bearbeitet`"
 
 #: ../../devel/reporting.rst:77
-#, fuzzy
-#| msgid "Edited strings which had translation before."
 msgid "Amount of edited strings which had a translation before."
-msgstr "Bearbeitete Zeichenketten, die zuvor eine Übersetzung hatten."
+msgstr ""
+"Anzahl der bearbeiteten Zeichenketten, die zuvor eine Übersetzung hatten."
 
 #: ../../devel/reporting.rst:79
 msgid "The following metrics are available for each:"
@@ -37394,8 +37336,6 @@ msgid "`Count`"
 msgstr "`Anzahl`"
 
 #: ../../devel/reporting.rst:82
-#, fuzzy
-#| msgid "Number of strings."
 msgid "Amount of strings."
 msgstr "Anzahl der Zeichenketten."
 
@@ -37404,10 +37344,6 @@ msgid "`Edits`"
 msgstr "`Bearbeitungen`"
 
 #: ../../devel/reporting.rst:84
-#, fuzzy
-#| msgid ""
-#| "Number of edited characters in the string, measured in Damerau–"
-#| "Levenshtein distance."
 msgid ""
 "Amount of edited characters in the string, measured in Damerau–Levenshtein "
 "distance."
@@ -37420,8 +37356,6 @@ msgid "`Source words`"
 msgstr "`Ausgangswörter`"
 
 #: ../../devel/reporting.rst:86
-#, fuzzy
-#| msgid "Number of words in the source string."
 msgid "Amount of words in the source string."
 msgstr "Anzahl der Wörter in der Ausgangszeichenkette."
 
@@ -37430,8 +37364,6 @@ msgid "`Source characters`"
 msgstr "`Ausgangszeichen`"
 
 #: ../../devel/reporting.rst:88
-#, fuzzy
-#| msgid "Number of characters in the source string."
 msgid "Amount of characters in the source string."
 msgstr "Anzahl der Zeichen in der Ausgangszeichenkette."
 
@@ -37440,8 +37372,6 @@ msgid "`Target words`"
 msgstr "`Zielwörter`"
 
 #: ../../devel/reporting.rst:90
-#, fuzzy
-#| msgid "Number of words in the translated string."
 msgid "Amount of words in the translated string."
 msgstr "Anzahl der Wörter in der übersetzten Zeichenkette."
 
@@ -37450,8 +37380,6 @@ msgid "`Target characters`"
 msgstr "`Zielzeichen`"
 
 #: ../../devel/reporting.rst:92
-#, fuzzy
-#| msgid "Number of characters in the translated string."
 msgid "Amount of characters in the translated string."
 msgstr "Anzahl der Zeichen in der übersetzten Zeichenkette."
 
@@ -38561,8 +38489,8 @@ msgstr "Sperren Sie die betroffene Komponente in Weblate."
 #: ../../faq.rst:289
 msgid "Commit any pending changes and merge them into the upstream repository."
 msgstr ""
-"Committen Sie alle ausstehenden Änderungen und führen Sie sie in das "
-"Upstream-Repository ein."
+"Committen Sie alle ausstehenden Änderungen und führen Sie sie im Upstream-"
+"Repository zusammen."
 
 #: ../../faq.rst:290
 msgid ""
@@ -41217,10 +41145,8 @@ msgid "Standard XLIFF supporting placeables and other XML elements."
 msgstr "Standard-XLIFF mit Platzhalterunterstützung und anderen XML-Elementen."
 
 #: ../../formats/xliff.rst:26
-#, fuzzy
-#| msgid "XLIFF 1.1 with gettext extensions"
 msgid "`XLIFF 1.2 with gettext extensions`"
-msgstr "XLIFF 1.1 mit Gettext-Erweiterungen"
+msgstr "`XLIFF 1.2 mit Gettext-Erweiterungen`"
 
 #: ../../formats/xliff.rst:25
 msgid ""
@@ -41722,6 +41648,8 @@ msgid ""
 "The Python API is shipped separately, you need to install the :ref:`wlc` "
 "(wlc) to have it."
 msgstr ""
+"Die Python-API wird separat ausgeliefert, Sie müssen den :ref:`wlc` (wlc) "
+"installieren, um sie zu nutzen."
 
 #: ../../python.rst:21
 msgid ":mod:`wlc`"
@@ -41729,7 +41657,7 @@ msgstr ":mod:`wlc`"
 
 #: ../../python.rst:27
 msgid ":exc:`WeblateException`"
-msgstr ""
+msgstr ":exc:`WeblateException`"
 
 #: ../../python.rst:31
 msgid "Base class for all exceptions."
@@ -41745,27 +41673,29 @@ msgstr "Benutzerschlüssel"
 
 #: ../../python.rst:40
 msgid "API server URL, if not specified default is used"
-msgstr ""
+msgstr "API-Server-URL, wenn nicht angegeben, wird der Standardwert verwendet"
 
 #: ../../python.rst:42
 msgid "Configuration object, overrides any other parameters."
-msgstr ""
+msgstr "Konfigurationsobjekt, überschreibt alle anderen Parametern."
 
 #: ../../python.rst:45
 msgid "Access class to the API, define API key and optionally API URL."
 msgstr ""
+"Zugriffsklasse auf die API, Definition des API-Schlüssels und optional der "
+"API-URL."
 
 #: ../../python.rst:49 ../../python.rst:57
 msgid "Request path"
-msgstr ""
+msgstr "Anforderungspfad"
 
 #: ../../python.rst:0
 msgid "Return type"
-msgstr ""
+msgstr "Rückgabetyp"
 
 #: ../../python.rst:53 ../../python.rst:61
 msgid "Performs a single API GET call."
-msgstr ""
+msgstr "Führt einen einzelnen API-GET-Aufruf durch."
 
 #: ../../python.rst:65
 msgid ":mod:`wlc.config`"
@@ -41777,15 +41707,15 @@ msgstr ":class:`WeblateConfig`"
 
 #: ../../python.rst:75
 msgid "Configuration section to use"
-msgstr ""
+msgstr "Zu verwendender Konfigurationsabschnitt"
 
 #: ../../python.rst:78
 msgid "Configuration file parser following XDG specification."
-msgstr ""
+msgstr "Parser für Konfigurationsdateien gemäß XDG-Spezifikation."
 
 #: ../../python.rst:83
 msgid "Path from which to load configuration."
-msgstr ""
+msgstr "Pfad, aus dem die Konfiguration geladen werden soll."
 
 #: ../../python.rst:86
 msgid ""
@@ -41793,6 +41723,9 @@ msgid ""
 "`wlc` configuration file (:file:`~/.config/wlc`) placed in your XDG "
 "configuration path (:file:`/etc/xdg/wlc`)."
 msgstr ""
+"Lädt die Konfiguration aus einer Datei, wenn keine angegeben ist, wird sie "
+"aus der `wlc`-Konfigurationsdatei (:file:`~/.config/wlc`) geladen, die sich "
+"in Ihrem XDG-Konfigurationspfad (:file:`/etc/xdg/wlc`) befindet."
 
 #: ../../python.rst:92
 msgid ":mod:`wlc.main`"
@@ -41800,11 +41733,12 @@ msgstr ":mod:`wlc.main`"
 
 #: ../../python.rst:99
 msgid "Settings to override as list of tuples"
-msgstr ""
+msgstr "Zu überschreibende Einstellungen als Liste von Tupeln"
 
 #: ../../python.rst:101
 msgid "stdout file object for printing output, uses ``sys.stdout`` as default"
 msgstr ""
+"stdout-Dateiobjekt für die Ausgabe, verwendet standardmäßig ``sys.stdout``"
 
 #: ../../python.rst:103
 msgid "Command-line arguments to process, uses ``sys.args`` as default"
@@ -41814,7 +41748,7 @@ msgstr ""
 
 #: ../../python.rst:106
 msgid "Main entry point for command-line interface."
-msgstr ""
+msgstr "Haupteinstiegspunkt für die Befehlszeilenschnittstelle."
 
 #: ../../python.rst:110
 msgid ""
@@ -41830,7 +41764,7 @@ msgstr ":class:`Command`"
 
 #: ../../python.rst:118
 msgid "Main class for invoking commands."
-msgstr ""
+msgstr "Hauptklasse zum Aufrufen von Befehlen."
 
 #: ../../user/basic.rst:5
 msgid ":doc:`../devel/integration`"
@@ -44472,10 +44406,8 @@ msgid "``three <four>``"
 msgstr "``three <four>``"
 
 #: ../../user/checks.rst:1641
-#, fuzzy
-#| msgid "Missing query string."
 msgid "Missing a closing tag."
-msgstr "Fehlende Abfragezeichenkette."
+msgstr "Ein schließendes Tag fehlt."
 
 #: ../../user/checks.rst:1642
 msgid "``three <four/>``"
@@ -44556,10 +44488,8 @@ msgid "``three&lf;four``"
 msgstr "``three&lf;four``"
 
 #: ../../user/checks.rst:1651
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The character reference is not valid."
-msgstr "Die Übersetzung ist kein gültiges XML"
+msgstr "Die Zeichenreferenz ist ungültig."
 
 #: ../../user/checks.rst:1652
 msgid "``three<{ $val }``"
@@ -45055,8 +44985,9 @@ msgid ""
 msgstr ""
 "Mit Administratorberechtigung können Sie auch die Urheberschaft der "
 "hochgeladenen Datei angeben. Dies kann nützlich sein, wenn Sie die Datei auf "
-"andere Weise erhalten haben und sie diese in bestehende Übersetzungen "
-"einfügen möchten, wobei der eigentliche Autor ordnungsgemäß genannt wird."
+"andere Weise erhalten haben und sie diese mit der bestehenden Übersetzungen "
+"zusammenführen möchten, wobei der eigentliche Autor ordnungsgemäß genannt "
+"wird."
 
 #: ../../user/glossary.rst:6
 msgid ""
@@ -47771,6 +47702,8 @@ msgid ""
 "The Weblate Client is shipped separately and includes the Python module. To "
 "use the commands below, you need to install :mod:`wlc`:"
 msgstr ""
+"Der Weblate-Client wird separat ausgeliefert und enthält das Python-Modul. "
+"Um die folgenden Befehle zu verwenden, müssen Sie :mod:`wlc` installieren:"
 
 #: ../../wlc.rst:25
 msgid "Docker usage"
@@ -47778,12 +47711,14 @@ msgstr "Verwendung von Docker"
 
 #: ../../wlc.rst:27
 msgid "The Weblate Client is also available as a Docker image."
-msgstr ""
+msgstr "Der Weblate-Client ist auch als Docker-Image verfügbar."
 
 #: ../../wlc.rst:29
 msgid ""
 "The image is published on Docker Hub: https://hub.docker.com/r/weblate/wlc"
 msgstr ""
+"Das Image ist auf Docker Hub veröffentlicht: https://hub.docker.com/r/"
+"weblate/wlc"
 
 #: ../../wlc.rst:31
 msgid "Installing:"
@@ -47802,7 +47737,7 @@ msgstr ""
 
 #: ../../wlc.rst:41
 msgid "The command to launch the container uses the following syntax:"
-msgstr ""
+msgstr "Der Befehl zum Starten des Containers hat die folgende Syntax:"
 
 #: ../../wlc.rst:53
 msgid ""
@@ -47810,6 +47745,9 @@ msgid ""
 "easiest approach is to add your current directory as :file:`/home/weblate` "
 "volume:"
 msgstr ""
+"Vielleicht möchten Sie Ihre :ref:`wlc-config` an den Docker-Container "
+"übergeben, am einfachsten ist es, wenn Sie Ihr aktuelles Verzeichnis als "
+":file:`/home/weblate`-Volume hinzufügen:"
 
 #: ../../wlc.rst:63
 msgid "Getting started"
@@ -47820,10 +47758,13 @@ msgid ""
 "The wlc configuration is stored in ``~/.config/weblate`` (see :ref:`wlc-"
 "config` for other locations), please create it to match your environment:"
 msgstr ""
+"Die wlc-Konfiguration wird in ``~/.config/weblate`` gespeichert (siehe :ref"
+":`wlc-config` für andere Speicherorte), bitte erstellen Sie sie passend zu "
+"Ihrer Einsatzumgebung:"
 
 #: ../../wlc.rst:77
 msgid "You can then invoke commands on the default server:"
-msgstr ""
+msgstr "Sie können dann Befehle auf dem Standardserver aufrufen:"
 
 #: ../../wlc.rst:86
 msgid ":ref:`wlc-config`"
@@ -47835,7 +47776,7 @@ msgstr "Kurzfassung"
 
 #: ../../wlc.rst:95
 msgid "Commands actually indicate which operation should be performed."
-msgstr ""
+msgstr "Die Befehle geben an, welcher Vorgang ausgeführt werden soll."
 
 #: ../../wlc.rst:100
 msgid ""
@@ -47843,6 +47784,9 @@ msgid ""
 "Weblate remotely using :ref:`api`. The command-line utility can be invoked "
 "as :command:`wlc` and is built-in on :mod:`wlc`."
 msgstr ""
+"Weblate Client ist eine Python-Bibliothek und ein Kommandozeilenprogramm zur "
+"Fernverwaltung von Weblate über :ref:`api`. Das Kommandozeilenprogramm kann "
+"als :command:`wlc` aufgerufen werden und ist in :mod:`wlc` integriert."
 
 #: ../../wlc.rst:105
 msgid "Arguments"
@@ -47859,7 +47803,7 @@ msgstr ""
 
 #: ../../wlc.rst:112
 msgid "Specify the output format."
-msgstr ""
+msgstr "Gibt das Ausgabeformat an."
 
 #: ../../wlc.rst:116
 msgid ""
@@ -47867,6 +47811,9 @@ msgid ""
 "see :ref:`wlc-config`. The URL should end with ``/api/``, for example "
 "``https://hosted.weblate.org/api/``."
 msgstr ""
+"Gibt die API-URL an. Überschreibt jeden Wert, der in der Konfigurationsdatei "
+"gefunden wird, siehe :ref:`wlc-config`. Die URL sollte mit ``/api/`` enden, "
+"zum Beispiel ``https://hosted.weblate.org/api/``."
 
 #: ../../wlc.rst:121
 msgid ""
@@ -47874,14 +47821,19 @@ msgid ""
 "configuration file, see :ref:`wlc-config`. You can find your key in your "
 "profile on Weblate."
 msgstr ""
+"Gibt den zu verwendenden API-Benutzerschlüssel an. Überschreibt jeden in der "
+"Konfigurationsdatei gefundenen Wert, siehe :ref:`wlc-config`. Sie können "
+"Ihren Schlüssel in Ihrem Profil auf Weblate finden."
 
 #: ../../wlc.rst:126
 msgid "Overrides the configuration file path, see :ref:`wlc-config`."
-msgstr ""
+msgstr "Überschreibt den Pfad der Konfigurationsdatei, siehe :ref:`wlc-config`."
 
 #: ../../wlc.rst:130
 msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
 msgstr ""
+"Überschreibt den Abschnitt der verwendeten Konfigurationsdatei, siehe :ref"
+":`wlc-config`."
 
 #: ../../wlc.rst:133
 msgid "Commands"
@@ -47889,52 +47841,58 @@ msgstr "Befehle"
 
 #: ../../wlc.rst:135
 msgid "The following commands are available:"
-msgstr ""
+msgstr "Die folgenden Befehle sind verfügbar:"
 
 #: ../../wlc.rst:139
 msgid "Prints the current version."
-msgstr ""
+msgstr "Gibt die aktuelle Version aus."
 
 #: ../../wlc.rst:143
 msgid "Lists used languages in Weblate."
-msgstr ""
+msgstr "Listet die in Weblate verwendeten Sprachen auf."
 
 #: ../../wlc.rst:147
 msgid "Lists projects in Weblate."
-msgstr ""
+msgstr "Listet die Projekte in Weblate auf."
 
 #: ../../wlc.rst:151
 msgid "Lists components in Weblate."
-msgstr ""
+msgstr "Listet die Komponenten in Weblate auf."
 
 #: ../../wlc.rst:155
 msgid "Lists translations in Weblate."
-msgstr ""
+msgstr "Listet die Übersetzungen in Weblate auf."
 
 #: ../../wlc.rst:159
 msgid "Shows Weblate object (translation, component or project)."
-msgstr ""
+msgstr "Zeigt das Weblate-Objekt an (Übersetzung, Komponente oder Projekt)."
 
 #: ../../wlc.rst:163
 msgid "Lists Weblate object (translation, component or project)."
-msgstr ""
+msgstr "Listet das Weblate-Objekt auf (Übersetzung, Komponente oder Projekt)."
 
 #: ../../wlc.rst:167
 msgid ""
 "Commits changes made in a Weblate object (translation, component or project)."
 msgstr ""
+"Committet Änderungen am Weblate-Objekt (Übersetzung, Komponente oder "
+"Projekt)."
 
 #: ../../wlc.rst:171
 msgid ""
 "Pulls remote repository changes into Weblate object (translation, component "
 "or project)."
 msgstr ""
+"Zieht Änderungen aus einem Remote-Repository in ein Weblate-Objekt ("
+"Übersetzung, Komponente oder Projekt)."
 
 #: ../../wlc.rst:175
 msgid ""
 "Pushes Weblate object changes into remote repository (translation, component "
 "or project)."
 msgstr ""
+"Pusht Änderungen an Weblate-Objekten in ein Remote-Repository (Übersetzung, "
+"Komponente oder Projekt)."
 
 #: ../../wlc.rst:181 ../../wlc.rst:237
 msgid "Supported since wlc 0.7."
@@ -47945,6 +47903,8 @@ msgid ""
 "Resets changes in Weblate object to match remote repository (translation, "
 "component or project)."
 msgstr ""
+"Setzt Änderungen im Weblate-Objekt zurück, damit es mit dem Remote-"
+"Repository übereinstimmt (Übersetzung, Komponente oder Projekt)."
 
 #: ../../wlc.rst:189 ../../wlc.rst:254
 msgid "Supported since wlc 0.9."
@@ -47955,18 +47915,24 @@ msgid ""
 "Removes any untracked changes in a Weblate object to match the remote "
 "repository (translation, component or project)."
 msgstr ""
+"Entfernt alle nicht nachverfolgten Änderungen im Weblate-Objekt, um es an "
+"das Remote-Repository anzupassen (Übersetzung, Komponente oder Projekt)."
 
 #: ../../wlc.rst:195
 msgid ""
 "Displays repository status for a given Weblate object (translation, "
 "component or project)."
 msgstr ""
+"Zeigt den Repository-Status für ein bestimmtes Weblate-Objekt an ("
+"Übersetzung, Komponente oder Projekt)."
 
 #: ../../wlc.rst:199
 msgid ""
 "Displays detailed statistics for a given Weblate object (translation, "
 "component or project)."
 msgstr ""
+"Zeigt detaillierte Statistiken für ein bestimmtes Weblate-Objekt an ("
+"Übersetzung, Komponente oder Projekt)."
 
 #: ../../wlc.rst:205 ../../wlc.rst:213 ../../wlc.rst:221
 msgid "Supported since wlc 0.5."
@@ -47974,15 +47940,15 @@ msgstr "Unterstützt seit wlc 0.5."
 
 #: ../../wlc.rst:207
 msgid "Displays lock status."
-msgstr ""
+msgstr "Zeigt den Sperrstatus an."
 
 #: ../../wlc.rst:215
 msgid "Locks component from further translation in Weblate."
-msgstr ""
+msgstr "Sperrt die Komponente vor weiterer Übersetzung in Weblate."
 
 #: ../../wlc.rst:223
 msgid "Unlocks translation of Weblate component."
-msgstr ""
+msgstr "Entsperrt die Übersetzung der Weblate-Komponente."
 
 #: ../../wlc.rst:229
 msgid "Supported since wlc 0.7 and Weblate 2.10."
@@ -47990,54 +47956,64 @@ msgstr "Unterstützt seit wlc 0.7 und Weblate 2.10."
 
 #: ../../wlc.rst:231
 msgid "Displays changes for a given object."
-msgstr ""
+msgstr "Zeigt Änderungen für ein bestimmtes Objekt an."
 
 #: ../../wlc.rst:239
 msgid "Downloads a translation file."
-msgstr ""
+msgstr "Lädt eine Übersetzungsdatei herunter."
 
 #: ../../wlc.rst:243
 msgid ""
 "Converts file format, if unspecified no conversion happens on the server and "
 "the file is downloaded as is to the repository."
 msgstr ""
+"Konvertiert das Dateiformat, wenn nicht angegeben, erfolgt keine "
+"Konvertierung auf dem Server und die Datei wird unverändert in das "
+"Repository heruntergeladen."
 
 #: ../../wlc.rst:248
 msgid ""
 "Specifies file to save output in, if left unspecified it is printed to "
 "stdout."
 msgstr ""
+"Gibt die Datei an, in der die Ausgabe gespeichert werden soll; wenn sie "
+"nicht angegeben wird, wird sie auf stdout ausgegeben."
 
 #: ../../wlc.rst:256
 msgid "Uploads a translation file."
-msgstr ""
+msgstr "Lädt eine Übersetzungsdatei hoch."
 
 #: ../../wlc.rst:260
 msgid "Overwrite existing translations upon uploading."
-msgstr "Beim Hochladen vorhandene Übersetzungen überschreiben."
+msgstr "Überschreibt vorhandene Übersetzungen beim Hochladen."
 
 #: ../../wlc.rst:264
 msgid ""
 "File from which content is read, if left unspecified it is read from stdin."
 msgstr ""
+"Datei, aus welcher der Inhalt gelesen wird; wenn nicht angegeben, wird er "
+"von stdin gelesen."
 
 #: ../../wlc.rst:268
 msgid "Upload method to use, see :ref:`upload-method`."
-msgstr ""
+msgstr "Zu verwendende Upload-Methode, siehe :ref:`upload-method`."
 
 #: ../../wlc.rst:276
 msgid "Author name, to override currently authenticated user"
-msgstr ""
+msgstr "Autor-Name, um den aktuell authentifizierten Benutzer zu überschreiben"
 
 #: ../../wlc.rst:280
 msgid "Author e-mail, to override currently authenticated user"
 msgstr ""
+"Autor-E-Mail, um den aktuell authentifizierten Benutzer zu überschreiben"
 
 #: ../../wlc.rst:285
 msgid ""
 "You can get more detailed information on invoking individual commands by "
 "passing ``--help``, for example: ``wlc ls --help``."
 msgstr ""
+"Genauere Informationen zum Aufruf einzelner Befehle erhalten Sie, wenn Sie "
+"``--help`` übergeben, zum Beispiel: ``wlc ls --help``."
 
 #: ../../wlc.rst:291
 msgid "Configuration files"
@@ -48082,12 +48058,18 @@ msgid ""
 "``XDG_CONFIG_DIRS``. On Windows ``APPDATA`` directory is preferred location "
 "for the configuration file."
 msgstr ""
+"Das Programm folgt der XDG-Spezifikation, so dass Sie die Platzierung der "
+"Konfigurationsdateien durch die Umgebungsvariablen ``XDG_CONFIG_HOME`` oder "
+"``XDG_CONFIG_DIRS`` anpassen können. Unter Windows ist das Verzeichnis "
+"``APPDATA`` der bevorzugte Ort für die Konfigurationsdatei."
 
 #: ../../wlc.rst:306
 msgid ""
 "Following settings can be configured in the ``[weblate]`` section (you can "
 "customize this by :option:`--config-section`):"
 msgstr ""
+"Die folgenden Einstellungen können im Abschnitt ``[weblate]`` konfiguriert "
+"werden (Sie können dies mit :option:`--config-section` anpassen):"
 
 #: ../../wlc.rst:311
 msgid "API KEY to access Weblate."
@@ -48116,6 +48098,9 @@ msgid ""
 "file:`.weblate` configuration in the VCS repository so that wlc knows which "
 "server it should talk to."
 msgstr ""
+"Dies erlaubt Ihnen, Schlüssel in Ihren persönlichen Einstellungen zu "
+"speichern, während Sie die :file:`.weblate`-Konfiguration im VCS-Repository "
+"verwenden, damit wlc weiß, mit welchem Server es sprechen soll."
 
 #: ../../wlc.rst:342
 msgid "Examples"
@@ -48123,7 +48108,7 @@ msgstr "Beispiele"
 
 #: ../../wlc.rst:344
 msgid "Print current program version:"
-msgstr "Aktuelle Programmversion drucken:"
+msgstr "Aktuelle Programmversion ausgeben:"
 
 #: ../../wlc.rst:351
 msgid "List all projects:"
@@ -48164,8 +48149,8 @@ msgid ""
 "base other workflows on the most usual examples listed here."
 msgstr ""
 "Die folgende Liste ist keine vollständige Auflistung der "
-"Konfigurationsmöglichkeiten von Weblate. Sie können weitere Workflows auf "
-"der Grundlage der hier aufgelisteten gängigen Beispiele erstellen."
+"Konfigurationsmöglichkeiten von Weblate. Sie können weitere Arbeitsabläufe "
+"auf der Grundlage der hier aufgelisteten gängigen Beispiele erstellen."
 
 #: ../../workflows.rst:14
 msgid "Translation access"
@@ -48178,6 +48163,10 @@ msgid ""
 "workflow. Please consult the respective documentation on how to manage "
 "access to translations."
 msgstr ""
+"Die :ref:`Zugriffssteuerung <access-control>` wird in den Arbeitsabläufen "
+"nicht im Detail behandelt, da die meisten ihrer Optionen auf jeden "
+"Arbeitsablauf angewendet werden kann. Bitte lesen Sie in der jeweiligen "
+"Dokumentation nach, wie Sie den Zugriff auf Übersetzungen verwalten können."
 
 #: ../../workflows.rst:21
 msgid ""
@@ -48253,7 +48242,7 @@ msgstr ""
 
 #: ../../workflows.rst:47
 msgid "This state is only available when reviews are enabled."
-msgstr ""
+msgstr "Dieser Status ist nur verfügbar, wenn Überprüfungen aktiviert sind."
 
 #: ../../workflows.rst:49
 msgid "Suggestions are stored in Weblate only and not in the translation file."
