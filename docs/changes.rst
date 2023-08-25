@@ -9,6 +9,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Creating component within a category.
+
 **Compatibility**
 
 **Upgrading**

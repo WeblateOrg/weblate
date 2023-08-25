@@ -8,6 +8,7 @@ import os
 
 from django.urls import reverse
 
+from weblate.lang.models import get_default_lang
 from weblate.trans.models import Category, Component, Project
 from weblate.trans.tests.test_views import ViewTestCase
 
@@ -165,3 +166,30 @@ class CategoriesTest(ViewTestCase):
                 component.translation_set.get(language_code="cs").get_filename()
             )
         )
+
+    def test_create(self):
+        # Make superuser, otherwise user can not create due to no valid billing
+        self.user.is_superuser = True
+        self.user.save()
+
+        category = Category.objects.create(
+            project=self.project, name="Category test", slug="testcat"
+        )
+        response = self.client.post(
+            reverse("create-component-vcs"),
+            {
+                "name": "Create Component",
+                "slug": "create-component",
+                "project": self.project.pk,
+                "vcs": "git",
+                "repo": self.component.get_repo_link_url(),
+                "file_format": "po",
+                "filemask": "po/*.po",
+                "new_base": "po/project.pot",
+                "new_lang": "add",
+                "language_regex": "^[^.]+$",
+                "source_language": get_default_lang(),
+                "category": category.pk,
+            },
+        )
+        self.assertEqual(response.status_code, 302)
