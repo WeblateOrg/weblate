@@ -106,6 +106,7 @@ class ConvertFormat(TranslationFormat):
     monolingual = True
     can_add_unit = False
     can_delete_unit = False
+    can_edit_base: bool = False
     unit_class = ConvertPoUnit
     autoaddon = {"weblate.flags.same_edit": {}}
     create_style = "copy"

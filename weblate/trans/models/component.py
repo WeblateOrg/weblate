@@ -2691,6 +2691,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             msg = gettext("You can not use a base file for bilingual translation.")
             raise ValidationError({"template": msg, "file_format": msg})
 
+        if self.edit_template and not self.file_format_cls.can_edit_base:
+            msg = gettext("Editing template is not support with this file format.")
+            raise ValidationError({"edit_template": msg})
+
         # Prohibit intermediate usage without template
         if self.intermediate and not self.template:
             msg = gettext(

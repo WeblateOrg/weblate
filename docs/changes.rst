@@ -11,6 +11,7 @@ Not yet released.
 
 * Creating component within a category.
 * Source translation display for converted formats.
+* Block :ref:`component-edit_template` on formats which do not support it.
 
 **Compatibility**
 
