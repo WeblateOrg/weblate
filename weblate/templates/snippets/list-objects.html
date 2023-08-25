@@ -26,6 +26,10 @@
             {% if user_can_edit_project %}
               <a class="btn btn-link btn-sm" id="list-add-button" href="{% url 'create-component' %}?project={{ object.pk }}" title="{% trans "Add new translation component" %}">{% icon "plus.svg" %}</a>
             {% endif %}
+          {% elif add_link == "component-category" %}
+            {% if user_can_edit_project %}
+              <a class="btn btn-link btn-sm" id="list-add-button" href="{% url 'create-component' %}?project={{ object.project.pk}}&amp;categry={{ object.pk }}" title="{% trans "Add new translation component" %}">{% icon "plus.svg" %}</a>
+            {% endif %}
           {% elif add_link == "language" %}
             {% if user_can_add_language %}
             <a class="btn btn-link btn-sm" id="list-add-button" href="{% url 'create-language' %}" title="{% trans "Add language" %}">{% icon "plus.svg" %}</a>
