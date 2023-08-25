@@ -1,14 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+# Agnieszka C <aga_04@o2.pl>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 15:13+0000\n"
-"PO-Revision-Date: 2023-08-18 08:58+0000\n"
-"Last-Translator: Maciej Olko <maciej.olko@gmail.com>\n"
+"PO-Revision-Date: 2023-08-25 12:48+0000\n"
+"Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -390,10 +390,9 @@ msgid "Account and all private data removed."
 msgstr "Usunięto konto i wszystkie prywatne dane."
 
 #: weblate/accounts/models.py:157
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "Wysłano wiadomość z potwierdzeniem na adres {email}."
+msgstr "Potwierdzenie usunięcia konta wysłano na adres {email}."
 
 #: weblate/accounts/models.py:158
 #, python-brace-format
@@ -449,10 +448,9 @@ msgid "Could not sign in using password."
 msgstr "Nie udało się zalogować się przy użyciu hasła."
 
 #: weblate/accounts/models.py:178
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "Zaproszony do {site_title} przez {username}."
+msgstr "Zaproszony do {project} przez {username}."
 
 #: weblate/accounts/models.py:184
 msgid "To restore access to your account, please reset your password."
@@ -726,10 +724,8 @@ msgstr ""
 "Nie możesz przesłać tłumaczeń, ponieważ nie masz przypisanego adresu e-mail."
 
 #: weblate/accounts/notifications.py:49
-#, fuzzy
-#| msgid "Notifications"
 msgid "No notification"
-msgstr "Powiadomienia"
+msgstr "Brak powiadomienia"
 
 #: weblate/accounts/notifications.py:50
 msgid "Instant notification"
@@ -748,145 +744,104 @@ msgid "Monthly digest"
 msgstr "Przegląd miesięczny"
 
 #: weblate/accounts/notifications.py:451
-#, fuzzy
-#| msgid "String updated in the repository"
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr "Zaktualizowano ciąg w repozytorium"
+msgstr "Operacja została wykonana w repozytorium"
 
 #: weblate/accounts/notifications.py:462
-#, fuzzy
-#| msgid "Component unlocked"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr "Odblokowano komponent"
+msgstr "Komponent został zablokowany lub odblokowany"
 
 #: weblate/accounts/notifications.py:469
-#, fuzzy
-#| msgid "License changed"
 msgctxt "Notification name"
 msgid "License was changed"
-msgstr "Zmieniono licencję"
+msgstr "Licencja została zmieniona"
 
 #: weblate/accounts/notifications.py:476
-#, fuzzy
-#| msgid "Parse error"
 msgctxt "Notification name"
 msgid "Parse error occured"
-msgstr "Błąd przetwarzania"
+msgstr "Wystąpił błąd przetwarzania"
 
 #: weblate/accounts/notifications.py:494
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgctxt "Notification name"
 msgid "New string is available for translation"
-msgstr "Nowy ciąg do przetłumaczenia w projekcie %(translation)s"
+msgstr "Nowy ciąg jest dostępny do przetłumaczenia"
 
 #: weblate/accounts/notifications.py:504
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr "Przyczynia się do wspólnej pamięci tłumaczeń"
+msgstr "Współtwórca dokonał pierwszego tłumaczenia"
 
 #: weblate/accounts/notifications.py:513
-#, fuzzy
-#| msgid "Suggestion added"
 msgctxt "Notification name"
 msgid "Suggestion was added"
-msgstr "Dodano sugestię"
+msgstr "Sugestia została dodana"
 
 #: weblate/accounts/notifications.py:522
-#, fuzzy
-#| msgid "Comment added"
 msgctxt "Notification name"
 msgid "Comment was added"
-msgstr "Dodano komentarz"
+msgstr "Komentarz został dodany"
 
 #: weblate/accounts/notifications.py:544
-#, fuzzy
-#| msgid "Mentioned in comment"
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
-msgstr "Wspomniane w komentarzu"
+msgstr "Zostałeś wspomniany w komentarzu"
 
 #: weblate/accounts/notifications.py:576
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgctxt "Notification name"
 msgid "Your translation received a comment"
-msgstr "Twój projekt tłumaczeniowy został usunięty"
+msgstr "Twoje tłumaczenie otrzymało komentarz"
 
 #: weblate/accounts/notifications.py:601
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was edited by user"
-msgstr "Ciąg zmieniony przez"
+msgstr "Ciąg został zedytowany przez użytkownika"
 
 #: weblate/accounts/notifications.py:609
-#, fuzzy
-#| msgid "String has context"
 msgctxt "Notification name"
 msgid "String was approved"
-msgstr "Ciąg ma kontekst"
+msgstr "Ciąg został zatwierdzony"
 
 #: weblate/accounts/notifications.py:617
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was changed"
-msgstr "Ciąg zmieniony przez"
+msgstr "Ciąg został zmieniony"
 
 #: weblate/accounts/notifications.py:626
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Notification name"
 msgid "New language was added or requested"
-msgstr "Dodano nowy język do %(component)s"
+msgstr "Dodano lub zażądano nowego języka"
 
 #: weblate/accounts/notifications.py:643
-#, fuzzy
-#| msgid "New translation component"
 msgctxt "Notification name"
 msgid "New translation component was created"
-msgstr "Nowy komponent tłumaczenia"
+msgstr "Utworzono nowy komponent tłumaczenia"
 
 #: weblate/accounts/notifications.py:651
-#, fuzzy
-#| msgid "Announcements"
 msgctxt "Notification name"
 msgid "Announcement was published"
-msgstr "Ogłoszenia"
+msgstr "Ogłoszenie zostało opublikowane"
 
 #: weblate/accounts/notifications.py:666
-#, fuzzy
-#| msgid "New alert on %(component)s"
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
-msgstr "Nowy alert w %(component)s"
+msgstr "W komponencie pojawił się nowy alert"
 
 #: weblate/accounts/notifications.py:704
-#, fuzzy
-#| msgid "Repository operation"
 msgctxt "Notification name"
 msgid "Repository operation failed"
-msgstr "Operacja repozytorium"
+msgstr "Operacja na repozytorium nie powiodła się"
 
 #: weblate/accounts/notifications.py:771
-#, fuzzy
-#| msgid "Pending suggestions"
 msgctxt "Notification name"
 msgid "Pending suggestions exist"
-msgstr "Oczekujące sugestie"
+msgstr "Istnieją oczekujące sugestie"
 
 #: weblate/accounts/notifications.py:781
-#, fuzzy
-#| msgid "Unfinished strings"
 msgctxt "Notification name"
 msgid "Unfinished strings exist"
-msgstr "Niedokończone ciągi"
+msgstr "Istnieją niedokończone ciągi"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
@@ -2495,15 +2450,11 @@ msgid "Teams"
 msgstr "Zespoły"
 
 #: weblate/auth/models.py:374 weblate/auth/models.py:935
-#, fuzzy
-#| msgid ""
-#| "The user is granted all permissions included in membership of these "
-#| "groups."
 msgid ""
 "The user is granted all permissions included in membership of these teams."
 msgstr ""
-"Użytkownik otrzymuje wszystkie uprawnienia zawarte w członkostwie w tych "
-"grupach."
+"Użytkownik otrzymuje wszystkie uprawnienia związane z członkostwem w tych "
+"zespołach."
 
 #: weblate/auth/models.py:716
 msgid "Regular expression for e-mail address"
@@ -3112,40 +3063,33 @@ msgstr ""
 "HTML. Może użyj {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:171
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML closing tag, but the name or syntax "
-#| "is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
-"Sekwencja {sequence} rozpoczyna tag zamykający HTML, ale nazwa lub składnia "
-"są nieprawidłowe. Jeśli nie chcesz tagu zamykającego, użyj {suggestion}."
+"Sekwencja {sequence} zaczyna się od tagu zamykającego HTML, ale nazwa lub "
+"składnia są nieprawidłowe. Jeśli nie chcesz tagu zamykającego, użyj "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:184
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the name is not valid. If "
-#| "you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
-"Sekwencja {sequence} rozpoczyna tag HTML, ale nazwa jest nieprawidłowa. "
+"Sekwencja {sequence} zaczyna się od tagu HTML, ale nazwa jest nieprawidłowa. "
 "Jeśli nie chcesz rozpoczynać tagu HTML, użyj {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:197
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the tag is never closed by "
-#| "{close}. If you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
-"Sekwencja {sequence} rozpoczyna tag HTML, ale tag nigdy nie jest zamknięty "
-"przez {close}. Jeśli nie chcesz rozpoczynać tagu HTML, użyj {suggestion}."
+"Sekwencja {sequence} zaczyna się od tagu HTML, ale tag nigdy nie jest "
+"zamknięty przez {close}. Jeśli nie chcesz rozpoczynać tagu HTML, użyj "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:211
 #, python-brace-format
@@ -3156,19 +3100,15 @@ msgstr ""
 "{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:227
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the sequence {attribute} "
-#| "is not a valid attribute with a value. If you do not want to begin a HTML "
-#| "tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the sequence {attribute} "
 "is not a valid attribute with a value. If you do not want to begin a HTML "
 "tag, use {suggestion}."
 msgstr ""
-"Sekwencja {sequence} rozpoczyna tag HTML, ale sekwencja {attribute} nie jest "
-"prawidłowym atrybutem z wartością. Jeśli nie chcesz rozpoczynać tagu HTML, "
-"użyj {suggestion}."
+"Sekwencja {sequence} zaczyna się od tagu HTML, ale sekwencja {attribute} nie "
+"jest prawidłowym atrybutem z wartością. Jeśli nie chcesz rozpoczynać tagu "
+"HTML, użyj {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
@@ -6339,6 +6279,8 @@ msgid ""
 "Automatically add newly created users to this team based on their e-mail "
 "address."
 msgstr ""
+"Automatycznie dodawaj nowo utworzonych użytkowników do tego zespołu na "
+"podstawie ich adresów e-mail."
 
 #: weblate/templates/auth/team.html:70
 msgid "Add automatic assignment"
@@ -6944,10 +6886,8 @@ msgid "Download translation files as ZIP file"
 msgstr "Pobierz pliki tłumaczeń w formacie ZIP"
 
 #: weblate/templates/category.html:71 weblate/templates/project.html:88
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new category"
-msgstr "Dodaj nowego użytkownika"
+msgstr "Dodaj nową kategorię"
 
 #: weblate/templates/category.html:76 weblate/templates/category.html:214
 #: weblate/templates/component.html:102 weblate/templates/component.html:262
@@ -6991,47 +6931,33 @@ msgid "Browse all project changes"
 msgstr "Przeglądaj wszystkie zmiany projektu"
 
 #: weblate/templates/category.html:186 weblate/templates/project.html:250
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add a category"
-msgstr "Dodaj użytkownika"
+msgstr "Dodaj kategorię"
 
 #: weblate/templates/category.html:206
-#, fuzzy
-#| msgid "Rename project"
 msgid "Rename category"
-msgstr "Zmień nazwę projektu"
+msgstr "Zmień nazwę kategorii"
 
 #: weblate/templates/category.html:209
-#, fuzzy
-#| msgid ""
-#| "Renaming the project will change all URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Renaming the category will change all URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
-"Zmiana nazwy projektu spowoduje zmianę wszystkich adresów URL, użytkownicy "
-"będą musieli aktualizować zakładki lub odniesienia w sklonowanych "
+"Zmiana nazwy kategorii spowoduje zmianę wszystkich adresów URL, użytkownicy "
+"będą musieli zaktualizować zakładki lub odniesienia w sklonowanych "
 "repozytoriach!"
 
 #: weblate/templates/category.html:221
-#, fuzzy
-#| msgid "Category"
 msgid "Move category"
-msgstr "Kategoria"
+msgstr "Przenieś kategorię"
 
 #: weblate/templates/category.html:224
-#, fuzzy
-#| msgid ""
-#| "Moving the component will change all its URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Moving the category will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
-"Przeniesienie komponentu spowoduje zmianę wszystkich jego adresów URL, "
-"użytkownicy będą musieli zaktualizować zakładki lub odwołania w sklonowanych "
+"Przeniesienie kategorii spowoduje zmianę wszystkich adresów URL, użytkownicy "
+"będą musieli zaktualizować zakładki lub odniesienia w sklonowanych "
 "repozytoriach!"
 
 #: weblate/templates/category.html:229 weblate/templates/component.html:277
@@ -7055,10 +6981,8 @@ msgid "Translated"
 msgstr "Przetłumaczone"
 
 #: weblate/templates/check_list.html:89
-#, fuzzy
-#| msgid "Git export documentation"
 msgid "View check documentation"
-msgstr "Dokumentacja eksportowania do Git"
+msgstr "Wyświetl dokumentację kontroli"
 
 #: weblate/templates/component-list.html:16 weblate/templates/language.html:20
 msgid "Information"
@@ -8460,7 +8384,7 @@ msgstr "Awaria repozytorium w %(component)s"
 #: weblate/templates/mail/repository_operation_subject.txt:3
 #, python-format
 msgid "Repository operation in %(component)s"
-msgstr "Operacja repozytorium w %(component)s"
+msgstr "Operacja na repozytorium w %(component)s"
 
 #: weblate/templates/mail/reset-nonexisting.html:7
 #, python-format
@@ -10844,10 +10768,8 @@ msgstr "Następujące komponenty tłumaczeniowe zostaną usunięte:"
 
 #: weblate/templates/trans/delete-category.html:21
 #: weblate/templates/trans/delete-project.html:21
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "The following translation categories will be removed:"
-msgstr "Następujące tłumaczenia zostaną usunięte:"
+msgstr "Następujące kategorie tłumaczeń zostaną usunięte:"
 
 #: weblate/templates/trans/delete-category.html:31
 #: weblate/templates/trans/delete-project.html:31
@@ -10872,16 +10794,13 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Rozumiem konsekwencje, usuń to tłumaczenie"
 
 #: weblate/templates/trans/delete-project.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "project and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "category and all related content."
 msgstr ""
 "Tego działania nie można cofnąć. Spowoduje to trwałe usunięcie %(object)s "
-"projektu i wszystkich powiązanych treści."
+"kategorii i wszystkich powiązanych treści."
 
 #: weblate/templates/trans/delete-translation.html:6
 msgid ""
@@ -12337,20 +12256,16 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Wpisz końcówkę adresu URL projektu, aby potwierdzić."
 
 #: weblate/trans/forms.py:2609
-#, fuzzy
-#| msgid "Please type in the slug of the project to confirm."
 msgid "Please type in the slug of the category to confirm."
-msgstr "Wpisz końcówkę adresu URL projektu, aby potwierdzić."
+msgstr "Wpisz końcówkę adresu URL kategorii, aby potwierdzić."
 
 #: weblate/trans/forms.py:2619
 msgid "Please type in the slug of the project and language to confirm."
 msgstr "Wpisz końcówkę adresu URL projektu i język, aby potwierdzić."
 
 #: weblate/trans/forms.py:2630
-#, fuzzy
-#| msgid "Please type in the slug of the project and language to confirm."
 msgid "Please type in the slug of the category and language to confirm."
-msgstr "Wpisz końcówkę adresu URL projektu i język, aby potwierdzić."
+msgstr "Wpisz końcówkę adresu URL kategorii i język, aby potwierdzić."
 
 #: weblate/trans/forms.py:2657
 msgid "Author username"
@@ -12418,17 +12333,16 @@ msgid "Workflow customization"
 msgstr "Dostosowywanie przepływu pracy"
 
 #: weblate/trans/mixins.py:143
-#, fuzzy
-#| msgid "Component with this URL slug already exists in the project."
 msgid ""
 "Component or category with the same URL slug already exists at this level."
-msgstr "Komponent z tą końcówką adresu URL już istnieje w projekcie."
+msgstr ""
+"Komponent lub kategoria z tą samą końcówką adresu URL już istnieje na tym "
+"poziomie."
 
 #: weblate/trans/mixins.py:150
-#, fuzzy
-#| msgid "A component with the same name already exists."
 msgid "Component or category with the same name already exists at this level."
-msgstr "Komponent o tej nazwie już istnieje."
+msgstr ""
+"Komponent lub kategoria o tej samej nazwie już istnieje na tym poziomie."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:153
@@ -12583,10 +12497,8 @@ msgid "Do not specify both component and project!"
 msgstr "Nie wyszczególniaj jednocześnie komponentu i projektu!"
 
 #: weblate/trans/models/category.py:23
-#, fuzzy
-#| msgid "Category"
 msgid "Category name"
-msgstr "Kategoria"
+msgstr "Nazwa kategorii"
 
 #: weblate/trans/models/category.py:25 weblate/trans/models/component.py:291
 #: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:89
@@ -12605,17 +12517,15 @@ msgstr "Nazwa używana w adresach URL i nazwach plików."
 
 #: weblate/trans/models/category.py:87
 msgid "Too deep nesting of categories!"
-msgstr ""
+msgstr "Zbyt głębokie zagnieżdżenie kategorii!"
 
 #: weblate/trans/models/category.py:92
 msgid "Parent category has to be in the same project!"
-msgstr ""
+msgstr "Kategoria nadrzędna musi być w tym samym projekcie!"
 
 #: weblate/trans/models/category.py:97
-#, fuzzy
-#| msgid "First and last name should be different!"
 msgid "Parent category has to be different!"
-msgstr "Imię i nazwisko muszą się różnić!"
+msgstr "Kategoria nadrzędna musi być inna!"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:286
@@ -12914,24 +12824,18 @@ msgstr "Zaktualizowane wyjaśnienie"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:417
-#, fuzzy
-#| msgid "Removed user"
 msgid "Removed category"
-msgstr "Usunięty użytkownik"
+msgstr "Usunięto kategorię"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:419
-#, fuzzy
-#| msgid "Renamed project"
 msgid "Renamed category"
-msgstr "Zmieniono nazwę projektu"
+msgstr "Zmieniono nazwę kategorii"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:421
-#, fuzzy
-#| msgid "Category"
 msgid "Moved category"
-msgstr "Kategoria"
+msgstr "Przeniesiono kategorię"
 
 #: weblate/trans/models/change.py:492
 msgid "New string to translate"
@@ -13482,16 +13386,12 @@ msgid "Could not merge remote branch into %s."
 msgstr "Nie udało się scalić zdalnej gałęzi z %s."
 
 #: weblate/trans/models/component.py:2532
-#, fuzzy
-#| msgid "User has been blocked on this project."
 msgid "Category does not belong to this project."
-msgstr "Użytkownik został zablokowany w tym projekcie."
+msgstr "Kategoria nie należy do tego projektu."
 
 #: weblate/trans/models/component.py:2535
-#, fuzzy
-#| msgid "Component list can not be chosen when unused."
 msgid "Categorized component can not be shared."
-msgstr "Lista składników nie może być wybrana, gdy nie jest używana."
+msgstr "Skategoryzowanego komponentu nie można udostępniać."
 
 #: weblate/trans/models/component.py:2547
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -14667,10 +14567,8 @@ msgid "The translation component was scheduled for removal."
 msgstr "Komponent tłumaczenia został zaplanowany do usunięcia."
 
 #: weblate/trans/views/settings.py:159
-#, fuzzy
-#| msgid "The project was scheduled for removal."
 msgid "The category was scheduled for removal."
-msgstr "Projekt został zaplanowany do usunięcia."
+msgstr "Kategoria została zaplanowana do usunięcia."
 
 #: weblate/trans/views/settings.py:163
 msgid "The project was scheduled for removal."
@@ -14681,10 +14579,8 @@ msgid "A language in the project was removed."
 msgstr "Język w projekcie został usunięty."
 
 #: weblate/trans/views/settings.py:175
-#, fuzzy
-#| msgid "A language in the project was removed."
 msgid "A language in the category was removed."
-msgstr "Język w projekcie został usunięty."
+msgstr "Język w kategorii został usunięty."
 
 #: weblate/trans/views/settings.py:190
 #, python-format
