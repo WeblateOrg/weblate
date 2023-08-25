@@ -1,14 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+# Eric <hamburger2048@users.noreply.hosted.weblate.org>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 15:13+0000\n"
-"PO-Revision-Date: 2023-08-23 13:53+0000\n"
-"Last-Translator: Xzonn <Xzonn@outlook.com>\n"
+"PO-Revision-Date: 2023-08-25 02:45+0000\n"
+"Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.0\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -425,10 +425,9 @@ msgid "Could not sign in using password."
 msgstr "无法使用密码登录。"
 
 #: weblate/accounts/models.py:178
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "由 {username} 邀请至 {site_title}。"
+msgstr "由 {username} 邀请至 {project} 项目。"
 
 #: weblate/accounts/models.py:184
 msgid "To restore access to your account, please reset your password."
@@ -701,11 +700,9 @@ msgid "Monthly digest"
 msgstr "每月摘要"
 
 #: weblate/accounts/notifications.py:451
-#, fuzzy
-#| msgid "String updated in the repository"
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr "更新了仓库中的字符串"
+msgstr "在仓库内执行了操作"
 
 #: weblate/accounts/notifications.py:462
 #, fuzzy
@@ -737,11 +734,9 @@ msgid "New string is available for translation"
 msgstr "%(translation)s 中有新字符串需要翻译"
 
 #: weblate/accounts/notifications.py:504
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr "贡献到共享的翻译记忆库"
+msgstr "贡献者进行了首次翻译"
 
 #: weblate/accounts/notifications.py:513
 #, fuzzy
@@ -786,39 +781,29 @@ msgid "String was approved"
 msgstr "字符串具有上下文"
 
 #: weblate/accounts/notifications.py:617
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was changed"
-msgstr "字符串更改者"
+msgstr "字符串被更改"
 
 #: weblate/accounts/notifications.py:626
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Notification name"
 msgid "New language was added or requested"
-msgstr "新语言被添加到 %(component)s"
+msgstr "添加或请求了新语言"
 
 #: weblate/accounts/notifications.py:643
-#, fuzzy
-#| msgid "New translation component"
 msgctxt "Notification name"
 msgid "New translation component was created"
-msgstr "新翻译部件"
+msgstr "创建了新的翻译部件"
 
 #: weblate/accounts/notifications.py:651
-#, fuzzy
-#| msgid "Announcements"
 msgctxt "Notification name"
 msgid "Announcement was published"
-msgstr "公告"
+msgstr "发布了公告"
 
 #: weblate/accounts/notifications.py:666
-#, fuzzy
-#| msgid "New alert on %(component)s"
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
-msgstr "%(component)s 中有新警报"
+msgstr "部件中出现了新警报"
 
 #: weblate/accounts/notifications.py:704
 #, fuzzy
@@ -828,18 +813,14 @@ msgid "Repository operation failed"
 msgstr "仓库操作"
 
 #: weblate/accounts/notifications.py:771
-#, fuzzy
-#| msgid "Pending suggestions"
 msgctxt "Notification name"
 msgid "Pending suggestions exist"
-msgstr "待处理的建议"
+msgstr "有待处理的建议"
 
 #: weblate/accounts/notifications.py:781
-#, fuzzy
-#| msgid "Unfinished strings"
 msgctxt "Notification name"
 msgid "Unfinished strings exist"
-msgstr "未完成的字符串"
+msgstr "有未完成的字符串"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
@@ -2386,13 +2367,9 @@ msgid "Teams"
 msgstr "团队"
 
 #: weblate/auth/models.py:374 weblate/auth/models.py:935
-#, fuzzy
-#| msgid ""
-#| "The user is granted all permissions included in membership of these "
-#| "groups."
 msgid ""
 "The user is granted all permissions included in membership of these teams."
-msgstr "用户被授予这些组成员中包含的所有权限。"
+msgstr "用户被授予了团队成员资格包含的所有权限。"
 
 #: weblate/auth/models.py:716
 msgid "Regular expression for e-mail address"
@@ -2985,34 +2962,23 @@ msgstr ""
 "{suggestion} 。"
 
 #: weblate/checks/fluent/inner_html.py:171
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML closing tag, but the name or syntax "
-#| "is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
-msgstr ""
-"该序列 {sequence} 以 HTML 关闭标签开头，但其名称或语法无效。如果你不想要关闭"
-"标签，使用 {suggestion} 。"
+msgstr "该序列 {sequence} 以 HTML "
+"关闭标签开头，但其名称或语法无效。如果你不想要关闭标签，使用 {suggestion} 。"
 
 #: weblate/checks/fluent/inner_html.py:184
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the name is not valid. If "
-#| "you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
-msgstr ""
-"该序列 {sequence} 以 HTML 标签开头，但其名称无效。如果你不想以 HTML 标签开"
-"头，使用 {suggestion} 。"
+msgstr "该序列 {sequence} 以 HTML 标签开头，但其名称无效。如果你不想以 HTML "
+"标签开头，使用 {suggestion} 。"
 
 #: weblate/checks/fluent/inner_html.py:197
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the tag is never closed by "
-#| "{close}. If you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin a HTML tag, use {suggestion}."
@@ -3027,18 +2993,14 @@ msgid ""
 msgstr "Fluent 内部 HTML 不应包含 {sequence}。或许使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:227
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the sequence {attribute} "
-#| "is not a valid attribute with a value. If you do not want to begin a HTML "
-#| "tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the sequence {attribute} "
 "is not a valid attribute with a value. If you do not want to begin a HTML "
 "tag, use {suggestion}."
 msgstr ""
-"序列 {sequence} 以 HTML 标签开头，但该序列 {attribute} 属性不是带值的有效属"
-"性。如果你不想以 HTML 标签开头，请使用 {suggestion}。"
+"序列 {sequence} 以 HTML 标签开头，但该序列 {attribute} "
+"属性不是带值的有效属性。如果你不想以 HTML 标签开头，请使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
@@ -6071,7 +6033,7 @@ msgstr "自动分配"
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
 "address."
-msgstr ""
+msgstr "根据电子邮件地址自动将新创建的用户添加到此团队。"
 
 #: weblate/templates/auth/team.html:70
 msgid "Add automatic assignment"
@@ -6717,46 +6679,30 @@ msgid "Browse all project changes"
 msgstr "浏览项目的所有变化"
 
 #: weblate/templates/category.html:186 weblate/templates/project.html:250
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add a category"
-msgstr "添加一个用户"
+msgstr "添加一个类别"
 
 #: weblate/templates/category.html:206
-#, fuzzy
-#| msgid "Rename project"
 msgid "Rename category"
-msgstr "重命名项目"
+msgstr "重命名类别"
 
 #: weblate/templates/category.html:209
-#, fuzzy
-#| msgid ""
-#| "Renaming the project will change all URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Renaming the category will change all URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
-msgstr ""
-"重命名项目将会修改其所有的 URLs 地址，用户需要更新他们的收藏夹地址或克隆的仓"
-"库地址！"
+msgstr "重命名分类会修改所有的 URLs "
+"地址，用户需要更新他们的收藏夹地址或克隆的仓库地址！"
 
 #: weblate/templates/category.html:221
-#, fuzzy
-#| msgid "Category"
 msgid "Move category"
-msgstr "分类"
+msgstr "移动分类"
 
 #: weblate/templates/category.html:224
-#, fuzzy
-#| msgid ""
-#| "Moving the component will change all its URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Moving the category will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
-msgstr ""
-"移动部件将会修改其所有的 URL 地址，用户需要更新他们的收藏夹地址或克隆的仓库地"
-"址！"
+msgstr "移动分类会更改其所有的 URL "
+"地址，用户需要更新他们的收藏夹地址或克隆的仓库地址！"
 
 #: weblate/templates/category.html:229 weblate/templates/component.html:277
 msgid "Move"
@@ -6779,10 +6725,8 @@ msgid "Translated"
 msgstr "已翻译"
 
 #: weblate/templates/check_list.html:89
-#, fuzzy
-#| msgid "Git export documentation"
 msgid "View check documentation"
-msgstr "Git 导出文档"
+msgstr "查看关于检查的文档"
 
 #: weblate/templates/component-list.html:16 weblate/templates/language.html:20
 msgid "Information"
@@ -10294,10 +10238,8 @@ msgstr "以下翻译部件将被删除："
 
 #: weblate/templates/trans/delete-category.html:21
 #: weblate/templates/trans/delete-project.html:21
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "The following translation categories will be removed:"
-msgstr "以下翻译将被删除："
+msgstr "以下翻译分类将被删除："
 
 #: weblate/templates/trans/delete-category.html:31
 #: weblate/templates/trans/delete-project.html:31
@@ -10320,14 +10262,11 @@ msgid "I understand the consequences, delete this translation"
 msgstr "我明白后果，删除这个翻译"
 
 #: weblate/templates/trans/delete-project.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "project and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "category and all related content."
-msgstr "这个操作是不能撤消的。这将永久删除 %(object)s 个项目及其所有相关内容。"
+msgstr "这个操作不能撤消。这将永久删除 %(object)s 分类及其所有相关内容。"
 
 #: weblate/templates/trans/delete-translation.html:6
 msgid ""
@@ -11695,20 +11634,16 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "请输入项目标识符以确认。"
 
 #: weblate/trans/forms.py:2609
-#, fuzzy
-#| msgid "Please type in the slug of the project to confirm."
 msgid "Please type in the slug of the category to confirm."
-msgstr "请输入项目标识符以确认。"
+msgstr "请输入分类标识符以确认。"
 
 #: weblate/trans/forms.py:2619
 msgid "Please type in the slug of the project and language to confirm."
 msgstr "请输入项目标识符和语言进行确认。"
 
 #: weblate/trans/forms.py:2630
-#, fuzzy
-#| msgid "Please type in the slug of the project and language to confirm."
 msgid "Please type in the slug of the category and language to confirm."
-msgstr "请输入项目标识符和语言进行确认。"
+msgstr "请输入分类的标识符和语言进行确认。"
 
 #: weblate/trans/forms.py:2657
 msgid "Author username"
@@ -11771,17 +11706,13 @@ msgid "Workflow customization"
 msgstr "定制工作流程"
 
 #: weblate/trans/mixins.py:143
-#, fuzzy
-#| msgid "Component with this URL slug already exists in the project."
 msgid ""
 "Component or category with the same URL slug already exists at this level."
-msgstr "项目中已存在具有此 URL 标识符的部件。"
+msgstr "此级别中已存在具有相同 URL 标识符的部件或分类。"
 
 #: weblate/trans/mixins.py:150
-#, fuzzy
-#| msgid "A component with the same name already exists."
 msgid "Component or category with the same name already exists at this level."
-msgstr "已存在同名部件。"
+msgstr "此级别已存在同名部件或分类。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:153
@@ -11958,15 +11889,15 @@ msgstr "用在网址和文件名中的名字。"
 
 #: weblate/trans/models/category.py:87
 msgid "Too deep nesting of categories!"
-msgstr ""
+msgstr "分类嵌套层级太深了！"
 
 #: weblate/trans/models/category.py:92
 msgid "Parent category has to be in the same project!"
-msgstr ""
+msgstr "主分类必须在同一项目中！"
 
 #: weblate/trans/models/category.py:97
 msgid "Parent category has to be different!"
-msgstr ""
+msgstr "主分类必须不同！"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:286
@@ -12265,24 +12196,18 @@ msgstr "解释已更新"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:417
-#, fuzzy
-#| msgid "Removed user"
 msgid "Removed category"
-msgstr "删除了用户"
+msgstr "删除了分类"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:419
-#, fuzzy
-#| msgid "Renamed project"
 msgid "Renamed category"
-msgstr "重命名了项目"
+msgstr "重命名了分类"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:421
-#, fuzzy
-#| msgid "Category"
 msgid "Moved category"
-msgstr "分类"
+msgstr "移动了分类"
 
 #: weblate/trans/models/change.py:492
 msgid "New string to translate"
@@ -12779,16 +12704,12 @@ msgid "Could not merge remote branch into %s."
 msgstr "无法将远程分支合并到 %s。"
 
 #: weblate/trans/models/component.py:2532
-#, fuzzy
-#| msgid "User has been blocked on this project."
 msgid "Category does not belong to this project."
-msgstr "用户已在这个项目上被阻止。"
+msgstr "分类不属于此项目。"
 
 #: weblate/trans/models/component.py:2535
-#, fuzzy
-#| msgid "Component list can not be chosen when unused."
 msgid "Categorized component can not be shared."
-msgstr "不使用时不能选中组件列表。"
+msgstr "不能分享已分类的部件。"
 
 #: weblate/trans/models/component.py:2547
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -13876,10 +13797,8 @@ msgid "The translation component was scheduled for removal."
 msgstr "翻译部件已计划删除。"
 
 #: weblate/trans/views/settings.py:159
-#, fuzzy
-#| msgid "The project was scheduled for removal."
 msgid "The category was scheduled for removal."
-msgstr "项目已计划删除。"
+msgstr "已设定好删除此分类的时间。"
 
 #: weblate/trans/views/settings.py:163
 msgid "The project was scheduled for removal."
@@ -13890,10 +13809,8 @@ msgid "A language in the project was removed."
 msgstr "项目的语言已被删除。"
 
 #: weblate/trans/views/settings.py:175
-#, fuzzy
-#| msgid "A language in the project was removed."
 msgid "A language in the category was removed."
-msgstr "项目的语言已被删除。"
+msgstr "删除了此分类中的一种语言。"
 
 #: weblate/trans/views/settings.py:190
 #, python-format
