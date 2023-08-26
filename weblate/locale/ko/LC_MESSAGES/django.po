@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 15:13+0000\n"
-"PO-Revision-Date: 2023-08-26 02:01+0000\n"
+"PO-Revision-Date: 2023-08-26 17:32+0000\n"
 "Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -780,60 +780,44 @@ msgid "String was approved"
 msgstr "문자열이 승인되었습니다"
 
 #: weblate/accounts/notifications.py:617
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was changed"
-msgstr "에 의해 변경된 문자열"
+msgstr "문자열이 변경되었습니다"
 
 #: weblate/accounts/notifications.py:626
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Notification name"
 msgid "New language was added or requested"
-msgstr "새로운 언어가 %(component)s 에 추가되었습니다"
+msgstr "새로운 언어가 추가되었거나 요청되었습니다"
 
 #: weblate/accounts/notifications.py:643
-#, fuzzy
-#| msgid "New translation component"
 msgctxt "Notification name"
 msgid "New translation component was created"
-msgstr "새로운 번역 구성요소"
+msgstr "새 번역 구성요소가 생성되었습니다"
 
 #: weblate/accounts/notifications.py:651
-#, fuzzy
-#| msgid "Announcements"
 msgctxt "Notification name"
 msgid "Announcement was published"
-msgstr "공지사항"
+msgstr "공지사항이 게시되었습니다"
 
 #: weblate/accounts/notifications.py:666
-#, fuzzy
-#| msgid "New alert on %(component)s"
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
-msgstr "%(component)s 에 새로운 경보"
+msgstr "구성요소에 새로운 경고가 나타났습니다"
 
 #: weblate/accounts/notifications.py:704
-#, fuzzy
-#| msgid "Repository operation"
 msgctxt "Notification name"
 msgid "Repository operation failed"
-msgstr "저장소 작업"
+msgstr "저장소 작업이 실패했습니다"
 
 #: weblate/accounts/notifications.py:771
-#, fuzzy
-#| msgid "Pending suggestions"
 msgctxt "Notification name"
 msgid "Pending suggestions exist"
-msgstr "대기 중인 제안"
+msgstr "보류 중인 제안이 있습니다"
 
 #: weblate/accounts/notifications.py:781
-#, fuzzy
-#| msgid "Unfinished strings"
 msgctxt "Notification name"
 msgid "Unfinished strings exist"
-msgstr "미완성된 문자열"
+msgstr "끝나지 않은 문자열이 존재합니다"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
@@ -1495,10 +1479,9 @@ msgstr ""
 "니다."
 
 #: weblate/addons/forms.py:526
-#, fuzzy, python-format
-#| msgid "Failed to parse CSS selector: %s"
+#, python-format
 msgid "Could not parse CSS selector: %s"
-msgstr "CSS 선택자 구문 분석 실패: %s"
+msgstr "CSS 선택기를 구문 분석할 수 없습니다: %s"
 
 #: weblate/addons/forms.py:532 weblate/billing/models.py:286
 #: weblate/templates/snippets/query-builder.html:14
@@ -1540,7 +1523,7 @@ msgstr "변수 부분 승수"
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
-msgstr "원본 문자열의 길이에 따라 변수 부분을 반복하는 횟수입니다."
+msgstr "소스 문자열의 길이에 따라 변수 부분을 반복할 횟수입니다."
 
 #: weblate/addons/forms.py:567
 msgid "Include read-only strings"
@@ -2230,10 +2213,8 @@ msgid "User invitation e-mail was sent."
 msgstr "사용자 초대 이메일이 전송되었습니다."
 
 #: weblate/auth/forms.py:127
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot change this on a built-in team."
-msgstr "기본 제공 팀의 경우 %s 의 변경이 금지됩니다."
+msgstr "기본 제공 팀에서는 이를 변경할 수 없습니다."
 
 #: weblate/auth/models.py:68
 #, python-format
@@ -2406,13 +2387,9 @@ msgid "Teams"
 msgstr "팀"
 
 #: weblate/auth/models.py:374 weblate/auth/models.py:935
-#, fuzzy
-#| msgid ""
-#| "The user is granted all permissions included in membership of these "
-#| "groups."
 msgid ""
 "The user is granted all permissions included in membership of these teams."
-msgstr "사용자는 이 그룹의 회원에 포함된 모든 권한이 부여됩니다."
+msgstr "사용자에게는 이러한 팀의 구성원 자격에 포함된 모든 권한이 부여됩니다."
 
 #: weblate/auth/models.py:716
 msgid "Regular expression for e-mail address"
@@ -2527,22 +2504,17 @@ msgid "File format does not support this."
 msgstr "파일 형식이 이를 지원하지 않습니다."
 
 #: weblate/auth/views.py:115
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot remove built-in team!"
-msgstr "기본 제공 팀의 경우 %s 의 변경이 금지됩니다."
+msgstr "기본 제공 팀을 제거할 수 없습니다!"
 
 #: weblate/auth/views.py:189
-#, fuzzy
-#| msgid "User invitation e-mail was sent."
 msgid "User invitation was removed."
-msgstr "사용자 초대 이메일이 전송되었습니다."
+msgstr "사용자 초대가 제거되었습니다."
 
 #: weblate/auth/views.py:213
-#, fuzzy, python-format
-#| msgid "Resend e-mail invitation to the user"
+#, python-format
 msgid "Accepted invitation to the %s team."
-msgstr "사용자에게 이메일 초대장을 다시 보내기"
+msgstr "%s 팀에 대한 초대를 수락했습니다."
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2669,10 +2641,8 @@ msgid "AngularJS interpolation strings do not match source"
 msgstr "AngularJS 보간 문자열이 원본과 일치하지 않습니다"
 
 #: weblate/checks/base.py:287
-#, fuzzy
-#| msgid "Following format strings are missing: {}"
 msgid "The following format strings are missing: {}"
-msgstr "다음 형식 문자열이 누락됐습니다: {}"
+msgstr "다음 형식 문자열이 누락되었습니다: {}"
 
 #: weblate/checks/base.py:292
 msgid "The following format strings are extra: {}"
@@ -2872,7 +2842,7 @@ msgstr "이 문자열은 과거에 번역되었습니다"
 #: weblate/checks/consistency.py:251
 #, python-format
 msgid "Previous translation was \"%s\"."
-msgstr "이전 번역: \"%s\"."
+msgstr "이전 번역은 \"%s\"였습니다."
 
 #: weblate/checks/duplicate.py:31
 msgid "Consecutive duplicated words"
@@ -2990,12 +2960,12 @@ msgstr "번역 플래그에 매개변수가 없습니다: \"%s\""
 #: weblate/checks/flags.py:271
 #, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
-msgstr "번역 플래그, 잘못된 파라미터 : \"%s\""
+msgstr "번역 플래그에 대한 잘못된 매개변수: \"%s\""
 
 #: weblate/checks/flags.py:275
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
-msgstr "번역 플래그, 필요한 파라미터 없음: \"%s\""
+msgstr "번역 플래그에 대한 누락된 매개변수: \"%s\""
 
 #: weblate/checks/fluent/inner_html.py:128
 #, python-brace-format
@@ -3078,24 +3048,25 @@ msgstr "HTML {name} 속성은 {tag} 태그에 대해 두 번 나타납니다."
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr "일치하지 않는 HTML 종료 태그: {tag}."
+msgstr "일치하지 않는 HTML 종료 태그: {tag}입니다."
 
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr "HTML {name} void 요소에는 종료 태그가 있어서는 안 됩니다: {end}."
+msgstr "HTML {name} void 요소에는 종료 태그: {end}가 있어서는 안 됩니다."
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
 msgid ""
 "The HTML {name} element is not a known void element, so should not have a "
 "self-closing tag: {self_close}."
-msgstr ""
+msgstr "HTML {name} 요소는 알려진 void 요소가 아니므로 자체 닫힘 태그: {self_close}"
+"가 없어야 합니다."
 
 #: weblate/checks/fluent/inner_html.py:325
 #, python-brace-format
 msgid "The HTML {tag} tag is missing a matching end tag: {end}."
-msgstr ""
+msgstr "HTML {tag} 태그에 일치하는 종료 태그: {end}가 없습니다."
 
 #: weblate/checks/fluent/inner_html.py:341
 #, python-brace-format
@@ -3104,43 +3075,47 @@ msgid ""
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
+"{sequence} 시퀀스는 HTML 문자 참조를 시작하지만 {semicolon}으로 끝나지 "
+"않습니다. 문자 참조를 원하지 않으면, {suggestion}을 사용하세요."
 
 #: weblate/checks/fluent/inner_html.py:359
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
-msgstr ""
+msgstr "{sequence} 시퀀스는 유효한 HTML 문자 참조가 아닙니다."
 
 #: weblate/checks/fluent/inner_html.py:943
 msgid "Fluent source inner HTML"
-msgstr ""
+msgstr "Fluent 소스 내부 HTML"
 
 #: weblate/checks/fluent/inner_html.py:944
 msgid "Fluent source should be valid inner HTML"
-msgstr ""
+msgstr "Fluent 소스는 유효한 내부 HTML이어야 합니다"
 
 #: weblate/checks/fluent/inner_html.py:1015
 #, python-brace-format
 msgid "Fluent value is missing a HTML {tag} tag."
-msgstr ""
+msgstr "Fluent 값에 HTML {tag} 태그가 누락되었습니다."
 
 #: weblate/checks/fluent/inner_html.py:1020
 #, python-brace-format
 msgid ""
 "Fluent value is missing a HTML {tag} tag for the following variants: "
 "{variant_list}."
-msgstr ""
+msgstr "Fluent 값에 다음 변형: {variant_list}에 대한 HTML {tag} 태그가 "
+"누락되었습니다."
 
 #: weblate/checks/fluent/inner_html.py:1034
 #, python-brace-format
 msgid "Fluent value has an unexpected extra HTML {tag} tag."
-msgstr ""
+msgstr "Fluent 값에 예상치 못한 추가 HTML {tag} 태그가 있습니다."
 
 #: weblate/checks/fluent/inner_html.py:1039
 #, python-brace-format
 msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
-msgstr ""
+msgstr "Fluent 값에 다음 변형: {variant_list}에 대한 예상치 못한 추가 HTML {tag} "
+"태그가 있습니다."
 
 #: weblate/checks/fluent/inner_html.py:1116
 #, python-brace-format
@@ -3149,12 +3124,15 @@ msgid ""
 "matching variant in the translation with the same set of HTML elements: "
 "{variant_list}."
 msgstr ""
+"원래 Fluent 값의 다음 변형에는 HTML 요소: {variant_list}의 동일한 세트가 "
+"있는 번역에서 일치하는 변형이 하나 이상 없습니다."
 
 #: weblate/checks/fluent/inner_html.py:1131
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of HTML elements."
-msgstr ""
+msgstr "번역된 Fluent 값에는 HTML 요소의 동일한 세트가 있는 원본에 일치하는 변형이 "
+"없습니다."
 
 #: weblate/checks/fluent/inner_html.py:1138
 #, python-brace-format
@@ -3162,49 +3140,47 @@ msgid ""
 "The following variants in the translated Fluent value do not have a matching "
 "variant in the original with the same set of HTML elements: {variant_list}."
 msgstr ""
+"번역된 Fluent 값의 다음 변형에는 HTML 요소: {variant_list}의 동일한 세트가 "
+"있는 원본에 일치하는 변형이 없습니다."
 
 #: weblate/checks/fluent/inner_html.py:1219
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation inner HTML"
-msgstr "현재 번역"
+msgstr "Fluent 번역 내부 HTML"
 
 #: weblate/checks/fluent/inner_html.py:1220
 msgid "Fluent target should be valid inner HTML that matches"
-msgstr ""
+msgstr "Fluent 대상은 일치하는 유효한 내부 HTML이어야 합니다"
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
-msgstr ""
+msgstr "Fluent 값이 비어 있습니다."
 
 #: weblate/checks/fluent/parts.py:65
 msgid "Fluent value should be empty."
-msgstr ""
+msgstr "Fluent 값은 비어 있어야 합니다."
 
 #: weblate/checks/fluent/parts.py:71
 #, python-brace-format
 msgid "Missing Fluent attribute: {hint}"
-msgstr ""
+msgstr "누락된 Fluent 속성: {hint}"
 
 #: weblate/checks/fluent/parts.py:80
 #, python-brace-format
 msgid "Unexpected Fluent attribute: {hint}"
-msgstr ""
+msgstr "예상치 못한 Fluent 속성: {hint}"
 
 #: weblate/checks/fluent/parts.py:112
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent parts"
-msgstr "Fluent 파일"
+msgstr "Fluent 파츠"
 
 #: weblate/checks/fluent/parts.py:113
 msgid "Fluent parts should match"
-msgstr ""
+msgstr "Fluent 파츠가 일치해야합니다"
 
 #: weblate/checks/fluent/references.py:373
 #, python-brace-format
 msgid "Fluent {attribute} attribute is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "Fluent {attribute} 속성에 {reference} Fluent 참조가 누락되었습니다."
 
 #: weblate/checks/fluent/references.py:381
 #, python-brace-format
@@ -3212,25 +3188,29 @@ msgid ""
 "Fluent {attribute} attribute is missing a {reference} Fluent reference for "
 "the following variants: {variant_list}."
 msgstr ""
+"Fluent {attribute} 속성에 다음 변형: {variant_list}에 대한 {reference} "
+"Fluent 참조가 누락되었습니다."
 
 #: weblate/checks/fluent/references.py:390
 #, python-brace-format
 msgid "Fluent value is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "Fluent 값에 {reference} Fluent 참조가 누락되었습니다."
 
 #: weblate/checks/fluent/references.py:395
 #, python-brace-format
 msgid ""
 "Fluent value is missing a {reference} Fluent reference for the following "
 "variants: {variant_list}."
-msgstr ""
+msgstr "Fluent 값에 다음 변형: {variant_list}에 대한 {reference} Fluent 참조가 "
+"누락되었습니다."
 
 #: weblate/checks/fluent/references.py:411
 #, python-brace-format
 msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference."
-msgstr ""
+msgstr "Fluent {attribute} 속성에 예상치 못한 추가 {reference} Fluent 참조가 "
+"있습니다."
 
 #: weblate/checks/fluent/references.py:419
 #, python-brace-format
@@ -3238,11 +3218,13 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference for the following variants: {variant_list}."
 msgstr ""
+"Fluent {attribute} 속성에 다음 변형: {variant_list}에 대한 예상치 못한 추가 "
+"{reference} Fluent 참조가 있습니다."
 
 #: weblate/checks/fluent/references.py:429
 #, python-brace-format
 msgid "Fluent value has an unexpected extra {reference} Fluent reference."
-msgstr ""
+msgstr "Fluent 값에 예상치 못한 추가 {reference} Fluent 참조가 있습니다."
 
 #: weblate/checks/fluent/references.py:435
 #, python-brace-format
@@ -3250,6 +3232,8 @@ msgid ""
 "Fluent value has an unexpected extra {reference} Fluent reference for the "
 "following variants: {variant_list}."
 msgstr ""
+"Fluent 값에 다음 변형: {variant_list}에 대한 예상치 못한 추가 {reference} "
+"Fluent 참조가 있습니다."
 
 #: weblate/checks/fluent/references.py:524
 #, python-brace-format
@@ -3258,6 +3242,8 @@ msgid ""
 "have at least one matching variant in the translation with the same set of "
 "Fluent references: {variant_list}."
 msgstr ""
+"원래 Fluent {attribute} 속성의 다음 변형: {variant_list}에는 Fluent 참조의 "
+"동일한 세트가 있는 번역에서 일치하는 변형이 하나 이상 없습니다."
 
 #: weblate/checks/fluent/references.py:534
 #, python-brace-format
@@ -3266,13 +3252,16 @@ msgid ""
 "matching variant in the translation with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"원래 Fluent 값의 다음 변형: {variant_list}에는 Fluent 참조의 동일한 세트가 "
+"있는 번역에서 일치하는 변형이 하나 이상 없습니다."
 
 #: weblate/checks/fluent/references.py:550
 #, python-brace-format
 msgid ""
 "The translated Fluent {attribute} attribute does not have a matching variant "
 "in the original with the same set of Fluent references."
-msgstr ""
+msgstr "번역된 Fluent {attribute} 속성에는 동일한 Fluent 참조 세트가 있는 원본에 "
+"일치하는 변형이 없습니다."
 
 #: weblate/checks/fluent/references.py:558
 #, python-brace-format
@@ -3281,12 +3270,15 @@ msgid ""
 "have a matching variant in the original with the same set of Fluent "
 "references: {variant_list}."
 msgstr ""
+"번역된 Fluent {attribute} 속성의 다음 변형: {variant_list}에는 Fluent 참조의 "
+"동일한 세트가 있는 원본에 일치하는 변형이 없습니다."
 
 #: weblate/checks/fluent/references.py:569
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of Fluent references."
-msgstr ""
+msgstr "번역된 Fluent 값에는 동일한 Fluent 참조 세트가 있는 원본에 일치하는 변형이 "
+"없습니다."
 
 #: weblate/checks/fluent/references.py:576
 #, python-brace-format
@@ -3295,49 +3287,42 @@ msgid ""
 "variant in the original with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"번역된 Fluent 값의 다음 변형: {variant_list}에는 Fluent 참조의 동일한 세트가 "
+"있는 원본에 일치하는 변형이 없습니다."
 
 #: weblate/checks/fluent/references.py:670
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "환경설정"
+msgstr "Fluent 참조"
 
 #: weblate/checks/fluent/references.py:671
 msgid "Fluent references should match"
-msgstr ""
+msgstr "Fluent 참조가 일치해야 합니다"
 
 #: weblate/checks/fluent/syntax.py:39
 #, python-brace-format
 msgid "Fluent syntax error: {error}."
-msgstr ""
+msgstr "Fluent 구문 오류: {error}입니다."
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "원본 문자열을 채우기"
+msgstr "Fluent 소스 구문"
 
 #: weblate/checks/fluent/syntax.py:48
 msgid "Fluent syntax error in source"
-msgstr ""
+msgstr "소스에 Fluent 구문 오류가 있습니다"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation syntax"
-msgstr "현재 번역"
+msgstr "Fluent 번역 구문"
 
 #: weblate/checks/fluent/syntax.py:65
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in translation"
-msgstr "자신의 번역에 대한 의견"
+msgstr "번역에 Fluent 구문 오류 발생"
 
 #: weblate/checks/format.py:400
-#, fuzzy, python-format
-#| msgid "Following format strings are wrongly ordered: %s"
+#, python-format
 msgid "The following format strings are in the wrong order: %s"
-msgstr "다음 형식 문자열이 잘못 정렬되었습니다: %s"
+msgstr "다음 형식 문자열의 순서가 잘못되었습니다: %s"
 
 #: weblate/checks/format.py:482
 msgid "Python format"
@@ -3520,56 +3505,55 @@ msgstr "구문 오류: %s"
 #: weblate/checks/icu.py:459
 #, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "번역에서 알 수 없는 자리 표시자가 하나 이상 있음: %s"
+msgstr "번역에 하나 이상의 알 수 없는 자리 표시자가 있습니다: %s"
 
 #: weblate/checks/icu.py:464
 #, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "번역에서 자리 표시자가 하나 이상 누락됨: %s"
+msgstr "번역에서 하나 이상의 자리 표시자가 누락되었습니다: %s"
 
 #: weblate/checks/icu.py:469
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr "올바르지 않은 하나 이상의 자리 표시자 형식: %s"
+msgstr "하나 이상의 자리 표시자 유형이 잘못되었습니다: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "Missing other sub-message for: %s"
-msgstr "다음에 대한 다른 하위 메시지 누락: %s"
+msgstr "다음에 대한 다른 하위 메시지가 누락되었습니다: %s"
 
 #: weblate/checks/icu.py:478
 #, python-format
 msgid "Incorrect plural selectors for: %s"
-msgstr "잘못된 복수 선택기: %s"
+msgstr "다음에 대한 잘못된 복수 선택기: %s"
 
 #: weblate/checks/icu.py:483
 #, python-format
 msgid "Incorrect sub-message selectors for: %s"
-msgstr "잘못된 하위 메시지 선택기: %s"
+msgstr "다음에 대한 잘못된 하위 메시지 선택기: %s"
 
 #: weblate/checks/icu.py:489
 #, python-format
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
-msgstr "하나 이상의 자리 표시자에는 번역에 해당하는 XML 태그가 있어야 함: %s"
+msgstr "하나 이상의 자리 표시자에는 번역 시 해당 XML 태그가 있어야 합니다: %s"
 
 #: weblate/checks/icu.py:495
 #, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "하나 이상의 자리 표시자는 번역에서 XML 태그가 아니어야 함: %s"
+msgstr "하나 이상의 자리 표시자는 번역에서 XML 태그가 아니어야 합니다: %s"
 
 #: weblate/checks/icu.py:501
 #, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr ""
-"하나 이상의 XML 태그에 예기치 않은 컨텐츠가 포함되어 있는 번역입니다: %s"
+msgstr "하나 이상의 XML 태그에 예상치 못한 번역 내용이 있습니다: %s"
 
 #: weblate/checks/icu.py:506
 #, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "하나 이상의 XML 태그에 번역 내용이 없습니다: %s"
+msgstr "번역에 내용이 누락된 XML 태그가 하나 이상 있습니다: %s"
 
 #: weblate/checks/markup.py:82
 msgid "BBCode markup"
@@ -3823,20 +3807,16 @@ msgid "Font group deleted."
 msgstr "글꼴 목록 삭제됨."
 
 #: weblate/formats/base.py:336
-#, fuzzy
-#| msgid "Failed to load strings from the file, try choosing other format."
 msgid "Could not load strings from the file, try choosing other format."
-msgstr "파일에서 문자열을 불러오지 못했습니다. 다른 형식을 선택하십시오."
+msgstr "파일에서 문자열을 불러올 수 없습니다. 다른 형식을 선택해 보세요."
 
 #: weblate/formats/convert.py:260
 msgid "HTML file"
 msgstr "HTML 파일"
 
 #: weblate/formats/convert.py:294
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown file"
-msgstr "마크다운 텍스트"
+msgstr "Markdown 파일"
 
 #: weblate/formats/convert.py:327
 msgid "OpenDocument file"
@@ -3927,22 +3907,16 @@ msgid "Qt Linguist translation file"
 msgstr "큐트 언어학자(Qt Linguist) 번역 파일"
 
 #: weblate/formats/ttkit.py:1205
-#, fuzzy
-#| msgid "XLIFF translation file"
 msgid "XLIFF 1.2 translation file"
-msgstr "XLIFF 번역 파일"
+msgstr "XLIFF 1.2 번역 파일"
 
 #: weblate/formats/ttkit.py:1235
-#, fuzzy
-#| msgid "XLIFF with placeables support"
 msgid "XLIFF 1.2 with placeables support"
-msgstr "배치 가능 지원이 있는 XLIFF"
+msgstr "배치 가능 항목을 지원하는 XLIFF 1.2"
 
 #: weblate/formats/ttkit.py:1242
-#, fuzzy
-#| msgid "XLIFF 1.1 with gettext extensions"
 msgid "XLIFF 1.2 with gettext extensions"
-msgstr "gettext 확장이 있는 XLIFF 1.1"
+msgstr "gettext 확장이 포함된 XLIFF 1.2"
 
 #: weblate/formats/ttkit.py:1272
 msgid "iOS strings (UTF-16)"
@@ -3989,10 +3963,9 @@ msgid ".NET resource file"
 msgstr "닷넷(.NET) 리소스 파일"
 
 #: weblate/formats/ttkit.py:1405
-#, fuzzy, python-format
-#| msgid "Failed to parse the key: %s"
+#, python-format
 msgid "Could not parse the key: %s"
-msgstr "키 분석에 실패하였습니다: %s"
+msgstr "키를 구문 분석할 수 없습니다: %s"
 
 #: weblate/formats/ttkit.py:1409
 msgid "JSON file"
@@ -4128,7 +4101,7 @@ msgstr "문자열은 모든 언어에서 용어집의 일부가 됩니다"
 
 #: weblate/glossary/forms.py:39
 msgid "Untranslatable term"
-msgstr "미번역 용어"
+msgstr "번역 불가 용어"
 
 #: weblate/glossary/forms.py:97 weblate/templates/mail/base.html:35
 #: weblate/templates/snippets/component-glossary-badge.html:4
@@ -4372,7 +4345,7 @@ msgstr "gettext 복수형 판정식"
 
 #: weblate/lang/models.py:772
 msgid "CLDR plural with zero"
-msgstr ""
+msgstr "0이 포함된 CLDR 복수형"
 
 #: weblate/lang/models.py:773
 msgid "CLDR v38+ plural"
@@ -4544,16 +4517,14 @@ msgid "Overview"
 msgstr "개요"
 
 #: weblate/machinery/base.py:96
-#, fuzzy, python-format
-#| msgid "Failed to fetch supported languages: %s"
+#, python-format
 msgid "Could not fetch supported languages: %s"
-msgstr "지원 언어 불러오기 실패함: %s"
+msgstr "지원되는 언어를 가져올 수 없습니다: %s"
 
 #: weblate/machinery/base.py:101
-#, fuzzy, python-format
-#| msgid "Failed to fetch translation: %s"
+#, python-format
 msgid "Could not fetch translation: %s"
-msgstr "번역 불러오기 실패함: %s"
+msgstr "번역을 가져올 수 없습니다: %s"
 
 #: weblate/machinery/forms.py:33 weblate/machinery/forms.py:60
 #: weblate/machinery/forms.py:77 weblate/machinery/forms.py:84
@@ -4654,10 +4625,9 @@ msgid "Google Translate location"
 msgstr "구글 번역 위치"
 
 #: weblate/machinery/forms.py:192
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON: %s"
+#, python-format
 msgid "Could not parse JSON: %s"
-msgstr "JSON 구문 분석 실패: %s"
+msgstr "JSON을 구문 분석할 수 없습니다: %s"
 
 #: weblate/machinery/forms.py:198
 msgctxt "AWS Translate configuration"
@@ -4699,26 +4669,22 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "업로드 된 파일에 유효한 항목이 없습니다!"
 
 #: weblate/memory/models.py:117 weblate/memory/models.py:122
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: %s"
+#, python-format
 msgid "Could not parse JSON file: %s"
-msgstr "JSON 파일 구문 분석 실패: %s"
+msgstr "JSON 파일을 구문 분석할 수 없습니다: %s"
 
 #: weblate/memory/models.py:151
-#, fuzzy
-#| msgid "Failed to parse TMX file!"
 msgid "Could not parse TMX file!"
-msgstr "TMX 파일 구문 분석 실패!"
+msgstr "TMX 파일을 구문 분석할 수 없습니다!"
 
 #: weblate/memory/models.py:159
 msgid "Source language not defined in the TMX file!"
 msgstr "TMX 파일에 정의되지 않은 소스 언어입니다!"
 
 #: weblate/memory/models.py:164 weblate/memory/models.py:181
-#, fuzzy, python-format
-#| msgid "Failed to find language %s!"
+#, python-format
 msgid "Could not find language %s!"
-msgstr "%s 언어를 찾지 못했습니다!"
+msgstr "%s 언어를 찾을 수 없습니다!"
 
 #: weblate/memory/models.py:254
 msgctxt "Translation memory category"
@@ -4839,20 +4805,16 @@ msgid "Image"
 msgstr "이미지"
 
 #: weblate/screenshots/models.py:59
-#, fuzzy
-#| msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
 msgid "Upload image up to 2000x2000 pixels."
-msgstr "최대 2000x2000 픽셀의 JPEG 또는 PNG 이미지 업로드 가능."
+msgstr "최대 2000x2000픽셀의 이미지를 업로드하세요."
 
 #: weblate/screenshots/views.py:241
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr "갈무리를 올렸습니다. 이제 소스 문자열에 지정할 수 있습니다."
 
 #: weblate/screenshots/views.py:247
-#, fuzzy
-#| msgid "Failed to upload screenshot, please fix errors below."
 msgid "Could not upload screenshot, please fix errors below."
-msgstr "갈무리를 올리지 못했습니다. 아래 오류를 수정하십시오."
+msgstr "스크린숏을 업로드할 수 없습니다. 아래 오류를 수정하세요."
 
 #: weblate/screenshots/views.py:302
 #, python-format
@@ -5490,10 +5452,8 @@ msgstr "아바타는 %(avatar_url_prefix)s를 사용하여 제공됩니다."
 
 #: weblate/templates/accounts/profile.html:253
 #: weblate/templates/trans/project-access.html:95
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitation"
-msgstr "초대 재발송"
+msgstr "초대 보류 중"
 
 #: weblate/templates/accounts/profile.html:279
 msgid "Description"
@@ -5544,10 +5504,8 @@ msgstr "당신의 개인 API 키:"
 #: weblate/templates/accounts/profile.html:327 weblate/templates/data.html:83
 #: weblate/templates/data.html:127
 #: weblate/templates/trans/project-access.html:327
-#, fuzzy
-#| msgid "Changed visibility"
 msgid "Toggle API key visibility"
-msgstr "변경된 가시성"
+msgstr "API 키 가시성 전환"
 
 #: weblate/templates/accounts/profile.html:328
 #: weblate/templates/trans/project-access.html:328
@@ -5610,11 +5568,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "인증 제공자로부터 리다이렉트합니다."
 
 #: weblate/templates/accounts/register.html:20
-#, fuzzy
-#| msgid ""
-#| "Please enter the activation token obtained when making the subscription."
 msgid "Please complete the registration to accept the invitation."
-msgstr "구독할 때 얻은 활성화 토큰을 입력하십시오."
+msgstr "초대를 수락하려면 등록을 완료해 주세요."
 
 #: weblate/templates/accounts/register.html:38
 msgid "Register in Weblate"
@@ -5748,7 +5703,7 @@ msgstr[0] "%(count)s개의 제안"
 #, python-format
 msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
-msgstr[0] "대기 중인 %(count)s개의 제안"
+msgstr[0] "%(count)s개의 보류 중인 제안"
 
 #: weblate/templates/accounts/user.html:70
 #, python-format
@@ -6147,7 +6102,7 @@ msgstr "자동 할당"
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
 "address."
-msgstr ""
+msgstr "이메일 주소를 기반으로 새로 생성된 사용자를 이 팀에 자동으로 추가합니다."
 
 #: weblate/templates/auth/team.html:70
 msgid "Add automatic assignment"
@@ -6227,11 +6182,9 @@ msgstr "지정된 구성요소 없음"
 
 #: weblate/templates/auth/teams-count.html:5
 msgid "Automatic assignment of users is configured for this team"
-msgstr ""
+msgstr "이 팀에 대한 사용자 자동 할당이 구성되었습니다"
 
 #: weblate/templates/auth/teams-count.html:5
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automatic assignment"
 msgstr "자동 할당"
 
@@ -6458,7 +6411,7 @@ msgstr "리브르 호스팅"
 #: weblate/templates/billing/state-snippet.html:5
 #: weblate/templates/manage/billing.html:14
 msgid "Pending approval"
-msgstr "승인 대기중"
+msgstr "승인 보류 중"
 
 #: weblate/templates/billing/detail.html:110
 #: weblate/templates/billing/detail.html:127
@@ -6752,10 +6705,8 @@ msgid "Download translation files as ZIP file"
 msgstr "번역 파일을 ZIP으로 다운로드"
 
 #: weblate/templates/category.html:71 weblate/templates/project.html:88
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new category"
-msgstr "새 사용자 추가"
+msgstr "새 카테고리 추가하기"
 
 #: weblate/templates/category.html:76 weblate/templates/category.html:214
 #: weblate/templates/component.html:102 weblate/templates/component.html:262
@@ -6799,46 +6750,30 @@ msgid "Browse all project changes"
 msgstr "모든 프로젝트 변경 사항 찾아보기"
 
 #: weblate/templates/category.html:186 weblate/templates/project.html:250
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add a category"
-msgstr "사용자 추가"
+msgstr "카테고리 추가하기"
 
 #: weblate/templates/category.html:206
-#, fuzzy
-#| msgid "Rename project"
 msgid "Rename category"
-msgstr "프로젝트 이름 변경"
+msgstr "카테고리 이름 바꾸기"
 
 #: weblate/templates/category.html:209
-#, fuzzy
-#| msgid ""
-#| "Renaming the project will change all URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Renaming the category will change all URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
-msgstr ""
-"프로젝트의 이름을 변경하면 모든 URL 또한 변경될 것입니다, 사용자는 복사된 저"
-"장소에서 북마크나 참조를 업데이트 해야 합니다!"
+msgstr "카테고리 이름을 바꾸면 모든 URL이 변경되며, 사용자는 복제된 저장소의 "
+"북마크나 참조를 업데이트해야 합니다!"
 
 #: weblate/templates/category.html:221
-#, fuzzy
-#| msgid "Category"
 msgid "Move category"
-msgstr "분류"
+msgstr "카테고리 이동하기"
 
 #: weblate/templates/category.html:224
-#, fuzzy
-#| msgid ""
-#| "Moving the component will change all its URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Moving the category will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
-msgstr ""
-"구성요소를 이동하면 URL 또한 변경될 것입니다, 사용자는 복사된 저장소에서 북마"
-"크나 참조를 업데이트해야 합니다!"
+msgstr "카테고리를 이동하면 해당 URL이 모두 변경되므로, 사용자는 복제된 저장소의 "
+"북마크나 참조를 업데이트해야 합니다!"
 
 #: weblate/templates/category.html:229 weblate/templates/component.html:277
 msgid "Move"
@@ -6861,10 +6796,8 @@ msgid "Translated"
 msgstr "번역됨"
 
 #: weblate/templates/check_list.html:89
-#, fuzzy
-#| msgid "Documentation"
 msgid "View check documentation"
-msgstr "문서"
+msgstr "확인 문서 보기"
 
 #: weblate/templates/component-list.html:16 weblate/templates/language.html:20
 msgid "Information"
@@ -7143,9 +7076,7 @@ msgstr "RSS"
 msgid ""
 "Per language RSS feeds are also available. Construct them by appending a "
 "language code to the URLs above."
-msgstr ""
-"언어별 RSS 피드도 사용할 수 있습니다. 위의 URL에 언어 코드를 추가하여 구성하"
-"십시오."
+msgstr "언어별 RSS 피드도 제공됩니다. 위의 URL에 언어 코드를 추가하여 구성하세요."
 
 #: weblate/templates/data.html:57
 msgid ""
@@ -7529,7 +7460,7 @@ msgstr "커밋"
 #, python-format
 msgid "%(count)s pending change"
 msgid_plural "%(count)s pending changes"
-msgstr[0] "보류중인 변경사항 %(count)s개"
+msgstr[0] "%(count)s개의 보류 중인 변경사항"
 
 #: weblate/templates/js/git-status.html:32
 msgid ""
@@ -7713,11 +7644,11 @@ msgstr "언어 추가"
 
 #: weblate/templates/lang/plural_form.html:15
 msgid "Changing plural rules might not have a desired effect."
-msgstr ""
+msgstr "복수형 규칙을 변경하면 원하는 효과가 없을 수도 있습니다."
 
 #: weblate/templates/lang/plural_form.html:16
 msgid "Please see a documentation for more info."
-msgstr ""
+msgstr "자세한 내용은 문서를 참조하세요."
 
 #: weblate/templates/last-changes-content.html:34
 #: weblate/templates/snippets/suggestions.html:23
@@ -8042,10 +7973,8 @@ msgid "Digest: %(notification_name)s"
 msgstr "요약: %(notification_name)s"
 
 #: weblate/templates/mail/invite.html:12
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "View invitation"
-msgstr "초대 재발송"
+msgstr "초대 보기"
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -8185,7 +8114,7 @@ msgstr "제안된 문자열"
 #, python-format
 msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
-msgstr[0] "%(component)s에서 대기 중인 %(count)s개의 제안"
+msgstr[0] "%(component)s에서 %(count)s개의 보류 중인 제안"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -8283,10 +8212,8 @@ msgid "Confirm account removal"
 msgstr "회원 탈퇴 확인"
 
 #: weblate/templates/mail/shared-registration.html:20
-#, fuzzy
-#| msgid "Confirm registration"
 msgid "Confirm invitation"
-msgstr "회원 가입 확인"
+msgstr "초대 확인하기"
 
 #: weblate/templates/mail/shared-registration.html:22
 msgid "Confirm registration"
@@ -8700,10 +8627,8 @@ msgid "Add new user"
 msgstr "새 사용자 추가"
 
 #: weblate/templates/manage/users.html:41
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitations"
-msgstr "초대 재발송"
+msgstr "초대 보류 중"
 
 #: weblate/templates/manage/users.html:77
 #: weblate/templates/trans/project-access.html:103
@@ -8712,17 +8637,13 @@ msgstr "초대 재발송"
 
 #: weblate/templates/manage/users.html:81
 #: weblate/templates/trans/project-access.html:107
-#, fuzzy
-#| msgid "Permalink copied to clipboard."
 msgid "Invitation link copied to clipboard."
-msgstr "퍼머링크가 클립보드에 복사되었습니다."
+msgstr "초대 링크가 클립보드에 복사되었습니다."
 
 #: weblate/templates/manage/users.html:85
 #: weblate/templates/trans/project-access.html:111
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Remove invitation"
-msgstr "초대 재발송"
+msgstr "초대 제거하기"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -9453,13 +9374,16 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
+"%(project_name)s에서 공동작업하고 %(team_name)s 팀에 합류하기 위해 "
+"%(invitation_author)s님이 %(site_title)s에 초대하셨습니다."
 
 #: weblate/templates/snippets/invite-info.html:6
 #, python-format
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
-msgstr ""
+msgstr "%(invitation_author)s님이 %(team_name)s 팀에 합류하도록 %(site_title)s에 "
+"초대하셨습니다."
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -9515,10 +9439,8 @@ msgid "The project has had active development for at least three months."
 msgstr "그 프로젝트는 적어도 3개월 동안 활발한 개발을 해왔습니다."
 
 #: weblate/templates/snippets/libre-checklist.html:18
-#, fuzzy
-#| msgid "Unmet guidelines from the community localization checklist:"
 msgid "Review guidelines from the community localization checklist."
-msgstr "커뮤니티 현지화 점검목록의 지침을 준수하지 않음:"
+msgstr "커뮤니티 현지화 체크리스트의 지침을 검토하세요."
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -9585,10 +9507,8 @@ msgid "Create translation"
 msgstr "번역 생성"
 
 #: weblate/templates/snippets/list-objects.html:170
-#, fuzzy
-#| msgid "Could not add new translation file."
 msgid "Cannot add translation right now"
-msgstr "새로운 번역 파일을 추가할 수 없습니다."
+msgstr "지금은 번역을 추가할 수 없습니다"
 
 #: weblate/templates/snippets/list-objects.html:174
 #: weblate/templates/translate.html:23 weblate/templates/translation.html:145
@@ -9725,7 +9645,7 @@ msgstr "문자열 상태"
 
 #: weblate/templates/snippets/query-builder.html:24
 msgid "Pending string"
-msgstr "대기 중인 문자열"
+msgstr "문자열 보류 중"
 
 #: weblate/templates/snippets/query-builder.html:25
 msgid "String target language"
@@ -10303,11 +10223,8 @@ msgstr ""
 "해당 플래그를 문자열 또는 구성요소 플래그에 추가하여 검사를 켤 수 있습니다."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
-#, fuzzy
-#| msgid ""
-#| "There is at least one screenshot which is not assigned to any strings."
 msgid "At least one screenshot has no string assigned to it."
-msgstr "문자열에 할당되지 않은 하나 이상의 갈무리가 있습니다."
+msgstr "하나 이상의 스크린숏에 문자열이 할당되어 있지 않습니다."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
 msgid "Manage screenshots"
@@ -10507,10 +10424,8 @@ msgstr "다음 번역 구성요소가 제거될 것입니다:"
 
 #: weblate/templates/trans/delete-category.html:21
 #: weblate/templates/trans/delete-project.html:21
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "The following translation categories will be removed:"
-msgstr "다음의 번역들이 삭제될 것입니다:"
+msgstr "다음 번역 카테고리가 제거됩니다:"
 
 #: weblate/templates/trans/delete-category.html:31
 #: weblate/templates/trans/delete-project.html:31
@@ -10535,16 +10450,12 @@ msgid "I understand the consequences, delete this translation"
 msgstr "저는 결과를 이해합니다, 이 번역을 삭제합니다"
 
 #: weblate/templates/trans/delete-project.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "project and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "category and all related content."
-msgstr ""
-"작업을 취소할 수 없습니다. 이 작업은 %(object)s 프로젝트와 모든 관련된 내용물"
-"을 영구히 삭제합니다."
+msgstr "이 작업은 취소할 수 없습니다. %(object)s 카테고리 및 모든 관련 내용이 "
+"영구적으로 삭제됩니다."
 
 #: weblate/templates/trans/delete-translation.html:6
 msgid ""
@@ -10582,8 +10493,7 @@ msgstr "병합 충돌을 수정하기 위한 일반적인 작업흐름"
 #: weblate/templates/trans/merge_instructions.html:10
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
-msgstr ""
-"Weblate에서 보류 중인 모든 변경사항을 커밋하고 번역 구성요소를 잠급니다."
+msgstr "웹레이트에서 보류 중인 모든 변경사항을 커밋하고 번역 구성요소를 잠급니다."
 
 #: weblate/templates/trans/merge_instructions.html:14
 msgid "Add Weblate exported repository as a remote."
@@ -10634,10 +10544,9 @@ msgid "Edit team membership for %(username)s"
 msgstr "%(username)s의 팀 구성원 편집"
 
 #: weblate/templates/trans/project-access.html:92
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation for %(email)s"
-msgstr "%(site_title)s에 초대됨"
+msgstr "%(email)s로의 초대"
 
 #: weblate/templates/trans/project-access.html:121
 msgid ""
@@ -10877,11 +10786,7 @@ msgstr "현재 문자열과의 차이점"
 #: weblate/templates/translate.html:304
 msgid "This string has the same context and source."
 msgid_plural "These strings have the same context and source."
-msgstr[0] ""
-"단수형\n"
-"이것은 문자열은 컨텍스트와 소스가 동일합니다.\n"
-"복수형\n"
-"이것들은 문자열은 컨텍스트와 소스가 동일합니다."
+msgstr[0] "이러한 문자열은 동일한 컨텍스트와 소스를 갖습니다."
 
 #: weblate/templates/translate.html:312
 msgid "This string has a different context, but the same source."
@@ -11164,28 +11069,21 @@ msgid ""
 msgstr "메시지는 주어진 만기일 또는 삭제할 때까지 번역 페이지에 표시됩니다."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:9
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Invitations"
-msgstr "초대 재발송"
+msgstr "초대"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:10
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Invitation"
-msgstr "초대 재발송"
+msgstr "초대"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:19
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation to %(project_name)s"
-msgstr "%(site_title)s에 초대됨"
+msgstr "%(project_name)s에 초대"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:25
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Accept invitation"
-msgstr "초대 재발송"
+msgstr "초대 수락하기"
 
 #: weblate/templates/widgets.html:6
 msgid "Widgets"
@@ -11271,7 +11169,7 @@ msgstr "젠 모드 나가기"
 
 #: weblate/trans/admin.py:15
 msgid "Commit pending changes"
-msgstr "보류중인 변경 사항을 커밋"
+msgstr "보류중인 변경사항 커밋"
 
 #: weblate/trans/admin.py:24
 msgid "Update VCS repository"
@@ -11817,9 +11715,8 @@ msgstr "수동으로 구성 지정하기"
 msgid ""
 "You must specify a license for these components to make them publicly "
 "accessible: %s"
-msgstr ""
-"이 구성요소가 공개적으로 접근할 수 있도록 하려면 라이선스를 지정해야 합니다: "
-"%s"
+msgstr "이러한 구성요소를 공개적으로 접근할 수 있도록 하려면 해당 구성요소에 대한 "
+"라이선스를 지정해야 합니다: %s"
 
 #: weblate/trans/forms.py:2111
 msgid "Access"
@@ -11839,10 +11736,9 @@ msgid "ZIP file containing project backup"
 msgstr "프로젝트 백업이 포함된 ZIP 파일"
 
 #: weblate/trans/forms.py:2233
-#, fuzzy, python-format
-#| msgid "Failed to load project backup: %s"
+#, python-format
 msgid "Could not load project backup: %s"
-msgstr "프로젝트 백업 불러오기 실패: %s"
+msgstr "프로젝트 백업을 불러올 수 없습니다: %s"
 
 #: weblate/trans/forms.py:2241
 msgid "Optional additional filter applied to the strings"
@@ -11954,30 +11850,24 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "확인을 위해 프로젝트의 슬러그를 입력하십시오."
 
 #: weblate/trans/forms.py:2609
-#, fuzzy
-#| msgid "Please type in the slug of the project to confirm."
 msgid "Please type in the slug of the category to confirm."
-msgstr "확인을 위해 프로젝트의 슬러그를 입력하십시오."
+msgstr "확인을 위해 카테고리의 슬러그를 입력해주세요."
 
 #: weblate/trans/forms.py:2619
 msgid "Please type in the slug of the project and language to confirm."
 msgstr "확인을 위해 프로젝트와 언어의 슬러그를 입력하십시오."
 
 #: weblate/trans/forms.py:2630
-#, fuzzy
-#| msgid "Please type in the slug of the project and language to confirm."
 msgid "Please type in the slug of the category and language to confirm."
-msgstr "확인을 위해 프로젝트와 언어의 슬러그를 입력하십시오."
+msgstr "확인을 위해 카테고리와 언어의 슬러그를 입력해주세요."
 
 #: weblate/trans/forms.py:2657
 msgid "Author username"
 msgstr "작성자 이름"
 
 #: weblate/trans/forms.py:2669
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Could not find matching user!"
-msgstr "일치하는 사용자를 찾지 못했습니다!"
+msgstr "일치하는 사용자를 찾을 수 없습니다!"
 
 #: weblate/trans/forms.py:2735
 msgid "Expiry cannot be in the past."
@@ -12032,17 +11922,13 @@ msgid "Workflow customization"
 msgstr "작업 흐름 사용자 정의"
 
 #: weblate/trans/mixins.py:143
-#, fuzzy
-#| msgid "Component with this URL slug already exists in the project."
 msgid ""
 "Component or category with the same URL slug already exists at this level."
-msgstr "이 URL 슬러그가 있는 구성요소가 프로젝트에 존재합니다."
+msgstr "동일한 URL 슬러그를 가진 구성요소 또는 카테고리가 이미 이 수준에 존재합니다."
 
 #: weblate/trans/mixins.py:150
-#, fuzzy
-#| msgid "A component with the same name already exists."
 msgid "Component or category with the same name already exists at this level."
-msgstr "이름이 같은 구성요소가 이미 존재합니다."
+msgstr "이 수준에 동일한 이름을 가진 구성요소 또는 카테고리가 이미 존재합니다."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:153
@@ -12197,10 +12083,8 @@ msgid "Do not specify both component and project!"
 msgstr "구성요소와 프로젝트를 모두 지정하지 마십시오!"
 
 #: weblate/trans/models/category.py:23
-#, fuzzy
-#| msgid "Category"
 msgid "Category name"
-msgstr "분류"
+msgstr "카테고리 이름"
 
 #: weblate/trans/models/category.py:25 weblate/trans/models/component.py:291
 #: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:89
@@ -12219,15 +12103,15 @@ msgstr "URL 및 파일 이름에 사용 되는 이름입니다."
 
 #: weblate/trans/models/category.py:87
 msgid "Too deep nesting of categories!"
-msgstr ""
+msgstr "카테고리가 너무 깊게 중첩되어 있습니다!"
 
 #: weblate/trans/models/category.py:92
 msgid "Parent category has to be in the same project!"
-msgstr ""
+msgstr "상위 카테고리는 동일한 프로젝트에 있어야 합니다!"
 
 #: weblate/trans/models/category.py:97
 msgid "Parent category has to be different!"
-msgstr ""
+msgstr "상위 카테고리는 달라야 합니다!"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:286
@@ -12526,24 +12410,18 @@ msgstr "설명 업데이트"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:417
-#, fuzzy
-#| msgid "Removed user"
 msgid "Removed category"
-msgstr "제거된 사용자"
+msgstr "카테고리 제거됨"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:419
-#, fuzzy
-#| msgid "Renamed project"
 msgid "Renamed category"
-msgstr "프로젝트 이름 변경"
+msgstr "카테고리 이름 변경됨"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:421
-#, fuzzy
-#| msgid "Category"
 msgid "Moved category"
-msgstr "분류"
+msgstr "카테고리 이동됨"
 
 #: weblate/trans/models/change.py:492
 msgid "New string to translate"
@@ -12769,16 +12647,11 @@ msgstr ""
 "예로 docs/screenshots/*.png는 저장소 루트를 기준으로 한 스크린샷 경로입니다."
 
 #: weblate/trans/models/component.py:413
-#, fuzzy
-#| msgid ""
-#| "Filename of translation base file, containing all strings and their "
-#| "source; it is recommended for monolingual translation formats."
 msgid ""
 "Filename of translation base file, containing all strings and their source "
 "for monolingual translations."
-msgstr ""
-"모든 문자열과 원본이 포함된 번역 기반 파일의 파일 이름. 단일 언어 번역 형식"
-"에 권장됩니다."
+msgstr "단일 언어 번역을 위한 모든 문자열과 해당 소스를 포함하는 번역 기본 파일의 "
+"파일 이름입니다."
 
 #: weblate/trans/models/component.py:420
 msgid "Edit base file"
@@ -12948,7 +12821,7 @@ msgstr "변경사항을 커밋하기까지의 시간"
 #: weblate/trans/models/component.py:633
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
-msgstr "대기 중인 변경 사항이 VCS에 커밋되는 시간."
+msgstr "보류 중인 변경 사항이 VCS에 커밋되는 시간(시간 단위)입니다."
 
 #: weblate/trans/models/component.py:638
 msgid "Lock on error"
@@ -13038,10 +12911,9 @@ msgid "File does not exist."
 msgstr "파일이 존재하지 않습니다."
 
 #: weblate/trans/models/component.py:1689
-#, fuzzy, python-format
-#| msgid "Failed to push %(component)s: %(error_text)s"
+#, python-format
 msgid "Could not push %(component)s: %(error_text)s"
-msgstr "%(component)s 푸시 실패: %(error_text)s"
+msgstr "%(component)s을(를) 푸시할 수 없습니다: %(error_text)s"
 
 #: weblate/trans/models/component.py:1710
 #, python-format
@@ -13069,16 +12941,12 @@ msgid "Could not merge remote branch into %s."
 msgstr "원격 분기를 %s 에 합칠 수 없습니다."
 
 #: weblate/trans/models/component.py:2532
-#, fuzzy
-#| msgid "User has been blocked on this project."
 msgid "Category does not belong to this project."
-msgstr "이 프로젝트에서 사용자가 차단되었습니다."
+msgstr "카테고리는 이 프로젝트에 속하지 않습니다."
 
 #: weblate/trans/models/component.py:2535
-#, fuzzy
-#| msgid "Component list can not be chosen when unused."
 msgid "Categorized component can not be shared."
-msgstr "사용하지 않을 경우 구성요소 목록을 선택할 수 없습니다."
+msgstr "분류된 구성요소는 공유할 수 없습니다."
 
 #: weblate/trans/models/component.py:2547
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -13137,10 +13005,9 @@ msgstr ""
 "지 않았습니다."
 
 #: weblate/trans/models/component.py:2676
-#, fuzzy, python-format
-#| msgid "Failed to parse base file for new translations: %s"
+#, python-format
 msgid "Could not parse base file for new translations: %s"
-msgstr "새 번역의 기본 파일 구문 분석 실패: %s"
+msgstr "새 번역에 대한 기준 파일을 구문 분석할 수 없습니다: %s"
 
 #: weblate/trans/models/component.py:2680
 msgid "Unrecognized base file for new translations."
@@ -13175,16 +13042,12 @@ msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "템플릿 언어({0})가 원본 언어({1})와 맞지 않습니다!"
 
 #: weblate/trans/models/component.py:2766
-#, fuzzy
-#| msgid "No remote repository"
 msgid "Choose No remote repository for local: URL."
-msgstr "원격 저장소 없음"
+msgstr "로컬: URL에 대해 원격 저장소 없음을 선택합니다."
 
 #: weblate/trans/models/component.py:2771
-#, fuzzy
-#| msgid "Push URL is not used when repository is linked!"
 msgid "Push URL is not used without a remote repository."
-msgstr "저장소가 연결될때 URL 밀기는 사용될수 없습니다!"
+msgstr "푸시 URL은 원격 저장소 없이는 사용되지 않습니다."
 
 #: weblate/trans/models/component.py:2790
 #, python-format
@@ -13383,10 +13246,8 @@ msgid ""
 msgstr "쉼표로 구분된 언어 코드 매핑 목록 예: en_GB : en,en_US : en"
 
 #: weblate/trans/models/suggestion.py:121
-#, fuzzy
-#| msgid "Failed to accept suggestion!"
 msgid "Could not accept suggestion!"
-msgstr "제안 승인에 실패함!"
+msgstr "제안을 수락할 수 없습니다!"
 
 #: weblate/trans/models/translation.py:201
 #, python-format
@@ -13398,18 +13259,16 @@ msgstr ""
 "에서 언어파일을 추가 하십시오."
 
 #: weblate/trans/models/translation.py:210
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not parse file %(file)s: %(error)s"
-msgstr "파일 %(file)s: %(error)s 의 구문 분석 실패"
+msgstr "%(file)s 파일을 구문 분석할 수 없습니다: %(error)s"
 
 #: weblate/trans/models/translation.py:1015
 #: weblate/trans/models/translation.py:1097
 #: weblate/trans/models/translation.py:1215
-#, fuzzy, python-format
-#| msgid "Failed to commit pending changes: %s"
+#, python-format
 msgid "Could not commit pending changes: %s"
-msgstr "보류 중인 변경 사항을 커밋하지 못했습니다: %s"
+msgstr "보류 중인 변경사항을 커밋하지 못했습니다: %s"
 
 #: weblate/trans/models/translation.py:1611 weblate/trans/models/unit.py:617
 #, python-format
@@ -13459,11 +13318,11 @@ msgstr "읽기 전용으로 표시"
 
 #: weblate/trans/models/unit.py:1632
 msgid "Unmark as untranslatable"
-msgstr "번역할 수 없는 것으로 표시 취소"
+msgstr "번역 불가에서 마크 해제"
 
 #: weblate/trans/models/unit.py:1636
 msgid "Mark as untranslatable"
-msgstr "번역할 수 없는 것으로 표시"
+msgstr "번역 불가로 마크하기"
 
 #: weblate/trans/models/unit.py:1643
 msgid "Unmark as forbidden translation"
@@ -13533,7 +13392,7 @@ msgstr "사용자가 구성한 문자: {}"
 #: weblate/trans/tasks.py:431
 #, python-format
 msgid "Automatic translation failed: %s"
-msgstr "자동 번역 실패: %s"
+msgstr "자동 번역에 실패했습니다: %s"
 
 #: weblate/trans/tasks.py:438
 msgid "Automatic translation completed, no strings were updated."
@@ -13560,7 +13419,7 @@ msgstr "가능한 구성"
 #: weblate/trans/templatetags/translations.py:212
 #, python-format
 msgid "Forbidden translation: %s"
-msgstr "금지된 번역문 : %s"
+msgstr "금지된 번역 : %s"
 
 #: weblate/trans/templatetags/translations.py:214
 #, python-format
@@ -13835,10 +13694,9 @@ msgstr ""
 "용되지 않습니다."
 
 #: weblate/trans/validators.py:42
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Could not parse flags: %s"
-msgstr "플래그 구문 분석 실패: %s"
+msgstr "플래그를 구문 분석할 수 없습니다: %s"
 
 #: weblate/trans/validators.py:51
 #, python-format
@@ -13935,10 +13793,8 @@ msgid "Detected license as %s, please check whether it is correct."
 msgstr "%s 라이선스가 감지되었습니다. 올바른지 확인하십시오."
 
 #: weblate/trans/views/create.py:389
-#, fuzzy
-#| msgid "Failed to parse uploaded ZIP file."
 msgid "Could not parse uploaded ZIP file."
-msgstr "올려진 ZIP 파일을 구문 분석하지 못했습니다."
+msgstr "업로드된 ZIP 파일을 구문 분석할 수 없습니다."
 
 #: weblate/trans/views/dashboard.py:141
 msgid ""
@@ -13978,7 +13834,7 @@ msgstr "귀하의 제안이 이미 있습니다!"
 #: weblate/trans/views/edit.py:332
 #, python-format
 msgid "Following fixups were applied to translation: %s"
-msgstr "다음 픽스업이 번역에 적용되었습니다: %s"
+msgstr "다음 수정사항이 번역에 적용되었습니다: %s"
 
 #: weblate/trans/views/edit.py:358
 #, python-format
@@ -14030,10 +13886,8 @@ msgstr "잘못된 검색 문자열!"
 
 #: weblate/trans/views/edit.py:710 weblate/trans/views/search.py:50
 #: weblate/trans/views/search.py:206
-#, fuzzy
-#| msgid "Failed to process form!"
 msgid "Could not process form!"
-msgstr "양식을 처리 할 수 없습니다!"
+msgstr "양식을 처리할 수 없습니다!"
 
 #: weblate/trans/views/edit.py:732
 msgid "Automatic translation in progress"
@@ -14048,10 +13902,8 @@ msgid "Posted new comment"
 msgstr "새 의견 게시됨"
 
 #: weblate/trans/views/edit.py:773
-#, fuzzy
-#| msgid "Failed to add comment!"
 msgid "Could not add comment!"
-msgstr "의견을 추가하지 못했습니다!"
+msgstr "의견을 추가할 수 없습니다!"
 
 #: weblate/trans/views/edit.py:792
 msgid "Comment has been deleted."
@@ -14066,10 +13918,9 @@ msgid "New string has been added."
 msgstr "새 문자열이 추가되었습니다."
 
 #: weblate/trans/views/edit.py:1008
-#, fuzzy, python-format
-#| msgid "Failed to remove the string: %s"
+#, python-format
 msgid "Could not remove the string: %s"
-msgstr "문자열을 제거하지 못했습니다: %s"
+msgstr "문자열을 제거할 수 없습니다: %s"
 
 #: weblate/trans/views/error.py:22
 msgid "Bad Request"
@@ -14102,13 +13953,11 @@ msgstr "업로드한 파일의 복수형 수식이 현재 번역과 맞지 않�
 #: weblate/trans/views/files.py:228
 #, python-format
 msgid "File upload has failed: %s"
-msgstr "파일 업로드 실패: %s"
+msgstr "파일 업로드에 실패했습니다: %s"
 
 #: weblate/trans/views/git.py:28
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation is in progress."
 msgid "Could not lock the repository, another operation is in progress."
-msgstr "저장소를 잠그지 못했습니다. 다른 작업이 진행 중입니다."
+msgstr "저장소를 잠글 수 없습니다. 다른 작업이 진행 중입니다."
 
 #: weblate/trans/views/git.py:50
 msgid "All repositories were updated."
@@ -14136,7 +13985,7 @@ msgstr "번역이 업데이트되었습니다."
 
 #: weblate/trans/views/git.py:143
 msgid "All pending translations were committed."
-msgstr "보류중인 모든 번역이 커밋되었습니다."
+msgstr "보류중인 모든 번역들이 커밋되었습니다."
 
 #: weblate/trans/views/lock.py:28
 msgid "Component is now locked for translation updates!"
@@ -14151,10 +14000,8 @@ msgid "Component is now open for translation updates."
 msgstr "번역 업데이트를 위해 구성요소가 열려 있습니다."
 
 #: weblate/trans/views/lock.py:54
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "All components are now open for translation updates."
-msgstr "번역 업데이트를 위해 모든 구성요소가 잠겼습니다!"
+msgstr "이제 번역 업데이트를 위해 모든 구성요소가 열려 있습니다."
 
 #: weblate/trans/views/search.py:108
 msgid "Search and replace completed, no strings were updated."
@@ -14214,8 +14061,6 @@ msgid "The translation component was scheduled for removal."
 msgstr "번역 구성요소가 제거되도록 예약되었습니다."
 
 #: weblate/trans/views/settings.py:159
-#, fuzzy
-#| msgid "The project was scheduled for removal."
 msgid "The category was scheduled for removal."
 msgstr "프로젝트가 제거될 예정이었습니다."
 
@@ -14228,10 +14073,8 @@ msgid "A language in the project was removed."
 msgstr "프로젝트의 언어가 제거되었습니다."
 
 #: weblate/trans/views/settings.py:175
-#, fuzzy
-#| msgid "A language in the project was removed."
 msgid "A language in the category was removed."
-msgstr "프로젝트의 언어가 제거되었습니다."
+msgstr "카테고리의 언어가 제거되었습니다."
 
 #: weblate/trans/views/settings.py:190
 #, python-format
@@ -14243,10 +14086,8 @@ msgid "Backup scheduled. It will be available soon."
 msgstr "백업 예정입니다. 곧 제공될 예정입니다."
 
 #: weblate/trans/views/source.py:58
-#, fuzzy
-#| msgid "Failed to change additional string info!"
 msgid "Could not change additional string info!"
-msgstr "추가 문자열 정보 변경에 실패하였습니다!"
+msgstr "추가 문자열 정보를 변경할 수 없습니다!"
 
 #: weblate/trans/widgets.py:214
 msgid "Big status badge"
@@ -14390,13 +14231,11 @@ msgstr "더 많은 가능한 사용자를 찾았습니다."
 #: weblate/utils/render.py:31
 #, python-format
 msgid "Undefined variable: \"%s\""
-msgstr "알 수 없는 값 : \"%s\""
+msgstr "정의되지 않은 변수: \"%s\""
 
 #: weblate/utils/render.py:121
-#, fuzzy
-#| msgid "Failed to render template: {}"
 msgid "Could not render template: {}"
-msgstr "템플릿을 렌더하지 못했습니다: {}"
+msgstr "템플릿을 렌더링할 수 없습니다: {}"
 
 #: weblate/utils/render.py:166
 msgid ""
@@ -14475,7 +14314,7 @@ msgstr "잘못된 이미지 형식!"
 #: weblate/utils/validators.py:115
 #, python-format
 msgid "Unsupported image type: %s"
-msgstr "지원하지 않는 이미지 형식입니다: %s"
+msgstr "지원하지 않는 이미지 유형: %s"
 
 #: weblate/utils/validators.py:123
 msgid "The image is too big, please crop or scale it down."
@@ -14654,10 +14493,9 @@ msgid "[hostname hashed]"
 msgstr "[호스트이름 해쉬됨]"
 
 #: weblate/vcs/ssh.py:167
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Could not generate key: %s"
-msgstr "키 생성에 실패하였습니다: %s"
+msgstr "키를 생성할 수 없습니다: %s"
 
 #: weblate/vcs/ssh.py:175
 msgid "Created new SSH key."
@@ -14677,16 +14515,13 @@ msgstr ""
 "니다. 올바른지 확인하시기 바랍니다."
 
 #: weblate/vcs/ssh.py:226
-#, fuzzy
-#| msgid "Failed to fetch public key for a host!"
 msgid "Could not fetch public key for a host!"
-msgstr "호스트를 위한 공개 키를 가져오는데 실패했습니다!"
+msgstr "호스트의 공개 키를 가져올 수 없습니다!"
 
 #: weblate/vcs/ssh.py:231 weblate/vcs/ssh.py:234
-#, fuzzy, python-format
-#| msgid "Failed to get host key: %s"
+#, python-format
 msgid "Could not get host key: %s"
-msgstr "키 가져오기에 실패하였습니다: %s"
+msgstr "호스트 키를 가져올 수 없습니다: %s"
 
 #: weblate/wladmin/forms.py:15
 msgid "Activation token"
@@ -14845,7 +14680,7 @@ msgstr "본인 확인용 전자우편을 보냈습니다."
 #: weblate/wladmin/views.py:121
 #, python-format
 msgid "Could not send test e-mail: %s"
-msgstr "확인용 전자우편을 보낼 수 없습니다: %s"
+msgstr "테스트 이메일을 보낼 수 없습니다: %s"
 
 #: weblate/wladmin/views.py:157
 msgid ""
