@@ -1,14 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+# 이정희 <daemul72@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 15:13+0000\n"
-"PO-Revision-Date: 2023-08-05 03:03+0000\n"
-"Last-Translator: Hoseok Seo <ddinghoya@gmail.com>\n"
+"PO-Revision-Date: 2023-08-26 01:54+0000\n"
+"Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -379,10 +379,9 @@ msgid "Account and all private data removed."
 msgstr "계정과 모든 개인 자료가 제거되었습니다."
 
 #: weblate/accounts/models.py:157
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "확인용 전자우편을 {email}로 보냈습니다."
+msgstr "{email}로 계정 삭제 확인이 전송되었습니다."
 
 #: weblate/accounts/models.py:158
 #, python-brace-format
@@ -397,7 +396,7 @@ msgstr "{username} 사용자가 {site_title}에 초대했습니다."
 #: weblate/accounts/models.py:160
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "{username}님의 초대를 수락했습니다."
 
 #: weblate/accounts/models.py:161
 msgid "Started trial period."
@@ -438,10 +437,9 @@ msgid "Could not sign in using password."
 msgstr "비밀번호를 사용하여 로그인 할 수 없습니다."
 
 #: weblate/accounts/models.py:178
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "{username} 사용자가 {site_title}에 초대했습니다."
+msgstr "{username}님이 {project}에 초대되었습니다."
 
 #: weblate/accounts/models.py:184
 msgid "To restore access to your account, please reset your password."
@@ -702,10 +700,8 @@ msgid ""
 msgstr "전자우편 주소를 지정하지 않았으므로 번역을 제출할 수 없습니다."
 
 #: weblate/accounts/notifications.py:49
-#, fuzzy
-#| msgid "Notifications"
 msgid "No notification"
-msgstr "알림"
+msgstr "알림 없음"
 
 #: weblate/accounts/notifications.py:50
 msgid "Instant notification"
@@ -724,89 +720,64 @@ msgid "Monthly digest"
 msgstr "월간 요약"
 
 #: weblate/accounts/notifications.py:451
-#, fuzzy
-#| msgid "String updated in the repository"
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr "저장소에서 업데이트된 문자열"
+msgstr "저장소에서 작업이 수행되었습니다"
 
 #: weblate/accounts/notifications.py:462
-#, fuzzy
-#| msgid "Component unlocked"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr "구성요소 잠금 해제됨"
+msgstr "구성요소가 잠겼거나 잠금 해제되었습니다"
 
 #: weblate/accounts/notifications.py:469
-#, fuzzy
-#| msgid "License changed"
 msgctxt "Notification name"
 msgid "License was changed"
-msgstr "라이선스가 변경됨"
+msgstr "라이선스가 변경되었습니다"
 
 #: weblate/accounts/notifications.py:476
-#, fuzzy
-#| msgid "Parse error"
 msgctxt "Notification name"
 msgid "Parse error occured"
-msgstr "구문 분석 오류"
+msgstr "구문 분석 오류가 발생했습니다"
 
 #: weblate/accounts/notifications.py:494
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgctxt "Notification name"
 msgid "New string is available for translation"
-msgstr "%(translation)s의 번역을 할 수 있는 새로운 문자열"
+msgstr "새 문자열을 번역할 수 있습니다"
 
 #: weblate/accounts/notifications.py:504
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr "공유된 번역 메모리에 기여"
+msgstr "기여자가 첫 번째 번역을 했습니다"
 
 #: weblate/accounts/notifications.py:513
-#, fuzzy
-#| msgid "Suggestion added"
 msgctxt "Notification name"
 msgid "Suggestion was added"
-msgstr "제안 추가됨"
+msgstr "제안사항이 추가되었습니다"
 
 #: weblate/accounts/notifications.py:522
-#, fuzzy
-#| msgid "Comment added"
 msgctxt "Notification name"
 msgid "Comment was added"
-msgstr "의견 추가됨"
+msgstr "의견이 추가되었습니다"
 
 #: weblate/accounts/notifications.py:544
-#, fuzzy
-#| msgid "Mentioned in comment"
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
-msgstr "의견에서 언급됨"
+msgstr "의견에서 언급되었습니다"
 
 #: weblate/accounts/notifications.py:576
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgctxt "Notification name"
 msgid "Your translation received a comment"
-msgstr "번역 프로젝트가 삭제되었습니다"
+msgstr "사용자의 번역에 의견이 접수되었습니다"
 
 #: weblate/accounts/notifications.py:601
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was edited by user"
-msgstr "에 의해 변경된 문자열"
+msgstr "사용자가 문자열을 편집했습니다"
 
 #: weblate/accounts/notifications.py:609
-#, fuzzy
-#| msgid "String has context"
 msgctxt "Notification name"
 msgid "String was approved"
-msgstr "문맥 정보가 있는 문자열"
+msgstr "문자열이 승인되었습니다"
 
 #: weblate/accounts/notifications.py:617
 #, fuzzy
@@ -2704,10 +2675,8 @@ msgid "The following format strings are missing: {}"
 msgstr "다음 형식 문자열이 누락됐습니다: {}"
 
 #: weblate/checks/base.py:292
-#, fuzzy
-#| msgid "Following format strings are extra: {}"
 msgid "The following format strings are extra: {}"
-msgstr "다음의 형식 문자열을 추가: {}"
+msgstr "다음 형식 문자열은 추가 항목입니다: {}"
 
 #: weblate/checks/chars.py:21
 msgid "Starting newline"
@@ -2950,10 +2919,8 @@ msgid "Strict unchanged check"
 msgstr "철저하게 검사"
 
 #: weblate/checks/flags.py:45
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strict format string checks"
-msgstr "실패 검사에 걸린 문자열"
+msgstr "엄격한 형식의 문자열 검사"
 
 #: weblate/checks/flags.py:46 weblate/glossary/forms.py:35
 msgid "Forbidden translation"
@@ -3007,10 +2974,8 @@ msgid "String variant"
 msgstr "변형 문자열"
 
 #: weblate/checks/flags.py:72
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent type"
-msgstr "Fluent 파일"
+msgstr "Fluent 유형"
 
 #: weblate/checks/flags.py:261
 #, python-format
@@ -3037,14 +3002,16 @@ msgstr "번역 플래그, 필요한 파라미터 없음: \"%s\""
 msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
-msgstr ""
+msgstr "{sequence}의 Fluent 참조는 HTML 태그로 확장될 수 있습니다. {suggestion}을 "
+"사용해 보세요."
 
 #: weblate/checks/fluent/inner_html.py:143
 #, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
-msgstr ""
+msgstr "{sequence}의 Fluent 참조는 HTML 문자 참조로 확장될 수 있습니다. {suggestion}"
+"을 사용해 보세요."
 
 #: weblate/checks/fluent/inner_html.py:171
 #, python-brace-format
