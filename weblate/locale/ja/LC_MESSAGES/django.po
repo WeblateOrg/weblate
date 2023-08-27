@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 15:13+0000\n"
-"PO-Revision-Date: 2023-08-25 14:52+0000\n"
+"PO-Revision-Date: 2023-08-27 15:56+0000\n"
 "Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -384,10 +384,9 @@ msgid "Account and all private data removed."
 msgstr "アカウントとすべての個人情報を削除しました。"
 
 #: weblate/accounts/models.py:157
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "{email} に確認メールを送信しました。"
+msgstr "{email} にアカウント削除の確認を送信しました。"
 
 #: weblate/accounts/models.py:158
 #, python-brace-format
@@ -443,10 +442,9 @@ msgid "Could not sign in using password."
 msgstr "パスワードを使用してサインインできませんでした。"
 
 #: weblate/accounts/models.py:178
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "{username} さんから {site_title} に招待されました。"
+msgstr "{username} さんから {project} に招待されました。"
 
 #: weblate/accounts/models.py:184
 msgid "To restore access to your account, please reset your password."
@@ -2448,14 +2446,9 @@ msgid "Teams"
 msgstr "チーム"
 
 #: weblate/auth/models.py:374 weblate/auth/models.py:935
-#, fuzzy
-#| msgid ""
-#| "The user is granted all permissions included in membership of these "
-#| "groups."
 msgid ""
 "The user is granted all permissions included in membership of these teams."
-msgstr ""
-"ユーザーには、所属するグループに設定されたアクセス権がすべて与えられます。"
+msgstr "ユーザーには、所属するチームに設定されたアクセス権がすべて与えられます。"
 
 #: weblate/auth/models.py:716
 msgid "Regular expression for e-mail address"
@@ -5840,6 +5833,7 @@ msgid_plural "%(count)s comments"
 msgstr[0] "%(count)s 個のコメント"
 
 #: weblate/templates/accounts/user.html:141
+#, fuzzy
 msgid "Contributed to"
 msgstr "貢献先："
 
@@ -6231,7 +6225,8 @@ msgstr "自動割り当て"
 msgid ""
 "Automatically add newly created users to this team based on their e-mail "
 "address."
-msgstr ""
+msgstr "新しく作成されたユーザーを、メールアドレスに基づいて自動でこのチームに追加し"
+"ます。"
 
 #: weblate/templates/auth/team.html:70
 msgid "Add automatic assignment"
