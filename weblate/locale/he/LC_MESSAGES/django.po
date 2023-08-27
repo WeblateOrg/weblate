@@ -1,13 +1,13 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 15:13+0000\n"
-"PO-Revision-Date: 2023-08-11 15:12+0000\n"
+"PO-Revision-Date: 2023-08-27 15:56+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -376,10 +376,9 @@ msgid "Account and all private data removed."
 msgstr "החשבון וכל הנתונים האישיים הוסרו."
 
 #: weblate/accounts/models.py:157
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "נשלח דוא״ל אימות אל {email}."
+msgstr "נשלח דוא״ל אימות הסרת חשבון אל {email}."
 
 #: weblate/accounts/models.py:158
 #, python-brace-format
@@ -435,10 +434,9 @@ msgid "Could not sign in using password."
 msgstr "לא ניתן להיכנס בעזרת סיסמה."
 
 #: weblate/accounts/models.py:178
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "התקבלה הזמנה אל {site_title} מאת {username}."
+msgstr "התקבלה הזמנה אל {project} מאת {username}."
 
 #: weblate/accounts/models.py:184
 msgid "To restore access to your account, please reset your password."
@@ -694,10 +692,8 @@ msgid ""
 msgstr "אין לך אפשרות לשלוח תרגומים כיוון שלא הוקצתה לך כתובת דוא״ל."
 
 #: weblate/accounts/notifications.py:49
-#, fuzzy
-#| msgid "Notifications"
 msgid "No notification"
-msgstr "התראות"
+msgstr "אין התראות"
 
 #: weblate/accounts/notifications.py:50
 msgid "Instant notification"
@@ -716,145 +712,104 @@ msgid "Monthly digest"
 msgstr "מקבץ עדכונים חודשי"
 
 #: weblate/accounts/notifications.py:451
-#, fuzzy
-#| msgid "String updated in the repository"
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr "המחרוזת עודכנה במאגר"
+msgstr "בוצעה פעולה במאגר"
 
 #: weblate/accounts/notifications.py:462
-#, fuzzy
-#| msgid "Component unlocked"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr "הרכיב שוחרר"
+msgstr "הרכיב ננעל או שוחרר"
 
 #: weblate/accounts/notifications.py:469
-#, fuzzy
-#| msgid "License changed"
 msgctxt "Notification name"
 msgid "License was changed"
-msgstr "הרישיון הוחלף"
+msgstr "הרישיון השתנה"
 
 #: weblate/accounts/notifications.py:476
-#, fuzzy
-#| msgid "Parse error"
 msgctxt "Notification name"
 msgid "Parse error occured"
-msgstr "שגיאת פענוח"
+msgstr "התרחשה שגיאת פענוח"
 
 #: weblate/accounts/notifications.py:494
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgctxt "Notification name"
 msgid "New string is available for translation"
-msgstr "מחרוזת חדשה לתרגום תחת %(translation)s"
+msgstr "מחרוזת חדשה זמינה לתרגום"
 
 #: weblate/accounts/notifications.py:504
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr "תרגום לזיכרון התרגום המשותף"
+msgstr "תרגום ראשון של תורם"
 
 #: weblate/accounts/notifications.py:513
-#, fuzzy
-#| msgid "Suggestion added"
 msgctxt "Notification name"
 msgid "Suggestion was added"
-msgstr "נוספה הצעה"
+msgstr "הצעה נוספה"
 
 #: weblate/accounts/notifications.py:522
-#, fuzzy
-#| msgid "Comment added"
 msgctxt "Notification name"
 msgid "Comment was added"
-msgstr "נוספה הערה"
+msgstr "הערה נוספה"
 
 #: weblate/accounts/notifications.py:544
-#, fuzzy
-#| msgid "Mentioned in comment"
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
-msgstr "אזכור בתגובה"
+msgstr "אוזכרת בתגובה"
 
 #: weblate/accounts/notifications.py:576
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgctxt "Notification name"
 msgid "Your translation received a comment"
-msgstr "מיזם התרגום שלך הוסר"
+msgstr "התרגום שלך קיבל תגובה"
 
 #: weblate/accounts/notifications.py:601
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was edited by user"
-msgstr "המחרוזת נערכה על ידי"
+msgstr "המחרוזת נערכה על ידי משתמש"
 
 #: weblate/accounts/notifications.py:609
-#, fuzzy
-#| msgid "String has context"
 msgctxt "Notification name"
 msgid "String was approved"
-msgstr "למחרוזת יש הקשר"
+msgstr "מחרוזת אושרה"
 
 #: weblate/accounts/notifications.py:617
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was changed"
-msgstr "המחרוזת נערכה על ידי"
+msgstr "מחרוזת נערכה"
 
 #: weblate/accounts/notifications.py:626
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Notification name"
 msgid "New language was added or requested"
-msgstr "נוספה שפה חדשה אל %(component)s"
+msgstr "נוספה או התבקשה שפה חדשה"
 
 #: weblate/accounts/notifications.py:643
-#, fuzzy
-#| msgid "New translation component"
 msgctxt "Notification name"
 msgid "New translation component was created"
-msgstr "רכיב תרגום חדש"
+msgstr "רכיב תרגום חדש נוצר"
 
 #: weblate/accounts/notifications.py:651
-#, fuzzy
-#| msgid "Announcements"
 msgctxt "Notification name"
 msgid "Announcement was published"
-msgstr "הכרזות"
+msgstr "פורסמה הכרזה"
 
 #: weblate/accounts/notifications.py:666
-#, fuzzy
-#| msgid "New alert on %(component)s"
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
-msgstr "אזעקה חדשה עבור %(component)s"
+msgstr "נדלקה אזעקה חדשה ברכיב"
 
 #: weblate/accounts/notifications.py:704
-#, fuzzy
-#| msgid "Repository operation"
 msgctxt "Notification name"
 msgid "Repository operation failed"
-msgstr "פעולת מאגר"
+msgstr "פעולת מאגר נכשלה"
 
 #: weblate/accounts/notifications.py:771
-#, fuzzy
-#| msgid "Pending suggestions"
 msgctxt "Notification name"
 msgid "Pending suggestions exist"
-msgstr "הצעות ממתינות"
+msgstr "יש הצעות ממתינות"
 
 #: weblate/accounts/notifications.py:781
-#, fuzzy
-#| msgid "Unfinished strings"
 msgctxt "Notification name"
 msgid "Unfinished strings exist"
-msgstr "מחרוזות שטרם הושלמו"
+msgstr "יש מחרוזות שטרם הושלמו"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
@@ -2415,13 +2370,9 @@ msgid "Teams"
 msgstr "צוותים"
 
 #: weblate/auth/models.py:374 weblate/auth/models.py:935
-#, fuzzy
-#| msgid ""
-#| "The user is granted all permissions included in membership of these "
-#| "groups."
 msgid ""
 "The user is granted all permissions included in membership of these teams."
-msgstr "משתמש מקבל את כל ההרשאות שנכללות דרך החברות של הקבוצות האלו."
+msgstr "משתמש מקבל את כל ההרשאות שנכללות דרך החברות של הצוותים האלו."
 
 #: weblate/auth/models.py:716
 msgid "Regular expression for e-mail address"
@@ -2912,7 +2863,7 @@ msgstr "סיומות שורה של DOS"
 #: weblate/templates/data.html:30 weblate/templates/data.html:64
 #: weblate/templates/data.html:105 weblate/templates/data.html:139
 msgid "URL"
-msgstr "כתובת"
+msgstr "כתובת אתר"
 
 #: weblate/checks/flags.py:41
 msgid "Automatically detect Java MessageFormat"
@@ -3022,10 +2973,7 @@ msgid ""
 msgstr ""
 
 #: weblate/checks/fluent/inner_html.py:171
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML closing tag, but the name or syntax "
-#| "is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
@@ -3034,16 +2982,13 @@ msgstr ""
 "צורך בתגית סגירה, כדאי להשתמש ב{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:184
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML closing tag, but the name or syntax "
-#| "is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
-"הרצף {sequence} נפתח בתגית סגירה של HTML, אך השם או התחביר שגוי. אם אין לך "
-"צורך בתגית סגירה, כדאי להשתמש ב{suggestion}."
+"הרצף {sequence} נפתח בתגית של HTML, אך השם שגוי. אם אין לך צורך בתגית HTML "
+"לפתיחה, כדאי להשתמש ב{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:197
 #, fuzzy, python-brace-format
@@ -3182,14 +3127,12 @@ msgid ""
 msgstr ""
 
 #: weblate/checks/fluent/inner_html.py:1219
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation inner HTML"
-msgstr "תרגום נוכחי"
+msgstr "HTML פנימי בתרגום Fluent"
 
 #: weblate/checks/fluent/inner_html.py:1220
 msgid "Fluent target should be valid inner HTML that matches"
-msgstr ""
+msgstr "יעד Fluent אמור להיות HTML פנימי תקף תואם"
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
@@ -4539,7 +4482,7 @@ msgstr "תנאים"
 #: weblate/legal/views.py:17 weblate/templates/snippets/info.html:12
 #: weblate/templates/translation.html:36
 msgid "Overview"
-msgstr "סקירה"
+msgstr "סקירת על"
 
 #: weblate/machinery/base.py:96
 #, python-format
@@ -4650,10 +4593,9 @@ msgid "Google Translate location"
 msgstr "מיקום Google Translate"
 
 #: weblate/machinery/forms.py:192
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON: %s"
+#, python-format
 msgid "Could not parse JSON: %s"
-msgstr "פענוח ה־JSON נכשל: %s"
+msgstr "לא ניתן לפענח JSON:‏ %s"
 
 #: weblate/machinery/forms.py:198
 msgctxt "AWS Translate configuration"
@@ -5528,10 +5470,8 @@ msgstr "מפתח ה־API האישי שלך:"
 #: weblate/templates/accounts/profile.html:327 weblate/templates/data.html:83
 #: weblate/templates/data.html:127
 #: weblate/templates/trans/project-access.html:327
-#, fuzzy
-#| msgid "Changed visibility"
 msgid "Toggle API key visibility"
-msgstr "מצב חשיפה השתנה"
+msgstr "החלפת חשיפת מפתח API"
 
 #: weblate/templates/accounts/profile.html:328
 #: weblate/templates/trans/project-access.html:328
@@ -6748,10 +6688,8 @@ msgid "Download translation files as ZIP file"
 msgstr "הורדת קובצי התרגום ב־ZIP"
 
 #: weblate/templates/category.html:71 weblate/templates/project.html:88
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new category"
-msgstr "הוספת משתמש חדש"
+msgstr "הוספת קטגוריה חדשה"
 
 #: weblate/templates/category.html:76 weblate/templates/category.html:214
 #: weblate/templates/component.html:102 weblate/templates/component.html:262
@@ -6796,16 +6734,12 @@ msgid "Browse all project changes"
 msgstr "עיון בכל השינויים במיזם"
 
 #: weblate/templates/category.html:186 weblate/templates/project.html:250
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add a category"
-msgstr "הוספת משתמש"
+msgstr "הוספת קטגוריה"
 
 #: weblate/templates/category.html:206
-#, fuzzy
-#| msgid "Rename project"
 msgid "Rename category"
-msgstr "שינוי שם מיזם"
+msgstr "שינוי שם קטגוריה"
 
 #: weblate/templates/category.html:209
 #, fuzzy
@@ -6820,10 +6754,8 @@ msgstr ""
 "את ההפניות במאגרים משוכפלים!"
 
 #: weblate/templates/category.html:221
-#, fuzzy
-#| msgid "Category"
 msgid "Move category"
-msgstr "קטגוריה"
+msgstr "העברת קטגוריה"
 
 #: weblate/templates/category.html:224
 #, fuzzy
@@ -11857,10 +11789,9 @@ msgid "ZIP file containing project backup"
 msgstr "קובץ ZIP שמכיל את גיבוי המיזם"
 
 #: weblate/trans/forms.py:2233
-#, fuzzy, python-format
-#| msgid "Failed to load project backup: %s"
+#, python-format
 msgid "Could not load project backup: %s"
-msgstr "טעינת גיבוי המיזם נכשלה: %s"
+msgstr "לא ניתן לטעון גיבוי מיזם: %s"
 
 #: weblate/trans/forms.py:2241
 msgid "Optional additional filter applied to the strings"
@@ -11971,30 +11902,24 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "נא להקליד את השם המופשט המלא של המיזם כדי לאשר."
 
 #: weblate/trans/forms.py:2609
-#, fuzzy
-#| msgid "Please type in the slug of the project to confirm."
 msgid "Please type in the slug of the category to confirm."
-msgstr "נא להקליד את השם המופשט המלא של המיזם כדי לאשר."
+msgstr "נא להקליד את השם המופשט המלא של הקטגוריה כדי לאשר."
 
 #: weblate/trans/forms.py:2619
 msgid "Please type in the slug of the project and language to confirm."
 msgstr "נא להקליד את השם המופשט המלא של המיזם והשפה כדי לאשר."
 
 #: weblate/trans/forms.py:2630
-#, fuzzy
-#| msgid "Please type in the slug of the project and language to confirm."
 msgid "Please type in the slug of the category and language to confirm."
-msgstr "נא להקליד את השם המופשט המלא של המיזם והשפה כדי לאשר."
+msgstr "נא להקליד את השם המופשט המלא של הקטגוריה והשפה כדי לאשר."
 
 #: weblate/trans/forms.py:2657
 msgid "Author username"
 msgstr "שם המשתמש של המחבר"
 
 #: weblate/trans/forms.py:2669
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Could not find matching user!"
-msgstr "חיפוש המשתמש נכשל!"
+msgstr "לא ניתן למצוא משתמש מתאים!"
 
 #: weblate/trans/forms.py:2735
 msgid "Expiry cannot be in the past."
@@ -12056,10 +11981,8 @@ msgid ""
 msgstr "כבר קיים רכיב עם הכתובת הייצוגית הזאת במיזם."
 
 #: weblate/trans/mixins.py:150
-#, fuzzy
-#| msgid "A component with the same name already exists."
 msgid "Component or category with the same name already exists at this level."
-msgstr "כבר קיים רכיב בשם הזה."
+msgstr "כבר קיימים רכיב או קטגוריה באותו השם ברמה הזאת."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:153
@@ -12214,10 +12137,8 @@ msgid "Do not specify both component and project!"
 msgstr "אין לציין גם את הרכיב וגם את המיזם!"
 
 #: weblate/trans/models/category.py:23
-#, fuzzy
-#| msgid "Category"
 msgid "Category name"
-msgstr "קטגוריה"
+msgstr "שם קטגוריה"
 
 #: weblate/trans/models/category.py:25 weblate/trans/models/component.py:291
 #: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:89
@@ -12236,17 +12157,15 @@ msgstr "השם המשמש לכתובות ולשמות הקבצים."
 
 #: weblate/trans/models/category.py:87
 msgid "Too deep nesting of categories!"
-msgstr ""
+msgstr "קינון הקטגוריות עמוק מדי!"
 
 #: weblate/trans/models/category.py:92
 msgid "Parent category has to be in the same project!"
-msgstr ""
+msgstr "קטגוריית ההורה חייב להיות באותו המיזם!"
 
 #: weblate/trans/models/category.py:97
-#, fuzzy
-#| msgid "First and last name should be different!"
 msgid "Parent category has to be different!"
-msgstr "השם הפרטי ושם המשפחה אמורים להיות שונים!"
+msgstr "קטגוריית ההורה חייבת להיות שונה!"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:286
@@ -12545,24 +12464,18 @@ msgstr "הסבר עודכן"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:417
-#, fuzzy
-#| msgid "Removed user"
 msgid "Removed category"
-msgstr "משתמש הוסר"
+msgstr "קטגוריה הוסרה"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:419
-#, fuzzy
-#| msgid "Renamed project"
 msgid "Renamed category"
-msgstr "מיזם ששמו השתנה"
+msgstr "שם הקטגוריה השתנה"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:421
-#, fuzzy
-#| msgid "Category"
 msgid "Moved category"
-msgstr "קטגוריה"
+msgstr "קטגוריה הועברה"
 
 #: weblate/trans/models/change.py:492
 msgid "New string to translate"
@@ -12791,16 +12704,12 @@ msgid ""
 msgstr "נתיב לצילומי מסך ביחס לבסיס המאגר, למשל: docs/screenshots/*.png."
 
 #: weblate/trans/models/component.py:413
-#, fuzzy
-#| msgid ""
-#| "Filename of translation base file, containing all strings and their "
-#| "source; it is recommended for monolingual translation formats."
 msgid ""
 "Filename of translation base file, containing all strings and their source "
 "for monolingual translations."
 msgstr ""
 "שם הקובץ של קובץ בסיס התרגומים, קובץ זה מכיל את כל המחרוזות והמקור שלהן, "
-"מומלץ עבור תבניות תרגום חד־לשוני."
+"עבור תרגומים חד־לשוני."
 
 #: weblate/trans/models/component.py:420
 msgid "Edit base file"
@@ -13081,16 +12990,12 @@ msgid "Could not merge remote branch into %s."
 msgstr "לא ניתן למזג את הענף המרוחק לתוך %s."
 
 #: weblate/trans/models/component.py:2532
-#, fuzzy
-#| msgid "User has been blocked on this project."
 msgid "Category does not belong to this project."
-msgstr "המשתמש נחסם במיזם הזה."
+msgstr "הקטגוריה לא שייכת למיזם הזה."
 
 #: weblate/trans/models/component.py:2535
-#, fuzzy
-#| msgid "Component list can not be chosen when unused."
 msgid "Categorized component can not be shared."
-msgstr "לא ניתן לבחור את רשימת הרכיבים כאשר אין בה שימוש."
+msgstr "לא ניתן לשתף רכיב בקטגוריה."
 
 #: weblate/trans/models/component.py:2547
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -13145,10 +13050,9 @@ msgstr ""
 "הגדרת את Weblate להוספת קובצי תרגום חדשים, אך לא סיפקת קובץ בסיס לעשות זאת."
 
 #: weblate/trans/models/component.py:2676
-#, fuzzy, python-format
-#| msgid "Failed to parse base file for new translations: %s"
+#, python-format
 msgid "Could not parse base file for new translations: %s"
-msgstr "פענוח קובץ הבסיס לאיתור תרגומים חדשים נכשל: %s"
+msgstr "לא ניתן לפענח קובץ בסיס לתרגומים חדשים: %s"
 
 #: weblate/trans/models/component.py:2680
 msgid "Unrecognized base file for new translations."
@@ -13385,10 +13289,8 @@ msgid ""
 msgstr "רשימה מופרדת בפסיקים של מיפויי קודים של שפות, למשל: he_IL:he,en_US:en"
 
 #: weblate/trans/models/suggestion.py:121
-#, fuzzy
-#| msgid "Failed to accept suggestion!"
 msgid "Could not accept suggestion!"
-msgstr "קבלת ההצעה נכשלה!"
+msgstr "לא ניתן לקבל הצעה!"
 
 #: weblate/trans/models/translation.py:201
 #, python-format
@@ -13399,18 +13301,16 @@ msgstr ""
 "שם הקובץ %s לא נמצא במאגר! כדי להוסיף תרגום חדש, יש להוסיף קובץ שפה למאגר."
 
 #: weblate/trans/models/translation.py:210
-#, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not parse file %(file)s: %(error)s"
-msgstr "ניתוח הקובץ %(file)s נכשל: %(error)s"
+msgstr "לא ניתן לפענח את הקובץ %(file)s:‏ %(error)s"
 
 #: weblate/trans/models/translation.py:1015
 #: weblate/trans/models/translation.py:1097
 #: weblate/trans/models/translation.py:1215
-#, fuzzy, python-format
-#| msgid "Failed to commit pending changes: %s"
+#, python-format
 msgid "Could not commit pending changes: %s"
-msgstr "הגשת השינויים הממתינים נכשלה: %s"
+msgstr "לא ניתן להגיש שינויים ממתינים: %s"
 
 #: weblate/trans/models/translation.py:1611 weblate/trans/models/unit.py:617
 #, python-format
@@ -13883,10 +13783,9 @@ msgstr ""
 "של עצמו."
 
 #: weblate/trans/validators.py:42
-#, fuzzy, python-format
-#| msgid "Failed to parse flags: %s"
+#, python-format
 msgid "Could not parse flags: %s"
-msgstr "פענוח הדגלונים נכשל: %s"
+msgstr "לא ניתן לפענח תגיות: %s"
 
 #: weblate/trans/validators.py:51
 #, python-format
@@ -13980,10 +13879,8 @@ msgid "Detected license as %s, please check whether it is correct."
 msgstr "הרישיון שזוהה הוא %s אך מוטב לבדוק שהוא נכון."
 
 #: weblate/trans/views/create.py:389
-#, fuzzy
-#| msgid "Failed to parse uploaded ZIP file."
 msgid "Could not parse uploaded ZIP file."
-msgstr "פענוח קובץ ה־ZIP שהועלה נכשל."
+msgstr "לא ניתן לפענח את קובץ ה־ZIP שהועלה."
 
 #: weblate/trans/views/dashboard.py:141
 msgid ""
@@ -14071,10 +13968,8 @@ msgstr "המחרוזת לחיפוש שגויה!"
 
 #: weblate/trans/views/edit.py:710 weblate/trans/views/search.py:50
 #: weblate/trans/views/search.py:206
-#, fuzzy
-#| msgid "Failed to process form!"
 msgid "Could not process form!"
-msgstr "עיבוד הטופס נכשל!"
+msgstr "לא ניתן לעבד טופס!"
 
 #: weblate/trans/views/edit.py:732
 msgid "Automatic translation in progress"
@@ -14089,10 +13984,8 @@ msgid "Posted new comment"
 msgstr "פורסמה הערה חדשה"
 
 #: weblate/trans/views/edit.py:773
-#, fuzzy
-#| msgid "Failed to add comment!"
 msgid "Could not add comment!"
-msgstr "הוספת ההערה נכשלה!"
+msgstr "לא ניתן להוסיף הערה!"
 
 #: weblate/trans/views/edit.py:792
 msgid "Comment has been deleted."
@@ -14153,10 +14046,8 @@ msgid "File upload has failed: %s"
 msgstr "העלאת הקובץ נכשלה: %s"
 
 #: weblate/trans/views/git.py:28
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation is in progress."
 msgid "Could not lock the repository, another operation is in progress."
-msgstr "נעילת המאגר נכשלה, מתבצעת כרגע פעולה אחרת."
+msgstr "לא ניתן לנעול את המאגר, מתבצעת כרגע פעולה אחרת."
 
 #: weblate/trans/views/git.py:50
 msgid "All repositories were updated."
@@ -14264,10 +14155,8 @@ msgid "The translation component was scheduled for removal."
 msgstr "רכיב התרגום תוזמן להסרה."
 
 #: weblate/trans/views/settings.py:159
-#, fuzzy
-#| msgid "The project was scheduled for removal."
 msgid "The category was scheduled for removal."
-msgstr "המיזם תוזמן להסרה."
+msgstr "הקטגוריה תוזמנה להסרה."
 
 #: weblate/trans/views/settings.py:163
 msgid "The project was scheduled for removal."
@@ -14278,10 +14167,8 @@ msgid "A language in the project was removed."
 msgstr "הוסרה שפה מהמיזם."
 
 #: weblate/trans/views/settings.py:175
-#, fuzzy
-#| msgid "A language in the project was removed."
 msgid "A language in the category was removed."
-msgstr "הוסרה שפה מהמיזם."
+msgstr "הוסרה שפה מהקטגוריה."
 
 #: weblate/trans/views/settings.py:190
 #, python-format
@@ -14293,10 +14180,8 @@ msgid "Backup scheduled. It will be available soon."
 msgstr "הגיבוי תוזמן. הוא יהיה זמין בקרוב."
 
 #: weblate/trans/views/source.py:58
-#, fuzzy
-#| msgid "Failed to change additional string info!"
 msgid "Could not change additional string info!"
-msgstr "שינוי מידע נוסף על המחרוזת נכשל!"
+msgstr "לא ניתן לשנות את פרטי המחרוזת הנוספים!"
 
 #: weblate/trans/widgets.py:214
 msgid "Big status badge"
@@ -14443,10 +14328,8 @@ msgid "Undefined variable: \"%s\""
 msgstr "משתנה לא מוגדר: „%s”"
 
 #: weblate/utils/render.py:121
-#, fuzzy
-#| msgid "Failed to render template: {}"
 msgid "Could not render template: {}"
-msgstr "עיבוד התבנית נכשל: {}"
+msgstr "לא ניתן לעבד תבנית: {}"
 
 #: weblate/utils/render.py:166
 msgid ""
@@ -14721,10 +14604,8 @@ msgstr ""
 "לוודא שהוא נכון."
 
 #: weblate/vcs/ssh.py:226
-#, fuzzy
-#| msgid "Failed to fetch public key for a host!"
 msgid "Could not fetch public key for a host!"
-msgstr "אחזור מפתח ציבורי למארח נכשל!"
+msgstr "לא ניתן למשוך מפתח ציבורי למארח!"
 
 #: weblate/vcs/ssh.py:231 weblate/vcs/ssh.py:234
 #, python-format
