@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 17:13+0200\n"
-"PO-Revision-Date: 2023-08-26 17:32+0000\n"
+"PO-Revision-Date: 2023-08-27 15:56+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hr/>\n"
@@ -564,7 +564,7 @@ msgstr "Uloge"
 
 #: ../../admin/access.rst:303
 msgid "`Power users`"
-msgstr "`Profesionalni korisnici`"
+msgstr "`Napredni korisnici`"
 
 #: ../../admin/access.rst:304
 msgid "Project selection"
@@ -604,31 +604,23 @@ msgid "`Permission`"
 msgstr "`Dozvola`"
 
 #: ../../admin/access.rst:327
-#, fuzzy
-#| msgid ""
-#| "Individual permissions defined by Weblate. You can not assign individual "
-#| "permissions, this can only be done through assignment of roles."
 msgid ""
 "Individual permission defined by Weblate. Permissions cannot be assigned to "
 "users. This can only be done through assignment of roles."
 msgstr ""
-"Pojedinačne dozvole definirane od Weblatea. Pojedinačne dozvole se ne mogu "
-"dodijeliti, to se može postići samo dodjelom uloga."
+"Pojedinačne dozvole definirane od Weblatea. Dozvole se ne mogu dodijeliti "
+"korisnicima. To se može postići samo dodjelom uloga."
 
 #: ../../admin/access.rst:330
 msgid "`Role`"
 msgstr "`Uloga`"
 
 #: ../../admin/access.rst:330
-#, fuzzy
-#| msgid ""
-#| "Role defines a set of permissions. This allows reuse of these sets in "
-#| "several places, and makes the administration easier."
 msgid ""
 "A role defines a set of permissions. This allows reuse of these sets in "
 "several places, making the administration easier."
 msgstr ""
-"Uloga definira skup dozvola. To omogućava ponovnu upotrebu tih skupova na "
+"Uloga definira skup dozvola. To omogućuje ponovnu upotrebu tih skupova na "
 "više mjesta i olakšava administraciju."
 
 #: ../../admin/access.rst:332
@@ -636,25 +628,19 @@ msgid "`User`"
 msgstr "`Korisnik`"
 
 #: ../../admin/access.rst:333
-#, fuzzy
-#| msgid "Users can be members of several groups."
 msgid "User can belong to several teams."
-msgstr "Korisnici mogu biti članovi u više grupa."
+msgstr "Korisnik može pripadati nekolicini timova."
 
 #: ../../admin/access.rst:336
 msgid "`Group`"
 msgstr "`Grupa`"
 
 #: ../../admin/access.rst:335
-#, fuzzy
-#| msgid ""
-#| "Groups connect roles, users and authentication objects (projects, "
-#| "languages and component lists)."
 msgid ""
 "Group connect roles, users, and authentication objects (projects, languages, "
 "and component lists)."
 msgstr ""
-"Grupe povezuju uloge, korisnike i objekte autentifikacije (projekti, jezici "
+"Grupa povezuju uloge, korisnike i objekte autentifikacije (projekti, jezici "
 "i popisi komponenti)."
 
 #: ../../admin/access.rst:353
@@ -662,10 +648,12 @@ msgid ""
 "A team can have no roles assigned to it, in that case access to browse the "
 "project by anyone is assumed (see below)."
 msgstr ""
+"Timu se mogu dodijeliti nikoje uloge. U tom se slučaju pretpostavlja da bilo "
+"tko može pregledavati projekt (pogledaj niže dolje)."
 
 #: ../../admin/access.rst:357
 msgid "Access for browse to a project"
-msgstr "Pristup za preglednik projektu"
+msgstr "Pristup za pregledavanje projekta"
 
 #: ../../admin/access.rst:359
 msgid ""
@@ -677,7 +665,7 @@ msgstr ""
 
 #: ../../admin/access.rst:365
 msgid "Access for browse to a component"
-msgstr "Pristup za preglednik komponenti"
+msgstr "Pristup za pregledavanje komponente"
 
 #: ../../admin/access.rst:367
 msgid ""
@@ -689,10 +677,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:375
-#, fuzzy
-#| msgid "Used in groups"
 msgid "Scope of teams"
-msgstr "Koristi se u grupama"
+msgstr "Opseg timova"
 
 #: ../../admin/access.rst:377
 msgid ""
@@ -1223,7 +1209,7 @@ msgstr "Upravljaj repozitorijem"
 
 #: ../../admin/access.rst:567
 msgid "Push change from the internal repository"
-msgstr "Prenesi promjenu u interni repozitorij"
+msgstr "Prenesi promjenu iz internog repozitorija"
 
 #: ../../admin/access.rst:569
 msgid "Reset changes in the internal repository"
@@ -1286,25 +1272,18 @@ msgid "Manage component lists"
 msgstr "Upravljaj popisima komponenata"
 
 #: ../../admin/access.rst:601
-#, fuzzy
-#| msgid ""
-#| "The site wide privileges are not granted to any default role. These are "
-#| "powerful and quite close to the superuser status—most of them affect all "
-#| "the projects of your Weblate installation."
 msgid ""
 "Site-wide privileges are not granted to any default role. These are powerful "
 "and quite close to superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
 "Globalne povlastice nisu dodijeljene nijednoj standardnoj ulozi. One su "
-"moćne i vrlo slične stanju super-korisnika – većina njih utječe na sve "
-"projekte tvoje Weblate instalacije."
+"moćne i vrlo slične stanju super-korisnika. Većina njih utječe na sve "
+"projekte u tvojoj Weblate instalaciji."
 
 #: ../../admin/access.rst:608
-#, fuzzy
-#| msgid "ID of term"
 msgid "List of teams"
-msgstr "ID oznaka pojma"
+msgstr "Popis timova"
 
 #: ../../admin/access.rst:610
 msgid ""
@@ -1312,62 +1291,73 @@ msgid ""
 "wladmin:`setupgroups`) and you are free to modify them. The migration will, "
 "however, re-create them if you delete or rename them."
 msgstr ""
+"Sljedeći timovi će se stvoriti nakon instalacije (ili nakon izvođenja "
+":wladmin:`setupgroups`) i možeš ih promijeniti ako želiš. Migracija će ih "
+"međutim ponovo stvoriti ako ih izbrišeš ili preimenuješ."
 
 #: ../../admin/access.rst:622
 msgid "`Guests`"
-msgstr ""
+msgstr "`Gosti`"
 
 #: ../../admin/access.rst:615
 msgid "Defines permissions for non-authenticated users."
-msgstr ""
+msgstr "Definira dozvloe za neautentificirane korisnike."
 
 #: ../../admin/access.rst:617
 msgid ""
 "This team only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`)."
 msgstr ""
+"Ovaj tim sadrži samo anonimne korisnike (pogledaj "
+":setting:`ANONYMOUS_USER_NAME`)."
 
 #: ../../admin/access.rst:619
 msgid ""
 "You can remove roles from this team to limit permissions for non-"
 "authenticated users."
 msgstr ""
+"Možeš ukloniti uloge iz ovog tima za ograničavanje dozvola za "
+"neautentificirane korisnike."
 
 #: ../../admin/access.rst:622
 msgid "Default roles: `Add suggestion`, `Access repository`"
-msgstr ""
+msgstr "Standardne uloge: `Dodaj prijedlog`, `Pristupi repozitoriju`"
 
 #: ../../admin/access.rst:631
 msgid "`Viewers`"
-msgstr ""
+msgstr "`Gledatelji`"
 
 #: ../../admin/access.rst:625
 msgid ""
 "This role ensures visibility of public projects for all users. By default, "
 "all users are members of this team."
 msgstr ""
+"Ova uloga osigurava vidljivost javnih projekata za sve korisnike. Svi "
+"korisnici su članovi ovog tima."
 
 #: ../../admin/access.rst:628 ../../admin/access.rst:636
 msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
 msgstr ""
+"Opcija :ref:`automatic team assignment <autoteam>` pretvara sve nove račune "
+"korisnika članovima ovog tima kad se pridruže."
 
 #: ../../admin/access.rst:631
 msgid "Default roles: none"
-msgstr ""
+msgstr "Standardne uloge: neodređeno"
 
 #: ../../admin/access.rst:639 ../../workflows.rst:86 ../../workflows.rst:118
 #: ../../workflows.rst:151
 msgid "`Users`"
-msgstr ""
+msgstr "`Korisnici`"
 
 #: ../../admin/access.rst:634
 msgid "Default team for all users."
-msgstr ""
+msgstr "Standardni tim za sve korisnike."
 
 #: ../../admin/access.rst:639
 msgid "Default roles: `Power user`"
-msgstr ""
+msgstr "Standardne uloge: `Napredni korisnik`"
 
 #: ../../admin/access.rst:644 ../../workflows.rst:155
 msgid "`Reviewers`"
