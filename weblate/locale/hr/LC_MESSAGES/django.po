@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 15:13+0000\n"
-"PO-Revision-Date: 2023-08-27 15:56+0000\n"
+"PO-Revision-Date: 2023-08-30 06:52+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -2677,23 +2677,19 @@ msgstr ""
 
 #: weblate/checks/angularjs.py:30
 msgid "AngularJS interpolation string"
-msgstr "AngularJS izrazi za interpolaciju"
+msgstr "Znakovni niz AngularJS interpolacije"
 
 #: weblate/checks/angularjs.py:31
 msgid "AngularJS interpolation strings do not match source"
-msgstr "AngularJS izrazi za interpolaciju se ne poklapaju s izvorom"
+msgstr "Znakovni niz AngularJS interpolacije se ne poklapaju s izvorom"
 
 #: weblate/checks/base.py:287
-#, fuzzy
-#| msgid "Following format strings are missing: {}"
 msgid "The following format strings are missing: {}"
-msgstr "Sljedeći nizovi formata nedostaju: {}"
+msgstr "Sljedeći znakovni nizovi formata nedostaju: {}"
 
 #: weblate/checks/base.py:292
-#, fuzzy
-#| msgid "Following format strings are extra: {}"
 msgid "The following format strings are extra: {}"
-msgstr "Sljedeći nizovi formata su suvišni: {}"
+msgstr "Sljedeći znakovni nizovi formata su dodatni: {}"
 
 #: weblate/checks/chars.py:21
 msgid "Starting newline"
@@ -2797,11 +2793,11 @@ msgstr "Razmak bez širine"
 
 #: weblate/checks/chars.py:344
 msgid "Translation contains extra zero-width space character"
-msgstr "Prijevod sadrži dodatni razmakni znak bez širine"
+msgstr "Prijevod sadrži dodatni znak razmaka bez širine"
 
 #: weblate/checks/chars.py:361 weblate/checks/flags.py:64
 msgid "Maximum length of translation"
-msgstr "Maksimalna duljina prijevoda"
+msgstr "Maksimalna dužina prijevoda"
 
 #: weblate/checks/chars.py:362
 msgid "Translation should not exceed given length"
@@ -2817,7 +2813,7 @@ msgstr "Izvor i prijevod ne završavaju s točka-zarezom"
 
 #: weblate/checks/chars.py:394
 msgid "Kashida letter used"
-msgstr "Koristi se znak kashide"
+msgstr "Koristi se kashida znak"
 
 #: weblate/checks/chars.py:395
 msgid "The decorative kashida letters should not be used"
@@ -2829,7 +2825,7 @@ msgstr "Razmaci interpunkcija"
 
 #: weblate/checks/chars.py:416
 msgid "Missing non breakable space before double punctuation sign"
-msgstr "Nedostaje neprekidajući razmak ispred dvostrukog znaka interpunkcije"
+msgstr "Nedostaje neprekidajući razmak ispred interpunkcija (; : ? !)"
 
 #: weblate/checks/consistency.py:20
 msgid "Missing plurals"
@@ -2845,7 +2841,7 @@ msgstr "Jednake množine"
 
 #: weblate/checks/consistency.py:48
 msgid "Some plural forms are translated in the same way"
-msgstr "Neki oblici množine prevedeni su jednako"
+msgstr "Neki oblici množine su prevedeni jednako"
 
 #: weblate/checks/consistency.py:67
 msgid "Inconsistent"
@@ -2935,13 +2931,11 @@ msgstr "Samo za čitanje"
 
 #: weblate/checks/flags.py:44
 msgid "Strict unchanged check"
-msgstr "Stroga nepromijenjena provjera"
+msgstr "Stroga provjera nepromijenjenih izraza"
 
 #: weblate/checks/flags.py:45
-#, fuzzy
-#| msgid "Strict unchanged check"
 msgid "Strict format string checks"
-msgstr "Stroga nepromijenjena provjera"
+msgstr "Stroga provjera znakovnog niza formata"
 
 #: weblate/checks/flags.py:46 weblate/glossary/forms.py:35
 msgid "Forbidden translation"
@@ -2979,7 +2973,7 @@ msgstr "ICU MessageFormat oznake"
 
 #: weblate/checks/flags.py:60
 msgid "ICU MessageFormat tag prefix"
-msgstr "ICU MessageFormat prefiks oznake"
+msgstr "Prefix ICU MessageFormat oznake"
 
 #: weblate/checks/flags.py:62 weblate/trans/models/component.py:675
 #: weblate/utils/views.py:122
@@ -2995,10 +2989,8 @@ msgid "String variant"
 msgstr "Varijanta izraza"
 
 #: weblate/checks/flags.py:72
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent type"
-msgstr "Fluent datoteka"
+msgstr "Fluent vrsta"
 
 #: weblate/checks/flags.py:261
 #, python-format
@@ -3026,6 +3018,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"Fluent referenca u nizu {sequence} će se možda proširiti u HTML oznaku. "
+"Probaj koristi {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:143
 #, python-brace-format
@@ -3033,6 +3027,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"Fluent referenca u nizu {sequence} će se možda proširiti u referencu HTML "
+"znaka. Probaj koristi {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:171
 #, python-brace-format
@@ -3040,6 +3036,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"Niz {sequence} počinje sa završnom HTML oznakom, ali ime ili sintaksa nisu "
+"ispravni. Ako ne želiš završnu oznaku, koristi {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:184
 #, python-brace-format
@@ -3047,6 +3045,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Niz {sequence} počinje s HTML oznakom, ali ime nije ispravno. Ako ne želiš "
+"započeti s HTML oznakom, koristi {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:197
 #, python-brace-format
@@ -3054,12 +3054,16 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Niz {sequence} počinje s HTML oznakom, ali oznaka nije zatvorena s {close}. "
+"Ako ne želiš započeti s HTML oznakom, koristi {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:211
 #, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"Unutarnji HTML Fluenta ne bi trebao uključivati niz {sequence}. Probaj "
+"koristi {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:227
 #, python-brace-format
@@ -3068,11 +3072,14 @@ msgid ""
 "is not a valid attribute with a value. If you do not want to begin a HTML "
 "tag, use {suggestion}."
 msgstr ""
+"Niz {sequence} počinje s HTML oznakom, ali atribut {attribute} niza nije "
+"ispravan atribut s vrijednošću. Ako ne želiš započeti s HTML oznakom, "
+"koristi {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "Ime HTML atributa {name} za oznaku {tag} nije ispravno."
 
 #: weblate/checks/fluent/inner_html.py:260
 #, python-brace-format
@@ -3080,16 +3087,18 @@ msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
 msgstr ""
+"Vrijednost {value} HTML atributa {name} za oznaku {tag} nije ispravna "
+"navedena vrijednost."
 
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "HTML atribut {name} se pojavljuje dvaput za oznaku {tag}."
 
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "Napoklapajuća završna HTML oznaka: {tag}."
 
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
