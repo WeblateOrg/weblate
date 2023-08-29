@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* Related glossary terms lookup is now faster.
+
 **Bug fixes**
 
 * Creating component within a category.
