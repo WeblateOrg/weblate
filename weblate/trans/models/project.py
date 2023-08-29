@@ -9,7 +9,6 @@ import os.path
 from datetime import datetime
 
 from django.conf import settings
-from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, transaction
 from django.db.models import Count, Q, Value
@@ -502,12 +501,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
             component for component in self.child_components if component.is_glossary
         ]
 
-    @cached_property
-    def glossary_automaton_key(self):
-        return f"project-glossary-{self.pk}"
-
     def invalidate_glossary_cache(self):
-        cache.delete(self.glossary_automaton_key)
         if "glossary_automaton" in self.__dict__:
             del self.__dict__["glossary_automaton"]
 
@@ -515,11 +509,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
     def glossary_automaton(self):
         from weblate.glossary.models import get_glossary_automaton
 
-        result = cache.get(self.glossary_automaton_key)
-        if result is None:
-            result = get_glossary_automaton(self)
-            cache.set(self.glossary_automaton_key, result, 24 * 3600)
-        return result
+        return get_glossary_automaton(self)
 
     def get_machinery_settings(self):
         settings = Setting.objects.get_settings_dict(Setting.CATEGORY_MT)
