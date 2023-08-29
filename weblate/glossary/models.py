@@ -6,6 +6,7 @@ import re
 from itertools import chain
 
 import ahocorasick
+import sentry_sdk
 from django.db.models import Q
 from django.db.models.functions import Lower
 
@@ -30,18 +31,19 @@ def get_glossary_sources(component):
 
 
 def get_glossary_automaton(project):
-    # Chain terms
-    terms = set(
-        chain.from_iterable(
-            glossary.glossary_sources for glossary in project.glossaries
+    with sentry_sdk.start_span(op="glossary.automaton", description=project.slug):
+        # Chain terms
+        terms = set(
+            chain.from_iterable(
+                glossary.glossary_sources for glossary in project.glossaries
+            )
         )
-    )
-    # Build automaton for efficient Aho-Corasick search
-    automaton = ahocorasick.Automaton()
-    for term in terms:
-        automaton.add_word(term, term)
-    automaton.make_automaton()
-    return automaton
+        # Build automaton for efficient Aho-Corasick search
+        automaton = ahocorasick.Automaton()
+        for term in terms:
+            automaton.add_word(term, term)
+        automaton.make_automaton()
+        return automaton
 
 
 def get_glossary_terms(unit):
@@ -76,12 +78,13 @@ def get_glossary_terms(unit):
     automaton = project.glossary_automaton
     if automaton.kind == ahocorasick.AHOCORASICK:
         # Extract terms present in the source
-        for end, term in automaton.iter(source):
-            if uses_ngram or (
-                (end + 1 == len(term) or NON_WORD_RE.match(source[end - len(term)]))
-                and (end + 1 == len(source) or NON_WORD_RE.match(source[end + 1]))
-            ):
-                terms.add(term)
+        with sentry_sdk.start_span(op="glossary.match", description=project.slug):
+            for end, term in automaton.iter(source):
+                if uses_ngram or (
+                    (end + 1 == len(term) or NON_WORD_RE.match(source[end - len(term)]))
+                    and (end + 1 == len(source) or NON_WORD_RE.match(source[end + 1]))
+                ):
+                    terms.add(term)
 
     if using_postgresql():
         match = r"^({})$".format("|".join(re_escape(term) for term in terms))
