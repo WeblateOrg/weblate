@@ -3,13 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Eric <hamburger2048@users.noreply.hosted.weblate.org>, 2023.
 # Xzonn <Xzonn@outlook.com>, 2023.
+# Xiang Heng Wei <yylteam@hotmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 17:13+0200\n"
-"PO-Revision-Date: 2023-08-30 06:52+0000\n"
-"Last-Translator: Xzonn <Xzonn@outlook.com>\n"
+"PO-Revision-Date: 2023-08-31 08:52+0000\n"
+"Last-Translator: Xiang Heng Wei <yylteam@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -11606,9 +11607,8 @@ msgid ""
 "You should also start the Celery worker to process the tasks and start "
 "scheduled tasks, this can be done directly on the command-line (which is "
 "mostly useful when debugging or developing):"
-msgstr ""
-"您应该启动 Celery worker 来处理任务，并且定时任务，这可以直接在命令行完成（调"
-"试和开发时最有用）："
+msgstr "您应该启动 Celery 工作进程来处理任务，并且定时任务，这可以直接在命令行完成（"
+"调试和开发时最有用）："
 
 #: ../../admin/install.rst:1376
 msgid ""
@@ -12423,12 +12423,11 @@ msgstr ""
 msgid ""
 "In case you have a lot of CPU cores and hit out of memory issues, try "
 "reducing number of workers:"
-msgstr ""
-"在你有很多 CPU 核心并且碰到内存用尽问题情况下，尝试减少 worker 的数量："
+msgstr "在你有很多 CPU 核心并且碰到内存用尽问题情况下，尝试减少 工作进程的数量："
 
 #: ../../admin/install/docker.rst:353
 msgid "You can also fine-tune individual worker categories:"
-msgstr "你还可以微调单个 worker 类别："
+msgstr "你还可以微调单个 工作进程类别："
 
 #: ../../admin/install/docker.rst:365
 msgid ""
@@ -13676,7 +13675,7 @@ msgid ""
 "to adjust concurrency (``--concurrency 16``) or use different pool "
 "implementation (``--pool=gevent``)."
 msgstr ""
-"这些变量允许您调整 Celery worker 选项。它可以用于调整并发性（ ``--"
+"这些变量允许您调整 Celery 工作进程选项。它可以用于调整并发性（ ``--"
 "concurrency 16`` ），或使用不同的池实现（ ``--pool=gevent`` ）。"
 
 #: ../../admin/install/docker.rst:1701
@@ -13690,11 +13689,12 @@ msgid ""
 ":doc:`Celery worker options <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
 msgstr ""
-":doc:`Celery worker 选项 <celery:reference/celery.bin.worker>`, :ref:`celery`"
+":doc:`Celery 工作进程选项 <celery:reference/celery.bin.worker>`, "
+":ref:`celery`"
 
 #: ../../admin/install/docker.rst:1717
 msgid "Configure how many uWSGI workers should be executed."
-msgstr "配置应该执行多少个 uWSGI worker。"
+msgstr "配置应该执行多少个 uWSGI 工作进程。"
 
 #: ../../admin/install/docker.rst:1719
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
@@ -13729,7 +13729,7 @@ msgstr "``celery-backup``"
 
 #: ../../admin/install/docker.rst:1739
 msgid "Celery worker for backups, only one instance should be running."
-msgstr "用于备份的 Celery worker，应该只有一个实例在运行。"
+msgstr "用于备份的 Celery 工作进程，应该只有一个实例在运行。"
 
 #: ../../admin/install/docker.rst:1740
 msgid "``celery-celery``"
@@ -13737,7 +13737,7 @@ msgstr "``celery-celery``"
 
 #: ../../admin/install/docker.rst:1741
 msgid "Generic Celery worker."
-msgstr "普通的 Celery worker."
+msgstr "普通的 Celery 工作进程."
 
 #: ../../admin/install/docker.rst:1742
 msgid "``celery-memory``"
@@ -13745,7 +13745,7 @@ msgstr "``celery-memory``"
 
 #: ../../admin/install/docker.rst:1743
 msgid "Translation memory Celery worker."
-msgstr "翻译记忆库 Celery worker。"
+msgstr "翻译记忆库 Celery 工作进程。"
 
 #: ../../admin/install/docker.rst:1744
 msgid "``celery-notify``"
@@ -13753,7 +13753,7 @@ msgstr "``celery-notify``"
 
 #: ../../admin/install/docker.rst:1745
 msgid "Notifications Celery worker."
-msgstr "通知 Celery worker。"
+msgstr "通知 Celery 工作进程。"
 
 #: ../../admin/install/docker.rst:1746
 msgid "``celery-translate``"
@@ -13761,7 +13761,7 @@ msgstr "``celery-translate``"
 
 #: ../../admin/install/docker.rst:1747
 msgid "Automatic translation Celery worker."
-msgstr "自动翻译 Celery worker。"
+msgstr "自动翻译 Celery 工作进程。"
 
 #: ../../admin/install/docker.rst:1748
 msgid "``web``"
@@ -14080,9 +14080,8 @@ msgid ""
 "There are individual services for each Celery queue (see :ref:`celery` for "
 "details). You can stop processing some tasks by stopping the appropriate "
 "worker:"
-msgstr ""
-"每个 Celery 队列有单独服务（详见 :ref:`celery`）。你可以停止相应的 worker 来"
-"停止处理某些任务："
+msgstr "每个 Celery 队列有单独服务（详见 :ref:`celery`）。你可以停止相应的 "
+"工作进程来停止处理某些任务："
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
@@ -14482,9 +14481,8 @@ msgstr ""
 msgid ""
 "Start the Celery workers. This is not necessary for development purposes, "
 "but strongly recommended otherwise. :ref:`celery` has more info:"
-msgstr ""
-"启动 Celery workers。这对开发来说是不必要的，但强烈建议在其他场景这样做。更多"
-"信息请参见 :ref:`celery`："
+msgstr "启动 Celery 工作进程。这对开发来说是不必要的，但强烈建议在其他场景这样做。"
+"更多信息请参见 :ref:`celery`："
 
 #: ../../admin/install/steps/install-configure.rst:65
 msgid ""
@@ -20028,7 +20026,7 @@ msgstr "验证您的设置合理（还请参见 :ref:`production`）："
 
 #: ../../admin/upgrade.rst:108
 msgid "Restart Celery worker (see :ref:`celery`)."
-msgstr "重新启动 Celery worker（请参见 :ref:`celery`）。"
+msgstr "重新启动 Celery 工作进程（请参见 :ref:`celery`）。"
 
 #: ../../admin/upgrade.rst:114
 msgid "Version specific instructions"
@@ -23074,7 +23072,7 @@ msgstr "可视化差异可以更好地理解合成字符。"
 
 #: ../../changes.rst:35
 msgid "**Bug fixes**"
-msgstr "**Bug 修复**"
+msgstr "**缺陷修复**"
 
 #: ../../changes.rst:37
 msgid "User names handling while committing to Git."
@@ -26941,7 +26939,7 @@ msgstr "修复了报告新添加语言的过程。"
 
 #: ../../changes/v3.rst:415
 msgid "Correctly report Celery worker errors to Sentry."
-msgstr "正确地向 Sentry 报告 Celery worker 错误。"
+msgstr "正确地向 Sentry 报告 Celery 工作进程错误。"
 
 #: ../../changes/v3.rst:416
 msgid "Fixed creating new translations with Qt Linguist."
@@ -31473,8 +31471,7 @@ msgid ""
 "A lot of things are done in the background by Celery workers. If things like "
 "sending out e-mails or component removal does not work, there might a "
 "related issue."
-msgstr ""
-"Celery workers 在后台完成很多事。如果像发送电子邮件或删除部件这样的事情不能正"
+msgstr "Celery 工作进程在后台完成很多事。如果像发送电子邮件或删除部件这样的事情不能正"
 "常运作，那么可能有一个相关的问题。"
 
 #: ../../contributing/debugging.rst:54
@@ -33213,7 +33210,7 @@ msgstr "启动一台开发服务器："
 #: ../../contributing/start.rst:55
 msgid ""
 "Depending on your configuration, you might also want to start Celery workers:"
-msgstr "你可能还想启动 Celery workers，这取决于你的配置："
+msgstr "你可能还想启动 Celery 工作进程，这取决于你的配置："
 
 #: ../../contributing/start.rst:61
 msgid "To run a test (see :ref:`local-tests` for more details):"
