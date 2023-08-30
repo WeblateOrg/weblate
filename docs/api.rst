@@ -2522,27 +2522,27 @@ Categories
 
    .. versionadded:: 5.0
 
-    Edit partial information about cateogry.
+    Edit partial information about category.
 
     :param id: Category ID
     :type id: int
-    :>json object configuration: Optional cateogry configuration
+    :>json object configuration: Optional category configuration
 
 .. http:put:: /api/categories/(int:id)/
 
    .. versionadded:: 5.0
 
-    Edit full information about cateogry.
+    Edit full information about category.
 
     :param id: Category ID
     :type id: int
-    :>json object configuration: Optional cateogry configuration
+    :>json object configuration: Optional category configuration
 
 .. http:delete:: /api/categories/(int:id)/
 
    .. versionadded:: 5.0
 
-    Delete cateogry.
+    Delete category.
 
     :param id: Category ID
     :type id: int
