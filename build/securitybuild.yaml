@@ -1,0 +1,49 @@
+substitutions:
+  _APP_NAME: 'weblate'
+steps:
+  # This step runs semgrep, a static analysis tool, on the codebase. (sha-6a7682b)
+  - name: 'returntocorp/semgrep@sha256:c5c34e83f8c5827c8bfe6c8f85503b2e8728f72d5b45832eb992efd01db369fd'
+    entrypoint: 'bash'
+    args: ['-c', 'semgrep ci --config p/r2c-security-audit --exclude vendor --exclude node_modules --exclude lib --json > /workspace/semgrep.json || true']
+    id: 'semgrep'
+    waitFor: ['-']
+    # This step runs trufflehog, a tool that scans for secrets in the codebase. (3.52.1 Linux/AMD)
+  - name: 'trufflesecurity/trufflehog@sha256:c83e17234e9d4fe877c474ec70fb3645573dee5067a94c2059e814268a7a78fe'
+    entrypoint: 'bash'
+    args: ['-c', 'trufflehog filesystem /workspace --only-verified --json > /workspace/trufflehog.json']
+    id: 'trufflehog'
+    waitFor: ['-']
+    # This step runs syft, a tool that generates a software bill of materials (SBOM) for the codebase. (0.87.1 Linux/AMD)
+  - name: 'anchore/syft@sha256:cb8b4952ec44576f1109e96567dce9c6a2c67b112bd5c8bb61538dc4ab72b1fd'
+    args: [ 'packages', '/workspace', '--exclude', '**/sdks/**', '--output', 'json', '--file', '/workspace/sbom.json', '-vv' ]
+    id: 'syft'
+    waitFor: ['-']
+    # This step runs grype, a tool that analyzes the SBOM for known vulnerabilities. (0.65.2 Linux/AMD)
+  - name: 'anchore/grype@sha256:1cf6ab4fbf00c7759de605664177d73359fad1eccb5f9760dff152fd99c01925'
+    args: [ 'sbom:/workspace/sbom.json', '--exclude', '**/vendor/**', '--exclude', '**/package-lock.json', '--exclude', '**/lib/**', '--output=json', '--file=/workspace/grype.json' ]
+    id: 'grype'
+    waitFor: ['syft']
+    # This step uploads the results of the scans to DefectDojo (2023-08-23)
+  - name: 'gcr.io/repcore-prod/defect-dojo-scan-upload@sha256:b3690de144aafaf3641cfa7f22ad66ebccd0e2815a9b31975bf8303c0a4393c1'
+    env: ["APP_NAME=${_APP_NAME}"]
+    secretEnv: ['DEFECT_DOJO_TOKEN']
+    waitFor: ['semgrep', 'trufflehog', 'grype']
+    # This step pulls all active findings from DefectDojo and uploads them to Cortex (2023-08-02)
+  - name: 'gcr.io/repcore-prod/cortex-upload@sha256:2267d6ebca3b5c315a6a6f7fc31711541c9e200563a466fe4cbf03807b0a9a80'
+    env: ["APP_NAME=${_APP_NAME}"]
+    secretEnv: ['DEFECT_DOJO_TOKEN', 'CORTEX_TOKEN']
+    waitFor: ['-']
+artifacts:
+  objects:
+    location: 'gs://defect-dojo-scans/${_APP_NAME}/$BUILD_ID/'
+    paths: ['/workspace/sbom.json', '/workspace/grype.json', '/workspace/semgrep.json', '/workspace/trufflehog.json']
+availableSecrets:
+  secretManager:
+    - versionName: 'projects/repcore-prod/secrets/defect-dojo-token/versions/latest'
+      env: 'DEFECT_DOJO_TOKEN'
+    - versionName: 'projects/repcore-prod/secrets/infosec-cortex-token/versions/latest'
+      env: 'CORTEX_TOKEN'
+tags:
+  - 'SecurityBuild'
+  - 'NotDeployable'
+timeout: 1200s
