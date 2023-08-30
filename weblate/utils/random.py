@@ -8,4 +8,4 @@ import os
 
 
 def get_random_identifier(length: int = 4) -> str:
-    return str(binascii.hexlify(os.urandom(length)))
+    return binascii.hexlify(os.urandom(length)).decode()
