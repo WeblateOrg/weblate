@@ -208,7 +208,7 @@ class MetricManager(models.Manager):
                 translation__language=obj.language
             )
         elif isinstance(obj, Category):
-            changes = Change.objects.for_category(obj.category)
+            changes = Change.objects.for_category(obj)
         elif isinstance(obj, ProjectLanguage):
             changes = obj.project.change_set.filter(translation__language=obj.language)
         elif isinstance(obj, Language):
