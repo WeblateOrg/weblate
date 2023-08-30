@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 15:13+0000\n"
-"PO-Revision-Date: 2023-08-30 06:52+0000\n"
+"PO-Revision-Date: 2023-08-30 10:35+0000\n"
 "Last-Translator: a <xxx_xxx_xxxxxxxxx@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -86,7 +86,6 @@ msgid "E-mail"
 msgstr "Эл. почта"
 
 #: weblate/accounts/forms.py:346
-#, fuzzy
 msgid "Choose primary e-mail from verified addresses."
 msgstr "Выберите основной адрес электронной почты из проверенных адресов."
 
@@ -117,10 +116,8 @@ msgstr ""
 "запрос."
 
 #: weblate/accounts/forms.py:419
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "E-mail with a confirmation link will be sent here."
-msgstr "Письмо для активации будет отправлено по этому адресу."
+msgstr "Сюда будет отправлено электронное письмо со ссылкой для подтверждения."
 
 #: weblate/accounts/forms.py:461
 msgid "New password"
@@ -392,10 +389,9 @@ msgid "Account and all private data removed."
 msgstr "Учётная запись и все персональные данные удалены."
 
 #: weblate/accounts/models.py:157
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "Отправлено письмо с подтверждением на {email}."
+msgstr "Подтверждение удаления учетной записи отправлено на {email}."
 
 #: weblate/accounts/models.py:158
 #, python-brace-format
@@ -408,9 +404,9 @@ msgid "Invited to {site_title} by {username}."
 msgstr "Приглашён в {site_title} пользователем {username}."
 
 #: weblate/accounts/models.py:160
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "Принято приглашение от {имя пользователя}."
 
 #: weblate/accounts/models.py:161
 msgid "Started trial period."
@@ -454,7 +450,7 @@ msgstr "Неудачная попытка входа с помощью паро�
 #, fuzzy, python-brace-format
 #| msgid "Invited to {site_title} by {username}."
 msgid "Invited to {project} by {username}."
-msgstr "Приглашён в {site_title} пользователем {username}."
+msgstr "Приглашен в {проект} по {имени пользователя}."
 
 #: weblate/accounts/models.py:184
 msgid "To restore access to your account, please reset your password."
@@ -501,24 +497,22 @@ msgstr ""
 
 #: weblate/accounts/models.py:406
 msgid "Theme"
-msgstr ""
+msgstr "Тема"
 
 #: weblate/accounts/models.py:409
 msgctxt "Theme selection"
 msgid "Sync with system"
-msgstr ""
+msgstr "Синхронизация с системой"
 
 #: weblate/accounts/models.py:410
-#, fuzzy
-#| msgid "Insights"
 msgctxt "Theme selection"
 msgid "Light"
-msgstr "Аналитика"
+msgstr "Свет"
 
 #: weblate/accounts/models.py:411
 msgctxt "Theme selection"
 msgid "Dark"
-msgstr ""
+msgstr "Темный"
 
 #: weblate/accounts/models.py:415
 msgid "Hide completed translations on the dashboard"
@@ -730,10 +724,8 @@ msgstr ""
 "Вы не можете отправлять переводы без прикрепленного адреса электронной почты."
 
 #: weblate/accounts/notifications.py:49
-#, fuzzy
-#| msgid "Notifications"
 msgid "No notification"
-msgstr "Уведомления"
+msgstr "Нет уведомления"
 
 #: weblate/accounts/notifications.py:50
 msgid "Instant notification"
@@ -752,145 +744,104 @@ msgid "Monthly digest"
 msgstr "Ежемесячная сводка"
 
 #: weblate/accounts/notifications.py:451
-#, fuzzy
-#| msgid "String updated in the repository"
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr "Строка обновлена в репозитории"
+msgstr "Операция была выполнена в репозитории"
 
 #: weblate/accounts/notifications.py:462
-#, fuzzy
-#| msgid "Component unlocked"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr "Компонент разблокирован"
+msgstr "Компонент был заблокирован или разблокирован"
 
 #: weblate/accounts/notifications.py:469
-#, fuzzy
-#| msgid "License changed"
 msgctxt "Notification name"
 msgid "License was changed"
-msgstr "Изменение лицензии"
+msgstr "Лицензия была изменена"
 
 #: weblate/accounts/notifications.py:476
-#, fuzzy
-#| msgid "Parse error"
 msgctxt "Notification name"
 msgid "Parse error occured"
-msgstr "Ошибка разбора"
+msgstr "Произошла ошибка синтаксического анализа"
 
 #: weblate/accounts/notifications.py:494
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgctxt "Notification name"
 msgid "New string is available for translation"
-msgstr "Новая строка для перевода в %(translation)s"
+msgstr "Новая строка доступна для перевода"
 
 #: weblate/accounts/notifications.py:504
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr "Вносить вклад в совместную память переводов"
+msgstr "Автор сделал их первый перевод"
 
 #: weblate/accounts/notifications.py:513
-#, fuzzy
-#| msgid "Suggestion added"
 msgctxt "Notification name"
 msgid "Suggestion was added"
-msgstr "Добавлено предложение"
+msgstr "Было добавлено предложение"
 
 #: weblate/accounts/notifications.py:522
-#, fuzzy
-#| msgid "Comment added"
 msgctxt "Notification name"
 msgid "Comment was added"
-msgstr "Добавлен комментарий"
+msgstr "Был добавлен комментарий"
 
 #: weblate/accounts/notifications.py:544
-#, fuzzy
-#| msgid "Mentioned in comment"
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
-msgstr "Упоминание в комментарии"
+msgstr "Вы были упомянуты в комментарии"
 
 #: weblate/accounts/notifications.py:576
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgctxt "Notification name"
 msgid "Your translation received a comment"
-msgstr "Ваш проект перевода был удален"
+msgstr "К вашему переводу был получен комментарий"
 
 #: weblate/accounts/notifications.py:601
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was edited by user"
-msgstr "Пользователь, изменивший строку"
+msgstr "Строка была отредактирована пользователем"
 
 #: weblate/accounts/notifications.py:609
-#, fuzzy
-#| msgid "String has context"
 msgctxt "Notification name"
 msgid "String was approved"
-msgstr "Строка с контекстом"
+msgstr "Строка была одобрена"
 
 #: weblate/accounts/notifications.py:617
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was changed"
-msgstr "Пользователь, изменивший строку"
+msgstr "Строка была изменена"
 
 #: weblate/accounts/notifications.py:626
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Notification name"
 msgid "New language was added or requested"
-msgstr "Новый язык добавлен в %(component)s"
+msgstr "Был добавлен или запрошен новый язык"
 
 #: weblate/accounts/notifications.py:643
-#, fuzzy
-#| msgid "New translation component"
 msgctxt "Notification name"
 msgid "New translation component was created"
-msgstr "Новый компонент перевода"
+msgstr "Был создан новый компонент перевода"
 
 #: weblate/accounts/notifications.py:651
-#, fuzzy
-#| msgid "Announcements"
 msgctxt "Notification name"
 msgid "Announcement was published"
-msgstr "Объявления"
+msgstr "Объявление было опубликовано"
 
 #: weblate/accounts/notifications.py:666
-#, fuzzy
-#| msgid "New alert on %(component)s"
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
-msgstr "Новое предупреждение в %(component)s"
+msgstr "В компоненте появилось новое предупреждение"
 
 #: weblate/accounts/notifications.py:704
-#, fuzzy
-#| msgid "Repository operation"
 msgctxt "Notification name"
 msgid "Repository operation failed"
-msgstr "Работа с репозиторием"
+msgstr "Сбой в работе репозитория"
 
 #: weblate/accounts/notifications.py:771
-#, fuzzy
-#| msgid "Pending suggestions"
 msgctxt "Notification name"
 msgid "Pending suggestions exist"
-msgstr "Ожидающие предложения"
+msgstr "Существуют незавершенные предложения"
 
 #: weblate/accounts/notifications.py:781
-#, fuzzy
-#| msgid "Unfinished strings"
 msgctxt "Notification name"
 msgid "Unfinished strings exist"
-msgstr "Незавершённые строки"
+msgstr "Существуют незаконченные строки"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
@@ -1058,16 +1009,12 @@ msgid "You can also request a new password, if you have lost your credentials."
 msgstr "Вы также можете запросить новый пароль, если свой потеряли."
 
 #: weblate/accounts/views.py:1213
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the verification token "
-#| "probably expired."
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
 msgstr ""
-"Чтобы подтвердить своё удостоверение, попробуйте зарегистрироваться ещё раз, "
-"токен проверки, вероятно, устарел."
+"Попробуйте зарегистрироваться еще раз, чтобы подтвердить свою личность, "
+"вероятно, срок действия ссылки для подтверждения истек."
 
 #: weblate/accounts/views.py:1221
 msgid "Could not authenticate due to invalid session state."
@@ -1589,8 +1536,7 @@ msgstr ""
 "разобрать для извлечения переводимых строк."
 
 #: weblate/addons/forms.py:526
-#, fuzzy, python-format
-#| msgid "Failed to parse CSS selector: %s"
+#, python-format
 msgid "Could not parse CSS selector: %s"
 msgstr "Не удалось разобрать CSS селектор: %s"
 
@@ -1675,16 +1621,12 @@ msgid "Fills in translation strings with source string."
 msgstr "Заполняет перевод используя исходные строки."
 
 #: weblate/addons/generate.py:216
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Предварительно заполнять перевод источником"
+msgstr "Заполните строки, доступные только для чтения, исходным кодом"
 
 #: weblate/addons/generate.py:218
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Заполняет перевод используя исходные строки."
+msgstr "Заполняет перевод строк, доступных только для чтения, исходной строкой."
 
 #: weblate/addons/gettext.py:26
 msgid "Generate MO files"
@@ -1820,14 +1762,8 @@ msgid "Customize XML output"
 msgstr "Настройка вывода XML"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid "Allows adjusting XML output behavior, for example closing tags."
-msgstr ""
-"Позволяет подправить поведение вывода в YAML, например, длину строк и "
-"символы перевода строк."
+msgstr "Позволяет настраивать поведение вывода XML, например закрывающие теги."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
@@ -2345,10 +2281,8 @@ msgid "User invitation e-mail was sent."
 msgstr "Было отправлено электронное письмо с приглашением пользователя."
 
 #: weblate/auth/forms.py:127
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot change this on a built-in team."
-msgstr "Изменение %s запрещено для встроенных команд."
+msgstr "Невозможно изменить это во встроенной команде."
 
 #: weblate/auth/models.py:68
 #, python-format
@@ -2430,10 +2364,9 @@ msgid "Components"
 msgstr "Компоненты"
 
 #: weblate/auth/models.py:133
-#, fuzzy
-#| msgid "You do not have permission to create components in any projects."
 msgid "Empty selection grants access to all components in project scope."
-msgstr "У вас нет прав для создания компонентов ни в одном из проектов."
+msgstr ""
+"Пустой выбор предоставляет доступ ко всем компонентам в области проекта."
 
 #: weblate/auth/models.py:143
 msgid "Language selection"
@@ -2521,10 +2454,6 @@ msgid "Teams"
 msgstr "Команды"
 
 #: weblate/auth/models.py:374 weblate/auth/models.py:935
-#, fuzzy
-#| msgid ""
-#| "The user is granted all permissions included in membership of these "
-#| "groups."
 msgid ""
 "The user is granted all permissions included in membership of these teams."
 msgstr ""
@@ -2568,6 +2497,7 @@ msgstr "Команда"
 #: weblate/auth/permissions.py:143
 msgid "Can not perform this operation without an e-mail address."
 msgstr ""
+"Невозможно выполнить эту операцию без указания адреса электронной почты."
 
 #: weblate/auth/permissions.py:149 weblate/templates/translate.html:194
 #: weblate/templates/translate.html:214
@@ -2575,16 +2505,12 @@ msgid "This translation is currently locked."
 msgstr "Этот перевод в настоящее время заблокирован."
 
 #: weblate/auth/permissions.py:157
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires you agree to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "agreement."
 msgstr ""
-"Для участия в этом переводе от вас требуется согласиться с его соглашением "
-"участника."
+"Для внесения вклада в этот перевод требуется согласие с его авторским "
+"соглашением."
 
 #: weblate/auth/permissions.py:163 weblate/templates/translate.html:200
 #: weblate/trans/views/edit.py:404 weblate/trans/views/edit.py:426
@@ -2597,10 +2523,8 @@ msgid "Insufficient privileges for editing source strings."
 msgstr "Недостаточно привилегий для редактирования исходных строк."
 
 #: weblate/auth/permissions.py:175
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Suggestion voting is disabled."
-msgstr "Редактирование исходной строки отключено."
+msgstr "Голосование по предложениям отключено."
 
 #: weblate/auth/permissions.py:185
 msgid ""
@@ -2614,28 +2538,20 @@ msgid "Pay the bills to unlock this project."
 msgstr "Оплатите счета, чтобы разблокировать проект."
 
 #: weblate/auth/permissions.py:202
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Source string reviews are not enabled."
-msgstr "Редактирование исходной строки отключено."
+msgstr "Проверка исходной строки не включена."
 
 #: weblate/auth/permissions.py:203
-#, fuzzy
-#| msgid "Translation reverted"
 msgid "Translation reviews are not enabled."
-msgstr "Перевод возвращён"
+msgstr "Проверка перевода не включена."
 
 #: weblate/auth/permissions.py:219
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Reviews are not enabled."
-msgstr "На текущий момент сервис недоступен."
+msgstr "Просмотры не включены."
 
 #: weblate/auth/permissions.py:232
-#, fuzzy
-#| msgid "This string seems to already exist."
 msgid "The string is read only."
-msgstr "Кажется, такая строка уже существует."
+msgstr "Строка доступна только для чтения."
 
 #: weblate/auth/permissions.py:238
 msgid ""
@@ -2646,44 +2562,34 @@ msgstr ""
 "строка должна быть изменена, добавьте предложение."
 
 #: weblate/auth/permissions.py:244
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "The translation is read only."
-msgstr "Этот перевод заблокирован."
+msgstr "Перевод доступен только для чтения."
 
 #: weblate/auth/permissions.py:261
 msgid "Add the string to the source language instead."
-msgstr ""
+msgstr "Вместо этого добавьте строку на исходный язык."
 
 #: weblate/auth/permissions.py:265
-#, fuzzy
-#| msgid "Unsupported component configuration"
 msgid "Adding strings is disabled in the component configuration."
-msgstr "Неподдерживаемая настройка компонента"
+msgstr "Добавление строк отключено в конфигурации компонента."
 
 #: weblate/auth/permissions.py:282 weblate/auth/permissions.py:299
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "File format does not support this."
-msgstr "Обнаруженный формат файла не поддерживается."
+msgstr "Формат файла это не поддерживает."
 
 #: weblate/auth/views.py:115
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot remove built-in team!"
-msgstr "Изменение %s запрещено для встроенных команд."
+msgstr "Не удается удалить встроенную команду!"
 
 #: weblate/auth/views.py:189
-#, fuzzy
-#| msgid "User invitation e-mail was sent."
 msgid "User invitation was removed."
-msgstr "Было отправлено электронное письмо с приглашением пользователя."
+msgstr "Приглашение пользователя было удалено."
 
 #: weblate/auth/views.py:213
 #, fuzzy, python-format
 #| msgid "Resend e-mail invitation to the user"
 msgid "Accepted invitation to the %s team."
-msgstr "Повторная отправка приглашения по эл. почте пользователю"
+msgstr "Принято приглашение в %пар."
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2820,16 +2726,12 @@ msgid "AngularJS interpolation strings do not match source"
 msgstr "Интерполяционные строки AngularJS не соответствуют источнику"
 
 #: weblate/checks/base.py:287
-#, fuzzy
-#| msgid "Following format strings are missing: {}"
 msgid "The following format strings are missing: {}"
-msgstr "Следующие строки форматирования отсутствуют: {}"
+msgstr "Отсутствуют следующие строки формата: {}"
 
 #: weblate/checks/base.py:292
-#, fuzzy
-#| msgid "Following format strings are extra: {}"
 msgid "The following format strings are extra: {}"
-msgstr "Следующие строки форматирования лишние: {}"
+msgstr "Следующие строки формата являются дополнительными: {}"
 
 #: weblate/checks/chars.py:21
 msgid "Starting newline"
@@ -2996,16 +2898,12 @@ msgstr ""
 "компонентах она не переведена."
 
 #: weblate/checks/consistency.py:150
-#, fuzzy
-#| msgid "Removed translation"
 msgid "Reused translation"
-msgstr "Перевод удалён"
+msgstr "Повторно используемый перевод"
 
 #: weblate/checks/consistency.py:151
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Different strings are translated the same."
-msgstr "Нет строк для перевода"
+msgstr "Разные строки переводятся одинаково."
 
 #: weblate/checks/consistency.py:191
 #, fuzzy, python-format
@@ -3014,12 +2912,12 @@ msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
 msgstr[0] "Обновить исходные строки"
 msgstr[1] "Обновить исходные строки"
-msgstr[2] "Обновить исходные строки"
+msgstr[2] "Другие исходные строки: %s"
 
 #: weblate/checks/consistency.py:192
 #, python-format
 msgid "“%s”"
-msgstr ""
+msgstr "%s”"
 
 #: weblate/checks/consistency.py:241
 msgid "Has been translated"
@@ -3079,10 +2977,8 @@ msgid "Strict unchanged check"
 msgstr "Строка без изменений"
 
 #: weblate/checks/flags.py:45
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strict format string checks"
-msgstr "Строки с любыми сбойными проверками"
+msgstr "Строгая проверка строк формата"
 
 #: weblate/checks/flags.py:46 weblate/glossary/forms.py:35
 msgid "Forbidden translation"
@@ -3136,10 +3032,8 @@ msgid "String variant"
 msgstr "Вариант строки"
 
 #: weblate/checks/flags.py:72
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent type"
-msgstr "Файл Fluent"
+msgstr "Беглый шрифт"
 
 #: weblate/checks/flags.py:261
 #, python-format
@@ -3162,58 +3056,75 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Отсутствующие параметры для флага перевода: «%s»"
 
 #: weblate/checks/fluent/inner_html.py:128
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"Беглая ссылка в {последовательность} может расширяться до HTML-тега. "
+"Возможно, воспользуйтесь {предложением}."
 
 #: weblate/checks/fluent/inner_html.py:143
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"Беглая ссылка в {последовательности} может расширяться до ссылки на символ "
+"HTML. Возможно, воспользуйтесь {предложением}."
 
 #: weblate/checks/fluent/inner_html.py:171
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"Последовательность {последовательность} начинается с закрывающего тега HTML, "
+"но имя или синтаксис недопустимы. Если вам не нужен закрывающий тег, "
+"используйте {предложение}."
 
 #: weblate/checks/fluent/inner_html.py:184
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Последовательность {последовательность} начинается с HTML-тега, но имя "
+"недопустимо. Если вы не хотите начинать HTML-тег, используйте {предложение}."
 
 #: weblate/checks/fluent/inner_html.py:197
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Последовательность {последовательность} начинается с HTML-тега, но тег "
+"никогда не закрывается с помощью {закрыть}. Если вы не хотите начинать HTML-"
+"тег, используйте {предложение}."
 
 #: weblate/checks/fluent/inner_html.py:211
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"Свободный внутренний HTML-код не должен содержать {последовательность}. "
+"Возможно, воспользуйтесь {предложением}."
 
 #: weblate/checks/fluent/inner_html.py:227
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the sequence {attribute} "
 "is not a valid attribute with a value. If you do not want to begin a HTML "
 "tag, use {suggestion}."
 msgstr ""
+"Последовательность {последовательность} начинается с HTML-тега, но "
+"последовательность {атрибут} не является допустимым атрибутом со значением. "
+"Если вы не хотите начинать HTML-тег, используйте {предложение}."
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "Имя атрибута HTML {name} для тега {tag} недопустимо."
 
 #: weblate/checks/fluent/inner_html.py:260
 #, python-brace-format
@@ -3221,21 +3132,23 @@ msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
 msgstr ""
+"Значение атрибута HTML {name} {value} для тега {tag} не является допустимым "
+"значением в кавычках."
 
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "Атрибут HTML {name} появляется дважды для тега {tag}."
 
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "Непревзойденный конечный HTML-тег: {tag}."
 
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr ""
+msgstr "HTML-элемент {name} void не должен иметь конечного тега: {end}."
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
@@ -3243,37 +3156,43 @@ msgid ""
 "The HTML {name} element is not a known void element, so should not have a "
 "self-closing tag: {self_close}."
 msgstr ""
+"Элемент HTML {name} не является известным элементом void, поэтому не должен "
+"иметь самозакрывающегося тега: {self_close}."
 
 #: weblate/checks/fluent/inner_html.py:325
 #, python-brace-format
 msgid "The HTML {tag} tag is missing a matching end tag: {end}."
-msgstr ""
+msgstr "В теге HTML {tag} отсутствует соответствующий конечный тег: {end}."
 
 #: weblate/checks/fluent/inner_html.py:341
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The sequence {sequence} will begin a HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
+"Последовательность {sequence} будет начинаться с ссылки на символ HTML, но "
+"не заканчивается {точкой с запятой}. Если вам не нужна ссылка на символ, "
+"используйте {предложение}."
 
 #: weblate/checks/fluent/inner_html.py:359
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
 msgstr ""
+"Последовательность {sequence} не является допустимой ссылкой на символ HTML."
 
 #: weblate/checks/fluent/inner_html.py:943
 msgid "Fluent source inner HTML"
-msgstr ""
+msgstr "Свободный исходный внутренний HTML"
 
 #: weblate/checks/fluent/inner_html.py:944
 msgid "Fluent source should be valid inner HTML"
-msgstr ""
+msgstr "Исходный код Fluent должен быть допустимым внутренним HTML"
 
 #: weblate/checks/fluent/inner_html.py:1015
 #, python-brace-format
 msgid "Fluent value is missing a HTML {tag} tag."
-msgstr ""
+msgstr "В Fluent value отсутствует HTML-тег {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1020
 #, python-brace-format
@@ -3281,11 +3200,13 @@ msgid ""
 "Fluent value is missing a HTML {tag} tag for the following variants: "
 "{variant_list}."
 msgstr ""
+"В Fluent value отсутствует HTML-тег {tag} для следующих вариантов: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1034
 #, python-brace-format
 msgid "Fluent value has an unexpected extra HTML {tag} tag."
-msgstr ""
+msgstr "Значение Fluent содержит неожиданный дополнительный HTML-тег {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1039
 #, python-brace-format
@@ -3293,6 +3214,8 @@ msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
 msgstr ""
+"Fluent value содержит неожиданный дополнительный HTML-тег {tag} для "
+"следующих вариантов: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1116
 #, python-brace-format
@@ -3301,12 +3224,17 @@ msgid ""
 "matching variant in the translation with the same set of HTML elements: "
 "{variant_list}."
 msgstr ""
+"Следующие варианты в исходном значении Fluent не имеют по крайней мере "
+"одного совпадающего варианта в переводе с тем же набором HTML-элементов: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1131
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of HTML elements."
 msgstr ""
+"Переведенное значение Fluent не имеет соответствующего варианта в оригинале "
+"с тем же набором HTML-элементов."
 
 #: weblate/checks/fluent/inner_html.py:1138
 #, python-brace-format
@@ -3314,16 +3242,18 @@ msgid ""
 "The following variants in the translated Fluent value do not have a matching "
 "variant in the original with the same set of HTML elements: {variant_list}."
 msgstr ""
+"Следующие варианты в переведенном значении Fluent не имеют совпадающего "
+"варианта в оригинале с тем же набором HTML-элементов: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1219
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation inner HTML"
-msgstr "Текущий перевод"
+msgstr "Беглый перевод внутреннего HTML"
 
 #: weblate/checks/fluent/inner_html.py:1220
 msgid "Fluent target should be valid inner HTML that matches"
 msgstr ""
+"Fluent target должен быть допустимым внутренним HTML-кодом, который "
+"соответствует"
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
@@ -15315,10 +15245,9 @@ msgid "[hostname hashed]"
 msgstr "[имя узла хэшировано]"
 
 #: weblate/vcs/ssh.py:167
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Could not generate key: %s"
-msgstr "Ошибка при генерировании ключа: %s"
+msgstr "Не удалось сгенерировать ключ:%s"
 
 #: weblate/vcs/ssh.py:175
 msgid "Created new SSH key."
@@ -15338,16 +15267,13 @@ msgstr ""
 "(%(keytype)s). Проверьте, что он является подлинным."
 
 #: weblate/vcs/ssh.py:226
-#, fuzzy
-#| msgid "Failed to fetch public key for a host!"
 msgid "Could not fetch public key for a host!"
-msgstr "Не удалось получить открытый ключ сервера!"
+msgstr "Не удалось получить открытый ключ для хоста!"
 
 #: weblate/vcs/ssh.py:231 weblate/vcs/ssh.py:234
-#, fuzzy, python-format
-#| msgid "Failed to get host key: %s"
+#, python-format
 msgid "Could not get host key: %s"
-msgstr "Ошибка получения ключа сервера: %s"
+msgstr "Не удалось получить ключ хоста: %s"
 
 #: weblate/wladmin/forms.py:15
 msgid "Activation token"
@@ -15516,6 +15442,8 @@ msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in discover."
 msgstr ""
+"Пожалуйста, измените SITE_TITLE в настройках, чтобы ваш веб-сайт было легко "
+"распознать в discover."
 
 #: weblate/wladmin/views.py:185
 msgid "Activation completed."
