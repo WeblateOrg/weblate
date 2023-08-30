@@ -274,7 +274,7 @@ class BrowserTracing  {
         traceId: idleTransaction.traceId,
         spanId: idleTransaction.spanId,
         parentSpanId: idleTransaction.parentSpanId,
-        sampled: !!idleTransaction.sampled,
+        sampled: idleTransaction.sampled,
       });
     }
 
@@ -440,6 +440,7 @@ function startTrackingLongTasks() {
       transaction.startChild({
         description: 'Main UI thread blocked',
         op: 'ui.long-task',
+        origin: 'auto.ui.browser.metrics',
         startTimestamp: startTime,
         endTimestamp: startTime + duration,
       });
@@ -467,6 +468,7 @@ function startTrackingInteractions() {
         transaction.startChild({
           description: utils.htmlTreeAsString(entry.target),
           op: `ui.interaction.${entry.name}`,
+          origin: 'auto.ui.browser.metrics',
           startTimestamp: startTime,
           endTimestamp: startTime + duration,
         });
@@ -636,6 +638,7 @@ function addPerformanceEntries(transaction) {
         description: 'first input delay',
         endTimestamp: fidMark.value + msToSec(_measurements['fid'].value),
         op: 'ui.action',
+        origin: 'auto.ui.browser.metrics',
         startTimestamp: fidMark.value,
       });
 
@@ -681,6 +684,7 @@ function _addMeasureSpans(
     description: entry.name ,
     endTimestamp: measureEndTimestamp,
     op: entry.entryType ,
+    origin: 'auto.resource.browser.metrics',
     startTimestamp: measureStartTimestamp,
   });
 
@@ -716,6 +720,7 @@ function _addPerformanceNavigationTiming(
   }
   utils$1._startChild(transaction, {
     op: 'browser',
+    origin: 'auto.browser.browser.metrics',
     description: description || event,
     startTimestamp: timeOrigin + msToSec(start),
     endTimestamp: timeOrigin + msToSec(end),
@@ -727,6 +732,7 @@ function _addPerformanceNavigationTiming(
 function _addRequest(transaction, entry, timeOrigin) {
   utils$1._startChild(transaction, {
     op: 'browser',
+    origin: 'auto.browser.browser.metrics',
     description: 'request',
     startTimestamp: timeOrigin + msToSec(entry.requestStart ),
     endTimestamp: timeOrigin + msToSec(entry.responseEnd ),
@@ -734,6 +740,7 @@ function _addRequest(transaction, entry, timeOrigin) {
 
   utils$1._startChild(transaction, {
     op: 'browser',
+    origin: 'auto.browser.browser.metrics',
     description: 'response',
     startTimestamp: timeOrigin + msToSec(entry.responseStart ),
     endTimestamp: timeOrigin + msToSec(entry.responseEnd ),
@@ -777,6 +784,7 @@ function _addResourceSpans(
     description: resourceName,
     endTimestamp,
     op: entry.initiatorType ? `resource.${entry.initiatorType}` : 'resource.other',
+    origin: 'auto.resource.browser.metrics',
     startTimestamp,
     data,
   });
@@ -1119,6 +1127,7 @@ function fetchCallback(
           },
           description: `${method} ${url}`,
           op: 'http.client',
+          origin: 'auto.http.browser',
         })
       : undefined;
 
@@ -1271,6 +1280,7 @@ function xhrCallback(
           },
           description: `${sentryXhrData.method} ${sentryXhrData.url}`,
           op: 'http.client',
+          origin: 'auto.http.browser',
         })
       : undefined;
 
@@ -1357,6 +1367,7 @@ function instrumentRoutingWithDefaults(
       // pageload should always start at timeOrigin (and needs to be in s, not ms)
       startTimestamp: utils.browserPerformanceTimeOrigin ? utils.browserPerformanceTimeOrigin / 1000 : undefined,
       op: 'pageload',
+      origin: 'auto.pageload.browser',
       metadata: { source: 'url' },
     });
   }
@@ -1387,6 +1398,7 @@ function instrumentRoutingWithDefaults(
         activeTransaction = customStartTransaction({
           name: types.WINDOW.location.pathname,
           op: 'navigation',
+          origin: 'auto.navigation.browser',
           metadata: { source: 'url' },
         });
       }
@@ -2293,6 +2305,7 @@ function wrapResolver(
       const span = _optionalChain([parentSpan, 'optionalAccess', _4 => _4.startChild, 'call', _5 => _5({
         description: `${resolverGroupName}.${resolverName}`,
         op: 'graphql.resolve',
+        origin: 'auto.graphql.apollo',
       })]);
 
       const rv = orig.call(this, ...args);
@@ -2397,6 +2410,7 @@ function wrap(fn, method) {
           const span = transaction.startChild({
             description: fn.name,
             op: `middleware.express.${method}`,
+            origin: 'auto.middleware.express',
           });
           res.once('finish', () => {
             span.finish();
@@ -2416,6 +2430,7 @@ function wrap(fn, method) {
         const span = _optionalChain([transaction, 'optionalAccess', _2 => _2.startChild, 'call', _3 => _3({
           description: fn.name,
           op: `middleware.express.${method}`,
+          origin: 'auto.middleware.express',
         })]);
         fn.call(this, req, res, function ( ...args) {
           _optionalChain([span, 'optionalAccess', _4 => _4.finish, 'call', _5 => _5()]);
@@ -2435,6 +2450,7 @@ function wrap(fn, method) {
         const span = _optionalChain([transaction, 'optionalAccess', _6 => _6.startChild, 'call', _7 => _7({
           description: fn.name,
           op: `middleware.express.${method}`,
+          origin: 'auto.middleware.express',
         })]);
         fn.call(this, err, req, res, function ( ...args) {
           _optionalChain([span, 'optionalAccess', _8 => _8.finish, 'call', _9 => _9()]);
@@ -2713,6 +2729,7 @@ class GraphQL  {
         const span = _optionalChain([parentSpan, 'optionalAccess', _4 => _4.startChild, 'call', _5 => _5({
           description: 'execute',
           op: 'graphql.execute',
+          origin: 'auto.graphql.graphql',
         })]);
 
         _optionalChain([scope, 'optionalAccess', _6 => _6.setSpan, 'call', _7 => _7(span)]);
@@ -3006,6 +3023,7 @@ class Mongo  {
     const spanContext = {
       op: 'db',
       // TODO v8: Use `${collection.collectionName}.${operation}`
+      origin: 'auto.db.mongo',
       description: operation,
       data,
     };
@@ -3126,6 +3144,7 @@ class Mysql  {
         const span = _optionalChain([parentSpan, 'optionalAccess', _4 => _4.startChild, 'call', _5 => _5({
           description: typeof options === 'string' ? options : (options ).sql,
           op: 'db',
+          origin: 'auto.db.mysql',
           data: {
             ...spanDataFromConfig(),
             'db.system': 'mysql',
@@ -3245,6 +3264,7 @@ class Postgres  {
         const span = _optionalChain([parentSpan, 'optionalAccess', _6 => _6.startChild, 'call', _7 => _7({
           description: typeof config === 'string' ? config : (config ).text,
           op: 'db',
+          origin: 'auto.db.postgres',
           data,
         })]);
 
@@ -3346,6 +3366,7 @@ class Prisma  {
           {
             name: model ? `${model} ${action}` : action,
             op: 'db.sql.prisma',
+            origin: 'auto.db.prisma',
             data: { ...clientData, 'db.operation': action },
           },
           () => next(params),
@@ -3398,7 +3419,6 @@ const core = require('@sentry/core');
 const utils = require('@sentry/utils');
 const eventbuilder = require('./eventbuilder.js');
 const helpers = require('./helpers.js');
-const breadcrumbs = require('./integrations/breadcrumbs.js');
 const userfeedback = require('./userfeedback.js');
 
 /**
@@ -3464,26 +3484,6 @@ class BrowserClient extends core.BaseClient {
   }
 
   /**
-   * @inheritDoc
-   */
-   sendEvent(event, hint) {
-    // We only want to add the sentry event breadcrumb when the user has the breadcrumb integration installed and
-    // activated its `sentry` option.
-    // We also do not want to use the `Breadcrumbs` class here directly, because we do not want it to be included in
-    // bundles, if it is not used by the SDK.
-    // This all sadly is a bit ugly, but we currently don't have a "pre-send" hook on the integrations so we do it this
-    // way for now.
-    const breadcrumbIntegration = this.getIntegrationById(breadcrumbs.BREADCRUMB_INTEGRATION_ID) ;
-    // We check for definedness of `addSentryBreadcrumb` in case users provided their own integration with id
-    // "Breadcrumbs" that does not have this function.
-    if (breadcrumbIntegration && breadcrumbIntegration.addSentryBreadcrumb) {
-      breadcrumbIntegration.addSentryBreadcrumb(event);
-    }
-
-    super.sendEvent(event, hint);
-  }
-
-  /**
    * Sends user feedback to Sentry.
    */
    captureUserFeedback(feedback) {
@@ -3534,7 +3534,7 @@ class BrowserClient extends core.BaseClient {
 exports.BrowserClient = BrowserClient;
 
 
-},{"./eventbuilder.js":31,"./helpers.js":32,"./integrations/breadcrumbs.js":34,"./userfeedback.js":50,"@sentry/core":58,"@sentry/utils":102}],31:[function(require,module,exports){
+},{"./eventbuilder.js":31,"./helpers.js":32,"./userfeedback.js":50,"@sentry/core":58,"@sentry/utils":102}],31:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -4132,8 +4132,6 @@ const helpers = require('../helpers.js');
 /** maxStringLength gets capped to prevent 100 breadcrumbs exceeding 1MB event payload size */
 const MAX_ALLOWED_STRING_LENGTH = 1024;
 
-const BREADCRUMB_INTEGRATION_ID = 'Breadcrumbs';
-
 /**
  * Default Breadcrumbs instrumentations
  * TODO: Deprecated - with v6, this will be renamed to `Instrument`
@@ -4142,7 +4140,7 @@ class Breadcrumbs  {
   /**
    * @inheritDoc
    */
-   static __initStatic() {this.id = BREADCRUMB_INTEGRATION_ID;}
+   static __initStatic() {this.id = 'Breadcrumbs';}
 
   /**
    * @inheritDoc
@@ -4193,27 +4191,29 @@ class Breadcrumbs  {
     if (this.options.history) {
       utils.addInstrumentationHandler('history', _historyBreadcrumb);
     }
-  }
-
-  /**
-   * Adds a breadcrumb for Sentry events or transactions if this option is enabled.
-   */
-   addSentryBreadcrumb(event) {
     if (this.options.sentry) {
-      core.getCurrentHub().addBreadcrumb(
-        {
-          category: `sentry.${event.type === 'transaction' ? 'transaction' : 'event'}`,
-          event_id: event.event_id,
-          level: event.level,
-          message: utils.getEventDescription(event),
-        },
-        {
-          event,
-        },
-      );
+      const client = core.getCurrentHub().getClient();
+      client && client.on && client.on('beforeSendEvent', addSentryBreadcrumb);
     }
   }
 } Breadcrumbs.__initStatic();
+
+/**
+ * Adds a breadcrumb for Sentry events or transactions if this option is enabled.
+ */
+function addSentryBreadcrumb(event) {
+  core.getCurrentHub().addBreadcrumb(
+    {
+      category: `sentry.${event.type === 'transaction' ? 'transaction' : 'event'}`,
+      event_id: event.event_id,
+      level: event.level,
+      message: utils.getEventDescription(event),
+    },
+    {
+      event,
+    },
+  );
+}
 
 /**
  * A HOC that creaes a function that creates breadcrumbs from DOM API calls.
@@ -4441,7 +4441,6 @@ function _isEvent(event) {
   return !!event && !!(event ).target;
 }
 
-exports.BREADCRUMB_INTEGRATION_ID = BREADCRUMB_INTEGRATION_ID;
 exports.Breadcrumbs = Breadcrumbs;
 
 
@@ -5502,7 +5501,11 @@ function wrapTransactionWithProfiling(transaction) {
 
     // This is temporary - we will use the collected span data to evaluate
     // if deferring txn.finish until profiler resolves is a viable approach.
-    const stopProfilerSpan = transaction.startChild({ description: 'profiler.stop', op: 'profiler' });
+    const stopProfilerSpan = transaction.startChild({
+      description: 'profiler.stop',
+      op: 'profiler',
+      origin: 'auto.profiler.browser',
+    });
 
     return profiler
       .stop()
@@ -7343,6 +7346,8 @@ class BaseClient {
    * @inheritDoc
    */
    sendEvent(event, hint = {}) {
+    this.emit('beforeSendEvent', event, hint);
+
     if (this._dsn) {
       let env = envelope.createEventEnvelope(event, this._dsn, this._options._metadata, this._options.tunnel);
 
@@ -10020,7 +10025,6 @@ function generatePropagationContext() {
   return {
     traceId: utils.uuid4(),
     spanId: utils.uuid4().substring(16),
-    sampled: false,
   };
 }
 
@@ -11129,29 +11133,25 @@ class Span  {
    */
 
   /**
+   * The origin of the span, giving context about what created the span.
+   */
+
+  /**
    * You should never call the constructor manually, always use `Sentry.startTransaction()`
    * or call `startChild()` on an existing span.
    * @internal
    * @hideconstructor
    * @hidden
    */
-   constructor(spanContext) {
-    this.traceId = utils.uuid4();
-    this.spanId = utils.uuid4().substring(16);
-    this.startTimestamp = utils.timestampInSeconds();
-    this.tags = {};
-    this.data = {};
-    this.instrumenter = 'sentry';
+   constructor(spanContext = {}) {
+    this.traceId = spanContext.traceId || utils.uuid4();
+    this.spanId = spanContext.spanId || utils.uuid4().substring(16);
+    this.startTimestamp = spanContext.startTimestamp || utils.timestampInSeconds();
+    this.tags = spanContext.tags || {};
+    this.data = spanContext.data || {};
+    this.instrumenter = spanContext.instrumenter || 'sentry';
+    this.origin = spanContext.origin || 'manual';
 
-    if (!spanContext) {
-      return this;
-    }
-    if (spanContext.traceId) {
-      this.traceId = spanContext.traceId;
-    }
-    if (spanContext.spanId) {
-      this.spanId = spanContext.spanId;
-    }
     if (spanContext.parentSpanId) {
       this.parentSpanId = spanContext.parentSpanId;
     }
@@ -11168,23 +11168,11 @@ class Span  {
     if (spanContext.name) {
       this.description = spanContext.name;
     }
-    if (spanContext.data) {
-      this.data = spanContext.data;
-    }
-    if (spanContext.tags) {
-      this.tags = spanContext.tags;
-    }
     if (spanContext.status) {
       this.status = spanContext.status;
     }
-    if (spanContext.startTimestamp) {
-      this.startTimestamp = spanContext.startTimestamp;
-    }
     if (spanContext.endTimestamp) {
       this.endTimestamp = spanContext.endTimestamp;
-    }
-    if (spanContext.instrumenter) {
-      this.instrumenter = spanContext.instrumenter;
     }
   }
 
@@ -11370,6 +11358,7 @@ class Span  {
       tags: Object.keys(this.tags).length > 0 ? this.tags : undefined,
       timestamp: this.endTimestamp,
       trace_id: this.traceId,
+      origin: this.origin,
     });
   }
 }
@@ -12643,7 +12632,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":54,"../scope.js":65,"@sentry/utils":102}],84:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.65.0';
+const SDK_VERSION = '7.66.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -22819,6 +22808,7 @@ exports.getGlobalObject = worldwide.getGlobalObject;
 exports.getGlobalSingleton = worldwide.getGlobalSingleton;
 exports.SENTRY_XHR_DATA_KEY = instrument.SENTRY_XHR_DATA_KEY;
 exports.addInstrumentationHandler = instrument.addInstrumentationHandler;
+exports.originalConsoleMethods = instrument.originalConsoleMethods;
 exports.parseFetchArgs = instrument.parseFetchArgs;
 exports.isDOMError = is.isDOMError;
 exports.isDOMException = is.isDOMException;
@@ -23043,25 +23033,30 @@ function triggerHandlers(type, data) {
   }
 }
 
+/** Only exported for testing & debugging. */
+const originalConsoleMethods
+
+ = {};
+
 /** JSDoc */
 function instrumentConsole() {
-  if (!('console' in WINDOW)) {
+  if (!('console' in worldwide.GLOBAL_OBJ)) {
     return;
   }
 
   logger.CONSOLE_LEVELS.forEach(function (level) {
-    if (!(level in WINDOW.console)) {
+    if (!(level in worldwide.GLOBAL_OBJ.console)) {
       return;
     }
 
-    object.fill(WINDOW.console, level, function (originalConsoleMethod) {
+    object.fill(worldwide.GLOBAL_OBJ.console, level, function (originalConsoleMethod) {
+      originalConsoleMethods[level] = originalConsoleMethod;
+
       return function (...args) {
         triggerHandlers('console', { args, level });
 
-        // this fails for some browsers. :(
-        if (originalConsoleMethod) {
-          originalConsoleMethod.apply(WINDOW.console, args);
-        }
+        const log = originalConsoleMethods[level];
+        log && log.apply(worldwide.GLOBAL_OBJ.console, args);
       };
     });
   });
@@ -23073,7 +23068,7 @@ function instrumentFetch() {
     return;
   }
 
-  object.fill(WINDOW, 'fetch', function (originalFetch) {
+  object.fill(worldwide.GLOBAL_OBJ, 'fetch', function (originalFetch) {
     return function (...args) {
       const { method, url } = parseFetchArgs(args);
 
@@ -23091,7 +23086,7 @@ function instrumentFetch() {
       });
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      return originalFetch.apply(WINDOW, args).then(
+      return originalFetch.apply(worldwide.GLOBAL_OBJ, args).then(
         (response) => {
           triggerHandlers('fetch', {
             ...handlerData,
@@ -23581,6 +23576,7 @@ function instrumentUnhandledRejection() {
 
 exports.SENTRY_XHR_DATA_KEY = SENTRY_XHR_DATA_KEY;
 exports.addInstrumentationHandler = addInstrumentationHandler;
+exports.originalConsoleMethods = originalConsoleMethods;
 exports.parseFetchArgs = parseFetchArgs;
 
 
@@ -26578,7 +26574,7 @@ function tracingContextFromHeaders(
   const propagationContext = {
     traceId: traceId || misc.uuid4(),
     spanId: misc.uuid4().substring(16),
-    sampled: parentSampled === undefined ? false : parentSampled,
+    sampled: parentSampled,
   };
 
   if (parentSpanId) {
