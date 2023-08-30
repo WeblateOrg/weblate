@@ -15,6 +15,7 @@ Not yet released.
 * Source strings and state display for converted formats.
 * Block :ref:`component-edit_template` on formats which do not support it.
 * :ref:`check-reused` is no longer triggered for blank strings.
+* Performace issues while browsing some categories.
 
 **Compatibility**
 

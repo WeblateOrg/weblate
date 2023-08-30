@@ -5,7 +5,6 @@
 import os
 
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.http import require_POST
@@ -120,11 +119,7 @@ def download(request, path):
     if isinstance(obj, CategoryLanguage):
         components = obj.category.project.component_set.filter_access(
             request.user
-        ).filter(
-            Q(category=obj.category)
-            | Q(category__category=obj.category)
-            | Q(category__category__category=obj.category)
-        )
+        ).filter(pk__in=obj.category.all_component_ids)
         return download_multi(
             Translation.objects.filter(component__in=components, language=obj.language),
             [obj.category.project],
@@ -133,9 +128,7 @@ def download(request, path):
         )
     if isinstance(obj, Category):
         components = obj.project.component_set.filter_access(request.user).filter(
-            Q(category=obj)
-            | Q(category__category=obj)
-            | Q(category__category__category=obj)
+            pk__in=obj.all_component_ids
         )
         return download_multi(
             Translation.objects.filter(component__in=components),

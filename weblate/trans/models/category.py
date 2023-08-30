@@ -113,12 +113,22 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         """Return list of all languages used in project."""
         return (
             Language.objects.filter(
-                Q(translation__component__category=self)
-                | Q(translation__component__category__category=self)
-                | Q(translation__component__category__category__category=self)
+                translation__component_id__in=self.all_component_ids
             )
             .distinct()
             .order()
+        )
+
+    @cached_property
+    def all_component_ids(self):
+        from weblate.trans.models import Component
+
+        return set(
+            Component.objects.filter(
+                Q(category=self)
+                | Q(category__category=self)
+                | Q(category__category__category=self)
+            ).values_list("pk", flat=True)
         )
 
     def generate_changes(self, old):

@@ -14,7 +14,6 @@ from zipfile import ZipFile
 
 from django.conf import settings
 from django.core.paginator import EmptyPage, Paginator
-from django.db.models import Q
 from django.http import FileResponse, Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.http import http_date
@@ -257,16 +256,12 @@ def parse_path_units(request, path: list[str], types: tuple[Any]):
         context["language"] = obj.language
     elif isinstance(obj, Category):
         unit_set = Unit.objects.filter(
-            Q(translation__component__category=obj)
-            | Q(translation__component__category__category=obj)
-            | Q(translation__component__category__category__category=obj)
+            translation__component_id__in=obj.all_component_ids
         )
         context["project"] = obj.project
     elif isinstance(obj, CategoryLanguage):
         unit_set = Unit.objects.filter(
-            Q(translation__component__category=obj.category)
-            | Q(translation__component__category__category=obj.category)
-            | Q(translation__component__category__category__category=obj.category),
+            translation__component_id__in=obj.category.all_component_ids,
             translation__language=obj.language,
         )
         context["project"] = obj.category.project
