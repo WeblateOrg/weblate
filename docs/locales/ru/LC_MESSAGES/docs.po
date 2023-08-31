@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 17:13+0200\n"
-"PO-Revision-Date: 2023-08-31 08:52+0000\n"
-"Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
+"PO-Revision-Date: 2023-08-31 09:22+0000\n"
+"Last-Translator: a <xxx_xxx_xxxxxxxxx@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -5209,12 +5209,6 @@ msgstr ""
 "и восстанавливают полные таблицы со всеми данными."
 
 #: ../../admin/backup.rst:242
-#, fuzzy
-#| msgid ""
-#| "You can restore this backup in a newer Weblate release, it will perform "
-#| "all the necessary migrations when running in :djadmin:`django:migrate`. "
-#| "Please consult :doc:`upgrade` on more detailed info on how to upgrade "
-#| "between versions."
 msgid ""
 "You can restore this backup in a newer Weblate release, it will perform all "
 "the necessary migrations when running in :wladmin:`migrate`. Please consult :"
@@ -5241,13 +5235,6 @@ msgstr ""
 "использовано в случае, если вы захотите сменить СУБД."
 
 #: ../../admin/backup.rst:253
-#, fuzzy
-#| msgid ""
-#| "Prior to restoring the database you need to be running exactly the same "
-#| "Weblate version the backup was made on. This is necessary as the database "
-#| "structure does change between releases and you would end up corrupting "
-#| "the data in some way. After installing the same version, run all database "
-#| "migrations using :djadmin:`django:migrate`."
 msgid ""
 "Prior to restoring the database you need to be running exactly the same "
 "Weblate version the backup was made on. This is necessary as the database "
@@ -5471,8 +5458,6 @@ msgid "Restore all data you have backed up."
 msgstr "Восстановите все данные, сохранённые вами в резервной копии."
 
 #: ../../admin/backup.rst:367
-#, fuzzy
-#| msgid "Update all repositories using :djadmin:`updategit`."
 msgid "Update all repositories using :wladmin:`updategit`."
 msgstr "Обновите все репозитории с помощью команды :djadmin:`updategit`."
 
@@ -5489,17 +5474,14 @@ msgstr ""
 "инструкциям по резервному копированию и восстановлению из резервной копии."
 
 #: ../../admin/backup.rst:381
-#, fuzzy
-#| msgid ""
-#| "`Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs."
-#| "weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_"
 msgid ""
 "`Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation "
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
 "from-python-2-to-python-3>`_, :ref:`database-migration`"
 msgstr ""
-"`Обновление с версии 2.20 до версии 3.0 в документации Weblate 3.0 <https://"
-"docs.weblate.org/ru/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_"
+"`Переход с Python 2 на Python 3 в документации Weblate 3.11.1 <https://docs."
+"weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-"
+"python-3>`_, :ref:`database-migration`."
 
 #: ../../admin/checks.rst:2 ../../user/checks.rst:2
 msgid "Checks and fixups"
@@ -5547,12 +5529,6 @@ msgid "Customizing behavior using flags"
 msgstr "Настройка поведения с помощью флагов"
 
 #: ../../admin/checks.rst:29
-#, fuzzy
-#| msgid ""
-#| "You can fine-tune the Weblate behavior by using flags. This can be done "
-#| "on the source string level (see :ref:`additional`), or in the :ref:"
-#| "`component` (:ref:`component-check_flags`). Some file formats also allow "
-#| "to specify flags directly in the format (see :ref:`formats`)."
 msgid ""
 "You can fine-tune Weblate's behavior by using flags. The flags provide "
 "visual feedback to the translators and help them to improve their "
@@ -5561,26 +5537,22 @@ msgid ""
 "Some file formats also allow to specify flags directly in the format (see :"
 "ref:`formats`)."
 msgstr ""
-"Вы можете тонко настроить поведение Weblate с помощью флагов. Это можно "
-"сделать на уровне исходной строки (см. :ref:`additional`) или в :ref:"
-"`component` (:ref:`component-check_flags`). Некоторые форматы файлов также "
-"позволяют указывать флаги непосредственно в формате (смотрите :ref:"
-"`formats`)."
+"Вы можете тонко настроить поведение Weblate с помощью флагов. Флаги "
+"обеспечивают визуальную обратную связь с переводчиками и помогают им "
+"улучшить свой перевод. Это может быть сделано на уровне исходной строки (см. "
+":ref:`additional`) или в :ref:`компоненте` (:ref:`component-check_flags`). "
+"Некоторые форматы файлов также позволяют указывать флаги непосредственно в "
+"формате (см. :ref:`formats`)."
 
 #: ../../admin/checks.rst:35
-#, fuzzy
-#| msgid ""
-#| "The flags are comma-separated, the parameters are separated with colon. "
-#| "You can use quotes to include whitespace or special chars in the string. "
-#| "For example:"
 msgid ""
 "The flags are comma-separated; if they have parameters, they are separated "
 "with colon. You can use quotes to include whitespaces or special characters "
 "in the string. For example:"
 msgstr ""
-"Флаги разделяются запятыми, параметры флагов разделяются двоеточием. Для "
-"включения в строку пробела или специальных символов вы можете использовать "
-"кавычки. Например:"
+"Флаги разделяются запятыми; если они имеют параметры, то разделяются "
+"двоеточием. Для включения в строку пробелов или специальных символов можно "
+"использовать кавычки. Например:"
 
 #: ../../admin/checks.rst:43
 msgid ""
@@ -5596,12 +5568,17 @@ msgid ""
 "A failing check will be triggered if the string '### Index' is translated as "
 "'# Indice'"
 msgstr ""
+"Для проверки того, что переводчики не изменяют заголовок документа в формате "
+"Markdown: Если строка '### Index' будет переведена как '# Indice', то "
+"проверка завершится неудачей."
 
 #: ../../admin/checks.rst:60
 msgid ""
 "To make sure that internal links are not being translated (i.e. `[test](../"
 "checks)` does not become `[test](../chequeos)`."
 msgstr ""
+"Чтобы убедиться, что внутренние ссылки не переводятся (т.е. «[испытание] "
+"(../проверки)» не становится «[испытание] (../чекеос)»."
 
 #: ../../admin/checks.rst:65
 msgid "Here is a list of flags currently accepted:"
@@ -5648,6 +5625,9 @@ msgid ""
 "can be used consistently in all translations. Also useful in combination "
 "with ``read-only``, for example in product names."
 msgstr ""
+"Используется в :ref:'glossary'. Копирует строку во все языки глоссария, "
+"чтобы ее можно было использовать во всех переводах. Также полезно в "
+"сочетании с «только для чтения», например, в названиях продуктов."
 
 #: ../../admin/checks.rst:77
 msgid "``priority:N``"
@@ -5834,6 +5814,8 @@ msgid ""
 "Make format checks enforce using format even for plural forms with a single "
 "value, see :ref:`check-formats`."
 msgstr ""
+"Сделать так, чтобы проверка формата заставляла использовать формат даже для "
+"множественных форм с одним значением, см. :ref:`check-formats`."
 
 #: ../../admin/checks.rst:112 ../../user/checks.rst:136
 msgid "``check-glossary``"
@@ -6018,18 +6000,14 @@ msgid "``md-text``"
 msgstr "``md-text``"
 
 #: ../../admin/checks.rst:157
-#, fuzzy
-#| msgid ""
-#| "Treat text as a Markdown document. Enable :ref:`check-md-link`, :ref:"
-#| "`check-md-reflink`, and :ref:`check-md-syntax` quality checks."
 msgid ""
 "Treat text as a Markdown document, and provide Markdown syntax highlighting "
 "on the translation text area. Enables :ref:`check-md-link`, :ref:`check-md-"
 "reflink`, and :ref:`check-md-syntax` quality checks."
 msgstr ""
-"Рассматривая текст как документ в формате Markdown, включите проверки "
-"качества :ref:`check-md-link`, :ref:`check-md-reflink` и :ref:`check-md-"
-"syntax`."
+"Рассматривает текст как документ в формате Markdown и обеспечивает подсветку "
+"синтаксиса Markdown в области текста перевода. Включает проверки качества "
+":ref:`check-md-link`, :ref:`check-md-reflink` и :ref:`check-md-syntax`."
 
 #: ../../admin/checks.rst:159
 msgid "``case-insensitive``"
@@ -6443,8 +6421,6 @@ msgid "``ignore-reused``"
 msgstr "``ignore-reused``"
 
 #: ../../admin/checks.rst:259
-#, fuzzy
-#| msgid "Skip the :ref:`check-regex` quality check."
 msgid "Skip the :ref:`check-reused` quality check."
 msgstr "Пропустите проверку качества :ref:`check-regex`."
 
@@ -6900,10 +6876,6 @@ msgstr ""
 "Django)."
 
 #: ../../admin/config.rst:10
-#, fuzzy
-#| msgid ""
-#| "After changing any of these settings, you need to restart Weblate - both "
-#| "WSGI and Celery processes."
 msgid ""
 "After changing any of these settings, you need to restart Weblate — both "
 "WSGI and Celery processes."
@@ -6958,10 +6930,6 @@ msgid "AUDITLOG_EXPIRY"
 msgstr "AUDITLOG_EXPIRY"
 
 #: ../../admin/config.rst:46
-#, fuzzy
-#| msgid ""
-#| "How many days Weblate should keep audit logs, which contain info about "
-#| "account activity."
 msgid ""
 "How many days Weblate should keep audit logs (which contain info about "
 "account activity)."
@@ -6998,10 +6966,6 @@ msgstr ""
 "войти в систему без запроса нового пароля."
 
 #: ../../admin/config.rst:62
-#, fuzzy
-#| msgid ""
-#| "Password reset. Prevents new e-mails from being sent, avoiding spamming "
-#| "users with too many password reset attempts."
 msgid ""
 "Password reset. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password-reset attempts."
@@ -7042,10 +7006,8 @@ msgstr ""
 "совместимости."
 
 #: ../../admin/config.rst:86
-#, fuzzy
-#| msgid "Options are:"
 msgid "The options are:"
-msgstr "Варианты:"
+msgstr "Возможны следующие варианты:"
 
 #: ../../admin/config.rst:88 ../../admin/config.rst:450
 msgid "``\"none\"``"
@@ -7135,17 +7097,19 @@ msgid "AUTH_PASSWORD_DAYS"
 msgstr "AUTH_PASSWORD_DAYS"
 
 #: ../../admin/config.rst:131
-#, fuzzy
-#| msgid "Can not reuse previously used password."
 msgid ""
 "How many days Weblate rejects reusing a previously used password for a user."
-msgstr "Нельзя использовать пароль, который уже использовался."
+msgstr ""
+"Сколько дней Weblate не принимает повторное использование ранее "
+"использованного пароля для пользователя."
 
 #: ../../admin/config.rst:133
 msgid ""
 "The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to "
 "be at least same as this."
 msgstr ""
+"Проверка основана на журнале аудита, параметр: `AUDITLOG_EXPIRY` должен быть "
+"как минимум таким же, как этот."
 
 #: ../../admin/config.rst:138
 msgid ""
@@ -7164,10 +7128,6 @@ msgid "List of automatic fixes to apply when saving a string."
 msgstr "Список автоматических исправлений, применяемых при сохранении строки."
 
 #: ../../admin/config.rst:151
-#, fuzzy
-#| msgid ""
-#| "Provide a fully-qualified path to the Python class that implementing the "
-#| "autofixer interface."
 msgid ""
 "Provide a fully-qualified path to the Python class that implements the "
 "autofixer interface."
@@ -7226,7 +7186,7 @@ msgstr "``weblate.trans.autofixes.chars.DevanagariDanda``"
 #: ../../admin/config.rst:165
 msgid ""
 "Replaces sentence full stop in Bangla by the devanagari danda character."
-msgstr ""
+msgstr "Заменяет точку в предложении на бангла символом деванагари данда."
 
 #: ../../admin/config.rst:167
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
@@ -7305,11 +7265,6 @@ msgid "BASIC_LANGUAGES"
 msgstr "BASIC_LANGUAGES"
 
 #: ../../admin/config.rst:216
-#, fuzzy
-#| msgid ""
-#| "List of languages to offer users for starting new translation. When not "
-#| "specified built-in list is used which includes all commonly used "
-#| "languages, but without country specific variants."
 msgid ""
 "List of languages to offer users for starting a new translation. When not "
 "specified, a built-in list is used (which includes all commonly used "
@@ -7321,11 +7276,6 @@ msgstr ""
 "конкретных стран."
 
 #: ../../admin/config.rst:220
-#, fuzzy
-#| msgid ""
-#| "This only limits non privileged users to add unwanted languages. The "
-#| "project admins are still presented with full selection of languages "
-#| "defined in Weblate."
 msgid ""
 "This only limits non privileged users to add unwanted languages. Project "
 "admins are still presented with the full selection of languages defined in "
@@ -7336,10 +7286,6 @@ msgstr ""
 "полного списка языков, доступных в Weblate."
 
 #: ../../admin/config.rst:225
-#, fuzzy
-#| msgid ""
-#| "This does not define new languages for Weblate, it only filters existing "
-#| "ones in the database."
 msgid ""
 "This does not define new languages for Weblate — it only filters existing "
 "ones in the database."
@@ -50254,18 +50200,13 @@ msgid "Bitbucket Server pull requests"
 msgstr "Запрос на принятие изменений в Gitea"
 
 #: ../../vcs.rst:354
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Gitea API`_ to "
-#| "allow pushing translation changes as pull requests instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket Server "
 "API`_ to allow pushing translation changes as pull requests instead of "
 "pushing directly to the repository."
 msgstr ""
-"Это просто добавляет тонкий слой поверх :ref:`vcs-git` с помощью `API "
-"Gitea`_, что позволяет отправлять изменения в переводе в виде запросов на "
+"Это просто добавляет тонкий слой поверх :ref:`vcs-git` с помощью `API Gitea`"
+"_, что позволяет отправлять изменения в переводе в виде запросов на "
 "извлечение, вместо отправки непосредственной в репозиторий."
 
 #: ../../vcs.rst:360
