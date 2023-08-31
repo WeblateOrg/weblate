@@ -3,13 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # a <xxx_xxx_xxxxxxxxx@mail.ru>, 2023.
 # Blueberry <igory.ygr200@gmail.com>, 2023.
+# Deleted User <noreply+67923@weblate.org>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 17:13+0200\n"
-"PO-Revision-Date: 2023-08-31 09:22+0000\n"
-"Last-Translator: a <xxx_xxx_xxxxxxxxx@mail.ru>\n"
+"PO-Revision-Date: 2023-08-31 19:25+0000\n"
+"Last-Translator: Deleted User <noreply+67923@weblate.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -7322,12 +7323,16 @@ msgid ""
 "Directory where Weblate stores cache files. Defaults to :file:`cache` "
 "subfolder in :setting:`DATA_DIR`."
 msgstr ""
+"Каталог, в котором Weblate хранит файлы кэша. По умолчанию используется "
+"подпапка :file:'cache' в :setting:'DATA_DIR'."
 
 #: ../../admin/config.rst:268
 msgid ""
 "Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a "
 "network filesystem."
 msgstr ""
+"Измените это значение на локальную или временную файловую систему, если "
+":setting:`DATA_DIR` находится на сетевой файловой системе."
 
 #: ../../admin/config.rst:271 ../../admin/config.rst:419
 msgid ""
@@ -7347,17 +7352,15 @@ msgstr ":file:`fonts`"
 
 #: ../../admin/config.rst:276
 msgid ":program:`font-config` cache for :ref:`fonts`."
-msgstr ""
+msgstr "Кэш :program:`font-config` для :ref:`fonts`."
 
 #: ../../admin/config.rst:277
 msgid ":file:`avatar`"
 msgstr ":file:`avatar`"
 
 #: ../../admin/config.rst:278
-#, fuzzy
-#| msgid "Celery scheduler data, see :ref:`celery`."
 msgid "Cached user avatars, see :ref:`avatars`."
-msgstr "Данные планировщика Celery, смотрите раздел :ref:`celery`."
+msgstr "Кэшированные аватары пользователей, см. :ref:`avatars`."
 
 #: ../../admin/config.rst:279
 msgid ":file:`static`"
@@ -7378,7 +7381,7 @@ msgstr ":file:`tesseract`"
 
 #: ../../admin/config.rst:282
 msgid "OCR trained data for :ref:`screenshots`."
-msgstr ""
+msgstr "Обученные данные OCR для :ref:`скриншотов`."
 
 #: ../../admin/config.rst:291
 msgid ""
@@ -7429,12 +7432,6 @@ msgstr ""
 "Подправьте список проверок так, чтобы включить в него только нужные вам."
 
 #: ../../admin/config.rst:325
-#, fuzzy
-#| msgid ""
-#| "All built-in :ref:`checks` are turned on by default, from where you can "
-#| "change these settings. By default they are commented out in :ref:`sample-"
-#| "configuration` so that default values are used. New checks then carried "
-#| "out for each new Weblate version."
 msgid ""
 "All built-in :ref:`checks` are turned on by default, from where you can "
 "change these settings. By default they are commented out in :ref:`sample-"
@@ -7456,11 +7453,6 @@ msgid "You can turn on only a few:"
 msgstr "Можете включить только некоторые:"
 
 #: ../../admin/config.rst:347
-#, fuzzy
-#| msgid ""
-#| "Changing this setting only affects newly changed translations, existing "
-#| "checks will still be stored in the database. To also apply changes to the "
-#| "stored translations, run :djadmin:`updatechecks`."
 msgid ""
 "Changing this setting only affects newly changed translations. Existing "
 "checks will still be stored in the database. To also apply changes to the "
@@ -7468,8 +7460,8 @@ msgid ""
 msgstr ""
 "Изменение этого параметра влияет только на недавно изменённые переводы, "
 "результаты существующих проверок будут по-прежнему сохранены в базе данных. "
-"Чтобы также применить изменения к сохранённым переводам, запустите команду :"
-"djadmin:`updatechecks`."
+"Чтобы также применить изменения к сохранённым переводам, запустите команду "
+":djadmin:`updatechecks`."
 
 #: ../../admin/config.rst:353 ../../admin/translating.rst:88
 msgid ":ref:`checks`, :ref:`custom-checks`"
@@ -7498,26 +7490,18 @@ msgid ""
 msgstr "Количество часов до коммита ожидающих изменений фоновой задачей."
 
 #: ../../admin/config.rst:372
-#, fuzzy
-#| msgid ""
-#| ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
-#| "cron`, :djadmin:`commit_pending`"
 msgid ""
 ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
 "cron`, :wladmin:`commit_pending`"
 msgstr ""
-":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
-"cron`, :djadmin:`commit_pending`"
+":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-cron`"
+", :djadmin:`commit_pending`"
 
 #: ../../admin/config.rst:381
 msgid "CONTACT_FORM"
 msgstr "CONTACT_FORM"
 
 #: ../../admin/config.rst:385
-#, fuzzy
-#| msgid ""
-#| "Configures how e-mail from the contact form is being sent. Choose a "
-#| "configuration that matches your mail server configuration."
 msgid ""
 "Configures how e-mail from the contact form is being sent. Choose a "
 "configuration that matches the configuration of your mail server."
@@ -7597,18 +7581,14 @@ msgid ":file:`vcs`"
 msgstr ":file:`vcs`"
 
 #: ../../admin/config.rst:411
-#, fuzzy
-#| msgid "Version control repositories for translations."
 msgid "Version-control repositories for translations."
-msgstr "Репозитории систем контроля версий для переводов."
+msgstr "Репозитории с контролем версий для переводов."
 
 #: ../../admin/config.rst:412
 msgid ":file:`backups`"
 msgstr ":file:`backups`"
 
 #: ../../admin/config.rst:413
-#, fuzzy
-#| msgid "Daily backup data, please check :ref:`backup-dumps` for details."
 msgid "Daily backup data. Please check :ref:`backup-dumps` for details."
 msgstr ""
 "Данные ежедневных резервных копий, для получения подробной информации "
@@ -7629,6 +7609,8 @@ msgstr ":file:`cache`"
 #: ../../admin/config.rst:417
 msgid "Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`."
 msgstr ""
+"Различные кэши. Могут быть размещены в другом месте с помощью "
+":setting:`CACHE_DIR`."
 
 #: ../../admin/config.rst:423
 msgid ""
@@ -7685,11 +7667,8 @@ msgid "DEFAULT_ACCESS_CONTROL"
 msgstr "DEFAULT_ACCESS_CONTROL"
 
 #: ../../admin/config.rst:461
-#, fuzzy
-#| msgid "The default access control setting for new projects:"
 msgid "The default access-control setting for new projects:"
-msgstr ""
-"Умолчательное значение параметра управления доступом для новых проектов:"
+msgstr "Настройка контроля доступа по умолчанию для новых проектов:"
 
 #: ../../admin/config.rst:463
 msgid "``0``"
@@ -7774,11 +7753,8 @@ msgid "DEFAULT_ADDONS"
 msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:532
-#, fuzzy
-#| msgid "Default add-ons to install on every created component."
 msgid "Default add-ons to install for every created component."
-msgstr ""
-"Умолчательные надстройки, устанавливаемые в каждый созданный компонент."
+msgstr "Установка дополнений по умолчанию для каждого созданного компонента."
 
 #: ../../admin/config.rst:536
 msgid "This setting affects only newly created components."
@@ -7793,8 +7769,6 @@ msgid "Example:"
 msgstr "Пример:"
 
 #: ../../admin/config.rst:558
-#, fuzzy
-#| msgid ":djadmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
 msgid ":wladmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
 msgstr ":djadmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
 
@@ -7803,8 +7777,6 @@ msgid "DEFAULT_COMMITER_EMAIL"
 msgstr "DEFAULT_COMMITER_EMAIL"
 
 #: ../../admin/config.rst:567
-#, fuzzy
-#| msgid "Committer e-mail address defaulting to ``noreply@weblate.org``."
 msgid "Committer e-mail address, defaulting to ``noreply@weblate.org``."
 msgstr ""
 "Адрес электронной почты коммиттера, по умолчанию равен ``noreply@weblate."
@@ -7819,8 +7791,6 @@ msgid "DEFAULT_COMMITER_NAME"
 msgstr "DEFAULT_COMMITER_NAME"
 
 #: ../../admin/config.rst:578
-#, fuzzy
-#| msgid "Committer name defaulting to ``Weblate``."
 msgid "Committer name, defaulting to ``Weblate``."
 msgstr "Имя коммиттера, по умолчанию равен ``Weblate``."
 
@@ -7833,10 +7803,8 @@ msgid "DEFAULT_LANGUAGE"
 msgstr "DEFAULT_LANGUAGE"
 
 #: ../../admin/config.rst:591
-#, fuzzy
-#| msgid "Merge style for any new components."
 msgid ":ref:`component-source_language` for any new components."
-msgstr "Стиль слияния для любых новых компонентов."
+msgstr ":ref:`component-source_language` для любых новых компонентов."
 
 #: ../../admin/config.rst:593
 msgid ""
@@ -7855,10 +7823,8 @@ msgid "DEFAULT_MERGE_STYLE"
 msgstr "DEFAULT_MERGE_STYLE"
 
 #: ../../admin/config.rst:605
-#, fuzzy
-#| msgid "Merge style for any new components."
 msgid ":ref:`component-merge_style` for any new components."
-msgstr "Стиль слияния для любых новых компонентов."
+msgstr ":ref:`component-merge_style` для любых новых компонентов."
 
 #: ../../admin/config.rst:607
 msgid "`rebase` - default"
@@ -7877,16 +7843,12 @@ msgid "DEFAULT_SHARED_TM"
 msgstr "DEFAULT_SHARED_TM"
 
 #: ../../admin/config.rst:620
-#, fuzzy
-#| msgid ""
-#| "Configures default value of :ref:`project-use_shared_tm` and :ref:"
-#| "`project-contribute_shared_tm`."
 msgid ""
 "Configures the default value of :ref:`project-use_shared_tm` and :ref:"
 "`project-contribute_shared_tm`."
 msgstr ""
-"Настраивает значение по умолчанию для :ref:`project-use_shared_tm` и :ref:"
-"`project-contribute_shared_tm`."
+"Настраивает значение по умолчанию для :ref:`project-use_shared_tm` и :ref"
+":`project-contribute_shared_tm`."
 
 #: ../../admin/config.rst:625
 msgid "DEFAULT_TRANSLATION_PROPAGATION"
@@ -7916,13 +7878,10 @@ msgid "ENABLE_AVATARS"
 msgstr "ENABLE_AVATARS"
 
 #: ../../admin/config.rst:648
-#, fuzzy
-#| msgid ""
-#| "Whether to turn on Gravatar-based avatars for users. By default this is "
-#| "on."
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
 msgstr ""
-"Включить ли для пользователей Gravatar-аватары. По умолчанию они включены."
+"Следует ли включать аватары на основе Gravatar для пользователей. По "
+"умолчанию включено."
 
 #: ../../admin/config.rst:650
 msgid ""
@@ -7943,8 +7902,6 @@ msgid "ENABLE_HOOKS"
 msgstr "ENABLE_HOOKS"
 
 #: ../../admin/config.rst:664
-#, fuzzy
-#| msgid "Whether to enable anonymous remote hooks."
 msgid "Whether to turn on anonymous remote hooks."
 msgstr "Включить ли анонимные удалённые обработчики."
 
@@ -7966,11 +7923,6 @@ msgstr ""
 "абсолютные URL-адреса."
 
 #: ../../admin/config.rst:678
-#, fuzzy
-#| msgid ""
-#| "In the default configuration this is also used for several Django "
-#| "settings related to HTTPS - it enables secure cookies, toggles HSTS or "
-#| "enables redirection to HTTPS URL."
 msgid ""
 "In the default configuration this is also used for several Django settings "
 "related to HTTPS — it enables secure cookies, toggles HSTS or enables "
@@ -7981,14 +7933,6 @@ msgstr ""
 "включает перенаправление на HTTPS-адрес."
 
 #: ../../admin/config.rst:682
-#, fuzzy
-#| msgid ""
-#| "The HTTPS redirection might be problematic in some cases and you might "
-#| "hit issue with infinite redirection in case you are using a reverse proxy "
-#| "doing SSL termination which does not correctly pass protocol headers to "
-#| "Django. Please tweak your reverse proxy configuration to emit ``X-"
-#| "Forwarded-Proto`` or ``Forwarded`` headers or configure :setting:`django:"
-#| "SECURE_PROXY_SSL_HEADER` to let Django correctly detect the SSL status."
 msgid ""
 "The HTTPS redirection might be problematic in some cases and you might hit "
 "an issue with infinite redirection in case you are using a reverse proxy "
@@ -8002,8 +7946,9 @@ msgstr ""
 "чего заголовки протокола не передаются Django в корректном виде, то вы "
 "можете столкнуться с бесконечным перенаправлением. В таком случае исправьте "
 "настройки своего обратного прокси, дабы он добавлял заголовки ``X-Forwarded-"
-"Proto`` или ``Forwarded``, или настройте :setting:`django:"
-"SECURE_PROXY_SSL_HEADER`, чтобы Django мог корректно определять статус SSL."
+"Proto`` или ``Forwarded``, или настройте "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, чтобы Django мог корректно "
+"определять статус SSL."
 
 #: ../../admin/config.rst:691
 msgid ""
@@ -8032,10 +7977,6 @@ msgid "EXTRA_HTML_HEAD"
 msgstr "EXTRA_HTML_HEAD"
 
 #: ../../admin/config.rst:711
-#, fuzzy
-#| msgid ""
-#| "Insert additional markup into HTML header. Can be used for verification "
-#| "of site ownership, for example:"
 msgid ""
 "Insert additional markup into the HTML header. Can be used for verification "
 "of site ownership, for example:"
@@ -8044,10 +7985,6 @@ msgstr ""
 "подтверждения права собственности на сайт, например:"
 
 #: ../../admin/config.rst:719
-#, fuzzy
-#| msgid ""
-#| "No sanitization is performed on the string, it is inserted as is into the "
-#| "HTML header."
 msgid ""
 "No sanitization is performed on the string. It is inserted as-is into the "
 "HTML header."
@@ -8075,12 +8012,14 @@ msgid ""
 "host. The API host might be different from what you use in the web browser, "
 "for example GitHub API is accessed as ``api.github.com``."
 msgstr ""
+"Словарь конфигурации состоит из учетных данных, определенных для каждого "
+"узла API. Хост API может отличаться от того, который используется в веб-"
+"браузере, например, доступ к API GitHub осуществляется по адресу ``api.github"
+".com``."
 
 #: ../../snippets/vcs-credentials.rst:5
-#, fuzzy
-#| msgid "The following metrics are available for each:"
 msgid "The following configuration is available for each host:"
-msgstr "Для каждого из этих вариантов доступны следующие метрики:"
+msgstr "Для каждого хоста доступна следующая конфигурация:"
 
 #: ../../admin/machine.rst:349 ../../admin/machine.rst:397
 #: ../../snippets/vcs-credentials.rst:7
@@ -8089,7 +8028,7 @@ msgstr "``username``"
 
 #: ../../snippets/vcs-credentials.rst:8
 msgid "API user, required."
-msgstr ""
+msgstr "Требуется пользователь API."
 
 #: ../../snippets/vcs-credentials.rst:9
 msgid "``token``"
@@ -8097,7 +8036,7 @@ msgstr "``token``"
 
 #: ../../snippets/vcs-credentials.rst:10
 msgid "API token for the API user, required."
-msgstr ""
+msgstr "Требуется API-токен для пользователя API."
 
 #: ../../snippets/vcs-credentials.rst:16
 msgid "``scheme``"
@@ -8109,6 +8048,10 @@ msgid ""
 "and falls backs to ``https``. If you are running the API server internally, "
 "you might want to use ``http`` instead, but consider security."
 msgstr ""
+"Переопределение схемы. Weblate пытается разобрать схему из URL репозитория и "
+"возвращается к ``https``. Если вы используете API-сервер внутри компании, то "
+"вместо него можно использовать ``http``, но при этом следует учитывать "
+"требования безопасности."
 
 #: ../../snippets/vcs-credentials.rst:20
 msgid ""
@@ -8116,20 +8059,17 @@ msgid ""
 "and the credentials are built out of that. An example configuration for "
 "GitHub might look like:"
 msgstr ""
+"В контейнере Docker учетные данные конфигурируются в трех переменных, на "
+"основе которых строятся учетные данные. Пример конфигурации для GitHub может "
+"выглядеть следующим образом:"
 
 #: ../../snippets/vcs-credentials.rst:30
 msgid "Will be used as:"
-msgstr ""
+msgstr "Будут использоваться в качестве:"
 
 #: ../../admin/config.rst:752
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITEA_CREDENTIALS`, :ref:`vcs-gitea`, `Creating a Gitea "
-#| "personal access token`_"
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
-msgstr ""
-":setting:`GITHEA_CREDENTIALS`, :ref:`vcs-gitea`, `Создание персонального "
-"токена доступа Gitea`_"
+msgstr ":ref:'vcs-gitea', 'Создание персонального токена доступа Gitea'_"
 
 #: ../../admin/config.rst:760
 msgid "GITLAB_CREDENTIALS"
@@ -8140,18 +8080,12 @@ msgid "List for credentials for GitLab servers."
 msgstr "Список учётных данных для серверов GitLab."
 
 #: ../../admin/config.rst:779
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: Personal "
-#| "access token <https://docs.gitlab.com/ee/user/profile/"
-#| "personal_access_tokens.html>`_"
 msgid ""
 ":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
 "ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
-":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: Персональный "
-"токен доступа <https://docs.gitlab.com/ee/user/profile/"
-"personal_access_tokens.html>`_"
+":ref:`vcs-gitlab`, `GitLab: Персональный токен доступа <https://docs.gitlab."
+"com/ee/user/profile/personal_access_tokens.html>`_"
 
 #: ../../admin/config.rst:785
 msgid "GITHUB_CREDENTIALS"
@@ -8162,30 +8096,25 @@ msgid "List for credentials for GitHub servers."
 msgstr "Список учётных данных для серверов GitHub."
 
 #: ../../admin/config.rst:804
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a GitHub "
-#| "personal access token`_"
 msgid ":ref:`vcs-github`, `Creating a GitHub personal access token`_"
-msgstr ""
-":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Создание персонального "
-"токена доступа GitHub`_"
+msgstr ":ref:'vcs-gitea', 'Создание персонального токена доступа Gitea'_"
 
 #: ../../admin/config.rst:812
 msgid "BITBUCKETSERVER_CREDENTIALS"
 msgstr "BITBUCKETSERVER_CREDENTIALS"
 
 #: ../../admin/config.rst:816
-#, fuzzy
-#| msgid "List for credentials for Gitea servers."
 msgid "List for credentials for Bitbucket servers."
-msgstr "Список учётных данных для серверов Gitea."
+msgstr "Список учетных данных для серверов Bitbucket."
 
 #: ../../admin/config.rst:831
 msgid ""
 ":ref:`vcs-bitbucket-server`, `Bitbucket: HTTP access token <https://"
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
+":ref:`vcs-bitbucket-server`, `Bitbucket: токен доступа HTTP "
+"<https://confluence.atlassian.com/bitbucketserver/http-access-"
+"tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:837
 msgid "GOOGLE_ANALYTICS_ID"
@@ -8223,21 +8152,14 @@ msgstr ""
 "пытается очистить и сообщения об ошибках системы контроля версий."
 
 #: ../../admin/config.rst:856
-#, fuzzy
-#| msgid "default"
 msgid "On by default."
-msgstr "значение по умолчанию"
+msgstr "Включено по умолчанию."
 
 #: ../../admin/config.rst:861
 msgid "HIDE_VERSION"
 msgstr "HIDE_VERSION"
 
 #: ../../admin/config.rst:865
-#, fuzzy
-#| msgid ""
-#| "Hides version information from unauthenticated users. This also makes all "
-#| "documentation links point to latest version instead of the documentation "
-#| "matching currently installed version."
 msgid ""
 "Hides version info from unauthenticated users. This also makes all "
 "documentation links point to the latest version instead of the documentation "
@@ -8248,17 +8170,13 @@ msgstr ""
 "которая на самом деле установлена."
 
 #: ../../admin/config.rst:869
-#, fuzzy
-#| msgid ""
-#| "Hiding version is recommended security practice in some corporations, but "
-#| "it doesn't prevent attacker to figure out version by probing the behavior."
 msgid ""
 "Hiding the version is a recommended security practice in some corporations, "
 "does not prevent an attacker from figuring out version by probing behavior."
 msgstr ""
-"Скрытие версии — рекомендованная мера безопасности в некоторых корпорациях, "
-"хотя это и не предотвращает того, что атакующий сможет выяснить версию "
-"зондируя поведение системы."
+"Скрытие версии является рекомендованной практикой безопасности в некоторых "
+"корпорациях, но не мешает злоумышленнику выяснить версию путем пробного "
+"поведения."
 
 #: ../../admin/config.rst:874
 msgid "This is turned off by default."
@@ -8376,10 +8294,6 @@ msgstr ""
 "IP адреса клиента."
 
 #: ../../admin/config.rst:952
-#, fuzzy
-#| msgid ""
-#| "Setting this affects the security of your installation, you should only "
-#| "configure it to use trusted proxies for determining IP address."
 msgid ""
 "Setting this affects the security of your installation. You should only "
 "configure it to use trusted proxies for determining the IP address."
@@ -8407,16 +8321,16 @@ msgid "LEGAL_TOS_DATE"
 msgstr "LEGAL_TOS_DATE"
 
 #: ../../admin/config.rst:974
-#, fuzzy
-#| msgid "You need to configure API credentials to make this work."
 msgid "You need :ref:`legal` installed to make this work."
-msgstr "Чтобы это заработало, нужно будет настроить учётные данные API."
+msgstr "Чтобы это работало, необходимо установить :ref:`legal`."
 
 #: ../../admin/config.rst:976
 msgid ""
 "Date of last update of terms of service documents. Whenever the date "
 "changes, users are required to agree with the updated terms of service."
 msgstr ""
+"Дата последнего обновления условий предоставления услуг. При изменении даты "
+"пользователи должны согласиться с обновленными условиями обслуживания."
 
 #: ../../admin/config.rst:988
 msgid "LEGAL_URL"
@@ -8429,10 +8343,6 @@ msgstr ""
 "документы."
 
 #: ../../admin/config.rst:994
-#, fuzzy
-#| msgid ""
-#| "Useful if you host your legal documents outside Weblate for embedding "
-#| "them inside Weblate, please check :ref:`legal` for details."
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate. Please check :ref:`legal` for details."
@@ -8593,10 +8503,6 @@ msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 msgstr "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 
 #: ../../admin/config.rst:1139
-#, fuzzy
-#| msgid ""
-#| "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
-#| "users are allowed to access the sign in page."
 msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the sign-in page."
@@ -8613,13 +8519,12 @@ msgid "MATOMO_SITE_ID"
 msgstr "MATOMO_SITE_ID"
 
 #: ../../admin/config.rst:1162
-#, fuzzy
-#| msgid "ID of a site in Matomo (formerly Piwik) you want to track."
 msgid ""
 "ID of the site in Matomo (formerly Piwik) you want to use for tracking "
 "Weblate."
 msgstr ""
-"Идентификатор сайта в Matomo (бывший Piwik), который вы хотите отслеживать."
+"ID сайта в Matomo (ранее Piwik), который вы хотите использовать для "
+"отслеживания Weblate."
 
 #: ../../admin/config.rst:1166 ../../admin/config.rst:1183
 msgid "This integration does not support the Matomo Tag Manager."
@@ -8680,14 +8585,8 @@ msgid "List for credentials for Pagure servers."
 msgstr "Список учётных данных для серверов Pagure."
 
 #: ../../admin/config.rst:1234
-#, fuzzy
-#| msgid ""
-#| ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`, `Pagure API <https://"
-#| "pagure.io/api/0/>`_"
 msgid ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
-msgstr ""
-":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`, `Pagure API <https://"
-"pagure.io/api/0/>`_"
+msgstr ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
 
 #: ../../admin/config.rst:1241
 msgid "PRIVACY_URL"
@@ -8720,6 +8619,8 @@ msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-in)."
 msgstr ""
+"Определяет, является ли личное электронное письмо о фиксации согласия или "
+"отказа (по умолчанию это согласие)."
 
 #: ../../admin/config.rst:1273
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
@@ -8734,6 +8635,8 @@ msgid ""
 "Template to generate private commit e-mail for an user. Defaults to ``"
 "\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
+"Шаблон для создания личного сообщения электронной почты о фиксации для "
+"пользователя. По умолчанию ``\"{username}@users.noreply.{site_domain}\"``."
 
 #: ../../admin/config.rst:1285
 msgid "Set to blank string to disable."
@@ -8745,16 +8648,16 @@ msgid ""
 "setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail in "
 "the :ref:`profile`."
 msgstr ""
+"Использование другого адреса электронной почты для фиксации разрешено для "
+"пользователей, если это не настроено с помощью "
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Пользователи могут настроить "
+"отправку электронной почты в :ref:`profile`."
 
 #: ../../admin/config.rst:1296
 msgid "PROJECT_BACKUP_KEEP_COUNT"
 msgstr "PROJECT_BACKUP_KEEP_COUNT"
 
 #: ../../admin/config.rst:1300
-#, fuzzy
-#| msgid ""
-#| "Defines how many backups per project are kept on the server. It defaults "
-#| "to 3."
 msgid ""
 "Defines how many backups per project are kept on the server. Defaults to 3."
 msgstr ""
@@ -8786,6 +8689,8 @@ msgid ""
 "Defines a regular expression to restrict project naming. Any matching names "
 "will be rejected."
 msgstr ""
+"Определяет регулярное выражение для ограничения именования проектов. Все "
+"совпадающие имена будут отклонены."
 
 #: ../../admin/config.rst:1330
 msgid ":ref:`project-name`"
@@ -8802,6 +8707,11 @@ msgid ""
 "should contain lower case strings only, the parsed domain is lower cased "
 "before matching."
 msgstr ""
+"Запрет на использование определенных хостов на сайте проекта. При этом "
+"проверяется любой поддомен, так что включение ``example.com`` заблокирует и "
+"``test.example.com``. Список должен содержать строки только в нижнем "
+"регистре, разобранный домен перед проверкой выравнивается по нижнему "
+"регистру."
 
 #: ../../admin/config.rst:1344
 msgid "Default configuration:"
@@ -8822,6 +8732,8 @@ msgstr "PROJECT_WEB_RESTRICT_NUMERIC"
 #: ../../admin/config.rst:1364
 msgid "Reject using numeric IP address in project website. On by default."
 msgstr ""
+"Запретить использование числового IP-адреса на сайте проекта. По умолчанию "
+"включено."
 
 #: ../../admin/config.rst:1368
 msgid ""
@@ -8840,6 +8752,8 @@ msgid ""
 "Defines a regular expression to restrict project websites. Any matching URLs "
 "will be rejected."
 msgstr ""
+"Определяет регулярное выражение для ограничения сайтов проекта. Все "
+"совпадающие URL-адреса будут отклонены."
 
 #: ../../admin/config.rst:1383
 msgid ""
@@ -8881,8 +8795,6 @@ msgstr ""
 "частоты запросов."
 
 #: ../../admin/config.rst:1409
-#, fuzzy
-#| msgid "An amount of seconds defaulting to 300 (5 minutes)."
 msgid "An amount of seconds, defaulting to 300 (5 minutes)."
 msgstr "Количество секунд, по умолчанию равен 300 (5 минут)."
 
@@ -8930,11 +8842,6 @@ msgstr ""
 "разрешённые в параметрах и настроенные методы аутентификации."
 
 #: ../../admin/config.rst:1443
-#, fuzzy
-#| msgid ""
-#| "It is recommended to keep :setting:`REGISTRATION_OPEN` enabled while "
-#| "limiting registration backends, otherwise users will be able to register, "
-#| "but Weblate will not show links to register in the user interface."
 msgid ""
 "It is recommended to keep :setting:`REGISTRATION_OPEN` on while limiting "
 "registration backends, otherwise users will be able to register, but Weblate "
@@ -8946,8 +8853,6 @@ msgstr ""
 "пользовательском интерфейсе."
 
 #: ../../admin/config.rst:1455
-#, fuzzy
-#| msgid "The backend names match names used in URL for authentication."
 msgid "The backend names match names used in the URL for authentication."
 msgstr ""
 "Имена бэкэндов совпадают с именами, используемыми в URL-адресах для "
@@ -8966,6 +8871,8 @@ msgid ""
 "Whether registration of new accounts is protected by a CAPTCHA. Defaults to "
 "enabled."
 msgstr ""
+"Защищать ли регистрацию новых учетных записей с помощью CAPTCHA. По "
+"умолчанию значение включено."
 
 #: ../../admin/config.rst:1469
 msgid ""
@@ -9018,17 +8925,12 @@ msgid "REGISTRATION_OPEN"
 msgstr "REGISTRATION_OPEN"
 
 #: ../../admin/config.rst:1496
-#, fuzzy
-#| msgid ""
-#| "Whether registration of new accounts is currently permitted. This "
-#| "optional setting can remain the default ``True``, or changed to ``False``."
 msgid ""
 "Whether registration of new accounts is currently permitted. Defaults to "
 "enabled."
 msgstr ""
-"Разрешена ли в настоящее время регистрация новых учётных записей. Этот "
-"необязательный параметр может остаться в значении по умолчанию ``True`` или "
-"быть изменённым на ``False``."
+"Разрешена ли в данный момент регистрация новых учетных записей. По умолчанию "
+"установлено значение enabled."
 
 #: ../../admin/config.rst:1499
 msgid ""
@@ -9069,6 +8971,9 @@ msgid ""
 "Allow rebinding authentication backends for existing users. Turn this on "
 "when migrating between authentication providers."
 msgstr ""
+"Разрешить повторную привязку серверных частей проверки подлинности для "
+"существующих пользователей. Включите этот параметр при миграции между "
+"поставщиками проверки подлинности."
 
 #: ../../admin/config.rst:1527
 msgid ""
@@ -9076,6 +8981,10 @@ msgid ""
 "existing account. Rebinding can lead to account compromise when using more "
 "third-party authentication backends."
 msgstr ""
+"По умолчанию отключено, чтобы не разрешать добавление других серверных "
+"частей проверки подлинности к существующей учетной записи. Повторная "
+"привязка может привести к компрометации учетной записи при использовании "
+"большего количества сторонних серверных частей проверки подлинности."
 
 #: ../../admin/config.rst:1534
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -9170,11 +9079,6 @@ msgid "SITE_DOMAIN"
 msgstr "SITE_DOMAIN"
 
 #: ../../admin/config.rst:1602
-#, fuzzy
-#| msgid ""
-#| "Configures site domain. This is necessary to produce correct absolute "
-#| "links in many scopes (for example activation e-mails, notifications or "
-#| "RSS feeds)."
 msgid ""
 "Configures site domain. Necessary to produce correct absolute links in many "
 "scopes (for example activation e-mails, notifications or RSS feeds)."
@@ -9184,27 +9088,19 @@ msgstr ""
 "RSS-каналах)."
 
 #: ../../admin/config.rst:1605
-#, fuzzy
-#| msgid ""
-#| "In case Weblate is running on non-standard port, include it here as well."
 msgid "If Weblate is running on a non-standard port, include it here as well."
-msgstr ""
-"Если Weblate работает на нестандартном порту, добавьте его и сюда тоже."
+msgstr "Если Weblate работает на нестандартном порту, укажите его здесь."
 
 #: ../../admin/config.rst:1619
-#, fuzzy
-#| msgid ""
-#| "This setting should only contain the domain name. For configuring "
-#| "protocol, (enabling and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and "
-#| "for changing URL, use :setting:`URL_PREFIX`."
 msgid ""
 "This setting should only contain the domain name. For configuring protocol, "
 "(turning on and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for "
 "changing the URL, use :setting:`URL_PREFIX`."
 msgstr ""
-"Этот параметр должен содержать только доменное имя. Для настройки протокола "
-"(включения и принудительного включения HTTPS) используйте параметр :setting:"
-"`ENABLE_HTTPS`, а для изменения URL-адреса — параметр :setting:`URL_PREFIX`."
+"Этот параметр должен содержать только доменное имя. Для настройки протокола ("
+"включения и принудительного включения HTTPS) используйте параметр "
+":setting:`ENABLE_HTTPS`, а для изменения URL-адреса — параметр "
+":setting:`URL_PREFIX`."
 
 #: ../../admin/config.rst:1625
 msgid ""
@@ -9253,13 +9149,6 @@ msgid "SINGLE_PROJECT"
 msgstr "SINGLE_PROJECT"
 
 #: ../../admin/config.rst:1661
-#, fuzzy
-#| msgid ""
-#| "Redirects users directly to a project or component instead of showing the "
-#| "dashboard. You can either set it to ``True`` and in this case it only "
-#| "works in case there is actually only single project in Weblate. "
-#| "Alternatively set the project slug, and it will redirect unconditionally "
-#| "to this project."
 msgid ""
 "Redirects users directly to a project or component instead of showing the "
 "dashboard. You can either set it to ``True`` so it only works if there is "
@@ -9277,11 +9166,6 @@ msgid "SSH_EXTRA_ARGS"
 msgstr "SSH_EXTRA_ARGS"
 
 #: ../../admin/config.rst:1679
-#, fuzzy
-#| msgid ""
-#| "Allows to add custom parameters when Weblate is invoking SSH. This is "
-#| "useful when connecting to servers using legacy encryption or other non-"
-#| "standard features."
 msgid ""
 "Allows adding custom parameters when Weblate is invoking SSH. Useful when "
 "connecting to servers using legacy encryption or other non-standard features."
@@ -9291,11 +9175,6 @@ msgstr ""
 "или другие нестандартные функции."
 
 #: ../../admin/config.rst:1682
-#, fuzzy
-#| msgid ""
-#| "For example when SSH connection in Weblate fails with `Unable to "
-#| "negotiate with legacyhost: no matching key exchange method found. Their "
-#| "offer: diffie-hellman-group1-sha1`, you can enable that using:"
 msgid ""
 "For example when SSH connection in Weblate fails with `Unable to negotiate "
 "with legacyhost: no matching key exchange method found. Their offer: diffie-"
@@ -9306,16 +9185,12 @@ msgstr ""
 "offer: diffie-hellman-group1-sha1`, вы можете включить его, используя:"
 
 #: ../../admin/config.rst:1691
-#, fuzzy
-#| msgid ""
-#| "The string is evaluated by shell, so make sure to quote any whitespace "
-#| "and special characters."
 msgid ""
 "The string is evaluated by the shell, so ensure any whitespace and special "
 "characters is quoted."
 msgstr ""
-"Строка оценивается shell'ом, поэтому убедитесь, что все пробелы и "
-"специальные символы заключены в кавычки."
+"Строка оценивается оболочкой, поэтому все пробельные и специальные символы "
+"должны быть заключены в кавычки."
 
 #: ../../admin/config.rst:1696
 msgid "`OpenSSH Legacy Options <https://www.openssh.com/legacy.html>`_"
@@ -9350,21 +9225,20 @@ msgstr "UNUSED_ALERT_DAYS"
 msgid ""
 "Configures when the :guilabel:`Component seems unused` alert is triggered."
 msgstr ""
+"Настраивает, когда срабатывает предупреждение :guilabel:`Компонент кажется "
+"неиспользуемым`."
 
 #: ../../admin/config.rst:1722
 msgid "Defaults to 365 days, set to 0 to turn it off."
 msgstr ""
+"По умолчанию установлено значение 365 дней, для отключения установите "
+"значение 0."
 
 #: ../../admin/config.rst:1727
 msgid "UPDATE_LANGUAGES"
 msgstr "UPDATE_LANGUAGES"
 
 #: ../../admin/config.rst:1731
-#, fuzzy
-#| msgid ""
-#| "Controls whether languages database should be updated when running "
-#| "database migration and is enabled by default. This setting has no effect "
-#| "on invocation of :djadmin:`setuplang`."
 msgid ""
 "Controls whether languages database should be updated when running database "
 "migration and is on by default. This setting has no effect on invocation of :"
@@ -9380,6 +9254,9 @@ msgid ""
 "definitions expand over time and it will not display language code for the "
 "defined languages."
 msgstr ""
+"При этом отображение языков может стать непоследовательным. Определения "
+"языков Weblate со временем расширяются, и он не будет отображать код языка "
+"для определенных языков."
 
 #: ../../admin/config.rst:1743
 msgid ":ref:`included-languages`"
@@ -9428,18 +9305,24 @@ msgid ""
 "Configures minimal delay in seconds between third-party API calls in :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, and :ref:`vcs-pagure`."
 msgstr ""
+"Настройка минимальной задержки в секундах между сторонними вызовами API в "
+":ref:`vcs-github', :ref:`vcs-gitlab', :ref:`vcs-gitea' и :ref:`vcs-pagure'."
 
 #: ../../admin/config.rst:1783
 msgid ""
 "This rate-limits API calls from Weblate to these services to avoid "
 "overloading them."
 msgstr ""
+"Эта скорость ограничивает вызовы API из Weblate к этим сервисам, чтобы не "
+"перегружать их."
 
 #: ../../admin/config.rst:1785
 msgid ""
 "If you are being limited by secondary rate-limiter at GitHub, increasing "
 "this might help."
 msgstr ""
+"Если вас ограничивает дополнительный ограничитель скорости на GitHub, его "
+"увеличение может помочь."
 
 #: ../../admin/config.rst:1787
 msgid "The default value is 10."
@@ -9522,11 +9405,6 @@ msgstr ""
 "то, вероятно, вы захотите оставить эти дополнения включёнными, например:"
 
 #: ../../admin/config.rst:1880
-#, fuzzy
-#| msgid ""
-#| "Removing the add-on from the list does not uninstall it from the "
-#| "components. Weblate will crash in that case. Please uninstall add-on from "
-#| "all components prior to removing it from this list."
 msgid ""
 "Removing the add-on from the list does not uninstall it from the components. "
 "Weblate will crash in that case. Please uninstall the add-on from all "
@@ -49593,20 +49471,16 @@ msgid "Version control integration"
 msgstr "Интеграция с системой контроля версий"
 
 #: ../../vcs.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate currently supports :ref:`vcs-git` (with extended support for :ref:"
-#| "`vcs-github`, :ref:`vcs-gerrit` and :ref:`vcs-git-svn`) and :ref:`vcs-"
-#| "mercurial` as version control back-ends."
 msgid ""
 "Weblate currently supports :ref:`vcs-git` (with extended support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`, :ref:"
 "`vcs-git-svn` and :ref:`vcs-bitbucket-server`) and :ref:`vcs-mercurial` as "
 "version control back-ends."
 msgstr ""
-"В настоящее время Weblate в качестве систем контроля версий поддерживает :"
-"ref:`vcs-git` (с расширенной поддержкой :ref:`vcs-github`, :ref:`vcs-gerrit` "
-"и :ref:`vcs-git-svn`) и :ref:`vcs-mercurial`."
+"В настоящее время Weblate поддерживает :ref:`vcs-git` (с расширенной "
+"поддержкой :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
+"gerrit`, :ref:`vcs-git-svn` и :ref:`vcs-bitbucket-server`) и :ref:`vcs-"
+"mercurial` в качестве back-end'ов системы управления версиями."
 
 #: ../../vcs.rst:14
 msgid "Accessing repositories"
@@ -49717,6 +49591,8 @@ msgid ""
 "Weblate now generates both RSA and Ed25519 SSH keys. Using Ed25519 is "
 "recommended for new setups."
 msgstr ""
+"Weblate теперь генерирует SSH-ключи RSA и Ed25519. Для новых установок "
+"рекомендуется использовать Ed25519."
 
 #: ../../vcs.rst:73
 msgid ""
@@ -50112,6 +49988,9 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitHub` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Для того чтобы это работало, необходимо настроить учетные данные API "
+"(:setting:`GITHUB_CREDENTIALS`) в настройках Weblate. После настройки вы "
+"увидите опцию :guilabel:`GitHub` при выборе :ref:`component-vcs`."
 
 #: ../../vcs.rst:287
 msgid ":ref:`push-changes`, :setting:`GITHUB_CREDENTIALS`"
@@ -50150,6 +50029,9 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitLab` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Для того чтобы это работало, необходимо настроить учетные данные API "
+"(:setting:`GITLAB_CREDENTIALS`) в настройках Weblate. После настройки вы "
+"увидите опцию :guilabel:`GitLab` при выборе :ref:`component-vcs`."
 
 #: ../../vcs.rst:313
 msgid ":ref:`push-changes`, :setting:`GITLAB_CREDENTIALS`"
@@ -50188,16 +50070,17 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Gitea` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Для того чтобы это работало, необходимо настроить учетные данные API "
+"(:setting:`GITEA_CREDENTIALS`) в настройках Weblate. После настройки вы "
+"увидите опцию :guilabel:`Gitea` при выборе :ref:`component-vcs`."
 
 #: ../../vcs.rst:341
 msgid ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
 msgstr ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
 
 #: ../../vcs.rst:350
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "Bitbucket Server pull requests"
-msgstr "Запрос на принятие изменений в Gitea"
+msgstr "Запрос на принятие изменений в сервер Bitbucket"
 
 #: ../../vcs.rst:354
 msgid ""
