@@ -4,13 +4,14 @@
 # a <xxx_xxx_xxxxxxxxx@mail.ru>, 2023.
 # Blueberry <igory.ygr200@gmail.com>, 2023.
 # Deleted User <noreply+67923@weblate.org>, 2023.
+# xXx <xxx_xxx_xxxxxxxxx@mail.ru>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 17:13+0200\n"
-"PO-Revision-Date: 2023-08-31 19:25+0000\n"
-"Last-Translator: Deleted User <noreply+67923@weblate.org>\n"
+"PO-Revision-Date: 2023-09-01 18:24+0000\n"
+"Last-Translator: xXx <xxx_xxx_xxxxxxxxx@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -9486,16 +9487,13 @@ msgid "WEBSITE_REQUIRED"
 msgstr "WEBSITE_REQUIRED"
 
 #: ../../admin/config.rst:1956
-#, fuzzy
-#| msgid ""
-#| "Defines whether :ref:`project-web` has to be specified when creating a "
-#| "project. Turned on by default as that suits public server setups."
 msgid ""
 "Defines whether :ref:`project-web` has to be specified when creating a "
 "project. On by default, as that suits public server setups."
 msgstr ""
-"Определяет, нужно ли указывать :ref:`project-web` при создании проекта. По "
-"умолчанию включено, так как это подходит для публичных серверов."
+"Определяет, нужно ли указывать :ref:'project-web' при создании проекта. "
+"Включено по умолчанию, так как это подходит для установок общедоступного "
+"сервера."
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
@@ -9531,15 +9529,10 @@ msgstr ""
 "версий."
 
 #: ../../admin/continuous.rst:18
-#, fuzzy
-#| msgid ""
-#| "Optionally the translation files are updated (this depends on the file "
-#| "format, see :ref:`translations-update`)."
 msgid ""
 "Optionally the translation files are updated, see :ref:`translations-update`."
 msgstr ""
-"По необходимости обновляются файлы перевода (это зависит от формата файла, "
-"смотрите вопрос :ref:`translations-update`)."
+"При необходимости файлы перевода обновляются, см. :ref:'translations-update'."
 
 #: ../../admin/continuous.rst:19
 msgid "Weblate pulls changes from the VCS repository, see :ref:`update-vcs`."
@@ -9633,16 +9626,12 @@ msgstr ""
 "компонентов на вашем экземпляре Weblate"
 
 #: ../../admin/continuous.rst:68
-#, fuzzy
-#| msgid ""
-#| "Execute :djadmin:`updategit` (with selection of project or ``--all`` to "
-#| "update all)"
 msgid ""
 "Execute :wladmin:`updategit` (with selection of project or ``--all`` to "
 "update all)"
 msgstr ""
-"Выполните команду :djadmin:`updategit` (с выбранным проектом проекта или с "
-"ключом ``--all`` для обновления всех проектов)"
+"Выполните :wladmin:`updategit` (с выбором проекта или ``--all`` для "
+"обновления всех)"
 
 #: ../../admin/continuous.rst:70
 msgid ""
@@ -10230,6 +10219,13 @@ msgid ""
 "and choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
 "``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` and desired interval."
 msgstr ""
+"Если вы хотите фиксировать изменения чаще и без проверки возраста, вы можете "
+"запланировать регулярную задачу для выполнения фиксации. Это можно сделать с "
+"помощью :guilabel:`Periodic Tasks` в :ref:`admin-interface`. Сначала "
+"создайте желаемый :guilabel:`Интервал` (например, 120 секунд). Затем "
+"добавьте новую периодическую задачу и выберите ``weblate.trans.tasks."
+"commit_pending`` в качестве :guilabel:`задачи` с ``{\"hours\": 0}`` в "
+"качестве :guilabel:`ключевых аргументов` и желаемого интервала."
 
 #: ../../admin/continuous.rst:388
 msgid "Processing repository with scripts"
@@ -10360,12 +10356,6 @@ msgstr ""
 "объясняются основы и указаны дальнейшие учебные пособия."
 
 #: ../../admin/customize.rst:28
-#, fuzzy
-#| msgid ""
-#| "To write some custom Python code (called a module), a place to store it "
-#| "is needed, either in the system path (usually something like :file:`/usr/"
-#| "lib/python3.9/site-packages/`) or in the Weblate directory, which is also "
-#| "added to the interpreter search path."
 msgid ""
 "To write a file with custom Python code (called a module), a place to store "
 "it is needed, either in the system path (usually something like :file:`/usr/"
@@ -10378,21 +10368,16 @@ msgstr ""
 "Weblate, который также добавляется к путям поиска интерпретатора."
 
 #: ../../admin/customize.rst:35
-#, fuzzy
-#| msgid ""
-#| "You can place own Python modules in :file:`/app/data/python/` (see :ref:"
-#| "`docker-volume`) and they can be then loaded by Weblate, most likely by "
-#| "using :ref:`docker-custom-config`."
 msgid ""
 "When :ref:`using Docker <docker-deploy>`, you can place Python modules in :"
 "file:`/app/data/python/` (see :ref:`docker-volume`), so they can be loaded "
 "by Weblate, for example from a :ref:`settings override file <docker-settings-"
 "override>`."
 msgstr ""
-"Собственные модули Python вы можете разместить в каталоге :file:`/app/data/"
-"python/` (смотрите раздел :ref:`docker-volume`) — в дальнейшем они могут "
-"быть загружены в Weblate, скорее всего, через :ref:`пользовательские файлы "
-"настроек <docker-custom-config>`."
+"Используя Docker <docker-deploy>`, вы можете поместить модули Python в "
+":file:`/app/data/python/` (см. :ref:`docker-volume`), чтобы их можно было "
+"загрузить с помощью Weblate, например, из файла переопределения настроек "
+"<docker-settings-override>`."
 
 #: ../../admin/customize.rst:40
 msgid "Better yet, turn your customization into a proper Python package:"
@@ -20456,7 +20441,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:593
 msgid "Enforced checks"
-msgstr "Принудительные проверки"
+msgstr "Принудительная проверка"
 
 #: ../../admin/projects.rst:595
 msgid "List of checks which can not be ignored, see :ref:`enforcing-checks`."
@@ -49002,10 +48987,8 @@ msgid ":kbd:`Ctrl+I` followed by :kbd:`1` to :kbd:`9` or"
 msgstr ":kbd:`Ctrl+I`\\+\\ :kbd:`1` to :kbd:`9` or"
 
 #: ../../user/translating.rst:236
-#, fuzzy
-#| msgid ":kbd:`Cmd+I`\\+\\ :kbd:`1` to :kbd:`9`"
 msgid ":kbd:`Cmd+I` followed by :kbd:`1` to :kbd:`9`"
-msgstr ":kbd:`Cmd+I`\\+\\ :kbd:`1` to :kbd:`9`"
+msgstr ":kbd:`Cmd+I` с последующими :kbd:`1` до :kbd:`9`"
 
 #: ../../user/translating.rst:233
 msgid "Ignore one item in the list of failing checks."
