@@ -102,6 +102,7 @@ from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
+from weblate.trans.util import redirect_next
 from weblate.utils import messages
 from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
@@ -1049,7 +1050,7 @@ def watch(request, path):
         # Watch project
         obj = project
     user.profile.watched.add(obj)
-    return redirect(redirect_obj)
+    return redirect_next(request.GET.get("next"), redirect_obj)
 
 
 @require_POST
@@ -1060,7 +1061,7 @@ def unwatch(request, path):
     request.user.subscription_set.filter(
         Q(project=obj) | Q(component__project=obj)
     ).delete()
-    return redirect(obj)
+    return redirect_next(request.GET.get("next"), obj)
 
 
 def mute_real(user, **kwargs):
