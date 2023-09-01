@@ -132,7 +132,7 @@ def download(request, path):
         )
         return download_multi(
             Translation.objects.filter(component__in=components),
-            [obj],
+            [obj.project],
             request.GET.get("format"),
             name=obj.slug,
         )
