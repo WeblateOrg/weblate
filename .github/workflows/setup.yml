@@ -24,7 +24,7 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Set up Python
@@ -58,7 +58,7 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Set up Python
@@ -83,7 +83,7 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Setup Python
@@ -125,7 +125,7 @@ jobs:
       PYTHONUNBUFFERED: 1
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Install brew dependencies
       run: brew install python pango cairo gobject-introspection glib libyaml tvuotila/libxmlsec1/libxmlsec1@1.2.37
     - name: Install Weblate
