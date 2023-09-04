@@ -1478,7 +1478,7 @@ class GitLabRepository(GitMergeRequestBase):
             "web_url" not in response_data
             and "open merge request already exists" not in error
         ):
-            self.failed_pull_request(pr_url, response, response_data)
+            self.failed_pull_request(error, pr_url, response, response_data)
 
 
 class PagureRepository(GitMergeRequestBase):
