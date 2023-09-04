@@ -371,12 +371,13 @@ class Unit(models.Model, LoggerMixin):
         ]
 
     def __str__(self):
+        source = self.get_source_plurals()[0]
         if self.translation.is_template:
             name = self.context
         elif self.context:
-            name = f"[{self.context}] {self.source}"
+            name = f"[{self.context}] {source}"
         else:
-            name = self.source
+            name = source
         return f"{self.pk}: {name}"
 
     def save(
