@@ -8,6 +8,7 @@ Not yet released.
 **Improvements**
 
 * Related glossary terms lookup is now faster.
+* Logging of failures when creating pull requests.
 
 **Bug fixes**
 

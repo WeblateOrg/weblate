@@ -1037,6 +1037,15 @@ class GitMergeRequestBase(GitForcePushRepository):
 
         return response_data, response, self.get_error_message(response_data)
 
+    def failed_pull_request(
+        self, error: str, pr_url: str, response: requests.Response, data: dict
+    ):
+        status_code = response.status_code
+        self.log("Creating pull request via {pr_url} failed ({status_code}): {data}")
+        raise RepositoryError(
+            -1, f"Could not create pull request {status_code}: {error}"
+        )
+
 
 class GithubRepository(GitMergeRequestBase):
     name = gettext_lazy("GitHub pull request")
@@ -1149,13 +1158,7 @@ class GithubRepository(GitMergeRequestBase):
                         )
                         return
 
-            self.log(
-                "Failed creating pull request via %s (%s): %s",
-                pr_url,
-                response.status_code,
-                response_data,
-            )
-            raise RepositoryError(0, f"Pull request failed: {error_message}")
+            self.failed_pull_request(error_message, pr_url, response, response_data)
 
 
 class GiteaRepository(GitMergeRequestBase):
@@ -1225,13 +1228,7 @@ class GiteaRepository(GitMergeRequestBase):
             if "pull request already exists for these targets" in error_message:
                 return
 
-            self.log(
-                "Failed creating pull request via %s (%s): %s",
-                pr_url,
-                response.status_code,
-                response_data,
-            )
-            raise RepositoryError(0, f"Pull request failed: {error_message}")
+            self.failed_pull_request(error_message, pr_url, response, response_data)
 
 
 class LocalRepository(GitRepository):
@@ -1481,13 +1478,7 @@ class GitLabRepository(GitMergeRequestBase):
             "web_url" not in response_data
             and "open merge request already exists" not in error
         ):
-            self.log(
-                "Failed creating pull request via %s (%s): %s",
-                pr_url,
-                response.status_code,
-                response_data,
-            )
-            raise RepositoryError(-1, f"Could not create pull request: {error}")
+            self.failed_pull_request(pr_url, response, response_data)
 
 
 class PagureRepository(GitMergeRequestBase):
@@ -1578,13 +1569,9 @@ class PagureRepository(GitMergeRequestBase):
         )
 
         if "id" not in response_data:
-            self.log(
-                "Failed creating pull request via %s (%s): %s",
-                pr_create_url,
-                response.status_code,
-                response_data,
+            self.failed_pull_request(
+                error_message, pr_create_url, response, response_data
             )
-            raise RepositoryError(0, f"Pull request failed: {error_message}")
 
 
 class BitbucketServerRepository(GitMergeRequestBase):
@@ -1722,10 +1709,4 @@ class BitbucketServerRepository(GitMergeRequestBase):
             )
             if pr_exist_message in error_message:
                 return
-            self.log(
-                "Failed creating pull request via %s (%s): %s",
-                pr_url,
-                response.status_code,
-                response_data,
-            )
-            raise RepositoryError(0, f"Pull request failed: {error_message}")
+            self.failed_pull_request(error_message, pr_url, response, response_data)
