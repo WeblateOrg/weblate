@@ -348,6 +348,7 @@ def user_profile(request):
         .filter(translation__id__in=user_translation_ids)
         .exclude(license="")
         .prefetch(alerts=False)
+        .distinct()
         .order_by("license")
     )
 
