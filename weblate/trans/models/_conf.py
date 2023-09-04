@@ -146,7 +146,7 @@ Current translation status:
     # Rate limiting
     IP_BEHIND_REVERSE_PROXY = False
     IP_PROXY_HEADER = "HTTP_X_FORWARDED_FOR"
-    IP_PROXY_OFFSET = 0
+    IP_PROXY_OFFSET = -1
 
     # Authentication
     AUTH_TOKEN_VALID = 172800
