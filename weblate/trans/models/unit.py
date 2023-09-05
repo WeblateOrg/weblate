@@ -161,6 +161,8 @@ class UnitQuerySet(models.QuerySet):
     def same_target(self, unit: Unit, target: str | None = None):
         if target is None:
             target = unit.target
+        if not target:
+            return self.none()
         translation = unit.translation
         component = translation.component
         return self.filter(

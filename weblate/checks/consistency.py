@@ -6,7 +6,8 @@ from __future__ import annotations
 
 from functools import reduce
 
-from django.db.models import Count, Prefetch, Q
+from django.db.models import Count, Prefetch, Q, Value
+from django.db.models.functions import MD5
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.checks.base import TargetCheck
@@ -201,7 +202,7 @@ class ReusedCheck(TargetCheck):
             translation__component__allow_translation_propagation=True,
             state__gte=STATE_TRANSLATED,
         )
-        units = units.exclude(target="")
+        units = units.exclude(target__md5=MD5(Value("")))
 
         # List strings with different sources
         # Limit this to 100 strings, otherwise the resulting query is way too complex
