@@ -499,43 +499,51 @@ class Change(models.Model, UserDisplayMixin):
         ),
     }
 
-    unit = models.ForeignKey("Unit", null=True, on_delete=models.deletion.CASCADE)
-    language = models.ForeignKey(
-        "lang.Language", null=True, on_delete=models.deletion.CASCADE
+    unit = models.ForeignKey(
+        "Unit", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
-    project = models.ForeignKey("Project", null=True, on_delete=models.deletion.CASCADE)
+    language = models.ForeignKey(
+        "lang.Language", null=True, on_delete=models.deletion.CASCADE, db_index=False
+    )
+    project = models.ForeignKey(
+        "Project", null=True, on_delete=models.deletion.CASCADE, db_index=False
+    )
     component = models.ForeignKey(
-        "Component", null=True, on_delete=models.deletion.CASCADE
+        "Component", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
     translation = models.ForeignKey(
-        "Translation", null=True, on_delete=models.deletion.CASCADE
+        "Translation", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
     comment = models.ForeignKey(
-        "Comment", null=True, on_delete=models.deletion.SET_NULL
+        "Comment", null=True, on_delete=models.deletion.SET_NULL, db_index=False
     )
     suggestion = models.ForeignKey(
-        "Suggestion", null=True, on_delete=models.deletion.SET_NULL
+        "Suggestion", null=True, on_delete=models.deletion.SET_NULL, db_index=False
     )
     announcement = models.ForeignKey(
-        "Announcement", null=True, on_delete=models.deletion.SET_NULL
+        "Announcement", null=True, on_delete=models.deletion.SET_NULL, db_index=False
     )
     screenshot = models.ForeignKey(
-        "screenshots.Screenshot", null=True, on_delete=models.deletion.SET_NULL
+        "screenshots.Screenshot",
+        null=True,
+        on_delete=models.deletion.SET_NULL,
+        db_index=False,
     )
-    alert = models.ForeignKey("Alert", null=True, on_delete=models.deletion.SET_NULL)
+    alert = models.ForeignKey(
+        "Alert", null=True, on_delete=models.deletion.SET_NULL, db_index=False
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
-        related_name="author_set",
+        related_name="+",
+        db_index=False,
         on_delete=models.deletion.CASCADE,
     )
     timestamp = models.DateTimeField(auto_now_add=True)
-    action = models.IntegerField(
-        choices=ACTION_CHOICES, default=ACTION_CHANGE, db_index=True
-    )
+    action = models.IntegerField(choices=ACTION_CHOICES, default=ACTION_CHANGE)
     target = models.TextField(default="", blank=True)
     old = models.TextField(default="", blank=True)
     details = models.JSONField(default=dict)
@@ -545,11 +553,14 @@ class Change(models.Model, UserDisplayMixin):
     class Meta:
         app_label = "trans"
         indexes = [
-            models.Index(
-                fields=["timestamp", "project", "component", "language", "action"]
-            ),
-            models.Index(fields=["action", "translation", "timestamp"]),
-            models.Index(fields=["user", "timestamp"]),
+            models.Index(fields=["timestamp", "action"]),
+            models.Index(fields=["project", "action", "timestamp"]),
+            models.Index(fields=["language", "action", "timestamp"]),
+            models.Index(fields=["project", "language", "action", "timestamp"]),
+            models.Index(fields=["component", "action", "timestamp"]),
+            models.Index(fields=["translation", "action", "timestamp"]),
+            models.Index(fields=["unit", "action", "timestamp"]),
+            models.Index(fields=["user", "action", "timestamp"]),
         ]
         verbose_name = "history event"
         verbose_name_plural = "history events"
