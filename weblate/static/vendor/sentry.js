@@ -3133,6 +3133,19 @@ class Mysql  {
       };
     }
 
+    function finishSpan(span) {
+      if (!span) {
+        return;
+      }
+
+      const data = spanDataFromConfig();
+      Object.keys(data).forEach(key => {
+        span.setData(key, data[key]);
+      });
+
+      span.finish();
+    }
+
     // The original function will have one of these signatures:
     //    function (callback) => void
     //    function (options, callback) => void
@@ -3141,31 +3154,33 @@ class Mysql  {
       return function ( options, values, callback) {
         const scope = getCurrentHub().getScope();
         const parentSpan = _optionalChain([scope, 'optionalAccess', _2 => _2.getSpan, 'call', _3 => _3()]);
+
         const span = _optionalChain([parentSpan, 'optionalAccess', _4 => _4.startChild, 'call', _5 => _5({
           description: typeof options === 'string' ? options : (options ).sql,
           op: 'db',
           origin: 'auto.db.mysql',
           data: {
-            ...spanDataFromConfig(),
             'db.system': 'mysql',
           },
         })]);
 
         if (typeof callback === 'function') {
           return orig.call(this, options, values, function (err, result, fields) {
-            _optionalChain([span, 'optionalAccess', _6 => _6.finish, 'call', _7 => _7()]);
+            finishSpan(span);
             callback(err, result, fields);
           });
         }
 
         if (typeof values === 'function') {
           return orig.call(this, options, function (err, result, fields) {
-            _optionalChain([span, 'optionalAccess', _8 => _8.finish, 'call', _9 => _9()]);
+            finishSpan(span);
             values(err, result, fields);
           });
         }
 
-        return orig.call(this, options, values, callback);
+        return orig.call(this, options, values, function () {
+          finishSpan(span);
+        });
       };
     });
   }
@@ -5161,7 +5176,7 @@ function _wrapTimeFunction(original) {
     args[0] = helpers.wrap(originalCallback, {
       mechanism: {
         data: { function: utils.getFunctionName(original) },
-        handled: true,
+        handled: false,
         type: 'instrument',
       },
     });
@@ -5182,7 +5197,7 @@ function _wrapRAF(original) {
             function: 'requestAnimationFrame',
             handler: utils.getFunctionName(original),
           },
-          handled: true,
+          handled: false,
           type: 'instrument',
         },
       }),
@@ -5208,7 +5223,7 @@ function _wrapXHR(originalSend) {
                 function: prop,
                 handler: utils.getFunctionName(original),
               },
-              handled: true,
+              handled: false,
               type: 'instrument',
             },
           };
@@ -5266,7 +5281,7 @@ function _wrapEventTarget(target) {
                 handler: utils.getFunctionName(fn),
                 target,
               },
-              handled: true,
+              handled: false,
               type: 'instrument',
             },
           });
@@ -5285,7 +5300,7 @@ function _wrapEventTarget(target) {
               handler: utils.getFunctionName(fn),
               target,
             },
-            handled: true,
+            handled: false,
             type: 'instrument',
           },
         }),
@@ -6330,10 +6345,15 @@ function onLoad(callback) {
 /**
  * Wrap code within a try/catch block so the SDK is able to capture errors.
  *
+ * @deprecated This function will be removed in v8.
+ * It is not part of Sentry's official API and it's easily replaceable by using a try/catch block
+ * and calling Sentry.captureException.
+ *
  * @param fn A function to wrap.
  *
  * @returns The result of wrapped function call.
  */
+// TODO(v8): Remove this function
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function wrap(fn) {
   return helpers.wrap(fn)();
@@ -12632,7 +12652,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":54,"../scope.js":65,"@sentry/utils":102}],84:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.66.0';
+const SDK_VERSION = '7.67.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -12659,9 +12679,6 @@ const SESSION_IDLE_PAUSE_DURATION = 300000; // 5 minutes in ms
 
 // The idle limit for a session after which the session expires.
 const SESSION_IDLE_EXPIRE_DURATION = 900000; // 15 minutes in ms
-
-// The maximum length of a session
-const MAX_SESSION_LIFE = 3600000; // 60 minutes in ms
 
 /** Default flush delays */
 const DEFAULT_FLUSH_MIN_DELAY = 5000;
@@ -12693,6 +12710,9 @@ const REPLAY_MAX_EVENT_BUFFER_SIZE = 20000000; // ~20MB
 const MIN_REPLAY_DURATION = 4999;
 /* The max. allowed value that the minReplayDuration can be set to. */
 const MIN_REPLAY_DURATION_LIMIT = 15000;
+
+/** The max. length of a replay. */
+const MAX_REPLAY_DURATION = 3600000; // 60 minutes in ms;
 
 var NodeType$1;
 (function (NodeType) {
@@ -17297,13 +17317,20 @@ function isExpired(
 /**
  * Checks to see if session is expired
  */
-function isSessionExpired(session, timeouts, targetTime = +new Date()) {
+function isSessionExpired(
+  session,
+  {
+    maxReplayDuration,
+    sessionIdleExpire,
+    targetTime = Date.now(),
+  },
+) {
   return (
     // First, check that maximum session length has not been exceeded
-    isExpired(session.started, timeouts.maxSessionLife, targetTime) ||
+    isExpired(session.started, maxReplayDuration, targetTime) ||
     // check that the idle timeout has not been exceeded (i.e. user has
     // performed an action within the last `sessionIdleExpire` ms)
-    isExpired(session.lastActivity, timeouts.sessionIdleExpire, targetTime)
+    isExpired(session.lastActivity, sessionIdleExpire, targetTime)
   );
 }
 
@@ -17315,15 +17342,16 @@ function isSessionExpired(session, timeouts, targetTime = +new Date()) {
 function maybeRefreshSession(
   session,
   {
-    timeouts,
     traceInternals,
+    maxReplayDuration,
+    sessionIdleExpire,
   }
 
 ,
   sessionOptions,
 ) {
   // If not expired, all good, just keep the session
-  if (!isSessionExpired(session, timeouts)) {
+  if (!isSessionExpired(session, { sessionIdleExpire, maxReplayDuration })) {
     return session;
   }
 
@@ -17356,8 +17384,9 @@ function maybeRefreshSession(
 function loadOrCreateSession(
   currentSession,
   {
-    timeouts,
     traceInternals,
+    sessionIdleExpire,
+    maxReplayDuration,
   }
 
 ,
@@ -17372,8 +17401,10 @@ function loadOrCreateSession(
     return createSession(sessionOptions);
   }
 
-  return maybeRefreshSession(existingSession, { timeouts, traceInternals }, sessionOptions);
+  return maybeRefreshSession(existingSession, { sessionIdleExpire, traceInternals, maxReplayDuration }, sessionOptions);
 }
+
+const ReplayEventTypeCustom = 5;
 
 function isCustomEvent(event) {
   return event.type === EventType.Custom;
@@ -17409,9 +17440,9 @@ async function addEvent(
   }
 
   // Throw out events that are +60min from the initial timestamp
-  if (timestampInMs > replay.getContext().initialTimestamp + replay.timeouts.maxSessionLife) {
+  if (timestampInMs > replay.getContext().initialTimestamp + replay.getOptions().maxReplayDuration) {
     logInfo(
-      `[Replay] Skipping event with timestamp ${timestampInMs} because it is after maxSessionLife`,
+      `[Replay] Skipping event with timestamp ${timestampInMs} because it is after maxReplayDuration`,
       replay.getOptions()._experiments.traceInternals,
     );
     return null;
@@ -19897,7 +19928,6 @@ class ReplayContainer  {
     this.timeouts = {
       sessionIdlePause: SESSION_IDLE_PAUSE_DURATION,
       sessionIdleExpire: SESSION_IDLE_EXPIRE_DURATION,
-      maxSessionLife: MAX_SESSION_LIFE,
     } ;
     this._lastActivity = Date.now();
     this._isEnabled = false;
@@ -20024,7 +20054,8 @@ class ReplayContainer  {
     const session = loadOrCreateSession(
       this.session,
       {
-        timeouts: this.timeouts,
+        maxReplayDuration: this._options.maxReplayDuration,
+        sessionIdleExpire: this.timeouts.sessionIdleExpire,
         traceInternals: this._options._experiments.traceInternals,
       },
       {
@@ -20054,7 +20085,8 @@ class ReplayContainer  {
     const session = loadOrCreateSession(
       this.session,
       {
-        timeouts: this.timeouts,
+        sessionIdleExpire: this.timeouts.sessionIdleExpire,
+        maxReplayDuration: this._options.maxReplayDuration,
         traceInternals: this._options._experiments.traceInternals,
       },
       {
@@ -20230,7 +20262,7 @@ class ReplayContainer  {
       // `shouldRefresh`, the session could be considered expired due to
       // lifespan, which is not what we want. Update session start date to be
       // the current timestamp, so that session is not considered to be
-      // expired. This means that max replay duration can be MAX_SESSION_LIFE +
+      // expired. This means that max replay duration can be MAX_REPLAY_DURATION +
       // (length of buffer), which we are ok with.
       this._updateUserActivity(activityTime);
       this._updateSessionActivity(activityTime);
@@ -20393,7 +20425,11 @@ class ReplayContainer  {
     }
 
     // Session is expired, trigger a full snapshot (which will create a new session)
-    this._triggerFullSnapshot();
+    if (this.isPaused()) {
+      this.resume();
+    } else {
+      this._triggerFullSnapshot();
+    }
 
     return false;
   }
@@ -20436,7 +20472,7 @@ class ReplayContainer  {
 
       this.addUpdate(() => {
         void addEvent(this, {
-          type: EventType.Custom,
+          type: ReplayEventTypeCustom,
           timestamp: breadcrumb.timestamp || 0,
           data: {
             tag: 'breadcrumb',
@@ -20507,7 +20543,8 @@ class ReplayContainer  {
     const session = loadOrCreateSession(
       this.session,
       {
-        timeouts: this.timeouts,
+        sessionIdleExpire: this.timeouts.sessionIdleExpire,
+        maxReplayDuration: this._options.maxReplayDuration,
         traceInternals: this._options._experiments.traceInternals,
       },
       {
@@ -20536,8 +20573,9 @@ class ReplayContainer  {
     const newSession = maybeRefreshSession(
       currentSession,
       {
-        timeouts: this.timeouts,
+        sessionIdleExpire: this.timeouts.sessionIdleExpire,
         traceInternals: this._options._experiments.traceInternals,
+        maxReplayDuration: this._options.maxReplayDuration,
       },
       {
         stickySession: Boolean(this._options.stickySession),
@@ -20672,7 +20710,10 @@ class ReplayContainer  {
       return;
     }
 
-    const expired = isSessionExpired(this.session, this.timeouts);
+    const expired = isSessionExpired(this.session, {
+      maxReplayDuration: this._options.maxReplayDuration,
+      ...this.timeouts,
+    });
 
     if (breadcrumb && !expired) {
       this._createCustomBreadcrumb(breadcrumb);
@@ -20851,7 +20892,7 @@ class ReplayContainer  {
       // Check total duration again, to avoid sending outdated stuff
       // We leave 30s wiggle room to accomodate late flushing etc.
       // This _could_ happen when the browser is suspended during flushing, in which case we just want to stop
-      if (timestamp - this._context.initialTimestamp > this.timeouts.maxSessionLife + 30000) {
+      if (timestamp - this._context.initialTimestamp > this._options.maxReplayDuration + 30000) {
         throw new Error('Session is too long, not sending replay');
       }
 
@@ -20919,10 +20960,10 @@ class ReplayContainer  {
     // A flush is about to happen, cancel any queued flushes
     this._debouncedFlush.cancel();
 
-    // If session is too short, or too long (allow some wiggle room over maxSessionLife), do not send it
+    // If session is too short, or too long (allow some wiggle room over maxReplayDuration), do not send it
     // This _should_ not happen, but it may happen if flush is triggered due to a page activity change or similar
     const tooShort = duration < this._options.minReplayDuration;
-    const tooLong = duration > this.timeouts.maxSessionLife + 5000;
+    const tooLong = duration > this._options.maxReplayDuration + 5000;
     if (tooShort || tooLong) {
       logInfo(
         `[Replay] Session duration (${Math.floor(duration / 1000)}s) is too ${
@@ -21142,6 +21183,7 @@ class Replay  {
     flushMinDelay = DEFAULT_FLUSH_MIN_DELAY,
     flushMaxDelay = DEFAULT_FLUSH_MAX_DELAY,
     minReplayDuration = MIN_REPLAY_DURATION,
+    maxReplayDuration = MAX_REPLAY_DURATION,
     stickySession = true,
     useCompression = true,
     _experiments = {},
@@ -21221,6 +21263,7 @@ class Replay  {
       flushMinDelay,
       flushMaxDelay,
       minReplayDuration: Math.min(minReplayDuration, MIN_REPLAY_DURATION_LIMIT),
+      maxReplayDuration: Math.min(maxReplayDuration, MAX_REPLAY_DURATION),
       stickySession,
       sessionSampleRate,
       errorSampleRate,
@@ -22808,8 +22851,10 @@ exports.getGlobalObject = worldwide.getGlobalObject;
 exports.getGlobalSingleton = worldwide.getGlobalSingleton;
 exports.SENTRY_XHR_DATA_KEY = instrument.SENTRY_XHR_DATA_KEY;
 exports.addInstrumentationHandler = instrument.addInstrumentationHandler;
-exports.originalConsoleMethods = instrument.originalConsoleMethods;
+exports.instrumentDOM = instrument.instrumentDOM;
+exports.instrumentXHR = instrument.instrumentXHR;
 exports.parseFetchArgs = instrument.parseFetchArgs;
+exports.resetInstrumentationHandlers = instrument.resetInstrumentationHandlers;
 exports.isDOMError = is.isDOMError;
 exports.isDOMException = is.isDOMException;
 exports.isElement = is.isElement;
@@ -22826,10 +22871,8 @@ exports.isSyntheticEvent = is.isSyntheticEvent;
 exports.isThenable = is.isThenable;
 exports.CONSOLE_LEVELS = logger.CONSOLE_LEVELS;
 exports.consoleSandbox = logger.consoleSandbox;
-Object.defineProperty(exports, 'logger', {
-	enumerable: true,
-	get: () => logger.logger
-});
+exports.logger = logger.logger;
+exports.originalConsoleMethods = logger.originalConsoleMethods;
 exports.memoBuilder = memo.memoBuilder;
 exports.addContextToFrame = misc.addContextToFrame;
 exports.addExceptionMechanism = misc.addExceptionMechanism;
@@ -23014,6 +23057,16 @@ function addInstrumentationHandler(type, callback) {
   instrument(type);
 }
 
+/**
+ * Reset all instrumentation handlers.
+ * This can be used by tests to ensure we have a clean slate of instrumentation handlers.
+ */
+function resetInstrumentationHandlers() {
+  Object.keys(handlers).forEach(key => {
+    handlers[key ] = undefined;
+  });
+}
+
 /** JSDoc */
 function triggerHandlers(type, data) {
   if (!type || !handlers[type]) {
@@ -23033,11 +23086,6 @@ function triggerHandlers(type, data) {
   }
 }
 
-/** Only exported for testing & debugging. */
-const originalConsoleMethods
-
- = {};
-
 /** JSDoc */
 function instrumentConsole() {
   if (!('console' in worldwide.GLOBAL_OBJ)) {
@@ -23050,12 +23098,12 @@ function instrumentConsole() {
     }
 
     object.fill(worldwide.GLOBAL_OBJ.console, level, function (originalConsoleMethod) {
-      originalConsoleMethods[level] = originalConsoleMethod;
+      logger.originalConsoleMethods[level] = originalConsoleMethod;
 
       return function (...args) {
         triggerHandlers('console', { args, level });
 
-        const log = originalConsoleMethods[level];
+        const log = logger.originalConsoleMethods[level];
         log && log.apply(worldwide.GLOBAL_OBJ.console, args);
       };
     });
@@ -23161,7 +23209,8 @@ function parseFetchArgs(fetchArgs) {
 
 /** JSDoc */
 function instrumentXHR() {
-  if (!('XMLHttpRequest' in WINDOW)) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  if (!(WINDOW ).XMLHttpRequest) {
     return;
   }
 
@@ -23432,7 +23481,7 @@ function makeDOMEventHandler(handler, globalListener = false) {
 
 /** JSDoc */
 function instrumentDOM() {
-  if (!('document' in WINDOW)) {
+  if (!WINDOW.document) {
     return;
   }
 
@@ -23576,8 +23625,10 @@ function instrumentUnhandledRejection() {
 
 exports.SENTRY_XHR_DATA_KEY = SENTRY_XHR_DATA_KEY;
 exports.addInstrumentationHandler = addInstrumentationHandler;
-exports.originalConsoleMethods = originalConsoleMethods;
+exports.instrumentDOM = instrumentDOM;
+exports.instrumentXHR = instrumentXHR;
 exports.parseFetchArgs = parseFetchArgs;
+exports.resetInstrumentationHandlers = resetInstrumentationHandlers;
 
 
 },{"./is.js":104,"./logger.js":105,"./object.js":111,"./stacktrace.js":117,"./supports.js":119,"./vendor/supportsHistory.js":126,"./worldwide.js":127}],104:[function(require,module,exports){
@@ -23786,6 +23837,13 @@ const PREFIX = 'Sentry Logger ';
 
 const CONSOLE_LEVELS = ['debug', 'info', 'warn', 'error', 'log', 'assert', 'trace'] ;
 
+/** This may be mutated by the console instrumentation. */
+const originalConsoleMethods
+
+ = {};
+
+/** JSDoc */
+
 /**
  * Temporarily disable sentry console instrumentations.
  *
@@ -23797,26 +23855,24 @@ function consoleSandbox(callback) {
     return callback();
   }
 
-  const originalConsole = worldwide.GLOBAL_OBJ.console ;
-  const wrappedLevels = {};
+  const console = worldwide.GLOBAL_OBJ.console ;
+  const wrappedFuncs = {};
+
+  const wrappedLevels = Object.keys(originalConsoleMethods) ;
 
   // Restore all wrapped console methods
-  CONSOLE_LEVELS.forEach(level => {
-    // TODO(v7): Remove this check as it's only needed for Node 6
-    const originalWrappedFunc =
-      originalConsole[level] && (originalConsole[level] ).__sentry_original__;
-    if (level in originalConsole && originalWrappedFunc) {
-      wrappedLevels[level] = originalConsole[level] ;
-      originalConsole[level] = originalWrappedFunc ;
-    }
+  wrappedLevels.forEach(level => {
+    const originalConsoleMethod = originalConsoleMethods[level] ;
+    wrappedFuncs[level] = console[level] ;
+    console[level] = originalConsoleMethod;
   });
 
   try {
     return callback();
   } finally {
     // Revert restoration to wrapped state
-    Object.keys(wrappedLevels).forEach(level => {
-      originalConsole[level] = wrappedLevels[level ];
+    wrappedLevels.forEach(level => {
+      console[level] = wrappedFuncs[level] ;
     });
   }
 }
@@ -23852,16 +23908,12 @@ function makeLogger() {
   return logger ;
 }
 
-// Ensure we only have a single logger instance, even if multiple versions of @sentry/utils are being used
-exports.logger = void 0;
-if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
-  exports.logger = worldwide.getGlobalSingleton('logger', makeLogger);
-} else {
-  exports.logger = makeLogger();
-}
+const logger = makeLogger();
 
 exports.CONSOLE_LEVELS = CONSOLE_LEVELS;
 exports.consoleSandbox = consoleSandbox;
+exports.logger = logger;
+exports.originalConsoleMethods = originalConsoleMethods;
 
 
 },{"./worldwide.js":127}],106:[function(require,module,exports){
