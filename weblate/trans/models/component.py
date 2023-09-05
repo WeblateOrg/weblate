@@ -300,6 +300,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         "Project",
         verbose_name=gettext_lazy("Project"),
         on_delete=models.deletion.CASCADE,
+        db_index=False,
     )
     category = models.ForeignKey(
         "Category",
@@ -463,7 +464,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     allow_translation_propagation = models.BooleanField(
         verbose_name=gettext_lazy("Allow translation propagation"),
         default=settings.DEFAULT_TRANSLATION_PROPAGATION,
-        db_index=True,
         help_text=gettext_lazy(
             "Whether translation updates in other components "
             "will cause automatic translation in this one"
@@ -723,6 +723,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         app_label = "trans"
         verbose_name = "Component"
         verbose_name_plural = "Components"
+        indexes = [
+            models.Index(fields=["project", "allow_translation_propagation"]),
+        ]
 
     def __str__(self):
         return f"{self.category or self.project}/{self.name}"
