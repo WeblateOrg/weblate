@@ -21,7 +21,10 @@ FONT_STORAGE = FileSystemStorage(location=data_dir("fonts"))
 
 class Font(models.Model, UserDisplayMixin):
     family = models.CharField(
-        verbose_name=gettext_lazy("Font family"), max_length=100, blank=True
+        verbose_name=gettext_lazy("Font family"),
+        max_length=100,
+        blank=True,
+        db_index=False,
     )
     style = models.CharField(
         verbose_name=gettext_lazy("Font style"), max_length=100, blank=True
@@ -107,12 +110,14 @@ class FontGroup(models.Model):
             "Default font is used unless per language override matches."
         ),
     )
-    project = models.ForeignKey(Project, on_delete=models.deletion.CASCADE)
+    project = models.ForeignKey(
+        Project, on_delete=models.deletion.CASCADE, db_index=False
+    )
 
     objects = FontGroupQuerySet.as_manager()
 
     class Meta:
-        unique_together = [("name", "project")]
+        unique_together = [("project", "name")]
         verbose_name = "Font group"
         verbose_name_plural = "Font groups"
 
@@ -126,7 +131,9 @@ class FontGroup(models.Model):
 
 
 class FontOverride(models.Model):
-    group = models.ForeignKey(FontGroup, on_delete=models.deletion.CASCADE)
+    group = models.ForeignKey(
+        FontGroup, on_delete=models.deletion.CASCADE, db_index=False
+    )
     font = models.ForeignKey(
         Font, on_delete=models.deletion.CASCADE, verbose_name=gettext_lazy("Font")
     )
