@@ -26,7 +26,7 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - run: ./scripts/yarn-update
     - name: Update branch
       if: github.ref != 'refs/heads/main'
