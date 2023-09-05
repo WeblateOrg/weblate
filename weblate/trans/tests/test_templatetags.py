@@ -262,6 +262,24 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
+    def test_diff_github_9821(self):
+        unit = Unit(translation=self.translation)
+        unit.all_flags = {"python-brace-format"}
+        self.assertHTMLEqual(
+            format_translation(
+                ["由 {username} 邀请至 {project} 项目。"],
+                self.component.source_language,
+                diff="由 {username} 邀请至 {site_title}。",
+                unit=unit,
+            )["items"][0]["content"],
+            """
+            由
+            <span class="hlcheck" data-value="{username}"><span class="highlight-number"></span>{username}</span>
+             邀请至
+             {<del>site_title}</del><ins>project} 项目</ins>。
+            """,
+        )
+
     def test_diff_whitespace(self):
         self.assertHTMLEqual(
             format_translation(

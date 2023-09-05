@@ -85,3 +85,12 @@ Description: Fake package - module manually installed in site_perl
 <del></del> site_perl directory.<ins>
 ]]&gt;</ins>""",
         )
+
+    def test_github_9821(self):
+        self.assertEqual(
+            self.differ.highlight(
+                "由 {username} 邀请至 {project} 项目。",
+                "由 {username} 邀请至 {site_title}。",
+            ),
+            "由 {username} 邀请至 {<del>site_title}</del><ins>project} 项目</ins>。",
+        )
