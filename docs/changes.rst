@@ -20,6 +20,8 @@ Not yet released.
 
 **Compatibility**
 
+* The default value of :setting::`IP_PROXY_OFFSET` has been changed from 1 to -1.
+
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.

@@ -940,19 +940,24 @@ Defaults to ``HTTP_X_FORWARDED_FOR``.
 IP_PROXY_OFFSET
 ---------------
 
+.. versionchanged:: 5.0.1
+
+    The default changed from 1 to -1.
+
 Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP
 address.
 
 Depending on your setup, this header might consist of several IP addresses,
-(for example ``X-Forwarded-For: a, b, client-ip``) and you can configure
+(for example ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) and you can configure
 which address from the header is used as client IP address here.
 
 .. warning::
 
    Setting this affects the security of your installation. You should only
    configure it to use trusted proxies for determining the IP address.
+   Please check <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#security_and_privacy_concerns> for more details.
 
-Defaults to 0.
+Defaults to -1.
 
 .. seealso::
 
