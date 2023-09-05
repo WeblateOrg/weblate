@@ -46,6 +46,16 @@
             </a>
           {% endif %}
         </th>
+        <th title="{% trans "Sort this column" %}" class="number zero-width-640 sort-cell">
+          {% if objects.paginator.num_pages > 1 %}
+            <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "approved" %}-{% endif %}approved">
+          {% endif %}
+          {% trans "Approved" %}
+          <span class="sort-icon {% if objects.paginator.sort_by == "approved" %}sort-down{% elif objects.paginator.sort_by == "-approved" %}sort-up{% endif %}" />
+          {% if objects.paginator.num_pages > 1 %}
+            </a>
+          {% endif %}
+        </th>
         <th title="{% trans "Sort this column" %}" class="number sort-cell">
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "translated" %}-{% endif %}translated">
@@ -56,7 +66,7 @@
             </a>
           {% endif %}
         </th>
-        <th title="{% trans "Sort this column" %}" class="number zero-width-640 sort-cell">
+        <th title="{% trans "Sort this column" %}" class="number zero-width-740 sort-cell">
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated" %}-{% endif %}untranslated">
           {% endif %}
@@ -66,7 +76,7 @@
             </a>
           {% endif %}
         </th>
-        <th title="{% trans "Sort this column" %}" class="number zero-width-720 sort-cell">
+        <th title="{% trans "Sort this column" %}" class="number zero-width-820 sort-cell">
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated_words" %}-{% endif %}untranslated_words">
           {% endif %}
@@ -96,7 +106,7 @@
             </a>
           {% endif %}
         </th>
-        <th title="{% trans "Sort this column" %}" class="number zero-width-768 sort-cell">
+        <th title="{% trans "Sort this column" %}" class="number zero-width-868 sort-cell">
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "checks" %}-{% endif %}checks">
           {% endif %}
@@ -106,7 +116,7 @@
             </a>
           {% endif %}
         </th>
-        <th title="{% trans "Sort this column" %}" class="number zero-width-900 sort-cell">
+        <th title="{% trans "Sort this column" %}" class="number zero-width-1000 sort-cell">
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "suggestions" %}-{% endif %}suggestions">
           {% endif %}
@@ -116,7 +126,7 @@
             </a>
           {% endif %}
         </th>
-        <th title="{% trans "Sort this column" %}" class="number zero-width-1000 sort-cell">
+        <th title="{% trans "Sort this column" %}" class="number zero-width-1100 sort-cell">
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "comments" %}-{% endif %}comments">
           {% endif %}
@@ -141,15 +151,16 @@
     <th class="object-link">
       <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
     </th>
+    {% include "snippets/list-objects-percent.html" with percent=category.stats.approved_percent value=category.stats.approved query="q=state:>=approved" all=category.stats.all class="zero-width-640" %}
     {% include "snippets/list-objects-percent.html" with percent=category.stats.translated_percent value=category.stats.translated query="q=state:>=translated" all=category.stats.all %}
     {% if not hide_details %}
-    {% include "snippets/list-objects-number.html" with value=category.stats.todo query="q=state:<translated" class="zero-width-640" %}
-    {% include "snippets/list-objects-number.html" with value=category.stats.todo_words query="q=state:<translated" class="zero-width-720" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.todo query="q=state:<translated" class="zero-width-740" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.todo_words query="q=state:<translated" class="zero-width-820" %}
     {% include "snippets/list-objects-number.html" with value=category.stats.todo_chars query="q=state:<translated" class="zero-width-1200" %}
     {% include "snippets/list-objects-number.html" with value=category.stats.nottranslated query="q=state:empty" class="zero-width-1400" %}
-    {% include "snippets/list-objects-number.html" with value=category.stats.allchecks query="q=has:check" class="zero-width-768" %}
-    {% include "snippets/list-objects-number.html" with value=category.stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-900" %}
-    {% include "snippets/list-objects-number.html" with value=category.stats.comments query="q=has:comment#comments" class="zero-width-1000" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.allchecks query="q=has:check" class="zero-width-868" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-1000" %}
+    {% include "snippets/list-objects-number.html" with value=category.stats.comments query="q=has:comment#comments" class="zero-width-1100" %}
     {% endif %}
   </tr>
   <tr data-parent="{{ row_id }}">
@@ -225,19 +236,20 @@
 {% endif %}
 {% indicate_alerts object %}
 </th>
+{% include "snippets/list-objects-percent.html" with percent=object.stats.approved_percent value=object.stats.approved query="q=state:>=approved" all=object.stats.all class="zero-width-640" %}
 {% if is_glossary %}
   {% include "snippets/list-objects-number.html" with value=object.stats.translated query="q=state:>=translated" show_zero=True %}
 {% else %}
   {% include "snippets/list-objects-percent.html" with percent=object.stats.translated_percent value=object.stats.translated query="q=state:>=translated" all=object.stats.all %}
 {% endif %}
 {% if not hide_details %}
-{% include "snippets/list-objects-number.html" with value=object.stats.todo query="q=state:<translated" class="zero-width-640" %}
-{% include "snippets/list-objects-number.html" with value=object.stats.todo_words query="q=state:<translated" class="zero-width-720" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.todo query="q=state:<translated" class="zero-width-740" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.todo_words query="q=state:<translated" class="zero-width-820" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.todo_chars query="q=state:<translated" class="zero-width-1200" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.nottranslated query="q=state:empty" class="zero-width-1400" %}
-{% include "snippets/list-objects-number.html" with value=object.stats.allchecks query="q=has:check" class="zero-width-768" %}
-{% include "snippets/list-objects-number.html" with value=object.stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-900" %}
-{% include "snippets/list-objects-number.html" with value=object.stats.comments query="q=has:comment#comments" class="zero-width-1000" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.allchecks query="q=has:check" class="zero-width-868" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-1000" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.comments query="q=has:comment#comments" class="zero-width-1100" %}
 {% endif %}
 </tr>
 <tr data-parent="{{ row_id }}">

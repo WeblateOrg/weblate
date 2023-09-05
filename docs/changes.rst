@@ -9,6 +9,7 @@ Not yet released.
 
 * Related glossary terms lookup is now faster.
 * Logging of failures when creating pull requests.
+* Additional approval percentage column in object listings.
 
 **Bug fixes**
 
