@@ -7,7 +7,12 @@ from __future__ import annotations
 import os
 
 
-def get_env_str(name: str, default: str | None = None, required: bool = False) -> str:
+def get_env_str(
+    name: str,
+    default: str | None = None,
+    required: bool = False,
+    fallback_name: str | None = None,
+) -> str:
     file_env = f"{name}_FILE"
     if filename := os.environ.get(file_env):
         try:
@@ -18,6 +23,8 @@ def get_env_str(name: str, default: str | None = None, required: bool = False) -
                 f"Failed to open {filename} as specified by {file_env}: {error}"
             ) from error
     else:
+        if fallback_name and name not in os.environ:
+            name = fallback_name
         result = os.environ.get(name, default)
     if required and not result:
         raise ValueError(f"{name} has to be configured!")

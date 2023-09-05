@@ -259,8 +259,8 @@ if SOCIAL_AUTH_GITHUB_ORG_NAME:
     )
     SOCIAL_AUTH_GITHUB_ORG_SECRET = get_env_str(
         "WEBLATE_SOCIAL_AUTH_GITHUB_ORG_SECRET",
-        SOCIAL_AUTH_GITHUB_SECRET,
         required=True,
+        fallback_name="WEBLATE_SOCIAL_AUTH_GITHUB_SECRET",
     )
     SOCIAL_AUTH_GITHUB_ORG_SCOPE = ["user:email", "read:org"]
     AUTHENTICATION_BACKENDS += ("social_core.backends.github.GithubOrganizationOAuth2",)
@@ -273,8 +273,8 @@ if SOCIAL_AUTH_GITHUB_TEAM_ID:
     )
     SOCIAL_AUTH_GITHUB_TEAM_SECRET = get_env_str(
         "WEBLATE_SOCIAL_AUTH_GITHUB_TEAM_SECRET",
-        SOCIAL_AUTH_GITHUB_SECRET,
         required=True,
+        fallback_name="WEBLATE_SOCIAL_AUTH_GITHUB_SECRET",
     )
     SOCIAL_AUTH_GITHUB_TEAM_SCOPE = ["user:email", "read:org"]
     AUTHENTICATION_BACKENDS += ("social_core.backends.github.GithubTeamOAuth2",)
