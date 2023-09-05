@@ -210,7 +210,7 @@ class MetricManager(models.Manager):
         elif isinstance(obj, Category):
             changes = Change.objects.for_category(obj)
         elif isinstance(obj, ProjectLanguage):
-            changes = obj.project.change_set.filter(translation__language=obj.language)
+            changes = obj.project.change_set.filter(language=obj.language)
         else:
             raise TypeError(f"Unsupported type for metrics: {obj!r}")
 
