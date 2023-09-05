@@ -21,6 +21,9 @@ Not yet released.
 
 **Compatibility**
 
+* `pyahocorasick` dependency has been replaced by `ahocorasick_rs`.
+
+
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.

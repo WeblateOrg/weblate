@@ -54,7 +54,7 @@ REQUIRES = [
     "GitPython",
     "borgbackup",
     "pyparsing",
-    "pyahocorasick",
+    "ahocorasick_rs",
     "python-redis-lock",
     "charset-normalizer",
 ]
