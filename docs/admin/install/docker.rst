@@ -680,6 +680,12 @@ Generic settings
         environment:
           WEBLATE_IP_PROXY_HEADER: HTTP_X_FORWARDED_FOR
 
+.. envvar:: WEBLATE_IP_PROXY_OFFSET
+
+    .. versionadded:: 5.0.1
+
+    Configures :setting:`IP_PROXY_OFFSET`.
+
 .. envvar:: WEBLATE_USE_X_FORWARDED_PORT
 
     .. versionadded:: 5.0.1
