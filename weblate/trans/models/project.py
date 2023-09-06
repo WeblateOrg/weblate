@@ -497,9 +497,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
 
     @cached_property
     def glossaries(self):
-        return [
-            component for component in self.child_components if component.is_glossary
-        ]
+        return self.child_components.filter(is_glossary=True)
 
     def invalidate_glossary_cache(self):
         if "glossary_automaton" in self.__dict__:
