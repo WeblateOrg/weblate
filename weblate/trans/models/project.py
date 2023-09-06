@@ -448,16 +448,18 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         This is slower than child_components, but allows additional
         filtering on the result.
         """
-        child_components = (
-            self.component_set.distinct() | self.shared_components.distinct()
-        )
-        return child_components.filter_access(user).order()
+        return self.get_child_components_filter(
+            lambda qs: qs.filter_access(user)
+        ).order()
+
+    def get_child_components_filter(self, filter_callback):
+        own = filter_callback(self.component_set.all())
+        shared = filter_callback(self.shared_components.all())
+        return own.union(shared)
 
     @cached_property
     def child_components(self):
-        own = self.component_set.all()
-        shared = self.shared_components.all()
-        return own.union(shared)
+        return self.get_child_components_filter(lambda qs: qs)
 
     def scratch_create_component(
         self,
@@ -497,7 +499,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
 
     @cached_property
     def glossaries(self):
-        return self.child_components.filter(is_glossary=True)
+        return list(
+            self.get_child_components_filter(lambda qs: qs.filter(is_glossary=True))
+        )
 
     def invalidate_glossary_cache(self):
         if "glossary_automaton" in self.__dict__:
