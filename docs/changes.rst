@@ -9,7 +9,7 @@ Not yet released.
 
 * Related glossary terms lookup is now faster.
 * Logging of failures when creating pull requests.
-* Additional approval percentage column in object listings.
+* :ref:`project-translation_review` also shows the approval percentage in object listings.
 
 **Bug fixes**
 
