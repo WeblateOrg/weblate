@@ -327,7 +327,7 @@ def show_project(request, obj):
     last_changes = all_changes[:10].preload()
     last_announcements = all_changes.filter_announcements()[:10].preload()
 
-    all_components = obj.get_child_components_access(user).prefetch()
+    all_components = obj.get_child_components_access(user)
     all_components = prefetch_stats(get_paginator(request, all_components))
     for component in all_components:
         component.is_shared = None if component.project == obj else component.project
@@ -410,7 +410,7 @@ def show_category(request, obj):
     last_changes = all_changes[:10].preload()
     last_announcements = all_changes.filter_announcements()[:10].preload()
 
-    all_components = obj.get_child_components_access(user).prefetch()
+    all_components = obj.get_child_components_access(user)
     all_components = prefetch_stats(get_paginator(request, all_components))
 
     language_stats = obj.stats.get_language_stats()
@@ -642,9 +642,7 @@ def data_project(request, project):
         "data.html",
         {
             "object": obj,
-            "components": obj.get_child_components_access(request.user)
-            .prefetch()
-            .order(),
+            "components": obj.get_child_components_access(request.user),
             "project": obj,
         },
     )

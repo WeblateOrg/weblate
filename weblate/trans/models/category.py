@@ -106,7 +106,7 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def get_child_components_access(self, user):
         """Lists child components."""
-        return self.component_set.filter_access(user).order()
+        return self.component_set.filter_access(user).prefetch().order()
 
     @cached_property
     def languages(self):

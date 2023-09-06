@@ -449,7 +449,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         filtering on the result.
         """
         return self.get_child_components_filter(
-            lambda qs: qs.filter_access(user)
+            lambda qs: qs.filter_access(user).prefetch()
         ).order()
 
     def get_child_components_filter(self, filter_callback):
