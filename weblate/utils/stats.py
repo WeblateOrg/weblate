@@ -810,10 +810,9 @@ class ProjectLanguage(BaseURLMixin):
 
     @cached_property
     def is_source(self):
-        return all(
-            self.language.id == component.source_language_id
-            for component in self.project.child_components
-        )
+        return not self.project.get_child_components_filter(
+            lambda qs: qs.exclude(source_language=self.language)
+        ).exists()
 
     @cached_property
     def change_set(self):
@@ -878,10 +877,7 @@ class ProjectLanguageStats(LanguageStats):
 
     @cached_property
     def is_source(self):
-        return all(
-            self.language.id == component.source_language_id
-            for component in self.project.child_components
-        )
+        return self.obj.is_source
 
 
 class CategoryLanguage(BaseURLMixin):
@@ -940,10 +936,9 @@ class CategoryLanguage(BaseURLMixin):
 
     @cached_property
     def is_source(self):
-        return all(
-            self.language.id == component.source_language_id
-            for component in self.category.component_set.all()
-        )
+        return not self.category.component_set.exclude(
+            source_language=self.language
+        ).exists()
 
     @cached_property
     def change_set(self):
@@ -1011,10 +1006,7 @@ class CategoryLanguageStats(LanguageStats):
 
     @cached_property
     def is_source(self):
-        return all(
-            self.language.id == component.source_language_id
-            for component in self.category.component_set.all()
-        )
+        return self.obj.is_source
 
 
 class CategoryStats(BaseStats):
