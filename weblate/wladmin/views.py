@@ -34,6 +34,7 @@ from weblate.utils import messages
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.checks import measure_cache_latency, measure_database_latency
 from weblate.utils.errors import report_error
+from weblate.utils.stats import prefetch_stats
 from weblate.utils.tasks import database_backup, settings_backup
 from weblate.utils.version import GIT_LINK, GIT_REVISION
 from weblate.utils.views import show_form_errors
@@ -461,6 +462,7 @@ def billing(request):
 
     # We will list all billings anyway, so fetch  them at once
     billings = Billing.objects.prefetch().order_by("expiry", "removal", "id")
+    projects = []
 
     for current in billings:
         if current.removal:
@@ -479,6 +481,8 @@ def billing(request):
             paid.append(current)
         else:
             free.append(current)
+        projects.extend(current.ordered_projects)
+    prefetch_stats(projects)
 
     return render(
         request,
