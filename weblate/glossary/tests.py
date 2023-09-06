@@ -75,6 +75,10 @@ more options)</p>
 """
 
 
+def unit_sources(units):
+    return {unit.source for unit in units}
+
+
 class GlossaryTest(ViewTestCase):
     """Testing of glossary manipulations."""
 
@@ -210,30 +214,26 @@ class GlossaryTest(ViewTestCase):
         self.add_term("thank", "děkujeme")
 
         unit = self.get_unit("Thank you for using Weblate.")
-        self.assertEqual(
-            set(get_glossary_terms(unit).values_list("source", flat=True)), {"thank"}
-        )
+        self.assertEqual(unit_sources(get_glossary_terms(unit)), {"thank"})
         self.add_term("thank", "díky", "other")
         unit.glossary_terms = None
-        self.assertEqual(
-            set(get_glossary_terms(unit).values_list("source", flat=True)), {"thank"}
-        )
+        self.assertEqual(unit_sources(get_glossary_terms(unit)), {"thank"})
         self.add_term("thank you", "děkujeme vám")
         unit.glossary_terms = None
         self.assertEqual(
-            set(get_glossary_terms(unit).values_list("source", flat=True)),
+            unit_sources(get_glossary_terms(unit)),
             {"thank", "thank you"},
         )
         self.add_term("thank you for using Weblate", "děkujeme vám za použití Weblate")
         unit.glossary_terms = None
         self.assertEqual(
-            set(get_glossary_terms(unit).values_list("source", flat=True)),
+            unit_sources(get_glossary_terms(unit)),
             {"thank", "thank you", "thank you for using Weblate"},
         )
         self.add_term("web", "web")
         unit.glossary_terms = None
         self.assertEqual(
-            set(get_glossary_terms(unit).values_list("source", flat=True)),
+            unit_sources(get_glossary_terms(unit)),
             {"thank", "thank you", "thank you for using Weblate"},
         )
 
@@ -242,9 +242,7 @@ class GlossaryTest(ViewTestCase):
         self.add_term("breach", "prolomit")
         unit = self.get_unit()
         unit.source = "Reach summit"
-        self.assertEqual(
-            list(get_glossary_terms(unit).values_list("source", flat=True)), ["reach"]
-        )
+        self.assertEqual(unit_sources(get_glossary_terms(unit)), {"reach"})
 
     def test_phrases(self):
         self.add_term("Destructive Breach", "x")
@@ -256,20 +254,14 @@ class GlossaryTest(ViewTestCase):
         self.add_term("Skyreach", "x")
         unit = self.get_unit()
         unit.source = "During invasion from the Reach. Town burn, prior records lost.\n"
-        self.assertEqual(
-            list(get_glossary_terms(unit).values_list("source", flat=True)), ["Reach"]
-        )
+        self.assertEqual(unit_sources(get_glossary_terms(unit)), {"Reach"})
         self.add_term("Town", "x")
         unit.glossary_terms = None
-        self.assertEqual(
-            set(get_glossary_terms(unit).values_list("source", flat=True)),
-            {"Reach", "Town"},
-        )
+        self.assertEqual(unit_sources(get_glossary_terms(unit)), {"Reach", "Town"})
         self.add_term("The Reach", "x")
         unit.glossary_terms = None
         self.assertEqual(
-            set(get_glossary_terms(unit).values_list("source", flat=True)),
-            {"Reach", "The Reach", "Town"},
+            unit_sources(get_glossary_terms(unit)), {"Reach", "The Reach", "Town"}
         )
 
     def get_long_unit(self):
@@ -281,9 +273,7 @@ class GlossaryTest(ViewTestCase):
     def test_get_long(self):
         """Test parsing long source string."""
         unit = self.get_long_unit()
-        self.assertEqual(
-            set(get_glossary_terms(unit).values_list("source", flat=True)), set()
-        )
+        self.assertEqual(unit_sources(get_glossary_terms(unit)), set())
 
     def test_stoplist(self):
         unit = self.get_long_unit()
@@ -291,27 +281,21 @@ class GlossaryTest(ViewTestCase):
         self.add_term("the red", "červený")
         unit.glossary_terms = None
 
-        self.assertEqual(
-            set(get_glossary_terms(unit).values_list("source", flat=True)), {"the red"}
-        )
+        self.assertEqual(unit_sources(get_glossary_terms(unit)), {"the red"})
 
     def test_get_dash(self):
         unit = self.get_unit("Thank you for using Weblate.")
         unit.source = "Nordrhein-Westfalen"
         self.add_term("Nordrhein-Westfalen", "Northrhine Westfalia")
         self.assertEqual(
-            set(get_glossary_terms(unit).values_list("source", flat=True)),
-            {"Nordrhein-Westfalen"},
+            unit_sources(get_glossary_terms(unit)), {"Nordrhein-Westfalen"}
         )
 
     def test_get_single(self):
         unit = self.get_unit("Thank you for using Weblate.")
         unit.source = "thank"
         self.add_term("thank", "díky")
-        self.assertEqual(
-            set(get_glossary_terms(unit).values_list("source", flat=True)),
-            {"thank"},
-        )
+        self.assertEqual(unit_sources(get_glossary_terms(unit)), {"thank"})
 
     def do_add_unit(self, **kwargs):
         unit = self.get_unit("Thank you for using Weblate.")
