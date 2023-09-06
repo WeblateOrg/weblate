@@ -335,6 +335,7 @@ autodoc_mock_imports = [
     "siphashc",
     "git",
     "PIL",
+    "borg",
     "weblate.addons.models",
     "weblate.trans.models",
     "weblate.lang.models",
