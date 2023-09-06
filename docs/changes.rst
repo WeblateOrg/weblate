@@ -23,7 +23,7 @@ Not yet released.
 **Compatibility**
 
 * `pyahocorasick` dependency has been replaced by `ahocorasick_rs`.
-
+* The default value of :setting::`IP_PROXY_OFFSET` has been changed from 1 to -1.
 
 **Upgrading**
 

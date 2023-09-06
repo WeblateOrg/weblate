@@ -669,7 +669,7 @@ ANONYMOUS_USER_NAME = "anonymous"
 # Reverse proxy settings
 IP_PROXY_HEADER = "HTTP_X_FORWARDED_FOR"
 IP_BEHIND_REVERSE_PROXY = False
-IP_PROXY_OFFSET = 0
+IP_PROXY_OFFSET = -1
 
 # Sending HTML in mails
 EMAIL_SEND_HTML = True

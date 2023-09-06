@@ -1001,7 +1001,7 @@ ANONYMOUS_USER_NAME = "anonymous"
 # Reverse proxy settings
 IP_PROXY_HEADER = get_env_str("WEBLATE_IP_PROXY_HEADER")
 IP_BEHIND_REVERSE_PROXY = bool(IP_PROXY_HEADER)
-IP_PROXY_OFFSET = 0
+IP_PROXY_OFFSET = -1
 
 # Sending HTML in mails
 EMAIL_SEND_HTML = True
