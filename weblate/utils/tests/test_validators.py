@@ -143,6 +143,7 @@ class BackupTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_backup_path("ssh://")
         validate_backup_path("ssh://example.com/path")
+        validate_backup_path("user@host:/path/to/repo")
         validate_backup_path(
             "ssh://u123456-sub0@u113456-sub0.your-storagebox.de:23/./backups "
         )
