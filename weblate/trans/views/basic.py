@@ -740,7 +740,9 @@ def healthz(request):
 @never_cache
 def show_component_list(request, name):
     obj = get_object_or_404(ComponentList, slug__iexact=name)
-    components = obj.components.filter_access(request.user)
+    components = prefetch_tasks(
+        prefetch_stats(obj.components.filter_access(request.user).prefetch())
+    )
 
     return render(
         request,
