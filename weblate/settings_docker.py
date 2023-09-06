@@ -1396,6 +1396,8 @@ EXTRA_HTML_HEAD = get_env_str("WEBLATE_EXTRA_HTML_HEAD", "")
 
 UNUSED_ALERT_DAYS = get_env_int("WEBLATE_UNUSED_ALERT_DAYS", 365)
 
+USE_X_FORWARDED_HOST = get_env_bool("WEBLATE_USE_X_FORWARDED_HOST", False)
+
 # Wildcard loading
 for name in os.environ:
     if name.startswith("WEBLATE_RATELIMIT_") and name.endswith(
