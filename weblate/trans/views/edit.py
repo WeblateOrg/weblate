@@ -67,123 +67,126 @@ SESSION_SEARCH_CACHE_TTL = 1800
 
 def get_other_units(unit):
     """Returns other units to show while translating."""
-    result = {
-        "total": 0,
-        "skipped": False,
-        "same": [],
-        "matching": [],
-        "context": [],
-        "source": [],
-        "other": [],
-    }
+    with sentry_sdk.start_span(op="unit.others", description=unit.pk):
+        result = {
+            "total": 0,
+            "skipped": False,
+            "same": [],
+            "matching": [],
+            "context": [],
+            "source": [],
+            "other": [],
+        }
 
-    allow_merge = False
-    untranslated = False
-    translation = unit.translation
-    component = translation.component
-    propagation = component.allow_translation_propagation
-    same = None
-    any_propagated = False
+        allow_merge = False
+        untranslated = False
+        translation = unit.translation
+        component = translation.component
+        propagation = component.allow_translation_propagation
+        same = None
+        any_propagated = False
 
-    if unit.source and unit.context:
-        match = Q(source=unit.source) & Q(context=unit.context)
-        if component.has_template():
-            query = Q(source__iexact=unit.source) | Q(context__iexact=unit.context)
-        else:
+        if unit.source and unit.context:
+            match = Q(source=unit.source) & Q(context=unit.context)
+            if component.has_template():
+                query = Q(source__iexact=unit.source) | Q(context__iexact=unit.context)
+            else:
+                query = Q(source__iexact=unit.source)
+        elif unit.source:
+            match = Q(source=unit.source) & Q(context="")
             query = Q(source__iexact=unit.source)
-    elif unit.source:
-        match = Q(source=unit.source) & Q(context="")
-        query = Q(source__iexact=unit.source)
-    elif unit.context:
-        match = Q(context=unit.context)
-        query = Q(context__iexact=unit.context)
-    else:
-        return result
-
-    if unit.target:
-        query = query | (Q(target=unit.target) & Q(state__gte=STATE_TRANSLATED))
-    units = Unit.objects.filter(
-        query,
-        translation__component__project=component.project,
-        translation__language=translation.language,
-    )
-    # Use memory_db for the query in case it exists. This is supposed
-    # to be a read-only replica for offloading expensive translation
-    # queries.
-    if "memory_db" in settings.DATABASES:
-        units = units.using("memory_db")
-
-    units = (
-        units.annotate(
-            matches_current=Case(
-                When(condition=match, then=1), default=0, output_field=IntegerField()
-            )
-        )
-        .select_related(
-            "translation",
-            "translation__language",
-            "translation__plural",
-            "translation__component",
-            "translation__component__project",
-            "translation__component__source_language",
-        )
-        .order_by("-matches_current")
-    )
-
-    max_units = 20
-    units_limited = units[:max_units]
-    units_count = len(units_limited)
-
-    # Is it only this unit?
-    if units_count == 1:
-        return result
-
-    if units_count == max_units:
-        # Get the real units count from the database
-        units_count = units.count()
-
-    result["total"] = units_count
-    result["skipped"] = units_count > max_units
-
-    for item in units_limited.prefetch():
-        item.allow_merge = item.differently_translated = (
-            item.translated and item.target != unit.target
-        )
-        item.is_propagated = (
-            propagation
-            and item.translation.component.allow_translation_propagation
-            and item.translation.plural_id == translation.plural_id
-            and item.source == unit.source
-            and item.context == unit.context
-        )
-        if item.pk != unit.pk:
-            any_propagated |= item.is_propagated
-        untranslated |= not item.translated
-        allow_merge |= item.allow_merge
-        if item.pk == unit.pk:
-            same = item
-            result["same"].append(item)
-        elif item.source == unit.source and item.context == unit.context:
-            result["matching"].append(item)
-        elif item.source == unit.source:
-            result["source"].append(item)
-        elif item.context == unit.context:
-            result["context"].append(item)
+        elif unit.context:
+            match = Q(context=unit.context)
+            query = Q(context__iexact=unit.context)
         else:
-            result["other"].append(item)
+            return result
 
-    # Slightly different logic to allow applying current translation to
-    # the propagated strings
-    if same is not None and any_propagated:
-        same.allow_merge = (
-            (untranslated or allow_merge) and same.translated and propagation
+        if unit.target:
+            query = query | (Q(target=unit.target) & Q(state__gte=STATE_TRANSLATED))
+        units = Unit.objects.filter(
+            query,
+            translation__component__project=component.project,
+            translation__language=translation.language,
         )
-        allow_merge |= same.allow_merge
+        # Use memory_db for the query in case it exists. This is supposed
+        # to be a read-only replica for offloading expensive translation
+        # queries.
+        if "memory_db" in settings.DATABASES:
+            units = units.using("memory_db")
 
-    result["total"] = sum(len(result[x]) for x in ("matching", "source", "context"))
-    result["allow_merge"] = allow_merge
+        units = (
+            units.annotate(
+                matches_current=Case(
+                    When(condition=match, then=1),
+                    default=0,
+                    output_field=IntegerField(),
+                )
+            )
+            .select_related(
+                "translation",
+                "translation__language",
+                "translation__plural",
+                "translation__component",
+                "translation__component__project",
+                "translation__component__source_language",
+            )
+            .order_by("-matches_current")
+        )
 
-    return result
+        max_units = 20
+        units_limited = units[:max_units]
+        units_count = len(units_limited)
+
+        # Is it only this unit?
+        if units_count == 1:
+            return result
+
+        if units_count == max_units:
+            # Get the real units count from the database
+            units_count = units.count()
+
+        result["total"] = units_count
+        result["skipped"] = units_count > max_units
+
+        for item in units_limited.prefetch():
+            item.allow_merge = item.differently_translated = (
+                item.translated and item.target != unit.target
+            )
+            item.is_propagated = (
+                propagation
+                and item.translation.component.allow_translation_propagation
+                and item.translation.plural_id == translation.plural_id
+                and item.source == unit.source
+                and item.context == unit.context
+            )
+            if item.pk != unit.pk:
+                any_propagated |= item.is_propagated
+            untranslated |= not item.translated
+            allow_merge |= item.allow_merge
+            if item.pk == unit.pk:
+                same = item
+                result["same"].append(item)
+            elif item.source == unit.source and item.context == unit.context:
+                result["matching"].append(item)
+            elif item.source == unit.source:
+                result["source"].append(item)
+            elif item.context == unit.context:
+                result["context"].append(item)
+            else:
+                result["other"].append(item)
+
+        # Slightly different logic to allow applying current translation to
+        # the propagated strings
+        if same is not None and any_propagated:
+            same.allow_merge = (
+                (untranslated or allow_merge) and same.translated and propagation
+            )
+            allow_merge |= same.allow_merge
+
+        result["total"] = sum(len(result[x]) for x in ("matching", "source", "context"))
+        result["allow_merge"] = allow_merge
+
+        return result
 
 
 def cleanup_session(session, delete_all: bool = False):
