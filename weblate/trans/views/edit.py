@@ -134,7 +134,7 @@ def get_other_units(unit):
         )
 
         max_units = 20
-        units_limited = units[:max_units]
+        units_limited = units[:max_units].prefetch()
         units_count = len(units_limited)
 
         # Is it only this unit?
@@ -148,7 +148,7 @@ def get_other_units(unit):
         result["total"] = units_count
         result["skipped"] = units_count > max_units
 
-        for item in units_limited.prefetch():
+        for item in units_limited:
             item.allow_merge = item.differently_translated = (
                 item.translated and item.target != unit.target
             )
