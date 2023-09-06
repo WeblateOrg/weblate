@@ -29,6 +29,7 @@ from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.requests import request
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
+from weblate.utils.validators import validate_backup_path
 from weblate.vcs.ssh import ensure_ssh_key
 
 
@@ -185,6 +186,7 @@ class BackupService(models.Model):
             "or user@host:/path/to/repo "
             "or ssh://user@host:port/path/to/backups for remote SSH backups."
         ),
+        validators=[validate_backup_path],
     )
     enabled = models.BooleanField(default=True)
     timestamp = models.DateTimeField(default=timezone.now)

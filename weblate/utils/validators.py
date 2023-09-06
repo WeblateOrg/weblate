@@ -7,8 +7,10 @@ import re
 import sys
 from gettext import c2py
 from io import BytesIO
+from pathlib import Path
 from urllib.parse import urlparse
 
+from borg.helpers import Location
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as EmailValidatorDjango
@@ -17,6 +19,7 @@ from django.utils.translation import gettext, gettext_lazy
 from PIL import Image
 
 from weblate.trans.util import cleanup_path
+from weblate.utils.data import data_dir
 
 USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
 
@@ -208,6 +211,31 @@ def validate_filename(value):
                 "Maybe you want to use: {}"
             ).format(cleaned)
         )
+
+
+def validate_backup_path(value: str):
+    try:
+        loc = Location(value)
+    except ValueError as err:
+        raise ValidationError(str(err)) from err
+
+    if loc.archive:
+        raise ValidationError("No archive can be specified in backup location.")
+
+    if loc.proto == "file":
+        # The path is already normalized here
+        path = Path(loc.path)
+
+        # Restrict relative paths as the cwd might change
+        if not path.is_absolute():
+            raise ValidationError("Backup location has to be an absolute path.")
+
+        # Restrict placing under Weblate backups as that will produce mess
+        data_backups = Path(data_dir("backups"))
+        if data_backups == path or data_backups in path.parents:
+            raise ValidationError(
+                "Backup location should be outside Weblate backups in DATA_DIR."
+            )
 
 
 def validate_slug(value):
