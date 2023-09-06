@@ -98,7 +98,7 @@ def list_projects(request):
         {
             "allow_index": True,
             "projects": prefetch_project_flags(
-                get_paginator(request, prefetch_stats(projects))
+                prefetch_stats(get_paginator(request, projects))
             ),
             "title": gettext("Projects"),
             "query_string": query_string,
@@ -327,8 +327,8 @@ def show_project(request, obj):
     last_changes = all_changes[:10].preload()
     last_announcements = all_changes.filter_announcements()[:10].preload()
 
-    all_components = prefetch_stats(obj.get_child_components_access(user).prefetch())
-    all_components = get_paginator(request, all_components)
+    all_components = obj.get_child_components_access(user).prefetch()
+    all_components = prefetch_stats(get_paginator(request, all_components))
     for component in all_components:
         component.is_shared = None if component.project == obj else component.project
 
@@ -410,8 +410,8 @@ def show_category(request, obj):
     last_changes = all_changes[:10].preload()
     last_announcements = all_changes.filter_announcements()[:10].preload()
 
-    all_components = prefetch_stats(obj.get_child_components_access(user).prefetch())
-    all_components = get_paginator(request, all_components)
+    all_components = obj.get_child_components_access(user).prefetch()
+    all_components = prefetch_stats(get_paginator(request, all_components))
 
     language_stats = obj.stats.get_language_stats()
     # Show ghost translations for user languages
