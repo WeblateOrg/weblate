@@ -1709,3 +1709,7 @@ class Unit(models.Model, LoggerMixin):
                 check_new=False,
                 save=True,
             )
+
+    @cached_property
+    def glossary_sort_key(self):
+        return (self.translation.component.priority, self.source.lower())
