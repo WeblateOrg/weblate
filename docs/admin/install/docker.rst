@@ -682,7 +682,9 @@ Generic settings
 
 .. envvar:: WEBLATE_USE_X_FORWARDED_PORT
 
-    A boolean that specifies whether to use the X-Forwarded-Port header in
+    .. versionadded:: 5.0.1
+
+    A boolean that specifies whether to use the :http:header:`X-Forwarded-Port` header in
     preference to the SERVER_PORT META variable. This should only be enabled
     if a proxy which sets this header is in use.
 
@@ -690,7 +692,7 @@ Generic settings
 
         :setting:`django:USE_X_FORWARDED_PORT`
 
-    .. note:: This is a Boolean setting (use ``"true"`` or ``"false"``).
+    .. note:: This is a boolean setting (use ``"true"`` or ``"false"``).
 
 .. envvar:: WEBLATE_SECURE_PROXY_SSL_HEADER
 
