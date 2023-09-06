@@ -465,7 +465,7 @@ def billing(request):
     for current in billings:
         if current.removal:
             removal.append(current)
-        elif current.state == Billing.STATE_TRIAL:
+        if current.state == Billing.STATE_TRIAL:
             if (
                 current.plan
                 and current.plan.price == 0

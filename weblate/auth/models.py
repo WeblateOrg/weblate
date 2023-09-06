@@ -739,6 +739,7 @@ class UserBlock(models.Model):
         User,
         verbose_name=gettext_lazy("User to block"),
         on_delete=models.deletion.CASCADE,
+        db_index=False,
     )
     project = models.ForeignKey(
         Project, verbose_name=gettext_lazy("Project"), on_delete=models.deletion.CASCADE

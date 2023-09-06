@@ -118,7 +118,9 @@ class CheckQuerySet(models.QuerySet):
 
 
 class Check(models.Model):
-    unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
+    unit = models.ForeignKey(
+        "trans.Unit", on_delete=models.deletion.CASCADE, db_index=False
+    )
     name = models.CharField(max_length=50, choices=CHECKS.get_choices())
     dismissed = models.BooleanField(db_index=True, default=False)
 

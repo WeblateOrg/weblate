@@ -13,7 +13,9 @@ TRANSLATION_LABELS = {"Automatically translated"}
 
 
 class Label(models.Model):
-    project = models.ForeignKey("Project", on_delete=models.deletion.CASCADE)
+    project = models.ForeignKey(
+        "Project", on_delete=models.deletion.CASCADE, db_index=False
+    )
     name = models.CharField(verbose_name=gettext_lazy("Label name"), max_length=190)
     color = models.CharField(
         verbose_name=gettext_lazy("Color"),

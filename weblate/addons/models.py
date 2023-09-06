@@ -150,7 +150,7 @@ class Addon(models.Model):
 
 
 class Event(models.Model):
-    addon = models.ForeignKey(Addon, on_delete=models.deletion.CASCADE)
+    addon = models.ForeignKey(Addon, on_delete=models.deletion.CASCADE, db_index=False)
     event = models.IntegerField(choices=EVENT_CHOICES)
 
     class Meta:

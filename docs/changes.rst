@@ -9,6 +9,7 @@ Not yet released.
 
 * Related glossary terms lookup is now faster.
 * Logging of failures when creating pull requests.
+* History is now loaded faster.
 
 **Bug fixes**
 
@@ -17,14 +18,18 @@ Not yet released.
 * Block :ref:`component-edit_template` on formats which do not support it.
 * :ref:`check-reused` is no longer triggered for blank strings.
 * Performace issues while browsing some categories.
+* Fixed GitHub Team and Organization authentication in Docker container.
 
 **Compatibility**
 
+* `pyahocorasick` dependency has been replaced by `ahocorasick_rs`.
 * The default value of :setting::`IP_PROXY_OFFSET` has been changed from 1 to -1.
 
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* The database upgrade can take considerable time on larger sites due to indexing changes.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/103?closed=1>`__.
 

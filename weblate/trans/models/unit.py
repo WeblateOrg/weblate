@@ -161,6 +161,8 @@ class UnitQuerySet(models.QuerySet):
     def same_target(self, unit: Unit, target: str | None = None):
         if target is None:
             target = unit.target
+        if not target:
+            return self.none()
         translation = unit.translation
         component = translation.component
         return self.filter(
@@ -304,7 +306,9 @@ class LabelsField(models.ManyToManyField):
 
 
 class Unit(models.Model, LoggerMixin):
-    translation = models.ForeignKey("Translation", on_delete=models.deletion.CASCADE)
+    translation = models.ForeignKey(
+        "Translation", on_delete=models.deletion.CASCADE, db_index=False
+    )
     id_hash = models.BigIntegerField()
     location = models.TextField(default="", blank=True)
     context = models.TextField(default="", blank=True)

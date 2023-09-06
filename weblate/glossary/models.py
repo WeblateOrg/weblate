@@ -5,7 +5,7 @@
 import re
 from itertools import chain
 
-import ahocorasick
+import ahocorasick_rs
 import sentry_sdk
 from django.db.models import Q
 from django.db.models.functions import Lower
@@ -39,11 +39,11 @@ def get_glossary_automaton(project):
             )
         )
         # Build automaton for efficient Aho-Corasick search
-        automaton = ahocorasick.Automaton()
-        for term in terms:
-            automaton.add_word(term, term)
-        automaton.make_automaton()
-        return automaton
+        return ahocorasick_rs.AhoCorasick(
+            terms,
+            implementation=ahocorasick_rs.Implementation.ContiguousNFA,
+            store_patterns=False,
+        )
 
 
 def get_glossary_terms(unit):
@@ -76,15 +76,16 @@ def get_glossary_terms(unit):
 
     terms = set()
     automaton = project.glossary_automaton
-    if automaton.kind == ahocorasick.AHOCORASICK:
-        # Extract terms present in the source
-        with sentry_sdk.start_span(op="glossary.match", description=project.slug):
-            for end, term in automaton.iter(source):
-                if uses_ngram or (
-                    (end + 1 == len(term) or NON_WORD_RE.match(source[end - len(term)]))
-                    and (end + 1 == len(source) or NON_WORD_RE.match(source[end + 1]))
-                ):
-                    terms.add(term)
+    # Extract terms present in the source
+    with sentry_sdk.start_span(op="glossary.match", description=project.slug):
+        for _termno, start, end in automaton.find_matches_as_indexes(
+            source, overlapping=True
+        ):
+            if uses_ngram or (
+                (start == 0 or NON_WORD_RE.match(source[start - 1]))
+                and (end >= len(source) or NON_WORD_RE.match(source[end]))
+            ):
+                terms.add(source[start:end])
 
     if using_postgresql():
         match = r"^({})$".format("|".join(re_escape(term) for term in terms))

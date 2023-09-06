@@ -290,7 +290,7 @@ The following subdirectories usually exist:
 CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC
 -------------------------------------------------------------------------
 
-Customize ``Content-Security-Policy`` header for Weblate. The header is
+Customize :http:header:`Content-Security-Policy` header for Weblate. The header is
 automatically generated based on enabled integrations with third-party services
 (Matomo, Google Analytics, Sentry, …).
 
@@ -682,8 +682,8 @@ redirection to a HTTPS URL.
 The HTTPS redirection might be problematic in some cases and you might hit
 an issue with infinite redirection in case you are using a reverse proxy doing
 an SSL termination which does not correctly pass protocol headers to Django.
-Please tweak your reverse proxy configuration to emit ``X-Forwarded-Proto`` or
-``Forwarded`` headers or configure :setting:`django:SECURE_PROXY_SSL_HEADER` to
+Please tweak your reverse proxy configuration to emit :http:header:`X-Forwarded-Proto` or
+:http:header:`Forwarded` headers or configure :setting:`django:SECURE_PROXY_SSL_HEADER` to
 let Django correctly detect the SSL status.
 
 .. seealso::

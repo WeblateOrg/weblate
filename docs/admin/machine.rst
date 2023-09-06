@@ -8,8 +8,9 @@ Configuring automatic suggestions
    Prior to Weblate 4.13, the services were configured in the :ref:`config`.
 
 The support for several machine translation and translation memory services is
-built-in. Each service can be turned on by the administrator for whole site or
-at the project settings:
+built-in. Each service can be turned on by the administrator for whole site
+(under :guilabel:`Automatic suggestions` in :ref:`management-interface`) or at
+the project settings:
 
 .. image:: /screenshots/project-machinery.webp
 

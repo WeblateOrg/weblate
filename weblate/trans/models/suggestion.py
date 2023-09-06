@@ -205,7 +205,9 @@ class Suggestion(models.Model, UserDisplayMixin):
 class Vote(models.Model):
     """Suggestion voting."""
 
-    suggestion = models.ForeignKey(Suggestion, on_delete=models.deletion.CASCADE)
+    suggestion = models.ForeignKey(
+        Suggestion, on_delete=models.deletion.CASCADE, db_index=False
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE
     )

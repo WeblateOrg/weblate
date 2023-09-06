@@ -199,20 +199,23 @@ class MetricManager(models.Manager):
         """
         if obj is None:
             changes = Change.objects.all()
-        elif isinstance(obj, (Translation, Component, Project, User)):
+        elif isinstance(
+            obj,
+            (
+                Translation,
+                Component,
+                Project,
+                User,
+                Language,
+                ProjectLanguage,
+                CategoryLanguage,
+            ),
+        ):
             changes = obj.change_set.all()
         elif isinstance(obj, ComponentList):
             changes = Change.objects.filter(component__in=obj.components.all())
-        elif isinstance(obj, CategoryLanguage):
-            changes = Change.objects.for_category(obj.category).filter(
-                translation__language=obj.language
-            )
         elif isinstance(obj, Category):
             changes = Change.objects.for_category(obj)
-        elif isinstance(obj, ProjectLanguage):
-            changes = obj.project.change_set.filter(translation__language=obj.language)
-        elif isinstance(obj, Language):
-            changes = Change.objects.filter(translation__language=obj)
         else:
             raise TypeError(f"Unsupported type for metrics: {obj!r}")
 
@@ -472,7 +475,7 @@ class MetricManager(models.Manager):
         return self.create_metrics(data, None, None, Metric.SCOPE_USER, user.pk)
 
     def collect_language(self, language: Language):
-        changes = Change.objects.filter(translation__language=language)
+        changes = language.change_set.all()
         data = {
             "changes": changes.filter(
                 timestamp__date=timezone.now().date() - datetime.timedelta(days=1),

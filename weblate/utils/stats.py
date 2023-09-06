@@ -947,7 +947,7 @@ class CategoryLanguage(BaseURLMixin):
 
     @cached_property
     def change_set(self):
-        return self.language.change_set.filter(component__category=self.category)
+        return self.language.change_set.for_category(self.category)
 
 
 class CategoryLanguageStats(LanguageStats):

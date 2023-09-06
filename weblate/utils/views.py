@@ -240,35 +240,37 @@ def parse_path_units(request, path: list[str], types: tuple[Any]):
         context["project"] = obj.component.project
         context["components"] = [obj.component]
     elif isinstance(obj, Component):
-        unit_set = Unit.objects.filter(translation__component=obj)
+        unit_set = Unit.objects.filter(translation__component=obj).prefetch()
         context["component"] = obj
         context["project"] = obj.project
         context["components"] = [obj]
     elif isinstance(obj, Project):
-        unit_set = Unit.objects.filter(translation__component__project=obj)
+        unit_set = Unit.objects.filter(translation__component__project=obj).prefetch()
         context["project"] = obj
     elif isinstance(obj, ProjectLanguage):
         unit_set = Unit.objects.filter(
             translation__component__project=obj.project,
             translation__language=obj.language,
-        )
+        ).prefetch()
         context["project"] = obj.project
         context["language"] = obj.language
     elif isinstance(obj, Category):
         unit_set = Unit.objects.filter(
             translation__component_id__in=obj.all_component_ids
-        )
+        ).prefetch()
         context["project"] = obj.project
     elif isinstance(obj, CategoryLanguage):
         unit_set = Unit.objects.filter(
             translation__component_id__in=obj.category.all_component_ids,
             translation__language=obj.language,
-        )
+        ).prefetch()
         context["project"] = obj.category.project
         context["language"] = obj.language
     elif isinstance(obj, Language):
-        unit_set = Unit.objects.filter_access(request.user).filter(
-            translation__language=obj
+        unit_set = (
+            Unit.objects.filter_access(request.user)
+            .filter(translation__language=obj)
+            .prefetch()
         )
         context["language"] = obj
     elif obj is None:
