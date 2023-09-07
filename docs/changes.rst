@@ -11,6 +11,7 @@ Not yet released.
 * Logging of failures when creating pull requests.
 * History is now loaded faster.
 * Added object ``id`` to all :ref:`api` endpoints.
+* Added :http:get:`/api/component-lists/(str:slug)/components/`.
 
 **Bug fixes**
 
