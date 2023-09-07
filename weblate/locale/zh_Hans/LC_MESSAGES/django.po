@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-07 19:04+0000\n"
-"PO-Revision-Date: 2023-08-31 08:52+0000\n"
-"Last-Translator: Xiang Heng Wei <yylteam@hotmail.com>\n"
+"PO-Revision-Date: 2023-09-08 05:41+0000\n"
+"Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -6579,10 +6579,8 @@ msgstr "搜索并替换"
 #: weblate/templates/category.html:76 weblate/templates/component.html:102
 #: weblate/templates/language-project.html:49
 #: weblate/templates/project.html:118 weblate/templates/translation.html:97
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Organize or remove"
-msgstr "要删除的翻译"
+msgstr "组织或删除"
 
 #: weblate/templates/category-project.html:66
 #: weblate/templates/language-project.html:68
@@ -6664,21 +6662,15 @@ msgstr "重命名分类"
 
 #: weblate/templates/category.html:207
 msgid "Renaming the category will also change URLs for all its components."
-msgstr ""
+msgstr "重命名分类将同时更改分类中所有部件的 URL。"
 
 #: weblate/templates/category.html:208 weblate/templates/category.html:226
 #: weblate/templates/component.html:255 weblate/templates/component.html:273
 #: weblate/templates/project.html:272
-#, fuzzy
-#| msgid ""
-#| "Renaming the project will change all URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Users will need to update their bookmarks, references in cloned "
 "repositories, or API calls!"
-msgstr ""
-"重命名项目将会修改其所有的 URLs 地址，用户需要更新他们的收藏夹地址或克隆的仓"
-"库地址！"
+msgstr "用户需要更新克隆仓库中的书签、参考或 API 调用！"
 
 #: weblate/templates/category.html:214 weblate/templates/component.html:261
 #: weblate/templates/project.html:278
@@ -6691,7 +6683,7 @@ msgstr "移动分类"
 
 #: weblate/templates/category.html:225
 msgid "Moving the category will also change URLs for all its components."
-msgstr ""
+msgstr "移动分类将同时更改分类中所有部件的 URL。"
 
 #: weblate/templates/category.html:232 weblate/templates/component.html:279
 msgid "Move"
@@ -6831,17 +6823,15 @@ msgstr "重命名部件"
 
 #: weblate/templates/component.html:254
 msgid "Renaming the component will also change its URLs."
-msgstr ""
+msgstr "重命名分类将同时更改分类的 URL。"
 
 #: weblate/templates/component.html:268
 msgid "Move component"
 msgstr "移动部件"
 
 #: weblate/templates/component.html:272
-#, fuzzy
-#| msgid "Fix this component to clear its alerts."
 msgid "Moving the component will also change its URLs."
-msgstr "修复此部件以清除其警报。"
+msgstr "移动该部件会同时更改其 URL。"
 
 #: weblate/templates/component.html:296 weblate/templates/project.html:294
 #: weblate/templates/translate.html:348 weblate/templates/translation.html:427
@@ -8737,7 +8727,7 @@ msgstr "重命名项目"
 
 #: weblate/templates/project.html:271
 msgid "Renaming the project will also change URLs for all its components."
-msgstr ""
+msgstr "重命名项目会同时更改项目中所有部件的 URL。"
 
 #: weblate/templates/project.html:315
 msgid ""
@@ -10248,11 +10238,10 @@ msgid ""
 msgstr "这个操作不能撤消。这将永久删除 %(object)s 分类及其所有相关内容。"
 
 #: weblate/templates/trans/delete-project.html:10
-#, fuzzy, python-format
-#| msgid "The following translation components will be removed:"
+#, python-format
 msgid "%(count)s component will be removed by this."
 msgid_plural "%(count)s components will be removed by this."
-msgstr[0] "以下翻译部件将被删除："
+msgstr[0] "这会删除 %(count)s 个部件。"
 
 #: weblate/templates/trans/delete-translation.html:6
 msgid ""
@@ -12755,7 +12744,7 @@ msgstr "无法识别的新翻译基础文件。"
 
 #: weblate/trans/models/component.py:2698
 msgid "Editing template is not support with this file format."
-msgstr ""
+msgstr "此文件格式不支持模板编辑。"
 
 #: weblate/trans/models/component.py:2704
 #: weblate/trans/models/component.py:2720
@@ -13801,10 +13790,9 @@ msgid "A language in the category was removed."
 msgstr "删除了此分类中的一种语言。"
 
 #: weblate/trans/views/settings.py:190
-#, fuzzy, python-format
-#| msgid "Cannot rename due to outstanding issue in the configuration: %s"
+#, python-format
 msgid "Could not change %s due to outstanding issue in its settings: %s"
-msgstr "配置中未解决的问题造成无法重命名：%s"
+msgstr "无法更改 %s，因其设置中存在未解决的问题：%s"
 
 #: weblate/trans/views/settings.py:327
 msgid "Backup scheduled. It will be available soon."
