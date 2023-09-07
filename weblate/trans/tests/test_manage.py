@@ -64,10 +64,10 @@ class RemovalTest(ViewTestCase):
 class RenameTest(ViewTestCase):
     def test_denied(self):
         self.assertNotContains(
-            self.client.get(self.project.get_absolute_url()), "#rename"
+            self.client.get(self.project.get_absolute_url()), "#organize"
         )
         self.assertNotContains(
-            self.client.get(self.component.get_absolute_url()), "#rename"
+            self.client.get(self.component.get_absolute_url()), "#organize"
         )
         response = self.client.post(
             reverse("rename", kwargs={"path": self.project.get_url_path()}),
@@ -106,17 +106,17 @@ class RenameTest(ViewTestCase):
         url = self.component.get_absolute_url()
         Component.objects.filter(pk=self.component.id).update(filemask="invalid/*.po")
         self.make_manager()
-        self.assertContains(self.client.get(url), "#rename")
+        self.assertContains(self.client.get(url), "#organize")
         response = self.client.post(
             reverse("rename", kwargs=self.kw_component), {"slug": "xxxx"}, follow=True
         )
-        self.assertRedirects(response, f"{url}#rename")
+        self.assertRedirects(response, f"{url}#organize")
         self.assertContains(response, "due to outstanding issue in its settings")
 
     def test_rename_component(self):
         self.make_manager()
         original_url = self.component.get_absolute_url()
-        self.assertContains(self.client.get(original_url), "#rename")
+        self.assertContains(self.client.get(original_url), "#organize")
         response = self.client.post(
             reverse("rename", kwargs=self.kw_component), {"slug": "xxxx"}
         )
@@ -137,7 +137,9 @@ class RenameTest(ViewTestCase):
         if os.path.exists(target):
             remove_tree(target)
         self.make_manager()
-        self.assertContains(self.client.get(self.project.get_absolute_url()), "#rename")
+        self.assertContains(
+            self.client.get(self.project.get_absolute_url()), "#organize"
+        )
         response = self.client.post(
             reverse("rename", kwargs={"path": self.project.get_url_path()}),
             {"slug": "xxxx"},

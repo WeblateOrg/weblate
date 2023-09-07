@@ -27,7 +27,7 @@
         {% if final_removal %}
           <li>{{ project }}</li>
         {% else %}
-          <li><a href="{{ project.get_absolute_url }}">{{ project }}</a> [<a href="{{ project.get_absolute_url }}#delete">{% trans "Remove the project" %}</a>]</li>
+          <li><a href="{{ project.get_absolute_url }}">{{ project }}</a> [<a href="{{ project.get_absolute_url }}#organize">{% trans "Remove the project" %}</a>]</li>
         {% endif %}
       {% endfor %}
     </ul>
