@@ -115,8 +115,7 @@
 
         {% if delete_form or rename_form %}
         <li role="separator" class="divider"></li>
-        <li><a href="#rename" data-toggle="tab">{% trans "Rename" %}</a></li>
-        <li><a href="#delete" data-toggle="tab">{% trans "Removal" %}</a></li>
+        <li><a href="#organize" data-toggle="tab">{% trans "Organize or remove" %}</a></li>
         {% endif %}
         </ul>
     </li>
@@ -238,10 +237,6 @@
 </div>
 {% endif %}
 
-{% if delete_form %}
-{% include "trans/delete-form.html" %}
-{% endif %}
-
 {% if user_can_edit_project %}
 <div class="tab-pane" id="add-category">
 
@@ -264,8 +259,9 @@
 
 
 {% if rename_form %}
-<div class="tab-pane" id="rename">
+<div class="tab-pane" id="organize">
 
+{% if rename_form %}
 <form method="post" action="{% url 'rename' path=object.get_url_path %}">
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Rename project" %}</h4></div>
@@ -283,6 +279,12 @@
 </div>
 </div>
 </form>
+{% endif %}
+
+{% if delete_form %}
+{% include "trans/delete-form.html" %}
+{% endif %}
+
 
 </div>
 {% endif %}

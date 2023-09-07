@@ -94,7 +94,7 @@
       {% endif %}
       {% if delete_form %}
       <li role="separator" class="divider"></li>
-      <li><a href="#delete" data-toggle="tab">{% trans "Removal" %}</a></li>
+      <li><a href="#organize" data-toggle="tab">{% trans "Organize or remove" %}</a></li>
       {% endif %}
     </ul>
   </li>
@@ -417,7 +417,9 @@
 {% endif %}
 
 {% if delete_form %}
+<div class="tab-pane" id="organize">
 {% include "trans/delete-form.html" %}
+</div>
 {% endif %}
 
 {% if user_can_see_repository_status %}

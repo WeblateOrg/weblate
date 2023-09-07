@@ -141,7 +141,7 @@ def remove(request, path):
     form = BaseDeleteForm(obj, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, "#delete")
+        return redirect_param(obj, "#organize")
 
     if isinstance(obj, Translation):
         parent = obj.component
@@ -190,14 +190,14 @@ def perform_rename(form_cls, request, obj, perm: str):
             gettext("Could not change %s due to outstanding issue in its settings: %s")
             % (obj, err),
         )
-        return redirect_param(obj, "#rename")
+        return redirect_param(obj, "#organize")
 
     form = form_cls(request, request.POST, instance=obj)
     if not form.is_valid():
         show_form_errors(request, form)
         # Reload the object from DB to revert possible rejected change
         obj.refresh_from_db()
-        return redirect_param(obj, "#rename")
+        return redirect_param(obj, "#organize")
 
     # Invalidate old stats
     obj.stats.invalidate()
@@ -238,7 +238,7 @@ def add_category(request, path):
     form = AddCategoryForm(request, obj, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, "#rename")
+        return redirect_param(obj, "#organize")
     form.save()
     return redirect(form.instance)
 
