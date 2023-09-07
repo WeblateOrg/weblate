@@ -1,13 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+# Kyotaro Iijima <kyotaro.eyes@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 17:13+0200\n"
-"PO-Revision-Date: 2023-08-25 12:49+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-09-07 16:53+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -378,7 +379,7 @@ msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
-"同じ種類の招待状は、:guilabel:`Users` タブの :ref:`management interface "
+"同じ種類の招待状は、:guilabel:`ユーザー` タブの :ref:`management interface "
 "<management-interface>` からサイト全体で使用できます。"
 
 #: ../../admin/access.rst:184
@@ -896,23 +897,16 @@ msgid "Automatic team assignments"
 msgstr "自動チーム割り当て"
 
 #: ../../admin/access.rst:437
-#, fuzzy
-#| msgid ""
-#| "On the bottom of the :guilabel:`Group` editing page in the :ref:`Django "
-#| "admin interface <admin-interface>`, you can specify :guilabel:"
-#| "`Automatic team assignments`, which is a list of regular expressions used "
-#| "to automatically assign newly created users to a team based on their e-"
-#| "mail addresses. This assignment only happens upon account creation."
 msgid ""
 "While editing the :guilabel:`Team`, you can specify :guilabel:"
 "`Automatic assignments`, which is a list of regular expressions used to "
 "automatically assign newly created users to a team based on their e-mail "
 "addresses. This assignment only happens upon account creation."
 msgstr ""
-":ref:`Django 管理画面 <admin-interface>` の :guilabel:`グループ` 編集ページの"
-"下で、:guilabel:`自動チーム割り当て` を指定できます。これは、新規に作成した"
-"ユーザーをメールアドレスに基づいてチームに自動的に割り当てるために使用する正"
-"規表現のリストです。この割り当ては、アカウントの作成時にのみ行われます。"
+":guilabel:`チーム` を編集するとき、:guilabel:`自動割り当て` を指定できます。"
+"これは、新規に作成したユーザーをメールアドレスに基づいてチームに自動的に割り"
+"当てるために使用する正規表現のリストです。この割り当ては、アカウントの作成時"
+"にのみ行われます。"
 
 #: ../../admin/access.rst:442
 msgid ""
@@ -921,29 +915,21 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
+"この機能の最も一般的な使用例は、すべての新しいユーザーをデフォルトのチームに"
+"割り当てることです。この動作は、デフォルトの `ユーザー` および `ゲスト` "
+"チームに使用されます（参照: :ref:`default-teams`）。正規表現 ``^.*$`` "
+"を使用して、すべてのユーザーと一致させます。"
 
 #: ../../admin/access.rst:446
-#, fuzzy
-#| msgid ""
-#| "The most common use-case for the feature is to assign all new users to "
-#| "some default team. In order to do so, you will probably want to keep the "
-#| "default value (``^.*$``) in the regular expression field. Another use-"
-#| "case for this option might be to give some additional privileges to "
-#| "employees of your company by default. Assuming all of them use corporate "
-#| "e-mail addresses on your domain, this can be accomplished with an "
-#| "expression like ``^.*@mycompany.com``."
 msgid ""
 "Another use-case for this option might be to give some additional privileges "
 "to employees of your company by default. Assuming all of them use corporate "
 "e-mail addresses on your domain, this can be accomplished with an expression "
 "like ``^.*@mycompany.com``."
 msgstr ""
-"この機能の最も一般的な使用例は、すべての新規ユーザーをデフォルトのチームに割"
-"り当てることです。そのためには、正規表現フィールドのデフォルト値（``^.*$``） "
-"をそのまま使用します。このオプションの別の使用例としては、デフォルトで会社の"
-"従業員に、アクセス権を追加で付与する場合です。従業員全員が、会社のドメインで"
-"メールアドレスを使用していると仮定した場合、``^.*@mycompany.com`` のような正"
-"規表現で実現できます。"
+"このオプションの別の使用例としては、デフォルトで会社の従業員に、アクセス権を"
+"追加で付与する場合です。従業員全員が、会社のドメインでメールアドレスを使用し"
+"ていると仮定した場合、``^.*@mycompany.com`` のような正規表現で実現できます。"
 
 #: ../../admin/access.rst:453
 msgid ""
@@ -2243,14 +2229,12 @@ msgid ":file:`locale/de/website/de.po`"
 msgstr ":file:`locale/de/website/de.po`"
 
 #: ../../admin/addons.rst:283
-#, fuzzy
-#| msgid "Splitted Android strings"
 msgid "Split Android strings"
-msgstr "分割された Android 文字列"
+msgstr "Android 文字列の"
 
 #: ../../admin/addons.rst:285
 msgid "Android resource strings, split into several files."
-msgstr "複数のファイルに分割された Android リソース文字列の場合。"
+msgstr "複数のファイルに分割された Android リソース文字列。"
 
 #: ../../admin/addons.rst:288
 msgid "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
@@ -13132,7 +13116,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:353
 msgid "You can also fine-tune individual worker categories:"
-msgstr "個々のワーカーのカテゴリーを詳細に設定する方法:"
+msgstr "個々のワーカーのカテゴリを詳細に設定する方法:"
 
 #: ../../admin/install/docker.rst:365
 msgid ""
@@ -13204,30 +13188,29 @@ msgstr ""
 "config` を確認してください。"
 
 #: ../../admin/install/docker.rst:409
-#, fuzzy
-#| msgid "Client secret"
 msgid "Passing secrets"
-msgstr "クライアント シークレット"
+msgstr "シークレットの受け渡し"
 
 #: ../../admin/install/docker.rst:413
 msgid ""
 "Weblate container supports passing secrets as files. To utilize that, append "
 "``_FILE`` suffix to the environment variable and pass secret file via Docker."
 msgstr ""
+"Weblate コンテナは、ファイルでシークレットを受け渡すことに対応しています。こ"
+"れを使用するには、環境変数に ``_FILE`` 接尾辞を付加し、シークレット "
+"ファイルを Docker 経由で受け渡します。"
 
 #: ../../admin/install/docker.rst:416
 msgid "Related :file:`docker-compose.yml` might look like:"
-msgstr ""
+msgstr "関連する :file:`docker-compose.yml` の場合:"
 
 #: ../../admin/install/docker.rst:439
-#, fuzzy
-#| msgid ""
-#| "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgid ""
 "`How to use secrets in Docker Compose <https://docs.docker.com/compose/use-"
 "secrets/>`_"
 msgstr ""
-"`Docker ボリューム ドキュメント <https://docs.docker.com/storage/volumes/>`_"
+"`Docker Compose でシークレットを使用する方法 <https://docs.docker.com/"
+"compose/use-secrets/>`_"
 
 #: ../../admin/install/docker.rst:442
 msgid "Generic settings"
@@ -13259,7 +13242,8 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:465
 msgid "For more silent logging use ``ERROR`` or ``WARNING``."
-msgstr ""
+msgstr "よりサイレントなロギングを行うには、``ERROR`` または``WARNING`` "
+"を使用します。"
 
 #: ../../admin/install/docker.rst:469
 msgid "Configures the logging of the database queries verbosity."
@@ -13330,19 +13314,13 @@ msgstr ""
 "る）またはパスワードの回復にのみ使用してください。"
 
 #: ../../admin/install/docker.rst:525
-#, fuzzy
-#| msgid ""
-#| ":ref:`docker-admin-login`, :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:"
-#| "`WEBLATE_ADMIN_PASSWORD_FILE`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-#| "`WEBLATE_ADMIN_EMAIL`"
 msgid ""
 ":ref:`docker-admin-login`, :ref:`docker-secrets`, :envvar:"
 "`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
-":ref:`docker-admin-login`、:envvar:`WEBLATE_ADMIN_PASSWORD`、:envvar:"
-"`WEBLATE_ADMIN_PASSWORD_FILE`、:envvar:`WEBLATE_ADMIN_NAME`、:envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":ref:`docker-admin-login`、:ref:`docker-secrets`、:envvar:`WEBLATE_ADMIN_PASS"
+"WORD`、:envvar:`WEBLATE_ADMIN_NAME`、:envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:533
 msgid "The email address that error messages are sent from."
@@ -13854,10 +13832,8 @@ msgid "**Example with search and bind against Active Directory:**"
 msgstr "**Active Directory に対する検索とバインドの例:**"
 
 #: ../../admin/install/docker.rst:1115
-#, fuzzy
-#| msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
 msgid ":ref:`docker-secrets`, :ref:`ldap-auth`"
-msgstr ":ref:`ldap-auth`、:ref:`cas-auth`"
+msgstr ":ref:`docker-secrets`、:ref:`ldap-auth`"
 
 #: ../../admin/install/docker.rst:1119
 msgid "GitHub"
@@ -14221,10 +14197,8 @@ msgid "E-mail authentication password."
 msgstr "メール認証のパスワード。"
 
 #: ../../admin/install/docker.rst:1484
-#, fuzzy
-#| msgid ":setting:`django:EMAIL_HOST_PASSWORD`"
 msgid ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
-msgstr ":setting:`django:EMAIL_HOST_PASSWORD`"
+msgstr ":ref:`docker-secrets`、:setting:`django:EMAIL_HOST_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1489
 msgid ""
@@ -15452,6 +15426,8 @@ msgid ""
 "Using older libxmlsec is needed until https://github.com/xmlsec/python-"
 "xmlsec/issues/254 is addressed."
 msgstr ""
+"https://github.com/xmlsec/python-xmlsec/issues/254 が解決されるまで、"
+"古いバージョンの libxmlsec が必要です。"
 
 #: ../../admin/install/venv-redhat.rst:2
 msgid "Installing on RedHat, Fedora and CentOS"
@@ -18602,17 +18578,14 @@ msgid "Translation organization"
 msgstr "翻訳データの構造"
 
 #: ../../admin/projects.rst:7
-#, fuzzy
-#| msgid ""
-#| "Weblate organizes translatable VCS content of project/components into a "
-#| "tree-like structure."
 msgid ""
 "Weblate organizes translatable VCS content of project/components into a tree-"
 "like structure. You can additionally organize components within a project "
 "using categories."
 msgstr ""
-"Weblate は、プロジェクト / コンポーネントの翻訳可能な VCS コンテンツを、ツ"
-"リー状の構造に構成します。"
+"Weblate は、プロジェクト / コンポーネントの翻訳可能な VCS コンテンツをツリー"
+"状の構造に整理します。さらに、プロジェクト内でコンポーネントをカテゴリで整理"
+"できます。"
 
 #: ../../admin/projects.rst:11
 msgid ""
@@ -18628,7 +18601,8 @@ msgstr ""
 msgid ""
 "The middle level is optionally created by :ref:`category`. The categories "
 "can be nested to achieve more complex structure."
-msgstr ""
+msgstr "中間レベルは、必要に応じて :ref:`category` "
+"を作成できます。カテゴリを入れ子にして、より複雑な構造を実現できます。"
 
 #: ../../admin/projects.rst:18
 msgid ""
@@ -20306,7 +20280,8 @@ msgstr "分類"
 msgid ""
 "Categories are there to give structure to components within a project. You "
 "can nest them to achieve a more complex structure."
-msgstr ""
+msgstr "カテゴリは、プロジェクト内のコンポーネントに構造を与えるためのものです。カテ"
+"ゴリを入れ子にして、より複雑な構造を実現できます。"
 
 #: ../../admin/projects.rst:966
 msgid "Template markup"
@@ -21618,10 +21593,8 @@ msgid "**CURL JSON example:**"
 msgstr "**CURL JSON の例:**"
 
 #: ../../api.rst:162
-#, fuzzy
-#| msgid "Component alerts"
 msgid "Components and categories"
-msgstr "コンポーネントの警告"
+msgstr "コンポーネントとカテゴリ"
 
 #: ../../api.rst:164
 msgid ""
@@ -21631,6 +21604,12 @@ msgid ""
 "``docs%2Fusage``. Full URL in this case would be for example ``https://"
 "example.com/api/components/hello/docs%2Fusage/repository/``."
 msgstr ""
+":ref:`category` 内で入れ子になっているコンポーネントにアクセスするには、"
+"カテゴリ名をスラッシュで区切られたコンポーネント名に URL "
+"エンコードすることが必要です。たとえば、``docs`` カテゴリに配置された "
+"``usage`` は ``docs%2Fusage`` と変換して使用してください。この場合の完全な "
+"URL は、``https://example.com/api/components/hello/docs%2Fusage/repository/``"
+" のようになります。"
 
 #: ../../api.rst:173
 msgid "API rate limiting"
@@ -22497,24 +22476,20 @@ msgid ""
 "Returns statistics for a project. See :http:get:`/api/categories/(int:id)/` "
 "for field definitions."
 msgstr ""
+"プロジェクトの統計を返します。フィールドの定義については、:http:get:`/api/"
+"categories/(int:id)/` を確認してください。"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "Spam protection"
 msgid "param project"
-msgstr "スパム対策"
+msgstr "パラメータ プロジェクト"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "Create project"
 msgid "type project"
-msgstr "プロジェクトの作成"
+msgstr "タイプ プロジェクト"
 
 #: ../../api.rst:1146
-#, fuzzy
-#| msgid "*string*"
 msgid "string"
-msgstr "*文字列*"
+msgstr "string"
 
 #: ../../api.rst:1153
 msgid ""
@@ -23922,90 +23897,72 @@ msgid "Category of the matched item."
 msgstr "一致した項目のカテゴリ。"
 
 #: ../../api.rst:2496
-#, fuzzy
-#| msgid "Category"
 msgid "Categories"
-msgstr "分類"
+msgstr "カテゴリ"
 
 #: ../../api.rst:2502
 msgid ""
 "Lists available categories. See :http:get:`/api/categories/(int:id)/` for "
 "field definitions."
 msgstr ""
+"使用可能なカテゴリを一覧表示します。フィールドの定義については、:http:get:`/"
+"api/categories/(int:id)/` を確認してください。"
 
 #: ../../api.rst:2508
 msgid ""
 "Creates a new category. See :http:get:`/api/categories/(int:id)/` for field "
 "definitions."
 msgstr ""
+"新しいカテゴリを作成します。フィールドの定義については、:http:get:`/api/"
+"categories/(int:id)/` を確認してください。"
 
 #: ../../api.rst:2514 ../../api.rst:2527 ../../api.rst:2537 ../../api.rst:2547
-#, fuzzy
-#| msgid "Category"
 msgid "Category ID"
-msgstr "分類"
+msgstr "カテゴリ ID"
 
 #: ../../api.rst:2516
-#, fuzzy
-#| msgid "Rename project"
 msgid "Name of category."
-msgstr "プロジェクトの名前を変更"
+msgstr "カテゴリの名前。"
 
 #: ../../api.rst:2517
-#, fuzzy
-#| msgid "Category"
 msgid "Slug of category."
-msgstr "分類"
+msgstr "カテゴリのスラッグ。"
 
 #: ../../api.rst:2518
-#, fuzzy
-#| msgid "List all projects:"
 msgid "Link to a project."
-msgstr "すべてのプロジェクトの一覧表示方法:"
+msgstr "プロジェクトへのリンク。"
 
 #: ../../api.rst:2519
 msgid "Link to a parent category."
-msgstr ""
+msgstr "親カテゴリへのリンク。"
 
 #: ../../api.rst:2525
-#, fuzzy
-#| msgid "Edit partial information about add-on."
 msgid "Edit partial information about cateogry."
-msgstr "アドオンに関する部分的な情報を編集します。"
+msgstr "カテゴリに関する部分的な情報を編集します。"
 
 #: ../../api.rst:0
 msgid "param id"
-msgstr ""
+msgstr "パラメータ ID"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "type"
 msgid "type id"
-msgstr "型"
+msgstr "タイプ ID"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "Project configuration"
 msgid ">json object configuration"
-msgstr "プロジェクトの設定"
+msgstr ">json object configuration"
 
 #: ../../api.rst:2529 ../../api.rst:2539
-#, fuzzy
-#| msgid "Optional add-on configuration"
 msgid "Optional cateogry configuration"
-msgstr "オプションのアドオン設定"
+msgstr "オプションのカテゴリ設定"
 
 #: ../../api.rst:2535
-#, fuzzy
-#| msgid "Edit full information about add-on."
 msgid "Edit full information about cateogry."
-msgstr "アドオンに関する完全な情報を編集します。"
+msgstr "カテゴリに関する完全な情報を編集します。"
 
 #: ../../api.rst:2545
-#, fuzzy
-#| msgid "Deletes the group."
 msgid "Delete cateogry."
-msgstr "グループを削除します。"
+msgstr "カテゴリの削除。"
 
 #: ../../api.rst:2553
 msgid "Notification hooks"
@@ -24311,10 +24268,8 @@ msgid "Weblate 5.0"
 msgstr "Weblate 5.0"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on August 21th 2021."
 msgid "Released on August 24th 2023."
-msgstr "2021 年 8 月 21 日にリリース。"
+msgstr "2023 年 8 月 24 日にリリース。"
 
 #: ../../changes.rst:6
 msgid "**New features**"
@@ -24325,10 +24280,8 @@ msgid ":doc:`/formats/markdown` support, thanks to Anders Kaplan."
 msgstr "doc:`/formats/markdown` に対応、Anders Kaplan 氏に感謝。"
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Creates translation components in the given project."
 msgid ":ref:`category` can now organize components within a project."
-msgstr "指定したプロジェクトに翻訳コンポーネントを作成します。"
+msgstr ":ref:`category` でプロジェクト内のコンポーネントを整理できるように改良。"
 
 #: ../../changes.rst:10
 msgid ""
@@ -24340,15 +24293,10 @@ msgid "Inviting users now works with all authentication methods."
 msgstr "ユーザーの招待がすべての認証方法で機能するように改良。"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid ""
-#| "The Docker container uses a separate volume for this, see :ref:`docker-"
-#| "volume`."
 msgid ""
 "Docker container supports file backed secrets, see :ref:`docker-secrets`."
-msgstr ""
-"Docker コンテナでは、静的ファイルは別のボリュームを使用します。参照: :ref:"
-"`docker-volume`。"
+msgstr "Docker コンテナーは、ファイルにバックアップされたシークレットに対応。参照: "
+":ref:`docker-secrets`。"
 
 #: ../../changes.rst:14
 msgid "**Improvements**"
@@ -24432,17 +24380,15 @@ msgstr ""
 
 #: ../../changes.rst:31
 msgid ":doc:`/user/checks` browsing experience."
-msgstr ""
+msgstr ":doc:`/user/checks` 閲覧体験。"
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Highlight suggested change in automatic suggestions."
 msgid "Highlight differences in the source string in automatic suggestions."
-msgstr "自動提案の変更候補を強調表示するように改良。"
+msgstr "自動提案でソース文字列の違いを強調表示ように改良。"
 
 #: ../../changes.rst:33
 msgid "Visual diff now better understands compositing characters."
-msgstr ""
+msgstr "視覚的な差分により、合成文字がよりよく判別できるように改良。"
 
 #: ../../changes.rst:35
 msgid "**Bug fixes**"
@@ -24470,10 +24416,8 @@ msgid ""
 msgstr "翻訳を修正する際の :ref:`check-reused` の誤検出を削減。"
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Support for automatic update of screenshots from a repository."
 msgid "Fixed caching issues after updating screenshots from the repository."
-msgstr "リポジトリからのスクリーンショットの自動更新に対応。"
+msgstr "リポジトリからスクリーンショットを更新した後のキャッシュの問題の修正。"
 
 #: ../../changes.rst:43
 msgid "**Compatibility**"
@@ -24484,10 +24428,8 @@ msgid "Python 3.9 or newer is now required."
 msgstr "Python 3.9 以降が必要に変更。"
 
 #: ../../changes.rst:46
-#, fuzzy
-#| msgid "Several URLs have changed, you might have to update your bookmarks."
 msgid "Several UI URLs have been changed to be able to handle categories."
-msgstr "一部のの URL を変更しました。ブックマークの更新が必要です。"
+msgstr "カテゴリを処理できるように、いくつかの UI URL の変更。"
 
 #: ../../changes.rst:48 ../../changes/v4.rst:53 ../../changes/v4.rst:85
 #: ../../changes/v4.rst:168 ../../changes/v4.rst:236 ../../changes/v4.rst:317
@@ -28941,14 +28883,6 @@ msgstr ""
 "closed=1>`__。"
 
 #: ../../changes/v4.rst:89
-#, fuzzy
-#| msgid ""
-#| "Migration to rewritten metrics storage might take considerable time on "
-#| "larger Weblate instance (expect around 15 minutes per GB of "
-#| "``metrics_metric`` table). To reduce downtime, you can copy :file:"
-#| "`weblate/metrics/migrations/*.py` from Weblate 4.17 to 4.16 and start the "
-#| "migration in the background. Once it is completed, perform full upgrade "
-#| "as ususal."
 msgid ""
 "Migration to rewritten metrics storage might take considerable time on "
 "larger Weblate instance (expect around 15 minutes per GB of "
@@ -28956,11 +28890,12 @@ msgid ""
 "metrics/migrations/*.py` from Weblate 4.17 to 4.16 and start the migration "
 "in the background. Once it is completed, perform full upgrade as usual."
 msgstr ""
-"大規模な Weblate インスタンスでは、変更されたメトリックス ストレージへの移行"
-"時間は長くなります（予想では ``metrics_metric`` テーブルは 1 GB あたり約 15 "
-"分）。ダウンタイムを短縮するためには、:file:`weblate/metrics/migrations/*."
-"py` を Weblate 4.17 から 4.16 にコピーして、バックグラウンドで移行を開始して"
-"ください。完了後は、通常どおりに完全なアップグレードを実行します。"
+"大規模な Weblate インスタンスでは、変更されたメトリックス "
+"ストレージへの移行時間は長くなります（予想では ``metrics_metric`` テーブルは "
+"1 GB あたり約 15 分）。ダウンタイムを短縮するためには、:file:`weblate/"
+"metrics/migrations/*.py` を Weblate 4.17 から 4.16 にコピーして、バックグラウ"
+"ンドで移行を開始してください。完了後は、通常どおりに完全なアップグレードを実"
+"行します。"
 
 #: ../../changes/v4.rst:95
 msgid ""
@@ -29420,8 +29355,6 @@ msgid "Improved analysis on the duplicate language alert."
 msgstr "重複した言語の警告の通知を改良。"
 
 #: ../../changes/v4.rst:257
-#, fuzzy
-#| msgid "Improved accurancy of the consecutive duplicated-words check."
 msgid "Improved accuracy of the consecutive duplicated-words check."
 msgstr "連続重複語検査の精度向上。"
 
@@ -32924,7 +32857,7 @@ msgstr "手動で検査を実行し、すべてのファイルを検査する方
 
 #: ../../contributing/communication.rst:2
 msgid "Weblate Contributor Communication Guidelines"
-msgstr "Weblate 寄稿者のコミュニケーションのガイドライン"
+msgstr "Weblate 貢献者のコミュニケーションのガイドライン"
 
 #: ../../contributing/communication.rst:5
 msgid "GitHub Issues"
@@ -41659,15 +41592,6 @@ msgstr ""
 "す。例:"
 
 #: ../../user/checks.rst:229
-#, fuzzy
-#| msgid ""
-#| "Generally, we expect translated Messages or Terms to contain the same "
-#| "references as the source, although not necessarily in the same order of "
-#| "appearance. So this check ensures that translations use the same "
-#| "references in their value as the source value, the same number of times, "
-#| "and with no additions. For Messages, this will also check that each "
-#| "Attribute in the translation uses the same references as the matching "
-#| "Attribute in the source."
 msgid ""
 "Generally, translated Messages or Terms are expected to contain the same "
 "references as the source, although not necessarily in the same order of "
@@ -41676,11 +41600,11 @@ msgid ""
 "additions. For Messages, this will also check that each Attribute in the "
 "translation uses the same references as the matching Attribute in the source."
 msgstr ""
-"一般的に、翻訳したメッセージや用語には、ソースと同じ参照を含むことを期待しま"
-"す。ただし、必ずしも同じ順序で表示されることは必要ありません。したがって、こ"
-"の検査は翻訳がソースの値と同じ参照を使用し、同じ回数、追加なしで使用している"
-"ことを確認します。メッセージの場合、翻訳の各属性が、ソースの対応する属性と同"
-"じ参照を使用していることも確認します。"
+"一般的に、翻訳されたメッセージや用語には、ソースと同じ参照が含まれていること"
+"が求められます。ただし、必ずしも同じ順序で表示されることは必要ありません。し"
+"たがって、この検査は翻訳がソースの値と同じ参照を使用し、同じ回数、追加なしで"
+"使用していることを確認します。メッセージの場合、翻訳の各属性が、ソースの対応"
+"する属性と同じ参照を使用していることも確認します。"
 
 #: ../../user/checks.rst:236
 msgid ""
@@ -41814,20 +41738,15 @@ msgstr ""
 "一致することが必要ですし、その逆も同様です。"
 
 #: ../../user/checks.rst:312
-#, fuzzy
-#| msgid ""
-#| "If using a Fluent DOM package, this will ensure that the translation also "
-#| "includes any required ``data-l10n-name`` elements that appear in the "
-#| "source, or any of the allowed inline elements like ``<br>``."
 msgid ""
 "When using Fluent in combination with the Fluent DOM package, this check "
 "will ensure that the translation also includes any required ``data-l10n-"
 "name`` elements that appear in the source, or any of the allowed inline "
 "elements like ``<br>``."
 msgstr ""
-"Fluent DOM パッケージを使用する場合、これにより、翻訳にはソースに現れる必要の"
-"ある ``data-l10n-name`` 要素や ``<br>`` のような許可されたインライン要素が含"
-"まれることを保証します。"
+"Fluent を Fluent DOM パッケージと組み合わせて使用する場合、"
+"この検査は翻訳にはソースに必須の ``data-l10n-name`` 要素や ``<br>`` "
+"のような許可されたインライン要素が含まれることを確認します。"
 
 #: ../../user/checks.rst:317
 msgid "For example, the following source:"
@@ -41842,10 +41761,8 @@ msgid "but not:"
 msgstr "しない:"
 
 #: ../../user/checks.rst:335
-#, fuzzy
-#| msgid "no"
 msgid "nor"
-msgstr "no"
+msgstr "nor"
 
 #: ../../user/checks.rst:343
 msgid ""
@@ -41926,12 +41843,6 @@ msgstr ""
 "とが必要です。"
 
 #: ../../user/checks.rst:386
-#, fuzzy
-#| msgid ""
-#| "Most of the format checks allow omitting format strings for plural forms "
-#| "having a single count. This allows translators to write nicer strings for "
-#| "these cases (`One apple` instead of `%d apple`). Turn this of by adding "
-#| "``strict-format`` flag."
 msgid ""
 "Most of the format checks allow omitting format strings for plural forms "
 "having a single count. This allows translators to write nicer strings for "
@@ -41940,9 +41851,9 @@ msgid ""
 msgstr ""
 "ほとんどのフォーマット検査では、単一の数を持つ複数形に対してフォーマット文字"
 "列を省略することが許可されています。これにより、翻訳者はこれらのケースに対し"
-"てよりわかりやすい文字列（`One apple` と `%d apple` の代わりに）を書くことが"
-"できます。``strict-format`` フラグを追加することで、この機能を無効にできま"
-"す。"
+"てよりわかりやすい文字列（`%d apple` の代わりに `One "
+"apple`）を書くことができます。無効にするには、``strict-format`` "
+"フラグを追加してください。"
 
 #: ../../user/checks.rst:390
 msgid ""
@@ -43987,14 +43898,6 @@ msgstr ""
 "でのみ参照できる言語プロパティです。"
 
 #: ../../user/checks.rst:1619
-#, fuzzy
-#| msgid ""
-#| "Generally, we expect most Fluent values not to contain any HTML markup. "
-#| "Therefore we do not expect or want translators and developers to have to "
-#| "care about strictly avoiding *any* technical HTML5 parsing errors (let "
-#| "alone XHTML parsing errors). Instead, we just want to warn them when they "
-#| "may have unintentionally opened a HTML tag or inserted a character "
-#| "reference."
 msgid ""
 "Generally, most Fluent values are not expected to contain any HTML markup. "
 "Therefore, this check does not expect or want translators and developers to "
@@ -44003,24 +43906,14 @@ msgid ""
 "them when they may have unintentionally opened a HTML tag or inserted a "
 "character reference."
 msgstr ""
-"一般的に、ほとんどの Fluent の値には HTML マークアップが含まれていないことを"
-"期待しています。そのため、翻訳者や開発者が厳密にどのようなテクニカルな HTML "
-"5 解析エラー（XHTML 解析エラーなど）を回避する必要はありませんし、期待もして"
-"いません。代わりに、彼らが誤って HTML タグを開いたり、文字参照を挿入したりし"
-"ている可能性がある場合に警告するだけです。"
+"一般的に、ほとんどの Fluent の値には HTML "
+"マークアップを含めないことが求められています。そのため、"
+"この検査は翻訳者や開発者が厳密に HTML 5 解析エラー（XHTML "
+"解析エラーなど）を回避する必要はないことを求めています。代わりに、"
+"この検査は彼らが誤って HTML タグを開いたり、文字参照を挿入したりしている可能"
+"性がある場合に警告するだけです。"
 
 #: ../../user/checks.rst:1625
-#, fuzzy
-#| msgid ""
-#| "Moreover, for the Fluent values that intentionally contain HTML tags or "
-#| "character references, we want to verify \"good practices\", such as "
-#| "matching closing and ending tags, valid character references, and quoted "
-#| "attribute values. In addition, whilst HTML5 specification technically "
-#| "allows for quite arbitrary tag and attribute names, this check will "
-#| "restrain them to some basic ASCII values that should cover the standard "
-#| "HTML5 element tags and attributes, as well as allow *some* custom element "
-#| "or attribute names. This is partially to ensure that the user is using "
-#| "HTML intentionally."
 msgid ""
 "Moreover, for the Fluent values that intentionally contain HTML tags or "
 "character references, this check will verify some \"good practices\", such "
@@ -44031,12 +43924,13 @@ msgid ""
 "tags and attributes, as well as allow *some* custom element or attribute "
 "names. This is partially to ensure that the user is using HTML intentionally."
 msgstr ""
-"さらに、意図的に HTML タグや文字参照を含む Fluent の値に対しては、閉じタグや"
-"終了タグの一致、有効な文字参照、引用された属性値などの「良いプラクティス」を"
-"検証したいと考えています。また、HTML 5 仕様は技術的にはかなり任意のタグや属性"
-"名を許容していますが、この検査では標準の HTML 5 要素タグと属性をカバーし、一"
-"部のカスタム要素や属性名も許容するために基本的な ASCII 値に制約を設けます。こ"
-"れは、ユーザーが意図的に HTML を使用していることを確認するためのものです。"
+"さらに、意図的に HTML タグや文字参照を含む Fluent の値に対して、この検査はい"
+"くつかの「優れた方法」を検証します。これには、閉じタグと終了タグの一致、有効"
+"な文字参照、クォートされた属性値などが含まれます。また、HTML5 "
+"仕様は技術的にはかなり任意のタグ名と属性名を許容していますが、"
+"この検査は基本的な ASCII 値に制限します。これにより、標準の HTML5 要素タグや"
+"属性だけでなく、一部のカスタム要素や属性名も扱えるようになります。これは、"
+"ユーザーが意図的に HTML を使用していることを一部確認するためのものです。"
 
 #: ../../user/checks.rst:1634
 msgid "Examples:"
@@ -44167,21 +44061,10 @@ msgid "``&l{ $val }``"
 msgstr "``&l{ $val }``"
 
 #: ../../user/checks.rst:1653
-#, fuzzy
-#| msgid "The Fluent variable may unintentionally become a character reference"
 msgid "The Fluent variable may unintentionally become a character reference."
-msgstr "Fluent の変数が意図せずに文字参照になる可能性があります"
+msgstr "Fluent の変数が意図せずに文字参照になる可能性があります。"
 
 #: ../../user/checks.rst:1658
-#, fuzzy
-#| msgid ""
-#| "This check will not ensure the inner HTML is *safe* or sanitized, and is "
-#| "not meant to protect against malicious attempts to alter the inner HTML. "
-#| "Moreover, it should be remembered that Fluent variables and references "
-#| "may expand to arbitrary strings, so could expand to arbitrary HTML unless "
-#| "they are escaped. As an exception, a ``<`` or ``&`` character before a "
-#| "Fluent reference will trigger this check since even an escaped value "
-#| "could lead to unexpected results."
 msgid ""
 "This check will *not* ensure the inner HTML is safe or sanitized, and is not "
 "meant to protect against malicious attempts to alter the inner HTML. "
@@ -44191,13 +44074,14 @@ msgid ""
 "reference will trigger this check since even an escaped value could lead to "
 "unexpected results."
 msgstr ""
-"この検査は、内部 HTML が *安全* かサニタイズされていることを保証するものでは"
-"なく、内部 HTML を意図的に変更しようとする悪意のある試みに対して保護するもの"
-"ではありません。さらに、Fluent の変数や参照は任意の文字列に展開されることがあ"
-"るため、エスケープされていない限り任意の HTML に展開されることがあります。た"
-"だし、例外的に、Fluent の参照の前に ``<`` または ``&`` 文字がある場合、これに"
-"よりこの検査が起動します。なぜなら、エスケープされた値でも予期しない結果につ"
-"ながることがあるためです。"
+"この検査は、内部 HTML "
+"の安全性やサニタイズされていることを*保証しません*。さらに、内部 HTML を意図"
+"的に変更しようとする悪意のある試みに対して保護するものではありません。さらに"
+"、Fluent の変数や参照は任意の文字列に展開されることがあるため、"
+"エスケープされていない限り任意の HTML "
+"に展開されることがあります。ただし、例外的に、Fluent の参照の前に ``<`` "
+"または ``&`` 文字がある場合、これによりこの検査が起動します。なぜなら、エスケ"
+"ープされた値でも予期しない結果につながることがあるためです。"
 
 #: ../../user/checks.rst:1668
 msgid ""
