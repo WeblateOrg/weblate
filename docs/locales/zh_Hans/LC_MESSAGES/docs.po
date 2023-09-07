@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-07 21:05+0200\n"
-"PO-Revision-Date: 2023-08-31 08:52+0000\n"
-"Last-Translator: Xiang Heng Wei <yylteam@hotmail.com>\n"
+"PO-Revision-Date: 2023-09-08 05:41+0000\n"
+"Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -6799,18 +6799,14 @@ msgstr ""
 "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 
 #: ../../admin/config.rst:293
-#, fuzzy
-#| msgid ""
-#| "Customize ``Content-Security-Policy`` header for Weblate. The header is "
-#| "automatically generated based on enabled integrations with third-party "
-#| "services (Matomo, Google Analytics, Sentry, …)."
 msgid ""
 "Customize :http:header:`Content-Security-Policy` header for Weblate. The "
 "header is automatically generated based on enabled integrations with third-"
 "party services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
-"为 Weblate 定制 ``Content-Security-Policy`` 标头。根据允许集成的第三方服务"
-"（Matomo、Google Analytics、Sentry……）来自动生成标头。"
+"为 Weblate 定制 :http:header:`Content-Security-Policy` "
+"标头。根据允许集成的第三方服务（Matomo、Google "
+"Analytics、Sentry……）来自动生成标头。"
 
 #: ../../admin/config.rst:297
 msgid "All these default to empty list."
@@ -7307,15 +7303,6 @@ msgstr ""
 "换 HSTS 或允许重定向到 HTTPS URL。"
 
 #: ../../admin/config.rst:682
-#, fuzzy
-#| msgid ""
-#| "The HTTPS redirection might be problematic in some cases and you might "
-#| "hit an issue with infinite redirection in case you are using a reverse "
-#| "proxy doing an SSL termination which does not correctly pass protocol "
-#| "headers to Django. Please tweak your reverse proxy configuration to emit "
-#| "``X-Forwarded-Proto`` or ``Forwarded`` headers or configure :setting:"
-#| "`django:SECURE_PROXY_SSL_HEADER` to let Django correctly detect the SSL "
-#| "status."
 msgid ""
 "The HTTPS redirection might be problematic in some cases and you might hit "
 "an issue with infinite redirection in case you are using a reverse proxy "
@@ -7325,11 +7312,11 @@ msgid ""
 "setting:`django:SECURE_PROXY_SSL_HEADER` to let Django correctly detect the "
 "SSL status."
 msgstr ""
-"在一些情况下 HTTPS 重定向会有问题，您可以在使用反向代理进行 SSL 终端连接的情"
-"况下碰到无限重定向的问题，使用反向代理进行 SSL 终端连接不能将协议标头正确地传"
-"递给 Django。请调整自己的反向代理配置，去掉 ``X-Forwarded-Proto`` 或 "
-"``Forwarded`` 标头，或者配置 :setting:`django:SECURE_PROXY_SSL_HEADER`，让 "
-"Django 正确地检测 SSL 状态。"
+"在一些情况下 HTTPS 重定向会有问题，您可以在使用反向代理进行 SSL "
+"终端连接的情况下碰到无限重定向的问题，使用反向代理进行 SSL "
+"终端连接不能将协议标头正确地传递给 Django。请调整自己的反向代理配置，去掉 "
+":http:header:`X-Forwarded-Proto` 或 :http:header:`Forwarded` 标头，或者配置 "
+":setting:`django:SECURE_PROXY_SSL_HEADER`，让 Django 正确地检测 SSL 状态。"
 
 #: ../../admin/config.rst:691
 msgid ""
@@ -7636,10 +7623,8 @@ msgid "IP_PROXY_OFFSET"
 msgstr "IP_PROXY_OFFSET"
 
 #: ../../admin/config.rst:945
-#, fuzzy
-#| msgid "The default value is 10."
 msgid "The default changed from 1 to -1."
-msgstr "默认值为 10。"
+msgstr "默认值从 1 改成了 -1。"
 
 #: ../../admin/config.rst:947
 msgid ""
@@ -7648,24 +7633,16 @@ msgid ""
 msgstr "指示 :setting:`IP_PROXY_HEADER` 的哪部分用作客户端 IP 地址。"
 
 #: ../../admin/config.rst:950
-#, fuzzy
-#| msgid ""
-#| "Depending on your setup, this header might consist of several IP "
-#| "addresses, (for example ``X-Forwarded-For: a, b, client-ip``) and you can "
-#| "configure which address from the header is used as client IP address here."
 msgid ""
 "Depending on your setup, this header might consist of several IP addresses, "
 "(for example ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) and you can "
 "configure which address from the header is used as client IP address here."
 msgstr ""
-"取决于你的设置，这个标头会包括几个 IP 地址，（例如 ``X-Forwarded-For: a, b, "
-"client-ip`` ），并且可以配置标头的哪个地址在这里用作客户端 IP 地址。"
+"取决于你的设置，这个标头会包括几个 IP 地址，（例如 ``X-Forwarded-For: client-"
+"ip, proxy-a, proxy-b`` ），并且可以配置标头的哪个地址在这里用作客户端 IP "
+"地址。"
 
 #: ../../admin/config.rst:956
-#, fuzzy
-#| msgid ""
-#| "Setting this affects the security of your installation. You should only "
-#| "configure it to use trusted proxies for determining the IP address."
 msgid ""
 "Setting this affects the security of your installation. You should only "
 "configure it to use trusted proxies for determining the IP address. Please "
@@ -7673,12 +7650,12 @@ msgid ""
 "For#security_and_privacy_concerns> for more details."
 msgstr ""
 "设置这个会影响你安装的安全性，应该只配置它来使用信任的代理来确定 IP 地址。"
+"请查阅 <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X"
+"-Forwarded-For#security_and_privacy_concerns> 了解更多信息。"
 
 #: ../../admin/config.rst:960
-#, fuzzy
-#| msgid "Defaults to 10."
 msgid "Defaults to -1."
-msgstr "默认为 10。"
+msgstr "默认为 -1。"
 
 #: ../../admin/config.rst:964
 msgid ""
@@ -12806,10 +12783,8 @@ msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
 msgstr "所以 ``X-Forwarded-For`` 将被映射到 ``HTTP_X_FORWARDED_FOR``。"
 
 #: ../../admin/install/docker.rst:687
-#, fuzzy
-#| msgid "Configures :setting:`PRIVACY_URL`."
 msgid "Configures :setting:`IP_PROXY_OFFSET`."
-msgstr "配置 :setting:`PRIVACY_URL`."
+msgstr "配置 :setting:`IP_PROXY_OFFSET`。"
 
 #: ../../admin/install/docker.rst:693
 msgid ""
@@ -12817,16 +12792,14 @@ msgid ""
 "header in preference to the SERVER_PORT META variable. This should only be "
 "enabled if a proxy which sets this header is in use."
 msgstr ""
+"布尔值，用于明确是否在选项中对 SERVER_PORT META 变量使用 :http:header:`X"
+"-Forwarded-Port` 标头。除非使用设置了此标头的代理，否则你不应该启用它。"
 
 #: ../../admin/install/docker.rst:699
-#, fuzzy
-#| msgid ":setting:`django:EMAIL_PORT`"
 msgid ":setting:`django:USE_X_FORWARDED_PORT`"
-msgstr ":setting:`django:EMAIL_PORT`"
+msgstr ":setting:`django:USE_X_FORWARDED_PORT`"
 
 #: ../../admin/install/docker.rst:701
-#, fuzzy
-#| msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgid "This is a boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr "这是一个布尔值设定（使用 ``\"true\"`` 或者 ``\"false\"``）。"
 
@@ -15025,19 +14998,15 @@ msgid ""
 msgstr "在Weblate 4.13之前，这些服务是在 :ref:`config` 中配置的。"
 
 #: ../../admin/machine.rst:10
-#, fuzzy
-#| msgid ""
-#| "The support for several machine translation and translation memory "
-#| "services is built-in. Each service can be turned on by the administrator "
-#| "for whole site or at the project settings:"
 msgid ""
 "The support for several machine translation and translation memory services "
 "is built-in. Each service can be turned on by the administrator for whole "
 "site (under :guilabel:`Automatic suggestions` in :ref:`management-"
 "interface`) or at the project settings:"
 msgstr ""
-"内置了对几种机器翻译和翻译记忆服务的支持。每个服务都可以由管理员在整个网站或"
-"项目设置中打开："
+"内置了对几种机器翻译和翻译记忆库服务的支持。管理员可以为整站开启每项服务（在 "
+":ref:`management-interface`中的 :guilabel:`Automatic "
+"suggestions`)，也可以在项目设置中为特定项目开启："
 
 #: ../../admin/machine.rst:19
 msgid ""
@@ -22463,28 +22432,20 @@ msgid "Deletes the component list."
 msgstr "删除部件列表。"
 
 #: ../../api.rst:2375
-#, fuzzy
-#| msgid "Associate component with a component list."
 msgid "List componentsin with a component list."
-msgstr "使部件与部件列表相关。"
+msgstr "用部件列表列出部件。"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "param id"
 msgid "param slug"
-msgstr "参数 id"
+msgstr "参数标识串"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "project slug"
 msgid "type slug"
-msgstr "项目标识串"
+msgstr "输入标识串"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "From existing component"
 msgid "form string component_id"
-msgstr "从现有部件"
+msgstr "表单字符串部件_id"
 
 #: ../../api.rst:2379 ../../api.rst:2388
 msgid "Component ID"
@@ -22492,7 +22453,7 @@ msgstr "部件 ID"
 
 #: ../../api.rst:0
 msgid ">json array results"
-msgstr ""
+msgstr ">json 数组结果"
 
 #: ../../api.rst:2384
 msgid "Associate component with a component list."
@@ -22749,10 +22710,8 @@ msgid "Link to a parent category."
 msgstr "主类别链接。"
 
 #: ../../api.rst:2536
-#, fuzzy
-#| msgid "Edit partial information about cateogry."
 msgid "Edit partial information about category."
-msgstr "编辑类别的部分信息。"
+msgstr "编辑分类的部分信息。"
 
 #: ../../api.rst:0
 msgid "param id"
@@ -22767,22 +22726,16 @@ msgid ">json object configuration"
 msgstr ">json 对象配置"
 
 #: ../../api.rst:2540 ../../api.rst:2550
-#, fuzzy
-#| msgid "Optional cateogry configuration"
 msgid "Optional category configuration"
-msgstr "可选的类别配置"
+msgstr "可选的分类配置"
 
 #: ../../api.rst:2546
-#, fuzzy
-#| msgid "Edit full information about cateogry."
 msgid "Edit full information about category."
-msgstr "编辑类别的完整信息。"
+msgstr "编辑分类的完整信息。"
 
 #: ../../api.rst:2556
-#, fuzzy
-#| msgid "Delete cateogry."
 msgid "Delete category."
-msgstr "删除类别。"
+msgstr "删除分类。"
 
 #: ../../api.rst:2564
 msgid "Notification hooks"
@@ -23058,10 +23011,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS（英文） <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.0.1"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.0.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -23076,90 +23027,67 @@ msgid "**Improvements**"
 msgstr "**改进**"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved glossary lookup speed for large strings."
 msgid "Related glossary terms lookup is now faster."
-msgstr "改进了大字符串的术语表查询速度。"
+msgstr "加快了相关术语表术语的查询。"
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improved error messages when creating pull requests."
 msgid "Logging of failures when creating pull requests."
-msgstr "改进了创建拉取请求的错误信息。"
+msgstr "创建拉取请求失败时进行记录。"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Translation is now locked for you."
 msgid "History is now loaded faster."
-msgstr "翻译已被您锁定。"
+msgstr "加快了历史记录的加载。"
 
 #: ../../changes.rst:13
 msgid "Added object ``id`` to all :ref:`api` endpoints."
-msgstr ""
+msgstr "新增对象 ``id``到所有 :ref:`api`端点。"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid ""
-#| "link to associated componentlist; see :http:get:`/api/component-lists/"
-#| "(str:slug)/`"
 msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
-msgstr ""
-"相关联部件列表的连接；请参见 :http:get:`/api/component-lists/(str:slug)/`"
+msgstr "新增：http:get:`/api/component-lists/(str:slug)/components/`."
 
 #: ../../changes.rst:16 ../../changes.rst:72
 msgid "**Bug fixes**"
 msgstr "**缺陷修复**"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Creating component"
 msgid "Creating component within a category."
-msgstr "创建部件中"
+msgstr "在分类中创建部件。"
 
 #: ../../changes.rst:19
 msgid "Source strings and state display for converted formats."
-msgstr ""
+msgstr "展示已转换字符串的源字符串和状态。"
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Choose :ref:`component-template` for document translations."
 msgid ""
 "Block :ref:`component-edit_template` on formats which do not support it."
-msgstr "文档翻译选择 :ref:`component-template`。"
+msgstr "在不支持 :ref:`component-edit_template` 的格式中拦截部件编辑模板。"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-reused` is no longer triggered for languages with a single "
-#| "plural form."
 msgid ":ref:`check-reused` is no longer triggered for blank strings."
-msgstr "不再对单一复数形式的语言触发 :ref:`check-reused`。"
+msgstr "空白字符串不再触发 :ref:`check-reused` 检查。"
 
 #: ../../changes.rst:22
 msgid "Performace issues while browsing some categories."
-msgstr ""
+msgstr "浏览某些分类时的性能问题。"
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Added support for Slack authentication in Docker container."
 msgid "Fixed GitHub Team and Organization authentication in Docker container."
-msgstr "添加了对 Docker 容器中 Slack 身份认证的支持。"
+msgstr "修复了 Docker 容器中 GitHub 团队和组织身份验证的问题。"
 
 #: ../../changes.rst:25 ../../changes.rst:80
 msgid "**Compatibility**"
 msgstr "**兼容性**"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid "The `jellyfish` dependency has been replaced by `rapidfuzz`."
 msgid "`pyahocorasick` dependency has been replaced by `ahocorasick_rs`."
-msgstr "`jellyfish` 依赖项已被 `rapidfuzz` 取代。"
+msgstr "`pyahocorasick` 依赖项已被 `ahocorasick_rs` 替代。"
 
 #: ../../changes.rst:28
 msgid ""
 "The default value of :setting::`IP_PROXY_OFFSET` has been changed from 1 to "
 "-1."
-msgstr ""
+msgstr ":setting::`IP_PROXY_OFFSET`的默认值已从 1 改为 -1。"
 
 #: ../../changes.rst:30 ../../changes.rst:85 ../../changes/v4.rst:53
 #: ../../changes/v4.rst:85 ../../changes/v4.rst:168 ../../changes/v4.rst:236
@@ -23183,26 +23111,18 @@ msgid ""
 msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid ""
-#| "The database upgrade can take considerable time on larger sites due to "
-#| "structure changes."
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "indexing changes."
-msgstr "由于结构变化，在较大站点上升级数据库可能会花掉相当长的时间。"
+msgstr "由于索引变化，在较大站点上升级数据库可能会花掉相当长的时间。"
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/102?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/103?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/102?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"103?closed=1>`__。"
 
 #: ../../changes.rst:39
 msgid "Weblate 5.0"
@@ -38599,15 +38519,11 @@ msgid ":ref:`format-explanation`"
 msgstr ":ref:`format-explanation`"
 
 #: ../../formats/tbx.rst:9
-#, fuzzy
-#| msgid ""
-#| "Source string explanation is saved and loaded from the ``<descrip>`` tag, "
-#| "translation string explanation from ``<node from=\"translator\">``."
 msgid ""
 "Source string explanation is saved and loaded from the ``<descrip>`` tag, "
 "translation string explanation from ``<note from=\"translator\">``."
 msgstr ""
-"源字符串解释从 ``<descrip>`` 标签保存和加载，翻译字符串解释从 ``<node from="
+"源字符串解释从 ``<descrip>`` 标签保存和加载，翻译字符串解释从 ``<note from="
 "\"translator\">`` 保存和加载。"
 
 #: ../../formats/tbx.rst:14
