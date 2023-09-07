@@ -2695,7 +2695,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             raise ValidationError({"template": msg, "file_format": msg})
 
         if self.edit_template and not self.file_format_cls.can_edit_base:
-            msg = gettext("Editing template is not support with this file format.")
+            msg = gettext("Editing template is not supported with this file format.")
             raise ValidationError({"edit_template": msg})
 
         # Prohibit intermediate usage without template
