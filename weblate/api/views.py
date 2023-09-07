@@ -1564,25 +1564,35 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
 
-    @action(detail=True, methods=["post"])
+    @action(detail=True, methods=["post", "get"])
     def components(self, request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request)
+        if request.method == "POST":
+            self.perm_check(request)
 
-        if "component_id" not in request.data:
-            raise ValidationError({"component_id": "This field is required."})
+            if "component_id" not in request.data:
+                raise ValidationError({"component_id": "This field is required."})
 
-        try:
-            component = Component.objects.filter_access(self.request.user).get(
-                pk=int(request.data["component_id"]),
-            )
-        except (Component.DoesNotExist, ValueError) as error:
-            raise ValidationError({"component_id": str(error)})
+            try:
+                component = Component.objects.filter_access(self.request.user).get(
+                    pk=int(request.data["component_id"]),
+                )
+            except (Component.DoesNotExist, ValueError) as error:
+                raise ValidationError({"component_id": str(error)})
 
-        obj.components.add(component)
-        serializer = self.serializer_class(obj, context={"request": request})
+            obj.components.add(component)
+            serializer = self.serializer_class(obj, context={"request": request})
 
-        return Response(serializer.data, status=HTTP_200_OK)
+            return Response(serializer.data, status=HTTP_200_OK)
+
+        queryset = (
+            obj.components.filter_access(self.request.user).prefetch().order_by("id")
+        )
+        page = self.paginate_queryset(queryset)
+
+        serializer = ComponentSerializer(page, many=True, context={"request": request})
+
+        return self.get_paginated_response(serializer.data)
 
     @action(
         detail=True,

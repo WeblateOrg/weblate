@@ -3687,6 +3687,14 @@ class ComponentListAPITest(APIBaseTest):
             code=200,
             request={"component_id": self.component.pk},
         )
+        response = self.do_request(
+            "api:componentlist-components",
+            kwargs={"slug": ComponentList.objects.get().slug},
+            method="get",
+            superuser=True,
+            code=200,
+        )
+        self.assertEqual(response.data["count"], 1)
 
     def test_remove_component(self):
         self.do_request(

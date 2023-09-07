@@ -2368,6 +2368,17 @@ Component lists
     :param slug: Component list slug
     :type slug: string
 
+.. http:get:: /api/component-lists/(str:slug)/components/
+
+   .. versionadded:: 5.0.1
+
+    List componentsin with a component list.
+
+    :param slug: Component list slug
+    :type slug: string
+    :form string component_id: Component ID
+    :>json array results: array of component objects; see :http:get:`/api/components/(string:project)/(string:component)/`
+
 .. http:post:: /api/component-lists/(str:slug)/components/
 
     Associate component with a component list.
