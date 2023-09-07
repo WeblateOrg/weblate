@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-07 19:04+0000\n"
-"PO-Revision-Date: 2023-08-31 19:25+0000\n"
-"Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
+"PO-Revision-Date: 2023-09-08 05:41+0000\n"
+"Last-Translator: Maciej Olko <maciej.olko@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -6856,10 +6856,8 @@ msgstr "Wyszukaj i zamień"
 #: weblate/templates/category.html:76 weblate/templates/component.html:102
 #: weblate/templates/language-project.html:49
 #: weblate/templates/project.html:118 weblate/templates/translation.html:97
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Organize or remove"
-msgstr "Tłumaczenie do usunięcia"
+msgstr "Uporządkuj lub usuń"
 
 #: weblate/templates/category-project.html:66
 #: weblate/templates/language-project.html:68
@@ -6942,21 +6940,18 @@ msgstr "Zmień nazwę kategorii"
 #: weblate/templates/category.html:207
 msgid "Renaming the category will also change URLs for all its components."
 msgstr ""
+"Zmiana nazwy kategorii spowoduje także zmianę adresów URL wszystkich jej "
+"komponentów."
 
 #: weblate/templates/category.html:208 weblate/templates/category.html:226
 #: weblate/templates/component.html:255 weblate/templates/component.html:273
 #: weblate/templates/project.html:272
-#, fuzzy
-#| msgid ""
-#| "Renaming the project will change all URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Users will need to update their bookmarks, references in cloned "
 "repositories, or API calls!"
 msgstr ""
-"Zmiana nazwy projektu spowoduje zmianę wszystkich adresów URL, użytkownicy "
-"będą musieli aktualizować zakładki lub odniesienia w sklonowanych "
-"repozytoriach!"
+"Użytkownicy będą musieli zaktualizować swoje zakładki, odniesienia w "
+"sklonowanych repozytoriach lub wywołania API!"
 
 #: weblate/templates/category.html:214 weblate/templates/component.html:261
 #: weblate/templates/project.html:278
@@ -6970,6 +6965,8 @@ msgstr "Przenieś kategorię"
 #: weblate/templates/category.html:225
 msgid "Moving the category will also change URLs for all its components."
 msgstr ""
+"Przeniesienie kategorii spowoduje także zmianę adresów URL wszystkich jej "
+"komponentów."
 
 #: weblate/templates/category.html:232 weblate/templates/component.html:279
 msgid "Move"
@@ -7111,17 +7108,15 @@ msgstr "Zmień nazwę komponentu"
 
 #: weblate/templates/component.html:254
 msgid "Renaming the component will also change its URLs."
-msgstr ""
+msgstr "Zmiana nazwy komponentu spowoduje również zmianę jego adresów URL."
 
 #: weblate/templates/component.html:268
 msgid "Move component"
 msgstr "Przenieś komponent"
 
 #: weblate/templates/component.html:272
-#, fuzzy
-#| msgid "Fix this component to clear its alerts."
 msgid "Moving the component will also change its URLs."
-msgstr "Napraw ten komponent, aby usunąć jego alerty."
+msgstr "Przeniesienie komponentu spowoduje również zmianę jego adresów URL."
 
 #: weblate/templates/component.html:296 weblate/templates/project.html:294
 #: weblate/templates/translate.html:348 weblate/templates/translation.html:427
@@ -9172,6 +9167,8 @@ msgstr "Zmień nazwę projektu"
 #: weblate/templates/project.html:271
 msgid "Renaming the project will also change URLs for all its components."
 msgstr ""
+"Zmiana nazwy projektu spowoduje również zmianę adresów URL wszystkich jego "
+"komponentów."
 
 #: weblate/templates/project.html:315
 msgid ""
@@ -10802,13 +10799,12 @@ msgstr ""
 "kategorii i wszystkich powiązanych treści."
 
 #: weblate/templates/trans/delete-project.html:10
-#, fuzzy, python-format
-#| msgid "The following translation components will be removed:"
+#, python-format
 msgid "%(count)s component will be removed by this."
 msgid_plural "%(count)s components will be removed by this."
-msgstr[0] "Następujące komponenty tłumaczeniowe zostaną usunięte:"
-msgstr[1] "Następujące komponenty tłumaczeniowe zostaną usunięte:"
-msgstr[2] "Następujące komponenty tłumaczeniowe zostaną usunięte:"
+msgstr[0] "%(count)s komponent zostanie przez to usunięty."
+msgstr[1] "%(count)s komponenty zostaną przez to usunięte."
+msgstr[2] "%(count)s komponentów zostanie przez to usuniętych."
 
 #: weblate/templates/trans/delete-translation.html:6
 msgid ""
@@ -13471,7 +13467,7 @@ msgstr "Nierozpoznany plik podstawowy dla nowych tłumaczeń."
 
 #: weblate/trans/models/component.py:2698
 msgid "Editing template is not support with this file format."
-msgstr ""
+msgstr "Edycja szablonu nie jest obsługiwana dla tego formatu pliku."
 
 #: weblate/trans/models/component.py:2704
 #: weblate/trans/models/component.py:2720
@@ -14595,12 +14591,10 @@ msgid "A language in the category was removed."
 msgstr "Język w kategorii został usunięty."
 
 #: weblate/trans/views/settings.py:190
-#, fuzzy, python-format
-#| msgid "Cannot rename due to outstanding issue in the configuration: %s"
+#, python-format
 msgid "Could not change %s due to outstanding issue in its settings: %s"
 msgstr ""
-"Nie można zmienić nazwy z powodu nierozstrzygniętego problemu w "
-"konfiguracji: %s"
+"Nie można zmienić %s z powodu nierozstrzygniętego problemu w ustawieniach: %s"
 
 #: weblate/trans/views/settings.py:327
 msgid "Backup scheduled. It will be available soon."
