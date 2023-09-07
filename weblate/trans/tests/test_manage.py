@@ -111,9 +111,7 @@ class RenameTest(ViewTestCase):
             reverse("rename", kwargs=self.kw_component), {"slug": "xxxx"}, follow=True
         )
         self.assertRedirects(response, f"{url}#rename")
-        self.assertContains(
-            response, "Cannot rename due to outstanding issue in the configuration"
-        )
+        self.assertContains(response, "due to outstanding issue in its settings")
 
     def test_rename_component(self):
         self.make_manager()
