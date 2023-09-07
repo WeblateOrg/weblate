@@ -187,8 +187,8 @@ def perform_rename(form_cls, request, obj, perm: str):
     except ValidationError as err:
         messages.error(
             request,
-            gettext("Cannot rename due to outstanding issue in the configuration: %s")
-            % err,
+            gettext("Could not change %s due to outstanding issue in its settings: %s")
+            % (obj, err),
         )
         return redirect_param(obj, "#rename")
 
