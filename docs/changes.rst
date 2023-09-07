@@ -10,6 +10,7 @@ Not yet released.
 * Related glossary terms lookup is now faster.
 * Logging of failures when creating pull requests.
 * History is now loaded faster.
+* Added object ``id`` to all :ref:`api` endpoints.
 
 **Bug fixes**
 

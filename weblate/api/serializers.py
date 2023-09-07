@@ -120,6 +120,7 @@ class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
         fields = (
+            "id",
             "code",
             "name",
             "plural",
@@ -202,6 +203,7 @@ class FullUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
+            "id",
             "email",
             "full_name",
             "username",
@@ -224,6 +226,7 @@ class BasicUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
+            "id",
             "full_name",
             "username",
         )
@@ -254,6 +257,7 @@ class RoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Role
         fields = (
+            "id",
             "name",
             "permissions",
             "url",
@@ -324,6 +328,7 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = (
+            "id",
             "name",
             "defining_project",
             "project_selection",
@@ -1178,6 +1183,7 @@ class ScreenshotSerializer(RemovableSerializer):
     class Meta:
         model = Screenshot
         fields = (
+            "id",
             "name",
             "repository_filename",
             "translation",
