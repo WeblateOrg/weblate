@@ -69,6 +69,7 @@ sed \
     docs/locales/docs.pot docs/locales/*/LC_MESSAGES/docs.po
 # Ensure licensing information is in place
 scripts/reuse-annotate \
+    --skip-existing \
     weblate/locale/*/*/*.po weblate/locale/*.pot \
     docs/locales/docs.pot docs/locales/*/LC_MESSAGES/docs.po
 
