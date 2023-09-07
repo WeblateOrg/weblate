@@ -1,14 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+# Mesut Akcan <makcan@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-08-24 15:13+0000\n"
-"PO-Revision-Date: 2023-06-24 17:53+0000\n"
-"Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
+"PO-Revision-Date: 2023-09-07 15:31+0000\n"
+"Last-Translator: Mesut Akcan <makcan@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -383,10 +383,9 @@ msgid "Account and all private data removed."
 msgstr "Hesap ve tüm özel veriler kaldırıldı."
 
 #: weblate/accounts/models.py:157
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "{email} adresine onay postası gönderildi."
+msgstr "Hesap kaldırma onayı {email} adresine gönderildi."
 
 #: weblate/accounts/models.py:158
 #, python-brace-format
@@ -401,7 +400,7 @@ msgstr "{username} tarafından {site_title} sitesine davet edildi."
 #: weblate/accounts/models.py:160
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "{username} tarafından gönderilen davet kabul edildi."
 
 #: weblate/accounts/models.py:161
 msgid "Started trial period."
@@ -442,10 +441,9 @@ msgid "Could not sign in using password."
 msgstr "Parola kullanılarak oturum açılamadı."
 
 #: weblate/accounts/models.py:178
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "{username} tarafından {site_title} sitesine davet edildi."
+msgstr "{username} tarafından {project}'ye davet edildi."
 
 #: weblate/accounts/models.py:184
 msgid "To restore access to your account, please reset your password."
@@ -715,10 +713,8 @@ msgstr ""
 "Herhangi bir e-posta adresi atamadığınız için çevirileri gönderemezsiniz."
 
 #: weblate/accounts/notifications.py:49
-#, fuzzy
-#| msgid "Notifications"
 msgid "No notification"
-msgstr "Bildirimler"
+msgstr "Bildirim yok"
 
 #: weblate/accounts/notifications.py:50
 msgid "Instant notification"
@@ -737,145 +733,104 @@ msgid "Monthly digest"
 msgstr "Aylık özet"
 
 #: weblate/accounts/notifications.py:451
-#, fuzzy
-#| msgid "String updated in the repository"
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr "Depodaki dizge güncellendi"
+msgstr "Depoda işlem gerçekleştirildi"
 
 #: weblate/accounts/notifications.py:462
-#, fuzzy
-#| msgid "Component unlocked"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr "Bileşen kilidi açıldı"
+msgstr "Bileşen kilitlendi veya kilidi açıldı"
 
 #: weblate/accounts/notifications.py:469
-#, fuzzy
-#| msgid "License changed"
 msgctxt "Notification name"
 msgid "License was changed"
 msgstr "Lisans değiştirildi"
 
 #: weblate/accounts/notifications.py:476
-#, fuzzy
-#| msgid "Parse error"
 msgctxt "Notification name"
 msgid "Parse error occured"
-msgstr "İşleme sorunu"
+msgstr "Ayrıştırma hatası oluştu"
 
 #: weblate/accounts/notifications.py:494
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgctxt "Notification name"
 msgid "New string is available for translation"
-msgstr "%(translation)s içinde çevrilecek yeni bir dizge var"
+msgstr "Çeviri için yeni dizge kullanılabilir"
 
 #: weblate/accounts/notifications.py:504
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr "Paylaşılan çeviri belleğine katkıda bulunulsun"
+msgstr "Katkıda bulunan kişi ilk çevirisini yaptı"
 
 #: weblate/accounts/notifications.py:513
-#, fuzzy
-#| msgid "Suggestion added"
 msgctxt "Notification name"
 msgid "Suggestion was added"
-msgstr "Öneri ekledi"
+msgstr "Öneri eklendi"
 
 #: weblate/accounts/notifications.py:522
-#, fuzzy
-#| msgid "Comment added"
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "Yorum eklendi"
 
 #: weblate/accounts/notifications.py:544
-#, fuzzy
-#| msgid "Mentioned in comment"
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
-msgstr "Yorumda bahsedildi"
+msgstr "Bir yorumda sizden bahsedildi"
 
 #: weblate/accounts/notifications.py:576
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgctxt "Notification name"
 msgid "Your translation received a comment"
-msgstr "Çeviri projeniz silindi"
+msgstr "Çeviriniz bir yorum aldı"
 
 #: weblate/accounts/notifications.py:601
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was edited by user"
-msgstr "Dizgeyi değiştiren"
+msgstr "Dizge kullanıcı tarafından düzenlendi"
 
 #: weblate/accounts/notifications.py:609
-#, fuzzy
-#| msgid "String has context"
 msgctxt "Notification name"
 msgid "String was approved"
-msgstr "Bağlamı olan dizgi"
+msgstr "Digze onaylandı"
 
 #: weblate/accounts/notifications.py:617
-#, fuzzy
-#| msgid "String changed by"
 msgctxt "Notification name"
 msgid "String was changed"
-msgstr "Dizgeyi değiştiren"
+msgstr "Dizge değiştirildi"
 
 #: weblate/accounts/notifications.py:626
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Notification name"
 msgid "New language was added or requested"
-msgstr "%(component)s bileşenine yeni dil eklendi"
+msgstr "Yeni dil eklendi veya talep edildi"
 
 #: weblate/accounts/notifications.py:643
-#, fuzzy
-#| msgid "New translation component"
 msgctxt "Notification name"
 msgid "New translation component was created"
-msgstr "Yeni çeviri bileşeni"
+msgstr "Yeni çeviri bileşeni oluşturuldu"
 
 #: weblate/accounts/notifications.py:651
-#, fuzzy
-#| msgid "Announcements"
 msgctxt "Notification name"
 msgid "Announcement was published"
-msgstr "Duyurular"
+msgstr "Duyuru yayınlandı"
 
 #: weblate/accounts/notifications.py:666
-#, fuzzy
-#| msgid "New alert on %(component)s"
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
-msgstr "%(component)s bileşeninde yeni uyarı"
+msgstr "Bir bileşende yeni uyarı ortaya çıktı"
 
 #: weblate/accounts/notifications.py:704
-#, fuzzy
-#| msgid "Repository operation"
 msgctxt "Notification name"
 msgid "Repository operation failed"
-msgstr "Depo işlemi"
+msgstr "Depo işlemi başarısız oldu"
 
 #: weblate/accounts/notifications.py:771
-#, fuzzy
-#| msgid "Pending suggestions"
 msgctxt "Notification name"
 msgid "Pending suggestions exist"
-msgstr "Bekleyen öneriler"
+msgstr "Bekleyen öneriler mevcut"
 
 #: weblate/accounts/notifications.py:781
-#, fuzzy
-#| msgid "Unfinished strings"
 msgctxt "Notification name"
 msgid "Unfinished strings exist"
-msgstr "Tamamlanmamış dizgeler"
+msgstr "Bitmemiş dizeler var"
 
 #: weblate/accounts/password_validation.py:21
 msgid "This password consists of only whitespace."
@@ -1562,10 +1517,9 @@ msgstr ""
 "dosya adlarının listesi."
 
 #: weblate/addons/forms.py:526
-#, fuzzy, python-format
-#| msgid "Failed to parse CSS selector: %s"
+#, python-format
 msgid "Could not parse CSS selector: %s"
-msgstr "CSS seçici işlenemedi: %s"
+msgstr "CSS seçici ayrıştırılamadı: %s"
 
 #: weblate/addons/forms.py:532 weblate/billing/models.py:286
 #: weblate/templates/snippets/query-builder.html:14
@@ -2309,10 +2263,8 @@ msgid "User invitation e-mail was sent."
 msgstr "Kullanıcı davet e-postası gönderildi."
 
 #: weblate/auth/forms.py:127
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot change this on a built-in team."
-msgstr "İç takımlar için %s değiştirilemez."
+msgstr "Yerleşik bir takımda bu değiştirilemez."
 
 #: weblate/auth/models.py:68
 #, python-format
@@ -2609,22 +2561,17 @@ msgid "File format does not support this."
 msgstr "Dosya biçimi bunu desteklenmiyor."
 
 #: weblate/auth/views.py:115
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot remove built-in team!"
-msgstr "İç takımlar için %s değiştirilemez."
+msgstr "Yerleşik ekip kaldırılamıyor!"
 
 #: weblate/auth/views.py:189
-#, fuzzy
-#| msgid "User invitation e-mail was sent."
 msgid "User invitation was removed."
-msgstr "Kullanıcı davet e-postası gönderildi."
+msgstr "Kullanıcı daveti kaldırıldı."
 
 #: weblate/auth/views.py:213
-#, fuzzy, python-format
-#| msgid "Resend e-mail invitation to the user"
+#, python-format
 msgid "Accepted invitation to the %s team."
-msgstr "Kullanıcıya davet e-postasını yeniden gönder"
+msgstr "%s takımına davet kabul edildi."
 
 #: weblate/billing/admin.py:64 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:106
@@ -2758,16 +2705,12 @@ msgid "AngularJS interpolation strings do not match source"
 msgstr "AngularJS değer ekleme dizgeleri kaynak ile aynı değil"
 
 #: weblate/checks/base.py:287
-#, fuzzy
-#| msgid "Following format strings are missing: {}"
 msgid "The following format strings are missing: {}"
-msgstr "Şu biçimdeki dizgeler eksik: {}"
+msgstr "Şu biçim dizgeleri eksik: {}"
 
 #: weblate/checks/base.py:292
-#, fuzzy
-#| msgid "Following format strings are extra: {}"
 msgid "The following format strings are extra: {}"
-msgstr "Şu biçimdeki dizgeler fazla: {}"
+msgstr "Şu biçim dizgeleri ekstradır: {}"
 
 #: weblate/checks/chars.py:21
 msgid "Starting newline"
@@ -3011,10 +2954,8 @@ msgid "Strict unchanged check"
 msgstr "Sıkı değişmemiş denetimi"
 
 #: weblate/checks/flags.py:45
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strict format string checks"
-msgstr "Denetimde kusurlu görülen satırlar"
+msgstr "Katı biçim dizgesi kontrolleri"
 
 #: weblate/checks/flags.py:46 weblate/glossary/forms.py:35
 msgid "Forbidden translation"
@@ -3068,10 +3009,8 @@ msgid "String variant"
 msgstr "Dizge çeşidi"
 
 #: weblate/checks/flags.py:72
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent type"
-msgstr "Fluent dosyası"
+msgstr "Fluent tip"
 
 #: weblate/checks/flags.py:261
 #, python-format
@@ -9740,10 +9679,8 @@ msgid "The project has had active development for at least three months."
 msgstr "Proje en az üç aydır etkin olarak geliştirilmektedir."
 
 #: weblate/templates/snippets/libre-checklist.html:18
-#, fuzzy
-#| msgid "Unmet guidelines from the community localization checklist:"
 msgid "Review guidelines from the community localization checklist."
-msgstr "Topluluk yerelleştirme denetim listesindeki karşılanmamış yönergeler:"
+msgstr "Topluluk yerelleştirme kontrol listesindeki yönergeleri inceleyin."
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -9811,10 +9748,8 @@ msgid "Create translation"
 msgstr "Çeviri oluştur"
 
 #: weblate/templates/snippets/list-objects.html:170
-#, fuzzy
-#| msgid "Could not add new translation file."
 msgid "Cannot add translation right now"
-msgstr "Yeni çeviri dosyası eklenemedi."
+msgstr "Şu anda çeviri eklenemiyor"
 
 #: weblate/templates/snippets/list-objects.html:174
 #: weblate/templates/translate.html:23 weblate/templates/translation.html:145
@@ -10884,10 +10819,9 @@ msgid "Edit team membership for %(username)s"
 msgstr "%(username)s kullanıcısının takım üyeliğini düzenle"
 
 #: weblate/templates/trans/project-access.html:92
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation for %(email)s"
-msgstr "%(site_title)s sitesine davet"
+msgstr "%(email)s için davetiye"
 
 #: weblate/templates/trans/project-access.html:121
 msgid ""
@@ -11445,10 +11379,9 @@ msgid "Invitation"
 msgstr "Yeniden davet et"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:19
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation to %(project_name)s"
-msgstr "%(site_title)s sitesine davet"
+msgstr "%(project_name)s daveti"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:25
 #, fuzzy
@@ -13486,16 +13419,12 @@ msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "Kalıp dili ({0}) kaynak dili ({1}) ile eşleşmiyor!"
 
 #: weblate/trans/models/component.py:2766
-#, fuzzy
-#| msgid "No remote repository"
 msgid "Choose No remote repository for local: URL."
-msgstr "Herhangi bir uzak depo yok"
+msgstr "Yerel: URL için uzak depo yok seçeneğini seçin."
 
 #: weblate/trans/models/component.py:2771
-#, fuzzy
-#| msgid "Push URL is not used when repository is linked!"
 msgid "Push URL is not used without a remote repository."
-msgstr "Havuz bağlantılandığında URL yolla kullanılmaz!"
+msgstr "İtme URL'si uzak bir depo olmadan kullanılmaz."
 
 #: weblate/trans/models/component.py:2790
 #, python-format
@@ -14494,10 +14423,8 @@ msgid "Component is now open for translation updates."
 msgstr "Bileşen çeviri güncellemelerine açık."
 
 #: weblate/trans/views/lock.py:54
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "All components are now open for translation updates."
-msgstr "Tüm bileşenler kilitli ve çeviri güncellemelerine kapalı!"
+msgstr "Artık tüm bileşenler çeviri güncellemelerine açıktır."
 
 #: weblate/trans/views/search.py:108
 msgid "Search and replace completed, no strings were updated."
