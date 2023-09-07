@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-07 21:05+0200\n"
-"PO-Revision-Date: 2023-09-07 18:23+0000\n"
+"PO-Revision-Date: 2023-09-08 05:41+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -7144,19 +7144,14 @@ msgstr ""
 "CSP_SCRIPT_SRC、CSP_IMG_SRC、CSP_CONNECT_SRC、CSP_STYLE_SRC、CSP_FONT_SRC"
 
 #: ../../admin/config.rst:293
-#, fuzzy
-#| msgid ""
-#| "Customize ``Content-Security-Policy`` header for Weblate. The header is "
-#| "automatically generated based on enabled integrations with third-party "
-#| "services (Matomo, Google Analytics, Sentry, …)."
 msgid ""
 "Customize :http:header:`Content-Security-Policy` header for Weblate. The "
 "header is automatically generated based on enabled integrations with third-"
 "party services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
-"Weblate の ``Content-Security-Policy`` ヘッダーをカスタマイズします。ヘッダー"
-"は、サード パーティのサービス（Matomo、Google アナリティクス、Sentry、…）との"
-"連携が有効として自動的に生成されます。"
+"Weblate の :http:header:`Content-Security-Policy` "
+"ヘッダーをカスタマイズします。ヘッダーは、サード パーティのサービス（Matomo、"
+"Google アナリティクス、Sentry、…）との連携が有効として自動的に生成されます。"
 
 #: ../../admin/config.rst:297
 msgid "All these default to empty list."
@@ -7679,15 +7674,6 @@ msgstr ""
 "ダイレクションを有効にしたりします。"
 
 #: ../../admin/config.rst:682
-#, fuzzy
-#| msgid ""
-#| "The HTTPS redirection might be problematic in some cases and you might "
-#| "hit an issue with infinite redirection in case you are using a reverse "
-#| "proxy doing an SSL termination which does not correctly pass protocol "
-#| "headers to Django. Please tweak your reverse proxy configuration to emit "
-#| "``X-Forwarded-Proto`` or ``Forwarded`` headers or configure :setting:"
-#| "`django:SECURE_PROXY_SSL_HEADER` to let Django correctly detect the SSL "
-#| "status."
 msgid ""
 "The HTTPS redirection might be problematic in some cases and you might hit "
 "an issue with infinite redirection in case you are using a reverse proxy "
@@ -7697,12 +7683,13 @@ msgid ""
 "setting:`django:SECURE_PROXY_SSL_HEADER` to let Django correctly detect the "
 "SSL status."
 msgstr ""
-"HTTPS リダイレクトには問題が発生することがあります。また、Django にプロトコ"
-"ル ヘッダーを正しく渡さない SSL 終了を行うリバース プロキシを使用している場合"
-"は、無限リダイレクトの問題が発生することがあります。``X-Forwarded-Proto`` ま"
-"たは ``Forwarded`` ヘッダーを出力するようにリバース プロキシを設定するか、"
-"Django が SSL ステータスを正しく検出できるように :setting:`django:"
-"SECURE_PROXY_SSL_HEADER` を設定してください。"
+"HTTPS リダイレクトには問題が発生することがあります。また、Django "
+"にプロトコル ヘッダーを正しく渡さない SSL 終了を行うリバース プロキシを使用し"
+"ている場合は、無限リダイレクトの問題が発生することがあります。:http:header:`X"
+"-Forwarded-Proto` または :http:header:`Forwarded` "
+"ヘッダーを出力するようにリバース プロキシを設定するか、Django が SSL "
+"ステータスを正しく検出できるように :setting:`django:SECURE_PROXY_SSL_HEADER` "
+"を設定してください。"
 
 #: ../../admin/config.rst:691
 msgid ""
@@ -8022,10 +8009,8 @@ msgid "IP_PROXY_OFFSET"
 msgstr "IP_PROXY_OFFSET"
 
 #: ../../admin/config.rst:945
-#, fuzzy
-#| msgid "The default value is 10."
 msgid "The default changed from 1 to -1."
-msgstr "デフォルト値は 10 です。"
+msgstr "デフォルトは 1 から -1 に変更されました。"
 
 #: ../../admin/config.rst:947
 msgid ""
@@ -8036,25 +8021,17 @@ msgstr ""
 "されているかを示します。"
 
 #: ../../admin/config.rst:950
-#, fuzzy
-#| msgid ""
-#| "Depending on your setup, this header might consist of several IP "
-#| "addresses, (for example ``X-Forwarded-For: a, b, client-ip``) and you can "
-#| "configure which address from the header is used as client IP address here."
 msgid ""
 "Depending on your setup, this header might consist of several IP addresses, "
 "(for example ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) and you can "
 "configure which address from the header is used as client IP address here."
 msgstr ""
-"設定により、このヘッダーが複数の IP アドレス（例: ``X-Forwarded-For: a, b, "
-"client-ip``）で構成されることがあります。ここで、ヘッダーのどのアドレスをクラ"
-"イアント IP アドレスとして使用するかどうかを設定できます。"
+"設定により、このヘッダーが複数の IP アドレス（例: ``X-Forwarded-For: client-"
+"ip, proxy-a, proxy-b``）で構成されることがあります。ここで、"
+"ヘッダーのどのアドレスをクライアント IP "
+"アドレスとして使用するかどうかを設定できます。"
 
 #: ../../admin/config.rst:956
-#, fuzzy
-#| msgid ""
-#| "Setting this affects the security of your installation. You should only "
-#| "configure it to use trusted proxies for determining the IP address."
 msgid ""
 "Setting this affects the security of your installation. You should only "
 "configure it to use trusted proxies for determining the IP address. Please "
@@ -8062,13 +8039,13 @@ msgid ""
 "For#security_and_privacy_concerns> for more details."
 msgstr ""
 "これを設定すると、インストールのセキュリティに影響します。IP アドレスの決定に"
-"信頼できるプロキシを使用するように設定するだけです。"
+"信頼できるプロキシを使用するように設定するだけです。詳細については、<https://"
+"developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#"
+"security_and_privacy_concerns> を確認してください。"
 
 #: ../../admin/config.rst:960
-#, fuzzy
-#| msgid "Defaults to 10."
 msgid "Defaults to -1."
-msgstr "デフォルトは 10 回です。"
+msgstr "デフォルトは -1 です。"
 
 #: ../../admin/config.rst:964
 msgid ""
@@ -13515,10 +13492,8 @@ msgstr ""
 "したがって、``X-Forwarded-For`` は ``HTTP_X_FORWARDED_FOR`` に配置されます。"
 
 #: ../../admin/install/docker.rst:687
-#, fuzzy
-#| msgid "Configures :setting:`PRIVACY_URL`."
 msgid "Configures :setting:`IP_PROXY_OFFSET`."
-msgstr ":setting:`PRIVACY_URL` の設定。"
+msgstr ":setting:`IP_PROXY_OFFSET` の設定。"
 
 #: ../../admin/install/docker.rst:693
 msgid ""
@@ -13526,19 +13501,17 @@ msgid ""
 "header in preference to the SERVER_PORT META variable. This should only be "
 "enabled if a proxy which sets this header is in use."
 msgstr ""
+"このブール値は、SERVER_PORT META 変数の代わりに、X-Forwarded-Port ヘッダーを"
+"使用するかどうかを指定します。このヘッダーを設定するプロキシが使用されている"
+"場合にのみ有効にしてください。"
 
 #: ../../admin/install/docker.rst:699
-#, fuzzy
-#| msgid ":setting:`django:EMAIL_PORT`"
 msgid ":setting:`django:USE_X_FORWARDED_PORT`"
-msgstr ":setting:`django:EMAIL_PORT`"
+msgstr ":setting:`django:USE_X_FORWARDED_PORT`"
 
 #: ../../admin/install/docker.rst:701
-#, fuzzy
-#| msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgid "This is a boolean setting (use ``\"true\"`` or ``\"false\"``)."
-msgstr ""
-"これは論理値の設定です（``\"true\"`` または ``\"false\"`` を使用する）。"
+msgstr "これは論理値の設定です（``\"true\"`` または ``\"false\"`` を使用する）。"
 
 #: ../../admin/install/docker.rst:705
 msgid ""
@@ -15881,19 +15854,17 @@ msgid ""
 msgstr "Weblate 4.13 以前では、サービスは :ref:`config` で設定していました。"
 
 #: ../../admin/machine.rst:10
-#, fuzzy
-#| msgid ""
-#| "The support for several machine translation and translation memory "
-#| "services is built-in. Each service can be turned on by the administrator "
-#| "for whole site or at the project settings:"
 msgid ""
 "The support for several machine translation and translation memory services "
 "is built-in. Each service can be turned on by the administrator for whole "
 "site (under :guilabel:`Automatic suggestions` in :ref:`management-"
 "interface`) or at the project settings:"
 msgstr ""
-"複数の機械翻訳および翻訳メモリのサービスへの対応が組み込まれています。各サー"
-"ビスは、管理者がサイト全体またはプロジェクト設定から有効にします。"
+"複数の機械翻訳および翻訳メモリのサービスに標準で対応しています。各サービスは"
+"、管理者がサイト全体複数の機械翻訳サービスと翻訳メモリ "
+"サービスに対応しています。各サービスは、管理者がサイト全体（:ref:`management-"
+"interface` の :guilabel:`自動提案` "
+"の下）またはプロジェクト設定から有効にします。"
 
 #: ../../admin/machine.rst:19
 msgid ""
@@ -23736,28 +23707,20 @@ msgid "Deletes the component list."
 msgstr "コンポーネント リストを削除します。"
 
 #: ../../api.rst:2375
-#, fuzzy
-#| msgid "Associate component with a component list."
 msgid "List componentsin with a component list."
-msgstr "コンポーネントをコンポーネント リストに関連付けます。"
+msgstr "コンポーネントをコンポーネント リストで関連付けます。"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "param id"
 msgid "param slug"
-msgstr "パラメータ ID"
+msgstr "パラメータ スラッグ"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "project slug"
 msgid "type slug"
-msgstr "プロジェクトのスラッグ"
+msgstr "タイプ スラッグ"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "From existing component"
 msgid "form string component_id"
-msgstr "既存のコンポーネントから"
+msgstr "フォーム文字列コンポーネント ID"
 
 #: ../../api.rst:2379 ../../api.rst:2388
 msgid "Component ID"
@@ -23765,7 +23728,7 @@ msgstr "コンポーネント ID"
 
 #: ../../api.rst:0
 msgid ">json array results"
-msgstr ""
+msgstr ">json 配列の結果"
 
 #: ../../api.rst:2384
 msgid "Associate component with a component list."
@@ -24032,8 +23995,6 @@ msgid "Link to a parent category."
 msgstr "親カテゴリへのリンク。"
 
 #: ../../api.rst:2536
-#, fuzzy
-#| msgid "Edit partial information about cateogry."
 msgid "Edit partial information about category."
 msgstr "カテゴリに関する部分的な情報を編集します。"
 
@@ -24050,20 +24011,14 @@ msgid ">json object configuration"
 msgstr ">json object configuration"
 
 #: ../../api.rst:2540 ../../api.rst:2550
-#, fuzzy
-#| msgid "Optional cateogry configuration"
 msgid "Optional category configuration"
 msgstr "オプションのカテゴリ設定"
 
 #: ../../api.rst:2546
-#, fuzzy
-#| msgid "Edit full information about cateogry."
 msgid "Edit full information about category."
 msgstr "カテゴリに関する完全な情報を編集します。"
 
 #: ../../api.rst:2556
-#, fuzzy
-#| msgid "Delete cateogry."
 msgid "Delete category."
 msgstr "カテゴリの削除。"
 
@@ -24367,10 +24322,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.0.1"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.0.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -24385,92 +24338,68 @@ msgid "**Improvements**"
 msgstr "**改善点**"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved glossary lookup speed for large strings."
 msgid "Related glossary terms lookup is now faster."
-msgstr "長い文字列に対する用語集の検索速度を改善しました。"
+msgstr "関連用語の検索を高速に改良。"
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improved error messages when creating pull requests."
 msgid "Logging of failures when creating pull requests."
-msgstr "プルリクエスト作成時のエラー メッセージの改善。"
+msgstr "プル要求作成時の失敗のログ記録。"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Translation is now locked for you."
 msgid "History is now loaded faster."
-msgstr "翻訳をロックしました。"
+msgstr "履歴の読み込み速度の改良。"
 
 #: ../../changes.rst:13
 msgid "Added object ``id`` to all :ref:`api` endpoints."
-msgstr ""
+msgstr "オブジェクト``id`` をすべての :ref:`api` エンドポイントに追加。"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid ""
-#| "link to associated componentlist; see :http:get:`/api/component-lists/"
-#| "(str:slug)/`"
 msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
-msgstr ""
-"関連するコンポーネント リストへのリンク。参照: :http:get:`/api/component-"
-"lists/(str:slug)/`"
+msgstr ":http:get:`/api/component-lists/(str:slug)/components/` の追加。"
 
 #: ../../changes.rst:16 ../../changes.rst:72
 msgid "**Bug fixes**"
 msgstr "**バグの修正**"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Creating component"
 msgid "Creating component within a category."
-msgstr "コンポーネントの作成"
+msgstr "カテゴリ内でコンポーネントを作成するように改良。"
 
 #: ../../changes.rst:19
 msgid "Source strings and state display for converted formats."
-msgstr ""
+msgstr "変換された形式の原文と状態表示。"
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Choose :ref:`component-template` for document translations."
 msgid ""
 "Block :ref:`component-edit_template` on formats which do not support it."
-msgstr "ドキュメントの翻訳には、:ref:`component-template` を選択します。"
+msgstr "対応していないファイル形式では、:ref:`component-"
+"edit_template`をブロックします。"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-reused` is no longer triggered for languages with a single "
-#| "plural form."
 msgid ":ref:`check-reused` is no longer triggered for blank strings."
-msgstr ""
-":ref:`check-reused`は、複数の複数形が存在する言語では起動しないように修正。"
+msgstr ":ref:`check-reused` で、空白の文字列に対して起動しないように修正。"
 
 #: ../../changes.rst:22
 msgid "Performace issues while browsing some categories."
-msgstr ""
+msgstr "一部のカテゴリを閲覧するとパフォーマンスが低下します。"
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Added support for Slack authentication in Docker container."
 msgid "Fixed GitHub Team and Organization authentication in Docker container."
-msgstr "Docker コンテナーでの Slack 認証に対応。"
+msgstr "Docker コンテナーでの GitHub チームと組織の認証を修正。"
 
 #: ../../changes.rst:25 ../../changes.rst:80
 msgid "**Compatibility**"
 msgstr "**互換性**"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid "The `jellyfish` dependency has been replaced by `rapidfuzz`."
 msgid "`pyahocorasick` dependency has been replaced by `ahocorasick_rs`."
-msgstr "`jellyfish` への依存は `rapidfuzz` に置き換わりました。"
+msgstr "`pyahocorasick` 依存関係は `ahocorasick_rs` に置き換え修正。"
 
 #: ../../changes.rst:28
 msgid ""
 "The default value of :setting::`IP_PROXY_OFFSET` has been changed from 1 to "
 "-1."
-msgstr ""
+msgstr ":setting::`IP_PROXY_OFFSET` のデフォルト値を 1 から -1 に変更。"
 
 #: ../../changes.rst:30 ../../changes.rst:85 ../../changes/v4.rst:53
 #: ../../changes/v4.rst:85 ../../changes/v4.rst:168 ../../changes/v4.rst:236
@@ -24494,28 +24423,19 @@ msgid ""
 msgstr "更新するには、:ref:`generic-upgrade-instructions` に従ってください。"
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid ""
-#| "The database upgrade can take considerable time on larger sites due to "
-#| "structure changes."
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "indexing changes."
-msgstr ""
-"大規模なサイトでは、構造の変更により、データベースのアップグレードにかなりの"
-"時間がかかる場合があります。"
+msgstr "インデックスの変更により、大規模なサイトでのデータベースアップグレードにはか"
+"なりの時間がかかる場合があります。"
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/102?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/103?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/102?"
-"closed=1>`__。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"103?closed=1>`__。"
 
 #: ../../changes.rst:39
 msgid "Weblate 5.0"
@@ -39506,8 +39426,8 @@ msgid ""
 "a simple string in one language can map to a complex multi-variant "
 "translation in another language."
 msgstr ""
-"Fluent は、非対称の現地語化用のモノリンガルのテキスト形式:　ある言語の単純な"
-"文字列を、別の言語の複雑な多くの異なる翻訳として設定します。"
+"Fluent は、非対称の現地語化用のモノリンガルのテキスト形式:　ある言語の簡単な"
+"文字列を、別の言語の複雑な別表記の翻訳に置き換えることができます。"
 
 #: ../../formats/fluent.rst:18
 msgid "`Project Fluent website <https://projectfluent.org/>`_"
@@ -40496,15 +40416,11 @@ msgid ":ref:`format-explanation`"
 msgstr ":ref:`format-explanation`"
 
 #: ../../formats/tbx.rst:9
-#, fuzzy
-#| msgid ""
-#| "Source string explanation is saved and loaded from the ``<descrip>`` tag, "
-#| "translation string explanation from ``<node from=\"translator\">``."
 msgid ""
 "Source string explanation is saved and loaded from the ``<descrip>`` tag, "
 "translation string explanation from ``<note from=\"translator\">``."
 msgstr ""
-"原文の説明は ``<descript>`` タグから、翻訳文字列の説明は ``<node from="
+"原文の説明は ``<descript>`` タグから、翻訳文字列の説明は ``<note from="
 "\"translator\">`` から保存および読み込まれます。"
 
 #: ../../formats/tbx.rst:14
@@ -41834,9 +41750,10 @@ msgid ""
 "possible variant in the source must be matched with at least one variant in "
 "the translation with the same references, and vice versa."
 msgstr ""
-"ソースまたは翻訳に Fluent セレクト式が含まれている場合、ソースの各可能な別表"
-"記の文字列は、翻訳においても同じ参照を持つ少なくとも 1 つの別表記の文字列と一"
-"致することが必要であり、その逆も同様です。"
+"ソースまたは翻訳に Fluent Select "
+"式が含まれている場合、ソースの各可能な別表記の文字列は、"
+"翻訳においても同じ参照を持つ少なくとも 1 "
+"つの別表記の文字列と一致することが必要であり、その逆も同様です。"
 
 #: ../../user/checks.rst:240
 msgid ""
@@ -41955,9 +41872,10 @@ msgid ""
 "possible variant in the source must be matched with at least one variant in "
 "the translation with the same HTML elements, and vice versa."
 msgstr ""
-"ソースまたは翻訳に Fluent 選択式が含まれている場合、ソースの各可能な別表記の"
-"文字列は、翻訳においても同じ HTML 要素を持つ少なくとも 1 つの別表記の文字列と"
-"一致することが必要ですし、その逆も同様です。"
+"ソースまたは翻訳に Fluent Select "
+"式が含まれている場合、ソースの各可能な別表記の文字列は、翻訳においても同じ "
+"HTML 要素を持つ少なくとも 1 "
+"つの別表記の文字列と一致することが必要であり、その逆も同様です。"
 
 #: ../../user/checks.rst:312
 msgid ""
@@ -42021,9 +41939,9 @@ msgid ""
 "variants, including plurals. This check ensures that the syntax used in the "
 "translation will be valid for Fluent."
 msgstr ""
-"Weblateでは、Fluent 文字列は参照や変数だけでなく、属性の定義やセレクタのバリ"
-"アント、複数形などのより複雑な機能にも Fluent の構文が使用されます。この検査"
-"は、翻訳で使用する構文が Fluent に対して有効であることを保証します。"
+"Weblate では、Fluent 文字列は、参照と別表記に Fluent 構文を使用しますが、属性"
+"やセレクタによる別表記、複数形を含む、より複雑な機能も使用できます。この検査"
+"は、翻訳で使用される構文が Fluent で有効であることを保証します。"
 
 #: ../../user/checks.rst:367
 msgid ""
@@ -44345,9 +44263,11 @@ msgid ""
 "variants, including plurals. This check ensures that the syntax used in "
 "source will be valid for Fluent."
 msgstr ""
-"Weblate では、Fluent 文字列は参照や変数だけでなく、属性の定義やセレクタの変"
-"数、複数形を含むようなより複雑な機能にも Fluent の構文が使用されます。この検"
-"査は、ソースで使用される構文が Fluent に対して有効であることを保証します。"
+"Weblate では、Fluent "
+"文字列は参照や変数だけでなく、属性の定義やセレクタによる別表記、"
+"複数形を含むようなより複雑な機能にも Fluent "
+"の構文が使用されます。この検査は、ソースで使用される構文が Fluent "
+"に対して有効であることを保証します。"
 
 #: ../../user/checks.rst:1697
 msgid ""
