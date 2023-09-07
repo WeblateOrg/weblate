@@ -206,7 +206,9 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Rename category" %}</h4></div>
 <div class="panel-body">
 <div class="form-group">
-<p>{% trans "Renaming the category will change all URLs, users will have to update bookmarks or references in cloned repositories!" %}</p>
+  <div class="alert alert-warning" role="alert">
+    {% trans "Renaming the category will change all URLs, users will have to update bookmarks or references in cloned repositories!" %}
+  </div>
 </div>
 {% crispy rename_form %}
 </div>
@@ -221,7 +223,9 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Move category" %}</h4></div>
 <div class="panel-body">
 <div class="form-group">
-<p>{% trans "Moving the category will change all its URLs, users will have to update bookmarks or references in cloned repositories!" %}</p>
+  <div class="alert alert-warning" role="alert">
+    {% trans "Moving the category will change all its URLs, users will have to update bookmarks or references in cloned repositories!" %}
+  </div>
 </div>
 {% crispy move_form %}
 </div>
