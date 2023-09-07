@@ -984,6 +984,7 @@ class GitMergeRequestBase(GitForcePushRepository):
     ) -> tuple[dict, requests.Response, str]:
         do_retry = False
         vcs_id = self.get_identifier()
+        self.log(f"HTTP {method} {url}")
         cache_id = self.request_time_cache_key
         lock = WeblateLock(
             data_dir("home"),
