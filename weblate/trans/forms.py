@@ -2601,6 +2601,13 @@ class ProjectDeleteForm(BaseDeleteForm):
     )
     warning_template = "trans/delete-project.html"
 
+    def get_template_context(self, obj):
+        context = super().get_template_context(obj)
+        components = obj.component_set.order()
+        context["components"] = components
+        context["components_count"] = components.count()
+        return context
+
 
 class CategoryDeleteForm(BaseDeleteForm):
     confirm = forms.CharField(

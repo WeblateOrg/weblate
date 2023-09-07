@@ -6,16 +6,18 @@
 {% trans "This includes, but is not limited to, translation memory, glossaries, or user permissions." %}
 </p>
 
-{% with components=object.component_set.order %}
-{% if components %}
-<p>{% trans "The following translation components will be removed:" %}</p>
-<ul>
-    {% for component in components %}
-        <li><a href="{{ component.get_absolute_url }}">{{ component }}</a></li>
-    {% endfor %}
-</ul>
+{% if components_count > 15 %}
+  <p>{% blocktranslate count count=components_count %}{{ count }} component will be removed by this.{% plural %}{{ count }} components will be removed by this.{% endblocktranslate %}
+{% elif components_count > 0 %}
+  <p>{% trans "The following translation components will be removed:" %}</p>
+  <ul>
+      {% for component in components %}
+          <li><a href="{{ component.get_absolute_url }}">{{ component }}</a></li>
+      {% endfor %}
+  </ul>
 {% endif %}
-{% endwith %}
+
+
 {% with categories=object.category_set.order %}
 {% if categories %}
 <p>{% trans "The following translation categories will be removed:" %}</p>
