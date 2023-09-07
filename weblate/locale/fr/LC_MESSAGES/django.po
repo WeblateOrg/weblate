@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-07 19:04+0000\n"
-"PO-Revision-Date: 2023-09-02 15:18+0000\n"
+"PO-Revision-Date: 2023-09-08 05:41+0000\n"
 "Last-Translator: tachyglossues <tachyglossues@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -2494,10 +2494,6 @@ msgid "Teams"
 msgstr "Équipes"
 
 #: weblate/auth/models.py:374 weblate/auth/models.py:936
-#, fuzzy
-#| msgid ""
-#| "The user is granted all permissions included in membership of these "
-#| "groups."
 msgid ""
 "The user is granted all permissions included in membership of these teams."
 msgstr "L’utilisateur obtient tous les droits des groupes dont il est membre."
@@ -3167,25 +3163,24 @@ msgstr ""
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"Le HTML interne fluide ne devrait pas inclure {sequence}. Utilisez plutôt "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:227
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the name is not valid. If "
-#| "you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the sequence {attribute} "
 "is not a valid attribute with a value. If you do not want to begin a HTML "
 "tag, use {suggestion}."
 msgstr ""
-"La séquence {sequence} commence une balise HTML, mais le nom n’est pas "
-"valide. Si vous ne voulez pas commencer une balise HTML, utilisez "
-"{suggestion}."
+"La séquence {sequence} commence par une balise HTML, mais la séquence "
+"{attribute} n'est pas un attribut valide avec une valeur. Si vous ne voulez "
+"pas commencer par une balise HTML, utilisez {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "Le nom de l'attribut HTML {name} de la balise {tag} n'est pas valide."
 
 #: weblate/checks/fluent/inner_html.py:260
 #, python-brace-format
@@ -3193,21 +3188,23 @@ msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
 msgstr ""
+"La valeur de l'attribut HTML {name} {value} de la balise {tag} n'est pas une "
+"valeur entre guillemets valide."
 
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "L'attribut HTML {name} apparaît deux fois pour la balise {tag}."
 
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "Balise de fin HTML non appariée : {tag}."
 
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr ""
+msgstr "L'élément HTML {name} void ne doit pas avoir de balise de fin : {end}."
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
