@@ -345,7 +345,7 @@ class DiscoveryForm(BaseAddonForm):
             # Perform form validation
             self.full_clean()
             # Show preview if form was submitted
-            if self.cleaned_data["preview"]:
+            if self.cleaned_data.get("preview"):
                 self.fields["confirm"].widget = forms.CheckboxInput()
                 self.helper.layout.insert(0, Field("confirm"))
                 created, matched, deleted = self.discovery.perform(
