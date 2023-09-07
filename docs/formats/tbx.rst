@@ -7,7 +7,7 @@ TermBase eXchange format
 
    * - :ref:`format-explanation`
      - Source string explanation is saved and loaded from the ``<descrip>``
-       tag, translation string explanation from ``<node from="translator">``.
+       tag, translation string explanation from ``<note from="translator">``.
 
 .. versionadded:: 4.5
 
