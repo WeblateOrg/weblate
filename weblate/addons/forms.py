@@ -341,25 +341,28 @@ class DiscoveryForm(BaseAddonForm):
             Field("copy_addons"),
             Field("remove"),
         )
-        if self.is_bound and self.is_valid() and self.cleaned_data["preview"]:
+        if self.is_bound:
+            # Perform form validation
+            self.full_clean()
             # Show preview if form was submitted
-            self.fields["confirm"].widget = forms.CheckboxInput()
-            self.helper.layout.insert(0, Field("confirm"))
-            created, matched, deleted = self.discovery.perform(
-                preview=True, remove=self.cleaned_data["remove"]
-            )
-            self.helper.layout.insert(
-                0,
-                ContextDiv(
-                    template="addons/discovery_preview.html",
-                    context={
-                        "matches_created": created,
-                        "matches_matched": matched,
-                        "matches_deleted": deleted,
-                        "user": self.user,
-                    },
-                ),
-            )
+            if self.cleaned_data["preview"]:
+                self.fields["confirm"].widget = forms.CheckboxInput()
+                self.helper.layout.insert(0, Field("confirm"))
+                created, matched, deleted = self.discovery.perform(
+                    preview=True, remove=self.cleaned_data["remove"]
+                )
+                self.helper.layout.insert(
+                    0,
+                    ContextDiv(
+                        template="addons/discovery_preview.html",
+                        context={
+                            "matches_created": created,
+                            "matches_matched": matched,
+                            "matches_deleted": deleted,
+                            "user": self.user,
+                        },
+                    ),
+                )
 
     @cached_property
     def discovery(self):
