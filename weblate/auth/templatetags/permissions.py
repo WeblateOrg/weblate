@@ -13,5 +13,4 @@ def perm(context, permission, obj=None):
         user = context["user"]
     except KeyError:
         return False
-    user.has_perm(permission, obj)
-    return None
+    return user.has_perm(permission, obj)
