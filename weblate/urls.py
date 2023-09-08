@@ -588,8 +588,13 @@ real_patterns = [
     ),
     path(
         "languages/<name:lang>/<name:project>/",
+        weblate.trans.views.basic.ProjectLanguageRedirectView.as_view(),
+        name="project-language-redirect",
+    ),
+    path(
+        "languages/<name:lang>/<name:project>/search/",
         weblate.trans.views.basic.ProjectLanguageRedirectView.as_view(
-            query_string=True
+            pattern_name="search",
         ),
         name="project-language-redirect",
     ),

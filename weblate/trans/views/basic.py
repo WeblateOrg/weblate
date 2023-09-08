@@ -2,13 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.translation import gettext
@@ -776,11 +777,8 @@ def guide(request, path):
 
 class ProjectLanguageRedirectView(RedirectView):
     permanent = True
+    query_string = True
+    pattern_name = "show"
 
-    def get_redirect_url(self, project: str, lang: str):
-        return reverse(
-            "show",
-            kwargs={
-                "path": [project, "-", lang],
-            },
-        )
+    def get_redirect_url(self, project: str | None, lang: str):
+        return super().get_redirect_url(path=[project or "-", "-", lang])
