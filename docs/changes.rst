@@ -5,13 +5,14 @@ Not yet released.
 
 **New features**
 
+* Added :http:get:`/api/component-lists/(str:slug)/components/`.
+
 **Improvements**
 
 * Related glossary terms lookup is now faster.
 * Logging of failures when creating pull requests.
 * History is now loaded faster.
 * Added object ``id`` to all :ref:`api` endpoints.
-* Added :http:get:`/api/component-lists/(str:slug)/components/`.
 
 **Bug fixes**
 
