@@ -748,8 +748,9 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.execute(cmd)
         self.clean_revision_cache()
 
-    def parse_repo_url(self) -> tuple[str, str, str, str]:
-        repo = self.component.repo
+    def parse_repo_url(self, repo: str | None = None) -> tuple[str, str, str, str]:
+        if repo is None:
+            repo = self.component.repo
         parsed = urllib.parse.urlparse(repo)
         host = parsed.hostname
         scheme = parsed.scheme
@@ -1348,6 +1349,10 @@ class GitLabRepository(GitMergeRequestBase):
         "This will push changes and create a GitLab merge request."
     )
 
+    def get_fork_path(self, repo: str) -> str:
+        _scheme, _host, owner, slug = self.parse_repo_url(repo)
+        return urllib.parse.quote(f"{owner}/{slug}", safe="")
+
     def get_forked_url(self, credentials: dict) -> str:
         """
         Returns GitLab API URL for the forked repository.
@@ -1356,13 +1361,10 @@ class GitLabRepository(GitMergeRequestBase):
         API URL of the forked repository along with the target project ID
         (unlike GitHub where the PR is sent to the target project's API URL).
         """
-        target_path = credentials["url"].split("/")[-1]
+        target_path = credentials["url"].rsplit("/", 1)[-1]
         cmd = ["remote", "get-url", "--push", credentials["username"]]
         fork_remotes = self.execute(cmd, needs_lock=False, merge_err=False).splitlines()
-        fork_path = urllib.parse.quote(
-            fork_remotes[0].split(":")[-1].replace(".git", ""),
-            safe="",
-        )
+        fork_path = self.get_fork_path(fork_remotes[0])
         return credentials["url"].replace(target_path, fork_path)
 
     def get_headers(self, credentials: dict):

@@ -988,6 +988,16 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             "https://gitlab.company/api/v4/projects/222%2Faaa%2Fbbb",
         )
 
+    def test_get_fork_path(self):
+        self.assertEqual(
+            self.repo.get_fork_path("git@gitlab.com:WeblateOrg/test.git"),
+            "WeblateOrg%2Ftest",
+        )
+        self.assertEqual(
+            self.repo.get_fork_path("ssh://git@gitlab.company:222/aaa/bbb.git"),
+            "aaa%2Fbbb",
+        )
+
     @override_settings(
         GITLAB_CREDENTIALS={
             "gitlab.example.com": {"username": "test", "token": "token"}

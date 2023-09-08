@@ -23,6 +23,7 @@ Not yet released.
 * :ref:`check-reused` is no longer triggered for blank strings.
 * Performace issues while browsing some categories.
 * Fixed GitHub Team and Organization authentication in Docker container.
+* GitLab merge requests when using a customized SSH port.
 
 **Compatibility**
 
