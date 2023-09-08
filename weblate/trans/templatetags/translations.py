@@ -139,6 +139,7 @@ class Formatter:
                 formatter.parse()
                 self.tags[offset].append(f"<del>{formatter.format()}</del>")
             elif op == self.differ.DIFF_INSERT:
+                end = offset + len(data)
                 # Rearrange space highlighting
                 move_space = False
                 start_space = -1
@@ -172,10 +173,46 @@ class Formatter:
                     self.tags[offset].append("<ins>")
                 if move_space:
                     self.tags[offset].append(SPACE_START)
-                offset += len(data)
-                self.tags[offset].append("</ins>")
+                self.tags[end].append("</ins>")
                 if start_space != -1:
-                    self.tags[offset].append(SPACE_START)
+                    self.tags[end].append(SPACE_START)
+
+                # Rearange other tags
+                open_tags = 0
+                process = False
+                for i in range(offset, end + 1):
+                    remove = []
+                    for pos, tag in enumerate(self.tags[i]):
+                        if not process:
+                            if tag.startswith("<ins"):
+                                process = True
+                            continue
+                        if tag.startswith("</ins>"):
+                            break
+                        if tag.startswith("<span"):
+                            open_tags += 1
+                        elif tag.startswith("</span"):
+                            if open_tags == 0:
+                                # Remove tags spanning over <ins>
+                                remove.append(pos)
+                                found = None
+                                for back in range(offset - 1, 0, -1):
+                                    for child_pos, child in reversed(
+                                        list(enumerate(self.tags[back]))
+                                    ):
+                                        if child.startswith("<span"):
+                                            found = child_pos
+                                            break
+                                    if found is not None:
+                                        del self.tags[back][found]
+                                        break
+                            else:
+                                open_tags -= 1
+                    # Remove closing tags (do this outside the loop)
+                    for pos in reversed(remove):
+                        del self.tags[i][pos]
+
+                offset = end
             elif op == self.differ.DIFF_EQUAL:
                 offset += len(data)
 
