@@ -119,7 +119,7 @@ SESSION_COOKIE_HTTPONLY = False
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 
 # Test optional apps as well
-INSTALLED_APPS += ("weblate.billing", "weblate.legal")
+INSTALLED_APPS += ("weblate.billing", "weblate.legal", "weblate.integrations")
 
 # Test GitHub auth
 AUTHENTICATION_BACKENDS = (
