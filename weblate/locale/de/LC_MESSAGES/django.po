@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-07 19:04+0000\n"
-"PO-Revision-Date: 2023-09-08 09:35+0000\n"
+"PO-Revision-Date: 2023-09-08 14:25+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -2539,14 +2539,10 @@ msgid "Teams"
 msgstr "Teams"
 
 #: weblate/auth/models.py:374 weblate/auth/models.py:936
-#, fuzzy
-#| msgid ""
-#| "The user is granted all permissions included in membership of these "
-#| "groups."
 msgid ""
 "The user is granted all permissions included in membership of these teams."
 msgstr ""
-"Der Benutzer erhält alle Berechtigungen, die durch der Mitgliedschaft in "
+"Der Benutzer erhält alle Berechtigungen, die durch die Mitgliedschaft in "
 "diesen Gruppen dort enthalten sind."
 
 #: weblate/auth/models.py:716
@@ -3184,43 +3180,34 @@ msgstr ""
 "expandiert werden. Vielleicht sollten Sie {suggestion} benutzen."
 
 #: weblate/checks/fluent/inner_html.py:171
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML closing tag, but the name or syntax "
-#| "is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
-"Die Sequenz {sequence} fängt mit einem schließenden HTML-Tag an, aber der "
-"Name oder die Syntax ist ungültig. Falls Sie kein schließendes Tag wollen, "
-"benutzen Sie {suggestion}."
+"Die Zeichenfolge {sequence} fängt mit einem schließendem HTML-Tag an, aber "
+"der Name oder die Syntax ist nicht gültig. Falls Sie kein schließendes Tag "
+"möchten, verwenden Sie {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:184
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the name is not valid. If "
-#| "you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
-"Die Sequenz {sequence} fängt mit einem schließenden HTML-Tag an, aber der "
-"Name ist ungültig. Falls Sie kein schließendes HTML-Tag wollen, benutzen Sie "
+"Die Zeichenfolge {sequence} fängt mit einem HTML-Tag an, aber der Name ist "
+"nicht gültig. Falls Sie kein HTML-Tag anfangen möchten, verwenden Sie "
 "{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:197
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the tag is never closed by "
-#| "{close}. If you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
-"Die Sequenz {sequence} fängt mit einem HTML-Tag an, aber der Tag wird nie "
-"von {close} geschlossen. Falls Sie kein öffnendes HTML-Tag wollen, benutzen "
-"Sie {suggestion}."
+"Die Zeichenfolge {sequence} fängt mit einem HTML-Tag an, das aber nie durch "
+"{close} abgeschlossen wird. Falls Sie kein HTML-Tag anfangen möchten, "
+"verwenden Sie {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:211
 #, python-brace-format
@@ -3231,24 +3218,20 @@ msgstr ""
 "Sie {suggestion} benutzen."
 
 #: weblate/checks/fluent/inner_html.py:227
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML tag, but the sequence {attribute} "
-#| "is not a valid attribute with a value. If you do not want to begin a HTML "
-#| "tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the sequence {attribute} "
 "is not a valid attribute with a value. If you do not want to begin a HTML "
 "tag, use {suggestion}."
 msgstr ""
-"Die Sequenz {sequence} startet ein HTML-Tag, aber die Sequenz {attribute} "
-"ist kein gültiges Attribut mit einem Wert. Falls Sie kein HTML-Tag starten "
-"wollen, benutzen Sie {suggestion}."
+"Die Zeichenfolge {sequence} fängt mit einem HTML-Tag an, aber die "
+"Zeichenfolge {attribute} ist kein gültiges Attribut mit einem Wert. Falls "
+"Sie kein HTML-Tag anfangen möchten, verwenden Sie {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr "Der HTML-Attributname {name} für das Tag {tag} ist ungültig."
+msgstr "Der HTML-Attributname {name} für das Tag {tag} ist nicht gültig."
 
 #: weblate/checks/fluent/inner_html.py:260
 #, python-brace-format
@@ -3295,14 +3278,14 @@ msgid ""
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
-"Die Sequenz {sequence} wird eine HTML-Zeichenreferenz einläuten, aber endet "
-"nicht mit {semicolon}. Falls Sie keine Zeichenreferenz wollen, benutzen Sie "
-"{suggestion}."
+"Die Zeichenfolge {sequence} fängt eine HTML-Zeichenreferenz an, endet aber "
+"nicht mit {semicolon}. Falls Sie keine Zeichenreferenz möchten, verwenden "
+"Sie {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:359
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
-msgstr "Die Sequenz {sequence} ist keine gültige HTML-Zeichenreferenz."
+msgstr "Die Zeichenfolge {sequence} ist keine gültige HTML-Zeichenreferenz."
 
 #: weblate/checks/fluent/inner_html.py:943
 msgid "Fluent source inner HTML"
@@ -6450,6 +6433,8 @@ msgid ""
 "Automatically add newly created users to this team based on their e-mail "
 "address."
 msgstr ""
+"Automatisches Hinzufügen neu erstellter Benutzer zu diesem Team auf der "
+"Grundlage ihrer E-Mail-Adresse."
 
 #: weblate/templates/auth/team.html:70
 msgid "Add automatic assignment"
@@ -7034,10 +7019,8 @@ msgstr "Suchen und Ersetzen"
 #: weblate/templates/category.html:76 weblate/templates/component.html:102
 #: weblate/templates/language-project.html:49
 #: weblate/templates/project.html:118 weblate/templates/translation.html:97
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Organize or remove"
-msgstr "Übersetzung zum Entfernen"
+msgstr "Organisieren oder Entfernen"
 
 #: weblate/templates/category-project.html:66
 #: weblate/templates/language-project.html:68
@@ -7071,10 +7054,8 @@ msgid "Download translation files as ZIP file"
 msgstr "Übersetzungsdateien als ZIP-Datei herunterladen"
 
 #: weblate/templates/category.html:71 weblate/templates/project.html:88
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new category"
-msgstr "Neuen Benutzer hinzufügen"
+msgstr "Neue Kategorie hinzufügen"
 
 #: weblate/templates/category.html:84 weblate/templates/component.html:110
 #: weblate/templates/project.html:126 weblate/templates/translation.html:105
@@ -7112,34 +7093,28 @@ msgid "Browse all project changes"
 msgstr "Alle Projektänderungen durchsuchen"
 
 #: weblate/templates/category.html:182 weblate/templates/project.html:245
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add a category"
-msgstr "Benutzer hinzufügen"
+msgstr "Kategorie hinzufügen"
 
 #: weblate/templates/category.html:203
-#, fuzzy
-#| msgid "Rename project"
 msgid "Rename category"
-msgstr "Projekt umbenennen"
+msgstr "Kategorie umbenennen"
 
 #: weblate/templates/category.html:207
 msgid "Renaming the category will also change URLs for all its components."
 msgstr ""
+"Durch das Umbenennen der Kategorie werden auch die URLs aller ihrer "
+"Komponenten geändert."
 
 #: weblate/templates/category.html:208 weblate/templates/category.html:226
 #: weblate/templates/component.html:255 weblate/templates/component.html:273
 #: weblate/templates/project.html:272
-#, fuzzy
-#| msgid ""
-#| "Renaming the project will change all URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Users will need to update their bookmarks, references in cloned "
 "repositories, or API calls!"
 msgstr ""
-"Die Umbenennung des Projekts ändert alle URLs, Benutzer müssen Lesezeichen "
-"oder Referenzen in geklonten Repositorys aktualisieren!"
+"Die Benutzer müssen ihre Lesezeichen, Referenzen in geklonten Repositorys "
+"oder API-Aufrufe aktualisieren!"
 
 #: weblate/templates/category.html:214 weblate/templates/component.html:261
 #: weblate/templates/project.html:278
@@ -7147,14 +7122,14 @@ msgid "Rename"
 msgstr "Umbenennen"
 
 #: weblate/templates/category.html:221
-#, fuzzy
-#| msgid "Category"
 msgid "Move category"
-msgstr "Kategorie"
+msgstr "Kategorie verschieben"
 
 #: weblate/templates/category.html:225
 msgid "Moving the category will also change URLs for all its components."
 msgstr ""
+"Durch das Verschieben der Kategorie werden auch die URLs aller ihrer "
+"Komponenten geändert."
 
 #: weblate/templates/category.html:232 weblate/templates/component.html:279
 msgid "Move"
@@ -7177,10 +7152,8 @@ msgid "Translated"
 msgstr "Übersetzt"
 
 #: weblate/templates/check_list.html:89
-#, fuzzy
-#| msgid "Git export documentation"
 msgid "View check documentation"
-msgstr "Git-Export-Dokumentation"
+msgstr "Dokumentationsprüfung anzeigen"
 
 #: weblate/templates/component-list.html:16 weblate/templates/language.html:20
 msgid "Information"
@@ -7298,17 +7271,15 @@ msgstr "Komponente umbenennen"
 
 #: weblate/templates/component.html:254
 msgid "Renaming the component will also change its URLs."
-msgstr ""
+msgstr "Durch das Umbenennen der Komponente werden auch ihre URLs geändert."
 
 #: weblate/templates/component.html:268
 msgid "Move component"
 msgstr "Komponente verschieben"
 
 #: weblate/templates/component.html:272
-#, fuzzy
-#| msgid "Fix this component to clear its alerts."
 msgid "Moving the component will also change its URLs."
-msgstr "Korrigieren Sie diese Komponente, um ihre Warnungen zu löschen."
+msgstr "Durch das Verschieben der Komponente werden auch ihre URLs geändert."
 
 #: weblate/templates/component.html:296 weblate/templates/project.html:294
 #: weblate/templates/translate.html:348 weblate/templates/translation.html:427
@@ -9377,7 +9348,7 @@ msgid ""
 "given expiry, or permanently until it is deleted."
 msgstr ""
 "Die Nachricht wird bis zu ihrem angegebenen Ablauf für alle Übersetzungen "
-"innerhalb der Komponente angezeigt oder dauerhaft, bis sie gelöscht wird."
+"innerhalb des Projekts angezeigt oder dauerhaft, bis sie gelöscht wird."
 
 #: weblate/templates/project.html:267
 msgid "Rename project"
@@ -9386,6 +9357,8 @@ msgstr "Projekt umbenennen"
 #: weblate/templates/project.html:271
 msgid "Renaming the project will also change URLs for all its components."
 msgstr ""
+"Durch das Umbenennen des Projekts werden auch die URLs aller ihrer "
+"Komponenten geändert."
 
 #: weblate/templates/project.html:315
 msgid ""
@@ -10759,8 +10732,8 @@ msgstr[1] ""
 #: weblate/templates/trans/alert/unusedcomponent.html:5
 msgid "Please consider removing the component if it is no longer useful."
 msgstr ""
-"Bitte überlegen Sie, ob Sie die Komponente entfernen wollen, wenn sie nicht "
-"mehr benötigt wird."
+"Bitte erwägen Sie, die Komponente zu entfernen, wenn sie nicht mehr benötigt "
+"wird."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 msgid "Following enforced checks are not used anywhere:"
@@ -10967,7 +10940,7 @@ msgid ""
 "translations and all related content."
 msgstr ""
 "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch werden die "
-"%(object)s Übersetzungen und alle zugehörigen Inhalte dauerhaft gelöscht."
+"Übersetzungen %(object)s und alle zugehörigen Inhalte dauerhaft gelöscht."
 
 #: weblate/templates/trans/delete-category-language.html:6
 #: weblate/templates/trans/delete-project-language.html:6
@@ -10986,7 +10959,7 @@ msgid ""
 "project and all related content."
 msgstr ""
 "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch werden das "
-"%(object)s Projekt und alle zugehörigen Inhalte dauerhaft gelöscht."
+"Projekt %(object)s und alle zugehörigen Inhalte dauerhaft gelöscht."
 
 #: weblate/templates/trans/delete-category.html:6
 #: weblate/templates/trans/delete-project.html:6
@@ -11005,10 +10978,8 @@ msgstr "Die folgenden Übersetzungskomponenten werden entfernt:"
 
 #: weblate/templates/trans/delete-category.html:21
 #: weblate/templates/trans/delete-project.html:23
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "The following translation categories will be removed:"
-msgstr "Die folgenden Übersetzungen werden entfernt:"
+msgstr "Die folgenden Übersetzungskategorien werden entfernt:"
 
 #: weblate/templates/trans/delete-category.html:31
 #: weblate/templates/trans/delete-project.html:33
@@ -11022,7 +10993,7 @@ msgid ""
 "component and all related content."
 msgstr ""
 "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch werden die "
-"%(object)s Komponente und alle zugehörigen Inhalte dauerhaft gelöscht."
+"Komponente %(object)s und alle zugehörigen Inhalte dauerhaft gelöscht."
 
 #: weblate/templates/trans/delete-component.html:20
 msgid "Component to remove"
@@ -11033,24 +11004,20 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Ich verstehe die Konsequenzen, löschen Sie diese Übersetzung"
 
 #: weblate/templates/trans/delete-project.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "project and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "category and all related content."
 msgstr ""
-"Diese Aktion kann nicht rückgängig gemacht werden. Dadurch werden das "
-"%(object)s Projekt und alle zugehörigen Inhalte dauerhaft gelöscht."
+"Diese Aktion kann nicht rückgängig gemacht werden. Dadurch werden die "
+"Kategorie %(object)s und alle zugehörigen Inhalte dauerhaft gelöscht."
 
 #: weblate/templates/trans/delete-project.html:10
-#, fuzzy, python-format
-#| msgid "The following translation components will be removed:"
+#, python-format
 msgid "%(count)s component will be removed by this."
 msgid_plural "%(count)s components will be removed by this."
-msgstr[0] "Die folgenden Übersetzungskomponenten werden entfernt:"
-msgstr[1] "Die folgenden Übersetzungskomponenten werden entfernt:"
+msgstr[0] "%(count)s Komponente wird dadurch entfernt."
+msgstr[1] "%(count)s Komponenten werden dadurch entfernt."
 
 #: weblate/templates/trans/delete-translation.html:6
 msgid ""
@@ -11067,7 +11034,7 @@ msgid ""
 "translation and all related content."
 msgstr ""
 "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch werden die "
-"%(object)s Übersetzung und alle zugehörigen Inhalte dauerhaft gelöscht."
+"Übersetzung %(object)s und alle zugehörigen Inhalte dauerhaft gelöscht."
 
 #: weblate/templates/trans/delete-translation.html:15
 msgid "Translation to remove"
@@ -12616,17 +12583,17 @@ msgid "Workflow customization"
 msgstr "Arbeitsablauf-Anpassung"
 
 #: weblate/trans/mixins.py:143
-#, fuzzy
-#| msgid "Component with this URL slug already exists in the project."
 msgid ""
 "Component or category with the same URL slug already exists at this level."
-msgstr "Komponente mit dieser Kurz-URL ist bereits im Projekt vorhanden."
+msgstr ""
+"Eine Komponente oder Kategorie mit derselben Kurz-URL ist bereits auf dieser "
+"Ebene vorhanden."
 
 #: weblate/trans/mixins.py:150
-#, fuzzy
-#| msgid "A component with the same name already exists."
 msgid "Component or category with the same name already exists at this level."
-msgstr "Eine Komponente mit demselben Namen ist bereits vorhanden."
+msgstr ""
+"Eine Komponente oder Kategorie mit demselben Namen ist bereits auf dieser "
+"Ebene vorhanden."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:155
@@ -12782,10 +12749,8 @@ msgid "Do not specify both component and project!"
 msgstr "Geben Sie nicht sowohl Projekt als auch Komponente an!"
 
 #: weblate/trans/models/category.py:23
-#, fuzzy
-#| msgid "Category"
 msgid "Category name"
-msgstr "Kategorie"
+msgstr "Kategoriename"
 
 #: weblate/trans/models/category.py:25 weblate/trans/models/component.py:291
 #: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:88
@@ -12804,17 +12769,15 @@ msgstr "In URLs und Dateinamen verwendeter Name."
 
 #: weblate/trans/models/category.py:87
 msgid "Too deep nesting of categories!"
-msgstr ""
+msgstr "Zu tiefe Verschachtelung der Kategorien!"
 
 #: weblate/trans/models/category.py:92
 msgid "Parent category has to be in the same project!"
-msgstr ""
+msgstr "Die übergeordnete Kategorie muss sich im selben Projekt befinden!"
 
 #: weblate/trans/models/category.py:97
-#, fuzzy
-#| msgid "First and last name should be different!"
 msgid "Parent category has to be different!"
-msgstr "Vorname und Nachname müssen unterschiedlich sein!"
+msgstr "Die übergeordnete Kategorie muss unterschiedlich sein!"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:282
@@ -13113,24 +13076,18 @@ msgstr "Erklärung aktualisiert"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:413
-#, fuzzy
-#| msgid "Removed user"
 msgid "Removed category"
-msgstr "Benutzer gelöscht"
+msgstr "Kategorie entfernt"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:415
-#, fuzzy
-#| msgid "Renamed project"
 msgid "Renamed category"
-msgstr "Projekt umbenannt"
+msgstr "Kategorie umbenannt"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:417
-#, fuzzy
-#| msgid "Category"
 msgid "Moved category"
-msgstr "Kategorie"
+msgstr "Kategorie verschoben"
 
 #: weblate/trans/models/change.py:488
 msgid "New string to translate"
@@ -13685,17 +13642,12 @@ msgid "Could not merge remote branch into %s."
 msgstr "Der Remote-Branch konnte nicht mit %s zusammengeführt werden."
 
 #: weblate/trans/models/component.py:2535
-#, fuzzy
-#| msgid "User has been blocked on this project."
 msgid "Category does not belong to this project."
-msgstr "Benutzer wurde für dieses Projekt gesperrt."
+msgstr "Die Kategorie gehört nicht zu diesem Projekt."
 
 #: weblate/trans/models/component.py:2538
-#, fuzzy
-#| msgid "Component list can not be chosen when unused."
 msgid "Categorized component can not be shared."
-msgstr ""
-"Komponentenliste darf nicht ausgewählt sein, wenn sie nicht benutzt wird."
+msgstr "Die kategorisierte Komponente kann nicht gemeinsam genutzt werden."
 
 #: weblate/trans/models/component.py:2550
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -13772,6 +13724,7 @@ msgstr "Nicht erkannte Basisdatei für neue Übersetzungen."
 #: weblate/trans/models/component.py:2698
 msgid "Editing template is not support with this file format."
 msgstr ""
+"Das Bearbeiten von Vorlagen wird bei diesem Dateiformat nicht unterstützt."
 
 #: weblate/trans/models/component.py:2704
 #: weblate/trans/models/component.py:2720
@@ -14887,35 +14840,30 @@ msgstr "Die Übersetzung wurde entfernt."
 
 #: weblate/trans/views/settings.py:154
 msgid "The translation component was scheduled for removal."
-msgstr "Die Übersetzungskomponente wurde für die Entfernung vorgesehen."
+msgstr "Die Übersetzungskomponente wurde zum Entfernen vorgesehen."
 
 #: weblate/trans/views/settings.py:159
-#, fuzzy
-#| msgid "The project was scheduled for removal."
 msgid "The category was scheduled for removal."
-msgstr "Das Projekt wurde zur Entfernung vorgesehen."
+msgstr "Die Kategorie wurde zum Entfernen vorgesehen."
 
 #: weblate/trans/views/settings.py:163
 msgid "The project was scheduled for removal."
-msgstr "Das Projekt wurde zur Entfernung vorgesehen."
+msgstr "Das Projekt wurde zum Entfernen vorgesehen."
 
 #: weblate/trans/views/settings.py:169
 msgid "A language in the project was removed."
-msgstr "Eine Sprache des Projekts wurde entfernt."
+msgstr "Eine Sprache im Projekt wurde entfernt."
 
 #: weblate/trans/views/settings.py:175
-#, fuzzy
-#| msgid "A language in the project was removed."
 msgid "A language in the category was removed."
-msgstr "Eine Sprache des Projekts wurde entfernt."
+msgstr "Eine Sprache in der Kategorie wurde entfernt."
 
 #: weblate/trans/views/settings.py:190
-#, fuzzy, python-format
-#| msgid "Cannot rename due to outstanding issue in the configuration: %s"
+#, python-format
 msgid "Could not change %s due to outstanding issue in its settings: %s"
 msgstr ""
-"Die Umbenennung ist aufgrund eines offenen Problems in der Konfiguration "
-"nicht möglich: %s"
+"%s konnte aufgrund eines offenen Problems in den Einstellungen nicht "
+"geändert werden: %s"
 
 #: weblate/trans/views/settings.py:327
 msgid "Backup scheduled. It will be available soon."
