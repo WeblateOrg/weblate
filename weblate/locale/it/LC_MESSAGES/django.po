@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-07 19:04+0000\n"
-"PO-Revision-Date: 2023-09-06 04:40+0000\n"
-"Last-Translator: bovirus <roberto.boriotti@canon.it>\n"
+"PO-Revision-Date: 2023-09-08 05:41+0000\n"
+"Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -447,10 +447,9 @@ msgid "Could not sign in using password."
 msgstr "Impossibile accedere usando la password."
 
 #: weblate/accounts/models.py:178
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "Invito per {site_title} da {username}."
+msgstr "Invitato a {project} da {username}."
 
 #: weblate/accounts/models.py:184
 msgid "To restore access to your account, please reset your password."
@@ -10881,12 +10880,11 @@ msgstr ""
 "progetto %(object)s e il contenuto relativo."
 
 #: weblate/templates/trans/delete-project.html:10
-#, fuzzy, python-format
-#| msgid "The following translation components will be removed:"
+#, python-format
 msgid "%(count)s component will be removed by this."
 msgid_plural "%(count)s components will be removed by this."
-msgstr[0] "I seguenti componenti della traduzione verranno rimossi:"
-msgstr[1] "I seguenti componenti della traduzione verranno rimossi:"
+msgstr[0] "%(count)s componente verrà rimosso da questo."
+msgstr[1] "%(count)s componenti verranno rimossi da questo."
 
 #: weblate/templates/trans/delete-translation.html:6
 msgid ""
@@ -14691,12 +14689,11 @@ msgid "A language in the category was removed."
 msgstr "Una lingua nel progetto è stata rimossa."
 
 #: weblate/trans/views/settings.py:190
-#, fuzzy, python-format
-#| msgid "Cannot rename due to outstanding issue in the configuration: %s"
+#, python-format
 msgid "Could not change %s due to outstanding issue in its settings: %s"
 msgstr ""
-"Impossibile rinominare a causa di un problema in sospeso nella "
-"configurazione: %s"
+"Impossibile modificare %s a causa di un problema in sospeso nelle sue "
+"impostazioni: %s"
 
 #: weblate/trans/views/settings.py:327
 msgid "Backup scheduled. It will be available soon."
