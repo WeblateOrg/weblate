@@ -588,7 +588,9 @@ real_patterns = [
     ),
     path(
         "languages/<name:lang>/<name:project>/",
-        weblate.trans.views.basic.ProjectLanguageRedirectView.as_view(),
+        weblate.trans.views.basic.ProjectLanguageRedirectView.as_view(
+            query_string=True
+        ),
         name="project-language-redirect",
     ),
     # Checks browsing
@@ -672,9 +674,19 @@ real_patterns = [
         weblate.trans.views.widgets.widgets,
         name="widgets",
     ),
-    path("widgets/", RedirectView.as_view(pattern_name="projects", permanent=True)),
+    path(
+        "widgets/",
+        RedirectView.as_view(
+            pattern_name="projects", permanent=True, query_string=True
+        ),
+    ),
     # Data exports pages
-    path("data/", RedirectView.as_view(pattern_name="projects", permanent=True)),
+    path(
+        "data/",
+        RedirectView.as_view(
+            pattern_name="projects", permanent=True, query_string=True
+        ),
+    ),
     path(
         "data/<name:project>/",
         weblate.trans.views.basic.data_project,
