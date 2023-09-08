@@ -843,7 +843,10 @@ class VCSGitHubTest(VCSGitUpstreamTest):
 
 
 @override_settings(
-    GITLAB_CREDENTIALS={"gitlab.com": {"username": "test", "token": "token"}}
+    GITLAB_CREDENTIALS={
+        "gitlab.com": {"username": "test", "token": "token"},
+        "gitlab.company": {"username": "test", "token": "token"},
+    }
 )
 class VCSGitLabTest(VCSGitUpstreamTest):
     _class = GitLabFakeRepository
@@ -973,6 +976,16 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         self.assertEqual(
             self.repo.get_credentials()["url"],
             "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
+        )
+        self.repo.component.repo = "ssh://git@gitlab.company:222/aaa/bbb.git"
+        self.assertEqual(
+            self.repo.get_credentials()["url"],
+            "https://gitlab.company/api/v4/projects/aaa%2Fbbb",
+        )
+        self.repo.component.repo = "git@gitlab.company:222/aaa/bbb.git"
+        self.assertEqual(
+            self.repo.get_credentials()["url"],
+            "https://gitlab.company/api/v4/projects/222%2Faaa%2Fbbb",
         )
 
     @override_settings(
