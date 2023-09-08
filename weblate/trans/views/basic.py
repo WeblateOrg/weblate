@@ -567,28 +567,27 @@ def show_translation(request, obj):
     search_form = SearchForm(request.user, language=obj.language)
 
     # Translations to same language from other components in this project
+    # Show up to 10 of them, needs to be list to append ghost ones later
     other_translations = prefetch_stats(
         list(
             Translation.objects.prefetch()
             .filter(component__project=project, language=obj.language)
-            .exclude(pk=obj.pk)
+            .exclude(pk=obj.pk)[:10]
         )
     )
 
     # Include ghost translations for other components, this
     # adds quick way to create translations in other components
-    existing = {translation.component.slug for translation in other_translations}
-    existing.add(component.slug)
-    for test_component in project.child_components:
-        if test_component.slug in existing:
-            continue
-        if test_component.can_add_new_language(user, fast=True):
-            other_translations.append(GhostTranslation(test_component, obj.language))
-
-    # Limit the number of other components displayed to 10, preferring untranslated ones
-    other_translations = sorted(
-        other_translations, key=lambda t: t.stats.translated_percent
-    )[:10]
+    if len(other_translations) < 10:
+        existing = {translation.component.slug for translation in other_translations}
+        existing.add(component.slug)
+        for test_component in project.child_components:
+            if test_component.slug in existing:
+                continue
+            if test_component.can_add_new_language(user, fast=True):
+                other_translations.append(
+                    GhostTranslation(test_component, obj.language)
+                )
 
     return render(
         request,
