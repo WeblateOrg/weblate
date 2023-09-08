@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-07 19:04+0000\n"
-"PO-Revision-Date: 2023-09-06 04:40+0000\n"
+"PO-Revision-Date: 2023-09-08 10:50+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -382,10 +382,9 @@ msgid "Account and all private data removed."
 msgstr "Účet bol odstránený spolu so všetkými osobnými údajmi."
 
 #: weblate/accounts/models.py:157
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "Potvrdenie bolo odoslané na {email}."
+msgstr "Potvrdenie o odstránení účtu odoslané na adresu {email}."
 
 #: weblate/accounts/models.py:158
 #, python-brace-format
@@ -441,10 +440,9 @@ msgid "Could not sign in using password."
 msgstr "Nepodarilo sa prihlásiť pomocou hesla."
 
 #: weblate/accounts/models.py:178
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "Pozvánka do {site_title} od {username}."
+msgstr "Pozvánka do {project} od {username}."
 
 #: weblate/accounts/models.py:184
 msgid "To restore access to your account, please reset your password."
@@ -743,18 +741,14 @@ msgid "Operation was performed in the repository"
 msgstr "Reťazec bol zmenený v repozitári"
 
 #: weblate/accounts/notifications.py:462
-#, fuzzy
-#| msgid "Component unlocked"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr "Odomknutie súčasti"
+msgstr "Súčasť bola uzamknutá alebo odomknutá"
 
 #: weblate/accounts/notifications.py:469
-#, fuzzy
-#| msgid "License changed"
 msgctxt "Notification name"
 msgid "License was changed"
-msgstr "Licencia zmenená"
+msgstr "Licencia bola zmenená"
 
 #: weblate/accounts/notifications.py:476
 #, fuzzy
@@ -764,19 +758,14 @@ msgid "Parse error occured"
 msgstr "Chyba spracovania"
 
 #: weblate/accounts/notifications.py:494
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgctxt "Notification name"
 msgid "New string is available for translation"
-msgstr "Nový reťazec na preklad v %(translation)s"
+msgstr "Nový reťazec je k dispozícii na preklad"
 
 #: weblate/accounts/notifications.py:504
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr "Prispejte k zdieľanej prekladovej pamäti"
+msgstr "Prispievateľ urobil svoj prvý preklad"
 
 #: weblate/accounts/notifications.py:513
 #, fuzzy
@@ -5905,10 +5894,8 @@ msgid "Browse all changes made by this user"
 msgstr "Prechádzať všetky zmeny vykonané týmto používateľom"
 
 #: weblate/templates/accounts/user.html:257
-#, fuzzy
-#| msgid "Groups"
 msgid "Group"
-msgstr "Skupiny"
+msgstr "Skupina"
 
 #: weblate/templates/accounts/user.html:258 weblate/templates/auth/team.html:31
 #: weblate/templates/manage/teams.html:30
@@ -10746,13 +10733,12 @@ msgstr ""
 "súvisiaci obsah."
 
 #: weblate/templates/trans/delete-project.html:10
-#, fuzzy, python-format
-#| msgid "The following translation components will be removed:"
+#, python-format
 msgid "%(count)s component will be removed by this."
 msgid_plural "%(count)s components will be removed by this."
-msgstr[0] "Nasledujúce prekladové súčasti budú zmazané:"
-msgstr[1] "Nasledujúce prekladové súčasti budú zmazané:"
-msgstr[2] "Nasledujúce prekladové súčasti budú zmazané:"
+msgstr[0] "%(count)s súčasť sa týmto odstráni."
+msgstr[1] "%(count)s súčasti sa týmto odstránia."
+msgstr[2] "%(count)s súčastí sa týmto odstráni."
 
 #: weblate/templates/trans/delete-translation.html:6
 msgid ""
@@ -14526,11 +14512,10 @@ msgid "A language in the category was removed."
 msgstr "Jazyk v projekte bol odstránený."
 
 #: weblate/trans/views/settings.py:190
-#, fuzzy, python-format
-#| msgid "Cannot rename due to outstanding issue in the configuration: %s"
+#, python-format
 msgid "Could not change %s due to outstanding issue in its settings: %s"
 msgstr ""
-"Nie je možné premenovať z dôvodu nevyriešeného problému v nastavení: %s"
+"Nepodarilo sa zmeniť %s z dôvodu nevyriešeného problému v nastaveniach: %s"
 
 #: weblate/trans/views/settings.py:327
 msgid "Backup scheduled. It will be available soon."
