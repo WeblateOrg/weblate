@@ -91,6 +91,12 @@ class TranslationQuerySet(models.QuerySet):
         return self.prefetch_related(
             "component",
             "component__project",
+            "component__category",
+            "component__category__project",
+            "component__category__category",
+            "component__category__category__project",
+            "component__category__category__category",
+            "component__category__category__category__project",
             "language",
             "component__linked_component",
             "component__linked_component__project",

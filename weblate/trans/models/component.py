@@ -228,6 +228,12 @@ class ComponentQuerySet(models.QuerySet):
 
         return result.prefetch_related(
             "project",
+            "category",
+            "category__project",
+            "category__category",
+            "category__category__project",
+            "category__category__category",
+            "category__category__category__project",
             "linked_component",
             "linked_component__project",
         )

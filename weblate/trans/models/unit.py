@@ -94,6 +94,12 @@ class UnitQuerySet(models.QuerySet):
             "translation__language",
             "translation__plural",
             "translation__component",
+            "translation__component__category",
+            "translation__component__category__project",
+            "translation__component__category__category",
+            "translation__component__category__category__project",
+            "translation__component__category__category__category",
+            "translation__component__category__category__category__project",
             "translation__component__project",
             "translation__component__source_language",
         )
