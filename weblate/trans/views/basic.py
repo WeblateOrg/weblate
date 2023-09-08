@@ -51,7 +51,7 @@ from weblate.trans.models import (
     Project,
     Translation,
 )
-from weblate.trans.models.component import prefetch_tasks
+from weblate.trans.models.component import prefetch_tasks, translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render, sort_unicode
@@ -568,11 +568,13 @@ def show_translation(request, obj):
 
     # Translations to same language from other components in this project
     # Show up to 10 of them, needs to be list to append ghost ones later
-    other_translations = prefetch_stats(
-        list(
-            Translation.objects.prefetch()
-            .filter(component__project=project, language=obj.language)
-            .exclude(pk=obj.pk)[:10]
+    other_translations = translation_prefetch_tasks(
+        prefetch_stats(
+            list(
+                Translation.objects.prefetch()
+                .filter(component__project=project, language=obj.language)
+                .exclude(pk=obj.pk)[:10]
+            )
         )
     )
 
