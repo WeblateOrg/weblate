@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-07 19:04+0000\n"
-"PO-Revision-Date: 2023-09-08 14:25+0000\n"
+"PO-Revision-Date: 2023-09-09 06:41+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -398,10 +398,9 @@ msgid "Account and all private data removed."
 msgstr "Konto und alle persönlichen Daten gelöscht."
 
 #: weblate/accounts/models.py:157
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "Bestätigungs-E-Mail an {email} gesendet."
+msgstr "Bestätigung der Kontoentfernung an {email} gesendet."
 
 #: weblate/accounts/models.py:158
 #, python-brace-format
@@ -457,10 +456,9 @@ msgid "Could not sign in using password."
 msgstr "Die Anmeldung mit Passwort ist nicht möglich."
 
 #: weblate/accounts/models.py:178
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "Eingeladen zu {site_title} von {username}."
+msgstr "Eingeladen zu {project} von {username}."
 
 #: weblate/accounts/models.py:184
 msgid "To restore access to your account, please reset your password."
@@ -740,10 +738,8 @@ msgstr ""
 "zugeordnet ist."
 
 #: weblate/accounts/notifications.py:49
-#, fuzzy
-#| msgid "Notifications"
 msgid "No notification"
-msgstr "Benachrichtigungen"
+msgstr "Keine Benachrichtigung"
 
 #: weblate/accounts/notifications.py:50
 msgid "Instant notification"
@@ -762,40 +758,29 @@ msgid "Monthly digest"
 msgstr "Monatliche Zusammenfassung"
 
 #: weblate/accounts/notifications.py:451
-#, fuzzy
-#| msgid "String updated in the repository"
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr "Zeichenkette im Repository aktualisiert"
+msgstr "Operation im Repository wurde durchgeführt"
 
 #: weblate/accounts/notifications.py:462
-#, fuzzy
-#| msgid "Component unlocked"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr "Komponente entsperrt"
+msgstr "Komponente wurde gesperrt oder entsperrt"
 
 #: weblate/accounts/notifications.py:469
-#, fuzzy
-#| msgid "License changed"
 msgctxt "Notification name"
 msgid "License was changed"
-msgstr "Lizenz geändert"
+msgstr "Lizenz wurde geändert"
 
 #: weblate/accounts/notifications.py:476
-#, fuzzy
-#| msgid "Parse error"
 msgctxt "Notification name"
 msgid "Parse error occured"
-msgstr "Analysefehler"
+msgstr "Analysefehler ist aufgetreten"
 
 #: weblate/accounts/notifications.py:494
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgctxt "Notification name"
 msgid "New string is available for translation"
-msgstr "Neue Zeichenkette zum Übersetzen in %(translation)s"
+msgstr "Neue Zeichenkette für Übersetzung verfügbar"
 
 #: weblate/accounts/notifications.py:504
 #, fuzzy
@@ -2817,11 +2802,11 @@ msgstr ""
 
 #: weblate/checks/base.py:287
 msgid "The following format strings are missing: {}"
-msgstr "Die folgenden Formatzeichenketten fehlen: {}"
+msgstr "Folgende Formatzeichenketten fehlen: {}"
 
 #: weblate/checks/base.py:292
 msgid "The following format strings are extra: {}"
-msgstr "Die folgenden Formatzeichenketten sind extra: {}"
+msgstr "Folgende Formatzeichenketten sind zusätzlich: {}"
 
 #: weblate/checks/chars.py:21
 msgid "Starting newline"
@@ -8458,8 +8443,7 @@ msgstr "Herzlichen Glückwunsch"
 #: weblate/templates/mail/new_contributor.html:8
 #, python-format
 msgid "The user %(username)s has just made a first contribution."
-msgstr ""
-"Der Benutzer %(username)s hat gerade erstmalig seinen Beitrag geleistet."
+msgstr "Der Benutzer %(username)s hat soeben einen ersten Beitrag verfasst."
 
 #: weblate/templates/mail/new_contributor_subject.txt:3
 #, python-format
@@ -11401,7 +11385,7 @@ msgstr "Ausgewählte Übersetzung auf aktuelle Zeichenkette anwenden"
 
 #: weblate/templates/translate.html:354
 msgid "Browse all string changes"
-msgstr "Alle Änderungen an Zeichenketten durchsuchen"
+msgstr "Alle Zeichenkettenänderungen durchsuchen"
 
 #: weblate/templates/translate.html:371
 msgid "Suggested change"
