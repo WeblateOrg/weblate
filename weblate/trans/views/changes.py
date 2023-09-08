@@ -7,7 +7,7 @@ import csv
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.translation import activate, gettext, pgettext
 from django.views.generic.list import ListView
@@ -91,6 +91,30 @@ class ChangesView(PathViewMixin, ListView):
     def setup(self, *args, **kwargs):
         super().setup(*args, **kwargs)
         self.changes_form = ChangesForm(data=self.request.GET)
+
+    def get(self, request, *args, **kwargs):
+        if self.path_object is None and self.request.GET:
+            # Handle GET params for filtering prior Weblate 5.0
+            path = None
+            if string := self.request.GET.get("string"):
+                try:
+                    # Check unit access here to avoid leaking project/component
+                    unit = Unit.objects.filter_access(self.request.user).get(pk=string)
+                except Unit.DoesNotExist:
+                    pass
+                else:
+                    path = unit.get_url_path()
+            else:
+                path = [
+                    request.GET.get("project", "-") or "-",
+                    request.GET.get("component", "-") or "-",
+                    request.GET.get("lang") or "-",
+                ]
+                while path and path[-1] == "-":
+                    path.pop()
+            if path:
+                return redirect("changes", path=path)
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         """Return list of changes to browse."""

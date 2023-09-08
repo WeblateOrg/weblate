@@ -14,6 +14,7 @@ Not yet released.
 * History is now loaded faster.
 * Added object ``id`` to all :ref:`api` endpoints.
 * Better performance of projects with a lot of components.
+* Added compatibility redirects for some old URLs.
 
 **Bug fixes**
 
