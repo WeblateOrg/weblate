@@ -13,6 +13,7 @@ Not yet released.
 * Logging of failures when creating pull requests.
 * History is now loaded faster.
 * Added object ``id`` to all :ref:`api` endpoints.
+* Better performance of projects with a lot of components.
 
 **Bug fixes**
 
