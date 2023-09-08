@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-07 21:05+0200\n"
-"PO-Revision-Date: 2023-09-07 15:31+0000\n"
+"PO-Revision-Date: 2023-09-08 08:23+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -7437,18 +7437,13 @@ msgstr ""
 "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 
 #: ../../admin/config.rst:293
-#, fuzzy
-#| msgid ""
-#| "Customize ``Content-Security-Policy`` header for Weblate. The header is "
-#| "automatically generated based on enabled integrations with third-party "
-#| "services (Matomo, Google Analytics, Sentry, …)."
 msgid ""
 "Customize :http:header:`Content-Security-Policy` header for Weblate. The "
 "header is automatically generated based on enabled integrations with third-"
 "party services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
-"Passt den Header ``Content-Security-Policy`` für Weblate an. Die Kopfzeile "
-"wird automatisch auf der Grundlage aktivierter Integrationen mit "
+"Passt den :http:header:`Content-Security-Policy`-Header für Weblate an. Der "
+"Header wird automatisch auf der Grundlage aktivierter Integrationen mit "
 "Drittanbieterdiensten (Matomo, Google Analytics, Sentry, …) erzeugt."
 
 #: ../../admin/config.rst:297
@@ -22434,7 +22429,7 @@ msgstr ""
 
 #: ../../api.rst:0
 msgid "Request Headers"
-msgstr "Anfrage-Kopfzeile"
+msgstr "Anfrage-Header"
 
 #: ../../api.rst:34
 msgid "the response content type depends on :http:header:`Accept` header"
@@ -22448,7 +22443,7 @@ msgstr ""
 
 #: ../../api.rst:0
 msgid "Response Headers"
-msgstr "Antwort-Kopfzeile"
+msgstr "Antwort-Header"
 
 #: ../../api.rst:38
 msgid "this depends on :http:header:`Accept` header of request"
@@ -22460,7 +22455,7 @@ msgstr "aufgelistete zulässige HTTP-Methoden für das Objekt"
 
 #: ../../api.rst:0
 msgid "Response JSON Object"
-msgstr "JSON Object-Antwort"
+msgstr "JSON-Objekt-Antwort"
 
 #: ../../api.rst:41
 msgid ""
@@ -22853,7 +22848,7 @@ msgstr "Ordnet Abonnements einem Benutzer zu."
 
 #: ../../api.rst:0
 msgid "Request JSON Object"
-msgstr "JSON Object-Anfrage"
+msgstr "JSON-Objekt-Anfrage"
 
 #: ../../api.rst:390 ../../api.rst:411 ../../api.rst:423 ../../api.rst:433
 msgid "Name of notification registered"
@@ -24739,7 +24734,7 @@ msgstr "Komponenten-ID"
 
 #: ../../api.rst:0
 msgid ">json array results"
-msgstr ""
+msgstr ">JSON-Array-Ergebnisse"
 
 #: ../../api.rst:2384
 msgid "Associate component with a component list."
@@ -25008,8 +25003,6 @@ msgid "Link to a parent category."
 msgstr "Link zu einer übergeordneten Kategorie."
 
 #: ../../api.rst:2536
-#, fuzzy
-#| msgid "Edit partial information about cateogry."
 msgid "Edit partial information about category."
 msgstr "Bearbeitet Teilinformationen zur Kategorie."
 
@@ -25023,23 +25016,17 @@ msgstr "Typ-ID"
 
 #: ../../api.rst:0
 msgid ">json object configuration"
-msgstr "JSON Object-Konfiguration"
+msgstr ">JSON-Objekt-Konfiguration"
 
 #: ../../api.rst:2540 ../../api.rst:2550
-#, fuzzy
-#| msgid "Optional cateogry configuration"
 msgid "Optional category configuration"
 msgstr "Optionale Konfiguration der Kategorie"
 
 #: ../../api.rst:2546
-#, fuzzy
-#| msgid "Edit full information about cateogry."
 msgid "Edit full information about category."
 msgstr "Bearbeitet alle Informationen zur Kategorie."
 
 #: ../../api.rst:2556
-#, fuzzy
-#| msgid "Delete cateogry."
 msgid "Delete category."
 msgstr "Löscht die Kategorie."
 
@@ -25347,10 +25334,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.0.1"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.0.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -25365,96 +25350,70 @@ msgid "**Improvements**"
 msgstr "**Verbesserungen**"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved glossary lookup speed for large strings."
 msgid "Related glossary terms lookup is now faster."
-msgstr ""
-"Verbesserte Geschwindigkeit beim Nachschlagen im Glossar für große "
-"Zeichenketten."
+msgstr "Die Suche nach zugehörigen Begriffen im Glossar ist jetzt schneller."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improved error messages when creating pull requests."
 msgid "Logging of failures when creating pull requests."
-msgstr "Verbesserte Fehlermeldungen beim Erstellen von Pull Requests."
+msgstr "Fehlerprotokollierung beim Erstellen von Pull Requests."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Translation is now locked for you."
 msgid "History is now loaded faster."
-msgstr "Das Übersetzen ist für Sie jetzt gesperrt."
+msgstr "Der Verlauf wird jetzt schneller geladen."
 
 #: ../../changes.rst:13
 msgid "Added object ``id`` to all :ref:`api` endpoints."
-msgstr ""
+msgstr "Objekt ``id`` zu allen :ref:`api`-Endpunkten hinzugefügt."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid ""
-#| "link to associated componentlist; see :http:get:`/api/component-lists/"
-#| "(str:slug)/`"
 msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
-msgstr ""
-"Link zur zugeordneten Komponentenliste; siehe :http:get:`/api/component-"
-"lists/(str:slug)/`"
+msgstr ":http:get:`/api/component-lists/(str:slug)/components/` hinzugefügt."
 
 #: ../../changes.rst:16 ../../changes.rst:72
 msgid "**Bug fixes**"
 msgstr "**Fehlerbehebungen**"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Creating component"
 msgid "Creating component within a category."
-msgstr "Erstellung einer Komponente"
+msgstr "Komponentenerstellung innerhalb einer Kategorie."
 
 #: ../../changes.rst:19
 msgid "Source strings and state display for converted formats."
-msgstr ""
+msgstr "Ausgangszeichenketten und Statusanzeige für konvertierte Formate."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Choose :ref:`component-template` for document translations."
 msgid ""
 "Block :ref:`component-edit_template` on formats which do not support it."
-msgstr "Wählen Sie :ref:`component-template` für Dokumentübersetzungen."
+msgstr ""
+":ref:`component-edit_template` wird bei nicht unterstützen Formaten gesperrt."
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-reused` is no longer triggered for languages with a single "
-#| "plural form."
 msgid ":ref:`check-reused` is no longer triggered for blank strings."
-msgstr ""
-":ref:`check-reused` wird nicht mehr für Sprachen mit einer einzigen "
-"Pluralform ausgelöst."
+msgstr ":ref:`check-reused` wird nicht mehr für leere Zeichenketten ausgelöst."
 
 #: ../../changes.rst:22
 msgid "Performace issues while browsing some categories."
-msgstr ""
+msgstr "Leistungsprobleme beim Durchsuchen einiger Kategorien."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Added support for Slack authentication in Docker container."
 msgid "Fixed GitHub Team and Organization authentication in Docker container."
 msgstr ""
-"Unterstützung für Slack-Authentifizierung in Docker-Containern hinzugefügt."
+"GitHub-Team- und Organisationsauthentifizierung in Docker-Containern "
+"korrigiert."
 
 #: ../../changes.rst:25 ../../changes.rst:80
 msgid "**Compatibility**"
 msgstr "**Kompatibilität**"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid "The `jellyfish` dependency has been replaced by `rapidfuzz`."
 msgid "`pyahocorasick` dependency has been replaced by `ahocorasick_rs`."
-msgstr "Die `jellyfish`-Abhängigkeit wurde durch `rapidfuzz` ersetzt."
+msgstr "Die `pyahocorasick`-Abhängigkeit wurde durch `ahocorasick_rs` ersetzt."
 
 #: ../../changes.rst:28
 msgid ""
 "The default value of :setting::`IP_PROXY_OFFSET` has been changed from 1 to "
 "-1."
-msgstr ""
+msgstr "Den Standardwert von :setting::`IP_PROXY_OFFSET` von 1 auf -1 geändert."
 
 #: ../../changes.rst:30 ../../changes.rst:85 ../../changes/v4.rst:53
 #: ../../changes/v4.rst:85 ../../changes/v4.rst:168 ../../changes/v4.rst:236
@@ -25480,28 +25439,20 @@ msgstr ""
 "Aktualisierung durchzuführen."
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid ""
-#| "The database upgrade can take considerable time on larger sites due to "
-#| "structure changes."
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "indexing changes."
 msgstr ""
-"Die Aktualisierung der Datenbank kann bei größeren Websites aufgrund von "
-"Strukturänderungen erhebliche Zeit in Anspruch nehmen."
+"Das Aktualisieren der Datenbank kann bei größeren Websites aufgrund von "
+"Indizierungsänderungen erhebliche Zeit in Anspruch nehmen."
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/102?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/103?"
 "closed=1>`__."
 msgstr ""
-"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
-"milestone/102?closed=1>`__."
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
+"103?closed=1>`__."
 
 #: ../../changes.rst:39
 msgid "Weblate 5.0"
@@ -25698,7 +25649,7 @@ msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "structure changes."
 msgstr ""
-"Die Aktualisierung der Datenbank kann bei größeren Websites aufgrund von "
+"Das Aktualisieren der Datenbank kann bei größeren Websites aufgrund von "
 "Strukturänderungen erhebliche Zeit in Anspruch nehmen."
 
 #: ../../changes.rst:93
