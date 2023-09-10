@@ -3943,3 +3943,10 @@ class CategoryAPITest(APIBaseTest):
         self.assertIn("category-test%252Ftest", response.data["url"])
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.get_url_path(), ("test", "category-test", "test"))
+
+        # Verify that browsing translations works
+        response = self.do_request(response.data["url"] + "translations/")
+        self.assertEqual(response.data["count"], 4)
+
+        for translation in response.data["results"]:
+            self.do_request(translation["url"])

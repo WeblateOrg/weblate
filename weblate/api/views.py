@@ -168,7 +168,7 @@ class MultipleFieldMixin:
         lookup = {}
         category_path = ""
         for field in reversed(self.lookup_fields):
-            if field not in ("category__slug", "slug"):
+            if field not in ("component__slug", "slug"):
                 lookup[field] = self.kwargs[field]
             else:
                 category_prefix = field[:-4]
@@ -187,9 +187,7 @@ class MultipleFieldMixin:
                         was_category = True
                 if not was_category:
                     # No category
-                    lookup[
-                        f"{category_prefix}{'__' if category_prefix else ''}category"
-                    ] = None
+                    lookup[f"{category_prefix}category"] = None
 
         # Lookup the object
         return get_object_or_404(queryset, **lookup)
