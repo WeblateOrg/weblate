@@ -596,7 +596,7 @@ real_patterns = [
         weblate.trans.views.basic.ProjectLanguageRedirectView.as_view(
             pattern_name="search",
         ),
-        name="project-language-redirect",
+        name="project-language-search-redirect",
     ),
     # Checks browsing
     path("checks/", weblate.checks.views.CheckList.as_view(), name="checks"),

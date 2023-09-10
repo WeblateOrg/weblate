@@ -368,6 +368,11 @@ class LanguagesViewTest(FixtureTestCase):
             ),
             follow=True,
         )
+        self.assertRedirects(
+            response,
+            reverse("show", kwargs={"path": ["test", "-", "cs"]}),
+            status_code=301,
+        )
         self.assertContains(response, "Czech")
         self.assertContains(response, "/projects/test/test/cs/")
 
