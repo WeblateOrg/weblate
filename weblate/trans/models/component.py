@@ -1316,7 +1316,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         if (
             repo.startswith("git@ssh.dev.azure.com:v3")
             or parsed_hostname == "dev.azure.com"
-            or parsed_hostname.endswith("visualstudio.com")
+            or parsed_hostname.endswith(".visualstudio.com")
         ):
             return self.get_azure_repoweb_template()
 
