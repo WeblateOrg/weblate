@@ -9,6 +9,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Rendering of release notes on GitHub.
+
 **Compatibility**
 
 **Upgrading**
