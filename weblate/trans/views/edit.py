@@ -55,7 +55,7 @@ from weblate.utils.hash import hash_to_checksum
 from weblate.utils.messages import get_message_kind
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
-from weblate.utils.stats import ProjectLanguage
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import (
     get_sort_name,
     parse_path,
@@ -532,7 +532,7 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
 def translate(request, path):  # noqa: C901
     """Generic entry point for translating, suggesting and searching."""
     obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage)
+        request, path, (Translation, ProjectLanguage, CategoryLanguage)
     )
     project = context["project"]
     user = request.user
@@ -642,9 +642,7 @@ def translate(request, path):  # noqa: C901
             "prev_unit_url": base_unit_url + str(offset - 1),
             "object": obj,
             "project": project,
-            "component": obj.component
-            if not isinstance(obj, ProjectLanguage)
-            else None,
+            "component": obj.component if isinstance(obj, Translation) else None,
             "unit": unit,
             "nearby": unit.nearby(user.profile.nearby_strings),
             "nearby_keys": unit.nearby_keys(user.profile.nearby_strings),
@@ -851,7 +849,7 @@ def get_zen_unitdata(obj, project, unit_set, request):
 def zen(request, path):
     """Generic entry point for translating, suggesting and searching."""
     obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage)
+        request, path, (Translation, ProjectLanguage, CategoryLanguage)
     )
     project = context["project"]
 
@@ -869,9 +867,7 @@ def zen(request, path):
             "object": obj,
             "path_object": obj,
             "project": project,
-            "component": obj.component
-            if not isinstance(obj, ProjectLanguage)
-            else None,
+            "component": obj.component if isinstance(obj, Translation) else None,
             "unitdata": unitdata,
             "search_query": search_result["query"],
             "filter_name": search_result["name"],
@@ -890,7 +886,7 @@ def zen(request, path):
 def load_zen(request, path):
     """Load additional units for zen editor."""
     obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage)
+        request, path, (Translation, ProjectLanguage, CategoryLanguage)
     )
     project = context["project"]
 
@@ -907,9 +903,7 @@ def load_zen(request, path):
             "object": obj,
             "path_object": obj,
             "project": project,
-            "component": obj.component
-            if not isinstance(obj, ProjectLanguage)
-            else None,
+            "component": obj.component if isinstance(obj, Translation) else None,
             "unitdata": unitdata,
             "search_query": search_result["query"],
             "search_url": search_result["url"],
@@ -923,7 +917,7 @@ def load_zen(request, path):
 def save_zen(request, path):
     """Save handler for zen mode."""
     _obj, unit_set, _context = parse_path_units(
-        request, path, (Translation, ProjectLanguage)
+        request, path, (Translation, ProjectLanguage, CategoryLanguage)
     )
 
     checksum_form = ChecksumForm(unit_set, request.POST)
