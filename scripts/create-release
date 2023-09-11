@@ -83,7 +83,7 @@ if [ "$DO_TAG" -eq 1 ] ; then
 
     # Convert release notes to markdown
     ./scripts/extract-release-notes "$version" > "dist/Weblate-$version.rst"
-    pandoc "dist/Weblate-$version.rst" -o "dist/Weblate-$version.md"
+    pandoc "dist/Weblate-$version.rst" --write=gfm --wrap=none -o "dist/Weblate-$version.md"
 
     # Upload to GitHub
     sleep 10
