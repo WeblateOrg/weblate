@@ -84,9 +84,16 @@
         "(^|/)Chart\\.yaml$"
       ],
       "matchStrings": [
-        "#\\s?renovate: image=(?<depName>.*?)\\s?appVersion:\\s?\\\"?(?<currentValue>[\\w+\\.\\-]*)"
+        "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s+appVersion: (?<currentValue>.*)\\s"
+      ]
+    },
+    {
+      "fileMatch": [
+        "^\\.github/workflows/[^/]+\\.ya?ml$"
       ],
-      "datasourceTemplate": "docker"
+      "matchStrings": [
+        "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s+version: (?<currentValue>.*)\\s"
+      ]
     },
     {
       "fileMatch": [
