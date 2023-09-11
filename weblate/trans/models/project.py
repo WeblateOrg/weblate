@@ -441,16 +441,20 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
 
         return User.objects.all_admins(self).select_related("profile")
 
-    def get_child_components_access(self, user):
+    def get_child_components_access(self, user, filter_callback=None):
         """
         Lists child components.
 
         This is slower than child_components, but allows additional
         filtering on the result.
         """
-        return self.get_child_components_filter(
-            lambda qs: qs.filter_access(user).prefetch()
-        ).order()
+
+        def filter_access(qs):
+            if filter_callback:
+                qs = filter_callback(qs)
+            return qs.filter_access(user).prefetch()
+
+        return self.get_child_components_filter(filter_access).order()
 
     def get_child_components_filter(self, filter_callback):
         own = filter_callback(self.component_set.all())

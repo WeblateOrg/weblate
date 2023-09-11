@@ -328,7 +328,9 @@ def show_project(request, obj):
     last_changes = all_changes[:10].preload()
     last_announcements = all_changes.filter_announcements()[:10].preload()
 
-    all_components = obj.get_child_components_access(user)
+    all_components = obj.get_child_components_access(
+        user, lambda qs: qs.filter(category=None)
+    )
     all_components = prefetch_stats(get_paginator(request, all_components))
     for component in all_components:
         component.is_shared = None if component.project == obj else component.project
