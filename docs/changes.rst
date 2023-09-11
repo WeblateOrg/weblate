@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* Translate page performance.
+
 **Bug fixes**
 
 * Rendering of release notes on GitHub.
