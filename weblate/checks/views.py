@@ -105,26 +105,24 @@ class CheckList(PathViewMixin, ListView):
 
     def get_queryset(self):
         if self.check_obj is None:
-            all_checks = Check.objects.filter_access(self.request.user)
             if self.path_object is None:
-                # This intentionally returns all objects just to make it clear
-                all_checks = all_checks.all()
+                all_checks = Check.objects.filter_access(self.request.user)
             elif isinstance(self.path_object, Project):
-                all_checks = all_checks.filter(
+                all_checks = Check.objects.filter(
                     unit__translation__component__project=self.path_object
                 )
             elif isinstance(self.path_object, Component):
-                all_checks = all_checks.filter(
+                all_checks = Check.objects.filter(
                     unit__translation__component=self.path_object
                 )
             elif isinstance(self.path_object, Translation):
-                all_checks = all_checks.filter(unit__translation=self.path_object)
+                all_checks = Check.objects.filter(unit__translation=self.path_object)
             elif isinstance(self.path_object, Language):
-                all_checks = all_checks.filter(
+                all_checks = Check.objects.filter(
                     unit__translation__language=self.path_object
                 )
             elif isinstance(self.path_object, ProjectLanguage):
-                all_checks = all_checks.filter(
+                all_checks = Check.objects.filter(
                     unit__translation__language=self.path_object.language,
                     unit__translation__component__project=self.path_object.project,
                 )
