@@ -11,7 +11,8 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
-from django.db.models import Case, IntegerField, Q, When
+from django.db.models import Case, IntegerField, Q, Value, When
+from django.db.models.functions import MD5
 from django.http import (
     HttpResponse,
     HttpResponseBadRequest,
@@ -102,39 +103,35 @@ def get_other_units(unit):
             return result
 
         if unit.target:
-            query = query | (Q(target=unit.target) & Q(state__gte=STATE_TRANSLATED))
-        units = Unit.objects.filter(
-            query,
-            translation__component__project=component.project,
-            translation__language=translation.language,
-        )
-        # Use memory_db for the query in case it exists. This is supposed
-        # to be a read-only replica for offloading expensive translation
-        # queries.
-        if "memory_db" in settings.DATABASES:
-            units = units.using("memory_db")
+            query |= Q(target__md5=MD5(Value(unit.target))) & Q(
+                state__gte=STATE_TRANSLATED
+            )
 
         units = (
-            units.annotate(
+            Unit.objects.filter(
+                query,
+                translation__component__project=component.project,
+                translation__language=translation.language,
+            )
+            .annotate(
                 matches_current=Case(
                     When(condition=match, then=1),
                     default=0,
                     output_field=IntegerField(),
                 )
             )
-            .select_related(
-                "translation",
-                "translation__language",
-                "translation__plural",
-                "translation__component",
-                "translation__component__project",
-                "translation__component__source_language",
-            )
+            .prefetch()
             .order_by("-matches_current")
         )
 
+        # Use memory_db for the query in case it exists. This is supposed
+        # to be a read-only replica for offloading expensive translation
+        # queries.
+        if "memory_db" in settings.DATABASES:
+            units = units.using("memory_db")
+
         max_units = 20
-        units_limited = units[:max_units].prefetch()
+        units_limited = units[:max_units]
         units_count = len(units_limited)
 
         # Is it only this unit?
