@@ -50,7 +50,7 @@ Released on September 10th 2023.
 **Compatibility**
 
 * `pyahocorasick` dependency has been replaced by `ahocorasick_rs`.
-* The default value of :setting::`IP_PROXY_OFFSET` has been changed from 1 to -1.
+* The default value of :setting:`IP_PROXY_OFFSET` has been changed from 1 to -1.
 
 **Upgrading**
 
