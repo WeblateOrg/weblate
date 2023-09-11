@@ -1,3 +1,22 @@
+Weblate 5.0.2
+-------------
+
+Not yet released.
+
+**New features**
+
+**Improvements**
+
+**Bug fixes**
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/105?closed=1>`__.
+
 Weblate 5.0.1
 -------------
 
