@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-07 19:04+0000\n"
-"PO-Revision-Date: 2023-09-12 10:24+0000\n"
+"PO-Revision-Date: 2023-09-12 11:32+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
@@ -3363,6 +3363,9 @@ msgid ""
 "have at least one matching variant in the translation with the same set of "
 "Fluent references: {variant_list}."
 msgstr ""
+"Les següents variants de l’atribut Fluent original {attribute} no tenen "
+"almenys una variant coincident a la traducció amb el mateix conjunt de "
+"referències Fluent: {variant_list}."
 
 #: weblate/checks/fluent/references.py:534
 #, python-brace-format
@@ -3371,6 +3374,9 @@ msgid ""
 "matching variant in the translation with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"Les següents variants del valor Fluent original no tenen almenys una variant "
+"coincident a la traducció amb el mateix conjunt de referències Fluent: "
+"{variant_list}."
 
 #: weblate/checks/fluent/references.py:550
 #, python-brace-format
@@ -3378,6 +3384,8 @@ msgid ""
 "The translated Fluent {attribute} attribute does not have a matching variant "
 "in the original with the same set of Fluent references."
 msgstr ""
+"L’atribut Fluent {attribute} traduït no té cap variant coincident a l’"
+"original amb el mateix conjunt de referències Fluent."
 
 #: weblate/checks/fluent/references.py:558
 #, python-brace-format
@@ -3386,12 +3394,17 @@ msgid ""
 "have a matching variant in the original with the same set of Fluent "
 "references: {variant_list}."
 msgstr ""
+"Les següents variants de l’atribut Fluent {attribute} traduït no tenen cap "
+"variant coincident a l’original amb el mateix conjunt de referències Fluent: "
+"{variant_list}."
 
 #: weblate/checks/fluent/references.py:569
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of Fluent references."
 msgstr ""
+"El valor Fluent traduït no té cap variant coincident a l’original amb el "
+"mateix conjunt de referències Fluent."
 
 #: weblate/checks/fluent/references.py:576
 #, python-brace-format
@@ -3400,6 +3413,9 @@ msgid ""
 "variant in the original with the same set of Fluent references: "
 "{variant_list}."
 msgstr ""
+"Les següents variants del valor Fluent traduït no tenen cap variant "
+"coincident a l’original amb el mateix conjunt de referències Fluent: "
+"{variant_list}."
 
 #: weblate/checks/fluent/references.py:670
 msgid "Fluent references"
@@ -3407,12 +3423,12 @@ msgstr "Referències de Fluent"
 
 #: weblate/checks/fluent/references.py:671
 msgid "Fluent references should match"
-msgstr ""
+msgstr "Les referències Fluent haurien de coincidir"
 
 #: weblate/checks/fluent/syntax.py:39
 #, python-brace-format
 msgid "Fluent syntax error: {error}."
-msgstr ""
+msgstr "Error de sintaxi Fluent: {error}."
 
 #: weblate/checks/fluent/syntax.py:47
 msgid "Fluent source syntax"
@@ -3420,7 +3436,7 @@ msgstr "Sintaxi de l’origen de Fluent"
 
 #: weblate/checks/fluent/syntax.py:48
 msgid "Fluent syntax error in source"
-msgstr ""
+msgstr "Error de sintaxi Fluent a l’origen"
 
 #: weblate/checks/fluent/syntax.py:64
 msgid "Fluent translation syntax"
@@ -4473,7 +4489,7 @@ msgstr "Fórmula de plural de gettext"
 
 #: weblate/lang/models.py:772
 msgid "CLDR plural with zero"
-msgstr ""
+msgstr "Plural de CLDR amb zero"
 
 #: weblate/lang/models.py:773
 msgid "CLDR v38+ plural"
@@ -6295,6 +6311,8 @@ msgid ""
 "Automatically add newly created users to this team based on their e-mail "
 "address."
 msgstr ""
+"Afegeix automàticament els usuaris nous a aquest equip basant-te en la seva "
+"adreça electrònica."
 
 #: weblate/templates/auth/team.html:70
 msgid "Add automatic assignment"
@@ -6374,7 +6392,7 @@ msgstr "No s’ha especificat cap component"
 
 #: weblate/templates/auth/teams-count.html:5
 msgid "Automatic assignment of users is configured for this team"
-msgstr ""
+msgstr "Aquest equip té configurada l’assignació automàtica d’usuaris"
 
 #: weblate/templates/auth/teams-count.html:5
 msgid "Automatic assignment"
@@ -6963,6 +6981,8 @@ msgstr "Canvia el nom de la categoria"
 #: weblate/templates/category.html:207
 msgid "Renaming the category will also change URLs for all its components."
 msgstr ""
+"Si canvieu de nom la categoria, també canviaran les URLs de tots els seus "
+"components."
 
 #: weblate/templates/category.html:208 weblate/templates/category.html:226
 #: weblate/templates/component.html:255 weblate/templates/component.html:273
@@ -6986,6 +7006,7 @@ msgstr "Mou la categoria"
 #: weblate/templates/category.html:225
 msgid "Moving the category will also change URLs for all its components."
 msgstr ""
+"Si moveu la categoria, també canviaran les URLs de tots els seus components."
 
 #: weblate/templates/category.html:232 weblate/templates/component.html:279
 msgid "Move"
@@ -7127,7 +7148,7 @@ msgstr "Canvia el nom del component"
 
 #: weblate/templates/component.html:254
 msgid "Renaming the component will also change its URLs."
-msgstr ""
+msgstr "Si canvieu de nom el component, també en canviaran les URLs."
 
 #: weblate/templates/component.html:268
 msgid "Move component"
@@ -7896,10 +7917,11 @@ msgstr "Afegeix una llengua"
 #: weblate/templates/lang/plural_form.html:15
 msgid "Changing plural rules might not have a desired effect."
 msgstr ""
+"És possible que canviar les regles de plurals no tingui l’efecte desitjat."
 
 #: weblate/templates/lang/plural_form.html:16
 msgid "Please see a documentation for more info."
-msgstr ""
+msgstr "Vegeu la documentació per a més informació."
 
 #: weblate/templates/last-changes-content.html:34
 #: weblate/templates/snippets/suggestions.html:23
@@ -9182,6 +9204,8 @@ msgstr "Canvia el nom del projecte"
 #: weblate/templates/project.html:271
 msgid "Renaming the project will also change URLs for all its components."
 msgstr ""
+"Si canvieu de nom el projecte, també canviaran les URLs de tots els seus "
+"components."
 
 #: weblate/templates/project.html:315
 msgid ""
@@ -9687,6 +9711,8 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
+"%(invitation_author)s us ha convidat a %(site_title)s perquè col·laboreu a "
+"%(project_name)s i us uniu a l’equip %(team_name)s."
 
 #: weblate/templates/snippets/invite-info.html:6
 #, python-format
@@ -9694,6 +9720,8 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
 msgstr ""
+"%(invitation_author)s us ha convidat a %(site_title)s perquè us uniu a l’"
+"equip %(team_name)s."
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -12532,15 +12560,15 @@ msgstr "Nom utilitzat als URL i als noms de fitxer."
 
 #: weblate/trans/models/category.py:87
 msgid "Too deep nesting of categories!"
-msgstr ""
+msgstr "Les categories estan massa imbricades!"
 
 #: weblate/trans/models/category.py:92
 msgid "Parent category has to be in the same project!"
-msgstr ""
+msgstr "La categoria pare ha de ser al mateix projecte!"
 
 #: weblate/trans/models/category.py:97
 msgid "Parent category has to be different!"
-msgstr ""
+msgstr "La categoria pare ha de ser diferent!"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:282
@@ -13482,7 +13510,7 @@ msgstr "Fitxer base per a traduccions noves desconegut."
 
 #: weblate/trans/models/component.py:2698
 msgid "Editing template is not support with this file format."
-msgstr ""
+msgstr "L’edició de la plantilla no està suportada en aquest format de fitxer."
 
 #: weblate/trans/models/component.py:2704
 #: weblate/trans/models/component.py:2720
