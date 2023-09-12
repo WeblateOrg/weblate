@@ -1859,7 +1859,7 @@ class Differ:
     def __init__(self):
         self.dmp = diff_match_patch()
 
-    def compare(self, new: str, old: str) -> list[tuple(str, str)]:
+    def compare(self, new: str, old: str) -> list[tuple[str, str]]:
         dmp = self.dmp
         diffs = dmp.diff_main(old, new)
         dmp.diff_cleanupSemantic(diffs)
@@ -1867,7 +1867,7 @@ class Differ:
         self.cleanup_unicode(diffs)
         return diffs
 
-    def cleanup_unicode(self, diffs: list[tuple(str, str)]):
+    def cleanup_unicode(self, diffs: list[tuple[str, str]]):
         """Merges Unicode."""
         pointer = 0
         while pointer < len(diffs):
