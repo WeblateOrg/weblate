@@ -78,10 +78,10 @@ def get_glossary_terms(unit):
 
     uses_ngram = source_language.uses_ngram()
 
-    terms = set()
     automaton = project.glossary_automaton
     # Extract terms present in the source
     with sentry_sdk.start_span(op="glossary.match", description=project.slug):
+        terms = set()
         for _termno, start, end in automaton.find_matches_as_indexes(
             source, overlapping=True
         ):
@@ -91,9 +91,9 @@ def get_glossary_terms(unit):
             ):
                 terms.add(source[start:end].lower())
 
-    units = list(
-        units.annotate(source_lc=Lower("source")).filter(Q(source_lc__in=terms))
-    )
+        units = list(
+            units.annotate(source_lc=Lower("source")).filter(Q(source_lc__in=terms))
+        )
 
     # Add variants manually. This could be done by adding filtering on
     # variant__unit__source in the above query, but this slows down the query
