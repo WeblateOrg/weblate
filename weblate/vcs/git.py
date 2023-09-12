@@ -819,6 +819,7 @@ class GitMergeRequestBase(GitForcePushRepository):
             "scheme": scheme,
         }
 
+    # TODO: Drop in Weblate 5.1
     @classmethod
     def uses_deprecated_setting(cls) -> bool:
         return not getattr(settings, f"{cls.identifier.upper()}_CREDENTIALS") and (

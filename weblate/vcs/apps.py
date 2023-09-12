@@ -42,6 +42,7 @@ def check_vcs(app_configs, **kwargs):
     ]
 
 
+# TODO: Drop in Weblate 5.1
 def check_vcs_deprecated(app_configs, **kwargs):
     from weblate.vcs.models import VCS_REGISTRY
 
