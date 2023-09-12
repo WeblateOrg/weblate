@@ -89,22 +89,12 @@ METRIC_ORDER = [
 
 
 class MetricQuerySet(models.QuerySet):
-    def get_kwargs(self, scope: int, relation: int, secondary: int = 0) -> dict:
-        """Build the query params."""
-        kwargs = {
-            "scope": scope,
-            "relation": relation,
-        }
-        if secondary:
-            # If secondary is 0 it is not used for this metric
-            kwargs["secondary"] = secondary
-        return kwargs
-
     def filter_metric(
         self, scope: int, relation: int, secondary: int = 0
     ) -> MetricQuerySet:
-        kwargs = self.get_kwargs(scope, relation, secondary)
-        return self.filter(**kwargs)
+        # Include secondary in the query as it is part of unique index
+        # and makes subsequent date filtering more effective.
+        return self.filter(scope=scope, relation=relation, secondary=0)
 
     def get_current_metric(
         self, obj, scope: int, relation: int, secondary: int = 0
@@ -521,7 +511,7 @@ class Metric(models.Model):
     objects = MetricManager.from_queryset(MetricQuerySet)()
 
     class Meta:
-        unique_together = (("date", "scope", "relation", "secondary"),)
+        unique_together = (("scope", "relation", "secondary", "date"),)
         verbose_name = "Metric"
         verbose_name_plural = "Metrics"
 
