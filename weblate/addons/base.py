@@ -172,15 +172,15 @@ class BaseAddon:
 
     def pre_push(self, component):
         """Hook triggered before repository is pushed upstream."""
-        return
+        # To be implemented in a subclass
 
     def post_push(self, component):
         """Hook triggered after repository is pushed upstream."""
-        return
+        # To be implemented in a subclass
 
     def pre_update(self, component):
         """Hook triggered before repository is updated from upstream."""
-        return
+        # To be implemented in a subclass
 
     def post_update(self, component, previous_head: str, skip_push: bool):
         """
@@ -193,23 +193,23 @@ class BaseAddon:
                                underlying methods as ``commit_and_push`` or
                                ``commit_pending``.
         """
-        return
+        # To be implemented in a subclass
 
     def pre_commit(self, translation, author):
         """Hook triggered before changes are committed to the repository."""
-        return
+        # To be implemented in a subclass
 
     def post_commit(self, component):
         """Hook triggered after changes are committed to the repository."""
-        return
+        # To be implemented in a subclass
 
     def post_add(self, translation):
         """Hook triggered after new translation is added."""
-        return
+        # To be implemented in a subclass
 
     def unit_pre_create(self, unit):
         """Hook triggered before new unit is created."""
-        return
+        # To be implemented in a subclass
 
     def store_post_load(self, translation, store):
         """
@@ -220,14 +220,15 @@ class BaseAddon:
         This is useful to modify file format class parameters, for example
         adjust how the file will be saved.
         """
-        return
+        # To be implemented in a subclass
 
     def daily(self, component):
         """Hook triggered daily."""
-        return
+        # To be implemented in a subclass
 
     def component_update(self, component):
-        return
+        """Hook for component update."""
+        # To be implemented in a subclass
 
     def execute_process(self, component, cmd, env=None):
         component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
