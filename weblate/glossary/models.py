@@ -21,11 +21,9 @@ NON_WORD_RE = re.compile(r"\W", re.UNICODE)
 def get_glossary_sources(component):
     # Fetch list of terms defined in a translation
     return list(
-        set(
-            component.source_translation.unit_set.filter(
-                state__gte=STATE_TRANSLATED
-            ).values_list(Lower("source"), flat=True)
-        )
+        component.source_translation.unit_set.filter(state__gte=STATE_TRANSLATED)
+        .values_list(Lower("source"), flat=True)
+        .distinct()
     )
 
 
