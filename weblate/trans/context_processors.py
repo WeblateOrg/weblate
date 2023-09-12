@@ -10,8 +10,6 @@ from django.core.cache import cache
 from django.utils.html import format_html
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext
-
-import weblate.screenshots.views
 import weblate.utils.version
 from weblate.configuration.views import CustomCSSView
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
