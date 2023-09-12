@@ -164,14 +164,12 @@ class Billing(models.Model):
     expiry = models.DateTimeField(
         blank=True,
         null=True,
-        default=None,
         verbose_name=gettext_lazy("Trial expiry date"),
         help_text="After expiry removal with 15 days grace period is scheduled.",
     )
     removal = models.DateTimeField(
         blank=True,
         null=True,
-        default=None,
         verbose_name=gettext_lazy("Scheduled removal"),
         help_text="This is automatically set after trial expiry.",
     )
