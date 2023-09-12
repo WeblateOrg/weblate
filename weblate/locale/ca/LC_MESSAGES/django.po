@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-07 19:04+0000\n"
-"PO-Revision-Date: 2023-09-12 06:08+0000\n"
+"PO-Revision-Date: 2023-09-12 10:24+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
@@ -3073,6 +3073,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
+"La referència Fluent de {sequence} es pot expandir en una etiqueta HTML. "
+"Potser és millor que feu servir {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:143
 #, python-brace-format
@@ -3080,6 +3082,8 @@ msgid ""
 "The Fluent reference in {sequence} may expand into a HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
+"La referència Fluent de {sequence} es pot expandir en una referència de "
+"caràcter HTML. Potser és millor que feu servir {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:171
 #, python-brace-format
@@ -3087,6 +3091,9 @@ msgid ""
 "The sequence {sequence} begins with a HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"La seqüència {sequence} comença amb una etiqueta de tancament HTML, però el "
+"nom o la sintaxi no són vàlids. Si no voleu una etiqueta de tancament, feu "
+"servir {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:184
 #, python-brace-format
@@ -3094,6 +3101,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"La seqüència {sequence} comença amb una etiqueta HTML, però el nom no és "
+"vàlid. Si no voleu començar una etiqueta HTML, feu servir {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:197
 #, python-brace-format
@@ -3101,12 +3110,17 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"La seqüència {sequence} comença amb una etiqueta HTML, però l’etiqueta no es "
+"tanca mai amb {close}. Si no voleu començar una etiqueta HTML, feu servir "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:211
 #, python-brace-format
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
+"L’HTML interior de Fluent no hauria d’incloure {sequence}. Potser és millor "
+"que feu servir {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:227
 #, python-brace-format
@@ -3115,11 +3129,14 @@ msgid ""
 "is not a valid attribute with a value. If you do not want to begin a HTML "
 "tag, use {suggestion}."
 msgstr ""
+"La seqüència {sequence} comença amb una etiqueta HTML, però la seqüència "
+"{attribute} no és un atribut vàlid amb valor. Si no voleu començar una "
+"etiqueta HTML, feu servir {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "El nom de l’atribut HTML {name} per a l’etiqueta {tag} no és vàlid."
 
 #: weblate/checks/fluent/inner_html.py:260
 #, python-brace-format
@@ -3127,21 +3144,25 @@ msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
 msgstr ""
+"El valor {value} de l’atribut HTML {name} per a l’etiqueta {tag} no és un "
+"valor entre cometes vàlid."
 
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "L’atribut HTML {name} apareix dues vegades a l’etiqueta {tag}."
 
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "Etiqueta de final HTML no coincident: {tag}."
 
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
 msgstr ""
+"L’element HTML buit {name} no hauria de tenir una etiqueta de tancament: "
+"{end}."
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
@@ -3149,11 +3170,14 @@ msgid ""
 "The HTML {name} element is not a known void element, so should not have a "
 "self-closing tag: {self_close}."
 msgstr ""
+"L’element HTML {name} no és un element buit conegut; per tant, no hauria de "
+"tenir una etiqueta d’autotancament: {self_close}."
 
 #: weblate/checks/fluent/inner_html.py:325
 #, python-brace-format
 msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr ""
+"A l’etiqueta HTML {tag} li manca una etiqueta de final coincident: {end}."
 
 #: weblate/checks/fluent/inner_html.py:341
 #, python-brace-format
@@ -3162,24 +3186,27 @@ msgid ""
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
+"La seqüència {sequence} començarà una referència de caràcter HTML, però no "
+"acaba en {semicolon}. Si no voleu una referència de caràcter, feu servir "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:359
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
-msgstr ""
+msgstr "La seqüència {sequence} no és una referència de caràcter HTML vàlida."
 
 #: weblate/checks/fluent/inner_html.py:943
 msgid "Fluent source inner HTML"
-msgstr ""
+msgstr "HTML interior de l’origen Fluent"
 
 #: weblate/checks/fluent/inner_html.py:944
 msgid "Fluent source should be valid inner HTML"
-msgstr ""
+msgstr "L’origen Fluent hauria de ser un HTML interior vàlid"
 
 #: weblate/checks/fluent/inner_html.py:1015
 #, python-brace-format
 msgid "Fluent value is missing a HTML {tag} tag."
-msgstr ""
+msgstr "Al valor Fluent hi manca una etiqueta HTML {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1020
 #, python-brace-format
@@ -3187,11 +3214,13 @@ msgid ""
 "Fluent value is missing a HTML {tag} tag for the following variants: "
 "{variant_list}."
 msgstr ""
+"Al valor Fluent hi manca una etiqueta HTML {tag} per a les següents variants:"
+" {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1034
 #, python-brace-format
 msgid "Fluent value has an unexpected extra HTML {tag} tag."
-msgstr ""
+msgstr "El valor Fluent té una etiqueta HTML {tag} addicional inesperada."
 
 #: weblate/checks/fluent/inner_html.py:1039
 #, python-brace-format
@@ -3199,6 +3228,8 @@ msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
 msgstr ""
+"El valor Fluent té una etiqueta HTML {tag} addicional inesperada per a les "
+"següents variants: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1116
 #, python-brace-format
@@ -3207,12 +3238,17 @@ msgid ""
 "matching variant in the translation with the same set of HTML elements: "
 "{variant_list}."
 msgstr ""
+"Les següents variants del valor original Fluent no tenen almenys una variant "
+"coincident a la traducció amb el mateix conjunt d’elements HTML: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1131
 msgid ""
 "The translated Fluent value does not have a matching variant in the original "
 "with the same set of HTML elements."
 msgstr ""
+"El valor Fluent traduït no té una variant coincident amb l’original amb el "
+"mateix conjunt d’elements HTML."
 
 #: weblate/checks/fluent/inner_html.py:1138
 #, python-brace-format
@@ -3220,6 +3256,9 @@ msgid ""
 "The following variants in the translated Fluent value do not have a matching "
 "variant in the original with the same set of HTML elements: {variant_list}."
 msgstr ""
+"Les següents variants del valor Fluent traduït no tenen una variant "
+"coincident amb l’original amb el mateix conjunt d’elements HTML: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1219
 msgid "Fluent translation inner HTML"
@@ -3227,25 +3266,25 @@ msgstr "HTML interior de la traducció de Fluent"
 
 #: weblate/checks/fluent/inner_html.py:1220
 msgid "Fluent target should be valid inner HTML that matches"
-msgstr ""
+msgstr "La destinació Fluent hauria de ser HTML interior que coincidís"
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
-msgstr ""
+msgstr "El valor Fluent és buit."
 
 #: weblate/checks/fluent/parts.py:65
 msgid "Fluent value should be empty."
-msgstr ""
+msgstr "El valor Fluent hauria de ser buit."
 
 #: weblate/checks/fluent/parts.py:71
 #, python-brace-format
 msgid "Missing Fluent attribute: {hint}"
-msgstr ""
+msgstr "Hi manca l’atribut Fluent: {hint}"
 
 #: weblate/checks/fluent/parts.py:80
 #, python-brace-format
 msgid "Unexpected Fluent attribute: {hint}"
-msgstr ""
+msgstr "Atribut Fluent inesperat: {hint}"
 
 #: weblate/checks/fluent/parts.py:112
 msgid "Fluent parts"
@@ -3253,12 +3292,13 @@ msgstr "Parts de Fluent"
 
 #: weblate/checks/fluent/parts.py:113
 msgid "Fluent parts should match"
-msgstr ""
+msgstr "Les parts Fluent haurien de coincidir"
 
 #: weblate/checks/fluent/references.py:373
 #, python-brace-format
 msgid "Fluent {attribute} attribute is missing a {reference} Fluent reference."
 msgstr ""
+"A l’atribut Fluent {attribute} li manca una referència Fluent {reference}."
 
 #: weblate/checks/fluent/references.py:381
 #, python-brace-format
@@ -3266,11 +3306,13 @@ msgid ""
 "Fluent {attribute} attribute is missing a {reference} Fluent reference for "
 "the following variants: {variant_list}."
 msgstr ""
+"A l’atribut Fluent {attribute} li manca una referència Fluent {reference} "
+"per a les següents variants: {variant_list}."
 
 #: weblate/checks/fluent/references.py:390
 #, python-brace-format
 msgid "Fluent value is missing a {reference} Fluent reference."
-msgstr ""
+msgstr "Al valor Fluent li manca una referència Fluent {reference}."
 
 #: weblate/checks/fluent/references.py:395
 #, python-brace-format
@@ -3278,6 +3320,8 @@ msgid ""
 "Fluent value is missing a {reference} Fluent reference for the following "
 "variants: {variant_list}."
 msgstr ""
+"Al valor Fluent li manca una referència Fluent {reference} per a les "
+"següents variants: {variant_list}."
 
 #: weblate/checks/fluent/references.py:411
 #, python-brace-format
@@ -3285,6 +3329,8 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference."
 msgstr ""
+"L’atribut Fluent {attribute} té una referència Fluent {reference} addicional "
+"inesperada."
 
 #: weblate/checks/fluent/references.py:419
 #, python-brace-format
@@ -3292,11 +3338,14 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference for the following variants: {variant_list}."
 msgstr ""
+"L’atribut Fluent {attribute} té una referència Fluent {reference} addicional "
+"inesperada per a les següents variants: {variant_list}."
 
 #: weblate/checks/fluent/references.py:429
 #, python-brace-format
 msgid "Fluent value has an unexpected extra {reference} Fluent reference."
 msgstr ""
+"El valor Fluent té una referència Fluent {reference} addicional inesperada."
 
 #: weblate/checks/fluent/references.py:435
 #, python-brace-format
@@ -3304,6 +3353,8 @@ msgid ""
 "Fluent value has an unexpected extra {reference} Fluent reference for the "
 "following variants: {variant_list}."
 msgstr ""
+"El valor Fluent té una referència Fluent {reference} addicional inesperada "
+"per a les següents variants: {variant_list}."
 
 #: weblate/checks/fluent/references.py:524
 #, python-brace-format
