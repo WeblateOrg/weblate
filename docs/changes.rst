@@ -8,6 +8,7 @@ Not yet released.
 **Improvements**
 
 * Translate page performance.
+* Search now looks for categories as well.
 
 **Bug fixes**
 

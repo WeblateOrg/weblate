@@ -1691,6 +1691,7 @@ class Search(APIView):
         user = request.user
         projects = user.allowed_projects
         components = Component.objects.filter(project__in=projects)
+        category = Category.objects.filter(project__in=projects)
         results = []
         query = request.GET.get("q")
         if query:
@@ -1701,6 +1702,14 @@ class Search(APIView):
                     "category": gettext("Project"),
                 }
                 for project in projects.search(query)[:5]
+            )
+            results.extend(
+                {
+                    "url": category.get_absolute_url(),
+                    "name": str(category),
+                    "category": gettext("Category"),
+                }
+                for category in category.search(query)[:5]
             )
             results.extend(
                 {

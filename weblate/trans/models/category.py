@@ -18,6 +18,20 @@ from weblate.utils.stats import CategoryStats
 from weblate.utils.validators import validate_slug
 
 
+class CategoryQuerySet(models.QuerySet):
+    def search(self, query: str):
+        return self.filter(
+            Q(name__icontains=query) | Q(slug__icontains=query)
+        ).select_related(
+            "project",
+            "category__project",
+            "category__category",
+            "category__category__project",
+            "category__category__category",
+            "category__category__category__project",
+        )
+
+
 class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     name = models.CharField(
         verbose_name=gettext_lazy("Category name"),
@@ -47,6 +61,8 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     is_lockable = False
     remove_permission = "project.edit"
     settings_permission = "project.edit"
+
+    objects = CategoryQuerySet.as_manager()
 
     def __str__(self):
         return f"{self.category or self.project}/{self.name}"

@@ -287,7 +287,14 @@ class ComponentQuerySet(models.QuerySet):
     def search(self, query: str):
         return self.filter(
             Q(name__icontains=query) | Q(slug__icontains=query)
-        ).select_related("project")
+        ).select_related(
+            "project",
+            "category__project",
+            "category__category",
+            "category__category__project",
+            "category__category__category",
+            "category__category__category__project",
+        )
 
 
 class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
