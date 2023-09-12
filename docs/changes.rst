@@ -15,6 +15,7 @@ Not yet released.
 * Rendering of release notes on GitHub.
 * Listing of categorized projects.
 * Translating a language inside a category.
+* Categories sorting.
 
 **Compatibility**
 

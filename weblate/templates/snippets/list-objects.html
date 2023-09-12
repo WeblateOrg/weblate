@@ -4,8 +4,6 @@
 {% load humanize %}
 {% load icons %}
 
-{% init_unique_row_id %}
-
 {% if objects or list_categories %}
   {% if objects.paginator.num_pages > 1 %}
     <table class="table progress-table autocolspan table-listing">
@@ -132,8 +130,9 @@
 
 
 <tbody>
+{% init_unique_row_id %}
 {% for category in list_categories %}
-  {% get_unique_row_id object as row_id %}
+  {% get_unique_row_id category as row_id %}
   <tr id="{{ row_id }}">
     <td class="actions" rowspan="2">
       <a href="{{ category.get_absolute_url }}" class="btn btn-link green" title="{% trans "Browse" %}" alt="{% trans "Browse" %}">{% icon "folder-multiple-outline.svg" %}</a>
@@ -156,6 +155,7 @@
     <td colspan="7" class="progress-row autocolspan">{% translation_progress category.stats %}</td>
   </tr>
 {% endfor %}
+{% init_unique_row_id %}
 {% for object in objects %}
 {% get_translate_url object as translate_url %}
 {% get_browse_url object as browse_url %}
