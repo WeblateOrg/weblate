@@ -119,7 +119,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Force English locales, the --lang and accept_language settings does not
         # work in some cases
-        backup_lang = os.environ.get("LANG", None)
+        backup_lang = os.environ.get("LANG")
         os.environ["LANG"] = "en_US.UTF-8"
 
         try:
