@@ -276,6 +276,9 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_REMOVE_CATEGORY = 67
     ACTION_RENAME_CATEGORY = 68
     ACTION_MOVE_CATEGORY = 69
+    ACTION_INTEGRATION_CREATE = 70
+    ACTION_INTEGRATION_CHANGE = 71
+    ACTION_INTEGRATION_REMOVE = 72
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -415,6 +418,10 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_RENAME_CATEGORY, gettext_lazy("Renamed category")),
         # Translators: Name of event in the history
         (ACTION_MOVE_CATEGORY, gettext_lazy("Moved category")),
+        (ACTION_INTEGRATION_CREATE, gettext_lazy("Integration added")),
+        (ACTION_INTEGRATION_CHANGE, gettext_lazy("Integration configuration changed")),
+        # Integrations: Remove integration
+        (ACTION_INTEGRATION_REMOVE, gettext_lazy("Remove integration")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
