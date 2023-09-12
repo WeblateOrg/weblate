@@ -64,7 +64,7 @@ class PostgreSQLFallbackLookup(PatternLookup):
         super().__init__(lhs, rhs)
 
     def needs_fallback(self):
-        return isinstance(self.orig_rhs, str) and count_alnum(self.orig_rhs) < 3
+        return isinstance(self.orig_rhs, str) and count_alnum(self.orig_rhs) <= 3
 
 
 class FallbackStringMixin:
