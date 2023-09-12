@@ -945,6 +945,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             or project.glossaries
             or "Glossary" in (component.name for component in project.child_components)
             or "glossary" in (component.slug for component in project.child_components)
+            or len(project.child_components) > 2
         ):
             return
 
