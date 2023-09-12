@@ -57,10 +57,9 @@ def highlight_string(source: str, unit, hightlight_syntax: bool = False):
     highlights.sort(key=lambda x: x[0])
 
     # Remove overlapping ones
-    for hl_idx in range(len(highlights)):
+    for hl_idx, elref in enumerate(highlights):
         if hl_idx >= len(highlights):
             break
-        elref = highlights[hl_idx]
         for hl_idx_next in range(hl_idx + 1, len(highlights)):
             if hl_idx_next >= len(highlights):
                 break
