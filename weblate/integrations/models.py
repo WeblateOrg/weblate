@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.db import models
-from django.db.models import Q
 from django.urls import reverse
 from django.utils.functional import cached_property
 
@@ -16,21 +15,6 @@ from weblate.utils.fields import JSONField
 INTEGRATIONS = ClassLoader("WEBLATE_INTEGRATIONS", False)
 
 
-class IntegrationQuerySet(models.QuerySet):
-    # To do: Filter objects
-    def filter_component(self, component, project):
-        return self.prefetch_related("event_set").filter(
-            (Q(component=component) & Q(project=False))
-            | (Q(component__project=component.project) & Q(project_scope=True))
-            | (Q(component__linked_component=component) & Q(repo_scope=True))
-            | (Q(component=component.linked_component) & Q(repo_scope=True))
-        )
-
-    def filter_event(self, component, event):
-        # To do: Add integrations cache property in component
-        return component.inegrations_cache[event]
-
-
 class Integration(models.Model):
     component = models.ForeignKey(
         Component, on_delete=models.deletion.CASCADE, null=True
@@ -40,34 +24,18 @@ class Integration(models.Model):
     configuration = JSONField()
     state = JSONField()
 
-    objects = IntegrationQuerySet.as_manager()
-
     class Meta:
         verbose_name = "integration"
         verbose_name_plural = "integrations"
 
     def __str__(self):
-        return f"{self.addon.verbose}: {self.component}"
+        return f"{self.integration.verbose}: {self.component}"
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
-        cls = self.integration_class
-        self.project_scope = cls.project_scope
-        self.repo_scope = cls.repo_scope
-
-        # Reallocate to repository
-        if self.repo_scope and self.component.linked_component:
-            self.component = self.component.linked_component
-
-        # Clear integration cache
-        # To do: Define method for clearing the cache
-        self.component.drop_integrations_cache()
-
         # Store history (if not updating state only)
         if update_fields != ["state"]:
-            # To do: Add ACTION_INTEGRATION_CREATE in Change
-            #        Add ACTION_INTEGRATION_CHANGE in Change
             self.store_change(
                 Change.ACTION_INTEGRATION_CREATE
                 if self.pk or force_insert
@@ -115,7 +83,6 @@ class Integration(models.Model):
 
     def delete(self, using=None, keep_parents=False):
         # Store history
-        # To do: Add ACTION_INTEGRATION_REMOVE in Change
         self.store_change(Change.ACTION_INTEGRATION_REMOVE)
         # Delete any integration alerts
         if self.integration.alert:
