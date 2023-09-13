@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
 from django.db.models import Case, IntegerField, Q, Value, When
-from django.db.models.functions import MD5
+from django.db.models.functions import MD5, Lower
 from django.http import (
     HttpResponse,
     HttpResponseBadRequest,
@@ -87,18 +87,21 @@ def get_other_units(unit):
         same = None
         any_propagated = False
 
+        query_match_source = Q(source__lower__md5=MD5(Lower(Value(unit.source))))
+        query_match_context = Q(context__lower__md5=MD5(Lower(Value(unit.context))))
+
         if unit.source and unit.context:
             match = Q(source=unit.source) & Q(context=unit.context)
             if component.has_template():
-                query = Q(source__iexact=unit.source) | Q(context__iexact=unit.context)
+                query = query_match_source | query_match_context
             else:
-                query = Q(source__iexact=unit.source)
+                query = query_match_source
         elif unit.source:
             match = Q(source=unit.source) & Q(context="")
-            query = Q(source__iexact=unit.source)
+            query = query_match_source
         elif unit.context:
             match = Q(context=unit.context)
-            query = Q(context__iexact=unit.context)
+            query = query_match_context
         else:
             return result
 
@@ -123,7 +126,7 @@ def get_other_units(unit):
         if unit.target:
             units = units.union(
                 base.filter(
-                    Q(target__md5=MD5(Value(unit.target)))
+                    Q(target__lower__md5=MD5(Lower(Value(unit.target))))
                     & Q(state__gte=STATE_TRANSLATED)
                 )
             )

@@ -5,7 +5,7 @@
 from django.apps import AppConfig
 from django.core.checks import register
 from django.db.models import CharField, TextField
-from django.db.models.functions import MD5
+from django.db.models.functions import MD5, Lower
 from django.db.models.lookups import Regex
 
 from weblate.utils.checks import (
@@ -69,6 +69,7 @@ class UtilsConfig(AppConfig):
             ]
 
         lookups.append((MD5,))
+        lookups.append((Lower,))
 
         for lookup in lookups:
             CharField.register_lookup(*lookup)

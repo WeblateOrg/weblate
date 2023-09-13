@@ -13,7 +13,7 @@ from django.core.cache import cache
 from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
 from django.db.models import Count, Max, Q, Value
-from django.db.models.functions import MD5
+from django.db.models.functions import MD5, Lower
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, gettext_noop
@@ -154,8 +154,10 @@ class UnitQuerySet(models.QuerySet):
         translation = unit.translation
         component = translation.component
         result = self.filter(
-            source__md5=MD5(Value(unit.source)),
-            context__md5=MD5(Value(unit.context)),
+            source__lower__md5=MD5(Lower(Value(unit.source))),
+            context__lower__md5=MD5(Lower(Value(unit.context))),
+            source=unit.source,
+            context=unit.context,
             translation__component__project_id=component.project_id,
             translation__language_id=translation.language_id,
             translation__component__source_language_id=component.source_language_id,
@@ -172,14 +174,15 @@ class UnitQuerySet(models.QuerySet):
         translation = unit.translation
         component = translation.component
         return self.filter(
-            target__md5=MD5(Value(target)),
+            target__lower__md5=MD5(Lower(Value(target))),
+            target=target,
             translation__component__project_id=component.project_id,
             translation__language_id=translation.language_id,
             translation__component__source_language_id=component.source_language_id,
             translation__component__allow_translation_propagation=True,
             translation__plural_id=translation.plural_id,
             translation__plural__number__gt=1,
-        ).exclude(source__md5=MD5(Value(unit.source)))
+        ).exclude(source=unit.source)
 
     def order_by_request(self, form_data, obj):
         sort_list_request = form_data.get("sort_by", "").split(",")
@@ -375,9 +378,15 @@ class Unit(models.Model, LoggerMixin):
         verbose_name = "string"
         verbose_name_plural = "strings"
         indexes = [
-            models.Index(MD5("source"), name="trans_unit_source_md5_index"),
-            models.Index(MD5("target"), name="trans_unit_target_md5_index"),
-            models.Index(MD5("context"), name="trans_unit_context_md5_index"),
+            models.Index(
+                MD5(Lower("source")), "translation", name="trans_unit_source_md5"
+            ),
+            models.Index(
+                MD5(Lower("target")), "translation", name="trans_unit_target_md5"
+            ),
+            models.Index(
+                MD5(Lower("context")), "translation", name="trans_unit_context_md5"
+            ),
         ]
 
     def __str__(self):
