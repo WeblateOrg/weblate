@@ -810,9 +810,7 @@ class ProjectLanguage(BaseURLMixin):
 
     @cached_property
     def is_source(self):
-        return not self.project.get_child_components_filter(
-            lambda qs: qs.exclude(source_language=self.language)
-        ).exists()
+        return self.language.id in self.project.source_language_ids
 
     @cached_property
     def change_set(self):
@@ -936,9 +934,7 @@ class CategoryLanguage(BaseURLMixin):
 
     @cached_property
     def is_source(self):
-        return not self.category.component_set.exclude(
-            source_language=self.language
-        ).exists()
+        return self.language.id in self.category.source_language_ids
 
     @cached_property
     def change_set(self):
