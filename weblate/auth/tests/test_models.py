@@ -20,6 +20,10 @@ class ModelTest(FixtureTestCase):
         self.group = Group.objects.create(name="Test", language_selection=SELECTION_ALL)
         self.group.projects.add(self.project)
 
+    def test_num_queries(self):
+        with self.assertNumQueries(8):
+            self.user._fetch_permissions()
+
     def test_project(self):
         # No permissions
         self.assertFalse(self.user.can_access_project(self.project))
