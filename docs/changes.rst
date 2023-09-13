@@ -6,6 +6,7 @@ Not yet released.
 **New features**
 
 **Improvements**
+* :ref:`project-translation_review` also shows the approval percentage in object listings.
 
 **Bug fixes**
 
