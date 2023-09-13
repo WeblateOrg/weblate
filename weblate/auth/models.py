@@ -16,7 +16,7 @@ from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group as DjangoGroup
 from django.db import models
-from django.db.models import Q
+from django.db.models import Prefetch, Q
 from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
 from django.http import Http404
@@ -45,9 +45,10 @@ from weblate.auth.utils import (
     migrate_permissions,
     migrate_roles,
 )
+from weblate.lang.models import Language
 from weblate.trans.defines import FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
-from weblate.trans.models import ComponentList, Project
+from weblate.trans.models import Component, ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
 from weblate.utils.search import parse_query
@@ -596,10 +597,18 @@ class User(AbstractBaseUser):
         with sentry_sdk.start_span(op="permissions", description=self.username):
             for group in self.groups.prefetch_related(
                 "roles__permissions",
-                "componentlists__components",
-                "components",
-                "projects",
-                "languages",
+                Prefetch(
+                    "componentlists__components",
+                    queryset=Component.objects.only("id", "project_id"),
+                ),
+                Prefetch(
+                    "components",
+                    queryset=Component.objects.all().only("id", "project_id"),
+                ),
+                Prefetch(
+                    "projects", queryset=Project.objects.only("id", "access_control")
+                ),
+                Prefetch("languages", queryset=Language.objects.only("id")),
             ):
                 if group.language_selection == SELECTION_ALL:
                     languages = None
