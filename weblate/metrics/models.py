@@ -94,7 +94,7 @@ class MetricQuerySet(models.QuerySet):
     ) -> MetricQuerySet:
         # Include secondary in the query as it is part of unique index
         # and makes subsequent date filtering more effective.
-        return self.filter(scope=scope, relation=relation, secondary=0)
+        return self.filter(scope=scope, relation=relation, secondary=secondary)
 
     def get_current_metric(
         self, obj, scope: int, relation: int, secondary: int = 0
