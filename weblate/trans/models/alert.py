@@ -127,7 +127,7 @@ class MultiAlert(BaseAlert):
 
         processors = (
             ("language_code", "language", Language.objects.all(), "code"),
-            ("unit_pk", "unit", Unit.objects.prefetch(), "pk"),
+            ("unit_pk", "unit", Unit.objects.prefetch().prefetch_full(), "pk"),
         )
         for key, target, base, lookup in processors:
             # Extract list to fetch
