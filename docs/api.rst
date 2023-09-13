@@ -164,8 +164,8 @@ Components and categories
 To access a component which is nested inside a :ref:`category`, you need to URL
 encode the category name into a component name separated with a slash. For
 example ``usage`` placed in a ``docs`` category needs to be used as
-``docs%2Fusage``. Full URL in this case would be for example
-``https://example.com/api/components/hello/docs%2Fusage/repository/``.
+``docs%252Fusage``. Full URL in this case would be for example
+``https://example.com/api/components/hello/docs%252Fusage/repository/``.
 
 .. _api-rate:
 
