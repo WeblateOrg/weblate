@@ -385,7 +385,7 @@ function msToSec(time) {
 }
 
 function getBrowserPerformanceAPI() {
-  // @ts-ignore we want to make sure all of these are available, even if TS is sure they are
+  // @ts-expect-error we want to make sure all of these are available, even if TS is sure they are
   return types.WINDOW && types.WINDOW.addEventListener && types.WINDOW.performance;
 }
 
@@ -403,7 +403,7 @@ let _clsEntry;
 function startTrackingWebVitals() {
   const performance = getBrowserPerformanceAPI();
   if (performance && utils.browserPerformanceTimeOrigin) {
-    // @ts-ignore we want to make sure all of these are available, even if TS is sure they are
+    // @ts-expect-error we want to make sure all of these are available, even if TS is sure they are
     if (performance.mark) {
       types.WINDOW.performance.mark('sentry-tracing-init');
     }
@@ -2301,8 +2301,8 @@ function wrapResolver(
   utils.fill(model[resolverGroupName], resolverName, function (orig) {
     return function ( ...args) {
       const scope = getCurrentHub().getScope();
-      const parentSpan = _optionalChain([scope, 'optionalAccess', _2 => _2.getSpan, 'call', _3 => _3()]);
-      const span = _optionalChain([parentSpan, 'optionalAccess', _4 => _4.startChild, 'call', _5 => _5({
+      const parentSpan = scope.getSpan();
+      const span = _optionalChain([parentSpan, 'optionalAccess', _2 => _2.startChild, 'call', _3 => _3({
         description: `${resolverGroupName}.${resolverName}`,
         op: 'graphql.resolve',
         origin: 'auto.graphql.apollo',
@@ -2312,12 +2312,12 @@ function wrapResolver(
 
       if (utils.isThenable(rv)) {
         return rv.then((res) => {
-          _optionalChain([span, 'optionalAccess', _6 => _6.finish, 'call', _7 => _7()]);
+          _optionalChain([span, 'optionalAccess', _4 => _4.finish, 'call', _5 => _5()]);
           return res;
         });
       }
 
-      _optionalChain([span, 'optionalAccess', _8 => _8.finish, 'call', _9 => _9()]);
+      _optionalChain([span, 'optionalAccess', _6 => _6.finish, 'call', _7 => _7()]);
 
       return rv;
     };
@@ -2724,29 +2724,29 @@ class GraphQL  {
     utils.fill(pkg, 'execute', function (orig) {
       return function ( ...args) {
         const scope = getCurrentHub().getScope();
-        const parentSpan = _optionalChain([scope, 'optionalAccess', _2 => _2.getSpan, 'call', _3 => _3()]);
+        const parentSpan = scope.getSpan();
 
-        const span = _optionalChain([parentSpan, 'optionalAccess', _4 => _4.startChild, 'call', _5 => _5({
+        const span = _optionalChain([parentSpan, 'optionalAccess', _2 => _2.startChild, 'call', _3 => _3({
           description: 'execute',
           op: 'graphql.execute',
           origin: 'auto.graphql.graphql',
         })]);
 
-        _optionalChain([scope, 'optionalAccess', _6 => _6.setSpan, 'call', _7 => _7(span)]);
+        _optionalChain([scope, 'optionalAccess', _4 => _4.setSpan, 'call', _5 => _5(span)]);
 
         const rv = orig.call(this, ...args);
 
         if (utils.isThenable(rv)) {
           return rv.then((res) => {
-            _optionalChain([span, 'optionalAccess', _8 => _8.finish, 'call', _9 => _9()]);
-            _optionalChain([scope, 'optionalAccess', _10 => _10.setSpan, 'call', _11 => _11(parentSpan)]);
+            _optionalChain([span, 'optionalAccess', _6 => _6.finish, 'call', _7 => _7()]);
+            _optionalChain([scope, 'optionalAccess', _8 => _8.setSpan, 'call', _9 => _9(parentSpan)]);
 
             return res;
           });
         }
 
-        _optionalChain([span, 'optionalAccess', _12 => _12.finish, 'call', _13 => _13()]);
-        _optionalChain([scope, 'optionalAccess', _14 => _14.setSpan, 'call', _15 => _15(parentSpan)]);
+        _optionalChain([span, 'optionalAccess', _10 => _10.finish, 'call', _11 => _11()]);
+        _optionalChain([scope, 'optionalAccess', _12 => _12.setSpan, 'call', _13 => _13(parentSpan)]);
         return rv;
       };
     });
@@ -2960,17 +2960,17 @@ class Mongo  {
       return function ( ...args) {
         const lastArg = args[args.length - 1];
         const scope = getCurrentHub().getScope();
-        const parentSpan = _optionalChain([scope, 'optionalAccess', _2 => _2.getSpan, 'call', _3 => _3()]);
+        const parentSpan = scope.getSpan();
 
         // Check if the operation was passed a callback. (mapReduce requires a different check, as
         // its (non-callback) arguments can also be functions.)
         if (typeof lastArg !== 'function' || (operation === 'mapReduce' && args.length === 2)) {
-          const span = _optionalChain([parentSpan, 'optionalAccess', _4 => _4.startChild, 'call', _5 => _5(getSpanContext(this, operation, args))]);
+          const span = _optionalChain([parentSpan, 'optionalAccess', _2 => _2.startChild, 'call', _3 => _3(getSpanContext(this, operation, args))]);
           const maybePromiseOrCursor = orig.call(this, ...args);
 
           if (utils.isThenable(maybePromiseOrCursor)) {
             return maybePromiseOrCursor.then((res) => {
-              _optionalChain([span, 'optionalAccess', _6 => _6.finish, 'call', _7 => _7()]);
+              _optionalChain([span, 'optionalAccess', _4 => _4.finish, 'call', _5 => _5()]);
               return res;
             });
           }
@@ -2981,25 +2981,25 @@ class Mongo  {
 
             try {
               cursor.once('close', () => {
-                _optionalChain([span, 'optionalAccess', _8 => _8.finish, 'call', _9 => _9()]);
+                _optionalChain([span, 'optionalAccess', _6 => _6.finish, 'call', _7 => _7()]);
               });
             } catch (e) {
               // If the cursor is already closed, `once` will throw an error. In that case, we can
               // finish the span immediately.
-              _optionalChain([span, 'optionalAccess', _10 => _10.finish, 'call', _11 => _11()]);
+              _optionalChain([span, 'optionalAccess', _8 => _8.finish, 'call', _9 => _9()]);
             }
 
             return cursor;
           } else {
-            _optionalChain([span, 'optionalAccess', _12 => _12.finish, 'call', _13 => _13()]);
+            _optionalChain([span, 'optionalAccess', _10 => _10.finish, 'call', _11 => _11()]);
             return maybePromiseOrCursor;
           }
         }
 
-        const span = _optionalChain([parentSpan, 'optionalAccess', _14 => _14.startChild, 'call', _15 => _15(getSpanContext(this, operation, args.slice(0, -1)))]);
+        const span = _optionalChain([parentSpan, 'optionalAccess', _12 => _12.startChild, 'call', _13 => _13(getSpanContext(this, operation, args.slice(0, -1)))]);
 
         return orig.call(this, ...args.slice(0, -1), function (err, result) {
-          _optionalChain([span, 'optionalAccess', _16 => _16.finish, 'call', _17 => _17()]);
+          _optionalChain([span, 'optionalAccess', _14 => _14.finish, 'call', _15 => _15()]);
           lastArg(err, result);
         });
       };
@@ -3153,9 +3153,9 @@ class Mysql  {
     utils.fill(pkg, 'createQuery', function (orig) {
       return function ( options, values, callback) {
         const scope = getCurrentHub().getScope();
-        const parentSpan = _optionalChain([scope, 'optionalAccess', _2 => _2.getSpan, 'call', _3 => _3()]);
+        const parentSpan = scope.getSpan();
 
-        const span = _optionalChain([parentSpan, 'optionalAccess', _4 => _4.startChild, 'call', _5 => _5({
+        const span = _optionalChain([parentSpan, 'optionalAccess', _2 => _2.startChild, 'call', _3 => _3({
           description: typeof options === 'string' ? options : (options ).sql,
           op: 'db',
           origin: 'auto.db.mysql',
@@ -3253,7 +3253,7 @@ class Postgres  {
     utils.fill(Client.prototype, 'query', function (orig) {
       return function ( config, values, callback) {
         const scope = getCurrentHub().getScope();
-        const parentSpan = _optionalChain([scope, 'optionalAccess', _4 => _4.getSpan, 'call', _5 => _5()]);
+        const parentSpan = scope.getSpan();
 
         const data = {
           'db.system': 'postgresql',
@@ -3276,7 +3276,7 @@ class Postgres  {
           // ignore
         }
 
-        const span = _optionalChain([parentSpan, 'optionalAccess', _6 => _6.startChild, 'call', _7 => _7({
+        const span = _optionalChain([parentSpan, 'optionalAccess', _4 => _4.startChild, 'call', _5 => _5({
           description: typeof config === 'string' ? config : (config ).text,
           op: 'db',
           origin: 'auto.db.postgres',
@@ -3285,14 +3285,14 @@ class Postgres  {
 
         if (typeof callback === 'function') {
           return orig.call(this, config, values, function (err, result) {
-            _optionalChain([span, 'optionalAccess', _8 => _8.finish, 'call', _9 => _9()]);
+            _optionalChain([span, 'optionalAccess', _6 => _6.finish, 'call', _7 => _7()]);
             callback(err, result);
           });
         }
 
         if (typeof values === 'function') {
           return orig.call(this, config, function (err, result) {
-            _optionalChain([span, 'optionalAccess', _10 => _10.finish, 'call', _11 => _11()]);
+            _optionalChain([span, 'optionalAccess', _8 => _8.finish, 'call', _9 => _9()]);
             values(err, result);
           });
         }
@@ -3301,12 +3301,12 @@ class Postgres  {
 
         if (utils.isThenable(rv)) {
           return rv.then((res) => {
-            _optionalChain([span, 'optionalAccess', _12 => _12.finish, 'call', _13 => _13()]);
+            _optionalChain([span, 'optionalAccess', _10 => _10.finish, 'call', _11 => _11()]);
             return res;
           });
         }
 
-        _optionalChain([span, 'optionalAccess', _14 => _14.finish, 'call', _15 => _15()]);
+        _optionalChain([span, 'optionalAccess', _12 => _12.finish, 'call', _13 => _13()]);
         return rv;
       };
     });
@@ -4080,6 +4080,7 @@ exports.configureScope = core.configureScope;
 exports.createTransport = core.createTransport;
 exports.extractTraceparentData = core.extractTraceparentData;
 exports.flush = core.flush;
+exports.getActiveSpan = core.getActiveSpan;
 exports.getActiveTransaction = core.getActiveTransaction;
 exports.getCurrentHub = core.getCurrentHub;
 exports.getHubFromCarrier = core.getHubFromCarrier;
@@ -4094,6 +4095,9 @@ exports.setTag = core.setTag;
 exports.setTags = core.setTags;
 exports.setUser = core.setUser;
 exports.spanStatusfromHttpCode = core.spanStatusfromHttpCode;
+exports.startInactiveSpan = core.startInactiveSpan;
+exports.startSpan = core.startSpan;
+exports.startSpanManual = core.startSpanManual;
 exports.startTransaction = core.startTransaction;
 exports.trace = core.trace;
 exports.withScope = core.withScope;
@@ -4287,18 +4291,6 @@ function _domBreadcrumb(dom) {
  * Creates breadcrumbs from console API calls
  */
 function _consoleBreadcrumb(handlerData) {
-  // This is a hack to fix a Vue3-specific bug that causes an infinite loop of
-  // console warnings. This happens when a Vue template is rendered with
-  // an undeclared variable, which we try to stringify, ultimately causing
-  // Vue to issue another warning which repeats indefinitely.
-  // see: https://github.com/getsentry/sentry-javascript/pull/6010
-  // see: https://github.com/getsentry/sentry-javascript/issues/5916
-  for (let i = 0; i < handlerData.args.length; i++) {
-    if (handlerData.args[i] === 'ref=Ref<') {
-      handlerData.args[i + 1] = 'viewRef';
-      break;
-    }
-  }
   const breadcrumb = {
     category: 'console',
     data: {
@@ -4665,7 +4657,7 @@ function _getFramesFromEvent(event) {
 
   if (exception) {
     try {
-      // @ts-ignore Object could be undefined
+      // @ts-expect-error Object could be undefined
       return exception.values[0].stacktrace.frames;
     } catch (_oO) {
       return undefined;
@@ -5041,32 +5033,26 @@ class LinkedErrors  {
     this._limit = options.limit || DEFAULT_LIMIT;
   }
 
+  /** @inheritdoc */
+   setupOnce() {
+    // noop
+  }
+
   /**
    * @inheritDoc
    */
-   setupOnce(addGlobalEventProcessor, getCurrentHub) {
-    addGlobalEventProcessor((event, hint) => {
-      const hub = getCurrentHub();
-      const client = hub.getClient();
-      const self = hub.getIntegration(LinkedErrors);
+   preprocessEvent(event, hint, client) {
+    const options = client.getOptions();
 
-      if (!client || !self) {
-        return event;
-      }
-
-      const options = client.getOptions();
-      utils.applyAggregateErrorsToEvent(
-        eventbuilder.exceptionFromError,
-        options.stackParser,
-        options.maxValueLength,
-        self._key,
-        self._limit,
-        event,
-        hint,
-      );
-
-      return event;
-    });
+    utils.applyAggregateErrorsToEvent(
+      eventbuilder.exceptionFromError,
+      options.stackParser,
+      options.maxValueLength,
+      this._key,
+      this._limit,
+      event,
+      hint,
+    );
   }
 } LinkedErrors.__initStatic();
 
@@ -5434,7 +5420,7 @@ function wrapTransactionWithProfiling(transaction) {
     return transaction;
   }
 
-  // @ts-ignore profilesSampleRate is not part of the browser options yet
+  // @ts-expect-error profilesSampleRate is not part of the browser options yet
   const profilesSampleRate = options.profilesSampleRate;
 
   // Since this is coming from the user (or from a function provided by the user), who knows what we might get. (The
@@ -5728,7 +5714,7 @@ function isUserAgentData(data) {
   return typeof data === 'object' && data !== null && 'getHighEntropyValues' in data;
 }
 
-// @ts-ignore userAgentData is not part of the navigator interface yet
+// @ts-expect-error userAgentData is not part of the navigator interface yet
 const userAgentData = helpers.WINDOW.navigator && helpers.WINDOW.navigator.userAgentData;
 
 if (isUserAgentData(userAgentData)) {
@@ -5962,7 +5948,7 @@ function addProfilesToEnvelope(envelope, profiles) {
   }
 
   for (const profile of profiles) {
-    // @ts-ignore untyped envelope
+    // @ts-expect-error untyped envelope
     envelope[1].push([{ type: 'profile' }, profile]);
   }
   return envelope;
@@ -6696,9 +6682,9 @@ const utils = require('@sentry/utils');
 
 function promisifyRequest(request) {
   return new Promise((resolve, reject) => {
-    // @ts-ignore - file size hacks
+    // @ts-expect-error - file size hacks
     request.oncomplete = request.onsuccess = () => resolve(request.result);
-    // @ts-ignore - file size hacks
+    // @ts-expect-error - file size hacks
     request.onabort = request.onerror = () => reject(request.error);
   });
 }
@@ -7331,7 +7317,7 @@ class BaseClient {
    */
    setupIntegrations() {
     if (this._isEnabled() && !this._integrationsInitialized) {
-      this._integrations = integration.setupIntegrations(this._options.integrations);
+      this._integrations = integration.setupIntegrations(this, this._options.integrations);
       this._integrationsInitialized = true;
     }
   }
@@ -7361,7 +7347,7 @@ class BaseClient {
    * @inheritDoc
    */
    addIntegration(integration$1) {
-    integration.setupIntegration(integration$1, this._integrations);
+    integration.setupIntegration(this, integration$1, this._integrations);
   }
 
   /**
@@ -7422,6 +7408,7 @@ class BaseClient {
   }
 
   // Keep on() & emit() signatures in sync with types' client.ts interface
+  /* eslint-disable @typescript-eslint/unified-signatures */
 
   /** @inheritdoc */
 
@@ -7431,7 +7418,7 @@ class BaseClient {
       this._hooks[hook] = [];
     }
 
-    // @ts-ignore We assue the types are correct
+    // @ts-expect-error We assue the types are correct
     this._hooks[hook].push(callback);
   }
 
@@ -7440,10 +7427,11 @@ class BaseClient {
   /** @inheritdoc */
    emit(hook, ...rest) {
     if (this._hooks[hook]) {
-      // @ts-ignore we cannot enforce the callback to match the hook
       this._hooks[hook].forEach(callback => callback(...rest));
     }
   }
+
+  /* eslint-enable @typescript-eslint/unified-signatures */
 
   /** Updates existing session based on the provided event */
    _updateSessionFromEvent(session$1, event) {
@@ -7533,6 +7521,9 @@ class BaseClient {
     if (!hint.integrations && integrations.length > 0) {
       hint.integrations = integrations;
     }
+
+    this.emit('preprocessEvent', event, hint);
+
     return prepareEvent.prepareEvent(options, event, hint, scope).then(evt => {
       if (evt === null) {
         return evt;
@@ -8624,7 +8615,7 @@ Sentry.init({...});
   /**
    * Calls global extension method and binding current instance to the function call
    */
-  // @ts-ignore Function lacks ending return statement and return type does not include 'undefined'. ts(2366)
+  // @ts-expect-error Function lacks ending return statement and return type does not include 'undefined'. ts(2366)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
    _callExtensionMethod(method, ...args) {
     const carrier = getMainCarrier();
@@ -8834,7 +8825,9 @@ Object.defineProperty(exports, 'SpanStatus', {
 });
 exports.getActiveSpan = trace.getActiveSpan;
 exports.startActiveSpan = trace.startActiveSpan;
+exports.startInactiveSpan = trace.startInactiveSpan;
 exports.startSpan = trace.startSpan;
+exports.startSpanManual = trace.startSpanManual;
 exports.trace = trace.trace;
 exports.getDynamicSamplingContextFromClient = dynamicSamplingContext.getDynamicSamplingContextFromClient;
 exports.setMeasurement = measurement.setMeasurement;
@@ -8969,13 +8962,13 @@ function getIntegrationsToSetup(options) {
  * @param integrations array of integration instances
  * @param withDefault should enable default integrations
  */
-function setupIntegrations(integrations) {
+function setupIntegrations(client, integrations) {
   const integrationIndex = {};
 
   integrations.forEach(integration => {
     // guard against empty provided integrations
     if (integration) {
-      setupIntegration(integration, integrationIndex);
+      setupIntegration(client, integration, integrationIndex);
     }
   });
 
@@ -8983,14 +8976,20 @@ function setupIntegrations(integrations) {
 }
 
 /** Setup a single integration.  */
-function setupIntegration(integration, integrationIndex) {
+function setupIntegration(client, integration, integrationIndex) {
   integrationIndex[integration.name] = integration;
 
   if (installedIntegrations.indexOf(integration.name) === -1) {
     integration.setupOnce(scope.addGlobalEventProcessor, hub.getCurrentHub);
     installedIntegrations.push(integration.name);
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`Integration installed: ${integration.name}`);
   }
+
+  if (client.on && typeof integration.preprocessEvent === 'function') {
+    const callback = integration.preprocessEvent.bind(integration);
+    client.on('preprocessEvent', (event, hint) => callback(event, hint, client));
+  }
+
+  (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`Integration installed: ${integration.name}`);
 }
 
 // Polyfill for Array.findIndex(), which is not supported in ES5
@@ -9217,25 +9216,40 @@ function _isAllowedUrl(event, allowUrls) {
 }
 
 function _getPossibleEventMessages(event) {
+  const possibleMessages = [];
+
   if (event.message) {
-    return [event.message];
+    possibleMessages.push(event.message);
   }
-  if (event.exception) {
-    const { values } = event.exception;
-    try {
-      const { type = '', value = '' } = (values && values[values.length - 1]) || {};
-      return [`${value}`, `${type}: ${value}`];
-    } catch (oO) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error(`Cannot extract message for event ${utils.getEventDescription(event)}`);
-      return [];
+
+  let lastException;
+  try {
+    // @ts-expect-error Try catching to save bundle size
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    lastException = event.exception.values[event.exception.values.length - 1];
+  } catch (e) {
+    // try catching to save bundle size checking existence of variables
+  }
+
+  if (lastException) {
+    if (lastException.value) {
+      possibleMessages.push(lastException.value);
+      if (lastException.type) {
+        possibleMessages.push(`${lastException.type}: ${lastException.value}`);
+      }
     }
   }
-  return [];
+
+  if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && possibleMessages.length === 0) {
+    utils.logger.error(`Could not extract message for event ${utils.getEventDescription(event)}`);
+  }
+
+  return possibleMessages;
 }
 
 function _isSentryError(event) {
   try {
-    // @ts-ignore can't be a sentry error if undefined
+    // @ts-expect-error can't be a sentry error if undefined
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     return event.exception.values[0].type === 'SentryError';
   } catch (e) {
@@ -9260,7 +9274,7 @@ function _getEventFilterUrl(event) {
   try {
     let frames;
     try {
-      // @ts-ignore we only care about frames if the whole thing here is defined
+      // @ts-expect-error we only care about frames if the whole thing here is defined
       frames = event.exception.values[0].stacktrace.frames;
     } catch (e) {
       // ignore
@@ -9832,7 +9846,11 @@ class Scope  {
       timestamp: utils.dateTimestampInSeconds(),
       ...breadcrumb,
     };
-    this._breadcrumbs = [...this._breadcrumbs, mergedBreadcrumb].slice(-maxCrumbs);
+
+    const breadcrumbs = this._breadcrumbs;
+    breadcrumbs.push(mergedBreadcrumb);
+    this._breadcrumbs = breadcrumbs.length > maxCrumbs ? breadcrumbs.slice(-maxCrumbs) : breadcrumbs;
+
     this._notifyScopeListeners();
 
     return this;
@@ -9924,8 +9942,9 @@ class Scope  {
 
     this._applyFingerprint(event);
 
-    event.breadcrumbs = [...(event.breadcrumbs || []), ...this._breadcrumbs];
-    event.breadcrumbs = event.breadcrumbs.length > 0 ? event.breadcrumbs : undefined;
+    const scopeBreadcrumbs = this._getBreadcrumbs();
+    const breadcrumbs = [...(event.breadcrumbs || []), ...scopeBreadcrumbs];
+    event.breadcrumbs = breadcrumbs.length > 0 ? breadcrumbs : undefined;
 
     event.sdkProcessingMetadata = {
       ...event.sdkProcessingMetadata,
@@ -9958,6 +9977,13 @@ class Scope  {
    */
    getPropagationContext() {
     return this._propagationContext;
+  }
+
+  /**
+   * Get the breadcrumbs for this scope.
+   */
+   _getBreadcrumbs() {
+    return this._breadcrumbs;
   }
 
   /**
@@ -11678,25 +11704,14 @@ function trace(
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onError = () => {},
 ) {
-  const ctx = { ...context };
-  // If a name is set and a description is not, set the description to the name.
-  if (ctx.name !== undefined && ctx.description === undefined) {
-    ctx.description = ctx.name;
-  }
+  const ctx = normalizeContext(context);
 
   const hub$1 = hub.getCurrentHub();
   const scope = hub$1.getScope();
-
   const parentSpan = scope.getSpan();
 
-  function startActiveSpan() {
-    if (!hasTracingEnabled.hasTracingEnabled()) {
-      return undefined;
-    }
-    return parentSpan ? parentSpan.startChild(ctx) : hub$1.startTransaction(ctx);
-  }
+  const activeSpan = createChildSpanOrTransaction(hub$1, parentSpan, ctx);
 
-  const activeSpan = startActiveSpan();
   scope.setSpan(activeSpan);
 
   function finishAndSetSpan() {
@@ -11737,32 +11752,20 @@ function trace(
  * The created span is the active span and will be used as parent by other spans created inside the function
  * and can be accessed via `Sentry.getSpan()`, as long as the function is executed while the scope is active.
  *
- * If you want to create a span that is not set as active, use {@link startSpan}.
+ * If you want to create a span that is not set as active, use {@link startInactiveSpan}.
  *
  * Note that if you have not enabled tracing extensions via `addTracingExtensions`
  * or you didn't set `tracesSampleRate`, this function will not generate spans
  * and the `span` returned from the callback will be undefined.
  */
-function startActiveSpan(context, callback) {
-  const ctx = { ...context };
-  // If a name is set and a description is not, set the description to the name.
-  if (ctx.name !== undefined && ctx.description === undefined) {
-    ctx.description = ctx.name;
-  }
+function startSpan(context, callback) {
+  const ctx = normalizeContext(context);
 
   const hub$1 = hub.getCurrentHub();
   const scope = hub$1.getScope();
-
   const parentSpan = scope.getSpan();
 
-  function startActiveSpan() {
-    if (!hasTracingEnabled.hasTracingEnabled()) {
-      return undefined;
-    }
-    return parentSpan ? parentSpan.startChild(ctx) : hub$1.startTransaction(ctx);
-  }
-
-  const activeSpan = startActiveSpan();
+  const activeSpan = createChildSpanOrTransaction(hub$1, parentSpan, ctx);
   scope.setSpan(activeSpan);
 
   function finishAndSetSpan() {
@@ -11797,16 +11800,67 @@ function startActiveSpan(context, callback) {
 }
 
 /**
+ * @deprecated Use {@link startSpan} instead.
+ */
+const startActiveSpan = startSpan;
+
+/**
+ * Similar to `Sentry.startSpan`. Wraps a function with a transaction/span, but does not finish the span
+ * after the function is done automatically.
+ *
+ * The created span is the active span and will be used as parent by other spans created inside the function
+ * and can be accessed via `Sentry.getActiveSpan()`, as long as the function is executed while the scope is active.
+ *
+ * Note that if you have not enabled tracing extensions via `addTracingExtensions`
+ * or you didn't set `tracesSampleRate`, this function will not generate spans
+ * and the `span` returned from the callback will be undefined.
+ */
+function startSpanManual(
+  context,
+  callback,
+) {
+  const ctx = normalizeContext(context);
+
+  const hub$1 = hub.getCurrentHub();
+  const scope = hub$1.getScope();
+  const parentSpan = scope.getSpan();
+
+  const activeSpan = createChildSpanOrTransaction(hub$1, parentSpan, ctx);
+  scope.setSpan(activeSpan);
+
+  function finishAndSetSpan() {
+    activeSpan && activeSpan.finish();
+    hub$1.getScope().setSpan(parentSpan);
+  }
+
+  let maybePromiseResult;
+  try {
+    maybePromiseResult = callback(activeSpan, finishAndSetSpan);
+  } catch (e) {
+    activeSpan && activeSpan.setStatus('internal_error');
+    throw e;
+  }
+
+  if (utils.isThenable(maybePromiseResult)) {
+    Promise.resolve(maybePromiseResult).then(undefined, () => {
+      activeSpan && activeSpan.setStatus('internal_error');
+    });
+  }
+
+  return maybePromiseResult;
+}
+
+/**
  * Creates a span. This span is not set as active, so will not get automatic instrumentation spans
  * as children or be able to be accessed via `Sentry.getSpan()`.
  *
- * If you want to create a span that is set as active, use {@link startActiveSpan}.
+ * If you want to create a span that is set as active, use {@link startSpan}.
  *
  * Note that if you have not enabled tracing extensions via `addTracingExtensions`
  * or you didn't set `tracesSampleRate` or `tracesSampler`, this function will not generate spans
  * and the `span` returned from the callback will be undefined.
  */
-function startSpan(context) {
+function startInactiveSpan(context) {
   if (!hasTracingEnabled.hasTracingEnabled()) {
     return undefined;
   }
@@ -11829,9 +11883,32 @@ function getActiveSpan() {
   return hub.getCurrentHub().getScope().getSpan();
 }
 
+function createChildSpanOrTransaction(
+  hub,
+  parentSpan,
+  ctx,
+) {
+  if (!hasTracingEnabled.hasTracingEnabled()) {
+    return undefined;
+  }
+  return parentSpan ? parentSpan.startChild(ctx) : hub.startTransaction(ctx);
+}
+
+function normalizeContext(context) {
+  const ctx = { ...context };
+  // If a name is set and a description is not, set the description to the name.
+  if (ctx.name !== undefined && ctx.description === undefined) {
+    ctx.description = ctx.name;
+  }
+
+  return ctx;
+}
+
 exports.getActiveSpan = getActiveSpan;
 exports.startActiveSpan = startActiveSpan;
+exports.startInactiveSpan = startInactiveSpan;
 exports.startSpan = startSpan;
+exports.startSpanManual = startSpanManual;
 exports.trace = trace;
 
 
@@ -12825,7 +12902,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":54,"../scope.js":65,"@sentry/utils":104}],85:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.68.0';
+const SDK_VERSION = '7.69.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -17396,7 +17473,6 @@ function makeSession(session) {
   const lastActivity = session.lastActivity || now;
   const segmentId = session.segmentId || 0;
   const sampled = session.sampled;
-  const shouldRefresh = typeof session.shouldRefresh === 'boolean' ? session.shouldRefresh : true;
   const previousSessionId = session.previousSessionId;
 
   return {
@@ -17405,7 +17481,6 @@ function makeSession(session) {
     lastActivity,
     segmentId,
     sampled,
-    shouldRefresh,
     previousSessionId,
   };
 }
@@ -17507,47 +17582,22 @@ function isSessionExpired(
   );
 }
 
-/**
- * Check a session, and either return it or a refreshed version of it.
- * The refreshed version may be unsampled.
- * You can check if the session has changed by comparing the session IDs.
- */
-function maybeRefreshSession(
+/** If the session should be refreshed or not. */
+function shouldRefreshSession(
   session,
-  {
-    traceInternals,
-    maxReplayDuration,
-    sessionIdleExpire,
-  }
-
-,
-  sessionOptions,
+  { sessionIdleExpire, maxReplayDuration },
 ) {
   // If not expired, all good, just keep the session
   if (!isSessionExpired(session, { sessionIdleExpire, maxReplayDuration })) {
-    return session;
+    return false;
   }
 
-  const isBuffering = session.sampled === 'buffer';
-
-  // If we are buffering & the session may be refreshed, just return it
-  if (isBuffering && session.shouldRefresh) {
-    return session;
+  // If we are buffering & haven't ever flushed yet, always continue
+  if (session.sampled === 'buffer' && session.segmentId === 0) {
+    return false;
   }
 
-  // If we are buffering & the session may not be refreshed (=it was converted to session previously already)
-  // We return an unsampled new session
-  if (isBuffering) {
-    logInfoNextTick('[Replay] Session should not be refreshed', traceInternals);
-    return makeSession({ sampled: false });
-  }
-
-  // Else, we are not buffering, and the session is expired, so we need to create a new one
-  logInfoNextTick('[Replay] Session has expired, creating new one...', traceInternals);
-
-  const newSession = createSession(sessionOptions, { previousSessionId: session.id });
-
-  return newSession;
+  return true;
 }
 
 /**
@@ -17555,26 +17605,30 @@ function maybeRefreshSession(
  * Returns a session that may be unsampled.
  */
 function loadOrCreateSession(
-  currentSession,
   {
     traceInternals,
     sessionIdleExpire,
     maxReplayDuration,
+    previousSessionId,
   }
 
 ,
   sessionOptions,
 ) {
-  // If session exists and is passed, use it instead of always hitting session storage
-  const existingSession = currentSession || (sessionOptions.stickySession && fetchSession(traceInternals));
+  const existingSession = sessionOptions.stickySession && fetchSession(traceInternals);
 
   // No session exists yet, just create a new one
   if (!existingSession) {
-    logInfoNextTick('[Replay] Created new session', traceInternals);
-    return createSession(sessionOptions);
+    logInfoNextTick('[Replay] Creating new session', traceInternals);
+    return createSession(sessionOptions, { previousSessionId });
   }
 
-  return maybeRefreshSession(existingSession, { sessionIdleExpire, traceInternals, maxReplayDuration }, sessionOptions);
+  if (!shouldRefreshSession(existingSession, { sessionIdleExpire, maxReplayDuration })) {
+    return existingSession;
+  }
+
+  logInfoNextTick('[Replay] Session in sessionStorage is expired, creating new one...');
+  return createSession(sessionOptions, { previousSessionId: existingSession.id });
 }
 
 const ReplayEventTypeCustom = 5;
@@ -17585,39 +17639,46 @@ function isCustomEvent(event) {
 
 /**
  * Add an event to the event buffer.
+ * In contrast to `addEvent`, this does not return a promise & does not wait for the adding of the event to succeed/fail.
+ * Instead this returns `true` if we tried to add the event, else false.
+ * It returns `false` e.g. if we are paused, disabled, or out of the max replay duration.
+ *
  * `isCheckout` is true if this is either the very first event, or an event triggered by `checkoutEveryNms`.
  */
-async function addEvent(
+function addEventSync(replay, event, isCheckout) {
+  if (!shouldAddEvent(replay, event)) {
+    return false;
+  }
+
+  void _addEvent(replay, event, isCheckout);
+
+  return true;
+}
+
+/**
+ * Add an event to the event buffer.
+ * Resolves to `null` if no event was added, else to `void`.
+ *
+ * `isCheckout` is true if this is either the very first event, or an event triggered by `checkoutEveryNms`.
+ */
+function addEvent(
+  replay,
+  event,
+  isCheckout,
+) {
+  if (!shouldAddEvent(replay, event)) {
+    return Promise.resolve(null);
+  }
+
+  return _addEvent(replay, event, isCheckout);
+}
+
+async function _addEvent(
   replay,
   event,
   isCheckout,
 ) {
   if (!replay.eventBuffer) {
-    // This implies that `_isEnabled` is false
-    return null;
-  }
-
-  if (replay.isPaused()) {
-    // Do not add to event buffer when recording is paused
-    return null;
-  }
-
-  const timestampInMs = timestampToMs(event.timestamp);
-
-  // Throw out events that happen more than 5 minutes ago. This can happen if
-  // page has been left open and idle for a long period of time and user
-  // comes back to trigger a new session. The performance entries rely on
-  // `performance.timeOrigin`, which is when the page first opened.
-  if (timestampInMs + replay.timeouts.sessionIdlePause < Date.now()) {
-    return null;
-  }
-
-  // Throw out events that are +60min from the initial timestamp
-  if (timestampInMs > replay.getContext().initialTimestamp + replay.getOptions().maxReplayDuration) {
-    logInfo(
-      `[Replay] Skipping event with timestamp ${timestampInMs} because it is after maxReplayDuration`,
-      replay.getOptions()._experiments.traceInternals,
-    );
     return null;
   }
 
@@ -17651,6 +17712,34 @@ async function addEvent(
       client.recordDroppedEvent('internal_sdk_error', 'replay');
     }
   }
+}
+
+/** Exported only for tests. */
+function shouldAddEvent(replay, event) {
+  if (!replay.eventBuffer || replay.isPaused() || !replay.isEnabled()) {
+    return false;
+  }
+
+  const timestampInMs = timestampToMs(event.timestamp);
+
+  // Throw out events that happen more than 5 minutes ago. This can happen if
+  // page has been left open and idle for a long period of time and user
+  // comes back to trigger a new session. The performance entries rely on
+  // `performance.timeOrigin`, which is when the page first opened.
+  if (timestampInMs + replay.timeouts.sessionIdlePause < Date.now()) {
+    return false;
+  }
+
+  // Throw out events that are +60min from the initial timestamp
+  if (timestampInMs > replay.getContext().initialTimestamp + replay.getOptions().maxReplayDuration) {
+    logInfo(
+      `[Replay] Skipping event with timestamp ${timestampInMs} because it is after maxReplayDuration`,
+      replay.getOptions()._experiments.traceInternals,
+    );
+    return false;
+  }
+
+  return true;
 }
 
 function maybeApplyCallback(
@@ -17774,7 +17863,7 @@ function isRrwebError(event, hint) {
     return false;
   }
 
-  // @ts-ignore this may be set by rrweb when it finds errors
+  // @ts-expect-error this may be set by rrweb when it finds errors
   if (hint.originalException && hint.originalException.__rrweb__) {
     return true;
   }
@@ -18617,7 +18706,7 @@ function getAllowedHeaders(headers, allowedHeaders) {
 function _serializeFormData(formData) {
   // This is a bit simplified, but gives us a decent estimate
   // This converts e.g. { name: 'Anne Smith', age: 13 } to 'name=Anne+Smith&age=13'
-  // @ts-ignore passing FormData to URLSearchParams actually works
+  // @ts-expect-error passing FormData to URLSearchParams actually works
   return new URLSearchParams(formData).toString();
 }
 
@@ -19237,9 +19326,7 @@ function addGlobalListeners(replay) {
   const scope = core.getCurrentHub().getScope();
   const client = core.getCurrentHub().getClient();
 
-  if (scope) {
-    scope.addScopeListener(handleScopeListener(replay));
-  }
+  scope.addScopeListener(handleScopeListener(replay));
   utils.addInstrumentationHandler('dom', handleDomListener(replay));
   utils.addInstrumentationHandler('history', handleHistorySpanListener(replay));
   handleNetworkBreadcrumbs(replay);
@@ -19285,7 +19372,7 @@ async function addMemoryEntry(replay) {
   try {
     return Promise.all(
       createPerformanceSpans(replay, [
-        // @ts-ignore memory doesn't exist on type Performance as the API is non-standard (we check that it exists above)
+        // @ts-expect-error memory doesn't exist on type Performance as the API is non-standard (we check that it exists above)
         createMemoryEntry(WINDOW.performance.memory),
       ]),
     );
@@ -19316,16 +19403,15 @@ function createMemoryEntry(memoryEntry) {
 }
 
 // Map entryType -> function to normalize data for event
-// @ts-ignore TODO: entry type does not fit the create* functions entry type
 const ENTRY_TYPES
 
  = {
-  // @ts-ignore TODO: entry type does not fit the create* functions entry type
+  // @ts-expect-error TODO: entry type does not fit the create* functions entry type
   resource: createResourceEntry,
   paint: createPaintEntry,
-  // @ts-ignore TODO: entry type does not fit the create* functions entry type
+  // @ts-expect-error TODO: entry type does not fit the create* functions entry type
   navigation: createNavigationEntry,
-  // @ts-ignore TODO: entry type does not fit the create* functions entry type
+  // @ts-expect-error TODO: entry type does not fit the create* functions entry type
   ['largest-contentful-paint']: createLargestContentfulPaint,
 };
 
@@ -19576,9 +19662,12 @@ function getHandleRecordingEmit(replay) {
         replay.setInitialState();
       }
 
-      // We need to clear existing events on a checkout, otherwise they are
-      // incremental event updates and should be appended
-      void addEvent(replay, event, isCheckout);
+      // If the event is not added (e.g. due to being paused, disabled, or out of the max replay duration),
+      // Skip all further steps
+      if (!addEventSync(replay, event, isCheckout)) {
+        // Return true to skip scheduling a debounced flush
+        return true;
+      }
 
       // Different behavior for full snapshots (type=2), ignore other event types
       // See https://github.com/rrweb-io/rrweb/blob/d8f9290ca496712aa1e7d472549480c4e7876594/packages/rrweb/src/types.ts#L16
@@ -19592,7 +19681,7 @@ function getHandleRecordingEmit(replay) {
       //
       // `isCheckout` is always true, but want to be explicit that it should
       // only be added for checkouts
-      void addSettingsEvent(replay, isCheckout);
+      addSettingsEvent(replay, isCheckout);
 
       // If there is a previousSessionId after a full snapshot occurs, then
       // the replay session was started due to session expiration. The new session
@@ -19669,10 +19758,10 @@ function createOptionsEvent(replay) {
 function addSettingsEvent(replay, isCheckout) {
   // Only need to add this event when sending the first segment
   if (!isCheckout || !replay.session || replay.session.segmentId !== 0) {
-    return Promise.resolve(null);
+    return;
   }
 
-  return addEvent(replay, createOptionsEvent(replay), false);
+  addEventSync(replay, createOptionsEvent(replay), false);
 }
 
 /**
@@ -19881,7 +19970,7 @@ async function sendReplayRequest({
 
     try {
       // In case browsers don't allow this property to be writable
-      // @ts-ignore This needs lib es2022 and newer
+      // @ts-expect-error This needs lib es2022 and newer
       error.cause = err;
     } catch (e) {
       // nothing to do
@@ -19952,7 +20041,7 @@ async function sendReplay(
 
       try {
         // In case browsers don't allow this property to be writable
-        // @ts-ignore This needs lib es2022 and newer
+        // @ts-expect-error This needs lib es2022 and newer
         error.cause = err;
       } catch (e) {
         // nothing to do
@@ -20169,7 +20258,7 @@ class ReplayContainer  {
    * Initializes the plugin based on sampling configuration. Should not be
    * called outside of constructor.
    */
-   initializeSampling() {
+   initializeSampling(previousSessionId) {
     const { errorSampleRate, sessionSampleRate } = this._options;
 
     // If neither sample rate is > 0, then do nothing - user will need to call one of
@@ -20180,7 +20269,7 @@ class ReplayContainer  {
 
     // Otherwise if there is _any_ sample rate set, try to load an existing
     // session, or create a new one.
-    this._initializeSessionForSampling();
+    this._initializeSessionForSampling(previousSessionId);
 
     if (!this.session) {
       // This should not happen, something wrong has occurred
@@ -20225,7 +20314,6 @@ class ReplayContainer  {
     logInfoNextTick('[Replay] Starting replay in session mode', this._options._experiments.traceInternals);
 
     const session = loadOrCreateSession(
-      this.session,
       {
         maxReplayDuration: this._options.maxReplayDuration,
         sessionIdleExpire: this.timeouts.sessionIdleExpire,
@@ -20256,7 +20344,6 @@ class ReplayContainer  {
     logInfoNextTick('[Replay] Starting replay in buffer mode', this._options._experiments.traceInternals);
 
     const session = loadOrCreateSession(
-      this.session,
       {
         sessionIdleExpire: this.timeouts.sessionIdleExpire,
         maxReplayDuration: this._options.maxReplayDuration,
@@ -20325,15 +20412,16 @@ class ReplayContainer  {
       return;
     }
 
+    // We can't move `_isEnabled` after awaiting a flush, otherwise we can
+    // enter into an infinite loop when `stop()` is called while flushing.
+    this._isEnabled = false;
+
     try {
       logInfo(
         `[Replay] Stopping Replay${reason ? ` triggered by ${reason}` : ''}`,
         this._options._experiments.traceInternals,
       );
 
-      // We can't move `_isEnabled` after awaiting a flush, otherwise we can
-      // enter into an infinite loop when `stop()` is called while flushing.
-      this._isEnabled = false;
       this._removeListeners();
       this.stopRecording();
 
@@ -20427,16 +20515,6 @@ class ReplayContainer  {
 
     // Once this session ends, we do not want to refresh it
     if (this.session) {
-      this.session.shouldRefresh = false;
-
-      // It's possible that the session lifespan is > max session lifespan
-      // because we have been buffering beyond max session lifespan (we ignore
-      // expiration given that `shouldRefresh` is true). Since we flip
-      // `shouldRefresh`, the session could be considered expired due to
-      // lifespan, which is not what we want. Update session start date to be
-      // the current timestamp, so that session is not considered to be
-      // expired. This means that max replay duration can be MAX_REPLAY_DURATION +
-      // (length of buffer), which we are ok with.
       this._updateUserActivity(activityTime);
       this._updateSessionActivity(activityTime);
       this._maybeSaveSession();
@@ -20564,8 +20642,6 @@ class ReplayContainer  {
    * @hidden
    */
    checkAndHandleExpiredSession() {
-    const oldSessionId = this.getSessionId();
-
     // Prevent starting a new session if the last user activity is older than
     // SESSION_IDLE_PAUSE_DURATION. Otherwise non-user activity can trigger a new
     // session+recording. This creates noisy replays that do not have much
@@ -20587,24 +20663,11 @@ class ReplayContainer  {
     // --- There is recent user activity --- //
     // This will create a new session if expired, based on expiry length
     if (!this._checkSession()) {
-      return;
+      // Check session handles the refreshing itself
+      return false;
     }
 
-    // Session was expired if session ids do not match
-    const expired = oldSessionId !== this.getSessionId();
-
-    if (!expired) {
-      return true;
-    }
-
-    // Session is expired, trigger a full snapshot (which will create a new session)
-    if (this.isPaused()) {
-      this.resume();
-    } else {
-      this._triggerFullSnapshot();
-    }
-
-    return false;
+    return true;
   }
 
   /**
@@ -20644,7 +20707,8 @@ class ReplayContainer  {
       });
 
       this.addUpdate(() => {
-        void addEvent(this, {
+        // Return `false` if the event _was_ added, as that means we schedule a flush
+        return !addEventSync(this, {
           type: ReplayEventTypeCustom,
           timestamp: breadcrumb.timestamp || 0,
           data: {
@@ -20692,6 +20756,7 @@ class ReplayContainer  {
 
     // Need to set as enabled before we start recording, as `record()` can trigger a flush with a new checkout
     this._isEnabled = true;
+    this._isPaused = false;
 
     this.startRecording();
   }
@@ -20708,17 +20773,17 @@ class ReplayContainer  {
   /**
    * Loads (or refreshes) the current session.
    */
-   _initializeSessionForSampling() {
+   _initializeSessionForSampling(previousSessionId) {
     // Whenever there is _any_ error sample rate, we always allow buffering
     // Because we decide on sampling when an error occurs, we need to buffer at all times if sampling for errors
     const allowBuffering = this._options.errorSampleRate > 0;
 
     const session = loadOrCreateSession(
-      this.session,
       {
         sessionIdleExpire: this.timeouts.sessionIdleExpire,
         maxReplayDuration: this._options.maxReplayDuration,
         traceInternals: this._options._experiments.traceInternals,
+        previousSessionId,
       },
       {
         stickySession: this._options.stickySession,
@@ -20743,35 +20808,30 @@ class ReplayContainer  {
 
     const currentSession = this.session;
 
-    const newSession = maybeRefreshSession(
-      currentSession,
-      {
+    if (
+      shouldRefreshSession(currentSession, {
         sessionIdleExpire: this.timeouts.sessionIdleExpire,
-        traceInternals: this._options._experiments.traceInternals,
         maxReplayDuration: this._options.maxReplayDuration,
-      },
-      {
-        stickySession: Boolean(this._options.stickySession),
-        sessionSampleRate: this._options.sessionSampleRate,
-        allowBuffering: this._options.errorSampleRate > 0,
-      },
-    );
-
-    const isNew = newSession.id !== currentSession.id;
-
-    // If session was newly created (i.e. was not loaded from storage), then
-    // enable flag to create the root replay
-    if (isNew) {
-      this.setInitialState();
-      this.session = newSession;
-    }
-
-    if (!this.session.sampled) {
-      void this.stop({ reason: 'session not refreshed' });
+      })
+    ) {
+      void this._refreshSession(currentSession);
       return false;
     }
 
     return true;
+  }
+
+  /**
+   * Refresh a session with a new one.
+   * This stops the current session (without forcing a flush, as that would never work since we are expired),
+   * and then does a new sampling based on the refreshed session.
+   */
+   async _refreshSession(session) {
+    if (!this._isEnabled) {
+      return;
+    }
+    await this.stop({ reason: 'refresh session' });
+    this.initializeSampling(session.id);
   }
 
   /**
@@ -20885,10 +20945,14 @@ class ReplayContainer  {
 
     const expired = isSessionExpired(this.session, {
       maxReplayDuration: this._options.maxReplayDuration,
-      ...this.timeouts,
+      sessionIdleExpire: this.timeouts.sessionIdleExpire,
     });
 
-    if (breadcrumb && !expired) {
+    if (expired) {
+      return;
+    }
+
+    if (breadcrumb) {
       this._createCustomBreadcrumb(breadcrumb);
     }
 
@@ -21033,7 +21097,9 @@ class ReplayContainer  {
    * Should never be called directly, only by `flush`
    */
    async _runFlush() {
-    if (!this.session || !this.eventBuffer) {
+    const replayId = this.getSessionId();
+
+    if (!this.session || !this.eventBuffer || !replayId) {
       (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay] No session or eventBuffer found to flush.');
       return;
     }
@@ -21053,12 +21119,14 @@ class ReplayContainer  {
       return;
     }
 
+    // if this changed in the meanwhile, e.g. because the session was refreshed or similar, we abort here
+    if (replayId !== this.getSessionId()) {
+      return;
+    }
+
     try {
       // This uses the data from the eventBuffer, so we need to call this before `finish()
       this._updateInitialTimestampFromEventBuffer();
-
-      // Note this empties the event buffer regardless of outcome of sending replay
-      const recordingData = await this.eventBuffer.finish();
 
       const timestamp = Date.now();
 
@@ -21069,13 +21137,13 @@ class ReplayContainer  {
         throw new Error('Session is too long, not sending replay');
       }
 
-      // NOTE: Copy values from instance members, as it's possible they could
-      // change before the flush finishes.
-      const replayId = this.session.id;
       const eventContext = this._popEventContext();
       // Always increment segmentId regardless of outcome of sending replay
       const segmentId = this.session.segmentId++;
       this._maybeSaveSession();
+
+      // Note this empties the event buffer regardless of outcome of sending replay
+      const recordingData = await this.eventBuffer.finish();
 
       await sendReplay({
         replayId,
@@ -22698,7 +22766,7 @@ function isBrowserBundle() {
  * Get source of SDK.
  */
 function getSDKSource() {
-  // @ts-ignore "npm" is injected by rollup during build process
+  // @ts-expect-error "npm" is injected by rollup during build process
   return "npm";
 }
 
@@ -23173,6 +23241,7 @@ exports.isRegExp = is.isRegExp;
 exports.isString = is.isString;
 exports.isSyntheticEvent = is.isSyntheticEvent;
 exports.isThenable = is.isThenable;
+exports.isVueViewModel = is.isVueViewModel;
 exports.CONSOLE_LEVELS = logger.CONSOLE_LEVELS;
 exports.consoleSandbox = logger.consoleSandbox;
 exports.logger = logger.logger;
@@ -24119,6 +24188,17 @@ function isInstanceOf(wat, base) {
   }
 }
 
+/**
+ * Checks whether given value's type is a Vue ViewModel.
+ *
+ * @param wat A value to be checked.
+ * @returns A boolean representing the result.
+ */
+function isVueViewModel(wat) {
+  // Not using Object.prototype.toString because in Vue 3 it would read the instance's Symbol(Symbol.toStringTag) property.
+  return !!(typeof wat === 'object' && wat !== null && ((wat ).__isVue || (wat )._isVue));
+}
+
 exports.isDOMError = isDOMError;
 exports.isDOMException = isDOMException;
 exports.isElement = isElement;
@@ -24133,6 +24213,7 @@ exports.isRegExp = isRegExp;
 exports.isString = isString;
 exports.isSyntheticEvent = isSyntheticEvent;
 exports.isThenable = isThenable;
+exports.isVueViewModel = isVueViewModel;
 
 
 },{}],107:[function(require,module,exports){
@@ -24289,12 +24370,18 @@ function uuid4() {
   const gbl = worldwide.GLOBAL_OBJ ;
   const crypto = gbl.crypto || gbl.msCrypto;
 
-  if (crypto && crypto.randomUUID) {
-    return crypto.randomUUID().replace(/-/g, '');
+  let getRandomByte = () => Math.random() * 16;
+  try {
+    if (crypto && crypto.randomUUID) {
+      return crypto.randomUUID().replace(/-/g, '');
+    }
+    if (crypto && crypto.getRandomValues) {
+      getRandomByte = () => crypto.getRandomValues(new Uint8Array(1))[0];
+    }
+  } catch (_) {
+    // some runtimes can crash invoking crypto
+    // https://github.com/getsentry/sentry-javascript/issues/8935
   }
-
-  const getRandomByte =
-    crypto && crypto.getRandomValues ? () => crypto.getRandomValues(new Uint8Array(1))[0] : () => Math.random() * 16;
 
   // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/2117523#2117523
   // Concatenating the following numbers as strings results in '10000000100040008000100000000000'
@@ -24863,6 +24950,10 @@ function stringifyValue(
     // eslint-disable-next-line no-restricted-globals
     if (typeof document !== 'undefined' && value === document) {
       return '[Document]';
+    }
+
+    if (is.isVueViewModel(value)) {
+      return '[VueViewModel]';
     }
 
     // React's SyntheticEvent thingy
@@ -26250,7 +26341,16 @@ function safeJoin(input, delimiter) {
   for (let i = 0; i < input.length; i++) {
     const value = input[i];
     try {
-      output.push(String(value));
+      // This is a hack to fix a Vue3-specific bug that causes an infinite loop of
+      // console warnings. This happens when a Vue template is rendered with
+      // an undeclared variable, which we try to stringify, ultimately causing
+      // Vue to issue another warning which repeats indefinitely.
+      // see: https://github.com/getsentry/sentry-javascript/pull/8981
+      if (is.isVueViewModel(value)) {
+        output.push('[VueViewModel]');
+      } else {
+        output.push(String(value));
+      }
     } catch (e) {
       output.push('[value cannot be serialized]');
     }
@@ -26345,7 +26445,7 @@ function supportsDOMError() {
   try {
     // Chrome: VM89:1 Uncaught TypeError: Failed to construct 'DOMError':
     // 1 argument required, but only 0 present.
-    // @ts-ignore It really needs 1 argument, not 0.
+    // @ts-expect-error It really needs 1 argument, not 0.
     new DOMError('');
     return true;
   } catch (e) {
