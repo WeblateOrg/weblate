@@ -1283,7 +1283,12 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         return serializer_class(instance, *args, **kwargs)
 
     def get_queryset(self):
-        return Unit.objects.filter_access(self.request.user).order_by("id")
+        return (
+            Unit.objects.filter_access(self.request.user)
+            .prefetch()
+            .prefetch_full()
+            .order_by("id")
+        )
 
     def filter_queryset(self, queryset):
         result = super().filter_queryset(queryset)
