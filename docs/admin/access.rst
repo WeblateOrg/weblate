@@ -383,6 +383,9 @@ the following rules:
   granted for all the projects these components are in. :guilabel:`Components`
   and :guilabel:`Projects` are ignored.
 
+  Using huge component lists might have a performance impact, please consider
+  giving access via projects instead.
+
 - If the team specifies any :guilabel:`Components`, all the permissions given to
   the members of that team are granted for all the components attached to the
   team, and an access with no additional permissions is granted for all the
