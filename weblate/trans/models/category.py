@@ -136,16 +136,18 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         )
 
     @cached_property
-    def all_component_ids(self):
+    def all_components(self):
         from weblate.trans.models import Component
 
-        return set(
-            Component.objects.filter(
-                Q(category=self)
-                | Q(category__category=self)
-                | Q(category__category__category=self)
-            ).values_list("pk", flat=True)
+        return Component.objects.filter(
+            Q(category=self)
+            | Q(category__category=self)
+            | Q(category__category__category=self)
         )
+
+    @cached_property
+    def all_component_ids(self):
+        return set(self.all_components.values_list("pk", flat=True))
 
     def generate_changes(self, old):
         def getvalue(base, attribute):
@@ -172,3 +174,9 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     project=self.project,
                     user=self.acting_user,
                 )
+
+    @cached_property
+    def source_language_ids(self):
+        return set(
+            self.all_components.values_list("source_language_id", flat=True).distinct()
+        )

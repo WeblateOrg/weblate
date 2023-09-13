@@ -465,6 +465,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
     def child_components(self):
         return self.get_child_components_filter(lambda qs: qs)
 
+    @cached_property
+    def source_language_ids(self):
+        return set(
+            self.get_child_components_filter(
+                lambda qs: qs.values_list("source_language_id", flat=True).distinct()
+            )
+        )
+
     def scratch_create_component(
         self,
         name: str,
