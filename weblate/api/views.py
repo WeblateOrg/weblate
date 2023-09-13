@@ -807,9 +807,9 @@ class ComponentViewSet(
 
     def get_queryset(self):
         return (
-            Component.objects.prefetch()
+            Component.objects.prefetch(defer=False)
             .filter_access(self.request.user)
-            .prefetch_related("source_language")
+            .prefetch_related("source_language", "addon_set")
             .order_by("id")
         )
 

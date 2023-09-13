@@ -86,10 +86,10 @@ class TranslationManager(models.Manager):
 
 class TranslationQuerySet(models.QuerySet):
     def prefetch(self):
-        from weblate.trans.models import Alert
+        from weblate.trans.models import Alert, Component
 
         return self.prefetch_related(
-            "component",
+            models.Prefetch("component", queryset=Component.objects.defer_huge()),
             "component__project",
             "component__category",
             "component__category__project",
@@ -98,7 +98,9 @@ class TranslationQuerySet(models.QuerySet):
             "component__category__category__category",
             "component__category__category__category__project",
             "language",
-            "component__linked_component",
+            models.Prefetch(
+                "component__linked_component", queryset=Component.objects.defer_huge()
+            ),
             "component__linked_component__project",
             models.Prefetch(
                 "component__alert_set",
