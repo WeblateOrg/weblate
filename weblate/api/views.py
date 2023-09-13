@@ -1547,6 +1547,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
                 Q(components__project__in=self.request.user.allowed_projects)
                 | Q(components__isnull=True)
             )
+            .prefetch_related("components__project", "autocomponentlist_set")
             .order_by("id")
             .distinct()
         )
