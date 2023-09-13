@@ -146,12 +146,8 @@ def search(request, path=None):
             user=request.user, data=request.GET, show_builder=False
         )
         search_form.is_valid()
-        units = (
-            unit_set.prefetch_full()
-            .prefetch()
-            .search(
-                search_form.cleaned_data.get("q", ""), project=context.get("project")
-            )
+        units = unit_set.prefetch_full().search(
+            search_form.cleaned_data.get("q", ""), project=context.get("project")
         )
 
         units = get_paginator(

@@ -213,10 +213,17 @@ def translation_prefetch_tasks(translations):
 
 
 class ComponentQuerySet(models.QuerySet):
-    def prefetch(self, alerts: bool = True):
+    def prefetch(self, alerts: bool = True, defer: bool = True):
         from weblate.trans.models import Alert
 
         result = self
+        if defer:
+            result = result.defer_huge()
+            linked_component = models.Prefetch(
+                "linked_component", queryset=Component.objects.defer_huge()
+            )
+        else:
+            linked_component = "linked_component"
         if alerts:
             result = result.prefetch_related(
                 models.Prefetch(
@@ -234,8 +241,19 @@ class ComponentQuerySet(models.QuerySet):
             "category__category__project",
             "category__category__category",
             "category__category__category__project",
-            "linked_component",
+            linked_component,
             "linked_component__project",
+        )
+
+    def defer_huge(self):
+        return self.defer(
+            "agreement",
+            "commit_message",
+            "add_message",
+            "delete_message",
+            "merge_message",
+            "addon_message",
+            "pull_message",
         )
 
     def get_linked(self, val):

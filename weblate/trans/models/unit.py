@@ -89,11 +89,15 @@ class UnitQuerySet(models.QuerySet):
         raise ValueError(f"Unknown filter: {rqtype}")
 
     def prefetch(self):
+        from weblate.trans.models import Component
+
         return self.prefetch_related(
             "translation",
             "translation__language",
             "translation__plural",
-            "translation__component",
+            models.Prefetch(
+                "translation__component", queryset=Component.objects.defer_huge()
+            ),
             "translation__component__category",
             "translation__component__category__project",
             "translation__component__category__category",
@@ -105,10 +109,15 @@ class UnitQuerySet(models.QuerySet):
         )
 
     def prefetch_full(self):
+        from weblate.trans.models import Component
+
         return self.prefetch_related(
             "source_unit",
             "source_unit__translation",
-            "source_unit__translation__component",
+            models.Prefetch(
+                "source_unit__translation__component",
+                queryset=Component.objects.defer_huge(),
+            ),
             "source_unit__translation__component__source_language",
             "source_unit__translation__component__project",
             "check_set",
