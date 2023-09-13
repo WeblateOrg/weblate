@@ -414,6 +414,9 @@ class LanguageQuerySet(models.QuerySet):
     def search(self, query: str):
         return self.filter(Q(name__icontains=query) | Q(code__icontains=query))
 
+    def prefetch(self):
+        return self.prefetch_related("plural_set")
+
 
 class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
     use_in_migrations = True
@@ -443,9 +446,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
 
         # Invalidate cache, we might change languages
         self.flush_object_cache()
-        languages = {
-            language.code: language for language in self.prefetch_related("plural_set")
-        }
+        languages = {language.code: language for language in self.prefetch()}
         plurals = {}
         # Create Weblate languages
         for code, name, nplurals, plural_formula in LANGUAGES:
@@ -647,6 +648,10 @@ class Language(models.Model, CacheKeyMixin):
 
     @cached_property
     def plural(self):
+        if self.plural_set.all()._result_cache is not None:
+            for plural in self.plural_set.all():
+                if plural.source == Plural.SOURCE_DEFAULT:
+                    return plural
         return self.plural_set.filter(source=Plural.SOURCE_DEFAULT)[0]
 
     def get_aliases_names(self):

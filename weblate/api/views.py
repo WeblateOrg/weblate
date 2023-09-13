@@ -1238,8 +1238,8 @@ class LanguageViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.has_perm("language.edit"):
-            return Language.objects.order_by("id")
-        return Language.objects.have_translation().order_by("id")
+            return Language.objects.order_by("id").prefetch()
+        return Language.objects.have_translation().order_by("id").prefetch()
 
     def perm_check(self, request):
         if not request.user.has_perm("language.edit"):
