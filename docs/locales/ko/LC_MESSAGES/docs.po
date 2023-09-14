@@ -4,9 +4,9 @@
 # 이정희 <daemul72@gmail.com>, 2023.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 5.0.1\n"
+"Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2023-09-07 21:05+0200\n"
+"POT-Creation-Date: 2023-09-14 16:23+0200\n"
 "PO-Revision-Date: 2023-08-26 17:32+0000\n"
 "Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
@@ -256,7 +256,7 @@ msgstr ""
 "집할 수 있습니다."
 
 #: ../../admin/access.rst:126 ../../admin/access.rst:292
-#: ../../admin/access.rst:308 ../../admin/access.rst:419 ../../api.rst:681
+#: ../../admin/access.rst:308 ../../admin/access.rst:422 ../../api.rst:681
 #: ../../user/profile.rst:76
 msgid "Languages"
 msgstr "언어"
@@ -267,7 +267,7 @@ msgstr "언어"
 msgid "Can manage translated languages (add or remove translations)."
 msgstr "다수 번역 언어 추가"
 
-#: ../../admin/access.rst:129 ../../admin/access.rst:497 ../../api.rst:2400
+#: ../../admin/access.rst:129 ../../admin/access.rst:500 ../../api.rst:2400
 #: ../../user/glossary.rst:4 ../../user/translating.rst:294
 msgid "Glossary"
 msgstr "용어집"
@@ -286,7 +286,7 @@ msgstr "메모리"
 msgid "Can manage translation memory."
 msgstr "번역 메모리 관리"
 
-#: ../../admin/access.rst:136 ../../admin/access.rst:517 ../../api.rst:2146
+#: ../../admin/access.rst:136 ../../admin/access.rst:520 ../../api.rst:2146
 #: ../../user/translating.rst:283
 msgid "Screenshots"
 msgstr "스크린숏"
@@ -309,7 +309,7 @@ msgstr "자동 번역"
 msgid "Can use automatic translation."
 msgstr "자동 번역"
 
-#: ../../admin/access.rst:142 ../../admin/access.rst:563
+#: ../../admin/access.rst:142 ../../admin/access.rst:566
 msgid "VCS"
 msgstr "VCS"
 
@@ -579,7 +579,7 @@ msgid ""
 "granted by site-wide or per-project teams by adding another custom team."
 msgstr ""
 
-#: ../../admin/access.rst:277 ../../admin/access.rst:407
+#: ../../admin/access.rst:277 ../../admin/access.rst:410
 #: ../../admin/config.rst:228 ../../admin/config.rst:247
 #: ../../admin/config.rst:299 ../../admin/install/docker.rst:448
 #: ../../admin/install/docker.rst:491 ../../admin/install/docker.rst:559
@@ -636,8 +636,8 @@ msgstr ""
 msgid "Group `Czech translators`"
 msgstr "`체코어 번역자` 그룹"
 
-#: ../../admin/access.rst:302 ../../admin/access.rst:415
-#: ../../admin/access.rst:481 ../../api.rst:612
+#: ../../admin/access.rst:302 ../../admin/access.rst:418
+#: ../../admin/access.rst:484 ../../api.rst:612
 msgid "Roles"
 msgstr "역할"
 
@@ -777,13 +777,19 @@ msgstr ""
 
 #: ../../admin/access.rst:386
 msgid ""
+"Using huge component lists might have a performance impact, please consider "
+"giving access via projects instead."
+msgstr ""
+
+#: ../../admin/access.rst:389
+msgid ""
 "If the team specifies any :guilabel:`Components`, all the permissions given "
 "to the members of that team are granted for all the components attached to "
 "the team, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
 
-#: ../../admin/access.rst:391
+#: ../../admin/access.rst:394
 msgid ""
 "Otherwise, if the team specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -792,7 +798,7 @@ msgid ""
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
 
-#: ../../admin/access.rst:397
+#: ../../admin/access.rst:400
 msgid ""
 "The restrictions imposed by a team’s :guilabel:`Languages` are applied "
 "separately, when it’s verified if a user has an access to perform certain "
@@ -801,72 +807,72 @@ msgid ""
 "suggestions, etc."
 msgstr ""
 
-#: ../../admin/access.rst:404
+#: ../../admin/access.rst:407
 msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
 msgstr ""
 
-#: ../../admin/access.rst:409
+#: ../../admin/access.rst:412
 msgid ""
 "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
 "``foo/baz`` and the following team:"
 msgstr ""
 
-#: ../../admin/access.rst:412
+#: ../../admin/access.rst:415
 msgid "Group `Spanish Admin-Reviewers`"
 msgstr ""
 
-#: ../../admin/access.rst:416
+#: ../../admin/access.rst:419
 #, fuzzy
 #| msgctxt "Access-control role"
 #| msgid "Manage repository"
 msgid "`Review Strings`, `Manage repository`"
 msgstr "저장소 관리"
 
-#: ../../admin/access.rst:417 ../../api.rst:1149
+#: ../../admin/access.rst:420 ../../api.rst:1149
 msgid "Components"
 msgstr "구성요소"
 
-#: ../../admin/access.rst:418
+#: ../../admin/access.rst:421
 msgid "foo/bar"
 msgstr ""
 
-#: ../../admin/access.rst:420
+#: ../../admin/access.rst:423
 #, fuzzy
 #| msgid "Spanish"
 msgid "`Spanish`"
 msgstr "스페인어"
 
-#: ../../admin/access.rst:424
+#: ../../admin/access.rst:427
 msgid ""
 "Members of that team will have following permissions (assuming the default "
 "role settings):"
 msgstr ""
 
-#: ../../admin/access.rst:426
+#: ../../admin/access.rst:429
 msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
 msgstr ""
 
-#: ../../admin/access.rst:428
+#: ../../admin/access.rst:431
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
 msgstr ""
 
-#: ../../admin/access.rst:429
+#: ../../admin/access.rst:432
 msgid ""
 "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes "
 "made by translators for all languages."
 msgstr ""
 
-#: ../../admin/access.rst:435
+#: ../../admin/access.rst:438
 #, fuzzy
 #| msgid "Automatic group assignments"
 msgid "Automatic team assignments"
 msgstr "자동 번역 할당"
 
-#: ../../admin/access.rst:437
+#: ../../admin/access.rst:440
 msgid ""
 "While editing the :guilabel:`Team`, you can specify :guilabel:"
 "`Automatic assignments`, which is a list of regular expressions used to "
@@ -874,7 +880,7 @@ msgid ""
 "addresses. This assignment only happens upon account creation."
 msgstr ""
 
-#: ../../admin/access.rst:442
+#: ../../admin/access.rst:445
 msgid ""
 "The most common use-case for the feature is to assign all new users to some "
 "default team. This behavior is used for the default `Users` and `Guest` "
@@ -882,7 +888,7 @@ msgid ""
 "all users."
 msgstr ""
 
-#: ../../admin/access.rst:446
+#: ../../admin/access.rst:449
 msgid ""
 "Another use-case for this option might be to give some additional privileges "
 "to employees of your company by default. Assuming all of them use corporate "
@@ -890,33 +896,33 @@ msgid ""
 "like ``^.*@mycompany.com``."
 msgstr ""
 
-#: ../../admin/access.rst:453
+#: ../../admin/access.rst:456
 msgid ""
 "Automatic team assignment to `Users` and `Viewers` is always recreated when "
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
 
-#: ../../admin/access.rst:459
+#: ../../admin/access.rst:462
 msgid ""
 "As for now, there is no way to bulk-add already existing users to some team "
 "via the user interface. For that, you may resort to using the :ref:`REST API "
 "<api>`."
 msgstr ""
 
-#: ../../admin/access.rst:463
+#: ../../admin/access.rst:466
 #, fuzzy
 #| msgid "Default dashboard view"
 msgid "Default teams and roles"
 msgstr "기본 참여 프로젝트 뷰"
 
-#: ../../admin/access.rst:465
+#: ../../admin/access.rst:468
 msgid ""
 "After installation, a default set of teams is created (see :ref:`default-"
 "teams`)."
 msgstr ""
 
-#: ../../admin/access.rst:467
+#: ../../admin/access.rst:470
 msgid ""
 "These roles and teams are created upon installation. The built-in roles are "
 "always kept up to date by the database migration when upgrading. You can’t "
@@ -924,246 +930,246 @@ msgid ""
 "own set of permissions."
 msgstr ""
 
-#: ../../admin/access.rst:475
+#: ../../admin/access.rst:478
 msgid "List of privileges and built-in roles"
 msgstr ""
 
-#: ../../admin/access.rst:481 ../../admin/optionals.rst:260
+#: ../../admin/access.rst:484 ../../admin/optionals.rst:260
 #: ../../user/checks.rst:0
 msgid "Scope"
 msgstr "범위"
 
-#: ../../admin/access.rst:481
+#: ../../admin/access.rst:484
 msgid "Permission"
 msgstr "권한"
 
-#: ../../admin/access.rst:483
+#: ../../admin/access.rst:486
 msgid "Billing (see :ref:`billing`)"
 msgstr ""
 
-#: ../../admin/access.rst:483
+#: ../../admin/access.rst:486
 msgid "View billing info"
 msgstr "결제 정보 보기"
 
-#: ../../admin/access.rst:483
+#: ../../admin/access.rst:486
 #, fuzzy
 #| msgid "Administration"
 msgid "`Administration`, `Billing`"
 msgstr "관리"
 
-#: ../../admin/access.rst:485 ../../api.rst:2109
+#: ../../admin/access.rst:488 ../../api.rst:2109
 msgid "Changes"
 msgstr "변경 사항"
 
-#: ../../admin/access.rst:485
+#: ../../admin/access.rst:488
 msgid "Download changes"
 msgstr "내려받기 변경"
 
-#: ../../admin/access.rst:485 ../../admin/access.rst:489
-#: ../../admin/access.rst:493 ../../admin/access.rst:495
-#: ../../admin/access.rst:511 ../../admin/access.rst:513
-#: ../../admin/access.rst:515 ../../admin/access.rst:525
-#: ../../admin/access.rst:527 ../../admin/access.rst:557
+#: ../../admin/access.rst:488 ../../admin/access.rst:492
+#: ../../admin/access.rst:496 ../../admin/access.rst:498
+#: ../../admin/access.rst:514 ../../admin/access.rst:516
+#: ../../admin/access.rst:518 ../../admin/access.rst:528
+#: ../../admin/access.rst:530 ../../admin/access.rst:560
 #, fuzzy
 #| msgid "Administration"
 msgid "`Administration`"
 msgstr "관리"
 
-#: ../../admin/access.rst:487 ../../user/translating.rst:62
+#: ../../admin/access.rst:490 ../../user/translating.rst:62
 msgid "Comments"
 msgstr "의견"
 
-#: ../../admin/access.rst:487
+#: ../../admin/access.rst:490
 msgid "Post comment"
 msgstr "의견 달기"
 
-#: ../../admin/access.rst:487 ../../admin/access.rst:505
-#: ../../admin/access.rst:529 ../../admin/access.rst:531
-#: ../../admin/access.rst:539 ../../admin/access.rst:545
-#: ../../admin/access.rst:559 ../../admin/access.rst:561
+#: ../../admin/access.rst:490 ../../admin/access.rst:508
+#: ../../admin/access.rst:532 ../../admin/access.rst:534
+#: ../../admin/access.rst:542 ../../admin/access.rst:548
+#: ../../admin/access.rst:562 ../../admin/access.rst:564
 #, fuzzy
 #| msgid "Start new translation into more languages"
 msgid ""
 "`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`"
 msgstr "더 많은 언어로 새로운 번역 시작하기"
 
-#: ../../admin/access.rst:489
+#: ../../admin/access.rst:492
 msgid "Delete comment"
 msgstr "의견 삭제하기"
 
-#: ../../admin/access.rst:491
+#: ../../admin/access.rst:494
 msgid "Resolve comment"
 msgstr "의견 해결하기"
 
-#: ../../admin/access.rst:491 ../../admin/access.rst:533
-#: ../../admin/access.rst:535
+#: ../../admin/access.rst:494 ../../admin/access.rst:536
+#: ../../admin/access.rst:538
 #, fuzzy
 #| msgid "Edit string when suggestions are enforced"
 msgid "`Administration`, `Review strings`"
 msgstr "제안이 있는 문자열 편집"
 
-#: ../../admin/access.rst:493 ../../admin/addons.rst:56
+#: ../../admin/access.rst:496 ../../admin/addons.rst:56
 msgid "Component"
 msgstr "구성요소"
 
-#: ../../admin/access.rst:493
+#: ../../admin/access.rst:496
 msgid "Edit component settings"
 msgstr "구성요소 설정 편집하기"
 
-#: ../../admin/access.rst:495
+#: ../../admin/access.rst:498
 msgid "Lock component, preventing translations"
 msgstr "구성요소 잠금, 번역 방지"
 
-#: ../../admin/access.rst:497
+#: ../../admin/access.rst:500
 msgid "Add glossary entry"
 msgstr "용어집 항목 추가하기"
 
-#: ../../admin/access.rst:497 ../../admin/access.rst:499
-#: ../../admin/access.rst:501 ../../admin/access.rst:503
+#: ../../admin/access.rst:500 ../../admin/access.rst:502
+#: ../../admin/access.rst:504 ../../admin/access.rst:506
 msgid "`Administration`, `Manage glossary`, `Power user`"
 msgstr "`관리`, `용어집 관리하기`, `전문 사용자`"
 
-#: ../../admin/access.rst:499
+#: ../../admin/access.rst:502
 msgid "Edit glossary entry"
 msgstr "용어집 항목 편집하기"
 
-#: ../../admin/access.rst:501
+#: ../../admin/access.rst:504
 msgid "Delete glossary entry"
 msgstr "용어집 항목 삭제하기"
 
-#: ../../admin/access.rst:503
+#: ../../admin/access.rst:506
 msgid "Upload glossary entries"
 msgstr "용어집 항목 업로드"
 
-#: ../../admin/access.rst:505 ../../user/translating.rst:330
+#: ../../admin/access.rst:508 ../../user/translating.rst:330
 msgid "Automatic suggestions"
 msgstr "자동 제안"
 
-#: ../../admin/access.rst:505
+#: ../../admin/access.rst:508
 msgid "Use automatic suggestions"
 msgstr "자동 제안 사용"
 
-#: ../../admin/access.rst:507 ../../user/translating.rst:292
+#: ../../admin/access.rst:510 ../../user/translating.rst:292
 msgid "Translation memory"
 msgstr "번역 메모리"
 
-#: ../../admin/access.rst:507
+#: ../../admin/access.rst:510
 msgid "Edit translation memory"
 msgstr "번역 메모리 편집"
 
-#: ../../admin/access.rst:507 ../../admin/access.rst:509
+#: ../../admin/access.rst:510 ../../admin/access.rst:512
 #, fuzzy
 #| msgid "Start new translation into more languages"
 msgid "`Administration`, `Manage translation memory`"
 msgstr "더 많은 언어로 새로운 번역 시작하기"
 
-#: ../../admin/access.rst:509
+#: ../../admin/access.rst:512
 msgid "Delete translation memory"
 msgstr "번역 메모리 삭제"
 
-#: ../../admin/access.rst:511 ../../api.rst:788
+#: ../../admin/access.rst:514 ../../api.rst:788
 msgid "Projects"
 msgstr "프로젝트"
 
-#: ../../admin/access.rst:511
+#: ../../admin/access.rst:514
 msgid "Edit project settings"
 msgstr "프로젝트 설정 편집"
 
-#: ../../admin/access.rst:513
+#: ../../admin/access.rst:516
 msgid "Manage project access"
 msgstr "프로젝트 접속 관리"
 
-#: ../../admin/access.rst:515
+#: ../../admin/access.rst:518
 msgid "Reports"
 msgstr "보고"
 
-#: ../../admin/access.rst:515
+#: ../../admin/access.rst:518
 msgid "Download reports"
 msgstr "보고서 내려받기"
 
-#: ../../admin/access.rst:517
+#: ../../admin/access.rst:520
 msgid "Add screenshot"
 msgstr "스크린숏 추가하기"
 
-#: ../../admin/access.rst:517 ../../admin/access.rst:519
-#: ../../admin/access.rst:521
+#: ../../admin/access.rst:520 ../../admin/access.rst:522
+#: ../../admin/access.rst:524
 msgid "`Administration`, `Manage screenshots`"
 msgstr "`관리`, `스크린숏 관리하기`"
 
-#: ../../admin/access.rst:519
+#: ../../admin/access.rst:522
 msgid "Edit screenshot"
 msgstr "스크린숏 편집하기"
 
-#: ../../admin/access.rst:521
+#: ../../admin/access.rst:524
 msgid "Delete screenshot"
 msgstr "스크린숏 삭제하기"
 
-#: ../../admin/access.rst:523 ../../admin/addons.rst:519
+#: ../../admin/access.rst:526 ../../admin/addons.rst:519
 msgid "Source strings"
 msgstr "원본 문자열"
 
-#: ../../admin/access.rst:523
+#: ../../admin/access.rst:526
 msgid "Edit additional string info"
 msgstr "추가 문자열 정보 편집"
 
-#: ../../admin/access.rst:523
+#: ../../admin/access.rst:526
 #, fuzzy
 #| msgid "Edit string when suggestions are enforced"
 msgid "`Administration`, `Edit source`"
 msgstr "제안이 있는 문자열 편집"
 
-#: ../../admin/access.rst:525
+#: ../../admin/access.rst:528
 msgid "Strings"
 msgstr "문자열"
 
-#: ../../admin/access.rst:525
+#: ../../admin/access.rst:528
 msgid "Add new string"
 msgstr "새로운 문자열 추가"
 
-#: ../../admin/access.rst:527
+#: ../../admin/access.rst:530
 msgid "Remove a string"
 msgstr "문자열을 제거"
 
-#: ../../admin/access.rst:529
+#: ../../admin/access.rst:532
 msgid "Dismiss failing check"
 msgstr "검사에 실패 했습니다"
 
-#: ../../admin/access.rst:531
+#: ../../admin/access.rst:534
 msgid "Edit strings"
 msgstr "문자열 편집"
 
-#: ../../admin/access.rst:533
+#: ../../admin/access.rst:536
 msgid "Review strings"
 msgstr "문자열 확인"
 
-#: ../../admin/access.rst:535
+#: ../../admin/access.rst:538
 msgid "Edit string when suggestions are enforced"
 msgstr "제안이 있는 문자열 편집"
 
-#: ../../admin/access.rst:537
+#: ../../admin/access.rst:540
 msgid "Edit source strings"
 msgstr "원본 문자열 편집"
 
-#: ../../admin/access.rst:537
+#: ../../admin/access.rst:540
 #, fuzzy
 #| msgid "Start new translation into more languages"
 msgid "`Administration`, `Edit source`, `Power user`"
 msgstr "더 많은 언어로 새로운 번역 시작하기"
 
-#: ../../admin/access.rst:539 ../../user/translating.rst:46
+#: ../../admin/access.rst:542 ../../user/translating.rst:46
 #: ../../workflows.rst:49
 msgid "Suggestions"
 msgstr "제안사항"
 
-#: ../../admin/access.rst:539
+#: ../../admin/access.rst:542
 msgid "Accept suggestion"
 msgstr "제안 수락하기"
 
-#: ../../admin/access.rst:541
+#: ../../admin/access.rst:544
 msgid "Add suggestion"
 msgstr "제안으로 추가하기"
 
-#: ../../admin/access.rst:541
+#: ../../admin/access.rst:544
 #, fuzzy
 #| msgid "Start new translation into more languages"
 msgid ""
@@ -1171,59 +1177,59 @@ msgid ""
 "strings`, `Translate`"
 msgstr "더 많은 언어로 새로운 번역 시작하기"
 
-#: ../../admin/access.rst:543
+#: ../../admin/access.rst:546
 msgid "Delete suggestion"
 msgstr "제안 삭제"
 
-#: ../../admin/access.rst:543
+#: ../../admin/access.rst:546
 #, fuzzy
 #| msgid "Start new translation into more languages"
 msgid "`Administration`, `Power user`"
 msgstr "더 많은 언어로 새로운 번역 시작하기"
 
-#: ../../admin/access.rst:545
+#: ../../admin/access.rst:548
 msgid "Vote on suggestion"
 msgstr "제안 투표하기"
 
-#: ../../admin/access.rst:547 ../../api.rst:1708
+#: ../../admin/access.rst:550 ../../api.rst:1708
 msgid "Translations"
 msgstr "번역"
 
-#: ../../admin/access.rst:547
+#: ../../admin/access.rst:550
 msgid "Add language for translation"
 msgstr "번역 언어 추가"
 
-#: ../../admin/access.rst:547
+#: ../../admin/access.rst:550
 #, fuzzy
 #| msgid "Start new translation into more languages"
 msgid "`Administration`, `Power user`, `Manage languages`"
 msgstr "더 많은 언어로 새로운 번역 시작하기"
 
-#: ../../admin/access.rst:549
+#: ../../admin/access.rst:552
 msgid "Perform automatic translation"
 msgstr "자동 번역 수행"
 
-#: ../../admin/access.rst:549
+#: ../../admin/access.rst:552
 #, fuzzy
 #| msgid "Perform automatic translation"
 msgid "`Administration`, `Automatic translation`"
 msgstr "자동 번역 수행"
 
-#: ../../admin/access.rst:551
+#: ../../admin/access.rst:554
 msgid "Delete existing translation"
 msgstr "기존 번역 삭제하기"
 
-#: ../../admin/access.rst:551 ../../admin/access.rst:555
+#: ../../admin/access.rst:554 ../../admin/access.rst:558
 #, fuzzy
 #| msgid "Start new translation into more languages"
 msgid "`Administration`, `Manage languages`"
 msgstr "더 많은 언어로 새로운 번역 시작하기"
 
-#: ../../admin/access.rst:553
+#: ../../admin/access.rst:556
 msgid "Download translation file"
 msgstr "번역 파일 다운로드"
 
-#: ../../admin/access.rst:553
+#: ../../admin/access.rst:556
 #, fuzzy
 #| msgid "Start new translation into more languages"
 msgid ""
@@ -1231,227 +1237,227 @@ msgid ""
 "strings`, `Translate`, `Manage languages`"
 msgstr "더 많은 언어로 새로운 번역 시작하기"
 
-#: ../../admin/access.rst:555
+#: ../../admin/access.rst:558
 msgid "Add several languages for translation"
 msgstr "다수 번역 언어 추가"
 
-#: ../../admin/access.rst:557
+#: ../../admin/access.rst:560
 msgid "Uploads"
 msgstr "업로드"
 
-#: ../../admin/access.rst:557
+#: ../../admin/access.rst:560
 msgid "Define author of uploaded translation"
 msgstr "업로드된 번역의 작성자 정의"
 
-#: ../../admin/access.rst:559
+#: ../../admin/access.rst:562
 msgid "Overwrite existing strings with upload"
 msgstr "업로드로 기존 번역 덮어쓰기"
 
-#: ../../admin/access.rst:561
+#: ../../admin/access.rst:564
 msgid "Upload translations"
 msgstr "번역 업로드"
 
-#: ../../admin/access.rst:563
+#: ../../admin/access.rst:566
 msgid "Access the internal repository"
 msgstr "내부 저장소에 접근하기"
 
-#: ../../admin/access.rst:563 ../../admin/access.rst:571
+#: ../../admin/access.rst:566 ../../admin/access.rst:574
 #, fuzzy
 #| msgid "Update the internal repository"
 msgid ""
 "`Administration`, `Access repository`, `Power user`, `Manage repository`"
 msgstr "내부 저장소 업데이트"
 
-#: ../../admin/access.rst:565
+#: ../../admin/access.rst:568
 msgid "Commit changes to the internal repository"
 msgstr "내부 저장소에 변경 사항 커밋하기"
 
-#: ../../admin/access.rst:565 ../../admin/access.rst:567
-#: ../../admin/access.rst:569 ../../admin/access.rst:573
+#: ../../admin/access.rst:568 ../../admin/access.rst:570
+#: ../../admin/access.rst:572 ../../admin/access.rst:576
 #, fuzzy
 #| msgctxt "Access-control role"
 #| msgid "Manage repository"
 msgid "`Administration`, `Manage repository`"
 msgstr "저장소 관리"
 
-#: ../../admin/access.rst:567
+#: ../../admin/access.rst:570
 msgid "Push change from the internal repository"
 msgstr "내부 저장소의 변경사항 푸시하기"
 
-#: ../../admin/access.rst:569
+#: ../../admin/access.rst:572
 msgid "Reset changes in the internal repository"
 msgstr "내부 저장소의 변경 사항 초기화"
 
-#: ../../admin/access.rst:571
+#: ../../admin/access.rst:574
 msgid "View upstream repository location"
 msgstr "업스트림 저장소 위치 보기"
 
-#: ../../admin/access.rst:573
+#: ../../admin/access.rst:576
 msgid "Update the internal repository"
 msgstr "내부 저장소 업데이트"
 
-#: ../../admin/access.rst:575
+#: ../../admin/access.rst:578
 msgid "Site wide privileges"
 msgstr ""
 
-#: ../../admin/access.rst:575
+#: ../../admin/access.rst:578
 msgid "Use management interface"
 msgstr "관리 인터페이스 사용"
 
-#: ../../admin/access.rst:577
+#: ../../admin/access.rst:580
 msgid "Add new projects"
 msgstr "새 프로젝트 추가"
 
-#: ../../admin/access.rst:579
+#: ../../admin/access.rst:582
 msgid "Add language definitions"
 msgstr "언어 정의 추가"
 
-#: ../../admin/access.rst:581
+#: ../../admin/access.rst:584
 msgid "Manage language definitions"
 msgstr "언어 정의 관리"
 
-#: ../../admin/access.rst:583
+#: ../../admin/access.rst:586
 msgid "Manage teams"
 msgstr "팀을 관리"
 
-#: ../../admin/access.rst:585
+#: ../../admin/access.rst:588
 msgid "Manage users"
 msgstr "사용자 관리"
 
-#: ../../admin/access.rst:587
+#: ../../admin/access.rst:590
 msgid "Manage roles"
 msgstr "역할 관리"
 
-#: ../../admin/access.rst:589
+#: ../../admin/access.rst:592
 msgid "Manage announcements"
 msgstr "공지사항 관리"
 
-#: ../../admin/access.rst:591
+#: ../../admin/access.rst:594
 msgid "Manage translation memory"
 msgstr "번역 메모리 관리"
 
-#: ../../admin/access.rst:593
+#: ../../admin/access.rst:596
 msgid "Manage machinery"
 msgstr "번역기 관리"
 
-#: ../../admin/access.rst:595
+#: ../../admin/access.rst:598
 msgid "Manage component lists"
 msgstr "구성요소 목록 관리하기"
 
-#: ../../admin/access.rst:601
+#: ../../admin/access.rst:604
 msgid ""
 "Site-wide privileges are not granted to any default role. These are powerful "
 "and quite close to superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
 
-#: ../../admin/access.rst:608
+#: ../../admin/access.rst:611
 #, fuzzy
 #| msgid "List of groups"
 msgid "List of teams"
 msgstr "그룹 목록"
 
-#: ../../admin/access.rst:610
+#: ../../admin/access.rst:613
 msgid ""
 "The following teams are created upon installation (or after executing :"
 "wladmin:`setupgroups`) and you are free to modify them. The migration will, "
 "however, re-create them if you delete or rename them."
 msgstr ""
 
-#: ../../admin/access.rst:622
+#: ../../admin/access.rst:625
 msgid "`Guests`"
 msgstr "`게스트`"
 
-#: ../../admin/access.rst:615
+#: ../../admin/access.rst:618
 msgid "Defines permissions for non-authenticated users."
 msgstr ""
 
-#: ../../admin/access.rst:617
+#: ../../admin/access.rst:620
 msgid ""
 "This team only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`)."
 msgstr ""
 
-#: ../../admin/access.rst:619
+#: ../../admin/access.rst:622
 msgid ""
 "You can remove roles from this team to limit permissions for non-"
 "authenticated users."
 msgstr ""
 
-#: ../../admin/access.rst:622
+#: ../../admin/access.rst:625
 msgid "Default roles: `Add suggestion`, `Access repository`"
 msgstr ""
 
-#: ../../admin/access.rst:631
+#: ../../admin/access.rst:634
 msgid "`Viewers`"
 msgstr ""
 
-#: ../../admin/access.rst:625
+#: ../../admin/access.rst:628
 msgid ""
 "This role ensures visibility of public projects for all users. By default, "
 "all users are members of this team."
 msgstr ""
 
-#: ../../admin/access.rst:628 ../../admin/access.rst:636
+#: ../../admin/access.rst:631 ../../admin/access.rst:639
 msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
 msgstr ""
 
-#: ../../admin/access.rst:631
+#: ../../admin/access.rst:634
 msgid "Default roles: none"
 msgstr ""
 
-#: ../../admin/access.rst:639 ../../workflows.rst:86 ../../workflows.rst:118
+#: ../../admin/access.rst:642 ../../workflows.rst:86 ../../workflows.rst:118
 #: ../../workflows.rst:151
 msgid "`Users`"
 msgstr "`사용자`"
 
-#: ../../admin/access.rst:634
+#: ../../admin/access.rst:637
 msgid "Default team for all users."
 msgstr ""
 
-#: ../../admin/access.rst:639
+#: ../../admin/access.rst:642
 msgid "Default roles: `Power user`"
 msgstr ""
 
-#: ../../admin/access.rst:644 ../../workflows.rst:155
+#: ../../admin/access.rst:647 ../../workflows.rst:155
 msgid "`Reviewers`"
 msgstr ""
 
-#: ../../admin/access.rst:642
+#: ../../admin/access.rst:645
 msgid "Group for reviewers (see :ref:`workflows`)."
 msgstr ""
 
-#: ../../admin/access.rst:644
+#: ../../admin/access.rst:647
 msgid "Default roles: `Review strings`"
 msgstr ""
 
-#: ../../admin/access.rst:649
+#: ../../admin/access.rst:652
 msgid "`Managers`"
 msgstr "`관리자`"
 
-#: ../../admin/access.rst:647
+#: ../../admin/access.rst:650
 msgid "Group for administrators."
 msgstr ""
 
-#: ../../admin/access.rst:649
+#: ../../admin/access.rst:652
 msgid "Default roles: `Administration`"
 msgstr ""
 
-#: ../../admin/access.rst:653
+#: ../../admin/access.rst:656
 msgid ""
 "Never remove the predefined Weblate teams and users as this can lead to "
 "unexpected problems! If you have no use for them, you can removing all their "
 "privileges instead."
 msgstr ""
 
-#: ../../admin/access.rst:658
+#: ../../admin/access.rst:661
 #, fuzzy
 #| msgid "Additional projects"
 msgid "Additional access restrictions"
 msgstr "추가 프로젝트"
 
-#: ../../admin/access.rst:660
+#: ../../admin/access.rst:663
 msgid ""
 "If you want to use your Weblate installation in a less public manner, i.e. "
 "allow new users on an invitational basis only, it can be done by configuring "
@@ -1462,7 +1468,7 @@ msgid ""
 "way to lock your Weblate installation."
 msgstr ""
 
-#: ../../admin/access.rst:669
+#: ../../admin/access.rst:672
 msgid "You can use built-in :ref:`invite-user` to add new users."
 msgstr ""
 
@@ -19012,8 +19018,8 @@ msgid ""
 "To access a component which is nested inside a :ref:`category`, you need to "
 "URL encode the category name into a component name separated with a slash. "
 "For example ``usage`` placed in a ``docs`` category needs to be used as "
-"``docs%2Fusage``. Full URL in this case would be for example ``https://"
-"example.com/api/components/hello/docs%2Fusage/repository/``."
+"``docs%252Fusage``. Full URL in this case would be for example ``https://"
+"example.com/api/components/hello/docs%252Fusage/repository/``."
 msgstr ""
 
 #: ../../api.rst:173
@@ -21634,148 +21640,210 @@ msgstr ""
 #: ../../changes.rst:2
 #, fuzzy
 #| msgid "Weblate 4.10"
-msgid "Weblate 5.0.1"
+msgid "Weblate 5.0.2"
 msgstr "Weblate 4.10"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Not yet signed in"
-msgid "Not yet released."
-msgstr "아직 로그인하지 않음"
-
-#: ../../changes.rst:6 ../../changes.rst:43
-msgid "**New features**"
+msgid "Released on September 14th 2023."
 msgstr ""
 
-#: ../../changes.rst:8 ../../changes.rst:51
+#: ../../changes.rst:6 ../../changes.rst:35 ../../changes.rst:80
 msgid "**Improvements**"
 msgstr ""
 
-#: ../../changes.rst:10
+#: ../../changes.rst:8
 #, fuzzy
-#| msgid "Improved glossary lookup speed for large strings."
-msgid "Related glossary terms lookup is now faster."
-msgstr "긴 문자열에 대한 용어집 조회 속도가 개선되었습니다."
+#| msgid "Translate using Apertium"
+msgid "Translate page performance."
+msgstr "Apertium으로 번역"
 
-#: ../../changes.rst:11
-#, fuzzy
-#| msgid "Test Sentry integration"
-msgid "Logging of failures when creating pull requests."
-msgstr "Sentry 통합 기능 테스트"
-
-#: ../../changes.rst:12
-#, fuzzy
-#| msgid "Translation is now locked for you."
-msgid "History is now loaded faster."
-msgstr "번역은 지금 귀하를 위해 잠겨 있습니다."
-
-#: ../../changes.rst:13
-msgid "Added object ``id`` to all :ref:`api` endpoints."
+#: ../../changes.rst:9
+msgid "Search now looks for categories as well."
 msgstr ""
 
-#: ../../changes.rst:14
-msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
-msgstr ""
-
-#: ../../changes.rst:16 ../../changes.rst:72
+#: ../../changes.rst:11 ../../changes.rst:44 ../../changes.rst:101
 #, fuzzy
 #| msgid "Languages"
 msgid "**Bug fixes**"
 msgstr "언어"
 
-#: ../../changes.rst:18
+#: ../../changes.rst:13
+msgid "Rendering of release notes on GitHub."
+msgstr ""
+
+#: ../../changes.rst:14
+#, fuzzy
+#| msgid "Administered projects"
+msgid "Listing of categorized projects."
+msgstr "관리형 프로젝트"
+
+#: ../../changes.rst:15
+#, fuzzy
+#| msgid "The translation base language is editable."
+msgid "Translating a language inside a category."
+msgstr "번역 기본 언어를 편집할 수 있습니다."
+
+#: ../../changes.rst:16
+#, fuzzy
+#| msgid "Category"
+msgid "Categories sorting."
+msgstr "분류"
+
+#: ../../changes.rst:18 ../../changes.rst:59 ../../changes.rst:114
+#: ../../changes/v4.rst:53 ../../changes/v4.rst:85 ../../changes/v4.rst:168
+#: ../../changes/v4.rst:236 ../../changes/v4.rst:317 ../../changes/v4.rst:373
+#: ../../changes/v4.rst:432 ../../changes/v4.rst:494 ../../changes/v4.rst:540
+#: ../../changes/v4.rst:595 ../../changes/v4.rst:642 ../../changes/v4.rst:696
+#: ../../changes/v4.rst:767 ../../changes/v4.rst:858 ../../changes/v4.rst:933
+#: ../../changes/v4.rst:1019 ../../changes/v4.rst:1094
+#: ../../changes/v4.rst:1167
+msgid "**Upgrading**"
+msgstr ""
+
+#: ../../changes.rst:20 ../../changes.rst:61 ../../changes.rst:116
+#: ../../changes/v4.rst:55 ../../changes/v4.rst:87 ../../changes/v4.rst:170
+#: ../../changes/v4.rst:238 ../../changes/v4.rst:319 ../../changes/v4.rst:376
+#: ../../changes/v4.rst:434 ../../changes/v4.rst:497 ../../changes/v4.rst:542
+#: ../../changes/v4.rst:598 ../../changes/v4.rst:644 ../../changes/v4.rst:699
+#: ../../changes/v4.rst:769 ../../changes/v4.rst:860 ../../changes/v4.rst:935
+#: ../../changes/v4.rst:1021 ../../changes/v4.rst:1096
+#: ../../changes/v4.rst:1169
+msgid ""
+"Please follow :ref:`generic-upgrade-instructions` in order to perform update."
+msgstr ""
+
+#: ../../changes.rst:22 ../../changes.rst:63
+msgid ""
+"The database upgrade can take considerable time on larger sites due to "
+"indexing changes."
+msgstr ""
+
+#: ../../changes.rst:24
+msgid ""
+"`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/105?"
+"closed=1>`__."
+msgstr ""
+
+#: ../../changes.rst:27
+#, fuzzy
+#| msgid "Weblate 4.10"
+msgid "Weblate 5.0.1"
+msgstr "Weblate 4.10"
+
+#: ../../changes.rst:29
+msgid "Released on September 10th 2023."
+msgstr ""
+
+#: ../../changes.rst:31 ../../changes.rst:72
+msgid "**New features**"
+msgstr ""
+
+#: ../../changes.rst:33
+msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
+msgstr ""
+
+#: ../../changes.rst:37
+#, fuzzy
+#| msgid "Improved glossary lookup speed for large strings."
+msgid "Related glossary terms lookup is now faster."
+msgstr "긴 문자열에 대한 용어집 조회 속도가 개선되었습니다."
+
+#: ../../changes.rst:38
+#, fuzzy
+#| msgid "Test Sentry integration"
+msgid "Logging of failures when creating pull requests."
+msgstr "Sentry 통합 기능 테스트"
+
+#: ../../changes.rst:39
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "History is now loaded faster."
+msgstr "번역은 지금 귀하를 위해 잠겨 있습니다."
+
+#: ../../changes.rst:40
+msgid "Added object ``id`` to all :ref:`api` endpoints."
+msgstr ""
+
+#: ../../changes.rst:41
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Better performance of projects with a lot of components."
+msgstr "당신과 관련된 해를 피하십시오."
+
+#: ../../changes.rst:42
+msgid "Added compatibility redirects for some old URLs."
+msgstr ""
+
+#: ../../changes.rst:46
 #, fuzzy
 #| msgid "Create component"
 msgid "Creating component within a category."
 msgstr "구성 요소 생성"
 
-#: ../../changes.rst:19
+#: ../../changes.rst:47
 msgid "Source strings and state display for converted formats."
 msgstr ""
 
-#: ../../changes.rst:20
+#: ../../changes.rst:48
 #, fuzzy
 #| msgid "Component name"
 msgid ""
 "Block :ref:`component-edit_template` on formats which do not support it."
 msgstr "구성 요소 이름"
 
-#: ../../changes.rst:21
+#: ../../changes.rst:49
 msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgstr ""
 
-#: ../../changes.rst:22
+#: ../../changes.rst:50
 msgid "Performace issues while browsing some categories."
 msgstr ""
 
-#: ../../changes.rst:23
+#: ../../changes.rst:51
 msgid "Fixed GitHub Team and Organization authentication in Docker container."
 msgstr ""
 
-#: ../../changes.rst:25 ../../changes.rst:80
+#: ../../changes.rst:52
+msgid "GitLab merge requests when using a customized SSH port."
+msgstr ""
+
+#: ../../changes.rst:54 ../../changes.rst:109
 #, fuzzy
 #| msgid "Activity"
 msgid "**Compatibility**"
 msgstr "활동"
 
-#: ../../changes.rst:27
+#: ../../changes.rst:56
 msgid "`pyahocorasick` dependency has been replaced by `ahocorasick_rs`."
 msgstr ""
 
-#: ../../changes.rst:28
+#: ../../changes.rst:57
 msgid ""
-"The default value of :setting::`IP_PROXY_OFFSET` has been changed from 1 to "
+"The default value of :setting:`IP_PROXY_OFFSET` has been changed from 1 to "
 "-1."
 msgstr ""
 
-#: ../../changes.rst:30 ../../changes.rst:85 ../../changes/v4.rst:53
-#: ../../changes/v4.rst:85 ../../changes/v4.rst:168 ../../changes/v4.rst:236
-#: ../../changes/v4.rst:317 ../../changes/v4.rst:373 ../../changes/v4.rst:432
-#: ../../changes/v4.rst:494 ../../changes/v4.rst:540 ../../changes/v4.rst:595
-#: ../../changes/v4.rst:642 ../../changes/v4.rst:696 ../../changes/v4.rst:767
-#: ../../changes/v4.rst:858 ../../changes/v4.rst:933 ../../changes/v4.rst:1019
-#: ../../changes/v4.rst:1094 ../../changes/v4.rst:1167
-msgid "**Upgrading**"
-msgstr ""
-
-#: ../../changes.rst:32 ../../changes.rst:87 ../../changes/v4.rst:55
-#: ../../changes/v4.rst:87 ../../changes/v4.rst:170 ../../changes/v4.rst:238
-#: ../../changes/v4.rst:319 ../../changes/v4.rst:376 ../../changes/v4.rst:434
-#: ../../changes/v4.rst:497 ../../changes/v4.rst:542 ../../changes/v4.rst:598
-#: ../../changes/v4.rst:644 ../../changes/v4.rst:699 ../../changes/v4.rst:769
-#: ../../changes/v4.rst:860 ../../changes/v4.rst:935 ../../changes/v4.rst:1021
-#: ../../changes/v4.rst:1096 ../../changes/v4.rst:1169
-msgid ""
-"Please follow :ref:`generic-upgrade-instructions` in order to perform update."
-msgstr ""
-
-#: ../../changes.rst:34
-msgid ""
-"The database upgrade can take considerable time on larger sites due to "
-"indexing changes."
-msgstr ""
-
-#: ../../changes.rst:36
+#: ../../changes.rst:65
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/103?"
 "closed=1>`__."
 msgstr ""
 
-#: ../../changes.rst:39
+#: ../../changes.rst:68
 #, fuzzy
 #| msgid "Weblate 4.10"
 msgid "Weblate 5.0"
 msgstr "Weblate 4.10"
 
-#: ../../changes.rst:41
+#: ../../changes.rst:70
 msgid "Released on August 24th 2023."
 msgstr ""
 
-#: ../../changes.rst:45
+#: ../../changes.rst:74
 msgid ":doc:`/formats/markdown` support, thanks to Anders Kaplan."
 msgstr ""
 
-#: ../../changes.rst:46
+#: ../../changes.rst:75
 #, fuzzy
 #| msgid ""
 #| "Ensures a consistent set of languages is used for all components within a "
@@ -21783,168 +21851,168 @@ msgstr ""
 msgid ":ref:`category` can now organize components within a project."
 msgstr "프로젝트 내의 모든 구성요소에 일관된 언어 집합이 사용되도록 합니다."
 
-#: ../../changes.rst:47
+#: ../../changes.rst:76
 msgid ""
 ":doc:`/formats/fluent` now has better syntax checks thanks to Henry Wilkes."
 msgstr ""
 
-#: ../../changes.rst:48
+#: ../../changes.rst:77
 #, fuzzy
 #| msgid "E-mail authentication password."
 msgid "Inviting users now works with all authentication methods."
 msgstr "전자 우편 인증 암호입니다."
 
-#: ../../changes.rst:49
+#: ../../changes.rst:78
 msgid ""
 "Docker container supports file backed secrets, see :ref:`docker-secrets`."
 msgstr ""
 
-#: ../../changes.rst:53
+#: ../../changes.rst:82
 #, fuzzy
 #| msgid "Use machine translation services"
 msgid "Plurals handling in machine translation."
 msgstr "기계 번역 서비스 사용"
 
-#: ../../changes.rst:54
+#: ../../changes.rst:83
 msgid ""
 ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgstr ""
 
-#: ../../changes.rst:55
+#: ../../changes.rst:84
 msgid ""
 ":ref:`check-reused` is no longer triggered for languages with a single "
 "plural form."
 msgstr ""
 
-#: ../../changes.rst:56
+#: ../../changes.rst:85
 #, fuzzy
 #| msgid "Added support for localized screenshots."
 msgid "WebP is now supported for :ref:`screenshots`."
 msgstr "현지화된 스크린숏에 대한 지원이 추가되었습니다."
 
-#: ../../changes.rst:57
+#: ../../changes.rst:86
 msgid ""
 "Avoid duplicate notification when a user is subscribed to overlapping scopes."
 msgstr ""
 
-#: ../../changes.rst:58
+#: ../../changes.rst:87
 #, fuzzy
 #| msgid "Added support for localized screenshots."
 msgid "OCR support for non-English languages in :ref:`screenshots`."
 msgstr "현지화된 스크린숏에 대한 지원이 추가되었습니다."
 
-#: ../../changes.rst:59
+#: ../../changes.rst:88
 #, fuzzy
 #| msgid "Source string location"
 msgid ":ref:`xliff` now supports displaying source string location."
 msgstr "원본 문자열 위치"
 
-#: ../../changes.rst:60
+#: ../../changes.rst:89
 #, fuzzy
 #| msgid "Use machine translation services"
 msgid ""
 "Rendering strings with plurals, placeholders or alternative translations."
 msgstr "기계 번역 서비스 사용"
 
-#: ../../changes.rst:61
+#: ../../changes.rst:90
 msgid "User API now includes last sign in date."
 msgstr ""
 
-#: ../../changes.rst:62
+#: ../../changes.rst:91
 msgid "User API token is now hidden for privacy reasons by default."
 msgstr ""
 
-#: ../../changes.rst:63
+#: ../../changes.rst:92
 #, fuzzy
 #| msgid "Fixed adding words to glossary."
 msgid "Faster adding terms to glossary."
 msgstr "용어집에 단어를 추가하는 문제를 수정했습니다."
 
-#: ../../changes.rst:64
+#: ../../changes.rst:93
 msgid ""
 "Better preserve translation on source file change in :doc:`/formats/html` "
 "and :doc:`/formats/txt`."
 msgstr ""
 
-#: ../../changes.rst:65
+#: ../../changes.rst:94
 msgid "Added indication of automatic assignment to team listing."
 msgstr ""
 
-#: ../../changes.rst:66
+#: ../../changes.rst:95
 msgid "Users now have to confirm invitations to become team members."
 msgstr ""
 
-#: ../../changes.rst:67
+#: ../../changes.rst:96
 msgid ""
 ":ref:`check-formats` can now check all plural forms with the ``strict-"
 "format`` flag."
 msgstr ""
 
-#: ../../changes.rst:68
+#: ../../changes.rst:97
 msgid ":doc:`/user/checks` browsing experience."
 msgstr ""
 
-#: ../../changes.rst:69
+#: ../../changes.rst:98
 #, fuzzy
 #| msgid "Highlight suggested change in automatic suggestions."
 msgid "Highlight differences in the source string in automatic suggestions."
 msgstr "자동 제안에서 제안된 변경사항을 강조 표시합니다."
 
-#: ../../changes.rst:70
+#: ../../changes.rst:99
 msgid "Visual diff now better understands compositing characters."
 msgstr ""
 
-#: ../../changes.rst:74
+#: ../../changes.rst:103
 msgid "User names handling while committing to Git."
 msgstr ""
 
-#: ../../changes.rst:75
+#: ../../changes.rst:104
 msgid ""
 ":ref:`addon-weblate.cleanup.blank` and :ref:`addon-weblate.cleanup.generic` "
 "now remove all strings at once."
 msgstr ""
 
-#: ../../changes.rst:76
+#: ../../changes.rst:105
 msgid "Language filtering in :doc:`/devel/reporting`."
 msgstr ""
 
-#: ../../changes.rst:77
+#: ../../changes.rst:106
 msgid ""
 "Reduced false positives of :ref:`check-reused` when fixing the translation."
 msgstr ""
 
-#: ../../changes.rst:78
+#: ../../changes.rst:107
 #, fuzzy
 #| msgid "Update with changes from the remote repository"
 msgid "Fixed caching issues after updating screenshots from the repository."
 msgstr "원격 저장소의 변경 사항으로 갱신"
 
-#: ../../changes.rst:82
+#: ../../changes.rst:111
 msgid "Python 3.9 or newer is now required."
 msgstr ""
 
-#: ../../changes.rst:83
+#: ../../changes.rst:112
 msgid "Several UI URLs have been changed to be able to handle categories."
 msgstr ""
 
-#: ../../changes.rst:89
+#: ../../changes.rst:118
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
 "settings accordingly."
 msgstr ""
 
-#: ../../changes.rst:90
+#: ../../changes.rst:119
 msgid "Several previously optional dependencies are now required."
 msgstr ""
 
-#: ../../changes.rst:91
+#: ../../changes.rst:120
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "structure changes."
 msgstr ""
 
-#: ../../changes.rst:93
+#: ../../changes.rst:122
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/99?"
 "closed=1>`__."
@@ -30177,6 +30245,13 @@ msgstr ""
 #| "component."
 msgid "Check whether add-on is compatible with given component."
 msgstr "이 번역 구성 요소에 호환되는 추가 애드온을 찾을 수 없습니다."
+
+#: ../../../weblate/addons/base.py:docstring of
+#: weblate.addons.base.BaseAddon.component_update:1
+#, fuzzy
+#| msgid "component update"
+msgid "Hook for component update."
+msgstr "구성 요소 갱신"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.configure:1
@@ -44018,6 +44093,11 @@ msgstr ""
 #: ../../workflows.rst:251
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
+
+#, fuzzy
+#~| msgid "Not yet signed in"
+#~ msgid "Not yet released."
+#~ msgstr "아직 로그인하지 않음"
 
 #, fuzzy
 #~| msgid "E-mail authentication password."

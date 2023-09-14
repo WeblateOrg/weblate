@@ -4,9 +4,9 @@
 # Chang-Chia Tseng <pswo10680@gmail.com>, 2023.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 5.0.1\n"
+"Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2023-09-07 21:05+0200\n"
+"POT-Creation-Date: 2023-09-14 16:23+0200\n"
 "PO-Revision-Date: 2023-09-11 13:46+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -245,7 +245,7 @@ msgstr ""
 "允許的話 )及來源字串資訊。"
 
 #: ../../admin/access.rst:126 ../../admin/access.rst:292
-#: ../../admin/access.rst:308 ../../admin/access.rst:419 ../../api.rst:681
+#: ../../admin/access.rst:308 ../../admin/access.rst:422 ../../api.rst:681
 #: ../../user/profile.rst:76
 msgid "Languages"
 msgstr "語言"
@@ -254,7 +254,7 @@ msgstr "語言"
 msgid "Can manage translated languages (add or remove translations)."
 msgstr "可以管理已翻譯的語言（新增或移除翻譯字串）。"
 
-#: ../../admin/access.rst:129 ../../admin/access.rst:497 ../../api.rst:2400
+#: ../../admin/access.rst:129 ../../admin/access.rst:500 ../../api.rst:2400
 #: ../../user/glossary.rst:4 ../../user/translating.rst:294
 msgid "Glossary"
 msgstr "詞彙表"
@@ -271,7 +271,7 @@ msgstr "記憶"
 msgid "Can manage translation memory."
 msgstr "可以管理翻譯記憶。"
 
-#: ../../admin/access.rst:136 ../../admin/access.rst:517 ../../api.rst:2146
+#: ../../admin/access.rst:136 ../../admin/access.rst:520 ../../api.rst:2146
 #: ../../user/translating.rst:283
 msgid "Screenshots"
 msgstr "螢幕擷圖"
@@ -291,7 +291,7 @@ msgstr "自動翻譯"
 msgid "Can use automatic translation."
 msgstr "可以使用自動翻譯。"
 
-#: ../../admin/access.rst:142 ../../admin/access.rst:563
+#: ../../admin/access.rst:142 ../../admin/access.rst:566
 msgid "VCS"
 msgstr "VCS"
 
@@ -568,7 +568,7 @@ msgstr ""
 "過新增一組自定義的團隊來撤銷任何來自全站設定的權限或某一團隊的權限，即使這些"
 "團隊只能授予額外的權限。"
 
-#: ../../admin/access.rst:277 ../../admin/access.rst:407
+#: ../../admin/access.rst:277 ../../admin/access.rst:410
 #: ../../admin/config.rst:228 ../../admin/config.rst:247
 #: ../../admin/config.rst:299 ../../admin/install/docker.rst:448
 #: ../../admin/install/docker.rst:491 ../../admin/install/docker.rst:559
@@ -625,8 +625,8 @@ msgstr "為 `捷克語` 翻譯新增專門組別。"
 msgid "Group `Czech translators`"
 msgstr "`捷克語` 翻譯群組"
 
-#: ../../admin/access.rst:302 ../../admin/access.rst:415
-#: ../../admin/access.rst:481 ../../api.rst:612
+#: ../../admin/access.rst:302 ../../admin/access.rst:418
+#: ../../admin/access.rst:484 ../../api.rst:612
 msgid "Roles"
 msgstr "角色"
 
@@ -772,6 +772,12 @@ msgstr ""
 
 #: ../../admin/access.rst:386
 msgid ""
+"Using huge component lists might have a performance impact, please consider "
+"giving access via projects instead."
+msgstr ""
+
+#: ../../admin/access.rst:389
+msgid ""
 "If the team specifies any :guilabel:`Components`, all the permissions given "
 "to the members of that team are granted for all the components attached to "
 "the team, and an access with no additional permissions is granted for all "
@@ -781,7 +787,7 @@ msgstr ""
 "元件，對於該團隊的所有元件授予所有權限，並且對於這些元件的所有專案授予沒有額"
 "外權限的存取權限。\\ :guilabel:`專案`\\ 被忽略。"
 
-#: ../../admin/access.rst:391
+#: ../../admin/access.rst:394
 #, fuzzy
 #| msgid ""
 #| "Otherwise, if the group specifies any :guilabel:`Projects`, either by "
@@ -801,7 +807,7 @@ msgstr ""
 "件專案和 Weblate 的進一步開發。籌款目標和資助者的回報等選項，請檢視 `donate "
 "page`_。"
 
-#: ../../admin/access.rst:397
+#: ../../admin/access.rst:400
 #, fuzzy
 #| msgid ""
 #| "The restrictions imposed by a group’s :guilabel:`Languages` are applied "
@@ -820,7 +826,7 @@ msgstr ""
 "證。即，它僅應用於與翻譯過程本身直接相關的操作，如審閱，保存翻譯，新增建議"
 "等。"
 
-#: ../../admin/access.rst:404
+#: ../../admin/access.rst:407
 msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
@@ -828,7 +834,7 @@ msgstr ""
 "使用 :guilabel:`Language selection` 或 :guilabel:`Project selection` 來自動包"
 "括所有語言或專案。"
 
-#: ../../admin/access.rst:409
+#: ../../admin/access.rst:412
 msgid ""
 "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
 "``foo/baz`` and the following team:"
@@ -836,33 +842,33 @@ msgstr ""
 "可以這麼說這是一個專案 ``foo`` 擁有元件： ``foo/bar`` 與 ``foo/baz`` 以及以下"
 "的團隊："
 
-#: ../../admin/access.rst:412
+#: ../../admin/access.rst:415
 msgid "Group `Spanish Admin-Reviewers`"
 msgstr "群組 `西班牙語管理審查員`"
 
-#: ../../admin/access.rst:416
+#: ../../admin/access.rst:419
 msgid "`Review Strings`, `Manage repository`"
 msgstr "`審核字串`, `管理儲存庫`"
 
-#: ../../admin/access.rst:417 ../../api.rst:1149
+#: ../../admin/access.rst:420 ../../api.rst:1149
 msgid "Components"
 msgstr "組件"
 
-#: ../../admin/access.rst:418
+#: ../../admin/access.rst:421
 msgid "foo/bar"
 msgstr "foo/bar"
 
-#: ../../admin/access.rst:420
+#: ../../admin/access.rst:423
 msgid "`Spanish`"
 msgstr "`西班牙語`"
 
-#: ../../admin/access.rst:424
+#: ../../admin/access.rst:427
 msgid ""
 "Members of that team will have following permissions (assuming the default "
 "role settings):"
 msgstr "該組的成員將有以下權限（假定使用預設角色設定）："
 
-#: ../../admin/access.rst:426
+#: ../../admin/access.rst:429
 msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
@@ -870,22 +876,23 @@ msgstr ""
 "一般（瀏覽）存取整個專案``foo``，包括它的兩個元件：``foo / bar``和``foo / "
 "baz``。"
 
-#: ../../admin/access.rst:428
+#: ../../admin/access.rst:431
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
 msgstr "審核字串 ``foo/bar`` 在西班牙語翻譯中（不在其他地方）。"
 
-#: ../../admin/access.rst:429
+#: ../../admin/access.rst:432
 msgid ""
 "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes "
 "made by translators for all languages."
-msgstr "管理整個```foo / "
-"bar``jociticory的VCS。送交待定的翻譯人員對所有語言進行的更改。"
+msgstr ""
+"管理整個```foo / bar``jociticory的VCS。送交待定的翻譯人員對所有語言進行的更"
+"改。"
 
-#: ../../admin/access.rst:435
+#: ../../admin/access.rst:438
 msgid "Automatic team assignments"
 msgstr "自動團隊分派"
 
-#: ../../admin/access.rst:437
+#: ../../admin/access.rst:440
 #, fuzzy
 #| msgid ""
 #| "On the bottom of the :guilabel:`Group` editing page in the :ref:`Django "
@@ -903,7 +910,7 @@ msgstr ""
 "interface>`，您可以指定 :guilabel:`Automatic team assignments`，在正規表示法"
 "的列表中根據其電子郵件自動建立的使用者分配團隊。此操作僅在帳戶建立時發生。"
 
-#: ../../admin/access.rst:442
+#: ../../admin/access.rst:445
 msgid ""
 "The most common use-case for the feature is to assign all new users to some "
 "default team. This behavior is used for the default `Users` and `Guest` "
@@ -911,7 +918,7 @@ msgid ""
 "all users."
 msgstr ""
 
-#: ../../admin/access.rst:446
+#: ../../admin/access.rst:449
 #, fuzzy
 #| msgid ""
 #| "The most common use-case for the feature is to assign all new users to "
@@ -932,7 +939,7 @@ msgstr ""
 "工提供一些額外的權限。假設所有這些都在域上使用公司電子郵件地址，這可以透過表"
 "達式來完成，如“^。* @ mycompany.com```。"
 
-#: ../../admin/access.rst:453
+#: ../../admin/access.rst:456
 msgid ""
 "Automatic team assignment to `Users` and `Viewers` is always recreated when "
 "upgrading from one Weblate version to another. If you want to turn it off, "
@@ -942,7 +949,7 @@ msgstr ""
 "的使用者團隊指派。如果您想關閉它，將常規表達式設定為 ``^$``（不比對任何內"
 "容）。"
 
-#: ../../admin/access.rst:459
+#: ../../admin/access.rst:462
 msgid ""
 "As for now, there is no way to bulk-add already existing users to some team "
 "via the user interface. For that, you may resort to using the :ref:`REST API "
@@ -951,11 +958,11 @@ msgstr ""
 "直到現在，無法透過使用者介面向某些團隊批次新增已現有使用者。為此，您可以使用"
 "以下方法 :ref:`REST API <api>` 。"
 
-#: ../../admin/access.rst:463
+#: ../../admin/access.rst:466
 msgid "Default teams and roles"
 msgstr "預設團隊和角色"
 
-#: ../../admin/access.rst:465
+#: ../../admin/access.rst:468
 #, fuzzy
 #| msgid ""
 #| "After installation, a default set of groups is created (see :ref:`default-"
@@ -965,7 +972,7 @@ msgid ""
 "teams`)."
 msgstr "安裝後，建立預設群組（請參閱:ref:“預設群組”）。"
 
-#: ../../admin/access.rst:467
+#: ../../admin/access.rst:470
 #, fuzzy
 #| msgid ""
 #| "These roles and groups are created upon installation. The built-in roles "
@@ -981,297 +988,297 @@ msgstr ""
 "這些角色和組是在安裝時建立的。升級時，內建角色始終透過資料庫遷移保持最新狀"
 "態。您實際上無法更改它們，如果要定義自己的權限集，請定義一個新角色。"
 
-#: ../../admin/access.rst:475
+#: ../../admin/access.rst:478
 msgid "List of privileges and built-in roles"
 msgstr "特殊權限列表與內建角色"
 
-#: ../../admin/access.rst:481 ../../admin/optionals.rst:260
+#: ../../admin/access.rst:484 ../../admin/optionals.rst:260
 #: ../../user/checks.rst:0
 msgid "Scope"
 msgstr "範圍"
 
-#: ../../admin/access.rst:481
+#: ../../admin/access.rst:484
 msgid "Permission"
 msgstr "權限"
 
-#: ../../admin/access.rst:483
+#: ../../admin/access.rst:486
 msgid "Billing (see :ref:`billing`)"
 msgstr "帳單（參閱 :ref:`billing`）"
 
-#: ../../admin/access.rst:483
+#: ../../admin/access.rst:486
 msgid "View billing info"
 msgstr "檢視帳單資訊"
 
-#: ../../admin/access.rst:483
+#: ../../admin/access.rst:486
 #, fuzzy
 #| msgid "View billing info [`Administration`, `Billing`]"
 msgid "`Administration`, `Billing`"
 msgstr "檢視帳單資訊[`Administration`, `Billing`]"
 
-#: ../../admin/access.rst:485 ../../api.rst:2109
+#: ../../admin/access.rst:488 ../../api.rst:2109
 msgid "Changes"
 msgstr "更動"
 
-#: ../../admin/access.rst:485
+#: ../../admin/access.rst:488
 msgid "Download changes"
 msgstr "下載更動處"
 
-#: ../../admin/access.rst:485 ../../admin/access.rst:489
-#: ../../admin/access.rst:493 ../../admin/access.rst:495
-#: ../../admin/access.rst:511 ../../admin/access.rst:513
-#: ../../admin/access.rst:515 ../../admin/access.rst:525
-#: ../../admin/access.rst:527 ../../admin/access.rst:557
+#: ../../admin/access.rst:488 ../../admin/access.rst:492
+#: ../../admin/access.rst:496 ../../admin/access.rst:498
+#: ../../admin/access.rst:514 ../../admin/access.rst:516
+#: ../../admin/access.rst:518 ../../admin/access.rst:528
+#: ../../admin/access.rst:530 ../../admin/access.rst:560
 #, fuzzy
 #| msgid "Administration"
 msgid "`Administration`"
 msgstr "管理"
 
-#: ../../admin/access.rst:487 ../../user/translating.rst:62
+#: ../../admin/access.rst:490 ../../user/translating.rst:62
 msgid "Comments"
 msgstr "評註"
 
-#: ../../admin/access.rst:487
+#: ../../admin/access.rst:490
 msgid "Post comment"
 msgstr "張貼評註"
 
-#: ../../admin/access.rst:487 ../../admin/access.rst:505
-#: ../../admin/access.rst:529 ../../admin/access.rst:531
-#: ../../admin/access.rst:539 ../../admin/access.rst:545
-#: ../../admin/access.rst:559 ../../admin/access.rst:561
+#: ../../admin/access.rst:490 ../../admin/access.rst:508
+#: ../../admin/access.rst:532 ../../admin/access.rst:534
+#: ../../admin/access.rst:542 ../../admin/access.rst:548
+#: ../../admin/access.rst:562 ../../admin/access.rst:564
 msgid ""
 "`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`"
 msgstr "`管理權限`、`編輯來源`、`超級使用者`、`審核字串`、`翻譯`"
 
-#: ../../admin/access.rst:489
+#: ../../admin/access.rst:492
 msgid "Delete comment"
 msgstr "刪除評註"
 
-#: ../../admin/access.rst:491
+#: ../../admin/access.rst:494
 msgid "Resolve comment"
 msgstr "解決評註"
 
-#: ../../admin/access.rst:491 ../../admin/access.rst:533
-#: ../../admin/access.rst:535
+#: ../../admin/access.rst:494 ../../admin/access.rst:536
+#: ../../admin/access.rst:538
 msgid "`Administration`, `Review strings`"
 msgstr "`管理權限`、`審核字串`"
 
-#: ../../admin/access.rst:493 ../../admin/addons.rst:56
+#: ../../admin/access.rst:496 ../../admin/addons.rst:56
 msgid "Component"
 msgstr "組件"
 
-#: ../../admin/access.rst:493
+#: ../../admin/access.rst:496
 msgid "Edit component settings"
 msgstr "編輯組件設定"
 
-#: ../../admin/access.rst:495
+#: ../../admin/access.rst:498
 msgid "Lock component, preventing translations"
 msgstr "鎖定組件，防止翻譯"
 
-#: ../../admin/access.rst:497
+#: ../../admin/access.rst:500
 msgid "Add glossary entry"
 msgstr "增加詞彙表條目"
 
-#: ../../admin/access.rst:497 ../../admin/access.rst:499
-#: ../../admin/access.rst:501 ../../admin/access.rst:503
+#: ../../admin/access.rst:500 ../../admin/access.rst:502
+#: ../../admin/access.rst:504 ../../admin/access.rst:506
 msgid "`Administration`, `Manage glossary`, `Power user`"
 msgstr "`Administration`, `Manage glossary`, `Power user"
 
-#: ../../admin/access.rst:499
+#: ../../admin/access.rst:502
 msgid "Edit glossary entry"
 msgstr "編輯詞彙表條目"
 
-#: ../../admin/access.rst:501
+#: ../../admin/access.rst:504
 msgid "Delete glossary entry"
 msgstr "刪除詞彙表條目"
 
-#: ../../admin/access.rst:503
+#: ../../admin/access.rst:506
 msgid "Upload glossary entries"
 msgstr "上傳詞彙表條目"
 
-#: ../../admin/access.rst:505 ../../user/translating.rst:330
+#: ../../admin/access.rst:508 ../../user/translating.rst:330
 msgid "Automatic suggestions"
 msgstr "自動建議"
 
-#: ../../admin/access.rst:505
+#: ../../admin/access.rst:508
 msgid "Use automatic suggestions"
 msgstr "使用自動建議"
 
-#: ../../admin/access.rst:507 ../../user/translating.rst:292
+#: ../../admin/access.rst:510 ../../user/translating.rst:292
 msgid "Translation memory"
 msgstr "翻譯記憶"
 
-#: ../../admin/access.rst:507
+#: ../../admin/access.rst:510
 msgid "Edit translation memory"
 msgstr "編輯翻譯記憶"
 
-#: ../../admin/access.rst:507 ../../admin/access.rst:509
+#: ../../admin/access.rst:510 ../../admin/access.rst:512
 #, fuzzy
 msgid "`Administration`, `Manage translation memory`"
 msgstr "刪除現有翻譯"
 
-#: ../../admin/access.rst:509
+#: ../../admin/access.rst:512
 msgid "Delete translation memory"
 msgstr "刪除翻譯記憶"
 
-#: ../../admin/access.rst:511 ../../api.rst:788
+#: ../../admin/access.rst:514 ../../api.rst:788
 msgid "Projects"
 msgstr "專案"
 
-#: ../../admin/access.rst:511
+#: ../../admin/access.rst:514
 msgid "Edit project settings"
 msgstr "編輯專案設定"
 
-#: ../../admin/access.rst:513
+#: ../../admin/access.rst:516
 msgid "Manage project access"
 msgstr "管理專案存取權"
 
-#: ../../admin/access.rst:515
+#: ../../admin/access.rst:518
 msgid "Reports"
 msgstr "回報"
 
-#: ../../admin/access.rst:515
+#: ../../admin/access.rst:518
 msgid "Download reports"
 msgstr "下載報表"
 
-#: ../../admin/access.rst:517
+#: ../../admin/access.rst:520
 msgid "Add screenshot"
 msgstr "加入畫面快照"
 
-#: ../../admin/access.rst:517 ../../admin/access.rst:519
-#: ../../admin/access.rst:521
+#: ../../admin/access.rst:520 ../../admin/access.rst:522
+#: ../../admin/access.rst:524
 #, fuzzy
 msgid "`Administration`, `Manage screenshots`"
 msgstr "新增截圖"
 
-#: ../../admin/access.rst:519
+#: ../../admin/access.rst:522
 msgid "Edit screenshot"
 msgstr "編輯畫面快照"
 
-#: ../../admin/access.rst:521
+#: ../../admin/access.rst:524
 msgid "Delete screenshot"
 msgstr "刪除畫面快照"
 
-#: ../../admin/access.rst:523 ../../admin/addons.rst:519
+#: ../../admin/access.rst:526 ../../admin/addons.rst:519
 msgid "Source strings"
 msgstr "來源字串"
 
-#: ../../admin/access.rst:523
+#: ../../admin/access.rst:526
 msgid "Edit additional string info"
 msgstr "編輯額外字串資訊"
 
-#: ../../admin/access.rst:523
+#: ../../admin/access.rst:526
 #, fuzzy
 #| msgid "Edit string when suggestions are enforced"
 msgid "`Administration`, `Edit source`"
 msgstr "當施行建議時編輯字串"
 
-#: ../../admin/access.rst:525
+#: ../../admin/access.rst:528
 msgid "Strings"
 msgstr "字串"
 
-#: ../../admin/access.rst:525
+#: ../../admin/access.rst:528
 msgid "Add new string"
 msgstr "新增新字串"
 
-#: ../../admin/access.rst:527
+#: ../../admin/access.rst:530
 msgid "Remove a string"
 msgstr "移除字串"
 
-#: ../../admin/access.rst:529
+#: ../../admin/access.rst:532
 msgid "Dismiss failing check"
 msgstr "略過未通過查核"
 
-#: ../../admin/access.rst:531
+#: ../../admin/access.rst:534
 msgid "Edit strings"
 msgstr "編輯字串"
 
-#: ../../admin/access.rst:533
+#: ../../admin/access.rst:536
 msgid "Review strings"
 msgstr "檢閱字串"
 
-#: ../../admin/access.rst:535
+#: ../../admin/access.rst:538
 msgid "Edit string when suggestions are enforced"
 msgstr "當施行建議時編輯字串"
 
-#: ../../admin/access.rst:537
+#: ../../admin/access.rst:540
 msgid "Edit source strings"
 msgstr "編輯來源字串"
 
-#: ../../admin/access.rst:537
+#: ../../admin/access.rst:540
 #, fuzzy
 #| msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
 msgid "`Administration`, `Edit source`, `Power user`"
 msgstr "編輯來源字串[`Administration`, `Edit source`, `Power user`]"
 
-#: ../../admin/access.rst:539 ../../user/translating.rst:46
+#: ../../admin/access.rst:542 ../../user/translating.rst:46
 #: ../../workflows.rst:49
 msgid "Suggestions"
 msgstr "建議"
 
-#: ../../admin/access.rst:539
+#: ../../admin/access.rst:542
 msgid "Accept suggestion"
 msgstr "接受建議"
 
-#: ../../admin/access.rst:541
+#: ../../admin/access.rst:544
 msgid "Add suggestion"
 msgstr "新增建議"
 
-#: ../../admin/access.rst:541
+#: ../../admin/access.rst:544
 msgid ""
 "`Administration`, `Edit source`, `Add suggestion`, `Power user`, `Review "
 "strings`, `Translate`"
 msgstr "`管理權限`、`編輯來源`、`新增建議`、`超級使用者`、`審核字串`、`翻譯`"
 
-#: ../../admin/access.rst:543
+#: ../../admin/access.rst:546
 msgid "Delete suggestion"
 msgstr "刪除建議"
 
-#: ../../admin/access.rst:543
+#: ../../admin/access.rst:546
 #, fuzzy
 #| msgid "Start new translation into more languages"
 msgid "`Administration`, `Power user`"
 msgstr "開始翻譯成其他新語言"
 
-#: ../../admin/access.rst:545
+#: ../../admin/access.rst:548
 msgid "Vote on suggestion"
 msgstr "建議的投票"
 
-#: ../../admin/access.rst:547 ../../api.rst:1708
+#: ../../admin/access.rst:550 ../../api.rst:1708
 msgid "Translations"
 msgstr "翻譯"
 
-#: ../../admin/access.rst:547
+#: ../../admin/access.rst:550
 msgid "Add language for translation"
 msgstr "加入新語言的翻譯"
 
-#: ../../admin/access.rst:547
+#: ../../admin/access.rst:550
 #, fuzzy
 msgid "`Administration`, `Power user`, `Manage languages`"
 msgstr "執行自動翻譯"
 
-#: ../../admin/access.rst:549
+#: ../../admin/access.rst:552
 msgid "Perform automatic translation"
 msgstr "執行自動翻譯"
 
-#: ../../admin/access.rst:549
+#: ../../admin/access.rst:552
 #, fuzzy
 msgid "`Administration`, `Automatic translation`"
 msgstr "執行自動翻譯"
 
-#: ../../admin/access.rst:551
+#: ../../admin/access.rst:554
 msgid "Delete existing translation"
 msgstr "刪除既有的翻譯"
 
-#: ../../admin/access.rst:551 ../../admin/access.rst:555
+#: ../../admin/access.rst:554 ../../admin/access.rst:558
 #, fuzzy
 msgid "`Administration`, `Manage languages`"
 msgstr "刪除現有翻譯"
 
-#: ../../admin/access.rst:553
+#: ../../admin/access.rst:556
 msgid "Download translation file"
 msgstr "下載翻譯檔案"
 
-#: ../../admin/access.rst:553
+#: ../../admin/access.rst:556
 msgid ""
 "`Administration`, `Edit source`, `Access repository`, `Power user`, `Review "
 "strings`, `Translate`, `Manage languages`"
@@ -1279,109 +1286,109 @@ msgstr ""
 "`管理權限`、`編輯來源`、`存取儲存庫`、`超級使用者`、`審核字串`、`翻譯`、`管理"
 "語言`"
 
-#: ../../admin/access.rst:555
+#: ../../admin/access.rst:558
 msgid "Add several languages for translation"
 msgstr "加入多種新語言的翻譯"
 
-#: ../../admin/access.rst:557
+#: ../../admin/access.rst:560
 msgid "Uploads"
 msgstr "上傳"
 
-#: ../../admin/access.rst:557
+#: ../../admin/access.rst:560
 msgid "Define author of uploaded translation"
 msgstr "定義上傳翻譯的作者"
 
-#: ../../admin/access.rst:559
+#: ../../admin/access.rst:562
 msgid "Overwrite existing strings with upload"
 msgstr "以上傳內容覆蓋現在的翻譯"
 
-#: ../../admin/access.rst:561
+#: ../../admin/access.rst:564
 msgid "Upload translations"
 msgstr "上傳翻譯"
 
-#: ../../admin/access.rst:563
+#: ../../admin/access.rst:566
 msgid "Access the internal repository"
 msgstr "存取內部儲存庫"
 
-#: ../../admin/access.rst:563 ../../admin/access.rst:571
+#: ../../admin/access.rst:566 ../../admin/access.rst:574
 msgid ""
 "`Administration`, `Access repository`, `Power user`, `Manage repository`"
 msgstr "`系統管理`、`存取儲存庫`、`超級使用者`、`管理儲存庫`"
 
-#: ../../admin/access.rst:565
+#: ../../admin/access.rst:568
 msgid "Commit changes to the internal repository"
 msgstr "將變更送交到內部儲存庫"
 
-#: ../../admin/access.rst:565 ../../admin/access.rst:567
-#: ../../admin/access.rst:569 ../../admin/access.rst:573
+#: ../../admin/access.rst:568 ../../admin/access.rst:570
+#: ../../admin/access.rst:572 ../../admin/access.rst:576
 msgid "`Administration`, `Manage repository`"
 msgstr "`系統管理`、`管理儲存庫`"
 
-#: ../../admin/access.rst:567
+#: ../../admin/access.rst:570
 msgid "Push change from the internal repository"
 msgstr "從內部儲存庫推送變更"
 
-#: ../../admin/access.rst:569
+#: ../../admin/access.rst:572
 msgid "Reset changes in the internal repository"
 msgstr "重設內部儲存庫中的變更"
 
-#: ../../admin/access.rst:571
+#: ../../admin/access.rst:574
 msgid "View upstream repository location"
 msgstr "檢視上游儲存庫的位置"
 
-#: ../../admin/access.rst:573
+#: ../../admin/access.rst:576
 msgid "Update the internal repository"
 msgstr "更新內部儲存庫"
 
-#: ../../admin/access.rst:575
+#: ../../admin/access.rst:578
 msgid "Site wide privileges"
 msgstr "全網站範圍的特權"
 
-#: ../../admin/access.rst:575
+#: ../../admin/access.rst:578
 msgid "Use management interface"
 msgstr "使用管理介面"
 
-#: ../../admin/access.rst:577
+#: ../../admin/access.rst:580
 msgid "Add new projects"
 msgstr "加入新的專案"
 
-#: ../../admin/access.rst:579
+#: ../../admin/access.rst:582
 msgid "Add language definitions"
 msgstr "加入語言定義"
 
-#: ../../admin/access.rst:581
+#: ../../admin/access.rst:584
 msgid "Manage language definitions"
 msgstr "管理語言定義"
 
-#: ../../admin/access.rst:583
+#: ../../admin/access.rst:586
 msgid "Manage teams"
 msgstr "管理團隊"
 
-#: ../../admin/access.rst:585
+#: ../../admin/access.rst:588
 msgid "Manage users"
 msgstr "管理使用者"
 
-#: ../../admin/access.rst:587
+#: ../../admin/access.rst:590
 msgid "Manage roles"
 msgstr "管理角色"
 
-#: ../../admin/access.rst:589
+#: ../../admin/access.rst:592
 msgid "Manage announcements"
 msgstr "管理公告"
 
-#: ../../admin/access.rst:591
+#: ../../admin/access.rst:594
 msgid "Manage translation memory"
 msgstr "管理翻譯記憶"
 
-#: ../../admin/access.rst:593
+#: ../../admin/access.rst:596
 msgid "Manage machinery"
 msgstr "管理機器翻譯"
 
-#: ../../admin/access.rst:595
+#: ../../admin/access.rst:598
 msgid "Manage component lists"
 msgstr "管理組件列表"
 
-#: ../../admin/access.rst:601
+#: ../../admin/access.rst:604
 msgid ""
 "Site-wide privileges are not granted to any default role. These are powerful "
 "and quite close to superuser status. Most of them affect all projects in "
@@ -1390,11 +1397,11 @@ msgstr ""
 "站點範圍的特權不會被授予任何預設角色。它們功能強大，非常接近超級使用者的地"
 "位。它們中的大多數都會影響到您的 Weblate 安裝中的所有專案。"
 
-#: ../../admin/access.rst:608
+#: ../../admin/access.rst:611
 msgid "List of teams"
 msgstr "團隊列表"
 
-#: ../../admin/access.rst:610
+#: ../../admin/access.rst:613
 #, fuzzy
 #| msgid ""
 #| "The following groups are created upon installation (or after executing :"
@@ -1408,15 +1415,15 @@ msgstr ""
 "下面的群組在安裝時建立（或在執行 :djadmin:`setupgroups` 後）, 您可以自由修改"
 "它們。但是，如果它們被刪除或重命名，遷移後將重新創建這些名稱。"
 
-#: ../../admin/access.rst:622
+#: ../../admin/access.rst:625
 msgid "`Guests`"
 msgstr "`訪客`"
 
-#: ../../admin/access.rst:615
+#: ../../admin/access.rst:618
 msgid "Defines permissions for non-authenticated users."
 msgstr "定義未經身份驗證的使用者權限。"
 
-#: ../../admin/access.rst:617
+#: ../../admin/access.rst:620
 #, fuzzy
 #| msgid ""
 #| "This group only contains anonymous users (see :setting:"
@@ -1425,7 +1432,7 @@ msgid ""
 "This team only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`)."
 msgstr "這個群組只包括匿名使用者（請參見 :setting:`ANONYMOUS_USER_NAME` ）。"
 
-#: ../../admin/access.rst:619
+#: ../../admin/access.rst:622
 #, fuzzy
 #| msgid ""
 #| "You can remove roles from this group to limit permissions for non-"
@@ -1435,15 +1442,15 @@ msgid ""
 "authenticated users."
 msgstr "您可以從群組中去掉角色，來限制非授權使用者的權限。"
 
-#: ../../admin/access.rst:622
+#: ../../admin/access.rst:625
 msgid "Default roles: `Add suggestion`, `Access repository`"
 msgstr "預設角色: `Add suggestion`, `Access repository`"
 
-#: ../../admin/access.rst:631
+#: ../../admin/access.rst:634
 msgid "`Viewers`"
 msgstr "`審查員`"
 
-#: ../../admin/access.rst:625
+#: ../../admin/access.rst:628
 #, fuzzy
 #| msgid ""
 #| "This role ensures visibility of public projects for all users. By "
@@ -1454,7 +1461,7 @@ msgid ""
 msgstr ""
 "這一角色確保公開專案對所有使用者可見。預設情況下，所有使用者都是該組的成員。"
 
-#: ../../admin/access.rst:628 ../../admin/access.rst:636
+#: ../../admin/access.rst:631 ../../admin/access.rst:639
 #, fuzzy
 #| msgid ""
 #| "By default, :ref:`automatic group assignment <autogroup>` makes all new "
@@ -1465,50 +1472,50 @@ msgid ""
 msgstr ""
 "預設情況下，:ref:“自動組分配<autogroup”>“在加入時製作此組的所有新帳戶成員。"
 
-#: ../../admin/access.rst:631
+#: ../../admin/access.rst:634
 msgid "Default roles: none"
 msgstr "預設角色：無"
 
-#: ../../admin/access.rst:639 ../../workflows.rst:86 ../../workflows.rst:118
+#: ../../admin/access.rst:642 ../../workflows.rst:86 ../../workflows.rst:118
 #: ../../workflows.rst:151
 msgid "`Users`"
 msgstr "`使用者`"
 
-#: ../../admin/access.rst:634
+#: ../../admin/access.rst:637
 #, fuzzy
 #| msgid "Default group for all users."
 msgid "Default team for all users."
 msgstr "刪除所有使用者的群組。"
 
-#: ../../admin/access.rst:639
+#: ../../admin/access.rst:642
 msgid "Default roles: `Power user`"
 msgstr "預設角色: `Power user`"
 
-#: ../../admin/access.rst:644 ../../workflows.rst:155
+#: ../../admin/access.rst:647 ../../workflows.rst:155
 msgid "`Reviewers`"
 msgstr "`審核員`"
 
-#: ../../admin/access.rst:642
+#: ../../admin/access.rst:645
 msgid "Group for reviewers (see :ref:`workflows`)."
 msgstr "審核員專用的群組（參閱 :ref:`workflows` ）。"
 
-#: ../../admin/access.rst:644
+#: ../../admin/access.rst:647
 msgid "Default roles: `Review strings`"
 msgstr "預設角色：`審核字串`"
 
-#: ../../admin/access.rst:649
+#: ../../admin/access.rst:652
 msgid "`Managers`"
 msgstr "`管理員`"
 
-#: ../../admin/access.rst:647
+#: ../../admin/access.rst:650
 msgid "Group for administrators."
 msgstr "管理員專用群組。"
 
-#: ../../admin/access.rst:649
+#: ../../admin/access.rst:652
 msgid "Default roles: `Administration`"
 msgstr "預設角色： `管理權限`"
 
-#: ../../admin/access.rst:653
+#: ../../admin/access.rst:656
 #, fuzzy
 #| msgid ""
 #| "Never remove the predefined Weblate groups and users as this can lead to "
@@ -1522,13 +1529,13 @@ msgstr ""
 "決不要移除預先定義的 Weblate 群組和使用者，因為這會這可能會導致意想不到的問"
 "題！如果您不需要他們，您可以刪除他們的所有特權。"
 
-#: ../../admin/access.rst:658
+#: ../../admin/access.rst:661
 #, fuzzy
 #| msgid "Additional projects"
 msgid "Additional access restrictions"
 msgstr "其他專案"
 
-#: ../../admin/access.rst:660
+#: ../../admin/access.rst:663
 #, fuzzy
 #| msgid ""
 #| "If you want to use your Weblate installation in a less public manner, i."
@@ -1552,7 +1559,7 @@ msgstr ""
 "置：設定：`registration_open`到`false``以防止任何新使用者的註冊，並設定："
 "`carect_login`以要求登入存取所有網站頁面。這基本上是鎖定Web2安裝的方法。"
 
-#: ../../admin/access.rst:669
+#: ../../admin/access.rst:672
 msgid "You can use built-in :ref:`invite-user` to add new users."
 msgstr "您可以使用內建的 :ref:`invite-user`新增使用者。"
 
@@ -3176,9 +3183,9 @@ msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
-msgstr "額外資訊的列看起來類似於 RFC 822 "
-"電子信箱標頭，位於送交訊息的其他自由格式部分的末尾，例如「Co-authored-by: "
-"…」。"
+msgstr ""
+"額外資訊的列看起來類似於 RFC 822 電子信箱標頭，位於送交訊息的其他自由格式部分"
+"的末尾，例如「Co-authored-by: …」。"
 
 #: ../../admin/addons.rst:724
 msgid "``commit_message``"
@@ -3232,7 +3239,8 @@ msgstr "每位作者"
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
-msgstr "會保留原本的送交訊息，但除非選取「每位作者」，或者送交訊息已自訂包括原作者，"
+msgstr ""
+"會保留原本的送交訊息，但除非選取「每位作者」，或者送交訊息已自訂包括原作者，"
 "否則原作者資訊會遺失。"
 
 #: ../../admin/addons.rst:741
@@ -3252,9 +3260,9 @@ msgid ""
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
-"預告（送交行像 ``Co-authored-by: …`` "
-"）可選地從原始送交訊息中去掉，並且新增在去掉的送交訊息後面。"
-"這還可以為每一位翻譯者產生適當的 ``Co-authored-by:`` 信譽。"
+"預告（送交行像 ``Co-authored-by: …`` ）可選地從原始送交訊息中去掉，並且新增在"
+"去掉的送交訊息後面。這還可以為每一位翻譯者產生適當的 ``Co-authored-by:`` 信"
+"譽。"
 
 #: ../../admin/addons.rst:751
 msgid "Customize JSON output"
@@ -3652,8 +3660,8 @@ msgid ""
 "to the VCS, so you need to commit changes as a part of the script."
 msgstr ""
 "當 VCS 的上游源發生變化時，可用於更新翻譯檔案。為了實現這個功能，請記住 "
-"Weblate 只看到送交給版本控制系統（ VCS "
-"）的檔案，所以需要同意更改作為指令碼的一部分。"
+"Weblate 只看到送交給版本控制系統（ VCS ）的檔案，所以需要同意更改作為指令碼的"
+"一部分。"
 
 #: ../../admin/addons.rst:1008
 msgid "For example with Gulp you can do it using following code:"
@@ -8589,8 +8597,9 @@ msgstr "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 msgid ""
 "Template to generate private commit e-mail for an user. Defaults to ``"
 "\"{username}@users.noreply.{site_domain}\"``."
-msgstr "產生隱藏的送交者郵件信箱格式。預設為 ``\"{username}@users."
-"noreply.{site_domain}\"`` 。"
+msgstr ""
+"產生隱藏的送交者郵件信箱格式。預設為 ``\"{username}@users.noreply."
+"{site_domain}\"`` 。"
 
 #: ../../admin/config.rst:1290
 msgid "Set to blank string to disable."
@@ -8602,9 +8611,9 @@ msgid ""
 "setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail in "
 "the :ref:`profile`."
 msgstr ""
-"使用不同的送交用的郵件信箱是可選用的，除非已設定為 "
-":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` 。使用者可以設定送交用的郵件信箱於 "
-":ref:`profile` 。"
+"使用不同的送交用的郵件信箱是可選用的，除非已設定為 :setting:"
+"`PRIVATE_COMMIT_EMAIL_OPT_IN` 。使用者可以設定送交用的郵件信箱於 :ref:"
+"`profile` 。"
 
 #: ../../admin/config.rst:1301
 msgid "PROJECT_BACKUP_KEEP_COUNT"
@@ -9494,8 +9503,8 @@ msgid ""
 "repository (see :ref:`lazy-commit`) and pushes them back if it has "
 "permissions to do so (see :ref:`push-changes`)."
 msgstr ""
-"翻譯者完成後，Weblate 會將變更送交到本機儲存庫（請參見 :ref:`lazy-"
-"commit`），如果有權限將其推送回來（請參見 :ref:`push-changes`）。"
+"翻譯者完成後，Weblate 會將變更送交到本機儲存庫（請參見 :ref:`lazy-commit`），"
+"如果有權限將其推送回來（請參見 :ref:`push-changes`）。"
 
 #: ../../admin/continuous.rst:50
 msgid "Updating repositories"
@@ -9845,10 +9854,10 @@ msgid ""
 "under :guilabel:`Repository maintenance` or using API via :option:`wlc push`."
 msgstr ""
 "每個翻譯組件可以新建推送 URL（請參見 :ref:`component-push` ），在那種情況下 "
-"Weblate 能夠將更改推送到遠端倉儲。 Weblate "
-"還可以組態在每次送交時自動推送更改（這是預設的，請參見 :ref:`component-"
-"push_on_commit` ）。如果不想更改自動給推送，可以在 :guilabel:`Repository "
-"maintenance` 之下手動進行，或通過 :option:`wlc push` 使用 API。"
+"Weblate 能夠將更改推送到遠端倉儲。 Weblate 還可以組態在每次送交時自動推送更改"
+"（這是預設的，請參見 :ref:`component-push_on_commit` ）。如果不想更改自動給推"
+"送，可以在 :guilabel:`Repository maintenance` 之下手動進行，或通過 :option:"
+"`wlc push` 使用 API。"
 
 #: ../../admin/continuous.rst:276
 msgid ""
@@ -10007,7 +10016,8 @@ msgstr "在 :ref:`component-repo` 支援推送的情況下可以為空。"
 msgid ""
 "You can also enable automatic pushing of changes after Weblate commits, this "
 "can be done in :ref:`component-push_on_commit`."
-msgstr "還可以允許 Weblate 送交後更改的自動推送，這可以在 :ref:`component-"
+msgstr ""
+"還可以允許 Weblate 送交後更改的自動推送，這可以在 :ref:`component-"
 "push_on_commit` 中完成。"
 
 #: ../../admin/continuous.rst:328
@@ -10062,9 +10072,8 @@ msgid ""
 "the :guilabel:`Managers` group, see :ref:`privileges`)."
 msgstr ""
 "Weblate 會盡可能將同一作者的送交分組到一個送交中。這大大減少了送交的數量，但"
-"是如果您想同步版本控制系統（VCS "
-"）儲存庫，例如合併，您可能需要明確地告訴它去做送交（這對 "
-":guilabel:`Managers`群組是預設允許的，參見 :ref:`privileges`）。"
+"是如果您想同步版本控制系統（VCS ）儲存庫，例如合併，您可能需要明確地告訴它去"
+"做送交（這對 :guilabel:`Managers`群組是預設允許的，參見 :ref:`privileges`）。"
 
 #: ../../admin/continuous.rst:363
 msgid ""
@@ -10109,8 +10118,8 @@ msgid ""
 "you will still see lot of commits. You might utilize :ref:`addon-weblate.git."
 "squash` add-on in that case."
 msgstr ""
-"每個元件都建立送交。所以在具有很多元件的情況下，仍然會看到很多送交。"
-"在這種情況下您會使用 :ref:`addon-weblate.git.squash` 外掛。"
+"每個元件都建立送交。所以在具有很多元件的情況下，仍然會看到很多送交。在這種情"
+"況下您會使用 :ref:`addon-weblate.git.squash` 外掛。"
 
 #: ../../admin/continuous.rst:378
 msgid ""
@@ -11916,8 +11925,9 @@ msgstr "組態健康性的檢查（每小時）。"
 msgid ""
 "Committing pending changes (hourly), see :ref:`lazy-commit` and :wladmin:"
 "`commit_pending`."
-msgstr "送交待定的更改（每小時），請參見 :ref:`lazy-commit` 和 "
-":djadmin:`commit_pending`。"
+msgstr ""
+"送交待定的更改（每小時），請參見 :ref:`lazy-commit` 和 :djadmin:"
+"`commit_pending`。"
 
 #: ../../admin/install.rst:1041
 msgid "Updating component alerts (daily)."
@@ -12423,8 +12433,9 @@ msgstr "降載 wsgi 執行緒執行昂貴的運作。"
 #| "Committing pending changes (hourly), see :ref:`lazy-commit` and :djadmin:"
 #| "`commit_pending`."
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
-msgstr "送交待定的更改（每小時），請參見 :ref:`lazy-commit` 和 "
-":djadmin:`commit_pending`。"
+msgstr ""
+"送交待定的更改（每小時），請參見 :ref:`lazy-commit` 和 :djadmin:"
+"`commit_pending`。"
 
 #: ../../admin/install.rst:1353
 #, fuzzy
@@ -12475,7 +12486,8 @@ msgid ""
 "This will have severe performance impact on the web interface, and will "
 "break features depending on regular trigger (for example committing pending "
 "changes, digest notifications, or backups)."
-msgstr "這將會在網頁介面中造成效能的衝擊影響，也會造成常規的觸發功能失效（例如送交暫"
+msgstr ""
+"這將會在網頁介面中造成效能的衝擊影響，也會造成常規的觸發功能失效（例如送交暫"
 "緩的修正、摘要通知或備份）。"
 
 #: ../../admin/install.rst:1391
@@ -20220,9 +20232,9 @@ msgid ""
 "to its underlying repository (see :ref:`lazy-commit`). To actually enable "
 "pushing :guilabel:`Repository push URL` has to be configured as well."
 msgstr ""
-"是否自動推送已送交的專案到上游儲存庫。啟用時，當 Weblate "
-"將變更送交到其基礎儲存庫中，就會啟動推送。（請參見 :ref:`lazy-"
-"commit`）。為了能真正啟用推送功能，需組態 :guilabel:`Repository push URL`。"
+"是否自動推送已送交的專案到上游儲存庫。啟用時，當 Weblate 將變更送交到其基礎儲"
+"存庫中，就會啟動推送。（請參見 :ref:`lazy-commit`）。為了能真正啟用推送功能，"
+"需組態 :guilabel:`Repository push URL`。"
 
 #: ../../admin/projects.rst:789
 msgid "Age of changes to commit"
@@ -20241,9 +20253,9 @@ msgid ""
 "changes in a component are committed once there is at least one change older "
 "than this period."
 msgstr ""
-"設置在後台任務或 :djadmin:`commit_pending`管理命令送交更改前，"
-"這些更改存在的時長 (以小時為單位)。一旦存在至少一個比該時長更舊的更改，便會送"
-"交組件中的所有更改。"
+"設置在後台任務或 :djadmin:`commit_pending`管理命令送交更改前，這些更改存在的"
+"時長 (以小時為單位)。一旦存在至少一個比該時長更舊的更改，便會送交組件中的所有"
+"更改。"
 
 #: ../../admin/projects.rst:796
 msgid "Default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
@@ -21003,8 +21015,9 @@ msgstr "設定已儲存"
 msgid ""
 "Participating in Discover Weblate makes Weblate submit some information "
 "about your server, please see :ref:`support-data`."
-msgstr "參與 Discover Weblate 會讓 Weblate 提交一些您伺服器的相關資訊，請參閱 :ref"
-":`support-data`。"
+msgstr ""
+"參與 Discover Weblate 會讓 Weblate 提交一些您伺服器的相關資訊，請參閱 :ref:"
+"`support-data`。"
 
 #: ../../admin/support.rst:69
 msgid ""
@@ -21792,8 +21805,8 @@ msgid ""
 "form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON (:"
 "mimetype:`application/json`)."
 msgstr ""
-"對於 :http:method:`POST` 方法，參數可以指定為表格送交（:mimetype:`"
-"application/x-www-form-urlencoded`）或 JSON （:mimetype:`application/"
+"對於 :http:method:`POST` 方法，參數可以指定為表格送交（:mimetype:"
+"`application/x-www-form-urlencoded`）或 JSON （:mimetype:`application/"
 "json`）。"
 
 #: ../../api.rst:115
@@ -21820,8 +21833,8 @@ msgid ""
 "To access a component which is nested inside a :ref:`category`, you need to "
 "URL encode the category name into a component name separated with a slash. "
 "For example ``usage`` placed in a ``docs`` category needs to be used as "
-"``docs%2Fusage``. Full URL in this case would be for example ``https://"
-"example.com/api/components/hello/docs%2Fusage/repository/``."
+"``docs%252Fusage``. Full URL in this case would be for example ``https://"
+"example.com/api/components/hello/docs%252Fusage/repository/``."
 msgstr ""
 
 #: ../../api.rst:173
@@ -24619,44 +24632,119 @@ msgstr "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 #: ../../changes.rst:2
 #, fuzzy
 #| msgid "Weblate 3.0.1"
-msgid "Weblate 5.0.1"
+msgid "Weblate 5.0.2"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:4
-msgid "Not yet released."
-msgstr "尚未發佈。"
+#, fuzzy
+#| msgid "Released on September 10th 2021."
+msgid "Released on September 14th 2023."
+msgstr "於 2021 年 9 月 10 日發佈。"
 
-#: ../../changes.rst:6 ../../changes.rst:43
-msgid "**New features**"
-msgstr ""
-
-#: ../../changes.rst:8 ../../changes.rst:51
+#: ../../changes.rst:6 ../../changes.rst:35 ../../changes.rst:80
 msgid "**Improvements**"
 msgstr ""
 
-#: ../../changes.rst:10
+#: ../../changes.rst:8
 #, fuzzy
-#| msgid "Improved glossary lookup speed for large strings."
-msgid "Related glossary terms lookup is now faster."
-msgstr "改進了大字串的詞彙表查詢速度。"
+#| msgid "Improved translation memory performance."
+msgid "Translate page performance."
+msgstr "改進了翻譯記憶庫的性能。"
 
-#: ../../changes.rst:11
+#: ../../changes.rst:9
 #, fuzzy
-#| msgid "Test Sentry integration"
-msgid "Logging of failures when creating pull requests."
-msgstr "測試 Sentry 整合"
+#| msgid "Now shows word counts as well."
+msgid "Search now looks for categories as well."
+msgstr "現在也顯示單詞計數。"
 
-#: ../../changes.rst:12
+#: ../../changes.rst:11 ../../changes.rst:44 ../../changes.rst:101
 #, fuzzy
-#| msgid "Translation is now locked for you."
-msgid "History is now loaded faster."
-msgstr "翻譯現在已由您鎖定。"
+#| msgid "**languages**"
+msgid "**Bug fixes**"
+msgstr "**語言**"
 
 #: ../../changes.rst:13
-msgid "Added object ``id`` to all :ref:`api` endpoints."
+msgid "Rendering of release notes on GitHub."
 msgstr ""
 
 #: ../../changes.rst:14
+#, fuzzy
+#| msgid "List all projects:"
+msgid "Listing of categorized projects."
+msgstr "列出所有項目："
+
+#: ../../changes.rst:15
+#, fuzzy
+#| msgid "The translation base language is editable."
+msgid "Translating a language inside a category."
+msgstr "翻譯的基礎語言可被修改。"
+
+#: ../../changes.rst:16
+#, fuzzy
+#| msgid "Category"
+msgid "Categories sorting."
+msgstr "類別"
+
+#: ../../changes.rst:18 ../../changes.rst:59 ../../changes.rst:114
+#: ../../changes/v4.rst:53 ../../changes/v4.rst:85 ../../changes/v4.rst:168
+#: ../../changes/v4.rst:236 ../../changes/v4.rst:317 ../../changes/v4.rst:373
+#: ../../changes/v4.rst:432 ../../changes/v4.rst:494 ../../changes/v4.rst:540
+#: ../../changes/v4.rst:595 ../../changes/v4.rst:642 ../../changes/v4.rst:696
+#: ../../changes/v4.rst:767 ../../changes/v4.rst:858 ../../changes/v4.rst:933
+#: ../../changes/v4.rst:1019 ../../changes/v4.rst:1094
+#: ../../changes/v4.rst:1167
+#, fuzzy
+#| msgid "Upgrading Weblate"
+msgid "**Upgrading**"
+msgstr "升級 Weblate"
+
+#: ../../changes.rst:20 ../../changes.rst:61 ../../changes.rst:116
+#: ../../changes/v4.rst:55 ../../changes/v4.rst:87 ../../changes/v4.rst:170
+#: ../../changes/v4.rst:238 ../../changes/v4.rst:319 ../../changes/v4.rst:376
+#: ../../changes/v4.rst:434 ../../changes/v4.rst:497 ../../changes/v4.rst:542
+#: ../../changes/v4.rst:598 ../../changes/v4.rst:644 ../../changes/v4.rst:699
+#: ../../changes/v4.rst:769 ../../changes/v4.rst:860 ../../changes/v4.rst:935
+#: ../../changes/v4.rst:1021 ../../changes/v4.rst:1096
+#: ../../changes/v4.rst:1169
+msgid ""
+"Please follow :ref:`generic-upgrade-instructions` in order to perform update."
+msgstr "請按照 :ref:`generic-upgrade-instructions` 來執行升級。"
+
+#: ../../changes.rst:22 ../../changes.rst:63
+msgid ""
+"The database upgrade can take considerable time on larger sites due to "
+"indexing changes."
+msgstr ""
+
+#: ../../changes.rst:24
+#, fuzzy
+#| msgid ""
+#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
+#| "milestone/60?closed=1>`__."
+msgid ""
+"`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/105?"
+"closed=1>`__."
+msgstr ""
+"`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
+"closed=1>`__."
+
+#: ../../changes.rst:27
+#, fuzzy
+#| msgid "Weblate 3.0.1"
+msgid "Weblate 5.0.1"
+msgstr "Weblate 3.0.1"
+
+#: ../../changes.rst:29
+#, fuzzy
+#| msgid "Released on September 10th 2021."
+msgid "Released on September 10th 2023."
+msgstr "於 2021 年 9 月 10 日發佈。"
+
+#: ../../changes.rst:31 ../../changes.rst:72
+msgid "**New features**"
+msgstr ""
+
+#: ../../changes.rst:33
 #, fuzzy
 #| msgid ""
 #| "link to associated componentlist; see :http:get:`/api/component-lists/"
@@ -24665,92 +24753,97 @@ msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
 msgstr ""
 "相關聯組件列表的連接；請參見 :http:get:`/api/component-lists/(str:slug)/`"
 
-#: ../../changes.rst:16 ../../changes.rst:72
+#: ../../changes.rst:37
 #, fuzzy
-#| msgid "**languages**"
-msgid "**Bug fixes**"
-msgstr "**語言**"
+#| msgid "Improved glossary lookup speed for large strings."
+msgid "Related glossary terms lookup is now faster."
+msgstr "改進了大字串的詞彙表查詢速度。"
 
-#: ../../changes.rst:18
+#: ../../changes.rst:38
+#, fuzzy
+#| msgid "Test Sentry integration"
+msgid "Logging of failures when creating pull requests."
+msgstr "測試 Sentry 整合"
+
+#: ../../changes.rst:39
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "History is now loaded faster."
+msgstr "翻譯現在已由您鎖定。"
+
+#: ../../changes.rst:40
+msgid "Added object ``id`` to all :ref:`api` endpoints."
+msgstr ""
+
+#: ../../changes.rst:41
+#, fuzzy
+#| msgid "Avoid years that are associated with you."
+msgid "Better performance of projects with a lot of components."
+msgstr "請避免和您有關的年份。"
+
+#: ../../changes.rst:42
+#, fuzzy
+#| msgid "Added compatibility redirects after project or component renaming."
+msgid "Added compatibility redirects for some old URLs."
+msgstr "新增了專案或組件重新命名後重新導向的相容性。"
+
+#: ../../changes.rst:46
 #, fuzzy
 #| msgid "Create component"
 msgid "Creating component within a category."
 msgstr "建立元件"
 
-#: ../../changes.rst:19
+#: ../../changes.rst:47
 msgid "Source strings and state display for converted formats."
 msgstr ""
 
-#: ../../changes.rst:20
+#: ../../changes.rst:48
 #, fuzzy
 #| msgid "Component name"
 msgid ""
 "Block :ref:`component-edit_template` on formats which do not support it."
 msgstr "元件名稱"
 
-#: ../../changes.rst:21
+#: ../../changes.rst:49
 #, fuzzy
 #| msgid ""
 #| "Fixed displaying of plural source for languages with single plural form."
 msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgstr "修復了具有單個複數形式的語言的複數源顯示。"
 
-#: ../../changes.rst:22
+#: ../../changes.rst:50
 msgid "Performace issues while browsing some categories."
 msgstr ""
 
-#: ../../changes.rst:23
+#: ../../changes.rst:51
 #, fuzzy
 #| msgid "Added support for Slack authentication in Docker container."
 msgid "Fixed GitHub Team and Organization authentication in Docker container."
 msgstr "新增了對 Docker 容器中 Slack 身份認證的支援。"
 
-#: ../../changes.rst:25 ../../changes.rst:80
+#: ../../changes.rst:52
+#, fuzzy
+#| msgid "GitLab merge request from fork"
+msgid "GitLab merge requests when using a customized SSH port."
+msgstr "來自叉子的 GitLab 結合請求"
+
+#: ../../changes.rst:54 ../../changes.rst:109
 #, fuzzy
 #| msgid "Activity"
 msgid "**Compatibility**"
 msgstr "活動"
 
-#: ../../changes.rst:27
+#: ../../changes.rst:56
 msgid "`pyahocorasick` dependency has been replaced by `ahocorasick_rs`."
 msgstr ""
 
-#: ../../changes.rst:28
+#: ../../changes.rst:57
 msgid ""
-"The default value of :setting::`IP_PROXY_OFFSET` has been changed from 1 to "
+"The default value of :setting:`IP_PROXY_OFFSET` has been changed from 1 to "
 "-1."
 msgstr ""
 
-#: ../../changes.rst:30 ../../changes.rst:85 ../../changes/v4.rst:53
-#: ../../changes/v4.rst:85 ../../changes/v4.rst:168 ../../changes/v4.rst:236
-#: ../../changes/v4.rst:317 ../../changes/v4.rst:373 ../../changes/v4.rst:432
-#: ../../changes/v4.rst:494 ../../changes/v4.rst:540 ../../changes/v4.rst:595
-#: ../../changes/v4.rst:642 ../../changes/v4.rst:696 ../../changes/v4.rst:767
-#: ../../changes/v4.rst:858 ../../changes/v4.rst:933 ../../changes/v4.rst:1019
-#: ../../changes/v4.rst:1094 ../../changes/v4.rst:1167
-#, fuzzy
-#| msgid "Upgrading Weblate"
-msgid "**Upgrading**"
-msgstr "升級 Weblate"
-
-#: ../../changes.rst:32 ../../changes.rst:87 ../../changes/v4.rst:55
-#: ../../changes/v4.rst:87 ../../changes/v4.rst:170 ../../changes/v4.rst:238
-#: ../../changes/v4.rst:319 ../../changes/v4.rst:376 ../../changes/v4.rst:434
-#: ../../changes/v4.rst:497 ../../changes/v4.rst:542 ../../changes/v4.rst:598
-#: ../../changes/v4.rst:644 ../../changes/v4.rst:699 ../../changes/v4.rst:769
-#: ../../changes/v4.rst:860 ../../changes/v4.rst:935 ../../changes/v4.rst:1021
-#: ../../changes/v4.rst:1096 ../../changes/v4.rst:1169
-msgid ""
-"Please follow :ref:`generic-upgrade-instructions` in order to perform update."
-msgstr "請按照 :ref:`generic-upgrade-instructions` 來執行升級。"
-
-#: ../../changes.rst:34
-msgid ""
-"The database upgrade can take considerable time on larger sites due to "
-"indexing changes."
-msgstr ""
-
-#: ../../changes.rst:36
+#: ../../changes.rst:65
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -24762,40 +24855,40 @@ msgstr ""
 "`所有變化詳情見 <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 
-#: ../../changes.rst:39
+#: ../../changes.rst:68
 #, fuzzy
 #| msgid "Weblate 4.0"
 msgid "Weblate 5.0"
 msgstr "Weblate 4.0"
 
-#: ../../changes.rst:41
+#: ../../changes.rst:70
 #, fuzzy
 #| msgid "Released on August 21th 2021."
 msgid "Released on August 24th 2023."
 msgstr "於 2021 年 8 月 21 日發佈。"
 
-#: ../../changes.rst:45
+#: ../../changes.rst:74
 msgid ":doc:`/formats/markdown` support, thanks to Anders Kaplan."
 msgstr ""
 
-#: ../../changes.rst:46
+#: ../../changes.rst:75
 #, fuzzy
 #| msgid "Creates translation components in the given project."
 msgid ":ref:`category` can now organize components within a project."
 msgstr "在給定的項目中新建翻譯組件。"
 
-#: ../../changes.rst:47
+#: ../../changes.rst:76
 msgid ""
 ":doc:`/formats/fluent` now has better syntax checks thanks to Henry Wilkes."
 msgstr ""
 
-#: ../../changes.rst:48
+#: ../../changes.rst:77
 #, fuzzy
 #| msgid "Authentication cancelled."
 msgid "Inviting users now works with all authentication methods."
 msgstr "已取消身份核對。"
 
-#: ../../changes.rst:49
+#: ../../changes.rst:78
 #, fuzzy
 #| msgid ""
 #| "The Docker container uses a separate volume for this, see :ref:`docker-"
@@ -24804,18 +24897,18 @@ msgid ""
 "Docker container supports file backed secrets, see :ref:`docker-secrets`."
 msgstr "Docker 容器為這個使用了一個單獨的捲，請參閱 :ref:`docker-volume`。"
 
-#: ../../changes.rst:53
+#: ../../changes.rst:82
 #, fuzzy
 #| msgid "Youdao Zhiyun API machine translation"
 msgid "Plurals handling in machine translation."
 msgstr "有道智雲 API 機器翻譯"
 
-#: ../../changes.rst:54
+#: ../../changes.rst:83
 msgid ""
 ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgstr ""
 
-#: ../../changes.rst:55
+#: ../../changes.rst:84
 #, fuzzy
 #| msgid ""
 #| "Fixed displaying of plural source for languages with single plural form."
@@ -24824,93 +24917,93 @@ msgid ""
 "plural form."
 msgstr "修復了具有單個複數形式的語言的複數源顯示。"
 
-#: ../../changes.rst:56
+#: ../../changes.rst:85
 #, fuzzy
 #| msgid "Added support for animated screenshots."
 msgid "WebP is now supported for :ref:`screenshots`."
 msgstr "為動畫螢幕截圖新增了支援。"
 
-#: ../../changes.rst:57
+#: ../../changes.rst:86
 #, fuzzy
 #| msgid "Avoid sending notifications for not subscribed languages."
 msgid ""
 "Avoid duplicate notification when a user is subscribed to overlapping scopes."
 msgstr "避免發送未訂閱語言的通知。"
 
-#: ../../changes.rst:58
+#: ../../changes.rst:87
 #, fuzzy
 #| msgid "Added support for animated screenshots."
 msgid "OCR support for non-English languages in :ref:`screenshots`."
 msgstr "為動畫螢幕截圖新增了支援。"
 
-#: ../../changes.rst:59
+#: ../../changes.rst:88
 #, fuzzy
 #| msgid "Source string location"
 msgid ":ref:`xliff` now supports displaying source string location."
 msgstr "來源字串位置"
 
-#: ../../changes.rst:60
+#: ../../changes.rst:89
 #, fuzzy
 #| msgid "Improved adding of new translations."
 msgid ""
 "Rendering strings with plurals, placeholders or alternative translations."
 msgstr "改進了新翻譯的新增。"
 
-#: ../../changes.rst:61
+#: ../../changes.rst:90
 msgid "User API now includes last sign in date."
 msgstr ""
 
-#: ../../changes.rst:62
+#: ../../changes.rst:91
 msgid "User API token is now hidden for privacy reasons by default."
 msgstr ""
 
-#: ../../changes.rst:63
+#: ../../changes.rst:92
 #, fuzzy
 #| msgid "Fixed adding words to glossary."
 msgid "Faster adding terms to glossary."
 msgstr "修復了向詞彙表新增單詞。"
 
-#: ../../changes.rst:64
+#: ../../changes.rst:93
 msgid ""
 "Better preserve translation on source file change in :doc:`/formats/html` "
 "and :doc:`/formats/txt`."
 msgstr ""
 
-#: ../../changes.rst:65
+#: ../../changes.rst:94
 #, fuzzy
 #| msgid "Added visual indication of component alerts in navigation."
 msgid "Added indication of automatic assignment to team listing."
 msgstr "在導航中新增了組件提醒的視覺指示。"
 
-#: ../../changes.rst:66
+#: ../../changes.rst:95
 msgid "Users now have to confirm invitations to become team members."
 msgstr ""
 
-#: ../../changes.rst:67
+#: ../../changes.rst:96
 msgid ""
 ":ref:`check-formats` can now check all plural forms with the ``strict-"
 "format`` flag."
 msgstr ""
 
-#: ../../changes.rst:68
+#: ../../changes.rst:97
 msgid ":doc:`/user/checks` browsing experience."
 msgstr ""
 
-#: ../../changes.rst:69
+#: ../../changes.rst:98
 #, fuzzy
 #| msgid "Configuring automatic suggestions"
 msgid "Highlight differences in the source string in automatic suggestions."
 msgstr "配置自動建議"
 
-#: ../../changes.rst:70
+#: ../../changes.rst:99
 msgid "Visual diff now better understands compositing characters."
 msgstr ""
 
-#: ../../changes.rst:74
+#: ../../changes.rst:103
 msgid "User names handling while committing to Git."
 msgstr ""
 
-#: ../../changes.rst:75
+#: ../../changes.rst:104
 #, fuzzy
 #| msgid ""
 #| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
@@ -24921,38 +25014,38 @@ msgid ""
 msgstr ""
 "如果只想刪除陳舊的翻譯鍵，那麼使用 :ref:`addon-weblate.cleanup.generic`。"
 
-#: ../../changes.rst:76
+#: ../../changes.rst:105
 #, fuzzy
 #| msgid ":djadmin:`list_translators`, :doc:`../devel/reporting`"
 msgid "Language filtering in :doc:`/devel/reporting`."
 msgstr ":djadmin:`list_translators`, :doc:`../devel/reporting`"
 
-#: ../../changes.rst:77
+#: ../../changes.rst:106
 #, fuzzy
 #| msgid "Reduced false negatives for unchanged translation check."
 msgid ""
 "Reduced false positives of :ref:`check-reused` when fixing the translation."
 msgstr "降低了為更改翻譯檢查的誤報。"
 
-#: ../../changes.rst:78
+#: ../../changes.rst:107
 #, fuzzy
 #| msgid "Added support for automated daily update of repositories."
 msgid "Fixed caching issues after updating screenshots from the repository."
 msgstr "為每天自動更新儲存庫新增了支持。"
 
-#: ../../changes.rst:82
+#: ../../changes.rst:111
 #, fuzzy
 #| msgid "Django 3.1 is now required."
 msgid "Python 3.9 or newer is now required."
 msgstr "現在需要 Django 3.1。"
 
-#: ../../changes.rst:83
+#: ../../changes.rst:112
 #, fuzzy
 #| msgid "Several URLs have changed, you might have to update your bookmarks."
 msgid "Several UI URLs have been changed to be able to handle categories."
 msgstr "幾個 URLs 已經更改，可能必須要更新您的書籤。"
 
-#: ../../changes.rst:89
+#: ../../changes.rst:118
 #, fuzzy
 #| msgid ""
 #| "There are several changes in :file:`settings_example.py`, most notable "
@@ -24965,17 +25058,17 @@ msgstr ""
 "在 :file:`settings_example.py` 中有几项更改，最显著的是中间件的更改，请由此调"
 "整您的设置。"
 
-#: ../../changes.rst:90
+#: ../../changes.rst:119
 msgid "Several previously optional dependencies are now required."
 msgstr ""
 
-#: ../../changes.rst:91
+#: ../../changes.rst:120
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "structure changes."
 msgstr ""
 
-#: ../../changes.rst:93
+#: ../../changes.rst:122
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -32546,10 +32639,10 @@ msgid ""
 "upgrading and it is recommended to force loading of affected component "
 "using :wladmin:`loadpo`."
 msgstr ""
-":ref:`mono_gettext` 現在當出現時使用 ``msgid`` 和 "
-"``msgctxt``。這將改變此類文件中翻譯字串的標識，破壞到 Weblate 擴展數據，如截"
-"圖或審查狀態，的鏈接。請確保在升級之前送交對此類文件的待處理更改，並且建議您"
-"強制加載受影響的組件，方法是使用 :djadmin:`loadpo`。"
+":ref:`mono_gettext` 現在當出現時使用 ``msgid`` 和 ``msgctxt``。這將改變此類文"
+"件中翻譯字串的標識，破壞到 Weblate 擴展數據，如截圖或審查狀態，的鏈接。請確保"
+"在升級之前送交對此類文件的待處理更改，並且建議您強制加載受影響的組件，方法是"
+"使用 :djadmin:`loadpo`。"
 
 #: ../../changes/v4.rst:946
 msgid ""
@@ -33745,6 +33838,13 @@ msgid "Check whether add-on is compatible with given component."
 msgstr "找不到任何與此翻譯相容的額外附加元件。"
 
 #: ../../../weblate/addons/base.py:docstring of
+#: weblate.addons.base.BaseAddon.component_update:1
+#, fuzzy
+#| msgid "component update"
+msgid "Hook for component update."
+msgstr "組件更新"
+
+#: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.configure:1
 #, fuzzy
 #| msgid "Bad configuration"
@@ -33949,10 +34049,10 @@ msgid ""
 "lint.txt`) turn it on by running ``pre-commit install`` in Weblate checkout. "
 "This way all your changes will be automatically checked."
 msgstr ""
-"將所有這些強制的最簡單的方法是安裝 `pre-commit`_。 Weblate "
-"倉儲為此包含了組態，來確定送交的文件是正常的。安裝後（他已經包括在 :file"
-":`requirements-lint.txt` 中了）通過在 Weblate 的付款台執行 ``pre-commit "
-"install`` 來將它打開。通過這種方法，所有更改都將被自動檢查。"
+"將所有這些強制的最簡單的方法是安裝 `pre-commit`_。 Weblate 倉儲為此包含了組"
+"態，來確定送交的文件是正常的。安裝後（他已經包括在 :file:`requirements-lint."
+"txt` 中了）通過在 Weblate 的付款台執行 ``pre-commit install`` 來將它打開。通"
+"過這種方法，所有更改都將被自動檢查。"
 
 #: ../../contributing/snippets/pre-commit.rst:17
 msgid "You can also trigger check manually, to check all files run:"
@@ -34033,9 +34133,8 @@ msgid ""
 "welcome to collect info on any such issue and submit it to the `issue "
 "tracker <https://github.com/WeblateOrg/weblate/issues>`_."
 msgstr ""
-"缺陷的症狀可以是應用崩潰或行為錯誤。歡迎您蒐集任何這樣的問題的資訊，"
-"並將其提交給 `issue tracker <https://github.com/WeblateOrg/weblate/"
-"issues>`_。"
+"缺陷的症狀可以是應用崩潰或行為錯誤。歡迎您蒐集任何這樣的問題的資訊，並將其提"
+"交給 `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_。"
 
 #: ../../contributing/debugging.rst:9
 msgid "Debug mode"
@@ -34460,9 +34559,9 @@ msgid ""
 "If you’re certain, you can also click on the link in the :guilabel:`Source "
 "string location` section and submit a PR with your correction."
 msgstr ""
-"如果您在來源字串中找到可能的錯誤，則可以將其標註為 Weblate "
-"編輯器中的註釋。這樣，可以討論和糾正它。如果您確定了，您也可以單擊以下連結\\ "
-":guilabel:`來源字串位置`\\ 部分，並以修正提交 PR。"
+"如果您在來源字串中找到可能的錯誤，則可以將其標註為 Weblate 編輯器中的註釋。這"
+"樣，可以討論和糾正它。如果您確定了，您也可以單擊以下連結\\ :guilabel:`來源字"
+"串位置`\\ 部分，並以修正提交 PR。"
 
 #: ../../contributing/index.rst:35
 #, fuzzy
@@ -34927,9 +35026,9 @@ msgid ""
 "hackerone.com/weblate>`_. Once you submit it there, community has limited "
 "but enough time to solve the incident."
 msgstr ""
-"為了給予社區實踐來響應併升級，強烈敦促您私下匯報所有的安全問題。 HackerOne "
-"用於處理安全問題，並且而可以在 `HackerOne <https://hackerone.com/weblate>`_ "
-"直接匯報。一旦您在那裡提交它，社群有有限但足夠的時間來解決事件。"
+"為了給予社區實踐來響應併升級，強烈敦促您私下匯報所有的安全問題。 HackerOne 用"
+"於處理安全問題，並且而可以在 `HackerOne <https://hackerone.com/weblate>`_ 直"
+"接匯報。一旦您在那裡提交它，社群有有限但足夠的時間來解決事件。"
 
 #: ../../contributing/issues.rst:26
 msgid ""
@@ -37221,11 +37320,10 @@ msgid ""
 "commit`). You can do so in the user interface (in the :guilabel:`Repository "
 "maintenance`) or from the command-line using :ref:`wlc`."
 msgstr ""
-"為了從 Weblate 取回更新的字串，可以簡單地擷取基礎的 Git "
-"儲存庫（要麼來自檔案系統，要麼可以通過 :ref:`git-"
-"exporter`來獲得）。在這之前，您會想要送交任何掛起的變更（請參見 :ref:`lazy-"
-"commit`）。這可以通過（在 :guilabel:`Repository maintenance` 中）或使用 "
-":ref:`wlc` 從命令行來實現。"
+"為了從 Weblate 取回更新的字串，可以簡單地擷取基礎的 Git 儲存庫（要麼來自檔案"
+"系統，要麼可以通過 :ref:`git-exporter`來獲得）。在這之前，您會想要送交任何掛"
+"起的變更（請參見 :ref:`lazy-commit`）。這可以通過（在 :guilabel:`Repository "
+"maintenance` 中）或使用 :ref:`wlc` 從命令行來實現。"
 
 #: ../../devel/integration.rst:33
 #, fuzzy
@@ -38799,7 +38897,8 @@ msgid ""
 "Somebody rewrites history produced by Weblate (e.g. by eliminating merge "
 "commits), merges changes, and tells Weblate to reset the content in the "
 "upstream repository."
-msgstr "一些人重寫由 Weblate 產生的歷史（例如通過刪除合併送交），合併變更，並告訴 "
+msgstr ""
+"一些人重寫由 Weblate 產生的歷史（例如通過刪除合併送交），合併變更，並告訴 "
 "Weblate 重設上游儲存庫中的內容。"
 
 #: ../../faq.rst:215
@@ -38876,8 +38975,9 @@ msgstr ""
 msgid ""
 "The author of every commit (if the underlying VCS supports it) is still "
 "recorded correctly as the user that made the translation."
-msgstr "（如果下層的版本管理系統 VCS "
-"支援它的話），每個送交的作者仍會被正確地記錄為進行翻譯的使用者。"
+msgstr ""
+"（如果下層的版本管理系統 VCS 支援它的話），每個送交的作者仍會被正確地記錄為進"
+"行翻譯的使用者。"
 
 #: ../../faq.rst:268
 msgid ""
@@ -39158,8 +39258,9 @@ msgstr "其他翻譯元件"
 #| "Committing pending changes (hourly), see :ref:`lazy-commit` and :djadmin:"
 #| "`commit_pending`."
 msgid "Commit pending changes in :ref:`manage-vcs`."
-msgstr "送交待定的更改（每小時），請參見 :ref:`lazy-commit` 和 "
-":djadmin:`commit_pending`。"
+msgstr ""
+"送交待定的更改（每小時），請參見 :ref:`lazy-commit` 和 :djadmin:"
+"`commit_pending`。"
 
 #: ../../faq.rst:420
 #, fuzzy
@@ -39340,9 +39441,9 @@ msgid ""
 "name. This way every single change has proper authorship, and you can track "
 "it down using the standard VCS tools you use for code."
 msgstr ""
-"Weblate 中所做的每個更改都將以翻譯者的名稱送交到版本控制系統（VCS ）中。這樣"
-"，每個更改都具有適當的作者身份，您可以使用用於代碼的標準版本控制系統（VCS "
-"）工具來進行追蹤。"
+"Weblate 中所做的每個更改都將以翻譯者的名稱送交到版本控制系統（VCS ）中。這"
+"樣，每個更改都具有適當的作者身份，您可以使用用於代碼的標準版本控制系統"
+"（VCS ）工具來進行追蹤。"
 
 #: ../../faq.rst:523
 msgid ""
@@ -42631,7 +42732,8 @@ msgid ""
 "Weblate employs a wide range of quality checks on strings. The following "
 "section describes them all in further detail. There are also language "
 "specific checks. Please file a bug if anything is reported in error."
-msgstr "Weblate 對字串進行了廣泛的品質檢查。以下部分將對它們進行更詳細的描述。還有針"
+msgstr ""
+"Weblate 對字串進行了廣泛的品質檢查。以下部分將對它們進行更詳細的描述。還有針"
 "對特定語言的檢查。如果有錯誤報告，請將缺陷送交。"
 
 #: ../../user/checks.rst:75
@@ -45573,7 +45675,8 @@ msgid ""
 "stored in the repository. In this case, any pending changes in the "
 "translation are getting committed and the up-to-date file is yield without "
 "any conversions."
-msgstr "第一個選項是以原始格式下載檔案，因為它儲存在儲存庫中。在這種情況下，翻譯中的"
+msgstr ""
+"第一個選項是以原始格式下載檔案，因為它儲存在儲存庫中。在這種情況下，翻譯中的"
 "任何掛起變更都會被送交，最新檔案是不帶任何轉換的產量。"
 
 #: ../../user/files.rst:25
@@ -46116,7 +46219,8 @@ msgstr ""
 msgid ""
 "The user profile contains your preferences. Name and e-mail address is used "
 "in VCS commits, so keep this info accurate."
-msgstr "使用者組態文件包含您的首選項。VCS送交中使用的名稱和電子郵件地址，因此請保持此"
+msgstr ""
+"使用者組態文件包含您的首選項。VCS送交中使用的名稱和電子郵件地址，因此請保持此"
 "資訊準確。"
 
 #: ../../user/profile.rst:68
@@ -47333,7 +47437,8 @@ msgstr ":kbd:`Cmd+Enter`"
 msgid ""
 "Submit current form; this is same as pressing :guilabel:`Save and continue` "
 "while editing translation."
-msgstr "提交目前的表單。這與在編輯翻譯時按下 :guilabel:`Save and continue`是一樣的。"
+msgstr ""
+"提交目前的表單。這與在編輯翻譯時按下 :guilabel:`Save and continue`是一樣的。"
 
 #: ../../user/translating.rst:203
 msgid ":kbd:`Ctrl+Shift+Enter` or"
@@ -47359,7 +47464,8 @@ msgstr ":kbd:`Option+Enter`"
 msgid ""
 "Submit the string as a suggestion; this is same as pressing :guilabel:"
 "`Suggest` while editing translation."
-msgstr "提交此字串視之為建議。這與在編輯翻譯時按下 :guilabel:`Suggest`是一樣的。"
+msgstr ""
+"提交此字串視之為建議。這與在編輯翻譯時按下 :guilabel:`Suggest`是一樣的。"
 
 #: ../../user/translating.rst:211
 msgid ":kbd:`Ctrl+E` or"
@@ -48541,9 +48647,9 @@ msgid ""
 "Perl script that lets subversion be used by a Git client, enabling users to "
 "maintain a full clone of the internal repository and commit locally."
 msgstr ""
-"Weblate 使用 `git-svn`_ 與 `subversion`_ 儲存庫進行互動。它是一個 Perl "
-"指令稿，它允許 Git 客戶端使用 `subversion`_ "
-"，使使用者能夠維護內部儲存庫的完整克隆並在本機送交。"
+"Weblate 使用 `git-svn`_ 與 `subversion`_ 儲存庫進行互動。它是一個 Perl 指令"
+"稿，它允許 Git 客戶端使用 `subversion`_ ，使使用者能夠維護內部儲存庫的完整克"
+"隆並在本機送交。"
 
 #: ../../vcs.rst:450
 msgid ""
@@ -49255,8 +49361,9 @@ msgid ""
 "With dedicated reviewers you have two groups of users, one able to submit "
 "translations, and one able to review them to ensure translations are "
 "consistent and that the quality is good."
-msgstr "啟用專門的審核者後，您會有兩組使用者：一組可以提交翻譯；而另一組可以審核翻譯"
-"，以確保翻譯一致且品質良好。"
+msgstr ""
+"啟用專門的審核者後，您會有兩組使用者：一組可以提交翻譯；而另一組可以審核翻"
+"譯，以確保翻譯一致且品質良好。"
 
 #: ../../workflows.rst:134
 msgid "*Any user* can edit unapproved translations."
@@ -49363,6 +49470,9 @@ msgstr ""
 #: ../../workflows.rst:251
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ""
+
+#~ msgid "Not yet released."
+#~ msgstr "尚未發佈。"
 
 #~ msgid "Defaults to 0."
 #~ msgstr "預設為 0。"
