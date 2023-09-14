@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 14:22+0000\n"
-"PO-Revision-Date: 2023-08-26 17:32+0000\n"
+"PO-Revision-Date: 2023-09-15 02:16+0000\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -6847,10 +6847,8 @@ msgstr "Cari dan ganti"
 #: weblate/templates/category.html:76 weblate/templates/component.html:102
 #: weblate/templates/language-project.html:49
 #: weblate/templates/project.html:118 weblate/templates/translation.html:97
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Organize or remove"
-msgstr "Terjemahan yang akan dihapus"
+msgstr "Atur atau hapus"
 
 #: weblate/templates/category-project.html:66
 #: weblate/templates/language-project.html:68
@@ -6932,21 +6930,17 @@ msgstr "Ubah nama kategori"
 
 #: weblate/templates/category.html:207
 msgid "Renaming the category will also change URLs for all its components."
-msgstr ""
+msgstr "Mengubah nama kategori juga akan mengubah URL untuk semua komponennya."
 
 #: weblate/templates/category.html:208 weblate/templates/category.html:226
 #: weblate/templates/component.html:255 weblate/templates/component.html:273
 #: weblate/templates/project.html:272
-#, fuzzy
-#| msgid ""
-#| "Renaming the project will change all URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Users will need to update their bookmarks, references in cloned "
 "repositories, or API calls!"
 msgstr ""
-"Mengganti nama proyek akan mengubah semua URL, pengguna harus memperbarui "
-"markah atau referensi di repositori yang di-klon!"
+"Pengguna perlu memperbarui penanda, referensi di repositori yang dikloning, "
+"atau panggilan API mereka!"
 
 #: weblate/templates/category.html:214 weblate/templates/component.html:261
 #: weblate/templates/project.html:278
@@ -6959,7 +6953,7 @@ msgstr "Pindahkan kategori"
 
 #: weblate/templates/category.html:225
 msgid "Moving the category will also change URLs for all its components."
-msgstr ""
+msgstr "Memindahkan kategori juga akan mengubah URL untuk semua komponennya."
 
 #: weblate/templates/category.html:232 weblate/templates/component.html:279
 msgid "Move"
@@ -7101,17 +7095,15 @@ msgstr "Ubah nama komponen"
 
 #: weblate/templates/component.html:254
 msgid "Renaming the component will also change its URLs."
-msgstr ""
+msgstr "Mengubah nama komponen juga akan mengubah URL-nya."
 
 #: weblate/templates/component.html:268
 msgid "Move component"
 msgstr "Pindahkan komponen"
 
 #: weblate/templates/component.html:272
-#, fuzzy
-#| msgid "Fix this component to clear its alerts."
 msgid "Moving the component will also change its URLs."
-msgstr "Perbaiki komponen ini untuk menghapus peringatannya."
+msgstr "Memindahkan komponen juga akan mengubah URL-nya."
 
 #: weblate/templates/component.html:296 weblate/templates/project.html:294
 #: weblate/templates/translate.html:348 weblate/templates/translation.html:427
@@ -8698,10 +8690,8 @@ msgid "Status of repositories"
 msgstr "Status repositori"
 
 #: weblate/templates/manage/repos.html:11
-#, fuzzy
-#| msgid "This component is linked to the %(target)s repository."
 msgid "Show components with linked repositories"
-msgstr "Komponen ini ditaut ke repositori %(target)s."
+msgstr "Tampilkan komponen dengan repositori yang ditautkan"
 
 #: weblate/templates/manage/repos.html:17
 msgid "This repository is linked to:"
@@ -9125,7 +9115,7 @@ msgstr "Ubah nama proyek"
 
 #: weblate/templates/project.html:271
 msgid "Renaming the project will also change URLs for all its components."
-msgstr ""
+msgstr "Mengubah nama proyek juga akan mengubah URL untuk semua komponennya."
 
 #: weblate/templates/project.html:315
 msgid ""
@@ -10198,6 +10188,8 @@ msgid ""
 "In case the above links work for you, they might just require "
 "authentication, and it is safe to dismiss this alert."
 msgstr ""
+"Jika tautan di atas dapat diakses, mereka mungkin hanya membutuhkan "
+"autentikasi dan aman untuk mengabaikan peringatan ini."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
 msgid ""
@@ -10748,11 +10740,10 @@ msgstr ""
 "secara permanen dan semua konten yang terkait."
 
 #: weblate/templates/trans/delete-project.html:10
-#, fuzzy, python-format
-#| msgid "The following translation components will be removed:"
+#, python-format
 msgid "%(count)s component will be removed by this."
 msgid_plural "%(count)s components will be removed by this."
-msgstr[0] "Komponen terjemahan berikut akan dihapus:"
+msgstr[0] "%(count)s komponen akan dihapus oleh ini."
 
 #: weblate/templates/trans/delete-translation.html:6
 msgid ""
@@ -13374,7 +13365,7 @@ msgstr "Berkas dasar yang tidak dikenali untuk terjemahan baru."
 
 #: weblate/trans/models/component.py:2738
 msgid "Editing template is not supported with this file format."
-msgstr ""
+msgstr "Penyuntingan templat tidak didukung dengan format berkas ini."
 
 #: weblate/trans/models/component.py:2744
 #: weblate/trans/models/component.py:2760
@@ -14455,10 +14446,10 @@ msgid "A language in the category was removed."
 msgstr "Sebuah bahasa dalam kategori telah dihapus."
 
 #: weblate/trans/views/settings.py:190
-#, fuzzy, python-format
-#| msgid "Cannot rename due to outstanding issue in the configuration: %s"
+#, python-format
 msgid "Could not change %s due to outstanding issue in its settings: %s"
-msgstr "Tidak dapat mengganti nama karena adanya masalah dalam pengaturan: %s"
+msgstr ""
+"Tidak dapat mengubah %s karena masalah yang terlihat dalam pengaturannya: %s"
 
 #: weblate/trans/views/settings.py:327
 msgid "Backup scheduled. It will be available soon."
