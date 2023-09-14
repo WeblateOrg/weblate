@@ -150,7 +150,6 @@ def get_other_units(unit):
             # Get the real units count from the database
             units_count = units.count()
 
-        result["total"] = units_count
         result["skipped"] = units_count > max_units
 
         for item in units_limited:
@@ -188,7 +187,9 @@ def get_other_units(unit):
             )
             allow_merge |= same.allow_merge
 
-        result["total"] = sum(len(result[x]) for x in ("matching", "source", "context"))
+        result["total"] = sum(
+            len(result[x]) for x in ("matching", "source", "context", "other")
+        )
         result["allow_merge"] = allow_merge
 
         return result
