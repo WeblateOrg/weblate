@@ -1,9 +1,7 @@
 Weblate 5.0.2
 -------------
 
-Not yet released.
-
-**New features**
+Released on September 14th 2023.
 
 **Improvements**
 
@@ -16,8 +14,6 @@ Not yet released.
 * Listing of categorized projects.
 * Translating a language inside a category.
 * Categories sorting.
-
-**Compatibility**
 
 **Upgrading**
 
