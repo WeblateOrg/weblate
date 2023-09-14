@@ -14,8 +14,8 @@ from weblate.trans.models.unit import Unit
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.state import STATE_TRANSLATED
 
-SPLIT_RE = re.compile(r"[\s,.:!?]+", re.UNICODE)
-NON_WORD_RE = re.compile(r"\W", re.UNICODE)
+SPLIT_RE = re.compile(r"[\s,.:!?]+")
+NON_WORD_RE = re.compile(r"\W")
 
 
 def get_glossary_sources(component):

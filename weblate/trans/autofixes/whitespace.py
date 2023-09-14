@@ -9,8 +9,8 @@ from django.utils.translation import gettext_lazy
 from weblate.trans.autofixes.base import AutoFix
 
 NEWLINES = re.compile(r"\r\n|\r|\n")
-START = re.compile(r"^(\s+)", re.UNICODE)
-END = re.compile(r"(\s+)$", re.UNICODE)
+START = re.compile(r"^(\s+)")
+END = re.compile(r"(\s+)$")
 
 
 class SameBookendingWhitespace(AutoFix):
