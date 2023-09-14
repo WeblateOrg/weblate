@@ -119,6 +119,7 @@ def get_other_units(unit):
                 )
             )
             .prefetch()
+            .select_related("source_unit")
             .order_by("-matches_current")
         )
 
