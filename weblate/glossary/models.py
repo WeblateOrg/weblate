@@ -28,8 +28,11 @@ def get_glossary_sources(component):
 
 
 def get_glossary_automaton(project):
+    from weblate.trans.models.component import prefetch_glossary_terms
+
     with sentry_sdk.start_span(op="glossary.automaton", description=project.slug):
         # Chain terms
+        prefetch_glossary_terms(project.glossaries)
         terms = set(
             chain.from_iterable(
                 glossary.glossary_sources for glossary in project.glossaries

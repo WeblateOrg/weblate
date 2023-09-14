@@ -212,6 +212,14 @@ def translation_prefetch_tasks(translations):
     return translations
 
 
+def prefetch_glossary_terms(components):
+    if not components:
+        return
+    lookup = {component.glossary_sources_key: component for component in components}
+    for item, value in cache.get_many(lookup.keys()).items():
+        lookup[item].__dict__["glossary_sources"] = value
+
+
 class ComponentQuerySet(models.QuerySet):
     def prefetch(self, alerts: bool = True, defer: bool = True):
         from weblate.trans.models import Alert
