@@ -5,7 +5,7 @@
 import re
 from functools import reduce
 
-import misaka
+import mistletoe
 from django.db.models import Q
 from django.utils.safestring import mark_safe
 
@@ -24,7 +24,7 @@ def get_mention_users(text):
     )
 
 
-class WeblateHtmlRenderer(misaka.SaferHtmlRenderer):
+class WeblateHtmlRenderer(mistletoe.SaferHtmlRenderer):
     def link(self, content, raw_url, title=""):
         result = super().link(content, raw_url, title)
         return result.replace(' href="', ' rel="ugc" target="_blank" href="')
@@ -36,7 +36,7 @@ class WeblateHtmlRenderer(misaka.SaferHtmlRenderer):
 
 
 RENDERER = WeblateHtmlRenderer()
-MARKDOWN = misaka.Markdown(
+MARKDOWN = mistletoe.Markdown(
     RENDERER,
     extensions=(
         "fenced-code",
