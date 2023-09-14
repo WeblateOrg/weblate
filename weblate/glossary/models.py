@@ -7,8 +7,8 @@ from itertools import chain
 
 import ahocorasick_rs
 import sentry_sdk
-from django.db.models import Q
-from django.db.models.functions import Lower
+from django.db.models import Q, Value
+from django.db.models.functions import MD5, Lower
 
 from weblate.trans.models.unit import Unit
 from weblate.trans.util import PLURAL_SEPARATOR
@@ -90,7 +90,7 @@ def get_glossary_terms(unit):
                 terms.add(source[start:end].lower())
 
         units = list(
-            units.annotate(source_lc=Lower("source")).filter(Q(source_lc__in=terms))
+            units.filter(Q(source__lower__md5__in=[MD5(Value(term)) for term in terms]))
         )
 
     # Add variants manually. This could be done by adding filtering on
