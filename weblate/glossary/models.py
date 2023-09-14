@@ -106,7 +106,9 @@ def get_glossary_terms(unit):
             if not unit.variant or unit.variant.pk in variants:
                 continue
             variants.add(unit.variant.pk)
-            for child in unit.variant.unit_set.filter(translation__language=language):
+            for child in unit.variant.unit_set.filter(
+                translation__language=language
+            ).select_related("source_unit"):
                 if child.pk not in existing:
                     existing.add(child.pk)
                     extra.append(child)
