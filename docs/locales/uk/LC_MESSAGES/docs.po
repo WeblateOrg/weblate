@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 16:23+0200\n"
-"PO-Revision-Date: 2023-09-08 05:41+0000\n"
+"PO-Revision-Date: 2023-09-15 02:16+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.0.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
@@ -833,6 +833,9 @@ msgid ""
 "Using huge component lists might have a performance impact, please consider "
 "giving access via projects instead."
 msgstr ""
+"Використання величезних списків складників може погано позначитися на "
+"швидкодії. Будь ласка, спробуйте надавати замість цього доступ на рівні "
+"проєктів."
 
 #: ../../admin/access.rst:389
 msgid ""
@@ -22340,13 +22343,6 @@ msgid "Components and categories"
 msgstr "Складники і категорії"
 
 #: ../../api.rst:164
-#, fuzzy
-#| msgid ""
-#| "To access a component which is nested inside a :ref:`category`, you need "
-#| "to URL encode the category name into a component name separated with a "
-#| "slash. For example ``usage`` placed in a ``docs`` category needs to be "
-#| "used as ``docs%2Fusage``. Full URL in this case would be for example "
-#| "``https://example.com/api/components/hello/docs%2Fusage/repository/``."
 msgid ""
 "To access a component which is nested inside a :ref:`category`, you need to "
 "URL encode the category name into a component name separated with a slash. "
@@ -22354,12 +22350,12 @@ msgid ""
 "``docs%252Fusage``. Full URL in this case would be for example ``https://"
 "example.com/api/components/hello/docs%252Fusage/repository/``."
 msgstr ""
-"Щоб отримати доступ до складника, який вкладено у :ref:`категорію "
-"<category>`, вам слід закодувати назву категорії як адресу до назви "
-"складника з використанням символу похилої риски. Наприклад, для ``usage``, "
-"який розміщено у категорії ``docs``, має бути вказано ``docs%2Fusage``. "
-"Повна адреса у цьому випадку може бути, наприклад, ``https://example.com/api/"
-"components/hello/docs%2Fusage/repository/``."
+"Щоб отримати доступ до складника, який вкладено у :ref:`категорію <category>`"
+", вам слід закодувати назву категорії як адресу до назви складника з "
+"використанням символу похилої риски. Наприклад, для ``usage``, який "
+"розміщено у категорії ``docs``, має бути вказано ``docs%252Fusage``. Повна "
+"адреса у цьому випадку може бути, наприклад, ``https://example.com/api/"
+"components/hello/docs%252Fusage/repository/``."
 
 #: ../../api.rst:173
 msgid "API rate limiting"
@@ -25051,32 +25047,24 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.0.1"
 msgid "Weblate 5.0.2"
-msgstr "Weblate 5.0.1"
+msgstr "Weblate 5.0.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on September 15th 2022."
 msgid "Released on September 14th 2023."
-msgstr "Випущено 15 вересня 2022 року."
+msgstr "Випущено 14 вересня 2023 року."
 
 #: ../../changes.rst:6 ../../changes.rst:35 ../../changes.rst:80
 msgid "**Improvements**"
 msgstr "**Удосконалення**"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Improved translation memory updates performance."
 msgid "Translate page performance."
-msgstr "Вдосконалено швидкодію оновлення пам'яті перекладів."
+msgstr "Вдосконалено швидкодію перекладу сторінок."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Now shows word counts as well."
 msgid "Search now looks for categories as well."
-msgstr "Реалізовано показ кількості слів."
+msgstr "У новій версії виконується пошук і за категоріями."
 
 #: ../../changes.rst:11 ../../changes.rst:44 ../../changes.rst:101
 msgid "**Bug fixes**"
@@ -25084,25 +25072,19 @@ msgstr "**Виправлення вад**"
 
 #: ../../changes.rst:13
 msgid "Rendering of release notes on GitHub."
-msgstr ""
+msgstr "Реалізовано обробку нотаток щодо випуску на GitHub."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Link to a project."
 msgid "Listing of categorized projects."
-msgstr "Посилання на проєкт."
+msgstr "Реалізовано показ категоризованих проєктів."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "The translation base language is editable."
 msgid "Translating a language inside a category."
-msgstr "Основну мову перекладу можна редагувати."
+msgstr "Реалізовано переклад мовою у самій категорії."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Categories"
 msgid "Categories sorting."
-msgstr "Категорії"
+msgstr "Реалізовано упорядковування категорій."
 
 #: ../../changes.rst:18 ../../changes.rst:59 ../../changes.rst:114
 #: ../../changes/v4.rst:53 ../../changes/v4.rst:85 ../../changes/v4.rst:168
@@ -25138,26 +25120,20 @@ msgstr ""
 "зміни в індексуванні."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/103?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/105?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/"
-"milestone/103?closed=1>`__."
+"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
+"105?closed=1>`__."
 
 #: ../../changes.rst:27
 msgid "Weblate 5.0.1"
 msgstr "Weblate 5.0.1"
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Released on September 10th 2021."
 msgid "Released on September 10th 2023."
-msgstr "Випущено 10 вересня 2021 року."
+msgstr "Випущено 10 вересня 2023 року."
 
 #: ../../changes.rst:31 ../../changes.rst:72
 msgid "**New features**"
@@ -25185,18 +25161,12 @@ msgid "Added object ``id`` to all :ref:`api` endpoints."
 msgstr "Додано об'єкт ``id`` до усіх кінцевих точок :ref:`api`."
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Remove association of a project with a component."
 msgid "Better performance of projects with a lot of components."
-msgstr "Вилучити прив'язку проєкту до складника."
+msgstr "Покращено швидкодію для проєктів із багатьма складниками."
 
 #: ../../changes.rst:42
-#, fuzzy
-#| msgid "Added compatibility redirects after project or component renaming."
 msgid "Added compatibility redirects for some old URLs."
-msgstr ""
-"Додано переспрямовування для сумісності після перейменовування проєкту або "
-"складника."
+msgstr "Додано переспрямовування для сумісності для застарілих адрес."
 
 #: ../../changes.rst:46
 msgid "Creating component within a category."
@@ -25228,10 +25198,8 @@ msgstr ""
 "Виправлено розпізнавання для GitHub Team і Organization у контейнері Docker."
 
 #: ../../changes.rst:52
-#, fuzzy
-#| msgid "GitLab merge request from fork"
 msgid "GitLab merge requests when using a customized SSH port."
-msgstr "Запит щодо злиття на GitLab з відгалуження"
+msgstr "Реалізовано запити щодо об'єднання GitLab при нетиповому порті SSH."
 
 #: ../../changes.rst:54 ../../changes.rst:109
 msgid "**Compatibility**"
@@ -25243,14 +25211,10 @@ msgstr ""
 "Залежність від `pyahocorasick` замінено залежністю від `ahocorasick_rs`."
 
 #: ../../changes.rst:57
-#, fuzzy
-#| msgid ""
-#| "The default value of :setting::`IP_PROXY_OFFSET` has been changed from 1 "
-#| "to -1."
 msgid ""
 "The default value of :setting:`IP_PROXY_OFFSET` has been changed from 1 to "
 "-1."
-msgstr "Типове значення :setting::`IP_PROXY_OFFSET` було замінено з 1 на -1."
+msgstr "Типове значення :setting:`IP_PROXY_OFFSET` було замінено з 1 на -1."
 
 #: ../../changes.rst:65
 msgid ""
@@ -34242,10 +34206,8 @@ msgstr "Перевірка, чи сумісний додаток із вказа
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.component_update:1
-#, fuzzy
-#| msgid "component update"
 msgid "Hook for component update."
-msgstr "оновлення складника"
+msgstr "Перехоплення подій щодо оновлення складника."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.configure:1
