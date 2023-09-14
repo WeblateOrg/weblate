@@ -103,16 +103,13 @@ def get_glossary_terms(unit):
         variants = set()
         extra = []
         for unit in units:
-            if unit.variant:
-                if unit.variant.pk in variants:
-                    continue
-                variants.add(unit.variant.pk)
-                for child in unit.variant.unit_set.filter(
-                    translation__language=language
-                ):
-                    if child.pk not in existing:
-                        existing.add(child.pk)
-                        extra.append(child)
+            if not unit.variant or unit.variant.pk in variants:
+                continue
+            variants.add(unit.variant.pk)
+            for child in unit.variant.unit_set.filter(translation__language=language):
+                if child.pk not in existing:
+                    existing.add(child.pk)
+                    extra.append(child)
 
         units.extend(extra)
 
