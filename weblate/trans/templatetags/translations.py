@@ -96,7 +96,7 @@ class Formatter:
         idx,
         value,
         unit,
-        terms,
+        glossary,
         diff,
         search_match,
         match,
@@ -106,7 +106,7 @@ class Formatter:
         self.idx = idx
         self.cleaned_value = self.value = value
         self.unit = unit
-        self.terms = terms
+        self.glossary = glossary
         self.diff = diff
         self.search_match = search_match
         self.match = match
@@ -118,7 +118,7 @@ class Formatter:
     def parse(self):
         if self.unit:
             self.parse_highlight()
-        if self.terms:
+        if self.glossary:
             self.parse_glossary()
         if self.search_match:
             self.parse_search()
@@ -134,7 +134,13 @@ class Formatter:
         for op, data in diff:
             if op == self.differ.DIFF_DELETE:
                 formatter = Formatter(
-                    0, data, self.unit, self.terms, None, self.search_match, self.match
+                    0,
+                    data,
+                    self.unit,
+                    self.glossary,
+                    None,
+                    self.search_match,
+                    self.match,
                 )
                 formatter.parse()
                 self.tags[offset].append(f"<del>{formatter.format()}</del>")
@@ -257,13 +263,15 @@ class Formatter:
         """Highlights glossary entries."""
         # Annotate string with glossary terms
         locations = defaultdict(list)
-        for htext, entries in self.terms.items():
-            for match in re.finditer(
-                rf"(\W|^)({re.escape(htext)})(\W|$)", self.cleaned_value, re.IGNORECASE
-            ):
-                for i in range(match.start(2), match.end(2)):
-                    locations[i].extend(entries)
-                locations[match.end(2)].extend([])
+        for term in self.glossary:
+            for start, end in term.glossary_positions:
+                # Skip terms whose parts belong to placeholders
+                if self.cleaned_value[start:end].lower() != term.source.lower():
+                    continue
+
+                for i in range(start, end):
+                    locations[i].append(term)
+                locations[end].extend([])
 
         # Render span tags for each glossary term match
         last_entries = []
@@ -461,17 +469,13 @@ def format_translation(
         while len(diff) < len(plurals):
             diff.append(diff[0])
 
-    terms = defaultdict(list)
-    for term in glossary or []:
-        terms[term.source].append(term)
-
     # We will collect part for each plural
     parts = []
     has_content = False
 
     for idx, text in enumerate(plurals):
         formatter = Formatter(
-            idx, text, unit, terms, diff, search_match, match, whitespace=whitespace
+            idx, text, unit, glossary, diff, search_match, match, whitespace=whitespace
         )
         formatter.parse()
 
