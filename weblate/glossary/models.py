@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
+from collections import defaultdict
 from itertools import chain
 
 import ahocorasick_rs
@@ -80,9 +81,9 @@ def get_glossary_terms(unit):
     uses_ngram = source_language.uses_ngram()
 
     automaton = project.glossary_automaton
+    positions = defaultdict(list)
     # Extract terms present in the source
     with sentry_sdk.start_span(op="glossary.match", description=project.slug):
-        terms = set()
         for _termno, start, end in automaton.find_matches_as_indexes(
             source, overlapping=True
         ):
@@ -90,10 +91,13 @@ def get_glossary_terms(unit):
                 (start == 0 or NON_WORD_RE.match(source[start - 1]))
                 and (end >= len(source) or NON_WORD_RE.match(source[end]))
             ):
-                terms.add(source[start:end].lower())
+                term = source[start:end].lower()
+                positions[term].append((start, end))
 
         units = list(
-            units.filter(Q(source__lower__md5__in=[MD5(Value(term)) for term in terms]))
+            units.filter(
+                Q(source__lower__md5__in=[MD5(Value(term)) for term in positions])
+            )
         )
 
         # Add variants manually. This could be done by adding filtering on
@@ -117,6 +121,9 @@ def get_glossary_terms(unit):
 
         # Order results, this is Python reimplementation of:
         units.sort(key=lambda x: x.glossary_sort_key)
+
+        for unit in units:
+            unit.glossary_positions = tuple(positions[unit.source.lower()])
 
     # Store in a unit cache
     unit.glossary_terms = units

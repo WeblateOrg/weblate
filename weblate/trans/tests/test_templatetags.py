@@ -4,6 +4,8 @@
 
 """Testing of template tags."""
 
+from __future__ import annotations
+
 import datetime
 
 from django.test import SimpleTestCase, TestCase
@@ -225,6 +227,11 @@ class TranslationFormatTestCase(FixtureTestCase):
         super().setUp()
         self.translation = self.get_translation()
 
+    def build_glossary(self, source: str, target: str, positions=list[tuple[int, int]]):
+        unit = Unit(source=source, target=target, translation=self.translation)
+        unit.glossary_positions = positions
+        return unit
+
     def test_basic(self):
         self.assertEqual(
             format_translation(
@@ -386,9 +393,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             format_translation(
                 ["Hello world"],
                 self.component.source_language,
-                glossary=[
-                    Unit(source="hello", target="ahoj", translation=self.translation)
-                ],
+                glossary=[self.build_glossary("hello", "ahoj", [(0, 5)])],
             )["items"][0]["content"],
             """
             <span class="glossary-term"
@@ -404,12 +409,8 @@ class TranslationFormatTestCase(FixtureTestCase):
                 ["Hello world"],
                 self.component.source_language,
                 glossary=[
-                    Unit(
-                        source="hello world",
-                        target="ahoj svete",
-                        translation=self.translation,
-                    ),
-                    Unit(source="hello", target="ahoj", translation=self.translation),
+                    self.build_glossary("hello world", "ahoj svete", [(0, 11)]),
+                    self.build_glossary("hello", "ahoj", [(0, 5)]),
                 ],
             )["items"][0]["content"],
             """
@@ -427,9 +428,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             format_translation(
                 ["[Hello] world"],
                 self.component.source_language,
-                glossary=[
-                    Unit(source="[hello]", target="ahoj", translation=self.translation)
-                ],
+                glossary=[self.build_glossary("[hello]", "ahoj", [(0, 7)])],
             )["items"][0]["content"],
             """
             <span class="glossary-term"
@@ -443,9 +442,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             format_translation(
                 ["text  Hello world"],
                 self.component.source_language,
-                glossary=[
-                    Unit(source="hello", target="ahoj", translation=self.translation)
-                ],
+                glossary=[self.build_glossary("hello", "ahoj", [(6, 11)])],
             )["items"][0]["content"],
             """
             text
@@ -466,11 +463,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             format_translation(
                 ["Hello world"],
                 self.component.source_language,
-                glossary=[
-                    Unit(
-                        source="hello", target='<b>ahoj"', translation=self.translation
-                    )
-                ],
+                glossary=[self.build_glossary("hello", '<b>ahoj"', [(0, 5)])],
             )["items"][0]["content"],
             """
             <span class="glossary-term"
@@ -485,10 +478,8 @@ class TranslationFormatTestCase(FixtureTestCase):
                 ["Hello glossary"],
                 self.component.source_language,
                 glossary=[
-                    Unit(source="hello", target="ahoj", translation=self.translation),
-                    Unit(
-                        source="glossary", target="glosář", translation=self.translation
-                    ),
+                    self.build_glossary("hello", "ahoj", [(0, 5)]),
+                    self.build_glossary("glossary", "glosář", [(6, 14)]),
                 ],
             )["items"][0]["content"],
             """
@@ -507,9 +498,7 @@ class TranslationFormatTestCase(FixtureTestCase):
                 ["%3$sHow"],
                 self.component.source_language,
                 glossary=[
-                    Unit(
-                        source="show", target="zobrazit", translation=self.translation
-                    ),
+                    self.build_glossary("show", "zobrazit", [(3, 7)]),
                 ],
                 unit=unit,
             )["items"][0]["content"],

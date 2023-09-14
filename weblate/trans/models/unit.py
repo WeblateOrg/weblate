@@ -484,6 +484,7 @@ class Unit(models.Model, LoggerMixin):
         self.machinery = None
         # Data for glossary integration
         self.glossary_terms = None
+        self.glossary_positions = None
         # Store original attributes for change tracking
         self.old_unit = None
         if "state" in self.__dict__:
