@@ -2372,7 +2372,7 @@ Component lists
 
    .. versionadded:: 5.0.1
 
-    List componentsin with a component list.
+    List components in a component list.
 
     :param slug: Component list slug
     :type slug: string
