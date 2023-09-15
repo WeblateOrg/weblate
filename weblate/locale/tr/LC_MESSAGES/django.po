@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 14:22+0000\n"
-"PO-Revision-Date: 2023-09-15 12:17+0000\n"
+"PO-Revision-Date: 2023-09-15 13:33+0000\n"
 "Last-Translator: Yılmaz Durmaz <yilmaz_durmaz@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -1481,7 +1481,7 @@ msgstr "Lütfen eşleşen bileşenleri gözden geçirin ve onaylayın."
 
 #: weblate/addons/forms.py:431
 msgid "Please include component markup in the template."
-msgstr "Lütfen kalıba bileşen kodlaması ekleyin."
+msgstr "Lütfen şablona bileşen kodlaması ekleyin."
 
 #: weblate/addons/forms.py:474
 msgid "Translation threshold"
@@ -1650,8 +1650,8 @@ msgid ""
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
 "Tüm PO dosyalarını (\"File mask\" ile yapılandırıldığı şekliyle), msgmerge "
-"kullanarak POT dosyasıyla (\"Yeni çeviriler kalıbı\" ile yapılandırıldığı "
-"şekilde) eşleşecek şekilde günceller."
+"kullanarak POT dosyasıyla (\"Yeni çeviriler için şablon\" ile "
+"yapılandırıldığı şekilde) eşleşecek şekilde günceller."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -3526,11 +3526,11 @@ msgstr "I18next değer eklemesi kaynaktaki ile aynı değil"
 
 #: weblate/checks/format.py:649
 msgid "ECMAScript template literals"
-msgstr "ECMAScript kalıbı sabitleri"
+msgstr "ECMAScript şablon dizge kalıpları"
 
 #: weblate/checks/format.py:650
 msgid "ECMAScript template literals do not match source"
-msgstr "ECMAScript kalıbı sabitleri kaynakla aynı değil"
+msgstr "ECMAScript şablon dizge kalıpları kaynakla aynı değil"
 
 #: weblate/checks/format.py:663
 msgid "Percent placeholders"
@@ -6134,7 +6134,8 @@ msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr ""
-"Dosya adında ve içeriğinde Django kalıp kodlamasını kullanabilirsiniz. Örnek:"
+"Dosya adında ve içeriğinde Django şablonları kodlamasını kullanabilirsiniz. "
+"Örnek:"
 
 #: weblate/templates/addons/generate_help.html:14
 msgid "Percents translated"
@@ -10321,7 +10322,7 @@ msgstr "Şu dosyalar artık depoda bulunmuyor:"
 #: weblate/templates/trans/alert/inexistantfiles.html:15
 #: weblate/trans/models/component.py:480
 msgid "Template for new translations"
-msgstr "Yeni çeviriler kalıbı"
+msgstr "Yeni çeviriler için şablon"
 
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
@@ -10807,8 +10808,7 @@ msgstr ""
 
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
-msgstr ""
-"Django kalıplarının kodlamasını, işleme iletilerinde kullanabilirsiniz."
+msgstr "Django şablonları kodlamasını, işleme iletilerinde kullanabilirsiniz."
 
 #: weblate/templates/trans/other-row.html:12
 msgid "This translation"
@@ -13122,7 +13122,7 @@ msgid ""
 "You can use template language for various info, please consult the "
 "documentation for more details."
 msgstr ""
-"Çeşitli bilgiler için kalıp dilini kullanabilirsiniz. Ayrıntlı bilgi almak "
+"Çeşitli bilgiler için şablon dilini kullanabilirsiniz. Ayrıntlı bilgi almak "
 "için lütfen belgelere bakın."
 
 #: weblate/trans/models/component.py:616
@@ -13362,13 +13362,13 @@ msgstr "Temel dosya yeni çeviriler için tanınamadı."
 
 #: weblate/trans/models/component.py:2738
 msgid "Editing template is not supported with this file format."
-msgstr "Bu dosya biçiminde düzenleme kalıbı desteklenmiyor."
+msgstr "Bu dosya biçiminde düzenleme şablonu desteklenmiyor."
 
 #: weblate/trans/models/component.py:2744
 #: weblate/trans/models/component.py:2760
 msgid ""
 "An intermediate language file can not be used without an editing template."
-msgstr "Bir ara dil dosyası, düzenleme kalıbı olmadan kullanılamaz."
+msgstr "Bir ara dil dosyası, düzenleme şablonu olmadan kullanılamaz."
 
 #: weblate/trans/models/component.py:2752
 msgid ""
@@ -13390,7 +13390,7 @@ msgstr "Çeviri temel dosyası işlenemedi: %s"
 #: weblate/trans/models/component.py:2794
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
-msgstr "Kalıp dili ({0}) kaynak dili ({1}) ile eşleşmiyor!"
+msgstr "Şablon dili ({0}) kaynak dili ({1}) ile eşleşmiyor!"
 
 #: weblate/trans/models/component.py:2813
 msgid "Choose No remote repository for local: URL."
@@ -13444,7 +13444,7 @@ msgstr "Tek dilli temel dil dosyası geçersizdir."
 
 #: weblate/trans/models/component.py:3429
 msgid "The template for new translations is invalid."
-msgstr "Yeni çeviriler için şablon geçersizdir."
+msgstr "Yeni çeviriler için bu şablon geçersizdir."
 
 #: weblate/trans/models/component.py:3472
 msgid "The given language is used as a source language."
@@ -14621,14 +14621,14 @@ msgstr "Değişken tanımlanmamış: \"%s\""
 
 #: weblate/utils/render.py:121
 msgid "Could not render template: {}"
-msgstr "Kalıp görünümü oluşturulamadı: {}"
+msgstr "Şablon işlenemedi: {}"
 
 #: weblate/utils/render.py:166
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
 msgstr ""
-"Biçim dizgeleri artık desteklenmiyor. Lütfen bunun yerine kalıp dilini "
+"Biçim dizgeleri artık desteklenmiyor. Lütfen bunun yerine şablon dilini "
 "kullanın."
 
 #: weblate/utils/render.py:185
