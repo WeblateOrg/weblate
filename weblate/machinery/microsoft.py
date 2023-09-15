@@ -6,7 +6,6 @@ from __future__ import annotations
 
 from datetime import timedelta
 
-from django.conf import settings
 from django.utils import timezone
 
 from .base import MachineTranslation, MachineTranslationError
@@ -52,15 +51,6 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
             self.settings["endpoint_url"],
             self.settings["key"],
         )
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "region": settings.MT_MICROSOFT_REGION,
-            "endpoint_url": settings.MT_MICROSOFT_ENDPOINT_URL,
-            "base_url": settings.MT_MICROSOFT_BASE_URL,
-            "key": settings.MT_MICROSOFT_COGNITIVE_KEY,
-        }
 
     def get_url(self, suffix):
         return f"https://{self.settings['base_url']}/{suffix}"

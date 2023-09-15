@@ -6,19 +6,14 @@
 
 from django.db import migrations
 
-from weblate.machinery import MACHINE_TRANSLATION_SERVICES
-
 CATEGORY_MT = 2
 
 
 def migrate_machinery(apps, schema_editor):
     Setting = apps.get_model("configuration", "Setting")
 
-    # TODO: Hardcode defaults in Weblate 5.1
-    for name, machinery in MACHINE_TRANSLATION_SERVICES.items():
-        Setting.objects.create(
-            category=CATEGORY_MT, name=name, value=machinery.migrate_settings()
-        )
+    for name in ("weblate", "weblate-translation-memory"):
+        Setting.objects.create(category=CATEGORY_MT, name=name, value={})
 
 
 class Migration(migrations.Migration):

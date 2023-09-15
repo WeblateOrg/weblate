@@ -3,7 +3,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.conf import settings
 
 from .base import MachineryRateLimitError, MachineTranslation, MachineTranslationError
 from .forms import KeySecretMachineryForm
@@ -37,13 +36,6 @@ class BaiduTranslation(MachineTranslation):
         "vi": "vie",
     }
     settings_form = KeySecretMachineryForm
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "key": settings.MT_BAIDU_ID,
-            "secret": settings.MT_BAIDU_SECRET,
-        }
 
     def download_languages(self):
         """List of supported languages."""

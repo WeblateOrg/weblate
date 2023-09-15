@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.conf import settings
 
 from .base import MachineTranslation, MachineTranslationError
 from .forms import KeyMachineryForm
@@ -14,12 +13,6 @@ class YandexTranslation(MachineTranslation):
     name = "Yandex"
     max_score = 90
     settings_form = KeyMachineryForm
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "key": settings.MT_YANDEX_KEY,
-        }
 
     def check_failure(self, response):
         if "code" not in response or response["code"] == 200:

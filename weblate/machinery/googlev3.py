@@ -4,7 +4,6 @@
 
 import json
 
-from django.conf import settings
 from django.utils.functional import cached_property
 from google.cloud.translate_v3 import TranslationServiceClient
 from google.oauth2 import service_account
@@ -33,15 +32,6 @@ class GoogleV3Translation(GoogleBaseTranslation):
         project = self.settings["project"]
         location = self.settings["location"]
         return f"projects/{project}/locations/{location}"
-
-    @staticmethod
-    def migrate_settings():
-        with open(settings.MT_GOOGLE_CREDENTIALS) as handle:
-            return {
-                "credentials": handle.read(),
-                "project": settings.MT_GOOGLE_PROJECT,
-                "location": settings.MT_GOOGLE_LOCATION,
-            }
 
     def download_languages(self):
         """List of supported languages."""
