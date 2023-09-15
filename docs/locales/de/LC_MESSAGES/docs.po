@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 16:23+0200\n"
-"PO-Revision-Date: 2023-09-14 14:18+0000\n"
+"PO-Revision-Date: 2023-09-15 08:48+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -847,6 +847,9 @@ msgid ""
 "Using huge component lists might have a performance impact, please consider "
 "giving access via projects instead."
 msgstr ""
+"Die Verwendung großer Komponentenlisten kann sich auf die Leistung "
+"auswirken, daher sollten Sie stattdessen den Zugriff über Projekte "
+"ermöglichen."
 
 #: ../../admin/access.rst:389
 msgid ""
@@ -8002,14 +8005,14 @@ msgid ""
 "setting:`django:SECURE_PROXY_SSL_HEADER` to let Django correctly detect the "
 "SSL status."
 msgstr ""
-"Die HTTPS-Umleitung könnte in einigen Fällen problematisch sein und Sie "
-"könnten auf ein Problem mit unendlicher Umleitung stoßen, wenn Sie einen "
+"Die HTTPS-Weiterleitung könnte in einigen Fällen problematisch sein und Sie "
+"könnten auf ein Problem mit unendlicher Weiterleitung stoßen, wenn Sie einen "
 "Reverse-Proxy verwenden, der eine SSL-Terminierung durchführt und Protokoll-"
 "Header nicht korrekt an Django weitergibt. Bitte passen Sie Ihre Reverse-"
-"Proxy-Konfiguration so an, dass :http:header:`X-Forwarded-Proto`- oder :http:"
-"header:`Forwarded`-Header ausgegeben werden oder konfigurieren Sie :setting:"
-"`django:SECURE_PROXY_SSL_HEADER`, damit Django den SSL-Status korrekt "
-"erkennt."
+"Proxy-Konfiguration so an, dass :http:header:`X-Forwarded-Proto`- oder "
+":http:header:`Forwarded`-Header ausgegeben werden oder konfigurieren Sie "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, damit Django den SSL-Status "
+"korrekt erkennt."
 
 #: ../../admin/config.rst:691
 msgid ""
@@ -22575,13 +22578,6 @@ msgid "Components and categories"
 msgstr "Komponenten und Kategorien"
 
 #: ../../api.rst:164
-#, fuzzy
-#| msgid ""
-#| "To access a component which is nested inside a :ref:`category`, you need "
-#| "to URL encode the category name into a component name separated with a "
-#| "slash. For example ``usage`` placed in a ``docs`` category needs to be "
-#| "used as ``docs%2Fusage``. Full URL in this case would be for example "
-#| "``https://example.com/api/components/hello/docs%2Fusage/repository/``."
 msgid ""
 "To access a component which is nested inside a :ref:`category`, you need to "
 "URL encode the category name into a component name separated with a slash. "
@@ -22592,9 +22588,9 @@ msgstr ""
 "Um auf eine Komponente zuzugreifen, die in einer :ref:`category` "
 "verschachtelt ist, müssen Sie den Kategorienamen in einen URL-kodierten und "
 "durch einen Schrägstrich getrennten Komponentennamen ändern. Zum Beispiel "
-"``usage`` in einer ``docs`` Kategorie muss als ``docs%2Fusage`` verwendet "
-"werden. Die vollständige URL wäre in diesem Fall zum Beispiel ``https://"
-"example.com/api/components/hello/docs%2Fusage/repository/``."
+"``usage`` in einer ``docs`` Kategorie muss als ``docs%252Fusage`` verwendet "
+"werden. Die vollständige URL wäre in diesem Fall zum Beispiel "
+"``https://example.com/api/components/hello/docs%252Fusage/repository/``."
 
 #: ../../api.rst:173
 msgid "API rate limiting"
@@ -25315,32 +25311,24 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.0.1"
 msgid "Weblate 5.0.2"
-msgstr "Weblate 5.0.1"
+msgstr "Weblate 5.0.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on September 15th 2022."
 msgid "Released on September 14th 2023."
-msgstr "Veröffentlicht am 15. September 2022."
+msgstr "Veröffentlicht am 14. September 2023."
 
 #: ../../changes.rst:6 ../../changes.rst:35 ../../changes.rst:80
 msgid "**Improvements**"
 msgstr "**Verbesserungen**"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Improved translation memory performance."
 msgid "Translate page performance."
-msgstr "Die Leistung des Übersetzungsspeichers verbessert."
+msgstr "Leistung der Übersetzungsseite."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Now shows word counts as well."
 msgid "Search now looks for categories as well."
-msgstr "Jetzt wird auch die Anzahl der Wörter angezeigt."
+msgstr "Die Suche sucht jetzt auch nach Kategorien."
 
 #: ../../changes.rst:11 ../../changes.rst:44 ../../changes.rst:101
 msgid "**Bug fixes**"
@@ -25348,25 +25336,19 @@ msgstr "**Fehlerbehebungen**"
 
 #: ../../changes.rst:13
 msgid "Rendering of release notes on GitHub."
-msgstr ""
+msgstr "Darstellung der Versionshinweise auf GitHub."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Link to a project."
 msgid "Listing of categorized projects."
-msgstr "Link zu einem Projekt."
+msgstr "Auflistung der kategorisierten Projekte."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "The translation base language is editable."
 msgid "Translating a language inside a category."
-msgstr "Die Übersetzungsbasissprache ist editierbar."
+msgstr "Übersetzen einer Sprache innerhalb einer Kategorie."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Categories"
 msgid "Categories sorting."
-msgstr "Kategorien"
+msgstr "Sortierung der Kategorien."
 
 #: ../../changes.rst:18 ../../changes.rst:59 ../../changes.rst:114
 #: ../../changes/v4.rst:53 ../../changes/v4.rst:85 ../../changes/v4.rst:168
@@ -25402,26 +25384,20 @@ msgstr ""
 "Indizierungsänderungen erhebliche Zeit in Anspruch nehmen."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/103?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/105?"
 "closed=1>`__."
 msgstr ""
-"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
-"milestone/103?closed=1>`__."
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
+"105?closed=1>`__."
 
 #: ../../changes.rst:27
 msgid "Weblate 5.0.1"
 msgstr "Weblate 5.0.1"
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Released on September 10th 2021."
 msgid "Released on September 10th 2023."
-msgstr "Veröffentlicht am 10. September 2021."
+msgstr "Veröffentlicht am 10. September 2023."
 
 #: ../../changes.rst:31 ../../changes.rst:72
 msgid "**New features**"
@@ -25448,18 +25424,12 @@ msgid "Added object ``id`` to all :ref:`api` endpoints."
 msgstr "Objekt ``id`` zu allen :ref:`api`-Endpunkten hinzugefügt."
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Remove association of a project with a component."
 msgid "Better performance of projects with a lot of components."
-msgstr "Aufhebung der Zuordnung eines Projekts zu einer Komponente."
+msgstr "Bessere Leistung bei Projekten mit einer Vielzahl von Komponenten."
 
 #: ../../changes.rst:42
-#, fuzzy
-#| msgid "Added compatibility redirects after project or component renaming."
 msgid "Added compatibility redirects for some old URLs."
-msgstr ""
-"Kompatibilitätsweiterleitungen nach dem Umbenennen von Projekten oder "
-"Komponenten hinzugefügt."
+msgstr "Kompatibilitätsweiterleitungen für einige alte URLs hinzugefügt."
 
 #: ../../changes.rst:46
 msgid "Creating component within a category."
@@ -25490,10 +25460,8 @@ msgstr ""
 "korrigiert."
 
 #: ../../changes.rst:52
-#, fuzzy
-#| msgid "GitLab merge request from fork"
 msgid "GitLab merge requests when using a customized SSH port."
-msgstr "GitLab-Merge-Request vom Fork"
+msgstr "GitLab-Merge-Requests beim Verwenden eines angepassten SSH-Ports."
 
 #: ../../changes.rst:54 ../../changes.rst:109
 msgid "**Compatibility**"
@@ -25504,15 +25472,10 @@ msgid "`pyahocorasick` dependency has been replaced by `ahocorasick_rs`."
 msgstr "Die `pyahocorasick`-Abhängigkeit wurde durch `ahocorasick_rs` ersetzt."
 
 #: ../../changes.rst:57
-#, fuzzy
-#| msgid ""
-#| "The default value of :setting::`IP_PROXY_OFFSET` has been changed from 1 "
-#| "to -1."
 msgid ""
 "The default value of :setting:`IP_PROXY_OFFSET` has been changed from 1 to "
 "-1."
-msgstr ""
-"Den Standardwert von :setting::`IP_PROXY_OFFSET` von 1 auf -1 geändert."
+msgstr "Den Standardwert von :setting:`IP_PROXY_OFFSET` von 1 auf -1 geändert."
 
 #: ../../changes.rst:65
 msgid ""
@@ -33341,6 +33304,7 @@ msgstr "Verbesserte Fehlermeldungen bei fehlgeschlagenen Registrierungen."
 #: ../../changes/v4.rst:957
 msgid "Reverted rendering developer comments as Markdown."
 msgstr ""
+"Die Darstellung von Entwicklerkommentaren als Markdown rückgängig gemacht."
 
 #: ../../changes/v4.rst:958
 msgid ""
@@ -33648,7 +33612,7 @@ msgstr "Abgleich von Ausgangszeichenketten für JSON-Formate korrigiert."
 #: ../../changes/v4.rst:1046
 msgid "Fixed login redirect for some authentication configurations."
 msgstr ""
-"Die Umleitung der Anmeldung für einige Authentifizierungskonfigurationen "
+"Die Weiterleitung der Anmeldung für einige Authentifizierungskonfigurationen "
 "korrigiert."
 
 #: ../../changes/v4.rst:1047
@@ -34543,10 +34507,8 @@ msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.component_update:1
-#, fuzzy
-#| msgid "component update"
 msgid "Hook for component update."
-msgstr "Komponentenaktualisierung"
+msgstr "Hook für Komponentenaktualisierung."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.configure:1
