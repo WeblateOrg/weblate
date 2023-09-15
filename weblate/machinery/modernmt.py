@@ -4,8 +4,6 @@
 
 import json
 
-from django.conf import settings
-
 import weblate.utils.version
 
 from .base import MachineTranslation, MachineTranslationError
@@ -30,13 +28,6 @@ class ModernMTTranslation(MachineTranslation):
     def map_language_code(self, code):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-").split("@")[0]
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "key": settings.MT_MODERNMT_KEY,
-            "url": settings.MT_MODERNMT_URL,
-        }
 
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""

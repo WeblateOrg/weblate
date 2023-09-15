@@ -5,8 +5,6 @@
 import re
 from html import escape, unescape
 
-from django.conf import settings
-
 from .base import MachineTranslation
 from .forms import DeepLMachineryForm
 
@@ -25,13 +23,6 @@ class DeepLTranslation(MachineTranslation):
     force_uncleanup = True
     hightlight_syntax = True
     settings_form = DeepLMachineryForm
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "url": settings.MT_DEEPL_API_URL,
-            "key": settings.MT_DEEPL_KEY,
-        }
 
     def map_language_code(self, code):
         """Convert language to service specific code."""

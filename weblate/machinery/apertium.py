@@ -4,8 +4,6 @@
 
 from functools import reduce
 
-from django.conf import settings
-
 from .base import MachineTranslation
 from .forms import URLMachineryForm
 
@@ -76,12 +74,6 @@ class ApertiumAPYTranslation(MachineTranslation):
     max_score = 90
     settings_form = URLMachineryForm
     request_timeout = 20
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "url": settings.MT_APERTIUM_APY.rstrip("/"),
-        }
 
     @property
     def all_langs(self):

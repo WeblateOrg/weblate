@@ -336,10 +336,8 @@ def handle_machinery(request, service, unit, search=None):
                             item["text"], targets[plural_form]
                         )
                         source = item["source"]
-                        # TODO: item[] inststead of item.get in Weblate 5.1
-                        # this is needed from migration to 5.0  only
                         item["source_diff"] = differ.highlight(
-                            source, item.get("original_source", source)
+                            source, item["original_source"]
                         )
                 translations = list(chain.from_iterable(translations))
             response["translations"] = translations

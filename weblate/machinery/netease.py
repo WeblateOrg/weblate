@@ -7,8 +7,6 @@ import random
 import time
 from hashlib import sha1
 
-from django.conf import settings
-
 from .base import MachineTranslation, MachineTranslationError
 from .forms import KeySecretMachineryForm
 
@@ -24,13 +22,6 @@ class NeteaseSightTranslation(MachineTranslation):
     # Map codes used by Netease Sight to codes used by Weblate
     language_map = {"zh_Hans": "zh"}
     settings_form = KeySecretMachineryForm
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "key": settings.MT_NETEASE_KEY,
-            "secret": settings.MT_NETEASE_SECRET,
-        }
 
     def download_languages(self):
         """List of supported languages."""

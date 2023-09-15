@@ -83,11 +83,6 @@ class MachineTranslation:
     def delete_cache(self):
         cache.delete_many([self.rate_limit_cache, self.languages_cache])
 
-    @staticmethod
-    def migrate_settings():
-        # TODO: Drop in Weblate 5.1
-        return {}
-
     def validate_settings(self):
         try:
             self.download_languages()

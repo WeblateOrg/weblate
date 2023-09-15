@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.conf import settings
 from requests.exceptions import RequestException
 
 from .base import MachineTranslation, MachineTranslationError
@@ -39,12 +38,6 @@ class GoogleTranslation(GoogleBaseTranslation):
     name = "Google Translate"
     max_score = 90
     settings_form = KeyMachineryForm
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "key": settings.MT_GOOGLE_KEY,
-        }
 
     def download_languages(self):
         """List of supported languages."""
