@@ -7,7 +7,11 @@
 </td>
 {% for unit in translations %}
 <td>
-<a href="{{ unit.get_absolute_url }}">{% format_unit_target unit simple=True %}</a>
+  {% if unit %}
+    <a href="{{ unit.get_absolute_url }}">{% format_unit_target unit simple=True %}</a>
+  {% else %}
+    <p><em>{% trans "String missing" %}</em></p>
+  {% endif %}
 </td>
 {% endfor %}
 </tr>
