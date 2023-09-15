@@ -130,13 +130,14 @@ and then continue upgrading within the 3.x series.
 If you are upgrading from the 3.x release, always first upgrade to 4.0.4
 and then continue upgrading within the 4.x series.
 
+If you are upgrading from the 4.x release, always first upgrade to 5.0.2
+and then continue upgrading within the 5.x series.
+
 .. seealso::
 
    `Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs.weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_,
-   `Upgrade from 3.11 to 4.0 in Weblate 4.0 documentation <https://docs.weblate.org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_
-
-..
-  TODO: Add link to Weblate 5.0 docs once it is built
+   `Upgrade from 3.11 to 4.0 in Weblate 4.0 documentation <https://docs.weblate.org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_,,
+   `Upgrade from 4.x to 5.0.2 in Weblate 5.0 documentation <https://docs.weblate.org/en/weblate-5.0.2/changes.html>`_
 
 .. _database-migration:
 
