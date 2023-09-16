@@ -237,6 +237,12 @@ the "About" page:
    key with the same identity to use an existing key, purging redis cache is
    recommended to see the effect of such change.
 
+
+.. note::
+
+   When sharing :setting:`DATA_DIR` between multiple hosts, please follow instructions
+   at https://wiki.gnupg.org/NFS to make GnuPG signing work reliably.
+
 .. seealso::
 
     :setting:`WEBLATE_GPG_IDENTITY`
