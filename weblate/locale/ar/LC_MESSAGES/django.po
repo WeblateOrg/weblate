@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 14:22+0000\n"
-"PO-Revision-Date: 2023-09-11 07:47+0000\n"
+"PO-Revision-Date: 2023-09-17 13:12+0000\n"
 "Last-Translator: mohammadA <mohammadAbdulhadi1@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
 "application/ar/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.0.1-dev\n"
+"X-Generator: Weblate 5.0.2\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1350,15 +1350,15 @@ msgstr "إزاحة JSON"
 
 #: weblate/addons/forms.py:195
 msgid "Spaces"
-msgstr ""
+msgstr "مسافات"
 
 #: weblate/addons/forms.py:196
 msgid "Tabs"
-msgstr ""
+msgstr "علامات جدولة"
 
 #: weblate/addons/forms.py:207
 msgid "Include closing tag for blank XML tags"
-msgstr ""
+msgstr "ضمّن وسوم إغلاق لوسوم XML الفارغة"
 
 #: weblate/addons/forms.py:215
 #, fuzzy
@@ -1605,7 +1605,7 @@ msgstr "السلاسل تقرأ فقط"
 
 #: weblate/addons/forms.py:597
 msgid "The source and target have to be different languages."
-msgstr ""
+msgstr "لغة الهدف يجب ألا تكون لغة المصدر نفسها."
 
 #: weblate/addons/generate.py:26
 msgid "Statistics generator"
@@ -2518,7 +2518,7 @@ msgstr "المديرين"
 
 #: weblate/auth/models.py:164
 msgid "The administrator can add or remove users from a team."
-msgstr ""
+msgstr "المشرف قادر على إضافة مستخدمين إلى فريق وإزالتهم منه."
 
 #: weblate/auth/models.py:329 weblate/utils/forms.py:50
 #: weblate/utils/validators.py:168
@@ -2566,7 +2566,7 @@ msgstr "مُنتهي المدة"
 #: weblate/templates/trans/project-access.html:284 weblate/trans/forms.py:2762
 #: weblate/wladmin/views.py:68
 msgid "Teams"
-msgstr ""
+msgstr "الفرق"
 
 #: weblate/auth/models.py:375 weblate/auth/models.py:945
 #, fuzzy
@@ -2612,11 +2612,11 @@ msgstr ""
 
 #: weblate/auth/models.py:943 weblate/templates/accounts/profile.html:218
 msgid "Team"
-msgstr ""
+msgstr "الفريق"
 
 #: weblate/auth/permissions.py:143
 msgid "Can not perform this operation without an e-mail address."
-msgstr ""
+msgstr "يتعذر إجراء هذه العملية من غير عنوان بريد إلكتروني."
 
 #: weblate/auth/permissions.py:149 weblate/templates/translate.html:194
 #: weblate/templates/translate.html:214
@@ -2706,7 +2706,7 @@ msgstr "هذه الترجمة مغلقة."
 
 #: weblate/auth/permissions.py:261
 msgid "Add the string to the source language instead."
-msgstr ""
+msgstr "أضف السلسلة إلى اللغة الهدف بدلا من ذلك."
 
 #: weblate/auth/permissions.py:265
 #, fuzzy
@@ -3310,7 +3310,7 @@ msgstr ""
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "توجد صفة HTML في الوسم {tag} واسمها {name}، وهذا الاسم غير صالح."
 
 #: weblate/checks/fluent/inner_html.py:260
 #, python-brace-format
@@ -3322,7 +3322,7 @@ msgstr ""
 #: weblate/checks/fluent/inner_html.py:276
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "صفة HTML التي اسمها {name} ظهرت مرتين في الوسم {tag}."
 
 #: weblate/checks/fluent/inner_html.py:288
 #, python-brace-format
@@ -3332,7 +3332,7 @@ msgstr ""
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr ""
+msgstr "عنصر HTML الفارغ {name} يجب ألا يكون له وسم نهاية: {end}."
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
@@ -3340,11 +3340,14 @@ msgid ""
 "The HTML {name} element is not a known void element, so should not have a "
 "self-closing tag: {self_close}."
 msgstr ""
+"عنصر HTML الذي اسمه {name} ليس من العناصر المعروفة بأنها فارغة \"void "
+"elements\"، لذا يجب ألا يكون وسمها مغلقا لنفسه \"self-closing\" هكذا: "
+"{self_close}."
 
 #: weblate/checks/fluent/inner_html.py:325
 #, python-brace-format
 msgid "The HTML {tag} tag is missing a matching end tag: {end}."
-msgstr ""
+msgstr "وسم HTML الذي اسمه {tag} ليس له وسم نهاية مطابق: {end}."
 
 #: weblate/checks/fluent/inner_html.py:341
 #, python-brace-format
