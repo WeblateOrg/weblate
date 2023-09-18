@@ -15,6 +15,8 @@ Not yet released.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
+* Dropped support for deprecated insecure configuration of VCS service API keys via _TOKEN/_USERNAME in :file:`settings.py`.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/100?closed=1>`__.
 
 Weblate 5.0.2

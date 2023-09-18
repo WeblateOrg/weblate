@@ -534,8 +534,3 @@ class Repository:
 
     def list_remote_branches(self):
         return []
-
-    # TODO: Drop in Weblate 5.1
-    @classmethod
-    def uses_deprecated_setting(cls) -> bool:
-        return False
