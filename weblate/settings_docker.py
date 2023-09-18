@@ -1169,7 +1169,7 @@ LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
         rf"{URL_PREFIX}/accounts/(.*)$",  # Required for login
         rf"{URL_PREFIX}/admin/login/(.*)$",  # Required for admin login
         rf"{URL_PREFIX}/static/(.*)$",  # Required for development mode
-        rf"{URL_PREFIX}/widgets/(.*)$",  # Allowing public access to widgets
+        rf"{URL_PREFIX}/widget/(.*)$",  # Allowing public access to widgets
         rf"{URL_PREFIX}/data/(.*)$",  # Allowing public access to data exports
         rf"{URL_PREFIX}/hooks/(.*)$",  # Allowing public access to notifications
         rf"{URL_PREFIX}/healthz/$",  # Allowing public access to health check
