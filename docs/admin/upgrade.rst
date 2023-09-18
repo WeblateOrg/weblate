@@ -124,14 +124,9 @@ Upgrades across major versions are not supported. Always upgrade to the latest
 patch level for the initial major release. Upgrades skipping this step are not
 supported and will break.
 
-If you are upgrading from the 2.x release, always first upgrade to 3.0.1
-and then continue upgrading within the 3.x series.
-
-If you are upgrading from the 3.x release, always first upgrade to 4.0.4
-and then continue upgrading within the 4.x series.
-
-If you are upgrading from the 4.x release, always first upgrade to 5.0.2
-and then continue upgrading within the 5.x series.
+* If you are upgrading from the 2.x release, always first upgrade to 3.0.1.
+* If you are upgrading from the 3.x release, always first upgrade to 4.0.4.
+* If you are upgrading from the 4.x release, always first upgrade to 5.0.2.
 
 .. seealso::
 
