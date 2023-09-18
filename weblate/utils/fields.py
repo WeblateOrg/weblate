@@ -2,77 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import json
 
-from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.utils.translation import gettext_lazy
 
 from weblate.trans.defines import EMAIL_LENGTH
 from weblate.utils import forms
 from weblate.utils.validators import validate_email
-
-
-# TODO: Drop this in Weblate 5.1
-def migrate_json_field(model, db_alias: str, field: str):
-    """Migration from custom JSONField to Django native one."""
-    updates = []
-    new_field = f"{field}_new"
-
-    for obj in model.objects.using(db_alias).iterator():
-        value = getattr(obj, field)
-        # Skip anything blank, it is the default value of the field
-        if not value:
-            continue
-
-        setattr(obj, new_field, value)
-        updates.append(obj)
-        if len(updates) > 1000:
-            model.objects.using(db_alias).bulk_update(updates, [new_field])
-            updates = []
-
-    if updates:
-        model.objects.using(db_alias).bulk_update(updates, [new_field])
-        updates = []
-
-
-# TODO: Drop this in Weblate 5.1
-class JSONField(models.TextField):
-    """JSON serializaed TextField."""
-
-    def __init__(self, **kwargs):
-        if "default" not in kwargs:
-            kwargs["default"] = {}
-        super().__init__(**kwargs)
-
-    def to_python(self, value):
-        """Convert a string from the database to a Python value."""
-        if not value:
-            return None
-        try:
-            return json.loads(value)
-        except (ValueError, TypeError):
-            return value
-
-    def get_prep_value(self, value):
-        """Convert the value to a string that can be stored in the database."""
-        if not value:
-            return None
-        if isinstance(value, (dict, list)):
-            return json.dumps(value, cls=DjangoJSONEncoder)
-        return super().get_prep_value(value)
-
-    def from_db_value(self, value, *args, **kwargs):
-        return self.to_python(value)
-
-    def get_db_prep_save(self, value, *args, **kwargs):
-        if value is None:
-            value = {}
-        return json.dumps(value, cls=DjangoJSONEncoder)
-
-    def value_from_object(self, obj):
-        value = super().value_from_object(obj)
-        return json.dumps(value, cls=DjangoJSONEncoder)
 
 
 class CaseInsensitiveFieldMixin:
