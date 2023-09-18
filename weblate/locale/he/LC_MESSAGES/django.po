@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 14:22+0000\n"
-"PO-Revision-Date: 2023-08-30 06:52+0000\n"
+"PO-Revision-Date: 2023-09-18 10:56+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 5.0.1-dev\n"
+"X-Generator: Weblate 5.0.2\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -2997,16 +2997,13 @@ msgstr ""
 "לפתיחה, כדאי להשתמש ב{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:197
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML closing tag, but the name or syntax "
-#| "is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
-"הרצף {sequence} נפתח בתגית סגירה של HTML, אך השם או התחביר שגוי. אם אין לך "
-"צורך בתגית סגירה, כדאי להשתמש ב{suggestion}."
+"הרצף {sequence} נפתח בתגית של HTML, אך אינו נסגר על ידי {close}. אם אין לך "
+"צורך בתגית פתיחה של HTML, כדאי להשתמש ב־{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:211
 #, python-brace-format
@@ -3015,17 +3012,14 @@ msgid ""
 msgstr ""
 
 #: weblate/checks/fluent/inner_html.py:227
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins a HTML closing tag, but the name or syntax "
-#| "is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with a HTML tag, but the sequence {attribute} "
 "is not a valid attribute with a value. If you do not want to begin a HTML "
 "tag, use {suggestion}."
 msgstr ""
-"הרצף {sequence} נפתח בתגית סגירה של HTML, אך השם או התחביר שגוי. אם אין לך "
-"צורך בתגית סגירה, כדאי להשתמש ב{suggestion}."
+"הרצף {sequence} נפתח בתגית של HTML, אך הרצף {attribute} אינו מאפיין תקף עם "
+"ערך. אם אין לך צורך בתגית פתיחה, כדאי להשתמש ב־{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:245
 #, python-brace-format
@@ -14191,10 +14185,9 @@ msgid "A language in the category was removed."
 msgstr "הוסרה שפה מהקטגוריה."
 
 #: weblate/trans/views/settings.py:190
-#, fuzzy, python-format
-#| msgid "Cannot rename due to outstanding issue in the configuration: %s"
+#, python-format
 msgid "Could not change %s due to outstanding issue in its settings: %s"
-msgstr "לא ניתן לשנות את השם עקב תקלה שאירעה בהגדרות: %s"
+msgstr "לא ניתן לשנות את %s עקב תקלה שאירעה בהגדרות שלו: %s"
 
 #: weblate/trans/views/settings.py:327
 msgid "Backup scheduled. It will be available soon."
