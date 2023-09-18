@@ -9,7 +9,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("lang", "0008_auto_20200408_0436"),
+        ("lang", "0001_squashed_0008_auto_20200408_0436"),
     ]
 
     operations = [

@@ -28,8 +28,8 @@ def drop_index(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("memory", "0006_memory_update"),
-        ("trans", "0064_fulltext_index"),
+        ("memory", "0001_squashed_0006_memory_update"),
+        ("trans", "0001_squashed_0074_fix_broken_browser_alert"),
     ]
 
     operations = [

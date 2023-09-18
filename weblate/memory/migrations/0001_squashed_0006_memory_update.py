@@ -57,23 +57,16 @@ def drop_index(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-    replaces = [
-        ("memory", "0001_squashed_0003_auto_20180321_1554"),
-        ("memory", "0002_memory"),
-        ("memory", "0003_migrate_memory"),
-        ("memory", "0004_memory_index"),
-        ("memory", "0005_auto_20200310_0810"),
-        ("memory", "0006_memory_update"),
-    ]
-
     initial = True
 
     dependencies = [
-        ("trans", "0063_auto_20200305_2202"),
-        ("weblate_auth", "0006_auto_20190905_1139"),
+        ("trans", "0001_squashed_0074_fix_broken_browser_alert"),
+        (
+            "weblate_auth",
+            "0002_auto_20180507_1540_squashed_0011_auto_20180509_0739_squashed_0007_group_components",
+        ),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("lang", "0005_auto_20200212_1239"),
-        ("lang", "0006_auto_20200309_1436"),
+        ("lang", "0001_squashed_0008_auto_20200408_0436"),
     ]
 
     operations = [
