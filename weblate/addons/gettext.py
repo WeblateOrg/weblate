@@ -290,7 +290,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                     {
                         "addon": self.name,
                         "command": error.cmd,
-                        "output": error.output,
+                        "output": str(error.output),
                         "error": str(error),
                     }
                 )
