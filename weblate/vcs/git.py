@@ -819,19 +819,9 @@ class GitMergeRequestBase(GitForcePushRepository):
             "scheme": scheme,
         }
 
-    # TODO: Drop in Weblate 5.1
-    @classmethod
-    def uses_deprecated_setting(cls) -> bool:
-        return not getattr(settings, f"{cls.identifier.upper()}_CREDENTIALS") and (
-            getattr(settings, f"{cls.identifier.upper()}_USERNAME", None)
-            or getattr(settings, f"{cls.identifier.upper()}_TOKEN", None)
-        )
-
     @classmethod
     def is_configured(cls) -> bool:
-        return getattr(settings, f"{cls.identifier.upper()}_USERNAME", None) or getattr(
-            settings, f"{cls.identifier.upper()}_CREDENTIALS"
-        )
+        return bool(getattr(settings, f"{cls.identifier.upper()}_CREDENTIALS"))
 
     def push_to_fork(self, credentials: dict, local_branch: str, fork_branch: str):
         """Push given local branch to branch in forked repository."""

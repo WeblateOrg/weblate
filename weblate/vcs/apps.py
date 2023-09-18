@@ -5,7 +5,7 @@
 import os
 
 from django.apps import AppConfig
-from django.core.checks import Critical, Warning, register
+from django.core.checks import Warning, register
 from django.db.models.signals import post_migrate
 
 import weblate.vcs.gpg
@@ -42,22 +42,6 @@ def check_vcs(app_configs, **kwargs):
     ]
 
 
-# TODO: Drop in Weblate 5.1
-def check_vcs_deprecated(app_configs, **kwargs):
-    from weblate.vcs.models import VCS_REGISTRY
-
-    return [
-        weblate_check(
-            f"weblate.C040.{key}",
-            f"{key} uses not supported configuration, please switch "
-            f"to {cls.identifier.upper()}_CREDENTIALS",
-            Critical,
-        )
-        for key, cls in VCS_REGISTRY.items()
-        if cls.uses_deprecated_setting()
-    ]
-
-
 def check_git(app_configs, **kwargs):
     template = "Failure in configuring Git: {}"
     return [
@@ -74,7 +58,6 @@ class VCSConfig(AppConfig):
     def ready(self):
         super().ready()
         register(check_vcs)
-        register(check_vcs_deprecated)
         register(check_git, deploy=True)
         register(check_gpg, deploy=True)
 
