@@ -1126,6 +1126,11 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
                 check=True,
                 text=True,
             )
+        except FileNotFoundError as error:
+            report_error(cause="Failed msgmerge")
+            raise UpdateError(
+                "msgmerge not found, please install gettext", error
+            ) from error
         except OSError as error:
             report_error(cause="Failed msgmerge")
             raise UpdateError(" ".join(cmd), error) from error
