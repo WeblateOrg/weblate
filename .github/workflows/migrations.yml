@@ -53,7 +53,7 @@ jobs:
     - name: Check missing migrations
       run: ./ci/run-checkmigrate
     - name: Migrate from 5.0
-      run: ./ci/run-migrate 5.0
+      run: ./ci/run-migrate 5.0.2
     - name: Coverage
       run: |
         coverage combine
