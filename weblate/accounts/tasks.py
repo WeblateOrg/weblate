@@ -7,6 +7,7 @@ import time
 from datetime import timedelta
 from email.mime.image import MIMEImage
 
+import sentry_sdk
 from celery.schedules import crontab
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
@@ -114,21 +115,23 @@ def notify_auditlog(log_id, email):
 def send_mails(mails):
     """Send multiple mails in single connection."""
     images = []
-    for name in ("email-logo.png", "email-logo-footer.png"):
-        filename = os.path.join(settings.STATIC_ROOT, name)
-        with open(filename, "rb") as handle:
-            image = MIMEImage(handle.read())
-        image.add_header("Content-ID", f"<{name}@cid.weblate.org>")
-        image.add_header("Content-Disposition", "inline", filename=name)
-        images.append(image)
+    with sentry_sdk.start_span(op="email.images"):
+        for name in ("email-logo.png", "email-logo-footer.png"):
+            filename = os.path.join(settings.STATIC_ROOT, name)
+            with open(filename, "rb") as handle:
+                image = MIMEImage(handle.read())
+            image.add_header("Content-ID", f"<{name}@cid.weblate.org>")
+            image.add_header("Content-Disposition", "inline", filename=name)
+            images.append(image)
 
-    connection = get_connection()
-    try:
-        connection.open()
-    except Exception:
-        report_error(cause="Could not send notifications")
-        connection.close()
-        return
+    with sentry_sdk.start_span(op="email.connect"):
+        connection = get_connection()
+        try:
+            connection.open()
+        except Exception:
+            report_error(cause="Could not send notifications")
+            connection.close()
+            return
 
     html2text = HTML2Text(bodywidth=78)
     html2text.unicode_snob = True
@@ -137,9 +140,11 @@ def send_mails(mails):
 
     try:
         for mail in mails:
+            with sentry_sdk.start_span(op="email.text"):
+                text = html2text.handle(mail["body"])
             email = EmailMultiAlternatives(
                 settings.EMAIL_SUBJECT_PREFIX + mail["subject"],
-                html2text.handle(mail["body"]),
+                text,
                 to=[mail["address"]],
                 headers=mail["headers"],
                 connection=connection,
@@ -148,7 +153,8 @@ def send_mails(mails):
             for image in images:
                 email.attach(image)
             email.attach_alternative(mail["body"], "text/html")
-            email.send()
+            with sentry_sdk.start_span(op="email.send"):
+                email.send()
     finally:
         connection.close()
 
