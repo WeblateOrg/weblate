@@ -13,17 +13,8 @@ import weblate.utils.validators
 
 
 class Migration(migrations.Migration):
-    replaces = [
-        ("weblate_auth", "0002_auto_20180507_1540_squashed_0011_auto_20180509_0739"),
-        ("weblate_auth", "0003_auto_20180724_1120"),
-        ("weblate_auth", "0004_auto_20180827_1406"),
-        ("weblate_auth", "0005_auto_20190516_1153"),
-        ("weblate_auth", "0006_auto_20190905_1139"),
-        ("weblate_auth", "0007_group_components"),
-    ]
-
     dependencies = [
-        ("trans", "0073_auto_20200403_1329"),
+        ("trans", "0001_squashed_0074_fix_broken_browser_alert"),
         ("lang", "0001_squashed_0008_auto_20200408_0436"),
         ("weblate_auth", "0001_initial"),
     ]

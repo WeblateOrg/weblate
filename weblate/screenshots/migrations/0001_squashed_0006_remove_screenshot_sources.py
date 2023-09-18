@@ -12,19 +12,10 @@ import weblate.screenshots.fields
 
 
 class Migration(migrations.Migration):
-    replaces = [
-        ("screenshots", "0001_squashed_0003_auto_20170215_1633"),
-        ("screenshots", "0002_auto_20180826_0839"),
-        ("screenshots", "0003_auto_20190516_1248"),
-        ("screenshots", "0004_screenshot_units"),
-        ("screenshots", "0005_source_strings"),
-        ("screenshots", "0006_remove_screenshot_sources"),
-    ]
-
     initial = True
 
     dependencies = [
-        ("trans", "0046_source_strings"),
+        ("trans", "0001_squashed_0074_fix_broken_browser_alert"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 

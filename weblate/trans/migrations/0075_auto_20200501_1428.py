@@ -9,7 +9,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0074_fix_broken_browser_alert"),
+        ("trans", "0001_squashed_0074_fix_broken_browser_alert"),
     ]
 
     operations = [

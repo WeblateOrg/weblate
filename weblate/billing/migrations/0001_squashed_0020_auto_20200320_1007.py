@@ -12,33 +12,10 @@ import weblate.utils.fields
 
 
 class Migration(migrations.Migration):
-    replaces = [
-        ("billing", "0001_squashed_0016_remove_billing_user"),
-        ("billing", "0002_auto_20180905_1400"),
-        ("billing", "0003_billing_owners"),
-        ("billing", "0004_auto_20181021_1249"),
-        ("billing", "0005_auto_20181021_1254"),
-        ("billing", "0006_auto_20181021_1256"),
-        ("billing", "0007_plan_public"),
-        ("billing", "0008_auto_20181024_1151"),
-        ("billing", "0009_auto_20181101_0900"),
-        ("billing", "0010_invoice_amount"),
-        ("billing", "0011_billing_grace_period"),
-        ("billing", "0012_auto_20181207_0843"),
-        ("billing", "0013_auto_20190208_1452"),
-        ("billing", "0014_billing_removal"),
-        ("billing", "0015_auto_20190516_1159"),
-        ("billing", "0016_auto_20190911_1316"),
-        ("billing", "0017_auto_20190919_1101"),
-        ("billing", "0018_plan_slug"),
-        ("billing", "0019_slugify"),
-        ("billing", "0020_auto_20200320_1007"),
-    ]
-
     initial = True
 
     dependencies = [
-        ("trans", "0001_squashed_0143_auto_20180609_1655"),
+        ("trans", "0001_squashed_0074_fix_broken_browser_alert"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 

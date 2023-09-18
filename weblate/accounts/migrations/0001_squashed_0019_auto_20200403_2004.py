@@ -13,34 +13,11 @@ import weblate.utils.render
 
 
 class Migration(migrations.Migration):
-    replaces = [
-        ("accounts", "0001_squashed_0037_auto_20180416_1406"),
-        ("accounts", "0002_profile_uploaded"),
-        ("accounts", "0003_profile_translate_mode"),
-        ("accounts", "0004_create_profile"),
-        ("accounts", "0005_auto_20190331_2126"),
-        ("accounts", "0006_subscriptions"),
-        ("accounts", "0007_auto_20190411_0807"),
-        ("accounts", "0008_auto_20190426_0941"),
-        ("accounts", "0009_profile_zen_mode"),
-        ("accounts", "0010_auto_20190516_1153"),
-        ("accounts", "0011_auto_20190721_1810"),
-        ("accounts", "0012_auto_20190805_1248"),
-        ("accounts", "0013_auto_20190916_1203"),
-        ("accounts", "0014_auto_20190922_1947"),
-        ("accounts", "0015_auto_20190922_1948"),
-        ("accounts", "0016_auto_20191115_2020"),
-        ("accounts", "0017_auto_20200318_1014"),
-        ("accounts", "0018_announcement_rename"),
-        ("accounts", "0019_auto_20200403_2004"),
-    ]
-
     initial = True
 
     dependencies = [
-        ("trans", "0024_resolve_auto_format"),
-        ("lang", "0001_squashed_0011_auto_20180215_1158"),
-        ("trans", "0001_squashed_0143_auto_20180609_1655"),
+        ("lang", "0001_squashed_0008_auto_20200408_0436"),
+        ("trans", "0001_squashed_0074_fix_broken_browser_alert"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("social_django", "0001_initial"),
     ]

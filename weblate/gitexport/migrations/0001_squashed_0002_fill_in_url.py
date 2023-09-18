@@ -27,7 +27,9 @@ def set_export_url(apps, schema_editor):
 class Migration(migrations.Migration):
     initial = True
 
-    dependencies = [("trans", "0001_squashed_0143_auto_20180609_1655")]
+    dependencies = [
+        ("trans", "0001_squashed_0074_fix_broken_browser_alert"),
+    ]
 
     operations = [
         migrations.RunPython(code=set_export_url, reverse_code=set_export_url)

@@ -10,7 +10,10 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
     dependencies = [
         ("trans", "0086_auto_20200609_1134"),
-        ("weblate_auth", "0007_group_components"),
+        (
+            "weblate_auth",
+            "0002_auto_20180507_1540_squashed_0011_auto_20180509_0739_squashed_0007_group_components",
+        ),
     ]
 
     operations = [

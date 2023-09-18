@@ -19,8 +19,8 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("trans", "0001_squashed_0143_auto_20180609_1655"),
-        ("lang", "0001_squashed_0011_auto_20180215_1158"),
+        ("trans", "0001_squashed_0074_fix_broken_browser_alert"),
+        ("lang", "0001_squashed_0008_auto_20200408_0436"),
     ]
 
     operations = [

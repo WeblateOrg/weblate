@@ -9,7 +9,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("checks", "0003_auto_20191212_1441"),
+        ("checks", "0001_squashed_0003_auto_20191212_1441"),
     ]
 
     operations = [

@@ -11,29 +11,10 @@ import weblate.utils.fields
 
 
 class Migration(migrations.Migration):
-    replaces = [
-        ("addons", "0001_squashed_0006_addon_project_scope"),
-        ("addons", "0007_auto_20180629_1736"),
-        ("addons", "0008_auto_20180727_1454"),
-        ("addons", "0009_auto_20181207_1322"),
-        ("addons", "0010_auto_20181214_1232"),
-        ("addons", "0011_squash_addon"),
-        ("addons", "0012_addon_repo_scope"),
-        ("addons", "0013_fix_repo_scope"),
-        ("addons", "0014_auto_20190510_1325"),
-        ("addons", "0015_flags"),
-        ("addons", "0016_language_consistency"),
-        ("addons", "0017_auto_format_fixup"),
-        ("addons", "0018_resx"),
-        ("addons", "0019_auto_20200210_0957"),
-        ("addons", "0020_component_update"),
-        ("addons", "0021_linguas_daily"),
-    ]
-
     initial = True
 
     dependencies = [
-        ("trans", "0001_squashed_0143_auto_20180609_1655"),
+        ("trans", "0001_squashed_0074_fix_broken_browser_alert"),
     ]
 
     operations = [
