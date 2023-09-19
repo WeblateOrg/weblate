@@ -426,12 +426,12 @@ class MachineTranslation:
             if isinstance(exc, MachineTranslationError):
                 raise
             raise MachineTranslationError(self.get_error_message(exc)) from exc
+        for item in result:
+            item["original_source"] = original_source
         if cache_key:
             cache.set(cache_key, result, 30 * 86400)
         if replacements or self.force_uncleanup:
             self.uncleanup_results(replacements, result)
-        for item in result:
-            item["original_source"] = original_source
         return result
 
     def get_error_message(self, exc):
