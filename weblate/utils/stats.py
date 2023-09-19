@@ -180,7 +180,9 @@ class BaseStats:
     def cache_key(self):
         return f"stats-{self._object.cache_key}"
 
-    def __getattr__(self, name):
+    def __getattr__(self, name: str):
+        if name.startswith("_"):
+            raise AttributeError
         if self._data is None:
             self._data = self.load()
         if name.endswith("_percent"):
