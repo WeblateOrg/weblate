@@ -43,6 +43,11 @@ class WeblateSitemap(Sitemap):
     def lastmod(self, item):
         return item.stats.last_changed
 
+    def get_latest_lastmod(self):
+        # Finding latest lastmod is expensive as it needs fetching
+        # stats for all objects
+        return None
+
 
 class ProjectSitemap(WeblateSitemap):
     priority = 0.8
