@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 14:22+0000\n"
-"PO-Revision-Date: 2023-08-30 06:52+0000\n"
+"PO-Revision-Date: 2023-09-19 18:14+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0.1-dev\n"
+"X-Generator: Weblate 5.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -6879,10 +6879,8 @@ msgstr "Keresés és csere"
 #: weblate/templates/category.html:76 weblate/templates/component.html:102
 #: weblate/templates/language-project.html:49
 #: weblate/templates/project.html:118 weblate/templates/translation.html:97
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Organize or remove"
-msgstr "Eltávolítandó fordítás"
+msgstr "Rendszerezés vagy eltávolítás"
 
 #: weblate/templates/category-project.html:66
 #: weblate/templates/language-project.html:68
@@ -6965,21 +6963,17 @@ msgstr "Kategória átnevezése"
 #: weblate/templates/category.html:207
 msgid "Renaming the category will also change URLs for all its components."
 msgstr ""
+"A kategória átnevezése az összes összetevőjének URL-jét is megváltoztatja."
 
 #: weblate/templates/category.html:208 weblate/templates/category.html:226
 #: weblate/templates/component.html:255 weblate/templates/component.html:273
 #: weblate/templates/project.html:272
-#, fuzzy
-#| msgid ""
-#| "Renaming the project will change all URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Users will need to update their bookmarks, references in cloned "
 "repositories, or API calls!"
 msgstr ""
-"A projekt átnevezése megváltoztatja az összes URL-t. A felhasználóknak "
-"frissíteniük kell a könyvjelzőket vagy a hivatkozásokat a klónozott "
-"tárolókban!"
+"A felhasználóknak frissíteniük kell a könyvjelzőiket, a klónozott tárolókban "
+"lévő hivatkozásaikat vagy az API-hívásaikat!"
 
 #: weblate/templates/category.html:214 weblate/templates/component.html:261
 #: weblate/templates/project.html:278
@@ -6993,6 +6987,7 @@ msgstr "Kategória áthelyezése"
 #: weblate/templates/category.html:225
 msgid "Moving the category will also change URLs for all its components."
 msgstr ""
+"A kategória áthelyezése az összes összetevőjének URL-jét is megváltoztatja."
 
 #: weblate/templates/category.html:232 weblate/templates/component.html:279
 msgid "Move"
@@ -7134,17 +7129,15 @@ msgstr "Összetevő átnevezése"
 
 #: weblate/templates/component.html:254
 msgid "Renaming the component will also change its URLs."
-msgstr ""
+msgstr "Az összetevő átnevezése az URL-jeit is megváltoztatja."
 
 #: weblate/templates/component.html:268
 msgid "Move component"
 msgstr "Összetevő áthelyezése"
 
 #: weblate/templates/component.html:272
-#, fuzzy
-#| msgid "Fix this component to clear its alerts."
 msgid "Moving the component will also change its URLs."
-msgstr "Javítsa ezt az összetevőt a riasztásai törléséhez."
+msgstr "Az összetevő áthelyezése az URL-jeit is megváltoztatja."
 
 #: weblate/templates/component.html:296 weblate/templates/project.html:294
 #: weblate/templates/translate.html:348 weblate/templates/translation.html:427
@@ -8757,10 +8750,8 @@ msgid "Status of repositories"
 msgstr "Tárolók állapota"
 
 #: weblate/templates/manage/repos.html:11
-#, fuzzy
-#| msgid "This component is linked to the %(target)s repository."
 msgid "Show components with linked repositories"
-msgstr "Ez az összetevő össze van kapcsolva a(z) %(target)s tárolóval."
+msgstr "Kapcsolt tárolókkal rendelkező összetevők megjelenítése"
 
 #: weblate/templates/manage/repos.html:17
 msgid "This repository is linked to:"
@@ -9189,6 +9180,7 @@ msgstr "Projekt átnevezése"
 #: weblate/templates/project.html:271
 msgid "Renaming the project will also change URLs for all its components."
 msgstr ""
+"A projekt átnevezése az összes összetevőjének URL-jét is megváltoztatja."
 
 #: weblate/templates/project.html:315
 msgid ""
@@ -10274,6 +10266,8 @@ msgid ""
 "In case the above links work for you, they might just require "
 "authentication, and it is safe to dismiss this alert."
 msgstr ""
+"Abban az esetben, ha a fenti hivatkozások működnek Önnél, akkor lehet, hogy "
+"csak hitelesítésre van szükség, és nyugodtan eltüntetheti ezt a riasztást."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
 msgid ""
@@ -10831,12 +10825,11 @@ msgstr ""
 "kategóriát és az összes kapcsolódó tartalmat."
 
 #: weblate/templates/trans/delete-project.html:10
-#, fuzzy, python-format
-#| msgid "The following translation components will be removed:"
+#, python-format
 msgid "%(count)s component will be removed by this."
 msgid_plural "%(count)s components will be removed by this."
-msgstr[0] "A következő fordítási összetevők lesznek eltávolítva:"
-msgstr[1] "A következő fordítási összetevők lesznek eltávolítva:"
+msgstr[0] "Ez %(count)s összetevőt fog eltávolítani."
+msgstr[1] "Ez %(count)s összetevőt fog eltávolítani."
 
 #: weblate/templates/trans/delete-translation.html:6
 msgid ""
@@ -11040,10 +11033,10 @@ msgid ""
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
 msgstr ""
-"A tároló URL-ének megváltoztatásakor a meglévő összetevő beolvasztásra kerül "
-"az új tárolóba. Ez jól működik abban az esetben, ha a tárolót egy másik "
-"helyre helyezik át. Ha a tároló tartalma eltérő, akkor jobban járna, ha egy "
-"új fordítási összetevőt hozna létre."
+"A tároló URL-jének megváltoztatásakor a meglévő összetevő beolvasztásra "
+"kerül az új tárolóba. Ez jól működik abban az esetben, ha a tárolót egy "
+"másik helyre helyezik át. Ha a tároló tartalma eltérő, akkor jobban járna, "
+"ha egy új fordítási összetevőt hozna létre."
 
 #: weblate/templates/translate.html:49
 msgid "Open in Zen mode"
@@ -11929,7 +11922,7 @@ msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Adja meg a forrásként használandó összetevő keresőbarát URL-ét. Hagyja "
+"Adja meg a forrásként használandó összetevő keresőbarát URL-jét. Hagyja "
 "üresen a jelenlegi projektben lévő összes összetevő használatához."
 
 #: weblate/trans/forms.py:921
@@ -11947,7 +11940,7 @@ msgstr "Az összetevő nem található!"
 
 #: weblate/trans/forms.py:993
 msgid "Please provide valid component slug!"
-msgstr "Adjon meg egy összetevő érvényes keresőbarát URL-ét!"
+msgstr "Adjon meg egy összetevő érvényes keresőbarát URL-jét!"
 
 #: weblate/trans/forms.py:1001
 msgid "Scope"
@@ -12268,27 +12261,27 @@ msgstr "Eltávolítás megerősítése"
 
 #: weblate/trans/forms.py:2570
 msgid "Please type in the full slug of the translation to confirm."
-msgstr "Írja be a fordítás teljes keresőbarát URL-ét a megerősítéshez."
+msgstr "Írja be a fordítás teljes keresőbarát URL-jét a megerősítéshez."
 
 #: weblate/trans/forms.py:2589
 msgid "Please type in the full slug of the component to confirm."
-msgstr "Írja be az összetevő teljes keresőbarát URL-ét a megerősítéshez."
+msgstr "Írja be az összetevő teljes keresőbarát URL-jét a megerősítéshez."
 
 #: weblate/trans/forms.py:2599
 msgid "Please type in the slug of the project to confirm."
-msgstr "Írja be a projekt keresőbarát URL-ét a megerősítéshez."
+msgstr "Írja be a projekt keresőbarát URL-jét a megerősítéshez."
 
 #: weblate/trans/forms.py:2615
 msgid "Please type in the slug of the category to confirm."
-msgstr "Írja be a kategória keresőbarát URL-ét a megerősítéshez."
+msgstr "Írja be a kategória keresőbarát URL-jét a megerősítéshez."
 
 #: weblate/trans/forms.py:2625
 msgid "Please type in the slug of the project and language to confirm."
-msgstr "Írja be a projekt és a nyelv keresőbarát URL-ét a megerősítéshez."
+msgstr "Írja be a projekt és a nyelv keresőbarát URL-jét a megerősítéshez."
 
 #: weblate/trans/forms.py:2636
 msgid "Please type in the slug of the category and language to confirm."
-msgstr "Írja be a kategória és a nyelv keresőbarát URL-ét a megerősítéshez."
+msgstr "Írja be a kategória és a nyelv keresőbarát URL-jét a megerősítéshez."
 
 #: weblate/trans/forms.py:2663
 msgid "Author username"
@@ -13491,7 +13484,7 @@ msgstr "Ismeretlen alapfájl az új fordításokhoz."
 
 #: weblate/trans/models/component.py:2738
 msgid "Editing template is not supported with this file format."
-msgstr ""
+msgstr "A sablon szerkesztése nem támogatott ezzel a fájlformátummal."
 
 #: weblate/trans/models/component.py:2744
 #: weblate/trans/models/component.py:2760
@@ -13635,7 +13628,7 @@ msgstr "Projekt reguláris kifejezés"
 #: weblate/trans/models/componentlist.py:76
 msgid "Regular expression which is used to match project slug."
 msgstr ""
-"Reguláris kifejezés, amelyet a projekt keresőbarát URL-ének illesztéséhez "
+"Reguláris kifejezés, amelyet a projekt keresőbarát URL-jének illesztéséhez "
 "használnak."
 
 #: weblate/trans/models/componentlist.py:80
@@ -13645,8 +13638,8 @@ msgstr "Összetevő reguláris kifejezés"
 #: weblate/trans/models/componentlist.py:84
 msgid "Regular expression which is used to match component slug."
 msgstr ""
-"Reguláris kifejezés, amelyet az összetevő keresőbarát URL-ének illesztéséhez "
-"használnak."
+"Reguláris kifejezés, amelyet az összetevő keresőbarát URL-jének "
+"illesztéséhez használnak."
 
 #: weblate/trans/models/componentlist.py:89
 msgid "Component list to assign"
@@ -14602,10 +14595,11 @@ msgid "A language in the category was removed."
 msgstr "A kategóriában lévő egyik nyelv el lett távolítva."
 
 #: weblate/trans/views/settings.py:190
-#, fuzzy, python-format
-#| msgid "Cannot rename due to outstanding issue in the configuration: %s"
+#, python-format
 msgid "Could not change %s due to outstanding issue in its settings: %s"
-msgstr "Nem lehet átnevezni a beállításokban fennálló probléma miatt: %s"
+msgstr ""
+"Nem sikerült a(z) %s megváltoztatása a beállításaiban fennálló probléma "
+"miatt: %s"
 
 #: weblate/trans/views/settings.py:327
 msgid "Backup scheduled. It will be available soon."
