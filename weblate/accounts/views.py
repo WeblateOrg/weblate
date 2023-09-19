@@ -578,7 +578,7 @@ class UserPage(UpdateView):
                 user.groups.remove(form.cleaned_data["remove_group"])
                 return HttpResponseRedirect(self.get_success_url() + "#groups")
         if "remove_user" in request.POST:
-            remove_user(user, request)
+            remove_user(user, request, skip_notify=True)
             return HttpResponseRedirect(self.get_success_url() + "#groups")
 
         return super().post(request, **kwargs)

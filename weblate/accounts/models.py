@@ -323,6 +323,7 @@ class AuditLog(models.Model):
             and self.user.is_active
             and self.user.email
             and self.activity in NOTIFY_ACTIVITY
+            and not self.params.get("skip_notify")
         )
 
     def check_rate_limit(self, request):
