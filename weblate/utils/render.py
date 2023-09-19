@@ -6,6 +6,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.template import Context, Engine, Template, TemplateSyntaxError
 from django.urls import reverse
+from django.utils.functional import SimpleLazyObject
 from django.utils.translation import gettext, override
 
 from weblate.utils.site import get_site_url
@@ -84,15 +85,10 @@ def render_template(template, **kwargs):
                 },
             )
         )
-        if component.pk and component.linked_childs:
-            kwargs["component_linked_childs"] = [
-                {
-                    "project_name": linked.project.name,
-                    "name": linked.name,
-                    "url": get_site_url(linked.get_absolute_url()),
-                }
-                for linked in component.linked_childs
-            ]
+        if component.pk:
+            kwargs["component_linked_childs"] = SimpleLazyObject(
+                component.get_linked_childs_for_template
+            )
         project = component.project
         kwargs.pop("component", None)
 

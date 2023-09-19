@@ -96,6 +96,7 @@ from weblate.utils.render import (
     validate_repoweb,
 )
 from weblate.utils.requests import get_uri_error
+from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ComponentStats, prefetch_stats
 from weblate.utils.validators import (
@@ -1881,6 +1882,16 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         for child in childs:
             child.linked_component = self
         return childs
+
+    def get_linked_childs_for_template(self):
+        return [
+            {
+                "project_name": linked.project.name,
+                "name": linked.name,
+                "url": get_site_url(linked.get_absolute_url()),
+            }
+            for linked in self.linked_childs
+        ]
 
     @perform_on_link
     def commit_pending(self, reason: str, user, skip_push: bool = False):
