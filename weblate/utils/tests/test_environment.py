@@ -83,6 +83,20 @@ class EnvTest(SimpleTestCase):
         del os.environ["WEBLATE_TEST_TOKEN"]
         del os.environ["WEBLATE_TEST_HOST"]
 
+        os.environ["WEBLATE_TEST_CREDENTIALS"] = "{invalid-syntax}"
+        with self.assertRaises(ValueError):
+            get_env_credentials("TEST")
+
+        os.environ[
+            "WEBLATE_TEST_CREDENTIALS"
+        ] = '{"host": {"username": "user", "token": "token"}}'
+        self.assertEqual(
+            get_env_credentials("TEST"),
+            {"host": {"username": "user", "token": "token"}},
+        )
+
+        del os.environ["WEBLATE_TEST_CREDENTIALS"]
+
     def test_get_env_ratelimit(self):
         os.environ["RATELIMIT_ANON"] = "1/hour"
         self.assertEqual(

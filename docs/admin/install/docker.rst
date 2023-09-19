@@ -751,6 +751,7 @@ Generic settings
 .. envvar:: WEBLATE_GITHUB_USERNAME
 .. envvar:: WEBLATE_GITHUB_TOKEN
 .. envvar:: WEBLATE_GITHUB_HOST
+.. envvar:: WEBLATE_GITHUB_CREDENTIALS
 
     Configures GitHub pull-requests integration by changing
     :setting:`GITHUB_CREDENTIALS`.
@@ -762,6 +763,7 @@ Generic settings
 .. envvar:: WEBLATE_GITLAB_USERNAME
 .. envvar:: WEBLATE_GITLAB_TOKEN
 .. envvar:: WEBLATE_GITLAB_HOST
+.. envvar:: WEBLATE_GITLAB_CREDENTIALS
 
     Configures GitLab merge-requests integration  by changing
     :setting:`GITLAB_CREDENTIALS`.
@@ -773,6 +775,8 @@ Generic settings
        WEBLATE_GITLAB_USERNAME=weblate
        WEBLATE_GITLAB_HOST=gitlab.com
        WEBLATE_GITLAB_TOKEN=token
+       # or as a Python dictionary
+       WEBLATE_GITLAB_CREDENTIALS='{ "gitlab.com": { "username": "weblate", "token": "token" } }'
 
     .. seealso::
 
@@ -781,6 +785,7 @@ Generic settings
 .. envvar:: WEBLATE_GITEA_USERNAME
 .. envvar:: WEBLATE_GITEA_TOKEN
 .. envvar:: WEBLATE_GITEA_HOST
+.. envvar:: WEBLATE_GITEA_CREDENTIALS
 
     Configures Gitea pull-requests integration by changing
     :setting:`GITEA_CREDENTIALS`.
@@ -793,6 +798,7 @@ Generic settings
 .. envvar:: WEBLATE_PAGURE_USERNAME
 .. envvar:: WEBLATE_PAGURE_TOKEN
 .. envvar:: WEBLATE_PAGURE_HOST
+.. envvar:: WEBLATE_PAGURE_CREDENTIALS
 
     Configures Pagure merge-requests integration  by changing
     :setting:`PAGURE_CREDENTIALS`.
@@ -804,6 +810,7 @@ Generic settings
 .. envvar:: WEBLATE_BITBUCKETSERVER_USERNAME
 .. envvar:: WEBLATE_BITBUCKETSERVER_TOKEN
 .. envvar:: WEBLATE_BITBUCKETSERVER_HOST
+.. envvar:: WEBLATE_BITBUCKETSERVER_CREDENTIALS
 
     Configures Bitbucket Server pull-requests integration by changing
     :setting:`BITBUCKETSERVER_CREDENTIALS`.

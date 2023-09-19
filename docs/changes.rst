@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* Configure VCS API credentials as a Python dict from environment variables.
+
 **Bug fixes**
 
 **Compatibility**
