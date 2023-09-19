@@ -219,7 +219,7 @@ The simplest approach for migration is to utilize Django JSON dumps. This works 
    weblate migrate --database=postgresql
    weblate sqlflush --database=postgresql | weblate dbshell --database=postgresql
 
-3. Dump legacy database and import to PostgreSQL
+3. Dump legacy database and import to PostgreSQL:
 
 .. code-block:: sh
 
