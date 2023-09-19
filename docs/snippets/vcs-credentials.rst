@@ -17,7 +17,7 @@ The following configuration is available for each host:
 
 .. hint::
 
-   In the Docker container, the credentials are configured in three variables
+   In the Docker container, the credentials can be configured in three variables
    and the credentials are built out of that. An example configuration for
    GitHub might look like:
 
@@ -37,3 +37,16 @@ The following configuration is available for each host:
               "token": "api-token",
           }
       }
+
+   Alternatively the Python dictonary can be provided as a string:
+
+   .. code-block:: shell
+
+      WEBLATE_GITHUB_CREDENTIALS='{ "api.github.com": { "username": "api-user", "token": "api-token", } }'
+
+   Or the path to a file containing the Python dictionary:
+
+   .. code-block:: shell
+
+      echo '{ "api.github.com": { "username": "api-user", "token": "api-token", } }' > /path/to/github-credentials
+      WEBLATE_GITHUB_CREDENTIALS_FILE='/path/to/github-credentials'
