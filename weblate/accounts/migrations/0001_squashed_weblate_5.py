@@ -205,7 +205,7 @@ class Migration(migrations.Migration):
                 (
                     "nearby_strings",
                     models.SmallIntegerField(
-                        default=15,
+                        default=settings.NEARBY_MESSAGES,
                         help_text="Number of nearby strings to show in each direction in the full editor.",
                         validators=[
                             django.core.validators.MinValueValidator(1),
@@ -284,7 +284,7 @@ class Migration(migrations.Migration):
                 (
                     "auto_watch",
                     models.BooleanField(
-                        default=True,
+                        default=settings.DEFAULT_AUTO_WATCH,
                         help_text="Whenever you translate a string in a project, you will start watching it.",
                         verbose_name="Automatically watch projects on contribution",
                     ),

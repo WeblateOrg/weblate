@@ -249,6 +249,7 @@ class Migration(migrations.Migration):
                         help_text="Main website of translated project.",
                         validators=[weblate.utils.validators.validate_project_web],
                         verbose_name="Project website",
+                        blank=not settings.WEBSITE_REQUIRED,
                     ),
                 ),
                 (
@@ -284,7 +285,7 @@ class Migration(migrations.Migration):
                             (100, "Private"),
                             (200, "Custom"),
                         ],
-                        default=0,
+                        default=settings.DEFAULT_ACCESS_CONTROL,
                         help_text="How to restrict access to this project is detailed in the documentation.",
                         verbose_name="Access control",
                     ),
@@ -308,7 +309,7 @@ class Migration(migrations.Migration):
                 (
                     "use_shared_tm",
                     models.BooleanField(
-                        default=True,
+                        default=settings.DEFAULT_SHARED_TM,
                         help_text="Uses the pool of shared translations between projects.",
                         verbose_name="Use shared translation memory",
                     ),
@@ -316,7 +317,7 @@ class Migration(migrations.Migration):
                 (
                     "contribute_shared_tm",
                     models.BooleanField(
-                        default=True,
+                        default=settings.DEFAULT_SHARED_TM,
                         help_text="Contributes to the pool of shared translations between projects.",
                         verbose_name="Contribute to shared translation memory",
                     ),
@@ -483,7 +484,7 @@ class Migration(migrations.Migration):
                 (
                     "allow_translation_propagation",
                     models.BooleanField(
-                        default=True,
+                        default=settings.DEFAULT_TRANSLATION_PROPAGATION,
                         help_text="Whether translation updates in other components will cause automatic translation in this one",
                         verbose_name="Allow translation propagation",
                     ),
@@ -535,7 +536,7 @@ class Migration(migrations.Migration):
                 (
                     "commit_message",
                     models.TextField(
-                        default="Translated using Weblate ({{ language_name }})\n\nCurrently translated at {{ stats.translated_percent }}% ({{ stats.translated }} of {{ stats.all }} strings)\n\nTranslation: {{ project_name }}/{{ component_name }}\nTranslate-URL: {{ url }}",
+                        default=settings.DEFAULT_COMMIT_MESSAGE,
                         help_text="You can use template language for various info, please consult the documentation for more details.",
                         validators=[weblate.utils.render.validate_render_commit],
                         verbose_name="Commit message when translating",
@@ -544,7 +545,7 @@ class Migration(migrations.Migration):
                 (
                     "license",
                     models.CharField(
-                        blank=True,
+                        blank=not settings.LICENSE_REQUIRED,
                         choices=get_license_choices(),
                         default="",
                         max_length=150,
@@ -559,7 +560,7 @@ class Migration(migrations.Migration):
                             ("rebase", "Rebase"),
                             ("merge_noff", "Merge without fast-forward"),
                         ],
-                        default="rebase",
+                        default=settings.DEFAULT_MERGE_STYLE,
                         help_text="Define whether Weblate should merge the upstream repository or rebase changes onto it.",
                         max_length=10,
                         verbose_name="Merge style",
@@ -619,7 +620,7 @@ class Migration(migrations.Migration):
                 (
                     "add_message",
                     models.TextField(
-                        default="Added translation using Weblate ({{ language_name }})\n\n",
+                        default=settings.DEFAULT_ADD_MESSAGE,
                         help_text="You can use template language for various info, please consult the documentation for more details.",
                         validators=[weblate.utils.render.validate_render_commit],
                         verbose_name="Commit message when adding translation",
@@ -628,7 +629,7 @@ class Migration(migrations.Migration):
                 (
                     "delete_message",
                     models.TextField(
-                        default="Deleted translation using Weblate ({{ language_name }})\n\n",
+                        default=settings.DEFAULT_DELETE_MESSAGE,
                         help_text="You can use template language for various info, please consult the documentation for more details.",
                         validators=[weblate.utils.render.validate_render_commit],
                         verbose_name="Commit message when removing translation",
@@ -652,7 +653,7 @@ class Migration(migrations.Migration):
                 (
                     "commit_pending_age",
                     models.SmallIntegerField(
-                        default=24,
+                        default=settings.COMMIT_PENDING_HOURS,
                         help_text="Time in hours after which any pending changes will be committed to the VCS.",
                         validators=[django.core.validators.MaxValueValidator(2160)],
                         verbose_name="Age of changes to commit",
@@ -661,7 +662,7 @@ class Migration(migrations.Migration):
                 (
                     "push_on_commit",
                     models.BooleanField(
-                        default=True,
+                        default=settings.DEFAULT_PUSH_ON_COMMIT,
                         help_text="Whether the repository should be pushed upstream on every commit.",
                         verbose_name="Push on commit",
                     ),
@@ -679,7 +680,7 @@ class Migration(migrations.Migration):
                 (
                     "merge_message",
                     models.TextField(
-                        default="Merge branch '{{ component_remote_branch }}' into Weblate.\n\n",
+                        default=settings.DEFAULT_MERGE_MESSAGE,
                         help_text="You can use template language for various info, please consult the documentation for more details.",
                         validators=[weblate.utils.render.validate_render_component],
                         verbose_name="Commit message when merging translation",
@@ -688,7 +689,7 @@ class Migration(migrations.Migration):
                 (
                     "addon_message",
                     models.TextField(
-                        default='Update translation files\n\nUpdated by "{{ addon_name }}" hook in Weblate.\n\nTranslation: {{ project_name }}/{{ component_name }}\nTranslate-URL: {{ url }}',
+                        default=settings.DEFAULT_ADDON_MESSAGE,
                         help_text="You can use template language for various info, please consult the documentation for more details.",
                         validators=[weblate.utils.render.validate_render_addon],
                         verbose_name="Commit message when add-on makes a change",
@@ -758,7 +759,7 @@ class Migration(migrations.Migration):
                     "restricted",
                     models.BooleanField(
                         db_index=True,
-                        default=False,
+                        default=settings.DEFAULT_RESTRICTED_COMPONENT,
                         help_text="Restrict access to the component to only those explicitly given permission.",
                         verbose_name="Restricted component",
                     ),
@@ -766,7 +767,7 @@ class Migration(migrations.Migration):
                 (
                     "auto_lock_error",
                     models.BooleanField(
-                        default=True,
+                        default=settings.DEFAULT_AUTO_LOCK_ERROR,
                         help_text="Whether the component should be locked on repository errors.",
                         verbose_name="Lock on error",
                     ),
@@ -842,7 +843,7 @@ class Migration(migrations.Migration):
                 (
                     "pull_message",
                     models.TextField(
-                        default="Translations update from {{ site_title }}\n\nTranslations update from [{{ site_title }}]({{ site_url }}) for [{{ project_name }}/{{ component_name }}]({{url}}).\n\n{% if component_linked_childs %}\nIt also includes following components:\n{% for linked in component_linked_childs %}\n* [{{ linked.project_name }}/{{ linked.name }}]({{ linked.url }})\n{% endfor %}\n{% endif %}\n\nCurrent translation status:\n\n![Weblate translation status]({{widget_url}})\n",
+                        default=settings.DEFAULT_PULL_MESSAGE,
                         help_text="You can use template language for various info, please consult the documentation for more details.",
                         validators=[weblate.utils.render.validate_render_addon],
                         verbose_name="Merge request message",
