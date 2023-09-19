@@ -60,16 +60,6 @@ def get_glossary_terms(unit):
     if language == source_language:
         return Unit.objects.none()
 
-    units = (
-        Unit.objects.prefetch()
-        .filter(
-            translation__component__in=project.glossaries,
-            translation__component__source_language=source_language,
-            translation__language=language,
-        )
-        .select_related("source_unit", "variant")
-    )
-
     # Build complete source for matching
     parts = []
     for text in unit.get_source_plurals():
@@ -94,10 +84,19 @@ def get_glossary_terms(unit):
                 term = source[start:end].lower()
                 positions[term].append((start, end))
 
+        if not positions:
+            unit.glossary_terms = []
+            return []
+
         units = list(
-            units.filter(
-                Q(source__lower__md5__in=[MD5(Value(term)) for term in positions])
+            Unit.objects.prefetch()
+            .filter(
+                Q(source__lower__md5__in=[MD5(Value(term)) for term in positions]),
+                translation__component__in=project.glossaries,
+                translation__component__source_language=source_language,
+                translation__language=language,
             )
+            .select_related("source_unit", "variant")
         )
 
         # Add variants manually. This could be done by adding filtering on
