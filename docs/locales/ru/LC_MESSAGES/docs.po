@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 16:23+0200\n"
-"PO-Revision-Date: 2023-09-18 06:11+0000\n"
+"PO-Revision-Date: 2023-09-20 13:06+0000\n"
 "Last-Translator: xXx <xxx_xxx_xxxxxxxxx@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.0.2\n"
+"X-Generator: Weblate 5.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:192
@@ -211,12 +211,12 @@ msgid ""
 "be defined providing more fine-grained access control. You can limit teams "
 "to languages and assign them designated access roles (see :ref:`privileges`)."
 msgstr ""
-"Пользователи с правами доступа :guilabel:`Управление доступом к проекту` "
-"(см. :ref:`privileges`) могут управлять записями пользователей в проектах "
-"добавлением записей в команды. Начальный набор команд предоставляется самим "
-"Weblate, а дополнительные можно определить подстройкой управления доступом. "
-"Вы можете ограничить команды определёнными условиями и назначить им "
-"созданные вами роли доступа (см. :ref:`privileges`)."
+"Пользователи с привилегией :guilabel:`Управлять доступом к проектам` (см. "
+":ref:`Привилегии`) могут управлять пользователями в проектах путем "
+"добавления их в команды. Первоначальный набор команд предоставляется "
+"Weblate, но можно определить дополнительные команды, обеспечивающие более "
+"тонкий контроль доступа. Вы можете ограничить команды языками и назначить им "
+"определенные роли доступа (см. :ref:`privileges`)."
 
 #: ../../admin/access.rst:106
 msgid "The following teams are automatically created for every project:"
@@ -319,8 +319,9 @@ msgid "Can use automatic translation."
 msgstr "Возможно использовать автоматический перевод."
 
 #: ../../admin/access.rst:142 ../../admin/access.rst:566
+#, fuzzy
 msgid "VCS"
-msgstr "СКВ (VCS)"
+msgstr "VCS"
 
 #: ../../admin/access.rst:142
 msgid "Can manage VCS and access the exported repository."
