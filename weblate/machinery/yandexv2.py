@@ -4,6 +4,7 @@
 
 import json
 from urllib.parse import unquote_plus
+
 from .base import MachineTranslation, MachineTranslationError
 from .forms import KeyMachineryForm
 
