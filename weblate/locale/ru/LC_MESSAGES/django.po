@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 14:22+0000\n"
-"PO-Revision-Date: 2023-09-16 18:20+0000\n"
+"PO-Revision-Date: 2023-09-20 13:06+0000\n"
 "Last-Translator: xXx <xxx_xxx_xxxxxxxxx@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.0.2\n"
+"X-Generator: Weblate 5.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -233,16 +233,14 @@ msgstr ""
 "которых у вас есть права администратора."
 
 #: weblate/accounts/forms.py:784
-#, python-format
+#, fuzzy, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr ""
-"Вы будете получать уведомление для каждого такого события в %(project)s."
+msgstr "О каждом таком событии Вы будете получать уведомление в %(проект)s."
 
 #: weblate/accounts/forms.py:787
-#, python-format
+#, fuzzy, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr ""
-"Вы будете получать уведомление для каждого такого события в %(component)s."
+msgstr "Вы будете получать уведомление о каждом таком событии в %(компонент)s."
 
 #: weblate/accounts/forms.py:794
 msgid ""
@@ -269,22 +267,22 @@ msgstr ""
 "проектах, в которых у вас есть права администратора."
 
 #: weblate/accounts/forms.py:809
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
-"Вы будете получать эти уведомления только для своих языков перевода в "
-"%(project)s."
+"Вы будете получать эти уведомления только для переведенных вами языков в "
+"%(проекте)s."
 
 #: weblate/accounts/forms.py:813
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
-"Вы будете получать эти уведомления только для своих языков перевода в "
-"%(component)s."
+"Вы будете получать эти уведомления только для переведенных вами языков в "
+"%(компонент)s."
 
 #: weblate/accounts/forms.py:852 weblate/auth/models.py:325
 #: weblate/templates/auth/team.html:88 weblate/templates/manage/users.html:45
@@ -329,19 +327,19 @@ msgid "Password changed."
 msgstr "Пароль изменён."
 
 #: weblate/accounts/models.py:141
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr "Имя пользователя было изменено с {old} на {new}."
+msgstr "Имя пользователя изменилось с {старое} на {новое}."
 
 #: weblate/accounts/models.py:142
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr "Электронная почта была изменена с {old} на {new}."
+msgstr "E-mail изменился со {старого} на {новый}."
 
 #: weblate/accounts/models.py:143
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Full name changed from {old} to {new}."
-msgstr "Полное имя было изменено с {old} на {new}."
+msgstr "Полное имя изменено со {старого} на {новое}."
 
 #: weblate/accounts/models.py:144
 msgid "Password reset requested."
@@ -352,24 +350,24 @@ msgid "Password reset confirmed, password turned off."
 msgstr "Сброс пароля подтверждён, пароль отключен."
 
 #: weblate/accounts/models.py:146
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "Используется вход с помощью {method} ({name})."
+msgstr "Настроен вход с помощью {метода} ({имя})."
 
 #: weblate/accounts/models.py:147
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "Вход с помощью {method} ({name}) отключён."
+msgstr "Удалена авторизация с помощью {метода} ({имя})."
 
 #: weblate/accounts/models.py:148
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Signed in using {method} ({name})."
-msgstr "Вошёл в систему, используя {method} ({name})."
+msgstr "Вход в систему с помощью {метода} ({имя})."
 
 #: weblate/accounts/models.py:149
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
-msgstr "Вошёл в систему, используя {method} ({name}) с нового устройства."
+msgstr "Выполните вход с помощью {метода} ({имя}) с нового устройства."
 
 #: weblate/accounts/models.py:150
 msgid "Somebody attempted to register with your e-mail."
@@ -380,9 +378,9 @@ msgid "Somebody attempted to register using your e-mail address."
 msgstr "Кто-то пытался зарегистрироваться с вашим адресом эл. почты."
 
 #: weblate/accounts/models.py:154
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Could not sign in using {method} ({name})."
-msgstr "Неудачная попытка входа с помощью {method} ({name})."
+msgstr "Не удалось войти в систему с помощью {метода} ({имя})."
 
 #: weblate/accounts/models.py:155
 msgid "Account locked due to many failed sign in attempts."
@@ -398,9 +396,9 @@ msgid "Account removal confirmation sent to {email}."
 msgstr "Подтверждение удаления учетной записи отправлено на {email}."
 
 #: weblate/accounts/models.py:158
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr "Согласие с Условиями обслуживания {date}."
+msgstr "Согласие с Условиями предоставления услуг {дата}."
 
 #: weblate/accounts/models.py:159
 #, python-brace-format
@@ -430,9 +428,9 @@ msgstr ""
 "загруженных другим пользователем."
 
 #: weblate/accounts/models.py:167
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Access to project {project} was blocked"
-msgstr "Доступ к проекту {project} был заблокирован"
+msgstr "Доступ к проекту {проект} был заблокирован"
 
 #: weblate/accounts/models.py:172
 msgid "Configured password to sign in."
