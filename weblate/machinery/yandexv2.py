@@ -32,10 +32,7 @@ class YandexV2Translation(MachineTranslation):
         payload = response.json()
         self.check_failure(payload)
 
-        languages = []
-        for lang in payload["languages"]:
-            languages.append(lang["code"])
-
+        languages = [x['code'] for x in payload['languages']]
         return languages
 
     def download_translations(
