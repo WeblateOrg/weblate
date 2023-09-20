@@ -14,21 +14,21 @@
   <ul>
     <li>
       {% if site_title != "Weblate" %}
-        {% blocktrans %}You can only contact administrators of {{ site_title }} here.{% endblocktrans %}
+        {% blocktrans %}You can only contact administrators of {{ site_title }} server here.{% endblocktrans %}
       {% else %}
         {% blocktrans %}You can only contact administrators of the whole server here.{% endblocktrans %}
       {% endif %}
     </li>
     <li>
-      {% blocktrans %}For questions about a specific translation project, contact its maintainers directly, not by this form.{% endblocktrans %}
+      {% blocktrans %}For questions about a specific translation project, don’t use this form. Refer to the project’s Info tab and contact its maintainers.{% endblocktrans %}
     </li>
     {% if offer_hosting %}
       <li>
-        {% blocktrans %}If you seek support for another Weblate deployment please check support offerings at {{ weblate_link }}.{% endblocktrans %}
+        {% blocktrans %}If you seek support for any other Weblate deployment than {{ site_title }}, please check support offerings at {{ weblate_link }} or use this form on the correct server.{% endblocktrans %}
       </li>
     {% endif %}
     <li>
-      {% blocktrans with link_start='<a href="https://github.com/WeblateOrg/weblate/issues/new/choose">' link_end='</a>'  %}Weblate ideas and questions can be sent to the {{ link_start }}Weblate issue tracker{{ link_end }}.{% endblocktrans %}
+      {% blocktrans with link_start='<a href="https://github.com/WeblateOrg/weblate/issues/new/choose">' link_end='</a>'  %}Weblate development ideas and questions can be sent to the {{ link_start }}Weblate issue tracker{{ link_end }}.{% endblocktrans %}
     </li>
   </ul>
 </div>
