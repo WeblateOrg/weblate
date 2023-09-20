@@ -2,7 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-
+import json
+from urllib.parse import unquote_plus
 from .base import MachineTranslation, MachineTranslationError
 from .forms import KeyMachineryForm
 
@@ -55,8 +56,7 @@ class YandexV2Translation(MachineTranslation):
             },
             headers={"Authorization": f"Api-Key {key}"},
         )
-        payload = response.json()
-
+        payload = json.loads(unquote_plus(response.text))
         self.check_failure(payload)
 
         for translation in payload["translations"]:
