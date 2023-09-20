@@ -23,20 +23,18 @@ class YandexV2Translation(MachineTranslation):
 
     def download_languages(self):
         """Download list of supported languages from a service."""
-        key = self.settings['key']
+        key = self.settings["key"]
         response = self.request(
             "post",
             "https://translate.api.cloud.yandex.net/translate/v2/languages",
-            headers={
-                'Authorization': f'Api-Key {key}'
-            }
+            headers={"Authorization": f"Api-Key {key}"},
         )
         payload = response.json()
         self.check_failure(payload)
 
         languages = []
-        for lang in payload['languages']:
-            languages.append(lang['code'])
+        for lang in payload["languages"]:
+            languages.append(lang["code"])
 
         return languages
 
@@ -50,7 +48,7 @@ class YandexV2Translation(MachineTranslation):
         threshold: int = 75,
     ):
         """Download list of possible translations from a service."""
-        key = self.settings['key']
+        key = self.settings["key"]
         response = self.request(
             "post",
             "https://translate.api.cloud.yandex.net/translate/v2/translate",
@@ -59,9 +57,7 @@ class YandexV2Translation(MachineTranslation):
                 "sourceLanguageCode": source,
                 "targetLanguageCode": language,
             },
-            headers={
-                'Authorization': f'Api-Key {key}'
-            }
+            headers={"Authorization": f"Api-Key {key}"},
         )
         payload = response.json()
 
@@ -69,7 +65,7 @@ class YandexV2Translation(MachineTranslation):
 
         for translation in payload["translations"]:
             yield {
-                "text": translation['text'],
+                "text": translation["text"],
                 "quality": self.max_score,
                 "service": self.name,
                 "source": text,

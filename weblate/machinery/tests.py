@@ -883,22 +883,17 @@ class YandexV2TranslationTest(BaseMachineTranslationTest):
         responses.add(
             responses.POST,
             "https://translate.api.cloud.yandex.net/translate/v2/languages",
-            json={"languages": [
-                {"code": "cs", "name": "Czech"},
-                {"code": "en", "name": "English"},
-            ]},
+            json={
+                "languages": [
+                    {"code": "cs", "name": "Czech"},
+                    {"code": "en", "name": "English"},
+                ]
+            },
         )
         responses.add(
             responses.POST,
             "https://translate.api.cloud.yandex.net/translate/v2/translate",
-            json={
-                "translations": [
-                    {
-                        "text": "svet",
-                        "detectedLanguageCode": "en"
-                    }
-                ]
-            },
+            json={"translations": [{"text": "svet", "detectedLanguageCode": "en"}]},
         )
 
     @responses.activate
@@ -907,10 +902,12 @@ class YandexV2TranslationTest(BaseMachineTranslationTest):
         responses.add(
             responses.POST,
             "https://translate.api.cloud.yandex.net/translate/v2/languages",
-            json={"languages": [
-                {"code": "cs", "name": "Czech"},
-                {"code": "en", "name": "English"},
-            ]},
+            json={
+                "languages": [
+                    {"code": "cs", "name": "Czech"},
+                    {"code": "en", "name": "English"},
+                ]
+            },
         )
         responses.add(
             responses.POST,
