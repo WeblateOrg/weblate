@@ -20,12 +20,12 @@
     <script src="{% static "vendor/sentry.js" %}"></script>
 
     <script>
-      Sentry.init({ dsn: '{{ sentry_dsn }}' });
+      Sentry.init({ dsn: '{{ sentry_dsn|escapejs }}' });
       Sentry.showReportDialog({
         {% if request.user.is_authenticated %}
-          user: { name: "{{ user.full_name}}", email: "{{ user.email}}" },
+          user: { name: "{{ user.full_name|escapejs }}", email: "{{ user.email|escapejs }}" },
         {% endif %}
-        eventId: '{{ sentry_event_id }}'
+        eventId: '{{ sentry_event_id|escapejs }}'
       })
     </script>
   {% endif %}
