@@ -130,11 +130,12 @@ class ChangesView(PathViewMixin, ListView):
         elif isinstance(self.path_object, Unit):
             params = {"unit": self.path_object}
         elif isinstance(self.path_object, Language):
-            params = {}
-            filters = {"language": self.path_object}
+            params = {"language": self.path_object}
         elif isinstance(self.path_object, ProjectLanguage):
-            params = {"project": self.path_object.project}
-            filters = {"language": self.path_object.language}
+            params = {
+                "project": self.path_object.project,
+                "language": self.path_object.language,
+            }
         else:
             raise TypeError(f"Unsupported {self.path_object}")
 

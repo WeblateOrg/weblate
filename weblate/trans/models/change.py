@@ -134,43 +134,6 @@ class ChangeQuerySet(models.QuerySet):
         """Companion for prefetch to fill in nested references."""
         return self.preload_list(self, *args)
 
-    def last_changes(
-        self, user, unit=None, translation=None, component=None, project=None
-    ):
-        """
-        Return the most recent changes for an user.
-
-        Filters Change objects by user permissions and fetches related fields for
-        last changes display.
-        """
-        result = self
-        if unit is not None:
-            result = result.filter(unit=unit)
-            if not user.can_access_component(unit.translation.component):
-                result = result.none()
-        elif translation is not None:
-            result = result.filter(translation=translation)
-            if not user.can_access_component(translation.component):
-                result = result.none()
-        elif component is not None:
-            result = result.filter(component=component)
-            if not user.can_access_component(component):
-                result = result.none()
-        elif project is not None:
-            result = result.filter(project=project)
-            if not user.can_access_project(project):
-                result = result.none()
-        elif not user.is_superuser:
-            result = result.filter(
-                Q(project__in=user.allowed_projects)
-                & (
-                    Q(component__isnull=True)
-                    | Q(component__restricted=False)
-                    | Q(component_id__in=user.component_permissions)
-                )
-            )
-        return result.prefetch().order()
-
     def authors_list(self, date_range=None):
         """Return list of authors."""
         authors = self.content()
@@ -199,6 +162,20 @@ class ChangeQuerySet(models.QuerySet):
                 break
         return changes
 
+    def filter_components(self, user):
+        if not user.needs_component_restrictions_filter:
+            return self
+        return self.filter(
+            Q(component__isnull=True)
+            | Q(component__restricted=False)
+            | Q(component_id__in=user.component_permissions)
+        )
+
+    def filter_projects(self, user):
+        if not user.needs_project_filter:
+            return self
+        return self.filter(project__in=user.allowed_projects)
+
 
 class ChangeManager(models.Manager):
     def create(self, *, user=None, **kwargs):
@@ -206,6 +183,45 @@ class ChangeManager(models.Manager):
         if user is not None and not user.is_authenticated:
             user = None
         return super().create(user=user, **kwargs)
+
+    def last_changes(
+        self,
+        user,
+        unit=None,
+        translation=None,
+        component=None,
+        project=None,
+        language=None,
+    ):
+        """
+        Return the most recent changes for an user.
+
+        Filters Change objects by user permissions and fetches related fields for
+        last changes display.
+        """
+        if unit is not None:
+            if not user.can_access_component(unit.translation.component):
+                return self.none()
+            result = unit.change_set.all()
+        elif translation is not None:
+            if not user.can_access_component(translation.component):
+                return self.none()
+            result = translation.change_set.all()
+        elif component is not None:
+            if not user.can_access_component(component):
+                return self.none()
+            result = component.change_set.all()
+        elif project is not None:
+            if not user.can_access_project(project):
+                return self.none()
+            result = project.change_set.filter_components(user)
+            if language is not None:
+                result = result.filter(language=language)
+        elif language is not None:
+            result = language.change_set.filter_projects(user).filter_components(user)
+        else:
+            result = self.filter_projects(user).filter_components(user)
+        return result.prefetch().order()
 
 
 class Change(models.Model, UserDisplayMixin):
