@@ -21,6 +21,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * Upgrades from older version than 5.0.2 are not supported, please upgrade to 5.0.2 first and then continue in upgrading.
 * Dropped support for deprecated insecure configuration of VCS service API keys via _TOKEN/_USERNAME in :file:`settings.py`.
+* Weblate now defaults to persistent database connections in :file:`settings_example.py` and Docker.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/100?closed=1>`__.
 

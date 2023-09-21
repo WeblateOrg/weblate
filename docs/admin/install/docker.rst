@@ -1363,8 +1363,11 @@ both Weblate and PostgreSQL containers.
    .. versionadded:: 4.8.1
 
    The lifetime of a database connection, as an integer of seconds. Use 0 to
-   close database connections at the end of each request (this is the default
-   behavior).
+   close database connections at the end of each request.
+
+   .. versionchanged:: 5.1
+
+      The default behavior is to have unlimited persistent database connections.
 
    Enabling connection persistence will typically, cause more open connection
    to the database. Please adjust your database configuration prior enabling.
