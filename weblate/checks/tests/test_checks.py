@@ -7,6 +7,7 @@
 import random
 
 from django.test import SimpleTestCase
+from translate.lang.data import languages
 
 from weblate.checks.flags import Flags
 from weblate.lang.models import Language, Plural
@@ -20,7 +21,12 @@ class MockLanguage(Language):
 
     def __init__(self, code="cs"):
         super().__init__(code=code)
-        self.plural = Plural(language=self)
+        try:
+            _, number, formula = languages[code]
+        except KeyError:
+            self.plural = Plural(language=self)
+        else:
+            self.plural = Plural(language=self, number=number, formula=formula)
 
 
 class MockProject:
