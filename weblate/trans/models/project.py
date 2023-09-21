@@ -130,6 +130,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
     )
     access_control = models.IntegerField(
         default=settings.DEFAULT_ACCESS_CONTROL,
+        db_index=True,
         choices=ACCESS_CHOICES,
         verbose_name=gettext_lazy("Access control"),
         help_text=gettext_lazy(
