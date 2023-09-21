@@ -39,6 +39,8 @@ def get_glossary_automaton(project):
                 glossary.glossary_sources for glossary in project.glossaries
             )
         )
+        # Remove blank string as that is not really reasonable to match
+        terms.discard("")
         # Build automaton for efficient Aho-Corasick search
         return ahocorasick_rs.AhoCorasick(
             terms,
