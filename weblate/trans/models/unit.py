@@ -291,15 +291,17 @@ class UnitQuerySet(models.QuerySet):
         return self.order_by("-priority", "position")
 
     def filter_access(self, user):
-        if user.is_superuser:
-            return self
-        return self.filter(
-            Q(translation__component__project__in=user.allowed_projects)
-            & (
+        result = self
+        if user.needs_project_filter:
+            result = result.filter(
+                translation__component__project__in=user.allowed_projects
+            )
+        if user.needs_component_restrictions_filter:
+            result = result.filter(
                 Q(translation__component__restricted=False)
                 | Q(translation__component_id__in=user.component_permissions)
             )
-        )
+        return result
 
     def get_ordered(self, ids):
         """Return list of units ordered by ID."""

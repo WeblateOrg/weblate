@@ -284,12 +284,14 @@ class ComponentQuerySet(models.QuerySet):
         return self.exclude(repo__startswith="weblate:")
 
     def filter_access(self, user):
-        if user.is_superuser:
-            return self
-        return self.filter(
-            Q(project__in=user.allowed_projects)
-            & (Q(restricted=False) | Q(id__in=user.component_permissions))
-        )
+        result = self
+        if user.needs_project_filter:
+            result = result.filter(project__in=user.allowed_projects)
+        if user.needs_component_restrictions_filter:
+            result = result.filter(
+                Q(restricted=False) | Q(id__in=user.component_permissions)
+            )
+        return result
 
     def prefetch_source_stats(self):
         """Prefetch source stats."""
