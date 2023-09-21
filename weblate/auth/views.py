@@ -208,7 +208,12 @@ def accept_invitation(request, invitation: Invitation, user: User | None):
     if user is None:
         raise Http404
 
+    # Add user to invited group
     user.groups.add(invitation.group)
+    # Let him watch the project
+    if invitation.group.defining_project:
+        user.profile.watched.add(invitation.group.defining_project)
+
     messages.success(
         request, gettext("Accepted invitation to the %s team.") % invitation.group
     )

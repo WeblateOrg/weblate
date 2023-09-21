@@ -7,6 +7,7 @@ Not yet released.
 
 **Improvements**
 * :ref:`project-translation_review` also shows the approval percentage in object listings.
+* Project is added to watched upon accepting an invitation.
 
 **Bug fixes**
 
