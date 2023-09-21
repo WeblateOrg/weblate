@@ -208,11 +208,9 @@ def show_project_language(request, obj):
     project_object = obj.project
     user = request.user
 
-    last_changes = (
-        Change.objects.last_changes(user, project=project_object)
-        .filter(language=language_object)[:10]
-        .preload()
-    )
+    last_changes = Change.objects.last_changes(
+        user, project=project_object, language=language_object
+    )[:10].preload()
 
     translations = list(obj.translation_set)
 
@@ -267,9 +265,8 @@ def show_category_language(request, obj):
     user = request.user
 
     last_changes = (
-        Change.objects.for_category(category_object)
-        .last_changes(user)
-        .filter(language=language_object)[:10]
+        Change.objects.last_changes(user, language=language_object)
+        .for_category(category_object)[:10]
         .preload()
     )
 

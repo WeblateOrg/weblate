@@ -428,6 +428,8 @@ class User(AbstractBaseUser):
             "project_permissions",
             "component_permissions",
             "allowed_projects",
+            "needs_component_restrictions_filter",
+            "needs_project_filter",
             "watched_projects",
             "owned_projects",
             "managed_projects",
@@ -567,6 +569,14 @@ class User(AbstractBaseUser):
             condition |= Q(pk__in=project_ids)
 
         return Project.objects.filter(condition).order()
+
+    @cached_property
+    def needs_component_restrictions_filter(self):
+        return self.allowed_projects.filter(component__restricted=True).exists()
+
+    @cached_property
+    def needs_project_filter(self):
+        return self.allowed_projects.count() != Project.objects.all().count()
 
     @cached_property
     def watched_projects(self):
