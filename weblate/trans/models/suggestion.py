@@ -76,15 +76,17 @@ class SuggestionQuerySet(models.QuerySet):
         return self.order_by("-timestamp")
 
     def filter_access(self, user):
-        if user.is_superuser:
-            return self
-        return self.filter(
-            Q(unit__translation__component__project__in=user.allowed_projects)
-            & (
+        result = self
+        if user.needs_project_filter:
+            result = result.filter(
+                unit__translation__component__project__in=user.allowed_projects
+            )
+        if user.needs_component_restrictions_filter:
+            result = result.filter(
                 Q(unit__translation__component__restricted=False)
                 | Q(unit__translation__component_id__in=user.component_permissions)
             )
-        )
+        return result
 
 
 class Suggestion(models.Model, UserDisplayMixin):

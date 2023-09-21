@@ -110,15 +110,15 @@ class TranslationQuerySet(models.QuerySet):
         )
 
     def filter_access(self, user):
-        if user.is_superuser:
-            return self
-        return self.filter(
-            Q(component__project__in=user.allowed_projects)
-            & (
+        result = self
+        if user.needs_project_filter:
+            result = result.filter(component__project__in=user.allowed_projects)
+        if user.needs_component_restrictions_filter:
+            result = result.filter(
                 Q(component__restricted=False)
                 | Q(component_id__in=user.component_permissions)
             )
-        )
+        return result
 
     def order(self):
         return self.order_by(
