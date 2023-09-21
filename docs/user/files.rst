@@ -28,7 +28,7 @@ in Weblate; such as additional context, comments or flags. Several file formats
 are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
 
 * gettext PO (``po``)
-* XLIFF with gettext extensions (``xliff``)
+* XLIFF 1.1 with gettext extensions (``xliff``)
 * XLIFF 1.1 (``xliff11``)
 * TermBase eXchange (``tbx``)
 * Translation Memory eXchange (``tmx``)
