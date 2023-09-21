@@ -7,9 +7,11 @@ Not yet released.
 * :ref:`mt-yandex-v2` machine translation service.
 
 **Improvements**
+
 * :ref:`project-translation_review` also shows the approval percentage in object listings.
 * Project is added to watched upon accepting an invitation.
 * Configure VCS API credentials as a Python dict from environment variables.
+* Improved accuracy of checks on plural messages.
 
 **Bug fixes**
 
