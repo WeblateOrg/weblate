@@ -68,7 +68,10 @@ DATABASES = {
         # Customizations for databases.
         "OPTIONS": {"sslmode": get_env_str("POSTGRES_SSL_MODE", "prefer")},
         # Persistent connections
-        "CONN_MAX_AGE": get_env_int("POSTGRES_CONN_MAX_AGE"),
+        "CONN_MAX_AGE": None
+        if "POSTGRES_CONN_MAX_AGE" not in os.environ
+        else get_env_int("POSTGRES_CONN_MAX_AGE"),
+        "CONN_HEALTH_CHECKS": True,
         # Disable server-side cursors, might be needed with pgbouncer
         "DISABLE_SERVER_SIDE_CURSORS": get_env_bool(
             "POSTGRES_DISABLE_SERVER_SIDE_CURSORS"

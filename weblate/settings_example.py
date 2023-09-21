@@ -57,7 +57,8 @@ DATABASES = {
             # "connect_timeout": 28800,
         },
         # Persistent connections
-        "CONN_MAX_AGE": 0,
+        "CONN_MAX_AGE": None,
+        "CONN_HEALTH_CHECKS": True,
         # Disable server-side cursors, might be needed with pgbouncer
         "DISABLE_SERVER_SIDE_CURSORS": False,
     }

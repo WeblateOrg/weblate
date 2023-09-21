@@ -392,6 +392,9 @@ The :file:`settings.py` snippet for PostgreSQL:
             "HOST": "database.example.com",
             # Set to empty string for default
             "PORT": "",
+            # Persistent connections
+            "CONN_MAX_AGE": None,
+            "CONN_HEALTH_CHECKS": True,
         }
     }
 
@@ -404,6 +407,11 @@ about non-existing role during the database migration
 This is known to happen with Azure Database for PostgreSQL, but it's not
 limited to this environment. Please set ``ALTER_ROLE`` to change name of the
 role Weblate should alter during the database migration.
+
+Persistent connections improve Weblate responsiveness, but might require more
+resources for the database server. Please consult
+:setting:`django:CONN_MAX_AGE` and
+:ref:`django:persistent-database-connections` for more info.
 
 .. _mysql:
 
