@@ -40,6 +40,9 @@ Installing on RedHat, Fedora and CentOS
     # SMTP server
     dnf install postfix
 
+    # Gettext for the msgmerge add-don
+    dnf install gettext
+
 .. include:: steps/install-python.rst
 
 .. include:: steps/install-configure.rst

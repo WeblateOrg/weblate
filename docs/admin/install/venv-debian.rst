@@ -40,6 +40,9 @@ Installing on Debian and Ubuntu
     # SMTP server
     apt install -y exim4
 
+    # Gettext for the msgmerge add-don
+    apt install -y gettext
+
 
 .. include:: steps/install-python.rst
 

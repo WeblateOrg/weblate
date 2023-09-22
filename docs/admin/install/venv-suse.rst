@@ -39,6 +39,9 @@ Installing on SUSE and openSUSE
     # SMTP server
     zypper install postfix
 
+    # Gettext for the msgmerge add-don
+    zypper install gettext
+
 .. include:: steps/install-python.rst
 
 .. include:: steps/install-configure.rst
