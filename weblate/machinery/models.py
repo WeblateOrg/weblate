@@ -30,6 +30,7 @@ class WeblateConf(AppConf):
         "weblate.machinery.tmserver.AmagamaTranslation",
         "weblate.machinery.tmserver.TMServerTranslation",
         "weblate.machinery.yandex.YandexTranslation",
+        "weblate.machinery.yandexv2.YandexV2Translation",
         "weblate.machinery.saptranslationhub.SAPTranslationHub",
         "weblate.machinery.youdao.YoudaoTranslation",
         "weblate.machinery.ibm.IBMTranslation",

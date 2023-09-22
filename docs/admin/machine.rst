@@ -525,6 +525,27 @@ This service uses a Translation API, and you need to obtain an API key from Yand
     `Yandex Translate API <https://yandex.com/dev/translate/>`_,
     `Powered by Yandex.Translate <https://translate.yandex.com/>`_
 
+.. _mt-yandex-v2:
+
+Yandex v2
+---------
+
+.. versionadded:: 5.1
+
+:Service ID: ``yandex-v2``
+:Configuration: +---------+---------+--+
+                | ``key`` | API key |  |
+                +---------+---------+--+
+
+Machine translation service provided by Yandex.
+
+This service uses a Translation API, and you need to obtain an API key from Yandex Cloud.
+
+.. seealso::
+
+    `Yandex Translate API v2 <https://cloud.yandex.com/en/docs/translate/api-ref/authentication>`_,
+    `Powered by Yandex.Cloud <https://cloud.yandex.com/en/services/translate>`_
+
 .. _mt-youdao-zhiyun:
 
 Youdao Zhiyun
