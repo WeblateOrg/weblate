@@ -530,6 +530,8 @@ This service uses a Translation API, and you need to obtain an API key from Yand
 Yandex v2
 ---------
 
+.. versionadded:: 5.1
+
 :Service ID: ``yandex-v2``
 :Configuration: +---------+---------+--+
                 | ``key`` | API key |  |
