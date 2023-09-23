@@ -30,7 +30,7 @@ Installing on macOS
     # Database server: PostgreSQL
     brew install postgresql
 
-    # Gettext for the msgmerge add-don
+    # Gettext for the msgmerge add-on
     brew install gettext
 
 .. include:: steps/install-python.rst

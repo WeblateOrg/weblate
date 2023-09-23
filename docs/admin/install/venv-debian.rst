@@ -40,7 +40,7 @@ Installing on Debian and Ubuntu
     # SMTP server
     apt install -y exim4
 
-    # Gettext for the msgmerge add-don
+    # Gettext for the msgmerge add-on
     apt install -y gettext
 
 
