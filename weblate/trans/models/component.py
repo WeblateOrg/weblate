@@ -865,6 +865,12 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 lambda: self.schedule_update_checks(update_state=True)
             )
 
+        # Invalidate source language cache just to be sure, as it is relatively
+        # cheap to update
+        self.project.invalidate_source_language_cache()
+        for project in self.links.all():
+            project.invalidate_source_language_cache()
+
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
         super().__init__(*args, **kwargs)

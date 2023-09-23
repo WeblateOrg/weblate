@@ -9,6 +9,7 @@ import os.path
 from datetime import datetime
 
 from django.conf import settings
+from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, transaction
 from django.db.models import Count, Q, Value
@@ -65,6 +66,11 @@ def prefetch_project_flags(projects):
             .annotate(Count("component__id"))
         ):
             lookup[locks["id"]].__dict__["locked"] = locks["component__id__count"] == 0
+
+    # Prefetch source language ids
+    lookup = {project.source_language_cache_key: project for project in projects}
+    for item, value in cache.get_many(lookup.keys()).items():
+        lookup[item].__dict__["source_language_ids"] = value
     return projects
 
 
@@ -466,13 +472,25 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
     def child_components(self):
         return self.get_child_components_filter(lambda qs: qs)
 
+    @property
+    def source_language_cache_key(self):
+        return f"project-source-language-ids-{self.pk}"
+
+    def invalidate_source_language_cache(self):
+        cache.delete(self.source_language_cache_key)
+
     @cached_property
     def source_language_ids(self):
-        return set(
+        cached = cache.get(self.source_language_cache_key)
+        if cached is not None:
+            return cached
+        result = set(
             self.get_child_components_filter(
                 lambda qs: qs.values_list("source_language_id", flat=True).distinct()
             )
         )
+        cache.set(self.source_language_cache_key, result, 7 * 24 * 3600)
+        return result
 
     def scratch_create_component(
         self,
