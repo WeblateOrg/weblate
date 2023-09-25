@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 16:23+0200\n"
-"PO-Revision-Date: 2023-09-25 17:47+0000\n"
+"PO-Revision-Date: 2023-09-25 18:33+0000\n"
 "Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "documentation/it/>\n"
@@ -375,18 +375,12 @@ msgstr ""
 "l'appartenenza al team `Amministrazione`)."
 
 #: ../../admin/access.rst:176
-#, fuzzy
-#| msgid ""
-#| "If the invited user missed the validity of the invitation, they can set "
-#| "their password using invited e-mail address in the password reset form as "
-#| "the account is created already."
 msgid ""
 "If the invited user missed the validity of the invitation, a new invitation "
 "has to be created."
 msgstr ""
-"Se l'utente invitato ha perso la validità dell'invito, può impostare la "
-"propria password utilizzando l'indirizzo e-mail invitato nel modulo di "
-"reimpostazione della password poiché l'account è già stato creato."
+"Se l'utente non ha rispettato la validità dell'invito, è necessario creare "
+"uno nuovo."
 
 #: ../../admin/access.rst:179
 msgid ""
@@ -428,8 +422,8 @@ msgid ""
 "You can set your projects to `Protected` or `Private`, and :ref:`manage "
 "users <manage-acl>` per-project in the Weblate user interface."
 msgstr ""
-"Imposta i tuoi progetti su 'Protetto' o 'Privato' e gestisci gli utenti per "
-"progetto nell'interfaccia di Weblate."
+"È possibile impostare i progetti come `protetti` o `privati` e :ref:`gestire "
+"gli utenti <manage-acl>` per progetto nell'interfaccia utente di Weblate."
 
 #: ../../admin/access.rst:204
 msgid ""
@@ -454,28 +448,18 @@ msgid "Custom access control"
 msgstr "Controllo accessi personalizzato"
 
 #: ../../snippets/not-hosted.rst:3
-#, fuzzy
-#| msgid ""
-#| "This feature is not available for projects running the Hosted Libre plan."
 msgid "This feature is unavailable on Hosted Weblate."
-msgstr ""
-"Questa funzionalità non è disponibile per i progetti che eseguono il piano "
-"Libre su Hosted Weblate."
+msgstr "Questa funzionalità non è disponibile su Hosted Weblate."
 
 #: ../../admin/access.rst:222
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on groups and roles, where roles define a "
-#| "set of permissions, and groups assign them to users and translations, "
-#| "see :ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on teams and roles, where roles define a set "
 "of permissions, and teams link them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
-"Il sistema di permessi è basato su gruppi e ruoli, in cui i ruoli "
-"definiscono un set di permessi, e i gruppi li assegnano ad utenti e "
-"traduzioni, leggi :ref:`auth-model` per maggiori dettagli."
+"Il sistema di permessi si basa su team e ruoli, dove i ruoli definiscono un "
+"insieme di permessi ed i team li collegano agli utenti ed alle traduzioni, "
+"vedi :ref:`auth-model` per maggiori dettagli."
 
 #: ../../admin/access.rst:226
 msgid ""
@@ -508,10 +492,8 @@ msgstr ""
 "potrebbero interessarti."
 
 #: ../../admin/access.rst:244
-#, fuzzy
-#| msgid "Site wide permissions"
 msgid "Site-wide permission management"
-msgstr "Permessi per tutto il sito"
+msgstr "Gestione dei permessi a livello di sito"
 
 #: ../../admin/access.rst:246
 msgid ""
@@ -560,30 +542,21 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:270
-#, fuzzy
-#| msgid "Adding permissions to languages, components or projects"
 msgid "Custom permissions for languages, components or projects"
-msgstr "Aggiungi autorizzazioni a lingue, componenti o progetti"
+msgstr "Autorizzazioni personalizzate per lingue, componenti o progetti"
 
 #: ../../admin/access.rst:272
-#, fuzzy
-#| msgid ""
-#| "You can create your own dedicated groups to manage permissions for "
-#| "distinct objects such as languages, components, and projects. Although "
-#| "these groups can only grant additional privileges, you can’t revoke any "
-#| "permission granted by site-wide or per-project groups by adding another "
-#| "custom group."
 msgid ""
 "You can create your own dedicated teams to manage permissions for distinct "
 "objects such as languages, components, and projects. Although these teams "
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project teams by adding another custom team."
 msgstr ""
-"Puoi creare i tuoi gruppi dedicati per gestire le autorizzazioni per oggetti "
-"distinti come linguaggi, componenti e progetti. Sebbene questi gruppi "
-"possano concedere solo privilegi aggiuntivi, non puoi revocare alcuna "
-"autorizzazione concessa da gruppi a livello di sito o per progetto "
-"aggiungendo un altro gruppo personalizzato."
+"Puoi creare i tuoi team dedicati per gestire le autorizzazioni per oggetti "
+"distinti come linguaggi, componenti e progetti. Sebbene tali team possano "
+"concedere solo privilegi aggiuntivi, non puoi revocare alcuna autorizzazione "
+"concessa ai team a livello di sito o per progetto aggiungendo un altro team "
+"personalizzato."
 
 #: ../../admin/access.rst:277 ../../admin/access.rst:410
 #: ../../admin/config.rst:228 ../../admin/config.rst:247
@@ -621,7 +594,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Groups"
 msgid "Group `Users`"
-msgstr "Gruppi"
+msgstr "Gruppo `Utenti`"
 
 #: ../../admin/access.rst:290 ../../admin/access.rst:306
 msgid "Language selection"
@@ -631,7 +604,7 @@ msgstr "Selezione lingua"
 #, fuzzy
 #| msgid "As defined"
 msgid "`As defined`"
-msgstr "Come definito"
+msgstr "`Come definito`"
 
 #: ../../admin/access.rst:293
 msgid "All but `Czech`"
@@ -645,7 +618,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Most active translators"
 msgid "Group `Czech translators`"
-msgstr "Traduttori molto attivi"
+msgstr "Gruppo `traduttori Czech`"
 
 #: ../../admin/access.rst:302 ../../admin/access.rst:418
 #: ../../admin/access.rst:484 ../../api.rst:612
@@ -653,11 +626,8 @@ msgid "Roles"
 msgstr "Ruoli"
 
 #: ../../admin/access.rst:303
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Power user"
 msgid "`Power users`"
-msgstr "Utente avanzato"
+msgstr "`Utenti esperti`"
 
 #: ../../admin/access.rst:304
 msgid "Project selection"
