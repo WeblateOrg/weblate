@@ -341,13 +341,12 @@ class SSHWrapper:
         for command in ("ssh", "scp"):
             filename = os.path.join(self.path, command)
 
-            if os.path.exists(filename):
-                continue
+            if not os.path.exists(filename):
+                with open(filename, "w") as handle:
+                    handle.write(self.get_content(find_command(command)))
 
-            with open(filename, "w") as handle:
-                handle.write(self.get_content(find_command(command)))
-
-            os.chmod(filename, 0o755)  # noqa: S103, nosec
+            if not os.access(filename, os.X_OK):
+                os.chmod(filename, 0o755)  # noqa: S103, nosec
 
 
 SSH_WRAPPER = SSHWrapper()
