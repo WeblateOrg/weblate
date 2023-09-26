@@ -200,12 +200,14 @@ class Check:
             lambda m: replacements[m.group(0)], replacement(text)
         )
 
+
+class BatchCheckMixin:
     def handle_batch(self, unit, component):
         component.batched_checks.add(self.check_id)
         return self.check_id in unit.all_checks_names
 
     def check_component(self, component):
-        return []
+        raise NotImplementedError
 
     def perform_batch(self, component):
         from weblate.checks.models import Check

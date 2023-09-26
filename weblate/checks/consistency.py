@@ -10,7 +10,7 @@ from django.db.models import Count, Prefetch, Q, Value
 from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
-from weblate.checks.base import TargetCheck
+from weblate.checks.base import BatchCheckMixin, TargetCheck
 from weblate.utils.state import STATE_TRANSLATED
 
 
@@ -61,7 +61,7 @@ class SamePluralsCheck(TargetCheck):
         return False
 
 
-class ConsistencyCheck(TargetCheck):
+class ConsistencyCheck(TargetCheck, BatchCheckMixin):
     """Check for inconsistent translations."""
 
     check_id = "inconsistent"
@@ -139,7 +139,7 @@ class ConsistencyCheck(TargetCheck):
         )
 
 
-class ReusedCheck(TargetCheck):
+class ReusedCheck(TargetCheck, BatchCheckMixin):
     """
     Check for reused translations.
 
@@ -235,7 +235,7 @@ class ReusedCheck(TargetCheck):
         )
 
 
-class TranslatedCheck(TargetCheck):
+class TranslatedCheck(TargetCheck, BatchCheckMixin):
     """Check for inconsistent translations."""
 
     check_id = "translated"
