@@ -46,38 +46,39 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    "default": {
-        # Use 'postgresql' or 'mysql'.
-        "ENGINE": "django.db.backends.postgresql",
-        # Database name.
-        "NAME": get_env_str("POSTGRES_DATABASE", required=True),
-        # Database user.
-        "USER": get_env_str("POSTGRES_USER", required=True),
-        # Name of role to alter to set parameters in PostgreSQL,
-        # use in case role name is different than user used for authentication.
-        "ALTER_ROLE": get_env_str(
-            "POSTGRES_ALTER_ROLE", get_env_str("POSTGRES_USER", required=True)
-        ),
-        # Database password.
-        "PASSWORD": get_env_str("POSTGRES_PASSWORD", required=True),
-        # Set to empty string for localhost.
-        "HOST": get_env_str("POSTGRES_HOST", required=True),
-        # Set to empty string for default.
-        "PORT": get_env_str("POSTGRES_PORT", ""),
-        # Customizations for databases.
-        "OPTIONS": {"sslmode": get_env_str("POSTGRES_SSL_MODE", "prefer")},
-        # Persistent connections
-        "CONN_MAX_AGE": None
-        if "POSTGRES_CONN_MAX_AGE" not in os.environ
-        else get_env_int("POSTGRES_CONN_MAX_AGE"),
-        "CONN_HEALTH_CHECKS": True,
-        # Disable server-side cursors, might be needed with pgbouncer
-        "DISABLE_SERVER_SIDE_CURSORS": get_env_bool(
-            "POSTGRES_DISABLE_SERVER_SIDE_CURSORS"
-        ),
+if get_env_bool("WEBLATE_DATABASES", True):
+    DATABASES = {
+        "default": {
+            # Use 'postgresql' or 'mysql'.
+            "ENGINE": "django.db.backends.postgresql",
+            # Database name.
+            "NAME": get_env_str("POSTGRES_DATABASE", required=True),
+            # Database user.
+            "USER": get_env_str("POSTGRES_USER", required=True),
+            # Name of role to alter to set parameters in PostgreSQL,
+            # use in case role name is different than user used for authentication.
+            "ALTER_ROLE": get_env_str(
+                "POSTGRES_ALTER_ROLE", get_env_str("POSTGRES_USER", required=True)
+            ),
+            # Database password.
+            "PASSWORD": get_env_str("POSTGRES_PASSWORD", required=True),
+            # Set to empty string for localhost.
+            "HOST": get_env_str("POSTGRES_HOST", required=True),
+            # Set to empty string for default.
+            "PORT": get_env_str("POSTGRES_PORT", ""),
+            # Customizations for databases.
+            "OPTIONS": {"sslmode": get_env_str("POSTGRES_SSL_MODE", "prefer")},
+            # Persistent connections
+            "CONN_MAX_AGE": None
+            if "POSTGRES_CONN_MAX_AGE" not in os.environ
+            else get_env_int("POSTGRES_CONN_MAX_AGE"),
+            "CONN_HEALTH_CHECKS": True,
+            # Disable server-side cursors, might be needed with pgbouncer
+            "DISABLE_SERVER_SIDE_CURSORS": get_env_bool(
+                "POSTGRES_DISABLE_SERVER_SIDE_CURSORS"
+            ),
+        }
     }
-}
 
 # Data directory
 DATA_DIR = get_env_str("WEBLATE_DATA_DIR", "/app/data")

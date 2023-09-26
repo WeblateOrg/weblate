@@ -1402,6 +1402,20 @@ both Weblate and PostgreSQL containers.
       :setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-DISABLE_SERVER_SIDE_CURSORS>`,
       :ref:`django:transaction-pooling-server-side-cursors`
 
+.. envvar:: WEBLATE_DATABASES
+
+   .. versionadded:: 5.1
+
+   Set to false to disables environment based configuration of the database
+   connection. Use :ref:`docker-settings-override` to configure the database
+   connection manually.
+
+MySQL or MariaDB server
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Neither MySQL nor MariaDB can not be configured via environment variables. See
+:ref:`mysql` for info on using those with Weblate. Use :envvar:`WEBLATE_DATABASES`
+to configure the database connection manually.
 
 Database backup settings
 ~~~~~~~~~~~~~~~~~~~~~~~~
