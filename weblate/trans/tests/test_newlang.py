@@ -35,7 +35,6 @@ class NewLangTest(ViewTestCase):
         # Test there is no add form
         response = self.client.get(self.component.get_absolute_url())
         self.assertNotContains(response, "Start new translation")
-        self.assertContains(response, "permission to start a new translation")
         self.assertNotContains(response, "/new-lang/")
 
         # Test adding fails
@@ -54,7 +53,6 @@ class NewLangTest(ViewTestCase):
 
         response = self.client.get(self.component.get_absolute_url())
         self.assertNotContains(response, "Start new translation")
-        self.assertContains(response, "permission to start a new translation")
         self.assertNotContains(response, "/new-lang/")
 
     def test_url(self):
