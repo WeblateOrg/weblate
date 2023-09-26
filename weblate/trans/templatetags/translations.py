@@ -1191,7 +1191,7 @@ def urlize_ugc(value, autoescape=True):
     )
 
 
-def get_breadcrumbs(path_object):
+def get_breadcrumbs(path_object, flags: bool = True):
     if isinstance(path_object, Unit):
         yield from get_breadcrumbs(path_object.translation)
         yield path_object.get_absolute_url(), path_object.pk
@@ -1203,13 +1203,16 @@ def get_breadcrumbs(path_object):
             yield from get_breadcrumbs(path_object.category)
         else:
             yield from get_breadcrumbs(path_object.project)
-        yield path_object.get_absolute_url(), format_html(
-            "{}{}",
-            path_object.name,
-            render_to_string(
-                "snippets/component-glossary-badge.html", {"object": path_object}
-            ),
-        )
+        name = path_object.name
+        if flags:
+            name = format_html(
+                "{}{}",
+                name,
+                render_to_string(
+                    "snippets/component-glossary-badge.html", {"object": path_object}
+                ),
+            )
+        yield path_object.get_absolute_url(), name
     elif isinstance(path_object, Category):
         if path_object.category:
             yield from get_breadcrumbs(path_object.category)
@@ -1236,9 +1239,9 @@ def get_breadcrumbs(path_object):
 
 
 @register.simple_tag
-def path_object_breadcrumbs(path_object):
+def path_object_breadcrumbs(path_object, flags: bool = True):
     return format_html_join(
-        "\n", '<li><a href="{}">{}</a></li>', get_breadcrumbs(path_object)
+        "\n", '<li><a href="{}">{}</a></li>', get_breadcrumbs(path_object, flags)
     )
 
 

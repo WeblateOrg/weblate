@@ -9,17 +9,11 @@
     <td class="history-event">
         <strong>{{ change.get_user_display }}</strong>
         <p class="text-muted">{{ change.get_action_display }}</p>
-        <p>
-            {% if change.project %}
-            <a href="{{ change.project.get_absolute_url }}">{{ change.project }}</a>
-            {% endif %}
-            {% if change.component %}
-            / <a href="{{ change.component.get_absolute_url }}">{{ change.component.name }}</a>
-            {% endif %}
-            {% if change.translation %}
-            — <a href="{{ change.translation.get_absolute_url }}">{{ change.translation.language }}</a>
-            {% endif %}
-        </p>
+        <ol class="breadcrumb">
+          {% if change.path_object %}
+            {% path_object_breadcrumbs change.path_object flags=False %}
+          {% endif %}
+        </ol>
         {% if user.is_superuser %}
           {% with ip_address=change.get_ip_address %}
             {% if ip_address %}
