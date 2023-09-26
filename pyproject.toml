@@ -40,7 +40,6 @@ ignore = [
 ]
 
 [tool.ruff]
-format = "github"
 # CONFIG - intentional configuration
 # TODO - needs decision whether intention, add noqa tags or fix
 # WONTFIX - not fixable in current codebase, might be better to go for noqa
@@ -82,6 +81,7 @@ ignore = [
   "A003",  # TODO: overriding builtins (might need noqa tags)
   "SLF001"  # TODO: Private member accessed (might need noqa tags)
 ]
+output-format = "github"
 select = ["ALL"]
 target-version = "py39"
 
