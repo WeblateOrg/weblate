@@ -157,7 +157,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        {% blocktrans %}Repository for {{ component }}{% endblocktrans %}
+        <a href="{{ component.get_absolute_url }}#repository">{% blocktrans %}Repository for {{ component }}{% endblocktrans %}</a>
       </h4>
     </div>
     <table class="table table-striped table-autowidth">
