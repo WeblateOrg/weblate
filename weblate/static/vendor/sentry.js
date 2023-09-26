@@ -4475,36 +4475,30 @@ class Dedupe  {
     this.name = Dedupe.id;
   }
 
+  /** @inheritDoc */
+   setupOnce(_addGlobaleventProcessor, _getCurrentHub) {
+    // noop
+  }
+
   /**
    * @inheritDoc
    */
-   setupOnce(addGlobalEventProcessor, getCurrentHub) {
-    const eventProcessor = currentEvent => {
-      // We want to ignore any non-error type events, e.g. transactions or replays
-      // These should never be deduped, and also not be compared against as _previousEvent.
-      if (currentEvent.type) {
-        return currentEvent;
-      }
-
-      const self = getCurrentHub().getIntegration(Dedupe);
-      if (self) {
-        // Juuust in case something goes wrong
-        try {
-          if (_shouldDropEvent(currentEvent, self._previousEvent)) {
-            (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Event dropped due to being a duplicate of previously captured event.');
-            return null;
-          }
-        } catch (_oO) {
-          return (self._previousEvent = currentEvent);
-        }
-
-        return (self._previousEvent = currentEvent);
-      }
+   processEvent(currentEvent) {
+    // We want to ignore any non-error type events, e.g. transactions or replays
+    // These should never be deduped, and also not be compared against as _previousEvent.
+    if (currentEvent.type) {
       return currentEvent;
-    };
+    }
 
-    eventProcessor.id = this.name;
-    addGlobalEventProcessor(eventProcessor);
+    // Juuust in case something goes wrong
+    try {
+      if (_shouldDropEvent(currentEvent, this._previousEvent)) {
+        (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Event dropped due to being a duplicate of previously captured event.');
+        return null;
+      }
+    } catch (_oO) {} // eslint-disable-line no-empty
+
+    return (this._previousEvent = currentEvent);
   }
 } Dedupe.__initStatic();
 
@@ -4925,7 +4919,6 @@ exports.GlobalHandlers = GlobalHandlers;
 },{"../eventbuilder.js":31,"../helpers.js":32,"@sentry/core":59,"@sentry/utils":105}],37:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const core = require('@sentry/core');
 const helpers = require('../helpers.js');
 
 /** HttpContext integration collects information about HTTP request headers */
@@ -4947,36 +4940,36 @@ class HttpContext  {
    * @inheritDoc
    */
    setupOnce() {
-    core.addGlobalEventProcessor((event) => {
-      if (core.getCurrentHub().getIntegration(HttpContext)) {
-        // if none of the information we want exists, don't bother
-        if (!helpers.WINDOW.navigator && !helpers.WINDOW.location && !helpers.WINDOW.document) {
-          return event;
-        }
+    // noop
+  }
 
-        // grab as much info as exists and add it to the event
-        const url = (event.request && event.request.url) || (helpers.WINDOW.location && helpers.WINDOW.location.href);
-        const { referrer } = helpers.WINDOW.document || {};
-        const { userAgent } = helpers.WINDOW.navigator || {};
+  /** @inheritDoc */
+   preprocessEvent(event) {
+    // if none of the information we want exists, don't bother
+    if (!helpers.WINDOW.navigator && !helpers.WINDOW.location && !helpers.WINDOW.document) {
+      return;
+    }
 
-        const headers = {
-          ...(event.request && event.request.headers),
-          ...(referrer && { Referer: referrer }),
-          ...(userAgent && { 'User-Agent': userAgent }),
-        };
-        const request = { ...event.request, ...(url && { url }), headers };
+    // grab as much info as exists and add it to the event
+    const url = (event.request && event.request.url) || (helpers.WINDOW.location && helpers.WINDOW.location.href);
+    const { referrer } = helpers.WINDOW.document || {};
+    const { userAgent } = helpers.WINDOW.navigator || {};
 
-        return { ...event, request };
-      }
-      return event;
-    });
+    const headers = {
+      ...(event.request && event.request.headers),
+      ...(referrer && { Referer: referrer }),
+      ...(userAgent && { 'User-Agent': userAgent }),
+    };
+    const request = { ...event.request, ...(url && { url }), headers };
+
+    event.request = request;
   }
 } HttpContext.__initStatic();
 
 exports.HttpContext = HttpContext;
 
 
-},{"../helpers.js":32,"@sentry/core":59}],38:[function(require,module,exports){
+},{"../helpers.js":32}],38:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const globalhandlers = require('./globalhandlers.js');
@@ -5622,7 +5615,7 @@ class BrowserProfilingIntegration  {
   /**
    * @inheritDoc
    */
-   setupOnce(addGlobalEventProcessor, getCurrentHub) {
+   setupOnce(_addGlobalEventProcessor, getCurrentHub) {
     this.getCurrentHub = getCurrentHub;
     const client = this.getCurrentHub().getClient() ;
 
@@ -9984,7 +9977,11 @@ class Scope  {
    * @param hint Object containing additional information about the original exception, for use by the event processors.
    * @hidden
    */
-   applyToEvent(event, hint = {}) {
+   applyToEvent(
+    event,
+    hint = {},
+    additionalEventProcessors,
+  ) {
     if (this._extra && Object.keys(this._extra).length) {
       event.extra = { ...this._extra, ...event.extra };
     }
@@ -10034,7 +10031,12 @@ class Scope  {
       propagationContext: this._propagationContext,
     };
 
-    return eventProcessors.notifyEventProcessors([...eventProcessors.getGlobalEventProcessors(), ...this._eventProcessors], event, hint);
+    // TODO (v8): Update this order to be: Global > Client > Scope
+    return eventProcessors.notifyEventProcessors(
+      [...(additionalEventProcessors || []), ...eventProcessors.getGlobalEventProcessors(), ...this._eventProcessors],
+      event,
+      hint,
+    );
   }
 
   /**
@@ -12765,6 +12767,8 @@ function prepareEvent(
   // We prepare the result here with a resolved Event.
   let result = utils.resolvedSyncPromise(prepared);
 
+  const clientEventProcessors = client && client.getEventProcessors ? client.getEventProcessors() : [];
+
   // This should be the last thing called, since we want that
   // {@link Hub.addEventProcessor} gets the finished prepared event.
   //
@@ -12783,28 +12787,27 @@ function prepareEvent(
     }
 
     // In case we have a hub we reassign it.
-    result = finalScope.applyToEvent(prepared, hint);
+    result = finalScope.applyToEvent(prepared, hint, clientEventProcessors);
+  } else {
+    // Apply client & global event processors even if there is no scope
+    // TODO (v8): Update the order to be Global > Client
+    result = eventProcessors.notifyEventProcessors([...clientEventProcessors, ...eventProcessors.getGlobalEventProcessors()], prepared, hint);
   }
 
-  return result
-    .then(evt => {
-      // Process client-scoped event processors
-      return client && client.getEventProcessors ? eventProcessors.notifyEventProcessors(client.getEventProcessors(), evt, hint) : evt;
-    })
-    .then(evt => {
-      if (evt) {
-        // We apply the debug_meta field only after all event processors have ran, so that if any event processors modified
-        // file names (e.g.the RewriteFrames integration) the filename -> debug ID relationship isn't destroyed.
-        // This should not cause any PII issues, since we're only moving data that is already on the event and not adding
-        // any new data
-        applyDebugMeta(evt);
-      }
+  return result.then(evt => {
+    if (evt) {
+      // We apply the debug_meta field only after all event processors have ran, so that if any event processors modified
+      // file names (e.g.the RewriteFrames integration) the filename -> debug ID relationship isn't destroyed.
+      // This should not cause any PII issues, since we're only moving data that is already on the event and not adding
+      // any new data
+      applyDebugMeta(evt);
+    }
 
-      if (typeof normalizeDepth === 'number' && normalizeDepth > 0) {
-        return normalizeEvent(evt, normalizeDepth, normalizeMaxBreadth);
-      }
-      return evt;
-    });
+    if (typeof normalizeDepth === 'number' && normalizeDepth > 0) {
+      return normalizeEvent(evt, normalizeDepth, normalizeMaxBreadth);
+    }
+    return evt;
+  });
 }
 
 /**
@@ -13027,7 +13030,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":54,"../eventProcessors.js":56,"../scope.js":66,"@sentry/utils":105}],86:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.70.0';
+const SDK_VERSION = '7.71.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -18036,53 +18039,56 @@ function handleGlobalEventListener(
 ) {
   const afterSendHandler = includeAfterSendEventHandling ? handleAfterSendEvent(replay) : undefined;
 
-  return (event, hint) => {
-    // Do nothing if replay has been disabled
-    if (!replay.isEnabled()) {
+  return Object.assign(
+    (event, hint) => {
+      // Do nothing if replay has been disabled
+      if (!replay.isEnabled()) {
+        return event;
+      }
+
+      if (isReplayEvent(event)) {
+        // Replays have separate set of breadcrumbs, do not include breadcrumbs
+        // from core SDK
+        delete event.breadcrumbs;
+        return event;
+      }
+
+      // We only want to handle errors & transactions, nothing else
+      if (!isErrorEvent(event) && !isTransactionEvent(event)) {
+        return event;
+      }
+
+      // Unless `captureExceptions` is enabled, we want to ignore errors coming from rrweb
+      // As there can be a bunch of stuff going wrong in internals there, that we don't want to bubble up to users
+      if (isRrwebError(event, hint) && !replay.getOptions()._experiments.captureExceptions) {
+        (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Ignoring error from rrweb internals', event);
+        return null;
+      }
+
+      // When in buffer mode, we decide to sample here.
+      // Later, in `handleAfterSendEvent`, if the replayId is set, we know that we sampled
+      // And convert the buffer session to a full session
+      const isErrorEventSampled = shouldSampleForBufferEvent(replay, event);
+
+      // Tag errors if it has been sampled in buffer mode, or if it is session mode
+      // Only tag transactions if in session mode
+      const shouldTagReplayId = isErrorEventSampled || replay.recordingMode === 'session';
+
+      if (shouldTagReplayId) {
+        event.tags = { ...event.tags, replayId: replay.getSessionId() };
+      }
+
+      // In cases where a custom client is used that does not support the new hooks (yet),
+      // we manually call this hook method here
+      if (afterSendHandler) {
+        // Pretend the error had a 200 response so we always capture it
+        afterSendHandler(event, { statusCode: 200 });
+      }
+
       return event;
-    }
-
-    if (isReplayEvent(event)) {
-      // Replays have separate set of breadcrumbs, do not include breadcrumbs
-      // from core SDK
-      delete event.breadcrumbs;
-      return event;
-    }
-
-    // We only want to handle errors & transactions, nothing else
-    if (!isErrorEvent(event) && !isTransactionEvent(event)) {
-      return event;
-    }
-
-    // Unless `captureExceptions` is enabled, we want to ignore errors coming from rrweb
-    // As there can be a bunch of stuff going wrong in internals there, that we don't want to bubble up to users
-    if (isRrwebError(event, hint) && !replay.getOptions()._experiments.captureExceptions) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Ignoring error from rrweb internals', event);
-      return null;
-    }
-
-    // When in buffer mode, we decide to sample here.
-    // Later, in `handleAfterSendEvent`, if the replayId is set, we know that we sampled
-    // And convert the buffer session to a full session
-    const isErrorEventSampled = shouldSampleForBufferEvent(replay, event);
-
-    // Tag errors if it has been sampled in buffer mode, or if it is session mode
-    // Only tag transactions if in session mode
-    const shouldTagReplayId = isErrorEventSampled || replay.recordingMode === 'session';
-
-    if (shouldTagReplayId) {
-      event.tags = { ...event.tags, replayId: replay.getSessionId() };
-    }
-
-    // In cases where a custom client is used that does not support the new hooks (yet),
-    // we manually call this hook method here
-    if (afterSendHandler) {
-      // Pretend the error had a 200 response so we always capture it
-      afterSendHandler(event, { statusCode: 200 });
-    }
-
-    return event;
-  };
+    },
+    { id: 'Replay' },
+  );
 }
 
 /**
@@ -19458,7 +19464,12 @@ function addGlobalListeners(replay) {
 
   // Tag all (non replay) events that get sent to Sentry with the current
   // replay ID so that we can reference them later in the UI
-  core.addGlobalEventProcessor(handleGlobalEventListener(replay, !hasHooks(client)));
+  const eventProcessor = handleGlobalEventListener(replay, !hasHooks(client));
+  if (client && client.addEventProcessor) {
+    client.addEventProcessor(eventProcessor);
+  } else {
+    core.addGlobalEventProcessor(eventProcessor);
+  }
 
   // If a custom client has no hooks yet, we continue to use the "old" implementation
   if (hasHooks(client)) {
