@@ -615,6 +615,17 @@ class Change(models.Model, UserDisplayMixin):
             return self.project.get_absolute_url()
         return None
 
+    @property
+    def path_object(self):
+        """Return link either to unit or translation."""
+        if self.translation is not None:
+            return self.translation
+        if self.component is not None:
+            return self.component
+        if self.project is not None:
+            return self.project
+        return None
+
     def __init__(self, *args, **kwargs):
         self.notify_state = {}
         for attr in ("user", "author"):
