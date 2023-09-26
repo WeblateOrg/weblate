@@ -13030,7 +13030,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":54,"../eventProcessors.js":56,"../scope.js":66,"@sentry/utils":105}],86:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.71.0';
+const SDK_VERSION = '7.72.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -18055,6 +18055,12 @@ function handleGlobalEventListener(
 
       // We only want to handle errors & transactions, nothing else
       if (!isErrorEvent(event) && !isTransactionEvent(event)) {
+        return event;
+      }
+
+      // Ensure we do not add replay_id if the session is expired
+      const isSessionActive = replay.checkAndHandleExpiredSession();
+      if (!isSessionActive) {
         return event;
       }
 
@@ -23366,6 +23372,7 @@ const url = require('./url.js');
 const userIntegrations = require('./userIntegrations.js');
 const cache = require('./cache.js');
 const eventbuilder = require('./eventbuilder.js');
+const nodeStackTrace = require('./node-stack-trace.js');
 const escapeStringForRegex = require('./vendor/escapeStringForRegex.js');
 const supportsHistory = require('./vendor/supportsHistory.js');
 
@@ -23514,11 +23521,12 @@ exports.eventFromMessage = eventbuilder.eventFromMessage;
 exports.eventFromUnknownInput = eventbuilder.eventFromUnknownInput;
 exports.exceptionFromError = eventbuilder.exceptionFromError;
 exports.parseStackFrames = eventbuilder.parseStackFrames;
+exports.filenameIsInApp = nodeStackTrace.filenameIsInApp;
 exports.escapeStringForRegex = escapeStringForRegex.escapeStringForRegex;
 exports.supportsHistory = supportsHistory.supportsHistory;
 
 
-},{"./aggregate-errors.js":88,"./baggage.js":89,"./browser.js":90,"./cache.js":98,"./clientreport.js":99,"./dsn.js":100,"./env.js":101,"./envelope.js":102,"./error.js":103,"./eventbuilder.js":104,"./instrument.js":106,"./is.js":107,"./logger.js":108,"./memo.js":109,"./misc.js":110,"./node.js":112,"./normalize.js":113,"./object.js":114,"./path.js":115,"./promisebuffer.js":116,"./ratelimit.js":117,"./requestdata.js":118,"./severity.js":119,"./stacktrace.js":120,"./string.js":121,"./supports.js":122,"./syncpromise.js":123,"./time.js":124,"./tracing.js":125,"./url.js":126,"./userIntegrations.js":127,"./vendor/escapeStringForRegex.js":128,"./vendor/supportsHistory.js":129,"./worldwide.js":130}],106:[function(require,module,exports){
+},{"./aggregate-errors.js":88,"./baggage.js":89,"./browser.js":90,"./cache.js":98,"./clientreport.js":99,"./dsn.js":100,"./env.js":101,"./envelope.js":102,"./error.js":103,"./eventbuilder.js":104,"./instrument.js":106,"./is.js":107,"./logger.js":108,"./memo.js":109,"./misc.js":110,"./node-stack-trace.js":111,"./node.js":112,"./normalize.js":113,"./object.js":114,"./path.js":115,"./promisebuffer.js":116,"./ratelimit.js":117,"./requestdata.js":118,"./severity.js":119,"./stacktrace.js":120,"./string.js":121,"./supports.js":122,"./syncpromise.js":123,"./time.js":124,"./tracing.js":125,"./url.js":126,"./userIntegrations.js":127,"./vendor/escapeStringForRegex.js":128,"./vendor/supportsHistory.js":129,"./worldwide.js":130}],106:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -24732,6 +24740,29 @@ exports.uuid4 = uuid4;
 },{"./object.js":114,"./string.js":121,"./worldwide.js":130}],111:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
+/**
+ * Does this filename look like it's part of the app code?
+ */
+function filenameIsInApp(filename, isNative = false) {
+  const isInternal =
+    isNative ||
+    (filename &&
+      // It's not internal if it's an absolute linux path
+      !filename.startsWith('/') &&
+      // It's not internal if it's an absolute windows path
+      !filename.includes(':\\') &&
+      // It's not internal if the path is starting with a dot
+      !filename.startsWith('.') &&
+      // It's not internal if the frame has a protocol. In node, this is usually the case if the file got pre-processed with a bundler like webpack
+      !filename.match(/^[a-zA-Z]([a-zA-Z0-9.\-+])*:\/\//)); // Schema from: https://stackoverflow.com/a/3641782
+
+  // in_app is all that's not an internal Node function or a module within node_modules
+  // note that isNative appears to return true even for node core libraries
+  // see https://github.com/getsentry/raven-node/issues/176
+
+  return !isInternal && filename !== undefined && !filename.includes('node_modules/');
+}
+
 /** Node Stack line parser */
 // eslint-disable-next-line complexity
 function node(getModule) {
@@ -24791,31 +24822,13 @@ function node(getModule) {
         filename = lineMatch[5];
       }
 
-      const isInternal =
-        isNative ||
-        (filename &&
-          // It's not internal if it's an absolute linux path
-          !filename.startsWith('/') &&
-          // It's not internal if it's an absolute windows path
-          !filename.includes(':\\') &&
-          // It's not internal if the path is starting with a dot
-          !filename.startsWith('.') &&
-          // It's not internal if the frame has a protocol. In node, this is usually the case if the file got pre-processed with a bundler like webpack
-          !filename.match(/^[a-zA-Z]([a-zA-Z0-9.\-+])*:\/\//)); // Schema from: https://stackoverflow.com/a/3641782
-
-      // in_app is all that's not an internal Node function or a module within node_modules
-      // note that isNative appears to return true even for node core libraries
-      // see https://github.com/getsentry/raven-node/issues/176
-
-      const in_app = !isInternal && filename !== undefined && !filename.includes('node_modules/');
-
       return {
         filename,
         module: getModule ? getModule(filename) : undefined,
         function: functionName,
         lineno: parseInt(lineMatch[3], 10) || undefined,
         colno: parseInt(lineMatch[4], 10) || undefined,
-        in_app,
+        in_app: filenameIsInApp(filename, isNative),
       };
     }
 
@@ -24829,6 +24842,7 @@ function node(getModule) {
   };
 }
 
+exports.filenameIsInApp = filenameIsInApp;
 exports.node = node;
 
 
@@ -26418,6 +26432,7 @@ function nodeStackLineParser(getModule) {
   return [90, nodeStackTrace.node(getModule)];
 }
 
+exports.filenameIsInApp = nodeStackTrace.filenameIsInApp;
 exports.createStackParser = createStackParser;
 exports.getFunctionName = getFunctionName;
 exports.nodeStackLineParser = nodeStackLineParser;
