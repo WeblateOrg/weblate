@@ -27,11 +27,6 @@ def create_index(apps, schema_editor):
                 schema_editor.quote_name(settings.get("ALTER_ROLE", settings["USER"]))
             )
         )
-        # Install btree_gin for gin btree search and index
-        cur = schema_editor.connection.cursor()
-        cur.execute("SELECT * FROM pg_extension WHERE extname = 'btree_gin'")
-        if not cur.fetchone():
-            schema_editor.execute("CREATE EXTENSION IF NOT EXISTS btree_gin")
 
         # TODO: Find a better way for these indexes, used to avoid duplicate entries
         schema_editor.execute(
