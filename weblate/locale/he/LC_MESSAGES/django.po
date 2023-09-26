@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 14:22+0000\n"
-"PO-Revision-Date: 2023-09-19 18:14+0000\n"
+"PO-Revision-Date: 2023-09-27 05:59+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -3286,10 +3286,9 @@ msgid "Fluent syntax error in translation"
 msgstr "שגיאת תחביר Fluent בתרגום"
 
 #: weblate/checks/format.py:400
-#, fuzzy, python-format
-#| msgid "Following format strings are wrongly ordered: %s"
+#, python-format
 msgid "The following format strings are in the wrong order: %s"
-msgstr "מחרוזות התבנית מסודרות באופן שגוי: %s"
+msgstr "מחרוזות התבנית הן בסדר שגוי: %s"
 
 #: weblate/checks/format.py:482
 msgid "Python format"
@@ -3774,20 +3773,16 @@ msgid "Font group deleted."
 msgstr "קבוצת גופנים נמחקה."
 
 #: weblate/formats/base.py:337
-#, fuzzy
-#| msgid "Failed to load strings from the file, try choosing other format."
 msgid "Could not load strings from the file, try choosing other format."
-msgstr "טעינת המחרוזות מהקובץ נכשלה, נא לנסות לבחור מבנה אחר."
+msgstr "לא ניתן לטעון את המחרוזות מהקובץ, נא לנסות לבחור תבנית אחרת."
 
 #: weblate/formats/convert.py:263
 msgid "HTML file"
 msgstr "קובץ HTML"
 
 #: weblate/formats/convert.py:297
-#, fuzzy
-#| msgid "Markdown text"
 msgid "Markdown file"
-msgstr "טקסט Markdown"
+msgstr "קובץ Markdown"
 
 #: weblate/formats/convert.py:330
 msgid "OpenDocument file"
@@ -5530,11 +5525,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "הופנית לספק האימות."
 
 #: weblate/templates/accounts/register.html:20
-#, fuzzy
-#| msgid ""
-#| "Please enter the activation token obtained when making the subscription."
 msgid "Please complete the registration to accept the invitation."
-msgstr "נא לספק את אסימון ההפעלה שמתקבל בעת עריכת המינוי."
+msgstr "נא להשלים את ההרשמה כדי לקבל את ההזמנה."
 
 #: weblate/templates/accounts/register.html:38
 msgid "Register in Weblate"
@@ -6162,7 +6154,7 @@ msgstr "לא צוינו רכיבים"
 
 #: weblate/templates/auth/teams-count.html:5
 msgid "Automatic assignment of users is configured for this team"
-msgstr ""
+msgstr "בצוות הזה מוגדרת הקצאת משתמשים אוטומטית"
 
 #: weblate/templates/auth/teams-count.html:5
 msgid "Automatic assignment"
@@ -6658,10 +6650,8 @@ msgstr "חיפוש והחלפה"
 #: weblate/templates/category.html:76 weblate/templates/component.html:102
 #: weblate/templates/language-project.html:49
 #: weblate/templates/project.html:118 weblate/templates/translation.html:97
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Organize or remove"
-msgstr "תרגום להסרה"
+msgstr "ארגון או הסרה"
 
 #: weblate/templates/category-project.html:66
 #: weblate/templates/language-project.html:68
@@ -6744,21 +6734,17 @@ msgstr "שינוי שם קטגוריה"
 
 #: weblate/templates/category.html:207
 msgid "Renaming the category will also change URLs for all its components."
-msgstr ""
+msgstr "שינוי שם הקטגוריה ישנה גם את כתובות כל הרכיבים שלו."
 
 #: weblate/templates/category.html:208 weblate/templates/category.html:226
 #: weblate/templates/component.html:255 weblate/templates/component.html:273
 #: weblate/templates/project.html:272
-#, fuzzy
-#| msgid ""
-#| "Renaming the project will change all URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Users will need to update their bookmarks, references in cloned "
 "repositories, or API calls!"
 msgstr ""
-"שינוי שם המיזם ישנה את כל הכתובות שלו, על המשתמשים יהיה לעדכן את הסימניות או "
-"את ההפניות במאגרים משוכפלים!"
+"משתמשים יידרשו לשנות את הסימניות, ההפניות במאגרים המשובטים שלהם או את קריאות "
+"ה־API!"
 
 #: weblate/templates/category.html:214 weblate/templates/component.html:261
 #: weblate/templates/project.html:278
@@ -6794,10 +6780,8 @@ msgid "Translated"
 msgstr "תורגמו"
 
 #: weblate/templates/check_list.html:89
-#, fuzzy
-#| msgid "Git export documentation"
 msgid "View check documentation"
-msgstr "תיעוד ייצוא Git"
+msgstr "הצגת תיעוד בדיקות"
 
 #: weblate/templates/component-list.html:16 weblate/templates/language.html:20
 msgid "Information"
@@ -6922,10 +6906,8 @@ msgid "Move component"
 msgstr "העברת רכיב"
 
 #: weblate/templates/component.html:272
-#, fuzzy
-#| msgid "Fix this component to clear its alerts."
 msgid "Moving the component will also change its URLs."
-msgstr "יש לתקן את הרכיב הזה כדי להעלים את ההתראות."
+msgstr "העברת הרכיב תשנה גם את הכתובת שלו."
 
 #: weblate/templates/component.html:296 weblate/templates/project.html:294
 #: weblate/templates/translate.html:348 weblate/templates/translation.html:427
@@ -8511,10 +8493,8 @@ msgid "Status of repositories"
 msgstr "מצב של מאגרים"
 
 #: weblate/templates/manage/repos.html:11
-#, fuzzy
-#| msgid "This component is linked to the %(target)s repository."
 msgid "Show components with linked repositories"
-msgstr "רכיב זה מקושר אל המאגר %(target)s."
+msgstr "הצגת רכיבים עם מאגרים מקושרים"
 
 #: weblate/templates/manage/repos.html:17
 msgid "This repository is linked to:"
@@ -8926,7 +8906,7 @@ msgstr "שינוי שם מיזם"
 
 #: weblate/templates/project.html:271
 msgid "Renaming the project will also change URLs for all its components."
-msgstr ""
+msgstr "שינוי שם המיזם ישנה גם את כל כתובות הרכיבים שלו."
 
 #: weblate/templates/project.html:315
 msgid ""
@@ -9410,6 +9390,8 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
+"הוזמנת אל %(site_title)s על ידי %(invitation_author)s כדי לשתף פעולה סביב "
+"%(project_name)s ולהצטרף לצוות ה%(team_name)s."
 
 #: weblate/templates/snippets/invite-info.html:6
 #, python-format
@@ -9417,6 +9399,8 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
 msgstr ""
+"הוזמנת אל %(site_title)s על ידי %(invitation_author)s להצטרף לצוות "
+"ה%(team_name)s."
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -10260,11 +10244,8 @@ msgstr ""
 "אפשר להפעיל את הבדיקה על ידי הוספת הדגלון המתאים לדגלוני מחרוזות או רכיבים."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
-#, fuzzy
-#| msgid ""
-#| "There is at least one screenshot which is not assigned to any strings."
 msgid "At least one screenshot has no string assigned to it."
-msgstr "יש לפחות צילום מסך אחד שאינו מוקצה לאף מחרוזת."
+msgstr "יש לפחות צילום מסך אחד שלא מוקצה לו אף מחרוזת."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
 msgid "Manage screenshots"
@@ -10458,10 +10439,8 @@ msgstr "רכיבי התרגום הבאים יוסרו:"
 
 #: weblate/templates/trans/delete-category.html:21
 #: weblate/templates/trans/delete-project.html:23
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "The following translation categories will be removed:"
-msgstr "התרגומים הבאים יוסרו:"
+msgstr "קטגוריות התרגומים הבאות תוסרנה:"
 
 #: weblate/templates/trans/delete-category.html:31
 #: weblate/templates/trans/delete-project.html:33
@@ -10486,26 +10465,22 @@ msgid "I understand the consequences, delete this translation"
 msgstr "ההשלכות ברורות לי, נא למחוק את התרגום הזה"
 
 #: weblate/templates/trans/delete-project.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "project and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "category and all related content."
 msgstr ""
-"לא ניתן לבטל את הפעולה הזאת. הפעולה תמחק לצמיתות את התרגום למיזם %(object)s "
-"ואת כל התוכן שקשור אליו."
+"לא ניתן לבטל את הפעולה הזאת. הפעולה תמחק לצמיתות את הקטגוריה %(object)s ואת "
+"כל התוכן שקשור אליה."
 
 #: weblate/templates/trans/delete-project.html:10
-#, fuzzy, python-format
-#| msgid "The following translation components will be removed:"
+#, python-format
 msgid "%(count)s component will be removed by this."
 msgid_plural "%(count)s components will be removed by this."
-msgstr[0] "רכיבי התרגום הבאים יוסרו:"
-msgstr[1] "רכיבי התרגום הבאים יוסרו:"
-msgstr[2] "רכיבי התרגום הבאים יוסרו:"
-msgstr[3] "רכיבי התרגום הבאים יוסרו:"
+msgstr[0] "הפעולה תסיר רכיב."
+msgstr[1] "הפעולה תסיר %(count)s רכיבים."
+msgstr[2] "הפעולה תסיר %(count)s רכיבים."
+msgstr[3] "הפעולה תסיר %(count)s רכיבים."
 
 #: weblate/templates/trans/delete-translation.html:6
 msgid ""
@@ -11985,11 +11960,9 @@ msgid "Workflow customization"
 msgstr "התאמת רצף עבודה"
 
 #: weblate/trans/mixins.py:143
-#, fuzzy
-#| msgid "Component with this URL slug already exists in the project."
 msgid ""
 "Component or category with the same URL slug already exists at this level."
-msgstr "כבר קיים רכיב עם הכתובת הייצוגית הזאת במיזם."
+msgstr "כבר קיימים רכיב או קטגוריה עם הכתובת הייצוגית הזאת ברמה הזאת."
 
 #: weblate/trans/mixins.py:150
 msgid "Component or category with the same name already exists at this level."
@@ -13071,7 +13044,7 @@ msgstr "קובץ בסיס בלתי מזוהה לתרגומים חדשים."
 
 #: weblate/trans/models/component.py:2738
 msgid "Editing template is not supported with this file format."
-msgstr ""
+msgstr "עריכת תבנית אינה זמינה בתצורת קובץ זו."
 
 #: weblate/trans/models/component.py:2744
 #: weblate/trans/models/component.py:2760
