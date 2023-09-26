@@ -233,7 +233,7 @@ def rename(request, path):
 @require_POST
 def add_category(request, path):
     obj = parse_path(request, path, (Project, Category))
-    if not request.user.has_perm("project.edit", obj):
+    if not request.user.has_perm("project.edit", obj) or not obj.can_add_category:
         raise PermissionDenied
     form = AddCategoryForm(request, obj, request.POST)
     if not form.is_valid():

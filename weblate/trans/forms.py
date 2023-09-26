@@ -1977,6 +1977,7 @@ class AddCategoryForm(SettingsBaseForm):
             self.instance.project = self.parent.project
         else:
             self.instance.project = self.parent
+        super().clean()
 
 
 class CategoryMoveForm(SettingsBaseForm):
