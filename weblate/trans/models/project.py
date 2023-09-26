@@ -584,3 +584,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
     def do_lock(self, user, lock: bool = True, auto: bool = False):
         for component in self.component_set.iterator():
             component.do_lock(user, lock=lock, auto=auto)
+
+    @property
+    def can_add_category(self):
+        return True

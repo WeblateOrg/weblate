@@ -370,7 +370,7 @@ def show_project(request, obj):
             "announcement_form": optional_form(
                 AnnouncementForm, user, "project.edit", obj
             ),
-            "add_form": AddCategoryForm(request, obj),
+            "add_form": AddCategoryForm(request, obj) if obj.can_add_category else None,
             "delete_form": optional_form(
                 ProjectDeleteForm, user, "project.edit", obj, obj=obj
             ),
@@ -442,7 +442,7 @@ def show_category(request, obj):
             "object": obj,
             "path_object": obj,
             "project": obj,
-            "add_form": AddCategoryForm(request, obj),
+            "add_form": AddCategoryForm(request, obj) if obj.can_add_category else None,
             "last_changes": last_changes,
             "last_announcements": last_announcements,
             "language_stats": [stat.obj or stat for stat in language_stats],

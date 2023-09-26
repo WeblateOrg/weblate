@@ -68,7 +68,9 @@
         {% trans "Manage" %} <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="#add-category" data-toggle="tab">{% trans "Add new category" %}</a></li>
+          {% if add_form %}
+            <li><a href="#add-category" data-toggle="tab">{% trans "Add new category" %}</a></li>
+          {% endif %}
           <li><a href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% trans "Add new translation component" %}</a></li>
 
         {% if delete_form or rename_form %}
@@ -174,7 +176,7 @@
 
 
 
-{% if user_can_edit_project %}
+{% if user_can_edit_project and add_form %}
 <div class="tab-pane" id="add-category">
 
 <form method="post" action="{% url 'add-category' path=object.get_url_path %}">

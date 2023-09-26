@@ -90,13 +90,24 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             default=0,
         )
 
-    def clean(self):
-        # Validate maximal nesting depth
-        depth = self._get_childs_depth() if self.pk else 1
+    def _get_parents_depth(self):
+        depth = 0
         current = self
         while current.category:
             depth += 1
             current = current.category
+        return depth
+
+    def _get_category_depth(self):
+        return (self._get_childs_depth() if self.pk else 1) + self._get_parents_depth()
+
+    @property
+    def can_add_category(self):
+        return self._get_parents_depth() + 1 < CATEGORY_DEPTH
+
+    def clean(self):
+        # Validate maximal nesting depth
+        depth = self._get_category_depth()
 
         if depth > CATEGORY_DEPTH:
             raise ValidationError(
