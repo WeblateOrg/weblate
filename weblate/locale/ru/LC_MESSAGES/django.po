@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 14:22+0000\n"
-"PO-Revision-Date: 2023-09-25 08:17+0000\n"
+"PO-Revision-Date: 2023-09-27 05:59+0000\n"
 "Last-Translator: xXx <xxx_xxx_xxxxxxxxx@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
 msgid "None"
-msgstr "Без имени"
+msgstr "Никакой"
 
 #: weblate/accounts/avatar.py:109 weblate/templates/accounts/profile.html:206
 #: weblate/templates/accounts/user.html:22 weblate/templates/base.html:265
@@ -39,11 +39,13 @@ msgstr "Аватар пользователя"
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
-msgstr "Этот адрес эл. почты уже используется. Укажите другой."
+msgstr ""
+"Этот адрес электронной почты уже используется. Пожалуйста, укажите другой "
+"адрес электронной почты ."
 
 #: weblate/accounts/forms.py:99
 msgid "This username is already taken. Please choose another."
-msgstr "Это имя пользователя уже занято, выберите другое."
+msgstr "Это имя пользователя уже занято. Пожалуйста, выберите другое."
 
 #: weblate/accounts/forms.py:110 weblate/accounts/forms.py:853
 #: weblate/auth/models.py:338 weblate/templates/auth/team.html:89
@@ -58,7 +60,7 @@ msgstr "Имя также используется в коммитах сист�
 
 #: weblate/accounts/forms.py:174 weblate/accounts/models.py:593
 msgid "Commit e-mail"
-msgstr "Адрес эл. почты для коммитов"
+msgstr "Фиксация электронной почты"
 
 #: weblate/accounts/forms.py:175
 msgid "Use account e-mail address"
@@ -158,7 +160,7 @@ msgstr "Оставьте пустым, если вы ещё не задали п
 
 #: weblate/accounts/forms.py:571
 msgid "You have entered an invalid password."
-msgstr "Вы ввели недопустимый пароль."
+msgstr "Вы ввели неверный пароль."
 
 #: weblate/accounts/forms.py:585
 msgid "Username or e-mail"
@@ -178,7 +180,7 @@ msgstr "Эта учётная запись неактивна."
 
 #: weblate/accounts/forms.py:706
 msgid "Component wide notifications"
-msgstr "Уведомления по всему компоненту"
+msgstr "Уведомления на уровне компонентов"
 
 #: weblate/accounts/forms.py:711
 msgid "Translation notifications"
@@ -236,12 +238,12 @@ msgstr ""
 #: weblate/accounts/forms.py:784
 #, fuzzy, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr "Вы будете получать уведомление о каждом таком событии в %(проект)."
+msgstr "Вы будете получать уведомление о каждом таком событии в %(проект)ы. ."
 
 #: weblate/accounts/forms.py:787
 #, fuzzy, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr "Вы будете получать уведомление о каждом таком событии в %(компонент)."
+msgstr "Вы будете получать уведомление о каждом таком событии в %(компонент)ы ."
 
 #: weblate/accounts/forms.py:794
 msgid ""
@@ -353,7 +355,7 @@ msgstr "Сброс пароля подтверждён, пароль отклю�
 #: weblate/accounts/models.py:146
 #, fuzzy, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "Настроен вход с помощью {метода} ({имя})."
+msgstr "Настроен вход с использованием {метода} ({имя})."
 
 #: weblate/accounts/models.py:147
 #, fuzzy, python-brace-format
@@ -372,11 +374,12 @@ msgstr "Выполните вход с помощью {метода} ({имя}) 
 
 #: weblate/accounts/models.py:150
 msgid "Somebody attempted to register with your e-mail."
-msgstr "Кто-то пытался зарегистрироваться с вашим адресом эл. почты."
+msgstr "Кто-то попытался зарегистрироваться с помощью вашего e-mail ."
 
 #: weblate/accounts/models.py:152
 msgid "Somebody attempted to register using your e-mail address."
-msgstr "Кто-то пытался зарегистрироваться с вашим адресом эл. почты."
+msgstr ""
+"Кто-то попытался зарегистрироваться, используя ваш адрес электронной почты ."
 
 #: weblate/accounts/models.py:154
 #, fuzzy, python-brace-format
@@ -467,7 +470,7 @@ msgstr ""
 #: weblate/accounts/models.py:304 weblate/templates/accounts/profile.html:291
 #: weblate/templates/accounts/user.html:242
 msgid "Account activity"
-msgstr "Действия с учётной записью"
+msgstr "Активность аккаунта"
 
 #: weblate/accounts/models.py:376
 msgid "Interface Language"
@@ -950,8 +953,8 @@ msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
-"Ваш пробный период начался; создайте свой проект перевода и начните "
-"Weblate’ить!"
+"Ваш пробный период уже запущен: создайте свой проект перевода и начинайте "
+"работать с Weblating!"
 
 #: weblate/accounts/views.py:553 weblate/templates/accounts/hosting.html:65
 #: weblate/templates/accounts/trial.html:7
@@ -1008,7 +1011,8 @@ msgstr "Пожалуйста, проверьте, зарегистрировал
 
 #: weblate/accounts/views.py:1204
 msgid "You can also request a new password, if you have lost your credentials."
-msgstr "Вы также можете запросить новый пароль, если свой потеряли."
+msgstr ""
+"Вы также можете запросить новый пароль, если вы потеряли свои учетные данные."
 
 #: weblate/accounts/views.py:1215
 msgid ""
@@ -1112,8 +1116,8 @@ msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
-"Публикует переводы в сети доставки содержимого (CDN); используется при "
-"локализации JavaScript и HTML."
+"Публикует переводы в сеть доставки контента для использования в локализации "
+"JavaScript или HTML."
 
 #: weblate/addons/cleanup.py:22
 msgid "Cleanup translation files"
@@ -1125,9 +1129,9 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"Обновляет все файлы переводов до соответствия одноязычному базовому файлу. "
-"Для большинства форматов файлов это означает удаление устаревших ключей "
-"переводов, которых больше нет в базовом файле."
+"Обновите все файлы перевода, чтобы они соответствовали моноязычному базовому "
+"файлу. Для большинства форматов файлов это означает удаление устаревших "
+"ключей перевода, которые больше не присутствуют в базовом файле."
 
 #: weblate/addons/cleanup.py:48
 msgid "Remove blank strings"
@@ -1322,9 +1326,9 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
-"Строки завершителя — это строки, похожие на заголовки электронной почты RFC "
-"822, добавляемые в конец сообщения коммита после его части в свободной "
-"форме. К примеру, «Co-authored-by: …»."
+"Строки трейлера это строки, похожие на заголовки электронной почты RFC 822, "
+"расположенные в конце свободной части сообщения фиксации, например, 'Co-"
+"authored-by: ...'."
 
 #: weblate/addons/forms.py:167
 msgid "Commit message"
@@ -1699,7 +1703,7 @@ msgstr "Уплотнение Git-коммитов"
 
 #: weblate/addons/git.py:20
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Уплотняет (squash) Git-коммиты перед отправкой изменений."
+msgstr "Сквош Git-коммитов перед публикацией изменений."
 
 #: weblate/addons/json.py:13
 msgid "Customize JSON output"
@@ -1776,8 +1780,8 @@ msgstr "Настройка вывода в YAML"
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr ""
-"Позволяет подправить поведение вывода в YAML, например, длину строк и "
-"символы перевода строк."
+"Позволяет настроить поведение вывода YAML, например, длину строки или новые "
+"строки."
 
 #: weblate/api/views.py:1708 weblate/auth/models.py:754
 #: weblate/checks/views.py:218 weblate/checks/views.py:225
@@ -2278,7 +2282,7 @@ msgstr "Автоматический перевод"
 #: weblate/auth/data.py:267
 msgctxt "Per-project access-control group"
 msgid "VCS"
-msgstr "СКВ (VCS)"
+msgstr "VCS"
 
 #: weblate/auth/data.py:268
 msgctxt "Per-project access-control group"
