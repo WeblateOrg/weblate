@@ -347,10 +347,7 @@ def show_project(request, obj):
             is_shared=component.is_shared,
         )
 
-    language_stats = sort_unicode(
-        language_stats,
-        lambda x: f"{user.profile.get_translation_order(x)}-{x.language}",
-    )
+    language_stats = sort_unicode(language_stats, user.profile.get_translation_order)
 
     components = prefetch_tasks(all_components)
 
@@ -497,10 +494,7 @@ def show_component(request, obj):
     # Show ghost translations for user languages
     add_ghost_translations(obj, user, translations, GhostTranslation)
 
-    translations = sort_unicode(
-        translations,
-        lambda x: f"{user.profile.get_translation_order(x)}-{x.language}",
-    )
+    translations = sort_unicode(translations, user.profile.get_translation_order)
 
     return render(
         request,
