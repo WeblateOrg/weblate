@@ -1140,7 +1140,7 @@ Projects
 
    .. versionadded:: 5.0
 
-    Returns statistics for a project. See :http:get:`/api/categories/(int:id)/` for field definitions.
+    Returns categories for a project. See :http:get:`/api/categories/(int:id)/` for field definitions.
 
     :param project: Project URL slug
     :type project: string
