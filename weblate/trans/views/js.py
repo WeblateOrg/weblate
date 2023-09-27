@@ -30,10 +30,7 @@ def get_unit_translations(request, unit_id):
                 unit.source_unit.unit_set.exclude(pk=unit.pk)
                 .prefetch()
                 .prefetch_full(),
-                lambda unit: "{}-{}".format(
-                    user.profile.get_translation_order(unit.translation),
-                    unit.translation.language,
-                ),
+                user.profile.get_translation_order,
             ),
             "component": unit.translation.component,
         },
