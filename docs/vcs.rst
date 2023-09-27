@@ -26,7 +26,15 @@ Accessing repositories from Hosted Weblate
 
 For Hosted Weblate there is a dedicated push user registered on GitHub,
 Bitbucket, Codeberg and GitLab (with the username :guilabel:`weblate`, e-mail
-``hosted@weblate.org`` and, named :guilabel:`Weblate push user`). You need to
+``hosted@weblate.org`` and, named :guilabel:`Weblate push user`).
+
+.. hint::
+
+   There might be more Weblate users for other Weblate instances as well. It is
+   recommended to search by e-mail ``hosted@weblate.org`` to get a correct
+   user for Hosted Weblate.
+
+You need to
 add this user as a collaborator and give it appropriate permission to your
 repository (read-only is okay for cloning, write is required for pushing).
 Depending on service and your organization settings, this happens immediately,
