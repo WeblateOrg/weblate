@@ -16,7 +16,8 @@ from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group as DjangoGroup
 from django.db import models
-from django.db.models import Prefetch, Q
+from django.db.models import Prefetch, Q, UniqueConstraint
+from django.db.models.functions import Upper
 from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
 from django.http import Http404
@@ -387,6 +388,10 @@ class User(AbstractBaseUser):
     class Meta:
         verbose_name = "User"
         verbose_name_plural = "Users"
+        constraints = [
+            UniqueConstraint(Upper("username"), name="weblate_auth_user_username_ci"),
+            UniqueConstraint(Upper("email"), name="weblate_auth_user_email_ci"),
+        ]
 
     def __str__(self):
         return self.full_name
