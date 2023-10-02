@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("trans", "0001_squashed_0074_fix_broken_browser_alert"),
+        ("trans", "0001_squashed_weblate_5"),
     ]
 
     operations = [
