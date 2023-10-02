@@ -162,10 +162,10 @@ def generate_ssh_key(request, key_type: str = "rsa"):
             env=get_clean_env(),
         )
     except (subprocess.CalledProcessError, OSError) as exc:
-        messages.error(
-            request,
-            gettext("Could not generate key: %s") % getattr(exc, "output", str(exc)),
-        )
+        error = getattr(exc, "output", "")
+        if not error:
+            error = str(exc)
+        messages.error(request, gettext("Could not generate key: %s") % error)
         return
 
     # Fix key permissions
