@@ -18,11 +18,19 @@ headers or linking to corresponding source files.
     :doc:`../devel/sphinx`,
     `Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_,
     :doc:`tt:formats/po`,
+    :ref:`addon-weblate.gettext.authors`,
     :ref:`addon-weblate.gettext.configure`,
     :ref:`addon-weblate.gettext.customize`,
     :ref:`addon-weblate.gettext.linguas`,
     :ref:`addon-weblate.gettext.mo`,
     :ref:`addon-weblate.gettext.msgmerge`
+
+PO file header
+++++++++++++++
+
+The header of the PO file is automatically maintained by Weblate. Optionally it
+can include :ref:`component-report_source_bugs` and
+:ref:`project-set_language_team`.
 
 .. _mono_gettext:
 

@@ -541,6 +541,9 @@ Source string bug reporting address
 Email address used for reporting upstream bugs. This address will also receive
 notification about any source string comments made in Weblate.
 
+With the :ref:`gettext` format, this address is also saved by Weblate in the
+:mailheader:`Report-Msgid-Bugs-To` header of the file.
+
 .. _component-allow_translation_propagation:
 
 Allow translation propagation
