@@ -2513,12 +2513,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         self.batched_checks = set()
 
     def _invalidate_triger(self):
-        from weblate.trans.tasks import update_component_stats
-
         self._invalidate_scheduled = False
         self.log_info("updating stats caches")
-        self.stats.invalidate(childs=True)
-        update_component_stats.delay(self.pk)
+        self.stats.update_language_stats()
         self.invalidate_glossary_cache()
 
     def invalidate_cache(self):

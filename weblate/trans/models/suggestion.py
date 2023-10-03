@@ -68,6 +68,8 @@ class SuggestionManager(models.Manager):
         if user is not None:
             user.profile.increase_count("suggested")
 
+        unit.invalidate_related_cache()
+
         return suggestion
 
 
@@ -163,8 +165,9 @@ class Suggestion(models.Model, UserDisplayMixin):
         self.delete()
 
     def delete(self, using=None, keep_parents=False):
+        result = super().delete(using=using, keep_parents=keep_parents)
         self.unit.invalidate_related_cache()
-        return super().delete(using=using, keep_parents=keep_parents)
+        return result
 
     def get_num_votes(self):
         """Return number of votes."""

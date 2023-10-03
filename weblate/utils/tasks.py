@@ -20,6 +20,7 @@ from ruamel.yaml import YAML
 import weblate.utils.version
 from weblate.formats.models import FILE_FORMATS
 from weblate.machinery.models import MACHINERY
+from weblate.trans.models import Translation
 from weblate.trans.util import get_clean_env
 from weblate.utils.backup import backup_lock
 from weblate.utils.celery import app
@@ -69,6 +70,12 @@ def settings_backup():
         with open(data_dir("backups", "environment.yml"), "w") as handle:
             yaml = YAML()
             yaml.dump(dict(os.environ), handle)
+
+
+@app.task(trail=False)
+def update_translation_stats_parents(pk: int):
+    translation = Translation.objects.get(pk=pk)
+    translation.stats.update_parents()
 
 
 @app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))

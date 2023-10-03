@@ -2510,7 +2510,8 @@ class TranslationAPITest(APIBaseTest):
                 "total": 4,
             },
         )
-        self.assertEqual(self.component.project.stats.suggestions, 1)
+        project = Project.objects.get(id=self.component.project_id)
+        self.assertEqual(project.stats.suggestions, 1)
         with open(TEST_PO, "rb") as handle:
             response = self.client.put(
                 reverse("api:translation-file", kwargs=self.translation_kwargs),
