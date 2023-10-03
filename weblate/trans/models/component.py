@@ -269,8 +269,13 @@ class ComponentQuerySet(models.QuerySet):
         """Return component for linked repo."""
         if not is_repo_link(val):
             return None
-        project, component = val[10:].split("/", 1)
-        return self.get(slug__iexact=component, project__slug__iexact=project)
+        project, *categories, component = val[10:].split("/")
+        kwargs = {}
+        prefix = ""
+        for category in reversed(categories):
+            kwargs[f"{prefix}category__slug"] = category
+            prefix = f"category__{prefix}"
+        return self.get(slug__iexact=component, project__slug__iexact=project, **kwargs)
 
     def order_project(self):
         """Ordering in global scope by project name."""
@@ -817,7 +822,11 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             # Detect slug changes and rename Git repo
             self.check_rename(old)
             # Rename linked repos
-            if old.slug != self.slug or old.project != self.project:
+            if (
+                old.slug != self.slug
+                or old.project != self.project
+                or old.category != self.category
+            ):
                 old.component_set.update(repo=self.get_repo_link_url())
             if changed_git:
                 self.drop_repository_cache()
@@ -1881,7 +1890,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             return False
 
     def get_repo_link_url(self):
-        return f"weblate://{self.project.slug}/{self.slug}"
+        return "weblate://{}".format("/".join(self.get_url_path()))
 
     @cached_property
     def linked_childs(self):
