@@ -15,21 +15,6 @@ import weblate.trans.fields
 import weblate.utils.fields
 import weblate.utils.validators
 
-CREATE = "CREATE UNIQUE INDEX weblate_auth_user_{0}_ci ON weblate_auth_user(UPPER({0}))"
-DROP = "DROP INDEX weblate_auth_user_{0}_ci"
-
-
-def create_index(apps, schema_editor):
-    if schema_editor.connection.vendor == "postgresql":
-        schema_editor.execute(CREATE.format("username"))
-        schema_editor.execute(CREATE.format("email"))
-
-
-def drop_index(apps, schema_editor):
-    if schema_editor.connection.vendor == "postgresql":
-        schema_editor.execute(DROP.format("username"))
-        schema_editor.execute(DROP.format("email"))
-
 
 class Migration(migrations.Migration):
     replaces = [
@@ -459,6 +444,18 @@ class Migration(migrations.Migration):
                 "unique_together": {("user", "project")},
             },
         ),
-        # TODO: replace with UniqueConstraint(...Upper(...)) see https://github.com/WeblateOrg/weblate/issues/9973
-        migrations.RunPython(create_index, drop_index, elidable=False, atomic=False),
+        migrations.AddConstraint(
+            model_name="user",
+            constraint=models.UniqueConstraint(
+                django.db.models.functions.text.Upper("username"),
+                name="weblate_auth_user_username_ci",
+            ),
+        ),
+        migrations.AddConstraint(
+            model_name="user",
+            constraint=models.UniqueConstraint(
+                django.db.models.functions.text.Upper("email"),
+                name="weblate_auth_user_email_ci",
+            ),
+        ),
     ]
