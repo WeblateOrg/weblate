@@ -17,6 +17,8 @@ Not yet released.
 
 **Compatibility**
 
+* Categories are now included ``weblate://`` repository URLs.
+
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
