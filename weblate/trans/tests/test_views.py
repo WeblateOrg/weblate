@@ -87,7 +87,6 @@ class ViewTestCase(RepoTestCase):
         self.project = self.component.project
         self.translation = self.get_translation()
         # Invalidate caches
-        self.project.stats.invalidate()
         cache.clear()
         # Login
         self.client.login(username="testuser", password="testpassword")

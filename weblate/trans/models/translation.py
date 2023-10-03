@@ -1271,7 +1271,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
     def _invalidate_triger(self):
         self._invalidate_scheduled = False
-        self.stats.invalidate()
+        self.stats.update_stats()
         self.component.invalidate_glossary_cache()
 
     def invalidate_cache(self):
@@ -1312,8 +1312,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 self.component.push_if_needed()
 
         # Delete from the database
-        self.stats.invalidate()
         self.delete()
+        transaction.on_commit(self.stats.update_parents)
         transaction.on_commit(self.component.schedule_update_checks)
 
         # Record change

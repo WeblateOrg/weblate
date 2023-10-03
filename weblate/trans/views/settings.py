@@ -200,11 +200,12 @@ def perform_rename(form_cls, request, obj, perm: str):
         return redirect_param(obj, "#organize")
 
     # Invalidate old stats
-    obj.stats.invalidate()
+    old_stats = list(obj.stats.get_update_objects())
 
     obj = form.save()
+
     # Invalidate new stats
-    obj.stats.invalidate()
+    obj.stats.update_parents(old_stats)
 
     return redirect(obj)
 
