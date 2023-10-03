@@ -150,7 +150,7 @@ language (for example, there is ``de@formal`` and ``de@informal``).
 
 .. seealso::
 
-    `DeepL website <https://www.deepl.com/>`_,
+    `DeepL translator <https://www.deepl.com/translator>`_,
     `DeepL pricing <https://www.deepl.com/pro>`_,
     `DeepL API documentation <https://www.deepl.com/docs-api.html>`_
 
