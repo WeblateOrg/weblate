@@ -18,7 +18,11 @@ class AutoFix:
     def fix_target(self, target, unit):
         """Return a target translation array with a single fix applied."""
         source_strings = unit.get_source_plurals()
-        if len(source_strings) == 1 and len(target) == 1:
+        if unit.translation.component.is_multivalue:
+            results = [
+                self.fix_single_target(text, source_strings[0], unit) for text in target
+            ]
+        elif len(source_strings) == 1 and len(target) == 1:
             results = [self.fix_single_target(target[0], source_strings[0], unit)]
         else:
             source_plural = unit.translation.component.source_language.plural
