@@ -127,7 +127,9 @@ class RedirectMiddleware:
 
     def fixup_component(self, slug, request, project):
         try:
-            component = Component.objects.get(project=project, slug__iexact=slug)
+            component = Component.objects.get(
+                project=project, category=None, slug__iexact=slug
+            )
         except Component.DoesNotExist:
             try:
                 component = (
