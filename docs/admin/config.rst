@@ -1571,7 +1571,7 @@ Sentry DSN to use for :ref:`collecting-errors`.
 
 .. seealso::
 
-   `Django integration for Sentry <https://docs.sentry.io/platforms/python/guides/django/>`_
+   `Django integration for Sentry <https://docs.sentry.io/platforms/python/integrations/django/>`_
 
 .. setting:: SESSION_COOKIE_AGE_AUTHENTICATED
 
