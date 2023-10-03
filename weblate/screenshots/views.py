@@ -366,19 +366,27 @@ def search_source(request, pk):
 
 
 def ocr_get_strings(api, image: str, resolution: int = 72):
-    api.SetImageFile(image)
-    api.SetSourceResolution(resolution)
+    try:
+        api.SetImageFile(image)
+    except RuntimeError:
+        pass
+    else:
+        api.SetSourceResolution(resolution)
 
-    with sentry_sdk.start_span(op="ocr.recognize", description=image):
-        api.Recognize()
+        with sentry_sdk.start_span(op="ocr.recognize", description=image):
+            api.Recognize()
 
-    with sentry_sdk.start_span(op="ocr.iterate", description=image):
-        iterator = api.GetIterator()
-        level = RIL.TEXTLINE
-        for r in iterate_level(iterator, level):
-            with sentry_sdk.start_span(op="ocr.text", description=image):
-                yield r.GetUTF8Text(level)
-    api.Clear()
+        with sentry_sdk.start_span(op="ocr.iterate", description=image):
+            iterator = api.GetIterator()
+            level = RIL.TEXTLINE
+            for r in iterate_level(iterator, level):
+                with sentry_sdk.start_span(op="ocr.text", description=image):
+                    try:
+                        yield r.GetUTF8Text(level)
+                    except RuntimeError:
+                        continue
+    finally:
+        api.Clear()
 
 
 def ocr_extract(api, image: str, strings, resolution: int):
