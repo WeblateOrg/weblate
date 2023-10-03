@@ -136,11 +136,9 @@ def get_view_description(view, html=False):
     description = formatting.dedent(description)
 
     if hasattr(getattr(view, "serializer_class", "None"), "Meta"):
-        doc_url = get_doc_url(
-            "api",
-            f"{view.serializer_class.Meta.model.__name__.lower()}s",
-            user=view.request.user,
-        )
+        model_name = view.serializer_class.Meta.model.__name__.lower()
+        doc_name = "categories" if model_name == "category" else f"{model_name}s"
+        doc_url = get_doc_url("api", doc_name, user=view.request.user)
     else:
         doc_url = get_doc_url("api", user=view.request.user)
 
