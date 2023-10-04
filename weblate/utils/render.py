@@ -121,15 +121,19 @@ def validate_render(value, **kwargs):
 def validate_render_component(value, translation: bool = False, **kwargs):
     from weblate.lang.models import Language
     from weblate.trans.models import Component, Project, Translation
+    from weblate.utils.stats import DummyTranslationStats
 
+    project = Project(name="project", slug="project", id=-1)
+    project.stats = DummyTranslationStats(project)
     component = Component(
-        project=Project(name="project", slug="project", id=-1),
+        project=project,
         name="component",
         slug="component",
         branch="main",
         vcs="git",
         id=-1,
     )
+    component.stats = DummyTranslationStats(component)
     if translation:
         kwargs["translation"] = Translation(
             id=-1,
@@ -137,6 +141,7 @@ def validate_render_component(value, translation: bool = False, **kwargs):
             language_code="xx",
             language=Language(name="xxx", code="xx"),
         )
+        kwargs["translation"].stats = DummyTranslationStats(translation)
     else:
         kwargs["component"] = component
     validate_render(value, **kwargs)
