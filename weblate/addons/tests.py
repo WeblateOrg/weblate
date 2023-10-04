@@ -88,13 +88,29 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
         self.assertEqual(addon.name, "weblate.base.test")
         self.assertEqual(self.component.addon_set.count(), 1)
 
-    def test_add_form(self) -> None:
-        form = TestAddon.get_add_form(None, self.component, data={})
+    def test_create_project_addon(self):
+        self.component.project.acting_user = self.component.acting_user
+        addon = TestAddon.create(project=self.component.project)
+        self.assertEqual(addon.name, "weblate.base.test")
+        self.assertEqual(self.component.project.addon_set.count(), 1)
+        self.assertEqual("Test add-on: Test", str(addon.instance))
+
+    def test_add_form(self):
+        form = TestAddon.get_add_form(None, component=self.component, data={})
         self.assertTrue(form.is_valid())
         form.save()
         self.assertEqual(self.component.addon_set.count(), 1)
 
         addon = self.component.addon_set.all()[0]
+        self.assertEqual(addon.name, "weblate.base.test")
+
+    def test_add_form_project_addon(self):
+        form = TestAddon.get_add_form(None, project=self.component.project, data={})
+        self.assertTrue(form.is_valid())
+        form.save()
+        self.assertEqual(self.component.project.addon_set.count(), 1)
+
+        addon = self.component.project.addon_set.all()[0]
         self.assertEqual(addon.name, "weblate.base.test")
 
 
@@ -646,7 +662,15 @@ class ViewTests(ViewTestCase):
         )
         self.assertContains(response, "1 add-on installed")
 
-    def test_add_invalid(self) -> None:
+    def test_add_simple_project_addon(self):
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_project_path),
+            {"name": "weblate.consistency.languages"},
+            follow=True,
+        )
+        self.assertContains(response, "1 add-on installed")
+
+    def test_add_invalid(self):
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
             {"name": "invalid"},
@@ -796,6 +820,9 @@ class CommandTest(ViewTestCase):
             stderr=output,
         )
         self.assertIn("Successfully installed on Test/Test", output.getvalue())
+        # Test when component is None
+        addon_count = Addon.objects.filter_component(component=None)
+        self.assertEqual(addon_count.count(), 0)
         addon = Addon.objects.get(component=self.component)
         self.assertEqual(addon.configuration, {"width": 77})
         output = StringIO()

@@ -78,7 +78,7 @@ def cdn_parse_html(files: str, selector: str, component_id: int) -> None:
 )
 def language_consistency(addon_id: int, language_ids: list[int]) -> None:
     addon = Addon.objects.get(pk=addon_id)
-    project = addon.component.project
+    project = addon.project
     languages = Language.objects.filter(id__in=language_ids)
     request = HttpRequest()
     request.user = addon.addon.user

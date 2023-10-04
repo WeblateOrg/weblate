@@ -17,7 +17,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 
 from weblate.addons.events import AddonEvent
-from weblate.trans.models import Change, Component, Translation, Unit
+from weblate.trans.models import Alert, Change, Component, Project, Translation, Unit
 from weblate.trans.signals import (
     component_post_update,
     store_post_load,
@@ -43,11 +43,20 @@ ADDONS = ClassLoader("WEBLATE_ADDONS", False)
 
 class AddonQuerySet(models.QuerySet):
     def filter_component(self, component):
+        if component is None:
+            return self.prefetch_related("event_set").filter(
+                Q(component__isnull=True, project__isnull=True)
+            )
         return self.prefetch_related("event_set").filter(
-            (Q(component=component) & Q(project_scope=False))
-            | (Q(component__project=component.project) & Q(project_scope=True))
-            | (Q(component__linked_component=component) & Q(repo_scope=True))
-            | (Q(component=component.linked_component) & Q(repo_scope=True))
+            Q(component=component)
+            | Q(project=component.project)
+            | Q(component__linked_component=component) & Q(repo_scope=True)
+            | Q(component=component.linked_component) & Q(repo_scope=True)
+        )
+
+    def filter_project(self, project):
+        return self.prefetch_related("event_set").filter(
+            Q(project=project) | Q(component__project=project)
         )
 
     def filter_event(self, component, event):
@@ -55,11 +64,13 @@ class AddonQuerySet(models.QuerySet):
 
 
 class Addon(models.Model):
-    component = models.ForeignKey(Component, on_delete=models.deletion.CASCADE)
+    component = models.ForeignKey(
+        Component, on_delete=models.deletion.CASCADE, null=True
+    )
+    project = models.ForeignKey(Project, on_delete=models.deletion.CASCADE, null=True)
     name = models.CharField(max_length=100)
     configuration = models.JSONField(default=dict)
     state = models.JSONField(default=dict)
-    project_scope = models.BooleanField(default=False, db_index=True)
     repo_scope = models.BooleanField(default=False, db_index=True)
 
     objects = AddonQuerySet.as_manager()
@@ -68,22 +79,32 @@ class Addon(models.Model):
         verbose_name = "add-on"
         verbose_name_plural = "add-ons"
 
-    def __str__(self) -> str:
-        return f"{self.addon.verbose}: {self.component}"
+    def __str__(self):
+        return f"{self.addon.verbose}: {self.project or self.component}"
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
         cls = self.addon_class
-        self.project_scope = cls.project_scope
         self.repo_scope = cls.repo_scope
+
+        original_component = None
+        if cls.project_scope:
+            original_component = self.component
+            if original_component:
+                self.project = self.component.project
+            self.component = None
 
         # Reallocate to repository
         if self.repo_scope and self.component.linked_component:
+            original_component = self.component
             self.component = self.component.linked_component
 
         # Clear add-on cache
-        self.component.drop_addons_cache()
+        if self.component:
+            self.component.drop_addons_cache()
+        if original_component:
+            original_component.drop_addons_cache()
 
         # Store history (if not updating state only)
         if update_fields != ["state"]:
@@ -103,10 +124,14 @@ class Addon(models.Model):
     def get_absolute_url(self):
         return reverse("addon-detail", kwargs={"pk": self.pk})
 
-    def store_change(self, action) -> None:
-        self.component.change_set.create(
+    def store_change(self, action):
+        Change.objects.create(
             action=action,
-            user=self.component.acting_user,
+            user=self.component.acting_user
+            if self.component
+            else self.project.acting_user,
+            project=self.project,
+            component=self.component,
             target=self.name,
             details=self.configuration,
         )
@@ -129,7 +154,14 @@ class Addon(models.Model):
         self.store_change(Change.ACTION_ADDON_REMOVE)
         # Delete any addon alerts
         if self.addon.alert:
-            self.component.delete_alert(self.addon.alert)
+            if self.component:
+                self.component.delete_alert(self.addon.alert)
+            elif self.project:
+                Alert.objects.filter(
+                    component__project=self.project,
+                    name=self.addon.alert,
+                ).delete()
+
         result = super().delete(using=using, keep_parents=keep_parents)
         # Trigger post uninstall action
         self.addon.post_uninstall()

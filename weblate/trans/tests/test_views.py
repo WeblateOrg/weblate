@@ -100,6 +100,10 @@ class ViewTestCase(RepoTestCase):
         return {"project": self.project.slug}
 
     @property
+    def kw_project_path(self):
+        return {"path": self.project.get_url_path()}
+
+    @property
     def kw_component(self):
         return {"path": self.component.get_url_path()}
 

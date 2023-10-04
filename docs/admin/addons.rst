@@ -5,7 +5,7 @@ Add-ons
 
 Add-ons provide ways to customize and automate the translation workflow.
 Admins can add and manage add-ons from the :guilabel:`Manage` ↓ :guilabel:`Add-ons` menu of each respective
-translation component.
+translation project or component.
 
 .. hint::
 

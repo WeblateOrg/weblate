@@ -964,7 +964,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 continue
 
             if addon.has_settings():
-                form = addon.get_add_form(None, component, data=configuration)
+                form = addon.get_add_form(None, component=component, data=configuration)
                 if not form.is_valid():
                     component.log_warning(
                         "could not enable addon %s, invalid settings", name
