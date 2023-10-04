@@ -476,12 +476,21 @@ class MachineTranslation:
             plural_count = len(translation_lists)
             translation = result.setdefault("translation", [""] * plural_count)
             quality = result.setdefault("quality", [0] * plural_count)
+            origin = result.setdefault("origin", [None] * plural_count)
             for plural, possible_translations in enumerate(translation_lists):
                 for item in possible_translations:
                     if quality[plural] > item["quality"]:
                         continue
                     quality[plural] = item["quality"]
                     translation[plural] = item["text"]
+                    origin[plural] = self
+
+    @cached_property
+    def user(self):
+        """Weblate user used to track changes by this engine."""
+        from weblate.auth.models import User
+
+        return User.objects.get_or_create_bot("mt", self.get_identifier(), self.name)
 
 
 class InternalMachineTranslation(MachineTranslation):

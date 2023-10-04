@@ -20,14 +20,15 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 class SuggestionManager(models.Manager):
-    def add(self, unit, target, request, vote=False):
+    def add(self, unit, target, request, vote=False, user=None):
         """Create new suggestion for this unit."""
         from weblate.auth.models import get_anonymous
 
         if isinstance(target, (list, tuple)):
             target = join_plural(target)
 
-        user = request.user if request else get_anonymous()
+        if user is None:
+            user = request.user if request else get_anonymous()
 
         if unit.translated and unit.target == target:
             return False
