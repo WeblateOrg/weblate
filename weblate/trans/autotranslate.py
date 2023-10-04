@@ -55,17 +55,17 @@ class AutoTranslate:
                 },
             )
 
-    def update(self, unit, state, target):
+    def update(self, unit, state, target, user=None):
         if isinstance(target, str):
             target = [target]
         if self.mode == "suggest" or any(
             len(item) > unit.get_max_length() for item in target
         ):
-            Suggestion.objects.add(unit, target, None, False)
+            Suggestion.objects.add(unit, target, request=None, vote=False, user=user)
         else:
             unit.is_batch_update = True
             unit.translate(
-                self.user, target, state, Change.ACTION_AUTO, propagate=False
+                user or self.user, target, state, Change.ACTION_AUTO, propagate=False
             )
         self.updated += 1
 
@@ -185,7 +185,7 @@ class AutoTranslate:
                 self.set_progress(pos * num_units + batch_start)
 
         return {
-            unit.id: unit.machinery["translation"]
+            unit.id: unit.machinery
             for unit in units
             if unit.machinery and any(unit.machinery["quality"])
         }
@@ -205,8 +205,14 @@ class AutoTranslate:
                 .prefetch_bulk()
                 .select_for_update()
             ):
-                # Copy translation
-                self.update(unit, self.target_state, translations[unit.pk])
+                translation = translations[unit.pk]
+                # Copy translation, use first origin for user
+                self.update(
+                    unit,
+                    self.target_state,
+                    translation["translation"],
+                    user=translation["origin"][0].user,
+                )
                 self.set_progress(offset + pos)
 
             self.post_process()
