@@ -6,6 +6,7 @@ Not yet released.
 **New features**
 * :ref:`mt-yandex-v2` machine translation service.
 * :ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-translation` are now stored with a dedicated user as an author.
+* :ref:`addons` changes to strings are now stored with a dedicated user as an author.
 
 **Improvements**
 

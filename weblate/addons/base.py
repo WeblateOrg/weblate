@@ -49,6 +49,8 @@ class BaseAddon:
     alert: str | None = None
     trigger_update = False
     stay_on_create = False
+    user_name = ""
+    user_verbose = ""
 
     def __init__(self, storage=None):
         self.instance = storage
@@ -328,6 +330,20 @@ class BaseAddon:
                         "expected results until you update it."
                     ),
                 )
+
+    @cached_property
+    def user(self):
+        """Weblate user used to track changes by this add-on."""
+        from weblate.auth.models import User
+
+        if not self.user_name or not self.user_verbose:
+            raise ValueError(
+                f"{self.__class__.__name__} is missing user_name and user_verbose!"
+            )
+
+        return User.objects.get_or_create_bot(
+            "addon", self.user_name, self.user_verbose
+        )
 
 
 class TestAddon(BaseAddon):
