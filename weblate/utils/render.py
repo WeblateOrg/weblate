@@ -118,7 +118,7 @@ def validate_render(value, **kwargs):
         ) from err
 
 
-def validate_render_component(value, translation=None, **kwargs):
+def validate_render_component(value, translation: bool = False, **kwargs):
     from weblate.lang.models import Language
     from weblate.trans.models import Component, Project, Translation
 
