@@ -25,8 +25,8 @@
 <p>{% blocktrans count count=strings_count context "Label on engage page" %}String{% plural %}Strings{% endblocktrans %}</p>
 </div>
 <div class="col-md-4">
-<strong>{{ full_stats.languages|intcomma }}</strong>
-<p>{% blocktrans count count=full_stats.languages context "Label on engage page" %}Language{% plural %}Languages{% endblocktrans %}</p>
+<strong>{{ languages_count|intcomma }}</strong>
+<p>{% blocktrans count count=languages_count context "Label on engage page" %}Language{% plural %}Languages{% endblocktrans %}</p>
 </div>
 <div class="col-md-4">
 <strong>{% blocktrans context "Translated percents" %}{{percent}}%{% endblocktrans %}</strong>
@@ -42,7 +42,7 @@
   {% comment %}This is split into sentences to allow proper localization of plurals.{% endcomment %}
   {% blocktrans count cnt=strings_count with count=strings_count|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} strings</strong> for translation.{% endblocktrans %}
 
-  {% blocktrans count cnt=languages with count=languages|intcomma %}It is being translated into <strong>{{ count }} language</strong>.{% plural %}It is being translated into <strong>{{ count }} languages</strong>.{% endblocktrans %}
+  {% blocktrans count cnt=languages_count with count=languages_count|intcomma %}It is being translated into <strong>{{ count }} language</strong>.{% plural %}It is being translated into <strong>{{ count }} languages</strong>.{% endblocktrans %}
 
   {% blocktrans %}Overall, these translations are <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
 {% endif %}
