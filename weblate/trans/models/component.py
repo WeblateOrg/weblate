@@ -2019,15 +2019,19 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
             return True
 
-    def handle_parse_error(
-        self, error, translation=None, filename=None, reraise: bool = True
-    ):
-        """Handler for parse errors."""
+    def get_parse_error_message(self, error) -> str:
         error_message = getattr(error, "strerror", "")
         if not error_message:
             error_message = getattr(error, "message", "")
         if not error_message:
             error_message = str(error).replace(self.full_path, "")
+        return error_message
+
+    def handle_parse_error(
+        self, error, translation=None, filename=None, reraise: bool = True
+    ):
+        """Handler for parse errors."""
+        error_message = self.get_parse_error_message(error)
         if filename is None:
             filename = self.template if translation is None else translation.filename
         self.trigger_alert("ParseError", error=error_message, filename=filename)

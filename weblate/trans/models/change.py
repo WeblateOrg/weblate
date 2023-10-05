@@ -292,6 +292,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_REMOVE_CATEGORY = 67
     ACTION_RENAME_CATEGORY = 68
     ACTION_MOVE_CATEGORY = 69
+    ACTION_SAVE_FAILED = 70
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -431,6 +432,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_RENAME_CATEGORY, gettext_lazy("Renamed category")),
         # Translators: Name of event in the history
         (ACTION_MOVE_CATEGORY, gettext_lazy("Moved category")),
+        # Translators: Name of event in the history
+        (ACTION_SAVE_FAILED, gettext_lazy("Could not save string")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {

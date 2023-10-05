@@ -769,10 +769,17 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     pounit.set_explanation(unit.explanation)
                     pounit.set_source_explanation(unit.source_unit.explanation)
                 except Exception as error:
-                    self.component.handle_parse_error(error, self, reraise=False)
                     report_error(
                         cause="Could not update unit", project=self.component.project
                     )
+                    unit.state = STATE_FUZZY
+                    # Use update instead of hitting expensive save()
+                    Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
+                    unit.change_set.create(
+                        action=Change.ACTION_SAVE_FAILED,
+                        target=self.get_parse_error_message(error),
+                    )
+                    clear_pending.append(unit.pk)
                     continue
 
                 updated = True
