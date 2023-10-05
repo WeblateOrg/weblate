@@ -223,12 +223,15 @@ def add_host_key(request, host, port=""):
                             handle.write("\n")
             else:
                 messages.error(
-                    request, gettext("Could not fetch public key for a host!")
+                    request,
+                    gettext("Could not fetch public key for a host: %s") % result.stderr
+                    or result.stdout,
                 )
         except subprocess.CalledProcessError as exc:
             messages.error(
                 request,
-                gettext("Could not get host key: %s") % exc.stderr or exc.stdout,
+                gettext("Could not fetch public key for a host: %s") % exc.stderr
+                or exc.stdout,
             )
         except OSError as exc:
             messages.error(request, gettext("Could not get host key: %s") % str(exc))
