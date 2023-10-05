@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from copy import copy
 from zipfile import BadZipfile
 
@@ -39,6 +41,29 @@ from weblate.utils.views import (
 )
 
 
+def get_reverse_kwargs(
+    obj, lookup_field: tuple[str, ...], strip_parts: int = 0
+) -> dict[str, str]:
+    kwargs = {}
+    was_slug = False
+    for lookup in lookup_field:
+        value = obj
+        for key in lookup.split("__"):
+            # NULL value
+            if value is None:
+                return None
+            previous = value
+            value = getattr(value, key)
+            if key == "slug":
+                if was_slug and previous.category:
+                    value = "%2F".join((*previous.category.get_url_path()[1:], value))
+                was_slug = True
+        if strip_parts:
+            lookup = "__".join(lookup.split("__")[strip_parts:])
+        kwargs[lookup] = value
+    return kwargs
+
+
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
     def __init__(self, strip_parts=0, **kwargs):
         self.strip_parts = strip_parts
@@ -52,28 +77,12 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
         are not configured to correctly match the URL conf.
         """
         # Unsaved objects will not yet have a valid URL.
-        if hasattr(obj, "pk") and obj.pk is None:
+        if not getattr(obj, "pk", None):
             return None
 
-        kwargs = {}
-        was_slug = False
-        for lookup in self.lookup_field:
-            value = obj
-            for key in lookup.split("__"):
-                # NULL value
-                if value is None:
-                    return None
-                previous = value
-                value = getattr(value, key)
-                if key == "slug":
-                    if was_slug and previous.category:
-                        value = "%2F".join(
-                            (*previous.category.get_url_path()[1:], value)
-                        )
-                    was_slug = True
-            if self.strip_parts:
-                lookup = "__".join(lookup.split("__")[self.strip_parts :])
-            kwargs[lookup] = value
+        kwargs = get_reverse_kwargs(obj, self.lookup_field, self.strip_parts)
+        if kwargs is None:
+            return None
         return self.reverse(view_name, kwargs=kwargs, request=request, format=format)
 
 
