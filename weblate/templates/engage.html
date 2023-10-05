@@ -21,8 +21,8 @@
 
 <div class="row bignumbers">
 <div class="col-md-4">
-<strong>{{ full_stats.source_strings|intcomma }}</strong>
-<p>{% blocktrans count count=full_stats.source_strings context "Label on engage page" %}String{% plural %}Strings{% endblocktrans %}</p>
+<strong>{{ strings_count|intcomma }}</strong>
+<p>{% blocktrans count count=strings_count context "Label on engage page" %}String{% plural %}Strings{% endblocktrans %}</p>
 </div>
 <div class="col-md-4">
 <strong>{{ full_stats.languages|intcomma }}</strong>
@@ -37,10 +37,10 @@
 
 <p>
 {% if language %}
-  {% blocktrans count cnt=total with count=total|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} strings</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
+  {% blocktrans count cnt=strings_count with count=strings_count|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} strings</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
 {% else %}
   {% comment %}This is split into sentences to allow proper localization of plurals.{% endcomment %}
-  {% blocktrans count cnt=total with count=total|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} strings</strong> for translation.{% endblocktrans %}
+  {% blocktrans count cnt=strings_count with count=strings_count|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} strings</strong> for translation.{% endblocktrans %}
 
   {% blocktrans count cnt=languages with count=languages|intcomma %}It is being translated into <strong>{{ count }} language</strong>.{% plural %}It is being translated into <strong>{{ count }} languages</strong>.{% endblocktrans %}
 

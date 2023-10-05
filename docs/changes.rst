@@ -14,6 +14,7 @@ Not yet released.
 * Project is added to watched upon accepting an invitation.
 * Configure VCS API credentials as a Python dict from environment variables.
 * Improved accuracy of checks on plural messages.
+* Enage page better shows stats.
 
 **Bug fixes**
 

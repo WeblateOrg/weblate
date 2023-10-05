@@ -135,6 +135,8 @@ def show_engage(request, path):
         project = obj.project
         full_stats = project.stats
         stats_obj = obj.stats
+
+        strings_count = stats_obj.all
     else:
         project = obj
         language = None
@@ -150,6 +152,8 @@ def show_engage(request, path):
             )
         stats_obj = full_stats = obj.stats
 
+        strings_count = stats_obj.source_strings
+
     return render(
         request,
         "engage.html",
@@ -160,7 +164,7 @@ def show_engage(request, path):
             "project": project,
             "full_stats": full_stats,
             "languages": stats_obj.languages,
-            "total": full_stats.source_strings,
+            "strings_count": strings_count,
             "percent": stats_obj.translated_percent,
             "language": language,
             "translate_object": translate_object,
