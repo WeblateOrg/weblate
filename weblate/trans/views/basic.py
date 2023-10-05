@@ -133,7 +133,6 @@ def show_engage(request, path):
         try_set_language(language.code)
         translate_object = obj
         project = obj.project
-        full_stats = project.stats
         stats_obj = obj.stats
 
         strings_count = stats_obj.all
@@ -150,7 +149,7 @@ def show_engage(request, path):
             translate_object = ProjectLanguage(
                 project=project, language=guessed_language
             )
-        stats_obj = full_stats = obj.stats
+        stats_obj = obj.stats
 
         strings_count = stats_obj.source_strings
 
@@ -162,9 +161,8 @@ def show_engage(request, path):
             "object": obj,
             "path_object": obj,
             "project": project,
-            "full_stats": full_stats,
             "strings_count": strings_count,
-            "languages_count": full_stats.languages,
+            "languages_count": project.stats.languages,
             "percent": stats_obj.translated_percent,
             "language": language,
             "translate_object": translate_object,
