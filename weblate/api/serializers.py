@@ -561,8 +561,15 @@ class ComponentSerializer(RemovableSerializer):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        project = None
         if isinstance(self.instance, Component):
-            self.fields["category"].queryset = self.instance.project.category_set.all()
+            project = self.instance.project
+        elif "context" in kwargs and "project" in kwargs["context"]:
+            project = kwargs["context"]["project"]
+
+        if project is not None:
+            self.fields["category"].queryset = project.category_set.all()
 
     def validate_enforced_checks(self, value):
         if not isinstance(value, list):
