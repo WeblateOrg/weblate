@@ -333,6 +333,8 @@ Based on configuration and your translated language, Weblate provides suggestion
 from several machine translation tools and :ref:`translation-memory`.
 All machine translations are available in a single tab of each translation page.
 
+You can also perform a concordance search on the :ref:`translation-memory`.
+
 .. seealso::
 
    You can find the list of supported tools in :ref:`machine-translation-setup`.
