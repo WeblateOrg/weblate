@@ -1205,6 +1205,29 @@ class ProjectAPITest(APIBaseTest):
             },
         )
 
+    def test_create_component_category(self):
+        category = self.component.project.category_set.create(
+            name="Category", slug="category"
+        )
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "repo": self.format_local_path(self.git_repo_path),
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "push": "https://username:password@github.com/example/push.git",
+                "new_lang": "none",
+                "category": reverse("api:category-detail", kwargs={"pk": category.pk}),
+            },
+        )
+        self.assertEqual(Component.objects.count(), 3)
+
     def test_create_component_autoshare(self):
         repo = self.component.repo
         branch = self.component.branch
