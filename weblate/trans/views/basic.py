@@ -137,6 +137,18 @@ def show_engage(request, path):
 
         all_count = strings_count = stats_obj.all
         translated_count = stats_obj.translated
+
+        # Remove glossary from counts
+        glossaries = prefetch_stats(
+            Translation.objects.filter(
+                language=language, component__in=project.glossaries
+            ).prefetch()
+        )
+        for glossary in prefetch_stats(glossaries):
+            all_count -= glossary.stats.all
+            translated_count -= glossary.stats.translated
+            strings_count -= glossary.stats.all
+
     else:
         project = obj
         language = None
@@ -155,6 +167,12 @@ def show_engage(request, path):
         all_count = stats_obj.all
         strings_count = stats_obj.source_strings
         translated_count = stats_obj.translated
+
+        # Remove glossary from counts
+        for glossary in prefetch_stats(project.glossaries):
+            all_count -= glossary.stats.all
+            translated_count -= glossary.stats.translated
+            strings_count -= glossary.stats.source_strings
 
     return render(
         request,
