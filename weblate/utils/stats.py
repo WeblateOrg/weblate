@@ -252,8 +252,11 @@ class BaseStats:
 
     def update_stats(self, update_parents: bool = True):
         self._data = {}
-        self.prefetch_basic()
-        self.save(update_parents=update_parents)
+        if settings.STATS_LAZY:
+            self.save(update_parents=False)
+        else:
+            self.prefetch_basic()
+            self.save(update_parents=update_parents)
 
     def prefetch_basic(self):
         with sentry_sdk.start_span(
