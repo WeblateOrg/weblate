@@ -4,6 +4,7 @@ Weblate 5.1
 Not yet released.
 
 **New features**
+
 * :ref:`mt-yandex-v2` machine translation service.
 * :ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-translation` are now stored with a dedicated user as an author.
 * :ref:`addons` changes to strings are now stored with a dedicated user as an author.
@@ -17,6 +18,11 @@ Not yet released.
 * Enage page better shows stats.
 
 **Bug fixes**
+
+* Improved OCR error handling in :ref:`screenshots`.
+* :ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`.
+* Occasional crash in :ref:`machine-translation` caching.
+* Fixed history listing for entries within a :ref:`category`.
 
 **Compatibility**
 
