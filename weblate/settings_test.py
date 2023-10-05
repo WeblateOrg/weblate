@@ -62,6 +62,9 @@ CELERY_BROKER_URL = "memory://"
 CELERY_TASK_EAGER_PROPAGATES = True
 CELERY_RESULT_BACKEND = None
 
+# Enable lazy stats for testing
+STATS_LAZY = True
+
 VCS_API_DELAY = 0
 
 # Localize CDN addon
