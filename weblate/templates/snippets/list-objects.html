@@ -24,7 +24,7 @@
             {% endif %}
           {% elif add_link == "component-category" %}
             {% if user_can_edit_project %}
-              <a class="btn btn-link btn-sm" id="list-add-button" href="{% url 'create-component' %}?project={{ object.project.pk}}&amp;categry={{ object.pk }}" title="{% trans "Add new translation component" %}">{% icon "plus.svg" %}</a>
+              <a class="btn btn-link btn-sm" id="list-add-button" href="{% url 'create-component' %}?project={{ object.project.pk}}&amp;category={{ object.pk }}" title="{% trans "Add new translation component" %}">{% icon "plus.svg" %}</a>
             {% endif %}
           {% elif add_link == "language" %}
             {% if user_can_add_language %}
