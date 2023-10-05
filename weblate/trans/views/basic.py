@@ -55,7 +55,7 @@ from weblate.trans.models import (
 from weblate.trans.models.component import prefetch_tasks, translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
-from weblate.trans.util import render, sort_unicode
+from weblate.trans.util import render, sort_unicode, translation_percent
 from weblate.utils import messages
 from weblate.utils.ratelimit import reset_rate_limit, session_ratelimit_post
 from weblate.utils.stats import (
@@ -135,7 +135,8 @@ def show_engage(request, path):
         project = obj.project
         stats_obj = obj.stats
 
-        strings_count = stats_obj.all
+        all_count = strings_count = stats_obj.all
+        translated_count = stats_obj.translated
     else:
         project = obj
         language = None
@@ -151,7 +152,9 @@ def show_engage(request, path):
             )
         stats_obj = obj.stats
 
+        all_count = stats_obj.all
         strings_count = stats_obj.source_strings
+        translated_count = stats_obj.translated
 
     return render(
         request,
@@ -163,7 +166,7 @@ def show_engage(request, path):
             "project": project,
             "strings_count": strings_count,
             "languages_count": project.stats.languages,
-            "percent": stats_obj.translated_percent,
+            "percent": translation_percent(translated_count, all_count),
             "language": language,
             "translate_object": translate_object,
             "project_link": format_html(
