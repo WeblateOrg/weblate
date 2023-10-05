@@ -69,6 +69,7 @@ from weblate.api.serializers import (
     UnitWriteSerializer,
     UploadRequestSerializer,
     UserStatisticsSerializer,
+    get_reverse_kwargs,
 )
 from weblate.auth.models import Group, Role, User
 from weblate.checks.models import Check
@@ -283,18 +284,21 @@ class WeblateViewSet(DownloadViewSet):
                 component = obj.component
                 data["url"] = reverse(
                     "api:translation-repository",
-                    kwargs={
-                        "component__project__slug": component.project.slug,
-                        "component__slug": component.slug,
-                        "language__code": obj.language.code,
-                    },
+                    kwargs=get_reverse_kwargs(
+                        obj,
+                        (
+                            "component__project__slug",
+                            "component__slug",
+                            "language__code",
+                        ),
+                    ),
                     request=request,
                 )
             else:
                 component = obj
                 data["url"] = reverse(
                     "api:component-repository",
-                    kwargs={"project__slug": obj.project.slug, "slug": obj.slug},
+                    kwargs=get_reverse_kwargs(obj, ("project__slug", "slug")),
                     request=request,
                 )
 

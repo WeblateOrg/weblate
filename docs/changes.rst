@@ -17,6 +17,7 @@ Not yet released.
 * Improved accuracy of checks on plural messages.
 * Enage page better shows stats.
 * Strings which can not be saved to a file no longer block other strings to be written.
+* Fixed some API URLs for categorized components.
 
 **Bug fixes**
 
