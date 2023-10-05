@@ -2045,10 +2045,18 @@ class StringsdictFormat(DictStoreMixin, TTKitFormat):
 
 class FluentUnit(MonolingualSimpleUnit):
     def set_target(self, target: str | list[str]):
+        old_target = self.unit.target
+        old_source = self.unit.source
         super().set_target(target)
         self.unit.source = target
-        # This triggers serialization discovering any syntax issues
-        self.unit.to_entry()
+        try:
+            # This triggers serialization discovering any syntax issues
+            self.unit.to_entry()
+        except Exception:
+            # Restore previous content
+            self.unit.target = old_target
+            self.unit.source = old_source
+            raise
 
     @cached_property
     def flags(self):
