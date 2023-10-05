@@ -16,6 +16,7 @@ Not yet released.
 * Configure VCS API credentials as a Python dict from environment variables.
 * Improved accuracy of checks on plural messages.
 * Enage page better shows stats.
+* Strings which can not be saved to a file no longer block other strings to be written.
 
 **Bug fixes**
 
