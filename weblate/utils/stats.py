@@ -625,7 +625,7 @@ class LanguageStats(BaseStats):
 
     @cached_property
     def translation_set(self):
-        return prefetch_stats(self._object.translation_set.iterator())
+        return prefetch_stats(self._object.translation_set.all())
 
     def calculate_source(self, stats_obj, stats):
         stats["source_chars"] += stats_obj.all_chars
@@ -675,7 +675,7 @@ class ComponentStats(LanguageStats):
     @cached_property
     def translation_set(self):
         return prefetch_stats(
-            self._object.translation_set.select_related("language").iterator()
+            self._object.translation_set.select_related("language").all()
         )
 
     @cached_property
@@ -725,7 +725,7 @@ class ComponentStats(LanguageStats):
             yield self._object.category.stats
             yield from self._object.category.stats.get_update_objects()
 
-        for clist in self._object.componentlist_set.iterator():
+        for clist in self._object.componentlist_set.all():
             yield clist.stats
             yield from clist.stats.get_update_objects()
 
@@ -1179,7 +1179,7 @@ class GlobalStats(BaseStats):
     def project_set(self):
         from weblate.trans.models import Project
 
-        return prefetch_stats(Project.objects.iterator())
+        return prefetch_stats(Project.objects.all())
 
     def _prefetch_basic(self):
         stats = zero_stats(self.basic_keys)
