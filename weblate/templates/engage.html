@@ -48,7 +48,7 @@
 {% endif %}
 
 {% blocktrans %}If you would like to contribute to translation of {{ project }}, you need to register on this server.{% endblocktrans %}
-{% if object.access_control %}
+{% if project.access_control %}
   {% trans "This translation is open only to a limited group of translators, if you want to contribute please get in touch with the project maintainers." %}
 {% endif %}
 {% if not user.is_authenticated %}
@@ -63,7 +63,7 @@
 {% if translate_object %}
   <a href="{% url 'translate' path=translate_object.get_url_path %}?q=state:%3Ctranslated" class="btn btn-primary btn-lg">{% trans "Translate" context "Call to action on engage page" %}</a>
 {% endif %}
-<a id="engage-project" href="{{ object.get_absolute_url }}#languages" class="btn btn-primary btn-lg">{% trans "View project languages" %}</a>
+<a id="engage-project" href="{{ project.get_absolute_url }}#languages" class="btn btn-primary btn-lg">{% trans "View project languages" %}</a>
 </p>
 
 </div>
