@@ -99,7 +99,7 @@ def list_projects(request):
         {
             "allow_index": True,
             "projects": prefetch_project_flags(
-                prefetch_stats(get_paginator(request, projects))
+                get_paginator(request, prefetch_stats(projects))
             ),
             "title": gettext("Projects"),
             "query_string": query_string,
@@ -349,7 +349,7 @@ def show_project(request, obj):
     all_components = obj.get_child_components_access(
         user, lambda qs: qs.filter(category=None)
     )
-    all_components = prefetch_stats(get_paginator(request, all_components))
+    all_components = get_paginator(request, prefetch_stats(all_components))
     for component in all_components:
         component.is_shared = None if component.project == obj else component.project
 
@@ -429,7 +429,7 @@ def show_category(request, obj):
     last_announcements = all_changes.filter_announcements()[:10].preload()
 
     all_components = obj.get_child_components_access(user)
-    all_components = prefetch_stats(get_paginator(request, all_components))
+    all_components = get_paginator(request, prefetch_stats(all_components))
 
     language_stats = obj.stats.get_language_stats()
     # Show ghost translations for user languages
