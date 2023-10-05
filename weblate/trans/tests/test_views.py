@@ -4,6 +4,8 @@
 
 """Test for translation views."""
 
+from __future__ import annotations
+
 from io import BytesIO
 from urllib.parse import urlsplit
 from zipfile import ZipFile
@@ -17,6 +19,7 @@ from django.test.client import RequestFactory
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils.translation import activate
+from openpyxl import load_workbook
 from PIL import Image
 
 from weblate.auth.models import Group, get_anonymous, setup_project_groups
@@ -202,11 +205,25 @@ class ViewTestCase(RepoTestCase):
         image = Image.open(BytesIO(content))
         self.assertEqual(image.format, "PNG")
 
-    def assert_zip(self, response):
+    def assert_zip(self, response, filename: str | None = None):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "application/zip")
         with ZipFile(BytesIO(response.content), "r") as zipfile:
             self.assertIsNone(zipfile.testzip())
+            if filename is not None:
+                self.assertIn(filename, zipfile.namelist())
+                with zipfile.open(filename) as handle:
+                    return handle.read()
+            return None
+
+    def assert_excel(self, response):
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response["Content-Type"],
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            "; charset=utf-8",
+        )
+        load_workbook(BytesIO(response.content))
 
     def assert_svg(self, response):
         """Check whether response is a SVG image."""

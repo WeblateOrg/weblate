@@ -2003,11 +2003,31 @@ class ComponentAPITest(APIBaseTest):
 
     def test_download_translation_zip_ok(self):
         response = self.do_request(
-            "api:component-download-archive",
+            "api:component-file",
             self.component_kwargs,
             method="get",
             code=200,
             superuser=True,
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+        response = self.do_request(
+            "api:component-file",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+
+    def test_download_translation_zip_converted(self):
+        response = self.do_request(
+            "api:component-file",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip:csv"},
         )
         self.assertEqual(response.headers["content-type"], "application/zip")
 
@@ -2016,7 +2036,7 @@ class ComponentAPITest(APIBaseTest):
         project.access_control = Project.ACCESS_PROTECTED
         project.save(update_fields=["access_control"])
         self.do_request(
-            "api:component-download-archive",
+            "api:component-file",
             self.component_kwargs,
             method="get",
             code=403,

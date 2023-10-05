@@ -4,10 +4,12 @@
 
 """Test for import and export."""
 
+from io import BytesIO
 
 from django.contrib.messages import ERROR
 from django.test import SimpleTestCase
 from django.urls import reverse
+from openpyxl import load_workbook
 
 from weblate.formats.helpers import BytesIOMode
 from weblate.trans.forms import SimpleUploadForm
@@ -492,24 +494,16 @@ class ExportTest(ViewTestCase):
 
     def test_export_xlsx(self):
         response = self.export_format("xlsx")
+        self.assert_excel(response)
         self.assertEqual(
             response["Content-Disposition"], "attachment; filename=test-test-cs.xlsx"
-        )
-        self.assertEqual(
-            response["Content-Type"],
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            "; charset=utf-8",
         )
 
     def test_export_xlsx_empty(self):
         response = self.export_format("xlsx", q="check:inconsistent")
+        self.assert_excel(response)
         self.assertEqual(
             response["Content-Disposition"], "attachment; filename=test-test-cs.xlsx"
-        )
-        self.assertEqual(
-            response["Content-Type"],
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            "; charset=utf-8",
         )
 
     def test_export_invalid(self):
@@ -637,19 +631,19 @@ class ImportSourceBrokenTest(ImportSourceTest):
 class DownloadMultiTest(ViewTestCase):
     def test_component(self):
         response = self.client.get(reverse("download", kwargs=self.kw_component))
-        self.assert_zip(response)
+        self.assert_zip(response, "test/test/po/cs.po")
 
     def test_project(self):
         response = self.client.get(
             reverse("download", kwargs={"path": self.project.get_url_path()})
         )
-        self.assert_zip(response)
+        self.assert_zip(response, "test/test/po/de.po")
 
     def test_project_lang(self):
         response = self.client.get(
             reverse("download", kwargs={"path": (self.project.slug, "-", "cs")})
         )
-        self.assert_zip(response)
+        self.assert_zip(response, "test/test/po/cs.po")
 
     def test_component_list(self):
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
@@ -657,7 +651,20 @@ class DownloadMultiTest(ViewTestCase):
         response = self.client.get(
             reverse("download_component_list", kwargs={"name": "testcl"})
         )
-        self.assert_zip(response)
+        self.assert_zip(response, "test/test/po/cs.po")
+
+    def test_component_csv(self):
+        response = self.client.get(
+            reverse("download", kwargs=self.kw_component), {"format": "zip:csv"}
+        )
+        self.assert_zip(response, "test-test-cs.csv")
+
+    def test_component_xlsx(self):
+        response = self.client.get(
+            reverse("download", kwargs=self.kw_component), {"format": "zip:xlsx"}
+        )
+        content = self.assert_zip(response, "test-test-cs.xlsx")
+        load_workbook(BytesIO(content))
 
 
 EXPECTED_CSV = """"location","source","target","id","fuzzy","context","translator_comments","developer_comments"\r

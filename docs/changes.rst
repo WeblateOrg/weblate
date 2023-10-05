@@ -8,6 +8,7 @@ Not yet released.
 * :ref:`mt-yandex-v2` machine translation service.
 * :ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-translation` are now stored with a dedicated user as an author.
 * :ref:`addons` changes to strings are now stored with a dedicated user as an author.
+* :ref:`download-multi` can now convert file formats.
 
 **Improvements**
 

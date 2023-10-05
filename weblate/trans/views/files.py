@@ -5,10 +5,12 @@
 import os
 
 from django.core.exceptions import PermissionDenied
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.http import require_POST
 
+from weblate.formats.models import EXPORTERS
 from weblate.trans.exceptions import FailedCommitError, PluralFormsMismatchError
 from weblate.trans.forms import DownloadForm, get_upload_form
 from weblate.trans.models import (
@@ -30,9 +32,10 @@ from weblate.utils.views import (
 )
 
 
-def download_multi(translations, commit_objs, fmt=None, name="translations"):
+def download_multi(request, translations, commit_objs, fmt=None, name="translations"):
     filenames = set()
     components = set()
+    extra = {}
 
     for obj in commit_objs:
         try:
@@ -43,25 +46,43 @@ def download_multi(translations, commit_objs, fmt=None, name="translations"):
             else:
                 report_error(cause="Download commit", project=obj.project)
 
-    for translation in translations:
-        # Add translation files
-        if translation.filename:
-            filenames.add(translation.get_filename())
-        # Add templates for all components
-        if translation.component_id in components:
-            continue
-        components.add(translation.component_id)
-        for filename in (
-            translation.component.template,
-            translation.component.new_base,
-            translation.component.intermediate,
-        ):
-            if filename:
-                fullname = os.path.join(translation.component.full_path, filename)
-                if os.path.exists(fullname):
-                    filenames.add(fullname)
+    if fmt and fmt.startswith("zip:"):
+        try:
+            exporter_cls = EXPORTERS[fmt[4:]]
+        except KeyError as exc:
+            raise Http404(f"Conversion to {fmt} is not supported") from exc
 
-    return zip_download(data_dir("vcs"), sorted(filenames), name)
+        for translation in translations:
+            exporter = exporter_cls(translation=translation)
+            filename = exporter.get_filename()
+            if not exporter_cls.supports(translation):
+                extra[
+                    f"{filename}.skipped"
+                ] = "File format is not compatible with this translation"
+            else:
+                units = translation.unit_set.prefetch_full().order_by("position")
+                exporter.add_units(units)
+                extra[filename] = exporter.serialize()
+    else:
+        for translation in translations:
+            # Add translation files
+            if translation.filename:
+                filenames.add(translation.get_filename())
+            # Add templates for all components
+            if translation.component_id in components:
+                continue
+            components.add(translation.component_id)
+            for filename in (
+                translation.component.template,
+                translation.component.new_base,
+                translation.component.intermediate,
+            ):
+                if filename:
+                    fullname = os.path.join(translation.component.full_path, filename)
+                    if os.path.exists(fullname):
+                        filenames.add(fullname)
+
+    return zip_download(data_dir("vcs"), sorted(filenames), name, extra=extra)
 
 
 def download_component_list(request, name):
@@ -70,6 +91,7 @@ def download_component_list(request, name):
         raise PermissionDenied
     components = obj.components.filter_access(request.user)
     return download_multi(
+        request,
         Translation.objects.filter(component__in=components),
         components,
         request.GET.get("format"),
@@ -103,6 +125,7 @@ def download(request, path):
     if isinstance(obj, ProjectLanguage):
         components = obj.project.component_set.filter_access(request.user)
         return download_multi(
+            request,
             Translation.objects.filter(component__in=components, language=obj.language),
             [obj.project],
             request.GET.get("format"),
@@ -111,6 +134,7 @@ def download(request, path):
     if isinstance(obj, Project):
         components = obj.component_set.filter_access(request.user)
         return download_multi(
+            request,
             Translation.objects.filter(component__in=components),
             [obj],
             request.GET.get("format"),
@@ -121,6 +145,7 @@ def download(request, path):
             request.user
         ).filter(pk__in=obj.category.all_component_ids)
         return download_multi(
+            request,
             Translation.objects.filter(component__in=components, language=obj.language),
             [obj.category.project],
             request.GET.get("format"),
@@ -131,6 +156,7 @@ def download(request, path):
             pk__in=obj.all_component_ids
         )
         return download_multi(
+            request,
             Translation.objects.filter(component__in=components),
             [obj.project],
             request.GET.get("format"),
@@ -138,6 +164,7 @@ def download(request, path):
         )
     if isinstance(obj, Component):
         return download_multi(
+            request,
             obj.translation_set.all(),
             [obj],
             request.GET.get("format"),
