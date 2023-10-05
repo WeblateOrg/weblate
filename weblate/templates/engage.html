@@ -63,7 +63,11 @@
 {% if translate_object %}
   <a href="{% url 'translate' path=translate_object.get_url_path %}?q=state:%3Ctranslated" class="btn btn-primary btn-lg">{% trans "Translate" context "Call to action on engage page" %}</a>
 {% endif %}
-<a id="engage-project" href="{{ project.get_absolute_url }}#languages" class="btn btn-primary btn-lg">{% trans "View project languages" %}</a>
+{% if language %}
+  <a id="engage-project" href="{{ object.get_absolute_url }}" class="btn btn-primary btn-lg">{% blocktranslate %}{{ language }} in {{ project }}{% endblocktranslate %}</a>
+{% else %}
+  <a id="engage-project" href="{{ project.get_absolute_url }}#languages" class="btn btn-primary btn-lg">{% trans "View project languages" %}</a>
+{% endif %}
 </p>
 
 </div>
