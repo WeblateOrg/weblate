@@ -350,9 +350,11 @@ class SVGBadgeWidget(SVGWidget):
         )[0].width
 
         # Check for the 'badge_case' URL parameter and customize capitalization accordingly
-        badge_case = response.request.GET.get('badge_case', 'lower')  # Default to lowercase
+        badge_case = response.request.GET.get(
+            "badge_case", "lower"
+        )  # Default to lowercase
 
-        if badge_case == 'upper':
+        if badge_case == "upper":
             translated_text = translated_text.capitalize()
             percent_text = percent_text.capitalize()
 
