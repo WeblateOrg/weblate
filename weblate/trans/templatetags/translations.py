@@ -1118,9 +1118,10 @@ def percent_format(number):
         percent = 99
     else:
         percent = int(number)
-    return pgettext("Translated percents", "%(percent)s%%") % {
-        "percent": intcomma(percent)
-    }
+    return mark_safe(  # noqa: S308
+        pgettext("Translated percents", "%(percent)s%%")
+        % {"percent": intcomma(percent)}
+    )
 
 
 @register.filter
