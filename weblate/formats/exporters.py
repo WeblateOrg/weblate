@@ -58,6 +58,7 @@ class BaseExporter:
         translation=None,
         fieldnames=None,
     ):
+        self.translation = translation
         if translation is not None:
             self.plural = translation.plural
             self.project = translation.component.project
@@ -174,12 +175,20 @@ class BaseExporter:
         if hasattr(output, "markapproved"):
             output.markapproved(unit.approved)
 
-    def get_response(self, filetemplate="{project}-{language}.{extension}"):
-        filename = filetemplate.format(
+    def get_filename(self, filetemplate: str = "{path}.{extension}"):
+        return filetemplate.format(
             project=self.project.slug,
             language=self.language.code,
             extension=self.extension,
+            path="-".join(
+                self.translation.get_url_path()
+                if self.translation
+                else (self.project.slug, self.language.code)
+            ),
         )
+
+    def get_response(self, filetemplate: str = "{path}.{extension}"):
+        filename = self.get_filename(filetemplate)
 
         response = HttpResponse(content_type=f"{self.content_type}; charset=utf-8")
         response["Content-Disposition"] = f"attachment; filename={filename}"

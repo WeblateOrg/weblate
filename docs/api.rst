@@ -1396,7 +1396,7 @@ Components
     :param component: Component URL slug
     :type component: string
 
-    :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip``
+    :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of converters listed at :ref:`download`.
 
 .. http:get::  /api/components/(string:project)/(string:component)/screenshots/
 

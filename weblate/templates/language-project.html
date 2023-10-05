@@ -30,6 +30,9 @@
     </a>
     <ul class="dropdown-menu">
       <li><a href="{% url 'download' path=object.get_url_path %}?format=zip" title="{% trans "Download for offline translation." %}">{% blocktrans %}Download original translation files as ZIP file{% endblocktrans %}</a></li>
+      <li><a href="{% url 'download' path=object.get_url_path %}?format=zip:csv" title="{% trans "Download for offline translation." %}">{% blocktrans %}Download translations as CSV in a ZIP file{% endblocktrans %}</a></li>
+      <li><a href="{% url 'download' path=object.get_url_path %}?format=zip:xliff11" title="{% trans "Download for offline translation." %}">{% blocktrans %}Download translations as XLIFF 1.1 in a ZIP file{% endblocktrans %}</a></li>
+      <li><a href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx" title="{% trans "Download for offline translation." %}">{% blocktrans %}Download translations as XLSX in a ZIP file{% endblocktrans %}</a></li>
     </ul>
   </li>
   <li class="dropdown">

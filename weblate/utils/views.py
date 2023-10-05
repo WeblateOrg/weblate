@@ -396,15 +396,22 @@ def iter_files(filenames):
             yield filename
 
 
-def zip_download(root: str, filenames: list[str], name: str = "translations"):
+def zip_download(
+    root: str,
+    filenames: list[str],
+    name: str = "translations",
+    extra: dict[str, bytes] | None = None,
+):
     response = HttpResponse(content_type="application/zip")
     with ZipFile(response, "w") as zipfile:
         for filename in iter_files(filenames):
             try:
-                with open(filename, "rb") as handle:
-                    zipfile.writestr(os.path.relpath(filename, root), handle.read())
+                zipfile.write(filename, arcname=os.path.relpath(filename, root))
             except FileNotFoundError:
                 continue
+        if extra:
+            for filename, content in extra.items():
+                zipfile.writestr(filename, content)
     response["Content-Disposition"] = f'attachment; filename="{name}.zip"'
     return response
 
@@ -428,9 +435,7 @@ def download_translation_file(
         if query_string:
             units = units.search(query_string)
         exporter.add_units(units)
-        response = exporter.get_response(
-            f"{{project}}-{translation.component.slug}-{{language}}.{{extension}}"
-        )
+        response = exporter.get_response()
     else:
         # Force flushing pending units
         try:

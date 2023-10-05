@@ -51,6 +51,20 @@ are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
    :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`,
    :setting:`WEBLATE_EXPORTERS`
 
+.. _download-multi:
+
+Downloading components, categories or projects
+----------------------------------------------
+
+Translation files for a component, category or project can be downloaded at
+once via the :guilabel:`Files` menu. The download is always served as a ZIP
+file, and you can choose original or converted formats similarly as in
+:ref:`download`.
+
+.. seealso::
+
+   :http:get:`/api/components/(string:project)/(string:component)/file/`
+
 .. _upload:
 
 Uploading translations
