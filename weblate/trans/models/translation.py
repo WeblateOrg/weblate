@@ -226,8 +226,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             # Create change after flags has been updated and cache
             # invalidated, otherwise we might be sending notification
             # with outdated values
-            Change.objects.create(
-                translation=self,
+            self.change_set.create(
                 action=Change.ACTION_NEW_STRING,
                 user=request.user if request else None,
                 author=request.user if request else None,
@@ -703,9 +702,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 extra_context={"translation": self},
             ):
                 self.log_info("committed %s as %s", self.filenames, author)
-                Change.objects.create(
-                    action=Change.ACTION_COMMIT, translation=self, user=user
-                )
+                self.change_set.create(action=Change.ACTION_COMMIT, user=user)
 
             # Store updated hash
             if store_hash:
