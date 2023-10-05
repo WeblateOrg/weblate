@@ -111,7 +111,7 @@ class UserDisplayMixin:
 class CacheKeyMixin:
     @cached_property
     def cache_key(self):
-        return f"{self.__class__.__name__}-{self.pk}"
+        return f"{self.__class__.__name__}-{self.id}"
 
 
 class ComponentCategoryMixin:
