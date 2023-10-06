@@ -354,7 +354,7 @@ class SVGBadgeWidget(SVGWidget):
             "badge_case", "lower"
         )  # Default to lowercase
 
-        if badge_case == "upper":
+        if badge_case == "capitalize":
             translated_text = translated_text.capitalize()
             percent_text = percent_text.capitalize()
 
