@@ -44,6 +44,24 @@
 {% for widget in widget_list %}
 <div class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ widget.name }}">
 
+
+<div>
+  <h3>{% trans "Customizing Badge Text Capitalization" %}</h3>
+
+  <p>
+    {% trans "You can customize the capitalization of the translation badge text by using the 'badge_case' URL parameter. This parameter allows you to control the capitalization format of the badge text." %}
+  </p>
+
+  <p>{% trans "Available Options:" %}</p>
+  <ul>
+    <li><strong>lower:</strong> {% trans "Keep all letters in lowercase." %}</li>
+    <li><strong>capitalize:</strong> {% trans "Capitalize the first letter while keeping the rest of the letters in lowercase." %}</li>
+  </ul>
+
+</div>
+
+
+  
 <p>{% trans "Color variants:" %}</p>
 
 <p>
