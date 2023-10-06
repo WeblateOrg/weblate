@@ -1,13 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 14:22+0000\n"
-"PO-Revision-Date: 2023-06-23 15:39+0000\n"
-"Last-Translator: Lasse Liehu <lasse.liehu@iki.fi>\n"
+"PO-Revision-Date: 2023-10-06 22:11+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -15,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -412,7 +413,7 @@ msgstr "{site_title}:een kutsunut {username}."
 #: weblate/accounts/models.py:160
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "Hyväksytty kutsu käyttäjältä {username}."
 
 #: weblate/accounts/models.py:161
 msgid "Started trial period."
@@ -453,10 +454,9 @@ msgid "Could not sign in using password."
 msgstr "Kirjautuminen salasanalla ei onnistunut."
 
 #: weblate/accounts/models.py:178
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "{site_title}:een kutsunut {username}."
+msgstr "Kutsuttu projektiin {project} käyttäjän {username} toimesta."
 
 #: weblate/accounts/models.py:184
 msgid "To restore access to your account, please reset your password."
@@ -725,10 +725,8 @@ msgstr ""
 "Et voi lisätä käännöksiä koska et ole liittänyt tiliisi sähköpostiosoitetta."
 
 #: weblate/accounts/notifications.py:49
-#, fuzzy
-#| msgid "Notifications"
 msgid "No notification"
-msgstr "Ilmoitukset"
+msgstr "Ei ilmoitusta"
 
 #: weblate/accounts/notifications.py:50
 msgid "Instant notification"
@@ -9039,10 +9037,8 @@ msgid "Add new user"
 msgstr "Lisää uusi käyttäjä"
 
 #: weblate/templates/manage/users.html:41
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Pending invitations"
-msgstr "Lähetä kutsu uudelleen"
+msgstr "Odottavat kutsut"
 
 #: weblate/templates/manage/users.html:77
 #: weblate/templates/trans/project-access.html:103
@@ -9051,17 +9047,13 @@ msgstr "Lähetä kutsu uudelleen"
 
 #: weblate/templates/manage/users.html:81
 #: weblate/templates/trans/project-access.html:107
-#, fuzzy
-#| msgid "Permalink copied to clipboard."
 msgid "Invitation link copied to clipboard."
-msgstr "Ikilinkki kopioitu leikepöydälle."
+msgstr "Kutsulinkki kopioitu leikepöydälle."
 
 #: weblate/templates/manage/users.html:85
 #: weblate/templates/trans/project-access.html:111
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Remove invitation"
-msgstr "Lähetä kutsu uudelleen"
+msgstr "Poista kutsu"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -9945,10 +9937,8 @@ msgid "Create translation"
 msgstr "Luo käännös"
 
 #: weblate/templates/snippets/list-objects.html:174
-#, fuzzy
-#| msgid "Could not add new translation file."
 msgid "Cannot add translation right now"
-msgstr "Käännöstiedoston lisääminen epäonnistui."
+msgstr "Käännöstä ei voi lisätä juuri nyt"
 
 #: weblate/templates/snippets/list-objects.html:178
 #: weblate/templates/translate.html:23 weblate/templates/translation.html:145
@@ -11152,10 +11142,8 @@ msgstr ""
 "sisältö on eri, on suositeltavaa luoda uusi käännöskomponentti."
 
 #: weblate/templates/translate.html:49
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Open in Zen mode"
-msgstr "Muokkaa Zen-tilassa"
+msgstr "Avaa Zen-tilassa"
 
 #: weblate/templates/translate.html:49 weblate/templates/translation.html:192
 #: weblate/templates/zen.html:22
@@ -11421,10 +11409,8 @@ msgid "String age"
 msgstr "Tekstin ikä"
 
 #: weblate/templates/translate.html:690 weblate/utils/views.py:126
-#, fuzzy
-#| msgid "Past due date"
 msgid "Last updated"
-msgstr "Eräpäivä mennyt"
+msgstr "Viimeksi päivitetty"
 
 #: weblate/templates/translate.html:696
 msgid "Source string age"
@@ -11593,27 +11579,21 @@ msgstr ""
 "Tämä viesti näytetään käännössivulla kunnes se vanhenee tai se poistetaan."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:9
-#, fuzzy
 msgid "Invitations"
-msgstr "Projektitiedot"
+msgstr "Kutsut"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:10
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Invitation"
-msgstr "Lähetä kutsu uudelleen"
+msgstr "Kutsu"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:19
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Invitation to %(project_name)s"
-msgstr "Kutsu sivustolle %(site_title)s"
+msgstr "Kutsu projektiin %(project_name)s"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:25
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Accept invitation"
-msgstr "Lähetä kutsu uudelleen"
+msgstr "Hyväksy kutsu"
 
 #: weblate/templates/widgets.html:6
 msgid "Widgets"
@@ -12637,10 +12617,8 @@ msgid "Do not specify both component and project!"
 msgstr "Älä määritä sekä komponenttia että projektia!"
 
 #: weblate/trans/models/category.py:37
-#, fuzzy
-#| msgid "Category"
 msgid "Category name"
-msgstr "Luokka"
+msgstr "Luokan nimi"
 
 #: weblate/trans/models/category.py:39 weblate/trans/models/component.py:330
 #: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:88
@@ -14017,10 +13995,9 @@ msgid "User configured character: {}"
 msgstr "Käyttäjän määrittelemä merkki: {}"
 
 #: weblate/trans/tasks.py:431
-#, fuzzy, python-format
-#| msgid "Automatic translation mode"
+#, python-format
 msgid "Automatic translation failed: %s"
-msgstr "Automaattisen kääntämisen tila"
+msgstr "Automaattinen käännös epäonnistui: %s"
 
 #: weblate/trans/tasks.py:438
 msgid "Automatic translation completed, no strings were updated."
@@ -14552,10 +14529,8 @@ msgid "Posted new comment"
 msgstr "Lähetetty uusi kommentti"
 
 #: weblate/trans/views/edit.py:780
-#, fuzzy
-#| msgid "Failed to add comment!"
 msgid "Could not add comment!"
-msgstr "Kommentin lisääminen epäonnistui!"
+msgstr "Kommentia ei voitu lisätä!"
 
 #: weblate/trans/views/edit.py:799
 msgid "Comment has been deleted."
@@ -14737,10 +14712,8 @@ msgid "The category was scheduled for removal."
 msgstr "Projekti oli ajastettu poistettavaksi."
 
 #: weblate/trans/views/settings.py:163
-#, fuzzy
-#| msgid "Project was scheduled for removal."
 msgid "The project was scheduled for removal."
-msgstr "Projekti oli ajastettu poistettavaksi."
+msgstr "Projekti ajastettiin poistettavaksi."
 
 #: weblate/trans/views/settings.py:169
 msgid "A language in the project was removed."
