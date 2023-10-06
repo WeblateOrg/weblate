@@ -53,6 +53,8 @@ class WeblateConf(AppConf):
     CELERY_TASK_ALWAYS_EAGER = True
     CELERY_BROKER_URL = "memory://"
 
+    STATS_LAZY = False
+
     DATABASE_BACKUP = "plain"
 
     BORG_EXTRA_ARGS = None
