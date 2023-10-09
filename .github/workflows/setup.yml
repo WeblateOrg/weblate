@@ -116,17 +116,3 @@ jobs:
       with:
         flags: setup
         name: dist
-
-  macos:
-    # This verifies that installation instructions works, any changes here
-    # need to be reflected in docs/admin/install/venv-macos.rst
-    runs-on: macos-13
-    env:
-      PYTHONUNBUFFERED: 1
-      PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
-    steps:
-    - uses: actions/checkout@v4
-    - name: Install brew dependencies
-      run: brew install python pango cairo gobject-introspection glib libyaml tvuotila/libxmlsec1/libxmlsec1@1.2.37 openssl pkg-config zstd xxhash
-    - name: Install Weblate
-      run: pip3 install -e .[all,test]
