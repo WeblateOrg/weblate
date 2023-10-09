@@ -133,7 +133,7 @@ def get_filter_choice(project=None):
     )
     if project is not None:
         result.extend(
-            (f"label:{label}", format_lazy(gettext("Labeled: {}"), label))
+            (f"label:{label}", format_lazy(gettext("Labeled: {}"), gettext(label)))
             for label in project.label_set.values_list("name", flat=True)
         )
     return result
