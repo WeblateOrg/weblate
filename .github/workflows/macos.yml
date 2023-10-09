@@ -25,7 +25,9 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
     steps:
     - uses: actions/checkout@v4
+    - name: Install Python
+      run: brew link --overwrite python@3.12
     - name: Install brew dependencies
-      run: brew install python pango cairo gobject-introspection glib libyaml tvuotila/libxmlsec1/libxmlsec1@1.2.37 openssl pkg-config zstd xxhash
+      run: brew install pango cairo gobject-introspection glib libyaml tvuotila/libxmlsec1/libxmlsec1@1.2.37 openssl pkg-config zstd xxhash
     - name: Install Weblate
       run: pip3 install -e .[all,test]
