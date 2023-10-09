@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 16:23+0200\n"
-"PO-Revision-Date: 2023-10-09 07:38+0000\n"
+"PO-Revision-Date: 2023-10-09 18:03+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -3740,7 +3740,7 @@ msgstr "SSH-Schlüsselverwaltung, siehe :ref:`ssh-repos`"
 
 #: ../../admin/admin.rst:19
 msgid "Alerts overview for all components, see :ref:`alerts`"
-msgstr "Übersicht der Alerts für alle Komponenten, siehe :ref:`alerts`"
+msgstr "Übersicht der Warnungen für alle Komponenten, siehe :ref:`alerts`"
 
 #: ../../admin/admin.rst:24
 msgid "The Django admin interface"
@@ -13663,7 +13663,7 @@ msgid ""
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
-"Die Anzahl der Mitarbeitervorgänge wird sowohl für uWSGI als auch Celery "
+"Die Anzahl der Worker-Prozesse wird sowohl für uWSGI als auch Celery "
 "automatisch auf Grundlage der Anzahl der CPUs bestimmt. Dies funktioniert "
 "für die meisten virtuellen Maschinen in der Cloud gut, da sie typischerweise "
 "wenig CPUs und große Speicherkapazitäten besitzen."
@@ -13674,11 +13674,11 @@ msgid ""
 "reducing number of workers:"
 msgstr ""
 "Für den Fall, dass Sie sehr viele CPU-Kerne haben und auf Speicherprobleme "
-"stoßen, versuchen Sie die Zahl der Arbeitskräfte zu reduzieren:"
+"stoßen, versuchen Sie die Zahl der Worker zu reduzieren:"
 
 #: ../../admin/install/docker.rst:353
 msgid "You can also fine-tune individual worker categories:"
-msgstr "Sie können auch individuelle Arbeitskräftekategorien feinabstimmen:"
+msgstr "Sie können auch einzelne Worker-Kategorien feinabstimmen:"
 
 #: ../../admin/install/docker.rst:365
 msgid ""
@@ -15044,7 +15044,7 @@ msgid ""
 "determined automatically on container startup based on number of CPU cores "
 "available."
 msgstr ""
-"Basisanzahl der im Container laufenden Arbeitsprozesse. Wenn sie nicht "
+"Basisanzahl der im Container laufenden Worker-Prozesse. Wenn sie nicht "
 "festgelegt ist, wird sie automatisch beim Start des Containers anhand der "
 "Anzahl der verfügbaren CPU-Kerne ermittelt."
 
@@ -15868,11 +15868,11 @@ msgstr ""
 
 #: ../../admin/install/steps/install-python.rst:10
 msgid "Create the virtualenv for Weblate:"
-msgstr "Erstellen Sie die Virtualenv für Weblate:"
+msgstr "Erstellen Sie die virtualenv für Weblate:"
 
 #: ../../admin/install/steps/install-python.rst:16
 msgid "Activate the virtualenv for Weblate:"
-msgstr "Aktivieren Sie die Virtualenv für Weblate:"
+msgstr "Aktivieren Sie die virtualenv für Weblate:"
 
 #: ../../admin/install/steps/install-python.rst:22
 msgid "Install Weblate including all optional dependencies:"
@@ -15913,9 +15913,9 @@ msgid ""
 "to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgstr ""
 "Im Folgenden wird davon ausgegangen, dass die von Weblate verwendete "
-"Virtualenv aktiviert ist (durch Ausführung von ``. ~/weblate-env/bin/"
-"activate``). Falls nicht, geben Sie den vollständigen Pfad zum Befehl :"
-"command:`weblate` als ``~/weblate-env/bin/weblate`` an."
+"virtualenv aktiviert ist (durch Ausführung von ``. ~/weblate-env/bin/"
+"activate``). Falls nicht, geben Sie den vollständigen Pfad zum Befehl "
+":command:`weblate` als ``~/weblate-env/bin/weblate`` an."
 
 #: ../../admin/install/steps/install-configure.rst:10
 msgid ""
@@ -15982,7 +15982,7 @@ msgid ""
 "Start the Celery workers. This is not necessary for development purposes, "
 "but strongly recommended otherwise. :ref:`celery` has more info:"
 msgstr ""
-"Starten Sie die Celery-Arbeiter. Dies ist für Entwicklungszwecke nicht "
+"Starten Sie die Celery-Worker. Dies ist für Entwicklungszwecke nicht "
 "notwendig, wird aber ansonsten dringend empfohlen. :ref:`celery` hat mehr "
 "Informationen:"
 
@@ -26459,7 +26459,7 @@ msgstr "Unterstützung für projektspezifische Zugriffssteuerungslisten."
 
 #: ../../changes/v1.rst:125
 msgid "Basic code coverage by unit tests."
-msgstr "Grundlegende Codeabdeckung durch Einheitentests."
+msgstr "Grundlegende Codeerfassung durch Einheitentests."
 
 #: ../../changes/v1.rst:128
 msgid "Weblate 1.3"
@@ -35006,6 +35006,9 @@ msgid ""
 "sending out e-mails or component removal does not work, there might a "
 "related issue."
 msgstr ""
+"Viele Dinge werden im Hintergrund von Celery-Workern erledigt. Wenn Dinge "
+"wie das Versenden von E-Mails oder das Entfernen von Komponenten nicht "
+"funktionieren, könnte es ein damit zusammenhängendes Problem geben."
 
 #: ../../contributing/debugging.rst:54
 msgid "Things to check in that case:"
@@ -35020,10 +35023,13 @@ msgid ""
 "Check the Celery queue status, either in :ref:`management-interface`, or "
 "using :wladmin:`celery_queues`"
 msgstr ""
+"Den Status der Celery-Warteschlange überprüfen, entweder in der :ref"
+":`management-interface`, oder mit :wladmin:`celery_queues`"
 
 #: ../../contributing/debugging.rst:58
 msgid "Look in the Celery logs for errors (see :ref:`weblate-logs`)"
 msgstr ""
+"In den Celery-Protokollen nach Fehlern suchen (siehe :ref:`weblate-logs`)"
 
 #: ../../contributing/debugging.rst:63
 msgid "Not receiving e-mails from Weblate"
@@ -35036,6 +35042,11 @@ msgid ""
 "for instructions on how to invoke it in different environments) or by using :"
 "ref:`management-interface` under the :guilabel:`Tools` tab."
 msgstr ""
+"Sie können überprüfen, ob ausgehende E-Mails korrekt funktionieren, indem "
+"Sie den Verwaltungsbefehl :djadmin:`django:sendtestemail` verwenden (siehe "
+":ref:`invoke-manage` für Anweisungen, wie man ihn in verschiedenen "
+"Umgebungen aufruft) oder indem Sie die :ref:`management-interface` unter dem "
+"Reiter :guilabel:`Werkzeuge` verwenden."
 
 #: ../../contributing/debugging.rst:70
 msgid ""
@@ -35044,6 +35055,10 @@ msgid ""
 "however sent in the background and there might be some issues with Celery "
 "involved as well, please see :ref:`debug-tasks` for debugging that."
 msgstr ""
+"Diese senden E-Mails direkt, so dass überprüft wird, ob Ihre SMTP-"
+"Konfiguration korrekt ist (siehe :ref:`out-mail`). Die meisten E-Mails von "
+"Weblate werden jedoch im Hintergrund verschickt und es könnten auch einige "
+"Probleme mit Celery auftreten, siehe :ref:`debug-tasks` zum Debuggen."
 
 #: ../../contributing/debugging.rst:76
 msgid "Analyzing application crashes"
@@ -35056,6 +35071,11 @@ msgid ""
 "which can collect such info automatically. You can find info on how to set "
 "this up in :ref:`collecting-errors`."
 msgstr ""
+"Wenn die Anwendung abstürzt, ist es sinnvoll, so viele Informationen wie "
+"möglich über den Absturz zu sammeln. Dies kann durch die Verwendung von "
+"Drittanbieterdiensten erreicht werden, die solche Informationen automatisch "
+"sammeln können. Informationen zur Einrichtung dieser Dienste finden Sie "
+"unter :ref:`collecting-errors`."
 
 #: ../../contributing/debugging.rst:84
 msgid "Silent failures"
@@ -35068,6 +35088,10 @@ msgid ""
 "Configuring :ref:`collecting-errors` helps you to notice such failures "
 "easier."
 msgstr ""
+"Viele Aufgaben werden zur Hintergrundverarbeitung an Celery ausgelagert. "
+"Fehler werden nicht in der Bedienoberfläche angezeigt, sondern erscheinen in "
+"den Celery-Protokollen. Die Konfiguration von :ref:`collecting-errors` hilft "
+"Ihnen, solche Fehler leichter zu erkennen."
 
 #: ../../contributing/debugging.rst:91
 msgid "Performance issues"
@@ -35079,6 +35103,9 @@ msgid ""
 "logs showing the issue, and anything that might help figuring out where the "
 "code might be improved."
 msgstr ""
+"Falls Weblate in einem bestimmten Szenario schlecht funktioniert, sammeln "
+"Sie bitte die entsprechenden Protokolle, die das Problem zeigen und alles, "
+"was hilft herauszufinden, wo der Code verbessert werden könnte."
 
 #: ../../contributing/debugging.rst:97
 msgid ""
@@ -35087,6 +35114,10 @@ msgid ""
 "`collecting-errors` and get pinpointed and detailed tracebacks in the error "
 "collection tool."
 msgstr ""
+"Falls einige Anfragen zu lange dauern, ohne dass es einen Hinweis darauf "
+"gibt, sollten Sie `dogslow <https://pypi.org/project/dogslow/>`_ zusammen "
+"mit :ref:`collecting-errors` installieren, um gezielte und detaillierte "
+"Rückverfolgungen im Fehlersammlungstool zu erhalten."
 
 #: ../../contributing/debugging.rst:102
 msgid ""
@@ -35316,20 +35347,26 @@ msgid ""
 "easily by clicking the :guilabel:`Edit on GitHub` button in the top-right "
 "corner of the page."
 msgstr ""
+"Sie sind herzlich eingeladen, die Dokumentationsseite Ihrer Wahl zu "
+"verbessern. Klicken Sie dazu einfach auf die Schaltfläche :guilabel:`Edit "
+"this page` in der oberen rechten Ecke der Seite."
 
 #: ../../contributing/index.rst:40
 msgid "Please respect these guidelines while writing:"
-msgstr ""
+msgstr "Bitte beachten Sie diese Richtlinien beim Schreiben:"
 
 #: ../../contributing/index.rst:42
 msgid "Don’t remove part of the documentation if it’s valid."
-msgstr ""
+msgstr "Entfernen Sie keinen gültigen Teil der Dokumentation."
 
 #: ../../contributing/index.rst:43
 msgid ""
 "Use clear and easily-understandable language. You are writing tech docs, not "
 "a poem. Not all docs readers are native speakers, be thoughtful."
 msgstr ""
+"Verwenden Sie eine klare und leicht verständliche Sprache. Sie schreiben "
+"eine technische Dokumentation, kein Gedicht. Nicht alle Leser von "
+"Dokumentationen sind Muttersprachler, seien Sie rücksichtsvoll."
 
 #: ../../contributing/index.rst:45
 msgid ""
@@ -35337,39 +35374,53 @@ msgid ""
 "feature while editing, don’t change its docs before you have the answer. "
 "This means: You change or ask. Don’t do both at the same time."
 msgstr ""
+"Scheuen Sie sich nicht zu fragen, wenn Sie sich nicht sicher sind. Wenn Sie "
+"während dem Bearbeiten eine Frage zu einer Funktion haben, ändern Sie die "
+"Dokumentation nicht, bevor Sie die Antwort haben. Das bedeutet: Entweder Sie "
+"ändern oder Sie fragen. Tun Sie nicht beides gleichzeitig."
 
 #: ../../contributing/index.rst:48
 msgid ""
 "Verify your changes by performing described actions while following the docs."
 msgstr ""
+"Überprüfen Sie Ihre Änderungen, indem Sie die beschriebenen Aktionen "
+"durchführen und dabei die Dokumentation beachten."
 
 #: ../../contributing/index.rst:49
 msgid ""
 "Send PR with changes in small chunks to make it easier and quicker to review "
 "and merge."
 msgstr ""
+"Senden Sie Pull Requests mit Änderungen in kleinen Teilen, damit sie "
+"leichter und schneller überprüft und zusammengeführt werden können."
 
 #: ../../contributing/index.rst:50
 msgid ""
 "If you want to rewrite and change the structure of a big article, do it in "
 "two steps:"
 msgstr ""
+"Wenn Sie einen großen Artikel umschreiben und seine Struktur ändern wollen, "
+"sollten Sie dies in zwei Schritten tun:"
 
 #: ../../contributing/index.rst:52
 msgid "Rewrite"
-msgstr ""
+msgstr "Umschreiben"
 
 #: ../../contributing/index.rst:53
 msgid ""
 "Once the rewrite is reviewed, polished, and merged, change the structure of "
 "the paragraphs in another PR."
 msgstr ""
+"Sobald die Neufassung geprüft, ausgefeilt und zusammengeführt wurde, ändern "
+"Sie die Struktur der Absätze in einem weiteren Pull Request."
 
 #: ../../contributing/index.rst:57
 msgid ""
 "You can `translate the docs <https://hosted.weblate.org/projects/weblate/"
 "documentation/>`_."
 msgstr ""
+"Sie können `die Dokumentation übersetzen <https://hosted.weblate.org/"
+"projects/weblate/documentation/>`_."
 
 #: ../../contributing/index.rst:63
 msgid "Extending built-in language definitions"
@@ -35380,6 +35431,8 @@ msgid ""
 "The language definitions are in the `weblate-language-data repository "
 "<https://github.com/WeblateOrg/language-data/>`_."
 msgstr ""
+"Die Sprachdefinitionen sind im `weblate-language-data-Repository "
+"<https://github.com/WeblateOrg/language-data/>`_ zu finden."
 
 #: ../../contributing/index.rst:68
 msgid ""
@@ -35484,7 +35537,7 @@ msgstr "James Valleroy"
 
 #: ../../../BACKERS.rst:19
 msgid "wallabag.org"
-msgstr ""
+msgstr "wallabag.org"
 
 #: ../../../BACKERS.rst:21
 msgid ""
@@ -35617,7 +35670,7 @@ msgstr "``checks``"
 
 #: ../../contributing/internals.rst:54
 msgid "Translation string :ref:`checks` module."
-msgstr ""
+msgstr "Übersetzungszeichenketten-Modul :ref:`checks`."
 
 #: ../../contributing/internals.rst:56
 msgid "``fonts``"
@@ -35625,7 +35678,7 @@ msgstr "``fonts``"
 
 #: ../../contributing/internals.rst:58
 msgid "Font rendering checks module."
-msgstr ""
+msgstr "Schriftrendering-Überprüfungsmodul."
 
 #: ../../contributing/internals.rst:60
 msgid "``formats``"
@@ -35633,7 +35686,7 @@ msgstr "``formats``"
 
 #: ../../contributing/internals.rst:62
 msgid "File format abstraction layer based on translate-toolkit."
-msgstr ""
+msgstr "Dateiformat-Abstraktionsschicht basierend auf translate-toolkit."
 
 #: ../../contributing/internals.rst:64
 msgid "``gitexport``"
@@ -36761,6 +36814,9 @@ msgid ""
 "labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/good"
 "%20first%20issue>`_."
 msgstr ""
+"Machen Sie sich mit der Codebasis von Weblate vertraut, indem Sie die mit `"
+"good first issue <https://github.com/WeblateOrg/weblate/labels/"
+"good%20first%20issue>`_ gekennzeichneten Fehler ausprobieren."
 
 #: ../../contributing/start.rst:13
 msgid ""
@@ -36768,10 +36824,13 @@ msgid ""
 "announce that in the issue, so that it's clear that somebody is working on "
 "that issue."
 msgstr ""
+"Sie können gerne mit der Arbeit an diesen Themen beginnen, ohne zu fragen. "
+"Kündigen Sie dies einfach im Issue an, damit klar ist, dass jemand an diesem "
+"Problem arbeitet."
 
 #: ../../contributing/start.rst:17
 msgid "Running Weblate locally"
-msgstr ""
+msgstr "Weblate lokal ausführen"
 
 #: ../../contributing/start.rst:19
 msgid ""
@@ -36779,6 +36838,9 @@ msgid ""
 "follow :doc:`../admin/install/source`. It will get you a virtualenv with "
 "editable Weblate sources."
 msgstr ""
+"Der bequemste Weg, um mit der Weblate-Entwicklung zu beginnen, ist, :doc:`../"
+"admin/install/source` zu folgen. Damit erhalten Sie virtualenv mit "
+"editierbaren Weblate-Quellen."
 
 #: ../../contributing/start.rst:23
 msgid "Clone the Weblate source code:"
@@ -36786,30 +36848,34 @@ msgstr "Klonen des Weblate-Quellcodes:"
 
 #: ../../contributing/start.rst:30
 msgid "Create a virtualenv:"
-msgstr "Erstellen Sie eine virtualenv:"
+msgstr "Eine virtualenv erstellen:"
 
 #: ../../contributing/start.rst:37
 msgid ""
 "Install Weblate (for this you need some system dependencies, see :doc:`../"
 "admin/install/source`):"
 msgstr ""
+"Weblate installieren (dazu benötigen Sie einige Systemabhängigkeiten, siehe "
+":doc:`../admin/install/source`):"
 
 #: ../../contributing/start.rst:43
 msgid "Install all dependencies useful for development:"
-msgstr ""
+msgstr "Alle für die Entwicklung nützlichen Abhängigkeiten installieren:"
 
 #: ../../contributing/start.rst:49
 msgid "Start a development server:"
-msgstr ""
+msgstr "Einen Entwicklungsserver starten:"
 
 #: ../../contributing/start.rst:55
 msgid ""
 "Depending on your configuration, you might also want to start Celery workers:"
 msgstr ""
+"Je nach Konfiguration möchten Sie vielleicht auch Celery-Worker starten:"
 
 #: ../../contributing/start.rst:61
 msgid "To run a test (see :ref:`local-tests` for more details):"
 msgstr ""
+"Um einen Test durchzuführen (siehe :ref:`local-tests` für weitere Details):"
 
 #: ../../contributing/start.rst:70
 msgid ":doc:`../admin/install/source`"
@@ -36817,13 +36883,15 @@ msgstr ":doc:`../admin/install/source`"
 
 #: ../../contributing/start.rst:75
 msgid "Running Weblate locally in Docker"
-msgstr ""
+msgstr "Weblate lokal in Docker ausführen"
 
 #: ../../contributing/start.rst:77
 msgid ""
 "If you have Docker and docker-compose-plugin installed, you can spin up the "
 "development environment by simply running:"
 msgstr ""
+"Wenn Sie Docker und docker-compose-plugin installiert haben, können Sie die "
+"Entwicklungsumgebung durch einfaches Ausführen starten:"
 
 #: ../../contributing/start.rst:84
 msgid ""
@@ -36832,12 +36900,18 @@ msgid ""
 "``admin`` as the password. The new installation is empty, so you might want "
 "to continue with :ref:`adding-projects`."
 msgstr ""
+"Es wird ein Entwicklungs-Docker-Image erstellt und gestartet. Weblate läuft "
+"auf <http://127.0.0.1:8080/> und Sie können sich als Benutzer ``admin`` mit "
+"``admin`` als Passwort anmelden. Die neue Installation ist leer, daher "
+"sollten Sie mit :ref:`adding-projects` fortfahren."
 
 #: ../../contributing/start.rst:89
 msgid ""
 "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located "
 "in the :file:`dev-docker` directory."
 msgstr ""
+"Das :file:`Dockerfile` und :file:`docker-compose.yml` hierfür befinden sich "
+"im Verzeichnis :file:`dev-docker`."
 
 #: ../../contributing/start.rst:92
 msgid ""
@@ -36855,14 +36929,17 @@ msgid ""
 "Be careful that your Docker containers are up and running before running the "
 "tests. You can check that by running the ``docker ps`` command."
 msgstr ""
+"Achten Sie darauf, dass Ihre Docker-Container in Betrieb sind, bevor Sie die "
+"Tests ausführen. Sie können dies überprüfen, indem Sie den Befehl ``docker "
+"ps`` ausführen."
 
 #: ../../contributing/start.rst:105
 msgid "To display the logs:"
-msgstr ""
+msgstr "Um die Protokolle anzuzeigen:"
 
 #: ../../contributing/start.rst:111
 msgid "To stop the background containers, run:"
-msgstr ""
+msgstr "Um die Hintergrund-Container zu stoppen, führen Sie dies aus:"
 
 #: ../../contributing/start.rst:117
 msgid ""
@@ -36877,26 +36954,33 @@ msgid ""
 "This is not a suitable setup for production, as it includes several hacks "
 "which are insecure, but they make development easier."
 msgstr ""
+"Dies ist keine geeignete Einrichtung für die Produktion, da es mehrere Hacks "
+"enthält, die unsicher sind, aber sie erleichtern die Entwicklung."
 
 #: ../../contributing/start.rst:126
 msgid "Bootstrapping your devel instance"
-msgstr ""
+msgstr "Bootstrapping Ihrer Entwicklungsinstanz"
 
 #: ../../contributing/start.rst:128
 msgid ""
 "You might want to use :wladmin:`import_demo` to create demo translations "
 "and :wladmin:`createadmin` to make an admin user."
 msgstr ""
+"Sie können :wladmin:`import_demo` verwenden, um Demo-Übersetzungen zu "
+"erstellen und :wladmin:`createadmin`, um einen Admin-Benutzer anzulegen."
 
 #: ../../contributing/start.rst:132
 msgid "Coding Weblate with PyCharm"
-msgstr ""
+msgstr "Weblate mit PyCharm programmieren"
 
 #: ../../contributing/start.rst:134
 msgid ""
 "PyCharm is a known IDE for Python, here are some guidelines to help you set "
 "up your Weblate project in it."
 msgstr ""
+"PyCharm ist eine bekannte Entwicklungsumgebung für Python. Hier sind einige "
+"Richtlinien, die Ihnen helfen, Ihr Weblate-Projekt in dieser IDE "
+"einzurichten."
 
 #: ../../contributing/start.rst:137
 msgid ""
@@ -36904,12 +36988,17 @@ msgid ""
 "open it with PyCharm. Once the IDE is open, the first step is to specify the "
 "interpreter you want to use:"
 msgstr ""
+"Da Sie das GitHub-Repository gerade in einen Ordner geklont haben, öffnen "
+"Sie es einfach mit PyCharm. Sobald die IDE geöffnet ist, besteht der erste "
+"Schritt darin, den Interpreter anzugeben, den Sie verwenden möchten:"
 
 #: ../../contributing/start.rst:143
 msgid ""
 "You can either choose to let PyCharm create the virtualenv for you, or "
 "select an already existing one:"
 msgstr ""
+"Sie können entweder PyCharm die virtualenv für Sie erstellen lassen oder "
+"eine bereits vorhandene auswählen:"
 
 #: ../../contributing/start.rst:148
 msgid ""
@@ -36931,6 +37020,10 @@ msgid ""
 "IDE. For that you need to specify the root path of the Django project and "
 "the path to its settings:"
 msgstr ""
+"Der zweite Schritt besteht darin, die richtigen Informationen zu setzen, um "
+"Django nativ in PyCharm zu verwenden: Die Idee ist, die Einheitentests "
+"sofort in der IDE auslösen zu können. Dazu müssen Sie den Wurzelpfad des "
+"Django-Projekts und den Pfad zu den Einstellungen angeben:"
 
 #: ../../contributing/start.rst:159
 msgid ""
@@ -36951,6 +37044,9 @@ msgid ""
 "able to debug it. This is done by creating a new `Django Server` "
 "configuration:"
 msgstr ""
+"Der letzte Schritt besteht darin, den Server zu starten und Haltepunkte in "
+"den Code zu setzen, um ihn zu debuggen. Dies geschieht durch das Erstellen "
+"einer neuen `Django Server`-Konfiguration:"
 
 #: ../../contributing/start.rst:172
 msgid ""
@@ -36973,6 +37069,9 @@ msgid ""
 "Testsuites exist for most of the current code, increase coverage by adding "
 "testcases for any new functionality, and verify that it works."
 msgstr ""
+"Für den größten Teil des aktuellen Codes gibt es bereits Testsuiten. Erhöhen "
+"Sie die Erfassung, indem Sie Testfälle für neue Funktionen hinzufügen, und "
+"überprüfen Sie, ob diese funktionieren."
 
 #: ../../contributing/tests.rst:10
 msgid "Continuous integration"
@@ -36983,10 +37082,12 @@ msgid ""
 "Current test results can be found on `GitHub Actions`_ and coverage is "
 "reported on `Codecov`_."
 msgstr ""
+"Aktuelle Testergebnisse sind auf `GitHub Actions`_ zu finden und die "
+"Erfassung wird auf `Codecov`_ gemeldet."
 
 #: ../../contributing/tests.rst:18
 msgid "There are several jobs to verify different aspects:"
-msgstr ""
+msgstr "Es gibt mehrere Aufgaben, um verschiedene Aspekte zu überprüfen:"
 
 #: ../../contributing/tests.rst:20
 msgid "Unit tests"
@@ -36994,21 +37095,23 @@ msgstr "Einheitentests"
 
 #: ../../contributing/tests.rst:21
 msgid "Documentation build and external links"
-msgstr ""
+msgstr "Dokumentations-Build und externe Links"
 
 #: ../../contributing/tests.rst:22
 msgid "Migration testing from all supported releases"
-msgstr ""
+msgstr "Migrationstests von allen unterstützten Versionen"
 
 #: ../../contributing/tests.rst:23
 msgid "Code linting"
-msgstr ""
+msgstr "Codeanalyse"
 
 #: ../../contributing/tests.rst:24
 msgid ""
 "Setup verification (ensures that generated dist files do not miss anything "
 "and can be tested)"
 msgstr ""
+"Überprüfung der Einrichtung (stellt sicher, dass die generierten "
+"Distributionsdateien keine Fehler enthalten und getestet werden können)"
 
 #: ../../contributing/tests.rst:26
 msgid ""
@@ -37018,14 +37121,21 @@ msgid ""
 "mostly defining Django settings file to use and database connection. The "
 "example definition of that is in :file:`scripts/test-database.sh`:"
 msgstr ""
+"Die Konfiguration für das CI befindet sich im Verzeichnis :file:`.github/"
+"workflows`. Es verwendet hauptsächlich Hilfsskripte, die im Verzeichnis "
+":file:`ci` gespeichert sind. Die Skripte können auch manuell ausgeführt "
+"werden, benötigen aber mehrere Umgebungsvariablen, die hauptsächlich die zu "
+"verwendende Django-Einstellungsdatei und die Datenbankverbindung definieren. "
+"Die Beispiel-Definition dafür befindet sich in :file:`scripts/test-database."
+"sh`:"
 
 #: ../../contributing/tests.rst:35
 msgid "The simple execution can look like:"
-msgstr ""
+msgstr "Die einfache Ausführung kann wie folgt aussehen:"
 
 #: ../../contributing/tests.rst:47
 msgid "Local testing"
-msgstr ""
+msgstr "Lokale Tests"
 
 #: ../../contributing/tests.rst:49
 msgid "To run a testsuite locally, use:"
@@ -37039,28 +37149,40 @@ msgid ""
 "use ``test_weblate`` database. See :ref:`database-setup` for setup "
 "instructions."
 msgstr ""
+"Sie benötigen einen Datenbankserver (PostgreSQL), der für die Tests "
+"verwendet wird. Standardmäßig erstellt Django eine separate Datenbank, um "
+"Tests mit dem Präfix ``test_`` auszuführen. Falls Ihre Einstellungen also so "
+"konfiguriert sind, dass ``weblate`` verwendet wird, werden die Tests die "
+"Datenbank ``test_weblate`` verwenden. Siehe :ref:`database-setup` für "
+"Anweisungen zur Einrichtung."
 
 #: ../../contributing/tests.rst:63
 msgid ""
 "The :file:`weblate/settings_test.py` is used in CI environment as well (see :"
 "ref:`ci-tests`) and can be tuned using environment variables:"
 msgstr ""
+"Die :file:`weblate/settings_test.py` wird auch in der CI-Umgebung verwendet ("
+"siehe :ref:`ci-tests`) und kann mit Umgebungsvariablen angepasst werden:"
 
 #: ../../contributing/tests.rst:69
 msgid ""
 "Prior to running tests you should collect static files as some tests rely on "
 "them being present:"
 msgstr ""
+"Vor der Durchführung von Tests sollten Sie statische Dateien sammeln, da "
+"einige Tests auf deren Vorhandensein angewiesen sind:"
 
 #: ../../contributing/tests.rst:75
 msgid "You can also specify individual tests to run:"
-msgstr ""
+msgstr "Sie können auch einzelne Tests angeben, die durchgeführt werden sollen:"
 
 #: ../../contributing/tests.rst:83
 msgid ""
 "The tests can also be executed inside developer docker container, see :ref:"
 "`dev-docker`."
 msgstr ""
+"Die Tests können auch innerhalb eines Entwickler-Docker-Containers "
+"ausgeführt werden, siehe :ref:`dev-docker`."
 
 #: ../../contributing/tests.rst:87
 msgid ""
@@ -37080,18 +37202,21 @@ msgid ""
 "given translation component. Guidance on how to address found issues is also "
 "offered."
 msgstr ""
+"Zeigt Fehler in der Weblate-Konfiguration oder im Übersetzungsprojekt für "
+"eine bestimmte Übersetzungskomponente an. Es werden auch Hinweise zur "
+"Behebung der gefundenen Probleme gegeben."
 
 #: ../../devel/alerts.rst:9
 msgid "Currently the following is covered:"
-msgstr ""
+msgstr "Derzeit wird Folgendes abgedeckt:"
 
 #: ../../devel/alerts.rst:11
 msgid "Duplicated source strings in translation files"
-msgstr ""
+msgstr "Doppelte Ausgangszeichenketten in Übersetzungsdateien"
 
 #: ../../devel/alerts.rst:12
 msgid "Duplicated languages within translations"
-msgstr ""
+msgstr "Doppelte Sprachen in Übersetzungen"
 
 #: ../../devel/alerts.rst:13
 msgid "Merge, update, or push failures in the repository"
@@ -37099,7 +37224,7 @@ msgstr "Merge-, Update- oder Push-Fehler im Repository"
 
 #: ../../devel/alerts.rst:14
 msgid "Parse errors in the translation files"
-msgstr ""
+msgstr "Analysefehler in den Übersetzungsdateien"
 
 #: ../../devel/alerts.rst:15
 msgid "Billing limits (see :ref:`billing`)"
@@ -37115,7 +37240,7 @@ msgstr "Fehlende Lizenzen"
 
 #: ../../devel/alerts.rst:18
 msgid "Errors when running add-on (see :doc:`/admin/addons`)"
-msgstr ""
+msgstr "Fehler beim Ausführen von Erweiterungen (siehe :doc:`/admin/addons`)"
 
 #: ../../devel/alerts.rst:19
 msgid "Misconfigured monolingual translation."
@@ -37127,11 +37252,11 @@ msgstr "Defekte :ref:`component`"
 
 #: ../../devel/alerts.rst:21
 msgid "Broken URLs"
-msgstr ""
+msgstr "Fehlerhafte URLs"
 
 #: ../../devel/alerts.rst:22
 msgid "Unused screenshots"
-msgstr "Unbenutzte Bildschirmfotos"
+msgstr "Nicht verwendete Bildschirmfotos"
 
 #: ../../devel/alerts.rst:23
 msgid "Ambiguous language code"
@@ -37139,7 +37264,7 @@ msgstr "Mehrdeutiger Sprachcode"
 
 #: ../../devel/alerts.rst:24
 msgid "Unused new base in component settings"
-msgstr ""
+msgstr "Nicht verwendete neue Basis in den Komponenteneinstellungen"
 
 #: ../../devel/alerts.rst:25
 msgid "Duplicate file mask used for linked components"
@@ -37154,6 +37279,9 @@ msgid ""
 "The alerts are updated daily, or on related change (for example when :ref:"
 "`component` is changed or when repository is updated)."
 msgstr ""
+"Die Warnmeldungen werden täglich oder bei entsprechenden Änderungen "
+"aktualisiert (z. B. wenn eine :ref:`component` geändert oder das Repository "
+"aktualisiert wird)."
 
 #: ../../devel/alerts.rst:31
 msgid ""
@@ -37161,10 +37289,15 @@ msgid ""
 "If it is missing, the component clears all current checks. Alerts can not be "
 "ignored, but will disappear once the underlying problem has been fixed."
 msgstr ""
+"Warnungen werden auf jeder Komponentenseite als :guilabel:`Warnungen` "
+"aufgeführt. Fehlt sie, löscht die Komponente alle laufenden Prüfungen. "
+"Warnungen können nicht ignoriert werden, verschwinden aber, sobald das "
+"zugrunde liegende Problem behoben wurde."
 
 #: ../../devel/alerts.rst:35
 msgid "A component with both duplicated strings and languages looks like this:"
 msgstr ""
+"Eine Komponente mit doppelten Zeichenketten und Sprachen sieht wie folgt aus:"
 
 #: ../../devel/alerts.rst:41
 msgid ":ref:`production-certs`"
@@ -40798,7 +40931,7 @@ msgstr ""
 #: ../../formats/gettext.rst:10
 msgid "Most widely used format for translating libre software."
 msgstr ""
-"Das am weitesten verbreitete Format für die Übersetzung von freier Software."
+"Das am weitesten verbreitete Format für die Übersetzung von Freier Software."
 
 #: ../../formats/gettext.rst:12
 msgid ""
