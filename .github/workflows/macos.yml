@@ -27,7 +27,7 @@ jobs:
     - uses: actions/checkout@v4
     - run: brew update
     - name: Install Python
-      run: brew link --overwrite python@3.12
+      run: brew link --overwrite python
     - name: Install brew dependencies
       run: brew install pango cairo gobject-introspection glib libyaml tvuotila/libxmlsec1/libxmlsec1@1.2.37 openssl pkg-config zstd xxhash
     - name: Install Weblate
