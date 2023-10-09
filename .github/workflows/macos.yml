@@ -25,6 +25,7 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
     steps:
     - uses: actions/checkout@v4
+    - run: brew update
     - name: Install Python
       run: brew link --overwrite python@3.12
     - name: Install brew dependencies
