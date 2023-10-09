@@ -1640,7 +1640,9 @@ class Unit(models.Model, LoggerMixin):
 
         if self.is_source:
             return self.labels.all()
-        return Label.objects.filter(unit__id__in=(self.id, self.source_unit_id))
+        return Label.objects.filter(
+            unit__id__in=(self.id, self.source_unit_id)
+        ).distinct()
 
     def get_flag_actions(self):
         flags = self.all_flags
