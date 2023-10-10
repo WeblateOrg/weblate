@@ -348,6 +348,15 @@ class SVGBadgeWidget(SVGWidget):
         percent_width = render_size(
             "Kurinto Sans", Pango.Weight.NORMAL, 11, 0, f"  {percent_text}  "
         )[0].width
+        
+        # Check for the 'badge_case' URL parameter and customize capitalization accordingly
+        badge_case = response.request.GET.get(
+            "badge_case", "lower"
+        )  # Default to lowercase
+
+        if badge_case == "capitalize":
+            translated_text = translated_text.capitalize()
+            percent_text = percent_text.capitalize()
 
         if self.percent >= 90:
             color = "#4c1"
@@ -410,6 +419,7 @@ class MultiLanguageWidget(SVGWidget):
                     + 10
                 ),
             )
+            
             project_language = ProjectLanguage(self.obj, language)
             translations.append(
                 (

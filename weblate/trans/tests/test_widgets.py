@@ -82,6 +82,41 @@ class WidgetsRenderTest(FixtureTestCase, metaclass=WidgetsMeta):
         )
 
         self.assert_widget(widget, response)
+        
+    def test_widget_badge_case(self, widget, color):
+        # Test badge text capitalization customization
+        badge_case_lower = "lower"
+        badge_case_capitalize = "capitalize"
+
+        # Test with lowercase badge text (default)
+        response_lower = self.client.get(
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": self.project.get_url_path(),
+                    "widget": widget,
+                    "color": color,
+                    "extension": WIDGETS[widget].extension,
+                    "badge_case": badge_case_lower,
+                },
+            )
+        )
+        self.assert_widget(widget, response_lower)
+
+        # Test with capitalized badge text
+        response_capitalize = self.client.get(
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": self.project.get_url_path(),
+                    "widget": widget,
+                    "color": color,
+                    "extension": WIDGETS[widget].extension,
+                    "badge_case": badge_case_capitalize,
+                },
+            )
+        )
+        self.assert_widget(widget, response_capitalize)
 
 
 class WidgetsPercentRenderTest(WidgetsRenderTest):
