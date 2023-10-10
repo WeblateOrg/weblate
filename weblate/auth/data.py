@@ -218,6 +218,7 @@ ROLES = (
     ),
     (pgettext_noop("Access-control role", "Manage repository"), filter_perms("vcs.")),
     (pgettext_noop("Access-control role", "Billing"), filter_perms("billing.")),
+    (pgettext_noop("Access-control role", "Add new projects"), {"project.add"}),
 )
 
 # Default set of roles for groups
@@ -241,6 +242,11 @@ GROUPS = (
     (
         pgettext_noop("Access-control group", "Managers"),
         ("Administration",),
+        SELECTION_ALL,
+    ),
+    (
+        pgettext_noop("Access-control group", "Project creators"),
+        ("Add new projects",),
         SELECTION_ALL,
     ),
 )
