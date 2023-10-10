@@ -43,6 +43,11 @@ permission, and if your instance uses billing (e.g. like
 https://hosted.weblate.org/ see :ref:`billing`), you can also create those
 based on your plans allowance from the user account that manages billing.
 
+.. hint::
+
+   To grant every user permission to create new projects create new
+   :ref:`autoteam` for the :guilabel:`Project creators` team.
+
 You can view your current billing plan on a separate page:
 
 .. image:: /screenshots/user-billing.webp
