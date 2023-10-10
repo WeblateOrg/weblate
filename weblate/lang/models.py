@@ -33,14 +33,13 @@ from weblate.logger import LOGGER
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin
 from weblate.trans.util import sort_objects, sort_unicode
-from weblate.utils.templatetags.icons import icon
 from weblate.utils.validators import validate_plural_formula
 
 PLURAL_RE = re.compile(
     r"\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)"
 )
 PLURAL_TITLE = """
-{name} <span title="{examples}">{icon}</span>
+{name} <span class="text-muted" title="{title}">({examples})</span>
 """
 COPY_RE = re.compile(r"\([0-9]+\)")
 KNOWN_SUFFIXES = {"hant", "hans", "latn", "cyrl", "shaw"}
@@ -830,6 +829,9 @@ class Plural(models.Model):
             if len(result[ret]) >= 10:
                 continue
             result[ret].append(str(i))
+        for example in result.values():
+            if len(example) >= 10:
+                example.append("…")
         return result
 
     @staticmethod
@@ -873,11 +875,8 @@ class Plural(models.Model):
         return format_html(
             PLURAL_TITLE,
             name=self.get_plural_name(idx),
-            icon=icon("info.svg"),
-            # Translators: Label for plurals with example counts
-            examples=gettext("For example: {0}").format(
-                ", ".join(self.examples.get(idx, []))
-            ),
+            examples=", ".join(self.examples.get(idx, [])),
+            title=gettext("Example counts for this plural form."),
         )
 
     def get_plural_name(self, idx):
