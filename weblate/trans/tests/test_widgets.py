@@ -82,7 +82,7 @@ class WidgetsRenderTest(FixtureTestCase, metaclass=WidgetsMeta):
         )
 
         self.assert_widget(widget, response)
-        
+
     def test_widget_badge_case(self, widget, color):
         # Test badge text capitalization customization
         badge_case_lower = "lower"
