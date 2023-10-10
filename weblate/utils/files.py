@@ -37,6 +37,7 @@ def remove_readonly(func, path, excinfo):
 
 
 def remove_tree(path: str, ignore_errors: bool = False):
+    # TODO: switch to onexc with Python >= 3.12
     shutil.rmtree(path, ignore_errors=ignore_errors, onerror=remove_readonly)
 
 
