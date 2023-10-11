@@ -187,7 +187,7 @@ class Suggestion(models.Model, UserDisplayMixin):
             vote.save()
 
         # Automatic accepting
-        required_votes = self.unit.translation.component.suggestion_autoaccept
+        required_votes = self.unit.translation.suggestion_autoaccept
         if required_votes and self.get_num_votes() >= required_votes:
             self.accept(request, "suggestion.vote")
 

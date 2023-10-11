@@ -176,8 +176,8 @@ def check_can_edit(user, permission, obj, is_vote=False):
     if (
         not is_vote
         and translation
-        and component.suggestion_voting
-        and component.suggestion_autoaccept > 0
+        and translation.suggestion_voting
+        and translation.suggestion_autoaccept > 0
         and not check_permission(user, "unit.override", obj)
     ):
         return Denied(
@@ -336,7 +336,7 @@ def check_suggestion_vote(user, permission, obj):
 def check_suggestion_add(user, permission, obj):
     if isinstance(obj, Unit):
         obj = obj.translation
-    if not obj.component.enable_suggestions or obj.is_readonly:
+    if not obj.enable_suggestions or obj.is_readonly:
         return False
     # Check contributor agreement
     if obj.component.agreement and not ContributorAgreement.objects.has_agreed(

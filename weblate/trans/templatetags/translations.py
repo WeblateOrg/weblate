@@ -1249,3 +1249,20 @@ def path_object_breadcrumbs(path_object, flags: bool = True):
 @register.simple_tag
 def get_projectlanguage(project, language):
     return ProjectLanguage(project=project, language=language)
+
+
+@register.simple_tag
+def get_workflow_flags(translation, component):
+    if translation:
+        return {
+            "suggestion_voting": translation.suggestion_voting,
+            "suggestion_autoaccept": translation.suggestion_autoaccept,
+            "enable_suggestions": translation.enable_suggestions,
+            "translation_review": translation.enable_review,
+        }
+    return {
+        "suggestion_voting": component.suggestion_voting,
+        "suggestion_autoaccept": component.suggestion_autoaccept,
+        "enable_suggestions": component.enable_suggestions,
+        "translation_review": component.project.translation_review,
+    }
