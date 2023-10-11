@@ -116,8 +116,9 @@ def daily_addons():
 
 
 @app.task(trail=False)
-def postconfigure_addon(addon_id: int):
-    addon = Addon.objects.get(pk=addon_id)
+def postconfigure_addon(addon_id: int, addon=None):
+    if addon is None:
+        addon = Addon.objects.get(pk=addon_id)
     addon.addon.post_configure_run()
 
 

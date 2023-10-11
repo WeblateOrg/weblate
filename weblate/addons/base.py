@@ -9,6 +9,7 @@ import subprocess
 from contextlib import suppress
 from itertools import chain
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
@@ -108,9 +109,9 @@ class BaseAddon:
     def get_ui_form(self):
         return self.get_settings_form(None)
 
-    def configure(self, settings):
+    def configure(self, configuration):
         """Save configuration."""
-        self.instance.configuration = settings
+        self.instance.configuration = configuration
         self.instance.save()
         self.post_configure()
 
@@ -122,9 +123,10 @@ class BaseAddon:
         self.instance.configure_events(self.events)
 
         if run:
-            postconfigure_addon.delay(self.instance.pk)
-            # Flush cache in case this was eager mode
-            component.repository.clean_revision_cache()
+            if settings.CELERY_TASK_ALWAYS_EAGER:
+                postconfigure_addon(self.instance.pk, self.instance)
+            else:
+                postconfigure_addon.delay(self.instance.pk, self.instance)
 
     def post_configure_run(self):
         # Trigger post events to ensure direct processing
