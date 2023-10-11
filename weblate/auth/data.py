@@ -132,7 +132,7 @@ GLOBAL_PERMISSIONS = (
     # Translators: Permission name
     ("announcement.edit", gettext_noop("Manage announcements")),
     # Translators: Permission name
-    ("memory.edit", gettext_noop("Manage translation memory")),
+    ("memory.manage", gettext_noop("Manage translation memory")),
     # Translators: Permission name
     ("machinery.edit", gettext_noop("Manage machinery")),
     # Translators: Permission name

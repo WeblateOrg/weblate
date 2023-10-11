@@ -475,7 +475,7 @@ def check_memory_perms(user, permission, memory):
         if memory.user_id == user.id:
             return True
         if memory.project is None:
-            return user.is_superuser
+            return check_global_permission(user, "memory.manage", None)
         project = memory.project
     else:
         project = memory

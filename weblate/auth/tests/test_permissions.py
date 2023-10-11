@@ -7,7 +7,12 @@ from datetime import timedelta
 from django.test.utils import modify_settings, override_settings
 from django.utils import timezone
 
-from weblate.auth.data import SELECTION_ALL_PROTECTED, SELECTION_ALL_PUBLIC
+from weblate.auth.data import (
+    GLOBAL_PERM_NAMES,
+    PERMISSION_NAMES,
+    SELECTION_ALL_PROTECTED,
+    SELECTION_ALL_PUBLIC,
+)
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.trans.models import Comment, Project
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -23,6 +28,9 @@ class PermissionsTest(FixtureTestCase):
             "super", "super@example.com", is_superuser=True
         )
         self.project.add_user(self.admin, "Administration")
+
+    def test_permission_overlap(self):
+        self.assertEqual(PERMISSION_NAMES & GLOBAL_PERM_NAMES, set())
 
     def test_admin_perm(self):
         self.assertTrue(self.superuser.has_perm("upload.authorship", self.project))

@@ -27,6 +27,7 @@ Not yet released.
 * :ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`.
 * Occasional crash in :ref:`machine-translation` caching.
 * Fixed history listing for entries within a :ref:`category`.
+* Fixed editing :guilabel:`Administration` team.
 
 **Compatibility**
 
