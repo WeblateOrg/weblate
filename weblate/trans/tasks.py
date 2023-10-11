@@ -345,8 +345,8 @@ def category_removal(pk, uid):
         return
     for child in category.category_set.all():
         category_removal(child.pk, uid)
-    for component in category.component_set.all():
-        component_removal(component.pk, uid)
+    for component_id in category.component_set.values_list("id", flat=True):
+        component_removal(component_id, uid)
     Change.objects.create(
         project=category.project,
         action=Change.ACTION_REMOVE_CATEGORY,
