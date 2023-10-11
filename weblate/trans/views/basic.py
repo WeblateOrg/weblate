@@ -238,11 +238,14 @@ def show_project_language(request, obj):
     # Add ghost translations
     if user.is_authenticated:
         existing = {translation.component.slug for translation in translations}
-        for component in project_object.child_components:
-            if component.slug in existing:
-                continue
-            if component.can_add_new_language(user, fast=True):
-                translations.append(GhostTranslation(component, language_object))
+        missing = project_object.get_child_components_filter(
+            lambda qs: qs.exclude(slug__in=existing)
+        )
+        translations.extend(
+            GhostTranslation(component, language_object)
+            for component in missing
+            if component.can_add_new_language(user, fast=True)
+        )
 
     return render(
         request,
@@ -296,11 +299,12 @@ def show_category_language(request, obj):
     # Add ghost translations
     if user.is_authenticated:
         existing = {translation.component.slug for translation in translations}
-        for component in category_object.component_set.all():
-            if component.slug in existing:
-                continue
-            if component.can_add_new_language(user, fast=True):
-                translations.append(GhostTranslation(component, language_object))
+        missing = category_object.component_set.exclude(slug__in=existing)
+        translations.extend(
+            GhostTranslation(component, language_object)
+            for component in missing
+            if component.can_add_new_language(user, fast=True)
+        )
 
     return render(
         request,
