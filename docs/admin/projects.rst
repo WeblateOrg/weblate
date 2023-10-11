@@ -481,7 +481,14 @@ Base file containing string definitions for :ref:`monolingual`.
 Edit base file
 ++++++++++++++
 
-Whether to allow editing the base file for :ref:`monolingual`.
+Whether to allow editing strings in the :ref:`component-template`.
+
+.. seealso::
+
+   :ref:`bimono`,
+   :ref:`monolingual`,
+   :ref:`faq-duplicate-files`,
+   :ref:`component-manage_units`
 
 .. _component-intermediate:
 
@@ -675,6 +682,11 @@ it does not enforce the strings in all translations to be consistent.
 For monolingual formats, the strings are managed only on source language and
 are automatically added or removed in the translations. The strings appear in
 the translation files once they are translated.
+
+.. hint::
+
+   You might want to turn on :ref:`component-edit_template` together with
+   :guilabel:`Manage strings` for monolingual formats.
 
 .. seealso::
 
