@@ -507,7 +507,7 @@ class User(AbstractBaseUser):
         """Permission check."""
         # Weblate global scope permissions
         if perm in GLOBAL_PERM_NAMES:
-            return check_global_permission(self, perm, obj)
+            return check_global_permission(self, perm)
 
         # Compatibility API for admin interface
         if is_django_permission(perm):

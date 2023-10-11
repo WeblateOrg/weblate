@@ -47,7 +47,7 @@ def register_perm(*perms):
     return wrap_perm
 
 
-def check_global_permission(user, permission, obj):
+def check_global_permission(user, permission):
     """Generic permission check for base classes."""
     if user.is_superuser:
         return True
@@ -413,7 +413,7 @@ def check_repository_status(user, permission, obj):
 
 @register_perm("meta:team.edit")
 def check_team_edit(user, permission, obj):
-    return check_global_permission(user, "group.edit", obj) or (
+    return check_global_permission(user, "group.edit") or (
         obj.defining_project
         and check_permission(user, "project.permissions", obj.defining_project)
     )
@@ -475,7 +475,7 @@ def check_memory_perms(user, permission, memory):
         if memory.user_id == user.id:
             return True
         if memory.project is None:
-            return check_global_permission(user, "memory.manage", None)
+            return check_global_permission(user, "memory.manage")
         project = memory.project
     else:
         project = memory
