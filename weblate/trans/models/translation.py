@@ -835,6 +835,18 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         project = self.component.project
         return project.source_review if self.is_source else project.translation_review
 
+    @property
+    def enable_suggestions(self):
+        return self.component.enable_suggestions
+
+    @property
+    def suggestion_voting(self):
+        return self.component.suggestion_voting
+
+    @property
+    def suggestion_autoaccept(self):
+        return self.component.suggestion_autoaccept
+
     @cached_property
     def list_translation_checks(self):
         """Return list of failing checks on current translation."""
