@@ -433,12 +433,14 @@ def format_source_string(
 def format_language_string(
     value: str,
     translation,
+    diff=None,
 ):
     """Formats simple string as in the language."""
     return format_translation(
         plurals=split_plural(value),
         language=translation.language,
         plural=translation.plural,
+        diff=diff,
     )
 
 

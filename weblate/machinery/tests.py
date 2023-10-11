@@ -1481,7 +1481,8 @@ class ViewsTest(FixtureTestCase):
                     "original_source": "Hello, world!\n",
                     "source": "Hello, world!\n",
                     "diff": "<ins>Nazdar světe!</ins>",
-                    "source_diff": "Hello, world!\n",
+                    "source_diff": 'Hello, world!<span class="hlspace"><span class="space-nl"></span></span><br />',
+                    "html": "Nazdar světe!",
                 },
                 {
                     "quality": 100,
@@ -1491,7 +1492,8 @@ class ViewsTest(FixtureTestCase):
                     "source": "Hello, world!\n",
                     "original_source": "Hello, world!\n",
                     "diff": "<ins>Ahoj světe!</ins>",
-                    "source_diff": "Hello, world!\n",
+                    "source_diff": 'Hello, world!<span class="hlspace"><span class="space-nl"></span></span><br />',
+                    "html": "Ahoj světe!",
                 },
             ],
         )

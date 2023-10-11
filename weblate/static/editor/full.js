@@ -575,7 +575,7 @@
           .attr("class", "target machinery-text")
           .attr("lang", this.state.lang)
           .attr("dir", this.state.dir)
-          .text(el.text),
+          .html(el.html),
       );
       row.append($("<td>").html(el.diff));
       row.append(

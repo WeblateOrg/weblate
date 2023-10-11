@@ -20,6 +20,7 @@ Not yet released.
 * Strings which can not be saved to a file no longer block other strings to be written.
 * Fixed some API URLs for categorized components.
 * Show plural form examples more prominently.
+* Highlight whitespace in :ref:`machine-translation`.
 
 **Bug fixes**
 
