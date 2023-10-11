@@ -24,7 +24,8 @@ from django.views.generic.edit import FormView
 from weblate.configuration.models import Setting
 from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.models import MACHINERY
-from weblate.trans.models import Project, Unit
+from weblate.trans.models import Project, Translation, Unit
+from weblate.trans.templatetags.translations import format_language_string
 from weblate.utils.diff import Differ
 from weblate.utils.errors import report_error
 from weblate.utils.views import parse_path
@@ -294,6 +295,12 @@ class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
         return result
 
 
+def format_string_helper(
+    source: str, translation: Translation, diff: None | str = None
+):
+    return format_language_string(source, translation, diff)["items"][0]["content"]
+
+
 def handle_machinery(request, service, unit, search=None):
     translation = unit.translation
     component = translation.component
@@ -316,7 +323,7 @@ def handle_machinery(request, service, unit, search=None):
     }
 
     machinery_settings = component.project.get_machinery_settings()
-    differ = Differ()
+    Differ()
     targets = unit.get_target_plurals()
 
     try:
@@ -332,13 +339,15 @@ def handle_machinery(request, service, unit, search=None):
                 for plural_form, possible_translations in enumerate(translations):
                     for item in possible_translations:
                         item["plural_form"] = plural_form
-                        item["diff"] = differ.highlight(
-                            item["text"], targets[plural_form]
+                        item["diff"] = format_string_helper(
+                            item["text"], translation, targets[plural_form]
                         )
-                        source = item["source"]
-                        item["source_diff"] = differ.highlight(
-                            source, item["original_source"]
+                        item["source_diff"] = format_string_helper(
+                            item["source"],
+                            component.source_translation,
+                            item["original_source"],
                         )
+                        item["html"] = format_string_helper(item["text"], translation)
                 translations = list(chain.from_iterable(translations))
             response["translations"] = translations
             response["responseStatus"] = 200
