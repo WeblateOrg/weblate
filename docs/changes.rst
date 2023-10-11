@@ -21,6 +21,7 @@ Not yet released.
 * Fixed some API URLs for categorized components.
 * Show plural form examples more prominently.
 * Highlight whitespace in :ref:`machine-translation`.
+* Faster comment and component removal.
 
 **Bug fixes**
 

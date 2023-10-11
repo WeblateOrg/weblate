@@ -534,23 +534,20 @@ class Change(models.Model, UserDisplayMixin):
         "Translation", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
     comment = models.ForeignKey(
-        "Comment", null=True, on_delete=models.deletion.SET_NULL, db_index=False
+        "Comment", null=True, on_delete=models.deletion.SET_NULL
     )
     suggestion = models.ForeignKey(
-        "Suggestion", null=True, on_delete=models.deletion.SET_NULL, db_index=False
+        "Suggestion", null=True, on_delete=models.deletion.SET_NULL
     )
     announcement = models.ForeignKey(
-        "Announcement", null=True, on_delete=models.deletion.SET_NULL, db_index=False
+        "Announcement", null=True, on_delete=models.deletion.SET_NULL
     )
     screenshot = models.ForeignKey(
         "screenshots.Screenshot",
         null=True,
         on_delete=models.deletion.SET_NULL,
-        db_index=False,
     )
-    alert = models.ForeignKey(
-        "Alert", null=True, on_delete=models.deletion.SET_NULL, db_index=False
-    )
+    alert = models.ForeignKey("Alert", null=True, on_delete=models.deletion.SET_NULL)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE
     )
