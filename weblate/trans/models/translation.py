@@ -774,7 +774,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
                     unit.change_set.create(
                         action=Change.ACTION_SAVE_FAILED,
-                        target=self.get_parse_error_message(error),
+                        target=self.component.get_parse_error_message(error),
                     )
                     clear_pending.append(unit.pk)
                     continue
