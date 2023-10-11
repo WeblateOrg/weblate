@@ -99,7 +99,9 @@ class RebuildView(MemoryFormView):
         if origin:
             slugs = [origin]
         else:
-            slugs = [component.full_slug for component in project.component_set.all()]
+            slugs = [
+                component.full_slug for component in project.component_set.prefetch()
+            ]
         Memory.objects.filter(origin__in=slugs, shared=True).delete()
         # Rebuild memory in background
         import_memory.delay(project_id=project.id, component_id=component_id)
@@ -172,7 +174,7 @@ class MemoryView(TemplateView):
         if "project" in self.objects:
             slugs = {
                 component.full_slug
-                for component in self.objects["project"].component_set.all()
+                for component in self.objects["project"].component_set.prefetch()
             }
             existing = {entry["origin"] for entry in result}
             for entry in result:

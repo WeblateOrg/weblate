@@ -19,11 +19,11 @@ def import_memory(project_id: int, component_id: int | None = None):
 
     project = Project.objects.get(pk=project_id)
 
-    components = project.component_set.all()
+    components = project.component_set.prefetch()
     if component_id:
         components = components.filter(id=component_id)
 
-    for component in components.iterator():
+    for component in components:
         component.log_info("updating translation memory")
         with transaction.atomic():
             units = Unit.objects.filter(

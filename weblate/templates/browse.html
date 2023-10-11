@@ -26,7 +26,7 @@
 {% block content %}
 
 {% if object.component.slug == "-" %}
-  {% for component in project.component_set.all %}
+  {% for component in project.component_set.prefetch %}
     {% include "snippets/component/state.html" with object=component %}
   {% endfor %}
 {% else %}
