@@ -22,6 +22,7 @@ Not yet released.
 * Show plural form examples more prominently.
 * Highlight whitespace in :ref:`machine-translation`.
 * Faster comment and component removal.
+* Show disabled save button reason more prominently.
 
 **Bug fixes**
 

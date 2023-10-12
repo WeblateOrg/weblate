@@ -188,16 +188,20 @@
         </div>
       {% endif %}
     {% endwith %}
+    {% if locked %}
+        <p class="text-danger">{% trans "This translation is currently locked." %}</p>
+    {% elif not user_can_translate and not user_can_edit_flags %}
+        <p class="text-danger">{{ user_can_translate.reason }}</p>
+    {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %}
+        <p class="text-danger">{% trans "Insufficient privileges for saving translations." %}</p>
+    {% endif %}
     <button class="btn btn-primary" type="submit" name="save" tabindex="150"
     {% if locked %}
         disabled="disabled"
-        title="{% trans "This translation is currently locked." %}"
     {% elif not user_can_translate and not user_can_edit_flags %}
         disabled="disabled"
-        title="{{ user_can_translate.reason }}"
     {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %}
         disabled="disabled"
-        title="{% trans "Insufficient privileges for saving translations." %}"
     {% endif %}
     > {% trans "Save and continue" %}</button>
 
