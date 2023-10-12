@@ -1,4 +1,4 @@
-.. title:: Weblate Documentation
+: Weblate Documentation
 
 .. include:: ../README.rst
 
