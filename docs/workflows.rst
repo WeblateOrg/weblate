@@ -10,6 +10,37 @@ features you want to make use of.
 The following is not a complete list of ways to configure Weblate.
 You can base other workflows on the most usual examples listed here.
 
+.. _workflow-customization:
+
+Worfklow customization
+----------------------
+
+In addition to configuration at :ref:`project` and :ref:`component` (as
+:ref:`project-translation_review`, :ref:`component-enable_suggestions`,
+:ref:`component-suggestion_voting`, and
+:ref:`component-suggestion_autoaccept`), the translation workflow can be
+customized per language.
+
+Site-wide workflow customization can be done while :ref:`changing-languages`.
+
+Per-project customization can be done on the each language page of the project.
+
+All workflow settings can be overriden, the only limitation is that
+:ref:`project-translation_review` needs to be turned on and can only be
+disabled in customization.
+
+The first existing setting applies:
+
+1. Project-language customization
+2. Language customization
+3. The project/component settings
+
+.. note::
+
+   Please be careful when using site-wide override as that applies to all
+   projects (unless they have own overrides for a given language).
+
+
 Translation access
 ------------------
 

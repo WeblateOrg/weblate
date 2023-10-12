@@ -237,6 +237,9 @@
     {% endspaceless %}</a>
 {% endif %}
 {% indicate_alerts object %}
+{% if custom_workflows and object.pk in custom_workflows %}
+  <span class="badge">{% translate "Customized workflow" %}</span>
+{% endif %}
 </th>
 {% if project and project.enable_review %}
   {% include "snippets/list-objects-percent.html" with percent=object.stats.approved_percent value=object.stats.approved query="q=state:>=approved" all=object.stats.all class="zero-width-540" %}

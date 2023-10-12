@@ -9,6 +9,7 @@ Not yet released.
 * :ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-translation` are now stored with a dedicated user as an author.
 * :ref:`addons` changes to strings are now stored with a dedicated user as an author.
 * :ref:`download-multi` can now convert file formats.
+* :ref:`workflow-customization` allows to fine-tune localization workflow per language.
 
 **Improvements**
 
