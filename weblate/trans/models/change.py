@@ -11,14 +11,7 @@ from django.db.models import Count, Q
 from django.db.models.base import post_save
 from django.utils import timezone
 from django.utils.html import escape, format_html
-from django.utils.translation import (
-    gettext,
-    gettext_lazy,
-    ngettext,
-    ngettext_lazy,
-    pgettext,
-    pgettext_lazy,
-)
+from django.utils.translation import gettext, gettext_lazy, pgettext, pgettext_lazy
 from rapidfuzz.distance import DamerauLevenshtein
 
 from weblate.lang.models import Language
@@ -266,7 +259,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_RENAME_PROJECT = 41
     ACTION_RENAME_COMPONENT = 42
     ACTION_MOVE_COMPONENT = 43
-    ACTION_NEW_STRING = 44
+    # Used to be ACTION_NEW_STRING = 44
     ACTION_NEW_CONTRIBUTOR = 45
     ACTION_ANNOUNCEMENT = 46
     ACTION_ALERT = 47
@@ -373,12 +366,6 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_RENAME_COMPONENT, gettext_lazy("Renamed component")),
         # Translators: Name of event in the history
         (ACTION_MOVE_COMPONENT, gettext_lazy("Moved component")),
-        # Using pgettext to differentiate from the plural
-        # Translators: Name of event in the history
-        (
-            ACTION_NEW_STRING,
-            pgettext_lazy("Name of event in the history", "New string to translate"),
-        ),
         # Translators: Name of event in the history
         (ACTION_NEW_CONTRIBUTOR, gettext_lazy("New contributor")),
         # Translators: Name of event in the history
@@ -502,11 +489,6 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_PUSH,
     }
 
-    PLURAL_ACTIONS = {
-        ACTION_NEW_STRING: ngettext_lazy(
-            "New string to translate", "New strings to translate"
-        ),
-    }
     AUTO_ACTIONS = {
         # Translators: Name of event in the history
         ACTION_LOCK: gettext_lazy(
@@ -606,8 +588,6 @@ class Change(models.Model, UserDisplayMixin):
         if self.screenshot is not None:
             return self.screenshot.get_absolute_url()
         if self.translation is not None:
-            if self.action == self.ACTION_NEW_STRING:
-                return self.translation.get_translate_url() + "?q=is:untranslated"
             return self.translation.get_absolute_url()
         if self.component is not None:
             return self.component.get_absolute_url()
@@ -673,8 +653,6 @@ class Change(models.Model, UserDisplayMixin):
         return self.details.get("auto", False)
 
     def get_action_display(self):
-        if self.action in self.PLURAL_ACTIONS:
-            return self.PLURAL_ACTIONS[self.action] % self.plural_count
         return str(self.ACTIONS_DICT.get(self.action, self.action))
 
     def get_state_display(self):
@@ -713,18 +691,6 @@ class Change(models.Model, UserDisplayMixin):
         from weblate.utils.markdown import render_markdown
 
         details = self.details
-
-        if self.action == self.ACTION_NEW_STRING:
-            result = ngettext(
-                "%d new string to translate appeared in the translation.",
-                "%d new strings to translate appeared to the translation.",
-                self.plural_count,
-            )
-            try:
-                return result % self.plural_count
-            except TypeError:
-                # The string does not contain %d
-                return result
 
         if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
             return render_markdown(self.target)

@@ -808,7 +808,7 @@ def try_linkify_filename(
 
 
 @register.simple_tag
-def get_location_links(profile, unit):
+def get_location_links(user: User | None, unit):
     """Generate links to source files where translation was used."""
     # Fallback to source unit if it has more information
     if not unit.location and unit.source_unit.location:
@@ -821,6 +821,8 @@ def get_location_links(profile, unit):
     # Is it just an ID?
     if unit.location.isdigit():
         return gettext("string ID %s") % unit.location
+
+    profile = user.profile if user else None
 
     # Go through all locations separated by comma
     return format_html_join(

@@ -19,7 +19,7 @@
   <a class="btn btn-link btn-xs" href="{{ site_url }}{{ item.unit.get_absolute_url }}" data-clipboard-text="{{ site_url }}{{ item.unit.get_absolute_url }}" data-clipboard-message="{% trans "Permalink copied to clipboard." %}" title="{% trans "Copy permalink" %}">{% icon "link.svg" %}</a>
   <a class="btn btn-link btn-xs" href="{% url 'translate' path=object.get_url_path  %}?{{ search_url }}&amp;offset={{ item.offset }}" title="{% trans "Open in full editor" %}">{% icon "pencil-mini.svg" %}</a>
 </div>
-{% get_location_links user.profile item.unit %}
+{% get_location_links user item.unit %}
 </td>
 </tr>
 

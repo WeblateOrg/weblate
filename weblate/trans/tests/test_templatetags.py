@@ -12,7 +12,7 @@ from django.test import SimpleTestCase, TestCase
 from django.utils import timezone
 from django.utils.html import format_html
 
-from weblate.accounts.models import Profile
+from weblate.auth.models import User
 from weblate.checks.tests.test_checks import MockLanguage, MockUnit
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation, Unit
@@ -92,25 +92,27 @@ class LocationLinksTest(TestCase):
             pk=-1,
         )
         self.unit.source_unit = self.unit
-        self.profile = Profile()
+        self.user = User.objects.create(username="location-test")
 
     def test_empty(self):
-        self.assertEqual(get_location_links(self.profile, self.unit), "")
+        self.assertEqual(get_location_links(self.user, self.unit), "")
 
     def test_numeric(self):
         self.unit.location = "123"
-        self.assertEqual(get_location_links(self.profile, self.unit), "string ID 123")
+        self.assertEqual(get_location_links(self.user, self.unit), "string ID 123")
 
     def test_filename(self):
         self.unit.location = "f&oo.bar:123"
-        self.assertEqual(
-            get_location_links(self.profile, self.unit), "f&amp;oo.bar:123"
-        )
+        self.assertEqual(get_location_links(self.user, self.unit), "f&amp;oo.bar:123")
 
     def test_filenames(self):
         self.unit.location = "foo.bar:123,bar.foo:321"
         self.assertEqual(
-            get_location_links(self.profile, self.unit),
+            get_location_links(self.user, self.unit),
+            'foo.bar:123\n<span class="divisor">•</span>\nbar.foo:321',
+        )
+        self.assertEqual(
+            get_location_links(None, self.unit),
             'foo.bar:123\n<span class="divisor">•</span>\nbar.foo:321',
         )
 
@@ -120,7 +122,7 @@ class LocationLinksTest(TestCase):
         )
         self.unit.location = "foo.bar:123,bar.foo:321"
         self.assertHTMLEqual(
-            get_location_links(self.profile, self.unit),
+            get_location_links(self.user, self.unit),
             """
             <a class="wrap-text"
                 href="http://example.net/foo.bar#L123" target="_blank"
@@ -142,7 +144,7 @@ class LocationLinksTest(TestCase):
         )
         self.unit.location = "foo.bar:123"
         self.assertHTMLEqual(
-            get_location_links(self.profile, self.unit),
+            get_location_links(self.user, self.unit),
             """
             <a class="wrap-text"
                 href="http://example.net/foo.bar#L123" target="_blank"
@@ -156,10 +158,10 @@ class LocationLinksTest(TestCase):
         self.unit.translation.component.repoweb = (
             "http://example.net/{{filename}}#L{{line}}"
         )
-        self.profile.editor_link = "editor://open/?file={{filename}}&line={{line}}"
+        self.user.profile.editor_link = "editor://open/?file={{filename}}&line={{line}}"
         self.unit.location = "foo.bar:123"
         self.assertHTMLEqual(
-            get_location_links(self.profile, self.unit),
+            get_location_links(self.user, self.unit),
             """
             <a class="wrap-text"
                 href="editor://open/?file=foo.bar&amp;line=123" target="_blank"
@@ -175,7 +177,7 @@ class LocationLinksTest(TestCase):
         )
         self.unit.location = "foo+bar:321"
         self.assertHTMLEqual(
-            get_location_links(self.profile, self.unit),
+            get_location_links(self.user, self.unit),
             """
             <a class="wrap-text"
                 href="http://example.net/foo%2Bbar#L321" target="_blank"
@@ -193,7 +195,7 @@ class LocationLinksTest(TestCase):
             "foo.bar:123,bar.foo:321,https://example.com/foo,http://example.org/bar"
         )
         self.assertHTMLEqual(
-            get_location_links(self.profile, self.unit),
+            get_location_links(self.user, self.unit),
             """
             <a class="wrap-text"
                 href="http://example.net/foo.bar#L123" target="_blank"

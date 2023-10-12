@@ -265,7 +265,9 @@ class Notification:
             result["changes"] = changes
         if subscription is not None:
             result["unsubscribe_nonce"] = TimestampSigner().sign(subscription.pk)
-            result["user"] = subscription.user
+            result["subscription_user"] = subscription.user
+        else:
+            result["subscription_user"] = None
         if extracontext:
             result.update(extracontext)
         if change:
@@ -489,12 +491,13 @@ class ParseErrorNotification(Notification):
 
 @register_notification
 class NewStringNotificaton(Notification):
-    actions = (Change.ACTION_NEW_STRING,)
+    actions = (Change.ACTION_NEW_UNIT,)
     verbose = pgettext_lazy(
         "Notification name", "New string is available for translation"
     )
     template_name = "new_string"
     filter_languages = True
+    required_attr = "unit"
 
 
 @register_notification
