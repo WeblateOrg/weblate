@@ -126,7 +126,7 @@ class BaseAddon:
             if settings.CELERY_TASK_ALWAYS_EAGER:
                 postconfigure_addon(self.instance.pk, self.instance)
             else:
-                postconfigure_addon.delay(self.instance.pk, self.instance)
+                postconfigure_addon.delay(self.instance.pk)
 
     def post_configure_run(self):
         # Trigger post events to ensure direct processing
