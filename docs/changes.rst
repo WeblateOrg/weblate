@@ -23,6 +23,7 @@ Not yet released.
 * Highlight whitespace in :ref:`machine-translation`.
 * Faster comment and component removal.
 * Show disabled save button reason more prominently.
+* New string notification can now be triggered for each string.
 
 **Bug fixes**
 

@@ -968,7 +968,7 @@ class ProjectAPITest(APIBaseTest):
 
     def test_changes(self):
         request = self.do_request("api:project-changes", self.project_kwargs)
-        self.assertEqual(request.data["count"], 33)
+        self.assertEqual(request.data["count"], 30)
 
     def test_statistics(self):
         request = self.do_request("api:project-statistics", self.project_kwargs)
@@ -1904,7 +1904,7 @@ class ComponentAPITest(APIBaseTest):
 
     def test_changes(self):
         request = self.do_request("api:component-changes", self.component_kwargs)
-        self.assertEqual(request.data["count"], 25)
+        self.assertEqual(request.data["count"], 22)
 
     def test_screenshots(self):
         request = self.do_request("api:component-screenshots", self.component_kwargs)
@@ -2648,7 +2648,7 @@ class TranslationAPITest(APIBaseTest):
 
     def test_changes(self):
         request = self.do_request("api:translation-changes", self.translation_kwargs)
-        self.assertEqual(request.data["count"], 6)
+        self.assertEqual(request.data["count"], 5)
 
     def test_units(self):
         request = self.do_request("api:translation-units", self.translation_kwargs)
@@ -3576,7 +3576,7 @@ class ScreenshotAPITest(APIBaseTest):
 class ChangeAPITest(APIBaseTest):
     def test_list_changes(self):
         response = self.client.get(reverse("api:change-list"))
-        self.assertEqual(response.data["count"], 33)
+        self.assertEqual(response.data["count"], 30)
 
     def test_filter_changes_after(self):
         """Filter changes since timestamp."""
@@ -3584,7 +3584,7 @@ class ChangeAPITest(APIBaseTest):
         response = self.client.get(
             reverse("api:change-list"), {"timestamp_after": start.isoformat()}
         )
-        self.assertEqual(response.data["count"], 33)
+        self.assertEqual(response.data["count"], 30)
 
     def test_filter_changes_before(self):
         """Filter changes prior to timestamp."""

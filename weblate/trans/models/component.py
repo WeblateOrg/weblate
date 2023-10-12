@@ -2484,10 +2484,6 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
             transaction.on_commit(lambda: cleanup_component.delay(self.id))
 
-        # Send notifications on new string
-        for translation in translations.values():
-            translation.notify_new(request)
-
         if was_change:
             if self.needs_variants_update:
                 self.update_variants()
