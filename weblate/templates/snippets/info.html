@@ -178,7 +178,7 @@
         {% get_workflow_flags translation component as workflow_flags %}
         {% if workflow_flags.suggestion_voting and workflow_flags.suggestion_autoaccept %}
         <li>{% trans "Translations can only be done through suggestions." %}</li>
-        <li>{% blocktrans count count=component.suggestion_autoaccept %}Suggestions with one vote are automatically accepted as translations.{% plural %}Suggestions are automatically accepted as translations once they have {{ count }} votes.{% endblocktrans %}</li>
+        <li>{% blocktrans count count=workflow_flags.suggestion_autoaccept %}Suggestions with one vote are automatically accepted as translations.{% plural %}Suggestions are automatically accepted as translations once they have {{ count }} votes.{% endblocktrans %}</li>
         {% else %}
         <li>{% trans "Translations can be made directly." %}</li>
         {% if workflow_flags.enable_suggestions %}

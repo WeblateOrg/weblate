@@ -7,7 +7,7 @@
 from django.conf import settings
 from django.urls import reverse
 
-from weblate.trans.models import Suggestion
+from weblate.trans.models import Suggestion, WorkflowSetting
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -165,12 +165,26 @@ class SuggestionsTest(ViewTestCase):
         # Unit should be translated
         self.assertEqual(unit.target, "Nazdar svete!\n")
 
+    def test_vote_language(self):
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            enable_suggestions=True,
+            suggestion_voting=True,
+            suggestion_autoaccept=0,
+        )
+
+        self.assert_vote()
+
     def test_vote(self):
-        translate_url = reverse("translate", kwargs=self.kw_translation)
         self.component.suggestion_voting = True
         self.component.suggestion_autoaccept = 0
         self.component.save()
 
+        self.assert_vote()
+
+    def assert_vote(self):
+        translate_url = reverse("translate", kwargs=self.kw_translation)
         self.add_suggestion_1()
 
         suggestion_id = self.get_unit().suggestions[0].pk

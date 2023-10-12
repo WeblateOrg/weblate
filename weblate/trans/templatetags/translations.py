@@ -550,10 +550,10 @@ def documentation_icon(context, page, anchor="", right=False):
 
 @register.inclusion_tag("documentation-icon.html", takes_context=True)
 def form_field_doc_link(context, form, field):
-    if hasattr(form, "get_field_doc"):
+    if hasattr(form, "get_field_doc") and (field_doc := form.get_field_doc(field)):
         return {
             "right": False,
-            "doc_url": get_doc_url(*form.get_field_doc(field), user=context["user"]),
+            "doc_url": get_doc_url(*field_doc, user=context["user"]),
         }
     return {}
 

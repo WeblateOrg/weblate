@@ -802,20 +802,37 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         store.save()
 
     @cached_property
+    def workflow_settings(self):
+        return self.component.project.project_languages[self.language].workflow_settings
+
+    @cached_property
     def enable_review(self):
         project = self.component.project
-        return project.source_review if self.is_source else project.translation_review
+        project_review = (
+            project.source_review if self.is_source else project.translation_review
+        )
+        if not project_review:
+            return False
+        if self.workflow_settings is not None:
+            return self.workflow_settings.translation_review
+        return project_review
 
     @property
     def enable_suggestions(self):
+        if self.workflow_settings is not None:
+            return self.workflow_settings.enable_suggestions
         return self.component.enable_suggestions
 
     @property
     def suggestion_voting(self):
+        if self.workflow_settings is not None:
+            return self.workflow_settings.suggestion_voting
         return self.component.suggestion_voting
 
     @property
     def suggestion_autoaccept(self):
+        if self.workflow_settings is not None:
+            return self.workflow_settings.suggestion_autoaccept
         return self.component.suggestion_autoaccept
 
     @cached_property

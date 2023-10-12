@@ -11,8 +11,8 @@ from django.views.generic import CreateView, UpdateView
 
 from weblate.lang.forms import LanguageForm, PluralForm
 from weblate.lang.models import Language, Plural
-from weblate.trans.forms import SearchForm
-from weblate.trans.models import Change
+from weblate.trans.forms import SearchForm, WorkflowSettingForm
+from weblate.trans.models import Change, WorkflowSetting
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.util import sort_objects
 from weblate.utils import messages
@@ -25,16 +25,24 @@ from weblate.utils.stats import (
 
 
 def show_languages(request):
+    custom_workflows = set()
     if request.user.has_perm("language.edit"):
         languages = Language.objects.all()
+        custom_workflows = set(
+            WorkflowSetting.objects.filter(project=None).values_list(
+                "language_id", flat=True
+            )
+        )
     else:
         languages = Language.objects.have_translation()
+
     return render(
         request,
         "languages.html",
         {
             "allow_index": True,
             "languages": prefetch_stats(sort_objects(languages)),
+            "custom_workflows": custom_workflows,
             "title": gettext("Languages"),
             "global_stats": GlobalStats(),
         },
@@ -112,6 +120,48 @@ class CreateLanguageView(CreateView):
 class EditLanguageView(UpdateView):
     form_class = LanguageForm
     model = Language
+
+    def get_context_data(self, **kwargs):
+        """Insert the form into the context dict."""
+        if "workflow_form" not in kwargs:
+            kwargs["workflow_form"] = self.get_workflow_form()
+        return super().get_context_data(**kwargs)
+
+    def get_workflow_form(self):
+        kwargs = self.get_form_kwargs()
+        kwargs.pop("instance", None)
+        kwargs.pop("initial", None)
+        if self.workflow_object:
+            kwargs["instance"] = self.workflow_object
+        return WorkflowSettingForm(**kwargs)
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.workflow_object = self.object.workflowsetting_set.get(project=None)
+        except WorkflowSetting.DoesNotExist:
+            self.workflow_object = None
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.workflow_object = self.object.workflowsetting_set.get(project=None)
+        except WorkflowSetting.DoesNotExist:
+            self.workflow_object = None
+        form = self.get_form()
+        workflow_form = self.get_workflow_form()
+        if form.is_valid() and workflow_form.is_valid():
+            return self.form_valid(form, workflow_form)
+        return self.render_to_response(
+            self.get_context_data(form=form, workflow_form=workflow_form)
+        )
+
+    def form_valid(self, form, workflow_form):
+        """If the form is valid, save the associated model."""
+        workflow_form.instance.language = self.object
+        self.workflow_object = workflow_form.save()
+        return super().form_valid(form)
 
 
 @method_decorator(permission_required("language.edit"), name="dispatch")

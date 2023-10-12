@@ -25,8 +25,16 @@ from weblate.trans.forms import (
     ComponentSettingsForm,
     ProjectRenameForm,
     ProjectSettingsForm,
+    WorkflowSettingForm,
 )
-from weblate.trans.models import Announcement, Category, Component, Project, Translation
+from weblate.trans.models import (
+    Announcement,
+    Category,
+    Component,
+    Project,
+    Translation,
+    WorkflowSetting,
+)
 from weblate.trans.tasks import (
     category_removal,
     component_removal,
@@ -42,12 +50,14 @@ from weblate.utils.views import parse_path, show_form_errors
 @never_cache
 @login_required
 def change(request, path):
-    obj = parse_path(request, path, (Component, Project))
+    obj = parse_path(request, path, (Component, Project, ProjectLanguage))
     if not request.user.has_perm(obj.settings_permission, obj):
         raise Http404
 
     if isinstance(obj, Component):
         return change_component(request, obj)
+    if isinstance(obj, ProjectLanguage):
+        return change_project_language(request, obj)
     return change_project(request, obj)
 
 
@@ -67,6 +77,33 @@ def change_project(request, obj):
     return render(
         request,
         "project-settings.html",
+        {"object": obj, "form": settings_form},
+    )
+
+
+def change_project_language(request, obj):
+    try:
+        instance = obj.project.workflowsetting_set.get(language=obj.language)
+    except WorkflowSetting.DoesNotExist:
+        instance = None
+
+    if request.method == "POST":
+        settings_form = WorkflowSettingForm(request.POST, instance=instance)
+        if settings_form.is_valid():
+            settings_form.instance.project = obj.project
+            settings_form.instance.language = obj.language
+            settings_form.save()
+            messages.success(request, gettext("Settings saved"))
+            return redirect("settings", path=obj.get_url_path())
+        messages.error(
+            request, gettext("Invalid settings. Please check the form for errors.")
+        )
+    else:
+        settings_form = WorkflowSettingForm(instance=instance)
+
+    return render(
+        request,
+        "project-language-settings.html",
         {"object": obj, "form": settings_form},
     )
 

@@ -207,6 +207,10 @@ Enable reviews
 
 Enable review workflow for translations, see :ref:`reviews`.
 
+.. seealso::
+
+   :ref:`workflow-customization`
+
 .. _project-source_review:
 
 Enable source reviews
@@ -581,6 +585,10 @@ Enable suggestions
 
 Whether translation suggestions are accepted for this component.
 
+.. seealso::
+
+   :ref:`workflow-customization`
+
 .. _component-suggestion_voting:
 
 Suggestion voting
@@ -588,12 +596,20 @@ Suggestion voting
 
 Turns on vote casting for suggestions, see :ref:`voting`.
 
+.. seealso::
+
+   :ref:`workflow-customization`
+
 .. _component-suggestion_autoaccept:
 
 Autoaccept suggestions
 ++++++++++++++++++++++
 
 Automatically accept voted suggestions, see :ref:`voting`.
+
+.. seealso::
+
+   :ref:`workflow-customization`
 
 .. _component-check_flags:
 

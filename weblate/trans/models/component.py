@@ -516,11 +516,13 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             "will cause automatic translation in this one"
         ),
     )
+    # This should match definition in WorkflowSetting
     enable_suggestions = models.BooleanField(
         verbose_name=gettext_lazy("Turn on suggestions"),
         default=True,
         help_text=gettext_lazy("Whether to allow translation suggestions at all."),
     )
+    # This should match definition in WorkflowSetting
     suggestion_voting = models.BooleanField(
         verbose_name=gettext_lazy("Suggestion voting"),
         default=False,
@@ -528,6 +530,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             "Users can only vote for suggestions and can’t make direct translations."
         ),
     )
+    # This should match definition in WorkflowSetting
     suggestion_autoaccept = models.PositiveSmallIntegerField(
         verbose_name=gettext_lazy("Autoaccept suggestions"),
         default=0,

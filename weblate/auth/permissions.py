@@ -171,7 +171,7 @@ def check_can_edit(user, permission, obj, is_vote=False):
         return Denied(gettext("Insufficient privileges for editing source strings."))
 
     # Special checks for voting
-    if is_vote and component and not component.suggestion_voting:
+    if is_vote and translation and not translation.suggestion_voting:
         return Denied(gettext("Suggestion voting is disabled."))
     if (
         not is_vote
