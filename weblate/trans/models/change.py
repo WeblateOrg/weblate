@@ -579,6 +579,9 @@ class Change(models.Model, UserDisplayMixin):
         super().save(*args, **kwargs)
         transaction.on_commit(lambda: notify_change.delay(self.pk))
         if self.is_last_content_change_storable():
+            # Update cache for stats so that it does not have to hit
+            # the database again
+            self.translation.stats.last_change_cache = self
             transaction.on_commit(self.update_cache_last_change)
 
     def get_absolute_url(self):
