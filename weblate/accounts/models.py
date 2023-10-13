@@ -186,6 +186,12 @@ EXTRA_MESSAGES = {
     "blocked": gettext_lazy(
         "Please contact project maintainers if you feel this is inappropriate."
     ),
+    "register": gettext_lazy(
+        "If it was you, please use a password reset to regain access to your account."
+    ),
+    "connect": gettext_lazy(
+        "If it was you, please use a password reset to regain access to your account."
+    ),
 }
 
 NOTIFY_ACTIVITY = {
