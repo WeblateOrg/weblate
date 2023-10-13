@@ -209,7 +209,7 @@ def handle_addon_error(addon, component):
 
 def handle_addon_event(component, event_type, addon_method, description):
     addons = Addon.objects.filter_event(component, event_type)
-    
+
     for addon in addons:
         component.log_debug(f"running {event_type} add-on: {addon.name}")
         try:
