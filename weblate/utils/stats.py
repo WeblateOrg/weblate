@@ -115,6 +115,7 @@ class BaseStats:
         self._object = obj
         self._data = None
         self._pending_save = False
+        self.last_change_cache = None
 
     @property
     def pk(self):
@@ -484,6 +485,10 @@ class TranslationStats(BaseStats):
 
     def get_last_change_obj(self):
         from weblate.trans.models import Change
+
+        # This is set in Change.save
+        if self.last_change_cache is not None:
+            return self.last_change_cache
 
         cache_key = Change.get_last_change_cache_key(self._object.pk)
         change_pk = cache.get(cache_key)

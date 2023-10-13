@@ -56,9 +56,10 @@ Other services
 Weblate is using other services for its operation. You will need at least
 following services running:
 
-* PostgreSQL database server, see :ref:`database-setup`.
+* PostgreSQL database server for storing all the content, see :ref:`database-setup`.
 * Redis server for cache and tasks queue, see :ref:`celery`.
 * SMTP server for outgoing e-mail, see :ref:`out-mail`.
+* Filesystem storage (networked if you plan to scale Weblate horizontally) for storing VCS repositories.
 
 .. _python-deps:
 
