@@ -1,13 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+# Laquin <anderaginaga2@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 14:22+0000\n"
-"PO-Revision-Date: 2023-06-09 16:39+0000\n"
-"Last-Translator: avtkal <avtkal@tutanota.com>\n"
+"PO-Revision-Date: 2023-10-13 18:20+0000\n"
+"Last-Translator: Laquin <anderaginaga2@gmail.com>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/weblate/"
 "application/eu/>\n"
 "Language: eu\n"
@@ -15,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.1-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -443,10 +444,9 @@ msgid "Could not sign in using password."
 msgstr "Ezin izan da saioa pasahitza bidez hasi."
 
 #: weblate/accounts/models.py:178
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "{username}-(e)k {site_title}-(e)ra gonbidatu zaitu."
+msgstr "{username}-(e)k {project}-(e)ra gonbidatu zaitu."
 
 #: weblate/accounts/models.py:184
 msgid "To restore access to your account, please reset your password."
@@ -1267,7 +1267,7 @@ msgstr "Pilaka editatu"
 
 #: weblate/addons/flags.py:90
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr "Editatu markak, etiketak edo kateen egoerak pilaka"
+msgstr "Editatu markak, etiketak edo kateen egoerak pilaka."
 
 #: weblate/addons/forms.py:41
 msgid "Path of generated MO file"
@@ -2840,20 +2840,18 @@ msgid "In display limits"
 msgstr ""
 
 #: weblate/billing/models.py:422
-#, fuzzy, python-format
-#| msgid "All components"
+#, python-format
 msgid "Contains %d project"
 msgid_plural "Contains %d projects"
-msgstr[0] "Osagai guztiak"
-msgstr[1] "Osagai guztiak"
+msgstr[0] "Proiektu %d dauka"
+msgstr[1] "%d proiektu dauzka"
 
 #: weblate/billing/models.py:443
-#, fuzzy, python-format
-#| msgid "Project / Component"
+#, python-format
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
-msgstr[0] "Proiektua / Osagaia"
-msgstr[1] "Proiektua / Osagaia"
+msgstr[0] "Osagai %d dauka"
+msgstr[1] "%d osagai dauzka"
 
 #: weblate/billing/models.py:458
 #, fuzzy
@@ -3096,12 +3094,11 @@ msgid "Different strings are translated the same."
 msgstr "Txiokatu itzulpen hau"
 
 #: weblate/checks/consistency.py:190
-#, fuzzy, python-format
-#| msgid "Source strings"
+#, python-format
 msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
-msgstr[0] "Jatorrizko kateak"
-msgstr[1] "Jatorrizko kateak"
+msgstr[0] "Beste jatorrizko kate bat: %s"
+msgstr[1] "Beste jatorrizko kate batzuk: %s"
 
 #: weblate/checks/consistency.py:191
 #, python-format
@@ -6157,12 +6154,11 @@ msgstr[0] "itzulpen %(count)s"
 msgstr[1] "%(count)s itzulpen"
 
 #: weblate/templates/accounts/user.html:59
-#, fuzzy, python-format
-#| msgid "Source strings"
+#, python-format
 msgid "%(count)s suggestion"
 msgid_plural "%(count)s suggestions"
-msgstr[0] "Jatorrizko kateak"
-msgstr[1] "Jatorrizko kateak"
+msgstr[0] "Iradokizun %(count)s"
+msgstr[1] "%(count)s iradokizun"
 
 #: weblate/templates/accounts/user.html:67
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
@@ -6174,20 +6170,18 @@ msgstr[0] "Jatorrizko kateak"
 msgstr[1] "Jatorrizko kateak"
 
 #: weblate/templates/accounts/user.html:75
-#, fuzzy, python-format
-#| msgid "Managed projects"
+#, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
-msgstr[0] "Kudeatu proiektuak"
-msgstr[1] "Kudeatu proiektuak"
+msgstr[0] "Pantaila-irudi %(count)s"
+msgstr[1] "%(count)s pantaila-irudi"
 
 #: weblate/templates/accounts/user.html:82
-#, fuzzy, python-format
-#| msgid "Managed projects"
+#, python-format
 msgid "%(count)s comment"
 msgid_plural "%(count)s comments"
-msgstr[0] "Kudeatu proiektuak"
-msgstr[1] "Kudeatu proiektuak"
+msgstr[0] "Iruzkin %(count)s"
+msgstr[1] "%(count)s iruzkin"
 
 #: weblate/templates/accounts/user.html:149
 #, fuzzy
@@ -7392,10 +7386,8 @@ msgid "Progress"
 msgstr ""
 
 #: weblate/templates/component-progress.html:17
-#, fuzzy
-#| msgid "Component list"
 msgid "Component is being updated…"
-msgstr "Osagaien zerrenda"
+msgstr "Osagaia eguneratzen ari da…"
 
 #: weblate/templates/component-progress.html:31 weblate/templates/guide.html:62
 #, fuzzy
@@ -7449,7 +7441,7 @@ msgstr ""
 #: weblate/templates/screenshots/screenshot_list.html:11
 #: weblate/trans/forms.py:1573
 msgid "Screenshots"
-msgstr ""
+msgstr "Pantaila-irudiak"
 
 #: weblate/templates/component.html:90 weblate/templates/component.html:228
 #: weblate/templates/manage/tools.html:20 weblate/templates/project.html:85
@@ -7649,7 +7641,7 @@ msgstr ""
 #: weblate/templates/data.html:31 weblate/templates/data.html:65
 #: weblate/templates/data.html:106
 msgid "Link"
-msgstr ""
+msgstr "Esteka"
 
 #: weblate/templates/data.html:37 weblate/templates/data.html:43
 msgid "RSS"
@@ -7687,10 +7679,8 @@ msgid "Hook"
 msgstr ""
 
 #: weblate/templates/data.html:124
-#, fuzzy
-#| msgid "Source code repository"
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "Iturburu kodearen biltegia"
+msgstr "Urruneko biltegi batetik honela ekar ditzakezu aldaketak:"
 
 #: weblate/templates/data.html:133
 msgid ""
@@ -7734,8 +7724,8 @@ msgstr ""
 msgctxt "Label on engage page"
 msgid "String"
 msgid_plural "Strings"
-msgstr[0] "Kateen muga"
-msgstr[1] "Kateen muga"
+msgstr[0] "Kate"
+msgstr[1] "Kate"
 
 #: weblate/templates/engage.html:29 weblate/trans/widgets.py:232
 #, fuzzy
@@ -7743,8 +7733,8 @@ msgstr[1] "Kateen muga"
 msgctxt "Label on engage page"
 msgid "Language"
 msgid_plural "Languages"
-msgstr[0] "Zure hizkuntzak"
-msgstr[1] "Zure hizkuntzak"
+msgstr[0] "Izkuntza"
+msgstr[1] "Izkuntza"
 
 #: weblate/templates/engage.html:32
 #: weblate/trans/templatetags/translations.py:1121 weblate/trans/widgets.py:87
@@ -7778,13 +7768,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/templates/engage.html:46
-#, fuzzy, python-format
-#| msgid "All components"
+#, python-format
 msgid "It is being translated into <strong>%(count)s language</strong>."
 msgid_plural ""
 "It is being translated into <strong>%(count)s languages</strong>."
-msgstr[0] "Osagai guztiak"
-msgstr[1] "Osagai guztiak"
+msgstr[0] "<strong>Hizkuntza %(count)sera</strong> itzultzen ari da."
+msgstr[1] "<strong>%(count)s hizkuntzetara</strong> itzultzen ari da."
 
 #: weblate/templates/engage.html:48
 #, python-format
@@ -8910,20 +8899,18 @@ msgid "Unfinished strings"
 msgstr "Amaitu gabeko kateak"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "All components"
+#, python-format
 msgid "%(count)s unfinished string in %(component)s"
 msgid_plural "%(count)s unfinished strings in %(component)s"
-msgstr[0] "Osagai guztiak"
-msgstr[1] "Osagai guztiak"
+msgstr[0] "Bukatu gabeko kate %(count)s %(component)s-(e)n"
+msgstr[1] "Bukatu gabeko %(count)s kate %(component)s-(e)n"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Source strings"
+#, python-format
 msgid "%(count)s unfinished string"
 msgid_plural "%(count)s unfinished strings"
-msgstr[0] "Jatorrizko kateak"
-msgstr[1] "Jatorrizko kateak"
+msgstr[0] "Bukatu gabeko kate %(count)s"
+msgstr[1] "Bukatu gabeko %(count)s kate"
 
 #: weblate/templates/manage/alerts.html:7
 #, fuzzy
@@ -9758,12 +9745,11 @@ msgstr ""
 
 #: weblate/templates/snippets/activity.html:30
 #: weblate/templates/snippets/activity.html:35
-#, fuzzy, python-format
-#| msgid "Source strings"
+#, python-format
 msgid "%(count)s change"
 msgid_plural "%(count)s changes"
-msgstr[0] "Jatorrizko kateak"
-msgstr[1] "Jatorrizko kateak"
+msgstr[0] "Aldaketa %(count)s"
+msgstr[1] "%(count)s aldaketa"
 
 #: weblate/templates/snippets/billing-failure.html:10
 msgid "This might be caused by missing subscription."
@@ -10369,12 +10355,11 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr ""
 
 #: weblate/templates/snippets/position-field.html:19
-#, fuzzy, python-format
-#| msgid "Source strings"
+#, python-format
 msgid "%(count)s string"
 msgid_plural "%(count)s strings"
-msgstr[0] "Jatorrizko kateak"
-msgstr[1] "Jatorrizko kateak"
+msgstr[0] "Kate %(count)s"
+msgstr[1] "%(count)s kate"
 
 #: weblate/templates/snippets/position-field.html:25
 #, python-format
@@ -11019,13 +11004,12 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedcomponent.html:3
-#, fuzzy, python-format
-#| msgid "Translatable strings"
+#, python-format
 msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
-msgstr[0] "Kate itzulgarriak"
-msgstr[1] "Kate itzulgarriak"
+msgstr[0] "Osagaiak ez du hitzulpenik jaso egun %(count)sean."
+msgstr[1] "Osagaiak ez du hitzulpenik jaso %(count)s egunetan."
 
 #: weblate/templates/trans/alert/unusedcomponent.html:5
 msgid "Please consider removing the component if it is no longer useful."
@@ -11227,10 +11211,8 @@ msgstr ""
 
 #: weblate/templates/trans/delete-category-language.html:6
 #: weblate/templates/trans/delete-project-language.html:6
-#, fuzzy
-#| msgid "Authentication ({method}:{name}) has been removed."
 msgid "The following translations will be removed:"
-msgstr "({method}:{name}) autentifikazioa kendu da."
+msgstr "Itzulpen hauek ezabatuko dira:"
 
 #: weblate/templates/trans/delete-category-language.html:14
 #: weblate/templates/trans/delete-project-language.html:14
@@ -11256,17 +11238,13 @@ msgstr ""
 #: weblate/templates/trans/delete-category.html:11
 #: weblate/templates/trans/delete-component.html:8
 #: weblate/templates/trans/delete-project.html:12
-#, fuzzy
-#| msgid "Authentication ({method}:{name}) has been removed."
 msgid "The following translation components will be removed:"
-msgstr "({method}:{name}) autentifikazioa kendu da."
+msgstr "Itzulpen-osagai hauek ezabatuko dira:"
 
 #: weblate/templates/trans/delete-category.html:21
 #: weblate/templates/trans/delete-project.html:23
-#, fuzzy
-#| msgid "Authentication ({method}:{name}) has been removed."
 msgid "The following translation categories will be removed:"
-msgstr "({method}:{name}) autentifikazioa kendu da."
+msgstr "Itzulpen-kategoria hauek ezabatuko dira:"
 
 #: weblate/templates/trans/delete-category.html:31
 #: weblate/templates/trans/delete-project.html:33
@@ -11300,12 +11278,11 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/delete-project.html:10
-#, fuzzy, python-format
-#| msgid "Authentication ({method}:{name}) has been removed."
+#, python-format
 msgid "%(count)s component will be removed by this."
 msgid_plural "%(count)s components will be removed by this."
-msgstr[0] "({method}:{name}) autentifikazioa kendu da."
-msgstr[1] "({method}:{name}) autentifikazioa kendu da."
+msgstr[0] "Honek kate %(count)s ezabatuko du."
+msgstr[1] "Honek %(count)s kate ezabatuko ditu."
 
 #: weblate/templates/trans/delete-translation.html:6
 msgid ""
@@ -11750,12 +11727,11 @@ msgid "Things to check"
 msgstr ""
 
 #: weblate/templates/translate.html:449
-#, fuzzy, python-format
-#| msgid "Watched translations"
+#, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
-msgstr[0] "Ikuskatutako itzulpenak"
-msgstr[1] "Ikuskatutako itzulpenak"
+msgstr[0] "Kate honentzako iradokizun %(count)s dago."
+msgstr[1] "Kate honentzako %(count)s iradokizun daude."
 
 #: weblate/templates/translate.html:463
 msgid "Enforced"
@@ -14826,10 +14802,8 @@ msgid "This translation is locked."
 msgstr "Itzulpen gakoa"
 
 #: weblate/trans/templatetags/translations.py:980
-#, fuzzy
-#| msgid "Watched translations"
 msgid "Updating translation component…"
-msgstr "Ikuskatutako itzulpenak"
+msgstr "Itzulpen-osagaia eguneratzen…"
 
 #: weblate/trans/templatetags/translations.py:990
 msgid "Some of the components within this project have alerts."
@@ -15579,10 +15553,9 @@ msgid "Read only"
 msgstr ""
 
 #: weblate/utils/validators.py:57
-#, fuzzy, python-brace-format
-#| msgid "Component: {}"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "Osagaia: {}"
+msgstr "Konpilazioak huts egin du: {0}"
 
 #: weblate/utils/validators.py:61
 #, fuzzy
