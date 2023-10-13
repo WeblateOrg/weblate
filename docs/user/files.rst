@@ -138,7 +138,14 @@ Add new strings (``add``)
 Conflicts handling
 ++++++++++++++++++
 
-Defines how to deal with uploaded strings which are already translated.
+Defines how to deal with uploaded strings which are already translated:
+
+Change only untranslated strings (``ignore``)
+   Ignore uploaded translations which are already translated.
+Change translated strings (``replace-translated``)
+   Replace existing translations with uploaded ones, but keep approved ones.
+Change translated and approved strings (``replace-approved``)
+   Replace existing translations with uploaded ones, including approved ones.
 
 .. _upload-fuzzy:
 
