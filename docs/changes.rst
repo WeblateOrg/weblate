@@ -32,6 +32,7 @@ Not yet released.
 * Occasional crash in :ref:`machine-translation` caching.
 * Fixed history listing for entries within a :ref:`category`.
 * Fixed editing :guilabel:`Administration` team.
+* :ref:`addon-weblate.consistency.languages` add-on could miss some languages.
 
 **Compatibility**
 
