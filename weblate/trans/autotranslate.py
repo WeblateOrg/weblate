@@ -206,12 +206,19 @@ class AutoTranslate:
                 .select_for_update()
             ):
                 translation = translations[unit.pk]
-                # Copy translation, use first origin for user
+                # Use first existing origin for user
+                # (there can be blanks for missing plurals)
+                user = None
+                for origin in translation["origin"]:
+                    if origin is not None:
+                        user = origin.user
+                        break
+                # Copy translation
                 self.update(
                     unit,
                     self.target_state,
                     translation["translation"],
-                    user=translation["origin"][0].user,
+                    user=user,
                 )
                 self.set_progress(offset + pos)
 
