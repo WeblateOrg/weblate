@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-09-14 14:22+0000\n"
-"PO-Revision-Date: 2023-10-11 20:22+0000\n"
+"PO-Revision-Date: 2023-10-13 18:20+0000\n"
 "Last-Translator: Vlăduț Ilie <vladilie94@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "application/ro/>\n"
@@ -750,7 +750,7 @@ msgstr "Sinteză lunară"
 #: weblate/accounts/notifications.py:451
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr "Operația a fost efectuată în depozit"
+msgstr "Operația a fost efectuată în depozitar"
 
 #: weblate/accounts/notifications.py:462
 msgctxt "Notification name"
@@ -835,7 +835,7 @@ msgstr "O nouă alertă a apărut într-o componentă"
 #: weblate/accounts/notifications.py:704
 msgctxt "Notification name"
 msgid "Repository operation failed"
-msgstr "Operațiunea depozitului a eșuat"
+msgstr "Operațiunea depozitarului a eșuat"
 
 #: weblate/accounts/notifications.py:771
 msgctxt "Notification name"
@@ -1101,8 +1101,8 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
-"Depozitul este învechit, este posibil să nu obții rezultatele așteptate până "
-"când nu îl actualizezi."
+"Depozitarul este învechit, este posibil să nu obții rezultatele așteptate "
+"până când nu îl actualizezi."
 
 #: weblate/addons/cdn.py:25
 msgid "JavaScript localization CDN"
@@ -1537,14 +1537,13 @@ msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
-"Listă de nume de fișiere din depozitul curent sau de adrese URL de la "
+"Listă de nume de fișiere din depozitarul curent sau de adrese URL la "
 "distanță care trebuie analizate pentru șiruri de caractere traductibile."
 
 #: weblate/addons/forms.py:526
-#, fuzzy, python-format
-#| msgid "Failed to parse CSS selector: %s"
+#, python-format
 msgid "Could not parse CSS selector: %s"
-msgstr "Nu a reușit să analizeze selectorul CSS: %s"
+msgstr "Nu a reușit interpretarea selectorului CSS: %s"
 
 #: weblate/addons/forms.py:532 weblate/billing/models.py:284
 #: weblate/templates/snippets/query-builder.html:14
@@ -1552,11 +1551,11 @@ msgstr "Nu a reușit să analizeze selectorul CSS: %s"
 #: weblate/templates/translation.html:127 weblate/trans/admin.py:73
 #: weblate/wladmin/models.py:159
 msgid "Source strings"
-msgstr "Șiruri de surse"
+msgstr "Șiruri sursă"
 
 #: weblate/addons/forms.py:534
 msgid "Target translation"
-msgstr "Traducerea țintă"
+msgstr "Traducere țintă"
 
 #: weblate/addons/forms.py:536
 msgid "All strings in this translation will be overwritten"
@@ -1564,23 +1563,23 @@ msgstr "Toate șirurile din această traducere vor fi suprascrise"
 
 #: weblate/addons/forms.py:539 weblate/templates/addons/pseudolocale.html:11
 msgid "Fixed string prefix"
-msgstr "Prefix de șir fix"
+msgstr "Prefix șir fix"
 
 #: weblate/addons/forms.py:544 weblate/templates/addons/pseudolocale.html:12
 msgid "Variable string prefix"
-msgstr "Prefixul șirului de variabile"
+msgstr "Prefix șir variabil"
 
 #: weblate/addons/forms.py:549 weblate/templates/addons/pseudolocale.html:15
 msgid "Fixed string suffix"
-msgstr "Sufix de șir fix"
+msgstr "Sufix șir fix"
 
 #: weblate/addons/forms.py:554 weblate/templates/addons/pseudolocale.html:14
 msgid "Variable string suffix"
-msgstr "Sufixul șirului de variabile"
+msgstr "Sufix șir variabil"
 
 #: weblate/addons/forms.py:559
 msgid "Variable part multiplier"
-msgstr "Multiplicatorul părții variabile"
+msgstr "Multiplicator parte variabilă"
 
 #: weblate/addons/forms.py:562
 msgid ""
@@ -1591,7 +1590,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:567
 msgid "Include read-only strings"
-msgstr "Includeți șiruri de caractere numai pentru citire"
+msgstr "Include șiruri doar pentru citire"
 
 #: weblate/addons/forms.py:597
 msgid "The source and target have to be different languages."
@@ -1609,7 +1608,7 @@ msgstr ""
 
 #: weblate/addons/generate.py:119
 msgid "Pseudolocale generation"
-msgstr "Generarea de pseudolocale"
+msgstr "Generare pseudolocale"
 
 #: weblate/addons/generate.py:121
 msgid ""
@@ -1621,27 +1620,23 @@ msgstr ""
 
 #: weblate/addons/generate.py:187
 msgid "Prefill translation with source"
-msgstr "Preumplerea traducerii cu sursa"
+msgstr "Precompletare traducere cu sursa"
 
 #: weblate/addons/generate.py:188
 msgid "Fills in translation strings with source string."
 msgstr "Completează șirurile de traducere cu șirul sursă."
 
 #: weblate/addons/generate.py:216
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Fill read-only strings with source"
-msgstr "Preumplerea traducerii cu sursa"
+msgstr "Completare șiruri doar pentru citire cu sursa"
 
 #: weblate/addons/generate.py:218
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Completează șirurile de traducere cu șirul sursă."
+msgstr "Completează șirurile de traducere doar pentru citire cu șirul sursă."
 
 #: weblate/addons/gettext.py:26
 msgid "Generate MO files"
-msgstr "Generarea de fișiere MO"
+msgstr "Generare fișiere MO"
 
 #: weblate/addons/gettext.py:28
 msgid "Automatically generates a MO file for every changed PO file."
@@ -1649,7 +1644,7 @@ msgstr "Generează automat un fișier MO pentru fiecare fișier PO modificat."
 
 #: weblate/addons/gettext.py:54
 msgid "Update LINGUAS file"
-msgstr "Actualizarea fișierului LINGUAS"
+msgstr "Actualizare fișier LINGUAS"
 
 #: weblate/addons/gettext.py:56
 msgid "Updates the LINGUAS file when a new translation is added."
@@ -1664,32 +1659,32 @@ msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
-"Actualizează variabila ALL_LINGUAS din fișierele \"configure\", \"configure."
-"in\" sau \"configure.ac\", atunci când se adaugă o nouă traducere."
+"Actualizează variabila ALL_LINGUAS din fișierele „configure”, „configure.in” "
+"sau „configure.ac”, atunci când se adaugă o nouă traducere."
 
 #: weblate/addons/gettext.py:218
 msgid "Update PO files to match POT (msgmerge)"
-msgstr "Actualizarea fișierelor PO pentru a se potrivi cu POT (msgmerge)"
+msgstr "Actualizare fișiere PO pentru a se potrivi cu POT (msgmerge)"
 
 #: weblate/addons/gettext.py:220
 msgid ""
 "Updates all PO files (as configured by \"File mask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"Actualizează toate fișierele PO (conform configurației \"File mask\") pentru "
-"a se potrivi cu fișierul POT (conform configurației \"Template for new "
-"translations\") utilizând msgmerge."
+"Actualizează toate fișierele PO (conform configurației „Mască fișier”) "
+"pentru a se potrivi cu fișierul POT (conform configurației „Șablon pentru "
+"traduceri noi”) utilizând msgmerge."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
-msgstr "Personalizează ieșire gettext"
+msgstr "Personalizare ieșire gettext"
 
 #: weblate/addons/gettext.py:305
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
-"Permite personalizarea comportamentului ieșirii gettext, de exemplu "
-"înfășurarea liniilor."
+"Permite personalizarea comportamentului de ieșire gettext, de exemplu "
+"împachetare linie."
 
 #: weblate/addons/gettext.py:316
 msgid "Contributors in comment"
@@ -1701,19 +1696,19 @@ msgid ""
 "and years of contributions."
 msgstr ""
 "Actualizează partea de comentarii din antetul fișierului PO pentru a include "
-"numele contribuabililor și anii de contribuție."
+"numele contribuitorilor și anii de contribuție."
 
 #: weblate/addons/git.py:19
 msgid "Squash Git commits"
-msgstr "Comenzi Git Squash"
+msgstr "Combină modificări Git"
 
 #: weblate/addons/git.py:20
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Eliminarea modificărilor din Git înainte de a împinge modificările."
+msgstr "Combină modificări Git înainte de a încărca modificările."
 
 #: weblate/addons/json.py:13
 msgid "Customize JSON output"
-msgstr "Personalizează ieșire JSON"
+msgstr "Personalizare ieșire JSON"
 
 #: weblate/addons/json.py:15
 msgid ""
@@ -1724,31 +1719,31 @@ msgstr ""
 
 #: weblate/addons/properties.py:130
 msgid "Format the Java properties file"
-msgstr "Formatați fișierul de proprietăți Java"
+msgstr "Formatare fișier de proprietăți Java"
 
 #: weblate/addons/properties.py:131
 msgid "Formats and sorts the Java properties file."
-msgstr "Se formatează și se sortează fișierul de proprietăți Java."
+msgstr "Formatează și sortează fișierul de proprietăți Java."
 
 #: weblate/addons/removal.py:35
 msgid "Stale comment removal"
-msgstr "Îndepărtarea modului învechit"
+msgstr "Înlăturare comentariu învechit"
 
 #: weblate/addons/removal.py:36
 msgid "Set a timeframe for removal of comments."
-msgstr "Stabiliți un interval de timp pentru eliminarea comentariilor."
+msgstr "Setare termen pentru înlăturare comentarii."
 
 #: weblate/addons/removal.py:49
 msgid "Stale suggestion removal"
-msgstr "Eliminarea sugestiilor învechite"
+msgstr "Înlăturare sugestie învechită"
 
 #: weblate/addons/removal.py:50
 msgid "Set a timeframe for removal of suggestions."
-msgstr "Stabiliți un termen pentru eliminarea sugestiilor."
+msgstr "Setare termen pentru înlăturare sugestii."
 
 #: weblate/addons/resx.py:14
 msgid "Update RESX files"
-msgstr "Actualizarea fișierelor RESX"
+msgstr "Actualizare fișiere RESX"
 
 #: weblate/addons/resx.py:16
 msgid ""
@@ -1756,42 +1751,38 @@ msgid ""
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
-"Actualizați toate fișierele de traducere pentru a se potrivi cu fișierul de "
-"bază monolingv extern. Șirurile neutilizate sunt eliminate, iar cele noi "
-"sunt adăugate ca copii ale șirului sursă."
+"Actualizează toate fișierele de traducere pentru a se potrivi cu fișierul de "
+"bază monolingv extern. Șirurile neutilizate sunt înlăturate, iar cele noi "
+"sunt devin copii după șirul sursă."
 
 #: weblate/addons/views.py:64
 msgid "Invalid add-on name specified!"
-msgstr "Nume de add-on invalid specificat!"
+msgstr "Numele specificat al suplimentului este invalid!"
 
 #: weblate/addons/views.py:78
 msgid "Add-on installed, please review integration instructions."
-msgstr "Add-on instalat, vă rugăm să consultați instrucțiunile de integrare."
+msgstr "Supliment instalat, te rugăm să consulți instrucțiunile de integrare."
 
 #: weblate/addons/xml.py:17
 msgid "Customize XML output"
-msgstr "Personalizează ieșire XML"
+msgstr "Personalizare ieșire XML"
 
 #: weblate/addons/xml.py:19
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting YAML output behavior, for example line-length or "
-#| "newlines."
 msgid "Allows adjusting XML output behavior, for example closing tags."
 msgstr ""
-"Permite ajustarea comportamentului de ieșire YAML, de exemplu, lungimea "
-"liniei sau liniile noi."
+"Permite ajustarea comportamentului de ieșire XML, de exemplu etichetele de "
+"închidere."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
-msgstr "Personalizează ieșire YAML"
+msgstr "Personalizare ieșire YAML"
 
 #: weblate/addons/yaml.py:17
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr ""
 "Permite ajustarea comportamentului de ieșire YAML, de exemplu, lungimea "
-"liniei sau liniile noi."
+"liniei sau linii noi."
 
 #: weblate/api/views.py:1708 weblate/auth/models.py:754
 #: weblate/checks/views.py:218 weblate/checks/views.py:225
@@ -1808,7 +1799,7 @@ msgstr "Proiect"
 #: weblate/trans/models/announcement.py:95 weblate/trans/models/category.py:54
 #: weblate/trans/models/component.py:346
 msgid "Category"
-msgstr "Categoria"
+msgstr "Categorie"
 
 #: weblate/api/views.py:1724 weblate/checks/views.py:220
 #: weblate/checks/views.py:227
@@ -1820,7 +1811,7 @@ msgstr "Categoria"
 #: weblate/templates/translation.html:202 weblate/trans/forms.py:908
 #: weblate/trans/forms.py:1677 weblate/trans/models/announcement.py:81
 msgid "Component"
-msgstr "Componenta"
+msgstr "Componentă"
 
 #: weblate/api/views.py:1732
 msgid "User"
@@ -1857,299 +1848,298 @@ msgstr "Date importante"
 #: weblate/auth/admin.py:218
 msgid "This is not used when a component list is selected."
 msgstr ""
-"Aceasta nu este utilizat atunci când este selectată o listă de componente."
+"Acesta nu este utilizat atunci când este selectată o listă de componente."
 
 #: weblate/auth/admin.py:225
 msgid "This is not used when a component is selected."
-msgstr "Aceasta nu este utilizat atunci când este selectată o componentă."
+msgstr "Acesta nu este utilizat atunci când este selectată o componentă."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:21
 msgid "View billing info"
-msgstr "Vezi informații de facturare"
+msgstr "Vizualizare informații de facturare"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:23
 msgid "Download changes"
-msgstr "Descărcați modificările"
+msgstr "Descărcare modificări"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:25
 msgid "Post comment"
-msgstr "Posta comentariu"
+msgstr "Publicare comentariu"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:27
 msgid "Delete comment"
-msgstr "Ștergeți comentariul"
+msgstr "Ștergere comentariu"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:29
 msgid "Resolve comment"
-msgstr "Rezolvați comentariul"
+msgstr "Rezolvare comentariu"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:31
 msgid "Edit component settings"
-msgstr "Editați setările componentelor"
+msgstr "Editare setări componente"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:33
 msgid "Lock component, preventing translations"
-msgstr "Componenta de blocare, împiedicând traducerile"
+msgstr "Blocare componentă, împiedicare traducere"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:35
 msgid "Add glossary entry"
-msgstr "Adaugă intrare în glosar"
+msgstr "Adăugare intrare în glosar"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
 msgid "Edit glossary entry"
-msgstr "Editarea intrării în glosar"
+msgstr "Editare intrare în glosar"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
 msgid "Delete glossary entry"
-msgstr "Ștergerea intrării în glosar"
+msgstr "Ștergere intrare în glosar"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:41
 msgid "Upload glossary entries"
-msgstr "Încărcați intrările din glosar"
+msgstr "Încărcare intrări în glosar"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:43
 msgid "Use automatic suggestions"
-msgstr "Utilizați sugestii automate"
+msgstr "Utilizare sugestii automate"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:45
 msgid "Edit translation memory"
-msgstr "Editarea memoriei de traducere"
+msgstr "Editare memorie de traducere"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:47
 msgid "Delete translation memory"
-msgstr "Ștergeți memoria de traducere"
+msgstr "Ștergere memoria de traducere"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:49
 msgid "Edit project settings"
-msgstr "Editați setările proiectului"
+msgstr "Editare setări proiect"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:51
 msgid "Manage project access"
-msgstr "Gestionați accesul la proiect"
+msgstr "Gestionare acces proiect"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:53
 msgid "Download reports"
-msgstr "Descărcați rapoarte"
+msgstr "Descărcare rapoarte"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:55 weblate/templates/translate.html:613
 msgid "Add screenshot"
-msgstr "Adaugă captură de ecran"
+msgstr "Adăugare captură de ecran"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:57 weblate/templates/base.html:366
 #: weblate/templates/screenshots/screenshot_detail.html:67
 msgid "Edit screenshot"
-msgstr "Editați captura de ecran"
+msgstr "Editare captură de ecran"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:59
 #: weblate/templates/screenshots/screenshot_detail.html:91
 msgid "Delete screenshot"
-msgstr "Ștergeți captura de ecran"
+msgstr "Ștergere captură de ecran"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:61 weblate/templates/translate.html:734
 msgid "Edit additional string info"
-msgstr "Editați informații suplimentare despre șiruri"
+msgstr "Editare informații suplimentare despre șir"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:63
 msgid "Add new string"
-msgstr "Adaugă șir de caractere nou"
+msgstr "Adăugare șir nou"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:65
 msgid "Remove a string"
-msgstr "Eliminați un șir de caractere"
+msgstr "Eliminarea unui șir"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:67
 msgid "Dismiss failing check"
-msgstr "Respinge controlul nereușit"
+msgstr "Respingere control nereușit"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:69
 msgid "Edit strings"
-msgstr "Editarea șirurilor de caractere"
+msgstr "Editare șir de caractere"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:71
 msgid "Review strings"
-msgstr "Șiruri de revizuire"
+msgstr "Revizuire șiruri"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:73
 msgid "Edit string when suggestions are enforced"
-msgstr ""
-"Editați șirul de caractere atunci când sugestiile sunt puse în aplicare"
+msgstr "Editare șir de caractere atunci când sugestiile sunt puse în aplicare"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
 msgid "Edit source strings"
-msgstr "Editarea șirurilor sursă"
+msgstr "Editare șiruri sursă"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:77
 msgid "Accept suggestion"
-msgstr "Acceptați sugestia"
+msgstr "Acceptare sugestie"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:79
 msgid "Add suggestion"
-msgstr "Adaugă sugestie"
+msgstr "Adăugare sugestie"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:81
 msgid "Delete suggestion"
-msgstr "Ștergeți sugestia"
+msgstr "Ștergere sugestie"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:83
 msgid "Vote on suggestion"
-msgstr "Votul asupra sugestiei"
+msgstr "Votare sugestie"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:85
 msgid "Add language for translation"
-msgstr "Adaugă limbă pentru traducere"
+msgstr "Adăugare limbă pentru traducere"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:87
 msgid "Perform automatic translation"
-msgstr "Efectuați traducerea automată"
+msgstr "Efectuare traducerea automată"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:89
 msgid "Delete existing translation"
-msgstr "Ștergeți traducerea existentă"
+msgstr "Ștergere traducerea existentă"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:91
 msgid "Download translation file"
-msgstr "Descărcați fișierul de traducere"
+msgstr "Descărcare fișier de traducere"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:93
 msgid "Add several languages for translation"
-msgstr "Adaugă mai multe limbi pentru traducere"
+msgstr "Adăugare mai multe limbi pentru traducere"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:95
 msgid "Define author of uploaded translation"
-msgstr "Definiți autorul traducerii încărcate"
+msgstr "Definire autor pentru traducerea încărcată"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:97
 msgid "Overwrite existing strings with upload"
-msgstr "Suprascrieți șirurile existente cu încărcare"
+msgstr "Suprascriere șiruri existente cu încărcare"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:99
 msgid "Upload translations"
-msgstr "Încărcați traduceri"
+msgstr "Încărcare traduceri"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:101
 msgid "Access the internal repository"
-msgstr "Accesați depozitul intern"
+msgstr "Accesare depozitar intern"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:103
 msgid "Commit changes to the internal repository"
-msgstr "Trimiteți modificările în depozitul intern"
+msgstr "Efectuare modificări în depozitarul intern"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:105
 msgid "Push change from the internal repository"
-msgstr "Împingeți modificarea din depozitul intern"
+msgstr "Încărcare modificarea din depozitarul intern"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:107
 msgid "Reset changes in the internal repository"
-msgstr "Resetarea modificărilor în depozitul intern"
+msgstr "Resetare modificări în depozitarul intern"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:109
 msgid "View upstream repository location"
-msgstr "Vizualizați locația depozitului din amonte"
+msgstr "Vizualizare locație depozitar sursă"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:111
 msgid "Update the internal repository"
-msgstr "Actualizarea depozitului intern"
+msgstr "Actualizare depozitar intern"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:119
 msgid "Use management interface"
-msgstr "Utilizați interfața de gestionare"
+msgstr "Utilizare interfață de gestionare"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:121
 msgid "Add new projects"
-msgstr "Adaugă proiecte noi"
+msgstr "Adăugare proiecte noi"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:123
 msgid "Add language definitions"
-msgstr "Adaugă definiții de limbă"
+msgstr "Adăugare definiții de limbă"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:125
 msgid "Manage language definitions"
-msgstr "Gestionați definițiile de limbă"
+msgstr "Gestionare definiții de limbă"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:127 weblate/templates/manage/teams.html:19
 msgid "Manage teams"
-msgstr "Gestionați echipa"
+msgstr "Gestionare echipe"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:129 weblate/templates/manage/users.html:18
 msgid "Manage users"
-msgstr "Gestionați utilizatorii"
+msgstr "Gestionare utilizatori"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:131
 msgid "Manage roles"
-msgstr "Gestionați rolurile"
+msgstr "Gestionare roluri"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:133
 msgid "Manage announcements"
-msgstr "Gestionați anunțurile"
+msgstr "Gestionare anunțuri"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
 msgid "Manage translation memory"
-msgstr "Gestionați memoria de traducere"
+msgstr "Gestionare memorie de traducere"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137
 msgid "Manage machinery"
-msgstr "Gestionarea utilajelor"
+msgstr "Gestionare echipamente"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
 msgid "Manage component lists"
-msgstr "Gestionați listele de componente"
+msgstr "Gestionare liste de componente"
 
 #: weblate/auth/data.py:170
 msgctxt "Access-control role"
@@ -2159,7 +2149,7 @@ msgstr "Administrare"
 #: weblate/auth/data.py:174
 msgctxt "Access-control role"
 msgid "Edit source"
-msgstr "Editați sursa"
+msgstr "Editează sursă"
 
 #: weblate/auth/data.py:177
 msgctxt "Access-control role"
@@ -2169,32 +2159,32 @@ msgstr "Adaugă sugestie"
 #: weblate/auth/data.py:179
 msgctxt "Access-control role"
 msgid "Access repository"
-msgstr "Depozit de acces"
+msgstr "Accesează depozitar"
 
 #: weblate/auth/data.py:183
 msgctxt "Access-control role"
 msgid "Manage glossary"
-msgstr "Gestionați glosarul"
+msgstr "Gestionează glosar"
 
 #: weblate/auth/data.py:187
 msgctxt "Access-control role"
 msgid "Power user"
-msgstr "Utilizator de putere"
+msgstr "Utilizator puternic"
 
 #: weblate/auth/data.py:199
 msgctxt "Access-control role"
 msgid "Review strings"
-msgstr "Șiruri de revizuire"
+msgstr "Revizuiește șiruri"
 
 #: weblate/auth/data.py:202
 msgctxt "Access-control role"
 msgid "Translate"
-msgstr "tradu"
+msgstr "Tradu"
 
 #: weblate/auth/data.py:204
 msgctxt "Access-control role"
 msgid "Manage languages"
-msgstr "Gestionați limbile"
+msgstr "Gestionează limbi"
 
 #: weblate/auth/data.py:208
 msgctxt "Access-control role"
@@ -2204,17 +2194,17 @@ msgstr "Traducere automată"
 #: weblate/auth/data.py:212
 msgctxt "Access-control role"
 msgid "Manage translation memory"
-msgstr "Gestionați memoria de traducere"
+msgstr "Gestionează memorie de traducere"
 
 #: weblate/auth/data.py:216
 msgctxt "Access-control role"
 msgid "Manage screenshots"
-msgstr "Gestionați capturi de ecran"
+msgstr "Gestionează capturi de ecran"
 
 #: weblate/auth/data.py:219
 msgctxt "Access-control role"
 msgid "Manage repository"
-msgstr "Gestionați depozitul"
+msgstr "Gestionează depozitar"
 
 #: weblate/auth/data.py:220
 msgctxt "Access-control role"
@@ -2224,12 +2214,12 @@ msgstr "Facturare"
 #: weblate/auth/data.py:226
 msgctxt "Access-control group"
 msgid "Guests"
-msgstr "Oaspeți"
+msgstr "Vizitatori"
 
 #: weblate/auth/data.py:230
 msgctxt "Access-control group"
 msgid "Viewers"
-msgstr "Telespectatori"
+msgstr "Spectatori"
 
 #: weblate/auth/data.py:232
 msgctxt "Access-control group"
@@ -2303,13 +2293,11 @@ msgstr "Facturare"
 
 #: weblate/auth/forms.py:82 weblate/auth/views.py:186
 msgid "User invitation e-mail was sent."
-msgstr "A fost trimis un e-mail de invitație utilizatorului."
+msgstr "A fost trimis o invitație prin e-mail utilizatorului."
 
 #: weblate/auth/forms.py:127
-#, fuzzy
-#| msgid "Changing of %s is prohibited for built-in groups."
 msgid "Cannot change this on a built-in team."
-msgstr "Modificarea lui %s este interzisă pentru grupurile încorporate."
+msgstr "Aceasta nu poate fi schimbat pe o echipă încorporată."
 
 #: weblate/auth/models.py:69
 #, python-format
@@ -2328,7 +2316,7 @@ msgstr "Nume"
 
 #: weblate/auth/models.py:81
 msgid "Choose permissions granted to this role."
-msgstr "Alegeți permisiunile acordate acestui rol."
+msgstr "Alege permisiunile acordate acestui rol."
 
 #: weblate/auth/models.py:102 weblate/templates/accounts/profile.html:219
 #: weblate/templates/auth/team.html:43 weblate/templates/manage/teams.html:26
@@ -2338,11 +2326,11 @@ msgstr "Roluri"
 
 #: weblate/auth/models.py:104
 msgid "Choose roles granted to this group."
-msgstr "Alegeți rolurile acordate acestui grup."
+msgstr "Alege rolurile acordate acestui grup."
 
 #: weblate/auth/models.py:116
 msgid "Project selection"
-msgstr "Selecția proiectului"
+msgstr "Selecție proiect"
 
 #: weblate/auth/models.py:118 weblate/auth/models.py:146
 msgid "As defined"
@@ -2391,14 +2379,13 @@ msgid "Components"
 msgstr "Componente"
 
 #: weblate/auth/models.py:134
-#, fuzzy
-#| msgid "You do not have permission to create components in any projects."
 msgid "Empty selection grants access to all components in project scope."
-msgstr "Nu aveți permisiunea de a crea componente în niciun proiect."
+msgstr ""
+"Selectarea goală acordă acces la toate componentele în cadrul proiectului."
 
 #: weblate/auth/models.py:144
 msgid "Language selection"
-msgstr "Selectarea limbii"
+msgstr "Selectare limbă"
 
 #: weblate/auth/models.py:147 weblate/templates/auth/teams-languages.html:4
 #: weblate/trans/forms.py:1042 weblate/trans/forms.py:1233
@@ -2431,11 +2418,11 @@ msgstr "Grup intern Weblate"
 
 #: weblate/auth/models.py:161
 msgid "Team administrators"
-msgstr "Administratorii echipei"
+msgstr "Administratori echipă"
 
 #: weblate/auth/models.py:164
 msgid "The administrator can add or remove users from a team."
-msgstr ""
+msgstr "Administratorul poate adăuga sau înlătura utilizatori dintr-o echipă."
 
 #: weblate/auth/models.py:329 weblate/utils/forms.py:50
 #: weblate/utils/validators.py:168
@@ -2452,7 +2439,7 @@ msgstr "Există deja un utilizator cu acest nume de utilizator."
 
 #: weblate/auth/models.py:350 weblate/auth/models.py:955
 msgid "Superuser status"
-msgstr "Statutul de superutilizator"
+msgstr "Statut de super-utilizator"
 
 #: weblate/auth/models.py:352 weblate/auth/models.py:957
 msgid "User has all possible permissions."
@@ -2465,7 +2452,7 @@ msgstr "Activ"
 
 #: weblate/auth/models.py:357
 msgid "Mark user as inactive instead of removing."
-msgstr "Marcați utilizatorul ca fiind inactiv în loc să îl eliminați."
+msgstr "Marchează utilizatorul ca fiind inactiv în loc să îl elimini."
 
 #: weblate/auth/models.py:365 weblate/templates/trans/project-access.html:283
 msgid "Expires"
@@ -2483,15 +2470,11 @@ msgid "Teams"
 msgstr "Echipe"
 
 #: weblate/auth/models.py:375 weblate/auth/models.py:945
-#, fuzzy
-#| msgid ""
-#| "The user is granted all permissions included in membership of these "
-#| "groups."
 msgid ""
 "The user is granted all permissions included in membership of these teams."
 msgstr ""
 "Utilizatorului i se acordă toate permisiunile incluse în calitatea de membru "
-"al acestor grupuri."
+"al acestor echipe."
 
 #: weblate/auth/models.py:725
 msgid "Regular expression for e-mail address"
@@ -2505,7 +2488,7 @@ msgstr ""
 
 #: weblate/auth/models.py:734
 msgid "Group to assign"
-msgstr "Grup pentru a atribui"
+msgstr "Grup de atribuit"
 
 #: weblate/auth/models.py:749 weblate/trans/forms.py:1185
 msgid "User to block"
@@ -2513,7 +2496,7 @@ msgstr "Utilizator de blocat"
 
 #: weblate/auth/models.py:756
 msgid "Block expiry"
-msgstr "Blocajul expiră"
+msgstr "Expirarea blocării"
 
 #: weblate/auth/models.py:936 weblate/trans/forms.py:1166
 msgid "User to add"
@@ -2523,18 +2506,16 @@ msgstr "Utilizator de adăugat"
 #: weblate/trans/forms.py:1187
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr ""
-"Vă rugăm să introduceți un nume de cont Weblate existent sau o adresă de e-"
-"mail."
+"Te rugăm să introduci un nume de cont Weblate existent sau o adresă de "
+"e-mail."
 
 #: weblate/auth/models.py:943 weblate/templates/accounts/profile.html:218
-#, fuzzy
-#| msgid "Teams"
 msgid "Team"
-msgstr "Echipe"
+msgstr "Echipă"
 
 #: weblate/auth/permissions.py:143
 msgid "Can not perform this operation without an e-mail address."
-msgstr ""
+msgstr "Nu se poate efectua această operație fără o adresă de e-mail."
 
 #: weblate/auth/permissions.py:149 weblate/templates/translate.html:194
 #: weblate/templates/translate.html:214
@@ -2542,32 +2523,26 @@ msgid "This translation is currently locked."
 msgstr "Această traducere este momentan blocată."
 
 #: weblate/auth/permissions.py:157
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires you agree to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "agreement."
 msgstr ""
-"Pentru a contribui la această traducere trebuie să fiți de acord cu acordul "
-"de colaborare."
+"Pentru a contribui la această traducere, este necesar să fii de acord cu "
+"acordul de contribuitor."
 
 #: weblate/auth/permissions.py:163 weblate/templates/translate.html:200
 #: weblate/trans/views/edit.py:413 weblate/trans/views/edit.py:435
 #: weblate/trans/views/edit.py:455 weblate/trans/views/edit.py:948
 msgid "Insufficient privileges for saving translations."
-msgstr "Insuficiente privilegii pentru salvarea traducerilor."
+msgstr "Privilegii insuficiente pentru salvarea traducerilor."
 
 #: weblate/auth/permissions.py:171
 msgid "Insufficient privileges for editing source strings."
 msgstr "Privilegii insuficiente pentru editarea șirurilor sursă."
 
 #: weblate/auth/permissions.py:175
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Suggestion voting is disabled."
-msgstr "Editarea șirului sursă este dezactivată."
+msgstr "Votarea sugestiei este dezactivată."
 
 #: weblate/auth/permissions.py:185
 msgid ""
@@ -2578,13 +2553,11 @@ msgstr ""
 #: weblate/auth/permissions.py:191
 #: weblate/templates/snippets/project/state.html:6
 msgid "Pay the bills to unlock this project."
-msgstr "Plătiți facturile pentru a debloca acest proiect."
+msgstr "Plătește facturile pentru a debloca acest proiect."
 
 #: weblate/auth/permissions.py:202
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Source string reviews are not enabled."
-msgstr "Editarea șirului sursă este dezactivată."
+msgstr "Revizuirile pentru șirurile sursă nu sunt activate."
 
 #: weblate/auth/permissions.py:203
 #, fuzzy
@@ -4994,10 +4967,8 @@ msgid "Screenshot name"
 msgstr "Numele capturii de ecran"
 
 #: weblate/screenshots/models.py:52
-#, fuzzy
-#| msgid "Repository branch to translate"
 msgid "Repository path to screenshot"
-msgstr "Ramura depozitului de tradus"
+msgstr "Calea către captura de ecran din depozitar"
 
 #: weblate/screenshots/models.py:53
 msgid "Scan for screenshot file change on repository update."
@@ -5789,14 +5760,14 @@ msgstr "Exemplu de utilizare CLI:"
 
 #: weblate/templates/accounts/profile.html:366
 msgid "Accessing Git repositories"
-msgstr "Accesarea depozitelor Git"
+msgstr "Accesarea depozitarelor Git"
 
 #: weblate/templates/accounts/profile.html:368
 msgid ""
 "The API key is also used to authenticate to automatically exported Git "
 "repositories."
 msgstr ""
-"Cheia API este, de asemenea, utilizată pentru autentificarea la depozitele "
+"Cheia API este, de asemenea, utilizată pentru autentificarea la depozitarele "
 "Git exportate automat."
 
 #: weblate/templates/accounts/profile.html:381
@@ -6194,12 +6165,12 @@ msgstr "la nivelul întregului proiect"
 #: weblate/templates/addons/addon_head.html:10
 msgid "This add-on is used for all components sharing this repository."
 msgstr ""
-"Acest addon este utilizat pentru toate componentele care partajează acest "
-"depozit."
+"Acest supliment este utilizat pentru toate componentele care partajează "
+"acest depozitar."
 
 #: weblate/templates/addons/addon_head.html:10
 msgid "repository wide"
-msgstr "la nivel de depozit"
+msgstr "la nivel de depozitar"
 
 #: weblate/templates/addons/addon_list.html:17
 msgid "Installed add-ons"
@@ -6291,7 +6262,7 @@ msgstr "Fișier de limbă de bază monolingvă"
 #: weblate/templates/trans/discover-choice.html:5
 #: weblate/trans/models/component.py:429
 msgid "File mask"
-msgstr "Masca de fișier"
+msgstr "Mască fișier"
 
 #: weblate/templates/addons/discovery_preview.html:32
 msgid "The following components matched existing ones"
@@ -6361,7 +6332,8 @@ msgstr "Șirul sursă"
 #: weblate/templates/addons/squash_help.html:4
 msgid ""
 "Weblate commits from components within this repository will be squashed."
-msgstr "Comenzile Weblate din componentele din acest depozit vor fi eliminate."
+msgstr ""
+"Contribuțiile Weblate din componentele din acest depozitar vor fi comasate."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
@@ -6875,7 +6847,7 @@ msgstr "Orice utilizator autentificat poate contribui."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "VCS repository might be exposed to everybody."
-msgstr "Depozitul VCS ar putea fi expus tuturor."
+msgstr "Depozitarul VCS ar putea fi expus tuturor."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:47
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:59
@@ -6886,7 +6858,7 @@ msgstr "Numai utilizatorii selectați pot contribui."
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:63
 msgid "Only chosen users can access VCS repository."
-msgstr "Numai utilizatorii selectați pot accesa depozitul VCS."
+msgstr "Numai utilizatorii selectați pot accesa depozitarul VCS."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:56
 msgid "Visible only to chosen users."
@@ -7092,16 +7064,12 @@ msgstr ""
 #: weblate/templates/category.html:208 weblate/templates/category.html:226
 #: weblate/templates/component.html:255 weblate/templates/component.html:273
 #: weblate/templates/project.html:272
-#, fuzzy
-#| msgid ""
-#| "Renaming the project will change all URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Users will need to update their bookmarks, references in cloned "
 "repositories, or API calls!"
 msgstr ""
-"Redenumirea proiectului va schimba toate URL-urile, utilizatorii vor trebui "
-"să actualizeze semnele de carte sau referințele din depozitele clonate!"
+"Utilizatorii vor trebui să își actualizeze marcajele, referințele din "
+"depozitarele clonate sau apelurile API!"
 
 #: weblate/templates/category.html:214 weblate/templates/component.html:261
 #: weblate/templates/project.html:278
@@ -7197,7 +7165,7 @@ msgstr "Vedere matriceală"
 #: weblate/templates/component.html:84 weblate/templates/project.html:80
 #: weblate/templates/translation.html:89
 msgid "Repository maintenance"
-msgstr "Întreținerea depozitelor"
+msgstr "Întreținere depozitar"
 
 #: weblate/templates/component.html:87
 #: weblate/templates/screenshots/screenshot_detail.html:10
@@ -7466,8 +7434,7 @@ msgstr "Cârlig"
 #: weblate/templates/data.html:124
 msgid "You pull changes from a remote repository to Weblate like this:"
 msgstr ""
-"Trageți modificările dintr-un depozit la distanță în Weblate în felul "
-"următor:"
+"Tragi modificări dintr-un depozitar la distanță în Weblate în felul următor:"
 
 #: weblate/templates/data.html:133
 msgid ""
@@ -7839,7 +7806,7 @@ msgstr ""
 #: weblate/templates/js/git-status.html:20
 #: weblate/templates/mail/repository_error.html:13
 msgid "Repository status"
-msgstr "Starea depozitului"
+msgstr "Stare depozitar"
 
 #: weblate/templates/js/git-status.html:26
 msgid "Commit"
@@ -7856,12 +7823,12 @@ msgstr[1] "%(count)s schimbare"
 msgstr[2] "%(count)s schimbari"
 
 #: weblate/templates/js/git-status.html:32
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "Trimiteți modificările în așteptare în depozitul Weblate"
+msgstr ""
+"Aceasta va efectua orice modificări în așteptare prezente în Weblate și nu "
+"în depozitar."
 
 #: weblate/templates/js/git-status.html:38
 msgid "Push"
@@ -7913,7 +7880,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:80
 msgid "Allow changes to the Weblate repository"
-msgstr "Permiteți modificări la depozitul Weblate"
+msgstr "Permite modificări la depozitarul Weblate"
 
 #: weblate/templates/js/git-status.html:80
 #: weblate/templates/snippets/component/lock.html:11
@@ -7922,7 +7889,7 @@ msgstr "Deblocare"
 
 #: weblate/templates/js/git-status.html:82
 msgid "Prevent any changes in the Weblate repository"
-msgstr "Împiedicați orice modificări în depozitul Weblate"
+msgstr "Împiedică orice modificări în depozitarul Weblate"
 
 #: weblate/templates/js/git-status.html:82
 msgid "Lock"
@@ -7959,19 +7926,15 @@ msgstr "Resetare"
 
 #: weblate/templates/js/git-status.html:112
 msgid "Reset all changes in the Weblate repository"
-msgstr "Resetați toate modificările din depozitul Weblate"
+msgstr "Resetează toate modificările din depozitarul Weblate"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid ""
-#| "Resetting removes all changes in Weblate so that the repository matches "
-#| "upstream. Use with caution."
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream."
 msgstr ""
 "Resetarea elimină toate modificările din Weblate, astfel încât depozitul să "
-"corespundă cu cel din amonte. Folosiți cu precauție."
+"corespundă cu cel din sursă."
 
 #: weblate/templates/js/git-status.html:116
 msgid ""
@@ -7985,7 +7948,7 @@ msgstr "Curățare"
 
 #: weblate/templates/js/git-status.html:122
 msgid "Cleanup all untracked files in the Weblate repository"
-msgstr "Curățați toate fișierele netrasate din depozitul Weblate"
+msgstr "Curăță toate fișierele neurmărite din depozitarul Weblate"
 
 #: weblate/templates/js/git-status.html:125
 msgid ""
@@ -7994,10 +7957,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/js/git-status.html:126
-#, fuzzy
-#| msgid "Prevent any changes in the Weblate repository"
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Împiedicați orice modificări în depozitul Weblate"
+msgstr "Folosește atunci când mai există gunoi în depozitarul Weblate."
 
 #: weblate/templates/js/git-status.html:130
 msgid "Synchronize"
@@ -8005,13 +7966,11 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:132
 msgid "Force writing all translations to the Weblate repository"
-msgstr "Forțați scrierea tuturor traducerilor în depozitul Weblate"
+msgstr "Forțează scrierea tuturor traducerilor în depozitarul Weblate"
 
 #: weblate/templates/js/git-status.html:135
-#, fuzzy
-#| msgid "Force writing all translations to the Weblate repository"
 msgid "Forces writing all strings to the translation files."
-msgstr "Forțați scrierea tuturor traducerilor în depozitul Weblate"
+msgstr "Forțează scrierea tuturor traducerilor în fișierele de traducere."
 
 #: weblate/templates/js/git-status.html:136
 msgid ""
@@ -8024,10 +7983,8 @@ msgid "Rescan"
 msgstr ""
 
 #: weblate/templates/js/git-status.html:142
-#, fuzzy
-#| msgid "Cleanup all untracked files in the Weblate repository"
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "Curățați toate fișierele netrasate din depozitul Weblate"
+msgstr "Rescanează toate fișierele de traducere din depozitarul Weblate"
 
 #: weblate/templates/js/git-status.html:145
 #, fuzzy
@@ -8036,14 +7993,11 @@ msgid "Loads translations from the files into Weblate."
 msgstr "Alegeți fișierele de traducere pentru a importa"
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Weblate could not fetch upstream changes when updating the repository."
 msgid ""
 "Use when Weblate missed some of the strings after updating the repository."
 msgstr ""
-"Weblate nu a putut prelua modificările din amonte atunci când a actualizat "
-"depozitul."
+"Folosește atunci când Weblate a ratat unele dintre șiruri după actualizarea "
+"depozitarului."
 
 #: weblate/templates/js/git-status.html:151
 msgid "Use these operations with caution, they can lead to data loss."
@@ -8052,15 +8006,15 @@ msgstr ""
 #: weblate/templates/js/git-status.html:160
 #, python-format
 msgid "Repository for %(component)s"
-msgstr "Depozit pentru %(component)s"
+msgstr "Depozitar pentru %(component)s"
 
 #: weblate/templates/js/git-status.html:166
 msgid "Repository details"
-msgstr "Detalii de depozit"
+msgstr "Detalii depozitar"
 
 #: weblate/templates/js/git-status.html:174
 msgid "Repository changes"
-msgstr "Modificări ale depozitelor"
+msgstr "Modificări depozitar"
 
 #: weblate/templates/lang/create.html:7
 #: weblate/templates/snippets/list-objects.html:33
@@ -8589,12 +8543,12 @@ msgstr "Eliminarea contului pe %(site_title)s"
 #: weblate/templates/mail/repository_error_subject.txt:3
 #, python-format
 msgid "Repository failure in %(component)s"
-msgstr "Eșecul depozitului în %(component)s"
+msgstr "Eșec depozitar în %(component)s"
 
 #: weblate/templates/mail/repository_operation_subject.txt:3
 #, python-format
 msgid "Repository operation in %(component)s"
-msgstr "Operațiunea de depozitare în %(component)s"
+msgstr "Operațiune depozitar în %(component)s"
 
 #: weblate/templates/mail/reset-nonexisting.html:7
 #, python-format
@@ -8949,17 +8903,15 @@ msgstr "Nu a fost încă măsurat"
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
 msgid "Status of repositories"
-msgstr "Starea depozitelor"
+msgstr "Stare depozitari"
 
 #: weblate/templates/manage/repos.html:11
-#, fuzzy
-#| msgid "This component is linked to the %(target)s repository."
 msgid "Show components with linked repositories"
-msgstr "Această componentă este legată de depozitul %(target)s."
+msgstr "Arată componente cu depozitari legați"
 
 #: weblate/templates/manage/repos.html:17
 msgid "This repository is linked to:"
-msgstr "Acest depozit este legat de:"
+msgstr "Acest depozitar este legat de:"
 
 #: weblate/templates/manage/snippets/activation-form.html:10
 msgid "Activate support package"
@@ -8979,7 +8931,7 @@ msgstr "Activați"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:5
 msgid "Backup repository"
-msgstr "Depozit de rezervă"
+msgstr "Depozitar de copii de siguranță"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:9
 msgid "Passphrase"
@@ -9004,8 +8956,8 @@ msgstr "Descărcați cheia privată"
 #: weblate/templates/manage/snippets/backup-credentials.html:16
 msgid "The private key is needed to access the remote backup repository."
 msgstr ""
-"Cheia privată este necesară pentru a accesa depozitul de copii de rezervă la "
-"distanță."
+"Cheia privată este necesară pentru a accesa depozitarul de copii de "
+"siguranță la distanță."
 
 #: weblate/templates/manage/ssh.html:8
 #: weblate/wladmin/templates/admin/weblate-index.html:26
@@ -9625,23 +9577,23 @@ msgstr "Încărcarea rezultatelor…"
 #: weblate/templates/snippets/git-info.html:10
 #: weblate/trans/models/component.py:364
 msgid "Source code repository"
-msgstr "Depozitul de cod sursă"
+msgstr "Depozitar de cod sursă"
 
 #: weblate/templates/snippets/git-info.html:19
 #: weblate/trans/templatetags/translations.py:962
 #, python-format
 msgid "This component is linked to the %(target)s repository."
-msgstr "Această componentă este legată de depozitul %(target)s."
+msgstr "Această componentă este legată de depozitarul %(target)s."
 
 #: weblate/templates/snippets/git-info.html:21
 #: weblate/templates/snippets/git-info.html:71
 msgid "Repository URL copied to clipboard."
-msgstr "URL-ul depozitului a fost copiat în clipboard."
+msgstr "URL-ul depozitarului a fost copiat în clipboard."
 
 #: weblate/templates/snippets/git-info.html:27 weblate/trans/forms.py:1690
 #: weblate/trans/models/component.py:413
 msgid "Repository branch"
-msgstr "Ramura de depozit"
+msgstr "Ramură depozitar"
 
 #: weblate/templates/snippets/git-info.html:36
 msgid "Last remote commit"
@@ -9660,7 +9612,7 @@ msgstr "Ultimul angajament în Weblate"
 
 #: weblate/templates/snippets/git-info.html:68
 msgid "Weblate repository"
-msgstr "Depozitul Weblate"
+msgstr "Depozitar Weblate"
 
 #: weblate/templates/snippets/glossary.html:7
 #: weblate/trans/templatetags/translations.py:783
@@ -9952,8 +9904,8 @@ msgid ""
 "Translations have to be in the same repository as the source code, or under "
 "the same project/organization as the source code repository."
 msgstr ""
-"Traducerile trebuie să se afle în același depozit ca și codul sursă sau în "
-"cadrul aceluiași proiect/organizație ca și depozitul de cod sursă."
+"Traducerile trebuie să se afle în același depozitar ca și codul sursă sau în "
+"cadrul aceluiași proiect/organizație ca și depozitarul de cod sursă."
 
 #: weblate/templates/snippets/libre-basic.html:6
 msgid "Using Weblate has been approved by the upstream project."
@@ -10314,9 +10266,9 @@ msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
-"Weblate utilizează cheia SSH pentru a accesa depozitele de la distanță. "
-"Cheia publică corespunzătoare se găsește mai jos, pe care o puteți utiliza "
-"pentru a permite accesul Weblate la un depozit."
+"Weblate utilizează cheia SSH pentru a accesa depozitarile de la distanță. "
+"Cheia publică corespunzătoare se găsește mai jos, pe care o poți utiliza "
+"pentru a permite accesul Weblate la un depozitar."
 
 #: weblate/templates/snippets/ssh-key.html:24
 #, fuzzy, python-format
@@ -10484,7 +10436,7 @@ msgstr "Această componentă este configurată incorect."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
 msgid "The repository browser URL points to non-existing locations:"
-msgstr "URL-ul browserului de depozit indică locații inexistente:"
+msgstr "URL-ul navigatorului depozitarului indică locații inexistente:"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:10
 msgid ""
@@ -10561,7 +10513,7 @@ msgid ""
 "it from the repository."
 msgstr ""
 "În cazul în care fișierul de traducere pentru limba sursă nu este necesar, "
-"vă rugăm să îl eliminați din depozit."
+"te rugăm să îl elimini din depozitar."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
 msgid ""
@@ -10621,7 +10573,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/inexistantfiles.html:4
 msgid "Following files are no longer present in the repository:"
-msgstr "Următoarele fișiere nu mai sunt prezente în depozit:"
+msgstr "Următoarele fișiere nu mai sunt prezente în depozitar:"
 
 #: weblate/templates/trans/alert/inexistantfiles.html:15
 #: weblate/trans/models/component.py:480
@@ -10631,8 +10583,8 @@ msgstr "Șablon pentru traduceri noi"
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
 msgstr ""
-"Weblate nu a putut fuziona modificările din upstream în timpul actualizării "
-"depozitului."
+"Weblate nu a putut fuziona modificările sursă în timpul actualizării "
+"depozitarului."
 
 #: weblate/templates/trans/alert/missinglicense.html:2
 msgid ""
@@ -10678,8 +10630,8 @@ msgid ""
 "Check whether the file mask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
 msgstr ""
-"Verificați dacă masca - de fișiere <code>%(filemask)s</code> se potrivește "
-"cu fișierele din depozitul sistemului de control al versiunilor."
+"Verifică dacă masca de fișiere <code>%(filemask)s</code> se potrivește cu "
+"fișierele din depozitarul sistemului de control al versiunilor."
 
 #. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
@@ -10700,7 +10652,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/pushfailure.html:4
 msgid "Weblate could not push changes to the upstream repository."
-msgstr "Weblate nu a putut să împingă modificările în depozitul din amonte."
+msgstr "Weblate nu a putut să încarce modificările în depozitarul sursă."
 
 #: weblate/templates/trans/alert/pushfailure.html:9
 #: weblate/trans/models/component.py:2832
@@ -10721,34 +10673,34 @@ msgid ""
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
-"S-ar putea să doriți să alegeți Git cu force push ca sistem de control al "
-"versiunii în configurația componentei pentru a suprascrie depozitul de la "
-"distanță după ce ați refăcut modificările în Weblate."
+"S-ar putea să alegi Git cu încărcare forțată ca sistem de control al "
+"versiunii în configurația componentei pentru a suprascrie depozitarul de la "
+"distanță după ce ai refăcut modificările în Weblate."
 
 #: weblate/templates/trans/alert/pushfailure.html:22
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
 "not receiving notifications upon updates of the remote repository."
 msgstr ""
-"Din depozitul Weblate lipsesc unele comenzi din amonte. Poate că nu primește "
-"notificări la actualizări ale depozitului de la distanță."
+"Din depozitarul Weblate lipsesc unele modificări din sursă. Poate că nu "
+"primește notificări la actualizări ale depozitarului de la distanță."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
-"Depozitul VCS are multe modificări în comparație cu cel din amonte. Vă rugăm "
-"să unificați modificările manual sau să configurați push pentru a automatiza "
-"acest lucru."
+"Depozitarul VCS are multe modificări în comparație cu cel din sursă. Te "
+"rugăm să fuzionezi modificările manual sau să configurezi încărcarea pentru "
+"a automatiza acest lucru."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
-"Depozitul VCS nu este actualizat cu cel din amonte. Vă rugăm să îmbinați "
-"modificările manual sau să configurați cârlige pentru a automatiza acest "
+"Depozitarul VCS nu este actualizat cu cel din sursă. Te rugăm să fuzionezi "
+"modificările manual sau să configurezi agățătoare pentru a automatiza acest "
 "lucru."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
@@ -10819,8 +10771,8 @@ msgstr "Gestionați capturi de ecran"
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr ""
-"Weblate nu a putut prelua modificările din amonte atunci când a actualizat "
-"depozitul."
+"Weblate nu a putut prelua modificările din sursă atunci când a actualizat "
+"depozitarul."
 
 #: weblate/templates/trans/backups.html:21
 msgid "There are currently no backups."
@@ -10897,8 +10849,8 @@ msgid ""
 "Create a new translation component from remote version control system "
 "repository."
 msgstr ""
-"Creați o nouă componentă de traducere din depozitul sistemului de control al "
-"versiunilor la distanță."
+"Creează o nouă componentă de traducere din depozitarul sistemului de control "
+"al versiunilor la distanță."
 
 #: weblate/templates/trans/component_create.html:53
 #: weblate/templates/trans/component_create.html:66
@@ -10916,7 +10868,7 @@ msgid ""
 "Create a new translation component from a repository already cloned in "
 "Weblate."
 msgstr ""
-"Creați o nouă componentă de traducere dintr-un depozit deja clonat în "
+"Creează o nouă componentă de traducere dintr-un depozitar deja clonat în "
 "Weblate."
 
 #: weblate/templates/trans/component_create.html:77
@@ -11115,7 +11067,7 @@ msgstr ""
 
 #: weblate/templates/trans/merge_instructions.html:14
 msgid "Add Weblate exported repository as a remote."
-msgstr "Adaugă depozitul exportat Weblate ca fiind la distanță."
+msgstr "Adaugă depozitarul exportat Weblate ca fiind la distanță."
 
 #: weblate/templates/trans/merge_instructions.html:18
 msgid "Merge Weblate changes and resolve any conflicts."
@@ -11129,14 +11081,14 @@ msgstr "Unificați modificările Weblate și rezolvați eventualele conflicte."
 
 #: weblate/templates/trans/merge_instructions.html:28
 msgid "Push changes into upstream repository."
-msgstr "Introduceți modificările în depozitul din amonte."
+msgstr "Încarcă modificările în depozitarul sursă."
 
 #: weblate/templates/trans/merge_instructions.html:32
 msgid ""
 "Weblate should now be able to see updated repository and you can unlock it."
 msgstr ""
-"Weblate ar trebui să fie acum capabil să vadă depozitul actualizat și îl "
-"puteți debloca."
+"Weblate ar trebui să fie acum capabil să vadă depozitarul actualizat și îl "
+"poți debloca."
 
 #: weblate/templates/trans/merge_instructions.html:39
 msgid "Check the FAQ for info on how to resolve this."
@@ -11281,10 +11233,10 @@ msgid ""
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
 msgstr ""
-"Atunci când se modifică URL-ul depozitului, conținutul existent va fi "
-"fuzionat cu noul depozit. Acest lucru va funcționa fără probleme dacă "
-"depozitul a fost mutat într-o altă locație. În cazul în care conținutul "
-"depozitului este diferit, ar fi mai bine să creați o nouă componentă de "
+"Atunci când se modifică URL-ul depozitarului, conținutul existent va fi "
+"fuzionat cu noul depozitar. Acest lucru va funcționa fără probleme dacă "
+"depozitarul a fost mutat într-o altă locație. În cazul în care conținutul "
+"depozitarului este diferit, ar fi mai bine să creezi o nouă componentă de "
 "traducere."
 
 #: weblate/templates/translate.html:49
@@ -11620,7 +11572,7 @@ msgstr "șir de caractere %(position)s"
 #: weblate/templates/translate.html:712
 msgid "Pending changes not yet committed to the Weblate repository"
 msgstr ""
-"Modificări în așteptare, care nu au fost încă acceptate în depozitul Weblate"
+"Modificări în așteptare care nu au fost încă efectuare în depozitarul Weblate"
 
 #: weblate/templates/translate.html:712
 msgid "pending"
@@ -11734,7 +11686,7 @@ msgstr "Descărcări rapide"
 
 #: weblate/templates/translation.html:317
 msgid "File in original format as translated in the repository"
-msgstr "Fișier în format original, așa cum a fost tradus în depozit"
+msgstr "Fișier în format original, așa cum a fost tradus în depozitar"
 
 #: weblate/templates/translation.html:326
 msgid ""
@@ -11886,7 +11838,7 @@ msgstr "Angajarea modificărilor în așteptare"
 
 #: weblate/trans/admin.py:24
 msgid "Update VCS repository"
-msgstr "Actualizați depozitul VCS"
+msgstr "Actualizează depozitarul VCS"
 
 #: weblate/trans/admin.py:37
 msgid "Update quality checks"
@@ -11898,7 +11850,7 @@ msgstr "Administratori"
 
 #: weblate/trans/admin.py:86
 msgid "VCS repositories"
-msgstr "Depozite VCS"
+msgstr "Depozitari VCS"
 
 #: weblate/trans/apps.py:12
 msgid "Weblate translations"
@@ -12625,8 +12577,8 @@ msgstr "Integrarea controlului versiunilor"
 #: weblate/trans/guide.py:74
 msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgstr ""
-"Configurați cârligele de depozit pentru fluxul automat de actualizări către "
-"Weblate."
+"Configurează cârligele de depozitar pentru fluxul automat de actualizări "
+"către Weblate."
 
 #: weblate/trans/guide.py:95
 msgid "Configure push URL for automated flow of translations from Weblate."
@@ -12707,17 +12659,17 @@ msgstr "Masca - fișierului duplicat."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:197
 msgid "Could not merge the repository."
-msgstr "Nu s-a putut fuziona depozitul."
+msgstr "Nu s-a putut fuziona depozitarul."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:206
 msgid "Could not update the repository."
-msgstr "Nu s-a putut actualiza depozitul."
+msgstr "Nu s-a putut actualiza depozitarul."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:215
 msgid "Could not push the repository."
-msgstr "Nu a fost posibilă împingerea depozitului."
+msgstr "Nu a fost posibilă încărcarea depozitarului."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:256
@@ -12732,12 +12684,12 @@ msgstr "Planul dvs. de facturare și-a depășit limitele."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:269
 msgid "Repository outdated."
-msgstr "Depozit învechit."
+msgstr "Depozitar învechit."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:276
 msgid "Repository has changes."
-msgstr "Depozitul a suferit modificări."
+msgstr "Depozitarul a suferit modificări."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:284
@@ -12763,7 +12715,7 @@ msgstr "Configurație componentă neacceptată"
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:336
 msgid "Broken repository browser URL"
-msgstr "URL-ul browserului de depozit stricat"
+msgstr "URL-ul navigatorului de depozitar este stricat"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:350
@@ -12935,7 +12887,7 @@ msgstr "Componentă deblocată"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:308
 msgid "Committed changes"
-msgstr "Modificări angajate"
+msgstr "Modificări efectuate"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:310
@@ -12945,7 +12897,7 @@ msgstr "Modificări împinse"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:312
 msgid "Reset repository"
-msgstr "Resetarea depozitului"
+msgstr "Resetare depozitar"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:314
@@ -12955,22 +12907,22 @@ msgstr "Depozit fuzionat"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:316
 msgid "Rebased repository"
-msgstr "Reașezarea depozitului"
+msgstr "Depozitar rebazat"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:318
 msgid "Failed merge on repository"
-msgstr "Fuziune eșuată pe depozit"
+msgstr "Fuziune a depozitarului eșuată"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:320
 msgid "Failed rebase on repository"
-msgstr "Rebase eșuat pe depozit"
+msgstr "Rebazare a depozitarului eșuată"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:322
 msgid "Failed push on repository"
-msgstr "A eșuat push pe depozit"
+msgstr "Încărcare depozitar eșuată"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:324
@@ -13135,7 +13087,7 @@ msgstr "Screnshot încărcat"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:394
 msgid "String updated in the repository"
-msgstr "Șir actualizat în depozit"
+msgstr "Șir actualizat în depozitar"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:396
@@ -13348,30 +13300,31 @@ msgid ""
 "translations. You can also choose additional integration with third party "
 "providers to submit merge requests."
 msgstr ""
-"Sistemul de control al versiunilor pe care îl utilizați pentru a accesa "
-"depozitul care conține traducerile. De asemenea, puteți alege o integrare "
-"suplimentară cu furnizori terți pentru a trimite cereri de fuziune."
+"Sistemul de control al versiunilor pe care îl utilizezi pentru a accesa "
+"depozitarul care conține traducerile. De asemenea, poți alege o integrare "
+"suplimentară cu terțe părți pentru a trimite cereri de fuziune."
 
 #: weblate/trans/models/component.py:367
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
 msgstr ""
-"URL-ul unui depozit, utilizați weblate://project/component pentru a-l "
+"URL-ul unui depozitar, utilizați weblate://proiect/componentă pentru a-l "
 "partaja cu alte componente."
 
 #: weblate/trans/models/component.py:379
 msgid "Repository push URL"
-msgstr "URL de împingere a depozitului"
+msgstr "URL de încărcare depozitar"
 
 #: weblate/trans/models/component.py:382
 msgid "URL of a push repository, pushing is turned off if empty."
 msgstr ""
-"Adresa URL a unui depozit push; dacă este gol, împingerea este dezactivată."
+"Adresa URL de încărcare a unui depozitar; dacă este gol, încărcarea este "
+"dezactivată."
 
 #: weblate/trans/models/component.py:387
 msgid "Repository browser"
-msgstr "Navigator de depozite"
+msgstr "Navigator depozitar"
 
 #: weblate/trans/models/component.py:389
 msgid ""
@@ -13379,19 +13332,18 @@ msgid ""
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"Legătura către browserul de depozit, utilizați {{branch}} pentru ramură, "
-"{{filename}} și {{line}} ca nume de fișier și ca marcaje de linie. Este "
-"posibil să doriți să eliminați directorul principal utilizând {{filename|"
-"parentdir}}."
+"Legătură către navigatorul de depozitar, utilizează {{branch}} pentru "
+"ramură, {{filename}} și {{line}} ca nume de fișier și ca substituent de "
+"linie. Este posibil să elimini directorul principal utilizând "
+"{{filename|parentdir}}."
 
 #: weblate/trans/models/component.py:397
 msgid "Exported repository URL"
-msgstr "URL-ul depozitului exportat"
+msgstr "URL depozitar exportat"
 
 #: weblate/trans/models/component.py:400
 msgid "URL of repository where users can fetch changes from Weblate"
-msgstr ""
-"URL-ul depozitului de unde utilizatorii pot prelua modificările din Weblate"
+msgstr "URL depozitar de unde utilizatorii pot prelua modificări din Weblate"
 
 #: weblate/trans/models/component.py:405
 msgid "Source string bug reporting address"
@@ -13407,7 +13359,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:415
 msgid "Repository branch to translate"
-msgstr "Ramura depozitului de tradus"
+msgstr "Ramură depozitar pentru traducere"
 
 #: weblate/trans/models/component.py:420
 msgid "Push branch"
@@ -13416,16 +13368,17 @@ msgstr "Împingeți ramura"
 #: weblate/trans/models/component.py:423
 msgid "Branch for pushing changes, leave empty to use repository branch"
 msgstr ""
-"Ramificația pentru împingerea modificărilor, lăsați gol pentru a folosi "
-"ramura depozitului"
+"Ramură pentru încărcarea modificărilor, lasă gol pentru a folosi ramura "
+"depozitarului"
 
 #: weblate/trans/models/component.py:433
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"Calea fișierelor de tradus în raport cu root-ul depozitului, utilizați * în "
-"loc de codul limbii, de exemplu: po/*.po sau locale/*/LC_MESSAGES/django.po."
+"Calea fișierelor de tradus în raport cu rădăcina depozitarului, utilizează * "
+"în loc de codul limbii, de exemplu: po/*.po sau locale/*/LC_MESSAGES/django."
+"po."
 
 #: weblate/trans/models/component.py:439
 #, fuzzy
@@ -13578,7 +13531,7 @@ msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
-"Definiți dacă Weblate trebuie să fuzioneze depozitul din amonte sau să reia "
+"Definește dacă Weblate ar trebui să fuzioneze depozitarul sursă sau să preia "
 "modificările pe acesta."
 
 #: weblate/trans/models/component.py:607
@@ -13621,7 +13574,8 @@ msgstr "Împingeți pe comitere"
 
 #: weblate/trans/models/component.py:664
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Dacă depozitul trebuie să fie împins în amonte la fiecare confirmare."
+msgstr ""
+"Dacă depozitarul trebuie să fie încărcat în sursă la fiecare modificare."
 
 #: weblate/trans/models/component.py:668
 msgid "Age of changes to commit"
@@ -13640,7 +13594,7 @@ msgstr "Blocare pe eroare"
 
 #: weblate/trans/models/component.py:680
 msgid "Whether the component should be locked on repository errors."
-msgstr "Dacă componenta trebuie să fie blocată la erori de depozit."
+msgstr "Dacă componenta ar trebui să fie blocată la erori de depozitar."
 
 #: weblate/trans/models/component.py:686
 msgid "Source language"
@@ -13714,13 +13668,13 @@ msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
 msgstr ""
-"Depozitul necesită autentificare, vă rugăm să specificați acreditările în "
-"URL sau să utilizați în schimb accesul SSH."
+"Depozitarul necesită autentificare, te rugăm să specifici datele de "
+"conectare în URL sau să utilizezi în schimb accesul SSH."
 
 #: weblate/trans/models/component.py:1487
 #, python-format
 msgid "Could not fetch the repository: %s"
-msgstr "Nu s-a putut prelua depozitul: %s"
+msgstr "Nu s-a putut prelua depozitarul: %s"
 
 #: weblate/trans/models/component.py:1556
 #: weblate/trans/models/component.py:2715
@@ -13747,7 +13701,7 @@ msgstr "Nu s-a putut reseta la ramura de la distanță pe %s."
 #: weblate/trans/models/component.py:1849
 #, python-format
 msgid "Could not clean the repository on %s."
-msgstr "Nu s-a putut curăța depozitul pe %s."
+msgstr "Nu s-a putut curăța depozitarul pe %s."
 
 #: weblate/trans/models/component.py:2042
 #, python-format
@@ -13780,7 +13734,7 @@ msgstr ""
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Legătură invalidă către un proiect Weblate, nu se poate face legătura cu "
-"depozitul legat!"
+"depozitarul legat!"
 
 #: weblate/trans/models/component.py:2609
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
@@ -13793,7 +13747,7 @@ msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
 msgstr ""
-"Opțiunea nu este disponibilă pentru depozitele legate. Se vor utiliza "
+"Opțiunea nu este disponibilă pentru depozitarile legate. Se vor utiliza "
 "setările din componenta legată."
 
 #: weblate/trans/models/component.py:2632
@@ -13883,18 +13837,16 @@ msgstr "Limba șablonului ({0}) nu se potrivește cu limba sursă ({1})!"
 #, fuzzy
 #| msgid "No remote repository"
 msgid "Choose No remote repository for local: URL."
-msgstr "Nu există un depozit de la distanță"
+msgstr "Alege Niciun depozitar remote pentru URL-ul local."
 
 #: weblate/trans/models/component.py:2818
-#, fuzzy
-#| msgid "Push changes to the remote repository"
 msgid "Push URL is not used without a remote repository."
-msgstr "Împingeți modificările în depozitul la distanță"
+msgstr "URL-ul de încărcare nu este folosit fără un depozitar la distanță."
 
 #: weblate/trans/models/component.py:2837
 #, python-format
 msgid "Could not update repository: %s"
-msgstr "Nu s-a putut actualiza depozitul: %s"
+msgstr "Nu s-a putut actualiza depozitarul: %s"
 
 #: weblate/trans/models/component.py:2848
 msgid ""
@@ -14097,7 +14049,7 @@ msgstr "Activați cârligele"
 #: weblate/trans/models/project.py:156
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr ""
-"Dacă se permite actualizarea acestui depozit prin cârlige de la distanță."
+"Dacă se permite actualizarea acestui depozitar prin cârlige de la distanță."
 
 #: weblate/trans/models/project.py:160
 msgid "Language aliases"
@@ -14123,8 +14075,8 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
-"Numele de fișier %s nu a fost găsit în depozit! Pentru a adăuga o nouă "
-"traducere, adaugă fișierul de limbă în depozit."
+"Numele de fișier %s nu a fost găsit în depozitar! Pentru a adăuga o nouă "
+"traducere, adaugă fișierul de limbă în depozitar."
 
 #: weblate/trans/models/translation.py:220
 #, fuzzy, python-format
@@ -14869,14 +14821,14 @@ msgid_plural ""
 "Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
 msgstr[0] ""
-"A procesat {0} șirul {0} din fișierele încărcate (sărit: {1}, nedescoperit: "
-"{2}, actualizat: {3})."
+"A fost procesat {0} șir din fișierele încărcate (sărite: {1}, nedescoperite: "
+"{2}, actualizate: {3})."
 msgstr[1] ""
-"A procesat {0} șiruri de caractere din fișierele încărcate (sărite: {1}, "
-"nedescoperite: {2}, actualizate: {3})."
+"Au fost procesate {0} șiruri de caractere din fișierele încărcate (sărite: "
+"{1}, nedescoperite: {2}, actualizate: {3})."
 msgstr[2] ""
-"A procesat {0} șiruri de caractere din fișierele încărcate (sărite: {1}, "
-"nedescoperite: {2}, actualizate: {3})."
+"Au fost procesate {0} de șiruri de caractere din fișierele încărcate (sărite:"
+" {1}, nedescoperite: {2}, actualizate: {3})."
 
 #: weblate/trans/views/files.py:212
 msgid "Plural forms in the uploaded file do not match current translation."
@@ -14889,28 +14841,25 @@ msgid "File upload has failed: %s"
 msgstr "Încărcarea fișierului a eșuat: %s"
 
 #: weblate/trans/views/git.py:28
-#, fuzzy
-#| msgid "Failed to lock the repository, another operation is in progress."
 msgid "Could not lock the repository, another operation is in progress."
 msgstr ""
-"Nu s-a reușit blocarea depozitului, o altă operațiune este în curs de "
-"desfășurare."
+"Nu s-a putut bloca depozitarul, altă operațiune este în curs de desfășurare."
 
 #: weblate/trans/views/git.py:50
 msgid "All repositories were updated."
-msgstr "Toate depozitele au fost actualizate."
+msgstr "Toate depozitarile au fost actualizate."
 
 #: weblate/trans/views/git.py:65
 msgid "All repositories were pushed."
-msgstr "Toate depozitele au fost împinse."
+msgstr "Toate depozitarile au fost încărcate."
 
 #: weblate/trans/views/git.py:79
 msgid "All repositories have been reset."
-msgstr "Toate depozitele au fost resetate."
+msgstr "Toate depozitarile au fost resetate."
 
 #: weblate/trans/views/git.py:95
 msgid "All repositories have been cleaned up."
-msgstr "Toate depozitele au fost curățate."
+msgstr "Toate depozitarile au fost curățate."
 
 #: weblate/trans/views/git.py:111
 msgid "Translation files have been synchronized."
@@ -14999,16 +14948,12 @@ msgstr ""
 "Setări nevalabile, vă rugăm să verificați dacă există erori în formular!"
 
 #: weblate/trans/views/settings.py:97
-#, fuzzy
-#| msgid ""
-#| "The repository is outdated, you might not get expected results until you "
-#| "update it."
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
 msgstr ""
-"Depozitul este învechit, este posibil să nu obțineți rezultatele așteptate "
-"până când nu îl actualizați."
+"Depozitarul este învechit. Este posibil să nu obții rezultatele așteptate "
+"până când nu îl actualizezi."
 
 #: weblate/trans/views/settings.py:149
 #, fuzzy
@@ -15389,16 +15334,12 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Eroare în parametrul %(field)s: %(error)s"
 
 #: weblate/vcs/base.py:65
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream repository."
-msgstr "Weblate nu a putut să împingă modificările în depozitul din amonte."
+msgstr "Aceasta va încărca modificările în depozitarul sursă."
 
 #: weblate/vcs/git.py:54
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Git repository."
-msgstr "Weblate nu a putut să împingă modificările în depozitul din amonte."
+msgstr "Aceasta va încărca modificările în depozitarul sursă Git."
 
 #: weblate/vcs/git.py:520
 #, fuzzy
@@ -15411,20 +15352,16 @@ msgid "This will push changes to Gerrit for a review."
 msgstr ""
 
 #: weblate/vcs/git.py:553
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "This will commit changes to the Subversion repository."
-msgstr "Trimiteți modificările în depozitul intern"
+msgstr "Aceasta va efectua schimbările în depozitarul Subversion."
 
 #: weblate/vcs/git.py:718
 msgid "Git with force push"
 msgstr "Git cu forța push"
 
 #: weblate/vcs/git.py:722
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will force push changes to the upstream repository."
-msgstr "Weblate nu a putut să împingă modificările în depozitul din amonte."
+msgstr "Aceasta va încărca forțat modificările în depozitarul sursă."
 
 #: weblate/vcs/git.py:1054
 msgid "GitHub pull request"
@@ -15448,7 +15385,7 @@ msgstr "Gitea cerere pull"
 
 #: weblate/vcs/git.py:1240
 msgid "No remote repository"
-msgstr "Nu există un depozit de la distanță"
+msgstr "Fără depozitar la distanță"
 
 #: weblate/vcs/git.py:1345
 msgid "GitLab merge request"
@@ -15483,10 +15420,8 @@ msgid "This will push changes and create a Bitbucket Server pull request."
 msgstr "Gitea cerere pull"
 
 #: weblate/vcs/mercurial.py:45
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr "Weblate nu a putut să împingă modificările în depozitul din amonte."
+msgstr "Aceasta va încărca modificările în depozitarul sursă Mercurial."
 
 #: weblate/vcs/ssh.py:31
 #, fuzzy
@@ -15617,7 +15552,7 @@ msgstr "Suport premium pentru găzduire proprie"
 
 #: weblate/wladmin/models.py:183
 msgid "Backup repository URL"
-msgstr "URL-ul depozitului de backup"
+msgstr "URL depozitar pentru copie de siguranță"
 
 #: weblate/wladmin/models.py:185
 msgid ""
@@ -15646,7 +15581,7 @@ msgstr "S-a curățat spațiul de stocare de rezervă"
 
 #: weblate/wladmin/models.py:251
 msgid "Repository initialization"
-msgstr "Inițializarea depozitelor"
+msgstr "Inițializare depozitar"
 
 #: weblate/wladmin/sites.py:75 weblate/wladmin/sites.py:76
 msgid "Weblate administration"
@@ -15693,7 +15628,7 @@ msgstr "Starea Weblate"
 
 #: weblate/wladmin/views.py:66
 msgid "Repositories"
-msgstr "Depozite"
+msgstr "Depozitari"
 
 #: weblate/wladmin/views.py:118
 msgid "Test e-mail sent."
