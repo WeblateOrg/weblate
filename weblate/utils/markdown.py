@@ -33,7 +33,6 @@ class WeblateHtmlRenderer(mistletoe.HTMLRenderer):
             return True
         return super().check_url(url, is_image_src)
 
-
 def render_markdown(text):
     users = {u.username.lower(): u for u in get_mention_users(text)}
     parts = MENTION_RE.split(text)
@@ -43,13 +42,11 @@ def render_markdown(text):
         username = part[1:].lower()
         if username in users:
             user = users[username]
-            parts[
-                pos
-            ] = f'**[{part}]({user.get_absolute_url()} "{user.get_visible_name()}")**'
+            parts[pos] = f'**[{part}]({user.get_absolute_url()} "{user.get_visible_name()}")**'
     text = "".join(parts)
 
     # Initialize the mistletoe renderer
     mistletoe_renderer = WeblateHtmlRenderer()
 
     markdown_content = mistletoe.markdown(text, renderer=mistletoe_renderer)
-    return mark_safe(markdown_content)
+    return markdown_content
