@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-14 14:45+0200\n"
-"PO-Revision-Date: 2023-10-09 18:03+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2023-10-15 07:01+0000\n"
+"Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -7414,18 +7414,12 @@ msgstr ""
 "行 API 服务器，你也许想转而使用 ``http``，但考虑安全性。"
 
 #: ../../snippets/vcs-credentials.rst:20
-#, fuzzy
-#| msgid ""
-#| "In the Docker container, the credentials are configured in three "
-#| "variables and the credentials are built out of that. An example "
-#| "configuration for GitHub might look like:"
 msgid ""
 "In the Docker container, the credentials can be configured in three "
 "variables and the credentials are built out of that. An example "
 "configuration for GitHub might look like:"
-msgstr ""
-"在 Docker 容器中，用三个变量配置凭据，且基于这些变量构造凭据。GitHub 的示例配"
-"置看起来可能像是这样："
+msgstr "在 Docker 容器中，可以用三个变量配置凭据，且基于这些变量构造凭据。GitHub "
+"的示例配置看起来可能像是这样："
 
 #: ../../snippets/vcs-credentials.rst:30
 msgid "Will be used as:"
@@ -7433,14 +7427,11 @@ msgstr "将用作："
 
 #: ../../snippets/vcs-credentials.rst:41
 msgid "Alternatively the Python dictonary can be provided as a string:"
-msgstr ""
+msgstr "此外，也可以将 Python 字典作为一条字符串提供："
 
 #: ../../snippets/vcs-credentials.rst:47
-#, fuzzy
-#| msgid ""
-#| "Sets the path to a file containing the password for the `admin` user."
 msgid "Or the path to a file containing the Python dictionary:"
-msgstr "设置指向包含 `管理员` 用户密码的一个文件。"
+msgstr "或者到包含该 Python 字典的文件的路径："
 
 #: ../../admin/config.rst:752
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
@@ -8316,16 +8307,12 @@ msgid "Sentry DSN to use for :ref:`collecting-errors`."
 msgstr "Sentry DSN 用于 :ref:`collecting-errors`。"
 
 #: ../../admin/config.rst:1574
-#, fuzzy
-#| msgid ""
-#| "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
-#| "guides/django/>`_"
 msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "integrations/django/>`_"
 msgstr ""
-"`Sentry的Django集成 <https://docs.sentry.io/platforms/python/guides/django/"
-">`_"
+"`Sentry 的 Django 集成 <https://docs.sentry.io/platforms/python/integrations/"
+"django/>`_"
 
 #: ../../admin/config.rst:1579
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
@@ -9875,12 +9862,10 @@ msgid ""
 msgstr "Weblate 为其操作使用其他服务。至少需要后面的服务运行："
 
 #: ../../admin/install.rst:59
-#, fuzzy
-#| msgid "PostgreSQL database server, see :ref:`database-setup`."
 msgid ""
 "PostgreSQL database server for storing all the content, see :ref:`database-"
 "setup`."
-msgstr "PostgreSQL 数据库服务器，请参见 :ref:`database-setup`。"
+msgstr "存储所有内容的 PostgreSQL 数据库服务器，参见 :ref:`database-setup`。"
 
 #: ../../admin/install.rst:60
 msgid "Redis server for cache and tasks queue, see :ref:`celery`."
@@ -9894,7 +9879,7 @@ msgstr "SMTP 服务器，用于发送电子邮件，请参见 :ref:`out-mail`。
 msgid ""
 "Filesystem storage (networked if you plan to scale Weblate horizontally) for "
 "storing VCS repositories."
-msgstr ""
+msgstr "存储 VCS 仓库的文件系统存储（如你计划水平调整 Weblate 规模则存储在网络上）。"
 
 #: ../../admin/install.rst:67
 msgid "Python dependencies"
@@ -10359,6 +10344,9 @@ msgid ""
 "CONN_MAX_AGE` and :ref:`django:persistent-database-connections` for more "
 "info."
 msgstr ""
+"持久性连接改善 Weblate 响应水平，但可能需要给数据服务器提供更多资源。"
+"更多信息请参考 :setting:`django:CONN_MAX_AGE` 和 :ref:`django:persistent-"
+"database-connections` 。"
 
 #: ../../admin/install.rst:420
 msgid "MySQL and MariaDB"
@@ -13383,22 +13371,15 @@ msgid ""
 msgstr "在迁移过程中配置要改变的角色名称，请参见 :ref:`config-postgresql`。"
 
 #: ../../admin/install/docker.rst:1365
-#, fuzzy
-#| msgid ""
-#| "The lifetime of a database connection, as an integer of seconds. Use 0 to "
-#| "close database connections at the end of each request (this is the "
-#| "default behavior)."
 msgid ""
 "The lifetime of a database connection, as an integer of seconds. Use 0 to "
 "close database connections at the end of each request."
-msgstr ""
-"数据库连接的寿命，以秒为单位的整数。使用0可以在每次请求结束时关闭数据库连接"
-"（这是默认行为）。"
+msgstr "数据库连接的寿命，以秒为单位的整数。使用0可以在每次请求结束时关闭数据库连接。"
 
 #: ../../admin/install/docker.rst:1370
 msgid ""
 "The default behavior is to have unlimited persistent database connections."
-msgstr ""
+msgstr "默认行为是拥有无限制的持久性数据库连接。"
 
 #: ../../admin/install/docker.rst:1372
 msgid ""
@@ -13435,13 +13416,12 @@ msgid ""
 "Set to false to disables environment based configuration of the database "
 "connection. Use :ref:`docker-settings-override` to configure the database "
 "connection manually."
-msgstr ""
+msgstr "设为 false 禁用基础数据库连接配置的环境。使用 e :ref:`docker-settings-"
+"override`手动配置数据库连接。"
 
 #: ../../admin/install/docker.rst:1414
-#, fuzzy
-#| msgid "MySQL and MariaDB"
 msgid "MySQL or MariaDB server"
-msgstr "MySQL 和 MariaDB"
+msgstr "MySQL 或 MariaDB 服务器"
 
 #: ../../admin/install/docker.rst:1416
 msgid ""
@@ -13449,6 +13429,9 @@ msgid ""
 "See :ref:`mysql` for info on using those with Weblate. Use :envvar:"
 "`WEBLATE_DATABASES` to configure the database connection manually."
 msgstr ""
+"MySQL 和 MariaDB 均无法通过环境变量继续宁配置。见 :ref:`mysql`了解有关在 "
+"Weblate 中使用这些的信息。使用 "
+":envvar:`WEBLATE_DATABASES`手动配置数据库连接。"
 
 #: ../../admin/install/docker.rst:1421
 msgid "Database backup settings"
@@ -15340,18 +15323,14 @@ msgstr ""
 "和 ``de@informal`` ）。"
 
 #: ../../admin/machine.rst:153
-#, fuzzy
-#| msgid ""
-#| "`DeepL website <https://www.deepl.com/>`_, `DeepL pricing <https://www."
-#| "deepl.com/pro>`_, `DeepL API documentation <https://www.deepl.com/docs-"
-#| "api.html>`_"
 msgid ""
 "`DeepL translator <https://www.deepl.com/translator>`_, `DeepL pricing "
 "<https://www.deepl.com/pro>`_, `DeepL API documentation <https://www.deepl."
 "com/docs-api.html>`_"
 msgstr ""
-"`DeepL 网站 <https://www.deepl.com/>`_, `DeepL 定价 <https://www.deepl.com/"
-"pro>`_, `DeepL API 文档 <https://www.deepl.com/docs-api.html>`_"
+"`DeepL translator <https://www.deepl.com/translator>`_, `DeepL 定价 "
+"<https://www.deepl.com/pro>`_, `DeepL API 文档 <https://www.deepl.com/docs-"
+"api.html>`_"
 
 #: ../../admin/machine.rst:160
 msgid "Glosbe"
@@ -15619,18 +15598,6 @@ msgid "For Azure China, please use your endpoint from the Azure Portal."
 msgstr "中国区 Azure 请使用你在 Azure 门户的端点。"
 
 #: ../../admin/machine.rst:317
-#, fuzzy
-#| msgid ""
-#| "`Cognitive Services - Text Translation API <https://azure.microsoft.com/"
-#| "en-us/products/cognitive-services/translator/>`_, `Microsoft Azure Portal "
-#| "<https://portal.azure.com/>`_, `Base URLs <https://learn.microsoft.com/en-"
-#| "us/azure/ai-services/translator/reference/v3-0-reference#base-urls>`_, `"
-#| "\"Authenticating with a Multi-service resource\" <https://learn.microsoft."
-#| "com/en-us/azure/ai-services/translator/reference/v3-0-"
-#| "reference#authenticating-with-a-multi-service-resource>`_ `"
-#| "\"Authenticating with an access token\" section <https://learn.microsoft."
-#| "com/en-us/azure/ai-services/translator/reference/v3-0-"
-#| "reference#authenticating-with-an-access-token>`_"
 msgid ""
 "`Cognitive Services - Text Translation API <https://azure.microsoft.com/en-"
 "us/products/ai-services/ai-translator>`_, `Microsoft Azure Portal <https://"
@@ -15643,14 +15610,14 @@ msgid ""
 "v3-0-reference#authenticating-with-an-access-token>`_"
 msgstr ""
 "`认知服务 - 文本翻译 API <https://azure.microsoft.com/en-us/products/"
-"cognitive-services/translator/>`_, `Microsoft Azure 门户 <https://portal."
-"azure.com/>`_, `基 URLs <https://learn.microsoft.com/en-us/azure/ai-services/"
-"translator/reference/v3-0-reference#base-urls>`_, `\"使用多服务资源进行身份验"
-"证\" <https://learn.microsoft.com/en-us/azure/ai-services/translator/"
-"reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_ `"
-"\"使用访问令牌验证身份\" 部分 <https://learn.microsoft.com/en-us/azure/ai-"
-"services/translator/reference/v3-0-reference#authenticating-with-an-access-"
-"token>`_"
+"ai-services/ai-translator>`_, `Microsoft Azure 门户 <https://portal.azure."
+"com/>`_, `基 URLs <https://learn.microsoft.com/en-us/azure/ai-services/"
+"translator/reference/v3-0-reference#base-urls>`_, `"
+"\"使用多服务资源进行身份验证\" <https://learn.microsoft.com/en-us/azure/"
+"ai-services/translator/reference/v3-0-reference#authenticating-with-a-multi-"
+"service-resource>`_ `\"使用访问令牌验证身份\" 部分 <https://learn.microsoft."
+"com/en-us/azure/ai-services/translator/reference/v3-0-reference"
+"#authenticating-with-an-access-token>`_"
 
 #: ../../admin/machine.rst:326
 msgid "ModernMT"
@@ -15926,10 +15893,8 @@ msgstr ""
 "<https://translate.yandex.com/>`_"
 
 #: ../../admin/machine.rst:531
-#, fuzzy
-#| msgid "Yandex"
 msgid "Yandex v2"
-msgstr "Yandex"
+msgstr "Yandex v2"
 
 #: ../../admin/machine.rst:535
 #, fuzzy
@@ -15938,27 +15903,20 @@ msgid "``yandex-v2``"
 msgstr "``yandex``"
 
 #: ../../admin/machine.rst:542
-#, fuzzy
-#| msgid ""
-#| "This service uses a Translation API, and you need to obtain an API key "
-#| "from Yandex."
 msgid ""
 "This service uses a Translation API, and you need to obtain an API key from "
 "Yandex Cloud."
-msgstr "这项服务使用翻译 API，您需要从 Yandex 得到 API 密钥。"
+msgstr "这项服务使用翻译 API，您需要从 Yandex Cloud 得到 API 密钥。"
 
 #: ../../admin/machine.rst:546
-#, fuzzy
-#| msgid ""
-#| "`Yandex Translate API <https://yandex.com/dev/translate/>`_, `Powered by "
-#| "Yandex.Translate <https://translate.yandex.com/>`_"
 msgid ""
 "`Yandex Translate API v2 <https://cloud.yandex.com/en/docs/translate/api-ref/"
 "authentication>`_, `Powered by Yandex.Cloud <https://cloud.yandex.com/en/"
 "services/translate>`_"
 msgstr ""
-"`Yandex 翻译 API <https://tech.yandex.com/translate/>`_, `由 Yandex 翻译驱动 "
-"<https://translate.yandex.com/>`_"
+"`Yandex Translate API v2 <https://cloud.yandex.com/en/docs/translate/api-ref/"
+"authentication>`_, `由 Yandex.Cloud 驱动<https://cloud.yandex.com/en/"
+"services/translate>`_"
 
 #: ../../admin/machine.rst:552
 msgid "Youdao Zhiyun"
@@ -16972,21 +16930,15 @@ msgid "Content in the translation memory can be applied one of two ways:"
 msgstr "翻译记忆库中的内容可以以两种方式之一来应用："
 
 #: ../../admin/memory.rst:15
-#, fuzzy
-#| msgid "Manually, :ref:`machine-translation` view while translating."
 msgid "Manually: in the :ref:`machine-translation` view while translating."
-msgstr "手动，:ref:`machine-translation` 当翻译时查看。"
+msgstr "手动：翻译时在 :ref:`machine-translation` 视图中。"
 
 #: ../../admin/memory.rst:16
-#, fuzzy
-#| msgid ""
-#| "Automatically, by translating strings using :ref:`auto-translation`, or :"
-#| "ref:`addon-weblate.autotranslate.autotranslate` add-on."
 msgid ""
 "Automatically: by translating strings using :ref:`auto-translation`, or the :"
 "ref:`addon-weblate.autotranslate.autotranslate` add-on."
 msgstr ""
-"自动，通过使用 :ref:`auto-translation` 或 :ref:`addon-weblate.autotranslate."
+"自动：通过使用 :ref:`auto-translation` 或 :ref:`addon-weblate.autotranslate."
 "autotranslate` 附加组件来翻译字符串。"
 
 #: ../../admin/memory.rst:19
@@ -17045,15 +16997,10 @@ msgid "Shared translation memory"
 msgstr "共享翻译记忆库"
 
 #: ../../admin/memory.rst:53
-#, fuzzy
-#| msgid ""
-#| "All translation within projects with shared translation memory turned on "
-#| "are stored in a shared translation memory available to all projects."
 msgid ""
 "All translations within projects with shared translation memory turned on "
 "are stored in a shared translation memory available to all projects."
-msgstr ""
-"翻译记忆库分享打开的项目的所有翻译，都存储在分享的翻译记忆库中，可用于所有项"
+msgstr "开启翻译记忆库共享的项目内的所有翻译都存储在共享的翻译记忆库中，可用于所有项"
 "目。"
 
 #: ../../admin/memory.rst:56
@@ -17073,15 +17020,13 @@ msgstr "这会导致泄露秘密信息。"
 
 #: ../../admin/memory.rst:61
 msgid "Make sure the translations you share have good quality."
-msgstr ""
+msgstr "请确保你共享的译文质量上乘。"
 
 #: ../../admin/memory.rst:65
 msgid ":ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`"
 msgstr ":ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`"
 
 #: ../../admin/memory.rst:68
-#, fuzzy
-#| msgid "Managing translation memory"
 msgid "Managing the Translation Memory"
 msgstr "管理翻译记忆库"
 
@@ -17111,25 +17056,16 @@ msgstr ""
 "载、消除或导入翻译记忆库。"
 
 #: ../../admin/memory.rst:85
-#, fuzzy
-#| msgid ""
-#| "There are multiple options for downloading the translation memory of the "
-#| "whole instance."
 msgid ""
 "There are multiple options to download the translation memory of the whole "
 "instance."
 msgstr "有多个选项来下载整个实例的翻译记忆库。"
 
 #: ../../admin/memory.rst:89
-#, fuzzy
-#| msgid ""
-#| "Translation memory in JSON can be imported into Weblate, the TMX format "
-#| "is provided for interoperability with other tools."
 msgid ""
 "Translation memories in JSON can be imported into Weblate, the TMX format is "
 "provided for interoperability with other tools."
-msgstr ""
-"JSON 的翻译记忆库可以导入 Weblate，提供了 TMX 格式与其他工具进行互操作。"
+msgstr "JSON 格式的翻译记忆库可以导入 Weblate，提供了 TMX 格式与其他工具进行互操作。"
 
 #: ../../admin/memory.rst:94
 msgid ":ref:`schema-memory`"
@@ -17181,18 +17117,12 @@ msgid "Imports TMX or JSON files into the translation memory"
 msgstr "将 TMX 或 JSON 文件导入翻译记忆库"
 
 #: ../../admin/memory.rst:127
-#, fuzzy
-#| msgid ""
-#| "The Weblate API covers the translation memory. This allows automating "
-#| "manipulation for different purposes, or based on events in the "
-#| "translation cycle."
 msgid ""
 "The Weblate API covers the translation memory. This allows automated "
 "manipulation for different purposes, or based on events in the translation "
 "cycle."
-msgstr ""
-"Weblate API 涵盖了翻译记忆库。这允许出于不同目的或基于翻译周期事件自动操控记"
-"忆库内容。"
+msgstr "Weblate API "
+"涵盖了翻译记忆库。这允许出于不同目的或基于翻译周期事件的自动操控。"
 
 #: ../../admin/optionals.rst:2
 msgid "Optional Weblate modules"
@@ -17545,6 +17475,8 @@ msgid ""
 "instructions at https://wiki.gnupg.org/NFS to make GnuPG signing work "
 "reliably."
 msgstr ""
+"在多个主机间共享 :setting:`DATA_DIR`时，请遵照 https://wiki.gnupg.org/NFS "
+"指示让 GnuPG 签名可靠地工作。"
 
 #: ../../admin/optionals.rst:248
 msgid ":setting:`WEBLATE_GPG_IDENTITY`"
@@ -17831,7 +17763,8 @@ msgstr ""
 msgid ""
 "To grant every user permission to create new projects create new :ref:"
 "`autoteam` for the :guilabel:`Project creators` team."
-msgstr ""
+msgstr "要授予每名用户创建新项目的权限，请为 :guilabel:`Project creators` "
+"团队创建新的 :ref:`autoteam`。"
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
@@ -18509,18 +18442,16 @@ msgid "Edit base file"
 msgstr "编辑译文模版文件"
 
 #: ../../admin/projects.rst:484
-#, fuzzy
-#| msgid "Whether to allow editing the base file for :ref:`monolingual`."
 msgid "Whether to allow editing strings in the :ref:`component-template`."
-msgstr "对于 :ref:`monolingual` 是否允许编辑译文模板文件。"
+msgstr "是否允许编辑 :ref:`component-template`中的字符串。"
 
 #: ../../admin/projects.rst:488
-#, fuzzy
-#| msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgid ""
 ":ref:`bimono`, :ref:`monolingual`, :ref:`faq-duplicate-files`, :ref:"
 "`component-manage_units`"
-msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
+msgstr ""
+":ref:`bimono`, :ref:`monolingual`, :ref:`faq-duplicate-files`, :ref"
+":`component-manage_units`"
 
 #: ../../admin/projects.rst:498
 msgid ""
@@ -18648,6 +18579,8 @@ msgid ""
 "With the :ref:`gettext` format, this address is also saved by Weblate in "
 "the :mailheader:`Report-Msgid-Bugs-To` header of the file."
 msgstr ""
+"对于 :ref:`gettext`格式，此地址同样由 Weblate 保存在该文件的 :mailheader"
+":`Report-Msgid-Bugs-To`标头内。"
 
 #: ../../admin/projects.rst:562
 msgid "Allow translation propagation"
@@ -18857,6 +18790,8 @@ msgid ""
 "You might want to turn on :ref:`component-edit_template` together with :"
 "guilabel:`Manage strings` for monolingual formats."
 msgstr ""
+"对于单语言格式，你可能想要同时打开 :ref:`component-edit_template`和 "
+":guilabel:`Manage strings`。"
 
 #: ../../admin/projects.rst:693
 msgid ""
@@ -20275,42 +20210,21 @@ msgstr ""
 "级不受支持，并且会搞砸升级。"
 
 #: ../../admin/upgrade.rst:127
-#, fuzzy
-#| msgid ""
-#| "If you are upgrading from the 2.x release, always first upgrade to 3.0.1 "
-#| "and then continue upgrading within the 3.x series."
 msgid ""
 "If you are upgrading from the 2.x release, always first upgrade to 3.0.1."
-msgstr ""
-"如果从 2.x 发布版本升级，首先总是升级到 3.0.1，然后继续在 3.x 系列内升级。"
+msgstr "如果从 2.x 发布版本升级，请始终先升级到 3.0.1。"
 
 #: ../../admin/upgrade.rst:128
-#, fuzzy
-#| msgid ""
-#| "If you are upgrading from the 3.x release, always first upgrade to 4.0.4 "
-#| "and then continue upgrading within the 4.x series."
 msgid ""
 "If you are upgrading from the 3.x release, always first upgrade to 4.0.4."
-msgstr ""
-"如果从 3.x 发布版本升级，首先总是升级到 4.0.4，然后继续在 4.x 系列中升级。"
+msgstr "如果从 3.x 发布版本升级，请始终首先升级到 4.0.4。"
 
 #: ../../admin/upgrade.rst:129
-#, fuzzy
-#| msgid ""
-#| "If you are upgrading from the 3.x release, always first upgrade to 4.0.4 "
-#| "and then continue upgrading within the 4.x series."
 msgid ""
 "If you are upgrading from the 4.x release, always first upgrade to 5.0.2."
-msgstr ""
-"如果从 3.x 发布版本升级，首先总是升级到 4.0.4，然后继续在 4.x 系列中升级。"
+msgstr "如果从 4.x 发布版本升级，请首先升级到 5.0.2。"
 
 #: ../../admin/upgrade.rst:133
-#, fuzzy
-#| msgid ""
-#| "`Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs."
-#| "weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_, `Upgrade "
-#| "from 3.11 to 4.0 in Weblate 4.0 documentation <https://docs.weblate.org/"
-#| "en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_"
 msgid ""
 "`Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs.weblate."
 "org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_, `Upgrade from 3.11 to "
@@ -20321,8 +20235,10 @@ msgid ""
 msgstr ""
 "`Weblate 3.0 文档中关于从 2.20 升级到 3.0 的内容 <https://docs.weblate.org/"
 "en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_, `Weblate 4.0 文档中关于从 "
-"3.11 升级到 4.0 <https://docs.weblate.org/en/weblate-4.0.4/admin/upgrade."
-"html#upgrade-from-3-11-to-4-0>`_"
+"3.11 升级到 4.0 的内容<https://docs.weblate.org/en/weblate-4.0.4/admin/"
+"upgrade.html#upgrade-from-3-11-to-4-0>`_,, ` Weblate 5.0 "
+"文档中关于从4.x系列升级到5.0.2的内容 <https://docs.weblate.org/en/weblate-5.0"
+".2/changes.html>`_"
 
 #: ../../admin/upgrade.rst:140
 msgid "Migrating from other databases to PostgreSQL"
@@ -21445,14 +21361,10 @@ msgid "Returns statistics for a project."
 msgstr "返回项目的统计数据。"
 
 #: ../../api.rst:1143
-#, fuzzy
-#| msgid ""
-#| "Returns statistics for a project. See :http:get:`/api/categories/(int:id)/"
-#| "` for field definitions."
 msgid ""
 "Returns categories for a project. See :http:get:`/api/categories/(int:id)/` "
 "for field definitions."
-msgstr "返回项目的统计数据。字段定义见 :http:get:`/api/categories/(int:id)/`."
+msgstr "返回项目的分类。字段定义见 :http:get:`/api/categories/(int:id)/`."
 
 #: ../../api.rst:0
 msgid "param project"
@@ -21759,15 +21671,14 @@ msgid ""
 msgstr "使用请求的格式将与部件关联的所有可用翻译作为存档文件下载。"
 
 #: ../../api.rst:1399
-#, fuzzy
-#| msgid ""
-#| "The archive format to use; If not specified, defaults to ``zip``; "
-#| "Supported formats: ``zip``"
 msgid ""
 "The archive format to use; If not specified, defaults to ``zip``; Supported "
 "formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of "
 "converters listed at :ref:`download`."
-msgstr "要使用的存档格式；如果未指定,默认为 ``zip``;支持的格式: ``zip``"
+msgstr ""
+"要使用的存档格式；如未指定，默认为 ``zip`` ; 受支持的格式: ``zip`` 和 "
+"``zip:CONVERSION`` ，其中 ``CONVERSION`` 为 "
+":ref:`download`处列出的转换器之一。"
 
 #: ../../api.rst:1403
 msgid "Returns a list of component screenshots."
@@ -22132,15 +22043,12 @@ msgid "Upload new file with translations."
 msgstr "上传带有翻译的新文件。"
 
 #: ../../api.rst:1934
-#, fuzzy
-#| msgid ""
-#| "How to deal with conflicts (``ignore``, ``replace-translated`` or "
-#| "``replace-approved``)"
 msgid ""
 "How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-"
 "approved``), see :ref:`upload-conflicts`"
 msgstr ""
-"如何处理冲突（``ignore``、``replace-translated`` 或 ``replace-approved``）"
+"如何处理冲突 (``ignore``, ``replace-translated`` 或 ``replace-approved``)，"
+"见 :ref:`upload-conflicts`"
 
 #: ../../api.rst:1935 ../../api.rst:2180 ../../api.rst:2216
 msgid "Uploaded file"
@@ -22613,10 +22521,8 @@ msgid "Deletes the component list."
 msgstr "删除部件列表。"
 
 #: ../../api.rst:2375
-#, fuzzy
-#| msgid "List componentsin with a component list."
 msgid "List components in a component list."
-msgstr "用部件列表列出部件。"
+msgstr "列出部件列表中的部件。"
 
 #: ../../api.rst:0
 msgid "param slug"
@@ -23194,10 +23100,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS（英文） <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.0.1"
 msgid "Weblate 5.1"
-msgstr "Weblate 5.0.1"
+msgstr "Weblate 5.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -23208,32 +23112,26 @@ msgid "**New features**"
 msgstr "**新功能**"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Use machine translation services"
 msgid ":ref:`mt-yandex-v2` machine translation service."
-msgstr "使用机器翻译服务"
+msgstr ":ref:`mt-yandex-v2` 机器翻译服务。"
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on triggering "
-#| "for newly added strings."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-translation` "
 "are now stored with a dedicated user as an author."
 msgstr ""
-"修复了新添加的字符串触发 :ref:`addon-weblate.autotranslate.autotranslate` 的"
-"问题。"
+":ref:`addon-weblate.autotranslate.autotranslate` 和 :ref:`auto-translation` "
+"现在以专门用户作为作者进行保存。"
 
 #: ../../changes.rst:10
 msgid ""
 ":ref:`addons` changes to strings are now stored with a dedicated user as an "
 "author."
-msgstr ""
+msgstr "字符串的 :ref:`addons` 更改现在以一名专门用户作为作者的形式进行存储。"
 
 #: ../../changes.rst:11
 msgid ":ref:`download-multi` can now convert file formats."
-msgstr ""
+msgstr ":ref:`download-multi` 现在可以转换文件格式。"
 
 #: ../../changes.rst:13 ../../changes.rst:55 ../../changes.rst:84
 #: ../../changes.rst:129
@@ -23244,71 +23142,54 @@ msgstr "**改进**"
 msgid ""
 ":ref:`project-translation_review` also shows the approval percentage in "
 "object listings."
-msgstr ""
+msgstr ":ref:`project-translation_review` 还显示对象列举中的核准百分比。"
 
 #: ../../changes.rst:16
 msgid "Project is added to watched upon accepting an invitation."
-msgstr ""
+msgstr "接受邀请时，项目自动添加到已关注列表。"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Configuration beyond environment variables"
 msgid ""
 "Configure VCS API credentials as a Python dict from environment variables."
-msgstr "修改未暴露为 Docker 环境变量的设置项"
+msgstr "将 VCS API 凭据配置为来自环境变量的 Python 字典。"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Improved punctuation checks for Burmese."
 msgid "Improved accuracy of checks on plural messages."
-msgstr "改进了缅甸文的标点检查。"
+msgstr "改进了复数消息的检查精度。"
 
 #: ../../changes.rst:19
 msgid "Enage page better shows stats."
-msgstr ""
+msgstr "engage 页面更好地显示统计数据。"
 
 #: ../../changes.rst:20
 msgid ""
 "Strings which can not be saved to a file no longer block other strings to be "
 "written."
-msgstr ""
+msgstr "无法被保存到文件的字符串不会再阻止其它字符串被写入。"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Fixed commit messages for linked components."
 msgid "Fixed some API URLs for categorized components."
-msgstr "修复了链接部件的提交说明。"
+msgstr "修复了已分类部件的某些 API URL。"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Show source string comment more prominently."
 msgid "Show plural form examples more prominently."
-msgstr "更突出地显示源字符串注释。"
+msgstr "更突出地显示复数形式示例。"
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid ":ref:`machine-translation`"
 msgid "Highlight whitespace in :ref:`machine-translation`."
-msgstr ":ref:`machine-translation`"
+msgstr "高亮 :ref:`machine-translation`中的空白符号。"
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Added support for component and project removal."
 msgid "Faster comment and component removal."
-msgstr "为部件和项目删除添加了支持。"
+msgstr "更快地删除评论和部件。"
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Show source string comment more prominently."
 msgid "Show disabled save button reason more prominently."
-msgstr "更突出地显示源字符串注释。"
+msgstr "更突出地显示为何禁用保存按钮。"
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid ""
-#| "New opt-in notifications on pending suggestions or untranslated strings."
 msgid "New string notification can now be triggered for each string."
-msgstr "新的可选的待处理建议或未翻译字符串通知。"
+msgstr "现在每条字符串都可以触发新字符串通知。"
 
 #: ../../changes.rst:28 ../../changes.rst:60 ../../changes.rst:93
 #: ../../changes.rst:150
@@ -23316,32 +23197,24 @@ msgid "**Bug fixes**"
 msgstr "**缺陷修复**"
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Improved error handling in import_project."
 msgid "Improved OCR error handling in :ref:`screenshots`."
-msgstr "改进了 import_project 中的错误处理。"
+msgstr "改进了 :ref:`screenshots`中的 OCR 错误处理。"
 
 #: ../../changes.rst:31
 msgid ":ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`."
-msgstr ""
+msgstr ":ref:`autofix` 优雅地处理来自 :ref:`multivalue-csv`的字符串。"
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Manually, :ref:`machine-translation` view while translating."
 msgid "Occasional crash in :ref:`machine-translation` caching."
-msgstr "手动，:ref:`machine-translation` 当翻译时查看。"
+msgstr "修复了 :ref:`machine-translation` 缓存偶尔的崩溃。"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "Creating component within a category."
 msgid "Fixed history listing for entries within a :ref:`category`."
-msgstr "在分类中创建部件。"
+msgstr "修复了 :ref:`category`中条目的历史记录列举问题。"
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid "Fixed displaying of :guilabel:`Automatically translated` label."
 msgid "Fixed editing :guilabel:`Administration` team."
-msgstr "修复了 :guilabel:`自动翻译` 标签的显示。"
+msgstr "修复了编辑 :guilabel:`Administration`团队的问题。"
 
 #: ../../changes.rst:36 ../../changes.rst:103 ../../changes.rst:158
 msgid "**Compatibility**"
@@ -23349,7 +23222,7 @@ msgstr "**兼容性**"
 
 #: ../../changes.rst:38
 msgid "Categories are now included ``weblate://`` repository URLs."
-msgstr ""
+msgstr "分类现在包含 ``weblate://`` repository URLs。"
 
 #: ../../changes.rst:40 ../../changes.rst:67 ../../changes.rst:108
 #: ../../changes.rst:163 ../../changes/v4.rst:53 ../../changes/v4.rst:85
@@ -23375,42 +23248,33 @@ msgid ""
 msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
 
 #: ../../changes.rst:44
-#, fuzzy
-#| msgid "Upgrades from older version than 3.0.1 are not supported."
 msgid ""
 "Upgrades from older version than 5.0.2 are not supported, please upgrade to "
 "5.0.2 first and then continue in upgrading."
-msgstr "不再支持从早于 3.0.1 的更旧版本的升级。"
+msgstr "不支持从早于 5.0.2 的版本进行升级，请先升级到 5.0.2 版本，然后再继续升级。"
 
 #: ../../changes.rst:45
-#, fuzzy
-#| msgid ""
-#| "Deprecated insecure configuration of VCS service API keys via _TOKEN/"
-#| "_USERNAME configuration instead of _CREDENTIALS list."
 msgid ""
 "Dropped support for deprecated insecure configuration of VCS service API "
 "keys via _TOKEN/_USERNAME in :file:`settings.py`."
 msgstr ""
-"已弃用通过 _TOKEN/_USERNAME 配置而不是 _CREDENTIALS 列表对 版本控制系统服务 "
-"API 密钥进行不安全配置。"
+"不再支持通过 :file:`settings.py`中 _TOKEN/_USERNAME 进行 VCS 服务 API "
+"密钥的已弃用的不安全配置。"
 
 #: ../../changes.rst:46
 msgid ""
 "Weblate now defaults to persistent database connections in :file:"
 "`settings_example.py` and Docker."
-msgstr ""
+msgstr "在 :file:`settings_example.py` 和 Docker 中，Weblate "
+"现在的默认行为是持久性的数据库连接。"
 
 #: ../../changes.rst:48
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/105?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/100?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/105?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"100?closed=1>`__."
 
 #: ../../changes.rst:51
 msgid "Weblate 5.0.2"
@@ -31783,7 +31647,7 @@ msgstr "创建新的单元前触发的钩子。"
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.user:1
 msgid "Weblate user used to track changes by this add-on."
-msgstr ""
+msgstr "被此附加组件用来追踪变化的 Weblate 用户。"
 
 #: ../../contributing/addons.rst:11
 msgid "Here is an example add-on:"
@@ -34022,6 +33886,8 @@ msgid ""
 "can be done by `pip install -r requirements-dev.txt` or `pip install -e ."
 "[test]`."
 msgstr ""
+"运行测试前，请确保测试依赖已安装。可以通过 `pip install -r requirements-dev."
+"txt` 或 `pip install -e .[test]` 进行确认。"
 
 #: ../../contributing/tests.rst:51
 msgid "To run a testsuite locally, use:"
@@ -35052,13 +34918,6 @@ msgstr ""
 "校。"
 
 #: ../../devel/integration.rst:127
-#, fuzzy
-#| msgid ""
-#| "Bilingual formats typically extract strings from the source code using "
-#| "some tooling. Follow your localization framework documentation for "
-#| "instructions how to do that. Once the strings are extracted, there might "
-#| "be an additional step needed to update existing translations, see :ref:"
-#| "`updating-target-files`."
 msgid ""
 "Bilingual formats typically extract strings from the source code using some "
 "tooling (like :program:`xgettext` or :program:`intltool-update`). Follow "
@@ -35066,9 +34925,9 @@ msgid ""
 "Once the strings are extracted, there might be an additional step needed to "
 "update existing translations, see :ref:`updating-target-files`."
 msgstr ""
-"双语言格式通常使用某些工具从源代码中提取字符串。具体操作方法请参考你的本地化"
-"框架文档。一旦字符串被提取，可能需要额外步骤来更新现有的翻译，见 :ref:"
-"`updating-target-files`。"
+"双语言格式通常使用某些工具（比如 :program:`xgettext` 或 :program:`intltool-up"
+"date`）从源代码中提取字符串。具体操作方法请参考你的本地化框架文档。一旦字符串"
+"被提取，可能需要额外步骤来更新现有的翻译，见 :ref:`updating-target-files`。"
 
 #: ../../devel/integration.rst:135
 msgid ""
@@ -35076,6 +34935,8 @@ msgid ""
 "typically involves executing untrusted code what makes it more suitable for "
 "a generic continuous integration than localization-specific platform."
 msgstr ""
+"自动提取字符串功能目前不在 Weblate 考虑范围内。它通常涉及到执行不受信任的代码"
+"，这一点使该功能相对本地化平台而言，更适合通用的持续化代码集成服务。"
 
 #: ../../devel/integration.rst:139
 msgid ""
@@ -35149,7 +35010,8 @@ msgid ""
 "You can choose predefined periods or enter a custom date range. In that "
 "case, the contributions are counted at midnight – that means that it "
 "includes the starting date and excludes the ending date."
-msgstr ""
+msgstr "你可以选择预定义的周期或输入自定义的日期范围。在此情况下，系统会在午夜时分计"
+"算翻译贡献，这意味着它包括开始日期并排除结束日期。"
 
 #: ../../devel/reporting.rst:21
 msgid "Number of words"
@@ -35804,13 +35666,12 @@ msgid ""
 msgstr "`weblate 的 GoLang API 库 <https://gitlab.com/gajdusek/goweblate>`_"
 
 #: ../../devel/thirdparty.rst:13
-#, fuzzy
-#| msgid ""
-#| "`GoLang API library for weblate <https://gitlab.com/gajdusek/goweblate>`_"
 msgid ""
 "`Perceval backends for Weblate <https://github.com/chaoss/grimoirelab-"
 "perceval-weblate>`_"
-msgstr "`weblate 的 GoLang API 库 <https://gitlab.com/gajdusek/goweblate>`_"
+msgstr ""
+"`Weblate 的 Perceval 后端 <https://github.com/chaoss/grimoirelab-perceval-"
+"weblate>`_"
 
 #: ../../devel/thirdparty.rst:17
 msgid ""
@@ -38059,13 +37920,6 @@ msgid ""
 msgstr "支持通过调整文件标头或链接到相应的源文件，在文件中存储上下文信息。"
 
 #: ../../formats/gettext.rst:17
-#, fuzzy
-#| msgid ""
-#| ":doc:`../devel/gettext`, :doc:`../devel/sphinx`, `Gettext on Wikipedia "
-#| "<https://en.wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:"
-#| "`addon-weblate.gettext.configure`, :ref:`addon-weblate.gettext."
-#| "customize`, :ref:`addon-weblate.gettext.linguas`, :ref:`addon-weblate."
-#| "gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`"
 msgid ""
 ":doc:`../devel/gettext`, :doc:`../devel/sphinx`, `Gettext on Wikipedia "
 "<https://en.wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:`addon-"
@@ -38073,15 +37927,16 @@ msgid ""
 "`addon-weblate.gettext.customize`, :ref:`addon-weblate.gettext.linguas`, :"
 "ref:`addon-weblate.gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`"
 msgstr ""
-":doc:`../devel/gettext`， :../doc:`devel/sphinx`， `维基百科上的 Gettext（英"
-"文） <https://en.wikipedia.org/wiki/Gettext>`_， :doc:`tt:formats/po`， :ref:"
-"`addon-weblate.gettext.configure`， :ref:`addon-weblate.gettext."
-"customize`， :ref:`addon-weblate.gettext.linguas`， :ref:`addon-weblate."
-"gettext.mo`， :ref:`addon-weblate.gettext.msgmerge`"
+":doc:`../devel/gettext`， :../doc:`devel/sphinx`， `维基百科上的 "
+"Gettext（英文） <https://en.wikipedia.org/wiki/Gettext>`_， :doc:`tt:formats/"
+"po`， :ref:`addon-weblate.gettext.authors` :ref:`addon-weblate.gettext."
+"configure`， :ref:`addon-weblate.gettext.customize`， :ref:`addon-weblate."
+"gettext.linguas`， :ref:`addon-weblate.gettext.mo`， :ref:`addon-weblate."
+"gettext.msgmerge`"
 
 #: ../../formats/gettext.rst:29
 msgid "PO file header"
-msgstr ""
+msgstr "PO 文件标头"
 
 #: ../../formats/gettext.rst:31
 msgid ""
@@ -38089,6 +37944,8 @@ msgid ""
 "it can include :ref:`component-report_source_bugs` and :ref:`project-"
 "set_language_team`."
 msgstr ""
+"PO 文件的标头由 Weblate 自动维护。可选地，它可以包含 :ref:`component-"
+"report_source_bugs` 和 :ref:`project-set_language_team`。"
 
 #: ../../formats/gettext.rst:38
 msgid "Monolingual gettext"
@@ -42879,10 +42736,8 @@ msgid "gettext PO (``po``)"
 msgstr "gettext PO (``po``)"
 
 #: ../../user/files.rst:31
-#, fuzzy
-#| msgid "XLIFF with gettext extensions (``xliff``)"
 msgid "XLIFF 1.1 with gettext extensions (``xliff``)"
-msgstr "带 gettext 扩展的 XLIFF (``xliff``)"
+msgstr "带 gettext 扩展的 XLIFF 1.1 (``xliff``)"
 
 #: ../../user/files.rst:32
 msgid "XLIFF 1.1 (``xliff11``)"
@@ -42940,10 +42795,8 @@ msgstr ""
 "language)/file/`, :setting:`WEBLATE_EXPORTERS`"
 
 #: ../../user/files.rst:57
-#, fuzzy
-#| msgid "Listing of categorized projects."
 msgid "Downloading components, categories or projects"
-msgstr "已分类项目列举。"
+msgstr "正下载部件、分类或项目"
 
 #: ../../user/files.rst:59
 msgid ""
@@ -42952,16 +42805,13 @@ msgid ""
 "file, and you can choose original or converted formats similarly as in :ref:"
 "`download`."
 msgstr ""
+"可以通过 :guilabel:`Files` 菜单同时下载部件、分类或项目的翻译文件。"
+"下载内容始终以 ZIP 文件提供，你可以像在 "
+":ref:`download`中那样选择原始或转换的格式。"
 
 #: ../../user/files.rst:66
-#, fuzzy
-#| msgid ""
-#| "Response is same as :http:get:`/api/components/(string:project)/(string:"
-#| "component)/lock/`."
 msgid ":http:get:`/api/components/(string:project)/(string:component)/file/`"
-msgstr ""
-"响应时间与 :http:get:`/api/components/(string:project)/(string:component)/"
-"lock/`相同。"
+msgstr ":http:get:`/api/components/(string:project)/(string:component)/file/`"
 
 #: ../../user/files.rst:71
 msgid "Uploading translations"
@@ -43098,50 +42948,34 @@ msgid "Conflicts handling"
 msgstr "冲突处理"
 
 #: ../../user/files.rst:141
-#, fuzzy
-#| msgid ""
-#| "Defines how to deal with uploaded strings which are already translated."
 msgid "Defines how to deal with uploaded strings which are already translated:"
-msgstr "定义如何处理已经翻译的上传字符串。"
+msgstr "定义如何处理已翻译的已上传字符串："
 
 #: ../../user/files.rst:143
-#, fuzzy
-#| msgid "Change only untranslated strings"
 msgid "Change only untranslated strings (``ignore``)"
-msgstr "仅更改未翻译的字符串"
+msgstr "仅更改未翻译的字符串 (``ignore``)"
 
 #: ../../user/files.rst:144
-#, fuzzy
-#| msgid ""
-#| "Defines how to deal with uploaded strings which are already translated."
 msgid "Ignore uploaded translations which are already translated."
-msgstr "定义如何处理已经翻译的上传字符串。"
+msgstr "忽略翻译过的已上传译文。"
 
 #: ../../user/files.rst:145
-#, fuzzy
-#| msgid "Add as translation (``translate``)"
 msgid "Change translated strings (``replace-translated``)"
-msgstr "添加为译文（``translate``）"
+msgstr "更改已翻译的字符串 (``replace-translated``)"
 
 #: ../../user/files.rst:146
-#, fuzzy
-#| msgid "Replace existing translation file (``replace``)"
 msgid ""
 "Replace existing translations with uploaded ones, but keep approved ones."
-msgstr "替换现有翻译文件（``replace``）"
+msgstr "用已上传的翻译替换现有的翻译，但保留已获批准的翻译。"
 
 #: ../../user/files.rst:148
-#, fuzzy
-#| msgid "Change translated and approved strings"
 msgid "Change translated and approved strings (``replace-approved``)"
-msgstr "更改已翻译和已核准的字符串"
+msgstr "更改已翻译的和已核准的字符串 (``replace-approved``)"
 
 #: ../../user/files.rst:148
-#, fuzzy
-#| msgid "*Reviewer* can edit all translations (including approved ones)."
 msgid ""
 "Replace existing translations with uploaded ones, including approved ones."
-msgstr "*审校员* 可以编辑所有翻译（包括已核准的翻译）。"
+msgstr "使用已上传的翻译替换现有翻译，包括那些已核准的翻译。"
 
 #: ../../user/files.rst:153
 msgid "Strings needing edit"
@@ -44906,11 +44740,9 @@ msgstr ""
 "memory` 的建议。所有机器翻译都在每个翻译页面的一个选项卡中提供。"
 
 #: ../../user/translating.rst:336
-#, fuzzy
-#| msgid "Built-in translation memory, see :ref:`translation-memory`."
 msgid ""
 "You can also perform a concordance search on the :ref:`translation-memory`."
-msgstr "内置的翻译记忆库，请参见 :ref:`translation-memory`。"
+msgstr "你也可以在 :ref:`translation-memory`执行词语索引搜索。"
 
 #: ../../user/translating.rst:340
 msgid ""
@@ -45129,6 +44961,10 @@ msgid ""
 "mail ``hosted@weblate.org``, and a name or profile description :guilabel:"
 "`Weblate push user`)."
 msgstr ""
+"Hosted Weblate 在 GitHub、Bitbucket、Codeberg 和 GitLab "
+"上注册有一个专门的推送用户（用户名 :guilabel:`weblate`、电子邮箱 "
+"``hosted@weblate.org`` 以及名称或个人资料描述 :guilabel:`Weblate push "
+"user`）。"
 
 #: ../../vcs.rst:33
 msgid ""
@@ -45136,18 +44972,11 @@ msgid ""
 "Weblate instances. Searching by e-mail ``hosted@weblate.org`` is recommended "
 "to find the correct user for Hosted Weblate."
 msgstr ""
+"这些平台上可以有更多这样的 Weblate 用户，由其他 Weblate 实例所指定。"
+"建议搜索电子邮箱 ``hosted@weblate.org`` 以找到正确的 Hosted Weblate "
+"推送用户。"
 
 #: ../../vcs.rst:37
-#, fuzzy
-#| msgid ""
-#| "For Hosted Weblate there is a dedicated push user registered on GitHub, "
-#| "Bitbucket, Codeberg and GitLab (with the username :guilabel:`weblate`, e-"
-#| "mail ``hosted@weblate.org`` and, named :guilabel:`Weblate push user`). "
-#| "You need to add this user as a collaborator and give it appropriate "
-#| "permission to your repository (read-only is okay for cloning, write is "
-#| "required for pushing). Depending on service and your organization "
-#| "settings, this happens immediately, or requires confirmation on the "
-#| "Weblate side."
 msgid ""
 "You need to add this user as a collaborator and give it appropriate "
 "permissions to your repository (read-only is okay for cloning, write is "
@@ -45155,11 +44984,9 @@ msgid ""
 "settings, this happens immediately, or requires confirmation on the Weblate "
 "side."
 msgstr ""
-"对于 Hosted Weblate，有一个在 GitHub、Bitbucket、Codeberg 和 GitLab 上注册的"
-"专用推送用户（用户名 :guilabel:`weblate`，电子邮件 ``hosted@weblate.org`` "
-"和，名为 :guilabel:`Weblate 推送用户`）。您需要将此用户添加为协作者并为其授予"
-"对您的仓库的适当权限（克隆可以只读，推送需要写入）。根据服务和您的组织设置，"
-"这会立即发生，或者需要在 Weblate 端进行确认。"
+"您需要将此用户添加为协作者并为其授予对您的仓库的适当权限（克隆可以只读，推送"
+"需要写入）。根据服务和您组织的设置，这会立即发生，或者需要在 Weblate "
+"端进行确认。"
 
 #: ../../vcs.rst:42
 msgid ""
@@ -45171,19 +44998,14 @@ msgstr ""
 "要人工处理，请耐心等待。"
 
 #: ../../vcs.rst:45
-#, fuzzy
-#| msgid ""
-#| "Once the :guilabel:`weblate` user is added, you can configure :ref:"
-#| "`component-repo` and :ref:`component-push` using the SSH protocol (for "
-#| "example ``git@github.com:WeblateOrg/weblate.git``)."
 msgid ""
 "Once the :guilabel:`weblate` user is added to your repository, you can "
 "configure :ref:`component-repo` and :ref:`component-push` using the SSH "
 "protocol (for example ``git@github.com:WeblateOrg/weblate.git``)."
 msgstr ""
-"一旦 :guilabel:`weblate` 用户被添加，你可以使用SSH协议（例如 ``git@github."
-"com:WeblateOrg/weblate.git``）配置 :ref:`component-repo` 和 :ref:`component-"
-"push` 。"
+"一旦 :guilabel:`weblate` 用户被添加到你的仓库，你可以使用SSH协议（例如 "
+"``git@github.com:WeblateOrg/weblate.git``）配置 :ref:`component-repo` 和 :ref"
+":`component-push` 。"
 
 #: ../../vcs.rst:52
 msgid "SSH repositories"
