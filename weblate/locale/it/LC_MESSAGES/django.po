@@ -4,13 +4,14 @@
 # Massimo Pissarello <mapi68@gmail.com>, 2023.
 # bovirus <roberto.boriotti@canon.it>, 2023.
 # Pierfrancesco Passerini <p.passerini@gmail.com>, 2023.
+# coronabond <coronabond@airmail.cc>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-14 12:44+0000\n"
 "PO-Revision-Date: 2023-10-16 00:37+0000\n"
-"Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
+"Last-Translator: coronabond <coronabond@airmail.cc>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -89,7 +90,7 @@ msgstr "E-mail"
 
 #: weblate/accounts/forms.py:346
 msgid "Choose primary e-mail from verified addresses."
-msgstr "Scegli l'e-mail principale da indirizzi verificati."
+msgstr "Scegli l'e-mail principale tra gli indirizzi verificati."
 
 #: weblate/accounts/forms.py:393
 msgid "Subject"
@@ -462,15 +463,11 @@ msgstr ""
 "sia inappropriato."
 
 #: weblate/accounts/models.py:190 weblate/accounts/models.py:193
-#, fuzzy
-#| msgid ""
-#| "In case the confirmation link is expired, you can use password reset "
-#| "feature to gain access to your account."
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
-"Nel caso in cui il collegamento di conferma sia scaduto, per accedere al tuo "
-"account puoi usare la funzione di reimpostazione della password."
+"Se sei stato tu, usa la reimpostazione della password per riottenere "
+"l'accesso al tuo account."
 
 #: weblate/accounts/models.py:310 weblate/templates/accounts/profile.html:291
 #: weblate/templates/accounts/user.html:242
@@ -5252,39 +5249,32 @@ msgid "Confirm"
 msgstr "Conferma"
 
 #: weblate/templates/accounts/contact.html:17
-#, fuzzy, python-format
-#| msgid "You can only contact administrators of %(site_title)s here."
+#, python-format
 msgid "You can only contact administrators of %(site_title)s server here."
-msgstr "Qui puoi contattare solo i manutentori di %(site_title)s."
+msgstr "Qui puoi contattare solo i manutentori del server %(site_title)s."
 
 #: weblate/templates/accounts/contact.html:19
 msgid "You can only contact administrators of the whole server here."
 msgstr "Puoi contattare qui solo i manutentori dell'intero server."
 
 #: weblate/templates/accounts/contact.html:23
-#, fuzzy
-#| msgid ""
-#| "For questions about a specific translation project, contact its "
-#| "maintainers directly, not by this form."
 msgid ""
 "For questions about a specific translation project, don’t use this form. "
 "Refer to the project’s Info tab and contact its maintainers."
 msgstr ""
-"Per domande su un progetto di traduzione specifico, contatta direttamente i "
-"suoi manutentori, non tramite questo modulo."
+"Per domande su un progetto di traduzione specifico, non usare questo modulo. "
+"Consulta la scheda Info del progetto e contatta i suoi manutentori."
 
 #: weblate/templates/accounts/contact.html:27
-#, fuzzy, python-format
-#| msgid ""
-#| "If you seek support for another Weblate deployment or want to file a bug "
-#| "report, check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you seek support for any other Weblate deployment than %(site_title)s, "
 "please check support offerings at %(weblate_link)s or use this form on the "
 "correct server."
 msgstr ""
-"Se cerchi assistenza per un'altra installazione di Weblate o vuoi segnalare "
-"errori visita il sito %(weblate_link)s."
+"Se cerchi assistenza per un'installazione di Weblate diversa da %(site_title)"
+"s, controlla le offerte di assistenza su %(weblate_link)s oppure usa questo "
+"modulo sul server giusto."
 
 #: weblate/templates/accounts/contact.html:31
 #, python-format
@@ -6952,28 +6942,22 @@ msgstr "Annunci"
 #: weblate/templates/category.html:48 weblate/templates/component.html:55
 #: weblate/templates/project.html:55
 msgid "Download translation files as ZIP file"
-msgstr "Download file traduzione come file ZIP"
+msgstr "Scarica file traduzione come file ZIP"
 
 #: weblate/templates/category.html:49 weblate/templates/component.html:56
 #: weblate/templates/language-project.html:33 weblate/templates/project.html:56
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as CSV in a ZIP file"
-msgstr "Download file traduzione come file ZIP"
+msgstr "Scarica traduzioni come CSV in un file ZIP"
 
 #: weblate/templates/category.html:50 weblate/templates/component.html:57
 #: weblate/templates/language-project.html:34 weblate/templates/project.html:57
-#, fuzzy
-#| msgid "Download translation as XLIFF 1.2"
 msgid "Download translations as XLIFF 1.1 in a ZIP file"
-msgstr "Download file traduzione XLIFF 1.2"
+msgstr "Scarica traduzioni come XLIFF 1.1 in un file ZIP"
 
 #: weblate/templates/category.html:51 weblate/templates/component.html:58
 #: weblate/templates/language-project.html:35 weblate/templates/project.html:58
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as XLSX in a ZIP file"
-msgstr "Download file traduzione come file ZIP"
+msgstr "Scarica traduzioni come XLSX in un file ZIP"
 
 #: weblate/templates/category.html:75 weblate/templates/project.html:91
 msgid "Add new category"
@@ -9025,7 +9009,7 @@ msgstr "Numero tuoi elementi"
 #: weblate/templates/memory/index.html:202
 #: weblate/templates/memory/index.html:214
 msgid "Download as JSON"
-msgstr "Download come JSON"
+msgstr "Scarica come JSON"
 
 #: weblate/templates/memory/index.html:46
 #: weblate/templates/memory/index.html:109
@@ -10182,7 +10166,7 @@ msgstr[1] "%(count)s voti"
 
 #: weblate/templates/snippets/suggestions.html:30
 msgid "Vote for"
-msgstr "Vota per"
+msgstr "Vota a favore"
 
 #: weblate/templates/snippets/suggestions.html:31
 msgid "Vote against"
@@ -11284,7 +11268,7 @@ msgstr "Modifica suggerita"
 
 #: weblate/templates/translate.html:377
 msgid "Origin"
-msgstr "Sorgente"
+msgstr "Origine"
 
 #: weblate/templates/translate.html:378
 msgid "Similarity"
