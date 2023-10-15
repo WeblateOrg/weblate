@@ -5,13 +5,14 @@
 # Kaya Zeren <kayazeren@gmail.com>, 2023.
 # yangyangdaji <1504305527@qq.com>, 2023.
 # Yılmaz Durmaz <yilmaz_durmaz@hotmail.com>, 2023.
+# Yusuf <koyuncuo@itu.edu.tr>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-14 12:44+0000\n"
-"PO-Revision-Date: 2023-10-15 07:01+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-10-16 00:37+0000\n"
+"Last-Translator: Yusuf <koyuncuo@itu.edu.tr>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
 "Language: tr\n"
@@ -458,10 +459,6 @@ msgstr ""
 "Bunun hatalı olduğunu düşünüyorsanız, lütfen proje yöneticileri ile görüşün."
 
 #: weblate/accounts/models.py:190 weblate/accounts/models.py:193
-#, fuzzy
-#| msgid ""
-#| "In case the confirmation link is expired, you can use password reset "
-#| "feature to gain access to your account."
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
@@ -2228,11 +2225,9 @@ msgid "Managers"
 msgstr "Yöneticiler"
 
 #: weblate/auth/data.py:248
-#, fuzzy
-#| msgid "Project Information"
 msgctxt "Access-control group"
 msgid "Project creators"
-msgstr "Proje bilgileri"
+msgstr "Proje sahipleri"
 
 #: weblate/auth/data.py:257
 msgctxt "Per-project access-control group"
@@ -5210,21 +5205,16 @@ msgid "Confirm"
 msgstr "Onayla"
 
 #: weblate/templates/accounts/contact.html:17
-#, fuzzy, python-format
-#| msgid "You can only contact administrators of %(site_title)s here."
+#, python-format
 msgid "You can only contact administrators of %(site_title)s server here."
 msgstr ""
-"Buradan yalnızca %(site_title)s sitesinin yöneticileriyle görüşebilirsiniz."
+"Buradan  %(site_title)s sitesinin yöneticileriyle yalnızca görüşebilirsiniz."
 
 #: weblate/templates/accounts/contact.html:19
 msgid "You can only contact administrators of the whole server here."
 msgstr "Buradan yalnızca tüm sunucunun yöneticileriyle görüşebilirsiniz."
 
 #: weblate/templates/accounts/contact.html:23
-#, fuzzy
-#| msgid ""
-#| "For questions about a specific translation project, contact its "
-#| "maintainers directly, not by this form."
 msgid ""
 "For questions about a specific translation project, don’t use this form. "
 "Refer to the project’s Info tab and contact its maintainers."
@@ -5247,10 +5237,7 @@ msgstr ""
 "gözden geçirin."
 
 #: weblate/templates/accounts/contact.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "Ideas and questions can be sent to the %(link_start)sWeblate issue tracker"
-#| "%(link_end)s."
+#, python-format
 msgid ""
 "Weblate development ideas and questions can be sent to the "
 "%(link_start)sWeblate issue tracker%(link_end)s."
@@ -6903,24 +6890,18 @@ msgstr "Çeviri dosyalarını ZIP olarak indir"
 
 #: weblate/templates/category.html:49 weblate/templates/component.html:56
 #: weblate/templates/language-project.html:33 weblate/templates/project.html:56
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as CSV in a ZIP file"
-msgstr "Çeviri dosyalarını ZIP olarak indir"
+msgstr "Çevirileri ZIP içinde CSV halinde indir"
 
 #: weblate/templates/category.html:50 weblate/templates/component.html:57
 #: weblate/templates/language-project.html:34 weblate/templates/project.html:57
-#, fuzzy
-#| msgid "Download translation as XLIFF 1.2"
 msgid "Download translations as XLIFF 1.1 in a ZIP file"
-msgstr "Çeviriyi XLIFF 1.2 olarak indir"
+msgstr "Çeviriyi ZIP içinde XLIFF 1.1 halinde indir"
 
 #: weblate/templates/category.html:51 weblate/templates/component.html:58
 #: weblate/templates/language-project.html:35 weblate/templates/project.html:58
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as XLSX in a ZIP file"
-msgstr "Çeviri dosyalarını ZIP olarak indir"
+msgstr "Çeviri dosyalarını ZIP içinde XLSX halinde indir"
 
 #: weblate/templates/category.html:75 weblate/templates/project.html:91
 msgid "Add new category"
@@ -7479,8 +7460,7 @@ msgid "Translate"
 msgstr "Çevir"
 
 #: weblate/templates/engage.html:68
-#, fuzzy, python-format
-#| msgid "%(language)s glossary for %(project)s"
+#, python-format
 msgid "%(language)s in %(project)s"
 msgstr "%(project)s için %(language)s terimler sözlüğü"
 
@@ -8349,9 +8329,7 @@ msgid "New language request in %(component)s"
 msgstr "%(component)s bileşeni için yeni dil isteği yapıldı"
 
 #: weblate/templates/mail/new_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "New string to translate in %(translation)s"
 msgstr "%(translation)s içinde çevrilecek yeni bir dizge var"
 
@@ -8447,12 +8425,10 @@ msgid "Password reset on %(site_title)s"
 msgstr "%(site_title)s sitesinde parola sıfırlama"
 
 #: weblate/templates/mail/shared-activity.html:18
-#, fuzzy
-#| msgid "If this was not done by you, report it by clicking the button below."
 msgid ""
 "If you didn’t initiate this, please report it to the server administrators "
 "by clicking the button below."
-msgstr "Bu işlemi siz yağmadıysanız aşağıdaki düğmeye tıklayarak bildirin."
+msgstr "Bu işlemi siz yapmadıysanız aşağıdaki düğmeye basarak bildirin."
 
 #: weblate/templates/mail/shared-activity.html:22
 msgid "Report"
@@ -8923,10 +8899,8 @@ msgid "Remove invitation"
 msgstr "Daveti sil"
 
 #: weblate/templates/matrix-table.html:13
-#, fuzzy
-#| msgid "String age"
 msgid "String missing"
-msgstr "Dizge yaşı"
+msgstr "Dizge eksik"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -9527,10 +9501,8 @@ msgid "Translation suggestions are turned off."
 msgstr "Çeviri önerileri kapatıldı."
 
 #: weblate/templates/snippets/info.html:191
-#, fuzzy
-#| msgid "Translations have been updated."
 msgid "Translations are reviewed by dedicated reviewers."
-msgstr "Çeviriler güncellendi."
+msgstr "Çeviriler görevli inceleyiciler tarafından incelendi."
 
 #: weblate/templates/snippets/info.html:199
 msgid "The translation uses monolingual files."
@@ -12516,10 +12488,8 @@ msgstr "Üst kategori farklı olmalıdır!"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:292
-#, fuzzy
-#| msgid "Resource update"
 msgid "Resource updated"
-msgstr "Kaynağı güncelledi"
+msgstr "Kaynak güncellendi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:294
