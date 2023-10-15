@@ -3,21 +3,22 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Yuri Chornoivan <yurchor@ukr.net>, 2023.
 # Олександр Кревський <sasha135280@gmail.com>, 2023.
+# Tymofii Lytvynenko <till.svit@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-14 14:45+0200\n"
-"PO-Revision-Date: 2023-10-05 10:57+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"PO-Revision-Date: 2023-10-16 00:37+0000\n"
+"Last-Translator: Tymofii Lytvynenko <till.svit@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
@@ -8012,18 +8013,13 @@ msgstr ""
 "``http``, але зважайте на захист."
 
 #: ../../snippets/vcs-credentials.rst:20
-#, fuzzy
-#| msgid ""
-#| "In the Docker container, the credentials are configured in three "
-#| "variables and the credentials are built out of that. An example "
-#| "configuration for GitHub might look like:"
 msgid ""
 "In the Docker container, the credentials can be configured in three "
 "variables and the credentials are built out of that. An example "
 "configuration for GitHub might look like:"
 msgstr ""
-"У контейнері Docker реєстраційні дані налаштовуються у трьох змінних, на "
-"основі яких здійснюється доступ. Приклад налаштувань для GitHub:"
+"У контейнері Docker реєстраційні дані можуть налаштовуватися у трьох "
+"змінних, на основі яких здійснюється доступ. Приклад налаштувань для GitHub:"
 
 #: ../../snippets/vcs-credentials.rst:30
 msgid "Will be used as:"
@@ -8031,14 +8027,11 @@ msgstr "Буде використано так:"
 
 #: ../../snippets/vcs-credentials.rst:41
 msgid "Alternatively the Python dictonary can be provided as a string:"
-msgstr ""
+msgstr "Крім того, словник Python може бути наданий у вигляді рядка:"
 
 #: ../../snippets/vcs-credentials.rst:47
-#, fuzzy
-#| msgid ""
-#| "Sets the path to a file containing the password for the `admin` user."
 msgid "Or the path to a file containing the Python dictionary:"
-msgstr "Установлює шлях до файла, що містить пароль для користувача `admin`."
+msgstr "Або шлях до файлу, що містить словник Python:"
 
 #: ../../admin/config.rst:752
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
@@ -9002,16 +8995,12 @@ msgid "Sentry DSN to use for :ref:`collecting-errors`."
 msgstr "Sentry DSN, яким слід скористатися для :ref:`collecting-errors`."
 
 #: ../../admin/config.rst:1574
-#, fuzzy
-#| msgid ""
-#| "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
-#| "guides/django/>`_"
 msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "integrations/django/>`_"
 msgstr ""
-"`Інтеграція Django із Sentry <https://docs.sentry.io/platforms/python/guides/"
-"django/>`_"
+"`Інтеграція Django із Sentry <https://docs.sentry.io/platforms/python/"
+"integrations/django/>`_"
 
 #: ../../admin/config.rst:1579
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
@@ -10714,12 +10703,12 @@ msgstr ""
 "такі запущені служби:"
 
 #: ../../admin/install.rst:59
-#, fuzzy
-#| msgid "PostgreSQL database server, see :ref:`database-setup`."
 msgid ""
 "PostgreSQL database server for storing all the content, see :ref:`database-"
 "setup`."
-msgstr "Сервер бази даних PostgreSQL, див. :ref:`database-setup`."
+msgstr ""
+"Сервер бази даних PostgreSQL для зберігання всього контенту, див. :ref"
+":`database-setup`."
 
 #: ../../admin/install.rst:60
 msgid "Redis server for cache and tasks queue, see :ref:`celery`."
@@ -10734,6 +10723,8 @@ msgid ""
 "Filesystem storage (networked if you plan to scale Weblate horizontally) for "
 "storing VCS repositories."
 msgstr ""
+"Файлове сховище (мережеве, якщо ви плануєте масштабувати Weblate "
+"горизонтально) для зберігання репозиторіїв VCS."
 
 #: ../../admin/install.rst:67
 msgid "Python dependencies"
@@ -11248,6 +11239,10 @@ msgid ""
 "CONN_MAX_AGE` and :ref:`django:persistent-database-connections` for more "
 "info."
 msgstr ""
+"Постійні з'єднання покращують швидкість відгуку Weblate, але можуть вимагати "
+"більше ресурсів для сервера бази даних. Будь ласка, зверніться до "
+":setting:`django:CONN_MAX_AGE` та :ref:`django:persistent-database-"
+"connections` для отримання додаткової інформації."
 
 #: ../../admin/install.rst:420
 msgid "MySQL and MariaDB"
@@ -14558,23 +14553,19 @@ msgstr ""
 "postgresql`."
 
 #: ../../admin/install/docker.rst:1365
-#, fuzzy
-#| msgid ""
-#| "The lifetime of a database connection, as an integer of seconds. Use 0 to "
-#| "close database connections at the end of each request (this is the "
-#| "default behavior)."
 msgid ""
 "The lifetime of a database connection, as an integer of seconds. Use 0 to "
 "close database connections at the end of each request."
 msgstr ""
-"Тривалість життя з'єднання із базою даних у форматі цілого числа секунд. "
-"Скористайтеся значенням 0, щоб закривати з'єднання із базою даних наприкінці "
-"кожного запиту (це типова поведінка)."
+"Час життя з'єднання з базою даних, як ціле число секунд. Використовуйте 0, "
+"щоб закривати з'єднання з базою даних в кінці кожного запиту."
 
 #: ../../admin/install/docker.rst:1370
 msgid ""
 "The default behavior is to have unlimited persistent database connections."
 msgstr ""
+"Типова поведінка передбачає необмежену кількість постійних з'єднань з базою "
+"даних."
 
 #: ../../admin/install/docker.rst:1372
 msgid ""
@@ -14615,12 +14606,13 @@ msgid ""
 "connection. Use :ref:`docker-settings-override` to configure the database "
 "connection manually."
 msgstr ""
+"Установіть значення false, щоб вимкнути конфігурацію з'єднання з базою даних "
+"на основі середовища. Використовуйте :ref:`docker-settings-override` для "
+"налаштування під'єднання до бази даних вручну."
 
 #: ../../admin/install/docker.rst:1414
-#, fuzzy
-#| msgid "MySQL and MariaDB"
 msgid "MySQL or MariaDB server"
-msgstr "MySQL і MariaDB"
+msgstr "Сервер MySQL або MariaDB"
 
 #: ../../admin/install/docker.rst:1416
 msgid ""
@@ -14628,6 +14620,10 @@ msgid ""
 "See :ref:`mysql` for info on using those with Weblate. Use :envvar:"
 "`WEBLATE_DATABASES` to configure the database connection manually."
 msgstr ""
+"Ані MySQL, ані MariaDB не можна налаштовувати за допомогою змінних оточення. "
+"Дивіться :ref:`mysql` для отримання інформації про використання цих змінних "
+"з Weblate. Використовуйте :envvar:`WEBLATE_DATABASES` для налаштування "
+"під'єднання до бази даних вручну."
 
 #: ../../admin/install/docker.rst:1421
 msgid "Database backup settings"
@@ -16721,19 +16717,14 @@ msgstr ""
 "відповідник на основі мови (наприклад, є ``de@formal`` і ``de@informal``)."
 
 #: ../../admin/machine.rst:153
-#, fuzzy
-#| msgid ""
-#| "`DeepL website <https://www.deepl.com/>`_, `DeepL pricing <https://www."
-#| "deepl.com/pro>`_, `DeepL API documentation <https://www.deepl.com/docs-"
-#| "api.html>`_"
 msgid ""
 "`DeepL translator <https://www.deepl.com/translator>`_, `DeepL pricing "
 "<https://www.deepl.com/pro>`_, `DeepL API documentation <https://www.deepl."
 "com/docs-api.html>`_"
 msgstr ""
-"`Сайт DeepL <https://www.deepl.com/>`_, `Ціни DeepL <https://www.deepl.com/"
-"pro>`_, `Документація з програмного інтерфейсу DeepL <https://www.deepl.com/"
-"docs-api.html>`_"
+"`Перекладач DeepL <https://www.deepl.com/translator>`_, `Ціни DeepL "
+"<https://www.deepl.com/pro>`_, `Документація з програмного інтерфейсу DeepL "
+"<https://www.deepl.com/docs-api.html>`_"
 
 #: ../../admin/machine.rst:160
 msgid "Glosbe"
@@ -17027,18 +17018,6 @@ msgstr ""
 "Azure."
 
 #: ../../admin/machine.rst:317
-#, fuzzy
-#| msgid ""
-#| "`Cognitive Services - Text Translation API <https://azure.microsoft.com/"
-#| "en-us/products/cognitive-services/translator/>`_, `Microsoft Azure Portal "
-#| "<https://portal.azure.com/>`_, `Base URLs <https://learn.microsoft.com/en-"
-#| "us/azure/ai-services/translator/reference/v3-0-reference#base-urls>`_, `"
-#| "\"Authenticating with a Multi-service resource\" <https://learn.microsoft."
-#| "com/en-us/azure/ai-services/translator/reference/v3-0-"
-#| "reference#authenticating-with-a-multi-service-resource>`_ `"
-#| "\"Authenticating with an access token\" section <https://learn.microsoft."
-#| "com/en-us/azure/ai-services/translator/reference/v3-0-"
-#| "reference#authenticating-with-an-access-token>`_"
 msgid ""
 "`Cognitive Services - Text Translation API <https://azure.microsoft.com/en-"
 "us/products/ai-services/ai-translator>`_, `Microsoft Azure Portal <https://"
@@ -17051,15 +17030,15 @@ msgid ""
 "v3-0-reference#authenticating-with-an-access-token>`_"
 msgstr ""
 "`Cognitive Services — програмний інтерфейс перекладу текстів <https://azure."
-"microsoft.com/en-us/products/cognitive-services/translator/>`_, `Портал "
-"Microsoft Azure <https://portal.azure.com/>`_, `Base URLs <https://learn."
-"microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-"
-"reference#base-urls>`_, `\"Розпізнавання для ресурсу із багатьма службами\" "
-"<https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/"
-"v3-0-reference#authenticating-with-a-multi-service-resource>`_, `Розділ "
-"«Розпізнавання за допомогою жетона доступу» <https://learn.microsoft.com/en-"
-"us/azure/ai-services/translator/reference/v3-0-reference#authenticating-with-"
-"an-access-token>`_"
+"microsoft.com/en-us/products/ai-services/ai-translator>`_, `Портал Microsoft "
+"Azure <https://portal.azure.com/>`_, `Base URLs <https://learn.microsoft.com/"
+"en-us/azure/ai-services/translator/reference/v3-0-reference#base-urls>`_, `"
+"\"Розпізнавання для ресурсу із багатьма службами\" <https://learn.microsoft."
+"com/en-us/azure/ai-services/translator/reference/v3-0-reference"
+"#authenticating-with-a-multi-service-resource>`_, `Розділ «Розпізнавання за "
+"допомогою жетона доступу» <https://learn.microsoft.com/en-us/azure/"
+"ai-services/translator/reference/v3-0-reference#authenticating-with-an-"
+"access-token>`_"
 
 #: ../../admin/machine.rst:326
 msgid "ModernMT"
@@ -17356,10 +17335,8 @@ msgstr ""
 ">`_, `Yandex.Translate <https://translate.yandex.com/>`_"
 
 #: ../../admin/machine.rst:531
-#, fuzzy
-#| msgid "Yandex"
 msgid "Yandex v2"
-msgstr "Yandex"
+msgstr "Yandex v2"
 
 #: ../../admin/machine.rst:535
 #, fuzzy
@@ -17368,29 +17345,22 @@ msgid "``yandex-v2``"
 msgstr "``yandex``"
 
 #: ../../admin/machine.rst:542
-#, fuzzy
-#| msgid ""
-#| "This service uses a Translation API, and you need to obtain an API key "
-#| "from Yandex."
 msgid ""
 "This service uses a Translation API, and you need to obtain an API key from "
 "Yandex Cloud."
 msgstr ""
 "Ця служба використовує програмний інтерфейс перекладу — вам слід отримати "
-"ключ до програмного інтерфейсу від Yandex."
+"ключ до програмного інтерфейсу від Yandex Cloud."
 
 #: ../../admin/machine.rst:546
-#, fuzzy
-#| msgid ""
-#| "`Yandex Translate API <https://yandex.com/dev/translate/>`_, `Powered by "
-#| "Yandex.Translate <https://translate.yandex.com/>`_"
 msgid ""
 "`Yandex Translate API v2 <https://cloud.yandex.com/en/docs/translate/api-ref/"
 "authentication>`_, `Powered by Yandex.Cloud <https://cloud.yandex.com/en/"
 "services/translate>`_"
 msgstr ""
-"`Програмний інтерфейс перекладу Yandex <https://yandex.com/dev/translate/"
-">`_, `Yandex.Translate <https://translate.yandex.com/>`_"
+"`Yandex Translate API v2 <https://cloud.yandex.com/en/docs/translate/api-ref/"
+"authentication>`_, `Powered by Yandex.Cloud <https://cloud.yandex.com/en/"
+"services/translate>`_"
 
 #: ../../admin/machine.rst:552
 msgid "Youdao Zhiyun"
@@ -18502,16 +18472,10 @@ msgid "Content in the translation memory can be applied one of two ways:"
 msgstr "Вміст пам'яті перекладів може бути застосовано у один з двох способів:"
 
 #: ../../admin/memory.rst:15
-#, fuzzy
-#| msgid "Manually, :ref:`machine-translation` view while translating."
 msgid "Manually: in the :ref:`machine-translation` view while translating."
-msgstr "Вручну, панель :ref:`machine-translation` під час перекладу."
+msgstr "Вручну, на панелі :ref:`machine-translation` під час перекладу."
 
 #: ../../admin/memory.rst:16
-#, fuzzy
-#| msgid ""
-#| "Automatically, by translating strings using :ref:`auto-translation`, or :"
-#| "ref:`addon-weblate.autotranslate.autotranslate` add-on."
 msgid ""
 "Automatically: by translating strings using :ref:`auto-translation`, or the :"
 "ref:`addon-weblate.autotranslate.autotranslate` add-on."
@@ -18583,10 +18547,6 @@ msgid "Shared translation memory"
 msgstr "Спільна памʼять перекладів"
 
 #: ../../admin/memory.rst:53
-#, fuzzy
-#| msgid ""
-#| "All translation within projects with shared translation memory turned on "
-#| "are stored in a shared translation memory available to all projects."
 msgid ""
 "All translations within projects with shared translation memory turned on "
 "are stored in a shared translation memory available to all projects."
@@ -18613,17 +18573,15 @@ msgstr "Поширення перекладів може призвести до
 
 #: ../../admin/memory.rst:61
 msgid "Make sure the translations you share have good quality."
-msgstr ""
+msgstr "Переконайтеся, що переклади, якими ви ділитеся, мають хорошу якість."
 
 #: ../../admin/memory.rst:65
 msgid ":ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`"
 msgstr ":ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`"
 
 #: ../../admin/memory.rst:68
-#, fuzzy
-#| msgid "Managing translation memory"
 msgid "Managing the Translation Memory"
-msgstr "Керування пам'яттю перекладів"
+msgstr "Керування Пам'яттю перекладів"
 
 #: ../../admin/memory.rst:73
 msgid "User interface"
@@ -18656,10 +18614,6 @@ msgstr ""
 "пам'яті перекладів."
 
 #: ../../admin/memory.rst:85
-#, fuzzy
-#| msgid ""
-#| "There are multiple options for downloading the translation memory of the "
-#| "whole instance."
 msgid ""
 "There are multiple options to download the translation memory of the whole "
 "instance."
@@ -18668,10 +18622,6 @@ msgstr ""
 "екземпляра."
 
 #: ../../admin/memory.rst:89
-#, fuzzy
-#| msgid ""
-#| "Translation memory in JSON can be imported into Weblate, the TMX format "
-#| "is provided for interoperability with other tools."
 msgid ""
 "Translation memories in JSON can be imported into Weblate, the TMX format is "
 "provided for interoperability with other tools."
@@ -18734,11 +18684,6 @@ msgid "Imports TMX or JSON files into the translation memory"
 msgstr "Імпортує файли TMX або JSON до пам'яті перекладів"
 
 #: ../../admin/memory.rst:127
-#, fuzzy
-#| msgid ""
-#| "The Weblate API covers the translation memory. This allows automating "
-#| "manipulation for different purposes, or based on events in the "
-#| "translation cycle."
 msgid ""
 "The Weblate API covers the translation memory. This allows automated "
 "manipulation for different purposes, or based on events in the translation "
@@ -19138,6 +19083,9 @@ msgid ""
 "instructions at https://wiki.gnupg.org/NFS to make GnuPG signing work "
 "reliably."
 msgstr ""
+"При спільному використанні :setting:`DATA_DIR` на декількох хостах, будь "
+"ласка, дотримуйтесь інструкцій на https://wiki.gnupg.org/NFS, щоб "
+"забезпечити надійну роботу підпису GnuPG."
 
 #: ../../admin/optionals.rst:248
 msgid ":setting:`WEBLATE_GPG_IDENTITY`"
@@ -19444,6 +19392,8 @@ msgid ""
 "To grant every user permission to create new projects create new :ref:"
 "`autoteam` for the :guilabel:`Project creators` team."
 msgstr ""
+"Щоб надати кожному користувачеві право створювати нові проєкти, створіть "
+"нову команду :ref:`autoteam` для команди :guilabel:`Project creators`."
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
@@ -20201,18 +20151,16 @@ msgid "Edit base file"
 msgstr "Змінити основний файл"
 
 #: ../../admin/projects.rst:484
-#, fuzzy
-#| msgid "Whether to allow editing the base file for :ref:`monolingual`."
 msgid "Whether to allow editing strings in the :ref:`component-template`."
-msgstr "Чи слід дозволяти редагування базового файла для :ref:`monolingual`."
+msgstr "Чи дозволити редагування рядків у :ref:`component-template`."
 
 #: ../../admin/projects.rst:488
-#, fuzzy
-#| msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgid ""
 ":ref:`bimono`, :ref:`monolingual`, :ref:`faq-duplicate-files`, :ref:"
 "`component-manage_units`"
-msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
+msgstr ""
+":ref:`bimono`, :ref:`monolingual`, :ref:`faq-duplicate-files`, :ref"
+":`component-manage_units`"
 
 #: ../../admin/projects.rst:498
 msgid ""
@@ -20348,6 +20296,8 @@ msgid ""
 "With the :ref:`gettext` format, this address is also saved by Weblate in "
 "the :mailheader:`Report-Msgid-Bugs-To` header of the file."
 msgstr ""
+"У форматі :ref:`gettext` ця адреса також зберігається Weblate у заголовку "
+"файлу :mailheader:`Report-Msgid-Bugs-To`."
 
 #: ../../admin/projects.rst:562
 msgid "Allow translation propagation"
@@ -20583,6 +20533,8 @@ msgid ""
 "You might want to turn on :ref:`component-edit_template` together with :"
 "guilabel:`Manage strings` for monolingual formats."
 msgstr ""
+"Можливо, ви захочете увімкнути :ref:`component-edit_template` разом з "
+":guilabel:`Manage strings` для одномовних форматів."
 
 #: ../../admin/projects.rst:693
 msgid ""
@@ -22151,45 +22103,25 @@ msgstr ""
 "вони не працюватимуть як слід."
 
 #: ../../admin/upgrade.rst:127
-#, fuzzy
-#| msgid ""
-#| "If you are upgrading from the 2.x release, always first upgrade to 3.0.1 "
-#| "and then continue upgrading within the 3.x series."
 msgid ""
 "If you are upgrading from the 2.x release, always first upgrade to 3.0.1."
 msgstr ""
-"Якщо ви оновлюєте систему з версії 2.x, завжди спочатку оновіться до версії "
-"3.0.1, а потім продовжіть оновлення у межах послідовності версій 3.x."
+"Якщо ви оновлюєте систему з версії 2.x, завжди спочатку оновіться до версії 3"
+".0.1."
 
 #: ../../admin/upgrade.rst:128
-#, fuzzy
-#| msgid ""
-#| "If you are upgrading from the 3.x release, always first upgrade to 4.0.4 "
-#| "and then continue upgrading within the 4.x series."
 msgid ""
 "If you are upgrading from the 3.x release, always first upgrade to 4.0.4."
 msgstr ""
-"Якщо ви оновлюєте систему з версії 3.x, завжди спочатку оновіться до версії "
-"4.0.4, а потім продовжіть оновлення у межах послідовності версій 4.x."
+"Якщо ви оновлюєте систему з версії 3.x, завжди спочатку оновіться до версії 4"
+".0.4."
 
 #: ../../admin/upgrade.rst:129
-#, fuzzy
-#| msgid ""
-#| "If you are upgrading from the 3.x release, always first upgrade to 4.0.4 "
-#| "and then continue upgrading within the 4.x series."
 msgid ""
 "If you are upgrading from the 4.x release, always first upgrade to 5.0.2."
-msgstr ""
-"Якщо ви оновлюєте систему з версії 3.x, завжди спочатку оновіться до версії "
-"4.0.4, а потім продовжіть оновлення у межах послідовності версій 4.x."
+msgstr "Якщо ви оновлюєтесь з версії 4.x, завжди спочатку оновлюйтесь до 5.0.2."
 
 #: ../../admin/upgrade.rst:133
-#, fuzzy
-#| msgid ""
-#| "`Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs."
-#| "weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_, `Upgrade "
-#| "from 3.11 to 4.0 in Weblate 4.0 documentation <https://docs.weblate.org/"
-#| "en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_"
 msgid ""
 "`Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs.weblate."
 "org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_, `Upgrade from 3.11 to "
@@ -22199,10 +22131,11 @@ msgid ""
 "changes.html>`_"
 msgstr ""
 "`Документація із оновлення з 2.20 до 3.0 у документації до Weblate 3.0 "
-"<https://docs.weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_, "
-"`Документація із оновлення з 3.11 до 4.0 у документації до Weblate 4.0 "
+"<https://docs.weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_, `"
+"Документація із оновлення з 3.11 до 4.0 у документації до Weblate 4.0 "
 "<https://docs.weblate.org/en/weblate-4.0.4/admin/upgrade.html#upgrade-"
-"from-3-11-to-4-0>`_"
+"from-3-11-to-4-0>`_,, `Оновлення з 4.x до 5.0.2 у документації Weblate 5.0 "
+"<https://docs.weblate.org/en/weblate-5.0.2/changes.html>`_"
 
 #: ../../admin/upgrade.rst:140
 msgid "Migrating from other databases to PostgreSQL"
@@ -23382,16 +23315,12 @@ msgid "Returns statistics for a project."
 msgstr "Повертає статистику проєкту."
 
 #: ../../api.rst:1143
-#, fuzzy
-#| msgid ""
-#| "Returns statistics for a project. See :http:get:`/api/categories/(int:id)/"
-#| "` for field definitions."
 msgid ""
 "Returns categories for a project. See :http:get:`/api/categories/(int:id)/` "
 "for field definitions."
 msgstr ""
-"Повертає статистичні дані щодо проєкту. Визначення полів наведено тут: :http:"
-"get:`/api/categories/(int:id)/`."
+"Повертає категорії щодо проєкту. Визначення полів наведено тут: :http:get:`/"
+"api/categories/(int:id)/`."
 
 #: ../../api.rst:0
 msgid "param project"
@@ -23704,17 +23633,14 @@ msgstr ""
 "вказаному форматі."
 
 #: ../../api.rst:1399
-#, fuzzy
-#| msgid ""
-#| "The archive format to use; If not specified, defaults to ``zip``; "
-#| "Supported formats: ``zip``"
 msgid ""
 "The archive format to use; If not specified, defaults to ``zip``; Supported "
 "formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of "
 "converters listed at :ref:`download`."
 msgstr ""
 "Формат архіву, яким слід скористатися. Якщо не вказано, типовим є ``zip``. "
-"Підтримувані формати: ``zip``"
+"Підтримувані формати: ``zip`` і ``zip:CONVERSION``, де ``CONVERSION`` - один "
+"з конвертерів, перелічених у :ref:`download`."
 
 #: ../../api.rst:1403
 msgid "Returns a list of component screenshots."
@@ -24096,16 +24022,12 @@ msgid "Upload new file with translations."
 msgstr "Вивантажити новий файл із перекладами."
 
 #: ../../api.rst:1934
-#, fuzzy
-#| msgid ""
-#| "How to deal with conflicts (``ignore``, ``replace-translated`` or "
-#| "``replace-approved``)"
 msgid ""
 "How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-"
 "approved``), see :ref:`upload-conflicts`"
 msgstr ""
 "Спосіб обробки конфліктів (``ignore``, ``replace-translated`` або ``replace-"
-"approved``)"
+"approved``), див. :ref:`upload-conflicts`"
 
 #: ../../api.rst:1935 ../../api.rst:2180 ../../api.rst:2216
 msgid "Uploaded file"
@@ -24601,10 +24523,8 @@ msgid "Deletes the component list."
 msgstr "Вилучає список складників."
 
 #: ../../api.rst:2375
-#, fuzzy
-#| msgid "List componentsin with a component list."
 msgid "List components in a component list."
-msgstr "Вивести список складників."
+msgstr "Перелічує складники у списку складників."
 
 #: ../../api.rst:0
 msgid "param slug"
@@ -25221,10 +25141,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.0.1"
 msgid "Weblate 5.1"
-msgstr "Weblate 5.0.1"
+msgstr "Weblate 5.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -25235,28 +25153,25 @@ msgid "**New features**"
 msgstr "**Нові можливості**"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Improved built-in machine translation service."
 msgid ":ref:`mt-yandex-v2` machine translation service."
-msgstr "Удосконалено службу вбудованого комп'ютерного перекладу."
+msgstr "Служба машинного перекладу :ref:`mt-yandex-v2`."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on triggering "
-#| "for newly added strings."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-translation` "
 "are now stored with a dedicated user as an author."
 msgstr ""
-"Виправлено вмикання додатка :ref:`addon-weblate.autotranslate.autotranslate` "
-"для нових доданих рядків."
+":ref:`addon-weblate.autotranslate.autotranslate` і :ref:`auto-translate` "
+"тепер зберігаються з виділеним користувачем як автором."
 
 #: ../../changes.rst:10
+#, fuzzy
 msgid ""
 ":ref:`addons` changes to strings are now stored with a dedicated user as an "
 "author."
 msgstr ""
+"ref:`addons` зміни до рядків тепер зберігаються з виділеним користувачем як "
+"автором."
 
 #: ../../changes.rst:11
 msgid ":ref:`download-multi` can now convert file formats."
