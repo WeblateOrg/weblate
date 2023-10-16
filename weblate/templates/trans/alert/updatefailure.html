@@ -1,6 +1,7 @@
 {% load i18n %}
-{% load translations %}
 
 <p>{% trans "Weblate could not fetch upstream changes when updating the repository." %}</p>
 
 <pre>{{ error }}</pre>
+
+{% include "trans/alert/common-repo.html" %}

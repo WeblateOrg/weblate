@@ -201,15 +201,6 @@ class MergeFailure(ErrorAlert):
 
 
 @register
-class UpdateFailure(ErrorAlert):
-    # Translators: Name of an alert
-    verbose = gettext_lazy("Could not update the repository.")
-    link_wide = True
-    doc_page = "admin/projects"
-    doc_anchor = "component-repo"
-
-
-@register
 class PushFailure(ErrorAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not push the repository.")
@@ -248,6 +239,15 @@ class PushFailure(ErrorAlert):
             "repo_suggestion": repo_suggestion,
             "force_push_suggestion": force_push_suggestion,
         }
+
+
+@register
+class UpdateFailure(PushFailure):
+    # Translators: Name of an alert
+    verbose = gettext_lazy("Could not update the repository.")
+    link_wide = True
+    doc_page = "admin/projects"
+    doc_anchor = "component-repo"
 
 
 @register
