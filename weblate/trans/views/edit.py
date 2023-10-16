@@ -365,7 +365,7 @@ def perform_translation(unit, form, request):
             request,
             gettext(
                 "Added %(project)s to your watched projects. "
-                "You can adjust them and this behavior in the settings."
+                "You can adjust this behavior in the settings."
             )
             % {"project": project},
         )
