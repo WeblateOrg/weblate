@@ -215,7 +215,9 @@ def handle_addon_event(sender, component, translation, event_type, store):
         for addon in Addon.objects.filter_event(component, event_type):
             translation.log_debug(f"running {event_string} add-on: {addon.name}")
             try:
-                with sentry_sdk.start_span(op=f"addon.{event_string}", description=addon.name):
+                with sentry_sdk.start_span(
+                    op=f"addon.{event_string}", description=addon.name
+                ):
                     addon_object = addon.addon
                     if hasattr(addon_object, event_string):
                         method = getattr(addon_object, event_string)
@@ -239,7 +241,14 @@ def post_push(sender, component, **kwargs):
 
 
 @receiver(vcs_post_update)
-def post_update(sender, component, previous_head: str, child: bool = False, skip_push: bool = False, **kwargs):
+def post_update(
+    sender,
+    component,
+    previous_head: str,
+    child: bool = False,
+    skip_push: bool = False,
+    **kwargs,
+):
     """
     Because this function is differently implemented, makes sense to have the complete functionality here only
     rather than changing handle_addon_event for only this case.
@@ -303,4 +312,6 @@ def unit_post_save_handler(sender, instance, created, **kwargs):
 
 @receiver(store_post_load)
 def store_post_load_handler(sender, translation, store, **kwargs):
-    handle_addon_event(sender, translation.component, translation, EVENT_STORE_POST_LOAD, store)
+    handle_addon_event(
+        sender, translation.component, translation, EVENT_STORE_POST_LOAD, store
+    )
