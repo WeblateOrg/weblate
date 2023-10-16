@@ -223,83 +223,126 @@ def handle_addon_event(component, event_type, addon_method, description):
         except Exception:
             handle_addon_error(addon, component)
         else:
-            component.log_debug(f"completed {EVENT_NAMES[event_type]}  add-on: {addon.name}")
+            component.log_debug(
+                f"completed {EVENT_NAMES[event_type]}  add-on: {addon.name}"
+            )
+
 
 def handle_pre_push(addon, component):
     addon.pre_push(component)
 
+
 def handle_post_push(addon, component):
     addon.post_push(component)
+
 
 def handle_post_update(addon, component, previous_head, skip_push):
     addon.post_update(component, previous_head, skip_push)
 
+
 def handle_component_update(addon, component):
     addon.component_update(component)
+
 
 def handle_pre_update(addon, component):
     addon.pre_update(component)
 
+
 def handle_pre_commit(addon, translation, author):
     addon.pre_commit(translation, author)
+
 
 def handle_post_commit(addon, component):
     addon.post_commit(component)
 
+
 def handle_post_add(addon, translation):
     addon.post_add(translation)
+
 
 def handle_unit_pre_create(addon, unit):
     addon.unit_pre_create(unit)
 
+
 def handle_unit_post_save(addon, instance, created):
     addon.unit_post_save(instance, created)
 
+
 def handle_store_post_load(addon, translation, store):
     addon.store_post_load(translation, store)
+
 
 @receiver(vcs_pre_push)
 def pre_push(sender, component, **kwargs):
     handle_addon_event(component, EVENT_PRE_PUSH, handle_pre_push)
 
+
 @receiver(vcs_post_push)
 def post_push(sender, component, **kwargs):
     handle_addon_event(component, EVENT_POST_PUSH, handle_post_push)
 
+
 @receiver(vcs_post_update)
-def post_update(sender, component, previous_head: str, child: bool = False, skip_push: bool = False, **kwargs):
+def post_update(
+    sender,
+    component,
+    previous_head: str,
+    child: bool = False,
+    skip_push: bool = False,
+    **kwargs,
+):
     event_type = EVENT_POST_UPDATE if not (child and component.repo_scope) else None
     if event_type:
-        handle_addon_event(component, event_type, lambda addon, comp: handle_post_update(addon, comp, previous_head, skip_push))
+        handle_addon_event(
+            component,
+            event_type,
+            lambda addon, comp: handle_post_update(
+                addon, comp, previous_head, skip_push
+            ),
+        )
+
 
 @receiver(component_post_update)
 def component_update(sender, component, **kwargs):
     handle_addon_event(component, EVENT_COMPONENT_UPDATE, handle_component_update)
 
+
 @receiver(vcs_pre_update)
 def pre_update(sender, component, **kwargs):
     handle_addon_event(component, EVENT_PRE_UPDATE, handle_pre_update)
 
+
 @receiver(vcs_pre_commit)
 def pre_commit(sender, translation, author, **kwargs):
-    handle_addon_event(translation, EVENT_PRE_COMMIT, lambda addon, trans: handle_pre_commit(addon, trans, author))
+    handle_addon_event(
+        translation,
+        EVENT_PRE_COMMIT,
+        lambda addon, trans: handle_pre_commit(addon, trans, author),
+    )
+
 
 @receiver(vcs_post_commit)
 def post_commit(sender, component, **kwargs):
     handle_addon_event(component, EVENT_POST_COMMIT, handle_post_commit)
 
+
 @receiver(translation_post_add)
 def post_add(sender, translation, **kwargs):
     handle_addon_event(translation, EVENT_POST_ADD, handle_post_add)
+
 
 @receiver(unit_pre_create)
 def unit_pre_create_handler(sender, unit, **kwargs):
     handle_addon_event(unit.translation, EVENT_UNIT_PRE_CREATE, handle_unit_pre_create)
 
+
 @receiver(post_save, sender=Unit)
 @disable_for_loaddata
 def unit_post_save_handler(sender, instance, created, **kwargs):
-    handle_addon_event(instance.translation, EVENT_UNIT_POST_SAVE, handle_unit_post_save)
+    handle_addon_event(
+        instance.translation, EVENT_UNIT_POST_SAVE, handle_unit_post_save
+    )
+
 
 @receiver(store_post_load)
 def store_post_load_handler(sender, translation, store, **kwargs):
