@@ -30,3 +30,18 @@ EVENT_CHOICES = (
     (EVENT_COMPONENT_UPDATE, "component update"),
 )
 EVENT_NAMES = dict(EVENT_CHOICES)
+
+EVENT_STRING_CHOICES = (
+    (EVENT_PRE_PUSH, "pre_push"),
+    (EVENT_POST_PUSH, "post_push"),
+    (EVENT_PRE_UPDATE, "pre_update"),
+    (EVENT_POST_UPDATE, "post_update"),
+    (EVENT_PRE_COMMIT, "pre_commit"),
+    (EVENT_POST_COMMIT, "post_commit"),
+    (EVENT_POST_ADD, "post_add"),
+    (EVENT_UNIT_PRE_CREATE, "unit_pre_create"),
+    (EVENT_UNIT_POST_SAVE, "unit_post_save"),
+    (EVENT_STORE_POST_LOAD, "store_post_load"),
+    (EVENT_COMPONENT_UPDATE, "component_update"),
+)
+EVENT_STRING = dict(EVENT_STRING_CHOICES)
