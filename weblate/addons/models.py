@@ -210,6 +210,7 @@ def handle_addon_error(addon, component):
 
 
 def handle_addon_event(sender, component, translation, event_type, store):
+    """Executing addon event for a particular event type."""
     event_string = EVENT_STRING.get(event_type)
     if event_string:
         for addon in Addon.objects.filter_event(component, event_type):
@@ -249,10 +250,6 @@ def post_update(
     skip_push: bool = False,
     **kwargs,
 ):
-    """
-    Because this function is differently implemented, makes sense to have the complete functionality here only
-    rather than changing handle_addon_event for only this case.
-    """
     for addon in Addon.objects.filter_event(component, EVENT_POST_UPDATE):
         if child and addon.repo_scope:
             continue
