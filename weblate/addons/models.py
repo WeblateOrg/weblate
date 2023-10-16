@@ -25,6 +25,7 @@ from weblate.addons.events import (
     EVENT_STORE_POST_LOAD,
     EVENT_UNIT_POST_SAVE,
     EVENT_UNIT_PRE_CREATE,
+    EVENT_NAMES,
 )
 from weblate.trans.models import Change, Component, Unit
 from weblate.trans.signals import (
