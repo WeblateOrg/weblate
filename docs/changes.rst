@@ -1,7 +1,26 @@
+Weblate 5.1.1
+-------------
+
+Not yet released.
+
+**New features**
+
+**Improvements**
+
+**Bug fixes**
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/106?closed=1>`__.
+
 Weblate 5.1
 -----------
 
-Not yet released.
+Released on October 16th 2023.
 
 **New features**
 
@@ -9,6 +28,7 @@ Not yet released.
 * :ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-translation` are now stored with a dedicated user as an author.
 * :ref:`addons` changes to strings are now stored with a dedicated user as an author.
 * :ref:`download-multi` can now convert file formats.
+* :ref:`workflow-customization` allows to fine-tune localization workflow per language.
 
 **Improvements**
 
@@ -23,6 +43,7 @@ Not yet released.
 * Highlight whitespace in :ref:`machine-translation`.
 * Faster comment and component removal.
 * Show disabled save button reason more prominently.
+* New string notification can now be triggered for each string.
 
 **Bug fixes**
 
@@ -31,6 +52,7 @@ Not yet released.
 * Occasional crash in :ref:`machine-translation` caching.
 * Fixed history listing for entries within a :ref:`category`.
 * Fixed editing :guilabel:`Administration` team.
+* :ref:`addon-weblate.consistency.languages` add-on could miss some languages.
 
 **Compatibility**
 

@@ -165,6 +165,8 @@ ACCOUNT_ACTIVITY = {
         "translations uploaded by other user."
     ),
     "blocked": gettext_lazy("Access to project {project} was blocked"),
+    "enabled": gettext_lazy("User was enabled by administrator"),
+    "disabled": gettext_lazy("User was disabled by administrator"),
 }
 # Override activity messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
@@ -185,6 +187,12 @@ EXTRA_MESSAGES = {
     ),
     "blocked": gettext_lazy(
         "Please contact project maintainers if you feel this is inappropriate."
+    ),
+    "register": gettext_lazy(
+        "If it was you, please use a password reset to regain access to your account."
+    ),
+    "connect": gettext_lazy(
+        "If it was you, please use a password reset to regain access to your account."
     ),
 }
 

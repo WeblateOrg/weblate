@@ -27,13 +27,24 @@ from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, PathMixin
 from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
-from weblate.utils.stats import ProjectStats
+from weblate.utils.stats import ProjectLanguage, ProjectStats
 from weblate.utils.validators import (
     validate_language_aliases,
     validate_project_name,
     validate_project_web,
     validate_slug,
 )
+
+
+class ProjectLanguageFactory(dict):
+    def __init__(self, project: Project):
+        self._project = project
+
+    def __missing__(self, key: Language):
+        return ProjectLanguage(self._project, key)
+
+    def preload(self):
+        return [self[language] for language in self._project.languages]
 
 
 class ProjectQuerySet(models.QuerySet):
@@ -144,6 +155,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
             "in the documentation."
         ),
     )
+    # This should match definition in WorkflowSetting
     translation_review = models.BooleanField(
         verbose_name=gettext_lazy("Enable reviews"),
         default=False,
@@ -239,6 +251,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
         self.old_access_control = self.access_control
         self.stats = ProjectStats(self)
         self.acting_user = None
+        self.project_languages = ProjectLanguageFactory(self)
 
     def generate_changes(self, old):
         from weblate.trans.models.change import Change

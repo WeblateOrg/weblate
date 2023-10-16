@@ -125,11 +125,16 @@ developing the code. You might want to introduce review of those strings using
 :ref:`source-quality-gateway`.
 
 Bilingual formats typically extract strings from the source code using some
-tooling. Follow your localization framework documentation for instructions how
-to do that. Once the strings are extracted, there might be an additional step
-needed to update existing translations, see :ref:`updating-target-files`.
+tooling (like :program:`xgettext` or :program:`intltool-update`). Follow your
+localization framework documentation for instructions how to do that. Once the
+strings are extracted, there might be an additional step needed to update
+existing translations, see :ref:`updating-target-files`.
 
 .. hint::
+
+   Automating string extraction is presently out of scope for Weblate. It
+   typically involves executing untrusted code what makes it more suitable for
+   a generic continuous integration than localization-specific platform.
 
    You might want to integrate this into your continuous integration pipelines
    to make new strings automatically appear for translation. Such pipeline

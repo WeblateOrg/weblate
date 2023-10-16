@@ -49,11 +49,11 @@ class ChangesTest(ViewTestCase):
         response = self.client.get(
             reverse("changes", kwargs={"path": Unit.objects.first().get_url_path()})
         )
-        self.assertContains(response, "New source string")
+        self.assertContains(response, "Source string added")
         self.assertContains(response, "Changes of string in")
 
     def test_user(self):
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         response = self.client.get(reverse("changes"), {"user": self.user.username})
-        self.assertContains(response, "New translation")
+        self.assertContains(response, "Translation added")
         self.assertNotContains(response, "Invalid search string!")

@@ -23,6 +23,7 @@ from weblate.trans.models.suggestion import Suggestion, Vote
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
+from weblate.trans.models.workflow import WorkflowSetting
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_tree
@@ -44,6 +45,7 @@ __all__ = [
     "Alert",
     "Variant",
     "Label",
+    "WorkflowSetting",
 ]
 
 

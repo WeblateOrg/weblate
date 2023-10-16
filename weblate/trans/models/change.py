@@ -11,14 +11,7 @@ from django.db.models import Count, Q
 from django.db.models.base import post_save
 from django.utils import timezone
 from django.utils.html import escape, format_html
-from django.utils.translation import (
-    gettext,
-    gettext_lazy,
-    ngettext,
-    ngettext_lazy,
-    pgettext,
-    pgettext_lazy,
-)
+from django.utils.translation import gettext, gettext_lazy, pgettext, pgettext_lazy
 from rapidfuzz.distance import DamerauLevenshtein
 
 from weblate.lang.models import Language
@@ -266,7 +259,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_RENAME_PROJECT = 41
     ACTION_RENAME_COMPONENT = 42
     ACTION_MOVE_COMPONENT = 43
-    ACTION_NEW_STRING = 44
+    # Used to be ACTION_NEW_STRING = 44
     ACTION_NEW_CONTRIBUTOR = 45
     ACTION_ANNOUNCEMENT = 46
     ACTION_ALERT = 47
@@ -296,19 +289,19 @@ class Change(models.Model, UserDisplayMixin):
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
-        (ACTION_UPDATE, gettext_lazy("Resource update")),
+        (ACTION_UPDATE, gettext_lazy("Resource updated")),
         # Translators: Name of event in the history
         (ACTION_COMPLETE, gettext_lazy("Translation completed")),
         # Translators: Name of event in the history
         (ACTION_CHANGE, gettext_lazy("Translation changed")),
         # Translators: Name of event in the history
-        (ACTION_NEW, gettext_lazy("New translation")),
+        (ACTION_NEW, gettext_lazy("Translation added")),
         # Translators: Name of event in the history
         (ACTION_COMMENT, gettext_lazy("Comment added")),
         # Translators: Name of event in the history
         (ACTION_SUGGESTION, gettext_lazy("Suggestion added")),
         # Translators: Name of event in the history
-        (ACTION_AUTO, gettext_lazy("Automatic translation")),
+        (ACTION_AUTO, gettext_lazy("Automatically translated")),
         # Translators: Name of event in the history
         (ACTION_ACCEPT, gettext_lazy("Suggestion accepted")),
         # Translators: Name of event in the history
@@ -316,89 +309,83 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_UPLOAD, gettext_lazy("Translation uploaded")),
         # Translators: Name of event in the history
-        (ACTION_NEW_SOURCE, gettext_lazy("New source string")),
+        (ACTION_NEW_SOURCE, gettext_lazy("Source string added")),
         # Translators: Name of event in the history
         (ACTION_LOCK, gettext_lazy("Component locked")),
         # Translators: Name of event in the history
         (ACTION_UNLOCK, gettext_lazy("Component unlocked")),
         # Translators: Name of event in the history
-        (ACTION_COMMIT, gettext_lazy("Committed changes")),
+        (ACTION_COMMIT, gettext_lazy("Changes committed")),
         # Translators: Name of event in the history
-        (ACTION_PUSH, gettext_lazy("Pushed changes")),
+        (ACTION_PUSH, gettext_lazy("Changes pushed")),
         # Translators: Name of event in the history
-        (ACTION_RESET, gettext_lazy("Reset repository")),
+        (ACTION_RESET, gettext_lazy("Repository reset")),
         # Translators: Name of event in the history
-        (ACTION_MERGE, gettext_lazy("Merged repository")),
+        (ACTION_MERGE, gettext_lazy("Repository merged")),
         # Translators: Name of event in the history
-        (ACTION_REBASE, gettext_lazy("Rebased repository")),
+        (ACTION_REBASE, gettext_lazy("Repository rebased")),
         # Translators: Name of event in the history
-        (ACTION_FAILED_MERGE, gettext_lazy("Failed merge on repository")),
+        (ACTION_FAILED_MERGE, gettext_lazy("Repository merge failed")),
         # Translators: Name of event in the history
-        (ACTION_FAILED_REBASE, gettext_lazy("Failed rebase on repository")),
+        (ACTION_FAILED_REBASE, gettext_lazy("Repository rebase failed")),
         # Translators: Name of event in the history
-        (ACTION_FAILED_PUSH, gettext_lazy("Failed push on repository")),
+        (ACTION_FAILED_PUSH, gettext_lazy("Repository push failed")),
         # Translators: Name of event in the history
-        (ACTION_PARSE_ERROR, gettext_lazy("Parse error")),
+        (ACTION_PARSE_ERROR, gettext_lazy("Parsing failed")),
         # Translators: Name of event in the history
-        (ACTION_REMOVE_TRANSLATION, gettext_lazy("Removed translation")),
+        (ACTION_REMOVE_TRANSLATION, gettext_lazy("Translation removed")),
         # Translators: Name of event in the history
         (ACTION_SUGGESTION_DELETE, gettext_lazy("Suggestion removed")),
         # Translators: Name of event in the history
-        (ACTION_REPLACE, gettext_lazy("Search and replace")),
+        (ACTION_REPLACE, gettext_lazy("Translation replaced")),
         # Translators: Name of event in the history
         (ACTION_SUGGESTION_CLEANUP, gettext_lazy("Suggestion removed during cleanup")),
         # Translators: Name of event in the history
         (ACTION_SOURCE_CHANGE, gettext_lazy("Source string changed")),
         # Translators: Name of event in the history
-        (ACTION_NEW_UNIT, gettext_lazy("New string added")),
+        (ACTION_NEW_UNIT, gettext_lazy("String added")),
         # Translators: Name of event in the history
-        (ACTION_BULK_EDIT, gettext_lazy("Bulk status change")),
+        (ACTION_BULK_EDIT, gettext_lazy("Bulk status changed")),
         # Translators: Name of event in the history
-        (ACTION_ACCESS_EDIT, gettext_lazy("Changed visibility")),
+        (ACTION_ACCESS_EDIT, gettext_lazy("Visibility changed")),
         # Translators: Name of event in the history
-        (ACTION_ADD_USER, gettext_lazy("Added user")),
+        (ACTION_ADD_USER, gettext_lazy("User added")),
         # Translators: Name of event in the history
-        (ACTION_REMOVE_USER, gettext_lazy("Removed user")),
+        (ACTION_REMOVE_USER, gettext_lazy("User removed")),
         # Translators: Name of event in the history
         (ACTION_APPROVE, gettext_lazy("Translation approved")),
         # Translators: Name of event in the history
         (ACTION_MARKED_EDIT, gettext_lazy("Marked for edit")),
         # Translators: Name of event in the history
-        (ACTION_REMOVE_COMPONENT, gettext_lazy("Removed component")),
+        (ACTION_REMOVE_COMPONENT, gettext_lazy("Component removed")),
         # Translators: Name of event in the history
-        (ACTION_REMOVE_PROJECT, gettext_lazy("Removed project")),
+        (ACTION_REMOVE_PROJECT, gettext_lazy("Project removed")),
         # Translators: Name of event in the history
-        (ACTION_RENAME_PROJECT, gettext_lazy("Renamed project")),
+        (ACTION_RENAME_PROJECT, gettext_lazy("Project renamed")),
         # Translators: Name of event in the history
-        (ACTION_RENAME_COMPONENT, gettext_lazy("Renamed component")),
+        (ACTION_RENAME_COMPONENT, gettext_lazy("Component renamed")),
         # Translators: Name of event in the history
         (ACTION_MOVE_COMPONENT, gettext_lazy("Moved component")),
-        # Using pgettext to differentiate from the plural
         # Translators: Name of event in the history
-        (
-            ACTION_NEW_STRING,
-            pgettext_lazy("Name of event in the history", "New string to translate"),
-        ),
+        (ACTION_NEW_CONTRIBUTOR, gettext_lazy("Contributor joined")),
         # Translators: Name of event in the history
-        (ACTION_NEW_CONTRIBUTOR, gettext_lazy("New contributor")),
+        (ACTION_ANNOUNCEMENT, gettext_lazy("Announcement posted")),
         # Translators: Name of event in the history
-        (ACTION_ANNOUNCEMENT, gettext_lazy("New announcement")),
+        (ACTION_ALERT, gettext_lazy("Alert triggered")),
         # Translators: Name of event in the history
-        (ACTION_ALERT, gettext_lazy("New alert")),
+        (ACTION_ADDED_LANGUAGE, gettext_lazy("Language added")),
         # Translators: Name of event in the history
-        (ACTION_ADDED_LANGUAGE, gettext_lazy("Added new language")),
+        (ACTION_REQUESTED_LANGUAGE, gettext_lazy("Language requested")),
         # Translators: Name of event in the history
-        (ACTION_REQUESTED_LANGUAGE, gettext_lazy("Requested new language")),
+        (ACTION_CREATE_PROJECT, gettext_lazy("Project created")),
         # Translators: Name of event in the history
-        (ACTION_CREATE_PROJECT, gettext_lazy("Created project")),
+        (ACTION_CREATE_COMPONENT, gettext_lazy("Component created")),
         # Translators: Name of event in the history
-        (ACTION_CREATE_COMPONENT, gettext_lazy("Created component")),
+        (ACTION_INVITE_USER, gettext_lazy("User invited")),
         # Translators: Name of event in the history
-        (ACTION_INVITE_USER, gettext_lazy("Invited user")),
+        (ACTION_HOOK, gettext_lazy("Repository notification received")),
         # Translators: Name of event in the history
-        (ACTION_HOOK, gettext_lazy("Received repository notification")),
-        # Translators: Name of event in the history
-        (ACTION_REPLACE_UPLOAD, gettext_lazy("Replaced file by upload")),
+        (ACTION_REPLACE_UPLOAD, gettext_lazy("Translation replaced file by upload")),
         # Translators: Name of event in the history
         (ACTION_LICENSE_CHANGE, gettext_lazy("License changed")),
         # Translators: Name of event in the history
@@ -416,24 +403,24 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_ADDON_REMOVE, gettext_lazy("Add-on uninstalled")),
         # Translators: Name of event in the history
-        (ACTION_STRING_REMOVE, gettext_lazy("Removed string")),
+        (ACTION_STRING_REMOVE, gettext_lazy("String removed")),
         # Translators: Name of event in the history
-        (ACTION_COMMENT_DELETE, gettext_lazy("Removed comment")),
+        (ACTION_COMMENT_DELETE, gettext_lazy("Comment removed")),
         # Translators: Name of event in the history
         (
             ACTION_COMMENT_RESOLVE,
-            pgettext_lazy("Name of event in the history", "Resolved comment"),
+            pgettext_lazy("Name of event in the history", "Comment resolved"),
         ),
         # Translators: Name of event in the history
         (ACTION_EXPLANATION, gettext_lazy("Explanation updated")),
         # Translators: Name of event in the history
-        (ACTION_REMOVE_CATEGORY, gettext_lazy("Removed category")),
+        (ACTION_REMOVE_CATEGORY, gettext_lazy("Category removed")),
         # Translators: Name of event in the history
-        (ACTION_RENAME_CATEGORY, gettext_lazy("Renamed category")),
+        (ACTION_RENAME_CATEGORY, gettext_lazy("Category renamed")),
         # Translators: Name of event in the history
-        (ACTION_MOVE_CATEGORY, gettext_lazy("Moved category")),
+        (ACTION_MOVE_CATEGORY, gettext_lazy("Category moved")),
         # Translators: Name of event in the history
-        (ACTION_SAVE_FAILED, gettext_lazy("Could not save string")),
+        (ACTION_SAVE_FAILED, gettext_lazy("Saving string failed")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
@@ -502,11 +489,6 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_PUSH,
     }
 
-    PLURAL_ACTIONS = {
-        ACTION_NEW_STRING: ngettext_lazy(
-            "New string to translate", "New strings to translate"
-        ),
-    }
     AUTO_ACTIONS = {
         # Translators: Name of event in the history
         ACTION_LOCK: gettext_lazy(
@@ -597,6 +579,9 @@ class Change(models.Model, UserDisplayMixin):
         super().save(*args, **kwargs)
         transaction.on_commit(lambda: notify_change.delay(self.pk))
         if self.is_last_content_change_storable():
+            # Update cache for stats so that it does not have to hit
+            # the database again
+            self.translation.stats.last_change_cache = self
             transaction.on_commit(self.update_cache_last_change)
 
     def get_absolute_url(self):
@@ -606,8 +591,6 @@ class Change(models.Model, UserDisplayMixin):
         if self.screenshot is not None:
             return self.screenshot.get_absolute_url()
         if self.translation is not None:
-            if self.action == self.ACTION_NEW_STRING:
-                return self.translation.get_translate_url() + "?q=is:untranslated"
             return self.translation.get_absolute_url()
         if self.component is not None:
             return self.component.get_absolute_url()
@@ -673,8 +656,6 @@ class Change(models.Model, UserDisplayMixin):
         return self.details.get("auto", False)
 
     def get_action_display(self):
-        if self.action in self.PLURAL_ACTIONS:
-            return self.PLURAL_ACTIONS[self.action] % self.plural_count
         return str(self.ACTIONS_DICT.get(self.action, self.action))
 
     def get_state_display(self):
@@ -713,18 +694,6 @@ class Change(models.Model, UserDisplayMixin):
         from weblate.utils.markdown import render_markdown
 
         details = self.details
-
-        if self.action == self.ACTION_NEW_STRING:
-            result = ngettext(
-                "%d new string to translate appeared in the translation.",
-                "%d new strings to translate appeared to the translation.",
-                self.plural_count,
-            )
-            try:
-                return result % self.plural_count
-            except TypeError:
-                # The string does not contain %d
-                return result
 
         if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
             return render_markdown(self.target)

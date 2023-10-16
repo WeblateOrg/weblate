@@ -11,7 +11,21 @@
 
 <form method="post">
 {% csrf_token %}
+<ul class="nav nav-pills">
+<li class="active"><a data-toggle="tab" href="#basic">{% trans "Language" %}</a></li>
+<li><a data-toggle="tab" href="#workflow">{% trans "Workflow" %}</a></li>
+</ul>
+<div class="tab-content">
+
+<div class="tab-pane active" id="basic">
 {% crispy form %}
+</div>
+
+<div class="tab-pane active" id="workflow">
+{% crispy workflow_form %}
+</div>
+</div>
+
 <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
 </form>
 

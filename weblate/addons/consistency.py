@@ -2,13 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.db.models import Q
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_DAILY, EVENT_POST_ADD
 from weblate.addons.tasks import language_consistency
-from weblate.lang.models import Language
 
 
 class LangaugeConsistencyAddon(BaseAddon):
@@ -25,11 +23,7 @@ class LangaugeConsistencyAddon(BaseAddon):
     def daily(self, component):
         language_consistency.delay(
             component.project_id,
-            list(
-                Language.objects.filter(
-                    Q(translation__component=component) | Q(component=component)
-                ).values_list("pk", flat=True)
-            ),
+            [language.id for language in component.project.languages],
         )
 
     def post_add(self, translation):

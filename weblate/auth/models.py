@@ -410,6 +410,11 @@ class User(AbstractBaseUser):
         return self.full_name
 
     def save(self, *args, **kwargs):
+        from weblate.accounts.models import AuditLog
+
+        original = None
+        if self.pk:
+            original = User.objects.get(pk=self.pk)
         if self.is_anonymous:
             self.is_active = False
         # Generate full name from parts
@@ -425,6 +430,17 @@ class User(AbstractBaseUser):
             self.email = None
         super().save(*args, **kwargs)
         self.clear_cache()
+        if (
+            original
+            and original.is_active != self.is_active
+            and self.full_name != "Deleted User"
+            and not self.is_anonymous
+        ):
+            AuditLog.objects.create(
+                user=self,
+                request=None,
+                activity="enabled" if self.is_active else "disabled",
+            )
 
     def get_absolute_url(self):
         return reverse("user_page", kwargs={"user": self.username})

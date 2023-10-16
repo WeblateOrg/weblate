@@ -3,6 +3,7 @@
 {% load translations %}
 {% load crispy_forms_tags %}
 {% load metrics %}
+{% load permissions %}
 
 {% block breadcrumbs %}
 {% path_object_breadcrumbs path_object %}
@@ -11,6 +12,7 @@
 {% block content %}
 
 {% announcements language=language project=project %}
+{% perm 'project.edit' object.project as user_can_edit_project %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Components" %}</a></li>
@@ -53,6 +55,16 @@
       {% endif %}
     </ul>
    </li>
+    {% if user_can_edit_project %}
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        {% trans "Manage" %} <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+        <li><a href="{% url 'settings' path=object.get_url_path %}">{% trans "Settings" %}</a></li>
+        </ul>
+    </li>
+    {% endif %}
 {% include "snippets/watch-dropdown.html" %}
 </ul>
 

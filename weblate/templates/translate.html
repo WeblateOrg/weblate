@@ -209,7 +209,7 @@
       <button class="btn btn-warning btn-spaced" type="submit" name="save-stay" tabindex="151">{% trans "Save and stay" %}</button>
     {% endif %}
 
-    {% if unit.translation.component.enable_suggestions %}
+    {% if unit.translation.enable_suggestions %}
     <button class="btn btn-warning btn-spaced" type="submit" name="suggest" tabindex="152"
     {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %}
       {% if not user_can_suggest %}
@@ -679,7 +679,7 @@
     <h5>
     {% trans "Source string location" %}
     </h5>
-    {% get_location_links user.profile unit %}
+    {% get_location_links user unit %}
     </div>
     {% endif %}
     <div class="list-group-item">

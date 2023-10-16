@@ -201,21 +201,34 @@ class MergeFailure(ErrorAlert):
 
 
 @register
-class UpdateFailure(ErrorAlert):
-    # Translators: Name of an alert
-    verbose = gettext_lazy("Could not update the repository.")
-    link_wide = True
-    doc_page = "admin/projects"
-    doc_anchor = "component-repo"
-
-
-@register
 class PushFailure(ErrorAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not push the repository.")
     link_wide = True
-    behind_message = "The tip of your current branch is behind its remote counterpart"
+    behind_messages = (
+        "The tip of your current branch is behind its remote counterpart",
+        "fetch first",
+    )
     terminal_message = "terminal prompts disabled"
+    not_found_messages = (
+        "Repository not found.",
+        "HTTP Error 404: Not Found",
+        "Repository was archived so is read-only",
+        "does not appear to be a git repository",
+    )
+    temporary_messages = (
+        "Empty reply from server",
+        "no suitable response from remote hg",
+        "cannot lock ref",
+        "Too many retries",
+        "Connection timed out",
+    )
+    permission_messages = (
+        "denied to",
+        "The repository exists, but forking is disabled.",
+        "protected branch hook declined",
+        "GH006:",
+    )
     doc_page = "admin/continuous"
     doc_anchor = "push-changes"
 
@@ -234,12 +247,12 @@ class PushFailure(ErrorAlert):
                 repo_suggestion = f"git@github.com:{component.repo[19:]}"
 
         # Missing commits
-        behind = self.behind_message in self.error
+        behind = any(message in self.error for message in self.behind_messages)
         if behind:
             force_push_suggestion = (
                 component.vcs == "git"
                 and component.merge_style == "rebase"
-                and component.bool(component.push_branch)
+                and bool(component.push_branch)
             )
 
         return {
@@ -247,7 +260,25 @@ class PushFailure(ErrorAlert):
             "behind": behind,
             "repo_suggestion": repo_suggestion,
             "force_push_suggestion": force_push_suggestion,
+            "not_found": any(
+                message in self.error for message in self.not_found_messages
+            ),
+            "permission": any(
+                message in self.error for message in self.permission_messages
+            ),
+            "temporary": any(
+                message in self.error for message in self.temporary_messages
+            ),
         }
+
+
+@register
+class UpdateFailure(PushFailure):
+    # Translators: Name of an alert
+    verbose = gettext_lazy("Could not update the repository.")
+    link_wide = True
+    doc_page = "admin/projects"
+    doc_anchor = "component-repo"
 
 
 @register

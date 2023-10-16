@@ -550,10 +550,10 @@ def documentation_icon(context, page, anchor="", right=False):
 
 @register.inclusion_tag("documentation-icon.html", takes_context=True)
 def form_field_doc_link(context, form, field):
-    if hasattr(form, "get_field_doc"):
+    if hasattr(form, "get_field_doc") and (field_doc := form.get_field_doc(field)):
         return {
             "right": False,
-            "doc_url": get_doc_url(*form.get_field_doc(field), user=context["user"]),
+            "doc_url": get_doc_url(*field_doc, user=context["user"]),
         }
     return {}
 
@@ -808,7 +808,7 @@ def try_linkify_filename(
 
 
 @register.simple_tag
-def get_location_links(profile, unit):
+def get_location_links(user: User | None, unit):
     """Generate links to source files where translation was used."""
     # Fallback to source unit if it has more information
     if not unit.location and unit.source_unit.location:
@@ -821,6 +821,8 @@ def get_location_links(profile, unit):
     # Is it just an ID?
     if unit.location.isdigit():
         return gettext("string ID %s") % unit.location
+
+    profile = user.profile if user else None
 
     # Go through all locations separated by comma
     return format_html_join(

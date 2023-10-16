@@ -195,25 +195,11 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.validate_notifications(3, "[Weblate] Parse error in Test/Test")
 
     def test_notify_new_string(self):
-        Change.objects.create(
-            translation=self.get_translation(), action=Change.ACTION_NEW_STRING
-        )
+        Change.objects.create(unit=self.get_unit(), action=Change.ACTION_NEW_UNIT)
 
         # Check mail
         self.validate_notifications(
             1, "[Weblate] New string to translate in Test/Test — Czech"
-        )
-
-    def test_notify_new_strings(self):
-        Change.objects.create(
-            translation=self.get_translation(),
-            action=Change.ACTION_NEW_STRING,
-            details={"count": 10},
-        )
-
-        # Check mail
-        self.validate_notifications(
-            1, "[Weblate] New strings to translate in Test/Test — Czech"
         )
 
     def test_notify_new_translation(self):

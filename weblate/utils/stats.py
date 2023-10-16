@@ -115,6 +115,7 @@ class BaseStats:
         self._object = obj
         self._data = None
         self._pending_save = False
+        self.last_change_cache = None
 
     @property
     def pk(self):
@@ -485,6 +486,10 @@ class TranslationStats(BaseStats):
     def get_last_change_obj(self):
         from weblate.trans.models import Change
 
+        # This is set in Change.save
+        if self.last_change_cache is not None:
+            return self.last_change_cache
+
         cache_key = Change.get_last_change_cache_key(self._object.pk)
         change_pk = cache.get(cache_key)
         if change_pk:
@@ -784,6 +789,7 @@ class ProjectLanguage(BaseURLMixin):
     """Wrapper class used in project-language listings and stats."""
 
     remove_permission = "translation.delete"
+    settings_permission = "project.edit"
 
     def __init__(self, project, language: Language):
         self.project = project
@@ -842,6 +848,24 @@ class ProjectLanguage(BaseURLMixin):
     @cached_property
     def change_set(self):
         return self.project.change_set.filter(language=self.language)
+
+    @cached_property
+    def workflow_settings(self):
+        from weblate.trans.models.workflow import WorkflowSetting
+
+        workflow_settings = WorkflowSetting.objects.filter(
+            Q(project=None) | Q(project=self.project),
+            language=self.language,
+        )
+        if len(workflow_settings) == 0:
+            return None
+        if len(workflow_settings) == 1:
+            return workflow_settings[0]
+        # We should have two objects here, return project specific one
+        for workflow_setting in workflow_settings:
+            if workflow_setting.project_id == self.project.id:
+                return workflow_setting
+        raise WorkflowSetting.DoesNotExist
 
 
 class ProjectLanguageStats(LanguageStats):
