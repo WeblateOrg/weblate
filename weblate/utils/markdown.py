@@ -48,5 +48,7 @@ def render_markdown(text):
     # Initialize the mistletoe renderer
     mistletoe_renderer = WeblateHtmlRenderer()
 
+    document = mistletoe.Document(text)
+
     markdown_content = mistletoe.markdown(text, renderer=mistletoe_renderer)
     return markdown_content
