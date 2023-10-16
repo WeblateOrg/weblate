@@ -101,7 +101,9 @@ def check_permission(user, permission, obj):
             permission in permissions and (langs is None or lang in langs)
             for permissions, langs in user.component_permissions[obj.component_id]
         )
-    raise ValueError(f"Permission {permission} does not support: {obj.__class__}")
+    raise TypeError(
+        f"Permission {permission} does not support: {obj.__class__}: {obj!r}"
+    )
 
 
 @register_perm("comment.resolve", "comment.delete", "suggestion.delete")
