@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-14 14:45+0200\n"
-"PO-Revision-Date: 2023-10-16 00:37+0000\n"
+"PO-Revision-Date: 2023-10-16 12:10+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -8111,19 +8111,14 @@ msgstr ""
 "beachten Sie die Sicherheit."
 
 #: ../../snippets/vcs-credentials.rst:20
-#, fuzzy
-#| msgid ""
-#| "In the Docker container, the credentials are configured in three "
-#| "variables and the credentials are built out of that. An example "
-#| "configuration for GitHub might look like:"
 msgid ""
 "In the Docker container, the credentials can be configured in three "
 "variables and the credentials are built out of that. An example "
 "configuration for GitHub might look like:"
 msgstr ""
-"Im Docker-Container werden die Zugangsdaten in drei Variablen konfiguriert "
-"und daraus erstellt. Eine Beispielkonfiguration für GitHub könnte wie folgt "
-"aussehen:"
+"Im Docker-Container können die Zugangsdaten in drei Variablen konfiguriert "
+"und daraus erstellt werden. Eine Beispielkonfiguration für GitHub könnte wie "
+"folgt aussehen:"
 
 #: ../../snippets/vcs-credentials.rst:30
 msgid "Will be used as:"
@@ -8135,13 +8130,8 @@ msgstr ""
 "Alternativ kann das Python-Wörterbuch auch als Zeichenkette angegeben werden:"
 
 #: ../../snippets/vcs-credentials.rst:47
-#, fuzzy
-#| msgid ""
-#| "Sets the path to a file containing the password for the `admin` user."
 msgid "Or the path to a file containing the Python dictionary:"
-msgstr ""
-"Legt den Pfad zu einer Datei fest, die das Passwort für den Benutzer "
-"`Administrator` enthält."
+msgstr "Oder den Pfad zu einer Datei, die das Python-Wörterbuch enthält:"
 
 #: ../../admin/config.rst:752
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
@@ -9106,16 +9096,12 @@ msgid "Sentry DSN to use for :ref:`collecting-errors`."
 msgstr "Sentry-DSN zur Verwendung für das :ref:`collecting-errors`."
 
 #: ../../admin/config.rst:1574
-#, fuzzy
-#| msgid ""
-#| "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
-#| "guides/django/>`_"
 msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "integrations/django/>`_"
 msgstr ""
 "`Django-Integration für Sentry <https://docs.sentry.io/platforms/python/"
-"guides/django/>`_"
+"integrations/django/>`_"
 
 #: ../../admin/config.rst:1579
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
@@ -10830,12 +10816,12 @@ msgstr ""
 "folgenden Dienste ausführen:"
 
 #: ../../admin/install.rst:59
-#, fuzzy
-#| msgid "PostgreSQL database server, see :ref:`database-setup`."
 msgid ""
 "PostgreSQL database server for storing all the content, see :ref:`database-"
 "setup`."
-msgstr "PostgreSQL-Datenbank-Server, siehe :ref:`database-setup`."
+msgstr ""
+"PostgreSQL-Datenbankserver zum Speichern aller Inhalte, siehe :ref:`database-"
+"setup`."
 
 #: ../../admin/install.rst:60
 msgid "Redis server for cache and tasks queue, see :ref:`celery`."
@@ -10850,6 +10836,8 @@ msgid ""
 "Filesystem storage (networked if you plan to scale Weblate horizontally) for "
 "storing VCS repositories."
 msgstr ""
+"Dateisystem-Speicher (vernetzt, wenn Sie Weblate horizontal skalieren wollen)"
+" für das Speichern von VCS-Repositorys."
 
 #: ../../admin/install.rst:67
 msgid "Python dependencies"
@@ -11367,6 +11355,10 @@ msgid ""
 "CONN_MAX_AGE` and :ref:`django:persistent-database-connections` for more "
 "info."
 msgstr ""
+"Dauerhafte Verbindungen verbessern die Reaktionsfähigkeit von Weblate, "
+"können aber mehr Ressourcen für den Datenbankserver erfordern. Bitte lesen "
+"Sie :setting:`django:CONN_MAX_AGE` und :ref:`django:persistent-database-"
+"connections` für weitere Informationen."
 
 #: ../../admin/install.rst:420
 msgid "MySQL and MariaDB"
@@ -13993,8 +13985,8 @@ msgid ""
 "To change the time zone of the Docker container itself, use the ``TZ`` "
 "environment variable."
 msgstr ""
-"Um die Zeitzone des Docker-Containers selbst zu ändern, verwenden Sie die "
-"Umgebungsvariable ``TZ``."
+"Um die Zeitzone des Docker-Containers selbst zu ändern, die "
+"Umgebungsvariable ``TZ`` verwenden."
 
 #: ../../admin/install/docker.rst:621
 msgid ""
@@ -14106,8 +14098,8 @@ msgstr ":setting:`django:USE_X_FORWARDED_PORT`"
 #: ../../admin/install/docker.rst:701
 msgid "This is a boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
-"Dies ist eine boolesche Einstellung (verwenden Sie ``\"true\"`` oder ``"
-"\"false\"``)."
+"Dies ist eine boolesche Einstellung (``\"true\"`` oder ``\"false\"`` "
+"verwenden)."
 
 #: ../../admin/install/docker.rst:705
 msgid ""
@@ -14694,23 +14686,19 @@ msgstr ""
 "siehe :ref:`config-postgresql`."
 
 #: ../../admin/install/docker.rst:1365
-#, fuzzy
-#| msgid ""
-#| "The lifetime of a database connection, as an integer of seconds. Use 0 to "
-#| "close database connections at the end of each request (this is the "
-#| "default behavior)."
 msgid ""
 "The lifetime of a database connection, as an integer of seconds. Use 0 to "
 "close database connections at the end of each request."
 msgstr ""
-"Die Lebensdauer einer Datenbankverbindung als ganze Zahl von Sekunden. "
-"Verwenden Sie 0, um Datenbankverbindungen am Ende jeder Anfrage zu schließen "
-"(dies ist das Standardverhalten)."
+"Die Lebensdauer einer Datenbankverbindung, als ganze Zahl von Sekunden. 0 "
+"verwenden, um Datenbankverbindungen am Ende jeder Anfrage zu schließen."
 
 #: ../../admin/install/docker.rst:1370
 msgid ""
 "The default behavior is to have unlimited persistent database connections."
 msgstr ""
+"Das Standardverhalten ist eine unbegrenzte Anzahl von dauerhaften "
+"Datenbankverbindungen."
 
 #: ../../admin/install/docker.rst:1372
 msgid ""
@@ -14751,12 +14739,13 @@ msgid ""
 "connection. Use :ref:`docker-settings-override` to configure the database "
 "connection manually."
 msgstr ""
+"Diesen Wert auf false setzen, um die umgebungsbasierte Konfiguration der "
+"Datenbankverbindung zu deaktivieren. :ref:`docker-settings-override` "
+"verwenden, um die Datenbankverbindung manuell zu konfigurieren."
 
 #: ../../admin/install/docker.rst:1414
-#, fuzzy
-#| msgid "MySQL and MariaDB"
 msgid "MySQL or MariaDB server"
-msgstr "MySQL und MariaDB"
+msgstr "MySQL- oder MariaDB-Server"
 
 #: ../../admin/install/docker.rst:1416
 msgid ""
@@ -14764,6 +14753,10 @@ msgid ""
 "See :ref:`mysql` for info on using those with Weblate. Use :envvar:"
 "`WEBLATE_DATABASES` to configure the database connection manually."
 msgstr ""
+"Weder MySQL noch MariaDB können über Umgebungsvariablen konfiguriert werden. "
+"Siehe :ref:`mysql` für Informationen zur Verwendung dieser Variablen mit "
+"Weblate. :envvar:`WEBLATE_DATABASES` verwenden, um die Datenbankverbindung "
+"manuell zu konfigurieren."
 
 #: ../../admin/install/docker.rst:1421
 msgid "Database backup settings"
@@ -14956,8 +14949,8 @@ msgstr ":setting:`AUTO_UPDATE`"
 #: ../../admin/install/docker.rst:1584
 msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
-"Dies ist eine boolesche Einstellung (verwenden Sie ``\"true\"`` oder ``"
-"\"false\"``)."
+"Dies ist eine boolesche Einstellung (``\"true\"`` oder ``\"false\"`` "
+"verwenden)."
 
 #: ../../admin/install/docker.rst:1587
 msgid "Site integration"
@@ -16881,18 +16874,14 @@ msgstr ""
 "der Sprache (zum Beispiel gibt es ``de@formal`` und ``de@informal``)."
 
 #: ../../admin/machine.rst:153
-#, fuzzy
-#| msgid ""
-#| "`DeepL website <https://www.deepl.com/>`_, `DeepL pricing <https://www."
-#| "deepl.com/pro>`_, `DeepL API documentation <https://www.deepl.com/docs-"
-#| "api.html>`_"
 msgid ""
 "`DeepL translator <https://www.deepl.com/translator>`_, `DeepL pricing "
 "<https://www.deepl.com/pro>`_, `DeepL API documentation <https://www.deepl."
 "com/docs-api.html>`_"
 msgstr ""
-"`DeepL-Website <https://www.deepl.com/>`_, `DeepL-Preise <https://www.deepl."
-"com/pro>`_, `DeepL-API-Dokumentation <https://www.deepl.com/docs-api.html>`_"
+"`DeepL-Übersetzer <https://www.deepl.com/translator>`_, `DeepL-Preise "
+"<https://www.deepl.com/pro>`_, `DeepL-API-Dokumentation <https://www.deepl."
+"com/docs-api.html>`_"
 
 #: ../../admin/machine.rst:160
 msgid "Glosbe"
@@ -17183,18 +17172,6 @@ msgstr ""
 "Für Azure China verwenden Sie bitte Ihren Endpunkt aus dem Azure-Portal."
 
 #: ../../admin/machine.rst:317
-#, fuzzy
-#| msgid ""
-#| "`Cognitive Services - Text Translation API <https://azure.microsoft.com/"
-#| "en-us/products/cognitive-services/translator/>`_, `Microsoft Azure Portal "
-#| "<https://portal.azure.com/>`_, `Base URLs <https://learn.microsoft.com/en-"
-#| "us/azure/ai-services/translator/reference/v3-0-reference#base-urls>`_, `"
-#| "\"Authenticating with a Multi-service resource\" <https://learn.microsoft."
-#| "com/en-us/azure/ai-services/translator/reference/v3-0-"
-#| "reference#authenticating-with-a-multi-service-resource>`_ `"
-#| "\"Authenticating with an access token\" section <https://learn.microsoft."
-#| "com/en-us/azure/ai-services/translator/reference/v3-0-"
-#| "reference#authenticating-with-an-access-token>`_"
 msgid ""
 "`Cognitive Services - Text Translation API <https://azure.microsoft.com/en-"
 "us/products/ai-services/ai-translator>`_, `Microsoft Azure Portal <https://"
@@ -17206,16 +17183,16 @@ msgid ""
 "<https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/"
 "v3-0-reference#authenticating-with-an-access-token>`_"
 msgstr ""
-"`Cognitive-Services – Text-Translation-API <https://azure.microsoft.com/en-"
-"us/products/cognitive-services/translator/>`_, `Microsoft-Azure-Portal "
-"<https://portal.azure.com/>`_, `Basis-URLs <https://learn.microsoft.com/en-"
-"us/azure/ai-services/translator/reference/v3-0-reference#base-urls>`_, "
-"`„Authentifizierung mit einer Multi-Service-Ressource“ <https://learn."
-"microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-"
-"reference#authenticating-with-a-multi-service-resource>`_ ` "
-"„Authentifizierung mit einem Zugangstoken“-Abschnitt <https://learn."
-"microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-"
-"reference#authenticating-with-an-access-token>`_"
+"`Cognitive-Services – Text-Translation-API <https://azure.microsoft.com/"
+"en-us/products/ai-services/ai-translator>`_, `Microsoft-Azure-Portal "
+"<https://portal.azure.com/>`_, `Basis-URLs <https://learn.microsoft.com/"
+"en-us/azure/ai-services/translator/reference/v3-0-reference#base-urls>`_, `„"
+"Authentifizierung mit einer Multi-Service-Ressource“ <https://learn.microsoft"
+".com/en-us/azure/ai-services/translator/reference/v3-0-reference"
+"#authenticating-with-a-multi-service-resource>`_ ` „Authentifizierung mit "
+"einem Zugangstoken“-Abschnitt <https://learn.microsoft.com/en-us/azure/"
+"ai-services/translator/reference/v3-0-reference#authenticating-with-an-"
+"access-token>`_"
 
 #: ../../admin/machine.rst:326
 msgid "ModernMT"
@@ -18669,21 +18646,15 @@ msgstr ""
 "Der Inhalt des Übersetzungsspeichers kann auf zwei Arten angewendet werden:"
 
 #: ../../admin/memory.rst:15
-#, fuzzy
-#| msgid "Manually, :ref:`machine-translation` view while translating."
 msgid "Manually: in the :ref:`machine-translation` view while translating."
-msgstr "Manuell, Ansicht von :ref:`machine-translation` beim Übersetzen."
+msgstr "Manuell: in der Ansicht von :ref:`machine-translation` beim Übersetzen."
 
 #: ../../admin/memory.rst:16
-#, fuzzy
-#| msgid ""
-#| "Automatically, by translating strings using :ref:`auto-translation`, or :"
-#| "ref:`addon-weblate.autotranslate.autotranslate` add-on."
 msgid ""
 "Automatically: by translating strings using :ref:`auto-translation`, or the :"
 "ref:`addon-weblate.autotranslate.autotranslate` add-on."
 msgstr ""
-"Automatisch, durch Übersetzen von Zeichenketten mit :ref:`auto-translation`, "
+"Automatisch: durch Übersetzen von Zeichenketten mit :ref:`auto-translation`, "
 "oder der Erweiterung :ref:`addon-weblate.autotranslate.autotranslate`."
 
 #: ../../admin/memory.rst:19
@@ -18751,10 +18722,6 @@ msgid "Shared translation memory"
 msgstr "Geteilter Übersetzungsspeicher"
 
 #: ../../admin/memory.rst:53
-#, fuzzy
-#| msgid ""
-#| "All translation within projects with shared translation memory turned on "
-#| "are stored in a shared translation memory available to all projects."
 msgid ""
 "All translations within projects with shared translation memory turned on "
 "are stored in a shared translation memory available to all projects."
@@ -18783,16 +18750,16 @@ msgstr ""
 #: ../../admin/memory.rst:61
 msgid "Make sure the translations you share have good quality."
 msgstr ""
+"Achten Sie darauf, dass die von Ihnen geteilten Übersetzungen von guter "
+"Qualität sind."
 
 #: ../../admin/memory.rst:65
 msgid ":ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`"
 msgstr ":ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`"
 
 #: ../../admin/memory.rst:68
-#, fuzzy
-#| msgid "Managing translation memory"
 msgid "Managing the Translation Memory"
-msgstr "Übersetzungsspeicher verwalten"
+msgstr "Den Übersetzungsspeicher verwalten"
 
 #: ../../admin/memory.rst:73
 msgid "User interface"
@@ -18825,10 +18792,6 @@ msgstr ""
 "Importieren von Übersetzungsspeicher verwendet werden."
 
 #: ../../admin/memory.rst:85
-#, fuzzy
-#| msgid ""
-#| "There are multiple options for downloading the translation memory of the "
-#| "whole instance."
 msgid ""
 "There are multiple options to download the translation memory of the whole "
 "instance."
@@ -18837,15 +18800,11 @@ msgstr ""
 "herunterzuladen."
 
 #: ../../admin/memory.rst:89
-#, fuzzy
-#| msgid ""
-#| "Translation memory in JSON can be imported into Weblate, the TMX format "
-#| "is provided for interoperability with other tools."
 msgid ""
 "Translation memories in JSON can be imported into Weblate, the TMX format is "
 "provided for interoperability with other tools."
 msgstr ""
-"Übersetzungsspeicher in JSON kann in Weblate importiert werden, das TMX-"
+"Übersetzungsspeicher in JSON können in Weblate importiert werden, das TMX-"
 "Format ist für die Interoperabilität mit anderen Tools vorgesehen."
 
 #: ../../admin/memory.rst:94
@@ -18905,19 +18864,14 @@ msgid "Imports TMX or JSON files into the translation memory"
 msgstr "Importiert TMX- oder JSON-Dateien in den Übersetzungsspeicher"
 
 #: ../../admin/memory.rst:127
-#, fuzzy
-#| msgid ""
-#| "The Weblate API covers the translation memory. This allows automating "
-#| "manipulation for different purposes, or based on events in the "
-#| "translation cycle."
 msgid ""
 "The Weblate API covers the translation memory. This allows automated "
 "manipulation for different purposes, or based on events in the translation "
 "cycle."
 msgstr ""
-"Die Weblate-API umfasst den Übersetzungsspeicher. Dies ermöglicht das "
-"Automatisieren von Manipulationen für verschiedene Zwecke oder auf der "
-"Grundlage von Ereignissen im Übersetzungszyklus."
+"Die Weblate-API umfasst den Übersetzungsspeicher. Dies ermöglicht eine "
+"automatische Manipulation für verschiedene Zwecke oder basierend auf "
+"Ereignissen im Übersetzungszyklus."
 
 #: ../../admin/optionals.rst:2
 msgid "Optional Weblate modules"
@@ -19317,6 +19271,9 @@ msgid ""
 "instructions at https://wiki.gnupg.org/NFS to make GnuPG signing work "
 "reliably."
 msgstr ""
+"Wenn Sie :setting:`DATA_DIR` zwischen mehreren Rechnern teilen, befolgen Sie "
+"bitte die Anweisungen unter https://wiki.gnupg.org/NFS, damit das Signieren "
+"mit GnuPG zuverlässig funktioniert."
 
 #: ../../admin/optionals.rst:248
 msgid ":setting:`WEBLATE_GPG_IDENTITY`"
@@ -20394,19 +20351,18 @@ msgid "Edit base file"
 msgstr "Basisdatei bearbeiten"
 
 #: ../../admin/projects.rst:484
-#, fuzzy
-#| msgid "Whether to allow editing the base file for :ref:`monolingual`."
 msgid "Whether to allow editing strings in the :ref:`component-template`."
 msgstr ""
-"Ob die Bearbeitung der Basisdatei für :ref:`monolingual` erlaubt werden soll."
+"Ob die Bearbeitung von Zeichenketten in der :ref:`einsprachigen "
+"Basissprachdatei <component-template>` erlaubt werden soll."
 
 #: ../../admin/projects.rst:488
-#, fuzzy
-#| msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgid ""
 ":ref:`bimono`, :ref:`monolingual`, :ref:`faq-duplicate-files`, :ref:"
 "`component-manage_units`"
-msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
+msgstr ""
+":ref:`bimono`, :ref:`monolingual`, :ref:`faq-duplicate-files`, :ref"
+":`component-manage_units`"
 
 #: ../../admin/projects.rst:498
 msgid ""
@@ -25681,6 +25637,8 @@ msgid ""
 "Weblate now defaults to persistent database connections in :file:"
 "`settings_example.py` and Docker."
 msgstr ""
+"Weblate verwendet jetzt standardmäßig dauerhafte Datenbankverbindungen in "
+":file:`settings_example.py` und Docker."
 
 #: ../../changes.rst:48
 msgid ""
