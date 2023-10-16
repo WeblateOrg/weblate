@@ -15,6 +15,7 @@ from django.utils.functional import cached_property
 from weblate.addons.events import (
     EVENT_CHOICES,
     EVENT_COMPONENT_UPDATE,
+    EVENT_NAMES,
     EVENT_POST_ADD,
     EVENT_POST_COMMIT,
     EVENT_POST_PUSH,
@@ -25,7 +26,6 @@ from weblate.addons.events import (
     EVENT_STORE_POST_LOAD,
     EVENT_UNIT_POST_SAVE,
     EVENT_UNIT_PRE_CREATE,
-    EVENT_NAMES,
 )
 from weblate.trans.models import Change, Component, Unit
 from weblate.trans.signals import (
