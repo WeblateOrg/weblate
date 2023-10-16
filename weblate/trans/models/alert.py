@@ -226,6 +226,8 @@ class PushFailure(ErrorAlert):
     permission_messages = (
         "denied to",
         "The repository exists, but forking is disabled.",
+        "protected branch hook declined",
+        "GH006:",
     )
     doc_page = "admin/continuous"
     doc_anchor = "push-changes"
