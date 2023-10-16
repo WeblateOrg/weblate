@@ -25,7 +25,6 @@ from weblate.addons.events import (
     EVENT_STORE_POST_LOAD,
     EVENT_UNIT_POST_SAVE,
     EVENT_UNIT_PRE_CREATE,
-    EVENT_NAME
 )
 from weblate.trans.models import Change, Component, Unit
 from weblate.trans.signals import (
@@ -275,12 +274,16 @@ def handle_store_post_load(addon, translation, store):
 
 @receiver(vcs_pre_push)
 def pre_push(sender, component, **kwargs):
-    handle_addon_event(component, EVENT_PRE_PUSH, handle_pre_push,"Handle pre-push event")
+    handle_addon_event(
+        component, EVENT_PRE_PUSH, handle_pre_push, "Handle pre-push event"
+    )
 
 
 @receiver(vcs_post_push)
 def post_push(sender, component, **kwargs):
-    handle_addon_event(component, EVENT_POST_PUSH, handle_post_push, "Handle post-push event")
+    handle_addon_event(
+        component, EVENT_POST_PUSH, handle_post_push, "Handle post-push event"
+    )
 
 
 @receiver(vcs_post_update)
@@ -298,19 +301,26 @@ def post_update(
             component,
             event_type,
             lambda addon, comp: handle_post_update(
-                addon, comp, previous_head, skip_push,"Handle post-update event"
+                addon, comp, previous_head, skip_push, "Handle post-update event"
             ),
         )
 
 
 @receiver(component_post_update)
 def component_update(sender, component, **kwargs):
-    handle_addon_event(component, EVENT_COMPONENT_UPDATE, handle_component_update, "Handle component update event")
+    handle_addon_event(
+        component,
+        EVENT_COMPONENT_UPDATE,
+        handle_component_update,
+        "Handle component update event",
+    )
 
 
 @receiver(vcs_pre_update)
 def pre_update(sender, component, **kwargs):
-    handle_addon_event(component, EVENT_PRE_UPDATE, handle_pre_update, "Handle pre-update event")
+    handle_addon_event(
+        component, EVENT_PRE_UPDATE, handle_pre_update, "Handle pre-update event"
+    )
 
 
 @receiver(vcs_pre_commit)
@@ -318,33 +328,51 @@ def pre_commit(sender, translation, author, **kwargs):
     handle_addon_event(
         translation,
         EVENT_PRE_COMMIT,
-        lambda addon, trans: handle_pre_commit(addon, trans, author), "Handle pre-commit event"
+        lambda addon, trans: handle_pre_commit(addon, trans, author),
+        "Handle pre-commit event",
     )
 
 
 @receiver(vcs_post_commit)
 def post_commit(sender, component, **kwargs):
-    handle_addon_event(component, EVENT_POST_COMMIT, handle_post_commit, "Handle post-commit event")
+    handle_addon_event(
+        component, EVENT_POST_COMMIT, handle_post_commit, "Handle post-commit event"
+    )
 
 
 @receiver(translation_post_add)
 def post_add(sender, translation, **kwargs):
-    handle_addon_event(translation, EVENT_POST_ADD, handle_post_add, "Handle post-add event")
+    handle_addon_event(
+        translation, EVENT_POST_ADD, handle_post_add, "Handle post-add event"
+    )
 
 
 @receiver(unit_pre_create)
 def unit_pre_create_handler(sender, unit, **kwargs):
-    handle_addon_event(unit.translation, EVENT_UNIT_PRE_CREATE, handle_unit_pre_create,"Handle unit pre-create event")
+    handle_addon_event(
+        unit.translation,
+        EVENT_UNIT_PRE_CREATE,
+        handle_unit_pre_create,
+        "Handle unit pre-create event",
+    )
 
 
 @receiver(post_save, sender=Unit)
 @disable_for_loaddata
 def unit_post_save_handler(sender, instance, created, **kwargs):
     handle_addon_event(
-        instance.translation, EVENT_UNIT_POST_SAVE, handle_unit_post_save,"Handle unit post-save event"
+        instance.translation,
+        EVENT_UNIT_POST_SAVE,
+        handle_unit_post_save,
+        "Handle unit post-save event",
     )
 
 
 @receiver(store_post_load)
 def store_post_load_handler(sender, translation, store, **kwargs):
-    handle_addon_event(translation, EVENT_STORE_POST_LOAD, handle_store_post_load,"Handle store post-load event")
+    handle_addon_event(
+        translation,
+        EVENT_STORE_POST_LOAD,
+        handle_store_post_load,
+        "Handle store post-load event",
+    )
