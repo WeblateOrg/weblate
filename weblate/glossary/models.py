@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 from collections import defaultdict
 from itertools import chain
@@ -49,7 +51,7 @@ def get_glossary_automaton(project):
         )
 
 
-def get_glossary_terms(unit):
+def get_glossary_terms(unit: Unit) -> list[Unit]:
     """Return list of term pairs for an unit."""
     if unit.glossary_terms is not None:
         return unit.glossary_terms
@@ -60,7 +62,7 @@ def get_glossary_terms(unit):
     source_language = component.source_language
 
     if language == source_language:
-        return Unit.objects.none()
+        return []
 
     # Build complete source for matching
     parts = []
