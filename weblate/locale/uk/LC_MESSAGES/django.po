@@ -11,17 +11,17 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-16 12:13+0000\n"
-"PO-Revision-Date: 2023-10-16 00:37+0000\n"
-"Last-Translator: Tymofii Lytvynenko <till.svit@gmail.com>\n"
+"PO-Revision-Date: 2023-10-17 01:26+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.1\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -436,16 +436,12 @@ msgid "Access to project {project} was blocked"
 msgstr "Доступ до проєкту {project} було заблоковано"
 
 #: weblate/accounts/models.py:168
-#, fuzzy
-#| msgid "Team administrator"
 msgid "User was enabled by administrator"
-msgstr "Адміністратор команди"
+msgstr "Запис користувача було увімкнено адміністратором"
 
 #: weblate/accounts/models.py:169
-#, fuzzy
-#| msgid "Team administrator"
 msgid "User was disabled by administrator"
-msgstr "Адміністратор команди"
+msgstr "Запис користувача було вимкнено адміністратором"
 
 #: weblate/accounts/models.py:174
 msgid "Configured password to sign in."
@@ -5268,29 +5264,25 @@ msgstr ""
 "супроводжувачамм."
 
 #: weblate/templates/accounts/contact.html:27
-#, fuzzy, python-format
-#| msgid ""
-#| "If you seek support for another Weblate deployment or want to file a bug "
-#| "report, check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you seek support for any other Weblate deployment than %(site_title)s, "
 "please check support offerings at %(weblate_link)s or use this form on the "
 "correct server."
 msgstr ""
-"Якщо ви потребуєте допомоги з розгорнутого екземпляра Weblate або хочете "
-"повідомити про помилку, перейдіть на сайт %(weblate_link)s."
+"Якщо ви потребуєте допомоги з будь-якого іншого розгорнутого екземпляра "
+"Weblate, відмінного від %(site_title)s, будь ласка, скористайтеся "
+"пропозиціями підтримки на%(weblate_link)s або цією формою на належному "
+"сервері."
 
 #: weblate/templates/accounts/contact.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "Ideas and questions can be sent to the %(link_start)sWeblate issue tracker"
-#| "%(link_end)s."
+#, python-format
 msgid ""
 "Weblate development ideas and questions can be sent to the "
 "%(link_start)sWeblate issue tracker%(link_end)s."
 msgstr ""
-"Ідеї та питання можна надсилати до %(link_start)sWeblate відстеження проблем"
-"%(link_end)s."
+"Ідеї та питання щодо розробки Weblate можна надсилати до %(link_start)"
+"sсистеми стеження за вадами у Weblate%(link_end)s."
 
 #: weblate/templates/accounts/contact.html:38
 msgid "Contact server administrators"
@@ -6976,24 +6968,18 @@ msgstr "Отримати файли перекладу як ZIP-файл"
 
 #: weblate/templates/category.html:49 weblate/templates/component.html:56
 #: weblate/templates/language-project.html:35 weblate/templates/project.html:56
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as CSV in a ZIP file"
-msgstr "Отримати файли перекладу як ZIP-файл"
+msgstr "Отримати переклади у форматі CSV, який запаковано до файла ZIP"
 
 #: weblate/templates/category.html:50 weblate/templates/component.html:57
 #: weblate/templates/language-project.html:36 weblate/templates/project.html:57
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as XLIFF 1.1 in a ZIP file"
-msgstr "Отримати файли перекладу як ZIP-файл"
+msgstr "Отримати переклади як XLIFF 1.1 у файлі ZIP"
 
 #: weblate/templates/category.html:51 weblate/templates/component.html:58
 #: weblate/templates/language-project.html:37 weblate/templates/project.html:58
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as XLSX in a ZIP file"
-msgstr "Отримати файли перекладу як ZIP-файл"
+msgstr "Отримати переклади як XLSX у файлі ZIP"
 
 #: weblate/templates/category.html:75 weblate/templates/project.html:91
 msgid "Add new category"
@@ -7565,10 +7551,9 @@ msgid "Translate"
 msgstr "Переклад"
 
 #: weblate/templates/engage.html:68
-#, fuzzy, python-format
-#| msgid "%(language)s glossary for %(project)s"
+#, python-format
 msgid "%(language)s in %(project)s"
-msgstr "%(language)s словник для %(project)s"
+msgstr "%(language)s у %(project)s"
 
 #: weblate/templates/engage.html:70
 msgid "View project languages"
@@ -8444,9 +8429,7 @@ msgid "New language request in %(component)s"
 msgstr "Запит на нову мову у %(component)s"
 
 #: weblate/templates/mail/new_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "New string to translate in %(translation)s"
 msgstr "Новий рядок для перекладу у %(translation)s"
 
@@ -8546,12 +8529,12 @@ msgid "Password reset on %(site_title)s"
 msgstr "Скидання пароля на %(site_title)s"
 
 #: weblate/templates/mail/shared-activity.html:18
-#, fuzzy
-#| msgid "If this was not done by you, report it by clicking the button below."
 msgid ""
 "If you didn’t initiate this, please report it to the server administrators "
 "by clicking the button below."
-msgstr "Якщо це зробили не ви, повідомте про це, натиснувши кнопку внизу."
+msgstr ""
+"Якщо процедуру започаткували не ви, будь ласка, повідомте про інцидент "
+"адміністраторів сервера, натиснувши кнопку внизу."
 
 #: weblate/templates/mail/shared-activity.html:22
 msgid "Report"
@@ -9033,10 +9016,8 @@ msgid "Remove invitation"
 msgstr "Вилучити запрошення"
 
 #: weblate/templates/matrix-table.html:13
-#, fuzzy
-#| msgid "String age"
 msgid "String missing"
-msgstr "Вік рядків"
+msgstr "Не вистачає рядка"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -9645,10 +9626,8 @@ msgid "Translation suggestions are turned off."
 msgstr "Пропозиції стосовно перекладу вимкнені."
 
 #: weblate/templates/snippets/info.html:191
-#, fuzzy
-#| msgid "Translations have been updated."
 msgid "Translations are reviewed by dedicated reviewers."
-msgstr "Переклади оновлено."
+msgstr "Переклади рецензують спеціалізовані рецензенти."
 
 #: weblate/templates/snippets/info.html:199
 msgid "The translation uses monolingual files."
@@ -9959,10 +9938,8 @@ msgstr "Переклад"
 
 #: weblate/templates/snippets/list-objects.html:241
 #: weblate/templates/snippets/project-workflow-settings.html:11
-#, fuzzy
-#| msgid "Customize download"
 msgid "Customized workflow"
-msgstr "Налаштувати завантаження"
+msgstr "Нетипова робоча процедура"
 
 #: weblate/templates/snippets/list-objects.html:269
 msgid "Nothing to list here."
@@ -10054,10 +10031,8 @@ msgstr ""
 "складників:"
 
 #: weblate/templates/snippets/project-workflow-settings.html:4
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid "Translation workflow can be also customized per language:"
-msgstr "Переклад цього рядка на інші мови"
+msgstr "Робочу процедуру перекладу можна також налаштувати для окремої мови:"
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:11
 msgid ""
@@ -10435,30 +10410,33 @@ msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr ""
+"Не знайдено основного сховища. Будь ласка, перевірте, чи існує воно, і чи є "
+"воно доступним для Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:8
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
 "accessible to Weblate."
 msgstr ""
+"Не вдалося отримати доступ до основного сховища. Будь ласка, перевірте, чи є "
+"воно доступним для Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:12
 msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
 msgstr ""
+"Тимчасово, не вдалося отримати доступ до основного сховища. Будь ласка, "
+"повторіть спробу пізніше."
 
 #: weblate/templates/trans/alert/common-repo.html:16
-#, fuzzy
-#| msgid ""
-#| "Your push URL seems to miss credentials. Either provide them in the URL "
-#| "or use SSH with key based authentication."
 msgid ""
 "Your repository URL seems to miss credentials. Either provide them in the "
 "URL or use SSH with key based authentication."
 msgstr ""
-"Здається, у наданій URL-адресі відсутні дані. Або надайте їх у URL-адресі, "
-"або використовуйте SSH для автентифікації на основі ключів."
+"Здається, у наданій URL-адресі сховища немає реєстраційних даних. Або "
+"надайте їх у URL-адресі, або використовуйте SSH для автентифікації на основі "
+"ключів."
 
 #: weblate/templates/trans/alert/common-repo.html:20
 msgid "You might want to use following URL instead:"
@@ -10487,6 +10465,8 @@ msgid ""
 "Weblate will retry the operation once it is needed again, so the alert might "
 "disappear for the temporary issues."
 msgstr ""
+"Weblate спробує повторити дію, коли у ній знову виникне потреба, тому "
+"попередження для тимчасових проблем може просто зникнути."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same file mask."
@@ -10664,10 +10644,8 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate не зміг записати поточні зміни у основний репозиторій."
 
 #: weblate/templates/trans/alert/pushfailure.html:13
-#, fuzzy
-#| msgid "Reset repository"
 msgid "Push the repository"
-msgstr "Скинути репозиторій"
+msgstr "Записати до репозиторія"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -10752,10 +10730,8 @@ msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr "Weblate не зміг видобути поточні зміни при поновленні репозиторію."
 
 #: weblate/templates/trans/alert/updatefailure.html:13
-#, fuzzy
-#| msgid "Update VCS repository"
 msgid "Update the repository"
-msgstr "Оновити репозиторій VCS"
+msgstr "Оновити репозиторій"
 
 #: weblate/templates/trans/backups.html:21
 msgid "There are currently no backups."
@@ -12468,16 +12444,17 @@ msgid "Expiry cannot be in the past."
 msgstr "Строк дії не може бути в минулому."
 
 #: weblate/trans/forms.py:2794
-#, fuzzy
-#| msgid "The component contains translation file for the source language."
 msgid "Customize translation workflow for this language"
-msgstr "У складнику міститься файл перекладу для початкової мови."
+msgstr "Створити нетипову процедуру перекладу для цієї мови"
 
 #: weblate/trans/forms.py:2796
 msgid ""
 "The translation workflow is configured at project and component. By enabling "
 "customization here, you override these settings for this language."
 msgstr ""
+"Процедура перекладу налаштовується на рівні проєкту і складника. Якщо ви "
+"увімкнете тут можливість налаштовування, ці параметри буде перевизначено на "
+"рівні цієї мови."
 
 #: weblate/trans/guide.py:65
 msgid "Version control integration"
@@ -12726,10 +12703,8 @@ msgstr "Батьківська категорія має бути іншою!"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:292
-#, fuzzy
-#| msgid "Resource update"
 msgid "Resource updated"
-msgstr "Оновлення ресурсу"
+msgstr "Ресурс оновлено"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:294
@@ -12743,10 +12718,8 @@ msgstr "Переклад змінено"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:298
-#, fuzzy
-#| msgid "Translations made"
 msgid "Translation added"
-msgstr "Зроблені переклади"
+msgstr "Додано переклад"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:300
@@ -12775,10 +12748,8 @@ msgstr "Пропозицію завантажено"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:312
-#, fuzzy
-#| msgid "Source string age"
 msgid "Source string added"
-msgstr "Вік джерельного рядка"
+msgstr "Додано початковий рядок"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:314
@@ -12792,75 +12763,53 @@ msgstr "Складник розблоковано"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:318
-#, fuzzy
-#| msgid "Change word"
 msgid "Changes committed"
-msgstr "Змінити слово"
+msgstr "Записано зміни"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:320
-#, fuzzy
-#| msgid "Change password"
 msgid "Changes pushed"
-msgstr "Змінити пароль"
+msgstr "Зміни записано до сховища"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:322
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Repository reset"
-msgstr "Переглядач сховища"
+msgstr "Відновлено початковий стан сховища"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:324
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository merged"
-msgstr "Зміни репозиторію"
+msgstr "Сховища об'єднано"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:326
-#, fuzzy
-#| msgid "Repository details"
 msgid "Repository rebased"
-msgstr "Подробиці репозиторію"
+msgstr "Зміни зі сховища перенесено"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:328
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Repository merge failed"
-msgstr "Не вдалося виконати дію з репозиторієм"
+msgstr "Не вдалося об'єднати сховища"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:330
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Repository rebase failed"
-msgstr "Не вдалося виконати дію з репозиторієм"
+msgstr "Не вдалося перенести зміни зі сховища"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:332
-#, fuzzy
-#| msgid "Repository failure"
 msgid "Repository push failed"
-msgstr "Збій репозиторію"
+msgstr "Не вдалося записати зміни до сховища"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:334
-#, fuzzy
-#| msgid "Failing file"
 msgid "Parsing failed"
-msgstr "Збій файлу"
+msgstr "Не вдалося обробити дані"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:336
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Translation removed"
-msgstr "Переклад для вилучення"
+msgstr "Переклад вилучено"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:338
@@ -12869,10 +12818,8 @@ msgstr "Вилучено пропозицію"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:340
-#, fuzzy
-#| msgid "Translation uploaded"
 msgid "Translation replaced"
-msgstr "Пропозицію завантажено"
+msgstr "Переклад замінено"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:342
@@ -12886,38 +12833,28 @@ msgstr "Змінено джерельний рядок"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:346
-#, fuzzy
-#| msgid "String age"
 msgid "String added"
-msgstr "Вік рядків"
+msgstr "Додано рядок"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:348
-#, fuzzy
-#| msgid "Bulk status change"
 msgid "Bulk status changed"
-msgstr "Масова зміна стану"
+msgstr "Змінено пакетний стан"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:350
-#, fuzzy
-#| msgid "Last change"
 msgid "Visibility changed"
-msgstr "Остання зміна"
+msgstr "Змінено видимість"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:352
-#, fuzzy
-#| msgid "User to add"
 msgid "User added"
-msgstr "Додати користувача"
+msgstr "Додано користувача"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:354
-#, fuzzy
-#| msgid "User profile"
 msgid "User removed"
-msgstr "Профіль користувача"
+msgstr "Вилучено користувача"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:356
@@ -12931,31 +12868,23 @@ msgstr "Позначено для редагування"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:360
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Component removed"
-msgstr "Складник, який слід вилучити"
+msgstr "Складник вилучено"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:362
-#, fuzzy
-#| msgid "Project to remove"
 msgid "Project removed"
-msgstr "Проєкт для вилучення"
+msgstr "Проєкт вилучено"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:364
-#, fuzzy
-#| msgid "Project name"
 msgid "Project renamed"
-msgstr "Назва проєкту"
+msgstr "Проєкт перейменовано"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
-#, fuzzy
-#| msgid "Component name"
 msgid "Component renamed"
-msgstr "Назва складника"
+msgstr "Складник перейменовано"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:368
@@ -12964,71 +12893,53 @@ msgstr "Пересунуто складник"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:370
-#, fuzzy
-#| msgid "Contributors"
 msgid "Contributor joined"
-msgstr "Учасники"
+msgstr "Долучився учасник"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:372
-#, fuzzy
-#| msgid "Announcements"
 msgid "Announcement posted"
-msgstr "Оголошення"
+msgstr "Оприлюднено оголошення"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:374
 msgid "Alert triggered"
-msgstr ""
+msgstr "Надіслано попередження"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:376
-#, fuzzy
-#| msgid "Language code"
 msgid "Language added"
-msgstr "Код мови"
+msgstr "Додано мову"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:378
-#, fuzzy
-#| msgid "Language code style"
 msgid "Language requested"
-msgstr "Стиль коду мови"
+msgstr "Надіслано запит щодо мови"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:380
-#, fuzzy
-#| msgid "Project name"
 msgid "Project created"
-msgstr "Назва проєкту"
+msgstr "Створено проєкт"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:382
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component created"
-msgstr "Складник заблоковано"
+msgstr "Створено складник"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:384
-#, fuzzy
-#| msgid "User identities"
 msgid "User invited"
-msgstr "Профілі користувачів"
+msgstr "Запрошено користувача"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:386
-#, fuzzy
-#| msgid "Received repository notification"
 msgid "Repository notification received"
-msgstr "Отримане повідомлення про репозиторій"
+msgstr "Отримано сповіщення щодо сховища"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:388
-#, fuzzy
-#| msgid "Replaced file by upload"
 msgid "Translation replaced file by upload"
-msgstr "Заміна файла вивантаженням"
+msgstr "Замінено файл перекладу вивантаженням"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:390
@@ -13072,24 +12983,18 @@ msgstr "Додаток вилучено"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:406
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "String removed"
-msgstr "Вилучено пропозицію"
+msgstr "Вилучено рядок"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:408
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Comment removed"
-msgstr "Складник, який слід вилучити"
+msgstr "Вилучено коментар"
 
 #: weblate/trans/models/change.py:412
-#, fuzzy
-#| msgid "Comment has been resolved."
 msgctxt "Name of event in the history"
 msgid "Comment resolved"
-msgstr "Описану в коментарі проблему усунуто."
+msgstr "Вирішено коментар"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:415
@@ -13098,31 +13003,23 @@ msgstr "Оновлено пояснення"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:417
-#, fuzzy
-#| msgid "Category name"
 msgid "Category removed"
-msgstr "Назва категорії"
+msgstr "Вилучено категорію"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:419
-#, fuzzy
-#| msgid "Category name"
 msgid "Category renamed"
-msgstr "Назва категорії"
+msgstr "Перейменовано категорію"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:421
-#, fuzzy
-#| msgid "Category name"
 msgid "Category moved"
-msgstr "Назва категорії"
+msgstr "Пересунуто категорію"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:423
-#, fuzzy
-#| msgid "Failing file"
 msgid "Saving string failed"
-msgstr "Збій файлу"
+msgstr "Не вдалося зберегти рядок"
 
 #: weblate/trans/models/change.py:495
 msgid "The component was automatically locked because of an alert."
@@ -14625,16 +14522,13 @@ msgid "Following fixups were applied to translation: %s"
 msgstr "До перекладу застосовано такі правки: %s"
 
 #: weblate/trans/views/edit.py:367
-#, fuzzy, python-format
-#| msgid ""
-#| "Added %(project)s to your watched projects. You can adjust them and this "
-#| "behavior in the settings."
+#, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust this behavior in "
 "the settings."
 msgstr ""
 "%(project)s додано до проєктів, за якими ви спостерігаєте. Ви можете "
-"скоригувати список проєктів та цю поведінку у параметрах облікового запису."
+"скоригувати цю поведінку у параметрах облікового запису."
 
 #: weblate/trans/views/edit.py:386
 #, python-brace-format
@@ -15330,10 +15224,9 @@ msgstr ""
 "Будь ласка, перевірте, чи все правильно."
 
 #: weblate/vcs/ssh.py:227 weblate/vcs/ssh.py:233
-#, fuzzy, python-format
-#| msgid "Could not fetch public key for a host!"
+#, python-format
 msgid "Could not fetch public key for a host: %s"
-msgstr "Не вдалося стягнути публічний ключ для вузла!"
+msgstr "Не вдалося отримати відкритий ключ для вузла %s"
 
 #: weblate/vcs/ssh.py:237
 #, python-format
