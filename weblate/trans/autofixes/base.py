@@ -36,6 +36,9 @@ class AutoFix:
                 source_examples.get(tuple(target_examples.get(target_index, [])), -1)
                 for target_index in range(target_plural.number)
             ]
+            # Ensure we have a source strings for each map
+            while len(source_strings) <= max(plurals_map):
+                source_strings.append(source_strings[0])
             results = [
                 self.fix_single_target(text, source_strings[plurals_map[i]], unit)
                 for i, text in enumerate(target)
