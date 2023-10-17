@@ -7,17 +7,17 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-16 12:13+0000\n"
-"PO-Revision-Date: 2023-10-15 07:01+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-10-17 18:42+0000\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.1\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -427,16 +427,12 @@ msgid "Access to project {project} was blocked"
 msgstr "Pristup projektu {project} je blokiran"
 
 #: weblate/accounts/models.py:168
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was enabled by administrator"
-msgstr "Poruka je poslana administratoru."
+msgstr "Administrator je aktivirao korisnika"
 
 #: weblate/accounts/models.py:169
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was disabled by administrator"
-msgstr "Poruka je poslana administratoru."
+msgstr "Administrator je deaktivirao korisnika"
 
 #: weblate/accounts/models.py:174
 msgid "Configured password to sign in."
@@ -2225,11 +2221,9 @@ msgid "Managers"
 msgstr "Upravitelji"
 
 #: weblate/auth/data.py:248
-#, fuzzy
-#| msgid "Project Information"
 msgctxt "Access-control group"
 msgid "Project creators"
-msgstr "Podaci projekta"
+msgstr "Osnivači projekta"
 
 #: weblate/auth/data.py:257
 msgctxt "Per-project access-control group"
@@ -5202,17 +5196,15 @@ msgstr ""
 "održavateljima izravno, ali ne putem ovog obrasca."
 
 #: weblate/templates/accounts/contact.html:27
-#, fuzzy, python-format
-#| msgid ""
-#| "If you seek support for another Weblate deployment or want to file a bug "
-#| "report, check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you seek support for any other Weblate deployment than %(site_title)s, "
 "please check support offerings at %(weblate_link)s or use this form on the "
 "correct server."
 msgstr ""
-"Ako tražiš podršku za jednu drugu Weblate implementaciju ili ako želiš "
-"poslati izvještaj o greškama, pregledaj web-stranicu %(weblate_link)s."
+"Ako tražiš podršku za jednu drugu Weblate implementaciju od %(site_title)s, "
+"pregledaj ponude podrške na %(weblate_link)s ili koristi ovaj obrazac na "
+"ispravnom serveru."
 
 #: weblate/templates/accounts/contact.html:31
 #, fuzzy, python-format
@@ -9929,10 +9921,8 @@ msgstr ""
 "komponentama:"
 
 #: weblate/templates/snippets/project-workflow-settings.html:4
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid "Translation workflow can be also customized per language:"
-msgstr "Prijevodi ovog izraza u drugim jezicima"
+msgstr "Tok rada prijevoda se također može prilagoditi jezicima:"
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:11
 msgid ""
@@ -12327,10 +12317,8 @@ msgid "Expiry cannot be in the past."
 msgstr "Istek ne može biti u prošlosti."
 
 #: weblate/trans/forms.py:2794
-#, fuzzy
-#| msgid "The component contains translation file for the source language."
 msgid "Customize translation workflow for this language"
-msgstr "Komponenta sadrži prevodilačku datoteku za izvorni jezik."
+msgstr "Prilagodi tok rada prijevoda za ovaj jezik"
 
 #: weblate/trans/forms.py:2796
 msgid ""
@@ -12931,24 +12919,18 @@ msgstr "Dodatak je deinstaliran"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:406
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "String removed"
-msgstr "Prijedlog uklonjen"
+msgstr "Uklonjen izraz"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:408
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Comment removed"
-msgstr "Komponenta koja se uklanja"
+msgstr "Uklonjen komentar"
 
 #: weblate/trans/models/change.py:412
-#, fuzzy
-#| msgid "Comment has been resolved."
 msgctxt "Name of event in the history"
 msgid "Comment resolved"
-msgstr "Komentar je riješen."
+msgstr "Riješen komentar"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:415
@@ -12957,31 +12939,23 @@ msgstr "Aktualizirano objašnjenje"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:417
-#, fuzzy
-#| msgid "Category name"
 msgid "Category removed"
-msgstr "Ime kategorije"
+msgstr "Uklonjenja kategorija"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:419
-#, fuzzy
-#| msgid "Category name"
 msgid "Category renamed"
-msgstr "Ime kategorije"
+msgstr "Preimenovana kategorija"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:421
-#, fuzzy
-#| msgid "Category name"
 msgid "Category moved"
-msgstr "Ime kategorije"
+msgstr "Premještena kategorija"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:423
-#, fuzzy
-#| msgid "Failing file"
 msgid "Saving string failed"
-msgstr "Neuspjela datoteka"
+msgstr "Neuspjelo spremanje izraza"
 
 #: weblate/trans/models/change.py:495
 msgid "The component was automatically locked because of an alert."
@@ -15159,10 +15133,9 @@ msgstr ""
 "%(keytype)s. Provjeri njegovu točnost."
 
 #: weblate/vcs/ssh.py:227 weblate/vcs/ssh.py:233
-#, fuzzy, python-format
-#| msgid "Could not fetch public key for a host!"
+#, python-format
 msgid "Could not fetch public key for a host: %s"
-msgstr "Nije bilo moguće dohvatiti javni ključ računala!"
+msgstr "Nije bilo moguće dohvatiti javni ključ za računalo: %s"
 
 #: weblate/vcs/ssh.py:237
 #, python-format
