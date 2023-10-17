@@ -6,7 +6,7 @@ Promoting the translation
 Weblate provides you widgets to share on your website or other sources to
 promote the translation project. It also has a nice welcome page for new contributors
 to give them basic information about the translation. Additionally you can
-share information about translation using Facebook or Twitter. All these
+share information about translation using Facebook or X. All these
 possibilities can be found on the :guilabel:`Share` tab:
 
 .. image:: /screenshots/promote.webp
