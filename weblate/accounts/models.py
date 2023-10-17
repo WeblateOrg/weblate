@@ -569,7 +569,7 @@ class Profile(models.Model):
         db_index=False,
     )
     twitter = models.SlugField(
-        verbose_name=gettext_lazy("Twitter username"),
+        verbose_name=gettext_lazy("X username"),
         blank=True,
         db_index=False,
     )
