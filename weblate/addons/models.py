@@ -302,8 +302,12 @@ def post_update(
             component,
             event_type,
             lambda addon, comp: handle_post_update(
-                addon, comp, previous_head, skip_push,
-            ), "Handle post-update event",
+                addon,
+                comp,
+                previous_head,
+                skip_push,
+            ),
+            "Handle post-update event",
         )
 
 
