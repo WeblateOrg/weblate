@@ -61,13 +61,17 @@ class AutoTranslate:
         if self.mode == "suggest" or any(
             len(item) > unit.get_max_length() for item in target
         ):
-            Suggestion.objects.add(unit, target, request=None, vote=False, user=user)
+            suggestion = Suggestion.objects.add(
+                unit, target, request=None, vote=False, user=user
+            )
+            if suggestion:
+                self.updated += 1
         else:
             unit.is_batch_update = True
             unit.translate(
                 user or self.user, target, state, Change.ACTION_AUTO, propagate=False
             )
-        self.updated += 1
+            self.updated += 1
 
     def post_process(self):
         if self.updated > 0:
