@@ -2328,6 +2328,7 @@ exports.Apollo = Apollo;
 
 
 },{"./utils/node-utils.js":29,"@sentry/utils":108,"@sentry/utils/cjs/buildPolyfills":100}],22:[function(require,module,exports){
+(function (process){(function (){
 var {
   _optionalChain
 } = require('@sentry/utils/cjs/buildPolyfills');
@@ -2572,7 +2573,24 @@ function instrumentRouter(appOrRouter) {
     }
 
     // Otherwise, the hardcoded path (i.e. a partial route without params) is stored in layer.path
-    const partialRoute = layerRoutePath || layer.path || '';
+    let partialRoute;
+
+    if (layerRoutePath) {
+      partialRoute = layerRoutePath;
+    } else {
+      /**
+       * prevent duplicate segment in _reconstructedRoute param if router match multiple routes before final path
+       * example:
+       * original url: /api/v1/1234
+       * prevent: /api/api/v1/:userId
+       * router structure
+       * /api -> middleware
+       * /api/v1 -> middleware
+       * /1234 -> endpoint with param :userId
+       * final _reconstructedRoute is /api/v1/:userId
+       */
+      partialRoute = preventDuplicateSegments(req.originalUrl, req._reconstructedRoute, layer.path) || '';
+    }
 
     // Normalize the partial route so that it doesn't contain leading or trailing slashes
     // and exclude empty or '*' wildcard routes.
@@ -2618,6 +2636,79 @@ function instrumentRouter(appOrRouter) {
 }
 
 /**
+ * Recreate layer.route.path from layer.regexp and layer.keys.
+ * Works until express.js used package path-to-regexp@0.1.7
+ * or until layer.keys contain offset attribute
+ *
+ * @param layer the layer to extract the stringified route from
+ *
+ * @returns string in layer.route.path structure 'router/:pathParam' or undefined
+ */
+const extractOriginalRoute = (
+  path,
+  regexp,
+  keys,
+) => {
+  if (!path || !regexp || !keys || Object.keys(keys).length === 0 || !_optionalChain([keys, 'access', _10 => _10[0], 'optionalAccess', _11 => _11.offset])) {
+    return undefined;
+  }
+
+  const orderedKeys = keys.sort((a, b) => a.offset - b.offset);
+
+  // add d flag for getting indices from regexp result
+  const pathRegex = new RegExp(regexp, `${regexp.flags}d`);
+  /**
+   * use custom type cause of TS error with missing indices in RegExpExecArray
+   */
+  const execResult = pathRegex.exec(path) ;
+
+  if (!execResult || !execResult.indices) {
+    return undefined;
+  }
+  /**
+   * remove first match from regex cause contain whole layer.path
+   */
+  const [, ...paramIndices] = execResult.indices;
+
+  if (paramIndices.length !== orderedKeys.length) {
+    return undefined;
+  }
+  let resultPath = path;
+  let indexShift = 0;
+
+  /**
+   * iterate param matches from regexp.exec
+   */
+  paramIndices.forEach(([startOffset, endOffset], index) => {
+    /**
+     * isolate part before param
+     */
+    const substr1 = resultPath.substring(0, startOffset - indexShift);
+    /**
+     * define paramName as replacement in format :pathParam
+     */
+    const replacement = `:${orderedKeys[index].name}`;
+
+    /**
+     * isolate part after param
+     */
+    const substr2 = resultPath.substring(endOffset - indexShift);
+
+    /**
+     * recreate original path but with param replacement
+     */
+    resultPath = substr1 + replacement + substr2;
+
+    /**
+     * calculate new index shift after resultPath was modified
+     */
+    indexShift = indexShift + (endOffset - startOffset - replacement.length);
+  });
+
+  return resultPath;
+};
+
+/**
  * Extracts and stringifies the layer's route which can either be a string with parameters (`users/:id`),
  * a RegEx (`/test/`) or an array of strings and regexes (`['/path1', /\/path[2-5]/, /path/:id]`). Additionally
  * returns extra information about the route, such as if the route is defined as regex or as an array.
@@ -2629,10 +2720,23 @@ function instrumentRouter(appOrRouter) {
  *          if the route was an array (defaults to 0).
  */
 function getLayerRoutePathInfo(layer) {
-  const lrp = _optionalChain([layer, 'access', _10 => _10.route, 'optionalAccess', _11 => _11.path]);
+  let lrp = _optionalChain([layer, 'access', _12 => _12.route, 'optionalAccess', _13 => _13.path]);
 
   const isRegex = utils.isRegExp(lrp);
   const isArray = Array.isArray(lrp);
+
+  if (!lrp) {
+    // parse node.js major version
+    const [major] = process.versions.node.split('.').map(Number);
+
+    // allow call extractOriginalRoute only if node version support Regex d flag, node 16+
+    if (major >= 16) {
+      /**
+       * If lrp does not exist try to recreate original layer path from route regexp
+       */
+      lrp = extractOriginalRoute(layer.path, layer.regexp, layer.keys);
+    }
+  }
 
   if (!lrp) {
     return { isRegex, isArray, numExtraSegments: 0 };
@@ -2672,10 +2776,38 @@ function getLayerRoutePathString(isArray, lrp) {
   return lrp && lrp.toString();
 }
 
+/**
+ * remove duplicate segment contain in layerPath against reconstructedRoute,
+ * and return only unique segment that can be added into reconstructedRoute
+ */
+function preventDuplicateSegments(
+  originalUrl,
+  reconstructedRoute,
+  layerPath,
+) {
+  const originalUrlSplit = _optionalChain([originalUrl, 'optionalAccess', _14 => _14.split, 'call', _15 => _15('/'), 'access', _16 => _16.filter, 'call', _17 => _17(v => !!v)]);
+  let tempCounter = 0;
+  const currentOffset = _optionalChain([reconstructedRoute, 'optionalAccess', _18 => _18.split, 'call', _19 => _19('/'), 'access', _20 => _20.filter, 'call', _21 => _21(v => !!v), 'access', _22 => _22.length]) || 0;
+  const result = _optionalChain([layerPath
+, 'optionalAccess', _23 => _23.split, 'call', _24 => _24('/')
+, 'access', _25 => _25.filter, 'call', _26 => _26(segment => {
+      if (_optionalChain([originalUrlSplit, 'optionalAccess', _27 => _27[currentOffset + tempCounter]]) === segment) {
+        tempCounter += 1;
+        return true;
+      }
+      return false;
+    })
+, 'access', _28 => _28.join, 'call', _29 => _29('/')]);
+  return result;
+}
+
 exports.Express = Express;
+exports.extractOriginalRoute = extractOriginalRoute;
+exports.preventDuplicateSegments = preventDuplicateSegments;
 
 
-},{"./utils/node-utils.js":29,"@sentry/utils":108,"@sentry/utils/cjs/buildPolyfills":100}],23:[function(require,module,exports){
+}).call(this)}).call(this,require('_process'))
+},{"./utils/node-utils.js":29,"@sentry/utils":108,"@sentry/utils/cjs/buildPolyfills":100,"_process":134}],23:[function(require,module,exports){
 var {
   _optionalChain
 } = require('@sentry/utils/cjs/buildPolyfills');
@@ -9152,11 +9284,11 @@ const utils = require('@sentry/utils');
 const DEFAULT_IGNORE_ERRORS = [/^Script error\.?$/, /^Javascript error: Script error\.? on line 0$/];
 
 const DEFAULT_IGNORE_TRANSACTIONS = [
-  /^.*healthcheck.*$/,
-  /^.*healthy.*$/,
-  /^.*live.*$/,
-  /^.*ready.*$/,
-  /^.*heartbeat.*$/,
+  /^.*\/healthcheck$/,
+  /^.*\/healthy$/,
+  /^.*\/live$/,
+  /^.*\/ready$/,
+  /^.*\/heartbeat$/,
   /^.*\/health$/,
   /^.*\/healthz$/,
 ];
@@ -13128,7 +13260,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":54,"../eventProcessors.js":56,"../scope.js":66,"@sentry/utils":108}],88:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.74.0';
+const SDK_VERSION = '7.74.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -23361,7 +23493,6 @@ exports.applyAggregateErrorsToEvent = applyAggregateErrorsToEvent;
 
 
 },{"./is.js":110,"./string.js":124}],91:[function(require,module,exports){
-(function (process){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const object = require('./object.js');
@@ -23375,14 +23506,18 @@ const nodeStackTrace = require('./node-stack-trace.js');
  * @param callback The callback to call for ANR
  * @returns An object with `poll` and `enabled` functions {@link WatchdogReturn}
  */
-function watchdogTimer(pollInterval, anrThreshold, callback) {
-  let lastPoll = process.hrtime();
+function watchdogTimer(
+  createTimer,
+  pollInterval,
+  anrThreshold,
+  callback,
+) {
+  const timer = createTimer();
   let triggered = false;
   let enabled = true;
 
   setInterval(() => {
-    const [seconds, nanoSeconds] = process.hrtime(lastPoll);
-    const diffMs = Math.floor(seconds * 1e3 + nanoSeconds / 1e6);
+    const diffMs = timer.getTimeMs();
 
     if (triggered === false && diffMs > pollInterval + anrThreshold) {
       triggered = true;
@@ -23398,7 +23533,7 @@ function watchdogTimer(pollInterval, anrThreshold, callback) {
 
   return {
     poll: () => {
-      lastPoll = process.hrtime();
+      timer.reset();
     },
     enabled: (state) => {
       enabled = state;
@@ -23470,8 +23605,7 @@ exports.createDebugPauseMessageHandler = createDebugPauseMessageHandler;
 exports.watchdogTimer = watchdogTimer;
 
 
-}).call(this)}).call(this,require('_process'))
-},{"./node-stack-trace.js":114,"./object.js":117,"./stacktrace.js":123,"_process":134}],92:[function(require,module,exports){
+},{"./node-stack-trace.js":114,"./object.js":117,"./stacktrace.js":123}],92:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
