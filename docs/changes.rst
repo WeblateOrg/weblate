@@ -38,7 +38,7 @@ Released on October 16th 2023.
 * Project is added to watched upon accepting an invitation.
 * Configure VCS API credentials as a Python dict from environment variables.
 * Improved accuracy of checks on plural messages.
-* Enage page better shows stats.
+* Engage page better shows stats.
 * Strings which can not be saved to a file no longer block other strings to be written.
 * Fixed some API URLs for categorized components.
 * Show plural form examples more prominently.

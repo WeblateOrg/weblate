@@ -12,7 +12,7 @@ You can base other workflows on the most usual examples listed here.
 
 .. _workflow-customization:
 
-Worfklow customization
+Workflow customization
 ----------------------
 
 In addition to configuration at :ref:`project` and :ref:`component` (as

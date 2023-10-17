@@ -39,4 +39,4 @@ Sources
 -------
 1. Marina Sanchez-Torron and Philipp Koehn in Machine Translation Quality and Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/machine-translation-quality.pdf
 2. Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine Orientierungs-hilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten der Übersetzungskritik starting on page number 101
-3. neural fuzzy repair, Bram Bulté and Arda Tezcan in Neural Fuzzy Repair: Integrating Fuzzy Matches into Neural MachineTranslation, 2019 https://aclanthology.org/P19-1175.pdf
+3. neural fuzzy repair, Bram Bulté and Arda Tezcan in Neural Fuzzy Repair: Integrating Fuzzy Matches into Neural Machine Translation, 2019 https://aclanthology.org/P19-1175.pdf

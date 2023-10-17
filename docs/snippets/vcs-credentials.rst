@@ -38,7 +38,7 @@ The following configuration is available for each host:
           }
       }
 
-   Alternatively the Python dictonary can be provided as a string:
+   Alternatively the Python dictionary can be provided as a string:
 
    .. code-block:: shell
 
