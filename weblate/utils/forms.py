@@ -13,6 +13,7 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.trans.defines import EMAIL_LENGTH, USERNAME_LENGTH
 from weblate.trans.filter import FILTERS
 from weblate.trans.util import sort_unicode
+from weblate.utils.errors import report_error
 from weblate.utils.search import parse_query
 from weblate.utils.validators import validate_email, validate_username
 
@@ -33,7 +34,12 @@ class QueryField(forms.CharField):
             return ""
         try:
             parse_query(value, parser=self.parser)
+        except ValueError as error:
+            raise ValidationError(
+                gettext("Could not parse query string: {}").format(error)
+            ) from error
         except Exception as error:
+            report_error(cause="Error parsing search query")
             raise ValidationError(
                 gettext("Could not parse query string: {}").format(error)
             ) from error
