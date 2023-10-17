@@ -27,6 +27,7 @@ from weblate.trans.mixins import BaseURLMixin
 from weblate.trans.util import translation_percent
 from weblate.utils.db import conditional_sum
 from weblate.utils.random import get_random_identifier
+from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -806,6 +807,19 @@ class ProjectLanguage(BaseURLMixin):
     @cached_property
     def stats(self):
         return ProjectLanguageStats(self)
+
+    def get_share_url(self):
+        """Return absolute URL usable for sharing."""
+        return get_site_url(
+            reverse(
+                "engage",
+                kwargs={"path": self.get_url_path()},
+            )
+        )
+
+    def get_widgets_url(self):
+        """Return absolute URL for widgets."""
+        return f"{self.project.get_widgets_url()}?lang={self.language.code}"
 
     @cached_property
     def pk(self):

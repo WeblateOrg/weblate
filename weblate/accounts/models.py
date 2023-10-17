@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import datetime
+from urllib.parse import urlparse
 
 from appconf import AppConf
 from django.conf import settings
@@ -622,6 +623,14 @@ class Profile(models.Model):
 
     def get_user_name(self):
         return get_user_display(self.user, False)
+
+    def get_fediverse_share(self):
+        if not self.fediverse:
+            return None
+        parsed = urlparse(self.fediverse)
+        if not parsed.hostname:
+            return None
+        return parsed._replace(path="/share", query="text=", fragment="").geturl()
 
     def increase_count(self, item: str, increase: int = 1):
         """Updates user actions counter."""

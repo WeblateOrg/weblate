@@ -8,6 +8,7 @@ Not yet released.
 **Improvements**
 
 * :ref:`addon-weblate.consistency.languages` now uses a dedicated user for changes.
+* Added button for sharing on Fediverse.
 
 **Bug fixes**
 

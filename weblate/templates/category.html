@@ -83,21 +83,7 @@
         </ul>
     </li>
     {% endif %}
-    {% if enable_sharing %}
-    <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% trans "Share" %} <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-    {% with share_url=object.project.get_share_url widgets_url=object.project.get_widgets_url %}
-        <li><a href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook" %}</a></li>
-        <li><a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Share on X" %}</a></li>
-        <li><a href="{% url 'engage' path=object.get_url_path %}">{% trans "Engage page" %}</a></li>
-        <li><a href="{{ widgets_url }}">{% trans "Status widgets" %}</a></li>
-    {% endwith %}
-        </ul>
-    </li>
-    {% endif %}
+    {% include "snippets/share-menu.html" with object=object.project %}
 </ul>
 
 <div class="tab-content">
