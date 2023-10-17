@@ -19,15 +19,17 @@ class LangaugeConsistencyAddon(BaseAddon):
     )
     icon = "language.svg"
     project_scope = True
+    user_name = "languages"
+    user_verbose = "Languages add-on"
 
     def daily(self, component):
         language_consistency.delay(
-            component.project_id,
+            self.instance.id,
             [language.id for language in component.project.languages],
         )
 
     def post_add(self, translation):
         language_consistency.delay(
-            translation.component.project_id,
+            self.instance.id,
             [translation.language_id],
         )

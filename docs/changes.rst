@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* :ref:`addon-weblate.consistency.languages` now uses a dedicated user for changes.
+
 **Bug fixes**
 
 **Compatibility**

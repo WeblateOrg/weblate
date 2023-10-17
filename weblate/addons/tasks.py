@@ -10,13 +10,14 @@ from celery.schedules import crontab
 from django.db import Error as DjangoDatabaseError
 from django.db import transaction
 from django.db.models import F, Q
+from django.http import HttpRequest
 from django.utils import timezone
 from lxml import html
 
 from weblate.addons.events import EVENT_DAILY
 from weblate.addons.models import Addon, handle_addon_error
 from weblate.lang.models import Language
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Component
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -77,9 +78,12 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def language_consistency(project_id: int, language_ids: list[int]):
-    project = Project.objects.get(pk=project_id)
+def language_consistency(addon_id: int, language_ids: list[int]):
+    addon = Addon.objects.get(pk=addon_id)
+    project = addon.component.project
     languages = Language.objects.filter(id__in=language_ids)
+    request = HttpRequest()
+    request.user = addon.addon.user
 
     for component in project.component_set.iterator():
         missing = languages.exclude(
