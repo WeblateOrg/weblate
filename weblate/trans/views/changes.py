@@ -9,6 +9,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
+from django.urls.exceptions import NoReverseMatch
 from django.utils.translation import activate, gettext, pgettext
 from django.views.generic.list import ListView
 
@@ -113,7 +114,10 @@ class ChangesView(PathViewMixin, ListView):
                 while path and path[-1] == "-":
                     path.pop()
             if path:
-                return redirect("changes", path=path)
+                try:
+                    return redirect("changes", path=path)
+                except NoReverseMatch:
+                    return redirect("changes")
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
