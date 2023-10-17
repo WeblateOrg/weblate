@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-16 12:13+0000\n"
-"PO-Revision-Date: 2023-10-15 07:01+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-10-17 01:26+0000\n"
+"Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.1\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -411,16 +411,12 @@ msgid "Access to project {project} was blocked"
 msgstr "对项目 {project} 的访问被阻止"
 
 #: weblate/accounts/models.py:168
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was enabled by administrator"
-msgstr "消息已发送给管理员。"
+msgstr "管理员已启用了用户"
 
 #: weblate/accounts/models.py:169
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was disabled by administrator"
-msgstr "消息已发送给管理员。"
+msgstr "管理员禁用了用户"
 
 #: weblate/accounts/models.py:174
 msgid "Configured password to sign in."
@@ -9426,10 +9422,8 @@ msgstr "翻译"
 
 #: weblate/templates/snippets/list-objects.html:241
 #: weblate/templates/snippets/project-workflow-settings.html:11
-#, fuzzy
-#| msgid "Customize download"
 msgid "Customized workflow"
-msgstr "自定义下载"
+msgstr "定制的工作流程"
 
 #: weblate/templates/snippets/list-objects.html:269
 msgid "Nothing to list here."
@@ -9513,10 +9507,8 @@ msgid ""
 msgstr "版本控制或者要翻译的文件按照独立的部件进行配置："
 
 #: weblate/templates/snippets/project-workflow-settings.html:4
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid "Translation workflow can be also customized per language:"
-msgstr "此字符串的其他语言翻译"
+msgstr "可以自定义每种语言的翻译工作流程："
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:11
 msgid ""
@@ -9877,31 +9869,26 @@ msgstr "文件名"
 msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
-msgstr ""
+msgstr "没找到上游仓库。请检查其是否存在并可以被 Weblate 所访问。"
 
 #: weblate/templates/trans/alert/common-repo.html:8
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
 "accessible to Weblate."
-msgstr ""
+msgstr "无法访问上游仓库，请检查其是否可以被 Weblate 访问。"
 
 #: weblate/templates/trans/alert/common-repo.html:12
 msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
-msgstr ""
+msgstr "暂时无法访问上游仓库。请稍后重试。"
 
 #: weblate/templates/trans/alert/common-repo.html:16
-#, fuzzy
-#| msgid ""
-#| "Your push URL seems to miss credentials. Either provide them in the URL "
-#| "or use SSH with key based authentication."
 msgid ""
 "Your repository URL seems to miss credentials. Either provide them in the "
 "URL or use SSH with key based authentication."
-msgstr ""
-"你的推送URL似乎缺少凭证。要么在URL中提供它们，要么通过基于密钥的身份验证使用"
-"SSH。"
+msgstr "你的仓库URL似乎缺少凭证。要么在URL中提供它们，要么通过基于密钥的身份验证使用S"
+"SH。"
 
 #: weblate/templates/trans/alert/common-repo.html:20
 msgid "You might want to use following URL instead:"
@@ -9926,7 +9913,7 @@ msgstr "Weblate 仓库缺少一些来自上游的提交，它可能没有收到�
 msgid ""
 "Weblate will retry the operation once it is needed again, so the alert might "
 "disappear for the temporary issues."
-msgstr ""
+msgstr "一旦又有必要，Weblate 会重试此操作，因此该警报可能因临时问题而消失。"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same file mask."
@@ -10086,10 +10073,8 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate 无法将更改推送到上游仓库。"
 
 #: weblate/templates/trans/alert/pushfailure.html:13
-#, fuzzy
-#| msgid "Reset repository"
 msgid "Push the repository"
-msgstr "重置仓库"
+msgstr "推送仓库"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -10166,10 +10151,8 @@ msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr "Weblate 无法在更新仓库时拉取上游更改。"
 
 #: weblate/templates/trans/alert/updatefailure.html:13
-#, fuzzy
-#| msgid "Update VCS repository"
 msgid "Update the repository"
-msgstr "更新版本控制系统仓库"
+msgstr "更新仓库"
 
 #: weblate/templates/trans/backups.html:21
 msgid "There are currently no backups."
@@ -11765,16 +11748,15 @@ msgid "Expiry cannot be in the past."
 msgstr "到期时间不能是过去。"
 
 #: weblate/trans/forms.py:2794
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid "Customize translation workflow for this language"
-msgstr "开始新翻译到更多语言"
+msgstr "自定义这种语言的翻译工作流程"
 
 #: weblate/trans/forms.py:2796
 msgid ""
 "The translation workflow is configured at project and component. By enabling "
 "customization here, you override these settings for this language."
-msgstr ""
+msgstr "此翻译工作流程在项目和部件级别进行了配置。在此处开启自定义意味着覆盖了这种语"
+"言的流程设置。"
 
 #: weblate/trans/guide.py:65
 msgid "Version control integration"
@@ -13702,14 +13684,11 @@ msgid "Following fixups were applied to translation: %s"
 msgstr "以下的修订已应用到译文：%s"
 
 #: weblate/trans/views/edit.py:367
-#, fuzzy, python-format
-#| msgid ""
-#| "Added %(project)s to your watched projects. You can adjust them and this "
-#| "behavior in the settings."
+#, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust this behavior in "
 "the settings."
-msgstr "已将 %(project)s 添加到你的关注项目。你可以在设置中调整它们和此行为。"
+msgstr "已将 %(project)s 添加到你的关注项目。你可以在设置中调整此行为。"
 
 #: weblate/trans/views/edit.py:386
 #, python-brace-format
