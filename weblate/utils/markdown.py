@@ -4,12 +4,15 @@
 
 import re
 from functools import reduce
+
 import mistletoe
 from django.db.models import Q
-from weblate.auth.models import User
 from django.utils.safestring import mark_safe
 
+from weblate.auth.models import User
+
 MENTION_RE = re.compile(r"(@[\w.@+-]+)\b")
+
 
 def get_mention_users(text):
     """Returns IDs of users mentioned in the text."""
@@ -20,10 +23,12 @@ def get_mention_users(text):
         reduce(lambda acc, x: acc | Q(username=x[1:]), matches, Q())
     )
 
+
 class WeblateHtmlRenderer(mistletoe.BaseRenderer):
     def link(self, token):
         target, title, content = token.children
         return f'<a href="{target.url}" rel="ugc" target="_blank" title="{title}">{content}</a>'
+
 
 def render_markdown(text):
     users = {u.username.lower(): u for u in get_mention_users(text)}
@@ -34,7 +39,9 @@ def render_markdown(text):
         username = part[1:].lower()
         if username in users:
             user = users[username]
-            parts[pos] = f'**[{part}]({user.get_absolute_url()} "{user.get_visible_name()}")**'
+            parts[
+                pos
+            ] = f'**[{part}]({user.get_absolute_url()} "{user.get_visible_name()}")**'
     text = "".join(parts)
 
     # Initialize the mistletoe renderer
