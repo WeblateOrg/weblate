@@ -97,10 +97,13 @@ def get_env_credentials(
     token = os.environ.get(f"WEBLATE_{name}_TOKEN")
     host = os.environ.get(f"WEBLATE_{name}_HOST")
 
-    if not host and (username or token):
-        raise ValueError(
-            f"Incomplete {name}_CREDENTIALS configuration: missing WEBLATE_{name}_HOST"
-        )
+    if not host:
+        if username or token:
+            raise ValueError(
+                f"Incomplete {name}_CREDENTIALS configuration: missing WEBLATE_{name}_HOST"
+            )
+        return {}
+
     return {host: {"username": username, "token": token}}
 
 
