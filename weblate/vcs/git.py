@@ -727,6 +727,8 @@ class GitMergeRequestBase(GitForcePushRepository):
     needs_push_url = False
     identifier = None
     API_TEMPLATE = ""
+    REQUIRED_CONFIG = {"username", "token"}
+    OPTIONAL_CONFIG = {"scheme"}
 
     def merge(
         self, abort: bool = False, message: str | None = None, no_ff: bool = False
@@ -790,11 +792,44 @@ class GitMergeRequestBase(GitForcePushRepository):
             **extra,
         )
 
+    @classmethod
+    def validate_configuration(cls) -> list[str]:
+        if not cls.is_configured():
+            return []
+        result = []
+        credentials_name = cls.get_credentials_name()
+        for key, config in cls.get_credentials_configuration().items():
+            if not isinstance(key, str) or key.lower().startswith(
+                ("http://", "https://")
+            ):
+                result.append(
+                    f"Include hostname only in the {credentials_name} keys: {key}"
+                )
+            result.extend(
+                f"{credentials_name}[{key}]: Missing required configuration: {current}"
+                for current in cls.REQUIRED_CONFIG
+                if current not in config
+            )
+            extra = set(config) - cls.OPTIONAL_CONFIG - cls.REQUIRED_CONFIG
+            if extra:
+                result.append(
+                    f"{credentials_name}[{key}]: Unsupported configuration: {','.join(extra)}"
+                )
+        return result
+
+    @classmethod
+    def get_credentials_name(cls):
+        return f"{cls.identifier.upper()}_CREDENTIALS"
+
+    @classmethod
+    def get_credentials_configuration(cls):
+        return getattr(settings, cls.get_credentials_name())
+
     def get_credentials(self) -> dict[str, str]:
         scheme, host, owner, slug = self.parse_repo_url()
         hostname = self.format_api_host(host).lower()
 
-        configuration = getattr(settings, f"{self.identifier.upper()}_CREDENTIALS")
+        configuration = self.get_credentials_configuration()
         try:
             credentials = configuration[hostname]
         except KeyError as exc:
@@ -821,7 +856,7 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     @classmethod
     def is_configured(cls) -> bool:
-        return bool(getattr(settings, f"{cls.identifier.upper()}_CREDENTIALS"))
+        return bool(cls.get_credentials_configuration())
 
     def push_to_fork(self, credentials: dict, local_branch: str, fork_branch: str):
         """Push given local branch to branch in forked repository."""

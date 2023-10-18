@@ -374,6 +374,10 @@ class Repository:
         return True
 
     @classmethod
+    def validate_configuration(cls) -> list[str]:
+        return []
+
+    @classmethod
     def is_supported(cls):
         """Check whether this VCS backend is supported."""
         try:

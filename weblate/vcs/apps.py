@@ -50,6 +50,16 @@ def check_git(app_configs, **kwargs):
     ]
 
 
+def check_vcs_credentials(app_configs, **kwargs):
+    from weblate.vcs.models import VCS_REGISTRY
+
+    return [
+        weblate_check("weblate.C040", error)
+        for instance in VCS_REGISTRY.values()
+        for error in instance.validate_configuration()
+    ]
+
+
 class VCSConfig(AppConfig):
     name = "weblate.vcs"
     label = "vcs"
@@ -60,6 +70,7 @@ class VCSConfig(AppConfig):
         register(check_vcs)
         register(check_git, deploy=True)
         register(check_gpg, deploy=True)
+        register(check_vcs_credentials)
 
         home = data_dir("home")
         if not os.path.exists(home):
