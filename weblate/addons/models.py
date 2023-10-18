@@ -222,10 +222,8 @@ def handle_addon_event(sender, component, event_type, **kwargs):
                 addon_object = addon.addon
                 if hasattr(addon_object, event_string):
                     method = getattr(addon_object, event_string)
-                    if store:
-                        method(**kwargs)
-                    else:
-                        method(translation)
+                    method(**kwargs)
+
         except DjangoDatabaseError:
             raise
         except Exception:
@@ -236,12 +234,12 @@ def handle_addon_event(sender, component, event_type, **kwargs):
 
 @receiver(vcs_pre_push)
 def pre_push(sender, component, **kwargs):
-    handle_addon_event(sender, component, EVENT_PRE_PUSH, translation=component, store=None)
+    handle_addon_event(sender, component, EVENT_PRE_PUSH, translation=component)
 
 
 @receiver(vcs_post_push)
 def post_push(sender, component, **kwargs):
-    handle_addon_event(sender, component, EVENT_POST_PUSH, translation=component, store=None)
+    handle_addon_event(sender, component, EVENT_POST_PUSH, translation=component)
 
 
 @receiver(vcs_post_update)
@@ -270,12 +268,12 @@ def post_update(
 
 @receiver(component_post_update)
 def component_update(sender, component, **kwargs):
-    handle_addon_event(sender, component, EVENT_COMPONENT_UPDATE, translation=component, store=None)
+    handle_addon_event(sender, component, EVENT_COMPONENT_UPDATE, translation=component)
 
 
 @receiver(vcs_pre_update)
 def pre_update(sender, component, **kwargs):
-    handle_addon_event(sender, component, EVENT_PRE_UPDATE, translation=component, store=None)
+    handle_addon_event(sender, component, EVENT_PRE_UPDATE, translation=component)
 
 
 @receiver(vcs_pre_commit)
@@ -286,13 +284,13 @@ def pre_commit(sender, translation, author, **kwargs):
 
 @receiver(vcs_post_commit)
 def post_commit(sender, component, **kwargs):
-    handle_addon_event(sender, component, EVENT_POST_COMMIT, translation=component, store=None)
+    handle_addon_event(sender, component, EVENT_POST_COMMIT, translation=component)
 
 
 @receiver(translation_post_add)
 def post_add(sender, translation, **kwargs):
     component = translation.component
-    handle_addon_event(sender, component, EVENT_POST_ADD, translation=translation, store=None)
+    handle_addon_event(sender, component, EVENT_POST_ADD, translation=translation)
 
 
 @receiver(unit_pre_create)
