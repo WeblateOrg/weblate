@@ -209,36 +209,39 @@ def handle_addon_error(addon, component):
         addon.disable()
 
 
-def handle_addon_event(sender, component, translation, event_type, store):
+def handle_addon_event(sender, component, event_type, **kwargs):
     """Executing addon event for a particular event type."""
     event_string = EVENT_STRING.get(event_type)
-    if event_string:
-        for addon in Addon.objects.filter_event(component, event_type):
-            translation.log_debug(f"running {event_string} add-on: {addon.name}")
-            try:
-                with sentry_sdk.start_span(
-                    op=f"addon.{event_string}", description=addon.name
-                ):
-                    addon_object = addon.addon
-                    if hasattr(addon_object, event_string):
-                        method = getattr(addon_object, event_string)
-                        method(translation, store)
-            except DjangoDatabaseError:
-                raise
-            except Exception:
-                handle_addon_error(addon, component)
-            else:
-                translation.log_debug(f"completed {event_string} add-on: {addon.name}")
+    translation, store = kwargs.get('translation'), kwargs.get('store')
+    for addon in Addon.objects.filter_event(component, event_type):
+        translation.log_debug(f"running {event_string} add-on: {addon.name}")
+        try:
+            with sentry_sdk.start_span(
+                op=f"addon.{event_string}", description=addon.name
+            ):
+                addon_object = addon.addon
+                if hasattr(addon_object, event_string):
+                    method = getattr(addon_object, event_string)
+                    if store:
+                        method(**kwargs)
+                    else:
+                        method(translation)
+        except DjangoDatabaseError:
+            raise
+        except Exception:
+            handle_addon_error(addon, component)
+        else:
+            translation.log_debug(f"completed {event_string} add-on: {addon.name}")
 
 
 @receiver(vcs_pre_push)
 def pre_push(sender, component, **kwargs):
-    handle_addon_event(sender, component, component, EVENT_PRE_PUSH, None)
+    handle_addon_event(sender, component, EVENT_PRE_PUSH, translation=component, store=None)
 
 
 @receiver(vcs_post_push)
 def post_push(sender, component, **kwargs):
-    handle_addon_event(sender, component, component, EVENT_POST_PUSH, None)
+    handle_addon_event(sender, component, EVENT_POST_PUSH, translation=component, store=None)
 
 
 @receiver(vcs_post_update)
@@ -267,36 +270,36 @@ def post_update(
 
 @receiver(component_post_update)
 def component_update(sender, component, **kwargs):
-    handle_addon_event(sender, component, component, EVENT_COMPONENT_UPDATE, None)
+    handle_addon_event(sender, component, EVENT_COMPONENT_UPDATE, translation=component, store=None)
 
 
 @receiver(vcs_pre_update)
 def pre_update(sender, component, **kwargs):
-    handle_addon_event(sender, component, component, EVENT_PRE_UPDATE, None)
+    handle_addon_event(sender, component, EVENT_PRE_UPDATE, translation=component, store=None)
 
 
 @receiver(vcs_pre_commit)
 def pre_commit(sender, translation, author, **kwargs):
     component = translation.component
-    handle_addon_event(sender, component, translation, EVENT_PRE_COMMIT, author)
+    handle_addon_event(sender, component, EVENT_PRE_COMMIT, translation=translation, store=author)
 
 
 @receiver(vcs_post_commit)
 def post_commit(sender, component, **kwargs):
-    handle_addon_event(sender, component, component, EVENT_POST_COMMIT, None)
+    handle_addon_event(sender, component, EVENT_POST_COMMIT, translation=component, store=None)
 
 
 @receiver(translation_post_add)
 def post_add(sender, translation, **kwargs):
     component = translation.component
-    handle_addon_event(sender, component, translation, EVENT_POST_ADD, None)
+    handle_addon_event(sender, component, EVENT_POST_ADD, translation=translation, store=None)
 
 
 @receiver(unit_pre_create)
 def unit_pre_create_handler(sender, unit, **kwargs):
     translation = unit.translation
     component = translation.component
-    handle_addon_event(sender, component, translation, EVENT_UNIT_PRE_CREATE, unit)
+    handle_addon_event(sender, component, EVENT_UNIT_PRE_CREATE, translation=translation, store=unit)
 
 
 @receiver(post_save, sender=Unit)
@@ -304,11 +307,11 @@ def unit_pre_create_handler(sender, unit, **kwargs):
 def unit_post_save_handler(sender, instance, created, **kwargs):
     translation = instance.translation
     component = translation.component
-    handle_addon_event(sender, component, translation, EVENT_UNIT_POST_SAVE, created)
+    handle_addon_event(sender, component, EVENT_UNIT_POST_SAVE, translation=translation, store=created)
 
 
 @receiver(store_post_load)
 def store_post_load_handler(sender, translation, store, **kwargs):
     handle_addon_event(
-        sender, translation.component, translation, EVENT_STORE_POST_LOAD, store
+        sender, translation.component, EVENT_STORE_POST_LOAD, translation=translation, store=store
     )
