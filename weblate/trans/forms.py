@@ -1586,6 +1586,7 @@ class ComponentSettingsForm(
             "pagure",
             "local",
             "git-force-push",
+            "devops",
         )
         if self.instance.vcs not in vcses:
             vcses = (self.instance.vcs,)

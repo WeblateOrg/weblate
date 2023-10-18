@@ -13,6 +13,7 @@ class VCSConf(AppConf):
         "weblate.vcs.git.GitWithGerritRepository",
         "weblate.vcs.git.SubversionRepository",
         "weblate.vcs.git.GithubRepository",
+        "weblate.vcs.git.DevopsRepository",
         "weblate.vcs.git.GiteaRepository",
         "weblate.vcs.git.GitLabRepository",
         "weblate.vcs.git.PagureRepository",
@@ -26,6 +27,9 @@ class VCSConf(AppConf):
 
     # GitHub username for sending pull requests
     GITHUB_CREDENTIALS = {}
+
+    # GitHub username for sending pull requests
+    DEVOPS_CREDENTIALS = {}
 
     # GitLab username for sending merge requests
     GITLAB_CREDENTIALS = {}
