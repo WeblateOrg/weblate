@@ -154,6 +154,7 @@ class PythonFormatCheckTest(CheckTestCase):
             source="%(count)d",
             target="%(languages)d",
             extra_flags="python-format",
+            translation=Translation(component=Component(file_format="po")),
         )
         check = Check(unit=unit)
         self.assertHTMLEqual(
@@ -172,6 +173,7 @@ class PythonFormatCheckTest(CheckTestCase):
             source="%d %s",
             target="%s %d",
             extra_flags="python-format",
+            translation=Translation(component=Component(file_format="po")),
         )
         check = Check(unit=unit)
         self.assertEqual(
@@ -779,7 +781,7 @@ class JavaMessageFormatCheckTest(CheckTestCase):
             extra_flags="java-format",
             translation=Translation(
                 component=Component(
-                    file_format="auto",
+                    file_format="po",
                     source_language=Language("en"),
                 ),
                 language=Language("cs"),
@@ -1291,6 +1293,7 @@ class ESTemplateLiteralsCheckTest(CheckTestCase):
             source="${foo}",
             target="${bar}",
             extra_flags="es-format",
+            translation=Translation(component=Component(file_format="po")),
         )
         check = Check(unit=unit)
         self.assertHTMLEqual(

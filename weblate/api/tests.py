@@ -3005,6 +3005,14 @@ class UnitAPITest(APIBaseTest):
             code=200,
             request={"state": "20", "target": "Test translation"},
         )
+        # Adding plural where it is not
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            request={"state": "20", "target": ["Test translation", "Test plural"]},
+        )
         # Invalid state changes
         self.do_request(
             "api:unit-detail",
