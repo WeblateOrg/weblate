@@ -13,6 +13,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Added plurals validation when editing string using API.
+
 **Compatibility**
 
 **Upgrading**

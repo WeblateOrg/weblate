@@ -1308,7 +1308,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             result = result.search(query_string)
         return result
 
-    def perform_update(self, serializer):
+    def perform_update(self, serializer):  # noqa: C901
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data
         do_source = "extra_flags" in data or "explanation" in data or "labels" in data
@@ -1329,6 +1329,10 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             )
 
         if do_translate:
+            new_target_copy = new_target[:]
+            if new_target_copy != unit.adjust_plurals(new_target):
+                raise ValidationError({"target": "Number of plurals does not match"})
+
             if unit.readonly:
                 self.permission_denied(request, "The string is read-only.")
             if not new_target or new_state is None:

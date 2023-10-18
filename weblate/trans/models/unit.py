@@ -932,30 +932,33 @@ class Unit(models.Model, LoggerMixin):
             return singular
         return plurals[1]
 
+    def adjust_plurals(self, values, plurals=None):
+        if not self.is_plural:
+            plurals = 1
+        elif plurals is None:
+            plurals = self.translation.plural.number
+
+        # Check if we have expected number of them
+        if len(values) == plurals:
+            return values
+
+        # Pad with empty translations
+        while len(values) < plurals:
+            values.append("")
+
+        # Delete extra plurals
+        while len(values) > plurals:
+            del values[-1]
+
+        return values
+
     def get_target_plurals(self, plurals=None):
         """Return target plurals in array."""
-        # Is this plural?
-        if not self.is_plural:
-            return [self.target]
-
         # Split plurals
         ret = split_plural(self.target)
 
         if not self.translation.component.is_multivalue:
-            if plurals is None:
-                plurals = self.translation.plural.number
-
-            # Check if we have expected number of them
-            if len(ret) == plurals:
-                return ret
-
-            # Pad with empty translations
-            while len(ret) < plurals:
-                ret.append("")
-
-            # Delete extra plurals
-            while len(ret) > plurals:
-                del ret[-1]
+            ret = self.adjust_plurals(ret, plurals=plurals)
 
         return ret
 
@@ -1424,6 +1427,10 @@ class Unit(models.Model, LoggerMixin):
             new_target = [target for target in new_target if target]
             if not new_target:
                 new_target = [""]
+
+        if not component.is_multivalue:
+            new_target = self.adjust_plurals(new_target)
+
         # Update unit and save it
         self.target = join_plural(new_target)
         not_empty = any(new_target)
