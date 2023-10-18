@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-16 12:13+0000\n"
-"PO-Revision-Date: 2023-10-15 07:01+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-10-18 19:52+0000\n"
+"Last-Translator: Rhoslyn Prys <rprys@posteo.net>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/"
 "application/cy/>\n"
 "Language: cy\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : "
 "(n==3) ? 3 :(n==6) ? 4 : 5;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.1\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -437,16 +437,12 @@ msgid "Access to project {project} was blocked"
 msgstr "Blociwyd mynediad at broject {project}"
 
 #: weblate/accounts/models.py:168
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was enabled by administrator"
-msgstr "Anfonwyd neges at y gweinyddwr."
+msgstr "Galluogwyd y defnyddiwr gan weinyddwr"
 
 #: weblate/accounts/models.py:169
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was disabled by administrator"
-msgstr "Anfonwyd neges at y gweinyddwr."
+msgstr "Anfonwyd neges at y gweinyddwr"
 
 #: weblate/accounts/models.py:174
 msgid "Configured password to sign in."
@@ -481,6 +477,8 @@ msgstr "Cysylltwch â chynhalwyr y project os teimlwch fod hyn yn amhriodol."
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
+"Os mai chi oedd yno, defnyddiwch ailosodiad cyfrinair i adennill mynediad "
+"i'ch cyfrif."
 
 #: weblate/accounts/models.py:312 weblate/templates/accounts/profile.html:291
 #: weblate/templates/accounts/user.html:242
@@ -2254,11 +2252,9 @@ msgid "Managers"
 msgstr "Rheolwyr"
 
 #: weblate/auth/data.py:248
-#, fuzzy
-#| msgid "Project Information"
 msgctxt "Access-control group"
 msgid "Project creators"
-msgstr "Manylion y Project"
+msgstr "Crewyr prosiectau"
 
 #: weblate/auth/data.py:257
 msgctxt "Per-project access-control group"
@@ -4540,7 +4536,7 @@ msgstr "Math lluosog"
 
 #: weblate/lang/models.py:879
 msgid "Example counts for this plural form."
-msgstr ""
+msgstr "Mae enghraifft yn cyfrif ar gyfer y ffurf luosog hon."
 
 #: weblate/lang/models.py:888
 msgid "Singular"
@@ -5255,51 +5251,42 @@ msgid "Confirm"
 msgstr "Cadarnhau"
 
 #: weblate/templates/accounts/contact.html:17
-#, fuzzy, python-format
-#| msgid "You can only contact administrators of %(site_title)s here."
+#, python-format
 msgid "You can only contact administrators of %(site_title)s server here."
-msgstr "Gallwch gysylltu â gweinyddwyr %(site_title)s yma."
+msgstr "Dim ond yma y gallwch gysylltu â gweinyddwyr gweinydd %(site_title)s."
 
 #: weblate/templates/accounts/contact.html:19
 msgid "You can only contact administrators of the whole server here."
 msgstr "Dim ond o fan hyn y gallwch gysylltu â gweinyddwyr y gweinydd cyfan."
 
 #: weblate/templates/accounts/contact.html:23
-#, fuzzy
-#| msgid ""
-#| "For questions about a specific translation project, contact its "
-#| "maintainers directly, not by this form."
 msgid ""
 "For questions about a specific translation project, don’t use this form. "
 "Refer to the project’s Info tab and contact its maintainers."
 msgstr ""
-"Am gwestiynau am broject cyfieithu penodol, cysylltwch â'i gynhalwyr yn "
-"uniongyrchol, nid trwy'r ffurflen hon."
+"Ar gyfer cwestiynau am broject cyfieithu penodol, peidiwch â defnyddio’r "
+"ffurflen hon. Cyfeiriwch at dab Manylion y project a chysylltwch â'i "
+"gynhalwyr."
 
 #: weblate/templates/accounts/contact.html:27
-#, fuzzy, python-format
-#| msgid ""
-#| "If you seek support for another Weblate deployment or want to file a bug "
-#| "report, check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you seek support for any other Weblate deployment than %(site_title)s, "
 "please check support offerings at %(weblate_link)s or use this form on the "
 "correct server."
 msgstr ""
-"Os ydych yn ceisio cefnogaeth ar gyfer defnydd Weblate arall neu eisiau "
-"anfon adroddiad gwall, edrychwch ar ei wefan yn %(weblate_link)s."
+"Os ydych yn ceisio cefnogaeth ar gyfer unrhyw wasanaeth Weblate arall heblaw "
+"%(site_title)s, gwiriwch y cynigion cymorth yn %(weblate_link)s neu "
+"defnyddiwch y ffurflen hon ar y gweinydd cywir."
 
 #: weblate/templates/accounts/contact.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "Ideas and questions can be sent to the %(link_start)sWeblate issue tracker"
-#| "%(link_end)s."
+#, python-format
 msgid ""
 "Weblate development ideas and questions can be sent to the "
 "%(link_start)sWeblate issue tracker%(link_end)s."
 msgstr ""
-"Mae modd anfon syniadau a chwestiynau at y %(link_start)sTraciwr problemau "
-"gwe%(link_end)s."
+"Mae modd anfon syniadau a chwestiynau datblygu gwe at y %(link_start)"
+"sTraciwr materion Weblate%(link_end)s."
 
 #: weblate/templates/accounts/contact.html:38
 msgid "Contact server administrators"
@@ -6991,24 +6978,18 @@ msgstr "Llwythwch i lawr ffeiliau cyfieithu fel ffeil ZIP"
 
 #: weblate/templates/category.html:49 weblate/templates/component.html:56
 #: weblate/templates/language-project.html:35 weblate/templates/project.html:56
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as CSV in a ZIP file"
-msgstr "Llwythwch i lawr ffeiliau cyfieithu fel ffeil ZIP"
+msgstr "Llwythwch i lawr gyfieithiadau fel CSV mewn ffeil ZIP"
 
 #: weblate/templates/category.html:50 weblate/templates/component.html:57
 #: weblate/templates/language-project.html:36 weblate/templates/project.html:57
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as XLIFF 1.1 in a ZIP file"
-msgstr "Llwythwch i lawr ffeiliau cyfieithu fel ffeil ZIP"
+msgstr "Llwythwch i lawr gyfieithiadau fel XLIFF 1.1 mewn ffeil ZIP"
 
 #: weblate/templates/category.html:51 weblate/templates/component.html:58
 #: weblate/templates/language-project.html:37 weblate/templates/project.html:58
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as XLSX in a ZIP file"
-msgstr "Llwythwch i lawr ffeiliau cyfieithu fel ffeil ZIP"
+msgstr "Llwythwch i lawr gyfieithiadau fel XLSX mewn ffeil ZIP"
 
 #: weblate/templates/category.html:75 weblate/templates/project.html:91
 msgid "Add new category"
@@ -7610,10 +7591,9 @@ msgid "Translate"
 msgstr "Cyfieithu"
 
 #: weblate/templates/engage.html:68
-#, fuzzy, python-format
-#| msgid "Failing checks in %(project)s"
+#, python-format
 msgid "%(language)s in %(project)s"
-msgstr "Gwiriadau anghyflawn yn %(project)s"
+msgstr "%(language)s mewn %(project)s"
 
 #: weblate/templates/engage.html:70
 msgid "View project languages"
@@ -8502,9 +8482,7 @@ msgid "New language request in %(component)s"
 msgstr "Cais am iaith newydd yn %(component)s"
 
 #: weblate/templates/mail/new_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "New string to translate in %(translation)s"
 msgstr "Mae llinyn newydd i'w gyfieithu yn %(translation)s"
 
@@ -8604,8 +8582,6 @@ msgid "Password reset on %(site_title)s"
 msgstr "Ailosod cyfrinair ar %(site_title)s"
 
 #: weblate/templates/mail/shared-activity.html:18
-#, fuzzy
-#| msgid "If this was not done by you, report it by clicking the button below."
 msgid ""
 "If you didn’t initiate this, please report it to the server administrators "
 "by clicking the button below."
@@ -9105,10 +9081,8 @@ msgid "Remove invitation"
 msgstr "Dileu gwahoddiad"
 
 #: weblate/templates/matrix-table.html:13
-#, fuzzy
-#| msgid "String age"
 msgid "String missing"
-msgstr "Oedran y llinyn"
+msgstr "Llinyn ar goll"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -9729,10 +9703,8 @@ msgid "Translation suggestions are turned off."
 msgstr "Mae awgrymiadau cyfieithu wedi'u diffodd."
 
 #: weblate/templates/snippets/info.html:191
-#, fuzzy
-#| msgid "Translations have been updated."
 msgid "Translations are reviewed by dedicated reviewers."
-msgstr "Mae'r cyfieithiadau wedi'u diweddaru."
+msgstr "Bydd y cyfieithiadau yn cael eu hadolygu gan adolygwyr penodedig."
 
 #: weblate/templates/snippets/info.html:199
 msgid "The translation uses monolingual files."
@@ -10045,10 +10017,8 @@ msgstr "Cyfieithu"
 
 #: weblate/templates/snippets/list-objects.html:241
 #: weblate/templates/snippets/project-workflow-settings.html:11
-#, fuzzy
-#| msgid "Customize download"
 msgid "Customized workflow"
-msgstr "Cyfaddasu llwytho i lawr"
+msgstr "Llif gwaith wedi'i gyfaddasu"
 
 #: weblate/templates/snippets/list-objects.html:269
 msgid "Nothing to list here."
@@ -10142,10 +10112,8 @@ msgstr ""
 "gydrannau unigol:"
 
 #: weblate/templates/snippets/project-workflow-settings.html:4
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid "Translation workflow can be also customized per language:"
-msgstr "Cyfieithiadau o'r llinyn hwn yn yr ieithoedd eraill"
+msgstr "Hefyd mae modd cyfaddasu llif gwaith cyfieithu fesul iaith:"
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:11
 msgid ""
@@ -10527,29 +10495,31 @@ msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr ""
+"Heb ganfod yr ystorfa i fyny'r afon. Gwiriwch a yw'n bodoli ac yn hygyrch i "
+"Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:8
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
 "accessible to Weblate."
 msgstr ""
+"Nid oedd modd cyrchu'r ystorfa i fyny'r afon. Gwiriwch a yw'n hygyrch i "
+"Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:12
 msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
 msgstr ""
+"Nid oedd modd cael mynediad dros dro i'r ystorfa i fyny'r afon. Rhowch "
+"gynnig arall arni yn nes ymlaen."
 
 #: weblate/templates/trans/alert/common-repo.html:16
-#, fuzzy
-#| msgid ""
-#| "Your push URL seems to miss credentials. Either provide them in the URL "
-#| "or use SSH with key based authentication."
 msgid ""
 "Your repository URL seems to miss credentials. Either provide them in the "
 "URL or use SSH with key based authentication."
 msgstr ""
-"Mae'n ymddangos bod eich URL gwthio yn methu tystlythyrau. Naill ai rhowch "
+"Mae'n ymddangos bod URL eich ystorfa yn colli tystlythyrau. Naill ai rhowch "
 "nhw yn yr URL neu defnyddiwch SSH gyda dilysiad seiliedig ar allwedd."
 
 #: weblate/templates/trans/alert/common-repo.html:20
@@ -10579,6 +10549,9 @@ msgid ""
 "Weblate will retry the operation once it is needed again, so the alert might "
 "disappear for the temporary issues."
 msgstr ""
+"Bydd Weblate yn rhoi cynnig arall ar y weithred unwaith y bydd ei hangen "
+"eto, felly efallai y bydd y rhybudd yn diflannu ar gyfer y problemau dros "
+"dro."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same file mask."
@@ -10763,10 +10736,8 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "Ni allai Weblate wthio newidiadau i'r ystorfa i fyny'r afon."
 
 #: weblate/templates/trans/alert/pushfailure.html:13
-#, fuzzy
-#| msgid "Reset repository"
 msgid "Push the repository"
-msgstr "Ailosod ystorfa"
+msgstr "Gwthio'r ystorfa"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -10859,10 +10830,8 @@ msgstr ""
 "Ni allai Weblate gyrchu newidiadau i fyny'r afon wrth ddiweddaru'r ystorfa."
 
 #: weblate/templates/trans/alert/updatefailure.html:13
-#, fuzzy
-#| msgid "Update VCS repository"
 msgid "Update the repository"
-msgstr "Diweddaru ystorfa VCS"
+msgstr "Diweddaru'r ystorfa"
 
 #: weblate/templates/trans/backups.html:21
 msgid "There are currently no backups."
@@ -12607,16 +12576,17 @@ msgid "Expiry cannot be in the past."
 msgstr "Ni all dod i ben fod yn y gorffennol."
 
 #: weblate/trans/forms.py:2794
-#, fuzzy
-#| msgid "The component contains translation file for the source language."
 msgid "Customize translation workflow for this language"
-msgstr "Mae'r gydran yn cynnwys ffeil cyfieithu ar gyfer yr iaith ffynhonnell."
+msgstr "Cyfaddasu llif gwaith cyfieithu yr iaith hon"
 
 #: weblate/trans/forms.py:2796
 msgid ""
 "The translation workflow is configured at project and component. By enabling "
 "customization here, you override these settings for this language."
 msgstr ""
+"Mae'r llif gwaith cyfieithu wedi'i ffurfweddu ar sail project a chydran. "
+"Trwy alluogi cyfaddasu yma, rydych chi'n diystyru'r gosodiadau hyn ar gyfer "
+"yr iaith hon."
 
 #: weblate/trans/guide.py:65
 msgid "Version control integration"
@@ -12865,10 +12835,8 @@ msgstr "Mae'n rhaid i'r categori rhiant fod yn wahanol!"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:292
-#, fuzzy
-#| msgid "Resource update"
 msgid "Resource updated"
-msgstr "Diweddariad adnodd"
+msgstr "Adnodd wedi'i ddiweddaru"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:294
@@ -12882,10 +12850,8 @@ msgstr "Newidiwyd y cyfieithiad"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:298
-#, fuzzy
-#| msgid "Translations made"
 msgid "Translation added"
-msgstr "Cyfieithiadau a wnaed"
+msgstr "Cyfieithiad wedi'i ychwanegu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:300
@@ -12914,10 +12880,8 @@ msgstr "Uwchlwythwyd cyfieithiad"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:312
-#, fuzzy
-#| msgid "Source string age"
 msgid "Source string added"
-msgstr "Oedran y llinyn ffynhonnell"
+msgstr "Ychwanegwyd llinyn ffynhonnell"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:314
@@ -12931,75 +12895,53 @@ msgstr "Cydran wedi'i datgloi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:318
-#, fuzzy
-#| msgid "Age of changes to commit"
 msgid "Changes committed"
-msgstr "Oedran newidiadau i draddodi"
+msgstr "Newidiadau a draddodwyd"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:320
-#, fuzzy
-#| msgid "Change password"
 msgid "Changes pushed"
-msgstr "Newid cyfrinair"
+msgstr "Newidiadau wedi'u gwthio"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:322
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Repository reset"
-msgstr "Porwr yr ystorfa"
+msgstr "Ailosod ystorfa"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:324
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository merged"
-msgstr "Newidiadau i’r ystorfa"
+msgstr "Cyfuno ystorfa"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:326
-#, fuzzy
-#| msgid "Repository details"
 msgid "Repository rebased"
-msgstr "Manylion yr ystorfa"
+msgstr "Ystorfa wedi'i hailseilio"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:328
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Repository merge failed"
-msgstr "Methodd gweithrediad yr ystorfa"
+msgstr "Methodd cyfuniad yr ystorfa"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:330
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Repository rebase failed"
-msgstr "Methodd gweithrediad yr ystorfa"
+msgstr "Wedi methu ail-osod ar yr ystorfa"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:332
-#, fuzzy
-#| msgid "Repository failure"
 msgid "Repository push failed"
-msgstr "Methiant yr ystorfa"
+msgstr "Methodd gwthio i'r ystorfa"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:334
-#, fuzzy
-#| msgid "Failing file"
 msgid "Parsing failed"
-msgstr "Ffeil yn methu"
+msgstr "Methodd dosrannu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:336
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Translation removed"
-msgstr "Cyfieithiad i’w dileu"
+msgstr "Cyfieithiad wedi'i dynnu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:338
@@ -13008,10 +12950,8 @@ msgstr "Dilëwyd sylw"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:340
-#, fuzzy
-#| msgid "Translation uploaded"
 msgid "Translation replaced"
-msgstr "Uwchlwythwyd cyfieithiad"
+msgstr "Amnewid cyfieithiad"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:342
@@ -13025,38 +12965,28 @@ msgstr "Newidiwyd y llinyn ffynhonnell"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:346
-#, fuzzy
-#| msgid "String age"
 msgid "String added"
-msgstr "Oedran y llinyn"
+msgstr "Ychwanegwyd llinyn"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:348
-#, fuzzy
-#| msgid "Bulk status change"
 msgid "Bulk status changed"
-msgstr "Newid statws lluosog"
+msgstr "Statws swmp wedi newid"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:350
-#, fuzzy
-#| msgid "Last change"
 msgid "Visibility changed"
-msgstr "Newid diwethaf"
+msgstr "Gwelededd wedi newid"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:352
-#, fuzzy
-#| msgid "User to add"
 msgid "User added"
-msgstr "Defnyddiwr i’w ychwanegu"
+msgstr "Ychwanegwyd defnyddiwr"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:354
-#, fuzzy
-#| msgid "User profile"
 msgid "User removed"
-msgstr "Proffil defnyddiwr"
+msgstr "Defnyddiwr wedi'i dynnu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:356
@@ -13070,31 +13000,23 @@ msgstr "Marciwyd fel angen golygu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:360
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Component removed"
-msgstr "Cydran i’w ddileu"
+msgstr "Cydran wedi'i thynnu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:362
-#, fuzzy
-#| msgid "Project to remove"
 msgid "Project removed"
-msgstr "Project i’w dileu"
+msgstr "Prosiect wedi'i thynnu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:364
-#, fuzzy
-#| msgid "Project name"
 msgid "Project renamed"
-msgstr "Enw'r project"
+msgstr "Project wedi'i ailenwi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:366
-#, fuzzy
-#| msgid "Component name"
 msgid "Component renamed"
-msgstr "Enw’r cydran"
+msgstr "Cydran wedi'i hailenwi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:368
@@ -13103,71 +13025,53 @@ msgstr "Symudwyd cydran"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:370
-#, fuzzy
-#| msgid "Contributors"
 msgid "Contributor joined"
-msgstr "Cyfranwyr"
+msgstr "Cyfrannwr wedi ymuno"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:372
-#, fuzzy
-#| msgid "Announcements"
 msgid "Announcement posted"
-msgstr "Cyhoeddiadau"
+msgstr "Cyhoeddiad wedi'i gyhoeddi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:374
 msgid "Alert triggered"
-msgstr ""
+msgstr "Achosi rhybudd"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:376
-#, fuzzy
-#| msgid "Language code"
 msgid "Language added"
-msgstr "Cod iaith"
+msgstr "Iaith wedi'i ychwanegu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:378
-#, fuzzy
-#| msgid "Language code style"
 msgid "Language requested"
-msgstr "Arddull cod iaith"
+msgstr "Iaith y gofynnwyd amdani"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:380
-#, fuzzy
-#| msgid "Project name"
 msgid "Project created"
-msgstr "Enw'r project"
+msgstr "Project wedi'i greu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:382
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component created"
-msgstr "Cydran wedi'i chloi"
+msgstr "Cydran wedi'i chreu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:384
-#, fuzzy
-#| msgid "User identities"
 msgid "User invited"
-msgstr "Hunaniaethau defnyddwyr"
+msgstr "Defnyddiwr wedi'i wahodd"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:386
-#, fuzzy
-#| msgid "Received repository notification"
 msgid "Repository notification received"
-msgstr "Wedi derbyn hysbysiad ystorfa"
+msgstr "Derbyniwyd hysbysiad ystorfa"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:388
-#, fuzzy
-#| msgid "Replaced file by upload"
 msgid "Translation replaced file by upload"
-msgstr "Wedi disodli ffeil trwy lwytho i fyny"
+msgstr "Cyfieithiad wedi amnewid ffeil drwy lwytho"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:390
@@ -13211,24 +13115,18 @@ msgstr "Ychwanegyn wedi'i ddadosod"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:406
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "String removed"
-msgstr "Dilëwyd sylw"
+msgstr "Llinyn wedi'i dynnu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:408
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Comment removed"
-msgstr "Cydran i’w ddileu"
+msgstr "Sylw wedi'i dynnu"
 
 #: weblate/trans/models/change.py:412
-#, fuzzy
-#| msgid "Comment has been resolved."
 msgctxt "Name of event in the history"
 msgid "Comment resolved"
-msgstr "Mae'r sylw wedi ei datrys."
+msgstr "Sylw wedi ei datrys"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:415
@@ -13237,31 +13135,23 @@ msgstr "Esboniad wedi diweddaru"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:417
-#, fuzzy
-#| msgid "Category name"
 msgid "Category removed"
-msgstr "Enw'r categori"
+msgstr "Categori wedi'i dynnu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:419
-#, fuzzy
-#| msgid "Category name"
 msgid "Category renamed"
-msgstr "Enw'r categori"
+msgstr "Categori wedi'i ailenwi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:421
-#, fuzzy
-#| msgid "Category name"
 msgid "Category moved"
-msgstr "Enw'r categori"
+msgstr "Categori wedi'i symud"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:423
-#, fuzzy
-#| msgid "Failing file"
 msgid "Saving string failed"
-msgstr "Ffeil yn methu"
+msgstr "Methodd cadw'r llinyn"
 
 #: weblate/trans/models/change.py:495
 msgid "The component was automatically locked because of an alert."
@@ -14795,16 +14685,13 @@ msgid "Following fixups were applied to translation: %s"
 msgstr "Mae'r cywiriadau canlynol wedi eu gosod i'r cyfieithiadau: %s"
 
 #: weblate/trans/views/edit.py:367
-#, fuzzy, python-format
-#| msgid ""
-#| "Added %(project)s to your watched projects. You can adjust them and this "
-#| "behavior in the settings."
+#, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust this behavior in "
 "the settings."
 msgstr ""
-"Wedi ychwanegu %(project)s at eich projectau yn cael eu gwylio. Gallwch eu "
-"haddasu a'r ymddygiad hwn yn y gosodiadau."
+"Wedi ychwanegu %(project)s at eich projectau gwylio. Gallwch chi addasu'r "
+"ymddygiad hwn yn y gosodiadau."
 
 #: weblate/trans/views/edit.py:386
 #, python-brace-format
@@ -15506,10 +15393,9 @@ msgstr ""
 "%(fingerprint)s (%(keytype)s), gwiriwch ei fod yn gywir."
 
 #: weblate/vcs/ssh.py:227 weblate/vcs/ssh.py:233
-#, fuzzy, python-format
-#| msgid "Could not fetch public key for a host!"
+#, python-format
 msgid "Could not fetch public key for a host: %s"
-msgstr "Methu nôl allwedd gyhoeddus ar gyfer gwesteiwr!"
+msgstr "Methu â nôl allwedd gyhoeddus gwesteiwr: %s"
 
 #: weblate/vcs/ssh.py:237
 #, python-format
