@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-16 14:13+0200\n"
-"PO-Revision-Date: 2023-10-18 19:52+0000\n"
+"PO-Revision-Date: 2023-10-20 01:21+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -65,9 +65,10 @@ msgid ""
 "guilabel:`Public`. You can switch to the paid plan if you want to restrict "
 "access to your project."
 msgstr ""
-"Projekte, die den kostenlosen Libre-Plan auf Hosted Weblate ausführen, sind "
-"immer :guilabel:`Öffentlich`. Sie können zum kostenpflichtigen Plan "
-"wechseln, wenn Sie den Zugriff auf Ihr Projekt einschränken möchten."
+"Projekte, die das kostenlose Freies Hosting-Angebot auf Hosted Weblate "
+"ausführen, sind immer :guilabel:`Öffentlich`. Sie können zum "
+"kostenpflichtigen Plan wechseln, wenn Sie den Zugriff auf Ihr Projekt "
+"einschränken möchten."
 
 #: ../../admin/access.rst:30
 msgid ""
@@ -2363,7 +2364,7 @@ msgstr "Mehrere Pfade abgleichen"
 #: ../../admin/addons.rst:298
 msgid "Multi-module Maven project with Java properties translations."
 msgstr ""
-"Maven-Projekt mit mehreren Modulen und Übersetzungen von Java-Eigenschaften."
+"Maven-Projekt mit mehreren Modulen und Übersetzungen von Java-Properties."
 
 #: ../../admin/addons.rst:301
 msgid ""
@@ -3310,7 +3311,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:772
 msgid "Format the Java properties file"
-msgstr "Die Übersetzung der Java-Eigenschaften-Datei formatieren"
+msgstr "Die Übersetzung der Java-Properties-Datei formatieren"
 
 #: ../../admin/addons.rst:774
 msgid "``weblate.properties.sort``"
@@ -3318,7 +3319,7 @@ msgstr "``weblate.properties.sort``"
 
 #: ../../admin/addons.rst:778
 msgid "Formats and sorts the Java properties file."
-msgstr "Formatiert und sortiert die Java-Eigenschaftendatei."
+msgstr "Formatiert und sortiert die Java-Properties-Datei."
 
 #: ../../admin/addons.rst:780
 msgid "Consolidates newlines to Unix ones."
@@ -16654,7 +16655,7 @@ msgid ""
 "A libre software machine translation platform providing translations to a "
 "limited set of languages."
 msgstr ""
-"Eine Libre-Software-Plattform für maschinelle Übersetzung, die Übersetzungen "
+"Eine Freie-Projekte-Plattform für maschinelle Übersetzung, die Übersetzungen "
 "in eine begrenzte Anzahl von Sprachen liefert."
 
 #: ../../admin/machine.rst:59
@@ -26702,7 +26703,7 @@ msgstr "Verbesserte Handhabung von Übersetzungssperren."
 
 #: ../../changes/v1.rst:116
 msgid "Show code snippets for widgets in more variants."
-msgstr "Anzeige von Codeschnipsel für Widgets in mehr Varianten."
+msgstr "Anzeige von Code-Ausschnitten für Widgets in mehr Varianten."
 
 #: ../../changes/v1.rst:117
 msgid "Indicate failing checks or fuzzy strings in progress bars."
@@ -33270,8 +33271,8 @@ msgstr ""
 #: ../../changes/v4.rst:843
 msgid "Automatically enable Java MessageFormat checks for Java Properties."
 msgstr ""
-"Automatische Aktivierung von Prüfungen der Eigenschaften des Java-"
-"MessageFormats."
+"Automatisches Aktivieren der Java-MessageFormat-Prüfungen für Java-"
+"Properties."
 
 #: ../../changes/v4.rst:844
 msgid "Added a new upload method to add new strings to a translation."
@@ -34789,8 +34790,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:1263
 msgid "Added support for intermediate language from developers."
-msgstr ""
-"Unterstützung für die Zwischensprachedatei von Entwicklern hinzugefügt."
+msgstr "Unterstützung für die Zwischensprachedatei von Entwicklern hinzugefügt."
 
 #: ../../changes/v4.rst:1264
 msgid "Added support for source strings review."
@@ -37428,6 +37428,9 @@ msgid ""
 "can be done by `pip install -r requirements-dev.txt` or `pip install -e ."
 "[test]`."
 msgstr ""
+"Bevor Sie den Test ausführen, bitte sicherstellen, dass die "
+"Testabhängigkeiten installiert sind. Dies kann durch `pip install -r "
+"requirements-dev.txt` oder `pip install -e .[test]` erfolgen."
 
 #: ../../contributing/tests.rst:51
 msgid "To run a testsuite locally, use:"
@@ -37791,12 +37794,22 @@ msgid ""
 "course it has great support in Weblate (see :ref:`gettext` file format "
 "description)."
 msgstr ""
+"`GNU gettext`_ ist eines der am weitesten verbreiteten Tools zur "
+"Internationalisierung von Freier Software. Es bietet eine einfache und doch "
+"flexible Möglichkeit, die Software zu lokalisieren. Es hat eine großartige "
+"Unterstützung für Pluralformen, es kann der übersetzten Zeichenkette "
+"weiteren Kontext hinzufügen und es gibt eine ganze Reihe von Tools, die "
+"darauf aufbauen. Natürlich wird es in Weblate hervorragend unterstützt ("
+"siehe Dateiformatbeschreibung von :ref:`gettext`)."
 
 #: ../../devel/gettext.rst:12
 msgid ""
 "If you are about to use it in proprietary software, please consult licensing "
 "first, it might not be suitable for you."
 msgstr ""
+"Wenn Sie es in proprietärer Software verwenden wollen, konsultieren Sie "
+"bitte zuerst die Lizenzbestimmungen, da es möglicherweise nicht für Sie "
+"geeignet ist."
 
 #: ../../devel/gettext.rst:15
 msgid ""
@@ -37806,6 +37819,12 @@ msgid ""
 "call, which is often aliased to `_()` to make the code simpler and easier to "
 "read."
 msgstr ""
+"GNU gettext kann aus einer Vielzahl von Sprachen verwendet werden (C, "
+"Python, PHP, Ruby, JavaScript und viele mehr) und normalerweise bieten die "
+"UI-Frameworks bereits eine gewisse Unterstützung dafür. Die "
+"Standardverwendung erfolgt über den Funktionsaufruf `gettext()`, der oft als "
+"Alias `_()` verwendet wird, um den Code einfacher und leichter lesbar zu "
+"machen."
 
 #: ../../devel/gettext.rst:20
 msgid ""
@@ -37813,6 +37832,9 @@ msgid ""
 "translators and `ngettext()` which can handle plural types as defined for "
 "target language."
 msgstr ""
+"Zusätzlich bietet es den Aufruf `pgettext()`, um Übersetzern zusätzlichen "
+"Kontext zu liefern und `ngettext()`, das Pluraltypen wie in der Zielsprache "
+"definiert behandeln kann."
 
 #: ../../devel/gettext.rst:24
 msgid ""
@@ -37820,6 +37842,10 @@ msgid ""
 "simple, instead of manual invoking of gettext described below, you might "
 "want to try one of them, for example `intltool`_."
 msgstr ""
+"Als weit verbreitetes Tool hat es viele Wrapper, die seine Benutzung sehr "
+"einfach machen. Anstelle des unten beschriebenen manuellen Aufrufs von "
+"gettext sollten Sie vielleicht einen von ihnen ausprobieren, zum Beispiel "
+"`intltool`_."
 
 #: ../../devel/gettext.rst:29
 msgid "Workflow overview"
@@ -37828,12 +37854,16 @@ msgstr "Übersicht über den Arbeitsablauf"
 #: ../../devel/gettext.rst:31
 msgid "The GNU gettext uses several files to manage the localization:"
 msgstr ""
+"GNU gettext verwendet mehrere Dateien, um die Lokalisierung zu verwalten:"
 
 #: ../../devel/gettext.rst:33
 msgid ""
 ":file:`PACKAGE.pot` contains strings extracted from your source code, "
 "typically using `xgettext`_ or some high level wrappers such as `intltool`_."
 msgstr ""
+":file:`PACKAGE.pot` enthält Zeichenketten, die aus Ihrem Quellcode "
+"extrahiert wurden, typischerweise unter Verwendung von `xgettext`_ oder "
+"einigen High-Level-Wrappern wie `intltool`_."
 
 #: ../../devel/gettext.rst:34
 msgid ""
@@ -37841,6 +37871,10 @@ msgid ""
 "It has to be updated by `msgmerge`_ once the :file:`PACKAGE.pot` is updated. "
 "You can create new language files using `msginit`_ or within Weblate."
 msgstr ""
+":file:`LANGUAGE.po` enthält Zeichenketten mit einer Übersetzung in eine "
+"einzelne Sprache. Sie muss mit `msgmerge`_ aktualisiert werden, sobald "
+":file:`PACKAGE.pot` aktualisiert wird. Sie können neue Sprachdateien mit "
+"`msginit`_ oder in Weblate erstellen."
 
 #: ../../devel/gettext.rst:35
 msgid ""
@@ -37850,28 +37884,36 @@ msgid ""
 "to have it in the version control, you can generate it in Weblate using :ref:"
 "`addon-weblate.gettext.mo` add-on."
 msgstr ""
+":file:`LANGUAGE.mo` enthält die binäre Darstellung von :file:`LANGUAGE.po` "
+"und wird zur Laufzeit der Anwendung verwendet. Normalerweise wird sie nicht "
+"unter Versionskontrolle gehalten, sondern zur Kompilierungszeit mit `msgfmt`"
+"_ erzeugt. Wenn Sie sie in der Versionskontrolle haben wollen, können Sie "
+"sie in Weblate mit der Erweiterung :ref:`addon-weblate.gettext.mo` erzeugen."
 
 #: ../../devel/gettext.rst:37
 msgid "Overall the GNU gettext workflow looks like this:"
-msgstr ""
+msgstr "Insgesamt sieht der GNU-gettext-Arbeitsablauf wie folgt aus:"
 
 #: ../../devel/gettext.rst:56
 msgid ""
 "`Overview of GNU gettext <https://www.gnu.org/software/gettext/manual/"
 "html_node/Overview.html>`_"
 msgstr ""
+"`Überblick über GNU gettext <https://www.gnu.org/software/gettext/manual/"
+"html_node/Overview.html>`_"
 
 #: ../../devel/gettext.rst:59
 msgid "Sample program"
-msgstr ""
+msgstr "Beispielprogramm"
 
 #: ../../devel/gettext.rst:61
 msgid "The simple program in C using gettext might look like following:"
 msgstr ""
+"Das einfache Programm in C, das gettext verwendet, könnte wie folgt aussehen:"
 
 #: ../../devel/gettext.rst:89
 msgid "Extracting translatable strings"
-msgstr ""
+msgstr "Extrahieren übersetzbarer Zeichenketten"
 
 #: ../../devel/gettext.rst:91
 msgid ""
@@ -37879,12 +37921,18 @@ msgid ""
 "extract messages from it and store them into a `.pot <https://www.gnu.org/"
 "software/gettext/manual/gettext.html#index-files_002c-_002epot>`_:"
 msgstr ""
+"Sobald Sie Code haben, der die gettext-Aufrufe verwendet, können Sie "
+"`xgettext`_ verwenden, um Nachrichten daraus zu extrahieren und sie in eine `"
+".pot <https://www.gnu.org/software/gettext/manual/gettext.html#index-"
+"files_002c-_002epot>`_ zu speichern:"
 
 #: ../../devel/gettext.rst:101
 msgid ""
 "There are alternative programs to extract strings from the code, for example "
 "`pybabel`_."
 msgstr ""
+"Es gibt alternative Programme, um Zeichenketten aus dem Code zu extrahieren, "
+"zum Beispiel `pybabel`_."
 
 #: ../../devel/gettext.rst:104
 msgid ""
@@ -37893,6 +37941,11 @@ msgid ""
 "(you would use `msgmerge`_ for that). The resulting file is simply a "
 "structured text file:"
 msgstr ""
+"Dadurch wird eine Vorlagendatei erstellt, die Sie zum Starten neuer "
+"Übersetzungen (mit `msginit`_) oder zum Aktualisieren bestehender "
+"Übersetzungen nach einer Codeänderung verwenden können (dafür würden Sie "
+"`msgmerge`_ verwenden). Die resultierende Datei ist einfach eine "
+"strukturierte Textdatei:"
 
 #: ../../devel/gettext.rst:142
 msgid ""
@@ -37900,14 +37953,17 @@ msgid ""
 "in the beginning is the file header containing metadata about the "
 "translation."
 msgstr ""
+"Jede ``msgid``-Zeile definiert eine zu übersetzende Zeichenkette, die "
+"spezielle leere Zeichenkette am Anfang ist der Dateiheader, der Metadaten "
+"über die Übersetzung enthält."
 
 #: ../../devel/gettext.rst:146
 msgid "Starting new translation"
-msgstr ""
+msgstr "Eine neue Übersetzung beginnen"
 
 #: ../../devel/gettext.rst:148
 msgid "With the template in place, we can start our first translation:"
-msgstr ""
+msgstr "Mit der Vorlage können wir mit unserer ersten Übersetzung beginnen:"
 
 #: ../../devel/gettext.rst:155
 msgid ""
@@ -37915,6 +37971,10 @@ msgid ""
 "importantly it got the proper plural forms definition for chosen language "
 "and you can see number of plurals have changed according to that:"
 msgstr ""
+"Die soeben erstellte :file:`cs.po` enthält bereits einige Informationen. Am "
+"wichtigsten ist, dass sie die richtige Definition der Pluralformen für die "
+"gewählte Sprache erhalten hat, und Sie können sehen, dass sich die Anzahl "
+"der Pluralformen dementsprechend geändert hat:"
 
 #: ../../devel/gettext.rst:193
 msgid ""
@@ -37922,26 +37982,35 @@ msgid ""
 "gnu.org/software/gettext/manual/gettext.html#MO-Files>`_ file used by the "
 "`GNU gettext`_ functions at runtime."
 msgstr ""
+"Diese Datei wird in eine optimierte Binärform kompiliert, die `.mo "
+"<https://www.gnu.org/software/gettext/manual/gettext.html#MO-Files>`_-Datei, "
+"die von den `GNU gettext`_-Funktionen zur Laufzeit verwendet wird."
 
 #: ../../devel/gettext.rst:198
 msgid "Updating strings"
-msgstr ""
+msgstr "Aktualisieren von Zeichenketten"
 
 #: ../../devel/gettext.rst:200
 msgid ""
 "Once you add more strings or change some strings in your program, you "
 "execute again `xgettext`_ which regenerates the template file:"
 msgstr ""
+"Sobald Sie weitere Zeichenketten hinzufügen oder einige Zeichenketten in "
+"Ihrem Programm ändern, führen Sie erneut `xgettext`_ aus, wodurch die "
+"Vorlagendatei neu generiert wird:"
 
 #: ../../devel/gettext.rst:207
 msgid ""
 "Then you can update individual translation files to match newly created "
 "templates (this includes reordering the strings to match new template):"
 msgstr ""
+"Dann können Sie die einzelnen Übersetzungsdateien aktualisieren, damit sie "
+"mit den neu erstellten Vorlagen übereinstimmen (dazu gehört auch das "
+"Neuordnen der Zeichenketten, damit sie mit der neuen Vorlage übereinstimmen):"
 
 #: ../../devel/gettext.rst:215
 msgid "Importing to Weblate"
-msgstr ""
+msgstr "Importieren in Weblate"
 
 #: ../../devel/gettext.rst:217
 msgid ""
@@ -37949,19 +38018,22 @@ msgid ""
 "following fields when creating component (see :ref:`component` for detailed "
 "description of the fields):"
 msgstr ""
+"Um eine solche Übersetzung in Weblate zu importieren, müssen Sie nur die "
+"folgenden Felder beim Erstellen der Komponente definieren (siehe "
+":ref:`component` für eine detaillierte Beschreibung der Felder):"
 
 #: ../../devel/gettext.rst:222
 msgid "Field"
-msgstr ""
+msgstr "Feld"
 
 #: ../../devel/gettext.rst:222 ../../user/checks.rst:1637
 #: ../../workflows.rst:106 ../../workflows.rst:138 ../../workflows.rst:171
 msgid "Value"
-msgstr ""
+msgstr "Wert"
 
 #: ../../devel/gettext.rst:224
 msgid "URL of the VCS repository with your project"
-msgstr ""
+msgstr "URL des VCS-Repositorys mit Ihrem Projekt"
 
 #: ../../devel/gettext.rst:226 ../../formats/gettext.rst:104
 #: ../../formats/gettext.rst:116
@@ -37974,7 +38046,7 @@ msgstr "``po/hello.pot``"
 
 #: ../../devel/gettext.rst:230
 msgid "Choose :guilabel:`gettext PO file`"
-msgstr "Wählen Sie die :guilabel:`gettext PO`-Datei"
+msgstr ":guilabel:`gettext PO`-Datei auswählen"
 
 #: ../../devel/gettext.rst:232
 msgid "New language"
@@ -37982,17 +38054,20 @@ msgstr "Neue Sprache"
 
 #: ../../devel/gettext.rst:232
 msgid "Choose :guilabel:`Create new language file`"
-msgstr ""
+msgstr ":guilabel:`Neue Sprachdatei erstellen` auswählen"
 
 #: ../../devel/gettext.rst:235
 msgid "And that's it, you're now ready to start translating your software!"
 msgstr ""
+"Und das war's, jetzt können Sie mit der Übersetzung Ihrer Software beginnen!"
 
 #: ../../devel/gettext.rst:239
 msgid ""
 "You can find a gettext example with many languages in the Weblate Hello "
 "project on GitHub: <https://github.com/WeblateOrg/hello>."
 msgstr ""
+"Ein gettext-Beispiel mit vielen Sprachen finden Sie im Weblate Hello-Projekt "
+"auf GitHub: <https://github.com/WeblateOrg/hello>."
 
 #: ../../devel/html.rst:4
 msgid "Translating HTML and JavaScript using Weblate CDN"
@@ -38012,6 +38087,9 @@ msgid ""
 "configuration on your installation, see :setting:`LOCALIZE_CDN_URL` and :"
 "setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
+"Diese Funktion ist auf Hosted Weblate konfiguriert. Sie erfordert eine "
+"zusätzliche Konfiguration in Ihrer Installation, siehe "
+":setting:`LOCALIZE_CDN_URL` und :setting:`LOCALIZE_CDN_PATH`."
 
 #: ../../devel/html.rst:15
 msgid ""
@@ -38019,16 +38097,22 @@ msgid ""
 "(see :ref:`lazy-commit`) to the CDN and these can be used in your web pages "
 "to localize them."
 msgstr ""
+"Nach der Installation in Ihrer Komponente werden die Übersetzungen (siehe "
+":ref:`lazy-commit`) in das CDN übertragen und können in Ihren Webseiten "
+"verwendet werden, um diese zu lokalisieren."
 
 #: ../../devel/html.rst:20
 msgid "Creating component"
-msgstr "Erstellung einer Komponente"
+msgstr "Erstellen einer Komponente"
 
 #: ../../devel/html.rst:22
 msgid ""
 "First, you need to create a monolingual component which will hold your "
 "strings, see :ref:`adding-projects` for generic instructions on that."
 msgstr ""
+"Zuerst müssen Sie eine einsprachige Komponente erstellen, die Ihre "
+"Zeichenketten enthält, siehe :ref:`adding-projects` für allgemeine "
+"Anweisungen dazu."
 
 #: ../../devel/html.rst:25
 msgid ""
@@ -38039,12 +38123,21 @@ msgid ""
 "Once you have that, the repository can be imported into Weblate and you can "
 "start with an add-on configuration."
 msgstr ""
+"Falls Sie ein bestehendes Repository haben, mit dem Sie beginnen können (zum "
+"Beispiel dasjenige, das HTML-Dateien enthält), erstellen Sie eine leere JSON-"
+"Datei im Repository für die Ausgangssprache (siehe :ref:`component-"
+"source_language`), zum Beispiel :file:`locales/en.json`. Der Inhalt sollte "
+"``{}`` sein, um ein leeres Objekt anzugeben. Danach kann das Repository in "
+"Weblate importiert werden und Sie können mit der Konfiguration einer "
+"Erweiterung beginnen."
 
 #: ../../devel/html.rst:34
 msgid ""
 "In case you have existing translations, you can place them into the language "
 "JSON files and those will be used in Weblate."
 msgstr ""
+"Falls Sie bereits Übersetzungen haben, können Sie diese in die Sprach-JSON-"
+"Dateien einfügen, die dann in Weblate verwendet werden."
 
 #: ../../devel/html.rst:37
 msgid ""
@@ -38053,6 +38146,10 @@ msgid ""
 "`JSON file` as a file format (it is okay to choose any monolingual format at "
 "this point)."
 msgstr ""
+"Wer kein bestehendes Repository verwenden möchte (oder keines hat), wählt "
+"beim Erstellen der Komponente :guilabel:`Bei Null anfangen` und `JSON-Datei` "
+"als Dateiformat (an dieser Stelle kann ein beliebiges einsprachiges Format "
+"gewählt werden)."
 
 #: ../../devel/html.rst:45
 msgid "Configuring Weblate CDN add-on"
@@ -38062,23 +38159,31 @@ msgstr "Konfigurieren der Weblate CDN-Erweiterung"
 msgid ""
 "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration options."
 msgstr ""
+"Die Erweiterung :ref:`addon-weblate.cdn.cdnjs` bietet nur wenige "
+"Konfigurationsmöglichkeiten."
 
 #: ../../devel/html.rst:50
 msgid ""
 "Translations translated above this threshold will be included in the CDN."
 msgstr ""
+"Übersetzungen, die diesen Schwellenwert überschreiten, werden in das CDN "
+"aufgenommen."
 
 #: ../../devel/html.rst:52
 msgid ""
 "Configures which strings from the HTML documents are translatable, see :ref:"
 "`cdn-addon-extract` and :ref:`cdn-addon-html`."
 msgstr ""
+"Legt fest, welche Zeichenketten aus den HTML-Dokumenten übersetzbar sind, "
+"siehe :ref:`cdn-addon-extract` und :ref:`cdn-addon-html`."
 
 #: ../../devel/html.rst:55
 msgid ""
 "Name of cookie which contains user selected language. Used in the JavaScript "
 "snippet for :ref:`cdn-addon-html`."
 msgstr ""
+"Name des Cookies, der die vom Benutzer ausgewählte Sprache enthält. Wird im "
+"JavaScript-Snippet für :ref:`cdn-addon-html` verwendet."
 
 #: ../../devel/html.rst:58
 msgid ""
@@ -38086,6 +38191,9 @@ msgid ""
 "translatable strings and offer them for a translation, see :ref:`cdn-addon-"
 "extract`."
 msgstr ""
+"Liste der Dateien im Repository oder URLs, in denen Weblate nach "
+"übersetzbaren Zeichenketten sucht und sie für eine Übersetzung anbietet, "
+"siehe :ref:`cdn-addon-extract`."
 
 #: ../../devel/html.rst:65
 msgid "String extraction for Weblate CDN"
@@ -38099,6 +38207,12 @@ msgid ""
 "automatically. The files have to present in the repository or contain remote "
 "URLs which will be download and parsed regularly by Weblate."
 msgstr ""
+"Die Übersetzungszeichenketten müssen in Weblate vorhanden sein. Sie können "
+"diese entweder manuell verwalten, über die API erstellen oder Dateien oder "
+"URLs mit :guilabel:`Zeichenketten aus HTML-Dateien extrahieren` auflisten "
+"und Weblate diese automatisch extrahieren lassen. Die Dateien müssen im "
+"Repository vorhanden sein oder Remote-URLs enthalten, die von Weblate "
+"regelmäßig heruntergeladen und analysiert werden."
 
 #: ../../devel/html.rst:73
 msgid ""
@@ -38106,18 +38220,26 @@ msgid ""
 "with CSS class ``l10n``, for example it would extract two strings from "
 "following snippets:"
 msgstr ""
+"Die Standardkonfiguration für :guilabel:`CSS-Selektor` extrahiert Elemente "
+"mit der CSS-Klasse ``l10n``, zum Beispiel würde es zwei Zeichenketten aus "
+"den folgenden Ausschnitten extrahieren:"
 
 #: ../../devel/html.rst:90
 msgid ""
 "In case you don't want to modify existing code, you can also use ``*`` as a "
 "selector to process all elements."
 msgstr ""
+"Falls Sie den bestehenden Code nicht ändern wollen, können Sie auch ``*`` "
+"als Selektor verwenden, um alle Elemente zu verarbeiten."
 
 #: ../../devel/html.rst:95
 msgid ""
 "Right now, only text of the elements is extracted. This add-on doesn't "
 "support localization of element attributes or elements with children."
 msgstr ""
+"Momentan wird nur der Text der Elemente extrahiert. Diese Erweiterung "
+"unterstützt nicht die Lokalisierung von Elementattributen oder Elemente mit "
+"untergeordneten Elementen."
 
 #: ../../devel/html.rst:101
 msgid "HTML localization using Weblate CDN"
@@ -38127,6 +38249,8 @@ msgstr "HTML-Übersetzung mit Weblate CDN"
 msgid ""
 "To localize a HTML document, you need to load the :file:`weblate.js` script:"
 msgstr ""
+"Um ein HTML-Dokument zu lokalisieren, müssen Sie das Skript :file:`weblate."
+"js` laden:"
 
 #: ../../devel/html.rst:109
 msgid ""
@@ -38134,12 +38258,18 @@ msgid ""
 "elements (based on :guilabel:`CSS selector` configuration) and replace their "
 "text with a translation."
 msgstr ""
+"Beim Laden werden automatisch alle übereinstimmenden übersetzbaren Elemente "
+"gefunden (basierend auf der :guilabel:`CSS-Selektor`-Konfiguration) und "
+"deren Text durch eine Übersetzung ersetzt."
 
 #: ../../devel/html.rst:113
 msgid ""
 "The user language is detected from the configured cookie and falls back to "
 "user preferred languages configured in the browser."
 msgstr ""
+"Die Benutzersprache wird anhand des konfigurierten Cookies erkannt und "
+"greift auf die vom Benutzer bevorzugten, im Browser konfigurierten Sprachen "
+"zurück."
 
 #: ../../devel/html.rst:116
 msgid ""
@@ -38147,6 +38277,9 @@ msgid ""
 "other applications (for example choose ``django_language`` when using "
 "Django)."
 msgstr ""
+"Der :guilabel:`Name des Sprachcookies` kann für die Integration mit anderen "
+"Anwendungen nützlich sein (z. B. wird ``django_language`` ausgewählt wenn "
+"Django verwendet wird)."
 
 #: ../../devel/html.rst:120
 msgid "JavaScript localization"
@@ -38157,10 +38290,13 @@ msgid ""
 "The individual translations are exposed as bilingual JSON files under the "
 "CDN. To fetch one you can use following code:"
 msgstr ""
+"Die einzelnen Übersetzungen werden als zweisprachige JSON-Dateien im CDN "
+"bereitgestellt. Um eine davon abzurufen, können Sie folgenden Code verwenden:"
 
 #: ../../devel/html.rst:131
 msgid "The actual localization logic needs to be implemented in this case."
 msgstr ""
+"In diesem Fall muss die eigentliche Lokalisierungslogik implementiert werden."
 
 #: ../../devel/integration.rst:2
 msgid "Integrating with Weblate"
@@ -38245,6 +38381,11 @@ msgid ""
 "exporter` is turned on) as additional remote and fetch translations update "
 "from it."
 msgstr ""
+"Weblate speichert aktualisierte Zeichenketten in einer Datenbank und "
+"überträgt sie in ein lokales Versionsverwaltungs-Repository. Sie können das "
+"Weblate-Repository (wenn :ref:`git-exporter` eingeschaltet ist) als "
+"zusätzliches Remote-Repository hinzufügen und daraus "
+"Übersetzungsaktualisierungen abrufen."
 
 #: ../../devel/integration.rst:29
 msgid ""
@@ -38289,6 +38430,10 @@ msgid ""
 "interface (in the :guilabel:`Repository maintenance`), or from the command-"
 "line using :ref:`wlc`."
 msgstr ""
+"Um die in Ihrem Repository neu aktualisierten Zeichenketten in Weblate zu "
+"holen, lassen Sie es einfach aus dem Upstream-Repository ziehen. Dies kann "
+"über die Bedienoberfläche (unter :guilabel:`Repository-Wartung`) oder über "
+"die Befehlszeile mit :ref:`wlc` erfolgen."
 
 #: ../../devel/integration.rst:52
 msgid ""
@@ -38296,12 +38441,18 @@ msgid ""
 "Weblate whenever there is a new commit, see :ref:`update-vcs` for more "
 "details."
 msgstr ""
+"Dies kann automatisiert werden, indem Sie einen Webhook in Ihrem Repository "
+"einrichten, der Weblate immer dann auslöst, wenn es einen neuen Commit gibt, "
+"siehe :ref:`update-vcs` für weitere Details."
 
 #: ../../devel/integration.rst:55
 msgid ""
 "If you’re not using a VCS integration, you can use UI or :doc:`/api` to "
 "update translations to match your code base."
 msgstr ""
+"Wenn Sie keine VCS-Integration verwenden, können Sie die Bedienoberfläche "
+"oder :doc:`/api` verwenden, um die Übersetzungen zu aktualisieren und an "
+"Ihren Quellcode anzupassen."
 
 #: ../../devel/integration.rst:60
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
@@ -38318,24 +38469,35 @@ msgid ""
 "strings. Any way of adding strings will be picked up, but consider using :"
 "ref:`source-quality-gateway` to avoid introducing errors."
 msgstr ""
+"Falls Ihre Übersetzungsdateien zusammen mit dem Code in einem VCS "
+"gespeichert sind, haben Sie höchstwahrscheinlich einen bestehenden "
+"Arbeitsablauf für Entwickler, um neue Zeichenketten einzuführen. Jede Art "
+"des Hinzufügens von Zeichenketten wird aufgegriffen, aber Sie sollten :ref"
+":`source-quality-gateway` verwenden, um Fehler zu vermeiden."
 
 #: ../../devel/integration.rst:73
 msgid ""
 "When the translation files are separate from the code, there are following "
 "ways to introduce new strings into Weblate."
 msgstr ""
+"Wenn die Übersetzungsdateien vom Code getrennt sind, gibt es folgende "
+"Möglichkeiten, neue Zeichenketten in Weblate einzuführen."
 
 #: ../../devel/integration.rst:76
 msgid ""
 "Manually, using :guilabel:`Add new translation string` from :guilabel:"
 "`Tools` menu in the source language."
 msgstr ""
+"Manuell mit :guilabel:`Neue Übersetzung hinzufügen` aus dem Menü "
+":guilabel:`Werkzeuge` in der Ausgangssprache."
 
 #: ../../devel/integration.rst:78
 msgid ""
 "Programmatically, using API :http:post:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`."
 msgstr ""
+"Programmgesteuert, mit der API :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`."
 
 #: ../../devel/integration.rst:79
 msgid ""
@@ -38344,16 +38506,22 @@ msgid ""
 "both old and new strings) or :guilabel:`Add new strings`, see :ref:`upload-"
 "method`."
 msgstr ""
+"Durch Hochladen der Quelldatei als :guilabel:`Vorhandene Übersetzungsdatei "
+"ersetzen` (dies überschreibt vorhandene Zeichenketten, also stellen Sie "
+"bitte sicher, dass die Datei sowohl alte als auch neue Zeichenketten enthält)"
+" oder :guilabel:`Neue Zeichenketten hinzufügen`, siehe :ref:`upload-method`."
 
 #: ../../devel/integration.rst:85
 msgid ""
 "Availability of adding strings in Weblate depends on :ref:`component-"
 "manage_units`."
 msgstr ""
+"Die Verfügbarkeit des Hinzufügens von Zeichenketten in Weblate hängt von :ref"
+":`component-manage_units` ab."
 
 #: ../../devel/integration.rst:90
 msgid "Updating target language files"
-msgstr "Aktualisieren der Zielsprachdateien"
+msgstr "Aktualisieren der Zielsprachedateien"
 
 #: ../../devel/integration.rst:92
 msgid ""
@@ -38364,6 +38532,13 @@ msgid ""
 "please install :ref:`addon-weblate.cleanup.generic` add-on which will handle "
 "the cleanup according to your requirements."
 msgstr ""
+"Bei einsprachigen Dateien (siehe :ref:`formats`) kann Weblate neue "
+"Übersetzungszeichenketten hinzufügen, die nicht in :ref:`component-template` "
+"und nicht in den tatsächlichen Übersetzungen enthalten sind. Es führt jedoch "
+"keine automatische Bereinigung veralteter Zeichenketten durch, da dies zu "
+"unerwarteten Ergebnissen führen könnte. Wenn Sie dies tun möchten, "
+"installieren Sie bitte die Erweiterung :ref:`addon-weblate.cleanup.generic`, "
+"das die Bereinigung entsprechend Ihren Anforderungen vornimmt."
 
 #: ../../devel/integration.rst:99
 msgid ""
@@ -38372,6 +38547,11 @@ msgid ""
 "yourself using :guilabel:`Update source strings` :ref:`upload-method` or "
 "using :ref:`addon-weblate.gettext.msgmerge` add-on."
 msgstr ""
+"Weblate wird auch nicht versuchen, zweisprachige Dateien auf irgendeine "
+"Weise zu aktualisieren. Wenn Sie also :file:`po`-Dateien aus :file:`pot` "
+"aktualisieren möchten, müssen Sie dies selbst tun, indem Sie :guilabel:`"
+"Ausgangszeichenketten aktualisieren`-:ref:`upload-method` oder die "
+"Erweiterung :ref:`addon-weblate.gettext.msgmerge` verwenden."
 
 #: ../../devel/integration.rst:106
 msgid ""
@@ -38393,6 +38573,10 @@ msgid ""
 "on, but it is usually better to introduce new strings together with the code "
 "changes that introduced them."
 msgstr ""
+"Sie können neue Zeichenketten in Weblate hinzufügen, wenn :ref:`component-"
+"manage_units` eingeschaltet ist, aber es ist normalerweise besser, neue "
+"Zeichenketten zusammen mit den Codeänderungen einzuführen, durch die sie "
+"eingebracht wurden."
 
 #: ../../devel/integration.rst:122
 msgid ""
@@ -38401,6 +38585,10 @@ msgid ""
 "code. You might want to introduce review of those strings using :ref:`source-"
 "quality-gateway`."
 msgstr ""
+"Für einsprachige Formate muss die neue Zeichenkette zu :ref:`component-"
+"template` hinzugefügt werden. Dies wird normalerweise von den Entwicklern "
+"während der Codeentwicklung durchgeführt. Sie können die Überprüfung dieser "
+"Zeichenketten mit :ref:`source-quality-gateway` einführen."
 
 #: ../../devel/integration.rst:127
 msgid ""
@@ -38410,6 +38598,13 @@ msgid ""
 "Once the strings are extracted, there might be an additional step needed to "
 "update existing translations, see :ref:`updating-target-files`."
 msgstr ""
+"Zweisprachige Formate extrahieren typischerweise Zeichenketten aus dem "
+"Quellcode mit Hilfe eines Tools (wie :program:`xgettext` oder :program"
+":`intltool-update`). Befolgen Sie die Dokumentation Ihres "
+"Lokalisierungsframeworks, um Anweisungen dazu zu erhalten.. Sobald die "
+"Zeichenketten extrahiert sind, kann ein zusätzlicher Schritt erforderlich "
+"sein, um vorhandene Übersetzungen zu aktualisieren, siehe :ref:`updating-"
+"target-files`."
 
 #: ../../devel/integration.rst:135
 msgid ""
@@ -38417,6 +38612,11 @@ msgid ""
 "typically involves executing untrusted code what makes it more suitable for "
 "a generic continuous integration than localization-specific platform."
 msgstr ""
+"Die Automatisierung der Zeichenkettenextraktion liegt derzeit außerhalb des "
+"Anwendungsbereichs von Weblate. Sie beinhaltet in der Regel die Ausführung "
+"von nicht vertrauenswürdigem Code, was sie eher für eine allgemeine "
+"kontinuierliche Integration als für eine lokalisierungsspezifische Plattform "
+"geeignet macht."
 
 #: ../../devel/integration.rst:139
 msgid ""
@@ -38424,11 +38624,16 @@ msgid ""
 "to make new strings automatically appear for translation. Such pipeline "
 "should also cover :ref:`avoid-merge-conflicts`."
 msgstr ""
+"Vielleicht möchten Sie dies in Ihre kontinuierlichen Integrationspipelines "
+"integrieren, damit neue Zeichenketten automatisch zur Übersetzung "
+"erscheinen. Eine solche Pipeline sollte auch :ref:`avoid-merge-conflicts` "
+"abdecken."
 
 #: ../../devel/integration.rst:145
 msgid ""
 ":ref:`updating-target-files`, :doc:`/devel/gettext`, :doc:`/devel/sphinx`"
 msgstr ""
+":ref:`updating-target-files`, :doc:`/devel/gettext`, :doc:`/devel/sphinx`"
 
 #: ../../devel/integration.rst:152
 msgid "Managing version control repository"
@@ -38495,6 +38700,9 @@ msgid ""
 "case, the contributions are counted at midnight – that means that it "
 "includes the starting date and excludes the ending date."
 msgstr ""
+"Sie können vordefinierte Zeiträume wählen oder einen benutzerdefinierten "
+"Datumsbereich eingeben. In diesem Fall werden die Beiträge um Mitternacht "
+"gezählt – d. h. das Anfangsdatum wird berücksichtigt und das Enddatum nicht."
 
 #: ../../devel/reporting.rst:21
 msgid "Number of words"
@@ -38506,12 +38714,18 @@ msgid ""
 "between whitespace (spaces, tabs, newlines). In the example string below, "
 "the word count is 9."
 msgstr ""
+"Ein Wort ist eine beliebige Folge von Zeichen (Buchstaben, Ziffern, "
+"Sonderzeichen) zwischen Leerzeichen (Leerzeichen, Tabulatoren, "
+"Zeilenumbrüche). In der Beispielzeichenkette unten beträgt die Anzahl der "
+"Wörter 9."
 
 #: ../../devel/reporting.rst:31
 msgid ""
 "For plural strings, the number of words is counted as the sum of words for "
 "all plural forms."
 msgstr ""
+"Bei Zeichenketten mit Pluralformen wird die Anzahl der Wörter als Summe der "
+"Wörter für alle Pluralformen gezählt."
 
 #: ../../devel/reporting.rst:37
 msgid "Translator credits"
@@ -38819,6 +39033,12 @@ msgid ""
 "useful companion for using Sphinx is the `Read the Docs`_ service, which "
 "will build and publish your documentation for free."
 msgstr ""
+"`Sphinx`_ ist ein Tool zur Erstellung schöner Dokumentationen. Es verwendet "
+"eine einfache reStructuredText-Syntax und kann Ausgaben in vielen Formaten "
+"erzeugen. Falls Sie nach einem Beispiel suchen, diese Dokumentation wurde "
+"ebenfalls mit Sphinx erstellt. Ein sehr nützlicher Begleiter für die "
+"Verwendung von Sphinx ist der Dienst `Read the Docs`_, der Ihre "
+"Dokumentation kostenlos erstellt und veröffentlicht."
 
 #: ../../devel/sphinx.rst:10
 msgid ""
@@ -38829,6 +39049,12 @@ msgid ""
 "intl`.  It's matter of few configuration directives and invoking of the "
 "``sphinx-intl`` tool."
 msgstr ""
+"Ich werde mich nicht auf das Schreiben der Dokumentation selbst "
+"konzentrieren. Wenn Sie dabei Hilfe benötigen, folgen Sie einfach den "
+"Anweisungen auf der `Sphinx`_-Website. Sobald Sie die Dokumentation fertig "
+"haben, ist das Übersetzen recht einfach, da Sphinx dies unterstützt und es "
+"in :ref:`sphinx:intl` sehr gut beschrieben ist. Es ist eine Frage von ein "
+"paar Konfigurationsanweisungen und dem Aufruf des ``sphinx-intl``-Tools."
 
 #: ../../devel/sphinx.rst:17
 msgid ""
@@ -38837,6 +39063,11 @@ msgid ""
 "pretty much everything you need - creating another project, set its language "
 "and link it from main project as a translation."
 msgstr ""
+"Wenn Sie den „Read the Docs“-Dienst nutzen, können Sie mit der Erstellung "
+"der übersetzten Dokumentation auf Read the Docs beginnen. Deren "
+":doc:`rtd:localization` deckt so ziemlich alles ab, was Sie brauchen – ein "
+"weiteres Projekt erstellen, dessen Sprache festlegen und es vom Hauptprojekt "
+"als Übersetzung verlinken."
 
 #: ../../devel/sphinx.rst:22
 msgid ""
@@ -38847,6 +39078,13 @@ msgid ""
 "component and then configure :ref:`addon-weblate.discovery.discovery` add-on "
 "to automatically discover all others."
 msgstr ""
+"Jetzt müssen Sie nur noch den Inhalt der Dokumentation übersetzen. Sphinx "
+"generiert PO-Dateien für jedes Verzeichnis oder jede Datei der obersten "
+"Ebene, was zu einer großen Anzahl von zu übersetzenden Dateien führen kann ("
+"abhängig von den :confval:`sphinx:gettext_compact`-Einstellungen). Sie "
+"können die Datei :file:`index.po` als erste Komponente in Weblate "
+"importieren und dann die Erweiterung :ref:`addon-weblate.discovery.discovery`"
+" so konfigurieren, dass alle anderen Dateien automatisch erkannt werden."
 
 #: ../../devel/sphinx.rst:33
 msgid "``Documentation``"
@@ -38887,12 +39125,16 @@ msgid ""
 "Would you prefer Sphinx to generate just single PO file? Since Sphinx 3.3.0 "
 "you can achieve this using:"
 msgstr ""
+"Möchten Sie, dass Sphinx nur eine einzige PO-Datei erzeugt? Seit Sphinx "
+"3.3.0 können Sie dies erreichen:"
 
 #: ../../devel/sphinx.rst:62
 msgid ""
 "You can find several documentation projects being translated using this "
 "approach:"
 msgstr ""
+"Es gibt mehrere Dokumentationsprojekte, die nach diesem Konzept übersetzt "
+"werden:"
 
 #: ../../devel/sphinx.rst:64
 msgid ""
@@ -38903,8 +39145,7 @@ msgstr ""
 
 #: ../../devel/sphinx.rst:65
 msgid "`Godot engine documentation <https://docs.godotengine.org/en/stable/>`_"
-msgstr ""
-"`Godot engine-Dokumentation <https://docs.godotengine.org/en/stable/>`_"
+msgstr "`Godot-Engine-Dokumentation <https://docs.godotengine.org/en/stable/>`_"
 
 #: ../../devel/sphinx.rst:66
 msgid "`Gallette documentation <https://doc.galette.eu/>`_"
@@ -38924,6 +39165,10 @@ msgid ""
 "will help you do so. Several typical situations are showcased, but most of "
 "the examples are generic and can be applied to other scenarios as well."
 msgstr ""
+"Sie haben ein Projekt und möchten es in mehrere Sprachen übersetzen? Diese "
+"Anleitung wird Ihnen dabei helfen. Es werden mehrere typische Situationen "
+"vorgestellt, aber die meisten Beispiele sind allgemeiner Art und können auch "
+"auf andere Szenarien angewendet werden."
 
 #: ../../devel/starting.rst:11
 msgid ""
@@ -38934,6 +39179,14 @@ msgid ""
 "handle plural forms because many languages have complex rules for that and "
 "the internationalization framework you end up using should support this."
 msgstr ""
+"Bevor Sie eine Software übersetzen, sollten Sie sich darüber im Klaren sein, "
+"dass Sprachen auf der ganzen Welt sehr unterschiedlich sind und Sie sollten "
+"keine Vermutungen aufgrund Ihrer Erfahrung anstellen. In den meisten "
+"Sprachen wird es seltsam aussehen, wenn Sie versuchen, einen Satz aus "
+"übersetzten Segmenten zusammenzufügen. Außerdem sollten Sie Pluralformen "
+"richtig behandeln, denn viele Sprachen haben dafür komplexe Regeln, und das "
+"Internationalisierungs-Framework, das Sie verwenden, sollte dies "
+"unterstützen."
 
 #: ../../devel/starting.rst:18
 msgid ""
@@ -38942,6 +39195,11 @@ msgid ""
 "translate. Without context most people would translate that as our closest "
 "star, but it might be actually used as an abbreviation for Sunday."
 msgstr ""
+"Zu guter Letzt kann es manchmal notwendig sein, der übersetzten Zeichenkette "
+"einen Kontext hinzuzufügen. Stellen Sie sich vor, ein Übersetzer bekäme die "
+"Zeichenkette ``Sun`` zum Übersetzen. Ohne Kontext würden die meisten "
+"Menschen dies als unseren nächstgelegenen Stern übersetzen, aber es könnte "
+"tatsächlich als Abkürzung für Sonntag verwendet werden."
 
 #: ../../devel/starting.rst:24
 msgid "Choosing internationalization framework"
@@ -38954,6 +39212,11 @@ msgid ""
 "supports most of the widely used frameworks, see :ref:`formats` for more "
 "information (especially :ref:`fmt_capabs`)."
 msgstr ""
+"Wählen Sie das, was auf Ihrer Plattform Standard ist. Versuchen Sie zu "
+"vermeiden, das Rad neu zu erfinden, indem Sie Ihr eigenes Framework für die "
+"Lokalisierung erstellen. Weblate unterstützt die meisten der weit "
+"verbreiteten Frameworks, siehe :ref:`formats` für weitere Informationen ("
+"insbesondere :ref:`fmt_capabs`)."
 
 #: ../../devel/starting.rst:31
 msgid ""
@@ -38961,14 +39224,18 @@ msgid ""
 "This is based on our experience, but that can not cover all use cases, so "
 "always consider your environment when doing the choice."
 msgstr ""
+"Unsere persönliche Empfehlung für einige Plattformen finden Sie in der "
+"folgenden Tabelle. Diese basiert auf unserer Erfahrung, kann aber nicht alle "
+"Anwendungsfälle abdecken, daher sollten Sie bei der Auswahl immer Ihre "
+"Einsatzumgebung berücksichtigen."
 
 #: ../../devel/starting.rst:36
 msgid "Platform"
-msgstr ""
+msgstr "Plattform"
 
 #: ../../devel/starting.rst:36
 msgid "Recommended format"
-msgstr ""
+msgstr "Empfohlenes Format"
 
 #: ../../devel/starting.rst:38
 msgid "Android"
@@ -38996,7 +39263,7 @@ msgstr ":ref:`qtling`"
 
 #: ../../devel/starting.rst:44
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #: ../../devel/starting.rst:44 ../../devel/starting.rst:48
 #: ../../devel/starting.rst:52 ../../formats.rst:51
@@ -39013,11 +39280,11 @@ msgstr ":ref:`gettext` [#php]_"
 
 #: ../../devel/starting.rst:48
 msgid "C/C++"
-msgstr ""
+msgstr "C/C++"
 
 #: ../../devel/starting.rst:50
 msgid "C#"
-msgstr ""
+msgstr "C#"
 
 #: ../../devel/starting.rst:50 ../../formats.rst:187
 msgid ":ref:`dotnet`"
@@ -39025,7 +39292,7 @@ msgstr ":ref:`dotnet`"
 
 #: ../../devel/starting.rst:52
 msgid "Perl"
-msgstr ""
+msgstr "Perl"
 
 #: ../../devel/starting.rst:54
 msgid "Ruby"
@@ -39037,7 +39304,7 @@ msgstr ":ref:`ryaml`"
 
 #: ../../devel/starting.rst:56
 msgid "Web extensions"
-msgstr ""
+msgstr "WebExtensions"
 
 #: ../../devel/starting.rst:56 ../../formats.rst:179 ../../formats/json.rst:24
 msgid ":ref:`webex`"
@@ -39053,7 +39320,7 @@ msgstr ":ref:`xliff` [#java]_"
 
 #: ../../devel/starting.rst:60
 msgid "JavaScript"
-msgstr ""
+msgstr "JavaScript"
 
 #: ../../devel/starting.rst:60
 msgid ":ref:`js-i18next` [#js]_"
@@ -39065,20 +39332,29 @@ msgid ""
 "builds, it is recommended to use third party library `motranslator <https://"
 "github.com/phpmyadmin/motranslator>`_ instead."
 msgstr ""
+"Die native Gettext-Unterstützung in PHP ist fehlerhaft und fehlt oft in "
+"Windows-Builds, es wird empfohlen, stattdessen die Drittanbieter-Bibliothek `"
+"motranslator <https://github.com/phpmyadmin/motranslator>`_ zu verwenden."
 
 #: ../../devel/starting.rst:71
 msgid "You can also use :ref:`javaprop` if plurals are not needed."
 msgstr ""
+"Es können auch :ref:`javaprop` verwendet werden, wenn Pluralformen nicht "
+"benötigt werden."
 
 #: ../../devel/starting.rst:75
 msgid "You can also use plain :ref:`json` if plurals are not needed."
 msgstr ""
+"Es können auch einfache :ref:`json` verwendet werden, wenn Pluralformen "
+"nicht benötigt werden."
 
 #: ../../devel/starting.rst:77
 msgid ""
 "The more detailed workflow for some formats is described in following "
 "chapters:"
 msgstr ""
+"Der detailliertere Arbeitsablauf für einige Formate wird in den folgenden "
+"Kapiteln beschrieben:"
 
 #: ../../devel/starting.rst:79
 msgid ":doc:`gettext`"
@@ -39105,6 +39381,8 @@ msgid ""
 "Weblate can be integrated into your framework using :doc:`/api`. This page "
 "lists third-party libraries which integrate Weblate."
 msgstr ""
+"Weblate kann mit :doc:`/api` in Ihr Framework integriert werden. Diese Seite "
+"listet Bibliotheken von Drittanbietern auf, die Weblate integrieren."
 
 #: ../../devel/thirdparty.rst:7
 msgid ""
@@ -39119,35 +39397,46 @@ msgid ""
 "`Weblate plugin for Figma <https://www.figma.com/community/"
 "plugin/1053050985172660071/weblate-integration>`_"
 msgstr ""
+"`Weblate-Plugin für Figma <https://www.figma.com/community/plugin/"
+"1053050985172660071/weblate-integration>`_"
 
 #: ../../devel/thirdparty.rst:9
 msgid ""
 "`WeblateFX, a JavaFX-based Weblate desktop client <https://github.com/"
 "javierllorente/weblatefx>`_"
 msgstr ""
+"`WeblateFX, ein JavaFX-basierter Weblate-Desktop-Client <https://github.com/"
+"javierllorente/weblatefx>`_"
 
 #: ../../devel/thirdparty.rst:10
 msgid ""
 "`JWeblate, a Java-based Weblate library <https://github.com/javierllorente/"
 "jweblate>`_"
 msgstr ""
+"`JWeblate, eine Java-basierte Weblate-Bibliothek <https://github.com/"
+"javierllorente/jweblate>`_"
 
 #: ../../devel/thirdparty.rst:11
 msgid ""
 "`Spring MessageSource backed by a Weblate server <https://github.com/"
 "porscheinformatik/weblate-spring>`_"
 msgstr ""
+"`Spring MessageSource, unterstützt durch einen Weblate-Server <https://github"
+".com/porscheinformatik/weblate-spring>`_"
 
 #: ../../devel/thirdparty.rst:12
 msgid ""
 "`GoLang API library for weblate <https://gitlab.com/gajdusek/goweblate>`_"
 msgstr ""
+"`GoLang-API-Bibliothek für Weblate <https://gitlab.com/gajdusek/goweblate>`_"
 
 #: ../../devel/thirdparty.rst:13
 msgid ""
 "`Perceval backends for Weblate <https://github.com/chaoss/grimoirelab-"
 "perceval-weblate>`_"
 msgstr ""
+"`Perceval-Backends für Weblate <https://github.com/chaoss/grimoirelab-"
+"perceval-weblate>`_"
 
 #: ../../devel/thirdparty.rst:17
 msgid ""
@@ -41728,7 +42017,7 @@ msgstr "`Inno Setup INI-Datei`"
 
 #: ../../formats/java.rst:5
 msgid "Java properties"
-msgstr "Java-Eigenschaften"
+msgstr "Java-Properties"
 
 #: ../../formats/java.rst:10
 msgid "Native Java format for translations."
@@ -41760,10 +42049,10 @@ msgid ""
 "ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:"
 "`addon-weblate.cleanup.generic`"
 msgstr ""
-"`Java-Eigenschaften auf Wikipedia <https://en.wikipedia.org/wiki/."
-"properties>`_, :doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:`gwt`, :"
-"ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:"
-"`addon-weblate.cleanup.generic`"
+"`Java-Properties auf Wikipedia <https://en.wikipedia.org/wiki/.properties>`"
+"_, :doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:`gwt`, :ref"
+":`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-"
+"weblate.cleanup.generic`"
 
 #: ../../formats/java.rst:46
 msgid "`Java Properties (ISO-8859-1)`"
@@ -42648,7 +42937,7 @@ msgid ""
 "by over 2500 libre projects and companies in more than 165 countries.**"
 msgstr ""
 "**Weblate ist Freie Software und ein webbasiertes, kontinuierliches "
-"Lokalisierungssystem, das von über 2500 Libre-Projekten und Unternehmen in "
+"Lokalisierungssystem, das von über 2500 Freien Projekten und Unternehmen in "
 "mehr als 165 Ländern genutzt wird.**"
 
 #: ../../../README.rst:9
@@ -42782,7 +43071,7 @@ msgstr ""
 
 #: ../../legal.rst:13
 msgid "Licensing compliance"
-msgstr ""
+msgstr "Einhaltung der Lizenzbestimmungen"
 
 #: ../../legal.rst:15
 msgid ""
