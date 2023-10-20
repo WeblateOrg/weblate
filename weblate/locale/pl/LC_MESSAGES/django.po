@@ -3,13 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Agnieszka C <aga_04@o2.pl>, 2023.
 # Maciej Olko <maciej.olko@gmail.com>, 2023.
+# WaldiS <sto@tutanota.de>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-16 12:13+0000\n"
-"PO-Revision-Date: 2023-10-15 07:01+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-10-20 15:42+0000\n"
+"Last-Translator: WaldiS <sto@tutanota.de>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.1\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -433,16 +434,12 @@ msgid "Access to project {project} was blocked"
 msgstr "Dostęp do projektu {project} został zablokowany"
 
 #: weblate/accounts/models.py:168
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was enabled by administrator"
-msgstr "Wiadomość została wysłana do administratora."
+msgstr "Użytkownik został włączony przez administratora"
 
 #: weblate/accounts/models.py:169
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was disabled by administrator"
-msgstr "Wiadomość została wysłana do administratora."
+msgstr "Użytkownik został wyłączony przez administratora"
 
 #: weblate/accounts/models.py:174
 msgid "Configured password to sign in."
@@ -477,15 +474,11 @@ msgstr ""
 "niewłaściwe."
 
 #: weblate/accounts/models.py:192 weblate/accounts/models.py:195
-#, fuzzy
-#| msgid ""
-#| "In case the confirmation link is expired, you can use password reset "
-#| "feature to gain access to your account."
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
-"W przypadku gdy link potwierdzający wygaśnie, możesz użyć funkcji "
-"resetowania hasła, aby uzyskać dostęp do swojego konta."
+"Jeśli to ty, skorzystaj z opcji resetowania hasła, aby odzyskać dostęp do "
+"swojego konta."
 
 #: weblate/accounts/models.py:312 weblate/templates/accounts/profile.html:291
 #: weblate/templates/accounts/user.html:242
@@ -2252,11 +2245,9 @@ msgid "Managers"
 msgstr "Menedżerowie"
 
 #: weblate/auth/data.py:248
-#, fuzzy
-#| msgid "Project Information"
 msgctxt "Access-control group"
 msgid "Project creators"
-msgstr "Informacje o projekcie"
+msgstr "Twórcy projektu"
 
 #: weblate/auth/data.py:257
 msgctxt "Per-project access-control group"
@@ -4528,7 +4519,7 @@ msgstr "Typ liczby mnogiej"
 
 #: weblate/lang/models.py:879
 msgid "Example counts for this plural form."
-msgstr ""
+msgstr "Przykład dla tej formy liczby mnogiej."
 
 #: weblate/lang/models.py:888
 msgid "Singular"
@@ -6964,10 +6955,8 @@ msgstr "Pobierz pliki tłumaczeń w formacie ZIP"
 
 #: weblate/templates/category.html:49 weblate/templates/component.html:56
 #: weblate/templates/language-project.html:35 weblate/templates/project.html:56
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as CSV in a ZIP file"
-msgstr "Pobierz pliki tłumaczeń w formacie ZIP"
+msgstr "Pobierz tłumaczenia jako CSV w pliku ZIP"
 
 #: weblate/templates/category.html:50 weblate/templates/component.html:57
 #: weblate/templates/language-project.html:36 weblate/templates/project.html:57
@@ -7548,10 +7537,9 @@ msgid "Translate"
 msgstr "Przetłumacz"
 
 #: weblate/templates/engage.html:68
-#, fuzzy, python-format
-#| msgid "%(language)s glossary for %(project)s"
+#, python-format
 msgid "%(language)s in %(project)s"
-msgstr "%(language)s słownik dla %(project)s"
+msgstr "%(language)s w %(project)s"
 
 #: weblate/templates/engage.html:70
 msgid "View project languages"
@@ -8424,11 +8412,9 @@ msgid "New language request in %(component)s"
 msgstr "Prośba o nowy język w %(component)s"
 
 #: weblate/templates/mail/new_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "New string to translate in %(translation)s"
-msgstr "Nowy ciąg do przetłumaczenia w projekcie %(translation)s"
+msgstr "Nowy ciąg znaków do przetłumaczenia w %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:9
 msgid "Suggestion"
@@ -8527,14 +8513,12 @@ msgid "Password reset on %(site_title)s"
 msgstr "Resetowanie hasła na stronie %(site_title)s"
 
 #: weblate/templates/mail/shared-activity.html:18
-#, fuzzy
-#| msgid "If this was not done by you, report it by clicking the button below."
 msgid ""
 "If you didn’t initiate this, please report it to the server administrators "
 "by clicking the button below."
 msgstr ""
-"Jeśli nie zostało to zrobione przez Ciebie, zgłoś to, klikając przycisk "
-"poniżej."
+"Jeśli nie zainicjowałeś tego, zgłoś to administratorom serwera, klikając "
+"poniższy przycisk."
 
 #: weblate/templates/mail/shared-activity.html:22
 msgid "Report"
@@ -10428,17 +10412,12 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/common-repo.html:16
-#, fuzzy
-#| msgid ""
-#| "Your push URL seems to miss credentials. Either provide them in the URL "
-#| "or use SSH with key based authentication."
 msgid ""
 "Your repository URL seems to miss credentials. Either provide them in the "
 "URL or use SSH with key based authentication."
 msgstr ""
-"Wygląda na to że, twój adres URL wypychania zmian nie posiada odpowiednich "
-"uprawnień. Podaj je w adresie URL lub użyj SSH z uwierzytelnianiem opartym "
-"na kluczu."
+"Wydaje się, że w adresie URL repozytorium brakuje poświadczeń. Podaj je w "
+"adresie URL lub użyj SSH z uwierzytelnianiem opartym na kluczach."
 
 #: weblate/templates/trans/alert/common-repo.html:20
 msgid "You might want to use following URL instead:"
@@ -10735,7 +10714,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Update VCS repository"
 msgid "Update the repository"
-msgstr "Aktualizacja repozytorium VCS"
+msgstr "Zaktualizuj repozytorium"
 
 #: weblate/templates/trans/backups.html:21
 msgid "There are currently no backups."
