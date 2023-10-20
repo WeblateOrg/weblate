@@ -139,7 +139,7 @@ Pango, Cairo and related header files and GObject introspection data
     https://pypi.org/project/git-review/
 ``git-svn`` (optional for Subversion support)
     https://git-scm.com/docs/git-svn
-``tesseract`` and its data (optional for screenshots OCR)
+``tesseract`` (needed only if :program:`tesserocr` binary wheels are not available for your system)
     https://github.com/tesseract-ocr/tesseract
 ``licensee`` (optional for detecting license when creating component)
     https://github.com/licensee/licensee
