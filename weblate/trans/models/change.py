@@ -391,9 +391,9 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_AGREEMENT_CHANGE, gettext_lazy("Contributor agreement changed")),
         # Translators: Name of event in the history
-        (ACTION_SCREENSHOT_ADDED, gettext_lazy("Screnshot added")),
+        (ACTION_SCREENSHOT_ADDED, gettext_lazy("Screenshot added")),
         # Translators: Name of event in the history
-        (ACTION_SCREENSHOT_UPLOADED, gettext_lazy("Screnshot uploaded")),
+        (ACTION_SCREENSHOT_UPLOADED, gettext_lazy("Screenshot uploaded")),
         # Translators: Name of event in the history
         (ACTION_STRING_REPO_UPDATE, gettext_lazy("String updated in the repository")),
         # Translators: Name of event in the history
