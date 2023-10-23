@@ -136,7 +136,7 @@ function screenshotFailure() {
 }
 
 function screenshotAddString() {
-  var pk = $(this).data("pk");
+  var pk = this.getAttribute("data-pk");
   var form = $("#screenshot-add-form");
 
   $("#add-source").val(pk);
@@ -185,7 +185,7 @@ function isNumber(n) {
 }
 
 function extractText(cell) {
-  var value = $(cell).data("value");
+  var value = cell.getAttribute("data-value");
   if (typeof value !== "undefined") {
     return value;
   }
@@ -587,13 +587,15 @@ $(function () {
     var $this = $(this);
     var $form = $("#link-post");
 
-    if ($this.data("action")) {
+    var action = this.getAttribute("data-action");
+
+    if (action) {
       $.ajax({
         type: "POST",
-        url: $this.data("action"),
+        url: action,
         data: {
           csrfmiddlewaretoken: $form.find("input").val(),
-          id: $this.data("id"),
+          id: this.getAttribute("data-id"),
         },
         error: function (jqXHR, textStatus, errorThrown) {
           addAlert(errorThrown);
@@ -660,9 +662,9 @@ $(function () {
     $("#screenshotModal").text($this.attr("title"));
 
     var detailsLink = $("#modalDetailsLink");
-    detailsLink.attr("href", $this.data("details-url"));
-    if ($this.data("can-edit")) {
-      detailsLink.text(detailsLink.data("edit-text"));
+    detailsLink.attr("href", this.getAttribute("data-details-url"));
+    if (this.getAttribute("data-can-edit")) {
+      detailsLink.text(detailsLink.getAttribute("data-edit-text"));
     }
 
     $("#imagemodal").modal("show");
@@ -675,7 +677,7 @@ $(function () {
     screenshotStart();
     $.ajax({
       type: "POST",
-      url: $this.data("href"),
+      url: this.getAttribute("data-href"),
       data: $this.parent().serialize(),
       dataType: "json",
       success: screenshotLoaded,
