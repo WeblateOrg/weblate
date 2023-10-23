@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-16 14:13+0200\n"
-"PO-Revision-Date: 2023-10-20 21:51+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-10-24 06:00+0000\n"
+"Last-Translator: Vlăduț Ilie <vladilie94@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ro/>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.1.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -1124,7 +1124,7 @@ msgstr "Lista de privilegii și roluri încorporate"
 #: ../../admin/access.rst:484 ../../admin/optionals.rst:266
 #: ../../user/checks.rst:0
 msgid "Scope"
-msgstr "Domeni de aplicare"
+msgstr "Domeniu de aplicare"
 
 #: ../../admin/access.rst:484
 msgid "Permission"
@@ -1733,7 +1733,7 @@ msgstr "``mode``"
 
 #: ../../admin/addons.rst:28 ../../api.rst:1895
 msgid "Automatic translation mode"
-msgstr "Modul de traducere automată"
+msgstr "Mod traducere automată"
 
 #: ../../admin/addons.rst:28 ../../admin/addons.rst:38
 #: ../../admin/addons.rst:50 ../../admin/addons.rst:334
@@ -1798,7 +1798,7 @@ msgstr "``auto_source``"
 
 #: ../../admin/addons.rst:50
 msgid "Source of automated translations"
-msgstr "Sursa de traduceri automate"
+msgstr "Sursa traducerilor automate"
 
 #: ../../admin/addons.rst:52
 msgid "``others`` -- Other translation components"
@@ -1817,8 +1817,8 @@ msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Introduceți slug-ul unei componente care urmează să fie utilizată ca sursă, "
-"păstrați spațiul gol pentru a utiliza toate componentele din proiectul "
+"Introdu descriptorul unei componente care urmează să fie utilizată ca sursă, "
+"păstrează spațiul gol pentru a utiliza toate componentele din proiectul "
 "curent."
 
 #: ../../admin/addons.rst:58
@@ -2626,7 +2626,7 @@ msgstr "``state``"
 
 #: ../../admin/addons.rst:334
 msgid "State to set"
-msgstr "Stat pentru a seta"
+msgstr "Stare de setat"
 
 #: ../../admin/addons.rst:336
 msgid "``-1`` -- Do not change"
@@ -2674,7 +2674,7 @@ msgstr "``remove_labels``"
 
 #: ../../admin/addons.rst:350
 msgid "Labels to remove"
-msgstr "Etichete de îndepărtat"
+msgstr "Etichete de eliminat"
 
 #: ../../admin/addons.rst:352
 msgid "component update"
@@ -20236,7 +20236,7 @@ msgstr ":setare:`SECRET_KEY`"
 
 #: ../../admin/projects.rst:135
 msgid "URL slug"
-msgstr "URL slug"
+msgstr "Descriptor URL"
 
 #: ../../admin/projects.rst:137
 msgid "Project name suitable for URLs."
@@ -20656,7 +20656,7 @@ msgstr "Ce ramură să verificați din VCS și unde să căutați traducerile."
 
 #: ../../admin/projects.rst:403
 msgid "Push branch"
-msgstr "Împingeți ramura"
+msgstr "Încarcă ramură"
 
 #: ../../admin/projects.rst:405
 msgid "Branch for pushing changes, leave empty to use :ref:`component-branch`."
@@ -21112,7 +21112,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:662
 msgid "Point to translation instructions URL"
-msgstr "Indicați instrucțiunile de traducere URL"
+msgstr "Indică URL-ul către instrucțiunile de traducere"
 
 #: ../../admin/projects.rst:661
 msgid ""
@@ -21139,7 +21139,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:668
 msgid "Disable adding new translations"
-msgstr "Dezactivați adăugarea de noi traduceri"
+msgstr "Dezactivează adăugarea de traduceri noi"
 
 #: ../../admin/projects.rst:668
 msgid "There will be no option for user to start new translation."
@@ -21243,7 +21243,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:726
 msgid "Default based on the file format"
-msgstr "Implicit, în funcție de formatul fișierului"
+msgstr "Implicit, pe baza formatului fișierului"
 
 #: ../../admin/projects.rst:727
 msgid "Dependent on file format, for most of them POSIX is used."
@@ -21253,7 +21253,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:729
 msgid "POSIX style using underscore as a separator"
-msgstr "Stil POSIX care utilizează sublinierea ca separator"
+msgstr "Stil POSIX care utilizează liniuța-jos ca separator"
 
 #: ../../admin/projects.rst:729
 msgid ""
@@ -21266,7 +21266,7 @@ msgstr ""
 #: ../../admin/projects.rst:732
 msgid "POSIX style using underscore as a separator, including country code"
 msgstr ""
-"Stil POSIX care utilizează sublinierea ca separator, inclusiv codul de țară"
+"Stil POSIX care utilizează liniuța-jos ca separator, inclusiv codul de țară"
 
 #: ../../admin/projects.rst:732
 msgid ""
@@ -21277,13 +21277,12 @@ msgstr ""
 "(de exemplu ``cs_CZ``)."
 
 #: ../../admin/projects.rst:735
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator, including country code"
 msgid ""
 "POSIX style using underscore as a separator, including country code "
 "(lowercase)"
 msgstr ""
-"Stil POSIX care utilizează sublinierea ca separator, inclusiv codul de țară"
+"Stil POSIX care utilizează liniuța-jos ca separator, inclusiv codul de țară ("
+"cu minuscule)"
 
 #: ../../admin/projects.rst:735
 #, fuzzy
@@ -21299,7 +21298,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:738
 msgid "BCP style using hyphen as a separator"
-msgstr "Stilul BCP care utilizează cratima ca separator"
+msgstr "Stil BCP care utilizează cratima ca separator"
 
 #: ../../admin/projects.rst:738
 msgid ""
@@ -21323,7 +21322,7 @@ msgstr ""
 #: ../../admin/projects.rst:743
 msgid "BCP style using hyphen as a separator, legacy language codes"
 msgstr ""
-"Stilul BCP care utilizează cratima ca separator, coduri de limbă moștenite"
+"Stil BCP care utilizează cratima ca separator, coduri de limbă moștenite"
 
 #: ../../admin/projects.rst:744
 msgid "Uses legacy codes for Chinese and BCP style notation."
@@ -21331,17 +21330,15 @@ msgstr "Folosește coduri vechi pentru notele în stil chinezesc și BCP."
 
 #: ../../admin/projects.rst:745
 msgid "BCP style using hyphen as a separator, lower cased"
-msgstr "Stil BCP, folosind cratima ca separator, cu litere minuscule"
+msgstr "Stil BCP, care folosește cratima ca separator, cu minuscule"
 
 #: ../../admin/projects.rst:746
 msgid "BCP style notation, all in lower case (for example ``cs-cz``)."
 msgstr "Notație în stilul BCP, toate în minuscule (de exemplu ``cs-cz``)."
 
 #: ../../admin/projects.rst:747
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Apple App Store metadata style"
-msgstr "Stilul metadatelor din magazinul de aplicații"
+msgstr "Stil metadate din App Store Apple"
 
 #: ../../admin/projects.rst:748
 #, fuzzy
@@ -21355,10 +21352,8 @@ msgstr ""
 "Google Play Store."
 
 #: ../../admin/projects.rst:749
-#, fuzzy
-#| msgid "App store metadata style"
 msgid "Google Play metadata style"
-msgstr "Stilul metadatelor din magazinul de aplicații"
+msgstr "Stil metadate din Google Play"
 
 #: ../../admin/projects.rst:750
 #, fuzzy
@@ -21418,7 +21413,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:780
 msgid "Rebase"
-msgstr "rebazare"
+msgstr "Rebazează"
 
 #: ../../admin/projects.rst:773
 msgid ""
@@ -24765,8 +24760,8 @@ msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
-"Activați contribuția la memoria de traducere partajată pentru proiect pentru "
-"a avea acces la componente suplimentare."
+"Activează contribuția la memoria de traducere partajată pentru proiect "
+"pentru a avea acces la componente suplimentare."
 
 #: ../../api.rst:1904
 msgid ""
@@ -24829,11 +24824,11 @@ msgstr "Fișier încărcat"
 
 #: ../../api.rst:1936
 msgid "Author e-mail"
-msgstr "E-mail de autor"
+msgstr "E-mail autor"
 
 #: ../../api.rst:1937
 msgid "Author name"
-msgstr "Numele autorului"
+msgstr "Nume autor"
 
 #: ../../api.rst:1938
 msgid ""
@@ -42162,7 +42157,7 @@ msgstr ":ref:`custom-checks`, :ref:`glossary-variants`"
 
 #: ../../formats.rst:463
 msgid "Context"
-msgstr "Contextul"
+msgstr "Context"
 
 #: ../../formats.rst:465
 #, fuzzy
@@ -47121,7 +47116,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1327
 msgid "Reused translation"
-msgstr "Traducerea refolosită"
+msgstr "Traducere refolosită"
 
 #: ../../user/checks.rst:1331
 msgid "Different strings are translated the same."
@@ -50561,7 +50556,7 @@ msgstr ""
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
-msgstr "Integrarea controlului versiunilor"
+msgstr "Integrare control versiune"
 
 #: ../../vcs.rst:6
 #, fuzzy
@@ -51928,7 +51923,7 @@ msgstr ""
 
 #: ../../workflows.rst:16
 msgid "Workflow customization"
-msgstr "Personalizarea fluxului de lucru"
+msgstr "Personalizare flux de lucru"
 
 #: ../../workflows.rst:18
 msgid ""
@@ -52046,7 +52041,7 @@ msgstr ""
 
 #: ../../workflows.rst:71
 msgid "Waiting for review"
-msgstr "În așteptare pentru revizuire"
+msgstr "Revizuire în așteptare"
 
 #: ../../workflows.rst:71
 msgid ""
