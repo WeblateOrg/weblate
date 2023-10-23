@@ -211,7 +211,7 @@ def handle_addon_error(addon, component):
 
 def handle_addon_event(sender, component, event_type, **kwargs):
     """Executing addon event for a particular event type."""
-    event_string = EVENT_STRING.get(event_type)
+    event_string = EVENT_STRING[event_type]
     translation = kwargs.get("translation")
     for addon in Addon.objects.filter_event(component, event_type):
         translation.log_debug(f"running {event_string} add-on: {addon.name}")
