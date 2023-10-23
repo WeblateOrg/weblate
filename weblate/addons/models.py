@@ -279,7 +279,9 @@ def pre_update(sender, component, **kwargs):
 @receiver(vcs_pre_commit)
 def pre_commit(sender, translation, author, **kwargs):
     component = translation.component
-    handle_addon_event(sender, component, EVENT_PRE_COMMIT, translation=translation, store=author)
+    handle_addon_event(
+        sender, component, EVENT_PRE_COMMIT, translation=translation, store=author
+    )
 
 
 @receiver(vcs_post_commit)
@@ -297,7 +299,9 @@ def post_add(sender, translation, **kwargs):
 def unit_pre_create_handler(sender, unit, **kwargs):
     translation = unit.translation
     component = translation.component
-    handle_addon_event(sender, component, EVENT_UNIT_PRE_CREATE, translation=translation, store=unit)
+    handle_addon_event(
+        sender, component, EVENT_UNIT_PRE_CREATE, translation=translation, store=unit
+    )
 
 
 @receiver(post_save, sender=Unit)
@@ -305,11 +309,17 @@ def unit_pre_create_handler(sender, unit, **kwargs):
 def unit_post_save_handler(sender, instance, created, **kwargs):
     translation = instance.translation
     component = translation.component
-    handle_addon_event(sender, component, EVENT_UNIT_POST_SAVE, translation=translation, store=created)
+    handle_addon_event(
+        sender, component, EVENT_UNIT_POST_SAVE, translation=translation, store=created
+    )
 
 
 @receiver(store_post_load)
 def store_post_load_handler(sender, translation, store, **kwargs):
     handle_addon_event(
-        sender, translation.component, EVENT_STORE_POST_LOAD, translation=translation, store=store
+        sender,
+        translation.component,
+        EVENT_STORE_POST_LOAD,
+        translation=translation,
+        store=store,
     )
