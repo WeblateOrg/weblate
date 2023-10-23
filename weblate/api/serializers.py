@@ -597,7 +597,7 @@ class ComponentSerializer(RemovableSerializer):
             result["repo"] = None
             result["branch"] = None
             result["filemask"] = None
-            result["screnshot_filemask"] = None
+            result["screenshot_filemask"] = None
             result["push"] = None
         return result
 

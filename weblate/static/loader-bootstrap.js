@@ -157,7 +157,7 @@ function screenshotAddString() {
   });
 }
 
-function screnshotResultError(severity, message) {
+function screenshotResultError(severity, message) {
   $("#search-results tbody.unit-listing-body").html(
     $("<tr/>")
       .addClass(severity)
@@ -168,9 +168,9 @@ function screnshotResultError(severity, message) {
 function screenshotLoaded(data) {
   decreaseLoading("screenshots");
   if (data.responseCode !== 200) {
-    screnshotResultError("danger", gettext("Error loading search results!"));
+    screenshotResultError("danger", gettext("Error loading search results!"));
   } else if (data.results.length === 0) {
-    screnshotResultError(
+    screenshotResultError(
       "warning",
       gettext("No new matching source strings found."),
     );
