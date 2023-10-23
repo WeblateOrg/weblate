@@ -283,6 +283,11 @@ of upgrading.
       docker compose rm -v database
       docker volume remove weblate-docker_postgres-data
 
+   .. hint::
+
+      The volume name contains name of the Docker Compose project, which is by
+      default the directory name what is ``weblate-docker`` in this documentation.
+
 5. Adjust :file:`docker-compose.yml` to use new PostgreSQL version.
 
 6. Start the database container:
