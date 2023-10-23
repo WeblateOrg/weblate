@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-16 14:13+0200\n"
-"PO-Revision-Date: 2023-10-22 20:19+0000\n"
+"PO-Revision-Date: 2023-10-24 06:00+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.1.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -3725,7 +3725,7 @@ msgstr "Supportstatus, siehe :doc:`support`"
 
 #: ../../admin/admin.rst:15
 msgid "Backups, see :doc:`backup`"
-msgstr "Backups, siehe :doc:`backup`"
+msgstr "Sicherungen, siehe :doc:`backup`"
 
 #: ../../admin/admin.rst:16
 msgid "Shared translation memory, see :doc:`memory`"
@@ -4780,8 +4780,8 @@ msgid ""
 "Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ "
 "as a database."
 msgstr ""
-"Die Wiederherstellung von Backups wird nur unterstützt, wenn PostgreSQL oder "
-"MariaDB 10.5+ als Datenbank verwendet wird."
+"Die Wiederherstellung von Sicherungen wird nur unterstützt, wenn PostgreSQL "
+"oder MariaDB 10.5+ als Datenbank verwendet wird."
 
 #: ../../admin/backup.rst:17
 msgid ""
@@ -4828,9 +4828,10 @@ msgid ""
 "`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it "
 "defaults to keep at most 3 backups for 30 days)."
 msgstr ""
-"Die erzeugten Backups werden auf dem Server aufbewahrt, wie durch :setting:"
-"`PROJECT_BACKUP_KEEP_DAYS` und :setting:`PROJECT_BACKUP_KEEP_COUNT` "
-"konfiguriert (standardmäßig werden maximal 3 Backups für 30 Tage aufbewahrt)."
+"Die erzeugten Sicherungen werden auf dem Server aufbewahrt, wie durch "
+":setting:`PROJECT_BACKUP_KEEP_DAYS` und :setting:`PROJECT_BACKUP_KEEP_COUNT` "
+"konfiguriert (standardmäßig werden maximal 3 Sicherungen für 30 Tage "
+"aufbewahrt)."
 
 #: ../../admin/backup.rst:36
 msgid "Automated backup using BorgBackup"
@@ -4843,10 +4844,10 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface from the :guilabel:`Backups` tab."
 msgstr ""
-"Weblate hat integrierte Unterstützung für die Erstellung von Service-Backups "
-"mit `BorgBackup`_. Borg erstellt platzsparende verschlüsselte Backups, die "
-"sicher in der Cloud gespeichert werden können. Die Backups können in der "
-"Verwaltungsoberfläche über den Reiter :guilabel:`Sicherungen` gesteuert "
+"Weblate bietet integrierte Unterstützung für das Erstellen von Sicherungen "
+"mit `BorgBackup`_. Borg erstellt platzsparende verschlüsselte Sicherungen, "
+"die sicher in der Cloud gespeichert werden können. Die Sicherungen können in "
+"der Verwaltungsoberfläche über den Reiter :guilabel:`Sicherungen` gesteuert "
 "werden."
 
 #: ../../admin/backup.rst:45
@@ -4855,27 +4856,27 @@ msgid ""
 "backups."
 msgstr ""
 "Sowohl PostgreSQL- als auch MySQL/MariaDB-Datenbanken sind in den "
-"automatischen Backups enthalten."
+"automatischen Sicherungen enthalten."
 
 #: ../../admin/backup.rst:47
 msgid ""
 "The backups using Borg are incremental and Weblate is configured to keep "
 "following backups:"
 msgstr ""
-"Die Backups mit Borg sind inkrementell, und Weblate ist so konfiguriert, "
-"dass die folgenden Backups beibehalten werden:"
+"Die Sicherungen mit Borg sind inkrementell, und Weblate ist so konfiguriert, "
+"dass die folgenden Sicherungen beibehalten werden:"
 
 #: ../../admin/backup.rst:49
 msgid "Daily backups for 14 days back"
-msgstr "Tägliche Backups der letzten 14 Tage"
+msgstr "Tägliche Sicherungen der letzten 14 Tage"
 
 #: ../../admin/backup.rst:50
 msgid "Weekly backups for 8 weeks back"
-msgstr "Wöchentliche Backups der letzten 8 Wochen"
+msgstr "Wöchentliche Sicherungen der letzten 8 Wochen"
 
 #: ../../admin/backup.rst:51
 msgid "Monthly backups for 6 months back"
-msgstr "Monatliche Backups der letzten 6 Monate"
+msgstr "Monatliche Sicherungen der letzten 6 Monate"
 
 #: ../../admin/backup.rst:58
 msgid "Borg encryption key"
@@ -4887,10 +4888,10 @@ msgid ""
 "them without the passphrase. The passphrase is generated when adding a new "
 "backup service and you should copy it and keep it in a secure place."
 msgstr ""
-"`BorgBackup`_ erstellt verschlüsselte Backups, die Sie ohne die Passphrase "
-"nicht wiederherstellen können. Die Passphrase wird beim Hinzufügen eines "
-"neuen Backup-Dienstes generiert und Sie sollten sie kopieren und an einem "
-"sicheren Ort aufbewahren."
+"`BorgBackup`_ erstellt verschlüsselte Sicherungen, die Sie ohne die "
+"Passphrase nicht wiederherstellen können. Die Passphrase wird beim "
+"Hinzufügen eines neuen Sicherungsdienstes generiert und Sie sollten diese "
+"kopieren und an einem sicheren Ort aufbewahren."
 
 #: ../../admin/backup.rst:64
 msgid ""
@@ -4898,7 +4899,7 @@ msgid ""
 "as it’s used to access your backups."
 msgstr ""
 "Wenn Sie :ref:`cloudbackup` verwenden, sichern Sie bitte auch Ihren privaten "
-"SSH-Schlüssel, da dieser für den Zugriff auf Ihre Backups verwendet wird."
+"SSH-Schlüssel, da dieser für den Zugriff auf Ihre Sicherungen verwendet wird."
 
 #: ../../admin/backup.rst:69
 msgid ":doc:`borg:usage/init`"
@@ -4906,12 +4907,12 @@ msgstr ":doc:`borg:usage/init`"
 
 #: ../../admin/backup.rst:72
 msgid "Customizing backup"
-msgstr "Backup anpassen"
+msgstr "Sicherung anpassen"
 
 #: ../../admin/backup.rst:74
 msgid "The database backup can be configured via :setting:`DATABASE_BACKUP`."
 msgstr ""
-"Das Datenbank-Backup kann über :setting:`DATABASE_BACKUP` konfiguriert "
+"Die Datenbanksicherung kann über :setting:`DATABASE_BACKUP` konfiguriert "
 "werden."
 
 #: ../../admin/backup.rst:75
@@ -4922,7 +4923,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:80
 msgid "Weblate provisioned backup storage"
-msgstr "Von Weblate bereitgestellter Backup-Speicher"
+msgstr "Von Weblate bereitgestellter Sicherungsspeicher"
 
 #: ../../admin/backup.rst:82
 msgid ""
@@ -4930,14 +4931,14 @@ msgid ""
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
 "is how you get it running:"
 msgstr ""
-"Der einfachste Weg, Ihre Weblate-Instanz zu sichern, ist der Erwerb des "
-"`Backup-Service unter weblate.org <https://weblate.org/support/#backup>`_. "
+"Der einfachste Weg, Ihre Weblate-Instanz zu sichern, ist der Erwerb des `"
+"Sicherungsdienst unter weblate.org <https://weblate.org/support/#backup>`_. "
 "So bringen Sie ihn zum Laufen:"
 
 #: ../../admin/backup.rst:86
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
 msgstr ""
-"Erwerben Sie den `Backup-Dienst` auf https://weblate.org/support/#backup."
+"Erwerben Sie den `Sicherungsdienst` auf https://weblate.org/support/#backup."
 
 #: ../../admin/backup.rst:87
 msgid ""
@@ -4966,7 +4967,7 @@ msgid ""
 "Backup your Borg credentials to be able to restore the backups, see :ref:"
 "`borg-keys`."
 msgstr ""
-"Sichern Sie Ihre Borg-Zugangsdaten, um die Backups wiederherstellen zu "
+"Sichern Sie Ihre Borg-Zugangsdaten, um die Sicherungen wiederherstellen zu "
 "können, siehe :ref:`borg-keys`."
 
 #: ../../admin/backup.rst:94
@@ -4976,12 +4977,12 @@ msgid ""
 "registration process."
 msgstr ""
 "Der manuelle Schritt, alles einzuschalten, dient Ihrer Sicherheit. Ohne Ihre "
-"Zustimmung werden keine Daten an den Backup-Speicher gesendet, den Sie durch "
-"den Registrierungsprozess erhalten haben."
+"Zustimmung werden keine Daten an das Sicherungs-Repository gesendet, welches "
+"Sie durch den Registrierungsprozess erhalten haben."
 
 #: ../../admin/backup.rst:101
 msgid "Using custom backup storage"
-msgstr "Verwendung von eigenem Backup-Speicher"
+msgstr "Verwendung von eigenem Sicherungsspeicher"
 
 #: ../../admin/backup.rst:103
 msgid ""
@@ -4989,9 +4990,9 @@ msgid ""
 "backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
-"Sie können auch Ihren eigenen Speicher für die Backups verwenden. SSH kann "
-"verwendet werden, um Backups im Remote-Ziel zu speichern, der Zielserver "
-"muss `BorgBackup`_ installiert haben."
+"Sie können auch Ihren eigenen Speicher für die Sicherungen verwenden. SSH "
+"kann verwendet werden, um Sicherungen im Remote-Ziel zu speichern, der "
+"Zielserver muss `BorgBackup`_ installiert haben."
 
 #: ../../admin/backup.rst:109
 msgid ":doc:`borg:usage/general` in the Borg documentation"
@@ -5008,11 +5009,11 @@ msgid ""
 "running Weblate (see :ref:`file-permissions`). If it doesn't exist, Weblate "
 "attempts to create it but needs the appropriate permissions to do so."
 msgstr ""
-"Es wird empfohlen, den absoluten Pfad für das lokale Backup anzugeben, zum "
-"Beispiel `/path/to/backup`. Das Verzeichnis muss für den Benutzer, unter dem "
-"Weblate läuft, beschreibbar sein (siehe :ref:`file-permissions`). Existiert "
-"es nicht, versucht Weblate, es zu erstellen, benötigt dafür aber die "
-"entsprechenden Berechtigungen."
+"Es wird empfohlen, den absoluten Pfad für die lokale Sicherung anzugeben, "
+"zum Beispiel `/path/to/backup`. Das Verzeichnis muss für den Benutzer, unter "
+"dem Weblate läuft, beschreibbar sein (siehe :ref:`file-permissions`). "
+"Existiert es nicht, versucht Weblate, es zu erstellen, benötigt dafür aber "
+"die entsprechenden Berechtigungen."
 
 #: ../../admin/backup.rst:121
 msgid ""
@@ -5021,16 +5022,16 @@ msgid ""
 "discarded by Docker upon restarting the container it is in."
 msgstr ""
 "Wenn Sie Weblate in Docker ausführen, stellen Sie bitte sicher, dass der "
-"Speicherort des Backups vom Weblate-Container als Volume freigegeben wird. "
-"Andernfalls werden die Backups beim Neustart des Containers, in dem sie sich "
-"befinden, von Docker verworfen."
+"Speicherort der Sicherung vom Weblate-Container als Volume freigegeben wird. "
+"Andernfalls werden die Sicherungen beim Neustart des Containers, in dem sie "
+"sich befinden, von Docker verworfen."
 
 #: ../../admin/backup.rst:125
 msgid ""
 "One option is to place backups into an existing volume, for example :file:`/"
 "app/data/borgbackup`. This is an existing volume in the container."
 msgstr ""
-"Eine Möglichkeit ist, Backups in ein bestehendes Volume zu legen, zum "
+"Eine Möglichkeit ist, Sicherungen in ein bestehendes Volume zu legen, zum "
 "Beispiel :file:`/app/data/borgbackup`. Dies ist ein vorhandenes Volume im "
 "Container."
 
@@ -5039,20 +5040,21 @@ msgid ""
 "You can also add a new container for the backups in the Docker Compose file "
 "for example by using :file:`/borgbackup`:"
 msgstr ""
-"Sie können auch einen neuen Container für die Backups in der Docker-Compose-"
-"Datei hinzufügen, indem Sie beispielsweise :file:`/borgbackup` verwenden:"
+"Sie können auch einen neuen Container für die Sicherungen in der Docker-"
+"Compose-Datei hinzufügen, indem Sie beispielsweise :file:`/borgbackup` "
+"verwenden:"
 
 #: ../../admin/backup.rst:139
 msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
 msgstr ""
-"Das Verzeichnis, in dem die Backups gespeichert werden, muss der UID 1000 "
-"gehören, ansonsten kann Weblate die Backups nicht dorthin schreiben."
+"Das Verzeichnis, in dem die Sicherungen gespeichert werden, muss der UID "
+"1000 gehören, ansonsten kann Weblate die Sicherungen nicht dorthin schreiben."
 
 #: ../../admin/backup.rst:143
 msgid "Remote backups"
-msgstr "Remote-Backups"
+msgstr "Remote-Sicherungen"
 
 #: ../../admin/backup.rst:145
 msgid ""
@@ -5060,14 +5062,14 @@ msgid ""
 "another server that’s accessible for your Weblate deployment via SSH using "
 "the Weblate SSH key:"
 msgstr ""
-"Um Remote-Backups zu erstellen, müssen Sie `BorgBackup`_ auf einem anderen "
-"Server installieren, der für Ihre Weblate-Installation über SSH mit dem "
-"Weblate-SSH-Schlüssel erreichbar ist:"
+"Um Remote-Sicherungen zu erstellen, müssen Sie `BorgBackup`_ auf einem "
+"anderen Server installieren, der für Ihre Weblate-Installation über SSH mit "
+"dem Weblate-SSH-Schlüssel erreichbar ist:"
 
 #: ../../admin/backup.rst:149
 msgid "Prepare a server where your backups will be stored."
 msgstr ""
-"Bereiten Sie einen Server vor, auf dem Ihre Backups gespeichert werden "
+"Bereiten Sie einen Server vor, auf dem Ihre Sicherungen gespeichert werden "
 "sollen."
 
 #: ../../admin/backup.rst:150
@@ -5108,15 +5110,15 @@ msgid ""
 "Configure the backup location in Weblate as ``user@host:/path/to/backups`` "
 "or ``ssh://user@host:port/path/to/backups``."
 msgstr ""
-"Konfigurieren Sie den Backup-Speicherort in Weblate als ``user@host:/path/to/"
-"backups`` oder ``ssh://user@host:port/path/to/backups``."
+"Konfigurieren Sie den Speicherort der Sicherung in Weblate als ``user@host:/"
+"path/to/backups`` oder ``ssh://user@host:port/path/to/backups``."
 
 #: ../../admin/backup.rst:158
 msgid ""
 ":ref:`cloudbackup` provides you automated remote backups without any effort."
 msgstr ""
-":ref:`cloudbackup` bietet Ihnen automatisierte Remote-Backups ohne jeglichen "
-"Aufwand."
+":ref:`cloudbackup` bietet Ihnen automatisierte Remote-Sicherungen ohne "
+"jeglichen Aufwand."
 
 #: ../../admin/backup.rst:162
 msgid ":ref:`weblate-ssh-key`, :doc:`borg:usage/general`"
@@ -5136,7 +5138,7 @@ msgstr ""
 #: ../../admin/backup.rst:169
 msgid "List all the backups on the server using ``borg list REPOSITORY``."
 msgstr ""
-"Listen Sie mit ``borg list REPOSITORY`` alle Backups auf dem Server auf."
+"Listen Sie mit ``borg list REPOSITORY`` alle Sicherungen auf dem Server auf."
 
 #: ../../admin/backup.rst:171
 msgid ""
@@ -5226,10 +5228,10 @@ msgid ""
 "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
-"Wenn Sie manuelle Backups durchführen, können Sie die Warnung von Weblate "
-"über fehlende Backups ausschalten, indem Sie ``weblate.I028`` zu :setting:"
-"`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` oder :envvar:"
-"`WEBLATE_SILENCED_SYSTEM_CHECKS` für Docker hinzufügen."
+"Wenn Sie manuelle Sicherungen durchführen, können Sie die Warnung von "
+"Weblate über fehlende Sicherungen ausschalten, indem Sie ``weblate.I028`` zu "
+":setting:`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` oder "
+":envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` für Docker hinzufügen."
 
 #: ../../admin/backup.rst:226
 msgid "Database"
@@ -5260,9 +5262,9 @@ msgid ""
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
-"Es wird empfohlen, einen Auszug der Datenbank mit datenbankeigenen Tools "
-"wie :program:`pg_dump` oder :program:`mysqldump` zu speichern. Diese Methode "
-"ist normalerweise leistungsfähiger als das Django-Backup und stellt "
+"Es wird empfohlen, einen Auszug der Datenbank mit datenbankeigenen Tools wie "
+":program:`pg_dump` oder :program:`mysqldump` zu speichern. Diese Methode ist "
+"normalerweise leistungsfähiger als die Django-Sicherung und stellt "
 "vollständige Tabellen mit allen Daten wieder her."
 
 #: ../../admin/backup.rst:242
@@ -5271,14 +5273,14 @@ msgid ""
 "the necessary migrations when running in :wladmin:`migrate`. Please consult :"
 "doc:`upgrade` on more detailed info on how to upgrade between versions."
 msgstr ""
-"Sie können dieses Backup in einer neueren Version von Weblate "
+"Sie können diese Sicherung in einer neueren Version von Weblate "
 "wiederherstellen. Es wird alle notwendigen Migrationen durchführen, wenn es "
 "in :wladmin:`migrate` ausgeführt wird. Bitte konsultieren Sie :doc:`upgrade` "
 "für detailliertere Informationen über das Upgrade zwischen Versionen."
 
 #: ../../admin/backup.rst:247
 msgid "Django database backup"
-msgstr "Sicherung der Django-Datenbank"
+msgstr "Django-Datenbanksicherung"
 
 #: ../../admin/backup.rst:249
 msgid ""
@@ -5335,7 +5337,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:280
 msgid "Dumped data for backups"
-msgstr "Ausgegebene Daten für Backups"
+msgstr "Ausgegebene Daten für Sicherungen"
 
 #: ../../admin/backup.rst:284
 msgid ""
@@ -5357,9 +5359,9 @@ msgid ""
 "beats server, see :ref:`celery`). Currently, this includes:"
 msgstr ""
 "Weblate legt hier verschiedene Daten ab, und Sie können diese Dateien für "
-"vollständigere Backups einbinden. Die Dateien werden täglich aktualisiert "
-"(erfordert einen laufenden Celery-Beats-Server, siehe :ref:`celery`). "
-"Derzeit umfasst dies:"
+"vollständigere Sicherungen einbinden. Die Dateien werden täglich "
+"aktualisiert (erfordert einen laufenden Celery-Beats-Server, siehe "
+":ref:`celery`). Derzeit umfasst dies:"
 
 #: ../../admin/backup.rst:293
 msgid ""
@@ -5435,7 +5437,7 @@ msgid ""
 "to regenerate new ones."
 msgstr ""
 "Wenn Sie SSH- oder GPG-Schlüssel verwenden, die von Weblate generiert "
-"wurden, sollten Sie von diesen Speicherorten ein Backup erstellen. "
+"wurden, sollten Sie von diesen Speicherorten eine Sicherung erstellen. "
 "Andernfalls gehen die privaten Schlüssel verloren und Sie müssen neue "
 "Schlüssel generieren."
 
@@ -5465,11 +5467,11 @@ msgid ""
 "update upon restoration anyhow, so there is no problem in losing these."
 msgstr ""
 "Die Celery-Aufgabenwarteschlange kann einige Informationen enthalten, wird "
-"aber normalerweise nicht für ein Backup benötigt. Sie verlieren höchstens "
-"Aktualisierungen, die noch nicht im Translation Memory verarbeitet wurden. "
+"aber normalerweise nicht für die Sicherung benötigt. Sie verlieren höchstens "
+"Aktualisierungen, die noch nicht im Übersetzungsspeicher verarbeitet wurden. "
 "Es wird ohnehin empfohlen, bei der Wiederherstellung eine Volltext- oder "
-"Repository-Aktualisierung durchzuführen, so dass es kein Problem ist, diese "
-"zu verlieren."
+"Repository-Aktualisierung durchzuführen, so dass es kein Problem darstellt, "
+"diese zu verlieren."
 
 #: ../../admin/backup.rst:343
 msgid ":ref:`celery`"
@@ -5477,7 +5479,7 @@ msgstr ":ref:`celery`"
 
 #: ../../admin/backup.rst:346
 msgid "Command-line for manual backup"
-msgstr "Befehlszeile für manuelles Backup"
+msgstr "Befehlszeile für manuelle Sicherung"
 
 #: ../../admin/backup.rst:348
 msgid ""
@@ -5493,8 +5495,8 @@ msgid ""
 "the translation memory (in backups folder), you can use:"
 msgstr ""
 "Sie können die Liste der Ordner und Dateien an Ihre Bedürfnisse anpassen. Um "
-"zu vermeiden, dass das Translation Memory (im Ordner „Backups“) gespeichert "
-"wird, können Sie diese Option verwenden:"
+"zu vermeiden, dass der Übersetzungsspeicher (im Ordner „Sicherungen“) "
+"gespeichert wird, können Sie diese Option verwenden:"
 
 #: ../../admin/backup.rst:361
 msgid "Restoring manual backup"
@@ -7360,7 +7362,7 @@ msgid ""
 "backups are triggered."
 msgstr ""
 "Es können zusätzliche Argumente an :command:`borg create` übergeben werden, "
-"wenn integrierte Backups ausgelöst werden."
+"wenn integrierte Sicherungen ausgelöst werden."
 
 #: ../../admin/config.rst:255
 msgid ":ref:`backup`, :doc:`borg:usage/create`"
@@ -8749,7 +8751,7 @@ msgid ""
 "Defines how long the project backups will be kept on the server. Defaults to "
 "30 days."
 msgstr ""
-"Legt fest, wie lange die Projekt-Backups auf dem Server aufbewahrt werden "
+"Legt fest, wie lange die Projektsicherungen auf dem Server aufbewahrt werden "
 "sollen. Die Standardeinstellung ist 30 Tage."
 
 #: ../../admin/config.rst:1327
@@ -9635,7 +9637,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:50
 msgid "Updating repositories"
-msgstr "Repositorys werden aktualisiert"
+msgstr "Repositorys aktualisieren"
 
 #: ../../admin/continuous.rst:52
 msgid ""
@@ -10687,11 +10689,11 @@ msgid ""
 "to-date. The package is maintained by the Cloudron team at their `Weblate "
 "package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgstr ""
-"`Cloudron <https://www.cloudron.io/>`_ ist eine Plattform für das "
-"Selbsthosten von Webanwendungen. Weblate, das mit Cloudron installiert wird, "
-"wird automatisch auf dem neuesten Stand gehalten. Das Paket wird vom "
-"Cloudron-Team in seinem `Weblate-Paket-Repository <https://git.cloudron.io/"
-"cloudron/weblate-app>`_ gepflegt."
+"`Cloudron <https://www.cloudron.io/>`_ ist eine Plattform für das Self-"
+"Hosting von Webanwendungen. Weblate, das mit Cloudron installiert wird, wird "
+"automatisch auf dem neuesten Stand gehalten. Das Paket wird vom Cloudron-"
+"Team in seinem `Weblate-Paket-Repository <https://git.cloudron.io/cloudron/"
+"weblate-app>`_ gepflegt."
 
 #: ../../admin/deployments.rst:-1
 msgid "Install Weblate with Cloudron"
@@ -10712,7 +10714,7 @@ msgstr ""
 "Das Self-Hosting-Projekt `YunoHost <https://yunohost.org/>`_ bietet ein "
 "Paket für Weblate. Sobald Sie Ihre YunoHost-Installation haben, können Sie "
 "Weblate wie jede andere Anwendung installieren. Sie erhalten damit einen "
-"voll funktionsfähigen Stack mit Backup und Wiederherstellung, müssen aber "
+"voll funktionsfähigen Stack mit Sicherung und Wiederherstellung, müssen aber "
 "möglicherweise noch Ihre Einstellungsdatei für bestimmte Verwendungszwecke "
 "bearbeiten."
 
@@ -11385,8 +11387,8 @@ msgid ""
 "features in the database and PostgreSQL implementation is superior."
 msgstr ""
 "Einige Weblate-Funktionen werden mit :ref:`postgresql` besser funktionieren. "
-"Dazu gehören die Suche und das Translation Memory, die Volltextfunktionen in "
-"der Datenbank nutzen, wobei die PostgreSQL-Implementierung besser ist."
+"Dazu gehören die Suche und der Übersetzungsspeicher, die Volltextfunktionen "
+"in der Datenbank nutzen, wobei die PostgreSQL-Implementierung besser ist."
 
 #: ../../admin/install.rst:433
 msgid ""
@@ -12243,7 +12245,8 @@ msgstr "Remote-Branches aktualisieren (nachts), siehe :setting:`AUTO_UPDATE`."
 #: ../../admin/install.rst:1052
 msgid "Translation memory backup to JSON (daily), see :wladmin:`dump_memory`."
 msgstr ""
-"Translation-Memory-Backup in JSON (täglich), siehe :wladmin:`dump_memory`."
+"Übersetzungsspeicher-Sicherung in JSON (täglich), siehe "
+":wladmin:`dump_memory`."
 
 #: ../../admin/install.rst:1053
 msgid ""
@@ -12824,7 +12827,7 @@ msgstr ""
 "Dies hat schwerwiegende Auswirkungen auf die Leistung der Weboberfläche und "
 "beeinträchtigt Funktionen, die von regelmäßigen Auslösern abhängen (z. B. "
 "das Committen ausstehender Änderungen, Zusammenfassungs-Benachrichtigungen "
-"oder Backups)."
+"oder Sicherungen)."
 
 #: ../../admin/install.rst:1400
 msgid ""
@@ -15184,7 +15187,7 @@ msgstr "``celery-backup``"
 
 #: ../../admin/install/docker.rst:1782
 msgid "Celery worker for backups, only one instance should be running."
-msgstr "Celery-Worker für Backups, es sollte nur eine Instanz laufen."
+msgstr "Celery-Worker für Sicherungen, es sollte nur eine Instanz laufen."
 
 #: ../../admin/install/docker.rst:1783
 msgid "``celery-celery``"
@@ -29208,7 +29211,7 @@ msgstr "Veröffentlicht am 28. Oktober 2019."
 
 #: ../../changes/v3.rst:152
 msgid "Remove some unneeded files from backups."
-msgstr "Einige nicht benötigte Dateien aus Backups entfernt."
+msgstr "Einige nicht benötigte Dateien aus Sicherungen entfernt."
 
 #: ../../changes/v3.rst:153
 msgid "Fixed potential crash in reports."
@@ -29380,7 +29383,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:193
 msgid "Added automated backups using BorgBackup."
-msgstr "Automatische Backups mit BorgBackup hinzugefügt."
+msgstr "Automatische Sicherungen mit BorgBackup hinzugefügt."
 
 #: ../../changes/v3.rst:194
 msgid "Split cleanup add-on for RESX to avoid unwanted file updates."
@@ -31376,7 +31379,8 @@ msgstr "Veröffentlicht am 15. September 2022."
 
 #: ../../changes/v4.rst:278
 msgid "Fixed generating project backups in some situations."
-msgstr "Die Erstellung von Projekt-Backups in einigen Situationen korrigiert."
+msgstr ""
+"Die Erstellung von Projektsicherungen in einigen Situationen korrigiert."
 
 #: ../../changes/v4.rst:279
 msgid "Improved error reporting when uploading files."
@@ -31503,7 +31507,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:312
 msgid "Added support for project level backups."
-msgstr "Unterstützung für Backups auf Projektebene hinzugefügt."
+msgstr "Unterstützung für Sicherungen auf Projektebene hinzugefügt."
 
 #: ../../changes/v4.rst:313
 msgid "Improved performance and memory usage of translation memory lookups."
@@ -33792,7 +33796,7 @@ msgstr "Die Konfiguration der erzwungenen Qualitätsprüfungen korrigiert."
 
 #: ../../changes/v4.rst:995
 msgid "Improve documentation about built-in backups."
-msgstr "Verbesserung der Dokumentation über integrierte Backups."
+msgstr "Verbesserung der Dokumentation über integrierte Sicherungen."
 
 #: ../../changes/v4.rst:996
 msgid "Moved source language attribute from project to a component."
@@ -39544,12 +39548,17 @@ msgid ""
 "If you add a language file in connected remote repository, respective "
 "translation is added to the component when Weblate updates local repository."
 msgstr ""
+"Wenn Sie eine Sprachdatei im verbundenen Remote-Repository hinzufügen, wird "
+"die entsprechende Übersetzung der Komponente hinzugefügt, wenn Weblate das "
+"lokale Repository aktualisiert."
 
 #: ../../devel/translations.rst:55 ../../devel/translations.rst:85
 msgid ""
 "More info on the repository update settings can be found on the :ref:`update-"
 "vcs`."
 msgstr ""
+"Weitere Informationen zu den Einstellungen für die Repository-Aktualisierung "
+"finden Sie unter :ref:`update-vcs`."
 
 #: ../../devel/translations.rst:60
 msgid "Removing existing translations"
@@ -39561,6 +39570,10 @@ msgid ""
 "from Weblate and remote repository if used) from the menu :guilabel:`Manage` "
 "↓ :guilabel:`Removal` of each project, component, or language."
 msgstr ""
+"Sprachen, Komponenten oder die Projekte, in denen sie enthalten sind, können "
+"über das Menü :guilabel:`Verwaltung` ↓ :guilabel:`Entfernen` eines jeden "
+"Projekts, einer Komponente oder Sprache (aus Weblate und Remote-Repository, "
+"falls verwendet) entfernt werden."
 
 #: ../../devel/translations.rst:66
 msgid ""
@@ -39569,17 +39582,25 @@ msgid ""
 "`slug` is the project's, language's, or component's pathname as it can be "
 "seen in the URL."
 msgstr ""
+"Wenn Sie die Aktion :guilabel:`Entfernen` starten, wird die Liste der zu "
+"entfernenden Komponenten angezeigt. Sie müssen den `Slug` des Objekts "
+"eingeben, um das Entfernen zu bestätigen. Der `Slug` ist der Pfadname des "
+"Projekts, der Sprache oder Komponente, so wie er in der URL zu sehen ist."
 
 #: ../../devel/translations.rst:70
 msgid ""
 "If you want to remove just some specific strings, there are following ways:"
 msgstr ""
+"Wenn Sie nur einige bestimmte Zeichenketten entfernen möchten, gibt es "
+"folgende Möglichkeiten:"
 
 #: ../../devel/translations.rst:72
 msgid ""
 "Manually in the source file. They will be removed from the translation "
 "project as well upon Weblate's repository update."
 msgstr ""
+"Manuell in der Quelldatei. Sie werden auch aus dem Übersetzungsprojekt "
+"entfernt, wenn das Repository von Weblate aktualisiert wird."
 
 #: ../../devel/translations.rst:77
 msgid ""
@@ -39587,6 +39608,9 @@ msgid ""
 "editing the string. This has differences between file formats, see: :ref:"
 "`component-manage_units`"
 msgstr ""
+"In der Weblate-Bedienoberfläche über die Schaltfläche :guilabel:`Werkzeuge` ↓"
+" :guilabel:`Löschen` beim Bearbeiten der Zeichenkette. Dabei gibt es "
+"Unterschiede zwischen den Dateiformaten, siehe: :ref:`component-manage_units`"
 
 #: ../../devel/translations.rst:82
 msgid ""
@@ -39607,6 +39631,8 @@ msgid ""
 "Variants are useful to group several strings together so that translators "
 "can see all variants of the string at one place."
 msgstr ""
+"Varianten sind nützlich, um mehrere Zeichenketten zu gruppieren, damit "
+"Übersetzer alle Varianten der Zeichenkette an einer Stelle sehen können."
 
 #: ../../devel/translations.rst:98
 msgid ""
@@ -48800,6 +48826,8 @@ msgstr ""
 #: ../../vcs.rst:92
 msgid "Make a backup of the generated private Weblate SSH key."
 msgstr ""
+"Erstellen Sie eine Sicherungskopie des generierten privaten Weblate-SSH-"
+"Schlüssels."
 
 #: ../../vcs.rst:97
 msgid "Verifying SSH host keys"
