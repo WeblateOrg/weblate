@@ -1604,6 +1604,7 @@ class PagureRepository(GitMergeRequestBase):
 
 
 class BitbucketServerRepository(GitMergeRequestBase):
+    # Translators: Bitbucket Server is a product name, it differs from Bitbucked Cloud
     name = gettext_lazy("Bitbucket Server pull request")
     identifier = "bitbucketserver"
     _version = None
