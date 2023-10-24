@@ -14,6 +14,7 @@ Not yet released.
 **Bug fixes**
 
 * Added plurals validation when editing string using API.
+* Replacing a file using upload when existing is corrupted.
 
 **Compatibility**
 

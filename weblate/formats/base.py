@@ -440,7 +440,8 @@ class TranslationFormat:
         """Update store header if available."""
         return
 
-    def save_atomic(self, filename, callback):
+    @staticmethod
+    def save_atomic(filename, callback):
         dirname, basename = os.path.split(filename)
         if not os.path.exists(dirname):
             os.makedirs(dirname)

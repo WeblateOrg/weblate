@@ -1116,8 +1116,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             store2.check_valid()
 
             # Actually replace file content
-            self.store.save_atomic(
-                self.store.storefile, lambda handle: handle.write(filecopy)
+            self.component.file_format_cls.save_atomic(
+                self.get_filename(), lambda handle: handle.write(filecopy)
             )
 
             # Commit to VCS
