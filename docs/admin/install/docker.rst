@@ -1076,6 +1076,16 @@ Or the path to a file containing the Python dictionary:
 
     .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
 
+.. envvar:: WEBLATE_DEVOPS_USERNAME
+.. envvar:: WEBLATE_DEVOPS_ORGANIZATION
+.. envvar:: WEBLATE_DEVOPS_TOKEN
+.. envvar:: WEBLATE_DEVOPS_HOST
+.. envvar:: WEBLATE_DEVOPS_CREDENTIALS
+
+    Configures :ref:`vcs-devops` by changing :setting:`DEVOPS_CREDENTIALS`.
+
+    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+
 .. _docker-machine:
 
 Automatic suggestion settings

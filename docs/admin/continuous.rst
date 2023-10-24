@@ -330,12 +330,13 @@ under :guilabel:`Repository maintenance` or using API via :option:`wlc push`.
 The push options differ based on the :ref:`vcs` used, more details are found in that chapter.
 
 In case you do not want direct pushes by Weblate, there is support for
-:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure` pull requests or
-:ref:`vcs-gerrit` reviews, you can activate these by choosing
-:guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit` or
-:guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`.
+:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, :ref`vcs-devops`
+pull requests or :ref:`vcs-gerrit` reviews, you can activate these by choosing
+:guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`,
+:guilabel:`DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`.
 
-Overall, following options are available with Git, GitHub and GitLab:
+Overall, following options are available with Git, Mercurial, GitHub, GitLab,
+Gitea, Pagure, and DevOps:
 
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | Desired setup                     | :ref:`component-vcs`          | :ref:`component-push`         | :ref:`component-push_branch`  |
@@ -367,6 +368,10 @@ Overall, following options are available with Git, GitHub and GitLab:
 | Pagure merge request from fork    | :ref:`vcs-pagure`             | `empty`                       | `empty`                       |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | Pagure merge request from branch  | :ref:`vcs-pagure`             | SSH URL [#empty]_             | Branch name                   |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| DevOps pull request from fork     | :ref:`vcs-devops`             | `empty`                       | `empty`                       |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| DevOps pull request from branch   | :ref:`vcs-devops`             | SSH URL [#empty]_             | Branch name                   |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 
 .. [#empty] Can be empty in case :ref:`component-repo` supports pushing.

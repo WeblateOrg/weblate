@@ -1134,7 +1134,7 @@ class DevopsRepository(GitMergeRequestBase):
 
         (scheme, host, owner, slug) = super().parse_repo_url(repo)
 
-        # ssh links are in the subdomain "ssh.", the API link doesn't have that, so remove it
+        # ssh links are in a subdomain, the API link doesn't have that so remove it
         if host.startswith("ssh."):
             host = host[len("ssh.") :]
 
@@ -1305,7 +1305,7 @@ class DevopsRepository(GitMergeRequestBase):
 
     def __get_org_id(self) -> str:
         credentials = self.get_credentials()
-        org = credentials.get("owner").split("/")[0]  # format is "org/proj"
+        org = credentials["owner"].split("/")[0]  # format is "org/proj"
 
         url = self.ORG_API_TEMPLATE.format(
             scheme=credentials["scheme"],
