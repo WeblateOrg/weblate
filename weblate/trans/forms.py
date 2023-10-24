@@ -1048,7 +1048,6 @@ class EngageForm(forms.Form):
         Component.objects.none(),
         required=False,
         empty_label=gettext_lazy("All components"),
-        to_field_name="slug",
     )
 
     def __init__(self, user, project, *args, **kwargs):

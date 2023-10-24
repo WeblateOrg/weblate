@@ -1235,7 +1235,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def get_widgets_url(self):
         """Return absolute URL for widgets."""
-        return f"{self.project.get_widgets_url()}?component={self.slug}"
+        return f"{self.project.get_widgets_url()}?component={self.pk}"
 
     def get_share_url(self):
         """Return absolute shareable URL."""
