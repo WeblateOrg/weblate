@@ -10,6 +10,7 @@ Not yet released.
 * :ref:`addon-weblate.consistency.languages` now uses a dedicated user for changes.
 * Added button for sharing on Fediverse.
 * Added valication for VCS integration credentials.
+* Reduced overhead of statistics collection.
 
 **Bug fixes**
 

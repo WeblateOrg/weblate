@@ -7,6 +7,7 @@ from __future__ import annotations
 from copy import copy
 from datetime import timedelta
 from itertools import chain
+from time import monotonic
 from types import GeneratorType
 
 import sentry_sdk
@@ -66,7 +67,9 @@ SOURCE_KEYS = frozenset(
 
 
 def aggregate(stats, item, stats_obj):
-    if item == "last_changed":
+    if item == "stats_timestamp":
+        stats[item] = max(stats[item], getattr(stats_obj, item))
+    elif item == "last_changed":
         last = stats["last_changed"]
         if stats_obj.last_changed and (not last or last < stats_obj.last_changed):
             stats["last_changed"] = stats_obj.last_changed
@@ -81,6 +84,7 @@ def zero_stats(keys):
     if "last_changed" in keys:
         stats["last_changed"] = None
         stats["last_author"] = None
+    stats["stats_timestamp"] = 0
     return stats
 
 
@@ -190,6 +194,10 @@ class BaseStats:
             self._data = self.load()
         if name.endswith("_percent"):
             return self.calculate_percents(name)
+        if name == "stats_timestamp":
+            # TODO: Drop in Weblate 5.3
+            # Migration path for legacy stat data
+            return self._data.get(name, 0)
         if name not in self._data:
             was_pending = self._pending_save
             self._pending_save = True
@@ -221,7 +229,10 @@ class BaseStats:
                 stat_objects[stat.cache_key] = stat
 
         # Update stats
-        for stat in stat_objects.values():
+        for stat in prefetch_stats(stat_objects.values()):
+            if self.stats_timestamp and self.stats_timestamp <= stat.stats_timestamp:
+                continue
+            self._object.log_debug("updating stats for %s", stat._object)
             stat.update_stats()
 
     def clear(self):
@@ -478,8 +489,10 @@ class TranslationStats(BaseStats):
         for key, value in stats.items():
             self.store(key, value)
 
-        # Calculate some values
+        # There is single language here, but it is aggregated at higher levels
         self.store("languages", 1)
+        # Store timestamp
+        self.store("stats_timestamp", monotonic())
 
         # Last change timestamp
         self.fetch_last_change()
