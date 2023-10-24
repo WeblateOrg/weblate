@@ -1466,6 +1466,22 @@ configuration error in the admin interface.
    :doc:`celery:userguide/monitoring`,
    :wladmin:`celery_queues`
 
+.. _minimal-celery:
+
+Single-process Celery setup
++++++++++++++++++++++++++++
+
+In case you have very limited memory, you might want to reduce number of
+Weblate processes. All Celery tasks can be executed in a single process using:
+
+.. code-block:: sh
+
+   celery --app=weblate.utils worker --beat --queues=celery,notify,memory,translate,backup --pool=solo
+
+.. warning::
+
+   This will have a noticeable performance impact on Weblate.
+
 .. _monitoring:
 
 Monitoring Weblate
