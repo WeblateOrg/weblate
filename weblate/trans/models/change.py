@@ -564,6 +564,7 @@ class Change(models.Model, UserDisplayMixin):
         verbose_name_plural = "history events"
 
     def __str__(self):
+        # Translators: condensed rendering of a change action in history
         return gettext("%(action)s at %(time)s on %(translation)s by %(user)s") % {
             "action": self.get_action_display(),
             "time": self.timestamp,
