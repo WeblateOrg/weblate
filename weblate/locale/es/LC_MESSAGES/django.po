@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-24 14:12+0000\n"
-"PO-Revision-Date: 2023-10-24 14:05+0000\n"
+"PO-Revision-Date: 2023-10-25 00:17+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -42,7 +42,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:99
 msgid "This username is already taken. Please choose another."
-msgstr "Alguien ya utiliza este nombre de usuario. Elija otro."
+msgstr "Este nombre de usuario ya está en uso. Por favor, elija otro."
 
 #: weblate/accounts/forms.py:110 weblate/accounts/forms.py:853
 #: weblate/auth/models.py:352 weblate/templates/auth/team.html:89
@@ -2233,7 +2233,7 @@ msgstr "Facturación"
 #: weblate/auth/data.py:221
 msgctxt "Access-control role"
 msgid "Add new projects"
-msgstr "Añadir proyectos nuevos"
+msgstr "Añadir nuevos proyectos"
 
 #: weblate/auth/data.py:227
 msgctxt "Access-control group"
@@ -6972,7 +6972,7 @@ msgstr "Traducción por eliminar"
 #: weblate/templates/language-project.html:84
 #: weblate/templates/language.html:54
 msgid "Browse all changes for this language"
-msgstr "Explorar todos los para este lenguaje"
+msgstr "Examinar todos los cambios para este idioma"
 
 #: weblate/templates/category-project.html:95
 #: weblate/templates/category.html:140 weblate/templates/component.html:180
@@ -10044,10 +10044,10 @@ msgstr ""
 "componentes individuales:"
 
 #: weblate/templates/snippets/project-workflow-settings.html:4
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid "Translation workflow can be also customized per language:"
-msgstr "Traducciones de esta cadena en otros idiomas"
+msgstr ""
+"El flujo de trabajo de la traducción también se puede personalizar por "
+"idioma:"
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:11
 msgid ""
@@ -14756,7 +14756,7 @@ msgstr "No se ha podido bloquear el repositorio, hay otra operación en curso."
 
 #: weblate/trans/views/git.py:50
 msgid "All repositories were updated."
-msgstr "Se actualizaron todos los repositorios."
+msgstr "Todos los repositorios han sido actualizados."
 
 #: weblate/trans/views/git.py:65
 msgid "All repositories were pushed."
@@ -14798,12 +14798,9 @@ msgid "Component is now open for translation updates."
 msgstr "El componente acepta la actualización de traducciones."
 
 #: weblate/trans/views/lock.py:54
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "All components are now open for translation updates."
 msgstr ""
-"¡Todos los componentes ahora están bloqueados para las actualizaciones de la "
-"traducción!"
+"Todos los componentes ahora están abiertos a traducciones y sus cambios."
 
 #: weblate/trans/views/search.py:108
 msgid "Search and replace completed, no strings were updated."
@@ -14882,15 +14879,13 @@ msgstr "Se eliminó un idioma del proyecto."
 
 #: weblate/trans/views/settings.py:212
 msgid "A language in the category was removed."
-msgstr "Se ha eliminado un idioma de la categoría."
+msgstr "Se eliminó un idioma en la categoría."
 
 #: weblate/trans/views/settings.py:227
-#, fuzzy, python-format
-#| msgid "Cannot rename due to outstanding issue in the configuration: %s"
+#, python-format
 msgid "Could not change %s due to outstanding issue in its settings: %s"
 msgstr ""
-"No se puede cambiar el nombre debido a un problema pendiente en la "
-"configuración: %s"
+"No se pudo cambiar %s debido a un problema pendiente en su configuración: %s"
 
 #: weblate/trans/views/settings.py:365
 msgid "Backup scheduled. It will be available soon."
@@ -15125,7 +15120,7 @@ msgstr ""
 
 #: weblate/utils/validators.py:109
 msgid "Invalid image!"
-msgstr "¡Imagen inválida!"
+msgstr "¡Imagen no válida!"
 
 #: weblate/utils/validators.py:118
 #, python-format
@@ -15338,10 +15333,9 @@ msgstr ""
 "(%(keytype)s). Compruebe que sea correcta."
 
 #: weblate/vcs/ssh.py:227 weblate/vcs/ssh.py:233
-#, fuzzy, python-format
-#| msgid "Failed to fetch public key for a host!"
+#, python-format
 msgid "Could not fetch public key for a host: %s"
-msgstr "¡No se ha podido obtener la clave pública a un host!"
+msgstr "No se pudo recuperar la clave pública del host: %s"
 
 #: weblate/vcs/ssh.py:237
 #, fuzzy, python-format
