@@ -1309,11 +1309,8 @@ class CleanRepoMixin:
         repo = self.cleaned_data.get("repo")
         if not repo or not is_repo_link(repo) or "/" not in repo[10:]:
             return repo
-        project, component = repo[10:].split("/", 1)
         try:
-            obj = Component.objects.get(
-                slug__iexact=component, project__slug__iexact=project
-            )
+            obj = Component.objects.get_linked(repo)
         except Component.DoesNotExist:
             return repo
         if not self.request.user.has_perm("component.edit", obj):
