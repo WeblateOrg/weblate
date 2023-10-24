@@ -9,9 +9,9 @@
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 5.1\n"
+"Project-Id-Version: Weblate 5.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2023-10-16 14:13+0200\n"
+"POT-Creation-Date: 2023-10-24 16:13+0200\n"
 "PO-Revision-Date: 2023-10-24 06:00+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
@@ -624,16 +624,16 @@ msgstr ""
 
 #: ../../admin/access.rst:277 ../../admin/access.rst:410
 #: ../../admin/config.rst:228 ../../admin/config.rst:247
-#: ../../admin/config.rst:299 ../../admin/install/docker.rst:448
-#: ../../admin/install/docker.rst:491 ../../admin/install/docker.rst:559
-#: ../../admin/install/docker.rst:576 ../../admin/install/docker.rst:588
-#: ../../admin/install/docker.rst:612 ../../admin/install/docker.rst:633
-#: ../../admin/install/docker.rst:676 ../../admin/install/docker.rst:709
-#: ../../admin/install/docker.rst:724 ../../admin/install/docker.rst:771
-#: ../../admin/install/docker.rst:990 ../../admin/install/docker.rst:1033
-#: ../../admin/install/docker.rst:1635 ../../admin/install/docker.rst:1646
-#: ../../admin/install/docker.rst:1701 ../../admin/install/docker.rst:1746
-#: ../../admin/install/docker.rst:1764
+#: ../../admin/config.rst:299 ../../admin/install/docker.rst:453
+#: ../../admin/install/docker.rst:496 ../../admin/install/docker.rst:564
+#: ../../admin/install/docker.rst:581 ../../admin/install/docker.rst:593
+#: ../../admin/install/docker.rst:617 ../../admin/install/docker.rst:638
+#: ../../admin/install/docker.rst:681 ../../admin/install/docker.rst:714
+#: ../../admin/install/docker.rst:729 ../../admin/install/docker.rst:776
+#: ../../admin/install/docker.rst:995 ../../admin/install/docker.rst:1038
+#: ../../admin/install/docker.rst:1640 ../../admin/install/docker.rst:1651
+#: ../../admin/install/docker.rst:1706 ../../admin/install/docker.rst:1751
+#: ../../admin/install/docker.rst:1769
 msgid "**Example:**"
 msgstr "**Beispiel:**"
 
@@ -1013,8 +1013,8 @@ msgid ""
 msgstr ""
 "Die automatische Teamzuweisung zu `Benutzer` und `Betrachter` wird immer neu "
 "erstellt, wenn Sie von einer Weblate-Version auf eine andere aktualisieren. "
-"Wenn Sie dies abstellen möchten, setzen Sie den regulären Ausdruck auf ``^"
-"$`` (der auf nichts zutrifft)."
+"Wenn Sie dies abstellen möchten, setzen Sie den regulären Ausdruck auf "
+"``^$`` (der auf nichts zutrifft)."
 
 #: ../../admin/access.rst:462
 msgid ""
@@ -4341,7 +4341,7 @@ msgstr ""
 msgid ":doc:`psa:backends/azuread`"
 msgstr ":doc:`psa:backends/azuread`"
 
-#: ../../admin/auth.rst:345 ../../admin/install/docker.rst:1260
+#: ../../admin/auth.rst:345 ../../admin/install/docker.rst:1265
 msgid "Slack"
 msgstr "Slack"
 
@@ -4512,8 +4512,8 @@ msgstr ""
 "``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
 "``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 
-#: ../../admin/auth.rst:450 ../../admin/install/docker.rst:1375
-#: ../../admin/install/docker.rst:1393
+#: ../../admin/auth.rst:450 ../../admin/install/docker.rst:1380
+#: ../../admin/install/docker.rst:1398
 msgid "Example configuration:"
 msgstr "Beispielkonfiguration:"
 
@@ -4828,8 +4828,8 @@ msgid ""
 "`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it "
 "defaults to keep at most 3 backups for 30 days)."
 msgstr ""
-"Die erzeugten Sicherungen werden auf dem Server aufbewahrt, wie durch "
-":setting:`PROJECT_BACKUP_KEEP_DAYS` und :setting:`PROJECT_BACKUP_KEEP_COUNT` "
+"Die erzeugten Sicherungen werden auf dem Server aufbewahrt, wie durch :"
+"setting:`PROJECT_BACKUP_KEEP_DAYS` und :setting:`PROJECT_BACKUP_KEEP_COUNT` "
 "konfiguriert (standardmäßig werden maximal 3 Sicherungen für 30 Tage "
 "aufbewahrt)."
 
@@ -4931,8 +4931,8 @@ msgid ""
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
 "is how you get it running:"
 msgstr ""
-"Der einfachste Weg, Ihre Weblate-Instanz zu sichern, ist der Erwerb des `"
-"Sicherungsdienst unter weblate.org <https://weblate.org/support/#backup>`_. "
+"Der einfachste Weg, Ihre Weblate-Instanz zu sichern, ist der Erwerb des "
+"`Sicherungsdienst unter weblate.org <https://weblate.org/support/#backup>`_. "
 "So bringen Sie ihn zum Laufen:"
 
 #: ../../admin/backup.rst:86
@@ -5229,9 +5229,9 @@ msgid ""
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
 "Wenn Sie manuelle Sicherungen durchführen, können Sie die Warnung von "
-"Weblate über fehlende Sicherungen ausschalten, indem Sie ``weblate.I028`` zu "
-":setting:`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` oder "
-":envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` für Docker hinzufügen."
+"Weblate über fehlende Sicherungen ausschalten, indem Sie ``weblate.I028`` "
+"zu :setting:`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` oder :"
+"envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` für Docker hinzufügen."
 
 #: ../../admin/backup.rst:226
 msgid "Database"
@@ -5262,9 +5262,9 @@ msgid ""
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
-"Es wird empfohlen, einen Auszug der Datenbank mit datenbankeigenen Tools wie "
-":program:`pg_dump` oder :program:`mysqldump` zu speichern. Diese Methode ist "
-"normalerweise leistungsfähiger als die Django-Sicherung und stellt "
+"Es wird empfohlen, einen Auszug der Datenbank mit datenbankeigenen Tools "
+"wie :program:`pg_dump` oder :program:`mysqldump` zu speichern. Diese Methode "
+"ist normalerweise leistungsfähiger als die Django-Sicherung und stellt "
 "vollständige Tabellen mit allen Daten wieder her."
 
 #: ../../admin/backup.rst:242
@@ -5360,8 +5360,8 @@ msgid ""
 msgstr ""
 "Weblate legt hier verschiedene Daten ab, und Sie können diese Dateien für "
 "vollständigere Sicherungen einbinden. Die Dateien werden täglich "
-"aktualisiert (erfordert einen laufenden Celery-Beats-Server, siehe "
-":ref:`celery`). Derzeit umfasst dies:"
+"aktualisiert (erfordert einen laufenden Celery-Beats-Server, siehe :ref:"
+"`celery`). Derzeit umfasst dies:"
 
 #: ../../admin/backup.rst:293
 msgid ""
@@ -5651,11 +5651,11 @@ msgstr "``dos-eol``"
 
 #: ../../admin/checks.rst:70
 msgid ""
-"Uses DOS end-of-line markers instead of Unix ones (``\\r\\n`` instead of ``"
-"\\n``)."
+"Uses DOS end-of-line markers instead of Unix ones (``\\r\\n`` instead of "
+"``\\n``)."
 msgstr ""
-"Verwendet DOS-Zeilenende-Markierungen anstelle von Unix-Markierungen (``\\r"
-"\\n`` anstelle von ``\\n``)."
+"Verwendet DOS-Zeilenende-Markierungen anstelle von Unix-Markierungen "
+"(``\\r\\n`` anstelle von ``\\n``)."
 
 #: ../../admin/checks.rst:72
 msgid ""
@@ -8707,8 +8707,8 @@ msgstr "PRIVATE_COMMIT_EMAIL_TEMPLATE"
 
 #: ../../admin/config.rst:1288
 msgid ""
-"Template to generate private commit e-mail for an user. Defaults to ``"
-"\"{username}@users.noreply.{site_domain}\"``."
+"Template to generate private commit e-mail for an user. Defaults to "
+"``\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
 "Vorlage zur Erstellung einer privaten E-Mail für einen Benutzer. Der "
 "Standardwert ist ``\"{username}@users.noreply.{site_domain}\"``."
@@ -9548,7 +9548,7 @@ msgstr ""
 "file:`home/.gnupg` unter :setting:`DATA_DIR`). Wenn er nicht gefunden wird, "
 "wird ein Schlüssel generiert, siehe :ref:`gpg-sign` für weitere Details."
 
-#: ../../admin/config.rst:1954 ../../admin/install/docker.rst:869
+#: ../../admin/config.rst:1954 ../../admin/install/docker.rst:874
 msgid ":ref:`gpg-sign`"
 msgstr ":ref:`gpg-sign`"
 
@@ -10107,7 +10107,7 @@ msgid "GitHub pull request from fork"
 msgstr "GitHub-Pull-Request vom Fork"
 
 #: ../../admin/continuous.rst:301 ../../admin/continuous.rst:303
-#: ../../admin/install/docker.rst:761
+#: ../../admin/install/docker.rst:766
 msgid ":ref:`vcs-github`"
 msgstr ":ref:`vcs-github`"
 
@@ -10125,7 +10125,7 @@ msgid "GitLab merge request from fork"
 msgstr "GitLab-Merge-Request vom Fork"
 
 #: ../../admin/continuous.rst:305 ../../admin/continuous.rst:307
-#: ../../admin/install/docker.rst:783
+#: ../../admin/install/docker.rst:788
 msgid ":ref:`vcs-gitlab`"
 msgstr ":ref:`vcs-gitlab`"
 
@@ -10138,7 +10138,7 @@ msgid "Gitea merge request from fork"
 msgstr "Gitea-Merge-Request vom Fork"
 
 #: ../../admin/continuous.rst:309 ../../admin/continuous.rst:311
-#: ../../admin/install/docker.rst:795
+#: ../../admin/install/docker.rst:800
 msgid ":ref:`vcs-gitea`"
 msgstr ":ref:`vcs-gitea`"
 
@@ -10151,7 +10151,7 @@ msgid "Pagure merge request from fork"
 msgstr "Pagure-Merge-Request vom Fork"
 
 #: ../../admin/continuous.rst:313 ../../admin/continuous.rst:315
-#: ../../admin/install/docker.rst:808
+#: ../../admin/install/docker.rst:813
 msgid ":ref:`vcs-pagure`"
 msgstr ":ref:`vcs-pagure`"
 
@@ -11020,8 +11020,10 @@ msgid "https://git-scm.com/docs/git-svn"
 msgstr "https://git-scm.com/docs/git-svn"
 
 #: ../../admin/install.rst:142
-msgid "``tesseract`` and its data (optional for screenshots OCR)"
-msgstr "``tesseract`` und seine Daten (optional für Bildschirmfotos-OCR)"
+msgid ""
+"``tesseract`` (needed only if :program:`tesserocr` binary wheels are not "
+"available for your system)"
+msgstr ""
 
 #: ../../admin/install.rst:143
 msgid "https://github.com/tesseract-ocr/tesseract"
@@ -12245,8 +12247,8 @@ msgstr "Remote-Branches aktualisieren (nachts), siehe :setting:`AUTO_UPDATE`."
 #: ../../admin/install.rst:1052
 msgid "Translation memory backup to JSON (daily), see :wladmin:`dump_memory`."
 msgstr ""
-"Übersetzungsspeicher-Sicherung in JSON (täglich), siehe "
-":wladmin:`dump_memory`."
+"Übersetzungsspeicher-Sicherung in JSON (täglich), siehe :wladmin:"
+"`dump_memory`."
 
 #: ../../admin/install.rst:1053
 msgid ""
@@ -12273,8 +12275,8 @@ msgstr ""
 
 #: ../../admin/install.rst:1064
 msgid ""
-"For example by editing :file:`/etc/default/locale` and setting there ``LANG="
-"\"C.UTF-8\"``."
+"For example by editing :file:`/etc/default/locale` and setting there "
+"``LANG=\"C.UTF-8\"``."
 msgstr ""
 "Zum Beispiel, indem Sie :file:`/etc/default/locale` bearbeiten und dort "
 "``LANG=\"C.UTF-8\"`` einstellen."
@@ -12940,10 +12942,25 @@ msgstr ""
 "daemonizing`, :doc:`celery:userguide/monitoring`, :wladmin:`celery_queues`"
 
 #: ../../admin/install.rst:1472
+msgid "Single-process Celery setup"
+msgstr ""
+
+#: ../../admin/install.rst:1474
+msgid ""
+"In case you have very limited memory, you might want to reduce number of "
+"Weblate processes. All Celery tasks can be executed in a single process "
+"using:"
+msgstr ""
+
+#: ../../admin/install.rst:1483
+msgid "This will have a noticeable performance impact on Weblate."
+msgstr ""
+
+#: ../../admin/install.rst:1488
 msgid "Monitoring Weblate"
 msgstr "Weblate überwachen"
 
-#: ../../admin/install.rst:1474
+#: ../../admin/install.rst:1490
 msgid ""
 "Weblate provides the ``/healthz/`` URL to be used in simple health checks, "
 "for example using Kubernetes. The Docker container has built-in health check "
@@ -12954,7 +12971,7 @@ msgstr ""
 "Docker-Container verfügt über integrierte Gesundheitsprüfungen, die diese "
 "URL verwenden."
 
-#: ../../admin/install.rst:1477
+#: ../../admin/install.rst:1493
 msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
@@ -12962,7 +12979,7 @@ msgstr ""
 "Zur Überwachung der Metriken von Weblate können Sie den :http:get:`/api/"
 "metrics/` API-Endpunkt verwenden."
 
-#: ../../admin/install.rst:1481
+#: ../../admin/install.rst:1497
 msgid ""
 ":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Weblate plugin for Munin "
 "<https://github.com/WeblateOrg/munin>`_"
@@ -12970,11 +12987,11 @@ msgstr ""
 ":ref:`faq-monitoring`, :ref:`monitoring-celery`,`Weblate-Plugin für Munin "
 "<https://github.com/WeblateOrg/munin>`_"
 
-#: ../../admin/install.rst:1488
+#: ../../admin/install.rst:1504
 msgid "Collecting error reports"
 msgstr "Sammeln von Fehlerberichten"
 
-#: ../../admin/install.rst:1490
+#: ../../admin/install.rst:1506
 msgid ""
 "Weblate, as any other software, can fail. In order to collect useful failure "
 "states we recommend to use third party services to collect such information. "
@@ -12989,11 +13006,11 @@ msgstr ""
 "melden würden und über die Sie nicht benachrichtigt werden. Weblate bietet "
 "Unterstützung für die folgenden Dienste:"
 
-#: ../../admin/install.rst:1497
+#: ../../admin/install.rst:1513
 msgid "Sentry"
 msgstr "Sentry"
 
-#: ../../admin/install.rst:1499
+#: ../../admin/install.rst:1515
 msgid ""
 "Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
@@ -13002,11 +13019,11 @@ msgstr ""
 "sie zu nutzen, genügt es, :setting:`SENTRY_DSN` in der :file:`settings.py` "
 "zu setzen:"
 
-#: ../../admin/install.rst:1507
+#: ../../admin/install.rst:1523
 msgid "Rollbar"
 msgstr "Rollbar"
 
-#: ../../admin/install.rst:1509
+#: ../../admin/install.rst:1525
 msgid ""
 "Weblate has built-in support for `Rollbar <https://rollbar.com/>`_. To use "
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
@@ -13016,11 +13033,11 @@ msgstr ""
 "Um sie zu nutzen, genügt es, den Anweisungen für `Rollbar-Notifier für "
 "Python <https://docs.rollbar.com/docs/python/>`_ zu folgen."
 
-#: ../../admin/install.rst:1512
+#: ../../admin/install.rst:1528
 msgid "In short, you need to adjust :file:`settings.py`:"
 msgstr "Kurz gesagt, Sie müssen :file:`settings.py` anpassen:"
 
-#: ../../admin/install.rst:1531
+#: ../../admin/install.rst:1547
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
@@ -13028,7 +13045,7 @@ msgstr ""
 "Alles andere wird automatisch integriert, Sie werden jetzt sowohl server- "
 "als auch clientseitige Fehler sammeln."
 
-#: ../../admin/install.rst:1536
+#: ../../admin/install.rst:1552
 msgid ""
 "Error logging also includes exceptions that were gracefully handled, but "
 "might indicate a problem - such as failed parsing of an uploaded file."
@@ -13037,11 +13054,11 @@ msgstr ""
 "behandelt wurden, aber auf ein Problem hinweisen könnten, wie z. B. das "
 "fehlgeschlagene Analysieren einer hochgeladenen Datei."
 
-#: ../../admin/install.rst:1540
+#: ../../admin/install.rst:1556
 msgid "Migrating Weblate to another server"
 msgstr "Migration von Weblate auf einen anderen Server"
 
-#: ../../admin/install.rst:1542
+#: ../../admin/install.rst:1558
 msgid ""
 "Migrating Weblate to another server should be pretty easy, however it stores "
 "data in few locations which you should migrate carefully. The best approach "
@@ -13052,11 +13069,11 @@ msgstr ""
 "migrieren sollten. Der beste Ansatz ist, Weblate für die Migration zu "
 "stoppen."
 
-#: ../../admin/install.rst:1547
+#: ../../admin/install.rst:1563
 msgid "Migrating database"
 msgstr "Migration der Datenbank"
 
-#: ../../admin/install.rst:1549
+#: ../../admin/install.rst:1565
 msgid ""
 "Depending on your database backend, you might have several options to "
 "migrate the database. The most straightforward approach is to use database "
@@ -13070,16 +13087,16 @@ msgstr ""
 "command:`mysqldump` oder :command:`pg_dump`). Alternativ können Sie auch die "
 "Replikation verwenden, falls Ihre Datenbank dies unterstützt."
 
-#: ../../admin/install.rst:1557
+#: ../../admin/install.rst:1573
 msgid "Migrating between databases described in :ref:`database-migration`."
 msgstr ""
 "Migration zwischen Datenbanken, beschrieben in :ref:`database-migration`."
 
-#: ../../admin/install.rst:1560
+#: ../../admin/install.rst:1576
 msgid "Migrating VCS repositories"
 msgstr "Migration der VCS-Repositorys"
 
-#: ../../admin/install.rst:1562
+#: ../../admin/install.rst:1578
 msgid ""
 "The VCS repositories stored under :setting:`DATA_DIR` need to be migrated as "
 "well. You can simply copy them or use :command:`rsync` to do the migration "
@@ -13089,11 +13106,11 @@ msgstr ""
 "ebenfalls migriert werden. Sie können sie einfach kopieren oder :command:"
 "`rsync` verwenden, um die Migration effektiver durchzuführen."
 
-#: ../../admin/install.rst:1567
+#: ../../admin/install.rst:1583
 msgid "Other notes"
 msgstr "Sonstige Anmerkungen"
 
-#: ../../admin/install.rst:1569
+#: ../../admin/install.rst:1585
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Redis, Cron jobs or custom authentication backends."
@@ -13178,6 +13195,12 @@ msgid ""
 msgstr ""
 "Die tatsächlichen Anforderungen an Ihre Weblate-Installation hängen stark "
 "von der Größe der darin verwalteten Übersetzungen ab."
+
+#: ../../admin/install/steps/hw.rst:30
+msgid ""
+"For systems with less memory than recommended, :ref:`minimal-celery` is "
+"recommended."
+msgstr ""
 
 #: ../../../README.rst:50 ../../admin/install/docker.rst:13
 #: ../../admin/install/kubernetes.rst:18 ../../admin/install/openshift.rst:12
@@ -13616,28 +13639,34 @@ msgstr "Datenbank-Container sperren:"
 msgid "Remove the PostgreSQL volume:"
 msgstr "Entfernen des PostgreSQL-Volumes:"
 
-#: ../../admin/install/docker.rst:286
+#: ../../admin/install/docker.rst:288
+msgid ""
+"The volume name contains name of the Docker Compose project, which is by "
+"default the directory name what is ``weblate-docker`` in this documentation."
+msgstr ""
+
+#: ../../admin/install/docker.rst:291
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
 msgstr ""
 ":file:`docker-compose.yml` anpassen, um die neue PostgreSQL-Version zu "
 "verwenden."
 
-#: ../../admin/install/docker.rst:288
+#: ../../admin/install/docker.rst:293
 msgid "Start the database container:"
 msgstr "Datenbank-Container öffnen:"
 
-#: ../../admin/install/docker.rst:294
+#: ../../admin/install/docker.rst:299
 msgid "Restore the database from the backup:"
 msgstr "Datenbank aus Sicherung wiederherstellen:"
 
-#: ../../admin/install/docker.rst:302 ../../admin/install/docker.rst:312
+#: ../../admin/install/docker.rst:307 ../../admin/install/docker.rst:317
 msgid ""
 "Please check that the database name matches :envvar:`POSTGRES_DATABASE`."
 msgstr ""
 "Bitte prüfen Sie, ob der Datenbankname mit :envvar:`POSTGRES_DATABASE` "
 "übereinstimmt."
 
-#: ../../admin/install/docker.rst:304
+#: ../../admin/install/docker.rst:309
 msgid ""
 "(Optional) Update password for the Weblate user. This might be needed when "
 "migrating to PostgreSQL 14 or 15 as way of storing passwords has been "
@@ -13647,15 +13676,15 @@ msgstr ""
 "kann bei der Migration auf PostgreSQL 14 oder 15 erforderlich sein, da die "
 "Art der Speicherung von Passwörtern geändert wurde:"
 
-#: ../../admin/install/docker.rst:314
+#: ../../admin/install/docker.rst:319
 msgid "Start all remaining containers:"
 msgstr "Alle verbleibenden Container öffnen:"
 
-#: ../../admin/install/docker.rst:323
+#: ../../admin/install/docker.rst:328
 msgid "Admin sign in"
 msgstr "Administratoranmeldung"
 
-#: ../../admin/install/docker.rst:325
+#: ../../admin/install/docker.rst:330
 msgid ""
 "After container setup, you can sign in as `admin` user with password "
 "provided in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password generated "
@@ -13666,7 +13695,7 @@ msgstr ""
 "nicht festgelegt wurde, mit einem beim ersten Öffnen generierten "
 "Zufallspasswort anmelden."
 
-#: ../../admin/install/docker.rst:329
+#: ../../admin/install/docker.rst:334
 msgid ""
 "To reset `admin` password, restart the container with :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` set to new password."
@@ -13674,7 +13703,7 @@ msgstr ""
 "Um das Passwort für `admin` zurückzusetzen, öffnen Sie den Container mit dem "
 "in :envvar:`WEBLATE_ADMIN_PASSWORD` neu festgelegten Passwort nochmals."
 
-#: ../../admin/install/docker.rst:334
+#: ../../admin/install/docker.rst:339
 msgid ""
 ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
@@ -13682,11 +13711,11 @@ msgstr ""
 ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 
-#: ../../admin/install/docker.rst:339
+#: ../../admin/install/docker.rst:344
 msgid "Number of processes and memory consumption"
 msgstr "Anzahl der Prozesse und Speicherverbrauch"
 
-#: ../../admin/install/docker.rst:341
+#: ../../admin/install/docker.rst:346
 msgid ""
 "The number of worker processes for both uWSGI and Celery is determined "
 "automatically based on number of CPUs. This works well for most cloud "
@@ -13697,7 +13726,7 @@ msgstr ""
 "für die meisten virtuellen Maschinen in der Cloud gut, da sie typischerweise "
 "wenig CPUs und große Speicherkapazitäten besitzen."
 
-#: ../../admin/install/docker.rst:345
+#: ../../admin/install/docker.rst:350
 msgid ""
 "In case you have a lot of CPU cores and hit out of memory issues, try "
 "reducing number of workers:"
@@ -13705,11 +13734,11 @@ msgstr ""
 "Für den Fall, dass Sie sehr viele CPU-Kerne haben und auf Speicherprobleme "
 "stoßen, versuchen Sie die Zahl der Worker zu reduzieren:"
 
-#: ../../admin/install/docker.rst:353
+#: ../../admin/install/docker.rst:358
 msgid "You can also fine-tune individual worker categories:"
 msgstr "Sie können auch einzelne Worker-Kategorien feinabstimmen:"
 
-#: ../../admin/install/docker.rst:365
+#: ../../admin/install/docker.rst:370
 msgid ""
 ":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
 "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
@@ -13721,11 +13750,11 @@ msgstr ""
 "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
 "`CELERY_BEAT_OPTIONS`, :envvar:`UWSGI_WORKERS`"
 
-#: ../../admin/install/docker.rst:377
+#: ../../admin/install/docker.rst:382
 msgid "Scaling horizontally"
 msgstr "Horizontale Skalierung"
 
-#: ../../admin/install/docker.rst:381
+#: ../../admin/install/docker.rst:386
 msgid ""
 "You can run multiple Weblate containers to scale the service horizontally. "
 "The :file:`/app/data` volume has to be shared by all containers, it is "
@@ -13738,7 +13767,7 @@ msgstr ""
 "GlusterFS zu verwenden. Das Volume :file:`/app/cache` sollte für jeden "
 "Container separat sein."
 
-#: ../../admin/install/docker.rst:386
+#: ../../admin/install/docker.rst:391
 msgid ""
 "Each Weblate container has defined role using :envvar:`WEBLATE_SERVICE` "
 "environment variable. Please follow carefully the documentation as some of "
@@ -13750,7 +13779,7 @@ msgstr ""
 "der Dokumentation, da einige der Dienste nur einmal im Cluster laufen sollen "
 "und auch die Reihenfolge der Dienste wichtig ist."
 
-#: ../../admin/install/docker.rst:391
+#: ../../admin/install/docker.rst:396
 msgid ""
 "You can find example setup in the ``docker-compose`` repo as `docker-compose-"
 "split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
@@ -13760,11 +13789,11 @@ msgstr ""
 "compose-split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/"
 "docker-compose-split.yml>`__."
 
-#: ../../admin/install/docker.rst:398
+#: ../../admin/install/docker.rst:403
 msgid "Docker environment variables"
 msgstr "Docker-Umgebungsvariablen"
 
-#: ../../admin/install/docker.rst:400
+#: ../../admin/install/docker.rst:405
 msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using the "
 "environment variables described below."
@@ -13772,7 +13801,7 @@ msgstr ""
 "Vieles von der Weblate-:ref:`config` kann mit den unten beschriebenen "
 "Umgebungsvariablen im Docker-Container eingestellt werden."
 
-#: ../../admin/install/docker.rst:403
+#: ../../admin/install/docker.rst:408
 msgid ""
 "If you need to define a setting not exposed through Docker environment "
 "variables, see :ref:`docker-custom-config`."
@@ -13780,11 +13809,11 @@ msgstr ""
 "Wenn Sie eine Einstellung definieren müssen, die nicht über Docker-"
 "Umgebungsvariablen zugänglich ist, siehe :ref:`docker-custom-config`."
 
-#: ../../admin/install/docker.rst:409
+#: ../../admin/install/docker.rst:414
 msgid "Passing secrets"
 msgstr "Geheimnisse weitergeben"
 
-#: ../../admin/install/docker.rst:413
+#: ../../admin/install/docker.rst:418
 msgid ""
 "Weblate container supports passing secrets as files. To utilize that, append "
 "``_FILE`` suffix to the environment variable and pass secret file via Docker."
@@ -13793,11 +13822,11 @@ msgstr ""
 "Dateien. Um dies zu nutzen, hängen Sie das Suffix ``_FILE`` an die "
 "Umgebungsvariable an und übergeben Sie die geheime Datei über Docker."
 
-#: ../../admin/install/docker.rst:416
+#: ../../admin/install/docker.rst:421
 msgid "Related :file:`docker-compose.yml` might look like:"
 msgstr "Die zugehörige :file:`docker-compose.yml` könnte so aussehen:"
 
-#: ../../admin/install/docker.rst:439
+#: ../../admin/install/docker.rst:444
 msgid ""
 "`How to use secrets in Docker Compose <https://docs.docker.com/compose/use-"
 "secrets/>`_"
@@ -13805,19 +13834,19 @@ msgstr ""
 "`Wie man Geheimnisse in Docker Compose verwendet <https://docs.docker.com/"
 "compose/use-secrets/>`_"
 
-#: ../../admin/install/docker.rst:442
+#: ../../admin/install/docker.rst:447
 msgid "Generic settings"
 msgstr "Allgemeine Einstellungen"
 
-#: ../../admin/install/docker.rst:446
+#: ../../admin/install/docker.rst:451
 msgid "Configures Django debug mode using :setting:`DEBUG`."
 msgstr "Konfiguriert den Debugmodus von Django mit :setting:`DEBUG`."
 
-#: ../../admin/install/docker.rst:457 ../../admin/projects.rst:1122
+#: ../../admin/install/docker.rst:462 ../../admin/projects.rst:1122
 msgid ":ref:`production-debug`"
 msgstr ":ref:`production-debug`"
 
-#: ../../admin/install/docker.rst:461
+#: ../../admin/install/docker.rst:466
 msgid ""
 "Configures the logging verbosity. Set this to ``DEBUG`` to get more detailed "
 "logs."
@@ -13825,7 +13854,7 @@ msgstr ""
 "Legt die Ausführlichkeit der Protokollierung fest. Auf ``DEBUG`` setzen, um "
 "ausführlichere Protokolle zu erhalten."
 
-#: ../../admin/install/docker.rst:463
+#: ../../admin/install/docker.rst:468
 msgid ""
 "Defaults to ``INFO`` when :envvar:`WEBLATE_DEBUG` is turned off, ``DEBUG`` "
 "is used when debug mode is turned on."
@@ -13833,30 +13862,30 @@ msgstr ""
 "Der Standardwert ist ``INFO`` wenn :envvar:`WEBLATE_DEBUG` ausgeschaltet "
 "ist, ``DEBUG`` wird verwendet, wenn der Debugmodus eingeschaltet ist."
 
-#: ../../admin/install/docker.rst:465
+#: ../../admin/install/docker.rst:470
 msgid "For more silent logging use ``ERROR`` or ``WARNING``."
 msgstr ""
 "Für eine ruhigere Protokollierung ``ERROR`` oder ``WARNING`` verwenden."
 
-#: ../../admin/install/docker.rst:469
+#: ../../admin/install/docker.rst:474
 msgid "Configures the logging of the database queries verbosity."
 msgstr ""
 "Konfiguriert die Protokollierung der Ausführlichkeit der Datenbankabfragen."
 
-#: ../../admin/install/docker.rst:473
+#: ../../admin/install/docker.rst:478
 msgid "Changes the site-title shown in the header of all pages."
 msgstr ""
 "Ändert den Seitentitel, der in der Kopfzeile aller Seiten angezeigt wird."
 
-#: ../../admin/install/docker.rst:477
+#: ../../admin/install/docker.rst:482
 msgid "Configures the site domain. This parameter is required."
 msgstr "Konfiguriert die Seitendomain. Dieser Parameter ist erforderlich."
 
-#: ../../admin/install/docker.rst:481
+#: ../../admin/install/docker.rst:486
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
 msgstr ":ref:`production-site`, :setting:`SITE_DOMAIN`"
 
-#: ../../admin/install/docker.rst:487
+#: ../../admin/install/docker.rst:492
 msgid ""
 "Configures the site-admin's name and e-mail. It is used for both :setting:"
 "`ADMINS` setting and creating `admin` user (see :envvar:"
@@ -13867,15 +13896,15 @@ msgstr ""
 "`admin`-Benutzers verwendet (siehe :envvar:`WEBLATE_ADMIN_PASSWORD` für "
 "weitere Informationen dazu)."
 
-#: ../../admin/install/docker.rst:501
+#: ../../admin/install/docker.rst:506
 msgid ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 msgstr ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 
-#: ../../admin/install/docker.rst:507
+#: ../../admin/install/docker.rst:512
 msgid "Sets the password for the `admin` user."
 msgstr "Setzt das Passwort für den Benutzer `admin`."
 
-#: ../../admin/install/docker.rst:509
+#: ../../admin/install/docker.rst:514
 msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
@@ -13884,13 +13913,13 @@ msgstr ""
 "einem zufälligen Passwort erstellt, das beim ersten Start des Containers "
 "angezeigt wird."
 
-#: ../../admin/install/docker.rst:511
+#: ../../admin/install/docker.rst:516
 msgid "If not set and `admin` user exists, no action is performed."
 msgstr ""
 "Wenn nicht gesetzt und der Benutzer `admin` existiert, wird keine Aktion "
 "durchgeführt."
 
-#: ../../admin/install/docker.rst:512
+#: ../../admin/install/docker.rst:517
 msgid ""
 "If set the `admin` user is adjusted on every container startup to match :"
 "envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and :envvar:"
@@ -13900,7 +13929,7 @@ msgstr ""
 "angepasst, um :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` "
 "und :envvar:`WEBLATE_ADMIN_EMAIL` zu entsprechen."
 
-#: ../../admin/install/docker.rst:518
+#: ../../admin/install/docker.rst:523
 msgid ""
 "It might be a security risk to store password in the configuration file. "
 "Consider using this variable only for initial setup (or let Weblate generate "
@@ -13911,7 +13940,7 @@ msgstr ""
 "Ersteinrichtung zu verwenden (oder lassen Sie Weblate beim ersten Start ein "
 "zufälliges Passwort generieren) oder für die Wiederherstellung des Passworts."
 
-#: ../../admin/install/docker.rst:525
+#: ../../admin/install/docker.rst:530
 msgid ""
 ":ref:`docker-admin-login`, :ref:`docker-secrets`, :envvar:"
 "`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
@@ -13921,43 +13950,43 @@ msgstr ""
 "`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 
-#: ../../admin/install/docker.rst:533
+#: ../../admin/install/docker.rst:538
 msgid "The email address that error messages are sent from."
 msgstr "Die E-Mail-Adresse, von der aus Fehlermeldungen gesendet werden."
 
-#: ../../admin/install/docker.rst:537
+#: ../../admin/install/docker.rst:542
 msgid ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
 msgstr ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
 
-#: ../../admin/install/docker.rst:542
+#: ../../admin/install/docker.rst:547
 msgid "Configures the address for outgoing e-mails."
 msgstr "Legt die Adresse für ausgehende E-Mails fest."
 
-#: ../../admin/install/docker.rst:546
+#: ../../admin/install/docker.rst:551
 msgid ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
 msgstr ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
 
-#: ../../admin/install/docker.rst:551
+#: ../../admin/install/docker.rst:556
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
 msgstr ""
 "Konfiguriert das Verhalten des Kontaktformulars, siehe :setting:"
 "`CONTACT_FORM`."
 
-#: ../../admin/install/docker.rst:555
+#: ../../admin/install/docker.rst:560
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
 msgstr "Konfiguriert erlaubte HTTP-Hostnamen mit :setting:`ALLOWED_HOSTS`."
 
-#: ../../admin/install/docker.rst:557
+#: ../../admin/install/docker.rst:562
 msgid "Defaults to ``*`` which allows all hostnames."
 msgstr "Der Standardwert ist ``*``, der alle Hostnamen zulässt."
 
-#: ../../admin/install/docker.rst:568
+#: ../../admin/install/docker.rst:573
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
 ":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 
-#: ../../admin/install/docker.rst:574
+#: ../../admin/install/docker.rst:579
 msgid ""
 "Configures whether registrations are open by toggling :std:setting:"
 "`REGISTRATION_OPEN`."
@@ -13965,7 +13994,7 @@ msgstr ""
 "Legt fest, ob Registrierungen offen sind, durch Umschaltung von :std:setting:"
 "`REGISTRATION_OPEN`."
 
-#: ../../admin/install/docker.rst:585
+#: ../../admin/install/docker.rst:590
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
@@ -13973,11 +14002,11 @@ msgstr ""
 "Konfiguriert, welche Authentifizierungsmethoden zum Erstellen eines neuen "
 "Kontos verwendet werden können, über :setting:`REGISTRATION_ALLOW_BACKENDS`."
 
-#: ../../admin/install/docker.rst:601
+#: ../../admin/install/docker.rst:606
 msgid "Configures :std:setting:`REGISTRATION_REBIND`."
 msgstr "Konfiguriert :std:setting:`REGISTRATION_REBIND`."
 
-#: ../../admin/install/docker.rst:605
+#: ../../admin/install/docker.rst:610
 msgid ""
 "Configures the used time zone in Weblate, see :std:setting:`django:"
 "TIME_ZONE`."
@@ -13985,7 +14014,7 @@ msgstr ""
 "Konfiguriert die verwendete Zeitzone in Weblate, siehe :std:setting:`django:"
 "TIME_ZONE`."
 
-#: ../../admin/install/docker.rst:609
+#: ../../admin/install/docker.rst:614
 msgid ""
 "To change the time zone of the Docker container itself, use the ``TZ`` "
 "environment variable."
@@ -13993,7 +14022,7 @@ msgstr ""
 "Um die Zeitzone des Docker-Containers selbst zu ändern, die "
 "Umgebungsvariable ``TZ`` verwenden."
 
-#: ../../admin/install/docker.rst:621
+#: ../../admin/install/docker.rst:626
 msgid ""
 "Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes "
 "Weblate use HTTPS in e-mail and API links or set secure flags on cookies."
@@ -14002,13 +14031,13 @@ msgstr ""
 "betrieben wird, und bringt Weblate dazu, HTTPS in E-Mails und API-Links zu "
 "verwenden oder sichere Markierungen für Cookies zu setzen."
 
-#: ../../admin/install/docker.rst:626
+#: ../../admin/install/docker.rst:631
 msgid "Please see :setting:`ENABLE_HTTPS` documentation for possible caveats."
 msgstr ""
 "Bitte lesen Sie die :setting:`ENABLE_HTTPS`-Dokumentation für mögliche "
 "Vorsichtsmaßnahmen."
 
-#: ../../admin/install/docker.rst:630
+#: ../../admin/install/docker.rst:635
 msgid ""
 "This does not make the Weblate container accept HTTPS connections, you need "
 "to configure that as well, see :ref:`docker-ssl` for examples."
@@ -14017,7 +14046,7 @@ msgstr ""
 "akzeptiert. Sie müssen dies ebenfalls konfigurieren, siehe :ref:`docker-ssl` "
 "für Beispiele."
 
-#: ../../admin/install/docker.rst:642
+#: ../../admin/install/docker.rst:647
 msgid ""
 ":setting:`ENABLE_HTTPS` :ref:`production-site`, :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`"
@@ -14025,7 +14054,7 @@ msgstr ""
 ":setting:`ENABLE_HTTPS` :ref:`production-site`, :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 
-#: ../../admin/install/docker.rst:650
+#: ../../admin/install/docker.rst:655
 msgid ""
 "Lets Weblate set the `meta[name=monetization]` field in the head of the "
 "document. If multiple are specified, chooses one randomly."
@@ -14033,11 +14062,11 @@ msgstr ""
 "Lässt Weblate das Feld `meta[name=monetization]` im Kopf des Dokuments "
 "setzen. Wenn mehrere angegeben sind, wird eines zufällig ausgewählt."
 
-#: ../../admin/install/docker.rst:655
+#: ../../admin/install/docker.rst:660
 msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 msgstr ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 
-#: ../../admin/install/docker.rst:659
+#: ../../admin/install/docker.rst:664
 msgid ""
 "Lets Weblate fetch the IP address from any given HTTP header. Use this when "
 "using a reverse proxy in front of the Weblate container."
@@ -14046,7 +14075,7 @@ msgstr ""
 "holen. Verwenden Sie dies, wenn Sie einen Reverse-Proxy vor dem Weblate-"
 "Container einsetzen."
 
-#: ../../admin/install/docker.rst:662
+#: ../../admin/install/docker.rst:667
 msgid ""
 "Enables :setting:`IP_BEHIND_REVERSE_PROXY` and sets :setting:"
 "`IP_PROXY_HEADER`."
@@ -14054,7 +14083,7 @@ msgstr ""
 "Aktiviert :setting:`IP_BEHIND_REVERSE_PROXY` und setzt :setting:"
 "`IP_PROXY_HEADER`."
 
-#: ../../admin/install/docker.rst:666
+#: ../../admin/install/docker.rst:671
 msgid ""
 "The format must conform to Django's expectations. Django `transforms "
 "<https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http."
@@ -14064,28 +14093,28 @@ msgstr ""
 "`wandelt <https://docs.djangoproject.com/en/2.2/ref/request-response/#django."
 "http.HttpRequest.META>`_ rohe HTTP-Header-Namen wie folgt um:"
 
-#: ../../admin/install/docker.rst:670
+#: ../../admin/install/docker.rst:675
 msgid "converts all characters to uppercase"
 msgstr "wandelt alle Zeichen in Großbuchstaben um"
 
-#: ../../admin/install/docker.rst:671
+#: ../../admin/install/docker.rst:676
 msgid "replaces any hyphens with underscores"
 msgstr "ersetzt alle Bindestriche durch Unterstriche"
 
-#: ../../admin/install/docker.rst:672
+#: ../../admin/install/docker.rst:677
 msgid "prepends ``HTTP_`` prefix"
 msgstr "stellt den``HTTP_`` Präfix voran"
 
-#: ../../admin/install/docker.rst:674
+#: ../../admin/install/docker.rst:679
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
 msgstr ""
 "So würde ``X-Forwarded-For`` auf ``HTTP_X_FORWARDED_FOR`` abgebildet werden."
 
-#: ../../admin/install/docker.rst:687
+#: ../../admin/install/docker.rst:692
 msgid "Configures :setting:`IP_PROXY_OFFSET`."
 msgstr "Konfiguriert :setting:`IP_PROXY_OFFSET`."
 
-#: ../../admin/install/docker.rst:693
+#: ../../admin/install/docker.rst:698
 msgid ""
 "A boolean that specifies whether to use the :http:header:`X-Forwarded-Port` "
 "header in preference to the SERVER_PORT META variable. This should only be "
@@ -14096,17 +14125,17 @@ msgstr ""
 "sollte nur aktiviert werden, wenn ein Proxy verwendet wird, der diesen "
 "Header setzt."
 
-#: ../../admin/install/docker.rst:699
+#: ../../admin/install/docker.rst:704
 msgid ":setting:`django:USE_X_FORWARDED_PORT`"
 msgstr ":setting:`django:USE_X_FORWARDED_PORT`"
 
-#: ../../admin/install/docker.rst:701
+#: ../../admin/install/docker.rst:706
 msgid "This is a boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
 "Dies ist eine boolesche Einstellung (``\"true\"`` oder ``\"false\"`` "
 "verwenden)."
 
-#: ../../admin/install/docker.rst:705
+#: ../../admin/install/docker.rst:710
 msgid ""
 "A tuple representing a HTTP header/value combination that signifies a "
 "request is secure. This is needed when Weblate is running behind a reverse "
@@ -14117,18 +14146,18 @@ msgstr ""
 "Reverse-Proxy läuft, der die SSL-Terminierung durchführt und keine Standard-"
 "HTTPS-Header weitergibt."
 
-#: ../../admin/install/docker.rst:718
+#: ../../admin/install/docker.rst:723
 msgid ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgstr ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 
-#: ../../admin/install/docker.rst:722
+#: ../../admin/install/docker.rst:727
 msgid ""
 "Enables :setting:`REQUIRE_LOGIN` to enforce authentication on whole Weblate."
 msgstr ""
 "Aktiviert :setting:`REQUIRE_LOGIN`, um die Authentifizierung auf dem "
 "gesamten Weblate zu erzwingen."
 
-#: ../../admin/install/docker.rst:735
+#: ../../admin/install/docker.rst:740
 msgid ""
 "Adds URL exceptions for authentication required for the whole Weblate "
 "installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
@@ -14137,7 +14166,7 @@ msgstr ""
 "Weblate-Installation durch :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` "
 "erforderlich sind."
 
-#: ../../admin/install/docker.rst:738
+#: ../../admin/install/docker.rst:743
 msgid ""
 "You can either replace whole settings, or modify default value using ``ADD`` "
 "and ``REMOVE`` variables."
@@ -14145,12 +14174,12 @@ msgstr ""
 "Sie können entweder ganze Einstellungen ersetzen oder den Standardwert "
 "mittels der Variablen ``ADD`` und ``REMOVE`` ändern."
 
-#: ../../admin/install/docker.rst:740
+#: ../../admin/install/docker.rst:745
 msgid "To enforce authentication for the contact form, do:"
 msgstr ""
 "Um die Authentifizierung für das Kontaktformular zu erzwingen, tun Sie dies:"
 
-#: ../../admin/install/docker.rst:749
+#: ../../admin/install/docker.rst:754
 msgid ""
 "Configures ID for Google Analytics by changing :setting:"
 "`GOOGLE_ANALYTICS_ID`."
@@ -14158,7 +14187,7 @@ msgstr ""
 "Konfiguriert die ID für Google Analytics durch Ändern von :setting:"
 "`GOOGLE_ANALYTICS_ID`."
 
-#: ../../admin/install/docker.rst:756
+#: ../../admin/install/docker.rst:761
 msgid ""
 "Configures GitHub pull-requests integration by changing :setting:"
 "`GITHUB_CREDENTIALS`."
@@ -14166,7 +14195,7 @@ msgstr ""
 "Konfiguriert die Integration von GitHub-Pull-Requests durch Ändern von :"
 "setting:`GITHUB_CREDENTIALS`."
 
-#: ../../admin/install/docker.rst:768
+#: ../../admin/install/docker.rst:773
 msgid ""
 "Configures GitLab merge-requests integration  by changing :setting:"
 "`GITLAB_CREDENTIALS`."
@@ -14174,7 +14203,7 @@ msgstr ""
 "Konfiguriert die Integration von GitLab-Merge-Requests durch Ändern von :"
 "setting:`GITLAB_CREDENTIALS`."
 
-#: ../../admin/install/docker.rst:790
+#: ../../admin/install/docker.rst:795
 msgid ""
 "Configures Gitea pull-requests integration by changing :setting:"
 "`GITEA_CREDENTIALS`."
@@ -14182,7 +14211,7 @@ msgstr ""
 "Konfiguriert die Integration von Gitea-Pull-Requests durch Ändern von :"
 "setting:`GITEA_CREDENTIALS`."
 
-#: ../../admin/install/docker.rst:803
+#: ../../admin/install/docker.rst:808
 msgid ""
 "Configures Pagure merge-requests integration  by changing :setting:"
 "`PAGURE_CREDENTIALS`."
@@ -14190,7 +14219,7 @@ msgstr ""
 "Konfiguriert die Integration von Pagure-Merge-Requests durch Ändern von :"
 "setting:`PAGURE_CREDENTIALS`."
 
-#: ../../admin/install/docker.rst:815
+#: ../../admin/install/docker.rst:820
 msgid ""
 "Configures Bitbucket Server pull-requests integration by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
@@ -14198,11 +14227,11 @@ msgstr ""
 "Konfiguriert die Integration von Bitbucket-Server-Pull-Requests durch Ändern "
 "von :setting:`BITBUCKETSERVER_CREDENTIALS`."
 
-#: ../../admin/install/docker.rst:820
+#: ../../admin/install/docker.rst:825
 msgid ":ref:`vcs-bitbucket-server`"
 msgstr ":ref:`vcs-bitbucket-server`"
 
-#: ../../admin/install/docker.rst:824
+#: ../../admin/install/docker.rst:829
 msgid ""
 "Configures the default title and message for pull requests via API by "
 "changing :setting:`DEFAULT_PULL_MESSAGE`"
@@ -14210,11 +14239,11 @@ msgstr ""
 "Konfiguriert den Standardtitel und die Nachricht für Pull Requests über die "
 "API durch Ändern von :setting:`DEFAULT_PULL_MESSAGE`"
 
-#: ../../admin/install/docker.rst:829
+#: ../../admin/install/docker.rst:834
 msgid ":ref:`config-pull-message`"
 msgstr ":ref:`config-pull-message`"
 
-#: ../../admin/install/docker.rst:833
+#: ../../admin/install/docker.rst:838
 msgid ""
 "Configures the language simplification policy, see :setting:"
 "`SIMPLIFY_LANGUAGES`."
@@ -14222,7 +14251,7 @@ msgstr ""
 "Konfiguriert die Richtlinie zur Sprachvereinfachung, siehe :setting:"
 "`SIMPLIFY_LANGUAGES`."
 
-#: ../../admin/install/docker.rst:837
+#: ../../admin/install/docker.rst:842
 msgid ""
 "Configures the default :ref:`project-access_control` for new projects, see :"
 "setting:`DEFAULT_ACCESS_CONTROL`."
@@ -14230,7 +14259,7 @@ msgstr ""
 "Konfiguriert die standardmäßige :ref:`project-access_control` für neue "
 "Projekte, siehe :setting:`DEFAULT_ACCESS_CONTROL`."
 
-#: ../../admin/install/docker.rst:841
+#: ../../admin/install/docker.rst:846
 msgid ""
 "Configures the default value for :ref:`component-restricted` for new "
 "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
@@ -14238,7 +14267,7 @@ msgstr ""
 "Legt den Standardwert für :ref:`component-restricted` für neue Komponenten "
 "fest, siehe :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 
-#: ../../admin/install/docker.rst:845
+#: ../../admin/install/docker.rst:850
 msgid ""
 "Configures the default value for :ref:`component-"
 "allow_translation_propagation` for new components, see :setting:"
@@ -14247,37 +14276,37 @@ msgstr ""
 "Legt den Standardwert für :ref:`component-allow_translation_propagation` für "
 "neue Komponenten fest, siehe :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
-#: ../../admin/install/docker.rst:849
+#: ../../admin/install/docker.rst:854
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgstr "Konfiguriert :setting:`DEFAULT_COMMITER_EMAIL`."
 
-#: ../../admin/install/docker.rst:853
+#: ../../admin/install/docker.rst:858
 msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
 msgstr "Konfiguriert :setting:`DEFAULT_COMMITER_NAME`."
 
-#: ../../admin/install/docker.rst:857
+#: ../../admin/install/docker.rst:862
 msgid "Configures :setting:`DEFAULT_SHARED_TM`."
 msgstr "Konfiguriert :setting:`DEFAULT_SHARED_TM`."
 
-#: ../../admin/install/docker.rst:861
+#: ../../admin/install/docker.rst:866
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
 msgstr ""
 "Konfiguriert den Akismet-API-Schlüssel, siehe :setting:`AKISMET_API_KEY`."
 
-#: ../../admin/install/docker.rst:865
+#: ../../admin/install/docker.rst:870
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr ""
 "Konfiguriert die GPG-Signierung von Commits, siehe :setting:"
 "`WEBLATE_GPG_IDENTITY`."
 
-#: ../../admin/install/docker.rst:873
+#: ../../admin/install/docker.rst:878
 msgid ""
 "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgstr ""
 "Konfiguriert den URL-Präfix, unter dem Weblate läuft, siehe :setting:"
 "`URL_PREFIX`."
 
-#: ../../admin/install/docker.rst:877
+#: ../../admin/install/docker.rst:882
 msgid ""
 "Configures checks which you do not want to be displayed, see :setting:"
 "`django:SILENCED_SYSTEM_CHECKS`."
@@ -14285,11 +14314,11 @@ msgstr ""
 "Konfiguriert Prüfungen, die nicht angezeigt werden sollen, siehe :setting:"
 "`django:SILENCED_SYSTEM_CHECKS`."
 
-#: ../../admin/install/docker.rst:886
+#: ../../admin/install/docker.rst:891
 msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgstr "Ermöglicht die Anpassung des HTTP-Headers ``Content-Security-Policy``."
 
-#: ../../admin/install/docker.rst:890
+#: ../../admin/install/docker.rst:895
 msgid ""
 ":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
@@ -14297,35 +14326,35 @@ msgstr ""
 ":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 
-#: ../../admin/install/docker.rst:899
+#: ../../admin/install/docker.rst:904
 msgid "Configures :setting:`LICENSE_FILTER`."
 msgstr "Konfiguriert :setting:`LICENSE_FILTER`."
 
-#: ../../admin/install/docker.rst:903
+#: ../../admin/install/docker.rst:908
 msgid "Configures :setting:`LICENSE_REQUIRED`"
 msgstr "Konfiguriert :setting:`LICENSE_REQUIRED`"
 
-#: ../../admin/install/docker.rst:907
+#: ../../admin/install/docker.rst:912
 msgid "Configures :setting:`WEBSITE_REQUIRED`"
 msgstr "Konfiguriert :setting:`WEBSITE_REQUIRED`"
 
-#: ../../admin/install/docker.rst:911
+#: ../../admin/install/docker.rst:916
 msgid "Configures :setting:`HIDE_VERSION`."
 msgstr "Konfiguriert :setting:`HIDE_VERSION`."
 
-#: ../../admin/install/docker.rst:915
+#: ../../admin/install/docker.rst:920
 msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgstr "Konfiguriert :setting:`BASIC_LANGUAGES`."
 
-#: ../../admin/install/docker.rst:919
+#: ../../admin/install/docker.rst:924
 msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
 msgstr "Konfiguriert :setting:`DEFAULT_AUTO_WATCH`."
 
-#: ../../admin/install/docker.rst:927
+#: ../../admin/install/docker.rst:932
 msgid "Configures rate limiter."
 msgstr "Konfiguriert den Ratenbegrenzer."
 
-#: ../../admin/install/docker.rst:931
+#: ../../admin/install/docker.rst:936
 msgid ""
 "You can set configuration for any rate limiter scopes. To do that add "
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
@@ -14334,7 +14363,7 @@ msgstr ""
 "festlegen. Fügen Sie dazu das Präfix ``WEBLATE_`` zu einer der in :ref:`Rate-"
 "Limit` beschriebenen Einstellungen hinzu."
 
-#: ../../admin/install/docker.rst:936
+#: ../../admin/install/docker.rst:941
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
@@ -14342,7 +14371,7 @@ msgstr ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 
-#: ../../admin/install/docker.rst:947
+#: ../../admin/install/docker.rst:952
 msgid ""
 "Configures API rate limiting. Defaults to ``100/day`` for anonymous and "
 "``5000/hour`` for authenticated users."
@@ -14350,68 +14379,68 @@ msgstr ""
 "Konfiguriert die API-Ratenbegrenzung. Der Standardwert ist ``100/day`` für "
 "anonyme und ``5000/hour`` für authentifizierte Benutzer."
 
-#: ../../admin/install/docker.rst:952
+#: ../../admin/install/docker.rst:957
 msgid ":ref:`api-rate`"
 msgstr ":ref:`api-rate`"
 
-#: ../../admin/install/docker.rst:958
+#: ../../admin/install/docker.rst:963
 msgid "Configures :setting:`ENABLE_HOOKS`."
 msgstr "Konfiguriert :setting:`ENABLE_HOOKS`."
 
-#: ../../admin/install/docker.rst:964
+#: ../../admin/install/docker.rst:969
 msgid "Configures :setting:`ENABLE_AVATARS`."
 msgstr "Konfiguriert :setting:`ENABLE_AVATARS`."
 
-#: ../../admin/install/docker.rst:970
+#: ../../admin/install/docker.rst:975
 msgid "Configures :setting:`AVATAR_URL_PREFIX`."
 msgstr "Konfiguriert :setting:`AVATAR_URL_PREFIX`."
 
-#: ../../admin/install/docker.rst:976
+#: ../../admin/install/docker.rst:981
 msgid "Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
 msgstr "Konfiguriert :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
 
-#: ../../admin/install/docker.rst:982
+#: ../../admin/install/docker.rst:987
 msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgstr "Konfiguriert :setting:`SSH_EXTRA_ARGS`."
 
-#: ../../admin/install/docker.rst:988
+#: ../../admin/install/docker.rst:993
 msgid ""
 "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
 msgstr ""
 "Konfiguriert :setting:`BORG_EXTRA_ARGS` als komma-getrennte Liste von "
 "Argumenten."
 
-#: ../../admin/install/docker.rst:1001
+#: ../../admin/install/docker.rst:1006
 msgid "Configures :setting:`ENABLE_SHARING`."
 msgstr "Konfiguriert :setting:`ENABLE_SHARING`."
 
-#: ../../admin/install/docker.rst:1007
+#: ../../admin/install/docker.rst:1012
 msgid "Configures :setting:`EXTRA_HTML_HEAD`."
 msgstr "Konfiguriert :setting:`EXTRA_HTML_HEAD`."
 
-#: ../../admin/install/docker.rst:1013
+#: ../../admin/install/docker.rst:1018
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgstr "Konfiguriert :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 
-#: ../../admin/install/docker.rst:1019
+#: ../../admin/install/docker.rst:1024
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr "Konfiguriert :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
-#: ../../admin/install/docker.rst:1025
+#: ../../admin/install/docker.rst:1030
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr "Konfiguriert :setting:`UNUSED_ALERT_DAYS`."
 
-#: ../../admin/install/docker.rst:1031
+#: ../../admin/install/docker.rst:1036
 msgid "Allow CORS requests from given origins."
 msgstr "Lässt CORS-Anfragen von bestimmten Quellen zu."
 
-#: ../../admin/install/docker.rst:1045
+#: ../../admin/install/docker.rst:1050
 msgid "Configures maximal body size accepted by the built-in web server."
 msgstr ""
 "Konfiguriert die maximale Body Size, die der integrierte Webserver "
 "akzeptiert."
 
-#: ../../admin/install/docker.rst:1054
+#: ../../admin/install/docker.rst:1059
 msgid ""
 "This variable intentionally lacks ``WEBLATE_`` prefix as it is shared with "
 "third-party container used in :ref:`docker-https-portal`."
@@ -14420,11 +14449,11 @@ msgstr ""
 "in :ref:`docker-https-portal` verwendeten Container eines Drittanbieters "
 "geteilt wird."
 
-#: ../../admin/install/docker.rst:1060
+#: ../../admin/install/docker.rst:1065
 msgid "Automatic suggestion settings"
 msgstr "Automatische Vorschlagseinstellungen"
 
-#: ../../admin/install/docker.rst:1064
+#: ../../admin/install/docker.rst:1069
 msgid ""
 "Automatic suggestion services are now configured in the user interface, see :"
 "ref:`machine-translation-setup`."
@@ -14432,7 +14461,7 @@ msgstr ""
 "Automatische Vorschlagsdienste werden jetzt in der Bedienoberfläche "
 "konfiguriert, siehe :ref:`machine-translation-setup`."
 
-#: ../../admin/install/docker.rst:1067
+#: ../../admin/install/docker.rst:1072
 msgid ""
 "The existing environment variables are imported during the migration to "
 "Weblate 4.13, but changing them will not have any further effect."
@@ -14440,109 +14469,109 @@ msgstr ""
 "Die vorhandenen Umgebungsvariablen werden bei der Migration auf Weblate 4.13 "
 "importiert, sie zu ändern hat jedoch keine weiteren Auswirkungen."
 
-#: ../../admin/install/docker.rst:1073
+#: ../../admin/install/docker.rst:1078
 msgid "Authentication settings"
 msgstr "Authentifizierungseinstellungen"
 
-#: ../../admin/install/docker.rst:1076
+#: ../../admin/install/docker.rst:1081
 msgid "LDAP"
 msgstr "LDAP"
 
-#: ../../admin/install/docker.rst:1089
+#: ../../admin/install/docker.rst:1094
 msgid "LDAP authentication configuration."
 msgstr "Konfiguration der LDAP-Authentifizierung."
 
-#: ../../admin/install/docker.rst:1091
+#: ../../admin/install/docker.rst:1096
 msgid "**Example for direct bind:**"
 msgstr "**Beispiel für direkte Bindung:**"
 
-#: ../../admin/install/docker.rst:1102
+#: ../../admin/install/docker.rst:1107
 msgid "**Example for search and bind:**"
 msgstr "**Beispiel für Suche und Bindung:**"
 
-#: ../../admin/install/docker.rst:1114
+#: ../../admin/install/docker.rst:1119
 msgid "**Example for union search and bind:**"
 msgstr "**Beispiel für Vereinigungssuche und Bindung:**"
 
-#: ../../admin/install/docker.rst:1126
+#: ../../admin/install/docker.rst:1131
 msgid "**Example with search and bind against Active Directory:**"
 msgstr "**Beispiel mit Suche und Bindung gegen Active Directory:**"
 
-#: ../../admin/install/docker.rst:1141
+#: ../../admin/install/docker.rst:1146
 msgid ":ref:`docker-secrets`, :ref:`ldap-auth`"
 msgstr ":ref:`docker-secrets`, :ref:`ldap-auth`"
 
-#: ../../admin/install/docker.rst:1145
+#: ../../admin/install/docker.rst:1150
 msgid "GitHub"
 msgstr "GitHub"
 
-#: ../../admin/install/docker.rst:1156
+#: ../../admin/install/docker.rst:1161
 msgid "Enables :ref:`github_auth`."
 msgstr "Aktiviert :ref:`github_auth`."
 
-#: ../../admin/install/docker.rst:1159
+#: ../../admin/install/docker.rst:1164
 msgid "GitHub Enterprise Edition"
 msgstr "GitHub Enterprise Edition"
 
-#: ../../admin/install/docker.rst:1167
+#: ../../admin/install/docker.rst:1172
 msgid "Enables :ref:`github_ee_auth`."
 msgstr "Aktiviert :ref:`github_ee_auth`."
 
-#: ../../admin/install/docker.rst:1170
+#: ../../admin/install/docker.rst:1175
 msgid "Bitbucket"
 msgstr "Bitbucket"
 
-#: ../../admin/install/docker.rst:1177
+#: ../../admin/install/docker.rst:1182
 msgid "Enables :ref:`bitbucket_auth`."
 msgstr "Aktiviert :ref:`bitbucket_auth`."
 
-#: ../../admin/install/docker.rst:1180
+#: ../../admin/install/docker.rst:1185
 msgid "Facebook"
 msgstr "Facebook"
 
-#: ../../admin/install/docker.rst:1185
+#: ../../admin/install/docker.rst:1190
 msgid "Enables :ref:`facebook_auth`."
 msgstr "Aktiviert :ref:`facebook_auth`."
 
-#: ../../admin/install/docker.rst:1188
+#: ../../admin/install/docker.rst:1193
 msgid "Google"
 msgstr "Google"
 
-#: ../../admin/install/docker.rst:1195
+#: ../../admin/install/docker.rst:1200
 msgid "Enables :ref:`google_auth`."
 msgstr "Aktiviert :ref:`google_auth`."
 
-#: ../../admin/install/docker.rst:1198
+#: ../../admin/install/docker.rst:1203
 msgid "GitLab"
 msgstr "GitLab"
 
-#: ../../admin/install/docker.rst:1204
+#: ../../admin/install/docker.rst:1209
 msgid "Enables :ref:`gitlab_auth`."
 msgstr "Aktiviert :ref:`gitlab_auth`."
 
-#: ../../admin/install/docker.rst:1207
+#: ../../admin/install/docker.rst:1212
 msgid "Gitea"
 msgstr "Gitea"
 
-#: ../../admin/install/docker.rst:1213
+#: ../../admin/install/docker.rst:1218
 msgid "Enables Gitea authentication."
 msgstr "Aktiviert die Gitea-Authentifizierung."
 
-#: ../../admin/install/docker.rst:1216
+#: ../../admin/install/docker.rst:1221
 msgid "Azure Active Directory"
 msgstr "Azure Active Directory"
 
-#: ../../admin/install/docker.rst:1221
+#: ../../admin/install/docker.rst:1226
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
 msgstr ""
 "Aktiviert die Azure Active Directory-Authentifizierung, siehe :ref:`azure-"
 "auth`."
 
-#: ../../admin/install/docker.rst:1224
+#: ../../admin/install/docker.rst:1229
 msgid "Azure Active Directory with Tenant support"
 msgstr "Azure Active Directory mit Mandantenunterstützung"
 
-#: ../../admin/install/docker.rst:1230
+#: ../../admin/install/docker.rst:1235
 msgid ""
 "Enables Azure Active Directory authentication with Tenant support, see :ref:"
 "`azure-auth`."
@@ -14550,11 +14579,11 @@ msgstr ""
 "Aktiviert die Azure Active Directory-Authentifizierung mit "
 "Mandantenunterstützung, siehe :ref:`azure-auth`."
 
-#: ../../admin/install/docker.rst:1234
+#: ../../admin/install/docker.rst:1239
 msgid "Keycloak"
 msgstr "Keycloak"
 
-#: ../../admin/install/docker.rst:1245
+#: ../../admin/install/docker.rst:1250
 msgid ""
 "Enables Keycloak authentication, see `documentation <https://github.com/"
 "python-social-auth/social-core/blob/master/social_core/backends/keycloak."
@@ -14564,11 +14593,11 @@ msgstr ""
 "github.com/python-social-auth/social-core/blob/master/social_core/backends/"
 "keycloak.py>`_."
 
-#: ../../admin/install/docker.rst:1249
+#: ../../admin/install/docker.rst:1254
 msgid "Linux vendors"
 msgstr "Linux-Anbieter"
 
-#: ../../admin/install/docker.rst:1251
+#: ../../admin/install/docker.rst:1256
 msgid ""
 "You can enable authentication using Linux vendors authentication services by "
 "setting following variables to any value."
@@ -14577,27 +14606,27 @@ msgstr ""
 "Linux-Anbietern aktivieren, indem Sie die folgenden Variablen auf einen "
 "beliebigen Wert setzen."
 
-#: ../../admin/install/docker.rst:1265
+#: ../../admin/install/docker.rst:1270
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
 msgstr "Aktiviert die Slack-Authentifizierung, siehe :ref:`slack-auth`."
 
-#: ../../admin/install/docker.rst:1269
+#: ../../admin/install/docker.rst:1274
 msgid "OpenID Connect"
 msgstr "OpenID Connect"
 
-#: ../../admin/install/docker.rst:1278
+#: ../../admin/install/docker.rst:1283
 msgid "Configures generic OpenID Connect integration."
 msgstr "Konfiguriert die allgemeine OpenID Connect-Integration."
 
-#: ../../admin/install/docker.rst:1282
+#: ../../admin/install/docker.rst:1287
 msgid ":doc:`psa:backends/oidc`"
 msgstr ":doc:`psa:backends/oidc`"
 
-#: ../../admin/install/docker.rst:1287
+#: ../../admin/install/docker.rst:1292
 msgid "SAML"
 msgstr "SAML"
 
-#: ../../admin/install/docker.rst:1289
+#: ../../admin/install/docker.rst:1294
 msgid ""
 "Self-signed SAML keys are automatically generated on first container "
 "startup. In case you want to use own keys, place the certificate and private "
@@ -14608,19 +14637,19 @@ msgstr ""
 "das Zertifikat und den privaten Schlüssel in :file:`/app/data/ssl/saml.crt` "
 "und :file:`/app/data/ssl/saml.key` ab."
 
-#: ../../admin/install/docker.rst:1299
+#: ../../admin/install/docker.rst:1304
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
 msgstr "SAML-Identitätsanbietereinstellungen, siehe :ref:`saml-auth`."
 
-#: ../../admin/install/docker.rst:1308
+#: ../../admin/install/docker.rst:1313
 msgid "SAML attributes mapping."
 msgstr "SAML-Attribut-Zuordnung."
 
-#: ../../admin/install/docker.rst:1312
+#: ../../admin/install/docker.rst:1317
 msgid "Other authentication settings"
 msgstr "Weitere Authentifizierungseinstellungen"
 
-#: ../../admin/install/docker.rst:1316
+#: ../../admin/install/docker.rst:1321
 msgid ""
 "Disables e-mail authentication when set to any value. See :ref:`disable-"
 "email-auth`."
@@ -14628,11 +14657,11 @@ msgstr ""
 "Deaktiviert die E-Mail-Authentifizierung, wenn auf einen beliebigen Wert "
 "gesetzt. Siehe :ref:`disable-email-auth`."
 
-#: ../../admin/install/docker.rst:1321
+#: ../../admin/install/docker.rst:1326
 msgid "PostgreSQL database setup"
 msgstr "Einrichtung der PostgreSQL-Datenbank"
 
-#: ../../admin/install/docker.rst:1323
+#: ../../admin/install/docker.rst:1328
 msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
@@ -14640,39 +14669,39 @@ msgstr ""
 "Die Datenbank wird von :file:`docker-compose.yml` erstellt, daher betreffen "
 "diese Einstellungen sowohl Weblate- als auch PostgreSQL-Container."
 
-#: ../../admin/install/docker.rst:1326
+#: ../../admin/install/docker.rst:1331
 msgid ":ref:`database-setup`"
 msgstr ":ref:`database-setup`"
 
-#: ../../admin/install/docker.rst:1330
+#: ../../admin/install/docker.rst:1335
 msgid "PostgreSQL password."
 msgstr "PostgreSQL-Passwort."
 
-#: ../../admin/install/docker.rst:1334 ../../admin/install/docker.rst:1457
+#: ../../admin/install/docker.rst:1339 ../../admin/install/docker.rst:1462
 msgid ":ref:`docker-secrets`"
 msgstr ":ref:`docker-secrets`"
 
-#: ../../admin/install/docker.rst:1338
+#: ../../admin/install/docker.rst:1343
 msgid "PostgreSQL username."
 msgstr "PostgreSQL-Benutzername."
 
-#: ../../admin/install/docker.rst:1342
+#: ../../admin/install/docker.rst:1347
 msgid "PostgreSQL database name."
 msgstr "PostgreSQL-Datenbankname."
 
-#: ../../admin/install/docker.rst:1346
+#: ../../admin/install/docker.rst:1351
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr ""
 "Hostname oder IP-Adresse des PostgreSQL-Servers. Der Standardwert ist "
 "``database``."
 
-#: ../../admin/install/docker.rst:1350
+#: ../../admin/install/docker.rst:1355
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr ""
 "PostgreSQL-Serverport. Der Standardwert ist none (verwendet den "
 "Standardwert)."
 
-#: ../../admin/install/docker.rst:1354
+#: ../../admin/install/docker.rst:1359
 msgid ""
 "Configure how PostgreSQL handles SSL in connection to the server, for "
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/"
@@ -14682,7 +14711,7 @@ msgstr ""
 "mögliche Auswahlen siehe `SSL Mode Descriptions <https://www.postgresql.org/"
 "docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_"
 
-#: ../../admin/install/docker.rst:1359
+#: ../../admin/install/docker.rst:1364
 msgid ""
 "Configures name of role to alter during migrations, see :ref:`config-"
 "postgresql`."
@@ -14690,7 +14719,7 @@ msgstr ""
 "Konfiguriert den Namen der Rolle, der bei Migrationen geändert werden soll, "
 "siehe :ref:`config-postgresql`."
 
-#: ../../admin/install/docker.rst:1365
+#: ../../admin/install/docker.rst:1370
 msgid ""
 "The lifetime of a database connection, as an integer of seconds. Use 0 to "
 "close database connections at the end of each request."
@@ -14698,14 +14727,14 @@ msgstr ""
 "Die Lebensdauer einer Datenbankverbindung, als ganze Zahl von Sekunden. 0 "
 "verwenden, um Datenbankverbindungen am Ende jeder Anfrage zu schließen."
 
-#: ../../admin/install/docker.rst:1370
+#: ../../admin/install/docker.rst:1375
 msgid ""
 "The default behavior is to have unlimited persistent database connections."
 msgstr ""
 "Das Standardverhalten ist eine unbegrenzte Anzahl von dauerhaften "
 "Datenbankverbindungen."
 
-#: ../../admin/install/docker.rst:1372
+#: ../../admin/install/docker.rst:1377
 msgid ""
 "Enabling connection persistence will typically, cause more open connection "
 "to the database. Please adjust your database configuration prior enabling."
@@ -14714,13 +14743,13 @@ msgstr ""
 "offenen Verbindungen zur Datenbank. Bitte passen Sie Ihre "
 "Datenbankkonfiguration vor der Aktivierung an."
 
-#: ../../admin/install/docker.rst:1384
+#: ../../admin/install/docker.rst:1389
 msgid ""
 ":setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`"
 msgstr ""
 ":setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`"
 
-#: ../../admin/install/docker.rst:1390
+#: ../../admin/install/docker.rst:1395
 msgid ""
 "Disable server side cursors in the database. This is necessary in some :"
 "command:`pgbouncer` setups."
@@ -14728,7 +14757,7 @@ msgstr ""
 "Deaktiviert serverseitige Cursor in der Datenbank. Dies ist bei einigen :"
 "command:`pgbouncer`-Einrichtungen notwendig."
 
-#: ../../admin/install/docker.rst:1402
+#: ../../admin/install/docker.rst:1407
 msgid ""
 ":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
 "DISABLE_SERVER_SIDE_CURSORS>`, :ref:`django:transaction-pooling-server-side-"
@@ -14738,7 +14767,7 @@ msgstr ""
 "DISABLE_SERVER_SIDE_CURSORS>`, :ref:`django:transaction-pooling-server-side-"
 "cursors`"
 
-#: ../../admin/install/docker.rst:1409
+#: ../../admin/install/docker.rst:1414
 msgid ""
 "Set to false to disables environment based configuration of the database "
 "connection. Use :ref:`docker-settings-override` to configure the database "
@@ -14748,11 +14777,11 @@ msgstr ""
 "Datenbankverbindung zu deaktivieren. :ref:`docker-settings-override` "
 "verwenden, um die Datenbankverbindung manuell zu konfigurieren."
 
-#: ../../admin/install/docker.rst:1414
+#: ../../admin/install/docker.rst:1419
 msgid "MySQL or MariaDB server"
 msgstr "MySQL- oder MariaDB-Server"
 
-#: ../../admin/install/docker.rst:1416
+#: ../../admin/install/docker.rst:1421
 msgid ""
 "Neither MySQL nor MariaDB can not be configured via environment variables. "
 "See :ref:`mysql` for info on using those with Weblate. Use :envvar:"
@@ -14763,15 +14792,15 @@ msgstr ""
 "Weblate. :envvar:`WEBLATE_DATABASES` verwenden, um die Datenbankverbindung "
 "manuell zu konfigurieren."
 
-#: ../../admin/install/docker.rst:1421
+#: ../../admin/install/docker.rst:1426
 msgid "Database backup settings"
 msgstr "Einstellungen für die Datenbanksicherung"
 
-#: ../../admin/install/docker.rst:1424
+#: ../../admin/install/docker.rst:1429
 msgid ":ref:`backup-dumps`"
 msgstr ":ref:`backup-dumps`"
 
-#: ../../admin/install/docker.rst:1428
+#: ../../admin/install/docker.rst:1433
 msgid ""
 "Configures the daily database dump using :setting:`DATABASE_BACKUP`. "
 "Defaults to ``plain``."
@@ -14779,11 +14808,11 @@ msgstr ""
 "Konfiguriert den täglichen Datenbankauszug mit :setting:`DATABASE_BACKUP`. "
 "Die Voreinstellung ist ``plain``."
 
-#: ../../admin/install/docker.rst:1432
+#: ../../admin/install/docker.rst:1437
 msgid "Caching server setup"
 msgstr "Einrichtung eines Caching-Servers"
 
-#: ../../admin/install/docker.rst:1434
+#: ../../admin/install/docker.rst:1439
 msgid ""
 "Using Redis is strongly recommended by Weblate and you have to provide a "
 "Redis instance when running Weblate in Docker."
@@ -14791,66 +14820,66 @@ msgstr ""
 "Die Verwendung von Redis wird von Weblate dringend empfohlen und Sie müssen "
 "eine Redis-Instanz bereitstellen, wenn Sie Weblate in Docker ausführen."
 
-#: ../../admin/install/docker.rst:1437 ../../admin/projects.rst:1120
+#: ../../admin/install/docker.rst:1442 ../../admin/projects.rst:1120
 msgid ":ref:`production-cache`"
 msgstr ":ref:`production-cache`"
 
-#: ../../admin/install/docker.rst:1441
+#: ../../admin/install/docker.rst:1446
 msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgstr ""
 "Der Hostname oder die IP-Adresse des Redis-Servers. Der Standardwert ist "
 "``cache``."
 
-#: ../../admin/install/docker.rst:1445
+#: ../../admin/install/docker.rst:1450
 msgid "The Redis server port. Defaults to ``6379``."
 msgstr "Der Port des Redis-Servers. Der Standardwert ist ``6379``."
 
-#: ../../admin/install/docker.rst:1449
+#: ../../admin/install/docker.rst:1454
 msgid "The Redis database number, defaults to ``1``."
 msgstr "Die Nummer der Redis-Datenbank, standardmäßig ``1``."
 
-#: ../../admin/install/docker.rst:1453
+#: ../../admin/install/docker.rst:1458
 msgid "The Redis server password, not used by default."
 msgstr "Das Redis Server-Passwort, nicht standardmäßig verwendet."
 
-#: ../../admin/install/docker.rst:1461
+#: ../../admin/install/docker.rst:1466
 msgid "Enables using SSL for Redis connection."
 msgstr "Ermöglicht die Verwendung von SSL für Redis-Verbindungen."
 
-#: ../../admin/install/docker.rst:1465
+#: ../../admin/install/docker.rst:1470
 msgid ""
 "Can be used to disable SSL certificate verification for Redis connection."
 msgstr ""
 "Kann verwendet werden, um die SSL-Zertifikatsüberprüfung für Redis-"
 "Verbindungen zu deaktivieren."
 
-#: ../../admin/install/docker.rst:1470
+#: ../../admin/install/docker.rst:1475
 msgid "Email server setup"
 msgstr "Einrichtung eines E-Mail-Servers"
 
-#: ../../admin/install/docker.rst:1472
+#: ../../admin/install/docker.rst:1477
 msgid "To make outgoing e-mail work, you need to provide a mail server."
 msgstr ""
 "Damit ausgehende E-Mails funktionieren, müssen Sie einen Mailserver "
 "bereitstellen."
 
-#: ../../admin/install/docker.rst:1474
+#: ../../admin/install/docker.rst:1479
 msgid "Example TLS configuration:"
 msgstr "Beispiel für eine TLS-Konfiguration:"
 
-#: ../../admin/install/docker.rst:1483
+#: ../../admin/install/docker.rst:1488
 msgid "Example SSL configuration:"
 msgstr "Beispiel für eine SSL-Konfiguration:"
 
-#: ../../admin/install/docker.rst:1496
+#: ../../admin/install/docker.rst:1501
 msgid ":ref:`out-mail`"
 msgstr ":ref:`out-mail`"
 
-#: ../../admin/install/docker.rst:1500
+#: ../../admin/install/docker.rst:1505
 msgid "Mail server hostname or IP address."
 msgstr "Hostname oder IP-Adresse des Mailservers."
 
-#: ../../admin/install/docker.rst:1504
+#: ../../admin/install/docker.rst:1509
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
@@ -14858,31 +14887,31 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
 
-#: ../../admin/install/docker.rst:1511
+#: ../../admin/install/docker.rst:1516
 msgid "Mail server port, defaults to 25."
 msgstr "Mailserver-Port, standardmäßig 25."
 
-#: ../../admin/install/docker.rst:1513
+#: ../../admin/install/docker.rst:1518
 msgid ":setting:`django:EMAIL_PORT`"
 msgstr ":setting:`django:EMAIL_PORT`"
 
-#: ../../admin/install/docker.rst:1517
+#: ../../admin/install/docker.rst:1522
 msgid "E-mail authentication user."
 msgstr "Benutzer der E-Mail-Authentifizierung."
 
-#: ../../admin/install/docker.rst:1519
+#: ../../admin/install/docker.rst:1524
 msgid ":setting:`django:EMAIL_HOST_USER`"
 msgstr ":setting:`django:EMAIL_HOST_USER`"
 
-#: ../../admin/install/docker.rst:1523
+#: ../../admin/install/docker.rst:1528
 msgid "E-mail authentication password."
 msgstr "Passwort für die E-Mail-Authentifizierung."
 
-#: ../../admin/install/docker.rst:1527
+#: ../../admin/install/docker.rst:1532
 msgid ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
 msgstr ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
 
-#: ../../admin/install/docker.rst:1532
+#: ../../admin/install/docker.rst:1537
 msgid ""
 "Whether to use an implicit TLS (secure) connection when talking to the SMTP "
 "server. In most e-mail documentation, this type of TLS connection is "
@@ -14896,7 +14925,7 @@ msgstr ""
 "Allgemeinen auf Port 465 eingesetzt. Wenn Sie Probleme haben, sehen Sie sich "
 "die explizite TLS-Einstellung :envvar:`WEBLATE_EMAIL_USE_TLS` an."
 
-#: ../../admin/install/docker.rst:1539 ../../admin/install/docker.rst:1557
+#: ../../admin/install/docker.rst:1544 ../../admin/install/docker.rst:1562
 msgid ""
 "The SSL/TLS support is automatically enabled based on the :envvar:"
 "`WEBLATE_EMAIL_PORT`."
@@ -14904,7 +14933,7 @@ msgstr ""
 "Die SSL/TLS-Unterstützung wird automatisch auf der Grundlage des :envvar:"
 "`WEBLATE_EMAIL_PORT` aktiviert."
 
-#: ../../admin/install/docker.rst:1544
+#: ../../admin/install/docker.rst:1549
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
@@ -14912,7 +14941,7 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
 
-#: ../../admin/install/docker.rst:1550
+#: ../../admin/install/docker.rst:1555
 msgid ""
 "Whether to use a TLS (secure) connection when talking to the SMTP server. "
 "This is used for explicit TLS connections, generally on port 587 or 25. If "
@@ -14925,7 +14954,7 @@ msgstr ""
 "Verbindungen hängen bleiben, sehen Sie sich die implizite TLS-Einstellung :"
 "envvar:`WEBLATE_EMAIL_USE_SSL` an."
 
-#: ../../admin/install/docker.rst:1562
+#: ../../admin/install/docker.rst:1567
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
@@ -14933,55 +14962,55 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
 
-#: ../../admin/install/docker.rst:1568
+#: ../../admin/install/docker.rst:1573
 msgid "Configures Django back-end to use for sending e-mails."
 msgstr ""
 "Konfiguriert das Django-Backend, das für den Versand von E-Mails verwendet "
 "werden soll."
 
-#: ../../admin/install/docker.rst:1573
+#: ../../admin/install/docker.rst:1578
 msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
-#: ../../admin/install/docker.rst:1578
+#: ../../admin/install/docker.rst:1583
 msgid "Configures if and how Weblate should update repositories."
 msgstr "Konfiguriert, ob und wie Weblate Repositorys aktualisieren soll."
 
-#: ../../admin/install/docker.rst:1582
+#: ../../admin/install/docker.rst:1587
 msgid ":setting:`AUTO_UPDATE`"
 msgstr ":setting:`AUTO_UPDATE`"
 
-#: ../../admin/install/docker.rst:1584
+#: ../../admin/install/docker.rst:1589
 msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
 "Dies ist eine boolesche Einstellung (``\"true\"`` oder ``\"false\"`` "
 "verwenden)."
 
-#: ../../admin/install/docker.rst:1587
+#: ../../admin/install/docker.rst:1592
 msgid "Site integration"
 msgstr "Integration der Website"
 
-#: ../../admin/install/docker.rst:1591
+#: ../../admin/install/docker.rst:1596
 msgid "Configures :setting:`GET_HELP_URL`."
 msgstr "Konfiguriert :setting:`GET_HELP_URL`."
 
-#: ../../admin/install/docker.rst:1595
+#: ../../admin/install/docker.rst:1600
 msgid "Configures :setting:`STATUS_URL`."
 msgstr "Konfiguriert :setting:`STATUS_URL`."
 
-#: ../../admin/install/docker.rst:1599
+#: ../../admin/install/docker.rst:1604
 msgid "Configures :setting:`LEGAL_URL`."
 msgstr "Konfiguriert :setting:`LEGAL_URL`."
 
-#: ../../admin/install/docker.rst:1603
+#: ../../admin/install/docker.rst:1608
 msgid "Configures :setting:`PRIVACY_URL`."
 msgstr "Konfiguriert :setting:`PRIVACY_URL`."
 
-#: ../../admin/install/docker.rst:1606
+#: ../../admin/install/docker.rst:1611
 msgid "Error reporting"
 msgstr "Fehlerberichterstattung"
 
-#: ../../admin/install/docker.rst:1608
+#: ../../admin/install/docker.rst:1613
 msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
@@ -14989,36 +15018,36 @@ msgstr ""
 "Es wird empfohlen, Fehler bei der Installation systematisch zu sammeln, "
 "siehe :ref:`collecting-errors`."
 
-#: ../../admin/install/docker.rst:1611
+#: ../../admin/install/docker.rst:1616
 msgid "To enable support for Rollbar, set the following:"
 msgstr ""
 "Um die Unterstützung für Rollbar zu aktivieren, stellen Sie Folgendes ein:"
 
-#: ../../admin/install/docker.rst:1615
+#: ../../admin/install/docker.rst:1620
 msgid "Your Rollbar post server access token."
 msgstr "Ihr Rollbar-Postserver-Zugangstoken."
 
-#: ../../admin/install/docker.rst:1619
+#: ../../admin/install/docker.rst:1624
 msgid "Your Rollbar environment, defaults to ``production``."
 msgstr "Ihre Rollbar-Umgebung, standardmäßig ``production``."
 
-#: ../../admin/install/docker.rst:1621
+#: ../../admin/install/docker.rst:1626
 msgid "To enable support for Sentry, set following:"
 msgstr ""
 "Um die Unterstützung für Sentry zu aktivieren, stellen Sie Folgendes ein:"
 
-#: ../../admin/install/docker.rst:1625
+#: ../../admin/install/docker.rst:1630
 msgid "Your Sentry DSN."
 msgstr "Ihr Sentry-DSN."
 
-#: ../../admin/install/docker.rst:1629
+#: ../../admin/install/docker.rst:1634
 msgid ""
 "Your Sentry Environment (optional), defaults to :envvar:"
 "`WEBLATE_SITE_DOMAIN`."
 msgstr ""
 "Ihre Sentry-Umgebung (optional), standardmäßig :envvar:`WEBLATE_SITE_DOMAIN`."
 
-#: ../../admin/install/docker.rst:1633
+#: ../../admin/install/docker.rst:1638
 msgid ""
 "Configure sampling rate for performance monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
@@ -15026,7 +15055,7 @@ msgstr ""
 "Konfiguriert die Abtastrate für die Leistungsüberwachung. Auf 1 setzen, um "
 "alle Ereignisse zu verfolgen, 0 (Standard) deaktiviert die Verfolgung."
 
-#: ../../admin/install/docker.rst:1644
+#: ../../admin/install/docker.rst:1649
 msgid ""
 "Configure sampling rate for profiling monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
@@ -15034,15 +15063,15 @@ msgstr ""
 "Konfiguriert die Abtastrate für die Profilüberwachung. Auf 1 setzen, um alle "
 "Ereignisse zu verfolgen, 0 (Standard) deaktiviert die Verfolgung."
 
-#: ../../admin/install/docker.rst:1654
+#: ../../admin/install/docker.rst:1659
 msgid "Localization CDN"
 msgstr "Lokalisierung CDN"
 
-#: ../../admin/install/docker.rst:1661
+#: ../../admin/install/docker.rst:1666
 msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgstr "Konfiguration für :ref:`addon-weblate.cdn.cdnjs`."
 
-#: ../../admin/install/docker.rst:1663
+#: ../../admin/install/docker.rst:1668
 msgid ""
 "The :envvar:`WEBLATE_LOCALIZE_CDN_PATH` is path within the container. It "
 "should be stored on the persistent volume and not in the transient storage."
@@ -15051,12 +15080,12 @@ msgstr ""
 "Containers. Er sollte auf dem dauerhaften Volume und nicht im flüchtigen "
 "Speicher gespeichert werden."
 
-#: ../../admin/install/docker.rst:1666
+#: ../../admin/install/docker.rst:1671
 msgid "One of possibilities is storing that inside the Weblate data dir:"
 msgstr ""
 "Eine der Möglichkeiten ist die Speicherung im Weblate-Datenverzeichnis:"
 
-#: ../../admin/install/docker.rst:1676
+#: ../../admin/install/docker.rst:1681
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only does stores the files in configured location."
@@ -15065,18 +15094,18 @@ msgstr ""
 "Dateien verantwortlich, es speichert nur die Dateien am konfigurierten "
 "Speicherort."
 
-#: ../../admin/install/docker.rst:1681
+#: ../../admin/install/docker.rst:1686
 msgid ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 msgstr ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 
-#: ../../admin/install/docker.rst:1687
+#: ../../admin/install/docker.rst:1692
 msgid "Changing enabled apps, checks, add-ons or autofixes"
 msgstr ""
 "Ändern aktivierter Apps, Qualitätsprüfungen, Erweiterungen oder Autofixes"
 
-#: ../../admin/install/docker.rst:1689
+#: ../../admin/install/docker.rst:1694
 msgid ""
 "The built-in configuration of enabled checks, add-ons or autofixes can be "
 "adjusted by the following variables:"
@@ -15085,7 +15114,7 @@ msgstr ""
 "Erweiterungen oder Autofixes kann durch die folgenden Variablen angepasst "
 "werden:"
 
-#: ../../admin/install/docker.rst:1711
+#: ../../admin/install/docker.rst:1716
 msgid ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS`"
@@ -15093,11 +15122,11 @@ msgstr ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS`"
 
-#: ../../admin/install/docker.rst:1717
+#: ../../admin/install/docker.rst:1722
 msgid "Container settings"
 msgstr "Container-Einstellungen"
 
-#: ../../admin/install/docker.rst:1723
+#: ../../admin/install/docker.rst:1728
 msgid ""
 "Base number of worker processes running in the container. When not set it is "
 "determined automatically on container startup based on number of CPU cores "
@@ -15107,7 +15136,7 @@ msgstr ""
 "festgelegt ist, wird sie automatisch beim Start des Containers anhand der "
 "Anzahl der verfügbaren CPU-Kerne ermittelt."
 
-#: ../../admin/install/docker.rst:1727
+#: ../../admin/install/docker.rst:1732
 msgid ""
 "It is used to determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
 "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
@@ -15121,7 +15150,7 @@ msgstr ""
 "`CELERY_BEAT_OPTIONS` und :envvar:`WEB_WORKERS` verwendet. Sie können diese "
 "Einstellungen zur Feinabstimmung nutzen."
 
-#: ../../admin/install/docker.rst:1740
+#: ../../admin/install/docker.rst:1745
 msgid ""
 "These variables allow you to adjust Celery worker options. It can be useful "
 "to adjust concurrency (``--concurrency 16``) or use different pool "
@@ -15131,7 +15160,7 @@ msgstr ""
 "kann nützlich sein, die Parallelität anzupassen (``--concurrency 16``) oder "
 "eine andere Pool-Implementierung zu verwenden (``--pool=gevent``)."
 
-#: ../../admin/install/docker.rst:1744
+#: ../../admin/install/docker.rst:1749
 msgid ""
 "By default, the number of concurrent workers is based on :envvar:"
 "`WEBLATE_WORKERS`."
@@ -15139,7 +15168,7 @@ msgstr ""
 "Standardmäßig basiert die Anzahl der gleichzeitigen Worker auf :envvar:"
 "`WEBLATE_WORKERS`."
 
-#: ../../admin/install/docker.rst:1755
+#: ../../admin/install/docker.rst:1760
 msgid ""
 ":doc:`Celery worker options <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
@@ -15147,15 +15176,15 @@ msgstr ""
 ":doc:`Celery-Worker-Optionen <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
 
-#: ../../admin/install/docker.rst:1760
+#: ../../admin/install/docker.rst:1765
 msgid "Configure how many uWSGI workers should be executed."
 msgstr "Konfiguriert, wie viele uWSGI-Worker ausgeführt werden sollen."
 
-#: ../../admin/install/docker.rst:1762
+#: ../../admin/install/docker.rst:1767
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgstr "Der Standardwert ist :envvar:`WEBLATE_WORKERS`."
 
-#: ../../admin/install/docker.rst:1773
+#: ../../admin/install/docker.rst:1778
 msgid ""
 "Defines which services should be executed inside the container. Use this "
 "for :ref:`docker-scaling`."
@@ -15163,15 +15192,15 @@ msgstr ""
 "Legt fest, welche Dienste innerhalb des Containers ausgeführt werden sollen. "
 "Verwenden Sie dies für :ref:`docker-scaling`."
 
-#: ../../admin/install/docker.rst:1775
+#: ../../admin/install/docker.rst:1780
 msgid "Following services are defined:"
 msgstr "Folgende Dienste sind definiert:"
 
-#: ../../admin/install/docker.rst:1779
+#: ../../admin/install/docker.rst:1784
 msgid "``celery-beat``"
 msgstr "``celery-beat``"
 
-#: ../../admin/install/docker.rst:1778
+#: ../../admin/install/docker.rst:1783
 msgid ""
 "Celery task scheduler, only one instance should be running. This container "
 "is also responsible for the database structure migrations and it should be "
@@ -15181,59 +15210,59 @@ msgstr ""
 "Container ist auch für die Migrationen der Datenbankstruktur zuständig und "
 "sollte vor den anderen gestartet werden."
 
-#: ../../admin/install/docker.rst:1781
+#: ../../admin/install/docker.rst:1786
 msgid "``celery-backup``"
 msgstr "``celery-backup``"
 
-#: ../../admin/install/docker.rst:1782
+#: ../../admin/install/docker.rst:1787
 msgid "Celery worker for backups, only one instance should be running."
 msgstr "Celery-Worker für Sicherungen, es sollte nur eine Instanz laufen."
 
-#: ../../admin/install/docker.rst:1783
+#: ../../admin/install/docker.rst:1788
 msgid "``celery-celery``"
 msgstr "``celery-celery``"
 
-#: ../../admin/install/docker.rst:1784
+#: ../../admin/install/docker.rst:1789
 msgid "Generic Celery worker."
 msgstr "Allgemeiner Celery-Worker."
 
-#: ../../admin/install/docker.rst:1785
+#: ../../admin/install/docker.rst:1790
 msgid "``celery-memory``"
 msgstr "``celery-memory``"
 
-#: ../../admin/install/docker.rst:1786
+#: ../../admin/install/docker.rst:1791
 msgid "Translation memory Celery worker."
 msgstr "Übersetzungsspeicher Celery-Worker."
 
-#: ../../admin/install/docker.rst:1787
+#: ../../admin/install/docker.rst:1792
 msgid "``celery-notify``"
 msgstr "``celery-notify``"
 
-#: ../../admin/install/docker.rst:1788
+#: ../../admin/install/docker.rst:1793
 msgid "Notifications Celery worker."
 msgstr "Benachrichtigungen Celery-Worker."
 
-#: ../../admin/install/docker.rst:1789
+#: ../../admin/install/docker.rst:1794
 msgid "``celery-translate``"
 msgstr "``celery-translate``"
 
-#: ../../admin/install/docker.rst:1790
+#: ../../admin/install/docker.rst:1795
 msgid "Automatic translation Celery worker."
 msgstr "Automatische Übersetzung Celery-Worker."
 
-#: ../../admin/install/docker.rst:1791
+#: ../../admin/install/docker.rst:1796
 msgid "``web``"
 msgstr "``web``"
 
-#: ../../admin/install/docker.rst:1792
+#: ../../admin/install/docker.rst:1797
 msgid "Web server."
 msgstr "Webserver."
 
-#: ../../admin/install/docker.rst:1798
+#: ../../admin/install/docker.rst:1803
 msgid "Docker container volumes"
 msgstr "Docker-Container-Volumes"
 
-#: ../../admin/install/docker.rst:1800
+#: ../../admin/install/docker.rst:1805
 msgid ""
 "There are two volumes (data and cache) exported by the Weblate container. "
 "The other service containers (PostgreSQL or Redis) have their data volumes "
@@ -15244,7 +15273,7 @@ msgstr ""
 "ebenfalls über Datenvolumina, die jedoch in diesem Dokument nicht behandelt "
 "werden."
 
-#: ../../admin/install/docker.rst:1804
+#: ../../admin/install/docker.rst:1809
 msgid ""
 "The data volume is used to store Weblate persistent data such as cloned "
 "repositories or to customize Weblate installation."
@@ -15252,7 +15281,7 @@ msgstr ""
 "Das Daten-Volume wird verwendet, um dauerhafte Weblate-Daten wie geklonte "
 "Repositorys zu speichern oder die Weblate-Installation anzupassen."
 
-#: ../../admin/install/docker.rst:1807
+#: ../../admin/install/docker.rst:1812
 msgid ""
 "The placement of the Docker volume on host system depends on your Docker "
 "configuration, but usually it is stored in :file:`/var/lib/docker/volumes/"
@@ -15266,7 +15295,7 @@ msgstr ""
 "besteht aus dem Namen Ihres Docker-Compose-Verzeichnisses, dem Container und "
 "den Volume-Namen). Im Container wird es als :file:`/app/data` eingehängt."
 
-#: ../../admin/install/docker.rst:1813
+#: ../../admin/install/docker.rst:1818
 msgid ""
 "The cache volume is mounted as :file:`/app/cache` and is used to store "
 "static files and :setting:`CACHE_DIR`. Its content is recreated on container "
@@ -15278,7 +15307,7 @@ msgstr ""
 "beim Start des Containers neu erstellt und das Volume kann mit einem "
 "ephemeren Dateisystem wie `tmpfs` eingebunden werden."
 
-#: ../../admin/install/docker.rst:1817
+#: ../../admin/install/docker.rst:1822
 msgid ""
 "When creating the volumes manually, the directories should be owned by UID "
 "1000 as that is user used inside the container."
@@ -15286,18 +15315,18 @@ msgstr ""
 "Wenn Sie die Volumes manuell erstellen, sollten die Verzeichnisse der UID "
 "1000 gehören, da dies der im Container verwendete Benutzer ist."
 
-#: ../../admin/install/docker.rst:1822
+#: ../../admin/install/docker.rst:1827
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgstr ""
 "`Dokumentation der Docker-Volumes <https://docs.docker.com/storage/volumes/"
 ">`_"
 
-#: ../../admin/install/docker.rst:1825
+#: ../../admin/install/docker.rst:1830
 msgid "Read-only root filesystem"
 msgstr "Schreibgeschütztes Root-Dateisystem"
 
-#: ../../admin/install/docker.rst:1829
+#: ../../admin/install/docker.rst:1834
 msgid ""
 "When running the container with a read-only root filesystem, two additional "
 "`tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
@@ -15306,11 +15335,11 @@ msgstr ""
 "werden zwei zusätzliche `tmpfs`-Volumes benötigt - :file:`/tmp` und :file:`/"
 "run`."
 
-#: ../../admin/install/docker.rst:1836
+#: ../../admin/install/docker.rst:1841
 msgid "Configuration beyond environment variables"
 msgstr "Konfiguration über Umgebungsvariablen hinaus"
 
-#: ../../admin/install/docker.rst:1838
+#: ../../admin/install/docker.rst:1843
 msgid ""
 ":ref:`Docker environment variables <docker-environment>` are intended to "
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
@@ -15320,7 +15349,7 @@ msgstr ""
 "meisten :ref:`Konfigurationseinstellungen <config>`, die für Weblate-"
 "Installationen von Bedeutung sind, sichtbar zu machen."
 
-#: ../../admin/install/docker.rst:1842
+#: ../../admin/install/docker.rst:1847
 msgid ""
 "If you find a setting that is not exposed as an environment variable, and "
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
@@ -15331,7 +15360,7 @@ msgstr ""
 "sie in einer zukünftigen Version von Weblate <report-issue>` verfügbar "
 "gemacht wird."
 
-#: ../../admin/install/docker.rst:1846
+#: ../../admin/install/docker.rst:1851
 msgid ""
 "If you need to modify a setting that is not exposed as a Docker environment "
 "variable, you can still do so, either :ref:`from the data volume <docker-"
@@ -15343,15 +15372,15 @@ msgstr ""
 "`über das Daten-Volume <docker-settings-override>` oder :ref:`durch "
 "Erweitern des Docker-Images <docker-custom-settings>`."
 
-#: ../../admin/install/docker.rst:1853
+#: ../../admin/install/docker.rst:1858
 msgid ":doc:`../customize`"
 msgstr ":doc:`../customize`"
 
-#: ../../admin/install/docker.rst:1858
+#: ../../admin/install/docker.rst:1863
 msgid "Overriding settings from the data volume"
 msgstr "Überschreiben von Einstellungen des Daten-Volumes"
 
-#: ../../admin/install/docker.rst:1860
+#: ../../admin/install/docker.rst:1865
 msgid ""
 "You can create a file at :file:`/app/data/settings-override.py`, i.e. at the "
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
@@ -15362,11 +15391,11 @@ msgstr ""
 "Einstellungen zu erweitern oder zu überschreiben, die durch "
 "Umgebungsvariablen definiert wurden."
 
-#: ../../admin/install/docker.rst:1868
+#: ../../admin/install/docker.rst:1873
 msgid "Overriding settings by extending the Docker image"
 msgstr "Überschreiben von Einstellungen durch Erweitern des Docker-Images"
 
-#: ../../admin/install/docker.rst:1870
+#: ../../admin/install/docker.rst:1875
 msgid ""
 "To override settings at the Docker image level instead of from the data "
 "volume:"
@@ -15374,12 +15403,12 @@ msgstr ""
 "Um Einstellungen auf der Ebene des Docker-Images statt des Daten-Volumes zu "
 "überschreiben:"
 
-#: ../../admin/install/docker.rst:1872
+#: ../../admin/install/docker.rst:1877
 msgid ":ref:`Create a custom Python package <custom-module>`."
 msgstr ""
 ":ref:`Erstellen Sie ein benutzerdefiniertes Python-Paket <custom-module>`."
 
-#: ../../admin/install/docker.rst:1874
+#: ../../admin/install/docker.rst:1879
 msgid ""
 "Add a module to your package that imports all settings from ``weblate."
 "settings_docker``."
@@ -15387,7 +15416,7 @@ msgstr ""
 "Fügen Sie ein Modul zu Ihrem Paket hinzu, das alle Einstellungen von "
 "``weblate.settings_docker`` importiert."
 
-#: ../../admin/install/docker.rst:1877
+#: ../../admin/install/docker.rst:1882
 msgid ""
 "For example, within the example package structure defined at :ref:`custom-"
 "module`, you could create a file at ``weblate_customization/"
@@ -15398,7 +15427,7 @@ msgstr ""
 "``weblate_customization/weblate_customization/settings.py`` mit dem "
 "folgenden Anfangscode erstellen:"
 
-#: ../../admin/install/docker.rst:1886
+#: ../../admin/install/docker.rst:1891
 msgid ""
 "Create a custom ``Dockerfile`` that inherits from the official Weblate "
 "Docker image, and then installs your package and points the "
@@ -15409,7 +15438,7 @@ msgstr ""
 "Umgebungsvariable ``DJANGO_SETTINGS_MODULE`` auf Ihr Einstellungsmodul "
 "verweist:"
 
-#: ../../admin/install/docker.rst:1902
+#: ../../admin/install/docker.rst:1907
 msgid ""
 "Instead of using the official Weblate Docker image, build a custom image "
 "from this ``Dockerfile`` file."
@@ -15417,7 +15446,7 @@ msgstr ""
 "Anstatt das offizielle Weblate-Docker-Image zu verwenden, erstellen Sie ein "
 "benutzerdefiniertes Image aus dieser ``Dockerfile``-Datei."
 
-#: ../../admin/install/docker.rst:1905
+#: ../../admin/install/docker.rst:1910
 msgid ""
 "There is `no clean way <https://github.com/docker/compose/issues/7231>`__ to "
 "do this with ``docker-compose.override.yml``. You *could* add ``build: .`` "
@@ -15430,7 +15459,7 @@ msgstr ""
 "aber dann wird Ihr benutzerdefiniertes Image als ``weblate/weblate`` in "
 "Ihrem System markiert, was problematisch sein könnte."
 
-#: ../../admin/install/docker.rst:1911
+#: ../../admin/install/docker.rst:1916
 msgid ""
 "So, instead of using the ``docker-compose.yml`` straight from the `official "
 "repository <https://github.com/WeblateOrg/docker-compose>`__, unmodified, "
@@ -15445,7 +15474,7 @@ msgstr ""
 "so bearbeiten, dass ``image: weblate/weblate`` durch ``build: .`` ersetzt "
 "wird."
 
-#: ../../admin/install/docker.rst:1917
+#: ../../admin/install/docker.rst:1922
 msgid ""
 "See the `Compose file build reference`_ for details on building images from "
 "source when using ``docker-compose``."
@@ -15453,13 +15482,13 @@ msgstr ""
 "Weitere Informationen zum Erstellen von Images aus der Quelle bei Verwendung "
 "von ``docker-compose`` finden Sie in der `Compose-Datei-Build-Referenz`_."
 
-#: ../../admin/install/docker.rst:1922
+#: ../../admin/install/docker.rst:1927
 msgid "Extend your custom settings module to define or redefine settings."
 msgstr ""
 "Erweitern Sie Ihr benutzerdefiniertes Einstellungsmodul, um Einstellungen zu "
 "definieren oder neu zu definieren."
 
-#: ../../admin/install/docker.rst:1924
+#: ../../admin/install/docker.rst:1929
 msgid ""
 "You can define settings before or after the import statement above to "
 "determine which settings take precedence. Settings defined before the import "
@@ -15474,7 +15503,7 @@ msgstr ""
 "werden. Einstellungen, die nach der Importanweisung definiert werden, können "
 "nicht überschrieben werden."
 
-#: ../../admin/install/docker.rst:1930
+#: ../../admin/install/docker.rst:1935
 msgid ""
 "You can also go further. For example, you can reproduce some of the things "
 "that ``weblate.docker_settings`` `does <https://github.com/WeblateOrg/"
@@ -15488,11 +15517,11 @@ msgstr ""
 "Einstellungen als Umgebungsvariablen offenlegen oder das Überschreiben von "
 "Einstellungen aus Python-Dateien im Daten-Volume erlauben."
 
-#: ../../admin/install/docker.rst:1937
+#: ../../admin/install/docker.rst:1942
 msgid "Replacing logo and other static files"
 msgstr "Ersetzen des Logos und anderer statischer Dateien"
 
-#: ../../admin/install/docker.rst:1939
+#: ../../admin/install/docker.rst:1944
 msgid ""
 "The static files coming with Weblate can be overridden by placing into :file:"
 "`/app/data/python/customize/static` (see :ref:`docker-volume`). For example "
@@ -15504,7 +15533,7 @@ msgstr ""
 "(siehe :ref:`docker-volume`). Zum Beispiel wird durch die Erstellung von :"
 "file:`/app/data/python/customize/static/favicon.ico` das Favicon ersetzt."
 
-#: ../../admin/install/docker.rst:1946
+#: ../../admin/install/docker.rst:1951
 msgid ""
 "The files are copied to the corresponding location upon container startup, "
 "so a restart of Weblate is needed after changing the content of the volume."
@@ -15513,7 +15542,7 @@ msgstr ""
 "kopiert, so dass ein Neustart von Weblate erforderlich ist, wenn der Inhalt "
 "des Volumes geändert wurde."
 
-#: ../../admin/install/docker.rst:1949
+#: ../../admin/install/docker.rst:1954
 msgid ""
 "This approach can be also used to override Weblate templates. For example :"
 "ref:`legal` documents can be placed into :file:`/app/data/python/customize/"
@@ -15523,7 +15552,7 @@ msgstr ""
 "setzen. Zum Beispiel können :ref:`legal`-Dokumente in :file:`/app/data/"
 "python/customize/templates/legal/documents` platziert werden."
 
-#: ../../admin/install/docker.rst:1953
+#: ../../admin/install/docker.rst:1958
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
@@ -15532,11 +15561,11 @@ msgstr ""
 "customize`) und es zum Beispiel als separates Volume dem Docker-Container "
 "hinzufügen:"
 
-#: ../../admin/install/docker.rst:1966
+#: ../../admin/install/docker.rst:1971
 msgid "Configuring PostgreSQL server"
 msgstr "Konfigurieren des PostgreSQL-Servers"
 
-#: ../../admin/install/docker.rst:1968
+#: ../../admin/install/docker.rst:1973
 msgid ""
 "The PostgreSQL container uses default PostgreSQL configuration and it won't "
 "effectively utilize your CPU cores or memory. It is recommended to customize "
@@ -15546,7 +15575,7 @@ msgstr ""
 "welche die CPU-Kerne und den Speicher nicht effektiv nutzt. Es wird "
 "empfohlen, die Konfiguration anzupassen, um die Leistung zu verbessern."
 
-#: ../../admin/install/docker.rst:1972
+#: ../../admin/install/docker.rst:1977
 msgid ""
 "The configuration can be adjusted as described in `Database Configuration` "
 "at https://hub.docker.com/_/postgres. The configuration matching your "
@@ -15557,11 +15586,11 @@ msgstr ""
 "Einsatzumgebung passende Konfiguration kann mit https://pgtune.leopard.in."
 "ua/ erzeugt werden."
 
-#: ../../admin/install/docker.rst:1977
+#: ../../admin/install/docker.rst:1982
 msgid "Container internals"
 msgstr "Container-Interna"
 
-#: ../../admin/install/docker.rst:1979
+#: ../../admin/install/docker.rst:1984
 msgid ""
 "The container is using :program:`supervisor` to start individual services. "
 "In case of :ref:`docker-scaling`, it only starts single service in a "
@@ -15571,11 +15600,11 @@ msgstr ""
 "starten. Im Falle von :ref:`docker-scaling` wird nur ein einzelner Dienst in "
 "einem Container gestartet."
 
-#: ../../admin/install/docker.rst:1982
+#: ../../admin/install/docker.rst:1987
 msgid "To check the services status use:"
 msgstr "Um den Servicestatus zu überprüfen, verwenden Sie:"
 
-#: ../../admin/install/docker.rst:1988
+#: ../../admin/install/docker.rst:1993
 msgid ""
 "There are individual services for each Celery queue (see :ref:`celery` for "
 "details). You can stop processing some tasks by stopping the appropriate "
@@ -16515,8 +16544,8 @@ msgid ""
 "the translation info section of the respective :ref:`component`."
 msgstr ""
 "Bei Angabe von Lizenzinformationen (Lizenzname und URL) werden diese "
-"Informationen im Abschnitt mit den Übersetzungsinformationen der jeweiligen "
-":ref:`component` angezeigt."
+"Informationen im Abschnitt mit den Übersetzungsinformationen der jeweiligen :"
+"ref:`component` angezeigt."
 
 #: ../../admin/licensing.rst:16
 msgid ""
@@ -18355,11 +18384,11 @@ msgstr ""
 
 #: ../../admin/management.rst:624
 msgid ""
-"This is used to generate <https://wiki.l10n.cz/Slovn%C3%ADk_s_n"
-"%C3%A1zvy_jazyk%C5%AF>."
+"This is used to generate <https://wiki.l10n.cz/"
+"Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF>."
 msgstr ""
-"Dies wird zur Erstellung von <https://wiki.l10n.cz/Slovn%C3%ADk_s_n"
-"%C3%A1zvy_jazyk%C5%AF> verwendet."
+"Dies wird zur Erstellung von <https://wiki.l10n.cz/"
+"Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF> verwendet."
 
 #: ../../admin/management.rst:627
 msgid "list_translators"
@@ -18771,9 +18800,9 @@ msgstr "Bedienoberfläche"
 #: ../../admin/memory.rst:75
 msgid ""
 "Personal translation memory management is available by clicking the user "
-"avatar in the top-right corner of the UI and selecting \"Translation memory"
-"\" from the dropdown menu. Entries attributed to the user are listed in "
-"scopes – total, for each respective project, component, or language "
+"avatar in the top-right corner of the UI and selecting \"Translation "
+"memory\" from the dropdown menu. Entries attributed to the user are listed "
+"in scopes – total, for each respective project, component, or language "
 "contributed to, with options to download (as JSON, or TMX) or delete them."
 msgstr ""
 "Die persönliche Übersetzungsspeicher-Verwaltung ist verfügbar, indem Sie auf "
@@ -20509,8 +20538,8 @@ msgid ""
 "With the :ref:`gettext` format, this address is also saved by Weblate in "
 "the :mailheader:`Report-Msgid-Bugs-To` header of the file."
 msgstr ""
-"Beim :ref:`gettext`-Format wird diese Adresse von Weblate auch im :mailheader"
-":`Report-Msgid-Bugs-To`-Header der Datei gespeichert."
+"Beim :ref:`gettext`-Format wird diese Adresse von Weblate auch im :"
+"mailheader:`Report-Msgid-Bugs-To`-Header der Datei gespeichert."
 
 #: ../../admin/projects.rst:566
 msgid "Allow translation propagation"
@@ -20753,8 +20782,8 @@ msgid ""
 "You might want to turn on :ref:`component-edit_template` together with :"
 "guilabel:`Manage strings` for monolingual formats."
 msgstr ""
-"Sie können :ref:`component-edit_template` zusammen mit :guilabel:`"
-"Zeichenketten verwalten` für einsprachige Formate einschalten."
+"Sie können :ref:`component-edit_template` zusammen mit :guilabel:"
+"`Zeichenketten verwalten` für einsprachige Formate einschalten."
 
 #: ../../admin/projects.rst:709
 msgid ""
@@ -22383,8 +22412,8 @@ msgstr ""
 "`Upgrade von 2.20 auf 3.0 in der Weblate-3.0-Dokumentation <https://docs."
 "weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_, `Upgrade von "
 "3.11 auf 4.0 in der Weblate-4.0-Dokumentation <https://docs.weblate.org/en/"
-"weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_, `Upgrade von "
-"4.x auf 5.0.2 in der Weblate-5.0-Dokumentation <https://docs.weblate.org/en/"
+"weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_, `Upgrade von 4."
+"x auf 5.0.2 in der Weblate-5.0-Dokumentation <https://docs.weblate.org/en/"
 "weblate-5.0.2/changes.html>`_"
 
 #: ../../admin/upgrade.rst:140
@@ -25418,22 +25447,117 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-msgid "Weblate 5.1"
-msgstr "Weblate 5.1"
+#, fuzzy
+#| msgid "Weblate 5.0.1"
+msgid "Weblate 5.1.1"
+msgstr "Weblate 5.0.1"
 
 #: ../../changes.rst:4
-msgid "Released on October 16th 2023."
-msgstr "Veröffentlicht am 16. Oktober 2023."
+msgid "Not yet released."
+msgstr "Noch nicht veröffentlicht."
 
-#: ../../changes.rst:6 ../../changes.rst:82 ../../changes.rst:123
+#: ../../changes.rst:6 ../../changes.rst:32 ../../changes.rst:108
+#: ../../changes.rst:149
 msgid "**New features**"
 msgstr "**Neue Funktionen**"
 
-#: ../../changes.rst:8
+#: ../../changes.rst:8 ../../changes.rst:40 ../../changes.rst:83
+#: ../../changes.rst:112 ../../changes.rst:157
+msgid "**Improvements**"
+msgstr "**Verbesserungen**"
+
+#: ../../changes.rst:10
+#, fuzzy
+#| msgid ""
+#| ":ref:`addon-weblate.consistency.languages` add-on could miss some "
+#| "languages."
+msgid ""
+":ref:`addon-weblate.consistency.languages` now uses a dedicated user for "
+"changes."
+msgstr ""
+"Die Erweiterung :ref:`addon-weblate.consistency.languages` konnte einige "
+"Sprachen übersehen."
+
+#: ../../changes.rst:11
+#, fuzzy
+#| msgid "Added notifications for string removals."
+msgid "Added button for sharing on Fediverse."
+msgstr "Benachrichtigungen für das Entfernen von Zeichenketten hinzugefügt."
+
+#: ../../changes.rst:12
+#, fuzzy
+#| msgid "Added notifications for string removals."
+msgid "Added valication for VCS integration credentials."
+msgstr "Benachrichtigungen für das Entfernen von Zeichenketten hinzugefügt."
+
+#: ../../changes.rst:14 ../../changes.rst:55 ../../changes.rst:88
+#: ../../changes.rst:121 ../../changes.rst:178
+msgid "**Bug fixes**"
+msgstr "**Fehlerbehebungen**"
+
+#: ../../changes.rst:16
+msgid "Added plurals validation when editing string using API."
+msgstr ""
+
+#: ../../changes.rst:17
+msgid "Replacing a file using upload when existing is corrupted."
+msgstr ""
+
+#: ../../changes.rst:19 ../../changes.rst:64 ../../changes.rst:131
+#: ../../changes.rst:186
+msgid "**Compatibility**"
+msgstr "**Kompatibilität**"
+
+#: ../../changes.rst:21 ../../changes.rst:68 ../../changes.rst:95
+#: ../../changes.rst:136 ../../changes.rst:191 ../../changes/v4.rst:53
+#: ../../changes/v4.rst:85 ../../changes/v4.rst:168 ../../changes/v4.rst:236
+#: ../../changes/v4.rst:317 ../../changes/v4.rst:373 ../../changes/v4.rst:432
+#: ../../changes/v4.rst:494 ../../changes/v4.rst:540 ../../changes/v4.rst:595
+#: ../../changes/v4.rst:642 ../../changes/v4.rst:696 ../../changes/v4.rst:767
+#: ../../changes/v4.rst:858 ../../changes/v4.rst:933 ../../changes/v4.rst:1019
+#: ../../changes/v4.rst:1094 ../../changes/v4.rst:1167
+msgid "**Upgrading**"
+msgstr "**Aktualisierung**"
+
+#: ../../changes.rst:23 ../../changes.rst:70 ../../changes.rst:97
+#: ../../changes.rst:138 ../../changes.rst:193 ../../changes/v4.rst:55
+#: ../../changes/v4.rst:87 ../../changes/v4.rst:170 ../../changes/v4.rst:238
+#: ../../changes/v4.rst:319 ../../changes/v4.rst:376 ../../changes/v4.rst:434
+#: ../../changes/v4.rst:497 ../../changes/v4.rst:542 ../../changes/v4.rst:598
+#: ../../changes/v4.rst:644 ../../changes/v4.rst:699 ../../changes/v4.rst:769
+#: ../../changes/v4.rst:860 ../../changes/v4.rst:935 ../../changes/v4.rst:1021
+#: ../../changes/v4.rst:1096 ../../changes/v4.rst:1169
+msgid ""
+"Please follow :ref:`generic-upgrade-instructions` in order to perform update."
+msgstr ""
+"Bitte befolgen Sie: :ref:`generic-upgrade-instructions`, um die "
+"Aktualisierung durchzuführen."
+
+#: ../../changes.rst:25
+#, fuzzy
+#| msgid ""
+#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
+#| "milestone/100?closed=1>`__."
+msgid ""
+"`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/106?"
+"closed=1>`__."
+msgstr ""
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
+"milestone/100?closed=1>`__."
+
+#: ../../changes.rst:28
+msgid "Weblate 5.1"
+msgstr "Weblate 5.1"
+
+#: ../../changes.rst:30
+msgid "Released on October 16th 2023."
+msgstr "Veröffentlicht am 16. Oktober 2023."
+
+#: ../../changes.rst:34
 msgid ":ref:`mt-yandex-v2` machine translation service."
 msgstr ":ref:`mt-yandex-v2` maschineller Übersetzungsdienst."
 
-#: ../../changes.rst:9
+#: ../../changes.rst:35
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-translation` "
 "are now stored with a dedicated user as an author."
@@ -25442,7 +25566,7 @@ msgstr ""
 "werden nun mit einem speziell dafür vorgesehenen Benutzer als Autor "
 "gespeichert."
 
-#: ../../changes.rst:10
+#: ../../changes.rst:36
 msgid ""
 ":ref:`addons` changes to strings are now stored with a dedicated user as an "
 "author."
@@ -25450,11 +25574,11 @@ msgstr ""
 "Änderungen von :ref:`addons` an Zeichenketten werden nun mit einem speziell "
 "dafür vorgesehenen Benutzer als Autor gespeichert."
 
-#: ../../changes.rst:11
+#: ../../changes.rst:37
 msgid ":ref:`download-multi` can now convert file formats."
 msgstr ":ref:`download-multi` kann jetzt Dateiformate umwandeln."
 
-#: ../../changes.rst:12
+#: ../../changes.rst:38
 msgid ""
 ":ref:`workflow-customization` allows to fine-tune localization workflow per "
 "language."
@@ -25462,12 +25586,7 @@ msgstr ""
 ":ref:`workflow-customization` ermöglicht das genaue Abstimmen des "
 "Lokalisierungsprozesses pro Sprache."
 
-#: ../../changes.rst:14 ../../changes.rst:57 ../../changes.rst:86
-#: ../../changes.rst:131
-msgid "**Improvements**"
-msgstr "**Verbesserungen**"
-
-#: ../../changes.rst:16
+#: ../../changes.rst:42
 msgid ""
 ":ref:`project-translation_review` also shows the approval percentage in "
 "object listings."
@@ -25475,29 +25594,29 @@ msgstr ""
 ":ref:`project-translation_review` zeigt auch den Prozentsatz der Zustimmung "
 "in den Objektlisten."
 
-#: ../../changes.rst:17
+#: ../../changes.rst:43
 msgid "Project is added to watched upon accepting an invitation."
 msgstr ""
 "Das Projekt wird bei Annahme einer Einladung zu „Beobachtete Projekte“ "
 "hinzugefügt."
 
-#: ../../changes.rst:18
+#: ../../changes.rst:44
 msgid ""
 "Configure VCS API credentials as a Python dict from environment variables."
 msgstr ""
 "Die API-Zugangsdaten des VCS als Python-Wörterbuch aus den "
 "Umgebungsvariablen konfigurieren."
 
-#: ../../changes.rst:19
+#: ../../changes.rst:45
 msgid "Improved accuracy of checks on plural messages."
 msgstr ""
 "Verbesserte Genauigkeit bei der Prüfung von Nachrichten mit Pluralformen."
 
-#: ../../changes.rst:20
+#: ../../changes.rst:46
 msgid "Engage page better shows stats."
 msgstr "Die Beteiligungsseite zeigt die Statistiken besser an."
 
-#: ../../changes.rst:21
+#: ../../changes.rst:47
 msgid ""
 "Strings which can not be saved to a file no longer block other strings to be "
 "written."
@@ -25505,103 +25624,69 @@ msgstr ""
 "Zeichenketten, die nicht in einer Datei gespeichert werden können, "
 "blockieren nicht mehr das Schreiben anderer Zeichenketten."
 
-#: ../../changes.rst:22
+#: ../../changes.rst:48
 msgid "Fixed some API URLs for categorized components."
 msgstr "Einige API-URLs für kategorisierte Komponenten korrigiert."
 
-#: ../../changes.rst:23
+#: ../../changes.rst:49
 msgid "Show plural form examples more prominently."
 msgstr "Beispiele für die Pluralform werden stärker hervorgehoben."
 
-#: ../../changes.rst:24
+#: ../../changes.rst:50
 msgid "Highlight whitespace in :ref:`machine-translation`."
 msgstr "Hervorheben von Leerzeichen in :ref:`machine-translation`."
 
-#: ../../changes.rst:25
+#: ../../changes.rst:51
 msgid "Faster comment and component removal."
 msgstr "Schnelleres Entfernen von Kommentaren und Komponenten."
 
-#: ../../changes.rst:26
+#: ../../changes.rst:52
 msgid "Show disabled save button reason more prominently."
 msgstr ""
 "Der Grund für die deaktivierte Schaltfläche „Speichern“ wird deutlicher "
 "angezeigt."
 
-#: ../../changes.rst:27
+#: ../../changes.rst:53
 msgid "New string notification can now be triggered for each string."
 msgstr ""
 "Die Benachrichtigung über neue Zeichenketten kann jetzt für jede "
 "Zeichenkette ausgelöst werden."
 
-#: ../../changes.rst:29 ../../changes.rst:62 ../../changes.rst:95
-#: ../../changes.rst:152
-msgid "**Bug fixes**"
-msgstr "**Fehlerbehebungen**"
-
-#: ../../changes.rst:31
+#: ../../changes.rst:57
 msgid "Improved OCR error handling in :ref:`screenshots`."
 msgstr "Verbesserte OCR-Fehlerbehandlung in :ref:`screenshots`."
 
-#: ../../changes.rst:32
+#: ../../changes.rst:58
 msgid ":ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`."
 msgstr ""
 ":ref:`autofix` behandelt anstandslos Zeichenketten aus :ref:`multivalue-csv`."
 
-#: ../../changes.rst:33
+#: ../../changes.rst:59
 msgid "Occasional crash in :ref:`machine-translation` caching."
 msgstr "Gelegentlicher Absturz beim Caching von :ref:`machine-translation`."
 
-#: ../../changes.rst:34
+#: ../../changes.rst:60
 msgid "Fixed history listing for entries within a :ref:`category`."
 msgstr ""
 "Die Auflistung von Einträgen innerhalb einer :ref:`category` im Verlauf "
 "korrigiert."
 
-#: ../../changes.rst:35
+#: ../../changes.rst:61
 msgid "Fixed editing :guilabel:`Administration` team."
 msgstr "Die Bearbeitung des Teams :guilabel:`Administration` korrigiert."
 
-#: ../../changes.rst:36
+#: ../../changes.rst:62
 msgid ""
 ":ref:`addon-weblate.consistency.languages` add-on could miss some languages."
 msgstr ""
 "Die Erweiterung :ref:`addon-weblate.consistency.languages` konnte einige "
 "Sprachen übersehen."
 
-#: ../../changes.rst:38 ../../changes.rst:105 ../../changes.rst:160
-msgid "**Compatibility**"
-msgstr "**Kompatibilität**"
-
-#: ../../changes.rst:40
+#: ../../changes.rst:66
 msgid "Categories are now included ``weblate://`` repository URLs."
 msgstr "Kategorien sind nun in ``weblate://``-Repository-URLs enthalten."
 
-#: ../../changes.rst:42 ../../changes.rst:69 ../../changes.rst:110
-#: ../../changes.rst:165 ../../changes/v4.rst:53 ../../changes/v4.rst:85
-#: ../../changes/v4.rst:168 ../../changes/v4.rst:236 ../../changes/v4.rst:317
-#: ../../changes/v4.rst:373 ../../changes/v4.rst:432 ../../changes/v4.rst:494
-#: ../../changes/v4.rst:540 ../../changes/v4.rst:595 ../../changes/v4.rst:642
-#: ../../changes/v4.rst:696 ../../changes/v4.rst:767 ../../changes/v4.rst:858
-#: ../../changes/v4.rst:933 ../../changes/v4.rst:1019 ../../changes/v4.rst:1094
-#: ../../changes/v4.rst:1167
-msgid "**Upgrading**"
-msgstr "**Aktualisierung**"
-
-#: ../../changes.rst:44 ../../changes.rst:71 ../../changes.rst:112
-#: ../../changes.rst:167 ../../changes/v4.rst:55 ../../changes/v4.rst:87
-#: ../../changes/v4.rst:170 ../../changes/v4.rst:238 ../../changes/v4.rst:319
-#: ../../changes/v4.rst:376 ../../changes/v4.rst:434 ../../changes/v4.rst:497
-#: ../../changes/v4.rst:542 ../../changes/v4.rst:598 ../../changes/v4.rst:644
-#: ../../changes/v4.rst:699 ../../changes/v4.rst:769 ../../changes/v4.rst:860
-#: ../../changes/v4.rst:935 ../../changes/v4.rst:1021 ../../changes/v4.rst:1096
-#: ../../changes/v4.rst:1169
-msgid ""
-"Please follow :ref:`generic-upgrade-instructions` in order to perform update."
-msgstr ""
-"Bitte befolgen Sie: :ref:`generic-upgrade-instructions`, um die "
-"Aktualisierung durchzuführen."
-
-#: ../../changes.rst:46
+#: ../../changes.rst:72
 msgid ""
 "Upgrades from older version than 5.0.2 are not supported, please upgrade to "
 "5.0.2 first and then continue in upgrading."
@@ -25609,7 +25694,7 @@ msgstr ""
 "Upgrades von älteren Versionen als 5.0.2 werden nicht unterstützt, bitte "
 "aktualisieren Sie zuerst auf 5.0.2 und fahren Sie dann mit dem Upgrade fort."
 
-#: ../../changes.rst:47
+#: ../../changes.rst:73
 msgid ""
 "Dropped support for deprecated insecure configuration of VCS service API "
 "keys via _TOKEN/_USERNAME in :file:`settings.py`."
@@ -25618,7 +25703,7 @@ msgstr ""
 "Schlüsseln der VCS-Dienste über _TOKEN/_USERNAME in :file:`settings.py` "
 "wurde entfernt."
 
-#: ../../changes.rst:48
+#: ../../changes.rst:74
 msgid ""
 "Weblate now defaults to persistent database connections in :file:"
 "`settings_example.py` and Docker."
@@ -25626,7 +25711,7 @@ msgstr ""
 "Weblate verwendet jetzt standardmäßig dauerhafte Datenbankverbindungen in :"
 "file:`settings_example.py` und Docker."
 
-#: ../../changes.rst:50
+#: ../../changes.rst:76
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/100?"
 "closed=1>`__."
@@ -25634,39 +25719,39 @@ msgstr ""
 "`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
 "milestone/100?closed=1>`__."
 
-#: ../../changes.rst:53
+#: ../../changes.rst:79
 msgid "Weblate 5.0.2"
 msgstr "Weblate 5.0.2"
 
-#: ../../changes.rst:55
+#: ../../changes.rst:81
 msgid "Released on September 14th 2023."
 msgstr "Veröffentlicht am 14. September 2023."
 
-#: ../../changes.rst:59
+#: ../../changes.rst:85
 msgid "Translate page performance."
 msgstr "Leistung der Übersetzungsseite."
 
-#: ../../changes.rst:60
+#: ../../changes.rst:86
 msgid "Search now looks for categories as well."
 msgstr "Die Suche sucht jetzt auch nach Kategorien."
 
-#: ../../changes.rst:64
+#: ../../changes.rst:90
 msgid "Rendering of release notes on GitHub."
 msgstr "Darstellung der Versionshinweise auf GitHub."
 
-#: ../../changes.rst:65
+#: ../../changes.rst:91
 msgid "Listing of categorized projects."
 msgstr "Auflistung der kategorisierten Projekte."
 
-#: ../../changes.rst:66
+#: ../../changes.rst:92
 msgid "Translating a language inside a category."
 msgstr "Übersetzen einer Sprache innerhalb einer Kategorie."
 
-#: ../../changes.rst:67
+#: ../../changes.rst:93
 msgid "Categories sorting."
 msgstr "Sortierung der Kategorien."
 
-#: ../../changes.rst:73 ../../changes.rst:114
+#: ../../changes.rst:99 ../../changes.rst:140
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "indexing changes."
@@ -25674,7 +25759,7 @@ msgstr ""
 "Das Aktualisieren der Datenbank kann bei größeren Websites aufgrund von "
 "Indizierungsänderungen erhebliche Zeit in Anspruch nehmen."
 
-#: ../../changes.rst:75
+#: ../../changes.rst:101
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/105?"
 "closed=1>`__."
@@ -25682,85 +25767,85 @@ msgstr ""
 "`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
 "milestone/105?closed=1>`__."
 
-#: ../../changes.rst:78
+#: ../../changes.rst:104
 msgid "Weblate 5.0.1"
 msgstr "Weblate 5.0.1"
 
-#: ../../changes.rst:80
+#: ../../changes.rst:106
 msgid "Released on September 10th 2023."
 msgstr "Veröffentlicht am 10. September 2023."
 
-#: ../../changes.rst:84
+#: ../../changes.rst:110
 msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
 msgstr ":http:get:`/api/component-lists/(str:slug)/components/` hinzugefügt."
 
-#: ../../changes.rst:88
+#: ../../changes.rst:114
 msgid "Related glossary terms lookup is now faster."
 msgstr "Die Suche nach zugehörigen Begriffen im Glossar ist jetzt schneller."
 
-#: ../../changes.rst:89
+#: ../../changes.rst:115
 msgid "Logging of failures when creating pull requests."
 msgstr "Fehlerprotokollierung beim Erstellen von Pull Requests."
 
-#: ../../changes.rst:90
+#: ../../changes.rst:116
 msgid "History is now loaded faster."
 msgstr "Der Verlauf wird jetzt schneller geladen."
 
-#: ../../changes.rst:91
+#: ../../changes.rst:117
 msgid "Added object ``id`` to all :ref:`api` endpoints."
 msgstr "Objekt ``id`` zu allen :ref:`api`-Endpunkten hinzugefügt."
 
-#: ../../changes.rst:92
+#: ../../changes.rst:118
 msgid "Better performance of projects with a lot of components."
 msgstr "Bessere Leistung bei Projekten mit einer Vielzahl von Komponenten."
 
-#: ../../changes.rst:93
+#: ../../changes.rst:119
 msgid "Added compatibility redirects for some old URLs."
 msgstr "Kompatibilitätsweiterleitungen für einige alte URLs hinzugefügt."
 
-#: ../../changes.rst:97
+#: ../../changes.rst:123
 msgid "Creating component within a category."
 msgstr "Komponentenerstellung innerhalb einer Kategorie."
 
-#: ../../changes.rst:98
+#: ../../changes.rst:124
 msgid "Source strings and state display for converted formats."
 msgstr "Ausgangszeichenketten und Statusanzeige für umgewandelte Formate."
 
-#: ../../changes.rst:99
+#: ../../changes.rst:125
 msgid ""
 "Block :ref:`component-edit_template` on formats which do not support it."
 msgstr ""
 ":ref:`component-edit_template` wird bei nicht unterstützen Formaten gesperrt."
 
-#: ../../changes.rst:100
+#: ../../changes.rst:126
 msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgstr ":ref:`check-reused` wird nicht mehr für leere Zeichenketten ausgelöst."
 
-#: ../../changes.rst:101
+#: ../../changes.rst:127
 msgid "Performace issues while browsing some categories."
 msgstr "Leistungsprobleme beim Durchsuchen einiger Kategorien."
 
-#: ../../changes.rst:102
+#: ../../changes.rst:128
 msgid "Fixed GitHub Team and Organization authentication in Docker container."
 msgstr ""
 "GitHub-Team- und Organisationsauthentifizierung in Docker-Containern "
 "korrigiert."
 
-#: ../../changes.rst:103
+#: ../../changes.rst:129
 msgid "GitLab merge requests when using a customized SSH port."
 msgstr "GitLab-Merge-Requests beim Verwenden eines angepassten SSH-Ports."
 
-#: ../../changes.rst:107
+#: ../../changes.rst:133
 msgid "`pyahocorasick` dependency has been replaced by `ahocorasick_rs`."
 msgstr "Die `pyahocorasick`-Abhängigkeit wurde durch `ahocorasick_rs` ersetzt."
 
-#: ../../changes.rst:108
+#: ../../changes.rst:134
 msgid ""
 "The default value of :setting:`IP_PROXY_OFFSET` has been changed from 1 to "
 "-1."
 msgstr "Den Standardwert von :setting:`IP_PROXY_OFFSET` von 1 auf -1 geändert."
 
-#: ../../changes.rst:116
+#: ../../changes.rst:142
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/103?"
 "closed=1>`__."
@@ -25768,54 +25853,54 @@ msgstr ""
 "`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
 "milestone/103?closed=1>`__."
 
-#: ../../changes.rst:119
+#: ../../changes.rst:145
 msgid "Weblate 5.0"
 msgstr "Weblate 5.0"
 
-#: ../../changes.rst:121
+#: ../../changes.rst:147
 msgid "Released on August 24th 2023."
 msgstr "Veröffentlicht am 24. August 2023."
 
-#: ../../changes.rst:125
+#: ../../changes.rst:151
 msgid ":doc:`/formats/markdown` support, thanks to Anders Kaplan."
 msgstr ":doc:`/formats/markdown`-Unterstützung, dank Anders Kaplan."
 
-#: ../../changes.rst:126
+#: ../../changes.rst:152
 msgid ":ref:`category` can now organize components within a project."
 msgstr ""
 ":ref:`category` kann nun Komponenten innerhalb eines Projekts organisieren."
 
-#: ../../changes.rst:127
+#: ../../changes.rst:153
 msgid ""
 ":doc:`/formats/fluent` now has better syntax checks thanks to Henry Wilkes."
 msgstr ""
 ":doc:`/formats/fluent` hat jetzt bessere Syntaxprüfungen dank Henry Wilkes."
 
-#: ../../changes.rst:128
+#: ../../changes.rst:154
 msgid "Inviting users now works with all authentication methods."
 msgstr ""
 "Das Einladen von Benutzern funktioniert jetzt mit allen "
 "Authentifizierungsmethoden."
 
-#: ../../changes.rst:129
+#: ../../changes.rst:155
 msgid ""
 "Docker container supports file backed secrets, see :ref:`docker-secrets`."
 msgstr ""
 "Docker-Container unterstützen dateibasierte Geheimnisse, siehe :ref:`docker-"
 "secrets`."
 
-#: ../../changes.rst:133
+#: ../../changes.rst:159
 msgid "Plurals handling in machine translation."
 msgstr "Behandlung von Pluralformen in der maschinellen Übersetzung."
 
-#: ../../changes.rst:134
+#: ../../changes.rst:160
 msgid ""
 ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgstr ""
 ":ref:`check-same`-Prüfung berücksichtigt nun auch im strict-Modus "
 "Platzhalter."
 
-#: ../../changes.rst:135
+#: ../../changes.rst:161
 msgid ""
 ":ref:`check-reused` is no longer triggered for languages with a single "
 "plural form."
@@ -25823,49 +25908,49 @@ msgstr ""
 ":ref:`check-reused` wird nicht mehr für Sprachen mit einer einzigen "
 "Pluralform ausgelöst."
 
-#: ../../changes.rst:136
+#: ../../changes.rst:162
 msgid "WebP is now supported for :ref:`screenshots`."
 msgstr ":ref:`screenshots` unterstützt nun WebP."
 
-#: ../../changes.rst:137
+#: ../../changes.rst:163
 msgid ""
 "Avoid duplicate notification when a user is subscribed to overlapping scopes."
 msgstr ""
 "Doppelte Benachrichtigungen werden vermieden, wenn ein Benutzer sich "
 "überschneidende Bereiche abonniert hat."
 
-#: ../../changes.rst:138
+#: ../../changes.rst:164
 msgid "OCR support for non-English languages in :ref:`screenshots`."
 msgstr "OCR-Unterstützung für nicht-englische Sprachen in :ref:`screenshots`."
 
-#: ../../changes.rst:139
+#: ../../changes.rst:165
 msgid ":ref:`xliff` now supports displaying source string location."
 msgstr ""
 ":ref:`xliff` unterstützt nun die Anzeige der Position der "
 "Ausgangszeichenkette."
 
-#: ../../changes.rst:140
+#: ../../changes.rst:166
 msgid ""
 "Rendering strings with plurals, placeholders or alternative translations."
 msgstr ""
 "Darstellung von Zeichenketten mit Pluralformen, Platzhaltern oder "
 "alternativen Übersetzungen."
 
-#: ../../changes.rst:141
+#: ../../changes.rst:167
 msgid "User API now includes last sign in date."
 msgstr "Die Benutzer-API enthält jetzt das Datum der letzten Anmeldung."
 
-#: ../../changes.rst:142
+#: ../../changes.rst:168
 msgid "User API token is now hidden for privacy reasons by default."
 msgstr ""
 "Das Benutzer-API-Token ist jetzt aus Datenschutzgründen standardmäßig "
 "verborgen."
 
-#: ../../changes.rst:143
+#: ../../changes.rst:169
 msgid "Faster adding terms to glossary."
 msgstr "Schnelleres Hinzufügen von Begriffen zum Glossar."
 
-#: ../../changes.rst:144
+#: ../../changes.rst:170
 msgid ""
 "Better preserve translation on source file change in :doc:`/formats/html` "
 "and :doc:`/formats/txt`."
@@ -25873,17 +25958,17 @@ msgstr ""
 "Bessere Beibehaltung der Übersetzung bei Quelldateiänderung in :doc:`/"
 "formats/html` und :doc:`/formats/txt`."
 
-#: ../../changes.rst:145
+#: ../../changes.rst:171
 msgid "Added indication of automatic assignment to team listing."
 msgstr ""
 "In der Teamliste ein Hinweis auf die automatische Zuweisung hinzugefügt."
 
-#: ../../changes.rst:146
+#: ../../changes.rst:172
 msgid "Users now have to confirm invitations to become team members."
 msgstr ""
 "Benutzer müssen nun Einladungen bestätigen, um Teammitglieder zu werden."
 
-#: ../../changes.rst:147
+#: ../../changes.rst:173
 msgid ""
 ":ref:`check-formats` can now check all plural forms with the ``strict-"
 "format`` flag."
@@ -25891,25 +25976,25 @@ msgstr ""
 ":ref:`check-formats` können nun alle Pluralformen mit der ``strict-format``-"
 "Markierung prüfen."
 
-#: ../../changes.rst:148
+#: ../../changes.rst:174
 msgid ":doc:`/user/checks` browsing experience."
 msgstr ":doc:`/user/checks` Browsing-Erfahrung."
 
-#: ../../changes.rst:149
+#: ../../changes.rst:175
 msgid "Highlight differences in the source string in automatic suggestions."
 msgstr ""
 "Hervorhebung von Unterschieden in der Ausgangszeichenkette in automatischen "
 "Vorschlägen."
 
-#: ../../changes.rst:150
+#: ../../changes.rst:176
 msgid "Visual diff now better understands compositing characters."
 msgstr "Visual Diff versteht jetzt das Compositing von Zeichen besser."
 
-#: ../../changes.rst:154
+#: ../../changes.rst:180
 msgid "User names handling while committing to Git."
 msgstr "Behandlung von Benutzernamen beim Committen an Git."
 
-#: ../../changes.rst:155
+#: ../../changes.rst:181
 msgid ""
 ":ref:`addon-weblate.cleanup.blank` and :ref:`addon-weblate.cleanup.generic` "
 "now remove all strings at once."
@@ -25917,34 +26002,34 @@ msgstr ""
 ":ref:`addon-weblate.cleanup.blank` und :ref:`addon-weblate.cleanup.generic` "
 "entfernen nun alle Zeichenketten auf einmal."
 
-#: ../../changes.rst:156
+#: ../../changes.rst:182
 msgid "Language filtering in :doc:`/devel/reporting`."
 msgstr "Sprachfilterung in :doc:`/devel/reporting`."
 
-#: ../../changes.rst:157
+#: ../../changes.rst:183
 msgid ""
 "Reduced false positives of :ref:`check-reused` when fixing the translation."
 msgstr ""
 "Reduzierung der Fehlalarme von :ref:`check-reused` bei der Korrektur der "
 "Übersetzung."
 
-#: ../../changes.rst:158
+#: ../../changes.rst:184
 msgid "Fixed caching issues after updating screenshots from the repository."
 msgstr ""
 "Caching-Probleme nach dem Aktualisieren von Bildschirmfotos aus dem "
 "Repository behoben."
 
-#: ../../changes.rst:162
+#: ../../changes.rst:188
 msgid "Python 3.9 or newer is now required."
 msgstr "Python 3.9 oder neuer ist jetzt erforderlich."
 
-#: ../../changes.rst:163
+#: ../../changes.rst:189
 msgid "Several UI URLs have been changed to be able to handle categories."
 msgstr ""
 "Mehrere URLs der Bedienoberfläche wurden geändert, damit sie mit Kategorien "
 "umgehen können."
 
-#: ../../changes.rst:169
+#: ../../changes.rst:195
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
@@ -25954,11 +26039,11 @@ msgstr ""
 "sind die Änderungen in ``CACHES`` und ``SOCIAL_AUTH_PIPELINE``, bitte passen "
 "Sie Ihre Einstellungen entsprechend an."
 
-#: ../../changes.rst:170
+#: ../../changes.rst:196
 msgid "Several previously optional dependencies are now required."
 msgstr "Mehrere zuvor optionale Abhängigkeiten sind nun erforderlich."
 
-#: ../../changes.rst:171
+#: ../../changes.rst:197
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "structure changes."
@@ -25966,7 +26051,7 @@ msgstr ""
 "Das Aktualisieren der Datenbank kann bei größeren Websites aufgrund von "
 "Strukturänderungen erhebliche Zeit in Anspruch nehmen."
 
-#: ../../changes.rst:173
+#: ../../changes.rst:199
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/99?"
 "closed=1>`__."
@@ -34794,7 +34879,8 @@ msgstr ""
 
 #: ../../changes/v4.rst:1263
 msgid "Added support for intermediate language from developers."
-msgstr "Unterstützung für die Zwischensprachedatei von Entwicklern hinzugefügt."
+msgstr ""
+"Unterstützung für die Zwischensprachedatei von Entwicklern hinzugefügt."
 
 #: ../../changes/v4.rst:1264
 msgid "Added support for source strings review."
@@ -37100,12 +37186,12 @@ msgstr "Mit der Codebasis beginnen"
 #: ../../contributing/start.rst:10
 msgid ""
 "Familiarize yourself with the Weblate codebase, by having a go at the bugs "
-"labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/good"
-"%20first%20issue>`_."
+"labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/"
+"good%20first%20issue>`_."
 msgstr ""
 "Machen Sie sich mit der Codebasis von Weblate vertraut, indem Sie die mit "
-"`good first issue <https://github.com/WeblateOrg/weblate/labels/good%20first"
-"%20issue>`_ gekennzeichneten Fehler ausprobieren."
+"`good first issue <https://github.com/WeblateOrg/weblate/labels/"
+"good%20first%20issue>`_ gekennzeichneten Fehler ausprobieren."
 
 #: ../../contributing/start.rst:13
 msgid ""
@@ -37803,8 +37889,8 @@ msgstr ""
 "flexible Möglichkeit, die Software zu lokalisieren. Es hat eine großartige "
 "Unterstützung für Pluralformen, es kann der übersetzten Zeichenkette "
 "weiteren Kontext hinzufügen und es gibt eine ganze Reihe von Tools, die "
-"darauf aufbauen. Natürlich wird es in Weblate hervorragend unterstützt ("
-"siehe Dateiformatbeschreibung von :ref:`gettext`)."
+"darauf aufbauen. Natürlich wird es in Weblate hervorragend unterstützt "
+"(siehe Dateiformatbeschreibung von :ref:`gettext`)."
 
 #: ../../devel/gettext.rst:12
 msgid ""
@@ -37876,8 +37962,8 @@ msgid ""
 "You can create new language files using `msginit`_ or within Weblate."
 msgstr ""
 ":file:`LANGUAGE.po` enthält Zeichenketten mit einer Übersetzung in eine "
-"einzelne Sprache. Sie muss mit `msgmerge`_ aktualisiert werden, sobald "
-":file:`PACKAGE.pot` aktualisiert wird. Sie können neue Sprachdateien mit "
+"einzelne Sprache. Sie muss mit `msgmerge`_ aktualisiert werden, sobald :file:"
+"`PACKAGE.pot` aktualisiert wird. Sie können neue Sprachdateien mit "
 "`msginit`_ oder in Weblate erstellen."
 
 #: ../../devel/gettext.rst:35
@@ -37890,9 +37976,10 @@ msgid ""
 msgstr ""
 ":file:`LANGUAGE.mo` enthält die binäre Darstellung von :file:`LANGUAGE.po` "
 "und wird zur Laufzeit der Anwendung verwendet. Normalerweise wird sie nicht "
-"unter Versionskontrolle gehalten, sondern zur Kompilierungszeit mit `msgfmt`"
-"_ erzeugt. Wenn Sie sie in der Versionskontrolle haben wollen, können Sie "
-"sie in Weblate mit der Erweiterung :ref:`addon-weblate.gettext.mo` erzeugen."
+"unter Versionskontrolle gehalten, sondern zur Kompilierungszeit mit "
+"`msgfmt`_ erzeugt. Wenn Sie sie in der Versionskontrolle haben wollen, "
+"können Sie sie in Weblate mit der Erweiterung :ref:`addon-weblate.gettext."
+"mo` erzeugen."
 
 #: ../../devel/gettext.rst:37
 msgid "Overall the GNU gettext workflow looks like this:"
@@ -37926,8 +38013,8 @@ msgid ""
 "software/gettext/manual/gettext.html#index-files_002c-_002epot>`_:"
 msgstr ""
 "Sobald Sie Code haben, der die gettext-Aufrufe verwendet, können Sie "
-"`xgettext`_ verwenden, um Nachrichten daraus zu extrahieren und sie in eine `"
-".pot <https://www.gnu.org/software/gettext/manual/gettext.html#index-"
+"`xgettext`_ verwenden, um Nachrichten daraus zu extrahieren und sie in eine "
+"`.pot <https://www.gnu.org/software/gettext/manual/gettext.html#index-"
 "files_002c-_002epot>`_ zu speichern:"
 
 #: ../../devel/gettext.rst:101
@@ -37986,9 +38073,9 @@ msgid ""
 "gnu.org/software/gettext/manual/gettext.html#MO-Files>`_ file used by the "
 "`GNU gettext`_ functions at runtime."
 msgstr ""
-"Diese Datei wird in eine optimierte Binärform kompiliert, die `.mo "
-"<https://www.gnu.org/software/gettext/manual/gettext.html#MO-Files>`_-Datei, "
-"die von den `GNU gettext`_-Funktionen zur Laufzeit verwendet wird."
+"Diese Datei wird in eine optimierte Binärform kompiliert, die `.mo <https://"
+"www.gnu.org/software/gettext/manual/gettext.html#MO-Files>`_-Datei, die von "
+"den `GNU gettext`_-Funktionen zur Laufzeit verwendet wird."
 
 #: ../../devel/gettext.rst:198
 msgid "Updating strings"
@@ -38023,8 +38110,8 @@ msgid ""
 "description of the fields):"
 msgstr ""
 "Um eine solche Übersetzung in Weblate zu importieren, müssen Sie nur die "
-"folgenden Felder beim Erstellen der Komponente definieren (siehe "
-":ref:`component` für eine detaillierte Beschreibung der Felder):"
+"folgenden Felder beim Erstellen der Komponente definieren (siehe :ref:"
+"`component` für eine detaillierte Beschreibung der Felder):"
 
 #: ../../devel/gettext.rst:222
 msgid "Field"
@@ -38092,8 +38179,8 @@ msgid ""
 "setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
 "Diese Funktion ist auf Hosted Weblate konfiguriert. Sie erfordert eine "
-"zusätzliche Konfiguration in Ihrer Installation, siehe "
-":setting:`LOCALIZE_CDN_URL` und :setting:`LOCALIZE_CDN_PATH`."
+"zusätzliche Konfiguration in Ihrer Installation, siehe :setting:"
+"`LOCALIZE_CDN_URL` und :setting:`LOCALIZE_CDN_PATH`."
 
 #: ../../devel/html.rst:15
 msgid ""
@@ -38101,8 +38188,8 @@ msgid ""
 "(see :ref:`lazy-commit`) to the CDN and these can be used in your web pages "
 "to localize them."
 msgstr ""
-"Nach der Installation in Ihrer Komponente werden die Übersetzungen (siehe "
-":ref:`lazy-commit`) in das CDN übertragen und können in Ihren Webseiten "
+"Nach der Installation in Ihrer Komponente werden die Übersetzungen (siehe :"
+"ref:`lazy-commit`) in das CDN übertragen und können in Ihren Webseiten "
 "verwendet werden, um diese zu lokalisieren."
 
 #: ../../devel/html.rst:20
@@ -38476,8 +38563,8 @@ msgstr ""
 "Falls Ihre Übersetzungsdateien zusammen mit dem Code in einem VCS "
 "gespeichert sind, haben Sie höchstwahrscheinlich einen bestehenden "
 "Arbeitsablauf für Entwickler, um neue Zeichenketten einzuführen. Jede Art "
-"des Hinzufügens von Zeichenketten wird aufgegriffen, aber Sie sollten :ref"
-":`source-quality-gateway` verwenden, um Fehler zu vermeiden."
+"des Hinzufügens von Zeichenketten wird aufgegriffen, aber Sie sollten :ref:"
+"`source-quality-gateway` verwenden, um Fehler zu vermeiden."
 
 #: ../../devel/integration.rst:73
 msgid ""
@@ -38492,16 +38579,16 @@ msgid ""
 "Manually, using :guilabel:`Add new translation string` from :guilabel:"
 "`Tools` menu in the source language."
 msgstr ""
-"Manuell mit :guilabel:`Neue Übersetzung hinzufügen` aus dem Menü "
-":guilabel:`Werkzeuge` in der Ausgangssprache."
+"Manuell mit :guilabel:`Neue Übersetzung hinzufügen` aus dem Menü :guilabel:"
+"`Werkzeuge` in der Ausgangssprache."
 
 #: ../../devel/integration.rst:78
 msgid ""
 "Programmatically, using API :http:post:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`."
 msgstr ""
-"Programmgesteuert, mit der API :http:post:`/api/translations/"
-"(string:project)/(string:component)/(string:language)/units/`."
+"Programmgesteuert, mit der API :http:post:`/api/translations/(string:"
+"project)/(string:component)/(string:language)/units/`."
 
 #: ../../devel/integration.rst:79
 msgid ""
@@ -38512,16 +38599,17 @@ msgid ""
 msgstr ""
 "Durch Hochladen der Quelldatei als :guilabel:`Vorhandene Übersetzungsdatei "
 "ersetzen` (dies überschreibt vorhandene Zeichenketten, also stellen Sie "
-"bitte sicher, dass die Datei sowohl alte als auch neue Zeichenketten enthält)"
-" oder :guilabel:`Neue Zeichenketten hinzufügen`, siehe :ref:`upload-method`."
+"bitte sicher, dass die Datei sowohl alte als auch neue Zeichenketten "
+"enthält) oder :guilabel:`Neue Zeichenketten hinzufügen`, siehe :ref:`upload-"
+"method`."
 
 #: ../../devel/integration.rst:85
 msgid ""
 "Availability of adding strings in Weblate depends on :ref:`component-"
 "manage_units`."
 msgstr ""
-"Die Verfügbarkeit des Hinzufügens von Zeichenketten in Weblate hängt von :ref"
-":`component-manage_units` ab."
+"Die Verfügbarkeit des Hinzufügens von Zeichenketten in Weblate hängt von :"
+"ref:`component-manage_units` ab."
 
 #: ../../devel/integration.rst:90
 msgid "Updating target language files"
@@ -38553,8 +38641,8 @@ msgid ""
 msgstr ""
 "Weblate wird auch nicht versuchen, zweisprachige Dateien auf irgendeine "
 "Weise zu aktualisieren. Wenn Sie also :file:`po`-Dateien aus :file:`pot` "
-"aktualisieren möchten, müssen Sie dies selbst tun, indem Sie :guilabel:`"
-"Ausgangszeichenketten aktualisieren`-:ref:`upload-method` oder die "
+"aktualisieren möchten, müssen Sie dies selbst tun, indem Sie :guilabel:"
+"`Ausgangszeichenketten aktualisieren`-:ref:`upload-method` oder die "
 "Erweiterung :ref:`addon-weblate.gettext.msgmerge` verwenden."
 
 #: ../../devel/integration.rst:106
@@ -38603,8 +38691,8 @@ msgid ""
 "update existing translations, see :ref:`updating-target-files`."
 msgstr ""
 "Zweisprachige Formate extrahieren typischerweise Zeichenketten aus dem "
-"Quellcode mit Hilfe eines Tools (wie :program:`xgettext` oder :program"
-":`intltool-update`). Befolgen Sie die Dokumentation Ihres "
+"Quellcode mit Hilfe eines Tools (wie :program:`xgettext` oder :program:"
+"`intltool-update`). Befolgen Sie die Dokumentation Ihres "
 "Lokalisierungsframeworks, um Anweisungen dazu zu erhalten.. Sobald die "
 "Zeichenketten extrahiert sind, kann ein zusätzlicher Schritt erforderlich "
 "sein, um vorhandene Übersetzungen zu aktualisieren, siehe :ref:`updating-"
@@ -39014,8 +39102,8 @@ msgstr ""
 "gezielt zu fördern. Es gibt auch eine nette Willkommensseite für neue "
 "Mitwirkende, um ihnen grundlegende Informationen über die Übersetzung zu "
 "geben. Außerdem können Sie Informationen über die Übersetzung über Facebook "
-"oder X weitergeben. All diese Möglichkeiten finden Sie unter dem "
-"Reiter :guilabel:`Teilen`:"
+"oder X weitergeben. All diese Möglichkeiten finden Sie unter dem Reiter :"
+"guilabel:`Teilen`:"
 
 #: ../../devel/share.rst:14
 msgid ""
@@ -39068,10 +39156,10 @@ msgid ""
 "and link it from main project as a translation."
 msgstr ""
 "Wenn Sie den „Read the Docs“-Dienst nutzen, können Sie mit der Erstellung "
-"der übersetzten Dokumentation auf Read the Docs beginnen. Deren "
-":doc:`rtd:localization` deckt so ziemlich alles ab, was Sie brauchen – ein "
-"weiteres Projekt erstellen, dessen Sprache festlegen und es vom Hauptprojekt "
-"als Übersetzung verlinken."
+"der übersetzten Dokumentation auf Read the Docs beginnen. Deren :doc:`rtd:"
+"localization` deckt so ziemlich alles ab, was Sie brauchen – ein weiteres "
+"Projekt erstellen, dessen Sprache festlegen und es vom Hauptprojekt als "
+"Übersetzung verlinken."
 
 #: ../../devel/sphinx.rst:22
 msgid ""
@@ -39084,11 +39172,12 @@ msgid ""
 msgstr ""
 "Jetzt müssen Sie nur noch den Inhalt der Dokumentation übersetzen. Sphinx "
 "generiert PO-Dateien für jedes Verzeichnis oder jede Datei der obersten "
-"Ebene, was zu einer großen Anzahl von zu übersetzenden Dateien führen kann ("
-"abhängig von den :confval:`sphinx:gettext_compact`-Einstellungen). Sie "
+"Ebene, was zu einer großen Anzahl von zu übersetzenden Dateien führen kann "
+"(abhängig von den :confval:`sphinx:gettext_compact`-Einstellungen). Sie "
 "können die Datei :file:`index.po` als erste Komponente in Weblate "
-"importieren und dann die Erweiterung :ref:`addon-weblate.discovery.discovery`"
-" so konfigurieren, dass alle anderen Dateien automatisch erkannt werden."
+"importieren und dann die Erweiterung :ref:`addon-weblate.discovery."
+"discovery` so konfigurieren, dass alle anderen Dateien automatisch erkannt "
+"werden."
 
 #: ../../devel/sphinx.rst:33
 msgid "``Documentation``"
@@ -39149,7 +39238,8 @@ msgstr ""
 
 #: ../../devel/sphinx.rst:65
 msgid "`Godot engine documentation <https://docs.godotengine.org/en/stable/>`_"
-msgstr "`Godot-Engine-Dokumentation <https://docs.godotengine.org/en/stable/>`_"
+msgstr ""
+"`Godot-Engine-Dokumentation <https://docs.godotengine.org/en/stable/>`_"
 
 #: ../../devel/sphinx.rst:66
 msgid "`Gallette documentation <https://doc.galette.eu/>`_"
@@ -39219,8 +39309,8 @@ msgstr ""
 "Wählen Sie das, was auf Ihrer Plattform Standard ist. Versuchen Sie zu "
 "vermeiden, das Rad neu zu erfinden, indem Sie Ihr eigenes Framework für die "
 "Lokalisierung erstellen. Weblate unterstützt die meisten der weit "
-"verbreiteten Frameworks, siehe :ref:`formats` für weitere Informationen ("
-"insbesondere :ref:`fmt_capabs`)."
+"verbreiteten Frameworks, siehe :ref:`formats` für weitere Informationen "
+"(insbesondere :ref:`fmt_capabs`)."
 
 #: ../../devel/starting.rst:31
 msgid ""
@@ -39337,8 +39427,8 @@ msgid ""
 "github.com/phpmyadmin/motranslator>`_ instead."
 msgstr ""
 "Die native Gettext-Unterstützung in PHP ist fehlerhaft und fehlt oft in "
-"Windows-Builds, es wird empfohlen, stattdessen die Drittanbieter-Bibliothek `"
-"motranslator <https://github.com/phpmyadmin/motranslator>`_ zu verwenden."
+"Windows-Builds, es wird empfohlen, stattdessen die Drittanbieter-Bibliothek "
+"`motranslator <https://github.com/phpmyadmin/motranslator>`_ zu verwenden."
 
 #: ../../devel/starting.rst:71
 msgid "You can also use :ref:`javaprop` if plurals are not needed."
@@ -39401,8 +39491,8 @@ msgid ""
 "`Weblate plugin for Figma <https://www.figma.com/community/"
 "plugin/1053050985172660071/weblate-integration>`_"
 msgstr ""
-"`Weblate-Plugin für Figma <https://www.figma.com/community/plugin/"
-"1053050985172660071/weblate-integration>`_"
+"`Weblate-Plugin für Figma <https://www.figma.com/community/"
+"plugin/1053050985172660071/weblate-integration>`_"
 
 #: ../../devel/thirdparty.rst:9
 msgid ""
@@ -39425,8 +39515,8 @@ msgid ""
 "`Spring MessageSource backed by a Weblate server <https://github.com/"
 "porscheinformatik/weblate-spring>`_"
 msgstr ""
-"`Spring MessageSource, unterstützt durch einen Weblate-Server <https://github"
-".com/porscheinformatik/weblate-spring>`_"
+"`Spring MessageSource, unterstützt durch einen Weblate-Server <https://"
+"github.com/porscheinformatik/weblate-spring>`_"
 
 #: ../../devel/thirdparty.rst:12
 msgid ""
@@ -39608,8 +39698,8 @@ msgid ""
 "editing the string. This has differences between file formats, see: :ref:"
 "`component-manage_units`"
 msgstr ""
-"In der Weblate-Bedienoberfläche über die Schaltfläche :guilabel:`Werkzeuge` ↓"
-" :guilabel:`Löschen` beim Bearbeiten der Zeichenkette. Dabei gibt es "
+"In der Weblate-Bedienoberfläche über die Schaltfläche :guilabel:`Werkzeuge` "
+"↓ :guilabel:`Löschen` beim Bearbeiten der Zeichenkette. Dabei gibt es "
 "Unterschiede zwischen den Dateiformaten, siehe: :ref:`component-manage_units`"
 
 #: ../../devel/translations.rst:82
@@ -42075,10 +42165,10 @@ msgid ""
 "ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:"
 "`addon-weblate.cleanup.generic`"
 msgstr ""
-"`Java-Properties auf Wikipedia <https://en.wikipedia.org/wiki/.properties>`"
-"_, :doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:`gwt`, :ref"
-":`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-"
-"weblate.cleanup.generic`"
+"`Java-Properties auf Wikipedia <https://en.wikipedia.org/wiki/."
+"properties>`_, :doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:`gwt`, :"
+"ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:"
+"`addon-weblate.cleanup.generic`"
 
 #: ../../formats/java.rst:46
 msgid "`Java Properties (ISO-8859-1)`"
@@ -42833,8 +42923,8 @@ msgstr "Leerzeichen und Zeilenumbrüche in XLIFF"
 #: ../../formats/xliff.rst:73
 msgid ""
 "Generally types or amounts of whitespace is not differentiated between in "
-"XML formats. If you want to keep it, you have to add the ``xml:space="
-"\"preserve\"`` flag to the string."
+"XML formats. If you want to keep it, you have to add the ``xml:"
+"space=\"preserve\"`` flag to the string."
 msgstr ""
 
 #: ../../formats/xliff.rst:90
@@ -47686,8 +47776,8 @@ msgstr "Reguläre Ausdrücke"
 
 #: ../../user/search.rst:144
 msgid ""
-"Anywhere text is accepted you can also specify a regular expression as ``r"
-"\"regexp\"``."
+"Anywhere text is accepted you can also specify a regular expression as "
+"``r\"regexp\"``."
 msgstr ""
 "Überall dort, wo Text akzeptiert wird, können Sie auch einen regulären "
 "Ausdruck als ``r\"regexp\"`` angeben."
@@ -47698,8 +47788,8 @@ msgid ""
 "between 2 and 5, use ``source:r\"[2-5]\"``."
 msgstr ""
 "Um zum Beispiel nach allen Ausgangszeichenketten zu suchen, die eine "
-"beliebige Ziffer zwischen 2 und 5 enthalten, verwenden Sie ``source:r"
-"\"[2-5]\"``."
+"beliebige Ziffer zwischen 2 und 5 enthalten, verwenden Sie ``source:"
+"r\"[2-5]\"``."
 
 #: ../../user/search.rst:150
 msgid "Predefined queries"
@@ -48972,12 +49062,12 @@ msgstr ""
 #: ../../vcs.rst:177
 msgid ""
 "If your username or password contains special characters, those have to be "
-"URL encoded, for example ``https://user%40example.com:%24password"
-"%23@bitbucket.org/…``."
+"URL encoded, for example ``https://user%40example.com:"
+"%24password%23@bitbucket.org/…``."
 msgstr ""
 "Wenn Ihr Benutzername oder Ihr Passwort Sonderzeichen enthält, müssen diese "
-"URL-kodiert sein, zum Beispiel ``https://user%40example.com:%24password"
-"%23@bitbucket.org/…``."
+"URL-kodiert sein, zum Beispiel ``https://user%40example.com:"
+"%24password%23@bitbucket.org/…``."
 
 #: ../../vcs.rst:182
 msgid "Using proxy"
@@ -49342,8 +49432,8 @@ msgstr ""
 msgid ""
 "Weblate expects you to have accepted the certificate up-front (and your "
 "credentials if needed). It will look to insert them into the :setting:"
-"`DATA_DIR` directory. Accept the certificate by using `svn` once with the `"
-"$HOME` environment variable set to the :setting:`DATA_DIR`:"
+"`DATA_DIR` directory. Accept the certificate by using `svn` once with the "
+"`$HOME` environment variable set to the :setting:`DATA_DIR`:"
 msgstr ""
 
 #: ../../vcs.rst:489
@@ -50261,8 +50351,8 @@ msgstr ""
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 
-#~ msgid "Not yet released."
-#~ msgstr "Noch nicht veröffentlicht."
+#~ msgid "``tesseract`` and its data (optional for screenshots OCR)"
+#~ msgstr "``tesseract`` und seine Daten (optional für Bildschirmfotos-OCR)"
 
 #~ msgid ""
 #~ "The string between the quotes after `XZ_OPT` allows you to choose your xz "
