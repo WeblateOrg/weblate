@@ -275,6 +275,8 @@ class ComponentQuerySet(models.QuerySet):
         for category in reversed(categories):
             kwargs[f"{prefix}category__slug"] = category
             prefix = f"category__{prefix}"
+        if not kwargs:
+            kwargs["category"] = None
         return self.get(slug__iexact=component, project__slug__iexact=project, **kwargs)
 
     def order_project(self):
