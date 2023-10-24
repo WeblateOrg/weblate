@@ -228,7 +228,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return "{}?lang={}&component={}".format(
             self.component.project.get_widgets_url(),
             self.language.code,
-            self.component.slug,
+            self.component.pk,
         )
 
     def get_share_url(self):
