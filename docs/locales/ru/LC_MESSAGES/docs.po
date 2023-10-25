@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-24 16:13+0200\n"
-"PO-Revision-Date: 2023-10-22 20:19+0000\n"
-"Last-Translator: Noise Maker <vh0d@disroot.org>\n"
+"PO-Revision-Date: 2023-10-25 06:49+0000\n"
+"Last-Translator: xXx <xxx_xxx_xxxxxxxxx@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.1.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -9051,10 +9051,6 @@ msgid "Sentry DSN to use for :ref:`collecting-errors`."
 msgstr "DSN Sentry для :ref:`сбора отчетов об ошибках <collecting-errors>`."
 
 #: ../../admin/config.rst:1574
-#, fuzzy
-#| msgid ""
-#| "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
-#| "guides/django/>`_"
 msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "integrations/django/>`_"
@@ -10986,6 +10982,8 @@ msgid ""
 "``tesseract`` (needed only if :program:`tesserocr` binary wheels are not "
 "available for your system)"
 msgstr ""
+"``tesseract`` (необходимо только в том случае, если бинарные колеса "
+":program:`tesserocr` недоступны для вашей системы)"
 
 #: ../../admin/install.rst:143
 msgid "https://github.com/tesseract-ocr/tesseract"
@@ -12910,7 +12908,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1472
 msgid "Single-process Celery setup"
-msgstr ""
+msgstr "Однопроцессная установка для производства сельдерея"
 
 #: ../../admin/install.rst:1474
 msgid ""
@@ -12918,10 +12916,13 @@ msgid ""
 "Weblate processes. All Celery tasks can be executed in a single process "
 "using:"
 msgstr ""
+"В случае, если у вас очень ограниченный объем памяти, возможно, стоит "
+"уменьшить количество процессов Weblate. Все задачи Celery могут выполняться "
+"в одном процессе с помощью:"
 
 #: ../../admin/install.rst:1483
 msgid "This will have a noticeable performance impact on Weblate."
-msgstr ""
+msgstr "Это заметно скажется на производительности Weblate."
 
 #: ../../admin/install.rst:1488
 msgid "Monitoring Weblate"
@@ -13168,6 +13169,8 @@ msgid ""
 "For systems with less memory than recommended, :ref:`minimal-celery` is "
 "recommended."
 msgstr ""
+"Для систем с меньшим, чем рекомендуется, объемом памяти рекомендуется "
+"использовать :ref:`minimal-celery`."
 
 #: ../../../README.rst:50 ../../admin/install/docker.rst:13
 #: ../../admin/install/kubernetes.rst:18 ../../admin/install/openshift.rst:12
@@ -13606,6 +13609,8 @@ msgid ""
 "The volume name contains name of the Docker Compose project, which is by "
 "default the directory name what is ``weblate-docker`` in this documentation."
 msgstr ""
+"Имя тома содержит имя проекта Docker Compose, которое по умолчанию является "
+"именем каталога, как ``weblate-docker`` в данной документации."
 
 #: ../../admin/install/docker.rst:291
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
@@ -16861,18 +16866,13 @@ msgstr ""
 "зависимости от языка (например, есть ``de@formal`` и ``de@informal``)."
 
 #: ../../admin/machine.rst:153
-#, fuzzy
-#| msgid ""
-#| "`DeepL website <https://www.deepl.com/>`_, `DeepL pricing <https://www."
-#| "deepl.com/pro>`_, `DeepL API documentation <https://www.deepl.com/docs-"
-#| "api.html>`_"
 msgid ""
 "`DeepL translator <https://www.deepl.com/translator>`_, `DeepL pricing "
 "<https://www.deepl.com/pro>`_, `DeepL API documentation <https://www.deepl."
 "com/docs-api.html>`_"
 msgstr ""
-"`Веб-сайт DeepL <https://www.deepl.com/>`_, `Цены на DeepL <https://www."
-"deepl.com/pro>`_, `Документация по API DeepL <https://www.deepl.com/docs-api."
+"`Веб-сайт DeepL <https://www.deepl.com/>`_, `Цены на DeepL <https://www.deepl"
+".com/pro>`_, `Документация по API DeepL <https://www.deepl.com/docs-api."
 "html>`_"
 
 #: ../../admin/machine.rst:160
@@ -17165,18 +17165,6 @@ msgstr ""
 "Azure Portal."
 
 #: ../../admin/machine.rst:317
-#, fuzzy
-#| msgid ""
-#| "`Cognitive Services - Text Translation API <https://azure.microsoft.com/"
-#| "en-us/products/cognitive-services/translator/>`_, `Microsoft Azure Portal "
-#| "<https://portal.azure.com/>`_, `Base URLs <https://learn.microsoft.com/en-"
-#| "us/azure/ai-services/translator/reference/v3-0-reference#base-urls>`_, "
-#| "`\"Authenticating with a Multi-service resource\" <https://learn."
-#| "microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-"
-#| "reference#authenticating-with-a-multi-service-resource>`_ "
-#| "`\"Authenticating with an access token\" section <https://learn.microsoft."
-#| "com/en-us/azure/ai-services/translator/reference/v3-0-"
-#| "reference#authenticating-with-an-access-token>`_"
 msgid ""
 "`Cognitive Services - Text Translation API <https://azure.microsoft.com/en-"
 "us/products/ai-services/ai-translator>`_, `Microsoft Azure Portal <https://"
@@ -17189,15 +17177,14 @@ msgid ""
 "v3-0-reference#authenticating-with-an-access-token>`_"
 msgstr ""
 "`Cognitive Services — API перевода текста <https://azure.microsoft.com/en-us/"
-"products/cognitive-services/translator/>`_, `Портал Microsoft Azure <https://"
-"portal.azure.com/> `_, `Базовые URL-адреса <https://learn.microsoft.com/en-"
-"us/azure/ai-services/translator/reference/v3-0-reference#base-urls>`_, "
-"`\"Аутентификация с помощью нескольких -сервисный ресурс\" <https://learn."
-"microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-"
-"reference#authenticating-with-a-multi-service-resource>`_ ` Раздел "
-"«Аутентификация с помощью токена доступа» <https://learn.microsoft.com/en-us/"
-"azure/ai-services/translator/reference/v3-0-reference#authenticating-with-an-"
-"access-token>` _"
+"products/cognitive-services/translator/>`_, `Портал Microsoft Azure "
+"<https://portal.azure.com/> `_, `Базовые URL-адреса <https://learn.microsoft."
+"com/en-us/azure/ai-services/translator/reference/v3-0-reference#base-urls>`"
+"_, `\"Аутентификация с помощью нескольких -сервисный ресурс\" <https://learn."
+"microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-reference"
+"#authenticating-with-a-multi-service-resource>`_ ` Раздел «Аутентификация с "
+"помощью токена доступа» <https://learn.microsoft.com/en-us/azure/ai-services/"
+"translator/reference/v3-0-reference#authenticating-with-an-access-token>` _"
 
 #: ../../admin/machine.rst:326
 msgid "ModernMT"
@@ -17510,17 +17497,14 @@ msgstr ""
 "от Яндекс Облака."
 
 #: ../../admin/machine.rst:546
-#, fuzzy
-#| msgid ""
-#| "`Yandex Translate API <https://yandex.com/dev/translate/>`_, `Powered by "
-#| "Yandex.Translate <https://translate.yandex.com/>`_"
 msgid ""
 "`Yandex Translate API v2 <https://cloud.yandex.com/en/docs/translate/api-ref/"
 "authentication>`_, `Powered by Yandex.Cloud <https://cloud.yandex.com/en/"
 "services/translate>`_"
 msgstr ""
-"`API Яндекс Переводчика <https://yandex.ru/dev/translate/>`_, `Яндекс "
-"Переводчик <https://translate.yandex.ru/>`_"
+"`Yandex Translate API v2 <https://cloud.yandex.com/en/docs/translate/api-ref/"
+"authentication>`_, `Powered by Yandex.Cloud <https://cloud.yandex.com/en/"
+"services/translate>`_"
 
 #: ../../admin/machine.rst:552
 msgid "Youdao Zhiyun"
