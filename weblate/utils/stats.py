@@ -266,7 +266,7 @@ class BaseStats:
     def update_stats(self, update_parents: bool = True):
         self._data = {}
         if settings.STATS_LAZY:
-            self.save(update_parents=False)
+            self.save(update_parents=update_parents)
         else:
             self.prefetch_basic()
             self.save(update_parents=update_parents)
@@ -368,11 +368,14 @@ class TranslationStats(BaseStats):
 
         super().save()
 
-        if settings.CELERY_TASK_ALWAYS_EAGER:
-            transaction.on_commit(self.update_parents)
-        else:
-            pk = self._object.pk
-            transaction.on_commit(lambda: update_translation_stats_parents.delay(pk))
+        if update_parents:
+            if settings.CELERY_TASK_ALWAYS_EAGER:
+                transaction.on_commit(self.update_parents)
+            else:
+                pk = self._object.pk
+                transaction.on_commit(
+                    lambda: update_translation_stats_parents.delay(pk)
+                )
 
     def get_update_objects(self):
         yield self._object.language.stats
