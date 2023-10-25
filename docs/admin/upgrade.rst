@@ -68,7 +68,7 @@ work, but is not as well tested as single version upgrades.
         # Install optional dependencies directly when not using virtualenv
         pip install --upgrade -r requirements-optional.txt
 
-#. New Weblate release might have new :ref:`optional-deps`, please check if they cover
+#. New Weblate release might have new :ref:`python-deps`, please check if they cover
    features you want.
 
 #. Upgrade configuration file, refer to :file:`settings_example.py` or
