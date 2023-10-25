@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-24 16:13+0200\n"
-"PO-Revision-Date: 2023-10-22 17:01+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2023-10-25 06:49+0000\n"
+"Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.1.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -10059,7 +10059,8 @@ msgstr "https://git-scm.com/docs/git-svn"
 msgid ""
 "``tesseract`` (needed only if :program:`tesserocr` binary wheels are not "
 "available for your system)"
-msgstr ""
+msgstr "``tesseract`` （ 只有在你的系统没有 :program:`tesserocr` 二进制 wheels "
+"文件时才需要）"
 
 #: ../../admin/install.rst:143
 msgid "https://github.com/tesseract-ocr/tesseract"
@@ -11780,18 +11781,19 @@ msgstr ""
 
 #: ../../admin/install.rst:1472
 msgid "Single-process Celery setup"
-msgstr ""
+msgstr "单进程 Celery 设置"
 
 #: ../../admin/install.rst:1474
 msgid ""
 "In case you have very limited memory, you might want to reduce number of "
 "Weblate processes. All Celery tasks can be executed in a single process "
 "using:"
-msgstr ""
+msgstr "如果你的内存有限，你或许会想要减少 Weblate 进程数。"
+"使用以下命令可以在单进程中执行所有 Celery 任务："
 
 #: ../../admin/install.rst:1483
 msgid "This will have a noticeable performance impact on Weblate."
-msgstr ""
+msgstr "这会对 Weblate 性能产生显著影响。"
 
 #: ../../admin/install.rst:1488
 msgid "Monitoring Weblate"
@@ -12010,7 +12012,7 @@ msgstr "安装 Weblate 的实际要求会因其中管理的翻译规模而大不
 msgid ""
 "For systems with less memory than recommended, :ref:`minimal-celery` is "
 "recommended."
-msgstr ""
+msgstr "对于内存低于推荐值的系统，建议使用 :ref:`minimal-celery`。"
 
 #: ../../../README.rst:50 ../../admin/install/docker.rst:13
 #: ../../admin/install/kubernetes.rst:18 ../../admin/install/openshift.rst:12
@@ -12415,7 +12417,8 @@ msgstr "删除 PostgreSQL 卷："
 msgid ""
 "The volume name contains name of the Docker Compose project, which is by "
 "default the directory name what is ``weblate-docker`` in this documentation."
-msgstr ""
+msgstr "卷名包含 Docker Compose 项目名，其默认为此文档中 ``weblate-docker`` "
+"的目录名。"
 
 #: ../../admin/install/docker.rst:291
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
@@ -23138,10 +23141,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS（英文） <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.0.1"
 msgid "Weblate 5.1.1"
-msgstr "Weblate 5.0.1"
+msgstr "Weblate 5.1.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -23158,27 +23159,18 @@ msgid "**Improvements**"
 msgstr "**改进**"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.consistency.languages` add-on could miss some "
-#| "languages."
 msgid ""
 ":ref:`addon-weblate.consistency.languages` now uses a dedicated user for "
 "changes."
-msgstr ""
-":ref:`addon-weblate.consistency.languages` 附加组件可能会遗漏某些语言。"
+msgstr ":ref:`addon-weblate.consistency.languages` 现在使用专门用户进行更改操作。"
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added notifications for string removals."
 msgid "Added button for sharing on Fediverse."
-msgstr "添加了字符串删除通知。"
+msgstr "新增分享到 Fediverse 按钮。"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Added notifications for string removals."
 msgid "Added valication for VCS integration credentials."
-msgstr "添加了字符串删除通知。"
+msgstr "新增 VCS 集成凭据验证。"
 
 #: ../../changes.rst:14 ../../changes.rst:55 ../../changes.rst:88
 #: ../../changes.rst:121 ../../changes.rst:178
@@ -23187,11 +23179,11 @@ msgstr "**缺陷修复**"
 
 #: ../../changes.rst:16
 msgid "Added plurals validation when editing string using API."
-msgstr ""
+msgstr "使用 API 编辑字符串时添加复数验证。"
 
 #: ../../changes.rst:17
 msgid "Replacing a file using upload when existing is corrupted."
-msgstr ""
+msgstr "现有文件损坏时使用上传替换该文件。"
 
 #: ../../changes.rst:19 ../../changes.rst:64 ../../changes.rst:131
 #: ../../changes.rst:186
@@ -23222,16 +23214,12 @@ msgid ""
 msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/100?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/106?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/100?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"106?closed=1>`__。"
 
 #: ../../changes.rst:28
 msgid "Weblate 5.1"
