@@ -3,13 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # victor dargallo <victordargallo@disroot.org>, 2023.
 # Eduard Ereza Martínez <eduard@ereza.cat>, 2023.
+# Ecron <ecron_89@hotmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-24 14:12+0000\n"
-"PO-Revision-Date: 2023-10-15 07:01+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-10-25 15:28+0000\n"
+"Last-Translator: Ecron <ecron_89@hotmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
 "Language: ca\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.1.1\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -441,16 +442,12 @@ msgid "Access to project {project} was blocked"
 msgstr "S’ha blocat l’accés al projecte {project}"
 
 #: weblate/accounts/models.py:169
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was enabled by administrator"
-msgstr "S'ha enviat el missatge a l'administrador."
+msgstr "Un administrador ha activat l'usuari"
 
 #: weblate/accounts/models.py:170
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was disabled by administrator"
-msgstr "S'ha enviat el missatge a l'administrador."
+msgstr "Un administrador ha desactivat l'usuari"
 
 #: weblate/accounts/models.py:175
 msgid "Configured password to sign in."
@@ -4560,7 +4557,7 @@ msgstr "Tipus de plural"
 
 #: weblate/lang/models.py:879
 msgid "Example counts for this plural form."
-msgstr ""
+msgstr "Comptes d'exemple per a aquesta forma del plural."
 
 #: weblate/lang/models.py:888
 msgid "Singular"
@@ -5308,17 +5305,15 @@ msgstr ""
 "els responsables directament, no feu servir aquest formulari."
 
 #: weblate/templates/accounts/contact.html:27
-#, fuzzy, python-format
-#| msgid ""
-#| "If you seek support for another Weblate deployment or want to file a bug "
-#| "report, check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you seek support for any other Weblate deployment than %(site_title)s, "
 "please check support offerings at %(weblate_link)s or use this form on the "
 "correct server."
 msgstr ""
-"Si cerqueu assistència per a una altra implementació del Weblate, o si voleu "
-"informar d’un error, visiteu-ne el lloc web a %(weblate_link)s."
+"Si cerqueu assistència per a qualsevol altra implementació del Weblate a "
+"banda de %(site_title)s, comproveu la disponibilitat d'assistència a "
+"%(weblate_link)s o utilitzeu aquest formulari en el servidor correcte."
 
 #: weblate/templates/accounts/contact.html:31
 #, fuzzy, python-format
@@ -10038,10 +10033,9 @@ msgstr ""
 "individuals:"
 
 #: weblate/templates/snippets/project-workflow-settings.html:4
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid "Translation workflow can be also customized per language:"
-msgstr "Traduccions d’aquesta cadena en altres llengües"
+msgstr ""
+"El flux de treball de la traducció també es pot personalitzar per llengua:"
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:11
 msgid ""
@@ -10453,18 +10447,24 @@ msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr ""
+"No s'ha trobat el repositori font. Comproveu que existeix i que el Weblate "
+"hi pot accedir."
 
 #: weblate/templates/trans/alert/common-repo.html:8
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
 "accessible to Weblate."
 msgstr ""
+"No s'ha pogut accedir al repositori font. Comproveu que el Weblate hi pot "
+"accedir."
 
 #: weblate/templates/trans/alert/common-repo.html:12
 msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
 msgstr ""
+"No s'ha pogut accedir temporalment al repositori font. Proveu de nou més "
+"endavant."
 
 #: weblate/templates/trans/alert/common-repo.html:16
 #, fuzzy
@@ -10505,6 +10505,8 @@ msgid ""
 "Weblate will retry the operation once it is needed again, so the alert might "
 "disappear for the temporary issues."
 msgstr ""
+"El Weblate tornarà a provar l'operació quan torni a ser necessària, per la "
+"qual cosa l'alerta podria desaparèixer per a errors temporals."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same file mask."
@@ -12490,6 +12492,9 @@ msgid ""
 "The translation workflow is configured at project and component. By enabling "
 "customization here, you override these settings for this language."
 msgstr ""
+"El flux de treball de la traducció es configura per projecte i component. Si "
+"s'activa la personalització aquí, sobreescriureu la configuració per a "
+"aquesta llengua."
 
 #: weblate/trans/guide.py:65
 msgid "Version control integration"
@@ -13000,7 +13005,7 @@ msgstr "Anuncis"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:374
 msgid "Alert triggered"
-msgstr ""
+msgstr "S'ha activat una alerta"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:376
@@ -13106,11 +13111,9 @@ msgid "Comment removed"
 msgstr "Component que se suprimirà"
 
 #: weblate/trans/models/change.py:412
-#, fuzzy
-#| msgid "Comment has been resolved."
 msgctxt "Name of event in the history"
 msgid "Comment resolved"
-msgstr "S’ha resolt el comentari."
+msgstr "S’ha resolt el comentari"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:415
@@ -15330,10 +15333,9 @@ msgstr ""
 "(%(keytype)s), comproveu que sigui correcta."
 
 #: weblate/vcs/ssh.py:227 weblate/vcs/ssh.py:233
-#, fuzzy, python-format
-#| msgid "Could not fetch public key for a host!"
+#, python-format
 msgid "Could not fetch public key for a host: %s"
-msgstr "No s’ha pogut obtenir la clau pública d’un servidor!"
+msgstr "No s’ha pogut obtenir la clau pública d’un servidor: %s"
 
 #: weblate/vcs/ssh.py:237
 #, python-format
