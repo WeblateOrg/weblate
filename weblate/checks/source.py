@@ -106,5 +106,5 @@ class LongUntranslatedCheck(SourceCheck):
         return (
             total
             and 2 * translated_percent
-            < unit.translation.component.stats.lazy_translated_percent
+            < unit.translation.component.stats.translated_percent
         )
