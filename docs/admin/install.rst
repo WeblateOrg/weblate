@@ -36,6 +36,91 @@ Depending on your setup and experience, choose an appropriate installation metho
 * :doc:`install/openshift`
 * :doc:`install/kubernetes`
 
+
+Architecture overview
+---------------------
+
+.. graphviz::
+
+   digraph architecture {
+      graph [fontname="sans-serif",
+         fontsize=10,
+         newrank=true,
+         rankdir=LR,
+         splines=ortho
+      ];
+      node [fontname="sans-serif",
+         fontsize=10,
+         height=0,
+         margin=.15,
+         shape=box
+      ];
+      edge [fontname="sans-serif",
+         fontsize=10
+      ];
+      subgraph cluster_thirdparty {
+         graph [color=lightgrey,
+            label="Third-party services",
+            style=filled
+         ];
+         mt	[label="Machine translation",
+            style=dotted];
+         sentry	[label="Sentry\nError collection",
+            style=dotted];
+         mail	[label="E-mail server"];
+         auth	[label="SSO\nAuthentication provider",
+            style=dotted];
+      }
+      subgraph cluster_ingress {
+         graph [color=lightgrey,
+            label=Ingress,
+            style=filled
+         ];
+         web	[label="Web server",
+            shape=hexagon];
+      }
+      subgraph cluster_weblate {
+         graph [color=lightgrey,
+            label="Weblate code-base",
+            style=filled
+         ];
+         celery	[fillcolor="#144d3f",
+            fontcolor=white,
+            label="Celery workers",
+            style=filled];
+         wsgi	[fillcolor="#144d3f",
+            fontcolor=white,
+            label="WSGI server",
+            style=filled];
+      }
+      subgraph cluster_services {
+         graph [color=lightgrey,
+            label=Services,
+            style=filled
+         ];
+         redis	[label="Redis\nTask queue\nCache",
+            shape=cylinder];
+         db	[label="PostgreSQL\nDatabase",
+            shape=cylinder];
+         fs	[label=Filesystem,
+            shape=cylinder];
+      }
+      web -> wsgi;
+      web -> fs;
+      celery -> mt	[style=dotted];
+      celery -> sentry	[style=dotted];
+      celery -> mail;
+      celery -> redis;
+      celery -> db;
+      celery -> fs;
+      wsgi -> mt	[style=dotted];
+      wsgi -> sentry	[style=dotted];
+      wsgi -> auth	[style=dotted];
+      wsgi -> redis;
+      wsgi -> db;
+      wsgi -> fs;
+   }
+
 .. _requirements:
 
 Software requirements
