@@ -170,46 +170,88 @@ Python Social Auth
 Django REST Framework
     https://www.django-rest-framework.org/
 
-.. _optional-deps:
+.. Table is generated using scripts/show-extras
 
-Optional dependencies
-+++++++++++++++++++++
+.. list-table:: Optional dependencies
+     :header-rows: 1
 
-Following modules are necessary for some Weblate features. You can find all
-of them in :file:`requirements-optional.txt`.
+     * - pip extra
+       - Python Package
+       - Weblate feature
 
-``Mercurial`` (optional for :ref:`vcs-mercurial` repositories support)
-    https://www.mercurial-scm.org/
-``python-akismet`` (optional for :ref:`spam-protection`)
-    https://github.com/Nekmo/python-akismet
-``Zeep`` (optional for :ref:`mt-microsoft-terminology`)
-    https://docs.python-zeep.org/
 
-.. hint::
+     * - ``Amazon``
+       - `boto3 <https://pypi.org/project/boto3>`_
+       - :ref:`mt-aws`
 
-   When installing using pip, you can directly specify desired features when installing:
 
-   .. code-block:: sh
+     * - ``LDAP``
+       - `django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_
+       - :ref:`ldap-auth`
 
-      pip install "Weblate[PHP,Fluent]"
 
-   Or you can install Weblate with all optional features:
+     * - ``zxcvbn``
+       - `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_
+       - :ref:`password-authentication`
 
-   .. code-block:: sh
 
-      pip install "Weblate[all]"
+     * - ``Gerrit``
+       - `git-review <https://pypi.org/project/git-review>`_
+       - :ref:`vcs-gerrit`
 
-   Or you can install Weblate without any optional features:
 
-   .. code-block:: sh
+     * - ``Google``
+       - `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
+       - :ref:`mt-google-translate-api-v3`
 
-      pip install Weblate
 
-Database backend dependencies
-+++++++++++++++++++++++++++++
+     * - ``Mercurial``
+       - `Mercurial <https://pypi.org/project/Mercurial>`_
+       - :ref:`vcs-mercurial`
 
-Weblate supports PostgreSQL, MySQL and MariaDB, see :ref:`database-setup` and
-backends documentation for more details.
+
+     * - ``MySQL``
+       - `mysqlclient <https://pypi.org/project/mysqlclient>`_
+       - MySQL or MariaDB, see :ref:`database-setup`
+
+
+     * - ``Postgres``
+       - `psycopg <https://pypi.org/project/psycopg>`_
+       - PostgreSQL, see :ref:`database-setup`
+
+
+     * - ``Antispam``
+       - `python-akismet <https://pypi.org/project/python-akismet>`_
+       - :ref:`spam-protection`
+
+
+     * - ``SAML``
+       - `python3-saml <https://pypi.org/project/python3-saml>`_
+       - :ref:`saml-auth`
+
+
+     * - ``MSTerminology``
+       - `zeep <https://pypi.org/project/zeep>`_
+       - :ref:`mt-microsoft-terminology`
+
+
+When installing using pip, you can directly specify desired features when installing:
+
+.. code-block:: sh
+
+   pip install "Weblate[Postgres,Amazon,SAML]"
+
+Or you can install Weblate with all optional features:
+
+.. code-block:: sh
+
+   pip install "Weblate[all]"
+
+Or you can install Weblate without any optional features:
+
+.. code-block:: sh
+
+   pip install Weblate
 
 Other system requirements
 +++++++++++++++++++++++++
