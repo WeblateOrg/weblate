@@ -1,7 +1,7 @@
 Weblate 5.1.1
 -------------
 
-Not yet released.
+Released on October 25th 2023.
 
 **New features**
 
