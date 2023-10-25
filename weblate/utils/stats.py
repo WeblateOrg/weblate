@@ -52,17 +52,29 @@ BASICS = {
     "nosuggestions",
     "comments",
     "approved_suggestions",
-    "languages",
     "unlabeled",
+    "unapproved",
 }
 BASIC_KEYS = frozenset(
-    [f"{x}_words" for x in BASICS if x != "languages"]
-    + [f"{x}_chars" for x in BASICS if x != "languages"]
-    + list(BASICS)
-    + ["last_changed", "last_author"]
+    (
+        *(f"{x}_words" for x in BASICS),
+        *(f"{x}_chars" for x in BASICS),
+        *BASICS,
+        "languages",
+        "last_changed",
+        "last_author",
+        "recent_changes",
+        "monthly_changes",
+        "total_changes",
+    )
 )
 SOURCE_KEYS = frozenset(
-    [*list(BASIC_KEYS), "source_strings", "source_words", "source_chars"]
+    (
+        *BASIC_KEYS,
+        "source_strings",
+        "source_words",
+        "source_chars",
+    )
 )
 
 
@@ -189,7 +201,7 @@ class BaseStats:
 
     def __getattr__(self, name: str):
         if name.startswith("_"):
-            raise AttributeError
+            raise AttributeError(f"Invalid stats for {self}: {name}")
         if self._data is None:
             self._data = self.load()
         if name.endswith("_percent"):
@@ -201,14 +213,17 @@ class BaseStats:
         if name not in self._data:
             was_pending = self._pending_save
             self._pending_save = True
-            if name in self.basic_keys:
-                self.prefetch_basic()
-            else:
-                self.calculate_item(name)
+            self.prefetch_name(name)
+            if name not in self._data:
+                raise AttributeError(f"Unsupported stats for {self}: {name}")
             if not was_pending:
                 self.save()
                 self._pending_save = False
         return self._data[name]
+
+    def prefetch_name(self, name: str):
+        if name in self.basic_keys:
+            self.prefetch_basic()
 
     def load(self):
         return cache.get(self.cache_key, {})
@@ -246,10 +261,6 @@ class BaseStats:
             self._data[key] = 0
         else:
             self._data[key] = value
-
-    def calculate_item(self, item):
-        """Calculate stats for translation."""
-        raise NotImplementedError
 
     def ensure_basic(self, save: bool = True):
         """Ensure we have basic stats."""
@@ -353,9 +364,6 @@ class DummyTranslationStats(BaseStats):
     def load(self):
         return {}
 
-    def calculate_item(self, item):
-        return
-
     def _prefetch_basic(self):
         self._data = zero_stats(self.basic_keys)
 
@@ -432,6 +440,9 @@ class TranslationStats(BaseStats):
             approved=conditional_sum(1, state=STATE_APPROVED),
             approved_words=conditional_sum("num_words", state=STATE_APPROVED),
             approved_chars=conditional_sum(Length("source"), state=STATE_APPROVED),
+            unapproved=conditional_sum(1, state=STATE_TRANSLATED),
+            unapproved_words=conditional_sum("num_words", state=STATE_TRANSLATED),
+            unapproved_chars=conditional_sum(Length("source"), state=STATE_TRANSLATED),
             # Labels
             unlabeled=conditional_sum(1, source_unit__labels__isnull=True),
             unlabeled_words=conditional_sum(
@@ -500,6 +511,8 @@ class TranslationStats(BaseStats):
         # Last change timestamp
         self.fetch_last_change()
 
+        self.count_changes()
+
     def get_last_change_obj(self):
         from weblate.trans.models import Change
 
@@ -548,28 +561,12 @@ class TranslationStats(BaseStats):
             self.store("monthly_changes", 0)
             self.store("total_changes", 0)
 
-    def calculate_item(self, item):
-        """Calculate stats for translation."""
-        if item.endswith("_changes"):
-            self.count_changes()
-            return
-        if item.startswith("check:"):
+    def prefetch_name(self, name: str):
+        super().prefetch_name(name)
+        if name.startswith("check:"):
             self.prefetch_checks()
-            return
-        if item.startswith("label:"):
+        elif name.startswith("label:"):
             self.prefetch_labels()
-            return
-        if item.endswith("_words"):
-            item = item[:-6]
-        if item.endswith("_chars"):
-            item = item[:-6]
-        translation = self._object
-        stats = translation.unit_set.filter_type(item).aggregate(
-            strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
-        )
-        self.store(item, stats["strings"])
-        self.store(f"{item}_words", stats["words"])
-        self.store(f"{item}_chars", stats["chars"])
 
     def prefetch_checks(self):
         """Prefetch check stats."""
@@ -639,7 +636,7 @@ class TranslationStats(BaseStats):
         # Fetch remaining ones
         for item, _unused in get_filter_choice(self.obj.component.project):
             if item not in self._data:
-                self.calculate_item(item)
+                self.prefetch_name(item)
                 save = True
         if save:
             self.save()
@@ -685,15 +682,6 @@ class LanguageStats(BaseStats):
 
         with sentry_sdk.start_span(op="stats", description=f"SOURCE {self.cache_key}"):
             self.prefetch_source()
-
-    def calculate_item(self, item):
-        """Calculate stats for translation."""
-        result = 0
-        for translation in self.translation_set:
-            result += getattr(translation.stats, item)
-        for category in self.category_set:
-            result += getattr(category.stats, item)
-        self.store(item, result)
 
 
 class ComponentStats(LanguageStats):
@@ -1110,15 +1098,6 @@ class CategoryStats(BaseStats):
         for key, value in stats.items():
             self.store(key, value)
 
-    def calculate_item(self, item):
-        """Calculate stats for translation."""
-        result = 0
-        for component in self.component_set:
-            result += getattr(component.stats, item)
-        for category in self.category_set:
-            result += getattr(category.stats, item)
-        self.store(item, result)
-
     def get_single_language_stats(self, language):
         return CategoryLanguageStats(
             CategoryLanguage(self._object, language), category_stats=self
@@ -1182,15 +1161,6 @@ class ProjectStats(BaseStats):
 
         self.store("languages", self._object.languages.count())
 
-    def calculate_item(self, item):
-        """Calculate stats for translation."""
-        result = 0
-        for component in self.component_set:
-            result += getattr(component.stats, item)
-        for category in self.category_set:
-            result += getattr(category.stats, item)
-        self.store(item, result)
-
 
 class ComponentListStats(BaseStats):
     basic_keys = SOURCE_KEYS
@@ -1211,13 +1181,6 @@ class ComponentListStats(BaseStats):
 
         for key, value in stats.items():
             self.store(key, value)
-
-    def calculate_item(self, item):
-        """Calculate stats for translation."""
-        result = 0
-        for component in self.component_set:
-            result += getattr(component.stats, item)
-        self.store(item, result)
 
 
 class GlobalStats(BaseStats):
@@ -1244,13 +1207,6 @@ class GlobalStats(BaseStats):
             self.store(key, value)
 
         self.store("languages", Language.objects.have_translation().count())
-
-    def calculate_item(self, item):
-        """Calculate stats for translation."""
-        result = 0
-        for project in self.project_set:
-            result += getattr(project.stats, item)
-        self.store(item, result)
 
     @cached_property
     def cache_key(self):
@@ -1279,10 +1235,6 @@ class GhostStats(BaseStats):
             stats["todo_chars"] = stats["all_chars"]
         for key, value in stats.items():
             self.store(key, value)
-
-    def calculate_item(self, item):
-        """Calculate stats for translation."""
-        return 0
 
     @cached_property
     def cache_key(self):
