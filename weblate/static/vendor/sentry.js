@@ -5650,25 +5650,9 @@ exports.TryCatch = TryCatch;
 },{"../helpers.js":33,"@sentry/utils":109}],42:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const core = require('@sentry/core');
 const utils = require('@sentry/utils');
 const helpers = require('../helpers.js');
 const utils$1 = require('./utils.js');
-
-/* eslint-disable complexity */
-
-const MAX_PROFILE_DURATION_MS = 30000;
-// Keep a flag value to avoid re-initializing the profiler constructor. If it fails
-// once, it will always fail and this allows us to early return.
-let PROFILING_CONSTRUCTOR_FAILED = false;
-
-/**
- * Check if profiler constructor is available.
- * @param maybeProfiler
- */
-function isJSProfilerSupported(maybeProfiler) {
-  return typeof maybeProfiler === 'function';
-}
 
 /**
  * Safety wrapper for startTransaction for the unlikely case that transaction starts before tracing is imported -
@@ -5685,98 +5669,29 @@ function onProfilingStartRouteTransaction(transaction) {
     return transaction;
   }
 
-  return wrapTransactionWithProfiling(transaction);
+  if (utils$1.shouldProfileTransaction(transaction)) {
+    return startProfileForTransaction(transaction);
+  }
+
+  return transaction;
 }
 
 /**
  * Wraps startTransaction and stopTransaction with profiling related logic.
- * startProfiling is called after the call to startTransaction in order to avoid our own code from
+ * startProfileForTransaction is called after the call to startTransaction in order to avoid our own code from
  * being profiled. Because of that same reason, stopProfiling is called before the call to stopTransaction.
  */
-function wrapTransactionWithProfiling(transaction) {
-  // Feature support check first
-  const JSProfilerConstructor = helpers.WINDOW.Profiler;
-
-  if (!isJSProfilerSupported(JSProfilerConstructor)) {
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
-      utils.logger.log(
-        '[Profiling] Profiling is not supported by this browser, Profiler interface missing on window object.',
-      );
-    }
-    return transaction;
+function startProfileForTransaction(transaction) {
+  // Start the profiler and get the profiler instance.
+  let startTimestamp;
+  if (utils$1.isAutomatedPageLoadTransaction(transaction)) {
+    startTimestamp = utils.timestampInSeconds() * 1000;
   }
 
-  // If constructor failed once, it will always fail, so we can early return.
-  if (PROFILING_CONSTRUCTOR_FAILED) {
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
-      utils.logger.log('[Profiling] Profiling has been disabled for the duration of the current user session.');
-    }
-    return transaction;
-  }
+  const profiler = utils$1.startJSSelfProfile();
 
-  const client = core.getCurrentHub().getClient();
-  const options = client && client.getOptions();
-  if (!options) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Profiling] Profiling disabled, no options found.');
-    return transaction;
-  }
-
-  // @ts-expect-error profilesSampleRate is not part of the browser options yet
-  const profilesSampleRate = options.profilesSampleRate;
-
-  // Since this is coming from the user (or from a function provided by the user), who knows what we might get. (The
-  // only valid values are booleans or numbers between 0 and 1.)
-  if (!utils$1.isValidSampleRate(profilesSampleRate)) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('[Profiling] Discarding profile because of invalid sample rate.');
-    return transaction;
-  }
-
-  // if the function returned 0 (or false), or if `profileSampleRate` is 0, it's a sign the profile should be dropped
-  if (!profilesSampleRate) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-      utils.logger.log(
-        '[Profiling] Discarding profile because a negative sampling decision was inherited or profileSampleRate is set to 0',
-      );
-    return transaction;
-  }
-
-  // Now we roll the dice. Math.random is inclusive of 0, but not of 1, so strict < is safe here. In case sampleRate is
-  // a boolean, the < comparison will cause it to be automatically cast to 1 if it's true and 0 if it's false.
-  const sampled = profilesSampleRate === true ? true : Math.random() < profilesSampleRate;
-  // Check if we should sample this profile
-  if (!sampled) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-      utils.logger.log(
-        `[Profiling] Discarding profile because it's not included in the random sample (sampling rate = ${Number(
-          profilesSampleRate,
-        )})`,
-      );
-    return transaction;
-  }
-
-  // From initial testing, it seems that the minimum value for sampleInterval is 10ms.
-  const samplingIntervalMS = 10;
-  // Start the profiler
-  const maxSamples = Math.floor(MAX_PROFILE_DURATION_MS / samplingIntervalMS);
-  let profiler;
-
-  // Attempt to initialize the profiler constructor, if it fails, we disable profiling for the current user session.
-  // This is likely due to a missing 'Document-Policy': 'js-profiling' header. We do not want to throw an error if this happens
-  // as we risk breaking the user's application, so just disable profiling and log an error.
-  try {
-    profiler = new JSProfilerConstructor({ sampleInterval: samplingIntervalMS, maxBufferSize: maxSamples });
-  } catch (e) {
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
-      utils.logger.log(
-        "[Profiling] Failed to initialize the Profiling constructor, this is likely due to a missing 'Document-Policy': 'js-profiling' header.",
-      );
-      utils.logger.log('[Profiling] Disabling profiling for current user session.');
-    }
-    PROFILING_CONSTRUCTOR_FAILED = true;
-  }
-
-  // We failed to construct the profiler, fallback to original transaction - there is no need to log
-  // anything as we already did that in the try/catch block.
+  // We failed to construct the profiler, fallback to original transaction.
+  // No need to log anything as this has already been logged in startProfile.
   if (!profiler) {
     return transaction;
   }
@@ -5803,19 +5718,9 @@ function wrapTransactionWithProfiling(transaction) {
       return null;
     }
 
-    // This is temporary - we will use the collected span data to evaluate
-    // if deferring txn.finish until profiler resolves is a viable approach.
-    const stopProfilerSpan = transaction.startChild({
-      description: 'profiler.stop',
-      op: 'profiler',
-      origin: 'auto.profiler.browser',
-    });
-
     return profiler
       .stop()
-      .then((p) => {
-        stopProfilerSpan.finish();
-
+      .then((profile) => {
         if (maxDurationTimeoutID) {
           helpers.WINDOW.clearTimeout(maxDurationTimeoutID);
           maxDurationTimeoutID = undefined;
@@ -5826,7 +5731,7 @@ function wrapTransactionWithProfiling(transaction) {
         }
 
         // In case of an overlapping transaction, stopProfiling may return null and silently ignore the overlapping profile.
-        if (!p) {
+        if (!profile) {
           if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
             utils.logger.log(
               `[Profiling] profiler returned null profile for: ${transaction.name || transaction.description}`,
@@ -5836,11 +5741,10 @@ function wrapTransactionWithProfiling(transaction) {
           return null;
         }
 
-        utils$1.addProfileToMap(profileId, p);
+        utils$1.addProfileToGlobalCache(profileId, profile);
         return null;
       })
       .catch(error => {
-        stopProfilerSpan.finish();
         if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
           utils.logger.log('[Profiling] error while stopping profiler:', error);
         }
@@ -5858,7 +5762,7 @@ function wrapTransactionWithProfiling(transaction) {
     }
     // If the timeout exceeds, we want to stop profiling, but not finish the transaction
     void onProfileHandler();
-  }, MAX_PROFILE_DURATION_MS);
+  }, utils$1.MAX_PROFILE_DURATION_MS);
 
   // We need to reference the original finish call to avoid creating an infinite loop
   const originalFinish = transaction.finish.bind(transaction);
@@ -5876,7 +5780,7 @@ function wrapTransactionWithProfiling(transaction) {
     // Always call onProfileHandler to ensure stopProfiling is called and the timeout is cleared.
     void onProfileHandler().then(
       () => {
-        transaction.setContext('profile', { profile_id: profileId });
+        transaction.setContext('profile', { profile_id: profileId, start_timestamp: startTimestamp });
         originalFinish();
       },
       () => {
@@ -5892,12 +5796,11 @@ function wrapTransactionWithProfiling(transaction) {
   return transaction;
 }
 
-exports.MAX_PROFILE_DURATION_MS = MAX_PROFILE_DURATION_MS;
 exports.onProfilingStartRouteTransaction = onProfilingStartRouteTransaction;
-exports.wrapTransactionWithProfiling = wrapTransactionWithProfiling;
+exports.startProfileForTransaction = startProfileForTransaction;
 
 
-},{"../helpers.js":33,"./utils.js":44,"@sentry/core":60,"@sentry/utils":109}],43:[function(require,module,exports){
+},{"../helpers.js":33,"./utils.js":44,"@sentry/utils":109}],43:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils$1 = require('@sentry/utils');
@@ -5925,16 +5828,29 @@ class BrowserProfilingIntegration  {
    */
    setupOnce(_addGlobalEventProcessor, getCurrentHub) {
     this.getCurrentHub = getCurrentHub;
-    const client = this.getCurrentHub().getClient() ;
+
+    const hub = this.getCurrentHub();
+    const client = hub.getClient();
+    const scope = hub.getScope();
+
+    const transaction = scope.getTransaction();
+
+    if (transaction && utils.isAutomatedPageLoadTransaction(transaction)) {
+      if (utils.shouldProfileTransaction(transaction)) {
+        hubextensions.startProfileForTransaction(transaction);
+      }
+    }
 
     if (client && typeof client.on === 'function') {
       client.on('startTransaction', (transaction) => {
-        hubextensions.wrapTransactionWithProfiling(transaction);
+        if (utils.shouldProfileTransaction(transaction)) {
+          hubextensions.startProfileForTransaction(transaction);
+        }
       });
 
       client.on('beforeEnvelope', (envelope) => {
         // if not profiles are in queue, there is nothing to add to the envelope.
-        if (!utils.PROFILE_MAP['size']) {
+        if (!utils.getActiveProfilesCount()) {
           return;
         }
 
@@ -5947,7 +5863,14 @@ class BrowserProfilingIntegration  {
 
         for (const profiledTransaction of profiledTransactionEvents) {
           const context = profiledTransaction && profiledTransaction.contexts;
-          const profile_id = context && context['profile'] && (context['profile']['profile_id'] );
+          const profile_id = context && context['profile'] && context['profile']['profile_id'];
+          const start_timestamp = context && context['profile'] && context['profile']['start_timestamp'];
+
+          if (typeof profile_id !== 'string') {
+            (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+              utils$1.logger.log('[Profiling] cannot find profile for a transaction without a profile context');
+            continue;
+          }
 
           if (!profile_id) {
             (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
@@ -5960,15 +5883,18 @@ class BrowserProfilingIntegration  {
             delete context.profile;
           }
 
-          const profile = utils.PROFILE_MAP.get(profile_id);
+          const profile = utils.takeProfileFromGlobalCache(profile_id);
           if (!profile) {
             (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils$1.logger.log(`[Profiling] Could not retrieve profile for transaction: ${profile_id}`);
             continue;
           }
 
-          utils.PROFILE_MAP.delete(profile_id);
-          const profileEvent = utils.createProfilingEvent(profile_id, profile, profiledTransaction );
-
+          const profileEvent = utils.createProfilingEvent(
+            profile_id,
+            start_timestamp ,
+            profile,
+            profiledTransaction ,
+          );
           if (profileEvent) {
             profilesToAddToEnvelope.push(profileEvent);
           }
@@ -6085,9 +6011,10 @@ function getTraceId(event) {
  * Creates a profiling event envelope from a Sentry event.
  */
 function createProfilePayload(
-  event,
-  processedProfile,
   profile_id,
+  start_timestamp,
+  processed_profile,
+  event,
 ) {
   if (event.type !== 'transaction') {
     // createProfilingEventEnvelope should only be called for transactions,
@@ -6095,15 +6022,19 @@ function createProfilePayload(
     throw new TypeError('Profiling events may only be attached to transactions, this should never occur.');
   }
 
-  if (processedProfile === undefined || processedProfile === null) {
+  if (processed_profile === undefined || processed_profile === null) {
     throw new TypeError(
-      `Cannot construct profiling event envelope without a valid profile. Got ${processedProfile} instead.`,
+      `Cannot construct profiling event envelope without a valid profile. Got ${processed_profile} instead.`,
     );
   }
 
   const traceId = getTraceId(event);
-  const enrichedThreadProfile = enrichWithThreadInformation(processedProfile);
-  const transactionStartMs = typeof event.start_timestamp === 'number' ? event.start_timestamp * 1000 : Date.now();
+  const enrichedThreadProfile = enrichWithThreadInformation(processed_profile);
+  const transactionStartMs = start_timestamp
+    ? start_timestamp
+    : typeof event.start_timestamp === 'number'
+    ? event.start_timestamp * 1000
+    : Date.now();
   const transactionEndMs = typeof event.timestamp === 'number' ? event.timestamp * 1000 : Date.now();
 
   const profile = {
@@ -6130,7 +6061,7 @@ function createProfilePayload(
       is_emulator: false,
     },
     debug_meta: {
-      images: applyDebugMetadata(processedProfile.resources),
+      images: applyDebugMetadata(processed_profile.resources),
     },
     profile: enrichedThreadProfile,
     transactions: [
@@ -6146,6 +6077,16 @@ function createProfilePayload(
   };
 
   return profile;
+}
+
+/*
+  See packages/tracing-internal/src/browser/router.ts
+*/
+/**
+ *
+ */
+function isAutomatedPageLoadTransaction(transaction) {
+  return transaction.op === 'pageload';
 }
 
 /**
@@ -6405,24 +6346,160 @@ function isValidProfile(profile) {
   return true;
 }
 
+// Keep a flag value to avoid re-initializing the profiler constructor. If it fails
+// once, it will always fail and this allows us to early return.
+let PROFILING_CONSTRUCTOR_FAILED = false;
+const MAX_PROFILE_DURATION_MS = 30000;
+
+/**
+ * Check if profiler constructor is available.
+ * @param maybeProfiler
+ */
+function isJSProfilerSupported(maybeProfiler) {
+  return typeof maybeProfiler === 'function';
+}
+
+/**
+ * Starts the profiler and returns the profiler instance.
+ */
+function startJSSelfProfile() {
+  // Feature support check first
+  const JSProfilerConstructor = helpers.WINDOW.Profiler;
+
+  if (!isJSProfilerSupported(JSProfilerConstructor)) {
+    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+      utils.logger.log(
+        '[Profiling] Profiling is not supported by this browser, Profiler interface missing on window object.',
+      );
+    }
+    return;
+  }
+
+  // From initial testing, it seems that the minimum value for sampleInterval is 10ms.
+  const samplingIntervalMS = 10;
+  // Start the profiler
+  const maxSamples = Math.floor(MAX_PROFILE_DURATION_MS / samplingIntervalMS);
+
+  // Attempt to initialize the profiler constructor, if it fails, we disable profiling for the current user session.
+  // This is likely due to a missing 'Document-Policy': 'js-profiling' header. We do not want to throw an error if this happens
+  // as we risk breaking the user's application, so just disable profiling and log an error.
+  try {
+    return new JSProfilerConstructor({ sampleInterval: samplingIntervalMS, maxBufferSize: maxSamples });
+  } catch (e) {
+    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+      utils.logger.log(
+        "[Profiling] Failed to initialize the Profiling constructor, this is likely due to a missing 'Document-Policy': 'js-profiling' header.",
+      );
+      utils.logger.log('[Profiling] Disabling profiling for current user session.');
+    }
+    PROFILING_CONSTRUCTOR_FAILED = true;
+  }
+
+  return;
+}
+
+/**
+ * Determine if a profile should be profiled.
+ */
+function shouldProfileTransaction(transaction) {
+  // If constructor failed once, it will always fail, so we can early return.
+  if (PROFILING_CONSTRUCTOR_FAILED) {
+    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+      utils.logger.log('[Profiling] Profiling has been disabled for the duration of the current user session.');
+    }
+    return false;
+  }
+
+  if (!transaction.sampled) {
+    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+      utils.logger.log('[Profiling] Discarding profile because transaction was not sampled.');
+    }
+    return false;
+  }
+
+  const client = core.getCurrentHub().getClient();
+  const options = client && client.getOptions();
+  if (!options) {
+    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Profiling] Profiling disabled, no options found.');
+    return false;
+  }
+
+  // @ts-expect-error profilesSampleRate is not part of the browser options yet
+  const profilesSampleRate = options.profilesSampleRate;
+
+  // Since this is coming from the user (or from a function provided by the user), who knows what we might get. (The
+  // only valid values are booleans or numbers between 0 and 1.)
+  if (!isValidSampleRate(profilesSampleRate)) {
+    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('[Profiling] Discarding profile because of invalid sample rate.');
+    return false;
+  }
+
+  // if the function returned 0 (or false), or if `profileSampleRate` is 0, it's a sign the profile should be dropped
+  if (!profilesSampleRate) {
+    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+      utils.logger.log(
+        '[Profiling] Discarding profile because a negative sampling decision was inherited or profileSampleRate is set to 0',
+      );
+    return false;
+  }
+
+  // Now we roll the dice. Math.random is inclusive of 0, but not of 1, so strict < is safe here. In case sampleRate is
+  // a boolean, the < comparison will cause it to be automatically cast to 1 if it's true and 0 if it's false.
+  const sampled = profilesSampleRate === true ? true : Math.random() < profilesSampleRate;
+  // Check if we should sample this profile
+  if (!sampled) {
+    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+      utils.logger.log(
+        `[Profiling] Discarding profile because it's not included in the random sample (sampling rate = ${Number(
+          profilesSampleRate,
+        )})`,
+      );
+    return false;
+  }
+
+  return true;
+}
+
 /**
  * Creates a profiling envelope item, if the profile does not pass validation, returns null.
  * @param event
  * @returns {Profile | null}
  */
-function createProfilingEvent(profile_id, profile, event) {
+function createProfilingEvent(
+  profile_id,
+  start_timestamp,
+  profile,
+  event,
+) {
   if (!isValidProfile(profile)) {
     return null;
   }
 
-  return createProfilePayload(event, profile, profile_id);
+  return createProfilePayload(profile_id, start_timestamp, profile, event);
 }
 
 const PROFILE_MAP = new Map();
 /**
  *
  */
-function addProfileToMap(profile_id, profile) {
+function getActiveProfilesCount() {
+  return PROFILE_MAP.size;
+}
+
+/**
+ * Retrieves profile from global cache and removes it.
+ */
+function takeProfileFromGlobalCache(profile_id) {
+  const profile = PROFILE_MAP.get(profile_id);
+  if (profile) {
+    PROFILE_MAP.delete(profile_id);
+  }
+  return profile;
+}
+/**
+ * Adds profile to global cache and evicts the oldest profile if the cache is full.
+ */
+function addProfileToGlobalCache(profile_id, profile) {
   PROFILE_MAP.set(profile_id, profile);
 
   if (PROFILE_MAP.size > 30) {
@@ -6431,8 +6508,8 @@ function addProfileToMap(profile_id, profile) {
   }
 }
 
-exports.PROFILE_MAP = PROFILE_MAP;
-exports.addProfileToMap = addProfileToMap;
+exports.MAX_PROFILE_DURATION_MS = MAX_PROFILE_DURATION_MS;
+exports.addProfileToGlobalCache = addProfileToGlobalCache;
 exports.addProfilesToEnvelope = addProfilesToEnvelope;
 exports.applyDebugMetadata = applyDebugMetadata;
 exports.convertJSSelfProfileToSampledFormat = convertJSSelfProfileToSampledFormat;
@@ -6440,7 +6517,12 @@ exports.createProfilePayload = createProfilePayload;
 exports.createProfilingEvent = createProfilingEvent;
 exports.enrichWithThreadInformation = enrichWithThreadInformation;
 exports.findProfiledTransactionsFromEnvelope = findProfiledTransactionsFromEnvelope;
+exports.getActiveProfilesCount = getActiveProfilesCount;
+exports.isAutomatedPageLoadTransaction = isAutomatedPageLoadTransaction;
 exports.isValidSampleRate = isValidSampleRate;
+exports.shouldProfileTransaction = shouldProfileTransaction;
+exports.startJSSelfProfile = startJSSelfProfile;
+exports.takeProfileFromGlobalCache = takeProfileFromGlobalCache;
 
 
 },{"../helpers.js":33,"@sentry/core":60,"@sentry/utils":109}],45:[function(require,module,exports){
@@ -13432,7 +13514,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":55,"../eventProcessors.js":57,"../scope.js":67,"@sentry/utils":109}],89:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.75.0';
+const SDK_VERSION = '7.75.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
