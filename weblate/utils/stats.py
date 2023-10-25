@@ -647,7 +647,7 @@ class LanguageStats(BaseStats):
 
     @cached_property
     def translation_set(self):
-        return prefetch_stats(self._object.translation_set.all())
+        return prefetch_stats(self._object.translation_set.only("id", "language"))
 
     def calculate_source(self, stats_obj, stats):
         stats["source_chars"] += stats_obj.all_chars
@@ -696,9 +696,7 @@ class LanguageStats(BaseStats):
 class ComponentStats(LanguageStats):
     @cached_property
     def translation_set(self):
-        return prefetch_stats(
-            self._object.translation_set.select_related("language").all()
-        )
+        return prefetch_stats(self._object.translation_set.only("id", "component"))
 
     @cached_property
     def has_review(self):
@@ -911,18 +909,22 @@ class ProjectLanguageStats(LanguageStats):
     def component_set(self):
         if self._project_stats:
             return self._project_stats.component_set
-        return prefetch_stats(self.project.component_set.prefetch_source_stats())
+        return prefetch_stats(
+            self.project.component_set.only("id", "project").prefetch_source_stats()
+        )
 
     @cached_property
     def category_set(self):
         if self._project_stats:
             return self._project_stats.category_set
-        return prefetch_stats(self.project.category_set.all())
+        return prefetch_stats(self.project.category_set.only("id", "project"))
 
     @cached_property
     def translation_set(self):
         return prefetch_stats(
-            self.language.translation_set.filter(component__in=self.component_set)
+            self.language.translation_set.filter(component__in=self.component_set).only(
+                "id", "language"
+            )
         )
 
     def calculate_source(self, stats_obj, stats):
@@ -1038,18 +1040,22 @@ class CategoryLanguageStats(LanguageStats):
     def component_set(self):
         if self._category_stats:
             return self._category_stats.component_set
-        return prefetch_stats(self.category.component_set.prefetch_source_stats())
+        return prefetch_stats(
+            self.category.component_set.only("id", "component").prefetch_source_stats()
+        )
 
     @cached_property
     def category_set(self):
         if self._category_stats:
             return self._category_stats.category_set
-        return prefetch_stats(self.category.category_set.all())
+        return prefetch_stats(self.category.category_set.only("id", "category"))
 
     @cached_property
     def translation_set(self):
         return prefetch_stats(
-            self.language.translation_set.filter(component__in=self.component_set)
+            self.language.translation_set.filter(component__in=self.component_set).only(
+                "id", "language"
+            )
         )
 
     def calculate_source(self, stats_obj, stats):
@@ -1098,11 +1104,13 @@ class CategoryStats(BaseStats):
 
     @cached_property
     def component_set(self):
-        return prefetch_stats(self._object.component_set.prefetch_source_stats())
+        return prefetch_stats(
+            self._object.component_set.only("id", "category").prefetch_source_stats()
+        )
 
     @cached_property
     def category_set(self):
-        return prefetch_stats(self._object.category_set.all())
+        return prefetch_stats(self._object.category_set.only("id", "category"))
 
     def _prefetch_basic(self):
         stats = zero_stats(self.basic_keys)
@@ -1150,11 +1158,15 @@ class ProjectStats(BaseStats):
 
     @cached_property
     def category_set(self):
-        return prefetch_stats(self._object.category_set.filter(category=None).all())
+        return prefetch_stats(
+            self._object.category_set.filter(category=None).only("id", "project")
+        )
 
     @cached_property
     def component_set(self):
-        return prefetch_stats(self._object.component_set.prefetch_source_stats())
+        return prefetch_stats(
+            self._object.component_set.only("id", "project").prefetch_source_stats()
+        )
 
     def get_single_language_stats(self, language):
         return ProjectLanguageStats(
@@ -1202,7 +1214,9 @@ class ComponentListStats(BaseStats):
 
     @cached_property
     def component_set(self):
-        return prefetch_stats(self._object.components.prefetch_source_stats())
+        return prefetch_stats(
+            self._object.components.only("id", "componentlist").prefetch_source_stats()
+        )
 
     def _prefetch_basic(self):
         stats = zero_stats(self.basic_keys)
@@ -1233,7 +1247,7 @@ class GlobalStats(BaseStats):
     def project_set(self):
         from weblate.trans.models import Project
 
-        return prefetch_stats(Project.objects.all())
+        return prefetch_stats(Project.objects.only("id", "access_control"))
 
     def _prefetch_basic(self):
         stats = zero_stats(self.basic_keys)
