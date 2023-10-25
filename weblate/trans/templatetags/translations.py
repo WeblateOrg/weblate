@@ -1230,14 +1230,20 @@ def get_breadcrumbs(path_object, flags: bool = True):
         yield reverse("languages"), gettext("Languages")
         yield path_object.get_absolute_url(), path_object
     elif isinstance(path_object, ProjectLanguage):
-        yield f"{path_object.project.get_absolute_url()}#languages", path_object.project.name
+        yield (
+            f"{path_object.project.get_absolute_url()}#languages",
+            path_object.project.name,
+        )
         yield path_object.get_absolute_url(), path_object.language
     elif isinstance(path_object, CategoryLanguage):
         if path_object.category.category:
             yield from get_breadcrumbs(path_object.category.category)
         else:
             yield from get_breadcrumbs(path_object.category.project)
-        yield f"{path_object.category.get_absolute_url()}#languages", path_object.category.name
+        yield (
+            f"{path_object.category.get_absolute_url()}#languages",
+            path_object.category.name,
+        )
         yield path_object.get_absolute_url(), path_object.language
     else:
         raise TypeError(f"No breadcrumbs for {path_object}")

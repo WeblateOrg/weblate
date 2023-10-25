@@ -182,7 +182,9 @@ class PluralTextarea(forms.Textarea):
         )
 
         groups = format_html_join(
-            "\n", GROUP_TEMPLATE, [("", chars)]  # Only one group.
+            "\n",
+            GROUP_TEMPLATE,
+            [("", chars)],  # Only one group.
         )
 
         return format_html(TOOLBAR_TEMPLATE, groups)
@@ -249,7 +251,9 @@ class PluralTextarea(forms.Textarea):
         )
 
         groups = format_html_join(
-            "\n", GROUP_TEMPLATE, [("", chars)]  # Only one group.
+            "\n",
+            GROUP_TEMPLATE,
+            [("", chars)],  # Only one group.
         )
 
         result = format_html(TOOLBAR_TEMPLATE, groups)
@@ -896,9 +900,7 @@ class AutoForm(forms.Form):
         ) | Component.objects.filter(
             source_language_id=obj.source_language_id,
             project__contribute_shared_tm=True,
-        ).exclude(
-            project=obj.project
-        )
+        ).exclude(project=obj.project)
 
         # Fetching first few entries is faster than doing a count query on possibly
         # thousands of components

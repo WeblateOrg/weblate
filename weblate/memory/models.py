@@ -81,9 +81,7 @@ class MemoryQuerySet(models.QuerySet):
             # Language filtering
             source_language=source_language,
             target_language=target_language,
-        )[
-            :50
-        ]
+        )[:50]
 
     def prefetch_lang(self):
         return self.prefetch_related("source_language", "target_language")

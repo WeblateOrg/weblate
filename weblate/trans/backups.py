@@ -195,13 +195,7 @@ class ProjectBackup:
                                                 "units"
                                             ]["items"]["properties"]["suggestions"][
                                                 "items"
-                                            ][
-                                                "properties"
-                                            ][
-                                                "votes"
-                                            ][
-                                                "items"
-                                            ][
+                                            ]["properties"]["votes"]["items"][
                                                 "required"
                                             ],
                                         )

@@ -216,9 +216,7 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
             with open(filename, "rb") as handle:
                 response = HttpResponse(handle.read(), content_type=content_type)
             filename = os.path.basename(filename)
-        response[
-            "Content-Disposition"
-        ] = f'attachment; filename="{filename}"'  # noqa: B028
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'  # noqa: B028
         return response
 
 
