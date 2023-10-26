@@ -160,6 +160,11 @@ class BaseStats:
         self._data = data
 
     def get_data(self):
+        """
+        Return a copy of data including percents.
+
+        Used in stats endpoints.
+        """
         percents = [
             "translated_percent",
             "approved_percent",
@@ -177,7 +182,7 @@ class BaseStats:
         self.ensure_basic()
         data = copy(self._data)
         for percent in percents:
-            data[percent] = self.calculate_percents(percent)
+            data[percent] = self.calculate_percent(percent)
         return data
 
     @staticmethod
@@ -205,7 +210,7 @@ class BaseStats:
         if self._data is None:
             self._data = self.load()
         if name.endswith("_percent"):
-            return self.calculate_percents(name)
+            return self.calculate_percent(name)
         if name == "stats_timestamp":
             # TODO: Drop in Weblate 5.3
             # Migration path for legacy stat data
@@ -291,21 +296,25 @@ class BaseStats:
     def _prefetch_basic(self):
         raise NotImplementedError
 
-    def calculate_percents(self, item, total=None):
+    def calculate_percent(self, item: str) -> float:
         """Calculate percent value for given item."""
         base = item[:-8]
-        if total is None:
-            if base.endswith("_words"):
-                total = self.all_words
-            elif base.endswith("_chars"):
-                total = self.all_chars
-            else:
-                total = self.all
+
+        if base.endswith("_words"):
+            total = self.all_words
+        elif base.endswith("_chars"):
+            total = self.all_chars
+        else:
+            total = self.all
+
         if self.has_review:
             completed = {"approved", "approved_words", "approved_chars"}
         else:
             completed = {"translated", "translated_words", "translated_chars"}
-        return translation_percent(getattr(self, base), total, base in completed)
+
+        return translation_percent(
+            getattr(self, base), total, zero_complete=(base in completed)
+        )
 
     @property
     def waiting_review_percent(self):
