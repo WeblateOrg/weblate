@@ -133,10 +133,6 @@ class Check:
 
         return (src in chars) != (tgt in chars)
 
-    def is_language(self, unit, vals):
-        """Detect whether language is in given list, ignores variants."""
-        return unit.translation.language.base_code in vals
-
     def get_doc_url(self, user=None):
         """Return link to documentation."""
         return get_doc_url("user/checks", self.doc_id, user=user)
