@@ -210,8 +210,8 @@ class SameCheck(TargetCheck):
         # Ignore the check for source language,
         # English variants will have most things untranslated
         # Interlingua is also quite often similar to English
-        if self.is_language(unit, source_language) or (
-            source_language == "en" and self.is_language(unit, ("en", "ia"))
+        if unit.translation.language.is_base(source_language) or (
+            source_language == "en" and unit.translation.language.is_base(("en", "ia"))
         ):
             return True
 
