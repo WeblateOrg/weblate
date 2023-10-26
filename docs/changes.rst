@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* Faster stats updates.
+
 **Bug fixes**
 
 **Compatibility**
