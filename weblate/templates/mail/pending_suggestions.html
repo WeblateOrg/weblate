@@ -1,6 +1,8 @@
 {% extends "mail/base.html" %}
 
-{% load i18n %}{% load translations %}
+{% load i18n %}
+{% load translations %}
+{% load humanize %}
 
 {% block content %}
 <table>
@@ -10,7 +12,7 @@
 {% for summary in changes %}
 <tr>
 <td>{{ summary.translation }}</td>
-<td>{{ summary.translation.stats.suggestions }}</td>
+<td>{{ summary.translation.stats.suggestions|intcomma }}</td>
 <td>
     <a class="button" href="{{ summary.translation.get_translate_url }}?q=has:suggestion">{% trans "View" %}</a>
 </td>
