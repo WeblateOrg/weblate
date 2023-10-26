@@ -1,8 +1,10 @@
 {% load i18n %}
+{% load humanize %}
+
 {% autoescape off %}
 {% if changes|length == 1 %}
-{% blocktrans count count=total_count with component=changes.0.component %}{{ count }} pending suggestion in {{ component }}{% plural %}{{ count }} pending suggestions in {{ component }}{% endblocktrans %}
+{% blocktrans count cnt=total_count with count=total_count|intcomma component=changes.0.component %}{{ count }} pending suggestion in {{ component }}{% plural %}{{ count }} pending suggestions in {{ component }}{% endblocktrans %}
 {% else %}
-{% blocktrans count count=total_count %}{{ count }} pending suggestion{% plural %}{{ count }} pending suggestions{% endblocktrans %}
+{% blocktrans count cnt=total_count with count=total_count|intcomma %}{{ count }} pending suggestion{% plural %}{{ count }} pending suggestions{% endblocktrans %}
 {% endif %}
 {% endautoescape %}
