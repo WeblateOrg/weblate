@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-24 16:13+0200\n"
-"PO-Revision-Date: 2023-10-25 13:21+0000\n"
+"PO-Revision-Date: 2023-10-28 09:04+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hr/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.1.1-dev\n"
+"X-Generator: Weblate 5.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -2114,10 +2114,8 @@ msgid ":file:`src/locale/website.de.po`"
 msgstr ""
 
 #: ../../admin/addons.rst:269
-#, fuzzy
-#| msgid "Aliased language codes"
 msgid "Repeated language code"
-msgstr "Alternativni kodovi jezika"
+msgstr "Ponavljajući jezični kodovi"
 
 #: ../../admin/addons.rst:271
 msgid "Using language in both path and filename."
@@ -2355,7 +2353,8 @@ msgstr "*nedavni*"
 #: ../../admin/addons.rst:370
 msgid "Marking all :ref:`appstore` changelog strings read-only"
 msgstr ""
-"Označavanje svih :ref:`appstore` izraza u zapisu promjena kao samo-za-čitanje"
+"Označavanje svih :ref:`appstore` izraza u dnevniku promjena kao samo-za-"
+"čitanje"
 
 #: ../../admin/addons.rst:374
 msgid "``language:en AND key:changelogs/``"
@@ -2503,7 +2502,7 @@ msgstr "Na primjer, generiranje datoteke sažetka za svaki prijevod:"
 
 #: ../../admin/addons.rst:476
 msgid "``locale/{{ language_code }}.json``"
-msgstr ""
+msgstr "``locale/{{ language_code }}.json``"
 
 #: ../../admin/addons.rst:487
 msgid "Content"
@@ -3001,15 +3000,15 @@ msgstr "Sve izmjene u jednu"
 
 #: ../../admin/addons.rst:734
 msgid "Per language"
-msgstr "Po jezicima"
+msgstr "Po jeziku"
 
 #: ../../admin/addons.rst:735
 msgid "Per file"
-msgstr "Po datotekama"
+msgstr "Po datoteci"
 
 #: ../../admin/addons.rst:736
 msgid "Per author"
-msgstr "Po autorima"
+msgstr "Po autoru"
 
 #: ../../admin/addons.rst:738
 msgid ""
@@ -13897,7 +13896,7 @@ msgstr ""
 #: ../../admin/languages.rst:105 ../../admin/projects.rst:1019
 #: ../../api.rst:710 ../../api.rst:712 ../../api.rst:779 ../../api.rst:2220
 msgid "Language code"
-msgstr "Jezični kod"
+msgstr "Kôd jezika"
 
 #: ../../admin/languages.rst:107
 msgid ""
@@ -17598,7 +17597,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:743
 msgid "BCP style using hyphen as a separator, legacy language codes"
-msgstr "BCP stil koristeći crticu kao znak razdvajanja, stari kodovi zemlje"
+msgstr "BCP stil koristeći crticu kao znak razdvajanja, stari kodovi jezika"
 
 #: ../../admin/projects.rst:744
 msgid "Uses legacy codes for Chinese and BCP style notation."
@@ -19867,7 +19866,7 @@ msgstr ""
 
 #: ../../api.rst:1120
 msgid "language code"
-msgstr ""
+msgstr "kôd jezika"
 
 #: ../../api.rst:1121 ../../api.rst:1745 ../../api.rst:2439
 msgid "total number of strings"
@@ -25076,7 +25075,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:113
 msgid "Improved breadcrumbs in changelog."
-msgstr ""
+msgstr "Poboljšana navigacija u dnevniku promjena."
 
 #: ../../changes/v3.rst:114
 msgid "Improved translations listing on dashboard."
@@ -36276,6 +36275,9 @@ msgid ""
 "changelogs), mark them read-only (see :ref:`custom-checks`). This can be "
 "automated by the :ref:`addon-weblate.flags.bulk`."
 msgstr ""
+"U slučaju da ne želi prevoditi određene izraze (na primjer dnevnike promjena)"
+", označi ih kao samo-za-čitanje (pogledaj :ref:`custom-checks`). To se može "
+"automatizirati pomoću :ref:`addon-weblate.flags.bulk`."
 
 #: ../../formats/appstore.rst:28
 msgid "``fastlane/android/metadata/*``"
@@ -41687,16 +41689,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/profile.rst:79
-#, fuzzy
-#| msgid "Interface Language"
 msgid "Interface language"
-msgstr "Jezik korisničkog sučelja"
+msgstr "Jezik sučelja"
 
 #: ../../user/profile.rst:81
-#, fuzzy
-#| msgid "Please choose the language you want to translate to."
 msgid "Choose the language you want to display the UI in."
-msgstr "Odaberi jezik na koji želiš prevoditi."
+msgstr "Odaberi jezik za prikaz korisničkog sučelja."
 
 #: ../../user/profile.rst:86
 msgid "Translated languages"
@@ -41708,6 +41706,9 @@ msgid ""
 "the main page of watched projects, so that you have easier access to these "
 "all translations in each of those languages."
 msgstr ""
+"Odaberi jezike koje želiš prevoditi i oni će se prikazati na glavnoj "
+"stranici praćenih projekata, što olakšva pristup tim svim prijevodima na "
+"svakom od tih jezika."
 
 #: ../../user/profile.rst:97
 msgid "Secondary languages"
@@ -41719,6 +41720,9 @@ msgid ""
 "translating. An example can be seen in the following image, where the Hebrew "
 "language is shown as secondarily:"
 msgstr ""
+"Možeš odrediti koji će se sekundarni jezici prikazati kao pomoć tijekom "
+"prevođenja. Primjer se može vidjeti na sljedećoj slici, gdje je hebrejski "
+"jezik prikazan kao sekundarni:"
 
 #: ../../user/profile.rst:108
 msgid "Preferences"
@@ -41733,6 +41737,8 @@ msgid ""
 "Choose whether Weblate follows system settings for dark or light theme, or "
 "choose one of them manually."
 msgstr ""
+"Odaberi treba li Weblate slijediti postavke sustava za tamnu ili svijetlu "
+"temu ili odaberi jednu od njih ručno."
 
 #: ../../user/profile.rst:116
 msgid "Default dashboard view"
