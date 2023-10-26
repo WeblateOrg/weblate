@@ -332,3 +332,8 @@ def check_upload_method_permissions(user, translation, method: str):
 def is_unused_string(string: str):
     """Check whether string should not be used."""
     return string.startswith("<unused singular")
+
+
+def count_words(string: str):
+    """Count number of words in a string."""
+    return sum(len(s.split()) for s in split_plural(string) if not is_unused_string(s))
