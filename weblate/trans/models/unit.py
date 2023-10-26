@@ -31,6 +31,7 @@ from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.variant import Variant
 from weblate.trans.signals import unit_pre_create
 from weblate.trans.util import (
+    count_words,
     get_distinct_translations,
     is_plural,
     is_unused_string,
@@ -425,11 +426,7 @@ class Unit(models.Model, LoggerMixin):
         """Wrapper around save to run checks or update fulltext."""
         # Store number of words
         if not same_content or not self.num_words:
-            self.num_words = sum(
-                len(s.split())
-                for s in self.get_source_plurals()
-                if not is_unused_string(s)
-            )
+            self.num_words = count_words(self.source)
             if update_fields and "num_words" not in update_fields:
                 update_fields.append("num_words")
 
