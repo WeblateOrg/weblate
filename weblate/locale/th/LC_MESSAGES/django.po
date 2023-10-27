@@ -2,13 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # AefghThreenine <aefgh39622@gmail.com>, 2023.
+# Chaowalit Phochan <siamese.cf@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-24 14:12+0000\n"
-"PO-Revision-Date: 2023-10-15 07:01+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-10-28 09:04+0000\n"
+"Last-Translator: Chaowalit Phochan <siamese.cf@gmail.com>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/application/"
 "th/>\n"
 "Language: th\n"
@@ -16,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.2-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -48,7 +49,7 @@ msgstr "ชื่อเต็ม"
 
 #: weblate/accounts/forms.py:111
 msgid "Name is also used in version control commits."
-msgstr ""
+msgstr "ชื่อยังใช้ส่งให้กับการควบคุมเวอร์ชันอีกด้วย."
 
 #: weblate/accounts/forms.py:174 weblate/accounts/models.py:603
 msgid "Commit e-mail"
@@ -60,7 +61,7 @@ msgstr "ใช้ที่อยู่อีเมลของบัญชี"
 
 #: weblate/accounts/forms.py:176
 msgid "Choose commit e-mail from verified addresses."
-msgstr ""
+msgstr "เลือกส่งอีเมล์จากที่อยู่ของอีเมลที่ได้รับการยืนยันแล้ว."
 
 #: weblate/accounts/forms.py:210 weblate/accounts/models.py:597
 msgid "Public e-mail"
@@ -86,7 +87,7 @@ msgstr "อีเมล"
 
 #: weblate/accounts/forms.py:346
 msgid "Choose primary e-mail from verified addresses."
-msgstr ""
+msgstr "เลือกอีเมลหลักจากที่อยู่อีเมลที่ได้รับการยืนยันแล้ว."
 
 #: weblate/accounts/forms.py:393
 msgid "Subject"
@@ -133,7 +134,7 @@ msgstr "รหัสผ่านของคุณได้ถูกเปลี
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
 msgid "What is %s?"
-msgstr "%s มีค่าเท่าใด"
+msgstr "%s มีค่าเท่าใด?"
 
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
 #: weblate/accounts/forms.py:529
@@ -437,10 +438,9 @@ msgid "Could not sign in using password."
 msgstr "ไม่สามารถลงชื่อเข้าโดยใช้รหัสผ่านได้"
 
 #: weblate/accounts/models.py:181
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "ได้รับคำเชิญไปยัง {site_title} โดย {username}"
+msgstr "ได้รับคำเชิญไปยัง {project} โดย {username}."
 
 #: weblate/accounts/models.py:187
 msgid "To restore access to your account, please reset your password."
@@ -976,7 +976,7 @@ msgstr "ทดลองใช้ฟรี"
 #: weblate/templates/accounts/login.html:39
 #: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:228
 msgid "Sign in"
-msgstr "ลงชื่อเข้า"
+msgstr "ลงชื่อเข้าใช้"
 
 #: weblate/accounts/views.py:757 weblate/wladmin/sites.py:185
 msgid "Thank you for using Weblate."
@@ -2824,10 +2824,10 @@ msgid "Mismatched \\n"
 msgstr "จำนวน \\n ไม่ตรงกัน"
 
 #: weblate/checks/chars.py:314
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of \\n literals in translation does not match source"
-msgstr "จำนวนการขึ้นบรรทัดใหม่ในคำแปลไม่ตรงกับต้นฉบับ"
+msgstr ""
+"จำนวนของ\\n"
+"การขึ้นบรรทัดใหม่ในคำแปลไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/chars.py:333
 msgid "Mismatching line breaks"
@@ -3667,7 +3667,7 @@ msgstr "คำแปลไม่ใช่ XML ที่ถูกต้อง"
 
 #: weblate/checks/markup.py:188
 msgid "XML markup"
-msgstr "XML markup"
+msgstr "มาร์กอัป XML"
 
 #: weblate/checks/markup.py:189
 msgid "XML tags in translation do not match source"
@@ -3722,16 +3722,12 @@ msgid "Regular expression"
 msgstr "นิพจน์ปกติ"
 
 #: weblate/checks/placeholders.py:123
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Translation does not match regular expression"
-msgstr "การแปลไม่ตรงกับนิพจน์ปกติ:"
+msgstr "การแปลไม่ตรงกับนิพจน์ปกติ"
 
 #: weblate/checks/placeholders.py:152
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Does not match regular expression {}."
-msgstr "การแปลไม่ตรงกับนิพจน์ปกติ:"
+msgstr "การแปลไม่ตรงกับนิพจน์ปกติ {}."
 
 #: weblate/checks/qt.py:34
 msgid "Qt format"
@@ -4740,19 +4736,15 @@ msgstr "การดูแลระบบ"
 
 #: weblate/machinery/forms.py:33 weblate/machinery/forms.py:60
 #: weblate/machinery/forms.py:77 weblate/machinery/forms.py:84
-#, fuzzy
-#| msgid "Your personal API key:"
 msgctxt "Automatic suggestion service configuration"
 msgid "API key"
-msgstr "คีย์ API ส่วนตัวของคุณ:"
+msgstr "คีย์ API ส่วนตัวของคุณ"
 
 #: weblate/machinery/forms.py:39 weblate/machinery/forms.py:210
 #: weblate/machinery/forms.py:217
-#, fuzzy
-#| msgid "API root URL:"
 msgctxt "Automatic suggestion service configuration"
 msgid "API URL"
-msgstr "URL รากของ API:"
+msgstr "URL ของ API"
 
 #: weblate/machinery/forms.py:45
 msgctxt "Automatic suggestion service configuration"
@@ -5500,10 +5492,8 @@ msgid "Get started"
 msgstr "รับการสนับสนุน"
 
 #: weblate/templates/accounts/hosting.html:57
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Looking for commercial hosting?"
-msgstr "ติดต่อเราสำหรับการโฮสต์เชิงพาณิชย์"
+msgstr "มองหาโฮสติ้งเชิงพาณิชย์อยู่ใช่ไหม?"
 
 #: weblate/templates/accounts/hosting.html:61
 #, python-format
@@ -6378,10 +6368,8 @@ msgid "Generated strings"
 msgstr "สตริงที่แปลแล้ว"
 
 #: weblate/templates/addons/pseudolocale.html:7
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "The strings will be generated using following pattern:"
-msgstr "สตริงนี้ได้ถูกแปลแล้วในอดีต"
+msgstr "สตริงจะถูกสร้างขึ้นโดยใช้รูปแบบต่อไปนี้:"
 
 #: weblate/templates/addons/pseudolocale.html:13
 #: weblate/templates/mail/snippets/source-string.html:9
@@ -7516,10 +7504,8 @@ msgid "Hook"
 msgstr "จุดแทรกโค้ด"
 
 #: weblate/templates/data.html:124
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "ดึงข้อมูลการเปลี่ยนแปลงจากคลังเก็บระยะไกล"
+msgstr "คุณดึงการเปลี่ยนแปลงจากพื้นที่เก็บข้อมูลระยะไกลไปยัง Weblate แบบนี้:"
 
 #: weblate/templates/data.html:133
 msgid ""
@@ -8403,10 +8389,8 @@ msgid "There was no contributor agreement before."
 msgstr "ข้อตกลงสำหรับผู้มีส่วนร่วม"
 
 #: weblate/templates/mail/component_license.html:21
-#, fuzzy
-#| msgid "Language"
 msgid "New agreement:"
-msgstr "ภาษา"
+msgstr "ข้อตกลงใหม่:"
 
 #: weblate/templates/mail/component_license.html:24
 #, fuzzy
@@ -8842,10 +8826,8 @@ msgid "Support expiry"
 msgstr ""
 
 #: weblate/templates/manage/index.html:73
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Discover Weblate"
-msgstr "บริจาคให้ Weblate"
+msgstr "ค้นพบ Weblate"
 
 #: weblate/templates/manage/index.html:75
 #, fuzzy
@@ -9329,7 +9311,7 @@ msgstr ""
 
 #: weblate/templates/new-language.html:58
 msgid "Can't find your language in the list above?"
-msgstr "ไม่พบภาษาของคุณในรายชื่อที่อยู่ด้านบนหรือไม่"
+msgstr "ไม่พบภาษาของคุณในรายการที่อยู่ด้านบนใช่ไหม?"
 
 #: weblate/templates/new-language.html:60
 msgid ""
@@ -9586,10 +9568,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/snippets/component/lock.html:21
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "The translation was automatically locked due to following alerts:"
-msgstr "การแปลนี้ถูกล็อกไว้สำหรับการอัปเดตในขณะนี้"
+msgstr "การแปลถูกล็อคโดยอัตโนมัติเนื่องจากมีการแจ้งเตือนต่อไปนี้:"
 
 #: weblate/templates/snippets/editor.html:11
 msgid ""
@@ -10204,10 +10184,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/snippets/project-workflow-settings.html:4
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid "Translation workflow can be also customized per language:"
-msgstr "คำแปลของสตริงนี้ในภาษาอื่นๆ"
+msgstr "ขั้นตอนในการแปลสามารถปรับแต่งได้ตามภาษา:"
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:11
 msgid ""
@@ -10279,10 +10257,8 @@ msgid "String changed by"
 msgstr "ค้นหา"
 
 #: weblate/templates/snippets/query-builder.html:29
-#, fuzzy
-#| msgid "Search"
 msgid "Search for…"
-msgstr "ค้นหา"
+msgstr "ค้นหา…"
 
 #: weblate/templates/snippets/query-builder.html:31
 msgctxt "Exact search toggle"
@@ -10897,10 +10873,8 @@ msgid "Please consider removing the component if it is no longer useful."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "จุดที่ต้องตรวจสอบความผิดพลาดที่พบ"
+msgstr "การตรวจสอบที่บังคับใช้ต่อไปนี้จะไม่ถูกนำมาใช้ไม่ว่าที่ไหนก็ตาม:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:9
 #, python-format
@@ -11101,10 +11075,8 @@ msgstr ""
 
 #: weblate/templates/trans/delete-category-language.html:6
 #: weblate/templates/trans/delete-project-language.html:6
-#, fuzzy
-#| msgid "Administration"
 msgid "The following translations will be removed:"
-msgstr "การดูแลระบบ"
+msgstr "คำแปลต่อไปนี้จะถูกลบออก:"
 
 #: weblate/templates/trans/delete-category-language.html:14
 #: weblate/templates/trans/delete-project-language.html:14
@@ -11130,17 +11102,13 @@ msgstr ""
 #: weblate/templates/trans/delete-category.html:11
 #: weblate/templates/trans/delete-component.html:8
 #: weblate/templates/trans/delete-project.html:12
-#, fuzzy
-#| msgid "Administration"
 msgid "The following translation components will be removed:"
-msgstr "การดูแลระบบ"
+msgstr "คอมโพเนนต์การแปลต่อไปนี้จะถูกลบออก:"
 
 #: weblate/templates/trans/delete-category.html:21
 #: weblate/templates/trans/delete-project.html:23
-#, fuzzy
-#| msgid "Administration"
 msgid "The following translation categories will be removed:"
-msgstr "การดูแลระบบ"
+msgstr "หมวดหมู่การแปลต่อไปนี้จะถูกลบออก:"
 
 #: weblate/templates/trans/delete-category.html:31
 #: weblate/templates/trans/delete-project.html:33
@@ -11204,10 +11172,8 @@ msgid "The detected file format is not supported."
 msgstr ""
 
 #: weblate/templates/trans/guide/addon.html:3
-#, fuzzy
-#| msgid "Example addon"
 msgid "Enable add-on:"
-msgstr "ส่วนเสริมตัวอย่าง"
+msgstr "เปิดใช้งานส่วนเสริม:"
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts"
@@ -11324,10 +11290,8 @@ msgid "Create"
 msgstr "วันที่สร้าง"
 
 #: weblate/templates/trans/project-access.html:319
-#, fuzzy
-#| msgid "Your personal API key:"
 msgid "Personal API key"
-msgstr "คีย์ API ส่วนตัวของคุณ:"
+msgstr "คีย์ API ส่วนตัวของคุณ"
 
 #: weblate/templates/trans/project-access.html:333
 msgid "This is your personal API key, do not share it with anybody else."
@@ -11598,10 +11562,8 @@ msgid "Browse all string changes"
 msgstr "เรียกดูการเปลี่ยนแปลงคำแปลทั้งหมด"
 
 #: weblate/templates/translate.html:377
-#, fuzzy
-#| msgid "Suggested change:"
 msgid "Suggested change"
-msgstr "การเปลี่ยนแปลงที่เสนอแนะ:"
+msgstr "การเปลี่ยนแปลงที่เสนอแนะ"
 
 #: weblate/templates/translate.html:379
 msgid "Origin"
@@ -12129,10 +12091,8 @@ msgid "Pluralized string"
 msgstr "สตริงที่แปลแล้ว"
 
 #: weblate/trans/filter.py:66 weblate/trans/filter.py:130
-#, fuzzy
-#| msgid "Failing checks:"
 msgid "Failing check: {}"
-msgstr "การตรวจสอบความผิดพลาด:"
+msgstr "การตรวจสอบล้มเหลว: {}"
 
 #: weblate/trans/filter.py:92 weblate/trans/filter.py:136
 msgid "Labeled: {}"
@@ -14748,11 +14708,9 @@ msgid_plural "%(count)s hours from now"
 msgstr[0] "%(count)s ชั่วโมงจากนี้"
 
 #: weblate/trans/templatetags/translations.py:776
-#, fuzzy
-#| msgid "Dismiss"
 msgctxt "String state"
 msgid "Dismissed checks:"
-msgstr "เพิกเฉย"
+msgstr "การตรวจสอบที่ถูกเพิกถอน:"
 
 #: weblate/trans/templatetags/translations.py:781
 #, fuzzy
@@ -14785,10 +14743,8 @@ msgid "This translation is locked."
 msgstr "การดูแลระบบ"
 
 #: weblate/trans/templatetags/translations.py:984
-#, fuzzy
-#| msgid "Administration"
 msgid "Updating translation component…"
-msgstr "การดูแลระบบ"
+msgstr "กำลังอัพเดตคอมโพเนนต์การแปล…"
 
 #: weblate/trans/templatetags/translations.py:994
 msgid "Some of the components within this project have alerts."
@@ -15540,10 +15496,9 @@ msgid "Read only"
 msgstr "อ่านอย่างเดียว"
 
 #: weblate/utils/validators.py:57
-#, fuzzy, python-brace-format
-#| msgid "Delete"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "ลบ"
+msgstr "การรวบรวมไม่สำเร็จ: {0}"
 
 #: weblate/utils/validators.py:61
 #, fuzzy
@@ -15814,7 +15769,7 @@ msgstr "การดูแลระบบ"
 
 #: weblate/wladmin/forms.py:15
 msgid "Activation token"
-msgstr ""
+msgstr "โทเค็นสำหรับเปิดใช้งาน"
 
 #: weblate/wladmin/forms.py:19
 msgid ""
