@@ -298,10 +298,6 @@ class StringsExporterTest(PoExporterTest):
     _class = StringsExporter
     _has_comments = False
 
-    def _encode(self, string):
-        # Skip BOM
-        return string.encode("utf-16")[2:]
-
     def check_plurals(self, result):
         # Doesn't support plurals
         pass
