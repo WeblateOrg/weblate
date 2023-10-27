@@ -13,6 +13,8 @@ Not yet released.
 
 **Compatibility**
 
+* :doc:`/formats/apple` exporter now produces UTF-8 encoded files.
+
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.

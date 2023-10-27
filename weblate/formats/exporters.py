@@ -18,7 +18,7 @@ from translate.storage.jsonl10n import JsonFile
 from translate.storage.mo import mofile
 from translate.storage.po import pofile
 from translate.storage.poxliff import PoXliffFile
-from translate.storage.properties import stringsfile
+from translate.storage.properties import stringsutf8file
 from translate.storage.tbx import tbxfile
 from translate.storage.tmx import tmxfile
 from translate.storage.xliff import xlifffile
@@ -458,7 +458,7 @@ class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
 
 
 class StringsExporter(MonolingualExporter):
-    storage_class = stringsfile
+    storage_class = stringsutf8file
     name = "strings"
     content_type = "text/plain"
     extension = "strings"
