@@ -21,6 +21,8 @@ from lxml import etree
 from translate.misc.multistring import multistring
 from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
+import regex
+
 from weblate.utils.data import data_dir
 
 PLURAL_SEPARATOR = "\x1e\x1e"
@@ -336,4 +338,12 @@ def is_unused_string(string: str):
 
 def count_words(string: str):
     """Count number of words in a string."""
-    return sum(len(s.split()) for s in split_plural(string) if not is_unused_string(s))
+
+    # class of characters that are a word by itself
+    monogram = r"[\p{scx=Hani}\p{scx=Hang}\p{scx=Hira}\p{scx=Kana}\p{scx=Bopo}]"
+    # pattern that separates by one or more consecutive spaces OR boundary between a monogram and something OR
+    # boundary between something and a monogram, neither at the start nor the end of string
+    splitter = regex.compile(rf"(?<!^)(?:\s+|(?<={monogram})|(?={monogram}))(?!$)", flags=regex.U|regex.V1)
+    # should we do this?
+    return sum(len(splitter.split(s)) for s in split_plural(string) if not is_unused_string(s))
+    # return sum(len(s.split()) for s in split_plural(string) if not is_unused_string(s))
