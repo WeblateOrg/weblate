@@ -775,6 +775,37 @@ class GroupAPITest(APIBaseTest):
         )
         self.assertEqual(Group.objects.get(name="Users").language_selection, 1)
 
+    def test_grant_admin(self):
+        self.authenticate(True)
+        self.group = Group.objects.create(name="Test Group")
+        response = self.do_request(
+            "api:group-grant-admin",
+            kwargs={"id": self.group.id},
+            method="post",
+            superuser=True,
+            request={"user_id": self.user.id},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Administration rights granted.", response.data)
+
+    def test_revoke_admin(self):
+        self.authenticate(True)
+        self.group = Group.objects.create(name="Test Group")
+        self.user = User.objects.create_user(username="testuser", password="12345")
+        self.group.admins.add(self.user)
+
+        response = self.do_request(
+            "api:group-revoke-admin",
+            kwargs={"id": self.group.id, "user_pk": self.user.id},
+            method="delete",
+            superuser=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        admins_ids = [admin["id"] for admin in response.data.get("admins", [])]
+        self.assertNotIn(self.user.id, admins_ids)
+
 
 class RoleAPITest(APIBaseTest):
     def test_list_roles(self) -> None:
