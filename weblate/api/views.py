@@ -635,6 +635,35 @@ class GroupViewSet(viewsets.ModelViewSet):
         obj.components.remove(component)
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @action(detail=True, methods=["post"], url_path="admins")
+    def grant_admin(self, request, id):
+        group = self.get_object()
+        self.perm_check(request)
+        user_id = request.data.get("user_id")
+        if not user_id:
+            raise ValidationError("User ID is required")
+
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            raise ValidationError("User not found")
+        group.admins.add(user)
+        user.groups.add(group)
+        return Response({"Administration rights granted."}, status=HTTP_200_OK)
+
+    @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")
+    def revoke_admin(self, request, id, user_pk):
+        group = self.get_object()
+        self.perm_check(request)
+        try:
+            user = group.admins.get(pk=user_pk)  # Using user_pk from the URL path
+        except User.DoesNotExist:
+            raise ValidationError("User not found")
+
+        group.admins.remove(user)
+        serializer = GroupSerializer(group, context={"request": request})
+        return Response(serializer.data, status=HTTP_200_OK)
+
 
 class RoleViewSet(viewsets.ModelViewSet):
     """Roles API."""
