@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-24 16:13+0200\n"
-"PO-Revision-Date: 2023-10-25 12:12+0000\n"
+"PO-Revision-Date: 2023-10-28 09:04+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1.1-dev\n"
+"X-Generator: Weblate 5.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -39739,6 +39739,9 @@ msgid ""
 "You can define regular expression to group the strings based on the key of "
 "monolingual translations in the :ref:`component`:"
 msgstr ""
+"Sie können reguläre Ausdrücke definieren, um die Zeichenketten auf der "
+"Grundlage des Schlüssels der einsprachigen Übersetzungen in der "
+":ref:`component` zu gruppieren:"
 
 #: ../../devel/translations.rst:108
 msgid ""
@@ -39747,22 +39750,27 @@ msgid ""
 "same root key become part of a single variant group, also including the "
 "string with the key exactly matching the root key."
 msgstr ""
+"Falls der :guilabel:`Schlüssel` mit dem Ausdruck übereinstimmt, wird der "
+"übereinstimmende Teil entfernt, um den Stammschlüssel der Variante zu "
+"erzeugen. Dann werden alle Zeichenketten mit demselben Stammschlüssel Teil "
+"einer einzigen Variantengruppe, die auch die Zeichenkette mit dem genau mit "
+"dem Stammschlüssel übereinstimmenden Schlüssel enthält."
 
 #: ../../devel/translations.rst:113
 msgid "The following table lists some usage examples:"
-msgstr ""
+msgstr "In der folgenden Tabelle sind einige Anwendungsbeispiele aufgeführt:"
 
 #: ../../devel/translations.rst:116
 msgid "Regular expression variant"
-msgstr ""
+msgstr "Variante des regulären Ausdrucks"
 
 #: ../../devel/translations.rst:116
 msgid "Matched translation keys"
-msgstr ""
+msgstr "Übereinstimmende Übersetzungsschlüssel"
 
 #: ../../devel/translations.rst:118
 msgid "Suffix identification"
-msgstr ""
+msgstr "Suffix-Erkennung"
 
 #: ../../devel/translations.rst:118
 msgid "``(Short|Min)$``"
@@ -39774,7 +39782,7 @@ msgstr "``monthShort``, ``monthMin``, ``month``"
 
 #: ../../devel/translations.rst:120
 msgid "Inline identification"
-msgstr ""
+msgstr "Inline-Erkennung"
 
 #: ../../devel/translations.rst:120
 msgid "``#[SML]``"
@@ -39795,12 +39803,20 @@ msgid ""
 "strings automatically, or to group strings which keys are not matching, but "
 "should be considered together when translating."
 msgstr ""
+"Sie können bestimmte Zeichenketten manuell mit ``variant:SOURCE`` "
+"verknüpfen. Dies kann für zweisprachige Übersetzungen ohne Schlüssel "
+"nützlich sein, um Zeichenketten automatisch zu gruppieren oder um "
+"Zeichenketten mit nicht übereinstimmenden Schlüsseln zu gruppieren, die aber "
+"bei der Übersetzung zusammen berücksichtigt werden sollten."
 
 #: ../../devel/translations.rst:133
 msgid ""
 "The additional variant for a string can also be added using the :guilabel:"
 "`Tools` while translating (when :ref:`component-manage_units` is turned on):"
 msgstr ""
+"Die zusätzliche Variante für eine Zeichenkette kann auch mit Hilfe der "
+":guilabel:`Werkzeuge` während des Übersetzens hinzugefügt werden (wenn :ref"
+":`component-manage_units` eingeschaltet ist):"
 
 #: ../../devel/translations.rst:140
 msgid ""
@@ -39821,23 +39837,27 @@ msgstr "Varianten beim Übersetzen"
 
 #: ../../devel/translations.rst:151
 msgid "The variant is later grouped when translating:"
-msgstr ""
+msgstr "Die Variante wird später beim Übersetzen gruppiert:"
 
 #: ../../devel/translations.rst:158
 msgid "String labels"
-msgstr ""
+msgstr "Zeichenkette-Labels"
 
 #: ../../devel/translations.rst:160
 msgid ""
 "Split component translation strings into categories by text and colour in "
 "the project configuration."
 msgstr ""
+"Teilen Sie Komponenten-Übersetzungszeichenketten in der Projektkonfiguration "
+"nach Text und Farbe in Kategorien auf."
 
 #: ../../devel/translations.rst:166
 msgid ""
 "Labels can be assigned to units in :ref:`additional` by bulk editing, or "
 "using the :ref:`addon-weblate.flags.bulk` add-on."
 msgstr ""
+"Labels können Einheiten in :ref:`additional` durch Massenbearbeitung oder "
+"mit der Erweiterung :ref:`addon-weblate.flags.bulk` zugewiesen werden."
 
 #: ../../faq.rst:2
 msgid "Frequently Asked Questions"
@@ -39853,18 +39873,25 @@ msgid ""
 "you give it push access to your repository, the translations can happen "
 "without interaction, unless some merge conflict occurs."
 msgstr ""
+"Weblate kann alle Übersetzungsaufgaben halbautomatisch für Sie erledigen. "
+"Wenn Sie Push-Zugriff auf Ihr Repository erlauben, können die Übersetzungen "
+"ohne Interaktion erfolgen, es sei denn, es tritt ein Merge-Konflikt auf."
 
 #: ../../faq.rst:16
 msgid ""
 "Set up your Git repository to tell Weblate when there is any change, see :"
 "ref:`hooks` for info on how to do it."
 msgstr ""
+"Das Git-Repository so einrichten, dass es Weblate über jede Änderung "
+"informiert, siehe :ref:`hooks` für Informationen, wie man das macht."
 
 #: ../../faq.rst:18
 msgid ""
 "Set a push URL at your :ref:`component` in Weblate, this allows Weblate to "
 "push changes to your repository."
 msgstr ""
+"Eine Push-URL in der :ref:`component` in Weblate setzen, damit Weblate "
+"Änderungen in das Repository pushen kann."
 
 #: ../../faq.rst:20
 msgid ""
@@ -39872,6 +39899,9 @@ msgid ""
 "this will make Weblate push changes to your repository whenever they happen "
 "at Weblate."
 msgstr ""
+":ref:`component-push_on_commit` in der :ref:`component` in Weblate "
+"aktivieren, damit Weblate Änderungen in das Repository überträgt, sobald "
+"diese bei Weblate auftreten."
 
 #: ../../faq.rst:26
 msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
@@ -39901,6 +39931,15 @@ msgid ""
 "maintenance` in the :guilabel:`Manage` menu) and merge the repository (if "
 "automatic push is not on)."
 msgstr ""
+"Merge-Konflikte treten gelegentlich auf, wenn die Übersetzungsdatei "
+"gleichzeitig in Weblate und im Upstream-Repository geändert wird. Sie können "
+"dies in der Regel vermeiden, indem Sie die Weblate-Übersetzungen "
+"zusammenführen, bevor Sie Änderungen an den Übersetzungsdateien vornehmen ("
+"z. B. bevor msgmerge ausgeführt wird). Teilen Sie Weblate einfach mit, dass "
+"alle ausstehenden Übersetzungen committet werden sollen (dies kann unter "
+":guilabel:`Repository-Wartung` im Menü :guilabel:`Verwalten` erfolgen) und "
+"führen Sie das Repository zusammen (wenn der automatische Push nicht "
+"aktiviert ist)."
 
 #: ../../faq.rst:46
 msgid ""
@@ -39922,18 +39961,26 @@ msgid ""
 "authentication. When using the built-in :ref:`git-exporter` in Weblate, you "
 "authenticate with your username and the API key."
 msgstr ""
+"Abhängig von Ihrer Einrichtung kann der Zugriff auf das Weblate-Repository "
+"eine Authentifizierung erfordern. Wenn Sie den integrierten :ref:`git-"
+"exporter` in Weblate verwenden, authentifizieren Sie sich mit Ihrem "
+"Benutzernamen und dem API-Schlüssel."
 
 #: ../../faq.rst:90
 msgid ""
 "If you're using multiple branches in Weblate, you can do the same to all of "
 "them:"
 msgstr ""
+"Wenn Sie mehrere Branches in Weblate verwenden, können Sie das Gleiche für "
+"alle tun:"
 
 #: ../../faq.rst:114
 msgid ""
 "In case of gettext PO files, there is a way to merge conflicts in a semi-"
 "automatic way:"
 msgstr ""
+"Im Falle von gettext PO-Dateien gibt es eine Möglichkeit, Konflikte "
+"halbautomatisch zusammenzuführen:"
 
 #: ../../faq.rst:116
 msgid ""
@@ -41714,13 +41761,6 @@ msgid ""
 msgstr ""
 
 #: ../../formats/gettext.rst:17
-#, fuzzy
-#| msgid ""
-#| ":doc:`../devel/gettext`, :doc:`../devel/sphinx`, `Gettext on Wikipedia "
-#| "<https://en.wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:"
-#| "`addon-weblate.gettext.configure`, :ref:`addon-weblate.gettext."
-#| "customize`, :ref:`addon-weblate.gettext.linguas`, :ref:`addon-weblate."
-#| "gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`"
 msgid ""
 ":doc:`../devel/gettext`, :doc:`../devel/sphinx`, `Gettext on Wikipedia "
 "<https://en.wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:`addon-"
@@ -41730,9 +41770,9 @@ msgid ""
 msgstr ""
 ":doc:`../devel/gettext`, :doc:`../devel/sphinx`, `Gettext auf Wikipedia "
 "<https://en.wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:`addon-"
-"weblate.gettext.configure`, :ref:`addon-weblate.gettext.customize`, :ref:"
-"`addon-weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref:"
-"`addon-weblate.gettext.msgmerge`"
+"weblate.gettext.authors`, :ref:`addon-weblate.gettext.configure`, :ref"
+":`addon-weblate.gettext.customize`, :ref:`addon-weblate.gettext.linguas`, "
+":ref:`addon-weblate.gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`"
 
 #: ../../formats/gettext.rst:29
 msgid "PO file header"
