@@ -152,7 +152,7 @@ Python dependencies
 +++++++++++++++++++
 
 Weblate is written in `Python <https://www.python.org/>`_ and supports Python
-3.9 or newer. You can install dependencies using pip or from your
+3.9 or newer (however Celery, a dependency of Weblate, is not currently compatible with Python 3.12). You can install dependencies using pip or from your
 distribution packages, full list is available in :file:`requirements.txt`.
 
 Most notable dependencies:
