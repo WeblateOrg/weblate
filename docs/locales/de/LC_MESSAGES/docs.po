@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-24 16:13+0200\n"
-"PO-Revision-Date: 2023-10-28 09:04+0000\n"
+"PO-Revision-Date: 2023-10-30 12:25+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -16324,7 +16324,7 @@ msgid ""
 "Weblate release."
 msgstr ""
 "Sollte auch dies fehlschlagen, wird eine neue Sprachdefinition unter "
-"Verwendung der Standardeinstellungen (Textrichtung von links nach rechts, "
+"Verwendung der Standardeinstellungen (Leserichtung von links nach rechts, "
 "ein Plural) erstellt. Die automatisch erstellte Sprache mit dem Code "
 "``xx_XX`` wird als :guilabel:`xx_XX (erzeugt)` benannt. Sie können dies "
 "später in der Adminoberfläche ändern (siehe :ref:`changing-languages`) und "
@@ -39988,6 +39988,10 @@ msgid ""
 "second fresh local clone of the upstream Git repository (i. e. you need two "
 "copies of the upstream Git repository: An intact and a working copy):"
 msgstr ""
+"Rufen Sie einen lokalen Klon des Weblate-Git-Repositorys ab und behalten Sie "
+"ihn. Holen Sie außerdem einen zweiten frischen lokalen Klon des Upstream-Git-"
+"Repositorys (d. h. Es werden zwei Kopien des Upstream-Git-Repositorys "
+"benötigt: Eine intakte und eine Arbeitskopie):"
 
 #: ../../faq.rst:147
 msgid ""
@@ -40023,6 +40027,9 @@ msgid ""
 "Once you merge changes from Weblate, you might have to merge these branches "
 "(depending on your development workflow) discarding differences:"
 msgstr ""
+"Sobald Sie die Änderungen von Weblate zusammenführen, müssen Sie diese "
+"Branches (je nach Ihrem Entwicklungsablauf) zusammenführen und die "
+"Unterschiede verwerfen:"
 
 #: ../../faq.rst:173
 msgid "How to translate multi-platform projects?"
@@ -40033,6 +40040,8 @@ msgid ""
 "Weblate supports a wide range of file formats (see :doc:`formats`) and the "
 "easiest approach is to use the native format for each platform."
 msgstr ""
+"Weblate unterstützt eine Vielzahl von Dateiformaten (siehe :doc:`formats`). "
+"Am einfachsten ist es, das native Format für jede Plattform zu verwenden."
 
 #: ../../faq.rst:178
 msgid ""
@@ -40041,6 +40050,11 @@ msgid ""
 "propagation feature (turned on by default, and can be turned off in the :ref:"
 "`component`) to translate strings for all platforms at once."
 msgstr ""
+"Sobald Sie alle Plattform-Übersetzungsdateien als Komponenten in einem "
+"Projekt hinzugefügt haben (siehe :ref:`adding-projects`), können Sie die "
+"Übersetzungsweitergabe nutzen (standardmäßig aktiviert und kann in der "
+":ref:`component` ausgeschaltet werden), um Zeichenketten für alle "
+"Plattformen auf einmal zu übersetzen."
 
 #: ../../faq.rst:190
 msgid "How to export the Git repository that Weblate uses?"
@@ -40052,18 +40066,26 @@ msgid ""
 "`DATA_DIR` directory and is named :file:`vcs/<project>/<component>/`. If you "
 "have SSH access to this machine, you can use the repository directly."
 msgstr ""
+"Das Repository ist nichts Besonderes, es befindet sich unter dem Verzeichnis "
+":setting:`DATA_DIR` und heißt :file:`vcs/<project>/<component>/`. Wenn Sie "
+"SSH-Zugang zu diesem Rechner haben, können Sie das Repository direkt "
+"verwenden."
 
 #: ../../faq.rst:196
 msgid ""
 "For anonymous access, you might want to run a Git server and let it serve "
 "the repository to the outside world."
 msgstr ""
+"Für den anonymen Zugriff können Sie einen Git-Server betreiben, der das "
+"Repository für die Außenwelt bereitstellt."
 
 #: ../../faq.rst:199
 msgid ""
 "Alternatively, you can use :ref:`git-exporter` inside Weblate to automate "
 "this."
 msgstr ""
+"Alternativ können Sie auch :ref:`git-exporter` innerhalb von Weblate "
+"verwenden, um dies zu automatisieren."
 
 #: ../../faq.rst:202
 msgid "What are the options for pushing changes back upstream?"
@@ -40074,23 +40096,32 @@ msgid ""
 "This heavily depends on your setup, Weblate is quite flexible in this area. "
 "Here are examples of some workflows used with Weblate:"
 msgstr ""
+"Das hängt stark von Ihrer Einrichtung ab, Weblate ist in diesem Bereich "
+"recht flexibel. Hier sind Beispiele für einige Arbeitsabläufe, die mit "
+"Weblate genutzt werden:"
 
 #: ../../faq.rst:207
 msgid ""
 "Weblate automatically pushes and merges changes (see :ref:`auto-workflow`)."
 msgstr ""
+"Weblate pusht und führt Änderungen automatisch zusammen (siehe :ref:`auto-"
+"workflow`)."
 
 #: ../../faq.rst:208
 msgid ""
 "You manually tell Weblate to push (it needs push access to the upstream "
 "repository)."
 msgstr ""
+"Sie weisen Weblate manuell an, einen Push durchzuführen (es benötigt Push-"
+"Zugriff auf das Upstream-Repository)."
 
 #: ../../faq.rst:209
 msgid ""
 "Somebody manually merges changes from the Weblate git repository into the "
 "upstream repository."
 msgstr ""
+"Jemand führt Änderungen aus dem Weblate-Git-Repository manuell mit dem "
+"Upstream-Repository zusammen."
 
 #: ../../faq.rst:211
 msgid ""
@@ -40098,10 +40129,13 @@ msgid ""
 "commits), merges changes, and tells Weblate to reset the content in the "
 "upstream repository."
 msgstr ""
+"Jemand schreibt den von Weblate erstellten Verlauf um (z. B. durch Entfernen "
+"von Merge-Commits), führt die Änderungen zusammen und weist Weblate an, den "
+"Inhalt im Upstream-Repository zurückzusetzen."
 
 #: ../../faq.rst:215
 msgid "Of course you are free to mix all of these as you wish."
-msgstr ""
+msgstr "Natürlich steht es Ihnen frei, all dies nach Belieben zu mischen."
 
 #: ../../faq.rst:220
 msgid ""
@@ -40116,28 +40150,34 @@ msgid ""
 "You can use `git submodule`_ for separating translations from source code "
 "while still having them under version control."
 msgstr ""
+"Sie können `git submodule`_ verwenden, um Übersetzungen vom Quellcode zu "
+"trennen und sie trotzdem unter Versionsverwaltung zu haben."
 
 #: ../../faq.rst:225
 msgid "Create a repository with your translation files."
-msgstr ""
+msgstr "Ein Repository mit Ihren Übersetzungsdateien erstellen."
 
 #: ../../faq.rst:226
 msgid "Add this as a submodule to your code:"
-msgstr ""
+msgstr "Dies als Submodul zu Ihrem Code hinzufügen:"
 
 #: ../../faq.rst:232
 msgid ""
 "Link Weblate to this repository, it no longer needs access to the repository "
 "containing your source code."
 msgstr ""
+"Weblate mit diesem Repository verknüpfen, es benötigt keinen Zugriff mehr "
+"auf das Repository mit Ihrem Quellcode."
 
 #: ../../faq.rst:234
 msgid "You can update the main repository with translations from Weblate by:"
-msgstr ""
+msgstr "Das Haupt-Repository mit Übersetzungen aus Weblate aktualisieren:"
 
 #: ../../faq.rst:240
 msgid "Please consult the `git submodule`_ documentation for more details."
 msgstr ""
+"Für weitere Details konsultieren Sie bitte die Dokumentation `git "
+"submodule`_."
 
 #: ../../faq.rst:247
 msgid "How can I check whether my Weblate is set up properly?"
@@ -40168,12 +40208,17 @@ msgid ""
 "This is the default committer name, configured by :setting:"
 "`DEFAULT_COMMITER_EMAIL` and :setting:`DEFAULT_COMMITER_NAME`."
 msgstr ""
+"Dies ist der Standard-Committer-Name, konfiguriert durch "
+":setting:`DEFAULT_COMMITER_EMAIL` und :setting:`DEFAULT_COMMITER_NAME`."
 
 #: ../../faq.rst:265
 msgid ""
 "The author of every commit (if the underlying VCS supports it) is still "
 "recorded correctly as the user that made the translation."
 msgstr ""
+"Der Autor eines jeden Commits (sofern das zugrunde liegende VCS dies "
+"unterstützt) wird immer noch korrekt als der Benutzer erfasst, der die "
+"Übersetzung vorgenommen hat."
 
 #: ../../faq.rst:268
 msgid ""
@@ -40182,6 +40227,10 @@ msgid ""
 "user (see :setting:`ANONYMOUS_USER_NAME`). You can change the name and e-"
 "mail in the management interface."
 msgstr ""
+"Bei Commits, deren Urheberschaft nicht bekannt ist (z. B. anonyme Vorschläge "
+"oder maschinelle Übersetzungsergebnisse), wird die Urheberschaft dem "
+"anonymen Benutzer zugeschrieben (siehe :setting:`ANONYMOUS_USER_NAME`). Sie "
+"können den Namen und die E-Mail in der Verwaltungsoberfläche ändern."
 
 #: ../../faq.rst:278
 msgid "How to move files in the repository without losing history in Weblate?"
@@ -40208,23 +40257,25 @@ msgstr ""
 #: ../../faq.rst:286
 msgid "The solution to this is to perform the operation in sync with Weblate:"
 msgstr ""
+"Die Lösung für dieses Problem besteht darin, den Vorgang mit Weblate zu "
+"synchronisieren:"
 
 #: ../../faq.rst:288
 msgid "Lock the affected component in Weblate."
-msgstr "Sperren Sie die betroffene Komponente in Weblate."
+msgstr "Die betroffene Komponente in Weblate sperren."
 
 #: ../../faq.rst:289
 msgid "Commit any pending changes and merge them into the upstream repository."
 msgstr ""
-"Committen Sie alle ausstehenden Änderungen und führen Sie sie im Upstream-"
-"Repository zusammen."
+"Alle ausstehenden Änderungen committen und diese im Upstream-Repository "
+"zusammenführen."
 
 #: ../../faq.rst:290
 msgid ""
 "Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
 "immediately seeing changes in the repository."
 msgstr ""
-"Deaktivieren Sie den Empfang von Webhooks für die :ref:`project`; dies "
+"Den Empfang von Webhooks für die :ref:`project` deaktivieren; dies "
 "verhindert, dass Weblate Änderungen im Repository sofort sieht."
 
 #: ../../faq.rst:291
@@ -40232,8 +40283,8 @@ msgid ""
 "Do any needed changes in the repo (for example using :command:`git mv`), "
 "push them to the upstream repository."
 msgstr ""
-"Führen Sie alle notwendigen Änderungen im Projektarchiv durch (z. B. mit :"
-"command:`git mv`) und pushen Sie sie in das Upstream-Repository."
+"Alle notwendigen Änderungen im Projektarchiv durchführen (z. B. mit "
+":command:`git mv`) und diese in das Upstream-Repository pushen."
 
 #: ../../faq.rst:292
 msgid ""
@@ -40241,7 +40292,7 @@ msgid ""
 "configuration, Weblate will fetch the updated repository and notice the "
 "changed locations while keeping existing strings."
 msgstr ""
-"Ändern Sie die :ref:`component` so, dass sie mit der neuen Konfiguration "
+"Die :ref:`component` so ändern, dass sie mit der neuen Konfiguration "
 "übereinstimmt; wenn Sie die Konfiguration ändern, wird Weblate das "
 "aktualisierte Repository abrufen und die geänderten Orte bemerken, während "
 "die vorhandenen Zeichenketten erhalten bleiben."
@@ -40249,8 +40300,8 @@ msgstr ""
 #: ../../faq.rst:293
 msgid "Unlock the component and re-enable hooks in the project configuration."
 msgstr ""
-"Entsperren Sie die Komponente und aktivieren Sie die Hooks in der "
-"Projektkonfiguration wieder."
+"Die Komponente entsperren und die Hooks in der Projektkonfiguration wieder "
+"aktivieren."
 
 #: ../../faq.rst:299
 msgid "How do I review the translations of others?"
@@ -40295,10 +40346,14 @@ msgid ""
 "On context tabs below translation, you can use the :guilabel:`Comments` tab "
 "to provide feedback on a source string, or discuss it with other translators."
 msgstr ""
+"Auf den Kontextreitern unterhalb der Übersetzung können Sie den Reiter "
+":guilabel:`Kommentare` verwenden, um Rückmeldung zu einer "
+"Ausgangszeichenkette zu geben oder sie mit anderen Übersetzern zu "
+"diskutieren."
 
 #: ../../faq.rst:323
 msgid "How can I use existing translations while translating?"
-msgstr "Wie verwendet man vorhandene Übersetzungen beim Übersetzen?"
+msgstr "Wie verwendet man bestehende Übersetzungen beim Übersetzen?"
 
 #: ../../faq.rst:325
 msgid ""
@@ -40319,6 +40374,10 @@ msgid ""
 "or translations needing review. This is the best approach for a one-time "
 "translation using a compendium or a similar translation database."
 msgstr ""
+"Verwenden Sie die Importfunktion, um Kompendien als Übersetzungen, "
+"Vorschläge oder zu überprüfende Übersetzungen zu laden. Dies ist der beste "
+"Ansatz für eine einmalige Übersetzung mithilfe eines Kompendiums oder einer "
+"ähnlichen Übersetzungsdatenbank."
 
 #: ../../faq.rst:330
 msgid ""
@@ -40326,6 +40385,9 @@ msgid ""
 "Weblate use it. This is good when you want to use it several times during "
 "translation."
 msgstr ""
+"Sie können :ref:`mt-tmserver` mit allen Datenbanken, die Sie haben, "
+"einrichten und Weblate diesen verwenden lassen. Dies ist gut, wenn Sie ihn "
+"während der Übersetzung mehrmals verwenden wollen."
 
 #: ../../faq.rst:333
 msgid ""
@@ -40333,6 +40395,9 @@ msgid ""
 "instance, which will make it automatically pick up translations from other "
 "projects as well."
 msgstr ""
+"Eine weitere Möglichkeit besteht darin, alle zugehörigen Projekte in einer "
+"einzigen Weblate-Instanz zu übersetzen, wodurch automatisch auch "
+"Übersetzungen aus anderen Projekten übernommen werden."
 
 #: ../../faq.rst:339
 msgid ""
@@ -40352,6 +40417,10 @@ msgid ""
 "want to keep the file formatted your way, please use a pre-commit hook for "
 "that."
 msgstr ""
+"Weblate versucht, Änderungen in Übersetzungsdateien auf ein Minimum zu "
+"beschränken. Bei einigen Dateiformaten kann dies leider zu einer "
+"Neuformatierung der Datei führen. Wenn Sie die Datei auf Ihre Weise "
+"formatieren möchten, verwenden Sie bitte einen Pre-Commit-Hook dafür."
 
 #: ../../faq.rst:354
 msgid ":ref:`updating-target-files`"
@@ -40369,12 +40438,17 @@ msgid ""
 "Translate-toolkit. This covers more than 150 languages and includes info "
 "about plural forms or text direction."
 msgstr ""
+"Die grundlegenden Sprachdefinitionen sind in Weblate und Translate-toolkit "
+"enthalten. Dies deckt mehr als 150 Sprachen ab und enthält Informationen "
+"über Pluralformen oder Leserichtung."
 
 #: ../../faq.rst:364
 msgid ""
 "You are free to define your own languages in the administrative interface, "
 "you just need to provide info about it."
 msgstr ""
+"Es steht Ihnen frei, Ihre eigenen Sprachen in der Adminoberfläche zu "
+"definieren, Sie müssen nur die entsprechenden Informationen angeben."
 
 #: ../../faq.rst:372
 msgid "Can Weblate highlight changes in a fuzzy string?"
@@ -40384,18 +40458,24 @@ msgstr "Kann Weblate Änderungen in einer ungenauen Zeichenkette hervorheben?"
 msgid ""
 "Weblate supports this, however it needs the data to show the difference."
 msgstr ""
+"Weblate unterstützt dies, benötigt jedoch die Daten, um den Unterschied "
+"aufzuzeigen."
 
 #: ../../faq.rst:376
 msgid ""
 "For Gettext PO files, you have to pass the parameter ``--previous`` to :"
 "command:`msgmerge` when updating PO files, for example:"
 msgstr ""
+"Für gettext PO-Dateien müssen Sie den Parameter ``--previous`` an "
+":command:`msgmerge` übergeben, wenn Sie z. B. PO-Dateien aktualisieren:"
 
 #: ../../faq.rst:383
 msgid ""
 "For monolingual translations, Weblate can find the previous string by ID, so "
 "it shows the differences automatically."
 msgstr ""
+"Bei einsprachigen Übersetzungen kann Weblate die vorherige Zeichenkette "
+"anhand der ID finden, so dass es die Unterschiede automatisch anzeigt."
 
 #: ../../faq.rst:388
 msgid ""
@@ -40413,6 +40493,12 @@ msgid ""
 "simply have to do this manually and push changes to the repository, Weblate "
 "will then pick up the changes automatically."
 msgstr ""
+"Weblate versucht nicht, die Übersetzungsdateien in irgendeiner Weise zu "
+"manipulieren, außer dass es den Übersetzern das Übersetzen ermöglicht. Daher "
+"werden die übersetzbaren Dateien auch nicht aktualisiert, wenn die Vorlage "
+"oder der Quellcode geändert wurden. Sie müssen dies lediglich manuell tun "
+"und die Änderungen in das Repository pushen, Weblate übernimmt die "
+"Änderungen dann automatisch."
 
 #: ../../faq.rst:398
 msgid ""
@@ -40420,12 +40506,17 @@ msgid ""
 "translation files, as otherwise you will usually end up with some conflicts "
 "to merge."
 msgstr ""
+"Es ist in der Regel eine gute Idee, Änderungen in Weblate zusammenzuführen, "
+"bevor Sie die Übersetzungsdateien aktualisieren. Da es sonst in der Regel zu "
+"Merge-Konflikten kommt."
 
 #: ../../faq.rst:404
 msgid ""
 ":ref:`translations-update`, :ref:`updating-target-files`, :doc:`/devel/"
 "gettext`, :doc:`/devel/sphinx`"
 msgstr ""
+":ref:`translations-update`, :ref:`updating-target-files`, :doc:`/devel/"
+"gettext`, :doc:`/devel/sphinx`"
 
 #: ../../faq.rst:410
 msgid "How to handle renaming translation files?"
@@ -40437,6 +40528,10 @@ msgid ""
 "as removal and adding of the files. This can lead to losing strings history, "
 "comments and suggestions."
 msgstr ""
+"Beim Umbenennen von Dateien im Repository kann es vorkommen, dass Weblate "
+"dies als Entfernen und Hinzufügen von Dateien ansieht. Dies kann dazu "
+"führen, dass der Verlauf, die Kommentare und Vorschläge von Zeichenketten "
+"verloren gehen."
 
 #: ../../faq.rst:416
 msgid "To avoid that, perform renaming in following steps:"
