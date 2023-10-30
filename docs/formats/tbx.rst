@@ -19,6 +19,11 @@ TBX is an XML format for the exchange of terminology data.
     :doc:`tt:formats/tbx`,
     :ref:`glossary`
 
+Example file:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs.tbx
+    :language: xml
+
 Weblate configuration
 +++++++++++++++++++++
 

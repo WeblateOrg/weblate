@@ -29,6 +29,19 @@ with (what is most often the) English strings.
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`,
 
+Example files
++++++++++++++
+
+Example file v1:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs-go18n-v1.json
+    :language: json
+
+Example file v2:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs-go18n-v2.json
+    :language: json
+
 Weblate configuration
 +++++++++++++++++++++
 

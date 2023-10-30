@@ -30,6 +30,11 @@ INI translations are usually used as monolingual translations.
     :ref:`joomla`,
     :ref:`islu`
 
+Example file:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs.ini
+    :language: ini
+
 Weblate configuration
 +++++++++++++++++++++
 

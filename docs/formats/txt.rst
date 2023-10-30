@@ -20,6 +20,11 @@ There are three flavors of this format:
 
    :doc:`tt:formats/text`
 
+Example file:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs.txt
+
+
 Weblate configuration
 +++++++++++++++++++++
 
