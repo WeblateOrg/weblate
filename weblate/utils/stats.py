@@ -280,7 +280,7 @@ class BaseStats:
         return False
 
     def update_stats(self, update_parents: bool = True):
-        self._data = {}
+        self.clear()
         if settings.STATS_LAZY:
             self.save(update_parents=update_parents)
         else:
