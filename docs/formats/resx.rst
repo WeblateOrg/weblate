@@ -17,6 +17,11 @@ syntax to .resx <https://lingohub.com/developers/resource-files/resw-resx-locali
     :ref:`updating-target-files`,
     :ref:`addon-weblate.cleanup.generic`
 
+Example file:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs.resx
+    :language: xml
+
 Weblate configuration
 +++++++++++++++++++++
 

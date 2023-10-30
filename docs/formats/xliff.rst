@@ -126,6 +126,14 @@ unit making it more suitable for Weblate to display instead of ``id``. The
 Weblate and is not covered by the XLIFF standard - it does not put any
 uniqueness restrictions on this attribute.
 
+Example files
++++++++++++++
+
+Example XLIFF file:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs.xliff
+    :language: xml
+
 Weblate configuration
 +++++++++++++++++++++
 

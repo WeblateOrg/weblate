@@ -15,6 +15,11 @@ The translatable content is extracted from the Markdown files and offered for th
 
    :doc:`tt:formats/md`
 
+Example file:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs.md
+    :language: md
+
 Weblate configuration
 +++++++++++++++++++++
 
