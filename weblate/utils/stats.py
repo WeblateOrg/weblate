@@ -93,9 +93,8 @@ def aggregate(stats, item, stats_obj):
 
 def zero_stats(keys):
     stats = {item: 0 for item in keys}
-    if "last_changed" in keys:
-        stats["last_changed"] = None
-        stats["last_author"] = None
+    stats["last_changed"] = None
+    stats["last_author"] = None
     stats["stats_timestamp"] = 0
     return stats
 
