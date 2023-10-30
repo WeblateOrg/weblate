@@ -16,14 +16,19 @@
 #
 import os
 import sys
+from pathlib import Path
+
+from matplotlib import font_manager
 
 # -- Path setup --------------------------------------------------------------
 
 # sys.path.insert(0, os.path.abspath('.'))
+file_dir = Path(__file__).parent.resolve()
+weblate_dir = file_dir.parent
 # Our extension
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "_ext")))
+sys.path.append(str(file_dir / "_ext"))
 # Weblate code
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.append(str(weblate_dir))
 
 
 def setup(app):
@@ -34,6 +39,18 @@ def setup(app):
         objname="configuration value",
         indextemplate="pair: %s; configuration value",
     )
+
+    font_dirs = [
+        str(weblate_dir / font_dir)
+        for font_dir in (
+            "weblate/static/vendor/font-source/TTF/",
+            "weblate/static/vendor/font-kurinto/",
+        )
+    ]
+    font_files = font_manager.findSystemFonts(fontpaths=font_dirs)
+
+    for font_file in font_files:
+        font_manager.fontManager.addfont(font_file)
 
 
 # -- Project information -----------------------------------------------------
@@ -80,6 +97,7 @@ ogp_social_cards = {
     "image": "../weblate/static/logo-1024.png",
     "line_color": "#144d3f",
     "site_url": "docs.weblate.org",
+    "font": ["Source Sans 3", "Kurinto Sans"],
 }
 ogp_custom_meta_tags = [
     '<meta property="fb:app_id" content="741121112629028" />',
