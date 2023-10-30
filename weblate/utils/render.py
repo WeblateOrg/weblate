@@ -57,7 +57,6 @@ def render_template(template, **kwargs):
         kwargs["hook_name"] = kwargs["addon_name"]
 
     if isinstance(translation, Translation):
-        translation.stats.ensure_basic()
         kwargs["language_code"] = translation.language_code
         kwargs["language_name"] = translation.language.get_name()
         kwargs["stats"] = translation.stats.get_data()

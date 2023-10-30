@@ -343,7 +343,6 @@ def show_category_language(request, obj):
 
 
 def show_project(request, obj):
-    obj.stats.ensure_basic()
     user = request.user
 
     all_changes = obj.change_set.prefetch().order()
@@ -425,7 +424,6 @@ def show_project(request, obj):
 
 
 def show_category(request, obj):
-    obj.stats.ensure_basic()
     user = request.user
 
     all_changes = Change.objects.for_category(obj).prefetch().order()
@@ -509,7 +507,6 @@ def show_category(request, obj):
 
 
 def show_component(request, obj):
-    obj.stats.ensure_basic()
     user = request.user
 
     last_changes = obj.change_set.prefetch().order()[:10].preload("component")
@@ -576,7 +573,6 @@ def show_component(request, obj):
 def show_translation(request, obj):
     component = obj.component
     project = component.project
-    obj.stats.ensure_all()
     last_changes = obj.change_set.prefetch().order()[:10].preload("translation")
     user = request.user
 

@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-from copy import copy
 from datetime import timedelta
 from itertools import chain
 from time import monotonic
@@ -23,7 +22,6 @@ from django.utils.functional import cached_property
 
 from weblate.checks.models import CHECKS
 from weblate.lang.models import Language
-from weblate.trans.filter import get_filter_choice
 from weblate.trans.mixins import BaseURLMixin
 from weblate.trans.util import translation_percent
 from weblate.utils.db import conditional_sum
@@ -178,10 +176,8 @@ class BaseStats:
             "allchecks_words_percent",
             "translated_checks_words_percent",
         ]
-        self.ensure_basic()
-        data = copy(self._data)
-        for percent in percents:
-            data[percent] = self.calculate_percent(percent)
+        data = {percent: self.calculate_percent(percent) for percent in percents}
+        data.update(self._data)
         return data
 
     @staticmethod
@@ -217,7 +213,7 @@ class BaseStats:
         if name not in self._data:
             was_pending = self._pending_save
             self._pending_save = True
-            self.prefetch_name(name)
+            self.calculate_by_name(name)
             if name not in self._data:
                 raise AttributeError(f"Unsupported stats for {self}: {name}")
             if not was_pending:
@@ -225,9 +221,10 @@ class BaseStats:
                 self._pending_save = False
         return self._data[name]
 
-    def prefetch_name(self, name: str):
+    def calculate_by_name(self, name: str):
         if name in self.basic_keys:
-            self.prefetch_basic()
+            self.calculate_basic()
+            self.save()
 
     def load(self):
         return cache.get(self.cache_key, {})
@@ -266,33 +263,21 @@ class BaseStats:
         else:
             self._data[key] = value
 
-    def ensure_basic(self, save: bool = True):
-        """Ensure we have basic stats."""
-        # Prefetch basic stats at once
-        if self._data is None:
-            self._data = self.load()
-        if "all" not in self._data:
-            self.prefetch_basic()
-            if save:
-                self.save()
-            return True
-        return False
-
     def update_stats(self, update_parents: bool = True):
         self.clear()
         if settings.STATS_LAZY:
             self.save(update_parents=update_parents)
         else:
-            self.prefetch_basic()
+            self.calculate_basic()
             self.save(update_parents=update_parents)
 
-    def prefetch_basic(self):
+    def calculate_basic(self):
         with sentry_sdk.start_span(
-            op="stats", description=f"PREFETCH {self.cache_key}"
+            op="stats", description=f"CALCULATE {self.cache_key}"
         ):
-            self._prefetch_basic()
+            self._calculate_basic()
 
-    def _prefetch_basic(self):
+    def _calculate_basic(self):
         raise NotImplementedError
 
     def calculate_percent(self, item: str) -> float:
@@ -372,7 +357,7 @@ class DummyTranslationStats(BaseStats):
     def load(self):
         return {}
 
-    def _prefetch_basic(self):
+    def _calculate_basic(self):
         self._data = zero_stats(self.basic_keys)
 
 
@@ -416,7 +401,7 @@ class TranslationStats(BaseStats):
     def has_review(self):
         return self._object.enable_review
 
-    def _prefetch_basic(self):
+    def _calculate_basic(self):
         base = self._object.unit_set.annotate(
             active_checks_count=Count("check", filter=Q(check__dismissed=False)),
             dismissed_checks_count=Count("check", filter=Q(check__dismissed=True)),
@@ -569,14 +554,14 @@ class TranslationStats(BaseStats):
             self.store("monthly_changes", 0)
             self.store("total_changes", 0)
 
-    def prefetch_name(self, name: str):
-        super().prefetch_name(name)
+    def calculate_by_name(self, name: str):
+        super().calculate_by_name(name)
         if name.startswith("check:"):
-            self.prefetch_checks()
+            self.calculate_checks()
         elif name.startswith("label:"):
-            self.prefetch_labels()
+            self.calculate_labels()
 
-    def prefetch_checks(self):
+    def calculate_checks(self):
         """Prefetch check stats."""
         allchecks = {check.url_id for check in CHECKS.values()}
         stats = (
@@ -600,8 +585,9 @@ class TranslationStats(BaseStats):
             self.store(check, 0)
             self.store(check + "_words", 0)
             self.store(check + "_chars", 0)
+        self.save()
 
-    def prefetch_labels(self):
+    def calculate_labels(self):
         """Prefetch check stats."""
         from weblate.trans.models.label import TRANSLATION_LABELS
 
@@ -636,18 +622,7 @@ class TranslationStats(BaseStats):
             self.store(label, 0)
             self.store(label + "_words", 0)
             self.store(label + "_chars", 0)
-
-    def ensure_all(self):
-        """Ensure we have complete set."""
-        # Prefetch basic stats at once
-        save = self.ensure_basic(save=False)
-        # Fetch remaining ones
-        for item, _unused in get_filter_choice(self.obj.component.project):
-            if item not in self._data:
-                self.prefetch_name(item)
-                save = True
-        if save:
-            self.save()
+        self.save()
 
 
 class LanguageStats(BaseStats):
@@ -670,17 +645,15 @@ class LanguageStats(BaseStats):
         # Used in CategoryLanguageStats
         return []
 
-    def _prefetch_basic(self):
+    def _calculate_basic(self):
         stats = zero_stats(self.basic_keys)
         for translation in self.translation_set:
             stats_obj = translation.stats
-            stats_obj.ensure_basic()
             for item in BASIC_KEYS:
                 aggregate(stats, item, stats_obj)
             self.calculate_source(stats_obj, stats)
         for category in self.category_set:
             stats_obj = category.stats
-            stats_obj.ensure_basic()
             for item in BASIC_KEYS:
                 aggregate(stats, item, stats_obj)
             self.calculate_source(stats_obj, stats)
@@ -925,8 +898,8 @@ class ProjectLanguageStats(LanguageStats):
         self.store("source_words", words)
         self.store("source_strings", strings)
 
-    def _prefetch_basic(self):
-        super()._prefetch_basic()
+    def _calculate_basic(self):
+        super()._calculate_basic()
         self.store("languages", 1)
 
     def get_single_language_stats(self, language):
@@ -1056,8 +1029,8 @@ class CategoryLanguageStats(LanguageStats):
         self.store("source_words", words)
         self.store("source_strings", strings)
 
-    def _prefetch_basic(self):
-        super()._prefetch_basic()
+    def _calculate_basic(self):
+        super()._calculate_basic()
         self.store("languages", 1)
 
     def get_single_language_stats(self, language):
@@ -1091,16 +1064,14 @@ class CategoryStats(BaseStats):
     def category_set(self):
         return prefetch_stats(self._object.category_set.only("id", "category"))
 
-    def _prefetch_basic(self):
+    def _calculate_basic(self):
         stats = zero_stats(self.basic_keys)
         for component in self.component_set:
             stats_obj = component.stats
-            stats_obj.ensure_basic()
             for item in self.basic_keys:
                 aggregate(stats, item, stats_obj)
         for category in self.category_set:
             stats_obj = category.stats
-            stats_obj.ensure_basic()
             for item in self.basic_keys:
                 aggregate(stats, item, stats_obj)
         for key, value in stats.items():
@@ -1150,17 +1121,15 @@ class ProjectStats(BaseStats):
         ]
         return prefetch_stats(result)
 
-    def _prefetch_basic(self):
+    def _calculate_basic(self):
         stats = zero_stats(self.basic_keys)
         for component in self.component_set:
             stats_obj = component.stats
-            stats_obj.ensure_basic()
             for item in self.basic_keys:
                 aggregate(stats, item, stats_obj)
 
         for category in self.category_set:
             stats_obj = category.stats
-            stats_obj.ensure_basic()
             for item in self.basic_keys:
                 aggregate(stats, item, stats_obj)
 
@@ -1179,11 +1148,10 @@ class ComponentListStats(BaseStats):
             self._object.components.only("id", "componentlist").prefetch_source_stats()
         )
 
-    def _prefetch_basic(self):
+    def _calculate_basic(self):
         stats = zero_stats(self.basic_keys)
         for component in self.component_set:
             stats_obj = component.stats
-            stats_obj.ensure_basic()
             for item in self.basic_keys:
                 aggregate(stats, item, stats_obj)
 
@@ -1203,11 +1171,10 @@ class GlobalStats(BaseStats):
 
         return prefetch_stats(Project.objects.only("id", "access_control"))
 
-    def _prefetch_basic(self):
+    def _calculate_basic(self):
         stats = zero_stats(self.basic_keys)
         for project in self.project_set:
             stats_obj = project.stats
-            stats_obj.ensure_basic()
             for item in self.basic_keys:
                 aggregate(stats, item, stats_obj)
 
@@ -1233,7 +1200,7 @@ class GhostStats(BaseStats):
     def pk(self):
         return get_random_identifier()
 
-    def _prefetch_basic(self):
+    def _calculate_basic(self):
         stats = zero_stats(self.basic_keys)
         if self.base is not None:
             for key in "all", "all_words", "all_chars":

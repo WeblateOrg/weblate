@@ -21,4 +21,4 @@ class DBCommandTests(TestCase):
     def test_stats(self):
         output = StringIO()
         call_command("ensure_stats", stdout=output)
-        self.assertEqual("", output.getvalue())
+        self.assertEqual("found 0 strings\n", output.getvalue())
