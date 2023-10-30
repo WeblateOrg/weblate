@@ -99,8 +99,11 @@ class ViewTest(FixtureTestCase):
         self.make_manager()
         self.do_upload()
         screenshot = Screenshot.objects.all()[0]
-        self.client.post(reverse("screenshot-delete", kwargs={"pk": screenshot.pk}))
+        response = self.client.post(
+            reverse("screenshot-delete", kwargs={"pk": screenshot.pk})
+        )
         self.assertEqual(Screenshot.objects.count(), 0)
+        self.assertRedirects(response, reverse("screenshots", kwargs=self.kw_component))
 
     def extract_pk(self, data):
         return int(data.split('data-pk="')[1].split('"')[0])
