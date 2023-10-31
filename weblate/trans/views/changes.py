@@ -97,7 +97,8 @@ class ChangesView(PathViewMixin, ListView):
         if self.path_object is None and self.request.GET:
             # Handle GET params for filtering prior Weblate 5.0
             path = None
-            if string := self.request.GET.get("string"):
+            string = self.request.GET.get("string")
+            if string and string.is_digit():
                 try:
                     # Check unit access here to avoid leaking project/component
                     unit = Unit.objects.filter_access(self.request.user).get(pk=string)
