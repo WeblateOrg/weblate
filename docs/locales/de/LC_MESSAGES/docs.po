@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-24 16:13+0200\n"
-"PO-Revision-Date: 2023-10-30 12:25+0000\n"
+"PO-Revision-Date: 2023-10-31 12:19+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -5662,7 +5662,7 @@ msgid ""
 "The string is read-only and should not be edited in Weblate, see :ref:`read-"
 "only-strings`."
 msgstr ""
-"Die Zeichenkette ist schreibgeschützt und sollte in Weblate nicht bearbeitet "
+"Die Zeichenkette ist schreibgeschützt und sollte nicht in Weblate bearbeitet "
 "werden, siehe :ref:`read-only-strings`."
 
 #: ../../admin/checks.rst:73
@@ -40586,10 +40586,12 @@ msgid ""
 "This happens sometimes when your Git repository grows too much and you have "
 "many of them. Compressing the Git repositories will improve this situation."
 msgstr ""
+"Das passiert manchmal, wenn das Git-Repository zu groß wird und Sie viele "
+"davon haben. Das Komprimieren der Git-Repositorys verbessert diese Situation."
 
 #: ../../faq.rst:435
 msgid "The easiest way to do this is to run:"
-msgstr ""
+msgstr "Der einfachste Weg, dies zu tun:"
 
 #: ../../faq.rst:450 ../../vcs.rst:483
 msgid ":setting:`DATA_DIR`"
@@ -40607,6 +40609,9 @@ msgid ""
 "`ALLOWED_HOSTS`. It needs to contain all hostnames you want to access on "
 "your Weblate. For example:"
 msgstr ""
+"Dies wird höchstwahrscheinlich durch nicht korrekt konfigurierte "
+":setting:`ALLOWED_HOSTS` verursacht. Es muss alle Hostnamen enthalten, auf "
+"die Sie mit Ihrer Weblate-Installation zugreifen wollen. Zum Beispiel:"
 
 #: ../../faq.rst:465
 msgid ":ref:`production-hosts`"
@@ -40622,6 +40627,10 @@ msgid ""
 "Weblate keeps track of source strings and reserves source language for this. "
 "The additional file for same language is not processed."
 msgstr ""
+"Dies geschieht normalerweise, wenn Sie eine Übersetzungsdatei für die "
+"Ausgangssprache haben. Weblate verfolgt die Ausgangszeichenketten und "
+"reserviert die Ausgangssprache für diese. Die zusätzliche Datei für dieselbe "
+"Sprache wird nicht verarbeitet."
 
 #: ../../faq.rst:476
 msgid ""
@@ -40659,6 +40668,9 @@ msgid ""
 "case the most likely reason is that several files map to single language in "
 "Weblate."
 msgstr ""
+"Möglicherweise erhalten Sie eine ähnliche Fehlermeldung auch für andere "
+"Sprachen. In diesem Fall ist der wahrscheinlichste Grund, dass mehrere "
+"Dateien einer einzigen Sprache in Weblate zugeordnet sind."
 
 #: ../../faq.rst:486
 msgid ""
@@ -40667,6 +40679,10 @@ msgid ""
 "generic codes (``fr`` and ``fr_FR``). See :ref:`language-parsing-codes` for "
 "more details."
 msgstr ""
+"Dies kann dadurch verursacht werden, dass veraltete Sprachcodes zusammen mit "
+"neuen verwendet werden (``ja`` und ``jp`` für Japanisch) oder sowohl "
+"länderspezifische als auch allgemeine Codes enthalten sind (``fr`` und "
+"``fr_FR``). Siehe :ref:`language-parsing-codes` für weitere Details."
 
 #: ../../faq.rst:492
 msgid "Features"
@@ -40683,14 +40699,20 @@ msgid ""
 "and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to "
 "write backends for other VCSes."
 msgstr ""
+"Weblate bietet derzeit keine native Unterstützung für andere "
+"Versionsverwaltungen als :ref:`vcs-git` (mit erweiterter Unterstützung für "
+":ref:`vcs-github`, :ref:`vcs-gerrit` und :ref:`vcs-git-svn`) und :ref:`vcs-"
+"mercurial`, aber es ist möglich, Backends für andere VCSen zu schreiben."
 
 #: ../../faq.rst:504
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
 msgstr ""
+"Sie können auch :ref:`vcs-git-helpers` in Git verwenden, um auf andere VCSen "
+"zuzugreifen."
 
 #: ../../faq.rst:506
 msgid "Weblate also supports VCS-less operation, see :ref:`vcs-local`."
-msgstr ""
+msgstr "Weblate unterstützt auch VCS-losen Betrieb, siehe :ref:`vcs-local`."
 
 #: ../../faq.rst:510
 msgid ""
@@ -40698,6 +40720,10 @@ msgid ""
 "and could probably be adjusted to work with anything other than Git and "
 "Mercurial, but somebody has to implement this support."
 msgstr ""
+"Für die native Unterstützung anderer VCSen setzt Weblate die Verwendung "
+"eines verteilten VCS voraus und könnte wahrscheinlich so angepasst werden, "
+"dass es auch mit anderen Systemen als Git und Mercurial funktioniert, aber "
+"jemand muss diese Unterstützung implementieren."
 
 #: ../../faq.rst:517
 msgid "How does Weblate credit translators?"
@@ -40709,12 +40735,18 @@ msgid ""
 "name. This way every single change has proper authorship, and you can track "
 "it down using the standard VCS tools you use for code."
 msgstr ""
+"Jede in Weblate vorgenommene Änderung wird unter dem Namen des Übersetzers "
+"ins VCS committet. Auf diese Weise hat jede einzelne Änderung die richtige "
+"Urheberschaft und Sie können sie mit den üblichen VCS-Tools, die Sie für "
+"Code verwenden, nachverfolgen."
 
 #: ../../faq.rst:523
 msgid ""
 "Additionally, when the translation file format supports it, the file headers "
 "are updated to include the translator's name."
 msgstr ""
+"Zusätzlich, wenn das Format der Übersetzungsdatei dies unterstützt, wird der "
+"Name des Übersetzers in die Kopfzeile der Datei eingefügt."
 
 #: ../../faq.rst:528
 msgid ":wladmin:`list_translators`, :doc:`../devel/reporting`"
@@ -40731,6 +40763,9 @@ msgid ""
 "component. This is beneficial for translators, so they know what they are "
 "actually translating."
 msgstr ""
+"Weblate wurde so konzipiert, dass jede PO-Datei als einzelne Komponente "
+"dargestellt wird. Dies ist für Übersetzer von Vorteil, damit sie wissen, was "
+"sie tatsächlich übersetzen."
 
 #: ../../faq.rst:540
 msgid ""
@@ -40790,6 +40825,9 @@ msgid ""
 "Weblate supports a wide range of translation formats. Each format is "
 "slightly different and provides a different set of capabilities."
 msgstr ""
+"Weblate unterstützt eine Vielzahl von Übersetzungsformaten. Jedes Format "
+"unterscheidet sich geringfügig und bietet eine Reihe unterschiedlicher "
+"Funktionen."
 
 #: ../../formats.rst:11
 msgid ""
@@ -40798,6 +40836,11 @@ msgid ""
 "translators can additionally use whatever tools they are used to, and will "
 "more likely contribute to your project."
 msgstr ""
+"Wenn Sie ein Dateiformat für Ihre Anwendung wählen, ist es besser, ein gut "
+"bewährtes Format in dem/der von Ihnen verwendeten Toolkit/Plattform zu "
+"verwenden. Auf diese Weise können Ihre Übersetzer zusätzlich die Tools "
+"verwenden, an die sie gewöhnt sind und werden eher zu Ihrem Projekt "
+"beitragen."
 
 #: ../../formats.rst:24 ../../formats.rst:511
 msgid ":doc:`tt:formats/index`"
@@ -40814,6 +40857,11 @@ msgid ""
 "format (JSON, YAML, properties) or file encoding, so please verify that :ref:"
 "`component-file_format` is correct before creating the component."
 msgstr ""
+"Weblate versucht, das Dateiformat während :ref:`Adding-projects` zu "
+"erkennen. Die Erkennung kann für verschiedene Varianten desselben "
+"Serialisierungsformats (JSON, YAML, properties) oder derselben "
+"Dateikodierung falsch sein. Bitte überprüfen Sie daher, ob das :ref"
+":`component-file_format` korrekt ist, bevor Sie die Komponente erstellen."
 
 #: ../../formats.rst:38
 msgid "Translation types capabilities"
@@ -41131,6 +41179,8 @@ msgid ""
 "XML comment placed before the ``<string>`` element, parsed as a source "
 "string description."
 msgstr ""
+"XML-Kommentar vor dem Element ``<string>``, analysiert als Beschreibung der "
+"Ausgangszeichenkette."
 
 #: ../../formats.rst:363
 msgid "See :ref:`format-flags`."
@@ -41138,13 +41188,15 @@ msgstr "Siehe :ref:`format-flags`."
 
 #: ../../formats.rst:364
 msgid "The gettext type comments are used as flags."
-msgstr ""
+msgstr "Die Kommentare des Typs gettext werden als Markierungen verwendet."
 
 #: ../../formats.rst:365
 msgid ""
 "The plurals are supported only for Laravel which uses in string syntax to "
 "define them, see `Localization in Laravel`_."
 msgstr ""
+"Die Pluralformen werden nur für Laravel unterstützt, das eine Zeichenketten-"
+"Syntax verwendet, um sie zu definieren, siehe `Localization in Laravel`_."
 
 #: ../../formats.rst:366
 msgid ""
@@ -41169,6 +41221,15 @@ msgid ""
 "`aresource`). Some file formats are used in both variants, see the detailed "
 "description below."
 msgstr ""
+"Es werden sowohl :index:`einsprachige <pair: translation; monolingual>` als "
+"auch :index:`zweisprachige <pair: translation; bilingual>` Formate "
+"unterstützt. Zweisprachige Formate speichern zwei Sprachen in einer einzigen "
+"Datei – Quelle und Übersetzung (typische Beispiele sind :ref:`gettext`, "
+":ref:`xliff` oder :ref:`apple`). Auf der anderen Seite identifizieren "
+"einsprachige Formate die Zeichenkette durch eine ID und jede Sprachdatei "
+"enthält nur die Zuordnung dieser zu einer bestimmten Sprache (typischerweise "
+":ref:`aresource`). Einige Dateiformate werden in beiden Varianten verwendet, "
+"siehe die detaillierte Beschreibung unten."
 
 #: ../../formats.rst:383
 msgid ""
@@ -41177,6 +41238,11 @@ msgid ""
 "is called :ref:`component-template` within Weblate, though the naming might "
 "vary in your paradigm."
 msgstr ""
+"Für die korrekte Verwendung einsprachiger Dateien benötigt Weblate Zugriff "
+"auf eine Datei, die eine vollständige Liste der zu übersetzenden "
+"Zeichenketten mit ihrem Quelltext enthält – diese Datei heißt in Weblate :ref"
+":`component-template`, obwohl die Benennung in Ihrem Paradigma variieren "
+"kann."
 
 #: ../../formats.rst:388
 msgid ""
@@ -41184,6 +41250,10 @@ msgid ""
 "intermediate` to include strings provided by developers, but not to be used "
 "as is in the final strings."
 msgstr ""
+"Zusätzlich kann dieser Arbeitsablauf durch die Verwendung von einer :ref"
+":`component-intermediate` erweitert werden, um von Entwicklern "
+"bereitgestellte Zeichenketten einzuschließen, die jedoch nicht in den "
+"endgültigen Zeichenketten verwendet werden sollen."
 
 #: ../../formats.rst:395
 msgid "String states"
@@ -41195,6 +41265,10 @@ msgid ""
 "strings. With some formats it is possible to store more fine-grained state "
 "information, such as \"Needs editing\" or \"Approved\"."
 msgstr ""
+"Viele Dateiformate unterscheiden nur zwischen den Zeichenketten „nicht "
+"übersetzt\" und „übersetzt\". Bei einigen Formaten ist es möglich, "
+"detailliertere Statusinformationen zu speichern, wie z. B. "
+"„bearbeitungsbedürftig“ oder „genehmigt“."
 
 #: ../../formats.rst:404
 msgid "Source string description"
@@ -41205,6 +41279,8 @@ msgid ""
 "Source string descriptions can be used to pass additional info about the "
 "string to translate."
 msgstr ""
+"Ausgangszeichenkettenbeschreibungen können verwendet werden, um zusätzliche "
+"Informationen über den zu übersetzenden Text zu übergeben."
 
 #: ../../formats.rst:408
 msgid ""
@@ -41214,12 +41290,20 @@ msgid ""
 "ref:`arb`, :ref:`dotnet`). Many other formats extract closest comment as "
 "source string description."
 msgstr ""
+"Mehrere Formate bieten native Unterstützung für das Bereitstellen "
+"zusätzlicher Informationen für Übersetzer (zum Beispiel :ref:`xliff`, "
+":ref:`gettext`, :ref:`webex`, :ref:`csv`, :ref:`xlsx`, :ref:`qtling`, :ref"
+":`go-i18n-json`, :ref:`gotext-json`, :ref:`arb`, :ref:`dotnet`). Viele "
+"andere Formate extrahieren den nächsten Kommentar als "
+"Ausgangszeichenkettenbeschreibung."
 
 #: ../../formats.rst:419
 msgid ""
 "The :ref:`additional-explanation` on strings can be stored and parsed from a "
 "few file formats."
 msgstr ""
+"Die :ref:`additional-explanation` für Zeichenketten kann aus einigen "
+"Dateiformaten gespeichert und analysiert werden."
 
 #: ../../formats.rst:422
 msgid "Currently supported only in :ref:`tbx`."
@@ -49282,7 +49366,7 @@ msgstr ""
 
 #: ../../vcs.rst:244
 msgid "Git remote helpers"
-msgstr ""
+msgstr "Git-Remote-Helfer"
 
 #: ../../vcs.rst:246
 msgid ""
