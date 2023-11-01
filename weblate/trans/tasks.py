@@ -586,6 +586,20 @@ def create_project_backup(pk):
     ProjectBackup().backup_project(project)
 
 
+@app.task(trail=False)
+def detect_completed_translation(change_id: int, old_translated: int):
+    change = Change.objects.get(pk=change_id)
+
+    translated = change.translation.stats.translated
+    if old_translated < translated and translated == change.translation.stats.all:
+        Change.objects.create(
+            translation=change.translation,
+            action=Change.ACTION_COMPLETE,
+            user=change.user,
+            author=change.author,
+        )
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(3600, commit_pending.s(), name="commit-pending")
