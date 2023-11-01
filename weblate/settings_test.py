@@ -139,6 +139,7 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.MD5PasswordHasher",
 ]
 
+# Let the testsuite fail on timezone issues
 warnings.filterwarnings(
     "error",
     r"DateTimeField .* received a naive datetime",
