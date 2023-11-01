@@ -592,6 +592,8 @@ class PseudolocaleAddonForm(BaseAddonForm):
         )
 
     def clean(self):
+        if "source" not in self.cleaned_data or "target" not in self.cleaned_data:
+            return
         if self.cleaned_data["source"] == self.cleaned_data["target"]:
             raise forms.ValidationError(
                 gettext("The source and target have to be different languages.")
