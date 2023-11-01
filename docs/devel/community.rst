@@ -31,7 +31,7 @@ Providing reviewers with previews or alpha translations will make for the best r
 
 Structured feedback
 -------------------
-There are many :doc:`/user/checks` in Weblate which provide structured feedback on quality of the translations. 
+There are many :doc:`/user/checks` in Weblate which provide structured feedback on quality of the translations.
 
 Translation definition
 ----------------------
