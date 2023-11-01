@@ -61,10 +61,10 @@ class TranslationManager(models.Manager):
         self, component, lang, code, path, force=False, request=None, change=None
     ):
         """Parse translation meta info and updates translation object."""
-        translation = component.translation_set.get_or_create(
+        translation, created = component.translation_set.get_or_create(
             language=lang,
             defaults={"filename": path, "language_code": code, "plural": lang.plural},
-        )[0]
+        )
         if translation.filename != path or translation.language_code != code:
             force = True
             translation.filename = path
@@ -80,6 +80,8 @@ class TranslationManager(models.Manager):
             translation.check_flags = flags
             translation.save(update_fields=["check_flags"])
         translation.check_sync(force, request=request, change=change)
+        if created:
+            Change.store_last_change(translation, None)
 
         return translation
 

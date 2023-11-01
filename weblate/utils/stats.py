@@ -515,7 +515,10 @@ class TranslationStats(BaseStats):
 
         cache_key = Change.get_last_change_cache_key(self._object.pk)
         change_pk = cache.get(cache_key)
-        if change_pk:
+        if change_pk == 0:
+            # No change
+            return None
+        if change_pk is not None:
             try:
                 return Change.objects.get(pk=change_pk)
             except Change.DoesNotExist:
@@ -523,6 +526,7 @@ class TranslationStats(BaseStats):
         try:
             last_change = self._object.change_set.content().order()[0]
         except IndexError:
+            Change.store_last_change(self._object, None)
             return None
         last_change.update_cache_last_change()
         return last_change
