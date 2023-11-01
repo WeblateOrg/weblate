@@ -2,7 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from datetime import datetime
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.cache import cache
@@ -20,6 +22,11 @@ from weblate.trans.models.alert import ALERTS
 from weblate.trans.models.project import Project
 from weblate.utils.pii import mask_email
 from weblate.utils.state import STATE_LOOKUP
+
+if TYPE_CHECKING:
+    from datetime import datetime
+
+    from weblate.trans.models import Translation
 
 
 class ChangeQuerySet(models.QuerySet):
@@ -625,12 +632,17 @@ class Change(models.Model, UserDisplayMixin):
     def get_last_change_cache_key(translation_id: int):
         return f"last-content-change-{translation_id}"
 
+    @classmethod
+    def store_last_change(cls, translation: Translation, change: Change | None):
+        translation.stats.last_change_cache = change
+        cache_key = cls.get_last_change_cache_key(translation.id)
+        cache.set(cache_key, change.pk if change else 0, 180 * 86400)
+
     def is_last_content_change_storable(self):
         return self.translation_id and self.action in self.ACTIONS_CONTENT
 
     def update_cache_last_change(self):
-        cache_key = self.get_last_change_cache_key(self.translation_id)
-        cache.set(cache_key, self.pk, 180 * 86400)
+        self.store_last_change(self.translation, self)
 
     def fixup_refereces(self):
         """Updates references based to least specific one."""
