@@ -134,6 +134,11 @@ AUTHENTICATION_BACKENDS = (
 # Disable random admin checks trigger
 BACKGROUND_ADMIN_CHECKS = False
 
+# Use weak password hasher for testing
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.MD5PasswordHasher",
+]
+
 warnings.filterwarnings(
     "error",
     r"DateTimeField .* received a naive datetime",
