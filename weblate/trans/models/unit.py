@@ -1022,6 +1022,8 @@ class Unit(models.Model, LoggerMixin):
         This should be always called in a transaction with updated unit
         locked for update.
         """
+        from weblate.trans.tasks import detect_completed_translation
+
         # For case when authorship specified, use user
         author = author or user
 
@@ -1082,18 +1084,13 @@ class Unit(models.Model, LoggerMixin):
             # Update translation stats
             self.translation.invalidate_cache()
 
+            # Postpone completed translation detection
+            transaction.on_commit(
+                lambda: detect_completed_translation.delay(change.pk, old_translated)
+            )
+
             # Update user stats
             change.author.profile.increase_count("translated")
-
-            # Force committing on completing translation
-            translated = self.translation.stats.translated
-            if old_translated < translated and translated == self.translation.stats.all:
-                Change.objects.create(
-                    translation=self.translation,
-                    action=Change.ACTION_COMPLETE,
-                    user=change.user,
-                    author=change.author,
-                )
 
         # Update related source strings if working on a template
         if self.translation.is_template and self.old_unit["target"] != self.target:
