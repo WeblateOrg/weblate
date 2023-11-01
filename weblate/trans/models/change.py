@@ -631,10 +631,6 @@ class Change(models.Model, UserDisplayMixin):
     def update_cache_last_change(self):
         cache_key = self.get_last_change_cache_key(self.translation_id)
         cache.set(cache_key, self.pk, 180 * 86400)
-        self.translation.stats.store("last_changed", self.timestamp)
-        self.translation.stats.store("last_author", self.author_id)
-        self.translation.stats.save()
-        return True
 
     def fixup_refereces(self):
         """Updates references based to least specific one."""
