@@ -23,9 +23,9 @@ customized per language.
 
 Site-wide workflow customization can be done while :ref:`changing-languages`.
 
-Per-project customization can be done on the each language page of the project.
+Per-project customization can be done on each language page of the project.
 
-All workflow settings can be overriden, the only limitation is that
+All workflow settings can be overridden, the only limitation is that
 :ref:`project-translation_review` needs to be turned on and can only be
 disabled in customization.
 
@@ -58,7 +58,7 @@ that has a :guilabel:`Translate` permission for the project.
 Translation states
 ------------------
 
-Each translated string can be in one of following states:
+Each translated string can be in one of the following states:
 
 Untranslated
     Translation is empty, it might or not be stored in the file, depending
@@ -83,7 +83,7 @@ The states are represented in the translation files when possible.
 
 .. hint::
 
-   In case file format you use does not support storing states, you might want
+   If the file format you use does not support storing states, you might want
    to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings
    as needing editing.
 
@@ -95,7 +95,7 @@ The states are represented in the translation files when possible.
 
 Direct translation
 ------------------
-This is most usual setup for smaller teams, anybody can directly translate.
+This is the most usual setup for smaller teams, anybody can directly translate.
 This is also the default setup in Weblate.
 
 * *Any user* can edit translations.
@@ -127,7 +127,7 @@ This is also the default setup in Weblate.
 Peer review
 -----------
 
-With this workflow, anybody can add suggestions, and need approval
+With this workflow, anybody can add a suggestion, which needs approval
 from additional member(s) before it is accepted as a translation.
 
 * *Any user* can add suggestions.
@@ -143,7 +143,7 @@ from additional member(s) before it is accepted as a translation.
 +------------------------+-------------+------------------------------------+
 | Suggestion voting      | off         |                                    |
 +------------------------+-------------+------------------------------------+
-| Autoaccept suggestions | 1           | You can set higher value to        |
+| Autoaccept suggestions | 1           | You can set a higher value to        |
 |                        |             | require more peer reviews.         |
 +------------------------+-------------+------------------------------------+
 | Translators group      | `Users`     | Or `Translate` with                |
@@ -204,10 +204,9 @@ Quality gateway for the source strings
 
 In many cases the original source language strings are coming from developers,
 because they write the code and provide initial strings. However developers are
-often not a native speakers in the source language and do not provide desired
-quality of the source strings. The intermediate translation can help you in
-addressing this - there is additional quality gateway for the strings between
-developers and translators and users.
+often not native speakers in the source language and do not provide desired
+quality of the source strings. The intermediate translation can help you address this - there is an additional quality gateway for the strings between
+developers and translators.
 
 By setting :ref:`component-intermediate`, this file will be used as source for
 the strings, but it will be edited to source language to polish it.  Once the
