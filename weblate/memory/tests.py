@@ -18,7 +18,7 @@ from weblate.memory.tasks import handle_unit_translation_change, import_memory
 from weblate.memory.utils import CATEGORY_FILE
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
-from weblate.utils.db import using_postgresql
+from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.state import STATE_TRANSLATED
 
 
@@ -34,17 +34,7 @@ def add_document():
     )
 
 
-class MemoryModelTest(FixtureTestCase):
-    @classmethod
-    def _databases_support_transactions(cls):
-        # This is workaround for MySQL as FULL TEXT index does not work
-        # well inside a transaction, so we avoid using transactions for
-        # tests. Otherwise we end up with no matches for the query.
-        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if not using_postgresql():
-            return False
-        return super()._databases_support_transactions()
-
+class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
     def test_machine(self):
         add_document()
         unit = self.get_unit()
