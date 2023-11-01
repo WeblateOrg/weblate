@@ -22,7 +22,7 @@ from weblate.trans.tests.utils import get_test_file
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 TEST_BACKUP = get_test_file("projectbackup-4.14.zip")
-TEST_INVALID = get_test_file("invalid.zip")
+TEST_INVALID = get_test_file("invalid.zip.txt")
 
 
 class BackupsTest(ViewTestCase):

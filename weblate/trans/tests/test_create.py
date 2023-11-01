@@ -13,7 +13,7 @@ from weblate.trans.tests.utils import create_test_billing, get_test_file
 from weblate.vcs.git import GitRepository
 
 TEST_ZIP = get_test_file("translations.zip")
-TEST_INVALID_ZIP = get_test_file("invalid.zip")
+TEST_INVALID_ZIP = get_test_file("invalid.zip.txt")
 TEST_HTML = get_test_file("cs.html")
 
 
