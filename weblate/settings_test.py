@@ -145,8 +145,3 @@ warnings.filterwarnings(
     RuntimeWarning,
     r"django\.db\.models\.fields",
 )
-
-# Generate junit compatible XML for AppVeyor
-if "APPVEYOR" in os.environ:
-    TEST_RUNNER = "xmlrunner.extra.djangotestrunner.XMLTestRunner"
-    TEST_OUTPUT_FILE_NAME = "junit.xml"
