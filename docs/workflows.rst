@@ -143,7 +143,7 @@ from additional member(s) before it is accepted as a translation.
 +------------------------+-------------+------------------------------------+
 | Suggestion voting      | off         |                                    |
 +------------------------+-------------+------------------------------------+
-| Autoaccept suggestions | 1           | You can set a higher value to        |
+| Autoaccept suggestions | 1           | You can set a higher value to      |
 |                        |             | require more peer reviews.         |
 +------------------------+-------------+------------------------------------+
 | Translators group      | `Users`     | Or `Translate` with                |
