@@ -276,6 +276,8 @@ class BaseStats:
             op="stats", description=f"CALCULATE {self.cache_key}"
         ):
             self._calculate_basic()
+            # Store timestamp
+            self.store("stats_timestamp", monotonic())
 
     def _calculate_basic(self):
         raise NotImplementedError
@@ -498,8 +500,6 @@ class TranslationStats(BaseStats):
 
         # There is single language here, but it is aggregated at higher levels
         self.store("languages", 1)
-        # Store timestamp
-        self.store("stats_timestamp", monotonic())
 
         # Last change timestamp
         self.fetch_last_change()
