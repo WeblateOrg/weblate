@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-24 16:13+0200\n"
-"PO-Revision-Date: 2023-11-01 22:00+0000\n"
+"PO-Revision-Date: 2023-11-03 17:40+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -12819,7 +12819,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1472
 msgid "Single-process Celery setup"
-msgstr ""
+msgstr "Налаштування однопроцесорного Celery"
 
 #: ../../admin/install.rst:1474
 msgid ""
@@ -12827,10 +12827,13 @@ msgid ""
 "Weblate processes. All Celery tasks can be executed in a single process "
 "using:"
 msgstr ""
+"Якщо у вас дуже мало оперативної пам'яті, можливо, варто зменшити кількість "
+"процесів Weblate. За допомогою цього можна виконати всі завдання Celery в "
+"одному процесі:"
 
 #: ../../admin/install.rst:1483
 msgid "This will have a noticeable performance impact on Weblate."
-msgstr ""
+msgstr "Це матиме помітний вплив на швидкодію Weblate."
 
 #: ../../admin/install.rst:1488
 msgid "Monitoring Weblate"
@@ -13077,6 +13080,8 @@ msgid ""
 "For systems with less memory than recommended, :ref:`minimal-celery` is "
 "recommended."
 msgstr ""
+"Для систем з меншим обсягом пам'яті, ніж рекомендовано, рекомендується "
+"використовувати :ref:`minimal-celery`."
 
 #: ../../../README.rst:50 ../../admin/install/docker.rst:13
 #: ../../admin/install/kubernetes.rst:18 ../../admin/install/openshift.rst:12
@@ -13512,6 +13517,8 @@ msgid ""
 "The volume name contains name of the Docker Compose project, which is by "
 "default the directory name what is ``weblate-docker`` in this documentation."
 msgstr ""
+"Назва тому містить назву проєкту Docker Compose, яка типово є назвою "
+"каталогу, яким у цій документації є ``weblate-docker``."
 
 #: ../../admin/install/docker.rst:291
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
@@ -25176,10 +25183,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.0.1"
 msgid "Weblate 5.1.1"
-msgstr "Weblate 5.0.1"
+msgstr "Weblate 5.1.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -25196,28 +25201,20 @@ msgid "**Improvements**"
 msgstr "**Удосконалення**"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.consistency.languages` add-on could miss some "
-#| "languages."
 msgid ""
 ":ref:`addon-weblate.consistency.languages` now uses a dedicated user for "
 "changes."
 msgstr ""
-"Додаток :ref:`addon-weblate.consistency.languages` може пропустити деякі "
-"мови."
+":ref:`addon-weblate.consistency.languages` відтепер використовує "
+"спеціального користувача для внесення змін."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added notifications for string removals."
 msgid "Added button for sharing on Fediverse."
-msgstr "Додано сповіщення про вилучення рядків."
+msgstr "Додано кнопку для публікації у Федіверсі."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Added notifications for string removals."
 msgid "Added validation for VCS integration credentials."
-msgstr "Додано сповіщення про вилучення рядків."
+msgstr "Додано перевірку облікових даних для інтеграції з VCS."
 
 #: ../../changes.rst:14 ../../changes.rst:55 ../../changes.rst:88
 #: ../../changes.rst:121 ../../changes.rst:178
@@ -25226,11 +25223,11 @@ msgstr "**Виправлення вад**"
 
 #: ../../changes.rst:16
 msgid "Added plurals validation when editing string using API."
-msgstr ""
+msgstr "Додано перевірку множин під час редагування рядка за допомогою API."
 
 #: ../../changes.rst:17
 msgid "Replacing a file using upload when existing is corrupted."
-msgstr ""
+msgstr "Заміна файлу за допомогою завантаження, якщо наявний файл пошкоджено."
 
 #: ../../changes.rst:19 ../../changes.rst:64 ../../changes.rst:131
 #: ../../changes.rst:186
@@ -25263,16 +25260,12 @@ msgstr ""
 "instructions` для виконання оновлення."
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/100?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/106?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/"
-"milestone/100?closed=1>`__."
+"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
+"106?closed=1>`__."
 
 #: ../../changes.rst:28
 msgid "Weblate 5.1"
