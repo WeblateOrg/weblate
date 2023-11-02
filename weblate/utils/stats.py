@@ -629,49 +629,83 @@ class TranslationStats(BaseStats):
         self.save()
 
 
-class LanguageStats(BaseStats):
+class AggregatingStats(BaseStats):
     basic_keys = SOURCE_KEYS
 
     @cached_property
-    def translation_set(self):
-        return prefetch_stats(self._object.translation_set.only("id", "language"))
+    def object_set(self):
+        raise NotImplementedError
+
+    @cached_property
+    def category_set(self):
+        return []
 
     def calculate_source(self, stats_obj, stats):
+        """
+        Sums strings/words/chars in all translations.
+
+        This pretty much matches what aggegate does.
+        """
         stats["source_chars"] += stats_obj.all_chars
         stats["source_words"] += stats_obj.all_words
         stats["source_strings"] += stats_obj.all
 
     def prefetch_source(self):
+        """Fetches source statistics data."""
         return
-
-    @cached_property
-    def category_set(self):
-        # Used in CategoryLanguageStats
-        return []
 
     def _calculate_basic(self):
         stats = zero_stats(self.basic_keys)
-        for translation in self.translation_set:
-            stats_obj = translation.stats
+        for obj in self.object_set:
+            stats_obj = obj.stats
+            # Aggregate non source_* values
             for item in BASIC_KEYS:
                 aggregate(stats, item, stats_obj)
+            # source_* values have specific implementations
             self.calculate_source(stats_obj, stats)
         for category in self.category_set:
             stats_obj = category.stats
-            for item in BASIC_KEYS:
+            # This does full aggegation as categories have proper source_* values
+            for item in self.basic_keys:
                 aggregate(stats, item, stats_obj)
-            self.calculate_source(stats_obj, stats)
 
         for key, value in stats.items():
             self.store(key, value)
 
+        # If source_* was not iterated before, it needs to be handled now
         with sentry_sdk.start_span(op="stats", description=f"SOURCE {self.cache_key}"):
             self.prefetch_source()
 
 
-class ComponentStats(LanguageStats):
+class SingleLanguageStats(AggregatingStats):
+    def _calculate_basic(self):
+        super()._calculate_basic()
+        self.store("languages", 1)
+
+    def get_single_language_stats(self, language):
+        return self
+
     @cached_property
-    def translation_set(self):
+    def is_source(self):
+        return self.obj.is_source
+
+
+class ParentAggregatingStats(AggregatingStats):
+    def calculate_source(self, stats_obj, stats):
+        aggregate(stats, "source_chars", stats_obj)
+        aggregate(stats, "source_words", stats_obj)
+        aggregate(stats, "source_strings", stats_obj)
+
+
+class LanguageStats(AggregatingStats):
+    @cached_property
+    def object_set(self):
+        return prefetch_stats(self._object.translation_set.only("id", "language"))
+
+
+class ComponentStats(AggregatingStats):
+    @cached_property
+    def object_set(self):
         return prefetch_stats(self._object.translation_set.only("id", "component"))
 
     @cached_property
@@ -711,7 +745,7 @@ class ComponentStats(LanguageStats):
         extras = []
 
         # Update languages
-        for translation in self.translation_set:
+        for translation in self.object_set:
             translation.stats.update_stats(update_parents=False)
             extras.extend(translation.stats.get_update_objects())
 
@@ -722,9 +756,7 @@ class ComponentStats(LanguageStats):
         self.update_parents(extras)
 
     def get_language_stats(self):
-        yield from (
-            TranslationStats(translation) for translation in self.translation_set
-        )
+        yield from (TranslationStats(translation) for translation in self.object_set)
 
     def get_single_language_stats(self, language):
         try:
@@ -849,7 +881,7 @@ class ProjectLanguage(BaseURLMixin):
         raise WorkflowSetting.DoesNotExist
 
 
-class ProjectLanguageStats(LanguageStats):
+class ProjectLanguageStats(SingleLanguageStats):
     def __init__(self, obj: ProjectLanguage, project_stats=None):
         self.language = obj.language
         self.project = obj.project
@@ -862,56 +894,18 @@ class ProjectLanguageStats(LanguageStats):
         return self.project.source_review or self.project.translation_review
 
     @cached_property
-    def component_set(self):
-        if self._project_stats:
-            return self._project_stats.component_set
-        return prefetch_stats(
-            self.project.component_set.only("id", "project").prefetch_source_stats()
-        )
-
-    @cached_property
     def category_set(self):
         if self._project_stats:
             return self._project_stats.category_set
         return prefetch_stats(self.project.category_set.only("id", "project"))
 
     @cached_property
-    def translation_set(self):
+    def object_set(self):
         return prefetch_stats(
-            self.language.translation_set.filter(component__in=self.component_set).only(
+            self.language.translation_set.filter(component__project=self.project).only(
                 "id", "language"
             )
         )
-
-    def calculate_source(self, stats_obj, stats):
-        return
-
-    def prefetch_source(self):
-        chars = words = strings = 0
-        for component in self.component_set:
-            stats_obj = component.source_translation.stats
-            chars += stats_obj.all_chars
-            words += stats_obj.all_words
-            strings += stats_obj.all
-        for category in self.category_set:
-            stats_obj = category.stats
-            chars += stats_obj.all_chars
-            words += stats_obj.all_words
-            strings += stats_obj.all
-        self.store("source_chars", chars)
-        self.store("source_words", words)
-        self.store("source_strings", strings)
-
-    def _calculate_basic(self):
-        super()._calculate_basic()
-        self.store("languages", 1)
-
-    def get_single_language_stats(self, language):
-        return self
-
-    @cached_property
-    def is_source(self):
-        return self.obj.is_source
 
 
 class CategoryLanguage(BaseURLMixin):
@@ -977,7 +971,7 @@ class CategoryLanguage(BaseURLMixin):
         return self.language.change_set.for_category(self.category)
 
 
-class CategoryLanguageStats(LanguageStats):
+class CategoryLanguageStats(SingleLanguageStats):
     def __init__(self, obj: CategoryLanguage, category_stats=None):
         self.language = obj.language
         self.category = obj.category
@@ -993,61 +987,21 @@ class CategoryLanguageStats(LanguageStats):
         )
 
     @cached_property
-    def component_set(self):
-        if self._category_stats:
-            return self._category_stats.component_set
-        return prefetch_stats(
-            self.category.component_set.only("id", "component").prefetch_source_stats()
-        )
-
-    @cached_property
     def category_set(self):
         if self._category_stats:
             return self._category_stats.category_set
         return prefetch_stats(self.category.category_set.only("id", "category"))
 
     @cached_property
-    def translation_set(self):
+    def object_set(self):
         return prefetch_stats(
-            self.language.translation_set.filter(component__in=self.component_set).only(
-                "id", "language"
-            )
+            self.language.translation_set.filter(
+                component__category=self.category
+            ).only("id", "language")
         )
 
-    def calculate_source(self, stats_obj, stats):
-        return
 
-    def prefetch_source(self):
-        chars = words = strings = 0
-        for component in self.component_set:
-            stats_obj = component.source_translation.stats
-            chars += stats_obj.all_chars
-            words += stats_obj.all_words
-            strings += stats_obj.all
-        for category in self.category_set:
-            stats_obj = category.stats
-            chars += stats_obj.all_chars
-            words += stats_obj.all_words
-            strings += stats_obj.all
-        self.store("source_chars", chars)
-        self.store("source_words", words)
-        self.store("source_strings", strings)
-
-    def _calculate_basic(self):
-        super()._calculate_basic()
-        self.store("languages", 1)
-
-    def get_single_language_stats(self, language):
-        return self
-
-    @cached_property
-    def is_source(self):
-        return self.obj.is_source
-
-
-class CategoryStats(BaseStats):
-    basic_keys = SOURCE_KEYS
-
+class CategoryStats(ParentAggregatingStats):
     def get_update_objects(self):
         yield self._object.project.stats
         yield from self._object.project.stats.get_update_objects()
@@ -1059,7 +1013,7 @@ class CategoryStats(BaseStats):
         yield from super().get_update_objects()
 
     @cached_property
-    def component_set(self):
+    def object_set(self):
         return prefetch_stats(
             self._object.component_set.only("id", "category").prefetch_source_stats()
         )
@@ -1067,19 +1021,6 @@ class CategoryStats(BaseStats):
     @cached_property
     def category_set(self):
         return prefetch_stats(self._object.category_set.only("id", "category"))
-
-    def _calculate_basic(self):
-        stats = zero_stats(self.basic_keys)
-        for component in self.component_set:
-            stats_obj = component.stats
-            for item in self.basic_keys:
-                aggregate(stats, item, stats_obj)
-        for category in self.category_set:
-            stats_obj = category.stats
-            for item in self.basic_keys:
-                aggregate(stats, item, stats_obj)
-        for key, value in stats.items():
-            self.store(key, value)
 
     def get_single_language_stats(self, language):
         return CategoryLanguageStats(
@@ -1094,9 +1035,7 @@ class CategoryStats(BaseStats):
         return prefetch_stats(result)
 
 
-class ProjectStats(BaseStats):
-    basic_keys = SOURCE_KEYS
-
+class ProjectStats(ParentAggregatingStats):
     @cached_property
     def has_review(self):
         return self._object.enable_review
@@ -1108,7 +1047,7 @@ class ProjectStats(BaseStats):
         )
 
     @cached_property
-    def component_set(self):
+    def object_set(self):
         return prefetch_stats(
             self._object.component_set.only("id", "project").prefetch_source_stats()
         )
@@ -1126,65 +1065,30 @@ class ProjectStats(BaseStats):
         return prefetch_stats(result)
 
     def _calculate_basic(self):
-        stats = zero_stats(self.basic_keys)
-        for component in self.component_set:
-            stats_obj = component.stats
-            for item in self.basic_keys:
-                aggregate(stats, item, stats_obj)
-
-        for category in self.category_set:
-            stats_obj = category.stats
-            for item in self.basic_keys:
-                aggregate(stats, item, stats_obj)
-
-        for key, value in stats.items():
-            self.store(key, value)
-
+        super()._calculate_basic()
         self.store("languages", self._object.languages.count())
 
 
-class ComponentListStats(BaseStats):
-    basic_keys = SOURCE_KEYS
-
+class ComponentListStats(ParentAggregatingStats):
     @cached_property
-    def component_set(self):
+    def object_set(self):
         return prefetch_stats(
             self._object.components.only("id", "componentlist").prefetch_source_stats()
         )
 
-    def _calculate_basic(self):
-        stats = zero_stats(self.basic_keys)
-        for component in self.component_set:
-            stats_obj = component.stats
-            for item in self.basic_keys:
-                aggregate(stats, item, stats_obj)
 
-        for key, value in stats.items():
-            self.store(key, value)
-
-
-class GlobalStats(BaseStats):
-    basic_keys = SOURCE_KEYS
-
+class GlobalStats(ParentAggregatingStats):
     def __init__(self):
         super().__init__(None)
 
     @cached_property
-    def project_set(self):
+    def object_set(self):
         from weblate.trans.models import Project
 
         return prefetch_stats(Project.objects.only("id", "access_control"))
 
     def _calculate_basic(self):
-        stats = zero_stats(self.basic_keys)
-        for project in self.project_set:
-            stats_obj = project.stats
-            for item in self.basic_keys:
-                aggregate(stats, item, stats_obj)
-
-        for key, value in stats.items():
-            self.store(key, value)
-
+        super()._calculate_basic()
         self.store("languages", Language.objects.have_translation().count())
 
     @cached_property
