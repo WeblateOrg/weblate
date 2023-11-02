@@ -17,7 +17,7 @@ from weblate.formats.convert import (
     PlainTextFormat,
     WindowsRCFormat,
 )
-from weblate.formats.helpers import BytesIOMode
+from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.tests.test_formats import BaseFormatTest
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.state import STATE_TRANSLATED
@@ -195,7 +195,7 @@ class OpenDocumentFormatTest(ConvertFormatTest):
     @staticmethod
     def extract_document(content):
         return bytes(
-            OpenDocumentFormat.convertfile(BytesIOMode("test.odt", content), None)
+            OpenDocumentFormat.convertfile(NamedBytesIO("test.odt", content), None)
         ).decode()
 
     def assert_same(self, newdata, testdata):
@@ -224,7 +224,7 @@ class IDMLFormatTest(ConvertFormatTest):
     @staticmethod
     def extract_document(content):
         return bytes(
-            IDMLFormat.convertfile(BytesIOMode("test.idml", content), None)
+            IDMLFormat.convertfile(NamedBytesIO("test.idml", content), None)
         ).decode()
 
     def assert_same(self, newdata, testdata):

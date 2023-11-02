@@ -24,7 +24,7 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.auto import try_load
 from weblate.formats.base import UnitNotFoundError
-from weblate.formats.helpers import CONTROLCHARS, BytesIOMode
+from weblate.formats.helpers import CONTROLCHARS, NamedBytesIO
 from weblate.lang.models import Language, Plural
 from weblate.trans.checklists import TranslationChecklist
 from weblate.trans.defines import FILENAME_LENGTH
@@ -261,7 +261,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 fileobj = self.get_filename()
             elif self.is_template:
                 template = self.component.load_template_store(
-                    BytesIOMode(fileobj.name, fileobj.read())
+                    NamedBytesIO(fileobj.name, fileobj.read())
                 )
                 fileobj.seek(0)
             store = self.component.file_format_cls.parse(
@@ -1099,7 +1099,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         """Replace file content with uploaded one."""
         filecopy = fileobj.read()
         fileobj.close()
-        fileobj = BytesIOMode(fileobj.name, filecopy)
+        fileobj = NamedBytesIO(fileobj.name, filecopy)
         with self.component.repository.lock:
             try:
                 if self.is_source:

@@ -11,7 +11,7 @@ from django.test import SimpleTestCase
 from django.urls import reverse
 from openpyxl import load_workbook
 
-from weblate.formats.helpers import BytesIOMode
+from weblate.formats.helpers import NamedBytesIO
 from weblate.trans.forms import SimpleUploadForm
 from weblate.trans.models import ComponentList
 from weblate.trans.tests.test_views import ViewTestCase
@@ -696,7 +696,7 @@ class ImportExportAddTest(ViewTestCase):
         )
         self.assertEqual(response.content.decode(), EXPECTED_CSV)
 
-        handle = BytesIOMode("test.csv", UPLOAD_CSV.encode())
+        handle = NamedBytesIO("test.csv", UPLOAD_CSV.encode())
         params = {
             "file": handle,
             "method": "translate",
@@ -720,7 +720,7 @@ class ImportExportAddTest(ViewTestCase):
             response.content.decode(), EXPECTED_CSV.replace("Hello, world", "Hi, World")
         )
 
-        handle = BytesIOMode(
+        handle = NamedBytesIO(
             "test.csv", UPLOAD_CSV.replace("Hello, world", "Hi, World").encode()
         )
         params = {
