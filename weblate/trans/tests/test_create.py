@@ -4,6 +4,7 @@
 
 """Test for creating projects and models."""
 
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 
@@ -13,7 +14,6 @@ from weblate.trans.tests.utils import create_test_billing, get_test_file
 from weblate.vcs.git import GitRepository
 
 TEST_ZIP = get_test_file("translations.zip")
-TEST_INVALID_ZIP = get_test_file("invalid.zip.txt")
 TEST_HTML = get_test_file("cs.html")
 
 
@@ -244,13 +244,13 @@ class CreateTest(ViewTestCase):
     def test_create_invalid_zip(self):
         self.user.is_superuser = True
         self.user.save()
-        with open(TEST_INVALID_ZIP, "rb") as handle, override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
-        ):
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             response = self.client.post(
                 reverse("create-component-zip"),
                 {
-                    "zipfile": handle,
+                    "zipfile": SimpleUploadedFile(
+                        "invalid.zip", b"x", content_type="application/zip"
+                    ),
                     "name": "Create Component",
                     "slug": "create-component",
                     "project": self.project.pk,

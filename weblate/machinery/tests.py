@@ -60,7 +60,7 @@ from weblate.trans.models import Project, Unit
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.classloader import load_class
-from weblate.utils.db import using_postgresql
+from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.state import STATE_TRANSLATED
 
 GLOSBE_JSON = {
@@ -1417,17 +1417,7 @@ class IBMTranslationTest(BaseMachineTranslationTest):
         )
 
 
-class WeblateTranslationTest(FixtureTestCase):
-    @classmethod
-    def _databases_support_transactions(cls):
-        # This is workaround for MySQL as FULL TEXT index does not work
-        # well inside a transaction, so we avoid using transactions for
-        # tests. Otherwise we end up with no matches for the query.
-        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if not using_postgresql():
-            return False
-        return super()._databases_support_transactions()
-
+class WeblateTranslationTest(TransactionsTestMixin, FixtureTestCase):
     def test_empty(self):
         machine = WeblateTranslation({})
         results = machine.translate(self.get_unit(), self.user)
