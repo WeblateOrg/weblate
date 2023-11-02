@@ -61,7 +61,6 @@ class LibreTranslateMachineryForm(KeyURLMachineryForm):
         required=False,
     )
 
-
 class MyMemoryMachineryForm(BaseMachineryForm):
     email = forms.EmailField(
         label=pgettext_lazy(
@@ -211,9 +210,14 @@ class ModernMTMachineryForm(KeyURLMachineryForm):
         initial="https://api.modernmt.com/",
     )
 
-
 class DeepLMachineryForm(KeyURLMachineryForm):
     url = forms.URLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
         initial="https://api.deepl.com/v2/",
+    )
+    formality = forms.CharField(
+        label=pgettext_lazy("Automatic suggestion service configuration", "Default formality"),
+        help_text=gettext_lazy("Uses the specified formality if language is not specified as (in)formal"),
+        widget=forms.Select(choices=(('default ','Default'),('prefer_more','Formal'),('prefer_less','Informal'))),
+        initial="default",
     )

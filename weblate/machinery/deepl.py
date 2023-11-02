@@ -24,6 +24,10 @@ class DeepLTranslation(MachineTranslation):
     hightlight_syntax = True
     settings_form = DeepLMachineryForm
 
+    def __init__(self, settings: dict[str, str]):
+        super().__init__(settings)
+        self.mtid = self.mtid + "_" + settings['formality']
+
     def map_language_code(self, code):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-").upper()
@@ -74,6 +78,7 @@ class DeepLTranslation(MachineTranslation):
             "text": text,
             "source_lang": source,
             "target_lang": language,
+            "formality": self.settings["formality"] if "formality" in self.settings else "default",
             "tag_handling": "xml",
             "ignore_tags": "x",
         }
