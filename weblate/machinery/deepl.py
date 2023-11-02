@@ -26,7 +26,9 @@ class DeepLTranslation(MachineTranslation):
 
     def __init__(self, settings: dict[str, str]):
         super().__init__(settings)
-        self.formality =  self.settings["formality"] if "formality" in self.settings else "default"
+        self.formality = (
+            self.settings["formality"] if "formality" in self.settings else "default"
+        )
         self.mtid = self.mtid + "_" + self.formality
 
     def map_language_code(self, code):
