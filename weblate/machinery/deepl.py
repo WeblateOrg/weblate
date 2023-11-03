@@ -81,7 +81,7 @@ class DeepLTranslation(MachineTranslation):
             "text": text,
             "source_lang": source,
             "target_lang": language,
-            "formality": self.formality,
+            "formality": self.settings.get("formality", "default"),
             "tag_handling": "xml",
             "ignore_tags": "x",
         }

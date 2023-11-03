@@ -232,4 +232,5 @@ class DeepLMachineryForm(KeyURLMachineryForm):
             )
         ),
         initial="default",
+        required=False,
     )
