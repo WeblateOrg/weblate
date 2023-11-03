@@ -7,6 +7,7 @@ from crispy_forms.utils import TEMPLATE_PACK
 from django import forms
 from django.core.exceptions import ValidationError
 from django.db.models import Q
+from django.forms.models import ModelChoiceIterator
 from django.template.loader import render_to_string
 from django.utils.translation import gettext, gettext_lazy
 
@@ -180,3 +181,46 @@ class SearchField(Field):
             (key, FILTERS.get_filter_name(key), FILTERS.get_filter_query(key))
             for key in filter_keys
         ]
+
+
+class CachedQueryIterator(ModelChoiceIterator):
+    """
+    Choice iterator for cached querysets.
+
+    It assumes the queryset is reused and avoids using an iterator or counting queries.
+    """
+
+    def __iter__(self):
+        if self.field.empty_label is not None:
+            yield ("", self.field.empty_label)
+        for obj in self.queryset:
+            yield self.choice(obj)
+
+    def __len__(self):
+        return len(self.queryset) + (1 if self.field.empty_label is not None else 0)
+
+    def __bool__(self):
+        return self.field.empty_label is not None or bool(self.queryset)
+
+
+class NonCopyingSetQuerysetMixin:
+    iterator = CachedQueryIterator
+
+    def _get_queryset(self):
+        return self._queryset
+
+    def _set_queryset(self, queryset):
+        self._queryset = queryset
+        self.widget.choices = self.choices
+
+    queryset = property(_get_queryset, _set_queryset)
+
+
+class CachedModelChoiceField(NonCopyingSetQuerysetMixin, forms.ModelChoiceField):
+    pass
+
+
+class CachedModelMultipleChoiceField(
+    NonCopyingSetQuerysetMixin, forms.ModelMultipleChoiceField
+):
+    pass
