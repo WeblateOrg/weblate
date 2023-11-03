@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-24 16:13+0200\n"
-"PO-Revision-Date: 2023-11-02 17:52+0000\n"
+"PO-Revision-Date: 2023-11-03 17:40+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -2335,7 +2335,7 @@ msgstr "Android-Zeichenketten aufteilen"
 
 #: ../../admin/addons.rst:285
 msgid "Android resource strings, split into several files."
-msgstr "Android-Zeichenkette-Ressourcen, aufgeteilt in mehrere Dateien."
+msgstr "Android-Zeichenketten-Ressourcen, aufgeteilt in mehrere Dateien."
 
 #: ../../admin/addons.rst:288
 msgid "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
@@ -29394,7 +29394,7 @@ msgstr "Unterstützung für WebExtension-JSON-Platzhalter hinzugefügt."
 
 #: ../../changes/v3.rst:179
 msgid "Added support for flat XML format."
-msgstr "Unterstützung für Flat XML-Format hinzugefügt."
+msgstr "Unterstützung für flaches XML-Format hinzugefügt."
 
 #: ../../changes/v3.rst:180
 msgid ""
@@ -41456,7 +41456,7 @@ msgstr ""
 
 #: ../../formats/android.rst:4
 msgid "Android string resources"
-msgstr "Android-Zeichenkette-Ressourcen"
+msgstr "Android-Zeichenketten-Ressourcen"
 
 #: ../../formats/android.rst:10
 msgid "Android specific file format for translating applications."
@@ -41468,40 +41468,56 @@ msgid ""
 "stored in a different location from the other files -- :file:`res/values/"
 "strings.xml`."
 msgstr ""
+"Android-Zeichenketten-Ressourcen sind einsprachig, die :ref:`component-"
+"template` wird an einem anderen Ort gespeichert als die anderen Dateien – "
+":file:`res/values/strings.xml`."
 
 #: ../../formats/android.rst:17
 msgid ""
 "Android `string-array` structures are not currently supported. To work "
 "around this, you can break your string arrays apart:"
 msgstr ""
+"Android `string-array`-Strukturen werden derzeit nicht unterstützt. Um dies "
+"zu umgehen, können Sie Ihre Zeichenketten-Arrays aufteilen:"
 
 #: ../../formats/android.rst:27
 msgid "become:"
-msgstr ""
+msgstr "wird:"
 
 #: ../../formats/android.rst:38
 msgid ""
 "The `string-array` that points to the `string` elements should be stored in "
 "a different file, and not be made available for translation."
 msgstr ""
+"Das `string-array`, das auf die `string`-Elemente zeigt, sollte in einer "
+"anderen Datei gespeichert und nicht für die Übersetzung verfügbar gemacht "
+"werden."
 
 #: ../../formats/android.rst:41
 msgid ""
 "This script may help pre-process your existing strings.xml files and "
 "translations: https://gist.github.com/paour/11291062"
 msgstr ""
+"Dieses Skript kann dabei helfen, die bestehenden strings.xml-Dateien und -"
+"Übersetzungen vorzuverarbeiten: https://gist.github.com/paour/11291062"
 
 #: ../../formats/android.rst:45
 msgid ""
 "To avoid translating some strings, these can be marked as non-translatable. "
 "This can be especially useful for string references:"
 msgstr ""
+"Um das Übersetzen einiger Zeichenketten zu vermeiden, können diese als nicht "
+"übersetzbar markiert werden. Dies kann besonders bei Zeichenketten-"
+"Referenzen nützlich sein:"
 
 #: ../../formats/android.rst:53
 msgid ""
 "`Android string resources documentation <https://developer.android.com/guide/"
 "topics/resources/string-resource>`_, :doc:`tt:formats/android`"
 msgstr ""
+"`Dokumentation der Android-Zeichenketten-Ressourcen <https://developer."
+"android.com/guide/topics/resources/string-resource>`_, :doc:`tt:formats/"
+"android`"
 
 #: ../../formats/android.rst:57 ../../formats/apple.rst:23
 #: ../../formats/appstore.rst:23 ../../formats/arb.rst:27
@@ -41570,7 +41586,7 @@ msgstr "`Leer`"
 
 #: ../../formats/android.rst:68
 msgid "`Android String Resource`"
-msgstr "`Android-Zeichenkette-Ressource`"
+msgstr "`Android-Zeichenketten-Ressource`"
 
 #: ../../formats/apple.rst:4
 msgid "Apple iOS strings"
@@ -41676,7 +41692,7 @@ msgstr "``fastlane/android/metadata/en-US``"
 
 #: ../../formats/appstore.rst:34
 msgid "`App store metadata files`"
-msgstr "`App-Store-Metadaten-Dateien`"
+msgstr "`App-Store-Metadatendateien`"
 
 #: ../../formats/arb.rst:4
 msgid "ARB File"
@@ -41881,7 +41897,7 @@ msgstr "`Excel Open XML`"
 
 #: ../../formats/flatxml.rst:4
 msgid "Flat XML files"
-msgstr "Flat XML-Dateien"
+msgstr "Flache XML-Dateien"
 
 #: ../../formats/flatxml.rst:9
 msgid ":doc:`tt:formats/flatxml`"
@@ -41889,7 +41905,7 @@ msgstr ":doc:`tt:formats/flatxml`"
 
 #: ../../formats/flatxml.rst:11
 msgid "Example of a flat XML file:"
-msgstr "Beispiel für eine Flat XML-Datei:"
+msgstr "Beispiel für eine flache XML-Datei:"
 
 #: ../../formats/flatxml.rst:22
 msgid "``locale/*.xml``"
@@ -41901,7 +41917,7 @@ msgstr "``locale/en.xml``"
 
 #: ../../formats/flatxml.rst:28
 msgid "`Flat XML file`"
-msgstr "`Flat XML-Datei`"
+msgstr "`Flache XML-Datei`"
 
 #: ../../formats/fluent.rst:4
 msgid "Fluent format"
@@ -42471,7 +42487,7 @@ msgstr ""
 
 #: ../../formats/json.rst:20 ../../formats/yaml.rst:14
 msgid "Files with nested keys."
-msgstr ""
+msgstr "Dateien mit verschachtelten Schlüsseln."
 
 #: ../../formats/json.rst:27
 msgid ""
@@ -46733,8 +46749,8 @@ msgid ""
 "Android String Resource (only available for monolingual translations) "
 "(``aresource``)"
 msgstr ""
-"Android-Zeichenkette-Ressource (nur für einsprachige Übersetzungen verfügbar)"
-" (``aresource``)"
+"Android-Zeichenketten-Ressource (nur für einsprachige Übersetzungen "
+"verfügbar) (``aresource``)"
 
 #: ../../user/files.rst:40
 msgid "iOS strings (only available for monolingual translations) (``strings``)"
