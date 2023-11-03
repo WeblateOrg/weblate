@@ -557,6 +557,7 @@ class PseudolocaleAddonForm(BaseAddonForm):
     )
     var_multiplier = forms.FloatField(
         label=gettext_lazy("Variable part multiplier"),
+        required=False,
         initial=0.1,
         help_text=gettext_lazy(
             "How many times to repeat the variable part depending on "

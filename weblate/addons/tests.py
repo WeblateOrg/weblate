@@ -862,7 +862,6 @@ class CommandTest(ViewTestCase):
                 {
                     "target": self.translation.id,
                     "source": self.component.source_translation.id,
-                    "var_multiplier": 0.1,
                 }
             ),
             stdout=output,
