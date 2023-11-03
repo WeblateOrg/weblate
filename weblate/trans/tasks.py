@@ -8,6 +8,7 @@ import os
 import time
 from datetime import datetime, timedelta
 from glob import glob
+from operator import itemgetter
 
 from celery import current_task
 from celery.schedules import crontab
@@ -566,7 +567,7 @@ def cleanup_project_backups():
                 for path in os.listdir(projectdir)
                 if path.endswith((".zip", ".zip.part"))
             ),
-            key=lambda item: item[1],
+            key=itemgetter(1),
             reverse=True,
         )
         while len(backups) > max_count:

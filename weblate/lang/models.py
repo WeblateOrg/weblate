@@ -8,6 +8,7 @@ import re
 from collections import defaultdict
 from gettext import c2py
 from itertools import chain
+from operator import itemgetter
 from typing import Callable
 from weakref import WeakValueDictionary
 
@@ -376,7 +377,7 @@ class LanguageQuerySet(models.QuerySet):
                     (code if use_code else pk, f"{gettext(name)} ({code})", name)
                     for pk, name, code in self.values_list("pk", "name", "code")
                 ),
-                lambda tup: tup[2],
+                itemgetter(2),
             )
         )
 

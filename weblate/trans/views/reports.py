@@ -3,6 +3,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from operator import itemgetter
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.utils.html import conditional_escape, format_html, format_html_join
@@ -48,7 +50,7 @@ def generate_credits(user, start_date, end_date, language_code: str, **kwargs):
         )
         if not authors:
             continue
-        result.append({language.name: sorted(authors, key=lambda item: item[2])})
+        result.append({language.name: sorted(authors, key=itemgetter(2))})
 
     return result
 
