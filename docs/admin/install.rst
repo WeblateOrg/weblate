@@ -213,7 +213,7 @@ Django REST Framework
 
 
      * - ``Mercurial``
-       - `Mercurial <https://pypi.org/project/Mercurial>`_
+       - `mercurial <https://pypi.org/project/mercurial>`_
        - :ref:`vcs-mercurial`
 
 
