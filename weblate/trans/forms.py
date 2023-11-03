@@ -19,7 +19,6 @@ from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, Validatio
 from django.core.validators import FileExtensionValidator
 from django.db.models import Q
 from django.forms import model_to_dict
-from django.forms.models import ModelChoiceIterator
 from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -63,6 +62,7 @@ from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.antispam import is_spam
 from weblate.utils.forms import (
+    CachedModelMultipleChoiceField,
     ColorWidget,
     ContextDiv,
     EmailField,
@@ -2440,39 +2440,6 @@ def get_new_unit_form(translation, user, data=None, initial=None):
     if translation.is_source:
         return NewBilingualSourceUnitForm(translation, user, data=data, initial=initial)
     return NewBilingualUnitForm(translation, user, data=data, initial=initial)
-
-
-class CachedQueryIterator(ModelChoiceIterator):
-    """
-    Choice iterator for cached querysets.
-
-    It assumes the queryset is reused and avoids using an iterator or counting queries.
-    """
-
-    def __iter__(self):
-        if self.field.empty_label is not None:
-            yield ("", self.field.empty_label)
-        for obj in self.queryset:
-            yield self.choice(obj)
-
-    def __len__(self):
-        return len(self.queryset) + (1 if self.field.empty_label is not None else 0)
-
-    def __bool__(self):
-        return self.field.empty_label is not None or bool(self.queryset)
-
-
-class CachedModelMultipleChoiceField(forms.ModelMultipleChoiceField):
-    iterator = CachedQueryIterator
-
-    def _get_queryset(self):
-        return self._queryset
-
-    def _set_queryset(self, queryset):
-        self._queryset = queryset
-        self.widget.choices = self.choices
-
-    queryset = property(_get_queryset, _set_queryset)
 
 
 class BulkEditForm(forms.Form):

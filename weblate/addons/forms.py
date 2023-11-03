@@ -15,7 +15,8 @@ from lxml.cssselect import CSSSelector
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.trans.forms import AutoForm, BulkEditForm
-from weblate.utils.forms import ContextDiv
+from weblate.trans.models import Translation
+from weblate.utils.forms import CachedModelChoiceField, ContextDiv
 from weblate.utils.render import validate_render, validate_render_component
 from weblate.utils.validators import validate_filename, validate_re
 
@@ -528,12 +529,22 @@ class CDNJSForm(BaseAddonForm):
         return self.cleaned_data["css_selector"]
 
 
+class TranslationLanguageChoiceField(CachedModelChoiceField):
+    def label_from_instance(self, obj):
+        return str(obj.language)
+
+
 class PseudolocaleAddonForm(BaseAddonForm):
-    source = forms.ChoiceField(label=gettext_lazy("Source strings"), required=True)
-    target = forms.ChoiceField(
+    source = TranslationLanguageChoiceField(
+        label=gettext_lazy("Source strings"),
+        required=True,
+        queryset=Translation.objects.none(),
+    )
+    target = TranslationLanguageChoiceField(
         label=gettext_lazy("Target translation"),
         required=True,
         help_text=gettext_lazy("All strings in this translation will be overwritten"),
+        queryset=Translation.objects.none(),
     )
     prefix = forms.CharField(
         label=gettext_lazy("Fixed string prefix"),
@@ -571,12 +582,9 @@ class PseudolocaleAddonForm(BaseAddonForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        choices = [
-            (translation.pk, str(translation.language))
-            for translation in self._addon.instance.component.translation_set.all()
-        ]
-        self.fields["source"].choices = choices
-        self.fields["target"].choices = choices
+        queryset = self._addon.instance.component.translation_set.all()
+        self.fields["source"].queryset = queryset
+        self.fields["target"].queryset = queryset
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field("source"),
