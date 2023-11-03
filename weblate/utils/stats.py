@@ -75,18 +75,11 @@ SOURCE_KEYS = frozenset(
     )
 )
 
-
-def aggregate(stats, item, stats_obj):
-    if item == "stats_timestamp":
-        stats[item] = max(stats[item], getattr(stats_obj, item))
-    elif item == "last_changed":
-        last = stats["last_changed"]
-        if stats_obj.last_changed and (not last or last < stats_obj.last_changed):
-            stats["last_changed"] = stats_obj.last_changed
-            stats["last_author"] = stats_obj.last_author
-    elif item != "last_author":
-        # The last_author is calculated with last_changed
-        stats[item] += getattr(stats_obj, item)
+SOURCE_MAP = {
+    "source_chars": "all_chars",
+    "source_words": "all_words",
+    "source_strings": "all",
+}
 
 
 def zero_stats(keys):
@@ -202,14 +195,32 @@ class BaseStats:
     def __getattr__(self, name: str):
         if name.startswith("_"):
             raise AttributeError(f"Invalid stats for {self}: {name}")
+
+        # Load from cache if not already done
         if self._data is None:
             self._data = self.load()
+
+        # Calculate virtual percents
         if name.endswith("_percent"):
             return self.calculate_percent(name)
+
         if name == "stats_timestamp":
             # TODO: Drop in Weblate 5.3
             # Migration path for legacy stat data
             return self._data.get(name, 0)
+
+        # Handle source_* keys as virtual on translation level for easier aggregation
+        if name.startswith("source_") and name not in self._data:
+            # Map to matching all value
+            origin_name = SOURCE_MAP[name]
+            # Recursively call getattr, this might calculate data
+            origin_value = getattr(self, origin_name)
+            # Check again that original name is not present
+            if name not in self._data:
+                # Map to the matching all value
+                return origin_value
+
+        # Calculate missing data
         if name not in self._data:
             was_pending = self._pending_save
             self._pending_save = True
@@ -219,6 +230,7 @@ class BaseStats:
             if not was_pending:
                 self.save()
                 self._pending_save = False
+
         return self._data[name]
 
     def calculate_by_name(self, name: str):
@@ -631,6 +643,7 @@ class TranslationStats(BaseStats):
 
 class AggregatingStats(BaseStats):
     basic_keys = SOURCE_KEYS
+    sum_source_keys = True
 
     @cached_property
     def object_set(self):
@@ -640,41 +653,45 @@ class AggregatingStats(BaseStats):
     def category_set(self):
         return []
 
-    def calculate_source(self, stats_obj, stats):
-        """
-        Sums strings/words/chars in all translations.
-
-        This pretty much matches what aggegate does.
-        """
-        stats["source_chars"] += stats_obj.all_chars
-        stats["source_words"] += stats_obj.all_words
-        stats["source_strings"] += stats_obj.all
-
-    def prefetch_source(self):
-        """Fetches source statistics data."""
+    def calculate_source(self, stats: dict):
         return
 
     def _calculate_basic(self):
         stats = zero_stats(self.basic_keys)
-        for obj in self.object_set:
-            stats_obj = obj.stats
-            # Aggregate non source_* values
-            for item in BASIC_KEYS:
-                aggregate(stats, item, stats_obj)
-            # source_* values have specific implementations
-            self.calculate_source(stats_obj, stats)
-        for category in self.category_set:
-            stats_obj = category.stats
-            # This does full aggegation as categories have proper source_* values
-            for item in self.basic_keys:
-                aggregate(stats, item, stats_obj)
+        object_stats = [obj.stats for obj in self.object_set]
+        category_stats = [cat.stats for cat in self.category_set]
+        all_stats = object_stats + category_stats
+
+        for item in self.basic_keys:
+            if not self.sum_source_keys and item.startswith("source_"):
+                # Handle in calculate_source when logic for source strings differs
+                continue
+
+            # Extract all values
+            values = (getattr(stats_obj, item) for stats_obj in all_stats)
+
+            if item == "stats_timestamp":
+                stats[item] = max(values, default=stats[item])
+            elif item == "last_changed":
+                # We need to access values twice here
+                values = list(values)
+                stats[item] = max_last_changed = max(
+                    (value for value in values if value is not None), default=None
+                )
+                if max_last_changed is not None:
+                    offset = values.index(max_last_changed)
+                    stats["last_author"] = all_stats[offset].last_author
+            elif item == "last_author":
+                # The last_author is calculated together with last_changed
+                continue
+            else:
+                stats[item] = sum(values)
+
+        if not self.sum_source_keys:
+            self.calculate_source(stats)
 
         for key, value in stats.items():
             self.store(key, value)
-
-        # If source_* was not iterated before, it needs to be handled now
-        with sentry_sdk.start_span(op="stats", description=f"SOURCE {self.cache_key}"):
-            self.prefetch_source()
 
 
 class SingleLanguageStats(AggregatingStats):
@@ -691,10 +708,7 @@ class SingleLanguageStats(AggregatingStats):
 
 
 class ParentAggregatingStats(AggregatingStats):
-    def calculate_source(self, stats_obj, stats):
-        aggregate(stats, "source_chars", stats_obj)
-        aggregate(stats, "source_words", stats_obj)
-        aggregate(stats, "source_strings", stats_obj)
+    sum_source_keys = True
 
 
 class LanguageStats(AggregatingStats):
@@ -704,6 +718,8 @@ class LanguageStats(AggregatingStats):
 
 
 class ComponentStats(AggregatingStats):
+    sum_source_keys = False
+
     @cached_property
     def object_set(self):
         return prefetch_stats(self._object.translation_set.only("id", "component"))
@@ -712,20 +728,14 @@ class ComponentStats(AggregatingStats):
     def has_review(self):
         return self._object.enable_review
 
-    def calculate_source(self, stats_obj, stats):
-        return
-
-    def prefetch_source(self):
-        source_translation = self._object.get_source_translation()
-        if source_translation is None:
-            self.store("source_chars", 0)
-            self.store("source_words", 0)
-            self.store("source_strings", 0)
-        else:
-            stats_obj = source_translation.stats
-            self.store("source_chars", stats_obj.all_chars)
-            self.store("source_words", stats_obj.all_words)
-            self.store("source_strings", stats_obj.all)
+    def calculate_source(self, stats: dict):
+        """Fetch source info from source translation."""
+        for obj in self.object_set:
+            if obj.is_source:
+                stats_obj = obj.stats
+                stats["source_chars"] = stats_obj.all_chars
+                stats["source_words"] = stats_obj.all_words
+                stats["source_strings"] = stats_obj.all
 
     def get_update_objects(self):
         yield self._object.project.stats
