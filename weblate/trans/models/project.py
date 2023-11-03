@@ -7,6 +7,7 @@ from __future__ import annotations
 import os
 import os.path
 from datetime import datetime
+from operator import itemgetter
 
 from django.conf import settings
 from django.core.cache import cache
@@ -588,7 +589,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
                         "size": entry.stat().st_size // 1024,
                     }
                 )
-        return sorted(result, key=lambda item: item["timestamp"], reverse=True)
+        return sorted(result, key=itemgetter("timestamp"), reverse=True)
 
     @cached_property
     def enable_review(self):

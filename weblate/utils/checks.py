@@ -11,6 +11,7 @@ import time
 from collections import defaultdict
 from datetime import datetime, timedelta
 from itertools import chain
+from operator import itemgetter
 from typing import NamedTuple
 
 from celery.exceptions import TimeoutError
@@ -500,7 +501,7 @@ def download_version_info():
         if not info:
             continue
         result.append(Release(version, parse(info[0]["upload_time_iso_8601"])))
-    return sorted(result, key=lambda x: x[1], reverse=True)
+    return sorted(result, key=itemgetter(1), reverse=True)
 
 
 def flush_version_cache():

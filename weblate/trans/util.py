@@ -7,6 +7,7 @@ from __future__ import annotations
 import locale
 import os
 import sys
+from operator import itemgetter
 from types import GeneratorType
 from typing import Any
 from urllib.parse import urlparse
@@ -250,7 +251,7 @@ def sort_unicode(choices, key):
 
 def sort_choices(choices):
     """Sort choices alphabetically."""
-    return sort_unicode(choices, lambda tup: tup[1])
+    return sort_unicode(choices, itemgetter(1))
 
 
 def sort_objects(objects):
