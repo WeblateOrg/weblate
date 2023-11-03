@@ -336,7 +336,7 @@ class SSHWrapper:
             try:
                 with open(ssh_file(CONFIG), "x") as handle:
                     handle.write(
-                        "# SSH configuration for customising SSH client in Weblate"
+                        "# SSH configuration for customising SSH client in Weblate\n"
                     )
             except OSError:
                 pass
