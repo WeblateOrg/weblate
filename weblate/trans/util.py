@@ -47,12 +47,12 @@ def is_plural(text):
     return text.find(PLURAL_SEPARATOR) != -1
 
 
-def split_plural(text):
+def split_plural(text: str) -> list[str]:
     return text.split(PLURAL_SEPARATOR)
 
 
-def join_plural(text):
-    return PLURAL_SEPARATOR.join(text)
+def join_plural(plurals: list[str]) -> str:
+    return PLURAL_SEPARATOR.join(plurals)
 
 
 def get_string(text):
