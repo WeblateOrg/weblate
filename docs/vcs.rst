@@ -109,6 +109,43 @@ The added keys with fingerprints are shown in the confirmation message:
 
 .. image:: /screenshots/ssh-keys-added.webp
 
+Connecting to legacy SSH servers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Recent OpenSSH releases (for example the one used in Weblate Docker container)
+disable RSA signatures using the SHA-1 hash algorithm by default. This change
+has been made as the SHA-1 hash algorithm is cryptographically broken, and it
+is possible to create chosen-prefix hash collisions for <USD$50K.
+
+For most users, this change should be invisible and there is no need to replace
+ssh-rsa keys. OpenSSH has supported RFC8332 RSA/SHA-256/512 signatures since
+release 7.2 and existing ssh-rsa keys will automatically use the stronger
+algorithm where possible.
+
+Incompatibility is more likely when connecting to older SSH implementations
+that have not been upgraded or have not closely tracked improvements in the SSH
+protocol. The SSH connection to such server will fail with:
+
+.. code-block:: text
+
+   no matching host key type found. Their offer: ssh-rsa
+
+For these cases, it may be necessary to selectively re-enable RSA/SHA1 to allow
+connection and/or user authentication via the HostkeyAlgorithms and
+PubkeyAcceptedAlgorithms options. For example, the following stanza in
+:file:`DATA_DIR/ssh/config` will enable RSA/SHA1 for host and user
+authentication for a single destination host:
+
+.. code-block:: text
+
+   Host old-host
+      HostkeyAlgorithms +ssh-rsa
+      PubkeyAcceptedAlgorithms +ssh-rsa
+
+We recommend enabling RSA/SHA1 only as a stopgap measure until legacy
+implementations can be upgraded or reconfigured with another key type (such as
+ECDSA or Ed25519).
+
 .. _vcs-repos-github:
 
 GitHub repositories
