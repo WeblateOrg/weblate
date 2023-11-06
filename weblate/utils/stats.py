@@ -722,7 +722,9 @@ class ComponentStats(AggregatingStats):
 
     @cached_property
     def object_set(self):
-        return prefetch_stats(self._object.translation_set.only("id", "component"))
+        return prefetch_stats(
+            self._object.translation_set.only("id", "component", "language")
+        )
 
     @cached_property
     def has_review(self):
