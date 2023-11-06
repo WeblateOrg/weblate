@@ -18,7 +18,7 @@ class CategoriesTest(ViewTestCase):
         super().setUp()
         self.project.add_user(self.user, "Administration")
 
-    def test_add_move(self):
+    def add_and_organize(self):
         response = self.client.post(
             reverse("add-category", kwargs={"path": self.project.get_url_path()}),
             {"name": "Test category", "slug": "test-cat"},
@@ -44,6 +44,10 @@ class CategoriesTest(ViewTestCase):
         self.assertRedirects(response, new_component_url)
         self.client.get(category_url)
         self.assertNotContains(response, "Nothing to list here.")
+        return category
+
+    def test_add_move(self):
+        category = self.add_and_organize()
 
         # Category/language view
         response = self.client.get(
@@ -193,3 +197,25 @@ class CategoriesTest(ViewTestCase):
             },
         )
         self.assertEqual(response.status_code, 302)
+
+    def test_move_linked_component(self):
+        project = Project.objects.create(name="other", slug="other")
+        self.component.links.add(project)
+
+        response = self.client.post(
+            reverse("add-category", kwargs={"path": self.project.get_url_path()}),
+            {"name": "Test category", "slug": "test-cat"},
+            follow=True,
+        )
+        category_url = reverse(
+            "show", kwargs={"path": [*self.project.get_url_path(), "test-cat"]}
+        )
+        category = Category.objects.get()
+        self.assertRedirects(response, category_url)
+        self.assertContains(response, "Nothing to list here.")
+        response = self.client.post(
+            reverse("move", kwargs=self.kw_component),
+            {"project": self.project.pk, "category": category.pk},
+            follow=True,
+        )
+        self.assertContains(response, "Categorized component can not be shared.")

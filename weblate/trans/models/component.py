@@ -2605,8 +2605,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     {"category": gettext("Category does not belong to this project.")}
                 )
             if self.pk and self.links.exists():
-                message = gettext("Categorized component can not be shared.")
-                raise ValidationError({"category": message, "links": message})
+                raise ValidationError(
+                    gettext("Categorized component can not be shared.")
+                )
 
     def clean_repo_link(self):
         """Validate repository link."""
