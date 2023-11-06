@@ -62,7 +62,9 @@ class DeepLTranslation(MachineTranslation):
 
     # using custom cache key to ensure that formal and informal suggestions are cached separately
     def translate_cache_key(self, source, language, text, threshold):
-        return super().translate_cache_key(source, language, text, threshold) + self.settings.get("formality", "default")
+        return super().translate_cache_key(
+            source, language, text, threshold
+        ) + self.settings.get("formality", "default")
 
     def download_translations(
         self,
