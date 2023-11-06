@@ -197,6 +197,22 @@ class BaseStats:
         if self._data is None:
             self._data = self.load()
 
+    def aggregate_get(self, name: str):
+        """
+        Fast getter for aggregation.
+
+        - expects data is present
+        - expects valid basic keys only
+        - maps source keys
+        """
+        try:
+            return self._data[name]
+        except KeyError:
+            # Handle source_* keys as virtual on translation level for easier aggregation
+            if name.startswith("source_"):
+                return self._data[SOURCE_MAP[name]]
+            raise
+
     def __getattr__(self, name: str):
         if name.startswith("_"):
             raise AttributeError(f"Invalid stats for {self}: {name}")
@@ -211,17 +227,6 @@ class BaseStats:
             # TODO: Drop in Weblate 5.3
             # Migration path for legacy stat data
             return self._data.get(name, 0)
-
-        # Handle source_* keys as virtual on translation level for easier aggregation
-        if name.startswith("source_") and name not in self._data:
-            # Map to matching all value
-            origin_name = SOURCE_MAP[name]
-            # Recursively call getattr, this might calculate data
-            origin_value = getattr(self, origin_name)
-            # Check again that original name is not present
-            if name not in self._data:
-                # Map to the matching all value
-                return origin_value
 
         # Calculate missing data
         if name not in self._data:
@@ -666,13 +671,19 @@ class AggregatingStats(BaseStats):
         category_stats = [cat.stats for cat in self.category_set]
         all_stats = object_stats + category_stats
 
+        # Ensure all objects have data available so that we can use _dict directly
+        for stats_obj in all_stats:
+            if "all" not in stats_obj._data:
+                stats_obj.calculate_basic()
+                stats_obj.save()
+
         for item in self.basic_keys:
             if not self.sum_source_keys and item.startswith("source_"):
                 # Handle in calculate_source when logic for source strings differs
                 continue
 
-            # Extract all values
-            values = (getattr(stats_obj, item) for stats_obj in all_stats)
+            # Extract all values by dedicated getter
+            values = (stats_obj.aggregate_get(item) for stats_obj in all_stats)
 
             if item == "stats_timestamp":
                 stats[item] = max(values, default=stats[item])
