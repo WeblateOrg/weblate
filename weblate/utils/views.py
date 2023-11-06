@@ -348,6 +348,7 @@ def create_component_from_doc(data):
         project=data["project"],
         slug=data["slug"],
         name=data["name"],
+        category=data.get("category", None),
         template=filename,
         filemask=filemask,
     )
@@ -360,6 +361,7 @@ def create_component_from_zip(data):
     # Create fake component (needed to calculate path)
     fake = Component(
         project=data["project"],
+        category=data.get("category", None),
         slug=data["slug"],
         name=data["name"],
     )

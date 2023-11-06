@@ -330,6 +330,44 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "*.html")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_doc_category(self):
+        self.user.is_superuser = True
+        self.user.save()
+        category = self.project.category_set.create(name="Kategorie", slug="cat")
+        with open(TEST_HTML, "rb") as handle, override_settings(
+            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        ):
+            response = self.client.post(
+                reverse("create-component-doc"),
+                {
+                    "docfile": handle,
+                    "category": category.pk,
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "project": self.project.pk,
+                    "source_language": get_default_lang(),
+                },
+            )
+        self.assertContains(response, "*.html")
+
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(
+                reverse("create-component-doc"),
+                {
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "project": self.project.pk,
+                    "category": category.pk,
+                    "vcs": "local",
+                    "repo": "local:",
+                    "discovery": "0",
+                    "source_language": get_default_lang(),
+                },
+            )
+        self.assertContains(response, "Adding new translation")
+        self.assertContains(response, "*.html")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_scratch(self):
         @override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES)
         def create():

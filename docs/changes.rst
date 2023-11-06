@@ -11,6 +11,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Fixed creating component within a category by upload.
+
 **Compatibility**
 
 * :doc:`/formats/apple` exporter now produces UTF-8 encoded files.
