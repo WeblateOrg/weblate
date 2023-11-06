@@ -271,7 +271,6 @@ class BaseStats:
         self._data = {}
 
     def store(self, key, value):
-        self.ensure_loaded()
         if value is None and not key.startswith("last_"):
             self._data[key] = 0
         else:
@@ -289,6 +288,7 @@ class BaseStats:
         with sentry_sdk.start_span(
             op="stats", description=f"CALCULATE {self.cache_key}"
         ):
+            self.ensure_loaded()
             self._calculate_basic()
             # Store timestamp
             self.store("stats_timestamp", monotonic())
@@ -581,6 +581,7 @@ class TranslationStats(BaseStats):
 
     def calculate_checks(self):
         """Prefetch check stats."""
+        self.ensure_loaded()
         allchecks = {check.url_id for check in CHECKS.values()}
         stats = (
             self._object.unit_set.filter(check__dismissed=False)
@@ -609,6 +610,7 @@ class TranslationStats(BaseStats):
         """Prefetch check stats."""
         from weblate.trans.models.label import TRANSLATION_LABELS
 
+        self.ensure_loaded()
         alllabels = set(
             self._object.component.project.label_set.values_list("name", flat=True)
         )
