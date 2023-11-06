@@ -18,9 +18,7 @@ from weblate.trans.forms import (
     AddCategoryForm,
     AnnouncementForm,
     BaseDeleteForm,
-    CategoryMoveForm,
     CategoryRenameForm,
-    ComponentMoveForm,
     ComponentRenameForm,
     ComponentSettingsForm,
     ProjectRenameForm,
@@ -245,15 +243,6 @@ def perform_rename(form_cls, request, obj, perm: str):
     obj.stats.update_parents(old_stats)
 
     return redirect(obj)
-
-
-@login_required
-@require_POST
-def move(request, path):
-    obj = parse_path(request, path, (Component, Category))
-    if isinstance(obj, Category):
-        return perform_rename(CategoryMoveForm, request, obj, "project.edit")
-    return perform_rename(ComponentMoveForm, request, obj, "project.edit")
 
 
 @login_required

@@ -13,6 +13,7 @@ Not yet released.
 **Bug fixes**
 
 * Fixed creating component within a category by upload.
+* Error handling in organizing components and categories.
 
 **Compatibility**
 

@@ -407,7 +407,6 @@ real_patterns = [
     path(
         "rename/<object_path:path>/", weblate.trans.views.settings.rename, name="rename"
     ),
-    path("move/<object_path:path>/", weblate.trans.views.settings.move, name="move"),
     path(
         "category/add/<object_path:path>/",
         weblate.trans.views.settings.add_category,
