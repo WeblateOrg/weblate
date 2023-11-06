@@ -9,6 +9,7 @@ Not yet released.
 
 * Faster stats updates.
 * Better e-mail selection in user profile.
+* :ref:`autofix` are now applied to suggestions as well.
 
 **Bug fixes**
 

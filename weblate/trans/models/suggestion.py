@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from copy import copy
 
 from django.conf import settings
@@ -10,6 +12,7 @@ from django.db.models import Q, Sum
 from django.utils.translation import gettext
 
 from weblate.checks.models import CHECKS, Check
+from weblate.trans.autofixes import fix_target
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
 from weblate.trans.util import join_plural, split_plural
@@ -20,12 +23,22 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 class SuggestionManager(models.Manager):
-    def add(self, unit, target, request, vote=False, user=None):
+    def add(
+        self, unit, target: str | list | tuple, request, vote: bool = False, user=None
+    ):
         """Create new suggestion for this unit."""
         from weblate.auth.models import get_anonymous
 
-        if isinstance(target, (list, tuple)):
-            target = join_plural(target)
+        # Consolidate type
+        if not isinstance(target, (list, tuple)):
+            target = [target]
+
+        # Apply fixups
+        fixups = []
+        if not unit.translation.is_template:
+            target, fixups = fix_target(target, unit)
+
+        target = join_plural(target)
 
         if user is None:
             user = request.user if request else get_anonymous()
@@ -52,6 +65,7 @@ class SuggestionManager(models.Manager):
                 "agent": get_user_agent_raw(request),
             },
         )
+        suggestion.fixups = fixups
 
         # Record in change
         change = unit.generate_change(
@@ -119,6 +133,10 @@ class Suggestion(models.Model, UserDisplayMixin):
         return "suggestion for {} by {}".format(
             self.unit, self.user.username if self.user else "unknown"
         )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fixups = []
 
     @transaction.atomic
     def accept(self, request, permission="suggestion.accept"):

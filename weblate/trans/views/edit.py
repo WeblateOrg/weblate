@@ -66,6 +66,14 @@ from weblate.utils.views import (
 SESSION_SEARCH_CACHE_TTL = 1800
 
 
+def display_fixups(request, fixups):
+    messages.info(
+        request,
+        gettext("Following fixups were applied to translation: %s")
+        % ", ".join(str(f) for f in fixups),
+    )
+
+
 def get_other_units(unit):
     """Returns other units to show while translating."""
     with sentry_sdk.start_span(op="unit.others", description=unit.pk):
@@ -304,6 +312,8 @@ def perform_suggestion(unit, form, request):
     )
     if not result:
         messages.error(request, gettext("Your suggestion already exists!"))
+    elif result.fixups:
+        display_fixups(request, result.fixups)
     return result
 
 
@@ -336,11 +346,7 @@ def perform_translation(unit, form, request):
 
     # Warn about applied fixups
     if unit.fixups:
-        messages.info(
-            request,
-            gettext("Following fixups were applied to translation: %s")
-            % ", ".join(str(f) for f in unit.fixups),
-        )
+        display_fixups(request, unit.fixups)
 
     # No change edit - should we skip to next entry
     if not saved:
