@@ -198,6 +198,27 @@ class CategoriesTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 302)
 
+    def test_move_category(self):
+        category = self.add_and_organize()
+
+        project = Project.objects.create(name="other", slug="other")
+        project.add_user(self.user, "Administration")
+
+        response = self.client.post(
+            reverse("move", kwargs={"path": category.get_url_path()}),
+            {"project": project.pk, "category": ""},
+            follow=True,
+        )
+        self.assertRedirects(
+            response,
+            reverse(
+                "show",
+                kwargs={"path": [*project.get_url_path(), "test-cat"]},
+            ),
+        )
+        self.assertTrue(project.component_set.exists())
+        self.assertFalse(category.component_set.filter(project=self.project).exists())
+
     def test_move_linked_component(self):
         project = Project.objects.create(name="other", slug="other")
         self.component.links.add(project)

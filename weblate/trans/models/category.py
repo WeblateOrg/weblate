@@ -68,17 +68,29 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         return f"{self.category or self.project}/{self.name}"
 
     def save(self, *args, **kwargs):
+        old = None
         if self.id:
             old = Category.objects.get(pk=self.id)
             self.generate_changes(old)
             self.check_rename(old)
         self.create_path()
         super().save(*args, **kwargs)
+        if old and old.project != self.project:
+            self.move_to_project(self.project)
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
         super().__init__(*args, **kwargs)
         self.stats = CategoryStats(self)
+
+    def move_to_project(self, project):
+        """Trigger save with changed project on categories and components."""
+        for category in self.category_set.all():
+            category.project = project
+            category.save()
+        for component in self.component_set.all():
+            component.project = project
+            component.save()
 
     def get_url_path(self):
         parent = self.category or self.project
