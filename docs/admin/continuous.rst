@@ -16,17 +16,40 @@ This is the process:
 
 1. Developers make changes and push them to the VCS repository.
 2. Optionally the translation files are updated, see :ref:`translations-update`.
-3. Weblate pulls changes from the VCS repository, see :ref:`update-vcs`.
-4. Once Weblate detects changes in translations, translators are notified based on their subscription settings.
-5. Translators submit translations using the Weblate web interface, or upload offline changes.
-6. Once the translators are finished, Weblate commits the changes to the local repository (see :ref:`lazy-commit`) and pushes them back if it has permissions to do so (see :ref:`push-changes`).
+3. Weblate pulls changes from the VCS repository, parses translation files and updates its database, see :ref:`update-vcs`.
+4. Translators submit translations using the Weblate web interface, or upload offline changes.
+5. Once the translators are finished, Weblate commits the changes to the local repository (see :ref:`lazy-commit`).
+6. Changes are pushed back to the upstream repository (see :ref:`push-changes`).
 
 .. graphviz::
 
     digraph translations {
-        graph [fontname = "sans-serif", fontsize=10];
-        node [fontname = "sans-serif", fontsize=10, margin=0.1, height=0];
+        graph [fontname = "sans-serif", fontsize=10, ranksep=0.6, newrank=true];
+        node [fontname = "sans-serif", fontsize=10, margin=0.15];
         edge [fontname = "sans-serif", fontsize=10];
+
+         subgraph cluster_codehosting {
+            rank=same;
+            graph [color=lightgrey,
+               label="Upstream code hosting",
+               style=filled
+            ];
+
+            "VCS repository" [shape=cylinder];
+         }
+
+         subgraph cluster_weblate {
+            rank=same;
+            graph [color=lightgrey,
+               label="Weblate",
+               style=filled
+            ];
+
+            repo [label="Weblate repository",
+               shape=cylinder];
+            database [label=Database,
+               shape=cylinder];
+         }
 
         "Developers" [shape=box, fillcolor="#144d3f", fontcolor=white, style=filled];
         "Translators" [shape=box, fillcolor="#144d3f", fontcolor=white, style=filled];
@@ -35,14 +58,20 @@ This is the process:
 
         "VCS repository" -> "VCS repository" [label=" 2. Updating translations ", style=dotted];
 
-        "VCS repository" -> "Weblate" [label=" 3. Pull "];
+        "VCS repository" -> repo [label=" 3. Pull "];
+        repo -> database [label=" 3. Parse translations "];
 
-        "Weblate" -> "Translators" [label=" 4. Notification "];
+        "database" -> repo [label=" 5. Commit changes "];
 
-        "Translators" -> "Weblate" [label=" 5. Translate "];
+        "Translators" -> "database" [label=" 4. Translate "];
 
-        "Weblate" -> "VCS repository" [label=" 6. Push "];
+        "repo" -> "VCS repository" [label=" 6. Push repository "];
     }
+
+.. hint::
+
+   Upstream code hosting is not necessary, you can use Weblate with
+   :ref:`vcs-local` where there is only the repository inside Weblate.
 
 .. _update-vcs:
 

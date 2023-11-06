@@ -16,3 +16,14 @@ other components within it by default. This lightens the burden of repetitive
 and multi version translation. The translation propagation can be disabled per
 :ref:`component` using :ref:`component-allow_translation_propagation` in case
 the translations should diverge.
+
+Repository integration
+----------------------
+
+Weblate is built to integrate with upstream version control repository,
+:doc:`/admin/continuous` describes building blocks and how the changes flow
+between them.
+
+.. seealso::
+
+   :ref:`architecture` describes how Weblate works internally.

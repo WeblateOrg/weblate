@@ -37,6 +37,8 @@ Depending on your setup and experience, choose an appropriate installation metho
 * :doc:`install/kubernetes`
 
 
+.. _architecture:
+
 Architecture overview
 ---------------------
 
