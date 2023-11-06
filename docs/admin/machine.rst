@@ -112,11 +112,13 @@ DeepL
 -----
 
 :Service ID: ``deepl``
-:Configuration: +---------+---------+--+
-                | ``url`` | API URL |  |
-                +---------+---------+--+
-                | ``key`` | API key |  |
-                +---------+---------+--+
+:Configuration: +---------------+-----------+--+
+                | ``url``       | API URL   |  |
+                +---------------+-----------+--+
+                | ``key``       | API key   |  |
+                +---------------+-----------+--+
+                | ``formality`` | Formality |  |
+                +---------------+-----------+--+
 
 DeepL is paid service providing good machine translation for a few languages.
 You need to purchase :guilabel:`DeepL API` subscription or you can use legacy
