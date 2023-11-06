@@ -218,9 +218,7 @@ class DeepLMachineryForm(KeyURLMachineryForm):
         initial="https://api.deepl.com/v2/",
     )
     formality = forms.CharField(
-        label=pgettext_lazy(
-            "Automatic suggestion service configuration", "Formality"
-        ),
+        label=pgettext_lazy("Automatic suggestion service configuration", "Formality"),
         help_text=gettext_lazy(
             "Uses the specified formality if language is not specified as (in)formal"
         ),
