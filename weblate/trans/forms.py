@@ -1950,7 +1950,12 @@ class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
 
     class Meta:
         model = Component
-        fields = ["slug"]
+        fields = ["name", "slug", "project", "category"]
+
+    def __init__(self, request, *args, **kwargs):
+        super().__init__(request, *args, **kwargs)
+        self.fields["project"].queryset = request.user.managed_projects
+        self.fields["category"].queryset = self.instance.project.category_set.all()
 
 
 class CategoryRenameForm(SettingsBaseForm):
@@ -1958,7 +1963,14 @@ class CategoryRenameForm(SettingsBaseForm):
 
     class Meta:
         model = Category
-        fields = ["name", "slug"]
+        fields = ["name", "slug", "project", "category"]
+
+    def __init__(self, request, *args, **kwargs):
+        super().__init__(request, *args, **kwargs)
+        self.fields["project"].queryset = request.user.managed_projects
+        self.fields["category"].queryset = self.instance.project.category_set.exclude(
+            pk=self.instance.pk
+        )
 
 
 class AddCategoryForm(SettingsBaseForm):
@@ -1977,34 +1989,6 @@ class AddCategoryForm(SettingsBaseForm):
         else:
             self.instance.project = self.parent
         super().clean()
-
-
-class CategoryMoveForm(SettingsBaseForm):
-    """Category rename form."""
-
-    class Meta:
-        model = Category
-        fields = ["project", "category"]
-
-    def __init__(self, request, *args, **kwargs):
-        super().__init__(request, *args, **kwargs)
-        self.fields["project"].queryset = request.user.managed_projects
-        self.fields["category"].queryset = self.instance.project.category_set.exclude(
-            pk=self.instance.pk
-        )
-
-
-class ComponentMoveForm(SettingsBaseForm, ComponentDocsMixin):
-    """Component renaming form."""
-
-    class Meta:
-        model = Component
-        fields = ["project", "category"]
-
-    def __init__(self, request, *args, **kwargs):
-        super().__init__(request, *args, **kwargs)
-        self.fields["project"].queryset = request.user.managed_projects
-        self.fields["category"].queryset = self.instance.project.category_set.all()
 
 
 class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin):
@@ -2168,7 +2152,7 @@ class ProjectRenameForm(SettingsBaseForm, ProjectDocsMixin):
 
     class Meta:
         model = Project
-        fields = ["slug"]
+        fields = ["name", "slug"]
 
 
 class BillingMixin(forms.Form):

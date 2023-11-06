@@ -71,18 +71,24 @@ class RenameTest(ViewTestCase):
         )
         response = self.client.post(
             reverse("rename", kwargs={"path": self.project.get_url_path()}),
-            {"slug": "xxxx"},
+            {"project": self.project.pk, "slug": "xxxx", "name": self.project.name},
         )
         self.assertEqual(response.status_code, 403)
 
         response = self.client.post(
-            reverse("rename", kwargs=self.kw_component), {"slug": "xxxx"}
+            reverse("rename", kwargs=self.kw_component),
+            {"project": self.project.pk, "slug": "xxxx", "name": self.component.name},
         )
         self.assertEqual(response.status_code, 403)
 
         other = Project.objects.create(name="Other", slug="other")
         response = self.client.post(
-            reverse("move", kwargs=self.kw_component), {"project": other.pk}
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": other.pk,
+                "slug": self.component.slug,
+                "name": self.component.name,
+            },
         )
         self.assertEqual(response.status_code, 403)
 
@@ -95,7 +101,12 @@ class RenameTest(ViewTestCase):
             "Other project",
         )
         response = self.client.post(
-            reverse("move", kwargs=self.kw_component), {"project": other.pk}
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": other.pk,
+                "slug": self.component.slug,
+                "name": self.component.name,
+            },
         )
         self.assertRedirects(response, "/projects/other/test/")
         component = Component.objects.get(pk=self.component.pk)
@@ -108,7 +119,9 @@ class RenameTest(ViewTestCase):
         self.make_manager()
         self.assertContains(self.client.get(url), "#organize")
         response = self.client.post(
-            reverse("rename", kwargs=self.kw_component), {"slug": "xxxx"}, follow=True
+            reverse("rename", kwargs=self.kw_component),
+            {"project": self.project.pk, "slug": "xxxx", "name": self.component.name},
+            follow=True,
         )
         self.assertRedirects(response, f"{url}#organize")
         self.assertContains(response, "due to outstanding issue in its settings")
@@ -118,7 +131,8 @@ class RenameTest(ViewTestCase):
         original_url = self.component.get_absolute_url()
         self.assertContains(self.client.get(original_url), "#organize")
         response = self.client.post(
-            reverse("rename", kwargs=self.kw_component), {"slug": "xxxx"}
+            reverse("rename", kwargs=self.kw_component),
+            {"project": self.project.pk, "slug": "xxxx", "name": self.component.name},
         )
         self.assertRedirects(response, "/projects/test/xxxx/")
         component = Component.objects.get(pk=self.component.pk)
@@ -142,7 +156,7 @@ class RenameTest(ViewTestCase):
         )
         response = self.client.post(
             reverse("rename", kwargs={"path": self.project.get_url_path()}),
-            {"slug": "xxxx"},
+            {"slug": "xxxx", "name": self.project.name},
         )
         self.assertRedirects(response, "/projects/xxxx/")
         project = Project.objects.get(pk=self.project.pk)
@@ -162,7 +176,7 @@ class RenameTest(ViewTestCase):
         Project.objects.create(name="Other project", slug="other")
         response = self.client.post(
             reverse("rename", kwargs={"path": self.project.get_url_path()}),
-            {"slug": "other"},
+            {"slug": "other", "name": self.project.name},
             follow=True,
         )
         self.assertContains(response, "Project with this URL slug already exists.")
@@ -172,7 +186,9 @@ class RenameTest(ViewTestCase):
         self.make_manager()
         self.create_link_existing()
         response = self.client.post(
-            reverse("rename", kwargs=self.kw_component), {"slug": "test2"}, follow=True
+            reverse("rename", kwargs=self.kw_component),
+            {"project": self.project.pk, "slug": "test2", "name": self.component.name},
+            follow=True,
         )
         self.assertContains(
             response,

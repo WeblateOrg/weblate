@@ -31,8 +31,13 @@ class CategoriesTest(ViewTestCase):
         self.assertRedirects(response, category_url)
         self.assertContains(response, "Nothing to list here.")
         response = self.client.post(
-            reverse("move", kwargs=self.kw_component),
-            {"project": self.project.pk, "category": category.pk},
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": self.project.pk,
+                "category": category.pk,
+                "slug": self.component.slug,
+                "name": self.component.name,
+            },
             follow=True,
         )
         new_component_url = reverse(
@@ -60,7 +65,12 @@ class CategoriesTest(ViewTestCase):
 
         response = self.client.post(
             reverse("rename", kwargs={"path": category.get_url_path()}),
-            {"name": "Other", "slug": "renamed"},
+            {
+                "name": "Other",
+                "slug": "renamed",
+                "project": category.project.id,
+                "category": "",
+            },
             follow=True,
         )
         self.assertNotContains(response, "Nothing to list here.")
@@ -86,8 +96,13 @@ class CategoriesTest(ViewTestCase):
 
         # Move to other category
         response = self.client.post(
-            reverse("move", kwargs={"path": category.get_url_path()}),
-            {"project": self.project.pk, "category": new_category.pk},
+            reverse("rename", kwargs={"path": category.get_url_path()}),
+            {
+                "project": self.project.pk,
+                "category": new_category.pk,
+                "name": category.name,
+                "slug": category.slug,
+            },
             follow=True,
         )
         self.assertContains(response, "Test category")
@@ -109,8 +124,13 @@ class CategoriesTest(ViewTestCase):
         )
         # Move to other project
         response = self.client.post(
-            reverse("move", kwargs={"path": category.get_url_path()}),
-            {"project": project.pk, "category": ""},
+            reverse("rename", kwargs={"path": category.get_url_path()}),
+            {
+                "project": project.pk,
+                "category": "",
+                "name": category.name,
+                "slug": category.slug,
+            },
             follow=True,
         )
         self.assertContains(response, "Test category")
@@ -120,8 +140,13 @@ class CategoriesTest(ViewTestCase):
         project = Project.objects.create(name="other", slug="other")
         category = Category.objects.create(name="other", slug="oc", project=project)
         response = self.client.post(
-            reverse("move", kwargs=self.kw_component),
-            {"project": self.project.pk, "category": category.pk},
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": self.project.pk,
+                "category": category.pk,
+                "slug": self.component.slug,
+                "name": self.component.name,
+            },
             follow=True,
         )
         self.assertContains(
@@ -205,8 +230,13 @@ class CategoriesTest(ViewTestCase):
         project.add_user(self.user, "Administration")
 
         response = self.client.post(
-            reverse("move", kwargs={"path": category.get_url_path()}),
-            {"project": project.pk, "category": ""},
+            reverse("rename", kwargs={"path": category.get_url_path()}),
+            {
+                "project": project.pk,
+                "category": "",
+                "name": category.name,
+                "slug": category.slug,
+            },
             follow=True,
         )
         self.assertRedirects(
@@ -235,8 +265,13 @@ class CategoriesTest(ViewTestCase):
         self.assertRedirects(response, category_url)
         self.assertContains(response, "Nothing to list here.")
         response = self.client.post(
-            reverse("move", kwargs=self.kw_component),
-            {"project": self.project.pk, "category": category.pk},
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": self.project.pk,
+                "category": category.pk,
+                "slug": self.component.slug,
+                "name": self.component.name,
+            },
             follow=True,
         )
         self.assertContains(response, "Categorized component can not be shared.")

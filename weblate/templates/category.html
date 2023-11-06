@@ -191,36 +191,18 @@
 {% if rename_form %}
 <form method="post" action="{% url 'rename' path=object.get_url_path %}">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Rename category" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Organize category" %}</h4></div>
 <div class="panel-body">
 <div class="form-group">
   <div class="alert alert-warning" role="alert">
-    {% trans "Renaming the category will also change URLs for all its components." %}
+    {% trans "Moving or renaming the category will also change URLs for all its components." %}
     {% trans "Users will need to update their bookmarks, references in cloned repositories, or API calls!" %}
   </div>
 </div>
 {% crispy rename_form %}
 </div>
 <div class="panel-footer">
-<input type="submit" class="btn btn-warning" value="{% trans "Rename" %}">
-</div>
-</div>
-</form>
-
-<form method="post" action="{% url 'move' path=object.get_url_path %}">
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Move category" %}</h4></div>
-<div class="panel-body">
-<div class="form-group">
-  <div class="alert alert-warning" role="alert">
-    {% trans "Moving the category will also change URLs for all its components." %}
-    {% trans "Users will need to update their bookmarks, references in cloned repositories, or API calls!" %}
-  </div>
-</div>
-{% crispy move_form %}
-</div>
-<div class="panel-footer">
-<input type="submit" class="btn btn-warning" value="{% trans "Move" %}">
+<input type="submit" class="btn btn-warning" value="{% trans "Organize" %}">
 </div>
 </div>
 </form>
