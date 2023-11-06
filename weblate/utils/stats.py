@@ -192,13 +192,16 @@ class BaseStats:
     def cache_key(self):
         return f"stats-{self._object.cache_key}"
 
+    def ensure_loaded(self):
+        """Load from cache if not already done."""
+        if self._data is None:
+            self._data = self.load()
+
     def __getattr__(self, name: str):
         if name.startswith("_"):
             raise AttributeError(f"Invalid stats for {self}: {name}")
 
-        # Load from cache if not already done
-        if self._data is None:
-            self._data = self.load()
+        self.ensure_loaded()
 
         # Calculate virtual percents
         if name.endswith("_percent"):
@@ -268,8 +271,7 @@ class BaseStats:
         self._data = {}
 
     def store(self, key, value):
-        if self._data is None:
-            self._data = self.load()
+        self.ensure_loaded()
         if value is None and not key.startswith("last_"):
             self._data[key] = 0
         else:
