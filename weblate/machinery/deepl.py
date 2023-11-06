@@ -24,13 +24,6 @@ class DeepLTranslation(MachineTranslation):
     hightlight_syntax = True
     settings_form = DeepLMachineryForm
 
-    def __init__(self, settings: dict[str, str]):
-        super().__init__(settings)
-        self.formality = (
-            self.settings["formality"] if "formality" in self.settings else "default"
-        )
-        self.mtid = self.mtid + "_" + self.formality
-
     def map_language_code(self, code):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-").upper()
@@ -66,6 +59,10 @@ class DeepLTranslation(MachineTranslation):
     def is_supported(self, source, language):
         """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
+
+    # using custom cache key to ensure that formal and informal suggestions are cached separately
+    def translate_cache_key(self, source, language, text, threshold):
+        return super().translate_cache_key(source, language, text, threshold) + self.settings.get("formality", "default")
 
     def download_translations(
         self,
