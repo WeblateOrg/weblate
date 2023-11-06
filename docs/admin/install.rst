@@ -163,6 +163,7 @@ distribution packages, full list is available in :file:`requirements.txt`.
 
    * Celery, a dependency of Weblate, is not currently compatible with Python 3.12, see https://github.com/celery/kombu/issues/1804.
    * Python 3.12 performs slower than previous versions in some situations, see https://github.com/python/cpython/issues/109049.
+   * :ref:`winrc` might not work properly in Python 3.12, see https://github.com/translate/translate/issues/5071.
 
 Most notable dependencies:
 
