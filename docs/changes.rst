@@ -8,6 +8,7 @@ Not yet released.
 **Improvements**
 
 * Faster stats updates.
+* Better e-mail selection in user profile.
 
 **Bug fixes**
 

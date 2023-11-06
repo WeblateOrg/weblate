@@ -110,6 +110,12 @@
   <div class="panel-body">
 {% crispy userform %}
 {% crispy commitform %}
+  <p class="help-block">
+    {% if has_email_auth %}
+      <a href="" class="link-post pull-right flip btn btn-link" data-href="{% url 'social:begin' 'email' %}?next={% url 'profile' %}%23account">{% translate "Verify new e-mail address" %}</a>
+    {% endif %}
+    {% trans "The e-mail address can be chosen from verified addresses only." %}
+  </p>
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
