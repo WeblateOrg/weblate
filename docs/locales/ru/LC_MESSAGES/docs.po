@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-10-24 16:13+0200\n"
-"PO-Revision-Date: 2023-10-30 15:46+0000\n"
-"Last-Translator: 0que <0que@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2023-11-07 23:42+0000\n"
+"Last-Translator: Noise Maker <vh0d@disroot.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -38343,13 +38343,6 @@ msgstr ""
 "quality-gateway`."
 
 #: ../../devel/integration.rst:127
-#, fuzzy
-#| msgid ""
-#| "Bilingual formats typically extract strings from the source code using "
-#| "some tooling. Follow your localization framework documentation for "
-#| "instructions how to do that. Once the strings are extracted, there might "
-#| "be an additional step needed to update existing translations, see :ref:"
-#| "`updating-target-files`."
 msgid ""
 "Bilingual formats typically extract strings from the source code using some "
 "tooling (like :program:`xgettext` or :program:`intltool-update`). Follow "
@@ -38358,20 +38351,21 @@ msgid ""
 "update existing translations, see :ref:`updating-target-files`."
 msgstr ""
 "Двуязычные форматы обычно извлекают строки из исходного кода с помощью "
-"некоторых инструментов. Следуйте инструкциям по вашей платформе локализации, "
-"как это сделать. После извлечения строк может потребоваться дополнительный "
-"шаг для обновления существующих переводов, см. :ref:`updating-target-files`."
+"какого-либо инструментов. Обратитесь к документации вашего фреймворка "
+"локализации для получения инструкций о том, как это сделать. После получения "
+"строк может потребоваться дополнительный шаг для обновления существующих "
+"переводов, см. :ref:`updating-target-files`."
 
 #: ../../devel/integration.rst:135
-#, fuzzy
 msgid ""
 "Automating string extraction is presently out of scope for Weblate. It "
 "typically involves executing untrusted code what makes it more suitable for "
 "a generic continuous integration than localization-specific platform."
 msgstr ""
-"Автоизвлечение строк не относится к задачам Weblate. Обычно оно "
-"подразумевает выполнение недоверенного кода, так что оно лучше подходит для "
-"непрервыной интеграции (CI), чем для платформы локализации."
+"Автоматизация извлечения строк в настоящее время не входит в задачи Weblate. "
+"Как правило, она связана с выполнением недоверенного кода, что делает ее "
+"более подходящей для общей платформы непрерывной интеграции, а не для "
+"платформы, ориентированной на локализацию."
 
 #: ../../devel/integration.rst:139
 msgid ""
@@ -38447,15 +38441,14 @@ msgstr ""
 "документацию, а JSON полезен для дальнейшей обработки данных."
 
 #: ../../devel/reporting.rst:16
-#, fuzzy
 msgid ""
 "You can choose predefined periods or enter a custom date range. In that "
 "case, the contributions are counted at midnight – that means that it "
 "includes the starting date and excludes the ending date."
 msgstr ""
 "Вы можете выбрать один из имеющихся периодов или задать свой. В таком "
-"случае, переводы подсчитываются ночью, включая начальную дату и отсекая "
-"конечную."
+"случае, переводы считаются в полночь, то есть включает дату начала и "
+"исключает дату окончания."
 
 #: ../../devel/reporting.rst:21
 msgid "Number of words"
@@ -46909,16 +46902,15 @@ msgid "Downloading components, categories or projects"
 msgstr "Загрузка компонентов, категорий или проектов"
 
 #: ../../user/files.rst:59
-#, fuzzy
 msgid ""
 "Translation files for a component, category or project can be downloaded at "
 "once via the :guilabel:`Files` menu. The download is always served as a ZIP "
 "file, and you can choose original or converted formats similarly as in :ref:"
 "`download`."
 msgstr ""
-"Файлы перевода компонента, категории или проекта могут быть скачаны вместе "
-"через меню :guilabel:`Files`. Файлы всегда скачиваются в виде ZIP-архива; вы "
-"можете выбрать оригинальные или преобразованные форматы так же, как и в "
+"Файлы перевода компонента, категории или проекта могут быть загружены вместе "
+"через меню :guilabel:`Files`. Загрузка всегда выполняется в виде ZIP-файла; "
+"вы можете выбрать оригинальные или преобразованные форматы так же, как и в "
 ":ref:`download`."
 
 #: ../../user/files.rst:66
@@ -47085,18 +47077,12 @@ msgid "Change only untranslated strings (``ignore``)"
 msgstr "Изменять только непереведённые строки (``ignore``)"
 
 #: ../../user/files.rst:144
-#, fuzzy
-#| msgid ""
-#| "Defines how to deal with uploaded strings which are already translated."
 msgid "Ignore uploaded translations which are already translated."
-msgstr ""
-"Определяет, что делать с загружаемыми строками, которые уже переведены."
+msgstr "Игнорировать загруженные переводы, которые уже переведены."
 
 #: ../../user/files.rst:145
-#, fuzzy
-#| msgid "Add as translation (``translate``)"
 msgid "Change translated strings (``replace-translated``)"
-msgstr "Добавить как перевод (``translate``)"
+msgstr "Изменение переведенных строк (``replace-translated``)"
 
 #: ../../user/files.rst:146
 msgid ""
@@ -47109,11 +47095,10 @@ msgid "Change translated and approved strings (``replace-approved``)"
 msgstr "Изменять переведённые и одобренные строки (``replace-approved``)"
 
 #: ../../user/files.rst:148
-#, fuzzy
-#| msgid "*Reviewer* can edit all translations (including approved ones)."
 msgid ""
 "Replace existing translations with uploaded ones, including approved ones."
-msgstr "*Рецензент* может редактировать все переводы (включая одобренные)."
+msgstr ""
+"Заменить существующие переводы на загруженные, в том числе утвержденные."
 
 #: ../../user/files.rst:153
 msgid "Strings needing edit"
@@ -49070,12 +49055,10 @@ msgstr ""
 "переводы будут доступны на одной вкладке на странице перевода."
 
 #: ../../user/translating.rst:336
-#, fuzzy
-#| msgid "Built-in translation memory, see :ref:`translation-memory`."
 msgid ""
 "You can also perform a concordance search on the :ref:`translation-memory`."
 msgstr ""
-"Встроенная память переводов, смотрите раздел :ref:`translation-memory`."
+"Вы также можете выполнить согласованный поиск по :ref:`translation-memory`."
 
 #: ../../user/translating.rst:340
 msgid ""
@@ -49317,19 +49300,28 @@ msgid "Accessing repositories from Hosted Weblate"
 msgstr "Доступ к репозиториям из Hosted Weblate"
 
 #: ../../vcs.rst:27
+#, fuzzy
 msgid ""
 "For Hosted Weblate, there is a dedicated push user registered on GitHub, "
 "Bitbucket, Codeberg, and GitLab (with the username :guilabel:`weblate`, e-"
 "mail ``hosted@weblate.org``, and a name or profile description :guilabel:"
 "`Weblate push user`)."
 msgstr ""
+"Для Hosted Weblate на GitHub, Bitbucket, Codeberg и GitLab зарегистрирован "
+"специальный push-пользователь (с именем пользователя :guilabel:`weblate`, e-"
+"mail ``hosted@weblate.org`` и именем или описанием профиля :guilabel:`"
+"Weblate push user`)."
 
 #: ../../vcs.rst:33
+#, fuzzy
 msgid ""
 "There can be more Weblate users on the platforms, designated for other "
 "Weblate instances. Searching by e-mail ``hosted@weblate.org`` is recommended "
 "to find the correct user for Hosted Weblate."
 msgstr ""
+"На платформах может быть больше пользователей Weblate, назначенных для "
+"других экземпляров Weblate. Для поиска нужного пользователя для Hosted "
+"Weblate рекомендуется использовать поиск по e-mail ``hosted@weblate.org''."
 
 #: ../../vcs.rst:37
 #, fuzzy
@@ -49349,15 +49341,11 @@ msgid ""
 "settings, this happens immediately, or requires confirmation on the Weblate "
 "side."
 msgstr ""
-"Для Hosted Weblate существует выделенный пользователь для отправки "
-"изменений, зарегистрированный на GitHub, Bitbucket, Codeberg и GitLab (с "
-"именем пользователя :guilabel:`weblate`, электронной почтой ``hosted@weblate."
-"org`` и полным именем :guilabel:`Weblate push user`). Вам необходимо "
-"добавить этого пользователя в качестве сотрудника и дать ему в вашем "
-"репозитории соответствующее права (для клонирования будет достаточно только "
-"чтения, а отправка изменений потребует права на запись). В зависимости от "
-"конкретного сервиса и настроек вашей организации, это произойдёт или сразу, "
-"или потребует подтверждения со стороны Weblate."
+"Вам необходимо добавить этого пользователя в качестве соавтора и "
+"предоставить ему соответствующие права доступа к вашему репозиторию (для "
+"клонирования подходит режим \"только чтение\", для \"распространения\" - "
+"\"запись\"). В зависимости от сервиса и настроек вашей организации это "
+"происходит сразу или требует подтверждения со стороны Weblate."
 
 #: ../../vcs.rst:42
 msgid ""
@@ -50607,56 +50595,74 @@ msgid "Workflow customization"
 msgstr "Настройка рабочего процесса"
 
 #: ../../workflows.rst:18
+#, fuzzy
 msgid ""
 "In addition to configuration at :ref:`project` and :ref:`component` (as :ref:"
 "`project-translation_review`, :ref:`component-enable_suggestions`, :ref:"
 "`component-suggestion_voting`, and :ref:`component-suggestion_autoaccept`), "
 "the translation workflow can be customized per language."
 msgstr ""
+"В дополнение к конфигурации на :ref:`project` и :ref:`component` (как :ref"
+":`project-translation_review`,\n"
+" :ref:`component-enable_suggestions`, \n"
+":ref:`component-suggestion_voting`, и \n"
+":ref:`component-suggestion_autoaccept`), рабочий процесс перевода может быть "
+"настроен для каждого языка."
 
 #: ../../workflows.rst:24
+#, fuzzy
 msgid ""
 "Site-wide workflow customization can be done while :ref:`changing-languages`."
 msgstr ""
+"Настройка рабочего процесса в масштабах сайта может быть выполнена при :ref: "
+"`изменении языка`."
 
 #: ../../workflows.rst:26
+#, fuzzy
 msgid ""
 "Per-project customization can be done on the each language page of the "
 "project."
 msgstr ""
+"Настройка для каждого проекта может быть выполнена на странице каждого языка "
+"проекта."
 
 #: ../../workflows.rst:28
+#, fuzzy
 msgid ""
 "All workflow settings can be overriden, the only limitation is that :ref:"
 "`project-translation_review` needs to be turned on and can only be disabled "
 "in customization."
 msgstr ""
+"Все настройки рабочего процесса могут быть переназначены, единственным "
+"ограничением является, что :ref:`project-translation_review` должен быть "
+"включен и может быть отключен только в настройке."
 
 #: ../../workflows.rst:32
+#, fuzzy
 msgid "The first existing setting applies:"
-msgstr ""
+msgstr "Применяется первая существующая настройка:"
 
 #: ../../workflows.rst:34
-#, fuzzy
-#| msgid "Project language to remove"
 msgid "Project-language customization"
-msgstr "Удаляемый язык проекта"
+msgstr "Настройка языка проекта"
 
 #: ../../workflows.rst:35
-#, fuzzy
-#| msgid "Reset customization"
 msgid "Language customization"
-msgstr "Сбросить настройки"
+msgstr "Настройка языка"
 
 #: ../../workflows.rst:36
 msgid "The project/component settings"
 msgstr "Настройки проекта/компонента"
 
 #: ../../workflows.rst:40
+#, fuzzy
 msgid ""
 "Please be careful when using site-wide override as that applies to all "
 "projects (unless they have own overrides for a given language)."
 msgstr ""
+"Пожалуйста, будьте осторожны при использовании переменных для всего сайта, "
+"так как они применяются ко всем проектам (если у них нет собственных "
+"переменных для данного языка)."
 
 #: ../../workflows.rst:45
 msgid "Translation access"
