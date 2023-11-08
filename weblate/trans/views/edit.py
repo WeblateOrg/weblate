@@ -11,6 +11,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.db.models import Case, IntegerField, Q, Value, When
 from django.db.models.functions import MD5, Lower
 from django.http import (
@@ -544,6 +545,7 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
     return HttpResponseRedirect(redirect_url)
 
 
+@transaction.atomic
 def translate(request, path):  # noqa: C901
     """Generic entry point for translating, suggesting and searching."""
     obj, unit_set, context = parse_path_units(
@@ -750,6 +752,7 @@ def auto_translation(request, path):
 
 @login_required
 @session_ratelimit_post("comment", logout_user=False)
+@transaction.atomic
 def comment(request, pk):
     """Add new comment."""
     scope = unit = get_object_or_404(Unit, pk=pk)
@@ -790,6 +793,7 @@ def comment(request, pk):
 
 @login_required
 @require_POST
+@transaction.atomic
 def delete_comment(request, pk):
     """Delete comment."""
     comment_obj = get_object_or_404(Comment, pk=pk)
@@ -809,6 +813,7 @@ def delete_comment(request, pk):
 
 @login_required
 @require_POST
+@transaction.atomic
 def resolve_comment(request, pk):
     """Resolve comment."""
     comment_obj = get_object_or_404(Comment, pk=pk)
@@ -929,6 +934,7 @@ def load_zen(request, path):
 
 @login_required
 @require_POST
+@transaction.atomic
 def save_zen(request, path):
     """Save handler for zen mode."""
     _obj, unit_set, _context = parse_path_units(
@@ -985,6 +991,7 @@ def save_zen(request, path):
 
 @require_POST
 @login_required
+@transaction.atomic
 def new_unit(request, path):
     translation = parse_path(request, path, (Translation,))
     if not request.user.has_perm("unit.add", translation):
@@ -1003,6 +1010,7 @@ def new_unit(request, path):
 
 @login_required
 @require_POST
+@transaction.atomic
 def delete_unit(request, unit_id):
     """Delete unit."""
     unit = get_object_or_404(Unit, pk=unit_id)
