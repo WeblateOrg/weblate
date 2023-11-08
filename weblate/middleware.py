@@ -154,6 +154,8 @@ class RedirectMiddleware:
         return any(lang.name == name for lang in project.languages)
 
     def process_exception(self, request, exception):
+        from weblate.utils.views import UnsupportedPathObjectError
+
         if not isinstance(exception, Http404):
             return None
 
@@ -168,40 +170,44 @@ class RedirectMiddleware:
         if not path:
             return None
 
-        # Try using last part as a language
-        if len(path) >= 3:
-            language = self.fixup_language(path[-1])
-            if language is not None:
-                path[-1] = language.code
-                language_name = language.name
+        if isinstance(exception, UnsupportedPathObjectError):
+            # Redirect to parent for unsupported locations
+            path = path[:-1]
+        else:
+            # Try using last part as a language
+            if len(path) >= 3:
+                language = self.fixup_language(path[-1])
+                if language is not None:
+                    path[-1] = language.code
+                    language_name = language.name
 
-        project = self.fixup_project(path[0], request)
-        if project is None:
-            return None
-        path[0] = project.slug
+            project = self.fixup_project(path[0], request)
+            if project is None:
+                return None
+            path[0] = project.slug
 
-        if len(path) >= 2:
-            if path[1] != "-":
-                component = self.fixup_component(path[1], request, project)
-                if component is None:
-                    return None
-                path[1] = component.slug
+            if len(path) >= 2:
+                if path[1] != "-":
+                    component = self.fixup_component(path[1], request, project)
+                    if component is None:
+                        return None
+                    path[1] = component.slug
 
-            if language_name:
-                existing_trans = self.check_existing_translations(
-                    language_name, project
-                )
-                if not existing_trans:
-                    messages.add_message(
-                        request,
-                        messages.INFO,
-                        gettext_lazy(
-                            "%s translation is currently not available, "
-                            "but can be added."
-                        )
-                        % language_name,
+                if language_name:
+                    existing_trans = self.check_existing_translations(
+                        language_name, project
                     )
-                    return redirect(reverse("show", kwargs={"path": path[:-1]}))
+                    if not existing_trans:
+                        messages.add_message(
+                            request,
+                            messages.INFO,
+                            gettext_lazy(
+                                "%s translation is currently not available, "
+                                "but can be added."
+                            )
+                            % language_name,
+                        )
+                        return redirect(reverse("show", kwargs={"path": path[:-1]}))
 
         if path != kwargs["path"]:
             kwargs["path"] = path
