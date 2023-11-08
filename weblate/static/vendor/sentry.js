@@ -12189,6 +12189,7 @@ class Span  {
       status: this.status,
       tags: Object.keys(this.tags).length > 0 ? this.tags : undefined,
       trace_id: this.traceId,
+      origin: this.origin,
     });
   }
 
@@ -13629,7 +13630,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":55,"../eventProcessors.js":57,"../scope.js":68,"@sentry/utils":109}],90:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.78.0';
+const SDK_VERSION = '7.79.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
