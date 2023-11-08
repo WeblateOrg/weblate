@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-08 16:05+0000\n"
-"PO-Revision-Date: 2023-11-05 20:40+0000\n"
+"PO-Revision-Date: 2023-11-08 20:22+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -69,6 +69,9 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are commited by Weblate."
 msgstr ""
+"Se utiliza en las confirmaciones de control de versiones. La dirección "
+"permanecerá en el repositorio para siempre una vez que los cambios sean "
+"confirmados por Weblate."
 
 #: weblate/accounts/forms.py:209 weblate/accounts/models.py:597
 msgid "Public e-mail"
@@ -84,20 +87,20 @@ msgid "Component list: %s"
 msgstr "Lista de componentes: %s"
 
 #: weblate/accounts/forms.py:344
-#, fuzzy
-#| msgid "Account removal"
 msgid "Account e-mail"
-msgstr "Eliminación de cuenta"
+msgstr "Correo electrónico de la cuenta"
 
 #: weblate/accounts/forms.py:346
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not not "
 "configured below."
 msgstr ""
+"Se utiliza para las notificaciones por correo electrónico y como correo de "
+"confirmación si no se configura a continuación."
 
 #: weblate/accounts/forms.py:391
 msgid "Subject"
-msgstr "Tema"
+msgstr "Asunto"
 
 #: weblate/accounts/forms.py:394
 msgid "Your name"
@@ -5410,10 +5413,8 @@ msgstr "Corrija los errores en el formulario de registro."
 
 #: weblate/templates/accounts/email.html:17
 #: weblate/templates/accounts/profile.html:115
-#, fuzzy
-#| msgid "Add new e-mail address"
 msgid "Verify new e-mail address"
-msgstr "Añadir una nueva dirección de correo electrónico"
+msgstr "Verificar la nueva dirección de correo electrónico"
 
 #: weblate/templates/accounts/email.html:27
 #: weblate/templates/accounts/register.html:52 weblate/templates/base.html:226
@@ -5616,11 +5617,9 @@ msgid "Notification settings"
 msgstr "Configuración de notificaciones"
 
 #: weblate/templates/accounts/profile.html:117
-#, fuzzy
-#| msgid "Choose commit e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr ""
-"Elige el correo electrónico para la confirmación de las direcciones "
+"La dirección de correo electrónico sólo puede elegirse entre direcciones "
 "verificadas."
 
 #: weblate/templates/accounts/profile.html:126
@@ -7059,39 +7058,29 @@ msgid "Add a category"
 msgstr "Añadir usuario"
 
 #: weblate/templates/category.html:194
-#, fuzzy
-#| msgid "Rename project"
 msgid "Organize category"
-msgstr "Cambiar nombre de proyecto"
+msgstr "Organizar la categoría"
 
 #: weblate/templates/category.html:198
-#, fuzzy
-#| msgid "Renaming the category will also change URLs for all its components."
 msgid ""
 "Moving or renaming the category will also change URLs for all its components."
 msgstr ""
-"El renombrar la categoría también cambiará URLs para todos sus componentes."
+"Al mover o renombrar la categoría también cambiarán las direcciones URL de "
+"todos sus componentes."
 
 #: weblate/templates/category.html:199 weblate/templates/component.html:244
 #: weblate/templates/project.html:261
-#, fuzzy
-#| msgid ""
-#| "Renaming the project will change all URLs, users will have to update "
-#| "bookmarks or references in cloned repositories!"
 msgid ""
 "Users will need to update their bookmarks, references in cloned "
 "repositories, or API calls!"
 msgstr ""
-"Si cambia el nombre del proyecto se modificarán todos los URL. ¡Los usuarios "
-"deberán actualizar sus marcadores o sus referencias en los repositorios "
-"clonados!"
+"¡Los usuarios deberán actualizar sus marcadores, referencias en repositorios "
+"clonados o llamadas API!"
 
 #: weblate/templates/category.html:205 weblate/templates/component.html:250
 #: weblate/templates/project.html:267
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Organize"
-msgstr "Traducción por eliminar"
+msgstr "Organizar"
 
 #: weblate/templates/check_list.html:27
 msgid "Total"
@@ -7228,10 +7217,9 @@ msgid "Organize component"
 msgstr "Crear componente"
 
 #: weblate/templates/component.html:243
-#, fuzzy
-#| msgid "Renaming the component will also change its URLs."
 msgid "Moveing or renaming the component will also change its URLs."
-msgstr "El renombrar el componente también cambiará sus URLs."
+msgstr ""
+"Al mover o renombrar el componente también cambiarán sus direcciones URL."
 
 #: weblate/templates/component.html:267 weblate/templates/project.html:283
 #: weblate/templates/translate.html:354 weblate/templates/translation.html:413
@@ -9297,10 +9285,8 @@ msgstr ""
 "expiración indicada o permanentemente hasta su eliminación."
 
 #: weblate/templates/project.html:256
-#, fuzzy
-#| msgid "Create project"
 msgid "Organize project"
-msgstr "Crear proyecto"
+msgstr "Crear un proyecto"
 
 #: weblate/templates/project.html:260
 msgid "Renaming the project will also change URLs for all its components."
@@ -10012,19 +9998,14 @@ msgstr ""
 "la licencia definida por cada proyecto traducido."
 
 #: weblate/templates/snippets/login-info.html:31
-#, fuzzy
-#| msgid ""
-#| "By registering you agree to use your name and e-mail in version control "
-#| "system commits and provide your contribution under license defined by "
-#| "each translated project."
 msgid ""
 "By registering you agree to use your name in version control system commits "
 "and provide your contribution under license defined by each translated "
 "project."
 msgstr ""
-"Al registrarse, acepta el uso de su nombre y dirección de correo electrónico "
-"en los envíos al control de versiones, y que provee sus contribuciones bajo "
-"la licencia definida por cada proyecto traducido."
+"Al registrarse, acepta utilizar su nombre en las confirmaciones del sistema "
+"de control de las versiones y proporcionar su contribución bajo la licencia "
+"definida por cada proyecto traducido."
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -13196,19 +13177,16 @@ msgstr ""
 
 #: weblate/trans/models/change.py:800
 msgid "Original revision: {}"
-msgstr ""
+msgstr "Revisión original: {}"
 
 #: weblate/trans/models/change.py:804
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgid "New revision: {}"
-msgstr "Personal: {}"
+msgstr "Nueva revisión: {}"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:114
 msgid "Contact maintainers"
-msgstr "Contactar a responsables"
+msgstr "Contacto con los desarrolladores"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:116
@@ -15391,13 +15369,12 @@ msgstr ""
 #: weblate/vcs/ssh.py:227 weblate/vcs/ssh.py:233
 #, python-format
 msgid "Could not fetch public key for a host: %s"
-msgstr "No se pudo recuperar la clave pública del host: %s"
+msgstr "No se ha podido obtener la clave pública de un host: %s"
 
 #: weblate/vcs/ssh.py:237
-#, fuzzy, python-format
-#| msgid "Failed to get host key: %s"
+#, python-format
 msgid "Could not get host key: %s"
-msgstr "No se pudo generar la clave del servidor: %s"
+msgstr "No se ha podido obtener la clave de host: %s"
 
 #: weblate/wladmin/forms.py:15
 msgid "Activation token"
