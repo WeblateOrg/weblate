@@ -186,7 +186,7 @@ function isNumber(n) {
 
 function extractText(cell) {
   var value = cell.getAttribute("data-value");
-  if (typeof value !== "undefined") {
+  if (value !== null) {
     return value;
   }
   return $.text(cell);
