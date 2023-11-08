@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<div class="progress">
+<div class="progress" title="{% trans "Needs attention" %}">
   {% if approved %}
   <div class="progress-bar" role="progressbar" aria-valuenow="{{ approved }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ approved }}%;" title="{% trans "Approved" %}"></div>
   {% endif %}
