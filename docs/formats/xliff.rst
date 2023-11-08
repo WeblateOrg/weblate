@@ -30,7 +30,7 @@ Weblate supports XLIFF in several variants:
     `XML Localization Interchange File Format (XLIFF)`_ specification,
     `XLIFF 1.2 Representation Guide for Gettext PO`_,
     `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,
-    :doc:`tt:formats/xliff`,
+    :doc:`tt:formats/xliff`
 
 .. _XML Localization Interchange File Format (XLIFF): http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html
 .. _XLIFF 1.2 Representation Guide for Gettext PO: https://docs.oasis-open.org/xliff/v1.2/xliff-profile-po/xliff-profile-po-1.2-cd02.html
