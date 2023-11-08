@@ -1842,6 +1842,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 action=Change.ACTION_RESET,
                 component=self,
                 user=request.user if request else self.acting_user,
+                details={
+                    "new_head": self.repository.last_revision,
+                    "previous_head": previous_head,
+                },
             )
             self.delete_alert("MergeFailure")
             self.delete_alert("RepositoryOutdated")
@@ -2136,6 +2140,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     component=self,
                     action=action,
                     user=user,
+                    details={"new_head": new_head, "previous_head": previous_head},
                 )
 
                 # The files have been updated and the signal receivers (addons)

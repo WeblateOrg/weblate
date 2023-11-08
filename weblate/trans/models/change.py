@@ -792,6 +792,19 @@ class Change(models.Model, UserDisplayMixin):
             return "{service_long_name}: {repo_url}, {branch}".format(**details)
         if self.action == self.ACTION_COMMENT and "comment" in details:
             return render_markdown(details["comment"])
+        if self.action in (self.ACTION_RESET, self.ACTION_MERGE, self.ACTION_REBASE):
+            return format_html(
+                "{}<br/><br/>{}<br/>{}",
+                self.get_action_display(),
+                format_html(
+                    escape(gettext("Original revision: {}")),
+                    details.get("previous_head", "N/A"),
+                ),
+                format_html(
+                    escape(gettext("New revision: {}")),
+                    details.get("new_head", "N/A"),
+                ),
+            )
 
         return ""
 
