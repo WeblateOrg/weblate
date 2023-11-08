@@ -75,8 +75,18 @@ class Category(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             self.check_rename(old)
         self.create_path()
         super().save(*args, **kwargs)
-        if old and old.project != self.project:
-            self.move_to_project(self.project)
+        if old:
+            # Update linked repository references
+            if (
+                old.slug != self.slug
+                or old.project != self.project
+                or old.category != self.category
+            ):
+                for component in self.all_components.exclude(component=None):
+                    component.linked_childs.update(repo=component.get_repo_link_url())
+            # Move to a different project
+            if old.project != self.project:
+                self.move_to_project(self.project)
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""

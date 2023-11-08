@@ -275,3 +275,44 @@ class CategoriesTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Categorized component can not be shared.")
+
+    def test_move_category_linked_repo(self):
+        component = self.create_link_existing()
+        self.assertEqual(component.repo, "weblate://test/test")
+
+        category = self.add_and_organize()
+
+        component.refresh_from_db()
+        self.assertEqual(component.repo, "weblate://test/test-cat/test")
+
+        self.client.post(
+            reverse("rename", kwargs={"path": category.get_url_path()}),
+            {
+                "project": self.project.pk,
+                "category": "",
+                "name": category.name,
+                "slug": "test-rename",
+            },
+            follow=True,
+        )
+
+        component.refresh_from_db()
+        self.assertEqual(component.repo, "weblate://test/test-rename/test")
+
+        project = Project.objects.create(name="other", slug="other")
+        project.add_user(self.user, "Administration")
+
+        category = Category.objects.get()
+        self.client.post(
+            reverse("rename", kwargs={"path": category.get_url_path()}),
+            {
+                "project": project.pk,
+                "category": "",
+                "name": category.name,
+                "slug": category.slug,
+            },
+            follow=True,
+        )
+
+        component.refresh_from_db()
+        self.assertEqual(component.repo, "weblate://other/test-rename/test")

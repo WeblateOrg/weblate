@@ -15,6 +15,7 @@ Not yet released.
 
 * Fixed creating component within a category by upload.
 * Error handling in organizing components and categories.
+* Fixed moving categories between projects.
 
 **Compatibility**
 
