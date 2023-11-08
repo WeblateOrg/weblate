@@ -423,99 +423,216 @@ class TranslationStats(BaseStats):
         return self._object.enable_review
 
     def _calculate_basic(self):
+        # Calculate summary for each unit in the database
         base = self._object.unit_set.annotate(
             active_checks_count=Count("check", filter=Q(check__dismissed=False)),
             dismissed_checks_count=Count("check", filter=Q(check__dismissed=True)),
             suggestion_count=Count("suggestion"),
+            label_count=Count("source_unit__labels"),
             comment_count=Count("comment", filter=Q(comment__resolved=False)),
+            num_chars=Length("source"),
         )
-        stats = base.aggregate(
-            all=Count("id"),
-            all_words=Sum("num_words"),
-            all_chars=Sum(Length("source")),
-            fuzzy=conditional_sum(1, state=STATE_FUZZY),
-            fuzzy_words=conditional_sum("num_words", state=STATE_FUZZY),
-            fuzzy_chars=conditional_sum(Length("source"), state=STATE_FUZZY),
-            readonly=conditional_sum(1, state=STATE_READONLY),
-            readonly_words=conditional_sum("num_words", state=STATE_READONLY),
-            readonly_chars=conditional_sum(Length("source"), state=STATE_READONLY),
-            translated=conditional_sum(1, state__gte=STATE_TRANSLATED),
-            translated_words=conditional_sum("num_words", state__gte=STATE_TRANSLATED),
-            translated_chars=conditional_sum(
-                Length("source"), state__gte=STATE_TRANSLATED
-            ),
-            todo=conditional_sum(1, state__lt=STATE_TRANSLATED),
-            todo_words=conditional_sum("num_words", state__lt=STATE_TRANSLATED),
-            todo_chars=conditional_sum(Length("source"), state__lt=STATE_TRANSLATED),
-            nottranslated=conditional_sum(1, state=STATE_EMPTY),
-            nottranslated_words=conditional_sum("num_words", state=STATE_EMPTY),
-            nottranslated_chars=conditional_sum(Length("source"), state=STATE_EMPTY),
-            # Review workflow
-            approved=conditional_sum(1, state=STATE_APPROVED),
-            approved_words=conditional_sum("num_words", state=STATE_APPROVED),
-            approved_chars=conditional_sum(Length("source"), state=STATE_APPROVED),
-            unapproved=conditional_sum(1, state=STATE_TRANSLATED),
-            unapproved_words=conditional_sum("num_words", state=STATE_TRANSLATED),
-            unapproved_chars=conditional_sum(Length("source"), state=STATE_TRANSLATED),
-            # Labels
-            unlabeled=conditional_sum(1, source_unit__labels__isnull=True),
-            unlabeled_words=conditional_sum(
-                "num_words", source_unit__labels__isnull=True
-            ),
-            unlabeled_chars=conditional_sum(
-                Length("source"), source_unit__labels__isnull=True
-            ),
-            # Checks
-            allchecks=conditional_sum(1, active_checks_count__gt=0),
-            allchecks_words=conditional_sum("num_words", active_checks_count__gt=0),
-            allchecks_chars=conditional_sum(
-                Length("source"), active_checks_count__gt=0
-            ),
-            translated_checks=conditional_sum(
-                1, state=STATE_TRANSLATED, active_checks_count__gt=0
-            ),
-            translated_checks_words=conditional_sum(
-                "num_words", state=STATE_TRANSLATED, active_checks_count__gt=0
-            ),
-            translated_checks_chars=conditional_sum(
-                Length("source"), state=STATE_TRANSLATED, active_checks_count__gt=0
-            ),
-            dismissed_checks=conditional_sum(1, dismissed_checks_count__gt=0),
-            dismissed_checks_words=conditional_sum(
-                "num_words", dismissed_checks_count__gt=0
-            ),
-            dismissed_checks_chars=conditional_sum(
-                Length("source"), dismissed_checks_count__gt=0
-            ),
-            # Suggestions
-            suggestions=conditional_sum(1, suggestion_count__gt=0),
-            suggestions_words=conditional_sum("num_words", suggestion_count__gt=0),
-            suggestions_chars=conditional_sum(Length("source"), suggestion_count__gt=0),
-            nosuggestions=conditional_sum(
-                1, state__lt=STATE_TRANSLATED, suggestion_count=0
-            ),
-            nosuggestions_words=conditional_sum(
-                "num_words", state__lt=STATE_TRANSLATED, suggestion_count=0
-            ),
-            nosuggestions_chars=conditional_sum(
-                Length("source"), state__lt=STATE_TRANSLATED, suggestion_count=0
-            ),
-            approved_suggestions=conditional_sum(
-                1, state__gte=STATE_APPROVED, suggestion_count__gt=0
-            ),
-            approved_suggestions_words=conditional_sum(
-                "num_words", state__gte=STATE_APPROVED, suggestion_count__gt=0
-            ),
-            approved_suggestions_chars=conditional_sum(
-                Length("source"), state__gte=STATE_APPROVED, suggestion_count__gt=0
-            ),
-            # Comments
-            comments=conditional_sum(1, comment_count__gt=0),
-            comments_words=conditional_sum("num_words", comment_count__gt=0),
-            comments_chars=conditional_sum(Length("source"), comment_count__gt=0),
-        )
-        for key, value in stats.items():
-            self.store(key, value)
+
+        # Use local variables instead of dict for improved performance
+        stat_all = 0
+        stat_all_words = 0
+        stat_all_chars = 0
+        stat_fuzzy = 0
+        stat_fuzzy_words = 0
+        stat_fuzzy_chars = 0
+        stat_readonly = 0
+        stat_readonly_words = 0
+        stat_readonly_chars = 0
+        stat_translated = 0
+        stat_translated_words = 0
+        stat_translated_chars = 0
+        stat_todo = 0
+        stat_todo_words = 0
+        stat_todo_chars = 0
+        stat_nottranslated = 0
+        stat_nottranslated_words = 0
+        stat_nottranslated_chars = 0
+        # Review workflow
+        stat_approved = 0
+        stat_approved_words = 0
+        stat_approved_chars = 0
+        stat_unapproved = 0
+        stat_unapproved_words = 0
+        stat_unapproved_chars = 0
+        # Labels
+        stat_unlabeled = 0
+        stat_unlabeled_words = 0
+        stat_unlabeled_chars = 0
+        # Checks
+        stat_allchecks = 0
+        stat_allchecks_words = 0
+        stat_allchecks_chars = 0
+        stat_translated_checks = 0
+        stat_translated_checks_words = 0
+        stat_translated_checks_chars = 0
+        stat_dismissed_checks = 0
+        stat_dismissed_checks_words = 0
+        stat_dismissed_checks_chars = 0
+        # Suggestions
+        stat_suggestions = 0
+        stat_suggestions_words = 0
+        stat_suggestions_chars = 0
+        stat_nosuggestions = 0
+        stat_nosuggestions_words = 0
+        stat_nosuggestions_chars = 0
+        stat_approved_suggestions = 0
+        stat_approved_suggestions_words = 0
+        stat_approved_suggestions_chars = 0
+        # Comments
+        stat_comments = 0
+        stat_comments_words = 0
+        stat_comments_chars = 0
+
+        # Sum stats in Python, this is way faster than conditional sums in the database
+        for (
+            num_words,
+            num_chars,
+            state,
+            active_checks_count,
+            dismissed_checks_count,
+            suggestion_count,
+            comment_count,
+            label_count,
+        ) in base.values_list(
+            "num_words",
+            "num_chars",
+            "state",
+            "active_checks_count",
+            "dismissed_checks_count",
+            "suggestion_count",
+            "comment_count",
+            "label_count",
+        ):
+            stat_all += 1
+            stat_all_words += num_words
+            stat_all_chars += num_chars
+
+            if state == STATE_FUZZY:
+                stat_fuzzy += 1
+                stat_fuzzy_words += num_words
+                stat_fuzzy_chars += num_chars
+            elif state == STATE_READONLY:
+                stat_readonly += 1
+                stat_readonly_words += num_words
+                stat_readonly_chars += num_chars
+            elif state == STATE_EMPTY:
+                stat_nottranslated += 1
+                stat_nottranslated_words += num_words
+                stat_nottranslated_chars += num_chars
+            elif state == STATE_APPROVED:
+                stat_approved += 1
+                stat_approved_words += num_words
+                stat_approved_chars += num_chars
+            elif state == STATE_TRANSLATED:
+                stat_unapproved += 1
+                stat_unapproved_words += num_words
+                stat_unapproved_chars += num_chars
+
+            if state >= STATE_TRANSLATED:
+                stat_translated += 1
+                stat_translated_words += num_words
+                stat_translated_chars += num_chars
+            else:
+                stat_todo += 1
+                stat_todo_words += num_words
+                stat_todo_chars += num_chars
+
+            if label_count == 0:
+                stat_unlabeled += 1
+                stat_unlabeled_words += num_words
+                stat_unlabeled_chars += num_chars
+
+            if active_checks_count > 0:
+                stat_allchecks += 1
+                stat_allchecks_words += num_words
+                stat_allchecks_chars += num_chars
+                if state in (STATE_TRANSLATED, STATE_APPROVED):
+                    stat_translated_checks += 1
+                    stat_translated_checks_words += num_words
+                    stat_translated_checks_chars += num_chars
+
+            if dismissed_checks_count > 0:
+                stat_dismissed_checks += 1
+                stat_dismissed_checks_words += num_words
+                stat_dismissed_checks_chars += num_chars
+
+            if suggestion_count > 0:
+                stat_suggestions += 1
+                stat_suggestions_words += num_words
+                stat_suggestions_chars += num_chars
+                if state == STATE_APPROVED:
+                    stat_approved_suggestions += 1
+                    stat_approved_suggestions_words += num_words
+                    stat_approved_suggestions_chars += num_chars
+            else:
+                stat_nosuggestions += 1
+                stat_nosuggestions_words += num_words
+                stat_nosuggestions_chars += num_chars
+
+            if comment_count > 0:
+                stat_comments += 1
+                stat_comments_words += num_words
+                stat_comments_chars += num_chars
+
+        # Store in a cache
+        self.store("all", stat_all)
+        self.store("all_words", stat_all_words)
+        self.store("all_chars", stat_all_chars)
+        self.store("fuzzy", stat_fuzzy)
+        self.store("fuzzy_words", stat_fuzzy_words)
+        self.store("fuzzy_chars", stat_fuzzy_chars)
+        self.store("readonly", stat_readonly)
+        self.store("readonly_words", stat_readonly_words)
+        self.store("readonly_chars", stat_readonly_chars)
+        self.store("translated", stat_translated)
+        self.store("translated_words", stat_translated_words)
+        self.store("translated_chars", stat_translated_chars)
+        self.store("todo", stat_todo)
+        self.store("todo_words", stat_todo_words)
+        self.store("todo_chars", stat_todo_chars)
+        self.store("nottranslated", stat_nottranslated)
+        self.store("nottranslated_words", stat_nottranslated_words)
+        self.store("nottranslated_chars", stat_nottranslated_chars)
+        # Review workflow
+        self.store("approved", stat_approved)
+        self.store("approved_words", stat_approved_words)
+        self.store("approved_chars", stat_approved_chars)
+        self.store("unapproved", stat_unapproved)
+        self.store("unapproved_words", stat_unapproved_words)
+        self.store("unapproved_chars", stat_unapproved_chars)
+        # Labels
+        self.store("unlabeled", stat_unlabeled)
+        self.store("unlabeled_words", stat_unlabeled_words)
+        self.store("unlabeled_chars", stat_unlabeled_chars)
+        # Checks
+        self.store("allchecks", stat_allchecks)
+        self.store("allchecks_words", stat_allchecks_words)
+        self.store("allchecks_chars", stat_allchecks_chars)
+        self.store("translated_checks", stat_translated_checks)
+        self.store("translated_checks_words", stat_translated_checks_words)
+        self.store("translated_checks_chars", stat_translated_checks_chars)
+        self.store("dismissed_checks", stat_dismissed_checks)
+        self.store("dismissed_checks_words", stat_dismissed_checks_words)
+        self.store("dismissed_checks_chars", stat_dismissed_checks_chars)
+        # Suggestions
+        self.store("suggestions", stat_suggestions)
+        self.store("suggestions_words", stat_suggestions_words)
+        self.store("suggestions_chars", stat_suggestions_chars)
+        self.store("nosuggestions", stat_nosuggestions)
+        self.store("nosuggestions_words", stat_nosuggestions_words)
+        self.store("nosuggestions_chars", stat_nosuggestions_chars)
+        self.store("approved_suggestions", stat_approved_suggestions)
+        self.store("approved_suggestions_words", stat_approved_suggestions_words)
+        self.store("approved_suggestions_chars", stat_approved_suggestions_chars)
+        # Comments
+        self.store("comments", stat_comments)
+        self.store("comments_words", stat_comments_words)
+        self.store("comments_chars", stat_comments_chars)
 
         # There is single language here, but it is aggregated at higher levels
         self.store("languages", 1)
