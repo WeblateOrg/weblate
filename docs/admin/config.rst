@@ -797,6 +797,10 @@ List for credentials for GitHub servers.
         },
     }
 
+.. hint::
+
+   Use ``api.github.com`` as a API host for https://github.com/.
+
 .. include:: /snippets/vcs-credentials.rst
 
 .. seealso::
@@ -1960,3 +1964,38 @@ WEBSITE_REQUIRED
 
 Defines whether :ref:`project-web` has to be specified when creating a project.
 On by default, as that suits public server setups.
+
+
+.. _settings-credentials:
+
+Configuring version control credentials
+---------------------------------------
+
+.. hint::
+
+   This section describes VCS credential variables as
+   :setting:`GITHUB_CREDENTIALS`, :setting:`GITLAB_CREDENTIALS`,
+   :setting:`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`,
+   :setting:`BITBUCKETSERVER_CREDENTIALS`.
+
+The configuration dictionary consists of credentials defined for each API host.
+The API host might be different from what you use in the web browser, for
+example GitHub API is accessed as ``api.github.com``.
+
+The following configuration is available for each host:
+
+``username``
+   API user, required.
+``token``
+   API token for the API user, required.
+``scheme``
+   .. versionadded:: 4.18
+
+   Scheme override. Weblate attempts to parse scheme from the repository URL
+   and falls backs to ``https``. If you are running the API server internally,
+   you might want to use ``http`` instead, but consider security.
+
+.. hint::
+
+   In the Docker container, the credentials can be configured using environment variables,
+   see :ref:`docker-vcs-config`.

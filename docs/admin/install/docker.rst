@@ -753,77 +753,6 @@ Generic settings
 
     Configures ID for Google Analytics by changing :setting:`GOOGLE_ANALYTICS_ID`.
 
-.. envvar:: WEBLATE_GITHUB_USERNAME
-.. envvar:: WEBLATE_GITHUB_TOKEN
-.. envvar:: WEBLATE_GITHUB_HOST
-.. envvar:: WEBLATE_GITHUB_CREDENTIALS
-
-    Configures GitHub pull-requests integration by changing
-    :setting:`GITHUB_CREDENTIALS`.
-
-    .. seealso::
-
-       :ref:`vcs-github`
-
-.. envvar:: WEBLATE_GITLAB_USERNAME
-.. envvar:: WEBLATE_GITLAB_TOKEN
-.. envvar:: WEBLATE_GITLAB_HOST
-.. envvar:: WEBLATE_GITLAB_CREDENTIALS
-
-    Configures GitLab merge-requests integration  by changing
-    :setting:`GITLAB_CREDENTIALS`.
-
-    **Example:**
-
-    .. code-block:: sh
-
-       WEBLATE_GITLAB_USERNAME=weblate
-       WEBLATE_GITLAB_HOST=gitlab.com
-       WEBLATE_GITLAB_TOKEN=token
-       # or as a Python dictionary
-       WEBLATE_GITLAB_CREDENTIALS='{ "gitlab.com": { "username": "weblate", "token": "token" } }'
-
-    .. seealso::
-
-       :ref:`vcs-gitlab`
-
-.. envvar:: WEBLATE_GITEA_USERNAME
-.. envvar:: WEBLATE_GITEA_TOKEN
-.. envvar:: WEBLATE_GITEA_HOST
-.. envvar:: WEBLATE_GITEA_CREDENTIALS
-
-    Configures Gitea pull-requests integration by changing
-    :setting:`GITEA_CREDENTIALS`.
-
-    .. seealso::
-
-       :ref:`vcs-gitea`
-
-
-.. envvar:: WEBLATE_PAGURE_USERNAME
-.. envvar:: WEBLATE_PAGURE_TOKEN
-.. envvar:: WEBLATE_PAGURE_HOST
-.. envvar:: WEBLATE_PAGURE_CREDENTIALS
-
-    Configures Pagure merge-requests integration  by changing
-    :setting:`PAGURE_CREDENTIALS`.
-
-    .. seealso::
-
-       :ref:`vcs-pagure`
-
-.. envvar:: WEBLATE_BITBUCKETSERVER_USERNAME
-.. envvar:: WEBLATE_BITBUCKETSERVER_TOKEN
-.. envvar:: WEBLATE_BITBUCKETSERVER_HOST
-.. envvar:: WEBLATE_BITBUCKETSERVER_CREDENTIALS
-
-    Configures Bitbucket Server pull-requests integration by changing
-    :setting:`BITBUCKETSERVER_CREDENTIALS`.
-
-    .. seealso::
-
-       :ref:`vcs-bitbucket-server`
-
 .. envvar:: WEBLATE_DEFAULT_PULL_MESSAGE
 
     Configures the default title and message for pull requests via API by changing
@@ -1058,6 +987,94 @@ Generic settings
 
       This variable intentionally lacks ``WEBLATE_`` prefix as it is shared
       with third-party container used in :ref:`docker-https-portal`.
+
+
+.. _docker-vcs-config:
+
+Code hosting sites credentials
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the Docker container, the code hosting credentials can be configured either
+in separate variables or using a Python dictionary to set them at once.  The
+following examples are for :ref:`vcs-github`, but applies to all :ref:`vcs`
+with appropriately changed variable names.
+
+An example configuration for GitHub might look like:
+
+.. code-block:: shell
+
+   WEBLATE_GITHUB_USERNAME=api-user
+   WEBLATE_GITHUB_TOKEN=api-token
+   WEBLATE_GITHUB_HOST=api.github.com
+
+Will be used as:
+
+.. code-block:: python
+
+   GITHUB_CREDENTIALS = {
+       "api.github.com": {
+           "username": "api-user",
+           "token": "api-token",
+       }
+   }
+
+Alternatively the Python dictionary can be provided as a string:
+
+.. code-block:: shell
+
+   WEBLATE_GITHUB_CREDENTIALS='{ "api.github.com": { "username": "api-user", "token": "api-token", } }'
+
+Or the path to a file containing the Python dictionary:
+
+.. code-block:: shell
+
+   echo '{ "api.github.com": { "username": "api-user", "token": "api-token", } }' > /path/to/github-credentials
+   WEBLATE_GITHUB_CREDENTIALS_FILE='/path/to/github-credentials'
+
+.. envvar:: WEBLATE_GITHUB_USERNAME
+.. envvar:: WEBLATE_GITHUB_TOKEN
+.. envvar:: WEBLATE_GITHUB_HOST
+.. envvar:: WEBLATE_GITHUB_CREDENTIALS
+
+    Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`.
+
+    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+
+.. envvar:: WEBLATE_GITLAB_USERNAME
+.. envvar:: WEBLATE_GITLAB_TOKEN
+.. envvar:: WEBLATE_GITLAB_HOST
+.. envvar:: WEBLATE_GITLAB_CREDENTIALS
+
+    Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`.
+
+    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+
+.. envvar:: WEBLATE_GITEA_USERNAME
+.. envvar:: WEBLATE_GITEA_TOKEN
+.. envvar:: WEBLATE_GITEA_HOST
+.. envvar:: WEBLATE_GITEA_CREDENTIALS
+
+    Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`.
+
+    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+
+.. envvar:: WEBLATE_PAGURE_USERNAME
+.. envvar:: WEBLATE_PAGURE_TOKEN
+.. envvar:: WEBLATE_PAGURE_HOST
+.. envvar:: WEBLATE_PAGURE_CREDENTIALS
+
+    Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`.
+
+    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+
+.. envvar:: WEBLATE_BITBUCKETSERVER_USERNAME
+.. envvar:: WEBLATE_BITBUCKETSERVER_TOKEN
+.. envvar:: WEBLATE_BITBUCKETSERVER_HOST
+.. envvar:: WEBLATE_BITBUCKETSERVER_CREDENTIALS
+
+    Configures :ref:`vcs-bitbucket-server` by changing :setting:`BITBUCKETSERVER_CREDENTIALS`.
+
+    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
 
 .. _docker-machine:
 
