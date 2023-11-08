@@ -12,8 +12,8 @@ from django.conf import settings
 from django.core.cache import cache
 from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
-from django.db.models import Count, Max, Q, Value
-from django.db.models.functions import MD5, Lower
+from django.db.models import Count, Max, Q, Sum, Value
+from django.db.models.functions import MD5, Length, Lower
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, gettext_noop
@@ -310,6 +310,11 @@ class UnitQuerySet(models.QuerySet):
 
     def select_for_update(self):
         return super().select_for_update(no_key=using_postgresql())
+
+    def annotate_stats(self):
+        return self.annotate(
+            strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
+        )
 
 
 class LabelsField(models.ManyToManyField):
