@@ -292,8 +292,8 @@ def component_alerts(component_ids=None):
             component.update_alerts()
 
 
-@transaction.atomic
 @app.task(trail=False, autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
+@transaction.atomic
 def component_after_save(
     pk: int,
     changed_git: bool,
