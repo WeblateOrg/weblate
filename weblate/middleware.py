@@ -181,10 +181,11 @@ class RedirectMiddleware:
         path[0] = project.slug
 
         if len(path) >= 2:
-            component = self.fixup_component(path[1], request, project)
-            if component is None:
-                return None
-            path[1] = component.slug
+            if path[1] != "-":
+                component = self.fixup_component(path[1], request, project)
+                if component is None:
+                    return None
+                path[1] = component.slug
 
             if language_name:
                 existing_trans = self.check_existing_translations(
