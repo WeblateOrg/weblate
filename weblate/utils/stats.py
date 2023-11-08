@@ -591,24 +591,23 @@ class TranslationStats(BaseStats):
         stats = (
             self._object.unit_set.filter(check__dismissed=False)
             .values("check__name")
-            .annotate(
-                strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
-            )
+            .annotate_stats()
         )
-        for stat in stats:
-            check = stat["check__name"]
+        for check, strings, words, chars in stats.values_list(
+            "check__name", "strings", "words", "chars"
+        ):
             # Filtering here is way more effective than in SQL
             if check is None:
                 continue
             check = f"check:{check}"
-            self.store(check, stat["strings"])
-            self.store(check + "_words", stat["words"])
-            self.store(check + "_chars", stat["chars"])
+            self.store(check, strings)
+            self.store(f"{check}_words", words)
+            self.store(f"{check}_chars", chars)
             allchecks.discard(check)
         for check in allchecks:
             self.store(check, 0)
-            self.store(check + "_words", 0)
-            self.store(check + "_chars", 0)
+            self.store(f"{check}_words", 0)
+            self.store(f"{check}_chars", 0)
         self.save()
 
     def calculate_labels(self):
@@ -619,34 +618,32 @@ class TranslationStats(BaseStats):
         alllabels = set(
             self._object.component.project.label_set.values_list("name", flat=True)
         )
-        stats = self._object.unit_set.values("source_unit__labels__name").annotate(
-            strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
+        stats = (
+            self._object.unit_set.values("source_unit__labels__name")
+            .annotate_stats()
+            .values_list("source_unit__labels__name", "strings", "words", "chars")
         )
         translation_stats = (
-            self._object.unit_set.filter(
-                labels__name__in=TRANSLATION_LABELS,
-            )
+            self._object.unit_set.filter(labels__name__in=TRANSLATION_LABELS)
             .values("labels__name")
-            .annotate(
-                strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
-            )
+            .annotate_stats()
+            .values_list("labels__name", "strings", "words", "chars")
         )
 
-        for stat in chain(stats, translation_stats):
-            label_name = stat.get("source_unit__labels__name", stat.get("labels__name"))
+        for label_name, strings, words, chars in chain(stats, translation_stats):
             # Filtering here is way more effective than in SQL
             if label_name is None:
                 continue
             label = f"label:{label_name}"
-            self.store(label, stat["strings"])
-            self.store(label + "_words", stat["words"])
-            self.store(label + "_chars", stat["chars"])
+            self.store(label, strings)
+            self.store(f"{label}_words", words)
+            self.store(f"{label}_chars", chars)
             alllabels.discard(label_name)
         for label_name in alllabels:
             label = f"label:{label_name}"
             self.store(label, 0)
-            self.store(label + "_words", 0)
-            self.store(label + "_chars", 0)
+            self.store(f"{label}_words", 0)
+            self.store(f"{label}_chars", 0)
         self.save()
 
 
