@@ -159,6 +159,31 @@ all separately:
     able to control Weblate remotely. You can also achieve this using any HTTP
     client instead of wlc, e.g. curl, see :ref:`api`.
 
+Avoiding merge conflicts on Weblate originated changes
+``````````````````````````````````````````````````````
+
+Even when Weblate is the single source of the changes in the translation files,
+conflicts can appear when using :ref:`addon-weblate.git.squash` add-on,
+:ref:`component-merge_style` is configured to :guilabel:`Rebase`, or you are
+squashing commits outside Weblate (for example when merging a pull request).
+
+The reason for merge conflicts is different in this case - there are changes in
+Weblate which happened after you merged Weblate commits. This typically happens
+if merging is not automated and waits for days or weeks for a human to review
+them. Git is then sometimes no longer able to idetify upstream changes as
+matching to Weblate one and refuses to perform rebase.
+
+To approach this, you either need to minimize amount of pending changes in
+Weblate when you merge a pull request, or avoid the conflicts completely by not
+squashing changes.
+
+Here are few options how to avoid that:
+
+* Do not use neither :ref:`addon-weblate.git.squash` nor squashing at merge time. This is the root cause why git doesn't recognize changes after merging.
+* Let Weblate commit pending changes before merging. This will update the pull request with all its changes and both repositories will be in sync.
+* Use the review features in Weblate (see :doc:`/workflows`), so that you can automatically merge GitHub pull requests after CI passes.
+* Use locking in Weblate to avoid changes while GitHub pull request is in review.
+
 .. seealso::
 
    :ref:`wlc`
