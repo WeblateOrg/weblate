@@ -288,9 +288,11 @@ def component_alerts(component_ids=None):
     else:
         components = Component.objects.all()
     for component in components.prefetch():
-        component.update_alerts()
+        with transaction.atomic():
+            component.update_alerts()
 
 
+@transaction.atomic
 @app.task(trail=False, autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
 def component_after_save(
     pk: int,
@@ -314,6 +316,7 @@ def component_after_save(
 
 
 @app.task(trail=False)
+@transaction.atomic
 def component_removal(pk, uid):
     user = User.objects.get(pk=uid)
     try:
@@ -338,6 +341,7 @@ def component_removal(pk, uid):
 
 
 @app.task(trail=False)
+@transaction.atomic
 def category_removal(pk, uid):
     user = User.objects.get(pk=uid)
     try:
@@ -359,6 +363,7 @@ def category_removal(pk, uid):
 
 
 @app.task(trail=False)
+@transaction.atomic
 def project_removal(pk: int, uid: int | None):
     user = get_anonymous() if uid is None else User.objects.get(pk=uid)
     try:
