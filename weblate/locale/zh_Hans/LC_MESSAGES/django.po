@@ -6,13 +6,14 @@
 # Xiang Heng Wei <yylteam@hotmail.com>, 2023.
 # JY3 <GeeyunJY3@gmail.com>, 2023.
 # pan93412 <pan93412@gmail.com>, 2023.
+# Eric <zxmegaxqug@hldrive.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-08 16:05+0000\n"
-"PO-Revision-Date: 2023-10-25 06:49+0000\n"
-"Last-Translator: Eric <hamburger2048@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2023-11-09 06:04+0000\n"
+"Last-Translator: Eric <zxmegaxqug@hldrive.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.1.1-dev\n"
+"X-Generator: Weblate 5.2-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -66,7 +67,7 @@ msgstr "使用账户电子邮箱地址"
 msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are commited by Weblate."
-msgstr ""
+msgstr "在版本控制提交中使用。一旦 Weblate 提交了更改，此地址将永久保留在仓库中。"
 
 #: weblate/accounts/forms.py:209 weblate/accounts/models.py:597
 msgid "Public e-mail"
@@ -82,16 +83,14 @@ msgid "Component list: %s"
 msgstr "部件列表：%s"
 
 #: weblate/accounts/forms.py:344
-#, fuzzy
-#| msgid "Account removal"
 msgid "Account e-mail"
-msgstr "删除账户"
+msgstr "账户邮箱"
 
 #: weblate/accounts/forms.py:346
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not not "
 "configured below."
-msgstr ""
+msgstr "用于电子邮件通知，且如未在下方进行配置则作为提交的电子邮箱。"
 
 #: weblate/accounts/forms.py:391
 msgid "Subject"
@@ -5153,10 +5152,8 @@ msgstr "请更正注册表单中的错误。"
 
 #: weblate/templates/accounts/email.html:17
 #: weblate/templates/accounts/profile.html:115
-#, fuzzy
-#| msgid "Add new e-mail address"
 msgid "Verify new e-mail address"
-msgstr "添加新的电子邮件地址"
+msgstr "验证新邮箱地址"
 
 #: weblate/templates/accounts/email.html:27
 #: weblate/templates/accounts/register.html:52 weblate/templates/base.html:226
@@ -5343,10 +5340,8 @@ msgid "Notification settings"
 msgstr "通知设置"
 
 #: weblate/templates/accounts/profile.html:117
-#, fuzzy
-#| msgid "Choose commit e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "从已验证的电子邮件地址中选择提交邮箱。"
+msgstr "只能从已验证地址中选择电子邮箱地址。"
 
 #: weblate/templates/accounts/profile.html:126
 msgid "Current user identities"
@@ -6713,17 +6708,13 @@ msgid "Add a category"
 msgstr "添加一个分类"
 
 #: weblate/templates/category.html:194
-#, fuzzy
-#| msgid "Rename category"
 msgid "Organize category"
-msgstr "重命名分类"
+msgstr "组织分类"
 
 #: weblate/templates/category.html:198
-#, fuzzy
-#| msgid "Renaming the category will also change URLs for all its components."
 msgid ""
 "Moving or renaming the category will also change URLs for all its components."
-msgstr "重命名分类将同时更改分类中所有部件的 URL。"
+msgstr "移动或重命名分类将同时更改分类中所有部件的 URL。"
 
 #: weblate/templates/category.html:199 weblate/templates/component.html:244
 #: weblate/templates/project.html:261
@@ -6734,10 +6725,8 @@ msgstr "用户需要更新克隆仓库中的书签、参考或 API 调用！"
 
 #: weblate/templates/category.html:205 weblate/templates/component.html:250
 #: weblate/templates/project.html:267
-#, fuzzy
-#| msgid "Organize or remove"
 msgid "Organize"
-msgstr "组织或删除"
+msgstr "组织"
 
 #: weblate/templates/check_list.html:27
 msgid "Total"
@@ -6864,16 +6853,12 @@ msgid ""
 msgstr "部件中的所有翻译都会显示该消息，直至到期日，或永久显示直到它被删除。"
 
 #: weblate/templates/component.html:239
-#, fuzzy
-#| msgid "Create component"
 msgid "Organize component"
-msgstr "创建部件"
+msgstr "组织部件"
 
 #: weblate/templates/component.html:243
-#, fuzzy
-#| msgid "Renaming the component will also change its URLs."
 msgid "Moveing or renaming the component will also change its URLs."
-msgstr "重命名部件将同时更改部件的 URL。"
+msgstr "移动或重命名部件将同时更改部件的 URL。"
 
 #: weblate/templates/component.html:267 weblate/templates/project.html:283
 #: weblate/templates/translate.html:354 weblate/templates/translation.html:413
@@ -8631,16 +8616,12 @@ msgid "off"
 msgstr "已关闭"
 
 #: weblate/templates/memory/index.html:197
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of shared entries in this Weblate instance"
-msgstr "共享条目数量"
+msgstr "此 Weblate 实例中的共享条目数"
 
 #: weblate/templates/memory/index.html:209
-#, fuzzy
-#| msgid "Total number of entries"
 msgid "Total number of entries in this Weblate instance"
-msgstr "条目总数"
+msgstr "此 Weblate 实例中的条目总数"
 
 #: weblate/templates/memory/index.html:226
 msgid "Import translation memory"
@@ -8775,10 +8756,8 @@ msgid ""
 msgstr "项目中的所有翻译都会显示该消息，直至到期日，或永久显示直到它被删除。"
 
 #: weblate/templates/project.html:256
-#, fuzzy
-#| msgid "Create project"
 msgid "Organize project"
-msgstr "创建项目"
+msgstr "组织项目"
 
 #: weblate/templates/project.html:260
 msgid "Renaming the project will also change URLs for all its components."
@@ -9423,14 +9402,10 @@ msgid "By registering and signing in to this service you accept our:"
 msgstr "通过注册并登录此服务，您接受我们的："
 
 #: weblate/templates/snippets/login-info.html:20
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the Terms of Service and the Privacy Policy, but you "
 "should still read the original documents to fully understand them:"
-msgstr "本页面基于服务条款和隐私政策，您仍需阅读原始文本以完全了解其内容："
+msgstr "服务条款和隐私政策的快速概览，但您仍需阅读原始文本以完全了解其内容："
 
 #: weblate/templates/snippets/login-info.html:27
 msgid ""
@@ -9442,18 +9417,12 @@ msgstr ""
 "目的许可协议授权。"
 
 #: weblate/templates/snippets/login-info.html:31
-#, fuzzy
-#| msgid ""
-#| "By registering you agree to use your name and e-mail in version control "
-#| "system commits and provide your contribution under license defined by "
-#| "each translated project."
 msgid ""
 "By registering you agree to use your name in version control system commits "
 "and provide your contribution under license defined by each translated "
 "project."
-msgstr ""
-"注册意味着您同意将您的姓名和电子邮箱用于 Git 提交，并且您的翻译成果将依照该项"
-"目的许可协议授权。"
+msgstr "注册意味着您同意在版本控制提交中使用您的名字，并依照每个翻译项目定义的许可协"
+"议提供您的译文。"
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -12395,14 +12364,11 @@ msgstr "“%(component)s” 部件的许可证从 %(old)s 变为 %(target)s."
 
 #: weblate/trans/models/change.py:800
 msgid "Original revision: {}"
-msgstr ""
+msgstr "原始更改：{}"
 
 #: weblate/trans/models/change.py:804
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgid "New revision: {}"
-msgstr "个人：{}"
+msgstr "新版本：{}"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:114
