@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-08 16:05+0000\n"
-"PO-Revision-Date: 2023-10-28 09:04+0000\n"
+"PO-Revision-Date: 2023-11-09 12:10+0000\n"
 "Last-Translator: Rhoslyn Prys <rprys@posteo.net>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/"
 "application/cy/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
 msgid "None"
-msgstr "Neb"
+msgstr "Dim"
 
 #: weblate/accounts/avatar.py:109 weblate/templates/accounts/profile.html:212
 #: weblate/templates/accounts/user.html:22 weblate/templates/base.html:265
@@ -68,6 +68,8 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are commited by Weblate."
 msgstr ""
+"Yn cael ei ddefnyddio wrth draddodi rheoli fersiynau. Bydd y cyfeiriad yn "
+"aros yn y storfa am byth unwaith y bydd newidiadau wedi'u gwneud gan Weblate."
 
 #: weblate/accounts/forms.py:209 weblate/accounts/models.py:597
 msgid "Public e-mail"
@@ -83,16 +85,16 @@ msgid "Component list: %s"
 msgstr "Rhestr cydran: %s"
 
 #: weblate/accounts/forms.py:344
-#, fuzzy
-#| msgid "Account removal"
 msgid "Account e-mail"
-msgstr "Dileu cyfrif"
+msgstr "E-bost cyfrif"
 
 #: weblate/accounts/forms.py:346
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not not "
 "configured below."
 msgstr ""
+"Yn cael ei ddefnyddio ar gyfer hysbysiadau e-bost ac fel e-bost traddodi os "
+"nad yw wedi'i ffurfweddu isod."
 
 #: weblate/accounts/forms.py:391
 msgid "Subject"
@@ -392,7 +394,7 @@ msgstr "Mae rhywun wedi ceisio cofrestru gan ddefnyddio'ch cyfeiriad e-bost."
 #: weblate/accounts/models.py:155
 #, python-brace-format
 msgid "Could not sign in using {method} ({name})."
-msgstr "Ni allai fewngofnodi gan ddefnyddio {method} ({name})."
+msgstr "Methu mewngofnodi gan ddefnyddio {method} ({name})."
 
 #: weblate/accounts/models.py:156
 msgid "Account locked due to many failed sign in attempts."
@@ -1868,11 +1870,12 @@ msgstr "Dyddiadau pwysig"
 
 #: weblate/auth/admin.py:218
 msgid "This is not used when a component list is selected."
-msgstr "Ni ddefnyddir hwn pan ddewisir rhestr gydrannau."
+msgstr ""
+"Nid yw hwn yn cael ei ddefnyddio pan mae rhestr gydrannau yn cael ei ddewis."
 
 #: weblate/auth/admin.py:225
 msgid "This is not used when a component is selected."
-msgstr "Ni ddefnyddir hwn pan ddewisir cydran."
+msgstr "Nid yw hwn yn cael ei ddefnyddio pan mae cydran yn cael ei ddewis."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:21
@@ -2264,7 +2267,7 @@ msgstr "Rheolwyr"
 #: weblate/auth/data.py:248
 msgctxt "Access-control group"
 msgid "Project creators"
-msgstr "Crewyr prosiectau"
+msgstr "Crewyr projectau"
 
 #: weblate/auth/data.py:257
 msgctxt "Per-project access-control group"
@@ -3160,7 +3163,7 @@ msgstr ""
 msgid ""
 "Fluent inner HTML should not include {sequence}. Maybe use {suggestion}."
 msgstr ""
-"Ni ddylai HTML mewnol Fluent gynnwys {sequence}. Efallai defnyddio "
+"Dylai HTML mewnol Fluent ddim cynnwys {sequence}. Efallai defnyddio "
 "{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:227
@@ -3202,7 +3205,7 @@ msgstr "Tag diwedd HTML heb ei gyfateb: {tag}."
 #: weblate/checks/fluent/inner_html.py:298
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr "Ni ddylai'r elfen wag HTML {name} gael tag diwedd: {end}."
+msgstr "Dylai'r elfen wag HTML {name} ddim cael tag diwedd: {end}."
 
 #: weblate/checks/fluent/inner_html.py:311
 #, python-brace-format
@@ -5380,10 +5383,8 @@ msgstr "Trwsiwch wallau yn y ffurflen gofrestru."
 
 #: weblate/templates/accounts/email.html:17
 #: weblate/templates/accounts/profile.html:115
-#, fuzzy
-#| msgid "Add new e-mail address"
 msgid "Verify new e-mail address"
-msgstr "Ychwanegwch gyfeiriad e-bost newydd"
+msgstr "Gwirio cyfeiriad e-bost newydd"
 
 #: weblate/templates/accounts/email.html:27
 #: weblate/templates/accounts/register.html:52 weblate/templates/base.html:226
@@ -5582,10 +5583,8 @@ msgid "Notification settings"
 msgstr "Gosodiadau hysbysiadau"
 
 #: weblate/templates/accounts/profile.html:117
-#, fuzzy
-#| msgid "Choose commit e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "Dewiswch e-bost traddodi o gyfeiriadau wedi'u dilysu."
+msgstr "Mae modd dewis y cyfeiriad e-bost o gyfeiriadau wedi'u dilysu yn unig."
 
 #: weblate/templates/accounts/profile.html:126
 msgid "Current user identities"
@@ -5772,7 +5771,7 @@ msgid ""
 msgstr ""
 "Trwy gofrestru rydych yn cytuno i ddefnyddio'ch enw a'ch e-bost yn "
 "traddodion, a darparu eich cyfraniad o dan y drwydded a ddiffinnir gan bob "
-"prosiect lleoleiddio."
+"project lleoleiddio."
 
 #: weblate/templates/accounts/profile.html:394
 msgid "You have agreed to the following as a contributor:"
@@ -6857,7 +6856,7 @@ msgid ""
 "access to this project."
 msgstr ""
 "Defnyddiwch hwn dim ond os ydych chi'n gwybod beth rydych chi'n ei wneud, "
-"gan ei alluogi i ddirymu eich mynediad i'r prosiect hwn."
+"gan ei alluogi i ddirymu eich mynediad i'r project hwn."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:82
 #: weblate/trans/forms.py:2038 weblate/trans/forms.py:2080
@@ -7023,18 +7022,15 @@ msgid "Add a category"
 msgstr "Ychwanegu categori"
 
 #: weblate/templates/category.html:194
-#, fuzzy
-#| msgid "Rename category"
 msgid "Organize category"
-msgstr "Ailenwi categori"
+msgstr "Trefnu categori"
 
 #: weblate/templates/category.html:198
-#, fuzzy
-#| msgid "Renaming the category will also change URLs for all its components."
 msgid ""
 "Moving or renaming the category will also change URLs for all its components."
 msgstr ""
-"Bydd ailenwi'r categori hefyd yn newid URLs ar gyfer ei holl gydrannau."
+"Bydd symud neu ailenwi'r categori hefyd yn newid URLs ar gyfer ei holl "
+"gydrannau."
 
 #: weblate/templates/category.html:199 weblate/templates/component.html:244
 #: weblate/templates/project.html:261
@@ -7047,10 +7043,8 @@ msgstr ""
 
 #: weblate/templates/category.html:205 weblate/templates/component.html:250
 #: weblate/templates/project.html:267
-#, fuzzy
-#| msgid "Organize or remove"
 msgid "Organize"
-msgstr "Trefnu neu ddileu"
+msgstr "Trefnu"
 
 #: weblate/templates/check_list.html:27
 msgid "Total"
@@ -7179,16 +7173,12 @@ msgstr ""
 "gydran, hyd nes y daw i ben, neu'n barhaol nes iddo gael ei ddileu."
 
 #: weblate/templates/component.html:239
-#, fuzzy
-#| msgid "Create component"
 msgid "Organize component"
-msgstr "Creu cydran"
+msgstr "Trefnu cydran"
 
 #: weblate/templates/component.html:243
-#, fuzzy
-#| msgid "Renaming the component will also change its URLs."
 msgid "Moveing or renaming the component will also change its URLs."
-msgstr "Bydd ailenwi'r gydran hefyd yn newid ei URLs."
+msgstr "Bydd symud neu ailenwi'r gydran hefyd yn newid ei URLs."
 
 #: weblate/templates/component.html:267 weblate/templates/project.html:283
 #: weblate/templates/translate.html:354 weblate/templates/translation.html:413
@@ -7465,28 +7455,28 @@ msgid_plural ""
 "strong>."
 msgstr[0] ""
 "Mae project cyfieithu %(project)s ar hyn o bryd yn cynnwys <strong>%(count)s "
-"llinyn</strong> i'w cyfieithu ac mae <strong>%(percent)s%% wedi'u cwblhau</"
-"strong>."
+"llinyn</strong> i'w cyfieithu ac mae <strong>%(percent)s%% wedi'u "
+"cwblhau</strong>."
 msgstr[1] ""
-"Mae'r prosiect cyfieithu ar gyfer %(project)s ar hyn o bryd yn cynnwys "
+"Mae'r project cyfieithu ar gyfer %(project)s ar hyn o bryd yn cynnwys "
 "<strong>%(count)s llinyn</strong> i'w gyfieithu ac mae <strong>%(percent)s%% "
 "wedi'u cwblhau</strong>."
 msgstr[2] ""
 "Mae project cyfieithu %(project)s ar hyn o bryd yn cynnwys <strong>%(count)s "
-"llinyn</strong> i'w cyfieithu ac mae <strong>%(percent)s%% wedi'u cwblhau</"
-"strong>."
+"llinyn</strong> i'w cyfieithu ac mae <strong>%(percent)s%% wedi'u "
+"cwblhau</strong>."
 msgstr[3] ""
 "Mae project cyfieithu %(project)s ar hyn o bryd yn cynnwys <strong>%(count)s "
-"llinyn</strong> i'w cyfieithu ac mae <strong>%(percent)s%% wedi'u cwblhau</"
-"strong>."
+"llinyn</strong> i'w cyfieithu ac mae <strong>%(percent)s%% wedi'u "
+"cwblhau</strong>."
 msgstr[4] ""
 "Mae project cyfieithu %(project)s ar hyn o bryd yn cynnwys <strong>%(count)s "
-"llinyn</strong> i'w cyfieithu ac mae <strong>%(percent)s%% wedi'u cwblhau</"
-"strong>."
+"llinyn</strong> i'w cyfieithu ac mae <strong>%(percent)s%% wedi'u "
+"cwblhau</strong>."
 msgstr[5] ""
 "Mae project cyfieithu %(project)s ar hyn o bryd yn cynnwys <strong>%(count)s "
-"llinyn</strong> i'w cyfieithu ac mae <strong>%(percent)s%% wedi'u cwblhau</"
-"strong>."
+"llinyn</strong> i'w cyfieithu ac mae <strong>%(percent)s%% wedi'u "
+"cwblhau</strong>."
 
 #: weblate/templates/engage.html:44
 #, python-format
@@ -9151,16 +9141,12 @@ msgid "off"
 msgstr "na"
 
 #: weblate/templates/memory/index.html:197
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of shared entries in this Weblate instance"
-msgstr "Nifer y cofnodion a rennir"
+msgstr "Nifer y cofnodion sy'n cael eu rhannu yn yr achos Weblate hwn"
 
 #: weblate/templates/memory/index.html:209
-#, fuzzy
-#| msgid "Total number of entries"
 msgid "Total number of entries in this Weblate instance"
-msgstr "Cyfanswm y cofnodion"
+msgstr "Cyfanswm y cofnodion yn yr enghraifft Weblate hwn"
 
 #: weblate/templates/memory/index.html:226
 msgid "Import translation memory"
@@ -9306,18 +9292,15 @@ msgid ""
 "given expiry, or permanently until it is deleted."
 msgstr ""
 "Mae'r neges hon yn cael ei dangos ar gyfer yr holl gyfieithiadau o fewn y "
-"prosiect, hyd nes iddo ddod i ben, neu'n barhaol nes iddo gael ei ddileu."
+"project, hyd nes iddo ddod i ben, neu'n barhaol nes iddo gael ei ddileu."
 
 #: weblate/templates/project.html:256
-#, fuzzy
-#| msgid "Create project"
 msgid "Organize project"
-msgstr "Creu project"
+msgstr "Trefnu project"
 
 #: weblate/templates/project.html:260
 msgid "Renaming the project will also change URLs for all its components."
-msgstr ""
-"Bydd ailenwi'r prosiect hefyd yn newid URLs ar gyfer ei holl gydrannau."
+msgstr "Bydd ailenwi'r project hefyd yn newid URLs ar gyfer ei holl gydrannau."
 
 #: weblate/templates/project.html:304
 msgid ""
@@ -9325,13 +9308,13 @@ msgid ""
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"Yn rhestru'r holl gyfieithwyr sy'n cyfrannu at y prosiect hwn mewn cyfnod "
+"Yn rhestru'r holl gyfieithwyr sy'n cyfrannu at y project hwn mewn cyfnod "
 "penodol o amser. Defnyddiol i'w gynnwys mewn dogfennaeth neu'r ap ei hun, i "
 "ddiolch i gyfieithwyr a chynhyrchu adborth iddynt."
 
 #: weblate/templates/projects.html:19
 msgid "Ask for project hosting"
-msgstr "Gofynnwch am westeiwr prosiect"
+msgstr "Gofynnwch am westeiwr project"
 
 #: weblate/templates/ratelimit.html:5
 msgid ""
@@ -9494,7 +9477,7 @@ msgstr ""
 
 #: weblate/templates/snippets/component/lock.html:14
 msgid "Get notified when this project is unlocked again"
-msgstr "Cael gwybod pan fydd y prosiect hwn yn cael ei ddatgloi eto"
+msgstr "Cael gwybod pan fydd y project hwn yn cael ei ddatgloi eto"
 
 #: weblate/templates/snippets/component/lock.html:17
 msgid ""
@@ -9861,11 +9844,11 @@ msgid ""
 "settings</a>."
 msgstr ""
 "Y mae modd diffinio labeli ychwanegol yng <a href=\"%(url)s\">ngosodiadau'r "
-"prosiect</a> ."
+"project</a> ."
 
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrators."
-msgstr "Gall gweinyddwyr prosiect ddiffinio labeli ychwanegol."
+msgstr "Gall gweinyddwyr project ddiffinio labeli ychwanegol."
 
 #: weblate/templates/snippets/libre-basic.html:3
 #, python-format
@@ -10017,17 +10000,12 @@ msgid "By registering and signing in to this service you accept our:"
 msgstr "Trwy gofrestru a mewngofnodi i'r gwasanaeth hwn rydych yn derbyn ein:"
 
 #: weblate/templates/snippets/login-info.html:20
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the Terms of Service and the Privacy Policy, but you "
 "should still read the original documents to fully understand them:"
 msgstr ""
-"Mae'r dudalen hon yn seiliedig ar y Amodau Gwasanaeth a'r Polisi "
-"Preifatrwydd, dylech barhau i ddarllen y dogfennau gwreiddiol i'w deall yn "
-"llawn:"
+"Trosolwg cyflym o'r Telerau Gwasanaeth a'r Polisi Preifatrwydd, ond dylech "
+"ddal i ddarllen y dogfennau gwreiddiol i'w deall yn llawn:"
 
 #: weblate/templates/snippets/login-info.html:27
 msgid ""
@@ -10037,22 +10015,17 @@ msgid ""
 msgstr ""
 "Trwy gofrestru rydych yn cytuno i ddefnyddio'ch enw a'ch e-bost yn y system "
 "rheoli fersiwn yn traddodi ac yn darparu eich cyfraniad o dan drwydded a "
-"ddiffinnir gan bob prosiect a gyfieithwyd."
+"ddiffinnir gan bob project a gyfieithwyd."
 
 #: weblate/templates/snippets/login-info.html:31
-#, fuzzy
-#| msgid ""
-#| "By registering you agree to use your name and e-mail in version control "
-#| "system commits and provide your contribution under license defined by "
-#| "each translated project."
 msgid ""
 "By registering you agree to use your name in version control system commits "
 "and provide your contribution under license defined by each translated "
 "project."
 msgstr ""
-"Trwy gofrestru rydych yn cytuno i ddefnyddio'ch enw a'ch e-bost yn y system "
-"rheoli fersiwn yn traddodi ac yn darparu eich cyfraniad o dan drwydded a "
-"ddiffinnir gan bob prosiect a gyfieithwyd."
+"Drwy gofrestru rydych yn cytuno i ddefnyddio eich enw mewn system rheoli "
+"fersiwn traddodi a darparu eich cyfraniad o dan drwydded sy'n cael ei "
+"ddiffinio gan bob project a gyfieithwyd."
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -10129,7 +10102,7 @@ msgid ""
 "announcement and/or lock it if you don’t want contributions until you finish "
 "the setup."
 msgstr ""
-"Mae'r prosiect hwn mewn cyfnod prawf ac ar gael i'r cyhoedd. Postiwch "
+"Mae'r project hwn mewn cyfnod prawf ac ar gael i'r cyhoedd. Postiwch "
 "gyhoeddiad a/neu ei gloi os nad ydych chi eisiau cyfraniadau nes i chi "
 "orffen y gosodiad."
 
@@ -10138,8 +10111,8 @@ msgid ""
 "This project is in a trial period, be cautious while contributing. Setup can "
 "still change before being approved as a libre project."
 msgstr ""
-"Mae'r prosiect hwn mewn cyfnod prawf, byddwch yn ofalus wrth gyfrannu. Gall "
-"y gosodiad newid o hyd cyn cael ei gymeradwyo fel prosiect libre."
+"Mae'r project hwn mewn cyfnod prawf, byddwch yn ofalus wrth gyfrannu. Gall y "
+"gosodiad newid o hyd cyn cael ei gymeradwyo fel project libre."
 
 #: weblate/templates/snippets/project/billing-trial.html:7
 msgid "Manage billing"
@@ -10147,7 +10120,7 @@ msgstr "Rheoli bilio"
 
 #: weblate/templates/snippets/project/billing-trial.html:8
 msgid "This project is in the trial period."
-msgstr "Mae'r prosiect hwn yn y cyfnod prawf."
+msgstr "Mae'r project hwn yn y cyfnod prawf."
 
 #: weblate/templates/snippets/query-builder.html:6
 msgid "Advanced query builder"
@@ -10513,11 +10486,11 @@ msgstr ""
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
 msgid "This project is set up incorrectly."
-msgstr "Mae'r prosiect hwn wedi'i osod yn anghywir."
+msgstr "Mae'r project hwn wedi'i osod yn anghywir."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
 msgid "The project website URL points to a non-existing location:"
-msgstr "Mae URL gwefan y prosiect yn pwyntio at leoliad nad yw'n bodoli:"
+msgstr "Mae URL gwefan y project yn pwyntio at leoliad nad yw'n bodoli:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
 msgid "Weblate CDN add-on could not parse the HTML files."
@@ -10724,7 +10697,7 @@ msgstr "Ychwanegwch ffeil iaith sylfaenol uniaith yn y gosodiadau cydran."
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This project does no longer fit into Libre hosting conditions."
-msgstr "Nid yw'r prosiect hwn bellach yn cyd-fynd ag amodau cynnal Libre."
+msgstr "Nid yw'r project hwn bellach yn cyd-fynd ag amodau cynnal Libre."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
 msgid "This component set up is incomplete, as it lacks any translations."
@@ -11041,7 +11014,7 @@ msgstr "Bydd y cyfieithiadau canlynol yn cael eu dileu:"
 #: weblate/templates/trans/delete-category-language.html:14
 #: weblate/templates/trans/delete-project-language.html:14
 msgid "Project language to remove"
-msgstr "Iaith prosiect i'w dileu"
+msgstr "Iaith project i'w dileu"
 
 #: weblate/templates/trans/delete-category.html:5
 #, python-format
@@ -11049,8 +11022,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "project and all related content."
 msgstr ""
-"Ni ellir dadwneud y weithred hon. Bydd hyn yn dileu'r prosiect %(object)s "
-"a'r holl gynnwys cysylltiedig yn barhaol."
+"Ni ellir dadwneud y weithred hon. Bydd hyn yn dileu'r project %(object)s a'r "
+"holl gynnwys cysylltiedig yn barhaol."
 
 #: weblate/templates/trans/delete-category.html:6
 #: weblate/templates/trans/delete-project.html:6
@@ -11212,7 +11185,7 @@ msgid ""
 "project."
 msgstr ""
 "Unwaith y bydd ei holl ganiatâd wedi'u dileu, bydd y defnyddiwr yn cael ei "
-"dynnu o'r prosiect."
+"dynnu o'r project."
 
 #: weblate/templates/trans/project-access.html:153
 msgid "Block"
@@ -11229,7 +11202,7 @@ msgstr "Gwahoddiad"
 #: weblate/templates/trans/project-access.html:235
 #, python-format
 msgid "This will delete the team <b>%(name)s</b> from this project."
-msgstr "Bydd hyn yn dileu'r tîm <b>%(name)s</b> o'r prosiect hwn."
+msgstr "Bydd hyn yn dileu'r tîm <b>%(name)s</b> o'r project hwn."
 
 #: weblate/templates/trans/project-access.html:237
 #, python-format
@@ -11734,7 +11707,7 @@ msgid ""
 "new component using translation memory."
 msgstr ""
 "Mae cyfieithu awtomatig yn cymryd cyfieithiadau sy'n bodoli eisoes yn y "
-"prosiect hwn ac yn eu cymhwyso i'r gydran gyfredol. Y mae modd ei ddefnyddio "
+"project hwn ac yn eu cymhwyso i'r gydran gyfredol. Y mae modd ei ddefnyddio "
 "i wthio cyfieithiadau i gangen wahanol, i drwsio cyfieithiadau anghyson neu "
 "i gyfieithu cydran newydd gan ddefnyddio cof cyfieithu."
 
@@ -11746,7 +11719,7 @@ msgid ""
 msgstr ""
 "Mae cyfieithu awtomatig trwy gyfieithu peirianyddol yn defnyddio peiriannau "
 "cyfieithu peirianyddol gweithredol i gael y cyfieithiadau gorau posibl ac yn "
-"eu cymhwyso yn y prosiect hwn."
+"eu cymhwyso yn y project hwn."
 
 #: weblate/templates/translation.html:278
 msgid ""
@@ -11841,7 +11814,7 @@ msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
 msgstr ""
-"Yn ogystal â hyrwyddo’r prosiect cyfieithu cyfan, gallwch hefyd ddewis iaith "
+"Yn ogystal â hyrwyddo’r project cyfieithu cyfan, gallwch hefyd ddewis iaith "
 "neu gydran benodol i’w hyrwyddo:"
 
 #: weblate/templates/widgets.html:24
@@ -11854,8 +11827,8 @@ msgid ""
 "They can increase the visibility of your translation projects and bring in "
 "new contributors."
 msgstr ""
-"Gallwch ddefnyddio'r teclynnau canlynol i hyrwyddo cyfieithu eich prosiect. "
-"Gallan nhw gynyddu amlygrwydd eich prosiectau cyfieithu a dod â chyfranwyr "
+"Gallwch ddefnyddio'r teclynnau canlynol i hyrwyddo cyfieithu eich project. "
+"Gallan nhw gynyddu amlygrwydd eich projectau cyfieithu a dod â chyfranwyr "
 "newydd i mewn."
 
 #: weblate/templates/widgets.html:47
@@ -11948,12 +11921,12 @@ msgstr "Gofod gwyn sy'n llusgo ac yn arwain"
 
 #: weblate/trans/context_processors.py:132
 msgid "Hosted Weblate, the place to localize your software project."
-msgstr "Weblate wedi'i westeio, y lle i leoleiddio eich prosiect meddalwedd."
+msgstr "Weblate wedi'i westeio, y lle i leoleiddio eich project meddalwedd."
 
 #: weblate/trans/context_processors.py:136
 msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
-"Mae'r wefan hon yn rhedeg Weblate ar gyfer lleoli prosiectau meddalwedd "
+"Mae'r wefan hon yn rhedeg Weblate ar gyfer lleoli projectau meddalwedd "
 "amrywiol."
 
 #: weblate/trans/feeds.py:24 weblate/trans/feeds.py:61
@@ -12227,7 +12200,7 @@ msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
-"Trowch gyfrannu at gof cyfieithu agored ymlaen er mwyn i'r prosiect gael "
+"Trowch gyfrannu at gof cyfieithu agored ymlaen er mwyn i'r project gael "
 "mynediad at gydrannau ychwanegol."
 
 #: weblate/trans/forms.py:886
@@ -12248,7 +12221,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:924
 msgid "All components in current project"
-msgstr "Yr holl gydrannau yn y prosiect cyfredol"
+msgstr "Yr holl gydrannau yn y project cyfredol"
 
 #: weblate/trans/forms.py:954
 msgid "Add as \"Needing edit\""
@@ -12466,11 +12439,11 @@ msgid ""
 "Uses and contributes to the pool of shared translations between projects."
 msgstr ""
 "Yn defnyddio ac yn cyfrannu at y gronfa o gyfieithiadau agored rhwng "
-"prosiectau."
+"projectau."
 
 #: weblate/trans/forms.py:2206
 msgid "ZIP file containing project backup"
-msgstr "Ffeil ZIP yn cynnwys copi wrth gefn o'r prosiect"
+msgstr "Ffeil ZIP yn cynnwys copi wrth gefn o'r project"
 
 #: weblate/trans/forms.py:2228
 #, python-format
@@ -12766,7 +12739,7 @@ msgstr "URL porwr ystorfa wedi torri"
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:381
 msgid "Broken project website URL"
-msgstr "URL gwefan y prosiect wedi torri"
+msgstr "URL gwefan y project wedi torri"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:395
@@ -12838,7 +12811,7 @@ msgstr "Hysbysu defnyddwyr"
 
 #: weblate/trans/models/announcement.py:134
 msgid "Do not specify both component and project!"
-msgstr "Peidiwch â nodi'r gydran a'r prosiect!"
+msgstr "Peidiwch â nodi'r gydran a'r project!"
 
 #: weblate/trans/models/category.py:37
 msgid "Category name"
@@ -12865,7 +12838,7 @@ msgstr "Nythu rhy ddwfn o gategorïau!"
 
 #: weblate/trans/models/category.py:141
 msgid "Parent category has to be in the same project!"
-msgstr "Mae'n rhaid i'r categori rhiant fod yn yr un prosiect!"
+msgstr "Mae'n rhaid i'r categori rhiant fod yn yr un project!"
 
 #: weblate/trans/models/category.py:146
 msgid "Parent category has to be different!"
@@ -13231,14 +13204,11 @@ msgstr "Newidiwyd trwydded y gydran \"%(component)s\" o %(old)s i %(target)s."
 
 #: weblate/trans/models/change.py:800
 msgid "Original revision: {}"
-msgstr ""
+msgstr "Adolygiad gwreiddiol: {}"
 
 #: weblate/trans/models/change.py:804
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgid "New revision: {}"
-msgstr "Personol: {}"
+msgstr "Adolygiad newydd: {}"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:114
