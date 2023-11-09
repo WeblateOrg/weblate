@@ -491,7 +491,8 @@ class Unit(models.Model, LoggerMixin):
         self.glossary_positions = None
         # Store original attributes for change tracking
         self.old_unit = None
-        if "state" in self.__dict__:
+        if "state" in self.__dict__ and "source" in self.__dict__:
+            # Avoid storing if .only() was used to fetch the query (eg. in stats)
             self.store_old_unit(self)
 
     def invalidate_checks_cache(self):

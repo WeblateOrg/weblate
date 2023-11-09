@@ -431,7 +431,7 @@ class TranslationStats(BaseStats):
             label_count=Count("source_unit__labels"),
             comment_count=Count("comment", filter=Q(comment__resolved=False)),
             num_chars=Length("source"),
-        )
+        ).only("state", "num_words", "translation")
 
         # Use local variables instead of dict for improved performance
         stat_all = 0
@@ -489,25 +489,16 @@ class TranslationStats(BaseStats):
         stat_comments_chars = 0
 
         # Sum stats in Python, this is way faster than conditional sums in the database
-        for (
-            num_words,
-            num_chars,
-            state,
-            active_checks_count,
-            dismissed_checks_count,
-            suggestion_count,
-            comment_count,
-            label_count,
-        ) in base.values_list(
-            "num_words",
-            "num_chars",
-            "state",
-            "active_checks_count",
-            "dismissed_checks_count",
-            "suggestion_count",
-            "comment_count",
-            "label_count",
-        ):
+        for unit in base:
+            num_words = unit.num_words
+            num_chars = unit.num_chars
+            state = unit.state
+            active_checks_count = unit.active_checks_count
+            dismissed_checks_count = unit.dismissed_checks_count
+            suggestion_count = unit.suggestion_count
+            comment_count = unit.comment_count
+            label_count = unit.label_count
+
             stat_all += 1
             stat_all_words += num_words
             stat_all_chars += num_chars
