@@ -13,6 +13,7 @@ Not yet released.
 * :ref:`mt-deepl` can now configure default formality for translations.
 * Use neutral colors for progress bars and translation unit states.
 * :ref:`addon-weblate.gettext.mo` can optionally include strings needing editing.
+* Use :http:header:`Accept-Language` to order translations for unauthenticated users.
 
 **Bug fixes**
 
