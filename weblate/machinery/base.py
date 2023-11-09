@@ -254,8 +254,6 @@ class MachineTranslation:
         return False
 
     def translate_cache_key(self, source, language, text, threshold):
-        if not self.cache_translations:
-            return None
         return "mt:{}:{}:{}:{}".format(
             self.mtid,
             calculate_hash(source, language),
@@ -341,13 +339,13 @@ class MachineTranslation:
         raise UnsupportedLanguageError("Not supported")
 
     def get_cached(self, source, language, text, threshold, replacements):
+        if not self.cache_translations:
+            return None, None
         cache_key = self.translate_cache_key(source, language, text, threshold)
-        if cache_key:
-            result = cache.get(cache_key)
-            if result and (replacements or self.force_uncleanup):
-                self.uncleanup_results(replacements, result)
-            return cache_key, result
-        return cache_key, None
+        result = cache.get(cache_key)
+        if result and (replacements or self.force_uncleanup):
+            self.uncleanup_results(replacements, result)
+        return cache_key, result
 
     def search(self, unit, text, user):
         """Search for known translations of `text`."""

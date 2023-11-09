@@ -60,6 +60,12 @@ class DeepLTranslation(MachineTranslation):
         """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
 
+    # using custom cache key to ensure that formal and informal suggestions are cached separately
+    def translate_cache_key(self, source, language, text, threshold):
+        key = super().translate_cache_key(source, language, text, threshold)
+        formality = self.settings.get("formality", "default")
+        return f"{key}:{formality}"
+
     def download_translations(
         self,
         source,
@@ -74,6 +80,7 @@ class DeepLTranslation(MachineTranslation):
             "text": text,
             "source_lang": source,
             "target_lang": language,
+            "formality": self.settings.get("formality", "default"),
             "tag_handling": "xml",
             "ignore_tags": "x",
         }
