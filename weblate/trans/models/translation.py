@@ -846,12 +846,12 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         result.add(self.stats, "all", "")
 
         result.add_if(
-            self.stats, "readonly", "info" if self.enable_review else "success"
+            self.stats, "readonly", "primary" if self.enable_review else "success"
         )
 
         if not self.is_readonly:
             if self.enable_review:
-                result.add_if(self.stats, "approved", "info")
+                result.add_if(self.stats, "approved", "primary")
 
             # Count of translated strings
             result.add_if(self.stats, "translated", "success")
@@ -861,35 +861,35 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 result.add_if(self.stats, "unapproved", "success")
 
                 # Approved with suggestions
-                result.add_if(self.stats, "approved_suggestions", "info")
+                result.add_if(self.stats, "approved_suggestions", "primary")
 
             # Unfinished strings
-            result.add_if(self.stats, "todo", "danger")
+            result.add_if(self.stats, "todo", "")
 
             # Untranslated strings
-            result.add_if(self.stats, "nottranslated", "danger")
+            result.add_if(self.stats, "nottranslated", "")
 
             # Fuzzy strings
-            result.add_if(self.stats, "fuzzy", "danger")
+            result.add_if(self.stats, "fuzzy", "")
 
             # Translations with suggestions
-            result.add_if(self.stats, "suggestions", "danger")
-            result.add_if(self.stats, "nosuggestions", "danger")
+            result.add_if(self.stats, "suggestions", "")
+            result.add_if(self.stats, "nosuggestions", "")
 
         # All checks
-        result.add_if(self.stats, "allchecks", "danger")
+        result.add_if(self.stats, "allchecks", "")
 
         # Translated strings with checks
         if not self.is_source:
-            result.add_if(self.stats, "translated_checks", "danger")
+            result.add_if(self.stats, "translated_checks", "")
 
         # Dismissed checks
-        result.add_if(self.stats, "dismissed_checks", "danger")
+        result.add_if(self.stats, "dismissed_checks", "")
 
         # Process specific checks
         for check in CHECKS:
             check_obj = CHECKS[check]
-            result.add_if(self.stats, check_obj.url_id, "danger")
+            result.add_if(self.stats, check_obj.url_id, "")
 
         # Grab comments
         result.add_if(self.stats, "comments", "")

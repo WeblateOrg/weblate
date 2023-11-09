@@ -716,11 +716,9 @@ def translation_progress_data(
         approved += readonly
         translated -= readonly
 
-    bad = total - approved - translated
     return {
         "approved": f"{translation_percent(approved, total, False):.1f}",
         "good": f"{translation_percent(translated, total):.1f}",
-        "bad": f"{translation_percent(bad, total, False):.1f}",
     }
 
 
@@ -751,7 +749,9 @@ def words_progress(obj):
 @register.simple_tag
 def unit_state_class(unit) -> str:
     """Return state flags."""
-    if unit.has_failing_check or not unit.translated:
+    if unit.has_failing_check:
+        return "unit-state-bad"
+    if not unit.translated:
         return "unit-state-todo"
     if unit.approved or (unit.readonly and unit.translation.enable_review):
         return "unit-state-approved"
