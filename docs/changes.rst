@@ -12,6 +12,7 @@ Not yet released.
 * :ref:`autofix` are now applied to suggestions as well.
 * :ref:`mt-deepl` can now configure default formality for translations.
 * Use neutral colors for progress bars and translation unit states.
+* :ref:`addon-weblate.gettext.mo` can optionally include strings needing editing.
 
 **Bug fixes**
 

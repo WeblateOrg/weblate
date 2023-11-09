@@ -46,6 +46,13 @@ class GenerateMoForm(BaseAddonForm):
             "If not specified, the location of the PO file will be used."
         ),
     )
+    fuzzy = forms.BooleanField(
+        label=gettext_lazy("Include strings needing editing"),
+        required=False,
+        help_text=gettext_lazy(
+            "Strings needing editing (fuzzy) are typically not ready for use as translations."
+        ),
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

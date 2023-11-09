@@ -660,9 +660,11 @@ Generate MO files
 -----------------
 
 :Add-on ID: ``weblate.gettext.mo``
-:Configuration: +----------+---------------------------+-------------------------------------------------------------+
-                | ``path`` | Path of generated MO file | If not specified, the location of the PO file will be used. |
-                +----------+---------------------------+-------------------------------------------------------------+
+:Configuration: +-----------+---------------------------------+----------------------------------------------------------------------------------+
+                | ``path``  | Path of generated MO file       | If not specified, the location of the PO file will be used.                      |
+                +-----------+---------------------------------+----------------------------------------------------------------------------------+
+                | ``fuzzy`` | Include strings needing editing | Strings needing editing (fuzzy) are typically not ready for use as translations. |
+                +-----------+---------------------------------+----------------------------------------------------------------------------------+
 :Triggers: repository pre-commit
 
 Automatically generates a MO file for every changed PO file.
