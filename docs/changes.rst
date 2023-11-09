@@ -10,6 +10,7 @@ Not yet released.
 * Faster stats updates.
 * Better e-mail selection in user profile.
 * :ref:`autofix` are now applied to suggestions as well.
+* :ref:`mt-deepl` can now configure default formality for translations.
 
 **Bug fixes**
 
