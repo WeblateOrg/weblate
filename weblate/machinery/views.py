@@ -301,9 +301,25 @@ def format_string_helper(
     return format_language_string(source, translation, diff)["items"][0]["content"]
 
 
+def format_results_helper(
+    item: dict,
+    targets: list[str],
+    plural_form: int,
+    translation: Translation,
+    source_translation: Translation,
+):
+    item["plural_form"] = plural_form
+    item["diff"] = format_string_helper(item["text"], translation, targets[plural_form])
+    item["source_diff"] = format_string_helper(
+        item["source"], source_translation, item["original_source"]
+    )
+    item["html"] = format_string_helper(item["text"], translation)
+
+
 def handle_machinery(request, service, unit, search=None):
     translation = unit.translation
     component = translation.component
+    source_translation = component.source_translation
     if not request.user.has_perm("machinery.view", translation):
         raise PermissionDenied
 
@@ -334,20 +350,17 @@ def handle_machinery(request, service, unit, search=None):
         try:
             if search:
                 translations = translation_service.search(unit, search, request.user)
+                for item in translations:
+                    format_results_helper(
+                        item, targets, 0, translation, source_translation
+                    )
             else:
                 translations = translation_service.translate(unit, request.user)
                 for plural_form, possible_translations in enumerate(translations):
                     for item in possible_translations:
-                        item["plural_form"] = plural_form
-                        item["diff"] = format_string_helper(
-                            item["text"], translation, targets[plural_form]
+                        format_results_helper(
+                            item, targets, plural_form, translation, source_translation
                         )
-                        item["source_diff"] = format_string_helper(
-                            item["source"],
-                            component.source_translation,
-                            item["original_source"],
-                        )
-                        item["html"] = format_string_helper(item["text"], translation)
                 translations = list(chain.from_iterable(translations))
             response["translations"] = translations
             response["responseStatus"] = 200
