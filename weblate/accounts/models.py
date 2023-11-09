@@ -737,24 +737,32 @@ class Profile(models.Model):
     def secondary_language_ids(self) -> set[int]:
         return set(self.secondary_languages.values_list("pk", flat=True))
 
-    def get_translation_order(self, translation) -> str:
-        """Returns key suitable for ordering languages based on user preferences."""
-        from weblate.trans.models import Unit
+    def get_translation_orderer(self, request):
+        """Returns function suitable for ordering languages based on user preferences."""
 
-        if isinstance(translation, Unit):
-            translation = translation.translation
-        language = translation.language
+        def get_translation_order(translation) -> str:
+            from weblate.trans.models import Unit
 
-        if language.pk in self.primary_language_ids:
-            priority = 0
-        elif language.pk in self.secondary_language_ids:
-            priority = 1
-        elif translation.is_source:
-            priority = 2
-        else:
-            priority = 3
+            if isinstance(translation, Unit):
+                translation = translation.translation
+            language = translation.language
 
-        return f"{priority}-{language}"
+            if language.pk in self.primary_language_ids:
+                priority = 0
+            elif language.pk in self.secondary_language_ids:
+                priority = 1
+            elif (
+                not self.primary_language_ids and language == request.accepted_language
+            ):
+                priority = 2
+            elif translation.is_source:
+                priority = 3
+            else:
+                priority = 4
+
+            return f"{priority}-{language}"
+
+        return get_translation_order
 
     def fixup_profile(self, request):
         fields = set()

@@ -8,6 +8,7 @@ from django.conf import settings
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
+from django.utils.functional import SimpleLazyObject
 from django.utils.translation import activate, get_language, get_language_from_request
 
 from weblate.accounts.models import set_lang_cookie
@@ -40,6 +41,8 @@ class AuthenticationMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        from weblate.lang.models import Language
+
         # Django uses lazy object here, but we need the user in pretty
         # much every request, so there is no reason to delay this
         request.user = user = get_user(request)
@@ -49,6 +52,10 @@ class AuthenticationMiddleware:
             language = user.profile.language
         else:
             language = get_language_from_request(request)
+
+        request.accepted_language = SimpleLazyObject(
+            lambda: Language.objects.get_request_language(request)
+        )
 
         # Extend session expiry for authenticated users
         if user.is_authenticated:
