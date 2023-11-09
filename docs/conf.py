@@ -22,7 +22,6 @@ from matplotlib import font_manager
 
 # -- Path setup --------------------------------------------------------------
 
-# sys.path.insert(0, os.path.abspath('.'))
 file_dir = Path(__file__).parent.resolve()
 weblate_dir = file_dir.parent
 # Our extension
