@@ -493,6 +493,7 @@ class TTKitFormat(TranslationFormat):
 
     def delete_unit(self, ttkit_unit) -> str | None:
         self.store.removeunit(ttkit_unit)
+        return None
 
 
 class PropertiesUnit(KeyValueUnit):
