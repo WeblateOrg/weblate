@@ -11,6 +11,7 @@ Not yet released.
 * Better e-mail selection in user profile.
 * :ref:`autofix` are now applied to suggestions as well.
 * :ref:`mt-deepl` can now configure default formality for translations.
+* Use neutral colors for progress bars and translation unit states.
 
 **Bug fixes**
 
