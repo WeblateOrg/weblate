@@ -8,13 +8,14 @@
 # JY3 <GeeyunJY3@gmail.com>, 2023.
 # Claybiokiller <569735195@qq.com>, 2023.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023.
+# Eric <zxmegaxqug@hldrive.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-08 17:06+0100\n"
-"PO-Revision-Date: 2023-10-25 08:50+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2023-11-09 06:04+0000\n"
+"Last-Translator: Eric <zxmegaxqug@hldrive.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.1.1-dev\n"
+"X-Generator: Weblate 5.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -7371,18 +7372,13 @@ msgid "List for credentials for Gitea servers."
 msgstr "Gitea 服务器凭据列表。"
 
 #: ../../snippets/vcs-credentials.rst:1
-#, fuzzy
-#| msgid ""
-#| "The configuration dictionary consists of credentials defined for each API "
-#| "host. The API host might be different from what you use in the web "
-#| "browser, for example GitHub API is accessed as ``api.github.com``."
 msgid ""
 "The configuration dictionary consists of credentials defined for each API "
 "host. The layout is same for all version control integrations and is "
 "described at :ref:`settings-credentials`."
 msgstr ""
-"配置目录由为每个 API 主机定义的凭据所组成。API 主机可能和你在网页浏览器中所用"
-"的不同，比如 GitHub API 访问地址为 ``api.github.com``."
+"配置目录由为每个 API 主机定义的凭据所组成。所有版本控制集成的布局都是一样的，"
+"描述见 :ref:`settings-credentials`。"
 
 #: ../../admin/config.rst:752
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
@@ -7414,7 +7410,7 @@ msgstr "用于 GitHub 服务器的证明列表。"
 
 #: ../../admin/config.rst:802
 msgid "Use ``api.github.com`` as a API host for https://github.com/."
-msgstr ""
+msgstr "使用 `api.github.com`` 作为 https://github.com/ 的 API 主机。"
 
 #: ../../admin/config.rst:808
 msgid ":ref:`vcs-github`, `Creating a GitHub personal access token`_"
@@ -8678,10 +8674,8 @@ msgstr ""
 "务器的设置。"
 
 #: ../../admin/config.rst:1972
-#, fuzzy
-#| msgid "Managing version control repository"
 msgid "Configuring version control credentials"
-msgstr "管理版本控制仓库"
+msgstr "配置版本控制凭据"
 
 #: ../../admin/config.rst:1976
 msgid ""
@@ -8690,6 +8684,9 @@ msgid ""
 "`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
+"此部分将 VCS 凭据描述为 :setting:`GITHUB_CREDENTIALS`、 "
+":setting:`GITLAB_CREDENTIALS`、 :setting:`GITEA_CREDENTIALS`、 "
+":setting:`PAGURE_CREDENTIALS`、:setting:`BITBUCKETSERVER_CREDENTIALS`。"
 
 #: ../../admin/config.rst:1981
 msgid ""
@@ -8735,16 +8732,10 @@ msgstr ""
 "行 API 服务器，你也许想转而使用 ``http``，但考虑安全性。"
 
 #: ../../admin/config.rst:2000
-#, fuzzy
-#| msgid ""
-#| "If you need to define a setting not exposed through Docker environment "
-#| "variables, see :ref:`docker-custom-config`."
 msgid ""
 "In the Docker container, the credentials can be configured using environment "
 "variables, see :ref:`docker-vcs-config`."
-msgstr ""
-"如果您需要定义不通过 Docker 环境变量公开的设置，请参考 :ref:`docker-custom-"
-"config`。"
+msgstr "在 Docker 容器中，可使用环境变量配置凭据，见 :ref:`docker-vcs-config`。"
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
@@ -8780,13 +8771,11 @@ msgid ""
 msgstr "可以选择更新翻译文件，请参阅 :ref:`translations-update`。"
 
 #: ../../admin/continuous.rst:19
-#, fuzzy
-#| msgid ""
-#| "Weblate pulls changes from the VCS repository, see :ref:`update-vcs`."
 msgid ""
 "Weblate pulls changes from the VCS repository, parses translation files and "
 "updates its database, see :ref:`update-vcs`."
-msgstr "Weblate 从版本控制系统仓库中拉取更改，请参阅 :ref:`update-vcs`。"
+msgstr "Weblate 从版本控制系统仓库中拉取更改，解析翻译文件并更新其数据库，见 :ref"
+":`update-vcs`。"
 
 #: ../../admin/continuous.rst:20
 msgid ""
@@ -8795,32 +8784,22 @@ msgid ""
 msgstr "译者使用 Weblate Web 界面提交翻译，或上传离线更改。"
 
 #: ../../admin/continuous.rst:21
-#, fuzzy
-#| msgid ""
-#| "Once the translators are finished, Weblate commits the changes to the "
-#| "local repository (see :ref:`lazy-commit`) and pushes them back if it has "
-#| "permissions to do so (see :ref:`push-changes`)."
 msgid ""
 "Once the translators are finished, Weblate commits the changes to the local "
 "repository (see :ref:`lazy-commit`)."
-msgstr ""
-"译者完成后，Weblate 会将更改提交到本地仓库（请参阅 :ref:`lazy-commit`），如果"
-"有权限将其推回（请参阅 :ref:`push-changes`）。"
+msgstr "译者完成后，Weblate 会将更改提交到本地仓库（请参阅 :ref:`lazy-commit`）。"
 
 #: ../../admin/continuous.rst:22
-#, fuzzy
-#| msgid ""
-#| "Pushes changes to the upstream repository, if configured by :ref:"
-#| "`component-push`."
 msgid ""
 "Changes are pushed back to the upstream repository (see :ref:`push-changes`)."
-msgstr "如通过 :ref:`component-push` 进行了配置，则将更改推送到上游仓库。"
+msgstr "更改被推送回上游仓库（见:ref:`push-changes` ）。"
 
 #: ../../admin/continuous.rst:73
 msgid ""
 "Upstream code hosting is not necessary, you can use Weblate with :ref:`vcs-"
 "local` where there is only the repository inside Weblate."
-msgstr ""
+msgstr "上游代码托管不是必需的，你可以通过 :ref:`vcs-local`使用 Weblate，在本地 VCS "
+"中只有 Weblate 内的仓库。"
 
 #: ../../admin/continuous.rst:79
 msgid "Updating repositories"
@@ -8949,10 +8928,8 @@ msgstr ""
 "用 HTTP 客户端代替 wlc 来实现这一点，例如 curl，请参见 :ref:`api`。"
 
 #: ../../admin/continuous.rst:163
-#, fuzzy
-#| msgid "Avoiding merge conflicts"
 msgid "Avoiding merge conflicts on Weblate originated changes"
-msgstr "避免合并冲突"
+msgstr "避免发端于 Weblate 更改的合并冲突"
 
 #: ../../admin/continuous.rst:165
 msgid ""
@@ -8962,6 +8939,10 @@ msgid ""
 "are squashing commits outside Weblate (for example when merging a pull "
 "request)."
 msgstr ""
+"即便 Weblate 是翻译文件更改的单一来源，当使用 :ref:`addon-weblate.git.squash`"
+" 附加组件、 :ref:`component-merge_style`被配置为 :guilabel:`Rebase`，"
+"或者你正在将 Weblate "
+"外面的提交塞入仓库（比如合并拉取请求）时，也可能发生冲突。"
 
 #: ../../admin/continuous.rst:170
 msgid ""
@@ -8971,41 +8952,50 @@ msgid ""
 "to review them. Git is then sometimes no longer able to idetify upstream "
 "changes as matching to Weblate one and refuses to perform rebase."
 msgstr ""
+"此情形下，合并冲突的原因是不同的。比如，在你合并 Weblate 提交后，Weblate 中发"
+"生了更改。出现这种情况通常是因为合并操作不是自动进行的，而是等待几天或数周进"
+"行人工审核。Git 有时会无法识别上游的更改是否与 Weblate "
+"匹配，并拒绝执行变基操作。"
 
 #: ../../admin/continuous.rst:176
 msgid ""
 "To approach this, you either need to minimize amount of pending changes in "
 "Weblate when you merge a pull request, or avoid the conflicts completely by "
 "not squashing changes."
-msgstr ""
+msgstr "为了解决此问题，你要么在合并拉取请求时最小化 Weblate 中的待定更改数量，"
+"要么通过不 squash 更改来完全避免冲突。"
 
 #: ../../admin/continuous.rst:180
 msgid "Here are few options how to avoid that:"
-msgstr ""
+msgstr "这里有几个避免这一问题的选项："
 
 #: ../../admin/continuous.rst:182
 msgid ""
 "Do not use neither :ref:`addon-weblate.git.squash` nor squashing at merge "
 "time. This is the root cause why git doesn't recognize changes after merging."
 msgstr ""
+"不用 :ref:`addon-weblate.git.squash`，也不在合并时进行 squash。"
+"使用它们是导致 git 在合并后不识别改动的根本原因。"
 
 #: ../../admin/continuous.rst:183
 msgid ""
 "Let Weblate commit pending changes before merging. This will update the pull "
 "request with all its changes and both repositories will be in sync."
-msgstr ""
+msgstr "在合并前让 Weblate "
+"提交待定更改。这会更新所有更改到拉取请求，且两个仓库会保持同步。"
 
 #: ../../admin/continuous.rst:184
 msgid ""
 "Use the review features in Weblate (see :doc:`/workflows`), so that you can "
 "automatically merge GitHub pull requests after CI passes."
-msgstr ""
+msgstr "使用 Weblate 中的审阅功能（见 :doc:`/workflows`），这样你可以在 CI "
+"通过后自动合并 GitHub 拉取请求。"
 
 #: ../../admin/continuous.rst:185
 msgid ""
 "Use locking in Weblate to avoid changes while GitHub pull request is in "
 "review."
-msgstr ""
+msgstr "在 Weblate 中使用锁定避免在审核 Github 拉取请求时的更改。"
 
 #: ../../admin/continuous.rst:189
 msgid ":ref:`wlc`"
@@ -9926,10 +9916,8 @@ msgid ":doc:`install/source`, recommended for development."
 msgstr ":doc:`install/source`，推荐用于开发。"
 
 #: ../../admin/install.rst:43
-#, fuzzy
-#| msgid "Checks overview"
 msgid "Architecture overview"
-msgstr "检查概览"
+msgstr "架构概览"
 
 #: ../../admin/install.rst:129
 msgid "Software requirements"
@@ -10003,25 +9991,32 @@ msgstr ""
 msgid ""
 "While there is nothing in Weblate itself blocking usage of Python 3.12, "
 "there are few outstanding issues:"
-msgstr ""
+msgstr "虽然 Weblate 本身没有任何阻止使用 Python 3.12 "
+"的东西，但有几个突出的问题需要注意："
 
 #: ../../admin/install.rst:164
 msgid ""
 "Celery, a dependency of Weblate, is not currently compatible with Python "
 "3.12, see https://github.com/celery/kombu/issues/1804."
 msgstr ""
+"Weblate 依赖项 Celery 当前并不兼容 Python 3.12，见 https://github.com/celery/"
+"kombu/issues/1804。"
 
 #: ../../admin/install.rst:165
 msgid ""
 "Python 3.12 performs slower than previous versions in some situations, see "
 "https://github.com/python/cpython/issues/109049."
 msgstr ""
+"某些情况下，Python 3.12 执行速度比之前版本来得慢，见 https://github.com/"
+"python/cpython/issues/109049。"
 
 #: ../../admin/install.rst:166
 msgid ""
 ":ref:`winrc` might not work properly in Python 3.12, see https://github.com/"
 "translate/translate/issues/5071."
 msgstr ""
+":ref:`winrc` 可能无法在 Python 3.12 下正常工作，见 https://github.com/"
+"translate/translate/issues/5071。"
 
 #: ../../admin/install.rst:168
 msgid "Most notable dependencies:"
@@ -10081,19 +10076,15 @@ msgstr "可选依赖项"
 
 #: ../../admin/install.rst:188
 msgid "pip extra"
-msgstr ""
+msgstr "pip extra"
 
 #: ../../admin/install.rst:189
-#, fuzzy
-#| msgid "Python brace format"
 msgid "Python Package"
-msgstr "Python brace 格式"
+msgstr "Python 包"
 
 #: ../../admin/install.rst:190
-#, fuzzy
-#| msgid "Weblate frontend"
 msgid "Weblate feature"
-msgstr "Weblate 前端"
+msgstr "Weblate 功能"
 
 #: ../../admin/install.rst:193
 #, fuzzy
@@ -10102,10 +10093,8 @@ msgid "``Amazon``"
 msgstr "``location``"
 
 #: ../../admin/install.rst:194
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`boto3 <https://pypi.org/project/boto3>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`boto3 <https://pypi.org/project/boto3>`_"
 
 #: ../../admin/install.rst:195
 #, fuzzy
@@ -10121,7 +10110,7 @@ msgstr "LDAP"
 
 #: ../../admin/install.rst:199
 msgid "`django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_"
-msgstr ""
+msgstr "`django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_"
 
 #: ../../admin/install.rst:200
 msgid ":ref:`ldap-auth`"
@@ -10135,6 +10124,7 @@ msgstr ""
 msgid ""
 "`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_"
 msgstr ""
+"`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_"
 
 #: ../../admin/install.rst:205
 #, fuzzy
@@ -10149,10 +10139,8 @@ msgid "``Gerrit``"
 msgstr "``Git``"
 
 #: ../../admin/install.rst:209
-#, fuzzy
-#| msgid "https://pypi.org/project/git-review/"
 msgid "`git-review <https://pypi.org/project/git-review>`_"
-msgstr "https://pypi.org/project/git-review/"
+msgstr "`git-review <https://pypi.org/project/git-review>`_"
 
 #: ../../admin/install.rst:210
 #, fuzzy
@@ -10167,13 +10155,10 @@ msgid "``Google``"
 msgstr "Google"
 
 #: ../../admin/install.rst:214
-#, fuzzy
-#| msgid ""
-#| "`Google translate documentation <https://cloud.google.com/translate/"
-#| "docs>`_"
 msgid ""
 "`google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_"
-msgstr "`Google 翻译文档 <https://cloud.google.com/translate/docs>`_"
+msgstr ""
+"`google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_"
 
 #: ../../admin/install.rst:215
 #, fuzzy
@@ -10188,26 +10173,20 @@ msgid "``Mercurial``"
 msgstr "Mercurial"
 
 #: ../../admin/install.rst:219
-#, fuzzy
-#| msgid "https://pypi.org/project/ruamel.yaml/"
 msgid "`mercurial <https://pypi.org/project/mercurial>`_"
-msgstr "https://pypi.org/project/ruamel.yaml/"
+msgstr "`mercurial <https://pypi.org/project/mercurial>`_"
 
 #: ../../admin/install.rst:223
 msgid "``MySQL``"
 msgstr ""
 
 #: ../../admin/install.rst:224
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`mysqlclient <https://pypi.org/project/mysqlclient>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`mysqlclient <https://pypi.org/project/mysqlclient>`_"
 
 #: ../../admin/install.rst:225
-#, fuzzy
-#| msgid "Database server (see :ref:`database-setup`)"
 msgid "MySQL or MariaDB, see :ref:`database-setup`"
-msgstr "数据库服务器（请参见 :ref:`database-setup` ）"
+msgstr "MySQL 或 MariaDB，见 :ref:`database-setup`"
 
 #: ../../admin/install.rst:228
 #, fuzzy
@@ -10216,26 +10195,20 @@ msgid "``Postgres``"
 msgstr "``votes``"
 
 #: ../../admin/install.rst:229
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`psycopg <https://pypi.org/project/psycopg>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`psycopg <https://pypi.org/project/psycopg>`_"
 
 #: ../../admin/install.rst:230
-#, fuzzy
-#| msgid "PostgreSQL database setup"
 msgid "PostgreSQL, see :ref:`database-setup`"
-msgstr "PostgreSQL 数据库设置"
+msgstr "PostgreSQL，见 :ref:`database-setup`"
 
 #: ../../admin/install.rst:233
 msgid "``Antispam``"
 msgstr ""
 
 #: ../../admin/install.rst:234
-#, fuzzy
-#| msgid "https://pypi.org/project/git-review/"
 msgid "`python-akismet <https://pypi.org/project/python-akismet>`_"
-msgstr "https://pypi.org/project/git-review/"
+msgstr "`python-akismet <https://pypi.org/project/python-akismet>`_"
 
 #: ../../admin/install.rst:235
 #, fuzzy
@@ -10250,10 +10223,8 @@ msgid "``SAML``"
 msgstr "SAML"
 
 #: ../../admin/install.rst:239
-#, fuzzy
-#| msgid "https://pypi.org/project/ruamel.yaml/"
 msgid "`python3-saml <https://pypi.org/project/python3-saml>`_"
-msgstr "https://pypi.org/project/ruamel.yaml/"
+msgstr "`python3-saml <https://pypi.org/project/python3-saml>`_"
 
 #: ../../admin/install.rst:240
 #, fuzzy
@@ -10268,10 +10239,8 @@ msgid "``MSTerminology``"
 msgstr "``terminology``"
 
 #: ../../admin/install.rst:244
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`zeep <https://pypi.org/project/zeep>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`zeep <https://pypi.org/project/zeep>`_"
 
 #: ../../admin/install.rst:245
 #, fuzzy
@@ -13396,10 +13365,8 @@ msgstr ""
 "第三方容器共享。"
 
 #: ../../admin/install/docker.rst:995
-#, fuzzy
-#| msgid "Subversion credentials"
 msgid "Code hosting sites credentials"
-msgstr "Subversion 凭据"
+msgstr "代码托管站点凭据"
 
 #: ../../admin/install/docker.rst:997
 msgid ""
@@ -13408,12 +13375,13 @@ msgid ""
 "once.  The following examples are for :ref:`vcs-github`, but applies to all :"
 "ref:`vcs` with appropriately changed variable names."
 msgstr ""
+"在 Docker 容器中，要配置托管平局，可以用单独变量或用 Python "
+"词典一下子进行设置。  下列示例针对 :ref:`vcs-github`，"
+"但适用于所有带恰当更改的变量名的 :ref:`vcs`。"
 
 #: ../../admin/install/docker.rst:1002
-#, fuzzy
-#| msgid "Sample configuration for Apache"
 msgid "An example configuration for GitHub might look like:"
-msgstr "Apache 的配置示例"
+msgstr "GitHub 的配置示例看上去像是这样："
 
 #: ../../admin/install/docker.rst:1010
 msgid "Will be used as:"
@@ -13428,63 +13396,35 @@ msgid "Or the path to a file containing the Python dictionary:"
 msgstr "或者到包含该 Python 字典的文件的路径："
 
 #: ../../admin/install/docker.rst:1039
-#, fuzzy
-#| msgid ""
-#| "Configures GitHub pull-requests integration by changing :setting:"
-#| "`GITHUB_CREDENTIALS`."
 msgid "Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`."
-msgstr "配置 GitHub 拉取请求集成，方法是更改 :setting:`GITHUB_CREDENTIALS`。"
+msgstr "配置 :ref:`vcs-github` ，方法是更改 :setting:`GITHUB_CREDENTIALS`。"
 
 #: ../../admin/install/docker.rst:1041 ../../admin/install/docker.rst:1050
 #: ../../admin/install/docker.rst:1059 ../../admin/install/docker.rst:1068
 #: ../../admin/install/docker.rst:1077
-#, fuzzy
-#| msgid ""
-#| ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
-#| "<docker-mail>`"
 msgid ""
 ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
-msgstr ""
-":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
-"<docker-mail>`"
+msgstr ":ref:`在 Docker 中配置代码托管凭据 <docker-vcs-config>`"
 
 #: ../../admin/install/docker.rst:1048
-#, fuzzy
-#| msgid ""
-#| "Configures GitLab merge-requests integration  by changing :setting:"
-#| "`GITLAB_CREDENTIALS`."
 msgid "Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`."
-msgstr ""
-"配置 GitLab merge-requests 集成，  方法是更改 :setting:`GITLAB_CREDENTIALS`。"
+msgstr "配置 :ref:`vcs-gitlab` ，方法是更改 :setting:`GITLAB_CREDENTIALS`。"
 
 #: ../../admin/install/docker.rst:1057
-#, fuzzy
-#| msgid ""
-#| "Configures Gitea pull-requests integration by changing :setting:"
-#| "`GITEA_CREDENTIALS`."
 msgid "Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`."
-msgstr "配置 Gitea 拉取请求集成，方法是更改 :setting:`GITEA_CREDENTIALS`。"
+msgstr "配置 :ref:`vcs-gitea` ，方法是更改 :setting:`GITEA_CREDENTIALS`。"
 
 #: ../../admin/install/docker.rst:1066
-#, fuzzy
-#| msgid ""
-#| "Configures Pagure merge-requests integration  by changing :setting:"
-#| "`PAGURE_CREDENTIALS`."
 msgid "Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`."
-msgstr ""
-"配置 Pagure merge-requests 集成，  方法是更改 :setting:`PAGURE_CREDENTIALS`。"
+msgstr "配置 :ref:`vcs-pagure` ，方法是更改 :setting:`PAGURE_CREDENTIALS`。"
 
 #: ../../admin/install/docker.rst:1075
-#, fuzzy
-#| msgid ""
-#| "Configures Bitbucket Server pull-requests integration by changing :"
-#| "setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgid ""
 "Configures :ref:`vcs-bitbucket-server` by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"配置 Bitbucket 服务器拉取请求集成，方法是更改 :setting:"
-"`BITBUCKETSERVER_CREDENTIALS`。"
+"配置 :ref:`vcs-bitbucket-server`，方法是更改 "
+":setting:`BITBUCKETSERVER_CREDENTIALS`。"
 
 #: ../../admin/install/docker.rst:1082
 msgid "Automatic suggestion settings"
@@ -14804,15 +14744,10 @@ msgid ""
 msgstr "安装构建 Python 模块所需的依赖项（请参见 :ref:`requirements`）："
 
 #: ../../admin/install/steps/install-system-optional.rst:1
-#, fuzzy
-#| msgid ""
-#| "Install wanted optional dependencies depending on features you intend to "
-#| "use (see :ref:`optional-deps`):"
 msgid ""
 "Install wanted optional dependencies depending on features you intend to use "
 "(see :ref:`python-deps`):"
-msgstr ""
-"根据您打算使用的功能来安装所需的可选依赖项（参见 :ref:`optional-deps`）："
+msgstr "根据您打算使用的功能来安装所需的可选依赖项（参见 :ref:`python-deps`）："
 
 #: ../../admin/install/steps/install-system-server.rst:1
 msgid ""
@@ -14854,13 +14789,9 @@ msgid "Install Weblate including all optional dependencies:"
 msgstr "安装包含所有可选依赖项的 Weblate："
 
 #: ../../admin/install/steps/install-python.rst:29
-#, fuzzy
-#| msgid ""
-#| "Please check :ref:`optional-deps` for fine-tuning of optional "
-#| "dependencies."
 msgid ""
 "Please check :ref:`python-deps` for fine-tuning of optional dependencies."
-msgstr "请查看 :ref:`optional-deps` 以了解对可选依赖关系的微调情况。"
+msgstr "请查看 :ref:`python-deps` 以了解对可选依赖关系的微调情况。"
 
 #: ../../admin/install/steps/install-python.rst:33
 msgid "On some Linux distributions running Weblate fails with libffi error:"
@@ -20528,16 +20459,10 @@ msgid ""
 msgstr "通过 Git 核实，你需要取回新的源代码并升级你的安装："
 
 #: ../../admin/upgrade.rst:71
-#, fuzzy
-#| msgid ""
-#| "New Weblate release might have new :ref:`optional-deps`, please check if "
-#| "they cover features you want."
 msgid ""
 "New Weblate release might have new :ref:`python-deps`, please check if they "
 "cover features you want."
-msgstr ""
-"新版本 Weblate 可能有新的 :ref:`optional-deps`, 快来看看有没有你感兴趣的功"
-"能。"
+msgstr "新版本 Weblate 可能有新的 :ref:`python-deps`, 快来看看有没有你感兴趣的功能。"
 
 #: ../../admin/upgrade.rst:74
 msgid ""
@@ -23490,10 +23415,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS（英文） <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.0.2"
 msgid "Weblate 5.2"
-msgstr "Weblate 5.0.2"
+msgstr "Weblate 5.2"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -23510,20 +23433,16 @@ msgid "**Improvements**"
 msgstr "**改进**"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Locales updates."
 msgid "Faster stats updates."
-msgstr "区域设置更新。"
+msgstr "更快的统计数据更新。"
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Registration and user profile"
 msgid "Better e-mail selection in user profile."
-msgstr "注册和用户个人资料"
+msgstr "改进用户个人资料中的电子邮箱选择。"
 
 #: ../../changes.rst:12
 msgid ":ref:`autofix` are now applied to suggestions as well."
-msgstr ""
+msgstr ":ref:`autofix` 现在同样应用于建议。"
 
 #: ../../changes.rst:14 ../../changes.rst:44 ../../changes.rst:85
 #: ../../changes.rst:118 ../../changes.rst:151 ../../changes.rst:208
@@ -23531,22 +23450,16 @@ msgid "**Bug fixes**"
 msgstr "**缺陷修复**"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Creating component within a category."
 msgid "Fixed creating component within a category by upload."
-msgstr "在分类中创建部件。"
+msgstr "修复了通过上传创建分类内部件的问题。"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Components and categories"
 msgid "Error handling in organizing components and categories."
-msgstr "部件和类别"
+msgstr "处理组织部件和分类方面的错误。"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Fixed crash after moving shared component between projects."
 msgid "Fixed moving categories between projects."
-msgstr "修复了在项目之间移动共享部件后的崩溃。"
+msgstr "修复了在项目间移动分类的问题。"
 
 #: ../../changes.rst:20 ../../changes.rst:49 ../../changes.rst:94
 #: ../../changes.rst:161 ../../changes.rst:216
@@ -23555,7 +23468,7 @@ msgstr "**兼容性**"
 
 #: ../../changes.rst:22
 msgid ":doc:`/formats/apple` exporter now produces UTF-8 encoded files."
-msgstr ""
+msgstr ":doc:`/formats/apple` 导出程序现在生成 UTF-8 编码的文件。"
 
 #: ../../changes.rst:24 ../../changes.rst:51 ../../changes.rst:98
 #: ../../changes.rst:125 ../../changes.rst:166 ../../changes.rst:221
@@ -23583,26 +23496,20 @@ msgid ""
 msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/106?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/104?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/106?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"104?closed=1>`__。"
 
 #: ../../changes.rst:31
 msgid "Weblate 5.1.1"
 msgstr "Weblate 5.1.1"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "Released on October 16th 2023."
 msgid "Released on October 25th 2023."
-msgstr "发布于 2023 年 10 月 16 日。"
+msgstr "发布于 2023 年 10 月 25 日。"
 
 #: ../../changes.rst:39
 msgid ""
@@ -23621,7 +23528,7 @@ msgstr "新增 VCS 集成凭据验证。"
 
 #: ../../changes.rst:42
 msgid "Reduced overhead of statistics collection."
-msgstr ""
+msgstr "降低了统计数据集的营运费用。"
 
 #: ../../changes.rst:46
 msgid "Added plurals validation when editing string using API."
@@ -32215,29 +32122,18 @@ msgid "Coding standard and linting the code"
 msgstr "编码标准和代码检查"
 
 #: ../../contributing/snippets/pre-commit.rst:4
-#, fuzzy
-#| msgid ""
-#| "The code should follow PEP-8 coding guidelines and should be formatted "
-#| "using :program:`black` code formatter."
 msgid ""
 "The code should follow PEP-8 coding guidelines and should be formatted "
 "using :program:`ruff` code formatter."
-msgstr ""
-"代码应该遵循 PEP-8 代码编写准则，并且应该使用 :program:`black` 代码格式化程序"
-"进行代码格式化。"
+msgstr "代码应该遵循 PEP-8 代码编写准则，并且应该使用 :program:`ruff` "
+"代码格式化程序进行代码格式化。"
 
 #: ../../contributing/snippets/pre-commit.rst:7
-#, fuzzy
-#| msgid ""
-#| "To check the code quality, you can use :program:`flake8`, the recommended "
-#| "plugins are listed in :file:`.pre-commit-config.yaml` and its "
-#| "configuration is placed in :file:`setup.cfg`."
 msgid ""
 "To check the code quality, you can use :program:`ruff`, its configuration is "
 "stored in :file:`pyproject.toml`."
-msgstr ""
-"为了检查代码质量，可以使用 :program:`flake8`，推荐的插件列在 :file:`.pre-"
-"commit-config.yaml` 中，而其配置放置在 :file:`setup.cfg` 中。"
+msgstr "要检查代码质量，你可以使用 :program:`ruff`，其配置存储在 :file:`pyproject."
+"toml` 中。"
 
 #: ../../contributing/snippets/pre-commit.rst:10
 msgid ""
@@ -34565,21 +34461,10 @@ msgid ":ref:`production-certs`"
 msgstr ":ref:`production-certs`"
 
 #: ../../devel/community.rst:2
-#, fuzzy
-#| msgid "Building translators community"
 msgid "Building a translators community"
 msgstr "构建译者社区"
 
 #: ../../devel/community.rst:4
-#, fuzzy
-#| msgid ""
-#| "Following these recommendations supports the creation of a full, "
-#| "multilingual post-editing tool. Good translations are defined through the "
-#| "systemic-functional model of House which aims at a contextual correct "
-#| "translation. Write your own `post-editing guide <https://en.wikipedia.org/"
-#| "wiki/Postediting>`_ and alter these recommendations to fit your own "
-#| "definitions. In most cases the `browser-plugin of languageTool <https://"
-#| "languagetool.org/#firefox_chrome>`_  is useful as the proof-reading tool."
 msgid ""
 "Following these recommendations supports the creation of a full, "
 "multilingual post-editing tool. Good translations are defined through the "
@@ -34589,11 +34474,11 @@ msgid ""
 "definitions. In most cases the `browser-plugin of languageTool <https://"
 "languagetool.org/#firefox_chrome>`_  is useful as a proof-reading tool."
 msgstr ""
-"遵循这些建议支持创建完整的多语言后期编辑工具。好的翻译是通过 House 的系统功能"
-"模型定义的，该模型旨在实现上下文正确的翻译。编写您自己的`后期编辑指南 "
-"<https://en.wikipedia.org/wiki/Postediting>`_ 并更改这些建议以适合您自己的定"
-"义。大多数情况下，languageTool 的`browser-plugin <https://languagetool.org/"
-"#firefox_chrome>`_ 可用作校对工具。"
+"遵循这些建议支持创建完整的多语言后期编辑工具。好的翻译是通过 House "
+"的系统功能模型定义的，该模型旨在实现上下文正确的翻译。编写您自己的`"
+"后期编辑指南 <https://en.wikipedia.org/wiki/Postediting>`_ "
+"并更改这些建议以适合您自己的定义。大多数情况下，languageTool 的`browser-"
+"plugin <https://languagetool.org/#firefox_chrome>`_ 可用作校对工具。"
 
 #: ../../devel/community.rst:6
 msgid ""
@@ -34604,6 +34489,10 @@ msgid ""
 "also receive translator comments if you setup :ref:`component-"
 "report_source_bugs`."
 msgstr ""
+"译者经常会发现源字符串的问题。确保译者可以轻松报告这样的问题。要收集此种反馈"
+"，你可以在你的 Weblate 部件上设置 :ref:`component-"
+"repoweb`字段，让译者提议对上游仓库的更改。如果你设置了 :ref:`component-"
+"report_source_bugs`，你也可以收到译者的评论。"
 
 #: ../../devel/community.rst:11
 msgid "Community localization checklist"
@@ -34660,12 +34549,6 @@ msgid "Review translations"
 msgstr "复查翻译"
 
 #: ../../devel/community.rst:32
-#, fuzzy
-#| msgid ""
-#| "The translations should be reviewed by a second person after the post-"
-#| "editing. With an impartial and competent revisor, the two man rule "
-#| "reduces the errors and improves the quality and consistency of the "
-#| "content."
 msgid ""
 "The translations should be reviewed by a second person after the post-"
 "editing. With an impartial and competent reviewer, the two people rule "
@@ -34674,8 +34557,9 @@ msgid ""
 "best review. Screenshots, explanations also help to review the strings in "
 "context."
 msgstr ""
-"译文在后期编辑后应由第二个人审阅。有了公正和称职的审校人员，两人规则可以减少"
-"错误，提高内容的质量和一致性。"
+"译文在编辑后应由第二个人审阅。有了公正和称职的审校人员，两人规则可以减少错误"
+"，提高内容的质量和一致性。向审稿人提供预览或 alpha "
+"翻译有助于促成最好审校。截图、解释也有助于在上下文中审阅字符串。"
 
 #: ../../devel/community.rst:37
 msgid "Structured feedback"
@@ -34688,6 +34572,8 @@ msgid ""
 "during translation. This prevents recurring mistakes, and helps translators "
 "to understand how the code works."
 msgstr ""
+"Weblate 中有许多 :doc:`/user/checks`，它们提供翻译质量的结构性反馈。他们同样"
+"在翻译过程中给予视觉反馈。这防止重复的错误并帮助译者理解代码如何工作。"
 
 #: ../../devel/community.rst:42
 msgid "Translation definition"
@@ -35252,21 +35138,20 @@ msgstr ""
 "allow_translation_propagation` 通过 :ref:`component` 禁用翻译传播。"
 
 #: ../../snippets/basics.rst:21
-#, fuzzy
-#| msgid "Repository initialization"
 msgid "Repository integration"
-msgstr "仓库初始化"
+msgstr "仓库集成"
 
 #: ../../snippets/basics.rst:23
 msgid ""
 "Weblate is built to integrate with upstream version control repository, :doc:"
 "`/admin/continuous` describes building blocks and how the changes flow "
 "between them."
-msgstr ""
+msgstr "Weblate 被构建为和上游版本控制仓库集成，:doc:`/admin/continuous` "
+"描述了构建块以及更改如何在两者间流动。"
 
 #: ../../snippets/basics.rst:29
 msgid ":ref:`architecture` describes how Weblate works internally."
-msgstr ""
+msgstr ":ref:`architecture` 描述了 Weblate 内部运行方式。"
 
 #: ../../devel/integration.rst:7
 msgid "Importing localization project into Weblate"
@@ -38608,16 +38493,12 @@ msgstr ""
 "`addon-weblate.cleanup.generic`,"
 
 #: ../../formats/go-i18n.rst:35
-#, fuzzy
-#| msgid "Example file:"
 msgid "Example file v1:"
-msgstr "示例文件："
+msgstr "示例文件 v1："
 
 #: ../../formats/go-i18n.rst:40
-#, fuzzy
-#| msgid "Example file:"
 msgid "Example file v2:"
-msgstr "示例文件："
+msgstr "示例文件 v2："
 
 #: ../../formats/go-i18n.rst:49
 msgid "Typical Weblate :ref:`component` for v1"
@@ -39655,19 +39536,14 @@ msgid ""
 msgstr "XLIFF 使用 `XLIFF 1.2 Gettext PO 表示指南`_ 进行丰富，以支持复数。"
 
 #: ../../formats/xliff.rst:30
-#, fuzzy
-#| msgid ""
-#| "`XML Localization Interchange File Format (XLIFF)`_ specification, `XLIFF "
-#| "1.2 Representation Guide for Gettext PO`_, `XLIFF on Wikipedia <https://"
-#| "en.wikipedia.org/wiki/XLIFF>`_, :doc:`tt:formats/xliff`,"
 msgid ""
 "`XML Localization Interchange File Format (XLIFF)`_ specification, `XLIFF "
 "1.2 Representation Guide for Gettext PO`_, `XLIFF on Wikipedia <https://en."
 "wikipedia.org/wiki/XLIFF>`_, :doc:`tt:formats/xliff`"
 msgstr ""
 "`XML Localization Interchange File Format (XLIFF)`_ 规范，`XLIFF 1.2 Gettext "
-"PO 呈现指南`_, `XLIFF 的维基百科条目 <https://en.wikipedia.org/wiki/"
-"XLIFF>`_, :doc:`tt:formats/xliff`,"
+"PO 呈现指南`_, `XLIFF 的维基百科条目 <https://en.wikipedia.org/wiki/XLIFF>`"
+"_, :doc:`tt:formats/xliff`"
 
 #: ../../formats/xliff.rst:40 ../../workflows.rst:59
 msgid "Translation states"
@@ -39815,10 +39691,8 @@ msgstr ""
 "求，XLIFF 标准没有涉及到这一点——它没有对此属性施加任何唯一性限制。"
 
 #: ../../formats/xliff.rst:132
-#, fuzzy
-#| msgid "Example file:"
 msgid "Example XLIFF file:"
-msgstr "示例文件："
+msgstr "示例 XLIFF 文件："
 
 #: ../../formats/xliff.rst:142
 msgid "Typical Weblate :ref:`component` for bilingual XLIFF"
@@ -45698,7 +45572,7 @@ msgstr "添加的带指纹的密钥显示在确认消息中："
 
 #: ../../vcs.rst:113
 msgid "Connecting to legacy SSH servers"
-msgstr ""
+msgstr "连接到旧式 SSH 服务器"
 
 #: ../../vcs.rst:115
 msgid ""
@@ -45708,6 +45582,10 @@ msgid ""
 "broken, and it is possible to create chosen-prefix hash collisions for "
 "<USD$50K."
 msgstr ""
+"最近的 OpenSSH 发行版（比如用于 Weblate Docker 容器中的 OpenSSH) "
+"默认禁用了使用 SHA-1 哈希算法的 RSA 签名。做出此变化是因为 SHA-1 "
+"哈希算法存在密码学缺陷，存在以不到 50 K "
+"美元的成本创建指定前缀哈希碰撞的可能性。"
 
 #: ../../vcs.rst:120
 msgid ""
@@ -46754,26 +46632,16 @@ msgid ""
 msgstr "可以在 :ref:`changing-languages` 时自定义站点级别的工作流程。"
 
 #: ../../workflows.rst:26
-#, fuzzy
-#| msgid ""
-#| "Per-project customization can be done on the each language page of the "
-#| "project."
 msgid ""
 "Per-project customization can be done on each language page of the project."
-msgstr "可以在每个项目的语言页面内完成项目的自定义。"
+msgstr "可以在项目的每个语言页面内完成不同项目的自定义。"
 
 #: ../../workflows.rst:28
-#, fuzzy
-#| msgid ""
-#| "All workflow settings can be overriden, the only limitation is that :ref:"
-#| "`project-translation_review` needs to be turned on and can only be "
-#| "disabled in customization."
 msgid ""
 "All workflow settings can be overridden, the only limitation is that :ref:"
 "`project-translation_review` needs to be turned on and can only be disabled "
 "in customization."
-msgstr ""
-"所有的工作流程均可被覆盖，唯一的限制是需要打开 :ref:`project-"
+msgstr "所有的工作流程均可被覆盖，唯一的限制是需要打开 :ref:`project-"
 "translation_review`，且只能在自定义中停用它。"
 
 #: ../../workflows.rst:32
@@ -46825,10 +46693,8 @@ msgstr ""
 "是任何经过身份验证的用户，也可以是具有项目 :guilabel:`翻译` 权限的用户。"
 
 #: ../../workflows.rst:61
-#, fuzzy
-#| msgid "Each translated string can be in one of following states:"
 msgid "Each translated string can be in one of the following states:"
-msgstr "每个翻译的字符串可以处于以下状态之一："
+msgstr "每个已翻译的字符串可以处于以下状态之一："
 
 #: ../../workflows.rst:64
 msgid "Untranslated"
@@ -46890,11 +46756,6 @@ msgid "The states are represented in the translation files when possible."
 msgstr "状态在可能的情况下会呈现在翻译文件中。"
 
 #: ../../workflows.rst:86
-#, fuzzy
-#| msgid ""
-#| "In case file format you use does not support storing states, you might "
-#| "want to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
-#| "strings as needing editing."
 msgid ""
 "If the file format you use does not support storing states, you might want "
 "to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings "
@@ -46912,15 +46773,10 @@ msgid "Direct translation"
 msgstr "直接翻译"
 
 #: ../../workflows.rst:98
-#, fuzzy
-#| msgid ""
-#| "This is most usual setup for smaller teams, anybody can directly "
-#| "translate. This is also the default setup in Weblate."
 msgid ""
 "This is the most usual setup for smaller teams, anybody can directly "
 "translate. This is also the default setup in Weblate."
-msgstr ""
-"这是小型团队最常用的设置，任何人都可以直接翻译。这也是 Weblate 中的默认设置。"
+msgstr "这是小型团队最常用的设置，任何人都可以直接翻译。这也是 Weblate 中的默认设置。"
 
 #: ../../workflows.rst:101
 msgid "*Any user* can edit translations."
@@ -46982,15 +46838,11 @@ msgid "Peer review"
 msgstr "同行评审"
 
 #: ../../workflows.rst:130
-#, fuzzy
-#| msgid ""
-#| "With this workflow, anybody can add suggestions, and need approval from "
-#| "additional member(s) before it is accepted as a translation."
 msgid ""
 "With this workflow, anybody can add a suggestion, which needs approval from "
 "additional member(s) before it is accepted as a translation."
-msgstr ""
-"使用此流程，任何人都可以添加建议，并且需要其他成员的核准才能被接受为翻译。"
+msgstr "使用此流程，任何人都可以添加建议，但需要其他一名或多名成员的核准才能被接受为"
+"翻译。"
 
 #: ../../workflows.rst:133
 msgid "*Any user* can add suggestions."
@@ -47006,8 +46858,6 @@ msgid ""
 msgstr "在获得预定数量的票数后，建议就会成为翻译。"
 
 #: ../../workflows.rst:146
-#, fuzzy
-#| msgid "You can set higher value to require more peer reviews."
 msgid "You can set a higher value to require more peer reviews."
 msgstr "您可以设置更高的值，以要求更多的同行评审。"
 
@@ -47066,15 +46916,6 @@ msgid "Quality gateway for the source strings"
 msgstr "源字符串质量把关"
 
 #: ../../workflows.rst:205
-#, fuzzy
-#| msgid ""
-#| "In many cases the original source language strings are coming from "
-#| "developers, because they write the code and provide initial strings. "
-#| "However developers are often not a native speakers in the source language "
-#| "and do not provide desired quality of the source strings. The "
-#| "intermediate translation can help you in addressing this - there is "
-#| "additional quality gateway for the strings between developers and "
-#| "translators and users."
 msgid ""
 "In many cases the original source language strings are coming from "
 "developers, because they write the code and provide initial strings. However "
@@ -47083,10 +46924,10 @@ msgid ""
 "can help you address this - there is an additional quality gateway for the "
 "strings between developers and translators."
 msgstr ""
-"在许多情况下，原始源语言字符串来自开发人员，因为他们编写代码并提供初始字符"
-"串。但是，开发人员通常不是源语言的母语人士，并且不提供所需质量的源字符串。中"
-"间翻译可以帮助您解决这个问题 - 开发人员，翻译人员和用户之间的字符串有额外的质"
-"量网关。"
+"在许多情况下，原始源语言字符串来自开发人员，因为他们编写代码并提供初始字符串"
+"。但是，开发人员通常不是源语言的母语人士，并且不提供所需质量的源字符串。"
+"中间翻译可以帮助您解决这个问题 - "
+"开发人员，翻译人员之间存在额外的字符串质量网关。"
 
 #: ../../workflows.rst:211
 msgid ""
