@@ -107,8 +107,10 @@ class FullNameField(forms.CharField):
 
     def __init__(self, *args, **kwargs):
         kwargs["max_length"] = FULLNAME_LENGTH
-        kwargs["label"] = gettext("Full name")
-        kwargs["help_text"] = gettext("Name is also used in version control commits.")
+        kwargs["label"] = gettext_lazy("Full name")
+        kwargs["help_text"] = gettext_lazy(
+            "Name is also used in version control commits."
+        )
         kwargs["required"] = True
         super().__init__(*args, **kwargs)
 

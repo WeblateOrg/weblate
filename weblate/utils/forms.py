@@ -22,7 +22,7 @@ from weblate.utils.validators import validate_email, validate_username
 class QueryField(forms.CharField):
     def __init__(self, parser: str = "unit", **kwargs):
         if "label" not in kwargs:
-            kwargs["label"] = gettext("Query")
+            kwargs["label"] = gettext_lazy("Query")
         if "required" not in kwargs:
             kwargs["required"] = False
         self.parser = parser
