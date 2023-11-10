@@ -14,6 +14,7 @@ Not yet released.
 * Use neutral colors for progress bars and translation unit states.
 * :ref:`addon-weblate.gettext.mo` can optionally include strings needing editing.
 * Use :http:header:`Accept-Language` to order translations for unauthenticated users.
+* Add option to directly approve suggestions with :ref:`reviews` workflow.
 
 **Bug fixes**
 

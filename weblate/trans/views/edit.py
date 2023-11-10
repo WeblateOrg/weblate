@@ -55,7 +55,7 @@ from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.messages import get_message_kind
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
-from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import (
     get_sort_name,
@@ -480,8 +480,10 @@ def handle_revert(unit, request, next_unit_url):
 def check_suggest_permissions(request, mode, unit, suggestion):
     """Check permission for suggestion handling."""
     user = request.user
-    if mode in ("accept", "accept_edit"):
-        if not user.has_perm("suggestion.accept", unit):
+    if mode in ("accept", "accept_edit", "accept_approve"):
+        if not user.has_perm("suggestion.accept", unit) or (
+            mode == "accept_approve" and not user.has_perm("unit.review", unit)
+        ):
             messages.error(
                 request, gettext("You do not have privilege to accept suggestions!")
             )
@@ -503,7 +505,15 @@ def check_suggest_permissions(request, mode, unit, suggestion):
 def handle_suggestions(request, unit, this_unit_url, next_unit_url):
     """Handle suggestion deleting/accepting."""
     sugid = ""
-    params = ("accept", "accept_edit", "delete", "spam", "upvote", "downvote")
+    params = (
+        "accept",
+        "accept_edit",
+        "accept_approve",
+        "delete",
+        "spam",
+        "upvote",
+        "downvote",
+    )
     redirect_url = this_unit_url
     mode = None
 
@@ -526,9 +536,18 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
         return HttpResponseRedirect(this_unit_url)
 
     # Perform operation
-    if "accept" in request.POST or "accept_edit" in request.POST:
-        suggestion.accept(request)
-        if "accept" in request.POST:
+    if (
+        "accept" in request.POST
+        or "accept_edit" in request.POST
+        or "accept_approve" in request.POST
+    ):
+        suggestion.accept(
+            request,
+            state=STATE_APPROVED
+            if "accept_approve" in request.POST
+            else STATE_TRANSLATED,
+        )
+        if "accept_edit" not in request.POST:
             redirect_url = next_unit_url
     elif "delete" in request.POST or "spam" in request.POST:
         suggestion.delete_log(
@@ -611,6 +630,7 @@ def translate(request, path):  # noqa: C901
         if (
             "accept" in request.POST
             or "accept_edit" in request.POST
+            or "accept_approve" in request.POST
             or "delete" in request.POST
             or "spam" in request.POST
             or "upvote" in request.POST

@@ -139,7 +139,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         self.fixups = []
 
     @transaction.atomic
-    def accept(self, request, permission="suggestion.accept"):
+    def accept(self, request, permission="suggestion.accept", state=STATE_TRANSLATED):
         if not request.user.has_perm(permission, self.unit):
             messages.error(request, gettext("Could not accept suggestion!"))
             return
@@ -153,7 +153,7 @@ class Suggestion(models.Model, UserDisplayMixin):
             self.unit.translate(
                 request.user,
                 split_plural(self.target),
-                STATE_TRANSLATED,
+                state,
                 author=author,
                 change_action=Change.ACTION_ACCEPT,
             )

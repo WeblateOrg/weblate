@@ -198,6 +198,8 @@ def check_can_edit(user, permission, obj, is_vote=False):
 @register_perm("unit.review")
 def check_unit_review(user, permission, obj, skip_enabled=False):
     if not skip_enabled:
+        if isinstance(obj, Unit):
+            obj = obj.translation
         if isinstance(obj, Translation):
             if not obj.enable_review:
                 if obj.is_source:
