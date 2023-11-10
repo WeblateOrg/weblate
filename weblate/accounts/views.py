@@ -230,7 +230,12 @@ def get_notification_forms(request):
             prefix = NOTIFICATION_PREFIX_TEMPLATE.format(i)
             if prefix + "-scope" in request.POST:
                 yield NotificationForm(
-                    request.user, i > 1, {}, i == 0, prefix=prefix, data=request.POST
+                    user=user,
+                    show_default=i > 1,
+                    subscriptions={},
+                    is_active=i == 0,
+                    prefix=prefix,
+                    data=request.POST,
                 )
     else:
         subscriptions = defaultdict(dict)
@@ -289,10 +294,10 @@ def get_notification_forms(request):
         # Generate forms
         for i, details in enumerate(sorted(subscriptions.items())):
             yield NotificationForm(
-                user,
-                i > 1,
-                details[1],
-                details[0] == active,
+                user=user,
+                show_default=i > 1,
+                subscriptions=details[1],
+                is_active=details[0] == active,
                 initial=initials[details[0]],
                 prefix=NOTIFICATION_PREFIX_TEMPLATE.format(i),
             )

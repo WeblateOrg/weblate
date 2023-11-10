@@ -673,8 +673,8 @@ class NotificationForm(forms.Form):
         widget=forms.HiddenInput, queryset=Component.objects.none(), required=False
     )
 
-    def __init__(self, user, show_default, subscriptions, is_active, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, *, user, show_default, subscriptions, is_active, **kwargs):
+        super().__init__(**kwargs)
         self.user = user
         self.is_active = is_active
         self.show_default = show_default
