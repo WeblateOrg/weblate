@@ -203,7 +203,7 @@ def remove(request, path):
 
         messages.success(request, gettext("A language in the project was removed."))
     elif isinstance(obj, CategoryLanguage):
-        parent = obj.project
+        parent = obj.category
         for translation in obj.translation_set:
             translation.remove(request.user)
 
