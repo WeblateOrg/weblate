@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-08 17:06+0100\n"
-"PO-Revision-Date: 2023-11-09 15:44+0000\n"
+"PO-Revision-Date: 2023-11-10 16:39+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -8613,8 +8613,7 @@ msgstr "PRIVACY_URL"
 
 #: ../../admin/config.rst:1254
 msgid "URL where your Weblate instance shows its privacy policy."
-msgstr ""
-"URL, unter der Ihre Weblate-Instanz ihre Datenschutzrichtlinie anzeigt."
+msgstr "URL, unter der Ihre Weblate-Instanz die Datenschutzerklärung anzeigt."
 
 #: ../../admin/config.rst:1258
 msgid ""
@@ -9520,6 +9519,10 @@ msgid ""
 "`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
+"Dieser Abschnitt beschreibt Variablen von VCS-Zugangsdaten wie "
+":setting:`GITHUB_CREDENTIALS`, :setting:`GITLAB_CREDENTIALS`, "
+":setting:`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/config.rst:1981
 msgid ""
@@ -9569,16 +9572,12 @@ msgstr ""
 "beachten Sie die Sicherheit."
 
 #: ../../admin/config.rst:2000
-#, fuzzy
-#| msgid ""
-#| "If you need to define a setting not exposed through Docker environment "
-#| "variables, see :ref:`docker-custom-config`."
 msgid ""
 "In the Docker container, the credentials can be configured using environment "
 "variables, see :ref:`docker-vcs-config`."
 msgstr ""
-"Wenn Sie eine Einstellung definieren müssen, die nicht über Docker-"
-"Umgebungsvariablen zugänglich ist, siehe :ref:`docker-custom-config`."
+"Im Docker-Container können die Zugangsdaten mithilfe von Umgebungsvariablen "
+"konfiguriert werden, siehe :ref:`docker-vcs-config`."
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
@@ -9610,7 +9609,7 @@ msgstr "Dies ist der Prozess:"
 #: ../../admin/continuous.rst:17
 msgid "Developers make changes and push them to the VCS repository."
 msgstr ""
-"Die Entwickler nehmen Änderungen vor und pushen sie an das VCS-Repository."
+"Die Entwickler nehmen Änderungen vor und pushen sie in das VCS-Repository."
 
 #: ../../admin/continuous.rst:18
 msgid ""
@@ -9620,14 +9619,13 @@ msgstr ""
 "`translations-update`."
 
 #: ../../admin/continuous.rst:19
-#, fuzzy
-#| msgid ""
-#| "Weblate pulls changes from the VCS repository, see :ref:`update-vcs`."
 msgid ""
 "Weblate pulls changes from the VCS repository, parses translation files and "
 "updates its database, see :ref:`update-vcs`."
 msgstr ""
-"Weblate zieht die Änderungen aus dem VCS-Repository, siehe :ref:`update-vcs`."
+"Weblate zieht Änderungen aus dem VCS-Repository, analysiert "
+"Übersetzungsdateien und aktualisiert seine Datenbank, siehe :ref:`update-"
+"vcs`."
 
 #: ../../admin/continuous.rst:20
 msgid ""
@@ -9638,35 +9636,27 @@ msgstr ""
 "oder laden Änderungen offline hoch."
 
 #: ../../admin/continuous.rst:21
-#, fuzzy
-#| msgid ""
-#| "Once the translators are finished, Weblate commits the changes to the "
-#| "local repository (see :ref:`lazy-commit`) and pushes them back if it has "
-#| "permissions to do so (see :ref:`push-changes`)."
 msgid ""
 "Once the translators are finished, Weblate commits the changes to the local "
 "repository (see :ref:`lazy-commit`)."
 msgstr ""
 "Sobald die Übersetzer fertig sind, committet Weblate die Änderungen in das "
-"lokale Repository (siehe :ref:`lazy-commit`) und pusht sie zurück, wenn es "
-"dazu berechtigt ist (siehe :ref:`push-changes`)."
+"lokale Repository (siehe :ref:`lazy-commit`)."
 
 #: ../../admin/continuous.rst:22
-#, fuzzy
-#| msgid ""
-#| "Pushes changes to the upstream repository, if configured by :ref:"
-#| "`component-push`."
 msgid ""
 "Changes are pushed back to the upstream repository (see :ref:`push-changes`)."
 msgstr ""
-"Änderungen in das Upstream-Repository pushen, falls mit :ref:`component-"
-"push` konfiguriert."
+"Änderungen werden in das Upstream-Repository zurückgepusht (siehe :ref:`push-"
+"changes`)."
 
 #: ../../admin/continuous.rst:73
 msgid ""
 "Upstream code hosting is not necessary, you can use Weblate with :ref:`vcs-"
 "local` where there is only the repository inside Weblate."
 msgstr ""
+"Upstream-Code-Hosting ist nicht notwendig, Sie können Weblate mit :ref:`vcs-"
+"local` verwenden, bei dem es nur das Repository innerhalb von Weblate gibt."
 
 #: ../../admin/continuous.rst:79
 msgid "Updating repositories"
@@ -10100,14 +10090,14 @@ msgid ""
 "you do not want changes to be pushed automatically, you can do that manually "
 "under :guilabel:`Repository maintenance` or using API via :option:`wlc push`."
 msgstr ""
-"Für jede Übersetzungskomponente kann eine Push-URL eingerichtet werden "
-"(siehe :ref:`component-push`) und in diesem Fall kann Weblate Änderungen an "
-"das Remote-Repository weiterleiten.  Weblate kann auch so konfiguriert "
+"Für jede Übersetzungskomponente kann eine Push-URL eingerichtet werden ("
+"siehe :ref:`component-push`) und in diesem Fall kann Weblate Änderungen an "
+"das Remote-Repository weiterleiten. Weblate kann auch so konfiguriert "
 "werden, dass Änderungen automatisch bei jedem Commit gepusht werden (dies "
 "ist die Voreinstellung, siehe :ref:`component-push_on_commit`). Wenn Sie "
 "nicht möchten, dass Änderungen automatisch gepusht werden, können Sie dies "
-"manuell unter :guilabel:`Repository-Wartung` oder über die API per :option:"
-"`wlc push` tun."
+"manuell unter :guilabel:`Repository-Wartung` oder über die API per :option:`"
+"wlc push` tun."
 
 #: ../../admin/continuous.rst:330
 msgid ""
@@ -19393,7 +19383,7 @@ msgstr ":file:`legal/documents/privacy.html`"
 
 #: ../../admin/optionals.rst:115
 msgid "Privacy policy document"
-msgstr "Dokument zu den Datenschutzbestimmungen"
+msgstr "Dokument zur Datenschutzerklärung"
 
 #: ../../admin/optionals.rst:117
 msgid ":file:`legal/documents/summary.html`"
@@ -19401,9 +19391,7 @@ msgstr ":file:`legal/documents/summary.html`"
 
 #: ../../admin/optionals.rst:117
 msgid "Short overview of the terms of service and privacy policy"
-msgstr ""
-"Kurze Übersicht über die Allgemeinen Geschäftsbedingungen und "
-"Datenschutzerklärung"
+msgstr "Kurze Übersicht über die Nutzungsbedingungen und Datenschutzerklärung"
 
 #: ../../admin/optionals.rst:119
 msgid ""
@@ -21371,8 +21359,8 @@ msgid ""
 msgstr ""
 "Ob committete Änderungen automatisch in das Upstream-Repository gepusht "
 "werden sollen. Wenn diese Option aktiviert ist, wird der Push ausgelöst, "
-"sobald Weblate Änderungen an das zugrunde liegende Repository committet "
-"(siehe :ref:`lazy-commit`). Um das Pushen tatsächlich zu aktivieren, muss "
+"sobald Weblate Änderungen in das zugrunde liegende Repository committet ("
+"siehe :ref:`lazy-commit`). Um das Pushen tatsächlich zu aktivieren, muss "
 "auch die :guilabel:`Repository-Push-URL` konfiguriert werden."
 
 #: ../../admin/projects.rst:825
@@ -32950,7 +32938,7 @@ msgid ""
 "footer."
 msgstr ""
 "Die Einstellung :setting:`PRIVACY_URL` hinzugefügt, um einen Link zur "
-"Datenschutzrichtlinie in die Fußzeile einzufügen."
+"Datenschutzerklärung in die Fußzeile einzufügen."
 
 #: ../../changes/v4.rst:614
 msgid "Hide member e-mail addresses from project admins."
