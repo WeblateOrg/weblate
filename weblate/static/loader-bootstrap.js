@@ -932,7 +932,7 @@ $(function () {
       $("#position-input").show();
       $("#position-input-editable-input").attr("type", "hidden");
       $("#position-input-editable").hide();
-      document.removeEventListener("click", clickedOutsideEditableInput);
+      document.emoveEventListener("click", clickedOutsideEditableInput);
       document.removeEventListener("keyup", pressedEscape);
     }
   };
@@ -1156,6 +1156,28 @@ $(function () {
       return false;
     }
   });
+
+  /* Notifications removal */
+  document
+    .querySelectorAll(".nav-pills > li > a > button.close")
+    .forEach((button) => {
+      button.addEventListener("click", (e) => {
+        let link = button.parentElement;
+        document
+          .querySelectorAll(link.getAttribute("href") + " select")
+          .forEach((select) => select.remove());
+        //      document.getElementById(link.getAttribute("href").substring(1)).remove();
+        link.parentElement.remove();
+        /* Activate watched tab */
+        $("a[href='#notifications__1']").tab("show");
+        addAlert(
+          gettext(
+            "Notification settings removed, please do not forget to save the changes.",
+          ),
+          "info",
+        );
+      });
+    });
 
   /* User autocomplete */
   document

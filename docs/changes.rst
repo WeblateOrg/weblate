@@ -15,6 +15,7 @@ Not yet released.
 * :ref:`addon-weblate.gettext.mo` can optionally include strings needing editing.
 * Use :http:header:`Accept-Language` to order translations for unauthenticated users.
 * Add option to directly approve suggestions with :ref:`reviews` workflow.
+* One-click removal of project or component :ref:`subscriptions`.
 
 **Bug fixes**
 

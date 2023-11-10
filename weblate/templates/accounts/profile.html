@@ -81,7 +81,14 @@
 
 <ul class="nav nav-pills">
 {% for form in notification_forms %}
-    <li {% if form.is_active %}class="active"{% endif %}><a data-toggle="tab" href="#{{ form.prefix }}">{{ form.get_name }}</a></li>
+  <li {% if form.is_active %}class="active"{% endif %}>
+    <a data-toggle="tab" href="#{{ form.prefix }}">
+      {{ form.get_name }}
+      {% if form.removable %}
+        <button type="button" class="close" title="{% trans "Remove this notification setting" %}"><span aria-hidden="true">&times;</span></button>
+      {% endif %}
+    </a>
+  </li>
 {% endfor %}
 </ul>
 

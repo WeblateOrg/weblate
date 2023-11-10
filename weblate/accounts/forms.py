@@ -673,10 +673,13 @@ class NotificationForm(forms.Form):
         widget=forms.HiddenInput, queryset=Component.objects.none(), required=False
     )
 
-    def __init__(self, *, user, show_default, subscriptions, is_active, **kwargs):
+    def __init__(
+        self, *, user, show_default, removable, subscriptions, is_active, **kwargs
+    ):
         super().__init__(**kwargs)
         self.user = user
         self.is_active = is_active
+        self.removable = removable
         self.show_default = show_default
         self.fields["project"].queryset = user.allowed_projects
         self.fields["component"].queryset = Component.objects.filter_access(user)
@@ -686,7 +689,7 @@ class NotificationForm(forms.Form):
             self.fields[field] = forms.ChoiceField(
                 label=notification_cls.verbose,
                 choices=self.get_choices(notification_cls, show_default),
-                required=True,
+                required=False,
                 initial=self.get_initial(notification_cls, subscriptions, show_default),
             )
             if notification_cls.filter_languages:
@@ -738,17 +741,23 @@ class NotificationForm(forms.Form):
             return self.cleaned_data
         return self.initial
 
+    def get_form_param(self, name: str, default):
+        result = self.form_params.get(name)
+        if result is not None:
+            return result
+        return self.initial.get(name, default)
+
     @cached_property
     def form_scope(self):
-        return self.form_params.get("scope", SCOPE_WATCHED)
+        return int(self.get_form_param("scope", SCOPE_WATCHED))
 
     @cached_property
     def form_project(self):
-        return self.form_params.get("project", None)
+        return self.get_form_param("project", None)
 
     @cached_property
     def form_component(self):
-        return self.form_params.get("component", None)
+        return self.get_form_param("component", None)
 
     def get_name(self):
         scope = self.form_scope
@@ -824,19 +833,19 @@ class NotificationForm(forms.Form):
         handled = set()
         for field, notification_cls in self.notification_fields():
             frequency = self.cleaned_data[field]
-            # We do not store defaults or disabled default subscriptions
-            if frequency == "-1" or (frequency == "0" and not self.show_default):
+            # We do not store removed field, defaults or disabled default subscriptions
+            if (
+                frequency == ""
+                or frequency == "-1"
+                or (frequency == "0" and not self.show_default)
+            ):
                 continue
             # Create/Get from database
-            subscription, created = self.user.subscription_set.get_or_create(
+            subscription, _created = self.user.subscription_set.update_or_create(
                 notification=notification_cls.get_name(),
                 defaults={"frequency": frequency},
                 **lookup,
             )
-            # Update old subscription
-            if not created and subscription.frequency != frequency:
-                subscription.frequency = frequency
-                subscription.save(update_fields=["frequency"])
             handled.add(subscription.pk)
         # Delete stale subscriptions
         self.user.subscription_set.filter(**lookup).exclude(pk__in=handled).delete()
