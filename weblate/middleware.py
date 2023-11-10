@@ -13,6 +13,7 @@ from django.core.validators import validate_ipv46_address
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.shortcuts import redirect
 from django.urls import is_valid_path, reverse
+from django.urls.exceptions import NoReverseMatch
 from django.utils.http import escape_leading_slashes
 from django.utils.translation import gettext_lazy
 
@@ -214,9 +215,11 @@ class RedirectMiddleware:
             query = request.META["QUERY_STRING"]
             if query:
                 query = f"?{query}"
-            return HttpResponsePermanentRedirect(
-                reverse(resolver_match.url_name, kwargs=kwargs) + query
-            )
+            try:
+                new_url = reverse(resolver_match.url_name, kwargs=kwargs)
+            except NoReverseMatch:
+                return None
+            return HttpResponsePermanentRedirect(f"{new_url}{query}")
 
         return None
 
