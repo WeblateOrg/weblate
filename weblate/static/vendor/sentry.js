@@ -9273,6 +9273,7 @@ const spanstatus = require('./tracing/spanstatus.js');
 const trace = require('./tracing/trace.js');
 const dynamicSamplingContext = require('./tracing/dynamicSamplingContext.js');
 const measurement = require('./tracing/measurement.js');
+const envelope = require('./envelope.js');
 const exports$1 = require('./exports.js');
 const hub = require('./hub.js');
 const session = require('./session.js');
@@ -9323,6 +9324,7 @@ exports.startSpanManual = trace.startSpanManual;
 exports.trace = trace.trace;
 exports.getDynamicSamplingContextFromClient = dynamicSamplingContext.getDynamicSamplingContextFromClient;
 exports.setMeasurement = measurement.setMeasurement;
+exports.createEventEnvelope = envelope.createEventEnvelope;
 exports.addBreadcrumb = exports$1.addBreadcrumb;
 exports.captureCheckIn = exports$1.captureCheckIn;
 exports.captureEvent = exports$1.captureEvent;
@@ -9380,7 +9382,7 @@ exports.LinkedErrors = linkederrors.LinkedErrors;
 exports.extractTraceparentData = utils.extractTraceparentData;
 
 
-},{"./api.js":52,"./baseclient.js":53,"./checkin.js":54,"./constants.js":55,"./eventProcessors.js":57,"./exports.js":58,"./hub.js":59,"./integration.js":61,"./integrations/functiontostring.js":62,"./integrations/inboundfilters.js":63,"./integrations/index.js":64,"./integrations/linkederrors.js":65,"./integrations/metadata.js":66,"./scope.js":68,"./sdk.js":69,"./server-runtime-client.js":70,"./session.js":71,"./sessionflusher.js":72,"./tracing/dynamicSamplingContext.js":73,"./tracing/hubextensions.js":75,"./tracing/idletransaction.js":76,"./tracing/measurement.js":77,"./tracing/span.js":79,"./tracing/spanstatus.js":80,"./tracing/trace.js":81,"./tracing/transaction.js":82,"./tracing/utils.js":83,"./transports/base.js":84,"./transports/multiplexed.js":85,"./transports/offline.js":86,"./utils/hasTracingEnabled.js":87,"./utils/isSentryRequestUrl.js":88,"./utils/prepareEvent.js":89,"./version.js":90,"@sentry/utils":109}],61:[function(require,module,exports){
+},{"./api.js":52,"./baseclient.js":53,"./checkin.js":54,"./constants.js":55,"./envelope.js":56,"./eventProcessors.js":57,"./exports.js":58,"./hub.js":59,"./integration.js":61,"./integrations/functiontostring.js":62,"./integrations/inboundfilters.js":63,"./integrations/index.js":64,"./integrations/linkederrors.js":65,"./integrations/metadata.js":66,"./scope.js":68,"./sdk.js":69,"./server-runtime-client.js":70,"./session.js":71,"./sessionflusher.js":72,"./tracing/dynamicSamplingContext.js":73,"./tracing/hubextensions.js":75,"./tracing/idletransaction.js":76,"./tracing/measurement.js":77,"./tracing/span.js":79,"./tracing/spanstatus.js":80,"./tracing/trace.js":81,"./tracing/transaction.js":82,"./tracing/utils.js":83,"./transports/base.js":84,"./transports/multiplexed.js":85,"./transports/offline.js":86,"./utils/hasTracingEnabled.js":87,"./utils/isSentryRequestUrl.js":88,"./utils/prepareEvent.js":89,"./version.js":90,"@sentry/utils":109}],61:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -13630,7 +13632,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":55,"../eventProcessors.js":57,"../scope.js":68,"@sentry/utils":109}],90:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.79.0';
+const SDK_VERSION = '7.80.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -23984,6 +23986,7 @@ const ITEM_TYPE_TO_DATA_CATEGORY_MAP = {
   replay_event: 'replay',
   replay_recording: 'replay',
   check_in: 'monitor',
+  feedback: 'feedback',
   // TODO: This is a temporary workaround until we have a proper data category for metrics
   statsd: 'unknown',
 };
