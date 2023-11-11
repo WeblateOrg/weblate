@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-08 16:05+0000\n"
-"PO-Revision-Date: 2023-11-05 20:40+0000\n"
+"PO-Revision-Date: 2023-11-11 16:34+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -63,6 +63,8 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are commited by Weblate."
 msgstr ""
+"Används i versionskontrollarkiveringar. Adressen kommer att finnas kvar i "
+"arkivet för alltid när ändringarna har genomförts av Weblate."
 
 #: weblate/accounts/forms.py:209 weblate/accounts/models.py:597
 msgid "Public e-mail"
@@ -78,16 +80,16 @@ msgid "Component list: %s"
 msgstr "Komponentlista: %s"
 
 #: weblate/accounts/forms.py:344
-#, fuzzy
-#| msgid "Account removal"
 msgid "Account e-mail"
-msgstr "Kontoborttagning"
+msgstr "Kontomejl"
 
 #: weblate/accounts/forms.py:346
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not not "
 "configured below."
 msgstr ""
+"Används för mejlmeddelanden och som bekräftelsemejladress om det inte är "
+"konfigurerat nedan."
 
 #: weblate/accounts/forms.py:391
 msgid "Subject"
@@ -5325,10 +5327,8 @@ msgstr "Var god rätta till fel i registreringsformuläret."
 
 #: weblate/templates/accounts/email.html:17
 #: weblate/templates/accounts/profile.html:115
-#, fuzzy
-#| msgid "Add new e-mail address"
 msgid "Verify new e-mail address"
-msgstr "Lägg till ny mejladress"
+msgstr "Verifiera ny mejladress"
 
 #: weblate/templates/accounts/email.html:27
 #: weblate/templates/accounts/register.html:52 weblate/templates/base.html:226
@@ -5528,10 +5528,8 @@ msgid "Notification settings"
 msgstr "Aviseringsinställningar"
 
 #: weblate/templates/accounts/profile.html:117
-#, fuzzy
-#| msgid "Choose commit e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "Välj mejladress för arkiveringar från verifierade adresser."
+msgstr "Mejladressen kan endast väljas från verifierade adresser."
 
 #: weblate/templates/accounts/profile.html:126
 msgid "Current user identities"
@@ -6937,19 +6935,15 @@ msgid "Add a category"
 msgstr "Lägg till kategori"
 
 #: weblate/templates/category.html:194
-#, fuzzy
-#| msgid "Rename category"
 msgid "Organize category"
-msgstr "Byt namn på kategori"
+msgstr "Ordna kategori"
 
 #: weblate/templates/category.html:198
-#, fuzzy
-#| msgid "Renaming the category will also change URLs for all its components."
 msgid ""
 "Moving or renaming the category will also change URLs for all its components."
 msgstr ""
-"Om du byter namn på kategorin ändras även webbadresserna för alla dess "
-"komponenter."
+"Att flytta eller byta namn på kategorin kommer också att ändra webbadresser "
+"för alla dess komponenter."
 
 #: weblate/templates/category.html:199 weblate/templates/component.html:244
 #: weblate/templates/project.html:261
@@ -6962,10 +6956,8 @@ msgstr ""
 
 #: weblate/templates/category.html:205 weblate/templates/component.html:250
 #: weblate/templates/project.html:267
-#, fuzzy
-#| msgid "Organize or remove"
 msgid "Organize"
-msgstr "Organisera eller ta bort"
+msgstr "Ordna"
 
 #: weblate/templates/check_list.html:27
 msgid "Total"
@@ -7094,16 +7086,13 @@ msgstr ""
 "giltigt eller permanent tills det tas bort."
 
 #: weblate/templates/component.html:239
-#, fuzzy
-#| msgid "Create component"
 msgid "Organize component"
-msgstr "Lägg till komponent"
+msgstr "Ordna komponent"
 
 #: weblate/templates/component.html:243
-#, fuzzy
-#| msgid "Renaming the component will also change its URLs."
 msgid "Moveing or renaming the component will also change its URLs."
-msgstr "Om du byter namn på komponenten ändras även dess URL:er."
+msgstr ""
+"Att flytta eller byta namn på komponenten kommer att ändra dess webbadresser."
 
 #: weblate/templates/component.html:267 weblate/templates/project.html:283
 #: weblate/templates/translate.html:354 weblate/templates/translation.html:413
@@ -8970,16 +8959,12 @@ msgid "off"
 msgstr "av"
 
 #: weblate/templates/memory/index.html:197
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of shared entries in this Weblate instance"
-msgstr "Antal delade poster"
+msgstr "Antal delade poster i denna Weblate-instans"
 
 #: weblate/templates/memory/index.html:209
-#, fuzzy
-#| msgid "Total number of entries"
 msgid "Total number of entries in this Weblate instance"
-msgstr "Totalt antal poster"
+msgstr "Totalt antal poster i denna Weblate-instans"
 
 #: weblate/templates/memory/index.html:226
 msgid "Import translation memory"
@@ -9128,10 +9113,8 @@ msgstr ""
 "giltigt eller permanent tills det tas bort."
 
 #: weblate/templates/project.html:256
-#, fuzzy
-#| msgid "Create project"
 msgid "Organize project"
-msgstr "Lägg till projekt"
+msgstr "Ordna projekt"
 
 #: weblate/templates/project.html:260
 msgid "Renaming the project will also change URLs for all its components."
@@ -9808,16 +9791,12 @@ msgid "By registering and signing in to this service you accept our:"
 msgstr "Genom att registrera och logga in på denna tjänst accepterar du vår:"
 
 #: weblate/templates/snippets/login-info.html:20
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the Terms of Service and the Privacy Policy, but you "
 "should still read the original documents to fully understand them:"
 msgstr ""
-"Sidan är baserad på användarvillkor och sekretesspolicy, du bör fortfarande "
-"läsa den ursprungliga dokument för att till fullo förstå dem:"
+"Snabb översikt över användarvillkoren och integritetspolicyn, men du bör "
+"ändå läsa originaldokumenten för att förstå dem fullt ut:"
 
 #: weblate/templates/snippets/login-info.html:27
 msgid ""
@@ -9830,19 +9809,14 @@ msgstr ""
 "som definieras av varje översatt projekt."
 
 #: weblate/templates/snippets/login-info.html:31
-#, fuzzy
-#| msgid ""
-#| "By registering you agree to use your name and e-mail in version control "
-#| "system commits and provide your contribution under license defined by "
-#| "each translated project."
 msgid ""
 "By registering you agree to use your name in version control system commits "
 "and provide your contribution under license defined by each translated "
 "project."
 msgstr ""
-"Genom att registrera dig, godkänner du användning av ditt namn och din e-"
-"postadress i versionkontrollsystemet och att dina bidrag hamnar under licens "
-"som definieras av varje översatt projekt."
+"Genom att registrera dig, godkänner du användning av ditt namn i "
+"versionkontrollsystemet och att dina bidrag hamnar under licens som "
+"definieras av varje översatt projekt."
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -12941,14 +12915,11 @@ msgstr ""
 
 #: weblate/trans/models/change.py:800
 msgid "Original revision: {}"
-msgstr ""
+msgstr "Ursprunglig revision: {}"
 
 #: weblate/trans/models/change.py:804
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgid "New revision: {}"
-msgstr "Personlig information: {}"
+msgstr "Ny revision: {}"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:114
