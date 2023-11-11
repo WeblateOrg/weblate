@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-08 16:05+0000\n"
-"PO-Revision-Date: 2023-10-28 18:48+0000\n"
+"PO-Revision-Date: 2023-11-12 02:24+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
@@ -66,6 +66,9 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are commited by Weblate."
 msgstr ""
+"S’utilitza a les comissions del control de versions. L’adreça romandrà al "
+"repositori per sempre més una vegada el Weblate cometi els canvis al "
+"repositori."
 
 #: weblate/accounts/forms.py:209 weblate/accounts/models.py:597
 msgid "Public e-mail"
@@ -81,16 +84,16 @@ msgid "Component list: %s"
 msgstr "Llista de components: %s"
 
 #: weblate/accounts/forms.py:344
-#, fuzzy
-#| msgid "Account removal"
 msgid "Account e-mail"
-msgstr "Supressió del compte"
+msgstr "Adreça electrònica del compte"
 
 #: weblate/accounts/forms.py:346
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not not "
 "configured below."
 msgstr ""
+"S’utilitza per a les notificacions per correu electrònic i com a adreça "
+"electrònica de les comissions si no es configura a continuació."
 
 #: weblate/accounts/forms.py:391
 msgid "Subject"
@@ -1565,8 +1568,8 @@ msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
-"Llista de noms de fitxer del repositori actual o URL remotes que "
-"s’analitzaran cercant-hi cadenes traduïbles."
+"Llista de noms de fitxer del repositori actual o URL remots que s’"
+"analitzaran cercant-hi cadenes traduïbles."
 
 #: weblate/addons/forms.py:527
 #, python-format
@@ -5403,10 +5406,8 @@ msgstr "Corregiu els errors del formulari de registre."
 
 #: weblate/templates/accounts/email.html:17
 #: weblate/templates/accounts/profile.html:115
-#, fuzzy
-#| msgid "Add new e-mail address"
 msgid "Verify new e-mail address"
-msgstr "Afegeix una adreça electrònica nova"
+msgstr "Verifiqueu l’adreça electrònica nova"
 
 #: weblate/templates/accounts/email.html:27
 #: weblate/templates/accounts/register.html:52 weblate/templates/base.html:226
@@ -5609,12 +5610,9 @@ msgid "Notification settings"
 msgstr "Configuració de les notificacions"
 
 #: weblate/templates/accounts/profile.html:117
-#, fuzzy
-#| msgid "Choose commit e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr ""
-"Elegiu l’adreça electrònica de les comissions d’entre les adreces "
-"verificades."
+"Només podeu elegir l’adreça electrònica d’entre les adreces verificades."
 
 #: weblate/templates/accounts/profile.html:126
 msgid "Current user identities"
@@ -7034,19 +7032,15 @@ msgid "Add a category"
 msgstr "Afegeix una categoria"
 
 #: weblate/templates/category.html:194
-#, fuzzy
-#| msgid "Rename category"
 msgid "Organize category"
-msgstr "Canvia el nom de la categoria"
+msgstr "Organitza la categoria"
 
 #: weblate/templates/category.html:198
-#, fuzzy
-#| msgid "Renaming the category will also change URLs for all its components."
 msgid ""
 "Moving or renaming the category will also change URLs for all its components."
 msgstr ""
-"Si canvieu de nom la categoria, també canviaran les URLs de tots els seus "
-"components."
+"Si moveu o canvieu de nom la categoria, també canviaran els URLs de tots els "
+"seus components."
 
 #: weblate/templates/category.html:199 weblate/templates/component.html:244
 #: weblate/templates/project.html:261
@@ -7059,10 +7053,8 @@ msgstr ""
 
 #: weblate/templates/category.html:205 weblate/templates/component.html:250
 #: weblate/templates/project.html:267
-#, fuzzy
-#| msgid "Organize or remove"
 msgid "Organize"
-msgstr "Organitza o suprimeix"
+msgstr "Organitza"
 
 #: weblate/templates/check_list.html:27
 msgid "Total"
@@ -7191,16 +7183,12 @@ msgstr ""
 "de caducitat indicada, o permanentment fins que se suprimeixi."
 
 #: weblate/templates/component.html:239
-#, fuzzy
-#| msgid "Create component"
 msgid "Organize component"
-msgstr "Crea un component"
+msgstr "Organitza el component"
 
 #: weblate/templates/component.html:243
-#, fuzzy
-#| msgid "Renaming the component will also change its URLs."
 msgid "Moveing or renaming the component will also change its URLs."
-msgstr "Si canvieu de nom el component, també en canviaran les URLs."
+msgstr "Si canvieu de nom el component, també en canviaran els URL."
 
 #: weblate/templates/component.html:267 weblate/templates/project.html:283
 #: weblate/templates/translate.html:354 weblate/templates/translation.html:413
@@ -9094,16 +9082,12 @@ msgid "off"
 msgstr "desactivada"
 
 #: weblate/templates/memory/index.html:197
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of shared entries in this Weblate instance"
-msgstr "Nombre d’entrades compartides"
+msgstr "Nombre d’entrades compartides en aquesta instància del Weblate"
 
 #: weblate/templates/memory/index.html:209
-#, fuzzy
-#| msgid "Total number of entries"
 msgid "Total number of entries in this Weblate instance"
-msgstr "Nombre total d’entrades"
+msgstr "Nombre total d’entrades en aquesta instància del Weblate"
 
 #: weblate/templates/memory/index.html:226
 msgid "Import translation memory"
@@ -9252,10 +9236,8 @@ msgstr ""
 "de caducitat indicada, o permanentment fins que se suprimeixi."
 
 #: weblate/templates/project.html:256
-#, fuzzy
-#| msgid "Create project"
 msgid "Organize project"
-msgstr "Crea un projecte"
+msgstr "Organitza el projecte"
 
 #: weblate/templates/project.html:260
 msgid "Renaming the project will also change URLs for all its components."
@@ -9947,17 +9929,12 @@ msgstr ""
 "En registrar-vos i iniciar la sessió en aquest servei accepteu les nostres:"
 
 #: weblate/templates/snippets/login-info.html:20
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the Terms of Service and the Privacy Policy, but you "
 "should still read the original documents to fully understand them:"
 msgstr ""
-"Aquesta pàgina es basa en les condicions del servei i la política de "
-"privadesa; hauríeu de llegir els documents originals per a entendre’ls "
-"completament:"
+"Resum ràpid de les condicions del servei i la política de privadesa; hauríeu "
+"de llegir els documents originals per a entendre’ls completament:"
 
 #: weblate/templates/snippets/login-info.html:27
 msgid ""
@@ -9971,20 +9948,14 @@ msgstr ""
 "projecte traduït."
 
 #: weblate/templates/snippets/login-info.html:31
-#, fuzzy
-#| msgid ""
-#| "By registering you agree to use your name and e-mail in version control "
-#| "system commits and provide your contribution under license defined by "
-#| "each translated project."
 msgid ""
 "By registering you agree to use your name in version control system commits "
 "and provide your contribution under license defined by each translated "
 "project."
 msgstr ""
-"En registrar-vos, accepteu que el vostre nom i el vostre correu electrònic "
-"s’utilitzaran a les comissions del sistema de control de versions i que "
-"proporcionareu les vostres contribucions sota la llicència definida en cada "
-"projecte traduït."
+"En registrar-vos, accepteu que el vostre nom s’utilitzarà a les comissions "
+"del sistema de control de versions i que proporcionareu les vostres "
+"contribucions sota la llicència definida en cada projecte traduït."
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -12134,7 +12105,7 @@ msgstr "No s’ha trobat el component."
 
 #: weblate/trans/forms.py:996
 msgid "Please provide valid component slug!"
-msgstr "Proporcioneu una URL amigable del component vàlida."
+msgstr "Proporcioneu un URL amigable del component vàlid."
 
 #: weblate/trans/forms.py:1004
 msgid "Scope"
@@ -12453,7 +12424,7 @@ msgstr "Escriviu l’URL amigable completa de la traducció per a confirmar-ho."
 
 #: weblate/trans/forms.py:2552
 msgid "Please type in the full slug of the component to confirm."
-msgstr "Escriu una URL amigable completa del component per a confirmar-ho."
+msgstr "Escriviu l’URL amigable complet del component per a confirmar-ho."
 
 #: weblate/trans/forms.py:2562
 msgid "Please type in the slug of the project to confirm."
@@ -12834,7 +12805,7 @@ msgstr "S’ha fusionat el repositori"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:333
 msgid "Repository rebased"
-msgstr "Repositori reorganitzat"
+msgstr "S’ha fet «rebase» al repositori"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:335
@@ -12869,7 +12840,7 @@ msgstr "S’ha suprimit el suggeriment"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:347
 msgid "Translation replaced"
-msgstr "S’ha substituït la traducció"
+msgstr "S’ha substituït una traducció"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:349
@@ -12884,27 +12855,27 @@ msgstr "S’ha canviat la cadena d’origen"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:353
 msgid "String added"
-msgstr "S'ha afegit la cadena"
+msgstr "S’ha afegit una cadena"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:355
 msgid "Bulk status changed"
-msgstr "S'ha canviat l’estat massiu"
+msgstr "S’ha canviat l’estat de manera massiva"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:357
 msgid "Visibility changed"
-msgstr "S'ha canviat la visibilitat"
+msgstr "S’ha canviat la visibilitat"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:359
 msgid "User added"
-msgstr "S'ha afegit l'usuari"
+msgstr "S’ha afegit un usuari"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:361
 msgid "User removed"
-msgstr "S'ha eliminat l'usuari"
+msgstr "S’ha suprimit un usuari"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:363
@@ -12919,22 +12890,22 @@ msgstr "S’ha marcat com a «cal editar»"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:367
 msgid "Component removed"
-msgstr "S'ha eliminat el component"
+msgstr "S’ha suprimit un component"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:369
 msgid "Project removed"
-msgstr "S'ha eliminat el projecte"
+msgstr "S’ha suprimit un projecte"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:371
 msgid "Project renamed"
-msgstr "S'ha canviat el nom del projecte"
+msgstr "S’ha canviat el nom d’un projecte"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:373
 msgid "Component renamed"
-msgstr "S'ha canviat el nom del component"
+msgstr "S’ha canviat el nom d’un component"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:375
@@ -12944,12 +12915,12 @@ msgstr "S’ha mogut el component"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:377
 msgid "Contributor joined"
-msgstr "S'ha unit un col·laborador"
+msgstr "S’ha unit un col·laborador"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:379
 msgid "Announcement posted"
-msgstr "S'ha publicat l'anunci"
+msgstr "S’ha publicat un anunci"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:381
@@ -12959,43 +12930,37 @@ msgstr "S’ha activat una alerta"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:383
 msgid "Language added"
-msgstr "S'ha afegit l'idioma"
+msgstr "S’ha afegit una llengua"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:385
 msgid "Language requested"
-msgstr "Idioma sol·licitat"
+msgstr "S’ha sol·licitat una llengua"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:387
 msgid "Project created"
-msgstr "S'ha creat el projecte"
+msgstr "S’ha creat un projecte"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:389
 msgid "Component created"
-msgstr "S’ha creat el component"
+msgstr "S’ha creat un component"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:391
-#, fuzzy
-#| msgid "User identities"
 msgid "User invited"
-msgstr "Identitats de l’usuari"
+msgstr "S’ha convidat un usuari"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:393
-#, fuzzy
-#| msgid "Received repository notification"
 msgid "Repository notification received"
 msgstr "S’ha rebut una notificació del repositori"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:395
-#, fuzzy
-#| msgid "Replaced file by upload"
 msgid "Translation replaced file by upload"
-msgstr "S’ha substituït un fitxer amb el fitxer pujat"
+msgstr "S’ha substituït el fitxer de la traducció per una pujada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:397
@@ -13039,17 +13004,13 @@ msgstr "S’ha desinstal·lat un complement"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:413
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "String removed"
-msgstr "S’ha suprimit el suggeriment"
+msgstr "S’ha suprimit una cadena"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:415
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Comment removed"
-msgstr "Component que se suprimirà"
+msgstr "S’ha suprimit un comentari"
 
 #: weblate/trans/models/change.py:419
 msgctxt "Name of event in the history"
@@ -13063,31 +13024,23 @@ msgstr "S’ha actualitzat l’explicació"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:424
-#, fuzzy
-#| msgid "Category name"
 msgid "Category removed"
-msgstr "Nom de la categoria"
+msgstr "S’ha suprimit una categoria"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:426
-#, fuzzy
-#| msgid "Category name"
 msgid "Category renamed"
-msgstr "Nom de la categoria"
+msgstr "S’ha canviat de nom una categoria"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:428
-#, fuzzy
-#| msgid "Category name"
 msgid "Category moved"
-msgstr "Nom de la categoria"
+msgstr "S’ha mogut una categoria"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:430
-#, fuzzy
-#| msgid "Failing file"
 msgid "Saving string failed"
-msgstr "Fitxer amb l’error"
+msgstr "S’ha produït un error en desar una cadena"
 
 #: weblate/trans/models/change.py:502
 msgid "The component was automatically locked because of an alert."
@@ -13131,14 +13084,11 @@ msgstr ""
 
 #: weblate/trans/models/change.py:800
 msgid "Original revision: {}"
-msgstr ""
+msgstr "Revisió original: {}"
 
 #: weblate/trans/models/change.py:804
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgid "New revision: {}"
-msgstr "Personal: {}"
+msgstr "Revisió nova: {}"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:114
@@ -14588,16 +14538,13 @@ msgid "Your suggestion already exists!"
 msgstr "El vostre suggeriment ja existeix!"
 
 #: weblate/trans/views/edit.py:374
-#, fuzzy, python-format
-#| msgid ""
-#| "Added %(project)s to your watched projects. You can adjust them and this "
-#| "behavior in the settings."
+#, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust this behavior in "
 "the settings."
 msgstr ""
-"S’ha afegit %(project)s als vostres projectes en seguiment. Podeu canviar-"
-"los i canviar aquest comportament a la configuració."
+"S’ha afegit %(project)s als vostres projectes en seguiment. Podeu canviar "
+"aquest comportament a la configuració."
 
 #: weblate/trans/views/edit.py:393
 #, python-brace-format
