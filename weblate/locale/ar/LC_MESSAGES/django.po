@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-08 16:05+0000\n"
-"PO-Revision-Date: 2023-09-17 13:12+0000\n"
+"PO-Revision-Date: 2023-11-12 11:48+0000\n"
 "Last-Translator: mohammadA <mohammadAbdulhadi1@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
 "application/ar/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.0.2\n"
+"X-Generator: Weblate 5.2-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -232,7 +232,8 @@ msgstr "سوف تستقبل إشعارًا عند كل حدث يحدث في ال
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
-msgstr "سوف تستقبل إشعارًا عند كل حدث يحدث في المشاريع التي لديك أذونات إدارية."
+msgstr ""
+"سوف تستقبل إشعارًا عند كل حدث يحدث في المشاريع التي لديك فيها أذونات إدارية."
 
 #: weblate/accounts/forms.py:782
 #, python-format
@@ -271,14 +272,14 @@ msgstr ""
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
-msgstr "سوف تستقبل هذا الإشعار فقط في اللغات التي تترجمها في %(project)s."
+msgstr "سوف تستقبل هذا الإشعار فقط في اللغات التي تترجم لها في %(project)s."
 
 #: weblate/accounts/forms.py:811
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
-msgstr "سوف تستقبل هذه الإشعارات فقط في اللغات التي تترجمها في %(component)s."
+msgstr "سوف تستقبل هذه الإشعارات فقط في اللغات التي تترجم لها في %(component)s."
 
 #: weblate/accounts/forms.py:850 weblate/auth/models.py:339
 #: weblate/templates/auth/team.html:88 weblate/templates/manage/users.html:45
@@ -312,7 +313,7 @@ msgstr "الترتيب المختار غير متوّفر."
 
 #: weblate/accounts/forms.py:895
 msgid "Add user to a group"
-msgstr "أضِف مستخدمًا لمجموعة"
+msgstr "أضِف مستخدمًا إلى مجموعة"
 
 #: weblate/accounts/forms.py:907
 msgid "Add group"
@@ -339,7 +340,7 @@ msgstr "غُيّر الاسم الكامل مِن {old} إلى {new}."
 
 #: weblate/accounts/models.py:145
 msgid "Password reset requested."
-msgstr "طلب تغيير كلمة السر."
+msgstr "طُلب تغيير كلمة السر."
 
 #: weblate/accounts/models.py:146
 msgid "Password reset confirmed, password turned off."
@@ -371,7 +372,7 @@ msgstr "حاول أحدهم إنشاء حساب ببريدك الإلكترون�
 
 #: weblate/accounts/models.py:153
 msgid "Somebody attempted to register using your e-mail address."
-msgstr "حاول أحدهم إنشاء حساب جديد باستخدام بريدك الإلكتروني."
+msgstr "حاول أحد إنشاء حساب جديد باستخدام بريدك الإلكتروني."
 
 #: weblate/accounts/models.py:155
 #, python-brace-format
@@ -380,7 +381,7 @@ msgstr "لا يمكن تسجيل الدخول باستخدام {method} ({name})
 
 #: weblate/accounts/models.py:156
 msgid "Account locked due to many failed sign in attempts."
-msgstr "تم قفل الحساب بسبب العديد من محاولات تسجيل الدخول الفاشلة."
+msgstr "أقفل الحساب بسبب العديد من محاولات تسجيل الدخول الفاشلة."
 
 #: weblate/accounts/models.py:157
 msgid "Account and all private data removed."
@@ -394,17 +395,17 @@ msgstr "أُرسل تأكيد حذف الحساب إلى {email}."
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr "اتفاقية مع شروط الخدمة {date}."
+msgstr "اتفاقية شروط الخدمة {date}."
 
 #: weblate/accounts/models.py:160
 #, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "مدعو إلى {site_title} بواسطة {username}."
+msgstr "دعاه {username} إلى {site_title}."
 
 #: weblate/accounts/models.py:161
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr "قبلت الدعوة من {username}."
+msgstr "الدعوة من {username} مقبولة."
 
 #: weblate/accounts/models.py:162
 msgid "Started trial period."
@@ -427,16 +428,12 @@ msgid "Access to project {project} was blocked"
 msgstr "النفاذ إلى مشروع {project} حُظر"
 
 #: weblate/accounts/models.py:169
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was enabled by administrator"
-msgstr "أُرسلت الرسالة إلى المدير."
+msgstr "فعَّل المشرف المستخدم"
 
 #: weblate/accounts/models.py:170
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was disabled by administrator"
-msgstr "أُرسلت الرسالة إلى المدير."
+msgstr "عطَّل المشرف المستخدم"
 
 #: weblate/accounts/models.py:175
 msgid "Configured password to sign in."
@@ -7599,7 +7596,7 @@ msgstr "تم رفضه"
 #: weblate/templates/component.html:138
 #, python-format
 msgid "Appeared %(first)s, last seen %(last)s"
-msgstr ""
+msgstr "ظهر منذ %(first)s، وشوهد آخر مرة قبل %(last)s"
 
 #: weblate/templates/component.html:142
 #: weblate/templates/manage/performance.html:42
