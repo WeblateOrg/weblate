@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from datetime import timedelta
 from itertools import chain
+from operator import itemgetter
 from time import monotonic
 from types import GeneratorType
 
@@ -423,6 +424,17 @@ class TranslationStats(BaseStats):
         return self._object.enable_review
 
     def _calculate_basic(self):
+        values = (
+            "state",
+            "num_words",
+            "active_checks_count",
+            "dismissed_checks_count",
+            "suggestion_count",
+            "label_count",
+            "comment_count",
+            "num_chars",
+        )
+
         # Calculate summary for each unit in the database.
         # We only need presence check, not actual count, but using Exists(OuterRef())
         # creates a subquery for each field, while Count() creates a single join
@@ -434,119 +446,168 @@ class TranslationStats(BaseStats):
             label_count=Count("source_unit__labels"),
             comment_count=Count("comment", filter=Q(comment__resolved=False)),
             num_chars=Length("source"),
-        ).only("state", "num_words", "translation")
+        ).values_list(*values)
+
+        (
+            get_state,
+            get_num_words,
+            get_active_checks_count,
+            get_dismissed_checks_count,
+            get_suggestion_count,
+            get_label_count,
+            get_comment_count,
+            get_num_chars,
+        ) = (itemgetter(i) for i in range(len(values)))
 
         # Sum stats in Python, this is way faster than conditional sums in the database
         units_all = units
-        units_fuzzy = [unit for unit in units if unit.state == STATE_FUZZY]
-        units_readonly = [unit for unit in units if unit.state == STATE_READONLY]
-        units_nottranslated = [unit for unit in units if unit.state == STATE_EMPTY]
-        units_unapproved = [unit for unit in units if unit.state == STATE_TRANSLATED]
-        units_approved = [unit for unit in units if unit.state == STATE_APPROVED]
-        units_translated = [unit for unit in units if unit.state >= STATE_TRANSLATED]
-        units_todo = [unit for unit in units if unit.state < STATE_TRANSLATED]
-        units_unlabeled = [unit for unit in units if not unit.label_count]
-        units_allchecks = [unit for unit in units if unit.active_checks_count]
+        units_fuzzy = [unit for unit in units if get_state(unit) == STATE_FUZZY]
+        units_readonly = [unit for unit in units if get_state(unit) == STATE_READONLY]
+        units_nottranslated = [unit for unit in units if get_state(unit) == STATE_EMPTY]
+        units_unapproved = [
+            unit for unit in units if get_state(unit) == STATE_TRANSLATED
+        ]
+        units_approved = [unit for unit in units if get_state(unit) == STATE_APPROVED]
+        units_translated = [
+            unit for unit in units if get_state(unit) >= STATE_TRANSLATED
+        ]
+        units_todo = [unit for unit in units if get_state(unit) < STATE_TRANSLATED]
+        units_unlabeled = [unit for unit in units if not get_label_count(unit)]
+        units_allchecks = [unit for unit in units if get_active_checks_count(unit)]
         units_translated_checks = [
             unit
             for unit in units
-            if unit.active_checks_count
-            and unit.state in (STATE_TRANSLATED, STATE_APPROVED)
+            if get_active_checks_count(unit)
+            and get_state(unit) in (STATE_TRANSLATED, STATE_APPROVED)
         ]
-        units_dismissed_checks = [unit for unit in units if unit.dismissed_checks_count]
-        units_suggestions = [unit for unit in units if unit.suggestion_count]
-        units_nosuggestions = [unit for unit in units if not unit.suggestion_count]
+        units_dismissed_checks = [
+            unit for unit in units if get_dismissed_checks_count(unit)
+        ]
+        units_suggestions = [unit for unit in units if get_suggestion_count(unit)]
+        units_nosuggestions = [unit for unit in units if not get_suggestion_count(unit)]
         units_approved_suggestions = [
             unit
             for unit in units
-            if unit.suggestion_count and unit.state == STATE_APPROVED
+            if get_suggestion_count(unit) and get_state(unit) == STATE_APPROVED
         ]
-        units_comments = [unit for unit in units if unit.comment_count]
+        units_comments = [unit for unit in units if get_comment_count(unit)]
 
         # Store in a cache
         self.store("all", len(units_all))
-        self.store("all_words", sum(unit.num_words for unit in units_all))
-        self.store("all_chars", sum(unit.num_chars for unit in units_all))
+        self.store("all_words", sum(get_num_words(unit) for unit in units_all))
+        self.store("all_chars", sum(get_num_chars(unit) for unit in units_all))
         self.store("fuzzy", len(units_fuzzy))
-        self.store("fuzzy_words", sum(unit.num_words for unit in units_fuzzy))
-        self.store("fuzzy_chars", sum(unit.num_chars for unit in units_fuzzy))
+        self.store("fuzzy_words", sum(get_num_words(unit) for unit in units_fuzzy))
+        self.store("fuzzy_chars", sum(get_num_chars(unit) for unit in units_fuzzy))
         self.store("readonly", len(units_readonly))
-        self.store("readonly_words", sum(unit.num_words for unit in units_readonly))
-        self.store("readonly_chars", sum(unit.num_chars for unit in units_readonly))
-        self.store("translated", len(units_translated))
-        self.store("translated_words", sum(unit.num_words for unit in units_translated))
-        self.store("translated_chars", sum(unit.num_chars for unit in units_translated))
-        self.store("todo", len(units_todo))
-        self.store("todo_words", sum(unit.num_words for unit in units_todo))
-        self.store("todo_chars", sum(unit.num_chars for unit in units_todo))
-        self.store("nottranslated", len(units_nottranslated))
         self.store(
-            "nottranslated_words", sum(unit.num_words for unit in units_nottranslated)
+            "readonly_words", sum(get_num_words(unit) for unit in units_readonly)
         )
         self.store(
-            "nottranslated_chars", sum(unit.num_chars for unit in units_nottranslated)
+            "readonly_chars", sum(get_num_chars(unit) for unit in units_readonly)
+        )
+        self.store("translated", len(units_translated))
+        self.store(
+            "translated_words", sum(get_num_words(unit) for unit in units_translated)
+        )
+        self.store(
+            "translated_chars", sum(get_num_chars(unit) for unit in units_translated)
+        )
+        self.store("todo", len(units_todo))
+        self.store("todo_words", sum(get_num_words(unit) for unit in units_todo))
+        self.store("todo_chars", sum(get_num_chars(unit) for unit in units_todo))
+        self.store("nottranslated", len(units_nottranslated))
+        self.store(
+            "nottranslated_words",
+            sum(get_num_words(unit) for unit in units_nottranslated),
+        )
+        self.store(
+            "nottranslated_chars",
+            sum(get_num_chars(unit) for unit in units_nottranslated),
         )
         # Review workflow
         self.store("approved", len(units_approved))
-        self.store("approved_words", sum(unit.num_words for unit in units_approved))
-        self.store("approved_chars", sum(unit.num_chars for unit in units_approved))
+        self.store(
+            "approved_words", sum(get_num_words(unit) for unit in units_approved)
+        )
+        self.store(
+            "approved_chars", sum(get_num_chars(unit) for unit in units_approved)
+        )
         self.store("unapproved", len(units_unapproved))
-        self.store("unapproved_words", sum(unit.num_words for unit in units_unapproved))
-        self.store("unapproved_chars", sum(unit.num_chars for unit in units_unapproved))
+        self.store(
+            "unapproved_words", sum(get_num_words(unit) for unit in units_unapproved)
+        )
+        self.store(
+            "unapproved_chars", sum(get_num_chars(unit) for unit in units_unapproved)
+        )
         # Labels
         self.store("unlabeled", len(units_unlabeled))
-        self.store("unlabeled_words", sum(unit.num_words for unit in units_unlabeled))
-        self.store("unlabeled_chars", sum(unit.num_chars for unit in units_unlabeled))
+        self.store(
+            "unlabeled_words", sum(get_num_words(unit) for unit in units_unlabeled)
+        )
+        self.store(
+            "unlabeled_chars", sum(get_num_chars(unit) for unit in units_unlabeled)
+        )
         # Checks
         self.store("allchecks", len(units_allchecks))
-        self.store("allchecks_words", sum(unit.num_words for unit in units_allchecks))
-        self.store("allchecks_chars", sum(unit.num_chars for unit in units_allchecks))
+        self.store(
+            "allchecks_words", sum(get_num_words(unit) for unit in units_allchecks)
+        )
+        self.store(
+            "allchecks_chars", sum(get_num_chars(unit) for unit in units_allchecks)
+        )
         self.store("translated_checks", len(units_translated_checks))
         self.store(
             "translated_checks_words",
-            sum(unit.num_words for unit in units_translated_checks),
+            sum(get_num_words(unit) for unit in units_translated_checks),
         )
         self.store(
             "translated_checks_chars",
-            sum(unit.num_chars for unit in units_translated_checks),
+            sum(get_num_chars(unit) for unit in units_translated_checks),
         )
         self.store("dismissed_checks", len(units_dismissed_checks))
         self.store(
             "dismissed_checks_words",
-            sum(unit.num_words for unit in units_dismissed_checks),
+            sum(get_num_words(unit) for unit in units_dismissed_checks),
         )
         self.store(
             "dismissed_checks_chars",
-            sum(unit.num_chars for unit in units_dismissed_checks),
+            sum(get_num_chars(unit) for unit in units_dismissed_checks),
         )
         # Suggestions
         self.store("suggestions", len(units_suggestions))
         self.store(
-            "suggestions_words", sum(unit.num_words for unit in units_suggestions)
+            "suggestions_words", sum(get_num_words(unit) for unit in units_suggestions)
         )
         self.store(
-            "suggestions_chars", sum(unit.num_chars for unit in units_suggestions)
+            "suggestions_chars", sum(get_num_chars(unit) for unit in units_suggestions)
         )
         self.store("nosuggestions", len(units_nosuggestions))
         self.store(
-            "nosuggestions_words", sum(unit.num_words for unit in units_nosuggestions)
+            "nosuggestions_words",
+            sum(get_num_words(unit) for unit in units_nosuggestions),
         )
         self.store(
-            "nosuggestions_chars", sum(unit.num_chars for unit in units_nosuggestions)
+            "nosuggestions_chars",
+            sum(get_num_chars(unit) for unit in units_nosuggestions),
         )
         self.store("approved_suggestions", len(units_approved_suggestions))
         self.store(
             "approved_suggestions_words",
-            sum(unit.num_words for unit in units_approved_suggestions),
+            sum(get_num_words(unit) for unit in units_approved_suggestions),
         )
         self.store(
             "approved_suggestions_chars",
-            sum(unit.num_chars for unit in units_approved_suggestions),
+            sum(get_num_chars(unit) for unit in units_approved_suggestions),
         )
         # Comments
         self.store("comments", len(units_comments))
-        self.store("comments_words", sum(unit.num_words for unit in units_comments))
-        self.store("comments_chars", sum(unit.num_chars for unit in units_comments))
+        self.store(
+            "comments_words", sum(get_num_words(unit) for unit in units_comments)
+        )
+        self.store(
+            "comments_chars", sum(get_num_chars(unit) for unit in units_comments)
+        )
 
         # There is single language here, but it is aggregated at higher levels
         self.store("languages", 1)
