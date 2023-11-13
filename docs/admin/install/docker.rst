@@ -1624,8 +1624,8 @@ Site integration
 
    Configures :setting:`PRIVACY_URL`.
 
-Error reporting
-~~~~~~~~~~~~~~~
+Collecting error reports and monitoring performance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It is recommended to collect errors from the installation systematically,
 see :ref:`collecting-errors`.
@@ -1644,7 +1644,7 @@ To enable support for Sentry, set following:
 
 .. envvar:: SENTRY_DSN
 
-    Your Sentry DSN.
+    Your Sentry DSN, see :setting:`SENTRY_DSN`.
 
 .. envvar:: SENTRY_ENVIRONMENT
 
@@ -1661,6 +1661,10 @@ To enable support for Sentry, set following:
        environment:
          SENTRY_TRACES_SAMPLE_RATE: 0.5
 
+   .. seealso::
+
+      `Sentry Performance Monitoring <https://docs.sentry.io/product/performance/>`_,
+
 .. envvar:: SENTRY_PROFILES_SAMPLE_RATE
 
    Configure sampling rate for profiling monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
@@ -1671,6 +1675,14 @@ To enable support for Sentry, set following:
 
        environment:
          SENTRY_PROFILES_SAMPLE_RATE: 0.5
+
+   .. seealso::
+
+      `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_
+
+.. envvar:: SENTRY_SEND_PII
+
+   Configures :setting:`SENTRY_SEND_PII`.
 
 Localization CDN
 ~~~~~~~~~~~~~~~~

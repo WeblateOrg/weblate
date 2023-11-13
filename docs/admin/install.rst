@@ -1637,8 +1637,8 @@ For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API endp
 
 .. _collecting-errors:
 
-Collecting error reports
-------------------------
+Collecting error reports and monitoring performance
+---------------------------------------------------
 
 Weblate, as any other software, can fail. In order to collect useful failure
 states we recommend to use third party services to collect such information.
@@ -1655,6 +1655,15 @@ it, it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:
 .. code-block:: python
 
    SENTRY_DSN = "https://id@your.sentry.example.com/"
+
+Sentry can be also used to monitor performance of Weblate by collecting traces
+and profiles for defined percentage of operations. This can be configured using
+:setting:`SENTRY_TRACES_SAMPLE_RATE` and :setting:`SENTRY_PROFILES_SAMPLE_RATE`.
+
+.. seealso::
+
+   `Sentry Performance Monitoring <https://docs.sentry.io/product/performance/>`_,
+   `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_
 
 Rollbar
 +++++++

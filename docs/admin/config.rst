@@ -1577,6 +1577,42 @@ Sentry DSN to use for :ref:`collecting-errors`.
 
    `Django integration for Sentry <https://docs.sentry.io/platforms/python/integrations/django/>`_
 
+.. setting:: SENTRY_ENVIRONMENT
+
+SENTRY_ENVIRONMENT
+------------------
+
+Configurures environment for Sentry. Defaults to ``devel``.
+
+.. setting:: SENTRY_PROFILES_SAMPLE_RATE
+
+SENTRY_PROFILES_SAMPLE_RATE
+---------------------------
+
+Configure sampling rate for performance monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
+
+.. seealso::
+
+   `Sentry Performance Monitoring <https://docs.sentry.io/product/performance/>`_
+
+.. setting:: SENTRY_SEND_PII
+
+SENTRY_SEND_PII
+---------------
+
+Allow Sentry to collect certain personally identifiable information. Turned on by default.
+
+.. setting:: SENTRY_TRACES_SAMPLE_RATE
+
+SENTRY_TRACES_SAMPLE_RATE
+-------------------------
+
+Configure sampling rate for profiling monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
+
+.. seealso::
+
+   `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_
+
 .. setting:: SESSION_COOKIE_AGE_AUTHENTICATED
 
 SESSION_COOKIE_AGE_AUTHENTICATED
