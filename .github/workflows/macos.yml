@@ -29,6 +29,12 @@ jobs:
     - name: Install Python
       run: brew link --overwrite python
     - name: Install brew dependencies
-      run: brew install pango cairo gobject-introspection glib libyaml tvuotila/libxmlsec1/libxmlsec1@1.2.37 openssl pkg-config zstd xxhash
+      run: >
+        # Workaround for https://github.com/xmlsec/python-xmlsec/issues/254
+        wget -O /tmp/libxmlsec1.rb https://raw.githubusercontent.com/Homebrew/homebrew-core/7f35e6ede954326a10949891af2dba47bbe1fc17/Formula/libxmlsec1.rb
+        brew install --formula /tmp/libxmlsec1.rb
+        brew pin libxmlsec1
+
+        brew install pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash
     - name: Install Weblate
       run: pip3 install -e .[all,test]
