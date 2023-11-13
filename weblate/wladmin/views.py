@@ -19,6 +19,7 @@ from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 from django.views.generic.edit import FormMixin
+from requests.exceptions import HTTPError, Timeout
 
 from weblate.accounts.forms import AdminUserSearchForm
 from weblate.accounts.views import UserList
@@ -182,17 +183,40 @@ def activate(request):
     if support is not None:
         try:
             support.refresh()
-            support.save()
-            messages.success(request, gettext("Activation completed."))
-        except Exception:
+        except Timeout:
             report_error()
             messages.error(
                 request,
                 gettext(
-                    "Could not activate your installation. "
-                    "Please ensure your activation token is correct."
+                    "Could not activate your installation. Please try again later."
                 ),
             )
+        except HTTPError as error:
+            report_error()
+            if error.response.status_code == 404:
+                messages.error(
+                    request,
+                    gettext(
+                        "Could not activate your installation. "
+                        "Please ensure your activation token is correct."
+                    ),
+                )
+            else:
+                messages.error(
+                    request,
+                    gettext(
+                        "Could not activate your installation. Please try again later."
+                    ),
+                )
+        except Exception as error:
+            report_error()
+            messages.error(
+                request,
+                gettext("Could not activate your installation: %s") % error,
+            )
+        else:
+            support.save()
+            messages.success(request, gettext("Activation completed."))
     return redirect("manage")
 
 
