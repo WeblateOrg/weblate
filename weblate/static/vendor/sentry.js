@@ -3689,7 +3689,7 @@ class Prisma  {
         return core.trace(
           {
             name: model ? `${model} ${action}` : action,
-            op: 'db.sql.prisma',
+            op: 'db.prisma',
             origin: 'auto.db.prisma',
             data: { ...clientData, 'db.operation': action },
           },
@@ -13632,7 +13632,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":55,"../eventProcessors.js":57,"../scope.js":68,"@sentry/utils":109}],90:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.80.0';
+const SDK_VERSION = '7.80.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -19180,6 +19180,11 @@ function isReplayEvent(event) {
   return event.type === 'replay_event';
 }
 
+/** If the event is a feedback event */
+function isFeedbackEvent(event) {
+  return event.type === 'feedback';
+}
+
 /**
  * Returns a listener to be added to `client.on('afterSendErrorEvent, listener)`.
  */
@@ -19285,6 +19290,37 @@ function isRrwebError(event, hint) {
 }
 
 /**
+ * Add a feedback breadcrumb event to replay.
+ */
+function addFeedbackBreadcrumb(replay, event) {
+  replay.triggerUserActivity();
+  replay.addUpdate(() => {
+    if (!event.timestamp) {
+      // Ignore events that don't have timestamps (this shouldn't happen, more of a typing issue)
+      // Return true here so that we don't flush
+      return true;
+    }
+
+    void replay.throttledAddEvent({
+      type: EventType.Custom,
+      timestamp: event.timestamp * 1000,
+      data: {
+        timestamp: event.timestamp,
+        tag: 'breadcrumb',
+        payload: {
+          category: 'sentry.feedback',
+          data: {
+            feedbackId: event.event_id,
+          },
+        },
+      },
+    });
+
+    return false;
+  });
+}
+
+/**
  * Determine if event should be sampled (only applies in buffer mode).
  * When an event is captured by `hanldleGlobalEvent`, when in buffer mode
  * we determine if we want to sample the error or not.
@@ -19331,14 +19367,20 @@ function handleGlobalEventListener(
         return event;
       }
 
-      // We only want to handle errors & transactions, nothing else
-      if (!isErrorEvent(event) && !isTransactionEvent(event)) {
+      // We only want to handle errors, transactions, and feedbacks, nothing else
+      if (!isErrorEvent(event) && !isTransactionEvent(event) && !isFeedbackEvent(event)) {
         return event;
       }
 
       // Ensure we do not add replay_id if the session is expired
       const isSessionActive = replay.checkAndHandleExpiredSession();
       if (!isSessionActive) {
+        return event;
+      }
+
+      if (isFeedbackEvent(event)) {
+        // Add a replay breadcrumb for this piece of feedback
+        addFeedbackBreadcrumb(replay, event);
         return event;
       }
 
@@ -19618,16 +19660,20 @@ function parseContentLengthHeader(header) {
 
 /** Get the string representation of a body. */
 function getBodyString(body) {
-  if (typeof body === 'string') {
-    return body;
-  }
+  try {
+    if (typeof body === 'string') {
+      return body;
+    }
 
-  if (body instanceof URLSearchParams) {
-    return body.toString();
-  }
+    if (body instanceof URLSearchParams) {
+      return body.toString();
+    }
 
-  if (body instanceof FormData) {
-    return _serializeFormData(body);
+    if (body instanceof FormData) {
+      return _serializeFormData(body);
+    }
+  } catch (e2) {
+    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('[Replay] Failed to serialize body', body);
   }
 
   return undefined;
@@ -19739,7 +19785,6 @@ function normalizeNetworkBody(body)
   }
 
   const exceedsSizeLimit = body.length > NETWORK_BODY_MAX_SIZE;
-
   const isProbablyJson = _strIsProbablyJson(body);
 
   if (exceedsSizeLimit) {
@@ -19764,7 +19809,7 @@ function normalizeNetworkBody(body)
       return {
         body: jsonBody,
       };
-    } catch (e3) {
+    } catch (e4) {
       // fall back to just send the body as string
     }
   }
@@ -19846,7 +19891,7 @@ function enrichFetchBreadcrumb(
 ) {
   const { input, response } = hint;
 
-  const body = _getFetchRequestArgBody(input);
+  const body = input ? _getFetchRequestArgBody(input) : undefined;
   const reqSize = getBodySize(body, options.textEncoder);
 
   const resSize = response ? parseContentLengthHeader(response.headers.get('content-length')) : undefined;
@@ -19866,7 +19911,8 @@ async function _prepareFetchData(
 
 ,
 ) {
-  const { startTimestamp, endTimestamp } = hint;
+  const now = Date.now();
+  const { startTimestamp = now, endTimestamp = now } = hint;
 
   const {
     url,
@@ -19900,7 +19946,7 @@ function _getRequestInfo(
   input,
   requestBodySize,
 ) {
-  const headers = getRequestHeaders(input, networkRequestHeaders);
+  const headers = input ? getRequestHeaders(input, networkRequestHeaders) : {};
 
   if (!networkCaptureBodies) {
     return buildNetworkRequestOrResponse(headers, requestBodySize, undefined);
@@ -19928,9 +19974,9 @@ async function _getResponseInfo(
     return buildSkippedNetworkRequestOrResponse(responseBodySize);
   }
 
-  const headers = getAllHeaders(response.headers, networkResponseHeaders);
+  const headers = response ? getAllHeaders(response.headers, networkResponseHeaders) : {};
 
-  if (!networkCaptureBodies && responseBodySize !== undefined) {
+  if (!response || (!networkCaptureBodies && responseBodySize !== undefined)) {
     return buildNetworkRequestOrResponse(headers, responseBodySize, undefined);
   }
 
@@ -19954,7 +20000,8 @@ async function _getResponseInfo(
     }
 
     return buildNetworkRequestOrResponse(headers, size, undefined);
-  } catch (e) {
+  } catch (error) {
+    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('[Replay] Failed to serialize response body', error);
     // fallback
     return buildNetworkRequestOrResponse(headers, responseBodySize, undefined);
   }
@@ -19963,7 +20010,7 @@ async function _getResponseInfo(
 async function _parseFetchBody(response) {
   try {
     return await response.text();
-  } catch (e2) {
+  } catch (e) {
     return undefined;
   }
 }
@@ -20059,6 +20106,10 @@ function enrichXhrBreadcrumb(
 ) {
   const { xhr, input } = hint;
 
+  if (!xhr) {
+    return;
+  }
+
   const reqSize = getBodySize(input, options.textEncoder);
   const resSize = xhr.getResponseHeader('content-length')
     ? parseContentLengthHeader(xhr.getResponseHeader('content-length'))
@@ -20077,7 +20128,8 @@ function _prepareXhrData(
   hint,
   options,
 ) {
-  const { startTimestamp, endTimestamp, input, xhr } = hint;
+  const now = Date.now();
+  const { startTimestamp = now, endTimestamp = now, input, xhr } = hint;
 
   const {
     url,
@@ -20091,7 +20143,7 @@ function _prepareXhrData(
     return null;
   }
 
-  if (!urlMatches(url, options.networkDetailAllowUrls) || urlMatches(url, options.networkDetailDenyUrls)) {
+  if (!xhr || !urlMatches(url, options.networkDetailAllowUrls) || urlMatches(url, options.networkDetailDenyUrls)) {
     const request = buildSkippedNetworkRequestOrResponse(requestBodySize);
     const response = buildSkippedNetworkRequestOrResponse(responseBodySize);
     return {
@@ -20111,16 +20163,11 @@ function _prepareXhrData(
     : {};
   const networkResponseHeaders = getAllowedHeaders(getResponseHeaders(xhr), options.networkResponseHeaders);
 
-  const request = buildNetworkRequestOrResponse(
-    networkRequestHeaders,
-    requestBodySize,
-    options.networkCaptureBodies ? getBodyString(input) : undefined,
-  );
-  const response = buildNetworkRequestOrResponse(
-    networkResponseHeaders,
-    responseBodySize,
-    options.networkCaptureBodies ? hint.xhr.responseText : undefined,
-  );
+  const requestBody = options.networkCaptureBodies ? getBodyString(input) : undefined;
+  const responseBody = options.networkCaptureBodies ? _getXhrResponseBody(xhr) : undefined;
+
+  const request = buildNetworkRequestOrResponse(networkRequestHeaders, requestBodySize, requestBody);
+  const response = buildNetworkRequestOrResponse(networkResponseHeaders, responseBodySize, responseBody);
 
   return {
     startTimestamp,
@@ -20145,6 +20192,20 @@ function getResponseHeaders(xhr) {
     acc[key.toLowerCase()] = value;
     return acc;
   }, {});
+}
+
+function _getXhrResponseBody(xhr) {
+  try {
+    return xhr.responseText;
+  } catch (e) {} // eslint-disable-line no-empty
+
+  // Try to manually parse the response body, if responseText fails
+  try {
+    const response = xhr.response;
+    return getBodyString(response);
+  } catch (e2) {} // eslint-disable-line no-empty
+
+  return undefined;
 }
 
 /**
