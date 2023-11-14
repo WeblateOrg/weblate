@@ -22,8 +22,8 @@ from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import (
+    AzureDevOpsRepository,
     BitbucketServerRepository,
-    DevopsRepository,
     GiteaRepository,
     GitForcePushRepository,
     GithubRepository,
@@ -37,7 +37,7 @@ from weblate.vcs.git import (
 from weblate.vcs.mercurial import HgRepository
 
 
-class DevopsFakeRepository(DevopsRepository):
+class AzureDevOpsFakeRepository(AzureDevOpsRepository):
     _is_supported = None
     _version = None
 
@@ -676,7 +676,7 @@ class VCSGiteaTest(VCSGitUpstreamTest):
 
 
 @override_settings(
-    DEVOPS_CREDENTIALS={
+    AZURE_DEVOPS_CREDENTIALS={
         "dev.azure.com": {
             "username": "test",
             "token": "token",
@@ -684,8 +684,8 @@ class VCSGiteaTest(VCSGitUpstreamTest):
         }
     }
 )
-class VCSDevOpsTest(VCSGitUpstreamTest):
-    _class = DevopsFakeRepository
+class VCSAzureDevOpsTest(VCSGitUpstreamTest):
+    _class = AzureDevOpsFakeRepository
     _vcs = "git"
     _sets_push = False
     _mock_push_to_fork = None
@@ -837,7 +837,7 @@ class VCSDevOpsTest(VCSGitUpstreamTest):
         super().test_push(branch)
 
     @override_settings(
-        DEVOPS_CREDENTIALS={
+        AZURE_DEVOPS_CREDENTIALS={
             "dev.azure.com": {
                 "username": "test",
                 "token": "token",

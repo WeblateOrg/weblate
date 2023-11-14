@@ -835,10 +835,10 @@ List for credentials for Bitbucket servers.
    :ref:`vcs-bitbucket-server`,
    `Bitbucket: HTTP access token <https://confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_
 
-.. setting:: DEVOPS_CREDENTIALS
+.. setting:: AZURE_DEVOPS_CREDENTIALS
 
-DEVOPS_CREDENTIALS
-------------------
+AZURE_DEVOPS_CREDENTIALS
+------------------------
 
 .. versionadded:: 5.2
 
@@ -846,7 +846,7 @@ List for credentials for Azure DevOps servers.
 
 .. code-block:: python
 
-    DEVOPS_CREDENTIALS = {
+    AZURE_DEVOPS_CREDENTIALS = {
         "dev.azure.com": {
             "username": "project-name",
             "token": "your-api-token",
@@ -861,7 +861,7 @@ example GitHub API is accessed as ``api.github.com``.
 The following configuration is available for each host:
 
 ``username``
-   The name of the DevOps project. This is not the repository name.
+   The name of the Azure DevOps project. This is not the repository name.
 ``organization``
     The name of the organization of the project.
 ``workItemIds``
@@ -874,8 +874,8 @@ Additional settings not described here can be found at :ref:`settings-credential
 
 .. seealso::
 
-   :ref:`vcs-devops`,
-   `DevOps: Personal access token <https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_
+   :ref:`vcs-azure-devops`,
+   `Azure DevOps: Personal access token <https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_
 
 .. setting:: GOOGLE_ANALYTICS_ID
 
@@ -1866,7 +1866,7 @@ VCS_API_DELAY
 
 Configures minimal delay in seconds between third-party API calls in
 :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and
-:ref:`vcs-devops`.
+:ref:`vcs-azure-devops`.
 
 This rate-limits API calls from Weblate to these services to avoid overloading them.
 

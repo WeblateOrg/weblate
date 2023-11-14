@@ -216,9 +216,9 @@ TEMPLATES = [
 # Please see the documentation for more details.
 GITHUB_CREDENTIALS = get_env_credentials("GITHUB")
 
-# DevOps username, token, and organization for sending pull requests.
+# Azure DevOps username, token, and organization for sending pull requests.
 # Please see the documentation for more details.
-DEVOPS_CREDENTIALS = get_env_credentials("DEVOPS")
+AZURE_DEVOPS_CREDENTIALS = get_env_credentials("AZURE_DEVOPS")
 
 # GitLab username and token for sending merge requests.
 # Please see the documentation for more details.

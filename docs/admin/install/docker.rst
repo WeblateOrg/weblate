@@ -1076,13 +1076,13 @@ Or the path to a file containing the Python dictionary:
 
     .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
 
-.. envvar:: WEBLATE_DEVOPS_USERNAME
-.. envvar:: WEBLATE_DEVOPS_ORGANIZATION
-.. envvar:: WEBLATE_DEVOPS_TOKEN
-.. envvar:: WEBLATE_DEVOPS_HOST
-.. envvar:: WEBLATE_DEVOPS_CREDENTIALS
+.. envvar:: WEBLATE_AZURE_DEVOPS_USERNAME
+.. envvar:: WEBLATE_AZURE_DEVOPS_ORGANIZATION
+.. envvar:: WEBLATE_AZURE_DEVOPS_TOKEN
+.. envvar:: WEBLATE_AZURE_DEVOPS_HOST
+.. envvar:: WEBLATE_AZURE_DEVOPS_CREDENTIALS
 
-    Configures :ref:`vcs-devops` by changing :setting:`DEVOPS_CREDENTIALS`.
+    Configures :ref:`vcs-azure-devops` by changing :setting:`AZURE_DEVOPS_CREDENTIALS`.
 
     .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
 

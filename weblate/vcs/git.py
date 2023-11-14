@@ -1084,30 +1084,30 @@ class GitMergeRequestBase(GitForcePushRepository):
         """
         Raises :class:`HTTPError`, if one occurred.
 
-        Some providers (DevOps for instance) respond with codes in the 2XX range
+        Some providers (Azure DevOps for instance) respond with codes in the 2XX range
         even though the response was an error. This method exists to let the
         inheritors override it if they have special cases.
         """
         response.raise_for_status()
 
 
-class DevopsRepository(GitMergeRequestBase):
-    name = gettext_lazy("DevOps pull request")
-    identifier = "devops"
+class AzureDevOpsRepository(GitMergeRequestBase):
+    name = gettext_lazy("Azure DevOps pull request")
+    identifier = "azure_devops"
     _version = None
     API_TEMPLATE = "{scheme}://{host}/{owner}/_apis/git/repositories/{slug}"
     ORG_API_TEMPLATE = "{scheme}://{host}/{org}/_apis/Contribution/HierarchyQuery?api-version=5.0-preview.1"
     REQUIRED_CONFIG = {"username", "token", "organization"}
     OPTIONAL_CONFIG = {"scheme", "workItemIds"}
     push_label = gettext_lazy(
-        "This will push changes and create a DevOps pull request."
+        "This will push changes and create a Azure DevOps pull request."
     )
 
     @classmethod
     def raise_for_response(cls, response: requests.Response):
         super().raise_for_response(response)
 
-        # DevOps returns 203 when the token is invalid
+        # Azure DevOps returns 203 when the token is invalid
         if response.status_code == 203:
             raise RepositoryError(0, "Invalid token")
 
@@ -1266,11 +1266,11 @@ class DevopsRepository(GitMergeRequestBase):
 
     def __get_forked_id(self, credentials: dict, remote: str) -> str:
         """
-        Returns ID of the forked DevOps repository.
+        Returns ID of the forked Azure DevOps repository.
 
-        To send a PR to DevOps via API with a fork, one needs to send request
-        a request with the ID of the forked repository (unlike others, where
-        the name is enough).
+        To send a PR to Azure DevOps via API with a fork, one needs to send
+        request a request with the ID of the forked repository (unlike others,
+        where the name is enough).
         """
         cmd = ["remote", "get-url", "--push", remote]
         fork_remotes = self.execute(cmd, needs_lock=False, merge_err=False).splitlines()
