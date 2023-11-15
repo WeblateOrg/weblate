@@ -166,7 +166,7 @@ class SeleniumTests(
         scroll_height = self.driver.execute_script("return document.body.scrollHeight")
         scroll_width = self.driver.execute_script("return document.body.scrollWidth")
         # Resize the window
-        self.driver.set_window_size(scroll_width, scroll_height + 20)
+        self.driver.set_window_size(scroll_width, scroll_height + 150)
         time.sleep(0.2)
         # Get screenshot
         with open(os.path.join(self.image_path, name), "wb") as handle:
