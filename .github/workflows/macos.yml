@@ -29,7 +29,7 @@ jobs:
     - name: Install Python
       run: brew link --overwrite python
     - name: Install brew dependencies
-      run: >
+      run: |
         # Workaround for https://github.com/xmlsec/python-xmlsec/issues/254
         wget -O /tmp/libxmlsec1.rb https://raw.githubusercontent.com/Homebrew/homebrew-core/7f35e6ede954326a10949891af2dba47bbe1fc17/Formula/libxmlsec1.rb
         brew install --formula /tmp/libxmlsec1.rb
