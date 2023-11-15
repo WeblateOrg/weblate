@@ -200,6 +200,10 @@ TEMPLATES = [
 # Please see the documentation for more details.
 GITHUB_CREDENTIALS = {}
 
+# Azure DevOps username and token for sending pull requests.
+# Please see the documentation for more details.
+AZURE_DEVOPS_CREDENTIALS = {}
+
 # GitLab username and token for sending merge requests.
 # Please see the documentation for more details.
 GITLAB_CREDENTIALS = {}

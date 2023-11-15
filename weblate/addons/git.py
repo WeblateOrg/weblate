@@ -29,6 +29,7 @@ class GitSquashAddon(BaseAddon):
             "gitlab",
             "git-force-push",
             "gitea",
+            "azure_devops",
         }
     }
     events = (EVENT_POST_COMMIT,)

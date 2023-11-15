@@ -835,6 +835,48 @@ List for credentials for Bitbucket servers.
    :ref:`vcs-bitbucket-server`,
    `Bitbucket: HTTP access token <https://confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_
 
+.. setting:: AZURE_DEVOPS_CREDENTIALS
+
+AZURE_DEVOPS_CREDENTIALS
+------------------------
+
+.. versionadded:: 5.2
+
+List for credentials for Azure DevOps servers.
+
+.. code-block:: python
+
+    AZURE_DEVOPS_CREDENTIALS = {
+        "dev.azure.com": {
+            "username": "project-name",
+            "token": "your-api-token",
+            "organization": "organization-name",
+        },
+    }
+
+The configuration dictionary consists of credentials defined for each API host.
+The API host might be different from what you use in the web browser, for
+example GitHub API is accessed as ``api.github.com``.
+
+The following configuration is available for each host:
+
+``username``
+   The name of the Azure DevOps project. This is not the repository name.
+``organization``
+    The name of the organization of the project.
+``workItemIds``
+    An optional list of work items IDs from your organization. When provided
+    new pull requests will have these attached.
+``token``
+   API token for the API user, required.
+
+Additional settings not described here can be found at :ref:`settings-credentials`.
+
+.. seealso::
+
+   :ref:`vcs-azure-devops`,
+   `Azure DevOps: Personal access token <https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_
+
 .. setting:: GOOGLE_ANALYTICS_ID
 
 GOOGLE_ANALYTICS_ID
@@ -1827,7 +1869,8 @@ VCS_API_DELAY
 .. versionadded:: 4.15.1
 
 Configures minimal delay in seconds between third-party API calls in
-:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, and :ref:`vcs-pagure`.
+:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and
+:ref:`vcs-azure-devops`.
 
 This rate-limits API calls from Weblate to these services to avoid overloading them.
 

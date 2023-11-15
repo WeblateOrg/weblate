@@ -5,8 +5,8 @@ Version control integration
 
 Weblate currently supports :ref:`vcs-git` (with extended support for
 :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`,
-:ref:`vcs-git-svn` and :ref:`vcs-bitbucket-server`) and :ref:`vcs-mercurial` as
-version control back-ends.
+:ref:`vcs-git-svn`, :ref:`vcs-bitbucket-server`, and :ref:`vcs-azure-devops`) and
+:ref:`vcs-mercurial` as version control back-ends.
 
 .. _vcs-repos:
 
@@ -459,6 +459,30 @@ pushing them directly to the repository.
 
 The Gerrit documentation has the details on the configuration necessary to set up
 such repositories.
+
+.. _vcs-azure-devops:
+.. _azure-devops-push:
+
+Azure DevOps pull requests
+--------------------------
+
+This adds a thin layer atop :ref:`vcs-git` using the `Azure DevOps API`_ to allow pushing
+translation changes as pull requests, instead of pushing directly to the repository.
+
+:ref:`vcs-git` pushes changes directly to a repository, while
+:ref:`vcs-azure-devops` creates pull requests.
+The latter is not needed for merely accessing Git repositories.
+
+You need to configure API credentials (:setting:`AZURE_DEVOPS_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`Azure DevOps` option when selecting :ref:`component-vcs`.
+
+.. seealso::
+
+   :ref:`push-changes`,
+   :setting:`AZURE_DEVOPS_CREDENTIALS`
+
+.. _Azure DevOps API: https://learn.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-7.2
 
 .. _git-review: https://pypi.org/project/git-review/
 
