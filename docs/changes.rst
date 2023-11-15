@@ -5,6 +5,8 @@ Not yet released.
 
 **New features**
 
+* :ref:`vcs-azure-devops`
+
 **Improvements**
 
 * Faster statistics updates.
