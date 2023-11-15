@@ -26,6 +26,7 @@ Not yet released.
 * Error handling in organizing components and categories.
 * Fixed moving categories between projects.
 * Fixed formatting of translation memory search results.
+* Allow non-breaking space character in :ref:`autofix-html`.
 
 **Compatibility**
 

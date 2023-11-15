@@ -7,64 +7,26 @@ from __future__ import annotations
 import re
 from typing import Any
 
-import nh3
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import TargetCheck
-from weblate.utils.html import extract_html_tags
+from weblate.utils.html import (
+    MD_BROKEN_LINK,
+    MD_LINK,
+    MD_REFLINK,
+    MD_SYNTAX,
+    MD_SYNTAX_GROUPS,
+    HTMLSanitizer,
+)
 from weblate.utils.xml import parse_xml
 
 BBCODE_MATCH = re.compile(
     r"(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])", re.MULTILINE
 )
 
-MD_LINK = re.compile(
-    r"""
-    (?:
-    !?                                                          # Exclamation for images
-    \[((?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]               # Link text
-    \(
-        \s*(<)?([\s\S]*?)(?(2)>)                                # URL
-        (?:\s+['"]([\s\S]*?)['"])?\s*                           # Title
-    \)
-    |
-    <(https?://[^>]+)>                                          # URL
-    |
-    <([^>]+@[^>]+\.[^>]+)>                                      # E-mail
-    )
-    """,
-    re.VERBOSE,
-)
-MD_BROKEN_LINK = re.compile(r"\] +\(")
-MD_REFLINK = re.compile(
-    r"!?\[("  # leading [
-    r"(?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*"  # link text
-    r")\]\s*\[([^^\]]*)\]"  # trailing ] with optional target
-)
-MD_SYNTAX = re.compile(
-    r"""
-    (_{2})(?:[\s\S]+?)_{2}(?!_)         # __word__
-    |
-    (\*{2})(?:[\s\S]+?)\*{2}(?!\*)      # **word**
-    |
-    \b(_)(?:(?:__|[^_])+?)_\b           # _word_
-    |
-    (\*)(?:(?:\*\*|[^\*])+?)\*(?!\*)    # *word*
-    |
-    (`+)\s*(?:[\s\S]*?[^`])\s*\5(?!`)   # `code`
-    |
-    (~~)(?=\S)(?:[\s\S]*?\S)~~          # ~~word~~
-    |
-    (<)(?:https?://[^>]+)>              # URL
-    |
-    (<)(?:[^>]+@[^>]+\.[^>]+)>          # E-mail
-    """,
-    re.VERBOSE,
-)
-MD_SYNTAX_GROUPS = 8
 
 XML_MATCH = re.compile(r"<[^>]+>")
 XML_ENTITY_MATCH = re.compile(r"&#?\w+;")
@@ -352,4 +314,7 @@ class SafeHTMLCheck(TargetCheck):
         if "md-text" in unit.all_flags:
             target = MD_LINK.sub("", target)
 
-        return nh3.clean(target, link_rel=None, **extract_html_tags(source)) != target
+        sanitizer = HTMLSanitizer()
+        cleaned_target = sanitizer.clean(target, source, unit.all_flags)
+
+        return cleaned_target != target

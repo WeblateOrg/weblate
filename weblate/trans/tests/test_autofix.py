@@ -68,6 +68,10 @@ class AutoFixTest(TestCase):
             fix.fix_target(["<https://weblate.org>"], unit),
             ([""], True),
         )
+        self.assertEqual(
+            fix.fix_target(["%(percent)s %%"], unit),
+            (["%(percent)s %%"], False),
+        )
 
     def test_html_markdown(self):
         fix = BleachHTML()
