@@ -1321,7 +1321,7 @@ Configures whether the private commit e-mail is opt-in or opt-out (by default it
 
 .. hint::
 
-   This setting applies only to users which have not explictely chosen a commit e-mail.
+   This setting only applies to users which have not explicitly chosen a commit e-mail.
 
 .. seealso::
 
