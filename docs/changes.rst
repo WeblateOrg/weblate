@@ -18,6 +18,7 @@ Not yet released.
 * Use :http:header:`Accept-Language` to order translations for unauthenticated users.
 * Add option to directly approve suggestions with :ref:`reviews` workflow.
 * One-click removal of project or component :ref:`subscriptions`.
+* :ref:`api-statistics` now includes character and word counts for more string states.
 
 **Bug fixes**
 
