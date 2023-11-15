@@ -45,6 +45,8 @@ Devanagari danda
 
 Replaces wrong full stop in Devanagari by Devanagari danda (``।``).
 
+.. _autofix-html:
+
 Unsafe HTML cleanup
 ~~~~~~~~~~~~~~~~~~~
 
