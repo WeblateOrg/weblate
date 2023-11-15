@@ -40,7 +40,7 @@ profile.
 This feature also brings in risk of misusing e-mail published in the version
 control commits. Moreover, once such a commit is published on public hosting
 (such as GitHub), there is effectively no way to redact it. Weblate allows
-choosing a private commit e-mail in :ref:`profile` to avoid this.
+choosing a private commit e-mail in :ref:`profile-account` to avoid this.
 
 Therefore, admins should consider this while configuring Weblate:
 
