@@ -1277,6 +1277,10 @@ PRIVATE_COMMIT_EMAIL_OPT_IN
 
 Configures whether the private commit e-mail is opt-in or opt-out (by default it is opt-in).
 
+.. hint::
+
+   This setting applies only to users which have not explictely chosen a commit e-mail.
+
 .. seealso::
 
    :ref:`profile`,
