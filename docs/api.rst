@@ -2447,13 +2447,25 @@ Statistics
    :>json int translated_chars: number of translated characters
    :>json float translated_chars_percent: percentage of translated characters
    :>json int fuzzy: number of fuzzy (marked for edit) strings
+   :>json int fuzzy_words: number of fuzzy (marked for edit) words
+   :>json int fuzzy_chars: number of fuzzy (marked for edit) characters
    :>json float fuzzy_percent: percentage of fuzzy (marked for edit) strings
+   :>json float fuzzy_words_percent: percentage of fuzzy (marked for edit) words
+   :>json float fuzzy_chars_percent: percentage of fuzzy (marked for edit) characters
    :>json int failing: number of failing checks
    :>json float failing_percent: percentage of failing checks
-   :>json int approved: number of approved checks
+   :>json int approved: number of approved strings
+   :>json int approved_words: number of approved words
+   :>json int approved_chars: number of approved characters
    :>json float approved_percent: percentage of approved strings
+   :>json float approved_words_percent: percentage of approved words
+   :>json float approved_chars_percent: percentage of approved characters
    :>json int readonly: number of read-only strings
+   :>json int readonly_words: number of read-only words
+   :>json int readonly: number of read-only characters
    :>json float readonly_percent: percentage of read-only strings
+   :>json float readonly_words_percent: percentage of read-only words
+   :>json float readonly_char_percent: percentage of read-only characters
    :>json int suggestions: number of strings with suggestions
    :>json int comments: number of strings with comments
    :>json string name: object name
