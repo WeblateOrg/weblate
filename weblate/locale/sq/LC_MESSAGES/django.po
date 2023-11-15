@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-08 16:05+0000\n"
-"PO-Revision-Date: 2023-11-15 10:51+0000\n"
+"PO-Revision-Date: 2023-11-15 18:15+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
@@ -67,6 +67,8 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are commited by Weblate."
 msgstr ""
+"Përdorur në depozitime me kontroll versionesh. Adresa do të qëndrojë në depo "
+"përgjithmonë, pasi të jenë depozituar ndryshime nga Weblate-i."
 
 #: weblate/accounts/forms.py:209 weblate/accounts/models.py:597
 msgid "Public e-mail"
@@ -82,16 +84,16 @@ msgid "Component list: %s"
 msgstr "Listë përbërësish: %s"
 
 #: weblate/accounts/forms.py:344
-#, fuzzy
-#| msgid "Account removal"
 msgid "Account e-mail"
-msgstr "Heqje llogarie"
+msgstr "Email llogarie"
 
 #: weblate/accounts/forms.py:346
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not not "
 "configured below."
 msgstr ""
+"Përdorur për njoftime me email dhe si email për depozitimet, nëse s’është "
+"formësuar më poshtë."
 
 #: weblate/accounts/forms.py:391
 msgid "Subject"
@@ -3223,7 +3225,7 @@ msgstr ""
 #: weblate/checks/fluent/inner_html.py:359
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
-msgstr ""
+msgstr "Sekuenca {sequence} s’është referencë e vlefshme shenjash HTML."
 
 #: weblate/checks/fluent/inner_html.py:943
 msgid "Fluent source inner HTML"
@@ -4078,7 +4080,7 @@ msgstr "Kartelë përkthimi XLIFF 1.2"
 
 #: weblate/formats/ttkit.py:1240
 msgid "XLIFF 1.2 with placeables support"
-msgstr ""
+msgstr "XLIFF 1.2 me mbulim parametrash"
 
 #: weblate/formats/ttkit.py:1247
 msgid "XLIFF 1.2 with gettext extensions"
@@ -5372,10 +5374,8 @@ msgstr "Ju lutemi, ndreqni gabimet te formulari i regjistrimeve."
 
 #: weblate/templates/accounts/email.html:17
 #: weblate/templates/accounts/profile.html:115
-#, fuzzy
-#| msgid "Add new e-mail address"
 msgid "Verify new e-mail address"
-msgstr "Shtoni adresë të re email"
+msgstr "Verifikoni adresë të re email"
 
 #: weblate/templates/accounts/email.html:27
 #: weblate/templates/accounts/register.html:52 weblate/templates/base.html:226
@@ -5580,10 +5580,8 @@ msgid "Notification settings"
 msgstr "Rregullime njoftimesh"
 
 #: weblate/templates/accounts/profile.html:117
-#, fuzzy
-#| msgid "Choose commit e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "Zgjidhni email parashtrimi prej adresash të verifikuara."
+msgstr "Adresa email mund të zgjidhet vetëm prej adresash të verifikuara."
 
 #: weblate/templates/accounts/profile.html:126
 msgid "Current user identities"
@@ -6995,19 +6993,15 @@ msgid "Add a category"
 msgstr "Shtoni kategori"
 
 #: weblate/templates/category.html:194
-#, fuzzy
-#| msgid "Rename category"
 msgid "Organize category"
-msgstr "Riemërtoni kategori"
+msgstr "Sistemoni kategori"
 
 #: weblate/templates/category.html:198
-#, fuzzy
-#| msgid "Renaming the category will also change URLs for all its components."
 msgid ""
 "Moving or renaming the category will also change URLs for all its components."
 msgstr ""
-"Riemërtimi i kategorisë do të ndryshojë edhe URL-të për krejt përbërësit e "
-"saj."
+"Zhvendosja, ose riemërtimi i kategorisë do të ndryshojë edhe URL-të për "
+"krejt përbërësit e saj."
 
 #: weblate/templates/category.html:199 weblate/templates/component.html:244
 #: weblate/templates/project.html:261
@@ -7020,10 +7014,8 @@ msgstr ""
 
 #: weblate/templates/category.html:205 weblate/templates/component.html:250
 #: weblate/templates/project.html:267
-#, fuzzy
-#| msgid "Organize or remove"
 msgid "Organize"
-msgstr "Sistemojeni ose hiqeni"
+msgstr "Sistemoni"
 
 #: weblate/templates/check_list.html:27
 msgid "Total"
@@ -7152,16 +7144,13 @@ msgstr ""
 "tij, ose përgjithmonë, deri sa të fshihet."
 
 #: weblate/templates/component.html:239
-#, fuzzy
-#| msgid "Create component"
 msgid "Organize component"
-msgstr "Krijoni përbërës"
+msgstr "Sistemoni përbërës"
 
 #: weblate/templates/component.html:243
-#, fuzzy
-#| msgid "Renaming the component will also change its URLs."
 msgid "Moveing or renaming the component will also change its URLs."
-msgstr "Riemërtimi i përbërësit do të ndryshojë edhe URL-të e tij."
+msgstr ""
+"Zhvendosja, ose riemërtimi i përbërësit do të ndryshojë edhe URL-të e tij."
 
 #: weblate/templates/component.html:267 weblate/templates/project.html:283
 #: weblate/templates/translate.html:354 weblate/templates/translation.html:413
@@ -9046,16 +9035,12 @@ msgid "off"
 msgstr "off"
 
 #: weblate/templates/memory/index.html:197
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of shared entries in this Weblate instance"
-msgstr "Numër zërash të përbashkët"
+msgstr "Numër zërash të përbashkët në këtë instancë Weblate"
 
 #: weblate/templates/memory/index.html:209
-#, fuzzy
-#| msgid "Total number of entries"
 msgid "Total number of entries in this Weblate instance"
-msgstr "Numër zërash gjithsej"
+msgstr "Numër zërash gjithsej në këtë instancë Weblate"
 
 #: weblate/templates/memory/index.html:226
 msgid "Import translation memory"
@@ -9204,10 +9189,8 @@ msgstr ""
 "tij, ose përgjithmonë, deri sa të fshihet."
 
 #: weblate/templates/project.html:256
-#, fuzzy
-#| msgid "Create project"
 msgid "Organize project"
-msgstr "Krijoni projekt"
+msgstr "Sistemoni projekt"
 
 #: weblate/templates/project.html:260
 msgid "Renaming the project will also change URLs for all its components."
@@ -9889,16 +9872,12 @@ msgid "By registering and signing in to this service you accept our:"
 msgstr "Duke u regjistruar dhe bërë hyrjen te ky shërbim, pranoni:"
 
 #: weblate/templates/snippets/login-info.html:20
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the Terms of Service and the Privacy Policy, but you "
 "should still read the original documents to fully understand them:"
 msgstr ""
-"Kjo faqet bazohet te Kushtet e Shërbimit dhe Rregulla Privatësie, që t’i "
-"kuptoni duhet prapëseprapë të lexoni dokumentet origjinale:"
+"Përmbledhje e shpejtë e Kushteve të Shërbimit dhe Rregullave të Privatësisë, "
+"që t’i kuptoni plotësisht duhet prapëseprapë të lexoni dokumentet origjinale:"
 
 #: weblate/templates/snippets/login-info.html:27
 msgid ""
@@ -9911,19 +9890,14 @@ msgstr ""
 "licencën e përcaktuar nga secili projekt përkthimi."
 
 #: weblate/templates/snippets/login-info.html:31
-#, fuzzy
-#| msgid ""
-#| "By registering you agree to use your name and e-mail in version control "
-#| "system commits and provide your contribution under license defined by "
-#| "each translated project."
 msgid ""
 "By registering you agree to use your name in version control system commits "
 "and provide your contribution under license defined by each translated "
 "project."
 msgstr ""
-"Përmes regjistrimit ju pajtoheni të përdoret në depozitime nën sistem "
-"kontrolli versionesh emri dhe email-i juaj dhe se ndihmesën tuaj e jepni nën "
-"licencën e përcaktuar nga secili projekt përkthimi."
+"Përmes regjistrimit ju pajtoheni të përdoret emri juaj në depozitime nën "
+"sistem kontrolli versioneshdhe se ndihmesën tuaj e jepni nën licencën e "
+"përcaktuar nga secili projekt përkthimi."
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -12665,7 +12639,7 @@ msgstr "Emër i përdorur në URL-ra dhe në emra kartelash."
 
 #: weblate/trans/models/category.py:136
 msgid "Too deep nesting of categories!"
-msgstr ""
+msgstr "Folezëzim shumë i thellë i kategorive!"
 
 #: weblate/trans/models/category.py:141
 msgid "Parent category has to be in the same project!"
@@ -13036,14 +13010,11 @@ msgstr ""
 
 #: weblate/trans/models/change.py:800
 msgid "Original revision: {}"
-msgstr ""
+msgstr "Rishikimi origjinal: {}"
 
 #: weblate/trans/models/change.py:804
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgid "New revision: {}"
-msgstr "Personale: {}"
+msgstr "Rishikim i ri: {}"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:114
@@ -13507,7 +13478,7 @@ msgstr "Kartela s’ekziston."
 #: weblate/trans/models/component.py:1755
 #, python-format
 msgid "Could not push %(component)s: %(error_text)s"
-msgstr ""
+msgstr "S’u krye dot push %(component)s: %(error_text)s"
 
 #: weblate/trans/models/component.py:1776
 #, python-format
@@ -13540,7 +13511,7 @@ msgstr "Kategoria s’i përket këtij projekti."
 
 #: weblate/trans/models/component.py:2614
 msgid "Categorized component can not be shared."
-msgstr ""
+msgstr "S’mund të ndahen me të tjerë përbërës me kategori."
 
 #: weblate/trans/models/component.py:2626
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -14729,7 +14700,7 @@ msgstr "Te kategoria u hoq një gjuhë."
 #: weblate/trans/views/settings.py:225
 #, python-format
 msgid "Could not change %s due to outstanding issue in its settings: %s"
-msgstr ""
+msgstr "S’u ndryshua dot %s, për shkak problemi te rregullimet: %s"
 
 #: weblate/trans/views/settings.py:354
 msgid "Backup scheduled. It will be available soon."
