@@ -31,6 +31,7 @@ Released on November 16th 2023.
 **Compatibility**
 
 * :doc:`/formats/apple` exporter now produces UTF-8 encoded files.
+* Python 3.12 is now supported, though not recommended, see :ref:`python-deps`.
 
 **Upgrading**
 
