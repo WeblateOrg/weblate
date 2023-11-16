@@ -124,6 +124,7 @@ class BaseStats:
         self._data = None
         self._pending_save = False
         self.last_change_cache = None
+        self._collected_update_objects = None
 
     @property
     def pk(self):
@@ -250,6 +251,9 @@ class BaseStats:
     def load(self):
         return cache.get(self.cache_key, {})
 
+    def delete(self):
+        return cache.delete(self.cache_key)
+
     def save(self, update_parents: bool = True):
         """Save stats to cache."""
         cache.set(self.cache_key, self._data, 30 * 86400)
@@ -257,10 +261,19 @@ class BaseStats:
     def get_update_objects(self):
         yield GlobalStats()
 
+    def _get_update_objects_dict(self):
+        return {stat.cache_key: stat for stat in self.get_update_objects()}
+
+    def collect_update_objects(self):
+        self._collected_update_objects = self._get_update_objects_dict()
+
     def update_parents(self, extra_objects: list[BaseStats] | None = None):
         # Get unique list of stats to update.
         # This preserves ordering so that closest ones are updated first.
-        stat_objects = {stat.cache_key: stat for stat in self.get_update_objects()}
+        if self._collected_update_objects is not None:
+            stat_objects = self._collected_update_objects
+        else:
+            stat_objects = self._get_update_objects_dict()
         if extra_objects:
             for stat in extra_objects:
                 stat_objects[stat.cache_key] = stat
