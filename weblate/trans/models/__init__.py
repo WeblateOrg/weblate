@@ -5,7 +5,7 @@
 import os
 
 from django.db import transaction
-from django.db.models.signals import m2m_changed, post_delete, post_save
+from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
 from django.dispatch import receiver
 
 from weblate.trans.models._conf import WeblateConf
@@ -61,9 +61,16 @@ def project_post_delete(sender, instance, **kwargs):
     """Handler to delete (sub)project directory on project deletion."""
     # Update stats
     transaction.on_commit(instance.stats.update_parents)
+    instance.stats.delete()
 
     # Remove directory
     delete_object_dir(instance)
+
+
+@receiver(pre_delete, sender=Component)
+def component_pre_delete(sender, instance, **kwargs):
+    # Collect list of stats to update, this can't be done after removal
+    instance.stats.collect_update_objects()
 
 
 @receiver(post_delete, sender=Component)
@@ -71,10 +78,17 @@ def component_post_delete(sender, instance, **kwargs):
     """Handler to delete (sub)project directory on project deletion."""
     # Update stats
     transaction.on_commit(instance.stats.update_parents)
+    instance.stats.delete()
 
     # Do not delete linked components
     if not instance.is_repo_link:
         delete_object_dir(instance)
+
+
+@receiver(post_delete, sender=Translation)
+def translation_post_delete(sender, instance, **kwargs):
+    """Handler to delete stats on translation deletion."""
+    transaction.on_commit(instance.stats.delete)
 
 
 @receiver(m2m_changed, sender=Unit.labels.through)
