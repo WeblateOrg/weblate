@@ -21,6 +21,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project
 from weblate.utils.errors import report_error
 from weblate.utils.site import get_site_url
+from weblate.utils.views import parse_path
 
 CSP_TEMPLATE = (
     "default-src 'self'; style-src {0}; img-src {1}; script-src {2}; "
@@ -128,20 +129,24 @@ class RedirectMiddleware:
 
     def fixup_component(self, slug, request, project):
         try:
-            component = Component.objects.get(
-                project=project, category=None, slug__iexact=slug
-            )
+            # Try uncategorized component first
+            component = project.component_set.get(category=None, slug__iexact=slug)
         except Component.DoesNotExist:
             try:
-                component = (
-                    Change.objects.filter(
-                        action=Change.ACTION_RENAME_COMPONENT, old=slug
-                    )
-                    .order()[0]
-                    .component
-                )
+                # Fallback to any such named component in project
+                component = project.component_set.filter(slug__iexact=slug)[0]
             except IndexError:
-                return None
+                try:
+                    # Look for renamed components in a project
+                    component = (
+                        project.change_set.filter(
+                            action=Change.ACTION_RENAME_COMPONENT, old=slug
+                        )
+                        .order()[0]
+                        .component
+                    )
+                except IndexError:
+                    return None
 
         request.user.check_access_component(component)
         return component
@@ -154,7 +159,7 @@ class RedirectMiddleware:
         """
         return any(lang.name == name for lang in project.languages)
 
-    def process_exception(self, request, exception):
+    def process_exception(self, request, exception):  # noqa: C901
         from weblate.utils.views import UnsupportedPathObjectError
 
         if not isinstance(exception, Http404):
@@ -176,23 +181,42 @@ class RedirectMiddleware:
             path = path[:-1]
         else:
             # Try using last part as a language
+            language_len = 0
             if len(path) >= 3:
                 language = self.fixup_language(path[-1])
                 if language is not None:
                     path[-1] = language.code
                     language_name = language.name
+                    language_len = 1
 
-            project = self.fixup_project(path[0], request)
-            if project is None:
+            try:
+                # Check if project exists
+                project = parse_path(request, path[:1], (Project,))
+            except UnsupportedPathObjectError:
                 return None
-            path[0] = project.slug
+            except Http404:
+                project = self.fixup_project(path[0], request)
+                if project is None:
+                    return None
+                path[0] = project.slug
 
             if len(path) >= 2:
                 if path[1] != "-":
-                    component = self.fixup_component(path[1], request, project)
-                    if component is None:
+                    path_offset = len(path) - (language_len)
+                    try:
+                        # Check if component exists
+                        component = parse_path(
+                            request, path[:path_offset], (Component,)
+                        )
+                    except UnsupportedPathObjectError:
                         return None
-                    path[1] = component.slug
+                    except Http404:
+                        component = self.fixup_component(
+                            path[-1 - language_len], request, project
+                        )
+                        if component is None:
+                            return None
+                        path[:path_offset] = component.get_url_path()
 
                 if language_name:
                     existing_trans = self.check_existing_translations(
