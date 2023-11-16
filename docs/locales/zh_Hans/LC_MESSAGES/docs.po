@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 19:18+0100\n"
-"PO-Revision-Date: 2023-11-09 12:48+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2023-11-16 07:46+0000\n"
+"Last-Translator: Eric <zxmegaxqug@hldrive.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.2-dev\n"
+"X-Generator: Weblate 5.2\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -1718,14 +1718,18 @@ msgid ""
 "be served (URL). Serving of the files is not done by Weblate and has to be "
 "set up externally (typically using a CDN service)."
 msgstr ""
+"此附加组件需在 Weblate 服务器上进行附加配置。:setting:`LOCALIZE_CDN_PATH` "
+"配置生成的文件（在文件系统中）的写入位置，:setting:`LOCALIZE_CDN_URL` "
+"定义从何处提供这些文件（URL）。Weblate 本身不提供这些文件，你必须设置外部源（"
+"通常使用 CDN 服务）。"
 
 #: ../../admin/addons.rst:112
-#, fuzzy
-#| msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
 msgid ""
 "This add-on is configured on :guilabel:`Hosted Weblate` and serves the files "
 "via ``https://weblate-cdn.com/``."
-msgstr "在 Hosted Weblate 中，这使用 ``https://weblate-cdn.com/``。"
+msgstr ""
+"此附加组件在 :guilabel:`Hosted Weblate`上配置并通过 ``https://weblate-cdn."
+"com/`` 提供文件。"
 
 #: ../../admin/addons.rst:117
 msgid ""
@@ -2846,16 +2850,14 @@ msgid "``fuzzy``"
 msgstr "``fuzzy``"
 
 #: ../../admin/addons.rst:677
-#, fuzzy
-#| msgid "Import as string needing edit"
 msgid "Include strings needing editing"
-msgstr "导入为需要编辑的字符串"
+msgstr "包括需要编辑的字符串"
 
 #: ../../admin/addons.rst:677
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
-msgstr ""
+msgstr "需要编辑的字符串（fuzzy）通常无法直接被用作译文。"
 
 #: ../../admin/addons.rst:681
 msgid "Automatically generates a MO file for every changed PO file."
@@ -7401,18 +7403,14 @@ msgid "List for credentials for Gitea servers."
 msgstr "Gitea 服务器凭据列表。"
 
 #: ../../snippets/vcs-credentials.rst:1
-#, fuzzy
-#| msgid ""
-#| "The configuration dictionary consists of credentials defined for each API "
-#| "host. The layout is same for all version control integrations and is "
-#| "described at :ref:`settings-credentials`."
 msgid ""
 "The configuration dictionary consists of credentials defined for each API "
 "host. The layout is same for almost all version control integrations and is "
 "described at :ref:`settings-credentials`."
 msgstr ""
-"配置目录由为每个 API 主机定义的凭据所组成。所有版本控制集成的布局都是一样的，"
-"描述见 :ref:`settings-credentials`。"
+"配置目录由为每个 API "
+"主机定义的凭据所组成。几乎所有版本控制集成的布局都是一样的，描述见 :ref"
+":`settings-credentials`。"
 
 #: ../../admin/config.rst:752
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
@@ -7467,16 +7465,12 @@ msgstr ""
 "atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:841
-#, fuzzy
-#| msgid "PAGURE_CREDENTIALS"
 msgid "AZURE_DEVOPS_CREDENTIALS"
-msgstr "PAGURE_CREDENTIALS"
+msgstr "AZURE_DEVOPS_CREDENTIALS"
 
 #: ../../admin/config.rst:845
-#, fuzzy
-#| msgid "List for credentials for Pagure servers."
 msgid "List for credentials for Azure DevOps servers."
-msgstr "Pagure服务器凭据列表。"
+msgstr "Azure DevOps 服务器凭据列表。"
 
 #: ../../admin/config.rst:857 ../../admin/config.rst:2064
 msgid ""
@@ -7498,7 +7492,7 @@ msgstr "``username``"
 
 #: ../../admin/config.rst:864
 msgid "The name of the Azure DevOps project. This is not the repository name."
-msgstr ""
+msgstr "Azure DevOps 项目名。注意不是仓库名。"
 
 #: ../../admin/config.rst:865
 #, fuzzy
@@ -7507,10 +7501,8 @@ msgid "``organization``"
 msgstr "``location``"
 
 #: ../../admin/config.rst:866
-#, fuzzy
-#| msgid "Uses the pool of shared translations between projects."
 msgid "The name of the organization of the project."
-msgstr "使用翻译池以在不同项目之间共享翻译。"
+msgstr "项目组织名。"
 
 #: ../../admin/config.rst:868
 msgid "``workItemIds``"
@@ -7520,7 +7512,7 @@ msgstr ""
 msgid ""
 "An optional list of work items IDs from your organization. When provided new "
 "pull requests will have these attached."
-msgstr ""
+msgstr "来自组织 work item ID 的可选列表。提供之后，新的拉取请求会附上这些 ID。"
 
 #: ../../admin/config.rst:871 ../../admin/config.rst:2072
 msgid "``token``"
@@ -7534,7 +7526,7 @@ msgstr "API 用户的 API 令牌，必填。"
 msgid ""
 "Additional settings not described here can be found at :ref:`settings-"
 "credentials`."
-msgstr ""
+msgstr ":ref:`settings-credentials`那里可以找到未在此处描述的附加设置。"
 
 #: ../../admin/config.rst:877
 msgid ""
@@ -7542,6 +7534,9 @@ msgid ""
 "microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-"
 "tokens-to-authenticate?view=azure-devops&tabs=Windows>`_"
 msgstr ""
+":ref:`vcs-azure-devops`, `Azure DevOps: 个人访问令牌 <https://learn.microsoft"
+".com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-"
+"authenticate?view=azure-devops&tabs=Windows>`_"
 
 #: ../../admin/config.rst:883
 msgid "GOOGLE_ANALYTICS_ID"
@@ -8015,7 +8010,7 @@ msgstr "配置私密的代码提交电子邮箱默认情况下是开启还是关
 msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "e-mail."
-msgstr ""
+msgstr "此设置仅应用于那些尚未明确选择译文提交电子邮箱的用户。"
 
 #: ../../admin/config.rst:1328
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
@@ -8384,17 +8379,15 @@ msgstr ""
 
 #: ../../admin/config.rst:1629
 msgid "SENTRY_ENVIRONMENT"
-msgstr ""
+msgstr "SENTRY_ENVIRONMENT"
 
 #: ../../admin/config.rst:1631
-#, fuzzy
-#| msgid "Your Rollbar environment, defaults to ``production``."
 msgid "Configurures environment for Sentry. Defaults to ``devel``."
-msgstr "您的 Rollbar 环境，默认为 ``production``。"
+msgstr "配置 Sentry 环境。默认值为 `devel``."
 
 #: ../../admin/config.rst:1636
 msgid "SENTRY_PROFILES_SAMPLE_RATE"
-msgstr ""
+msgstr "SENTRY_PROFILES_SAMPLE_RATE"
 
 #: ../../admin/config.rst:1638 ../../admin/install/docker.rst:1665
 msgid ""
@@ -8406,23 +8399,21 @@ msgstr "配置性能监控采样率。设为 1 跟踪所有事件，0（默认�
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_"
-msgstr ""
+msgstr "`Sentry 性能监控 <https://docs.sentry.io/product/performance/>`_"
 
 #: ../../admin/config.rst:1647
-#, fuzzy
-#| msgid "SENTRY_DSN"
 msgid "SENTRY_SEND_PII"
-msgstr "SENTRY_DSN"
+msgstr "SENTRY_SEND_PII"
 
 #: ../../admin/config.rst:1649
 msgid ""
 "Allow Sentry to collect certain personally identifiable information. Turned "
 "on by default."
-msgstr ""
+msgstr "允许 Sentry 手机特定的个人身份识别信息。此选项默认开启。"
 
 #: ../../admin/config.rst:1654
 msgid "SENTRY_TRACES_SAMPLE_RATE"
-msgstr ""
+msgstr "SENTRY_TRACES_SAMPLE_RATE"
 
 #: ../../admin/config.rst:1656 ../../admin/install/docker.rst:1680
 msgid ""
@@ -8432,7 +8423,7 @@ msgstr "配置个人资料监控采样率。设为 1 跟踪所有事件，0（�
 
 #: ../../admin/config.rst:1660 ../../admin/install/docker.rst:1691
 msgid "`Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
-msgstr ""
+msgstr "`Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
 
 #: ../../admin/config.rst:1665
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
@@ -8672,17 +8663,14 @@ msgid "VCS_API_DELAY"
 msgstr "VCS_API_DELAY"
 
 #: ../../admin/config.rst:1871
-#, fuzzy
-#| msgid ""
-#| "Configures minimal delay in seconds between third-party API calls in :ref:"
-#| "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, and :ref:`vcs-pagure`."
 msgid ""
 "Configures minimal delay in seconds between third-party API calls in :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and :"
 "ref:`vcs-azure-devops`."
 msgstr ""
-"在 :ref:`vcs-github` 、:ref:`vcs-gitlab` 、:ref:`vcs-gitea` 和 :ref:`vcs-"
-"pagure` 中配置第三方 API 调用之间的最小延迟（以秒为单位）。"
+"在 :ref:`vcs-github` 、:ref:`vcs-gitlab` 、:ref:`vcs-gitea` 、 :ref:`vcs-"
+"pagure`和 :ref:`vcs-azure-devops`. 中配置第三方 API "
+"调用之间的最小延迟（以秒为单位）。"
 
 #: ../../admin/config.rst:1875
 msgid ""
@@ -9378,14 +9366,6 @@ msgid ""
 msgstr "推送选项根据使用的 :ref:`vcs` 而不同，更多细节可以在那个章节中找到。"
 
 #: ../../admin/continuous.rst:332
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support for :"
-#| "ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure` "
-#| "pull requests or :ref:`vcs-gerrit` reviews, you can activate these by "
-#| "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :"
-#| "guilabel:`Gerrit` or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:"
-#| "`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, :ref:"
@@ -9395,19 +9375,18 @@ msgid ""
 "as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
 "如果不想要 Weblate 的直接推送，系统也支持 :ref:`vcs-github` 、 :ref:`vcs-"
-"gitlab`、 :ref:`vcs-gitea`、:ref:`vcs-pagure` 的拉取请求或 :ref:`vcs-gerrit` "
-"审核。你可以通过在 :ref:`component` 中选择 :guilabel:`GitHub` 、 :guilabel:"
-"`GitLab` :guilabel:`Gitea`、 :guilabel:`Gerrit` 或 :guilabel:`Pagure` 作为 :"
-"ref:`component-vcs` 来激活这些。"
+"gitlab`、 :ref:`vcs-gitea`、:ref:`vcs-pagure` 、 :ref:`vcs-azure-devops` "
+"的拉取请求或 :ref:`vcs-gerrit` 审核。你可以通过在 :ref:`component` 中选择 "
+":guilabel:`GitHub` 、 :guilabel:`GitLab` :guilabel:`Gitea`、 "
+":guilabel:`Gerrit` 、 :guilabel:`Azure DevOps`或 :guilabel:`Pagure` 作为 :ref"
+":`component-vcs` 来激活这些。"
 
 #: ../../admin/continuous.rst:338
-#, fuzzy
-#| msgid ""
-#| "Overall, following options are available with Git, GitHub and GitLab:"
 msgid ""
 "Overall, following options are available with Git, Mercurial, GitHub, "
 "GitLab, Gitea, Pagure, and Azure DevOps:"
-msgstr "整体上，Git 、 GitHub 和 GitLab 可以具有后面的选项："
+msgstr "整体上， Git、Mercurial、GitHub、GitLab、 Gitea、Pagure 和 Azure DevOps "
+"有下列选项："
 
 #: ../../admin/continuous.rst:342
 msgid "Desired setup"
@@ -9522,10 +9501,8 @@ msgid "Pagure merge request from branch"
 msgstr "来自分支的 Pagure 合并请求"
 
 #: ../../admin/continuous.rst:372
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull request from fork"
-msgstr "Bitbucket 服务器拉取请求"
+msgstr "来自分叉的 Azure DevOps 拉取请求"
 
 #: ../../admin/continuous.rst:372 ../../admin/continuous.rst:374
 #: ../../changes.rst:8
@@ -9535,10 +9512,8 @@ msgid ":ref:`vcs-azure-devops`"
 msgstr ":ref:`vcs-repos`"
 
 #: ../../admin/continuous.rst:374
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull request from branch"
-msgstr "Bitbucket 服务器拉取请求"
+msgstr "来自分支的 Azure DevOps 拉取请求"
 
 #: ../../admin/continuous.rst:377
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
@@ -12238,10 +12213,8 @@ msgstr ""
 "<https://github.com/WeblateOrg/munin>`_"
 
 #: ../../admin/install.rst:1641 ../../admin/install/docker.rst:1638
-#, fuzzy
-#| msgid "Collecting error reports"
 msgid "Collecting error reports and monitoring performance"
-msgstr "收集错误报告"
+msgstr "收集错误报告并监控性能"
 
 #: ../../admin/install.rst:1643
 msgid ""
@@ -12274,12 +12247,17 @@ msgid ""
 "configured using :setting:`SENTRY_TRACES_SAMPLE_RATE` and :setting:"
 "`SENTRY_PROFILES_SAMPLE_RATE`."
 msgstr ""
+"Sentry 也可以监控 Weblate 性能，方法是收集已定义百分比操作的痕迹和画像。"
+"可以使用 :setting:`SENTRY_TRACES_SAMPLE_RATE` 和 "
+":setting:`SENTRY_PROFILES_SAMPLE_RATE`进行配置。"
 
 #: ../../admin/install.rst:1665
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_, `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
 msgstr ""
+"`Sentry性能监控 <https://docs.sentry.io/product/performance/>`_, `Sentry "
+"Profiling <https://docs.sentry.io/product/profiling/>`_"
 
 #: ../../admin/install.rst:1669
 msgid "Rollbar"
@@ -13605,13 +13583,10 @@ msgstr ""
 "`BITBUCKETSERVER_CREDENTIALS`。"
 
 #: ../../admin/install/docker.rst:1085
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`."
 msgid ""
 "Configures :ref:`vcs-azure-devops` by changing :setting:"
 "`AZURE_DEVOPS_CREDENTIALS`."
-msgstr "配置 :ref:`vcs-pagure` ，方法是更改 :setting:`PAGURE_CREDENTIALS`。"
+msgstr "配置 :ref:`vcs-azure-devops`，方法是更改: setting:`AZURE_DEVOPS_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1092
 msgid "Automatic suggestion settings"
@@ -14153,10 +14128,8 @@ msgid "To enable support for Sentry, set following:"
 msgstr "要启用对 Sentry 的支持，请进行以下设置："
 
 #: ../../admin/install/docker.rst:1657
-#, fuzzy
-#| msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgid "Your Sentry DSN, see :setting:`SENTRY_DSN`."
-msgstr "配置 :setting:`SSH_EXTRA_ARGS`。"
+msgstr "你的 Sentry DSN，见 :setting:`SENTRY_DSN`."
 
 #: ../../admin/install/docker.rst:1661
 msgid ""
@@ -14168,13 +14141,11 @@ msgstr "您的 Sentry 环境（可选）。默认为 :envvar:`WEBLATE_SITE_DOMAI
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_,"
-msgstr ""
+msgstr "`Sentry 性能监控 <https://docs.sentry.io/product/performance/>`_,"
 
 #: ../../admin/install/docker.rst:1695
-#, fuzzy
-#| msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgid "Configures :setting:`SENTRY_SEND_PII`."
-msgstr "配置 :setting:`SSH_EXTRA_ARGS`。"
+msgstr "配置 :setting:`SENTRY_SEND_PII`."
 
 #: ../../admin/install/docker.rst:1698
 msgid "Localization CDN"
@@ -15746,10 +15717,8 @@ msgid "``formality``"
 msgstr "``formats``"
 
 #: ../../admin/machine.rst:120
-#, fuzzy
-#| msgid "Somali"
 msgid "Formality"
-msgstr "索马里语（Af-Soomaali）"
+msgstr "Formality"
 
 #: ../../admin/machine.rst:123
 msgid ""
@@ -23135,28 +23104,20 @@ msgid "percentage of translated characters"
 msgstr "已翻译字符的百分比"
 
 #: ../../api.rst:2450
-#, fuzzy
-#| msgid "number of fuzzy (marked for edit) strings"
 msgid "number of fuzzy (marked for edit) words"
-msgstr "模糊（标记为需要编辑）字符串的数量"
+msgstr "模糊（标记为需要编辑）的单词数"
 
 #: ../../api.rst:2451
-#, fuzzy
-#| msgid "number of fuzzy (marked for edit) strings"
 msgid "number of fuzzy (marked for edit) characters"
-msgstr "模糊（标记为需要编辑）字符串的数量"
+msgstr "模糊（标记为需要编辑）的字符串数量"
 
 #: ../../api.rst:2453
-#, fuzzy
-#| msgid "percentage of fuzzy (marked for edit) strings"
 msgid "percentage of fuzzy (marked for edit) words"
-msgstr "模糊字符串 （标记为需要编辑）的百分比"
+msgstr "模糊单词 （标记为需要编辑）的百分比"
 
 #: ../../api.rst:2454
-#, fuzzy
-#| msgid "percentage of fuzzy (marked for edit) strings"
 msgid "percentage of fuzzy (marked for edit) characters"
-msgstr "模糊字符串 （标记为需要编辑）的百分比"
+msgstr "模糊字符 （标记为需要编辑）的百分比"
 
 #: ../../api.rst:2455
 msgid "number of failing checks"
@@ -23167,70 +23128,52 @@ msgid "percentage of failing checks"
 msgstr "未通过检查的百分比"
 
 #: ../../api.rst:2457
-#, fuzzy
-#| msgid "number of read-only strings"
 msgid "number of approved strings"
-msgstr "只读字符串的数目"
+msgstr "已批准字符串的数目"
 
 #: ../../api.rst:2458
-#, fuzzy
-#| msgid "number of approved checks"
 msgid "number of approved words"
-msgstr "通过的检查数"
+msgstr "已批准的单词数"
 
 #: ../../api.rst:2459
-#, fuzzy
-#| msgid "number of approved checks"
 msgid "number of approved characters"
-msgstr "通过的检查数"
+msgstr "已批准的字符数"
 
 #: ../../api.rst:2460
 msgid "percentage of approved strings"
 msgstr "已批准的字符串所占比例"
 
 #: ../../api.rst:2461
-#, fuzzy
-#| msgid "percentage of approved strings"
 msgid "percentage of approved words"
-msgstr "已批准的字符串所占比例"
+msgstr "已批准的单词所占百分比"
 
 #: ../../api.rst:2462
-#, fuzzy
-#| msgid "percentage of approved strings"
 msgid "percentage of approved characters"
-msgstr "已批准的字符串所占比例"
+msgstr "已批准的字符所占百分比"
 
 #: ../../api.rst:2463
 msgid "number of read-only strings"
 msgstr "只读字符串的数目"
 
 #: ../../api.rst:2464
-#, fuzzy
-#| msgid "number of read-only strings"
 msgid "number of read-only words"
-msgstr "只读字符串的数目"
+msgstr "只读单词的数目"
 
 #: ../../api.rst:2465
-#, fuzzy
-#| msgid "number of total characters"
 msgid "number of read-only characters"
-msgstr "总字符的数量"
+msgstr "只读字符的数量"
 
 #: ../../api.rst:2466
 msgid "percentage of read-only strings"
 msgstr "只读字符串所占比例"
 
 #: ../../api.rst:2467
-#, fuzzy
-#| msgid "percentage of read-only strings"
 msgid "percentage of read-only words"
-msgstr "只读字符串所占比例"
+msgstr "只读单词所占百分比"
 
 #: ../../api.rst:2468
-#, fuzzy
-#| msgid "percentage of translated characters"
 msgid "percentage of read-only characters"
-msgstr "已翻译字符的百分比"
+msgstr "只读字符的百分比"
 
 #: ../../api.rst:2469
 msgid "number of strings with suggestions"
@@ -23692,10 +23635,8 @@ msgid "Weblate 5.2"
 msgstr "Weblate 5.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on November 16th 2012."
 msgid "Released on November 16th 2023."
-msgstr "发布于 2012 年 11 月 16 日。"
+msgstr "发布于 2023 年 11 月 16 日。"
 
 #: ../../changes.rst:6 ../../changes.rst:46 ../../changes.rst:73
 #: ../../changes.rst:149 ../../changes.rst:190
@@ -23708,8 +23649,6 @@ msgid "**Improvements**"
 msgstr "**改进**"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Faster stats updates."
 msgid "Faster statistics updates."
 msgstr "更快的统计数据更新。"
 
@@ -23723,44 +23662,38 @@ msgstr ":ref:`autofix` 现在同样应用于建议。"
 
 #: ../../changes.rst:15
 msgid ":ref:`mt-deepl` can now configure default formality for translations."
-msgstr ""
+msgstr ":ref:`mt-deepl`现在可以为译者配置默认的 formality。"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Simplified progress bars indicating translation status."
 msgid "Use neutral colors for progress bars and translation unit states."
-msgstr "简化了显示翻译状态的进度条。"
+msgstr "进度条和翻译单元状态使用中性色。"
 
 #: ../../changes.rst:17
 msgid ""
 ":ref:`addon-weblate.gettext.mo` can optionally include strings needing "
 "editing."
-msgstr ""
+msgstr ":ref:`addon-weblate.gettext.mo` 可以包括需要编辑的字符串（可选)。"
 
 #: ../../changes.rst:18
 msgid ""
 "Use :http:header:`Accept-Language` to order translations for unauthenticated "
 "users."
-msgstr ""
+msgstr "使用 :http:header:`Accept-Language` 为没有进行身份验证的用户排列翻译顺序。"
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Add option to view pending suggestions from user."
 msgid ""
 "Add option to directly approve suggestions with :ref:`reviews` workflow."
-msgstr "添加了查看用户待处理建议的选项。"
+msgstr ":ref:`reviews`工作流程新增直接批准建议的选项。"
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Specify the overall, project or component translation license."
 msgid "One-click removal of project or component :ref:`subscriptions`."
-msgstr "指定整体、项目或部件翻译的许可。"
+msgstr "一键删除项目或部件 :ref:`subscriptions`。"
 
 #: ../../changes.rst:21
 msgid ""
 ":ref:`api-statistics` now includes character and word counts for more string "
 "states."
-msgstr ""
+msgstr ":ref:`api-statistics` 现在包括更多字符串状态的字符和单词计数。"
 
 #: ../../changes.rst:23 ../../changes.rst:55 ../../changes.rst:96
 #: ../../changes.rst:129 ../../changes.rst:162 ../../changes.rst:219
@@ -23780,14 +23713,12 @@ msgid "Fixed moving categories between projects."
 msgstr "修复了在项目间移动分类的问题。"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Fixed automatic translation with more services."
 msgid "Fixed formatting of translation memory search results."
-msgstr "修复了使用更多服务进行自动化翻译的问题。"
+msgstr "修复了翻译记忆库搜索结果版式的问题。"
 
 #: ../../changes.rst:29
 msgid "Allow non-breaking space character in :ref:`autofix-html`."
-msgstr ""
+msgstr "在 :ref:`autofix-html`中允许不间断空格字符。"
 
 #: ../../changes.rst:31 ../../changes.rst:60 ../../changes.rst:105
 #: ../../changes.rst:172 ../../changes.rst:227
@@ -35485,10 +35416,8 @@ msgid ":ref:`architecture` describes how Weblate works internally."
 msgstr ":ref:`architecture` 描述了 Weblate 内部运行方式。"
 
 #: ../../snippets/basics.rst:32
-#, fuzzy
-#| msgid "User registration"
 msgid "User attribution"
-msgstr "用户注册"
+msgstr "用户归因"
 
 #: ../../snippets/basics.rst:34
 msgid ""
@@ -35498,6 +35427,9 @@ msgid ""
 "allows services like GitHub to associate your contributions done in Weblate "
 "with your GitHub profile."
 msgstr ""
+"Weblate 使用名字和电子邮箱在版本控制仓库中保留由译者恰当翻译的译文。"
+"将真实电子邮箱附加到提交遵循分布式版本控制精神并允许类似 GitHub "
+"这样的服务将你在 Weblate 中的贡献关联到你的 GitHub 账户。"
 
 #: ../../snippets/basics.rst:40
 msgid ""
@@ -35506,23 +35438,26 @@ msgid ""
 "(such as GitHub), there is effectively no way to redact it. Weblate allows "
 "choosing a private commit e-mail in :ref:`profile-account` to avoid this."
 msgstr ""
+"不过，此功能也会带来风险，公布在版本控制提交中的电子邮箱可能会被滥用。此外，"
+"一旦这样的提交公布在公开的代码托管平台（比如 "
+"GitHub），那么事实上便没有办法把它去掉。为了避免这种情况，Weblate 允许在 :ref"
+":`profile-account`中选择一个私密的提交邮箱。"
 
 #: ../../snippets/basics.rst:45
 msgid "Therefore, admins should consider this while configuring Weblate:"
-msgstr ""
+msgstr "因此，管理员在配置 Weblate 时应当考虑到这一点："
 
 #: ../../snippets/basics.rst:47
 msgid ""
 "Such a usage of e-mail should be clearly described in service terms in case "
 "such document is needed. :ref:`legal` can help with that."
-msgstr ""
+msgstr "应在服务条款中对电子邮箱的这种使用进行清晰描述，如果这样的文档是必需的。:ref:"
+"`legal` 可以提供帮助。"
 
 #: ../../snippets/basics.rst:48
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgid ""
 ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` can make e-mails private by default."
-msgstr "配置 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
+msgstr ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` 可以让电子邮箱默认处于私密状态。"
 
 #: ../../devel/integration.rst:7
 msgid "Importing localization project into Weblate"
@@ -45764,12 +45699,6 @@ msgid "Version control integration"
 msgstr "版本控制集成"
 
 #: ../../vcs.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate currently supports :ref:`vcs-git` (with extended support for :ref:"
-#| "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`, :"
-#| "ref:`vcs-git-svn` and :ref:`vcs-bitbucket-server`) and :ref:`vcs-"
-#| "mercurial` as version control back-ends."
 msgid ""
 "Weblate currently supports :ref:`vcs-git` (with extended support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`, :ref:"
@@ -45777,8 +45706,9 @@ msgid ""
 "and :ref:`vcs-mercurial` as version control back-ends."
 msgstr ""
 "Weblate 当前支持 :ref:`vcs-git` （扩展支持 :ref:`vcs-github`, :ref:`vcs-"
-"gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`, :ref:`vcs-git-svn` 及 :ref:"
-"`vcs-bitbucket-server`）和 :ref:`vcs-mercurial` 作为版本控制后端。"
+"gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`, :ref:`vcs-git-svn` 、 :ref"
+":`vcs-bitbucket-server`和 :ref:`vcs-azure-devops` ）和 :ref:`vcs-mercurial` "
+"作为版本控制后端。"
 
 #: ../../vcs.rst:14
 msgid "Accessing repositories"
@@ -46482,59 +46412,40 @@ msgid ""
 msgstr "Gerrit 文档详细介绍了设置此类仓库所需的配置。"
 
 #: ../../vcs.rst:467
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull requests"
-msgstr "Bitbucket 服务器拉取请求"
+msgstr "Azure DevOps 拉取请求"
 
 #: ../../vcs.rst:469
-#, fuzzy
-#| msgid ""
-#| "This adds a thin layer atop :ref:`vcs-git` using the `GitHub API`_ to "
-#| "allow pushing translation changes as pull requests, instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `Azure DevOps API`_ to "
 "allow pushing translation changes as pull requests, instead of pushing "
 "directly to the repository."
 msgstr ""
-"这在 :ref:`vcs-git` 顶部添加了一个薄层，使用 `GitHub API`_ 允许将翻译更改作为"
-"拉取请求推送，而不是直接推送到仓库。"
+"这在 :ref:`vcs-git` 顶部添加了一个薄层，使用 `Azure DevOps API`_ "
+"允许将翻译更改作为拉取请求推送，而不是直接推送到仓库。"
 
 #: ../../vcs.rst:472
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-git` pushes changes directly to a repository, while :ref:`vcs-"
-#| "github` creates pull requests. The latter is not needed for merely "
-#| "accessing Git repositories."
 msgid ""
 ":ref:`vcs-git` pushes changes directly to a repository, while :ref:`vcs-"
 "azure-devops` creates pull requests. The latter is not needed for merely "
 "accessing Git repositories."
 msgstr ""
-":ref:`vcs-git` 将更改直接推送到仓库，而 :ref:`vcs-github` 创建拉取请求。仅访"
-"问 Git 仓库不需要后者。"
+":ref:`vcs-git` 将更改直接推送到仓库，而 :ref:`vcs-azure-devops` "
+"创建拉取请求。仅访问 Git 仓库不需要后者。"
 
 #: ../../vcs.rst:476
-#, fuzzy
-#| msgid ""
-#| "You need to configure API credentials (:setting:`PAGURE_CREDENTIALS`) in "
-#| "the Weblate settings to make this work. Once configured, you will see a :"
-#| "guilabel:`Pagure` option when selecting :ref:`component-vcs`."
 msgid ""
 "You need to configure API credentials (:setting:`AZURE_DEVOPS_CREDENTIALS`) "
 "in the Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Azure DevOps` option when selecting :ref:`component-vcs`."
 msgstr ""
-"您需要在 Weblate 设置中配置 API 凭据 (:setting:`PAGURE_CREDENTIALS`) 才能使其"
-"工作。配置完成后，您将在选择 :ref:`component-vcs` 时看到 :guilabel:`Pagure` "
-"选项。"
+"您需要在 Weblate 设置中配置 API 凭据 (:setting:`AZURE_DEVOPS_CREDENTIALS`) "
+"才能使其工作。配置完成后，您将在选择 :ref:`component-vcs` 时看到 :guilabel:`"
+"Azure DevOps` 选项。"
 
 #: ../../vcs.rst:482
-#, fuzzy
-#| msgid ":ref:`push-changes`, :setting:`PAGURE_CREDENTIALS`"
 msgid ":ref:`push-changes`, :setting:`AZURE_DEVOPS_CREDENTIALS`"
-msgstr ":ref:`push-changes`, :setting:`PAGURE_CREDENTIALS`"
+msgstr ":ref:`push-changes`, :setting:`AZURE_DEVOPS_CREDENTIALS`"
 
 #: ../../vcs.rst:492
 msgid "Mercurial"
