@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 19:18+0100\n"
-"PO-Revision-Date: 2023-11-16 12:46+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2023-11-17 18:28+0000\n"
+"Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -1696,7 +1696,7 @@ msgstr "``todo`` -- Unfertige Zeichenketten"
 
 #: ../../admin/addons.rst:46
 msgid "``fuzzy`` -- Strings marked for edit"
-msgstr "``fuzzy`` -- Als bearbeitungsbedürftig markierte Zeichenketten"
+msgstr "``fuzzy`` -- Zur Bearbeitung markierte Zeichenketten"
 
 #: ../../admin/addons.rst:48
 msgid "``check:inconsistent`` -- Failing check: Inconsistent"
@@ -1877,14 +1877,20 @@ msgid ""
 "be served (URL). Serving of the files is not done by Weblate and has to be "
 "set up externally (typically using a CDN service)."
 msgstr ""
+"Diese Erweiterung erfordert eine zusätzliche Konfiguration auf dem Weblate-"
+"Server: :setting:`LOCALIZE_CDN_PATH` konfiguriert, wo die generierten "
+"Dateien geschrieben werden (auf einem Dateisystem), und "
+":setting:`LOCALIZE_CDN_URL` definiert, wo sie bereitgestellt werden (URL). "
+"Das Bereitstellen der Dateien erfolgt nicht durch Weblate, sondern muss "
+"extern eingerichtet werden (normalerweise über einen CDN-Dienst)."
 
 #: ../../admin/addons.rst:112
-#, fuzzy
-#| msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
 msgid ""
 "This add-on is configured on :guilabel:`Hosted Weblate` and serves the files "
 "via ``https://weblate-cdn.com/``."
-msgstr "Hosted Weblate verwendet ``https://weblate-cdn.com/``."
+msgstr ""
+"Diese Erweiterung wird auf :guilabel:`Hosted Weblate` konfiguriert und "
+"liefert die Dateien über ``https://weblate-cdn.com/``."
 
 #: ../../admin/addons.rst:117
 msgid ""
@@ -3083,16 +3089,16 @@ msgid "``fuzzy``"
 msgstr "``fuzzy``"
 
 #: ../../admin/addons.rst:677
-#, fuzzy
-#| msgid "Import as string needing edit"
 msgid "Include strings needing editing"
-msgstr "Als bearbeitungsbedürftige Zeichenkette importieren"
+msgstr "Bearbeitungsbedürftige Zeichenketten einschließen"
 
 #: ../../admin/addons.rst:677
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
+"Bearbeitungsbedürftige (ungenaue) Zeichenketten sind normalerweise nicht für "
+"Übersetzungen geeignet."
 
 #: ../../admin/addons.rst:681
 msgid "Automatically generates a MO file for every changed PO file."
@@ -6765,7 +6771,7 @@ msgstr "``max-length:N``"
 
 #: ../../admin/checks.rst:365
 msgid "Defines maximal width in pixels."
-msgstr "Legt die maximale Breite in Pixeln fest."
+msgstr "Definiert die maximale Breite in Pixeln."
 
 #: ../../admin/checks.rst:366
 msgid "``font-family:ubuntu``"
@@ -8096,18 +8102,13 @@ msgid "List for credentials for Gitea servers."
 msgstr "Liste der Zugangsdaten für Gitea-Server."
 
 #: ../../snippets/vcs-credentials.rst:1
-#, fuzzy
-#| msgid ""
-#| "The configuration dictionary consists of credentials defined for each API "
-#| "host. The layout is same for all version control integrations and is "
-#| "described at :ref:`settings-credentials`."
 msgid ""
 "The configuration dictionary consists of credentials defined for each API "
 "host. The layout is same for almost all version control integrations and is "
 "described at :ref:`settings-credentials`."
 msgstr ""
 "Das Konfigurationswörterbuch besteht aus Anmeldeinformationen, die für jeden "
-"API-Host definiert sind. Das Layout ist für alle Integrationen der "
+"API-Host definiert sind. Das Layout ist für fast alle Integrationen der "
 "Versionsverwaltung gleich und wird unter :ref:`settings-credentials` "
 "beschrieben."
 
@@ -8165,16 +8166,12 @@ msgstr ""
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:841
-#, fuzzy
-#| msgid "PAGURE_CREDENTIALS"
 msgid "AZURE_DEVOPS_CREDENTIALS"
-msgstr "PAGURE_CREDENTIALS"
+msgstr "AZURE_DEVOPS_CREDENTIALS"
 
 #: ../../admin/config.rst:845
-#, fuzzy
-#| msgid "List for credentials for Pagure servers."
 msgid "List for credentials for Azure DevOps servers."
-msgstr "Liste der Zugangsdaten für Pagure-Server."
+msgstr "Liste der Zugangsdaten für Azure-DevOps-Server."
 
 #: ../../admin/config.rst:857 ../../admin/config.rst:2064
 msgid ""
@@ -8199,16 +8196,15 @@ msgstr "``username``"
 #: ../../admin/config.rst:864
 msgid "The name of the Azure DevOps project. This is not the repository name."
 msgstr ""
+"Der Name des Azure-DevOps-Projekts. Dies ist nicht der Name des Repositorys."
 
 #: ../../admin/config.rst:865
 msgid "``organization``"
 msgstr "``organization``"
 
 #: ../../admin/config.rst:866
-#, fuzzy
-#| msgid "Uses the pool of shared translations between projects."
 msgid "The name of the organization of the project."
-msgstr "Verwendet den Pool der gemeinsamen Übersetzungen zwischen Projekten."
+msgstr "Der Name der Organisation des Projekts."
 
 #: ../../admin/config.rst:868
 msgid "``workItemIds``"
@@ -8219,6 +8215,8 @@ msgid ""
 "An optional list of work items IDs from your organization. When provided new "
 "pull requests will have these attached."
 msgstr ""
+"Eine optionale Liste von Work-Item-IDs aus Ihrer Organisation. Wenn "
+"angegeben, werden neue Pull Requests mit diesen IDs versehen."
 
 #: ../../admin/config.rst:871 ../../admin/config.rst:2072
 msgid "``token``"
@@ -8233,6 +8231,8 @@ msgid ""
 "Additional settings not described here can be found at :ref:`settings-"
 "credentials`."
 msgstr ""
+"Zusätzliche Einstellungen, die hier nicht beschrieben sind, finden Sie unter "
+":ref:`settings-credentials`."
 
 #: ../../admin/config.rst:877
 msgid ""
@@ -8240,6 +8240,9 @@ msgid ""
 "microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-"
 "tokens-to-authenticate?view=azure-devops&tabs=Windows>`_"
 msgstr ""
+":ref:`vcs-azure-devops`, `Azure DevOps: Persönliche Zugangstoken "
+"<https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-"
+"personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_"
 
 #: ../../admin/config.rst:883
 msgid "GOOGLE_ANALYTICS_ID"
@@ -8756,6 +8759,8 @@ msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "e-mail."
 msgstr ""
+"Diese Einstellung gilt nur für Benutzer, die nicht explizit eine Commit-E-"
+"Mail ausgewählt haben."
 
 #: ../../admin/config.rst:1328
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
@@ -9169,17 +9174,15 @@ msgstr ""
 
 #: ../../admin/config.rst:1629
 msgid "SENTRY_ENVIRONMENT"
-msgstr ""
+msgstr "SENTRY_ENVIRONMENT"
 
 #: ../../admin/config.rst:1631
-#, fuzzy
-#| msgid "Your Rollbar environment, defaults to ``production``."
 msgid "Configurures environment for Sentry. Defaults to ``devel``."
-msgstr "Ihre Rollbar-Umgebung, standardmäßig ``production``."
+msgstr "Konfiguriert die Umgebung für Sentry. Der Standardwert ist ``devel``."
 
 #: ../../admin/config.rst:1636
 msgid "SENTRY_PROFILES_SAMPLE_RATE"
-msgstr ""
+msgstr "SENTRY_PROFILES_SAMPLE_RATE"
 
 #: ../../admin/config.rst:1638 ../../admin/install/docker.rst:1665
 msgid ""
@@ -9194,22 +9197,23 @@ msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_"
 msgstr ""
+"`Sentry-Leistungsüberwachung <https://docs.sentry.io/product/performance/>`_"
 
 #: ../../admin/config.rst:1647
-#, fuzzy
-#| msgid "SENTRY_DSN"
 msgid "SENTRY_SEND_PII"
-msgstr "SENTRY_DSN"
+msgstr "SENTRY_SEND_PII"
 
 #: ../../admin/config.rst:1649
 msgid ""
 "Allow Sentry to collect certain personally identifiable information. Turned "
 "on by default."
 msgstr ""
+"Ermöglicht Sentry, bestimmte personenbezogene Informationen zu sammeln. "
+"Standardmäßig aktiviert."
 
 #: ../../admin/config.rst:1654
 msgid "SENTRY_TRACES_SAMPLE_RATE"
-msgstr ""
+msgstr "SENTRY_TRACES_SAMPLE_RATE"
 
 #: ../../admin/config.rst:1656 ../../admin/install/docker.rst:1680
 msgid ""
@@ -9221,7 +9225,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1660 ../../admin/install/docker.rst:1691
 msgid "`Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
-msgstr ""
+msgstr "`Sentry-Profiling <https://docs.sentry.io/product/profiling/>`_"
 
 #: ../../admin/config.rst:1665
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
@@ -9488,10 +9492,6 @@ msgid "VCS_API_DELAY"
 msgstr "VCS_API_DELAY"
 
 #: ../../admin/config.rst:1871
-#, fuzzy
-#| msgid ""
-#| "Configures minimal delay in seconds between third-party API calls in :ref:"
-#| "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, and :ref:`vcs-pagure`."
 msgid ""
 "Configures minimal delay in seconds between third-party API calls in :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and :"
@@ -9499,7 +9499,7 @@ msgid ""
 msgstr ""
 "Konfiguriert die minimale Verzögerung in Sekunden zwischen API-Aufrufen von "
 "Drittanbietern in :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, "
-"und :ref:`vcs-pagure`."
+":ref:`vcs-pagure`, und :ref:`vcs-azure-devops`."
 
 #: ../../admin/config.rst:1875
 msgid ""
@@ -10256,14 +10256,6 @@ msgstr ""
 "weitere Einzelheiten finden Sie in diesem Kapitel."
 
 #: ../../admin/continuous.rst:332
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support for :"
-#| "ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure` "
-#| "pull requests or :ref:`vcs-gerrit` reviews, you can activate these by "
-#| "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :"
-#| "guilabel:`Gerrit` or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:"
-#| "`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, :ref:"
@@ -10273,22 +10265,20 @@ msgid ""
 "as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
 "Für den Fall, dass Sie keine direkten Pushes durch Weblate wünschen, gibt es "
-"Unterstützung für Pull Requests von :ref:`vcs-github`, :ref:`vcs-gitlab`, :"
-"ref:`vcs-gitea`, :ref:`vcs-pagure` oder :ref:`vcs-gerrit`-Reviews. Sie "
-"können diese aktivieren, indem Sie :guilabel:`GitHub`, :guilabel:`GitLab`, :"
-"guilabel:`Gitea`, :guilabel:`Gerrit` oder :guilabel:`Pagure` als :ref:"
-"`component-vcs` in :ref:`component` auswählen."
+"Unterstützung für Pull Requests von :ref:`vcs-github`, :ref:`vcs-gitlab`, "
+":ref:`vcs-gitea`, :ref:`vcs-pagure`, :ref:`vcs-azure-devops` oder :ref:`vcs-"
+"gerrit`-Reviews. Sie können diese aktivieren, indem Sie :guilabel:`GitHub`, "
+":guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
+"DevOps`, oder :guilabel:`Pagure` als :ref:`component-vcs` in :ref:`component`"
+" auswählen."
 
 #: ../../admin/continuous.rst:338
-#, fuzzy
-#| msgid ""
-#| "Overall, following options are available with Git, GitHub and GitLab:"
 msgid ""
 "Overall, following options are available with Git, Mercurial, GitHub, "
 "GitLab, Gitea, Pagure, and Azure DevOps:"
 msgstr ""
-"Insgesamt stehen mit Git, GitHub und GitLab die folgenden Optionen zur "
-"Verfügung:"
+"Insgesamt stehen mit Git, Mercurial, GitHub, GitLab, Gitea, Pagure und Azure "
+"DevOps folgende Optionen zur Verfügung:"
 
 #: ../../admin/continuous.rst:342
 msgid "Desired setup"
@@ -10403,10 +10393,8 @@ msgid "Pagure merge request from branch"
 msgstr "Pagure-Merge-Request vom Branch"
 
 #: ../../admin/continuous.rst:372
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull request from fork"
-msgstr "Bitbucket-Server-Pull-Request"
+msgstr "Azure-DevOps-Pull-Request vom Fork"
 
 #: ../../admin/continuous.rst:372 ../../admin/continuous.rst:374
 #: ../../changes.rst:8
@@ -10414,10 +10402,8 @@ msgid ":ref:`vcs-azure-devops`"
 msgstr ":ref:`vcs-azure-devops`"
 
 #: ../../admin/continuous.rst:374
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull request from branch"
-msgstr "Bitbucket-Server-Pull-Request"
+msgstr "Azure-DevOps-Pull-Request vom Branch"
 
 #: ../../admin/continuous.rst:377
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
@@ -11043,10 +11029,8 @@ msgid ":doc:`install/source`, recommended for development."
 msgstr ":doc:`install/source`, empfohlen für die Entwicklung."
 
 #: ../../admin/install.rst:43
-#, fuzzy
-#| msgid "Checks overview"
 msgid "Architecture overview"
-msgstr "Prüfungsübersicht"
+msgstr "Architekturübersicht"
 
 #: ../../admin/install.rst:129
 msgid "Software requirements"
@@ -11129,24 +11113,32 @@ msgid ""
 "While there is nothing in Weblate itself blocking usage of Python 3.12, "
 "there are few outstanding issues:"
 msgstr ""
+"Während es in Weblate selbst nichts gibt, was die Verwendung von Python 3.12 "
+"blockiert, gibt es einige ungeklärte Probleme:"
 
 #: ../../admin/install.rst:164
 msgid ""
 "Celery, a dependency of Weblate, is not currently compatible with Python "
 "3.12, see https://github.com/celery/kombu/issues/1804."
 msgstr ""
+"Celery, eine Abhängigkeit von Weblate, ist derzeit nicht kompatibel mit "
+"Python 3.12, siehe https://github.com/celery/kombu/issues/1804."
 
 #: ../../admin/install.rst:165
 msgid ""
 "Python 3.12 performs slower than previous versions in some situations, see "
 "https://github.com/python/cpython/issues/109049."
 msgstr ""
+"Python 3.12 ist in einigen Situationen langsamer als frühere Versionen, "
+"siehe https://github.com/python/cpython/issues/109049."
 
 #: ../../admin/install.rst:166
 msgid ""
 ":ref:`winrc` might not work properly in Python 3.12, see https://github.com/"
 "translate/translate/issues/5071."
 msgstr ""
+":ref:`winrc` funktioniert in Python 3.12 möglicherweise nicht richtig, siehe "
+"https://github.com/translate/translate/issues/5071."
 
 #: ../../admin/install.rst:168
 msgid "Most notable dependencies:"
@@ -11194,7 +11186,7 @@ msgstr "https://python-social-auth.readthedocs.io/"
 
 #: ../../admin/install.rst:181
 msgid "Django REST Framework"
-msgstr "Django REST-Framework"
+msgstr "Django-REST-Framework"
 
 #: ../../admin/install.rst:181
 msgid "https://www.django-rest-framework.org/"
@@ -11206,27 +11198,23 @@ msgstr "Optionale Abhängigkeiten"
 
 #: ../../admin/install.rst:188
 msgid "pip extra"
-msgstr ""
+msgstr "pip extra"
 
 #: ../../admin/install.rst:189
 msgid "Python Package"
 msgstr "Python-Paket"
 
 #: ../../admin/install.rst:190
-#, fuzzy
-#| msgid "Weblate frontend"
 msgid "Weblate feature"
-msgstr "Weblate-Frontend"
+msgstr "Weblate-Funktion"
 
 #: ../../admin/install.rst:193
 msgid "``Amazon``"
 msgstr "``Amazon``"
 
 #: ../../admin/install.rst:194
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`boto3 <https://pypi.org/project/boto3>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`boto3 <https://pypi.org/project/boto3>`_"
 
 #: ../../admin/install.rst:195
 msgid ":ref:`mt-aws`"
@@ -11238,7 +11226,7 @@ msgstr "``LDAP``"
 
 #: ../../admin/install.rst:199
 msgid "`django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_"
-msgstr ""
+msgstr "`django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_"
 
 #: ../../admin/install.rst:200
 msgid ":ref:`ldap-auth`"
@@ -11252,6 +11240,7 @@ msgstr "``zxcvbn``"
 msgid ""
 "`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_"
 msgstr ""
+"`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_"
 
 #: ../../admin/install.rst:205
 msgid ":ref:`password-authentication`"
@@ -11262,10 +11251,8 @@ msgid "``Gerrit``"
 msgstr "``Gerrit``"
 
 #: ../../admin/install.rst:209
-#, fuzzy
-#| msgid "https://pypi.org/project/git-review/"
 msgid "`git-review <https://pypi.org/project/git-review>`_"
-msgstr "https://pypi.org/project/git-review/"
+msgstr "`git-review <https://pypi.org/project/git-review>`_"
 
 #: ../../admin/install.rst:210
 msgid ":ref:`vcs-gerrit`"
@@ -11276,14 +11263,10 @@ msgid "``Google``"
 msgstr "``Google``"
 
 #: ../../admin/install.rst:214
-#, fuzzy
-#| msgid ""
-#| "`Google translate documentation <https://cloud.google.com/translate/"
-#| "docs>`_"
 msgid ""
 "`google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_"
 msgstr ""
-"`Google Translate-Dokumentation <https://cloud.google.com/translate/docs>`_"
+"`google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_"
 
 #: ../../admin/install.rst:215
 msgid ":ref:`mt-google-translate-api-v3`"
@@ -11294,20 +11277,16 @@ msgid "``Mercurial``"
 msgstr "``Mercurial``"
 
 #: ../../admin/install.rst:219
-#, fuzzy
-#| msgid "https://pypi.org/project/ruamel.yaml/"
 msgid "`mercurial <https://pypi.org/project/mercurial>`_"
-msgstr "https://pypi.org/project/ruamel.yaml/"
+msgstr "`mercurial <https://pypi.org/project/mercurial>`_"
 
 #: ../../admin/install.rst:223
 msgid "``MySQL``"
 msgstr "``MySQL``"
 
 #: ../../admin/install.rst:224
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`mysqlclient <https://pypi.org/project/mysqlclient>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`mysqlclient <https://pypi.org/project/mysqlclient>`_"
 
 #: ../../admin/install.rst:225
 msgid "MySQL or MariaDB, see :ref:`database-setup`"
@@ -11318,10 +11297,8 @@ msgid "``Postgres``"
 msgstr "``Postgres``"
 
 #: ../../admin/install.rst:229
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`psycopg <https://pypi.org/project/psycopg>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`psycopg <https://pypi.org/project/psycopg>`_"
 
 #: ../../admin/install.rst:230
 msgid "PostgreSQL, see :ref:`database-setup`"
@@ -11332,10 +11309,8 @@ msgid "``Antispam``"
 msgstr "``Antispam``"
 
 #: ../../admin/install.rst:234
-#, fuzzy
-#| msgid "https://pypi.org/project/git-review/"
 msgid "`python-akismet <https://pypi.org/project/python-akismet>`_"
-msgstr "https://pypi.org/project/git-review/"
+msgstr "`python-akismet <https://pypi.org/project/python-akismet>`_"
 
 #: ../../admin/install.rst:235
 msgid ":ref:`spam-protection`"
@@ -11346,10 +11321,8 @@ msgid "``SAML``"
 msgstr "``SAML``"
 
 #: ../../admin/install.rst:239
-#, fuzzy
-#| msgid "https://pypi.org/project/ruamel.yaml/"
 msgid "`python3-saml <https://pypi.org/project/python3-saml>`_"
-msgstr "https://pypi.org/project/ruamel.yaml/"
+msgstr "`python3-saml <https://pypi.org/project/python3-saml>`_"
 
 #: ../../admin/install.rst:240
 msgid ":ref:`saml-auth`"
@@ -11360,10 +11333,8 @@ msgid "``MSTerminology``"
 msgstr "``MSTerminology``"
 
 #: ../../admin/install.rst:244
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`zeep <https://pypi.org/project/zeep>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`zeep <https://pypi.org/project/zeep>`_"
 
 #: ../../admin/install.rst:245
 msgid ":ref:`mt-microsoft-terminology`"
@@ -12189,8 +12160,8 @@ msgid ""
 "Debug mode also slows down Weblate, as Django stores much more info "
 "internally in this case."
 msgstr ""
-"Der Debugmodus verlangsamt auch Weblate, da Django in diesem Fall viel mehr "
-"Informationen intern speichert."
+"Der Debugmodus verlangsamt Weblate auch, da Django in diesem Fall intern "
+"viel mehr Informationen speichert."
 
 #: ../../admin/install.rst:840
 msgid ":setting:`django:DEBUG`, :ref:`production-debug`"
@@ -13402,10 +13373,8 @@ msgstr ""
 "<https://github.com/WeblateOrg/munin>`_"
 
 #: ../../admin/install.rst:1641 ../../admin/install/docker.rst:1638
-#, fuzzy
-#| msgid "Collecting error reports"
 msgid "Collecting error reports and monitoring performance"
-msgstr "Sammeln von Fehlerberichten"
+msgstr "Sammeln von Fehlerberichten und Überwachen der Leistung"
 
 #: ../../admin/install.rst:1643
 msgid ""
@@ -13442,12 +13411,19 @@ msgid ""
 "configured using :setting:`SENTRY_TRACES_SAMPLE_RATE` and :setting:"
 "`SENTRY_PROFILES_SAMPLE_RATE`."
 msgstr ""
+"Sentry kann auch verwendet werden, um die Leistung von Weblate zu "
+"überwachen, indem Traces und Profile für einen bestimmten Prozentsatz von "
+"Operationen gesammelt werden. Dies kann mit "
+":setting:`SENTRY_TRACES_SAMPLE_RATE` und "
+":setting:`SENTRY_PROFILES_SAMPLE_RATE` konfiguriert werden."
 
 #: ../../admin/install.rst:1665
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_, `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
 msgstr ""
+"`Sentry-Leistungsüberwachung <https://docs.sentry.io/product/performance/>`"
+"_, `Sentry-Profiling <https://docs.sentry.io/product/profiling/>`_"
 
 #: ../../admin/install.rst:1669
 msgid "Rollbar"
@@ -13666,16 +13642,16 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:26
 msgid "Clone the weblate-docker repo:"
-msgstr "Klonen Sie das Weblate-Docker-Repository:"
+msgstr "Das Weblate-Docker-Repository klonen:"
 
 #: ../../admin/install/docker.rst:33
 msgid ""
 "Create a :file:`docker-compose.override.yml` file with your settings. See :"
 "ref:`docker-environment` for full list of environment variables."
 msgstr ""
-"Erstellen Sie eine Datei :file:`docker-compose.override.yml` mit Ihren "
-"Einstellungen. Siehe :ref:`docker-environment` für eine vollständige Liste "
-"der Umgebungsvariablen."
+"Eine :file:`docker-compose.override.yml` mit den eigenen Einstellungen "
+"erstellen. Siehe :ref:`docker-environment` für eine vollständige Liste der "
+"Umgebungsvariablen."
 
 #: ../../admin/install/docker.rst:55
 msgid ""
@@ -14107,9 +14083,9 @@ msgid ""
 "migrating to PostgreSQL 14 or 15 as way of storing passwords has been "
 "changed:"
 msgstr ""
-"(Optional) Aktualisieren Sie das Passwort für den Weblate-Benutzer. Dies "
-"kann bei der Migration auf PostgreSQL 14 oder 15 erforderlich sein, da die "
-"Art der Speicherung von Passwörtern geändert wurde:"
+"(Optional) Das Passwort für den Weblate-Benutzer aktualisieren. Dies kann "
+"bei der Migration auf PostgreSQL 14 oder 15 erforderlich sein, da die Art "
+"der Speicherung von Passwörtern geändert wurde:"
 
 #: ../../admin/install/docker.rst:319
 msgid "Start all remaining containers:"
@@ -14842,7 +14818,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:995
 msgid "Code hosting sites credentials"
-msgstr ""
+msgstr "Anmeldedaten für Code-Hosting-Sites"
 
 #: ../../admin/install/docker.rst:997
 msgid ""
@@ -14851,12 +14827,15 @@ msgid ""
 "once.  The following examples are for :ref:`vcs-github`, but applies to all :"
 "ref:`vcs` with appropriately changed variable names."
 msgstr ""
+"Im Docker-Container können die Zugangsdaten für das Code-Hosting entweder in "
+"separaten Variablen konfiguriert werden oder mit einem Python-Wörterbuch auf "
+"einmal festgelegt werden. Die folgenden Beispiele sind für :ref:`vcs-github`"
+", gelten aber auch für die :ref:`vcs` mit entsprechend geänderten "
+"Variablennamen."
 
 #: ../../admin/install/docker.rst:1002
-#, fuzzy
-#| msgid "Sample configuration for Apache"
 msgid "An example configuration for GitHub might look like:"
-msgstr "Beispielkonfiguration für Apache"
+msgstr "Eine Beispielkonfiguration für GitHub könnte wie folgt aussehen:"
 
 #: ../../admin/install/docker.rst:1010
 msgid "Will be used as:"
@@ -14872,81 +14851,52 @@ msgid "Or the path to a file containing the Python dictionary:"
 msgstr "Oder den Pfad zu einer Datei, die das Python-Wörterbuch enthält:"
 
 #: ../../admin/install/docker.rst:1039
-#, fuzzy
-#| msgid ""
-#| "Configures GitHub pull-requests integration by changing :setting:"
-#| "`GITHUB_CREDENTIALS`."
 msgid "Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`."
 msgstr ""
-"Konfiguriert die Integration von GitHub-Pull-Requests durch Ändern von :"
-"setting:`GITHUB_CREDENTIALS`."
+"Konfiguriert :ref:`vcs-github` durch Ändern von "
+":setting:`GITHUB_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1041 ../../admin/install/docker.rst:1050
 #: ../../admin/install/docker.rst:1059 ../../admin/install/docker.rst:1068
 #: ../../admin/install/docker.rst:1077 ../../admin/install/docker.rst:1087
-#, fuzzy
-#| msgid ""
-#| ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
-#| "<docker-mail>`"
 msgid ""
 ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 msgstr ""
-":ref:`debug-mails`, :ref:`Konfiguration der ausgehenden E-Mails im Docker-"
-"Container <docker-mail>`"
+":ref:`Konfiguration der Code-Hosting-Zugangsdaten in Docker <docker-vcs-"
+"config>`"
 
 #: ../../admin/install/docker.rst:1048
-#, fuzzy
-#| msgid ""
-#| "Configures GitLab merge-requests integration  by changing :setting:"
-#| "`GITLAB_CREDENTIALS`."
 msgid "Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`."
 msgstr ""
-"Konfiguriert die Integration von GitLab-Merge-Requests durch Ändern von :"
-"setting:`GITLAB_CREDENTIALS`."
+"Konfiguriert :ref:`vcs-gitlab` durch Ändern von "
+":setting:`GITLAB_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1057
-#, fuzzy
-#| msgid ""
-#| "Configures Gitea pull-requests integration by changing :setting:"
-#| "`GITEA_CREDENTIALS`."
 msgid "Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`."
 msgstr ""
-"Konfiguriert die Integration von Gitea-Pull-Requests durch Ändern von :"
-"setting:`GITEA_CREDENTIALS`."
+"Konfiguriert :ref:`vcs-gitea` durch Ändern von :setting:`GITEA_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1066
-#, fuzzy
-#| msgid ""
-#| "Configures Pagure merge-requests integration  by changing :setting:"
-#| "`PAGURE_CREDENTIALS`."
 msgid "Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`."
 msgstr ""
-"Konfiguriert die Integration von Pagure-Merge-Requests durch Ändern von :"
-"setting:`PAGURE_CREDENTIALS`."
+"Konfiguriert :ref:`vcs-pagure` durch Ändern von "
+":setting:`PAGURE_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1075
-#, fuzzy
-#| msgid ""
-#| "Configures Bitbucket Server pull-requests integration by changing :"
-#| "setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgid ""
 "Configures :ref:`vcs-bitbucket-server` by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"Konfiguriert die Integration von Bitbucket-Server-Pull-Requests durch Ändern "
-"von :setting:`BITBUCKETSERVER_CREDENTIALS`."
+"Konfiguriert :ref:`vcs-bitbucket-server` durch Ändern von "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1085
-#, fuzzy
-#| msgid ""
-#| "Configures Pagure merge-requests integration  by changing :setting:"
-#| "`PAGURE_CREDENTIALS`."
 msgid ""
 "Configures :ref:`vcs-azure-devops` by changing :setting:"
 "`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
-"Konfiguriert die Integration von Pagure-Merge-Requests durch Ändern von :"
-"setting:`PAGURE_CREDENTIALS`."
+"Konfiguriert :ref:`vcs-azure-devops` durch Ändern von "
+":setting:`AZURE_DEVOPS_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1092
 msgid "Automatic suggestion settings"
@@ -15532,10 +15482,8 @@ msgstr ""
 "Um die Unterstützung für Sentry zu aktivieren, stellen Sie Folgendes ein:"
 
 #: ../../admin/install/docker.rst:1657
-#, fuzzy
-#| msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgid "Your Sentry DSN, see :setting:`SENTRY_DSN`."
-msgstr "Konfiguriert :setting:`SSH_EXTRA_ARGS`."
+msgstr "Ihr Sentry-DSN, siehe :setting:`SENTRY_DSN`."
 
 #: ../../admin/install/docker.rst:1661
 msgid ""
@@ -15549,12 +15497,11 @@ msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_,"
 msgstr ""
+"`Sentry-Leistungsüberwachung <https://docs.sentry.io/product/performance/>`_,"
 
 #: ../../admin/install/docker.rst:1695
-#, fuzzy
-#| msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgid "Configures :setting:`SENTRY_SEND_PII`."
-msgstr "Konfiguriert :setting:`SSH_EXTRA_ARGS`."
+msgstr "Konfiguriert :setting:`SENTRY_SEND_PII`."
 
 #: ../../admin/install/docker.rst:1698
 msgid "Localization CDN"
@@ -15898,16 +15845,15 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1916
 msgid ":ref:`Create a custom Python package <custom-module>`."
-msgstr ""
-":ref:`Erstellen Sie ein benutzerdefiniertes Python-Paket <custom-module>`."
+msgstr ":ref:`Ein benutzerdefiniertes Python-Paket erstellen <custom-module>`."
 
 #: ../../admin/install/docker.rst:1918
 msgid ""
 "Add a module to your package that imports all settings from ``weblate."
 "settings_docker``."
 msgstr ""
-"Fügen Sie ein Modul zu Ihrem Paket hinzu, das alle Einstellungen von "
-"``weblate.settings_docker`` importiert."
+"Ein Modul zum eigenen Paket hinzufügen, das alle Einstellungen von ``weblate."
+"settings_docker`` importiert."
 
 #: ../../admin/install/docker.rst:1921
 msgid ""
@@ -15916,9 +15862,9 @@ msgid ""
 "weblate_customization/settings.py`` with the following initial code:"
 msgstr ""
 "Innerhalb der Beispiel-Paketstruktur, die unter :ref:`custom-module` "
-"definiert ist, könnten Sie zum Beispiel eine Datei unter "
-"``weblate_customization/weblate_customization/settings.py`` mit dem "
-"folgenden Anfangscode erstellen:"
+"definiert ist, kann zum Beispiel eine Datei unter ``weblate_customization/"
+"weblate_customization/settings.py`` mit dem folgenden Anfangscode erstellt "
+"werden:"
 
 #: ../../admin/install/docker.rst:1930
 msgid ""
@@ -15926,9 +15872,9 @@ msgid ""
 "Docker image, and then installs your package and points the "
 "``DJANGO_SETTINGS_MODULE`` environment variable to your settings module:"
 msgstr ""
-"Erstellen Sie ein benutzerdefiniertes ``Dockerfile``, das vom offiziellen "
-"Weblate-Docker-Image erbt, dann Ihr Paket installiert und die "
-"Umgebungsvariable ``DJANGO_SETTINGS_MODULE`` auf Ihr Einstellungsmodul "
+"Ein benutzerdefiniertes ``Dockerfile`` erstellen, das vom offiziellen "
+"Weblate-Docker-Image erbt, und dann das Paket installiert und die "
+"Umgebungsvariable ``DJANGO_SETTINGS_MODULE`` auf das Einstellungsmodul "
 "verweist:"
 
 #: ../../admin/install/docker.rst:1946
@@ -15936,8 +15882,8 @@ msgid ""
 "Instead of using the official Weblate Docker image, build a custom image "
 "from this ``Dockerfile`` file."
 msgstr ""
-"Anstatt das offizielle Weblate-Docker-Image zu verwenden, erstellen Sie ein "
-"benutzerdefiniertes Image aus dieser ``Dockerfile``-Datei."
+"Anstatt das offizielle Weblate-Docker-Image zu verwenden, sollte ein eigenes "
+"Image aus dieser ``Dockerfile``-Datei erstellt werden."
 
 #: ../../admin/install/docker.rst:1949
 msgid ""
@@ -15946,11 +15892,11 @@ msgid ""
 "to the ``weblate`` node in that file, but then your custom image will be "
 "tagged as ``weblate/weblate`` in your system, which could be problematic."
 msgstr ""
-"Es gibt `keine saubere Möglichkeit <https://github.com/docker/compose/"
-"issues/7231>`__, dies mit ``docker-compose.override.yml`` zu tun. Sie "
-"*könnten* ``build: .`` zu dem ``weblate`` Knoten in dieser Datei hinzufügen, "
-"aber dann wird Ihr benutzerdefiniertes Image als ``weblate/weblate`` in "
-"Ihrem System markiert, was problematisch sein könnte."
+"Es gibt `keine saubere Möglichkeit <https://github.com/docker/compose/issues/"
+"7231>`__, dies mit ``docker-compose.override.yml`` zu tun. Sie *könnten* "
+"``build: .`` zum ``weblate``-Knoten in dieser Datei hinzufügen, aber dann "
+"wird Ihr benutzerdefiniertes Image als ``weblate/weblate`` in Ihrem System "
+"markiert, was problematisch sein könnte."
 
 #: ../../admin/install/docker.rst:1955
 msgid ""
@@ -15960,10 +15906,10 @@ msgid ""
 "make a copy of the official ``docker-compose.yml`` file, and edit your copy "
 "to replace ``image: weblate/weblate`` with ``build: .``."
 msgstr ""
-"Anstatt also ``docker-compose.yml`` direkt unverändert aus dem offiziellen "
-"`Repository <https://github.com/WeblateOrg/docker-compose>`__ zu verwenden "
+"Anstatt also ``docker-compose.yml`` direkt unverändert aus dem offiziellen `"
+"Repository <https://github.com/WeblateOrg/docker-compose>`__ zu verwenden "
 "und es durch ``docker-compose.override.yml`` zu erweitern, sollten Sie eine "
-"Kopie der offiziellen ``docker-compose.yml`` Datei erstellen und Ihre Kopie "
+"Kopie der offiziellen ``docker-compose.yml`` Datei erstellen und diese Kopie "
 "so bearbeiten, dass ``image: weblate/weblate`` durch ``build: .`` ersetzt "
 "wird."
 
@@ -15978,8 +15924,8 @@ msgstr ""
 #: ../../admin/install/docker.rst:1966
 msgid "Extend your custom settings module to define or redefine settings."
 msgstr ""
-"Erweitern Sie Ihr benutzerdefiniertes Einstellungsmodul, um Einstellungen zu "
-"definieren oder neu zu definieren."
+"Das eigene Einstellungsmodul erweitern, um Einstellungen zu definieren oder "
+"neu zu definieren."
 
 #: ../../admin/install/docker.rst:1968
 msgid ""
@@ -15989,12 +15935,12 @@ msgid ""
 "defined in the data volume. Setting defined after the import statement "
 "cannot be overridden."
 msgstr ""
-"Sie können Einstellungen vor oder nach der obigen Importanweisung "
-"definieren, um festzulegen, welche Einstellungen Vorrang haben. Vor der "
-"Importanweisung definierte Einstellungen können durch Umgebungsvariablen und "
-"im Data-Volume definierte Einstellungsüberschreibungen außer Kraft gesetzt "
-"werden. Einstellungen, die nach der Importanweisung definiert werden, können "
-"nicht überschrieben werden."
+"Es können Einstellungen vor oder nach der obigen Importanweisung definiert "
+"werden, um festzulegen, welche Einstellungen Vorrang haben. Einstellungen, "
+"die vor der Importanweisung definiert wurden, können durch "
+"Umgebungsvariablen und die im Data-Volume definierte "
+"Einstellungsüberschreibungen überschrieben werden. Einstellungen, die nach "
+"der Importanweisung definiert werden, können nicht überschrieben werden."
 
 #: ../../admin/install/docker.rst:1974
 msgid ""
@@ -16314,8 +16260,8 @@ msgid ""
 "Please follow the installation instructions for your system first up to "
 "installing Weblate:"
 msgstr ""
-"Bitte folgen Sie zunächst den Installationsanweisungen für Ihr System, bevor "
-"Sie Weblate installieren:"
+"Bitte zunächst die Installationsanweisungen für Ihr System befolgen, bevor "
+"Weblate installiert wird:"
 
 #: ../../admin/install/source.rst:6
 msgid ":doc:`venv-debian`"
@@ -16334,8 +16280,8 @@ msgid ""
 "Grab the latest Weblate sources using Git (or download a tarball and unpack "
 "that):"
 msgstr ""
-"Schnappen Sie sich die neuesten Weblate-Quellen mittels Git (oder laden Sie "
-"einen Tarball herunter und packen Sie ihn aus):"
+"Die neuesten Weblate-Quellen mit Git holen (oder einen Tarball herunterladen "
+"und ihn entpacken):"
 
 #: ../../admin/install/source.rst:17
 msgid ""
@@ -16343,20 +16289,20 @@ msgid ""
 "website <https://weblate.org/>. Those downloads are cryptographically "
 "signed, please see :ref:`verify`."
 msgstr ""
-"Alternativ können Sie auch freigegebene Archive verwenden. Sie können sie "
-"von unserer Website <https://weblate.org/> herunterladen. Diese Downloads "
-"sind kryptografisch signiert, siehe :ref:`verify`."
+"Alternativ können auch freigegebene Archive verwendet werden. Sie können von "
+"unserer Website <https://weblate.org/> heruntergeladen werden. Diese "
+"Downloads sind kryptografisch signiert, siehe :ref:`verify`."
 
 #: ../../admin/install/source.rst:21
 msgid "Install current Weblate code into the virtualenv:"
-msgstr "Installieren Sie den aktuellen Weblate-Code in die virtualenv:"
+msgstr "Den aktuellen Weblate-Code in virtualenv installieren:"
 
 #: ../../admin/install/source.rst:30
 msgid ""
 "Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py`."
 msgstr ""
-"Kopieren Sie :file:`weblate/settings_example.py` nach :file:`weblate/"
-"settings.py`."
+":file:`weblate/settings_example.py` nach :file:`weblate/settings.py` "
+"kopieren."
 
 #: ../../admin/install/steps/adjust-config.rst:1
 msgid ""
@@ -16365,24 +16311,23 @@ msgid ""
 "key, but you will want more changes for production setup, see :ref:"
 "`configuration`."
 msgstr ""
-"Passen Sie die Werte in der neuen Datei :file:`settings.py` nach Ihren "
-"Wünschen an. Sie müssen zumindest die Datenbank-Zugangsdaten und den "
-"geheimen Django-Schlüssel angeben, aber Sie werden mehr Änderungen für die "
-"Produktionseinrichtung benötigen, siehe :ref:`configuration`."
+"Die Werte in der neuen Datei :file:`settings.py` nach eigenen Wünschen "
+"anpassen. Es müssen zumindest die Datenbank-Zugangsdaten und der geheime "
+"Django-Schlüssel angeben werden, es werden jedoch mehr Änderungen für die "
+"Produktionseinrichtung benötigt, siehe :ref:`configuration`."
 
 #: ../../admin/install/source.rst:35
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
 msgstr ""
-"Erstellen Sie die von Weblate verwendete Datenbank, siehe :ref:`database-"
-"setup`."
+"Die von Weblate verwendete Datenbank erstellen, siehe :ref:`database-setup`."
 
 #: ../../admin/install/source.rst:37
 msgid ""
 "Build Django tables, static files and initial data (see :ref:`tables-setup` "
 "and :ref:`static-files`):"
 msgstr ""
-"Erstellen Sie Django-Tabellen, statische Dateien und Anfangsdaten (siehe :"
-"ref:`tables-setup` und :ref:`static-files`):"
+"Django-Tabellen, statische Dateien und Anfangsdaten erstellen (siehe :ref"
+":`tables-setup` und :ref:`static-files`):"
 
 #: ../../admin/install/source.rst:48
 msgid "This step should be repeated whenever you update the repository."
@@ -16407,16 +16352,12 @@ msgstr ""
 "Module erforderlich sind (siehe :ref:`requirements`):"
 
 #: ../../admin/install/steps/install-system-optional.rst:1
-#, fuzzy
-#| msgid ""
-#| "Install wanted optional dependencies depending on features you intend to "
-#| "use (see :ref:`optional-deps`):"
 msgid ""
 "Install wanted optional dependencies depending on features you intend to use "
 "(see :ref:`python-deps`):"
 msgstr ""
 "Installieren Sie die gewünschten optionalen Abhängigkeiten abhängig von den "
-"Funktionen, die Sie verwenden möchten (siehe :ref:`optional-deps`):"
+"Funktionen, die Sie verwenden möchten (siehe :ref:`python-deps`):"
 
 #: ../../admin/install/steps/install-system-server.rst:1
 msgid ""
@@ -16452,27 +16393,22 @@ msgstr ""
 
 #: ../../admin/install/steps/install-python.rst:10
 msgid "Create the virtualenv for Weblate:"
-msgstr "Erstellen Sie die virtualenv für Weblate:"
+msgstr "virtualenv für Weblate erstellen:"
 
 #: ../../admin/install/steps/install-python.rst:16
 msgid "Activate the virtualenv for Weblate:"
-msgstr "Aktivieren Sie die virtualenv für Weblate:"
+msgstr "virtualenv für Weblate aktivieren:"
 
 #: ../../admin/install/steps/install-python.rst:22
 msgid "Install Weblate including all optional dependencies:"
-msgstr ""
-"Installieren Sie Weblate einschließlich aller optionalen Abhängigkeiten:"
+msgstr "Weblate einschließlich aller optionalen Abhängigkeiten installieren:"
 
 #: ../../admin/install/steps/install-python.rst:29
-#, fuzzy
-#| msgid ""
-#| "Please check :ref:`optional-deps` for fine-tuning of optional "
-#| "dependencies."
 msgid ""
 "Please check :ref:`python-deps` for fine-tuning of optional dependencies."
 msgstr ""
-"Bitte prüfen Sie :ref:`optional-deps` für die Feinabstimmung der optionalen "
-"Abhängigkeiten."
+"Bitte die :ref:`python-deps` für die Feinabstimmung der optionalen "
+"Abhängigkeiten überprüfen."
 
 #: ../../admin/install/steps/install-python.rst:33
 msgid "On some Linux distributions running Weblate fails with libffi error:"
@@ -16511,18 +16447,18 @@ msgid ""
 "settings_example.py` to :file:`~/weblate-env/lib/python3.9/site-packages/"
 "weblate/settings.py`."
 msgstr ""
-"Kopieren Sie die Datei :file:`~/weblate-env/lib/python3.9/site-packages/"
-"weblate/settings_example.py` nach :file:`~/weblate-env/lib/python3.9/site-"
-"packages/weblate/settings.py`."
+"Die Datei :file:`~/weblate-env/lib/python3.9/site-packages/weblate/"
+"settings_example.py` nach :file:`~/weblate-env/lib/python3.9/site-packages/"
+"weblate/settings.py` kopieren."
 
 #: ../../admin/install/steps/install-configure.rst:16
 msgid ""
 "Create the database and its structure for Weblate (the example settings use "
 "PostgreSQL, check :ref:`database-setup` for a production-ready setup):"
 msgstr ""
-"Erstellen Sie die Datenbank und ihre Struktur für Weblate (die "
-"Beispieleinstellungen verwenden PostgreSQL, sehen Sie sich :ref:`database-"
-"setup` für eine produktionsreife Einrichtung an):"
+"Die Datenbank und ihre Struktur für Weblate erstellen (die "
+"Beispieleinstellungen verwenden PostgreSQL, siehe :ref:`database-setup` für "
+"eine produktionsreife Einrichtung):"
 
 #: ../../admin/install/steps/install-configure.rst:25
 msgid ":wladmin:`migrate`"
@@ -16533,9 +16469,9 @@ msgid ""
 "Create an administrator user account ``admin``, generate its password, and "
 "copy it to the clipboard; remember to save it for later use:"
 msgstr ""
-"Erstellen Sie ein Administrator-Benutzerkonto ``admin``, generieren Sie "
-"dessen Passwort und kopieren Sie es in die Zwischenablage; denken Sie daran, "
-"es zur späteren Verwendung zu speichern:"
+"Ein Administrator-Benutzerkonto ``admin`` erstellen, dessen Passwort "
+"generieren und es in die Zwischenablage kopieren; denken Sie daran, es zur "
+"späteren Verwendung zu speichern:"
 
 #: ../../admin/install/steps/install-configure.rst:36
 msgid ""
@@ -16554,31 +16490,30 @@ msgid ""
 "Collect the static files for your web server (see :ref:`server` and :ref:"
 "`static-files`):"
 msgstr ""
-"Sammeln Sie die statischen Dateien für Ihren Webserver (siehe :ref:`server` "
-"und :ref:`static-files`):"
+"Die statischen Dateien für den Webserver sammeln (siehe :ref:`server` und "
+":ref:`static-files`):"
 
 #: ../../admin/install/steps/install-configure.rst:52
 msgid ""
 "Compress the JavaScript and CSS files (optional, see :ref:`production-"
 "compress`):"
 msgstr ""
-"Komprimieren Sie die JavaScript- und CSS-Dateien (optional, siehe :ref:"
-"`production-compress`):"
+"Die JavaScript- und CSS-Dateien komprimieren (optional, siehe :ref"
+":`production-compress`):"
 
 #: ../../admin/install/steps/install-configure.rst:58
 msgid ""
 "Start the Celery workers. This is not necessary for development purposes, "
 "but strongly recommended otherwise. :ref:`celery` has more info:"
 msgstr ""
-"Starten Sie die Celery-Worker. Dies ist für Entwicklungszwecke nicht "
-"notwendig, wird aber ansonsten dringend empfohlen. :ref:`celery` hat mehr "
-"Informationen:"
+"Die Celery-Worker starten. Dies ist für Entwicklungszwecke nicht notwendig, "
+"wird aber ansonsten dringend empfohlen. :ref:`celery` hat mehr Informationen:"
 
 #: ../../admin/install/steps/install-configure.rst:65
 msgid ""
 "Start the development server (:ref:`server` details a production setup):"
 msgstr ""
-"Starten Sie den Entwicklungsserver (:ref:`server` beschreibt eine "
+"Den Entwicklungsserver starten (:ref:`server` beschreibt eine "
 "Produktionseinrichtung):"
 
 #: ../../admin/install/steps/install-after.rst:2
@@ -16638,13 +16573,14 @@ msgid ""
 "create the project you want to translate. See :ref:`project` for more "
 "details."
 msgstr ""
-"Öffnen Sie die Adminoberfläche (``http://localhost:8000/create/project/``) "
-"und erstellen Sie das Projekt, das Sie übersetzen möchten. Siehe :ref:"
-"`project` für weitere Details."
+"Die Adminoberfläche öffnen (``http://localhost:8000/create/project/``) und "
+"ein Projekt erstellen, das übersetzt werden soll. Siehe :ref:`project` für "
+"weitere Details."
 
 #: ../../admin/install/steps/install-after.rst:19
 msgid "All you need to specify here is the project name and its website."
-msgstr "Sie müssen hier nur den Namen des Projekts und dessen Website angeben."
+msgstr ""
+"Es muss hier nur der Name des Projekts und dessen Website angegeben werden."
 
 #: ../../admin/install/steps/install-after.rst:21
 msgid ""
@@ -16652,9 +16588,9 @@ msgid ""
 "the VCS repository, and selects which files to translate. See :ref:"
 "`component` for more details."
 msgstr ""
-"Erstellen Sie eine Komponente, die das eigentliche Objekt für die "
-"Übersetzung ist – sie verweist auf das VCS-Repository und wählt die zu "
-"übersetzenden Dateien aus. Siehe :ref:`component` für weitere Details."
+"Eine Komponente erstellen, die das eigentliche Objekt für die Übersetzung "
+"ist – sie verweist auf das VCS-Repository und wählt die zu übersetzenden "
+"Dateien aus. Siehe :ref:`component` für weitere Details."
 
 #: ../../admin/install/steps/install-after.rst:25
 msgid ""
@@ -16678,7 +16614,7 @@ msgid ""
 msgstr ""
 "Sobald die Schritte oben abgeschlossen sind (je nach Größe Ihres VCS-"
 "Repositorys und der Anzahl der zu übersetzenden Nachrichten kann dies ein "
-"langwieriger Prozess sein), können Sie mit dem Übersetzen beginnen."
+"langwieriger Prozess sein), kann mit dem Übersetzen begonnen werden."
 
 #: ../../admin/install/venv-macos.rst:2
 msgid "Installing on macOS"
@@ -22808,35 +22744,31 @@ msgstr ""
 "Installation aktualisieren:"
 
 #: ../../admin/upgrade.rst:71
-#, fuzzy
-#| msgid ""
-#| "New Weblate release might have new :ref:`optional-deps`, please check if "
-#| "they cover features you want."
 msgid ""
 "New Weblate release might have new :ref:`python-deps`, please check if they "
 "cover features you want."
 msgstr ""
-"Neue Weblate-Versionen haben möglicherweise neue :ref:`optional-deps`, bitte "
-"prüfen Sie, ob sie die von Ihnen gewünschten Funktionen abdecken."
+"Neue Weblate-Versionen haben möglicherweise neue :ref:`python-deps`, bitte "
+"prüfen, ob die gewünschten Funktionen abgedeckt werden."
 
 #: ../../admin/upgrade.rst:74
 msgid ""
 "Upgrade configuration file, refer to :file:`settings_example.py` or :ref:"
 "`version-specific-instructions` for needed steps."
 msgstr ""
-"Upgrade der Konfigurationsdatei, siehe :file:`settings_example.py` oder :ref:"
-"`version-specific-instructions` für die notwendigen Schritte."
+"Konfigurationsdatei aktualisieren, siehe :file:`settings_example.py` oder "
+":ref:`version-specific-instructions` für die notwendigen Schritte."
 
 #: ../../admin/upgrade.rst:77
 msgid "Upgrade database structure:"
-msgstr "Upgrade der Datenbankstruktur:"
+msgstr "Datenbankstruktur aktualisieren:"
 
 #: ../../admin/upgrade.rst:83
 msgid ""
 "Collect updated static files (see :ref:`server` and :ref:`static-files`):"
 msgstr ""
-"Sammeln aktualisierter statischer Dateien (siehe :ref:`server` und :ref:"
-"`static-files`):"
+"Aktualisierte statische Dateien sammeln (siehe :ref:`server` und :ref"
+":`static-files`):"
 
 #: ../../admin/upgrade.rst:89
 msgid ""
@@ -22850,9 +22782,9 @@ msgid ""
 "If you are running version from Git, you should also regenerate locale files "
 "every time you are upgrading. You can do this by invoking:"
 msgstr ""
-"Wenn Sie die Version von Git verwenden, sollten Sie auch die "
-"Gebietsschemadateien jedes Mal neu generieren, wenn Sie ein Upgrade "
-"durchführen. Sie können dies tun, indem Sie folgendes aufrufen:"
+"Wenn eine Version von Git verwendet wird, sollten bei jedem durchgeführten "
+"Upgrade auch die Gebietsschemadateien jedes Mal neu generiert werden. Dies "
+"kann durch folgenden Aufruf erfolgen:"
 
 #: ../../admin/upgrade.rst:102
 msgid "Verify that your setup is sane (see also :ref:`production`):"
@@ -25442,28 +25374,20 @@ msgid "percentage of translated characters"
 msgstr "Prozentsatz der übersetzten Zeichen"
 
 #: ../../api.rst:2450
-#, fuzzy
-#| msgid "number of fuzzy (marked for edit) strings"
 msgid "number of fuzzy (marked for edit) words"
-msgstr "Anzahl der ungenauen (zur Bearbeitung markierten) Zeichenketten"
+msgstr "Anzahl der ungenauen (zur Bearbeitung markierten) Wörter"
 
 #: ../../api.rst:2451
-#, fuzzy
-#| msgid "number of fuzzy (marked for edit) strings"
 msgid "number of fuzzy (marked for edit) characters"
-msgstr "Anzahl der ungenauen (zur Bearbeitung markierten) Zeichenketten"
+msgstr "Anzahl der ungenauen (zur Bearbeitung markierten) Zeichen"
 
 #: ../../api.rst:2453
-#, fuzzy
-#| msgid "percentage of fuzzy (marked for edit) strings"
 msgid "percentage of fuzzy (marked for edit) words"
-msgstr "Prozentsatz der ungenauen (zur Bearbeitung markierten) Zeichenketten"
+msgstr "Prozentsatz der ungenauen (zur Bearbeitung markierten) Wörter"
 
 #: ../../api.rst:2454
-#, fuzzy
-#| msgid "percentage of fuzzy (marked for edit) strings"
 msgid "percentage of fuzzy (marked for edit) characters"
-msgstr "Prozentsatz der ungenauen (zur Bearbeitung markierten) Zeichenketten"
+msgstr "Prozentsatz der ungenauen (zur Bearbeitung markierten) Zeichen"
 
 #: ../../api.rst:2455
 msgid "number of failing checks"
@@ -25474,70 +25398,52 @@ msgid "percentage of failing checks"
 msgstr "Prozentsatz der fehlgeschlagenen Qualitätsprüfungen"
 
 #: ../../api.rst:2457
-#, fuzzy
-#| msgid "number of read-only strings"
 msgid "number of approved strings"
-msgstr "Anzahl der schreibgeschützten Zeichenketten"
+msgstr "Anzahl der genehmigten Zeichenketten"
 
 #: ../../api.rst:2458
-#, fuzzy
-#| msgid "number of approved checks"
 msgid "number of approved words"
-msgstr "Anzahl der genehmigten Qualitätsprüfungen"
+msgstr "Anzahl der genehmigten Wörter"
 
 #: ../../api.rst:2459
-#, fuzzy
-#| msgid "number of approved checks"
 msgid "number of approved characters"
-msgstr "Anzahl der genehmigten Qualitätsprüfungen"
+msgstr "Anzahl der genehmigten Zeichen"
 
 #: ../../api.rst:2460
 msgid "percentage of approved strings"
 msgstr "Prozentsatz der genehmigten Zeichenketten"
 
 #: ../../api.rst:2461
-#, fuzzy
-#| msgid "percentage of approved strings"
 msgid "percentage of approved words"
-msgstr "Prozentsatz der genehmigten Zeichenketten"
+msgstr "Prozentsatz der genehmigten Wörter"
 
 #: ../../api.rst:2462
-#, fuzzy
-#| msgid "percentage of approved strings"
 msgid "percentage of approved characters"
-msgstr "Prozentsatz der genehmigten Zeichenketten"
+msgstr "Prozentsatz der genehmigten Zeichen"
 
 #: ../../api.rst:2463
 msgid "number of read-only strings"
 msgstr "Anzahl der schreibgeschützten Zeichenketten"
 
 #: ../../api.rst:2464
-#, fuzzy
-#| msgid "number of read-only strings"
 msgid "number of read-only words"
-msgstr "Anzahl der schreibgeschützten Zeichenketten"
+msgstr "Anzahl der schreibgeschützten Wörter"
 
 #: ../../api.rst:2465
-#, fuzzy
-#| msgid "number of total characters"
 msgid "number of read-only characters"
-msgstr "Gesamtzahl der Zeichen"
+msgstr "Anzahl der schreibgeschützten Zeichen"
 
 #: ../../api.rst:2466
 msgid "percentage of read-only strings"
 msgstr "Prozentsatz der schreibgeschützten Zeichenketten"
 
 #: ../../api.rst:2467
-#, fuzzy
-#| msgid "percentage of read-only strings"
 msgid "percentage of read-only words"
-msgstr "Prozentsatz der schreibgeschützten Zeichenketten"
+msgstr "Prozentsatz der schreibgeschützten Wörter"
 
 #: ../../api.rst:2468
-#, fuzzy
-#| msgid "percentage of translated characters"
 msgid "percentage of read-only characters"
-msgstr "Prozentsatz der übersetzten Zeichen"
+msgstr "Prozentsatz der schreibgeschützten Zeichen"
 
 #: ../../api.rst:2469
 msgid "number of strings with suggestions"
@@ -26097,11 +26003,10 @@ msgstr ""
 ":ref:`reviews` direkt zu genehmigen."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Specify the overall, project or component translation license."
 msgid "One-click removal of project or component :ref:`subscriptions`."
 msgstr ""
-"Gibt die Lizenz für die Gesamt-, Projekt- oder Komponentenübersetzung an."
+"Entfernen von Projekt- oder einer Komponenten-:ref:`subscriptions` mit einem "
+"Klick."
 
 #: ../../changes.rst:21
 msgid ""
@@ -26129,10 +26034,8 @@ msgid "Fixed moving categories between projects."
 msgstr "Das Verschieben von Kategorien zwischen Projekten korrigiert."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Fixed automatic translation with more services."
 msgid "Fixed formatting of translation memory search results."
-msgstr "Die automatische Übersetzung mit mehreren Diensten korrigiert."
+msgstr "Die Formatierung der Übersetzungsspeicher-Suchergebnisse korrigiert."
 
 #: ../../changes.rst:29
 msgid "Allow non-breaking space character in :ref:`autofix-html`."
@@ -35843,30 +35746,20 @@ msgid "Coding standard and linting the code"
 msgstr "Kodierungsstandard und Codeanalyse"
 
 #: ../../contributing/snippets/pre-commit.rst:4
-#, fuzzy
-#| msgid ""
-#| "The code should follow PEP-8 coding guidelines and should be formatted "
-#| "using :program:`black` code formatter."
 msgid ""
 "The code should follow PEP-8 coding guidelines and should be formatted "
 "using :program:`ruff` code formatter."
 msgstr ""
 "Der Code sollte den PEP-8-Programmierrichtlinien entsprechen und mit dem "
-"Code-Formatierer :program:`black` formatiert werden."
+"Code-Formatierer :program:`ruff` formatiert werden."
 
 #: ../../contributing/snippets/pre-commit.rst:7
-#, fuzzy
-#| msgid ""
-#| "To check the code quality, you can use :program:`flake8`, the recommended "
-#| "plugins are listed in :file:`.pre-commit-config.yaml` and its "
-#| "configuration is placed in :file:`setup.cfg`."
 msgid ""
 "To check the code quality, you can use :program:`ruff`, its configuration is "
 "stored in :file:`pyproject.toml`."
 msgstr ""
-"Um die Codequalität zu überprüfen, können Sie :program:`flake8` verwenden, "
-"die empfohlenen Plugins sind in :file:`.pre-commit-config.yaml` aufgelistet "
-"und die Konfiguration ist in :file:`setup.cfg` abgelegt."
+"Um die Codequalität zu überprüfen, kann :program:`ruff` verwendet werden, "
+"dessen Konfiguration in :file:`pyproject.toml` gespeichert ist."
 
 #: ../../contributing/snippets/pre-commit.rst:10
 msgid ""
@@ -38384,21 +38277,10 @@ msgid ":ref:`production-certs`"
 msgstr ":ref:`production-certs`"
 
 #: ../../devel/community.rst:2
-#, fuzzy
-#| msgid "Building translators community"
 msgid "Building a translators community"
 msgstr "Aufbau einer Übersetzungscommunity"
 
 #: ../../devel/community.rst:4
-#, fuzzy
-#| msgid ""
-#| "Following these recommendations supports the creation of a full, "
-#| "multilingual post-editing tool. Good translations are defined through the "
-#| "systemic-functional model of House which aims at a contextual correct "
-#| "translation. Write your own `post-editing guide <https://en.wikipedia.org/"
-#| "wiki/Postediting>`_ and alter these recommendations to fit your own "
-#| "definitions. In most cases the `browser-plugin of languageTool <https://"
-#| "languagetool.org/#firefox_chrome>`_  is useful as the proof-reading tool."
 msgid ""
 "Following these recommendations supports the creation of a full, "
 "multilingual post-editing tool. Good translations are defined through the "
@@ -38415,7 +38297,7 @@ msgstr ""
 "Editing-Anleitung <https://en.wikipedia.org/wiki/Postediting>`_ und passen "
 "Sie diese Empfehlungen an Ihre eigenen Definitionen an. In den meisten "
 "Fällen ist das `Browser-Plugin von LanguageTool <https://languagetool.org/"
-"#firefox_chrome>`_ als Korrekturlese-Tool nützlich."
+"#firefox_chrome>`_ ein nützliches Tool für das Korrekturlesen."
 
 #: ../../devel/community.rst:6
 msgid ""
@@ -47917,39 +47799,39 @@ msgstr "Konfliktbehandlung"
 #: ../../user/files.rst:141
 msgid "Defines how to deal with uploaded strings which are already translated:"
 msgstr ""
+"Legt fest, wie mit hochgeladenen, bereits übersetzten Zeichenketten "
+"umgegangen werden soll:"
 
 #: ../../user/files.rst:143
 msgid "Change only untranslated strings (``ignore``)"
 msgstr "Nur nicht übersetzte Zeichenketten ändern (``ignore``)"
 
 #: ../../user/files.rst:144
-#, fuzzy
-#| msgid "Automatic translation using already translated strings."
 msgid "Ignore uploaded translations which are already translated."
-msgstr "Automatische Übersetzung verwendet bereits übersetzte Zeichenketten."
+msgstr ""
+"Hochgeladene Übersetzungen, die bereits übersetzt sind, werden ignoriert."
 
 #: ../../user/files.rst:145
 msgid "Change translated strings (``replace-translated``)"
 msgstr "Übersetzte Zeichenketten ändern (``replace-translated``)"
 
 #: ../../user/files.rst:146
-#, fuzzy
-#| msgid "Replace existing translation file (``replace``)"
 msgid ""
 "Replace existing translations with uploaded ones, but keep approved ones."
-msgstr "Vorhandene Übersetzungsdatei ersetzen (``replace``)"
+msgstr ""
+"Vorhandene Übersetzungen durch hochgeladene ersetzen, doch genehmigte "
+"beibehalten."
 
 #: ../../user/files.rst:148
 msgid "Change translated and approved strings (``replace-approved``)"
 msgstr "Übersetzte und genehmigte Zeichenketten ändern (``replace-approved``)"
 
 #: ../../user/files.rst:148
-#, fuzzy
-#| msgid "*Reviewer* can edit all translations (including approved ones)."
 msgid ""
 "Replace existing translations with uploaded ones, including approved ones."
 msgstr ""
-"*Prüfer* können alle Übersetzungen (einschließlich genehmigten) bearbeiten."
+"Vorhandene Übersetzungen durch hochgeladene ersetzen, einschließlich "
+"genehmigte."
 
 #: ../../user/files.rst:153
 msgid "Strings needing edit"
@@ -50689,10 +50571,8 @@ msgstr ""
 "Einrichtung solcher Repositorys erforderlich ist."
 
 #: ../../vcs.rst:467
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull requests"
-msgstr "Bitbucket-Server-Pull-Request"
+msgstr "Azure-DevOps-Pull-Request"
 
 #: ../../vcs.rst:469
 msgid ""
