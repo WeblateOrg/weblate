@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 19:18+0100\n"
-"PO-Revision-Date: 2023-11-17 18:28+0000\n"
+"PO-Revision-Date: 2023-11-17 20:25+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -230,7 +230,7 @@ msgstr "Folgende Teams werden für jedes Projekt automatisch gebildet:"
 
 #: ../../admin/access.rst:108
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr "Für `Öffentlich`, `Geschützt` und `Privat` Projekte:"
+msgstr "Für `Öffentliche`, `Geschützte` und `Private` Projekte:"
 
 #: ../../admin/access.rst:111
 msgid "Administration"
@@ -252,7 +252,7 @@ msgstr "Darf Übersetzungen bei der Überprüfung genehmigen."
 
 #: ../../admin/access.rst:116
 msgid "For `Protected` and `Private` projects only:"
-msgstr "Nur für `Geschützt` und `Privat` Projekte:"
+msgstr "Nur für `Geschützte` und `Private` Projekte:"
 
 #: ../../admin/access.rst:119
 msgid "Translate"
@@ -38372,12 +38372,6 @@ msgid "Review translations"
 msgstr "Übersetzungen überprüfen"
 
 #: ../../devel/community.rst:32
-#, fuzzy
-#| msgid ""
-#| "The translations should be reviewed by a second person after the post-"
-#| "editing. With an impartial and competent revisor, the two man rule "
-#| "reduces the errors and improves the quality and consistency of the "
-#| "content."
 msgid ""
 "The translations should be reviewed by a second person after the post-"
 "editing. With an impartial and competent reviewer, the two people rule "
@@ -38387,9 +38381,12 @@ msgid ""
 "context."
 msgstr ""
 "Die Übersetzungen sollten nach dem Post-Editing von einer zweiten Person "
-"überprüft werden. Mit einem unparteiischen und kompetenten Überprüfer "
-"verringert die Zwei-Mann-Regel die Fehlerquote und verbessert die Qualität "
-"und Konsistenz des Inhalts."
+"überprüft werden. Mit einem unparteiischen und kompetenten Prüfer werden "
+"durch die Zwei-Personen-Regel die Fehler reduziert und die Qualität und "
+"Konsistenz des Inhalts verbessert. Wenn den Prüfern Vorschaubilder oder "
+"Alpha-Übersetzungen zur Verfügung stehen, erhält man dadurch das beste "
+"Ergebnis. Bildschirmfotos und Erklärungen sind ebenfalls hilfreich, um die "
+"Zeichenketten im Kontext dessen zu prüfen."
 
 #: ../../devel/community.rst:37
 msgid "Structured feedback"
@@ -39055,10 +39052,8 @@ msgid ":ref:`architecture` describes how Weblate works internally."
 msgstr ""
 
 #: ../../snippets/basics.rst:32
-#, fuzzy
-#| msgid "User registration"
 msgid "User attribution"
-msgstr "Benutzerregistrierung"
+msgstr "Benutzerzuordnung"
 
 #: ../../snippets/basics.rst:34
 msgid ""
@@ -39088,11 +39083,11 @@ msgid ""
 msgstr ""
 
 #: ../../snippets/basics.rst:48
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgid ""
 ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` can make e-mails private by default."
-msgstr "Konfiguriert :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
+msgstr ""
+"Mit :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` können E-Mails standardmäßig auf "
+"privat gestellt werden."
 
 #: ../../devel/integration.rst:7
 msgid "Importing localization project into Weblate"
@@ -42801,16 +42796,12 @@ msgstr ""
 "`addon-weblate.cleanup.generic`"
 
 #: ../../formats/go-i18n.rst:35
-#, fuzzy
-#| msgid "Example file:"
 msgid "Example file v1:"
-msgstr "Beispieldatei:"
+msgstr "Beispieldatei v1:"
 
 #: ../../formats/go-i18n.rst:40
-#, fuzzy
-#| msgid "Example file:"
 msgid "Example file v2:"
-msgstr "Beispieldatei:"
+msgstr "Beispieldatei v2:"
 
 #: ../../formats/go-i18n.rst:49
 msgid "Typical Weblate :ref:`component` for v1"
@@ -43917,11 +43908,6 @@ msgstr ""
 "zur Unterstützung von Pluralformen."
 
 #: ../../formats/xliff.rst:30
-#, fuzzy
-#| msgid ""
-#| "`XML Localization Interchange File Format (XLIFF)`_ specification, `XLIFF "
-#| "1.2 Representation Guide for Gettext PO`_, `XLIFF on Wikipedia <https://"
-#| "en.wikipedia.org/wiki/XLIFF>`_, :doc:`tt:formats/xliff`,"
 msgid ""
 "`XML Localization Interchange File Format (XLIFF)`_ specification, `XLIFF "
 "1.2 Representation Guide for Gettext PO`_, `XLIFF on Wikipedia <https://en."
@@ -44096,10 +44082,8 @@ msgstr ""
 "keine Einschränkungen für die Eindeutigkeit dieses Attributs."
 
 #: ../../formats/xliff.rst:132
-#, fuzzy
-#| msgid "Example file:"
 msgid "Example XLIFF file:"
-msgstr "Beispieldatei:"
+msgstr "XLIFF-Beispieldatei:"
 
 #: ../../formats/xliff.rst:142
 msgid "Typical Weblate :ref:`component` for bilingual XLIFF"
@@ -50463,10 +50447,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Gitea` option when selecting :ref:`component-vcs`."
 msgstr ""
-"Damit dies funktioniert, müssen Sie die API-Anmeldeinformationen (:setting:"
-"`GITEA_CREDENTIALS`) in den Weblate-Einstellungen konfigurieren. Nach der "
-"Konfiguration sehen Sie die Option :guilabel:`Gitea`, wenn Sie :ref:"
-"`component-vcs` auswählen."
+"Damit dies funktioniert, müssen die API-Anmeldeinformationen "
+"(:setting:`GITEA_CREDENTIALS`) in den Weblate-Einstellungen konfiguriert "
+"werden. Nach der Konfiguration ist die Option :guilabel:`Gitea` sichtbar, "
+"wenn :ref:`component-vcs` ausgewählt wird."
 
 #: ../../vcs.rst:385
 msgid ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
@@ -50507,10 +50491,10 @@ msgid ""
 "Once configured, you will see a :guilabel:`Bitbucket Server` option when "
 "selecting :ref:`component-vcs`."
 msgstr ""
-"Damit dies funktioniert, müssen Sie die API-Anmeldeinformationen (:setting:"
-"`BITBUCKETSERVER_CREDENTIALS`) in den Weblate-Einstellungen konfigurieren. "
-"Nach der Konfiguration sehen Sie die Option :guilabel:`Bitbucket-Server`, "
-"wenn Sie :ref:`component-vcs` auswählen."
+"Damit dies funktioniert, müssen die API-Anmeldeinformationen "
+"(:setting:`BITBUCKETSERVER_CREDENTIALS`) in den Weblate-Einstellungen "
+"konfiguriert werden. Nach der Konfiguration ist die Option :guilabel:`"
+"Bitbucket Server` sichtbar, wenn :ref:`component-vcs` ausgewählt wird."
 
 #: ../../vcs.rst:418
 msgid ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
@@ -50582,35 +50566,25 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:472
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-git` pushes changes directly to a repository, while :ref:`vcs-"
-#| "github` creates pull requests. The latter is not needed for merely "
-#| "accessing Git repositories."
 msgid ""
 ":ref:`vcs-git` pushes changes directly to a repository, while :ref:`vcs-"
 "azure-devops` creates pull requests. The latter is not needed for merely "
 "accessing Git repositories."
 msgstr ""
 ":ref:`vcs-git` pusht Änderungen direkt in ein Repository, während :ref:`vcs-"
-"github` Pull Requests erstellt. Letzteres wird für den bloßen Zugriff auf "
-"Git-Repositorys nicht benötigt."
+"azure-devops` Pull Requests erstellt. Letzteres wird für den bloßen Zugriff "
+"auf Git-Repositorys nicht benötigt."
 
 #: ../../vcs.rst:476
-#, fuzzy
-#| msgid ""
-#| "You need to configure API credentials (:setting:`GITEA_CREDENTIALS`) in "
-#| "the Weblate settings to make this work. Once configured, you will see a :"
-#| "guilabel:`Gitea` option when selecting :ref:`component-vcs`."
 msgid ""
 "You need to configure API credentials (:setting:`AZURE_DEVOPS_CREDENTIALS`) "
 "in the Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Azure DevOps` option when selecting :ref:`component-vcs`."
 msgstr ""
-"Damit dies funktioniert, müssen Sie die API-Anmeldeinformationen (:setting:"
-"`GITEA_CREDENTIALS`) in den Weblate-Einstellungen konfigurieren. Nach der "
-"Konfiguration sehen Sie die Option :guilabel:`Gitea`, wenn Sie :ref:"
-"`component-vcs` auswählen."
+"Damit dies funktioniert, müssen die API-Anmeldeinformationen "
+"(:setting:`AZURE_DEVOPS_CREDENTIALS`) in den Weblate-Einstellungen "
+"konfiguriert werden. Nach der Konfiguration ist die Option :guilabel:`Azure "
+"DevOps` sichtbar, wenn :ref:`component-vcs` ausgewählt wird."
 
 #: ../../vcs.rst:482
 msgid ":ref:`push-changes`, :setting:`AZURE_DEVOPS_CREDENTIALS`"
@@ -51200,10 +51174,8 @@ msgid "Language customization"
 msgstr "Anpassungen zurücksetzen"
 
 #: ../../workflows.rst:36
-#, fuzzy
-#| msgid "project/component"
 msgid "The project/component settings"
-msgstr "project/component"
+msgstr "Die Projekt/Komponenten-Einstellungen"
 
 #: ../../workflows.rst:40
 msgid ""
@@ -51239,8 +51211,6 @@ msgstr ""
 "`Übersetzen`-Berechtigung für das Projekt hat."
 
 #: ../../workflows.rst:61
-#, fuzzy
-#| msgid "Each translated string can be in one of following states:"
 msgid "Each translated string can be in one of the following states:"
 msgstr ""
 "Jede übersetzte Zeichenkette kann sich in einem der folgenden Status "
@@ -51317,20 +51287,15 @@ msgstr ""
 "Die Status werden soweit möglich in den Übersetzungsdateien dargestellt."
 
 #: ../../workflows.rst:86
-#, fuzzy
-#| msgid ""
-#| "In case file format you use does not support storing states, you might "
-#| "want to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
-#| "strings as needing editing."
 msgid ""
 "If the file format you use does not support storing states, you might want "
 "to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings "
 "as needing editing."
 msgstr ""
-"Falls das von Ihnen verwendete Dateiformat das Speichern von Status nicht "
-"unterstützt, sollten Sie die Erweiterung :ref:`addon-weblate.flags."
-"same_edit` verwenden, um unveränderte Zeichenketten als "
-"bearbeitungsbedürftig zu markieren."
+"Wenn von Ihnen verwendete Dateiformat das Speichern von Status nicht "
+"unterstützt, sollten Sie die Erweiterung :ref:`addon-weblate.flags.same_edit`"
+" verwenden, um unveränderte Zeichenketten als bearbeitungsbedürftig zu "
+"markieren."
 
 #: ../../workflows.rst:92
 msgid ":ref:`fmt_capabs`, :ref:`workflows`"
@@ -51341,10 +51306,6 @@ msgid "Direct translation"
 msgstr "Direkte Übersetzung"
 
 #: ../../workflows.rst:98
-#, fuzzy
-#| msgid ""
-#| "This is most usual setup for smaller teams, anybody can directly "
-#| "translate. This is also the default setup in Weblate."
 msgid ""
 "This is the most usual setup for smaller teams, anybody can directly "
 "translate. This is also the default setup in Weblate."
@@ -51418,17 +51379,13 @@ msgid "Peer review"
 msgstr "Peer-Review"
 
 #: ../../workflows.rst:130
-#, fuzzy
-#| msgid ""
-#| "With this workflow, anybody can add suggestions, and need approval from "
-#| "additional member(s) before it is accepted as a translation."
 msgid ""
 "With this workflow, anybody can add a suggestion, which needs approval from "
 "additional member(s) before it is accepted as a translation."
 msgstr ""
-"In diesem Arbeitsablauf kann jeder Übersetzungsvorschläge einbringen, die "
-"von weiteren Mitgliedern genehmigt werden müssen, bevor sie als Übersetzung "
-"angenommen werden."
+"In diesem Arbeitsablauf kann jeder einen Übersetzungsvorschlag einbringen, "
+"der von weiteren Mitgliedern genehmigt werden muss, bevor er als Übersetzung "
+"angenommen wird."
 
 #: ../../workflows.rst:133
 msgid "*Any user* can add suggestions."
@@ -51446,11 +51403,10 @@ msgstr ""
 "Stimmen erhalten haben."
 
 #: ../../workflows.rst:146
-#, fuzzy
-#| msgid "You can set higher value to require more peer reviews."
 msgid "You can set a higher value to require more peer reviews."
 msgstr ""
-"Sie können einen höheren Wert einstellen, um mehr Peer-Reviews anzufordern."
+"Es kann ein höherer Wert eingestellt werden, um mehr Peer Reviews zu "
+"verlangen."
 
 #: ../../workflows.rst:153
 msgid "Not used, all translators review."
@@ -51515,15 +51471,6 @@ msgid "Quality gateway for the source strings"
 msgstr "Qualitäts-Gateway für die Ausgangszeichenketten"
 
 #: ../../workflows.rst:205
-#, fuzzy
-#| msgid ""
-#| "In many cases the original source language strings are coming from "
-#| "developers, because they write the code and provide initial strings. "
-#| "However developers are often not a native speakers in the source language "
-#| "and do not provide desired quality of the source strings. The "
-#| "intermediate translation can help you in addressing this - there is "
-#| "additional quality gateway for the strings between developers and "
-#| "translators and users."
 msgid ""
 "In many cases the original source language strings are coming from "
 "developers, because they write the code and provide initial strings. However "
@@ -51536,9 +51483,9 @@ msgstr ""
 "Ausgangssprache von den Entwicklern, da sie den Code schreiben und die "
 "ursprünglichen Zeichenketten bereitstellen. Die Entwickler sind jedoch oft "
 "keine Muttersprachler in der Ausgangssprache und bieten nicht die gewünschte "
-"Qualität der Ausgangszeichenketten. Die Zwischenübersetzung kann Ihnen dabei "
-"helfen, dies zu beheben – es gibt eine zusätzliche Qualitätskontrolle für "
-"die Texte zwischen Entwicklern, Übersetzern und Benutzern."
+"Qualität der Ausgangszeichenketten. Die Zwischenübersetzung kann dabei "
+"helfen, dieses Problem zu lösen – es gibt ein zusätzliches Qualitäts-Gateway "
+"für die Zeichenketten zwischen Entwicklern und Übersetzern."
 
 #: ../../workflows.rst:211
 msgid ""
