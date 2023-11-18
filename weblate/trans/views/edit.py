@@ -266,7 +266,7 @@ def search(
         # Check empty search results
         if not unit_ids and not blank:
             messages.warning(request, gettext("No strings found!"))
-            return redirect(base)
+            return redirect(f"{base.get_absolute_url()}#search")
 
         store_result = {
             "query": search_query,
