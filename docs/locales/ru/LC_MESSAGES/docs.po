@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 19:18+0100\n"
-"PO-Revision-Date: 2023-11-19 10:12+0000\n"
+"PO-Revision-Date: 2023-11-19 13:52+0000\n"
 "Last-Translator: gfbdrgng <bngvh1b.g-gh1@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -9983,12 +9983,16 @@ msgid ""
 "Use the review features in Weblate (see :doc:`/workflows`), so that you can "
 "automatically merge GitHub pull requests after CI passes."
 msgstr ""
+"Используйте функции рецензирования в Weblate (см. :doc:`/workflows`), чтобы "
+"автоматически объединять запросы на GitHub после прохождения CI."
 
 #: ../../admin/continuous.rst:185
 msgid ""
 "Use locking in Weblate to avoid changes while GitHub pull request is in "
 "review."
 msgstr ""
+"Использование блокировки в Weblate позволяет избежать изменений во время "
+"рассмотрения запроса на GitHub."
 
 #: ../../admin/continuous.rst:189
 msgid ":ref:`wlc`"
@@ -10233,14 +10237,6 @@ msgstr ""
 "контроля версий <vcs>`, подробнее об этом читайте в указанной главе."
 
 #: ../../admin/continuous.rst:332
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support for :"
-#| "ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure` "
-#| "pull requests or :ref:`vcs-gerrit` reviews, you can activate these by "
-#| "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :"
-#| "guilabel:`Gerrit` or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:"
-#| "`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, :ref:"
@@ -10249,23 +10245,20 @@ msgid ""
 "`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure DevOps`, or :guilabel:`Pagure` "
 "as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
-"Если вы не хотите отправлять изменения из Weblate напрямую, то "
-"поддерживается также создание запросов на извлечение для :ref:`GitHub <vcs-"
-"github>`, :ref:`GitLab <vcs-gitlab>`, :ref:`Gitea <vcs-gitea>`, :ref:`Pagure "
-"<vcs-pagure>` или рецензий :ref:`vcs-gerrit`. Вы можете активировать их, "
-"выбрав в :ref:`конфигурациях компонента <component>` в качестве :ref:"
-"`системы контроля версий <component-vcs>` :guilabel:`GitHub`, :guilabel:"
-"`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit` или :guilabel:`Pagure` "
-"соответственно."
+"В случае, если вы не хотите использовать прямые push'ы Weblate, существует "
+"поддержка :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
+"pagure`, :ref:`vcs-azure-devops` pull requests или :ref:`vcs-gerrit` отзывы, "
+"вы можете активировать их, выбрав :guilabel:`GitHub`, :guilabel:`GitLab`, "
+":guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure DevOps` или "
+":guilabel:`Pagure` в качестве :ref:`component-vcs` в :ref:`component`."
 
 #: ../../admin/continuous.rst:338
-#, fuzzy
-#| msgid ""
-#| "Overall, following options are available with Git, GitHub and GitLab:"
 msgid ""
 "Overall, following options are available with Git, Mercurial, GitHub, "
 "GitLab, Gitea, Pagure, and Azure DevOps:"
-msgstr "В целом, для Git, GitHub и GitLab доступны следующие варианты:"
+msgstr ""
+"В целом, следующие варианты доступны для Git, Mercurial, GitHub, GitLab, "
+"Gitea, Pagure и Azure DevOps:"
 
 #: ../../admin/continuous.rst:342
 msgid "Desired setup"
@@ -10380,10 +10373,8 @@ msgid "Pagure merge request from branch"
 msgstr "Pagure ’вский запрос на слияние из ветки"
 
 #: ../../admin/continuous.rst:372
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull request from fork"
-msgstr "Запрос на принятие изменений в сервер Bitbucket"
+msgstr "Azure DevOps тянуть запрос из форка"
 
 #: ../../admin/continuous.rst:372 ../../admin/continuous.rst:374
 #: ../../changes.rst:8
@@ -10391,10 +10382,8 @@ msgid ":ref:`vcs-azure-devops`"
 msgstr ":ref:`vcs-azure-devops`"
 
 #: ../../admin/continuous.rst:374
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull request from branch"
-msgstr "Запрос на принятие изменений в сервер Bitbucket"
+msgstr "Запрос на вытягивание Azure DevOps из ветви"
 
 #: ../../admin/continuous.rst:377
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
@@ -11022,10 +11011,8 @@ msgid ":doc:`install/source`, recommended for development."
 msgstr ":doc:`install/source`, рекомендуется для разработки."
 
 #: ../../admin/install.rst:43
-#, fuzzy
-#| msgid "Checks overview"
 msgid "Architecture overview"
-msgstr "Сведения проверок"
+msgstr "Обзор архитектуры"
 
 #: ../../admin/install.rst:129
 msgid "Software requirements"
@@ -11106,24 +11093,32 @@ msgid ""
 "While there is nothing in Weblate itself blocking usage of Python 3.12, "
 "there are few outstanding issues:"
 msgstr ""
+"Хотя в самом Weblate нет ничего, препятствующего использованию Python 3.12, "
+"есть несколько нерешенных вопросов:"
 
 #: ../../admin/install.rst:164
 msgid ""
 "Celery, a dependency of Weblate, is not currently compatible with Python "
 "3.12, see https://github.com/celery/kombu/issues/1804."
 msgstr ""
+"Celery, зависимая часть Weblate, в настоящее время не совместима с Python "
+"3.12, см. https://github.com/celery/kombu/issues/1804."
 
 #: ../../admin/install.rst:165
 msgid ""
 "Python 3.12 performs slower than previous versions in some situations, see "
 "https://github.com/python/cpython/issues/109049."
 msgstr ""
+"В некоторых ситуациях Python 3.12 работает медленнее, чем предыдущие версии, "
+"см. https://github.com/python/cpython/issues/109049."
 
 #: ../../admin/install.rst:166
 msgid ""
 ":ref:`winrc` might not work properly in Python 3.12, see https://github.com/"
 "translate/translate/issues/5071."
 msgstr ""
+":ref:`winrc` может работать некорректно в Python 3.12, см. https://github."
+"com/translate/translate/issues/5071."
 
 #: ../../admin/install.rst:168
 msgid "Most notable dependencies:"
@@ -11183,29 +11178,23 @@ msgstr "Необязательные зависимости"
 
 #: ../../admin/install.rst:188
 msgid "pip extra"
-msgstr ""
+msgstr "pip extra"
 
 #: ../../admin/install.rst:189
-#, fuzzy
-#| msgid "Python brace format"
 msgid "Python Package"
-msgstr "Python-формат: фигурные скобки"
+msgstr "Пакет Python"
 
 #: ../../admin/install.rst:190
-#, fuzzy
-#| msgid "Weblate frontend"
 msgid "Weblate feature"
-msgstr "Фронтэнд Weblate"
+msgstr "Функция Weblate"
 
 #: ../../admin/install.rst:193
 msgid "``Amazon``"
 msgstr "``Amazon``"
 
 #: ../../admin/install.rst:194
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`boto3 <https://pypi.org/project/boto3>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`boto3 <https://pypi.org/project/boto3>`_"
 
 #: ../../admin/install.rst:195
 msgid ":ref:`mt-aws`"
@@ -11217,7 +11206,7 @@ msgstr "``LDAP``"
 
 #: ../../admin/install.rst:199
 msgid "`django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_"
-msgstr ""
+msgstr "`django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_"
 
 #: ../../admin/install.rst:200
 msgid ":ref:`ldap-auth`"
@@ -11231,6 +11220,7 @@ msgstr "``zxcvbn``"
 msgid ""
 "`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_"
 msgstr ""
+"`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_"
 
 #: ../../admin/install.rst:205
 msgid ":ref:`password-authentication`"
@@ -11241,10 +11231,8 @@ msgid "``Gerrit``"
 msgstr "``Gerrit``"
 
 #: ../../admin/install.rst:209
-#, fuzzy
-#| msgid "https://pypi.org/project/git-review/"
 msgid "`git-review <https://pypi.org/project/git-review>`_"
-msgstr "https://pypi.org/project/git-review/"
+msgstr "`git-review <https://pypi.org/project/git-review>`_"
 
 #: ../../admin/install.rst:210
 msgid ":ref:`vcs-gerrit`"
@@ -11255,15 +11243,10 @@ msgid "``Google``"
 msgstr "``Google``"
 
 #: ../../admin/install.rst:214
-#, fuzzy
-#| msgid ""
-#| "`Google translate documentation <https://cloud.google.com/translate/"
-#| "docs>`_"
 msgid ""
 "`google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_"
 msgstr ""
-"`Документация по переводчику Google <https://cloud.google.com/translate/"
-"docs>`_"
+"`google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_"
 
 #: ../../admin/install.rst:215
 msgid ":ref:`mt-google-translate-api-v3`"
@@ -11274,52 +11257,40 @@ msgid "``Mercurial``"
 msgstr "``Mercurial``"
 
 #: ../../admin/install.rst:219
-#, fuzzy
-#| msgid "https://pypi.org/project/ruamel.yaml/"
 msgid "`mercurial <https://pypi.org/project/mercurial>`_"
-msgstr "https://pypi.org/project/ruamel.yaml/"
+msgstr "`mercurial <https://pypi.org/project/mercurial>`_"
 
 #: ../../admin/install.rst:223
 msgid "``MySQL``"
 msgstr "``MySQL``"
 
 #: ../../admin/install.rst:224
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`mysqlclient <https://pypi.org/project/mysqlclient>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`mysqlclient <https://pypi.org/project/mysqlclient>`_"
 
 #: ../../admin/install.rst:225
-#, fuzzy
-#| msgid "Database server (see :ref:`database-setup`)"
 msgid "MySQL or MariaDB, see :ref:`database-setup`"
-msgstr "Сервера базы данных (смотрите раздел :ref:`database-setup`)"
+msgstr "MySQL или MariaDB, см. :ref:`database-setup`"
 
 #: ../../admin/install.rst:228
 msgid "``Postgres``"
 msgstr "``Postgres``"
 
 #: ../../admin/install.rst:229
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`psycopg <https://pypi.org/project/psycopg>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`psycopg <https://pypi.org/project/psycopg>`_"
 
 #: ../../admin/install.rst:230
-#, fuzzy
-#| msgid "PostgreSQL database setup"
 msgid "PostgreSQL, see :ref:`database-setup`"
-msgstr "Настройки базы данных PostgreSQL"
+msgstr "PostgreSQL, см. :ref:`database-setup`"
 
 #: ../../admin/install.rst:233
 msgid "``Antispam``"
 msgstr "``Antispam``"
 
 #: ../../admin/install.rst:234
-#, fuzzy
-#| msgid "https://pypi.org/project/git-review/"
 msgid "`python-akismet <https://pypi.org/project/python-akismet>`_"
-msgstr "https://pypi.org/project/git-review/"
+msgstr "`python-akismet <https://pypi.org/project/python-akismet>`_"
 
 #: ../../admin/install.rst:235
 msgid ":ref:`spam-protection`"
@@ -11330,10 +11301,8 @@ msgid "``SAML``"
 msgstr "``SAML``"
 
 #: ../../admin/install.rst:239
-#, fuzzy
-#| msgid "https://pypi.org/project/ruamel.yaml/"
 msgid "`python3-saml <https://pypi.org/project/python3-saml>`_"
-msgstr "https://pypi.org/project/ruamel.yaml/"
+msgstr "`python3-saml <https://pypi.org/project/python3-saml>`_"
 
 #: ../../admin/install.rst:240
 msgid ":ref:`saml-auth`"
@@ -11344,10 +11313,8 @@ msgid "``MSTerminology``"
 msgstr "``MSTerminology``"
 
 #: ../../admin/install.rst:244
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`zeep <https://pypi.org/project/zeep>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`zeep <https://pypi.org/project/zeep>`_"
 
 #: ../../admin/install.rst:245
 msgid ":ref:`mt-microsoft-terminology`"
@@ -13394,10 +13361,8 @@ msgstr ""
 "<https://github.com/WeblateOrg/munin>`_"
 
 #: ../../admin/install.rst:1641 ../../admin/install/docker.rst:1638
-#, fuzzy
-#| msgid "Collecting error reports"
 msgid "Collecting error reports and monitoring performance"
-msgstr "Сбор отчетов об ошибках"
+msgstr "Сбор отчетов об ошибках и мониторинг производительности"
 
 #: ../../admin/install.rst:1643
 msgid ""
@@ -13433,12 +13398,19 @@ msgid ""
 "configured using :setting:`SENTRY_TRACES_SAMPLE_RATE` and :setting:"
 "`SENTRY_PROFILES_SAMPLE_RATE`."
 msgstr ""
+"Sentry также может использоваться для мониторинга производительности Weblate "
+"путем сбора трасс и профилей для определенного процента операций. Это можно "
+"настроить с помощью :setting:`SENTRY_TRACES_SAMPLE_RATE` и "
+":setting:`SENTRY_PROFILES_SAMPLE_RATE`."
 
 #: ../../admin/install.rst:1665
+#, fuzzy
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_, `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
 msgstr ""
+"`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/>`"
+"_, `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
 
 #: ../../admin/install.rst:1669
 msgid "Rollbar"
@@ -14833,10 +14805,8 @@ msgstr ""
 "portal."
 
 #: ../../admin/install/docker.rst:995
-#, fuzzy
-#| msgid "Subversion credentials"
 msgid "Code hosting sites credentials"
-msgstr "Учётные данные Subversion"
+msgstr "Учетные данные сайтов хостинга кода"
 
 #: ../../admin/install/docker.rst:997
 msgid ""
@@ -14845,12 +14815,14 @@ msgid ""
 "once.  The following examples are for :ref:`vcs-github`, but applies to all :"
 "ref:`vcs` with appropriately changed variable names."
 msgstr ""
+"В контейнере Docker учетные данные хостинга кода могут быть настроены как в "
+"отдельных переменных, так и с помощью словаря Python для их одновременного "
+"задания.  Приведенные ниже примеры относятся к :ref:`vcs-github`, но "
+"применимы ко всем :ref:`vcs` с соответствующим изменением имен переменных."
 
 #: ../../admin/install/docker.rst:1002
-#, fuzzy
-#| msgid "Sample configuration for Apache"
 msgid "An example configuration for GitHub might look like:"
-msgstr "Пример файла настроек Apache"
+msgstr "Пример конфигурации для GitHub может выглядеть следующим образом:"
 
 #: ../../admin/install/docker.rst:1010
 msgid "Will be used as:"
@@ -14866,27 +14838,17 @@ msgid "Or the path to a file containing the Python dictionary:"
 msgstr "Или путь к файлу, содержащему словарь Python:"
 
 #: ../../admin/install/docker.rst:1039
-#, fuzzy
-#| msgid ""
-#| "Configures GitHub pull-requests integration by changing :setting:"
-#| "`GITHUB_CREDENTIALS`."
 msgid "Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`."
-msgstr ""
-"Настраивает интеграцию пул-реквестов GitHub, изменяя :setting:"
-"`GITHUB_CREDENTIALS`."
+msgstr "Настраивает :ref:`vcs-github`, изменяя :setting:`GITHUB_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1041 ../../admin/install/docker.rst:1050
 #: ../../admin/install/docker.rst:1059 ../../admin/install/docker.rst:1068
 #: ../../admin/install/docker.rst:1077 ../../admin/install/docker.rst:1087
-#, fuzzy
-#| msgid ""
-#| ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
-#| "<docker-mail>`"
 msgid ""
 ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 msgstr ""
-":ref:`debug-mails`, :ref:`Настройка исходящего адреса электронной почты "
-"внутри контейнера Docker <docker-mail>`"
+":ref:`Конфигурирование учетных данных хостинга кода в Docker <docker-vcs-"
+"config>`"
 
 #: ../../admin/install/docker.rst:1048
 #, fuzzy
@@ -14894,53 +14856,33 @@ msgstr ""
 #| "Configures GitLab merge-requests integration  by changing :setting:"
 #| "`GITLAB_CREDENTIALS`."
 msgid "Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`."
-msgstr ""
-"Настраивает интеграцию мерж-реквестов GitLab, изменяя :setting:"
-"`GITLAB_CREDENTIALS`."
+msgstr "Конфигурирует :ref:`vcs-gitlab`, изменяя :setting:`GITLAB_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1057
-#, fuzzy
-#| msgid ""
-#| "Configures Gitea pull-requests integration by changing :setting:"
-#| "`GITEA_CREDENTIALS`."
 msgid "Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`."
-msgstr ""
-"Настраивает интеграцию пул-реквестов Gitea, изменяя :setting:"
-"`GITEA_CREDENTIALS`."
+msgstr "Конфигурирует :ref:`vcs-gitea`, изменяя :setting:`GITEA_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1066
-#, fuzzy
-#| msgid ""
-#| "Configures Pagure merge-requests integration  by changing :setting:"
-#| "`PAGURE_CREDENTIALS`."
 msgid "Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`."
 msgstr ""
-"Настраивает интеграцию мерж-реквестов Pagure, изменяя :setting:"
-"`PAGURE_CREDENTIALS`."
+"Конфигурирует :ref:`vcs-pagure` путем изменения "
+":setting:`PAGURE_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1075
-#, fuzzy
-#| msgid ""
-#| "Configures Bitbucket Server pull-requests integration by changing :"
-#| "setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgid ""
 "Configures :ref:`vcs-bitbucket-server` by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"Настройте интеграцию pull-запросов Bitbucket Server, изменив :setting:"
-"`BITBUCKET SERVER CREDENTIALS`."
+"Настраивает :ref:`vcs-bitbucket-server`, изменяя "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1085
-#, fuzzy
-#| msgid ""
-#| "Configures Pagure merge-requests integration  by changing :setting:"
-#| "`PAGURE_CREDENTIALS`."
 msgid ""
 "Configures :ref:`vcs-azure-devops` by changing :setting:"
 "`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
-"Настраивает интеграцию мерж-реквестов Pagure, изменяя :setting:"
-"`PAGURE_CREDENTIALS`."
+"Настраивает :ref:`vcs-azure-devops`, изменяя "
+":setting:`AZURE_DEVOPS_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1092
 msgid "Automatic suggestion settings"
@@ -51648,8 +51590,6 @@ msgstr ""
 "разрешение :guilabel:`Перевод`."
 
 #: ../../workflows.rst:61
-#, fuzzy
-#| msgid "Each translated string can be in one of following states:"
 msgid "Each translated string can be in one of the following states:"
 msgstr ""
 "Каждая переведённая строка может находиться в одном из следующих состояний:"
@@ -51722,11 +51662,6 @@ msgid "The states are represented in the translation files when possible."
 msgstr "Состояния по возможности представлены в файлах перевода."
 
 #: ../../workflows.rst:86
-#, fuzzy
-#| msgid ""
-#| "In case file format you use does not support storing states, you might "
-#| "want to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
-#| "strings as needing editing."
 msgid ""
 "If the file format you use does not support storing states, you might want "
 "to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings "
@@ -51745,16 +51680,12 @@ msgid "Direct translation"
 msgstr "Прямой перевод"
 
 #: ../../workflows.rst:98
-#, fuzzy
-#| msgid ""
-#| "This is most usual setup for smaller teams, anybody can directly "
-#| "translate. This is also the default setup in Weblate."
 msgid ""
 "This is the most usual setup for smaller teams, anybody can directly "
 "translate. This is also the default setup in Weblate."
 msgstr ""
-"Это самая обычная настройка для небольших команд, любой может переводить "
-"напрямую. Также она действует по умолчанию в Weblate."
+"Это самая обычная настройка для небольших команд, каждый может напрямую "
+"переводить. Это также является настройкой по умолчанию в Weblate."
 
 #: ../../workflows.rst:101
 msgid "*Any user* can edit translations."
