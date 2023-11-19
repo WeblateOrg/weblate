@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 18:17+0000\n"
-"PO-Revision-Date: 2023-11-15 18:15+0000\n"
+"PO-Revision-Date: 2023-11-19 10:12+0000\n"
 "Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.2-dev\n"
+"X-Generator: Weblate 5.2\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -85,13 +85,11 @@ msgstr "Ne pas afficher publiquement l’adresse courrielle"
 #: weblate/accounts/forms.py:318
 #, python-format
 msgid "Component list: %s"
-msgstr "Liste de composants&nbsp;: %s"
+msgstr "Liste de composants : %s"
 
 #: weblate/accounts/forms.py:346
-#, fuzzy
-#| msgid "Account removal"
 msgid "Account e-mail"
-msgstr "Adresse email du compte"
+msgstr "Courriel du compte"
 
 #: weblate/accounts/forms.py:348
 msgid ""
@@ -501,15 +499,11 @@ msgstr ""
 "pas approprié."
 
 #: weblate/accounts/models.py:193 weblate/accounts/models.py:196
-#, fuzzy
-#| msgid ""
-#| "In case the confirmation link is expired, you can use password reset "
-#| "feature to gain access to your account."
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
-"Dans le cas où le lien de confirmation aurait expiré, vous pouvez utiliser "
-"la fonction de réinitialisation du mot de passe pour accéder à votre compte."
+"S’il s’agit de vous, veuillez utiliser la réinitialisation de mot de passe "
+"pour retrouver l’accès à votre compte."
 
 #: weblate/accounts/models.py:313 weblate/templates/accounts/profile.html:304
 #: weblate/templates/accounts/user.html:242
@@ -1299,16 +1293,16 @@ msgstr ""
 "Si non précisé, l’emplacement utilisé sera identique à celui du fichier PO."
 
 #: weblate/addons/forms.py:50
-#, fuzzy
-#| msgid "Import as string needing edit"
 msgid "Include strings needing editing"
-msgstr "Importer comme chaîne à vérifier"
+msgstr "Inclure les chaînes devant être modifiées"
 
 #: weblate/addons/forms.py:53
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
+"Les chaînes qui doivent être modifiées (fuzzy) ne sont généralement pas "
+"prêtes à être utilisées comme traductions."
 
 #: weblate/addons/forms.py:78
 msgid "Name of generated file"
@@ -4635,7 +4629,7 @@ msgstr "Type de pluriel"
 
 #: weblate/lang/models.py:884
 msgid "Example counts for this plural form."
-msgstr ""
+msgstr "Nombre d’exemple pour cette forme plurielle."
 
 #: weblate/lang/models.py:893
 msgid "Singular"
@@ -4912,15 +4906,15 @@ msgid "Region name"
 msgstr "Nom de la région"
 
 #: weblate/machinery/forms.py:221
-#, fuzzy
-#| msgid "Somali"
 msgctxt "Automatic suggestion service configuration"
 msgid "Formality"
-msgstr "Somali"
+msgstr "Formalité"
 
 #: weblate/machinery/forms.py:223
 msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr ""
+"Utilise la formalité spécifiée si la langue n’est pas spécifiée comme "
+"(in)formelle"
 
 #: weblate/machinery/views.py:348
 msgid "Service is currently not available."
@@ -5381,16 +5375,13 @@ msgid "You can only contact administrators of the whole server here."
 msgstr "Ici, vous ne pouvez contacter que les administrateurs du serveur."
 
 #: weblate/templates/accounts/contact.html:23
-#, fuzzy
-#| msgid ""
-#| "For questions about a specific translation project, contact its "
-#| "maintainers directly, not by this form."
 msgid ""
 "For questions about a specific translation project, don’t use this form. "
 "Refer to the project’s Info tab and contact its maintainers."
 msgstr ""
-"Pour des questions concernant un projet spécifique de traduction, adressez-"
-"vous directement à ses mainteneurs, n’utilisez pas ce formulaire."
+"Pour des questions concernant un projet de traduction spécifique, veuillez "
+"ne pas utiliser ce formulaire. Référez-vous à l'onglet Info du projet pour "
+"contacter les responsables."
 
 #: weblate/templates/accounts/contact.html:27
 #, python-format
@@ -5500,10 +5491,8 @@ msgstr "Veuillez corriger les erreurs dans le formulaire d’inscription."
 
 #: weblate/templates/accounts/email.html:17
 #: weblate/templates/accounts/profile.html:122
-#, fuzzy
-#| msgid "Add new e-mail address"
 msgid "Verify new e-mail address"
-msgstr "Ajouter une nouvelle adresse courriel"
+msgstr "Vérifier la nouvelle adresse courriel"
 
 #: weblate/templates/accounts/email.html:27
 #: weblate/templates/accounts/register.html:52 weblate/templates/base.html:226
@@ -5711,16 +5700,13 @@ msgid "Notification settings"
 msgstr "Paramètres de notification"
 
 #: weblate/templates/accounts/profile.html:88
-#, fuzzy
-#| msgid "Change notification settings"
 msgid "Remove this notification setting"
-msgstr "Modifier les paramètres de notification"
+msgstr "Supprimer ce paramètre de notification"
 
 #: weblate/templates/accounts/profile.html:124
-#, fuzzy
-#| msgid "Choose commit e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "Sélectionnez le courriel de commit parmi les adresses vérifiées."
+msgstr ""
+"L’adresse courriel ne peut être choisie que parmi les adresses vérifiées."
 
 #: weblate/templates/accounts/profile.html:133
 msgid "Current user identities"
@@ -7115,10 +7101,8 @@ msgstr "Télécharger les fichiers de traduction dans une archive ZIP"
 
 #: weblate/templates/category.html:49 weblate/templates/component.html:56
 #: weblate/templates/language-project.html:35 weblate/templates/project.html:56
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as CSV in a ZIP file"
-msgstr "Télécharger les fichiers de traduction en CSV dans une archive ZIP"
+msgstr "Télécharger les traduction en CSV dans une archive ZIP"
 
 #: weblate/templates/category.html:50 weblate/templates/component.html:57
 #: weblate/templates/language-project.html:36 weblate/templates/project.html:57
@@ -7144,18 +7128,14 @@ msgid "Add a category"
 msgstr "Ajouter une catégorie"
 
 #: weblate/templates/category.html:194
-#, fuzzy
-#| msgid "Rename category"
 msgid "Organize category"
-msgstr "Renommer la catégorie"
+msgstr "Organiser la catégorie"
 
 #: weblate/templates/category.html:198
-#, fuzzy
-#| msgid "Renaming the category will also change URLs for all its components."
 msgid ""
 "Moving or renaming the category will also change URLs for all its components."
 msgstr ""
-"Le fait de renommer la catégorie modifiera également les URL de tous ses "
+"Déplacer ou renommer la catégorie modifiera également les URL de tous ses "
 "composants."
 
 #: weblate/templates/category.html:199 weblate/templates/component.html:244
@@ -7169,10 +7149,8 @@ msgstr ""
 
 #: weblate/templates/category.html:205 weblate/templates/component.html:250
 #: weblate/templates/project.html:267
-#, fuzzy
-#| msgid "Organize or remove"
 msgid "Organize"
-msgstr "Organiser ou supprimer"
+msgstr "Organiser"
 
 #: weblate/templates/check_list.html:27
 msgid "Total"
@@ -7301,16 +7279,12 @@ msgstr ""
 "date d’expiration indiquée ou jusqu’à sa suppression."
 
 #: weblate/templates/component.html:239
-#, fuzzy
-#| msgid "Create component"
 msgid "Organize component"
-msgstr "Créer un composant"
+msgstr "Organiser le composant"
 
 #: weblate/templates/component.html:243
-#, fuzzy
-#| msgid "Renaming the component will also change its URLs."
 msgid "Moving or renaming the component will also change its URLs."
-msgstr "Le fait de renommer le composant modifiera également ses URL."
+msgstr "Déplacer ou renommer le composant modifiera également ses URL."
 
 #: weblate/templates/component.html:267 weblate/templates/project.html:283
 #: weblate/templates/translate.html:355 weblate/templates/translation.html:415
@@ -7653,8 +7627,7 @@ msgid "Translate"
 msgstr "Traduire"
 
 #: weblate/templates/engage.html:68
-#, fuzzy, python-format
-#| msgid "%(language)s glossary for %(project)s"
+#, python-format
 msgid "%(language)s in %(project)s"
 msgstr "%(language)s pour %(project)s"
 
@@ -8632,8 +8605,6 @@ msgid "Password reset on %(site_title)s"
 msgstr "Le mot de passe a été réinitialisé pour %(site_title)s"
 
 #: weblate/templates/mail/shared-activity.html:18
-#, fuzzy
-#| msgid "If this was not done by you, report it by clicking the button below."
 msgid ""
 "If you didn’t initiate this, please report it to the server administrators "
 "by clicking the button below."
@@ -9208,16 +9179,12 @@ msgid "off"
 msgstr "inactif"
 
 #: weblate/templates/memory/index.html:197
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of shared entries in this Weblate instance"
-msgstr "Nombre d’entrées partagées"
+msgstr "Nombre d’entrées partagées dans cette instance Weblate"
 
 #: weblate/templates/memory/index.html:209
-#, fuzzy
-#| msgid "Total number of entries"
 msgid "Total number of entries in this Weblate instance"
-msgstr "Nombre total d’entrées"
+msgstr "Nombre total d’entrées dans cette instance Weblate"
 
 #: weblate/templates/memory/index.html:226
 msgid "Import translation memory"
@@ -9366,10 +9333,8 @@ msgstr ""
 "qu’il expire ou qu’il soit supprimé."
 
 #: weblate/templates/project.html:256
-#, fuzzy
-#| msgid "Create project"
 msgid "Organize project"
-msgstr "Créer un projet"
+msgstr "Organiser le projet"
 
 #: weblate/templates/project.html:260
 msgid "Renaming the project will also change URLs for all its components."
@@ -10042,10 +10007,8 @@ msgstr "Traduire"
 
 #: weblate/templates/snippets/list-objects.html:241
 #: weblate/templates/snippets/project-workflow-settings.html:11
-#, fuzzy
-#| msgid "Customize download"
 msgid "Customized workflow"
-msgstr "Personnaliser le téléchargement"
+msgstr "Flux de travail personnalisé"
 
 #: weblate/templates/snippets/list-objects.html:269
 msgid "Nothing to list here."
@@ -10066,17 +10029,13 @@ msgstr ""
 "nos&nbsp;:"
 
 #: weblate/templates/snippets/login-info.html:20
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the Terms of Service and the Privacy Policy, but you "
 "should still read the original documents to fully understand them:"
 msgstr ""
-"Cette page est rédigée d’après nos conditions générales d’utilisation et "
-"notre politique de confidentialité. Vous devriez quand même lire les "
-"documents originaux pour bien les comprendre&nbsp;:"
+"Aperçu rapide des conditions d'utilisation et de la politique de "
+"confidentialité, mais il est conseillé de lire les documents originaux pour "
+"bien les comprendre :"
 
 #: weblate/templates/snippets/login-info.html:27
 msgid ""
@@ -10089,19 +10048,14 @@ msgstr ""
 "aussi de contribuer d’après la licence définie par chacun des projets."
 
 #: weblate/templates/snippets/login-info.html:31
-#, fuzzy
-#| msgid ""
-#| "By registering you agree to use your name and e-mail in version control "
-#| "system commits and provide your contribution under license defined by "
-#| "each translated project."
 msgid ""
 "By registering you agree to use your name in version control system commits "
 "and provide your contribution under license defined by each translated "
 "project."
 msgstr ""
-"En vous inscrivant, vous acceptez d’utiliser votre nom et votre adresse "
-"courriel dans les commits du système de contrôle des versions et acceptez "
-"aussi de contribuer d’après la licence définie par chacun des projets."
+"En vous inscrivant, vous acceptez d’utiliser votre nom dans les commits du "
+"système de contrôle des versions et acceptez aussi de contribuer d’après la "
+"licence définie par chacun des projets."
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -10165,10 +10119,10 @@ msgstr ""
 "sur des composants individuels&nbsp;:"
 
 #: weblate/templates/snippets/project-workflow-settings.html:4
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid "Translation workflow can be also customized per language:"
-msgstr "Traductions de cette chaîne dans d’autres langues"
+msgstr ""
+"Le flux de travail de traduction peut également être personnalisé par langue "
+":"
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:11
 msgid ""
@@ -10329,16 +10283,12 @@ msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "Traduire %(object)s en utilisant %%23Weblate à %(share_url)s !"
 
 #: weblate/templates/snippets/share-menu.html:11
-#, fuzzy
-#| msgid "Share on Facebook"
 msgid "Share on X"
-msgstr "Partager cette traduction sur Facebook"
+msgstr "Partager sur X"
 
 #: weblate/templates/snippets/share-menu.html:14
-#, fuzzy
-#| msgid "Share on Facebook"
 msgid "Share on Fediverse"
-msgstr "Partager cette traduction sur Facebook"
+msgstr "Partager sur Fediverse"
 
 #: weblate/templates/snippets/share-menu.html:17
 msgid "Engage page"
@@ -10408,10 +10358,8 @@ msgid "Accept"
 msgstr "Accepter"
 
 #: weblate/templates/snippets/suggestions.html:36
-#, fuzzy
-#| msgid "Accept and edit"
 msgid "Accept and approve"
-msgstr "Accepter et modifier"
+msgstr "Accepter et approuver"
 
 #: weblate/templates/snippets/suggestions.html:38
 msgid "Accept and edit"
@@ -10606,16 +10554,13 @@ msgstr ""
 "plus tard."
 
 #: weblate/templates/trans/alert/common-repo.html:16
-#, fuzzy
-#| msgid ""
-#| "Your push URL seems to miss credentials. Either provide them in the URL "
-#| "or use SSH with key based authentication."
 msgid ""
 "Your repository URL seems to miss credentials. Either provide them in the "
 "URL or use SSH with key based authentication."
 msgstr ""
-"Votre URL de push semble ne pas contenir les informations d’identification. "
-"Veuillez les ajouter à l’URL ou utilisez une clé d’authentification SSH."
+"L’URL de votre dépôt semble ne pas contenir les informations d’"
+"identification. Veuillez les ajouter à l’URL ou utilisez une clé d’"
+"authentification SSH."
 
 #: weblate/templates/trans/alert/common-repo.html:20
 msgid "You might want to use following URL instead:"
@@ -10834,10 +10779,8 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate n’a pas pu pousser les modifications vers le dépôt amont."
 
 #: weblate/templates/trans/alert/pushfailure.html:13
-#, fuzzy
-#| msgid "Reset repository"
 msgid "Push the repository"
-msgstr "Réinitialiser le dépôt"
+msgstr "Pousser le dépôt"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -10926,10 +10869,8 @@ msgstr ""
 "du dépôt."
 
 #: weblate/templates/trans/alert/updatefailure.html:13
-#, fuzzy
-#| msgid "Update VCS repository"
 msgid "Update the repository"
-msgstr "Mettre à jour le dépôt VCS"
+msgstr "Mettre à jour le dépôt"
 
 #: weblate/templates/trans/backups.html:21
 msgid "There are currently no backups."
@@ -12653,16 +12594,17 @@ msgid "Expiry cannot be in the past."
 msgstr "L’expiration ne peut pas être dans le passé."
 
 #: weblate/trans/forms.py:2744
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid "Customize translation workflow for this language"
-msgstr "Débuter la traduction dans une nouvelle langue"
+msgstr "Personnaliser le flux de travail de traduction pour cette langue"
 
 #: weblate/trans/forms.py:2746
 msgid ""
 "The translation workflow is configured at project and component. By enabling "
 "customization here, you override these settings for this language."
 msgstr ""
+"Le flux de travail de traduction est configuré au niveau du projet et du "
+"composant. En activant la personnalisation ici, vous remplacez ces "
+"paramètres pour cette langue."
 
 #: weblate/trans/guide.py:65
 msgid "Version control integration"
@@ -12997,8 +12939,6 @@ msgstr "Dépôt fusionné"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:333
-#, fuzzy
-#| msgid "Repository details"
 msgid "Repository rebased"
 msgstr "Dépôt rebasé"
 
@@ -13009,18 +12949,13 @@ msgstr "Échec de la fusion de dépôt"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:337
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Repository rebase failed"
 msgstr "Échec du rebasement du dépôt"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:339
-#, fuzzy
-#| msgid "Repository failure"
 msgid "Repository push failed"
-msgstr "Défaillance du dépôt"
+msgstr "Échec de la poussée du dépôt"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:341
@@ -13059,10 +12994,8 @@ msgstr "Chaîne ajoutée"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:355
-#, fuzzy
-#| msgid "Bulk status change"
 msgid "Bulk status changed"
-msgstr "Modification en masse d’états"
+msgstr "Modification en masse du statut modifié"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:357
@@ -13116,8 +13049,6 @@ msgstr "Composant déplacé"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:377
-#, fuzzy
-#| msgid "Contributors"
 msgid "Contributor joined"
 msgstr "Un contributeur à rejoint"
 
@@ -13138,45 +13069,33 @@ msgstr "Langage ajouté"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:385
-#, fuzzy
-#| msgid "Language code style"
 msgid "Language requested"
-msgstr "Style de code-langue"
+msgstr "Langue demandée"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:387
-#, fuzzy
-#| msgid "Project name"
 msgid "Project created"
-msgstr "Nom du projet"
+msgstr "Projet créé"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:389
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component created"
-msgstr "Le composant est verrouillé"
+msgstr "Composant créé"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:391
-#, fuzzy
-#| msgid "User identities"
 msgid "User invited"
-msgstr "Identifiants de l’utilisateur"
+msgstr "Utilisateur invité"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:393
-#, fuzzy
-#| msgid "Received repository notification"
 msgid "Repository notification received"
 msgstr "Notification de dépôt reçue"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:395
-#, fuzzy
-#| msgid "Replaced file by upload"
 msgid "Translation replaced file by upload"
-msgstr "Fichier remplacé par téléversement"
+msgstr "Traduction remplacée par téléversement"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:397
@@ -13220,24 +13139,18 @@ msgstr "Extension désinstallée"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:413
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "String removed"
-msgstr "Suggestion supprimée"
+msgstr "Chaîne supprimée"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:415
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Comment removed"
-msgstr "Composant à supprimer"
+msgstr "Commentaire supprimé"
 
 #: weblate/trans/models/change.py:419
-#, fuzzy
-#| msgid "Comment has been resolved."
 msgctxt "Name of event in the history"
 msgid "Comment resolved"
-msgstr "Le commentaire a été résolu."
+msgstr "Commentaire résolu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:422
@@ -13246,31 +13159,23 @@ msgstr "Explication mise à jour"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:424
-#, fuzzy
-#| msgid "Category name"
 msgid "Category removed"
-msgstr "Nom de la catégorie"
+msgstr "Catégorie supprimée"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:426
-#, fuzzy
-#| msgid "Category name"
 msgid "Category renamed"
-msgstr "Nom de la catégorie"
+msgstr "Catégorie renommée"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:428
-#, fuzzy
-#| msgid "Category name"
 msgid "Category moved"
-msgstr "Nom de la catégorie"
+msgstr "Catégorie déplacée"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:430
-#, fuzzy
-#| msgid "Failing file"
 msgid "Saving string failed"
-msgstr "Erreur de fichier"
+msgstr "Échec de l’enregistrement de la chaîne"
 
 #: weblate/trans/models/change.py:502
 msgid "The component was automatically locked because of an alert."
@@ -13314,14 +13219,11 @@ msgstr ""
 
 #: weblate/trans/models/change.py:800
 msgid "Original revision: {}"
-msgstr ""
+msgstr "Révision originale : {}"
 
 #: weblate/trans/models/change.py:804
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgid "New revision: {}"
-msgstr "Personnel&nbsp;: {}"
+msgstr "Nouvelle révision : {}"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:114
@@ -14780,16 +14682,13 @@ msgid "Your suggestion already exists!"
 msgstr "Une suggestion identique existe déjà !"
 
 #: weblate/trans/views/edit.py:374
-#, fuzzy, python-format
-#| msgid ""
-#| "Added %(project)s to your watched projects. You can adjust them and this "
-#| "behavior in the settings."
+#, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust this behavior in "
 "the settings."
 msgstr ""
-"%(project)s ajouté à vos projets surveillés. Vous pouvez modifier cet "
-"automatisme et vos projets surveillés et dans les paramètres."
+"%(project)s ajouté à vos projets surveillés. Vous pouvez modifier ce "
+"comportement dans les paramètres."
 
 #: weblate/trans/views/edit.py:393
 #, python-brace-format
@@ -15400,17 +15299,14 @@ msgid "This will force push changes to the upstream repository."
 msgstr "Cela va pousser en force les modifications vers le dépôt amont."
 
 #: weblate/vcs/git.py:1095
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull request"
-msgstr "Pull request du serveur Bitbucket"
+msgstr "Demande de tirage Azure DevOps"
 
 #: weblate/vcs/git.py:1103
-#, fuzzy
-#| msgid "This will push changes and create a Gitea pull request."
 msgid "This will push changes and create a Azure DevOps pull request."
 msgstr ""
-"Cela va pousser les modifications et créer une demande de tirage sur Gitea."
+"Cela va pousser les modifications et créer une demande de tirage dans Azure "
+"DevOps."
 
 #: weblate/vcs/git.py:1336
 msgid "GitHub pull request"
@@ -15506,10 +15402,9 @@ msgstr ""
 "(%(keytype)s), veuillez vérifier qu’elle est correcte."
 
 #: weblate/vcs/ssh.py:227 weblate/vcs/ssh.py:233
-#, fuzzy, python-format
-#| msgid "Could not fetch public key for a host!"
+#, python-format
 msgid "Could not fetch public key for a host: %s"
-msgstr "Impossible de récupérer la clé publique d’un hôte"
+msgstr "Impossible de récupérer la clé publique de l’hôte : %s"
 
 #: weblate/vcs/ssh.py:237
 #, python-format
@@ -15687,14 +15582,8 @@ msgstr ""
 "soit facilement identifiable."
 
 #: weblate/wladmin/views.py:191 weblate/wladmin/views.py:208
-#, fuzzy
-#| msgid ""
-#| "Could not activate your installation. Please ensure your activation token "
-#| "is correct."
 msgid "Could not activate your installation. Please try again later."
-msgstr ""
-"Impossible d’activer votre installation. Veuillez vérifier votre jeton "
-"d’activation."
+msgstr "Impossible d’activer votre installation. Veuillez réessayer plus tard."
 
 #: weblate/wladmin/views.py:200
 msgid ""
@@ -15705,10 +15594,9 @@ msgstr ""
 "d’activation."
 
 #: weblate/wladmin/views.py:215
-#, fuzzy, python-format
-#| msgid "Could not fetch translation: %s"
+#, python-format
 msgid "Could not activate your installation: %s"
-msgstr "Impossible de récupérer la traduction : %s"
+msgstr "Impossible d’activer votre installation : %s"
 
 #: weblate/wladmin/views.py:219
 msgid "Activation completed."
