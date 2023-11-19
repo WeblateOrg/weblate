@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 19:18+0100\n"
-"PO-Revision-Date: 2023-11-19 05:08+0000\n"
+"PO-Revision-Date: 2023-11-19 10:12+0000\n"
 "Last-Translator: gfbdrgng <bngvh1b.g-gh1@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -1858,7 +1858,6 @@ msgstr ""
 "разделе «:ref:`weblate-cdn`»."
 
 #: ../../admin/addons.rst:106
-#, fuzzy
 msgid ""
 "This add-on requires additional configuration on the Weblate server. :"
 "setting:`LOCALIZE_CDN_PATH` configures where generated files will be written "
@@ -1873,8 +1872,6 @@ msgstr ""
 "извне (обычно с помощью CDN-сервиса)."
 
 #: ../../admin/addons.rst:112
-#, fuzzy
-#| msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
 msgid ""
 "This add-on is configured on :guilabel:`Hosted Weblate` and serves the files "
 "via ``https://weblate-cdn.com/``."
@@ -3066,7 +3063,6 @@ msgid "Include strings needing editing"
 msgstr "Включить строки, требующие редактирования"
 
 #: ../../admin/addons.rst:677
-#, fuzzy
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
@@ -8052,20 +8048,14 @@ msgid "List for credentials for Gitea servers."
 msgstr "Список учётных данных для серверов Gitea."
 
 #: ../../snippets/vcs-credentials.rst:1
-#, fuzzy
-#| msgid ""
-#| "The configuration dictionary consists of credentials defined for each API "
-#| "host. The API host might be different from what you use in the web "
-#| "browser, for example GitHub API is accessed as ``api.github.com``."
 msgid ""
 "The configuration dictionary consists of credentials defined for each API "
 "host. The layout is same for almost all version control integrations and is "
 "described at :ref:`settings-credentials`."
 msgstr ""
 "Словарь конфигурации состоит из учетных данных, определенных для каждого "
-"узла API. Хост API может отличаться от того, который используется в веб-"
-"браузере, например, доступ к API GitHub осуществляется по адресу ``api."
-"github.com``."
+"узла API. Структура словаря одинакова практически для всех интеграций с "
+"системой управления версиями и описана в :ref:`settings-credentials`."
 
 #: ../../admin/config.rst:752
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
@@ -8098,6 +8088,7 @@ msgstr "Список учётных данных для серверов GitHub.
 #: ../../admin/config.rst:802
 msgid "Use ``api.github.com`` as a API host for https://github.com/."
 msgstr ""
+"Используйте ``api.github.com`` в качестве хоста API для https://github.com/."
 
 #: ../../admin/config.rst:808
 msgid ":ref:`vcs-github`, `Creating a GitHub personal access token`_"
@@ -8120,16 +8111,12 @@ msgstr ""
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:841
-#, fuzzy
-#| msgid "PAGURE_CREDENTIALS"
 msgid "AZURE_DEVOPS_CREDENTIALS"
-msgstr "PAGURE_CREDENTIALS"
+msgstr "AZURE_DEVOPS_CREDENTIALS"
 
 #: ../../admin/config.rst:845
-#, fuzzy
-#| msgid "List for credentials for Pagure servers."
 msgid "List for credentials for Azure DevOps servers."
-msgstr "Список учётных данных для серверов Pagure."
+msgstr "Список учетных данных для серверов Azure DevOps."
 
 #: ../../admin/config.rst:857 ../../admin/config.rst:2064
 msgid ""
@@ -8153,17 +8140,15 @@ msgstr "``username``"
 
 #: ../../admin/config.rst:864
 msgid "The name of the Azure DevOps project. This is not the repository name."
-msgstr ""
+msgstr "Имя проекта Azure DevOps. Это не имя репозитория."
 
 #: ../../admin/config.rst:865
 msgid "``organization``"
 msgstr "``organization``"
 
 #: ../../admin/config.rst:866
-#, fuzzy
-#| msgid "Uses the pool of shared translations between projects."
 msgid "The name of the organization of the project."
-msgstr "Использует пул общих переводов из разных проектов."
+msgstr "Название организации проекта."
 
 #: ../../admin/config.rst:868
 msgid "``workItemIds``"
@@ -8174,6 +8159,9 @@ msgid ""
 "An optional list of work items IDs from your organization. When provided new "
 "pull requests will have these attached."
 msgstr ""
+"Необязательный список идентификаторов рабочих элементов из вашей "
+"организации. При его предоставлении к новым запросам на поставку будут "
+"прикрепляться эти идентификаторы."
 
 #: ../../admin/config.rst:871 ../../admin/config.rst:2072
 msgid "``token``"
@@ -8188,6 +8176,8 @@ msgid ""
 "Additional settings not described here can be found at :ref:`settings-"
 "credentials`."
 msgstr ""
+"Дополнительные настройки, не описанные здесь, можно найти в :ref:`settings-"
+"credentials`."
 
 #: ../../admin/config.rst:877
 msgid ""
@@ -8195,6 +8185,9 @@ msgid ""
 "microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-"
 "tokens-to-authenticate?view=azure-devops&tabs=Windows>`_"
 msgstr ""
+":ref:`vcs-azure-devops`, `Azure DevOps: Персональный токен доступа "
+"<https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-"
+"personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_"
 
 #: ../../admin/config.rst:883
 msgid "GOOGLE_ANALYTICS_ID"
@@ -8717,6 +8710,8 @@ msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "e-mail."
 msgstr ""
+"Эта настройка применяется только к тем пользователям, которые не выбрали в "
+"явном виде e-mail для фиксации."
 
 #: ../../admin/config.rst:1328
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
@@ -9133,17 +9128,15 @@ msgstr ""
 
 #: ../../admin/config.rst:1629
 msgid "SENTRY_ENVIRONMENT"
-msgstr ""
+msgstr "SENTRY_ENVIRONMENT"
 
 #: ../../admin/config.rst:1631
-#, fuzzy
-#| msgid "Your Rollbar environment, defaults to ``production``."
 msgid "Configurures environment for Sentry. Defaults to ``devel``."
-msgstr "Ваше окружение Rollbar, по умолчанию установлена в ``production``."
+msgstr "Настраивает окружение для Sentry. По умолчанию ``devel``."
 
 #: ../../admin/config.rst:1636
 msgid "SENTRY_PROFILES_SAMPLE_RATE"
-msgstr ""
+msgstr "SENTRY_PROFILES_SAMPLE_RATE"
 
 #: ../../admin/config.rst:1638 ../../admin/install/docker.rst:1665
 msgid ""
@@ -9159,22 +9152,24 @@ msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_"
 msgstr ""
+"`Мониторинг производительности Sentry <https://docs.sentry.io/product/"
+"performance/>`_"
 
 #: ../../admin/config.rst:1647
-#, fuzzy
-#| msgid "SENTRY_DSN"
 msgid "SENTRY_SEND_PII"
-msgstr "SENTRY_DSN"
+msgstr "SENTRY_SEND_PII"
 
 #: ../../admin/config.rst:1649
 msgid ""
 "Allow Sentry to collect certain personally identifiable information. Turned "
 "on by default."
 msgstr ""
+"Разрешить Sentry собирать определенную персональную информацию. Включено по "
+"умолчанию."
 
 #: ../../admin/config.rst:1654
 msgid "SENTRY_TRACES_SAMPLE_RATE"
-msgstr ""
+msgstr "SENTRY_TRACES_SAMPLE_RATE"
 
 #: ../../admin/config.rst:1656 ../../admin/install/docker.rst:1680
 msgid ""
@@ -9187,7 +9182,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1660 ../../admin/install/docker.rst:1691
 msgid "`Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
-msgstr ""
+msgstr "`Профилирование часовых <https://docs.sentry.io/product/profiling/>`_"
 
 #: ../../admin/config.rst:1665
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
@@ -9454,17 +9449,14 @@ msgid "VCS_API_DELAY"
 msgstr "VCS_API_DELAY"
 
 #: ../../admin/config.rst:1871
-#, fuzzy
-#| msgid ""
-#| "Configures minimal delay in seconds between third-party API calls in :ref:"
-#| "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, and :ref:`vcs-pagure`."
 msgid ""
 "Configures minimal delay in seconds between third-party API calls in :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and :"
 "ref:`vcs-azure-devops`."
 msgstr ""
-"Настройка минимальной задержки в секундах между сторонними вызовами API в :"
-"ref:`vcs-github', :ref:`vcs-gitlab', :ref:`vcs-gitea' и :ref:`vcs-pagure'."
+"Настройка минимальной задержки в секундах между сторонними вызовами API в:ref"
+":`vcs-github', :ref:`vcs-gitlab', :ref:`vcs-gitea', :ref:`vcs-pagure', и :ref"
+":`vcs-azure-devops' ."
 
 #: ../../admin/config.rst:1875
 msgid ""
@@ -9653,10 +9645,8 @@ msgstr ""
 "сервера."
 
 #: ../../admin/config.rst:2055
-#, fuzzy
-#| msgid "Managing version control repository"
 msgid "Configuring version control credentials"
-msgstr "Управление репозиторием контроля версий"
+msgstr "Настройка учетных данных контроля версий"
 
 #: ../../admin/config.rst:2059
 msgid ""
@@ -9665,6 +9655,10 @@ msgid ""
 "`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
+"В этом разделе описаны такие переменные учетных данных VCS, как "
+":setting:`GITHUB_CREDENTIALS`, :setting:`GITLAB_CREDENTIALS`, "
+":setting:`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/config.rst:2071
 msgid "API user, required."
@@ -9686,16 +9680,12 @@ msgstr ""
 "требования безопасности."
 
 #: ../../admin/config.rst:2083
-#, fuzzy
-#| msgid ""
-#| "If you need to define a setting not exposed through Docker environment "
-#| "variables, see :ref:`docker-custom-config`."
 msgid ""
 "In the Docker container, the credentials can be configured using environment "
 "variables, see :ref:`docker-vcs-config`."
 msgstr ""
-"Если вам нужно определить параметр, не отображаемый через переменные среды "
-"Docker, см. :ref:`docker-custom-config`."
+"В контейнере Docker учетные данные могут быть настроены с помощью переменных "
+"окружения, см. :ref:`docker-vcs-config`."
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
@@ -9737,15 +9727,12 @@ msgstr ""
 "При необходимости файлы перевода обновляются, см. :ref:'translations-update'."
 
 #: ../../admin/continuous.rst:19
-#, fuzzy
-#| msgid ""
-#| "Weblate pulls changes from the VCS repository, see :ref:`update-vcs`."
 msgid ""
 "Weblate pulls changes from the VCS repository, parses translation files and "
 "updates its database, see :ref:`update-vcs`."
 msgstr ""
-"Weblate извлекает изменения из репозитория системы контроля версий, смотрите "
-"раздел :ref:`update-vcs`."
+"Weblate извлекает изменения из репозитория VCS, разбирает файлы перевода и "
+"обновляет свою базу данных, см. :ref:`update-vcs`."
 
 #: ../../admin/continuous.rst:20
 msgid ""
@@ -9756,35 +9743,27 @@ msgstr ""
 "файлы, изменённые ими в автономном режиме."
 
 #: ../../admin/continuous.rst:21
-#, fuzzy
-#| msgid ""
-#| "Once the translators are finished, Weblate commits the changes to the "
-#| "local repository (see :ref:`lazy-commit`) and pushes them back if it has "
-#| "permissions to do so (see :ref:`push-changes`)."
 msgid ""
 "Once the translators are finished, Weblate commits the changes to the local "
 "repository (see :ref:`lazy-commit`)."
 msgstr ""
-"После завершения работы переводчиков Weblate коммитит изменения в локальный "
-"репозиторий (смотрите раздел :ref:`lazy-commit`) и отправляет их обратно, "
-"если у него есть на это разрешение (смотрите раздел :ref:`push-changes`)."
+"После завершения работы переводчиков Weblate фиксирует изменения в локальном "
+"репозитории (см. :ref:`lazy-commit`)."
 
 #: ../../admin/continuous.rst:22
-#, fuzzy
-#| msgid ""
-#| "Pushes changes to the upstream repository, if configured by :ref:"
-#| "`component-push`."
 msgid ""
 "Changes are pushed back to the upstream repository (see :ref:`push-changes`)."
 msgstr ""
-"Отправляет изменения в вышестоящий репозиторий, если настроено по :ref:"
-"`component-push`."
+"Изменения подталкиваются обратно в репозиторий upstream (см. :ref:`push-"
+"changes`)."
 
 #: ../../admin/continuous.rst:73
 msgid ""
 "Upstream code hosting is not necessary, you can use Weblate with :ref:`vcs-"
 "local` where there is only the repository inside Weblate."
 msgstr ""
+"Хостинг кода Upstream не обязателен, можно использовать Weblate с :ref:`vcs-"
+"local`, где есть только репозиторий внутри Weblate."
 
 #: ../../admin/continuous.rst:79
 msgid "Updating repositories"
@@ -9935,10 +9914,8 @@ msgstr ""
 "любого HTTP-клиента вместо wlc, к примеру, curl, смотрите раздел :ref:`api`."
 
 #: ../../admin/continuous.rst:163
-#, fuzzy
-#| msgid "Avoiding merge conflicts"
 msgid "Avoiding merge conflicts on Weblate originated changes"
-msgstr "Предотвращение конфликтов слияния"
+msgstr "Избежание конфликтов слияния изменений, созданных Weblate"
 
 #: ../../admin/continuous.rst:165
 msgid ""
@@ -9948,6 +9925,11 @@ msgid ""
 "are squashing commits outside Weblate (for example when merging a pull "
 "request)."
 msgstr ""
+"Даже если Weblate является единственным источником изменений в файлах "
+"перевода, могут возникать конфликты, когда используется дополнение :ref"
+":`addon-weblate.git.squash`, :ref:`component-merge_style` настроен на "
+":guilabel:`Rebase`, или вы сминаете коммиты вне Weblate (например, при "
+"слиянии pull request)."
 
 #: ../../admin/continuous.rst:170
 msgid ""
@@ -9957,6 +9939,12 @@ msgid ""
 "to review them. Git is then sometimes no longer able to idetify upstream "
 "changes as matching to Weblate one and refuses to perform rebase."
 msgstr ""
+"Причина конфликтов слияния в данном случае другая - в Weblate есть "
+"изменения, произошедшие после слияния коммитов Weblate. Обычно это "
+"происходит, если слияние не автоматизировано и человек ждет несколько дней "
+"или недель, чтобы просмотреть их. В этом случае Git иногда не может "
+"определить, что изменения, внесенные выше по потоку, соответствуют "
+"изменениям, внесенным в Weblate, и отказывается выполнять rebase."
 
 #: ../../admin/continuous.rst:176
 msgid ""
@@ -9964,22 +9952,31 @@ msgid ""
 "Weblate when you merge a pull request, or avoid the conflicts completely by "
 "not squashing changes."
 msgstr ""
+"Чтобы решить эту проблему, необходимо либо минимизировать количество "
+"ожидающих изменений в Weblate при слиянии запроса на вытягивание, либо "
+"полностью избежать конфликтов, не сглаживая изменения."
 
 #: ../../admin/continuous.rst:180
 msgid "Here are few options how to avoid that:"
-msgstr ""
+msgstr "Вот несколько вариантов, как этого избежать:"
 
 #: ../../admin/continuous.rst:182
 msgid ""
 "Do not use neither :ref:`addon-weblate.git.squash` nor squashing at merge "
 "time. This is the root cause why git doesn't recognize changes after merging."
 msgstr ""
+"Не используйте ни :ref:`addon-weblate.git.squash`, ни сквоширование во время "
+"слияния. Это основная причина того, что git не распознает изменения после "
+"слияния."
 
 #: ../../admin/continuous.rst:183
 msgid ""
 "Let Weblate commit pending changes before merging. This will update the pull "
 "request with all its changes and both repositories will be in sync."
 msgstr ""
+"Позвольте Weblate зафиксировать оставшиеся изменения перед слиянием. Это "
+"обновит pull request со всеми его изменениями, и оба репозитория будут "
+"синхронизированы."
 
 #: ../../admin/continuous.rst:184
 msgid ""
@@ -51824,17 +51821,13 @@ msgid "Peer review"
 msgstr "Коллегиальное рецензирование"
 
 #: ../../workflows.rst:130
-#, fuzzy
-#| msgid ""
-#| "With this workflow, anybody can add suggestions, and need approval from "
-#| "additional member(s) before it is accepted as a translation."
 msgid ""
 "With this workflow, anybody can add a suggestion, which needs approval from "
 "additional member(s) before it is accepted as a translation."
 msgstr ""
-"В этом рабочем процессе любой может добавлять предложения и чтобы они стали "
-"переводом, они должны получить одобрение от другого участника (или "
-"участников)."
+"При такой схеме работы каждый может добавить предложение, которое перед "
+"принятием в качестве перевода должно быть одобрено дополнительным участником "
+"(участниками)."
 
 #: ../../workflows.rst:133
 msgid "*Any user* can add suggestions."
@@ -51852,12 +51845,10 @@ msgstr ""
 "количество голосов."
 
 #: ../../workflows.rst:146
-#, fuzzy
-#| msgid "You can set higher value to require more peer reviews."
 msgid "You can set a higher value to require more peer reviews."
 msgstr ""
-"Вы можете установить более высокое значение, чтобы потребовать больше "
-"рецензий от коллег."
+"Вы можете установить более высокое значение, чтобы потребовать большее "
+"количество экспертных оценок."
 
 #: ../../workflows.rst:153
 msgid "Not used, all translators review."
@@ -51921,15 +51912,6 @@ msgid "Quality gateway for the source strings"
 msgstr "Контроль качества исходных строк"
 
 #: ../../workflows.rst:205
-#, fuzzy
-#| msgid ""
-#| "In many cases the original source language strings are coming from "
-#| "developers, because they write the code and provide initial strings. "
-#| "However developers are often not a native speakers in the source language "
-#| "and do not provide desired quality of the source strings. The "
-#| "intermediate translation can help you in addressing this - there is "
-#| "additional quality gateway for the strings between developers and "
-#| "translators and users."
 msgid ""
 "In many cases the original source language strings are coming from "
 "developers, because they write the code and provide initial strings. However "
