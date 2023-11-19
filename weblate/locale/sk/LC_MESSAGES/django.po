@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 18:17+0000\n"
-"PO-Revision-Date: 2023-11-19 00:23+0000\n"
+"PO-Revision-Date: 2023-11-19 05:08+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -10162,10 +10162,8 @@ msgid "Accept"
 msgstr "Prijať"
 
 #: weblate/templates/snippets/suggestions.html:36
-#, fuzzy
-#| msgid "Accept and edit"
 msgid "Accept and approve"
-msgstr "Prijať a upraviť"
+msgstr "Prijať a schváliť"
 
 #: weblate/templates/snippets/suggestions.html:38
 msgid "Accept and edit"
@@ -10652,10 +10650,8 @@ msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr "Weblate sa pri aktualizácii repozitára nepodarilo získať jeho zmeny."
 
 #: weblate/templates/trans/alert/updatefailure.html:13
-#, fuzzy
-#| msgid "Update VCS repository"
 msgid "Update the repository"
-msgstr "Aktualizovať VCS repozitár"
+msgstr "Aktualizovať repozitár"
 
 #: weblate/templates/trans/backups.html:21
 msgid "There are currently no backups."
@@ -11872,7 +11868,7 @@ msgstr "Pridať ako preklad vyžadujúci úpravu"
 
 #: weblate/trans/forms.py:618
 msgid "Replace existing translation file"
-msgstr "Nahradiť existujúci prekladový súbor"
+msgstr "Nahradiť súčasný súbor"
 
 #: weblate/trans/forms.py:619
 msgid "Update source strings"
@@ -12461,7 +12457,7 @@ msgstr "Nepodarilo sa aktualizovať repozitár."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:287
 msgid "Could not parse translation files."
-msgstr "Nepodarilo sa spracovať prekladové súbory."
+msgstr "Nepodarilo sa spracovať súbor prekladu."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:294
@@ -12487,7 +12483,7 @@ msgstr "Chýbajú informácie o licencii."
 #: weblate/trans/models/alert.py:323 weblate/trans/models/alert.py:330
 #: weblate/trans/models/alert.py:338
 msgid "Could not run add-on."
-msgstr "Doplnok sa nepodarilo spustiť."
+msgstr "Nepodarilo sa spustiť doplnok."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:346
@@ -12940,10 +12936,8 @@ msgstr "Kategória presunutá"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:430
-#, fuzzy
-#| msgid "Failing file"
 msgid "Saving string failed"
-msgstr "Súbor v ktorom sa nepodarilo"
+msgstr "Uloženie reťazca zlyhalo"
 
 #: weblate/trans/models/change.py:502
 msgid "The component was automatically locked because of an alert."
@@ -12985,8 +12979,9 @@ msgstr ""
 "Licencia pre súčasť „%(component)s“ bola zmenená z %(old)s na %(target)s."
 
 #: weblate/trans/models/change.py:800
+#, fuzzy
 msgid "Original revision: {}"
-msgstr ""
+msgstr "Pôvodná revízia: {}"
 
 #: weblate/trans/models/change.py:804
 #, fuzzy
@@ -13584,7 +13579,7 @@ msgstr "Vyberte možnosť Žiadne vzdialené repozitáre pre lokálne: URL."
 
 #: weblate/trans/models/component.py:2854
 msgid "Push URL is not used without a remote repository."
-msgstr "Push URL sa nepoužíva bez vzdialeného repozitára."
+msgstr "Odoslať URL sa nepoužíva bez vzdialeného repozitára."
 
 #: weblate/trans/models/component.py:2868
 msgid ""
@@ -13739,7 +13734,7 @@ msgstr "Nastaviť hlavičku „Language-Team“"
 #: weblate/trans/models/project.py:132
 msgid "Lets Weblate update the \"Language-Team\" file header of your project."
 msgstr ""
-"Umožňuje Weblate aktualizovať hlavičku súboru „Language-Team“ vášho projektu."
+"Nechať aktualizáciu hlavičky „Language-Team“ (prekladateľský tím) na Weblate."
 
 #: weblate/trans/models/project.py:136
 msgid "Use shared translation memory"
@@ -14120,9 +14115,9 @@ msgstr "za týždeň"
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
-msgstr[0] "%(count)s deň"
-msgstr[1] "%(count)s dni"
-msgstr[2] "%(count)s dňov"
+msgstr[0] "za %(count)s deň"
+msgstr[1] "za %(count)s dni"
+msgstr[2] "za %(count)s dní"
 
 #: weblate/trans/templatetags/translations.py:663
 msgid "a second from now"
@@ -14145,7 +14140,7 @@ msgstr "za minútu"
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "za %(count)s minútu"
-msgstr[1] "za%(count)s minúty"
+msgstr[1] "za %(count)s minúty"
 msgstr[2] "za %(count)s minút"
 
 #: weblate/trans/templatetags/translations.py:676
