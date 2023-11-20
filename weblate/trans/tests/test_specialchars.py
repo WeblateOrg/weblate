@@ -23,11 +23,11 @@ class SpecialCharsTest(TestCase):
 
     def test_af(self):
         chars = list(get_special_chars(Language(code="af")))
-        self.assertEqual(len(chars), 11)
+        self.assertEqual(len(chars), 12)
 
     def test_cs(self):
         chars = list(get_special_chars(Language(code="cs")))
-        self.assertEqual(len(chars), 10)
+        self.assertEqual(len(chars), 11)
 
     def test_brx(self):
         chars = list(get_special_chars(Language(code="brx")))
@@ -40,17 +40,17 @@ class SpecialCharsTest(TestCase):
     @override_settings(SPECIAL_CHARS=[chr(x) for x in range(256)])
     def test_settings(self):
         chars = list(get_special_chars(Language(code="cs")))
-        self.assertEqual(len(chars), 262)
+        self.assertEqual(len(chars), 263)
 
     def test_additional(self):
         self.check_chars(
-            Language(code="cs"), 14, ["a", "h", "o", "j"], additional="ahoj"
+            Language(code="cs"), 15, ["a", "h", "o", "j"], additional="ahoj"
         )
 
     def test_arrows(self):
-        self.check_chars(Language(code="cs"), 12, ["→", "⇒"], source="→⇒→⇒")
+        self.check_chars(Language(code="cs"), 13, ["→", "⇒"], source="→⇒→⇒")
 
     def test_arrows_rtl(self):
         self.check_chars(
-            Language(code="ar", direction="rtl"), 13, ["←", "⇐"], source="→⇒→⇒"
+            Language(code="ar", direction="rtl"), 14, ["←", "⇐"], source="→⇒→⇒"
         )
