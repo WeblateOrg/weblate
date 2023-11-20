@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 18:17+0000\n"
-"PO-Revision-Date: 2023-11-09 12:10+0000\n"
+"PO-Revision-Date: 2023-11-20 17:01+0000\n"
 "Last-Translator: Rhoslyn Prys <rprys@posteo.net>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/"
 "application/cy/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : "
 "(n==3) ? 3 :(n==6) ? 4 : 5;\n"
-"X-Generator: Weblate 5.2-dev\n"
+"X-Generator: Weblate 5.2\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -1270,16 +1270,16 @@ msgid "If not specified, the location of the PO file will be used."
 msgstr "Os nad yw wedi'i nodi, bydd lleoliad y ffeil PO yn cael ei ddefnyddio."
 
 #: weblate/addons/forms.py:50
-#, fuzzy
-#| msgid "Strings needing action"
 msgid "Include strings needing editing"
-msgstr "Llinynnau sydd angen eu gweithredu"
+msgstr "Cynnwys llinynnau sydd angen eu golygu"
 
 #: weblate/addons/forms.py:53
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
+"Fel arfer nid yw llinynnau sydd angen eu golygu (bras) yn barod i'w "
+"defnyddio fel cyfieithiadau."
 
 #: weblate/addons/forms.py:78
 msgid "Name of generated file"
@@ -4833,15 +4833,15 @@ msgid "Region name"
 msgstr "Enw rhanbarthol"
 
 #: weblate/machinery/forms.py:221
-#, fuzzy
-#| msgid "File format"
 msgctxt "Automatic suggestion service configuration"
 msgid "Formality"
-msgstr "Fformat ffeil"
+msgstr "Ffurfioldeb"
 
 #: weblate/machinery/forms.py:223
 msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr ""
+"Yn defnyddio'r ffurfioldeb penodedig os nad yw iaith wedi'i nodi fel iaith "
+"(an)ffurfiol"
 
 #: weblate/machinery/views.py:348
 msgid "Service is currently not available."
@@ -5606,10 +5606,8 @@ msgid "Notification settings"
 msgstr "Gosodiadau hysbysiadau"
 
 #: weblate/templates/accounts/profile.html:88
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Remove this notification setting"
-msgstr "Gosodiadau hysbysiadau"
+msgstr "Dileu'r gosodiad hysbysu hwn"
 
 #: weblate/templates/accounts/profile.html:124
 msgid "The e-mail address can be chosen from verified addresses only."
@@ -10362,10 +10360,8 @@ msgid "Accept"
 msgstr "Derbyn"
 
 #: weblate/templates/snippets/suggestions.html:36
-#, fuzzy
-#| msgid "Accept and edit"
 msgid "Accept and approve"
-msgstr "Derbyn a golygu"
+msgstr "Derbyn a chymeradwyo"
 
 #: weblate/templates/snippets/suggestions.html:38
 msgid "Accept and edit"
@@ -15362,16 +15358,12 @@ msgid "This will force push changes to the upstream repository."
 msgstr "Bydd hyn yn gorfodi newidiadau gwthio i'r gadwrfa i fyny'r afon."
 
 #: weblate/vcs/git.py:1095
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull request"
-msgstr "Cais tynnu Bitbucket Server"
+msgstr "Cais tynnu Azure DevOps"
 
 #: weblate/vcs/git.py:1103
-#, fuzzy
-#| msgid "This will push changes and create a Gitea pull request."
 msgid "This will push changes and create a Azure DevOps pull request."
-msgstr "Bydd hyn yn gwthio newidiadau ac yn creu cais tynnu Gitea."
+msgstr "Bydd hyn yn gwthio newidiadau ac yn creu cais tynnu Azure DevOps."
 
 #: weblate/vcs/git.py:1336
 msgid "GitHub pull request"
@@ -15641,14 +15633,8 @@ msgstr ""
 "hadnabod wrth ddarganfod."
 
 #: weblate/wladmin/views.py:191 weblate/wladmin/views.py:208
-#, fuzzy
-#| msgid ""
-#| "Could not activate your installation. Please ensure your activation token "
-#| "is correct."
 msgid "Could not activate your installation. Please try again later."
-msgstr ""
-"Methu gweithredu eich gosodiad. Gwnewch yn siŵr fod eich tocyn gweithredu'n "
-"gywir."
+msgstr "Methu gweithredu eich gosodiad. Ceisiwch eto."
 
 #: weblate/wladmin/views.py:200
 msgid ""
@@ -15659,10 +15645,9 @@ msgstr ""
 "gywir."
 
 #: weblate/wladmin/views.py:215
-#, fuzzy, python-format
-#| msgid "Could not fetch translation: %s"
+#, python-format
 msgid "Could not activate your installation: %s"
-msgstr "Wedi methu nôl cyfieithiad: %s"
+msgstr "Methu gweithredu eich gosodiad: %s"
 
 #: weblate/wladmin/views.py:219
 msgid "Activation completed."
