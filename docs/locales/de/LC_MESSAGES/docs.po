@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 19:18+0100\n"
-"PO-Revision-Date: 2023-11-17 20:25+0000\n"
+"PO-Revision-Date: 2023-11-20 17:01+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -5622,11 +5622,12 @@ msgid ""
 "ref:`formats`)."
 msgstr ""
 "Sie können das Verhalten von Weblate mit Hilfe von Markierungen "
-"feinabstimmen. Die Markierungen geben den Übersetzern visuelles Feedback und "
-"helfen ihnen, ihre Übersetzung zu verbessern. Dies kann auf der Ebene der "
-"Ausgangszeichenkette erfolgen (siehe :ref:`additional`), oder in der :ref:"
-"`component` (:ref:`component-check_flags`). Einige Dateiformate erlauben es "
-"auch, Markierungen direkt im Format anzugeben (siehe :ref:`formats`)."
+"feinabstimmen. Die Markierungen geben den Übersetzern eine visuelle "
+"Rückmeldung und helfen ihnen, ihre Übersetzung zu verbessern. Dies kann auf "
+"der Ebene der Ausgangszeichenkette erfolgen (siehe :ref:`additional`), oder "
+"in der :ref:`component` (:ref:`component-check_flags`). Einige Dateiformate "
+"erlauben es auch, Markierungen direkt im Format anzugeben (siehe "
+":ref:`formats`)."
 
 #: ../../admin/checks.rst:35
 msgid ""
@@ -7257,7 +7258,7 @@ msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 #: ../../admin/config.rst:161
 msgid "Removes zero-width space characters if the source does not contain any."
 msgstr ""
-"Entfernt Leerzeichen ohne Breite, wenn die Ausgangszeichenkette keine "
+"Entfernt breitenlose Leerzeichen, wenn die Ausgangszeichenkette keine "
 "enthält."
 
 #: ../../admin/config.rst:162
@@ -9971,6 +9972,11 @@ msgid ""
 "are squashing commits outside Weblate (for example when merging a pull "
 "request)."
 msgstr ""
+"Selbst wenn Weblate die einzige Quelle der Änderungen in den "
+"Übersetzungsdateien ist, können Konflikte auftreten, wenn die Erweiterung "
+":ref:`addon-weblate.git.squash` verwendet wird, :ref:`component-merge_style` "
+"auf :guilabel:`Rebase` konfiguriert ist oder Sie Commits außerhalb von "
+"Weblate zusammenfassen (z. B. beim Zusammenführen eines Pull Requests)."
 
 #: ../../admin/continuous.rst:170
 msgid ""
@@ -9980,6 +9986,13 @@ msgid ""
 "to review them. Git is then sometimes no longer able to idetify upstream "
 "changes as matching to Weblate one and refuses to perform rebase."
 msgstr ""
+"Der Grund für Merge-Konflikte ist in diesem Fall ein anderer – es gibt "
+"Änderungen in Weblate, die nach dem Zusammenführen von Weblate-Commits "
+"entstanden sind. Das passiert typischerweise, wenn das Zusammenführen nicht "
+"automatisiert ist und man Tage oder Wochen wartet, bis eine Person die "
+"Änderungen überprüft. Git ist dann manchmal nicht mehr in der Lage, Upstream-"
+"Änderungen als mit Weblate übereinstimmend zu identifizieren und weigert "
+"sich, eine Umbasierung durchzuführen."
 
 #: ../../admin/continuous.rst:176
 msgid ""
@@ -9987,34 +10000,49 @@ msgid ""
 "Weblate when you merge a pull request, or avoid the conflicts completely by "
 "not squashing changes."
 msgstr ""
+"Um dies zu erreichen, müssen Sie entweder die Anzahl der ausstehenden "
+"Änderungen in Weblate minimieren, wenn Sie ein Pull Request zusammenführen, "
+"oder die Konflikte komplett vermeiden, indem Sie keine Änderungen "
+"zusammenfassen."
 
 #: ../../admin/continuous.rst:180
 msgid "Here are few options how to avoid that:"
-msgstr ""
+msgstr "Hier sind einige Möglichkeiten, um dies zu vermeiden:"
 
 #: ../../admin/continuous.rst:182
 msgid ""
 "Do not use neither :ref:`addon-weblate.git.squash` nor squashing at merge "
 "time. This is the root cause why git doesn't recognize changes after merging."
 msgstr ""
+"Weder :ref:`addon-weblate.git.squash` verwenden noch Zusammenfassen zum "
+"Merge-Zeitpunkt . Dies ist die Hauptursache dafür, dass Git Änderungen nach "
+"dem Zusammenführen nicht erkennt."
 
 #: ../../admin/continuous.rst:183
 msgid ""
 "Let Weblate commit pending changes before merging. This will update the pull "
 "request with all its changes and both repositories will be in sync."
 msgstr ""
+"Weblate die anstehenden Änderungen vor dem Zusammenführen committen lassen. "
+"Dadurch wird der Pull Request mit allen Änderungen aktualisiert und beide "
+"Repositorys sind synchronisiert."
 
 #: ../../admin/continuous.rst:184
 msgid ""
 "Use the review features in Weblate (see :doc:`/workflows`), so that you can "
 "automatically merge GitHub pull requests after CI passes."
 msgstr ""
+"Die Überprüfungsfunktionen in Weblate nutzen (siehe :doc:`/workflows`), so "
+"dass GitHub-Pull-Requests automatisch zusammengeführt werden können, nachdem "
+"die CI durchgelaufen ist."
 
 #: ../../admin/continuous.rst:185
 msgid ""
 "Use locking in Weblate to avoid changes while GitHub pull request is in "
 "review."
 msgstr ""
+"Das Sperren in Weblate verwenden, um Änderungen während eines zu "
+"überprüfenden Github-Pull-Requests zu vermeiden."
 
 #: ../../admin/continuous.rst:189
 msgid ":ref:`wlc`"
@@ -25935,7 +25963,7 @@ msgstr ""
 
 #: ../../api.rst:2832
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
-msgstr "`RSS auf Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
+msgstr "`RSS auf Wikipedia <https://de.wikipedia.org/wiki/RSS_(Web-Feed)>`_"
 
 #: ../../changes.rst:2
 msgid "Weblate 5.2"
@@ -26013,6 +26041,8 @@ msgid ""
 ":ref:`api-statistics` now includes character and word counts for more string "
 "states."
 msgstr ""
+":ref:`api-statistics` enthält jetzt Zeichen- und Wortzählungen für mehr "
+"Zeichenkettenstatus."
 
 #: ../../changes.rst:23 ../../changes.rst:55 ../../changes.rst:96
 #: ../../changes.rst:129 ../../changes.rst:162 ../../changes.rst:219
@@ -26039,7 +26069,7 @@ msgstr "Die Formatierung der Übersetzungsspeicher-Suchergebnisse korrigiert."
 
 #: ../../changes.rst:29
 msgid "Allow non-breaking space character in :ref:`autofix-html`."
-msgstr ""
+msgstr "Geschütztes Leerzeichen in :ref:`autofix-html` erlaubt."
 
 #: ../../changes.rst:31 ../../changes.rst:60 ../../changes.rst:105
 #: ../../changes.rst:172 ../../changes.rst:227
@@ -29954,7 +29984,7 @@ msgstr "Anzeige von fehlenden Zeichenketten bei Formatprüfungen."
 
 #: ../../changes/v3.rst:172
 msgid "Separate check for French punctuation spacing."
-msgstr "Separate Prüfung auf Satzzeichenabstand für Französisch."
+msgstr "Separate Prüfung auf Interpunktionszeichenabstand für Französisch."
 
 #: ../../changes/v3.rst:173
 msgid "Add support for fixing some of quality checks errors."
@@ -35312,8 +35342,8 @@ msgstr ""
 #: ../../changes/v4.rst:1221
 msgid "Avoid false positives of punctuation spacing check for Canadian French."
 msgstr ""
-"Vermeiden von Fehlalarmen bei der Prüfung auf Satzzeichenabstand für "
-"kanadisches Französisch."
+"Vermeiden von Fehlalarmen bei der Prüfung auf Interpunktionszeichenabstand "
+"für kanadisches Französisch."
 
 #: ../../changes/v4.rst:1222
 msgid "Fixed XLIFF export with placeholders."
@@ -35321,7 +35351,7 @@ msgstr "Der XLIFF-Export mit Platzhaltern korrigiert."
 
 #: ../../changes/v4.rst:1223
 msgid "Fixed false positive with zero width check."
-msgstr "Fehlalarme bei der Prüfung „Leerzeichen ohne Breite“ behoben."
+msgstr "Fehlalarme bei der Prüfung „Breitenloses Leerzeichen“ behoben."
 
 #: ../../changes/v4.rst:1224
 msgid "Improved reporting of configuration errors."
@@ -38083,10 +38113,10 @@ msgid ""
 "mostly defining Django settings file to use and database connection. The "
 "example definition of that is in :file:`scripts/test-database.sh`:"
 msgstr ""
-"Die Konfiguration für das CI befindet sich im Verzeichnis :file:`.github/"
-"workflows`. Es verwendet hauptsächlich Hilfsskripte, die im Verzeichnis :"
-"file:`ci` gespeichert sind. Die Skripte können auch manuell ausgeführt "
-"werden, benötigen aber mehrere Umgebungsvariablen, die hauptsächlich die zu "
+"Die CI-Konfiguration befindet sich im Verzeichnis :file:`.github/workflows`. "
+"Es verwendet hauptsächlich Hilfsskripte, die im Verzeichnis :file:`ci` "
+"gespeichert sind. Die Skripte können auch manuell ausgeführt werden, "
+"benötigen aber mehrere Umgebungsvariablen, die hauptsächlich die zu "
 "verwendende Django-Einstellungsdatei und die Datenbankverbindung definieren. "
 "Die Beispiel-Definition dafür befindet sich in :file:`scripts/test-database."
 "sh`:"
@@ -38308,6 +38338,13 @@ msgid ""
 "also receive translator comments if you setup :ref:`component-"
 "report_source_bugs`."
 msgstr ""
+"Oftmals finden Übersetzer Probleme in den Ausgangszeichenketten. Stellen Sie "
+"sicher, dass es für sie so einfach wie möglich ist, solche Probleme zu "
+"melden. Um Rückmeldung diesbezüglich zu erhalten, können Sie das Feld :ref"
+":`component-repoweb` in Ihrer Weblate-Komponente einrichten, damit die "
+"Übersetzer ihre Änderungen für das Upstream-Repository vorschlagen können. "
+"Sie können auch Kommentare von Übersetzern erhalten, wenn Sie die :ref"
+":`component-report_source_bugs` einrichten."
 
 #: ../../devel/community.rst:11
 msgid "Community localization checklist"
@@ -38399,6 +38436,10 @@ msgid ""
 "during translation. This prevents recurring mistakes, and helps translators "
 "to understand how the code works."
 msgstr ""
+"Es gibt viele :doc:`/user/checks` in Weblate, die eine strukturierte "
+"Rückmeldung über die Übersetzungsqualität geben. Sie geben auch eine "
+"visuelle Rückmeldung während dem Übersetzen. Dies verhindert wiederkehrende "
+"Fehler und hilft den Übersetzern zu verstehen, wie der Code funktioniert."
 
 #: ../../devel/community.rst:42
 msgid "Translation definition"
@@ -39046,10 +39087,13 @@ msgid ""
 "`/admin/continuous` describes building blocks and how the changes flow "
 "between them."
 msgstr ""
+"Weblate ist so aufgebaut, dass es sich in ein Upstream-Versionsverwaltungs-"
+"Repository integrieren lässt. :doc:`/admin/continuous` beschreibt die "
+"Bausteine und wie die Änderungen zwischen ihnen ablaufen."
 
 #: ../../snippets/basics.rst:29
 msgid ":ref:`architecture` describes how Weblate works internally."
-msgstr ""
+msgstr ":ref:`architecture` beschreibt, wie Weblate intern funktioniert."
 
 #: ../../snippets/basics.rst:32
 msgid "User attribution"
@@ -39063,6 +39107,12 @@ msgid ""
 "allows services like GitHub to associate your contributions done in Weblate "
 "with your GitHub profile."
 msgstr ""
+"Weblate sorgt dafür, dass die von den Übersetzern angefertigten "
+"Übersetzungen im Versionsverwaltungs-Repository unter Angabe von Name und E"
+"-Mail-Adresse korrekt gespeichert werden. Eine echte E-Mail-Adresse, die an "
+"den Commit angehängt ist, folgt den Gepflogenheiten der verteilten "
+"Versionsverwaltung und ermöglicht es Diensten wie GitHub, die von Ihnen "
+"erstellten Beiträge in Weblate mit Ihrem GitHub-Profil zu verknüpfen."
 
 #: ../../snippets/basics.rst:40
 msgid ""
@@ -39071,16 +39121,27 @@ msgid ""
 "(such as GitHub), there is effectively no way to redact it. Weblate allows "
 "choosing a private commit e-mail in :ref:`profile-account` to avoid this."
 msgstr ""
+"Diese Funktion birgt auch das Risiko des Missbrauchs von E-Mail-Adressen, "
+"die in den Commits der Versionsverwaltung veröffentlicht werden. Sobald ein "
+"solcher Commit auf einer öffentlichen Hosting-Plattform (z. B. GitHub) "
+"veröffentlicht wurde, gibt es praktisch keine Möglichkeit, ihn zu entfernen. "
+"Um dies zu vermeiden, erlaubt Weblate die Auswahl einer privaten Commit-E"
+"-Mail-Adresse im :ref:`profile-account`."
 
 #: ../../snippets/basics.rst:45
 msgid "Therefore, admins should consider this while configuring Weblate:"
 msgstr ""
+"Daher sollten Administratoren bei der Konfiguration von Weblate folgendes "
+"berücksichtigen:"
 
 #: ../../snippets/basics.rst:47
 msgid ""
 "Such a usage of e-mail should be clearly described in service terms in case "
 "such document is needed. :ref:`legal` can help with that."
 msgstr ""
+"Eine solche Verwendung von E-Mail-Adressen sollte in den Nutzungsbedingungen "
+"klar beschrieben werden. Falls ein solches Dokument benötigt wird, "
+":ref:`legal` kann dabei helfen."
 
 #: ../../snippets/basics.rst:48
 msgid ""
@@ -43174,10 +43235,10 @@ msgid ""
 "ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:"
 "`addon-weblate.cleanup.generic`"
 msgstr ""
-"`Java-Properties auf Wikipedia <https://en.wikipedia.org/wiki/."
-"properties>`_, :doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:`gwt`, :"
-"ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:"
-"`addon-weblate.cleanup.generic`"
+"`Java-Properties auf Wikipedia <https://de.wikipedia.org/wiki/Java-"
+"Properties-Datei>`_, :doc:`tt:formats/properties`, :ref:`mi18n-lang`, "
+":ref:`gwt`, :ref:`updating-target-files`, :ref:`addon-weblate.properties."
+"sort`, :ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats/java.rst:46
 msgid "`Java Properties (ISO-8859-1)`"
@@ -43705,8 +43766,8 @@ msgid ""
 "`TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_, :doc:"
 "`tt:formats/tbx`, :ref:`glossary`"
 msgstr ""
-"`TBX auf Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_, :doc:"
-"`tt:formats/tbx`, :ref:`glossary`"
+"`TBX auf Wikipedia <https://de.wikipedia.org/wiki/TermBase_eXchange>`_, "
+":doc:`tt:formats/tbx`, :ref:`glossary`"
 
 #: ../../formats/tbx.rst:33
 msgid "``tbx/*.tbx``"
@@ -43914,8 +43975,9 @@ msgid ""
 "wikipedia.org/wiki/XLIFF>`_, :doc:`tt:formats/xliff`"
 msgstr ""
 "`XML Localization Interchange File Format (XLIFF)`_-Spezifikation, `XLIFF "
-"1.2 Representation Guide for Gettext PO`_, `XLIFF auf Wikipedia <https://en."
-"wikipedia.org/wiki/XLIFF>`_, :doc:`tt:formats/xliff`"
+"1.2 Representation Guide for Gettext PO`_, `XLIFF auf Wikipedia <https://de."
+"wikipedia.org/wiki/XML_Localization_Interchange_File_Format>`_, :doc:`tt:"
+"formats/xliff`"
 
 #: ../../formats/xliff.rst:40 ../../workflows.rst:59
 msgid "Translation states"
@@ -44311,12 +44373,12 @@ msgid ""
 "Weblate comes with `REUSE 3.0 <https://reuse.software/>`_ compliant license "
 "specification."
 msgstr ""
-"Weblate wird mit der `REUSE 3.0 <https://reuse.software/>`_ konformen "
+"Weblate wird mit einer `REUSE 3.0 <https://reuse.software/>`_ konformen "
 "Lizenzspezifikation geliefert."
 
 #: ../../legal.rst:19
 msgid "ITAR and other export controls"
-msgstr ""
+msgstr "ITAR und andere Exportkontrollen"
 
 #: ../../legal.rst:21
 msgid ""
@@ -44324,6 +44386,11 @@ msgid ""
 "such, it can be used to store ITAR or other export-controlled information, "
 "however, end users are responsible for ensuring such compliance."
 msgstr ""
+"Weblate kann in Ihrem eigenen Rechenzentrum oder in einer virtuellen "
+"privaten Cloud betrieben werden. Als solches kann es zur Speicherung von "
+"ITAR- oder anderen exportkontrollierten Informationen verwendet werden, "
+"allerdings sind die Endverbraucher für das Einhalten dieser Vorschriften "
+"verantwortlich."
 
 #: ../../legal.rst:25
 msgid ""
@@ -44331,10 +44398,13 @@ msgid ""
 "other export controls, and does not currently offer the ability to restrict "
 "translations access by country."
 msgstr ""
+"Der Hosted-Weblate-Dienst wurde nicht auf die Einhaltung von ITAR oder "
+"anderen Exportkontrollen geprüft und bietet derzeit keine Möglichkeit, den "
+"Zugriff auf Übersetzungen nach Ländern zu beschränken."
 
 #: ../../legal.rst:30
 msgid "US encryption controls"
-msgstr ""
+msgstr "US-Verschlüsselungskontrollen"
 
 #: ../../legal.rst:32
 msgid ""
@@ -44342,6 +44412,10 @@ msgid ""
 "controls as it uses third party components utilizing cryptography for "
 "authentication, data-integrity and -confidentiality."
 msgstr ""
+"Weblate enthält keinen kryptografischen Code, könnte aber Exportkontrollen "
+"unterliegen, da es Komponenten von Drittanbietern verwendet, die "
+"Kryptografie für Authentifizierung, Datenintegrität und -vertraulichkeit "
+"einsetzen."
 
 #: ../../legal.rst:36
 msgid ""
@@ -44350,6 +44424,11 @@ msgid ""
 "`Encryption items NOT Subject to the EAR <https://www.bis.doc.gov/index.php/"
 "policy-guidance/encryption/1-encryption-items-not-subject-to-the-ear>`_)."
 msgstr ""
+"Höchstwahrscheinlich wird Weblate als ECCN 5D002 oder 5D992 eingestuft und "
+"sollte als öffentlich verfügbare Freie Software nicht der EAR unterliegen ("
+"siehe `Encryption items NOT Subject to the EAR <https://www.bis.doc.gov/index"
+".php/policy-guidance/encryption/1-encryption-items-not-subject-to-the-"
+"ear>`_)."
 
 #: ../../legal.rst:41
 msgid ""
@@ -44405,27 +44484,38 @@ msgid ""
 "the third party components it interacts with, but in any decent setup it "
 "will include all export restricted cryptographic functions:"
 msgstr ""
+"Die Stärke der Verschlüsselungsschlüssel hängt von der Konfiguration von "
+"Weblate und den Drittanbieterkomponenten ab, mit denen es interagiert, aber "
+"in einer vernünftigen Einrichtung werden alle exportbeschränkten "
+"kryptografischen Funktionen enthalten sein:"
 
 #: ../../legal.rst:59
 msgid "In excess of 56 bits for a symmetric algorithm"
-msgstr ""
+msgstr "Mehr als 56 Bit für einen symmetrischen Algorithmus"
 
 #: ../../legal.rst:60
 msgid ""
 "Factorisation of integers in excess of 512 bits for an asymmetric algorithm"
 msgstr ""
+"Faktorisierung ganzer Zahlen mit mehr als 512 Bit für einen asymmetrischen "
+"Algorithmus"
 
 #: ../../legal.rst:61
 msgid ""
 "Computation of discrete logarithms in a multiplicative group of a finite "
 "field of size greater than 512 bits for an asymmetric algorithm"
 msgstr ""
+"Berechnung von diskreten Logarithmen in einer multiplikativen Gruppe eines "
+"endlichen Feldes mit einer Größe von mehr als 512 Bit für einen "
+"asymmetrischen Algorithmus"
 
 #: ../../legal.rst:62
 msgid ""
 "Discrete logarithms in a group different than above in excess of 112 bits "
 "for an asymmetric algorithm"
 msgstr ""
+"Diskrete Logarithmen in einer anderen Gruppe als der oben genannten mit mehr "
+"als 112 Bit für einen asymmetrischen Algorithmus"
 
 #: ../../legal.rst:64
 msgid ""
@@ -44433,20 +44523,25 @@ msgid ""
 "configured in a way where no cryptography code would be involved. The "
 "cryptographic features include:"
 msgstr ""
+"Weblate verfügt nicht über eine kryptografische Aktivierungsfunktion, kann "
+"aber so konfiguriert werden, dass kein Kryptografie-Code erforderlich ist. "
+"Zu den kryptografischen Funktionen gehören:"
 
 #: ../../legal.rst:68
 msgid "Accessing remote servers using secure protocols (HTTPS)"
-msgstr ""
+msgstr "Zugriff auf Remote-Server mit sicheren Protokollen (HTTPS)"
 
 #: ../../legal.rst:69
 msgid "Generating signatures for code commits (PGP)"
-msgstr ""
+msgstr "Erzeugen von Signaturen für Code-Commits (PGP)"
 
 #: ../../legal.rst:73
 msgid ""
 "`Export Controls (EAR) on Open Source Software <https://www.magicsplat.com/"
 "blog/ear/>`_"
 msgstr ""
+"`Ausfuhrkontrollen (EAR) für Open-Source-Software <https://www.magicsplat."
+"com/blog/ear/>`_"
 
 #: ../../python.rst:8
 msgid "Weblate's Python API"
@@ -44632,7 +44727,7 @@ msgid ""
 "Zero width space is typically not desired in the translation. This fix will "
 "remove it unless it is present in the source string as well."
 msgstr ""
-"Leerzeichen ohne Breite sind in der Regel in der Übersetzung nicht "
+"Breitenlose Leerzeichen sind in der Regel in der Übersetzung nicht "
 "erwünscht. Mit dieser Korrektur wird es entfernt, sofern es nicht auch in "
 "der Ausgangszeichenkette vorhanden ist."
 
@@ -45289,8 +45384,8 @@ msgid ""
 "Printf_format_string>`_"
 msgstr ""
 "`C-Format-Zeichenketten <https://www.gnu.org/software/gettext/manual/"
-"html_node/c_002dformat.html>`_, `C-printf-Format <https://en.wikipedia.org/"
-"wiki/Printf_format_string>`_"
+"html_node/c_002dformat.html>`_, `C-printf-Format <https://de.wikipedia.org/"
+"wiki/Printf>`_"
 
 #: ../../user/checks.rst:448
 msgid "C# format"
@@ -46359,8 +46454,7 @@ msgstr ""
 msgid ""
 "`Colon on Wikipedia <https://en.wikipedia.org/wiki/Colon_(punctuation)>`_"
 msgstr ""
-"`Doppelpunkt auf Wikipedia <https://en.wikipedia.org/wiki/"
-"Colon_(Interpunktion)>`_"
+"`Doppelpunkt auf Wikipedia <https://de.wikipedia.org/wiki/Doppelpunkt>`_"
 
 #: ../../user/checks.rst:1115
 msgid "Mismatched ellipsis"
@@ -46401,7 +46495,8 @@ msgstr ""
 #: ../../user/checks.rst:1130 ../../user/checks.rst:1590
 msgid "`Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_"
 msgstr ""
-"`Auslassungspunkte auf Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_"
+"`Auslassungspunkte auf Wikipedia <https://de.wikipedia.org/wiki/"
+"Auslassungspunkte>`_"
 
 #: ../../user/checks.rst:1136
 msgid "Mismatched exclamation mark"
@@ -46434,8 +46529,8 @@ msgid ""
 "`Exclamation mark on Wikipedia <https://en.wikipedia.org/wiki/"
 "Exclamation_mark>`_"
 msgstr ""
-"`Ausrufezeichen auf Wikipedia <https://en.wikipedia.org/wiki/"
-"Exclamation_mark>`_"
+"`Ausrufezeichen auf Wikipedia <https://de.wikipedia.org/wiki/"
+"Ausrufezeichen>`_"
 
 #: ../../user/checks.rst:1156
 msgid "Mismatched full stop"
@@ -46463,7 +46558,8 @@ msgstr ""
 
 #: ../../user/checks.rst:1170
 msgid "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
-msgstr "`Punkt auf Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
+msgstr ""
+"`Punkt auf Wikipedia <https://de.wikipedia.org/wiki/Punkt_(Satzzeichen)>`_"
 
 #: ../../user/checks.rst:1175
 msgid "Mismatched question mark"
@@ -46495,7 +46591,7 @@ msgstr ""
 msgid ""
 "`Question mark on Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_"
 msgstr ""
-"`Fragezeichen auf Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_"
+"`Fragezeichen auf Wikipedia <https://de.wikipedia.org/wiki/Fragezeichen>`_"
 
 #: ../../user/checks.rst:1195
 msgid "Mismatched semicolon"
@@ -46524,7 +46620,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1207
 msgid "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
-msgstr "`Semikolon auf Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
+msgstr "`Semikolon auf Wikipedia <https://de.wikipedia.org/wiki/Semikolon>`_"
 
 #: ../../user/checks.rst:1212
 msgid "Mismatching line breaks"
@@ -46631,11 +46727,12 @@ msgstr ":ref:`custom-checks`"
 
 #: ../../user/checks.rst:1288
 msgid "Punctuation spacing"
-msgstr "Satzzeichenabstand"
+msgstr "Interpunktionszeichenabstand"
 
 #: ../../user/checks.rst:1290
 msgid "Missing non breakable space before double punctuation sign"
-msgstr "Es fehlt ein untrennbares Leerzeichen vor doppelten Satzzeichen"
+msgstr ""
+"Es fehlt ein geschütztes Leerzeichen vor doppeltem Interpunktionszeichen"
 
 #: ../../user/checks.rst:1292
 msgid "``weblate.checks.chars.PunctuationSpacingCheck``"
@@ -46653,9 +46750,9 @@ msgid ""
 "double punctuation sign is a typographic rule."
 msgstr ""
 "Prüft, ob vor doppelten Interpunktionszeichen (Ausrufezeichen, Fragezeichen, "
-"Semikolon und Doppelpunkt) ein nicht abbrechbares Leerzeichen steht. Diese "
-"Regel wird nur in einigen ausgewählten Sprachen wie Französisch oder "
-"Bretonisch verwendet, wo das Leerzeichen vor doppelten Satzzeichen eine "
+"Semikolon und Doppelpunkt) ein geschütztes Leerzeichen steht. Diese Regel "
+"wird nur in einigen ausgewählten Sprachen wie Französisch oder Bretonisch "
+"verwendet, wo das Leerzeichen vor doppelten Interpunktionszeichen eine "
 "typografische Regel ist."
 
 #: ../../user/checks.rst:1303
@@ -47026,11 +47123,11 @@ msgstr "Die XML-Auszeichnung ist nicht gültig."
 
 #: ../../user/checks.rst:1548
 msgid "Zero-width space"
-msgstr "Leerzeichen ohne Breite"
+msgstr "Breitenloses Leerzeichen"
 
 #: ../../user/checks.rst:1550
 msgid "Translation contains extra zero-width space character"
-msgstr "Übersetzung enthält zusätzliche Leerzeichen ohne Breite"
+msgstr "Übersetzung enthält zusätzliche breitenlose Leerzeichen"
 
 #: ../../user/checks.rst:1552
 msgid "``weblate.checks.chars.ZeroWidthSpaceCheck``"
@@ -47058,8 +47155,8 @@ msgid ""
 "`Zero width space on Wikipedia <https://en.wikipedia.org/wiki/Zero-"
 "width_space>`_"
 msgstr ""
-"`Leerzeichen ohne Breite auf Wikipedia <https://en.wikipedia.org/wiki/Zero-"
-"width_space>`_"
+"`Breitenloses Leerzeichen auf Wikipedia <https://de.wikipedia.org/wiki/"
+"Breitenloses_Leerzeichen>`_"
 
 #: ../../user/checks.rst:1568
 msgid "Source checks"
