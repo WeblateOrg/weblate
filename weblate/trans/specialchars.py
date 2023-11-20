@@ -274,6 +274,7 @@ def get_special_chars(language, additional="", source=""):  # noqa: C901
     yield get_quote(code, ALT_CLOSE, gettext("Alternative closing quote"))
 
     if code in HYPHEN_LANGS:
+        yield format_char("\u00AD")
         yield gettext("Hyphen"), "‐", "‐"
 
     if code in EN_DASH_LANGS:
