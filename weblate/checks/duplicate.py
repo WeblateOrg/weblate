@@ -19,7 +19,7 @@ IGNORES = {
     "fy": {"jo", "mei"},
     "fr": {"vous", "nous"},
     "hi": {"कर"},
-    "tr": {"tek", "adım", "gıcır", "sık" },
+    "tr": {"tek", "adım", "gıcır", "sık"},
     "sq": {"të"},
 }
 
