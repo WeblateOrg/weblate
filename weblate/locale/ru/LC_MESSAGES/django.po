@@ -9,22 +9,23 @@
 # Andrei Stepanov <adem4ik@gmail.com>, 2023.
 # Noise Maker <vh0d@disroot.org>, 2023.
 # dsa-t <dudesuchamazing@gmail.com>, 2023.
+# gfbdrgng <bngvh1b.g-gh1@mail.ru>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 18:17+0000\n"
-"PO-Revision-Date: 2023-10-25 06:49+0000\n"
-"Last-Translator: xXx <xxx_xxx_xxxxxxxxx@mail.ru>\n"
+"PO-Revision-Date: 2023-11-20 09:56+0000\n"
+"Last-Translator: gfbdrgng <bngvh1b.g-gh1@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.1.1-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.2\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -73,6 +74,8 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are commited by Weblate."
 msgstr ""
+"Используется при фиксации изменений в системе управления версиями. После "
+"фиксации изменений Weblate адрес навсегда останется в репозитории."
 
 #: weblate/accounts/forms.py:211 weblate/accounts/models.py:597
 msgid "Public e-mail"
@@ -88,16 +91,16 @@ msgid "Component list: %s"
 msgstr "Список компонентов: %s"
 
 #: weblate/accounts/forms.py:346
-#, fuzzy
-#| msgid "Account removal"
 msgid "Account e-mail"
-msgstr "Удаление учётной записи"
+msgstr "Электронная почта учетной записи"
 
 #: weblate/accounts/forms.py:348
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not not "
 "configured below."
 msgstr ""
+"Используется для уведомлений по электронной почте и в качестве сообщения о "
+"фиксации, если оно не настроено ниже."
 
 #: weblate/accounts/forms.py:393
 msgid "Subject"
@@ -160,7 +163,7 @@ msgstr "Сколько будет %s?"
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
 #: weblate/accounts/forms.py:529
 msgid "That was not correct, please try again."
-msgstr "Это было неправильно, попробуйте ещё раз."
+msgstr "Неправильный ответ, попробуйте ещё раз."
 
 #: weblate/accounts/forms.py:556
 msgid "Current password"
@@ -1275,16 +1278,16 @@ msgid "If not specified, the location of the PO file will be used."
 msgstr "Если не указано, будет использовано расположение PO-файла."
 
 #: weblate/addons/forms.py:50
-#, fuzzy
-#| msgid "Import as string needing edit"
 msgid "Include strings needing editing"
-msgstr "Импортировать строки, как отмеченные «На правку»"
+msgstr "Включить строки, требующие редактирования"
 
 #: weblate/addons/forms.py:53
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
+"Строки, нуждающиеся в редактировании (fuzzy), как правило, не готовы к "
+"использованию в качестве переводов."
 
 #: weblate/addons/forms.py:78
 msgid "Name of generated file"
@@ -4836,15 +4839,14 @@ msgid "Region name"
 msgstr "Имя региона"
 
 #: weblate/machinery/forms.py:221
-#, fuzzy
-#| msgid "Somali"
 msgctxt "Automatic suggestion service configuration"
 msgid "Formality"
-msgstr "Сомали"
+msgstr "Формальность"
 
 #: weblate/machinery/forms.py:223
 msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr ""
+"Использует указанную формальность, если язык не указан как (не)формальный"
 
 #: weblate/machinery/views.py:348
 msgid "Service is currently not available."
@@ -5417,10 +5419,8 @@ msgstr "Исправьте ошибки в форме регистрации."
 
 #: weblate/templates/accounts/email.html:17
 #: weblate/templates/accounts/profile.html:122
-#, fuzzy
-#| msgid "Add new e-mail address"
 msgid "Verify new e-mail address"
-msgstr "Добавить новый адрес электронной почты"
+msgstr "Проверка нового адреса электронной почты"
 
 #: weblate/templates/accounts/email.html:27
 #: weblate/templates/accounts/register.html:52 weblate/templates/base.html:226
@@ -5619,16 +5619,13 @@ msgid "Notification settings"
 msgstr "Настройки уведомлений"
 
 #: weblate/templates/accounts/profile.html:88
-#, fuzzy
-#| msgid "Change notification settings"
 msgid "Remove this notification setting"
-msgstr "Изменить параметры уведомлений"
+msgstr "Удалить эту настройку уведомления"
 
 #: weblate/templates/accounts/profile.html:124
-#, fuzzy
-#| msgid "Choose commit e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "Выбрать электронную почту для коммитов из проверенных адресов."
+msgstr ""
+"Адрес электронной почты может быть выбран только из проверенных адресов."
 
 #: weblate/templates/accounts/profile.html:133
 msgid "Current user identities"
@@ -7048,19 +7045,15 @@ msgid "Add a category"
 msgstr "Добавить категорию"
 
 #: weblate/templates/category.html:194
-#, fuzzy
-#| msgid "Rename category"
 msgid "Organize category"
-msgstr "Переименовать категорию"
+msgstr "Упорядочить категорию"
 
 #: weblate/templates/category.html:198
-#, fuzzy
-#| msgid "Renaming the category will also change URLs for all its components."
 msgid ""
 "Moving or renaming the category will also change URLs for all its components."
 msgstr ""
-"Переименование категории также приведет к изменению URL адресов всех ее "
-"компонентов."
+"Перемещение или переименование категории также приведет к изменению URL-"
+"адресов всех ее компонентов."
 
 #: weblate/templates/category.html:199 weblate/templates/component.html:244
 #: weblate/templates/project.html:261
@@ -7073,10 +7066,8 @@ msgstr ""
 
 #: weblate/templates/category.html:205 weblate/templates/component.html:250
 #: weblate/templates/project.html:267
-#, fuzzy
-#| msgid "Organize or remove"
 msgid "Organize"
-msgstr "Упорядочить или удалить"
+msgstr "Организатор"
 
 #: weblate/templates/check_list.html:27
 msgid "Total"
@@ -7205,16 +7196,14 @@ msgstr ""
 "срока, либо постоянно, пока оно не будет удалено."
 
 #: weblate/templates/component.html:239
-#, fuzzy
-#| msgid "Create component"
 msgid "Organize component"
-msgstr "Создать компонент"
+msgstr "Организационный компонент"
 
 #: weblate/templates/component.html:243
-#, fuzzy
-#| msgid "Renaming the component will also change its URLs."
 msgid "Moving or renaming the component will also change its URLs."
-msgstr "Переименование компонента также приведет к изменению его URL адресов."
+msgstr ""
+"Перемещение или переименование компонента также приведет к изменению его "
+"URL-адресов."
 
 #: weblate/templates/component.html:267 weblate/templates/project.html:283
 #: weblate/templates/translate.html:355 weblate/templates/translation.html:415
@@ -9099,16 +9088,12 @@ msgid "off"
 msgstr "откл"
 
 #: weblate/templates/memory/index.html:197
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of shared entries in this Weblate instance"
-msgstr "Количество общих записей"
+msgstr "Количество общих записей в данном экземпляре Weblate"
 
 #: weblate/templates/memory/index.html:209
-#, fuzzy
-#| msgid "Total number of entries"
 msgid "Total number of entries in this Weblate instance"
-msgstr "Общее количество записей"
+msgstr "Общее количество записей в данном экземпляре Weblate"
 
 #: weblate/templates/memory/index.html:226
 msgid "Import translation memory"
@@ -9256,10 +9241,8 @@ msgstr ""
 "срока, либо постоянно, пока оно не будет удалено."
 
 #: weblate/templates/project.html:256
-#, fuzzy
-#| msgid "Create project"
 msgid "Organize project"
-msgstr "Создать проект"
+msgstr "Организовать проект"
 
 #: weblate/templates/project.html:260
 msgid "Renaming the project will also change URLs for all its components."
@@ -9945,17 +9928,13 @@ msgid "By registering and signing in to this service you accept our:"
 msgstr "Регистрируясь и выполняя вход в данный сервис вы соглашаетесь на наши:"
 
 #: weblate/templates/snippets/login-info.html:20
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the Terms of Service and the Privacy Policy, but you "
 "should still read the original documents to fully understand them:"
 msgstr ""
-"Эта страница основана на Условиях обслуживания и Политике "
-"конфиденциальности, вам стоит прочитать оригинальные документы для полного "
-"их понимания:"
+"Краткий обзор Условий предоставления услуг и Политики конфиденциальности, "
+"однако для их полного понимания следует ознакомиться с оригинальными "
+"документами:"
 
 #: weblate/templates/snippets/login-info.html:27
 msgid ""
@@ -9968,19 +9947,14 @@ msgstr ""
 "определяемой каждым переводимым проектом."
 
 #: weblate/templates/snippets/login-info.html:31
-#, fuzzy
-#| msgid ""
-#| "By registering you agree to use your name and e-mail in version control "
-#| "system commits and provide your contribution under license defined by "
-#| "each translated project."
 msgid ""
 "By registering you agree to use your name in version control system commits "
 "and provide your contribution under license defined by each translated "
 "project."
 msgstr ""
-"Зарегистрировавшись, вы соглашаетесь использовать ваше имя и электронную "
-"почту в коммитах системы контроля версий и вносить свой вклад под лицензией, "
-"определяемой каждым переводимым проектом."
+"Регистрируясь, вы соглашаетесь использовать свое имя в коммитах системы "
+"контроля версий и предоставлять свой вклад под лицензией, определенной для "
+"каждого транслируемого проекта."
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -10283,10 +10257,8 @@ msgid "Accept"
 msgstr "Принять"
 
 #: weblate/templates/snippets/suggestions.html:36
-#, fuzzy
-#| msgid "Accept and edit"
 msgid "Accept and approve"
-msgstr "Принять и править"
+msgstr "Принять и утвердить"
 
 #: weblate/templates/snippets/suggestions.html:38
 msgid "Accept and edit"
@@ -13119,14 +13091,11 @@ msgstr ""
 
 #: weblate/trans/models/change.py:800
 msgid "Original revision: {}"
-msgstr ""
+msgstr "Оригинальная редакция: {}"
 
 #: weblate/trans/models/change.py:804
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgid "New revision: {}"
-msgstr "Персональная: {}"
+msgstr "Новая ревизия: {}"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:114
@@ -15198,17 +15167,14 @@ msgstr ""
 "Это приведет к принудительной отправке изменений в вышестоящий репозиторий."
 
 #: weblate/vcs/git.py:1095
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull request"
-msgstr "Запрос на принятие изменений в сервер Bitbucket"
+msgstr "Запрос на выгрузку Azure DevOps"
 
 #: weblate/vcs/git.py:1103
-#, fuzzy
-#| msgid "This will push changes and create a Gitea pull request."
 msgid "This will push changes and create a Azure DevOps pull request."
 msgstr ""
-"Это приведет к внесению изменений и созданию запроса на извлечение Gitea."
+"Это приведет к переносу изменений и созданию запроса на вытягивание в Azure "
+"DevOps."
 
 #: weblate/vcs/git.py:1336
 msgid "GitHub pull request"
@@ -15482,14 +15448,9 @@ msgstr ""
 "распознать в discover."
 
 #: weblate/wladmin/views.py:191 weblate/wladmin/views.py:208
-#, fuzzy
-#| msgid ""
-#| "Could not activate your installation. Please ensure your activation token "
-#| "is correct."
 msgid "Could not activate your installation. Please try again later."
 msgstr ""
-"Не удалось активировать установку. Пожалуйста, убедитесь, что ваш токен "
-"активации верен."
+"Не удалось активировать вашу установку. Пожалуйста, повторите попытку позже."
 
 #: weblate/wladmin/views.py:200
 msgid ""
@@ -15500,10 +15461,9 @@ msgstr ""
 "активации верен."
 
 #: weblate/wladmin/views.py:215
-#, fuzzy, python-format
-#| msgid "Could not fetch translation: %s"
+#, python-format
 msgid "Could not activate your installation: %s"
-msgstr "Не удалось получить перевод: %s"
+msgstr "Не удалось активировать вашу установку: %s"
 
 #: weblate/wladmin/views.py:219
 msgid "Activation completed."

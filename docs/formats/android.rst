@@ -12,6 +12,13 @@ Android specific file format for translating applications.
 Android string resources are monolingual, the :ref:`component-template` is
 stored in a different location from the other files -- :file:`res/values/strings.xml`.
 
+Weblate does following escaping of strings:
+
+* If a strings is valid XML, it is inserted as XML to translation.
+* ``?`` and ``@`` are escaped with a ``\\`` at the beginning of the string to avoid intepreting them as style or resource references.
+* In case string contains multiple spaces, it is quoted with double quotes (``"``).
+* Newlines are escaped as ``\\n``, but the actual newline is kept for readability as well.
+
 .. note::
 
     Android `string-array` structures are not currently supported. To work around this,

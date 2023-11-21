@@ -742,6 +742,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     report_error(
                         cause="Could not update unit", project=self.component.project
                     )
+                    # TODO: once we have a deeper stack of pending changes,
+                    # this should be kept as pending, so that the changes are not lost
                     unit.state = STATE_FUZZY
                     # Use update instead of hitting expensive save()
                     Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)

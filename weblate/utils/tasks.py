@@ -19,6 +19,7 @@ from ruamel.yaml import YAML
 
 import weblate.utils.version
 from weblate.formats.models import FILE_FORMATS
+from weblate.logger import LOGGER
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Translation
 from weblate.trans.util import get_clean_env
@@ -114,6 +115,8 @@ def database_backup():
                 out_text,
                 "--single-transaction",
                 "--skip-lock-tables",
+                # Superuser only, crashes on Alibaba Cloud Database PolarDB
+                "--no-subscriptions",
             ]
 
             if database["HOST"]:
@@ -143,6 +146,7 @@ def database_backup():
                 stdout=error.stdout,
                 stderr=error.stderr,
             )
+            LOGGER.error("failed database backup: %s", error.stderr)
             report_error()
             raise
 

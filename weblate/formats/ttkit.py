@@ -106,7 +106,7 @@ class TTKitUnit(TranslationUnit):
             # Avoid duplication in case template has same notes
             template_comment = self.template.getnotes()
             if template_comment != comment:
-                comment = template_comment + "\n" + comment
+                comment = f"{template_comment}\n{comment}"
 
         return comment
 
