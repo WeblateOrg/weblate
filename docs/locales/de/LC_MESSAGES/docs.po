@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 19:18+0100\n"
-"PO-Revision-Date: 2023-11-20 17:01+0000\n"
+"PO-Revision-Date: 2023-11-22 07:03+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -44678,7 +44678,7 @@ msgid ""
 msgstr ""
 "Die Qualitätsprüfungen helfen dabei, häufige Übersetzungsfehler zu erkennen "
 "und stellen sicher, dass die Übersetzung in gutem Zustand ist. Die Prüfungen "
-"können bei falsch positiven Ergebnissen ignoriert werden."
+"können bei Fehlalarmen ignoriert werden."
 
 #: ../../user/checks.rst:7
 msgid ""
@@ -44892,7 +44892,7 @@ msgid ""
 "might produce false positives."
 msgstr ""
 "Die Methode um BBCode zu erkennen ist derzeit noch recht schlicht, so dass "
-"diese Prüfung möglicherweise zu falsch positiven Ergebnissen führt."
+"diese Prüfung möglicherweise zu Fehlalarmen führt."
 
 #: ../../user/checks.rst:109
 msgid "Consecutive duplicated words"
@@ -44915,12 +44915,17 @@ msgid ""
 "Checks that no consecutive duplicate words occur in a translation. This "
 "usually indicates a mistake in the translation."
 msgstr ""
+"Prüft, ob in einer Übersetzung aufeinanderfolgende doppelte Wörter "
+"vorkommen. Dies weist normalerweise auf einen Fehler in der Übersetzung hin."
 
 #: ../../user/checks.rst:124
 msgid ""
 "This check includes language specific rules to avoid false positives. In "
 "case it triggers falsely in your case, let us know. See :ref:`report-issue`."
 msgstr ""
+"Diese Prüfung umfasst sprachspezifische Regeln, um Fehlalarme zu vermeiden. "
+"Sollte sie fälschlicherweise ausgelöst werden, lassen Sie es uns wissen. "
+"Siehe :ref:`report-issue`."
 
 #: ../../user/checks.rst:130
 msgid "Does not follow glossary"
@@ -44947,12 +44952,16 @@ msgid ""
 "This check has to be turned on using ``check-glossary`` flag (see :ref:"
 "`custom-checks`). Please consider following prior to enabling it:"
 msgstr ""
+"Diese Prüfung muss mit der Markierung ``check-glossary`` aktiviert werden ("
+"siehe :ref:`custom-checks`). Vor dem Aktivieren bitte Folgendes beachten:"
 
 #: ../../user/checks.rst:144
 msgid ""
 "It does exact string matching, the glossary is expected to contain terms in "
 "all variants."
 msgstr ""
+"Es wird ein genauer Abgleich der Zeichenkette durchgeführt, wobei das "
+"Glossar Begriffe in allen Varianten enthalten sollte."
 
 #: ../../user/checks.rst:145
 msgid ""
@@ -44967,6 +44976,8 @@ msgstr ""
 #: ../../user/checks.rst:146
 msgid "It also utilizes untranslatable glossary terms in :ref:`check-same`."
 msgstr ""
+"Es werden auch die unübersetzbaren Glossarbegriffe aus :ref:`check-same` "
+"benutzt."
 
 #: ../../user/checks.rst:150
 msgid ":ref:`glossary`, :ref:`custom-checks`, :ref:`component-check_flags`"
@@ -44993,12 +45004,17 @@ msgid ""
 "Checks that double space is present in translation to avoid false positives "
 "on other space-related checks."
 msgstr ""
+"Prüft, ob ein doppeltes Leerzeichen in der Übersetzung vorhanden ist, um "
+"Fehlalarme bei anderen Leerzeichen-bezogenen Prüfungen zu vermeiden."
 
 #: ../../user/checks.rst:167
 msgid ""
 "Check is false when double space is found in source meaning double space is "
 "intentional."
 msgstr ""
+"Die Prüfung ist falsch, wenn in der Ausgangszeichenkette ein doppeltes "
+"Leerzeichen gefunden wird, da dies bedeutet, dass das doppelte Leerzeichen "
+"beabsichtigt ist."
 
 #: ../../user/checks.rst:172
 msgid "Fluent parts"
@@ -45027,6 +45043,10 @@ msgid ""
 "all these parts appear within the same block, using Fluent-like syntax to "
 "specify the attributes. For example:"
 msgstr ""
+"Jede Fluent-Nachricht kann einen optionalen Wert (den Haupttextinhalt) und "
+"optionale Attribute haben, von denen jedes ein „Teil“ der Meldung ist. In "
+"Weblate erscheinen alle diese Teile innerhalb desselben Blocks, wobei eine "
+"Fluent-ähnliche Syntax zur Angabe der Attribute verwendet wird. Zum Beispiel:"
 
 #: ../../user/checks.rst:194
 msgid ""
@@ -45035,6 +45055,11 @@ msgid ""
 "that the same attributes used in the source Message also appear in the "
 "translation, with no additions."
 msgstr ""
+"Diese Prüfung stellt sicher, dass die übersetzte Nachricht auch einen Wert "
+"hat, wenn die Quellnachricht einen hat, oder keinen Wert, wenn die Quelle "
+"keinen hat. Außerdem wird geprüft, ob die gleichen Attribute, die in der "
+"Quellnachricht verwendet werden, auch in der Übersetzung vorkommen, ohne "
+"dass etwas hinzugefügt wird."
 
 #: ../../user/checks.rst:201
 msgid ""
@@ -45042,6 +45067,10 @@ msgid ""
 "and Term attributes tend to be locale-specific (used for grammar rules, "
 "etc.), and are not expected to appear in all translations."
 msgstr ""
+"Diese Prüfung wird nicht auf Fluent-Begriffe angewendet, da Begriffe immer "
+"einen Wert haben und ihre Attribute in der Regel gebietsschemaspezifisch "
+"sind (für Grammatikregeln usw.) und nicht in allen Übersetzungen vorkommen "
+"sollen."
 
 #: ../../user/checks.rst:207
 msgid ""
@@ -45074,6 +45103,9 @@ msgid ""
 "A Fluent Message or Term can reference another Message, Term, Attribute, or "
 "a variable. For example:"
 msgstr ""
+"Eine Fluent-Nachricht oder ein Fluent-Begriff kann auf eine andere "
+"Nachricht, einen Begriff, ein Attribut oder eine Variable verweisen. Zum "
+"Beispiel:"
 
 #: ../../user/checks.rst:231
 msgid ""
@@ -45084,6 +45116,13 @@ msgid ""
 "additions. For Messages, this will also check that each Attribute in the "
 "translation uses the same references as the matching Attribute in the source."
 msgstr ""
+"Im Allgemeinen wird erwartet, dass übersetzte Nachrichten oder Begriffe die "
+"gleichen Referenzen enthalten wie die Quelle, wenn auch nicht unbedingt in "
+"der gleichen Reihenfolge. Diese Prüfung stellt also sicher, dass die "
+"Übersetzungen dieselben Referenzen in ihrem Wert verwenden wie der "
+"Quellwert, und zwar in derselben Anzahl und ohne Zusätze. Bei Nachrichten "
+"wird auch geprüft, ob jedes Attribut in der Übersetzung die gleichen "
+"Referenzen wie das entsprechende Attribut in der Quelle verwendet."
 
 #: ../../user/checks.rst:238
 msgid ""
@@ -45091,6 +45130,9 @@ msgid ""
 "possible variant in the source must be matched with at least one variant in "
 "the translation with the same references, and vice versa."
 msgstr ""
+"Wenn die Quelle oder Übersetzung Fluent-Select-Ausdrücke enthält, dann muss "
+"jede mögliche Variante in der Quelle mit mindestens einer Variante in der "
+"Übersetzung mit den gleichen Referenzen übereinstimmen und umgekehrt."
 
 #: ../../user/checks.rst:242
 msgid ""
@@ -45100,12 +45142,19 @@ msgid ""
 "the variant's key may have made the reference redundant for that variant. "
 "For example:"
 msgstr ""
+"Wenn eine Variablenreferenz sowohl im Selektor des Select-Ausdrucks als auch "
+"in einer seiner Varianten erscheint, können alle Varianten so betrachtet "
+"werden, als ob sie diese Referenz ebenfalls enthalten. Die Annahme ist, dass "
+"der Schlüssel der Variante die Referenz für diese Variante überflüssig "
+"gemacht hat. Zum Beispiel:"
 
 #: ../../user/checks.rst:255
 msgid ""
 "Here, for the purposes of this check, the ``[one]`` variant will also be "
 "considered to contain the ``$num`` reference."
 msgstr ""
+"Für die Zwecke dieser Prüfung wird davon ausgegangen, dass die Variante "
+"``[one]`` auch die Referenz ``$num`` enthält."
 
 #: ../../user/checks.rst:258
 msgid ""
@@ -45115,12 +45164,20 @@ msgid ""
 "content of the string that the end-user will see, and the presence of a "
 "Select Expression is considered locale-specific. For example:"
 msgstr ""
+"Eine Referenz innerhalb des Selektors des Select-Ausdrucks, die in der "
+"Fluent-Syntax nur eine Variable eines Begriff-Attributs sein kann, zählt "
+"jedoch nicht als erforderliche Referenz, da sie nicht den tatsächlichen "
+"Textinhalt der Zeichenkette abbildet, den der Endbenutzer sehen wird, und "
+"das Vorhandensein eines Select-Ausdrucks als gebietsschemaspezifisch "
+"betrachtet wird. Zum Beispiel:"
 
 #: ../../user/checks.rst:271
 msgid ""
 "Here a reference to ``-term.starts-with-vowel`` is not expected to appear in "
 "translations, but a reference to ``-term`` is."
 msgstr ""
+"Hier wird nicht erwartet, dass ein Verweis auf ``-term.starts-with-vowel`` "
+"in Übersetzungen erscheint, ein Verweis auf ``-term`` hingegen schon."
 
 #: ../../user/checks.rst:276
 msgid ""
@@ -45129,6 +45186,10 @@ msgid ""
 "references.html>`_ `Fluent Select Expressions <https://projectfluent.org/"
 "fluent/guide/selectors.html>`_"
 msgstr ""
+"`Fluent-Variablen <https://projectfluent.org/fluent/guide/variables.html>`_ `"
+"Referenzen auf Fluent-Nachrichten und Fluent-Begriffe <https://projectfluent."
+"org/fluent/guide/references.html>`_ `Fluent-Select-Ausdrücke "
+"<https://projectfluent.org/fluent/guide/selectors.html>`_"
 
 #: ../../user/checks.rst:283
 msgid "Fluent translation inner HTML"
@@ -45155,6 +45216,9 @@ msgid ""
 "This check will verify that the translated value of a Message or Term "
 "contains the same HTML elements as the source value."
 msgstr ""
+"Mit dieser Prüfung wird sichergestellt, dass der übersetzte Wert einer "
+"Nachricht oder eines Begriffs die gleichen HTML-Elemente enthält wie der "
+"Quellwert."
 
 #: ../../user/checks.rst:297
 msgid ""
@@ -45162,6 +45226,9 @@ msgid ""
 "check, then this check will do nothing. Otherwise, the translated value will "
 "also be checked under the same conditions."
 msgstr ""
+"Erstens, wenn der Quellwert die Prüfung :ref:`check-fluent-source-inner-html`"
+"nicht besteht, dann wird diese Prüfung nichts bewirken. Andernfalls wird "
+"auch der übersetzte Wert unter den gleichen Bedingungen geprüft."
 
 #: ../../user/checks.rst:301
 msgid ""
@@ -45174,6 +45241,14 @@ msgid ""
 "there are multiple elements in the value, they need not appear in the same "
 "order in the translation value."
 msgstr ""
+"Zweitens werden die im übersetzten Wert gefundenen HTML-Elemente mit denen "
+"im Quellwert gefundenen verglichen. Zwei Elemente gelten als "
+"übereinstimmend, wenn sie genau denselben Tag-Namen, dieselben Attribute und "
+"Werte haben und alle ihre Vorgänger auf dieselbe Weise übereinstimmen. Durch "
+"diese Prüfung wird sichergestellt, dass alle Elemente in der Quelle irgendwo "
+"in der Übersetzung vorkommen, mit der gleichen *Anzahl* an Vorkommen und "
+"ohne zusätzliche Elemente. Wenn der Wert mehrere Elemente enthält, müssen "
+"diese nicht in der gleichen Reihenfolge im Übersetzungswert erscheinen."
 
 #: ../../user/checks.rst:310
 msgid ""
@@ -45181,6 +45256,9 @@ msgid ""
 "possible variant in the source must be matched with at least one variant in "
 "the translation with the same HTML elements, and vice versa."
 msgstr ""
+"Wenn die Quelle oder Übersetzung Fluent-Select-Ausdrücke enthält, dann muss "
+"jede mögliche Variante in der Quelle mit mindestens einer Variante in der "
+"Übersetzung mit den gleichen HTML-Elementen übereinstimmen und umgekehrt."
 
 #: ../../user/checks.rst:314
 msgid ""
@@ -45189,6 +45267,10 @@ msgid ""
 "name`` elements that appear in the source, or any of the allowed inline "
 "elements like ``<br>``."
 msgstr ""
+"Wenn Fluent in Kombination mit dem Fluent-DOM-Paket verwendet wird, stellt "
+"diese Prüfung sicher, dass die Übersetzung auch alle erforderlichen ``data-"
+"l10n-name``-Elemente enthält, die in der Quelle erscheinen, oder alle "
+"erlaubten Inline-Elemente wie ``<br>``."
 
 #: ../../user/checks.rst:319
 msgid "For example, the following source:"
@@ -45196,11 +45278,11 @@ msgstr "Zum Beispiel die folgende Quelle:"
 
 #: ../../user/checks.rst:325
 msgid "would match with:"
-msgstr ""
+msgstr "würde übereinstimmen mit:"
 
 #: ../../user/checks.rst:331
 msgid "but not:"
-msgstr ""
+msgstr "aber nicht mit:"
 
 #: ../../user/checks.rst:337
 msgid "nor"
@@ -45211,6 +45293,8 @@ msgid ""
 ":ref:`check-fluent-source-inner-html`, `Fluent DOM <https://projectfluent."
 "org/dom-l10n-documentation/overview.html>`_"
 msgstr ""
+":ref:`check-fluent-source-inner-html`, `Fluent DOM <https://projectfluent."
+"org/dom-l10n-documentation/overview.html>`_"
 
 #: ../../user/checks.rst:351
 msgid "Fluent translation syntax"
@@ -45239,6 +45323,11 @@ msgid ""
 "variants, including plurals. This check ensures that the syntax used in the "
 "translation will be valid for Fluent."
 msgstr ""
+"In Weblate verwenden Fluent-Zeichenketten die Fluent-Syntax für Verweise und "
+"Variablen, aber auch für komplexere Funktionen wie die Definition von "
+"Attributen und Selektor-Varianten, einschließlich Pluralformen. Diese "
+"Prüfung stellt sicher, dass die in der Übersetzung verwendete Syntax für "
+"Fluent gültig ist."
 
 #: ../../user/checks.rst:369
 msgid ""
@@ -45247,6 +45336,10 @@ msgid ""
 "mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax."
 "html>`_"
 msgstr ""
+":ref:`check-fluent-source-syntax`, `Fluent-Syntax-Leitfaden "
+"<https://projectfluent.org/fluent/guide/>`_ `Mozilla-Basic-Syntax-Leitfaden "
+"<https://mozilla-l10n.github.io/localizer-documentation/tools/fluent/"
+"basic_syntax.html>`_"
 
 #: ../../user/checks.rst:376
 msgid "Formatted strings"
@@ -46964,8 +47057,8 @@ msgstr ""
 "Tritt ein, wenn der Ausgangstext und die entsprechende Übersetzung identisch "
 "sind, bis hin zu mindestens einer der Pluralformen. Einige Zeichenketten, "
 "die in allen Sprachen vorkommen, werden ignoriert, und verschiedene "
-"Auszeichnungselemente werden entfernt. Dadurch wird die Anzahl der falsch-"
-"positiven Ergebnisse reduziert."
+"Auszeichnungselemente werden entfernt. Dadurch wird die Anzahl der "
+"Fehlalarme reduziert."
 
 #: ../../user/checks.rst:1438
 msgid "This check can help find strings mistakenly untranslated."
@@ -47428,7 +47521,7 @@ msgid ""
 "The Fluent DOM package has further limitations, such as allowed tags and "
 "attributes, which this check will not enforce."
 msgstr ""
-"Das Fluent DOM-Paket hat weitere Einschränkungen, wie z. B. erlaubte Tags "
+"Das Fluent-DOM-Paket hat weitere Einschränkungen, wie z. B. erlaubte Tags "
 "und Attribute, die durch diese Prüfung nicht erzwungen werden."
 
 #: ../../user/checks.rst:1675
@@ -47436,7 +47529,7 @@ msgid ""
 ":ref:`check-fluent-target-inner-html`, `Fluent DOM <https://projectfluent."
 "org/dom-l10n-documentation/overview.html>`_"
 msgstr ""
-":ref:`check-fluent-target-inner-html`, `Fluent-DOM <https://projectfluent."
+":ref:`check-fluent-target-inner-html`, `Fluent DOM <https://projectfluent."
 "org/dom-l10n-documentation/overview.html>`_"
 
 #: ../../user/checks.rst:1681
@@ -47466,6 +47559,11 @@ msgid ""
 "variants, including plurals. This check ensures that the syntax used in "
 "source will be valid for Fluent."
 msgstr ""
+"In Weblate verwenden Fluent-Zeichenketten die Fluent-Syntax für Verweise und "
+"Variablen, aber auch für komplexere Funktionen wie die Definition von "
+"Attributen und Selektor-Varianten, einschließlich Pluralformen. Diese "
+"Prüfung stellt sicher, dass die in der Quelle verwendete Syntax auch für "
+"Fluent gültig ist."
 
 #: ../../user/checks.rst:1699
 msgid ""
