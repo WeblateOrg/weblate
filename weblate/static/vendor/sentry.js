@@ -2967,7 +2967,9 @@ function preventDuplicateSegments(
   reconstructedRoute,
   layerPath,
 ) {
-  const originalUrlSplit = _optionalChain([originalUrl, 'optionalAccess', _14 => _14.split, 'call', _15 => _15('/'), 'access', _16 => _16.filter, 'call', _17 => _17(v => !!v)]);
+  // filter query params
+  const normalizeURL = utils.stripUrlQueryAndFragment(originalUrl || '');
+  const originalUrlSplit = _optionalChain([normalizeURL, 'optionalAccess', _14 => _14.split, 'call', _15 => _15('/'), 'access', _16 => _16.filter, 'call', _17 => _17(v => !!v)]);
   let tempCounter = 0;
   const currentOffset = _optionalChain([reconstructedRoute, 'optionalAccess', _18 => _18.split, 'call', _19 => _19('/'), 'access', _20 => _20.filter, 'call', _21 => _21(v => !!v), 'access', _22 => _22.length]) || 0;
   const result = _optionalChain([layerPath
@@ -13654,7 +13656,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":56,"../eventProcessors.js":58,"../scope.js":69,"@sentry/utils":110}],91:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.81.0';
+const SDK_VERSION = '7.81.1';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -20487,6 +20489,17 @@ function addGlobalListeners(replay) {
     // so we capture it on finish again.
     client.on('finishTransaction', transaction => {
       replay.lastTransaction = transaction;
+    });
+
+    // We want to flush replay
+    client.on('beforeSendFeedback', (feedbackEvent, options) => {
+      const replayId = replay.getSessionId();
+      if (options && options.includeReplay && replay.isEnabled() && replayId) {
+        void replay.flush();
+        if (feedbackEvent.contexts && feedbackEvent.contexts.feedback) {
+          feedbackEvent.contexts.feedback.replay_id = replayId;
+        }
+      }
     });
   }
 }
