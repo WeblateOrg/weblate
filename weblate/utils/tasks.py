@@ -115,6 +115,8 @@ def database_backup():
                 out_text,
                 "--single-transaction",
                 "--skip-lock-tables",
+                # Superuser only, crashes on Alibaba Cloud Database PolarDB
+                "--no-subscriptions",
             ]
 
             if database["HOST"]:
