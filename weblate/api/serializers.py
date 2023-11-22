@@ -377,6 +377,9 @@ class ProjectSerializer(serializers.ModelSerializer):
     languages_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-languages", lookup_field="slug"
     )
+    labels_url = serializers.HyperlinkedIdentityField(
+        view_name="api:project-labels", lookup_field="slug"
+    )
 
     class Meta:
         model = Project
@@ -393,6 +396,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             "categories_url",
             "changes_list_url",
             "languages_url",
+            "labels_url",
             "translation_review",
             "source_review",
             "set_language_team",
@@ -1019,6 +1023,17 @@ class LabelsSerializer(serializers.RelatedField):
                 "Label with this name was not found."
             ) from err
         return label
+
+
+class LabelDetailedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Label
+        fields = (
+            "id",
+            "name",
+            "color"
+        )
+        read_only_fields = ( "project", )
 
 
 class UnitSerializer(serializers.ModelSerializer):
