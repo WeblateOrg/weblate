@@ -92,7 +92,13 @@ def database_backup():
         out_text = data_dir("backups", "database.sql")
 
         if using_postgresql():
-            cmd = ["pg_dump", "--dbname", database["NAME"]]
+            cmd = [
+                "pg_dump",
+                # Superuser only, crashes on Alibaba Cloud Database PolarDB
+                "--no-subscriptions",
+                "--dbname",
+                database["NAME"],
+            ]
 
             if database["HOST"]:
                 cmd.extend(["--host", database["HOST"]])
@@ -115,8 +121,6 @@ def database_backup():
                 out_text,
                 "--single-transaction",
                 "--skip-lock-tables",
-                # Superuser only, crashes on Alibaba Cloud Database PolarDB
-                "--no-subscriptions",
             ]
 
             if database["HOST"]:
