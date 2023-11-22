@@ -85,6 +85,8 @@ jobs:
       run: coverage run ./manage.py migrate --noinput --traceback
     - name: Django checks
       run: coverage run ./manage.py check
+    - name: Demo import
+      run: coverage run ./manage.py import_demo
     - name: Test with Django
       run: coverage run ./manage.py test -v2
     - name: Test wsgi startup
