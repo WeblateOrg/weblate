@@ -1,3 +1,22 @@
+Weblate 5.3
+-----------
+
+Not yet released.
+
+**New features**
+
+**Improvements**
+
+**Bug fixes**
+
+**Compatibility**
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/107?closed=1>`__.
+
 Weblate 5.2.1
 -------------
 
