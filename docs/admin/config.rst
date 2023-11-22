@@ -1628,7 +1628,7 @@ Sentry DSN to use for :ref:`collecting-errors`.
 SENTRY_ENVIRONMENT
 ------------------
 
-Configurures environment for Sentry. Defaults to ``devel``.
+Configures environment for Sentry. Defaults to ``devel``.
 
 .. setting:: SENTRY_PROFILES_SAMPLE_RATE
 
