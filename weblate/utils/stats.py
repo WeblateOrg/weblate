@@ -1141,9 +1141,6 @@ class CategoryLanguageStats(SingleLanguageStats):
 
 class CategoryStats(ParentAggregatingStats):
     def get_update_objects(self):
-        yield self._object.project.stats
-        yield from self._object.project.stats.get_update_objects()
-
         if self._object.category:
             yield self._object.category.stats
             yield from self._object.category.stats.get_update_objects()
@@ -1177,12 +1174,6 @@ class ProjectStats(ParentAggregatingStats):
     @cached_property
     def has_review(self):
         return self._object.enable_review
-
-    @cached_property
-    def category_set(self):
-        return prefetch_stats(
-            self._object.category_set.filter(category=None).only("id", "project")
-        )
 
     @cached_property
     def object_set(self):
