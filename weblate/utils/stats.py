@@ -77,7 +77,14 @@ SOURCE_KEYS = frozenset(
 )
 
 # TODO: Drop in Weblate 5.5
-LEGACY_KEYS = {"unapproved", "unapproved_chars", "unapproved_words", "total_changes"}
+LEGACY_KEYS = {
+    "unapproved",
+    "unapproved_chars",
+    "unapproved_words",
+    "recent_changes",
+    "monthly_changes",
+    "total_changes",
+}
 
 SOURCE_MAP = {
     "source_chars": "all_chars",
