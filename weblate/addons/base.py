@@ -269,7 +269,7 @@ class BaseAddon:
 
     def commit_and_push(
         self, component, files: list[str] | None = None, skip_push: bool = False
-    ):
+    ) -> bool:
         if files is None:
             files = list(
                 chain.from_iterable(
@@ -280,7 +280,7 @@ class BaseAddon:
             files += self.extra_files
         repository = component.repository
         if not files or not repository.needs_commit(files):
-            return
+            return False
         with repository.lock:
             component.commit_files(
                 template=component.addon_message,
@@ -288,6 +288,7 @@ class BaseAddon:
                 files=files,
                 skip_push=skip_push,
             )
+        return True
 
     def render_repo_filename(self, template, translation):
         component = translation.component

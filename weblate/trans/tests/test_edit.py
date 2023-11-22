@@ -1015,3 +1015,9 @@ class EditSourceTest(ViewTestCase):
             self.get_unit("Hello, beautiful world!\n", language="cs").target,
             "Ahoj, světe!\n",
         )
+
+
+class EditSourceAddonTest(EditSourceTest):
+    def create_component(self):
+        # This pulls in cleanup add-on
+        return self.create_android()
