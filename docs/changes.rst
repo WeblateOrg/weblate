@@ -11,6 +11,7 @@ Released on November 22nd 2023.
 
 * Database backups compatibility with Alibaba Cloud Database PolarDB.
 * Crash on loading statistics calculated by previous versions.
+* Sort icons in dark mode.
 
 **Upgrading**
 
