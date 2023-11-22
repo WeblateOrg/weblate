@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -301,6 +303,12 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                 )
                 component.log_info("%s addon failed: %s", self.name, error)
         self.trigger_alerts(component)
+
+    def commit_and_push(
+        self, component, files: list[str] | None = None, skip_push: bool = False
+    ):
+        if super().commit_and_push(component, files=files, skip_push=skip_push):
+            component.create_translations()
 
 
 class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):

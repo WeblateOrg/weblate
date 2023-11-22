@@ -712,25 +712,30 @@ class TranslationFormat:
     def delete_unit(self, ttkit_unit) -> str | None:
         raise NotImplementedError
 
-    def cleanup_unused(self) -> list[str]:
+    def cleanup_unused(self) -> list[str] | None:
         """Removes unused strings, returning list of additional changed files."""
         if not self.template_store:
-            return []
+            return None
         existing = {template.context for template in self.template_store.template_units}
-        changed = False
 
+        changed = False
+        needs_save = False
         result = []
 
         # Iterate over copy of a list as we are changing it when removing units
         for unit in list(self.all_store_units):
             if self.unit_class(self, None, unit).context not in existing:
+                changed = True
                 item = self.delete_unit(unit)
                 if item is not None:
                     result.append(item)
                 else:
-                    changed = True
+                    needs_save = True
 
-        if changed:
+        if not changed:
+            return None
+
+        if needs_save:
             self.save()
         self._invalidate_units()
         return result
@@ -742,20 +747,24 @@ class TranslationFormat:
         Returning list of additional changed files.
         """
         changed = False
-
+        needs_save = False
         result = []
 
         # Iterate over copy of a list as we are changing it when removing units
         for ttkit_unit in list(self.all_store_units):
             target = self.unit_class(self, ttkit_unit, ttkit_unit).target
             if not target or (isinstance(target, list) and not any(target)):
+                changed = True
                 item = self.delete_unit(ttkit_unit)
                 if item is not None:
                     result.append(item)
                 else:
-                    changed = True
+                    needs_save = True
 
-        if changed:
+        if not changed:
+            return None
+
+        if needs_save:
             self.save()
         self._invalidate_units()
         return result

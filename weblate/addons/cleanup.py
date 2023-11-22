@@ -31,7 +31,10 @@ class CleanupAddon(BaseCleanupAddon):
     def update_translations(self, component, previous_head):
         for translation in self.iterate_translations(component):
             filenames = translation.store.cleanup_unused()
+            if filenames is None:
+                continue
             self.extra_files.extend(filenames)
+            translation.store_hash()
 
     def pre_commit(self, translation, author):
         if translation.is_source and not translation.component.intermediate:
@@ -40,7 +43,9 @@ class CleanupAddon(BaseCleanupAddon):
             filenames = translation.store.cleanup_unused()
         except FileParseError:
             return
-        self.extra_files.extend(filenames)
+        if filenames is not None:
+            self.extra_files.extend(filenames)
+            translation.store_hash()
 
 
 class RemoveBlankAddon(BaseCleanupAddon):
@@ -55,7 +60,10 @@ class RemoveBlankAddon(BaseCleanupAddon):
     def update_translations(self, component, previous_head):
         for translation in self.iterate_translations(component):
             filenames = translation.store.cleanup_blank()
+            if filenames is None:
+                continue
             self.extra_files.extend(filenames)
+            translation.store_hash()
 
     def post_commit(self, component):
         self.post_update(component, None, skip_push=True)
