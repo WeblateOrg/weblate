@@ -1028,12 +1028,8 @@ class LabelsSerializer(serializers.RelatedField):
 class LabelDetailedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Label
-        fields = (
-            "id",
-            "name",
-            "color"
-        )
-        read_only_fields = ( "project", )
+        fields = ("id", "name", "color")
+        read_only_fields = ("project",)
 
 
 class UnitSerializer(serializers.ModelSerializer):

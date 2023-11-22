@@ -89,7 +89,6 @@ from weblate.trans.models import (
     Suggestion,
     Translation,
     Unit,
-    Label
 )
 from weblate.trans.tasks import (
     auto_translate,
@@ -780,7 +779,9 @@ class ProjectViewSet(
         queryset = obj.label_set.all()
         page = self.paginate_queryset(queryset)
 
-        serializer = LabelDetailedSerializer(page, many=True, context={"request": request})
+        serializer = LabelDetailedSerializer(
+            page, many=True, context={"request": request}
+        )
 
         return self.get_paginated_response(serializer.data)
 
