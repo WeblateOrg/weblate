@@ -92,7 +92,7 @@ class WeblateBuild(build):
 
 setup(
     name="Weblate",
-    version="5.2",
+    version="5.2.1",
     python_requires=">=3.9",
     packages=find_packages(),
     include_package_data=True,
