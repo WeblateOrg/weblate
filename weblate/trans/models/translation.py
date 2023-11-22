@@ -570,8 +570,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         - signals and alerts are updated by the caller
         - repository push is handled by the caller
         """
-        self.log_info("committing pending changes (%s)", reason)
-
         try:
             store = self.store
         except FileParseError as error:
@@ -595,6 +593,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             .prefetch_recent_content_changes()
             .select_for_update()
         )
+
+        self.log_info("committing %d pending changes (%s)", len(units), reason)
 
         for unit in units:
             # We reuse the queryset, so pending units might reappear here
