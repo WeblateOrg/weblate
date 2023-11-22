@@ -1039,12 +1039,6 @@ class ProjectLanguageStats(SingleLanguageStats):
         return self.project.source_review or self.project.translation_review
 
     @cached_property
-    def category_set(self):
-        if self._project_stats:
-            return self._project_stats.category_set
-        return prefetch_stats(self.project.category_set.only("id", "project"))
-
-    @cached_property
     def object_set(self):
         return prefetch_stats(
             self.language.translation_set.filter(component__project=self.project).only(
