@@ -1922,6 +1922,16 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     @perform_on_link
     def commit_pending(self, reason: str, user, skip_push: bool = False):
         """Check whether there is any translation to be committed."""
+
+        def reuse_self(translation):
+            if translation.component_id == self.id:
+                translation.component = self
+            if translation.component.linked_component_id == self.id:
+                translation.component.linked_component = self
+            if translation.pk == translation.component.source_translation.pk:
+                translation = translation.component.source_translation
+            return translation
+
         # Get all translation with pending changes, source translation first
         translations = sorted(
             Translation.objects.filter(unit__pending=True)
@@ -1931,6 +1941,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             key=lambda translation: not translation.is_source,
         )
         components = {}
+        source_components = []
+        translation_pks = []
 
         if not translations:
             return True
@@ -1951,17 +1963,23 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # Commit pending changes
         with self.repository.lock:
             for translation in translations:
-                if translation.component_id == self.id:
-                    translation.component = self
-                if translation.component.linked_component_id == self.id:
-                    translation.component.linked_component = self
-                if translation.pk == translation.component.source_translation.pk:
-                    translation = translation.component.source_translation
+                translation_pks.append(translation.pk)
+                translation = reuse_self(translation)
                 with sentry_sdk.start_span(
                     op="commit_pending", description=translation.full_slug
                 ):
                     translation._commit_pending(reason, user)
                 components[translation.component.pk] = translation.component
+                if translation.is_source:
+                    source_components.append(translation.component)
+
+            # Update hash of other translations, otherwise they would be seen as having change
+            if self.has_template():
+                for component in source_components:
+                    for translation in component.translation_set.exclude(
+                        pk__in=translation_pks
+                    ):
+                        translation.store_hash()
 
         # Fire postponed post commit signals
         for component in components.values():
