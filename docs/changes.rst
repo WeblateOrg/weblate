@@ -14,6 +14,7 @@ Released on November 22nd 2023.
 * Crash on loading statistics calculated by previous versions.
 * Sort icons in dark mode.
 * Project level statistics no longer count categorized components twice.
+* Possible discarding pending translations after editing source strings.
 
 **Upgrading**
 
