@@ -10,6 +10,7 @@ Not yet released.
 **Bug fixes**
 
 * Database backups compatibility with Alibaba Cloud Database PolarDB.
+* Crash on loading statistics calculated by previous versions.
 
 **Upgrading**
 
