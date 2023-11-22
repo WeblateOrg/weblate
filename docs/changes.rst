@@ -3,13 +3,13 @@ Weblate 5.2.1
 
 Not yet released.
 
-**New features**
-
 **Improvements**
+
+* Show search field after no strings found while translating.
 
 **Bug fixes**
 
-**Compatibility**
+* Database backups compatibility with Alibaba Cloud Database PolarDB.
 
 **Upgrading**
 
