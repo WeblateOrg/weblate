@@ -6,6 +6,7 @@ Released on November 22nd 2023.
 **Improvements**
 
 * Show search field after no strings found while translating.
+* Added soft hyphen to special characters toolbar.
 
 **Bug fixes**
 
