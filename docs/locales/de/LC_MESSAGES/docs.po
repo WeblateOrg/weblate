@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 19:18+0100\n"
-"PO-Revision-Date: 2023-11-22 07:03+0000\n"
+"PO-Revision-Date: 2023-11-23 12:55+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.2\n"
+"X-Generator: Weblate 5.2.1-rc\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -30241,7 +30241,7 @@ msgstr "Ansichten für die Sprachverwaltung hinzugefügt."
 #: ../../changes/v3.rst:231
 msgid "Add checks for Qt library and Ruby format strings."
 msgstr ""
-"Qualitätsprüfungen für Qt-Bibliothek und Ruby-Formatzeichenketten "
+"Qualitätsprüfungen für Qt-Bibliothek und Ruby-Format-Zeichenketten "
 "hinzugefügt."
 
 #: ../../changes/v3.rst:232
@@ -32301,7 +32301,7 @@ msgstr "Das Audit-Protokoll für Einladungs-E-Mails für Benutzer korrigiert."
 
 #: ../../changes/v4.rst:344
 msgid "Fixed flag names for Java formatting strings."
-msgstr "Markierungsnamen für Java-Formatierungszeichenketten korrigiert."
+msgstr "Name der Markierung für JavaScript-Format-Zeichenketten korrigiert."
 
 #: ../../changes/v4.rst:346
 msgid ""
@@ -45351,6 +45351,10 @@ msgid ""
 "translation. Omitting format strings in translation usually causes severe "
 "problems, so the formatting in strings should usually match the source."
 msgstr ""
+"Prüft, ob die Formatierung von Zeichenketten in Quelle und Übersetzung "
+"übereinstimmt. Das Weglassen von Formatzeichenketten in der Übersetzung "
+"führt in der Regel zu schwerwiegenden Problemen, daher sollte die "
+"Formatierung in Zeichenketten in der Regel mit der Quelle übereinstimmen."
 
 #: ../../user/checks.rst:382
 msgid ""
@@ -45374,6 +45378,11 @@ msgid ""
 "these cases (`One apple` instead of `%d apple`). Turn this off by adding "
 "``strict-format`` flag."
 msgstr ""
+"Die meisten Formatprüfungen erlauben es, Formatzeichenketten für "
+"Pluralformen mit einfacher Anzahl wegzulassen. Dies erlaubt Übersetzern, "
+"schönere Zeichenketten für diese Fälle zu schreiben (`Ein Apfel` anstatt `%d "
+"Apfel`). Ausschalten, indem die Markierung ``strict-format`` hinzugefügt "
+"wird."
 
 #: ../../user/checks.rst:392
 msgid ""
@@ -45382,18 +45391,26 @@ msgid ""
 "false positives in case the string is not interpreted as a formatting "
 "string, but format string syntax happens to be used."
 msgstr ""
+"Die Markierungen können pro Zeichenkette (siehe :ref:`additional`) oder in "
+"einer :ref:`component` angepasst werden. Die Definition pro Komponente ist "
+"einfacher, kann aber zu Fehlalarmen führen, wenn die Zeichenkette nicht als "
+"Formatzeichenkette interpretiert wird, doch jene Syntax verwendet."
 
 #: ../../user/checks.rst:399
 msgid ""
 "In case specific format check is not available in Weblate, you can use "
 "generic :ref:`check-placeholders`."
 msgstr ""
+"Für den Fall, dass eine spezifische Formatprüfung in Weblate nicht verfügbar "
+"ist, können allgemeine :ref:`check-placeholders` verwendet werden."
 
 #: ../../user/checks.rst:402
 msgid ""
 "Besides checking, this will also highlight the formatting strings to easily "
 "insert them into translated strings:"
 msgstr ""
+"Neben der Überprüfung werden auch die Formatzeichenketten hervorgehoben, um "
+"sie leicht in die übersetzten Zeichenketten einzufügen:"
 
 #: ../../user/checks.rst:410
 msgid "AngularJS interpolation string"
@@ -45530,7 +45547,7 @@ msgstr "Beispiel für Interpolation"
 
 #: ../../user/checks.rst:474
 msgid "``There are ${number} apples``"
-msgstr ""
+msgstr "``There are ${number} apples``"
 
 #: ../../user/checks.rst:478
 msgid ""
@@ -45597,7 +45614,7 @@ msgstr "``icu_message_format``"
 
 #: ../../user/checks.rst:516
 msgid "``There {number, plural, one {is one apple} other {are # apples}}.``"
-msgstr ""
+msgstr "``There {number, plural, one {is one apple} other {are # apples}}.``"
 
 #: ../../user/checks.rst:518
 msgid ""
@@ -45607,6 +45624,12 @@ msgid ""
 "certain sub-checks. For example, the following flag enables XML support "
 "while disabling validation of plural sub-messages:"
 msgstr ""
+"Diese Prüfung unterstützt sowohl reine ICU-MessageFormat-Nachrichten als "
+"auch ICU mit einfachen XML-Tags. Das Verhalten dieser Prüfung kann mit ``icu-"
+"flags:*`` konfiguriert werden, indem man entweder die XML-Unterstützung "
+"aktiviert oder bestimmte Unterprüfungen deaktiviert. Die folgende Markierung "
+"aktiviert zum Beispiel die XML-Unterstützung und deaktiviert die Validierung "
+"von mehreren Teilnachrichten:"
 
 #: ../../user/checks.rst:528
 msgid "``xml``"
@@ -45617,6 +45640,9 @@ msgid ""
 "Enable support for simple XML tags. By default, XML tags are parsed loosely. "
 "Stray ``<`` characters are ignored if they are not reasonably part of a tag."
 msgstr ""
+"Aktiviert die Unterstützung für einfache XML-Tags. Standardmäßig werden XML-"
+"Tags lose analysiert. Vereinzelte ``<``-Zeichen werden ignoriert, wenn sie "
+"nicht sinnvoller Teil eines Tags sind."
 
 #: ../../user/checks.rst:532
 msgid "``strict-xml``"
@@ -45627,6 +45653,8 @@ msgid ""
 "Enable support for strict XML tags. All ``<`` characters must be escaped if "
 "they are not part of a tag."
 msgstr ""
+"Aktiviert die Unterstützung für strikte XML-Tags. Alle ``<``-Zeichen müssen "
+"maskiert werden, wenn sie nicht Teil eines Tags sind."
 
 #: ../../user/checks.rst:535
 msgid "``-highlight``"
@@ -45634,7 +45662,7 @@ msgstr "``-highlight``"
 
 #: ../../user/checks.rst:535
 msgid "Disable highlighting placeholders in the editor."
-msgstr "Die Hervorhebung von Platzhaltern im Editor deaktivieren."
+msgstr "Deaktiviert das Hervorheben von Platzhaltern im Editor."
 
 #: ../../user/checks.rst:537
 msgid "``-require_other``"
@@ -45643,6 +45671,8 @@ msgstr "``-require_other``"
 #: ../../user/checks.rst:537
 msgid "Disable requiring sub-messages to have an ``other`` selector."
 msgstr ""
+"Deaktiviert die Anforderung, dass Unternachrichten einen ``other``-Selektor "
+"haben müssen."
 
 #: ../../user/checks.rst:540
 msgid "``-submessage_selectors``"
@@ -45651,6 +45681,8 @@ msgstr "``-submessage_selectors``"
 #: ../../user/checks.rst:540
 msgid "Skip checking that sub-message selectors match the source."
 msgstr ""
+"Überspringt die Prüfung, ob die Selektoren der Unternachrichten mit der "
+"Ausgangszeichenkette übereinstimmen."
 
 #: ../../user/checks.rst:542
 msgid "``-types``"
@@ -45659,7 +45691,7 @@ msgstr "``-types``"
 #: ../../user/checks.rst:542
 msgid "Skip checking that placeholder types match the source."
 msgstr ""
-"Die Prüfung überspringen, ob Platzhaltertypen mit der Ausgangszeichenkette "
+"Überspringt die Prüfung, ob Platzhaltertypen mit der Ausgangszeichenkette "
 "übereinstimmen."
 
 #: ../../user/checks.rst:544
@@ -45671,7 +45703,7 @@ msgid ""
 "Skip checking that no placeholders are present that were not present in the "
 "source string."
 msgstr ""
-"Die Prüfung überspringen, ob Platzhalter vorhanden sind, die in der "
+"Überspringt die Prüfung, ob Platzhalter vorhanden sind, die in der "
 "Ausgangszeichenkette nicht vorhanden waren."
 
 #: ../../user/checks.rst:547
@@ -45683,7 +45715,7 @@ msgid ""
 "Skip checking that no placeholders are missing that were present in the "
 "source string."
 msgstr ""
-"Die Prüfung überspringen, ob keine Platzhalter fehlen, die in der "
+"Überspringt die Prüfung, ob Platzhalter fehlen, die in der "
 "Ausgangszeichenkette vorhanden waren."
 
 #: ../../user/checks.rst:551
@@ -45693,12 +45725,19 @@ msgid ""
 "start with a specific string. For example, the following flag will only "
 "allow XML tags to be matched if they start with ``<x:``:"
 msgstr ""
+"Wenn ``strict-xml`` nicht aktiviert und ``xml`` aktiviert ist, kann außerdem "
+"die Markierung ``icu-tag-prefix:PREFIX`` verwendet werden, um zu verlangen, "
+"dass alle XML-Tags mit einer bestimmten Zeichenkette beginnen. Mit der "
+"folgenden Markierung können beispielsweise nur XML-Tags abgeglichen werden, "
+"die mit ``<x:`` beginnen:"
 
 #: ../../user/checks.rst:560
 msgid ""
 "This would match ``<x:link>click here</x:link>`` but not ``<strong>this</"
 "strong>``."
 msgstr ""
+"Dies würde ``<x:link>click here</x:link>`` entsprechen, aber nicht "
+"``<strong>this</strong>``."
 
 #: ../../user/checks.rst:564
 msgid ""
