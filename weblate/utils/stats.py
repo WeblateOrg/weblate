@@ -288,6 +288,7 @@ class BaseStats:
         # This preserves ordering so that closest ones are updated first.
         if self._collected_update_objects is not None:
             stat_objects = self._collected_update_objects
+            self._collected_update_objects = None
         else:
             stat_objects = self._get_update_objects_dict()
         if extra_objects:
