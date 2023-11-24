@@ -65,6 +65,7 @@ class MachineTranslation:
     settings_form = None
     validate_payload = ("en", "de", "test", None, None, 75)
     request_timeout = 5
+    is_available = True
 
     @classmethod
     def get_rank(cls):
