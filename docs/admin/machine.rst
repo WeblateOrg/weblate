@@ -369,6 +369,47 @@ This service uses an API, and you need to obtain key and secret from NetEase.
 
     `NetEase Sight Translation Platform <https://sight.youdao.com/>`_
 
+.. _mt-openai:
+
+OpenAI
+------
+
+:Service ID: ``openai``
+:Configuration: +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``key``     | API key            |                                                                                                                           |
+                +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``model``   | OpenAI model       | Available choices:                                                                                                        |
+                |             |                    |                                                                                                                           |
+                |             |                    | ``auto`` -- Automatic selection                                                                                           |
+                |             |                    |                                                                                                                           |
+                |             |                    | ``gpt-4-1106-preview`` -- GPT-4 Turbo                                                                                     |
+                |             |                    |                                                                                                                           |
+                |             |                    | ``gpt-4`` -- GPT-4                                                                                                        |
+                |             |                    |                                                                                                                           |
+                |             |                    | ``gpt-3.5-turbo`` -- GPT-3.5 Turbo                                                                                        |
+                +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona`` | Translator persona | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
+                +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``   | Translator style   | Describe the style of translation. For example: “Use informal language.”                                                  |
+                +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
+
+Performs translation using `OpenAI`_.
+
+The OpenAI API is powered by a diverse set of models with different
+capabilities and price points. Automatic selection chooses the best model
+available, but you might want to choose a specific model that matches your needs.
+
+Use persona and style fields to further fine-tune translations. These will be
+used in a prompt for OpenAI and allow you to change the style of the
+translations.
+
+.. seealso::
+
+   `OpenAI models <https://platform.openai.com/docs/models>`_,
+   `OpenAI API keys <https://platform.openai.com/account/api-keys>`_
+
+.. _OpenAI: https://openai.com/
+
 .. _mt-sap-translation-hub:
 
 SAP Translation Hub

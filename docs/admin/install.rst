@@ -222,6 +222,9 @@ Django REST Framework
        - `mysqlclient <https://pypi.org/project/mysqlclient>`_
        - MySQL or MariaDB, see :ref:`database-setup`
 
+     * - ``OpenAI``
+       - `openai <https://pypi.org/project/openai>`_
+       - :ref:`mt-openai`
 
      * - ``Postgres``
        - `psycopg <https://pypi.org/project/psycopg>`_
