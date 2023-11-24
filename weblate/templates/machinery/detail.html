@@ -11,5 +11,9 @@
   {% endif %}
 {% endif %}
 {{ service.name }}
-{% documentation_icon "admin/machine" service.doc_anchor %}
+{% if service.is_available %}
+  {% documentation_icon "admin/machine" service.doc_anchor %}
+{% else %}
+  <span class="badge badge-danger">{% trans "Service is no longer available" %}</span>
+{% endif %}
 </h4>

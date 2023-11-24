@@ -243,23 +243,6 @@ and there are several mirrors available to use the API for free.
     `LibreTranslate repository <https://github.com/LibreTranslate/LibreTranslate>`_,
     `LibreTranslate mirrors <https://github.com/LibreTranslate/LibreTranslate#user-content-mirrors>`_
 
-.. _mt-microsoft-terminology:
-
-Microsoft Terminology
----------------------
-
-:Service ID: ``microsoft-terminology``
-:Configuration: `This service has no configuration.`
-
-The Microsoft Terminology Service API allows you to programmatically access the
-terminology, definitions and user interface (UI) strings available in the
-Language Portal through a web service.
-
-.. seealso::
-
-    `Microsoft language resources <https://learn.microsoft.com/en-us/globalization/reference/microsoft-language-resources>`_
-
-
 .. _mt-microsoft-translator:
 
 Microsoft Translator

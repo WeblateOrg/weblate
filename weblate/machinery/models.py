@@ -23,7 +23,6 @@ class WeblateConf(AppConf):
         "weblate.machinery.googlev3.GoogleV3Translation",
         "weblate.machinery.libretranslate.LibreTranslateTranslation",
         "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
-        "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
         "weblate.machinery.modernmt.ModernMTTranslation",
         "weblate.machinery.mymemory.MyMemoryTranslation",
         "weblate.machinery.netease.NeteaseSightTranslation",

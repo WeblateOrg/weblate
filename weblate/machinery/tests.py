@@ -43,10 +43,6 @@ from weblate.machinery.googlev3 import GoogleV3Translation
 from weblate.machinery.ibm import IBMTranslation
 from weblate.machinery.libretranslate import LibreTranslateTranslation
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
-from weblate.machinery.microsoftterminology import (
-    MST_API_URL,
-    MicrosoftTerminologyService,
-)
 from weblate.machinery.modernmt import ModernMTTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
@@ -151,111 +147,6 @@ SAPTRANSLATIONHUB_JSON = {
     ]
 }
 
-TERMINOLOGY_LANGUAGES = b"""
-<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
-  <s:Body>
-    <GetLanguagesResponse xmlns="https://api.terminology.microsoft.com/terminology">
-      <GetLanguagesResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-        <Language>
-          <Code>af-za</Code>
-        </Language>
-        <Language>
-          <Code>am-et</Code>
-        </Language>
-        <Language>
-          <Code>ar-dz</Code>
-        </Language>
-        <Language>
-          <Code>ar-eg</Code>
-        </Language>
-        <Language>
-          <Code>ar-sa</Code>
-        </Language>
-        <Language>
-          <Code>as-in</Code>
-        </Language>
-        <Language>
-          <Code>az-latn-az</Code>
-        </Language>
-        <Language>
-          <Code>be-by</Code>
-        </Language>
-        <Language>
-          <Code>bg-bg</Code>
-        </Language>
-        <Language>
-          <Code>bn-bd</Code>
-        </Language>
-        <Language>
-          <Code>bn-in</Code>
-        </Language>
-        <Language>
-          <Code>bs-cyrl-ba</Code>
-        </Language>
-        <Language>
-          <Code>bs-latn-ba</Code>
-        </Language>
-        <Language>
-          <Code>ca-es</Code>
-        </Language>
-        <Language>
-          <Code>ca-es-valencia</Code>
-        </Language>
-        <Language>
-          <Code>chr-cher-us</Code>
-        </Language>
-        <Language>
-          <Code>cs-cz</Code>
-        </Language>
-        <Language>
-          <Code>en-us</Code>
-        </Language>
-      </GetLanguagesResult>
-    </GetLanguagesResponse>
-  </s:Body>
-</s:Envelope>
-"""
-TERMINOLOGY_TRANSLATE = b"""
-<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
-  <s:Body>
-    <GetTranslationsResponse xmlns="https://api.terminology.microsoft.com/terminology">
-      <GetTranslationsResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-        <Match>
-          <ConfidenceLevel>100</ConfidenceLevel>
-          <Count>8</Count>
-          <Definition i:nil="true"/>
-          <OriginalText>Hello World</OriginalText>
-          <Product i:nil="true"/>
-          <ProductVersion i:nil="true"/>
-          <Source i:nil="true"/>
-          <Translations>
-            <Translation>
-              <Language>cs-cz</Language>
-              <TranslatedText>Hello World</TranslatedText>
-            </Translation>
-          </Translations>
-        </Match>
-        <Match>
-          <ConfidenceLevel>100</ConfidenceLevel>
-          <Count>1</Count>
-          <Definition i:nil="true"/>
-          <OriginalText>Hello world.</OriginalText>
-          <Product i:nil="true"/>
-          <ProductVersion i:nil="true"/>
-          <Source i:nil="true"/>
-          <Translations>
-            <Translation>
-              <Language>cs-cz</Language>
-              <TranslatedText>Ahoj sv&#x11B;te.</TranslatedText>
-            </Translation>
-          </Translations>
-        </Match>
-      </GetTranslationsResult>
-    </GetTranslationsResponse>
-  </s:Body>
-</s:Envelope>
-"""
-TERMINOLOGY_WDSL = get_test_file("microsoftterminology.wsdl")
 
 with open(get_test_file("googlev3.json")) as handle:
     GOOGLEV3_KEY = handle.read()
@@ -616,56 +507,6 @@ class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest)
             "https://api.cognitive.microsofttranslator.com/"
             "translate?api-version=3.0&from=en&to=cs&category=general",
             json=MICROSOFT_RESPONSE,
-        )
-
-
-class MicrosoftTerminologyServiceTest(BaseMachineTranslationTest):
-    MACHINE_CLS = MicrosoftTerminologyService
-    ENGLISH = "en-us"
-    SUPPORTED = "cs-cz"
-    EXPECTED_LEN = 2
-
-    def mock_empty(self):
-        raise SkipTest("Not tested")
-
-    def mock_error(self):
-        self.mock_response(fail=True)
-
-    def mock_response(self, fail=False):
-        def request_callback_get(request):
-            headers = {}
-            if request.path_url == "/Terminology.svc?wsdl":
-                with open(TERMINOLOGY_WDSL, "rb") as handle:
-                    return (200, headers, handle.read())
-            if request.path_url.startswith("/Terminology.svc?wsdl="):
-                suffix = request.path_url[22:]
-                with open(TERMINOLOGY_WDSL + "." + suffix, "rb") as handle:
-                    return (200, headers, handle.read())
-            if request.path_url.startswith("/Terminology.svc?xsd="):
-                suffix = request.path_url[21:]
-                with open(TERMINOLOGY_WDSL + "." + suffix, "rb") as handle:
-                    return (200, headers, handle.read())
-            return (500, headers, "")
-
-        def request_callback_post(request):
-            headers = {}
-            if fail:
-                return (500, headers, "")
-            if b"GetLanguages" in request.body:
-                return (200, headers, TERMINOLOGY_LANGUAGES)
-            return (200, headers, TERMINOLOGY_TRANSLATE)
-
-        responses.add_callback(
-            responses.GET,
-            MST_API_URL,
-            callback=request_callback_get,
-            content_type="text/xml",
-        )
-        responses.add_callback(
-            responses.POST,
-            MST_API_URL,
-            callback=request_callback_post,
-            content_type="text/xml",
         )
 
 
@@ -1534,11 +1375,6 @@ class ViewsTest(FixtureTestCase):
             ).exists()
         )
 
-        response = self.client.post(
-            reverse("machinery-edit", kwargs={"machinery": "INVALID"}), {"install": "1"}
-        )
-        self.assertEqual(response.status_code, 404)
-
     def test_configure_project(self):
         service = self.ensure_dummy_mt()
         list_url = reverse("machinery-list", kwargs={"project": self.project.slug})
@@ -1573,6 +1409,31 @@ class ViewsTest(FixtureTestCase):
         )
         project = Project.objects.get(pk=self.component.project_id)
         self.assertNotIn("dummy", project.machinery_settings)
+
+    def test_configure_invalid(self):
+        self.user.is_superuser = True
+        self.user.save()
+
+        identifier = "nonexisting"
+        Setting.objects.create(category=Setting.CATEGORY_MT, name=identifier, value={})
+        list_url = reverse("manage-machinery")
+        edit_url = reverse("machinery-edit", kwargs={"machinery": identifier})
+        response = self.client.get(list_url)
+        self.assertContains(response, edit_url)
+
+        self.client.post(edit_url, {"delete": "1"})
+        self.assertFalse(
+            Setting.objects.filter(
+                category=Setting.CATEGORY_MT, name=identifier
+            ).exists()
+        )
+        response = self.client.post(edit_url, {"install": "1"})
+        self.assertEqual(response.status_code, 404)
+        self.assertFalse(
+            Setting.objects.filter(
+                category=Setting.CATEGORY_MT, name=identifier
+            ).exists()
+        )
 
 
 class CommandTest(FixtureTestCase):

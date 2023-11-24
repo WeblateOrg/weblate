@@ -238,11 +238,6 @@ Django REST Framework
        - :ref:`saml-auth`
 
 
-     * - ``MSTerminology``
-       - `zeep <https://pypi.org/project/zeep>`_
-       - :ref:`mt-microsoft-terminology`
-
-
 When installing using pip, you can directly specify desired features when installing:
 
 .. code-block:: sh

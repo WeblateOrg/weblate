@@ -11,6 +11,8 @@ Not yet released.
 
 **Compatibility**
 
+* Dropped Microsoft Terminology service for automatic suggestions as it is no longer provided by Microsoft.
+
 **Upgrading**
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
