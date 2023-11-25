@@ -776,7 +776,7 @@ class ProjectViewSet(
                     status=HTTP_201_CREATED,
                 )
 
-        queryset = obj.label_set.all()
+        queryset = obj.label_set.all().order_by("id")
         page = self.paginate_queryset(queryset)
 
         serializer = LabelSerializer(
