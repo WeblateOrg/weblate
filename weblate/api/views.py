@@ -779,9 +779,7 @@ class ProjectViewSet(
         queryset = obj.label_set.all().order_by("id")
         page = self.paginate_queryset(queryset)
 
-        serializer = LabelSerializer(
-            page, many=True, context={"request": request}
-        )
+        serializer = LabelSerializer(page, many=True, context={"request": request})
 
         return self.get_paginated_response(serializer.data)
 

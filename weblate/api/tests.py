@@ -25,7 +25,6 @@ from weblate.trans.models import (
     Project,
     Translation,
     Unit,
-    Label,
 )
 from weblate.trans.tests.test_models import fixup_languages_seq
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
