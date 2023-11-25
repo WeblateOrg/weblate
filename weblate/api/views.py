@@ -51,7 +51,7 @@ from weblate.api.serializers import (
     ComponentSerializer,
     FullUserSerializer,
     GroupSerializer,
-    LabelDetailedSerializer,
+    LabelSerializer,
     LanguageSerializer,
     LockRequestSerializer,
     LockSerializer,
@@ -766,7 +766,7 @@ class ProjectViewSet(
             if not request.user.has_perm("project.edit", obj):
                 self.permission_denied(request, "Can not create labels")
             with transaction.atomic():
-                serializer = LabelDetailedSerializer(
+                serializer = LabelSerializer(
                     data=request.data, context={"request": request, "project": obj}
                 )
                 serializer.is_valid(raise_exception=True)
@@ -779,7 +779,7 @@ class ProjectViewSet(
         queryset = obj.label_set.all()
         page = self.paginate_queryset(queryset)
 
-        serializer = LabelDetailedSerializer(
+        serializer = LabelSerializer(
             page, many=True, context={"request": request}
         )
 
