@@ -7,6 +7,7 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING
 
+import sentry_sdk
 from django.http import Http404
 from django.utils.html import conditional_escape, format_html, format_html_join
 from django.utils.translation import gettext
@@ -206,6 +207,10 @@ class BatchCheckMixin:
         raise NotImplementedError
 
     def perform_batch(self, component):
+        with sentry_sdk.start_span(op="check.perform_batch", description=self.check_id):
+            self._perform_batch(component)
+
+    def _perform_batch(self, component):
         from weblate.checks.models import Check
         from weblate.trans.models import Component
 
