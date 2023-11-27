@@ -802,9 +802,7 @@ class AggregatingStats(BaseStats):
             # Extract all values by dedicated getter
             values = (stats_obj.aggregate_get(item) for stats_obj in all_stats)
 
-            if item == "stats_timestamp":
-                stats[item] = max(values, default=stats[item])
-            elif item == "last_changed":
+            if item == "last_changed":
                 # We need to access values twice here
                 values = list(values)
                 stats[item] = max_last_changed = max(
