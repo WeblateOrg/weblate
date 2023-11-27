@@ -23,7 +23,7 @@ from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
-from weblate.utils.hash import calculate_hash
+from weblate.utils.hash import calculate_dict_hash, calculate_hash
 from weblate.utils.requests import request
 from weblate.utils.search import Comparer
 from weblate.utils.site import get_site_url
@@ -254,13 +254,23 @@ class MachineTranslation:
             return True
         return False
 
-    def translate_cache_key(self, source, language, text, threshold):
-        return "mt:{}:{}:{}:{}".format(
-            self.mtid,
-            calculate_hash(source, language),
-            calculate_hash(text),
-            threshold,
-        )
+    def get_cache_key(self, scope: str = "translation", *parts) -> str:
+        """
+        Cache key for caching translations.
+
+        Used to avoid fetching same translations again.
+
+        This includes project ID for project scoped entries via
+        Project.get_machinery_settings.
+        """
+        key = ["mt", self.mtid, scope, str(calculate_dict_hash(self.settings))]
+        for part in parts:
+            if isinstance(part, int):
+                key.append(str(part))
+            else:
+                key.append(str(calculate_hash(part)))
+
+        return ":".join(key)
 
     def unescape_text(self, text: str):
         """Unescaping of the text with replacements."""
@@ -342,7 +352,7 @@ class MachineTranslation:
     def get_cached(self, source, language, text, threshold, replacements):
         if not self.cache_translations:
             return None, None
-        cache_key = self.translate_cache_key(source, language, text, threshold)
+        cache_key = self.get_cache_key(source, language, text, threshold)
         result = cache.get(cache_key)
         if result and (replacements or self.force_uncleanup):
             self.uncleanup_results(replacements, result)

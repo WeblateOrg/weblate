@@ -566,6 +566,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
                     del settings[item]
             else:
                 settings[item] = value
+                # Include project field so that different projects do not share
+                # cache keys via MachineTranslation.translate_cache_key when service
+                # is installed at project level.
+                settings[item]["_project"] = self.pk
         return settings
 
     def list_backups(self):

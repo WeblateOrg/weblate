@@ -325,6 +325,13 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             ],
         )
 
+    def test_key(self):
+        machine_translation = self.get_machine()
+        self.assertEqual(
+            machine_translation.get_cache_key("test"),
+            "mt:dummy:test:11364700946005001116",
+        )
+
 
 class GlosbeTranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS = GlosbeTranslation
