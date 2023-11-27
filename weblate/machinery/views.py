@@ -169,10 +169,16 @@ class ListMachineryProjectView(MachineryProjectMixin, ListMachineryView):
         for service, configuration in self.global_settings_dict.items():
             if service in project_settings:
                 continue
-            machinery = MACHINERY[service]
-            yield MachineryConfiguration(
-                machinery, configuration, sitewide=True, project=self.project
-            )
+            try:
+                machinery = MACHINERY[service]
+            except KeyError:
+                yield MachineryConfiguration(
+                    DeprecatedMachinery(service), configuration, project=self.project
+                )
+            else:
+                yield MachineryConfiguration(
+                    machinery, configuration, sitewide=True, project=self.project
+                )
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_perm("project.edit", self.project):
