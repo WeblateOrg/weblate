@@ -1151,9 +1151,7 @@ class CategoryStats(ParentAggregatingStats):
 
     @cached_property
     def object_set(self):
-        return prefetch_stats(
-            self._object.component_set.only("id", "category").prefetch_source_stats()
-        )
+        return prefetch_stats(self._object.component_set.only("id", "category"))
 
     @cached_property
     def category_set(self):
@@ -1179,9 +1177,7 @@ class ProjectStats(ParentAggregatingStats):
 
     @cached_property
     def object_set(self):
-        return prefetch_stats(
-            self._object.component_set.only("id", "project").prefetch_source_stats()
-        )
+        return prefetch_stats(self._object.component_set.only("id", "project"))
 
     def get_single_language_stats(self, language):
         return ProjectLanguageStats(
@@ -1203,9 +1199,7 @@ class ProjectStats(ParentAggregatingStats):
 class ComponentListStats(ParentAggregatingStats):
     @cached_property
     def object_set(self):
-        return prefetch_stats(
-            self._object.components.only("id", "componentlist").prefetch_source_stats()
-        )
+        return prefetch_stats(self._object.components.only("id", "componentlist"))
 
 
 class GlobalStats(ParentAggregatingStats):
