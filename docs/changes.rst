@@ -9,6 +9,8 @@ Not yet released.
 
 **Improvements**
 
+* Reduced memory usage for stastics.
+
 **Bug fixes**
 
 **Compatibility**

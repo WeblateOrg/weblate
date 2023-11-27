@@ -101,7 +101,7 @@ def zero_stats(keys):
     return stats
 
 
-def prefetch_stats(queryset, *, force_list: bool = False):
+def prefetch_stats(queryset):
     """Fetch stats from cache for a queryset."""
     # Force evaluating queryset/iterator, we need all objects
     objects = list(queryset)
@@ -111,7 +111,7 @@ def prefetch_stats(queryset, *, force_list: bool = False):
     # is returned.
     # This is needed to allow using such querysets further and to support
     # processing iterator when it is more effective.
-    result = objects if force_list or isinstance(queryset, GeneratorType) else queryset
+    result = objects if isinstance(queryset, (chain, GeneratorType)) else queryset
 
     # Bail out in case the query is empty
     if not objects:
@@ -295,7 +295,7 @@ class BaseStats:
             stat_objects = chain(stat_objects, extra_objects)
 
         # Prefetch stats data from cache
-        stat_objects = prefetch_stats(stat_objects, force_list=True)
+        stat_objects = prefetch_stats(stat_objects)
 
         # Discard references to no longer needed objects
         while stat_objects:
@@ -423,6 +423,10 @@ class DummyTranslationStats(BaseStats):
 
 class TranslationStats(BaseStats):
     """Per translation stats."""
+
+    @cached_property
+    def is_source(self):
+        return self._object.is_source
 
     def save(self, update_parents: bool = True):
         from weblate.utils.tasks import update_translation_stats_parents
@@ -784,20 +788,23 @@ class AggregatingStats(BaseStats):
     basic_keys = SOURCE_KEYS
     sum_source_keys = True
 
-    @cached_property
-    def object_set(self):
+    def get_child_objects(self):
         raise NotImplementedError
 
-    @cached_property
-    def category_set(self):
+    def get_category_objects(self):
         return []
 
-    def calculate_source(self, stats: dict):
+    def calculate_source(self, stats: dict, all_stats: list):
         return
 
     def _calculate_basic(self):
         stats = zero_stats(self.basic_keys)
-        all_stats = [obj.stats for obj in chain(self.object_set, self.category_set)]
+        all_stats = [
+            obj.stats
+            for obj in prefetch_stats(
+                chain(self.get_child_objects(), self.get_category_objects())
+            )
+        ]
 
         # Ensure all objects have data available so that we can use _dict directly
         for stats_obj in all_stats:
@@ -829,7 +836,7 @@ class AggregatingStats(BaseStats):
                 stats[item] = sum(values)
 
         if not self.sum_source_keys:
-            self.calculate_source(stats)
+            self.calculate_source(stats, all_stats)
 
         for key, value in stats.items():
             self.store(key, value)
@@ -853,32 +860,28 @@ class ParentAggregatingStats(AggregatingStats):
 
 
 class LanguageStats(AggregatingStats):
-    @cached_property
-    def object_set(self):
-        return prefetch_stats(self._object.translation_set.only("id", "language"))
+    def get_child_objects(self):
+        return self._object.translation_set.only("id", "language")
 
 
 class ComponentStats(AggregatingStats):
     sum_source_keys = False
 
-    @cached_property
-    def object_set(self):
-        return prefetch_stats(
-            self._object.translation_set.only("id", "component", "language")
-        )
+    def get_child_objects(self):
+        return self._object.translation_set.only("id", "component", "language")
 
     @cached_property
     def has_review(self):
         return self._object.enable_review
 
-    def calculate_source(self, stats: dict):
+    def calculate_source(self, stats: dict, all_stats: list):
         """Fetch source info from source translation."""
-        for obj in self.object_set:
+        for obj in all_stats:
             if obj.is_source:
-                stats_obj = obj.stats
-                stats["source_chars"] = stats_obj.all_chars
-                stats["source_words"] = stats_obj.all_words
-                stats["source_strings"] = stats_obj.all
+                stats["source_chars"] = obj.all_chars
+                stats["source_words"] = obj.all_words
+                stats["source_strings"] = obj.all
+                break
 
     def get_update_objects(self):
         # Component lists
@@ -900,7 +903,7 @@ class ComponentStats(AggregatingStats):
         extras = []
 
         # Update languages
-        for translation in self.object_set:
+        for translation in prefetch_stats(self.get_child_objects()):
             translation.stats.update_stats(update_parents=False)
             extras.append(translation.language.stats)
             extras.append(translation.stats.get_project_language_stats())
@@ -912,7 +915,10 @@ class ComponentStats(AggregatingStats):
         self.update_parents(extra_objects=extras)
 
     def get_language_stats(self):
-        yield from (TranslationStats(translation) for translation in self.object_set)
+        return (
+            translation.stats
+            for translation in prefetch_stats(self.get_child_objects())
+        )
 
     def get_single_language_stats(self, language):
         try:
@@ -1048,13 +1054,10 @@ class ProjectLanguageStats(SingleLanguageStats):
     def has_review(self):
         return self.project.source_review or self.project.translation_review
 
-    @cached_property
-    def object_set(self):
-        return prefetch_stats(
-            self.language.translation_set.filter(component__project=self.project).only(
-                "id", "language"
-            )
-        )
+    def get_child_objects(self):
+        return self.language.translation_set.filter(
+            component__project=self.project
+        ).only("id", "language")
 
 
 class CategoryLanguage(BaseURLMixin):
@@ -1134,17 +1137,13 @@ class CategoryLanguageStats(SingleLanguageStats):
             or self.category.project.translation_review
         )
 
-    @cached_property
-    def category_set(self):
-        return self.category.stats.category_set
+    def get_category_objects(self):
+        return self.category.stats.get_category_objects()
 
-    @cached_property
-    def object_set(self):
-        return prefetch_stats(
-            self.language.translation_set.filter(
-                component__category=self.category
-            ).only("id", "language")
-        )
+    def get_child_objects(self):
+        return self.language.translation_set.filter(
+            component__category=self.category
+        ).only("id", "language")
 
 
 class CategoryStats(ParentAggregatingStats):
@@ -1156,23 +1155,20 @@ class CategoryStats(ParentAggregatingStats):
             # Global
             yield from self._object.project.stats.get_update_objects()
 
-    @cached_property
-    def object_set(self):
-        return prefetch_stats(self._object.component_set.only("id", "category"))
+    def get_child_objects(self):
+        return self._object.component_set.only("id", "category")
 
-    @cached_property
-    def category_set(self):
+    def get_category_objects(self):
         return prefetch_stats(self._object.category_set.only("id", "category"))
 
     def get_single_language_stats(self, language):
         return CategoryLanguageStats(CategoryLanguage(self._object, language))
 
     def get_language_stats(self):
-        result = [
+        return prefetch_stats(
             self.get_single_language_stats(language)
             for language in self._object.languages
-        ]
-        return prefetch_stats(result)
+        )
 
 
 class ProjectStats(ParentAggregatingStats):
@@ -1180,19 +1176,17 @@ class ProjectStats(ParentAggregatingStats):
     def has_review(self):
         return self._object.enable_review
 
-    @cached_property
-    def object_set(self):
-        return prefetch_stats(self._object.component_set.only("id", "project"))
+    def get_child_objects(self):
+        return self._object.component_set.only("id", "project")
 
     def get_single_language_stats(self, language):
         return ProjectLanguageStats(ProjectLanguage(self._object, language))
 
     def get_language_stats(self):
-        result = [
+        return prefetch_stats(
             self.get_single_language_stats(language)
             for language in self._object.languages
-        ]
-        return prefetch_stats(result)
+        )
 
     def _calculate_basic(self):
         super()._calculate_basic()
@@ -1200,20 +1194,18 @@ class ProjectStats(ParentAggregatingStats):
 
 
 class ComponentListStats(ParentAggregatingStats):
-    @cached_property
-    def object_set(self):
-        return prefetch_stats(self._object.components.only("id", "componentlist"))
+    def get_child_objects(self):
+        return self._object.components.only("id", "componentlist")
 
 
 class GlobalStats(ParentAggregatingStats):
     def __init__(self):
         super().__init__(None)
 
-    @cached_property
-    def object_set(self):
+    def get_child_objects(self):
         from weblate.trans.models import Project
 
-        return prefetch_stats(Project.objects.only("id", "access_control"))
+        return Project.objects.only("id", "access_control")
 
     def _calculate_basic(self):
         super()._calculate_basic()
