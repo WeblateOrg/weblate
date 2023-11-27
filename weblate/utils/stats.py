@@ -1024,10 +1024,9 @@ class ProjectLanguage(BaseURLMixin):
 
 
 class ProjectLanguageStats(SingleLanguageStats):
-    def __init__(self, obj: ProjectLanguage, project_stats=None):
+    def __init__(self, obj: ProjectLanguage):
         self.language = obj.language
         self.project = obj.project
-        self._project_stats = project_stats
         super().__init__(obj)
         obj.stats = self
 
@@ -1108,10 +1107,9 @@ class CategoryLanguage(BaseURLMixin):
 
 
 class CategoryLanguageStats(SingleLanguageStats):
-    def __init__(self, obj: CategoryLanguage, category_stats=None):
+    def __init__(self, obj: CategoryLanguage):
         self.language = obj.language
         self.category = obj.category
-        self._category_stats = category_stats
         super().__init__(obj)
         obj.stats = self
 
@@ -1124,9 +1122,7 @@ class CategoryLanguageStats(SingleLanguageStats):
 
     @cached_property
     def category_set(self):
-        if self._category_stats:
-            return self._category_stats.category_set
-        return prefetch_stats(self.category.category_set.only("id", "category"))
+        return self.category.stats.category_set
 
     @cached_property
     def object_set(self):
@@ -1154,9 +1150,7 @@ class CategoryStats(ParentAggregatingStats):
         return prefetch_stats(self._object.category_set.only("id", "category"))
 
     def get_single_language_stats(self, language):
-        return CategoryLanguageStats(
-            CategoryLanguage(self._object, language), category_stats=self
-        )
+        return CategoryLanguageStats(CategoryLanguage(self._object, language))
 
     def get_language_stats(self):
         result = [
@@ -1176,9 +1170,7 @@ class ProjectStats(ParentAggregatingStats):
         return prefetch_stats(self._object.component_set.only("id", "project"))
 
     def get_single_language_stats(self, language):
-        return ProjectLanguageStats(
-            ProjectLanguage(self._object, language), project_stats=self
-        )
+        return ProjectLanguageStats(ProjectLanguage(self._object, language))
 
     def get_language_stats(self):
         result = [
