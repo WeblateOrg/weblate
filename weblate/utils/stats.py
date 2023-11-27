@@ -786,9 +786,7 @@ class AggregatingStats(BaseStats):
 
     def _calculate_basic(self):
         stats = zero_stats(self.basic_keys)
-        object_stats = [obj.stats for obj in self.object_set]
-        category_stats = [cat.stats for cat in self.category_set]
-        all_stats = object_stats + category_stats
+        all_stats = [obj.stats for obj in chain(self.object_set, self.category_set)]
 
         # Ensure all objects have data available so that we can use _dict directly
         for stats_obj in all_stats:
