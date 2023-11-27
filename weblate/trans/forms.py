@@ -1711,6 +1711,7 @@ class ComponentBranchForm(ComponentSelectForm):
         # We need a object, not integer here
         kwargs["source_language"] = component.source_language
         kwargs["project"] = component.project
+        kwargs["category"] = component.category
         for field in form_fields:
             kwargs[field] = data[field]
         self.instance = Component(**kwargs)
