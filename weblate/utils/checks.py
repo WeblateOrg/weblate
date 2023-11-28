@@ -142,7 +142,7 @@ def is_celery_queue_long():
     queues_data = cache.get(cache_key, {})
 
     # Hours since epoch
-    current_hour = int(time.monotonic() / 3600)
+    current_hour = int(time.time() / 3600)
     test_hour = current_hour - 1
 
     # Fetch current stats
@@ -246,7 +246,7 @@ def check_celery(app_configs, **kwargs):
 
     heartbeat = cache.get("celery_heartbeat")
     loaded = cache.get("celery_loaded")
-    now = time.monotonic()
+    now = time.time()
     if loaded and now - loaded > 60 and (not heartbeat or now - heartbeat > 600):
         errors.append(
             weblate_check(

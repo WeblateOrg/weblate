@@ -282,7 +282,7 @@ def store_params(strategy, user, **kwargs):
     return {
         "weblate_action": action,
         "registering_user": registering_user,
-        "weblate_expires": int(time.monotonic() + settings.AUTH_TOKEN_VALID),
+        "weblate_expires": int(time.time() + settings.AUTH_TOKEN_VALID),
         "invitation_link": invitation,
         "invitation_pk": str(invitation_pk) if invitation_pk else None,
     }
@@ -332,7 +332,7 @@ def ensure_valid(
 ):
     """Ensure the activation link is still."""
     # Didn't the link expire?
-    if weblate_expires < time.monotonic():
+    if weblate_expires < time.time():
         raise AuthMissingParameter(backend, "expires")
 
     # We allow password reset for unauthenticated users
