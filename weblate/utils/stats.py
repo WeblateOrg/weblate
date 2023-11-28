@@ -65,6 +65,7 @@ BASIC_KEYS = frozenset(
         "recent_changes",
         "monthly_changes",
         "total_changes",
+        "stats_timestamp",
     )
 )
 SOURCE_KEYS = frozenset(
@@ -334,8 +335,6 @@ class BaseStats:
         ):
             self.ensure_loaded()
             self._calculate_basic()
-            # Store timestamp
-            self.store("stats_timestamp", monotonic())
 
     def _calculate_basic(self):
         raise NotImplementedError
@@ -663,6 +662,9 @@ class TranslationStats(BaseStats):
 
         self.count_changes()
 
+        # Store timestamp
+        self.store("stats_timestamp", monotonic())
+
     def get_last_change_obj(self):
         from weblate.trans.models import Change
 
@@ -821,7 +823,9 @@ class AggregatingStats(BaseStats):
             # Extract all values by dedicated getter
             values = (stats_obj.aggregate_get(item) for stats_obj in all_stats)
 
-            if item == "last_changed":
+            if item == "stats_timestamp":
+                stats[item] = max(values, default=monotonic())
+            elif item == "last_changed":
                 # We need to access values twice here
                 values = list(values)
                 stats[item] = max_last_changed = max(
