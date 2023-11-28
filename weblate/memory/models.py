@@ -46,6 +46,9 @@ def get_node_data(unit, node):
 
 class MemoryQuerySet(models.QuerySet):
     def filter_type(self, user=None, project=None, use_shared=False, from_file=False):
+        base = self
+        if "memory_db" in settings.DATABASES:
+            base = base.using("memory_db")
         query = []
         if from_file:
             query.append(Q(from_file=from_file))
@@ -55,7 +58,7 @@ class MemoryQuerySet(models.QuerySet):
             query.append(Q(project=project))
         if user:
             query.append(Q(user=user))
-        return self.filter(reduce(lambda x, y: x | y, query))
+        return base.filter(reduce(lambda x, y: x | y, query))
 
     def lookup(
         self, source_language, target_language, text: str, user, project, use_shared
