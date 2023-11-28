@@ -5,6 +5,8 @@ Not yet released.
 
 **New features**
 
+* :ref:`mt-openai` automatic suggestion service.
+
 **Improvements**
 
 **Bug fixes**

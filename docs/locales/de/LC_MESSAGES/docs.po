@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 19:18+0100\n"
-"PO-Revision-Date: 2023-11-23 12:55+0000\n"
+"PO-Revision-Date: 2023-11-26 05:35+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -45772,6 +45772,8 @@ msgid ""
 "This used to be toggled by ``java-format`` flag, it was changed for "
 "consistency with GNU gettext."
 msgstr ""
+"Früher wurde dies durch ``java-format`` umgeschaltet, dies wurde aus Gründen "
+"der Konsistenz mit GNU gettext geändert."
 
 #: ../../user/checks.rst:590
 msgid ""
@@ -45818,6 +45820,8 @@ msgid ""
 "This used to be toggled by ``java-messageformat`` flag, it was changed for "
 "consistency with GNU gettext."
 msgstr ""
+"Früher wurde dies durch ``java-messageformat`` umgeschaltet, dies wurde aus "
+"Gründen der Konsistenz mit GNU gettext geändert."
 
 #: ../../user/checks.rst:612
 msgid ""
@@ -46121,6 +46125,8 @@ msgid ""
 ":ref:`check-formats`, `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-"
 "translation.html#handling-plurals>`_"
 msgstr ""
+":ref:`check-formats`, `Qt-i18n-Leitfaden <https://doc.qt.io/qt-5/i18n-source-"
+"translation.html#handling-plurals>`_"
 
 #: ../../user/checks.rst:817
 msgid "Ruby format"
@@ -46148,7 +46154,7 @@ msgstr "``Your balance is %+.2<amount>f %<currency>s``"
 
 #: ../../user/checks.rst:0
 msgid "Named template string"
-msgstr ""
+msgstr "Beispiel für eine benannte Vorlagenzeichenkette"
 
 #: ../../user/checks.rst:828
 msgid "``Your balance is %{amount} %{currency}``"
@@ -46189,6 +46195,10 @@ msgid ""
 "format>`_, `Guile Scheme formatted output <https://www.gnu.org/software/"
 "guile/manual/html_node/Formatted-Output.html>`_"
 msgstr ""
+":ref:`check-formats`, `SRFI 28 <https://srfi.schemers.org/srfi-28/srfi-28."
+"html>`_, `Chicken-Scheme-Format <https://wiki.call-cc.org/eggref/5/format>`"
+"_, `Guile-Scheme-formatierte Ausgabe <https://www.gnu.org/software/guile/"
+"manual/html_node/Formatted-Output.html>`_"
 
 #: ../../user/checks.rst:858
 msgid "Vue I18n formatting"
@@ -46266,6 +46276,9 @@ msgid ""
 "Means a string has been translated already. This can happen when the "
 "translations have been reverted in VCS or lost otherwise."
 msgstr ""
+"Bedeutet, dass eine Zeichenkette bereits übersetzt wurde. Dies kann "
+"passieren, wenn die Übersetzungen im VCS rückgängig gemacht wurden oder "
+"anderweitig verloren gegangen sind."
 
 #: ../../user/checks.rst:893
 msgid "Inconsistent"
@@ -46302,12 +46315,18 @@ msgid ""
 "This can also lead to inconsistencies in displayed checks. You can find "
 "other translations of this string on the :guilabel:`Other occurrences` tab."
 msgstr ""
+"Die Prüfung schlägt bei abweichenden Übersetzungen dergleichen Zeichenkette "
+"innerhalb eines Projekts fehl. Dies kann auch zu Inkonsistenzen in den "
+"angezeigten Prüfungen führen. Weitere Übersetzungen dieser Zeichenkette "
+"lassen sich auf der Registerkarte :guilabel:`Andere Vorkommnisse` finden."
 
 #: ../../user/checks.rst:908
 msgid ""
 "This check applies to all components in a project that have :ref:`component-"
 "allow_translation_propagation` turned on."
 msgstr ""
+"Diese Prüfung gilt für alle Komponenten in einem Projekt, bei denen :ref"
+":`component-allow_translation_propagation` eingeschaltet ist."
 
 #: ../../user/checks.rst:913
 msgid ""
@@ -46325,6 +46344,12 @@ msgid ""
 "`Use this translation` button displayed on each line in the :guilabel:`Other "
 "occurrences` tab."
 msgstr ""
+"Diese Prüfung wird auch ausgelöst, wenn die Zeichenkette in einer Komponente "
+"übersetzt wird und in einer anderen nicht. Sie kann als schneller Weg "
+"genutzt werden, um Zeichenketten, die in einigen Komponenten nicht übersetzt "
+"sind, manuell zu behandeln, indem man einfach auf die Schaltfläche "
+":guilabel:`Diese Übersetzung verwenden` klickt, die in jeder Zeile unter dem "
+"Reiter :guilabel:`Andere Vorkommnisse` angezeigt wird."
 
 #: ../../user/checks.rst:924
 msgid ""
@@ -46332,6 +46357,9 @@ msgid ""
 "automate translating of newly added strings which are already translated in "
 "another component."
 msgstr ""
+"Die Erweiterung :ref:`addon-weblate.autotranslate.autotranslate` kann "
+"verwendet werden, um die Übersetzung von neu hinzugefügten und bereits in "
+"einer anderen Komponente übersetzten Zeichenketten zu automatisieren."
 
 #: ../../user/checks.rst:936
 msgid "Kashida letter used"
@@ -46380,11 +46408,11 @@ msgstr "``md-link``"
 
 #: ../../user/checks.rst:964
 msgid "Markdown links do not match source."
-msgstr ""
+msgstr "Markdown-Links passen nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:968
 msgid "`Markdown links`_"
-msgstr ""
+msgstr "`Markdown-Links`_"
 
 #: ../../user/checks.rst:974
 msgid "Markdown references"
@@ -46404,12 +46432,13 @@ msgstr "``md-reflink``"
 
 #: ../../user/checks.rst:983
 msgid "Markdown link references do not match source."
-msgstr ""
+msgstr "Markdown-Link-Referenzen passen nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:987
 msgid ""
 "`Markdown links <https://daringfireball.net/projects/markdown/syntax#link>`_"
 msgstr ""
+"`Markdown-Links <https://daringfireball.net/projects/markdown/syntax#link>`_"
 
 #: ../../user/checks.rst:992
 msgid "Markdown syntax"
@@ -46432,6 +46461,8 @@ msgid ""
 "`Markdown span elements <https://daringfireball.net/projects/markdown/"
 "syntax#span>`_"
 msgstr ""
+"`Markdown-Span-Elemente <https://daringfireball.net/projects/markdown/"
+"syntax#span>`_"
 
 #: ../../user/checks.rst:1010
 msgid "Maximum length of translation"
@@ -46454,12 +46485,17 @@ msgid ""
 "Checks that translations are of acceptable length to fit available space. "
 "This only checks for the length of translation characters."
 msgstr ""
+"Prüft, ob die Übersetzungen eine zulässige Länge haben, damit sie in den "
+"verfügbaren Platz passen. Dabei wird nur die Länge der Übersetzungszeichen "
+"geprüft."
 
 #: ../../user/checks.rst:1022
 msgid ""
 "Unlike the other checks, the flag should be set as a ``key:value`` pair like "
 "``max-length:100``."
 msgstr ""
+"Im Gegensatz zu den anderen Prüfungen sollte die Markierung als "
+"``key:value``-Paar wie ``max-length:100`` gesetzt werden."
 
 #: ../../user/checks.rst:1027
 msgid ""
@@ -46467,6 +46503,10 @@ msgid ""
 "using proportional fonts to render the text. The :ref:`check-max-size` check "
 "does check actual rendering of the text."
 msgstr ""
+"Diese Prüfung bezieht sich auf die Anzahl der Zeichen, was bei der "
+"Verwendung von Proportionalschriften zur Textdarstellung nicht unbedingt die "
+"beste Metrik ist. Die Prüfung :ref:`check-max-size` prüft das tatsächliche "
+"Rendering des Textes."
 
 #: ../../user/checks.rst:1031 ../../user/checks.rst:1070
 msgid ""
@@ -46474,12 +46514,14 @@ msgid ""
 "checking the string."
 msgstr ""
 "Die Markierung ``replacements:`` kann auch nützlich sein, um Platzhalter vor "
-"der Überprüfung der Zeichenkette zu erweitern."
+"dem Überprüfen der Zeichenkette zu erweitern."
 
 #: ../../user/checks.rst:1034 ../../user/checks.rst:1073
 msgid ""
 "When ``xml-text`` flag is also used, the length calculation ignores XML tags."
 msgstr ""
+"Wenn ``xml-text`` ebenfalls verwendet wird, ignoriert die Längenberechnung "
+"XML-Tags."
 
 #: ../../user/checks.rst:1039
 msgid "Maximum size of translation"
@@ -50137,22 +50179,16 @@ msgid "Version control integration"
 msgstr "Integration der Versionsverwaltung"
 
 #: ../../vcs.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate currently does not have native support for anything other than :"
-#| "ref:`vcs-git` (with extended support for :ref:`vcs-github`, :ref:`vcs-"
-#| "gerrit` and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is "
-#| "possible to write backends for other VCSes."
 msgid ""
 "Weblate currently supports :ref:`vcs-git` (with extended support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`, :ref:"
 "`vcs-git-svn`, :ref:`vcs-bitbucket-server`, and :ref:`vcs-azure-devops`) "
 "and :ref:`vcs-mercurial` as version control back-ends."
 msgstr ""
-"Weblate bietet derzeit keine native Unterstützung für andere "
-"Versionsverwaltungen als :ref:`vcs-git` (mit erweiterter Unterstützung für :"
-"ref:`vcs-github`, :ref:`vcs-gerrit` und :ref:`vcs-git-svn`) und :ref:`vcs-"
-"mercurial`, aber es ist möglich, Backends für andere VCSen zu schreiben."
+"Weblate unterstützt derzeit :ref:`vcs-git` (mit erweiterter Unterstützung "
+"für :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`"
+", :ref:`vcs-git-svn`, :ref:`vcs-bitbucket-server`, und :ref:`vcs-azure-"
+"devops`) und :ref:`vcs-mercurial` als Versionsverwaltung-Backends."
 
 #: ../../vcs.rst:14
 msgid "Accessing repositories"

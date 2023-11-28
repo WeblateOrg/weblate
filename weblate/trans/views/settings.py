@@ -240,7 +240,7 @@ def perform_rename(form_cls, request, obj, perm: str):
     obj = form.save()
 
     # Invalidate new stats
-    obj.stats.update_parents(old_stats)
+    obj.stats.update_parents(extra_objects=old_stats)
 
     return redirect(obj)
 

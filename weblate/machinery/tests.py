@@ -11,7 +11,9 @@ from unittest import SkipTest
 from unittest.mock import Mock, patch
 from urllib.parse import parse_qs
 
+import httpx
 import responses
+import respx
 from botocore.stub import ANY, Stubber
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -46,6 +48,7 @@ from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.modernmt import ModernMTTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
+from weblate.machinery.openai import OpenAITranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.tmserver import AMAGAMA_LIVE, AmagamaTranslation
 from weblate.machinery.weblatetm import WeblateTranslation
@@ -207,6 +210,7 @@ class BaseMachineTranslationTest(TestCase):
         self.assertEqual(machine.map_language_code("en_devel"), self.ENGLISH)
 
     @responses.activate
+    @respx.mock
     def test_support(self):
         self.mock_response()
         machine_translation = self.get_machine()
@@ -254,11 +258,13 @@ class BaseMachineTranslationTest(TestCase):
         raise SkipTest("Not tested")
 
     @responses.activate
+    @respx.mock
     def test_translate_empty(self):
         self.mock_empty()
         self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
 
     @responses.activate
+    @respx.mock
     def test_translate(self, **kwargs):
         self.mock_response()
         self.assert_translate(
@@ -266,6 +272,7 @@ class BaseMachineTranslationTest(TestCase):
         )
 
     @responses.activate
+    @respx.mock
     def test_batch(self, machine=None):
         self.mock_response()
         if machine is None:
@@ -276,6 +283,7 @@ class BaseMachineTranslationTest(TestCase):
         self.assertIn("translation", unit.machinery)
 
     @responses.activate
+    @respx.mock
     def test_error(self):
         self.mock_error()
         with self.assertRaises(MachineTranslationError):
@@ -323,6 +331,13 @@ class MachineTranslationTest(BaseMachineTranslationTest):
                     }
                 ]
             ],
+        )
+
+    def test_key(self):
+        machine_translation = self.get_machine()
+        self.assertEqual(
+            machine_translation.get_cache_key("test"),
+            "mt:dummy:test:11364700946005001116",
         )
 
 
@@ -1255,6 +1270,73 @@ class IBMTranslationTest(BaseMachineTranslationTest):
                 "word_count": 1,
                 "character_count": 6,
             },
+        )
+
+
+class OpenAITranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = OpenAITranslation
+    EXPECTED_LEN = 1
+    ENGLISH = "en"
+    SUPPORTED = "zh-TW"
+    NOTSUPPORTED = None
+    CONFIGURATION = {
+        "key": "x",
+        "model": "auto",
+        "persona": "",
+        "style": "",
+    }
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        raise SkipTest("Not tested")
+
+    def mock_response(self):
+        respx.get("https://api.openai.com/v1/models").mock(
+            httpx.Response(
+                200,
+                json={
+                    "object": "list",
+                    "data": [
+                        {
+                            "id": "gpt-3.5-turbo",
+                            "object": "model",
+                            "created": 1686935002,
+                            "owned_by": "openai",
+                        }
+                    ],
+                },
+            )
+        )
+        respx.post(
+            "https://api.openai.com/v1/chat/completions",
+        ).mock(
+            httpx.Response(
+                200,
+                json={
+                    "id": "chatcmpl-123",
+                    "object": "chat.completion",
+                    "created": 1677652288,
+                    "model": "gpt-3.5-turbo",
+                    "system_fingerprint": "fp_44709d6fcb",
+                    "choices": [
+                        {
+                            "index": 0,
+                            "message": {
+                                "role": "assistant",
+                                "content": "Ahoj světe",
+                            },
+                            "finish_reason": "stop",
+                        }
+                    ],
+                    "usage": {
+                        "prompt_tokens": 9,
+                        "completion_tokens": 12,
+                        "total_tokens": 21,
+                    },
+                },
+            )
         )
 
 

@@ -101,7 +101,7 @@ def zero_stats(keys):
     return stats
 
 
-def prefetch_stats(queryset):
+def prefetch_stats(queryset, *, force_list: bool = False):
     """Fetch stats from cache for a queryset."""
     # Force evaluating queryset/iterator, we need all objects
     objects = list(queryset)
@@ -111,7 +111,7 @@ def prefetch_stats(queryset):
     # is returned.
     # This is needed to allow using such querysets further and to support
     # processing iterator when it is more effective.
-    result = objects if isinstance(queryset, GeneratorType) else queryset
+    result = objects if force_list or isinstance(queryset, GeneratorType) else queryset
 
     # Bail out in case the query is empty
     if not objects:
@@ -277,29 +277,35 @@ class BaseStats:
     def get_update_objects(self):
         yield GlobalStats()
 
-    def _get_update_objects_dict(self):
-        return {stat.cache_key: stat for stat in self.get_update_objects()}
-
     def collect_update_objects(self):
-        self._collected_update_objects = self._get_update_objects_dict()
+        # Use list to force materializing the generator
+        self._collected_update_objects = list(self.get_update_objects())
 
-    def update_parents(self, extra_objects: list[BaseStats] | None = None):
-        # Get unique list of stats to update.
-        # This preserves ordering so that closest ones are updated first.
+    def _iterate_update_objects(self, *, extra_objects: list[BaseStats] | None = None):
+        """Get list of stats to update."""
         if self._collected_update_objects is not None:
             stat_objects = self._collected_update_objects
             self._collected_update_objects = None
         else:
-            stat_objects = self._get_update_objects_dict()
+            stat_objects = self.get_update_objects()
         if extra_objects:
-            for stat in extra_objects:
-                stat_objects[stat.cache_key] = stat
+            stat_objects = chain(stat_objects, extra_objects)
 
-        # Update stats
-        for stat in prefetch_stats(stat_objects.values()):
+        # Prefetch stats data from cache
+        stat_objects = prefetch_stats(stat_objects, force_list=True)
+
+        # Discard references to no longer needed objects
+        while stat_objects:
+            yield stat_objects.pop(0)
+
+    def update_parents(self, *, extra_objects: list[BaseStats] | None = None):
+        """Update parent statistics."""
+        for stat in self._iterate_update_objects(extra_objects=extra_objects):
             if self.stats_timestamp and self.stats_timestamp <= stat.stats_timestamp:
                 continue
-            self._object.log_debug("updating stats for %s", stat._object)
+            self._object.log_debug(
+                "updating %s (%s)", stat.__class__.__name__, stat._object
+            )
             stat.update_stats()
 
     def clear(self):
@@ -430,20 +436,23 @@ class TranslationStats(BaseStats):
                     lambda: update_translation_stats_parents.delay(pk)
                 )
 
-    def get_update_objects(self):
-        yield self._object.language.stats
-        yield from self._object.language.stats.get_update_objects()
-
-        yield self._object.component.stats
-        yield from self._object.component.stats.get_update_objects()
-
+    def get_project_language_stats(self):
         project_language = ProjectLanguage(
             project=self._object.component.project, language=self._object.language
         )
-        yield project_language.stats
-        yield from project_language.stats.get_update_objects()
+        return project_language.stats
 
-        yield from super().get_update_objects()
+    def get_update_objects(self):
+        # Language
+        yield self._object.language.stats
+
+        # Project / language
+        yield self.get_project_language_stats()
+
+        # Component
+        yield self._object.component.stats
+        # Component list, category, project and global
+        yield from self._object.component.stats.get_update_objects()
 
     @property
     def language(self):
@@ -786,9 +795,7 @@ class AggregatingStats(BaseStats):
 
     def _calculate_basic(self):
         stats = zero_stats(self.basic_keys)
-        object_stats = [obj.stats for obj in self.object_set]
-        category_stats = [cat.stats for cat in self.category_set]
-        all_stats = object_stats + category_stats
+        all_stats = [obj.stats for obj in chain(self.object_set, self.category_set)]
 
         # Ensure all objects have data available so that we can use _dict directly
         for stats_obj in all_stats:
@@ -804,9 +811,7 @@ class AggregatingStats(BaseStats):
             # Extract all values by dedicated getter
             values = (stats_obj.aggregate_get(item) for stats_obj in all_stats)
 
-            if item == "stats_timestamp":
-                stats[item] = max(values, default=stats[item])
-            elif item == "last_changed":
+            if item == "last_changed":
                 # We need to access values twice here
                 values = list(values)
                 stats[item] = max_last_changed = max(
@@ -874,18 +879,20 @@ class ComponentStats(AggregatingStats):
                 stats["source_strings"] = stats_obj.all
 
     def get_update_objects(self):
-        yield self._object.project.stats
-        yield from self._object.project.stats.get_update_objects()
-
-        if self._object.category:
-            yield self._object.category.stats
-            yield from self._object.category.stats.get_update_objects()
-
+        # Component lists
         for clist in self._object.componentlist_set.all():
             yield clist.stats
-            yield from clist.stats.get_update_objects()
 
-        yield from super().get_update_objects()
+        if self._object.category:
+            # Category
+            yield self._object.category.stats
+            # Category parents, project and global
+            yield from self._object.category.stats.get_update_objects()
+        else:
+            # Project
+            yield self._object.project.stats
+            # Global
+            yield from self._object.project.stats.get_update_objects()
 
     def update_language_stats(self):
         extras = []
@@ -893,13 +900,14 @@ class ComponentStats(AggregatingStats):
         # Update languages
         for translation in self.object_set:
             translation.stats.update_stats(update_parents=False)
-            extras.extend(translation.stats.get_update_objects())
+            extras.append(translation.language.stats)
+            extras.append(translation.stats.get_project_language_stats())
 
         # Update our stats
         self.update_stats()
 
         # Update all parents
-        self.update_parents(extras)
+        self.update_parents(extra_objects=extras)
 
     def get_language_stats(self):
         yield from (TranslationStats(translation) for translation in self.object_set)
@@ -1028,10 +1036,9 @@ class ProjectLanguage(BaseURLMixin):
 
 
 class ProjectLanguageStats(SingleLanguageStats):
-    def __init__(self, obj: ProjectLanguage, project_stats=None):
+    def __init__(self, obj: ProjectLanguage):
         self.language = obj.language
         self.project = obj.project
-        self._project_stats = project_stats
         super().__init__(obj)
         obj.stats = self
 
@@ -1112,10 +1119,9 @@ class CategoryLanguage(BaseURLMixin):
 
 
 class CategoryLanguageStats(SingleLanguageStats):
-    def __init__(self, obj: CategoryLanguage, category_stats=None):
+    def __init__(self, obj: CategoryLanguage):
         self.language = obj.language
         self.category = obj.category
-        self._category_stats = category_stats
         super().__init__(obj)
         obj.stats = self
 
@@ -1128,9 +1134,7 @@ class CategoryLanguageStats(SingleLanguageStats):
 
     @cached_property
     def category_set(self):
-        if self._category_stats:
-            return self._category_stats.category_set
-        return prefetch_stats(self.category.category_set.only("id", "category"))
+        return self.category.stats.category_set
 
     @cached_property
     def object_set(self):
@@ -1146,23 +1150,20 @@ class CategoryStats(ParentAggregatingStats):
         if self._object.category:
             yield self._object.category.stats
             yield from self._object.category.stats.get_update_objects()
-
-        yield from super().get_update_objects()
+        else:
+            # Global
+            yield from self._object.project.stats.get_update_objects()
 
     @cached_property
     def object_set(self):
-        return prefetch_stats(
-            self._object.component_set.only("id", "category").prefetch_source_stats()
-        )
+        return prefetch_stats(self._object.component_set.only("id", "category"))
 
     @cached_property
     def category_set(self):
         return prefetch_stats(self._object.category_set.only("id", "category"))
 
     def get_single_language_stats(self, language):
-        return CategoryLanguageStats(
-            CategoryLanguage(self._object, language), category_stats=self
-        )
+        return CategoryLanguageStats(CategoryLanguage(self._object, language))
 
     def get_language_stats(self):
         result = [
@@ -1179,14 +1180,10 @@ class ProjectStats(ParentAggregatingStats):
 
     @cached_property
     def object_set(self):
-        return prefetch_stats(
-            self._object.component_set.only("id", "project").prefetch_source_stats()
-        )
+        return prefetch_stats(self._object.component_set.only("id", "project"))
 
     def get_single_language_stats(self, language):
-        return ProjectLanguageStats(
-            ProjectLanguage(self._object, language), project_stats=self
-        )
+        return ProjectLanguageStats(ProjectLanguage(self._object, language))
 
     def get_language_stats(self):
         result = [
@@ -1203,9 +1200,7 @@ class ProjectStats(ParentAggregatingStats):
 class ComponentListStats(ParentAggregatingStats):
     @cached_property
     def object_set(self):
-        return prefetch_stats(
-            self._object.components.only("id", "componentlist").prefetch_source_stats()
-        )
+        return prefetch_stats(self._object.components.only("id", "componentlist"))
 
 
 class GlobalStats(ParentAggregatingStats):

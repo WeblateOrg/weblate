@@ -24,7 +24,7 @@ from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, models, transaction
-from django.db.models import Count, F, Q
+from django.db.models import Count, Q
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.utils import timezone
@@ -98,7 +98,7 @@ from weblate.utils.render import (
 from weblate.utils.requests import get_uri_error
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
-from weblate.utils.stats import ComponentStats, prefetch_stats
+from weblate.utils.stats import ComponentStats
 from weblate.utils.validators import (
     validate_filename,
     validate_re_nonempty,
@@ -299,26 +299,6 @@ class ComponentQuerySet(models.QuerySet):
                 Q(restricted=False) | Q(id__in=user.component_permissions)
             )
         return result
-
-    def prefetch_source_stats(self):
-        """Prefetch source stats."""
-        lookup = {component.id: component for component in self}
-
-        if lookup:
-            for translation in prefetch_stats(
-                Translation.objects.filter(
-                    component__in=self, language=F("component__source_language")
-                )
-            ):
-                try:
-                    component = lookup[translation.component_id]
-                except KeyError:
-                    # Translation was added while rendering the page
-                    continue
-
-                component.__dict__["source_translation"] = translation
-
-        return self
 
     def search(self, query: str):
         return self.filter(

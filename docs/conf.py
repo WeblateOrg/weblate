@@ -325,6 +325,9 @@ linkcheck_ignore = [
     "https://yandex.com/dev/translate/",
     # TODO: Expired SSL certificate
     "https://docs.oasis-open.org/",
+    # 403
+    "https://platform.openai.com/account/api-keys",
+    "https://platform.openai.com/docs/models",
 ]
 
 # HTTP docs
