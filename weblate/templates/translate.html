@@ -169,7 +169,7 @@
     {% elif not user_can_translate and not user_can_edit_flags %}
         <p class="text-danger">{{ user_can_translate.reason }}</p>
     {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %}
-        <p class="text-danger">{% trans "Insufficient privileges for saving translations." %}</p>
+        <p class="text-danger">{{ user_can_translate.reason }}</p>
     {% endif %}
     <div>
       {% with flag_actions=unit.get_flag_actions %}
