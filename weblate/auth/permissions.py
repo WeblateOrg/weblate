@@ -233,6 +233,8 @@ def check_edit_approved(user, permission, obj):
         # Read only check is unconditional as there is another one
         # in PluralTextarea.render
         if unit.readonly:
+            if not unit.source_unit.translated:
+                return Denied(gettext("The source string needs review."))
             return Denied(gettext("The string is read only."))
         if unit.approved and not check_unit_review(
             user, "unit.review", obj, skip_enabled=True
