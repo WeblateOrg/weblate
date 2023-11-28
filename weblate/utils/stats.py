@@ -136,6 +136,9 @@ class BaseStats:
         self.last_change_cache = None
         self._collected_update_objects = None
 
+    def __repr__(self):
+        return f"<{self.__class__.__name__}:{self.cache_key}>"
+
     @property
     def pk(self):
         return self._object.pk
@@ -302,11 +305,10 @@ class BaseStats:
         """Update parent statistics."""
         for stat in self._iterate_update_objects(extra_objects=extra_objects):
             if self.stats_timestamp and self.stats_timestamp <= stat.stats_timestamp:
-                continue
-            self._object.log_debug(
-                "updating %s (%s)", stat.__class__.__name__, stat._object
-            )
-            stat.update_stats()
+                self._object.log_debug("skipping update of %s", stat)
+            else:
+                self._object.log_debug("updating stats %s", stat)
+                stat.update_stats()
 
     def clear(self):
         """Clear local cache."""
