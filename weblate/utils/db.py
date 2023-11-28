@@ -4,7 +4,7 @@
 
 """Database specific code to extend Django."""
 
-from django.db import connection, models
+from django.db import connections, models
 from django.db.models import Case, IntegerField, Sum, When
 from django.db.models.lookups import Contains, Exact, PatternLookup, Regex
 
@@ -25,7 +25,7 @@ def conditional_sum(value=1, **cond):
 
 
 def using_postgresql():
-    return connection.vendor == "postgresql"
+    return connections["default"].vendor == "postgresql"
 
 
 class TransactionsTestMixin:
@@ -49,6 +49,12 @@ def adjust_similarity_threshold(value: float):
     """
     if not using_postgresql():
         return
+
+    if "memory_db" in connections:
+        connection = connections["memory_db"]
+    else:
+        connection = connections["default"]
+
     current_similarity = getattr(connection, "weblate_similarity", -1)
     # Ignore small differences
     if abs(current_similarity - value) < 0.05:
