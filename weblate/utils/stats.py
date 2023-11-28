@@ -408,6 +408,7 @@ class DummyTranslationStats(BaseStats):
     def pk(self):
         return f"l-{self.language.pk}"
 
+    @cached_property
     def cache_key(self):
         return None
 
