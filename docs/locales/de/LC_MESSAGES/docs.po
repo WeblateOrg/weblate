@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 19:18+0100\n"
-"PO-Revision-Date: 2023-11-28 09:07+0000\n"
+"PO-Revision-Date: 2023-11-28 13:00+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -6100,8 +6100,8 @@ msgid ""
 "Adjust checks behavior to be case-insensitive. Currently affects only :ref:"
 "`check-placeholders` quality check."
 msgstr ""
-"Passt das Prüfverhaltens an, so dass Groß- und Kleinschreibung nicht "
-"berücksichtigt werden. Betrifft derzeit nur die Qualitätsprüfung :ref:`check-"
+"Passt das Prüfverhaltens an, so dass Groß-/Kleinschreibung nicht "
+"berücksichtigt wird. Betrifft derzeit nur die Qualitätsprüfung :ref:`check-"
 "placeholders`."
 
 #: ../../admin/checks.rst:161 ../../user/checks.rst:1465
@@ -20463,7 +20463,7 @@ msgid ""
 "in same form as used in the filenames."
 msgstr ""
 "Die Sprachcodes werden beim Abgleich mit den Übersetzungsdateien zugeordnet, "
-"wobei zwischen Groß- und Kleinschreibung unterschieden wird. Achten Sie also "
+"wobei zwischen Groß-/Kleinschreibung unterschieden wird. Achten Sie also "
 "darauf, dass Sie die Sprachcodes der Ausgangssprache in der gleichen Form "
 "wie in den Dateinamen verwenden."
 
@@ -32403,7 +32403,7 @@ msgstr ""
 #: ../../changes/v4.rst:369
 msgid "The placeholders check can now be case-insensitive as well."
 msgstr ""
-"Beim Prüfen von Platzhaltern kann nun auch die Groß- und Kleinschreibung "
+"Beim Prüfen von Platzhaltern kann nun auch die Groß-/Kleinschreibung "
 "ignoriert werden."
 
 #: ../../changes/v4.rst:371
@@ -33262,7 +33262,7 @@ msgstr "Unterstützung für das Apple-Stringsdict-Format hinzugefügt."
 msgid "The exact search operator is now case-sensitive with PostgreSQL."
 msgstr ""
 "Der Operator für die genaue Suche unterscheidet jetzt bei PostgreSQL "
-"zwischen Groß- und Kleinschreibung."
+"zwischen Groß-/Kleinschreibung."
 
 #: ../../changes/v4.rst:629
 msgid "Fixed saving glossary explanations in some cases."
@@ -34927,8 +34927,8 @@ msgid ""
 "insensitive unique. It was mistakenly not enforced with PostgreSQL."
 msgstr ""
 "Die Felder für Benutzername und E-Mail in der Benutzerdatenbank sollten nun "
-"ohne Berücksichtigung der Groß- und Kleinschreibung eindeutig sein. Dies "
-"wurde bei PostgreSQL fälschlicherweise nicht erzwungen."
+"ohne Berücksichtigung der Groß-/Kleinschreibung eindeutig sein. Dies wurde "
+"bei PostgreSQL fälschlicherweise nicht erzwungen."
 
 #: ../../changes/v4.rst:1109
 msgid "Weblate 4.1.1"
@@ -35282,8 +35282,8 @@ msgstr "Möglicher Absturz in Berichten behoben."
 #: ../../changes/v4.rst:1201
 msgid "User mentions in comments are now case insensitive."
 msgstr ""
-"Bei Benutzererwähnungen in Kommentaren wird jetzt nicht mehr zwischen Groß- "
-"und Kleinschreibung unterschieden."
+"Bei Benutzererwähnungen in Kommentaren wird jetzt nicht mehr zwischen Groß-/"
+"Kleinschreibung unterschieden."
 
 #: ../../changes/v4.rst:1202
 msgid "Fixed PostgreSQL migration for non superusers."
@@ -45351,8 +45351,8 @@ msgid ""
 "translation. Omitting format strings in translation usually causes severe "
 "problems, so the formatting in strings should usually match the source."
 msgstr ""
-"Prüft, ob die Formatierung von Zeichenketten in Quelle und Übersetzung "
-"übereinstimmt. Das Weglassen von Formatzeichenketten in der Übersetzung "
+"Prüft, ob Zeichenkettenformatierungen in der Quelle und Übersetzung "
+"identisch sind. Das Weglassen von Formatzeichenketten in der Übersetzung "
 "führt in der Regel zu schwerwiegenden Problemen, daher sollte die "
 "Formatierung in Zeichenketten in der Regel mit der Quelle übereinstimmen."
 
@@ -46637,6 +46637,9 @@ msgid ""
 "presence of colons is also checked for various languages where they do not "
 "belong (Chinese or Japanese)."
 msgstr ""
+"Prüft, ob Doppelpunkte in der Quelle und Übersetzung identisch sind. Das "
+"Vorhandensein von Doppelpunkten wird auch für verschiedene Sprachen geprüft, "
+"in denen sie nicht vorkommen (Chinesisch oder Japanisch)."
 
 #: ../../user/checks.rst:1110
 msgid ""
@@ -46668,9 +46671,9 @@ msgid ""
 "translation. This only checks for real ellipsis (``…``) not for three dots "
 "(``...``)."
 msgstr ""
-"Prüft, ob nachgestellte Auslassungspunkte in der Ausgangszeichenkette und in "
-"der Übersetzung wiedergegeben werden. Dies gilt nur für echte "
-"Auslassungspunkte (``…``), nicht für drei Punkte (``...``)."
+"Prüft, ob nachgestellte Auslassungspunkte in der Quelle und Übersetzung "
+"identisch sind. Dies gilt nur für echte Auslassungspunkte (``…``), nicht für "
+"drei Punkte (``...``)."
 
 #: ../../user/checks.rst:1126
 msgid ""
@@ -46711,6 +46714,10 @@ msgid ""
 "where they do not belong (Chinese, Japanese, Korean, Armenian, Limbu, "
 "Myanmar or Nko)."
 msgstr ""
+"Prüft, ob Ausrufezeichen in der Quelle und Übersetzung identisch sind. Das "
+"Vorhandensein von Ausrufezeichen wird auch für verschiedene Sprachen "
+"geprüft, in denen sie nicht vorkommen (Chinesisch, Japanisch, Koreanisch, "
+"Armenisch, Limbu, Birmanisch oder N’Ko)."
 
 #: ../../user/checks.rst:1151
 msgid ""
@@ -46743,6 +46750,9 @@ msgid ""
 "The presence of full stops is checked for various languages where they do "
 "not belong (Chinese, Japanese, Devanagari or Urdu)."
 msgstr ""
+"Prüft, ob Punkte in der Quelle und Übersetzung identisch sind. Das "
+"Vorhandensein von Punkten wird auch für verschiedene Sprachen geprüft, in "
+"denen sie nicht vorkommen (Chinesisch, Japanisch, Devanagari oder Urdu)."
 
 #: ../../user/checks.rst:1170
 msgid "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
@@ -46774,6 +46784,10 @@ msgid ""
 "languages where they do not belong (Armenian, Arabic, Chinese, Korean, "
 "Japanese, Ethiopic, Vai or Coptic)."
 msgstr ""
+"Prüft, ob Fragezeichen in der Quelle und Übersetzung identisch sind. Das "
+"Vorhandensein von Fragezeichen wird auch für verschiedene Sprachen geprüft, "
+"in denen sie nicht vorkommen (Armenisch, Arabisch, Chinesisch, Koreanisch, "
+"Japanisch, Äthiopisch, Vai oder Koptisch)."
 
 #: ../../user/checks.rst:1190
 msgid ""
@@ -46803,8 +46817,8 @@ msgid ""
 "Checks that semicolons at the end of sentences are replicated between both "
 "source and translation."
 msgstr ""
-"Prüft, ob Semikolons am Ende von Sätzen sowohl in der Ausgangszeichenkette "
-"als auch in der Übersetzung wiedergegeben werden."
+"Prüft, ob Semikolons am Satzende in der Quelle und Übersetzung identisch "
+"sind."
 
 #: ../../user/checks.rst:1207
 msgid "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
@@ -46859,12 +46873,17 @@ msgid ""
 "Specifics on how each plural form is used can be found in the string "
 "definition."
 msgstr ""
+"Prüft, ob alle Pluralformen einer Ausgangszeichenkette übersetzt wurden. Wie "
+"die einzelnen Pluralformen verwendet werden, ist in der Definition der "
+"Zeichenkette angegeben."
 
 #: ../../user/checks.rst:1238
 msgid ""
 "Failing to fill in plural forms will in some cases lead to displaying "
 "nothing when the plural form is in use."
 msgstr ""
+"Wenn nicht alle Pluralformen ausgefüllt werden, kann es vorkommen, dass beim "
+"Verwenden der Pluralform nichts angezeigt wird."
 
 #: ../../user/checks.rst:1244
 msgid "Placeholders"
@@ -46884,12 +46903,14 @@ msgstr "``placeholders``"
 
 #: ../../user/checks.rst:1255
 msgid "You can use regular expression as placeholder."
-msgstr "Sie können einen regulären Ausdruck als Platzhalter verwenden."
+msgstr "Ein regulärer Ausdruck kann als Platzhalter verwendet werden."
 
 #: ../../user/checks.rst:1259
 msgid ""
 "With the ``case-insensitive`` flag, the placeholders are not case-sensitive."
 msgstr ""
+"Mit der Markierung ``case-insensitive`` wird bei Platzhaltern nicht zwischen "
+"Groß-/Kleinschreibung unterschieden."
 
 #: ../../user/checks.rst:1261
 msgid ""
@@ -46897,16 +46918,24 @@ msgid ""
 "the translation file or defined manually using ``placeholders`` flag, more "
 "can be separated with colon, strings with space can be quoted:"
 msgstr ""
+"In der Übersetzung fehlen einige Platzhalter. Diese werden entweder aus der "
+"Übersetzungsdatei extrahiert oder manuell mit der ``placeholders``-"
+"Markierung definiert, weitere können mit Doppelpunkt getrennt werden, "
+"Zeichenketten mit Leerzeichen können in Anführungszeichen gesetzt werden:"
 
 #: ../../user/checks.rst:1269
 msgid ""
 "In case you have some syntax for placeholders, you can use a regular "
 "expression:"
 msgstr ""
+"Falls Sie eine Syntax für Platzhalter haben, können Sie einen regulären "
+"Ausdruck verwenden:"
 
 #: ../../user/checks.rst:1275
 msgid "You can also have case insensitive placeholders:"
 msgstr ""
+"Sie können auch Platzhalter verwenden, bei denen die Groß-/Kleinschreibung "
+"nicht berücksichtigt wird:"
 
 #: ../../user/checks.rst:1283 ../../user/glossary.rst:68
 #: ../../user/glossary.rst:84 ../../user/glossary.rst:100
@@ -46968,6 +46997,9 @@ msgid ""
 "Translation does not match regular expression. The expression is either "
 "extracted from the translation file or defined manually using ``regex`` flag:"
 msgstr ""
+"Die Übersetzung stimmt nicht mit dem regulärem Ausdruck überein. Der "
+"Ausdruck wird entweder aus der Übersetzungsdatei extrahiert oder manuell mit "
+"der Markierung ``regex`` definiert:"
 
 #: ../../user/checks.rst:1329
 msgid "Reused translation"
@@ -46990,6 +47022,9 @@ msgid ""
 "Check that fails if the same translation is used on different source "
 "strings. Such translations can be intentional, but can also confuse users."
 msgstr ""
+"Prüft, ob dieselbe Übersetzung für verschiedene Ausgangszeichenketten "
+"verwendet wird. Solche Übersetzungen können beabsichtigt sein, aber auch "
+"Benutzer verwirren."
 
 #: ../../user/checks.rst:1345
 msgid "Same plurals"
@@ -47012,6 +47047,8 @@ msgid ""
 "Check that fails if some plural forms are duplicated in the translation. In "
 "most languages they have to be different."
 msgstr ""
+"Prüft, ob Pluralformen in der Übersetzung doppelt vorkommen. In den meisten "
+"Sprachen müssen diese unterschiedlich sein."
 
 #: ../../user/checks.rst:1359
 msgid "Starting newline"
@@ -47114,8 +47151,8 @@ msgid ""
 "Checks that trailing spaces are replicated between both source and "
 "translation."
 msgstr ""
-"Prüft, ob die Leerzeichen am Ende des Textes zwischen Ausgangszeichenkette "
-"und Übersetzung wiedergegeben werden."
+"Prüft, ob nachgestellte Leerzeichen in der Quelle und Übersetzung identisch "
+"sind."
 
 #: ../../user/checks.rst:1419
 msgid ""
@@ -47158,6 +47195,8 @@ msgstr ""
 #: ../../user/checks.rst:1438
 msgid "This check can help find strings mistakenly untranslated."
 msgstr ""
+"Diese Prüfung kann helfen, irrtümlich nicht übersetzte Zeichenketten zu "
+"finden."
 
 #: ../../user/checks.rst:1440
 msgid ""
@@ -47181,6 +47220,9 @@ msgid ""
 "With ``check-glossary`` flag (see :ref:`check-check-glossary`), the "
 "untranslatable glossary terms are excluded from the checking."
 msgstr ""
+"Mit der ``check-glossary``-Markierung (siehe :ref:`check-check-glossary`) "
+"werden die nicht übersetzbaren Glossarbegriffe von der Prüfung "
+"ausgeschlossen."
 
 #: ../../user/checks.rst:1453
 msgid ":ref:`check-check-glossary`, :ref:`component`, :ref:`custom-checks`"
@@ -47214,12 +47256,16 @@ msgid ""
 "When ``md-text`` flag is also used, the Markdown style links are also "
 "allowed."
 msgstr ""
+"Wenn die Markierung ``md-text`` ebenfalls verwendet wird, sind auch Links im "
+"Markdown-Stil erlaubt."
 
 #: ../../user/checks.rst:1479
 msgid ""
 "The HTML check is performed by the `Ammonia <https://github.com/rust-ammonia/"
 "ammonia>`_ library."
 msgstr ""
+"Die HTML-Prüfung wird von der `Ammonia <https://github.com/rust-ammonia/"
+"ammonia>`_-Bibliothek durchgeführt."
 
 #: ../../user/checks.rst:1487
 msgid "URL"
@@ -47272,13 +47318,16 @@ msgstr ""
 #: ../../user/checks.rst:1514
 msgid ""
 "Checks that XML tags are replicated between both source and translation."
-msgstr ""
+msgstr "Prüft, ob XML-Tags in der Quelle und Übersetzung identisch sind."
 
 #: ../../user/checks.rst:1516 ../../user/checks.rst:1537
 msgid ""
 "The check is automatically enabled for XML like strings. You might need to "
 "add ``xml-text`` flag in some cases to force turning it on."
 msgstr ""
+"Die Prüfung wird automatisch für XML-ähnliche Zeichenketten aktiviert. "
+"Möglicherweise muss dies mit der ``xml-text``-Markierung in einigen Fällen "
+"erzwungen werden."
 
 #: ../../user/checks.rst:1521 ../../user/checks.rst:1542
 msgid ""
@@ -47330,6 +47379,8 @@ msgid ""
 "Zero-width space (<U+200B>) characters are used to break messages within "
 "words (word wrapping)."
 msgstr ""
+"Breitenlose Leerzeichen (<U+200B>) werden verwendet, um Nachrichten "
+"innerhalb von Wörtern umzubrechen (Wortumbruch)."
 
 #: ../../user/checks.rst:1558
 msgid ""
@@ -47337,6 +47388,9 @@ msgid ""
 "are present in translation. Some programs might have problems when this "
 "character is used."
 msgstr ""
+"Da sie normalerweise versehentlich eingefügt werden, wird diese Prüfung "
+"ausgelöst, sobald sie in der Übersetzung vorkommen. Einige Programme könnten "
+"Probleme haben, wenn dieses Zeichen verwendet wird."
 
 #: ../../user/checks.rst:1563
 msgid ""
@@ -47425,6 +47479,10 @@ msgid ""
 "meant to be used directly as ``.innerHTML`` (rather than ``.textContent``) "
 "for some HTML element. For example, when using the Fluent DOM package."
 msgstr ""
+"Fluent wird oft in Kontexten verwendet, in denen der Wert für eine Nachricht "
+"(oder einen Begriff) direkt als ``.innerHTML`` (statt ``.textContent``) für "
+"ein HTML-Element verwendet werden soll. Zum Beispiel, wenn das Fluent-DOM-"
+"Paket verwendet wird."
 
 #: ../../user/checks.rst:1610
 msgid ""
