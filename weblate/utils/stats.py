@@ -4,10 +4,10 @@
 
 from __future__ import annotations
 
+import time
 from datetime import timedelta
 from itertools import chain
 from operator import itemgetter
-from time import monotonic
 from types import GeneratorType
 
 import sentry_sdk
@@ -663,7 +663,7 @@ class TranslationStats(BaseStats):
         self.count_changes()
 
         # Store timestamp
-        self.store("stats_timestamp", monotonic())
+        self.store("stats_timestamp", time.time())
 
     def get_last_change_obj(self):
         from weblate.trans.models import Change
@@ -824,7 +824,7 @@ class AggregatingStats(BaseStats):
             values = (stats_obj.aggregate_get(item) for stats_obj in all_stats)
 
             if item == "stats_timestamp":
-                stats[item] = max(values, default=monotonic())
+                stats[item] = max(values, default=time.time())
             elif item == "last_changed":
                 # We need to access values twice here
                 values = list(values)

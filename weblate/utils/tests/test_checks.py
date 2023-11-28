@@ -25,15 +25,15 @@ class CeleryQueueTest(SimpleTestCase):
         self.assertEqual(len(cache.get("celery_queue_stats")), 1)
 
     def test_current(self):
-        self.set_cache({int(time.monotonic() / 3600): {}})
+        self.set_cache({int(time.time() / 3600): {}})
         self.assertFalse(is_celery_queue_long())
 
     def test_past(self):
-        self.set_cache({int(time.monotonic() / 3600) - 1: {}})
+        self.set_cache({int(time.time() / 3600) - 1: {}})
         self.assertFalse(is_celery_queue_long())
 
     def test_cleanup(self):
-        hour = int(time.monotonic() / 3600)
+        hour = int(time.time() / 3600)
         self.set_cache({i: {} for i in range(hour - 2, hour)})
         self.assertFalse(is_celery_queue_long())
 
@@ -41,18 +41,18 @@ class CeleryQueueTest(SimpleTestCase):
         with patch(
             "weblate.utils.checks.get_queue_stats", return_value={"celery": 1000}
         ):
-            self.set_cache({int(time.monotonic() / 3600) - 1: {}})
+            self.set_cache({int(time.time() / 3600) - 1: {}})
             self.assertFalse(is_celery_queue_long())
-            self.set_cache({int(time.monotonic() / 3600) - 1: {"celery": 1000}})
+            self.set_cache({int(time.time() / 3600) - 1: {"celery": 1000}})
             self.assertTrue(is_celery_queue_long())
 
     def test_translate(self):
         with patch(
             "weblate.utils.checks.get_queue_stats", return_value={"translate": 2000}
         ):
-            self.set_cache({int(time.monotonic() / 3600) - 1: {}})
+            self.set_cache({int(time.time() / 3600) - 1: {}})
             self.assertFalse(is_celery_queue_long())
-            self.set_cache({int(time.monotonic() / 3600) - 1: {"translate": 100}})
+            self.set_cache({int(time.time() / 3600) - 1: {"translate": 100}})
             self.assertFalse(is_celery_queue_long())
-            self.set_cache({int(time.monotonic() / 3600) - 1: {"translate": 2000}})
+            self.set_cache({int(time.time() / 3600) - 1: {"translate": 2000}})
             self.assertTrue(is_celery_queue_long())

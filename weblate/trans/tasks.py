@@ -222,7 +222,7 @@ def cleanup_stale_repos():
     prefix = data_dir("vcs")
     vcs_mask = os.path.join(prefix, "*", "*")
 
-    yesterday = time.monotonic() - 86400
+    yesterday = time.time() - 86400
 
     for path in glob(vcs_mask):
         if not os.path.isdir(path):
