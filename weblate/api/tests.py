@@ -3235,26 +3235,26 @@ class UnitAPITest(APIBaseTest):
             method="patch",
             code=403,
             superuser=True,
-            request={"labels": "test"},
+            request={"labels": [label1.id]},
         )
 
         # Edit on source will fail when label doesn't exist
         # or is not in the same project
         self.do_request(
             "api:unit-detail",
-            kwargs={"pk": unit.pk},
+            kwargs={"pk": unit.source_unit.pk},
             method="patch",
             code=400,
             superuser=True,
-            request={"labels": "foo"},
+            request={"labels": [4000]},
         )
         self.do_request(
             "api:unit-detail",
-            kwargs={"pk": unit.pk},
+            kwargs={"pk": unit.source_unit.pk},
             method="patch",
             code=400,
             superuser=True,
-            request={"labels": "test_2"},
+            request={"labels": [label2.id]},
         )
 
         # Edit on source will work when label exists
@@ -3264,7 +3264,7 @@ class UnitAPITest(APIBaseTest):
             method="patch",
             code=200,
             superuser=True,
-            request={"labels": "test"},
+            request={"labels": [label1.id]},
         )
 
         # Label should be now updated
@@ -4014,3 +4014,48 @@ class CategoryAPITest(APIBaseTest):
 
         for translation in response.data["results"]:
             self.do_request(translation["url"])
+
+
+class LabelAPITest(APIBaseTest):
+    def test_get_label(self):
+        label = self.component.project.label_set.create(name="test", color="navy")
+
+        response = self.do_request(
+            "api:project-labels",
+            kwargs={"slug": self.component.project.slug},
+            method="get",
+            code=200,
+        )
+
+        self.assertEqual(len(response.data["results"]), 1)
+
+        response_label = response.data["results"][0]
+
+        self.assertEqual(response_label["id"], label.id)
+        self.assertEqual(response_label["name"], label.name)
+        self.assertEqual(response_label["color"], label.color)
+
+    def test_create_label(self):
+        self.do_request(
+            "api:project-labels",
+            kwargs={"slug": Project.objects.first().slug},
+            method="post",
+            superuser=True,
+            request={
+                "name": "Test Label",
+                "color": "green",
+            },
+            code=201,
+        )
+
+        self.do_request(
+            "api:project-labels",
+            kwargs={"slug": Project.objects.first().slug},
+            method="post",
+            superuser=False,
+            request={
+                "name": "Test Label 2",
+                "color": "red",
+            },
+            code=403,
+        )

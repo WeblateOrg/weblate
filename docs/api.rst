@@ -1145,6 +1145,25 @@ Projects
     :param project: Project URL slug
     :type project: string
 
+.. http:get:: /api/projects/(string:project)/labels/
+
+    Returns labels for a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :>json int id: ID of the label
+    :>json string name: name of the label
+    :>json string color: color of the label
+
+.. http:post:: /api/projects/(string:project)/labels/
+
+    Creates a label for a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :<json string name: name of the label
+    :<json string color: color of the label
+
 Components
 ++++++++++
 
