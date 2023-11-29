@@ -85,6 +85,7 @@ LEGACY_KEYS = {
     "recent_changes",
     "monthly_changes",
     "total_changes",
+    "stats_timestamp",
 }
 
 SOURCE_MAP = {
