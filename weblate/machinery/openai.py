@@ -2,11 +2,18 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.core.cache import cache
 from openai import OpenAI
 
-from .base import MachineTranslation, MachineTranslationError
+from .base import BatchMachineTranslation, MachineTranslationError
 from .forms import OpenAIMachineryForm
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 PROMPT = """
 You are a highly skilled translation assistant, adept at translating text
@@ -21,7 +28,7 @@ You do not include transliteration.
 """
 
 
-class OpenAITranslation(MachineTranslation):
+class OpenAITranslation(BatchMachineTranslation):
     name = "OpenAI"
     max_score = 90
 
@@ -63,18 +70,18 @@ class OpenAITranslation(MachineTranslation):
             glossary="",
         )
 
-    def download_translations(
+    def download_multiple_translations(
         self,
         source,
         language,
-        text: str,
-        unit,
-        user,
+        sources: list[tuple[str, Unit]],
+        user=None,
         threshold: int = 75,
-    ):
+    ) -> dict[str, list[dict[str, str]]]:
+        texts = [text for text, _unit in sources]
         messages = [
             {"role": "system", "content": self.get_prompt(source, language)},
-            {"role": "user", "content": text},
+            *({"role": "user", "content": text} for text in texts),
         ]
 
         response = self.client.chat.completions.create(
@@ -86,12 +93,17 @@ class OpenAITranslation(MachineTranslation):
             presence_penalty=0,
         )
 
-        # Extract the assistant's reply from the response
-        assistant_reply = response.choices[0].message.content.strip()
+        result = {}
+        for index, text in enumerate(texts):
+            # Extract the assistant's reply from the response
+            assistant_reply = response.choices[index].message.content.strip()
 
-        yield {
-            "text": assistant_reply,
-            "quality": self.max_score,
-            "service": self.name,
-            "source": text,
-        }
+            result[text] = [
+                {
+                    "text": assistant_reply,
+                    "quality": self.max_score,
+                    "service": self.name,
+                    "source": text,
+                }
+            ]
+        return result
