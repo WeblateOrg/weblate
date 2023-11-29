@@ -181,7 +181,7 @@ class AutoTranslate:
             batch_size = translation_service.batch_size
             self.translation.log_info(
                 "fetching translations from %s, %d per request",
-                translation_service,
+                translation_service.name,
                 batch_size,
             )
 
