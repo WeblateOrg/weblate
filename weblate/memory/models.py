@@ -72,22 +72,29 @@ class MemoryQuerySet(models.QuerySet):
             threshold = 1 - 28.1838 * math.log(0.0443791 * length) / length
         adjust_similarity_threshold(threshold)
         # Actual database query
-        return self.filter_type(
-            # Type filtering
-            user=user,
-            project=project,
-            use_shared=use_shared,
-            from_file=True,
-        ).filter(
-            # Full-text search on source
-            source__search=text,
-            # Language filtering
-            source_language=source_language,
-            target_language=target_language,
-        )[:50]
+        return (
+            self.prefetch_project()
+            .filter_type(
+                # Type filtering
+                user=user,
+                project=project,
+                use_shared=use_shared,
+                from_file=True,
+            )
+            .filter(
+                # Full-text search on source
+                source__search=text,
+                # Language filtering
+                source_language=source_language,
+                target_language=target_language,
+            )[:50]
+        )
 
     def prefetch_lang(self):
         return self.prefetch_related("source_language", "target_language")
+
+    def prefetch_project(self):
+        return self.select_related("project")
 
 
 class MemoryManager(models.Manager):
