@@ -11,6 +11,7 @@ Not yet released.
 **Improvements**
 
 * Reduced memory usage for stastics.
+* :ref:`mt-deepl` performs better in :ref:`auto-translation`.
 
 **Bug fixes**
 
