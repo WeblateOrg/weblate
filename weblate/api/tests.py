@@ -2946,6 +2946,64 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
 
+    def test_add_plural(self):
+        # Add to bilingual
+        self.component.manage_units = True
+        self.component.save()
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": ["Singular", "Plural"],
+                "target": ["Target 0", "Target 1"],
+                "state": "20",
+            },
+            code=200,
+        )
+
+        # Add to monolingual
+        self.create_acl()
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "acl",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "key": "pluralized",
+                "value": ["Singular", "Plural"],
+            },
+            code=200,
+        )
+
+        # Not supported plurals
+        self.create_json_mono(name="other", project=self.component.project)
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "other",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "key": "pluralized",
+                "value": ["Singular", "Plural"],
+                "state": "20",
+            },
+            code=400,
+        )
+
     def test_delete(self):
         start_count = Translation.objects.count()
         self.do_request(
