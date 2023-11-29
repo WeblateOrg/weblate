@@ -976,6 +976,10 @@ class PluralMapper:
                 strings_to_translate.append(s)
         return strings_to_translate
 
+    def map_units(self, units):
+        for unit in units:
+            unit.plural_map = self.map(unit)
+
     def zip(self, sources, targets, unit):
         if len(sources) != self.source_plural.number:
             raise ValueError(

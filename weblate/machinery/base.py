@@ -9,8 +9,10 @@ from __future__ import annotations
 import random
 import re
 import time
+from collections import defaultdict
 from hashlib import md5
 from itertools import chain
+from typing import TYPE_CHECKING
 from urllib.parse import quote
 
 from django.core.cache import cache
@@ -27,6 +29,9 @@ from weblate.utils.hash import calculate_dict_hash, calculate_hash
 from weblate.utils.requests import request
 from weblate.utils.search import Comparer
 from weblate.utils.site import get_site_url
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 
 def get_machinery_language(language):
@@ -47,7 +52,7 @@ class UnsupportedLanguageError(MachineTranslationError):
     """Raised when language is not supported."""
 
 
-class MachineTranslation:
+class BatchMachineTranslation:
     """Generic object for machine translation services."""
 
     name = "MT"
@@ -63,7 +68,7 @@ class MachineTranslation:
     force_uncleanup = False
     hightlight_syntax = False
     settings_form = None
-    validate_payload = ("en", "de", "test", None, None, 75)
+    validate_payload = ("en", "de", [("test", None)], None, 75)
     request_timeout = 5
     is_available = True
 
@@ -92,7 +97,7 @@ class MachineTranslation:
                 gettext("Could not fetch supported languages: %s") % error
             )
         try:
-            list(self.download_translations(*self.validate_payload))
+            self.download_multiple_translations(*self.validate_payload)
         except Exception as error:
             raise ValidationError(gettext("Could not fetch translation: %s") % error)
 
@@ -166,27 +171,6 @@ class MachineTranslation:
     def download_languages(self):
         """Download list of supported languages from a service."""
         return []
-
-    def download_translations(
-        self,
-        source,
-        language,
-        text: str,
-        unit,
-        user,
-        threshold: int = 75,
-    ):
-        """
-        Download list of possible translations from a service.
-
-        Should return dict with translation text, translation quality, source of
-        translation, source string.
-
-        You can use self.name as source of translation, if you can not give
-        better hint and text parameter as source string if you do no fuzzy
-        matching.
-        """
-        raise NotImplementedError
 
     def map_language_code(self, code):
         """Map language code to service specific."""
@@ -374,7 +358,9 @@ class MachineTranslation:
             return []
 
         self.account_usage(translation.component.project)
-        return self._translate(source, language, text, unit, user, threshold=10)
+        return self._translate(source, language, [(text, unit)], user, threshold=10)[
+            text
+        ]
 
     def translate(self, unit, user=None, threshold: int = 75):
         """Return list of machine translations."""
@@ -396,52 +382,99 @@ class MachineTranslation:
         source_plural = translation.component.source_language.plural
         target_plural = translation.plural
         plural_mapper = PluralMapper(source_plural, target_plural)
-        return [
-            self._translate(source, language, text, unit, user, threshold=threshold)
-            for text in plural_mapper.map(unit)
-        ]
-
-    def _translate(self, source, language, text, unit, user=None, threshold: int = 75):
-        original_source = text
-        text, replacements = self.cleanup_text(text, unit)
-
-        if not text or self.is_rate_limited():
-            return []
-
-        cache_key, result = self.get_cached(
-            source, language, text, threshold, replacements
+        plural_mapper.map_units([unit])
+        translations = self._translate(
+            source,
+            language,
+            [(text, unit) for text in unit.plural_map],
+            user,
+            threshold=threshold,
         )
-        if result is not None:
-            return result
+        return [translations[text] for text in unit.plural_map]
 
-        try:
-            result = [
-                item
-                for item in self.download_translations(
+    def download_multiple_translations(
+        self,
+        source,
+        language,
+        sources: list[tuple[str, Unit]],
+        user=None,
+        threshold: int = 75,
+    ) -> dict[str, list[dict[str, str]]]:
+        """
+        Download dictionary of a lists of possible translations from a service.
+
+        Should return dict with translation text, translation quality, source of
+        translation, source string.
+
+        You can use self.name as source of translation, if you can not give
+        better hint and text parameter as source string if you do no fuzzy
+        matching.
+        """
+        raise NotImplementedError
+
+    def _translate(
+        self,
+        source,
+        language,
+        sources: list[tuple[str, Unit]],
+        user=None,
+        threshold: int = 75,
+    ) -> dict[str, list[dict[str, str]]]:
+        output = {}
+        pending = defaultdict(list)
+        for text, unit in sources:
+            original_source = text
+            text, replacements = self.cleanup_text(text, unit)
+
+            if not text or self.is_rate_limited():
+                output[original_source] = []
+                continue
+
+            # Try cached results
+            cache_key, result = self.get_cached(
+                source, language, text, threshold, replacements
+            )
+            if result is not None:
+                output[original_source] = result
+                continue
+
+            pending[text].append((unit, original_source, replacements))
+
+        # Fetch pending strings to translate
+        if pending:
+            # Unit is only used in WeblateMemory and it is used only to get a project
+            # so it doesn't matter we potentionally flatten this.
+            try:
+                translations = self.download_multiple_translations(
                     source,
                     language,
-                    text,
-                    unit,
+                    [
+                        (text, occurrences[0][0])
+                        for text, occurrences in pending.items()
+                    ],
                     user,
-                    threshold=threshold,
+                    threshold,
                 )
-                if item["quality"] >= threshold
-            ]
-        except Exception as exc:
-            if self.is_rate_limit_error(exc):
-                self.set_rate_limit()
+            except Exception as exc:
+                if self.is_rate_limit_error(exc):
+                    self.set_rate_limit()
 
-            self.report_error("Could not fetch translations from %s")
-            if isinstance(exc, MachineTranslationError):
-                raise
-            raise MachineTranslationError(self.get_error_message(exc)) from exc
-        for item in result:
-            item["original_source"] = original_source
-        if cache_key:
-            cache.set(cache_key, result, 30 * 86400)
-        if replacements or self.force_uncleanup:
-            self.uncleanup_results(replacements, result)
-        return result
+                self.report_error("Could not fetch translations from %s")
+                if isinstance(exc, MachineTranslationError):
+                    raise
+                raise MachineTranslationError(self.get_error_message(exc)) from exc
+
+            # Postprocess translations
+            for text, result in translations.items():
+                for _unit, original_source, replacements in pending[text]:
+                    for item in result:
+                        item["original_source"] = original_source
+                    if cache_key:
+                        cache.set(cache_key, result, 30 * 86400)
+                    if replacements or self.force_uncleanup:
+                        self.uncleanup_results(replacements, result)
+                    output[original_source] = result
+        return output
 
     def get_error_message(self, exc):
         return f"{exc.__class__.__name__}: {exc}"
@@ -472,16 +505,18 @@ class MachineTranslation:
         source_plural = translation.component.source_language.plural
         target_plural = translation.plural
         plural_mapper = PluralMapper(source_plural, target_plural)
+        plural_mapper.map_units(units)
+
+        sources = [(text, unit) for unit in units for text in unit.plural_map]
+        translations = self._translate(source, language, sources, user, threshold)
+
         for unit in units:
             result = unit.machinery
             if result is None:
                 result = unit.machinery = {}
             elif min(result.get("quality", ()), default=0) >= self.max_score:
                 continue
-            translation_lists = [
-                self._translate(source, language, text, unit, user, threshold=threshold)
-                for text in plural_mapper.map(unit)
-            ]
+            translation_lists = [translations[text] for text in unit.plural_map]
             plural_count = len(translation_lists)
             translation = result.setdefault("translation", [""] * plural_count)
             quality = result.setdefault("quality", [0] * plural_count)
@@ -500,6 +535,46 @@ class MachineTranslation:
         from weblate.auth.models import User
 
         return User.objects.get_or_create_bot("mt", self.get_identifier(), self.name)
+
+
+class MachineTranslation(BatchMachineTranslation):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        threshold: int = 75,
+    ):
+        """
+        Download list of possible translations from a service.
+
+        Should return dict with translation text, translation quality, source of
+        translation, source string.
+
+        You can use self.name as source of translation, if you can not give
+        better hint and text parameter as source string if you do no fuzzy
+        matching.
+        """
+        raise NotImplementedError
+
+    def download_multiple_translations(
+        self,
+        source,
+        language,
+        sources: list[tuple[str, Unit]],
+        user=None,
+        threshold: int = 75,
+    ) -> dict[str, list[dict[str, str]]]:
+        return {
+            text: list(
+                self.download_translations(
+                    source, language, text, unit, user, threshold=threshold
+                )
+            )
+            for text, unit in sources
+        }
 
 
 class InternalMachineTranslation(MachineTranslation):
