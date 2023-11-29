@@ -9,7 +9,6 @@ from copy import copy
 from io import StringIO
 from unittest import SkipTest
 from unittest.mock import Mock, patch
-from urllib.parse import parse_qs
 
 import httpx
 import responses
@@ -1019,7 +1018,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     def test_formality(self):
         def request_callback(request):
             headers = {}
-            payload = parse_qs(request.body)
+            payload = json.loads(request.body)
             self.assertIn("formality", payload)
             return (200, headers, json.dumps(DEEPL_RESPONSE))
 
@@ -1043,7 +1042,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     def test_replacements(self):
         def request_callback(request):
             headers = {}
-            payload = parse_qs(request.body)
+            payload = json.loads(request.body)
             self.assertEqual(
                 payload["text"], ['Hello, <x id="7"></x>! &lt;&lt;foo&gt;&gt;']
             )
