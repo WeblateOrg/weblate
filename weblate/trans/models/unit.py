@@ -486,6 +486,8 @@ class Unit(models.Model, LoggerMixin):
         self.fixups = []
         # Data for machinery integration
         self.machinery = None
+        # PluralMapper integration
+        self.plural_map = None
         # Data for glossary integration
         self.glossary_terms = None
         self.glossary_positions = None
