@@ -500,6 +500,12 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
             "translate?api-version=3.0&from=en&to=cs&category=general",
             json=MICROSOFT_RESPONSE,
         )
+        responses.add(
+            responses.POST,
+            "https://api.cognitive.microsofttranslator.com/"
+            "translate?api-version=3.0&from=en&to=de&category=general",
+            json=MICROSOFT_RESPONSE,
+        )
 
 
 class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest):
@@ -527,6 +533,12 @@ class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest)
             responses.POST,
             "https://api.cognitive.microsofttranslator.com/"
             "translate?api-version=3.0&from=en&to=cs&category=general",
+            json=MICROSOFT_RESPONSE,
+        )
+        responses.add(
+            responses.POST,
+            "https://api.cognitive.microsofttranslator.com/"
+            "translate?api-version=3.0&from=en&to=de&category=general",
             json=MICROSOFT_RESPONSE,
         )
 
@@ -659,6 +671,9 @@ class AmagamaTranslationTest(BaseMachineTranslationTest):
         )
         responses.add(
             responses.GET, AMAGAMA_LIVE + "/en/cs/unit/Hello", json=AMAGAMA_JSON
+        )
+        responses.add(
+            responses.GET, AMAGAMA_LIVE + "/en/de/unit/test", json=AMAGAMA_JSON
         )
 
     def mock_error(self):
@@ -1176,6 +1191,20 @@ class AWSTranslationTest(BaseMachineTranslationTest):
 
     def mock_response(self):
         pass
+
+    def test_validate_settings(self):
+        machine = self.get_machine()
+        with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "translate_text",
+                {
+                    "TranslatedText": "Hallo",
+                    "SourceLanguageCode": "en",
+                    "TargetLanguageCode": "de",
+                },
+                {"SourceLanguageCode": ANY, "TargetLanguageCode": ANY, "Text": ANY},
+            )
+            machine.validate_settings()
 
     def test_translate(self, **kwargs):
         machine = self.get_machine()

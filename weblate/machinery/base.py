@@ -92,7 +92,7 @@ class MachineTranslation:
                 gettext("Could not fetch supported languages: %s") % error
             )
         try:
-            self.download_translations(*self.validate_payload)
+            list(self.download_translations(*self.validate_payload))
         except Exception as error:
             raise ValidationError(gettext("Could not fetch translation: %s") % error)
 
