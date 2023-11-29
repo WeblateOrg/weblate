@@ -206,12 +206,12 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         units = units.exclude(target__lower__md5=MD5(Lower(Value(""))))
 
         # List strings with different sources
-        # Limit this to 100 strings, otherwise the resulting query is way too complex
+        # Limit this to 20 strings, otherwise the resulting query is too slow
         matches = (
             units.values("target__md5", "translation__language", "translation__plural")
             .annotate(source__count=Count("source", distinct=True))
             .filter(source__count__gt=1)
-            .order_by("target__md5")[:100]
+            .order_by("target__md5")[:20]
         )
 
         if not matches:
