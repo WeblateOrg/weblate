@@ -16,7 +16,7 @@ from django.db.models import Count, Max, Q, Sum, Value
 from django.db.models.functions import MD5, Length, Lower
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext, gettext_lazy, gettext_noop
+from django.utils.translation import gettext, gettext_lazy
 from pyparsing import ParseException
 
 from weblate.checks.flags import Flags
@@ -1472,11 +1472,7 @@ class Unit(models.Model, LoggerMixin):
             )
 
         if change_action == Change.ACTION_AUTO:
-            label = component.project.label_set.get_or_create(
-                name=gettext_noop("Automatically translated"),
-                defaults={"color": "yellow"},
-            )[0]
-            self.labels.add(label)
+            self.labels.add(component.project.automatically_translated_label)
         else:
             self.labels.through.objects.filter(
                 unit=self, label__name="Automatically translated"
