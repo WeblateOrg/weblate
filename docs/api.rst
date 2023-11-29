@@ -1147,6 +1147,8 @@ Projects
 
 .. http:get:: /api/projects/(string:project)/labels/
 
+   .. versionadded:: 5.3
+
     Returns labels for a project.
 
     :param project: Project URL slug
@@ -1156,6 +1158,8 @@ Projects
     :>json string color: color of the label
 
 .. http:post:: /api/projects/(string:project)/labels/
+
+   .. versionadded:: 5.3
 
     Creates a label for a project.
 
