@@ -276,6 +276,16 @@ def check_manage_units(
 @register_perm("unit.delete")
 def check_unit_delete(user, permission, obj):
     if isinstance(obj, Unit):
+        if (
+            obj.translation.component.is_glossary
+            and not obj.translation.is_source
+            and "terminology" in obj.all_flags
+        ):
+            return Denied(
+                gettext(
+                    "Cannot remove terminology translation, remove source string instead."
+                )
+            )
         obj = obj.translation
     component = obj.component
     # Check if removing is generally allowed
