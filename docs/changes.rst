@@ -17,6 +17,7 @@ Not yet released.
 **Compatibility**
 
 * Dropped Microsoft Terminology service for automatic suggestions as it is no longer provided by Microsoft.
+* ``labels`` in units API now expose full label info, see :http:get:`/api/units/(int:id)/`.
 
 **Upgrading**
 
