@@ -71,12 +71,12 @@ class DeepLTranslation(MachineTranslation):
     ):
         """Download list of possible translations from a service."""
         params = {
-            "text": text,
+            "text": [text],
             "source_lang": source,
             "target_lang": language,
             "formality": self.settings.get("formality", "default"),
             "tag_handling": "xml",
-            "ignore_tags": "x",
+            "ignore_tags": ["x"],
         }
         if language.endswith("@FORMAL"):
             params["target_lang"] = language[:-7]
@@ -87,7 +87,7 @@ class DeepLTranslation(MachineTranslation):
         response = self.request(
             "post",
             self.get_api_url("translate"),
-            data=params,
+            json=params,
         )
         payload = response.json()
 
