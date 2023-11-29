@@ -204,6 +204,13 @@ class BaseMachineTranslationTest(TestCase):
         machine.cache_translations = cache
         return machine
 
+    @responses.activate
+    @respx.mock
+    def test_validate_settings(self):
+        self.mock_response()
+        machine = self.get_machine()
+        machine.validate_settings()
+
     def test_english_map(self):
         machine = self.get_machine()
         self.assertEqual(machine.map_language_code("en_devel"), self.ENGLISH)
