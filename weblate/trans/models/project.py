@@ -315,7 +315,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
 
     @cached_property
     def locked(self):
-        return self.component_set.filter(locked=False).count() == 0
+        return (
+            self.component_set.filter(locked=False).count() == 0
+            and self.component_set.exists()
+        )
 
     @cached_property
     def languages(self):
