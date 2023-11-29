@@ -2,14 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 from html import escape, unescape
+from typing import TYPE_CHECKING
 
-from .base import MachineTranslation
+from .base import BatchMachineTranslation
 from .forms import DeepLMachineryForm
 
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
-class DeepLTranslation(MachineTranslation):
+
+class DeepLTranslation(BatchMachineTranslation):
     """DeepL (Linguee) machine translation support."""
 
     name = "DeepL"
@@ -60,18 +66,18 @@ class DeepLTranslation(MachineTranslation):
         """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
 
-    def download_translations(
+    def download_multiple_translations(
         self,
         source,
         language,
-        text: str,
-        unit,
-        user,
+        sources: list[tuple[str, Unit]],
+        user=None,
         threshold: int = 75,
-    ):
+    ) -> dict[str, list[dict[str, str]]]:
+        texts = [text for text, _unit in sources]
         """Download list of possible translations from a service."""
         params = {
-            "text": [text],
+            "text": texts,
             "source_lang": source,
             "target_lang": language,
             "formality": self.settings.get("formality", "default"),
@@ -91,13 +97,17 @@ class DeepLTranslation(MachineTranslation):
         )
         payload = response.json()
 
-        for translation in payload["translations"]:
-            yield {
-                "text": translation["text"],
-                "quality": self.max_score,
-                "service": self.name,
-                "source": text,
-            }
+        result = {}
+        for index, text in enumerate(texts):
+            result[text] = [
+                {
+                    "text": payload["translations"][index]["text"],
+                    "quality": self.max_score,
+                    "service": self.name,
+                    "source": text,
+                }
+            ]
+        return result
 
     def unescape_text(self, text: str):
         """Unescaping of the text with replacements."""
