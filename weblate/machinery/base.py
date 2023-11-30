@@ -25,7 +25,7 @@ from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
-from weblate.utils.hash import calculate_dict_hash, calculate_hash
+from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
 from weblate.utils.requests import request
 from weblate.utils.search import Comparer
 from weblate.utils.site import get_site_url
@@ -592,3 +592,113 @@ class InternalMachineTranslation(MachineTranslation):
 
     def get_language_possibilities(self, language):
         yield get_machinery_language(language)
+
+
+class GlossaryMachineTranslationMixin:
+    glossary_name_format = (
+        "weblate:{project}:{source_language}:{target_language}:{checksum}"
+    )
+    glossary_count_limit = None
+
+    def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
+        return True
+
+    def list_glossaries(self) -> dict[str:str]:
+        """
+        Lists glossaries from the service.
+
+        Returns dictionary with names and id.
+        """
+        raise NotImplementedError
+
+    def delete_glossary(self, glossary_id: str):
+        raise NotImplementedError
+
+    def delete_oldest_glossary(self):
+        raise NotImplementedError
+
+    def create_glossary(
+        self, source_language: str, target_language: str, name: str, tsv: str
+    ):
+        raise NotImplementedError
+
+    def get_glossaries(self, use_cache: bool = True):
+        cache_key = self.get_cache_key("glossaries")
+        if use_cache:
+            cached = cache.get(cache_key)
+            if cached is not None:
+                return cached
+
+        result = self.list_glossaries()
+
+        cache.set(cache_key, result, 24 * 3600)
+        return result
+
+    def get_glossary_id(
+        self, source_language: str, target_language: str, unit
+    ) -> int | str | None:
+        from weblate.glossary.models import get_glossary_tsv
+
+        if unit is None:
+            return None
+
+        translation = unit.translation
+
+        # Check glossary support for a language pair
+        if not self.is_glossary_supported(source_language, target_language):
+            return None
+
+        # Check if there is a glossary
+        glossary_tsv = get_glossary_tsv(translation)
+        if not glossary_tsv:
+            return None
+
+        # Calculate hash to check for changes
+        glossary_checksum = hash_to_checksum(calculate_hash(glossary_tsv))
+        glossary_name = self.glossary_name_format.format(
+            project=translation.component.project.id,
+            source_language=source_language,
+            target_language=target_language,
+            checksum=glossary_checksum,
+        )
+
+        # Fetch list of glossaries
+        glossaries = self.get_glossaries()
+        if glossary_name in glossaries:
+            return glossaries[glossary_name]
+
+        # Remove stale glossaries for this language pair
+        hashless_name = self.glossary_name_format.format(
+            project=translation.component.project.id,
+            source_language=source_language,
+            target_language=target_language,
+            checksum="",
+        )
+        for name, glossary_id in glossaries.items():
+            if name.startswith(hashless_name):
+                translation.log_debug(
+                    "%s: removing stale glossary %s (%s)", self.mtid, name, glossary_id
+                )
+                self.delete_glossary(glossary_id)
+
+        # Ensure we are in service limits
+        if (
+            self.glossary_count_limit
+            and len(glossaries) + 1 >= self.glossary_count_limit
+        ):
+            translation.log_debug(
+                "%s: approached limit of %d glossaries, removing oldest glossary",
+                self.mtid,
+                self.glossary_count_limit,
+            )
+            self.delete_oldest_glossary()
+
+        # Create new glossary
+        translation.log_debug("%s: creating glossary %s", self.mtid, glossary_name)
+        self.create_glossary(
+            source_language, target_language, glossary_name, glossary_tsv
+        )
+
+        # Fetch glossaries again, without using cache
+        glossaries = self.get_glossaries(use_cache=False)
+        return glossaries[glossary_name]

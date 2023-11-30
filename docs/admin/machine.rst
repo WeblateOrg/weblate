@@ -150,6 +150,8 @@ Replace the XXX with your auth_key. If you receive a JSON object which contains
 Weblate supports DeepL formality, it will choose matching one based on the
 language (for example, there is ``de@formal`` and ``de@informal``).
 
+The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
+
 .. seealso::
 
     `DeepL translator <https://www.deepl.com/translator>`_,
