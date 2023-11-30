@@ -7,6 +7,7 @@ Not yet released.
 
 * :ref:`mt-openai` automatic suggestion service.
 * Added labels API, see :http:get:`/api/projects/(string:project)/labels/`.
+* :ref:`glossary-mt`.
 
 **Improvements**
 

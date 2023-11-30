@@ -374,6 +374,8 @@ This service uses an API, and you need to obtain key and secret from NetEase.
 OpenAI
 ------
 
+.. versionadded:: 5.3
+
 :Service ID: ``openai``
 :Configuration: +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
                 | ``key``     | API key            |                                                                                                                           |
@@ -402,6 +404,8 @@ available, but you might want to choose a specific model that matches your needs
 Use persona and style fields to further fine-tune translations. These will be
 used in a prompt for OpenAI and allow you to change the style of the
 translations.
+
+The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 
 .. seealso::
 

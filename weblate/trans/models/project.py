@@ -493,6 +493,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
     def source_language_cache_key(self):
         return f"project-source-language-ids-{self.pk}"
 
+    def get_glossary_tsv_cache_key(self, source_language, language):
+        return f"project-glossary-tsv-{self.pk}-{source_language.code}-{language.code}"
+
     def invalidate_source_language_cache(self):
         cache.delete(self.source_language_cache_key)
 
@@ -554,6 +557,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin):
     def invalidate_glossary_cache(self):
         if "glossary_automaton" in self.__dict__:
             del self.__dict__["glossary_automaton"]
+        tsv_cache_keys = [
+            self.get_glossary_tsv_cache_key(source_language, language)
+            for source_language in Language.objects.filter(
+                component__project=self
+            ).distinct()
+            for language in self.languages
+        ]
+        cache.delete_many(tsv_cache_keys)
 
     @cached_property
     def glossary_automaton(self):

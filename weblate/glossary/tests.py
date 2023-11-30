@@ -4,11 +4,13 @@
 
 """Test for glossary manipulations."""
 
+import csv
 import json
+from io import StringIO
 
 from django.urls import reverse
 
-from weblate.glossary.models import get_glossary_terms
+from weblate.glossary.models import get_glossary_terms, get_glossary_tsv
 from weblate.glossary.tasks import sync_terminology
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
@@ -433,3 +435,16 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
             ),
             {""},
         )
+
+    def test_tsv(self):
+        # Import file
+        self.import_file(TEST_CSV)
+
+        tsv_data = get_glossary_tsv(self.get_translation())
+
+        handle = StringIO(tsv_data)
+
+        reader = csv.reader(handle, "excel-tab")
+        lines = list(reader)
+        self.assertEqual(len(lines), 163)
+        self.assertTrue(all(len(line) == 2 for line in lines))
