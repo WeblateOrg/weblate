@@ -9,6 +9,8 @@ from typing import TYPE_CHECKING
 from django.core.cache import cache
 from openai import OpenAI
 
+from weblate.glossary.models import get_glossary_tsv
+
 from .base import BatchMachineTranslation, MachineTranslationError
 from .forms import OpenAIMachineryForm
 
@@ -25,6 +27,10 @@ with precision and nuance.
 You always reply with translated string only.
 You do not include transliteration.
 {glossary}
+"""
+GLOSSARY_PROMPT = """
+Use the following glossary during the translation:
+{}
 """
 
 
@@ -61,13 +67,20 @@ class OpenAITranslation(BatchMachineTranslation):
 
         raise MachineTranslationError(f"Unsupported model: {self.settings['model']}")
 
-    def get_prompt(self, source_language: str, target_language: str) -> str:
+    def get_prompt(
+        self, source_language: str, target_language: str, translation
+    ) -> str:
+        glossary = ""
+        if translation:
+            glossary = get_glossary_tsv(translation)
+        if glossary:
+            glossary = GLOSSARY_PROMPT.format(glossary)
         return PROMPT.format(
             source_language=source_language,
             target_language=target_language,
             persona=self.settings["persona"],
             style=self.settings["style"],
-            glossary="",
+            glossary=glossary,
         )
 
     def download_multiple_translations(
@@ -79,8 +92,10 @@ class OpenAITranslation(BatchMachineTranslation):
         threshold: int = 75,
     ) -> dict[str, list[dict[str, str]]]:
         texts = [text for text, _unit in sources]
+        unit = sources[0][1]
+        prompt = self.get_prompt(source, language, unit.translation if unit else None)
         messages = [
-            {"role": "system", "content": self.get_prompt(source, language)},
+            {"role": "system", "content": prompt},
             *({"role": "user", "content": text} for text in texts),
         ]
 

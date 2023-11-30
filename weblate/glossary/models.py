@@ -5,12 +5,15 @@
 from __future__ import annotations
 
 import re
+import sys
+import unicodedata
 from collections import defaultdict
 from itertools import chain
 
 import ahocorasick_rs
 import sentry_sdk
-from django.db.models import Q, Value
+from django.core.cache import cache
+from django.db.models import Prefetch, Q, Value
 from django.db.models.functions import MD5, Lower
 
 from weblate.trans.models.unit import Unit
@@ -19,6 +22,15 @@ from weblate.utils.state import STATE_TRANSLATED
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+")
 NON_WORD_RE = re.compile(r"\W")
+# All control chars including tab and newline, this is dufferent from
+# weblate.formats.helpers.CONTROLCHARS which contains only chars
+# problematic in XML or SQL scopes.
+CONTROLCHARS = [
+    char
+    for char in map(chr, range(sys.maxunicode + 1))
+    if unicodedata.category(char) in ("Zl", "Cc")
+]
+CONTROLCHARS_TRANS = str.maketrans({char: None for char in CONTROLCHARS})
 
 
 def get_glossary_sources(component):
@@ -49,6 +61,14 @@ def get_glossary_automaton(project):
             implementation=ahocorasick_rs.Implementation.ContiguousNFA,
             store_patterns=False,
         )
+
+
+def get_glossary_units(project, source_language, target_language):
+    return Unit.objects.filter(
+        translation__component__in=project.glossaries,
+        translation__component__source_language=source_language,
+        translation__language=target_language,
+    )
 
 
 def get_glossary_terms(unit: Unit) -> list[Unit]:
@@ -93,12 +113,10 @@ def get_glossary_terms(unit: Unit) -> list[Unit]:
             return []
 
         units = list(
-            Unit.objects.prefetch()
+            get_glossary_units(project, source_language, language)
+            .prefetch()
             .filter(
                 Q(source__lower__md5__in=[MD5(Value(term)) for term in positions]),
-                translation__component__in=project.glossaries,
-                translation__component__source_language=source_language,
-                translation__language=language,
             )
             .select_related("source_unit", "variant")
         )
@@ -132,3 +150,74 @@ def get_glossary_terms(unit: Unit) -> list[Unit]:
     unit.glossary_terms = units
 
     return units
+
+
+def render_glossary_units_tsv(units) -> str:
+    r"""
+    Builds a tab separated glossary.
+
+    Based on the DeepL specification:
+
+    - duplicate source entries are not allowed
+    - neither source nor target entry may be empty
+    - source and target entries must not contain any C0 or C1 control characters (including, e.g., "\t" or "\n") or any Unicode newline
+    - source and target entries must not contain any leading or trailing Unicode whitespace character
+    - source/target entry pairs are separated by a newline
+    - source entries and target entries are separated by a tab
+    """
+    from weblate.trans.models.component import Component
+
+    def cleanup(text):
+        return text.translate(CONTROLCHARS_TRANS).strip()
+
+    included = set()
+    output = []
+    for unit in units.prefetch_related(
+        "source_unit",
+        "translation",
+        Prefetch("translation__component", queryset=Component.objects.defer_huge()),
+    ):
+        # Skip forbidden term
+        if "forbidden" in unit.all_flags:
+            continue
+
+        if not unit.translated and "read-only" not in unit.all_flags:
+            continue
+
+        # Cleanup strings
+        source = cleanup(unit.source)
+        target = source if "read-only" in unit.all_flags else cleanup(unit.target)
+
+        # Skip blanks and duplicates
+        if not source or not target or source in included:
+            continue
+
+        # Memoize included
+        included.add(source)
+
+        # Render TSV
+        output.append(f"{source}\t{target}")
+
+    return "\n".join(output)
+
+
+def get_glossary_tsv(translation) -> str:
+    project = translation.component.project
+    source_language = translation.component.source_language
+    language = translation.language
+
+    cache_key = project.get_glossary_tsv_cache_key(source_language, language)
+
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
+
+    # Get glossary units
+    units = get_glossary_units(project, source_language, language)
+
+    # Render as tsv
+    result = render_glossary_units_tsv(units.filter(state__gte=STATE_TRANSLATED))
+
+    cache.set(cache_key, result, 24 * 3600)
+
+    return result

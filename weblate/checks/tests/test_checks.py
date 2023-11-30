@@ -37,6 +37,13 @@ class MockProject:
         self.use_shared_tm = True
         self.name = "MockProject"
 
+    def get_glossary_tsv_cache_key(self, source_language, language):
+        return f"project-glossary-tsv-test-{source_language.code}-{language.code}"
+
+    @property
+    def glossaries(self):
+        return []
+
 
 class MockComponent:
     """Mock component object."""
