@@ -1026,6 +1026,16 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             "https://api.deepl.com/v2/languages",
             json=DEEPL_LANG_RESPONSE,
         )
+        responses.add(
+            responses.GET,
+            "https://api.deepl.com/v2/glossary-language-pairs",
+            json={
+                "supported_languages": [
+                    {"source_lang": "de", "target_lang": "en"},
+                    {"source_lang": "en", "target_lang": "de"},
+                ]
+            },
+        )
 
     @classmethod
     def mock_response(cls):
@@ -1059,6 +1069,52 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         self.assert_translate(
             "DE@INFORMAL", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
+
+    @responses.activate
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    def test_glossary(self):
+        def request_callback(request):
+            headers = {}
+            payload = json.loads(request.body)
+            self.assertIn("glossary_id", payload)
+            return (200, headers, json.dumps(DEEPL_RESPONSE))
+
+        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine.delete_cache()
+        self.mock_languages()
+        responses.add_callback(
+            responses.POST,
+            "https://api.deepl.com/v2/translate",
+            callback=request_callback,
+        )
+        responses.add(
+            responses.GET,
+            "https://api.deepl.com/v2/glossaries",
+            json={"glossaries": []},
+        )
+        responses.add(
+            responses.POST,
+            "https://api.deepl.com/v2/glossaries",
+        )
+        responses.add(
+            responses.GET,
+            "https://api.deepl.com/v2/glossaries",
+            json={
+                "glossaries": [
+                    {
+                        "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+                        "name": "weblate:1:EN:DE:9e250d830c11d70f",
+                        "ready": True,
+                        "source_lang": "EN",
+                        "target_lang": "DE",
+                        "creation_time": "2021-08-03T14:16:18.329Z",
+                        "entry_count": 1,
+                    }
+                ]
+            },
+        )
+        # Fetch from service
+        self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
 
     @responses.activate
     def test_replacements(self):
