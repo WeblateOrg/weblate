@@ -1017,7 +1017,7 @@ function setResourceEntrySizeData(
   dataKey,
 ) {
   const entryVal = entry[key];
-  if (entryVal !== undefined && entryVal < MAX_INT_AS_BYTES) {
+  if (entryVal != null && entryVal < MAX_INT_AS_BYTES) {
     data[dataKey] = entryVal;
   }
 }
@@ -2156,8 +2156,8 @@ function addTracingHeadersToFetchRequest(
   const dynamicSamplingContext = transaction
     ? transaction.getDynamicSamplingContext()
     : dsc
-    ? dsc
-    : core.getDynamicSamplingContextFromClient(traceId, client, scope);
+      ? dsc
+      : core.getDynamicSamplingContextFromClient(traceId, client, scope);
 
   const sentryBaggageHeader = utils.dynamicSamplingContextToSentryBaggageHeader(dynamicSamplingContext);
 
@@ -5610,7 +5610,7 @@ function _wrapEventTarget(target) {
     return;
   }
 
-  utils.fill(proto, 'addEventListener', function (original)
+  utils.fill(proto, 'addEventListener', function (original,)
 
  {
     return function (
@@ -6107,8 +6107,8 @@ function createProfilePayload(
   const transactionStartMs = start_timestamp
     ? start_timestamp
     : typeof event.start_timestamp === 'number'
-    ? event.start_timestamp * 1000
-    : Date.now();
+      ? event.start_timestamp * 1000
+      : Date.now();
   const transactionEndMs = typeof event.timestamp === 'number' ? event.timestamp * 1000 : Date.now();
 
   const profile = {
@@ -12582,7 +12582,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
  *
  * @deprecated Use string literals - if you require type casting, cast to SpanStatusType type
  */
-// eslint-disable-next-line import/export
 exports.SpanStatus = void 0; (function (SpanStatus) {
   /** The operation completed successfully. */
   const Ok = 'ok'; SpanStatus["Ok"] = Ok;
@@ -14017,7 +14016,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":58,"../eventProcessors.js":61,"../scope.js":73,"@sentry/utils":116}],95:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.83.0';
+const SDK_VERSION = '7.84.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -19249,21 +19248,6 @@ function isSampled(sampleRate) {
 }
 
 /**
- * Save a session to session storage.
- */
-function saveSession(session) {
-  if (!hasSessionStorage()) {
-    return;
-  }
-
-  try {
-    WINDOW.sessionStorage.setItem(REPLAY_SESSION_KEY, JSON.stringify(session));
-  } catch (e) {
-    // Ignore potential SecurityError exceptions
-  }
-}
-
-/**
  * Get a session with defaults & applied sampling.
  */
 function makeSession(session) {
@@ -19284,6 +19268,21 @@ function makeSession(session) {
     sampled,
     previousSessionId,
   };
+}
+
+/**
+ * Save a session to session storage.
+ */
+function saveSession(session) {
+  if (!hasSessionStorage()) {
+    return;
+  }
+
+  try {
+    WINDOW.sessionStorage.setItem(REPLAY_SESSION_KEY, JSON.stringify(session));
+  } catch (e) {
+    // Ignore potential SecurityError exceptions
+  }
 }
 
 /**
@@ -27189,7 +27188,9 @@ function urlEncode(object) {
  * @returns An Event or Error turned into an object - or the value argurment itself, when value is neither an Event nor
  *  an Error.
  */
-function convertToPlainObject(value)
+function convertToPlainObject(
+  value,
+)
 
  {
   if (is.isError(value)) {
@@ -28125,13 +28126,17 @@ function extractQueryParams(
     originalUrl = `http://dogs.are.great${originalUrl}`;
   }
 
-  return (
-    req.query ||
-    (typeof URL !== undefined && new URL(originalUrl).search.replace('?', '')) ||
-    // In Node 8, `URL` isn't in the global scope, so we have to use the built-in module from Node
-    (deps && deps.url && deps.url.parse(originalUrl).query) ||
-    undefined
-  );
+  try {
+    return (
+      req.query ||
+      (typeof URL !== undefined && new URL(originalUrl).search.slice(1)) ||
+      // In Node 8, `URL` isn't in the global scope, so we have to use the built-in module from Node
+      (deps && deps.url && deps.url.parse(originalUrl).query) ||
+      undefined
+    );
+  } catch (e2) {
+    return undefined;
+  }
 }
 
 /**
@@ -29256,8 +29261,9 @@ function getSanitizedUrlString(url) {
         // Always filter out authority
         .replace(/^.*@/, '[filtered]:[filtered]@')
         // Don't show standard :80 (http) and :443 (https) ports to reduce the noise
-        .replace(':80', '')
-        .replace(':443', '')) ||
+        // TODO: Use new URL global if it exists
+        .replace(/(:80)$/, '')
+        .replace(/(:443)$/, '')) ||
     '';
 
   return `${protocol ? `${protocol}://` : ''}${filteredHost}${path}`;
