@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
-from datetime import date
+from datetime import date, datetime
 
 from django import template
 from django.contrib.humanize.templatetags.humanize import intcomma
@@ -687,6 +687,9 @@ def naturaltime(value, now=None):
     For date and time values shows how many seconds, minutes or hours ago compared to
     current timestamp returns representing string.
     """
+    # float is what time() returns
+    if isinstance(value, float):
+        value = datetime.fromtimestamp(value, tz=timezone.get_current_timezone())
     # datetime is a subclass of date
     if not isinstance(value, date):
         return value
