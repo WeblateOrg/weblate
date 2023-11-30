@@ -2,13 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Michal Čihař <michal@weblate.org>, 2023.
+# inson1 <vaclav.svarc01@seznam.cz>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 18:17+0000\n"
-"PO-Revision-Date: 2023-11-19 00:23+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"PO-Revision-Date: 2023-11-30 17:39+0000\n"
+"Last-Translator: inson1 <vaclav.svarc01@seznam.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -16,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.2\n"
+"X-Generator: Weblate 5.3-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -78,10 +79,8 @@ msgid "Component list: %s"
 msgstr "Seznam součástí: %s"
 
 #: weblate/accounts/forms.py:346
-#, fuzzy
-#| msgid "Account removal"
 msgid "Account e-mail"
-msgstr "Odstranění účtu"
+msgstr "Email účtu"
 
 #: weblate/accounts/forms.py:348
 msgid ""
@@ -411,7 +410,7 @@ msgstr "Pozvánka do {site_title} od {username}."
 #: weblate/accounts/models.py:161
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "Přijato pozvání od uživatele {username}."
 
 #: weblate/accounts/models.py:162
 msgid "Started trial period."
@@ -464,10 +463,9 @@ msgid "Could not sign in using password."
 msgstr "Nepodařilo se přihlásit pomocí hesla."
 
 #: weblate/accounts/models.py:181
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "Pozvánka do {site_title} od {username}."
+msgstr "Pozvánka do {project} od {username}."
 
 #: weblate/accounts/models.py:187
 msgid "To restore access to your account, please reset your password."
@@ -524,7 +522,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:416
 msgid "Theme"
-msgstr ""
+msgstr "Motiv"
 
 #: weblate/accounts/models.py:419
 msgctxt "Theme selection"
@@ -532,16 +530,14 @@ msgid "Sync with system"
 msgstr ""
 
 #: weblate/accounts/models.py:420
-#, fuzzy
-#| msgid "Insights"
 msgctxt "Theme selection"
 msgid "Light"
-msgstr "Přehledy"
+msgstr "Světlý"
 
 #: weblate/accounts/models.py:421
 msgctxt "Theme selection"
 msgid "Dark"
-msgstr ""
+msgstr "Tmavý"
 
 #: weblate/accounts/models.py:425
 msgid "Hide completed translations on the dashboard"
@@ -749,10 +745,8 @@ msgid ""
 msgstr "Nemůžete překládat, protože nemáte zadanou e-mailovou adresu."
 
 #: weblate/accounts/notifications.py:49
-#, fuzzy
-#| msgid "Notifications"
 msgid "No notification"
-msgstr "Upozornění"
+msgstr "Žádné upozornění"
 
 #: weblate/accounts/notifications.py:50
 msgid "Instant notification"
@@ -785,11 +779,9 @@ msgid "Component was locked or unlocked"
 msgstr "Odemčení součásti"
 
 #: weblate/accounts/notifications.py:471
-#, fuzzy
-#| msgid "License changed"
 msgctxt "Notification name"
 msgid "License was changed"
-msgstr "Změna licence"
+msgstr "Licence byla změněna"
 
 #: weblate/accounts/notifications.py:478
 #, fuzzy
@@ -814,18 +806,14 @@ msgid "Contributor made their first translation"
 msgstr "Přispívání do sdílených překladů mezi projekty"
 
 #: weblate/accounts/notifications.py:516
-#, fuzzy
-#| msgid "Suggestion added"
 msgctxt "Notification name"
 msgid "Suggestion was added"
-msgstr "Přidán návrh"
+msgstr "Návrh byl přidán"
 
 #: weblate/accounts/notifications.py:525
-#, fuzzy
-#| msgid "Comment added"
 msgctxt "Notification name"
 msgid "Comment was added"
-msgstr "Přidán komentář"
+msgstr "Komentář byl přidán"
 
 #: weblate/accounts/notifications.py:547
 #, fuzzy
@@ -891,11 +879,9 @@ msgid "New alert emerged in a component"
 msgstr "Nové upozornění v %(component)s"
 
 #: weblate/accounts/notifications.py:707
-#, fuzzy
-#| msgid "Repository operation"
 msgctxt "Notification name"
 msgid "Repository operation failed"
-msgstr "Operace na repozitáři"
+msgstr "Operace na repozitáři selhala"
 
 #: weblate/accounts/notifications.py:774
 #, fuzzy
@@ -2594,10 +2580,8 @@ msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr "Zadejte název existujícího účtu na Weblate nebo e-mailovou adresu."
 
 #: weblate/auth/models.py:987 weblate/templates/accounts/profile.html:231
-#, fuzzy
-#| msgid "Teams"
 msgid "Team"
-msgstr "Týmy"
+msgstr "Tým"
 
 #: weblate/auth/permissions.py:145
 msgid "Can not perform this operation without an e-mail address."
@@ -2855,8 +2839,6 @@ msgid "The following format strings are missing: {}"
 msgstr "Následující formátovací řetězce chybí: {}"
 
 #: weblate/checks/base.py:294
-#, fuzzy
-#| msgid "Following format strings are extra: {}"
 msgid "The following format strings are extra: {}"
 msgstr "Následující formátovací řetězce přebývají: {}"
 
@@ -7058,10 +7040,8 @@ msgstr "Překlad k odstranění"
 #: weblate/templates/category-project.html:66
 #: weblate/templates/language-project.html:84
 #: weblate/templates/language.html:54
-#, fuzzy
-#| msgid "Browse all changes for user"
 msgid "Browse all changes for this language"
-msgstr "Procházet všechny změny uživatele"
+msgstr "Procházet všechny změny pro tento jazyk"
 
 #: weblate/templates/category-project.html:95
 #: weblate/templates/category.html:140 weblate/templates/component.html:180
@@ -7110,10 +7090,8 @@ msgid "Download translations as XLSX in a ZIP file"
 msgstr "Stáhnout soubory s překladem jako ZIP"
 
 #: weblate/templates/category.html:75 weblate/templates/project.html:91
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new category"
-msgstr "Přidat nového uživatele"
+msgstr "Přidat novou kategorii"
 
 #: weblate/templates/category.html:110 weblate/templates/category.html:116
 #: weblate/templates/project.html:150 weblate/templates/project.html:156
@@ -7121,10 +7099,8 @@ msgid "Browse all project changes"
 msgstr "Procházet všechny změny v projektu"
 
 #: weblate/templates/category.html:173 weblate/templates/project.html:234
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add a category"
-msgstr "Přidat uživatele"
+msgstr "Přidat kategorii"
 
 #: weblate/templates/category.html:194
 #, fuzzy
@@ -7945,22 +7921,16 @@ msgid "Lock"
 msgstr "Zamknout"
 
 #: weblate/templates/js/git-status.html:87
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are locked"
-msgstr "Překlady Weblate"
+msgstr "Weblate překlady jsou uzamčeny"
 
 #: weblate/templates/js/git-status.html:89
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate translations are unlocked"
-msgstr "Překlady Weblate"
+msgstr "Weblate překlady jsou odemčeny"
 
 #: weblate/templates/js/git-status.html:93
-#, fuzzy
-#| msgid "Locking prevents translators from doing changes"
 msgid "Locking prevents translators from doing changes."
-msgstr "Zamknutí zabrání překladatelům provádět změny"
+msgstr "Zamknutí zabrání překladatelům provádět změny,"
 
 #: weblate/templates/js/git-status.html:105
 #, fuzzy
@@ -8189,16 +8159,12 @@ msgid "Configured automatic suggestion services"
 msgstr "Používat automatické návrhy"
 
 #: weblate/templates/machinery/list.html:34
-#, fuzzy
-#| msgid "disabled"
 msgid "Disable"
-msgstr "vypnuto"
+msgstr "Zakázat"
 
 #: weblate/templates/machinery/list.html:36
-#, fuzzy
-#| msgid "enabled"
 msgid "Enable"
-msgstr "zapnuto"
+msgstr "Povolit"
 
 #: weblate/templates/machinery/list.html:50
 #, fuzzy
@@ -8326,8 +8292,6 @@ msgstr ""
 "prodlužte jej."
 
 #: weblate/templates/mail/billing_expired.html:23
-#, fuzzy
-#| msgid "This billing plan covers following projects:"
 msgid "This billing plan covers the following projects:"
 msgstr "Toto předplatné se týká následujících projektů:"
 
@@ -8454,10 +8418,8 @@ msgid "Digest: %(notification_name)s"
 msgstr "Souhrn: %(notification_name)s"
 
 #: weblate/templates/mail/invite.html:12
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "View invitation"
-msgstr "Znovu poslat pozvánku"
+msgstr "Zobrazit pozvánku"
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -8561,9 +8523,7 @@ msgid "New language request in %(component)s"
 msgstr "Požadován nový překlad v %(component)s"
 
 #: weblate/templates/mail/new_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
+#, python-format
 msgid "New string to translate in %(translation)s"
 msgstr "Nový řetězec k překladu v %(translation)s"
 
@@ -8693,10 +8653,8 @@ msgid "Confirm account removal"
 msgstr "Potvrdit odstranění účtu"
 
 #: weblate/templates/mail/shared-registration.html:20
-#, fuzzy
-#| msgid "Confirm registration"
 msgid "Confirm invitation"
-msgstr "Potvrďte registraci"
+msgstr "Potvrďte pozvánku"
 
 #: weblate/templates/mail/shared-registration.html:22
 msgid "Confirm registration"
@@ -9149,10 +9107,8 @@ msgstr "Znovu poslat pozvánku"
 
 #: weblate/templates/manage/users.html:81
 #: weblate/templates/trans/project-access.html:107
-#, fuzzy
-#| msgid "Permalink copied to clipboard."
 msgid "Invitation link copied to clipboard."
-msgstr "Trvalý odkaz zkopírován do schránky."
+msgstr "Zvací odkaz zkopírován do schránky."
 
 #: weblate/templates/manage/users.html:85
 #: weblate/templates/trans/project-access.html:111
@@ -10009,11 +9965,8 @@ msgstr[1] "Dokončený překlad s %(count)s řetězci"
 msgstr[2] "Dokončený překlad s %(count)s řetězci"
 
 #: weblate/templates/snippets/list-objects-percent.html:12
-#, fuzzy
-#| msgid "New string to translate"
-#| msgid_plural "New strings to translate"
 msgid "No strings to translate"
-msgstr "Nový řetězec k překladu"
+msgstr "Žádné řetězce k překladu"
 
 #: weblate/templates/snippets/list-objects.html:35
 #: weblate/templates/snippets/list-objects.html:46
@@ -10123,18 +10076,13 @@ msgstr ""
 "licencováním vašich příspěvků pod licencí jakou daný projekt používá."
 
 #: weblate/templates/snippets/login-info.html:31
-#, fuzzy
-#| msgid ""
-#| "By registering you agree to use your name and e-mail in version control "
-#| "system commits and provide your contribution under license defined by "
-#| "each translated project."
 msgid ""
 "By registering you agree to use your name in version control system commits "
 "and provide your contribution under license defined by each translated "
 "project."
 msgstr ""
-"Registrací souhlasíte s použitím vašeho jména a e-mailu v zápisech VCS a "
-"licencováním vašich příspěvků pod licencí jakou daný projekt používá."
+"Registrací souhlasíte s použitím vašeho jména v zápisech VCS a licencováním "
+"vašich příspěvků pod licencí jakou daný projekt používá."
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -10371,16 +10319,12 @@ msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "Překládejte %(object)s pomocí %%23Weblate na %(share_url)s!"
 
 #: weblate/templates/snippets/share-menu.html:11
-#, fuzzy
-#| msgid "Share on Facebook"
 msgid "Share on X"
-msgstr "Sdílejte na Facebooku"
+msgstr "Sdílejte na X"
 
 #: weblate/templates/snippets/share-menu.html:14
-#, fuzzy
-#| msgid "Share on Facebook"
 msgid "Share on Fediverse"
-msgstr "Sdílejte na Facebooku"
+msgstr "Sdílejte na Fediverse"
 
 #: weblate/templates/snippets/share-menu.html:17
 msgid "Engage page"
@@ -10398,16 +10342,12 @@ msgid "Sort By"
 msgstr "Seřazeno podle"
 
 #: weblate/templates/snippets/sort-field.html:24
-#, fuzzy
-#| msgid "pending"
 msgid "Ascending"
-msgstr "čekající"
+msgstr "Vzestupně"
 
 #: weblate/templates/snippets/sort-field.html:27
-#, fuzzy
-#| msgid "pending"
 msgid "Descending"
-msgstr "čekající"
+msgstr "Sestupně"
 
 #: weblate/templates/snippets/ssh-key.html:11
 #, fuzzy, python-format
@@ -10457,20 +10397,16 @@ msgid "Accept"
 msgstr "Přijmout"
 
 #: weblate/templates/snippets/suggestions.html:36
-#, fuzzy
-#| msgid "Accept and edit"
 msgid "Accept and approve"
-msgstr "Přijmout a upravit"
+msgstr "Přijmout a schválit"
 
 #: weblate/templates/snippets/suggestions.html:38
 msgid "Accept and edit"
 msgstr "Přijmout a upravit"
 
 #: weblate/templates/snippets/suggestions.html:45
-#, fuzzy
-#| msgid "Delete suggestion"
 msgid "Reject suggestion"
-msgstr "Smazat návrh"
+msgstr "Odmítnout návrh"
 
 #: weblate/templates/snippets/suggestions.html:58
 msgid "Suggested change:"
@@ -10956,16 +10892,12 @@ msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr "Weblate se při aktualizaci repozitáře nepodařilo získat jeho změny."
 
 #: weblate/templates/trans/alert/updatefailure.html:13
-#, fuzzy
-#| msgid "Update VCS repository"
 msgid "Update the repository"
-msgstr "Aktualizovat VCS repozitář"
+msgstr "Aktualizovat repozitář"
 
 #: weblate/templates/trans/backups.html:21
-#, fuzzy
-#| msgid "There are currently no translation components."
 msgid "There are currently no backups."
-msgstr "V tuto chvíli zde nejsou žádné součásti překladu."
+msgstr "V tuto chvíli zde nejsou žádné zálohy."
 
 #: weblate/templates/trans/backups.html:28
 #: weblate/templates/trans/backups.html:37
@@ -11414,10 +11346,8 @@ msgstr ""
 "součást překladu."
 
 #: weblate/templates/translate.html:50
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Open in Zen mode"
-msgstr "Upravit v režimu Zen"
+msgstr "Otevřít v režimu Zen"
 
 #: weblate/templates/translate.html:50 weblate/templates/translation.html:180
 #: weblate/templates/zen.html:22
@@ -11601,10 +11531,8 @@ msgid "Browse all string changes"
 msgstr "Procházet všechny změny"
 
 #: weblate/templates/translate.html:378
-#, fuzzy
-#| msgid "Suggested change:"
 msgid "Suggested change"
-msgstr "Navrhovaná změna:"
+msgstr "Navrhovaná změna"
 
 #: weblate/templates/translate.html:380
 msgid "Origin"
@@ -11877,16 +11805,12 @@ msgstr ""
 "Zpráva bude zobrazena pro tento překlad do jejího ukončení nebo smazání."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:9
-#, fuzzy
-#| msgid "Instructions"
 msgid "Invitations"
-msgstr "Instrukce"
+msgstr "Pozvánky"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:10
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Invitation"
-msgstr "Znovu poslat pozvánku"
+msgstr "Pozvánka"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:19
 #, fuzzy, python-format
@@ -11895,10 +11819,8 @@ msgid "Invitation to %(project_name)s"
 msgstr "Pozvánka na %(site_title)s"
 
 #: weblate/templates/weblate_auth/invitation_detail.html:25
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "Accept invitation"
-msgstr "Znovu poslat pozvánku"
+msgstr "Přijmout pozvánku"
 
 #: weblate/templates/widgets.html:6
 msgid "Widgets"
@@ -12946,8 +12868,6 @@ msgid "No file mask matches."
 msgstr "Žádná shoda s maskou souborů."
 
 #: weblate/trans/models/alert.py:444
-#, fuzzy
-#| msgid "Inexistant files."
 msgid "Inexistent files."
 msgstr "Neexistující soubory."
 
@@ -12998,10 +12918,8 @@ msgid "Do not specify both component and project!"
 msgstr "Nezadávejte projekt i součást najednou!"
 
 #: weblate/trans/models/category.py:37
-#, fuzzy
-#| msgid "Category"
 msgid "Category name"
-msgstr "Kategorie"
+msgstr "Jméno kategorie"
 
 #: weblate/trans/models/category.py:39 weblate/trans/models/component.py:340
 #: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:106
@@ -13051,10 +12969,8 @@ msgstr "Změna překladu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:305
-#, fuzzy
-#| msgid "Translations made"
 msgid "Translation added"
-msgstr "Překladů"
+msgstr "Překlady přidány"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:307
@@ -13192,10 +13108,8 @@ msgstr "Změna zdrojového řetězce"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:353
-#, fuzzy
-#| msgid "String age"
 msgid "String added"
-msgstr "Stáří řetězce"
+msgstr "Řetězec přidán"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:355
@@ -13206,24 +13120,18 @@ msgstr "Hromadná změna stavu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:357
-#, fuzzy
-#| msgid "Last change"
 msgid "Visibility changed"
-msgstr "Poslední změna"
+msgstr "Viditelnost změněna"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:359
-#, fuzzy
-#| msgid "User to add"
 msgid "User added"
-msgstr "Uživatel"
+msgstr "Uživatel přidán"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:361
-#, fuzzy
-#| msgid "User profile"
 msgid "User removed"
-msgstr "Profil uživatele"
+msgstr "Uživatele smazán"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:363
@@ -13244,24 +13152,18 @@ msgstr "Součást k odstranění"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:369
-#, fuzzy
-#| msgid "Project to remove"
 msgid "Project removed"
-msgstr "Projekt k odstranění"
+msgstr "Projekt odstraněn"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:371
-#, fuzzy
-#| msgid "Project name"
 msgid "Project renamed"
-msgstr "Název projektu"
+msgstr "Projekt přejmenován"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:373
-#, fuzzy
-#| msgid "Component name"
 msgid "Component renamed"
-msgstr "Název součásti"
+msgstr "Součást přejmenována"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:375
@@ -13289,10 +13191,8 @@ msgstr ""
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:383
-#, fuzzy
-#| msgid "Language code"
 msgid "Language added"
-msgstr "Kód jazyka"
+msgstr "Jazyk přidán"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:385
@@ -13303,24 +13203,18 @@ msgstr "Styl kódu jazyka"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:387
-#, fuzzy
-#| msgid "Project name"
 msgid "Project created"
-msgstr "Název projektu"
+msgstr "Projekt vytvořen"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:389
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component created"
-msgstr "Zamčení součásti"
+msgstr "Součást vytvořena"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:391
-#, fuzzy
-#| msgid "User identities"
 msgid "User invited"
-msgstr "Identity uživatele"
+msgstr "Uživatel pozván"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:393
@@ -13378,17 +13272,13 @@ msgstr "Doplněk byl odinstalovaný"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:413
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "String removed"
-msgstr "Odstraněn návrh"
+msgstr "Řetězec smazán"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:415
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Comment removed"
-msgstr "Součást k odstranění"
+msgstr "Komentář odstraněn"
 
 #: weblate/trans/models/change.py:419
 #, fuzzy
@@ -13406,24 +13296,18 @@ msgstr "Vysvětlení"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:424
-#, fuzzy
-#| msgid "Category"
 msgid "Category removed"
-msgstr "Kategorie"
+msgstr "Kategorie smazána"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:426
-#, fuzzy
-#| msgid "Category"
 msgid "Category renamed"
-msgstr "Kategorie"
+msgstr "Kategorie přejmenována"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:428
-#, fuzzy
-#| msgid "Category"
 msgid "Category moved"
-msgstr "Kategorie"
+msgstr "Kategorie přesunuta"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:430
