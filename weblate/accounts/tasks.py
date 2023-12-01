@@ -44,7 +44,11 @@ def notify_change(change_id):
     from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
     from weblate.trans.models import Change
 
-    change = Change.objects.get(pk=change_id)
+    try:
+        change = Change.objects.get(pk=change_id)
+    except Change.DoesNotExist:
+        # The change was removed meanwhile
+        return
     perm_cache = {}
     if change.action in NOTIFICATIONS_ACTIONS:
         outgoing = []
