@@ -749,6 +749,18 @@ def words_progress(obj):
     )
 
 
+@register.inclusion_tag("snippets/progress.html")
+def chars_progress(obj):
+    stats = get_stats(obj)
+    return translation_progress_data(
+        stats.all_chars,
+        stats.readonly_chars,
+        stats.approved_chars,
+        stats.translated_chars - stats.translated_checks_chars,
+        stats.has_review,
+    )
+
+
 @register.simple_tag
 def unit_state_class(unit) -> str:
     """Return state flags."""

@@ -122,7 +122,7 @@
 <td>{% trans "Strings" %}</td>
 <td class="progress-cell hidden-xs">{% translation_progress object %}</td>
 <td class="percent">{{ object.stats.translated_percent|percent_format }}</td>
-<td rowspan="2" class="buttons-cell full-cell">
+<td rowspan="3" class="buttons-cell full-cell">
 <div class="pull-right flip">
   {% if user_can_add_unit %}
     <a href="#new" data-toggle="tab" class="btn btn-info">{{ object.component.get_add_label }}</a>
@@ -138,6 +138,13 @@
 <td>{% trans "Words" %}</td>
 <td class="progress-cell hidden-xs">{% words_progress object %}</td>
 <td class="percent">{{ object.stats.translated_words_percent|percent_format }}</td>
+</tr>
+
+<tr>
+<th class="number">{{ object.stats.all_chars|intcomma }}</th>
+<td>{% trans "Characters" %}</td>
+<td class="progress-cell hidden-xs">{% chars_progress object %}</td>
+<td class="percent">{{ object.stats.translated_chars_percent|percent_format }}</td>
 </tr>
 </table>
 
