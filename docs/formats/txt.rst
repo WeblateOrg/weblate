@@ -8,11 +8,12 @@ Text files
 The translatable content is extracted from the plain text files and offered for
 the translation. Each paragraph is translated as a separate string.
 
-There are three flavors of this format:
+There are several flavors of this format:
 
 * Plain text file
 * DokuWiki text file
 * MediaWiki text file
+* :ref:`markdown`
 
 .. include:: /snippets/format-database-backed.rst
 
