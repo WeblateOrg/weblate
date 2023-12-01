@@ -18,7 +18,7 @@ TOKEN_EXPIRY = timedelta(minutes=9)
 class MicrosoftCognitiveTranslation(MachineTranslation):
     """Microsoft Cognitive Services Translator API support."""
 
-    name = "Microsoft Translator"
+    name = "Azure AI Translator"
     max_score = 90
     settings_form = MicrosoftMachineryForm
 
@@ -36,6 +36,10 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         "sr-cyrl": "sr-Cyrl",
         "mn": "mn-Mong",
     }
+
+    @classmethod
+    def get_identifier(cls):
+        return "microsoft-translator"
 
     def __init__(self, settings: dict[str, str]):
         """Check configuration."""

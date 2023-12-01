@@ -287,8 +287,8 @@ and there are several mirrors available to use the API for free.
 
 .. _mt-microsoft-translator:
 
-Microsoft Translator
---------------------
+Azure AI Translator
+-------------------
 
 :Service ID: ``microsoft-translator``
 :Configuration: +------------------+-------------------------------+-----------------------------------------------------------------------+
