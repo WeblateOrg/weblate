@@ -264,7 +264,7 @@ class EditMachineryView(FormView):
 
         if "install" in request.POST:
             if self.machinery.settings_form is not None:
-                return self.get(request, *args, **kwargs)
+                return HttpResponseRedirect(request.path)
             self.install_service()
             return HttpResponseRedirect(self.get_success_url())
         return super().post(request, *args, **kwargs)
