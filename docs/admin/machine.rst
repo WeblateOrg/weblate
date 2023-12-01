@@ -67,8 +67,8 @@ The recommended way to use Apertium is to run your own Apertium-APy server.
 
 .. _mt-aws:
 
-AWS
----
+Amazon Translate
+----------------
 
 :Service ID: ``aws``
 :Configuration: +------------+----------------+--+
