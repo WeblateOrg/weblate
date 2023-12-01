@@ -246,6 +246,10 @@ IBM Watson Language Translator
                 | ``key`` | API key |  |
                 +---------+---------+--+
 
+.. warning::
+
+   This service is deprecated by vendor and will be withdrawn entirely as of 10 December 2024.
+
 IBM Watson Language Translator translates text from one language to another.
 The service offers multiple domain-specific models.
 
