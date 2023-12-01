@@ -13,6 +13,7 @@ Not yet released.
 
 * Reduced memory usage for stastics.
 * :ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:`glossary-mt`.
+* Improved region selection in :ref:`mt-google-translate-api-v3`.
 
 **Bug fixes**
 

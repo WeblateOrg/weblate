@@ -29,7 +29,14 @@ class GoogleV3Translation(GoogleBaseTranslation):
         credentials = service_account.Credentials.from_service_account_info(
             json.loads(self.settings["credentials"])
         )
-        return TranslationServiceClient(credentials=credentials)
+        api_endpoint = "translate.googleapis.com"
+        if self.settings["location"].startswith("europe-"):
+            api_endpoint = "translate-eu.googleapis.com"
+        elif self.settings["location"].startswith("us-"):
+            api_endpoint = "translate-us.googleapis.com"
+        return TranslationServiceClient(
+            credentials=credentials, client_options={"api_endpoint": api_endpoint}
+        )
 
     @cached_property
     def parent(self):

@@ -201,13 +201,13 @@ Google Cloud Translation Advanced
 ---------------------------------
 
 :Service ID: ``google-translate-api-v3``
-:Configuration: +-----------------+---------------------------------------+---------------------------------------------------------------------------------------------+
-                | ``credentials`` | Google Translate service account info |                                                                                             |
-                +-----------------+---------------------------------------+---------------------------------------------------------------------------------------------+
-                | ``project``     | Google Translate project              | Enter the numeric or alphanumeric ID of your Google Cloud project.                          |
-                +-----------------+---------------------------------------+---------------------------------------------------------------------------------------------+
-                | ``location``    | Google Translate location             | Enter a Google Cloud region that is used for the Google Cloud project or is closest to you. |
-                +-----------------+---------------------------------------+---------------------------------------------------------------------------------------------+
+:Configuration: +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
+                | ``credentials`` | Google Translate service account info | Enter a JSON key for the service account.                                                                |
+                +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
+                | ``project``     | Google Translate project              | Enter the numeric or alphanumeric ID of your Google Cloud project.                                       |
+                +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
+                | ``location``    | Google Translate location             | Choose a Google Cloud Translation region that is used for the Google Cloud project or is closest to you. |
+                +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
 
 Machine translation service provided by the Google Cloud services.
 

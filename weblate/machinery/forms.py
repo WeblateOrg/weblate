@@ -172,13 +172,18 @@ class GoogleV3MachineryForm(BaseMachineryForm):
             "Google Translate service account info",
         ),
         widget=forms.Textarea,
+        help_text=pgettext_lazy(
+            "Google Cloud Translation configuration",
+            "Enter a JSON key for the service account.",
+        ),
     )
     project = forms.CharField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration", "Google Translate project"
         ),
-        help_text=gettext_lazy(
-            "Enter the numeric or alphanumeric ID of your Google Cloud project."
+        help_text=pgettext_lazy(
+            "Google Cloud Translation configuration",
+            "Enter the numeric or alphanumeric ID of your Google Cloud project.",
         ),
     )
     location = forms.CharField(
@@ -186,8 +191,16 @@ class GoogleV3MachineryForm(BaseMachineryForm):
             "Automatic suggestion service configuration", "Google Translate location"
         ),
         initial="global",
-        help_text=gettext_lazy(
-            "Enter a Google Cloud region that is used for the Google Cloud project or is closest to you."
+        help_text=pgettext_lazy(
+            "Google Cloud Translation configuration",
+            "Choose a Google Cloud Translation region that is used for the Google Cloud project or is closest to you.",
+        ),
+        widget=forms.Select(
+            choices=(
+                ("global ", pgettext_lazy("Google Cloud region", "Global")),
+                ("europe-west1 ", pgettext_lazy("Google Cloud region", "Europe")),
+                ("us-west1", pgettext_lazy("Google Cloud region", "US")),
+            )
         ),
     )
 
