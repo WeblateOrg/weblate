@@ -112,13 +112,13 @@ DeepL
 -----
 
 :Service ID: ``deepl``
-:Configuration: +---------------+-----------+--+
-                | ``url``       | API URL   |  |
-                +---------------+-----------+--+
-                | ``key``       | API key   |  |
-                +---------------+-----------+--+
-                | ``formality`` | Formality |  |
-                +---------------+-----------+--+
+:Configuration: +---------------+-----------+-------------------------------------------------------------------------+
+                | ``url``       | API URL   |                                                                         |
+                +---------------+-----------+-------------------------------------------------------------------------+
+                | ``key``       | API key   |                                                                         |
+                +---------------+-----------+-------------------------------------------------------------------------+
+                | ``formality`` | Formality | Uses the specified formality if language is not specified as (in)formal |
+                +---------------+-----------+-------------------------------------------------------------------------+
 
 DeepL is paid service providing good machine translation for a few languages.
 You need to purchase :guilabel:`DeepL API` subscription or you can use legacy
@@ -209,13 +209,13 @@ Google Translate API v3
    Google also calls this *Translation API Advanced*.
 
 :Service ID: ``google-translate-api-v3``
-:Configuration: +-----------------+---------------------------------------+--+
-                | ``credentials`` | Google Translate service account info |  |
-                +-----------------+---------------------------------------+--+
-                | ``project``     | Google Translate project              |  |
-                +-----------------+---------------------------------------+--+
-                | ``location``    | Google Translate location             |  |
-                +-----------------+---------------------------------------+--+
+:Configuration: +-----------------+---------------------------------------+---------------------------------------------------------------------------------------------+
+                | ``credentials`` | Google Translate service account info |                                                                                             |
+                +-----------------+---------------------------------------+---------------------------------------------------------------------------------------------+
+                | ``project``     | Google Translate project              | Enter the numeric or alphanumeric ID of your Google Cloud project.                          |
+                +-----------------+---------------------------------------+---------------------------------------------------------------------------------------------+
+                | ``location``    | Google Translate location             | Enter a Google Cloud region that is used for the Google Cloud project or is closest to you. |
+                +-----------------+---------------------------------------+---------------------------------------------------------------------------------------------+
 
 Machine translation service provided by Google Cloud services.
 
@@ -237,6 +237,28 @@ In order to use this service, you first need to go through the following steps:
     `Authenticate to Cloud services using client libraries <https://cloud.google.com/docs/authentication/client-libraries>`_,
     `Creating Google Translate project <https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project>`_,
     `Google Cloud App Engine locations <https://cloud.google.com/appengine/docs/standard/locations>`_
+
+.. _mt-ibm:
+
+IBM Watson Language Translator
+------------------------------
+
+.. versionadded:: 4.16
+
+:Service ID: ``ibm``
+:Configuration: +---------+---------+--+
+                | ``url`` | API URL |  |
+                +---------+---------+--+
+                | ``key`` | API key |  |
+                +---------+---------+--+
+
+IBM Watson Language Translator translates text from one language to another.
+The service offers multiple domain-specific models.
+
+.. seealso::
+
+    `Watson Language Translator <https://www.ibm.com/products/natural-language-processing>`_,
+    `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-translator>`_
 
 .. _mt-libretranslate:
 
@@ -513,25 +535,6 @@ amaGama server, which is an enhanced version of tmserver.
     :doc:`virtaal:amagama`,
     `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
 
-.. _mt-ibm:
-
-IBM Watson Language Translator
-------------------------------
-
-:Service ID: ``ibm``
-:Configuration: +---------+---------+--+
-                | ``url`` | API URL |  |
-                +---------+---------+--+
-                | ``key`` | API key |  |
-                +---------+---------+--+
-
-IBM Watson Language Translator translates text from one language to another.
-The service offers multiple domain-specific models.
-
-.. seealso::
-
-    `Watson Language Translator <https://www.ibm.com/products/natural-language-processing>`_,
-    `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-translator>`_
 
 .. _mt-weblate:
 

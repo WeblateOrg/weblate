@@ -177,12 +177,18 @@ class GoogleV3MachineryForm(BaseMachineryForm):
         label=pgettext_lazy(
             "Automatic suggestion service configuration", "Google Translate project"
         ),
+        help_text=gettext_lazy(
+            "Enter the numeric or alphanumeric ID of your Google Cloud project."
+        ),
     )
     location = forms.CharField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration", "Google Translate location"
         ),
         initial="global",
+        help_text=gettext_lazy(
+            "Enter a Google Cloud region that is used for the Google Cloud project or is closest to you."
+        ),
     )
 
     def clean_credentials(self):
