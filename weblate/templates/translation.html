@@ -157,7 +157,7 @@
 </h4>
 </div>
 <table class="table table-autowidth table-listing">
-{% for query, name, count, color, words in object.list_translation_checks %}
+{% for query, name, count, color, words, characters in object.list_translation_checks %}
 <tr data-href="{{ translate_url }}?q={{ query }}" class="clickable-row">
 <th class="number">{{ count|intcomma }}</th>
 <td class="legend">
@@ -171,7 +171,11 @@
 </td>
 <td class="full-cell">
     <a href="{{ translate_url }}?q={{ query }}">
-        {{ name }} — {% blocktrans with count=words|intcomma count cnt=words %}{{ count }} word{% plural %}{{ count }} words{% endblocktrans %}
+        {{ name }}
+        —
+        {% blocktrans with count=words|intcomma count cnt=words %}{{ count }} word{% plural %}{{ count }} words{% endblocktrans %}
+        —
+        {% blocktrans with count=characters|intcomma count cnt=characters %}{{ count }} character{% plural %}{{ count }} characters{% endblocktrans %}
     </a>
 </td>
 <td>
