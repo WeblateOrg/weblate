@@ -443,23 +443,27 @@ class TranslationStats(BaseStats):
                     lambda: update_translation_stats_parents.delay(pk)
                 )
 
-    def get_project_language_stats(self):
-        project_language = ProjectLanguage(
-            project=self._object.component.project, language=self._object.language
-        )
-        return project_language.stats
+    def get_update_objects(self, *, full: bool = True):
+        translation = self._object
+        component = translation.component
 
-    def get_update_objects(self):
         # Language
-        yield self._object.language.stats
+        yield translation.language.stats
 
         # Project / language
-        yield self.get_project_language_stats()
+        yield component.project.stats.get_single_language_stats(translation.language)
 
-        # Component
-        yield self._object.component.stats
-        # Component list, category, project and global
-        yield from self._object.component.stats.get_update_objects()
+        # Category / language
+        category = component.category
+        while category:
+            yield category.stats.get_single_language_stats(translation.language)
+            category = category.category
+
+        if full:
+            # Component
+            yield component.stats
+            # Component list, category, project and global
+            yield from component.stats.get_update_objects()
 
     @property
     def language(self):
@@ -911,8 +915,7 @@ class ComponentStats(AggregatingStats):
         # Update languages
         for translation in prefetch_stats(self.get_child_objects()):
             translation.stats.update_stats(update_parents=False)
-            extras.append(translation.language.stats)
-            extras.append(translation.stats.get_project_language_stats())
+            extras.extend(translation.stats.get_update_objects(full=False))
 
         # Update our stats
         self.update_stats()
