@@ -16,9 +16,13 @@ class GoogleV3Translation(GoogleBaseTranslation):
     """Google Translate API v3 machine translation support."""
 
     setup = None
-    name = "Google Translate API v3"
+    name = "Google Cloud Translation Advanced"
     max_score = 90
     settings_form = GoogleV3MachineryForm
+
+    @classmethod
+    def get_identifier(cls):
+        return "google-translate-api-v3"
 
     @cached_property
     def client(self):

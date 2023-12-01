@@ -178,21 +178,17 @@ from one IP in a set period of time, to prevent abuse.
 
 .. _mt-google-translate:
 
-Google Translate
-----------------
-
-.. hint::
-
-   Google also call this *Translation API Basic*.
+Google Cloud Translation Basic
+------------------------------
 
 :Service ID: ``google-translate``
 :Configuration: +---------+---------+--+
                 | ``key`` | API key |  |
                 +---------+---------+--+
 
-Machine translation service provided by Google.
+Machine translation service provided by the Google Cloud services.
 
-This service uses the Google Translation API, and you need to obtain an API key and turn on
+This service uses the Google Translation API v2, and you need to obtain an API key and turn on
 billing in the Google API console.
 
 .. seealso::
@@ -201,12 +197,8 @@ billing in the Google API console.
 
 .. _mt-google-translate-api-v3:
 
-Google Translate API v3
------------------------
-
-.. hint::
-
-   Google also calls this *Translation API Advanced*.
+Google Cloud Translation Advanced
+---------------------------------
 
 :Service ID: ``google-translate-api-v3``
 :Configuration: +-----------------+---------------------------------------+---------------------------------------------------------------------------------------------+
@@ -217,7 +209,9 @@ Google Translate API v3
                 | ``location``    | Google Translate location             | Enter a Google Cloud region that is used for the Google Cloud project or is closest to you. |
                 +-----------------+---------------------------------------+---------------------------------------------------------------------------------------------+
 
-Machine translation service provided by Google Cloud services.
+Machine translation service provided by the Google Cloud services.
+
+This service uses the Google Translation API v3 and you need credentials in JSON format to access it.
 
 In order to use this service, you first need to go through the following steps:
 
