@@ -60,6 +60,12 @@ LICENSES = (
         True,
     ),
     (
+        "Adobe-Display-PostScript",
+        "Adobe Display PostScript License",
+        "https://spdx.org/licenses/Adobe-Display-PostScript.html",
+        False,
+    ),
+    (
         "Adobe-Glyph",
         "Adobe Glyph List License",
         "https://spdx.org/licenses/Adobe-Glyph.html",
@@ -112,6 +118,12 @@ LICENSES = (
         "AMDPLPA",
         "AMD's plpa_map.c License",
         "https://spdx.org/licenses/AMDPLPA.html",
+        False,
+    ),
+    (
+        "AML-glslang",
+        "AML glslang variant License",
+        "https://spdx.org/licenses/AML-glslang.html",
         False,
     ),
     (
@@ -998,9 +1010,21 @@ LICENSES = (
     ),
     ("dtoa", "David M. Gay dtoa License", "https://spdx.org/licenses/dtoa.html", False),
     (
+        "DEC-3-Clause",
+        "DEC 3-Clause License",
+        "https://spdx.org/licenses/DEC-3-Clause.html",
+        False,
+    ),
+    (
         "DRL-1.0",
         "Detection Rule License 1.0",
         "https://spdx.org/licenses/DRL-1.0.html",
+        False,
+    ),
+    (
+        "DRL-1.1",
+        "Detection Rule License 1.1",
+        "https://spdx.org/licenses/DRL-1.1.html",
         False,
     ),
     (
@@ -1178,6 +1202,12 @@ LICENSES = (
     ("Giftware", "Giftware License", "https://spdx.org/licenses/Giftware.html", False),
     ("GL2PS", "GL2PS License", "https://spdx.org/licenses/GL2PS.html", False),
     ("Glulxe", "Glulxe License", "https://spdx.org/licenses/Glulxe.html", False),
+    (
+        "GCR-docs",
+        "Gnome GCR Documentation License",
+        "https://spdx.org/licenses/GCR-docs.html",
+        False,
+    ),
     (
         "AGPL-3.0-only",
         "GNU Affero General Public License v3.0 only",
@@ -1395,6 +1425,7 @@ LICENSES = (
         "https://spdx.org/licenses/HaskellReport.html",
         False,
     ),
+    ("hdparm", "hdparm License", "https://spdx.org/licenses/hdparm.html", False),
     (
         "HP-1986",
         "Hewlett-Packard 1986 License",
@@ -1465,6 +1496,12 @@ LICENSES = (
         "HPND-sell-variant",
         "Historical Permission Notice and Disclaimer - sell variant",
         "https://spdx.org/licenses/HPND-sell-variant.html",
+        False,
+    ),
+    (
+        "HPND-sell-MIT-disclaimer-xserver",
+        "Historical Permission Notice and Disclaimer - sell xserver variant with MIT disclaimer",
+        "https://spdx.org/licenses/HPND-sell-MIT-disclaimer-xserver.html",
         False,
     ),
     (
@@ -2217,6 +2254,7 @@ LICENSES = (
     ("PADL", "PADL License", "https://spdx.org/licenses/PADL.html", False),
     ("PHP-3.0", "PHP License v3.0", "https://spdx.org/licenses/PHP-3.0.html", True),
     ("PHP-3.01", "PHP License v3.01", "https://spdx.org/licenses/PHP-3.01.html", True),
+    ("Pixar", "Pixar License", "https://spdx.org/licenses/Pixar.html", False),
     (
         "Plexus",
         "Plexus Classworlds License",
@@ -2287,6 +2325,7 @@ LICENSES = (
         False,
     ),
     ("Qhull", "Qhull License", "https://spdx.org/licenses/Qhull.html", False),
+    ("radvd", "radvd License", "https://spdx.org/licenses/radvd.html", False),
     ("Rdisc", "Rdisc License", "https://spdx.org/licenses/Rdisc.html", False),
     (
         "RPSL-1.0",
@@ -2329,6 +2368,12 @@ LICENSES = (
         "SAX-PD",
         "Sax Public Domain Notice",
         "https://spdx.org/licenses/SAX-PD.html",
+        False,
+    ),
+    (
+        "SAX-PD-2.0",
+        "Sax Public Domain Notice 2.0",
+        "https://spdx.org/licenses/SAX-PD-2.0.html",
         False,
     ),
     ("Saxpath", "Saxpath License", "https://spdx.org/licenses/Saxpath.html", False),
