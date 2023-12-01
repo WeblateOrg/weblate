@@ -887,11 +887,23 @@ th.number {
 .table-autowidth tr th {
   white-space: nowrap;
 }
-@media (max-width: 900px) {
+@media (max-width: 660px) {
   .table-autowidth tr .wrap-cell {
     white-space: normal;
   }
 }
+.split-cell span {
+  width: 33%;
+  padding: 0 4px;
+  display: inline-block;
+}
+@media (max-width: 660px) {
+  .split-cell span {
+    width: 100%;
+    padding: 0;
+  }
+}
+
 .table-autowidth tr .full-cell {
   width: 100%;
   white-space: normal;

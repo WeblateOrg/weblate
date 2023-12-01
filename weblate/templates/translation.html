@@ -164,9 +164,28 @@
 </h4>
 </div>
 <table class="table table-autowidth table-listing">
+<thead>
+  <tr>
+    <th class="number split-cell wrap-cell">
+      <span>{% trans "Strings" %}</span>
+      <span>{% trans "Words" %}</span>
+      <span>{% trans "Characters" %}</span>
+    </th>
+  </tr>
+</thead>
 {% for query, name, count, color, words, characters in object.list_translation_checks %}
 <tr data-href="{{ translate_url }}?q={{ query }}" class="clickable-row">
-<th class="number">{{ count|intcomma }}</th>
+<th class="number split-cell wrap-cell">
+  <span>
+    {{ count|intcomma }}
+  </span>
+  <span>
+    {{ words|intcomma }}
+  </span>
+  <span>
+    {{ characters|intcomma }}
+  </span>
+</th>
 <td class="legend">
     {% if name != "all" %}
     <div class="progress">
@@ -177,13 +196,7 @@
     {% endif %}
 </td>
 <td class="full-cell">
-    <a href="{{ translate_url }}?q={{ query }}">
-        {{ name }}
-        —
-        {% blocktrans with count=words|intcomma count cnt=words %}{{ count }} word{% plural %}{{ count }} words{% endblocktrans %}
-        —
-        {% blocktrans with count=characters|intcomma count cnt=characters %}{{ count }} character{% plural %}{{ count }} characters{% endblocktrans %}
-    </a>
+    <a href="{{ translate_url }}?q={{ query }}">{{ name }}</a>
 </td>
 <td class="wrap-cell">
   <a class="btn-inline" href="{{ browse_url }}?q={{ query }}">{% trans "Browse" %}</a>
