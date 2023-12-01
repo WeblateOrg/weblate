@@ -887,7 +887,11 @@ th.number {
 .table-autowidth tr th {
   white-space: nowrap;
 }
-
+@media (max-width: 900px) {
+  .table-autowidth tr .wrap-cell {
+    white-space: normal;
+  }
+}
 .table-autowidth tr .full-cell {
   width: 100%;
   white-space: normal;

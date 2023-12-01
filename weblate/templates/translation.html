@@ -178,7 +178,7 @@
         {% blocktrans with count=characters|intcomma count cnt=characters %}{{ count }} character{% plural %}{{ count }} characters{% endblocktrans %}
     </a>
 </td>
-<td>
+<td class="wrap-cell">
   <a class="btn-inline" href="{{ browse_url }}?q={{ query }}">{% trans "Browse" %}</a>
   <a class="btn-inline" href="{{ edit_url }}?q={{ query }}">{% trans "Translate" %}</a>
   <a class="btn-inline" href="{{ zen_url }}?q={{ query }}">{% trans "Zen" %}</a>
