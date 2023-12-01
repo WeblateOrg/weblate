@@ -5,7 +5,7 @@
 import json
 
 from django.utils.functional import cached_property
-from google.cloud.translate_v3 import TranslationServiceClient
+from google.cloud.translate import TranslationServiceClient
 from google.oauth2 import service_account
 
 from .forms import GoogleV3MachineryForm
