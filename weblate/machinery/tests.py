@@ -1304,7 +1304,7 @@ class AWSTranslationTest(BaseMachineTranslationTest):
                         {
                             "text": "Ahoj",
                             "quality": 88,
-                            "service": "AWS",
+                            "service": "Amazon Translate",
                             "source": "Hello",
                             "original_source": "Hello",
                         }
