@@ -18,7 +18,7 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TestCase
 from django.urls import reverse
-from google.cloud.translate_v3 import (
+from google.cloud.translate import (
     SupportedLanguages,
     TranslateTextResponse,
     TranslationServiceClient,

@@ -181,6 +181,10 @@ from one IP in a set period of time, to prevent abuse.
 Google Translate
 ----------------
 
+.. hint::
+
+   Google also call this *Translation API Basic*.
+
 :Service ID: ``google-translate``
 :Configuration: +---------+---------+--+
                 | ``key`` | API key |  |
@@ -200,6 +204,10 @@ billing in the Google API console.
 Google Translate API v3
 -----------------------
 
+.. hint::
+
+   Google also calls this *Translation API Advanced*.
+
 :Service ID: ``google-translate-api-v3``
 :Configuration: +-----------------+---------------------------------------+--+
                 | ``credentials`` | Google Translate service account info |  |
@@ -210,6 +218,18 @@ Google Translate API v3
                 +-----------------+---------------------------------------+--+
 
 Machine translation service provided by Google Cloud services.
+
+In order to use this service, you first need to go through the following steps:
+
+1. `Select or create a Cloud Platform project.`_
+2. `Enable billing for your project.`_
+3. `Enable the Cloud Translation.`_
+4. `Setup Authentication.`_
+
+.. _Select or create a Cloud Platform project.: https://console.cloud.google.com/project
+.. _Enable billing for your project.: https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project
+.. _Enable the Cloud Translation.:  https://cloud.google.com/translate/docs/
+.. _Setup Authentication.: https://googleapis.dev/python/google-api-core/latest/auth.html
 
 .. seealso::
 
