@@ -13,7 +13,6 @@ from unittest.mock import Mock, patch
 import httpx
 import responses
 import respx
-
 from aliyunsdkcore.client import AcsClient
 from botocore.stub import ANY, Stubber
 from django.core.management import call_command
