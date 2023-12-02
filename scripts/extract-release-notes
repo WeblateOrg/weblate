@@ -10,7 +10,7 @@ import sys
 if len(sys.argv) != 2:
     raise ValueError("Missing version argument")
 
-tag = '<section id="weblate-{}">.+?<h1>(.+?)</h1>(.+?)</section>'.format(
+tag = '<section id="weblate-{}">.+?<h1>(.+?)<a(.+?)</a></h1>(.+?)</section>'.format(
     sys.argv[1].replace(".", "-")
 )
 
@@ -18,4 +18,6 @@ with open("docs/_build/html/changes.html") as handle:
     data = handle.read()
 
 for match in re.findall(tag, data, re.MULTILINE | re.DOTALL):
-    print(match[1])
+    print(match[0])
+    print()
+    print(match[2])

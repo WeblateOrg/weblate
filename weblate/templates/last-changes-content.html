@@ -35,9 +35,9 @@
                 <a class="btn btn-link" href="{{ change.translation.get_translate_url}}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ change.unit.checksum }}&amp;revert={{ change.id }}" title="{% trans "Revert" %}">{% icon "undo.svg" %}</a>
               {% endif %}
             {% endif %}
-            {% if change.user and not change.user.is_anonymous %}
+            {% if change.user and not change.user.is_anonymous and change.project %}
               {% perm 'project.permissions' change.project as user_can_edit_permissions %}
-              {% if change.project and user_can_edit_permissions %}
+              {% if user_can_edit_permissions %}
                 <a class="btn btn-link red" href="{% url 'manage-access' project=change.project.slug %}?block_user={{ change.user.username }}#block-user" title="{% trans "Block user" %}">{% icon "account-cancel.svg" %}</a>
               {% endif %}
             {% endif %}

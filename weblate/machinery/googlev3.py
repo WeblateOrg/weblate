@@ -5,7 +5,7 @@
 import json
 
 from django.utils.functional import cached_property
-from google.cloud.translate_v3 import TranslationServiceClient
+from google.cloud.translate import TranslationServiceClient
 from google.oauth2 import service_account
 
 from .forms import GoogleV3MachineryForm
@@ -16,16 +16,27 @@ class GoogleV3Translation(GoogleBaseTranslation):
     """Google Translate API v3 machine translation support."""
 
     setup = None
-    name = "Google Translate API v3"
+    name = "Google Cloud Translation Advanced"
     max_score = 90
     settings_form = GoogleV3MachineryForm
+
+    @classmethod
+    def get_identifier(cls):
+        return "google-translate-api-v3"
 
     @cached_property
     def client(self):
         credentials = service_account.Credentials.from_service_account_info(
             json.loads(self.settings["credentials"])
         )
-        return TranslationServiceClient(credentials=credentials)
+        api_endpoint = "translate.googleapis.com"
+        if self.settings["location"].startswith("europe-"):
+            api_endpoint = "translate-eu.googleapis.com"
+        elif self.settings["location"].startswith("us-"):
+            api_endpoint = "translate-us.googleapis.com"
+        return TranslationServiceClient(
+            credentials=credentials, client_options={"api_endpoint": api_endpoint}
+        )
 
     @cached_property
     def parent(self):

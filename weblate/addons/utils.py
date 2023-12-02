@@ -9,4 +9,5 @@ def adjust_addon_events(apps, schema_editor, names, add, remove):
     for addon in Addon.objects.filter(name__in=names):
         for event in add:
             Event.objects.get_or_create(addon=addon, event=event)
-        addon.event_set.filter(event__in=remove).delete()
+        if remove:
+            addon.event_set.filter(event__in=remove).delete()

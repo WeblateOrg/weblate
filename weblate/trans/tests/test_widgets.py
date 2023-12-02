@@ -89,6 +89,7 @@ class WidgetsPercentRenderTest(WidgetsRenderTest):
         for translated in (0, 3, 4):
             # Fake translated stats
             for translation in Translation.objects.iterator():
+                translation.stats.ensure_loaded()
                 translation.stats.store("translated", translated)
                 translation.stats.save()
             response = self.client.get(

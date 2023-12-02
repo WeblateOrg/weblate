@@ -3,6 +3,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from operator import itemgetter
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.utils.html import conditional_escape, format_html, format_html_join
@@ -11,7 +13,7 @@ from django.views.decorators.http import require_POST
 from weblate.lang.models import Language
 from weblate.trans.forms import ReportsForm
 from weblate.trans.models import Change, Component, Project
-from weblate.trans.util import redirect_param
+from weblate.trans.util import count_words, redirect_param
 from weblate.utils.views import parse_path, show_form_errors
 
 # Header, two longer fields for name and email, shorter fields for numbers
@@ -48,7 +50,7 @@ def generate_credits(user, start_date, end_date, language_code: str, **kwargs):
         )
         if not authors:
             continue
-        result.append({language.name: sorted(authors, key=lambda item: item[2])})
+        result.append({language.name: sorted(authors, key=itemgetter(2))})
 
     return result
 
@@ -187,7 +189,7 @@ def generate_counts(user, start_date, end_date, language_code: str, **kwargs):
         src_chars = len(change.unit.source)
         src_words = change.unit.num_words
         tgt_chars = len(change.target)
-        tgt_words = len(change.target.split())
+        tgt_words = count_words(change.target)
         edits = change.get_distance()
 
         current["chars"] += src_chars

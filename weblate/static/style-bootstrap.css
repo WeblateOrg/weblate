@@ -266,16 +266,13 @@ textarea#id_check_flags {
 .hlcheck,
 .token.placeable {
   outline: 1px dotted #aeb7cf;
-  outline-offset: -1px;
   background-color: #e0eaf1;
 }
 .glossary-term {
   outline: 1px dotted #aeb7cf;
-  outline-offset: -1px;
   background-color: #ffffcc;
 }
 .hlcheck {
-  display: inline-block;
   cursor: pointer;
   white-space: pre-wrap;
 }
@@ -286,17 +283,14 @@ textarea#id_check_flags {
 
 .hlspace {
   outline: 1px dotted red;
-  outline-offset: -1px;
   color: #bfc3c7;
   white-space: pre-wrap;
-  display: inline-block;
 }
 
 .space-tab,
 .space-nl,
 .space-space {
   min-width: 0.3em;
-  display: inline-block;
 }
 .space-tab::before {
   content: "→";
@@ -893,6 +887,22 @@ th.number {
 .table-autowidth tr th {
   white-space: nowrap;
 }
+@media (max-width: 660px) {
+  .table-autowidth tr .wrap-cell {
+    white-space: normal;
+  }
+}
+.split-cell span {
+  width: 33%;
+  padding: 0 4px;
+  display: inline-block;
+}
+@media (max-width: 660px) {
+  .split-cell span {
+    width: 100%;
+    padding: 0;
+  }
+}
 
 .table-autowidth tr .full-cell {
   width: 100%;
@@ -953,6 +963,13 @@ th.number {
 .nav-pills .open > a:focus {
   color: #144d3f;
   background: none;
+}
+
+.nav-pills > li > a > button.close {
+  margin: 0 10px;
+}
+.nav-pills > li.active > a > button.close {
+  color: #eee;
 }
 
 .bread-icon path,
@@ -1806,11 +1823,14 @@ a.language:hover {
 .unit-state-translated {
   background-color: #2eccaa;
 }
-.unit-state-todo {
+.unit-state-bad {
   background-color: #f6664c;
 }
+.unit-state-todo {
+  background-color: #e9eaec;
+}
 .unit-state-approved {
-  background-color: #1378d0;
+  background-color: #1fa385;
 }
 .unit-state-saving {
   animation: morph-state 2s infinite;

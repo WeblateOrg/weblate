@@ -53,6 +53,13 @@ ignore = [
   "TD003",  # CONFIG: no detailed TODO documentation is required
   "S603",  # CONFIG: `subprocess` call: check for execution of untrusted input
   "S607",  # CONFIG: executing system installed tools
+  "D206",  # CONFIG: formatter
+  'ISC001',  # CONFIG: formatter
+  'Q000',  # CONFIG: formatter
+  'Q001',  # CONFIG: formatter
+  'Q002',  # CONFIG: formatter
+  'Q003',  # CONFIG: formatter
+  'W191',  # CONFIG: formatter
   "EM",  # TODO: Exception strings
   "PTH",  # TODO: Not using pathlib
   "FBT",  # TODO: Boolean in function definition
@@ -84,9 +91,6 @@ ignore = [
 output-format = "github"
 select = ["ALL"]
 target-version = "py39"
-
-[tool.ruff.isort]
-split-on-trailing-comma = false
 
 [tool.ruff.mccabe]
 max-complexity = 16

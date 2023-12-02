@@ -276,7 +276,12 @@
   {% endif %}
 
     <div class="panel panel-default">
-      <div class="panel-heading"><h4 class="panel-title">{% trans "String statistics" %}</h4></div>
+      <div class="panel-heading">
+        <span class="pull-right flip text-muted">
+          {{ stats.stats_timestamp|naturaltime }}
+        </span>
+        <h4 class="panel-title">{% trans "String statistics" %}</h4>
+      </div>
       <table class="table">
       <thead>
       <tr>

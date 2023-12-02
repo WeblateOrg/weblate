@@ -65,7 +65,7 @@ def export_response(request, filename, objects):
         response = HttpResponse(content_type="text/csv; charset=utf-8")
         response["Content-Disposition"] = f"attachment; filename={filename}"
 
-        writer = csv.DictWriter(response, fields)
+        writer = csv.DictWriter(response, fields, extrasaction="ignore")
 
         writer.writeheader()
         for row in data:

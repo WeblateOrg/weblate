@@ -8,6 +8,7 @@ import re
 from collections import defaultdict
 from gettext import c2py
 from itertools import chain
+from operator import itemgetter
 from typing import Callable
 from weakref import WeakValueDictionary
 
@@ -376,7 +377,7 @@ class LanguageQuerySet(models.QuerySet):
                     (code if use_code else pk, f"{gettext(name)} ({code})", name)
                     for pk, name, code in self.values_list("pk", "name", "code")
                 ),
-                lambda tup: tup[2],
+                itemgetter(2),
             )
         )
 
@@ -634,11 +635,11 @@ class Language(models.Model, CacheKeyMixin):
         return format_html('lang="{}" dir="{}"', self.code, self.direction)
 
     @cached_property
-    def base_code(self):
+    def base_code(self) -> str:
         return self.code.replace("_", "-").split("-")[0]
 
-    def uses_ngram(self):
-        return self.base_code in ("ja", "zh", "ko")
+    def uses_ngram(self) -> bool:
+        return self.is_base(("ja", "zh", "ko"))
 
     @cached_property
     def plural(self):
@@ -650,6 +651,10 @@ class Language(models.Model, CacheKeyMixin):
 
     def get_aliases_names(self):
         return [alias for alias, codename in ALIASES.items() if codename == self.code]
+
+    def is_base(self, vals: tuple[str, ...]) -> bool:
+        """Detect whether language is in given list, ignores variants."""
+        return self.base_code in vals
 
 
 class PluralQuerySet(models.QuerySet):
@@ -970,6 +975,10 @@ class PluralMapper:
                     s = format_check.interpolate_number(s, number_to_interpolate)
                 strings_to_translate.append(s)
         return strings_to_translate
+
+    def map_units(self, units):
+        for unit in units:
+            unit.plural_map = self.map(unit)
 
     def zip(self, sources, targets, unit):
         if len(sources) != self.source_plural.number:

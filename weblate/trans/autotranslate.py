@@ -179,6 +179,11 @@ class AutoTranslate:
 
         for pos, translation_service in enumerate(engines):
             batch_size = translation_service.batch_size
+            self.translation.log_info(
+                "fetching translations from %s, %d per request",
+                translation_service.name,
+                batch_size,
+            )
 
             for batch_start in range(0, num_units, batch_size):
                 translation_service.batch_translate(
@@ -204,6 +209,7 @@ class AutoTranslate:
 
         with transaction.atomic():
             # Perform the translation
+            self.translation.log_info("updating %d strings", len(translations))
             for pos, unit in enumerate(
                 self.translation.unit_set.filter(id__in=translations.keys())
                 .prefetch_bulk()

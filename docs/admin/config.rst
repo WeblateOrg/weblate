@@ -797,6 +797,10 @@ List for credentials for GitHub servers.
         },
     }
 
+.. hint::
+
+   Use ``api.github.com`` as a API host for https://github.com/.
+
 .. include:: /snippets/vcs-credentials.rst
 
 .. seealso::
@@ -830,6 +834,48 @@ List for credentials for Bitbucket servers.
 
    :ref:`vcs-bitbucket-server`,
    `Bitbucket: HTTP access token <https://confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_
+
+.. setting:: AZURE_DEVOPS_CREDENTIALS
+
+AZURE_DEVOPS_CREDENTIALS
+------------------------
+
+.. versionadded:: 5.2
+
+List for credentials for Azure DevOps servers.
+
+.. code-block:: python
+
+    AZURE_DEVOPS_CREDENTIALS = {
+        "dev.azure.com": {
+            "username": "project-name",
+            "token": "your-api-token",
+            "organization": "organization-name",
+        },
+    }
+
+The configuration dictionary consists of credentials defined for each API host.
+The API host might be different from what you use in the web browser, for
+example GitHub API is accessed as ``api.github.com``.
+
+The following configuration is available for each host:
+
+``username``
+   The name of the Azure DevOps project. This is not the repository name.
+``organization``
+    The name of the organization of the project.
+``workItemIds``
+    An optional list of work items IDs from your organization. When provided
+    new pull requests will have these attached.
+``token``
+   API token for the API user, required.
+
+Additional settings not described here can be found at :ref:`settings-credentials`.
+
+.. seealso::
+
+   :ref:`vcs-azure-devops`,
+   `Azure DevOps: Personal access token <https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_
 
 .. setting:: GOOGLE_ANALYTICS_ID
 
@@ -1273,6 +1319,10 @@ PRIVATE_COMMIT_EMAIL_OPT_IN
 
 Configures whether the private commit e-mail is opt-in or opt-out (by default it is opt-in).
 
+.. hint::
+
+   This setting only applies to users which have not explicitly chosen a commit e-mail.
+
 .. seealso::
 
    :ref:`profile`,
@@ -1573,6 +1623,42 @@ Sentry DSN to use for :ref:`collecting-errors`.
 
    `Django integration for Sentry <https://docs.sentry.io/platforms/python/integrations/django/>`_
 
+.. setting:: SENTRY_ENVIRONMENT
+
+SENTRY_ENVIRONMENT
+------------------
+
+Configures environment for Sentry. Defaults to ``devel``.
+
+.. setting:: SENTRY_PROFILES_SAMPLE_RATE
+
+SENTRY_PROFILES_SAMPLE_RATE
+---------------------------
+
+Configure sampling rate for performance monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
+
+.. seealso::
+
+   `Sentry Performance Monitoring <https://docs.sentry.io/product/performance/>`_
+
+.. setting:: SENTRY_SEND_PII
+
+SENTRY_SEND_PII
+---------------
+
+Allow Sentry to collect certain personally identifiable information. Turned on by default.
+
+.. setting:: SENTRY_TRACES_SAMPLE_RATE
+
+SENTRY_TRACES_SAMPLE_RATE
+-------------------------
+
+Configure sampling rate for profiling monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
+
+.. seealso::
+
+   `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_
+
 .. setting:: SESSION_COOKIE_AGE_AUTHENTICATED
 
 SESSION_COOKIE_AGE_AUTHENTICATED
@@ -1783,7 +1869,8 @@ VCS_API_DELAY
 .. versionadded:: 4.15.1
 
 Configures minimal delay in seconds between third-party API calls in
-:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, and :ref:`vcs-pagure`.
+:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and
+:ref:`vcs-azure-devops`.
 
 This rate-limits API calls from Weblate to these services to avoid overloading them.
 
@@ -1960,3 +2047,38 @@ WEBSITE_REQUIRED
 
 Defines whether :ref:`project-web` has to be specified when creating a project.
 On by default, as that suits public server setups.
+
+
+.. _settings-credentials:
+
+Configuring version control credentials
+---------------------------------------
+
+.. hint::
+
+   This section describes VCS credential variables as
+   :setting:`GITHUB_CREDENTIALS`, :setting:`GITLAB_CREDENTIALS`,
+   :setting:`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`,
+   :setting:`BITBUCKETSERVER_CREDENTIALS`.
+
+The configuration dictionary consists of credentials defined for each API host.
+The API host might be different from what you use in the web browser, for
+example GitHub API is accessed as ``api.github.com``.
+
+The following configuration is available for each host:
+
+``username``
+   API user, required.
+``token``
+   API token for the API user, required.
+``scheme``
+   .. versionadded:: 4.18
+
+   Scheme override. Weblate attempts to parse scheme from the repository URL
+   and falls backs to ``https``. If you are running the API server internally,
+   you might want to use ``http`` instead, but consider security.
+
+.. hint::
+
+   In the Docker container, the credentials can be configured using environment variables,
+   see :ref:`docker-vcs-config`.

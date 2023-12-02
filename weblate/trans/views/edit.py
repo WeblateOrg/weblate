@@ -11,6 +11,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.db.models import Case, IntegerField, Q, Value, When
 from django.db.models.functions import MD5, Lower
 from django.http import (
@@ -54,7 +55,7 @@ from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.messages import get_message_kind
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
-from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import (
     get_sort_name,
@@ -64,6 +65,14 @@ from weblate.utils.views import (
 )
 
 SESSION_SEARCH_CACHE_TTL = 1800
+
+
+def display_fixups(request, fixups):
+    messages.info(
+        request,
+        gettext("Following fixups were applied to translation: %s")
+        % ", ".join(str(f) for f in fixups),
+    )
 
 
 def get_other_units(unit):
@@ -197,7 +206,7 @@ def get_other_units(unit):
 
 def cleanup_session(session, delete_all: bool = False):
     """Delete old search results from session storage."""
-    now = int(time.monotonic())
+    now = int(time.time())
     keys = list(session.keys())
     for key in keys:
         if not key.startswith("search_"):
@@ -211,7 +220,7 @@ def search(
     base, project, unit_set, request, blank: bool = False, use_cache: bool = True
 ):
     """Perform search or returns cached search results."""
-    now = int(time.monotonic())
+    now = int(time.time())
     # Possible new search
     form = PositionSearchForm(user=request.user, data=request.GET, show_builder=False)
 
@@ -257,7 +266,7 @@ def search(
         # Check empty search results
         if not unit_ids and not blank:
             messages.warning(request, gettext("No strings found!"))
-            return redirect(base)
+            return redirect(f"{base.get_absolute_url()}#search")
 
         store_result = {
             "query": search_query,
@@ -304,6 +313,8 @@ def perform_suggestion(unit, form, request):
     )
     if not result:
         messages.error(request, gettext("Your suggestion already exists!"))
+    elif result.fixups:
+        display_fixups(request, result.fixups)
     return result
 
 
@@ -336,11 +347,7 @@ def perform_translation(unit, form, request):
 
     # Warn about applied fixups
     if unit.fixups:
-        messages.info(
-            request,
-            gettext("Following fixups were applied to translation: %s")
-            % ", ".join(str(f) for f in unit.fixups),
-        )
+        display_fixups(request, unit.fixups)
 
     # No change edit - should we skip to next entry
     if not saved:
@@ -473,8 +480,10 @@ def handle_revert(unit, request, next_unit_url):
 def check_suggest_permissions(request, mode, unit, suggestion):
     """Check permission for suggestion handling."""
     user = request.user
-    if mode in ("accept", "accept_edit"):
-        if not user.has_perm("suggestion.accept", unit):
+    if mode in ("accept", "accept_edit", "accept_approve"):
+        if not user.has_perm("suggestion.accept", unit) or (
+            mode == "accept_approve" and not user.has_perm("unit.review", unit)
+        ):
             messages.error(
                 request, gettext("You do not have privilege to accept suggestions!")
             )
@@ -496,7 +505,15 @@ def check_suggest_permissions(request, mode, unit, suggestion):
 def handle_suggestions(request, unit, this_unit_url, next_unit_url):
     """Handle suggestion deleting/accepting."""
     sugid = ""
-    params = ("accept", "accept_edit", "delete", "spam", "upvote", "downvote")
+    params = (
+        "accept",
+        "accept_edit",
+        "accept_approve",
+        "delete",
+        "spam",
+        "upvote",
+        "downvote",
+    )
     redirect_url = this_unit_url
     mode = None
 
@@ -519,9 +536,18 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
         return HttpResponseRedirect(this_unit_url)
 
     # Perform operation
-    if "accept" in request.POST or "accept_edit" in request.POST:
-        suggestion.accept(request)
-        if "accept" in request.POST:
+    if (
+        "accept" in request.POST
+        or "accept_edit" in request.POST
+        or "accept_approve" in request.POST
+    ):
+        suggestion.accept(
+            request,
+            state=STATE_APPROVED
+            if "accept_approve" in request.POST
+            else STATE_TRANSLATED,
+        )
+        if "accept_edit" not in request.POST:
             redirect_url = next_unit_url
     elif "delete" in request.POST or "spam" in request.POST:
         suggestion.delete_log(
@@ -538,6 +564,7 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
     return HttpResponseRedirect(redirect_url)
 
 
+@transaction.atomic
 def translate(request, path):  # noqa: C901
     """Generic entry point for translating, suggesting and searching."""
     obj, unit_set, context = parse_path_units(
@@ -603,6 +630,7 @@ def translate(request, path):  # noqa: C901
         if (
             "accept" in request.POST
             or "accept_edit" in request.POST
+            or "accept_approve" in request.POST
             or "delete" in request.POST
             or "spam" in request.POST
             or "upvote" in request.POST
@@ -744,6 +772,7 @@ def auto_translation(request, path):
 
 @login_required
 @session_ratelimit_post("comment", logout_user=False)
+@transaction.atomic
 def comment(request, pk):
     """Add new comment."""
     scope = unit = get_object_or_404(Unit, pk=pk)
@@ -784,6 +813,7 @@ def comment(request, pk):
 
 @login_required
 @require_POST
+@transaction.atomic
 def delete_comment(request, pk):
     """Delete comment."""
     comment_obj = get_object_or_404(Comment, pk=pk)
@@ -803,6 +833,7 @@ def delete_comment(request, pk):
 
 @login_required
 @require_POST
+@transaction.atomic
 def resolve_comment(request, pk):
     """Resolve comment."""
     comment_obj = get_object_or_404(Comment, pk=pk)
@@ -923,6 +954,7 @@ def load_zen(request, path):
 
 @login_required
 @require_POST
+@transaction.atomic
 def save_zen(request, path):
     """Save handler for zen mode."""
     _obj, unit_set, _context = parse_path_units(
@@ -979,6 +1011,7 @@ def save_zen(request, path):
 
 @require_POST
 @login_required
+@transaction.atomic
 def new_unit(request, path):
     translation = parse_path(request, path, (Translation,))
     if not request.user.has_perm("unit.add", translation):
@@ -997,6 +1030,7 @@ def new_unit(request, path):
 
 @login_required
 @require_POST
+@transaction.atomic
 def delete_unit(request, unit_id):
     """Delete unit."""
     unit = get_object_or_404(Unit, pk=unit_id)

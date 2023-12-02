@@ -19,22 +19,12 @@ from weblate.screenshots.views import get_tesseract, ocr_get_strings
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
-from weblate.utils.db import using_postgresql
+from weblate.utils.db import TransactionsTestMixin
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 
 
-class ViewTest(FixtureTestCase):
-    @classmethod
-    def _databases_support_transactions(cls):
-        # This is workaround for MySQL as FULL TEXT index does not work
-        # well inside a transaction, so we avoid using transactions for
-        # tests. Otherwise we end up with no matches for the query.
-        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if not using_postgresql():
-            return False
-        return super()._databases_support_transactions()
-
+class ViewTest(TransactionsTestMixin, FixtureTestCase):
     def test_list_empty(self):
         response = self.client.get(reverse("screenshots", kwargs=self.kw_component))
         self.assertContains(response, "Screenshots")
@@ -99,8 +89,11 @@ class ViewTest(FixtureTestCase):
         self.make_manager()
         self.do_upload()
         screenshot = Screenshot.objects.all()[0]
-        self.client.post(reverse("screenshot-delete", kwargs={"pk": screenshot.pk}))
+        response = self.client.post(
+            reverse("screenshot-delete", kwargs={"pk": screenshot.pk})
+        )
         self.assertEqual(Screenshot.objects.count(), 0)
+        self.assertRedirects(response, reverse("screenshots", kwargs=self.kw_component))
 
     def extract_pk(self, data):
         return int(data.split('data-pk="')[1].split('"')[0])

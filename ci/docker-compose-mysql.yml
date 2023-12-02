@@ -6,13 +6,13 @@ version: '3'
 
 services:
   database:
-    image: mysql:8.1.0
+    image: mysql:8.2.0
     ports:
     - 60000:3306
     environment:
       MYSQL_ROOT_PASSWORD: weblate
   cache:
-    image: redis:7.2.2-alpine
+    image: redis:7.2.3-alpine
     restart: always
     ports:
     - 60001:6379

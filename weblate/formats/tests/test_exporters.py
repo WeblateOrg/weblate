@@ -15,7 +15,7 @@ from weblate.formats.exporters import (
     XliffExporter,
     XlsxExporter,
 )
-from weblate.formats.helpers import BytesIOMode
+from weblate.formats.helpers import NamedBytesIO
 from weblate.lang.models import Language, Plural
 from weblate.trans.models import (
     Comment,
@@ -69,7 +69,7 @@ class PoExporterTest(BaseTestCase):
         )
         translation = Translation(language=lang, component=component, plural=plural)
         # Fake file format to avoid need for actual files
-        translation.store = EmptyFormat(BytesIOMode("", b""))
+        translation.store = EmptyFormat(NamedBytesIO("", b""))
         unit = Unit(translation=translation, id_hash=-1, pk=-1, **kwargs)
         if source_info:
             for key, value in source_info.items():
@@ -297,10 +297,6 @@ class JSONExporterTest(PoExporterTest):
 class StringsExporterTest(PoExporterTest):
     _class = StringsExporter
     _has_comments = False
-
-    def _encode(self, string):
-        # Skip BOM
-        return string.encode("utf-16")[2:]
 
     def check_plurals(self, result):
         # Doesn't support plurals

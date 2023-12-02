@@ -81,7 +81,14 @@
 
 <ul class="nav nav-pills">
 {% for form in notification_forms %}
-    <li {% if form.is_active %}class="active"{% endif %}><a data-toggle="tab" href="#{{ form.prefix }}">{{ form.get_name }}</a></li>
+  <li {% if form.is_active %}class="active"{% endif %}>
+    <a data-toggle="tab" href="#{{ form.prefix }}">
+      {{ form.get_name }}
+      {% if form.removable %}
+        <button type="button" class="close" title="{% trans "Remove this notification setting" %}"><span aria-hidden="true">&times;</span></button>
+      {% endif %}
+    </a>
+  </li>
 {% endfor %}
 </ul>
 
@@ -110,6 +117,12 @@
   <div class="panel-body">
 {% crispy userform %}
 {% crispy commitform %}
+  <p class="help-block">
+    {% if has_email_auth %}
+      <a href="" class="link-post pull-right flip btn btn-link" data-href="{% url 'social:begin' 'email' %}?next={% url 'profile' %}%23account">{% translate "Verify new e-mail address" %}</a>
+    {% endif %}
+    {% trans "The e-mail address can be chosen from verified addresses only." %}
+  </p>
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />

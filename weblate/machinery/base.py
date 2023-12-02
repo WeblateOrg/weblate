@@ -9,8 +9,10 @@ from __future__ import annotations
 import random
 import re
 import time
+from collections import defaultdict
 from hashlib import md5
 from itertools import chain
+from typing import TYPE_CHECKING
 from urllib.parse import quote
 
 from django.core.cache import cache
@@ -23,10 +25,13 @@ from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
-from weblate.utils.hash import calculate_hash
+from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
 from weblate.utils.requests import request
 from weblate.utils.search import Comparer
 from weblate.utils.site import get_site_url
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 
 def get_machinery_language(language):
@@ -47,7 +52,7 @@ class UnsupportedLanguageError(MachineTranslationError):
     """Raised when language is not supported."""
 
 
-class MachineTranslation:
+class BatchMachineTranslation:
     """Generic object for machine translation services."""
 
     name = "MT"
@@ -63,8 +68,9 @@ class MachineTranslation:
     force_uncleanup = False
     hightlight_syntax = False
     settings_form = None
-    validate_payload = ("en", "de", "test", None, None, 75)
+    validate_payload = ("en", "de", [("test", None)], None, 75)
     request_timeout = 5
+    is_available = True
 
     @classmethod
     def get_rank(cls):
@@ -91,7 +97,7 @@ class MachineTranslation:
                 gettext("Could not fetch supported languages: %s") % error
             )
         try:
-            self.download_translations(*self.validate_payload)
+            self.download_multiple_translations(*self.validate_payload)
         except Exception as error:
             raise ValidationError(gettext("Could not fetch translation: %s") % error)
 
@@ -166,27 +172,6 @@ class MachineTranslation:
         """Download list of supported languages from a service."""
         return []
 
-    def download_translations(
-        self,
-        source,
-        language,
-        text: str,
-        unit,
-        user,
-        threshold: int = 75,
-    ):
-        """
-        Download list of possible translations from a service.
-
-        Should return dict with translation text, translation quality, source of
-        translation, source string.
-
-        You can use self.name as source of translation, if you can not give
-        better hint and text parameter as source string if you do no fuzzy
-        matching.
-        """
-        raise NotImplementedError
-
     def map_language_code(self, code):
         """Map language code to service specific."""
         if code.endswith("_devel"):
@@ -253,15 +238,23 @@ class MachineTranslation:
             return True
         return False
 
-    def translate_cache_key(self, source, language, text, threshold):
-        if not self.cache_translations:
-            return None
-        return "mt:{}:{}:{}:{}".format(
-            self.mtid,
-            calculate_hash(source, language),
-            calculate_hash(text),
-            threshold,
-        )
+    def get_cache_key(self, scope: str = "translation", *parts) -> str:
+        """
+        Cache key for caching translations.
+
+        Used to avoid fetching same translations again.
+
+        This includes project ID for project scoped entries via
+        Project.get_machinery_settings.
+        """
+        key = ["mt", self.mtid, scope, str(calculate_dict_hash(self.settings))]
+        for part in parts:
+            if isinstance(part, int):
+                key.append(str(part))
+            else:
+                key.append(str(calculate_hash(part)))
+
+        return ":".join(key)
 
     def unescape_text(self, text: str):
         """Unescaping of the text with replacements."""
@@ -341,13 +334,13 @@ class MachineTranslation:
         raise UnsupportedLanguageError("Not supported")
 
     def get_cached(self, source, language, text, threshold, replacements):
-        cache_key = self.translate_cache_key(source, language, text, threshold)
-        if cache_key:
-            result = cache.get(cache_key)
-            if result and (replacements or self.force_uncleanup):
-                self.uncleanup_results(replacements, result)
-            return cache_key, result
-        return cache_key, None
+        if not self.cache_translations:
+            return None, None
+        cache_key = self.get_cache_key(source, language, text, threshold)
+        result = cache.get(cache_key)
+        if result and (replacements or self.force_uncleanup):
+            self.uncleanup_results(replacements, result)
+        return cache_key, result
 
     def search(self, unit, text, user):
         """Search for known translations of `text`."""
@@ -365,7 +358,9 @@ class MachineTranslation:
             return []
 
         self.account_usage(translation.component.project)
-        return self._translate(source, language, text, unit, user, threshold=10)
+        return self._translate(source, language, [(text, unit)], user, threshold=10)[
+            text
+        ]
 
     def translate(self, unit, user=None, threshold: int = 75):
         """Return list of machine translations."""
@@ -387,52 +382,99 @@ class MachineTranslation:
         source_plural = translation.component.source_language.plural
         target_plural = translation.plural
         plural_mapper = PluralMapper(source_plural, target_plural)
-        return [
-            self._translate(source, language, text, unit, user, threshold=threshold)
-            for text in plural_mapper.map(unit)
-        ]
-
-    def _translate(self, source, language, text, unit, user=None, threshold: int = 75):
-        original_source = text
-        text, replacements = self.cleanup_text(text, unit)
-
-        if not text or self.is_rate_limited():
-            return []
-
-        cache_key, result = self.get_cached(
-            source, language, text, threshold, replacements
+        plural_mapper.map_units([unit])
+        translations = self._translate(
+            source,
+            language,
+            [(text, unit) for text in unit.plural_map],
+            user,
+            threshold=threshold,
         )
-        if result is not None:
-            return result
+        return [translations[text] for text in unit.plural_map]
 
-        try:
-            result = [
-                item
-                for item in self.download_translations(
+    def download_multiple_translations(
+        self,
+        source,
+        language,
+        sources: list[tuple[str, Unit]],
+        user=None,
+        threshold: int = 75,
+    ) -> dict[str, list[dict[str, str]]]:
+        """
+        Download dictionary of a lists of possible translations from a service.
+
+        Should return dict with translation text, translation quality, source of
+        translation, source string.
+
+        You can use self.name as source of translation, if you can not give
+        better hint and text parameter as source string if you do no fuzzy
+        matching.
+        """
+        raise NotImplementedError
+
+    def _translate(
+        self,
+        source,
+        language,
+        sources: list[tuple[str, Unit]],
+        user=None,
+        threshold: int = 75,
+    ) -> dict[str, list[dict[str, str]]]:
+        output = {}
+        pending = defaultdict(list)
+        for text, unit in sources:
+            original_source = text
+            text, replacements = self.cleanup_text(text, unit)
+
+            if not text or self.is_rate_limited():
+                output[original_source] = []
+                continue
+
+            # Try cached results
+            cache_key, result = self.get_cached(
+                source, language, text, threshold, replacements
+            )
+            if result is not None:
+                output[original_source] = result
+                continue
+
+            pending[text].append((unit, original_source, replacements))
+
+        # Fetch pending strings to translate
+        if pending:
+            # Unit is only used in WeblateMemory and it is used only to get a project
+            # so it doesn't matter we potentionally flatten this.
+            try:
+                translations = self.download_multiple_translations(
                     source,
                     language,
-                    text,
-                    unit,
+                    [
+                        (text, occurrences[0][0])
+                        for text, occurrences in pending.items()
+                    ],
                     user,
-                    threshold=threshold,
+                    threshold,
                 )
-                if item["quality"] >= threshold
-            ]
-        except Exception as exc:
-            if self.is_rate_limit_error(exc):
-                self.set_rate_limit()
+            except Exception as exc:
+                if self.is_rate_limit_error(exc):
+                    self.set_rate_limit()
 
-            self.report_error("Could not fetch translations from %s")
-            if isinstance(exc, MachineTranslationError):
-                raise
-            raise MachineTranslationError(self.get_error_message(exc)) from exc
-        for item in result:
-            item["original_source"] = original_source
-        if cache_key:
-            cache.set(cache_key, result, 30 * 86400)
-        if replacements or self.force_uncleanup:
-            self.uncleanup_results(replacements, result)
-        return result
+                self.report_error("Could not fetch translations from %s")
+                if isinstance(exc, MachineTranslationError):
+                    raise
+                raise MachineTranslationError(self.get_error_message(exc)) from exc
+
+            # Postprocess translations
+            for text, result in translations.items():
+                for _unit, original_source, replacements in pending[text]:
+                    for item in result:
+                        item["original_source"] = original_source
+                    if cache_key:
+                        cache.set(cache_key, result, 30 * 86400)
+                    if replacements or self.force_uncleanup:
+                        self.uncleanup_results(replacements, result)
+                    output[original_source] = result
+        return output
 
     def get_error_message(self, exc):
         return f"{exc.__class__.__name__}: {exc}"
@@ -463,16 +505,18 @@ class MachineTranslation:
         source_plural = translation.component.source_language.plural
         target_plural = translation.plural
         plural_mapper = PluralMapper(source_plural, target_plural)
+        plural_mapper.map_units(units)
+
+        sources = [(text, unit) for unit in units for text in unit.plural_map]
+        translations = self._translate(source, language, sources, user, threshold)
+
         for unit in units:
             result = unit.machinery
             if result is None:
                 result = unit.machinery = {}
             elif min(result.get("quality", ()), default=0) >= self.max_score:
                 continue
-            translation_lists = [
-                self._translate(source, language, text, unit, user, threshold=threshold)
-                for text in plural_mapper.map(unit)
-            ]
+            translation_lists = [translations[text] for text in unit.plural_map]
             plural_count = len(translation_lists)
             translation = result.setdefault("translation", [""] * plural_count)
             quality = result.setdefault("quality", [0] * plural_count)
@@ -493,6 +537,46 @@ class MachineTranslation:
         return User.objects.get_or_create_bot("mt", self.get_identifier(), self.name)
 
 
+class MachineTranslation(BatchMachineTranslation):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        threshold: int = 75,
+    ):
+        """
+        Download list of possible translations from a service.
+
+        Should return dict with translation text, translation quality, source of
+        translation, source string.
+
+        You can use self.name as source of translation, if you can not give
+        better hint and text parameter as source string if you do no fuzzy
+        matching.
+        """
+        raise NotImplementedError
+
+    def download_multiple_translations(
+        self,
+        source,
+        language,
+        sources: list[tuple[str, Unit]],
+        user=None,
+        threshold: int = 75,
+    ) -> dict[str, list[dict[str, str]]]:
+        return {
+            text: list(
+                self.download_translations(
+                    source, language, text, unit, user, threshold=threshold
+                )
+            )
+            for text, unit in sources
+        }
+
+
 class InternalMachineTranslation(MachineTranslation):
     do_cleanup = False
     accounting_key = "internal"
@@ -508,3 +592,113 @@ class InternalMachineTranslation(MachineTranslation):
 
     def get_language_possibilities(self, language):
         yield get_machinery_language(language)
+
+
+class GlossaryMachineTranslationMixin:
+    glossary_name_format = (
+        "weblate:{project}:{source_language}:{target_language}:{checksum}"
+    )
+    glossary_count_limit = None
+
+    def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
+        return True
+
+    def list_glossaries(self) -> dict[str:str]:
+        """
+        Lists glossaries from the service.
+
+        Returns dictionary with names and id.
+        """
+        raise NotImplementedError
+
+    def delete_glossary(self, glossary_id: str):
+        raise NotImplementedError
+
+    def delete_oldest_glossary(self):
+        raise NotImplementedError
+
+    def create_glossary(
+        self, source_language: str, target_language: str, name: str, tsv: str
+    ):
+        raise NotImplementedError
+
+    def get_glossaries(self, use_cache: bool = True):
+        cache_key = self.get_cache_key("glossaries")
+        if use_cache:
+            cached = cache.get(cache_key)
+            if cached is not None:
+                return cached
+
+        result = self.list_glossaries()
+
+        cache.set(cache_key, result, 24 * 3600)
+        return result
+
+    def get_glossary_id(
+        self, source_language: str, target_language: str, unit
+    ) -> int | str | None:
+        from weblate.glossary.models import get_glossary_tsv
+
+        if unit is None:
+            return None
+
+        translation = unit.translation
+
+        # Check glossary support for a language pair
+        if not self.is_glossary_supported(source_language, target_language):
+            return None
+
+        # Check if there is a glossary
+        glossary_tsv = get_glossary_tsv(translation)
+        if not glossary_tsv:
+            return None
+
+        # Calculate hash to check for changes
+        glossary_checksum = hash_to_checksum(calculate_hash(glossary_tsv))
+        glossary_name = self.glossary_name_format.format(
+            project=translation.component.project.id,
+            source_language=source_language,
+            target_language=target_language,
+            checksum=glossary_checksum,
+        )
+
+        # Fetch list of glossaries
+        glossaries = self.get_glossaries()
+        if glossary_name in glossaries:
+            return glossaries[glossary_name]
+
+        # Remove stale glossaries for this language pair
+        hashless_name = self.glossary_name_format.format(
+            project=translation.component.project.id,
+            source_language=source_language,
+            target_language=target_language,
+            checksum="",
+        )
+        for name, glossary_id in glossaries.items():
+            if name.startswith(hashless_name):
+                translation.log_debug(
+                    "%s: removing stale glossary %s (%s)", self.mtid, name, glossary_id
+                )
+                self.delete_glossary(glossary_id)
+
+        # Ensure we are in service limits
+        if (
+            self.glossary_count_limit
+            and len(glossaries) + 1 >= self.glossary_count_limit
+        ):
+            translation.log_debug(
+                "%s: approached limit of %d glossaries, removing oldest glossary",
+                self.mtid,
+                self.glossary_count_limit,
+            )
+            self.delete_oldest_glossary()
+
+        # Create new glossary
+        translation.log_debug("%s: creating glossary %s", self.mtid, glossary_name)
+        self.create_glossary(
+            source_language, target_language, glossary_name, glossary_tsv
+        )
+
+        # Fetch glossaries again, without using cache
+        glossaries = self.get_glossaries(use_cache=False)
+        return glossaries[glossary_name]

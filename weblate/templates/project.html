@@ -253,7 +253,7 @@
 {% if rename_form %}
 <form method="post" action="{% url 'rename' path=object.get_url_path %}">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Rename project" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Organize project" %}</h4></div>
 <div class="panel-body">
 <div class="form-group">
   <div class="alert alert-warning" role="alert">
@@ -264,7 +264,7 @@
 {% crispy rename_form %}
 </div>
 <div class="panel-footer">
-<input type="submit" class="btn btn-warning" value="{% trans "Rename" %}">
+<input type="submit" class="btn btn-warning" value="{% trans "Organize" %}">
 </div>
 </div>
 </form>

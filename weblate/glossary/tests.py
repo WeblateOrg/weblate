@@ -4,16 +4,18 @@
 
 """Test for glossary manipulations."""
 
+import csv
 import json
+from io import StringIO
 
 from django.urls import reverse
 
-from weblate.glossary.models import get_glossary_terms
+from weblate.glossary.models import get_glossary_terms, get_glossary_tsv
 from weblate.glossary.tasks import sync_terminology
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
-from weblate.utils.db import using_postgresql
+from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -79,7 +81,7 @@ def unit_sources_and_positions(units):
     return {(unit.source, unit.glossary_positions) for unit in units}
 
 
-class GlossaryTest(ViewTestCase):
+class GlossaryTest(TransactionsTestMixin, ViewTestCase):
     """Testing of glossary manipulations."""
 
     CREATE_GLOSSARIES: bool = True
@@ -90,16 +92,6 @@ class GlossaryTest(ViewTestCase):
         self.glossary = self.glossary_component.translation_set.get(
             language=self.get_translation().language
         )
-
-    @classmethod
-    def _databases_support_transactions(cls):
-        # This is workaround for MySQL as FULL TEXT index does not work
-        # well inside a transaction, so we avoid using transactions for
-        # tests. Otherwise we end up with no matches for the query.
-        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if not using_postgresql():
-            return False
-        return super()._databases_support_transactions()
 
     def import_file(self, filename, **kwargs):
         with open(filename, "rb") as handle:
@@ -443,3 +435,16 @@ class GlossaryTest(ViewTestCase):
             ),
             {""},
         )
+
+    def test_tsv(self):
+        # Import file
+        self.import_file(TEST_CSV)
+
+        tsv_data = get_glossary_tsv(self.get_translation())
+
+        handle = StringIO(tsv_data)
+
+        reader = csv.reader(handle, "excel-tab")
+        lines = list(reader)
+        self.assertEqual(len(lines), 163)
+        self.assertTrue(all(len(line) == 2 for line in lines))

@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from operator import itemgetter
+
 from pygments.lexers.markup import RstLexer
 from pygments.token import Token
 
@@ -54,7 +56,7 @@ def highlight_string(source: str, unit, hightlight_syntax: bool = False):
     highlights = [highlight for highlight in highlights if highlight[2]]
 
     # Sort by order in string
-    highlights.sort(key=lambda x: x[0])
+    highlights.sort(key=itemgetter(0))
 
     # Remove overlapping ones
     for hl_idx in range(len(highlights)):

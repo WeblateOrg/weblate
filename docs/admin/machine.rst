@@ -88,8 +88,8 @@ The recommended way to use Apertium is to run your own Apertium-APy server.
 
 .. _mt-aws:
 
-AWS
----
+Amazon Translate
+----------------
 
 :Service ID: ``aws``
 :Configuration: +------------+----------------+--+
@@ -133,11 +133,13 @@ DeepL
 -----
 
 :Service ID: ``deepl``
-:Configuration: +---------+---------+--+
-                | ``url`` | API URL |  |
-                +---------+---------+--+
-                | ``key`` | API key |  |
-                +---------+---------+--+
+:Configuration: +---------------+-----------+-------------------------------------------------------------------------+
+                | ``url``       | API URL   |                                                                         |
+                +---------------+-----------+-------------------------------------------------------------------------+
+                | ``key``       | API key   |                                                                         |
+                +---------------+-----------+-------------------------------------------------------------------------+
+                | ``formality`` | Formality | Uses the specified formality if language is not specified as (in)formal |
+                +---------------+-----------+-------------------------------------------------------------------------+
 
 DeepL is paid service providing good machine translation for a few languages.
 You need to purchase :guilabel:`DeepL API` subscription or you can use legacy
@@ -169,6 +171,8 @@ Replace the XXX with your auth_key. If you receive a JSON object which contains
 Weblate supports DeepL formality, it will choose matching one based on the
 language (for example, there is ``de@formal`` and ``de@informal``).
 
+The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
+
 .. seealso::
 
     `DeepL translator <https://www.deepl.com/translator>`_,
@@ -195,17 +199,17 @@ from one IP in a set period of time, to prevent abuse.
 
 .. _mt-google-translate:
 
-Google Translate
-----------------
+Google Cloud Translation Basic
+------------------------------
 
 :Service ID: ``google-translate``
 :Configuration: +---------+---------+--+
                 | ``key`` | API key |  |
                 +---------+---------+--+
 
-Machine translation service provided by Google.
+Machine translation service provided by the Google Cloud services.
 
-This service uses the Google Translation API, and you need to obtain an API key and turn on
+This service uses the Google Translation API v2, and you need to obtain an API key and turn on
 billing in the Google API console.
 
 .. seealso::
@@ -214,19 +218,33 @@ billing in the Google API console.
 
 .. _mt-google-translate-api-v3:
 
-Google Translate API v3
------------------------
+Google Cloud Translation Advanced
+---------------------------------
 
 :Service ID: ``google-translate-api-v3``
-:Configuration: +-----------------+---------------------------------------+--+
-                | ``credentials`` | Google Translate service account info |  |
-                +-----------------+---------------------------------------+--+
-                | ``project``     | Google Translate project              |  |
-                +-----------------+---------------------------------------+--+
-                | ``location``    | Google Translate location             |  |
-                +-----------------+---------------------------------------+--+
+:Configuration: +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
+                | ``credentials`` | Google Translate service account info | Enter a JSON key for the service account.                                                                |
+                +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
+                | ``project``     | Google Translate project              | Enter the numeric or alphanumeric ID of your Google Cloud project.                                       |
+                +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
+                | ``location``    | Google Translate location             | Choose a Google Cloud Translation region that is used for the Google Cloud project or is closest to you. |
+                +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
 
-Machine translation service provided by Google Cloud services.
+Machine translation service provided by the Google Cloud services.
+
+This service uses the Google Translation API v3 and you need credentials in JSON format to access it.
+
+In order to use this service, you first need to go through the following steps:
+
+1. `Select or create a Cloud Platform project.`_
+2. `Enable billing for your project.`_
+3. `Enable the Cloud Translation.`_
+4. `Setup Authentication.`_
+
+.. _Select or create a Cloud Platform project.: https://console.cloud.google.com/project
+.. _Enable billing for your project.: https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project
+.. _Enable the Cloud Translation.:  https://cloud.google.com/translate/docs/
+.. _Setup Authentication.: https://googleapis.dev/python/google-api-core/latest/auth.html
 
 .. seealso::
 
@@ -234,6 +252,32 @@ Machine translation service provided by Google Cloud services.
     `Authenticate to Cloud services using client libraries <https://cloud.google.com/docs/authentication/client-libraries>`_,
     `Creating Google Translate project <https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project>`_,
     `Google Cloud App Engine locations <https://cloud.google.com/appengine/docs/standard/locations>`_
+
+.. _mt-ibm:
+
+IBM Watson Language Translator
+------------------------------
+
+.. versionadded:: 4.16
+
+:Service ID: ``ibm``
+:Configuration: +---------+---------+--+
+                | ``url`` | API URL |  |
+                +---------+---------+--+
+                | ``key`` | API key |  |
+                +---------+---------+--+
+
+.. warning::
+
+   This service is deprecated by vendor and will be withdrawn entirely as of 10 December 2024.
+
+IBM Watson Language Translator translates text from one language to another.
+The service offers multiple domain-specific models.
+
+.. seealso::
+
+    `Watson Language Translator <https://www.ibm.com/products/natural-language-processing>`_,
+    `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-translator>`_
 
 .. _mt-libretranslate:
 
@@ -262,27 +306,10 @@ and there are several mirrors available to use the API for free.
     `LibreTranslate repository <https://github.com/LibreTranslate/LibreTranslate>`_,
     `LibreTranslate mirrors <https://github.com/LibreTranslate/LibreTranslate#user-content-mirrors>`_
 
-.. _mt-microsoft-terminology:
-
-Microsoft Terminology
----------------------
-
-:Service ID: ``microsoft-terminology``
-:Configuration: `This service has no configuration.`
-
-The Microsoft Terminology Service API allows you to programmatically access the
-terminology, definitions and user interface (UI) strings available in the
-Language Portal through a web service.
-
-.. seealso::
-
-    `Microsoft language resources <https://learn.microsoft.com/en-us/globalization/reference/microsoft-language-resources>`_
-
-
 .. _mt-microsoft-translator:
 
-Microsoft Translator
---------------------
+Azure AI Translator
+-------------------
 
 :Service ID: ``microsoft-translator``
 :Configuration: +------------------+-------------------------------+-----------------------------------------------------------------------+
@@ -405,6 +432,51 @@ This service uses an API, and you need to obtain key and secret from NetEase.
 
     `NetEase Sight Translation Platform <https://sight.youdao.com/>`_
 
+.. _mt-openai:
+
+OpenAI
+------
+
+.. versionadded:: 5.3
+
+:Service ID: ``openai``
+:Configuration: +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``key``     | API key            |                                                                                                                           |
+                +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``model``   | OpenAI model       | Available choices:                                                                                                        |
+                |             |                    |                                                                                                                           |
+                |             |                    | ``auto`` -- Automatic selection                                                                                           |
+                |             |                    |                                                                                                                           |
+                |             |                    | ``gpt-4-1106-preview`` -- GPT-4 Turbo                                                                                     |
+                |             |                    |                                                                                                                           |
+                |             |                    | ``gpt-4`` -- GPT-4                                                                                                        |
+                |             |                    |                                                                                                                           |
+                |             |                    | ``gpt-3.5-turbo`` -- GPT-3.5 Turbo                                                                                        |
+                +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona`` | Translator persona | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
+                +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``   | Translator style   | Describe the style of translation. For example: “Use informal language.”                                                  |
+                +-------------+--------------------+---------------------------------------------------------------------------------------------------------------------------+
+
+Performs translation using `OpenAI`_.
+
+The OpenAI API is powered by a diverse set of models with different
+capabilities and price points. Automatic selection chooses the best model
+available, but you might want to choose a specific model that matches your needs.
+
+Use persona and style fields to further fine-tune translations. These will be
+used in a prompt for OpenAI and allow you to change the style of the
+translations.
+
+The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
+
+.. seealso::
+
+   `OpenAI models <https://platform.openai.com/docs/models>`_,
+   `OpenAI API keys <https://platform.openai.com/account/api-keys>`_
+
+.. _OpenAI: https://openai.com/
+
 .. _mt-sap-translation-hub:
 
 SAP Translation Hub
@@ -482,25 +554,6 @@ amaGama server, which is an enhanced version of tmserver.
     :doc:`virtaal:amagama`,
     `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
 
-.. _mt-ibm:
-
-IBM Watson Language Translator
-------------------------------
-
-:Service ID: ``ibm``
-:Configuration: +---------+---------+--+
-                | ``url`` | API URL |  |
-                +---------+---------+--+
-                | ``key`` | API key |  |
-                +---------+---------+--+
-
-IBM Watson Language Translator translates text from one language to another.
-The service offers multiple domain-specific models.
-
-.. seealso::
-
-    `Watson Language Translator <https://www.ibm.com/products/natural-language-processing>`_,
-    `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-translator>`_
 
 .. _mt-weblate:
 

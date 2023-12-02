@@ -12,13 +12,17 @@ from .forms import AWSMachineryForm
 class AWSTranslation(MachineTranslation):
     """AWS machine translation."""
 
-    name = "AWS"
+    name = "Amazon Translate"
     max_score = 88
     language_map = {
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh",
     }
     settings_form = AWSMachineryForm
+
+    @classmethod
+    def get_identifier(cls):
+        return "aws"
 
     @cached_property
     def client(self):

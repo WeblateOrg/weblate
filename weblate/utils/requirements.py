@@ -60,8 +60,8 @@ REQUIRES = [
 ]
 
 OPTIONAL = [
-    "psycopg2",
-    "psycopg2-binary",
+    "psycopg",
+    "psycopg-binary",
     "phply",
     "ruamel.yaml",
     "tesserocr",

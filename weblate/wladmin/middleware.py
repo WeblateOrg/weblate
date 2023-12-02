@@ -76,7 +76,7 @@ class ManageMiddleware:
         if not settings.BACKGROUND_ADMIN_CHECKS:
             return
         # Update last execution timestamp
-        cache.set(CHECK_CACHE_KEY, time.monotonic())
+        cache.set(CHECK_CACHE_KEY, time.time())
         thread = Thread(target=self.configuration_health_check)
         thread.start()
 
@@ -91,7 +91,7 @@ class ManageMiddleware:
         elif randint(0, 100) == 1:  # noqa: S311
             # Trigger when last check is too old
             last_run = cache.get(CHECK_CACHE_KEY)
-            now = time.monotonic()
+            now = time.time()
             if last_run is None or now - last_run > 900:
                 self.trigger_check()
 

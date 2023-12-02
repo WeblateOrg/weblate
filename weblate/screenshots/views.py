@@ -299,7 +299,7 @@ def delete_screenshot(request, pk):
 
     messages.success(request, gettext("Screenshot %s has been deleted.") % obj.name)
 
-    return redirect("screenshots", {"path": component.get_url_path()})
+    return redirect("screenshots", path=component.get_url_path())
 
 
 def get_screenshot(request, pk):

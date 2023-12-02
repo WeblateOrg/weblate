@@ -239,9 +239,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             format_translation(
                 ["Hello world"],
                 self.component.source_language,
-            )[
-                "items"
-            ][0]["content"],
+            )["items"][0]["content"],
             "Hello world",
         )
 
@@ -548,9 +546,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             format_translation(
                 [" Hello world"],
                 self.component.source_language,
-            )[
-                "items"
-            ][0]["content"],
+            )["items"][0]["content"],
             """
             <span class="hlspace">
                 <span class="space-space">
@@ -564,9 +560,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             format_translation(
                 ["  Hello world"],
                 self.component.source_language,
-            )[
-                "items"
-            ][0]["content"],
+            )["items"][0]["content"],
             """
             <span class="hlspace">
                 <span class="space-space">
@@ -582,9 +576,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             format_translation(
                 ["Hello   world"],
                 self.component.source_language,
-            )[
-                "items"
-            ][0]["content"],
+            )["items"][0]["content"],
             """
             Hello
             <span class="hlspace">
@@ -602,9 +594,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             format_translation(
                 ["Hello world "],
                 self.component.source_language,
-            )[
-                "items"
-            ][0]["content"],
+            )["items"][0]["content"],
             """
             Hello
             world
@@ -619,9 +609,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             format_translation(
                 ["Hello\u00A0world"],
                 self.component.source_language,
-            )[
-                "items"
-            ][0]["content"],
+            )["items"][0]["content"],
             """
             Hello
             <span class="hlspace">
@@ -638,9 +626,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             format_translation(
                 ["Hello\n world"],
                 self.component.source_language,
-            )[
-                "items"
-            ][0]["content"],
+            )["items"][0]["content"],
             """
             Hello
             <span class="hlspace">

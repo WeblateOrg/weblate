@@ -259,6 +259,7 @@ class TranslationFormat:
     create_style = "create"
     has_multiple_strings: bool = False
     supports_explanation: bool = False
+    supports_plural: bool = False
     can_edit_base: bool = True
     strict_format_plurals: bool = False
     plural_preference: tuple[int, ...] | None = None
@@ -440,7 +441,8 @@ class TranslationFormat:
         """Update store header if available."""
         return
 
-    def save_atomic(self, filename, callback):
+    @staticmethod
+    def save_atomic(filename, callback):
         dirname, basename = os.path.split(filename)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
@@ -530,7 +532,7 @@ class TranslationFormat:
 
     @staticmethod
     def get_language_posix(code: str) -> str:
-        return code
+        return code.replace("-", "_")
 
     @staticmethod
     def get_language_bcp(code: str) -> str:
@@ -540,18 +542,18 @@ class TranslationFormat:
     def get_language_bcp_lower(cls, code: str) -> str:
         return cls.get_language_bcp(code).lower()
 
-    @staticmethod
-    def get_language_posix_long(code: str) -> str:
-        return EXPAND_LANGS.get(code, code)
+    @classmethod
+    def get_language_posix_long(cls, code: str) -> str:
+        return EXPAND_LANGS.get(code, cls.get_language_posix(code))
 
-    @staticmethod
-    def get_language_posix_long_lowercase(code: str) -> str:
-        return EXPAND_LANGS.get(code, code).lower()
+    @classmethod
+    def get_language_posix_long_lowercase(cls, code: str) -> str:
+        return EXPAND_LANGS.get(code, cls.get_language_posix(code)).lower()
 
-    @staticmethod
-    def get_language_linux(code: str) -> str:
+    @classmethod
+    def get_language_linux(cls, code: str) -> str:
         """Linux doesn't use Hans/Hant, but rather TW/CN variants."""
-        return LEGACY_CODES.get(code, code)
+        return LEGACY_CODES.get(code, cls.get_language_posix(code))
 
     @classmethod
     def get_language_bcp_long(cls, code: str) -> str:
@@ -711,25 +713,30 @@ class TranslationFormat:
     def delete_unit(self, ttkit_unit) -> str | None:
         raise NotImplementedError
 
-    def cleanup_unused(self) -> list[str]:
+    def cleanup_unused(self) -> list[str] | None:
         """Removes unused strings, returning list of additional changed files."""
         if not self.template_store:
-            return []
+            return None
         existing = {template.context for template in self.template_store.template_units}
-        changed = False
 
+        changed = False
+        needs_save = False
         result = []
 
         # Iterate over copy of a list as we are changing it when removing units
         for unit in list(self.all_store_units):
             if self.unit_class(self, None, unit).context not in existing:
+                changed = True
                 item = self.delete_unit(unit)
                 if item is not None:
                     result.append(item)
                 else:
-                    changed = True
+                    needs_save = True
 
-        if changed:
+        if not changed:
+            return None
+
+        if needs_save:
             self.save()
         self._invalidate_units()
         return result
@@ -741,20 +748,24 @@ class TranslationFormat:
         Returning list of additional changed files.
         """
         changed = False
-
+        needs_save = False
         result = []
 
         # Iterate over copy of a list as we are changing it when removing units
         for ttkit_unit in list(self.all_store_units):
             target = self.unit_class(self, ttkit_unit, ttkit_unit).target
             if not target or (isinstance(target, list) and not any(target)):
+                changed = True
                 item = self.delete_unit(ttkit_unit)
                 if item is not None:
                     result.append(item)
                 else:
-                    changed = True
+                    needs_save = True
 
-        if changed:
+        if not changed:
+            return None
+
+        if needs_save:
             self.save()
         self._invalidate_units()
         return result

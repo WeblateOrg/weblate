@@ -14,10 +14,21 @@
 <li>
     <a href="{% url 'legal:privacy' %}">{% blocktrans %}Privacy Policy{% endblocktrans %}</a>
 </li>
-<ul>
-{% else %}
+</ul>
+
+<p>
+{% blocktrans %}Quick overview of the Terms of Service and the Privacy Policy, but you should still read the original documents to fully understand them:{% endblocktrans %}
+</p>
+
+{% include 'legal/documents/summary.html' %}
+
+{% elif private_commit_email_opt_in %}
 <p>
 {% trans "By registering you agree to use your name and e-mail in version control system commits and provide your contribution under license defined by each translated project." %}
+</p>
+{% else %}
+<p>
+{% trans "By registering you agree to use your name in version control system commits and provide your contribution under license defined by each translated project." %}
 </p>
 {% endif %}
 

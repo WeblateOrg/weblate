@@ -11,6 +11,7 @@ import time
 from collections import defaultdict
 from datetime import datetime, timedelta
 from itertools import chain
+from operator import itemgetter
 from typing import NamedTuple
 
 from celery.exceptions import TimeoutError
@@ -141,7 +142,7 @@ def is_celery_queue_long():
     queues_data = cache.get(cache_key, {})
 
     # Hours since epoch
-    current_hour = int(time.monotonic() / 3600)
+    current_hour = int(time.time() / 3600)
     test_hour = current_hour - 1
 
     # Fetch current stats
@@ -245,7 +246,7 @@ def check_celery(app_configs, **kwargs):
 
     heartbeat = cache.get("celery_heartbeat")
     loaded = cache.get("celery_loaded")
-    now = time.monotonic()
+    now = time.time()
     if loaded and now - loaded > 60 and (not heartbeat or now - heartbeat > 600):
         errors.append(
             weblate_check(
@@ -500,7 +501,7 @@ def download_version_info():
         if not info:
             continue
         result.append(Release(version, parse(info[0]["upload_time_iso_8601"])))
-    return sorted(result, key=lambda x: x[1], reverse=True)
+    return sorted(result, key=itemgetter(1), reverse=True)
 
 
 def flush_version_cache():

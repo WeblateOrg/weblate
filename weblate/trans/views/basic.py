@@ -26,10 +26,8 @@ from weblate.trans.forms import (
     BulkEditForm,
     CategoryDeleteForm,
     CategoryLanguageDeleteForm,
-    CategoryMoveForm,
     CategoryRenameForm,
     ComponentDeleteForm,
-    ComponentMoveForm,
     ComponentRenameForm,
     DownloadForm,
     ProjectDeleteForm,
@@ -343,7 +341,6 @@ def show_category_language(request, obj):
 
 
 def show_project(request, obj):
-    obj.stats.ensure_basic()
     user = request.user
 
     all_changes = obj.change_set.prefetch().order()
@@ -372,7 +369,9 @@ def show_project(request, obj):
             is_shared=component.is_shared,
         )
 
-    language_stats = sort_unicode(language_stats, user.profile.get_translation_order)
+    language_stats = sort_unicode(
+        language_stats, user.profile.get_translation_orderer(request)
+    )
 
     components = prefetch_tasks(all_components)
 
@@ -425,7 +424,6 @@ def show_project(request, obj):
 
 
 def show_category(request, obj):
-    obj.stats.ensure_basic()
     user = request.user
 
     all_changes = Change.objects.for_category(obj).prefetch().order()
@@ -449,9 +447,10 @@ def show_category(request, obj):
             GhostProjectLanguageStats,
         )
 
+    orderer = user.profile.get_translation_orderer(request)
     language_stats = sort_unicode(
         language_stats,
-        lambda x: f"{user.profile.get_translation_order(x)}-{x.language}",
+        lambda x: f"{orderer(x)}-{x.language}",
     )
 
     components = prefetch_tasks(all_components)
@@ -480,14 +479,6 @@ def show_category(request, obj):
                 request=request,
                 instance=obj,
             ),
-            "move_form": optional_form(
-                CategoryMoveForm,
-                user,
-                "project.edit",
-                obj,
-                request=request,
-                instance=obj,
-            ),
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
             "bulk_state_form": optional_form(
                 BulkEditForm,
@@ -509,7 +500,6 @@ def show_category(request, obj):
 
 
 def show_component(request, obj):
-    obj.stats.ensure_basic()
     user = request.user
 
     last_changes = obj.change_set.prefetch().order()[:10].preload("component")
@@ -519,7 +509,9 @@ def show_component(request, obj):
     # Show ghost translations for user languages
     add_ghost_translations(obj, user, translations, GhostTranslation)
 
-    translations = sort_unicode(translations, user.profile.get_translation_order)
+    translations = sort_unicode(
+        translations, user.profile.get_translation_orderer(request)
+    )
 
     return render(
         request,
@@ -557,14 +549,6 @@ def show_component(request, obj):
                 request=request,
                 instance=obj,
             ),
-            "move_form": optional_form(
-                ComponentMoveForm,
-                user,
-                "component.edit",
-                obj,
-                request=request,
-                instance=obj,
-            ),
             "search_form": SearchForm(request.user),
             "alerts": obj.all_active_alerts
             if "alerts" not in request.GET
@@ -576,7 +560,6 @@ def show_component(request, obj):
 def show_translation(request, obj):
     component = obj.component
     project = component.project
-    obj.stats.ensure_all()
     last_changes = obj.change_set.prefetch().order()[:10].preload("translation")
     user = request.user
 

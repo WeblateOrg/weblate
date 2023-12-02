@@ -38,6 +38,7 @@ CONTEXT_SETTINGS = [
     "AVATAR_URL_PREFIX",
     "HIDE_VERSION",
     "EXTRA_HTML_HEAD",
+    "PRIVATE_COMMIT_EMAIL_OPT_IN",
     # Hosted Weblate integration
     "PAYMENT_ENABLED",
 ]

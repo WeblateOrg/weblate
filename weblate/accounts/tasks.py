@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
-import time
 from datetime import timedelta
 from email.mime.image import MIMEImage
 
@@ -22,15 +21,6 @@ from weblate.utils.errors import report_error
 @app.task(trail=False)
 def cleanup_social_auth():
     """Cleanup expired partial social authentications."""
-    for partial in Partial.objects.iterator():
-        kwargs = partial.data["kwargs"]
-        if (
-            "weblate_expires" not in kwargs
-            or kwargs["weblate_expires"] < time.monotonic()
-        ):
-            # Old entry without expiry set, or expired entry
-            partial.delete()
-
     age = now() - timedelta(seconds=settings.AUTH_TOKEN_VALID)
     # Delete old not verified codes
     Code.objects.filter(verified=False, timestamp__lt=age).delete()
@@ -54,7 +44,11 @@ def notify_change(change_id):
     from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
     from weblate.trans.models import Change
 
-    change = Change.objects.get(pk=change_id)
+    try:
+        change = Change.objects.get(pk=change_id)
+    except Change.DoesNotExist:
+        # The change was removed meanwhile
+        return
     perm_cache = {}
     if change.action in NOTIFICATIONS_ACTIONS:
         outgoing = []

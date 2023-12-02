@@ -19,6 +19,7 @@ from ruamel.yaml import YAML
 
 import weblate.utils.version
 from weblate.formats.models import FILE_FORMATS
+from weblate.logger import LOGGER
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Translation
 from weblate.trans.util import get_clean_env
@@ -45,8 +46,8 @@ def ping():
 
 @app.task(trail=False)
 def heartbeat():
-    cache.set("celery_loaded", time.monotonic())
-    cache.set("celery_heartbeat", time.monotonic())
+    cache.set("celery_loaded", time.time())
+    cache.set("celery_heartbeat", time.time())
     cache.set(
         "celery_encoding", [sys.getfilesystemencoding(), sys.getdefaultencoding()]
     )
@@ -91,7 +92,13 @@ def database_backup():
         out_text = data_dir("backups", "database.sql")
 
         if using_postgresql():
-            cmd = ["pg_dump", "--dbname", database["NAME"]]
+            cmd = [
+                "pg_dump",
+                # Superuser only, crashes on Alibaba Cloud Database PolarDB
+                "--no-subscriptions",
+                "--dbname",
+                database["NAME"],
+            ]
 
             if database["HOST"]:
                 cmd.extend(["--host", database["HOST"]])
@@ -143,6 +150,7 @@ def database_backup():
                 stdout=error.stdout,
                 stderr=error.stderr,
             )
+            LOGGER.error("failed database backup: %s", error.stderr)
             report_error()
             raise
 
@@ -154,7 +162,7 @@ def database_backup():
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    cache.set("celery_loaded", time.monotonic())
+    cache.set("celery_loaded", time.time())
     sender.add_periodic_task(
         crontab(hour=1, minute=0), settings_backup.s(), name="settings-backup"
     )

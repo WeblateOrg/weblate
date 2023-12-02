@@ -7,8 +7,13 @@ Installing on macOS
 
 .. code-block:: sh
 
-    brew install python pango cairo gobject-introspection glib libyaml tvuotila/libxmlsec1/libxmlsec1@1.2.37
-    pip install virtualenv
+   # Workaround for https://github.com/xmlsec/python-xmlsec/issues/254
+   wget -O /tmp/libxmlsec1.rb https://raw.githubusercontent.com/Homebrew/homebrew-core/7f35e6ede954326a10949891af2dba47bbe1fc17/Formula/libxmlsec1.rb
+   brew install --formula /tmp/libxmlsec1.rb
+   brew pin libxmlsec1
+
+   brew install python pango cairo gobject-introspection glib libyaml pkg-config zstd xxhash
+   pip install virtualenv
 
 .. note::
 

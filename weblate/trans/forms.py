@@ -19,7 +19,6 @@ from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, Validatio
 from django.core.validators import FileExtensionValidator
 from django.db.models import Q
 from django.forms import model_to_dict
-from django.forms.models import ModelChoiceIterator
 from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -63,6 +62,7 @@ from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.antispam import is_spam
 from weblate.utils.forms import (
+    CachedModelMultipleChoiceField,
     ColorWidget,
     ContextDiv,
     EmailField,
@@ -182,7 +182,9 @@ class PluralTextarea(forms.Textarea):
         )
 
         groups = format_html_join(
-            "\n", GROUP_TEMPLATE, [("", chars)]  # Only one group.
+            "\n",
+            GROUP_TEMPLATE,
+            [("", chars)],  # Only one group.
         )
 
         return format_html(TOOLBAR_TEMPLATE, groups)
@@ -249,7 +251,9 @@ class PluralTextarea(forms.Textarea):
         )
 
         groups = format_html_join(
-            "\n", GROUP_TEMPLATE, [("", chars)]  # Only one group.
+            "\n",
+            GROUP_TEMPLATE,
+            [("", chars)],  # Only one group.
         )
 
         result = format_html(TOOLBAR_TEMPLATE, groups)
@@ -870,7 +874,7 @@ class AutoForm(forms.Form):
         initial="others",
     )
     component = forms.ChoiceField(
-        label=gettext_lazy("Components"),
+        label=gettext_lazy("Component"),
         required=False,
         help_text=gettext_lazy(
             "Turn on contribution to shared translation memory for the project to "
@@ -896,9 +900,7 @@ class AutoForm(forms.Form):
         ) | Component.objects.filter(
             source_language_id=obj.source_language_id,
             project__contribute_shared_tm=True,
-        ).exclude(
-            project=obj.project
-        )
+        ).exclude(project=obj.project)
 
         # Fetching first few entries is faster than doing a count query on possibly
         # thousands of components
@@ -992,6 +994,12 @@ class AutoForm(forms.Form):
                     raise ValidationError(gettext("Component not found!"))
             else:
                 raise ValidationError(gettext("Please provide valid component slug!"))
+        if result.source_language != self.obj.source_language:
+            raise ValidationError(
+                gettext(
+                    "Source component needs to have same source language as target one."
+                )
+            )
         return result.pk
 
 
@@ -1048,7 +1056,6 @@ class EngageForm(forms.Form):
         Component.objects.none(),
         required=False,
         empty_label=gettext_lazy("All components"),
-        to_field_name="slug",
     )
 
     def __init__(self, user, project, *args, **kwargs):
@@ -1309,11 +1316,8 @@ class CleanRepoMixin:
         repo = self.cleaned_data.get("repo")
         if not repo or not is_repo_link(repo) or "/" not in repo[10:]:
             return repo
-        project, component = repo[10:].split("/", 1)
         try:
-            obj = Component.objects.get(
-                slug__iexact=component, project__slug__iexact=project
-            )
+            obj = Component.objects.get_linked(repo)
         except Component.DoesNotExist:
             return repo
         if not self.request.user.has_perm("component.edit", obj):
@@ -1588,6 +1592,7 @@ class ComponentSettingsForm(
             "pagure",
             "local",
             "git-force-push",
+            "azure_devops",
         )
         if self.instance.vcs not in vcses:
             vcses = (self.instance.vcs,)
@@ -1712,6 +1717,7 @@ class ComponentBranchForm(ComponentSelectForm):
         # We need a object, not integer here
         kwargs["source_language"] = component.source_language
         kwargs["project"] = component.project
+        kwargs["category"] = component.category
         for field in form_fields:
             kwargs[field] = data[field]
         self.instance = Component(**kwargs)
@@ -1952,7 +1958,12 @@ class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
 
     class Meta:
         model = Component
-        fields = ["slug"]
+        fields = ["name", "slug", "project", "category"]
+
+    def __init__(self, request, *args, **kwargs):
+        super().__init__(request, *args, **kwargs)
+        self.fields["project"].queryset = request.user.managed_projects
+        self.fields["category"].queryset = self.instance.project.category_set.all()
 
 
 class CategoryRenameForm(SettingsBaseForm):
@@ -1960,7 +1971,14 @@ class CategoryRenameForm(SettingsBaseForm):
 
     class Meta:
         model = Category
-        fields = ["name", "slug"]
+        fields = ["name", "slug", "project", "category"]
+
+    def __init__(self, request, *args, **kwargs):
+        super().__init__(request, *args, **kwargs)
+        self.fields["project"].queryset = request.user.managed_projects
+        self.fields["category"].queryset = self.instance.project.category_set.exclude(
+            pk=self.instance.pk
+        )
 
 
 class AddCategoryForm(SettingsBaseForm):
@@ -1979,34 +1997,6 @@ class AddCategoryForm(SettingsBaseForm):
         else:
             self.instance.project = self.parent
         super().clean()
-
-
-class CategoryMoveForm(SettingsBaseForm):
-    """Category rename form."""
-
-    class Meta:
-        model = Category
-        fields = ["project", "category"]
-
-    def __init__(self, request, *args, **kwargs):
-        super().__init__(request, *args, **kwargs)
-        self.fields["project"].queryset = request.user.managed_projects
-        self.fields["category"].queryset = self.instance.project.category_set.exclude(
-            pk=self.instance.pk
-        )
-
-
-class ComponentMoveForm(SettingsBaseForm, ComponentDocsMixin):
-    """Component renaming form."""
-
-    class Meta:
-        model = Component
-        fields = ["project", "category"]
-
-    def __init__(self, request, *args, **kwargs):
-        super().__init__(request, *args, **kwargs)
-        self.fields["project"].queryset = request.user.managed_projects
-        self.fields["category"].queryset = self.instance.project.category_set.all()
 
 
 class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin):
@@ -2170,7 +2160,7 @@ class ProjectRenameForm(SettingsBaseForm, ProjectDocsMixin):
 
     class Meta:
         model = Project
-        fields = ["slug"]
+        fields = ["name", "slug"]
 
 
 class BillingMixin(forms.Form):
@@ -2442,39 +2432,6 @@ def get_new_unit_form(translation, user, data=None, initial=None):
     if translation.is_source:
         return NewBilingualSourceUnitForm(translation, user, data=data, initial=initial)
     return NewBilingualUnitForm(translation, user, data=data, initial=initial)
-
-
-class CachedQueryIterator(ModelChoiceIterator):
-    """
-    Choice iterator for cached querysets.
-
-    It assumes the queryset is reused and avoids using an iterator or counting queries.
-    """
-
-    def __iter__(self):
-        if self.field.empty_label is not None:
-            yield ("", self.field.empty_label)
-        for obj in self.queryset:
-            yield self.choice(obj)
-
-    def __len__(self):
-        return len(self.queryset) + (1 if self.field.empty_label is not None else 0)
-
-    def __bool__(self):
-        return self.field.empty_label is not None or bool(self.queryset)
-
-
-class CachedModelMultipleChoiceField(forms.ModelMultipleChoiceField):
-    iterator = CachedQueryIterator
-
-    def _get_queryset(self):
-        return self._queryset
-
-    def _set_queryset(self, queryset):
-        self._queryset = queryset
-        self.widget.choices = self.choices
-
-    queryset = property(_get_queryset, _set_queryset)
 
 
 class BulkEditForm(forms.Form):

@@ -34,6 +34,7 @@
 
 {% perm 'unit.edit' unit as user_can_translate %}
 {% perm 'unit.delete' unit as user_can_delete %}
+{% perm 'unit.review' unit as user_can_review %}
 {% perm 'suggestion.add' unit as user_can_suggest %}
 {% perm 'suggestion.accept' unit as user_can_accept_suggestion %}
 {% perm 'suggestion.vote' unit.translation as user_can_vote_suggestion %}
@@ -163,10 +164,18 @@
     {% crispy form %}
   </div>
   <div class="panel-footer">
-    {% with flag_actions=unit.get_flag_actions %}
+    {% if locked %}
+        <p class="text-danger">{% trans "This translation is currently locked." %}</p>
+    {% elif not user_can_translate and not user_can_edit_flags %}
+        <p class="text-danger">{{ user_can_translate.reason }}</p>
+    {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %}
+        <p class="text-danger">{{ user_can_translate.reason }}</p>
+    {% endif %}
+    <div>
+      {% with flag_actions=unit.get_flag_actions %}
       {% if user_can_delete or user_can_edit_flags and flag_actions or user_can_add_unit or user_can_translate and unit.translation.component.is_multivalue %}
         <div class="btn-group pull-right flip">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="unit_tools_dropdown">
+          <button type="button" class="btn btn-primary dropdown-toggle btn-spaced" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="unit_tools_dropdown">
             {% trans "Tools" %} <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
@@ -188,13 +197,6 @@
         </div>
       {% endif %}
     {% endwith %}
-    {% if locked %}
-        <p class="text-danger">{% trans "This translation is currently locked." %}</p>
-    {% elif not user_can_translate and not user_can_edit_flags %}
-        <p class="text-danger">{{ user_can_translate.reason }}</p>
-    {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %}
-        <p class="text-danger">{% trans "Insufficient privileges for saving translations." %}</p>
-    {% endif %}
     <button class="btn btn-primary" type="submit" name="save" tabindex="150"
     {% if locked %}
         disabled="disabled"
@@ -222,6 +224,7 @@
     >{% icon "suggest.svg" %} {% trans "Suggest" %}</button>
     {% endif %}
     <a class="btn btn-warning btn-spaced" href="{{ next_unit_url }}" rel="next" tabindex="153">{% if LANGUAGE_BIDI %}{% icon "rewind.svg" %}{% else %}{% icon "fast-forward.svg" %}{% endif %} {% trans "Skip" %}</a>
+    </div>
   </div>
 </div>
 </form>

@@ -27,10 +27,14 @@ Customizing behavior using flags
 --------------------------------
 
 You can fine-tune Weblate's behavior by using flags. The flags provide visual
-feedback to the translators and help them to improve their translation. This
-can be done on the source string level (see :ref:`additional`), or in the :ref:`component`
-(:ref:`component-check_flags`). Some file formats also allow to specify flags
-directly in the format (see :ref:`formats`).
+feedback to the translators and help them to improve their translation.
+The flags are merged from following sources:
+
+* Source string, see :ref:`additional`.
+* Per-string flags extracted from the file format, see :ref:`formats`.
+* Translation flags (currently only ``read-only`` flag for bilingual source string).
+* File-format specific flags.
+* :ref:`component` (:ref:`component-check_flags`).
 
 The flags are comma-separated; if they have parameters, they are separated
 with colon. You can use quotes to include whitespaces or special characters

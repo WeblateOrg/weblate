@@ -42,7 +42,7 @@ from translate.storage.xml_extract.extract import (
 
 from weblate.checks.flags import Flags
 from weblate.formats.base import TranslationFormat
-from weblate.formats.helpers import BytesIOMode
+from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import PoUnit, XliffUnit
 from weblate.trans.util import get_string
 from weblate.utils.errors import report_error
@@ -267,7 +267,7 @@ class HTMLFormat(ConvertFormat):
 
     def convertfile(self, storefile, template_store):
         # Fake input file with a blank filename
-        htmlparser = htmlfile(inputfile=BytesIOMode("", storefile.read()))
+        htmlparser = htmlfile(inputfile=NamedBytesIO("", storefile.read()))
         return self.convert_to_po(htmlparser, template_store)
 
     def save_content(self, handle):
@@ -301,7 +301,7 @@ class MarkdownFormat(ConvertFormat):
 
     def convertfile(self, storefile, template_store):
         # Fake input file with a blank filename
-        mdparser = MarkdownFile(inputfile=BytesIOMode("", storefile.read()))
+        mdparser = MarkdownFile(inputfile=NamedBytesIO("", storefile.read()))
         return self.convert_to_po(mdparser, template_store, use_location=False)
 
     def save_content(self, handle):

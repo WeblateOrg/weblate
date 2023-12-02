@@ -17,6 +17,10 @@ another language.
 
    `Project Fluent website <https://projectfluent.org/>`_
 
+Example file:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs.ftl
+
 Weblate configuration
 +++++++++++++++++++++
 

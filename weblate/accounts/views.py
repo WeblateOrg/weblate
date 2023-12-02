@@ -225,76 +225,81 @@ def redirect_profile(page=""):
 
 def get_notification_forms(request):
     user = request.user
-    if request.method == "POST":
-        for i in range(200):
-            prefix = NOTIFICATION_PREFIX_TEMPLATE.format(i)
-            if prefix + "-scope" in request.POST:
-                yield NotificationForm(
-                    request.user, i > 1, {}, i == 0, prefix=prefix, data=request.POST
-                )
-    else:
-        subscriptions = defaultdict(dict)
-        initials = {}
+    subscriptions = defaultdict(dict)
+    initials = {}
 
-        # Ensure watched, admin and all scopes are visible
-        for needed in (SCOPE_WATCHED, SCOPE_ADMIN, SCOPE_ALL):
-            key = (needed, -1, -1)
+    # Ensure watched, admin and all scopes are visible
+    for needed in (SCOPE_WATCHED, SCOPE_ADMIN, SCOPE_ALL):
+        key = (needed, -1, -1)
+        subscriptions[key] = {}
+        initials[key] = {"scope": needed, "project": None, "component": None}
+    active = (SCOPE_WATCHED, -1, -1)
+
+    # Include additional scopes from request
+    if "notify_project" in request.GET:
+        try:
+            project = user.allowed_projects.get(pk=request.GET["notify_project"])
+            active = key = (SCOPE_PROJECT, project.pk, -1)
             subscriptions[key] = {}
-            initials[key] = {"scope": needed, "project": None, "component": None}
-        active = (SCOPE_WATCHED, -1, -1)
-
-        # Include additional scopes from request
-        if "notify_project" in request.GET:
-            try:
-                project = user.allowed_projects.get(pk=request.GET["notify_project"])
-                active = key = (SCOPE_PROJECT, project.pk, -1)
-                subscriptions[key] = {}
-                initials[key] = {
-                    "scope": SCOPE_PROJECT,
-                    "project": project,
-                    "component": None,
-                }
-            except (ObjectDoesNotExist, ValueError):
-                pass
-        if "notify_component" in request.GET:
-            try:
-                component = Component.objects.filter_access(user).get(
-                    pk=request.GET["notify_component"],
-                )
-                active = key = (SCOPE_COMPONENT, -1, component.pk)
-                subscriptions[key] = {}
-                initials[key] = {
-                    "scope": SCOPE_COMPONENT,
-                    "component": component,
-                }
-            except (ObjectDoesNotExist, ValueError):
-                pass
-
-        # Populate scopes from the database
-        for subscription in user.subscription_set.select_related(
-            "project", "component"
-        ):
-            key = (
-                subscription.scope,
-                subscription.project_id or -1,
-                subscription.component_id or -1,
-            )
-            subscriptions[key][subscription.notification] = subscription.frequency
             initials[key] = {
-                "scope": subscription.scope,
-                "project": subscription.project,
-                "component": subscription.component,
+                "scope": SCOPE_PROJECT,
+                "project": project,
+                "component": None,
             }
+        except (ObjectDoesNotExist, ValueError):
+            pass
+    if "notify_component" in request.GET:
+        try:
+            component = Component.objects.filter_access(user).get(
+                pk=request.GET["notify_component"],
+            )
+            active = key = (SCOPE_COMPONENT, -1, component.pk)
+            subscriptions[key] = {}
+            initials[key] = {
+                "scope": SCOPE_COMPONENT,
+                "component": component,
+            }
+        except (ObjectDoesNotExist, ValueError):
+            pass
 
-        # Generate forms
-        for i, details in enumerate(sorted(subscriptions.items())):
+    # Populate scopes from the database
+    for subscription in user.subscription_set.select_related("project", "component"):
+        key = (
+            subscription.scope,
+            subscription.project_id or -1,
+            subscription.component_id or -1,
+        )
+        subscriptions[key][subscription.notification] = subscription.frequency
+        initials[key] = {
+            "scope": subscription.scope,
+            "project": subscription.project,
+            "component": subscription.component,
+        }
+
+    # Generate forms
+    for i, details in enumerate(sorted(subscriptions.items())):
+        yield NotificationForm(
+            user=user,
+            show_default=i > 1,
+            removable=i > 2,
+            subscriptions=details[1],
+            is_active=details[0] == active,
+            initial=initials[details[0]],
+            prefix=NOTIFICATION_PREFIX_TEMPLATE.format(i),
+            data=request.POST if request.method == "POST" else None,
+        )
+    for i in range(len(subscriptions), 200):
+        prefix = NOTIFICATION_PREFIX_TEMPLATE.format(i)
+        if prefix + "-scope" in request.POST or i < len(subscriptions):
             yield NotificationForm(
-                user,
-                i > 1,
-                details[1],
-                details[0] == active,
+                user=user,
+                show_default=i > 1,
+                removable=i > 2,
+                subscriptions={},
+                is_active=i == 0,
+                prefix=prefix,
+                data=request.POST,
                 initial=initials[details[0]],
-                prefix=NOTIFICATION_PREFIX_TEMPLATE.format(i),
             )
 
 

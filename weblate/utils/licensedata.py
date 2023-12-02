@@ -302,6 +302,12 @@ LICENSES = (
         True,
     ),
     (
+        "BSD-3-Clause-flex",
+        "BSD 3-Clause Flex variant",
+        "https://spdx.org/licenses/BSD-3-Clause-flex.html",
+        False,
+    ),
+    (
         "BSD-3-Clause-Modification",
         "BSD 3-Clause Modification",
         "https://spdx.org/licenses/BSD-3-Clause-Modification.html",
@@ -1185,12 +1191,6 @@ LICENSES = (
         True,
     ),
     (
-        "GNU-compiler-exception",
-        "GNU Compiler Exception",
-        "https://spdx.org/licenses/GNU-compiler-exception.html",
-        False,
-    ),
-    (
         "GFDL-1.1-only",
         "GNU Free Documentation License v1.1 only",
         "https://spdx.org/licenses/GFDL-1.1-only.html",
@@ -1438,6 +1438,12 @@ LICENSES = (
         False,
     ),
     (
+        "HPND-doc",
+        "Historical Permission Notice and Disclaimer - documentation variant",
+        "https://spdx.org/licenses/HPND-doc.html",
+        False,
+    ),
+    (
         "HPND-Markus-Kuhn",
         "Historical Permission Notice and Disclaimer - Markus Kuhn variant",
         "https://spdx.org/licenses/HPND-Markus-Kuhn.html",
@@ -1498,7 +1504,7 @@ LICENSES = (
         "https://spdx.org/licenses/IPL-1.0.html",
         True,
     ),
-    ("ICU", "ICU License", "https://spdx.org/licenses/ICU.html", False),
+    ("ICU", "ICU License", "https://spdx.org/licenses/ICU.html", True),
     (
         "IEC-Code-Components-EULA",
         "IEC    Code Components End-user licence agreement",
@@ -2320,12 +2326,6 @@ LICENSES = (
     ),
     ("Ruby", "Ruby License", "https://spdx.org/licenses/Ruby.html", True),
     (
-        "SANE-exception",
-        "SANE Exception",
-        "https://spdx.org/licenses/SANE-exception.html",
-        False,
-    ),
-    (
         "SAX-PD",
         "Sax Public Domain Notice",
         "https://spdx.org/licenses/SAX-PD.html",
@@ -2502,12 +2502,6 @@ LICENSES = (
         True,
     ),
     (
-        "stunnel-exception",
-        "stunnel Exception",
-        "https://spdx.org/licenses/stunnel-exception.html",
-        False,
-    ),
-    (
         "SugarCRM-1.1.3",
         "SugarCRM Public License v1.1.3",
         "https://spdx.org/licenses/SugarCRM-1.1.3.html",
@@ -2581,12 +2575,6 @@ LICENSES = (
         "TermReadKey",
         "TermReadKey License",
         "https://spdx.org/licenses/TermReadKey.html",
-        False,
-    ),
-    (
-        "Texinfo-exception",
-        "Texinfo exception",
-        "https://spdx.org/licenses/Texinfo-exception.html",
         False,
     ),
     ("TTWL", "Text-Tabs+Wrap License", "https://spdx.org/licenses/TTWL.html", False),

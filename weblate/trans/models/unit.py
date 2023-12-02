@@ -12,11 +12,11 @@ from django.conf import settings
 from django.core.cache import cache
 from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
-from django.db.models import Count, Max, Q, Value
-from django.db.models.functions import MD5, Lower
+from django.db.models import Count, Max, Q, Sum, Value
+from django.db.models.functions import MD5, Length, Lower
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext, gettext_lazy, gettext_noop
+from django.utils.translation import gettext, gettext_lazy
 from pyparsing import ParseException
 
 from weblate.checks.flags import Flags
@@ -31,6 +31,7 @@ from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.variant import Variant
 from weblate.trans.signals import unit_pre_create
 from weblate.trans.util import (
+    count_words,
     get_distinct_translations,
     is_plural,
     is_unused_string,
@@ -310,6 +311,11 @@ class UnitQuerySet(models.QuerySet):
     def select_for_update(self):
         return super().select_for_update(no_key=using_postgresql())
 
+    def annotate_stats(self):
+        return self.annotate(
+            strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
+        )
+
 
 class LabelsField(models.ManyToManyField):
     def save_form_data(self, instance, data):
@@ -425,11 +431,7 @@ class Unit(models.Model, LoggerMixin):
         """Wrapper around save to run checks or update fulltext."""
         # Store number of words
         if not same_content or not self.num_words:
-            self.num_words = sum(
-                len(s.split())
-                for s in self.get_source_plurals()
-                if not is_unused_string(s)
-            )
+            self.num_words = count_words(self.source)
             if update_fields and "num_words" not in update_fields:
                 update_fields.append("num_words")
 
@@ -484,12 +486,15 @@ class Unit(models.Model, LoggerMixin):
         self.fixups = []
         # Data for machinery integration
         self.machinery = None
+        # PluralMapper integration
+        self.plural_map = None
         # Data for glossary integration
         self.glossary_terms = None
         self.glossary_positions = None
         # Store original attributes for change tracking
         self.old_unit = None
-        if "state" in self.__dict__:
+        if "state" in self.__dict__ and "source" in self.__dict__:
+            # Avoid storing if .only() was used to fetch the query (eg. in stats)
             self.store_old_unit(self)
 
     def invalidate_checks_cache(self):
@@ -932,30 +937,33 @@ class Unit(models.Model, LoggerMixin):
             return singular
         return plurals[1]
 
+    def adjust_plurals(self, values, plurals=None):
+        if not self.is_plural:
+            plurals = 1
+        elif plurals is None:
+            plurals = self.translation.plural.number
+
+        # Check if we have expected number of them
+        if len(values) == plurals:
+            return values
+
+        # Pad with empty translations
+        while len(values) < plurals:
+            values.append("")
+
+        # Delete extra plurals
+        while len(values) > plurals:
+            del values[-1]
+
+        return values
+
     def get_target_plurals(self, plurals=None):
         """Return target plurals in array."""
-        # Is this plural?
-        if not self.is_plural:
-            return [self.target]
-
         # Split plurals
         ret = split_plural(self.target)
 
         if not self.translation.component.is_multivalue:
-            if plurals is None:
-                plurals = self.translation.plural.number
-
-            # Check if we have expected number of them
-            if len(ret) == plurals:
-                return ret
-
-            # Pad with empty translations
-            while len(ret) < plurals:
-                ret.append("")
-
-            # Delete extra plurals
-            while len(ret) > plurals:
-                del ret[-1]
+            ret = self.adjust_plurals(ret, plurals=plurals)
 
         return ret
 
@@ -1022,6 +1030,8 @@ class Unit(models.Model, LoggerMixin):
         This should be always called in a transaction with updated unit
         locked for update.
         """
+        from weblate.trans.tasks import detect_completed_translation
+
         # For case when authorship specified, use user
         author = author or user
 
@@ -1082,18 +1092,13 @@ class Unit(models.Model, LoggerMixin):
             # Update translation stats
             self.translation.invalidate_cache()
 
+            # Postpone completed translation detection
+            transaction.on_commit(
+                lambda: detect_completed_translation.delay(change.pk, old_translated)
+            )
+
             # Update user stats
             change.author.profile.increase_count("translated")
-
-            # Force committing on completing translation
-            translated = self.translation.stats.translated
-            if old_translated < translated and translated == self.translation.stats.all:
-                Change.objects.create(
-                    translation=self.translation,
-                    action=Change.ACTION_COMPLETE,
-                    user=change.user,
-                    author=change.author,
-                )
 
         # Update related source strings if working on a template
         if self.translation.is_template and self.old_unit["target"] != self.target:
@@ -1424,6 +1429,10 @@ class Unit(models.Model, LoggerMixin):
             new_target = [target for target in new_target if target]
             if not new_target:
                 new_target = [""]
+
+        if not component.is_multivalue:
+            new_target = self.adjust_plurals(new_target)
+
         # Update unit and save it
         self.target = join_plural(new_target)
         not_empty = any(new_target)
@@ -1465,11 +1474,7 @@ class Unit(models.Model, LoggerMixin):
             )
 
         if change_action == Change.ACTION_AUTO:
-            label = component.project.label_set.get_or_create(
-                name=gettext_noop("Automatically translated"),
-                defaults={"color": "yellow"},
-            )[0]
-            self.labels.add(label)
+            self.labels.add(component.project.automatically_translated_label)
         else:
             self.labels.through.objects.filter(
                 unit=self, label__name="Automatically translated"

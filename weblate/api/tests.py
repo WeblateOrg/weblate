@@ -2628,20 +2628,32 @@ class TranslationAPITest(APIBaseTest):
                 "failing": 0,
                 "translated_words": 0,
                 "fuzzy_percent": 0.0,
+                "fuzzy_words_percent": 0.0,
+                "fuzzy_chars_percent": 0.0,
                 "translated": 0,
                 "translated_words_percent": 0.0,
                 "translated_chars": 0,
                 "translated_chars_percent": 0.0,
                 "total_chars": 139,
                 "fuzzy": 0,
+                "fuzzy_words": 0,
+                "fuzzy_chars": 0,
                 "total": 4,
                 "recent_changes": 0,
                 "approved": 0,
+                "approved_words": 0,
+                "approved_chars": 0,
                 "approved_percent": 0.0,
+                "approved_words_percent": 0.0,
+                "approved_chars_percent": 0.0,
                 "comments": 0,
                 "suggestions": 0,
                 "readonly": 0,
+                "readonly_words": 0,
+                "readonly_chars": 0,
                 "readonly_percent": 0.0,
+                "readonly_words_percent": 0.0,
+                "readonly_chars_percent": 0.0,
             },
             skip=("last_change",),
         )
@@ -2934,6 +2946,64 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
 
+    def test_add_plural(self):
+        # Add to bilingual
+        self.component.manage_units = True
+        self.component.save()
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "source": ["Singular", "Plural"],
+                "target": ["Target 0", "Target 1"],
+                "state": "20",
+            },
+            code=200,
+        )
+
+        # Add to monolingual
+        self.create_acl()
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "acl",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "key": "pluralized",
+                "value": ["Singular", "Plural"],
+            },
+            code=200,
+        )
+
+        # Not supported plurals
+        self.create_json_mono(name="other", project=self.component.project)
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "other",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={
+                "key": "pluralized",
+                "value": ["Singular", "Plural"],
+                "state": "20",
+            },
+            code=400,
+        )
+
     def test_delete(self):
         start_count = Translation.objects.count()
         self.do_request(
@@ -3004,6 +3074,14 @@ class UnitAPITest(APIBaseTest):
             method="patch",
             code=200,
             request={"state": "20", "target": "Test translation"},
+        )
+        # Adding plural where it is not
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            request={"state": "20", "target": ["Test translation", "Test plural"]},
         )
         # Invalid state changes
         self.do_request(
@@ -3215,26 +3293,26 @@ class UnitAPITest(APIBaseTest):
             method="patch",
             code=403,
             superuser=True,
-            request={"labels": "test"},
+            request={"labels": [label1.id]},
         )
 
         # Edit on source will fail when label doesn't exist
         # or is not in the same project
         self.do_request(
             "api:unit-detail",
-            kwargs={"pk": unit.pk},
+            kwargs={"pk": unit.source_unit.pk},
             method="patch",
             code=400,
             superuser=True,
-            request={"labels": "foo"},
+            request={"labels": [4000]},
         )
         self.do_request(
             "api:unit-detail",
-            kwargs={"pk": unit.pk},
+            kwargs={"pk": unit.source_unit.pk},
             method="patch",
             code=400,
             superuser=True,
-            request={"labels": "test_2"},
+            request={"labels": [label2.id]},
         )
 
         # Edit on source will work when label exists
@@ -3244,7 +3322,7 @@ class UnitAPITest(APIBaseTest):
             method="patch",
             code=200,
             superuser=True,
-            request={"labels": "test"},
+            request={"labels": [label1.id]},
         )
 
         # Label should be now updated
@@ -3994,3 +4072,48 @@ class CategoryAPITest(APIBaseTest):
 
         for translation in response.data["results"]:
             self.do_request(translation["url"])
+
+
+class LabelAPITest(APIBaseTest):
+    def test_get_label(self):
+        label = self.component.project.label_set.create(name="test", color="navy")
+
+        response = self.do_request(
+            "api:project-labels",
+            kwargs={"slug": self.component.project.slug},
+            method="get",
+            code=200,
+        )
+
+        self.assertEqual(len(response.data["results"]), 1)
+
+        response_label = response.data["results"][0]
+
+        self.assertEqual(response_label["id"], label.id)
+        self.assertEqual(response_label["name"], label.name)
+        self.assertEqual(response_label["color"], label.color)
+
+    def test_create_label(self):
+        self.do_request(
+            "api:project-labels",
+            kwargs={"slug": Project.objects.first().slug},
+            method="post",
+            superuser=True,
+            request={
+                "name": "Test Label",
+                "color": "green",
+            },
+            code=201,
+        )
+
+        self.do_request(
+            "api:project-labels",
+            kwargs={"slug": Project.objects.first().slug},
+            method="post",
+            superuser=False,
+            request={
+                "name": "Test Label 2",
+                "color": "red",
+            },
+            code=403,
+        )

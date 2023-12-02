@@ -106,7 +106,7 @@ class TTKitUnit(TranslationUnit):
             # Avoid duplication in case template has same notes
             template_comment = self.template.getnotes()
             if template_comment != comment:
-                comment = template_comment + "\n" + comment
+                comment = f"{template_comment}\n{comment}"
 
         return comment
 
@@ -493,6 +493,7 @@ class TTKitFormat(TranslationFormat):
 
     def delete_unit(self, ttkit_unit) -> str | None:
         self.store.removeunit(ttkit_unit)
+        return None
 
 
 class PropertiesUnit(KeyValueUnit):
@@ -1054,6 +1055,7 @@ class INIUnit(TTKitUnit):
 class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
     loader = pofile
     plural_preference = None
+    supports_plural: bool = True
 
     @classmethod
     def get_plural(cls, language, store=None):
@@ -1204,6 +1206,7 @@ class TSFormat(TTKitFormat):
     autoload = ("*.ts",)
     unit_class = TSUnit
     set_context_bilingual = False
+    supports_plural: bool = True
 
 
 class XliffFormat(TTKitFormat):
@@ -1248,6 +1251,7 @@ class PoXliffFormat(XliffFormat):
     format_id = "poxliff"
     autoload = ("*.poxliff",)
     loader = PoXliffFile
+    supports_plural: bool = True
 
 
 class PropertiesBaseFormat(TTKitFormat):
@@ -1336,6 +1340,7 @@ class GWTFormat(StringsFormat):
     new_translation = "\n"
     check_flags = ("auto-java-messageformat",)
     language_format = "linux"
+    supports_plural: bool = True
 
 
 class GWTISOFormat(GWTFormat):
@@ -1367,6 +1372,7 @@ class LaravelPhpFormat(PhpFormat):
     name = gettext_lazy("Laravel PHP strings")
     format_id = "laravel"
     loader = ("php", "LaravelPHPFile")
+    supports_plural: bool = True
 
 
 class RESXFormat(TTKitFormat):
@@ -1378,6 +1384,7 @@ class RESXFormat(TTKitFormat):
     new_translation = RESXFile.XMLskeleton
     autoload = ("*.resx",)
     language_format = "bcp"
+    supports_plural: bool = True
 
 
 class AndroidFormat(TTKitFormat):
@@ -1397,6 +1404,7 @@ class AndroidFormat(TTKitFormat):
         Plural.SOURCE_DEFAULT,
     )
     strict_format_plurals: bool = True
+    supports_plural: bool = True
 
 
 class DictStoreMixin:
@@ -1444,6 +1452,7 @@ class WebExtensionJSONFormat(JSONFormat):
     monolingual = True
     autoload = ("messages*.json",)
     unit_class = PlaceholdersJSONUnit
+    supports_plural: bool = True
 
 
 class I18NextFormat(JSONFormat):
@@ -1453,6 +1462,7 @@ class I18NextFormat(JSONFormat):
     autoload = ()
     check_flags = ("i18next-interpolation",)
     language_format: str = "bcp"
+    supports_plural: bool = True
 
 
 class I18NextV4Format(I18NextFormat):
@@ -1466,6 +1476,7 @@ class GoI18JSONFormat(JSONFormat):
     format_id = "go-i18n-json"
     loader = ("jsonl10n", "GoI18NJsonFile")
     autoload = ()
+    supports_plural: bool = True
 
 
 class GoI18V2JSONFormat(JSONFormat):
@@ -1473,6 +1484,7 @@ class GoI18V2JSONFormat(JSONFormat):
     format_id = "go-i18n-json-v2"
     loader = ("jsonl10n", "GoI18NV2JsonFile")
     autoload = ()
+    supports_plural: bool = True
 
 
 class ARBFormat(JSONFormat):
@@ -1490,6 +1502,7 @@ class GoTextFormat(JSONFormat):
     loader = ("jsonl10n", "GoTextJsonFile")
     autoload = ()
     unit_class = PlaceholdersJSONUnit
+    supports_plural: bool = True
 
 
 class CSVFormat(TTKitFormat):
@@ -1643,6 +1656,7 @@ class RubyYAMLFormat(YAMLFormat):
     format_id = "ruby-yaml"
     loader = ("yaml", "RubyYAMLFile")
     autoload = ("*.ryml", "*.yml", "*.yaml")
+    supports_plural: bool = True
 
 
 class DTDFormat(TTKitFormat):
@@ -1846,6 +1860,7 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
     can_add_unit: bool = False
     can_delete_unit: bool = False
     set_context_bilingual: bool = True
+    supports_plural: bool = True
 
     # Ensure that untranslated units are saved too as missing properties and
     # comments are preserved as in the original source file.
@@ -2008,6 +2023,7 @@ class StringsdictFormat(DictStoreMixin, TTKitFormat):
     </dict>
 </plist>
 """
+    supports_plural: bool = True
 
     @staticmethod
     def mimetype():

@@ -283,6 +283,11 @@ of upgrading.
       docker compose rm -v database
       docker volume remove weblate-docker_postgres-data
 
+   .. hint::
+
+      The volume name contains name of the Docker Compose project, which is by
+      default the directory name what is ``weblate-docker`` in this documentation.
+
 5. Adjust :file:`docker-compose.yml` to use new PostgreSQL version.
 
 6. Start the database container:
@@ -748,77 +753,6 @@ Generic settings
 
     Configures ID for Google Analytics by changing :setting:`GOOGLE_ANALYTICS_ID`.
 
-.. envvar:: WEBLATE_GITHUB_USERNAME
-.. envvar:: WEBLATE_GITHUB_TOKEN
-.. envvar:: WEBLATE_GITHUB_HOST
-.. envvar:: WEBLATE_GITHUB_CREDENTIALS
-
-    Configures GitHub pull-requests integration by changing
-    :setting:`GITHUB_CREDENTIALS`.
-
-    .. seealso::
-
-       :ref:`vcs-github`
-
-.. envvar:: WEBLATE_GITLAB_USERNAME
-.. envvar:: WEBLATE_GITLAB_TOKEN
-.. envvar:: WEBLATE_GITLAB_HOST
-.. envvar:: WEBLATE_GITLAB_CREDENTIALS
-
-    Configures GitLab merge-requests integration  by changing
-    :setting:`GITLAB_CREDENTIALS`.
-
-    **Example:**
-
-    .. code-block:: sh
-
-       WEBLATE_GITLAB_USERNAME=weblate
-       WEBLATE_GITLAB_HOST=gitlab.com
-       WEBLATE_GITLAB_TOKEN=token
-       # or as a Python dictionary
-       WEBLATE_GITLAB_CREDENTIALS='{ "gitlab.com": { "username": "weblate", "token": "token" } }'
-
-    .. seealso::
-
-       :ref:`vcs-gitlab`
-
-.. envvar:: WEBLATE_GITEA_USERNAME
-.. envvar:: WEBLATE_GITEA_TOKEN
-.. envvar:: WEBLATE_GITEA_HOST
-.. envvar:: WEBLATE_GITEA_CREDENTIALS
-
-    Configures Gitea pull-requests integration by changing
-    :setting:`GITEA_CREDENTIALS`.
-
-    .. seealso::
-
-       :ref:`vcs-gitea`
-
-
-.. envvar:: WEBLATE_PAGURE_USERNAME
-.. envvar:: WEBLATE_PAGURE_TOKEN
-.. envvar:: WEBLATE_PAGURE_HOST
-.. envvar:: WEBLATE_PAGURE_CREDENTIALS
-
-    Configures Pagure merge-requests integration  by changing
-    :setting:`PAGURE_CREDENTIALS`.
-
-    .. seealso::
-
-       :ref:`vcs-pagure`
-
-.. envvar:: WEBLATE_BITBUCKETSERVER_USERNAME
-.. envvar:: WEBLATE_BITBUCKETSERVER_TOKEN
-.. envvar:: WEBLATE_BITBUCKETSERVER_HOST
-.. envvar:: WEBLATE_BITBUCKETSERVER_CREDENTIALS
-
-    Configures Bitbucket Server pull-requests integration by changing
-    :setting:`BITBUCKETSERVER_CREDENTIALS`.
-
-    .. seealso::
-
-       :ref:`vcs-bitbucket-server`
-
 .. envvar:: WEBLATE_DEFAULT_PULL_MESSAGE
 
     Configures the default title and message for pull requests via API by changing
@@ -1053,6 +987,104 @@ Generic settings
 
       This variable intentionally lacks ``WEBLATE_`` prefix as it is shared
       with third-party container used in :ref:`docker-https-portal`.
+
+
+.. _docker-vcs-config:
+
+Code hosting sites credentials
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the Docker container, the code hosting credentials can be configured either
+in separate variables or using a Python dictionary to set them at once.  The
+following examples are for :ref:`vcs-github`, but applies to all :ref:`vcs`
+with appropriately changed variable names.
+
+An example configuration for GitHub might look like:
+
+.. code-block:: shell
+
+   WEBLATE_GITHUB_USERNAME=api-user
+   WEBLATE_GITHUB_TOKEN=api-token
+   WEBLATE_GITHUB_HOST=api.github.com
+
+Will be used as:
+
+.. code-block:: python
+
+   GITHUB_CREDENTIALS = {
+       "api.github.com": {
+           "username": "api-user",
+           "token": "api-token",
+       }
+   }
+
+Alternatively the Python dictionary can be provided as a string:
+
+.. code-block:: shell
+
+   WEBLATE_GITHUB_CREDENTIALS='{ "api.github.com": { "username": "api-user", "token": "api-token", } }'
+
+Or the path to a file containing the Python dictionary:
+
+.. code-block:: shell
+
+   echo '{ "api.github.com": { "username": "api-user", "token": "api-token", } }' > /path/to/github-credentials
+   WEBLATE_GITHUB_CREDENTIALS_FILE='/path/to/github-credentials'
+
+.. envvar:: WEBLATE_GITHUB_USERNAME
+.. envvar:: WEBLATE_GITHUB_TOKEN
+.. envvar:: WEBLATE_GITHUB_HOST
+.. envvar:: WEBLATE_GITHUB_CREDENTIALS
+
+    Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`.
+
+    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+
+.. envvar:: WEBLATE_GITLAB_USERNAME
+.. envvar:: WEBLATE_GITLAB_TOKEN
+.. envvar:: WEBLATE_GITLAB_HOST
+.. envvar:: WEBLATE_GITLAB_CREDENTIALS
+
+    Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`.
+
+    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+
+.. envvar:: WEBLATE_GITEA_USERNAME
+.. envvar:: WEBLATE_GITEA_TOKEN
+.. envvar:: WEBLATE_GITEA_HOST
+.. envvar:: WEBLATE_GITEA_CREDENTIALS
+
+    Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`.
+
+    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+
+.. envvar:: WEBLATE_PAGURE_USERNAME
+.. envvar:: WEBLATE_PAGURE_TOKEN
+.. envvar:: WEBLATE_PAGURE_HOST
+.. envvar:: WEBLATE_PAGURE_CREDENTIALS
+
+    Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`.
+
+    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+
+.. envvar:: WEBLATE_BITBUCKETSERVER_USERNAME
+.. envvar:: WEBLATE_BITBUCKETSERVER_TOKEN
+.. envvar:: WEBLATE_BITBUCKETSERVER_HOST
+.. envvar:: WEBLATE_BITBUCKETSERVER_CREDENTIALS
+
+    Configures :ref:`vcs-bitbucket-server` by changing :setting:`BITBUCKETSERVER_CREDENTIALS`.
+
+    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+
+.. envvar:: WEBLATE_AZURE_DEVOPS_USERNAME
+.. envvar:: WEBLATE_AZURE_DEVOPS_ORGANIZATION
+.. envvar:: WEBLATE_AZURE_DEVOPS_TOKEN
+.. envvar:: WEBLATE_AZURE_DEVOPS_HOST
+.. envvar:: WEBLATE_AZURE_DEVOPS_CREDENTIALS
+
+    Configures :ref:`vcs-azure-devops` by changing :setting:`AZURE_DEVOPS_CREDENTIALS`.
+
+    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
 
 .. _docker-machine:
 
@@ -1602,8 +1634,8 @@ Site integration
 
    Configures :setting:`PRIVACY_URL`.
 
-Error reporting
-~~~~~~~~~~~~~~~
+Collecting error reports and monitoring performance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It is recommended to collect errors from the installation systematically,
 see :ref:`collecting-errors`.
@@ -1622,7 +1654,7 @@ To enable support for Sentry, set following:
 
 .. envvar:: SENTRY_DSN
 
-    Your Sentry DSN.
+    Your Sentry DSN, see :setting:`SENTRY_DSN`.
 
 .. envvar:: SENTRY_ENVIRONMENT
 
@@ -1639,6 +1671,10 @@ To enable support for Sentry, set following:
        environment:
          SENTRY_TRACES_SAMPLE_RATE: 0.5
 
+   .. seealso::
+
+      `Sentry Performance Monitoring <https://docs.sentry.io/product/performance/>`_,
+
 .. envvar:: SENTRY_PROFILES_SAMPLE_RATE
 
    Configure sampling rate for profiling monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
@@ -1649,6 +1685,14 @@ To enable support for Sentry, set following:
 
        environment:
          SENTRY_PROFILES_SAMPLE_RATE: 0.5
+
+   .. seealso::
+
+      `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_
+
+.. envvar:: SENTRY_SEND_PII
+
+   Configures :setting:`SENTRY_SEND_PII`.
 
 Localization CDN
 ~~~~~~~~~~~~~~~~

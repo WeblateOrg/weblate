@@ -3,6 +3,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
 const utils = require('@sentry/utils');
+const debugBuild = require('../common/debug-build.js');
 const types = require('./types.js');
 
 /**
@@ -16,7 +17,7 @@ function registerBackgroundTabDetection() {
       if (types.WINDOW.document.hidden && activeTransaction) {
         const statusType = 'cancelled';
 
-        (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+        debugBuild.DEBUG_BUILD &&
           utils.logger.log(
             `[Tracing] Transaction: ${statusType} -> since tab moved to the background, op: ${activeTransaction.op}`,
           );
@@ -30,19 +31,19 @@ function registerBackgroundTabDetection() {
       }
     });
   } else {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-      utils.logger.warn('[Tracing] Could not set up background tab detection due to lack of global document');
+    debugBuild.DEBUG_BUILD && utils.logger.warn('[Tracing] Could not set up background tab detection due to lack of global document');
   }
 }
 
 exports.registerBackgroundTabDetection = registerBackgroundTabDetection;
 
 
-},{"./types.js":7,"@sentry/core":59,"@sentry/utils":108}],2:[function(require,module,exports){
+},{"../common/debug-build.js":20,"./types.js":8,"@sentry/core":64,"@sentry/utils":116}],2:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
 const utils = require('@sentry/utils');
+const debugBuild = require('../common/debug-build.js');
 const backgroundtab = require('./backgroundtab.js');
 const index = require('./metrics/index.js');
 const request = require('./request.js');
@@ -89,7 +90,7 @@ class BrowserTracing  {
 
     core.addTracingExtensions();
 
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+    if (debugBuild.DEBUG_BUILD) {
       this._hasSetTracePropagationTargets = !!(
         _options &&
         // eslint-disable-next-line deprecation/deprecation
@@ -160,7 +161,7 @@ class BrowserTracing  {
     // If both 1 and either one of 2 or 3 are set (from above), we log out a warning.
     // eslint-disable-next-line deprecation/deprecation
     const tracePropagationTargets = clientOptionsTracePropagationTargets || this.options.tracePropagationTargets;
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && this._hasSetTracePropagationTargets && clientOptionsTracePropagationTargets) {
+    if (debugBuild.DEBUG_BUILD && this._hasSetTracePropagationTargets && clientOptionsTracePropagationTargets) {
       utils.logger.warn(
         '[Tracing] The `tracePropagationTargets` option was set in the BrowserTracing integration and top level `Sentry.init`. The top level `Sentry.init` value is being used.',
       );
@@ -199,7 +200,7 @@ class BrowserTracing  {
   /** Create routing idle transaction. */
    _createRouteTransaction(context) {
     if (!this._getCurrentHub) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+      debugBuild.DEBUG_BUILD &&
         utils.logger.warn(`[Tracing] Did not create ${context.op} transaction because _getCurrentHub is invalid.`);
       return undefined;
     }
@@ -243,11 +244,10 @@ class BrowserTracing  {
     this._latestRouteSource = finalContext.metadata && finalContext.metadata.source;
 
     if (finalContext.sampled === false) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-        utils.logger.log(`[Tracing] Will not send ${finalContext.op} transaction because of beforeNavigate.`);
+      debugBuild.DEBUG_BUILD && utils.logger.log(`[Tracing] Will not send ${finalContext.op} transaction because of beforeNavigate.`);
     }
 
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`[Tracing] Starting ${finalContext.op} transaction on scope`);
+    debugBuild.DEBUG_BUILD && utils.logger.log(`[Tracing] Starting ${finalContext.op} transaction on scope`);
 
     const { location } = types.WINDOW;
 
@@ -295,7 +295,7 @@ class BrowserTracing  {
 
       const currentTransaction = core.getActiveTransaction();
       if (currentTransaction && currentTransaction.op && ['navigation', 'pageload'].includes(currentTransaction.op)) {
-        (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+        debugBuild.DEBUG_BUILD &&
           utils.logger.warn(
             `[Tracing] Did not create ${op} transaction because a pageload or navigation transaction is in progress.`,
           );
@@ -309,13 +309,12 @@ class BrowserTracing  {
       }
 
       if (!this._getCurrentHub) {
-        (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn(`[Tracing] Did not create ${op} transaction because _getCurrentHub is invalid.`);
+        debugBuild.DEBUG_BUILD && utils.logger.warn(`[Tracing] Did not create ${op} transaction because _getCurrentHub is invalid.`);
         return undefined;
       }
 
       if (!this._latestRouteName) {
-        (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-          utils.logger.warn(`[Tracing] Did not create ${op} transaction because _latestRouteName is missing.`);
+        debugBuild.DEBUG_BUILD && utils.logger.warn(`[Tracing] Did not create ${op} transaction because _latestRouteName is missing.`);
         return undefined;
       }
 
@@ -363,18 +362,190 @@ exports.BrowserTracing = BrowserTracing;
 exports.getMetaContent = getMetaContent;
 
 
-},{"./backgroundtab.js":1,"./metrics/index.js":3,"./request.js":5,"./router.js":6,"./types.js":7,"@sentry/core":59,"@sentry/utils":108}],3:[function(require,module,exports){
+},{"../common/debug-build.js":20,"./backgroundtab.js":1,"./metrics/index.js":4,"./request.js":6,"./router.js":7,"./types.js":8,"@sentry/core":64,"@sentry/utils":116}],3:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const utils = require('@sentry/utils');
+const debugBuild = require('../common/debug-build.js');
+const getCLS = require('./web-vitals/getCLS.js');
+const getFID = require('./web-vitals/getFID.js');
+const getLCP = require('./web-vitals/getLCP.js');
+const observe = require('./web-vitals/lib/observe.js');
+
+const handlers = {};
+const instrumented = {};
+
+let _previousCls;
+let _previousFid;
+let _previousLcp;
+
+/**
+ * Add a callback that will be triggered when a CLS metric is available.
+ * Returns a cleanup callback which can be called to remove the instrumentation handler.
+ */
+function addClsInstrumentationHandler(callback) {
+  return addMetricObserver('cls', callback, instrumentCls, _previousCls);
+}
+
+/**
+ * Add a callback that will be triggered when a LCP metric is available.
+ * Returns a cleanup callback which can be called to remove the instrumentation handler.
+ */
+function addLcpInstrumentationHandler(callback) {
+  return addMetricObserver('lcp', callback, instrumentLcp, _previousLcp);
+}
+
+/**
+ * Add a callback that will be triggered when a FID metric is available.
+ * Returns a cleanup callback which can be called to remove the instrumentation handler.
+ */
+function addFidInstrumentationHandler(callback) {
+  return addMetricObserver('fid', callback, instrumentFid, _previousFid);
+}
+
+/**
+ * Add a callback that will be triggered when a performance observer is triggered,
+ * and receives the entries of the observer.
+ * Returns a cleanup callback which can be called to remove the instrumentation handler.
+ */
+function addPerformanceInstrumentationHandler(
+  type,
+  callback,
+) {
+  addHandler(type, callback);
+
+  if (!instrumented[type]) {
+    instrumentPerformanceObserver(type);
+    instrumented[type] = true;
+  }
+
+  return getCleanupCallback(type, callback);
+}
+
+/** Trigger all handlers of a given type. */
+function triggerHandlers(type, data) {
+  const typeHandlers = handlers[type];
+
+  if (!typeHandlers || !typeHandlers.length) {
+    return;
+  }
+
+  for (const handler of typeHandlers) {
+    try {
+      handler(data);
+    } catch (e) {
+      debugBuild.DEBUG_BUILD &&
+        utils.logger.error(
+          `Error while triggering instrumentation handler.\nType: ${type}\nName: ${utils.getFunctionName(handler)}\nError:`,
+          e,
+        );
+    }
+  }
+}
+
+function instrumentCls() {
+  getCLS.onCLS(metric => {
+    triggerHandlers('cls', {
+      metric,
+    });
+    _previousCls = metric;
+  });
+}
+
+function instrumentFid() {
+  getFID.onFID(metric => {
+    triggerHandlers('fid', {
+      metric,
+    });
+    _previousFid = metric;
+  });
+}
+
+function instrumentLcp() {
+  getLCP.onLCP(metric => {
+    triggerHandlers('lcp', {
+      metric,
+    });
+    _previousLcp = metric;
+  });
+}
+
+function addMetricObserver(
+  type,
+  callback,
+  instrumentFn,
+  previousValue,
+) {
+  addHandler(type, callback);
+
+  if (!instrumented[type]) {
+    instrumentFn();
+    instrumented[type] = true;
+  }
+
+  if (previousValue) {
+    callback({ metric: previousValue });
+  }
+
+  return getCleanupCallback(type, callback);
+}
+
+function instrumentPerformanceObserver(type) {
+  const options = {};
+
+  // Special per-type options we want to use
+  if (type === 'event') {
+    options.durationThreshold = 0;
+  }
+
+  observe.observe(
+    type,
+    entries => {
+      triggerHandlers(type, { entries });
+    },
+    options,
+  );
+}
+
+function addHandler(type, handler) {
+  handlers[type] = handlers[type] || [];
+  (handlers[type] ).push(handler);
+}
+
+// Get a callback which can be called to remove the instrumentation handler
+function getCleanupCallback(type, callback) {
+  return () => {
+    const typeHandlers = handlers[type];
+
+    if (!typeHandlers) {
+      return;
+    }
+
+    const index = typeHandlers.indexOf(callback);
+    if (index !== -1) {
+      typeHandlers.splice(index, 1);
+    }
+  };
+}
+
+exports.addClsInstrumentationHandler = addClsInstrumentationHandler;
+exports.addFidInstrumentationHandler = addFidInstrumentationHandler;
+exports.addLcpInstrumentationHandler = addLcpInstrumentationHandler;
+exports.addPerformanceInstrumentationHandler = addPerformanceInstrumentationHandler;
+
+
+},{"../common/debug-build.js":20,"./web-vitals/getCLS.js":9,"./web-vitals/getFID.js":10,"./web-vitals/getLCP.js":11,"./web-vitals/lib/observe.js":18,"@sentry/utils":116}],4:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
 const utils = require('@sentry/utils');
+const debugBuild = require('../../common/debug-build.js');
+const instrument = require('../instrument.js');
 const types = require('../types.js');
-const getCLS = require('../web-vitals/getCLS.js');
-const getFID = require('../web-vitals/getFID.js');
-const getLCP = require('../web-vitals/getLCP.js');
 const getVisibilityWatcher = require('../web-vitals/lib/getVisibilityWatcher.js');
-const observe = require('../web-vitals/lib/observe.js');
 const utils$1 = require('./utils.js');
+
+const MAX_INT_AS_BYTES = 2147483647;
 
 /**
  * Converts from milliseconds to seconds
@@ -407,17 +578,14 @@ function startTrackingWebVitals() {
     if (performance.mark) {
       types.WINDOW.performance.mark('sentry-tracing-init');
     }
-    _trackFID();
+    const fidCallback = _trackFID();
     const clsCallback = _trackCLS();
     const lcpCallback = _trackLCP();
 
     return () => {
-      if (clsCallback) {
-        clsCallback();
-      }
-      if (lcpCallback) {
-        lcpCallback();
-      }
+      fidCallback();
+      clsCallback();
+      lcpCallback();
     };
   }
 
@@ -428,7 +596,7 @@ function startTrackingWebVitals() {
  * Start tracking long tasks.
  */
 function startTrackingLongTasks() {
-  const entryHandler = (entries) => {
+  instrument.addPerformanceInstrumentationHandler('longtask', ({ entries }) => {
     for (const entry of entries) {
       const transaction = core.getActiveTransaction() ;
       if (!transaction) {
@@ -445,16 +613,14 @@ function startTrackingLongTasks() {
         endTimestamp: startTime + duration,
       });
     }
-  };
-
-  observe.observe('longtask', entryHandler);
+  });
 }
 
 /**
  * Start tracking interaction events.
  */
 function startTrackingInteractions() {
-  const entryHandler = (entries) => {
+  instrument.addPerformanceInstrumentationHandler('event', ({ entries }) => {
     for (const entry of entries) {
       const transaction = core.getActiveTransaction() ;
       if (!transaction) {
@@ -474,23 +640,18 @@ function startTrackingInteractions() {
         });
       }
     }
-  };
-
-  observe.observe('event', entryHandler, { durationThreshold: 0 });
+  });
 }
 
 /** Starts tracking the Cumulative Layout Shift on the current page. */
 function _trackCLS() {
-  // See:
-  // https://web.dev/evolving-cls/
-  // https://web.dev/cls-web-tooling/
-  return getCLS.onCLS(metric => {
+  return instrument.addClsInstrumentationHandler(({ metric }) => {
     const entry = metric.entries.pop();
     if (!entry) {
       return;
     }
 
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Measurements] Adding CLS');
+    debugBuild.DEBUG_BUILD && utils.logger.log('[Measurements] Adding CLS');
     _measurements['cls'] = { value: metric.value, unit: '' };
     _clsEntry = entry ;
   });
@@ -498,13 +659,13 @@ function _trackCLS() {
 
 /** Starts tracking the Largest Contentful Paint on the current page. */
 function _trackLCP() {
-  return getLCP.onLCP(metric => {
+  return instrument.addLcpInstrumentationHandler(({ metric }) => {
     const entry = metric.entries.pop();
     if (!entry) {
       return;
     }
 
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Measurements] Adding LCP');
+    debugBuild.DEBUG_BUILD && utils.logger.log('[Measurements] Adding LCP');
     _measurements['lcp'] = { value: metric.value, unit: 'millisecond' };
     _lcpEntry = entry ;
   });
@@ -512,7 +673,7 @@ function _trackLCP() {
 
 /** Starts tracking the First Input Delay on the current page. */
 function _trackFID() {
-  getFID.onFID(metric => {
+  return instrument.addFidInstrumentationHandler(({ metric }) => {
     const entry = metric.entries.pop();
     if (!entry) {
       return;
@@ -520,7 +681,7 @@ function _trackFID() {
 
     const timeOrigin = msToSec(utils.browserPerformanceTimeOrigin );
     const startTime = msToSec(entry.startTime);
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Measurements] Adding FID');
+    debugBuild.DEBUG_BUILD && utils.logger.log('[Measurements] Adding FID');
     _measurements['fid'] = { value: metric.value, unit: 'millisecond' };
     _measurements['mark.fid'] = { value: timeOrigin + startTime, unit: 'second' };
   });
@@ -534,7 +695,7 @@ function addPerformanceEntries(transaction) {
     return;
   }
 
-  (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Tracing] Adding & adjusting spans using Performance API');
+  debugBuild.DEBUG_BUILD && utils.logger.log('[Tracing] Adding & adjusting spans using Performance API');
   const timeOrigin = msToSec(utils.browserPerformanceTimeOrigin);
 
   const performanceEntries = performance.getEntries();
@@ -569,11 +730,11 @@ function addPerformanceEntries(transaction) {
         const shouldRecord = entry.startTime < firstHidden.firstHiddenTime;
 
         if (entry.name === 'first-paint' && shouldRecord) {
-          (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Measurements] Adding FP');
+          debugBuild.DEBUG_BUILD && utils.logger.log('[Measurements] Adding FP');
           _measurements['fp'] = { value: entry.startTime, unit: 'millisecond' };
         }
         if (entry.name === 'first-contentful-paint' && shouldRecord) {
-          (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Measurements] Adding FCP');
+          debugBuild.DEBUG_BUILD && utils.logger.log('[Measurements] Adding FCP');
           _measurements['fcp'] = { value: entry.startTime, unit: 'millisecond' };
         }
         break;
@@ -596,7 +757,7 @@ function addPerformanceEntries(transaction) {
     // Generate TTFB (Time to First Byte), which measured as the time between the beginning of the transaction and the
     // start of the response in milliseconds
     if (typeof responseStartTimestamp === 'number') {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Measurements] Adding TTFB');
+      debugBuild.DEBUG_BUILD && utils.logger.log('[Measurements] Adding TTFB');
       _measurements['ttfb'] = {
         value: (responseStartTimestamp - transaction.startTimestamp) * 1000,
         unit: 'millisecond',
@@ -626,8 +787,7 @@ function addPerformanceEntries(transaction) {
       const normalizedValue = Math.abs((measurementTimestamp - transaction.startTimestamp) * 1000);
       const delta = normalizedValue - oldValue;
 
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-        utils.logger.log(`[Measurements] Normalized ${name} from ${oldValue} to ${normalizedValue} (${delta})`);
+      debugBuild.DEBUG_BUILD && utils.logger.log(`[Measurements] Normalized ${name} from ${oldValue} to ${normalizedValue} (${delta})`);
       _measurements[name].value = normalizedValue;
     });
 
@@ -764,15 +924,9 @@ function _addResourceSpans(
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data = {};
-  if ('transferSize' in entry) {
-    data['http.response_transfer_size'] = entry.transferSize;
-  }
-  if ('encodedBodySize' in entry) {
-    data['http.response_content_length'] = entry.encodedBodySize;
-  }
-  if ('decodedBodySize' in entry) {
-    data['http.decoded_response_content_length'] = entry.decodedBodySize;
-  }
+  setResourceEntrySizeData(data, entry, 'transferSize', 'http.response_transfer_size');
+  setResourceEntrySizeData(data, entry, 'encodedBodySize', 'http.response_content_length');
+  setResourceEntrySizeData(data, entry, 'decodedBodySize', 'http.decoded_response_content_length');
   if ('renderBlockingStatus' in entry) {
     data['resource.render_blocking_status'] = entry.renderBlockingStatus;
   }
@@ -827,7 +981,7 @@ function _trackNavigator(transaction) {
 /** Add LCP / CLS data to transaction to allow debugging */
 function _tagMetricInfo(transaction) {
   if (_lcpEntry) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Measurements] Adding LCP Data');
+    debugBuild.DEBUG_BUILD && utils.logger.log('[Measurements] Adding LCP Data');
 
     // Capture Properties of the LCP element that contributes to the LCP.
 
@@ -849,10 +1003,22 @@ function _tagMetricInfo(transaction) {
 
   // See: https://developer.mozilla.org/en-US/docs/Web/API/LayoutShift
   if (_clsEntry && _clsEntry.sources) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Measurements] Adding CLS Data');
+    debugBuild.DEBUG_BUILD && utils.logger.log('[Measurements] Adding CLS Data');
     _clsEntry.sources.forEach((source, index) =>
       transaction.setTag(`cls.source.${index + 1}`, utils.htmlTreeAsString(source.node)),
     );
+  }
+}
+
+function setResourceEntrySizeData(
+  data,
+  entry,
+  key,
+  dataKey,
+) {
+  const entryVal = entry[key];
+  if (entryVal != null && entryVal < MAX_INT_AS_BYTES) {
+    data[dataKey] = entryVal;
   }
 }
 
@@ -864,7 +1030,7 @@ exports.startTrackingLongTasks = startTrackingLongTasks;
 exports.startTrackingWebVitals = startTrackingWebVitals;
 
 
-},{"../types.js":7,"../web-vitals/getCLS.js":8,"../web-vitals/getFID.js":9,"../web-vitals/getLCP.js":10,"../web-vitals/lib/getVisibilityWatcher.js":15,"../web-vitals/lib/observe.js":17,"./utils.js":4,"@sentry/core":59,"@sentry/utils":108}],4:[function(require,module,exports){
+},{"../../common/debug-build.js":20,"../instrument.js":3,"../types.js":8,"../web-vitals/lib/getVisibilityWatcher.js":16,"./utils.js":5,"@sentry/core":64,"@sentry/utils":116}],5:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -894,11 +1060,13 @@ exports._startChild = _startChild;
 exports.isMeasurementValue = isMeasurementValue;
 
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
 const utils = require('@sentry/utils');
+const fetch = require('../common/fetch.js');
+const instrument = require('./instrument.js');
 
 /* eslint-disable max-lines */
 
@@ -944,8 +1112,8 @@ function instrumentOutgoingRequests(_options) {
   const spans = {};
 
   if (traceFetch) {
-    utils.addInstrumentationHandler('fetch', (handlerData) => {
-      const createdSpan = fetchCallback(handlerData, shouldCreateSpan, shouldAttachHeadersWithTargets, spans);
+    utils.addFetchInstrumentationHandler(handlerData => {
+      const createdSpan = fetch.instrumentFetchRequest(handlerData, shouldCreateSpan, shouldAttachHeadersWithTargets, spans);
       if (enableHTTPTimings && createdSpan) {
         addHTTPTimings(createdSpan);
       }
@@ -953,7 +1121,7 @@ function instrumentOutgoingRequests(_options) {
   }
 
   if (traceXHR) {
-    utils.addInstrumentationHandler('xhr', (handlerData) => {
+    utils.addXhrInstrumentationHandler(handlerData => {
       const createdSpan = xhrCallback(handlerData, shouldCreateSpan, shouldAttachHeadersWithTargets, spans);
       if (enableHTTPTimings && createdSpan) {
         addHTTPTimings(createdSpan);
@@ -979,18 +1147,21 @@ function isPerformanceResourceTiming(entry) {
  */
 function addHTTPTimings(span) {
   const url = span.data.url;
-  const observer = new PerformanceObserver(list => {
-    const entries = list.getEntries();
+
+  if (!url) {
+    return;
+  }
+
+  const cleanup = instrument.addPerformanceInstrumentationHandler('resource', ({ entries }) => {
     entries.forEach(entry => {
       if (isPerformanceResourceTiming(entry) && entry.name.endsWith(url)) {
         const spanData = resourceTimingEntryToSpanData(entry);
         spanData.forEach(data => span.setData(...data));
-        observer.disconnect();
+        // In the next tick, clean this handler up
+        // We have to wait here because otherwise this cleans itself up before it is fully done
+        setTimeout(cleanup);
       }
     });
-  });
-  observer.observe({
-    entryTypes: ['resource'],
   });
 }
 
@@ -1064,171 +1235,6 @@ function shouldAttachHeaders(url, tracePropagationTargets) {
 }
 
 /**
- * Create and track fetch request spans
- *
- * @returns Span if a span was created, otherwise void.
- */
-function fetchCallback(
-  handlerData,
-  shouldCreateSpan,
-  shouldAttachHeaders,
-  spans,
-) {
-  if (!core.hasTracingEnabled() || !handlerData.fetchData) {
-    return undefined;
-  }
-
-  const shouldCreateSpanResult = shouldCreateSpan(handlerData.fetchData.url);
-
-  if (handlerData.endTimestamp && shouldCreateSpanResult) {
-    const spanId = handlerData.fetchData.__span;
-    if (!spanId) return;
-
-    const span = spans[spanId];
-    if (span) {
-      if (handlerData.response) {
-        // TODO (kmclb) remove this once types PR goes through
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        span.setHttpStatus(handlerData.response.status);
-
-        const contentLength =
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          handlerData.response && handlerData.response.headers && handlerData.response.headers.get('content-length');
-
-        const contentLengthNum = parseInt(contentLength);
-        if (contentLengthNum > 0) {
-          span.setData('http.response_content_length', contentLengthNum);
-        }
-      } else if (handlerData.error) {
-        span.setStatus('internal_error');
-      }
-      span.finish();
-
-      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-      delete spans[spanId];
-    }
-    return undefined;
-  }
-
-  const hub = core.getCurrentHub();
-  const scope = hub.getScope();
-  const client = hub.getClient();
-  const parentSpan = scope.getSpan();
-
-  const { method, url } = handlerData.fetchData;
-
-  const span =
-    shouldCreateSpanResult && parentSpan
-      ? parentSpan.startChild({
-          data: {
-            url,
-            type: 'fetch',
-            'http.method': method,
-          },
-          description: `${method} ${url}`,
-          op: 'http.client',
-          origin: 'auto.http.browser',
-        })
-      : undefined;
-
-  if (span) {
-    handlerData.fetchData.__span = span.spanId;
-    spans[span.spanId] = span;
-  }
-
-  if (shouldAttachHeaders(handlerData.fetchData.url) && client) {
-    const request = handlerData.args[0];
-
-    // In case the user hasn't set the second argument of a fetch call we default it to `{}`.
-    handlerData.args[1] = handlerData.args[1] || {};
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const options = handlerData.args[1];
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-    options.headers = addTracingHeadersToFetchRequest(request, client, scope, options, span);
-  }
-
-  return span;
-}
-
-/**
- * Adds sentry-trace and baggage headers to the various forms of fetch headers
- */
-function addTracingHeadersToFetchRequest(
-  request, // unknown is actually type Request but we can't export DOM types from this package,
-  client,
-  scope,
-  options
-
-,
-  requestSpan,
-) {
-  const span = requestSpan || scope.getSpan();
-
-  const transaction = span && span.transaction;
-
-  const { traceId, sampled, dsc } = scope.getPropagationContext();
-
-  const sentryTraceHeader = span ? span.toTraceparent() : utils.generateSentryTraceHeader(traceId, undefined, sampled);
-  const dynamicSamplingContext = transaction
-    ? transaction.getDynamicSamplingContext()
-    : dsc
-    ? dsc
-    : core.getDynamicSamplingContextFromClient(traceId, client, scope);
-
-  const sentryBaggageHeader = utils.dynamicSamplingContextToSentryBaggageHeader(dynamicSamplingContext);
-
-  const headers =
-    typeof Request !== 'undefined' && utils.isInstanceOf(request, Request) ? (request ).headers : options.headers;
-
-  if (!headers) {
-    return { 'sentry-trace': sentryTraceHeader, baggage: sentryBaggageHeader };
-  } else if (typeof Headers !== 'undefined' && utils.isInstanceOf(headers, Headers)) {
-    const newHeaders = new Headers(headers );
-
-    newHeaders.append('sentry-trace', sentryTraceHeader);
-
-    if (sentryBaggageHeader) {
-      // If the same header is appended multiple times the browser will merge the values into a single request header.
-      // Its therefore safe to simply push a "baggage" entry, even though there might already be another baggage header.
-      newHeaders.append(utils.BAGGAGE_HEADER_NAME, sentryBaggageHeader);
-    }
-
-    return newHeaders ;
-  } else if (Array.isArray(headers)) {
-    const newHeaders = [...headers, ['sentry-trace', sentryTraceHeader]];
-
-    if (sentryBaggageHeader) {
-      // If there are multiple entries with the same key, the browser will merge the values into a single request header.
-      // Its therefore safe to simply push a "baggage" entry, even though there might already be another baggage header.
-      newHeaders.push([utils.BAGGAGE_HEADER_NAME, sentryBaggageHeader]);
-    }
-
-    return newHeaders ;
-  } else {
-    const existingBaggageHeader = 'baggage' in headers ? headers.baggage : undefined;
-    const newBaggageHeaders = [];
-
-    if (Array.isArray(existingBaggageHeader)) {
-      newBaggageHeaders.push(...existingBaggageHeader);
-    } else if (existingBaggageHeader) {
-      newBaggageHeaders.push(existingBaggageHeader);
-    }
-
-    if (sentryBaggageHeader) {
-      newBaggageHeaders.push(sentryBaggageHeader);
-    }
-
-    return {
-      ...(headers ),
-      'sentry-trace': sentryTraceHeader,
-      baggage: newBaggageHeaders.length > 0 ? newBaggageHeaders.join(',') : undefined,
-    };
-  }
-}
-
-/**
  * Create and track xhr request spans
  *
  * @returns Span if a span was created, otherwise void.
@@ -1243,7 +1249,7 @@ function xhrCallback(
   const xhr = handlerData.xhr;
   const sentryXhrData = xhr && xhr[utils.SENTRY_XHR_DATA_KEY];
 
-  if (!core.hasTracingEnabled() || (xhr && xhr.__sentry_own_request__) || !xhr || !sentryXhrData) {
+  if (!core.hasTracingEnabled() || !xhr || xhr.__sentry_own_request__ || !sentryXhrData) {
     return undefined;
   }
 
@@ -1255,7 +1261,7 @@ function xhrCallback(
     if (!spanId) return;
 
     const span = spans[spanId];
-    if (span) {
+    if (span && sentryXhrData.status_code !== undefined) {
       span.setHttpStatus(sentryXhrData.status_code);
       span.finish();
 
@@ -1273,7 +1279,6 @@ function xhrCallback(
     shouldCreateSpanResult && parentSpan
       ? parentSpan.startChild({
           data: {
-            ...sentryXhrData.data,
             type: 'xhr',
             'http.method': sentryXhrData.method,
             url: sentryXhrData.url,
@@ -1330,19 +1335,18 @@ function setHeaderOnXhr(
 }
 
 exports.DEFAULT_TRACE_PROPAGATION_TARGETS = DEFAULT_TRACE_PROPAGATION_TARGETS;
-exports.addTracingHeadersToFetchRequest = addTracingHeadersToFetchRequest;
 exports.defaultRequestInstrumentationOptions = defaultRequestInstrumentationOptions;
 exports.extractNetworkProtocol = extractNetworkProtocol;
-exports.fetchCallback = fetchCallback;
 exports.instrumentOutgoingRequests = instrumentOutgoingRequests;
 exports.shouldAttachHeaders = shouldAttachHeaders;
 exports.xhrCallback = xhrCallback;
 
 
-},{"@sentry/core":59,"@sentry/utils":108}],6:[function(require,module,exports){
+},{"../common/fetch.js":21,"./instrument.js":3,"@sentry/core":64,"@sentry/utils":116}],7:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../common/debug-build.js');
 const types = require('./types.js');
 
 /**
@@ -1354,7 +1358,7 @@ function instrumentRoutingWithDefaults(
   startTransactionOnLocationChange = true,
 ) {
   if (!types.WINDOW || !types.WINDOW.location) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Could not initialize routing instrumentation due to invalid location');
+    debugBuild.DEBUG_BUILD && utils.logger.warn('Could not initialize routing instrumentation due to invalid location');
     return;
   }
 
@@ -1373,7 +1377,7 @@ function instrumentRoutingWithDefaults(
   }
 
   if (startTransactionOnLocationChange) {
-    utils.addInstrumentationHandler('history', ({ to, from }) => {
+    utils.addHistoryInstrumentationHandler(({ to, from }) => {
       /**
        * This early return is there to account for some cases where a navigation transaction starts right after
        * long-running pageload. We make sure that if `from` is undefined and a valid `startingURL` exists, we don't
@@ -1391,7 +1395,7 @@ function instrumentRoutingWithDefaults(
       if (from !== to) {
         startingUrl = undefined;
         if (activeTransaction) {
-          (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`[Tracing] Finishing current transaction with op: ${activeTransaction.op}`);
+          debugBuild.DEBUG_BUILD && utils.logger.log(`[Tracing] Finishing current transaction with op: ${activeTransaction.op}`);
           // If there's an open transaction on the scope, we need to finish it before creating an new one.
           activeTransaction.finish();
         }
@@ -1409,7 +1413,7 @@ function instrumentRoutingWithDefaults(
 exports.instrumentRoutingWithDefaults = instrumentRoutingWithDefaults;
 
 
-},{"./types.js":7,"@sentry/utils":108}],7:[function(require,module,exports){
+},{"../common/debug-build.js":20,"./types.js":8,"@sentry/utils":116}],8:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -1419,7 +1423,7 @@ const WINDOW = utils.GLOBAL_OBJ ;
 exports.WINDOW = WINDOW;
 
 
-},{"@sentry/utils":108}],8:[function(require,module,exports){
+},{"@sentry/utils":116}],9:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const bindReporter = require('./lib/bindReporter.js');
@@ -1528,7 +1532,7 @@ const onCLS = (onReport) => {
 exports.onCLS = onCLS;
 
 
-},{"./lib/bindReporter.js":11,"./lib/initMetric.js":16,"./lib/observe.js":17,"./lib/onHidden.js":18}],9:[function(require,module,exports){
+},{"./lib/bindReporter.js":12,"./lib/initMetric.js":17,"./lib/observe.js":18,"./lib/onHidden.js":19}],10:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const bindReporter = require('./lib/bindReporter.js');
@@ -1595,7 +1599,7 @@ const onFID = (onReport) => {
 exports.onFID = onFID;
 
 
-},{"./lib/bindReporter.js":11,"./lib/getVisibilityWatcher.js":15,"./lib/initMetric.js":16,"./lib/observe.js":17,"./lib/onHidden.js":18}],10:[function(require,module,exports){
+},{"./lib/bindReporter.js":12,"./lib/getVisibilityWatcher.js":16,"./lib/initMetric.js":17,"./lib/observe.js":18,"./lib/onHidden.js":19}],11:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const bindReporter = require('./lib/bindReporter.js');
@@ -1684,7 +1688,7 @@ const onLCP = (onReport) => {
 exports.onLCP = onLCP;
 
 
-},{"./lib/bindReporter.js":11,"./lib/getActivationStart.js":13,"./lib/getVisibilityWatcher.js":15,"./lib/initMetric.js":16,"./lib/observe.js":17,"./lib/onHidden.js":18}],11:[function(require,module,exports){
+},{"./lib/bindReporter.js":12,"./lib/getActivationStart.js":14,"./lib/getVisibilityWatcher.js":16,"./lib/initMetric.js":17,"./lib/observe.js":18,"./lib/onHidden.js":19}],12:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const bindReporter = (
@@ -1716,7 +1720,7 @@ const bindReporter = (
 exports.bindReporter = bindReporter;
 
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /*
@@ -1747,7 +1751,7 @@ const generateUniqueID = () => {
 exports.generateUniqueID = generateUniqueID;
 
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const getNavigationEntry = require('./getNavigationEntry.js');
@@ -1776,7 +1780,7 @@ const getActivationStart = () => {
 exports.getActivationStart = getActivationStart;
 
 
-},{"./getNavigationEntry.js":14}],14:[function(require,module,exports){
+},{"./getNavigationEntry.js":15}],15:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const types = require('../../types.js');
@@ -1833,7 +1837,7 @@ const getNavigationEntry = () => {
 exports.getNavigationEntry = getNavigationEntry;
 
 
-},{"../../types.js":7}],15:[function(require,module,exports){
+},{"../../types.js":8}],16:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const types = require('../../types.js');
@@ -1891,7 +1895,7 @@ const getVisibilityWatcher = (
 exports.getVisibilityWatcher = getVisibilityWatcher;
 
 
-},{"../../types.js":7,"./onHidden.js":18}],16:[function(require,module,exports){
+},{"../../types.js":8,"./onHidden.js":19}],17:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const types = require('../../types.js');
@@ -1941,7 +1945,7 @@ const initMetric = (name, value) => {
 exports.initMetric = initMetric;
 
 
-},{"../../types.js":7,"./generateUniqueID.js":12,"./getActivationStart.js":13,"./getNavigationEntry.js":14}],17:[function(require,module,exports){
+},{"../../types.js":8,"./generateUniqueID.js":13,"./getActivationStart.js":14,"./getNavigationEntry.js":15}],18:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -1982,7 +1986,7 @@ const observe = (
 exports.observe = observe;
 
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const types = require('../../types.js');
@@ -2022,7 +2026,195 @@ const onHidden = (cb, once) => {
 exports.onHidden = onHidden;
 
 
-},{"../../types.js":7}],19:[function(require,module,exports){
+},{"../../types.js":8}],20:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+/**
+ * This serves as a build time flag that will be true by default, but false in non-debug builds or if users replace `__SENTRY_DEBUG__` in their generated code.
+ *
+ * ATTENTION: This constant must never cross package boundaries (i.e. be exported) to guarantee that it can be used for tree shaking.
+ */
+const DEBUG_BUILD = (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__);
+
+exports.DEBUG_BUILD = DEBUG_BUILD;
+
+
+},{}],21:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const core = require('@sentry/core');
+const utils = require('@sentry/utils');
+
+/**
+ * Create and track fetch request spans for usage in combination with `addInstrumentationHandler`.
+ *
+ * @returns Span if a span was created, otherwise void.
+ */
+function instrumentFetchRequest(
+  handlerData,
+  shouldCreateSpan,
+  shouldAttachHeaders,
+  spans,
+  spanOrigin = 'auto.http.browser',
+) {
+  if (!core.hasTracingEnabled() || !handlerData.fetchData) {
+    return undefined;
+  }
+
+  const shouldCreateSpanResult = shouldCreateSpan(handlerData.fetchData.url);
+
+  if (handlerData.endTimestamp && shouldCreateSpanResult) {
+    const spanId = handlerData.fetchData.__span;
+    if (!spanId) return;
+
+    const span = spans[spanId];
+    if (span) {
+      if (handlerData.response) {
+        span.setHttpStatus(handlerData.response.status);
+
+        const contentLength =
+          handlerData.response && handlerData.response.headers && handlerData.response.headers.get('content-length');
+
+        if (contentLength) {
+          const contentLengthNum = parseInt(contentLength);
+          if (contentLengthNum > 0) {
+            span.setData('http.response_content_length', contentLengthNum);
+          }
+        }
+      } else if (handlerData.error) {
+        span.setStatus('internal_error');
+      }
+      span.finish();
+
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+      delete spans[spanId];
+    }
+    return undefined;
+  }
+
+  const hub = core.getCurrentHub();
+  const scope = hub.getScope();
+  const client = hub.getClient();
+  const parentSpan = scope.getSpan();
+
+  const { method, url } = handlerData.fetchData;
+
+  const span =
+    shouldCreateSpanResult && parentSpan
+      ? parentSpan.startChild({
+          data: {
+            url,
+            type: 'fetch',
+            'http.method': method,
+          },
+          description: `${method} ${url}`,
+          op: 'http.client',
+          origin: spanOrigin,
+        })
+      : undefined;
+
+  if (span) {
+    handlerData.fetchData.__span = span.spanId;
+    spans[span.spanId] = span;
+  }
+
+  if (shouldAttachHeaders(handlerData.fetchData.url) && client) {
+    const request = handlerData.args[0];
+
+    // In case the user hasn't set the second argument of a fetch call we default it to `{}`.
+    handlerData.args[1] = handlerData.args[1] || {};
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const options = handlerData.args[1];
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+    options.headers = addTracingHeadersToFetchRequest(request, client, scope, options, span);
+  }
+
+  return span;
+}
+
+/**
+ * Adds sentry-trace and baggage headers to the various forms of fetch headers
+ */
+function addTracingHeadersToFetchRequest(
+  request, // unknown is actually type Request but we can't export DOM types from this package,
+  client,
+  scope,
+  options
+
+,
+  requestSpan,
+) {
+  const span = requestSpan || scope.getSpan();
+
+  const transaction = span && span.transaction;
+
+  const { traceId, sampled, dsc } = scope.getPropagationContext();
+
+  const sentryTraceHeader = span ? span.toTraceparent() : utils.generateSentryTraceHeader(traceId, undefined, sampled);
+  const dynamicSamplingContext = transaction
+    ? transaction.getDynamicSamplingContext()
+    : dsc
+      ? dsc
+      : core.getDynamicSamplingContextFromClient(traceId, client, scope);
+
+  const sentryBaggageHeader = utils.dynamicSamplingContextToSentryBaggageHeader(dynamicSamplingContext);
+
+  const headers =
+    typeof Request !== 'undefined' && utils.isInstanceOf(request, Request) ? (request ).headers : options.headers;
+
+  if (!headers) {
+    return { 'sentry-trace': sentryTraceHeader, baggage: sentryBaggageHeader };
+  } else if (typeof Headers !== 'undefined' && utils.isInstanceOf(headers, Headers)) {
+    const newHeaders = new Headers(headers );
+
+    newHeaders.append('sentry-trace', sentryTraceHeader);
+
+    if (sentryBaggageHeader) {
+      // If the same header is appended multiple times the browser will merge the values into a single request header.
+      // Its therefore safe to simply push a "baggage" entry, even though there might already be another baggage header.
+      newHeaders.append(utils.BAGGAGE_HEADER_NAME, sentryBaggageHeader);
+    }
+
+    return newHeaders ;
+  } else if (Array.isArray(headers)) {
+    const newHeaders = [...headers, ['sentry-trace', sentryTraceHeader]];
+
+    if (sentryBaggageHeader) {
+      // If there are multiple entries with the same key, the browser will merge the values into a single request header.
+      // Its therefore safe to simply push a "baggage" entry, even though there might already be another baggage header.
+      newHeaders.push([utils.BAGGAGE_HEADER_NAME, sentryBaggageHeader]);
+    }
+
+    return newHeaders ;
+  } else {
+    const existingBaggageHeader = 'baggage' in headers ? headers.baggage : undefined;
+    const newBaggageHeaders = [];
+
+    if (Array.isArray(existingBaggageHeader)) {
+      newBaggageHeaders.push(...existingBaggageHeader);
+    } else if (existingBaggageHeader) {
+      newBaggageHeaders.push(existingBaggageHeader);
+    }
+
+    if (sentryBaggageHeader) {
+      newBaggageHeaders.push(sentryBaggageHeader);
+    }
+
+    return {
+      ...(headers ),
+      'sentry-trace': sentryTraceHeader,
+      baggage: newBaggageHeaders.length > 0 ? newBaggageHeaders.join(',') : undefined,
+    };
+  }
+}
+
+exports.addTracingHeadersToFetchRequest = addTracingHeadersToFetchRequest;
+exports.instrumentFetchRequest = instrumentFetchRequest;
+
+
+},{"@sentry/core":64,"@sentry/utils":116}],22:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -2095,7 +2287,7 @@ function addExtensionMethods() {
 exports.addExtensionMethods = addExtensionMethods;
 
 
-},{"@sentry/core":59,"@sentry/utils":108}],20:[function(require,module,exports){
+},{"@sentry/core":64,"@sentry/utils":116}],23:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -2110,6 +2302,8 @@ const apollo = require('./node/integrations/apollo.js');
 const lazy = require('./node/integrations/lazy.js');
 const browsertracing = require('./browser/browsertracing.js');
 const request = require('./browser/request.js');
+const instrument = require('./browser/instrument.js');
+const fetch = require('./common/fetch.js');
 const extensions = require('./extensions.js');
 
 
@@ -2135,20 +2329,26 @@ exports.Apollo = apollo.Apollo;
 exports.lazyLoadedNodePerformanceMonitoringIntegrations = lazy.lazyLoadedNodePerformanceMonitoringIntegrations;
 exports.BROWSER_TRACING_INTEGRATION_ID = browsertracing.BROWSER_TRACING_INTEGRATION_ID;
 exports.BrowserTracing = browsertracing.BrowserTracing;
-exports.addTracingHeadersToFetchRequest = request.addTracingHeadersToFetchRequest;
 exports.defaultRequestInstrumentationOptions = request.defaultRequestInstrumentationOptions;
 exports.instrumentOutgoingRequests = request.instrumentOutgoingRequests;
+exports.addClsInstrumentationHandler = instrument.addClsInstrumentationHandler;
+exports.addFidInstrumentationHandler = instrument.addFidInstrumentationHandler;
+exports.addLcpInstrumentationHandler = instrument.addLcpInstrumentationHandler;
+exports.addPerformanceInstrumentationHandler = instrument.addPerformanceInstrumentationHandler;
+exports.addTracingHeadersToFetchRequest = fetch.addTracingHeadersToFetchRequest;
+exports.instrumentFetchRequest = fetch.instrumentFetchRequest;
 exports.addExtensionMethods = extensions.addExtensionMethods;
 
 
-},{"./browser/browsertracing.js":2,"./browser/request.js":5,"./extensions.js":19,"./node/integrations/apollo.js":21,"./node/integrations/express.js":22,"./node/integrations/graphql.js":23,"./node/integrations/lazy.js":24,"./node/integrations/mongo.js":25,"./node/integrations/mysql.js":26,"./node/integrations/postgres.js":27,"./node/integrations/prisma.js":28,"@sentry/core":59,"@sentry/utils":108}],21:[function(require,module,exports){
+},{"./browser/browsertracing.js":2,"./browser/instrument.js":3,"./browser/request.js":6,"./common/fetch.js":21,"./extensions.js":22,"./node/integrations/apollo.js":24,"./node/integrations/express.js":25,"./node/integrations/graphql.js":26,"./node/integrations/lazy.js":27,"./node/integrations/mongo.js":28,"./node/integrations/mysql.js":29,"./node/integrations/postgres.js":30,"./node/integrations/prisma.js":31,"@sentry/core":64,"@sentry/utils":116}],24:[function(require,module,exports){
 var {
   _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
+} = require('@sentry/utils');
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../../common/debug-build.js');
 const nodeUtils = require('./utils/node-utils.js');
 
 /** Tracing integration for Apollo */
@@ -2190,7 +2390,7 @@ class Apollo  {
    */
    setupOnce(_, getCurrentHub) {
     if (nodeUtils.shouldDisableAutoInstrumentation(getCurrentHub)) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('Apollo Integration is skipped because of instrumenter configuration.');
+      debugBuild.DEBUG_BUILD && utils.logger.log('Apollo Integration is skipped because of instrumenter configuration.');
       return;
     }
 
@@ -2198,7 +2398,7 @@ class Apollo  {
       const pkg = this.loadDependency();
 
       if (!pkg) {
-        (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Apollo-NestJS Integration was unable to require @nestjs/graphql package.');
+        debugBuild.DEBUG_BUILD && utils.logger.error('Apollo-NestJS Integration was unable to require @nestjs/graphql package.');
         return;
       }
 
@@ -2231,7 +2431,7 @@ class Apollo  {
       const pkg = this.loadDependency();
 
       if (!pkg) {
-        (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Apollo Integration was unable to require apollo-server-core package.');
+        debugBuild.DEBUG_BUILD && utils.logger.error('Apollo Integration was unable to require apollo-server-core package.');
         return;
       }
 
@@ -2243,7 +2443,7 @@ class Apollo  {
 
 ) {
           if (!this.config.resolvers) {
-            if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+            if (debugBuild.DEBUG_BUILD) {
               if (this.config.schema) {
                 utils.logger.warn(
                   'Apollo integration is not able to trace `ApolloServer` instances constructed via `schema` property.' +
@@ -2327,15 +2527,15 @@ function wrapResolver(
 exports.Apollo = Apollo;
 
 
-},{"./utils/node-utils.js":29,"@sentry/utils":108,"@sentry/utils/cjs/buildPolyfills":100}],22:[function(require,module,exports){
-(function (process){(function (){
+},{"../../common/debug-build.js":20,"./utils/node-utils.js":32,"@sentry/utils":116}],25:[function(require,module,exports){
 var {
   _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
+} = require('@sentry/utils');
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../../common/debug-build.js');
 const nodeUtils = require('./utils/node-utils.js');
 
 /**
@@ -2371,12 +2571,12 @@ class Express  {
    */
    setupOnce(_, getCurrentHub) {
     if (!this._router) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('ExpressIntegration is missing an Express instance');
+      debugBuild.DEBUG_BUILD && utils.logger.error('ExpressIntegration is missing an Express instance');
       return;
     }
 
     if (nodeUtils.shouldDisableAutoInstrumentation(getCurrentHub)) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('Express Integration is skipped because of instrumenter configuration.');
+      debugBuild.DEBUG_BUILD && utils.logger.log('Express Integration is skipped because of instrumenter configuration.');
       return;
     }
 
@@ -2545,8 +2745,8 @@ function instrumentRouter(appOrRouter) {
 
     TODO: Proper Express 5 support
     */
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.debug('Cannot instrument router for URL Parameterization (did not find a valid router).');
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.debug('Routing instrumentation is currently only supported in Express 4.');
+    debugBuild.DEBUG_BUILD && utils.logger.debug('Cannot instrument router for URL Parameterization (did not find a valid router).');
+    debugBuild.DEBUG_BUILD && utils.logger.debug('Routing instrumentation is currently only supported in Express 4.');
     return;
   }
 
@@ -2611,7 +2811,7 @@ function instrumentRouter(appOrRouter) {
     // Now we check if we are in the "last" part of the route. We determine this by comparing the
     // number of URL segments from the original URL to that of our reconstructed parameterized URL.
     // If we've reached our final destination, we update the transaction name.
-    const urlLength = utils.getNumberOfUrlSegments(req.originalUrl || '') + numExtraSegments;
+    const urlLength = utils.getNumberOfUrlSegments(utils.stripUrlQueryAndFragment(req.originalUrl || '')) + numExtraSegments;
     const routeLength = utils.getNumberOfUrlSegments(req._reconstructedRoute);
 
     if (urlLength === routeLength) {
@@ -2679,30 +2879,34 @@ const extractOriginalRoute = (
   /**
    * iterate param matches from regexp.exec
    */
-  paramIndices.forEach(([startOffset, endOffset], index) => {
-    /**
-     * isolate part before param
-     */
-    const substr1 = resultPath.substring(0, startOffset - indexShift);
-    /**
-     * define paramName as replacement in format :pathParam
-     */
-    const replacement = `:${orderedKeys[index].name}`;
+  paramIndices.forEach((item, index) => {
+    /** check if offsets is define because in some cases regex d flag returns undefined */
+    if (item) {
+      const [startOffset, endOffset] = item;
+      /**
+       * isolate part before param
+       */
+      const substr1 = resultPath.substring(0, startOffset - indexShift);
+      /**
+       * define paramName as replacement in format :pathParam
+       */
+      const replacement = `:${orderedKeys[index].name}`;
 
-    /**
-     * isolate part after param
-     */
-    const substr2 = resultPath.substring(endOffset - indexShift);
+      /**
+       * isolate part after param
+       */
+      const substr2 = resultPath.substring(endOffset - indexShift);
 
-    /**
-     * recreate original path but with param replacement
-     */
-    resultPath = substr1 + replacement + substr2;
+      /**
+       * recreate original path but with param replacement
+       */
+      resultPath = substr1 + replacement + substr2;
 
-    /**
-     * calculate new index shift after resultPath was modified
-     */
-    indexShift = indexShift + (endOffset - startOffset - replacement.length);
+      /**
+       * calculate new index shift after resultPath was modified
+       */
+      indexShift = indexShift + (endOffset - startOffset - replacement.length);
+    }
   });
 
   return resultPath;
@@ -2727,7 +2931,8 @@ function getLayerRoutePathInfo(layer) {
 
   if (!lrp) {
     // parse node.js major version
-    const [major] = process.versions.node.split('.').map(Number);
+    // Next.js will complain if we directly use `proces.versions` here because of edge runtime.
+    const [major] = (utils.GLOBAL_OBJ ).process.versions.node.split('.').map(Number);
 
     // allow call extractOriginalRoute only if node version support Regex d flag, node 16+
     if (major >= 16) {
@@ -2785,7 +2990,9 @@ function preventDuplicateSegments(
   reconstructedRoute,
   layerPath,
 ) {
-  const originalUrlSplit = _optionalChain([originalUrl, 'optionalAccess', _14 => _14.split, 'call', _15 => _15('/'), 'access', _16 => _16.filter, 'call', _17 => _17(v => !!v)]);
+  // filter query params
+  const normalizeURL = utils.stripUrlQueryAndFragment(originalUrl || '');
+  const originalUrlSplit = _optionalChain([normalizeURL, 'optionalAccess', _14 => _14.split, 'call', _15 => _15('/'), 'access', _16 => _16.filter, 'call', _17 => _17(v => !!v)]);
   let tempCounter = 0;
   const currentOffset = _optionalChain([reconstructedRoute, 'optionalAccess', _18 => _18.split, 'call', _19 => _19('/'), 'access', _20 => _20.filter, 'call', _21 => _21(v => !!v), 'access', _22 => _22.length]) || 0;
   const result = _optionalChain([layerPath
@@ -2806,15 +3013,15 @@ exports.extractOriginalRoute = extractOriginalRoute;
 exports.preventDuplicateSegments = preventDuplicateSegments;
 
 
-}).call(this)}).call(this,require('_process'))
-},{"./utils/node-utils.js":29,"@sentry/utils":108,"@sentry/utils/cjs/buildPolyfills":100,"_process":134}],23:[function(require,module,exports){
+},{"../../common/debug-build.js":20,"./utils/node-utils.js":32,"@sentry/utils":116}],26:[function(require,module,exports){
 var {
   _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
+} = require('@sentry/utils');
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../../common/debug-build.js');
 const nodeUtils = require('./utils/node-utils.js');
 
 /** Tracing integration for graphql package */
@@ -2842,14 +3049,14 @@ class GraphQL  {
    */
    setupOnce(_, getCurrentHub) {
     if (nodeUtils.shouldDisableAutoInstrumentation(getCurrentHub)) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('GraphQL Integration is skipped because of instrumenter configuration.');
+      debugBuild.DEBUG_BUILD && utils.logger.log('GraphQL Integration is skipped because of instrumenter configuration.');
       return;
     }
 
     const pkg = this.loadDependency();
 
     if (!pkg) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('GraphQL Integration was unable to require graphql/execution package.');
+      debugBuild.DEBUG_BUILD && utils.logger.error('GraphQL Integration was unable to require graphql/execution package.');
       return;
     }
 
@@ -2888,7 +3095,7 @@ class GraphQL  {
 exports.GraphQL = GraphQL;
 
 
-},{"./utils/node-utils.js":29,"@sentry/utils":108,"@sentry/utils/cjs/buildPolyfills":100}],24:[function(require,module,exports){
+},{"../../common/debug-build.js":20,"./utils/node-utils.js":32,"@sentry/utils":116}],27:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -2941,14 +3148,15 @@ const lazyLoadedNodePerformanceMonitoringIntegrations = [
 exports.lazyLoadedNodePerformanceMonitoringIntegrations = lazyLoadedNodePerformanceMonitoringIntegrations;
 
 
-},{"@sentry/utils":108}],25:[function(require,module,exports){
+},{"@sentry/utils":116}],28:[function(require,module,exports){
 var {
   _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
+} = require('@sentry/utils');
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../../common/debug-build.js');
 const nodeUtils = require('./utils/node-utils.js');
 
 // This allows us to use the same array for both defaults options and the type itself.
@@ -3058,7 +3266,7 @@ class Mongo  {
    */
    setupOnce(_, getCurrentHub) {
     if (nodeUtils.shouldDisableAutoInstrumentation(getCurrentHub)) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('Mongo Integration is skipped because of instrumenter configuration.');
+      debugBuild.DEBUG_BUILD && utils.logger.log('Mongo Integration is skipped because of instrumenter configuration.');
       return;
     }
 
@@ -3066,7 +3274,7 @@ class Mongo  {
 
     if (!pkg) {
       const moduleName = this._useMongoose ? 'mongoose' : 'mongodb';
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error(`Mongo Integration was unable to require \`${moduleName}\` package.`);
+      debugBuild.DEBUG_BUILD && utils.logger.error(`Mongo Integration was unable to require \`${moduleName}\` package.`);
       return;
     }
 
@@ -3193,14 +3401,15 @@ class Mongo  {
 exports.Mongo = Mongo;
 
 
-},{"./utils/node-utils.js":29,"@sentry/utils":108,"@sentry/utils/cjs/buildPolyfills":100}],26:[function(require,module,exports){
+},{"../../common/debug-build.js":20,"./utils/node-utils.js":32,"@sentry/utils":116}],29:[function(require,module,exports){
 var {
   _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
+} = require('@sentry/utils');
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../../common/debug-build.js');
 const nodeUtils = require('./utils/node-utils.js');
 
 /** Tracing integration for node-mysql package */
@@ -3228,14 +3437,14 @@ class Mysql  {
    */
    setupOnce(_, getCurrentHub) {
     if (nodeUtils.shouldDisableAutoInstrumentation(getCurrentHub)) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('Mysql Integration is skipped because of instrumenter configuration.');
+      debugBuild.DEBUG_BUILD && utils.logger.log('Mysql Integration is skipped because of instrumenter configuration.');
       return;
     }
 
     const pkg = this.loadDependency();
 
     if (!pkg) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Mysql Integration was unable to require `mysql` package.');
+      debugBuild.DEBUG_BUILD && utils.logger.error('Mysql Integration was unable to require `mysql` package.');
       return;
     }
 
@@ -3251,7 +3460,7 @@ class Mysql  {
         },
       });
     } catch (e) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Mysql Integration was unable to instrument `mysql` config.');
+      debugBuild.DEBUG_BUILD && utils.logger.error('Mysql Integration was unable to instrument `mysql` config.');
     }
 
     function spanDataFromConfig() {
@@ -3326,14 +3535,15 @@ class Mysql  {
 exports.Mysql = Mysql;
 
 
-},{"./utils/node-utils.js":29,"@sentry/utils":108,"@sentry/utils/cjs/buildPolyfills":100}],27:[function(require,module,exports){
+},{"../../common/debug-build.js":20,"./utils/node-utils.js":32,"@sentry/utils":116}],30:[function(require,module,exports){
 var {
   _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
+} = require('@sentry/utils');
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../../common/debug-build.js');
 const nodeUtils = require('./utils/node-utils.js');
 
 /** Tracing integration for node-postgres package */
@@ -3363,21 +3573,21 @@ class Postgres  {
    */
    setupOnce(_, getCurrentHub) {
     if (nodeUtils.shouldDisableAutoInstrumentation(getCurrentHub)) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('Postgres Integration is skipped because of instrumenter configuration.');
+      debugBuild.DEBUG_BUILD && utils.logger.log('Postgres Integration is skipped because of instrumenter configuration.');
       return;
     }
 
     const pkg = this.loadDependency();
 
     if (!pkg) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Postgres Integration was unable to require `pg` package.');
+      debugBuild.DEBUG_BUILD && utils.logger.error('Postgres Integration was unable to require `pg` package.');
       return;
     }
 
     const Client = this._usePgNative ? _optionalChain([pkg, 'access', _2 => _2.native, 'optionalAccess', _3 => _3.Client]) : pkg.Client;
 
     if (!Client) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error("Postgres Integration was unable to access 'pg-native' bindings.");
+      debugBuild.DEBUG_BUILD && utils.logger.error("Postgres Integration was unable to access 'pg-native' bindings.");
       return;
     }
 
@@ -3454,11 +3664,12 @@ class Postgres  {
 exports.Postgres = Postgres;
 
 
-},{"./utils/node-utils.js":29,"@sentry/utils":108,"@sentry/utils/cjs/buildPolyfills":100}],28:[function(require,module,exports){
+},{"../../common/debug-build.js":20,"./utils/node-utils.js":32,"@sentry/utils":116}],31:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
 const utils = require('@sentry/utils');
+const debugBuild = require('../../common/debug-build.js');
 const nodeUtils = require('./utils/node-utils.js');
 
 function isValidPrismaClient(possibleClient) {
@@ -3518,7 +3729,7 @@ class Prisma  {
         return core.trace(
           {
             name: model ? `${model} ${action}` : action,
-            op: 'db.sql.prisma',
+            op: 'db.prisma',
             origin: 'auto.db.prisma',
             data: { ...clientData, 'db.operation': action },
           },
@@ -3526,7 +3737,7 @@ class Prisma  {
         );
       });
     } else {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+      debugBuild.DEBUG_BUILD &&
         utils.logger.warn('Unsupported Prisma client provided to PrismaIntegration. Provided client:', options.client);
     }
   }
@@ -3542,10 +3753,10 @@ class Prisma  {
 exports.Prisma = Prisma;
 
 
-},{"./utils/node-utils.js":29,"@sentry/core":59,"@sentry/utils":108}],29:[function(require,module,exports){
+},{"../../common/debug-build.js":20,"./utils/node-utils.js":32,"@sentry/core":64,"@sentry/utils":116}],32:[function(require,module,exports){
 var {
  _optionalChain
-} = require('@sentry/utils/cjs/buildPolyfills');
+} = require('@sentry/utils');
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -3565,11 +3776,12 @@ function shouldDisableAutoInstrumentation(getCurrentHub) {
 exports.shouldDisableAutoInstrumentation = shouldDisableAutoInstrumentation;
 
 
-},{"@sentry/utils/cjs/buildPolyfills":100}],30:[function(require,module,exports){
+},{"@sentry/utils":116}],33:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
 const utils = require('@sentry/utils');
+const debugBuild = require('./debug-build.js');
 const eventbuilder = require('./eventbuilder.js');
 const helpers = require('./helpers.js');
 const userfeedback = require('./userfeedback.js');
@@ -3641,7 +3853,7 @@ class BrowserClient extends core.BaseClient {
    */
    captureUserFeedback(feedback) {
     if (!this._isEnabled()) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('SDK not enabled, will not capture user feedback.');
+      debugBuild.DEBUG_BUILD && utils.logger.warn('SDK not enabled, will not capture user feedback.');
       return;
     }
 
@@ -3668,17 +3880,17 @@ class BrowserClient extends core.BaseClient {
     const outcomes = this._clearOutcomes();
 
     if (outcomes.length === 0) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('No outcomes to send');
+      debugBuild.DEBUG_BUILD && utils.logger.log('No outcomes to send');
       return;
     }
 
     // This is really the only place where we want to check for a DSN and only send outcomes then
     if (!this._dsn) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('No dsn provided, will not send outcomes');
+      debugBuild.DEBUG_BUILD && utils.logger.log('No dsn provided, will not send outcomes');
       return;
     }
 
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('Sending outcomes:', outcomes);
+    debugBuild.DEBUG_BUILD && utils.logger.log('Sending outcomes:', outcomes);
 
     const envelope = utils.createClientReportEnvelope(outcomes, this._options.tunnel && utils.dsnToString(this._dsn));
     void this._sendEnvelope(envelope);
@@ -3688,7 +3900,9 @@ class BrowserClient extends core.BaseClient {
 exports.BrowserClient = BrowserClient;
 
 
-},{"./eventbuilder.js":31,"./helpers.js":32,"./userfeedback.js":50,"@sentry/core":59,"@sentry/utils":108}],31:[function(require,module,exports){
+},{"./debug-build.js":34,"./eventbuilder.js":35,"./helpers.js":36,"./userfeedback.js":54,"@sentry/core":64,"@sentry/utils":116}],34:[function(require,module,exports){
+arguments[4][20][0].apply(exports,arguments)
+},{"dup":20}],35:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -4003,7 +4217,7 @@ exports.exceptionFromError = exceptionFromError;
 exports.parseStackFrames = parseStackFrames;
 
 
-},{"@sentry/core":59,"@sentry/utils":108}],32:[function(require,module,exports){
+},{"@sentry/core":64,"@sentry/utils":116}],36:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -4099,8 +4313,8 @@ function wrap(
     } catch (ex) {
       ignoreNextOnError();
 
-      core.withScope((scope) => {
-        scope.addEventProcessor((event) => {
+      core.withScope(scope => {
+        scope.addEventProcessor(event => {
           if (options.mechanism) {
             utils.addExceptionTypeValue(event, undefined, undefined);
             utils.addExceptionMechanism(event, options.mechanism);
@@ -4164,7 +4378,7 @@ exports.shouldIgnoreOnError = shouldIgnoreOnError;
 exports.wrap = wrap;
 
 
-},{"@sentry/core":59,"@sentry/utils":108}],33:[function(require,module,exports){
+},{"@sentry/core":64,"@sentry/utils":116}],37:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -4223,6 +4437,7 @@ exports.extractTraceparentData = core.extractTraceparentData;
 exports.flush = core.flush;
 exports.getActiveSpan = core.getActiveSpan;
 exports.getActiveTransaction = core.getActiveTransaction;
+exports.getClient = core.getClient;
 exports.getCurrentHub = core.getCurrentHub;
 exports.getHubFromCarrier = core.getHubFromCarrier;
 exports.lastEventId = core.lastEventId;
@@ -4280,14 +4495,24 @@ exports.Dedupe = dedupe.Dedupe;
 exports.Integrations = INTEGRATIONS;
 
 
-},{"./client.js":30,"./eventbuilder.js":31,"./helpers.js":32,"./integrations/breadcrumbs.js":34,"./integrations/dedupe.js":35,"./integrations/globalhandlers.js":36,"./integrations/httpcontext.js":37,"./integrations/index.js":38,"./integrations/linkederrors.js":39,"./integrations/trycatch.js":40,"./profiling/hubextensions.js":41,"./profiling/integration.js":42,"./sdk.js":44,"./stack-parsers.js":45,"./transports/fetch.js":46,"./transports/offline.js":47,"./transports/xhr.js":49,"./userfeedback.js":50,"@sentry-internal/tracing":20,"@sentry/core":59,"@sentry/replay":89}],34:[function(require,module,exports){
+},{"./client.js":33,"./eventbuilder.js":35,"./helpers.js":36,"./integrations/breadcrumbs.js":38,"./integrations/dedupe.js":39,"./integrations/globalhandlers.js":40,"./integrations/httpcontext.js":41,"./integrations/index.js":42,"./integrations/linkederrors.js":43,"./integrations/trycatch.js":44,"./profiling/hubextensions.js":45,"./profiling/integration.js":46,"./sdk.js":48,"./stack-parsers.js":49,"./transports/fetch.js":50,"./transports/offline.js":51,"./transports/xhr.js":53,"./userfeedback.js":54,"@sentry-internal/tracing":23,"@sentry/core":64,"@sentry/replay":96}],38:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 const helpers = require('../helpers.js');
+require('../stack-parsers.js');
+require('../sdk.js');
+require('./globalhandlers.js');
+require('./trycatch.js');
+require('./linkederrors.js');
+require('./httpcontext.js');
+require('./dedupe.js');
 
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable max-lines */
+
+/** JSDoc */
 
 /** maxStringLength gets capped to prevent 100 breadcrumbs exceeding 1MB event payload size */
 const MAX_ALLOWED_STRING_LENGTH = 1024;
@@ -4337,22 +4562,22 @@ class Breadcrumbs  {
    */
    setupOnce() {
     if (this.options.console) {
-      utils.addInstrumentationHandler('console', _consoleBreadcrumb);
+      utils.addConsoleInstrumentationHandler(_consoleBreadcrumb);
     }
     if (this.options.dom) {
-      utils.addInstrumentationHandler('dom', _domBreadcrumb(this.options.dom));
+      utils.addClickKeypressInstrumentationHandler(_domBreadcrumb(this.options.dom));
     }
     if (this.options.xhr) {
-      utils.addInstrumentationHandler('xhr', _xhrBreadcrumb);
+      utils.addXhrInstrumentationHandler(_xhrBreadcrumb);
     }
     if (this.options.fetch) {
-      utils.addInstrumentationHandler('fetch', _fetchBreadcrumb);
+      utils.addFetchInstrumentationHandler(_fetchBreadcrumb);
     }
     if (this.options.history) {
-      utils.addInstrumentationHandler('history', _historyBreadcrumb);
+      utils.addHistoryInstrumentationHandler(_historyBreadcrumb);
     }
     if (this.options.sentry) {
-      const client = core.getCurrentHub().getClient();
+      const client = core.getClient();
       client && client.on && client.on('beforeSendEvent', addSentryBreadcrumb);
     }
   }
@@ -4387,7 +4612,7 @@ function _domBreadcrumb(dom) {
     let maxStringLength =
       typeof dom === 'object' && typeof dom.maxStringLength === 'number' ? dom.maxStringLength : undefined;
     if (maxStringLength && maxStringLength > MAX_ALLOWED_STRING_LENGTH) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+      debugBuild.DEBUG_BUILD &&
         utils.logger.warn(
           `\`dom.maxStringLength\` cannot exceed ${MAX_ALLOWED_STRING_LENGTH}, but a value of ${maxStringLength} was configured. Sentry will use ${MAX_ALLOWED_STRING_LENGTH} instead.`,
         );
@@ -4531,13 +4756,14 @@ function _fetchBreadcrumb(handlerData) {
       hint,
     );
   } else {
+    const response = handlerData.response ;
     const data = {
       ...handlerData.fetchData,
-      status_code: handlerData.response && handlerData.response.status,
+      status_code: response && response.status,
     };
     const hint = {
       input: handlerData.args,
-      response: handlerData.response,
+      response,
       startTimestamp,
       endTimestamp,
     };
@@ -4559,11 +4785,11 @@ function _historyBreadcrumb(handlerData) {
   let from = handlerData.from;
   let to = handlerData.to;
   const parsedLoc = utils.parseUrl(helpers.WINDOW.location.href);
-  let parsedFrom = utils.parseUrl(from);
+  let parsedFrom = from ? utils.parseUrl(from) : undefined;
   const parsedTo = utils.parseUrl(to);
 
   // Initial pushState doesn't provide `from` information
-  if (!parsedFrom.path) {
+  if (!parsedFrom || !parsedFrom.path) {
     parsedFrom = parsedLoc;
   }
 
@@ -4592,10 +4818,11 @@ function _isEvent(event) {
 exports.Breadcrumbs = Breadcrumbs;
 
 
-},{"../helpers.js":32,"@sentry/core":59,"@sentry/utils":108}],35:[function(require,module,exports){
+},{"../debug-build.js":34,"../helpers.js":36,"../sdk.js":48,"../stack-parsers.js":49,"./dedupe.js":39,"./globalhandlers.js":40,"./httpcontext.js":41,"./linkederrors.js":43,"./trycatch.js":44,"@sentry/core":64,"@sentry/utils":116}],39:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 
 /** Deduplication filter */
 class Dedupe  {
@@ -4634,7 +4861,7 @@ class Dedupe  {
     // Juuust in case something goes wrong
     try {
       if (_shouldDropEvent(currentEvent, this._previousEvent)) {
-        (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Event dropped due to being a duplicate of previously captured event.');
+        debugBuild.DEBUG_BUILD && utils.logger.warn('Event dropped due to being a duplicate of previously captured event.');
         return null;
       }
     } catch (_oO) {} // eslint-disable-line no-empty
@@ -4804,11 +5031,12 @@ function _getFramesFromEvent(event) {
 exports.Dedupe = Dedupe;
 
 
-},{"@sentry/utils":108}],36:[function(require,module,exports){
+},{"../debug-build.js":34,"@sentry/utils":116}],40:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 const eventbuilder = require('../eventbuilder.js');
 const helpers = require('../helpers.js');
 
@@ -4867,83 +5095,97 @@ class GlobalHandlers  {
   }
 } GlobalHandlers.__initStatic();
 
-/** JSDoc */
 function _installGlobalOnErrorHandler() {
-  utils.addInstrumentationHandler(
-    'error',
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (data) => {
-      const [hub, stackParser, attachStacktrace] = getHubAndOptions();
-      if (!hub.getIntegration(GlobalHandlers)) {
-        return;
-      }
-      const { msg, url, line, column, error } = data;
-      if (helpers.shouldIgnoreOnError() || (error && error.__sentry_own_request__)) {
-        return;
-      }
+  utils.addGlobalErrorInstrumentationHandler(data => {
+    const [hub, stackParser, attachStacktrace] = getHubAndOptions();
+    if (!hub.getIntegration(GlobalHandlers)) {
+      return;
+    }
+    const { msg, url, line, column, error } = data;
+    if (helpers.shouldIgnoreOnError()) {
+      return;
+    }
 
-      const event =
-        error === undefined && utils.isString(msg)
-          ? _eventFromIncompleteOnError(msg, url, line, column)
-          : _enhanceEventWithInitialFrame(
-              eventbuilder.eventFromUnknownInput(stackParser, error || msg, undefined, attachStacktrace, false),
-              url,
-              line,
-              column,
-            );
+    const event =
+      error === undefined && utils.isString(msg)
+        ? _eventFromIncompleteOnError(msg, url, line, column)
+        : _enhanceEventWithInitialFrame(
+            eventbuilder.eventFromUnknownInput(stackParser, error || msg, undefined, attachStacktrace, false),
+            url,
+            line,
+            column,
+          );
 
-      event.level = 'error';
+    event.level = 'error';
 
-      addMechanismAndCapture(hub, error, event, 'onerror');
-    },
-  );
+    hub.captureEvent(event, {
+      originalException: error,
+      mechanism: {
+        handled: false,
+        type: 'onerror',
+      },
+    });
+  });
 }
 
-/** JSDoc */
 function _installGlobalOnUnhandledRejectionHandler() {
-  utils.addInstrumentationHandler(
-    'unhandledrejection',
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (e) => {
-      const [hub, stackParser, attachStacktrace] = getHubAndOptions();
-      if (!hub.getIntegration(GlobalHandlers)) {
-        return;
-      }
-      let error = e;
-
-      // dig the object of the rejection out of known event types
-      try {
-        // PromiseRejectionEvents store the object of the rejection under 'reason'
-        // see https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEvent
-        if ('reason' in e) {
-          error = e.reason;
-        }
-        // something, somewhere, (likely a browser extension) effectively casts PromiseRejectionEvents
-        // to CustomEvents, moving the `promise` and `reason` attributes of the PRE into
-        // the CustomEvent's `detail` attribute, since they're not part of CustomEvent's spec
-        // see https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent and
-        // https://github.com/getsentry/sentry-javascript/issues/2380
-        else if ('detail' in e && 'reason' in e.detail) {
-          error = e.detail.reason;
-        }
-      } catch (_oO) {
-        // no-empty
-      }
-
-      if (helpers.shouldIgnoreOnError() || (error && error.__sentry_own_request__)) {
-        return true;
-      }
-
-      const event = utils.isPrimitive(error)
-        ? _eventFromRejectionWithPrimitive(error)
-        : eventbuilder.eventFromUnknownInput(stackParser, error, undefined, attachStacktrace, true);
-
-      event.level = 'error';
-
-      addMechanismAndCapture(hub, error, event, 'onunhandledrejection');
+  utils.addGlobalUnhandledRejectionInstrumentationHandler(e => {
+    const [hub, stackParser, attachStacktrace] = getHubAndOptions();
+    if (!hub.getIntegration(GlobalHandlers)) {
       return;
-    },
-  );
+    }
+
+    if (helpers.shouldIgnoreOnError()) {
+      return true;
+    }
+
+    const error = _getUnhandledRejectionError(e );
+
+    const event = utils.isPrimitive(error)
+      ? _eventFromRejectionWithPrimitive(error)
+      : eventbuilder.eventFromUnknownInput(stackParser, error, undefined, attachStacktrace, true);
+
+    event.level = 'error';
+
+    hub.captureEvent(event, {
+      originalException: error,
+      mechanism: {
+        handled: false,
+        type: 'onunhandledrejection',
+      },
+    });
+
+    return;
+  });
+}
+
+function _getUnhandledRejectionError(error) {
+  if (utils.isPrimitive(error)) {
+    return error;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const e = error ;
+
+  // dig the object of the rejection out of known event types
+  try {
+    // PromiseRejectionEvents store the object of the rejection under 'reason'
+    // see https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEvent
+    if ('reason' in e) {
+      return e.reason;
+    }
+
+    // something, somewhere, (likely a browser extension) effectively casts PromiseRejectionEvents
+    // to CustomEvents, moving the `promise` and `reason` attributes of the PRE into
+    // the CustomEvent's `detail` attribute, since they're not part of CustomEvent's spec
+    // see https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent and
+    // https://github.com/getsentry/sentry-javascript/issues/2380
+    else if ('detail' in e && 'reason' in e.detail) {
+      return e.detail.reason;
+    }
+  } catch (e2) {} // eslint-disable-line no-empty
+
+  return error;
 }
 
 /**
@@ -5031,17 +5273,7 @@ function _enhanceEventWithInitialFrame(event, url, line, column) {
 }
 
 function globalHandlerLog(type) {
-  (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`Global Handler attached: ${type}`);
-}
-
-function addMechanismAndCapture(hub, error, event, type) {
-  utils.addExceptionMechanism(event, {
-    handled: false,
-    type,
-  });
-  hub.captureEvent(event, {
-    originalException: error,
-  });
+  debugBuild.DEBUG_BUILD && utils.logger.log(`Global Handler attached: ${type}`);
 }
 
 function getHubAndOptions() {
@@ -5057,7 +5289,7 @@ function getHubAndOptions() {
 exports.GlobalHandlers = GlobalHandlers;
 
 
-},{"../eventbuilder.js":31,"../helpers.js":32,"@sentry/core":59,"@sentry/utils":108}],37:[function(require,module,exports){
+},{"../debug-build.js":34,"../eventbuilder.js":35,"../helpers.js":36,"@sentry/core":64,"@sentry/utils":116}],41:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const helpers = require('../helpers.js');
@@ -5110,7 +5342,7 @@ class HttpContext  {
 exports.HttpContext = HttpContext;
 
 
-},{"../helpers.js":32}],38:[function(require,module,exports){
+},{"../helpers.js":36}],42:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const globalhandlers = require('./globalhandlers.js');
@@ -5130,7 +5362,7 @@ exports.HttpContext = httpcontext.HttpContext;
 exports.Dedupe = dedupe.Dedupe;
 
 
-},{"./breadcrumbs.js":34,"./dedupe.js":35,"./globalhandlers.js":36,"./httpcontext.js":37,"./linkederrors.js":39,"./trycatch.js":40}],39:[function(require,module,exports){
+},{"./breadcrumbs.js":38,"./dedupe.js":39,"./globalhandlers.js":40,"./httpcontext.js":41,"./linkederrors.js":43,"./trycatch.js":44}],43:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5193,7 +5425,7 @@ class LinkedErrors  {
 exports.LinkedErrors = LinkedErrors;
 
 
-},{"../eventbuilder.js":31,"@sentry/utils":108}],40:[function(require,module,exports){
+},{"../eventbuilder.js":35,"@sentry/utils":116}],44:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -5378,7 +5610,7 @@ function _wrapEventTarget(target) {
     return;
   }
 
-  utils.fill(proto, 'addEventListener', function (original)
+  utils.fill(proto, 'addEventListener', function (original,)
 
  {
     return function (
@@ -5480,28 +5712,13 @@ function _wrapEventTarget(target) {
 exports.TryCatch = TryCatch;
 
 
-},{"../helpers.js":32,"@sentry/utils":108}],41:[function(require,module,exports){
+},{"../helpers.js":36,"@sentry/utils":116}],45:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const core = require('@sentry/core');
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 const helpers = require('../helpers.js');
 const utils$1 = require('./utils.js');
-
-/* eslint-disable complexity */
-
-const MAX_PROFILE_DURATION_MS = 30000;
-// Keep a flag value to avoid re-initializing the profiler constructor. If it fails
-// once, it will always fail and this allows us to early return.
-let PROFILING_CONSTRUCTOR_FAILED = false;
-
-/**
- * Check if profiler constructor is available.
- * @param maybeProfiler
- */
-function isJSProfilerSupported(maybeProfiler) {
-  return typeof maybeProfiler === 'function';
-}
 
 /**
  * Safety wrapper for startTransaction for the unlikely case that transaction starts before tracing is imported -
@@ -5512,109 +5729,40 @@ function isJSProfilerSupported(maybeProfiler) {
  */
 function onProfilingStartRouteTransaction(transaction) {
   if (!transaction) {
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+    if (debugBuild.DEBUG_BUILD) {
       utils.logger.log('[Profiling] Transaction is undefined, skipping profiling');
     }
     return transaction;
   }
 
-  return wrapTransactionWithProfiling(transaction);
+  if (utils$1.shouldProfileTransaction(transaction)) {
+    return startProfileForTransaction(transaction);
+  }
+
+  return transaction;
 }
 
 /**
  * Wraps startTransaction and stopTransaction with profiling related logic.
- * startProfiling is called after the call to startTransaction in order to avoid our own code from
+ * startProfileForTransaction is called after the call to startTransaction in order to avoid our own code from
  * being profiled. Because of that same reason, stopProfiling is called before the call to stopTransaction.
  */
-function wrapTransactionWithProfiling(transaction) {
-  // Feature support check first
-  const JSProfilerConstructor = helpers.WINDOW.Profiler;
-
-  if (!isJSProfilerSupported(JSProfilerConstructor)) {
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
-      utils.logger.log(
-        '[Profiling] Profiling is not supported by this browser, Profiler interface missing on window object.',
-      );
-    }
-    return transaction;
+function startProfileForTransaction(transaction) {
+  // Start the profiler and get the profiler instance.
+  let startTimestamp;
+  if (utils$1.isAutomatedPageLoadTransaction(transaction)) {
+    startTimestamp = utils.timestampInSeconds() * 1000;
   }
 
-  // If constructor failed once, it will always fail, so we can early return.
-  if (PROFILING_CONSTRUCTOR_FAILED) {
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
-      utils.logger.log('[Profiling] Profiling has been disabled for the duration of the current user session.');
-    }
-    return transaction;
-  }
+  const profiler = utils$1.startJSSelfProfile();
 
-  const client = core.getCurrentHub().getClient();
-  const options = client && client.getOptions();
-  if (!options) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Profiling] Profiling disabled, no options found.');
-    return transaction;
-  }
-
-  // @ts-expect-error profilesSampleRate is not part of the browser options yet
-  const profilesSampleRate = options.profilesSampleRate;
-
-  // Since this is coming from the user (or from a function provided by the user), who knows what we might get. (The
-  // only valid values are booleans or numbers between 0 and 1.)
-  if (!utils$1.isValidSampleRate(profilesSampleRate)) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('[Profiling] Discarding profile because of invalid sample rate.');
-    return transaction;
-  }
-
-  // if the function returned 0 (or false), or if `profileSampleRate` is 0, it's a sign the profile should be dropped
-  if (!profilesSampleRate) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-      utils.logger.log(
-        '[Profiling] Discarding profile because a negative sampling decision was inherited or profileSampleRate is set to 0',
-      );
-    return transaction;
-  }
-
-  // Now we roll the dice. Math.random is inclusive of 0, but not of 1, so strict < is safe here. In case sampleRate is
-  // a boolean, the < comparison will cause it to be automatically cast to 1 if it's true and 0 if it's false.
-  const sampled = profilesSampleRate === true ? true : Math.random() < profilesSampleRate;
-  // Check if we should sample this profile
-  if (!sampled) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-      utils.logger.log(
-        `[Profiling] Discarding profile because it's not included in the random sample (sampling rate = ${Number(
-          profilesSampleRate,
-        )})`,
-      );
-    return transaction;
-  }
-
-  // From initial testing, it seems that the minimum value for sampleInterval is 10ms.
-  const samplingIntervalMS = 10;
-  // Start the profiler
-  const maxSamples = Math.floor(MAX_PROFILE_DURATION_MS / samplingIntervalMS);
-  let profiler;
-
-  // Attempt to initialize the profiler constructor, if it fails, we disable profiling for the current user session.
-  // This is likely due to a missing 'Document-Policy': 'js-profiling' header. We do not want to throw an error if this happens
-  // as we risk breaking the user's application, so just disable profiling and log an error.
-  try {
-    profiler = new JSProfilerConstructor({ sampleInterval: samplingIntervalMS, maxBufferSize: maxSamples });
-  } catch (e) {
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
-      utils.logger.log(
-        "[Profiling] Failed to initialize the Profiling constructor, this is likely due to a missing 'Document-Policy': 'js-profiling' header.",
-      );
-      utils.logger.log('[Profiling] Disabling profiling for current user session.');
-    }
-    PROFILING_CONSTRUCTOR_FAILED = true;
-  }
-
-  // We failed to construct the profiler, fallback to original transaction - there is no need to log
-  // anything as we already did that in the try/catch block.
+  // We failed to construct the profiler, fallback to original transaction.
+  // No need to log anything as this has already been logged in startProfile.
   if (!profiler) {
     return transaction;
   }
 
-  if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+  if (debugBuild.DEBUG_BUILD) {
     utils.logger.log(`[Profiling] started profiling transaction: ${transaction.name || transaction.description}`);
   }
 
@@ -5636,31 +5784,21 @@ function wrapTransactionWithProfiling(transaction) {
       return null;
     }
 
-    // This is temporary - we will use the collected span data to evaluate
-    // if deferring txn.finish until profiler resolves is a viable approach.
-    const stopProfilerSpan = transaction.startChild({
-      description: 'profiler.stop',
-      op: 'profiler',
-      origin: 'auto.profiler.browser',
-    });
-
     return profiler
       .stop()
-      .then((p) => {
-        stopProfilerSpan.finish();
-
+      .then((profile) => {
         if (maxDurationTimeoutID) {
           helpers.WINDOW.clearTimeout(maxDurationTimeoutID);
           maxDurationTimeoutID = undefined;
         }
 
-        if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+        if (debugBuild.DEBUG_BUILD) {
           utils.logger.log(`[Profiling] stopped profiling of transaction: ${transaction.name || transaction.description}`);
         }
 
         // In case of an overlapping transaction, stopProfiling may return null and silently ignore the overlapping profile.
-        if (!p) {
-          if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+        if (!profile) {
+          if (debugBuild.DEBUG_BUILD) {
             utils.logger.log(
               `[Profiling] profiler returned null profile for: ${transaction.name || transaction.description}`,
               'this may indicate an overlapping transaction or a call to stopProfiling with a profile title that was never started',
@@ -5669,12 +5807,11 @@ function wrapTransactionWithProfiling(transaction) {
           return null;
         }
 
-        utils$1.addProfileToMap(profileId, p);
+        utils$1.addProfileToGlobalCache(profileId, profile);
         return null;
       })
       .catch(error => {
-        stopProfilerSpan.finish();
-        if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+        if (debugBuild.DEBUG_BUILD) {
           utils.logger.log('[Profiling] error while stopping profiler:', error);
         }
         return null;
@@ -5683,7 +5820,7 @@ function wrapTransactionWithProfiling(transaction) {
 
   // Enqueue a timeout to prevent profiles from running over max duration.
   let maxDurationTimeoutID = helpers.WINDOW.setTimeout(() => {
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+    if (debugBuild.DEBUG_BUILD) {
       utils.logger.log(
         '[Profiling] max profile duration elapsed, stopping profiling for:',
         transaction.name || transaction.description,
@@ -5691,7 +5828,7 @@ function wrapTransactionWithProfiling(transaction) {
     }
     // If the timeout exceeds, we want to stop profiling, but not finish the transaction
     void onProfileHandler();
-  }, MAX_PROFILE_DURATION_MS);
+  }, utils$1.MAX_PROFILE_DURATION_MS);
 
   // We need to reference the original finish call to avoid creating an infinite loop
   const originalFinish = transaction.finish.bind(transaction);
@@ -5709,7 +5846,7 @@ function wrapTransactionWithProfiling(transaction) {
     // Always call onProfileHandler to ensure stopProfiling is called and the timeout is cleared.
     void onProfileHandler().then(
       () => {
-        transaction.setContext('profile', { profile_id: profileId });
+        transaction.setContext('profile', { profile_id: profileId, start_timestamp: startTimestamp });
         originalFinish();
       },
       () => {
@@ -5725,15 +5862,15 @@ function wrapTransactionWithProfiling(transaction) {
   return transaction;
 }
 
-exports.MAX_PROFILE_DURATION_MS = MAX_PROFILE_DURATION_MS;
 exports.onProfilingStartRouteTransaction = onProfilingStartRouteTransaction;
-exports.wrapTransactionWithProfiling = wrapTransactionWithProfiling;
+exports.startProfileForTransaction = startProfileForTransaction;
 
 
-},{"../helpers.js":32,"./utils.js":43,"@sentry/core":59,"@sentry/utils":108}],42:[function(require,module,exports){
+},{"../debug-build.js":34,"../helpers.js":36,"./utils.js":47,"@sentry/utils":116}],46:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils$1 = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 const hubextensions = require('./hubextensions.js');
 const utils = require('./utils.js');
 
@@ -5758,16 +5895,29 @@ class BrowserProfilingIntegration  {
    */
    setupOnce(_addGlobalEventProcessor, getCurrentHub) {
     this.getCurrentHub = getCurrentHub;
-    const client = this.getCurrentHub().getClient() ;
+
+    const hub = this.getCurrentHub();
+    const client = hub.getClient();
+    const scope = hub.getScope();
+
+    const transaction = scope.getTransaction();
+
+    if (transaction && utils.isAutomatedPageLoadTransaction(transaction)) {
+      if (utils.shouldProfileTransaction(transaction)) {
+        hubextensions.startProfileForTransaction(transaction);
+      }
+    }
 
     if (client && typeof client.on === 'function') {
       client.on('startTransaction', (transaction) => {
-        hubextensions.wrapTransactionWithProfiling(transaction);
+        if (utils.shouldProfileTransaction(transaction)) {
+          hubextensions.startProfileForTransaction(transaction);
+        }
       });
 
       client.on('beforeEnvelope', (envelope) => {
         // if not profiles are in queue, there is nothing to add to the envelope.
-        if (!utils.PROFILE_MAP['size']) {
+        if (!utils.getActiveProfilesCount()) {
           return;
         }
 
@@ -5780,11 +5930,16 @@ class BrowserProfilingIntegration  {
 
         for (const profiledTransaction of profiledTransactionEvents) {
           const context = profiledTransaction && profiledTransaction.contexts;
-          const profile_id = context && context['profile'] && (context['profile']['profile_id'] );
+          const profile_id = context && context['profile'] && context['profile']['profile_id'];
+          const start_timestamp = context && context['profile'] && context['profile']['start_timestamp'];
+
+          if (typeof profile_id !== 'string') {
+            debugBuild.DEBUG_BUILD && utils$1.logger.log('[Profiling] cannot find profile for a transaction without a profile context');
+            continue;
+          }
 
           if (!profile_id) {
-            (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-              utils$1.logger.log('[Profiling] cannot find profile for a transaction without a profile context');
+            debugBuild.DEBUG_BUILD && utils$1.logger.log('[Profiling] cannot find profile for a transaction without a profile context');
             continue;
           }
 
@@ -5793,15 +5948,18 @@ class BrowserProfilingIntegration  {
             delete context.profile;
           }
 
-          const profile = utils.PROFILE_MAP.get(profile_id);
+          const profile = utils.takeProfileFromGlobalCache(profile_id);
           if (!profile) {
-            (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils$1.logger.log(`[Profiling] Could not retrieve profile for transaction: ${profile_id}`);
+            debugBuild.DEBUG_BUILD && utils$1.logger.log(`[Profiling] Could not retrieve profile for transaction: ${profile_id}`);
             continue;
           }
 
-          utils.PROFILE_MAP.delete(profile_id);
-          const profileEvent = utils.createProfilingEvent(profile_id, profile, profiledTransaction );
-
+          const profileEvent = utils.createProfilingEvent(
+            profile_id,
+            start_timestamp ,
+            profile,
+            profiledTransaction ,
+          );
           if (profileEvent) {
             profilesToAddToEnvelope.push(profileEvent);
           }
@@ -5818,12 +5976,21 @@ class BrowserProfilingIntegration  {
 exports.BrowserProfilingIntegration = BrowserProfilingIntegration;
 
 
-},{"./hubextensions.js":41,"./utils.js":43,"@sentry/utils":108}],43:[function(require,module,exports){
+},{"../debug-build.js":34,"./hubextensions.js":45,"./utils.js":47,"@sentry/utils":116}],47:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 const helpers = require('../helpers.js');
+require('../stack-parsers.js');
+require('../sdk.js');
+require('../integrations/globalhandlers.js');
+require('../integrations/trycatch.js');
+require('../integrations/breadcrumbs.js');
+require('../integrations/linkederrors.js');
+require('../integrations/httpcontext.js');
+require('../integrations/dedupe.js');
 
 /* eslint-disable max-lines */
 
@@ -5894,7 +6061,7 @@ function getTraceId(event) {
   // All profiles and transactions are rejected if this is the case and we want to
   // warn users that this is happening if they enable debug flag
   if (typeof traceId === 'string' && traceId.length !== 32) {
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+    if (debugBuild.DEBUG_BUILD) {
       utils.logger.log(`[Profiling] Invalid traceId: ${traceId} on profiled event`);
     }
   }
@@ -5918,9 +6085,10 @@ function getTraceId(event) {
  * Creates a profiling event envelope from a Sentry event.
  */
 function createProfilePayload(
-  event,
-  processedProfile,
   profile_id,
+  start_timestamp,
+  processed_profile,
+  event,
 ) {
   if (event.type !== 'transaction') {
     // createProfilingEventEnvelope should only be called for transactions,
@@ -5928,15 +6096,19 @@ function createProfilePayload(
     throw new TypeError('Profiling events may only be attached to transactions, this should never occur.');
   }
 
-  if (processedProfile === undefined || processedProfile === null) {
+  if (processed_profile === undefined || processed_profile === null) {
     throw new TypeError(
-      `Cannot construct profiling event envelope without a valid profile. Got ${processedProfile} instead.`,
+      `Cannot construct profiling event envelope without a valid profile. Got ${processed_profile} instead.`,
     );
   }
 
   const traceId = getTraceId(event);
-  const enrichedThreadProfile = enrichWithThreadInformation(processedProfile);
-  const transactionStartMs = typeof event.start_timestamp === 'number' ? event.start_timestamp * 1000 : Date.now();
+  const enrichedThreadProfile = enrichWithThreadInformation(processed_profile);
+  const transactionStartMs = start_timestamp
+    ? start_timestamp
+    : typeof event.start_timestamp === 'number'
+      ? event.start_timestamp * 1000
+      : Date.now();
   const transactionEndMs = typeof event.timestamp === 'number' ? event.timestamp * 1000 : Date.now();
 
   const profile = {
@@ -5963,7 +6135,7 @@ function createProfilePayload(
       is_emulator: false,
     },
     debug_meta: {
-      images: applyDebugMetadata(processedProfile.resources),
+      images: applyDebugMetadata(processed_profile.resources),
     },
     profile: enrichedThreadProfile,
     transactions: [
@@ -5979,6 +6151,16 @@ function createProfilePayload(
   };
 
   return profile;
+}
+
+/*
+  See packages/tracing-internal/src/browser/router.ts
+*/
+/**
+ *
+ */
+function isAutomatedPageLoadTransaction(transaction) {
+  return transaction.op === 'pageload';
 }
 
 /**
@@ -6194,7 +6376,7 @@ function applyDebugMetadata(resource_paths) {
 function isValidSampleRate(rate) {
   // we need to check NaN explicitly because it's of type 'number' and therefore wouldn't get caught by this typecheck
   if ((typeof rate !== 'number' && typeof rate !== 'boolean') || (typeof rate === 'number' && isNaN(rate))) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+    debugBuild.DEBUG_BUILD &&
       utils.logger.warn(
         `[Profiling] Invalid sample rate. Sample rate must be a boolean or a number between 0 and 1. Got ${JSON.stringify(
           rate,
@@ -6210,8 +6392,7 @@ function isValidSampleRate(rate) {
 
   // in case sampleRate is a boolean, it will get automatically cast to 1 if it's true and 0 if it's false
   if (rate < 0 || rate > 1) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-      utils.logger.warn(`[Profiling] Invalid sample rate. Sample rate must be between 0 and 1. Got ${rate}.`);
+    debugBuild.DEBUG_BUILD && utils.logger.warn(`[Profiling] Invalid sample rate. Sample rate must be between 0 and 1. Got ${rate}.`);
     return false;
   }
   return true;
@@ -6219,7 +6400,7 @@ function isValidSampleRate(rate) {
 
 function isValidProfile(profile) {
   if (profile.samples.length < 2) {
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+    if (debugBuild.DEBUG_BUILD) {
       // Log a warning if the profile has less than 2 samples so users can know why
       // they are not seeing any profiling data and we cant avoid the back and forth
       // of asking them to provide us with a dump of the profile data.
@@ -6229,9 +6410,123 @@ function isValidProfile(profile) {
   }
 
   if (!profile.frames.length) {
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+    if (debugBuild.DEBUG_BUILD) {
       utils.logger.log('[Profiling] Discarding profile because it contains no frames');
     }
+    return false;
+  }
+
+  return true;
+}
+
+// Keep a flag value to avoid re-initializing the profiler constructor. If it fails
+// once, it will always fail and this allows us to early return.
+let PROFILING_CONSTRUCTOR_FAILED = false;
+const MAX_PROFILE_DURATION_MS = 30000;
+
+/**
+ * Check if profiler constructor is available.
+ * @param maybeProfiler
+ */
+function isJSProfilerSupported(maybeProfiler) {
+  return typeof maybeProfiler === 'function';
+}
+
+/**
+ * Starts the profiler and returns the profiler instance.
+ */
+function startJSSelfProfile() {
+  // Feature support check first
+  const JSProfilerConstructor = helpers.WINDOW.Profiler;
+
+  if (!isJSProfilerSupported(JSProfilerConstructor)) {
+    if (debugBuild.DEBUG_BUILD) {
+      utils.logger.log(
+        '[Profiling] Profiling is not supported by this browser, Profiler interface missing on window object.',
+      );
+    }
+    return;
+  }
+
+  // From initial testing, it seems that the minimum value for sampleInterval is 10ms.
+  const samplingIntervalMS = 10;
+  // Start the profiler
+  const maxSamples = Math.floor(MAX_PROFILE_DURATION_MS / samplingIntervalMS);
+
+  // Attempt to initialize the profiler constructor, if it fails, we disable profiling for the current user session.
+  // This is likely due to a missing 'Document-Policy': 'js-profiling' header. We do not want to throw an error if this happens
+  // as we risk breaking the user's application, so just disable profiling and log an error.
+  try {
+    return new JSProfilerConstructor({ sampleInterval: samplingIntervalMS, maxBufferSize: maxSamples });
+  } catch (e) {
+    if (debugBuild.DEBUG_BUILD) {
+      utils.logger.log(
+        "[Profiling] Failed to initialize the Profiling constructor, this is likely due to a missing 'Document-Policy': 'js-profiling' header.",
+      );
+      utils.logger.log('[Profiling] Disabling profiling for current user session.');
+    }
+    PROFILING_CONSTRUCTOR_FAILED = true;
+  }
+
+  return;
+}
+
+/**
+ * Determine if a profile should be profiled.
+ */
+function shouldProfileTransaction(transaction) {
+  // If constructor failed once, it will always fail, so we can early return.
+  if (PROFILING_CONSTRUCTOR_FAILED) {
+    if (debugBuild.DEBUG_BUILD) {
+      utils.logger.log('[Profiling] Profiling has been disabled for the duration of the current user session.');
+    }
+    return false;
+  }
+
+  if (!transaction.sampled) {
+    if (debugBuild.DEBUG_BUILD) {
+      utils.logger.log('[Profiling] Discarding profile because transaction was not sampled.');
+    }
+    return false;
+  }
+
+  const client = core.getClient();
+  const options = client && client.getOptions();
+  if (!options) {
+    debugBuild.DEBUG_BUILD && utils.logger.log('[Profiling] Profiling disabled, no options found.');
+    return false;
+  }
+
+  // @ts-expect-error profilesSampleRate is not part of the browser options yet
+  const profilesSampleRate = options.profilesSampleRate;
+
+  // Since this is coming from the user (or from a function provided by the user), who knows what we might get. (The
+  // only valid values are booleans or numbers between 0 and 1.)
+  if (!isValidSampleRate(profilesSampleRate)) {
+    debugBuild.DEBUG_BUILD && utils.logger.warn('[Profiling] Discarding profile because of invalid sample rate.');
+    return false;
+  }
+
+  // if the function returned 0 (or false), or if `profileSampleRate` is 0, it's a sign the profile should be dropped
+  if (!profilesSampleRate) {
+    debugBuild.DEBUG_BUILD &&
+      utils.logger.log(
+        '[Profiling] Discarding profile because a negative sampling decision was inherited or profileSampleRate is set to 0',
+      );
+    return false;
+  }
+
+  // Now we roll the dice. Math.random is inclusive of 0, but not of 1, so strict < is safe here. In case sampleRate is
+  // a boolean, the < comparison will cause it to be automatically cast to 1 if it's true and 0 if it's false.
+  const sampled = profilesSampleRate === true ? true : Math.random() < profilesSampleRate;
+  // Check if we should sample this profile
+  if (!sampled) {
+    debugBuild.DEBUG_BUILD &&
+      utils.logger.log(
+        `[Profiling] Discarding profile because it's not included in the random sample (sampling rate = ${Number(
+          profilesSampleRate,
+        )})`,
+      );
     return false;
   }
 
@@ -6243,19 +6538,41 @@ function isValidProfile(profile) {
  * @param event
  * @returns {Profile | null}
  */
-function createProfilingEvent(profile_id, profile, event) {
+function createProfilingEvent(
+  profile_id,
+  start_timestamp,
+  profile,
+  event,
+) {
   if (!isValidProfile(profile)) {
     return null;
   }
 
-  return createProfilePayload(event, profile, profile_id);
+  return createProfilePayload(profile_id, start_timestamp, profile, event);
 }
 
 const PROFILE_MAP = new Map();
 /**
  *
  */
-function addProfileToMap(profile_id, profile) {
+function getActiveProfilesCount() {
+  return PROFILE_MAP.size;
+}
+
+/**
+ * Retrieves profile from global cache and removes it.
+ */
+function takeProfileFromGlobalCache(profile_id) {
+  const profile = PROFILE_MAP.get(profile_id);
+  if (profile) {
+    PROFILE_MAP.delete(profile_id);
+  }
+  return profile;
+}
+/**
+ * Adds profile to global cache and evicts the oldest profile if the cache is full.
+ */
+function addProfileToGlobalCache(profile_id, profile) {
   PROFILE_MAP.set(profile_id, profile);
 
   if (PROFILE_MAP.size > 30) {
@@ -6264,8 +6581,8 @@ function addProfileToMap(profile_id, profile) {
   }
 }
 
-exports.PROFILE_MAP = PROFILE_MAP;
-exports.addProfileToMap = addProfileToMap;
+exports.MAX_PROFILE_DURATION_MS = MAX_PROFILE_DURATION_MS;
+exports.addProfileToGlobalCache = addProfileToGlobalCache;
 exports.addProfilesToEnvelope = addProfilesToEnvelope;
 exports.applyDebugMetadata = applyDebugMetadata;
 exports.convertJSSelfProfileToSampledFormat = convertJSSelfProfileToSampledFormat;
@@ -6273,15 +6590,21 @@ exports.createProfilePayload = createProfilePayload;
 exports.createProfilingEvent = createProfilingEvent;
 exports.enrichWithThreadInformation = enrichWithThreadInformation;
 exports.findProfiledTransactionsFromEnvelope = findProfiledTransactionsFromEnvelope;
+exports.getActiveProfilesCount = getActiveProfilesCount;
+exports.isAutomatedPageLoadTransaction = isAutomatedPageLoadTransaction;
 exports.isValidSampleRate = isValidSampleRate;
+exports.shouldProfileTransaction = shouldProfileTransaction;
+exports.startJSSelfProfile = startJSSelfProfile;
+exports.takeProfileFromGlobalCache = takeProfileFromGlobalCache;
 
 
-},{"../helpers.js":32,"@sentry/core":59,"@sentry/utils":108}],44:[function(require,module,exports){
+},{"../debug-build.js":34,"../helpers.js":36,"../integrations/breadcrumbs.js":38,"../integrations/dedupe.js":39,"../integrations/globalhandlers.js":40,"../integrations/httpcontext.js":41,"../integrations/linkederrors.js":43,"../integrations/trycatch.js":44,"../sdk.js":48,"../stack-parsers.js":49,"@sentry/core":64,"@sentry/utils":116}],48:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
 const utils = require('@sentry/utils');
 const client = require('./client.js');
+const debugBuild = require('./debug-build.js');
 const helpers = require('./helpers.js');
 const globalhandlers = require('./integrations/globalhandlers.js');
 const trycatch = require('./integrations/trycatch.js');
@@ -6409,14 +6732,14 @@ function init(options = {}) {
 function showReportDialog(options = {}, hub = core.getCurrentHub()) {
   // doesn't work without a document (React Native)
   if (!helpers.WINDOW.document) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Global document not defined in showReportDialog call');
+    debugBuild.DEBUG_BUILD && utils.logger.error('Global document not defined in showReportDialog call');
     return;
   }
 
   const { client, scope } = hub.getStackTop();
   const dsn = options.dsn || (client && client.getDsn());
   if (!dsn) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('DSN not configured for showReportDialog call');
+    debugBuild.DEBUG_BUILD && utils.logger.error('DSN not configured for showReportDialog call');
     return;
   }
 
@@ -6440,11 +6763,25 @@ function showReportDialog(options = {}, hub = core.getCurrentHub()) {
     script.onload = options.onLoad;
   }
 
+  const { onClose } = options;
+  if (onClose) {
+    const reportDialogClosedMessageHandler = (event) => {
+      if (event.data === '__sentry_reportdialog_closed__') {
+        try {
+          onClose();
+        } finally {
+          helpers.WINDOW.removeEventListener('message', reportDialogClosedMessageHandler);
+        }
+      }
+    };
+    helpers.WINDOW.addEventListener('message', reportDialogClosedMessageHandler);
+  }
+
   const injectionPoint = helpers.WINDOW.document.head || helpers.WINDOW.document.body;
   if (injectionPoint) {
     injectionPoint.appendChild(script);
   } else {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Not injecting report dialog. No injection point found in HTML');
+    debugBuild.DEBUG_BUILD && utils.logger.error('Not injecting report dialog. No injection point found in HTML');
   }
 }
 
@@ -6491,8 +6828,7 @@ function startSessionOnHub(hub) {
  */
 function startSessionTracking() {
   if (typeof helpers.WINDOW.document === 'undefined') {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-      utils.logger.warn('Session tracking in non-browser environment with @sentry/browser is not supported.');
+    debugBuild.DEBUG_BUILD && utils.logger.warn('Session tracking in non-browser environment with @sentry/browser is not supported.');
     return;
   }
 
@@ -6515,9 +6851,9 @@ function startSessionTracking() {
   startSessionOnHub(hub);
 
   // We want to create a session for every navigation as well
-  utils.addInstrumentationHandler('history', ({ from, to }) => {
+  utils.addHistoryInstrumentationHandler(({ from, to }) => {
     // Don't create an additional session for the initial route or if the location did not change
-    if (!(from === undefined || from === to)) {
+    if (from !== undefined && from !== to) {
       startSessionOnHub(core.getCurrentHub());
     }
   });
@@ -6527,7 +6863,7 @@ function startSessionTracking() {
  * Captures user feedback and sends it to Sentry.
  */
 function captureUserFeedback(feedback) {
-  const client = core.getCurrentHub().getClient();
+  const client = core.getClient();
   if (client) {
     client.captureUserFeedback(feedback);
   }
@@ -6542,7 +6878,7 @@ exports.showReportDialog = showReportDialog;
 exports.wrap = wrap;
 
 
-},{"./client.js":30,"./helpers.js":32,"./integrations/breadcrumbs.js":34,"./integrations/dedupe.js":35,"./integrations/globalhandlers.js":36,"./integrations/httpcontext.js":37,"./integrations/linkederrors.js":39,"./integrations/trycatch.js":40,"./stack-parsers.js":45,"./transports/fetch.js":46,"./transports/xhr.js":49,"@sentry/core":59,"@sentry/utils":108}],45:[function(require,module,exports){
+},{"./client.js":33,"./debug-build.js":34,"./helpers.js":36,"./integrations/breadcrumbs.js":38,"./integrations/dedupe.js":39,"./integrations/globalhandlers.js":40,"./integrations/httpcontext.js":41,"./integrations/linkederrors.js":43,"./integrations/trycatch.js":44,"./stack-parsers.js":49,"./transports/fetch.js":50,"./transports/xhr.js":53,"@sentry/core":64,"@sentry/utils":116}],49:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -6720,7 +7056,7 @@ exports.opera11StackLineParser = opera11StackLineParser;
 exports.winjsStackLineParser = winjsStackLineParser;
 
 
-},{"@sentry/utils":108}],46:[function(require,module,exports){
+},{"@sentry/utils":116}],50:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -6788,7 +7124,7 @@ function makeFetchTransport(
 exports.makeFetchTransport = makeFetchTransport;
 
 
-},{"./utils.js":48,"@sentry/core":59,"@sentry/utils":108}],47:[function(require,module,exports){
+},{"./utils.js":52,"@sentry/core":64,"@sentry/utils":116}],51:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -6928,10 +7264,11 @@ exports.makeBrowserOfflineTransport = makeBrowserOfflineTransport;
 exports.pop = pop;
 
 
-},{"@sentry/core":59,"@sentry/utils":108}],48:[function(require,module,exports){
+},{"@sentry/core":64,"@sentry/utils":116}],52:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 const helpers = require('../helpers.js');
 
 let cachedFetchImpl = undefined;
@@ -7000,8 +7337,7 @@ function getNativeFetchImplementation() {
       }
       document.head.removeChild(sandbox);
     } catch (e) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-        utils.logger.warn('Could not create sandbox iframe for pure fetch check, bailing to window.fetch: ', e);
+      debugBuild.DEBUG_BUILD && utils.logger.warn('Could not create sandbox iframe for pure fetch check, bailing to window.fetch: ', e);
     }
   }
 
@@ -7018,7 +7354,7 @@ exports.clearCachedFetchImplementation = clearCachedFetchImplementation;
 exports.getNativeFetchImplementation = getNativeFetchImplementation;
 
 
-},{"../helpers.js":32,"@sentry/utils":108}],49:[function(require,module,exports){
+},{"../debug-build.js":34,"../helpers.js":36,"@sentry/utils":116}],53:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -7074,7 +7410,7 @@ function makeXHRTransport(options) {
 exports.makeXHRTransport = makeXHRTransport;
 
 
-},{"@sentry/core":59,"@sentry/utils":108}],50:[function(require,module,exports){
+},{"@sentry/core":64,"@sentry/utils":116}],54:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -7119,7 +7455,7 @@ function createUserFeedbackEnvelopeItem(feedback) {
 exports.createUserFeedbackEnvelope = createUserFeedbackEnvelope;
 
 
-},{"@sentry/utils":108}],51:[function(require,module,exports){
+},{"@sentry/utils":116}],55:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -7191,6 +7527,10 @@ function getReportDialogEndpoint(
       continue;
     }
 
+    if (key === 'onClose') {
+      continue;
+    }
+
     if (key === 'user') {
       const user = dialogOptions.user;
       if (!user) {
@@ -7214,11 +7554,12 @@ exports.getEnvelopeEndpointWithUrlEncodedAuth = getEnvelopeEndpointWithUrlEncode
 exports.getReportDialogEndpoint = getReportDialogEndpoint;
 
 
-},{"@sentry/utils":108}],52:[function(require,module,exports){
+},{"@sentry/utils":116}],56:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
 const api = require('./api.js');
+const debugBuild = require('./debug-build.js');
 const envelope = require('./envelope.js');
 const integration = require('./integration.js');
 const session = require('./session.js');
@@ -7290,7 +7631,7 @@ class BaseClient {
     if (options.dsn) {
       this._dsn = utils.makeDsn(options.dsn);
     } else {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('No DSN provided, client will not send events.');
+      debugBuild.DEBUG_BUILD && utils.logger.warn('No DSN provided, client will not send events.');
     }
 
     if (this._dsn) {
@@ -7310,7 +7651,7 @@ class BaseClient {
    captureException(exception, hint, scope) {
     // ensure we haven't captured this very object before
     if (utils.checkOrSetAlreadyCaught(exception)) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(ALREADY_SEEN_ERROR);
+      debugBuild.DEBUG_BUILD && utils.logger.log(ALREADY_SEEN_ERROR);
       return;
     }
 
@@ -7360,7 +7701,7 @@ class BaseClient {
    captureEvent(event, hint, scope) {
     // ensure we haven't captured this very object before
     if (hint && hint.originalException && utils.checkOrSetAlreadyCaught(hint.originalException)) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(ALREADY_SEEN_ERROR);
+      debugBuild.DEBUG_BUILD && utils.logger.log(ALREADY_SEEN_ERROR);
       return;
     }
 
@@ -7380,7 +7721,7 @@ class BaseClient {
    */
    captureSession(session$1) {
     if (!(typeof session$1.release === 'string')) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Discarded session because of missing or non-string release');
+      debugBuild.DEBUG_BUILD && utils.logger.warn('Discarded session because of missing or non-string release');
     } else {
       this.sendSession(session$1);
       // After sending, we set init false to indicate it's not the first occurrence
@@ -7478,7 +7819,7 @@ class BaseClient {
     try {
       return (this._integrations[integration.id] ) || null;
     } catch (_oO) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn(`Cannot retrieve integration ${integration.id} from the current Client`);
+      debugBuild.DEBUG_BUILD && utils.logger.warn(`Cannot retrieve integration ${integration.id} from the current Client`);
       return null;
     }
   }
@@ -7536,7 +7877,7 @@ class BaseClient {
       // would be `Partial<Record<SentryRequestType, Partial<Record<Outcome, number>>>>`
       // With typescript 4.1 we could even use template literal types
       const key = `${reason}:${category}`;
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`Adding outcome: "${key}"`);
+      debugBuild.DEBUG_BUILD && utils.logger.log(`Adding outcome: "${key}"`);
 
       // The following works because undefined + 1 === NaN and NaN is falsy
       this._outcomes[key] = this._outcomes[key] + 1 || 1;
@@ -7704,7 +8045,7 @@ class BaseClient {
         return finalEvent.event_id;
       },
       reason => {
-        if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+        if (debugBuild.DEBUG_BUILD) {
           // If something's gone wrong, log the error as a warning. If it's just us having used a `SentryError` for
           // control flow, log just the message (no stack) as a log-level log.
           const sentryError = reason ;
@@ -7839,10 +8180,10 @@ class BaseClient {
 
     if (this._isEnabled() && this._transport) {
       return this._transport.send(envelope).then(null, reason => {
-        (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Error while sending event:', reason);
+        debugBuild.DEBUG_BUILD && utils.logger.error('Error while sending event:', reason);
       });
     } else {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Transport disabled');
+      debugBuild.DEBUG_BUILD && utils.logger.error('Transport disabled');
     }
   }
 
@@ -7927,7 +8268,7 @@ function isTransactionEvent(event) {
 exports.BaseClient = BaseClient;
 
 
-},{"./api.js":51,"./envelope.js":55,"./integration.js":60,"./session.js":69,"./tracing/dynamicSamplingContext.js":71,"./utils/prepareEvent.js":87,"@sentry/utils":108}],53:[function(require,module,exports){
+},{"./api.js":55,"./debug-build.js":59,"./envelope.js":60,"./integration.js":65,"./session.js":76,"./tracing/dynamicSamplingContext.js":78,"./utils/prepareEvent.js":94,"@sentry/utils":116}],57:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -7975,7 +8316,7 @@ function createCheckInEnvelopeItem(checkIn) {
 exports.createCheckInEnvelope = createCheckInEnvelope;
 
 
-},{"@sentry/utils":108}],54:[function(require,module,exports){
+},{"@sentry/utils":116}],58:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const DEFAULT_ENVIRONMENT = 'production';
@@ -7983,7 +8324,9 @@ const DEFAULT_ENVIRONMENT = 'production';
 exports.DEFAULT_ENVIRONMENT = DEFAULT_ENVIRONMENT;
 
 
-},{}],55:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
+arguments[4][20][0].apply(exports,arguments)
+},{"dup":20}],60:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -8062,10 +8405,11 @@ exports.createEventEnvelope = createEventEnvelope;
 exports.createSessionEnvelope = createSessionEnvelope;
 
 
-},{"@sentry/utils":108}],56:[function(require,module,exports){
+},{"@sentry/utils":116}],61:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('./debug-build.js');
 
 /**
  * Returns the global event processors.
@@ -8098,10 +8442,7 @@ function notifyEventProcessors(
     } else {
       const result = processor({ ...event }, hint) ;
 
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
-        processor.id &&
-        result === null &&
-        utils.logger.log(`Event processor "${processor.id}" dropped event`);
+      debugBuild.DEBUG_BUILD && processor.id && result === null && utils.logger.log(`Event processor "${processor.id}" dropped event`);
 
       if (utils.isThenable(result)) {
         void result
@@ -8121,11 +8462,13 @@ exports.getGlobalEventProcessors = getGlobalEventProcessors;
 exports.notifyEventProcessors = notifyEventProcessors;
 
 
-},{"@sentry/utils":108}],57:[function(require,module,exports){
+},{"./debug-build.js":59,"@sentry/utils":116}],62:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('./debug-build.js');
 const hub = require('./hub.js');
+const prepareEvent = require('./utils/prepareEvent.js');
 
 // Note: All functions in this file are typed with a return value of `ReturnType<Hub[HUB_FUNCTION]>`,
 // where HUB_FUNCTION is some method on the Hub class.
@@ -8136,14 +8479,15 @@ const hub = require('./hub.js');
 
 /**
  * Captures an exception event and sends it to Sentry.
- *
- * @param exception An exception-like object.
- * @param captureContext Additional scope data to apply to exception event.
- * @returns The generated eventId.
+ * This accepts an event hint as optional second parameter.
+ * Alternatively, you can also pass a CaptureContext directly as second parameter.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
-function captureException(exception, captureContext) {
-  return hub.getCurrentHub().captureException(exception, { captureContext });
+function captureException(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  exception,
+  hint,
+) {
+  return hub.getCurrentHub().captureException(exception, prepareEvent.parseEventHintOrCaptureContext(hint));
 }
 
 /**
@@ -8307,14 +8651,57 @@ function captureCheckIn(checkIn, upsertMonitorConfig) {
   const scope = hub$1.getScope();
   const client = hub$1.getClient();
   if (!client) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Cannot capture check-in. No client defined.');
+    debugBuild.DEBUG_BUILD && utils.logger.warn('Cannot capture check-in. No client defined.');
   } else if (!client.captureCheckIn) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Cannot capture check-in. Client does not support sending check-ins.');
+    debugBuild.DEBUG_BUILD && utils.logger.warn('Cannot capture check-in. Client does not support sending check-ins.');
   } else {
     return client.captureCheckIn(checkIn, upsertMonitorConfig, scope);
   }
 
   return utils.uuid4();
+}
+
+/**
+ * Wraps a callback with a cron monitor check in. The check in will be sent to Sentry when the callback finishes.
+ *
+ * @param monitorSlug The distinct slug of the monitor.
+ * @param upsertMonitorConfig An optional object that describes a monitor config. Use this if you want
+ * to create a monitor automatically when sending a check in.
+ */
+function withMonitor(
+  monitorSlug,
+  callback,
+  upsertMonitorConfig,
+) {
+  const checkInId = captureCheckIn({ monitorSlug, status: 'in_progress' }, upsertMonitorConfig);
+  const now = utils.timestampInSeconds();
+
+  function finishCheckIn(status) {
+    captureCheckIn({ monitorSlug, status, checkInId, duration: utils.timestampInSeconds() - now });
+  }
+
+  let maybePromiseResult;
+  try {
+    maybePromiseResult = callback();
+  } catch (e) {
+    finishCheckIn('error');
+    throw e;
+  }
+
+  if (utils.isThenable(maybePromiseResult)) {
+    Promise.resolve(maybePromiseResult).then(
+      () => {
+        finishCheckIn('ok');
+      },
+      () => {
+        finishCheckIn('error');
+      },
+    );
+  } else {
+    finishCheckIn('ok');
+  }
+
+  return maybePromiseResult;
 }
 
 /**
@@ -8326,11 +8713,11 @@ function captureCheckIn(checkIn, upsertMonitorConfig) {
  * doesn't (or if there's no client defined).
  */
 async function flush(timeout) {
-  const client = hub.getCurrentHub().getClient();
+  const client = getClient();
   if (client) {
     return client.flush(timeout);
   }
-  (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Cannot flush events. No client defined.');
+  debugBuild.DEBUG_BUILD && utils.logger.warn('Cannot flush events. No client defined.');
   return Promise.resolve(false);
 }
 
@@ -8343,11 +8730,11 @@ async function flush(timeout) {
  * doesn't (or if there's no client defined).
  */
 async function close(timeout) {
-  const client = hub.getCurrentHub().getClient();
+  const client = getClient();
   if (client) {
     return client.close(timeout);
   }
-  (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Cannot flush events and disable SDK. No client defined.');
+  debugBuild.DEBUG_BUILD && utils.logger.warn('Cannot flush events and disable SDK. No client defined.');
   return Promise.resolve(false);
 }
 
@@ -8360,6 +8747,13 @@ function lastEventId() {
   return hub.getCurrentHub().lastEventId();
 }
 
+/**
+ * Get the currently active client.
+ */
+function getClient() {
+  return hub.getCurrentHub().getClient();
+}
+
 exports.addBreadcrumb = addBreadcrumb;
 exports.captureCheckIn = captureCheckIn;
 exports.captureEvent = captureEvent;
@@ -8368,6 +8762,7 @@ exports.captureMessage = captureMessage;
 exports.close = close;
 exports.configureScope = configureScope;
 exports.flush = flush;
+exports.getClient = getClient;
 exports.lastEventId = lastEventId;
 exports.setContext = setContext;
 exports.setExtra = setExtra;
@@ -8376,14 +8771,16 @@ exports.setTag = setTag;
 exports.setTags = setTags;
 exports.setUser = setUser;
 exports.startTransaction = startTransaction;
+exports.withMonitor = withMonitor;
 exports.withScope = withScope;
 
 
-},{"./hub.js":58,"@sentry/utils":108}],58:[function(require,module,exports){
+},{"./debug-build.js":59,"./hub.js":63,"./utils/prepareEvent.js":94,"@sentry/utils":116}],63:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
 const constants = require('./constants.js');
+const debugBuild = require('./debug-build.js');
 const scope = require('./scope.js');
 const session = require('./session.js');
 
@@ -8671,7 +9068,7 @@ class Hub  {
     try {
       return client.getIntegration(integration);
     } catch (_oO) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn(`Cannot retrieve integration ${integration.id} from the current Hub`);
+      debugBuild.DEBUG_BUILD && utils.logger.warn(`Cannot retrieve integration ${integration.id} from the current Hub`);
       return null;
     }
   }
@@ -8682,16 +9079,14 @@ class Hub  {
    startTransaction(context, customSamplingContext) {
     const result = this._callExtensionMethod('startTransaction', context, customSamplingContext);
 
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && !result) {
+    if (debugBuild.DEBUG_BUILD && !result) {
       const client = this.getClient();
       if (!client) {
-        // eslint-disable-next-line no-console
-        console.warn(
+        utils.logger.warn(
           "Tracing extension 'startTransaction' is missing. You should 'init' the SDK before calling 'startTransaction'",
         );
       } else {
-        // eslint-disable-next-line no-console
-        console.warn(`Tracing extension 'startTransaction' has not been added. Call 'addTracingExtensions' before calling 'init':
+        utils.logger.warn(`Tracing extension 'startTransaction' has not been added. Call 'addTracingExtensions' before calling 'init':
 Sentry.addTracingExtensions();
 Sentry.init({...});
 `);
@@ -8814,7 +9209,7 @@ Sentry.init({...});
     if (sentry && sentry.extensions && typeof sentry.extensions[method] === 'function') {
       return sentry.extensions[method].apply(this, args);
     }
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn(`Extension method ${method} couldn't be found, doing nothing.`);
+    debugBuild.DEBUG_BUILD && utils.logger.warn(`Extension method ${method} couldn't be found, doing nothing.`);
   }
 }
 
@@ -8964,18 +9359,19 @@ exports.setAsyncContextStrategy = setAsyncContextStrategy;
 exports.setHubOnCarrier = setHubOnCarrier;
 
 
-},{"./constants.js":54,"./scope.js":66,"./session.js":69,"@sentry/utils":108}],59:[function(require,module,exports){
+},{"./constants.js":58,"./debug-build.js":59,"./scope.js":73,"./session.js":76,"@sentry/utils":116}],64:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const hubextensions = require('./tracing/hubextensions.js');
 const idletransaction = require('./tracing/idletransaction.js');
 const span = require('./tracing/span.js');
 const transaction = require('./tracing/transaction.js');
-const utils$1 = require('./tracing/utils.js');
+const utils = require('./tracing/utils.js');
 const spanstatus = require('./tracing/spanstatus.js');
 const trace = require('./tracing/trace.js');
 const dynamicSamplingContext = require('./tracing/dynamicSamplingContext.js');
 const measurement = require('./tracing/measurement.js');
+const envelope = require('./envelope.js');
 const exports$1 = require('./exports.js');
 const hub = require('./hub.js');
 const session = require('./session.js');
@@ -8998,9 +9394,10 @@ const hasTracingEnabled = require('./utils/hasTracingEnabled.js');
 const isSentryRequestUrl = require('./utils/isSentryRequestUrl.js');
 const constants = require('./constants.js');
 const metadata = require('./integrations/metadata.js');
+const requestdata = require('./integrations/requestdata.js');
 const functiontostring = require('./integrations/functiontostring.js');
 const inboundfilters = require('./integrations/inboundfilters.js');
-const utils = require('@sentry/utils');
+const linkederrors = require('./integrations/linkederrors.js');
 
 
 
@@ -9011,7 +9408,8 @@ exports.TRACING_DEFAULTS = idletransaction.TRACING_DEFAULTS;
 exports.Span = span.Span;
 exports.spanStatusfromHttpCode = span.spanStatusfromHttpCode;
 exports.Transaction = transaction.Transaction;
-exports.getActiveTransaction = utils$1.getActiveTransaction;
+exports.extractTraceparentData = utils.extractTraceparentData;
+exports.getActiveTransaction = utils.getActiveTransaction;
 Object.defineProperty(exports, 'SpanStatus', {
   enumerable: true,
   get: () => spanstatus.SpanStatus
@@ -9025,6 +9423,7 @@ exports.startSpanManual = trace.startSpanManual;
 exports.trace = trace.trace;
 exports.getDynamicSamplingContextFromClient = dynamicSamplingContext.getDynamicSamplingContextFromClient;
 exports.setMeasurement = measurement.setMeasurement;
+exports.createEventEnvelope = envelope.createEventEnvelope;
 exports.addBreadcrumb = exports$1.addBreadcrumb;
 exports.captureCheckIn = exports$1.captureCheckIn;
 exports.captureEvent = exports$1.captureEvent;
@@ -9033,6 +9432,7 @@ exports.captureMessage = exports$1.captureMessage;
 exports.close = exports$1.close;
 exports.configureScope = exports$1.configureScope;
 exports.flush = exports$1.flush;
+exports.getClient = exports$1.getClient;
 exports.lastEventId = exports$1.lastEventId;
 exports.setContext = exports$1.setContext;
 exports.setExtra = exports$1.setExtra;
@@ -9041,6 +9441,7 @@ exports.setTag = exports$1.setTag;
 exports.setTags = exports$1.setTags;
 exports.setUser = exports$1.setUser;
 exports.startTransaction = exports$1.startTransaction;
+exports.withMonitor = exports$1.withMonitor;
 exports.withScope = exports$1.withScope;
 exports.Hub = hub.Hub;
 exports.ensureHubOnCarrier = hub.ensureHubOnCarrier;
@@ -9075,16 +9476,19 @@ exports.hasTracingEnabled = hasTracingEnabled.hasTracingEnabled;
 exports.isSentryRequestUrl = isSentryRequestUrl.isSentryRequestUrl;
 exports.DEFAULT_ENVIRONMENT = constants.DEFAULT_ENVIRONMENT;
 exports.ModuleMetadata = metadata.ModuleMetadata;
+exports.RequestData = requestdata.RequestData;
 exports.FunctionToString = functiontostring.FunctionToString;
 exports.InboundFilters = inboundfilters.InboundFilters;
-exports.extractTraceparentData = utils.extractTraceparentData;
+exports.LinkedErrors = linkederrors.LinkedErrors;
 
 
-},{"./api.js":51,"./baseclient.js":52,"./checkin.js":53,"./constants.js":54,"./eventProcessors.js":56,"./exports.js":57,"./hub.js":58,"./integration.js":60,"./integrations/functiontostring.js":61,"./integrations/inboundfilters.js":62,"./integrations/index.js":63,"./integrations/metadata.js":64,"./scope.js":66,"./sdk.js":67,"./server-runtime-client.js":68,"./session.js":69,"./sessionflusher.js":70,"./tracing/dynamicSamplingContext.js":71,"./tracing/hubextensions.js":73,"./tracing/idletransaction.js":74,"./tracing/measurement.js":75,"./tracing/span.js":77,"./tracing/spanstatus.js":78,"./tracing/trace.js":79,"./tracing/transaction.js":80,"./tracing/utils.js":81,"./transports/base.js":82,"./transports/multiplexed.js":83,"./transports/offline.js":84,"./utils/hasTracingEnabled.js":85,"./utils/isSentryRequestUrl.js":86,"./utils/prepareEvent.js":87,"./version.js":88,"@sentry/utils":108}],60:[function(require,module,exports){
+},{"./api.js":55,"./baseclient.js":56,"./checkin.js":57,"./constants.js":58,"./envelope.js":60,"./eventProcessors.js":61,"./exports.js":62,"./hub.js":63,"./integration.js":65,"./integrations/functiontostring.js":66,"./integrations/inboundfilters.js":67,"./integrations/index.js":68,"./integrations/linkederrors.js":69,"./integrations/metadata.js":70,"./integrations/requestdata.js":71,"./scope.js":73,"./sdk.js":74,"./server-runtime-client.js":75,"./session.js":76,"./sessionflusher.js":77,"./tracing/dynamicSamplingContext.js":78,"./tracing/hubextensions.js":80,"./tracing/idletransaction.js":81,"./tracing/measurement.js":82,"./tracing/span.js":84,"./tracing/spanstatus.js":85,"./tracing/trace.js":86,"./tracing/transaction.js":87,"./tracing/utils.js":88,"./transports/base.js":89,"./transports/multiplexed.js":90,"./transports/offline.js":91,"./utils/hasTracingEnabled.js":92,"./utils/isSentryRequestUrl.js":93,"./utils/prepareEvent.js":94,"./version.js":95}],65:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('./debug-build.js');
 const eventProcessors = require('./eventProcessors.js');
+const exports$1 = require('./exports.js');
 const hub = require('./hub.js');
 
 const installedIntegrations = [];
@@ -9175,9 +9579,15 @@ function setupIntegrations(client, integrations) {
 function setupIntegration(client, integration, integrationIndex) {
   integrationIndex[integration.name] = integration;
 
+  // `setupOnce` is only called the first time
   if (installedIntegrations.indexOf(integration.name) === -1) {
     integration.setupOnce(eventProcessors.addGlobalEventProcessor, hub.getCurrentHub);
     installedIntegrations.push(integration.name);
+  }
+
+  // `setup` is run for each client
+  if (integration.setup && typeof integration.setup === 'function') {
+    integration.setup(client);
   }
 
   if (client.on && typeof integration.preprocessEvent === 'function') {
@@ -9195,15 +9605,15 @@ function setupIntegration(client, integration, integrationIndex) {
     client.addEventProcessor(processor);
   }
 
-  (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`Integration installed: ${integration.name}`);
+  debugBuild.DEBUG_BUILD && utils.logger.log(`Integration installed: ${integration.name}`);
 }
 
 /** Add an integration to the current hub's client. */
 function addIntegration(integration) {
-  const client = hub.getCurrentHub().getClient();
+  const client = exports$1.getClient();
 
   if (!client || !client.addIntegration) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn(`Cannot add integration "${integration.name}" because no SDK Client is available.`);
+    debugBuild.DEBUG_BUILD && utils.logger.warn(`Cannot add integration "${integration.name}" because no SDK Client is available.`);
     return;
   }
 
@@ -9228,7 +9638,7 @@ exports.setupIntegration = setupIntegration;
 exports.setupIntegrations = setupIntegrations;
 
 
-},{"./eventProcessors.js":56,"./hub.js":58,"@sentry/utils":108}],61:[function(require,module,exports){
+},{"./debug-build.js":59,"./eventProcessors.js":61,"./exports.js":62,"./hub.js":63,"@sentry/utils":116}],66:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -9274,10 +9684,11 @@ class FunctionToString  {
 exports.FunctionToString = FunctionToString;
 
 
-},{"@sentry/utils":108}],62:[function(require,module,exports){
+},{"@sentry/utils":116}],67:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 
 // "Script error." is hard coded into browsers for errors that it can't read.
 // this is the result of a script being pulled in from an external domain and CORS.
@@ -9351,26 +9762,26 @@ function _mergeOptions(
 /** JSDoc */
 function _shouldDropEvent(event, options) {
   if (options.ignoreInternal && _isSentryError(event)) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+    debugBuild.DEBUG_BUILD &&
       utils.logger.warn(`Event dropped due to being internal Sentry Error.\nEvent: ${utils.getEventDescription(event)}`);
     return true;
   }
   if (_isIgnoredError(event, options.ignoreErrors)) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+    debugBuild.DEBUG_BUILD &&
       utils.logger.warn(
         `Event dropped due to being matched by \`ignoreErrors\` option.\nEvent: ${utils.getEventDescription(event)}`,
       );
     return true;
   }
   if (_isIgnoredTransaction(event, options.ignoreTransactions)) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+    debugBuild.DEBUG_BUILD &&
       utils.logger.warn(
         `Event dropped due to being matched by \`ignoreTransactions\` option.\nEvent: ${utils.getEventDescription(event)}`,
       );
     return true;
   }
   if (_isDeniedUrl(event, options.denyUrls)) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+    debugBuild.DEBUG_BUILD &&
       utils.logger.warn(
         `Event dropped due to being matched by \`denyUrls\` option.\nEvent: ${utils.getEventDescription(
           event,
@@ -9379,7 +9790,7 @@ function _shouldDropEvent(event, options) {
     return true;
   }
   if (!_isAllowedUrl(event, options.allowUrls)) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+    debugBuild.DEBUG_BUILD &&
       utils.logger.warn(
         `Event dropped due to not being matched by \`allowUrls\` option.\nEvent: ${utils.getEventDescription(
           event,
@@ -9451,7 +9862,7 @@ function _getPossibleEventMessages(event) {
     }
   }
 
-  if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && possibleMessages.length === 0) {
+  if (debugBuild.DEBUG_BUILD && possibleMessages.length === 0) {
     utils.logger.error(`Could not extract message for event ${utils.getEventDescription(event)}`);
   }
 
@@ -9492,7 +9903,7 @@ function _getEventFilterUrl(event) {
     }
     return frames ? _getLastValidUrl(frames) : null;
   } catch (oO) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error(`Cannot extract url for event ${utils.getEventDescription(event)}`);
+    debugBuild.DEBUG_BUILD && utils.logger.error(`Cannot extract url for event ${utils.getEventDescription(event)}`);
     return null;
   }
 }
@@ -9502,19 +9913,83 @@ exports._mergeOptions = _mergeOptions;
 exports._shouldDropEvent = _shouldDropEvent;
 
 
-},{"@sentry/utils":108}],63:[function(require,module,exports){
+},{"../debug-build.js":59,"@sentry/utils":116}],68:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const functiontostring = require('./functiontostring.js');
 const inboundfilters = require('./inboundfilters.js');
+const linkederrors = require('./linkederrors.js');
 
 
 
 exports.FunctionToString = functiontostring.FunctionToString;
 exports.InboundFilters = inboundfilters.InboundFilters;
+exports.LinkedErrors = linkederrors.LinkedErrors;
 
 
-},{"./functiontostring.js":61,"./inboundfilters.js":62}],64:[function(require,module,exports){
+},{"./functiontostring.js":66,"./inboundfilters.js":67,"./linkederrors.js":69}],69:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const utils = require('@sentry/utils');
+
+const DEFAULT_KEY = 'cause';
+const DEFAULT_LIMIT = 5;
+
+/** Adds SDK info to an event. */
+class LinkedErrors  {
+  /**
+   * @inheritDoc
+   */
+   static __initStatic() {this.id = 'LinkedErrors';}
+
+  /**
+   * @inheritDoc
+   */
+
+  /**
+   * @inheritDoc
+   */
+
+  /**
+   * @inheritDoc
+   */
+
+  /**
+   * @inheritDoc
+   */
+   constructor(options = {}) {
+    this._key = options.key || DEFAULT_KEY;
+    this._limit = options.limit || DEFAULT_LIMIT;
+    this.name = LinkedErrors.id;
+  }
+
+  /** @inheritdoc */
+   setupOnce() {
+    // noop
+  }
+
+  /**
+   * @inheritDoc
+   */
+   preprocessEvent(event, hint, client) {
+    const options = client.getOptions();
+
+    utils.applyAggregateErrorsToEvent(
+      utils.exceptionFromError,
+      options.stackParser,
+      options.maxValueLength,
+      this._key,
+      this._limit,
+      event,
+      hint,
+    );
+  }
+} LinkedErrors.__initStatic();
+
+exports.LinkedErrors = LinkedErrors;
+
+
+},{"@sentry/utils":116}],70:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -9579,7 +10054,196 @@ class ModuleMetadata  {
 exports.ModuleMetadata = ModuleMetadata;
 
 
-},{"../metadata.js":65,"@sentry/utils":108}],65:[function(require,module,exports){
+},{"../metadata.js":72,"@sentry/utils":116}],71:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const utils = require('@sentry/utils');
+
+const DEFAULT_OPTIONS = {
+  include: {
+    cookies: true,
+    data: true,
+    headers: true,
+    ip: false,
+    query_string: true,
+    url: true,
+    user: {
+      id: true,
+      username: true,
+      email: true,
+    },
+  },
+  transactionNamingScheme: 'methodPath',
+};
+
+/** Add data about a request to an event. Primarily for use in Node-based SDKs, but included in `@sentry/integrations`
+ * so it can be used in cross-platform SDKs like `@sentry/nextjs`. */
+class RequestData  {
+  /**
+   * @inheritDoc
+   */
+   static __initStatic() {this.id = 'RequestData';}
+
+  /**
+   * @inheritDoc
+   */
+
+  /**
+   * Function for adding request data to event. Defaults to `addRequestDataToEvent` from `@sentry/node` for now, but
+   * left as a property so this integration can be moved to `@sentry/core` as a base class in case we decide to use
+   * something similar in browser-based SDKs in the future.
+   */
+
+  /**
+   * @inheritDoc
+   */
+   constructor(options = {}) {
+    this.name = RequestData.id;
+    this._addRequestData = utils.addRequestDataToEvent;
+    this._options = {
+      ...DEFAULT_OPTIONS,
+      ...options,
+      include: {
+        // @ts-expect-error It's mad because `method` isn't a known `include` key. (It's only here and not set by default in
+        // `addRequestDataToEvent` for legacy reasons. TODO (v8): Change that.)
+        method: true,
+        ...DEFAULT_OPTIONS.include,
+        ...options.include,
+        user:
+          options.include && typeof options.include.user === 'boolean'
+            ? options.include.user
+            : {
+                ...DEFAULT_OPTIONS.include.user,
+                // Unclear why TS still thinks `options.include.user` could be a boolean at this point
+                ...((options.include || {}).user ),
+              },
+      },
+    };
+  }
+
+  /**
+   * @inheritDoc
+   */
+   setupOnce(addGlobalEventProcessor, getCurrentHub) {
+    // Note: In the long run, most of the logic here should probably move into the request data utility functions. For
+    // the moment it lives here, though, until https://github.com/getsentry/sentry-javascript/issues/5718 is addressed.
+    // (TL;DR: Those functions touch many parts of the repo in many different ways, and need to be clened up. Once
+    // that's happened, it will be easier to add this logic in without worrying about unexpected side effects.)
+    const { transactionNamingScheme } = this._options;
+
+    addGlobalEventProcessor(event => {
+      const hub = getCurrentHub();
+      const self = hub.getIntegration(RequestData);
+
+      const { sdkProcessingMetadata = {} } = event;
+      const req = sdkProcessingMetadata.request;
+
+      // If the globally installed instance of this integration isn't associated with the current hub, `self` will be
+      // undefined
+      if (!self || !req) {
+        return event;
+      }
+
+      // The Express request handler takes a similar `include` option to that which can be passed to this integration.
+      // If passed there, we store it in `sdkProcessingMetadata`. TODO(v8): Force express and GCP people to use this
+      // integration, so that all of this passing and conversion isn't necessary
+      const addRequestDataOptions =
+        sdkProcessingMetadata.requestDataOptionsFromExpressHandler ||
+        sdkProcessingMetadata.requestDataOptionsFromGCPWrapper ||
+        convertReqDataIntegrationOptsToAddReqDataOpts(this._options);
+
+      const processedEvent = this._addRequestData(event, req, addRequestDataOptions);
+
+      // Transaction events already have the right `transaction` value
+      if (event.type === 'transaction' || transactionNamingScheme === 'handler') {
+        return processedEvent;
+      }
+
+      // In all other cases, use the request's associated transaction (if any) to overwrite the event's `transaction`
+      // value with a high-quality one
+      const reqWithTransaction = req ;
+      const transaction = reqWithTransaction._sentryTransaction;
+      if (transaction) {
+        // TODO (v8): Remove the nextjs check and just base it on `transactionNamingScheme` for all SDKs. (We have to
+        // keep it the way it is for the moment, because changing the names of transactions in Sentry has the potential
+        // to break things like alert rules.)
+        const shouldIncludeMethodInTransactionName =
+          getSDKName(hub) === 'sentry.javascript.nextjs'
+            ? transaction.name.startsWith('/api')
+            : transactionNamingScheme !== 'path';
+
+        const [transactionValue] = utils.extractPathForTransaction(req, {
+          path: true,
+          method: shouldIncludeMethodInTransactionName,
+          customRoute: transaction.name,
+        });
+
+        processedEvent.transaction = transactionValue;
+      }
+
+      return processedEvent;
+    });
+  }
+} RequestData.__initStatic();
+
+/** Convert this integration's options to match what `addRequestDataToEvent` expects */
+/** TODO: Can possibly be deleted once https://github.com/getsentry/sentry-javascript/issues/5718 is fixed */
+function convertReqDataIntegrationOptsToAddReqDataOpts(
+  integrationOptions,
+) {
+  const {
+    transactionNamingScheme,
+    include: { ip, user, ...requestOptions },
+  } = integrationOptions;
+
+  const requestIncludeKeys = [];
+  for (const [key, value] of Object.entries(requestOptions)) {
+    if (value) {
+      requestIncludeKeys.push(key);
+    }
+  }
+
+  let addReqDataUserOpt;
+  if (user === undefined) {
+    addReqDataUserOpt = true;
+  } else if (typeof user === 'boolean') {
+    addReqDataUserOpt = user;
+  } else {
+    const userIncludeKeys = [];
+    for (const [key, value] of Object.entries(user)) {
+      if (value) {
+        userIncludeKeys.push(key);
+      }
+    }
+    addReqDataUserOpt = userIncludeKeys;
+  }
+
+  return {
+    include: {
+      ip,
+      user: addReqDataUserOpt,
+      request: requestIncludeKeys.length !== 0 ? requestIncludeKeys : undefined,
+      transaction: transactionNamingScheme,
+    },
+  };
+}
+
+function getSDKName(hub) {
+  try {
+    // For a long chain like this, it's fewer bytes to combine a try-catch with assuming everything is there than to
+    // write out a long chain of `a && a.b && a.b.c && ...`
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return hub.getClient().getOptions()._metadata.sdk.name;
+  } catch (err) {
+    // In theory we should never get here
+    return undefined;
+  }
+}
+
+exports.RequestData = RequestData;
+
+
+},{"@sentry/utils":116}],72:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -9684,7 +10348,7 @@ exports.getMetadataForUrl = getMetadataForUrl;
 exports.stripMetadataFromStackFrames = stripMetadataFromStackFrames;
 
 
-},{"@sentry/utils":108}],66:[function(require,module,exports){
+},{"@sentry/utils":116}],73:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -10253,10 +10917,11 @@ function generatePropagationContext() {
 exports.Scope = Scope;
 
 
-},{"./eventProcessors.js":56,"./session.js":69,"@sentry/utils":108}],67:[function(require,module,exports){
+},{"./eventProcessors.js":61,"./session.js":76,"@sentry/utils":116}],74:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('./debug-build.js');
 const hub = require('./hub.js');
 
 /** A class object that can instantiate Client objects. */
@@ -10273,12 +10938,14 @@ function initAndBind(
   options,
 ) {
   if (options.debug === true) {
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+    if (debugBuild.DEBUG_BUILD) {
       utils.logger.enable();
     } else {
       // use `console.warn` rather than `logger.warn` since by non-debug bundles have all `logger.x` statements stripped
-      // eslint-disable-next-line no-console
-      console.warn('[Sentry] Cannot initialize SDK with `debug` option using a non-debug bundle.');
+      utils.consoleSandbox(() => {
+        // eslint-disable-next-line no-console
+        console.warn('[Sentry] Cannot initialize SDK with `debug` option using a non-debug bundle.');
+      });
     }
   }
   const hub$1 = hub.getCurrentHub();
@@ -10292,12 +10959,13 @@ function initAndBind(
 exports.initAndBind = initAndBind;
 
 
-},{"./hub.js":58,"@sentry/utils":108}],68:[function(require,module,exports){
+},{"./debug-build.js":59,"./hub.js":63,"@sentry/utils":116}],75:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
 const baseclient = require('./baseclient.js');
 const checkin = require('./checkin.js');
+const debugBuild = require('./debug-build.js');
 const hub = require('./hub.js');
 const sessionflusher = require('./sessionflusher.js');
 const hubextensions = require('./tracing/hubextensions.js');
@@ -10406,7 +11074,7 @@ class ServerRuntimeClient
    initSessionFlusher() {
     const { release, environment } = this._options;
     if (!release) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Cannot initialise an instance of SessionFlusher if no release is provided!');
+      debugBuild.DEBUG_BUILD && utils.logger.warn('Cannot initialise an instance of SessionFlusher if no release is provided!');
     } else {
       this._sessionFlusher = new sessionflusher.SessionFlusher(this, {
         release,
@@ -10425,7 +11093,7 @@ class ServerRuntimeClient
    captureCheckIn(checkIn, monitorConfig, scope) {
     const id = checkIn.status !== 'in_progress' && checkIn.checkInId ? checkIn.checkInId : utils.uuid4();
     if (!this._isEnabled()) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('SDK not enabled, will not capture checkin.');
+      debugBuild.DEBUG_BUILD && utils.logger.warn('SDK not enabled, will not capture checkin.');
       return id;
     }
 
@@ -10468,7 +11136,7 @@ class ServerRuntimeClient
       this.getDsn(),
     );
 
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.info('Sending checkin:', checkIn.monitorSlug, checkIn.status);
+    debugBuild.DEBUG_BUILD && utils.logger.info('Sending checkin:', checkIn.monitorSlug, checkIn.status);
     void this._sendEnvelope(envelope);
     return id;
   }
@@ -10479,7 +11147,7 @@ class ServerRuntimeClient
    */
    _captureRequestSession() {
     if (!this._sessionFlusher) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Discarded request mode session because autoSessionTracking option was disabled');
+      debugBuild.DEBUG_BUILD && utils.logger.warn('Discarded request mode session because autoSessionTracking option was disabled');
     } else {
       this._sessionFlusher.incrementSessionStatusCount();
     }
@@ -10538,7 +11206,7 @@ class ServerRuntimeClient
 exports.ServerRuntimeClient = ServerRuntimeClient;
 
 
-},{"./baseclient.js":52,"./checkin.js":53,"./hub.js":58,"./sessionflusher.js":70,"./tracing/dynamicSamplingContext.js":71,"./tracing/hubextensions.js":73,"./tracing/spanstatus.js":78,"@sentry/utils":108}],69:[function(require,module,exports){
+},{"./baseclient.js":56,"./checkin.js":57,"./debug-build.js":59,"./hub.js":63,"./sessionflusher.js":77,"./tracing/dynamicSamplingContext.js":78,"./tracing/hubextensions.js":80,"./tracing/spanstatus.js":85,"@sentry/utils":116}],76:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -10598,6 +11266,10 @@ function updateSession(session, context = {}) {
   }
 
   session.timestamp = context.timestamp || utils.timestampInSeconds();
+
+  if (context.abnormal_mechanism) {
+    session.abnormal_mechanism = context.abnormal_mechanism;
+  }
 
   if (context.ignoreDuration) {
     session.ignoreDuration = context.ignoreDuration;
@@ -10685,6 +11357,7 @@ function sessionToJSON(session) {
     errors: session.errors,
     did: typeof session.did === 'number' || typeof session.did === 'string' ? `${session.did}` : undefined,
     duration: session.duration,
+    abnormal_mechanism: session.abnormal_mechanism,
     attrs: {
       release: session.release,
       environment: session.environment,
@@ -10699,7 +11372,7 @@ exports.makeSession = makeSession;
 exports.updateSession = updateSession;
 
 
-},{"@sentry/utils":108}],70:[function(require,module,exports){
+},{"@sentry/utils":116}],77:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -10805,7 +11478,7 @@ class SessionFlusher  {
 exports.SessionFlusher = SessionFlusher;
 
 
-},{"./hub.js":58,"@sentry/utils":108}],71:[function(require,module,exports){
+},{"./hub.js":63,"@sentry/utils":116}],78:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -10842,10 +11515,11 @@ function getDynamicSamplingContextFromClient(
 exports.getDynamicSamplingContextFromClient = getDynamicSamplingContextFromClient;
 
 
-},{"../constants.js":54,"@sentry/utils":108}],72:[function(require,module,exports){
+},{"../constants.js":58,"@sentry/utils":116}],79:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 const utils$1 = require('./utils.js');
 
 let errorsInstrumented = false;
@@ -10859,8 +11533,8 @@ function registerErrorInstrumentation() {
   }
 
   errorsInstrumented = true;
-  utils.addInstrumentationHandler('error', errorCallback);
-  utils.addInstrumentationHandler('unhandledrejection', errorCallback);
+  utils.addGlobalErrorInstrumentationHandler(errorCallback);
+  utils.addGlobalUnhandledRejectionInstrumentationHandler(errorCallback);
 }
 
 /**
@@ -10870,7 +11544,7 @@ function errorCallback() {
   const activeTransaction = utils$1.getActiveTransaction();
   if (activeTransaction) {
     const status = 'internal_error';
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`[Tracing] Transaction: ${status} -> Global error occured`);
+    debugBuild.DEBUG_BUILD && utils.logger.log(`[Tracing] Transaction: ${status} -> Global error occured`);
     activeTransaction.setStatus(status);
   }
 }
@@ -10882,10 +11556,11 @@ errorCallback.tag = 'sentry_tracingErrorCallback';
 exports.registerErrorInstrumentation = registerErrorInstrumentation;
 
 
-},{"./utils.js":81,"@sentry/utils":108}],73:[function(require,module,exports){
+},{"../debug-build.js":59,"./utils.js":88,"@sentry/utils":116}],80:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 const hub = require('../hub.js');
 const errors = require('./errors.js');
 const idletransaction = require('./idletransaction.js');
@@ -10931,7 +11606,7 @@ function _startTransaction(
   const transactionInstrumenter = transactionContext.instrumenter || 'sentry';
 
   if (configInstrumenter !== transactionInstrumenter) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+    debugBuild.DEBUG_BUILD &&
       utils.logger.error(
         `A transaction was started with instrumenter=\`${transactionInstrumenter}\`, but the SDK is configured with the \`${configInstrumenter}\` instrumenter.
 The transaction will not be sampled. Please use the ${configInstrumenter} instrumentation to start transactions.`,
@@ -11008,10 +11683,11 @@ exports.addTracingExtensions = addTracingExtensions;
 exports.startIdleTransaction = startIdleTransaction;
 
 
-},{"../hub.js":58,"./errors.js":72,"./idletransaction.js":74,"./sampling.js":76,"./transaction.js":80,"@sentry/utils":108}],74:[function(require,module,exports){
+},{"../debug-build.js":59,"../hub.js":63,"./errors.js":79,"./idletransaction.js":81,"./sampling.js":83,"./transaction.js":87,"@sentry/utils":116}],81:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 const span = require('./span.js');
 const transaction = require('./transaction.js');
 
@@ -11114,7 +11790,7 @@ class IdleTransaction extends transaction.Transaction {
     if (_onScope) {
       // We set the transaction here on the scope so error events pick up the trace
       // context and attach it to the error.
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`Setting idle transaction on scope. Span ID: ${this.spanId}`);
+      debugBuild.DEBUG_BUILD && utils.logger.log(`Setting idle transaction on scope. Span ID: ${this.spanId}`);
       _idleHub.configureScope(scope => scope.setSpan(this));
     }
 
@@ -11138,7 +11814,7 @@ class IdleTransaction extends transaction.Transaction {
     }
 
     if (this.spanRecorder) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+      debugBuild.DEBUG_BUILD &&
         utils.logger.log('[Tracing] finishing IdleTransaction', new Date(endTimestamp * 1000).toISOString(), this.op);
 
       for (const callback of this._beforeFinishCallbacks) {
@@ -11155,7 +11831,7 @@ class IdleTransaction extends transaction.Transaction {
         if (!span.endTimestamp) {
           span.endTimestamp = endTimestamp;
           span.setStatus('cancelled');
-          (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+          debugBuild.DEBUG_BUILD &&
             utils.logger.log('[Tracing] cancelling span since transaction ended early', JSON.stringify(span, undefined, 2));
         }
 
@@ -11165,7 +11841,7 @@ class IdleTransaction extends transaction.Transaction {
         const timeoutWithMarginOfError = (this._finalTimeout + this._idleTimeout) / 1000;
         const spanEndedBeforeFinalTimeout = span.endTimestamp - this.startTimestamp < timeoutWithMarginOfError;
 
-        if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+        if (debugBuild.DEBUG_BUILD) {
           const stringifiedSpan = JSON.stringify(span, undefined, 2);
           if (!spanStartedBeforeTransactionFinish) {
             utils.logger.log('[Tracing] discarding Span since it happened after Transaction was finished', stringifiedSpan);
@@ -11177,9 +11853,9 @@ class IdleTransaction extends transaction.Transaction {
         return spanStartedBeforeTransactionFinish && spanEndedBeforeFinalTimeout;
       });
 
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Tracing] flushing IdleTransaction');
+      debugBuild.DEBUG_BUILD && utils.logger.log('[Tracing] flushing IdleTransaction');
     } else {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Tracing] No active IdleTransaction');
+      debugBuild.DEBUG_BUILD && utils.logger.log('[Tracing] No active IdleTransaction');
     }
 
     // if `this._onScope` is `true`, the transaction put itself on the scope when it started
@@ -11225,7 +11901,7 @@ class IdleTransaction extends transaction.Transaction {
       this.spanRecorder = new IdleTransactionSpanRecorder(pushActivity, popActivity, this.spanId, maxlen);
 
       // Start heartbeat so that transactions do not run forever.
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('Starting heartbeat');
+      debugBuild.DEBUG_BUILD && utils.logger.log('Starting heartbeat');
       this._pingHeartbeat();
     }
     this.spanRecorder.add(this);
@@ -11291,9 +11967,9 @@ class IdleTransaction extends transaction.Transaction {
    */
    _pushActivity(spanId) {
     this.cancelIdleTimeout(undefined, { restartOnChildSpanChange: !this._idleTimeoutCanceledPermanently });
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`[Tracing] pushActivity: ${spanId}`);
+    debugBuild.DEBUG_BUILD && utils.logger.log(`[Tracing] pushActivity: ${spanId}`);
     this.activities[spanId] = true;
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Tracing] new activities count', Object.keys(this.activities).length);
+    debugBuild.DEBUG_BUILD && utils.logger.log('[Tracing] new activities count', Object.keys(this.activities).length);
   }
 
   /**
@@ -11302,10 +11978,10 @@ class IdleTransaction extends transaction.Transaction {
    */
    _popActivity(spanId) {
     if (this.activities[spanId]) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`[Tracing] popActivity ${spanId}`);
+      debugBuild.DEBUG_BUILD && utils.logger.log(`[Tracing] popActivity ${spanId}`);
       // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete this.activities[spanId];
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Tracing] new activities count', Object.keys(this.activities).length);
+      debugBuild.DEBUG_BUILD && utils.logger.log('[Tracing] new activities count', Object.keys(this.activities).length);
     }
 
     if (Object.keys(this.activities).length === 0) {
@@ -11342,7 +12018,7 @@ class IdleTransaction extends transaction.Transaction {
     this._prevHeartbeatString = heartbeatString;
 
     if (this._heartbeatCounter >= 3) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Tracing] Transaction finished because of no change for 3 heart beats');
+      debugBuild.DEBUG_BUILD && utils.logger.log('[Tracing] Transaction finished because of no change for 3 heart beats');
       this.setStatus('deadline_exceeded');
       this._finishReason = IDLE_TRANSACTION_FINISH_REASONS[0];
       this.finish();
@@ -11355,7 +12031,7 @@ class IdleTransaction extends transaction.Transaction {
    * Pings the heartbeat
    */
    _pingHeartbeat() {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`pinging Heartbeat -> current counter: ${this._heartbeatCounter}`);
+    debugBuild.DEBUG_BUILD && utils.logger.log(`pinging Heartbeat -> current counter: ${this._heartbeatCounter}`);
     setTimeout(() => {
       this._beat();
     }, this._heartbeatInterval);
@@ -11367,7 +12043,7 @@ exports.IdleTransactionSpanRecorder = IdleTransactionSpanRecorder;
 exports.TRACING_DEFAULTS = TRACING_DEFAULTS;
 
 
-},{"./span.js":77,"./transaction.js":80,"@sentry/utils":108}],75:[function(require,module,exports){
+},{"../debug-build.js":59,"./span.js":84,"./transaction.js":87,"@sentry/utils":116}],82:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('./utils.js');
@@ -11385,10 +12061,11 @@ function setMeasurement(name, value, unit) {
 exports.setMeasurement = setMeasurement;
 
 
-},{"./utils.js":81}],76:[function(require,module,exports){
+},{"./utils.js":88}],83:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 const hasTracingEnabled = require('../utils/hasTracingEnabled.js');
 
 /**
@@ -11445,14 +12122,14 @@ function sampleTransaction(
   // Since this is coming from the user (or from a function provided by the user), who knows what we might get. (The
   // only valid values are booleans or numbers between 0 and 1.)
   if (!isValidSampleRate(sampleRate)) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('[Tracing] Discarding transaction because of invalid sample rate.');
+    debugBuild.DEBUG_BUILD && utils.logger.warn('[Tracing] Discarding transaction because of invalid sample rate.');
     transaction.sampled = false;
     return transaction;
   }
 
   // if the function returned 0 (or false), or if `tracesSampleRate` is 0, it's a sign the transaction should be dropped
   if (!sampleRate) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+    debugBuild.DEBUG_BUILD &&
       utils.logger.log(
         `[Tracing] Discarding transaction because ${
           typeof options.tracesSampler === 'function'
@@ -11470,7 +12147,7 @@ function sampleTransaction(
 
   // if we're not going to keep it, we're done
   if (!transaction.sampled) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+    debugBuild.DEBUG_BUILD &&
       utils.logger.log(
         `[Tracing] Discarding transaction because it's not included in the random sample (sampling rate = ${Number(
           sampleRate,
@@ -11479,7 +12156,7 @@ function sampleTransaction(
     return transaction;
   }
 
-  (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`[Tracing] starting ${transaction.op} transaction - ${transaction.name}`);
+  debugBuild.DEBUG_BUILD && utils.logger.log(`[Tracing] starting ${transaction.op} transaction - ${transaction.name}`);
   return transaction;
 }
 
@@ -11490,7 +12167,7 @@ function isValidSampleRate(rate) {
   // we need to check NaN explicitly because it's of type 'number' and therefore wouldn't get caught by this typecheck
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (utils.isNaN(rate) || !(typeof rate === 'number' || typeof rate === 'boolean')) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+    debugBuild.DEBUG_BUILD &&
       utils.logger.warn(
         `[Tracing] Given sample rate is invalid. Sample rate must be a boolean or a number between 0 and 1. Got ${JSON.stringify(
           rate,
@@ -11501,7 +12178,7 @@ function isValidSampleRate(rate) {
 
   // in case sampleRate is a boolean, it will get automatically cast to 1 if it's true and 0 if it's false
   if (rate < 0 || rate > 1) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+    debugBuild.DEBUG_BUILD &&
       utils.logger.warn(`[Tracing] Given sample rate is invalid. Sample rate must be between 0 and 1. Got ${rate}.`);
     return false;
   }
@@ -11511,10 +12188,11 @@ function isValidSampleRate(rate) {
 exports.sampleTransaction = sampleTransaction;
 
 
-},{"../utils/hasTracingEnabled.js":85,"@sentry/utils":108}],77:[function(require,module,exports){
+},{"../debug-build.js":59,"../utils/hasTracingEnabled.js":92,"@sentry/utils":116}],84:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 
 /**
  * Keeps track of finished spans for a given transaction
@@ -11678,7 +12356,7 @@ class Span  {
 
     childSpan.transaction = this.transaction;
 
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && childSpan.transaction) {
+    if (debugBuild.DEBUG_BUILD && childSpan.transaction) {
       const opStr = (spanContext && spanContext.op) || '< unknown op >';
       const nameStr = childSpan.transaction.name || '< unknown name >';
       const idStr = childSpan.transaction.spanId;
@@ -11748,7 +12426,7 @@ class Span  {
    */
    finish(endTimestamp) {
     if (
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+      debugBuild.DEBUG_BUILD &&
       // Don't call this for transactions
       this.transaction &&
       this.transaction.spanId !== this.spanId
@@ -11820,6 +12498,7 @@ class Span  {
       status: this.status,
       tags: Object.keys(this.tags).length > 0 ? this.tags : undefined,
       trace_id: this.traceId,
+      origin: this.origin,
     });
   }
 
@@ -11896,14 +12575,13 @@ exports.SpanRecorder = SpanRecorder;
 exports.spanStatusfromHttpCode = spanStatusfromHttpCode;
 
 
-},{"@sentry/utils":108}],78:[function(require,module,exports){
+},{"../debug-build.js":59,"@sentry/utils":116}],85:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /** The status of an Span.
  *
  * @deprecated Use string literals - if you require type casting, cast to SpanStatusType type
  */
-// eslint-disable-next-line import/export
 exports.SpanStatus = void 0; (function (SpanStatus) {
   /** The operation completed successfully. */
   const Ok = 'ok'; SpanStatus["Ok"] = Ok;
@@ -11942,10 +12620,11 @@ exports.SpanStatus = void 0; (function (SpanStatus) {
 })(exports.SpanStatus || (exports.SpanStatus = {}));
 
 
-},{}],79:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 const hub = require('../hub.js');
 const hasTracingEnabled = require('../utils/hasTracingEnabled.js');
 
@@ -12173,7 +12852,7 @@ function continueTrace(
 
   currentScope.setPropagationContext(propagationContext);
 
-  if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && traceparentData) {
+  if (debugBuild.DEBUG_BUILD && traceparentData) {
     utils.logger.log(`[Tracing] Continuing trace ${traceparentData.traceId}.`);
   }
 
@@ -12183,6 +12862,10 @@ function continueTrace(
       dynamicSamplingContext: traceparentData && !dynamicSamplingContext ? {} : dynamicSamplingContext,
     }),
   };
+
+  if (!callback) {
+    return transactionContext;
+  }
 
   return callback(transactionContext);
 }
@@ -12217,10 +12900,11 @@ exports.startSpanManual = startSpanManual;
 exports.trace = trace;
 
 
-},{"../hub.js":58,"../utils/hasTracingEnabled.js":85,"@sentry/utils":108}],80:[function(require,module,exports){
+},{"../debug-build.js":59,"../hub.js":63,"../utils/hasTracingEnabled.js":92,"@sentry/utils":116}],87:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 const hub = require('../hub.js');
 const dynamicSamplingContext = require('./dynamicSamplingContext.js');
 const span = require('./span.js');
@@ -12423,7 +13107,7 @@ class Transaction extends span.Span  {
     }
 
     if (!this.name) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Transaction has no name, falling back to `<unlabeled transaction>`.');
+      debugBuild.DEBUG_BUILD && utils.logger.warn('Transaction has no name, falling back to `<unlabeled transaction>`.');
       this.name = '<unlabeled transaction>';
     }
 
@@ -12437,7 +13121,7 @@ class Transaction extends span.Span  {
 
     if (this.sampled !== true) {
       // At this point if `sampled !== true` we want to discard the transaction.
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Tracing] Discarding transaction because its trace was not chosen to be sampled.');
+      debugBuild.DEBUG_BUILD && utils.logger.log('[Tracing] Discarding transaction because its trace was not chosen to be sampled.');
 
       if (client) {
         client.recordDroppedEvent('sample_rate', 'transaction');
@@ -12485,7 +13169,7 @@ class Transaction extends span.Span  {
     const hasMeasurements = Object.keys(this._measurements).length > 0;
 
     if (hasMeasurements) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+      debugBuild.DEBUG_BUILD &&
         utils.logger.log(
           '[Measurements] Adding measurements to transaction',
           JSON.stringify(this._measurements, undefined, 2),
@@ -12493,7 +13177,7 @@ class Transaction extends span.Span  {
       transaction.measurements = this._measurements;
     }
 
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log(`[Tracing] Finishing ${this.op} transaction: ${this.name}.`);
+    debugBuild.DEBUG_BUILD && utils.logger.log(`[Tracing] Finishing ${this.op} transaction: ${this.name}.`);
 
     return transaction;
   }
@@ -12502,11 +13186,11 @@ class Transaction extends span.Span  {
 exports.Transaction = Transaction;
 
 
-},{"../hub.js":58,"./dynamicSamplingContext.js":71,"./span.js":77,"@sentry/utils":108}],81:[function(require,module,exports){
+},{"../debug-build.js":59,"../hub.js":63,"./dynamicSamplingContext.js":78,"./span.js":84,"@sentry/utils":116}],88:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const hub = require('../hub.js');
 const utils = require('@sentry/utils');
+const hub = require('../hub.js');
 
 /** Grabs active transaction off scope, if any */
 function getActiveTransaction(maybeHub) {
@@ -12515,16 +13199,30 @@ function getActiveTransaction(maybeHub) {
   return scope.getTransaction() ;
 }
 
-exports.TRACEPARENT_REGEXP = utils.TRACEPARENT_REGEXP;
-exports.extractTraceparentData = utils.extractTraceparentData;
+/**
+ * The `extractTraceparentData` function and `TRACEPARENT_REGEXP` constant used
+ * to be declared in this file. It was later moved into `@sentry/utils` as part of a
+ * move to remove `@sentry/tracing` dependencies from `@sentry/node` (`extractTraceparentData`
+ * is the only tracing function used by `@sentry/node`).
+ *
+ * These exports are kept here for backwards compatability's sake.
+ *
+ * See https://github.com/getsentry/sentry-javascript/issues/4642 for more details.
+ *
+ * @deprecated Import this function from `@sentry/utils` instead
+ */
+const extractTraceparentData = utils.extractTraceparentData;
+
 exports.stripUrlQueryAndFragment = utils.stripUrlQueryAndFragment;
+exports.extractTraceparentData = extractTraceparentData;
 exports.getActiveTransaction = getActiveTransaction;
 
 
-},{"../hub.js":58,"@sentry/utils":108}],82:[function(require,module,exports){
+},{"../hub.js":63,"@sentry/utils":116}],89:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 
 const DEFAULT_TRANSPORT_BUFFER_SIZE = 30;
 
@@ -12579,7 +13277,7 @@ function createTransport(
         response => {
           // We don't want to throw on NOK responses, but we want to at least log them
           if (response.statusCode !== undefined && (response.statusCode < 200 || response.statusCode >= 300)) {
-            (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn(`Sentry responded with status code ${response.statusCode} to sent event.`);
+            debugBuild.DEBUG_BUILD && utils.logger.warn(`Sentry responded with status code ${response.statusCode} to sent event.`);
           }
 
           rateLimits = utils.updateRateLimits(rateLimits, response);
@@ -12595,7 +13293,7 @@ function createTransport(
       result => result,
       error => {
         if (error instanceof utils.SentryError) {
-          (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('Skipped sending event because buffer is full.');
+          debugBuild.DEBUG_BUILD && utils.logger.error('Skipped sending event because buffer is full.');
           recordEnvelopeLoss('queue_overflow');
           return utils.resolvedSyncPromise();
         } else {
@@ -12627,7 +13325,7 @@ exports.DEFAULT_TRANSPORT_BUFFER_SIZE = DEFAULT_TRANSPORT_BUFFER_SIZE;
 exports.createTransport = createTransport;
 
 
-},{"@sentry/utils":108}],83:[function(require,module,exports){
+},{"../debug-build.js":59,"@sentry/utils":116}],90:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -12750,17 +13448,18 @@ exports.eventFromEnvelope = eventFromEnvelope;
 exports.makeMultiplexedTransport = makeMultiplexedTransport;
 
 
-},{"../api.js":51,"@sentry/utils":108}],84:[function(require,module,exports){
+},{"../api.js":55,"@sentry/utils":116}],91:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
+const debugBuild = require('../debug-build.js');
 
 const MIN_DELAY = 100; // 100 ms
 const START_DELAY = 5000; // 5 seconds
 const MAX_DELAY = 3.6e6; // 1 hour
 
 function log(msg, error) {
-  (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.info(`[Offline]: ${msg}`, error);
+  debugBuild.DEBUG_BUILD && utils.logger.info(`[Offline]: ${msg}`, error);
 }
 
 /**
@@ -12878,10 +13577,10 @@ exports.START_DELAY = START_DELAY;
 exports.makeOfflineTransport = makeOfflineTransport;
 
 
-},{"@sentry/utils":108}],85:[function(require,module,exports){
+},{"../debug-build.js":59,"@sentry/utils":116}],92:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const hub = require('../hub.js');
+const exports$1 = require('../exports.js');
 
 // Treeshakable guard to remove all code related to tracing
 
@@ -12897,7 +13596,7 @@ function hasTracingEnabled(
     return false;
   }
 
-  const client = hub.getCurrentHub().getClient();
+  const client = exports$1.getClient();
   const options = maybeOptions || (client && client.getOptions());
   return !!options && (options.enableTracing || 'tracesSampleRate' in options || 'tracesSampler' in options);
 }
@@ -12905,7 +13604,7 @@ function hasTracingEnabled(
 exports.hasTracingEnabled = hasTracingEnabled;
 
 
-},{"../hub.js":58}],86:[function(require,module,exports){
+},{"../exports.js":62}],93:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -12939,13 +13638,19 @@ function removeTrailingSlash(str) {
 exports.isSentryRequestUrl = isSentryRequestUrl;
 
 
-},{}],87:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
 const constants = require('../constants.js');
 const eventProcessors = require('../eventProcessors.js');
 const scope = require('../scope.js');
+
+/**
+ * This type makes sure that we get either a CaptureContext, OR an EventHint.
+ * It does not allow mixing them, which could lead to unexpected outcomes, e.g. this is disallowed:
+ * { user: { id: '123' }, mechanism: { handled: false } }
+ */
 
 /**
  * Adds common information to events.
@@ -12992,6 +13697,10 @@ function prepareEvent(
   let finalScope = scope$1;
   if (hint.captureContext) {
     finalScope = scope.Scope.clone(finalScope).update(hint.captureContext);
+  }
+
+  if (hint.mechanism) {
+    utils.addExceptionMechanism(prepared, hint.mechanism);
   }
 
   // We prepare the result here with a resolved Event.
@@ -13252,25 +13961,72 @@ function normalizeEvent(event, depth, maxBreadth) {
   return normalized;
 }
 
+/**
+ * Parse either an `EventHint` directly, or convert a `CaptureContext` to an `EventHint`.
+ * This is used to allow to update method signatures that used to accept a `CaptureContext` but should now accept an `EventHint`.
+ */
+function parseEventHintOrCaptureContext(
+  hint,
+) {
+  if (!hint) {
+    return undefined;
+  }
+
+  // If you pass a Scope or `() => Scope` as CaptureContext, we just return this as captureContext
+  if (hintIsScopeOrFunction(hint)) {
+    return { captureContext: hint };
+  }
+
+  if (hintIsScopeContext(hint)) {
+    return {
+      captureContext: hint,
+    };
+  }
+
+  return hint;
+}
+
+function hintIsScopeOrFunction(
+  hint,
+) {
+  return hint instanceof scope.Scope || typeof hint === 'function';
+}
+
+const captureContextKeys = [
+  'user',
+  'level',
+  'extra',
+  'contexts',
+  'tags',
+  'fingerprint',
+  'requestSession',
+  'propagationContext',
+] ;
+
+function hintIsScopeContext(hint) {
+  return Object.keys(hint).some(key => captureContextKeys.includes(key ));
+}
+
 exports.applyDebugIds = applyDebugIds;
 exports.applyDebugMeta = applyDebugMeta;
+exports.parseEventHintOrCaptureContext = parseEventHintOrCaptureContext;
 exports.prepareEvent = prepareEvent;
 
 
-},{"../constants.js":54,"../eventProcessors.js":56,"../scope.js":66,"@sentry/utils":108}],88:[function(require,module,exports){
+},{"../constants.js":58,"../eventProcessors.js":61,"../scope.js":73,"@sentry/utils":116}],95:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.74.1';
+const SDK_VERSION = '7.84.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
 
-},{}],89:[function(require,module,exports){
-(function (process){(function (){
+},{}],96:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
 const utils = require('@sentry/utils');
+const tracing = require('@sentry-internal/tracing');
 
 // exporting a separate copy of `WINDOW` rather than exporting the one from `@sentry/browser`
 // prevents the browser package from being bundled in the CDN bundle, and avoids a
@@ -14855,12 +15611,6 @@ var PointerTypes = /* @__PURE__ */ ((PointerTypes2) => {
   PointerTypes2[PointerTypes2["Touch"] = 2] = "Touch";
   return PointerTypes2;
 })(PointerTypes || {});
-var CanvasContext = /* @__PURE__ */ ((CanvasContext2) => {
-  CanvasContext2[CanvasContext2["2D"] = 0] = "2D";
-  CanvasContext2[CanvasContext2["WebGL"] = 1] = "WebGL";
-  CanvasContext2[CanvasContext2["WebGL2"] = 2] = "WebGL2";
-  return CanvasContext2;
-})(CanvasContext || {});
 
 function isNodeInLinkedList(n) {
     return '__ln' in n;
@@ -15693,12 +16443,6 @@ function initViewportResizeObserver({ viewportResizeCb }, { win }) {
     }), 200));
     return on('resize', updateDimension, win);
 }
-function wrapEventWithUserTriggeredFlag(v, enable) {
-    const value = Object.assign({}, v);
-    if (!enable)
-        delete value.userTriggered;
-    return value;
-}
 const INPUT_TAGS = ['INPUT', 'TEXTAREA', 'SELECT'];
 const lastInputValueMap = new WeakMap();
 function initInputObserver({ inputCb, doc, mirror, blockClass, blockSelector, unblockSelector, ignoreClass, ignoreSelector, maskInputOptions, maskInputFn, sampling, userTriggeredOnInput, maskTextClass, unmaskTextClass, maskTextSelector, unmaskTextSelector, }) {
@@ -15737,7 +16481,9 @@ function initInputObserver({ inputCb, doc, mirror, blockClass, blockSelector, un
             value: text,
             maskInputFn,
         });
-        cbWithDedup(target, callbackWrapper(wrapEventWithUserTriggeredFlag)({ text, isChecked, userTriggered }, userTriggeredOnInput));
+        cbWithDedup(target, userTriggeredOnInput
+            ? { text, isChecked, userTriggered }
+            : { text, isChecked });
         const name = target.name;
         if (type === 'radio' && name && isChecked) {
             doc
@@ -15750,11 +16496,9 @@ function initInputObserver({ inputCb, doc, mirror, blockClass, blockSelector, un
                         value: getInputValue(el, tagName, type),
                         maskInputFn,
                     });
-                    cbWithDedup(el, callbackWrapper(wrapEventWithUserTriggeredFlag)({
-                        text,
-                        isChecked: !isChecked,
-                        userTriggered: false,
-                    }, userTriggeredOnInput));
+                    cbWithDedup(el, userTriggeredOnInput
+                        ? { text, isChecked: !isChecked, userTriggered: false }
+                        : { text, isChecked: !isChecked });
                 }
             });
         }
@@ -16199,94 +16943,12 @@ function initCustomElementObserver({ doc, customElementCb, }) {
     });
     return restoreHandler;
 }
-function mergeHooks(o, hooks) {
-    const { mutationCb, mousemoveCb, mouseInteractionCb, scrollCb, viewportResizeCb, inputCb, mediaInteractionCb, styleSheetRuleCb, styleDeclarationCb, canvasMutationCb, fontCb, selectionCb, customElementCb, } = o;
-    o.mutationCb = (...p) => {
-        if (hooks.mutation) {
-            hooks.mutation(...p);
-        }
-        mutationCb(...p);
-    };
-    o.mousemoveCb = (...p) => {
-        if (hooks.mousemove) {
-            hooks.mousemove(...p);
-        }
-        mousemoveCb(...p);
-    };
-    o.mouseInteractionCb = (...p) => {
-        if (hooks.mouseInteraction) {
-            hooks.mouseInteraction(...p);
-        }
-        mouseInteractionCb(...p);
-    };
-    o.scrollCb = (...p) => {
-        if (hooks.scroll) {
-            hooks.scroll(...p);
-        }
-        scrollCb(...p);
-    };
-    o.viewportResizeCb = (...p) => {
-        if (hooks.viewportResize) {
-            hooks.viewportResize(...p);
-        }
-        viewportResizeCb(...p);
-    };
-    o.inputCb = (...p) => {
-        if (hooks.input) {
-            hooks.input(...p);
-        }
-        inputCb(...p);
-    };
-    o.mediaInteractionCb = (...p) => {
-        if (hooks.mediaInteaction) {
-            hooks.mediaInteaction(...p);
-        }
-        mediaInteractionCb(...p);
-    };
-    o.styleSheetRuleCb = (...p) => {
-        if (hooks.styleSheetRule) {
-            hooks.styleSheetRule(...p);
-        }
-        styleSheetRuleCb(...p);
-    };
-    o.styleDeclarationCb = (...p) => {
-        if (hooks.styleDeclaration) {
-            hooks.styleDeclaration(...p);
-        }
-        styleDeclarationCb(...p);
-    };
-    o.canvasMutationCb = (...p) => {
-        if (hooks.canvasMutation) {
-            hooks.canvasMutation(...p);
-        }
-        canvasMutationCb(...p);
-    };
-    o.fontCb = (...p) => {
-        if (hooks.font) {
-            hooks.font(...p);
-        }
-        fontCb(...p);
-    };
-    o.selectionCb = (...p) => {
-        if (hooks.selection) {
-            hooks.selection(...p);
-        }
-        selectionCb(...p);
-    };
-    o.customElementCb = (...c) => {
-        if (hooks.customElement) {
-            hooks.customElement(...c);
-        }
-        customElementCb(...c);
-    };
-}
-function initObservers(o, hooks = {}) {
+function initObservers(o, _hooks = {}) {
     const currentWindow = o.doc.defaultView;
     if (!currentWindow) {
         return () => {
         };
     }
-    mergeHooks(o, hooks);
     const mutationObserver = initMutationObserver(o, o.doc);
     const mousemoveHandler = initMoveObserver(o);
     const mouseInteractionHandler = initMouseInteractionObserver(o);
@@ -16307,10 +16969,6 @@ function initObservers(o, hooks = {}) {
         };
     const selectionObserver = initSelectionObserver(o);
     const customElementObserver = initCustomElementObserver(o);
-    const pluginHandlers = [];
-    for (const plugin of o.plugins) {
-        pluginHandlers.push(plugin.observer(plugin.callback, currentWindow, plugin.options));
-    }
     return callbackWrapper(() => {
         mutationBuffers.forEach((b) => b.reset());
         mutationObserver.disconnect();
@@ -16326,7 +16984,6 @@ function initObservers(o, hooks = {}) {
         fontObserver();
         selectionObserver();
         customElementObserver();
-        pluginHandlers.forEach((h) => h());
     });
 }
 function hasNestedCSSRule(prop) {
@@ -16401,6 +17058,18 @@ class CrossOriginIframeMirror {
     }
 }
 
+class IframeManagerNoop {
+    constructor() {
+        this.crossOriginIframeMirror = new CrossOriginIframeMirror(genId);
+        this.crossOriginIframeRootIdMap = new WeakMap();
+    }
+    addIframe() {
+    }
+    addLoadListener() {
+    }
+    attachIframe() {
+    }
+}
 class IframeManager {
     constructor(options) {
         this.iframes = new WeakMap();
@@ -16611,6 +17280,16 @@ class IframeManager {
     }
 }
 
+class ShadowDomManagerNoop {
+    init() {
+    }
+    addShadowRoot() {
+    }
+    observeAttachShadow() {
+    }
+    reset() {
+    }
+}
 class ShadowDomManager {
     constructor(options) {
         this.shadowDoms = new WeakSet();
@@ -16673,541 +17352,16 @@ class ShadowDomManager {
     }
 }
 
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-
-function __rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-}
-
-function __awaiter(thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-}
-
-/*
- * base64-arraybuffer 1.0.1 <https://github.com/niklasvh/base64-arraybuffer>
- * Copyright (c) 2021 Niklas von Hertzen <https://hertzen.com>
- * Released under MIT License
- */
-var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-// Use a lookup table to find the index.
-var lookup = typeof Uint8Array === 'undefined' ? [] : new Uint8Array(256);
-for (var i = 0; i < chars.length; i++) {
-    lookup[chars.charCodeAt(i)] = i;
-}
-var encode = function (arraybuffer) {
-    var bytes = new Uint8Array(arraybuffer), i, len = bytes.length, base64 = '';
-    for (i = 0; i < len; i += 3) {
-        base64 += chars[bytes[i] >> 2];
-        base64 += chars[((bytes[i] & 3) << 4) | (bytes[i + 1] >> 4)];
-        base64 += chars[((bytes[i + 1] & 15) << 2) | (bytes[i + 2] >> 6)];
-        base64 += chars[bytes[i + 2] & 63];
-    }
-    if (len % 3 === 2) {
-        base64 = base64.substring(0, base64.length - 1) + '=';
-    }
-    else if (len % 3 === 1) {
-        base64 = base64.substring(0, base64.length - 2) + '==';
-    }
-    return base64;
-};
-
-const canvasVarMap = new Map();
-function variableListFor(ctx, ctor) {
-    let contextMap = canvasVarMap.get(ctx);
-    if (!contextMap) {
-        contextMap = new Map();
-        canvasVarMap.set(ctx, contextMap);
-    }
-    if (!contextMap.has(ctor)) {
-        contextMap.set(ctor, []);
-    }
-    return contextMap.get(ctor);
-}
-const saveWebGLVar = (value, win, ctx) => {
-    if (!value ||
-        !(isInstanceOfWebGLObject(value, win) || typeof value === 'object'))
-        return;
-    const name = value.constructor.name;
-    const list = variableListFor(ctx, name);
-    let index = list.indexOf(value);
-    if (index === -1) {
-        index = list.length;
-        list.push(value);
-    }
-    return index;
-};
-function serializeArg(value, win, ctx) {
-    if (value instanceof Array) {
-        return value.map((arg) => serializeArg(arg, win, ctx));
-    }
-    else if (value === null) {
-        return value;
-    }
-    else if (value instanceof Float32Array ||
-        value instanceof Float64Array ||
-        value instanceof Int32Array ||
-        value instanceof Uint32Array ||
-        value instanceof Uint8Array ||
-        value instanceof Uint16Array ||
-        value instanceof Int16Array ||
-        value instanceof Int8Array ||
-        value instanceof Uint8ClampedArray) {
-        const name = value.constructor.name;
-        return {
-            rr_type: name,
-            args: [Object.values(value)],
-        };
-    }
-    else if (value instanceof ArrayBuffer) {
-        const name = value.constructor.name;
-        const base64 = encode(value);
-        return {
-            rr_type: name,
-            base64,
-        };
-    }
-    else if (value instanceof DataView) {
-        const name = value.constructor.name;
-        return {
-            rr_type: name,
-            args: [
-                serializeArg(value.buffer, win, ctx),
-                value.byteOffset,
-                value.byteLength,
-            ],
-        };
-    }
-    else if (value instanceof HTMLImageElement) {
-        const name = value.constructor.name;
-        const { src } = value;
-        return {
-            rr_type: name,
-            src,
-        };
-    }
-    else if (value instanceof HTMLCanvasElement) {
-        const name = 'HTMLImageElement';
-        const src = value.toDataURL();
-        return {
-            rr_type: name,
-            src,
-        };
-    }
-    else if (value instanceof ImageData) {
-        const name = value.constructor.name;
-        return {
-            rr_type: name,
-            args: [serializeArg(value.data, win, ctx), value.width, value.height],
-        };
-    }
-    else if (isInstanceOfWebGLObject(value, win) || typeof value === 'object') {
-        const name = value.constructor.name;
-        const index = saveWebGLVar(value, win, ctx);
-        return {
-            rr_type: name,
-            index: index,
-        };
-    }
-    return value;
-}
-const serializeArgs = (args, win, ctx) => {
-    return [...args].map((arg) => serializeArg(arg, win, ctx));
-};
-const isInstanceOfWebGLObject = (value, win) => {
-    const webGLConstructorNames = [
-        'WebGLActiveInfo',
-        'WebGLBuffer',
-        'WebGLFramebuffer',
-        'WebGLProgram',
-        'WebGLRenderbuffer',
-        'WebGLShader',
-        'WebGLShaderPrecisionFormat',
-        'WebGLTexture',
-        'WebGLUniformLocation',
-        'WebGLVertexArrayObject',
-        'WebGLVertexArrayObjectOES',
-    ];
-    const supportedWebGLConstructorNames = webGLConstructorNames.filter((name) => typeof win[name] === 'function');
-    return Boolean(supportedWebGLConstructorNames.find((name) => value instanceof win[name]));
-};
-
-function initCanvas2DMutationObserver(cb, win, blockClass, blockSelector, unblockSelector) {
-    const handlers = [];
-    const props2D = Object.getOwnPropertyNames(win.CanvasRenderingContext2D.prototype);
-    for (const prop of props2D) {
-        try {
-            if (typeof win.CanvasRenderingContext2D.prototype[prop] !== 'function') {
-                continue;
-            }
-            const restoreHandler = patch(win.CanvasRenderingContext2D.prototype, prop, function (original) {
-                return function (...args) {
-                    if (!isBlocked(this.canvas, blockClass, blockSelector, unblockSelector, true)) {
-                        setTimeout(() => {
-                            const recordArgs = serializeArgs([...args], win, this);
-                            cb(this.canvas, {
-                                type: CanvasContext['2D'],
-                                property: prop,
-                                args: recordArgs,
-                            });
-                        }, 0);
-                    }
-                    return original.apply(this, args);
-                };
-            });
-            handlers.push(restoreHandler);
-        }
-        catch (_a) {
-            const hookHandler = hookSetter(win.CanvasRenderingContext2D.prototype, prop, {
-                set(v) {
-                    cb(this.canvas, {
-                        type: CanvasContext['2D'],
-                        property: prop,
-                        args: [v],
-                        setter: true,
-                    });
-                },
-            });
-            handlers.push(hookHandler);
-        }
-    }
-    return () => {
-        handlers.forEach((h) => h());
-    };
-}
-
-function getNormalizedContextName(contextType) {
-    return contextType === 'experimental-webgl' ? 'webgl' : contextType;
-}
-function initCanvasContextObserver(win, blockClass, blockSelector, unblockSelector, setPreserveDrawingBufferToTrue) {
-    const handlers = [];
-    try {
-        const restoreHandler = patch(win.HTMLCanvasElement.prototype, 'getContext', function (original) {
-            return function (contextType, ...args) {
-                if (!isBlocked(this, blockClass, blockSelector, unblockSelector, true)) {
-                    const ctxName = getNormalizedContextName(contextType);
-                    if (!('__context' in this))
-                        this.__context = ctxName;
-                    if (setPreserveDrawingBufferToTrue &&
-                        ['webgl', 'webgl2'].includes(ctxName)) {
-                        if (args[0] && typeof args[0] === 'object') {
-                            const contextAttributes = args[0];
-                            if (!contextAttributes.preserveDrawingBuffer) {
-                                contextAttributes.preserveDrawingBuffer = true;
-                            }
-                        }
-                        else {
-                            args.splice(0, 1, {
-                                preserveDrawingBuffer: true,
-                            });
-                        }
-                    }
-                }
-                return original.apply(this, [contextType, ...args]);
-            };
-        });
-        handlers.push(restoreHandler);
-    }
-    catch (_a) {
-        console.error('failed to patch HTMLCanvasElement.prototype.getContext');
-    }
-    return () => {
-        handlers.forEach((h) => h());
-    };
-}
-
-function patchGLPrototype(prototype, type, cb, blockClass, blockSelector, unblockSelector, mirror, win) {
-    const handlers = [];
-    const props = Object.getOwnPropertyNames(prototype);
-    for (const prop of props) {
-        if ([
-            'isContextLost',
-            'canvas',
-            'drawingBufferWidth',
-            'drawingBufferHeight',
-        ].includes(prop)) {
-            continue;
-        }
-        try {
-            if (typeof prototype[prop] !== 'function') {
-                continue;
-            }
-            const restoreHandler = patch(prototype, prop, function (original) {
-                return function (...args) {
-                    const result = original.apply(this, args);
-                    saveWebGLVar(result, win, this);
-                    if ('tagName' in this.canvas &&
-                        !isBlocked(this.canvas, blockClass, blockSelector, unblockSelector, true)) {
-                        const recordArgs = serializeArgs([...args], win, this);
-                        const mutation = {
-                            type,
-                            property: prop,
-                            args: recordArgs,
-                        };
-                        cb(this.canvas, mutation);
-                    }
-                    return result;
-                };
-            });
-            handlers.push(restoreHandler);
-        }
-        catch (_a) {
-            const hookHandler = hookSetter(prototype, prop, {
-                set(v) {
-                    cb(this.canvas, {
-                        type,
-                        property: prop,
-                        args: [v],
-                        setter: true,
-                    });
-                },
-            });
-            handlers.push(hookHandler);
-        }
-    }
-    return handlers;
-}
-function initCanvasWebGLMutationObserver(cb, win, blockClass, blockSelector, unblockSelector, mirror) {
-    const handlers = [];
-    handlers.push(...patchGLPrototype(win.WebGLRenderingContext.prototype, CanvasContext.WebGL, cb, blockClass, blockSelector, unblockSelector, mirror, win));
-    if (typeof win.WebGL2RenderingContext !== 'undefined') {
-        handlers.push(...patchGLPrototype(win.WebGL2RenderingContext.prototype, CanvasContext.WebGL2, cb, blockClass, blockSelector, unblockSelector, mirror, win));
-    }
-    return () => {
-        handlers.forEach((h) => h());
-    };
-}
-
-function decodeBase64(base64, enableUnicode) {
-    var binaryString = atob(base64);
-    if (enableUnicode) {
-        var binaryView = new Uint8Array(binaryString.length);
-        for (var i = 0, n = binaryString.length; i < n; ++i) {
-            binaryView[i] = binaryString.charCodeAt(i);
-        }
-        return String.fromCharCode.apply(null, new Uint16Array(binaryView.buffer));
-    }
-    return binaryString;
-}
-
-function createURL(base64, sourcemapArg, enableUnicodeArg) {
-    var sourcemap = sourcemapArg === undefined ? null : sourcemapArg;
-    var enableUnicode = enableUnicodeArg === undefined ? false : enableUnicodeArg;
-    var source = decodeBase64(base64, enableUnicode);
-    var start = source.indexOf('\n', 10) + 1;
-    var body = source.substring(start) + (sourcemap ? '\/\/# sourceMappingURL=' + sourcemap : '');
-    var blob = new Blob([body], { type: 'application/javascript' });
-    return URL.createObjectURL(blob);
-}
-
-function createBase64WorkerFactory(base64, sourcemapArg, enableUnicodeArg) {
-    var url;
-    return function WorkerFactory(options) {
-        url = url || createURL(base64, sourcemapArg, enableUnicodeArg);
-        return new Worker(url, options);
-    };
-}
-
-var WorkerFactory = createBase64WorkerFactory('Lyogcm9sbHVwLXBsdWdpbi13ZWItd29ya2VyLWxvYWRlciAqLwooZnVuY3Rpb24gKCkgewogICAgJ3VzZSBzdHJpY3QnOwoKICAgIC8qISAqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKg0KICAgIENvcHlyaWdodCAoYykgTWljcm9zb2Z0IENvcnBvcmF0aW9uLg0KDQogICAgUGVybWlzc2lvbiB0byB1c2UsIGNvcHksIG1vZGlmeSwgYW5kL29yIGRpc3RyaWJ1dGUgdGhpcyBzb2Z0d2FyZSBmb3IgYW55DQogICAgcHVycG9zZSB3aXRoIG9yIHdpdGhvdXQgZmVlIGlzIGhlcmVieSBncmFudGVkLg0KDQogICAgVEhFIFNPRlRXQVJFIElTIFBST1ZJREVEICJBUyBJUyIgQU5EIFRIRSBBVVRIT1IgRElTQ0xBSU1TIEFMTCBXQVJSQU5USUVTIFdJVEgNCiAgICBSRUdBUkQgVE8gVEhJUyBTT0ZUV0FSRSBJTkNMVURJTkcgQUxMIElNUExJRUQgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFkNCiAgICBBTkQgRklUTkVTUy4gSU4gTk8gRVZFTlQgU0hBTEwgVEhFIEFVVEhPUiBCRSBMSUFCTEUgRk9SIEFOWSBTUEVDSUFMLCBESVJFQ1QsDQogICAgSU5ESVJFQ1QsIE9SIENPTlNFUVVFTlRJQUwgREFNQUdFUyBPUiBBTlkgREFNQUdFUyBXSEFUU09FVkVSIFJFU1VMVElORyBGUk9NDQogICAgTE9TUyBPRiBVU0UsIERBVEEgT1IgUFJPRklUUywgV0hFVEhFUiBJTiBBTiBBQ1RJT04gT0YgQ09OVFJBQ1QsIE5FR0xJR0VOQ0UgT1INCiAgICBPVEhFUiBUT1JUSU9VUyBBQ1RJT04sIEFSSVNJTkcgT1VUIE9GIE9SIElOIENPTk5FQ1RJT04gV0lUSCBUSEUgVVNFIE9SDQogICAgUEVSRk9STUFOQ0UgT0YgVEhJUyBTT0ZUV0FSRS4NCiAgICAqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKiAqLw0KDQogICAgZnVuY3Rpb24gX19hd2FpdGVyKHRoaXNBcmcsIF9hcmd1bWVudHMsIFAsIGdlbmVyYXRvcikgew0KICAgICAgICBmdW5jdGlvbiBhZG9wdCh2YWx1ZSkgeyByZXR1cm4gdmFsdWUgaW5zdGFuY2VvZiBQID8gdmFsdWUgOiBuZXcgUChmdW5jdGlvbiAocmVzb2x2ZSkgeyByZXNvbHZlKHZhbHVlKTsgfSk7IH0NCiAgICAgICAgcmV0dXJuIG5ldyAoUCB8fCAoUCA9IFByb21pc2UpKShmdW5jdGlvbiAocmVzb2x2ZSwgcmVqZWN0KSB7DQogICAgICAgICAgICBmdW5jdGlvbiBmdWxmaWxsZWQodmFsdWUpIHsgdHJ5IHsgc3RlcChnZW5lcmF0b3IubmV4dCh2YWx1ZSkpOyB9IGNhdGNoIChlKSB7IHJlamVjdChlKTsgfSB9DQogICAgICAgICAgICBmdW5jdGlvbiByZWplY3RlZCh2YWx1ZSkgeyB0cnkgeyBzdGVwKGdlbmVyYXRvclsidGhyb3ciXSh2YWx1ZSkpOyB9IGNhdGNoIChlKSB7IHJlamVjdChlKTsgfSB9DQogICAgICAgICAgICBmdW5jdGlvbiBzdGVwKHJlc3VsdCkgeyByZXN1bHQuZG9uZSA/IHJlc29sdmUocmVzdWx0LnZhbHVlKSA6IGFkb3B0KHJlc3VsdC52YWx1ZSkudGhlbihmdWxmaWxsZWQsIHJlamVjdGVkKTsgfQ0KICAgICAgICAgICAgc3RlcCgoZ2VuZXJhdG9yID0gZ2VuZXJhdG9yLmFwcGx5KHRoaXNBcmcsIF9hcmd1bWVudHMgfHwgW10pKS5uZXh0KCkpOw0KICAgICAgICB9KTsNCiAgICB9CgogICAgLyoKICAgICAqIGJhc2U2NC1hcnJheWJ1ZmZlciAxLjAuMSA8aHR0cHM6Ly9naXRodWIuY29tL25pa2xhc3ZoL2Jhc2U2NC1hcnJheWJ1ZmZlcj4KICAgICAqIENvcHlyaWdodCAoYykgMjAyMSBOaWtsYXMgdm9uIEhlcnR6ZW4gPGh0dHBzOi8vaGVydHplbi5jb20+CiAgICAgKiBSZWxlYXNlZCB1bmRlciBNSVQgTGljZW5zZQogICAgICovCiAgICB2YXIgY2hhcnMgPSAnQUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVphYmNkZWZnaGlqa2xtbm9wcXJzdHV2d3h5ejAxMjM0NTY3ODkrLyc7CiAgICAvLyBVc2UgYSBsb29rdXAgdGFibGUgdG8gZmluZCB0aGUgaW5kZXguCiAgICB2YXIgbG9va3VwID0gdHlwZW9mIFVpbnQ4QXJyYXkgPT09ICd1bmRlZmluZWQnID8gW10gOiBuZXcgVWludDhBcnJheSgyNTYpOwogICAgZm9yICh2YXIgaSA9IDA7IGkgPCBjaGFycy5sZW5ndGg7IGkrKykgewogICAgICAgIGxvb2t1cFtjaGFycy5jaGFyQ29kZUF0KGkpXSA9IGk7CiAgICB9CiAgICB2YXIgZW5jb2RlID0gZnVuY3Rpb24gKGFycmF5YnVmZmVyKSB7CiAgICAgICAgdmFyIGJ5dGVzID0gbmV3IFVpbnQ4QXJyYXkoYXJyYXlidWZmZXIpLCBpLCBsZW4gPSBieXRlcy5sZW5ndGgsIGJhc2U2NCA9ICcnOwogICAgICAgIGZvciAoaSA9IDA7IGkgPCBsZW47IGkgKz0gMykgewogICAgICAgICAgICBiYXNlNjQgKz0gY2hhcnNbYnl0ZXNbaV0gPj4gMl07CiAgICAgICAgICAgIGJhc2U2NCArPSBjaGFyc1soKGJ5dGVzW2ldICYgMykgPDwgNCkgfCAoYnl0ZXNbaSArIDFdID4+IDQpXTsKICAgICAgICAgICAgYmFzZTY0ICs9IGNoYXJzWygoYnl0ZXNbaSArIDFdICYgMTUpIDw8IDIpIHwgKGJ5dGVzW2kgKyAyXSA+PiA2KV07CiAgICAgICAgICAgIGJhc2U2NCArPSBjaGFyc1tieXRlc1tpICsgMl0gJiA2M107CiAgICAgICAgfQogICAgICAgIGlmIChsZW4gJSAzID09PSAyKSB7CiAgICAgICAgICAgIGJhc2U2NCA9IGJhc2U2NC5zdWJzdHJpbmcoMCwgYmFzZTY0Lmxlbmd0aCAtIDEpICsgJz0nOwogICAgICAgIH0KICAgICAgICBlbHNlIGlmIChsZW4gJSAzID09PSAxKSB7CiAgICAgICAgICAgIGJhc2U2NCA9IGJhc2U2NC5zdWJzdHJpbmcoMCwgYmFzZTY0Lmxlbmd0aCAtIDIpICsgJz09JzsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIGJhc2U2NDsKICAgIH07CgogICAgY29uc3QgbGFzdEJsb2JNYXAgPSBuZXcgTWFwKCk7DQogICAgY29uc3QgdHJhbnNwYXJlbnRCbG9iTWFwID0gbmV3IE1hcCgpOw0KICAgIGZ1bmN0aW9uIGdldFRyYW5zcGFyZW50QmxvYkZvcih3aWR0aCwgaGVpZ2h0LCBkYXRhVVJMT3B0aW9ucykgew0KICAgICAgICByZXR1cm4gX19hd2FpdGVyKHRoaXMsIHZvaWQgMCwgdm9pZCAwLCBmdW5jdGlvbiogKCkgew0KICAgICAgICAgICAgY29uc3QgaWQgPSBgJHt3aWR0aH0tJHtoZWlnaHR9YDsNCiAgICAgICAgICAgIGlmICgnT2Zmc2NyZWVuQ2FudmFzJyBpbiBnbG9iYWxUaGlzKSB7DQogICAgICAgICAgICAgICAgaWYgKHRyYW5zcGFyZW50QmxvYk1hcC5oYXMoaWQpKQ0KICAgICAgICAgICAgICAgICAgICByZXR1cm4gdHJhbnNwYXJlbnRCbG9iTWFwLmdldChpZCk7DQogICAgICAgICAgICAgICAgY29uc3Qgb2Zmc2NyZWVuID0gbmV3IE9mZnNjcmVlbkNhbnZhcyh3aWR0aCwgaGVpZ2h0KTsNCiAgICAgICAgICAgICAgICBvZmZzY3JlZW4uZ2V0Q29udGV4dCgnMmQnKTsNCiAgICAgICAgICAgICAgICBjb25zdCBibG9iID0geWllbGQgb2Zmc2NyZWVuLmNvbnZlcnRUb0Jsb2IoZGF0YVVSTE9wdGlvbnMpOw0KICAgICAgICAgICAgICAgIGNvbnN0IGFycmF5QnVmZmVyID0geWllbGQgYmxvYi5hcnJheUJ1ZmZlcigpOw0KICAgICAgICAgICAgICAgIGNvbnN0IGJhc2U2NCA9IGVuY29kZShhcnJheUJ1ZmZlcik7DQogICAgICAgICAgICAgICAgdHJhbnNwYXJlbnRCbG9iTWFwLnNldChpZCwgYmFzZTY0KTsNCiAgICAgICAgICAgICAgICByZXR1cm4gYmFzZTY0Ow0KICAgICAgICAgICAgfQ0KICAgICAgICAgICAgZWxzZSB7DQogICAgICAgICAgICAgICAgcmV0dXJuICcnOw0KICAgICAgICAgICAgfQ0KICAgICAgICB9KTsNCiAgICB9DQogICAgY29uc3Qgd29ya2VyID0gc2VsZjsNCiAgICB3b3JrZXIub25tZXNzYWdlID0gZnVuY3Rpb24gKGUpIHsNCiAgICAgICAgcmV0dXJuIF9fYXdhaXRlcih0aGlzLCB2b2lkIDAsIHZvaWQgMCwgZnVuY3Rpb24qICgpIHsNCiAgICAgICAgICAgIGlmICgnT2Zmc2NyZWVuQ2FudmFzJyBpbiBnbG9iYWxUaGlzKSB7DQogICAgICAgICAgICAgICAgY29uc3QgeyBpZCwgYml0bWFwLCB3aWR0aCwgaGVpZ2h0LCBkYXRhVVJMT3B0aW9ucyB9ID0gZS5kYXRhOw0KICAgICAgICAgICAgICAgIGNvbnN0IHRyYW5zcGFyZW50QmFzZTY0ID0gZ2V0VHJhbnNwYXJlbnRCbG9iRm9yKHdpZHRoLCBoZWlnaHQsIGRhdGFVUkxPcHRpb25zKTsNCiAgICAgICAgICAgICAgICBjb25zdCBvZmZzY3JlZW4gPSBuZXcgT2Zmc2NyZWVuQ2FudmFzKHdpZHRoLCBoZWlnaHQpOw0KICAgICAgICAgICAgICAgIGNvbnN0IGN0eCA9IG9mZnNjcmVlbi5nZXRDb250ZXh0KCcyZCcpOw0KICAgICAgICAgICAgICAgIGN0eC5kcmF3SW1hZ2UoYml0bWFwLCAwLCAwKTsNCiAgICAgICAgICAgICAgICBiaXRtYXAuY2xvc2UoKTsNCiAgICAgICAgICAgICAgICBjb25zdCBibG9iID0geWllbGQgb2Zmc2NyZWVuLmNvbnZlcnRUb0Jsb2IoZGF0YVVSTE9wdGlvbnMpOw0KICAgICAgICAgICAgICAgIGNvbnN0IHR5cGUgPSBibG9iLnR5cGU7DQogICAgICAgICAgICAgICAgY29uc3QgYXJyYXlCdWZmZXIgPSB5aWVsZCBibG9iLmFycmF5QnVmZmVyKCk7DQogICAgICAgICAgICAgICAgY29uc3QgYmFzZTY0ID0gZW5jb2RlKGFycmF5QnVmZmVyKTsNCiAgICAgICAgICAgICAgICBpZiAoIWxhc3RCbG9iTWFwLmhhcyhpZCkgJiYgKHlpZWxkIHRyYW5zcGFyZW50QmFzZTY0KSA9PT0gYmFzZTY0KSB7DQogICAgICAgICAgICAgICAgICAgIGxhc3RCbG9iTWFwLnNldChpZCwgYmFzZTY0KTsNCiAgICAgICAgICAgICAgICAgICAgcmV0dXJuIHdvcmtlci5wb3N0TWVzc2FnZSh7IGlkIH0pOw0KICAgICAgICAgICAgICAgIH0NCiAgICAgICAgICAgICAgICBpZiAobGFzdEJsb2JNYXAuZ2V0KGlkKSA9PT0gYmFzZTY0KQ0KICAgICAgICAgICAgICAgICAgICByZXR1cm4gd29ya2VyLnBvc3RNZXNzYWdlKHsgaWQgfSk7DQogICAgICAgICAgICAgICAgd29ya2VyLnBvc3RNZXNzYWdlKHsNCiAgICAgICAgICAgICAgICAgICAgaWQsDQogICAgICAgICAgICAgICAgICAgIHR5cGUsDQogICAgICAgICAgICAgICAgICAgIGJhc2U2NCwNCiAgICAgICAgICAgICAgICAgICAgd2lkdGgsDQogICAgICAgICAgICAgICAgICAgIGhlaWdodCwNCiAgICAgICAgICAgICAgICB9KTsNCiAgICAgICAgICAgICAgICBsYXN0QmxvYk1hcC5zZXQoaWQsIGJhc2U2NCk7DQogICAgICAgICAgICB9DQogICAgICAgICAgICBlbHNlIHsNCiAgICAgICAgICAgICAgICByZXR1cm4gd29ya2VyLnBvc3RNZXNzYWdlKHsgaWQ6IGUuZGF0YS5pZCB9KTsNCiAgICAgICAgICAgIH0NCiAgICAgICAgfSk7DQogICAgfTsKCn0pKCk7Cgo=', null, false);
-
-class CanvasManager {
+class CanvasManagerNoop {
     reset() {
-        this.pendingCanvasMutations.clear();
-        this.resetObservers && this.resetObservers();
     }
     freeze() {
-        this.frozen = true;
     }
     unfreeze() {
-        this.frozen = false;
     }
     lock() {
-        this.locked = true;
     }
     unlock() {
-        this.locked = false;
-    }
-    constructor(options) {
-        this.pendingCanvasMutations = new Map();
-        this.rafStamps = { latestId: 0, invokeId: null };
-        this.frozen = false;
-        this.locked = false;
-        this.processMutation = (target, mutation) => {
-            const newFrame = this.rafStamps.invokeId &&
-                this.rafStamps.latestId !== this.rafStamps.invokeId;
-            if (newFrame || !this.rafStamps.invokeId)
-                this.rafStamps.invokeId = this.rafStamps.latestId;
-            if (!this.pendingCanvasMutations.has(target)) {
-                this.pendingCanvasMutations.set(target, []);
-            }
-            this.pendingCanvasMutations.get(target).push(mutation);
-        };
-        const { sampling = 'all', win, blockClass, blockSelector, unblockSelector, recordCanvas, dataURLOptions, } = options;
-        this.mutationCb = options.mutationCb;
-        this.mirror = options.mirror;
-        if (recordCanvas && sampling === 'all')
-            this.initCanvasMutationObserver(win, blockClass, blockSelector, unblockSelector);
-        if (recordCanvas && typeof sampling === 'number')
-            this.initCanvasFPSObserver(sampling, win, blockClass, blockSelector, unblockSelector, {
-                dataURLOptions,
-            });
-    }
-    initCanvasFPSObserver(fps, win, blockClass, blockSelector, unblockSelector, options) {
-        const canvasContextReset = initCanvasContextObserver(win, blockClass, blockSelector, unblockSelector, true);
-        const snapshotInProgressMap = new Map();
-        const worker = new WorkerFactory();
-        worker.onmessage = (e) => {
-            const { id } = e.data;
-            snapshotInProgressMap.set(id, false);
-            if (!('base64' in e.data))
-                return;
-            const { base64, type, width, height } = e.data;
-            this.mutationCb({
-                id,
-                type: CanvasContext['2D'],
-                commands: [
-                    {
-                        property: 'clearRect',
-                        args: [0, 0, width, height],
-                    },
-                    {
-                        property: 'drawImage',
-                        args: [
-                            {
-                                rr_type: 'ImageBitmap',
-                                args: [
-                                    {
-                                        rr_type: 'Blob',
-                                        data: [{ rr_type: 'ArrayBuffer', base64 }],
-                                        type,
-                                    },
-                                ],
-                            },
-                            0,
-                            0,
-                        ],
-                    },
-                ],
-            });
-        };
-        const timeBetweenSnapshots = 1000 / fps;
-        let lastSnapshotTime = 0;
-        let rafId;
-        const getCanvas = () => {
-            const matchedCanvas = [];
-            win.document.querySelectorAll('canvas').forEach((canvas) => {
-                if (!isBlocked(canvas, blockClass, blockSelector, unblockSelector, true)) {
-                    matchedCanvas.push(canvas);
-                }
-            });
-            return matchedCanvas;
-        };
-        const takeCanvasSnapshots = (timestamp) => {
-            if (lastSnapshotTime &&
-                timestamp - lastSnapshotTime < timeBetweenSnapshots) {
-                rafId = requestAnimationFrame(takeCanvasSnapshots);
-                return;
-            }
-            lastSnapshotTime = timestamp;
-            getCanvas()
-                .forEach((canvas) => __awaiter(this, void 0, void 0, function* () {
-                var _a;
-                const id = this.mirror.getId(canvas);
-                if (snapshotInProgressMap.get(id))
-                    return;
-                snapshotInProgressMap.set(id, true);
-                if (['webgl', 'webgl2'].includes(canvas.__context)) {
-                    const context = canvas.getContext(canvas.__context);
-                    if (((_a = context === null || context === void 0 ? void 0 : context.getContextAttributes()) === null || _a === void 0 ? void 0 : _a.preserveDrawingBuffer) === false) {
-                        context.clear(context.COLOR_BUFFER_BIT);
-                    }
-                }
-                const bitmap = yield createImageBitmap(canvas);
-                worker.postMessage({
-                    id,
-                    bitmap,
-                    width: canvas.width,
-                    height: canvas.height,
-                    dataURLOptions: options.dataURLOptions,
-                }, [bitmap]);
-            }));
-            rafId = requestAnimationFrame(takeCanvasSnapshots);
-        };
-        rafId = requestAnimationFrame(takeCanvasSnapshots);
-        this.resetObservers = () => {
-            canvasContextReset();
-            cancelAnimationFrame(rafId);
-        };
-    }
-    initCanvasMutationObserver(win, blockClass, blockSelector, unblockSelector) {
-        this.startRAFTimestamping();
-        this.startPendingCanvasMutationFlusher();
-        const canvasContextReset = initCanvasContextObserver(win, blockClass, blockSelector, unblockSelector, false);
-        const canvas2DReset = initCanvas2DMutationObserver(this.processMutation.bind(this), win, blockClass, blockSelector, unblockSelector);
-        const canvasWebGL1and2Reset = initCanvasWebGLMutationObserver(this.processMutation.bind(this), win, blockClass, blockSelector, unblockSelector, this.mirror);
-        this.resetObservers = () => {
-            canvasContextReset();
-            canvas2DReset();
-            canvasWebGL1and2Reset();
-        };
-    }
-    startPendingCanvasMutationFlusher() {
-        requestAnimationFrame(() => this.flushPendingCanvasMutations());
-    }
-    startRAFTimestamping() {
-        const setLatestRAFTimestamp = (timestamp) => {
-            this.rafStamps.latestId = timestamp;
-            requestAnimationFrame(setLatestRAFTimestamp);
-        };
-        requestAnimationFrame(setLatestRAFTimestamp);
-    }
-    flushPendingCanvasMutations() {
-        this.pendingCanvasMutations.forEach((values, canvas) => {
-            const id = this.mirror.getId(canvas);
-            this.flushPendingCanvasMutationFor(canvas, id);
-        });
-        requestAnimationFrame(() => this.flushPendingCanvasMutations());
-    }
-    flushPendingCanvasMutationFor(canvas, id) {
-        if (this.frozen || this.locked) {
-            return;
-        }
-        const valuesWithType = this.pendingCanvasMutations.get(canvas);
-        if (!valuesWithType || id === -1)
-            return;
-        const values = valuesWithType.map((value) => {
-            const rest = __rest(value, ["type"]);
-            return rest;
-        });
-        const { type } = valuesWithType[0];
-        this.mutationCb({ id, type, commands: values });
-        this.pendingCanvasMutations.delete(canvas);
     }
 }
 
@@ -17305,17 +17459,16 @@ class ProcessedNodeManager {
 }
 
 function wrapEvent(e) {
-    return Object.assign(Object.assign({}, e), { timestamp: nowTimestamp() });
+    const eWithTime = e;
+    eWithTime.timestamp = nowTimestamp();
+    return eWithTime;
 }
-let wrappedEmit;
-let takeFullSnapshot;
-let canvasManager;
-let recording = false;
+let _takeFullSnapshot;
 const mirror = createMirror();
 function record(options = {}) {
-    const { emit, checkoutEveryNms, checkoutEveryNth, blockClass = 'rr-block', blockSelector = null, unblockSelector = null, ignoreClass = 'rr-ignore', ignoreSelector = null, maskAllText = false, maskTextClass = 'rr-mask', unmaskTextClass = null, maskTextSelector = null, unmaskTextSelector = null, inlineStylesheet = true, maskAllInputs, maskInputOptions: _maskInputOptions, slimDOMOptions: _slimDOMOptions, maskAttributeFn, maskInputFn, maskTextFn, hooks, packFn, sampling = {}, dataURLOptions = {}, mousemoveWait, recordCanvas = false, recordCrossOriginIframes = false, recordAfter = options.recordAfter === 'DOMContentLoaded'
+    const { emit, checkoutEveryNms, checkoutEveryNth, blockClass = 'rr-block', blockSelector = null, unblockSelector = null, ignoreClass = 'rr-ignore', ignoreSelector = null, maskAllText = false, maskTextClass = 'rr-mask', unmaskTextClass = null, maskTextSelector = null, unmaskTextSelector = null, inlineStylesheet = true, maskAllInputs, maskInputOptions: _maskInputOptions, slimDOMOptions: _slimDOMOptions, maskAttributeFn, maskInputFn, maskTextFn, packFn, sampling = {}, dataURLOptions = {}, mousemoveWait, recordCanvas = false, recordCrossOriginIframes = false, recordAfter = options.recordAfter === 'DOMContentLoaded'
         ? options.recordAfter
-        : 'load', userTriggeredOnInput = false, collectFonts = false, inlineImages = false, plugins, keepIframeSrcFn = () => false, ignoreCSSAttributes = new Set([]), errorHandler, onMutation, } = options;
+        : 'load', userTriggeredOnInput = false, collectFonts = false, inlineImages = false, keepIframeSrcFn = () => false, ignoreCSSAttributes = new Set([]), errorHandler, onMutation, getCanvasManager, } = options;
     registerErrorHandler(errorHandler);
     const inEmittingFrame = recordCrossOriginIframes
         ? window.parent === window
@@ -17381,18 +17534,13 @@ function record(options = {}) {
     let lastFullSnapshotEvent;
     let incrementalSnapshotCount = 0;
     const eventProcessor = (e) => {
-        for (const plugin of plugins || []) {
-            if (plugin.eventProcessor) {
-                e = plugin.eventProcessor(e);
-            }
-        }
         if (packFn &&
             !passEmitsToParent) {
             e = packFn(e);
         }
         return e;
     };
-    wrappedEmit = (e, isCheckout) => {
+    const wrappedEmit = (e, isCheckout) => {
         var _a;
         if (((_a = mutationBuffers[0]) === null || _a === void 0 ? void 0 : _a.isFrozen()) &&
             e.type !== EventType.FullSnapshot &&
@@ -17452,65 +17600,61 @@ function record(options = {}) {
         mutationCb: wrappedMutationEmit,
         adoptedStyleSheetCb: wrappedAdoptedStyleSheetEmit,
     });
-    const iframeManager = new IframeManager({
-        mirror,
-        mutationCb: wrappedMutationEmit,
-        stylesheetManager: stylesheetManager,
-        recordCrossOriginIframes,
-        wrappedEmit,
-    });
-    for (const plugin of plugins || []) {
-        if (plugin.getMirror)
-            plugin.getMirror({
-                nodeMirror: mirror,
-                crossOriginIframeMirror: iframeManager.crossOriginIframeMirror,
-                crossOriginIframeStyleMirror: iframeManager.crossOriginIframeStyleMirror,
-            });
-    }
+    const iframeManager = typeof __RRWEB_EXCLUDE_IFRAME__ === 'boolean' && __RRWEB_EXCLUDE_IFRAME__
+        ? new IframeManagerNoop()
+        : new IframeManager({
+            mirror,
+            mutationCb: wrappedMutationEmit,
+            stylesheetManager: stylesheetManager,
+            recordCrossOriginIframes,
+            wrappedEmit,
+        });
     const processedNodeManager = new ProcessedNodeManager();
-    canvasManager = new CanvasManager({
-        recordCanvas,
-        mutationCb: wrappedCanvasMutationEmit,
-        win: window,
-        blockClass,
-        blockSelector,
-        unblockSelector,
-        mirror,
-        sampling: sampling.canvas,
-        dataURLOptions,
-    });
-    const shadowDomManager = new ShadowDomManager({
-        mutationCb: wrappedMutationEmit,
-        scrollCb: wrappedScrollEmit,
-        bypassOptions: {
-            onMutation,
+    const canvasManager = getCanvasManager
+        ? getCanvasManager({
+            recordCanvas,
             blockClass,
             blockSelector,
             unblockSelector,
-            maskAllText,
-            maskTextClass,
-            unmaskTextClass,
-            maskTextSelector,
-            unmaskTextSelector,
-            inlineStylesheet,
-            maskInputOptions,
+            sampling: sampling['canvas'],
             dataURLOptions,
-            maskAttributeFn,
-            maskTextFn,
-            maskInputFn,
-            recordCanvas,
-            inlineImages,
-            sampling,
-            slimDOMOptions,
-            iframeManager,
-            stylesheetManager,
-            canvasManager,
-            keepIframeSrcFn,
-            processedNodeManager,
-        },
-        mirror,
-    });
-    takeFullSnapshot = (isCheckout = false) => {
+        })
+        : new CanvasManagerNoop();
+    const shadowDomManager = typeof __RRWEB_EXCLUDE_SHADOW_DOM__ === 'boolean' &&
+        __RRWEB_EXCLUDE_SHADOW_DOM__
+        ? new ShadowDomManagerNoop()
+        : new ShadowDomManager({
+            mutationCb: wrappedMutationEmit,
+            scrollCb: wrappedScrollEmit,
+            bypassOptions: {
+                onMutation,
+                blockClass,
+                blockSelector,
+                unblockSelector,
+                maskAllText,
+                maskTextClass,
+                unmaskTextClass,
+                maskTextSelector,
+                unmaskTextSelector,
+                inlineStylesheet,
+                maskInputOptions,
+                dataURLOptions,
+                maskAttributeFn,
+                maskTextFn,
+                maskInputFn,
+                recordCanvas,
+                inlineImages,
+                sampling,
+                slimDOMOptions,
+                iframeManager,
+                stylesheetManager,
+                canvasManager,
+                keepIframeSrcFn,
+                processedNodeManager,
+            },
+            mirror,
+        });
+    const takeFullSnapshot = (isCheckout = false) => {
         wrappedEmit(wrapEvent({
             type: EventType.Meta,
             data: {
@@ -17575,10 +17719,10 @@ function record(options = {}) {
         if (document.adoptedStyleSheets && document.adoptedStyleSheets.length > 0)
             stylesheetManager.adoptStyleSheets(document.adoptedStyleSheets, mirror.getId(document));
     };
+    _takeFullSnapshot = takeFullSnapshot;
     try {
         const handlers = [];
         const observe = (doc) => {
-            var _a;
             return callbackWrapper(initObservers)({
                 onMutation,
                 mutationCb: wrappedMutationEmit,
@@ -17662,18 +17806,8 @@ function record(options = {}) {
                 processedNodeManager,
                 canvasManager,
                 ignoreCSSAttributes,
-                plugins: ((_a = plugins === null || plugins === void 0 ? void 0 : plugins.filter((p) => p.observer)) === null || _a === void 0 ? void 0 : _a.map((p) => ({
-                    observer: p.observer,
-                    options: p.options,
-                    callback: (payload) => wrappedEmit(wrapEvent({
-                        type: EventType.Plugin,
-                        data: {
-                            plugin: p.name,
-                            payload,
-                        },
-                    })),
-                }))) || [],
-            }, hooks);
+                plugins: [],
+            }, {});
         };
         iframeManager.addLoadListener((iframeEl) => {
             try {
@@ -17686,7 +17820,6 @@ function record(options = {}) {
         const init = () => {
             takeFullSnapshot();
             handlers.push(observe(document));
-            recording = true;
         };
         if (document.readyState === 'interactive' ||
             document.readyState === 'complete') {
@@ -17713,7 +17846,7 @@ function record(options = {}) {
         return () => {
             handlers.forEach((h) => h());
             processedNodeManager.destroy();
-            recording = false;
+            _takeFullSnapshot = undefined;
             unregisterErrorHandler();
         };
     }
@@ -17721,28 +17854,17 @@ function record(options = {}) {
         console.warn(error);
     }
 }
-record.addCustomEvent = (tag, payload) => {
-    if (!recording) {
-        throw new Error('please add custom event after start recording');
-    }
-    wrappedEmit(wrapEvent({
-        type: EventType.Custom,
-        data: {
-            tag,
-            payload,
-        },
-    }));
-};
-record.freezePage = () => {
-    mutationBuffers.forEach((buf) => buf.freeze());
-};
-record.takeFullSnapshot = (isCheckout) => {
-    if (!recording) {
+function takeFullSnapshot(isCheckout) {
+    if (!_takeFullSnapshot) {
         throw new Error('please take full snapshot after start recording');
     }
-    takeFullSnapshot(isCheckout);
-};
+    _takeFullSnapshot(isCheckout);
+}
 record.mirror = mirror;
+record.takeFullSnapshot = takeFullSnapshot;
+
+const ReplayEventTypeIncrementalSnapshot = 3;
+const ReplayEventTypeCustom = 5;
 
 /**
  * Converts a timestamp to ms, if it was in s, or keeps it as ms.
@@ -17794,6 +17916,12 @@ function addBreadcrumbEvent(replay, breadcrumb) {
 
 const INTERACTIVE_SELECTOR = 'button,a';
 
+/** Get the closest interactive parent element, or else return the given element. */
+function getClosestInteractive(element) {
+  const closestInteractive = element.closest(INTERACTIVE_SELECTOR);
+  return closestInteractive || element;
+}
+
 /**
  * For clicks, we check if the target is inside of a button or link
  * If so, we use this as the target instead
@@ -17807,8 +17935,7 @@ function getClickTargetNode(event) {
     return target;
   }
 
-  const closestInteractive = target.closest(INTERACTIVE_SELECTOR);
-  return closestInteractive || target;
+  return getClosestInteractive(target);
 }
 
 /** Get the event target node. */
@@ -17893,48 +18020,14 @@ class ClickDetector  {
 
   /** Register click detection handlers on mutation or scroll. */
    addListeners() {
-    const mutationHandler = () => {
-      this._lastMutation = nowInSeconds();
-    };
-
-    const scrollHandler = () => {
-      this._lastScroll = nowInSeconds();
-    };
-
     const cleanupWindowOpen = onWindowOpen(() => {
       // Treat window.open as mutation
       this._lastMutation = nowInSeconds();
     });
 
-    const clickHandler = (event) => {
-      if (!event.target) {
-        return;
-      }
-
-      const node = getClickTargetNode(event);
-      if (node) {
-        this._handleMultiClick(node );
-      }
-    };
-
-    const obs = new MutationObserver(mutationHandler);
-
-    obs.observe(WINDOW.document.documentElement, {
-      attributes: true,
-      characterData: true,
-      childList: true,
-      subtree: true,
-    });
-
-    WINDOW.addEventListener('scroll', scrollHandler, { passive: true });
-    WINDOW.addEventListener('click', clickHandler, { passive: true });
-
     this._teardown = () => {
-      WINDOW.removeEventListener('scroll', scrollHandler);
-      WINDOW.removeEventListener('click', clickHandler);
       cleanupWindowOpen();
 
-      obs.disconnect();
       this._clicks = [];
       this._lastMutation = 0;
       this._lastScroll = 0;
@@ -17952,7 +18045,7 @@ class ClickDetector  {
     }
   }
 
-  /** Handle a click */
+  /** @inheritDoc */
    handleClick(breadcrumb, node) {
     if (ignoreElement(node, this._ignoreSelector) || !isClickBreadcrumb(breadcrumb)) {
       return;
@@ -17979,6 +18072,22 @@ class ClickDetector  {
     if (this._clicks.length === 1) {
       this._scheduleCheckClicks();
     }
+  }
+
+  /** @inheritDoc */
+   registerMutation(timestamp = Date.now()) {
+    this._lastMutation = timestampToS(timestamp);
+  }
+
+  /** @inheritDoc */
+   registerScroll(timestamp = Date.now()) {
+    this._lastScroll = timestampToS(timestamp);
+  }
+
+  /** @inheritDoc */
+   registerClick(element) {
+    const node = getClosestInteractive(element);
+    this._handleMultiClick(node );
   }
 
   /** Count multiple clicks on elements. */
@@ -18135,6 +18244,53 @@ function nowInSeconds() {
   return Date.now() / 1000;
 }
 
+/** Update the click detector based on a recording event of rrweb. */
+function updateClickDetectorForRecordingEvent(clickDetector, event) {
+  try {
+    // note: We only consider incremental snapshots here
+    // This means that any full snapshot is ignored for mutation detection - the reason is that we simply cannot know if a mutation happened here.
+    // E.g. think that we are buffering, an error happens and we take a full snapshot because we switched to session mode -
+    // in this scenario, we would not know if a dead click happened because of the error, which is a key dead click scenario.
+    // Instead, by ignoring full snapshots, we have the risk that we generate a false positive
+    // (if a mutation _did_ happen but was "swallowed" by the full snapshot)
+    // But this should be more unlikely as we'd generally capture the incremental snapshot right away
+
+    if (!isIncrementalEvent(event)) {
+      return;
+    }
+
+    const { source } = event.data;
+    if (source === IncrementalSource.Mutation) {
+      clickDetector.registerMutation(event.timestamp);
+    }
+
+    if (source === IncrementalSource.Scroll) {
+      clickDetector.registerScroll(event.timestamp);
+    }
+
+    if (isIncrementalMouseInteraction(event)) {
+      const { type, id } = event.data;
+      const node = record.mirror.getNode(id);
+
+      if (node instanceof HTMLElement && type === MouseInteractions.Click) {
+        clickDetector.registerClick(node);
+      }
+    }
+  } catch (e) {
+    // ignore errors here, e.g. if accessing something that does not exist
+  }
+}
+
+function isIncrementalEvent(event) {
+  return event.type === ReplayEventTypeIncrementalSnapshot;
+}
+
+function isIncrementalMouseInteraction(
+  event,
+) {
+  return event.data.source === IncrementalSource.MouseInteraction;
+}
+
 /**
  * Create a breadcrumb for a replay.
  */
@@ -18209,12 +18365,13 @@ const handleDomListener = (
     }
 
     const isClick = handlerData.name === 'click';
-    const event = isClick && (handlerData.event );
+    const event = isClick ? (handlerData.event ) : undefined;
     // Ignore clicks if ctrl/alt/meta/shift keys are held down as they alter behavior of clicks (e.g. open in new tab)
     if (
       isClick &&
       replay.clickDetector &&
       event &&
+      event.target &&
       !event.altKey &&
       !event.metaKey &&
       !event.ctrlKey &&
@@ -18223,7 +18380,7 @@ const handleDomListener = (
       handleClick(
         replay.clickDetector,
         result ,
-        getClickTargetNode(handlerData.event) ,
+        getClickTargetNode(handlerData.event ) ,
       );
     }
 
@@ -18279,7 +18436,7 @@ function getDomTarget(handlerData) {
 
   // Accessing event.target can throw (see getsentry/raven-js#838, #768)
   try {
-    target = isClick ? getClickTargetNode(handlerData.event) : getTargetNode(handlerData.event);
+    target = isClick ? getClickTargetNode(handlerData.event ) : getTargetNode(handlerData.event );
     message = utils.htmlTreeAsString(target, { maxStringLength: 200 }) || '<unknown>';
   } catch (e) {
     message = '<unknown>';
@@ -18352,140 +18509,203 @@ function isInputElement(target) {
   return target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
 }
 
-const NAVIGATION_ENTRY_KEYS = [
-  'name',
-  'type',
-  'startTime',
-  'transferSize',
-  'duration',
-];
+// Map entryType -> function to normalize data for event
+const ENTRY_TYPES
 
-function isNavigationEntryEqual(a) {
-  return function (b) {
-    return NAVIGATION_ENTRY_KEYS.every(key => a[key] === b[key]);
+ = {
+  // @ts-expect-error TODO: entry type does not fit the create* functions entry type
+  resource: createResourceEntry,
+  paint: createPaintEntry,
+  // @ts-expect-error TODO: entry type does not fit the create* functions entry type
+  navigation: createNavigationEntry,
+};
+
+/**
+ * Create replay performance entries from the browser performance entries.
+ */
+function createPerformanceEntries(
+  entries,
+) {
+  return entries.map(createPerformanceEntry).filter(Boolean) ;
+}
+
+function createPerformanceEntry(entry) {
+  if (!ENTRY_TYPES[entry.entryType]) {
+    return null;
+  }
+
+  return ENTRY_TYPES[entry.entryType](entry);
+}
+
+function getAbsoluteTime(time) {
+  // browserPerformanceTimeOrigin can be undefined if `performance` or
+  // `performance.now` doesn't exist, but this is already checked by this integration
+  return ((utils.browserPerformanceTimeOrigin || WINDOW.performance.timeOrigin) + time) / 1000;
+}
+
+function createPaintEntry(entry) {
+  const { duration, entryType, name, startTime } = entry;
+
+  const start = getAbsoluteTime(startTime);
+  return {
+    type: entryType,
+    name,
+    start,
+    end: start + duration,
+    data: undefined,
+  };
+}
+
+function createNavigationEntry(entry) {
+  const {
+    entryType,
+    name,
+    decodedBodySize,
+    duration,
+    domComplete,
+    encodedBodySize,
+    domContentLoadedEventStart,
+    domContentLoadedEventEnd,
+    domInteractive,
+    loadEventStart,
+    loadEventEnd,
+    redirectCount,
+    startTime,
+    transferSize,
+    type,
+  } = entry;
+
+  // Ignore entries with no duration, they do not seem to be useful and cause dupes
+  if (duration === 0) {
+    return null;
+  }
+
+  return {
+    type: `${entryType}.${type}`,
+    start: getAbsoluteTime(startTime),
+    end: getAbsoluteTime(domComplete),
+    name,
+    data: {
+      size: transferSize,
+      decodedBodySize,
+      encodedBodySize,
+      duration,
+      domInteractive,
+      domContentLoadedEventStart,
+      domContentLoadedEventEnd,
+      loadEventStart,
+      loadEventEnd,
+      domComplete,
+      redirectCount,
+    },
+  };
+}
+
+function createResourceEntry(
+  entry,
+) {
+  const {
+    entryType,
+    initiatorType,
+    name,
+    responseEnd,
+    startTime,
+    decodedBodySize,
+    encodedBodySize,
+    responseStatus,
+    transferSize,
+  } = entry;
+
+  // Core SDK handles these
+  if (['fetch', 'xmlhttprequest'].includes(initiatorType)) {
+    return null;
+  }
+
+  return {
+    type: `${entryType}.${initiatorType}`,
+    start: getAbsoluteTime(startTime),
+    end: getAbsoluteTime(responseEnd),
+    name,
+    data: {
+      size: transferSize,
+      statusCode: responseStatus,
+      decodedBodySize,
+      encodedBodySize,
+    },
   };
 }
 
 /**
- * There are some difficulties diagnosing why there are duplicate navigation
- * entries. We've witnessed several intermittent results:
- * - duplicate entries have duration = 0
- * - duplicate entries are the same object reference
- * - none of the above
- *
- * Compare the values of several keys to determine if the entries are duplicates or not.
+ * Add a LCP event to the replay based on an LCP metric.
  */
-// TODO (high-prio): Figure out wth is returned here
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-function dedupePerformanceEntries(
-  currentList,
-  newList,
+function getLargestContentfulPaint(metric
+
 ) {
-  // Partition `currentList` into 3 different lists based on entryType
-  const [existingNavigationEntries, existingLcpEntries, existingEntries] = currentList.reduce(
-    (acc, entry) => {
-      if (entry.entryType === 'navigation') {
-        acc[0].push(entry );
-      } else if (entry.entryType === 'largest-contentful-paint') {
-        acc[1].push(entry );
-      } else {
-        acc[2].push(entry);
-      }
-      return acc;
+  const entries = metric.entries;
+  const lastEntry = entries[entries.length - 1] ;
+  const element = lastEntry ? lastEntry.element : undefined;
+
+  const value = metric.value;
+
+  const end = getAbsoluteTime(value);
+
+  const data = {
+    type: 'largest-contentful-paint',
+    name: 'largest-contentful-paint',
+    start: end,
+    end,
+    data: {
+      value,
+      size: value,
+      nodeId: element ? record.mirror.getId(element) : undefined,
     },
-    [[], [], []],
-  );
+  };
 
-  const newEntries = [];
-  const newNavigationEntries = [];
-  let newLcpEntry = existingLcpEntries.length
-    ? existingLcpEntries[existingLcpEntries.length - 1] // Take the last element as list is sorted
-    : undefined;
-
-  newList.forEach(entry => {
-    if (entry.entryType === 'largest-contentful-paint') {
-      // We want the latest LCP event only
-      if (!newLcpEntry || newLcpEntry.startTime < entry.startTime) {
-        newLcpEntry = entry;
-      }
-      return;
-    }
-
-    if (entry.entryType === 'navigation') {
-      const navigationEntry = entry ;
-
-      // Check if the navigation entry is contained in currentList or newList
-      if (
-        // Ignore any navigation entries with duration 0, as they are likely duplicates
-        entry.duration > 0 &&
-        // Ensure new entry does not already exist in existing entries
-        !existingNavigationEntries.find(isNavigationEntryEqual(navigationEntry)) &&
-        // Ensure new entry does not already exist in new list of navigation entries
-        !newNavigationEntries.find(isNavigationEntryEqual(navigationEntry))
-      ) {
-        newNavigationEntries.push(navigationEntry);
-      }
-
-      // Otherwise this navigation entry is considered a duplicate and is thrown away
-      return;
-    }
-
-    newEntries.push(entry);
-  });
-
-  // Re-combine and sort by startTime
-  return [
-    ...(newLcpEntry ? [newLcpEntry] : []),
-    ...existingNavigationEntries,
-    ...existingEntries,
-    ...newEntries,
-    ...newNavigationEntries,
-  ].sort((a, b) => a.startTime - b.startTime);
+  return data;
 }
 
 /**
  * Sets up a PerformanceObserver to listen to all performance entry types.
+ * Returns a callback to stop observing.
  */
 function setupPerformanceObserver(replay) {
-  const performanceObserverHandler = (list) => {
-    // For whatever reason the observer was returning duplicate navigation
-    // entries (the other entry types were not duplicated).
-    const newPerformanceEntries = dedupePerformanceEntries(
-      replay.performanceEvents,
-      list.getEntries() ,
-    );
-    replay.performanceEvents = newPerformanceEntries;
-  };
-
-  const performanceObserver = new PerformanceObserver(performanceObserverHandler);
-
-  [
-    'element',
-    'event',
-    'first-input',
-    'largest-contentful-paint',
-    'layout-shift',
-    'longtask',
-    'navigation',
-    'paint',
-    'resource',
-  ].forEach(type => {
-    try {
-      performanceObserver.observe({
-        type,
-        buffered: true,
-      });
-    } catch (e) {
-      // This can throw if an entry type is not supported in the browser.
-      // Ignore these errors.
+  function addPerformanceEntry(entry) {
+    // It is possible for entries to come up multiple times
+    if (!replay.performanceEntries.includes(entry)) {
+      replay.performanceEntries.push(entry);
     }
+  }
+
+  function onEntries({ entries }) {
+    entries.forEach(addPerformanceEntry);
+  }
+
+  const clearCallbacks = [];
+
+  (['navigation', 'paint', 'resource'] ).forEach(type => {
+    clearCallbacks.push(tracing.addPerformanceInstrumentationHandler(type, onEntries));
   });
 
-  return performanceObserver;
+  clearCallbacks.push(
+    tracing.addLcpInstrumentationHandler(({ metric }) => {
+      replay.replayPerformanceEntries.push(getLargestContentfulPaint(metric));
+    }),
+  );
+
+  // A callback to cleanup all handlers
+  return () => {
+    clearCallbacks.forEach(clearCallback => clearCallback());
+  };
 }
 
-const r = `/*! pako 2.1.0 https://github.com/nodeca/pako @license (MIT AND Zlib) */
-function t(t){let e=t.length;for(;--e>=0;)t[e]=0}const e=new Uint8Array([0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0]),a=new Uint8Array([0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13]),i=new Uint8Array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,7]),n=new Uint8Array([16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15]),s=new Array(576);t(s);const r=new Array(60);t(r);const o=new Array(512);t(o);const l=new Array(256);t(l);const h=new Array(29);t(h);const d=new Array(30);function _(t,e,a,i,n){this.static_tree=t,this.extra_bits=e,this.extra_base=a,this.elems=i,this.max_length=n,this.has_stree=t&&t.length}let f,c,u;function w(t,e){this.dyn_tree=t,this.max_code=0,this.stat_desc=e}t(d);const m=t=>t<256?o[t]:o[256+(t>>>7)],b=(t,e)=>{t.pending_buf[t.pending++]=255&e,t.pending_buf[t.pending++]=e>>>8&255},g=(t,e,a)=>{t.bi_valid>16-a?(t.bi_buf|=e<<t.bi_valid&65535,b(t,t.bi_buf),t.bi_buf=e>>16-t.bi_valid,t.bi_valid+=a-16):(t.bi_buf|=e<<t.bi_valid&65535,t.bi_valid+=a)},p=(t,e,a)=>{g(t,a[2*e],a[2*e+1])},k=(t,e)=>{let a=0;do{a|=1&t,t>>>=1,a<<=1}while(--e>0);return a>>>1},v=(t,e,a)=>{const i=new Array(16);let n,s,r=0;for(n=1;n<=15;n++)r=r+a[n-1]<<1,i[n]=r;for(s=0;s<=e;s++){let e=t[2*s+1];0!==e&&(t[2*s]=k(i[e]++,e))}},y=t=>{let e;for(e=0;e<286;e++)t.dyn_ltree[2*e]=0;for(e=0;e<30;e++)t.dyn_dtree[2*e]=0;for(e=0;e<19;e++)t.bl_tree[2*e]=0;t.dyn_ltree[512]=1,t.opt_len=t.static_len=0,t.sym_next=t.matches=0},x=t=>{t.bi_valid>8?b(t,t.bi_buf):t.bi_valid>0&&(t.pending_buf[t.pending++]=t.bi_buf),t.bi_buf=0,t.bi_valid=0},z=(t,e,a,i)=>{const n=2*e,s=2*a;return t[n]<t[s]||t[n]===t[s]&&i[e]<=i[a]},A=(t,e,a)=>{const i=t.heap[a];let n=a<<1;for(;n<=t.heap_len&&(n<t.heap_len&&z(e,t.heap[n+1],t.heap[n],t.depth)&&n++,!z(e,i,t.heap[n],t.depth));)t.heap[a]=t.heap[n],a=n,n<<=1;t.heap[a]=i},E=(t,i,n)=>{let s,r,o,_,f=0;if(0!==t.sym_next)do{s=255&t.pending_buf[t.sym_buf+f++],s+=(255&t.pending_buf[t.sym_buf+f++])<<8,r=t.pending_buf[t.sym_buf+f++],0===s?p(t,r,i):(o=l[r],p(t,o+256+1,i),_=e[o],0!==_&&(r-=h[o],g(t,r,_)),s--,o=m(s),p(t,o,n),_=a[o],0!==_&&(s-=d[o],g(t,s,_)))}while(f<t.sym_next);p(t,256,i)},R=(t,e)=>{const a=e.dyn_tree,i=e.stat_desc.static_tree,n=e.stat_desc.has_stree,s=e.stat_desc.elems;let r,o,l,h=-1;for(t.heap_len=0,t.heap_max=573,r=0;r<s;r++)0!==a[2*r]?(t.heap[++t.heap_len]=h=r,t.depth[r]=0):a[2*r+1]=0;for(;t.heap_len<2;)l=t.heap[++t.heap_len]=h<2?++h:0,a[2*l]=1,t.depth[l]=0,t.opt_len--,n&&(t.static_len-=i[2*l+1]);for(e.max_code=h,r=t.heap_len>>1;r>=1;r--)A(t,a,r);l=s;do{r=t.heap[1],t.heap[1]=t.heap[t.heap_len--],A(t,a,1),o=t.heap[1],t.heap[--t.heap_max]=r,t.heap[--t.heap_max]=o,a[2*l]=a[2*r]+a[2*o],t.depth[l]=(t.depth[r]>=t.depth[o]?t.depth[r]:t.depth[o])+1,a[2*r+1]=a[2*o+1]=l,t.heap[1]=l++,A(t,a,1)}while(t.heap_len>=2);t.heap[--t.heap_max]=t.heap[1],((t,e)=>{const a=e.dyn_tree,i=e.max_code,n=e.stat_desc.static_tree,s=e.stat_desc.has_stree,r=e.stat_desc.extra_bits,o=e.stat_desc.extra_base,l=e.stat_desc.max_length;let h,d,_,f,c,u,w=0;for(f=0;f<=15;f++)t.bl_count[f]=0;for(a[2*t.heap[t.heap_max]+1]=0,h=t.heap_max+1;h<573;h++)d=t.heap[h],f=a[2*a[2*d+1]+1]+1,f>l&&(f=l,w++),a[2*d+1]=f,d>i||(t.bl_count[f]++,c=0,d>=o&&(c=r[d-o]),u=a[2*d],t.opt_len+=u*(f+c),s&&(t.static_len+=u*(n[2*d+1]+c)));if(0!==w){do{for(f=l-1;0===t.bl_count[f];)f--;t.bl_count[f]--,t.bl_count[f+1]+=2,t.bl_count[l]--,w-=2}while(w>0);for(f=l;0!==f;f--)for(d=t.bl_count[f];0!==d;)_=t.heap[--h],_>i||(a[2*_+1]!==f&&(t.opt_len+=(f-a[2*_+1])*a[2*_],a[2*_+1]=f),d--)}})(t,e),v(a,h,t.bl_count)},Z=(t,e,a)=>{let i,n,s=-1,r=e[1],o=0,l=7,h=4;for(0===r&&(l=138,h=3),e[2*(a+1)+1]=65535,i=0;i<=a;i++)n=r,r=e[2*(i+1)+1],++o<l&&n===r||(o<h?t.bl_tree[2*n]+=o:0!==n?(n!==s&&t.bl_tree[2*n]++,t.bl_tree[32]++):o<=10?t.bl_tree[34]++:t.bl_tree[36]++,o=0,s=n,0===r?(l=138,h=3):n===r?(l=6,h=3):(l=7,h=4))},U=(t,e,a)=>{let i,n,s=-1,r=e[1],o=0,l=7,h=4;for(0===r&&(l=138,h=3),i=0;i<=a;i++)if(n=r,r=e[2*(i+1)+1],!(++o<l&&n===r)){if(o<h)do{p(t,n,t.bl_tree)}while(0!=--o);else 0!==n?(n!==s&&(p(t,n,t.bl_tree),o--),p(t,16,t.bl_tree),g(t,o-3,2)):o<=10?(p(t,17,t.bl_tree),g(t,o-3,3)):(p(t,18,t.bl_tree),g(t,o-11,7));o=0,s=n,0===r?(l=138,h=3):n===r?(l=6,h=3):(l=7,h=4)}};let S=!1;const D=(t,e,a,i)=>{g(t,0+(i?1:0),3),x(t),b(t,a),b(t,~a),a&&t.pending_buf.set(t.window.subarray(e,e+a),t.pending),t.pending+=a};var T=(t,e,a,i)=>{let o,l,h=0;t.level>0?(2===t.strm.data_type&&(t.strm.data_type=(t=>{let e,a=4093624447;for(e=0;e<=31;e++,a>>>=1)if(1&a&&0!==t.dyn_ltree[2*e])return 0;if(0!==t.dyn_ltree[18]||0!==t.dyn_ltree[20]||0!==t.dyn_ltree[26])return 1;for(e=32;e<256;e++)if(0!==t.dyn_ltree[2*e])return 1;return 0})(t)),R(t,t.l_desc),R(t,t.d_desc),h=(t=>{let e;for(Z(t,t.dyn_ltree,t.l_desc.max_code),Z(t,t.dyn_dtree,t.d_desc.max_code),R(t,t.bl_desc),e=18;e>=3&&0===t.bl_tree[2*n[e]+1];e--);return t.opt_len+=3*(e+1)+5+5+4,e})(t),o=t.opt_len+3+7>>>3,l=t.static_len+3+7>>>3,l<=o&&(o=l)):o=l=a+5,a+4<=o&&-1!==e?D(t,e,a,i):4===t.strategy||l===o?(g(t,2+(i?1:0),3),E(t,s,r)):(g(t,4+(i?1:0),3),((t,e,a,i)=>{let s;for(g(t,e-257,5),g(t,a-1,5),g(t,i-4,4),s=0;s<i;s++)g(t,t.bl_tree[2*n[s]+1],3);U(t,t.dyn_ltree,e-1),U(t,t.dyn_dtree,a-1)})(t,t.l_desc.max_code+1,t.d_desc.max_code+1,h+1),E(t,t.dyn_ltree,t.dyn_dtree)),y(t),i&&x(t)},O={_tr_init:t=>{S||((()=>{let t,n,w,m,b;const g=new Array(16);for(w=0,m=0;m<28;m++)for(h[m]=w,t=0;t<1<<e[m];t++)l[w++]=m;for(l[w-1]=m,b=0,m=0;m<16;m++)for(d[m]=b,t=0;t<1<<a[m];t++)o[b++]=m;for(b>>=7;m<30;m++)for(d[m]=b<<7,t=0;t<1<<a[m]-7;t++)o[256+b++]=m;for(n=0;n<=15;n++)g[n]=0;for(t=0;t<=143;)s[2*t+1]=8,t++,g[8]++;for(;t<=255;)s[2*t+1]=9,t++,g[9]++;for(;t<=279;)s[2*t+1]=7,t++,g[7]++;for(;t<=287;)s[2*t+1]=8,t++,g[8]++;for(v(s,287,g),t=0;t<30;t++)r[2*t+1]=5,r[2*t]=k(t,5);f=new _(s,e,257,286,15),c=new _(r,a,0,30,15),u=new _(new Array(0),i,0,19,7)})(),S=!0),t.l_desc=new w(t.dyn_ltree,f),t.d_desc=new w(t.dyn_dtree,c),t.bl_desc=new w(t.bl_tree,u),t.bi_buf=0,t.bi_valid=0,y(t)},_tr_stored_block:D,_tr_flush_block:T,_tr_tally:(t,e,a)=>(t.pending_buf[t.sym_buf+t.sym_next++]=e,t.pending_buf[t.sym_buf+t.sym_next++]=e>>8,t.pending_buf[t.sym_buf+t.sym_next++]=a,0===e?t.dyn_ltree[2*a]++:(t.matches++,e--,t.dyn_ltree[2*(l[a]+256+1)]++,t.dyn_dtree[2*m(e)]++),t.sym_next===t.sym_end),_tr_align:t=>{g(t,2,3),p(t,256,s),(t=>{16===t.bi_valid?(b(t,t.bi_buf),t.bi_buf=0,t.bi_valid=0):t.bi_valid>=8&&(t.pending_buf[t.pending++]=255&t.bi_buf,t.bi_buf>>=8,t.bi_valid-=8)})(t)}};var F=(t,e,a,i)=>{let n=65535&t|0,s=t>>>16&65535|0,r=0;for(;0!==a;){r=a>2e3?2e3:a,a-=r;do{n=n+e[i++]|0,s=s+n|0}while(--r);n%=65521,s%=65521}return n|s<<16|0};const L=new Uint32Array((()=>{let t,e=[];for(var a=0;a<256;a++){t=a;for(var i=0;i<8;i++)t=1&t?3988292384^t>>>1:t>>>1;e[a]=t}return e})());var N=(t,e,a,i)=>{const n=L,s=i+a;t^=-1;for(let a=i;a<s;a++)t=t>>>8^n[255&(t^e[a])];return-1^t},I={2:"need dictionary",1:"stream end",0:"","-1":"file error","-2":"stream error","-3":"data error","-4":"insufficient memory","-5":"buffer error","-6":"incompatible version"},B={Z_NO_FLUSH:0,Z_PARTIAL_FLUSH:1,Z_SYNC_FLUSH:2,Z_FULL_FLUSH:3,Z_FINISH:4,Z_BLOCK:5,Z_TREES:6,Z_OK:0,Z_STREAM_END:1,Z_NEED_DICT:2,Z_ERRNO:-1,Z_STREAM_ERROR:-2,Z_DATA_ERROR:-3,Z_MEM_ERROR:-4,Z_BUF_ERROR:-5,Z_NO_COMPRESSION:0,Z_BEST_SPEED:1,Z_BEST_COMPRESSION:9,Z_DEFAULT_COMPRESSION:-1,Z_FILTERED:1,Z_HUFFMAN_ONLY:2,Z_RLE:3,Z_FIXED:4,Z_DEFAULT_STRATEGY:0,Z_BINARY:0,Z_TEXT:1,Z_UNKNOWN:2,Z_DEFLATED:8};const{_tr_init:C,_tr_stored_block:H,_tr_flush_block:M,_tr_tally:j,_tr_align:K}=O,{Z_NO_FLUSH:P,Z_PARTIAL_FLUSH:Y,Z_FULL_FLUSH:G,Z_FINISH:X,Z_BLOCK:W,Z_OK:q,Z_STREAM_END:J,Z_STREAM_ERROR:Q,Z_DATA_ERROR:V,Z_BUF_ERROR:$,Z_DEFAULT_COMPRESSION:tt,Z_FILTERED:et,Z_HUFFMAN_ONLY:at,Z_RLE:it,Z_FIXED:nt,Z_DEFAULT_STRATEGY:st,Z_UNKNOWN:rt,Z_DEFLATED:ot}=B,lt=(t,e)=>(t.msg=I[e],e),ht=t=>2*t-(t>4?9:0),dt=t=>{let e=t.length;for(;--e>=0;)t[e]=0},_t=t=>{let e,a,i,n=t.w_size;e=t.hash_size,i=e;do{a=t.head[--i],t.head[i]=a>=n?a-n:0}while(--e);e=n,i=e;do{a=t.prev[--i],t.prev[i]=a>=n?a-n:0}while(--e)};let ft=(t,e,a)=>(e<<t.hash_shift^a)&t.hash_mask;const ct=t=>{const e=t.state;let a=e.pending;a>t.avail_out&&(a=t.avail_out),0!==a&&(t.output.set(e.pending_buf.subarray(e.pending_out,e.pending_out+a),t.next_out),t.next_out+=a,e.pending_out+=a,t.total_out+=a,t.avail_out-=a,e.pending-=a,0===e.pending&&(e.pending_out=0))},ut=(t,e)=>{M(t,t.block_start>=0?t.block_start:-1,t.strstart-t.block_start,e),t.block_start=t.strstart,ct(t.strm)},wt=(t,e)=>{t.pending_buf[t.pending++]=e},mt=(t,e)=>{t.pending_buf[t.pending++]=e>>>8&255,t.pending_buf[t.pending++]=255&e},bt=(t,e,a,i)=>{let n=t.avail_in;return n>i&&(n=i),0===n?0:(t.avail_in-=n,e.set(t.input.subarray(t.next_in,t.next_in+n),a),1===t.state.wrap?t.adler=F(t.adler,e,n,a):2===t.state.wrap&&(t.adler=N(t.adler,e,n,a)),t.next_in+=n,t.total_in+=n,n)},gt=(t,e)=>{let a,i,n=t.max_chain_length,s=t.strstart,r=t.prev_length,o=t.nice_match;const l=t.strstart>t.w_size-262?t.strstart-(t.w_size-262):0,h=t.window,d=t.w_mask,_=t.prev,f=t.strstart+258;let c=h[s+r-1],u=h[s+r];t.prev_length>=t.good_match&&(n>>=2),o>t.lookahead&&(o=t.lookahead);do{if(a=e,h[a+r]===u&&h[a+r-1]===c&&h[a]===h[s]&&h[++a]===h[s+1]){s+=2,a++;do{}while(h[++s]===h[++a]&&h[++s]===h[++a]&&h[++s]===h[++a]&&h[++s]===h[++a]&&h[++s]===h[++a]&&h[++s]===h[++a]&&h[++s]===h[++a]&&h[++s]===h[++a]&&s<f);if(i=258-(f-s),s=f-258,i>r){if(t.match_start=e,r=i,i>=o)break;c=h[s+r-1],u=h[s+r]}}}while((e=_[e&d])>l&&0!=--n);return r<=t.lookahead?r:t.lookahead},pt=t=>{const e=t.w_size;let a,i,n;do{if(i=t.window_size-t.lookahead-t.strstart,t.strstart>=e+(e-262)&&(t.window.set(t.window.subarray(e,e+e-i),0),t.match_start-=e,t.strstart-=e,t.block_start-=e,t.insert>t.strstart&&(t.insert=t.strstart),_t(t),i+=e),0===t.strm.avail_in)break;if(a=bt(t.strm,t.window,t.strstart+t.lookahead,i),t.lookahead+=a,t.lookahead+t.insert>=3)for(n=t.strstart-t.insert,t.ins_h=t.window[n],t.ins_h=ft(t,t.ins_h,t.window[n+1]);t.insert&&(t.ins_h=ft(t,t.ins_h,t.window[n+3-1]),t.prev[n&t.w_mask]=t.head[t.ins_h],t.head[t.ins_h]=n,n++,t.insert--,!(t.lookahead+t.insert<3)););}while(t.lookahead<262&&0!==t.strm.avail_in)},kt=(t,e)=>{let a,i,n,s=t.pending_buf_size-5>t.w_size?t.w_size:t.pending_buf_size-5,r=0,o=t.strm.avail_in;do{if(a=65535,n=t.bi_valid+42>>3,t.strm.avail_out<n)break;if(n=t.strm.avail_out-n,i=t.strstart-t.block_start,a>i+t.strm.avail_in&&(a=i+t.strm.avail_in),a>n&&(a=n),a<s&&(0===a&&e!==X||e===P||a!==i+t.strm.avail_in))break;r=e===X&&a===i+t.strm.avail_in?1:0,H(t,0,0,r),t.pending_buf[t.pending-4]=a,t.pending_buf[t.pending-3]=a>>8,t.pending_buf[t.pending-2]=~a,t.pending_buf[t.pending-1]=~a>>8,ct(t.strm),i&&(i>a&&(i=a),t.strm.output.set(t.window.subarray(t.block_start,t.block_start+i),t.strm.next_out),t.strm.next_out+=i,t.strm.avail_out-=i,t.strm.total_out+=i,t.block_start+=i,a-=i),a&&(bt(t.strm,t.strm.output,t.strm.next_out,a),t.strm.next_out+=a,t.strm.avail_out-=a,t.strm.total_out+=a)}while(0===r);return o-=t.strm.avail_in,o&&(o>=t.w_size?(t.matches=2,t.window.set(t.strm.input.subarray(t.strm.next_in-t.w_size,t.strm.next_in),0),t.strstart=t.w_size,t.insert=t.strstart):(t.window_size-t.strstart<=o&&(t.strstart-=t.w_size,t.window.set(t.window.subarray(t.w_size,t.w_size+t.strstart),0),t.matches<2&&t.matches++,t.insert>t.strstart&&(t.insert=t.strstart)),t.window.set(t.strm.input.subarray(t.strm.next_in-o,t.strm.next_in),t.strstart),t.strstart+=o,t.insert+=o>t.w_size-t.insert?t.w_size-t.insert:o),t.block_start=t.strstart),t.high_water<t.strstart&&(t.high_water=t.strstart),r?4:e!==P&&e!==X&&0===t.strm.avail_in&&t.strstart===t.block_start?2:(n=t.window_size-t.strstart,t.strm.avail_in>n&&t.block_start>=t.w_size&&(t.block_start-=t.w_size,t.strstart-=t.w_size,t.window.set(t.window.subarray(t.w_size,t.w_size+t.strstart),0),t.matches<2&&t.matches++,n+=t.w_size,t.insert>t.strstart&&(t.insert=t.strstart)),n>t.strm.avail_in&&(n=t.strm.avail_in),n&&(bt(t.strm,t.window,t.strstart,n),t.strstart+=n,t.insert+=n>t.w_size-t.insert?t.w_size-t.insert:n),t.high_water<t.strstart&&(t.high_water=t.strstart),n=t.bi_valid+42>>3,n=t.pending_buf_size-n>65535?65535:t.pending_buf_size-n,s=n>t.w_size?t.w_size:n,i=t.strstart-t.block_start,(i>=s||(i||e===X)&&e!==P&&0===t.strm.avail_in&&i<=n)&&(a=i>n?n:i,r=e===X&&0===t.strm.avail_in&&a===i?1:0,H(t,t.block_start,a,r),t.block_start+=a,ct(t.strm)),r?3:1)},vt=(t,e)=>{let a,i;for(;;){if(t.lookahead<262){if(pt(t),t.lookahead<262&&e===P)return 1;if(0===t.lookahead)break}if(a=0,t.lookahead>=3&&(t.ins_h=ft(t,t.ins_h,t.window[t.strstart+3-1]),a=t.prev[t.strstart&t.w_mask]=t.head[t.ins_h],t.head[t.ins_h]=t.strstart),0!==a&&t.strstart-a<=t.w_size-262&&(t.match_length=gt(t,a)),t.match_length>=3)if(i=j(t,t.strstart-t.match_start,t.match_length-3),t.lookahead-=t.match_length,t.match_length<=t.max_lazy_match&&t.lookahead>=3){t.match_length--;do{t.strstart++,t.ins_h=ft(t,t.ins_h,t.window[t.strstart+3-1]),a=t.prev[t.strstart&t.w_mask]=t.head[t.ins_h],t.head[t.ins_h]=t.strstart}while(0!=--t.match_length);t.strstart++}else t.strstart+=t.match_length,t.match_length=0,t.ins_h=t.window[t.strstart],t.ins_h=ft(t,t.ins_h,t.window[t.strstart+1]);else i=j(t,0,t.window[t.strstart]),t.lookahead--,t.strstart++;if(i&&(ut(t,!1),0===t.strm.avail_out))return 1}return t.insert=t.strstart<2?t.strstart:2,e===X?(ut(t,!0),0===t.strm.avail_out?3:4):t.sym_next&&(ut(t,!1),0===t.strm.avail_out)?1:2},yt=(t,e)=>{let a,i,n;for(;;){if(t.lookahead<262){if(pt(t),t.lookahead<262&&e===P)return 1;if(0===t.lookahead)break}if(a=0,t.lookahead>=3&&(t.ins_h=ft(t,t.ins_h,t.window[t.strstart+3-1]),a=t.prev[t.strstart&t.w_mask]=t.head[t.ins_h],t.head[t.ins_h]=t.strstart),t.prev_length=t.match_length,t.prev_match=t.match_start,t.match_length=2,0!==a&&t.prev_length<t.max_lazy_match&&t.strstart-a<=t.w_size-262&&(t.match_length=gt(t,a),t.match_length<=5&&(t.strategy===et||3===t.match_length&&t.strstart-t.match_start>4096)&&(t.match_length=2)),t.prev_length>=3&&t.match_length<=t.prev_length){n=t.strstart+t.lookahead-3,i=j(t,t.strstart-1-t.prev_match,t.prev_length-3),t.lookahead-=t.prev_length-1,t.prev_length-=2;do{++t.strstart<=n&&(t.ins_h=ft(t,t.ins_h,t.window[t.strstart+3-1]),a=t.prev[t.strstart&t.w_mask]=t.head[t.ins_h],t.head[t.ins_h]=t.strstart)}while(0!=--t.prev_length);if(t.match_available=0,t.match_length=2,t.strstart++,i&&(ut(t,!1),0===t.strm.avail_out))return 1}else if(t.match_available){if(i=j(t,0,t.window[t.strstart-1]),i&&ut(t,!1),t.strstart++,t.lookahead--,0===t.strm.avail_out)return 1}else t.match_available=1,t.strstart++,t.lookahead--}return t.match_available&&(i=j(t,0,t.window[t.strstart-1]),t.match_available=0),t.insert=t.strstart<2?t.strstart:2,e===X?(ut(t,!0),0===t.strm.avail_out?3:4):t.sym_next&&(ut(t,!1),0===t.strm.avail_out)?1:2};function xt(t,e,a,i,n){this.good_length=t,this.max_lazy=e,this.nice_length=a,this.max_chain=i,this.func=n}const zt=[new xt(0,0,0,0,kt),new xt(4,4,8,4,vt),new xt(4,5,16,8,vt),new xt(4,6,32,32,vt),new xt(4,4,16,16,yt),new xt(8,16,32,32,yt),new xt(8,16,128,128,yt),new xt(8,32,128,256,yt),new xt(32,128,258,1024,yt),new xt(32,258,258,4096,yt)];function At(){this.strm=null,this.status=0,this.pending_buf=null,this.pending_buf_size=0,this.pending_out=0,this.pending=0,this.wrap=0,this.gzhead=null,this.gzindex=0,this.method=ot,this.last_flush=-1,this.w_size=0,this.w_bits=0,this.w_mask=0,this.window=null,this.window_size=0,this.prev=null,this.head=null,this.ins_h=0,this.hash_size=0,this.hash_bits=0,this.hash_mask=0,this.hash_shift=0,this.block_start=0,this.match_length=0,this.prev_match=0,this.match_available=0,this.strstart=0,this.match_start=0,this.lookahead=0,this.prev_length=0,this.max_chain_length=0,this.max_lazy_match=0,this.level=0,this.strategy=0,this.good_match=0,this.nice_match=0,this.dyn_ltree=new Uint16Array(1146),this.dyn_dtree=new Uint16Array(122),this.bl_tree=new Uint16Array(78),dt(this.dyn_ltree),dt(this.dyn_dtree),dt(this.bl_tree),this.l_desc=null,this.d_desc=null,this.bl_desc=null,this.bl_count=new Uint16Array(16),this.heap=new Uint16Array(573),dt(this.heap),this.heap_len=0,this.heap_max=0,this.depth=new Uint16Array(573),dt(this.depth),this.sym_buf=0,this.lit_bufsize=0,this.sym_next=0,this.sym_end=0,this.opt_len=0,this.static_len=0,this.matches=0,this.insert=0,this.bi_buf=0,this.bi_valid=0}const Et=t=>{if(!t)return 1;const e=t.state;return!e||e.strm!==t||42!==e.status&&57!==e.status&&69!==e.status&&73!==e.status&&91!==e.status&&103!==e.status&&113!==e.status&&666!==e.status?1:0},Rt=t=>{if(Et(t))return lt(t,Q);t.total_in=t.total_out=0,t.data_type=rt;const e=t.state;return e.pending=0,e.pending_out=0,e.wrap<0&&(e.wrap=-e.wrap),e.status=2===e.wrap?57:e.wrap?42:113,t.adler=2===e.wrap?0:1,e.last_flush=-2,C(e),q},Zt=t=>{const e=Rt(t);var a;return e===q&&((a=t.state).window_size=2*a.w_size,dt(a.head),a.max_lazy_match=zt[a.level].max_lazy,a.good_match=zt[a.level].good_length,a.nice_match=zt[a.level].nice_length,a.max_chain_length=zt[a.level].max_chain,a.strstart=0,a.block_start=0,a.lookahead=0,a.insert=0,a.match_length=a.prev_length=2,a.match_available=0,a.ins_h=0),e},Ut=(t,e,a,i,n,s)=>{if(!t)return Q;let r=1;if(e===tt&&(e=6),i<0?(r=0,i=-i):i>15&&(r=2,i-=16),n<1||n>9||a!==ot||i<8||i>15||e<0||e>9||s<0||s>nt||8===i&&1!==r)return lt(t,Q);8===i&&(i=9);const o=new At;return t.state=o,o.strm=t,o.status=42,o.wrap=r,o.gzhead=null,o.w_bits=i,o.w_size=1<<o.w_bits,o.w_mask=o.w_size-1,o.hash_bits=n+7,o.hash_size=1<<o.hash_bits,o.hash_mask=o.hash_size-1,o.hash_shift=~~((o.hash_bits+3-1)/3),o.window=new Uint8Array(2*o.w_size),o.head=new Uint16Array(o.hash_size),o.prev=new Uint16Array(o.w_size),o.lit_bufsize=1<<n+6,o.pending_buf_size=4*o.lit_bufsize,o.pending_buf=new Uint8Array(o.pending_buf_size),o.sym_buf=o.lit_bufsize,o.sym_end=3*(o.lit_bufsize-1),o.level=e,o.strategy=s,o.method=a,Zt(t)};var St={deflateInit:(t,e)=>Ut(t,e,ot,15,8,st),deflateInit2:Ut,deflateReset:Zt,deflateResetKeep:Rt,deflateSetHeader:(t,e)=>Et(t)||2!==t.state.wrap?Q:(t.state.gzhead=e,q),deflate:(t,e)=>{if(Et(t)||e>W||e<0)return t?lt(t,Q):Q;const a=t.state;if(!t.output||0!==t.avail_in&&!t.input||666===a.status&&e!==X)return lt(t,0===t.avail_out?$:Q);const i=a.last_flush;if(a.last_flush=e,0!==a.pending){if(ct(t),0===t.avail_out)return a.last_flush=-1,q}else if(0===t.avail_in&&ht(e)<=ht(i)&&e!==X)return lt(t,$);if(666===a.status&&0!==t.avail_in)return lt(t,$);if(42===a.status&&0===a.wrap&&(a.status=113),42===a.status){let e=ot+(a.w_bits-8<<4)<<8,i=-1;if(i=a.strategy>=at||a.level<2?0:a.level<6?1:6===a.level?2:3,e|=i<<6,0!==a.strstart&&(e|=32),e+=31-e%31,mt(a,e),0!==a.strstart&&(mt(a,t.adler>>>16),mt(a,65535&t.adler)),t.adler=1,a.status=113,ct(t),0!==a.pending)return a.last_flush=-1,q}if(57===a.status)if(t.adler=0,wt(a,31),wt(a,139),wt(a,8),a.gzhead)wt(a,(a.gzhead.text?1:0)+(a.gzhead.hcrc?2:0)+(a.gzhead.extra?4:0)+(a.gzhead.name?8:0)+(a.gzhead.comment?16:0)),wt(a,255&a.gzhead.time),wt(a,a.gzhead.time>>8&255),wt(a,a.gzhead.time>>16&255),wt(a,a.gzhead.time>>24&255),wt(a,9===a.level?2:a.strategy>=at||a.level<2?4:0),wt(a,255&a.gzhead.os),a.gzhead.extra&&a.gzhead.extra.length&&(wt(a,255&a.gzhead.extra.length),wt(a,a.gzhead.extra.length>>8&255)),a.gzhead.hcrc&&(t.adler=N(t.adler,a.pending_buf,a.pending,0)),a.gzindex=0,a.status=69;else if(wt(a,0),wt(a,0),wt(a,0),wt(a,0),wt(a,0),wt(a,9===a.level?2:a.strategy>=at||a.level<2?4:0),wt(a,3),a.status=113,ct(t),0!==a.pending)return a.last_flush=-1,q;if(69===a.status){if(a.gzhead.extra){let e=a.pending,i=(65535&a.gzhead.extra.length)-a.gzindex;for(;a.pending+i>a.pending_buf_size;){let n=a.pending_buf_size-a.pending;if(a.pending_buf.set(a.gzhead.extra.subarray(a.gzindex,a.gzindex+n),a.pending),a.pending=a.pending_buf_size,a.gzhead.hcrc&&a.pending>e&&(t.adler=N(t.adler,a.pending_buf,a.pending-e,e)),a.gzindex+=n,ct(t),0!==a.pending)return a.last_flush=-1,q;e=0,i-=n}let n=new Uint8Array(a.gzhead.extra);a.pending_buf.set(n.subarray(a.gzindex,a.gzindex+i),a.pending),a.pending+=i,a.gzhead.hcrc&&a.pending>e&&(t.adler=N(t.adler,a.pending_buf,a.pending-e,e)),a.gzindex=0}a.status=73}if(73===a.status){if(a.gzhead.name){let e,i=a.pending;do{if(a.pending===a.pending_buf_size){if(a.gzhead.hcrc&&a.pending>i&&(t.adler=N(t.adler,a.pending_buf,a.pending-i,i)),ct(t),0!==a.pending)return a.last_flush=-1,q;i=0}e=a.gzindex<a.gzhead.name.length?255&a.gzhead.name.charCodeAt(a.gzindex++):0,wt(a,e)}while(0!==e);a.gzhead.hcrc&&a.pending>i&&(t.adler=N(t.adler,a.pending_buf,a.pending-i,i)),a.gzindex=0}a.status=91}if(91===a.status){if(a.gzhead.comment){let e,i=a.pending;do{if(a.pending===a.pending_buf_size){if(a.gzhead.hcrc&&a.pending>i&&(t.adler=N(t.adler,a.pending_buf,a.pending-i,i)),ct(t),0!==a.pending)return a.last_flush=-1,q;i=0}e=a.gzindex<a.gzhead.comment.length?255&a.gzhead.comment.charCodeAt(a.gzindex++):0,wt(a,e)}while(0!==e);a.gzhead.hcrc&&a.pending>i&&(t.adler=N(t.adler,a.pending_buf,a.pending-i,i))}a.status=103}if(103===a.status){if(a.gzhead.hcrc){if(a.pending+2>a.pending_buf_size&&(ct(t),0!==a.pending))return a.last_flush=-1,q;wt(a,255&t.adler),wt(a,t.adler>>8&255),t.adler=0}if(a.status=113,ct(t),0!==a.pending)return a.last_flush=-1,q}if(0!==t.avail_in||0!==a.lookahead||e!==P&&666!==a.status){let i=0===a.level?kt(a,e):a.strategy===at?((t,e)=>{let a;for(;;){if(0===t.lookahead&&(pt(t),0===t.lookahead)){if(e===P)return 1;break}if(t.match_length=0,a=j(t,0,t.window[t.strstart]),t.lookahead--,t.strstart++,a&&(ut(t,!1),0===t.strm.avail_out))return 1}return t.insert=0,e===X?(ut(t,!0),0===t.strm.avail_out?3:4):t.sym_next&&(ut(t,!1),0===t.strm.avail_out)?1:2})(a,e):a.strategy===it?((t,e)=>{let a,i,n,s;const r=t.window;for(;;){if(t.lookahead<=258){if(pt(t),t.lookahead<=258&&e===P)return 1;if(0===t.lookahead)break}if(t.match_length=0,t.lookahead>=3&&t.strstart>0&&(n=t.strstart-1,i=r[n],i===r[++n]&&i===r[++n]&&i===r[++n])){s=t.strstart+258;do{}while(i===r[++n]&&i===r[++n]&&i===r[++n]&&i===r[++n]&&i===r[++n]&&i===r[++n]&&i===r[++n]&&i===r[++n]&&n<s);t.match_length=258-(s-n),t.match_length>t.lookahead&&(t.match_length=t.lookahead)}if(t.match_length>=3?(a=j(t,1,t.match_length-3),t.lookahead-=t.match_length,t.strstart+=t.match_length,t.match_length=0):(a=j(t,0,t.window[t.strstart]),t.lookahead--,t.strstart++),a&&(ut(t,!1),0===t.strm.avail_out))return 1}return t.insert=0,e===X?(ut(t,!0),0===t.strm.avail_out?3:4):t.sym_next&&(ut(t,!1),0===t.strm.avail_out)?1:2})(a,e):zt[a.level].func(a,e);if(3!==i&&4!==i||(a.status=666),1===i||3===i)return 0===t.avail_out&&(a.last_flush=-1),q;if(2===i&&(e===Y?K(a):e!==W&&(H(a,0,0,!1),e===G&&(dt(a.head),0===a.lookahead&&(a.strstart=0,a.block_start=0,a.insert=0))),ct(t),0===t.avail_out))return a.last_flush=-1,q}return e!==X?q:a.wrap<=0?J:(2===a.wrap?(wt(a,255&t.adler),wt(a,t.adler>>8&255),wt(a,t.adler>>16&255),wt(a,t.adler>>24&255),wt(a,255&t.total_in),wt(a,t.total_in>>8&255),wt(a,t.total_in>>16&255),wt(a,t.total_in>>24&255)):(mt(a,t.adler>>>16),mt(a,65535&t.adler)),ct(t),a.wrap>0&&(a.wrap=-a.wrap),0!==a.pending?q:J)},deflateEnd:t=>{if(Et(t))return Q;const e=t.state.status;return t.state=null,113===e?lt(t,V):q},deflateSetDictionary:(t,e)=>{let a=e.length;if(Et(t))return Q;const i=t.state,n=i.wrap;if(2===n||1===n&&42!==i.status||i.lookahead)return Q;if(1===n&&(t.adler=F(t.adler,e,a,0)),i.wrap=0,a>=i.w_size){0===n&&(dt(i.head),i.strstart=0,i.block_start=0,i.insert=0);let t=new Uint8Array(i.w_size);t.set(e.subarray(a-i.w_size,a),0),e=t,a=i.w_size}const s=t.avail_in,r=t.next_in,o=t.input;for(t.avail_in=a,t.next_in=0,t.input=e,pt(i);i.lookahead>=3;){let t=i.strstart,e=i.lookahead-2;do{i.ins_h=ft(i,i.ins_h,i.window[t+3-1]),i.prev[t&i.w_mask]=i.head[i.ins_h],i.head[i.ins_h]=t,t++}while(--e);i.strstart=t,i.lookahead=2,pt(i)}return i.strstart+=i.lookahead,i.block_start=i.strstart,i.insert=i.lookahead,i.lookahead=0,i.match_length=i.prev_length=2,i.match_available=0,t.next_in=r,t.input=o,t.avail_in=s,i.wrap=n,q},deflateInfo:"pako deflate (from Nodeca project)"};const Dt=(t,e)=>Object.prototype.hasOwnProperty.call(t,e);var Tt=function(t){const e=Array.prototype.slice.call(arguments,1);for(;e.length;){const a=e.shift();if(a){if("object"!=typeof a)throw new TypeError(a+"must be non-object");for(const e in a)Dt(a,e)&&(t[e]=a[e])}}return t},Ot=t=>{let e=0;for(let a=0,i=t.length;a<i;a++)e+=t[a].length;const a=new Uint8Array(e);for(let e=0,i=0,n=t.length;e<n;e++){let n=t[e];a.set(n,i),i+=n.length}return a};let Ft=!0;try{String.fromCharCode.apply(null,new Uint8Array(1))}catch(t){Ft=!1}const Lt=new Uint8Array(256);for(let t=0;t<256;t++)Lt[t]=t>=252?6:t>=248?5:t>=240?4:t>=224?3:t>=192?2:1;Lt[254]=Lt[254]=1;var Nt=t=>{if("function"==typeof TextEncoder&&TextEncoder.prototype.encode)return(new TextEncoder).encode(t);let e,a,i,n,s,r=t.length,o=0;for(n=0;n<r;n++)a=t.charCodeAt(n),55296==(64512&a)&&n+1<r&&(i=t.charCodeAt(n+1),56320==(64512&i)&&(a=65536+(a-55296<<10)+(i-56320),n++)),o+=a<128?1:a<2048?2:a<65536?3:4;for(e=new Uint8Array(o),s=0,n=0;s<o;n++)a=t.charCodeAt(n),55296==(64512&a)&&n+1<r&&(i=t.charCodeAt(n+1),56320==(64512&i)&&(a=65536+(a-55296<<10)+(i-56320),n++)),a<128?e[s++]=a:a<2048?(e[s++]=192|a>>>6,e[s++]=128|63&a):a<65536?(e[s++]=224|a>>>12,e[s++]=128|a>>>6&63,e[s++]=128|63&a):(e[s++]=240|a>>>18,e[s++]=128|a>>>12&63,e[s++]=128|a>>>6&63,e[s++]=128|63&a);return e},It=(t,e)=>{const a=e||t.length;if("function"==typeof TextDecoder&&TextDecoder.prototype.decode)return(new TextDecoder).decode(t.subarray(0,e));let i,n;const s=new Array(2*a);for(n=0,i=0;i<a;){let e=t[i++];if(e<128){s[n++]=e;continue}let r=Lt[e];if(r>4)s[n++]=65533,i+=r-1;else{for(e&=2===r?31:3===r?15:7;r>1&&i<a;)e=e<<6|63&t[i++],r--;r>1?s[n++]=65533:e<65536?s[n++]=e:(e-=65536,s[n++]=55296|e>>10&1023,s[n++]=56320|1023&e)}}return((t,e)=>{if(e<65534&&t.subarray&&Ft)return String.fromCharCode.apply(null,t.length===e?t:t.subarray(0,e));let a="";for(let i=0;i<e;i++)a+=String.fromCharCode(t[i]);return a})(s,n)},Bt=(t,e)=>{(e=e||t.length)>t.length&&(e=t.length);let a=e-1;for(;a>=0&&128==(192&t[a]);)a--;return a<0||0===a?e:a+Lt[t[a]]>e?a:e};var Ct=function(){this.input=null,this.next_in=0,this.avail_in=0,this.total_in=0,this.output=null,this.next_out=0,this.avail_out=0,this.total_out=0,this.msg="",this.state=null,this.data_type=2,this.adler=0};const Ht=Object.prototype.toString,{Z_NO_FLUSH:Mt,Z_SYNC_FLUSH:jt,Z_FULL_FLUSH:Kt,Z_FINISH:Pt,Z_OK:Yt,Z_STREAM_END:Gt,Z_DEFAULT_COMPRESSION:Xt,Z_DEFAULT_STRATEGY:Wt,Z_DEFLATED:qt}=B;function Jt(t){this.options=Tt({level:Xt,method:qt,chunkSize:16384,windowBits:15,memLevel:8,strategy:Wt},t||{});let e=this.options;e.raw&&e.windowBits>0?e.windowBits=-e.windowBits:e.gzip&&e.windowBits>0&&e.windowBits<16&&(e.windowBits+=16),this.err=0,this.msg="",this.ended=!1,this.chunks=[],this.strm=new Ct,this.strm.avail_out=0;let a=St.deflateInit2(this.strm,e.level,e.method,e.windowBits,e.memLevel,e.strategy);if(a!==Yt)throw new Error(I[a]);if(e.header&&St.deflateSetHeader(this.strm,e.header),e.dictionary){let t;if(t="string"==typeof e.dictionary?Nt(e.dictionary):"[object ArrayBuffer]"===Ht.call(e.dictionary)?new Uint8Array(e.dictionary):e.dictionary,a=St.deflateSetDictionary(this.strm,t),a!==Yt)throw new Error(I[a]);this._dict_set=!0}}function Qt(t,e){const a=new Jt(e);if(a.push(t,!0),a.err)throw a.msg||I[a.err];return a.result}Jt.prototype.push=function(t,e){const a=this.strm,i=this.options.chunkSize;let n,s;if(this.ended)return!1;for(s=e===~~e?e:!0===e?Pt:Mt,"string"==typeof t?a.input=Nt(t):"[object ArrayBuffer]"===Ht.call(t)?a.input=new Uint8Array(t):a.input=t,a.next_in=0,a.avail_in=a.input.length;;)if(0===a.avail_out&&(a.output=new Uint8Array(i),a.next_out=0,a.avail_out=i),(s===jt||s===Kt)&&a.avail_out<=6)this.onData(a.output.subarray(0,a.next_out)),a.avail_out=0;else{if(n=St.deflate(a,s),n===Gt)return a.next_out>0&&this.onData(a.output.subarray(0,a.next_out)),n=St.deflateEnd(this.strm),this.onEnd(n),this.ended=!0,n===Yt;if(0!==a.avail_out){if(s>0&&a.next_out>0)this.onData(a.output.subarray(0,a.next_out)),a.avail_out=0;else if(0===a.avail_in)break}else this.onData(a.output)}return!0},Jt.prototype.onData=function(t){this.chunks.push(t)},Jt.prototype.onEnd=function(t){t===Yt&&(this.result=Ot(this.chunks)),this.chunks=[],this.err=t,this.msg=this.strm.msg};var Vt={Deflate:Jt,deflate:Qt,deflateRaw:function(t,e){return(e=e||{}).raw=!0,Qt(t,e)},gzip:function(t,e){return(e=e||{}).gzip=!0,Qt(t,e)},constants:B};var $t=function(t,e){let a,i,n,s,r,o,l,h,d,_,f,c,u,w,m,b,g,p,k,v,y,x,z,A;const E=t.state;a=t.next_in,z=t.input,i=a+(t.avail_in-5),n=t.next_out,A=t.output,s=n-(e-t.avail_out),r=n+(t.avail_out-257),o=E.dmax,l=E.wsize,h=E.whave,d=E.wnext,_=E.window,f=E.hold,c=E.bits,u=E.lencode,w=E.distcode,m=(1<<E.lenbits)-1,b=(1<<E.distbits)-1;t:do{c<15&&(f+=z[a++]<<c,c+=8,f+=z[a++]<<c,c+=8),g=u[f&m];e:for(;;){if(p=g>>>24,f>>>=p,c-=p,p=g>>>16&255,0===p)A[n++]=65535&g;else{if(!(16&p)){if(0==(64&p)){g=u[(65535&g)+(f&(1<<p)-1)];continue e}if(32&p){E.mode=16191;break t}t.msg="invalid literal/length code",E.mode=16209;break t}k=65535&g,p&=15,p&&(c<p&&(f+=z[a++]<<c,c+=8),k+=f&(1<<p)-1,f>>>=p,c-=p),c<15&&(f+=z[a++]<<c,c+=8,f+=z[a++]<<c,c+=8),g=w[f&b];a:for(;;){if(p=g>>>24,f>>>=p,c-=p,p=g>>>16&255,!(16&p)){if(0==(64&p)){g=w[(65535&g)+(f&(1<<p)-1)];continue a}t.msg="invalid distance code",E.mode=16209;break t}if(v=65535&g,p&=15,c<p&&(f+=z[a++]<<c,c+=8,c<p&&(f+=z[a++]<<c,c+=8)),v+=f&(1<<p)-1,v>o){t.msg="invalid distance too far back",E.mode=16209;break t}if(f>>>=p,c-=p,p=n-s,v>p){if(p=v-p,p>h&&E.sane){t.msg="invalid distance too far back",E.mode=16209;break t}if(y=0,x=_,0===d){if(y+=l-p,p<k){k-=p;do{A[n++]=_[y++]}while(--p);y=n-v,x=A}}else if(d<p){if(y+=l+d-p,p-=d,p<k){k-=p;do{A[n++]=_[y++]}while(--p);if(y=0,d<k){p=d,k-=p;do{A[n++]=_[y++]}while(--p);y=n-v,x=A}}}else if(y+=d-p,p<k){k-=p;do{A[n++]=_[y++]}while(--p);y=n-v,x=A}for(;k>2;)A[n++]=x[y++],A[n++]=x[y++],A[n++]=x[y++],k-=3;k&&(A[n++]=x[y++],k>1&&(A[n++]=x[y++]))}else{y=n-v;do{A[n++]=A[y++],A[n++]=A[y++],A[n++]=A[y++],k-=3}while(k>2);k&&(A[n++]=A[y++],k>1&&(A[n++]=A[y++]))}break}}break}}while(a<i&&n<r);k=c>>3,a-=k,c-=k<<3,f&=(1<<c)-1,t.next_in=a,t.next_out=n,t.avail_in=a<i?i-a+5:5-(a-i),t.avail_out=n<r?r-n+257:257-(n-r),E.hold=f,E.bits=c};const te=new Uint16Array([3,4,5,6,7,8,9,10,11,13,15,17,19,23,27,31,35,43,51,59,67,83,99,115,131,163,195,227,258,0,0]),ee=new Uint8Array([16,16,16,16,16,16,16,16,17,17,17,17,18,18,18,18,19,19,19,19,20,20,20,20,21,21,21,21,16,72,78]),ae=new Uint16Array([1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,257,385,513,769,1025,1537,2049,3073,4097,6145,8193,12289,16385,24577,0,0]),ie=new Uint8Array([16,16,16,16,17,17,18,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27,27,28,28,29,29,64,64]);var ne=(t,e,a,i,n,s,r,o)=>{const l=o.bits;let h,d,_,f,c,u,w=0,m=0,b=0,g=0,p=0,k=0,v=0,y=0,x=0,z=0,A=null;const E=new Uint16Array(16),R=new Uint16Array(16);let Z,U,S,D=null;for(w=0;w<=15;w++)E[w]=0;for(m=0;m<i;m++)E[e[a+m]]++;for(p=l,g=15;g>=1&&0===E[g];g--);if(p>g&&(p=g),0===g)return n[s++]=20971520,n[s++]=20971520,o.bits=1,0;for(b=1;b<g&&0===E[b];b++);for(p<b&&(p=b),y=1,w=1;w<=15;w++)if(y<<=1,y-=E[w],y<0)return-1;if(y>0&&(0===t||1!==g))return-1;for(R[1]=0,w=1;w<15;w++)R[w+1]=R[w]+E[w];for(m=0;m<i;m++)0!==e[a+m]&&(r[R[e[a+m]]++]=m);if(0===t?(A=D=r,u=20):1===t?(A=te,D=ee,u=257):(A=ae,D=ie,u=0),z=0,m=0,w=b,c=s,k=p,v=0,_=-1,x=1<<p,f=x-1,1===t&&x>852||2===t&&x>592)return 1;for(;;){Z=w-v,r[m]+1<u?(U=0,S=r[m]):r[m]>=u?(U=D[r[m]-u],S=A[r[m]-u]):(U=96,S=0),h=1<<w-v,d=1<<k,b=d;do{d-=h,n[c+(z>>v)+d]=Z<<24|U<<16|S|0}while(0!==d);for(h=1<<w-1;z&h;)h>>=1;if(0!==h?(z&=h-1,z+=h):z=0,m++,0==--E[w]){if(w===g)break;w=e[a+r[m]]}if(w>p&&(z&f)!==_){for(0===v&&(v=p),c+=b,k=w-v,y=1<<k;k+v<g&&(y-=E[k+v],!(y<=0));)k++,y<<=1;if(x+=1<<k,1===t&&x>852||2===t&&x>592)return 1;_=z&f,n[_]=p<<24|k<<16|c-s|0}}return 0!==z&&(n[c+z]=w-v<<24|64<<16|0),o.bits=p,0};const{Z_FINISH:se,Z_BLOCK:re,Z_TREES:oe,Z_OK:le,Z_STREAM_END:he,Z_NEED_DICT:de,Z_STREAM_ERROR:_e,Z_DATA_ERROR:fe,Z_MEM_ERROR:ce,Z_BUF_ERROR:ue,Z_DEFLATED:we}=B,me=16209,be=t=>(t>>>24&255)+(t>>>8&65280)+((65280&t)<<8)+((255&t)<<24);function ge(){this.strm=null,this.mode=0,this.last=!1,this.wrap=0,this.havedict=!1,this.flags=0,this.dmax=0,this.check=0,this.total=0,this.head=null,this.wbits=0,this.wsize=0,this.whave=0,this.wnext=0,this.window=null,this.hold=0,this.bits=0,this.length=0,this.offset=0,this.extra=0,this.lencode=null,this.distcode=null,this.lenbits=0,this.distbits=0,this.ncode=0,this.nlen=0,this.ndist=0,this.have=0,this.next=null,this.lens=new Uint16Array(320),this.work=new Uint16Array(288),this.lendyn=null,this.distdyn=null,this.sane=0,this.back=0,this.was=0}const pe=t=>{if(!t)return 1;const e=t.state;return!e||e.strm!==t||e.mode<16180||e.mode>16211?1:0},ke=t=>{if(pe(t))return _e;const e=t.state;return t.total_in=t.total_out=e.total=0,t.msg="",e.wrap&&(t.adler=1&e.wrap),e.mode=16180,e.last=0,e.havedict=0,e.flags=-1,e.dmax=32768,e.head=null,e.hold=0,e.bits=0,e.lencode=e.lendyn=new Int32Array(852),e.distcode=e.distdyn=new Int32Array(592),e.sane=1,e.back=-1,le},ve=t=>{if(pe(t))return _e;const e=t.state;return e.wsize=0,e.whave=0,e.wnext=0,ke(t)},ye=(t,e)=>{let a;if(pe(t))return _e;const i=t.state;return e<0?(a=0,e=-e):(a=5+(e>>4),e<48&&(e&=15)),e&&(e<8||e>15)?_e:(null!==i.window&&i.wbits!==e&&(i.window=null),i.wrap=a,i.wbits=e,ve(t))},xe=(t,e)=>{if(!t)return _e;const a=new ge;t.state=a,a.strm=t,a.window=null,a.mode=16180;const i=ye(t,e);return i!==le&&(t.state=null),i};let ze,Ae,Ee=!0;const Re=t=>{if(Ee){ze=new Int32Array(512),Ae=new Int32Array(32);let e=0;for(;e<144;)t.lens[e++]=8;for(;e<256;)t.lens[e++]=9;for(;e<280;)t.lens[e++]=7;for(;e<288;)t.lens[e++]=8;for(ne(1,t.lens,0,288,ze,0,t.work,{bits:9}),e=0;e<32;)t.lens[e++]=5;ne(2,t.lens,0,32,Ae,0,t.work,{bits:5}),Ee=!1}t.lencode=ze,t.lenbits=9,t.distcode=Ae,t.distbits=5},Ze=(t,e,a,i)=>{let n;const s=t.state;return null===s.window&&(s.wsize=1<<s.wbits,s.wnext=0,s.whave=0,s.window=new Uint8Array(s.wsize)),i>=s.wsize?(s.window.set(e.subarray(a-s.wsize,a),0),s.wnext=0,s.whave=s.wsize):(n=s.wsize-s.wnext,n>i&&(n=i),s.window.set(e.subarray(a-i,a-i+n),s.wnext),(i-=n)?(s.window.set(e.subarray(a-i,a),0),s.wnext=i,s.whave=s.wsize):(s.wnext+=n,s.wnext===s.wsize&&(s.wnext=0),s.whave<s.wsize&&(s.whave+=n))),0};var Ue={inflateReset:ve,inflateReset2:ye,inflateResetKeep:ke,inflateInit:t=>xe(t,15),inflateInit2:xe,inflate:(t,e)=>{let a,i,n,s,r,o,l,h,d,_,f,c,u,w,m,b,g,p,k,v,y,x,z=0;const A=new Uint8Array(4);let E,R;const Z=new Uint8Array([16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15]);if(pe(t)||!t.output||!t.input&&0!==t.avail_in)return _e;a=t.state,16191===a.mode&&(a.mode=16192),r=t.next_out,n=t.output,l=t.avail_out,s=t.next_in,i=t.input,o=t.avail_in,h=a.hold,d=a.bits,_=o,f=l,x=le;t:for(;;)switch(a.mode){case 16180:if(0===a.wrap){a.mode=16192;break}for(;d<16;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}if(2&a.wrap&&35615===h){0===a.wbits&&(a.wbits=15),a.check=0,A[0]=255&h,A[1]=h>>>8&255,a.check=N(a.check,A,2,0),h=0,d=0,a.mode=16181;break}if(a.head&&(a.head.done=!1),!(1&a.wrap)||(((255&h)<<8)+(h>>8))%31){t.msg="incorrect header check",a.mode=me;break}if((15&h)!==we){t.msg="unknown compression method",a.mode=me;break}if(h>>>=4,d-=4,y=8+(15&h),0===a.wbits&&(a.wbits=y),y>15||y>a.wbits){t.msg="invalid window size",a.mode=me;break}a.dmax=1<<a.wbits,a.flags=0,t.adler=a.check=1,a.mode=512&h?16189:16191,h=0,d=0;break;case 16181:for(;d<16;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}if(a.flags=h,(255&a.flags)!==we){t.msg="unknown compression method",a.mode=me;break}if(57344&a.flags){t.msg="unknown header flags set",a.mode=me;break}a.head&&(a.head.text=h>>8&1),512&a.flags&&4&a.wrap&&(A[0]=255&h,A[1]=h>>>8&255,a.check=N(a.check,A,2,0)),h=0,d=0,a.mode=16182;case 16182:for(;d<32;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}a.head&&(a.head.time=h),512&a.flags&&4&a.wrap&&(A[0]=255&h,A[1]=h>>>8&255,A[2]=h>>>16&255,A[3]=h>>>24&255,a.check=N(a.check,A,4,0)),h=0,d=0,a.mode=16183;case 16183:for(;d<16;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}a.head&&(a.head.xflags=255&h,a.head.os=h>>8),512&a.flags&&4&a.wrap&&(A[0]=255&h,A[1]=h>>>8&255,a.check=N(a.check,A,2,0)),h=0,d=0,a.mode=16184;case 16184:if(1024&a.flags){for(;d<16;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}a.length=h,a.head&&(a.head.extra_len=h),512&a.flags&&4&a.wrap&&(A[0]=255&h,A[1]=h>>>8&255,a.check=N(a.check,A,2,0)),h=0,d=0}else a.head&&(a.head.extra=null);a.mode=16185;case 16185:if(1024&a.flags&&(c=a.length,c>o&&(c=o),c&&(a.head&&(y=a.head.extra_len-a.length,a.head.extra||(a.head.extra=new Uint8Array(a.head.extra_len)),a.head.extra.set(i.subarray(s,s+c),y)),512&a.flags&&4&a.wrap&&(a.check=N(a.check,i,c,s)),o-=c,s+=c,a.length-=c),a.length))break t;a.length=0,a.mode=16186;case 16186:if(2048&a.flags){if(0===o)break t;c=0;do{y=i[s+c++],a.head&&y&&a.length<65536&&(a.head.name+=String.fromCharCode(y))}while(y&&c<o);if(512&a.flags&&4&a.wrap&&(a.check=N(a.check,i,c,s)),o-=c,s+=c,y)break t}else a.head&&(a.head.name=null);a.length=0,a.mode=16187;case 16187:if(4096&a.flags){if(0===o)break t;c=0;do{y=i[s+c++],a.head&&y&&a.length<65536&&(a.head.comment+=String.fromCharCode(y))}while(y&&c<o);if(512&a.flags&&4&a.wrap&&(a.check=N(a.check,i,c,s)),o-=c,s+=c,y)break t}else a.head&&(a.head.comment=null);a.mode=16188;case 16188:if(512&a.flags){for(;d<16;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}if(4&a.wrap&&h!==(65535&a.check)){t.msg="header crc mismatch",a.mode=me;break}h=0,d=0}a.head&&(a.head.hcrc=a.flags>>9&1,a.head.done=!0),t.adler=a.check=0,a.mode=16191;break;case 16189:for(;d<32;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}t.adler=a.check=be(h),h=0,d=0,a.mode=16190;case 16190:if(0===a.havedict)return t.next_out=r,t.avail_out=l,t.next_in=s,t.avail_in=o,a.hold=h,a.bits=d,de;t.adler=a.check=1,a.mode=16191;case 16191:if(e===re||e===oe)break t;case 16192:if(a.last){h>>>=7&d,d-=7&d,a.mode=16206;break}for(;d<3;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}switch(a.last=1&h,h>>>=1,d-=1,3&h){case 0:a.mode=16193;break;case 1:if(Re(a),a.mode=16199,e===oe){h>>>=2,d-=2;break t}break;case 2:a.mode=16196;break;case 3:t.msg="invalid block type",a.mode=me}h>>>=2,d-=2;break;case 16193:for(h>>>=7&d,d-=7&d;d<32;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}if((65535&h)!=(h>>>16^65535)){t.msg="invalid stored block lengths",a.mode=me;break}if(a.length=65535&h,h=0,d=0,a.mode=16194,e===oe)break t;case 16194:a.mode=16195;case 16195:if(c=a.length,c){if(c>o&&(c=o),c>l&&(c=l),0===c)break t;n.set(i.subarray(s,s+c),r),o-=c,s+=c,l-=c,r+=c,a.length-=c;break}a.mode=16191;break;case 16196:for(;d<14;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}if(a.nlen=257+(31&h),h>>>=5,d-=5,a.ndist=1+(31&h),h>>>=5,d-=5,a.ncode=4+(15&h),h>>>=4,d-=4,a.nlen>286||a.ndist>30){t.msg="too many length or distance symbols",a.mode=me;break}a.have=0,a.mode=16197;case 16197:for(;a.have<a.ncode;){for(;d<3;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}a.lens[Z[a.have++]]=7&h,h>>>=3,d-=3}for(;a.have<19;)a.lens[Z[a.have++]]=0;if(a.lencode=a.lendyn,a.lenbits=7,E={bits:a.lenbits},x=ne(0,a.lens,0,19,a.lencode,0,a.work,E),a.lenbits=E.bits,x){t.msg="invalid code lengths set",a.mode=me;break}a.have=0,a.mode=16198;case 16198:for(;a.have<a.nlen+a.ndist;){for(;z=a.lencode[h&(1<<a.lenbits)-1],m=z>>>24,b=z>>>16&255,g=65535&z,!(m<=d);){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}if(g<16)h>>>=m,d-=m,a.lens[a.have++]=g;else{if(16===g){for(R=m+2;d<R;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}if(h>>>=m,d-=m,0===a.have){t.msg="invalid bit length repeat",a.mode=me;break}y=a.lens[a.have-1],c=3+(3&h),h>>>=2,d-=2}else if(17===g){for(R=m+3;d<R;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}h>>>=m,d-=m,y=0,c=3+(7&h),h>>>=3,d-=3}else{for(R=m+7;d<R;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}h>>>=m,d-=m,y=0,c=11+(127&h),h>>>=7,d-=7}if(a.have+c>a.nlen+a.ndist){t.msg="invalid bit length repeat",a.mode=me;break}for(;c--;)a.lens[a.have++]=y}}if(a.mode===me)break;if(0===a.lens[256]){t.msg="invalid code -- missing end-of-block",a.mode=me;break}if(a.lenbits=9,E={bits:a.lenbits},x=ne(1,a.lens,0,a.nlen,a.lencode,0,a.work,E),a.lenbits=E.bits,x){t.msg="invalid literal/lengths set",a.mode=me;break}if(a.distbits=6,a.distcode=a.distdyn,E={bits:a.distbits},x=ne(2,a.lens,a.nlen,a.ndist,a.distcode,0,a.work,E),a.distbits=E.bits,x){t.msg="invalid distances set",a.mode=me;break}if(a.mode=16199,e===oe)break t;case 16199:a.mode=16200;case 16200:if(o>=6&&l>=258){t.next_out=r,t.avail_out=l,t.next_in=s,t.avail_in=o,a.hold=h,a.bits=d,$t(t,f),r=t.next_out,n=t.output,l=t.avail_out,s=t.next_in,i=t.input,o=t.avail_in,h=a.hold,d=a.bits,16191===a.mode&&(a.back=-1);break}for(a.back=0;z=a.lencode[h&(1<<a.lenbits)-1],m=z>>>24,b=z>>>16&255,g=65535&z,!(m<=d);){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}if(b&&0==(240&b)){for(p=m,k=b,v=g;z=a.lencode[v+((h&(1<<p+k)-1)>>p)],m=z>>>24,b=z>>>16&255,g=65535&z,!(p+m<=d);){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}h>>>=p,d-=p,a.back+=p}if(h>>>=m,d-=m,a.back+=m,a.length=g,0===b){a.mode=16205;break}if(32&b){a.back=-1,a.mode=16191;break}if(64&b){t.msg="invalid literal/length code",a.mode=me;break}a.extra=15&b,a.mode=16201;case 16201:if(a.extra){for(R=a.extra;d<R;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}a.length+=h&(1<<a.extra)-1,h>>>=a.extra,d-=a.extra,a.back+=a.extra}a.was=a.length,a.mode=16202;case 16202:for(;z=a.distcode[h&(1<<a.distbits)-1],m=z>>>24,b=z>>>16&255,g=65535&z,!(m<=d);){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}if(0==(240&b)){for(p=m,k=b,v=g;z=a.distcode[v+((h&(1<<p+k)-1)>>p)],m=z>>>24,b=z>>>16&255,g=65535&z,!(p+m<=d);){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}h>>>=p,d-=p,a.back+=p}if(h>>>=m,d-=m,a.back+=m,64&b){t.msg="invalid distance code",a.mode=me;break}a.offset=g,a.extra=15&b,a.mode=16203;case 16203:if(a.extra){for(R=a.extra;d<R;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}a.offset+=h&(1<<a.extra)-1,h>>>=a.extra,d-=a.extra,a.back+=a.extra}if(a.offset>a.dmax){t.msg="invalid distance too far back",a.mode=me;break}a.mode=16204;case 16204:if(0===l)break t;if(c=f-l,a.offset>c){if(c=a.offset-c,c>a.whave&&a.sane){t.msg="invalid distance too far back",a.mode=me;break}c>a.wnext?(c-=a.wnext,u=a.wsize-c):u=a.wnext-c,c>a.length&&(c=a.length),w=a.window}else w=n,u=r-a.offset,c=a.length;c>l&&(c=l),l-=c,a.length-=c;do{n[r++]=w[u++]}while(--c);0===a.length&&(a.mode=16200);break;case 16205:if(0===l)break t;n[r++]=a.length,l--,a.mode=16200;break;case 16206:if(a.wrap){for(;d<32;){if(0===o)break t;o--,h|=i[s++]<<d,d+=8}if(f-=l,t.total_out+=f,a.total+=f,4&a.wrap&&f&&(t.adler=a.check=a.flags?N(a.check,n,f,r-f):F(a.check,n,f,r-f)),f=l,4&a.wrap&&(a.flags?h:be(h))!==a.check){t.msg="incorrect data check",a.mode=me;break}h=0,d=0}a.mode=16207;case 16207:if(a.wrap&&a.flags){for(;d<32;){if(0===o)break t;o--,h+=i[s++]<<d,d+=8}if(4&a.wrap&&h!==(4294967295&a.total)){t.msg="incorrect length check",a.mode=me;break}h=0,d=0}a.mode=16208;case 16208:x=he;break t;case me:x=fe;break t;case 16210:return ce;default:return _e}return t.next_out=r,t.avail_out=l,t.next_in=s,t.avail_in=o,a.hold=h,a.bits=d,(a.wsize||f!==t.avail_out&&a.mode<me&&(a.mode<16206||e!==se))&&Ze(t,t.output,t.next_out,f-t.avail_out),_-=t.avail_in,f-=t.avail_out,t.total_in+=_,t.total_out+=f,a.total+=f,4&a.wrap&&f&&(t.adler=a.check=a.flags?N(a.check,n,f,t.next_out-f):F(a.check,n,f,t.next_out-f)),t.data_type=a.bits+(a.last?64:0)+(16191===a.mode?128:0)+(16199===a.mode||16194===a.mode?256:0),(0===_&&0===f||e===se)&&x===le&&(x=ue),x},inflateEnd:t=>{if(pe(t))return _e;let e=t.state;return e.window&&(e.window=null),t.state=null,le},inflateGetHeader:(t,e)=>{if(pe(t))return _e;const a=t.state;return 0==(2&a.wrap)?_e:(a.head=e,e.done=!1,le)},inflateSetDictionary:(t,e)=>{const a=e.length;let i,n,s;return pe(t)?_e:(i=t.state,0!==i.wrap&&16190!==i.mode?_e:16190===i.mode&&(n=1,n=F(n,e,a,0),n!==i.check)?fe:(s=Ze(t,e,a,a),s?(i.mode=16210,ce):(i.havedict=1,le)))},inflateInfo:"pako inflate (from Nodeca project)"};var Se=function(){this.text=0,this.time=0,this.xflags=0,this.os=0,this.extra=null,this.extra_len=0,this.name="",this.comment="",this.hcrc=0,this.done=!1};const De=Object.prototype.toString,{Z_NO_FLUSH:Te,Z_FINISH:Oe,Z_OK:Fe,Z_STREAM_END:Le,Z_NEED_DICT:Ne,Z_STREAM_ERROR:Ie,Z_DATA_ERROR:Be,Z_MEM_ERROR:Ce}=B;function He(t){this.options=Tt({chunkSize:65536,windowBits:15,to:""},t||{});const e=this.options;e.raw&&e.windowBits>=0&&e.windowBits<16&&(e.windowBits=-e.windowBits,0===e.windowBits&&(e.windowBits=-15)),!(e.windowBits>=0&&e.windowBits<16)||t&&t.windowBits||(e.windowBits+=32),e.windowBits>15&&e.windowBits<48&&0==(15&e.windowBits)&&(e.windowBits|=15),this.err=0,this.msg="",this.ended=!1,this.chunks=[],this.strm=new Ct,this.strm.avail_out=0;let a=Ue.inflateInit2(this.strm,e.windowBits);if(a!==Fe)throw new Error(I[a]);if(this.header=new Se,Ue.inflateGetHeader(this.strm,this.header),e.dictionary&&("string"==typeof e.dictionary?e.dictionary=Nt(e.dictionary):"[object ArrayBuffer]"===De.call(e.dictionary)&&(e.dictionary=new Uint8Array(e.dictionary)),e.raw&&(a=Ue.inflateSetDictionary(this.strm,e.dictionary),a!==Fe)))throw new Error(I[a])}He.prototype.push=function(t,e){const a=this.strm,i=this.options.chunkSize,n=this.options.dictionary;let s,r,o;if(this.ended)return!1;for(r=e===~~e?e:!0===e?Oe:Te,"[object ArrayBuffer]"===De.call(t)?a.input=new Uint8Array(t):a.input=t,a.next_in=0,a.avail_in=a.input.length;;){for(0===a.avail_out&&(a.output=new Uint8Array(i),a.next_out=0,a.avail_out=i),s=Ue.inflate(a,r),s===Ne&&n&&(s=Ue.inflateSetDictionary(a,n),s===Fe?s=Ue.inflate(a,r):s===Be&&(s=Ne));a.avail_in>0&&s===Le&&a.state.wrap>0&&0!==t[a.next_in];)Ue.inflateReset(a),s=Ue.inflate(a,r);switch(s){case Ie:case Be:case Ne:case Ce:return this.onEnd(s),this.ended=!0,!1}if(o=a.avail_out,a.next_out&&(0===a.avail_out||s===Le))if("string"===this.options.to){let t=Bt(a.output,a.next_out),e=a.next_out-t,n=It(a.output,t);a.next_out=e,a.avail_out=i-e,e&&a.output.set(a.output.subarray(t,t+e),0),this.onData(n)}else this.onData(a.output.length===a.next_out?a.output:a.output.subarray(0,a.next_out));if(s!==Fe||0!==o){if(s===Le)return s=Ue.inflateEnd(this.strm),this.onEnd(s),this.ended=!0,!0;if(0===a.avail_in)break}}return!0},He.prototype.onData=function(t){this.chunks.push(t)},He.prototype.onEnd=function(t){t===Fe&&("string"===this.options.to?this.result=this.chunks.join(""):this.result=Ot(this.chunks)),this.chunks=[],this.err=t,this.msg=this.strm.msg};const{Deflate:Me,deflate:je,deflateRaw:Ke,gzip:Pe}=Vt;var Ye=Me,Ge=je,Xe=B;const We=new class{constructor(){this._init()}clear(){this._init()}addEvent(t){if(!t)throw new Error("Adding invalid event");const e=this._hasEvents?",":"";this.deflate.push(e+t,Xe.Z_SYNC_FLUSH),this._hasEvents=!0}finish(){if(this.deflate.push("]",Xe.Z_FINISH),this.deflate.err)throw this.deflate.err;const t=this.deflate.result;return this._init(),t}_init(){this._hasEvents=!1,this.deflate=new Ye,this.deflate.push("[",Xe.Z_NO_FLUSH)}},qe={clear:()=>{We.clear()},addEvent:t=>We.addEvent(t),finish:()=>We.finish(),compress:t=>function(t){return Ge(t)}(t)};addEventListener("message",(function(t){const e=t.data.method,a=t.data.id,i=t.data.arg;if(e in qe&&"function"==typeof qe[e])try{const t=qe[e](i);postMessage({id:a,method:e,success:!0,response:t})}catch(t){postMessage({id:a,method:e,success:!1,response:t.message}),console.error(t)}})),postMessage({id:void 0,method:"init",success:!0,response:void 0});`;
+/**
+ * This serves as a build time flag that will be true by default, but false in non-debug builds or if users replace `__SENTRY_DEBUG__` in their generated code.
+ *
+ * ATTENTION: This constant must never cross package boundaries (i.e. be exported) to guarantee that it can be used for tree shaking.
+ */
+const DEBUG_BUILD = (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__);
+
+const r = `var t=Uint8Array,n=Uint16Array,r=Int32Array,e=new t([0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0,0,0,0]),i=new t([0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,0,0]),a=new t([16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15]),s=function(t,e){for(var i=new n(31),a=0;a<31;++a)i[a]=e+=1<<t[a-1];var s=new r(i[30]);for(a=1;a<30;++a)for(var o=i[a];o<i[a+1];++o)s[o]=o-i[a]<<5|a;return{b:i,r:s}},o=s(e,2),f=o.b,h=o.r;f[28]=258,h[258]=28;for(var l=s(i,0).r,u=new n(32768),c=0;c<32768;++c){var v=(43690&c)>>1|(21845&c)<<1;v=(61680&(v=(52428&v)>>2|(13107&v)<<2))>>4|(3855&v)<<4,u[c]=((65280&v)>>8|(255&v)<<8)>>1}var d=function(t,r,e){for(var i=t.length,a=0,s=new n(r);a<i;++a)t[a]&&++s[t[a]-1];var o,f=new n(r);for(a=1;a<r;++a)f[a]=f[a-1]+s[a-1]<<1;if(e){o=new n(1<<r);var h=15-r;for(a=0;a<i;++a)if(t[a])for(var l=a<<4|t[a],c=r-t[a],v=f[t[a]-1]++<<c,d=v|(1<<c)-1;v<=d;++v)o[u[v]>>h]=l}else for(o=new n(i),a=0;a<i;++a)t[a]&&(o[a]=u[f[t[a]-1]++]>>15-t[a]);return o},g=new t(288);for(c=0;c<144;++c)g[c]=8;for(c=144;c<256;++c)g[c]=9;for(c=256;c<280;++c)g[c]=7;for(c=280;c<288;++c)g[c]=8;var w=new t(32);for(c=0;c<32;++c)w[c]=5;var p=d(g,9,0),y=d(w,5,0),m=function(t){return(t+7)/8|0},b=function(n,r,e){return(null==r||r<0)&&(r=0),(null==e||e>n.length)&&(e=n.length),new t(n.subarray(r,e))},M=["unexpected EOF","invalid block type","invalid length/literal","invalid distance","stream finished","no stream handler",,"no callback","invalid UTF-8 data","extra field too long","date not in range 1980-2099","filename too long","stream finishing","invalid zip data"],E=function(t,n,r){var e=new Error(n||M[t]);if(e.code=t,Error.captureStackTrace&&Error.captureStackTrace(e,E),!r)throw e;return e},z=function(t,n,r){r<<=7&n;var e=n/8|0;t[e]|=r,t[e+1]|=r>>8},A=function(t,n,r){r<<=7&n;var e=n/8|0;t[e]|=r,t[e+1]|=r>>8,t[e+2]|=r>>16},_=function(r,e){for(var i=[],a=0;a<r.length;++a)r[a]&&i.push({s:a,f:r[a]});var s=i.length,o=i.slice();if(!s)return{t:F,l:0};if(1==s){var f=new t(i[0].s+1);return f[i[0].s]=1,{t:f,l:1}}i.sort((function(t,n){return t.f-n.f})),i.push({s:-1,f:25001});var h=i[0],l=i[1],u=0,c=1,v=2;for(i[0]={s:-1,f:h.f+l.f,l:h,r:l};c!=s-1;)h=i[i[u].f<i[v].f?u++:v++],l=i[u!=c&&i[u].f<i[v].f?u++:v++],i[c++]={s:-1,f:h.f+l.f,l:h,r:l};var d=o[0].s;for(a=1;a<s;++a)o[a].s>d&&(d=o[a].s);var g=new n(d+1),w=x(i[c-1],g,0);if(w>e){a=0;var p=0,y=w-e,m=1<<y;for(o.sort((function(t,n){return g[n.s]-g[t.s]||t.f-n.f}));a<s;++a){var b=o[a].s;if(!(g[b]>e))break;p+=m-(1<<w-g[b]),g[b]=e}for(p>>=y;p>0;){var M=o[a].s;g[M]<e?p-=1<<e-g[M]++-1:++a}for(;a>=0&&p;--a){var E=o[a].s;g[E]==e&&(--g[E],++p)}w=e}return{t:new t(g),l:w}},x=function(t,n,r){return-1==t.s?Math.max(x(t.l,n,r+1),x(t.r,n,r+1)):n[t.s]=r},D=function(t){for(var r=t.length;r&&!t[--r];);for(var e=new n(++r),i=0,a=t[0],s=1,o=function(t){e[i++]=t},f=1;f<=r;++f)if(t[f]==a&&f!=r)++s;else{if(!a&&s>2){for(;s>138;s-=138)o(32754);s>2&&(o(s>10?s-11<<5|28690:s-3<<5|12305),s=0)}else if(s>3){for(o(a),--s;s>6;s-=6)o(8304);s>2&&(o(s-3<<5|8208),s=0)}for(;s--;)o(a);s=1,a=t[f]}return{c:e.subarray(0,i),n:r}},T=function(t,n){for(var r=0,e=0;e<n.length;++e)r+=t[e]*n[e];return r},k=function(t,n,r){var e=r.length,i=m(n+2);t[i]=255&e,t[i+1]=e>>8,t[i+2]=255^t[i],t[i+3]=255^t[i+1];for(var a=0;a<e;++a)t[i+a+4]=r[a];return 8*(i+4+e)},C=function(t,r,s,o,f,h,l,u,c,v,m){z(r,m++,s),++f[256];for(var b=_(f,15),M=b.t,E=b.l,x=_(h,15),C=x.t,U=x.l,F=D(M),I=F.c,S=F.n,L=D(C),O=L.c,j=L.n,q=new n(19),B=0;B<I.length;++B)++q[31&I[B]];for(B=0;B<O.length;++B)++q[31&O[B]];for(var G=_(q,7),H=G.t,J=G.l,K=19;K>4&&!H[a[K-1]];--K);var N,P,Q,R,V=v+5<<3,W=T(f,g)+T(h,w)+l,X=T(f,M)+T(h,C)+l+14+3*K+T(q,H)+2*q[16]+3*q[17]+7*q[18];if(c>=0&&V<=W&&V<=X)return k(r,m,t.subarray(c,c+v));if(z(r,m,1+(X<W)),m+=2,X<W){N=d(M,E,0),P=M,Q=d(C,U,0),R=C;var Y=d(H,J,0);z(r,m,S-257),z(r,m+5,j-1),z(r,m+10,K-4),m+=14;for(B=0;B<K;++B)z(r,m+3*B,H[a[B]]);m+=3*K;for(var Z=[I,O],$=0;$<2;++$){var tt=Z[$];for(B=0;B<tt.length;++B){var nt=31&tt[B];z(r,m,Y[nt]),m+=H[nt],nt>15&&(z(r,m,tt[B]>>5&127),m+=tt[B]>>12)}}}else N=p,P=g,Q=y,R=w;for(B=0;B<u;++B){var rt=o[B];if(rt>255){A(r,m,N[(nt=rt>>18&31)+257]),m+=P[nt+257],nt>7&&(z(r,m,rt>>23&31),m+=e[nt]);var et=31&rt;A(r,m,Q[et]),m+=R[et],et>3&&(A(r,m,rt>>5&8191),m+=i[et])}else A(r,m,N[rt]),m+=P[rt]}return A(r,m,N[256]),m+P[256]},U=new r([65540,131080,131088,131104,262176,1048704,1048832,2114560,2117632]),F=new t(0),I=function(){for(var t=new Int32Array(256),n=0;n<256;++n){for(var r=n,e=9;--e;)r=(1&r&&-306674912)^r>>>1;t[n]=r}return t}(),S=function(){var t=1,n=0;return{p:function(r){for(var e=t,i=n,a=0|r.length,s=0;s!=a;){for(var o=Math.min(s+2655,a);s<o;++s)i+=e+=r[s];e=(65535&e)+15*(e>>16),i=(65535&i)+15*(i>>16)}t=e,n=i},d:function(){return(255&(t%=65521))<<24|(65280&t)<<8|(255&(n%=65521))<<8|n>>8}}},L=function(a,s,o,f,u){if(!u&&(u={l:1},s.dictionary)){var c=s.dictionary.subarray(-32768),v=new t(c.length+a.length);v.set(c),v.set(a,c.length),a=v,u.w=c.length}return function(a,s,o,f,u,c){var v=c.z||a.length,d=new t(f+v+5*(1+Math.ceil(v/7e3))+u),g=d.subarray(f,d.length-u),w=c.l,p=7&(c.r||0);if(s){p&&(g[0]=c.r>>3);for(var y=U[s-1],M=y>>13,E=8191&y,z=(1<<o)-1,A=c.p||new n(32768),_=c.h||new n(z+1),x=Math.ceil(o/3),D=2*x,T=function(t){return(a[t]^a[t+1]<<x^a[t+2]<<D)&z},F=new r(25e3),I=new n(288),S=new n(32),L=0,O=0,j=c.i||0,q=0,B=c.w||0,G=0;j+2<v;++j){var H=T(j),J=32767&j,K=_[H];if(A[J]=K,_[H]=J,B<=j){var N=v-j;if((L>7e3||q>24576)&&(N>423||!w)){p=C(a,g,0,F,I,S,O,q,G,j-G,p),q=L=O=0,G=j;for(var P=0;P<286;++P)I[P]=0;for(P=0;P<30;++P)S[P]=0}var Q=2,R=0,V=E,W=J-K&32767;if(N>2&&H==T(j-W))for(var X=Math.min(M,N)-1,Y=Math.min(32767,j),Z=Math.min(258,N);W<=Y&&--V&&J!=K;){if(a[j+Q]==a[j+Q-W]){for(var $=0;$<Z&&a[j+$]==a[j+$-W];++$);if($>Q){if(Q=$,R=W,$>X)break;var tt=Math.min(W,$-2),nt=0;for(P=0;P<tt;++P){var rt=j-W+P&32767,et=rt-A[rt]&32767;et>nt&&(nt=et,K=rt)}}}W+=(J=K)-(K=A[J])&32767}if(R){F[q++]=268435456|h[Q]<<18|l[R];var it=31&h[Q],at=31&l[R];O+=e[it]+i[at],++I[257+it],++S[at],B=j+Q,++L}else F[q++]=a[j],++I[a[j]]}}for(j=Math.max(j,B);j<v;++j)F[q++]=a[j],++I[a[j]];p=C(a,g,w,F,I,S,O,q,G,j-G,p),w||(c.r=7&p|g[p/8|0]<<3,p-=7,c.h=_,c.p=A,c.i=j,c.w=B)}else{for(j=c.w||0;j<v+w;j+=65535){var st=j+65535;st>=v&&(g[p/8|0]=w,st=v),p=k(g,p+1,a.subarray(j,st))}c.i=v}return b(d,0,f+m(p)+u)}(a,null==s.level?6:s.level,null==s.mem?Math.ceil(1.5*Math.max(8,Math.min(13,Math.log(a.length)))):12+s.mem,o,f,u)},O=function(t,n,r){for(;r;++n)t[n]=r,r>>>=8},j=function(){function n(n,r){if("function"==typeof n&&(r=n,n={}),this.ondata=r,this.o=n||{},this.s={l:0,i:32768,w:32768,z:32768},this.b=new t(98304),this.o.dictionary){var e=this.o.dictionary.subarray(-32768);this.b.set(e,32768-e.length),this.s.i=32768-e.length}}return n.prototype.p=function(t,n){this.ondata(L(t,this.o,0,0,this.s),n)},n.prototype.push=function(n,r){this.ondata||E(5),this.s.l&&E(4);var e=n.length+this.s.z;if(e>this.b.length){if(e>2*this.b.length-32768){var i=new t(-32768&e);i.set(this.b.subarray(0,this.s.z)),this.b=i}var a=this.b.length-this.s.z;a&&(this.b.set(n.subarray(0,a),this.s.z),this.s.z=this.b.length,this.p(this.b,!1)),this.b.set(this.b.subarray(-32768)),this.b.set(n.subarray(a),32768),this.s.z=n.length-a+32768,this.s.i=32766,this.s.w=32768}else this.b.set(n,this.s.z),this.s.z+=n.length;this.s.l=1&r,(this.s.z>this.s.w+8191||r)&&(this.p(this.b,r||!1),this.s.w=this.s.i,this.s.i-=2)},n}();function q(t,n){n||(n={});var r=function(){var t=-1;return{p:function(n){for(var r=t,e=0;e<n.length;++e)r=I[255&r^n[e]]^r>>>8;t=r},d:function(){return~t}}}(),e=t.length;r.p(t);var i,a=L(t,n,10+((i=n).filename?i.filename.length+1:0),8),s=a.length;return function(t,n){var r=n.filename;if(t[0]=31,t[1]=139,t[2]=8,t[8]=n.level<2?4:9==n.level?2:0,t[9]=3,0!=n.mtime&&O(t,4,Math.floor(new Date(n.mtime||Date.now())/1e3)),r){t[3]=8;for(var e=0;e<=r.length;++e)t[e+10]=r.charCodeAt(e)}}(a,n),O(a,s-8,r.d()),O(a,s-4,e),a}var B=function(){function t(t,n){this.c=S(),this.v=1,j.call(this,t,n)}return t.prototype.push=function(t,n){this.c.p(t),j.prototype.push.call(this,t,n)},t.prototype.p=function(t,n){var r=L(t,this.o,this.v&&(this.o.dictionary?6:2),n&&4,this.s);this.v&&(function(t,n){var r=n.level,e=0==r?0:r<6?1:9==r?3:2;if(t[0]=120,t[1]=e<<6|(n.dictionary&&32),t[1]|=31-(t[0]<<8|t[1])%31,n.dictionary){var i=S();i.p(n.dictionary),O(t,2,i.d())}}(r,this.o),this.v=0),n&&O(r,r.length-4,this.c.d()),this.ondata(r,n)},t}(),G="undefined"!=typeof TextEncoder&&new TextEncoder,H="undefined"!=typeof TextDecoder&&new TextDecoder;try{H.decode(F,{stream:!0})}catch(t){}var J=function(){function t(t){this.ondata=t}return t.prototype.push=function(t,n){this.ondata||E(5),this.d&&E(4),this.ondata(K(t),this.d=n||!1)},t}();function K(n,r){if(r){for(var e=new t(n.length),i=0;i<n.length;++i)e[i]=n.charCodeAt(i);return e}if(G)return G.encode(n);var a=n.length,s=new t(n.length+(n.length>>1)),o=0,f=function(t){s[o++]=t};for(i=0;i<a;++i){if(o+5>s.length){var h=new t(o+8+(a-i<<1));h.set(s),s=h}var l=n.charCodeAt(i);l<128||r?f(l):l<2048?(f(192|l>>6),f(128|63&l)):l>55295&&l<57344?(f(240|(l=65536+(1047552&l)|1023&n.charCodeAt(++i))>>18),f(128|l>>12&63),f(128|l>>6&63),f(128|63&l)):(f(224|l>>12),f(128|l>>6&63),f(128|63&l))}return b(s,0,o)}const N=new class{constructor(){this._init()}clear(){this._init()}addEvent(t){if(!t)throw new Error("Adding invalid event");const n=this._hasEvents?",":"";this.stream.push(n+t),this._hasEvents=!0}finish(){this.stream.push("]",!0);const t=function(t){let n=0;for(let r=0,e=t.length;r<e;r++)n+=t[r].length;const r=new Uint8Array(n);for(let n=0,e=0,i=t.length;n<i;n++){const i=t[n];r.set(i,e),e+=i.length}return r}(this._deflatedData);return this._init(),t}_init(){this._hasEvents=!1,this._deflatedData=[],this.deflate=new B,this.deflate.ondata=(t,n)=>{this._deflatedData.push(t)},this.stream=new J(((t,n)=>{this.deflate.push(t,n)})),this.stream.push("[")}},P={clear:()=>{N.clear()},addEvent:t=>N.addEvent(t),finish:()=>N.finish(),compress:t=>function(t){return q(K(t))}(t)};addEventListener("message",(function(t){const n=t.data.method,r=t.data.id,e=t.data.arg;if(n in P&&"function"==typeof P[n])try{const t=P[n](e);postMessage({id:r,method:n,success:!0,response:t})}catch(t){postMessage({id:r,method:n,success:!1,response:t.message}),console.error(t)}})),postMessage({id:void 0,method:"init",success:!0,response:void 0});`;
 
 function e(){const e=new Blob([r]);return URL.createObjectURL(e)}
 
@@ -18493,7 +18713,7 @@ function e(){const e=new Blob([r]);return URL.createObjectURL(e)}
  * Log a message in debug mode, and add a breadcrumb when _experiment.traceInternals is enabled.
  */
 function logInfo(message, shouldAddBreadcrumb) {
-  if (!(typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+  if (!DEBUG_BUILD) {
     return;
   }
 
@@ -18509,7 +18729,7 @@ function logInfo(message, shouldAddBreadcrumb) {
  * This is necessary when the breadcrumb may be added before the replay is initialized.
  */
 function logInfoNextTick(message, shouldAddBreadcrumb) {
-  if (!(typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+  if (!DEBUG_BUILD) {
     return;
   }
 
@@ -18696,7 +18916,7 @@ class WorkerHandler {
 
         if (!response.success) {
           // TODO: Do some error handling, not sure what
-          (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay]', response.response);
+          DEBUG_BUILD && utils.logger.error('[Replay]', response.response);
 
           reject(new Error('Error in compression worker'));
           return;
@@ -18926,7 +19146,7 @@ class EventBufferProxy  {
     try {
       await Promise.all(addEventPromises);
     } catch (error) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('[Replay] Failed to add events when switching buffers.', error);
+      DEBUG_BUILD && utils.logger.warn('[Replay] Failed to add events when switching buffers.', error);
     }
   }
 }
@@ -18934,23 +19154,49 @@ class EventBufferProxy  {
 /**
  * Create an event buffer for replays.
  */
-function createEventBuffer({ useCompression }) {
-  // eslint-disable-next-line no-restricted-globals
-  if (useCompression && window.Worker) {
-    try {
-      const workerUrl = e();
+function createEventBuffer({
+  useCompression,
+  workerUrl: customWorkerUrl,
+}) {
+  if (
+    useCompression &&
+    // eslint-disable-next-line no-restricted-globals
+    window.Worker
+  ) {
+    const worker = _loadWorker(customWorkerUrl);
 
-      logInfo('[Replay] Using compression worker');
-      const worker = new Worker(workerUrl);
-      return new EventBufferProxy(worker);
-    } catch (error) {
-      logInfo('[Replay] Failed to create compression worker');
-      // Fall back to use simple event buffer array
+    if (worker) {
+      return worker;
     }
   }
 
   logInfo('[Replay] Using simple buffer');
   return new EventBufferArray();
+}
+
+function _loadWorker(customWorkerUrl) {
+  try {
+    const workerUrl = customWorkerUrl || _getWorkerUrl();
+
+    if (!workerUrl) {
+      return;
+    }
+
+    logInfo(`[Replay] Using compression worker${customWorkerUrl ? ` from ${customWorkerUrl}` : ''}`);
+    const worker = new Worker(workerUrl);
+    return new EventBufferProxy(worker);
+  } catch (error) {
+    logInfo('[Replay] Failed to create compression worker');
+    // Fall back to use simple event buffer array
+  }
+}
+
+function _getWorkerUrl() {
+  if (typeof __SENTRY_EXCLUDE_REPLAY_WORKER__ === 'undefined' || !__SENTRY_EXCLUDE_REPLAY_WORKER__) {
+    return e();
+  }
+
+  return '';
 }
 
 /** If sessionStorage is available. */
@@ -19002,21 +19248,6 @@ function isSampled(sampleRate) {
 }
 
 /**
- * Save a session to session storage.
- */
-function saveSession(session) {
-  if (!hasSessionStorage()) {
-    return;
-  }
-
-  try {
-    WINDOW.sessionStorage.setItem(REPLAY_SESSION_KEY, JSON.stringify(session));
-  } catch (e) {
-    // Ignore potential SecurityError exceptions
-  }
-}
-
-/**
  * Get a session with defaults & applied sampling.
  */
 function makeSession(session) {
@@ -19037,6 +19268,21 @@ function makeSession(session) {
     sampled,
     previousSessionId,
   };
+}
+
+/**
+ * Save a session to session storage.
+ */
+function saveSession(session) {
+  if (!hasSessionStorage()) {
+    return;
+  }
+
+  try {
+    WINDOW.sessionStorage.setItem(REPLAY_SESSION_KEY, JSON.stringify(session));
+  } catch (e) {
+    // Ignore potential SecurityError exceptions
+  }
 }
 
 /**
@@ -19185,8 +19431,6 @@ function loadOrCreateSession(
   return createSession(sessionOptions, { previousSessionId: existingSession.id });
 }
 
-const ReplayEventTypeCustom = 5;
-
 function isCustomEvent(event) {
   return event.type === EventType.Custom;
 }
@@ -19257,10 +19501,10 @@ async function _addEvent(
   } catch (error) {
     const reason = error && error instanceof EventBufferSizeExceededError ? 'addEventSizeExceeded' : 'addEvent';
 
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error(error);
+    DEBUG_BUILD && utils.logger.error(error);
     await replay.stop({ reason });
 
-    const client = core.getCurrentHub().getClient();
+    const client = core.getClient();
 
     if (client) {
       client.recordDroppedEvent('internal_sdk_error', 'replay');
@@ -19305,7 +19549,7 @@ function maybeApplyCallback(
       return callback(event);
     }
   } catch (error) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+    DEBUG_BUILD &&
       utils.logger.error('[Replay] An error occured in the `beforeAddRecordingEvent` callback, skipping the event...', error);
     return null;
   }
@@ -19326,6 +19570,11 @@ function isTransactionEvent(event) {
 /** If the event is an replay event */
 function isReplayEvent(event) {
   return event.type === 'replay_event';
+}
+
+/** If the event is a feedback event */
+function isFeedbackEvent(event) {
+  return event.type === 'feedback';
 }
 
 /**
@@ -19385,16 +19634,23 @@ function handleErrorEvent(replay, event) {
 
   // If error event is tagged with replay id it means it was sampled (when in buffer mode)
   // Need to be very careful that this does not cause an infinite loop
-  if (replay.recordingMode === 'buffer' && event.tags && event.tags.replayId) {
-    setTimeout(() => {
-      // Capture current event buffer as new replay
-      void replay.sendBufferedReplayOrFlush();
-    });
+  if (replay.recordingMode !== 'buffer' || !event.tags || !event.tags.replayId) {
+    return;
   }
+
+  const { beforeErrorSampling } = replay.getOptions();
+  if (typeof beforeErrorSampling === 'function' && !beforeErrorSampling(event)) {
+    return;
+  }
+
+  setTimeout(() => {
+    // Capture current event buffer as new replay
+    void replay.sendBufferedReplayOrFlush();
+  });
 }
 
 function isBaseTransportSend() {
-  const client = core.getCurrentHub().getClient();
+  const client = core.getClient();
   if (!client) {
     return false;
   }
@@ -19422,13 +19678,37 @@ function isRrwebError(event, hint) {
     return true;
   }
 
-  // Check if any exception originates from rrweb
-  return event.exception.values.some(exception => {
-    if (!exception.stacktrace || !exception.stacktrace.frames || !exception.stacktrace.frames.length) {
-      return false;
+  return false;
+}
+
+/**
+ * Add a feedback breadcrumb event to replay.
+ */
+function addFeedbackBreadcrumb(replay, event) {
+  replay.triggerUserActivity();
+  replay.addUpdate(() => {
+    if (!event.timestamp) {
+      // Ignore events that don't have timestamps (this shouldn't happen, more of a typing issue)
+      // Return true here so that we don't flush
+      return true;
     }
 
-    return exception.stacktrace.frames.some(frame => frame.filename && frame.filename.includes('/rrweb/src/'));
+    void replay.throttledAddEvent({
+      type: EventType.Custom,
+      timestamp: event.timestamp * 1000,
+      data: {
+        timestamp: event.timestamp,
+        tag: 'breadcrumb',
+        payload: {
+          category: 'sentry.feedback',
+          data: {
+            feedbackId: event.event_id,
+          },
+        },
+      },
+    });
+
+    return false;
   });
 }
 
@@ -19479,8 +19759,8 @@ function handleGlobalEventListener(
         return event;
       }
 
-      // We only want to handle errors & transactions, nothing else
-      if (!isErrorEvent(event) && !isTransactionEvent(event)) {
+      // We only want to handle errors, transactions, and feedbacks, nothing else
+      if (!isErrorEvent(event) && !isTransactionEvent(event) && !isFeedbackEvent(event)) {
         return event;
       }
 
@@ -19490,10 +19770,18 @@ function handleGlobalEventListener(
         return event;
       }
 
+      if (isFeedbackEvent(event)) {
+        void replay.flush();
+        event.contexts.feedback.replay_id = replay.getSessionId();
+        // Add a replay breadcrumb for this piece of feedback
+        addFeedbackBreadcrumb(replay, event);
+        return event;
+      }
+
       // Unless `captureExceptions` is enabled, we want to ignore errors coming from rrweb
       // As there can be a bunch of stuff going wrong in internals there, that we don't want to bubble up to users
       if (isRrwebError(event, hint) && !replay.getOptions()._experiments.captureExceptions) {
-        (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.log('[Replay] Ignoring error from rrweb internals', event);
+        DEBUG_BUILD && utils.logger.log('[Replay] Ignoring error from rrweb internals', event);
         return null;
       }
 
@@ -19568,7 +19856,7 @@ function handleHistory(handlerData) {
 }
 
 /**
- * Returns a listener to be added to `addInstrumentationHandler('history', listener)`.
+ * Returns a listener to be added to `addHistoryInstrumentationHandler(listener)`.
  */
 function handleHistorySpanListener(replay) {
   return (handlerData) => {
@@ -19600,7 +19888,7 @@ function handleHistorySpanListener(replay) {
  */
 function shouldFilterRequest(replay, url) {
   // If we enabled the `traceInternals` experiment, we want to trace everything
-  if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && replay.getOptions()._experiments.traceInternals) {
+  if (DEBUG_BUILD && replay.getOptions()._experiments.traceInternals) {
     return false;
   }
 
@@ -19657,7 +19945,7 @@ function handleFetch(handlerData) {
 }
 
 /**
- * Returns a listener to be added to `addInstrumentationHandler('fetch', listener)`.
+ * Returns a listener to be added to `addFetchInstrumentationHandler(listener)`.
  */
 function handleFetchSpanListener(replay) {
   return (handlerData) => {
@@ -19701,7 +19989,7 @@ function handleXhr(handlerData) {
 }
 
 /**
- * Returns a listener to be added to `addInstrumentationHandler('xhr', listener)`.
+ * Returns a listener to be added to `addXhrInstrumentationHandler(listener)`.
  */
 function handleXhrSpanListener(replay) {
   return (handlerData) => {
@@ -19713,393 +20001,6 @@ function handleXhrSpanListener(replay) {
 
     addNetworkBreadcrumb(replay, result);
   };
-}
-
-const OBJ = 10;
-const OBJ_KEY = 11;
-const OBJ_KEY_STR = 12;
-const OBJ_VAL = 13;
-const OBJ_VAL_STR = 14;
-const OBJ_VAL_COMPLETED = 15;
-
-const ARR = 20;
-const ARR_VAL = 21;
-const ARR_VAL_STR = 22;
-const ARR_VAL_COMPLETED = 23;
-
-const ALLOWED_PRIMITIVES = ['true', 'false', 'null'];
-
-/**
- * Complete an incomplete JSON string.
- * This will ensure that the last element always has a `"~~"` to indicate it was truncated.
- * For example, `[1,2,` will be completed to `[1,2,"~~"]`
- * and `{"aa":"b` will be completed to `{"aa":"b~~"}`
- */
-function completeJson(incompleteJson, stack) {
-  if (!stack.length) {
-    return incompleteJson;
-  }
-
-  let json = incompleteJson;
-
-  // Most checks are only needed for the last step in the stack
-  const lastPos = stack.length - 1;
-  const lastStep = stack[lastPos];
-
-  json = _fixLastStep(json, lastStep);
-
-  // Complete remaining steps - just add closing brackets
-  for (let i = lastPos; i >= 0; i--) {
-    const step = stack[i];
-
-    switch (step) {
-      case OBJ:
-        json = `${json}}`;
-        break;
-      case ARR:
-        json = `${json}]`;
-        break;
-    }
-  }
-
-  return json;
-}
-
-function _fixLastStep(json, lastStep) {
-  switch (lastStep) {
-    // Object cases
-    case OBJ:
-      return `${json}"~~":"~~"`;
-    case OBJ_KEY:
-      return `${json}:"~~"`;
-    case OBJ_KEY_STR:
-      return `${json}~~":"~~"`;
-    case OBJ_VAL:
-      return _maybeFixIncompleteObjValue(json);
-    case OBJ_VAL_STR:
-      return `${json}~~"`;
-    case OBJ_VAL_COMPLETED:
-      return `${json},"~~":"~~"`;
-
-    // Array cases
-    case ARR:
-      return `${json}"~~"`;
-    case ARR_VAL:
-      return _maybeFixIncompleteArrValue(json);
-    case ARR_VAL_STR:
-      return `${json}~~"`;
-    case ARR_VAL_COMPLETED:
-      return `${json},"~~"`;
-  }
-
-  return json;
-}
-
-function _maybeFixIncompleteArrValue(json) {
-  const pos = _findLastArrayDelimiter(json);
-
-  if (pos > -1) {
-    const part = json.slice(pos + 1);
-
-    if (ALLOWED_PRIMITIVES.includes(part.trim())) {
-      return `${json},"~~"`;
-    }
-
-    // Everything else is replaced with `"~~"`
-    return `${json.slice(0, pos + 1)}"~~"`;
-  }
-
-  // fallback, this shouldn't happen, to be save
-  return json;
-}
-
-function _findLastArrayDelimiter(json) {
-  for (let i = json.length - 1; i >= 0; i--) {
-    const char = json[i];
-
-    if (char === ',' || char === '[') {
-      return i;
-    }
-  }
-
-  return -1;
-}
-
-function _maybeFixIncompleteObjValue(json) {
-  const startPos = json.lastIndexOf(':');
-
-  const part = json.slice(startPos + 1);
-
-  if (ALLOWED_PRIMITIVES.includes(part.trim())) {
-    return `${json},"~~":"~~"`;
-  }
-
-  // Everything else is replaced with `"~~"`
-  // This also means we do not have incomplete numbers, e.g `[1` is replaced with `["~~"]`
-  return `${json.slice(0, startPos + 1)}"~~"`;
-}
-
-/**
- * Evaluate an (incomplete) JSON string.
- */
-function evaluateJson(json) {
-  const stack = [];
-
-  for (let pos = 0; pos < json.length; pos++) {
-    _evaluateJsonPos(stack, json, pos);
-  }
-
-  return stack;
-}
-
-function _evaluateJsonPos(stack, json, pos) {
-  const curStep = stack[stack.length - 1];
-
-  const char = json[pos];
-
-  const whitespaceRegex = /\s/;
-
-  if (whitespaceRegex.test(char)) {
-    return;
-  }
-
-  if (char === '"' && !_isEscaped(json, pos)) {
-    _handleQuote(stack, curStep);
-    return;
-  }
-
-  switch (char) {
-    case '{':
-      _handleObj(stack, curStep);
-      break;
-    case '[':
-      _handleArr(stack, curStep);
-      break;
-    case ':':
-      _handleColon(stack, curStep);
-      break;
-    case ',':
-      _handleComma(stack, curStep);
-      break;
-    case '}':
-      _handleObjClose(stack, curStep);
-      break;
-    case ']':
-      _handleArrClose(stack, curStep);
-      break;
-  }
-}
-
-function _handleQuote(stack, curStep) {
-  // End of obj value
-  if (curStep === OBJ_VAL_STR) {
-    stack.pop();
-    stack.push(OBJ_VAL_COMPLETED);
-    return;
-  }
-
-  // End of arr value
-  if (curStep === ARR_VAL_STR) {
-    stack.pop();
-    stack.push(ARR_VAL_COMPLETED);
-    return;
-  }
-
-  // Start of obj value
-  if (curStep === OBJ_VAL) {
-    stack.push(OBJ_VAL_STR);
-    return;
-  }
-
-  // Start of arr value
-  if (curStep === ARR_VAL) {
-    stack.push(ARR_VAL_STR);
-    return;
-  }
-
-  // Start of obj key
-  if (curStep === OBJ) {
-    stack.push(OBJ_KEY_STR);
-    return;
-  }
-
-  // End of obj key
-  if (curStep === OBJ_KEY_STR) {
-    stack.pop();
-    stack.push(OBJ_KEY);
-    return;
-  }
-}
-
-function _handleObj(stack, curStep) {
-  // Initial object
-  if (!curStep) {
-    stack.push(OBJ);
-    return;
-  }
-
-  // New object as obj value
-  if (curStep === OBJ_VAL) {
-    stack.push(OBJ);
-    return;
-  }
-
-  // New object as array element
-  if (curStep === ARR_VAL) {
-    stack.push(OBJ);
-  }
-
-  // New object as first array element
-  if (curStep === ARR) {
-    stack.push(OBJ);
-    return;
-  }
-}
-
-function _handleArr(stack, curStep) {
-  // Initial array
-  if (!curStep) {
-    stack.push(ARR);
-    stack.push(ARR_VAL);
-    return;
-  }
-
-  // New array as obj value
-  if (curStep === OBJ_VAL) {
-    stack.push(ARR);
-    stack.push(ARR_VAL);
-    return;
-  }
-
-  // New array as array element
-  if (curStep === ARR_VAL) {
-    stack.push(ARR);
-    stack.push(ARR_VAL);
-  }
-
-  // New array as first array element
-  if (curStep === ARR) {
-    stack.push(ARR);
-    stack.push(ARR_VAL);
-    return;
-  }
-}
-
-function _handleColon(stack, curStep) {
-  if (curStep === OBJ_KEY) {
-    stack.pop();
-    stack.push(OBJ_VAL);
-  }
-}
-
-function _handleComma(stack, curStep) {
-  // Comma after obj value
-  if (curStep === OBJ_VAL) {
-    stack.pop();
-    return;
-  }
-  if (curStep === OBJ_VAL_COMPLETED) {
-    // Pop OBJ_VAL_COMPLETED & OBJ_VAL
-    stack.pop();
-    stack.pop();
-    return;
-  }
-
-  // Comma after arr value
-  if (curStep === ARR_VAL) {
-    // do nothing - basically we'd pop ARR_VAL but add it right back
-    return;
-  }
-
-  if (curStep === ARR_VAL_COMPLETED) {
-    // Pop ARR_VAL_COMPLETED
-    stack.pop();
-
-    // basically we'd pop ARR_VAL but add it right back
-    return;
-  }
-}
-
-function _handleObjClose(stack, curStep) {
-  // Empty object {}
-  if (curStep === OBJ) {
-    stack.pop();
-  }
-
-  // Object with element
-  if (curStep === OBJ_VAL) {
-    // Pop OBJ_VAL, OBJ
-    stack.pop();
-    stack.pop();
-  }
-
-  // Obj with element
-  if (curStep === OBJ_VAL_COMPLETED) {
-    // Pop OBJ_VAL_COMPLETED, OBJ_VAL, OBJ
-    stack.pop();
-    stack.pop();
-    stack.pop();
-  }
-
-  // if was obj value, complete it
-  if (stack[stack.length - 1] === OBJ_VAL) {
-    stack.push(OBJ_VAL_COMPLETED);
-  }
-
-  // if was arr value, complete it
-  if (stack[stack.length - 1] === ARR_VAL) {
-    stack.push(ARR_VAL_COMPLETED);
-  }
-}
-
-function _handleArrClose(stack, curStep) {
-  // Empty array []
-  if (curStep === ARR) {
-    stack.pop();
-  }
-
-  // Array with element
-  if (curStep === ARR_VAL) {
-    // Pop ARR_VAL, ARR
-    stack.pop();
-    stack.pop();
-  }
-
-  // Array with element
-  if (curStep === ARR_VAL_COMPLETED) {
-    // Pop ARR_VAL_COMPLETED, ARR_VAL, ARR
-    stack.pop();
-    stack.pop();
-    stack.pop();
-  }
-
-  // if was obj value, complete it
-  if (stack[stack.length - 1] === OBJ_VAL) {
-    stack.push(OBJ_VAL_COMPLETED);
-  }
-
-  // if was arr value, complete it
-  if (stack[stack.length - 1] === ARR_VAL) {
-    stack.push(ARR_VAL_COMPLETED);
-  }
-}
-
-function _isEscaped(str, pos) {
-  const previousChar = str[pos - 1];
-
-  return previousChar === '\\' && !_isEscaped(str, pos - 1);
-}
-
-/* eslint-disable max-lines */
-
-/**
- * Takes an incomplete JSON string, and returns a hopefully valid JSON string.
- * Note that this _can_ fail, so you should check the return value is valid JSON.
- */
-function fixJson(incompleteJson) {
-  const stack = evaluateJson(incompleteJson);
-
-  return completeJson(incompleteJson, stack);
 }
 
 /** Get the size of a body. */
@@ -20153,19 +20054,49 @@ function parseContentLengthHeader(header) {
 
 /** Get the string representation of a body. */
 function getBodyString(body) {
-  if (typeof body === 'string') {
-    return body;
+  try {
+    if (typeof body === 'string') {
+      return [body];
+    }
+
+    if (body instanceof URLSearchParams) {
+      return [body.toString()];
+    }
+
+    if (body instanceof FormData) {
+      return [_serializeFormData(body)];
+    }
+  } catch (e2) {
+    DEBUG_BUILD && utils.logger.warn('[Replay] Failed to serialize body', body);
+    return [undefined, 'BODY_PARSE_ERROR'];
   }
 
-  if (body instanceof URLSearchParams) {
-    return body.toString();
+  DEBUG_BUILD && utils.logger.info('[Replay] Skipping network body because of body type', body);
+
+  return [undefined];
+}
+
+/** Merge a warning into an existing network request/response. */
+function mergeWarning(
+  info,
+  warning,
+) {
+  if (!info) {
+    return {
+      headers: {},
+      size: undefined,
+      _meta: {
+        warnings: [warning],
+      },
+    };
   }
 
-  if (body instanceof FormData) {
-    return _serializeFormData(body);
-  }
+  const newMeta = { ...info._meta };
+  const existingWarnings = newMeta.warnings || [];
+  newMeta.warnings = [...existingWarnings, warning];
 
-  return undefined;
+  info._meta = newMeta;
+  return info;
 }
 
 /** Convert ReplayNetworkRequestData to a PerformanceEntry. */
@@ -20236,7 +20167,7 @@ function buildNetworkRequestOrResponse(
 
   const { body: normalizedBody, warnings } = normalizeNetworkBody(body);
   info.body = normalizedBody;
-  if (warnings.length > 0) {
+  if (warnings && warnings.length > 0) {
     info._meta = {
       warnings,
     };
@@ -20270,31 +20201,41 @@ function normalizeNetworkBody(body)
   if (!body || typeof body !== 'string') {
     return {
       body,
-      warnings: [],
     };
   }
 
   const exceedsSizeLimit = body.length > NETWORK_BODY_MAX_SIZE;
+  const isProbablyJson = _strIsProbablyJson(body);
 
-  if (_strIsProbablyJson(body)) {
-    try {
-      const json = exceedsSizeLimit ? fixJson(body.slice(0, NETWORK_BODY_MAX_SIZE)) : body;
-      const normalizedBody = JSON.parse(json);
+  if (exceedsSizeLimit) {
+    const truncatedBody = body.slice(0, NETWORK_BODY_MAX_SIZE);
+
+    if (isProbablyJson) {
       return {
-        body: normalizedBody,
-        warnings: exceedsSizeLimit ? ['JSON_TRUNCATED'] : [],
+        body: truncatedBody,
+        warnings: ['MAYBE_JSON_TRUNCATED'],
+      };
+    }
+
+    return {
+      body: `${truncatedBody}…`,
+      warnings: ['TEXT_TRUNCATED'],
+    };
+  }
+
+  if (isProbablyJson) {
+    try {
+      const jsonBody = JSON.parse(body);
+      return {
+        body: jsonBody,
       };
     } catch (e3) {
-      return {
-        body: exceedsSizeLimit ? `${body.slice(0, NETWORK_BODY_MAX_SIZE)}…` : body,
-        warnings: exceedsSizeLimit ? ['INVALID_JSON', 'TEXT_TRUNCATED'] : ['INVALID_JSON'],
-      };
+      // fall back to just send the body as string
     }
   }
 
   return {
-    body: exceedsSizeLimit ? `${body.slice(0, NETWORK_BODY_MAX_SIZE)}…` : body,
-    warnings: exceedsSizeLimit ? ['TEXT_TRUNCATED'] : [],
+    body,
   };
 }
 
@@ -20354,7 +20295,7 @@ async function captureFetchBreadcrumbToReplay(
     const result = makeNetworkReplayBreadcrumb('resource.fetch', data);
     addNetworkBreadcrumb(options.replay, result);
   } catch (error) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay] Failed to capture fetch breadcrumb', error);
+    DEBUG_BUILD && utils.logger.error('[Replay] Failed to capture fetch breadcrumb', error);
   }
 }
 
@@ -20370,7 +20311,7 @@ function enrichFetchBreadcrumb(
 ) {
   const { input, response } = hint;
 
-  const body = _getFetchRequestArgBody(input);
+  const body = input ? _getFetchRequestArgBody(input) : undefined;
   const reqSize = getBodySize(body, options.textEncoder);
 
   const resSize = response ? parseContentLengthHeader(response.headers.get('content-length')) : undefined;
@@ -20390,7 +20331,8 @@ async function _prepareFetchData(
 
 ,
 ) {
-  const { startTimestamp, endTimestamp } = hint;
+  const now = Date.now();
+  const { startTimestamp = now, endTimestamp = now } = hint;
 
   const {
     url,
@@ -20424,7 +20366,7 @@ function _getRequestInfo(
   input,
   requestBodySize,
 ) {
-  const headers = getRequestHeaders(input, networkRequestHeaders);
+  const headers = input ? getRequestHeaders(input, networkRequestHeaders) : {};
 
   if (!networkCaptureBodies) {
     return buildNetworkRequestOrResponse(headers, requestBodySize, undefined);
@@ -20432,10 +20374,17 @@ function _getRequestInfo(
 
   // We only want to transmit string or string-like bodies
   const requestBody = _getFetchRequestArgBody(input);
-  const bodyStr = getBodyString(requestBody);
-  return buildNetworkRequestOrResponse(headers, requestBodySize, bodyStr);
+  const [bodyStr, warning] = getBodyString(requestBody);
+  const data = buildNetworkRequestOrResponse(headers, requestBodySize, bodyStr);
+
+  if (warning) {
+    return mergeWarning(data, warning);
+  }
+
+  return data;
 }
 
+/** Exported only for tests. */
 async function _getResponseInfo(
   captureDetails,
   {
@@ -20452,18 +20401,41 @@ async function _getResponseInfo(
     return buildSkippedNetworkRequestOrResponse(responseBodySize);
   }
 
-  const headers = getAllHeaders(response.headers, networkResponseHeaders);
+  const headers = response ? getAllHeaders(response.headers, networkResponseHeaders) : {};
 
-  if (!networkCaptureBodies && responseBodySize !== undefined) {
+  if (!response || (!networkCaptureBodies && responseBodySize !== undefined)) {
     return buildNetworkRequestOrResponse(headers, responseBodySize, undefined);
   }
 
-  // Only clone the response if we need to
-  try {
-    // We have to clone this, as the body can only be read once
-    const res = response.clone();
-    const bodyText = await _parseFetchBody(res);
+  const [bodyText, warning] = await _parseFetchResponseBody(response);
+  const result = getResponseData(bodyText, {
+    networkCaptureBodies,
+    textEncoder,
+    responseBodySize,
+    captureDetails,
+    headers,
+  });
 
+  if (warning) {
+    return mergeWarning(result, warning);
+  }
+
+  return result;
+}
+
+function getResponseData(
+  bodyText,
+  {
+    networkCaptureBodies,
+    textEncoder,
+    responseBodySize,
+    captureDetails,
+    headers,
+  }
+
+,
+) {
+  try {
     const size =
       bodyText && bodyText.length && responseBodySize === undefined
         ? getBodySize(bodyText, textEncoder)
@@ -20478,17 +20450,26 @@ async function _getResponseInfo(
     }
 
     return buildNetworkRequestOrResponse(headers, size, undefined);
-  } catch (e) {
+  } catch (error) {
+    DEBUG_BUILD && utils.logger.warn('[Replay] Failed to serialize response body', error);
     // fallback
     return buildNetworkRequestOrResponse(headers, responseBodySize, undefined);
   }
 }
 
-async function _parseFetchBody(response) {
+async function _parseFetchResponseBody(response) {
+  const res = _tryCloneResponse(response);
+
+  if (!res) {
+    return [undefined, 'BODY_PARSE_ERROR'];
+  }
+
   try {
-    return await response.text();
-  } catch (e2) {
-    return undefined;
+    const text = await _tryGetResponseText(res);
+    return [text];
+  } catch (error) {
+    DEBUG_BUILD && utils.logger.warn('[Replay] Failed to get text body from response', error);
+    return [undefined, 'BODY_PARSE_ERROR'];
   }
 }
 
@@ -20551,6 +20532,40 @@ function getHeadersFromOptions(
   return getAllowedHeaders(headers, allowedHeaders);
 }
 
+function _tryCloneResponse(response) {
+  try {
+    // We have to clone this, as the body can only be read once
+    return response.clone();
+  } catch (error) {
+    // this can throw if the response was already consumed before
+    DEBUG_BUILD && utils.logger.warn('[Replay] Failed to clone response body', error);
+  }
+}
+
+/**
+ * Get the response body of a fetch request, or timeout after 500ms.
+ * Fetch can return a streaming body, that may not resolve (or not for a long time).
+ * If that happens, we rather abort after a short time than keep waiting for this.
+ */
+function _tryGetResponseText(response) {
+  return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => reject(new Error('Timeout while trying to read response body')), 500);
+
+    _getResponseText(response)
+      .then(
+        txt => resolve(txt),
+        reason => reject(reason),
+      )
+      .finally(() => clearTimeout(timeout));
+  });
+}
+
+async function _getResponseText(response) {
+  // Force this to be a promise, just to be safe
+  // eslint-disable-next-line no-return-await
+  return await response.text();
+}
+
 /**
  * Capture an XHR breadcrumb to a replay.
  * This adds additional data (where approriate).
@@ -20567,7 +20582,7 @@ async function captureXhrBreadcrumbToReplay(
     const result = makeNetworkReplayBreadcrumb('resource.xhr', data);
     addNetworkBreadcrumb(options.replay, result);
   } catch (error) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay] Failed to capture fetch breadcrumb', error);
+    DEBUG_BUILD && utils.logger.error('[Replay] Failed to capture xhr breadcrumb', error);
   }
 }
 
@@ -20582,6 +20597,10 @@ function enrichXhrBreadcrumb(
   options,
 ) {
   const { xhr, input } = hint;
+
+  if (!xhr) {
+    return;
+  }
 
   const reqSize = getBodySize(input, options.textEncoder);
   const resSize = xhr.getResponseHeader('content-length')
@@ -20601,7 +20620,8 @@ function _prepareXhrData(
   hint,
   options,
 ) {
-  const { startTimestamp, endTimestamp, input, xhr } = hint;
+  const now = Date.now();
+  const { startTimestamp = now, endTimestamp = now, input, xhr } = hint;
 
   const {
     url,
@@ -20615,7 +20635,7 @@ function _prepareXhrData(
     return null;
   }
 
-  if (!urlMatches(url, options.networkDetailAllowUrls) || urlMatches(url, options.networkDetailDenyUrls)) {
+  if (!xhr || !urlMatches(url, options.networkDetailAllowUrls) || urlMatches(url, options.networkDetailDenyUrls)) {
     const request = buildSkippedNetworkRequestOrResponse(requestBodySize);
     const response = buildSkippedNetworkRequestOrResponse(responseBodySize);
     return {
@@ -20635,16 +20655,11 @@ function _prepareXhrData(
     : {};
   const networkResponseHeaders = getAllowedHeaders(getResponseHeaders(xhr), options.networkResponseHeaders);
 
-  const request = buildNetworkRequestOrResponse(
-    networkRequestHeaders,
-    requestBodySize,
-    options.networkCaptureBodies ? getBodyString(input) : undefined,
-  );
-  const response = buildNetworkRequestOrResponse(
-    networkResponseHeaders,
-    responseBodySize,
-    options.networkCaptureBodies ? hint.xhr.responseText : undefined,
-  );
+  const [requestBody, requestWarning] = options.networkCaptureBodies ? getBodyString(input) : [undefined];
+  const [responseBody, responseWarning] = options.networkCaptureBodies ? _getXhrResponseBody(xhr) : [undefined];
+
+  const request = buildNetworkRequestOrResponse(networkRequestHeaders, requestBodySize, requestBody);
+  const response = buildNetworkRequestOrResponse(networkResponseHeaders, responseBodySize, responseBody);
 
   return {
     startTimestamp,
@@ -20652,8 +20667,8 @@ function _prepareXhrData(
     url,
     method,
     statusCode,
-    request,
-    response,
+    request: requestWarning ? mergeWarning(request, requestWarning) : request,
+    response: responseWarning ? mergeWarning(response, responseWarning) : response,
   };
 }
 
@@ -20671,6 +20686,29 @@ function getResponseHeaders(xhr) {
   }, {});
 }
 
+function _getXhrResponseBody(xhr) {
+  // We collect errors that happen, but only log them if we can't get any response body
+  const errors = [];
+
+  try {
+    return [xhr.responseText];
+  } catch (e) {
+    errors.push(e);
+  }
+
+  // Try to manually parse the response body, if responseText fails
+  try {
+    const response = xhr.response;
+    return getBodyString(response);
+  } catch (e) {
+    errors.push(e);
+  }
+
+  DEBUG_BUILD && utils.logger.warn('[Replay] Failed to get xhr response body', ...errors);
+
+  return [undefined];
+}
+
 /**
  * This method does two things:
  * - It enriches the regular XHR/fetch breadcrumbs with request/response size data
@@ -20678,7 +20716,7 @@ function getResponseHeaders(xhr) {
  *   (enriching it with further data that is _not_ added to the regular breadcrumbs)
  */
 function handleNetworkBreadcrumbs(replay) {
-  const client = core.getCurrentHub().getClient();
+  const client = core.getClient();
 
   try {
     const textEncoder = new TextEncoder();
@@ -20705,8 +20743,8 @@ function handleNetworkBreadcrumbs(replay) {
       client.on('beforeAddBreadcrumb', (breadcrumb, hint) => beforeAddNetworkBreadcrumb(options, breadcrumb, hint));
     } else {
       // Fallback behavior
-      utils.addInstrumentationHandler('fetch', handleFetchSpanListener(replay));
-      utils.addInstrumentationHandler('xhr', handleXhrSpanListener(replay));
+      utils.addFetchInstrumentationHandler(handleFetchSpanListener(replay));
+      utils.addXhrInstrumentationHandler(handleXhrSpanListener(replay));
     }
   } catch (e2) {
     // Do nothing
@@ -20742,7 +20780,7 @@ function beforeAddNetworkBreadcrumb(
       void captureFetchBreadcrumbToReplay(breadcrumb, hint, options);
     }
   } catch (e) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('Error when enriching network breadcrumb');
+    DEBUG_BUILD && utils.logger.warn('Error when enriching network breadcrumb');
   }
 }
 
@@ -20847,11 +20885,9 @@ function normalizeConsoleBreadcrumb(
         const normalizedArg = utils.normalize(arg, 7);
         const stringified = JSON.stringify(normalizedArg);
         if (stringified.length > CONSOLE_ARG_MAX_SIZE) {
-          const fixedJson = fixJson(stringified.slice(0, CONSOLE_ARG_MAX_SIZE));
-          const json = JSON.parse(fixedJson);
-          // We only set this after JSON.parse() was successfull, so we know we didn't run into `catch`
           isTruncated = true;
-          return json;
+          // We use the pretty printed JSON string here as a base
+          return `${JSON.stringify(normalizedArg, null, 2).slice(0, CONSOLE_ARG_MAX_SIZE)}…`;
         }
         return normalizedArg;
       } catch (e) {
@@ -20878,11 +20914,11 @@ function normalizeConsoleBreadcrumb(
 function addGlobalListeners(replay) {
   // Listeners from core SDK //
   const scope = core.getCurrentHub().getScope();
-  const client = core.getCurrentHub().getClient();
+  const client = core.getClient();
 
   scope.addScopeListener(handleScopeListener(replay));
-  utils.addInstrumentationHandler('dom', handleDomListener(replay));
-  utils.addInstrumentationHandler('history', handleHistorySpanListener(replay));
+  utils.addClickKeypressInstrumentationHandler(handleDomListener(replay));
+  utils.addHistoryInstrumentationHandler(handleHistorySpanListener(replay));
   handleNetworkBreadcrumbs(replay);
 
   // Tag all (non replay) events that get sent to Sentry with the current
@@ -20901,7 +20937,11 @@ function addGlobalListeners(replay) {
       const replayId = replay.getSessionId();
       // We do not want to set the DSC when in buffer mode, as that means the replay has not been sent (yet)
       if (replayId && replay.isEnabled() && replay.recordingMode === 'session') {
-        dsc.replay_id = replayId;
+        // Ensure to check that the session is still active - it could have expired in the meanwhile
+        const isSessionActive = replay.checkAndHandleExpiredSession();
+        if (isSessionActive) {
+          dsc.replay_id = replayId;
+        }
       }
     });
 
@@ -20913,6 +20953,17 @@ function addGlobalListeners(replay) {
     // so we capture it on finish again.
     client.on('finishTransaction', transaction => {
       replay.lastTransaction = transaction;
+    });
+
+    // We want to flush replay
+    client.on('beforeSendFeedback', (feedbackEvent, options) => {
+      const replayId = replay.getSessionId();
+      if (options && options.includeReplay && replay.isEnabled() && replayId) {
+        void replay.flush();
+        if (feedbackEvent.contexts && feedbackEvent.contexts.feedback) {
+          feedbackEvent.contexts.feedback.replay_id = replayId;
+        }
+      }
     });
   }
 }
@@ -20957,169 +21008,6 @@ function createMemoryEntry(memoryEntry) {
         totalJSHeapSize,
         usedJSHeapSize,
       },
-    },
-  };
-}
-
-// Map entryType -> function to normalize data for event
-const ENTRY_TYPES
-
- = {
-  // @ts-expect-error TODO: entry type does not fit the create* functions entry type
-  resource: createResourceEntry,
-  paint: createPaintEntry,
-  // @ts-expect-error TODO: entry type does not fit the create* functions entry type
-  navigation: createNavigationEntry,
-  // @ts-expect-error TODO: entry type does not fit the create* functions entry type
-  ['largest-contentful-paint']: createLargestContentfulPaint,
-};
-
-/**
- * Create replay performance entries from the browser performance entries.
- */
-function createPerformanceEntries(
-  entries,
-) {
-  return entries.map(createPerformanceEntry).filter(Boolean) ;
-}
-
-function createPerformanceEntry(entry) {
-  if (ENTRY_TYPES[entry.entryType] === undefined) {
-    return null;
-  }
-
-  return ENTRY_TYPES[entry.entryType](entry);
-}
-
-function getAbsoluteTime(time) {
-  // browserPerformanceTimeOrigin can be undefined if `performance` or
-  // `performance.now` doesn't exist, but this is already checked by this integration
-  return ((utils.browserPerformanceTimeOrigin || WINDOW.performance.timeOrigin) + time) / 1000;
-}
-
-function createPaintEntry(entry) {
-  const { duration, entryType, name, startTime } = entry;
-
-  const start = getAbsoluteTime(startTime);
-  return {
-    type: entryType,
-    name,
-    start,
-    end: start + duration,
-    data: undefined,
-  };
-}
-
-function createNavigationEntry(entry) {
-  const {
-    entryType,
-    name,
-    decodedBodySize,
-    duration,
-    domComplete,
-    encodedBodySize,
-    domContentLoadedEventStart,
-    domContentLoadedEventEnd,
-    domInteractive,
-    loadEventStart,
-    loadEventEnd,
-    redirectCount,
-    startTime,
-    transferSize,
-    type,
-  } = entry;
-
-  // Ignore entries with no duration, they do not seem to be useful and cause dupes
-  if (duration === 0) {
-    return null;
-  }
-
-  return {
-    type: `${entryType}.${type}`,
-    start: getAbsoluteTime(startTime),
-    end: getAbsoluteTime(domComplete),
-    name,
-    data: {
-      size: transferSize,
-      decodedBodySize,
-      encodedBodySize,
-      duration,
-      domInteractive,
-      domContentLoadedEventStart,
-      domContentLoadedEventEnd,
-      loadEventStart,
-      loadEventEnd,
-      domComplete,
-      redirectCount,
-    },
-  };
-}
-
-function createResourceEntry(
-  entry,
-) {
-  const {
-    entryType,
-    initiatorType,
-    name,
-    responseEnd,
-    startTime,
-    decodedBodySize,
-    encodedBodySize,
-    responseStatus,
-    transferSize,
-  } = entry;
-
-  // Core SDK handles these
-  if (['fetch', 'xmlhttprequest'].includes(initiatorType)) {
-    return null;
-  }
-
-  return {
-    type: `${entryType}.${initiatorType}`,
-    start: getAbsoluteTime(startTime),
-    end: getAbsoluteTime(responseEnd),
-    name,
-    data: {
-      size: transferSize,
-      statusCode: responseStatus,
-      decodedBodySize,
-      encodedBodySize,
-    },
-  };
-}
-
-function createLargestContentfulPaint(
-  entry,
-) {
-  const { entryType, startTime, size } = entry;
-
-  let startTimeOrNavigationActivation = 0;
-
-  if (WINDOW.performance) {
-    const navEntry = WINDOW.performance.getEntriesByType('navigation')[0]
-
-;
-
-    // See https://github.com/GoogleChrome/web-vitals/blob/9f11c4c6578fb4c5ee6fa4e32b9d1d756475f135/src/lib/getActivationStart.ts#L21
-    startTimeOrNavigationActivation = (navEntry && navEntry.activationStart) || 0;
-  }
-
-  // value is in ms
-  const value = Math.max(startTime - startTimeOrNavigationActivation, 0);
-  // LCP doesn't have a "duration", it just happens at a single point in time.
-  // But the UI expects both, so use end (in seconds) for both timestamps.
-  const end = getAbsoluteTime(startTimeOrNavigationActivation) + value / 1000;
-
-  return {
-    type: entryType,
-    name: entryType,
-    start: end,
-    end,
-    data: {
-      value, // LCP "duration" in ms
-      size,
-      nodeId: record.mirror.getId(entry.element),
     },
   };
 }
@@ -21198,7 +21086,7 @@ function getHandleRecordingEmit(replay) {
   return (event, _isCheckout) => {
     // If this is false, it means session is expired, create and a new session and wait for checkout
     if (!replay.checkAndHandleExpiredSession()) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.warn('[Replay] Received replay event after session expired.');
+      DEBUG_BUILD && utils.logger.warn('[Replay] Received replay event after session expired.');
 
       return;
     }
@@ -21207,6 +21095,10 @@ function getHandleRecordingEmit(replay) {
     // We also want to treat the first event as a checkout, so we handle this specifically here
     const isCheckout = _isCheckout || !hadFirstEvent;
     hadFirstEvent = true;
+
+    if (replay.clickDetector) {
+      updateClickDetectorForRecordingEvent(replay.clickDetector, event);
+    }
 
     // The handler returns `true` if we do not want to trigger debounced flush, `false` if we want to debounce flush.
     replay.addUpdate(() => {
@@ -21553,6 +21445,11 @@ async function sendReplayRequest({
     throw new TransportStatusCodeError(response.statusCode);
   }
 
+  const rateLimits = utils.updateRateLimits({}, response);
+  if (utils.isRateLimited(rateLimits, 'replay')) {
+    throw new RateLimitError(rateLimits);
+  }
+
   return response;
 }
 
@@ -21562,6 +21459,17 @@ async function sendReplayRequest({
 class TransportStatusCodeError extends Error {
    constructor(statusCode) {
     super(`Transport returned status code ${statusCode}`);
+  }
+}
+
+/**
+ * This error indicates that we hit a rate limit API error.
+ */
+class RateLimitError extends Error {
+
+   constructor(rateLimits) {
+    super('Rate limit hit');
+    this.rateLimits = rateLimits;
   }
 }
 
@@ -21586,7 +21494,7 @@ async function sendReplay(
     await sendReplayRequest(replayData);
     return true;
   } catch (err) {
-    if (err instanceof TransportStatusCodeError) {
+    if (err instanceof TransportStatusCodeError || err instanceof RateLimitError) {
       throw err;
     }
 
@@ -21595,7 +21503,7 @@ async function sendReplay(
       _retryCount: retryConfig.count,
     });
 
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && options._experiments && options._experiments.captureExceptions) {
+    if (DEBUG_BUILD && options._experiments && options._experiments.captureExceptions) {
       core.captureException(err);
     }
 
@@ -21695,10 +21603,6 @@ function throttle(
 class ReplayContainer  {
 
   /**
-   * List of PerformanceEntry from PerformanceObserver
-   */
-
-  /**
    * Recording can happen in one of three modes:
    *   - session: Record the whole session, sending it continuously
    *   - buffer: Always keep the last 60s of recording, requires:
@@ -21750,7 +21654,8 @@ class ReplayContainer  {
 
 ) {ReplayContainer.prototype.__init.call(this);ReplayContainer.prototype.__init2.call(this);ReplayContainer.prototype.__init3.call(this);ReplayContainer.prototype.__init4.call(this);ReplayContainer.prototype.__init5.call(this);ReplayContainer.prototype.__init6.call(this);
     this.eventBuffer = null;
-    this.performanceEvents = [];
+    this.performanceEntries = [];
+    this.replayPerformanceEntries = [];
     this.recordingMode = 'session';
     this.timeouts = {
       sessionIdlePause: SESSION_IDLE_PAUSE_DURATION,
@@ -22244,7 +22149,8 @@ class ReplayContainer  {
     const urlPath = `${WINDOW.location.pathname}${WINDOW.location.hash}${WINDOW.location.search}`;
     const url = `${WINDOW.location.origin}${urlPath}`;
 
-    this.performanceEvents = [];
+    this.performanceEntries = [];
+    this.replayPerformanceEntries = [];
 
     // Reset _context as well
     this._clearContext();
@@ -22314,6 +22220,7 @@ class ReplayContainer  {
 
     this.eventBuffer = createEventBuffer({
       useCompression: this._options.useCompression,
+      workerUrl: this._options.workerUrl,
     });
 
     this._removeListeners();
@@ -22328,9 +22235,9 @@ class ReplayContainer  {
 
   /** A wrapper to conditionally capture exceptions. */
    _handleException(error) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay]', error);
+    DEBUG_BUILD && utils.logger.error('[Replay]', error);
 
-    if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && this._options._experiments && this._options._experiments.captureExceptions) {
+    if (DEBUG_BUILD && this._options._experiments && this._options._experiments.captureExceptions) {
       core.captureException(error);
     }
   }
@@ -22423,12 +22330,7 @@ class ReplayContainer  {
       this._handleException(err);
     }
 
-    // PerformanceObserver //
-    if (!('PerformanceObserver' in WINDOW)) {
-      return;
-    }
-
-    this._performanceObserver = setupPerformanceObserver(this);
+    this._performanceCleanupCallback = setupPerformanceObserver(this);
   }
 
   /**
@@ -22446,9 +22348,8 @@ class ReplayContainer  {
         this.clickDetector.removeListeners();
       }
 
-      if (this._performanceObserver) {
-        this._performanceObserver.disconnect();
-        this._performanceObserver = undefined;
+      if (this._performanceCleanupCallback) {
+        this._performanceCleanupCallback();
       }
     } catch (err) {
       this._handleException(err);
@@ -22551,19 +22452,6 @@ class ReplayContainer  {
   }
 
   /**
-   * Trigger rrweb to take a full snapshot which will cause this plugin to
-   * create a new Replay event.
-   */
-   _triggerFullSnapshot(checkout = true) {
-    try {
-      logInfo('[Replay] Taking full rrweb snapshot');
-      record.takeFullSnapshot(checkout);
-    } catch (err) {
-      this._handleException(err);
-    }
-  }
-
-  /**
    * Update user activity (across session lifespans)
    */
    _updateUserActivity(_lastActivity = Date.now()) {
@@ -22597,15 +22485,16 @@ class ReplayContainer  {
   }
 
   /**
-   * Observed performance events are added to `this.performanceEvents`. These
+   * Observed performance events are added to `this.performanceEntries`. These
    * are included in the replay event before it is finished and sent to Sentry.
    */
    _addPerformanceEntries() {
-    // Copy and reset entries before processing
-    const entries = [...this.performanceEvents];
-    this.performanceEvents = [];
+    const performanceEntries = createPerformanceEntries(this.performanceEntries).concat(this.replayPerformanceEntries);
 
-    return Promise.all(createPerformanceSpans(this, createPerformanceEntries(entries)));
+    this.performanceEntries = [];
+    this.replayPerformanceEntries = [];
+
+    return Promise.all(createPerformanceSpans(this, performanceEntries));
   }
 
   /**
@@ -22665,7 +22554,7 @@ class ReplayContainer  {
     const replayId = this.getSessionId();
 
     if (!this.session || !this.eventBuffer || !replayId) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay] No session or eventBuffer found to flush.');
+      DEBUG_BUILD && utils.logger.error('[Replay] No session or eventBuffer found to flush.');
       return;
     }
 
@@ -22727,7 +22616,7 @@ class ReplayContainer  {
       // In this case, we want to completely stop the replay - otherwise, we may get inconsistent segments
       void this.stop({ reason: 'sendReplay' });
 
-      const client = core.getCurrentHub().getClient();
+      const client = core.getClient();
 
       if (client) {
         client.recordDroppedEvent('send_error', 'replay');
@@ -22750,12 +22639,12 @@ class ReplayContainer  {
     }
 
     if (!this.checkAndHandleExpiredSession()) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay] Attempting to finish replay event after session expired.');
+      DEBUG_BUILD && utils.logger.error('[Replay] Attempting to finish replay event after session expired.');
       return;
     }
 
     if (!this.session) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error('[Replay] No session found to flush.');
+      // should never happen, as we would have bailed out before
       return;
     }
 
@@ -22808,7 +22697,7 @@ class ReplayContainer  {
     try {
       await this._flushLock;
     } catch (err) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && utils.logger.error(err);
+      DEBUG_BUILD && utils.logger.error(err);
     } finally {
       this._debouncedFlush();
     }
@@ -22877,10 +22766,12 @@ function getOption(
       allSelectors.push(`.${deprecatedClassOption}`);
     }
 
-    // eslint-disable-next-line no-console
-    console.warn(
-      '[Replay] You are using a deprecated configuration item for privacy. Read the documentation on how to use the new privacy configuration.',
-    );
+    utils.consoleSandbox(() => {
+      // eslint-disable-next-line no-console
+      console.warn(
+        '[Replay] You are using a deprecated configuration item for privacy. Read the documentation on how to use the new privacy configuration.',
+      );
+    });
   }
 
   return allSelectors.join(',');
@@ -22936,19 +22827,6 @@ function getPrivacyOptions({
   }
 
   return options;
-}
-
-/**
- * Returns true if we are in the browser.
- */
-function isBrowser() {
-  // eslint-disable-next-line no-restricted-globals
-  return typeof window !== 'undefined' && (!utils.isNodeEnv() || isElectronNodeRenderer());
-}
-
-// Electron renderers with nodeIntegration enabled are detected as Node.js so we specifically test for them
-function isElectronNodeRenderer() {
-  return typeof process !== 'undefined' && (process ).type === 'renderer';
 }
 
 /**
@@ -23023,6 +22901,7 @@ class Replay  {
     maxReplayDuration = MAX_REPLAY_DURATION,
     stickySession = true,
     useCompression = true,
+    workerUrl,
     _experiments = {},
     sessionSampleRate,
     errorSampleRate,
@@ -23051,6 +22930,7 @@ class Replay  {
     maskFn,
 
     beforeAddRecordingEvent,
+    beforeErrorSampling,
 
     // eslint-disable-next-line deprecation/deprecation
     blockClass,
@@ -23125,6 +23005,7 @@ class Replay  {
       sessionSampleRate,
       errorSampleRate,
       useCompression,
+      workerUrl,
       blockAllMedia,
       maskAllInputs,
       maskAllText,
@@ -23138,6 +23019,7 @@ class Replay  {
       networkRequestHeaders: _getMergedNetworkHeaders(networkRequestHeaders),
       networkResponseHeaders: _getMergedNetworkHeaders(networkResponseHeaders),
       beforeAddRecordingEvent,
+      beforeErrorSampling,
 
       _experiments,
     };
@@ -23174,7 +23056,7 @@ Sentry.init({ replaysOnErrorSampleRate: ${errorSampleRate} })`,
         : `${this._recordingOptions.blockSelector},${MEDIA_SELECTORS}`;
     }
 
-    if (this._isInitialized && isBrowser()) {
+    if (this._isInitialized && utils.isBrowser()) {
       throw new Error('Multiple Sentry Session Replay instances are not supported');
     }
 
@@ -23195,7 +23077,7 @@ Sentry.init({ replaysOnErrorSampleRate: ${errorSampleRate} })`,
    * Setup and initialize replay container
    */
    setupOnce() {
-    if (!isBrowser()) {
+    if (!utils.isBrowser()) {
       return;
     }
 
@@ -23301,14 +23183,16 @@ Sentry.init({ replaysOnErrorSampleRate: ${errorSampleRate} })`,
 
 /** Parse Replay-related options from SDK options */
 function loadReplayOptionsFromClient(initialOptions) {
-  const client = core.getCurrentHub().getClient();
+  const client = core.getClient();
   const opt = client && (client.getOptions() );
 
   const finalOptions = { sessionSampleRate: 0, errorSampleRate: 0, ...utils.dropUndefinedKeys(initialOptions) };
 
   if (!opt) {
-    // eslint-disable-next-line no-console
-    console.warn('SDK client is not available.');
+    utils.consoleSandbox(() => {
+      // eslint-disable-next-line no-console
+      console.warn('SDK client is not available.');
+    });
     return finalOptions;
   }
 
@@ -23318,10 +23202,12 @@ function loadReplayOptionsFromClient(initialOptions) {
     opt.replaysSessionSampleRate == null &&
     opt.replaysOnErrorSampleRate == null
   ) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      'Replay is disabled because neither `replaysSessionSampleRate` nor `replaysOnErrorSampleRate` are set.',
-    );
+    utils.consoleSandbox(() => {
+      // eslint-disable-next-line no-console
+      console.warn(
+        'Replay is disabled because neither `replaysSessionSampleRate` nor `replaysOnErrorSampleRate` are set.',
+      );
+    });
   }
 
   if (typeof opt.replaysSessionSampleRate === 'number') {
@@ -23342,8 +23228,7 @@ function _getMergedNetworkHeaders(headers) {
 exports.Replay = Replay;
 
 
-}).call(this)}).call(this,require('_process'))
-},{"@sentry/core":59,"@sentry/utils":108,"_process":134}],90:[function(require,module,exports){
+},{"@sentry-internal/tracing":23,"@sentry/core":64,"@sentry/utils":116}],97:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -23492,7 +23377,7 @@ function truncateAggregateExceptions(exceptions, maxValueLength) {
 exports.applyAggregateErrorsToEvent = applyAggregateErrorsToEvent;
 
 
-},{"./is.js":110,"./string.js":124}],91:[function(require,module,exports){
+},{"./is.js":126,"./string.js":142}],98:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const object = require('./object.js');
@@ -23605,9 +23490,10 @@ exports.createDebugPauseMessageHandler = createDebugPauseMessageHandler;
 exports.watchdogTimer = watchdogTimer;
 
 
-},{"./node-stack-trace.js":114,"./object.js":117,"./stacktrace.js":123}],92:[function(require,module,exports){
+},{"./node-stack-trace.js":132,"./object.js":135,"./stacktrace.js":141}],99:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
+const debugBuild = require('./debug-build.js');
 const is = require('./is.js');
 const logger = require('./logger.js');
 
@@ -23744,7 +23630,7 @@ function objectToBaggageHeader(object) {
     const baggageEntry = `${encodeURIComponent(objectKey)}=${encodeURIComponent(objectValue)}`;
     const newBaggageHeader = currentIndex === 0 ? baggageEntry : `${baggageHeader},${baggageEntry}`;
     if (newBaggageHeader.length > MAX_BAGGAGE_STRING_LENGTH) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+      debugBuild.DEBUG_BUILD &&
         logger.logger.warn(
           `Not adding key: ${objectKey} with val: ${objectValue} to baggage header due to exceeding baggage size limits.`,
         );
@@ -23763,7 +23649,7 @@ exports.baggageHeaderToDynamicSamplingContext = baggageHeaderToDynamicSamplingCo
 exports.dynamicSamplingContextToSentryBaggageHeader = dynamicSamplingContextToSentryBaggageHeader;
 
 
-},{"./is.js":110,"./logger.js":111}],93:[function(require,module,exports){
+},{"./debug-build.js":110,"./is.js":126,"./logger.js":128}],100:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -23784,6 +23670,10 @@ function htmlTreeAsString(
   elem,
   options = {},
 ) {
+
+  if (!elem) {
+    return '<unknown>';
+  }
 
   // try/catch both:
   // - accessing event.target (see getsentry/raven-js#838, #768)
@@ -23921,7 +23811,7 @@ exports.getLocationHref = getLocationHref;
 exports.htmlTreeAsString = htmlTreeAsString;
 
 
-},{"./is.js":110,"./worldwide.js":133}],94:[function(require,module,exports){
+},{"./is.js":126,"./worldwide.js":151}],101:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const _nullishCoalesce = require('./_nullishCoalesce.js');
@@ -23957,7 +23847,7 @@ async function _asyncNullishCoalesce(lhs, rhsFn) {
 exports._asyncNullishCoalesce = _asyncNullishCoalesce;
 
 
-},{"./_nullishCoalesce.js":97}],95:[function(require,module,exports){
+},{"./_nullishCoalesce.js":104}],102:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -24020,7 +23910,7 @@ async function _asyncOptionalChain(ops) {
 exports._asyncOptionalChain = _asyncOptionalChain;
 
 
-},{}],96:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const _asyncOptionalChain = require('./_asyncOptionalChain.js');
@@ -24056,7 +23946,7 @@ async function _asyncOptionalChainDelete(ops) {
 exports._asyncOptionalChainDelete = _asyncOptionalChainDelete;
 
 
-},{"./_asyncOptionalChain.js":95}],97:[function(require,module,exports){
+},{"./_asyncOptionalChain.js":102}],104:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // https://github.com/alangpierce/sucrase/tree/265887868966917f3b924ce38dfad01fbab1329f
@@ -24112,7 +24002,7 @@ function _nullishCoalesce(lhs, rhsFn) {
 exports._nullishCoalesce = _nullishCoalesce;
 
 
-},{}],98:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -24175,7 +24065,7 @@ function _optionalChain(ops) {
 exports._optionalChain = _optionalChain;
 
 
-},{}],99:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const _optionalChain = require('./_optionalChain.js');
@@ -24212,27 +24102,7 @@ function _optionalChainDelete(ops) {
 exports._optionalChainDelete = _optionalChainDelete;
 
 
-},{"./_optionalChain.js":98}],100:[function(require,module,exports){
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const _asyncNullishCoalesce = require('./_asyncNullishCoalesce.js');
-const _asyncOptionalChain = require('./_asyncOptionalChain.js');
-const _asyncOptionalChainDelete = require('./_asyncOptionalChainDelete.js');
-const _nullishCoalesce = require('./_nullishCoalesce.js');
-const _optionalChain = require('./_optionalChain.js');
-const _optionalChainDelete = require('./_optionalChainDelete.js');
-
-
-
-exports._asyncNullishCoalesce = _asyncNullishCoalesce._asyncNullishCoalesce;
-exports._asyncOptionalChain = _asyncOptionalChain._asyncOptionalChain;
-exports._asyncOptionalChainDelete = _asyncOptionalChainDelete._asyncOptionalChainDelete;
-exports._nullishCoalesce = _nullishCoalesce._nullishCoalesce;
-exports._optionalChain = _optionalChain._optionalChain;
-exports._optionalChainDelete = _optionalChainDelete._optionalChainDelete;
-
-
-},{"./_asyncNullishCoalesce.js":94,"./_asyncOptionalChain.js":95,"./_asyncOptionalChainDelete.js":96,"./_nullishCoalesce.js":97,"./_optionalChain.js":98,"./_optionalChainDelete.js":99}],101:[function(require,module,exports){
+},{"./_optionalChain.js":105}],107:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -24303,7 +24173,7 @@ function makeFifoCache(
 exports.makeFifoCache = makeFifoCache;
 
 
-},{}],102:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const envelope = require('./envelope.js');
@@ -24332,9 +24202,97 @@ function createClientReportEnvelope(
 exports.createClientReportEnvelope = createClientReportEnvelope;
 
 
-},{"./envelope.js":105,"./time.js":127}],103:[function(require,module,exports){
+},{"./envelope.js":113,"./time.js":145}],109:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
+/**
+ * This code was originally copied from the 'cookie` module at v0.5.0 and was simplified for our use case.
+ * https://github.com/jshttp/cookie/blob/a0c84147aab6266bdb3996cf4062e93907c0b0fc/index.js
+ * It had the following license:
+ *
+ * (The MIT License)
+ *
+ * Copyright (c) 2012-2014 Roman Shtylman <shtylman@gmail.com>
+ * Copyright (c) 2015 Douglas Christopher Wilson <doug@somethingdoug.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * 'Software'), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+/**
+ * Parses a cookie string
+ */
+function parseCookie(str) {
+  const obj = {};
+  let index = 0;
+
+  while (index < str.length) {
+    const eqIdx = str.indexOf('=', index);
+
+    // no more cookie pairs
+    if (eqIdx === -1) {
+      break;
+    }
+
+    let endIdx = str.indexOf(';', index);
+
+    if (endIdx === -1) {
+      endIdx = str.length;
+    } else if (endIdx < eqIdx) {
+      // backtrack on prior semicolon
+      index = str.lastIndexOf(';', eqIdx - 1) + 1;
+      continue;
+    }
+
+    const key = str.slice(index, eqIdx).trim();
+
+    // only assign once
+    if (undefined === obj[key]) {
+      let val = str.slice(eqIdx + 1, endIdx).trim();
+
+      // quoted values
+      if (val.charCodeAt(0) === 0x22) {
+        val = val.slice(1, -1);
+      }
+
+      try {
+        obj[key] = val.indexOf('%') !== -1 ? decodeURIComponent(val) : val;
+      } catch (e) {
+        obj[key] = val;
+      }
+    }
+
+    index = endIdx + 1;
+  }
+
+  return obj;
+}
+
+exports.parseCookie = parseCookie;
+
+
+},{}],110:[function(require,module,exports){
+arguments[4][20][0].apply(exports,arguments)
+},{"dup":20}],111:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const debugBuild = require('./debug-build.js');
 const logger = require('./logger.js');
 
 /** Regular expression used to parse a Dsn. */
@@ -24372,8 +24330,10 @@ function dsnFromString(str) {
 
   if (!match) {
     // This should be logged to the console
-    // eslint-disable-next-line no-console
-    console.error(`Invalid Sentry Dsn: ${str}`);
+    logger.consoleSandbox(() => {
+      // eslint-disable-next-line no-console
+      console.error(`Invalid Sentry Dsn: ${str}`);
+    });
     return undefined;
   }
 
@@ -24410,7 +24370,7 @@ function dsnFromComponents(components) {
 }
 
 function validateDsn(dsn) {
-  if (!(typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+  if (!debugBuild.DEBUG_BUILD) {
     return true;
   }
 
@@ -24464,7 +24424,7 @@ exports.dsnToString = dsnToString;
 exports.makeDsn = makeDsn;
 
 
-},{"./logger.js":111}],104:[function(require,module,exports){
+},{"./debug-build.js":110,"./logger.js":128}],112:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /*
@@ -24503,7 +24463,7 @@ exports.getSDKSource = getSDKSource;
 exports.isBrowserBundle = isBrowserBundle;
 
 
-},{}],105:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const dsn = require('./dsn.js');
@@ -24696,6 +24656,9 @@ const ITEM_TYPE_TO_DATA_CATEGORY_MAP = {
   replay_event: 'replay',
   replay_recording: 'replay',
   check_in: 'monitor',
+  feedback: 'feedback',
+  // TODO: This is a temporary workaround until we have a proper data category for metrics
+  statsd: 'unknown',
 };
 
 /**
@@ -24748,7 +24711,7 @@ exports.parseEnvelope = parseEnvelope;
 exports.serializeEnvelope = serializeEnvelope;
 
 
-},{"./dsn.js":103,"./normalize.js":116,"./object.js":117}],106:[function(require,module,exports){
+},{"./dsn.js":111,"./normalize.js":134,"./object.js":135}],114:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /** An error emitted by Sentry SDKs and related utilities. */
@@ -24769,7 +24732,7 @@ class SentryError extends Error {
 exports.SentryError = SentryError;
 
 
-},{}],107:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -24916,7 +24879,7 @@ exports.exceptionFromError = exceptionFromError;
 exports.parseStackFrames = parseStackFrames;
 
 
-},{"./is.js":110,"./misc.js":113,"./normalize.js":116,"./object.js":117}],108:[function(require,module,exports){
+},{"./is.js":126,"./misc.js":131,"./normalize.js":134,"./object.js":135}],116:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const aggregateErrors = require('./aggregate-errors.js');
@@ -24924,8 +24887,9 @@ const browser = require('./browser.js');
 const dsn = require('./dsn.js');
 const error = require('./error.js');
 const worldwide = require('./worldwide.js');
-const instrument = require('./instrument.js');
+const index = require('./instrument/index.js');
 const is = require('./is.js');
+const isBrowser = require('./isBrowser.js');
 const logger = require('./logger.js');
 const memo = require('./memo.js');
 const misc = require('./misc.js');
@@ -24952,6 +24916,21 @@ const userIntegrations = require('./userIntegrations.js');
 const cache = require('./cache.js');
 const eventbuilder = require('./eventbuilder.js');
 const anr = require('./anr.js');
+const lru = require('./lru.js');
+const _asyncNullishCoalesce = require('./buildPolyfills/_asyncNullishCoalesce.js');
+const _asyncOptionalChain = require('./buildPolyfills/_asyncOptionalChain.js');
+const _asyncOptionalChainDelete = require('./buildPolyfills/_asyncOptionalChainDelete.js');
+const _nullishCoalesce = require('./buildPolyfills/_nullishCoalesce.js');
+const _optionalChain = require('./buildPolyfills/_optionalChain.js');
+const _optionalChainDelete = require('./buildPolyfills/_optionalChainDelete.js');
+const console = require('./instrument/console.js');
+const dom = require('./instrument/dom.js');
+const xhr = require('./instrument/xhr.js');
+const fetch = require('./instrument/fetch.js');
+const history = require('./instrument/history.js');
+const globalError = require('./instrument/globalError.js');
+const globalUnhandledRejection = require('./instrument/globalUnhandledRejection.js');
+const _handlers = require('./instrument/_handlers.js');
 const nodeStackTrace = require('./node-stack-trace.js');
 const escapeStringForRegex = require('./vendor/escapeStringForRegex.js');
 const supportsHistory = require('./vendor/supportsHistory.js');
@@ -24969,12 +24948,7 @@ exports.SentryError = error.SentryError;
 exports.GLOBAL_OBJ = worldwide.GLOBAL_OBJ;
 exports.getGlobalObject = worldwide.getGlobalObject;
 exports.getGlobalSingleton = worldwide.getGlobalSingleton;
-exports.SENTRY_XHR_DATA_KEY = instrument.SENTRY_XHR_DATA_KEY;
-exports.addInstrumentationHandler = instrument.addInstrumentationHandler;
-exports.instrumentDOM = instrument.instrumentDOM;
-exports.instrumentXHR = instrument.instrumentXHR;
-exports.parseFetchArgs = instrument.parseFetchArgs;
-exports.resetInstrumentationHandlers = instrument.resetInstrumentationHandlers;
+exports.addInstrumentationHandler = index.addInstrumentationHandler;
 exports.isDOMError = is.isDOMError;
 exports.isDOMException = is.isDOMException;
 exports.isElement = is.isElement;
@@ -24990,6 +24964,7 @@ exports.isString = is.isString;
 exports.isSyntheticEvent = is.isSyntheticEvent;
 exports.isThenable = is.isThenable;
 exports.isVueViewModel = is.isVueViewModel;
+exports.isBrowser = isBrowser.isBrowser;
 exports.CONSOLE_LEVELS = logger.CONSOLE_LEVELS;
 exports.consoleSandbox = logger.consoleSandbox;
 exports.logger = logger.logger;
@@ -25026,10 +25001,13 @@ exports.normalizePath = path.normalizePath;
 exports.relative = path.relative;
 exports.resolve = path.resolve;
 exports.makePromiseBuffer = promisebuffer.makePromiseBuffer;
+exports.DEFAULT_USER_INCLUDES = requestdata.DEFAULT_USER_INCLUDES;
 exports.addRequestDataToEvent = requestdata.addRequestDataToEvent;
 exports.addRequestDataToTransaction = requestdata.addRequestDataToTransaction;
 exports.extractPathForTransaction = requestdata.extractPathForTransaction;
 exports.extractRequestData = requestdata.extractRequestData;
+exports.winterCGHeadersToDict = requestdata.winterCGHeadersToDict;
+exports.winterCGRequestToRequestData = requestdata.winterCGRequestToRequestData;
 exports.severityFromString = severity.severityFromString;
 exports.severityLevelFromString = severity.severityLevelFromString;
 exports.validSeverityLevels = severity.validSeverityLevels;
@@ -25103,86 +25081,42 @@ exports.exceptionFromError = eventbuilder.exceptionFromError;
 exports.parseStackFrames = eventbuilder.parseStackFrames;
 exports.createDebugPauseMessageHandler = anr.createDebugPauseMessageHandler;
 exports.watchdogTimer = anr.watchdogTimer;
+exports.LRUMap = lru.LRUMap;
+exports._asyncNullishCoalesce = _asyncNullishCoalesce._asyncNullishCoalesce;
+exports._asyncOptionalChain = _asyncOptionalChain._asyncOptionalChain;
+exports._asyncOptionalChainDelete = _asyncOptionalChainDelete._asyncOptionalChainDelete;
+exports._nullishCoalesce = _nullishCoalesce._nullishCoalesce;
+exports._optionalChain = _optionalChain._optionalChain;
+exports._optionalChainDelete = _optionalChainDelete._optionalChainDelete;
+exports.addConsoleInstrumentationHandler = console.addConsoleInstrumentationHandler;
+exports.addClickKeypressInstrumentationHandler = dom.addClickKeypressInstrumentationHandler;
+exports.SENTRY_XHR_DATA_KEY = xhr.SENTRY_XHR_DATA_KEY;
+exports.addXhrInstrumentationHandler = xhr.addXhrInstrumentationHandler;
+exports.addFetchInstrumentationHandler = fetch.addFetchInstrumentationHandler;
+exports.addHistoryInstrumentationHandler = history.addHistoryInstrumentationHandler;
+exports.addGlobalErrorInstrumentationHandler = globalError.addGlobalErrorInstrumentationHandler;
+exports.addGlobalUnhandledRejectionInstrumentationHandler = globalUnhandledRejection.addGlobalUnhandledRejectionInstrumentationHandler;
+exports.resetInstrumentationHandlers = _handlers.resetInstrumentationHandlers;
 exports.filenameIsInApp = nodeStackTrace.filenameIsInApp;
 exports.escapeStringForRegex = escapeStringForRegex.escapeStringForRegex;
 exports.supportsHistory = supportsHistory.supportsHistory;
 
 
-},{"./aggregate-errors.js":90,"./anr.js":91,"./baggage.js":92,"./browser.js":93,"./cache.js":101,"./clientreport.js":102,"./dsn.js":103,"./env.js":104,"./envelope.js":105,"./error.js":106,"./eventbuilder.js":107,"./instrument.js":109,"./is.js":110,"./logger.js":111,"./memo.js":112,"./misc.js":113,"./node-stack-trace.js":114,"./node.js":115,"./normalize.js":116,"./object.js":117,"./path.js":118,"./promisebuffer.js":119,"./ratelimit.js":120,"./requestdata.js":121,"./severity.js":122,"./stacktrace.js":123,"./string.js":124,"./supports.js":125,"./syncpromise.js":126,"./time.js":127,"./tracing.js":128,"./url.js":129,"./userIntegrations.js":130,"./vendor/escapeStringForRegex.js":131,"./vendor/supportsHistory.js":132,"./worldwide.js":133}],109:[function(require,module,exports){
+},{"./aggregate-errors.js":97,"./anr.js":98,"./baggage.js":99,"./browser.js":100,"./buildPolyfills/_asyncNullishCoalesce.js":101,"./buildPolyfills/_asyncOptionalChain.js":102,"./buildPolyfills/_asyncOptionalChainDelete.js":103,"./buildPolyfills/_nullishCoalesce.js":104,"./buildPolyfills/_optionalChain.js":105,"./buildPolyfills/_optionalChainDelete.js":106,"./cache.js":107,"./clientreport.js":108,"./dsn.js":111,"./env.js":112,"./envelope.js":113,"./error.js":114,"./eventbuilder.js":115,"./instrument/_handlers.js":117,"./instrument/console.js":118,"./instrument/dom.js":119,"./instrument/fetch.js":120,"./instrument/globalError.js":121,"./instrument/globalUnhandledRejection.js":122,"./instrument/history.js":123,"./instrument/index.js":124,"./instrument/xhr.js":125,"./is.js":126,"./isBrowser.js":127,"./logger.js":128,"./lru.js":129,"./memo.js":130,"./misc.js":131,"./node-stack-trace.js":132,"./node.js":133,"./normalize.js":134,"./object.js":135,"./path.js":136,"./promisebuffer.js":137,"./ratelimit.js":138,"./requestdata.js":139,"./severity.js":140,"./stacktrace.js":141,"./string.js":142,"./supports.js":143,"./syncpromise.js":144,"./time.js":145,"./tracing.js":146,"./url.js":147,"./userIntegrations.js":148,"./vendor/escapeStringForRegex.js":149,"./vendor/supportsHistory.js":150,"./worldwide.js":151}],117:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const is = require('./is.js');
-const logger = require('./logger.js');
-const object = require('./object.js');
-const stacktrace = require('./stacktrace.js');
-const supports = require('./supports.js');
-const worldwide = require('./worldwide.js');
-const supportsHistory = require('./vendor/supportsHistory.js');
+const debugBuild = require('../debug-build.js');
+const logger = require('../logger.js');
+const stacktrace = require('../stacktrace.js');
 
-// eslint-disable-next-line deprecation/deprecation
-const WINDOW = worldwide.getGlobalObject();
-
-const SENTRY_XHR_DATA_KEY = '__sentry_xhr_v2__';
-
-/**
- * Instrument native APIs to call handlers that can be used to create breadcrumbs, APM spans etc.
- *  - Console API
- *  - Fetch API
- *  - XHR API
- *  - History API
- *  - DOM API (click/typing)
- *  - Error API
- *  - UnhandledRejection API
- */
-
+// We keep the handlers globally
 const handlers = {};
 const instrumented = {};
 
-/** Instruments given API */
-function instrument(type) {
-  if (instrumented[type]) {
-    return;
-  }
-
-  instrumented[type] = true;
-
-  switch (type) {
-    case 'console':
-      instrumentConsole();
-      break;
-    case 'dom':
-      instrumentDOM();
-      break;
-    case 'xhr':
-      instrumentXHR();
-      break;
-    case 'fetch':
-      instrumentFetch();
-      break;
-    case 'history':
-      instrumentHistory();
-      break;
-    case 'error':
-      instrumentError();
-      break;
-    case 'unhandledrejection':
-      instrumentUnhandledRejection();
-      break;
-    default:
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && logger.logger.warn('unknown instrumentation type:', type);
-      return;
-  }
-}
-
-/**
- * Add handler that will be called when given type of instrumentation triggers.
- * Use at your own risk, this might break without changelog notice, only used internally.
- * @hidden
- */
-function addInstrumentationHandler(type, callback) {
+/** Add a handler function. */
+function addHandler(type, handler) {
   handlers[type] = handlers[type] || [];
-  (handlers[type] ).push(callback);
-  instrument(type);
+  (handlers[type] ).push(handler);
 }
 
 /**
@@ -25195,17 +25129,26 @@ function resetInstrumentationHandlers() {
   });
 }
 
-/** JSDoc */
+/** Maybe run an instrumentation function, unless it was already called. */
+function maybeInstrument(type, instrumentFn) {
+  if (!instrumented[type]) {
+    instrumentFn();
+    instrumented[type] = true;
+  }
+}
+
+/** Trigger handlers for a given instrumentation type. */
 function triggerHandlers(type, data) {
-  if (!type || !handlers[type]) {
+  const typeHandlers = type && handlers[type];
+  if (!typeHandlers) {
     return;
   }
 
-  for (const handler of handlers[type] || []) {
+  for (const handler of typeHandlers) {
     try {
       handler(data);
     } catch (e) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+      debugBuild.DEBUG_BUILD &&
         logger.logger.error(
           `Error while triggering instrumentation handler.\nType: ${type}\nName: ${stacktrace.getFunctionName(handler)}\nError:`,
           e,
@@ -25214,7 +25157,32 @@ function triggerHandlers(type, data) {
   }
 }
 
-/** JSDoc */
+exports.addHandler = addHandler;
+exports.maybeInstrument = maybeInstrument;
+exports.resetInstrumentationHandlers = resetInstrumentationHandlers;
+exports.triggerHandlers = triggerHandlers;
+
+
+},{"../debug-build.js":110,"../logger.js":128,"../stacktrace.js":141}],118:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const logger = require('../logger.js');
+const object = require('../object.js');
+const worldwide = require('../worldwide.js');
+const _handlers = require('./_handlers.js');
+
+/**
+ * Add an instrumentation handler for when a console.xxx method is called.
+ *
+ * Use at your own risk, this might break without changelog notice, only used internally.
+ * @hidden
+ */
+function addConsoleInstrumentationHandler(handler) {
+  const type = 'console';
+  _handlers.addHandler(type, handler);
+  _handlers.maybeInstrument(type, instrumentConsole);
+}
+
 function instrumentConsole() {
   if (!('console' in worldwide.GLOBAL_OBJ)) {
     return;
@@ -25229,7 +25197,8 @@ function instrumentConsole() {
       logger.originalConsoleMethods[level] = originalConsoleMethod;
 
       return function (...args) {
-        triggerHandlers('console', { args, level });
+        const handlerData = { args, level };
+        _handlers.triggerHandlers('console', handlerData);
 
         const log = logger.originalConsoleMethods[level];
         log && log.apply(worldwide.GLOBAL_OBJ.console, args);
@@ -25238,364 +25207,37 @@ function instrumentConsole() {
   });
 }
 
-/** JSDoc */
-function instrumentFetch() {
-  if (!supports.supportsNativeFetch()) {
-    return;
-  }
+exports.addConsoleInstrumentationHandler = addConsoleInstrumentationHandler;
 
-  object.fill(worldwide.GLOBAL_OBJ, 'fetch', function (originalFetch) {
-    return function (...args) {
-      const { method, url } = parseFetchArgs(args);
 
-      const handlerData = {
-        args,
-        fetchData: {
-          method,
-          url,
-        },
-        startTimestamp: Date.now(),
-      };
+},{"../logger.js":128,"../object.js":135,"../worldwide.js":151,"./_handlers.js":117}],119:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
 
-      triggerHandlers('fetch', {
-        ...handlerData,
-      });
+const misc = require('../misc.js');
+const object = require('../object.js');
+const worldwide = require('../worldwide.js');
+const _handlers = require('./_handlers.js');
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      return originalFetch.apply(worldwide.GLOBAL_OBJ, args).then(
-        (response) => {
-          triggerHandlers('fetch', {
-            ...handlerData,
-            endTimestamp: Date.now(),
-            response,
-          });
-          return response;
-        },
-        (error) => {
-          triggerHandlers('fetch', {
-            ...handlerData,
-            endTimestamp: Date.now(),
-            error,
-          });
-          // NOTE: If you are a Sentry user, and you are seeing this stack frame,
-          //       it means the sentry.javascript SDK caught an error invoking your application code.
-          //       This is expected behavior and NOT indicative of a bug with sentry.javascript.
-          throw error;
-        },
-      );
-    };
-  });
-}
-
-function hasProp(obj, prop) {
-  return !!obj && typeof obj === 'object' && !!(obj )[prop];
-}
-
-function getUrlFromResource(resource) {
-  if (typeof resource === 'string') {
-    return resource;
-  }
-
-  if (!resource) {
-    return '';
-  }
-
-  if (hasProp(resource, 'url')) {
-    return resource.url;
-  }
-
-  if (resource.toString) {
-    return resource.toString();
-  }
-
-  return '';
-}
-
-/**
- * Parses the fetch arguments to find the used Http method and the url of the request
- */
-function parseFetchArgs(fetchArgs) {
-  if (fetchArgs.length === 0) {
-    return { method: 'GET', url: '' };
-  }
-
-  if (fetchArgs.length === 2) {
-    const [url, options] = fetchArgs ;
-
-    return {
-      url: getUrlFromResource(url),
-      method: hasProp(options, 'method') ? String(options.method).toUpperCase() : 'GET',
-    };
-  }
-
-  const arg = fetchArgs[0];
-  return {
-    url: getUrlFromResource(arg ),
-    method: hasProp(arg, 'method') ? String(arg.method).toUpperCase() : 'GET',
-  };
-}
-
-/** JSDoc */
-function instrumentXHR() {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  if (!(WINDOW ).XMLHttpRequest) {
-    return;
-  }
-
-  const xhrproto = XMLHttpRequest.prototype;
-
-  object.fill(xhrproto, 'open', function (originalOpen) {
-    return function ( ...args) {
-      const url = args[1];
-      const xhrInfo = (this[SENTRY_XHR_DATA_KEY] = {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        method: is.isString(args[0]) ? args[0].toUpperCase() : args[0],
-        url: args[1],
-        request_headers: {},
-      });
-
-      // if Sentry key appears in URL, don't capture it as a request
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      if (is.isString(url) && xhrInfo.method === 'POST' && url.match(/sentry_key/)) {
-        this.__sentry_own_request__ = true;
-      }
-
-      const onreadystatechangeHandler = () => {
-        // For whatever reason, this is not the same instance here as from the outer method
-        const xhrInfo = this[SENTRY_XHR_DATA_KEY];
-
-        if (!xhrInfo) {
-          return;
-        }
-
-        if (this.readyState === 4) {
-          try {
-            // touching statusCode in some platforms throws
-            // an exception
-            xhrInfo.status_code = this.status;
-          } catch (e) {
-            /* do nothing */
-          }
-
-          triggerHandlers('xhr', {
-            args: args ,
-            endTimestamp: Date.now(),
-            startTimestamp: Date.now(),
-            xhr: this,
-          } );
-        }
-      };
-
-      if ('onreadystatechange' in this && typeof this.onreadystatechange === 'function') {
-        object.fill(this, 'onreadystatechange', function (original) {
-          return function ( ...readyStateArgs) {
-            onreadystatechangeHandler();
-            return original.apply(this, readyStateArgs);
-          };
-        });
-      } else {
-        this.addEventListener('readystatechange', onreadystatechangeHandler);
-      }
-
-      // Intercepting `setRequestHeader` to access the request headers of XHR instance.
-      // This will only work for user/library defined headers, not for the default/browser-assigned headers.
-      // Request cookies are also unavailable for XHR, as `Cookie` header can't be defined by `setRequestHeader`.
-      object.fill(this, 'setRequestHeader', function (original) {
-        return function ( ...setRequestHeaderArgs) {
-          const [header, value] = setRequestHeaderArgs ;
-
-          const xhrInfo = this[SENTRY_XHR_DATA_KEY];
-
-          if (xhrInfo) {
-            xhrInfo.request_headers[header.toLowerCase()] = value;
-          }
-
-          return original.apply(this, setRequestHeaderArgs);
-        };
-      });
-
-      return originalOpen.apply(this, args);
-    };
-  });
-
-  object.fill(xhrproto, 'send', function (originalSend) {
-    return function ( ...args) {
-      const sentryXhrData = this[SENTRY_XHR_DATA_KEY];
-      if (sentryXhrData && args[0] !== undefined) {
-        sentryXhrData.body = args[0];
-      }
-
-      triggerHandlers('xhr', {
-        args,
-        startTimestamp: Date.now(),
-        xhr: this,
-      });
-
-      return originalSend.apply(this, args);
-    };
-  });
-}
-
-let lastHref;
-
-/** JSDoc */
-function instrumentHistory() {
-  if (!supportsHistory.supportsHistory()) {
-    return;
-  }
-
-  const oldOnPopState = WINDOW.onpopstate;
-  WINDOW.onpopstate = function ( ...args) {
-    const to = WINDOW.location.href;
-    // keep track of the current URL state, as we always receive only the updated state
-    const from = lastHref;
-    lastHref = to;
-    triggerHandlers('history', {
-      from,
-      to,
-    });
-    if (oldOnPopState) {
-      // Apparently this can throw in Firefox when incorrectly implemented plugin is installed.
-      // https://github.com/getsentry/sentry-javascript/issues/3344
-      // https://github.com/bugsnag/bugsnag-js/issues/469
-      try {
-        return oldOnPopState.apply(this, args);
-      } catch (_oO) {
-        // no-empty
-      }
-    }
-  };
-
-  /** @hidden */
-  function historyReplacementFunction(originalHistoryFunction) {
-    return function ( ...args) {
-      const url = args.length > 2 ? args[2] : undefined;
-      if (url) {
-        // coerce to string (this is what pushState does)
-        const from = lastHref;
-        const to = String(url);
-        // keep track of the current URL state, as we always receive only the updated state
-        lastHref = to;
-        triggerHandlers('history', {
-          from,
-          to,
-        });
-      }
-      return originalHistoryFunction.apply(this, args);
-    };
-  }
-
-  object.fill(WINDOW.history, 'pushState', historyReplacementFunction);
-  object.fill(WINDOW.history, 'replaceState', historyReplacementFunction);
-}
-
+const WINDOW = worldwide.GLOBAL_OBJ ;
 const DEBOUNCE_DURATION = 1000;
+
 let debounceTimerID;
-let lastCapturedEvent;
+let lastCapturedEventType;
+let lastCapturedEventTargetId;
 
 /**
- * Check whether two DOM events are similar to eachother. For example, two click events on the same button.
- */
-function areSimilarDomEvents(a, b) {
-  // If both events have different type, then user definitely performed two separate actions. e.g. click + keypress.
-  if (a.type !== b.type) {
-    return false;
-  }
-
-  try {
-    // If both events have the same type, it's still possible that actions were performed on different targets.
-    // e.g. 2 clicks on different buttons.
-    if (a.target !== b.target) {
-      return false;
-    }
-  } catch (e) {
-    // just accessing `target` property can throw an exception in some rare circumstances
-    // see: https://github.com/getsentry/sentry-javascript/issues/838
-  }
-
-  // If both events have the same type _and_ same `target` (an element which triggered an event, _not necessarily_
-  // to which an event listener was attached), we treat them as the same action, as we want to capture
-  // only one breadcrumb. e.g. multiple clicks on the same button, or typing inside a user input box.
-  return true;
-}
-
-/**
- * Decide whether an event should be captured.
- * @param event event to be captured
- */
-function shouldSkipDOMEvent(event) {
-  // We are only interested in filtering `keypress` events for now.
-  if (event.type !== 'keypress') {
-    return false;
-  }
-
-  try {
-    const target = event.target ;
-
-    if (!target || !target.tagName) {
-      return true;
-    }
-
-    // Only consider keypress events on actual input elements. This will disregard keypresses targeting body
-    // e.g.tabbing through elements, hotkeys, etc.
-    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
-      return false;
-    }
-  } catch (e) {
-    // just accessing `target` property can throw an exception in some rare circumstances
-    // see: https://github.com/getsentry/sentry-javascript/issues/838
-  }
-
-  return true;
-}
-
-/**
- * Wraps addEventListener to capture UI breadcrumbs
- * @param handler function that will be triggered
- * @param globalListener indicates whether event was captured by the global event listener
- * @returns wrapped breadcrumb events handler
+ * Add an instrumentation handler for when a click or a keypress happens.
+ *
+ * Use at your own risk, this might break without changelog notice, only used internally.
  * @hidden
  */
-function makeDOMEventHandler(handler, globalListener = false) {
-  return (event) => {
-    // It's possible this handler might trigger multiple times for the same
-    // event (e.g. event propagation through node ancestors).
-    // Ignore if we've already captured that event.
-    if (!event || event['_sentryCaptured']) {
-      return;
-    }
-
-    // We always want to skip _some_ events.
-    if (shouldSkipDOMEvent(event)) {
-      return;
-    }
-
-    // Mark event as "seen"
-    object.addNonEnumerableProperty(event, '_sentryCaptured', true);
-
-    const name = event.type === 'keypress' ? 'input' : event.type;
-
-    // If there is no last captured event, it means that we can safely capture the new event and store it for future comparisons.
-    // If there is a last captured event, see if the new event is different enough to treat it as a unique one.
-    // If that's the case, emit the previous event and store locally the newly-captured DOM event.
-    if (lastCapturedEvent === undefined || !areSimilarDomEvents(lastCapturedEvent, event)) {
-      handler({
-        event: event,
-        name,
-        global: globalListener,
-      });
-      lastCapturedEvent = event;
-    }
-
-    // Start a new debounce timer that will prevent us from capturing multiple events that should be grouped together.
-    clearTimeout(debounceTimerID);
-    debounceTimerID = WINDOW.setTimeout(() => {
-      lastCapturedEvent = undefined;
-    }, DEBOUNCE_DURATION);
-  };
+function addClickKeypressInstrumentationHandler(handler) {
+  const type = 'dom';
+  _handlers.addHandler(type, handler);
+  _handlers.maybeInstrument(type, instrumentDOM);
 }
 
-/** JSDoc */
+/** Exported for tests only. */
 function instrumentDOM() {
   if (!WINDOW.document) {
     return;
@@ -25604,7 +25246,7 @@ function instrumentDOM() {
   // Make it so that any click or keypress that is unhandled / bubbled up all the way to the document triggers our dom
   // handlers. (Normally we have only one, which captures a breadcrumb for each click or keypress.) Do this before
   // we instrument `addEventListener` so that we don't end up attaching this handler twice.
-  const triggerDOMHandler = triggerHandlers.bind(null, 'dom');
+  const triggerDOMHandler = _handlers.triggerHandlers.bind(null, 'dom');
   const globalDOMEventHandler = makeDOMEventHandler(triggerDOMHandler, true);
   WINDOW.document.addEventListener('click', globalDOMEventHandler, false);
   WINDOW.document.addEventListener('keypress', globalDOMEventHandler, false);
@@ -25695,19 +25337,285 @@ function instrumentDOM() {
   });
 }
 
-let _oldOnErrorHandler = null;
-/** JSDoc */
-function instrumentError() {
-  _oldOnErrorHandler = WINDOW.onerror;
+/**
+ * Check whether the event is similar to the last captured one. For example, two click events on the same button.
+ */
+function isSimilarToLastCapturedEvent(event) {
+  // If both events have different type, then user definitely performed two separate actions. e.g. click + keypress.
+  if (event.type !== lastCapturedEventType) {
+    return false;
+  }
 
-  WINDOW.onerror = function (msg, url, line, column, error) {
-    triggerHandlers('error', {
+  try {
+    // If both events have the same type, it's still possible that actions were performed on different targets.
+    // e.g. 2 clicks on different buttons.
+    if (!event.target || (event.target )._sentryId !== lastCapturedEventTargetId) {
+      return false;
+    }
+  } catch (e) {
+    // just accessing `target` property can throw an exception in some rare circumstances
+    // see: https://github.com/getsentry/sentry-javascript/issues/838
+  }
+
+  // If both events have the same type _and_ same `target` (an element which triggered an event, _not necessarily_
+  // to which an event listener was attached), we treat them as the same action, as we want to capture
+  // only one breadcrumb. e.g. multiple clicks on the same button, or typing inside a user input box.
+  return true;
+}
+
+/**
+ * Decide whether an event should be captured.
+ * @param event event to be captured
+ */
+function shouldSkipDOMEvent(eventType, target) {
+  // We are only interested in filtering `keypress` events for now.
+  if (eventType !== 'keypress') {
+    return false;
+  }
+
+  if (!target || !target.tagName) {
+    return true;
+  }
+
+  // Only consider keypress events on actual input elements. This will disregard keypresses targeting body
+  // e.g.tabbing through elements, hotkeys, etc.
+  if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Wraps addEventListener to capture UI breadcrumbs
+ */
+function makeDOMEventHandler(
+  handler,
+  globalListener = false,
+) {
+  return (event) => {
+    // It's possible this handler might trigger multiple times for the same
+    // event (e.g. event propagation through node ancestors).
+    // Ignore if we've already captured that event.
+    if (!event || event['_sentryCaptured']) {
+      return;
+    }
+
+    const target = getEventTarget(event);
+
+    // We always want to skip _some_ events.
+    if (shouldSkipDOMEvent(event.type, target)) {
+      return;
+    }
+
+    // Mark event as "seen"
+    object.addNonEnumerableProperty(event, '_sentryCaptured', true);
+
+    if (target && !target._sentryId) {
+      // Add UUID to event target so we can identify if
+      object.addNonEnumerableProperty(target, '_sentryId', misc.uuid4());
+    }
+
+    const name = event.type === 'keypress' ? 'input' : event.type;
+
+    // If there is no last captured event, it means that we can safely capture the new event and store it for future comparisons.
+    // If there is a last captured event, see if the new event is different enough to treat it as a unique one.
+    // If that's the case, emit the previous event and store locally the newly-captured DOM event.
+    if (!isSimilarToLastCapturedEvent(event)) {
+      const handlerData = { event, name, global: globalListener };
+      handler(handlerData);
+      lastCapturedEventType = event.type;
+      lastCapturedEventTargetId = target ? target._sentryId : undefined;
+    }
+
+    // Start a new debounce timer that will prevent us from capturing multiple events that should be grouped together.
+    clearTimeout(debounceTimerID);
+    debounceTimerID = WINDOW.setTimeout(() => {
+      lastCapturedEventTargetId = undefined;
+      lastCapturedEventType = undefined;
+    }, DEBOUNCE_DURATION);
+  };
+}
+
+function getEventTarget(event) {
+  try {
+    return event.target ;
+  } catch (e) {
+    // just accessing `target` property can throw an exception in some rare circumstances
+    // see: https://github.com/getsentry/sentry-javascript/issues/838
+    return null;
+  }
+}
+
+exports.addClickKeypressInstrumentationHandler = addClickKeypressInstrumentationHandler;
+exports.instrumentDOM = instrumentDOM;
+
+
+},{"../misc.js":131,"../object.js":135,"../worldwide.js":151,"./_handlers.js":117}],120:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const object = require('../object.js');
+const supports = require('../supports.js');
+const worldwide = require('../worldwide.js');
+const _handlers = require('./_handlers.js');
+
+/**
+ * Add an instrumentation handler for when a fetch request happens.
+ * The handler function is called once when the request starts and once when it ends,
+ * which can be identified by checking if it has an `endTimestamp`.
+ *
+ * Use at your own risk, this might break without changelog notice, only used internally.
+ * @hidden
+ */
+function addFetchInstrumentationHandler(handler) {
+  const type = 'fetch';
+  _handlers.addHandler(type, handler);
+  _handlers.maybeInstrument(type, instrumentFetch);
+}
+
+function instrumentFetch() {
+  if (!supports.supportsNativeFetch()) {
+    return;
+  }
+
+  object.fill(worldwide.GLOBAL_OBJ, 'fetch', function (originalFetch) {
+    return function (...args) {
+      const { method, url } = parseFetchArgs(args);
+
+      const handlerData = {
+        args,
+        fetchData: {
+          method,
+          url,
+        },
+        startTimestamp: Date.now(),
+      };
+
+      _handlers.triggerHandlers('fetch', {
+        ...handlerData,
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      return originalFetch.apply(worldwide.GLOBAL_OBJ, args).then(
+        (response) => {
+          const finishedHandlerData = {
+            ...handlerData,
+            endTimestamp: Date.now(),
+            response,
+          };
+
+          _handlers.triggerHandlers('fetch', finishedHandlerData);
+          return response;
+        },
+        (error) => {
+          const erroredHandlerData = {
+            ...handlerData,
+            endTimestamp: Date.now(),
+            error,
+          };
+
+          _handlers.triggerHandlers('fetch', erroredHandlerData);
+          // NOTE: If you are a Sentry user, and you are seeing this stack frame,
+          //       it means the sentry.javascript SDK caught an error invoking your application code.
+          //       This is expected behavior and NOT indicative of a bug with sentry.javascript.
+          throw error;
+        },
+      );
+    };
+  });
+}
+
+function hasProp(obj, prop) {
+  return !!obj && typeof obj === 'object' && !!(obj )[prop];
+}
+
+function getUrlFromResource(resource) {
+  if (typeof resource === 'string') {
+    return resource;
+  }
+
+  if (!resource) {
+    return '';
+  }
+
+  if (hasProp(resource, 'url')) {
+    return resource.url;
+  }
+
+  if (resource.toString) {
+    return resource.toString();
+  }
+
+  return '';
+}
+
+/**
+ * Parses the fetch arguments to find the used Http method and the url of the request.
+ * Exported for tests only.
+ */
+function parseFetchArgs(fetchArgs) {
+  if (fetchArgs.length === 0) {
+    return { method: 'GET', url: '' };
+  }
+
+  if (fetchArgs.length === 2) {
+    const [url, options] = fetchArgs ;
+
+    return {
+      url: getUrlFromResource(url),
+      method: hasProp(options, 'method') ? String(options.method).toUpperCase() : 'GET',
+    };
+  }
+
+  const arg = fetchArgs[0];
+  return {
+    url: getUrlFromResource(arg ),
+    method: hasProp(arg, 'method') ? String(arg.method).toUpperCase() : 'GET',
+  };
+}
+
+exports.addFetchInstrumentationHandler = addFetchInstrumentationHandler;
+exports.parseFetchArgs = parseFetchArgs;
+
+
+},{"../object.js":135,"../supports.js":143,"../worldwide.js":151,"./_handlers.js":117}],121:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const worldwide = require('../worldwide.js');
+const _handlers = require('./_handlers.js');
+
+let _oldOnErrorHandler = null;
+
+/**
+ * Add an instrumentation handler for when an error is captured by the global error handler.
+ *
+ * Use at your own risk, this might break without changelog notice, only used internally.
+ * @hidden
+ */
+function addGlobalErrorInstrumentationHandler(handler) {
+  const type = 'error';
+  _handlers.addHandler(type, handler);
+  _handlers.maybeInstrument(type, instrumentError);
+}
+
+function instrumentError() {
+  _oldOnErrorHandler = worldwide.GLOBAL_OBJ.onerror;
+
+  worldwide.GLOBAL_OBJ.onerror = function (
+    msg,
+    url,
+    line,
+    column,
+    error,
+  ) {
+    const handlerData = {
       column,
       error,
       line,
       msg,
       url,
-    });
+    };
+    _handlers.triggerHandlers('error', handlerData);
 
     if (_oldOnErrorHandler && !_oldOnErrorHandler.__SENTRY_LOADER__) {
       // eslint-disable-next-line prefer-rest-params
@@ -25717,16 +25625,40 @@ function instrumentError() {
     return false;
   };
 
-  WINDOW.onerror.__SENTRY_INSTRUMENTED__ = true;
+  worldwide.GLOBAL_OBJ.onerror.__SENTRY_INSTRUMENTED__ = true;
 }
 
-let _oldOnUnhandledRejectionHandler = null;
-/** JSDoc */
-function instrumentUnhandledRejection() {
-  _oldOnUnhandledRejectionHandler = WINDOW.onunhandledrejection;
+exports.addGlobalErrorInstrumentationHandler = addGlobalErrorInstrumentationHandler;
 
-  WINDOW.onunhandledrejection = function (e) {
-    triggerHandlers('unhandledrejection', e);
+
+},{"../worldwide.js":151,"./_handlers.js":117}],122:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const worldwide = require('../worldwide.js');
+const _handlers = require('./_handlers.js');
+
+let _oldOnUnhandledRejectionHandler = null;
+
+/**
+ * Add an instrumentation handler for when an unhandled promise rejection is captured.
+ *
+ * Use at your own risk, this might break without changelog notice, only used internally.
+ * @hidden
+ */
+function addGlobalUnhandledRejectionInstrumentationHandler(
+  handler,
+) {
+  const type = 'unhandledrejection';
+  _handlers.addHandler(type, handler);
+  _handlers.maybeInstrument(type, instrumentUnhandledRejection);
+}
+
+function instrumentUnhandledRejection() {
+  _oldOnUnhandledRejectionHandler = worldwide.GLOBAL_OBJ.onunhandledrejection;
+
+  worldwide.GLOBAL_OBJ.onunhandledrejection = function (e) {
+    const handlerData = e;
+    _handlers.triggerHandlers('unhandledrejection', handlerData);
 
     if (_oldOnUnhandledRejectionHandler && !_oldOnUnhandledRejectionHandler.__SENTRY_LOADER__) {
       // eslint-disable-next-line prefer-rest-params
@@ -25736,18 +25668,305 @@ function instrumentUnhandledRejection() {
     return true;
   };
 
-  WINDOW.onunhandledrejection.__SENTRY_INSTRUMENTED__ = true;
+  worldwide.GLOBAL_OBJ.onunhandledrejection.__SENTRY_INSTRUMENTED__ = true;
+}
+
+exports.addGlobalUnhandledRejectionInstrumentationHandler = addGlobalUnhandledRejectionInstrumentationHandler;
+
+
+},{"../worldwide.js":151,"./_handlers.js":117}],123:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const object = require('../object.js');
+require('../debug-build.js');
+require('../logger.js');
+const worldwide = require('../worldwide.js');
+const supportsHistory = require('../vendor/supportsHistory.js');
+const _handlers = require('./_handlers.js');
+
+const WINDOW = worldwide.GLOBAL_OBJ ;
+
+let lastHref;
+
+/**
+ * Add an instrumentation handler for when a fetch request happens.
+ * The handler function is called once when the request starts and once when it ends,
+ * which can be identified by checking if it has an `endTimestamp`.
+ *
+ * Use at your own risk, this might break without changelog notice, only used internally.
+ * @hidden
+ */
+function addHistoryInstrumentationHandler(handler) {
+  const type = 'history';
+  _handlers.addHandler(type, handler);
+  _handlers.maybeInstrument(type, instrumentHistory);
+}
+
+function instrumentHistory() {
+  if (!supportsHistory.supportsHistory()) {
+    return;
+  }
+
+  const oldOnPopState = WINDOW.onpopstate;
+  WINDOW.onpopstate = function ( ...args) {
+    const to = WINDOW.location.href;
+    // keep track of the current URL state, as we always receive only the updated state
+    const from = lastHref;
+    lastHref = to;
+    const handlerData = { from, to };
+    _handlers.triggerHandlers('history', handlerData);
+    if (oldOnPopState) {
+      // Apparently this can throw in Firefox when incorrectly implemented plugin is installed.
+      // https://github.com/getsentry/sentry-javascript/issues/3344
+      // https://github.com/bugsnag/bugsnag-js/issues/469
+      try {
+        return oldOnPopState.apply(this, args);
+      } catch (_oO) {
+        // no-empty
+      }
+    }
+  };
+
+  function historyReplacementFunction(originalHistoryFunction) {
+    return function ( ...args) {
+      const url = args.length > 2 ? args[2] : undefined;
+      if (url) {
+        // coerce to string (this is what pushState does)
+        const from = lastHref;
+        const to = String(url);
+        // keep track of the current URL state, as we always receive only the updated state
+        lastHref = to;
+        const handlerData = { from, to };
+        _handlers.triggerHandlers('history', handlerData);
+      }
+      return originalHistoryFunction.apply(this, args);
+    };
+  }
+
+  object.fill(WINDOW.history, 'pushState', historyReplacementFunction);
+  object.fill(WINDOW.history, 'replaceState', historyReplacementFunction);
+}
+
+exports.addHistoryInstrumentationHandler = addHistoryInstrumentationHandler;
+
+
+},{"../debug-build.js":110,"../logger.js":128,"../object.js":135,"../vendor/supportsHistory.js":150,"../worldwide.js":151,"./_handlers.js":117}],124:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const debugBuild = require('../debug-build.js');
+const logger = require('../logger.js');
+const console = require('./console.js');
+const dom = require('./dom.js');
+const fetch = require('./fetch.js');
+const globalError = require('./globalError.js');
+const globalUnhandledRejection = require('./globalUnhandledRejection.js');
+const history = require('./history.js');
+const xhr = require('./xhr.js');
+
+// TODO(v8): Consider moving this file (or at least parts of it) into the browser package. The registered handlers are mostly non-generic and we risk leaking runtime specific code into generic packages.
+
+/**
+ * Add handler that will be called when given type of instrumentation triggers.
+ * Use at your own risk, this might break without changelog notice, only used internally.
+ * @hidden
+ * @deprecated Use the proper function per instrumentation type instead!
+ */
+function addInstrumentationHandler(type, callback) {
+  switch (type) {
+    case 'console':
+      return console.addConsoleInstrumentationHandler(callback);
+    case 'dom':
+      return dom.addClickKeypressInstrumentationHandler(callback);
+    case 'xhr':
+      return xhr.addXhrInstrumentationHandler(callback);
+    case 'fetch':
+      return fetch.addFetchInstrumentationHandler(callback);
+    case 'history':
+      return history.addHistoryInstrumentationHandler(callback);
+    case 'error':
+      return globalError.addGlobalErrorInstrumentationHandler(callback);
+    case 'unhandledrejection':
+      return globalUnhandledRejection.addGlobalUnhandledRejectionInstrumentationHandler(callback);
+    default:
+      debugBuild.DEBUG_BUILD && logger.logger.warn('unknown instrumentation type:', type);
+  }
+}
+
+exports.addConsoleInstrumentationHandler = console.addConsoleInstrumentationHandler;
+exports.addClickKeypressInstrumentationHandler = dom.addClickKeypressInstrumentationHandler;
+exports.addFetchInstrumentationHandler = fetch.addFetchInstrumentationHandler;
+exports.addGlobalErrorInstrumentationHandler = globalError.addGlobalErrorInstrumentationHandler;
+exports.addGlobalUnhandledRejectionInstrumentationHandler = globalUnhandledRejection.addGlobalUnhandledRejectionInstrumentationHandler;
+exports.addHistoryInstrumentationHandler = history.addHistoryInstrumentationHandler;
+exports.SENTRY_XHR_DATA_KEY = xhr.SENTRY_XHR_DATA_KEY;
+exports.addXhrInstrumentationHandler = xhr.addXhrInstrumentationHandler;
+exports.addInstrumentationHandler = addInstrumentationHandler;
+
+
+},{"../debug-build.js":110,"../logger.js":128,"./console.js":118,"./dom.js":119,"./fetch.js":120,"./globalError.js":121,"./globalUnhandledRejection.js":122,"./history.js":123,"./xhr.js":125}],125:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const is = require('../is.js');
+const object = require('../object.js');
+const worldwide = require('../worldwide.js');
+const _handlers = require('./_handlers.js');
+
+const WINDOW = worldwide.GLOBAL_OBJ ;
+
+const SENTRY_XHR_DATA_KEY = '__sentry_xhr_v3__';
+
+/**
+ * Add an instrumentation handler for when an XHR request happens.
+ * The handler function is called once when the request starts and once when it ends,
+ * which can be identified by checking if it has an `endTimestamp`.
+ *
+ * Use at your own risk, this might break without changelog notice, only used internally.
+ * @hidden
+ */
+function addXhrInstrumentationHandler(handler) {
+  const type = 'xhr';
+  _handlers.addHandler(type, handler);
+  _handlers.maybeInstrument(type, instrumentXHR);
+}
+
+/** Exported only for tests. */
+function instrumentXHR() {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  if (!(WINDOW ).XMLHttpRequest) {
+    return;
+  }
+
+  const xhrproto = XMLHttpRequest.prototype;
+
+  object.fill(xhrproto, 'open', function (originalOpen) {
+    return function ( ...args) {
+      const startTimestamp = Date.now();
+
+      // open() should always be called with two or more arguments
+      // But to be on the safe side, we actually validate this and bail out if we don't have a method & url
+      const method = is.isString(args[0]) ? args[0].toUpperCase() : undefined;
+      const url = parseUrl(args[1]);
+
+      if (!method || !url) {
+        return;
+      }
+
+      this[SENTRY_XHR_DATA_KEY] = {
+        method,
+        url,
+        request_headers: {},
+      };
+
+      // if Sentry key appears in URL, don't capture it as a request
+      if (method === 'POST' && url.match(/sentry_key/)) {
+        this.__sentry_own_request__ = true;
+      }
+
+      const onreadystatechangeHandler = () => {
+        // For whatever reason, this is not the same instance here as from the outer method
+        const xhrInfo = this[SENTRY_XHR_DATA_KEY];
+
+        if (!xhrInfo) {
+          return;
+        }
+
+        if (this.readyState === 4) {
+          try {
+            // touching statusCode in some platforms throws
+            // an exception
+            xhrInfo.status_code = this.status;
+          } catch (e) {
+            /* do nothing */
+          }
+
+          const handlerData = {
+            args: [method, url],
+            endTimestamp: Date.now(),
+            startTimestamp,
+            xhr: this,
+          };
+          _handlers.triggerHandlers('xhr', handlerData);
+        }
+      };
+
+      if ('onreadystatechange' in this && typeof this.onreadystatechange === 'function') {
+        object.fill(this, 'onreadystatechange', function (original) {
+          return function ( ...readyStateArgs) {
+            onreadystatechangeHandler();
+            return original.apply(this, readyStateArgs);
+          };
+        });
+      } else {
+        this.addEventListener('readystatechange', onreadystatechangeHandler);
+      }
+
+      // Intercepting `setRequestHeader` to access the request headers of XHR instance.
+      // This will only work for user/library defined headers, not for the default/browser-assigned headers.
+      // Request cookies are also unavailable for XHR, as `Cookie` header can't be defined by `setRequestHeader`.
+      object.fill(this, 'setRequestHeader', function (original) {
+        return function ( ...setRequestHeaderArgs) {
+          const [header, value] = setRequestHeaderArgs;
+
+          const xhrInfo = this[SENTRY_XHR_DATA_KEY];
+
+          if (xhrInfo && is.isString(header) && is.isString(value)) {
+            xhrInfo.request_headers[header.toLowerCase()] = value;
+          }
+
+          return original.apply(this, setRequestHeaderArgs);
+        };
+      });
+
+      return originalOpen.apply(this, args);
+    };
+  });
+
+  object.fill(xhrproto, 'send', function (originalSend) {
+    return function ( ...args) {
+      const sentryXhrData = this[SENTRY_XHR_DATA_KEY];
+
+      if (!sentryXhrData) {
+        return;
+      }
+
+      if (args[0] !== undefined) {
+        sentryXhrData.body = args[0];
+      }
+
+      const handlerData = {
+        args: [sentryXhrData.method, sentryXhrData.url],
+        startTimestamp: Date.now(),
+        xhr: this,
+      };
+      _handlers.triggerHandlers('xhr', handlerData);
+
+      return originalSend.apply(this, args);
+    };
+  });
+}
+
+function parseUrl(url) {
+  if (is.isString(url)) {
+    return url;
+  }
+
+  try {
+    // url can be a string or URL
+    // but since URL is not available in IE11, we do not check for it,
+    // but simply assume it is an URL and return `toString()` from it (which returns the full URL)
+    // If that fails, we just return undefined
+    return (url ).toString();
+  } catch (e2) {} // eslint-disable-line no-empty
+
+  return undefined;
 }
 
 exports.SENTRY_XHR_DATA_KEY = SENTRY_XHR_DATA_KEY;
-exports.addInstrumentationHandler = addInstrumentationHandler;
-exports.instrumentDOM = instrumentDOM;
+exports.addXhrInstrumentationHandler = addXhrInstrumentationHandler;
 exports.instrumentXHR = instrumentXHR;
-exports.parseFetchArgs = parseFetchArgs;
-exports.resetInstrumentationHandlers = resetInstrumentationHandlers;
 
 
-},{"./is.js":110,"./logger.js":111,"./object.js":117,"./stacktrace.js":123,"./supports.js":125,"./vendor/supportsHistory.js":132,"./worldwide.js":133}],110:[function(require,module,exports){
+},{"../is.js":126,"../object.js":135,"../worldwide.js":151,"./_handlers.js":117}],126:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -25955,15 +26174,49 @@ exports.isThenable = isThenable;
 exports.isVueViewModel = isVueViewModel;
 
 
-},{}],111:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
+const node = require('./node.js');
+const worldwide = require('./worldwide.js');
+
+/**
+ * Returns true if we are in the browser.
+ */
+function isBrowser() {
+  // eslint-disable-next-line no-restricted-globals
+  return typeof window !== 'undefined' && (!node.isNodeEnv() || isElectronNodeRenderer());
+}
+
+// Electron renderers with nodeIntegration enabled are detected as Node.js so we specifically test for them
+function isElectronNodeRenderer() {
+  return (
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+    (worldwide.GLOBAL_OBJ ).process !== undefined && ((worldwide.GLOBAL_OBJ ).process ).type === 'renderer'
+  );
+}
+
+exports.isBrowser = isBrowser;
+
+
+},{"./node.js":133,"./worldwide.js":151}],128:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const debugBuild = require('./debug-build.js');
 const worldwide = require('./worldwide.js');
 
 /** Prefix for logging strings */
 const PREFIX = 'Sentry Logger ';
 
-const CONSOLE_LEVELS = ['debug', 'info', 'warn', 'error', 'log', 'assert', 'trace'] ;
+const CONSOLE_LEVELS = [
+  'debug',
+  'info',
+  'warn',
+  'error',
+  'log',
+  'assert',
+  'trace',
+] ;
 
 /** This may be mutated by the console instrumentation. */
 const originalConsoleMethods
@@ -26017,7 +26270,7 @@ function makeLogger() {
     isEnabled: () => enabled,
   };
 
-  if ((typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__)) {
+  if (debugBuild.DEBUG_BUILD) {
     CONSOLE_LEVELS.forEach(name => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       logger[name] = (...args) => {
@@ -26045,7 +26298,73 @@ exports.logger = logger;
 exports.originalConsoleMethods = originalConsoleMethods;
 
 
-},{"./worldwide.js":133}],112:[function(require,module,exports){
+},{"./debug-build.js":110,"./worldwide.js":151}],129:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', { value: true });
+
+/** A simple Least Recently Used map */
+class LRUMap {
+
+   constructor(  _maxSize) {this._maxSize = _maxSize;
+    this._cache = new Map();
+  }
+
+  /** Get the current size of the cache */
+   get size() {
+    return this._cache.size;
+  }
+
+  /** Get an entry or undefined if it was not in the cache. Re-inserts to update the recently used order */
+   get(key) {
+    const value = this._cache.get(key);
+    if (value === undefined) {
+      return undefined;
+    }
+    // Remove and re-insert to update the order
+    this._cache.delete(key);
+    this._cache.set(key, value);
+    return value;
+  }
+
+  /** Insert an entry and evict an older entry if we've reached maxSize */
+   set(key, value) {
+    if (this._cache.size >= this._maxSize) {
+      // keys() returns an iterator in insertion order so keys().next() gives us the oldest key
+      this._cache.delete(this._cache.keys().next().value);
+    }
+    this._cache.set(key, value);
+  }
+
+  /** Remove an entry and return the entry if it was in the cache */
+   remove(key) {
+    const value = this._cache.get(key);
+    if (value) {
+      this._cache.delete(key);
+    }
+    return value;
+  }
+
+  /** Clear all entries */
+   clear() {
+    this._cache.clear();
+  }
+
+  /** Get all the keys */
+   keys() {
+    return Array.from(this._cache.keys());
+  }
+
+  /** Get all the values */
+   values() {
+    const values = [];
+    this._cache.forEach(value => values.push(value));
+    return values;
+  }
+}
+
+exports.LRUMap = LRUMap;
+
+
+},{}],130:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -26094,7 +26413,7 @@ function memoBuilder() {
 exports.memoBuilder = memoBuilder;
 
 
-},{}],113:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const object = require('./object.js');
@@ -26308,7 +26627,7 @@ exports.parseSemver = parseSemver;
 exports.uuid4 = uuid4;
 
 
-},{"./object.js":117,"./string.js":124,"./worldwide.js":133}],114:[function(require,module,exports){
+},{"./object.js":135,"./string.js":142,"./worldwide.js":151}],132:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -26417,7 +26736,7 @@ exports.filenameIsInApp = filenameIsInApp;
 exports.node = node;
 
 
-},{}],115:[function(require,module,exports){
+},{}],133:[function(require,module,exports){
 (function (process){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -26491,7 +26810,7 @@ exports.loadModule = loadModule;
 
 
 }).call(this)}).call(this,require('_process'))
-},{"./env.js":104,"_process":134}],116:[function(require,module,exports){
+},{"./env.js":112,"_process":152}],134:[function(require,module,exports){
 (function (global){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -26766,10 +27085,11 @@ exports.walk = visit;
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./is.js":110,"./memo.js":112,"./object.js":117,"./stacktrace.js":123}],117:[function(require,module,exports){
+},{"./is.js":126,"./memo.js":130,"./object.js":135,"./stacktrace.js":141}],135:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const browser = require('./browser.js');
+const debugBuild = require('./debug-build.js');
 const is = require('./is.js');
 const logger = require('./logger.js');
 const string = require('./string.js');
@@ -26818,7 +27138,7 @@ function addNonEnumerableProperty(obj, name, value) {
       configurable: true,
     });
   } catch (o_O) {
-    (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) && logger.logger.log(`Failed to add non-enumerable property "${name}" to object`, obj);
+    debugBuild.DEBUG_BUILD && logger.logger.log(`Failed to add non-enumerable property "${name}" to object`, obj);
   }
 }
 
@@ -26868,7 +27188,9 @@ function urlEncode(object) {
  * @returns An Event or Error turned into an object - or the value argurment itself, when value is neither an Event nor
  *  an Error.
  */
-function convertToPlainObject(value)
+function convertToPlainObject(
+  value,
+)
 
  {
   if (is.isError(value)) {
@@ -27059,7 +27381,7 @@ exports.objectify = objectify;
 exports.urlEncode = urlEncode;
 
 
-},{"./browser.js":93,"./is.js":110,"./logger.js":111,"./string.js":124}],118:[function(require,module,exports){
+},{"./browser.js":100,"./debug-build.js":110,"./is.js":126,"./logger.js":128,"./string.js":142}],136:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Slightly modified (no IE8 support, ES6) and transcribed to TypeScript
@@ -27281,7 +27603,7 @@ exports.relative = relative;
 exports.resolve = resolve;
 
 
-},{}],119:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const error = require('./error.js');
@@ -27387,7 +27709,7 @@ function makePromiseBuffer(limit) {
 exports.makePromiseBuffer = makePromiseBuffer;
 
 
-},{"./error.js":106,"./syncpromise.js":126}],120:[function(require,module,exports){
+},{"./error.js":114,"./syncpromise.js":144}],138:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Intentionally keeping the key broad, as we don't know for sure what rate limit headers get returned from backend
@@ -27492,10 +27814,13 @@ exports.parseRetryAfterHeader = parseRetryAfterHeader;
 exports.updateRateLimits = updateRateLimits;
 
 
-},{}],121:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
+const cookie = require('./cookie.js');
+const debugBuild = require('./debug-build.js');
 const is = require('./is.js');
+const logger = require('./logger.js');
 const normalize = require('./normalize.js');
 const url = require('./url.js');
 
@@ -27588,7 +27913,9 @@ function extractTransaction(req, type) {
     }
     case 'methodPath':
     default: {
-      return extractPathForTransaction(req, { path: true, method: true })[0];
+      // if exist _reconstructedRoute return that path instead of route.path
+      const customRoute = req._reconstructedRoute ? req._reconstructedRoute : undefined;
+      return extractPathForTransaction(req, { path: true, method: true, customRoute })[0];
     }
   }
 }
@@ -27652,11 +27979,17 @@ function extractRequestData(
   //   koa, nextjs: req.url
   const originalUrl = req.originalUrl || req.url || '';
   // absolute url
-  const absoluteUrl = `${protocol}://${host}${originalUrl}`;
+  const absoluteUrl = originalUrl.startsWith(protocol) ? originalUrl : `${protocol}://${host}${originalUrl}`;
   include.forEach(key => {
     switch (key) {
       case 'headers': {
         requestData.headers = headers;
+
+        // Remove the Cookie header in case cookie data should not be included in the event
+        if (!include.includes('cookies')) {
+          delete (requestData.headers ).cookie;
+        }
+
         break;
       }
       case 'method': {
@@ -27671,11 +28004,10 @@ function extractRequestData(
         // cookies:
         //   node, express, koa: req.headers.cookie
         //   vercel, sails.js, express (w/ cookie middleware), nextjs: req.cookies
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         requestData.cookies =
           // TODO (v8 / #5257): We're only sending the empty object for backwards compatibility, so the last bit can
           // come off in v8
-          req.cookies || (headers.cookie && deps && deps.cookie && deps.cookie.parse(headers.cookie)) || {};
+          req.cookies || (headers.cookie && cookie.parseCookie(headers.cookie)) || {};
         break;
       }
       case 'query_string': {
@@ -27713,17 +28045,13 @@ function extractRequestData(
 }
 
 /**
- * Options deciding what parts of the request to use when enhancing an event
- */
-
-/**
  * Add data from the given request to the given event
  *
  * @param event The event to which the request data will be added
  * @param req Request object
  * @param options.include Flags to control what data is included
  * @param options.deps Injected platform-specific dependencies
- * @hidden
+ * @returns The mutated `Event` object
  */
 function addRequestDataToEvent(
   event,
@@ -27798,22 +28126,62 @@ function extractQueryParams(
     originalUrl = `http://dogs.are.great${originalUrl}`;
   }
 
-  return (
-    req.query ||
-    (typeof URL !== undefined && new URL(originalUrl).search.replace('?', '')) ||
-    // In Node 8, `URL` isn't in the global scope, so we have to use the built-in module from Node
-    (deps && deps.url && deps.url.parse(originalUrl).query) ||
-    undefined
-  );
+  try {
+    return (
+      req.query ||
+      (typeof URL !== undefined && new URL(originalUrl).search.slice(1)) ||
+      // In Node 8, `URL` isn't in the global scope, so we have to use the built-in module from Node
+      (deps && deps.url && deps.url.parse(originalUrl).query) ||
+      undefined
+    );
+  } catch (e2) {
+    return undefined;
+  }
 }
 
+/**
+ * Transforms a `Headers` object that implements the `Web Fetch API` (https://developer.mozilla.org/en-US/docs/Web/API/Headers) into a simple key-value dict.
+ * The header keys will be lower case: e.g. A "Content-Type" header will be stored as "content-type".
+ */
+function winterCGHeadersToDict(winterCGHeaders) {
+  const headers = {};
+  try {
+    winterCGHeaders.forEach((value, key) => {
+      if (typeof value === 'string') {
+        // We check that value is a string even though it might be redundant to make sure prototype pollution is not possible.
+        headers[key] = value;
+      }
+    });
+  } catch (e) {
+    debugBuild.DEBUG_BUILD &&
+      logger.logger.warn('Sentry failed extracting headers from a request object. If you see this, please file an issue.');
+  }
+
+  return headers;
+}
+
+/**
+ * Converts a `Request` object that implements the `Web Fetch API` (https://developer.mozilla.org/en-US/docs/Web/API/Headers) into the format that the `RequestData` integration understands.
+ */
+function winterCGRequestToRequestData(req) {
+  const headers = winterCGHeadersToDict(req.headers);
+  return {
+    method: req.method,
+    url: req.url,
+    headers,
+  };
+}
+
+exports.DEFAULT_USER_INCLUDES = DEFAULT_USER_INCLUDES;
 exports.addRequestDataToEvent = addRequestDataToEvent;
 exports.addRequestDataToTransaction = addRequestDataToTransaction;
 exports.extractPathForTransaction = extractPathForTransaction;
 exports.extractRequestData = extractRequestData;
+exports.winterCGHeadersToDict = winterCGHeadersToDict;
+exports.winterCGRequestToRequestData = winterCGRequestToRequestData;
 
 
-},{"./is.js":110,"./normalize.js":116,"./url.js":129}],122:[function(require,module,exports){
+},{"./cookie.js":109,"./debug-build.js":110,"./is.js":126,"./logger.js":128,"./normalize.js":134,"./url.js":147}],140:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Note: Ideally the `SeverityLevel` type would be derived from `validSeverityLevels`, but that would mean either
@@ -27855,7 +28223,7 @@ exports.severityLevelFromString = severityLevelFromString;
 exports.validSeverityLevels = validSeverityLevels;
 
 
-},{}],123:[function(require,module,exports){
+},{}],141:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const nodeStackTrace = require('./node-stack-trace.js');
@@ -28011,7 +28379,7 @@ exports.stackParserFromStackParserOptions = stackParserFromStackParserOptions;
 exports.stripSentryFramesAndReverse = stripSentryFramesAndReverse;
 
 
-},{"./node-stack-trace.js":114}],124:[function(require,module,exports){
+},{"./node-stack-trace.js":132}],142:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -28160,9 +28528,10 @@ exports.stringMatchesSomePattern = stringMatchesSomePattern;
 exports.truncate = truncate;
 
 
-},{"./is.js":110}],125:[function(require,module,exports){
+},{"./is.js":126}],143:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
+const debugBuild = require('./debug-build.js');
 const logger = require('./logger.js');
 const worldwide = require('./worldwide.js');
 
@@ -28252,6 +28621,10 @@ function isNativeFetch(func) {
  * @returns true if `window.fetch` is natively implemented, false otherwise
  */
 function supportsNativeFetch() {
+  if (typeof EdgeRuntime === 'string') {
+    return true;
+  }
+
   if (!supportsFetch()) {
     return false;
   }
@@ -28278,7 +28651,7 @@ function supportsNativeFetch() {
       }
       doc.head.removeChild(sandbox);
     } catch (err) {
-      (typeof __SENTRY_DEBUG__ === 'undefined' || __SENTRY_DEBUG__) &&
+      debugBuild.DEBUG_BUILD &&
         logger.logger.warn('Could not create sandbox iframe for pure fetch check, bailing to window.fetch: ', err);
     }
   }
@@ -28332,7 +28705,7 @@ exports.supportsReferrerPolicy = supportsReferrerPolicy;
 exports.supportsReportingObserver = supportsReportingObserver;
 
 
-},{"./logger.js":111,"./worldwide.js":133}],126:[function(require,module,exports){
+},{"./debug-build.js":110,"./logger.js":128,"./worldwide.js":151}],144:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const is = require('./is.js');
@@ -28530,7 +28903,7 @@ exports.rejectedSyncPromise = rejectedSyncPromise;
 exports.resolvedSyncPromise = resolvedSyncPromise;
 
 
-},{"./is.js":110}],127:[function(require,module,exports){
+},{"./is.js":126}],145:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const node = require('./node.js');
@@ -28721,7 +29094,7 @@ exports.timestampWithMs = timestampWithMs;
 exports.usingPerformanceAPI = usingPerformanceAPI;
 
 
-},{"./node.js":115,"./worldwide.js":133}],128:[function(require,module,exports){
+},{"./node.js":133,"./worldwide.js":151}],146:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const baggage = require('./baggage.js');
@@ -28822,7 +29195,7 @@ exports.generateSentryTraceHeader = generateSentryTraceHeader;
 exports.tracingContextFromHeaders = tracingContextFromHeaders;
 
 
-},{"./baggage.js":92,"./misc.js":113}],129:[function(require,module,exports){
+},{"./baggage.js":99,"./misc.js":131}],147:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -28888,8 +29261,9 @@ function getSanitizedUrlString(url) {
         // Always filter out authority
         .replace(/^.*@/, '[filtered]:[filtered]@')
         // Don't show standard :80 (http) and :443 (https) ports to reduce the noise
-        .replace(':80', '')
-        .replace(':443', '')) ||
+        // TODO: Use new URL global if it exists
+        .replace(/(:80)$/, '')
+        .replace(/(:443)$/, '')) ||
     '';
 
   return `${protocol ? `${protocol}://` : ''}${filteredHost}${path}`;
@@ -28901,7 +29275,7 @@ exports.parseUrl = parseUrl;
 exports.stripUrlQueryAndFragment = stripUrlQueryAndFragment;
 
 
-},{}],130:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
@@ -29004,7 +29378,7 @@ function addOrUpdateIntegrationInFunction(
 exports.addOrUpdateIntegration = addOrUpdateIntegration;
 
 
-},{}],131:[function(require,module,exports){
+},{}],149:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Based on https://github.com/sindresorhus/escape-string-regexp but with modifications to:
@@ -29045,7 +29419,7 @@ function escapeStringForRegex(regexString) {
 exports.escapeStringForRegex = escapeStringForRegex;
 
 
-},{}],132:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const worldwide = require('../worldwide.js');
@@ -29078,7 +29452,7 @@ function supportsHistory() {
 exports.supportsHistory = supportsHistory;
 
 
-},{"../worldwide.js":133}],133:[function(require,module,exports){
+},{"../worldwide.js":151}],151:[function(require,module,exports){
 (function (global){(function (){
 Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -29156,7 +29530,7 @@ exports.getGlobalSingleton = getGlobalSingleton;
 
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],134:[function(require,module,exports){
+},{}],152:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -29342,5 +29716,5 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[33])(33)
+},{}]},{},[37])(37)
 });

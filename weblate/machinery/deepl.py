@@ -2,14 +2,23 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 from html import escape, unescape
+from typing import TYPE_CHECKING
 
-from .base import MachineTranslation
+from dateutil.parser import isoparse
+from django.core.cache import cache
+
+from .base import BatchMachineTranslation, GlossaryMachineTranslationMixin
 from .forms import DeepLMachineryForm
 
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
-class DeepLTranslation(MachineTranslation):
+
+class DeepLTranslation(BatchMachineTranslation, GlossaryMachineTranslationMixin):
     """DeepL (Linguee) machine translation support."""
 
     name = "DeepL"
@@ -23,6 +32,7 @@ class DeepLTranslation(MachineTranslation):
     force_uncleanup = True
     hightlight_syntax = True
     settings_form = DeepLMachineryForm
+    glossary_count_limit = 1000
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
@@ -44,7 +54,7 @@ class DeepLTranslation(MachineTranslation):
 
         # Handle formality extensions
         for item in response.json():
-            lang_code = item["language"]
+            lang_code = item["language"].upper()
             target_languages.add(lang_code)
             if item.get("supports_formality"):
                 target_languages.add(f"{lang_code}@FORMAL")
@@ -60,22 +70,27 @@ class DeepLTranslation(MachineTranslation):
         """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
 
-    def download_translations(
+    def download_multiple_translations(
         self,
         source,
         language,
-        text: str,
-        unit,
-        user,
+        sources: list[tuple[str, Unit]],
+        user=None,
         threshold: int = 75,
-    ):
+    ) -> dict[str, list[dict[str, str]]]:
         """Download list of possible translations from a service."""
+        texts = [text for text, _unit in sources]
+        unit = sources[0][1]
+
+        glossary_id = self.get_glossary_id(source, language, unit)
+
         params = {
-            "text": text,
+            "text": texts,
             "source_lang": source,
             "target_lang": language,
+            "formality": self.settings.get("formality", "default"),
             "tag_handling": "xml",
-            "ignore_tags": "x",
+            "ignore_tags": ["x"],
         }
         if language.endswith("@FORMAL"):
             params["target_lang"] = language[:-7]
@@ -83,20 +98,26 @@ class DeepLTranslation(MachineTranslation):
         elif language.endswith("@INFORMAL"):
             params["target_lang"] = language[:-9]
             params["formality"] = "less"
+        if glossary_id is not None:
+            params["glossary_id"] = glossary_id
         response = self.request(
             "post",
             self.get_api_url("translate"),
-            data=params,
+            json=params,
         )
         payload = response.json()
 
-        for translation in payload["translations"]:
-            yield {
-                "text": translation["text"],
-                "quality": self.max_score,
-                "service": self.name,
-                "source": text,
-            }
+        result = {}
+        for index, text in enumerate(texts):
+            result[text] = [
+                {
+                    "text": payload["translations"][index]["text"],
+                    "quality": self.max_score,
+                    "service": self.name,
+                    "source": text,
+                }
+            ]
+        return result
 
     def unescape_text(self, text: str):
         """Unescaping of the text with replacements."""
@@ -112,3 +133,53 @@ class DeepLTranslation(MachineTranslation):
 
     def make_re_placeholder(self, text: str):
         return re.escape(text)
+
+    def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
+        cache_key = self.get_cache_key("glossary_languages")
+        languages = cache.get(cache_key)
+        if languages is None:
+            response = self.request("get", self.get_api_url("glossary-language-pairs"))
+            languages = [
+                (support["source_lang"].upper(), support["target_lang"].upper())
+                for support in response.json()["supported_languages"]
+            ]
+
+            cache.set(cache_key, languages, 24 * 3600)
+
+        source_language = source_language.split("-")[0]
+        target_language = target_language.split("-")[0]
+        return (source_language, target_language) in languages
+
+    def list_glossaries(self) -> dict[str:str]:
+        response = self.request("get", self.get_api_url("glossaries"))
+        return {
+            glossary["name"]: glossary["glossary_id"]
+            for glossary in response.json()["glossaries"]
+        }
+
+    def delete_oldest_glossary(self):
+        response = self.request("get", self.get_api_url("glossaries"))
+        glossaries = sorted(
+            response.json()["glossaries"],
+            key=lambda glossary: isoparse(glossary["creation_time"]),
+        )
+        if glossaries:
+            self.delete_glossary(glossaries[0]["glossary_id"])
+
+    def delete_glossary(self, glossary_id: str):
+        self.request("delete", self.get_api_url("glossaries", glossary_id))
+
+    def create_glossary(
+        self, source_language: str, target_language: str, name: str, tsv: str
+    ):
+        self.request(
+            "post",
+            self.get_api_url("glossaries"),
+            json={
+                "name": name,
+                "source_lang": source_language,
+                "target_lang": target_language,
+                "entries": tsv,
+                "entries_format": "tsv",
+            },
+        )

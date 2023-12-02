@@ -12,7 +12,7 @@ from typing import Any
 
 from translate.storage import factory
 
-from weblate.formats.helpers import BytesIOMode
+from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.ttkit import TTKitFormat
 
@@ -53,7 +53,7 @@ def try_load(
         if file_format.monolingual in (True, None) and (template_store or as_template):
             try:
                 result = file_format.parse(
-                    BytesIOMode(filename, content), template_store
+                    NamedBytesIO(filename, content), template_store
                 )
                 result.check_valid()
                 # Skip if there is untranslated unit
@@ -65,7 +65,7 @@ def try_load(
                 failure = error
         if file_format.monolingual in (False, None):
             try:
-                result = file_format.parse(BytesIOMode(filename, content))
+                result = file_format.parse(NamedBytesIO(filename, content))
                 result.check_valid()
             except Exception as error:
                 failure = error

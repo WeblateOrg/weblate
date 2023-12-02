@@ -71,7 +71,7 @@ class ApertiumAPYTranslation(MachineTranslation):
     """Apertium machine translation support."""
 
     name = "Apertium APy"
-    max_score = 90
+    max_score = 88
     settings_form = URLMachineryForm
     request_timeout = 20
 

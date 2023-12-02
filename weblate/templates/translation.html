@@ -122,7 +122,7 @@
 <td>{% trans "Strings" %}</td>
 <td class="progress-cell hidden-xs">{% translation_progress object %}</td>
 <td class="percent">{{ object.stats.translated_percent|percent_format }}</td>
-<td rowspan="2" class="buttons-cell full-cell">
+<td rowspan="3" class="buttons-cell full-cell">
 <div class="pull-right flip">
   {% if user_can_add_unit %}
     <a href="#new" data-toggle="tab" class="btn btn-info">{{ object.component.get_add_label }}</a>
@@ -138,6 +138,13 @@
 <td>{% trans "Words" %}</td>
 <td class="progress-cell hidden-xs">{% words_progress object %}</td>
 <td class="percent">{{ object.stats.translated_words_percent|percent_format }}</td>
+</tr>
+
+<tr>
+<th class="number">{{ object.stats.all_chars|intcomma }}</th>
+<td>{% trans "Characters" %}</td>
+<td class="progress-cell hidden-xs">{% chars_progress object %}</td>
+<td class="percent">{{ object.stats.translated_chars_percent|percent_format }}</td>
 </tr>
 </table>
 
@@ -157,22 +164,41 @@
 </h4>
 </div>
 <table class="table table-autowidth table-listing">
-{% for query, name, count, color, words in object.list_translation_checks %}
+<thead>
+  <tr>
+    <th class="number split-cell wrap-cell">
+      <span>{% trans "Strings" %}</span>
+      <span>{% trans "Words" %}</span>
+      <span>{% trans "Characters" %}</span>
+    </th>
+  </tr>
+</thead>
+{% for query, name, count, color, words, characters in object.list_translation_checks %}
 <tr data-href="{{ translate_url }}?q={{ query }}" class="clickable-row">
-<th class="number">{{ count|intcomma }}</th>
+<th class="number split-cell wrap-cell">
+  <span>
+    {{ count|intcomma }}
+  </span>
+  <span>
+    {{ words|intcomma }}
+  </span>
+  <span>
+    {{ characters|intcomma }}
+  </span>
+</th>
 <td class="legend">
+    {% if name != "all" %}
     <div class="progress">
       {% if color %}
-        <div class="progress-bar progress-bar-{{ color }}" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+        <div class="progress-bar{% if color != "primary" %} progress-bar-{{ color }}{% endif %}" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
       {% endif %}
     </div>
+    {% endif %}
 </td>
 <td class="full-cell">
-    <a href="{{ translate_url }}?q={{ query }}">
-        {{ name }} — {% blocktrans with count=words|intcomma count cnt=words %}{{ count }} word{% plural %}{{ count }} words{% endblocktrans %}
-    </a>
+    <a href="{{ translate_url }}?q={{ query }}">{{ name }}</a>
 </td>
-<td>
+<td class="wrap-cell">
   <a class="btn-inline" href="{{ browse_url }}?q={{ query }}">{% trans "Browse" %}</a>
   <a class="btn-inline" href="{{ edit_url }}?q={{ query }}">{% trans "Translate" %}</a>
   <a class="btn-inline" href="{{ zen_url }}?q={{ query }}">{% trans "Zen" %}</a>

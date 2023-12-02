@@ -12,22 +12,12 @@ from django.urls import reverse
 
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.db import using_postgresql
+from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 
 
-class SearchViewTest(ViewTestCase):
-    @classmethod
-    def _databases_support_transactions(cls):
-        # This is workaround for MySQL as FULL TEXT index does not work
-        # well inside a transaction, so we avoid using transactions for
-        # tests. Otherwise we end up with no matches for the query.
-        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if not using_postgresql():
-            return False
-        return super()._databases_support_transactions()
-
+class SearchViewTest(TransactionsTestMixin, ViewTestCase):
     def setUp(self):
         super().setUp()
         self.translation = self.component.translation_set.get(language_code="cs")
@@ -35,13 +25,15 @@ class SearchViewTest(ViewTestCase):
         self.update_fulltext_index()
         reset_rate_limit("search", address="127.0.0.1")
 
-    def do_search(self, params, expected, url=None):
+    def do_search(self, params, expected, url=None, *, anchor="#search"):
         """Helper method for performing search test."""
         if url is None:
             url = self.translate_url
         response = self.client.get(url, params)
         if expected is None:
-            self.assertRedirects(response, self.translation.get_absolute_url())
+            self.assertRedirects(
+                response, f"{self.translation.get_absolute_url()}{anchor}"
+            )
         else:
             self.assertContains(response, expected)
         return response
@@ -159,7 +151,7 @@ class SearchViewTest(ViewTestCase):
         """Test offset navigation."""
         self.do_search({"offset": 1}, "1 / 4")
         self.do_search({"offset": 4}, "4 / 4")
-        self.do_search({"offset": 5}, None)
+        self.do_search({"offset": 5}, None, anchor="")
 
     def test_search_type(self):
         self.do_search({"q": "state:<translated"}, "Unfinished strings")
@@ -177,7 +169,7 @@ class SearchViewTest(ViewTestCase):
         self.assertNotContains(response, "Plural form ")
 
     def test_checksum(self):
-        self.do_search({"checksum": "invalid"}, None)
+        self.do_search({"checksum": "invalid"}, None, anchor="")
 
 
 class ReplaceTest(ViewTestCase):

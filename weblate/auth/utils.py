@@ -8,6 +8,7 @@ from email.headerregistry import Address
 
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
+from django.db import IntegrityError
 
 from weblate.auth.data import (
     GLOBAL_PERMISSIONS,
@@ -84,15 +85,21 @@ def migrate_groups(model, role_model, update=False):
 
 
 def create_anonymous(model, group_model, update=True):
-    user, created = model.objects.get_or_create(
-        username=settings.ANONYMOUS_USER_NAME,
-        defaults={
-            "full_name": "Anonymous",
-            "email": "noreply@weblate.org",
-            "is_active": False,
-            "password": make_password(None),
-        },
-    )
+    try:
+        user, created = model.objects.get_or_create(
+            username=settings.ANONYMOUS_USER_NAME,
+            defaults={
+                "full_name": "Anonymous",
+                "email": "noreply@weblate.org",
+                "is_active": False,
+                "password": make_password(None),
+            },
+        )
+    except IntegrityError as error:
+        raise ValueError(
+            f"Anonymous user ({settings.ANONYMOUS_USER_NAME}) and could not be created, "
+            "most likely because other user is using noreply@weblate.org e-mail.: {error}"
+        ) from error
     if user.is_active:
         raise ValueError(
             f"Anonymous user ({settings.ANONYMOUS_USER_NAME}) already exists and is "

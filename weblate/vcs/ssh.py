@@ -128,9 +128,9 @@ def ensure_ssh_key():
     """Ensures SSH key is existing."""
     result = None
     for key_type in KEYS:
-        ssh_key = get_key_data()
+        ssh_key = get_key_data(key_type)
         if not ssh_key["key"]:
-            generate_ssh_key(None)
+            generate_ssh_key(None, key_type)
             ssh_key = get_key_data()
         if key_type == "rsa":
             result = ssh_key
@@ -336,7 +336,7 @@ class SSHWrapper:
             try:
                 with open(ssh_file(CONFIG), "x") as handle:
                     handle.write(
-                        "# SSH configuration for customising SSH client in Weblate"
+                        "# SSH configuration for customising SSH client in Weblate\n"
                     )
             except OSError:
                 pass

@@ -51,6 +51,7 @@ from weblate.api.serializers import (
     ComponentSerializer,
     FullUserSerializer,
     GroupSerializer,
+    LabelSerializer,
     LanguageSerializer,
     LockRequestSerializer,
     LockSerializer,
@@ -216,9 +217,7 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
             with open(filename, "rb") as handle:
                 response = HttpResponse(handle.read(), content_type=content_type)
             filename = os.path.basename(filename)
-        response[
-            "Content-Disposition"
-        ] = f'attachment; filename="{filename}"'  # noqa: B028
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'  # noqa: B028
         return response
 
 
@@ -756,6 +755,31 @@ class ProjectViewSet(
         page = self.paginate_queryset(queryset)
 
         serializer = ChangeSerializer(page, many=True, context={"request": request})
+
+        return self.get_paginated_response(serializer.data)
+
+    @action(detail=True, methods=["get", "post"])
+    def labels(self, request, **kwargs):
+        obj = self.get_object()
+
+        if request.method == "POST":
+            if not request.user.has_perm("project.edit", obj):
+                self.permission_denied(request, "Can not create labels")
+            with transaction.atomic():
+                serializer = LabelSerializer(
+                    data=request.data, context={"request": request, "project": obj}
+                )
+                serializer.is_valid(raise_exception=True)
+                serializer.save(project=obj)
+                return Response(
+                    serializer.data,
+                    status=HTTP_201_CREATED,
+                )
+
+        queryset = obj.label_set.all().order_by("id")
+        page = self.paginate_queryset(queryset)
+
+        serializer = LabelSerializer(page, many=True, context={"request": request})
 
         return self.get_paginated_response(serializer.data)
 
@@ -1308,7 +1332,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             result = result.search(query_string)
         return result
 
-    def perform_update(self, serializer):
+    def perform_update(self, serializer):  # noqa: C901
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data
         do_source = "extra_flags" in data or "explanation" in data or "labels" in data
@@ -1329,6 +1353,10 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             )
 
         if do_translate:
+            new_target_copy = new_target[:]
+            if new_target_copy != unit.adjust_plurals(new_target):
+                raise ValidationError({"target": "Number of plurals does not match"})
+
             if unit.readonly:
                 self.permission_denied(request, "The string is read-only.")
             if not new_target or new_state is None:

@@ -377,6 +377,9 @@ class ProjectSerializer(serializers.ModelSerializer):
     languages_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-languages", lookup_field="slug"
     )
+    labels_url = serializers.HyperlinkedIdentityField(
+        view_name="api:project-labels", lookup_field="slug"
+    )
 
     class Meta:
         model = Project
@@ -393,6 +396,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             "categories_url",
             "changes_list_url",
             "languages_url",
+            "labels_url",
             "translation_review",
             "source_review",
             "set_language_team",
@@ -597,7 +601,7 @@ class ComponentSerializer(RemovableSerializer):
             result["repo"] = None
             result["branch"] = None
             result["filemask"] = None
-            result["screnshot_filemask"] = None
+            result["screenshot_filemask"] = None
             result["push"] = None
         return result
 
@@ -920,12 +924,24 @@ class StatisticsSerializer(ReadOnlySerializer):
             "translated_chars_percent": stats.translated_chars_percent,
             "fuzzy": stats.fuzzy,
             "fuzzy_percent": stats.fuzzy_percent,
+            "fuzzy_words": stats.fuzzy_words,
+            "fuzzy_words_percent": stats.fuzzy_words_percent,
+            "fuzzy_chars": stats.fuzzy_chars,
+            "fuzzy_chars_percent": stats.fuzzy_chars_percent,
             "failing": stats.allchecks,
             "failing_percent": stats.allchecks_percent,
             "approved": stats.approved,
             "approved_percent": stats.approved_percent,
+            "approved_words": stats.approved_words,
+            "approved_words_percent": stats.approved_words_percent,
+            "approved_chars": stats.approved_chars,
+            "approved_chars_percent": stats.approved_chars_percent,
             "readonly": stats.readonly,
             "readonly_percent": stats.readonly_percent,
+            "readonly_words": stats.readonly_words,
+            "readonly_words_percent": stats.readonly_words_percent,
+            "readonly_chars": stats.readonly_chars,
+            "readonly_chars_percent": stats.readonly_chars_percent,
             "suggestions": stats.suggestions,
             "comments": stats.comments,
         }
@@ -976,10 +992,14 @@ class MemorySerializer(serializers.ModelSerializer):
         )
 
 
-class LabelsSerializer(serializers.RelatedField):
+class LabelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Label
+        fields = ("id", "name", "color")
+        read_only_fields = ("project",)
 
+
+class UnitLabelsSerializer(serializers.RelatedField, LabelSerializer):
     def get_queryset(self):
         """
         List of available labels for an unit.
@@ -996,15 +1016,12 @@ class LabelsSerializer(serializers.RelatedField):
         project = unit.translation.component.project
         return project.label_set.all()
 
-    def to_representation(self, value):
-        return value.name
-
     def to_internal_value(self, data):
         try:
-            label = self.get_queryset().get(name=data)
+            label = self.get_queryset().get(id=data)
         except Label.DoesNotExist as err:
             raise serializers.ValidationError(
-                "Label with this name was not found."
+                "Label with this ID was not found in this project."
             ) from err
         return label
 
@@ -1027,7 +1044,7 @@ class UnitSerializer(serializers.ModelSerializer):
     target = PluralField()
     timestamp = serializers.DateTimeField(read_only=True)
     pending = serializers.BooleanField(read_only=True)
-    labels = LabelsSerializer(many=True, read_only=True)
+    labels = UnitLabelsSerializer(many=True)
 
     class Meta:
         model = Unit
@@ -1069,7 +1086,7 @@ class UnitWriteSerializer(serializers.ModelSerializer):
     """Serializer for updating source unit."""
 
     target = PluralField()
-    labels = LabelsSerializer(many=True)
+    labels = UnitLabelsSerializer(many=True)
 
     class Meta:
         model = Unit

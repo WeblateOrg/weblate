@@ -7,6 +7,7 @@ from __future__ import annotations
 import locale
 import os
 import sys
+from operator import itemgetter
 from types import GeneratorType
 from typing import Any
 from urllib.parse import urlparse
@@ -34,12 +35,10 @@ PRIORITY_CHOICES = (
     (140, gettext_lazy("Very low")),
 )
 
-# Initialize to sane locales for strxfrm
-try:
-    locale.setlocale(locale.LC_ALL, ("en_US", "UTF-8"))
-except locale.Error:
+# Initialize to sane Unicode locales for strxfrm
+if locale.strxfrm("a") == "a":
     try:
-        locale.setlocale(locale.LC_ALL, ("C", "UTF-8"))
+        locale.setlocale(locale.LC_ALL, ("en_US", "UTF-8"))
     except locale.Error:
         LOCALE_SETUP = False
 
@@ -49,12 +48,12 @@ def is_plural(text):
     return text.find(PLURAL_SEPARATOR) != -1
 
 
-def split_plural(text):
+def split_plural(text: str) -> list[str]:
     return text.split(PLURAL_SEPARATOR)
 
 
-def join_plural(text):
-    return PLURAL_SEPARATOR.join(text)
+def join_plural(plurals: list[str]) -> str:
+    return PLURAL_SEPARATOR.join(plurals)
 
 
 def get_string(text):
@@ -252,7 +251,7 @@ def sort_unicode(choices, key):
 
 def sort_choices(choices):
     """Sort choices alphabetically."""
-    return sort_unicode(choices, lambda tup: tup[1])
+    return sort_unicode(choices, itemgetter(1))
 
 
 def sort_objects(objects):
@@ -332,3 +331,8 @@ def check_upload_method_permissions(user, translation, method: str):
 def is_unused_string(string: str):
     """Check whether string should not be used."""
     return string.startswith("<unused singular")
+
+
+def count_words(string: str):
+    """Count number of words in a string."""
+    return sum(len(s.split()) for s in split_plural(string) if not is_unused_string(s))

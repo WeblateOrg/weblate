@@ -9,16 +9,18 @@ from copy import copy
 from io import StringIO
 from unittest import SkipTest
 from unittest.mock import Mock, patch
-from urllib.parse import parse_qs
 
+import httpx
 import responses
+import respx
+
 from aliyunsdkcore.client import AcsClient
 from botocore.stub import ANY, Stubber
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TestCase
 from django.urls import reverse
-from google.cloud.translate_v3 import (
+from google.cloud.translate import (
     SupportedLanguages,
     TranslateTextResponse,
     TranslationServiceClient,
@@ -45,13 +47,10 @@ from weblate.machinery.googlev3 import GoogleV3Translation
 from weblate.machinery.ibm import IBMTranslation
 from weblate.machinery.libretranslate import LibreTranslateTranslation
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
-from weblate.machinery.microsoftterminology import (
-    MST_API_URL,
-    MicrosoftTerminologyService,
-)
 from weblate.machinery.modernmt import ModernMTTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
+from weblate.machinery.openai import OpenAITranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.tmserver import AMAGAMA_LIVE, AmagamaTranslation
 from weblate.machinery.weblatetm import WeblateTranslation
@@ -62,7 +61,7 @@ from weblate.trans.models import Project, Unit
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.classloader import load_class
-from weblate.utils.db import using_postgresql
+from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.state import STATE_TRANSLATED
 
 GLOSBE_JSON = {
@@ -153,111 +152,6 @@ SAPTRANSLATIONHUB_JSON = {
     ]
 }
 
-TERMINOLOGY_LANGUAGES = b"""
-<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
-  <s:Body>
-    <GetLanguagesResponse xmlns="https://api.terminology.microsoft.com/terminology">
-      <GetLanguagesResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-        <Language>
-          <Code>af-za</Code>
-        </Language>
-        <Language>
-          <Code>am-et</Code>
-        </Language>
-        <Language>
-          <Code>ar-dz</Code>
-        </Language>
-        <Language>
-          <Code>ar-eg</Code>
-        </Language>
-        <Language>
-          <Code>ar-sa</Code>
-        </Language>
-        <Language>
-          <Code>as-in</Code>
-        </Language>
-        <Language>
-          <Code>az-latn-az</Code>
-        </Language>
-        <Language>
-          <Code>be-by</Code>
-        </Language>
-        <Language>
-          <Code>bg-bg</Code>
-        </Language>
-        <Language>
-          <Code>bn-bd</Code>
-        </Language>
-        <Language>
-          <Code>bn-in</Code>
-        </Language>
-        <Language>
-          <Code>bs-cyrl-ba</Code>
-        </Language>
-        <Language>
-          <Code>bs-latn-ba</Code>
-        </Language>
-        <Language>
-          <Code>ca-es</Code>
-        </Language>
-        <Language>
-          <Code>ca-es-valencia</Code>
-        </Language>
-        <Language>
-          <Code>chr-cher-us</Code>
-        </Language>
-        <Language>
-          <Code>cs-cz</Code>
-        </Language>
-        <Language>
-          <Code>en-us</Code>
-        </Language>
-      </GetLanguagesResult>
-    </GetLanguagesResponse>
-  </s:Body>
-</s:Envelope>
-"""
-TERMINOLOGY_TRANSLATE = b"""
-<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
-  <s:Body>
-    <GetTranslationsResponse xmlns="https://api.terminology.microsoft.com/terminology">
-      <GetTranslationsResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-        <Match>
-          <ConfidenceLevel>100</ConfidenceLevel>
-          <Count>8</Count>
-          <Definition i:nil="true"/>
-          <OriginalText>Hello World</OriginalText>
-          <Product i:nil="true"/>
-          <ProductVersion i:nil="true"/>
-          <Source i:nil="true"/>
-          <Translations>
-            <Translation>
-              <Language>cs-cz</Language>
-              <TranslatedText>Hello World</TranslatedText>
-            </Translation>
-          </Translations>
-        </Match>
-        <Match>
-          <ConfidenceLevel>100</ConfidenceLevel>
-          <Count>1</Count>
-          <Definition i:nil="true"/>
-          <OriginalText>Hello world.</OriginalText>
-          <Product i:nil="true"/>
-          <ProductVersion i:nil="true"/>
-          <Source i:nil="true"/>
-          <Translations>
-            <Translation>
-              <Language>cs-cz</Language>
-              <TranslatedText>Ahoj sv&#x11B;te.</TranslatedText>
-            </Translation>
-          </Translations>
-        </Match>
-      </GetTranslationsResult>
-    </GetTranslationsResponse>
-  </s:Body>
-</s:Envelope>
-"""
-TERMINOLOGY_WDSL = get_test_file("microsoftterminology.wsdl")
 
 with open(get_test_file("googlev3.json")) as handle:
     GOOGLEV3_KEY = handle.read()
@@ -313,11 +207,19 @@ class BaseMachineTranslationTest(TestCase):
         machine.cache_translations = cache
         return machine
 
+    @responses.activate
+    @respx.mock
+    def test_validate_settings(self):
+        self.mock_response()
+        machine = self.get_machine()
+        machine.validate_settings()
+
     def test_english_map(self):
         machine = self.get_machine()
         self.assertEqual(machine.map_language_code("en_devel"), self.ENGLISH)
 
     @responses.activate
+    @respx.mock
     def test_support(self):
         self.mock_response()
         machine_translation = self.get_machine()
@@ -365,11 +267,13 @@ class BaseMachineTranslationTest(TestCase):
         raise SkipTest("Not tested")
 
     @responses.activate
+    @respx.mock
     def test_translate_empty(self):
         self.mock_empty()
         self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
 
     @responses.activate
+    @respx.mock
     def test_translate(self, **kwargs):
         self.mock_response()
         self.assert_translate(
@@ -377,6 +281,7 @@ class BaseMachineTranslationTest(TestCase):
         )
 
     @responses.activate
+    @respx.mock
     def test_batch(self, machine=None):
         self.mock_response()
         if machine is None:
@@ -387,6 +292,7 @@ class BaseMachineTranslationTest(TestCase):
         self.assertIn("translation", unit.machinery)
 
     @responses.activate
+    @respx.mock
     def test_error(self):
         self.mock_error()
         with self.assertRaises(MachineTranslationError):
@@ -434,6 +340,13 @@ class MachineTranslationTest(BaseMachineTranslationTest):
                     }
                 ]
             ],
+        )
+
+    def test_key(self):
+        machine_translation = self.get_machine()
+        self.assertEqual(
+            machine_translation.get_cache_key("test"),
+            "mt:dummy:test:11364700946005001116",
         )
 
 
@@ -590,6 +503,12 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
             "translate?api-version=3.0&from=en&to=cs&category=general",
             json=MICROSOFT_RESPONSE,
         )
+        responses.add(
+            responses.POST,
+            "https://api.cognitive.microsofttranslator.com/"
+            "translate?api-version=3.0&from=en&to=de&category=general",
+            json=MICROSOFT_RESPONSE,
+        )
 
 
 class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest):
@@ -619,55 +538,11 @@ class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest)
             "translate?api-version=3.0&from=en&to=cs&category=general",
             json=MICROSOFT_RESPONSE,
         )
-
-
-class MicrosoftTerminologyServiceTest(BaseMachineTranslationTest):
-    MACHINE_CLS = MicrosoftTerminologyService
-    ENGLISH = "en-us"
-    SUPPORTED = "cs-cz"
-    EXPECTED_LEN = 2
-
-    def mock_empty(self):
-        raise SkipTest("Not tested")
-
-    def mock_error(self):
-        self.mock_response(fail=True)
-
-    def mock_response(self, fail=False):
-        def request_callback_get(request):
-            headers = {}
-            if request.path_url == "/Terminology.svc?wsdl":
-                with open(TERMINOLOGY_WDSL, "rb") as handle:
-                    return (200, headers, handle.read())
-            if request.path_url.startswith("/Terminology.svc?wsdl="):
-                suffix = request.path_url[22:]
-                with open(TERMINOLOGY_WDSL + "." + suffix, "rb") as handle:
-                    return (200, headers, handle.read())
-            if request.path_url.startswith("/Terminology.svc?xsd="):
-                suffix = request.path_url[21:]
-                with open(TERMINOLOGY_WDSL + "." + suffix, "rb") as handle:
-                    return (200, headers, handle.read())
-            return (500, headers, "")
-
-        def request_callback_post(request):
-            headers = {}
-            if fail:
-                return (500, headers, "")
-            if b"GetLanguages" in request.body:
-                return (200, headers, TERMINOLOGY_LANGUAGES)
-            return (200, headers, TERMINOLOGY_TRANSLATE)
-
-        responses.add_callback(
-            responses.GET,
-            MST_API_URL,
-            callback=request_callback_get,
-            content_type="text/xml",
-        )
-        responses.add_callback(
+        responses.add(
             responses.POST,
-            MST_API_URL,
-            callback=request_callback_post,
-            content_type="text/xml",
+            "https://api.cognitive.microsofttranslator.com/"
+            "translate?api-version=3.0&from=en&to=de&category=general",
+            json=MICROSOFT_RESPONSE,
         )
 
 
@@ -799,6 +674,9 @@ class AmagamaTranslationTest(BaseMachineTranslationTest):
         )
         responses.add(
             responses.GET, AMAGAMA_LIVE + "/en/cs/unit/Hello", json=AMAGAMA_JSON
+        )
+        responses.add(
+            responses.GET, AMAGAMA_LIVE + "/en/de/unit/test", json=AMAGAMA_JSON
         )
 
     def mock_error(self):
@@ -1151,6 +1029,16 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             "https://api.deepl.com/v2/languages",
             json=DEEPL_LANG_RESPONSE,
         )
+        responses.add(
+            responses.GET,
+            "https://api.deepl.com/v2/glossary-language-pairs",
+            json={
+                "supported_languages": [
+                    {"source_lang": "de", "target_lang": "en"},
+                    {"source_lang": "en", "target_lang": "de"},
+                ]
+            },
+        )
 
     @classmethod
     def mock_response(cls):
@@ -1165,7 +1053,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     def test_formality(self):
         def request_callback(request):
             headers = {}
-            payload = parse_qs(request.body)
+            payload = json.loads(request.body)
             self.assertIn("formality", payload)
             return (200, headers, json.dumps(DEEPL_RESPONSE))
 
@@ -1186,10 +1074,56 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    def test_glossary(self):
+        def request_callback(request):
+            headers = {}
+            payload = json.loads(request.body)
+            self.assertIn("glossary_id", payload)
+            return (200, headers, json.dumps(DEEPL_RESPONSE))
+
+        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine.delete_cache()
+        self.mock_languages()
+        responses.add_callback(
+            responses.POST,
+            "https://api.deepl.com/v2/translate",
+            callback=request_callback,
+        )
+        responses.add(
+            responses.GET,
+            "https://api.deepl.com/v2/glossaries",
+            json={"glossaries": []},
+        )
+        responses.add(
+            responses.POST,
+            "https://api.deepl.com/v2/glossaries",
+        )
+        responses.add(
+            responses.GET,
+            "https://api.deepl.com/v2/glossaries",
+            json={
+                "glossaries": [
+                    {
+                        "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+                        "name": "weblate:1:EN:DE:9e250d830c11d70f",
+                        "ready": True,
+                        "source_lang": "EN",
+                        "target_lang": "DE",
+                        "creation_time": "2021-08-03T14:16:18.329Z",
+                        "entry_count": 1,
+                    }
+                ]
+            },
+        )
+        # Fetch from service
+        self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
+
+    @responses.activate
     def test_replacements(self):
         def request_callback(request):
             headers = {}
-            payload = parse_qs(request.body)
+            payload = json.loads(request.body)
             self.assertEqual(
                 payload["text"], ['Hello, <x id="7"></x>! &lt;&lt;foo&gt;&gt;']
             )
@@ -1317,6 +1251,20 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     def mock_response(self):
         pass
 
+    def test_validate_settings(self):
+        machine = self.get_machine()
+        with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "translate_text",
+                {
+                    "TranslatedText": "Hallo",
+                    "SourceLanguageCode": "en",
+                    "TargetLanguageCode": "de",
+                },
+                {"SourceLanguageCode": ANY, "TargetLanguageCode": ANY, "Text": ANY},
+            )
+            machine.validate_settings()
+
     def test_translate(self, **kwargs):
         machine = self.get_machine()
         with Stubber(machine.client) as stubber:
@@ -1359,7 +1307,7 @@ class AWSTranslationTest(BaseMachineTranslationTest):
                         {
                             "text": "Ahoj",
                             "quality": 88,
-                            "service": "AWS",
+                            "service": "Amazon Translate",
                             "source": "Hello",
                             "original_source": "Hello",
                         }
@@ -1453,17 +1401,74 @@ class IBMTranslationTest(BaseMachineTranslationTest):
         )
 
 
-class WeblateTranslationTest(FixtureTestCase):
-    @classmethod
-    def _databases_support_transactions(cls):
-        # This is workaround for MySQL as FULL TEXT index does not work
-        # well inside a transaction, so we avoid using transactions for
-        # tests. Otherwise we end up with no matches for the query.
-        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if not using_postgresql():
-            return False
-        return super()._databases_support_transactions()
+class OpenAITranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = OpenAITranslation
+    EXPECTED_LEN = 1
+    ENGLISH = "en"
+    SUPPORTED = "zh-TW"
+    NOTSUPPORTED = None
+    CONFIGURATION = {
+        "key": "x",
+        "model": "auto",
+        "persona": "",
+        "style": "",
+    }
 
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        raise SkipTest("Not tested")
+
+    def mock_response(self):
+        respx.get("https://api.openai.com/v1/models").mock(
+            httpx.Response(
+                200,
+                json={
+                    "object": "list",
+                    "data": [
+                        {
+                            "id": "gpt-3.5-turbo",
+                            "object": "model",
+                            "created": 1686935002,
+                            "owned_by": "openai",
+                        }
+                    ],
+                },
+            )
+        )
+        respx.post(
+            "https://api.openai.com/v1/chat/completions",
+        ).mock(
+            httpx.Response(
+                200,
+                json={
+                    "id": "chatcmpl-123",
+                    "object": "chat.completion",
+                    "created": 1677652288,
+                    "model": "gpt-3.5-turbo",
+                    "system_fingerprint": "fp_44709d6fcb",
+                    "choices": [
+                        {
+                            "index": 0,
+                            "message": {
+                                "role": "assistant",
+                                "content": "Ahoj světe",
+                            },
+                            "finish_reason": "stop",
+                        }
+                    ],
+                    "usage": {
+                        "prompt_tokens": 9,
+                        "completion_tokens": 12,
+                        "total_tokens": 21,
+                    },
+                },
+            )
+        )
+
+
+class WeblateTranslationTest(TransactionsTestMixin, FixtureTestCase):
     def test_empty(self):
         machine = WeblateTranslation({})
         results = machine.translate(self.get_unit(), self.user)
@@ -1580,11 +1585,6 @@ class ViewsTest(FixtureTestCase):
             ).exists()
         )
 
-        response = self.client.post(
-            reverse("machinery-edit", kwargs={"machinery": "INVALID"}), {"install": "1"}
-        )
-        self.assertEqual(response.status_code, 404)
-
     def test_configure_project(self):
         service = self.ensure_dummy_mt()
         list_url = reverse("machinery-list", kwargs={"project": self.project.slug})
@@ -1619,6 +1619,31 @@ class ViewsTest(FixtureTestCase):
         )
         project = Project.objects.get(pk=self.component.project_id)
         self.assertNotIn("dummy", project.machinery_settings)
+
+    def test_configure_invalid(self):
+        self.user.is_superuser = True
+        self.user.save()
+
+        identifier = "nonexisting"
+        Setting.objects.create(category=Setting.CATEGORY_MT, name=identifier, value={})
+        list_url = reverse("manage-machinery")
+        edit_url = reverse("machinery-edit", kwargs={"machinery": identifier})
+        response = self.client.get(list_url)
+        self.assertContains(response, edit_url)
+
+        self.client.post(edit_url, {"delete": "1"})
+        self.assertFalse(
+            Setting.objects.filter(
+                category=Setting.CATEGORY_MT, name=identifier
+            ).exists()
+        )
+        response = self.client.post(edit_url, {"install": "1"})
+        self.assertEqual(response.status_code, 404)
+        self.assertFalse(
+            Setting.objects.filter(
+                category=Setting.CATEGORY_MT, name=identifier
+            ).exists()
+        )
 
 
 class CommandTest(FixtureTestCase):

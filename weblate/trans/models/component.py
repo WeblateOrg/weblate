@@ -24,7 +24,7 @@ from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, models, transaction
-from django.db.models import Count, F, Q
+from django.db.models import Count, Q
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.utils import timezone
@@ -98,7 +98,7 @@ from weblate.utils.render import (
 from weblate.utils.requests import get_uri_error
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
-from weblate.utils.stats import ComponentStats, prefetch_stats
+from weblate.utils.stats import ComponentStats
 from weblate.utils.validators import (
     validate_filename,
     validate_re_nonempty,
@@ -275,6 +275,8 @@ class ComponentQuerySet(models.QuerySet):
         for category in reversed(categories):
             kwargs[f"{prefix}category__slug"] = category
             prefix = f"category__{prefix}"
+        if not kwargs:
+            kwargs["category"] = None
         return self.get(slug__iexact=component, project__slug__iexact=project, **kwargs)
 
     def order_project(self):
@@ -297,26 +299,6 @@ class ComponentQuerySet(models.QuerySet):
                 Q(restricted=False) | Q(id__in=user.component_permissions)
             )
         return result
-
-    def prefetch_source_stats(self):
-        """Prefetch source stats."""
-        lookup = {component.id: component for component in self}
-
-        if lookup:
-            for translation in prefetch_stats(
-                Translation.objects.filter(
-                    component__in=self, language=F("component__source_language")
-                )
-            ):
-                try:
-                    component = lookup[translation.component_id]
-                except KeyError:
-                    # Translation was added while rendering the page
-                    continue
-
-                component.__dict__["source_translation"] = translation
-
-        return self
 
     def search(self, query: str):
         return self.filter(
@@ -1233,7 +1215,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def get_widgets_url(self):
         """Return absolute URL for widgets."""
-        return f"{self.project.get_widgets_url()}?component={self.slug}"
+        return f"{self.project.get_widgets_url()}?component={self.pk}"
 
     def get_share_url(self):
         """Return absolute shareable URL."""
@@ -1840,6 +1822,10 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                 action=Change.ACTION_RESET,
                 component=self,
                 user=request.user if request else self.acting_user,
+                details={
+                    "new_head": self.repository.last_revision,
+                    "previous_head": previous_head,
+                },
             )
             self.delete_alert("MergeFailure")
             self.delete_alert("RepositoryOutdated")
@@ -1916,6 +1902,16 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
     @perform_on_link
     def commit_pending(self, reason: str, user, skip_push: bool = False):
         """Check whether there is any translation to be committed."""
+
+        def reuse_self(translation):
+            if translation.component_id == self.id:
+                translation.component = self
+            if translation.component.linked_component_id == self.id:
+                translation.component.linked_component = self
+            if translation.pk == translation.component.source_translation.pk:
+                translation = translation.component.source_translation
+            return translation
+
         # Get all translation with pending changes, source translation first
         translations = sorted(
             Translation.objects.filter(unit__pending=True)
@@ -1925,6 +1921,8 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             key=lambda translation: not translation.is_source,
         )
         components = {}
+        source_components = []
+        translation_pks = []
 
         if not translations:
             return True
@@ -1945,17 +1943,23 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         # Commit pending changes
         with self.repository.lock:
             for translation in translations:
-                if translation.component_id == self.id:
-                    translation.component = self
-                if translation.component.linked_component_id == self.id:
-                    translation.component.linked_component = self
-                if translation.pk == translation.component.source_translation.pk:
-                    translation = translation.component.source_translation
+                translation_pks.append(translation.pk)
+                translation = reuse_self(translation)
                 with sentry_sdk.start_span(
                     op="commit_pending", description=translation.full_slug
                 ):
                     translation._commit_pending(reason, user)
                 components[translation.component.pk] = translation.component
+                if translation.is_source:
+                    source_components.append(translation.component)
+
+            # Update hash of other translations, otherwise they would be seen as having change
+            if self.has_template():
+                for component in source_components:
+                    for translation in component.translation_set.exclude(
+                        pk__in=translation_pks
+                    ):
+                        translation.store_hash()
 
         # Fire postponed post commit signals
         for component in components.values():
@@ -2134,6 +2138,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     component=self,
                     action=action,
                     user=user,
+                    details={"new_head": new_head, "previous_head": previous_head},
                 )
 
                 # The files have been updated and the signal receivers (addons)
@@ -2603,8 +2608,9 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                     {"category": gettext("Category does not belong to this project.")}
                 )
             if self.pk and self.links.exists():
-                message = gettext("Categorized component can not be shared.")
-                raise ValidationError({"category": message, "links": message})
+                raise ValidationError(
+                    gettext("Categorized component can not be shared.")
+                )
 
     def clean_repo_link(self):
         """Validate repository link."""

@@ -13,7 +13,7 @@ class LibreTranslateTranslation(MachineTranslation):
     """LibreTranslate machine translation support."""
 
     name = "LibreTranslate"
-    max_score = 88
+    max_score = 89
     language_map = {
         "zh_hans": "zh",
     }

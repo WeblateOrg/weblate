@@ -73,6 +73,6 @@ with open("weblate/utils/licensedata.py", "w") as output:
 
 # Apply coding style
 subprocess.run(
-    ["pre-commit", "run", "black", "--files", "weblate/utils/licensedata.py"],
+    ["pre-commit", "run", "--files", "weblate/utils/licensedata.py"],
     check=False,
 )

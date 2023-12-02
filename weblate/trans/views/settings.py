@@ -18,9 +18,7 @@ from weblate.trans.forms import (
     AddCategoryForm,
     AnnouncementForm,
     BaseDeleteForm,
-    CategoryMoveForm,
     CategoryRenameForm,
-    ComponentMoveForm,
     ComponentRenameForm,
     ComponentSettingsForm,
     ProjectRenameForm,
@@ -205,7 +203,7 @@ def remove(request, path):
 
         messages.success(request, gettext("A language in the project was removed."))
     elif isinstance(obj, CategoryLanguage):
-        parent = obj.project
+        parent = obj.category
         for translation in obj.translation_set:
             translation.remove(request.user)
 
@@ -242,18 +240,9 @@ def perform_rename(form_cls, request, obj, perm: str):
     obj = form.save()
 
     # Invalidate new stats
-    obj.stats.update_parents(old_stats)
+    obj.stats.update_parents(extra_objects=old_stats)
 
     return redirect(obj)
-
-
-@login_required
-@require_POST
-def move(request, path):
-    obj = parse_path(request, path, (Component, Category))
-    if isinstance(obj, Category):
-        return perform_rename(CategoryMoveForm, request, obj, "project.edit")
-    return perform_rename(ComponentMoveForm, request, obj, "project.edit")
 
 
 @login_required

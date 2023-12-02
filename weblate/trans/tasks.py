@@ -8,6 +8,7 @@ import os
 import time
 from datetime import datetime, timedelta
 from glob import glob
+from operator import itemgetter
 
 from celery import current_task
 from celery.schedules import crontab
@@ -221,7 +222,7 @@ def cleanup_stale_repos():
     prefix = data_dir("vcs")
     vcs_mask = os.path.join(prefix, "*", "*")
 
-    yesterday = time.monotonic() - 86400
+    yesterday = time.time() - 86400
 
     for path in glob(vcs_mask):
         if not os.path.isdir(path):
@@ -287,10 +288,12 @@ def component_alerts(component_ids=None):
     else:
         components = Component.objects.all()
     for component in components.prefetch():
-        component.update_alerts()
+        with transaction.atomic():
+            component.update_alerts()
 
 
 @app.task(trail=False, autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
+@transaction.atomic
 def component_after_save(
     pk: int,
     changed_git: bool,
@@ -313,6 +316,7 @@ def component_after_save(
 
 
 @app.task(trail=False)
+@transaction.atomic
 def component_removal(pk, uid):
     user = User.objects.get(pk=uid)
     try:
@@ -337,6 +341,7 @@ def component_removal(pk, uid):
 
 
 @app.task(trail=False)
+@transaction.atomic
 def category_removal(pk, uid):
     user = User.objects.get(pk=uid)
     try:
@@ -358,6 +363,7 @@ def category_removal(pk, uid):
 
 
 @app.task(trail=False)
+@transaction.atomic
 def project_removal(pk: int, uid: int | None):
     user = get_anonymous() if uid is None else User.objects.get(pk=uid)
     try:
@@ -566,7 +572,7 @@ def cleanup_project_backups():
                 for path in os.listdir(projectdir)
                 if path.endswith((".zip", ".zip.part"))
             ),
-            key=lambda item: item[1],
+            key=itemgetter(1),
             reverse=True,
         )
         while len(backups) > max_count:
@@ -584,6 +590,20 @@ def create_project_backup(pk):
 
     project = Project.objects.get(pk=pk)
     ProjectBackup().backup_project(project)
+
+
+@app.task(trail=False)
+def detect_completed_translation(change_id: int, old_translated: int):
+    change = Change.objects.get(pk=change_id)
+
+    translated = change.translation.stats.translated
+    if old_translated < translated and translated == change.translation.stats.all:
+        Change.objects.create(
+            translation=change.translation,
+            action=Change.ACTION_COMPLETE,
+            user=change.user,
+            author=change.author,
+        )
 
 
 @app.on_after_finalize.connect

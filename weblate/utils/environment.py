@@ -91,11 +91,12 @@ def get_env_credentials(
     name: str,
 ) -> dict[str, dict[str, str]]:
     """Parses VCS integration credentials."""
-    if credentials := get_env_str(f"WEBLATE_{name}_CREDENTIALS"):
-        return ast.literal_eval(credentials)
+    if found_env_credentials := get_env_str(f"WEBLATE_{name}_CREDENTIALS"):
+        return ast.literal_eval(found_env_credentials)
     username = os.environ.get(f"WEBLATE_{name}_USERNAME")
     token = os.environ.get(f"WEBLATE_{name}_TOKEN")
     host = os.environ.get(f"WEBLATE_{name}_HOST")
+    organization = os.environ.get(f"WEBLATE_{name}_ORGANIZATION")
 
     if not host:
         if username or token:
@@ -104,7 +105,12 @@ def get_env_credentials(
             )
         return {}
 
-    return {host: {"username": username, "token": token}}
+    credentials = {host: {"username": username, "token": token}}
+
+    if organization is not None:
+        credentials[host]["organization"] = organization
+
+    return credentials
 
 
 def get_env_ratelimit(name: str, default: str) -> str:

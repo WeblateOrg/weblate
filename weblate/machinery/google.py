@@ -35,9 +35,13 @@ class GoogleBaseTranslation(MachineTranslation):
 class GoogleTranslation(GoogleBaseTranslation):
     """Google Translate API v2 machine translation support."""
 
-    name = "Google Translate"
+    name = "Google Cloud Translation Basic"
     max_score = 90
     settings_form = KeyMachineryForm
+
+    @classmethod
+    def get_identifier(cls):
+        return "google-translate"
 
     def download_languages(self):
         """List of supported languages."""

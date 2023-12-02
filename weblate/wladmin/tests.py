@@ -229,6 +229,36 @@ class AdminTest(ViewTestCase):
 
     @responses.activate
     @override_settings(SITE_TITLE="Test Weblate")
+    def test_activation_wrong(self):
+        responses.add(
+            responses.POST,
+            settings.SUPPORT_API_URL,
+            status=404,
+        )
+        response = self.client.post(
+            reverse("manage-activate"), {"secret": "123456"}, follow=True
+        )
+        self.assertContains(response, "Please ensure your activation token is correct.")
+        self.assertFalse(SupportStatus.objects.exists())
+        self.assertFalse(BackupService.objects.exists())
+
+    @responses.activate
+    @override_settings(SITE_TITLE="Test Weblate")
+    def test_activation_error(self):
+        responses.add(
+            responses.POST,
+            settings.SUPPORT_API_URL,
+            status=500,
+        )
+        response = self.client.post(
+            reverse("manage-activate"), {"secret": "123456"}, follow=True
+        )
+        self.assertContains(response, "Please try again later.")
+        self.assertFalse(SupportStatus.objects.exists())
+        self.assertFalse(BackupService.objects.exists())
+
+    @responses.activate
+    @override_settings(SITE_TITLE="Test Weblate")
     def test_activation_community(self):
         responses.add(
             responses.POST,

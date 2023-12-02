@@ -16,7 +16,7 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE, TYPE_STRING
 from translate.storage.csvl10n import csv
 
-from weblate.formats.helpers import BytesIOMode
+from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import CSVFormat
 
 
@@ -88,7 +88,7 @@ class XlsxFormat(CSVFormat):
         content = output.getvalue().encode()
 
         # Load the file as CSV
-        return super().parse_store(BytesIOMode(name, content))
+        return super().parse_store(NamedBytesIO(name, content))
 
     @staticmethod
     def mimetype():

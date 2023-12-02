@@ -4,7 +4,7 @@
 
 """Database specific code to extend Django."""
 
-from django.db import connection, models
+from django.db import connections, models
 from django.db.models import Case, IntegerField, Sum, When
 from django.db.models.lookups import Contains, Exact, PatternLookup, Regex
 
@@ -25,7 +25,19 @@ def conditional_sum(value=1, **cond):
 
 
 def using_postgresql():
-    return connection.vendor == "postgresql"
+    return connections["default"].vendor == "postgresql"
+
+
+class TransactionsTestMixin:
+    @classmethod
+    def _databases_support_transactions(cls):
+        # This is workaround for MySQL as FULL TEXT index does not work
+        # well inside a transaction, so we avoid using transactions for
+        # tests. Otherwise we end up with no matches for the query.
+        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
+        if not using_postgresql():
+            return False
+        return super()._databases_support_transactions()
 
 
 def adjust_similarity_threshold(value: float):
@@ -37,6 +49,12 @@ def adjust_similarity_threshold(value: float):
     """
     if not using_postgresql():
         return
+
+    if "memory_db" in connections:
+        connection = connections["memory_db"]
+    else:
+        connection = connections["default"]
+
     current_similarity = getattr(connection, "weblate_similarity", -1)
     # Ignore small differences
     if abs(current_similarity - value) < 0.05:

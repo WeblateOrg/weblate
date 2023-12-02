@@ -153,8 +153,8 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
         self.generate_translation(
             source_translation,
             target_translation,
-            prefix=self.instance.configuration["prefix"],
-            suffix=self.instance.configuration["suffix"],
+            prefix=self.instance.configuration.get("prefix", ""),
+            suffix=self.instance.configuration.get("suffix", ""),
             var_prefix=self.instance.configuration.get("var_prefix", ""),
             var_suffix=self.instance.configuration.get("var_suffix", ""),
             var_multiplier=self.instance.configuration.get("var_multiplier", 0.1),

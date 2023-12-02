@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import json
 import os
 from datetime import timedelta
 from io import StringIO
@@ -848,6 +849,25 @@ class CommandTest(ViewTestCase):
                 '{"width":-65535}',
                 stderr=output,
             )
+
+    def test_install_pseudolocale(self):
+        output = StringIO()
+        call_command(
+            "install_addon",
+            "--all",
+            "--addon",
+            "weblate.generate.pseudolocale",
+            "--configuration",
+            json.dumps(
+                {
+                    "target": self.translation.id,
+                    "source": self.component.source_translation.id,
+                }
+            ),
+            stdout=output,
+            stderr=output,
+        )
+        self.assertIn("Successfully installed on Test/Test", output.getvalue())
 
 
 class DiscoveryTest(ViewTestCase):

@@ -13,6 +13,11 @@ The translatable content is extracted from the HTML files and offered for the tr
 
    :doc:`tt:formats/html`
 
+Example file:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs.html
+    :language: html
+
 Weblate configuration
 +++++++++++++++++++++
 

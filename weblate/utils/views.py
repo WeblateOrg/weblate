@@ -30,6 +30,10 @@ from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.vcs.git import LocalRepository
 
 
+class UnsupportedPathObjectError(Http404):
+    pass
+
+
 def key_name(instance):
     return instance.name if hasattr(instance, "name") else instance.component.name
 
@@ -186,11 +190,23 @@ def get_sort_name(request, obj=None):
     }
 
 
-def _parse_path(request, path: tuple[str], *, skip_acl: bool = False):
+def parse_path(  # noqa: C901
+    request, path: list[str] | None, types: tuple[Any], *, skip_acl: bool = False
+):
+    if None in types and not path:
+        return None
+
+    allowed_types = {x for x in types if x is not None}
+
+    def check_type(cls):
+        if cls not in allowed_types:
+            raise UnsupportedPathObjectError(f"Not supported object type: {cls}")
+
     path = list(path)
 
     # Language URL
     if path[:2] == ["-", "-"] and len(path) == 3:
+        check_type(Language)
         return get_object_or_404(Language, code=path[2])
 
     # First level is always project
@@ -199,12 +215,17 @@ def _parse_path(request, path: tuple[str], *, skip_acl: bool = False):
         request.user.check_access(project)
     project.acting_user = request.user
     if not path:
+        check_type(Project)
         return project
 
     # Project/language special case
     if path[0] == "-" and len(path) == 2:
+        check_type(ProjectLanguage)
         language = get_object_or_404(Language, code=path[1])
         return ProjectLanguage(project, language)
+
+    if not allowed_types & {Component, Category, Translation, Unit}:
+        raise UnsupportedPathObjectError("No remaining supported object type")
 
     # Component/category structure
     current = project
@@ -215,6 +236,7 @@ def _parse_path(request, path: tuple[str], *, skip_acl: bool = False):
         # Category/language special case
         if slug == "-" and len(path) == 1:
             language = get_object_or_404(Language, code=path[0])
+            check_type(CategoryLanguage)
             return CategoryLanguage(current, language)
 
         # Try component first
@@ -237,33 +259,30 @@ def _parse_path(request, path: tuple[str], *, skip_acl: bool = False):
 
     # Nothing left, return current object
     if not path:
+        if not isinstance(current, tuple(allowed_types)):
+            raise UnsupportedPathObjectError(
+                f"Not supported object type: {current.__class__}"
+            )
         return current
+
+    if not allowed_types & {Translation, Unit}:
+        raise UnsupportedPathObjectError("No remaining supported object type")
 
     translation = get_object_or_404(current.translation_set, language__code=path.pop(0))
     if not path:
+        check_type(Translation)
         return translation
 
     if len(path) > 1:
-        raise Http404(f"Invalid path left: {'/'.join(path)}")
+        raise UnsupportedPathObjectError(f"Invalid path left: {'/'.join(path)}")
 
     unitid = path.pop(0)
 
     if not unitid.isdigit():
         raise Http404(f"Invalid unit id: {unitid}")
 
+    check_type(Unit)
     return get_object_or_404(translation.unit_set, pk=int(unitid))
-
-
-def parse_path(
-    request, path: list[str] | None, types: tuple[Any], *, skip_acl: bool = False
-):
-    if None in types and not path:
-        return None
-    types = tuple(x for x in types if x is not None)
-    result = _parse_path(request, path, skip_acl=skip_acl)
-    if not isinstance(result, types):
-        raise Http404(f"Not supported object type: {result}")
-    return result
 
 
 def parse_path_units(request, path: list[str], types: tuple[Any]):
@@ -348,6 +367,7 @@ def create_component_from_doc(data):
         project=data["project"],
         slug=data["slug"],
         name=data["name"],
+        category=data.get("category", None),
         template=filename,
         filemask=filemask,
     )
@@ -360,6 +380,7 @@ def create_component_from_zip(data):
     # Create fake component (needed to calculate path)
     fake = Component(
         project=data["project"],
+        category=data.get("category", None),
         slug=data["slug"],
         name=data["name"],
     )

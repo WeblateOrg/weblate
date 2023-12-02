@@ -8,7 +8,9 @@ from translate.misc.multistring import multistring
 from weblate.trans.util import (
     cleanup_path,
     cleanup_repo_url,
+    count_words,
     get_string,
+    join_plural,
     translation_percent,
 )
 
@@ -97,3 +99,27 @@ class TextConversionTest(SimpleTestCase):
 
     def test_int(self):
         self.assertEqual(get_string(42), "42")
+
+
+class WordCountTestCase(SimpleTestCase):
+    def test_words(self):
+        self.assertEqual(count_words("count words"), 2)
+
+    def test_plural(self):
+        self.assertEqual(count_words(join_plural(["count word", "count words"])), 4)
+
+    def test_unused(self):
+        self.assertEqual(
+            count_words(join_plural(["<unused singular 1>", "count words"])), 2
+        )
+
+    def test_sentence(self):
+        self.assertEqual(count_words("You need to count a word!"), 6)
+
+    def test_numbers(self):
+        self.assertEqual(count_words("There are 123 words"), 4)
+
+    def test_complex(self):
+        self.assertEqual(
+            count_words("I've just realized that they have 5 %(color)s cats."), 9
+        )

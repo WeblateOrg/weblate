@@ -32,6 +32,9 @@
             {% endif %}
             {% if user_can_accept_suggestion %}
             <button type="submit" class="btn btn-link green" name="accept" value="{{ suggestion.id }}" title="{% trans "Accept" %}">{% icon "check.svg" %}</button>
+            {% if user_can_review %}
+            <button type="submit" class="btn btn-link green" name="accept_approve" value="{{ suggestion.id }}" title="{% trans "Accept and approve" %}">{% icon "check-all.svg" %}</button>
+            {% endif %}
             <button type="submit" class="btn btn-link green" name="accept_edit" value="{{ suggestion.id }}" title="{% trans "Accept and edit" %}">{% icon "pencil.svg" %}</button>
             {% endif %}
             {% if user_can_delete_suggestion %}

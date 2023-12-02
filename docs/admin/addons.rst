@@ -101,6 +101,17 @@ to load localization in the JavaScript code.
 Generates a unique URL for your component you can include in
 HTML pages to localize them. See :ref:`weblate-cdn` for more details.
 
+.. note::
+
+   This add-on requires additional configuration on the Weblate server.
+   :setting:`LOCALIZE_CDN_PATH` configures where generated files will be
+   written (on a filesystem), and :setting:`LOCALIZE_CDN_URL` defines where
+   they will be served (URL). Serving of the files is not done by Weblate and
+   has to be set up externally (typically using a CDN service).
+
+   This add-on is configured on :guilabel:`Hosted Weblate` and serves the files
+   via ``https://weblate-cdn.com/``.
+
 .. seealso::
 
     :ref:`cdn-addon-config`,
@@ -660,9 +671,11 @@ Generate MO files
 -----------------
 
 :Add-on ID: ``weblate.gettext.mo``
-:Configuration: +----------+---------------------------+-------------------------------------------------------------+
-                | ``path`` | Path of generated MO file | If not specified, the location of the PO file will be used. |
-                +----------+---------------------------+-------------------------------------------------------------+
+:Configuration: +-----------+---------------------------------+----------------------------------------------------------------------------------+
+                | ``path``  | Path of generated MO file       | If not specified, the location of the PO file will be used.                      |
+                +-----------+---------------------------------+----------------------------------------------------------------------------------+
+                | ``fuzzy`` | Include strings needing editing | Strings needing editing (fuzzy) are typically not ready for use as translations. |
+                +-----------+---------------------------------+----------------------------------------------------------------------------------+
 :Triggers: repository pre-commit
 
 Automatically generates a MO file for every changed PO file.

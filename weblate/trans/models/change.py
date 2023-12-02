@@ -2,7 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from datetime import datetime
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.cache import cache
@@ -20,6 +22,11 @@ from weblate.trans.models.alert import ALERTS
 from weblate.trans.models.project import Project
 from weblate.utils.pii import mask_email
 from weblate.utils.state import STATE_LOOKUP
+
+if TYPE_CHECKING:
+    from datetime import datetime
+
+    from weblate.trans.models import Translation
 
 
 class ChangeQuerySet(models.QuerySet):
@@ -391,9 +398,9 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_AGREEMENT_CHANGE, gettext_lazy("Contributor agreement changed")),
         # Translators: Name of event in the history
-        (ACTION_SCREENSHOT_ADDED, gettext_lazy("Screnshot added")),
+        (ACTION_SCREENSHOT_ADDED, gettext_lazy("Screenshot added")),
         # Translators: Name of event in the history
-        (ACTION_SCREENSHOT_UPLOADED, gettext_lazy("Screnshot uploaded")),
+        (ACTION_SCREENSHOT_UPLOADED, gettext_lazy("Screenshot uploaded")),
         # Translators: Name of event in the history
         (ACTION_STRING_REPO_UPDATE, gettext_lazy("String updated in the repository")),
         # Translators: Name of event in the history
@@ -564,6 +571,7 @@ class Change(models.Model, UserDisplayMixin):
         verbose_name_plural = "history events"
 
     def __str__(self):
+        # Translators: condensed rendering of a change action in history
         return gettext("%(action)s at %(time)s on %(translation)s by %(user)s") % {
             "action": self.get_action_display(),
             "time": self.timestamp,
@@ -624,16 +632,17 @@ class Change(models.Model, UserDisplayMixin):
     def get_last_change_cache_key(translation_id: int):
         return f"last-content-change-{translation_id}"
 
+    @classmethod
+    def store_last_change(cls, translation: Translation, change: Change | None):
+        translation.stats.last_change_cache = change
+        cache_key = cls.get_last_change_cache_key(translation.id)
+        cache.set(cache_key, change.pk if change else 0, 180 * 86400)
+
     def is_last_content_change_storable(self):
         return self.translation_id and self.action in self.ACTIONS_CONTENT
 
     def update_cache_last_change(self):
-        cache_key = self.get_last_change_cache_key(self.translation_id)
-        cache.set(cache_key, self.pk, 180 * 86400)
-        self.translation.stats.store("last_changed", self.timestamp)
-        self.translation.stats.store("last_author", self.author_id)
-        self.translation.stats.save()
-        return True
+        self.store_last_change(self.translation, self)
 
     def fixup_refereces(self):
         """Updates references based to least specific one."""
@@ -783,6 +792,19 @@ class Change(models.Model, UserDisplayMixin):
             return "{service_long_name}: {repo_url}, {branch}".format(**details)
         if self.action == self.ACTION_COMMENT and "comment" in details:
             return render_markdown(details["comment"])
+        if self.action in (self.ACTION_RESET, self.ACTION_MERGE, self.ACTION_REBASE):
+            return format_html(
+                "{}<br/><br/>{}<br/>{}",
+                self.get_action_display(),
+                format_html(
+                    escape(gettext("Original revision: {}")),
+                    details.get("previous_head", "N/A"),
+                ),
+                format_html(
+                    escape(gettext("New revision: {}")),
+                    details.get("new_head", "N/A"),
+                ),
+            )
 
         return ""
 

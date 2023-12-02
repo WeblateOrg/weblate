@@ -5,8 +5,8 @@ Version control integration
 
 Weblate currently supports :ref:`vcs-git` (with extended support for
 :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`,
-:ref:`vcs-git-svn` and :ref:`vcs-bitbucket-server`) and :ref:`vcs-mercurial` as
-version control back-ends.
+:ref:`vcs-git-svn`, :ref:`vcs-bitbucket-server`, and :ref:`vcs-azure-devops`) and
+:ref:`vcs-mercurial` as version control back-ends.
 
 .. _vcs-repos:
 
@@ -108,6 +108,43 @@ the hostname you are going to access (e.g. ``gitlab.com``), and press
 The added keys with fingerprints are shown in the confirmation message:
 
 .. image:: /screenshots/ssh-keys-added.webp
+
+Connecting to legacy SSH servers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Recent OpenSSH releases (for example the one used in Weblate Docker container)
+disable RSA signatures using the SHA-1 hash algorithm by default. This change
+has been made as the SHA-1 hash algorithm is cryptographically broken, and it
+is possible to create chosen-prefix hash collisions for <USD$50K.
+
+For most users, this change should be invisible and there is no need to replace
+ssh-rsa keys. OpenSSH has supported RFC8332 RSA/SHA-256/512 signatures since
+release 7.2 and existing ssh-rsa keys will automatically use the stronger
+algorithm where possible.
+
+Incompatibility is more likely when connecting to older SSH implementations
+that have not been upgraded or have not closely tracked improvements in the SSH
+protocol. The SSH connection to such server will fail with:
+
+.. code-block:: text
+
+   no matching host key type found. Their offer: ssh-rsa
+
+For these cases, it may be necessary to selectively re-enable RSA/SHA1 to allow
+connection and/or user authentication via the HostkeyAlgorithms and
+PubkeyAcceptedAlgorithms options. For example, the following stanza in
+:file:`DATA_DIR/ssh/config` will enable RSA/SHA1 for host and user
+authentication for a single destination host:
+
+.. code-block:: text
+
+   Host old-host
+      HostkeyAlgorithms +ssh-rsa
+      PubkeyAcceptedAlgorithms +ssh-rsa
+
+We recommend enabling RSA/SHA1 only as a stopgap measure until legacy
+implementations can be upgraded or reconfigured with another key type (such as
+ECDSA or Ed25519).
 
 .. _vcs-repos-github:
 
@@ -422,6 +459,30 @@ pushing them directly to the repository.
 
 The Gerrit documentation has the details on the configuration necessary to set up
 such repositories.
+
+.. _vcs-azure-devops:
+.. _azure-devops-push:
+
+Azure DevOps pull requests
+--------------------------
+
+This adds a thin layer atop :ref:`vcs-git` using the `Azure DevOps API`_ to allow pushing
+translation changes as pull requests, instead of pushing directly to the repository.
+
+:ref:`vcs-git` pushes changes directly to a repository, while
+:ref:`vcs-azure-devops` creates pull requests.
+The latter is not needed for merely accessing Git repositories.
+
+You need to configure API credentials (:setting:`AZURE_DEVOPS_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`Azure DevOps` option when selecting :ref:`component-vcs`.
+
+.. seealso::
+
+   :ref:`push-changes`,
+   :setting:`AZURE_DEVOPS_CREDENTIALS`
+
+.. _Azure DevOps API: https://learn.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-7.2
 
 .. _git-review: https://pypi.org/project/git-review/
 

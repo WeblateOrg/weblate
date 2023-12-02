@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import copy
 import os.path
+import re
 import shutil
 import tempfile
 from unittest import SkipTest
@@ -21,6 +22,7 @@ from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import (
+    AzureDevOpsRepository,
     BitbucketServerRepository,
     GiteaRepository,
     GitForcePushRepository,
@@ -33,6 +35,11 @@ from weblate.vcs.git import (
     SubversionRepository,
 )
 from weblate.vcs.mercurial import HgRepository
+
+
+class AzureDevOpsFakeRepository(AzureDevOpsRepository):
+    _is_supported = None
+    _version = None
 
 
 class GithubFakeRepository(GithubRepository):
@@ -666,6 +673,359 @@ class VCSGiteaTest(VCSGitUpstreamTest):
 
         super().test_push(branch)
         mock_push_to_fork.stop()
+
+
+@override_settings(
+    AZURE_DEVOPS_CREDENTIALS={
+        "dev.azure.com": {
+            "username": "test",
+            "token": "token",
+            "organization": "organization",
+        }
+    }
+)
+class VCSAzureDevOpsTest(VCSGitUpstreamTest):
+    _class = AzureDevOpsFakeRepository
+    _vcs = "git"
+    _sets_push = False
+    _mock_push_to_fork = None
+
+    def setUp(self):
+        super().setUp()
+        self.repo.component.repo = (
+            "https://dev.azure.com/organization/WeblateOrg/test.git"
+        )
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        self._mock_push_to_fork = mock_push_to_fork_patcher.start()
+        self._mock_push_to_fork.return_value = ""
+
+    def tearDown(self):
+        self._mock_push_to_fork.stop()
+        super().tearDown()
+
+    def mock_responses(self, pr_response, pr_status=200):
+        """
+        Mock response helper function.
+
+        This function will mock request responses for PRs
+        """
+        responses.add(
+            responses.POST,
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/pullrequests",
+            json=pr_response,
+            status=pr_status,
+        )
+        responses.add(
+            responses.POST,
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories",
+            json={"sshUrl": "git@ssh.dev.azure.com:v3/organization/WeblateOrg/test"},
+        )
+        responses.add(
+            responses.GET,
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test",
+            json={"id": "repo-id", "project": {"id": "org-id"}},
+        )
+        responses.add(
+            responses.GET,
+            "https://dev.azure.com/organization/_apis/projects/WeblateOrg",
+            json={"id": "proj-id"},
+        )
+        responses.add(
+            responses.POST,
+            "https://dev.azure.com/organization/_apis/Contribution/HierarchyQuery?api-version=5.0-preview.1",
+            json={
+                "dataProviders": {
+                    "ms.vss-features.my-organizations-data-provider": {
+                        "organizations": [{"id": "org-id"}]
+                    }
+                }
+            },
+        )
+        responses.add(
+            responses.GET,
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/forks/org-id",
+            json={"value": []},
+        )
+
+    def test_api_url_devops_com(self):
+        # https with .git
+        self.repo.component.repo = (
+            "https://WeblateOrg@dev.azure.com/organization/WeblateOrg/_git/test.git"
+        )
+        self.assertEqual(
+            self.repo.get_credentials()["url"],
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test",
+        )
+        # http with .git
+        self.repo.component.repo = (
+            "http://WeblateOrg@dev.azure.com/organization/WeblateOrg/_git/test.git"
+        )
+        self.assertEqual(
+            self.repo.get_credentials()["url"],
+            "http://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test",
+        )
+        # https with without .git
+        self.repo.component.repo = (
+            "https://WeblateOrg@dev.azure.com/organization/WeblateOrg/_git/test"
+        )
+        self.assertEqual(
+            self.repo.get_credentials()["url"],
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test",
+        )
+        # https with without .git
+        self.repo.component.repo = (
+            "http://WeblateOrg@dev.azure.com/organization/WeblateOrg/_git/test"
+        )
+        self.assertEqual(
+            self.repo.get_credentials()["url"],
+            "http://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test",
+        )
+        # https with trailing slash
+        self.repo.component.repo = (
+            "https://WeblateOrg@dev.azure.com/organization/WeblateOrg/_git/test/"
+        )
+        self.assertEqual(
+            self.repo.get_credentials()["url"],
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test",
+        )
+        # http with trailing slash
+        self.repo.component.repo = (
+            "http://WeblateOrg@dev.azure.com/organization/WeblateOrg/_git/test"
+        )
+        self.assertEqual(
+            self.repo.get_credentials()["url"],
+            "http://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test",
+        )
+        # ssh with username
+        self.repo.component.repo = (
+            "git@ssh.dev.azure.com:v3/organization/WeblateOrg/test"
+        )
+        self.assertEqual(
+            self.repo.get_credentials()["url"],
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test",
+        )
+        # ssh without username
+        self.repo.component.repo = "ssh.dev.azure.com:v3/organization/WeblateOrg/test"
+        self.assertEqual(
+            self.repo.get_credentials()["url"],
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test",
+        )
+
+    @responses.activate
+    def test_pull_request_error(self, branch=""):
+        # Mock PR to return error
+        self.mock_responses(pr_status=403, pr_response={"message": "Some error"})
+
+        with self.assertRaises(RepositoryError):
+            super().test_push(branch)
+
+    @responses.activate
+    def test_pull_request_exists(self, branch=""):
+        # Check that it doesn't raise error when pull request already exists
+        self.mock_responses(
+            pr_status=409,
+            pr_response={
+                "message": "TF401179: An active pull request for the source and target branch already exists."
+            },
+        )
+
+        super().test_push(branch)
+
+    @override_settings(
+        AZURE_DEVOPS_CREDENTIALS={
+            "dev.azure.com": {
+                "username": "test",
+                "token": "token",
+                "organization": "organization",
+                "workItemIds": [1111, 2222],
+            }
+        }
+    )
+    @responses.activate
+    def test_pull_request_work_item_refs(self, branch=""):
+        # Mock PR to return success
+        response = {"url": "https://example.com"}
+        self.mock_responses(response)
+        responses.remove(
+            responses.POST,
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/pullrequests",
+        )
+        responses.post(
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/pullrequests",
+            match=[
+                matchers.json_params_matcher(
+                    {"workItemRefs": [{"id": "1111"}, {"id": "2222"}]},
+                    strict_match=False,
+                )
+            ],
+            json=response,
+            status=201,
+        )
+
+        super().test_push(branch)
+
+    @responses.activate
+    def test_push(self, branch=""):
+        self.mock_responses(
+            pr_response={
+                "url": "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/pullRequests/1"
+            }
+        )
+        super().test_push(branch)
+
+    @responses.activate
+    def test_fork_repository_already_exists(self, branch=""):
+        # Mock PR to return success
+        repositories_url = (
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories"
+        )
+        responses.add(
+            responses.POST,
+            repositories_url,
+            json={
+                "message": "TF400948: A Git repository with the name already exists."
+            },
+            status=409,
+        )
+        self.mock_responses({"url": f"{repositories_url}/test/pullRequests/1"})
+
+        super().test_push(branch)
+
+        responses.assert_call_count(repositories_url, 2)
+
+    @responses.activate
+    def test_push_where_finds_existing_fork(self, branch=""):
+        repositories_url = (
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories"
+        )
+        self.mock_responses(
+            pr_response={"url": f"{repositories_url}/test/pullRequests/1"}
+        )
+
+        fork_url = f"{repositories_url}/test/forks/org-id"
+
+        responses.replace(
+            responses.GET,
+            fork_url,
+            json={
+                "value": [
+                    {
+                        "project": {"name": "test"},
+                        "sshUrl": "git@ssh.dev.azure.com:v3/organization/WeblateOrg/test",
+                    }
+                ]
+            },
+        )
+
+        super().test_push(branch)
+
+        responses.assert_call_count(repositories_url, 0)
+
+    @responses.activate
+    def test_push_when_remote_fork_is_deleted(self, branch=""):
+        self.mock_responses(
+            pr_response={
+                "url": "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/pullRequests/1"
+            }
+        )
+
+        with self.repo.lock:
+            self.repo.execute(
+                [
+                    "remote",
+                    "add",
+                    "test",
+                    "git@ssh.this.does.not.exist:v3/org/proj/repo",
+                ]
+            )
+
+        responses.post(
+            "https://this.does.not.exist/org/proj/_apis/git/repositories/repo",
+            json={"message": "Not found"},
+            status=404,
+        )
+
+        super().test_push(branch)
+
+    @responses.activate
+    def test_fork_parent_repo_not_found(self, branch=""):
+        self.mock_responses(pr_response={})
+
+        responses.replace(
+            responses.GET,
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test",
+            json={"message": "Not found"},
+        )
+
+        with self.assertRaises(RepositoryError):
+            super().test_push(branch)
+
+    @responses.activate
+    def test_creating_fork_fails(self, branch=""):
+        self.mock_responses(pr_response={})
+
+        responses.replace(
+            responses.POST,
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories",
+            json={"message": "Some error"},
+        )
+
+        with self.assertRaises(RepositoryError):
+            super().test_push(branch)
+
+    @responses.activate
+    def test_getting_organization_id_fails(self, branch=""):
+        self.mock_responses(
+            pr_response={
+                "url": "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/pullRequests/1"
+            }
+        )
+
+        responses.replace(
+            responses.POST,
+            "https://dev.azure.com/organization/_apis/Contribution/HierarchyQuery?api-version=5.0-preview.1",
+            json={"message": "Some error"},
+        )
+
+        with self.assertRaises(RepositoryError):
+            super().test_push(branch)
+
+    @responses.activate
+    def test_getting_existing_forks_fails(self, branch=""):
+        self.mock_responses(
+            pr_response={
+                "url": "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/pullRequests/1"
+            }
+        )
+
+        responses.replace(
+            responses.GET,
+            "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/forks/org-id",
+            json={"message": "Some error"},
+            status=418,
+        )
+
+        with self.assertRaises(RepositoryError):
+            super().test_push(branch)
+
+    @responses.activate
+    def test_fails_when_token_is_considered_invalid(self, branch=""):
+        responses.add(
+            method=responses.GET,
+            url=re.compile(".*"),
+            body="<html><head>Sign in please</head><body></body></html>",
+            status=203,
+        )
+
+        with self.assertRaises(RepositoryError) as cm:
+            super().test_push(branch)
+
+        self.assertEqual("Invalid token", cm.exception.get_message())
 
 
 @override_settings(

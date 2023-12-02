@@ -411,6 +411,8 @@ using the following:
         "weblate.accounts.auth.WeblateUserBackend",
     )
 
+.. _password-authentication:
+
 Password authentication
 -----------------------
 

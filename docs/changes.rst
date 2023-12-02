@@ -1,7 +1,102 @@
+Weblate 5.3
+-----------
+
+Not yet released.
+
+**New features**
+
+* :ref:`mt-openai` automatic suggestion service.
+* Added labels API, see :http:get:`/api/projects/(string:project)/labels/`.
+* :ref:`glossary-mt`.
+
+**Improvements**
+
+* Reduced memory usage for stastics.
+* :ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:`glossary-mt`.
+* Improved region selection in :ref:`mt-google-translate-api-v3`.
+
+**Bug fixes**
+
+**Compatibility**
+
+* Dropped Microsoft Terminology service for automatic suggestions as it is no longer provided by Microsoft.
+* ``labels`` in units API now expose full label info, see :http:get:`/api/units/(int:id)/`.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/107?closed=1>`__.
+
+Weblate 5.2.1
+-------------
+
+Released on November 22nd 2023.
+
+**Improvements**
+
+* Show search field after no strings found while translating.
+* Added soft hyphen to special characters toolbar.
+
+**Bug fixes**
+
+* Database backups compatibility with Alibaba Cloud Database PolarDB.
+* Crash on loading statistics calculated by previous versions.
+* Sort icons in dark mode.
+* Project level statistics no longer count categorized components twice.
+* Possible discarding pending translations after editing source strings.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/108?closed=1>`__.
+
+Weblate 5.2
+-----------
+
+Released on November 16th 2023.
+
+**New features**
+
+* :ref:`vcs-azure-devops`
+
+**Improvements**
+
+* Faster statistics updates.
+* Better e-mail selection in user profile.
+* :ref:`autofix` are now applied to suggestions as well.
+* :ref:`mt-deepl` can now configure default formality for translations.
+* Use neutral colors for progress bars and translation unit states.
+* :ref:`addon-weblate.gettext.mo` can optionally include strings needing editing.
+* Use :http:header:`Accept-Language` to order translations for unauthenticated users.
+* Add option to directly approve suggestions with :ref:`reviews` workflow.
+* One-click removal of project or component :ref:`subscriptions`.
+* :ref:`api-statistics` now includes character and word counts for more string states.
+
+**Bug fixes**
+
+* Fixed creating component within a category by upload.
+* Error handling in organizing components and categories.
+* Fixed moving categories between projects.
+* Fixed formatting of translation memory search results.
+* Allow non-breaking space character in :ref:`autofix-html`.
+
+**Compatibility**
+
+* :doc:`/formats/apple` exporter now produces UTF-8 encoded files.
+* Python 3.12 is now supported, though not recommended, see :ref:`python-deps`.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/104?closed=1>`__.
+
 Weblate 5.1.1
 -------------
 
-Not yet released.
+Released on October 25th 2023.
 
 **New features**
 
@@ -9,9 +104,13 @@ Not yet released.
 
 * :ref:`addon-weblate.consistency.languages` now uses a dedicated user for changes.
 * Added button for sharing on Fediverse.
-* Added valication for VCS integration credentials.
+* Added validation for VCS integration credentials.
+* Reduced overhead of statistics collection.
 
 **Bug fixes**
+
+* Added plurals validation when editing string using API.
+* Replacing a file using upload when existing is corrupted.
 
 **Compatibility**
 

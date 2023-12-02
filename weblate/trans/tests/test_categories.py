@@ -18,7 +18,7 @@ class CategoriesTest(ViewTestCase):
         super().setUp()
         self.project.add_user(self.user, "Administration")
 
-    def test_add_move(self):
+    def add_and_organize(self):
         response = self.client.post(
             reverse("add-category", kwargs={"path": self.project.get_url_path()}),
             {"name": "Test category", "slug": "test-cat"},
@@ -31,8 +31,13 @@ class CategoriesTest(ViewTestCase):
         self.assertRedirects(response, category_url)
         self.assertContains(response, "Nothing to list here.")
         response = self.client.post(
-            reverse("move", kwargs=self.kw_component),
-            {"project": self.project.pk, "category": category.pk},
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": self.project.pk,
+                "category": category.pk,
+                "slug": self.component.slug,
+                "name": self.component.name,
+            },
             follow=True,
         )
         new_component_url = reverse(
@@ -44,6 +49,10 @@ class CategoriesTest(ViewTestCase):
         self.assertRedirects(response, new_component_url)
         self.client.get(category_url)
         self.assertNotContains(response, "Nothing to list here.")
+        return category
+
+    def test_add_move(self):
+        category = self.add_and_organize()
 
         # Category/language view
         response = self.client.get(
@@ -56,7 +65,12 @@ class CategoriesTest(ViewTestCase):
 
         response = self.client.post(
             reverse("rename", kwargs={"path": category.get_url_path()}),
-            {"name": "Other", "slug": "renamed"},
+            {
+                "name": "Other",
+                "slug": "renamed",
+                "project": category.project.id,
+                "category": "",
+            },
             follow=True,
         )
         self.assertNotContains(response, "Nothing to list here.")
@@ -82,8 +96,13 @@ class CategoriesTest(ViewTestCase):
 
         # Move to other category
         response = self.client.post(
-            reverse("move", kwargs={"path": category.get_url_path()}),
-            {"project": self.project.pk, "category": new_category.pk},
+            reverse("rename", kwargs={"path": category.get_url_path()}),
+            {
+                "project": self.project.pk,
+                "category": new_category.pk,
+                "name": category.name,
+                "slug": category.slug,
+            },
             follow=True,
         )
         self.assertContains(response, "Test category")
@@ -105,8 +124,13 @@ class CategoriesTest(ViewTestCase):
         )
         # Move to other project
         response = self.client.post(
-            reverse("move", kwargs={"path": category.get_url_path()}),
-            {"project": project.pk, "category": ""},
+            reverse("rename", kwargs={"path": category.get_url_path()}),
+            {
+                "project": project.pk,
+                "category": "",
+                "name": category.name,
+                "slug": category.slug,
+            },
             follow=True,
         )
         self.assertContains(response, "Test category")
@@ -116,8 +140,13 @@ class CategoriesTest(ViewTestCase):
         project = Project.objects.create(name="other", slug="other")
         category = Category.objects.create(name="other", slug="oc", project=project)
         response = self.client.post(
-            reverse("move", kwargs=self.kw_component),
-            {"project": self.project.pk, "category": category.pk},
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": self.project.pk,
+                "category": category.pk,
+                "slug": self.component.slug,
+                "name": self.component.name,
+            },
             follow=True,
         )
         self.assertContains(
@@ -193,3 +222,97 @@ class CategoriesTest(ViewTestCase):
             },
         )
         self.assertEqual(response.status_code, 302)
+
+    def test_move_category(self):
+        category = self.add_and_organize()
+
+        project = Project.objects.create(name="other", slug="other")
+        project.add_user(self.user, "Administration")
+
+        response = self.client.post(
+            reverse("rename", kwargs={"path": category.get_url_path()}),
+            {
+                "project": project.pk,
+                "category": "",
+                "name": category.name,
+                "slug": category.slug,
+            },
+            follow=True,
+        )
+        self.assertRedirects(
+            response,
+            reverse(
+                "show",
+                kwargs={"path": [*project.get_url_path(), "test-cat"]},
+            ),
+        )
+        self.assertTrue(project.component_set.exists())
+        self.assertFalse(category.component_set.filter(project=self.project).exists())
+
+    def test_move_linked_component(self):
+        project = Project.objects.create(name="other", slug="other")
+        self.component.links.add(project)
+
+        response = self.client.post(
+            reverse("add-category", kwargs={"path": self.project.get_url_path()}),
+            {"name": "Test category", "slug": "test-cat"},
+            follow=True,
+        )
+        category_url = reverse(
+            "show", kwargs={"path": [*self.project.get_url_path(), "test-cat"]}
+        )
+        category = Category.objects.get()
+        self.assertRedirects(response, category_url)
+        self.assertContains(response, "Nothing to list here.")
+        response = self.client.post(
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": self.project.pk,
+                "category": category.pk,
+                "slug": self.component.slug,
+                "name": self.component.name,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Categorized component can not be shared.")
+
+    def test_move_category_linked_repo(self):
+        component = self.create_link_existing()
+        self.assertEqual(component.repo, "weblate://test/test")
+
+        category = self.add_and_organize()
+
+        component.refresh_from_db()
+        self.assertEqual(component.repo, "weblate://test/test-cat/test")
+
+        self.client.post(
+            reverse("rename", kwargs={"path": category.get_url_path()}),
+            {
+                "project": self.project.pk,
+                "category": "",
+                "name": category.name,
+                "slug": "test-rename",
+            },
+            follow=True,
+        )
+
+        component.refresh_from_db()
+        self.assertEqual(component.repo, "weblate://test/test-rename/test")
+
+        project = Project.objects.create(name="other", slug="other")
+        project.add_user(self.user, "Administration")
+
+        category = Category.objects.get()
+        self.client.post(
+            reverse("rename", kwargs={"path": category.get_url_path()}),
+            {
+                "project": project.pk,
+                "category": "",
+                "name": category.name,
+                "slug": category.slug,
+            },
+            follow=True,
+        )
+
+        component.refresh_from_db()
+        self.assertEqual(component.repo, "weblate://other/test-rename/test")
