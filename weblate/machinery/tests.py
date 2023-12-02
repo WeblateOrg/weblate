@@ -12,6 +12,7 @@ from unittest.mock import Mock, patch
 from urllib.parse import parse_qs
 
 import responses
+from aliyunsdkcore.client import AcsClient
 from botocore.stub import ANY, Stubber
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -27,6 +28,7 @@ import weblate.machinery.models
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.configuration.models import Setting
 from weblate.lang.models import Language
+from weblate.machinery.alibaba import AlibabaTranslation
 from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
@@ -1379,6 +1381,40 @@ class AWSTranslationTest(BaseMachineTranslationTest):
                 {"SourceLanguageCode": ANY, "TargetLanguageCode": ANY, "Text": ANY},
             )
             super().test_batch(machine=machine)
+
+
+class AlibabaTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = AlibabaTranslation
+    EXPECTED_LEN = 1
+    NOTSUPPORTED = "tog"
+    CONFIGURATION = {
+        "key": "key",
+        "secret": "secret",
+        "region": "cn-hangzhou",
+    }
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        raise SkipTest("Not tested")
+
+    def mock_response(self):
+        patcher = patch.object(
+            AcsClient,
+            "do_action_with_exception",
+            Mock(
+                return_value=json.dumps(
+                    {
+                        "RequestId": "14E447CA-B93B-4526-ACD7-42AE13CC2AF6",
+                        "Data": {"Translated": "Hello"},
+                        "Code": 200,
+                    }
+                )
+            ),
+        )
+        patcher.start()
+        self.addCleanup(patcher.stop)
 
 
 class IBMTranslationTest(BaseMachineTranslationTest):

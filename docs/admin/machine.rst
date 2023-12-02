@@ -29,7 +29,7 @@ The services translate from the source language as configured at
 .. _mt-alibaba:
 
 Alibaba
----
+-------
 
 :Service ID: ``alibaba``
 :Configuration: +------------+-------------------+--+
