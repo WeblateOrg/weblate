@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 18:17+0000\n"
-"PO-Revision-Date: 2023-11-20 09:56+0000\n"
-"Last-Translator: gfbdrgng <bngvh1b.g-gh1@mail.ru>\n"
+"PO-Revision-Date: 2023-12-02 10:40+0000\n"
+"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.2\n"
+"X-Generator: Weblate 5.3-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -832,7 +832,7 @@ msgstr "К вашему переводу был получен коммента�
 #: weblate/accounts/notifications.py:604
 msgctxt "Notification name"
 msgid "String was edited by user"
-msgstr "Строка была отредактирована пользователем"
+msgstr "Строка была изменена пользователем"
 
 #: weblate/accounts/notifications.py:612
 msgctxt "Notification name"
@@ -1223,7 +1223,7 @@ msgid ""
 msgstr ""
 "При импорте новой исходной строки из системы контроля версий она помечается "
 "в Weblate флагом «На правку». Таким образом, вы можете легко фильтровать и "
-"редактировать исходные строки, добавленные разработчиками."
+"изменять исходные строки, добавленные разработчиками."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new translations as \"Needs editing\""
@@ -1237,7 +1237,7 @@ msgid ""
 msgstr ""
 "При импорте строки для перевода из системы контроля версий она помечается в "
 "Weblate флагом «На правку». Таким образом, вы можете легко фильтровать и "
-"редактировать переводы, созданные разработчиками."
+"изменять переводы, созданные разработчиками."
 
 #: weblate/addons/flags.py:68
 msgid "Flag unchanged translations as \"Needs editing\""
@@ -1279,15 +1279,15 @@ msgstr "Если не указано, будет использовано рас
 
 #: weblate/addons/forms.py:50
 msgid "Include strings needing editing"
-msgstr "Включить строки, требующие редактирования"
+msgstr "Включить строки, требующие правки"
 
 #: weblate/addons/forms.py:53
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
-"Строки, нуждающиеся в редактировании (fuzzy), как правило, не готовы к "
-"использованию в качестве переводов."
+"Строки, нуждающиеся в правке (fuzzy), обычно не готовы к использованию в "
+"качестве переводов."
 
 #: weblate/addons/forms.py:78
 msgid "Name of generated file"
@@ -2586,7 +2586,7 @@ msgstr "Недостаточно привилегий для сохранени�
 
 #: weblate/auth/permissions.py:173
 msgid "Insufficient privileges for editing source strings."
-msgstr "Недостаточно привилегий для редактирования исходных строк."
+msgstr "Недостаточно привилегий для правки исходных строк."
 
 #: weblate/auth/permissions.py:177
 msgid "Suggestion voting is disabled."
@@ -7285,7 +7285,7 @@ msgid ""
 "You need to be signed in to translate, otherwise you can only make "
 "suggestions."
 msgstr ""
-"Для редактирования переводов нужно войти, иначе вы сможете только предлагать "
+"Для правки переводов нужно войти, иначе вы сможете только предлагать "
 "изменения."
 
 #: weblate/templates/dashboard/anonymous.html:17
@@ -10163,8 +10163,8 @@ msgid ""
 "a preview of edited strings before the actual change is confirmed."
 msgstr ""
 "Не бойтесь испортить строку. Это двухэтапный процесс, показывающий "
-"предварительный просмотр отредактированных строк до подтверждения "
-"фактического изменения."
+"предварительный просмотр изменённых строк до подтверждения фактического "
+"изменения."
 
 #: weblate/templates/snippets/share-menu.html:6
 msgid "Share"
@@ -10284,16 +10284,15 @@ msgstr "Исходник рецензируется"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:6
 msgid "Source string editing is disabled."
-msgstr "Редактирование исходной строки отключено."
+msgstr "Изменение исходной строки отключено."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid "Source strings can’t be edited. You can delete them and add new ones."
-msgstr ""
-"Исходные строки нельзя редактировать. Вы можете удалить их и добавить новые."
+msgstr "Исходные строки нельзя править. Вы можете удалить их и добавить новые."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
 msgid "The source string cannot be edited."
-msgstr "Исходную строку нельзя редактировать."
+msgstr "Исходную строку нельзя править."
 
 #: weblate/templates/snippets/user-list.html:21 weblate/utils/forms.py:102
 msgid "Could not find any such user."
@@ -13674,15 +13673,14 @@ msgstr "Неопознанный базовый файл для новых пе�
 
 #: weblate/trans/models/component.py:2774
 msgid "Editing template is not supported with this file format."
-msgstr "Шаблон редактирования не поддерживается для этого формата файла."
+msgstr "Шаблон правки не поддерживается для этого формата файла."
 
 #: weblate/trans/models/component.py:2780
 #: weblate/trans/models/component.py:2796
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr ""
-"Файл промежуточного языка не может быть использован без редактирования "
-"шаблона."
+"Файл промежуточного языка не может быть использован без изменения шаблона."
 
 #: weblate/trans/models/component.py:2788
 msgid ""
