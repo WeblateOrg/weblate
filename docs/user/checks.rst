@@ -45,6 +45,18 @@ Devanagari danda
 
 Replaces wrong full stop in Devanagari by Devanagari danda (``।``).
 
+.. _autofix-punctuation-spacing:
+
+Punctuation spacing
+~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.3
+
+Ensures French and Breton use correct punctuation spacing.
+
+This fixup can be disable via ``ignore-punctuation-spacing`` flag (which also
+disables :ref:`check-punctuation-spacing`).
+
 .. _autofix-html:
 
 Unsafe HTML cleanup

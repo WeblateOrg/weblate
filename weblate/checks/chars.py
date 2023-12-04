@@ -11,6 +11,10 @@ from weblate.checks.markup import strip_entities
 from weblate.checks.parser import single_value_flag
 
 FRENCH_PUNCTUATION = {";", ":", "?", "!"}
+FRENCH_PUNCTUATION_FIXUP_RE = "([ \u00A0\u2009])([{}])".format(
+    "".join(FRENCH_PUNCTUATION)
+)
+FRENCH_PUNCTUATION_MISSING_RE = "([^\u202F])([{}])".format("".join(FRENCH_PUNCTUATION))
 MY_QUESTION_MARK = "\u1038\u104b"
 
 
@@ -444,13 +448,13 @@ class PunctuationSpacingCheck(TargetCheck):
         return [
             # First fix possibly wrong whitespace
             (
-                "([ \u00A0\u2009])([{}])".format("".join(FRENCH_PUNCTUATION)),
+                FRENCH_PUNCTUATION_FIXUP_RE,
                 "\u202F$2",
                 "gu",
             ),
             # Then add missing ones
             (
-                "([^\u202F])([{}])".format("".join(FRENCH_PUNCTUATION)),
+                FRENCH_PUNCTUATION_MISSING_RE,
                 "$1\u202F$2",
                 "gu",
             ),

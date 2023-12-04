@@ -10,6 +10,7 @@ from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.autofixes import fix_target
 from weblate.trans.autofixes.chars import (
     DevanagariDanda,
+    PunctuationSpacing,
     RemoveControlChars,
     RemoveZeroSpace,
     ReplaceTrailingDotsWithEllipsis,
@@ -166,3 +167,18 @@ class AutoFixTest(TestCase):
         self.assertEqual(fix.fix_target(["Bar|"], bn_unit), (["Bar।"], True))
         self.assertEqual(fix.fix_target(["Bar।"], bn_unit), (["Bar।"], False))
         self.assertEqual(fix.fix_target(["Bar."], cs_unit), (["Bar."], False))
+
+    def test_punctuation_spacing(self):
+        fix = PunctuationSpacing()
+        non_unit = MockUnit(source="Foo", code="bn")
+        fr_unit = MockUnit(source="Foo:", code="fr")
+        fr_ca_unit = MockUnit(source="Foo:", code="fr_CA")
+        cs_unit = MockUnit(source="Foo:", code="cs")
+        self.assertEqual(fix.fix_target(["Bar:"], non_unit), (["Bar:"], False))
+        self.assertEqual(
+            fix.fix_target(["Bar\u202F:"], fr_unit), (["Bar\u202F:"], False)
+        )
+        self.assertEqual(fix.fix_target(["Bar :"], fr_unit), (["Bar\u202F:"], True))
+        self.assertEqual(fix.fix_target(["Bar:"], fr_unit), (["Bar\u202F:"], True))
+        self.assertEqual(fix.fix_target(["Bar:"], fr_ca_unit), (["Bar:"], False))
+        self.assertEqual(fix.fix_target(["Bar:"], cs_unit), (["Bar:"], False))

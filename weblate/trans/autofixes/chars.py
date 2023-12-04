@@ -2,8 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import re
+
 from django.utils.translation import gettext_lazy
 
+from weblate.checks.chars import (
+    FRENCH_PUNCTUATION_FIXUP_RE,
+    FRENCH_PUNCTUATION_MISSING_RE,
+)
 from weblate.formats.helpers import CONTROLCHARS_TRANS
 from weblate.trans.autofixes.base import AutoFix
 
@@ -53,9 +59,31 @@ class DevanagariDanda(AutoFix):
 
     def fix_single_target(self, target, source, unit):
         if (
-            unit.translation.language.base_code in ("hi", "bn", "or")
+            unit.translation.language.is_base(("hi", "bn", "or"))
             and source.endswith(".")
             and target.endswith((".", "\u09F7", "|"))
         ):
             return f"{target[:-1]}\u0964", True
+        return target, False
+
+
+class PunctuationSpacing(AutoFix):
+    """Ensures French and Breton use correct punctuation spacing."""
+
+    fix_id = "punctuation-spacing"
+    name = gettext_lazy("Punctuation spacing")
+
+    def fix_single_target(self, target, source, unit):
+        if (
+            unit.translation.language.is_base(("fr", "br"))
+            and unit.translation.language.code != "fr_CA"
+            and "ignore-punctuation-spacing" not in unit.all_flags
+        ):
+            # Fix existing
+            new_target = re.sub(FRENCH_PUNCTUATION_FIXUP_RE, "\u202F\\2", target)
+            # Add missing
+            new_target = re.sub(
+                FRENCH_PUNCTUATION_MISSING_RE, "\\1\u202F\\2", new_target
+            )
+            return new_target, new_target != target
         return target, False
