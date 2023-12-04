@@ -9,6 +9,7 @@ import time
 from datetime import datetime, timedelta
 from glob import glob
 from operator import itemgetter
+from pathlib import Path
 
 from celery import current_task
 from celery.schedules import crontab
@@ -16,6 +17,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.db import transaction
 from django.db.models import Count, F
+from django.http import Http404
 from django.utils import timezone
 from django.utils.timezone import make_aware
 from django.utils.translation import gettext, ngettext, override
@@ -23,6 +25,7 @@ from django.utils.translation import gettext, ngettext, override
 from weblate.addons.models import Addon
 from weblate.auth.models import User, get_anonymous
 from weblate.lang.models import Language
+from weblate.logger import LOGGER
 from weblate.machinery.base import MachineTranslationError
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
@@ -41,6 +44,7 @@ from weblate.utils.errors import report_error
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.stats import prefetch_stats
+from weblate.utils.views import parse_path
 from weblate.vcs.base import RepositoryError
 
 
@@ -218,31 +222,58 @@ def update_remotes():
 
 
 @app.task(trail=False)
-def cleanup_stale_repos():
-    prefix = data_dir("vcs")
-    vcs_mask = os.path.join(prefix, "*", "*")
+def cleanup_stale_repos(root: Path | None = None) -> bool:
+    vcs_root = Path(data_dir("vcs"))
+    if root is None:
+        root = vcs_root
 
     yesterday = time.time() - 86400
 
-    for path in glob(vcs_mask):
-        if not os.path.isdir(path):
+    empty_dir = True
+    for path in root.glob("*"):
+        if not path.is_dir():
+            empty_dir = False
+            # Possibly a lock file
+            continue
+        git_dir = path / ".git"
+        mercurial_dir = path / ".hg"
+        if not git_dir.exists() and not mercurial_dir.exists():
+            # Category dir
+            if not cleanup_stale_repos(path):
+                empty_dir = False
             continue
 
         # Skip recently modified paths
-        if os.path.getmtime(path) > yesterday:
+        if path.stat().st_mtime > yesterday:
             continue
 
-        # Parse path
-        project, component = os.path.split(path[len(prefix) + 1 :])
-
-        # Find matching components
-        objects = Component.objects.with_repo().filter(
-            slug=component, project__slug=project
-        )
-
-        # Remove stale dirs
-        if not objects.exists():
+        try:
+            # Find matching components
+            parse_path(
+                None, path.relative_to(vcs_root).parts, (Component,), skip_acl=True
+            )
+        except Http404:
+            # Remove stale dir
+            LOGGER.info("removing stale VCS path: %s", path)
             remove_tree(path)
+        else:
+            empty_dir = False
+
+    if empty_dir and root != vcs_root:
+        try:
+            # Find matching components
+            parse_path(
+                None,
+                root.relative_to(vcs_root).parts,
+                (Category, Project),
+                skip_acl=True,
+            )
+        except Http404:
+            LOGGER.info("removing stale VCS path: %s", root)
+            root.rmdir()
+        else:
+            empty_dir = False
+    return empty_dir
 
 
 @app.task(trail=False)
