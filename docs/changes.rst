@@ -17,6 +17,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Removing stale VCS directories.
+
 **Compatibility**
 
 * Dropped Microsoft Terminology service for automatic suggestions as it is no longer provided by Microsoft.

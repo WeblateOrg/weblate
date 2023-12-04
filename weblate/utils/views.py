@@ -197,6 +197,7 @@ def parse_path(  # noqa: C901
         return None
 
     allowed_types = {x for x in types if x is not None}
+    acting_user = request.user if request else None
 
     def check_type(cls):
         if cls not in allowed_types:
@@ -213,7 +214,7 @@ def parse_path(  # noqa: C901
     project = get_object_or_404(Project, slug=path.pop(0))
     if not skip_acl:
         request.user.check_access(project)
-    project.acting_user = request.user
+    project.acting_user = acting_user
     if not path:
         check_type(Project)
         return project
@@ -244,13 +245,13 @@ def parse_path(  # noqa: C901
             current = current.component_set.get(slug=slug, **category_args)
             if not skip_acl:
                 request.user.check_access_component(current)
-            current.acting_user = request.user
+            current.acting_user = acting_user
             break
 
         # Try category
         with suppress(Category.DoesNotExist):
             current = current.category_set.get(slug=slug, **category_args)
-            current.acting_user = request.user
+            current.acting_user = acting_user
             category_args = {}
             continue
 
