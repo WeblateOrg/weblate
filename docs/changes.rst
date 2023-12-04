@@ -9,6 +9,7 @@ Not yet released.
 * :ref:`mt-alibaba` automatic suggestion service.
 * Added labels API, see :http:get:`/api/projects/(string:project)/labels/`.
 * :ref:`glossary-mt`.
+* New automatic fixed for :ref:`autofix-punctuation-spacing`.
 
 **Improvements**
 
