@@ -6,6 +6,7 @@ Not yet released.
 **New features**
 
 * :ref:`mt-openai` automatic suggestion service.
+* :ref:`mt-alibaba` automatic suggestion service.
 * Added labels API, see :http:get:`/api/projects/(string:project)/labels/`.
 * :ref:`glossary-mt`.
 

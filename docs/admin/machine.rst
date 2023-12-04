@@ -31,6 +31,8 @@ The services translate from the source language as configured at
 Alibaba
 -------
 
+.. versionadded:: 5.3
+
 :Service ID: ``alibaba``
 :Configuration: +------------+-------------------+--+
                 | ``key``    | Access key ID     |  |
