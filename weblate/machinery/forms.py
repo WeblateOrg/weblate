@@ -224,6 +224,18 @@ class AWSMachineryForm(KeySecretMachineryForm):
     )
 
 
+class AlibabaMachineryForm(KeySecretMachineryForm):
+    key = forms.CharField(
+        label=pgettext_lazy("Alibaba Translate configuration", "Access key ID")
+    )
+    secret = forms.CharField(
+        label=pgettext_lazy("Alibaba Translate configuration", "Access key secret")
+    )
+    region = forms.CharField(
+        label=pgettext_lazy("Alibaba Translate configuration", "Region ID")
+    )
+
+
 class ModernMTMachineryForm(KeyURLMachineryForm):
     url = forms.URLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),

@@ -26,6 +26,27 @@ The services translate from the source language as configured at
 
    :ref:`machine-translation`
 
+.. _mt-alibaba:
+
+Alibaba
+-------
+
+:Service ID: ``alibaba``
+:Configuration: +------------+-------------------+--+
+                | ``key``    | Access key ID     |  |
+                +------------+-------------------+--+
+                | ``secret`` | Access key secret |  |
+                +------------+-------------------+--+
+                | ``region`` | Region ID         |  |
+                +------------+-------------------+--+
+
+Alibaba Translate is a neural machine translation service for translating text
+and it supports up to 214 language pairs.
+
+.. seealso::
+
+    `Alibaba Translate Documentation <https://www.alibabacloud.com/help/en/machine-translation>`_
+
 .. _mt-amagama:
 
 Amagama
