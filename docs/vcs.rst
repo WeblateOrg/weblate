@@ -46,6 +46,21 @@ Once the :guilabel:`weblate` user is added to your repository, you can configure
 :ref:`component-repo` and :ref:`component-push` using the SSH protocol (for example
 ``git@github.com:WeblateOrg/weblate.git``).
 
+Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, Azure DevOps, ...)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Accessing repositories on code hosting sites is typically done by creating a
+dedicated user who is associated with a Weblate SSH key (see
+:ref:`weblate-ssh-key`). This way you associate Weblate SSH key with a single
+user (this of frequently enforced by the platform) and grant this user access
+to the repository. You can then use SSH URL to access the repository (see
+:ref:`ssh-repos`).
+
+.. hint::
+
+   On a Hosted Weblate, this is pre-cofigured for most of the public sites,
+   please see :ref:`hosted-push`.
+
 .. _ssh-repos:
 
 SSH repositories
