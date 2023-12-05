@@ -345,7 +345,7 @@ class UserForm(forms.ModelForm):
     email = forms.ChoiceField(
         label=gettext_lazy("Account e-mail"),
         help_text=gettext_lazy(
-            "Used for e-mail notifications and as a commit e-mail if it is not not configured below."
+            "Used for e-mail notifications and as a commit e-mail if it is not configured below."
         ),
         choices=(("", ""),),
         required=True,
