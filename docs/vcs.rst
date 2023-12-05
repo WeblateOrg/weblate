@@ -138,7 +138,7 @@ authentication for a single destination host:
 
 .. code-block:: text
 
-   Host old-host
+   Host legacy-host
       HostkeyAlgorithms +ssh-rsa
       PubkeyAcceptedAlgorithms +ssh-rsa
 
