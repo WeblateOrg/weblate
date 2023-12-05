@@ -1,15 +1,19 @@
 .. _dotnet:
 
-RESX .NET resource files
-------------------------
+.NET resource files (RESX, RESW)
+--------------------------------
 
 .. index::
     pair: RESX; file format
+    pair: RESW; file format
     pair: .XML resource file; file format
 
-A .XML resource (.resx) file employs a monolingual XML file format used in Microsoft
-.NET applications. It is `interchangeable with .resw, when using identical
-syntax to .resx <https://lingohub.com/developers/resource-files/resw-resx-localization>`_.
+A .NET XML resource file employs a monolingual XML file
+format used in Microsoft .NET applications.
+
+It can use ``.resx`` or ``.resw`` extension. Despite the difference of file
+extension, the ``.resw`` file format is identical to the ``.resx`` file format,
+except that ``.resw`` files may contain only strings and file paths.
 
 .. seealso::
 
