@@ -1,13 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+# Rafael Fontenelle <rafaelff@gnome.org>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 18:17+0000\n"
-"PO-Revision-Date: 2023-10-15 07:01+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-12-05 17:43+0000\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -15,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.3-dev\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -64,6 +65,9 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are commited by Weblate."
 msgstr ""
+"Usado em commits de controle de versão. O endereço permanecerá no "
+"repositório para sempre assim que as alterações sejam armazenados em um "
+"commit pelo Weblate."
 
 #: weblate/accounts/forms.py:211 weblate/accounts/models.py:597
 msgid "Public e-mail"
@@ -79,16 +83,16 @@ msgid "Component list: %s"
 msgstr "Lista de componentes: %s"
 
 #: weblate/accounts/forms.py:346
-#, fuzzy
-#| msgid "Account removal"
 msgid "Account e-mail"
-msgstr "Remoção de conta"
+msgstr "Conta de e-mail"
 
 #: weblate/accounts/forms.py:348
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not not "
 "configured below."
 msgstr ""
+"Usado para notificações por e-mail como um e-mail de commit se não estiver "
+"configurado abaixo."
 
 #: weblate/accounts/forms.py:393
 msgid "Subject"
@@ -395,10 +399,9 @@ msgid "Account and all private data removed."
 msgstr "Conta e todos os dados privados removidos."
 
 #: weblate/accounts/models.py:158
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "Enviado um e-mail de confirmação para {email}."
+msgstr "Confirmação de remoção de conta enviada para {email}."
 
 #: weblate/accounts/models.py:159
 #, python-brace-format
@@ -413,7 +416,7 @@ msgstr "Convidado para {site_title} por {username}."
 #: weblate/accounts/models.py:161
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
+msgstr "Convite aceito de {username}."
 
 #: weblate/accounts/models.py:162
 msgid "Started trial period."
@@ -438,16 +441,12 @@ msgid "Access to project {project} was blocked"
 msgstr "O acesso ao projeto {project} foi bloqueado"
 
 #: weblate/accounts/models.py:169
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was enabled by administrator"
-msgstr "A mensagem foi enviada para o administrador."
+msgstr "O usuário foi habilitado pelo administrador"
 
 #: weblate/accounts/models.py:170
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was disabled by administrator"
-msgstr "A mensagem foi enviada para o administrador."
+msgstr "O usuário foi desabilitado pelo administrador"
 
 #: weblate/accounts/models.py:175
 msgid "Configured password to sign in."
@@ -466,10 +465,9 @@ msgid "Could not sign in using password."
 msgstr "Não foi possível autenticar usando a senha."
 
 #: weblate/accounts/models.py:181
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "Convidado para {site_title} por {username}."
+msgstr "Convidado(a) para {project} por {username}."
 
 #: weblate/accounts/models.py:187
 msgid "To restore access to your account, please reset your password."
@@ -482,15 +480,11 @@ msgstr ""
 "inapropriado."
 
 #: weblate/accounts/models.py:193 weblate/accounts/models.py:196
-#, fuzzy
-#| msgid ""
-#| "In case the confirmation link is expired, you can use password reset "
-#| "feature to gain access to your account."
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
-"No caso que o link de confirmação expirar, você pode usar o recurso de "
-"redefinir a senha para ganhar acesso a sua conta."
+"Se foi você, use uma redefinição de senha para recuperar o acesso à sua "
+"conta."
 
 #: weblate/accounts/models.py:313 weblate/templates/accounts/profile.html:304
 #: weblate/templates/accounts/user.html:242
@@ -754,10 +748,8 @@ msgstr ""
 "associado."
 
 #: weblate/accounts/notifications.py:49
-#, fuzzy
-#| msgid "Notifications"
 msgid "No notification"
-msgstr "Notificações"
+msgstr "Sem notificação"
 
 #: weblate/accounts/notifications.py:50
 msgid "Instant notification"
