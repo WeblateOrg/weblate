@@ -21,6 +21,8 @@ class MockLanguage(Language):
 
     def __init__(self, code="cs"):
         super().__init__(code=code)
+        # We need different language codes to have different pk
+        self.pk = -abs(hash(code))
         try:
             _, number, formula = languages[code]
         except KeyError:
