@@ -11,6 +11,7 @@ import re
 import time
 from collections import defaultdict
 from hashlib import md5
+from html import escape, unescape
 from itertools import chain
 from typing import TYPE_CHECKING
 from urllib.parse import quote
@@ -702,3 +703,22 @@ class GlossaryMachineTranslationMixin:
         # Fetch glossaries again, without using cache
         glossaries = self.get_glossaries(use_cache=False)
         return glossaries[glossary_name]
+
+
+class XMLMachineTranslationMixin:
+    hightlight_syntax = True
+
+    def unescape_text(self, text: str):
+        """Unescaping of the text with replacements."""
+        return unescape(text)
+
+    def escape_text(self, text: str):
+        """Escaping of the text with replacements."""
+        return escape(text)
+
+    def format_replacement(self, h_start: int, h_end: int, h_text: str):
+        """Generates a single replacement."""
+        raise NotImplementedError
+
+    def make_re_placeholder(self, text: str):
+        return re.escape(text)

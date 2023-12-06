@@ -10,6 +10,7 @@ Not yet released.
 * Added labels API, see :http:get:`/api/projects/(string:project)/labels/`.
 * :ref:`glossary-mt`.
 * New automatic fixed for :ref:`autofix-punctuation-spacing`.
+* :ref:`mt-google-translate-api-v3` now better honors placeables or line breaks.
 
 **Improvements**
 
