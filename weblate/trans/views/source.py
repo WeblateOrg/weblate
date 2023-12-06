@@ -68,7 +68,7 @@ def matrix(request, path):
 
     show = False
     translations = None
-    language_codes = None
+    language_codes_url = None
 
     if "lang" in request.GET:
         form = MatrixLanguageForm(obj, request.GET)
@@ -82,8 +82,8 @@ def matrix(request, path):
             .select_related("language")
             .order()
         )
-        language_codes = ",".join(
-            translation.language.code for translation in translations
+        language_codes_url = "&".join(
+            f"lang={translation.language.code}" for translation in translations
         )
 
     return render(
@@ -94,7 +94,7 @@ def matrix(request, path):
             "project": obj.project,
             "component": obj,
             "translations": translations,
-            "language_codes": language_codes,
+            "language_codes_url": language_codes_url,
             "languages_form": form,
         },
     )
@@ -109,14 +109,15 @@ def matrix_load(request, path):
         offset = int(request.GET.get("offset", ""))
     except ValueError:
         return HttpResponseServerError("Missing offset")
-    language_codes = request.GET.get("lang")
-    if not language_codes or offset is None:
+    form = MatrixLanguageForm(obj, request.GET)
+    if not form.is_valid():
         return HttpResponseServerError("Missing lang")
+    language_codes = form.cleaned_data["lang"]
 
     # Can not use filter to keep ordering
     translations = [
         get_object_or_404(obj.translation_set, language__code=lang)
-        for lang in language_codes.split(",")
+        for lang in language_codes
     ]
 
     data = []

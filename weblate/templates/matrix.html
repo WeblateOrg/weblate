@@ -26,7 +26,7 @@
 <tfoot>
 <tr><td colspan="3" class="loading-icon">
 {% loading_icon "next" %}
-<a href="{% url 'matrix-load' path=object.get_url_path %}?lang={{ language_codes }}" class="hidden" id="matrix-load" data-offset="0" data-last="0"></a>
+<a href="{% url 'matrix-load' path=object.get_url_path %}?{{ language_codes_url }}" class="hidden" id="matrix-load" data-offset="0" data-last="0"></a>
 </td></tr>
 </tfoot>
 </table>
