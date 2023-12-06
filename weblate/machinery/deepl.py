@@ -4,21 +4,25 @@
 
 from __future__ import annotations
 
-import re
-from html import escape, unescape
 from typing import TYPE_CHECKING
 
 from dateutil.parser import isoparse
 from django.core.cache import cache
 
-from .base import BatchMachineTranslation, GlossaryMachineTranslationMixin
+from .base import (
+    BatchMachineTranslation,
+    GlossaryMachineTranslationMixin,
+    XMLMachineTranslationMixin,
+)
 from .forms import DeepLMachineryForm
 
 if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
 
-class DeepLTranslation(BatchMachineTranslation, GlossaryMachineTranslationMixin):
+class DeepLTranslation(
+    XMLMachineTranslationMixin, GlossaryMachineTranslationMixin, BatchMachineTranslation
+):
     """DeepL (Linguee) machine translation support."""
 
     name = "DeepL"
@@ -119,20 +123,9 @@ class DeepLTranslation(BatchMachineTranslation, GlossaryMachineTranslationMixin)
             ]
         return result
 
-    def unescape_text(self, text: str):
-        """Unescaping of the text with replacements."""
-        return unescape(text)
-
-    def escape_text(self, text: str):
-        """Escaping of the text with replacements."""
-        return escape(text)
-
     def format_replacement(self, h_start: int, h_end: int, h_text: str):
         """Generates a single replacement."""
         return f'<x id="{h_start}"></x>'  # noqa: B028
-
-    def make_re_placeholder(self, text: str):
-        return re.escape(text)
 
     def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
         cache_key = self.get_cache_key("glossary_languages")

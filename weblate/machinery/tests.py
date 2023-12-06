@@ -655,6 +655,22 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
             ["zh-Hant-HK", "zh-TW", "zh"],
         )
 
+    def test_replacements(self):
+        machine_translation = self.get_machine()
+        unit = MockUnit(code="cs", source="Hello,\n%s!", flags="c-format")
+        replaced = 'Hello,<br translate="no"><span translate="no" id="7">%s</span>!'
+        replacements = {
+            '<br translate="no">': "\n",
+            '<span translate="no" id="7">%s</span>': "%s",
+        }
+        self.assertEqual(
+            machine_translation.cleanup_text(unit.source, unit),
+            (replaced, replacements),
+        )
+        self.assertEqual(
+            unit.source, machine_translation.uncleanup_text(replacements, replaced)
+        )
+
 
 class AmagamaTranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS = AmagamaTranslation
