@@ -1734,7 +1734,7 @@ class Search(APIView):
         category = Category.objects.filter(project__in=projects)
         results = []
         query = request.GET.get("q")
-        if query:
+        if query and "\x00" not in query:
             results.extend(
                 {
                     "url": project.get_absolute_url(),
