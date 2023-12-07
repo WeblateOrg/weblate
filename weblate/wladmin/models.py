@@ -150,12 +150,14 @@ class SupportStatus(models.Model):
         stats = GlobalStats()
         current_values = {
             "hosted_words": stats.all_words,
+            "hosted_strings": stats.all,
             "source_strings": stats.source_strings,
             "projects": Project.objects.count(),
             "languages": stats.languages,
         }
         names = {
             "hosted_words": gettext_lazy("Hosted words"),
+            "hosted_strings": gettext_lazy("Hosted strings"),
             "source_strings": gettext_lazy("Source strings"),
             "projects": gettext_lazy("Projects"),
             "languages": gettext_lazy("Languages"),
