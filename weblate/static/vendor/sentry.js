@@ -10740,6 +10740,7 @@ const constants = require('./constants.js');
 const debugBuild = require('./debug-build.js');
 const scope = require('./scope.js');
 const session = require('./session.js');
+const version = require('./version.js');
 
 /**
  * API compatibility version of this hub.
@@ -10749,7 +10750,7 @@ const session = require('./session.js');
  *
  * @hidden
  */
-const API_VERSION = 4;
+const API_VERSION = parseFloat(version.SDK_VERSION);
 
 /**
  * Default maximum number of breadcrumbs added to an event. Can be overwritten
@@ -11316,7 +11317,7 @@ exports.setAsyncContextStrategy = setAsyncContextStrategy;
 exports.setHubOnCarrier = setHubOnCarrier;
 
 
-},{"./constants.js":59,"./debug-build.js":60,"./scope.js":74,"./session.js":77,"@sentry/utils":117}],65:[function(require,module,exports){
+},{"./constants.js":59,"./debug-build.js":60,"./scope.js":74,"./session.js":77,"./version.js":96,"@sentry/utils":117}],65:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const hubextensions = require('./tracing/hubextensions.js');
@@ -15987,7 +15988,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":59,"../eventProcessors.js":62,"../scope.js":74,"@sentry/utils":117}],96:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.85.0';
+const SDK_VERSION = '7.86.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -27876,7 +27877,7 @@ function instrumentXHR() {
       const url = parseUrl(args[1]);
 
       if (!method || !url) {
-        return;
+        return originalOpen.apply(this, args);
       }
 
       this[SENTRY_XHR_DATA_KEY] = {
@@ -27954,7 +27955,7 @@ function instrumentXHR() {
       const sentryXhrData = this[SENTRY_XHR_DATA_KEY];
 
       if (!sentryXhrData) {
-        return;
+        return originalSend.apply(this, args);
       }
 
       if (args[0] !== undefined) {
