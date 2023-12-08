@@ -499,13 +499,13 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
         responses.add(
             responses.POST,
             "https://api.cognitive.microsofttranslator.com/"
-            "translate?api-version=3.0&from=en&to=cs&category=general",
+            "translate?api-version=3.0&from=en&to=cs&category=general&textType=html",
             json=MICROSOFT_RESPONSE,
         )
         responses.add(
             responses.POST,
             "https://api.cognitive.microsofttranslator.com/"
-            "translate?api-version=3.0&from=en&to=de&category=general",
+            "translate?api-version=3.0&from=en&to=de&category=general&textType=html",
             json=MICROSOFT_RESPONSE,
         )
 
@@ -534,13 +534,13 @@ class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest)
         responses.add(
             responses.POST,
             "https://api.cognitive.microsofttranslator.com/"
-            "translate?api-version=3.0&from=en&to=cs&category=general",
+            "translate?api-version=3.0&from=en&to=cs&category=general&textType=html",
             json=MICROSOFT_RESPONSE,
         )
         responses.add(
             responses.POST,
             "https://api.cognitive.microsofttranslator.com/"
-            "translate?api-version=3.0&from=en&to=de&category=general",
+            "translate?api-version=3.0&from=en&to=de&category=general&textType=html",
             json=MICROSOFT_RESPONSE,
         )
 

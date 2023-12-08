@@ -38,6 +38,7 @@ class MockProject:
         self.id = 1
         self.use_shared_tm = True
         self.name = "MockProject"
+        self.slug = "mock"
 
     def get_glossary_tsv_cache_key(self, source_language, language):
         return f"project-glossary-tsv-test-{source_language.code}-{language.code}"
@@ -45,6 +46,12 @@ class MockProject:
     @property
     def glossaries(self):
         return []
+
+    @property
+    def glossary_automaton(self):
+        from weblate.glossary.models import get_glossary_automaton
+
+        return get_glossary_automaton(self)
 
 
 class MockComponent:
@@ -114,6 +121,7 @@ class MockUnit:
         self.machinery = None
         self.is_source = is_source
         self.context = context
+        self.glossary_terms = None
 
     @property
     def all_flags(self):

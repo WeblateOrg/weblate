@@ -349,6 +349,8 @@ Cognitive Services.
 
 Weblate implements Translator API V3.
 
+The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
+
 Translator Text API V2
 ``````````````````````
 The key you use with Translator API V2 can be used with API 3.
