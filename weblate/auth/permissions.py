@@ -477,10 +477,10 @@ def check_announcement_delete(user, permission, obj):
 def check_unit_flag(user, permission, obj):
     if isinstance(obj, Unit):
         obj = obj.translation
-    if not obj.component.is_glossary or obj.is_source:
+    if not obj.component.is_glossary:
         return user.has_perm("source.edit", obj)
 
-    return user.has_perm("glossary.edit", obj)
+    return check_can_edit(user, "glossary.edit", obj)
 
 
 @register_perm("memory.edit", "memory.delete")
