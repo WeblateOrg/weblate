@@ -185,7 +185,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
         This means that translations should be propagated as sources to others.
         """
-        return self.filename == self.component.template
+        return self.component.template and self.filename == self.component.template
 
     @cached_property
     def is_source(self):
