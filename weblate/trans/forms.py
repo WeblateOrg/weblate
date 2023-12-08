@@ -710,6 +710,12 @@ class SearchForm(forms.Form):
     offset = forms.IntegerField(min_value=-1, required=False, widget=forms.HiddenInput)
     offset_kwargs = {}
 
+    @staticmethod
+    def get_initial(request):
+        if "q" in request.GET:
+            return {"q": request.GET["q"]}
+        return None
+
     def __init__(self, user, language=None, show_builder=True, **kwargs):
         """Generate choices for other components in the same project."""
         self.user = user

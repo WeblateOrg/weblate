@@ -31,8 +31,11 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
             url = self.translate_url
         response = self.client.get(url, params)
         if expected is None:
+            extra = ""
+            if "q" in params:
+                extra = f"?q={params['q']}"
             self.assertRedirects(
-                response, f"{self.translation.get_absolute_url()}{anchor}"
+                response, f"{self.translation.get_absolute_url()}{extra}{anchor}"
             )
         else:
             self.assertContains(response, expected)

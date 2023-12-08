@@ -256,7 +256,8 @@ def search(
             request.session[session_key]["ttl"] = now + SESSION_SEARCH_CACHE_TTL
             return search_result
 
-        allunits = unit_set.search(cleaned_data.get("q", ""), project=project)
+        query_string = cleaned_data.get("q", "")
+        allunits = unit_set.search(query_string, project=project)
 
         # Grab unit IDs
         unit_ids = list(
@@ -266,7 +267,7 @@ def search(
         # Check empty search results
         if not unit_ids and not blank:
             messages.warning(request, gettext("No strings found!"))
-            return redirect(f"{base.get_absolute_url()}#search")
+            return redirect(f"{base.get_absolute_url()}?q={query_string}#search")
 
         store_result = {
             "query": search_query,

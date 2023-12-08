@@ -257,7 +257,9 @@ def show_project_language(request, obj):
             "last_changes": last_changes,
             "translations": translations,
             "title": f"{project_object} - {language_object}",
-            "search_form": SearchForm(user, language=language_object),
+            "search_form": SearchForm(
+                user, language=language_object, initial=SearchForm.get_initial(request)
+            ),
             "licenses": project_object.component_set.exclude(license="").order_by(
                 "license"
             ),
@@ -316,7 +318,9 @@ def show_category_language(request, obj):
             "last_changes": last_changes,
             "translations": translations,
             "title": f"{category_object} - {language_object}",
-            "search_form": SearchForm(user, language=language_object),
+            "search_form": SearchForm(
+                user, language=language_object, initial=SearchForm.get_initial(request)
+            ),
             "licenses": obj.category.get_child_components_access(user)
             .exclude(license="")
             .order_by("license"),
@@ -387,7 +391,9 @@ def show_project(request, obj):
             "last_announcements": last_announcements,
             "reports_form": ReportsForm({"project": obj}),
             "language_stats": [stat.obj or stat for stat in language_stats],
-            "search_form": SearchForm(request.user),
+            "search_form": SearchForm(
+                request.user, initial=SearchForm.get_initial(request)
+            ),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "project.edit", obj
             ),
@@ -467,7 +473,7 @@ def show_category(request, obj):
             "last_changes": last_changes,
             "last_announcements": last_announcements,
             "language_stats": [stat.obj or stat for stat in language_stats],
-            "search_form": SearchForm(user),
+            "search_form": SearchForm(user, initial=SearchForm.get_initial(request)),
             "delete_form": optional_form(
                 CategoryDeleteForm, user, "project.edit", obj, obj=obj
             ),
@@ -549,7 +555,9 @@ def show_component(request, obj):
                 request=request,
                 instance=obj,
             ),
-            "search_form": SearchForm(request.user),
+            "search_form": SearchForm(
+                request.user, initial=SearchForm.get_initial(request)
+            ),
             "alerts": obj.all_active_alerts
             if "alerts" not in request.GET
             else obj.alert_set.all(),
@@ -566,7 +574,9 @@ def show_translation(request, obj):
     # Get form
     form = get_upload_form(user, obj)
 
-    search_form = SearchForm(request.user, language=obj.language)
+    search_form = SearchForm(
+        request.user, language=obj.language, initial=SearchForm.get_initial(request)
+    )
 
     # Translations to same language from other components in this project
     # Show up to 10 of them, needs to be list to append ghost ones later
