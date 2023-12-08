@@ -18,7 +18,7 @@ CHAR_NAMES = {
     "\u00AD": gettext_lazy("Insert a soft hyphen"),
     "\u00A0": gettext_lazy("Insert a non-breaking space"),
 }
-DISPLAY_CHARS = {"\t": "↹", "\n": "↵", "\u00AD": "SHY"}
+DISPLAY_CHARS = {"\t": "↹", "\n": "↵", "\u00AD": "﹙-﹚"}
 
 
 HYPHEN_LANGS = {
