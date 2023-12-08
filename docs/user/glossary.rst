@@ -126,6 +126,7 @@ Following automatic suggestion services utilize glossaries during the translatio
 
 * :ref:`mt-openai`
 * :ref:`mt-deepl`
+* :ref:`mt-microsoft-translator`
 
 The glossary is processed before exposed to the service:
 
