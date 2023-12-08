@@ -7,6 +7,7 @@ from weblate.formats.exporters import (
     AndroidResourceExporter,
     CSVExporter,
     JSONExporter,
+    JSONNestedExporter,
     MoExporter,
     PoExporter,
     PoXliffExporter,
@@ -292,6 +293,10 @@ class JSONExporterTest(PoExporterTest):
     def check_plurals(self, result):
         # Doesn't support plurals
         pass
+
+
+class JSONNestedExporterTest(JSONExporterTest):
+    _class = JSONNestedExporter
 
 
 class StringsExporterTest(PoExporterTest):

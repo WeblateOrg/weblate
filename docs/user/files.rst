@@ -36,6 +36,7 @@ are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
 * CSV (``csv``)
 * Excel Open XML (``xlsx``)
 * JSON (only available for monolingual translations) (``json``)
+* JSON nested structure file (only available for monolingual translations) (``json-nested``)
 * Android String Resource (only available for monolingual translations) (``aresource``)
 * iOS strings (only available for monolingual translations) (``strings``)
 
