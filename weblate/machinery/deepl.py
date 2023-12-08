@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from dateutil.parser import isoparse
 from django.core.cache import cache
@@ -123,7 +123,7 @@ class DeepLTranslation(
             ]
         return result
 
-    def format_replacement(self, h_start: int, h_end: int, h_text: str):
+    def format_replacement(self, h_start: int, h_end: int, h_text: str, h_kind: Any):
         """Generates a single replacement."""
         return f'<x id="{h_start}"></x>'  # noqa: B028
 

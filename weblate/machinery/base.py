@@ -13,7 +13,7 @@ from collections import defaultdict
 from hashlib import md5
 from html import escape, unescape
 from itertools import chain
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 from urllib.parse import quote
 
 from django.core.cache import cache
@@ -270,9 +270,15 @@ class BatchMachineTranslation:
         # Allow additional space before ]
         return re.escape(text[:-1]) + " *" + re.escape(text[-1:])
 
-    def format_replacement(self, h_start: int, h_end: int, h_text: str):
+    def format_replacement(self, h_start: int, h_end: int, h_text: str, h_kind: Any):
         """Generates a single replacement."""
         return f"[X{h_start}X]"
+
+    def get_highlights(self, text, unit):
+        for h_start, h_end, h_text in highlight_string(
+            text, unit, hightlight_syntax=self.hightlight_syntax
+        ):
+            yield h_start, h_end, h_text, "highlight"
 
     def cleanup_text(self, text, unit):
         """Removes placeholder to avoid confusing the machine translation."""
@@ -280,15 +286,12 @@ class BatchMachineTranslation:
         if not self.do_cleanup:
             return text, replacements
 
-        highlights = highlight_string(
-            text, unit, hightlight_syntax=self.hightlight_syntax
-        )
         parts = []
         start = 0
-        for h_start, h_end, h_text in highlights:
+        for h_start, h_end, h_text, h_kind in self.get_highlights(text, unit):
             parts.append(self.escape_text(text[start:h_start]))
             h_text = self.escape_text(h_text)
-            placeholder = self.format_replacement(h_start, h_end, h_text)
+            placeholder = self.format_replacement(h_start, h_end, h_text, h_kind)
             replacements[placeholder] = h_text
             parts.append(placeholder)
             start = h_end
@@ -716,7 +719,7 @@ class XMLMachineTranslationMixin:
         """Escaping of the text with replacements."""
         return escape(text)
 
-    def format_replacement(self, h_start: int, h_end: int, h_text: str):
+    def format_replacement(self, h_start: int, h_end: int, h_text: str, h_kind: Any):
         """Generates a single replacement."""
         raise NotImplementedError
 

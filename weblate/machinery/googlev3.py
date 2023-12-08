@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import json
+from typing import Any
 
 from django.utils.functional import cached_property
 from google.cloud.translate import TranslationServiceClient
@@ -76,7 +77,7 @@ class GoogleV3Translation(XMLMachineTranslationMixin, GoogleBaseTranslation):
             "source": text,
         }
 
-    def format_replacement(self, h_start: int, h_end: int, h_text: str):
+    def format_replacement(self, h_start: int, h_end: int, h_text: str, h_kind: Any):
         """Generates a single replacement."""
         return f'<span translate="no" id="{h_start}">{h_text}</span>'  # noqa: B028
 
