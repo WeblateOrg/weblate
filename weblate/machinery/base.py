@@ -278,7 +278,7 @@ class BatchMachineTranslation:
         for h_start, h_end, h_text in highlight_string(
             text, unit, hightlight_syntax=self.hightlight_syntax
         ):
-            yield h_start, h_end, h_text, "highlight"
+            yield h_start, h_end, h_text, None
 
     def cleanup_text(self, text, unit):
         """Removes placeholder to avoid confusing the machine translation."""
