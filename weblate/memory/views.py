@@ -66,7 +66,7 @@ class DeleteView(MemoryFormView):
         entries = Memory.objects.filter_type(**self.objects)
         if "origin" in self.request.POST:
             entries = entries.filter(origin=self.request.POST["origin"])
-        entries.delete()
+        entries.using("default").delete()
         messages.success(self.request, gettext("Entries were deleted."))
         return super().form_valid(form)
 
