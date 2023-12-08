@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 19:18+0100\n"
-"PO-Revision-Date: 2023-12-07 17:20+0000\n"
+"PO-Revision-Date: 2023-12-09 03:21+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -3043,16 +3043,16 @@ msgid "``fuzzy``"
 msgstr "``fuzzy``"
 
 #: ../../admin/addons.rst:677
-#, fuzzy
-#| msgid "Import as string needing edit"
 msgid "Include strings needing editing"
-msgstr "Імпортувати як рядок, що потребує редагування"
+msgstr "Включати рядки, які потребують редагування"
 
 #: ../../admin/addons.rst:677
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
+"Рядки, що потребують редагування (неточні), зазвичай не готові до "
+"використання як переклади."
 
 #: ../../admin/addons.rst:681
 msgid "Automatically generates a MO file for every changed PO file."
@@ -8064,10 +8064,8 @@ msgstr ""
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:841
-#, fuzzy
-#| msgid "PAGURE_CREDENTIALS"
 msgid "AZURE_DEVOPS_CREDENTIALS"
-msgstr "PAGURE_CREDENTIALS"
+msgstr "AZURE_DEVOPS_CREDENTIALS"
 
 #: ../../admin/config.rst:845
 #, fuzzy
@@ -9096,10 +9094,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1647
-#, fuzzy
-#| msgid "SENTRY_DSN"
 msgid "SENTRY_SEND_PII"
-msgstr "SENTRY_DSN"
+msgstr "SENTRY_SEND_PII"
 
 #: ../../admin/config.rst:1649
 msgid ""
@@ -9386,10 +9382,6 @@ msgid "VCS_API_DELAY"
 msgstr "VCS_API_DELAY"
 
 #: ../../admin/config.rst:1871
-#, fuzzy
-#| msgid ""
-#| "Configures minimal delay in seconds between third-party API calls in :ref:"
-#| "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, and :ref:`vcs-pagure`."
 msgid ""
 "Configures minimal delay in seconds between third-party API calls in :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and :"
@@ -9397,7 +9389,7 @@ msgid ""
 msgstr ""
 "Налаштовує мінімальну затримку у секундах для викликів стороннього "
 "програмного інтерфейсу у :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-"
-"gitea` і :ref:`vcs-pagure`."
+"gitea`, :ref:`vcs-pagure`, і :ref:`vcs-azure-devops`."
 
 #: ../../admin/config.rst:1875
 msgid ""
@@ -9583,10 +9575,8 @@ msgstr ""
 "серверів."
 
 #: ../../admin/config.rst:2055
-#, fuzzy
-#| msgid "Managing version control repository"
 msgid "Configuring version control credentials"
-msgstr "Керування сховищем керування версіями"
+msgstr "Налаштування облікових даних системи керування версіями"
 
 #: ../../admin/config.rst:2059
 msgid ""
@@ -9686,18 +9676,12 @@ msgstr ""
 "вивантажують зроблені поза інтернетом переклади."
 
 #: ../../admin/continuous.rst:21
-#, fuzzy
-#| msgid ""
-#| "Once the translators are finished, Weblate commits the changes to the "
-#| "local repository (see :ref:`lazy-commit`) and pushes them back if it has "
-#| "permissions to do so (see :ref:`push-changes`)."
 msgid ""
 "Once the translators are finished, Weblate commits the changes to the local "
 "repository (see :ref:`lazy-commit`)."
 msgstr ""
-"Щойно переклад буде завершено, Weblate надсилає зміни до локального сховища "
-"(див. :ref:`lazy-commit`) і записує їх до основного сховища, якщо має право "
-"на виконання цієї дії (див. :ref:`push-changes`)."
+"Щойно переклад буде завершено, Weblate надсилає зміни до локального сховища ("
+"див. :ref:`lazy-commit`)."
 
 #: ../../admin/continuous.rst:22
 #, fuzzy
@@ -10162,14 +10146,6 @@ msgstr ""
 "знайти у цьому розділі."
 
 #: ../../admin/continuous.rst:332
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support for :"
-#| "ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure` "
-#| "pull requests or :ref:`vcs-gerrit` reviews, you can activate these by "
-#| "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :"
-#| "guilabel:`Gerrit` or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:"
-#| "`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, :ref:"
@@ -10180,19 +10156,19 @@ msgid ""
 msgstr ""
 "Якщо вам не потрібне безпосереднє записування до сховища від Weblate, "
 "передбачено підтримку запитів щодо об'єднання :ref:`vcs-github`, :ref:`vcs-"
-"gitlab`, :ref:`vcs-gitea` , :ref:`vcs-pagure` або рецензувань :ref:`vcs-"
-"gerrit`. Ви можете активувати їх вибором :guilabel:`GitHub`, :guilabel:"
-"`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit` або :guilabel:`Pagure` як :"
-"ref:`component-vcs` у розділі :ref:`component`."
+"gitlab`, :ref:`vcs-gitea` , :ref:`vcs-pagure` , :ref:`vcs-azure-devops` або "
+"рецензувань :ref:`vcs-gerrit`. Ви можете активувати їх вибором "
+":guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`"
+" , :guilabel:`Azure DevOps` або :guilabel:`Pagure` як :ref:`component-vcs` у "
+"розділі :ref:`component`."
 
 #: ../../admin/continuous.rst:338
-#, fuzzy
-#| msgid ""
-#| "Overall, following options are available with Git, GitHub and GitLab:"
 msgid ""
 "Overall, following options are available with Git, Mercurial, GitHub, "
 "GitLab, Gitea, Pagure, and Azure DevOps:"
-msgstr "Загалом, у Git, GitHub і GitLab можна скористатися такими параметрами:"
+msgstr ""
+"Загалом, у Mercurial, GitHub, GitLab, Gitea, Pagure, і Azure DevOps можна "
+"скористатися такими параметрами:"
 
 #: ../../admin/continuous.rst:342
 msgid "Desired setup"
@@ -10945,10 +10921,8 @@ msgid ":doc:`install/source`, recommended for development."
 msgstr ":ref:`install/source`, рекомендовано для розробки."
 
 #: ../../admin/install.rst:43
-#, fuzzy
-#| msgid "Checks overview"
 msgid "Architecture overview"
-msgstr "Огляд перевірок"
+msgstr "Огляд архітектури"
 
 #: ../../admin/install.rst:129
 msgid "Software requirements"
@@ -11110,26 +11084,20 @@ msgid "pip extra"
 msgstr ""
 
 #: ../../admin/install.rst:189
-#, fuzzy
-#| msgid "Python brace format"
 msgid "Python Package"
-msgstr "Формат дужок Python"
+msgstr "Пакунок Python"
 
 #: ../../admin/install.rst:190
-#, fuzzy
-#| msgid "Weblate frontend"
 msgid "Weblate feature"
-msgstr "Оболонка Weblate"
+msgstr "Функція Weblate"
 
 #: ../../admin/install.rst:193
 msgid "``Amazon``"
 msgstr "``Amazon``"
 
 #: ../../admin/install.rst:194
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`boto3 <https://pypi.org/project/boto3>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`boto3 <https://pypi.org/project/boto3>`_"
 
 #: ../../admin/install.rst:195
 msgid ":ref:`mt-aws`"
@@ -11165,10 +11133,8 @@ msgid "``Gerrit``"
 msgstr "``Gerrit``"
 
 #: ../../admin/install.rst:209
-#, fuzzy
-#| msgid "https://pypi.org/project/git-review/"
 msgid "`git-review <https://pypi.org/project/git-review>`_"
-msgstr "https://pypi.org/project/git-review/"
+msgstr "`git-review <https://pypi.org/project/git-review>`_"
 
 #: ../../admin/install.rst:210
 msgid ":ref:`vcs-gerrit`"
@@ -11179,14 +11145,10 @@ msgid "``Google``"
 msgstr "``Google``"
 
 #: ../../admin/install.rst:214
-#, fuzzy
-#| msgid ""
-#| "`Google translate documentation <https://cloud.google.com/translate/"
-#| "docs>`_"
 msgid ""
 "`google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_"
 msgstr ""
-"Документація з Перекладача Google <https://cloud.google.com/translate/docs>`_"
+"`google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_"
 
 #: ../../admin/install.rst:215
 msgid ":ref:`mt-google-translate-api-v3`"
@@ -11197,20 +11159,16 @@ msgid "``Mercurial``"
 msgstr "``Mercurial``"
 
 #: ../../admin/install.rst:219
-#, fuzzy
-#| msgid "https://pypi.org/project/ruamel.yaml/"
 msgid "`mercurial <https://pypi.org/project/mercurial>`_"
-msgstr "https://pypi.org/project/ruamel.yaml/"
+msgstr "`mercurial <https://pypi.org/project/mercurial>`_"
 
 #: ../../admin/install.rst:223
 msgid "``MySQL``"
 msgstr "``MySQL``"
 
 #: ../../admin/install.rst:224
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`mysqlclient <https://pypi.org/project/mysqlclient>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`mysqlclient <https://pypi.org/project/mysqlclient>`_"
 
 #: ../../admin/install.rst:225
 #, fuzzy
@@ -11223,10 +11181,8 @@ msgid "``Postgres``"
 msgstr "``Postgres``"
 
 #: ../../admin/install.rst:229
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`psycopg <https://pypi.org/project/psycopg>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`psycopg <https://pypi.org/project/psycopg>`_"
 
 #: ../../admin/install.rst:230
 #, fuzzy
@@ -11239,10 +11195,8 @@ msgid "``Antispam``"
 msgstr "``Antispam``"
 
 #: ../../admin/install.rst:234
-#, fuzzy
-#| msgid "https://pypi.org/project/git-review/"
 msgid "`python-akismet <https://pypi.org/project/python-akismet>`_"
-msgstr "https://pypi.org/project/git-review/"
+msgstr "`python-akismet <https://pypi.org/project/python-akismet>`_"
 
 #: ../../admin/install.rst:235
 msgid ":ref:`spam-protection`"
@@ -11253,10 +11207,8 @@ msgid "``SAML``"
 msgstr "``SAML``"
 
 #: ../../admin/install.rst:239
-#, fuzzy
-#| msgid "https://pypi.org/project/ruamel.yaml/"
 msgid "`python3-saml <https://pypi.org/project/python3-saml>`_"
-msgstr "https://pypi.org/project/ruamel.yaml/"
+msgstr "`python3-saml <https://pypi.org/project/python3-saml>`_"
 
 #: ../../admin/install.rst:240
 msgid ":ref:`saml-auth`"
@@ -11267,10 +11219,8 @@ msgid "``MSTerminology``"
 msgstr "``MSTerminology``"
 
 #: ../../admin/install.rst:244
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`zeep <https://pypi.org/project/zeep>`_"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`zeep <https://pypi.org/project/zeep>`_"
 
 #: ../../admin/install.rst:245
 msgid ":ref:`mt-microsoft-terminology`"
@@ -14751,14 +14701,8 @@ msgid "Or the path to a file containing the Python dictionary:"
 msgstr "Або шлях до файлу, що містить словник Python:"
 
 #: ../../admin/install/docker.rst:1039
-#, fuzzy
-#| msgid ""
-#| "Configures GitHub pull-requests integration by changing :setting:"
-#| "`GITHUB_CREDENTIALS`."
 msgid "Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`."
-msgstr ""
-"Налаштовує GItHub для інтеграції запитів щодо злиття Gitea зміною :setting:"
-"`GITHUB_CREDENTIALS`."
+msgstr "Налаштовує :ref:`vcs-github` зміною :setting:`GITHUB_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1041 ../../admin/install/docker.rst:1050
 #: ../../admin/install/docker.rst:1059 ../../admin/install/docker.rst:1068
@@ -14774,58 +14718,32 @@ msgstr ""
 "<docker-mail>`"
 
 #: ../../admin/install/docker.rst:1048
-#, fuzzy
-#| msgid ""
-#| "Configures GitLab merge-requests integration  by changing :setting:"
-#| "`GITLAB_CREDENTIALS`."
 msgid "Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`."
-msgstr ""
-"Налаштовує GitLab для інтеграції запитів щодо об'єднання Pagure зміною :"
-"setting:`GITLAB_CREDENTIALS`."
+msgstr "Налаштовує :ref:`vcs-gitlab` зміною :setting:`GITLAB_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1057
-#, fuzzy
-#| msgid ""
-#| "Configures Gitea pull-requests integration by changing :setting:"
-#| "`GITEA_CREDENTIALS`."
 msgid "Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`."
-msgstr ""
-"Налаштовує Pagure для інтеграції запитів щодо злиття Gitea зміною :setting:"
-"`GITEA_CREDENTIALS`."
+msgstr "Налаштовує :ref:`vcs-gitea` зміною :setting:`GITEA_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1066
-#, fuzzy
-#| msgid ""
-#| "Configures Pagure merge-requests integration  by changing :setting:"
-#| "`PAGURE_CREDENTIALS`."
 msgid "Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`."
-msgstr ""
-"Налаштовує Pagure для інтеграції запитів щодо об'єднання Pagure зміною :"
-"setting:`PAGURE_CREDENTIALS`."
+msgstr "Налаштовує :ref:`vcs-pagure` зміною :setting:`PAGURE_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1075
-#, fuzzy
-#| msgid ""
-#| "Configures Bitbucket Server pull-requests integration by changing :"
-#| "setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgid ""
 "Configures :ref:`vcs-bitbucket-server` by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"Налаштовує сервер Bitbucket для інтеграції запитів щодо злиття Gitea зміною :"
-"setting:`BITBUCKETSERVER_CREDENTIALS`."
+"Налаштовує :ref:`vcs-bitbucket-server` зміною "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1085
-#, fuzzy
-#| msgid ""
-#| "Configures Pagure merge-requests integration  by changing :setting:"
-#| "`PAGURE_CREDENTIALS`."
 msgid ""
 "Configures :ref:`vcs-azure-devops` by changing :setting:"
 "`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
-"Налаштовує Pagure для інтеграції запитів щодо об'єднання Pagure зміною :"
-"setting:`PAGURE_CREDENTIALS`."
+"Налаштовує :ref:`vcs-azure-devops` зміною "
+":setting:`AZURE_DEVOPS_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1092
 msgid "Automatic suggestion settings"
@@ -15425,10 +15343,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:1695
-#, fuzzy
-#| msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgid "Configures :setting:`SENTRY_SEND_PII`."
-msgstr "Налаштовує :setting:`SSH_EXTRA_ARGS`."
+msgstr "Налаштовує :setting:`SENTRY_SEND_PII`."
 
 #: ../../admin/install/docker.rst:1698
 msgid "Localization CDN"
@@ -16266,16 +16182,12 @@ msgstr ""
 "`requirements`):"
 
 #: ../../admin/install/steps/install-system-optional.rst:1
-#, fuzzy
-#| msgid ""
-#| "Install wanted optional dependencies depending on features you intend to "
-#| "use (see :ref:`optional-deps`):"
 msgid ""
 "Install wanted optional dependencies depending on features you intend to use "
 "(see :ref:`python-deps`):"
 msgstr ""
 "Установіть бажані додаткові залежності, залежно від можливостей, якими ви "
-"бажаєте користуватися (див. :ref:`optional-deps`):"
+"бажаєте користуватися (див. :ref:`python-deps`):"
 
 #: ../../admin/install/steps/install-system-server.rst:1
 msgid ""
@@ -16319,14 +16231,10 @@ msgid "Install Weblate including all optional dependencies:"
 msgstr "Установіть Weblate разом із усіма необов'язковими залежностями:"
 
 #: ../../admin/install/steps/install-python.rst:29
-#, fuzzy
-#| msgid ""
-#| "Please check :ref:`optional-deps` for fine-tuning of optional "
-#| "dependencies."
 msgid ""
 "Please check :ref:`python-deps` for fine-tuning of optional dependencies."
 msgstr ""
-"Будь ласка, ознайомтеся із розділом щодо :ref:`optional-deps`, щоб дізнатися "
+"Будь ласка, ознайомтеся із розділом щодо :ref:`python-deps`, щоб дізнатися "
 "про коригування необов'язкових залежностей."
 
 #: ../../admin/install/steps/install-python.rst:33
@@ -17172,10 +17080,8 @@ msgid "``formality``"
 msgstr "``formality``"
 
 #: ../../admin/machine.rst:120
-#, fuzzy
-#| msgid "File format"
 msgid "Formality"
-msgstr "Формат файлу"
+msgstr "Формальність"
 
 #: ../../admin/machine.rst:123
 msgid ""
@@ -22582,17 +22488,12 @@ msgstr ""
 "оновити встановлену у вас версію:"
 
 #: ../../admin/upgrade.rst:71
-#, fuzzy
-#| msgid ""
-#| "New Weblate release might have new :ref:`optional-deps`, please check if "
-#| "they cover features you want."
 msgid ""
 "New Weblate release might have new :ref:`python-deps`, please check if they "
 "cover features you want."
 msgstr ""
-"У нового випуску Weblate можуть бути нові :ref:`необов'язкові "
-"залежності<optional-deps>`. Будь ласка, перевірте, чи забезпечують вони "
-"роботу потрібних вам можливостей."
+"У нового випуску Weblate можуть бути нові :ref:`python-deps`. Перевірте, чи "
+"забезпечують вони роботу потрібних вам можливостей."
 
 #: ../../admin/upgrade.rst:74
 msgid ""
@@ -25192,28 +25093,20 @@ msgid "percentage of translated characters"
 msgstr "частка перекладених символів"
 
 #: ../../api.rst:2450
-#, fuzzy
-#| msgid "number of fuzzy (marked for edit) strings"
 msgid "number of fuzzy (marked for edit) words"
-msgstr "кількість неточно перекладених (позначених для редагування) рядків"
+msgstr "кількість неточно перекладених (позначених для редагування) слів"
 
 #: ../../api.rst:2451
-#, fuzzy
-#| msgid "number of fuzzy (marked for edit) strings"
 msgid "number of fuzzy (marked for edit) characters"
-msgstr "кількість неточно перекладених (позначених для редагування) рядків"
+msgstr "кількість неточно перекладених (позначених для редагування) знаків"
 
 #: ../../api.rst:2453
-#, fuzzy
-#| msgid "percentage of fuzzy (marked for edit) strings"
 msgid "percentage of fuzzy (marked for edit) words"
-msgstr "частка неточно перекладених (позначених для редагування) рядків"
+msgstr "частка неточно перекладених (позначених для редагування) слів"
 
 #: ../../api.rst:2454
-#, fuzzy
-#| msgid "percentage of fuzzy (marked for edit) strings"
 msgid "percentage of fuzzy (marked for edit) characters"
-msgstr "частка неточно перекладених (позначених для редагування) рядків"
+msgstr "частка неточно перекладених (позначених для редагування) символів"
 
 #: ../../api.rst:2455
 msgid "number of failing checks"
@@ -25224,48 +25117,36 @@ msgid "percentage of failing checks"
 msgstr "частка рядків, які не пройшли перевірки"
 
 #: ../../api.rst:2457
-#, fuzzy
-#| msgid "number of read-only strings"
 msgid "number of approved strings"
-msgstr "кількість рядків, які призначено лише для читання"
+msgstr "кількість затверджених рядків"
 
 #: ../../api.rst:2458
-#, fuzzy
-#| msgid "number of approved checks"
 msgid "number of approved words"
-msgstr "кількість затверджених перевірок"
+msgstr "кількість затверджених слів"
 
 #: ../../api.rst:2459
-#, fuzzy
-#| msgid "number of approved checks"
 msgid "number of approved characters"
-msgstr "кількість затверджених перевірок"
+msgstr "кількість затверджених знаків"
 
 #: ../../api.rst:2460
 msgid "percentage of approved strings"
 msgstr "частка затверджених рядків"
 
 #: ../../api.rst:2461
-#, fuzzy
-#| msgid "percentage of approved strings"
 msgid "percentage of approved words"
-msgstr "частка затверджених рядків"
+msgstr "частка затверджених слів"
 
 #: ../../api.rst:2462
-#, fuzzy
-#| msgid "percentage of approved strings"
 msgid "percentage of approved characters"
-msgstr "частка затверджених рядків"
+msgstr "частка затверджених знаків"
 
 #: ../../api.rst:2463
 msgid "number of read-only strings"
 msgstr "кількість рядків, які призначено лише для читання"
 
 #: ../../api.rst:2464
-#, fuzzy
-#| msgid "number of read-only strings"
 msgid "number of read-only words"
-msgstr "кількість рядків, які призначено лише для читання"
+msgstr "кількість слів, позначених лише для читання"
 
 #: ../../api.rst:2465
 #, fuzzy
@@ -25278,10 +25159,8 @@ msgid "percentage of read-only strings"
 msgstr "частка придатних лише для читання рядків"
 
 #: ../../api.rst:2467
-#, fuzzy
-#| msgid "percentage of read-only strings"
 msgid "percentage of read-only words"
-msgstr "частка придатних лише для читання рядків"
+msgstr "частка придатних лише для читання слів"
 
 #: ../../api.rst:2468
 #, fuzzy
@@ -25780,16 +25659,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.0.2"
 msgid "Weblate 5.2"
-msgstr "Weblate 5.0.2"
+msgstr "Weblate 5.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on November 16th 2012."
 msgid "Released on November 16th 2023."
-msgstr "Випущено 16 листопада 2012 року."
+msgstr "Випущено 16 листопада 2023 року."
 
 #: ../../changes.rst:6 ../../changes.rst:46 ../../changes.rst:73
 #: ../../changes.rst:149 ../../changes.rst:190
@@ -25802,10 +25677,8 @@ msgid "**Improvements**"
 msgstr "**Удосконалення**"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Locales updates."
 msgid "Faster statistics updates."
-msgstr "Оновлення локалей."
+msgstr "Швидше оновлення статистики."
 
 #: ../../changes.rst:13
 #, fuzzy
@@ -25872,10 +25745,8 @@ msgid "Fixed creating component within a category by upload."
 msgstr "Створення складника у категорії."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Components and categories"
 msgid "Error handling in organizing components and categories."
-msgstr "Складники і категорії"
+msgstr "Обробка помилок в організації складників і категорій."
 
 #: ../../changes.rst:27
 #, fuzzy
