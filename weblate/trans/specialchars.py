@@ -17,7 +17,7 @@ CHAR_NAMES = {
     "…": gettext_lazy("Insert horizontal ellipsis"),
     "\u00AD": gettext_lazy("Insert a soft hyphen"),
 }
-DISPLAY_CHARS = {"\t": "↹", "\n": "↵", "\u00AD": "SHY"}
+DISPLAY_CHARS = {"\t": "↹", "\n": "↵", "\u00AD": "﹙-﹚"}
 
 
 HYPHEN_LANGS = {
