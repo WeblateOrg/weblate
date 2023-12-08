@@ -166,9 +166,7 @@
   <div class="panel-footer">
     {% if locked %}
         <p class="text-danger">{% trans "This translation is currently locked." %}</p>
-    {% elif not user_can_translate and not user_can_edit_flags %}
-        <p class="text-danger">{{ user_can_translate.reason }}</p>
-    {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %}
+    {% elif not user_can_translate %}
         <p class="text-danger">{{ user_can_translate.reason }}</p>
     {% endif %}
     <div>
@@ -205,11 +203,17 @@
     {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %}
         disabled="disabled"
     {% endif %}
-    > {% trans "Save and continue" %}</button>
+    >{% trans "Save and continue" %}</button>
 
-    {% if not locked and user_can_translate %}
-      <button class="btn btn-warning btn-spaced" type="submit" name="save-stay" tabindex="151">{% trans "Save and stay" %}</button>
+    <button class="btn btn-warning btn-spaced" type="submit" name="save-stay" tabindex="151"
+    {% if locked %}
+        disabled="disabled"
+    {% elif not user_can_translate and not user_can_edit_flags %}
+        disabled="disabled"
+    {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %}
+        disabled="disabled"
     {% endif %}
+    >{% trans "Save and stay" %} {{ user_can_edit_flags.reason }}</button>
 
     {% if unit.translation.enable_suggestions %}
     <button class="btn btn-warning btn-spaced" type="submit" name="suggest" tabindex="152"
