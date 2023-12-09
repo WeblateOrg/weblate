@@ -14,7 +14,7 @@ Not yet released.
 
 **Improvements**
 
-* Reduced memory usage for stastics.
+* Reduced memory usage for statistics.
 * :ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:`glossary-mt`.
 * :ref:`mt-microsoft-translator` supports :ref:`glossary-mt`.
 * Improved region selection in :ref:`mt-google-translate-api-v3`.
@@ -43,7 +43,7 @@ Released on November 22nd 2023.
 **Improvements**
 
 * Show search field after no strings found while translating.
-* Added soft hyphen to special characters toolbar.
+* Added soft hyphen to special-characters toolbar.
 
 **Bug fixes**
 
