@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-11-15 18:17+0000\n"
-"PO-Revision-Date: 2023-12-01 05:34+0000\n"
+"PO-Revision-Date: 2023-12-10 11:38+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -64,6 +64,8 @@ msgid ""
 "Used in version control commits. The address will stay in the repository "
 "forever once changes are commited by Weblate."
 msgstr ""
+"משמש בהגשות למערכת בקרת הגרסאות. הכתובת תישאר במאגר לעד לאחר שהוגשו שינויים "
+"על ידי Weblate."
 
 #: weblate/accounts/forms.py:211 weblate/accounts/models.py:597
 msgid "Public e-mail"
@@ -79,10 +81,8 @@ msgid "Component list: %s"
 msgstr "רשימת רכיבים: %s"
 
 #: weblate/accounts/forms.py:346
-#, fuzzy
-#| msgid "Account removal"
 msgid "Account e-mail"
-msgstr "הסרת חשבון"
+msgstr "כתובת דוא״ל של החשבון"
 
 #: weblate/accounts/forms.py:348
 msgid ""
@@ -1204,16 +1204,14 @@ msgid "If not specified, the location of the PO file will be used."
 msgstr "אם לא צוין, יעשה שימוש במיקום של קובץ ה־PO."
 
 #: weblate/addons/forms.py:50
-#, fuzzy
-#| msgid "Import as string needing edit"
 msgid "Include strings needing editing"
-msgstr "יבוא בתור מחרוזת טעונת שיפור"
+msgstr "כולל מחרוזות שדורשות עריכה"
 
 #: weblate/addons/forms.py:53
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
-msgstr ""
+msgstr "מחרוזות שדורשות עריכה (מעורפלות) בדרך כלל אינן מוכנות לשימוש כתרגומים."
 
 #: weblate/addons/forms.py:78
 msgid "Name of generated file"
@@ -4663,11 +4661,9 @@ msgid "Region name"
 msgstr "שם האזור"
 
 #: weblate/machinery/forms.py:221
-#, fuzzy
-#| msgid "Somali"
 msgctxt "Automatic suggestion service configuration"
 msgid "Formality"
-msgstr "סומלית"
+msgstr "רשמיות"
 
 #: weblate/machinery/forms.py:223
 msgid "Uses the specified formality if language is not specified as (in)formal"
@@ -5219,10 +5215,8 @@ msgstr "נא לתקן שגיאות בטופס ההרשמה."
 
 #: weblate/templates/accounts/email.html:17
 #: weblate/templates/accounts/profile.html:122
-#, fuzzy
-#| msgid "Add new e-mail address"
 msgid "Verify new e-mail address"
-msgstr "הוספת כתובת דוא״ל חדשה"
+msgstr "אימות כתובת דוא״ל חדשה"
 
 #: weblate/templates/accounts/email.html:27
 #: weblate/templates/accounts/register.html:52 weblate/templates/base.html:226
@@ -5411,16 +5405,12 @@ msgid "Notification settings"
 msgstr "הגדרות התראה"
 
 #: weblate/templates/accounts/profile.html:88
-#, fuzzy
-#| msgid "Change notification settings"
 msgid "Remove this notification setting"
-msgstr "שינוי הגדרות התראה"
+msgstr "הסרת הגדרת התראה זו"
 
 #: weblate/templates/accounts/profile.html:124
-#, fuzzy
-#| msgid "Choose commit e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "נא לבחור כתובת דוא״ל להגשות מבין כתובות מאומתות."
+msgstr "אפשר לבחור את כתובות הדוא״ל מכתובות מאומתות בלבד."
 
 #: weblate/templates/accounts/profile.html:133
 msgid "Current user identities"
@@ -6815,17 +6805,13 @@ msgid "Add a category"
 msgstr "הוספת קטגוריה"
 
 #: weblate/templates/category.html:194
-#, fuzzy
-#| msgid "Rename category"
 msgid "Organize category"
-msgstr "שינוי שם קטגוריה"
+msgstr "ארגון קטגוריה"
 
 #: weblate/templates/category.html:198
-#, fuzzy
-#| msgid "Renaming the category will also change URLs for all its components."
 msgid ""
 "Moving or renaming the category will also change URLs for all its components."
-msgstr "שינוי שם הקטגוריה ישנה גם את כתובות כל הרכיבים שלו."
+msgstr "העברה או שינוי שם הקטגוריה ישנו גם את כתובות כל הרכיבים שלו."
 
 #: weblate/templates/category.html:199 weblate/templates/component.html:244
 #: weblate/templates/project.html:261
@@ -6838,10 +6824,8 @@ msgstr ""
 
 #: weblate/templates/category.html:205 weblate/templates/component.html:250
 #: weblate/templates/project.html:267
-#, fuzzy
-#| msgid "Organize or remove"
 msgid "Organize"
-msgstr "ארגון או הסרה"
+msgstr "ארגון"
 
 #: weblate/templates/check_list.html:27
 msgid "Total"
@@ -6970,16 +6954,12 @@ msgstr ""
 "למחיקה."
 
 #: weblate/templates/component.html:239
-#, fuzzy
-#| msgid "Create component"
 msgid "Organize component"
-msgstr "יצירת רכיב"
+msgstr "ארגון רכיב"
 
 #: weblate/templates/component.html:243
-#, fuzzy
-#| msgid "Renaming the component will also change its URLs."
 msgid "Moving or renaming the component will also change its URLs."
-msgstr "שינוי שם הרכיב תשנה גם את הכתובות שלו."
+msgstr "העברה או שינוי שם הרכיב תשנה גם את הכתובות שלו."
 
 #: weblate/templates/component.html:267 weblate/templates/project.html:283
 #: weblate/templates/translate.html:355 weblate/templates/translation.html:415
@@ -8827,16 +8807,12 @@ msgid "off"
 msgstr "כבוי"
 
 #: weblate/templates/memory/index.html:197
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of shared entries in this Weblate instance"
-msgstr "מספר רשומות משותפות"
+msgstr "מספר רשומות משותפות במופע זה של Weblate"
 
 #: weblate/templates/memory/index.html:209
-#, fuzzy
-#| msgid "Total number of entries"
 msgid "Total number of entries in this Weblate instance"
-msgstr "מספר הרשומות הכולל"
+msgstr "מספר הרשומות הכולל במופע זה של Weblate"
 
 #: weblate/templates/memory/index.html:226
 msgid "Import translation memory"
@@ -8976,10 +8952,8 @@ msgstr ""
 "למחיקה."
 
 #: weblate/templates/project.html:256
-#, fuzzy
-#| msgid "Create project"
 msgid "Organize project"
-msgstr "יצירת מיזם"
+msgstr "סידור מיזם"
 
 #: weblate/templates/project.html:260
 msgid "Renaming the project will also change URLs for all its components."
@@ -9639,15 +9613,11 @@ msgid "By registering and signing in to this service you accept our:"
 msgstr "הרשמה וכניסה לשירות מביעים את הסכמתך:"
 
 #: weblate/templates/snippets/login-info.html:20
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service and the Privacy Policy, you "
-#| "should still read the original documents to fully understand them:"
 msgid ""
 "Quick overview of the Terms of Service and the Privacy Policy, but you "
 "should still read the original documents to fully understand them:"
 msgstr ""
-"עמוד זה מבוסס על תנאי השירות ומדיניות הפרטיות, עליך עדיין לקרוא את המסמכים "
+"סקירה מהירה של תנאי השירות ומדיניות הפרטיות, אך עליך עדיין לקרוא את המסמכים "
 "המקוריים כדי להבין אותם במלואם:"
 
 #: weblate/templates/snippets/login-info.html:27
@@ -9660,18 +9630,13 @@ msgstr ""
 "הגשות ולאספקת התרומה שלך תחת הרישיונות שהוגדרו לכל מיזם תרגום באופן עצמאי."
 
 #: weblate/templates/snippets/login-info.html:31
-#, fuzzy
-#| msgid ""
-#| "By registering you agree to use your name and e-mail in version control "
-#| "system commits and provide your contribution under license defined by "
-#| "each translated project."
 msgid ""
 "By registering you agree to use your name in version control system commits "
 "and provide your contribution under license defined by each translated "
 "project."
 msgstr ""
-"הרשמה דינה הסכמה לשימוש בשם ובכתובת הדוא״ל שלך במערכת בקרת הגרסאות לטובת "
-"הגשות ולאספקת התרומה שלך תחת הרישיונות שהוגדרו לכל מיזם תרגום באופן עצמאי."
+"הרשמה דינה הסכמה לשימוש בשם שלך במערכת בקרת הגרסאות לטובת הגשות ולאספקת "
+"התרומה שלך תחת הרישיונות שהוגדרו לכל מיזם תרגום באופן עצמאי."
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -9969,10 +9934,8 @@ msgid "Accept"
 msgstr "קבלה"
 
 #: weblate/templates/snippets/suggestions.html:36
-#, fuzzy
-#| msgid "Accept and edit"
 msgid "Accept and approve"
-msgstr "קבלה ועריכה"
+msgstr "קבלה ואישור"
 
 #: weblate/templates/snippets/suggestions.html:38
 msgid "Accept and edit"
@@ -12710,14 +12673,11 @@ msgstr ""
 
 #: weblate/trans/models/change.py:800
 msgid "Original revision: {}"
-msgstr ""
+msgstr "מהדורה מקורית: {}"
 
 #: weblate/trans/models/change.py:804
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgid "New revision: {}"
-msgstr "הגדרה אישית: {}"
+msgstr "מהדורה חדשה: {}"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:114
@@ -14715,16 +14675,12 @@ msgid "This will force push changes to the upstream repository."
 msgstr "פעולה זו תדחף את השינויים למאגר המקור."
 
 #: weblate/vcs/git.py:1095
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull request"
-msgstr "בקשת דחיפה לשרת Bitbucket"
+msgstr "בקשת דחיפה ל־Azure DevOps"
 
 #: weblate/vcs/git.py:1103
-#, fuzzy
-#| msgid "This will push changes and create a Gitea pull request."
 msgid "This will push changes and create a Azure DevOps pull request."
-msgstr "פעולה זו תדחף ינויים ותיצור בקשת דחיפה ב־Gitea."
+msgstr "פעולה זו תדחף שינויים ותיצור בקשת דחיפה ב־Azure DevOps."
 
 #: weblate/vcs/git.py:1336
 msgid "GitHub pull request"
@@ -14740,7 +14696,7 @@ msgstr "בקשת דחיפה ל־Gitea"
 
 #: weblate/vcs/git.py:1454
 msgid "This will push changes and create a Gitea pull request."
-msgstr "פעולה זו תדחף ינויים ותיצור בקשת דחיפה ב־Gitea."
+msgstr "פעולה זו תדחף שינויים ותיצור בקשת דחיפה ב־Gitea."
 
 #: weblate/vcs/git.py:1522
 msgid "No remote repository"
@@ -14988,12 +14944,8 @@ msgstr ""
 "Weblate שלך."
 
 #: weblate/wladmin/views.py:191 weblate/wladmin/views.py:208
-#, fuzzy
-#| msgid ""
-#| "Could not activate your installation. Please ensure your activation token "
-#| "is correct."
 msgid "Could not activate your installation. Please try again later."
-msgstr "לא ניתן להפעיל את ההתקנה שלך. נא לוודא שאסימון ההפעלה שלך נכון."
+msgstr "לא ניתן להפעיל את ההתקנה שלך. נא לנסות שוב מאוחר יותר."
 
 #: weblate/wladmin/views.py:200
 msgid ""
@@ -15002,10 +14954,9 @@ msgid ""
 msgstr "לא ניתן להפעיל את ההתקנה שלך. נא לוודא שאסימון ההפעלה שלך נכון."
 
 #: weblate/wladmin/views.py:215
-#, fuzzy, python-format
-#| msgid "Could not fetch translation: %s"
+#, python-format
 msgid "Could not activate your installation: %s"
-msgstr "לא יתן למשוך את התרגומים: %s"
+msgstr "לא ניתן להפעיל את ההתקנה שלך: %s"
 
 #: weblate/wladmin/views.py:219
 msgid "Activation completed."
