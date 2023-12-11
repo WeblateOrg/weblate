@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2023-12-11 12:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2023-12-11 15:01+0000\n"
+"Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -5613,14 +5613,6 @@ msgid "Customizing behavior using flags"
 msgstr "Anpassen des Verhaltens mit Markierungen"
 
 #: ../../admin/checks.rst:29
-#, fuzzy
-#| msgid ""
-#| "You can fine-tune Weblate's behavior by using flags. The flags provide "
-#| "visual feedback to the translators and help them to improve their "
-#| "translation. This can be done on the source string level (see :ref:"
-#| "`additional`), or in the :ref:`component` (:ref:`component-check_flags`). "
-#| "Some file formats also allow to specify flags directly in the format "
-#| "(see :ref:`formats`)."
 msgid ""
 "You can fine-tune Weblate's behavior by using flags. The flags provide "
 "visual feedback to the translators and help them to improve their "
@@ -5628,11 +5620,8 @@ msgid ""
 msgstr ""
 "Sie können das Verhalten von Weblate mit Hilfe von Markierungen "
 "feinabstimmen. Die Markierungen geben den Übersetzern eine visuelle "
-"Rückmeldung und helfen ihnen, ihre Übersetzung zu verbessern. Dies kann auf "
-"der Ebene der Ausgangszeichenkette erfolgen (siehe :ref:`additional`), oder "
-"in der :ref:`component` (:ref:`component-check_flags`). Einige Dateiformate "
-"erlauben es auch, Markierungen direkt im Format anzugeben (siehe :ref:"
-"`formats`)."
+"Rückmeldung und helfen ihnen, ihre Übersetzungen zu verbessern. Die "
+"Markierungen werden aus folgenden Quellen zusammengeführt:"
 
 #: ../../admin/checks.rst:33
 #, fuzzy
@@ -17232,11 +17221,8 @@ msgid "``secret``"
 msgstr "``secret``"
 
 #: ../../admin/machine.rst:40
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Access key ID"
 msgid "Access key secret"
-msgstr "Zugangsschlüssel-ID"
+msgstr "Zugangsschlüssel-Geheimnis"
 
 #: ../../admin/machine.rst:42 ../../admin/machine.rst:102
 #: ../../admin/machine.rst:344
@@ -17244,11 +17230,8 @@ msgid "``region``"
 msgstr "``region``"
 
 #: ../../admin/machine.rst:42
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Region name"
 msgid "Region ID"
-msgstr "Name der Region"
+msgstr "Regions-ID"
 
 #: ../../admin/machine.rst:45
 #, fuzzy
@@ -17538,6 +17521,8 @@ msgstr ""
 #: ../../admin/machine.rst:475
 msgid "The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`."
 msgstr ""
+"Der Dienst verwendet automatisch ein :ref:`glossary`, siehe :ref:`glossary-"
+"mt`."
 
 #: ../../admin/machine.rst:180
 msgid ""
@@ -17580,35 +17565,27 @@ msgid "`Glosbe website <https://glosbe.com/>`_"
 msgstr "`Glosbe-Website <https://glosbe.com/>`_"
 
 #: ../../admin/machine.rst:205
-#, fuzzy
-#| msgid "Google Translate location"
 msgid "Google Cloud Translation Basic"
-msgstr "Google Translate Gebiet"
+msgstr "Google Cloud Translation Basic"
 
 #: ../../admin/machine.rst:207
 msgid "``google-translate``"
 msgstr "``google-translate``"
 
 #: ../../admin/machine.rst:212 ../../admin/machine.rst:235
-#, fuzzy
-#| msgid "Machine translation service provided by Google Cloud services."
 msgid "Machine translation service provided by the Google Cloud services."
 msgstr ""
-"Maschineller Übersetzungsdienst, der von Google Cloud-Diensten "
+"Maschineller Übersetzungsdienst, der von den Google-Cloud-Diensten "
 "bereitgestellt wird."
 
 #: ../../admin/machine.rst:214
-#, fuzzy
-#| msgid ""
-#| "This service uses the Google Translation API, and you need to obtain an "
-#| "API key and turn on billing in the Google API console."
 msgid ""
 "This service uses the Google Translation API v2, and you need to obtain an "
 "API key and turn on billing in the Google API console."
 msgstr ""
-"Dieser Dienst verwendet die Google Translation API, und Sie müssen einen API-"
-"Schlüssel erhalten und die Rechnungsstellung in der Google-API-Konsole "
-"aktivieren."
+"Dieser Dienst verwendet die Google Translation API v2, und Sie benötigen "
+"einen API-Schlüssel und müssen die Abrechnung in der Google-API-Konsole "
+"einschalten."
 
 #: ../../admin/machine.rst:219
 msgid ""
@@ -17617,10 +17594,8 @@ msgstr ""
 "`Google Translate-Dokumentation <https://cloud.google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:224
-#, fuzzy
-#| msgid "Google Translate"
 msgid "Google Cloud Translation Advanced"
-msgstr "Google Translate"
+msgstr "Google Cloud Translation Advanced"
 
 #: ../../admin/machine.rst:226
 msgid "``google-translate-api-v3``"
@@ -17632,11 +17607,11 @@ msgstr "``credentials``"
 
 #: ../../admin/machine.rst:228
 msgid "Google Translate service account info"
-msgstr "Google Translate Kontoinformationen"
+msgstr "Google-Translate-Kontoinformationen"
 
 #: ../../admin/machine.rst:228
 msgid "Enter a JSON key for the service account."
-msgstr ""
+msgstr "Geben Sie einen JSON-Schlüssel für das Benutzerkonto ein."
 
 #: ../../admin/machine.rst:230
 msgid "``project``"
@@ -17649,6 +17624,8 @@ msgstr "Google Translate Projekt"
 #: ../../admin/machine.rst:230
 msgid "Enter the numeric or alphanumeric ID of your Google Cloud project."
 msgstr ""
+"Geben Sie die numerische oder alphanumerische ID Ihres Google-Cloud-Projekts "
+"ein."
 
 #: ../../admin/machine.rst:232
 msgid "``location``"
@@ -17656,25 +17633,23 @@ msgstr "``location``"
 
 #: ../../admin/machine.rst:232
 msgid "Google Translate location"
-msgstr "Google Translate Gebiet"
+msgstr "Google-Translate-Standort"
 
 #: ../../admin/machine.rst:232
 msgid ""
 "Choose a Google Cloud Translation region that is used for the Google Cloud "
 "project or is closest to you."
 msgstr ""
+"Wählen Sie eine Region für Google Cloud Translation aus, die für das Google-"
+"Cloud-Projekt verwendet wird oder in Ihrer Nähe liegt."
 
 #: ../../admin/machine.rst:237
-#, fuzzy
-#| msgid ""
-#| "This service uses a Translation API, and you need to obtain an API key "
-#| "from Yandex."
 msgid ""
 "This service uses the Google Translation API v3 and you need credentials in "
 "JSON format to access it."
 msgstr ""
-"Dieser Dienst verwendet eine Übersetzungs-API und Sie müssen einen API-"
-"Schlüssel von Yandex erhalten."
+"Dieser Dienst verwendet die Google Translation API v3 und Sie benötigen "
+"Zugangsdaten im JSON-Format, um darauf zuzugreifen."
 
 #: ../../admin/machine.rst:239
 msgid ""
@@ -17792,10 +17767,8 @@ msgstr ""
 "LibreTranslate#user-content-mirrors>`_"
 
 #: ../../admin/machine.rst:314
-#, fuzzy
-#| msgid "Microsoft Translator"
 msgid "Azure AI Translator"
-msgstr "Microsoft Translator"
+msgstr "Azure AI Translator"
 
 #: ../../admin/machine.rst:316
 msgid "``microsoft-translator``"
@@ -17996,10 +17969,8 @@ msgid "`NetEase Sight Translation Platform <https://sight.youdao.com/>`_"
 msgstr "`NetEase Sight Übersetzungsplattform <https://sight.youdao.com/>`_"
 
 #: ../../admin/machine.rst:442
-#, fuzzy
-#| msgid "Zen mode"
 msgid "OpenAI"
-msgstr "Zen-Modus"
+msgstr "OpenAI"
 
 #: ../../admin/machine.rst:446
 msgid "``openai``"
@@ -18010,10 +17981,8 @@ msgid "``model``"
 msgstr "``model``"
 
 #: ../../admin/machine.rst:450
-#, fuzzy
-#| msgid "Zen mode"
 msgid "OpenAI model"
-msgstr "Zen-Modus"
+msgstr "OpenAI-Modell"
 
 #: ../../admin/machine.rst:452
 #, fuzzy
@@ -18023,42 +17992,42 @@ msgstr "Automatische Detektion"
 
 #: ../../admin/machine.rst:454
 msgid "``gpt-4-1106-preview`` -- GPT-4 Turbo"
-msgstr ""
+msgstr "``gpt-4-1106-preview`` -- GPT-4 Turbo"
 
 #: ../../admin/machine.rst:456
 msgid "``gpt-4`` -- GPT-4"
-msgstr ""
+msgstr "``gpt-4`` -- GPT-4"
 
 #: ../../admin/machine.rst:458
 msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
-msgstr ""
+msgstr "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 
 #: ../../admin/machine.rst:460
 msgid "``persona``"
 msgstr "``persona``"
 
 #: ../../admin/machine.rst:460
-#, fuzzy
-#| msgid "Translation reports"
 msgid "Translator persona"
-msgstr "Übersetzungsberichte"
+msgstr "Übersetzerrolle"
 
 #: ../../admin/machine.rst:460
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
 msgstr ""
+"Beschreiben Sie die Rolle des Übersetzers, um die Genauigkeit der "
+"Übersetzung zu verbessern. Zum Beispiel: „Sie sind ein Eichhörnchenzüchter.“"
 
 #: ../../admin/machine.rst:462
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translator style"
-msgstr "Übersetzungsdatei"
+msgstr "Übersetzerstil"
 
 #: ../../admin/machine.rst:462
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
 msgstr ""
+"Beschreiben Sie den Stil der Übersetzung. Zum Beispiel: „Informelle Sprache "
+"verwenden.“"
 
 #: ../../admin/machine.rst:465
 #, fuzzy
@@ -26312,16 +26281,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://de.wikipedia.org/wiki/RSS_(Web-Feed)>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.5.3"
 msgid "Weblate 5.3"
-msgstr "Weblate 4.5.3"
+msgstr "Weblate 5.3"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on December 16th 2022."
 msgid "Released on December 14th 2023."
-msgstr "Veröffentlicht am 16. Dezember 2022."
+msgstr "Veröffentlicht am 14. Dezember 2023."
 
 #: ../../changes.rst:6 ../../changes.rst:67 ../../changes.rst:108
 #: ../../changes.rst:135 ../../changes.rst:211 ../../changes.rst:252
@@ -26329,33 +26294,23 @@ msgid "**New features**"
 msgstr "**Neue Funktionen**"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Configured automatic suggestion services"
 msgid ":ref:`mt-openai` automatic suggestion service."
-msgstr "Konfigurierte automatische Vorschlagsdienste"
+msgstr ":ref:`mt-openai` automatischer Vorschlagsdienst."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Available automatic suggestion services"
 msgid ":ref:`mt-alibaba` automatic suggestion service."
-msgstr "Verfügbare automatische Vorschlagsdienste"
+msgstr ":ref:`mt-alibaba` automatischer Vorschlagsdienst."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "URL to changes list; see :http:get:`/api/projects/(string:project)/"
-#| "changes/`"
 msgid ""
 "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
 msgstr ""
-"URL zur Änderungsliste; siehe :http:get:`/api/projects/(string:project)/"
-"changes/`"
+"Labels-API hinzugefügt, siehe :http:get:`/api/projects/(string:project)/"
+"labels/`."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid ":ref:`glossary`"
 msgid ":ref:`glossary-mt`."
-msgstr ":ref:`glossary`"
+msgstr ":ref:`glossary-mt`."
 
 #: ../../changes.rst:12
 #, fuzzy
@@ -26388,10 +26343,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-terminology`"
+msgstr ":ref:`mt-microsoft-translator` unterstützt :ref:`glossary-mt`."
 
 #: ../../changes.rst:20
 #, fuzzy
@@ -26460,28 +26413,20 @@ msgstr ""
 "Aktualisierung durchzuführen."
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/104?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/107?"
 "closed=1>`__."
 msgstr ""
-"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
-"milestone/104?closed=1>`__."
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
+"107?closed=1>`__."
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.2.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.2.1"
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Released on November 16th 2023."
 msgid "Released on November 22nd 2023."
-msgstr "Veröffentlicht am 16. November 2023."
+msgstr "Veröffentlicht am 22. November 2023."
 
 #: ../../changes.rst:45
 #, fuzzy
@@ -26490,10 +26435,8 @@ msgid "Show search field after no strings found while translating."
 msgstr "Anzeige von ähnlichen Zeichenketten beim Übersetzen ."
 
 #: ../../changes.rst:46
-#, fuzzy
-#| msgid "Improved configuration of special characters virtual keyboard."
 msgid "Added soft hyphen to special-characters toolbar."
-msgstr "Verbesserte Konfiguration der virtuellen Tastatur für Sonderzeichen."
+msgstr "Bedingter Trennstrich zur Symbolleiste für Sonderzeichen hinzugefügt."
 
 #: ../../changes.rst:50
 msgid "Database backups compatibility with Alibaba Cloud Database PolarDB."
@@ -26518,16 +26461,12 @@ msgid "Possible discarding pending translations after editing source strings."
 msgstr "Füllt Übersetzungszeichenketten mit der Ausgangszeichenkette aus."
 
 #: ../../changes.rst:60
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/104?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/108?"
 "closed=1>`__."
 msgstr ""
-"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
-"milestone/104?closed=1>`__."
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
+"108?closed=1>`__."
 
 #: ../../changes.rst:63
 msgid "Weblate 5.2"
@@ -37058,10 +36997,8 @@ msgid "wallabag.org"
 msgstr "wallabag.org"
 
 #: ../../../BACKERS.rst:20
-#, fuzzy
-#| msgid "`curl <https://curl.se/>`_"
 msgid "`Scenari (Kelis) <https://scenari.software/>`_"
-msgstr "`curl <https://curl.se/>`_"
+msgstr "`Scenari (Kelis) <https://scenari.software/>`_"
 
 #: ../../../BACKERS.rst:22
 msgid ""
@@ -44353,10 +44290,8 @@ msgstr ""
 "Übersetzung angeboten. Jeder Absatz wird als eigene Zeichenkette übersetzt."
 
 #: ../../formats/txt.rst:11
-#, fuzzy
-#| msgid "There are three flavors of this format:"
 msgid "There are several flavors of this format:"
-msgstr "Dieses Format gibt es in drei Varianten:"
+msgstr "Dieses Format gibt es in verschiedenen Varianten:"
 
 #: ../../formats/txt.rst:13
 msgid "Plain text file"
