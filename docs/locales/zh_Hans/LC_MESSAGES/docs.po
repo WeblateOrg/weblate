@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2023-11-16 12:46+0000\n"
+"PO-Revision-Date: 2023-12-11 12:47+0000\n"
 "Last-Translator: Eric <zxmegaxqug@hldrive.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.2\n"
+"X-Generator: Weblate 5.3-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -5100,51 +5100,34 @@ msgid "Customizing behavior using flags"
 msgstr "使用标记定制行为"
 
 #: ../../admin/checks.rst:29
-#, fuzzy
-#| msgid ""
-#| "You can fine-tune Weblate's behavior by using flags. The flags provide "
-#| "visual feedback to the translators and help them to improve their "
-#| "translation. This can be done on the source string level (see :ref:"
-#| "`additional`), or in the :ref:`component` (:ref:`component-check_flags`). "
-#| "Some file formats also allow to specify flags directly in the format "
-#| "(see :ref:`formats`)."
 msgid ""
 "You can fine-tune Weblate's behavior by using flags. The flags provide "
 "visual feedback to the translators and help them to improve their "
 "translation. The flags are merged from following sources:"
-msgstr ""
-"您可以使用标记微调 Weblate 的行为。标记向译者提供视觉反馈并帮助译者改进翻译。"
-"这可以在源字符串层面进行（请参见 :ref:`additional`），或者在 :ref:"
-"`component`\\ （:ref:`component-check_flags`）中进行。某些文件格式还允许直接"
-"在格式中指定标记（请参见 :ref:`formats`）。"
+msgstr "您可以使用标记微调 Weblate "
+"的行为。标记向译者提供视觉反馈并帮助译者改进翻译。标记是从下列源合并的："
 
 #: ../../admin/checks.rst:33
-#, fuzzy
-#| msgid "Source string description"
 msgid "Source string, see :ref:`additional`."
-msgstr "源字符串描述"
+msgstr "源字符串，见 :ref:`additional`。"
 
 #: ../../admin/checks.rst:34
-#, fuzzy
-#| msgid "Translation file format, see also :ref:`formats`."
 msgid "Per-string flags extracted from the file format, see :ref:`formats`."
-msgstr "翻译文件格式，还请参见 :ref:`formats`。"
+msgstr "从文件格式提取的每字符串标记，见 :ref:`formats`。"
 
 #: ../../admin/checks.rst:35
 msgid ""
 "Translation flags (currently only ``read-only`` flag for bilingual source "
 "string)."
-msgstr ""
+msgstr "翻译标记（当前仅双语源字符串的 ``read-only`` 标记）。"
 
 #: ../../admin/checks.rst:36
 msgid "File-format specific flags."
-msgstr ""
+msgstr "文件格式特定的标记。"
 
 #: ../../admin/checks.rst:37
-#, fuzzy
-#| msgid ":ref:`additional`, :ref:`component-check_flags`"
 msgid ":ref:`component` (:ref:`component-check_flags`)."
-msgstr ":ref:`additional`, :ref:`component-check_flags`"
+msgstr ":ref:`component` (:ref:`component-check_flags`)."
 
 #: ../../admin/checks.rst:39
 msgid ""
@@ -10356,10 +10339,8 @@ msgid "``OpenAI``"
 msgstr ""
 
 #: ../../admin/install.rst:226
-#, fuzzy
-#| msgid "`zeep <https://pypi.org/project/zeep>`_"
 msgid "`openai <https://pypi.org/project/openai>`_"
-msgstr "`zeep <https://pypi.org/project/zeep>`_"
+msgstr "`openai <https://pypi.org/project/openai>`_"
 
 #: ../../admin/install.rst:227 ../../user/glossary.rst:127
 #, fuzzy
@@ -10679,18 +10660,10 @@ msgstr ""
 "migration`"
 
 #: ../../admin/install.rst:460
-#, fuzzy
-#| msgid "Database backup settings"
 msgid "Database connections"
-msgstr "数据库备份设置"
+msgstr "数据库连接"
 
 #: ../../admin/install.rst:462
-#, fuzzy
-#| msgid ""
-#| "Persistent connections improve Weblate responsiveness, but might require "
-#| "more resources for the database server. Please consult :setting:`django:"
-#| "CONN_MAX_AGE` and :ref:`django:persistent-database-connections` for more "
-#| "info."
 msgid ""
 "In the default configuration, each Weblate process keeps a persistent "
 "connection to the database. Persistent connections improve Weblate "
@@ -10698,23 +10671,22 @@ msgid ""
 "Please consult :setting:`django:CONN_MAX_AGE` and :ref:`django:persistent-"
 "database-connections` for more info."
 msgstr ""
-"持久性连接改善 Weblate 响应水平，但可能需要给数据服务器提供更多资源。更多信息"
-"请参考 :setting:`django:CONN_MAX_AGE` 和 :ref:`django:persistent-database-"
+"默认配置中，每个 Weblate 今晨保持到数据库的持久性连接。持久性连接改善 "
+"Weblate 响应水平，但可能需要给数据服务器提供更多资源。更多信息请参考 "
+":setting:`django:CONN_MAX_AGE` 和 :ref:`django:persistent-database-"
 "connections` 。"
 
 #: ../../admin/install.rst:468
-#, fuzzy
-#| msgid "Weblate containers are published to following registries:"
 msgid "Weblate needs at least the following number of connections:"
-msgstr "Weblate 容器发布到下列镜像库："
+msgstr "Weblate 需要至少下列连接数："
 
 #: ../../admin/install.rst:470
 msgid ":math:`(4 \\times \\mathit{nCPUs}) + 2` for Celery processes"
-msgstr ""
+msgstr "Celery 进程的 :math:`(4 \\times \\mathit{nCPUs}) + 2`"
 
 #: ../../admin/install.rst:471
 msgid ":math:`\\mathit{nCPUs} + 1` for WSGI workers"
-msgstr ""
+msgstr "WSGI workers 的 :math:`\\mathit{nCPUs} + 1`"
 
 #: ../../admin/install.rst:473
 msgid ""
@@ -10722,30 +10694,28 @@ msgid ""
 "provided in this documentation, but the numbers will change once you "
 "customize the amount of WSGI workers or adjust parallelism of Celery."
 msgstr ""
+"这应用到 Docker 容器默认值及此文档中提供的示例配置，不过一旦你自定义 WSGI "
+"worker 数目或调整 Celery 并行数，相关数字就会变化。"
 
 #: ../../admin/install.rst:477
 msgid ""
 "The actual limit for the number of database connections needs to be higher "
 "to account following situations:"
-msgstr ""
+msgstr "考虑下列情况，数据库连接数的实际限制需要较高："
 
 #: ../../admin/install.rst:480
-#, fuzzy
-#| msgid ":ref:`autofix` are now applied to suggestions as well."
 msgid ":ref:`manage` need their connection as well."
-msgstr ":ref:`autofix` 现在同样应用于建议。"
+msgstr ":ref:`manage` 也需要它们的连接。"
 
 #: ../../admin/install.rst:481
 msgid ""
 "If case process is killed (for example by OOM killer), it might block the "
 "existing connection until timeout."
-msgstr ""
+msgstr "如果进程被杀（比如被 OOM killer 干掉），可能造成现有连接被拦截，导致超时。"
 
 #: ../../admin/install.rst:484
-#, fuzzy
-#| msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgid ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
-msgstr "它默认为 :envvar:`WEBLATE_WORKERS`。"
+msgstr ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
 
 #: ../../admin/install.rst:491
 msgid "PostgreSQL"
@@ -11859,21 +11829,16 @@ msgstr ""
 "Django 文档中的 :djadmin:`django:runserver`。"
 
 #: ../../admin/install.rst:1376
-#, fuzzy
-#| msgid ""
-#| "The Django built-in server serves static files only with :setting:`DEBUG` "
-#| "enabled as it is intended for development only. For production use, "
-#| "please see wsgi setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-"
-#| "gunicorn`, and :ref:`static-files`."
 msgid ""
 "The Django built-in server serves static files only with :setting:`DEBUG` "
 "enabled as it is intended for development only. For production use, please "
 "see WSGI setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and :"
 "ref:`static-files`."
 msgstr ""
-"Django 内建服务只通过允许 :setting:`DEBUG` 来为静态文件提供服务，因为它只用于"
-"开发的目的。对于生产使用，请参见 :ref:`uwsgi` 、:ref:`apache`、:ref:`apache-"
-"gunicorn` 和 :ref:`static-files` 中的 wsgi 设置。"
+"Django 内建服务只通过允许 :setting:`DEBUG` "
+"来为静态文件提供服务，因为它只用于开发的目的。对于生产使用，请参见 "
+":ref:`uwsgi` 、:ref:`apache`、:ref:`apache-gunicorn` 和 :ref:`static-files` "
+"中的 WSGI 设置。"
 
 #: ../../admin/install.rst:1384
 msgid "Serving static files"
@@ -11967,13 +11932,6 @@ msgid "Sample configuration for NGINX and uWSGI"
 msgstr "NGINX 和 uWSGI 的配置示例"
 
 #: ../../admin/install.rst:1435
-#, fuzzy
-#| msgid ""
-#| "To run production webserver, use the wsgi wrapper installed with Weblate "
-#| "(in virtual env case it is installed as :file:`~/weblate-env/lib/"
-#| "python3.9/site-packages/weblate/wsgi.py`).  Don't forget to set the "
-#| "Python search path to your virtualenv as well (for example using "
-#| "``virtualenv = /home/user/weblate-env`` in uWSGI)."
 msgid ""
 "To run production webserver, use the WSGI wrapper installed with Weblate (in "
 "virtual env case it is installed as :file:`~/weblate-env/lib/python3.9/site-"
@@ -11981,10 +11939,10 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
-"为了运行生产 web 服务器，使用与 Weblate 一起安装的 wsgi 封装（在虚拟 env 的情"
-"况下，它安装为 :file:`~/weblate-env/lib/python3.9/site-packages/weblate/wsgi."
-"py` ）。别忘了将 Python 的搜索路径同样设置为 您的虚拟 env （例如在 uWSGI 中使"
-"用 ``virtualenv = /home/user/weblate-env`` ）。"
+"为了运行生产 web 服务器，使用与 Weblate 一起安装的 WSGI 封装（在虚拟 env "
+"的情况下，它安装为 :file:`~/weblate-env/lib/python3.9/site-packages/weblate/"
+"wsgi.py` ）。别忘了将 Python 的搜索路径同样设置为 您的虚拟 env （例如在 "
+"uWSGI 中使用 ``virtualenv = /home/user/weblate-env`` ）。"
 
 #: ../../admin/install.rst:1441
 msgid ""
@@ -12110,10 +12068,8 @@ msgid "Sending digest notifications."
 msgstr "发送摘要通知。"
 
 #: ../../admin/install.rst:1530
-#, fuzzy
-#| msgid "Offloading expensive operations from the wsgi process."
 msgid "Offloading expensive operations from the WSGI process."
-msgstr "从wsgi进程中卸载高负载操作。"
+msgstr "从 WSGI 进程中卸载高负载操作。"
 
 #: ../../admin/install.rst:1531
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
@@ -12154,10 +12110,8 @@ msgid "See also :ref:`file-permissions` and :ref:`server`."
 msgstr "还请参见 :ref:`file-permissions` 和 :ref:`server`。"
 
 #: ../../admin/install.rst:1563
-#, fuzzy
-#| msgid "Executing Celery tasks in the wsgi using eager mode"
 msgid "Executing Celery tasks in the WSGI using eager mode"
-msgstr "在wsgi中使用eager模式执行Celery任务"
+msgstr "在WSGI中使用eager模式执行Celery任务"
 
 #: ../../admin/install.rst:1567
 msgid ""
@@ -15649,7 +15603,7 @@ msgstr ":ref:`machine-translation`"
 
 #: ../../admin/machine.rst:32
 msgid "Alibaba"
-msgstr ""
+msgstr "Alibaba"
 
 #: ../../admin/machine.rst:0
 msgid "Service ID"
@@ -15681,11 +15635,8 @@ msgid "``secret``"
 msgstr "``secret``"
 
 #: ../../admin/machine.rst:40
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Access key ID"
 msgid "Access key secret"
-msgstr "访问密钥 ID"
+msgstr "访问密钥 secret"
 
 #: ../../admin/machine.rst:42 ../../admin/machine.rst:102
 #: ../../admin/machine.rst:344
@@ -15693,31 +15644,22 @@ msgid "``region``"
 msgstr "``region``"
 
 #: ../../admin/machine.rst:42
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Region name"
 msgid "Region ID"
-msgstr "区域名"
+msgstr "区域 ID"
 
 #: ../../admin/machine.rst:45
-#, fuzzy
-#| msgid ""
-#| "Amazon Translate is a neural machine translation service for translating "
-#| "text to and from English across a breadth of supported languages."
 msgid ""
 "Alibaba Translate is a neural machine translation service for translating "
 "text and it supports up to 214 language pairs."
-msgstr ""
-"Amazon Translate 是神经机器翻译服务，用于将英语与广泛支持的语言进行互译。"
+msgstr "Alibaba Translate 是神经机器文本翻译服务，支持多达 214 个语言对。"
 
 #: ../../admin/machine.rst:50
-#, fuzzy
-#| msgid ""
-#| "`Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_"
 msgid ""
 "`Alibaba Translate Documentation <https://www.alibabacloud.com/help/en/"
 "machine-translation>`_"
-msgstr "`Amazon 翻译文档 <https://docs.aws.amazon.com/translate/>`_"
+msgstr ""
+"`Alibaba 翻译文档 <https://www.alibabacloud.com/help/en/machine-"
+"translation>`_"
 
 #: ../../admin/machine.rst:55
 msgid "Amagama"
@@ -15780,10 +15722,8 @@ msgstr ""
 "wiki.apertium.org/wiki/Apertium-apy>`_"
 
 #: ../../admin/machine.rst:94
-#, fuzzy
-#| msgid "Yandex Translate"
 msgid "Amazon Translate"
-msgstr "Yandex 翻译"
+msgstr "Amazon 翻译"
 
 #: ../../admin/machine.rst:96
 msgid "``aws``"
@@ -15956,7 +15896,7 @@ msgstr ""
 #: ../../admin/machine.rst:176 ../../admin/machine.rst:352
 #: ../../admin/machine.rst:475
 msgid "The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`."
-msgstr ""
+msgstr "服务自动使用 ref:`glossary` ，见 :ref:`glossary-mt`。"
 
 #: ../../admin/machine.rst:180
 msgid ""
@@ -15994,32 +15934,23 @@ msgid "`Glosbe website <https://glosbe.com/>`_"
 msgstr "`Glosbe 网站 <https://glosbe.com/>`_"
 
 #: ../../admin/machine.rst:205
-#, fuzzy
-#| msgid "Google Translate location"
 msgid "Google Cloud Translation Basic"
-msgstr "Google 翻译位置"
+msgstr "Google Cloud 翻译基础版"
 
 #: ../../admin/machine.rst:207
 msgid "``google-translate``"
 msgstr "``google-translate``"
 
 #: ../../admin/machine.rst:212 ../../admin/machine.rst:235
-#, fuzzy
-#| msgid "Machine translation service provided by Google Cloud services."
 msgid "Machine translation service provided by the Google Cloud services."
 msgstr "Google 云服务提供的机器翻译服务。"
 
 #: ../../admin/machine.rst:214
-#, fuzzy
-#| msgid ""
-#| "This service uses the Google Translation API, and you need to obtain an "
-#| "API key and turn on billing in the Google API console."
 msgid ""
 "This service uses the Google Translation API v2, and you need to obtain an "
 "API key and turn on billing in the Google API console."
-msgstr ""
-"这项服务使用了 Google Translation API，您需要得到 API 密钥，并在 Google API "
-"控制台打开记费。"
+msgstr "这项服务使用了 Google Translation API v2，您需要得到 API 密钥，并在 Google "
+"API 控制台打开记费。"
 
 #: ../../admin/machine.rst:219
 msgid ""
@@ -16027,10 +15958,8 @@ msgid ""
 msgstr "`Google 翻译文档 <https://cloud.google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:224
-#, fuzzy
-#| msgid "Google Translate API V3 (Advanced)"
 msgid "Google Cloud Translation Advanced"
-msgstr "Google Translate API V3（高级版）"
+msgstr "Google Cloud 翻译高级版"
 
 #: ../../admin/machine.rst:226
 msgid "``google-translate-api-v3``"
@@ -16046,7 +15975,7 @@ msgstr "Google 翻译服务账户信息"
 
 #: ../../admin/machine.rst:228
 msgid "Enter a JSON key for the service account."
-msgstr ""
+msgstr "输入服务账户的 JSON 密钥。"
 
 #: ../../admin/machine.rst:230
 msgid "``project``"
@@ -16058,7 +15987,7 @@ msgstr "Google 翻译项目"
 
 #: ../../admin/machine.rst:230
 msgid "Enter the numeric or alphanumeric ID of your Google Cloud project."
-msgstr ""
+msgstr "输入您 Google Cloud 项目的数字或字母 ID。"
 
 #: ../../admin/machine.rst:232
 msgid "``location``"
@@ -16072,43 +16001,35 @@ msgstr "Google 翻译位置"
 msgid ""
 "Choose a Google Cloud Translation region that is used for the Google Cloud "
 "project or is closest to you."
-msgstr ""
+msgstr "选择用于该 Google Cloud 项目或离你最近的 Google Cloud 翻译区域。"
 
 #: ../../admin/machine.rst:237
-#, fuzzy
-#| msgid ""
-#| "This service uses a Translation API, and you need to obtain an API key "
-#| "from Yandex."
 msgid ""
 "This service uses the Google Translation API v3 and you need credentials in "
 "JSON format to access it."
-msgstr "这项服务使用翻译 API，您需要从 Yandex 得到 API 密钥。"
+msgstr "这项服务使用 Google 翻译 API v3，您需要 JSON 格式的凭据来访问它。"
 
 #: ../../admin/machine.rst:239
 msgid ""
 "In order to use this service, you first need to go through the following "
 "steps:"
-msgstr ""
+msgstr "要使用此服务，你需要先经历下列步骤："
 
 #: ../../admin/machine.rst:241
 msgid "`Select or create a Cloud Platform project.`_"
-msgstr ""
+msgstr "`选择或创建 Cloud Platform 项目.`_"
 
 #: ../../admin/machine.rst:242
 msgid "`Enable billing for your project.`_"
-msgstr ""
+msgstr "`启用项目计费.`_"
 
 #: ../../admin/machine.rst:243
-#, fuzzy
-#| msgid "Enable machine translation"
 msgid "`Enable the Cloud Translation.`_"
-msgstr "启用机器翻译"
+msgstr "`启用云翻译.`_"
 
 #: ../../admin/machine.rst:244
-#, fuzzy
-#| msgid "Authentication"
 msgid "`Setup Authentication.`_"
-msgstr "身份验证"
+msgstr "`设置身份验证.`_"
 
 #: ../../admin/machine.rst:253
 msgid ""
@@ -16137,7 +16058,7 @@ msgstr "``ibm``"
 msgid ""
 "This service is deprecated by vendor and will be withdrawn entirely as of 10 "
 "December 2024."
-msgstr ""
+msgstr "此服务被厂商废弃，并将于2024年12月10日前被彻底退出。"
 
 #: ../../admin/machine.rst:276
 msgid ""
@@ -16194,10 +16115,8 @@ msgstr ""
 "<https://github.com/LibreTranslate/LibreTranslate#user-content-mirrors>`_"
 
 #: ../../admin/machine.rst:314
-#, fuzzy
-#| msgid "Microsoft Translator"
 msgid "Azure AI Translator"
-msgstr "微软翻译"
+msgstr "Azure AI 翻译工具"
 
 #: ../../admin/machine.rst:316
 msgid "``microsoft-translator``"
@@ -16386,10 +16305,8 @@ msgid "`NetEase Sight Translation Platform <https://sight.youdao.com/>`_"
 msgstr "`网易见外翻译平台 <https://sight.youdao.com/>`_"
 
 #: ../../admin/machine.rst:442
-#, fuzzy
-#| msgid "Zen mode"
 msgid "OpenAI"
-msgstr "禅模式"
+msgstr "OpenAI"
 
 #: ../../admin/machine.rst:446
 msgid "``openai``"
@@ -16402,28 +16319,24 @@ msgid "``model``"
 msgstr "``mode``"
 
 #: ../../admin/machine.rst:450
-#, fuzzy
-#| msgid "Zen mode"
 msgid "OpenAI model"
-msgstr "禅模式"
+msgstr "OpenAI 模式"
 
 #: ../../admin/machine.rst:452
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "``auto`` -- Automatic selection"
-msgstr "自动检测"
+msgstr "``auto`` -- 自动选择"
 
 #: ../../admin/machine.rst:454
 msgid "``gpt-4-1106-preview`` -- GPT-4 Turbo"
-msgstr ""
+msgstr "``gpt-4-1106-preview`` -- GPT-4 Turbo"
 
 #: ../../admin/machine.rst:456
 msgid "``gpt-4`` -- GPT-4"
-msgstr ""
+msgstr "``gpt-4`` -- GPT-4"
 
 #: ../../admin/machine.rst:458
 msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
-msgstr ""
+msgstr "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 
 #: ../../admin/machine.rst:460
 #, fuzzy
@@ -16432,33 +16345,27 @@ msgid "``persona``"
 msgstr "``perl-format``"
 
 #: ../../admin/machine.rst:460
-#, fuzzy
-#| msgid "Translation reports"
 msgid "Translator persona"
-msgstr "翻译报告"
+msgstr "译者人格面貌"
 
 #: ../../admin/machine.rst:460
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
-msgstr ""
+msgstr "描述译者人格面貌以改进翻译的精确度。比如，“你是松鼠饲养员。”"
 
 #: ../../admin/machine.rst:462
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translator style"
-msgstr "翻译文件"
+msgstr "译者风格"
 
 #: ../../admin/machine.rst:462
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
-msgstr ""
+msgstr "描述翻译风格。比如，“使用非正式语言。”"
 
 #: ../../admin/machine.rst:465
-#, fuzzy
-#| msgid "Performs full update on translation unit."
 msgid "Performs translation using `OpenAI`_."
-msgstr "对翻译单元执行完整翻译。"
+msgstr "使用 `OpenAI`_ 进行翻译。"
 
 #: ../../admin/machine.rst:467
 msgid ""
@@ -16466,20 +16373,24 @@ msgid ""
 "capabilities and price points. Automatic selection chooses the best model "
 "available, but you might want to choose a specific model that matches your "
 "needs."
-msgstr ""
+msgstr "OpenAI API 由多元模型集驱动，这些模型的能力和定价各不相同。自动选择会选择最佳"
+"可用模型，但你或许想要选择匹配你需求的特定模型。"
 
 #: ../../admin/machine.rst:471
 msgid ""
 "Use persona and style fields to further fine-tune translations. These will "
 "be used in a prompt for OpenAI and allow you to change the style of the "
 "translations."
-msgstr ""
+msgstr "使用 persona 和 style 字段进一步微调翻译。这些将被用于 OpenAI 的 prompt "
+"并允许你更改翻译的风格。"
 
 #: ../../admin/machine.rst:479
 msgid ""
 "`OpenAI models <https://platform.openai.com/docs/models>`_, `OpenAI API keys "
 "<https://platform.openai.com/account/api-keys>`_"
 msgstr ""
+"`OpenAI 模型 <https://platform.openai.com/docs/models>`_, `OpenAI API 密钥 "
+"<https://platform.openai.com/account/api-keys>`_"
 
 #: ../../admin/machine.rst:487
 msgid "SAP Translation Hub"
@@ -22154,58 +22065,44 @@ msgid "string"
 msgstr "字符串"
 
 #: ../../api.rst:1152
-#, fuzzy
-#| msgid "Returns statistics for a project."
 msgid "Returns labels for a project."
-msgstr "返回项目的统计数据。"
+msgstr "返回项目标签。"
 
 #: ../../api.rst:0
 msgid ">json int id"
-msgstr ""
+msgstr ">json int id"
 
 #: ../../api.rst:1156
-#, fuzzy
-#| msgid "ID of term"
 msgid "ID of the label"
-msgstr "术语的 ID"
+msgstr "标签的 ID"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "string age"
 msgid ">json string name"
-msgstr "字符串添加时间"
+msgstr ">json 字符串名"
 
 #: ../../api.rst:1157 ../../api.rst:1168
-#, fuzzy
-#| msgid "Some of these are:"
 msgid "name of the label"
-msgstr "这些中的一些是："
+msgstr "标签名"
 
 #: ../../api.rst:0
 msgid ">json string color"
-msgstr ""
+msgstr ">json 字符串颜色"
 
 #: ../../api.rst:1158 ../../api.rst:1169
-#, fuzzy
-#| msgid "Some of these are:"
 msgid "color of the label"
-msgstr "这些中的一些是："
+msgstr "标签颜色"
 
 #: ../../api.rst:1164
-#, fuzzy
-#| msgid "Creates a new project."
 msgid "Creates a label for a project."
-msgstr "创建新项目。"
+msgstr "创建项目标签。"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "string age"
 msgid "<json string name"
-msgstr "字符串添加时间"
+msgstr "<json 字符串名"
 
 #: ../../api.rst:0
 msgid "<json string color"
-msgstr ""
+msgstr "<json 字符串颜色"
 
 #: ../../api.rst:1176
 msgid ""
@@ -23976,16 +23873,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS（英文） <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.5.3"
 msgid "Weblate 5.3"
-msgstr "Weblate 4.5.3"
+msgstr "Weblate 5.3"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on December 16th 2022."
 msgid "Released on December 14th 2023."
-msgstr "发布于 2022 年 12 月 16 日。"
+msgstr "发布于 2023 年 12 月 14 日。"
 
 #: ../../changes.rst:6 ../../changes.rst:67 ../../changes.rst:108
 #: ../../changes.rst:135 ../../changes.rst:211 ../../changes.rst:252
@@ -23993,44 +23886,31 @@ msgid "**New features**"
 msgstr "**新功能**"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Configured automatic suggestion services"
 msgid ":ref:`mt-openai` automatic suggestion service."
-msgstr "配置自动建议服务"
+msgstr ":ref:`mt-openai` 自动建议服务。"
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Available automatic suggestion services"
 msgid ":ref:`mt-alibaba` automatic suggestion service."
-msgstr "可用的自动建议服务"
+msgstr ":ref:`mt-alibaba` 自动建议服务。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "URL to changes list; see :http:get:`/api/projects/(string:project)/"
-#| "changes/`"
 msgid ""
 "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
-msgstr ""
-"更改列表的 URL；请参见 :http:get:`/api/projects/(string:project)/repository/`"
+msgstr "新增标签 API，见 :http:get:`/api/projects/(string:project)/labels/`."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid ":ref:`glossary`"
 msgid ":ref:`glossary-mt`."
-msgstr ":ref:`glossary`"
+msgstr ":ref:`glossary-mt`."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Separate check for French punctuation spacing."
 msgid "New automatic fixed for :ref:`autofix-punctuation-spacing`."
-msgstr "将法语标点间隔检查分开。"
+msgstr "新增自动修复 :ref:`autofix-punctuation-spacing`."
 
 #: ../../changes.rst:13
 msgid ""
 ":ref:`mt-google-translate-api-v3` now better honors placeables or line "
 "breaks."
-msgstr ""
+msgstr ":ref:`mt-google-translate-api-v3` 现在更好遵守占位符或换行符。"
 
 #: ../../changes.rst:15 ../../changes.rst:43 ../../changes.rst:71
 #: ../../changes.rst:110 ../../changes.rst:143 ../../changes.rst:186
@@ -24039,32 +23919,27 @@ msgid "**Improvements**"
 msgstr "**改进**"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Reduced memory usage."
 msgid "Reduced memory usage for statistics."
-msgstr "减少了内存的使用。"
+msgstr "减少了统计数据的内存使用。"
 
 #: ../../changes.rst:18
 msgid ""
 ":ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:"
 "`glossary-mt`."
-msgstr ""
+msgstr ":ref:`mt-deepl` 在 :ref:`auto-translation` 下表现得更好并支持 :ref:`glossary-"
+"mt`。"
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-terminology`"
+msgstr ":ref:`mt-microsoft-translator`支持 :ref:`glossary-mt`."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid "Improved region selection in :ref:`mt-google-translate-api-v3`."
-msgstr ":ref:`mt-google-translate-api-v3`"
+msgstr "改进了 :ref:`mt-google-translate-api-v3` 中的区域选择。"
 
 #: ../../changes.rst:21
 msgid "Addded nested JSON exporter in :ref:`download`."
-msgstr ""
+msgstr "在 :ref:`download`中新增折叠 JSON 导出工具。"
 
 #: ../../changes.rst:23 ../../changes.rst:48 ../../changes.rst:84
 #: ../../changes.rst:117 ../../changes.rst:158 ../../changes.rst:191
@@ -24074,7 +23949,7 @@ msgstr "**缺陷修复**"
 
 #: ../../changes.rst:25
 msgid "Removing stale VCS directories."
-msgstr ""
+msgstr "删除陈旧的 VCS 目录。"
 
 #: ../../changes.rst:27 ../../changes.rst:92 ../../changes.rst:122
 #: ../../changes.rst:167 ../../changes.rst:234 ../../changes.rst:289
@@ -24085,15 +23960,14 @@ msgstr "**兼容性**"
 msgid ""
 "Dropped Microsoft Terminology service for automatic suggestions as it is no "
 "longer provided by Microsoft."
-msgstr ""
+msgstr "Microsoft Terminology 服务无法再用于自动建议，因 Microsoft 不再提供此服务。"
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgid ""
 "``labels`` in units API now expose full label info, see :http:get:`/api/"
 "units/(int:id)/`."
-msgstr "源单元链接；请参见 :http:get:`/api/units/(int:id)/`"
+msgstr "单位 API 中的 ``labels`` 现在暴露完整标签信息，见 :http:get:`/api/units/"
+"(int:id)/`."
 
 #: ../../changes.rst:32 ../../changes.rst:56 ../../changes.rst:97
 #: ../../changes.rst:124 ../../changes.rst:171 ../../changes.rst:198
@@ -24121,74 +23995,56 @@ msgid ""
 msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/104?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/107?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/104?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"107?closed=1>`__。"
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.2.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.2.1"
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Released on November 16th 2023."
 msgid "Released on November 22nd 2023."
-msgstr "发布于 2023 年 11 月 16 日。"
+msgstr "发布于 2023 年 11 月 22 日。"
 
 #: ../../changes.rst:45
-#, fuzzy
-#| msgid "Displays similar strings while translating."
 msgid "Show search field after no strings found while translating."
-msgstr "翻译时显示相似的字符串。"
+msgstr "翻译时未找到字符串后显示搜索字段。"
 
 #: ../../changes.rst:46
-#, fuzzy
-#| msgid "Improved configuration of special characters virtual keyboard."
 msgid "Added soft hyphen to special-characters toolbar."
-msgstr "改进了特殊字符可视键盘的配置。"
+msgstr "新增软连字符到特殊字符工具栏。"
 
 #: ../../changes.rst:50
 msgid "Database backups compatibility with Alibaba Cloud Database PolarDB."
-msgstr ""
+msgstr "与 Alibaba 云数据库 PolarDB 的数据库备份兼容性。"
 
 #: ../../changes.rst:51
 msgid "Crash on loading statistics calculated by previous versions."
-msgstr ""
+msgstr "加载由先前版本加载的统计数据时崩溃。"
 
 #: ../../changes.rst:52
 msgid "Sort icons in dark mode."
-msgstr ""
+msgstr "在深色模式下排列图标。"
 
 #: ../../changes.rst:53
 msgid "Project level statistics no longer count categorized components twice."
-msgstr ""
+msgstr "已分类部件数不会再被两次计入项目级统计数据。"
 
 #: ../../changes.rst:54
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Possible discarding pending translations after editing source strings."
-msgstr "用源字符串填充翻译字符串。"
+msgstr "新增在编辑源字符串后丢弃待定翻译的可能性。"
 
 #: ../../changes.rst:60
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/104?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/108?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/104?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"108?closed=1>`__。"
 
 #: ../../changes.rst:63
 msgid "Weblate 5.2"
@@ -24273,7 +24129,7 @@ msgstr ":doc:`/formats/apple` 导出程序现在生成 UTF-8 编码的文件。"
 #: ../../changes.rst:95
 msgid ""
 "Python 3.12 is now supported, though not recommended, see :ref:`python-deps`."
-msgstr ""
+msgstr "现支持 Python 3.12，虽然并不推荐使用，见 :ref:`python-deps`。"
 
 #: ../../changes.rst:101
 msgid ""
@@ -33587,10 +33443,8 @@ msgid "wallabag.org"
 msgstr "wallabag.org"
 
 #: ../../../BACKERS.rst:20
-#, fuzzy
-#| msgid "`curl <https://curl.se/>`_"
 msgid "`Scenari (Kelis) <https://scenari.software/>`_"
-msgstr "`curl <https://curl.se/>`_"
+msgstr "`Scenari (Kelis) <https://scenari.software/>`_"
 
 #: ../../../BACKERS.rst:22
 msgid ""
@@ -38705,32 +38559,32 @@ msgstr ""
 "的位置 -- :file:`res/values/strings.xml`。"
 
 #: ../../formats/android.rst:15
-#, fuzzy
-#| msgid "Weblate containers are published to following registries:"
 msgid "Weblate does following escaping of strings:"
-msgstr "Weblate 容器发布到下列镜像库："
+msgstr "Weblate 遵循字符串转义："
 
 #: ../../formats/android.rst:17
 msgid "If a strings is valid XML, it is inserted as XML to translation."
-msgstr ""
+msgstr "如果字符串是有效的 XML，将被作为 XML 插入翻译。"
 
 #: ../../formats/android.rst:18
 msgid ""
 "``?`` and ``@`` are escaped with a ``\\\\`` at the beginning of the string "
 "to avoid intepreting them as style or resource references."
-msgstr ""
+msgstr "``?`` 和 ``@`` 由字符串开头的 ``\\\\``转义来避免将它们阐释为样式或资源参考。"
 
 #: ../../formats/android.rst:19
 msgid ""
 "In case string contains multiple spaces, it is quoted with double quotes "
 "(``\"``)."
-msgstr ""
+msgstr "如果字符串包含多个空格，将用双引号 (``\"``)进行引用。"
 
 #: ../../formats/android.rst:20
 msgid ""
 "Newlines are escaped as ``\\\\n``, but the actual newline is kept for "
 "readability as well."
 msgstr ""
+"新行被转义为 ``\\\\n"
+"``，但出于稳定性考虑，也将保留实际新行。"
 
 #: ../../formats/android.rst:24
 msgid ""
@@ -40046,16 +39900,14 @@ msgid "`ResourceDictionary file`"
 msgstr "`ResourceDictionary 文件`"
 
 #: ../../formats/resx.rst:4
-#, fuzzy
-#| msgid ".NET resource file"
 msgid ".NET resource files (RESX, RESW)"
-msgstr ".NET 资源文件"
+msgstr ".NET 资源文件 (RESX, RESW)"
 
 #: ../../formats/resx.rst:11
 msgid ""
 "A .NET XML resource file employs a monolingual XML file format used in "
 "Microsoft .NET applications."
-msgstr ""
+msgstr ".NET XML 资源文件使用被用于 Microsoft .NET 程序的单语言 XML 文件格式。"
 
 #: ../../formats/resx.rst:14
 msgid ""
@@ -40063,6 +39915,9 @@ msgid ""
 "extension, the ``.resw`` file format is identical to the ``.resx`` file "
 "format, except that ``.resw`` files may contain only strings and file paths."
 msgstr ""
+"它可使用 ``.resx`` 或 ``.resw`` 扩展名。虽然文件扩展名不一样，但 ``.resw``"
+"文件格式等同于 ``.resx`` 文件格式，例外之处在于 `."
+"resw``文件只能包含字符串和文件路径。"
 
 #: ../../formats/resx.rst:20
 msgid ""
@@ -40239,10 +40094,8 @@ msgstr ""
 "字符串。"
 
 #: ../../formats/txt.rst:11
-#, fuzzy
-#| msgid "There are three flavors of this format:"
 msgid "There are several flavors of this format:"
-msgstr "这种格式有三种风格:"
+msgstr "这种格式有几种风格："
 
 #: ../../formats/txt.rst:13
 msgid "Plain text file"
@@ -40292,12 +40145,6 @@ msgstr ""
 "Weblate 当前不支持带注释的文件。"
 
 #: ../../formats/webextension.rst:16
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
-#| "docs/extensions/reference/i18n/>`_, `Mozilla Extensions "
-#| "Internationalization <https://developer.mozilla.org/en-US/docs/Mozilla/"
-#| "Add-ons/WebExtensions/Internationalization>`_"
 msgid ""
 ":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
 "docs/extensions/reference/api/i18n>`_, `Mozilla Extensions "
@@ -40305,8 +40152,9 @@ msgid ""
 "ons/WebExtensions/Internationalization>`_"
 msgstr ""
 ":doc:`tt:formats/json` ， `Google chrome.i18n <https://developer.chrome.com/"
-"docs/extensions/reference/i18n/>`_ ， `Mozilla 扩展国际化 <https://developer."
-"mozilla.org/zh-CN/docs/Mozilla/Add-ons/WebExtensions/Internationalization >`_"
+"docs/extensions/reference/api/i18n>`_ ， `Mozilla 扩展国际化 "
+"<https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/WebExtensions/"
+"Internationalization >`_"
 
 #: ../../formats/webextension.rst:31
 msgid "``_locales/*/messages.json``"
@@ -40728,12 +40576,6 @@ msgstr ""
 "#weblate 或安装在你电脑上的IRC客户端来访问。"
 
 #: ../../../README.rst:79
-#, fuzzy
-#| msgid ""
-#| "This program is distributed in the hope that it will be useful, but "
-#| "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#| "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the `GNU General "
-#| "Public License`_ for more details."
 msgid ""
 "This program is distributed in the hope that it will be useful, but WITHOUT "
 "ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
@@ -40741,7 +40583,8 @@ msgid ""
 "<https://www.gnu.org/licenses/gpl-3.0.html>`_ for more details."
 msgstr ""
 "发布本程序希望它有用，但不作任何担保；甚至没有应用可销售性或适于特定目的的担"
-"保。更多细节请参见 `GNU 通用公共许可证`_。"
+"保。更多细节请参见 `GNU 通用公共许可证 <https://www.gnu.org/licenses/gpl-3.0."
+"html>`_."
 
 #: ../../index.rst:16
 msgid "Indices and tables"
@@ -41130,16 +40973,16 @@ msgid "Punctuation spacing"
 msgstr "标点间距"
 
 #: ../../user/checks.rst:55
-#, fuzzy
-#| msgid "Separate check for French punctuation spacing."
 msgid "Ensures French and Breton use correct punctuation spacing."
-msgstr "将法语标点间隔检查分开。"
+msgstr "确保法语和布列塔尼语使用正确的标点符号空格。"
 
 #: ../../user/checks.rst:57
 msgid ""
 "This fixup can be disable via ``ignore-punctuation-spacing`` flag (which "
 "also disables :ref:`check-punctuation-spacing`)."
 msgstr ""
+"可通过 ``ignore-punctuation-spacing``标记停用此修正（此标记同样会停用 :ref"
+":`check-punctuation-spacing`）。"
 
 #: ../../user/checks.rst:63
 msgid "Unsafe HTML cleanup"
@@ -44137,12 +43980,10 @@ msgid "JSON (only available for monolingual translations) (``json``)"
 msgstr "JSON（仅适用于单语翻译）(``json``)"
 
 #: ../../user/files.rst:39
-#, fuzzy
-#| msgid "JSON (only available for monolingual translations) (``json``)"
 msgid ""
 "JSON nested structure file (only available for monolingual translations) "
 "(``json-nested``)"
-msgstr "JSON（仅适用于单语翻译）(``json``)"
+msgstr "JSON折叠结构文件（仅对但语言翻译可用）(``json-nested``)"
 
 #: ../../user/files.rst:40
 msgid ""
@@ -44536,18 +44377,14 @@ msgid ":ref:`variants`"
 msgstr ":ref:`variants`"
 
 #: ../../user/glossary.rst:121
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Glossaries in automatic suggestion"
-msgstr "使用自动建议"
+msgstr "自动建议中的术语"
 
 #: ../../user/glossary.rst:125
-#, fuzzy
-#| msgid "The following keyboard shortcuts can be utilized during translation:"
 msgid ""
 "Following automatic suggestion services utilize glossaries during the "
 "translation:"
-msgstr "以下键盘快捷键可以在翻译中使用："
+msgstr "以下自动建议服务在翻译期间使用术语："
 
 #: ../../user/glossary.rst:128
 #, fuzzy
@@ -44563,29 +44400,30 @@ msgstr ":ref:`mt-microsoft-terminology`"
 
 #: ../../user/glossary.rst:131
 msgid "The glossary is processed before exposed to the service:"
-msgstr ""
+msgstr "在被导出到服务前，会先处理术语表："
 
 #: ../../user/glossary.rst:133
 msgid ""
 "Duplicate source entries are not allowed, any additional entries with the "
 "same source are skipped."
-msgstr ""
+msgstr "不允许重复的源条目，任何源相同的附加条目都将被跳过。"
 
 #: ../../user/glossary.rst:134
 msgid ""
 "Any control characters and leading and trailing whitespace are stripped."
-msgstr ""
+msgstr "任何控制字符串以及开头和尾部空白符号都将被去掉。"
 
 #: ../../user/glossary.rst:135
 msgid ":ref:`glossary-forbidden` are skipped."
-msgstr ""
+msgstr ":ref:`glossary-forbidden` 被跳过。"
 
 #: ../../user/glossary.rst:139
 msgid ""
 "Many services store glossaries server-side and enforce limit on the number "
 "of saved glossaries. Weblate always deletes the oldest glossary if it runs "
 "out of space."
-msgstr ""
+msgstr "许多服务在服务器端存储术语表并强制限制保存的术语表数。如果空间不足，那么 "
+"Weblate 总是删除最老的术语表。"
 
 #: ../../user/profile.rst:2
 msgid "Registration and user profile"
@@ -46437,7 +46275,7 @@ msgstr ""
 msgid ""
 "Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, "
 "Azure DevOps, ...)"
-msgstr ""
+msgstr "访问代码托管站点（GitHub, GitLab, Bitbucket, Azure DevOps, ...）上的仓库"
 
 #: ../../vcs.rst:52
 msgid ""
@@ -46448,12 +46286,17 @@ msgid ""
 "repository. You can then use SSH URL to access the repository (see :ref:`ssh-"
 "repos`)."
 msgstr ""
+"访问代码托管站点上的仓库通常是通过创建和 Weblate SSH "
+"密钥相关联的专门用户实现的（见 :ref:`weblate-ssh-key`）。这样做，你将 "
+"Weblate SSH 密钥与单一用户相关联（代码平台经常强制这么做）并授予此用户访问仓"
+"库的权限。关联后，你可以使用 SSH URL 来访问仓库（见 :ref:`ssh-repos`）。"
 
 #: ../../vcs.rst:61
 msgid ""
 "On a Hosted Weblate, this is pre-cofigured for most of the public sites, "
 "please see :ref:`hosted-push`."
-msgstr ""
+msgstr "在 Hosted Weblate 上，这对多数公开站点是预先配置好的，请见 :ref:`hosted-"
+"push`。"
 
 #: ../../vcs.rst:67
 msgid "SSH repositories"
