@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 08:04+0000\n"
-"PO-Revision-Date: 2023-12-11 09:11+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-12-11 12:46+0000\n"
+"Last-Translator: Vlăduț Ilie <vladilie94@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "application/ro/>\n"
 "Language: ro\n"
@@ -89,16 +89,12 @@ msgid "Account e-mail"
 msgstr "E-mail cont"
 
 #: weblate/accounts/forms.py:348
-#, fuzzy
-#| msgid ""
-#| "Used for e-mail notifications and as a commit e-mail if it is not not "
-#| "configured below."
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
-"Utilizat pentru notificări prin e-mail și ca e-mail de comitere, dacă nu "
-"este configurat mai jos."
+"Utilizat pentru notificări prin email și ca email de comitere, dacă nu este "
+"configurat mai jos."
 
 #: weblate/accounts/forms.py:393
 msgid "Subject"
@@ -2618,10 +2614,8 @@ msgid "Reviews are not enabled."
 msgstr "Recenziile nu sunt activate."
 
 #: weblate/auth/permissions.py:237
-#, fuzzy
-#| msgid "The source string cannot be edited."
 msgid "The source string needs review."
-msgstr "Șirul sursă nu poate fi editat."
+msgstr "Șirul sursă necesită revizuire."
 
 #: weblate/auth/permissions.py:238
 msgid "The string is read only."
@@ -2650,6 +2644,7 @@ msgstr "Adăugarea de șiruri este dezactivată în configurarea componentelor."
 #: weblate/auth/permissions.py:286
 msgid "Cannot remove terminology translation, remove source string instead."
 msgstr ""
+"Nu se poate elimina traducerea terminologică, elimină în schimb șirul sursă."
 
 #: weblate/auth/permissions.py:298 weblate/auth/permissions.py:315
 msgid "File format does not support this."
@@ -4825,7 +4820,7 @@ msgstr "Informații cont serviciu Google Translate"
 #: weblate/machinery/forms.py:177
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter a JSON key for the service account."
-msgstr ""
+msgstr "Introdu o cheie JSON pentru contul de servicii."
 
 #: weblate/machinery/forms.py:182
 msgctxt "Automatic suggestion service configuration"
@@ -4835,7 +4830,7 @@ msgstr "Proiect Google Translate"
 #: weblate/machinery/forms.py:186
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter the numeric or alphanumeric ID of your Google Cloud project."
-msgstr ""
+msgstr "Introdu ID-ul numeric sau alfanumeric al proiectului tău Google Cloud."
 
 #: weblate/machinery/forms.py:191
 msgctxt "Automatic suggestion service configuration"
@@ -4848,23 +4843,23 @@ msgid ""
 "Choose a Google Cloud Translation region that is used for the Google Cloud "
 "project or is closest to you."
 msgstr ""
+"Alege o regiune de traducere Google Cloud care este utilizată pentru "
+"proiectul Google Cloud sau care este cea mai apropiată de tine."
 
 #: weblate/machinery/forms.py:200
-#, fuzzy
-#| msgid "Global numbers"
 msgctxt "Google Cloud region"
 msgid "Global"
-msgstr "Numere globale"
+msgstr "Global"
 
 #: weblate/machinery/forms.py:201
 msgctxt "Google Cloud region"
 msgid "Europe"
-msgstr ""
+msgstr "Europa"
 
 #: weblate/machinery/forms.py:202
 msgctxt "Google Cloud region"
 msgid "US"
-msgstr ""
+msgstr "Statele Unite"
 
 #: weblate/machinery/forms.py:211
 #, python-format
@@ -4889,23 +4884,17 @@ msgstr "Nume regiune"
 #: weblate/machinery/forms.py:229
 msgctxt "Alibaba Translate configuration"
 msgid "Access key ID"
-msgstr "ID-ul cheii de acces"
+msgstr "ID cheie de acces"
 
 #: weblate/machinery/forms.py:232
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Access key ID"
 msgctxt "Alibaba Translate configuration"
 msgid "Access key secret"
-msgstr "ID cheie acces"
+msgstr "Secret cheie de acces"
 
 #: weblate/machinery/forms.py:235
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Region name"
 msgctxt "Alibaba Translate configuration"
 msgid "Region ID"
-msgstr "Nume regiune"
+msgstr "ID regiune"
 
 #: weblate/machinery/forms.py:252
 msgctxt "Automatic suggestion service configuration"
@@ -4919,43 +4908,38 @@ msgstr ""
 "(in)formală"
 
 #: weblate/machinery/forms.py:271
-#, fuzzy
-#| msgid "Automatic suggestions"
 msgctxt "OpenAI model selection"
 msgid "Automatic selection"
-msgstr "Sugestii automate"
+msgstr "Selecție automată"
 
 #: weblate/machinery/forms.py:280
-#, fuzzy
-#| msgid "Zen mode"
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
-msgstr "Mod Zen"
+msgstr "Model OpenAI"
 
 #: weblate/machinery/forms.py:288
-#, fuzzy
-#| msgid "Translation reports"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
-msgstr "Rapoarte de traducere"
+msgstr "Persona traducător"
 
 #: weblate/machinery/forms.py:292
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
 msgstr ""
+"Descrie persoana traducătorului pentru a îmbunătăți acuratețea traducerii. "
+"De exemplu: „Ești un crescător de veverițe.”"
 
 #: weblate/machinery/forms.py:299
-#, fuzzy
-#| msgid "Translation file"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator style"
-msgstr "Fișier de traducere"
+msgstr "Stil traducător"
 
 #: weblate/machinery/forms.py:303
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
 msgstr ""
+"Descrie stilul de traducere. De exemplu: „Folosește un limbaj informal.”"
 
 #: weblate/machinery/views.py:385
 msgid "Service is currently not available."
@@ -8178,10 +8162,8 @@ msgid "disabled"
 msgstr "dezactivat"
 
 #: weblate/templates/machinery/detail.html:17
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Service is no longer available"
-msgstr "Serviciul nu este disponibil momentan."
+msgstr "Serviciul nu mai este disponibil."
 
 #: weblate/templates/machinery/edit.html:12
 #: weblate/templates/machinery/edit.html:16
@@ -11720,10 +11702,8 @@ msgstr "Cuvinte"
 
 #: weblate/templates/translation.html:145
 #: weblate/templates/translation.html:172
-#, fuzzy
-#| msgid "Characters percent"
 msgid "Characters"
-msgstr "Procent caractere"
+msgstr "Caractere"
 
 #: weblate/templates/translation.html:153
 msgid "This translation is being used as source strings within this component."
@@ -12287,7 +12267,7 @@ msgstr "Te rugăm să furnizezi un descriptor valid al componentei!"
 
 #: weblate/trans/forms.py:1013
 msgid "Source component needs to have same source language as target one."
-msgstr ""
+msgstr "Componenta sursă trebuie să aibă aceeași limbă sursă ca și cea țintă."
 
 #: weblate/trans/forms.py:1023
 msgid "Scope"
@@ -14141,10 +14121,8 @@ msgid "Could not commit pending changes: %s"
 msgstr "Nu s-a reușit comiterea modificărilor în așteptare: %s"
 
 #: weblate/trans/models/translation.py:1628
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Plurals are not supported by the file format!"
-msgstr "Editarea șablonului nu este acceptată cu acest format de fișier."
+msgstr "Pluralurile nu sunt acceptate de formatul de fișier!"
 
 #: weblate/trans/models/translation.py:1633 weblate/trans/models/unit.py:654
 #, python-format
@@ -14227,7 +14205,7 @@ msgstr "Introdu elipsă orizontală"
 
 #: weblate/trans/specialchars.py:18
 msgid "Insert a soft hyphen"
-msgstr ""
+msgstr "Inserează liniuță de despărțire"
 
 #: weblate/trans/specialchars.py:258
 #, python-brace-format
@@ -15554,9 +15532,6 @@ msgid "Premium self-hosted support"
 msgstr "Suport premium pentru auto găzduire"
 
 #: weblate/wladmin/models.py:160
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Hosted strings"
 msgstr "Șiruri găzduite"
 
