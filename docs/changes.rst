@@ -1,7 +1,7 @@
 Weblate 5.3
 -----------
 
-Not yet released.
+Released on December 14th 2023.
 
 **New features**
 
