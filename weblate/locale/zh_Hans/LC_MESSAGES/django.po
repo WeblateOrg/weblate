@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 08:04+0000\n"
-"PO-Revision-Date: 2023-12-11 09:11+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-12-11 12:46+0000\n"
+"Last-Translator: Eric <zxmegaxqug@hldrive.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -89,14 +89,10 @@ msgid "Account e-mail"
 msgstr "账户邮箱"
 
 #: weblate/accounts/forms.py:348
-#, fuzzy
-#| msgid ""
-#| "Used for e-mail notifications and as a commit e-mail if it is not not "
-#| "configured below."
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
-msgstr "用于电子邮件通知，且如未在下方进行配置则作为提交的电子邮箱。"
+msgstr "用于电子邮件通知，如未在下方进行配置则作为提交的电子邮箱。"
 
 #: weblate/accounts/forms.py:393
 msgid "Subject"
@@ -2488,10 +2484,8 @@ msgid "Reviews are not enabled."
 msgstr "未启用审校。"
 
 #: weblate/auth/permissions.py:237
-#, fuzzy
-#| msgid "The source string cannot be edited."
 msgid "The source string needs review."
-msgstr "源字符串无法被编辑。"
+msgstr "源字符串需要审校。"
 
 #: weblate/auth/permissions.py:238
 msgid "The string is read only."
@@ -2517,7 +2511,7 @@ msgstr "部件配置中禁用了添加字符串。"
 
 #: weblate/auth/permissions.py:286
 msgid "Cannot remove terminology translation, remove source string instead."
-msgstr ""
+msgstr "无法删除专有名词翻译，请删除源字符串。"
 
 #: weblate/auth/permissions.py:298 weblate/auth/permissions.py:315
 msgid "File format does not support this."
@@ -4616,7 +4610,7 @@ msgstr "Google 翻译服务账户信息"
 #: weblate/machinery/forms.py:177
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter a JSON key for the service account."
-msgstr ""
+msgstr "输入服务账户的 JSON 密钥。"
 
 #: weblate/machinery/forms.py:182
 msgctxt "Automatic suggestion service configuration"
@@ -4626,7 +4620,7 @@ msgstr "Google 翻译项目"
 #: weblate/machinery/forms.py:186
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter the numeric or alphanumeric ID of your Google Cloud project."
-msgstr ""
+msgstr "输入你 Google Cloud 项目的数字或字母 ID。"
 
 #: weblate/machinery/forms.py:191
 msgctxt "Automatic suggestion service configuration"
@@ -4638,24 +4632,22 @@ msgctxt "Google Cloud Translation configuration"
 msgid ""
 "Choose a Google Cloud Translation region that is used for the Google Cloud "
 "project or is closest to you."
-msgstr ""
+msgstr "选择用于 Google Cloud 项目或离你最近的 Google Cloud 翻译区域。"
 
 #: weblate/machinery/forms.py:200
-#, fuzzy
-#| msgid "Global numbers"
 msgctxt "Google Cloud region"
 msgid "Global"
-msgstr "全局数字"
+msgstr "全局"
 
 #: weblate/machinery/forms.py:201
 msgctxt "Google Cloud region"
 msgid "Europe"
-msgstr ""
+msgstr "欧洲"
 
 #: weblate/machinery/forms.py:202
 msgctxt "Google Cloud region"
 msgid "US"
-msgstr ""
+msgstr "美国"
 
 #: weblate/machinery/forms.py:211
 #, python-format
@@ -4683,20 +4675,14 @@ msgid "Access key ID"
 msgstr "访问密钥 ID"
 
 #: weblate/machinery/forms.py:232
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Access key ID"
 msgctxt "Alibaba Translate configuration"
 msgid "Access key secret"
-msgstr "访问密钥 ID"
+msgstr "访问密钥 secret"
 
 #: weblate/machinery/forms.py:235
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Region name"
 msgctxt "Alibaba Translate configuration"
 msgid "Region ID"
-msgstr "区域名"
+msgstr "区域 ID"
 
 #: weblate/machinery/forms.py:252
 msgctxt "Automatic suggestion service configuration"
@@ -4708,43 +4694,35 @@ msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr "如果语言未被指定为书面语，则使用指定的 formality"
 
 #: weblate/machinery/forms.py:271
-#, fuzzy
-#| msgid "Automatic detection"
 msgctxt "OpenAI model selection"
 msgid "Automatic selection"
-msgstr "自动检测"
+msgstr "自动选择"
 
 #: weblate/machinery/forms.py:280
-#, fuzzy
-#| msgid "Zen mode"
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
-msgstr "禅模式"
+msgstr "OpenAI 模型"
 
 #: weblate/machinery/forms.py:288
-#, fuzzy
-#| msgid "Translation reports"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
-msgstr "翻译报告"
+msgstr "译者人格面貌"
 
 #: weblate/machinery/forms.py:292
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
-msgstr ""
+msgstr "描述译者人格面貌以改进翻译的精确度。比如，“你是松鼠饲养员。”"
 
 #: weblate/machinery/forms.py:299
-#, fuzzy
-#| msgid "Translation file"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator style"
-msgstr "翻译文件"
+msgstr "译者风格"
 
 #: weblate/machinery/forms.py:303
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
-msgstr ""
+msgstr "描述翻译风格。比如，“使用非正式语言。”"
 
 #: weblate/machinery/views.py:385
 msgid "Service is currently not available."
@@ -7772,10 +7750,8 @@ msgid "disabled"
 msgstr "已禁用"
 
 #: weblate/templates/machinery/detail.html:17
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Service is no longer available"
-msgstr "服务当前不可用。"
+msgstr "服务不再可用"
 
 #: weblate/templates/machinery/edit.html:12
 #: weblate/templates/machinery/edit.html:16
@@ -11033,10 +11009,8 @@ msgstr "单词"
 
 #: weblate/templates/translation.html:145
 #: weblate/templates/translation.html:172
-#, fuzzy
-#| msgid "Characters percent"
 msgid "Characters"
-msgstr "字符百分比"
+msgstr "字符数"
 
 #: weblate/templates/translation.html:153
 msgid "This translation is being used as source strings within this component."
@@ -11564,7 +11538,7 @@ msgstr "请提供有效的部件标识符！"
 
 #: weblate/trans/forms.py:1013
 msgid "Source component needs to have same source language as target one."
-msgstr ""
+msgstr "源部件需要和目标部件拥有相同的源语言。"
 
 #: weblate/trans/forms.py:1023
 msgid "Scope"
@@ -13298,10 +13272,8 @@ msgid "Could not commit pending changes: %s"
 msgstr "无法提交待处理的更改：%s"
 
 #: weblate/trans/models/translation.py:1628
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Plurals are not supported by the file format!"
-msgstr "此文件格式不支持模板编辑。"
+msgstr "此文件格式不支持复数！"
 
 #: weblate/trans/models/translation.py:1633 weblate/trans/models/unit.py:654
 #, python-format
@@ -13381,7 +13353,7 @@ msgstr "插入省略号"
 
 #: weblate/trans/specialchars.py:18
 msgid "Insert a soft hyphen"
-msgstr ""
+msgstr "插入软连字符"
 
 #: weblate/trans/specialchars.py:258
 #, python-brace-format
@@ -14619,9 +14591,6 @@ msgid "Premium self-hosted support"
 msgstr "进阶自托管支持"
 
 #: weblate/wladmin/models.py:160
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Hosted strings"
 msgstr "托管的字符串数"
 
