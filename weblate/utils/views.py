@@ -404,7 +404,11 @@ def import_message(request, count, message_none, message_ok):
     if count == 0:
         messages.warning(request, message_none)
     else:
-        messages.success(request, message_ok % count)
+        try:
+            message = message_ok % count
+        except TypeError:
+            message = message_ok
+        messages.success(request, message)
 
 
 def iter_files(filenames):
