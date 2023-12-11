@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2023-12-11 15:01+0000\n"
+"PO-Revision-Date: 2023-12-11 18:53+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -5624,10 +5624,8 @@ msgstr ""
 "Markierungen werden aus folgenden Quellen zusammengeführt:"
 
 #: ../../admin/checks.rst:33
-#, fuzzy
-#| msgid "Source string description"
 msgid "Source string, see :ref:`additional`."
-msgstr "Beschreibung der Ausgangszeichenkette"
+msgstr "Ausgangszeichenkette, siehe :ref:`additional`."
 
 #: ../../admin/checks.rst:34
 #, fuzzy
@@ -5646,10 +5644,8 @@ msgid "File-format specific flags."
 msgstr ""
 
 #: ../../admin/checks.rst:37
-#, fuzzy
-#| msgid ":ref:`additional`, :ref:`component-check_flags`"
 msgid ":ref:`component` (:ref:`component-check_flags`)."
-msgstr ":ref:`additional`, :ref:`component-check_flags`"
+msgstr ":ref:`component` (:ref:`component-check_flags`)."
 
 #: ../../admin/checks.rst:39
 msgid ""
@@ -11331,10 +11327,8 @@ msgid "``OpenAI``"
 msgstr "``OpenAI``"
 
 #: ../../admin/install.rst:226
-#, fuzzy
-#| msgid "`zeep <https://pypi.org/project/zeep>`_"
 msgid "`openai <https://pypi.org/project/openai>`_"
-msgstr "`zeep <https://pypi.org/project/zeep>`_"
+msgstr "`openai <https://pypi.org/project/openai>`_"
 
 #: ../../admin/install.rst:227 ../../user/glossary.rst:127
 msgid ":ref:`mt-openai`"
@@ -11692,18 +11686,10 @@ msgstr ""
 "migration`"
 
 #: ../../admin/install.rst:460
-#, fuzzy
-#| msgid "Database backup settings"
 msgid "Database connections"
-msgstr "Datenbanksicherung einstellen"
+msgstr "Datenbankverbindungen"
 
 #: ../../admin/install.rst:462
-#, fuzzy
-#| msgid ""
-#| "Persistent connections improve Weblate responsiveness, but might require "
-#| "more resources for the database server. Please consult :setting:`django:"
-#| "CONN_MAX_AGE` and :ref:`django:persistent-database-connections` for more "
-#| "info."
 msgid ""
 "In the default configuration, each Weblate process keeps a persistent "
 "connection to the database. Persistent connections improve Weblate "
@@ -11711,24 +11697,24 @@ msgid ""
 "Please consult :setting:`django:CONN_MAX_AGE` and :ref:`django:persistent-"
 "database-connections` for more info."
 msgstr ""
-"Dauerhafte Verbindungen verbessern die Reaktionsfähigkeit von Weblate, "
-"können aber mehr Ressourcen für den Datenbankserver erfordern. Bitte lesen "
-"Sie :setting:`django:CONN_MAX_AGE` und :ref:`django:persistent-database-"
+"In der Standardkonfiguration behält jeder Weblate-Prozess eine dauerhafte "
+"Verbindung zur Datenbank bei. Dauerhafte Verbindungen verbessern die "
+"Reaktionsfähigkeit von Weblate, erfordern jedoch möglicherweise mehr "
+"Ressourcen für den Datenbankserver. Bitte lesen Sie "
+":setting:`django:CONN_MAX_AGE` und :ref:`django:persistent-database-"
 "connections` für weitere Informationen."
 
 #: ../../admin/install.rst:468
-#, fuzzy
-#| msgid "Weblate containers are published to following registries:"
 msgid "Weblate needs at least the following number of connections:"
-msgstr "Weblate-Container werden in den folgenden Registrys veröffentlicht:"
+msgstr "Weblate benötigt mindestens die folgende Anzahl an Verbindungen:"
 
 #: ../../admin/install.rst:470
 msgid ":math:`(4 \\times \\mathit{nCPUs}) + 2` for Celery processes"
-msgstr ""
+msgstr ":math:`(4 \\times \\mathit{nCPUs}) + 2` für Celery-Prozesse"
 
 #: ../../admin/install.rst:471
 msgid ":math:`\\mathit{nCPUs} + 1` for WSGI workers"
-msgstr ""
+msgstr ":math:`\\mathit{nCPUs} + 1` für WSGI-Worker"
 
 #: ../../admin/install.rst:473
 msgid ""
@@ -11744,10 +11730,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install.rst:480
-#, fuzzy
-#| msgid ":ref:`autofix` are now applied to suggestions as well."
 msgid ":ref:`manage` need their connection as well."
-msgstr ":ref:`autofix` werden nun auch auf Vorschläge angewendet."
+msgstr ":ref:`manage` benötigen ebenfalls ihre Verbindung."
 
 #: ../../admin/install.rst:481
 msgid ""
@@ -11756,10 +11740,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install.rst:484
-#, fuzzy
-#| msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgid ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
-msgstr "Der Standardwert ist :envvar:`WEBLATE_WORKERS`."
+msgstr ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
 
 #: ../../admin/install.rst:491
 msgid "PostgreSQL"
@@ -12991,22 +12973,16 @@ msgstr ""
 "Dokumentation zu :djadmin:`django:runserver`."
 
 #: ../../admin/install.rst:1376
-#, fuzzy
-#| msgid ""
-#| "The Django built-in server serves static files only with :setting:`DEBUG` "
-#| "enabled as it is intended for development only. For production use, "
-#| "please see wsgi setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-"
-#| "gunicorn`, and :ref:`static-files`."
 msgid ""
 "The Django built-in server serves static files only with :setting:`DEBUG` "
 "enabled as it is intended for development only. For production use, please "
 "see WSGI setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and :"
 "ref:`static-files`."
 msgstr ""
-"Der integrierte Django-Server stellt statische Dateien nur mit aktiviertem :"
-"setting:`DEBUG` bereit, da er nur für die Entwicklung gedacht ist. Für den "
-"produktiven Einsatz siehe die wsgi-Einstellungen in :ref:`uwsgi`, :ref:"
-"`apache`, :ref:`apache-gunicorn` und :ref:`static-files`."
+"Der integrierte Django-Server stellt statische Dateien nur mit aktiviertem "
+":setting:`DEBUG` bereit, da er nur für die Entwicklung gedacht ist. Für den "
+"produktiven Einsatz beachten Sie bitte die WSGI-Einstellungen in :ref:`uwsgi`"
+", :ref:`apache`, :ref:`apache-gunicorn` und :ref:`static-files`."
 
 #: ../../admin/install.rst:1384
 msgid "Serving static files"
@@ -13108,13 +13084,6 @@ msgid "Sample configuration for NGINX and uWSGI"
 msgstr "Beispielkonfiguration für NGINX und uWSGI"
 
 #: ../../admin/install.rst:1435
-#, fuzzy
-#| msgid ""
-#| "To run production webserver, use the wsgi wrapper installed with Weblate "
-#| "(in virtual env case it is installed as :file:`~/weblate-env/lib/"
-#| "python3.9/site-packages/weblate/wsgi.py`).  Don't forget to set the "
-#| "Python search path to your virtualenv as well (for example using "
-#| "``virtualenv = /home/user/weblate-env`` in uWSGI)."
 msgid ""
 "To run production webserver, use the WSGI wrapper installed with Weblate (in "
 "virtual env case it is installed as :file:`~/weblate-env/lib/python3.9/site-"
@@ -13123,11 +13092,10 @@ msgid ""
 "env`` in uWSGI)."
 msgstr ""
 "Um einen produktiven Webserver zu betreiben, verwenden Sie den mit Weblate "
-"installierten wsgi-Wrapper (in der virtuellen Umgebung wird er als :file:`~/"
-"weblate-env/lib/python3.9/site-packages/weblate/wsgi.py` installiert).  "
-"Vergessen Sie nicht, auch den Python-Suchpfad in Ihrer virtuellen Umgebung "
-"zu setzen (zum Beispiel mit ``virtualenv = /home/user/weblate-env`` in "
-"uWSGI)."
+"installierten WSGI-Wrapper (in der virtuellen Umgebung wird er als :file"
+":`~/weblate-env/lib/python3.9/site-packages/weblate/wsgi.py` installiert). "
+"Vergessen Sie nicht, den Python-Suchpfad auch in virtualenv zu setzen (zum "
+"Beispiel mit ``virtualenv = /home/user/weblate-env`` in uWSGI)."
 
 #: ../../admin/install.rst:1441
 msgid ""
@@ -13265,10 +13233,8 @@ msgid "Sending digest notifications."
 msgstr "Zusammenfassungs-Benachrichtigungen senden."
 
 #: ../../admin/install.rst:1530
-#, fuzzy
-#| msgid "Offloading expensive operations from the wsgi process."
 msgid "Offloading expensive operations from the WSGI process."
-msgstr "Auslagerung aufwendiger Vorgänge aus dem wsgi-Prozess."
+msgstr "Auslagerung aufwendiger Vorgänge aus dem WSGI-Prozess."
 
 #: ../../admin/install.rst:1531
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
@@ -13312,11 +13278,8 @@ msgid "See also :ref:`file-permissions` and :ref:`server`."
 msgstr "Siehe auch :ref:`file-permissions` und :ref:`celery`."
 
 #: ../../admin/install.rst:1563
-#, fuzzy
-#| msgid "Executing Celery tasks in the wsgi using eager mode"
 msgid "Executing Celery tasks in the WSGI using eager mode"
-msgstr ""
-"Ausführung von Celery-Aufgaben in der wsgi unter Verwendung des Eager-Modus"
+msgstr "Ausführen von Celery-Aufgaben in der WSGI im Eager-Modus"
 
 #: ../../admin/install.rst:1567
 msgid ""
@@ -16500,12 +16463,9 @@ msgid ""
 "your system. If you are not familiar with it, check virtualenv :doc:`venv:"
 "user_guide`."
 msgstr ""
-"Sie können Einstellungen vor oder nach der obigen Importanweisung "
-"definieren, um festzulegen, welche Einstellungen Vorrang haben. Vor der "
-"Importanweisung definierte Einstellungen können durch Umgebungsvariablen und "
-"im Daten-Volume definierte Einstellungsüberschreibungen außer Kraft gesetzt "
-"werden. Einstellungen, die nach der Importanweisung definiert werden, können "
-"nicht überschrieben werden."
+"Wir verwenden virtualenv, um Ihre Weblate-Installation in einer von Ihrem "
+"System getrennten Einsatzumgebung zu installieren. Wenn Sie damit nicht "
+"vertraut sind, lesen Sie den :doc:`venv:user_guide` von virtualenv."
 
 #: ../../admin/install/steps/install-python.rst:10
 msgid "Create the virtualenv for Weblate:"
@@ -17189,7 +17149,7 @@ msgstr ":ref:`machine-translation`"
 
 #: ../../admin/machine.rst:32
 msgid "Alibaba"
-msgstr ""
+msgstr "Alibaba"
 
 #: ../../admin/machine.rst:0
 msgid "Service ID"
@@ -17323,10 +17283,8 @@ msgstr ""
 "<https://wiki.apertium.org/wiki/Apertium-apy>`_"
 
 #: ../../admin/machine.rst:94
-#, fuzzy
-#| msgid "Yandex Translate"
 msgid "Amazon Translate"
-msgstr "Yandex Translate"
+msgstr "Amazon Translate"
 
 #: ../../admin/machine.rst:96
 msgid "``aws``"
@@ -24365,10 +24323,8 @@ msgid ">json int id"
 msgstr ""
 
 #: ../../api.rst:1156
-#, fuzzy
-#| msgid "Some of these are:"
 msgid "ID of the label"
-msgstr "Einige davon sind:"
+msgstr "ID des Labels"
 
 #: ../../api.rst:0
 #, fuzzy
@@ -24377,20 +24333,16 @@ msgid ">json string name"
 msgstr "Alter der Zeichenkette"
 
 #: ../../api.rst:1157 ../../api.rst:1168
-#, fuzzy
-#| msgid "Some of these are:"
 msgid "name of the label"
-msgstr "Einige davon sind:"
+msgstr "Name des Labels"
 
 #: ../../api.rst:0
 msgid ">json string color"
 msgstr ""
 
 #: ../../api.rst:1158 ../../api.rst:1169
-#, fuzzy
-#| msgid "Some of these are:"
 msgid "color of the label"
-msgstr "Einige davon sind:"
+msgstr "Farbe des Labels"
 
 #: ../../api.rst:1164
 #, fuzzy
@@ -26347,10 +26299,8 @@ msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-microsoft-translator` unterstützt :ref:`glossary-mt`."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid "Improved region selection in :ref:`mt-google-translate-api-v3`."
-msgstr ":ref:`mt-google-translate-api-v3`"
+msgstr "Verbesserte Regionsauswahl in :ref:`mt-google-translate-api-v3`."
 
 #: ../../changes.rst:21
 msgid "Addded nested JSON exporter in :ref:`download`."
@@ -26378,12 +26328,12 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgid ""
 "``labels`` in units API now expose full label info, see :http:get:`/api/"
 "units/(int:id)/`."
-msgstr "Link zur Ausgangseinheit; siehe :http:get:`/api/units/(int:id)/`"
+msgstr ""
+"``labels`` in der Einheiten-API zeigen jetzt vollständige Label-"
+"Informationen an, siehe :http:get:`/api/units/(int:id)/`."
 
 #: ../../changes.rst:32 ../../changes.rst:56 ../../changes.rst:97
 #: ../../changes.rst:124 ../../changes.rst:171 ../../changes.rst:198
