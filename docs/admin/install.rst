@@ -26,10 +26,10 @@ Depending on your setup and experience, choose an appropriate installation metho
 
 * Virtualenv installation, recommended for production setups:
 
-   * :doc:`install/venv-debian`
-   * :doc:`install/venv-suse`
-   * :doc:`install/venv-redhat`
-   * :doc:`install/venv-macos`
+  * :doc:`install/venv-debian`
+  * :doc:`install/venv-suse`
+  * :doc:`install/venv-redhat`
+  * :doc:`install/venv-macos`
 
 * :doc:`install/source`, recommended for development.
 
