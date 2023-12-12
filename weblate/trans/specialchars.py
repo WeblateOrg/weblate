@@ -16,6 +16,7 @@ CHAR_NAMES = {
     "\n": gettext_lazy("Insert new line"),
     "…": gettext_lazy("Insert horizontal ellipsis"),
     "\u00AD": gettext_lazy("Insert a soft hyphen"),
+    "\u00A0": gettext_lazy("Insert a non-breaking space"),
 }
 DISPLAY_CHARS = {"\t": "↹", "\n": "↵", "\u00AD": "SHY"}
 
