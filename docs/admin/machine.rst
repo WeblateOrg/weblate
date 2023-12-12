@@ -388,7 +388,7 @@ ModernMT
 
 .. seealso::
 
-    `ModernMT API <https://www.modernmt.com/api/#translation>`_,
+    `ModernMT API <https://www.modernmt.com/api/#translation>`_
 
 .. _mt-mymemory:
 
@@ -553,7 +553,7 @@ amaGama server, which is an enhanced version of tmserver.
 
 .. seealso::
 
-    :doc:`tt:commands/tmserver`
+    :doc:`tt:commands/tmserver`,
     :ref:`amagama:installation`,
     :doc:`virtaal:amagama`,
     `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
