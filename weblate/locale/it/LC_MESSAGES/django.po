@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 08:04+0000\n"
-"PO-Revision-Date: 2023-12-11 09:11+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-12-12 08:21+0000\n"
+"Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -89,10 +89,6 @@ msgid "Account e-mail"
 msgstr "Account email"
 
 #: weblate/accounts/forms.py:348
-#, fuzzy
-#| msgid ""
-#| "Used for e-mail notifications and as a commit e-mail if it is not not "
-#| "configured below."
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
@@ -2617,10 +2613,8 @@ msgid "Reviews are not enabled."
 msgstr "Le revisioni non sono abilitate."
 
 #: weblate/auth/permissions.py:237
-#, fuzzy
-#| msgid "The source string cannot be edited."
 msgid "The source string needs review."
-msgstr "La stringa sorgente non può essere modificata."
+msgstr "La stringa di origine necessita di revisione."
 
 #: weblate/auth/permissions.py:238
 msgid "The string is read only."
@@ -2650,6 +2644,8 @@ msgstr ""
 #: weblate/auth/permissions.py:286
 msgid "Cannot remove terminology translation, remove source string instead."
 msgstr ""
+"Impossibile rimuovere la traduzione terminologica, rimuovere invece la "
+"stringa sorgente."
 
 #: weblate/auth/permissions.py:298 weblate/auth/permissions.py:315
 msgid "File format does not support this."
@@ -4826,7 +4822,7 @@ msgstr "Informazioni account servizio Google Translate"
 #: weblate/machinery/forms.py:177
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter a JSON key for the service account."
-msgstr ""
+msgstr "Inserisci una chiave JSON per l'account di servizio."
 
 #: weblate/machinery/forms.py:182
 msgctxt "Automatic suggestion service configuration"
@@ -4836,7 +4832,7 @@ msgstr "Progetto Google Translate"
 #: weblate/machinery/forms.py:186
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter the numeric or alphanumeric ID of your Google Cloud project."
-msgstr ""
+msgstr "Inserisci l'ID numerico o alfanumerico del tuo progetto Google Cloud."
 
 #: weblate/machinery/forms.py:191
 msgctxt "Automatic suggestion service configuration"
@@ -4849,23 +4845,23 @@ msgid ""
 "Choose a Google Cloud Translation region that is used for the Google Cloud "
 "project or is closest to you."
 msgstr ""
+"Scegli una regione di Google Cloud Translation da usare per il progetto "
+"Google Cloud o quella più vicina a te."
 
 #: weblate/machinery/forms.py:200
-#, fuzzy
-#| msgid "Global numbers"
 msgctxt "Google Cloud region"
 msgid "Global"
-msgstr "Numeri globali"
+msgstr "Globale"
 
 #: weblate/machinery/forms.py:201
 msgctxt "Google Cloud region"
 msgid "Europe"
-msgstr ""
+msgstr "Europa"
 
 #: weblate/machinery/forms.py:202
 msgctxt "Google Cloud region"
 msgid "US"
-msgstr ""
+msgstr "US"
 
 #: weblate/machinery/forms.py:211
 #, python-format
@@ -4893,20 +4889,14 @@ msgid "Access key ID"
 msgstr "ID chiave accesso"
 
 #: weblate/machinery/forms.py:232
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Access key ID"
 msgctxt "Alibaba Translate configuration"
 msgid "Access key secret"
-msgstr "ID chiave accesso"
+msgstr "Accesso alla chiave segreta"
 
 #: weblate/machinery/forms.py:235
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Region name"
 msgctxt "Alibaba Translate configuration"
 msgid "Region ID"
-msgstr "Nome regione"
+msgstr "ID regione"
 
 #: weblate/machinery/forms.py:252
 msgctxt "Automatic suggestion service configuration"
@@ -4919,43 +4909,39 @@ msgstr ""
 "Se la lingua non è specificata come (in)formale usa la formalità specificata"
 
 #: weblate/machinery/forms.py:271
-#, fuzzy
-#| msgid "Automatic detection"
 msgctxt "OpenAI model selection"
 msgid "Automatic selection"
-msgstr "Rilevamento automatico"
+msgstr "Selezione automatica"
 
 #: weblate/machinery/forms.py:280
-#, fuzzy
-#| msgid "Zen mode"
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
-msgstr "Modalità Zen"
+msgstr "Modello OpenAI"
 
 #: weblate/machinery/forms.py:288
-#, fuzzy
-#| msgid "Translation reports"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
-msgstr "Rapporti traduzione"
+msgstr "Profilo del traduttore"
 
 #: weblate/machinery/forms.py:292
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
 msgstr ""
+"Descrivi il profilo del traduttore per migliorare l'accuratezza della "
+"traduzione. Ad esempio: \"Sei un allevatore di scoiattoli.\""
 
 #: weblate/machinery/forms.py:299
-#, fuzzy
-#| msgid "Translation file"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator style"
-msgstr "File di traduzione"
+msgstr "Stile del traduttore"
 
 #: weblate/machinery/forms.py:303
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
 msgstr ""
+"Descrivi lo stile della traduzione. Ad esempio: “Usa un linguaggio "
+"informale.”"
 
 #: weblate/machinery/views.py:385
 msgid "Service is currently not available."
@@ -8144,10 +8130,8 @@ msgid "disabled"
 msgstr "disabilitato"
 
 #: weblate/templates/machinery/detail.html:17
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Service is no longer available"
-msgstr "Servizio attualmente non disponibile."
+msgstr "Il servizio non è più disponibile"
 
 #: weblate/templates/machinery/edit.html:12
 #: weblate/templates/machinery/edit.html:16
@@ -9759,7 +9743,7 @@ msgstr "Percentuale stringhe"
 #: weblate/templates/snippets/info.html:520
 msgctxt "Number of hosted strings"
 msgid "Hosted strings"
-msgstr "Stringhe presenti"
+msgstr "Stringhe ospitate"
 
 #: weblate/templates/snippets/info.html:291
 msgid "Words percent"
@@ -9770,7 +9754,7 @@ msgstr "Percentuale parole"
 #: weblate/templates/snippets/info.html:513
 msgctxt "Number of hosted words"
 msgid "Hosted words"
-msgstr "Parole presenti"
+msgstr "Parole ospitate"
 
 #: weblate/templates/snippets/info.html:293
 msgid "Characters percent"
@@ -9779,7 +9763,7 @@ msgstr "Percentuale caratteri"
 #: weblate/templates/snippets/info.html:294
 msgctxt "Number of hosted characters"
 msgid "Hosted characters"
-msgstr "Caratteri presenti"
+msgstr "Caratteri ospitati"
 
 #: weblate/templates/snippets/info.html:299
 msgctxt "Number of strings"
@@ -11660,10 +11644,8 @@ msgstr "Parole"
 
 #: weblate/templates/translation.html:145
 #: weblate/templates/translation.html:172
-#, fuzzy
-#| msgid "Characters percent"
 msgid "Characters"
-msgstr "Percentuale caratteri"
+msgstr "Caratteri"
 
 #: weblate/templates/translation.html:153
 msgid "This translation is being used as source strings within this component."
@@ -12226,6 +12208,8 @@ msgstr "Fornisci l'indicatore di componente valido!"
 #: weblate/trans/forms.py:1013
 msgid "Source component needs to have same source language as target one."
 msgstr ""
+"Il componente sorgente deve avere la stessa lingua sorgente di quello di "
+"destinazione."
 
 #: weblate/trans/forms.py:1023
 msgid "Scope"
@@ -13235,40 +13219,42 @@ msgstr "Predefinito in base al formato del file"
 
 #: weblate/trans/models/component.py:124
 msgid "POSIX style using underscore as a separator"
-msgstr "Standard POSIX con trattino basso come separatore"
+msgstr "Stile POSIX che usa il trattino basso come separatore"
 
 #: weblate/trans/models/component.py:125
 msgid "BCP style using hyphen as a separator"
-msgstr "Standard BCP usando il trattino come separatore"
+msgstr "Stile BCP che usa il trattino come separatore"
 
 #: weblate/trans/models/component.py:129
 msgid "POSIX style using underscore as a separator, including country code"
-msgstr "Stile POSIX con trattino basso come separatore, incluso codice nazione"
+msgstr ""
+"Stile POSIX che usa il trattino basso come separatore, incluso il codice "
+"paese"
 
 #: weblate/trans/models/component.py:135
 msgid ""
 "POSIX style using underscore as a separator, including country code "
 "(lowercase)"
 msgstr ""
-"Stile POSIX con trattino basso come separatore, incluso codice nazione "
-"(minuscolo)"
+"Stile POSIX che usa il trattino basso come separatore, incluso il codice "
+"paese (minuscolo)"
 
 #: weblate/trans/models/component.py:140
 msgid "BCP style using hyphen as a separator, including country code"
-msgstr "Stile BCP con trattino come separatore, incluso codice nazione"
+msgstr "Stile BCP che usa il trattino come separatore, incluso il codice paese"
 
 #: weblate/trans/models/component.py:144
 msgid "BCP style using hyphen as a separator, legacy language codes"
 msgstr ""
-"Lo stile BCP che usa il trattino come separatore, incluso il codice nazione"
+"Stile BCP che usa il trattino come separatore, codici linguistici obsoleti"
 
 #: weblate/trans/models/component.py:146
 msgid "BCP style using hyphen as a separator, lower cased"
-msgstr "Lo standard BCP usa il trattino come separatore, minuscolo"
+msgstr "Stile BCP che usa il trattino come separatore, minuscolo"
 
 #: weblate/trans/models/component.py:147
 msgid "Android style"
-msgstr "Standard Android"
+msgstr "Stile Android"
 
 #: weblate/trans/models/component.py:148
 msgid "Apple App Store metadata style"
@@ -14071,10 +14057,8 @@ msgid "Could not commit pending changes: %s"
 msgstr "Impossibile eseguire il commit delle modifiche in sospeso: %s"
 
 #: weblate/trans/models/translation.py:1628
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Plurals are not supported by the file format!"
-msgstr "Questo formato file non supporta la modifica del modello."
+msgstr "I plurali non sono supportati dal formato del file!"
 
 #: weblate/trans/models/translation.py:1633 weblate/trans/models/unit.py:654
 #, python-format
@@ -14158,7 +14142,7 @@ msgstr "Inserisci ellissi orizzontale"
 
 #: weblate/trans/specialchars.py:18
 msgid "Insert a soft hyphen"
-msgstr ""
+msgstr "Inserisci un trattino facoltativo"
 
 #: weblate/trans/specialchars.py:258
 #, python-brace-format
@@ -15448,11 +15432,8 @@ msgid "Premium self-hosted support"
 msgstr "Supporto self-hosting premium"
 
 #: weblate/wladmin/models.py:160
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Hosted strings"
-msgstr "Stringhe presenti"
+msgstr "Stringhe ospitate"
 
 #: weblate/wladmin/models.py:185
 msgid "Backup repository URL"
