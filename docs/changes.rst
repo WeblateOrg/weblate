@@ -19,6 +19,7 @@ Released on December 14th 2023.
 * :ref:`mt-microsoft-translator` supports :ref:`glossary-mt`.
 * Improved region selection in :ref:`mt-google-translate-api-v3`.
 * Addded nested JSON exporter in :ref:`download`.
+* Improved :ref:`git-exporter` performance on huge repositories.
 
 **Bug fixes**
 

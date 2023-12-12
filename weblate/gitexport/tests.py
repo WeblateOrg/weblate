@@ -112,6 +112,10 @@ class GitExportTest(ViewTestCase):
         response = self.git_receive()
         self.assertContains(response, "refs/heads/main")
 
+    def test_git_receive_error(self):
+        response = self.git_receive(HTTP_X_WEBLATE_NO_EXPORT="1")
+        self.assertEqual(404, response.status_code)
+
     def enable_acl(self):
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
