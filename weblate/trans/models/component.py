@@ -1900,7 +1900,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         ]
 
     @perform_on_link
-    def commit_pending(self, reason: str, user, skip_push: bool = False):
+    def commit_pending(self, reason: str, user, skip_push: bool = False):  # noqa: C901
         """Check whether there is any translation to be committed."""
 
         def reuse_self(translation):
@@ -1921,43 +1921,52 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
             key=lambda translation: not translation.is_source,
         )
         components = {}
+        skipped = set()
         source_components = []
-        translation_pks = []
+        translation_pks = defaultdict(list)
 
         if not translations:
             return True
 
-        # Validate template is valid
-        if self.has_template():
-            try:
-                self.template_store  # noqa: B018
-            except FileParseError as error:
-                report_error(
-                    cause="Could not parse template file on commit",
-                    project=self.project,
-                )
-                self.log_error("skipping commit due to error: %s", error)
-                self.update_import_alerts(delete=False)
-                return False
-
         # Commit pending changes
         with self.repository.lock:
             for translation in translations:
-                translation_pks.append(translation.pk)
                 translation = reuse_self(translation)
+                component = translation.component
+                if component.pk in skipped:
+                    # We already failed at this component
+                    continue
+                if component.pk not in components:
+                    # Validate template is valid
+                    if component.has_template():
+                        try:
+                            component.template_store  # noqa: B018
+                        except FileParseError as error:
+                            report_error(
+                                cause="Could not parse template file on commit",
+                                project=self.project,
+                            )
+                            component.log_error(
+                                "skipping commit due to error: %s", error
+                            )
+                            component.update_import_alerts(delete=False)
+                            skipped.add(component.pk)
+                            continue
+
+                    components[component.pk] = component
+                translation_pks[component.pk].append(translation.pk)
                 with sentry_sdk.start_span(
                     op="commit_pending", description=translation.full_slug
                 ):
                     translation._commit_pending(reason, user)
-                components[translation.component.pk] = translation.component
                 if translation.is_source:
-                    source_components.append(translation.component)
+                    source_components.append(component)
 
             # Update hash of other translations, otherwise they would be seen as having change
-            if self.has_template():
-                for component in source_components:
+            for component in source_components:
+                if component.has_template():
                     for translation in component.translation_set.exclude(
-                        pk__in=translation_pks
+                        pk__in=translation_pks[component.pk]
                     ):
                         translation.store_hash()
 
