@@ -296,6 +296,13 @@ Python bindings for those you need to install system libraries first - you need
 both Cairo and Pango, which in turn need GLib. All those should be installed
 with development files and GObject introspection data.
 
+.. seealso::
+
+  :doc:`install/venv-debian`,
+  :doc:`install/venv-suse`,
+  :doc:`install/venv-redhat`,
+  :doc:`install/venv-macos`
+
 .. _verify:
 
 Verifying release signatures
