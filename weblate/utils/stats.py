@@ -926,7 +926,9 @@ class ComponentStats(AggregatingStats):
     def get_language_stats(self):
         return (
             translation.stats
-            for translation in prefetch_stats(self.get_child_objects())
+            for translation in prefetch_stats(
+                self._object.translation_set.select_related("language")
+            )
         )
 
     def get_single_language_stats(self, language):
