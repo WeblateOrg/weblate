@@ -407,7 +407,9 @@ class CreateFromDoc(CreateComponent):
         if self.stage != "init":
             return super().form_valid(form)
 
-        fake = create_component_from_doc(form.cleaned_data)
+        fake = create_component_from_doc(
+            form.cleaned_data, form.cleaned_data.pop("docfile")
+        )
 
         # Move to discover phase
         self.stage = "discover"
@@ -417,7 +419,7 @@ class CreateFromDoc(CreateComponent):
         self.initial["branch"] = "main"
         self.initial["template"] = fake.template
         self.initial["filemask"] = fake.filemask
-        self.initial.pop("docfile")
+
         self.request.method = "GET"
         return self.get(self, self.request)
 
