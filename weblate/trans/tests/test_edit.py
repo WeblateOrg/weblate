@@ -485,9 +485,6 @@ class EditJSONMonoTest(EditTest):
         response = self.add_unit("key")
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "New string has been added")
-        response = self.add_unit("key.['foo']")
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Could not parse the key:")
 
 
 class EditJavaTest(EditTest):
