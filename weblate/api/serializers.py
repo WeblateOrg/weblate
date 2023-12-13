@@ -643,57 +643,46 @@ class ComponentSerializer(RemovableSerializer):
         return result
 
     def validate(self, attrs):
-        # Validate name/slug uniqueness, this has to be done prior docfile/zipfile
-        # extracting
-        for field in ("name", "slug"):
-            # Skip optional fields on PATCH
-            if field not in attrs:
-                continue
-            # Skip non changed fields
-            if self.instance and getattr(self.instance, field) == attrs[field]:
-                continue
-            # Look for existing components
-            project = attrs["project"]
-            field_filter = {field: attrs[field]}
-            if (
-                project.component_set.filter(**field_filter).exists()
-                or project.category_set.filter(**field_filter).exists()
-            ):
-                raise serializers.ValidationError(
-                    {field: f"Component or category with this {field} already exists."}
-                )
-
-        # Handle uploaded files
-        if self.instance:
-            for field in ("docfile", "zipfile"):
-                if field in attrs:
-                    raise serializers.ValidationError(
-                        {field: "This field is for creation only, use /file/ instead."}
-                    )
-        if "docfile" in attrs:
-            fake = create_component_from_doc(attrs)
-            attrs["template"] = fake.template
-            attrs["new_base"] = fake.template
-            attrs["filemask"] = fake.filemask
-            attrs.pop("docfile")
-        if "zipfile" in attrs:
-            try:
-                create_component_from_zip(attrs)
-            except BadZipfile:
-                raise serializers.ValidationError(
-                    {"zipfile": "Could not parse uploaded ZIP file."}
-                )
-            attrs.pop("zipfile")
-        # Handle non-component arg
+        # Handle non-component args
         disable_autoshare = attrs.pop("disable_autoshare", False)
+        docfile = attrs.pop("docfile", None)
+        zipfile = attrs.pop("zipfile", None)
 
-        # Call model validation here, DRF does not do that
+        # Restrict create fields on patching
+        if self.instance and (docfile is not None or zipfile is not None):
+            field = "docfile" if docfile is not None else "zipfile"
+            raise serializers.ValidationError(
+                {field: "This field is for creation only, use /file/ instead."}
+            )
+
+        # Build new or patched Component instance with changed attributes
         if self.instance:
             instance = copy(self.instance)
             for key, value in attrs.items():
                 setattr(instance, key, value)
         else:
             instance = Component(**attrs)
+
+        if docfile is not None or zipfile is not None:
+            # Validate name/slug uniqueness, this has to be done prior docfile/zipfile
+            # extracting
+            instance.clean_unique_together()
+
+            # Handle uploaded files
+            if docfile is not None:
+                fake = create_component_from_doc(attrs, docfile)
+                instance.template = attrs["template"] = fake.template
+                instance.new_base = attrs["new_base"] = fake.template
+                instance.filemask = attrs["filemask"] = fake.filemask
+            if zipfile is not None:
+                try:
+                    create_component_from_zip(attrs, zipfile)
+                except BadZipfile:
+                    raise serializers.ValidationError(
+                        {"zipfile": "Could not parse uploaded ZIP file."}
+                    )
+
+        # Call model validation here, DRF does not do that
         instance.clean()
 
         if not self.instance and not disable_autoshare:

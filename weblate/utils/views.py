@@ -338,13 +338,16 @@ def parse_path_units(request, path: list[str], types: tuple[Any]):
     return obj, unit_set, context
 
 
-def guess_filemask_from_doc(data):
+def guess_filemask_from_doc(data, docfile=None):
     if "filemask" in data:
         return
 
+    if docfile is None:
+        docfile = data["docfile"]
+
     ext = ""
-    if "docfile" in data and hasattr(data["docfile"], "name"):
-        ext = os.path.splitext(os.path.basename(data["docfile"].name))[1]
+    if hasattr(docfile, "name"):
+        ext = os.path.splitext(os.path.basename(docfile.name))[1]
 
     if not ext and "file_format" in data and data["file_format"] in FILE_FORMATS:
         ext = FILE_FORMATS[data["file_format"]].extension()
@@ -352,10 +355,10 @@ def guess_filemask_from_doc(data):
     data["filemask"] = "{}/{}{}".format(data.get("slug", "translations"), "*", ext)
 
 
-def create_component_from_doc(data):
+def create_component_from_doc(data, docfile):
     # Calculate filename
-    uploaded = data["docfile"]
-    guess_filemask_from_doc(data)
+    uploaded = docfile or data["docfile"]
+    guess_filemask_from_doc(data, uploaded)
     filemask = data["filemask"]
     filename = filemask.replace(
         "*",
@@ -377,7 +380,7 @@ def create_component_from_doc(data):
     return fake
 
 
-def create_component_from_zip(data):
+def create_component_from_zip(data, zipfile=None):
     # Create fake component (needed to calculate path)
     fake = Component(
         project=data["project"],
@@ -387,7 +390,7 @@ def create_component_from_zip(data):
     )
 
     # Create repository
-    LocalRepository.from_zip(fake.full_path, data["zipfile"])
+    LocalRepository.from_zip(fake.full_path, zipfile or data["zipfile"])
     return fake
 
 
