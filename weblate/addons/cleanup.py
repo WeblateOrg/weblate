@@ -34,7 +34,7 @@ class CleanupAddon(BaseCleanupAddon):
             if filenames is None:
                 continue
             self.extra_files.extend(filenames)
-            translation.store_hash()
+            # Do not update hash here as this is just before parsing updated files
 
     def pre_commit(self, translation, author):
         if translation.is_source and not translation.component.intermediate:
@@ -63,7 +63,9 @@ class RemoveBlankAddon(BaseCleanupAddon):
             if filenames is None:
                 continue
             self.extra_files.extend(filenames)
-            translation.store_hash()
+            # Do not update hash in post_update, only in post_commit
+            if previous_head == "weblate:post-commit":
+                translation.store_hash()
 
     def post_commit(self, component):
-        self.post_update(component, None, skip_push=True)
+        self.post_update(component, "weblate:post-commit", skip_push=True)
