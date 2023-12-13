@@ -67,11 +67,12 @@ def search_replace(request, path):
         if len(matching_ids) == 251:
             matching_ids = matching_ids[:250]
             limited = True
+        else:
+            limited = False
 
         matching = Unit.objects.filter(id__in=matching_ids).prefetch()
 
         confirm = ReplaceConfirmForm(matching, request.POST)
-        limited = False
 
         if not confirm.is_valid():
             for unit in matching:
