@@ -58,6 +58,7 @@ class GenerateMoForm(BaseAddonForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
+            Field("fuzzy"),
             Field("path"),
             ContextDiv(
                 template="addons/generatemo_help.html", context={"user": self.user}
