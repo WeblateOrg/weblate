@@ -23,4 +23,5 @@ class Command(BaseCommand):
         ]
         for bill in pending:
             bill.expiry = timezone.now() + timedelta(days=9 * 7)
-        Billing.objects.bulk_update(pending, ["expiry"])
+            bill.removal = None
+        Billing.objects.bulk_update(pending, ["expiry", "removal"])
