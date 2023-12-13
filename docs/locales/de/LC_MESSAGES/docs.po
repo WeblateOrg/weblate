@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2023-12-12 12:51+0000\n"
+"PO-Revision-Date: 2023-12-13 23:33+0000\n"
 "Last-Translator: VfBFan <VfBFan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.3-dev\n"
+"X-Generator: Weblate 5.3-rc\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -1242,7 +1242,7 @@ msgstr "Entfernen einer Zeichenkette"
 
 #: ../../admin/access.rst:532
 msgid "Dismiss failing check"
-msgstr "Fehlerhafte Prüfung ablehnen"
+msgstr "Fehlerhafte Prüfung verwerfen"
 
 #: ../../admin/access.rst:534
 msgid "Edit strings"
@@ -6694,11 +6694,11 @@ msgid ""
 "marked as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
 "Sie können eine Liste von Qualitätsprüfungen konfigurieren, die nicht "
-"ignoriert werden können, indem Sie :ref:`component-enforced_checks` in :ref:"
-"`component` setzen. Jede aufgelistete Prüfung kann in der Bedienoberfläche "
-"nicht abgelehnt werden und jede Zeichenkette, die diese Prüfung nicht "
-"besteht, wird als :guilabel:`Bearbeitungsbedürftig` markiert (siehe :ref:"
-"`states`)."
+"ignoriert werden können, indem Sie :ref:`component-enforced_checks` in "
+":ref:`component` setzen. Jede aufgelistete Prüfung kann in der "
+"Bedienoberfläche nicht verworfen werden und jede Zeichenkette, die diese "
+"Prüfung nicht besteht, wird als :guilabel:`Bearbeitungsbedürftig` markiert ("
+"siehe :ref:`states`)."
 
 #: ../../admin/checks.rst:319
 msgid ""
@@ -35506,7 +35506,7 @@ msgstr ""
 #: ../../changes/v4.rst:1147
 msgid "Consistently use dismissed as state of dismissed checks."
 msgstr ""
-"Einheitliches Verwenden von „abgelehnt“ als Status bei abgelehnten "
+"Einheitliches Verwenden von „verworfen“ als Status bei verworfenen "
 "Qualitätsprüfungen."
 
 #: ../../changes/v4.rst:1148
@@ -35518,7 +35518,7 @@ msgstr ""
 #: ../../changes/v4.rst:1149
 msgid "Fixed editor keyboard shortcut to dismiss checks."
 msgstr ""
-"Die Tastaturkürzel im Editor zum Ablehnen von Qualitätsprüfungen korrigiert."
+"Die Tastaturkürzel im Editor zum Verwerfen von Qualitätsprüfungen korrigiert."
 
 #: ../../changes/v4.rst:1150
 msgid "Improved machine translation of strings with placeholders."
@@ -42628,18 +42628,26 @@ msgid ""
 "``?`` and ``@`` are escaped with a ``\\\\`` at the beginning of the string "
 "to avoid intepreting them as style or resource references."
 msgstr ""
+"``?`` und ``@`` werden mit einem ``\\\\`` am Anfang der Zeichenkette "
+"maskiert, um zu verhindern, dass sie als Stil- oder Ressourcenreferenzen "
+"interpretiert werden."
 
 #: ../../formats/android.rst:19
 msgid ""
 "In case string contains multiple spaces, it is quoted with double quotes "
 "(``\"``)."
 msgstr ""
+"Enthält eine Zeichenkette mehrere Leerzeichen, wird sie in doppelte "
+"Anführungszeichen gesetzt (``\"``)."
 
 #: ../../formats/android.rst:20
 msgid ""
 "Newlines are escaped as ``\\\\n``, but the actual newline is kept for "
 "readability as well."
 msgstr ""
+"Zeilenumbrüche werden als ``\\n"
+"`` maskiert, aber der eigentliche Zeilenumbruch wird aus Gründen der "
+"Lesbarkeit beibehalten."
 
 #: ../../formats/android.rst:24
 msgid ""
@@ -44049,16 +44057,16 @@ msgid "`ResourceDictionary file`"
 msgstr "`ResourceDictionary-Datei`"
 
 #: ../../formats/resx.rst:4
-#, fuzzy
-#| msgid ".NET resource file"
 msgid ".NET resource files (RESX, RESW)"
-msgstr ".NET-Ressourcendatei"
+msgstr ".NET-Ressourcendateien (RESX, RESW)"
 
 #: ../../formats/resx.rst:11
 msgid ""
 "A .NET XML resource file employs a monolingual XML file format used in "
 "Microsoft .NET applications."
 msgstr ""
+"Eine ‚.NET XML‘-Ressourcendatei ist ein einsprachiges XML-Dateiformat, das "
+"in ‚Microsoft .NET‘-Anwendungen verwendet wird."
 
 #: ../../formats/resx.rst:14
 msgid ""
@@ -44066,6 +44074,10 @@ msgid ""
 "extension, the ``.resw`` file format is identical to the ``.resx`` file "
 "format, except that ``.resw`` files may contain only strings and file paths."
 msgstr ""
+"Sie kann die Erweiterung ``.resx`` oder ``.resw`` verwenden. Trotz der "
+"unterschiedlichen Dateierweiterung ist das Dateiformat ``.resw`` identisch "
+"mit dem Dateiformat ``.resx``, mit der Ausnahme, dass ``.resw``-Dateien nur "
+"Zeichenketten und Dateipfade enthalten können."
 
 #: ../../formats/resx.rst:20
 msgid ""
@@ -44299,12 +44311,6 @@ msgstr ""
 "Weblate unterstützt derzeit keine Dateien mit Kommentaren."
 
 #: ../../formats/webextension.rst:16
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
-#| "docs/extensions/reference/i18n/>`_, `Mozilla Extensions "
-#| "Internationalization <https://developer.mozilla.org/en-US/docs/Mozilla/"
-#| "Add-ons/WebExtensions/Internationalization>`_"
 msgid ""
 ":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
 "docs/extensions/reference/api/i18n>`_, `Mozilla Extensions "
@@ -44312,7 +44318,7 @@ msgid ""
 "ons/WebExtensions/Internationalization>`_"
 msgstr ""
 ":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
-"docs/extensions/reference/i18n/>`_, `Internationalisierung von Mozilla-"
+"docs/extensions/reference/api/i18n>`_, `Internationalisierung von Mozilla-"
 "Erweiterungen <https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/"
 "WebExtensions/Internationalization>`_"
 
@@ -44771,12 +44777,6 @@ msgstr ""
 "Computer installierten IRC-Client."
 
 #: ../../../README.rst:79
-#, fuzzy
-#| msgid ""
-#| "This program is distributed in the hope that it will be useful, but "
-#| "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#| "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the `GNU General "
-#| "Public License`_ for more details."
 msgid ""
 "This program is distributed in the hope that it will be useful, but WITHOUT "
 "ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
@@ -44785,8 +44785,9 @@ msgid ""
 msgstr ""
 "Dieses Programm wird in der Hoffnung verteilt, dass es nützlich ist, aber "
 "OHNE JEGLICHE GARANTIE; sogar ohne die stillschweigende Garantie der "
-"VERKEHRSFÄHIGKEIT oder der EIGNUNG FÜR EINEN BESTIMMTEN ZWECK. Siehe die "
-"`GNU General Public License`_ für weitere Details."
+"VERKEHRSFÄHIGKEIT oder der EIGNUNG FÜR EINEN BESTIMMTEN ZWECK. Siehe die `"
+"GNU General Public License <https://www.gnu.org/licenses/gpl-3.0.html>`_ für "
+"weitere Details."
 
 #: ../../index.rst:16
 msgid "Indices and tables"
@@ -45220,16 +45221,19 @@ msgid "Punctuation spacing"
 msgstr "Interpunktionszeichenabstand"
 
 #: ../../user/checks.rst:55
-#, fuzzy
-#| msgid "Separate check for French punctuation spacing."
 msgid "Ensures French and Breton use correct punctuation spacing."
-msgstr "Separate Prüfung auf Interpunktionszeichenabstand für Französisch."
+msgstr ""
+"Stellt sicher, dass Französisch und Bretonisch korrekte "
+"Interpunktionszeichenabstände verwenden."
 
 #: ../../user/checks.rst:57
 msgid ""
 "This fixup can be disable via ``ignore-punctuation-spacing`` flag (which "
 "also disables :ref:`check-punctuation-spacing`)."
 msgstr ""
+"Diese Korrektur kann über die Markierung ``ignore-punctuation-spacing`` "
+"deaktiviert werden (wodurch auch :ref:`check-punctuation-spacing` "
+"deaktiviert wird)."
 
 #: ../../user/checks.rst:63
 msgid "Unsafe HTML cleanup"
@@ -47595,7 +47599,9 @@ msgstr "Zeilenumbruch am Ende"
 
 #: ../../user/checks.rst:1405
 msgid "Source and translation do not both end with a newline"
-msgstr "Quelle und Übersetzung enden nicht beide mit einem Zeilenumbruch"
+msgstr ""
+"Ausgangs- und übersetzte Zeichenkette enden nicht beide mit einem "
+"Zeilenumbruch"
 
 #: ../../user/checks.rst:1407
 msgid "``weblate.checks.chars.EndNewlineCheck``"
@@ -48800,8 +48806,8 @@ msgstr ""
 "Ein Glossar für jede Sprache kann separat verwaltet werden, aber sie werden "
 "zusammen als eine einzige Komponente gespeichert, was Projektadministratoren "
 "und mehrsprachigen Übersetzern hilft, eine gewisse sprachübergreifende "
-"Konsistenz zu wahren. Begriffe aus dem Glossar, die Wörter aus dem aktuell "
-"übersetzten Text enthalten, werden in der Seitenleiste des "
+"Konsistenz zu wahren. Begriffe aus dem Glossar, die Wörter aus der aktuell "
+"übersetzten Zeichenkette enthalten, werden in der Seitenleiste des "
 "Übersetzungseditors angezeigt."
 
 #: ../../user/glossary.rst:17
@@ -48981,21 +48987,27 @@ msgstr ":ref:`mt-microsoft-translator`"
 #: ../../user/glossary.rst:131
 msgid "The glossary is processed before exposed to the service:"
 msgstr ""
+"Das Glossar wird verarbeitet, bevor es dem Dienst zur Verfügung gestellt "
+"wird:"
 
 #: ../../user/glossary.rst:133
 msgid ""
 "Duplicate source entries are not allowed, any additional entries with the "
 "same source are skipped."
 msgstr ""
+"Doppelte Quelleneinträge sind nicht erlaubt, alle weiteren Einträge mit der "
+"gleichen Quelle werden übersprungen."
 
 #: ../../user/glossary.rst:134
 msgid ""
 "Any control characters and leading and trailing whitespace are stripped."
 msgstr ""
+"Alle Steuerzeichen sowie führende und nachgestellte Leerzeichen werden "
+"entfernt."
 
 #: ../../user/glossary.rst:135
 msgid ":ref:`glossary-forbidden` are skipped."
-msgstr ""
+msgstr ":ref:`glossary-forbidden` werden übersprungen."
 
 #: ../../user/glossary.rst:139
 msgid ""
@@ -49003,6 +49015,9 @@ msgid ""
 "of saved glossaries. Weblate always deletes the oldest glossary if it runs "
 "out of space."
 msgstr ""
+"Viele Dienste speichern Glossare serverseitig und begrenzen die Anzahl der "
+"gespeicherten Glossare. Weblate löscht immer das älteste Glossar, wenn der "
+"Speicherplatz nicht mehr ausreicht."
 
 #: ../../user/profile.rst:2
 msgid "Registration and user profile"
@@ -49240,6 +49255,8 @@ msgid ""
 "A source code link is shown in the web-browser configured in the :ref:"
 "`component` by default."
 msgstr ""
+"Ein Link zum Quellcode wird im Webbrowser angezeigt, der standardmäßig in "
+"der :ref:`component` konfiguriert ist."
 
 #: ../../user/profile.rst:135
 msgid ""
@@ -49693,7 +49710,7 @@ msgstr "``dismissed_check:TEXT``"
 msgid ""
 "String has dismissed check, see :doc:`/user/checks` for check identifiers."
 msgstr ""
-"Prüfung der Zeichenkette wurde abgelehnt, siehe :doc:`/user/checks` für "
+"Prüfung der Zeichenkette wurde verworfen, siehe :doc:`/user/checks` für "
 "Prüfkennungen."
 
 #: ../../user/search.rst:79
