@@ -1922,7 +1922,7 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         )
         components = {}
         skipped = set()
-        source_components = []
+        source_updated_components = []
         translation_pks = defaultdict(list)
 
         if not translations:
@@ -1954,21 +1954,21 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
                             continue
 
                     components[component.pk] = component
-                translation_pks[component.pk].append(translation.pk)
                 with sentry_sdk.start_span(
                     op="commit_pending", description=translation.full_slug
                 ):
                     translation._commit_pending(reason, user)
-                if translation.is_source:
-                    source_components.append(component)
+                if component.has_template():
+                    translation_pks[component.pk].append(translation.pk)
+                    if translation.is_source:
+                        source_updated_components.append(component)
 
             # Update hash of other translations, otherwise they would be seen as having change
-            for component in source_components:
-                if component.has_template():
-                    for translation in component.translation_set.exclude(
-                        pk__in=translation_pks[component.pk]
-                    ):
-                        translation.store_hash()
+            for component in source_updated_components:
+                for translation in component.translation_set.exclude(
+                    pk__in=translation_pks[component.pk]
+                ):
+                    translation.store_hash()
 
         # Fire postponed post commit signals
         for component in components.values():
