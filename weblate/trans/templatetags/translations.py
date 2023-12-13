@@ -711,6 +711,19 @@ def get_stats(obj):
     return obj.stats
 
 
+@register.inclusion_tag("snippets/list-objects-percent.html")
+def review_percent(obj):
+    stats = get_stats(obj)
+
+    return {
+        "value": stats.approved + stats.readonly,
+        "percent": stats.approved_percent + stats.readonly_percent,
+        "query": "q=state:>=approved",
+        "all": stats.all,
+        "class": "zero-width-540",
+    }
+
+
 def translation_progress_data(
     total: int, readonly: int, approved: int, translated: int, has_review: bool
 ):

@@ -151,7 +151,7 @@
       <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
     </th>
     {% if project and project.enable_review %}
-      {% include "snippets/list-objects-percent.html" with percent=category.stats.approved_percent value=category.stats.approved query="q=state:>=approved" all=category.stats.all class="zero-width-540" %}
+      {% review_percent category.stats %}
     {% endif %}
     {% include "snippets/list-objects-percent.html" with percent=category.stats.translated_percent value=category.stats.translated query="q=state:>=translated" all=category.stats.all %}
     {% if not hide_details %}
@@ -242,7 +242,7 @@
 {% endif %}
 </th>
 {% if project and project.enable_review %}
-  {% include "snippets/list-objects-percent.html" with percent=object.stats.approved_percent value=object.stats.approved query="q=state:>=approved" all=object.stats.all class="zero-width-540" %}
+  {% review_percent object.stats %}
 {% endif %}
 {% if is_glossary %}
   {% include "snippets/list-objects-number.html" with value=object.stats.translated query="q=state:>=translated" show_zero=True %}
