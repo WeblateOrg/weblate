@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 08:04+0000\n"
-"PO-Revision-Date: 2023-12-11 09:11+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-12-13 11:00+0000\n"
+"Last-Translator: Rhoslyn Prys <rprys@posteo.net>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/"
 "application/cy/>\n"
 "Language: cy\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : "
 "(n==3) ? 3 :(n==6) ? 4 : 5;\n"
-"X-Generator: Weblate 5.3-dev\n"
+"X-Generator: Weblate 5.3-rc\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -89,10 +89,6 @@ msgid "Account e-mail"
 msgstr "E-bost cyfrif"
 
 #: weblate/accounts/forms.py:348
-#, fuzzy
-#| msgid ""
-#| "Used for e-mail notifications and as a commit e-mail if it is not not "
-#| "configured below."
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
@@ -2615,10 +2611,8 @@ msgid "Reviews are not enabled."
 msgstr "Nid yw adolygiadau wedi'u galluogi."
 
 #: weblate/auth/permissions.py:237
-#, fuzzy
-#| msgid "The source string cannot be edited."
 msgid "The source string needs review."
-msgstr "Nid oes modd golygu'r llinyn ffynhonnell."
+msgstr "Mae angen adolygu'r llinyn ffynhonnell."
 
 #: weblate/auth/permissions.py:238
 msgid "The string is read only."
@@ -2647,6 +2641,7 @@ msgstr "Mae ychwanegu llinynnau wedi'i analluogi yng ffurfweddiad y gydran."
 #: weblate/auth/permissions.py:286
 msgid "Cannot remove terminology translation, remove source string instead."
 msgstr ""
+"Methu tynnu cyfieithiad terminoleg, tynnu llinyn ffynhonnell yn lle hynny."
 
 #: weblate/auth/permissions.py:298 weblate/auth/permissions.py:315
 msgid "File format does not support this."
@@ -4819,7 +4814,7 @@ msgstr "Manylion cyfrif gwasanaeth Google Translate"
 #: weblate/machinery/forms.py:177
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter a JSON key for the service account."
-msgstr ""
+msgstr "Rhowch allwedd JSON ar gyfer y cyfrif gwasanaeth."
 
 #: weblate/machinery/forms.py:182
 msgctxt "Automatic suggestion service configuration"
@@ -4829,7 +4824,7 @@ msgstr "Project Google Translate"
 #: weblate/machinery/forms.py:186
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter the numeric or alphanumeric ID of your Google Cloud project."
-msgstr ""
+msgstr "Rhowch ID rhifol neu alffaniwmerig eich project Google Cloud."
 
 #: weblate/machinery/forms.py:191
 msgctxt "Automatic suggestion service configuration"
@@ -4842,23 +4837,23 @@ msgid ""
 "Choose a Google Cloud Translation region that is used for the Google Cloud "
 "project or is closest to you."
 msgstr ""
+"Dewiswch ranbarth Google Cloud Translation sy'n cael ei ddefnyddio ar gyfer "
+"project Google Cloud neu sydd agosaf atoch chi."
 
 #: weblate/machinery/forms.py:200
-#, fuzzy
-#| msgid "Global numbers"
 msgctxt "Google Cloud region"
 msgid "Global"
-msgstr "Niferoedd y safle"
+msgstr "Eang"
 
 #: weblate/machinery/forms.py:201
 msgctxt "Google Cloud region"
 msgid "Europe"
-msgstr ""
+msgstr "Ewrop"
 
 #: weblate/machinery/forms.py:202
 msgctxt "Google Cloud region"
 msgid "US"
-msgstr ""
+msgstr "UDA"
 
 #: weblate/machinery/forms.py:211
 #, python-format
@@ -4886,20 +4881,14 @@ msgid "Access key ID"
 msgstr "ID allwedd mynediad"
 
 #: weblate/machinery/forms.py:232
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Access key ID"
 msgctxt "Alibaba Translate configuration"
 msgid "Access key secret"
-msgstr "ID allwedd mynediad"
+msgstr "Cyfrinach allwedd mynediad"
 
 #: weblate/machinery/forms.py:235
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Region name"
 msgctxt "Alibaba Translate configuration"
 msgid "Region ID"
-msgstr "Enw rhanbarthol"
+msgstr "ID rhanbarth"
 
 #: weblate/machinery/forms.py:252
 msgctxt "Automatic suggestion service configuration"
@@ -4913,43 +4902,39 @@ msgstr ""
 "(an)ffurfiol"
 
 #: weblate/machinery/forms.py:271
-#, fuzzy
-#| msgid "Automatic suggestions"
 msgctxt "OpenAI model selection"
 msgid "Automatic selection"
-msgstr "Awgrymiadau awtomatig"
+msgstr "Dewis awtomatig"
 
 #: weblate/machinery/forms.py:280
-#, fuzzy
-#| msgid "Zen mode"
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
-msgstr "Modd Zen"
+msgstr "Model OpenAI"
 
 #: weblate/machinery/forms.py:288
-#, fuzzy
-#| msgid "Translation reports"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
-msgstr "Adroddiadau cyfieithu"
+msgstr "Persona cyfieithydd"
 
 #: weblate/machinery/forms.py:292
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
 msgstr ""
+"Disgrifiwch bersona'r cyfieithydd i wella cywirdeb y cyfieithiad. Er "
+"enghraifft: “Rydych chi'n fridiwr gwiwerod.”"
 
 #: weblate/machinery/forms.py:299
-#, fuzzy
-#| msgid "Translation file"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator style"
-msgstr "Ffeil y cyfieithiad"
+msgstr "Arddull cyfieithydd"
 
 #: weblate/machinery/forms.py:303
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
 msgstr ""
+"Disgrifiwch arddull y cyfieithu. Er enghraifft: “Defnyddiwch iaith "
+"anffurfiol.”"
 
 #: weblate/machinery/views.py:385
 msgid "Service is currently not available."
@@ -8216,10 +8201,8 @@ msgid "disabled"
 msgstr "analluogir"
 
 #: weblate/templates/machinery/detail.html:17
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Service is no longer available"
-msgstr "Nid yw'r gwasanaeth ar gael ar hyn o bryd."
+msgstr "Nid yw'r gwasanaeth ar gael ar hyn o bryd"
 
 #: weblate/templates/machinery/edit.html:12
 #: weblate/templates/machinery/edit.html:16
@@ -11815,10 +11798,8 @@ msgstr "Geiriau"
 
 #: weblate/templates/translation.html:145
 #: weblate/templates/translation.html:172
-#, fuzzy
-#| msgid "Characters percent"
 msgid "Characters"
-msgstr "Canran y nodau"
+msgstr "Nodau"
 
 #: weblate/templates/translation.html:153
 msgid "This translation is being used as source strings within this component."
@@ -12382,6 +12363,7 @@ msgstr "Rhowch bonyn cydran dilys!"
 #: weblate/trans/forms.py:1013
 msgid "Source component needs to have same source language as target one."
 msgstr ""
+"Mae angen i'r gydran ffynhonnell fod â'r un iaith ffynhonnell â tharged un."
 
 #: weblate/trans/forms.py:1023
 msgid "Scope"
@@ -14209,10 +14191,8 @@ msgid "Could not commit pending changes: %s"
 msgstr "Wedi methu traddodi newidiadau: %s"
 
 #: weblate/trans/models/translation.py:1628
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Plurals are not supported by the file format!"
-msgstr "Nid yw'r fformat ffeil hwn yn cefnogi golygu templed."
+msgstr "Nid yw fformat y ffeil yn cefnogi lluosogion!"
 
 #: weblate/trans/models/translation.py:1633 weblate/trans/models/unit.py:654
 #, python-format
@@ -14295,7 +14275,7 @@ msgstr "Mewnosodwch elipsis llorweddol"
 
 #: weblate/trans/specialchars.py:18
 msgid "Insert a soft hyphen"
-msgstr ""
+msgstr "Mewnosod cysylltnod meddal"
 
 #: weblate/trans/specialchars.py:258
 #, python-brace-format
@@ -15662,11 +15642,8 @@ msgid "Premium self-hosted support"
 msgstr "Cefnogaeth hunan-cynnal arbennig"
 
 #: weblate/wladmin/models.py:160
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Hosted strings"
-msgstr "Llinynnau wedi'u cynnal"
+msgstr "Llinynnau yn cael eu cynnal"
 
 #: weblate/wladmin/models.py:185
 msgid "Backup repository URL"
