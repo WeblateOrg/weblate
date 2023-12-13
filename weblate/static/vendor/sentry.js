@@ -6377,6 +6377,7 @@ exports.getActiveSpan = core.getActiveSpan;
 exports.getActiveTransaction = core.getActiveTransaction;
 exports.getClient = core.getClient;
 exports.getCurrentHub = core.getCurrentHub;
+exports.getCurrentScope = core.getCurrentScope;
 exports.getHubFromCarrier = core.getHubFromCarrier;
 exports.lastEventId = core.lastEventId;
 exports.makeMain = core.makeMain;
@@ -6441,13 +6442,6 @@ const core = require('@sentry/core');
 const utils = require('@sentry/utils');
 const debugBuild = require('../debug-build.js');
 const helpers = require('../helpers.js');
-require('../stack-parsers.js');
-require('../sdk.js');
-require('./globalhandlers.js');
-require('./trycatch.js');
-require('./linkederrors.js');
-require('./httpcontext.js');
-require('./dedupe.js');
 
 /* eslint-disable max-lines */
 
@@ -6757,7 +6751,7 @@ function _isEvent(event) {
 exports.Breadcrumbs = Breadcrumbs;
 
 
-},{"../debug-build.js":35,"../helpers.js":37,"../sdk.js":49,"../stack-parsers.js":50,"./dedupe.js":40,"./globalhandlers.js":41,"./httpcontext.js":42,"./linkederrors.js":44,"./trycatch.js":45,"@sentry/core":65,"@sentry/utils":117}],40:[function(require,module,exports){
+},{"../debug-build.js":35,"../helpers.js":37,"@sentry/core":65,"@sentry/utils":117}],40:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -7904,7 +7898,7 @@ class BrowserProfilingIntegration  {
           }
         }
 
-        utils.addProfilesToEnvelope(envelope, profilesToAddToEnvelope);
+        utils.addProfilesToEnvelope(envelope , profilesToAddToEnvelope);
       });
     } else {
       utils$1.logger.warn('[Profiling] Client does not support hooks, profiling will be disabled');
@@ -7922,14 +7916,6 @@ const core = require('@sentry/core');
 const utils = require('@sentry/utils');
 const debugBuild = require('../debug-build.js');
 const helpers = require('../helpers.js');
-require('../stack-parsers.js');
-require('../sdk.js');
-require('../integrations/globalhandlers.js');
-require('../integrations/trycatch.js');
-require('../integrations/breadcrumbs.js');
-require('../integrations/linkederrors.js');
-require('../integrations/httpcontext.js');
-require('../integrations/dedupe.js');
 
 /* eslint-disable max-lines */
 
@@ -8203,7 +8189,6 @@ function addProfilesToEnvelope(envelope, profiles) {
   }
 
   for (const profile of profiles) {
-    // @ts-expect-error untyped envelope
     envelope[1].push([{ type: 'profile' }, profile]);
   }
   return envelope;
@@ -8537,7 +8522,7 @@ exports.startJSSelfProfile = startJSSelfProfile;
 exports.takeProfileFromGlobalCache = takeProfileFromGlobalCache;
 
 
-},{"../debug-build.js":35,"../helpers.js":37,"../integrations/breadcrumbs.js":39,"../integrations/dedupe.js":40,"../integrations/globalhandlers.js":41,"../integrations/httpcontext.js":42,"../integrations/linkederrors.js":44,"../integrations/trycatch.js":45,"../sdk.js":49,"../stack-parsers.js":50,"@sentry/core":65,"@sentry/utils":117}],49:[function(require,module,exports){
+},{"../debug-build.js":35,"../helpers.js":37,"@sentry/core":65,"@sentry/utils":117}],49:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -10711,6 +10696,13 @@ function getClient() {
   return hub.getCurrentHub().getClient();
 }
 
+/**
+ * Get the currently active scope.
+ */
+function getCurrentScope() {
+  return hub.getCurrentHub().getScope();
+}
+
 exports.addBreadcrumb = addBreadcrumb;
 exports.captureCheckIn = captureCheckIn;
 exports.captureEvent = captureEvent;
@@ -10720,6 +10712,7 @@ exports.close = close;
 exports.configureScope = configureScope;
 exports.flush = flush;
 exports.getClient = getClient;
+exports.getCurrentScope = getCurrentScope;
 exports.lastEventId = lastEventId;
 exports.setContext = setContext;
 exports.setExtra = setExtra;
@@ -10804,12 +10797,12 @@ class Hub  {
    */
    pushScope() {
     // We want to clone the content of prev scope
-    const scope$1 = scope.Scope.clone(this.getScope());
+    const scope = this.getScope().clone();
     this.getStack().push({
       client: this.getClient(),
-      scope: scope$1,
+      scope,
     });
-    return scope$1;
+    return scope;
   }
 
   /**
@@ -11240,7 +11233,7 @@ function ensureHubOnCarrier(carrier, parent = getGlobalHub()) {
   // If there's no hub on current domain, or it's an old API, assign a new one
   if (!hasHubOnCarrier(carrier) || getHubFromCarrier(carrier).isOlderThan(API_VERSION)) {
     const globalHubTopStack = parent.getStackTop();
-    setHubOnCarrier(carrier, new Hub(globalHubTopStack.client, scope.Scope.clone(globalHubTopStack.scope)));
+    setHubOnCarrier(carrier, new Hub(globalHubTopStack.client, globalHubTopStack.scope.clone()));
   }
 }
 
@@ -11391,6 +11384,7 @@ exports.close = exports$1.close;
 exports.configureScope = exports$1.configureScope;
 exports.flush = exports$1.flush;
 exports.getClient = exports$1.getClient;
+exports.getCurrentScope = exports$1.getCurrentScope;
 exports.lastEventId = exports$1.lastEventId;
 exports.setContext = exports$1.setContext;
 exports.setExtra = exports$1.setExtra;
@@ -12381,27 +12375,33 @@ class Scope  {
 
   /**
    * Inherit values from the parent scope.
-   * @param scope to clone.
+   * @deprecated Use `scope.clone()` and `new Scope()` instead.
    */
    static clone(scope) {
+    return scope ? scope.clone() : new Scope();
+  }
+
+  /**
+   * Clone this scope instance.
+   */
+   clone() {
     const newScope = new Scope();
-    if (scope) {
-      newScope._breadcrumbs = [...scope._breadcrumbs];
-      newScope._tags = { ...scope._tags };
-      newScope._extra = { ...scope._extra };
-      newScope._contexts = { ...scope._contexts };
-      newScope._user = scope._user;
-      newScope._level = scope._level;
-      newScope._span = scope._span;
-      newScope._session = scope._session;
-      newScope._transactionName = scope._transactionName;
-      newScope._fingerprint = scope._fingerprint;
-      newScope._eventProcessors = [...scope._eventProcessors];
-      newScope._requestSession = scope._requestSession;
-      newScope._attachments = [...scope._attachments];
-      newScope._sdkProcessingMetadata = { ...scope._sdkProcessingMetadata };
-      newScope._propagationContext = { ...scope._propagationContext };
-    }
+    newScope._breadcrumbs = [...this._breadcrumbs];
+    newScope._tags = { ...this._tags };
+    newScope._extra = { ...this._extra };
+    newScope._contexts = { ...this._contexts };
+    newScope._user = this._user;
+    newScope._level = this._level;
+    newScope._span = this._span;
+    newScope._session = this._session;
+    newScope._transactionName = this._transactionName;
+    newScope._fingerprint = this._fingerprint;
+    newScope._eventProcessors = [...this._eventProcessors];
+    newScope._requestSession = this._requestSession;
+    newScope._attachments = [...this._attachments];
+    newScope._sdkProcessingMetadata = { ...this._sdkProcessingMetadata };
+    newScope._propagationContext = { ...this._propagationContext };
+
     return newScope;
   }
 
@@ -15637,7 +15637,7 @@ function prepareEvent(
   options,
   event,
   hint,
-  scope$1,
+  scope,
   client,
 ) {
   const { normalizeDepth = 3, normalizeMaxBreadth = 1000 } = options;
@@ -15658,10 +15658,7 @@ function prepareEvent(
 
   // If we have scope given to us, use it as the base for further modifications.
   // This allows us to prevent unnecessary copying of data if `captureContext` is not provided.
-  let finalScope = scope$1;
-  if (hint.captureContext) {
-    finalScope = scope.Scope.clone(finalScope).update(hint.captureContext);
-  }
+  const finalScope = getFinalScope(scope, hint.captureContext);
 
   if (hint.mechanism) {
     utils.addExceptionMechanism(prepared, hint.mechanism);
@@ -15933,6 +15930,16 @@ function normalizeEvent(event, depth, maxBreadth) {
   return normalized;
 }
 
+function getFinalScope(scope$1, captureContext) {
+  if (!captureContext) {
+    return scope$1;
+  }
+
+  const finalScope = scope$1 ? scope$1.clone() : new scope.Scope();
+  finalScope.update(captureContext);
+  return finalScope;
+}
+
 /**
  * Parse either an `EventHint` directly, or convert a `CaptureContext` to an `EventHint`.
  * This is used to allow to update method signatures that used to accept a `CaptureContext` but should now accept an `EventHint`.
@@ -15988,7 +15995,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":59,"../eventProcessors.js":62,"../scope.js":74,"@sentry/utils":117}],96:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.86.0';
+const SDK_VERSION = '7.87.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -18941,6 +18948,10 @@ function initObservers(o, _hooks = {}) {
         };
     const selectionObserver = initSelectionObserver(o);
     const customElementObserver = initCustomElementObserver(o);
+    const pluginHandlers = [];
+    for (const plugin of o.plugins) {
+        pluginHandlers.push(plugin.observer(plugin.callback, currentWindow, plugin.options));
+    }
     return callbackWrapper(() => {
         mutationBuffers.forEach((b) => b.reset());
         mutationObserver.disconnect();
@@ -18956,6 +18967,7 @@ function initObservers(o, _hooks = {}) {
         fontObserver();
         selectionObserver();
         customElementObserver();
+        pluginHandlers.forEach((h) => h());
     });
 }
 function hasNestedCSSRule(prop) {
@@ -19440,7 +19452,7 @@ const mirror = createMirror();
 function record(options = {}) {
     const { emit, checkoutEveryNms, checkoutEveryNth, blockClass = 'rr-block', blockSelector = null, unblockSelector = null, ignoreClass = 'rr-ignore', ignoreSelector = null, maskAllText = false, maskTextClass = 'rr-mask', unmaskTextClass = null, maskTextSelector = null, unmaskTextSelector = null, inlineStylesheet = true, maskAllInputs, maskInputOptions: _maskInputOptions, slimDOMOptions: _slimDOMOptions, maskAttributeFn, maskInputFn, maskTextFn, packFn, sampling = {}, dataURLOptions = {}, mousemoveWait, recordCanvas = false, recordCrossOriginIframes = false, recordAfter = options.recordAfter === 'DOMContentLoaded'
         ? options.recordAfter
-        : 'load', userTriggeredOnInput = false, collectFonts = false, inlineImages = false, keepIframeSrcFn = () => false, ignoreCSSAttributes = new Set([]), errorHandler, onMutation, getCanvasManager, } = options;
+        : 'load', userTriggeredOnInput = false, collectFonts = false, inlineImages = false, plugins, keepIframeSrcFn = () => false, ignoreCSSAttributes = new Set([]), errorHandler, onMutation, getCanvasManager, } = options;
     registerErrorHandler(errorHandler);
     const inEmittingFrame = recordCrossOriginIframes
         ? window.parent === window
@@ -19506,6 +19518,11 @@ function record(options = {}) {
     let lastFullSnapshotEvent;
     let incrementalSnapshotCount = 0;
     const eventProcessor = (e) => {
+        for (const plugin of plugins || []) {
+            if (plugin.eventProcessor) {
+                e = plugin.eventProcessor(e);
+            }
+        }
         if (packFn &&
             !passEmitsToParent) {
             e = packFn(e);
@@ -19581,6 +19598,14 @@ function record(options = {}) {
             recordCrossOriginIframes,
             wrappedEmit,
         });
+    for (const plugin of plugins || []) {
+        if (plugin.getMirror)
+            plugin.getMirror({
+                nodeMirror: mirror,
+                crossOriginIframeMirror: iframeManager.crossOriginIframeMirror,
+                crossOriginIframeStyleMirror: iframeManager.crossOriginIframeStyleMirror,
+            });
+    }
     const processedNodeManager = new ProcessedNodeManager();
     const canvasManager = getCanvasManager
         ? getCanvasManager({
@@ -19686,7 +19711,7 @@ function record(options = {}) {
                 node,
                 initialOffset: getWindowScroll(window),
             },
-        }), isCheckout);
+        }));
         mutationBuffers.forEach((buf) => buf.unlock());
         if (document.adoptedStyleSheets && document.adoptedStyleSheets.length > 0)
             stylesheetManager.adoptStyleSheets(document.adoptedStyleSheets, mirror.getId(document));
@@ -19695,6 +19720,7 @@ function record(options = {}) {
     try {
         const handlers = [];
         const observe = (doc) => {
+            var _a;
             return callbackWrapper(initObservers)({
                 onMutation,
                 mutationCb: wrappedMutationEmit,
@@ -19778,7 +19804,17 @@ function record(options = {}) {
                 processedNodeManager,
                 canvasManager,
                 ignoreCSSAttributes,
-                plugins: [],
+                plugins: ((_a = plugins === null || plugins === void 0 ? void 0 : plugins.filter((p) => p.observer)) === null || _a === void 0 ? void 0 : _a.map((p) => ({
+                    observer: p.observer,
+                    options: p.options,
+                    callback: (payload) => wrappedEmit(wrapEvent({
+                        type: EventType.Plugin,
+                        data: {
+                            plugin: p.name,
+                            payload,
+                        },
+                    })),
+                }))) || [],
             }, {});
         };
         iframeManager.addLoadListener((iframeEl) => {
@@ -21638,6 +21674,40 @@ function isBaseTransportSend() {
 }
 
 /**
+ * Returns a listener to be added to `client.on('afterSendErrorEvent, listener)`.
+ */
+function handleBeforeSendEvent(replay) {
+  return (event) => {
+    if (!replay.isEnabled() || !isErrorEvent(event)) {
+      return;
+    }
+
+    handleHydrationError(replay, event);
+  };
+}
+
+function handleHydrationError(replay, event) {
+  const exceptionValue = event.exception && event.exception.values && event.exception.values[0].value;
+  if (typeof exceptionValue !== 'string') {
+    return;
+  }
+
+  if (
+    // Only matches errors in production builds of react-dom
+    // Example https://reactjs.org/docs/error-decoder.html?invariant=423
+    exceptionValue.match(/reactjs\.org\/docs\/error-decoder\.html\?invariant=(418|419|422|423|425)/) ||
+    // Development builds of react-dom
+    // Example Text: content did not match. Server: "A" Client: "B"
+    exceptionValue.match(/(hydration|content does not match|did not match)/i)
+  ) {
+    const breadcrumb = createBreadcrumb({
+      category: 'replay.hydrate-error',
+    });
+    addBreadcrumbEvent(replay, breadcrumb);
+  }
+}
+
+/**
  * Returns true if we think the given event is an error originating inside of rrweb.
  */
 function isRrwebError(event, hint) {
@@ -22961,6 +23031,7 @@ function addGlobalListeners(replay) {
 
   // If a custom client has no hooks yet, we continue to use the "old" implementation
   if (hasHooks(client)) {
+    client.on('beforeSendEvent', handleBeforeSendEvent(replay));
     client.on('afterSendEvent', handleAfterSendEvent(replay));
     client.on('createDsc', (dsc) => {
       const replayId = replay.getSessionId();
@@ -23868,6 +23939,7 @@ class ReplayContainer  {
    */
    startRecording() {
     try {
+      const canvas = this._options._experiments.canvas;
       this._stopRecording = record({
         ...this._recordingOptions,
         // When running in error sampling mode, we need to overwrite `checkoutEveryNms`
@@ -23876,6 +23948,12 @@ class ReplayContainer  {
         ...(this.recordingMode === 'buffer' && { checkoutEveryNms: BUFFER_CHECKOUT_TIME }),
         emit: getHandleRecordingEmit(this),
         onMutation: this._onMutationHandler,
+        ...(canvas && {
+          recordCanvas: true,
+          sampling: { canvas: canvas.fps || 4 },
+          dataURLOptions: { quality: canvas.quality || 0.6 },
+          getCanvasManager: canvas.manager,
+        }),
       });
     } catch (err) {
       this._handleException(err);
