@@ -3378,11 +3378,18 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
 
     def load_intermediate_store(self):
         """Load translate-toolkit store for intermediate."""
-        return self.file_format_cls.parse(
+        store = self.file_format_cls.parse(
             self.get_intermediate_filename(),
             language_code=self.source_language.code,
             source_language=self.source_language.code,
         )
+        if self.pk:
+            store_post_load.send(
+                sender=self.__class__,
+                translation=self.source_translation,
+                store=store,
+            )
+        return store
 
     @cached_property
     def intermediate_store(self):
@@ -3401,12 +3408,19 @@ class Component(models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin):
         with sentry_sdk.start_span(
             op="load_template_store", description=self.get_template_filename()
         ):
-            return self.file_format_cls.parse(
+            store = self.file_format_cls.parse(
                 fileobj or self.get_template_filename(),
                 language_code=self.source_language.code,
                 source_language=self.source_language.code,
                 is_template=True,
             )
+            if self.pk:
+                store_post_load.send(
+                    sender=self.__class__,
+                    translation=self.source_translation,
+                    store=store,
+                )
+            return store
 
     @cached_property
     def template_store(self):
