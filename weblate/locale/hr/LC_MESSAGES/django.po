@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 08:04+0000\n"
-"PO-Revision-Date: 2023-12-11 09:11+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-12-13 23:33+0000\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
 "Language: hr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.3-dev\n"
+"X-Generator: Weblate 5.3-rc\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -85,16 +85,12 @@ msgid "Account e-mail"
 msgstr "E-mail adresa računa"
 
 #: weblate/accounts/forms.py:348
-#, fuzzy
-#| msgid ""
-#| "Used for e-mail notifications and as a commit e-mail if it is not not "
-#| "configured below."
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
-"Koristi se za e-mail obavijesti i kao e-mail promjena ako nije konfigurirano "
-"niže dolje."
+"Koristi se za e-mail obavijesti i kao e-mail adresa podnositelja promjene "
+"ako nije konfigurirano niže dolje."
 
 #: weblate/accounts/forms.py:393
 msgid "Subject"
@@ -2569,10 +2565,8 @@ msgid "Reviews are not enabled."
 msgstr "Pregledi nisu aktivirani."
 
 #: weblate/auth/permissions.py:237
-#, fuzzy
-#| msgid "The source string cannot be edited."
 msgid "The source string needs review."
-msgstr "Izvorni izraz se ne može promijeniti."
+msgstr "Izvorni izraz treba pregledati."
 
 #: weblate/auth/permissions.py:238
 msgid "The string is read only."
@@ -4762,21 +4756,19 @@ msgid ""
 msgstr ""
 
 #: weblate/machinery/forms.py:200
-#, fuzzy
-#| msgid "Global numbers"
 msgctxt "Google Cloud region"
 msgid "Global"
-msgstr "Globalne brojke"
+msgstr "Globalno"
 
 #: weblate/machinery/forms.py:201
 msgctxt "Google Cloud region"
 msgid "Europe"
-msgstr ""
+msgstr "Europa"
 
 #: weblate/machinery/forms.py:202
 msgctxt "Google Cloud region"
 msgid "US"
-msgstr ""
+msgstr "SAD"
 
 #: weblate/machinery/forms.py:211
 #, python-format
@@ -4804,20 +4796,14 @@ msgid "Access key ID"
 msgstr "ID ključa pristupa"
 
 #: weblate/machinery/forms.py:232
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Access key ID"
 msgctxt "Alibaba Translate configuration"
 msgid "Access key secret"
-msgstr "ID ključa pristupa"
+msgstr "Tajna ključa pristupa"
 
 #: weblate/machinery/forms.py:235
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Region name"
 msgctxt "Alibaba Translate configuration"
 msgid "Region ID"
-msgstr "Ime regije"
+msgstr "ID regije"
 
 #: weblate/machinery/forms.py:252
 msgctxt "Automatic suggestion service configuration"
@@ -4831,43 +4817,37 @@ msgstr ""
 "(ne)službeni"
 
 #: weblate/machinery/forms.py:271
-#, fuzzy
-#| msgid "Automatic detection"
 msgctxt "OpenAI model selection"
 msgid "Automatic selection"
-msgstr "Automatsko otkrivanje"
+msgstr "Automatski odabir"
 
 #: weblate/machinery/forms.py:280
-#, fuzzy
-#| msgid "Zen mode"
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
-msgstr "Zen modus"
+msgstr "OpenAI model"
 
 #: weblate/machinery/forms.py:288
-#, fuzzy
-#| msgid "Translation reports"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
-msgstr "Izvještaji o prijevodima"
+msgstr "Uloga prevodioca"
 
 #: weblate/machinery/forms.py:292
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
 msgstr ""
+"Opiši prevodioca za poboljšavanje točnosti prijevoda. Na primjer: „Ti si "
+"uzgajivač vjeverica.”"
 
 #: weblate/machinery/forms.py:299
-#, fuzzy
-#| msgid "Translation file"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator style"
-msgstr "Prevodilačka datoteka"
+msgstr "Stil prevodioca"
 
 #: weblate/machinery/forms.py:303
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
-msgstr ""
+msgstr "Opiši stil prijevoda. Na primjer: „Koristi neformalan jezik.”"
 
 #: weblate/machinery/views.py:385
 msgid "Service is currently not available."
@@ -8049,10 +8029,8 @@ msgid "disabled"
 msgstr "deaktivirano"
 
 #: weblate/templates/machinery/detail.html:17
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Service is no longer available"
-msgstr "Usluga trenutačno nije dostupna."
+msgstr "Usluga više nije dostupna"
 
 #: weblate/templates/machinery/edit.html:12
 #: weblate/templates/machinery/edit.html:16
@@ -11539,14 +11517,12 @@ msgstr "Stanje prijevoda"
 #: weblate/templates/translation.html:138
 #: weblate/templates/translation.html:171
 msgid "Words"
-msgstr "riječi"
+msgstr "Riječi"
 
 #: weblate/templates/translation.html:145
 #: weblate/templates/translation.html:172
-#, fuzzy
-#| msgid "Characters percent"
 msgid "Characters"
-msgstr "Postotak znakova"
+msgstr "Znakovi"
 
 #: weblate/templates/translation.html:153
 msgid "This translation is being used as source strings within this component."
@@ -13919,10 +13895,8 @@ msgid "Could not commit pending changes: %s"
 msgstr "Nije bilo moguće mijenjanje promjena na čekanju: %s"
 
 #: weblate/trans/models/translation.py:1628
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Plurals are not supported by the file format!"
-msgstr "Ovaj format datoteka ne podržava uređivanje predloška."
+msgstr "Format datoteke ne podržava množine!"
 
 #: weblate/trans/models/translation.py:1633 weblate/trans/models/unit.py:654
 #, python-format
@@ -14004,7 +13978,7 @@ msgstr "Umetni vodoravnu trotočku"
 
 #: weblate/trans/specialchars.py:18
 msgid "Insert a soft hyphen"
-msgstr ""
+msgstr "Umetni poveznicu"
 
 #: weblate/trans/specialchars.py:258
 #, python-brace-format
