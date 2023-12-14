@@ -4,12 +4,14 @@
 
 import json
 import os
+from io import StringIO
 from tempfile import TemporaryDirectory
 
 import responses
 from django.conf import settings
 from django.core import mail
 from django.core.checks import Critical
+from django.core.management import call_command
 from django.core.serializers.json import DjangoJSONEncoder
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -21,7 +23,6 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.checks import check_data_writable
 from weblate.utils.unittest import tempdir_setting
-from weblate.wladmin.middleware import ManageMiddleware
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 
 TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
@@ -154,9 +155,9 @@ class AdminTest(ViewTestCase):
 
     def test_configuration_health_check(self):
         # Run checks internally
-        ManageMiddleware.configuration_health_check()
+        ConfigurationError.objects.configuration_health_check()
         # List of triggered checks remotely
-        ManageMiddleware.configuration_health_check(
+        ConfigurationError.objects.configuration_health_check(
             [
                 Critical(msg="Error", id="weblate.E001"),
                 Critical(msg="Test Error", id="weblate.E002"),
@@ -167,7 +168,7 @@ class AdminTest(ViewTestCase):
         self.assertEqual(all_errors[0].name, "weblate.E002")
         self.assertEqual(all_errors[0].message, "Test Error")
         # No triggered checks
-        ManageMiddleware.configuration_health_check([])
+        ConfigurationError.objects.configuration_health_check([])
         self.assertEqual(ConfigurationError.objects.count(), 0)
 
     def test_post_announcenement(self):
@@ -402,3 +403,8 @@ class AdminTest(ViewTestCase):
             },
         )
         self.assertContains(response, "Cannot change this on a built-in team")
+
+    def test_commands(self):
+        out = StringIO()
+        call_command("configuration_health_check", stdout=out)
+        self.assertEqual(out.getvalue(), "")
