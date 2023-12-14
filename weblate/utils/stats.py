@@ -911,15 +911,15 @@ class ComponentStats(AggregatingStats):
 
     def update_language_stats_parents(self):
         # Fetch language stats to update
-        extras = [
+        extras = (
             translation.stats.get_update_objects(full=False)
             for translation in prefetch_stats(
                 self.get_child_objects().select_related("language")
             )
-        ]
+        )
 
         # Update all parents
-        self.update_parents(extra_objects=extras)
+        self.update_parents(extra_objects=chain.from_iterable(extras))
 
     def update_language_stats(self):
         from weblate.utils.tasks import update_language_stats_parents
