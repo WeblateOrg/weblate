@@ -909,21 +909,34 @@ class ComponentStats(AggregatingStats):
             # Global
             yield from self._object.project.stats.get_update_objects()
 
+    def update_language_stats_parents(self):
+        # Fetch language stats to update
+        extras = [
+            translation.stats.get_update_objects(full=False)
+            for translation in prefetch_stats(
+                self.get_child_objects().select_related("language")
+            )
+        ]
+
+        # Update all parents
+        self.update_parents(extra_objects=extras)
+
     def update_language_stats(self):
-        extras = []
+        from weblate.utils.tasks import update_language_stats_parents
 
         # Update languages
-        for translation in prefetch_stats(
-            self.get_child_objects().select_related("language")
-        ):
+        for translation in prefetch_stats(self.get_child_objects()):
             translation.stats.update_stats(update_parents=False)
-            extras.extend(translation.stats.get_update_objects(full=False))
 
         # Update our stats
         self.update_stats()
 
         # Update all parents
-        self.update_parents(extra_objects=extras)
+        if settings.CELERY_TASK_ALWAYS_EAGER:
+            transaction.on_commit(self.update_language_stats_parents)
+        else:
+            pk = self._object.pk
+            transaction.on_commit(lambda: update_language_stats_parents.delay(pk))
 
     def get_language_stats(self):
         return (

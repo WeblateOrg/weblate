@@ -79,6 +79,12 @@ def update_translation_stats_parents(pk: int):
     translation.stats.update_parents()
 
 
+@app.task(trail=False)
+def update_language_stats_parents(pk: int):
+    translation = Translation.objects.get(pk=pk)
+    translation.stats.update_language_stats_parents()
+
+
 @app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
 def database_backup():
     if settings.DATABASE_BACKUP == "none":
