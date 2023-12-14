@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import multiprocessing
 import time
 from random import randint
 from threading import Thread
@@ -9,7 +10,7 @@ from threading import Thread
 from django.conf import settings
 from django.core.cache import cache
 
-from weblate.wladmin.models import ConfigurationError
+from weblate.runner import main
 
 CHECK_CACHE_KEY = "weblate-health-check"
 
@@ -25,12 +26,28 @@ class ManageMiddleware:
     def __init__(self, get_response=None):
         self.get_response = get_response
 
-    def trigger_check(self):
+    @staticmethod
+    def trigger_check():
         if not settings.BACKGROUND_ADMIN_CHECKS:
             return
         # Update last execution timestamp
         cache.set(CHECK_CACHE_KEY, time.time())
-        thread = Thread(target=ConfigurationError.objects.configuration_health_check)
+
+        # Use safer spawn method
+        context = multiprocessing.get_context("spawn")
+
+        # Spawn a management process to do a configuration health check
+        # - using threads causes problems with a database connections
+        #   (SSL initialization and keeping open persistent connections)
+        # - spawning directly the method using multiprocessing is not easy
+        #   because of missing invocation of django.setup()
+        process = context.Process(
+            target=main, kwargs={"argv": ["weblate", "configuration_health_check"]}
+        )
+        process.start()
+
+        # Make sure we catch SIGCHLD from the spawned process
+        thread = Thread(target=process.join)
         thread.start()
 
     def __call__(self, request):

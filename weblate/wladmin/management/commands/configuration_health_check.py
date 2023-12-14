@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-
 from weblate.utils.management.base import BaseCommand
 from weblate.wladmin.models import ConfigurationError
 
