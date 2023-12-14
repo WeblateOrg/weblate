@@ -913,7 +913,9 @@ class ComponentStats(AggregatingStats):
         extras = []
 
         # Update languages
-        for translation in prefetch_stats(self.get_child_objects()):
+        for translation in prefetch_stats(
+            self.get_child_objects().select_related("language")
+        ):
             translation.stats.update_stats(update_parents=False)
             extras.extend(translation.stats.get_update_objects(full=False))
 
