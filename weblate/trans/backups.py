@@ -41,6 +41,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.validators import validate_filename
 from weblate.utils.version import VERSION
+from weblate.vcs.models import VCS_REGISTRY
 
 
 class ProjectBackup:
@@ -323,6 +324,10 @@ class ProjectBackup:
             with zipfile.open(component) as handle:
                 data = json.load(handle)
                 validate_schema(data, "weblate-component.schema.json")
+                if data["component"]["vcs"] not in VCS_REGISTRY:
+                    raise ValueError(
+                        f'Component {data["component"]["name"]} uses unsupported VCS: {data["component"]["vcs"]}'
+                    )
                 if callback is not None:
                     callback(zipfile, data)
 
