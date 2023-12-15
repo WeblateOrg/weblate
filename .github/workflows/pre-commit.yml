@@ -27,14 +27,19 @@ jobs:
         path: |
           ~/.cache/pip
           ~/.cache/pre-commit
-        key: ${{ runner.os }}-pre-commit-${{ hashFiles('**/requirements*.txt') }}-${{ hashFiles('.pre-commit-config.yaml') }}
+        key: ${{ runner.os }}-pre-commit-${{ hashFiles('**/requirements*.txt') }}-${{ hashFiles('.pre-commit-config.yaml') }}-${{ hashFiles('pyproject.toml') }}
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
+    - name: Update pip
+      run: python -m pip install --upgrade pip wheel
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip wheel
-        pip install -r requirements-lint.txt
+        if [ -f requirements-lint.txt ] ; then
+          pip install -r requirements-lint.txt
+        else
+          pip install -e .[lint]
+        fi
     - name: pre-commit
       run: pre-commit run --all
