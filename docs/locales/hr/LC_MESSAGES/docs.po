@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2023-12-15 07:30+0000\n"
+"PO-Revision-Date: 2023-12-15 20:37+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hr/>\n"
@@ -1586,7 +1586,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:79
 msgid "JavaScript localization CDN"
-msgstr "JavaScript mpreža za dostavljanje sadržaja (CDN) lokalizacije"
+msgstr "JavaScript mreža za dostavljanje sadržaja (CDN) lokalizacije"
 
 #: ../../admin/addons.rst:83
 msgid "``weblate.cdn.cdnjs``"
@@ -1649,8 +1649,8 @@ msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
-"Objavljuje prijevode u mrežu za isporuku sadržaja za upotrebu u JavaScriptu "
-"ili HTML lokalizaciji."
+"Objavljuje prijevode u mrežu za isporuku sadržaja (CDN) za upotrebu u "
+"JavaScriptu ili HTML lokalizaciji."
 
 #: ../../admin/addons.rst:98
 msgid ""
@@ -2904,7 +2904,7 @@ msgstr "Združi Git izmjene"
 
 #: ../../admin/addons.rst:723
 msgid "``weblate.git.squash``"
-msgstr ""
+msgstr "``weblate.git.squash``"
 
 #: ../../admin/addons.rst:725
 msgid "``squash``"
@@ -2915,10 +2915,8 @@ msgid "Commit squashing"
 msgstr "Spremi združivanje"
 
 #: ../../admin/addons.rst:727
-#, fuzzy
-#| msgid "All commits into one"
 msgid "``all`` -- All commits into one"
-msgstr "Sve izmjene u jednu"
+msgstr "``all`` -- Sve izmjene u jednu"
 
 #: ../../admin/addons.rst:729
 #, fuzzy
@@ -3056,11 +3054,11 @@ msgstr "Stil JSON uvlačenja"
 
 #: ../../admin/addons.rst:774
 msgid "``spaces`` -- Spaces"
-msgstr ""
+msgstr "``spaces`` -- Razmaci"
 
 #: ../../admin/addons.rst:776
 msgid "``tabs`` -- Tabs"
-msgstr ""
+msgstr "``tabs`` -- Tabulatori"
 
 #: ../../admin/addons.rst:780
 msgid ""
@@ -3214,11 +3212,11 @@ msgstr "Prilagodi YAML rezultat"
 
 #: ../../admin/addons.rst:876
 msgid "``weblate.yaml.customize``"
-msgstr ""
+msgstr "``weblate.yaml.customize``"
 
 #: ../../admin/addons.rst:878
 msgid "YAML indentation"
-msgstr "YAML uvlačenje"
+msgstr "YAML uvlake"
 
 #: ../../admin/addons.rst:882
 msgid "``80`` -- Wrap lines at 80 chars"
@@ -7689,14 +7687,19 @@ msgid ""
 "and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should store "
 "generated files which will be served at the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
+"Ove postavke konfiguriraju dodatak :ref:`addon-weblate.cdn.cdnjs`. "
+":setting:`LOCALIZE_CDN_URL` definira izvorni URL gdje je mreža za isporuku "
+"sadržaja (CDN) za lokalizaciju dostupna. :setting:`LOCALIZE_CDN_PATH` "
+"definira stazu gdje Weblate treba spremati generirane datoteke koje će se "
+"posluživati na :setting:`LOCALIZE_CDN_URL`."
 
 #: ../../admin/config.rst:1153
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
-msgstr ""
+msgstr "Na Hosted Weblateu se koristi ``https://weblate-cdn.com/``."
 
 #: ../../admin/config.rst:1157
 msgid ":ref:`addon-weblate.cdn.cdnjs`"
-msgstr ""
+msgstr ":ref:`addon-weblate.cdn.cdnjs`"
 
 #: ../../admin/config.rst:1162
 msgid "LOGIN_REQUIRED_URLS"
@@ -13300,7 +13303,7 @@ msgstr "Mreža za dostavljanje sadržaja (CDN) lokalizacije"
 
 #: ../../admin/install/docker.rst:1705
 msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
-msgstr ""
+msgstr "Konfiguracija za :ref:`addon-weblate.cdn.cdnjs`."
 
 #: ../../admin/install/docker.rst:1707
 msgid ""
@@ -13322,6 +13325,7 @@ msgstr ""
 msgid ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 msgstr ""
+":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 
 #: ../../admin/install/docker.rst:1731
 msgid "Changing enabled apps, checks, add-ons or autofixes"
@@ -13338,6 +13342,8 @@ msgid ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS`"
 msgstr ""
+":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, "
+":setting:`django:INSTALLED_APPS`"
 
 #: ../../admin/install/docker.rst:1761
 #, fuzzy
@@ -14941,7 +14947,7 @@ msgstr "`Aktiviraj Cloud Translation.`_"
 
 #: ../../admin/machine.rst:244
 msgid "`Setup Authentication.`_"
-msgstr "`Postvi autentifikaciju.`_"
+msgstr "`Postavi autentifikaciju.`_"
 
 #: ../../admin/machine.rst:253
 msgid ""
@@ -39692,10 +39698,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:184
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent parts"
-msgstr "Fluent datoteka"
+msgstr "Fluent dijelovi"
 
 #: ../../user/checks.rst:188
 msgid "Fluent parts should match"
@@ -39744,10 +39748,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:224
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "Postavke"
+msgstr "Fluent reference"
 
 #: ../../user/checks.rst:228
 msgid "Fluent references should match"
@@ -39829,10 +39831,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:295
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation inner HTML"
-msgstr "Trenutačni prijevod"
+msgstr "HTML unutar Fluent prijevoda"
 
 #: ../../user/checks.rst:299
 msgid "Fluent target should be valid inner HTML that matches"
@@ -39917,16 +39917,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:363
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation syntax"
-msgstr "Trenutačni prijevod"
+msgstr "Sintaksa Fluent prijevoda"
 
 #: ../../user/checks.rst:367
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in translation"
-msgstr "Komentar za vlastiti prijevod"
+msgstr "Greška Fluent sintakse u prijevodu"
 
 #: ../../user/checks.rst:369
 #, fuzzy
@@ -41784,7 +41780,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1607
 msgid "Fluent source inner HTML"
-msgstr ""
+msgstr "HTML unutar Fluent izvora"
 
 #: ../../user/checks.rst:1611
 msgid "Fluent source should be valid inner HTML"
@@ -42016,10 +42012,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:1693
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "Ispuni s izvornim izrazom"
+msgstr "Sintaksa Fluent izvora"
 
 #: ../../user/checks.rst:1697
 msgid "Fluent syntax error in source"
@@ -45718,7 +45712,7 @@ msgstr ""
 
 #: ../../workflows.rst:121 ../../workflows.rst:153
 msgid "N/A"
-msgstr "--"
+msgstr "Bez podataka"
 
 #: ../../workflows.rst:121
 msgid "Not used."
