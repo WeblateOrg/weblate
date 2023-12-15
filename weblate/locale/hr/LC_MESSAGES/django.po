@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 08:04+0000\n"
-"PO-Revision-Date: 2023-12-15 07:30+0000\n"
+"PO-Revision-Date: 2023-12-15 20:37+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -1108,15 +1108,15 @@ msgstr ""
 
 #: weblate/addons/cdn.py:25
 msgid "JavaScript localization CDN"
-msgstr "JavaScript mpreža za dostavljanje sadržaja (CDN) lokalizacije"
+msgstr "JavaScript mreža za dostavljanje sadržaja (CDN) lokalizacije"
 
 #: weblate/addons/cdn.py:27
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
-"Objavljuje prijevode u mrežu za isporuku sadržaja za upotrebu u JavaScriptu "
-"ili HTML lokalizaciji."
+"Objavljuje prijevode u mrežu za isporuku sadržaja (CDN) za upotrebu u "
+"JavaScriptu ili HTML lokalizaciji."
 
 #: weblate/addons/cleanup.py:22
 msgid "Cleanup translation files"
@@ -1373,7 +1373,7 @@ msgstr "Uključi završnu oznaku za prazne XML oznake"
 
 #: weblate/addons/forms.py:223
 msgid "YAML indentation"
-msgstr "YAML uvlačenje"
+msgstr "YAML uvlake"
 
 #: weblate/addons/forms.py:232
 msgid "Wrap lines at 80 chars"
@@ -2698,7 +2698,7 @@ msgstr "Zadnji račun"
 
 #: weblate/billing/models.py:342
 msgid "N/A"
-msgstr "--"
+msgstr "Bez podataka"
 
 #: weblate/billing/models.py:346
 msgid "In display limits"
@@ -3202,7 +3202,7 @@ msgstr "Niz {sequence} nije valjana referenca HTML znakova."
 
 #: weblate/checks/fluent/inner_html.py:943
 msgid "Fluent source inner HTML"
-msgstr ""
+msgstr "HTML unutar Fluent izvora"
 
 #: weblate/checks/fluent/inner_html.py:944
 msgid "Fluent source should be valid inner HTML"
@@ -3211,7 +3211,7 @@ msgstr ""
 #: weblate/checks/fluent/inner_html.py:1015
 #, python-brace-format
 msgid "Fluent value is missing a HTML {tag} tag."
-msgstr ""
+msgstr "Fluent vrijednosti nedostaje HTML oznaka {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1020
 #, python-brace-format
@@ -3219,11 +3219,13 @@ msgid ""
 "Fluent value is missing a HTML {tag} tag for the following variants: "
 "{variant_list}."
 msgstr ""
+"Fluent vrijednosti nedostaje HTML oznaka {tag} za sljedeće varijante: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1034
 #, python-brace-format
 msgid "Fluent value has an unexpected extra HTML {tag} tag."
-msgstr ""
+msgstr "Fluent vrijednost sadrži neočekivanu dodatnu HTML oznaku {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1039
 #, python-brace-format
@@ -3231,6 +3233,8 @@ msgid ""
 "Fluent value has an unexpected extra HTML {tag} tag for the following "
 "variants: {variant_list}."
 msgstr ""
+"Fluent vrijednost sadrži neočekivanu dodatnu HTML oznaku {tag} za sljedeće "
+"varijante: {variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1116
 #, python-brace-format
@@ -3254,10 +3258,8 @@ msgid ""
 msgstr ""
 
 #: weblate/checks/fluent/inner_html.py:1219
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation inner HTML"
-msgstr "Trenutačni prijevod"
+msgstr "HTML unutar Fluent prijevoda"
 
 #: weblate/checks/fluent/inner_html.py:1220
 msgid "Fluent target should be valid inner HTML that matches"
@@ -3265,27 +3267,25 @@ msgstr ""
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
-msgstr ""
+msgstr "Fluent vrijednost je prazna."
 
 #: weblate/checks/fluent/parts.py:65
 msgid "Fluent value should be empty."
-msgstr ""
+msgstr "Fluent vrijednost mora biti prazna."
 
 #: weblate/checks/fluent/parts.py:71
 #, python-brace-format
 msgid "Missing Fluent attribute: {hint}"
-msgstr ""
+msgstr "Nedostjući Fluent atribut: {hint}"
 
 #: weblate/checks/fluent/parts.py:80
 #, python-brace-format
 msgid "Unexpected Fluent attribute: {hint}"
-msgstr ""
+msgstr "Neočekivani Fluent atribut: {hint}"
 
 #: weblate/checks/fluent/parts.py:112
-#, fuzzy
-#| msgid "Fluent file"
 msgid "Fluent parts"
-msgstr "Fluent datoteka"
+msgstr "Fluent dijelovi"
 
 #: weblate/checks/fluent/parts.py:113
 msgid "Fluent parts should match"
@@ -3387,10 +3387,8 @@ msgid ""
 msgstr ""
 
 #: weblate/checks/fluent/references.py:670
-#, fuzzy
-#| msgid "Preferences"
 msgid "Fluent references"
-msgstr "Postavke"
+msgstr "Fluent reference"
 
 #: weblate/checks/fluent/references.py:671
 msgid "Fluent references should match"
@@ -3402,26 +3400,20 @@ msgid "Fluent syntax error: {error}."
 msgstr ""
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fill in with source string"
 msgid "Fluent source syntax"
-msgstr "Ispuni s izvornim izrazom"
+msgstr "Sintaksa Fluent izvora"
 
 #: weblate/checks/fluent/syntax.py:48
 msgid "Fluent syntax error in source"
 msgstr ""
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Current translation"
 msgid "Fluent translation syntax"
-msgstr "Trenutačni prijevod"
+msgstr "Sintaksa Fluent prijevoda"
 
 #: weblate/checks/fluent/syntax.py:65
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "Fluent syntax error in translation"
-msgstr "Komentar za vlastiti prijevod"
+msgstr "Greška Fluent sintakse u prijevodu"
 
 #: weblate/checks/format.py:400
 #, python-format
@@ -13034,7 +13026,7 @@ msgstr "Datoteka {} je dodana."
 #: weblate/trans/models/change.py:745
 msgctxt "License information not available"
 msgid "N/A"
-msgstr "--"
+msgstr "Bez podataka"
 
 #: weblate/trans/models/change.py:747
 #, python-format
@@ -15313,7 +15305,7 @@ msgstr "Izrada sigurnosne kopije"
 
 #: weblate/wladmin/models.py:250
 msgid "Backup failed"
-msgstr "Izrada sigurnosne kopije neuspjela"
+msgstr "Neuspjela izrada sigurnosne kopije"
 
 #: weblate/wladmin/models.py:251
 msgid "Deleted the oldest backups"
