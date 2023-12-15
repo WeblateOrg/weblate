@@ -128,6 +128,8 @@ PYTHON_BRACE_MATCH = re.compile(
     re.VERBOSE,
 )
 
+PERL_BRACE_MATCH = re.compile(r"({([a-zA-Z0-9_]+)})")
+
 C_SHARP_MATCH = re.compile(
     r"""
         {                               # initial {
@@ -247,6 +249,7 @@ FLAG_RULES = {
     "c-format": (C_PRINTF_MATCH, c_format_is_position_based),
     "object-pascal-format": (PASCAL_FORMAT_MATCH, pascal_format_is_position_based),
     "perl-format": (C_PRINTF_MATCH, c_format_is_position_based),
+    "perl-brace-format": (PERL_BRACE_MATCH, name_format_is_position_based),
     "javascript-format": (C_PRINTF_MATCH, c_format_is_position_based),
     "lua-format": (C_PRINTF_MATCH, c_format_is_position_based),
     "python-brace-format": (PYTHON_BRACE_MATCH, name_format_is_position_based),
@@ -498,6 +501,19 @@ class CFormatCheck(BasePrintfCheck):
     check_id = "c_format"
     name = gettext_lazy("C format")
     description = gettext_lazy("C format string does not match source")
+
+
+class PerlBraceFormatCheck(BaseFormatCheck):
+    """Check for Perl brace format string."""
+
+    check_id = "perl_brace_format"
+    name = gettext_lazy("Perl brace format")
+    description = gettext_lazy("Perl brace format string does not match source")
+    regexp = PERL_BRACE_MATCH
+    plural_parameter_regexp = re.compile(r"\{(?:count|number|num|n)\}")
+
+    def is_position_based(self, string):
+        return name_format_is_position_based(string)
 
 
 class PerlFormatCheck(CFormatCheck):

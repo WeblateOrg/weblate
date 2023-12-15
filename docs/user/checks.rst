@@ -707,6 +707,24 @@ Percent placeholders
 
    :ref:`check-formats`,
 
+.. _check-perl-brace-format:
+
+Perl brace format
+*****************
+
+:Summary: Perl brace format string does not match source
+:Scope: translated strings
+:Check class: ``weblate.checks.format.PerlBraceFormatCheck``
+:Check identifier: ``perl_brace_format``
+:Flag to enable: ``perl-brace-format``
+:Flag to ignore: ``ignore-perl-brace-format``
+:Named format string example: ``There are {number} apples``
+
+.. seealso::
+
+   :ref:`check-formats`,
+   `Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/perl_002dformat.html>`_
+
 .. _check-perl-format:
 
 Perl format
