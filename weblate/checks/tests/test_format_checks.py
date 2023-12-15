@@ -18,6 +18,7 @@ from weblate.checks.format import (
     MultipleUnnamedFormatsCheck,
     ObjectPascalFormatCheck,
     PercentPlaceholdersCheck,
+    PerlBraceFormatCheck,
     PerlFormatCheck,
     PHPFormatCheck,
     PythonBraceFormatCheck,
@@ -462,6 +463,68 @@ class ObjectPascalFormatCheckTest(CheckTestCase):
 class PerlFormatCheckTest(CFormatCheckTest):
     check = PerlFormatCheck()
     flag = "perl-format"
+
+
+class PerlBraceFormatCheckTest(CheckTestCase):
+    check = PerlBraceFormatCheck()
+    flag = "perl-brace-format"
+
+    def setUp(self):
+        super().setUp()
+        self.test_highlight = (
+            self.flag,
+            "{x}string{y}",
+            [(0, 3, "{x}"), (9, 12, "{y}")],
+        )
+
+    def test_no_format(self):
+        self.assertFalse(self.check.check_format("string", "string", False, None))
+
+    def test_named_format(self):
+        self.assertFalse(
+            self.check.check_format("{x} string {y}", "{x} string {y}", False, None)
+        )
+
+    def test_wrong_position_format(self):
+        self.assertTrue(
+            self.check.check_format("{x} string", "{x} string {y}", False, None)
+        )
+
+    def test_missing_named_format(self):
+        self.assertTrue(self.check.check_format("{x} string", "string", False, None))
+
+    def test_missing_named_format_ignore(self):
+        self.assertFalse(self.check.check_format("{x} string", "string", True, None))
+
+    def test_wrong_format(self):
+        self.assertTrue(
+            self.check.check_format("{x} string", "{y} string", False, None)
+        )
+
+    def test_wrong_named_format(self):
+        self.assertEqual(
+            self.check.check_format("{x} string", "{y} string", False, None),
+            {"missing": ["{x}"], "extra": ["{y}"]},
+        )
+
+    def test_description(self):
+        unit = Unit(
+            source="{foo}",
+            target="{bar}",
+            extra_flags="es-format",
+            translation=Translation(component=Component(file_format="po")),
+        )
+        check = Check(unit=unit)
+        self.assertHTMLEqual(
+            self.check.get_description(check),
+            """
+            The following format strings are missing:
+            <span class="hlcheck" data-value="{foo}">{foo}</span>
+            <br />
+            The following format strings are extra:
+            <span class="hlcheck" data-value="{bar}">{bar}</span>
+            """,
+        )
 
 
 class PythonBraceFormatCheckTest(CheckTestCase):
