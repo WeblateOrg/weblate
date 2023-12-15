@@ -7,6 +7,8 @@ Not yet released.
 
 **Improvements**
 
+* Better logging in :wladmin:`createadmin`.
+
 **Bug fixes**
 
 **Compatibility**
