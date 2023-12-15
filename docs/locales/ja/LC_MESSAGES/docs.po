@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2023-12-11 12:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2023-12-15 20:37+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.3-dev\n"
+"X-Generator: Weblate 5.3\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -1791,14 +1791,21 @@ msgid ""
 "be served (URL). Serving of the files is not done by Weblate and has to be "
 "set up externally (typically using a CDN service)."
 msgstr ""
+"このアドオンには、Weblate サーバー上で追加の設定が必要です。 "
+":setting:`LOCALIZE_CDN_PATH` "
+"は生成されたファイルが書き込まれる場所（ファイルシステム上）を設定し、 "
+":setting:`LOCALIZE_CDN_URL` はファイルが提供される場所（URL）を定義します。"
+"ファイルの提供は Weblate "
+"によって行われないため、外部で設定することが必要です（通常は CDN "
+"サービスを使用します）。"
 
 #: ../../admin/addons.rst:112
-#, fuzzy
-#| msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
 msgid ""
 "This add-on is configured on :guilabel:`Hosted Weblate` and serves the files "
 "via ``https://weblate-cdn.com/``."
-msgstr "Hosted Weblate では、``https://weblate-cdn.com/`` を使用します。"
+msgstr ""
+"このアドオンは :guilabel:`Hosted Weblate` で設定され、``https://weblate-cdn."
+"com/`` 経由でファイルを提供します。"
 
 #: ../../admin/addons.rst:117
 msgid ""
@@ -2951,16 +2958,14 @@ msgid "``fuzzy``"
 msgstr "``fuzzy``"
 
 #: ../../admin/addons.rst:677
-#, fuzzy
-#| msgid "Import as string needing edit"
 msgid "Include strings needing editing"
-msgstr "要編集として文字列をインポート"
+msgstr "要編集な文字列を含める"
 
 #: ../../admin/addons.rst:677
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
-msgstr ""
+msgstr "要編集な文字列（あいまい）は、通常、翻訳として使用できる状態ではありません。"
 
 #: ../../admin/addons.rst:681
 msgid "Automatically generates a MO file for every changed PO file."
@@ -5366,52 +5371,38 @@ msgid "Customizing behavior using flags"
 msgstr "フラグを使用した動作の設定"
 
 #: ../../admin/checks.rst:29
-#, fuzzy
-#| msgid ""
-#| "You can fine-tune Weblate's behavior by using flags. The flags provide "
-#| "visual feedback to the translators and help them to improve their "
-#| "translation. This can be done on the source string level (see :ref:"
-#| "`additional`), or in the :ref:`component` (:ref:`component-check_flags`). "
-#| "Some file formats also allow to specify flags directly in the format "
-#| "(see :ref:`formats`)."
 msgid ""
 "You can fine-tune Weblate's behavior by using flags. The flags provide "
 "visual feedback to the translators and help them to improve their "
 "translation. The flags are merged from following sources:"
 msgstr ""
 "フラグを使用して、Weblate の動作を詳細に設定できます。フラグは翻訳者に視覚的"
-"なフィードバックを提供し、翻訳の改善を支援します。これは、原文の段階（参照: :"
-"ref:`additional`）、または :ref:`component` （ :ref:`component-check_flags`）"
-"で詳細に設定できます。ファイル フォーマットの中には、フラグを直接フォーマット"
-"で指定できるものもあります（参照: :ref:`formats`）。"
+"なフィードバックを提供し、翻訳の改善を支援します。これは、原文の段階（参照: "
+":ref:`additional`）、または :ref:`component` （ :ref:`component-"
+"check_flags`）で詳細に設定できます。フラグがマージされた以下の原文:"
 
 #: ../../admin/checks.rst:33
-#, fuzzy
-#| msgid "Source string description"
 msgid "Source string, see :ref:`additional`."
-msgstr "原文の説明"
+msgstr "原文、参照: :ref:`additional`。"
 
 #: ../../admin/checks.rst:34
-#, fuzzy
-#| msgid "Translation file format, see also :ref:`formats`."
 msgid "Per-string flags extracted from the file format, see :ref:`formats`."
-msgstr "翻訳ファイル形式、 参照: :ref:`formats`。"
+msgstr "ファイル形式から抽出された文字列ごとのフラグについては、:ref:`formats` "
+"を参照してください。"
 
 #: ../../admin/checks.rst:35
 msgid ""
 "Translation flags (currently only ``read-only`` flag for bilingual source "
 "string)."
-msgstr ""
+msgstr "翻訳フラグ（現在のところ、バイリンガルの原文の ``read-only`` フラグのみ）。"
 
 #: ../../admin/checks.rst:36
 msgid "File-format specific flags."
-msgstr ""
+msgstr "ファイル形式固有のフラグ。"
 
 #: ../../admin/checks.rst:37
-#, fuzzy
-#| msgid ":ref:`additional`, :ref:`component-check_flags`"
 msgid ":ref:`component` (:ref:`component-check_flags`)."
-msgstr ":ref:`additional`、:ref:`component-check_flags`"
+msgstr ":ref:`component`（:ref:`component-check_flags`）。"
 
 #: ../../admin/checks.rst:39
 msgid ""
@@ -7810,19 +7801,14 @@ msgid "List for credentials for Gitea servers."
 msgstr "Gitea サーバーの資格情報の一覧。"
 
 #: ../../snippets/vcs-credentials.rst:1
-#, fuzzy
-#| msgid ""
-#| "The configuration dictionary consists of credentials defined for each API "
-#| "host. The layout is same for all version control integrations and is "
-#| "described at :ref:`settings-credentials`."
 msgid ""
 "The configuration dictionary consists of credentials defined for each API "
 "host. The layout is same for almost all version control integrations and is "
 "described at :ref:`settings-credentials`."
 msgstr ""
-"設定辞書には、各 API ホストに対して定義された認証情報が含まれています。 レイ"
-"アウトはすべてのバージョン管理統合で同じす。:ref:`settings-credentials` に解"
-"説があります。"
+"設定辞書には、各 API ホストに対して定義された認証情報が含まれています。 "
+"レイアウトはほぼすべてのバージョン管理統合で同じす。:ref:`settings-"
+"credentials` に解説があります。"
 
 #: ../../admin/config.rst:752
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
@@ -7878,16 +7864,12 @@ msgstr ""
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:841
-#, fuzzy
-#| msgid "PAGURE_CREDENTIALS"
 msgid "AZURE_DEVOPS_CREDENTIALS"
-msgstr "PAGURE_CREDENTIALS"
+msgstr "AZURE_DEVOPS_CREDENTIALS"
 
 #: ../../admin/config.rst:845
-#, fuzzy
-#| msgid "List for credentials for Pagure servers."
 msgid "List for credentials for Azure DevOps servers."
-msgstr "Pagure サーバーの資格情報の一覧です。"
+msgstr "Azure DevOps サーバーの資格情報の一覧です。"
 
 #: ../../admin/config.rst:857 ../../admin/config.rst:2064
 msgid ""
@@ -7910,17 +7892,15 @@ msgstr "``username``"
 
 #: ../../admin/config.rst:864
 msgid "The name of the Azure DevOps project. This is not the repository name."
-msgstr ""
+msgstr "Azure DevOps プロジェクトの名前。これはリポジトリ名ではありません。"
 
 #: ../../admin/config.rst:865
 msgid "``organization``"
 msgstr "``organization``"
 
 #: ../../admin/config.rst:866
-#, fuzzy
-#| msgid "Uses the pool of shared translations between projects."
 msgid "The name of the organization of the project."
-msgstr "プロジェクト間で共有する翻訳プールを使用します。"
+msgstr "プロジェクトの組織名。"
 
 #: ../../admin/config.rst:868
 msgid "``workItemIds``"
@@ -7930,7 +7910,8 @@ msgstr "``workItemIds``"
 msgid ""
 "An optional list of work items IDs from your organization. When provided new "
 "pull requests will have these attached."
-msgstr ""
+msgstr "組織からの作業項目 ID のオプションの一覧。新しいプル "
+"リクエストが提供されると、これが添付されます。"
 
 #: ../../admin/config.rst:871 ../../admin/config.rst:2072
 msgid "``token``"
@@ -7944,7 +7925,7 @@ msgstr "API ユーザーの API トークン（必須）。"
 msgid ""
 "Additional settings not described here can be found at :ref:`settings-"
 "credentials`."
-msgstr ""
+msgstr "ここに書かれていない追加設定は、:ref:`settings-credentials` にあります。"
 
 #: ../../admin/config.rst:877
 msgid ""
@@ -7952,6 +7933,9 @@ msgid ""
 "microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-"
 "tokens-to-authenticate?view=azure-devops&tabs=Windows>`_"
 msgstr ""
+":ref:`vcs-azure-devops`、`Azure DevOps: 個人アクセス トークン <https://learn."
+"microsoft.com/ja-jp/azure/devops/organizations/accounts/use-personal-access-"
+"tokens-to -authenticate?view=azure-devops&tabs=Windows>`_"
 
 #: ../../admin/config.rst:883
 msgid "GOOGLE_ANALYTICS_ID"
@@ -8445,7 +8429,7 @@ msgstr ""
 msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "e-mail."
-msgstr ""
+msgstr "この設定は、コミット用メールアドレスが未設定のユーザーにのみ適用されます。"
 
 #: ../../admin/config.rst:1328
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
@@ -8837,17 +8821,15 @@ msgstr ""
 
 #: ../../admin/config.rst:1629
 msgid "SENTRY_ENVIRONMENT"
-msgstr ""
+msgstr "SENTRY_ENVIRONMENT"
 
 #: ../../admin/config.rst:1631
-#, fuzzy
-#| msgid "Your Rollbar environment, defaults to ``production``."
 msgid "Configures environment for Sentry. Defaults to ``devel``."
-msgstr "Rollbar の環境設定。デフォルトは ``運用環境（production）``。"
+msgstr "Sentry の環境を設定します。デフォルトは ``devel``。"
 
 #: ../../admin/config.rst:1636
 msgid "SENTRY_PROFILES_SAMPLE_RATE"
-msgstr ""
+msgstr "SENTRY_PROFILES_SAMPLE_RATE"
 
 #: ../../admin/config.rst:1638 ../../admin/install/docker.rst:1665
 msgid ""
@@ -8862,23 +8844,21 @@ msgstr ""
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_"
-msgstr ""
+msgstr "`Sentry パフォーマンス監視 <https://docs.sentry.io/product/performance/>`_"
 
 #: ../../admin/config.rst:1647
-#, fuzzy
-#| msgid "SENTRY_DSN"
 msgid "SENTRY_SEND_PII"
-msgstr "SENTRY_DSN"
+msgstr "SENTRY_SEND_PII"
 
 #: ../../admin/config.rst:1649
 msgid ""
 "Allow Sentry to collect certain personally identifiable information. Turned "
 "on by default."
-msgstr ""
+msgstr "Sentry が特定の個人情報を収集することを許可します。デフォルトは有効。"
 
 #: ../../admin/config.rst:1654
 msgid "SENTRY_TRACES_SAMPLE_RATE"
-msgstr ""
+msgstr "SENTRY_TRACES_SAMPLE_RATE"
 
 #: ../../admin/config.rst:1656 ../../admin/install/docker.rst:1680
 msgid ""
@@ -8891,7 +8871,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1660 ../../admin/install/docker.rst:1691
 msgid "`Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
-msgstr ""
+msgstr "`Sentry プロファイリング <https://docs.sentry.io/product/profiling/>`_"
 
 #: ../../admin/config.rst:1665
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
@@ -9145,17 +9125,14 @@ msgid "VCS_API_DELAY"
 msgstr "VCS_API_DELAY"
 
 #: ../../admin/config.rst:1871
-#, fuzzy
-#| msgid ""
-#| "Configures minimal delay in seconds between third-party API calls in :ref:"
-#| "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, and :ref:`vcs-pagure`."
 msgid ""
 "Configures minimal delay in seconds between third-party API calls in :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and :"
 "ref:`vcs-azure-devops`."
 msgstr ""
-":ref:`vcs-github`、:ref:`vcs-gitlab`、:ref:`vcs-gitea`、:ref:`vcs-pagure` "
-"で、サードパーティ API 呼び出し間の最小遅延を秒単位で設定します。"
+":ref:`vcs-github`、:ref:`vcs-gitlab`、:ref:`vcs-gitea`、:ref:`vcs-"
+"pagure`、:ref:`vcs-azure-devops` で、サードパーティ API "
+"呼び出し間の最小遅延を秒単位で設定します。"
 
 #: ../../admin/config.rst:1875
 msgid ""
@@ -9906,14 +9883,6 @@ msgstr ""
 "は、その章を確認してください。"
 
 #: ../../admin/continuous.rst:332
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support for :"
-#| "ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure` "
-#| "pull requests or :ref:`vcs-gerrit` reviews, you can activate these by "
-#| "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :"
-#| "guilabel:`Gerrit` or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:"
-#| "`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, :ref:"
@@ -9923,19 +9892,20 @@ msgid ""
 "as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
 "Weblate による直接のプッシュが不要な場合は、:ref:`vcs-github`、:ref:`vcs-"
-"gitlab`、 :ref:`vcs-gitea`、:ref:`vcs-pagure` のプルリクエストまたは :ref:"
-"`vcs-gerrit` 査読に対応しています。これを有効にするには、:ref:`component` "
-"で :ref:`component-vcs` として :guilabel:`GitHub`、:guilabel:`GitLab`、:"
-"guilabel:`Gitea`、:guilabel:`Gerrit` または :guilabel:`Pagure` を選択します。"
+"gitlab`、 :ref:`vcs-gitea`、:ref:`vcs-pagure`、:ref:`vcs-azure-devops` "
+"のプルリクエストまたは :ref:`vcs-gerrit` "
+"査読に対応しています。これを有効にするには、:ref:`component` で :ref"
+":`component-vcs` として :guilabel:`GitHub`、:guilabel:`GitLab`、:guilabel:`Gi"
+"tea`、:guilabel:`Gerrit`、:guilabel:`Azure DevOps` または :guilabel:`Pagure` "
+"を選択します。"
 
 #: ../../admin/continuous.rst:338
-#, fuzzy
-#| msgid ""
-#| "Overall, following options are available with Git, GitHub and GitLab:"
 msgid ""
 "Overall, following options are available with Git, Mercurial, GitHub, "
 "GitLab, Gitea, Pagure, and Azure DevOps:"
-msgstr "全体で使用できる、Git、GitHub、GitLab のオプション:"
+msgstr ""
+"全体で使用できる、Git、Mercurial、GitHub、GitLab、Gitea、Pagure、および "
+"Azure DevOps のオプション:"
 
 #: ../../admin/continuous.rst:342
 msgid "Desired setup"
@@ -10050,10 +10020,8 @@ msgid "Pagure merge request from branch"
 msgstr "ブランチの Pagure マージ リクエスト"
 
 #: ../../admin/continuous.rst:372
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull request from fork"
-msgstr "Bitbucket Server プルリクエスト"
+msgstr "フォークからの Azure DevOps プル リクエスト"
 
 #: ../../admin/continuous.rst:372 ../../admin/continuous.rst:374
 #: ../../changes.rst:69
@@ -10061,10 +10029,8 @@ msgid ":ref:`vcs-azure-devops`"
 msgstr ":ref:`vcs-azure-devops`"
 
 #: ../../admin/continuous.rst:374
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Azure DevOps pull request from branch"
-msgstr "Bitbucket Server プルリクエスト"
+msgstr "ブランチからの Azure DevOps プル リクエスト"
 
 #: ../../admin/continuous.rst:377
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
@@ -10917,10 +10883,8 @@ msgid "``OpenAI``"
 msgstr "``OpenAI``"
 
 #: ../../admin/install.rst:226
-#, fuzzy
-#| msgid "`zeep <https://pypi.org/project/zeep>`_"
 msgid "`openai <https://pypi.org/project/openai>`_"
-msgstr "`zeep <https://pypi.org/project/zeep>`_"
+msgstr "`openai <https://pypi.org/project/openai>`_"
 
 #: ../../admin/install.rst:227 ../../user/glossary.rst:127
 msgid ":ref:`mt-openai`"
@@ -11263,18 +11227,10 @@ msgstr ""
 "migration`"
 
 #: ../../admin/install.rst:460
-#, fuzzy
-#| msgid "Database backup settings"
 msgid "Database connections"
-msgstr "データベースのバックアップ設定"
+msgstr "データベース接続"
 
 #: ../../admin/install.rst:462
-#, fuzzy
-#| msgid ""
-#| "Persistent connections improve Weblate responsiveness, but might require "
-#| "more resources for the database server. Please consult :setting:`django:"
-#| "CONN_MAX_AGE` and :ref:`django:persistent-database-connections` for more "
-#| "info."
 msgid ""
 "In the default configuration, each Weblate process keeps a persistent "
 "connection to the database. Persistent connections improve Weblate "
@@ -11282,24 +11238,22 @@ msgid ""
 "Please consult :setting:`django:CONN_MAX_AGE` and :ref:`django:persistent-"
 "database-connections` for more info."
 msgstr ""
-"永続接続は Weblate の応答性を向上させますが、データベースサーバーに対するリ"
-"ソース使用量が増えることがあります。詳細については、:setting:`django:"
-"CONN_MAX_AGE` と :ref:`django:persistent-database-connections` を確認してくだ"
-"さい。"
+"デフォルトの設定では、各 Weblate プロセスはデータベースへの永続的な接続を維持"
+"します。永続的な接続により、データベースサーバーに対するリソース使用量が増え"
+"ることがあります。詳細については、:setting:`django:CONN_MAX_AGE` と "
+":ref:`django:persistent-database-connections` を確認してください。"
 
 #: ../../admin/install.rst:468
-#, fuzzy
-#| msgid "Weblate containers are published to following registries:"
 msgid "Weblate needs at least the following number of connections:"
-msgstr "Weblate コンテナーの公開レジストリ:"
+msgstr "Weblate に必要な最小接続数:"
 
 #: ../../admin/install.rst:470
 msgid ":math:`(4 \\times \\mathit{nCPUs}) + 2` for Celery processes"
-msgstr ""
+msgstr ":math:`(4 \\times \\mathit{nCPUs}) + 2`（Celery プロセスの場合）"
 
 #: ../../admin/install.rst:471
 msgid ":math:`\\mathit{nCPUs} + 1` for WSGI workers"
-msgstr ""
+msgstr ":math:`\\mathit{nCPUs} + 1`（WSGI ワーカーの場合）"
 
 #: ../../admin/install.rst:473
 msgid ""
@@ -11307,30 +11261,32 @@ msgid ""
 "provided in this documentation, but the numbers will change once you "
 "customize the amount of WSGI workers or adjust parallelism of Celery."
 msgstr ""
+"これは、このドキュメントで提供されている Docker "
+"コンテナのデフォルトと設定例に当てはまりますが、WSGI "
+"ワーカーの量を変更したり、Celery "
+"の並列処理を調整したりすると、数値の変更が必要になります。"
 
 #: ../../admin/install.rst:477
 msgid ""
 "The actual limit for the number of database connections needs to be higher "
 "to account following situations:"
-msgstr ""
+msgstr "データベース接続数の実際の制限は、次の状況を考慮してさらに大きくすることが必"
+"要:"
 
 #: ../../admin/install.rst:480
-#, fuzzy
-#| msgid ":ref:`autofix` are now applied to suggestions as well."
 msgid ":ref:`manage` need their connection as well."
-msgstr ":ref:`autofix` が提案にも適用されるよう改良。"
+msgstr ":ref:`manage` にも接続が必要です。"
 
 #: ../../admin/install.rst:481
 msgid ""
 "If case process is killed (for example by OOM killer), it might block the "
 "existing connection until timeout."
-msgstr ""
+msgstr "プロセスが強制終了された場合（OOM キラーによって強制終了された場合など）、タ"
+"イムアウトするまで既存の接続がブロックされることがあります。"
 
 #: ../../admin/install.rst:484
-#, fuzzy
-#| msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgid ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
-msgstr "デフォルトは、:envvar:`WEBLATE_WORKERS` です。"
+msgstr ":ref:`celery`、:ref:`uwsgi`、:envvar:`WEBLATE_WORKERS`"
 
 #: ../../admin/install.rst:491
 msgid "PostgreSQL"
@@ -12510,12 +12466,6 @@ msgstr ""
 "メントも確認してください。"
 
 #: ../../admin/install.rst:1376
-#, fuzzy
-#| msgid ""
-#| "The Django built-in server serves static files only with :setting:`DEBUG` "
-#| "enabled as it is intended for development only. For production use, "
-#| "please see wsgi setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-"
-#| "gunicorn`, and :ref:`static-files`."
 msgid ""
 "The Django built-in server serves static files only with :setting:`DEBUG` "
 "enabled as it is intended for development only. For production use, please "
@@ -12523,8 +12473,8 @@ msgid ""
 "ref:`static-files`."
 msgstr ""
 "Django に内蔵された Web サーバーは、開発専用であるため、:setting:`DEBUG` が有"
-"効な場合にのみ静的ファイルが提供されます。運用環境で使用するには、:ref:"
-"`uwsgi`、:ref:`apache`、:ref:`apache-gunicorn`、および :ref:`static-files` の"
+"効な場合にのみ静的ファイルが提供されます。運用環境で使用するには、:ref:`uwsgi"
+"`、:ref:`apache`、:ref:`apache-gunicorn`、および :ref:`static-files` の WSGI "
 "設定を確認してください。"
 
 #: ../../admin/install.rst:1384
@@ -12623,13 +12573,6 @@ msgid "Sample configuration for NGINX and uWSGI"
 msgstr "NGINX および uWSGI の設定例"
 
 #: ../../admin/install.rst:1435
-#, fuzzy
-#| msgid ""
-#| "To run production webserver, use the wsgi wrapper installed with Weblate "
-#| "(in virtual env case it is installed as :file:`~/weblate-env/lib/"
-#| "python3.9/site-packages/weblate/wsgi.py`).  Don't forget to set the "
-#| "Python search path to your virtualenv as well (for example using "
-#| "``virtualenv = /home/user/weblate-env`` in uWSGI)."
 msgid ""
 "To run production webserver, use the WSGI wrapper installed with Weblate (in "
 "virtual env case it is installed as :file:`~/weblate-env/lib/python3.9/site-"
@@ -12638,10 +12581,10 @@ msgid ""
 "env`` in uWSGI)."
 msgstr ""
 "運用環境の WEB サーバーを実行するには、Weblate とセットでインストールされた "
-"wsgi ラッパーを使用します（virtual env の場合、:file:`~/weblate-env/lib/"
+"WSGI ラッパーを使用します（virtual env の場合、:file:`~/weblate-env/lib/"
 "python3.9/site-packages/weblate/wsgi.py` としてインストールされる）。 Python "
-"検索パスも virtualenv に設定することを忘れないでください（例: uWSGI で "
-"``virtualenv = /home/user/weblate-env`` の使用）。"
+"検索パスも virtualenv に設定することを忘れないでください（例: uWSGI で ``"
+"virtualenv = /home/user/weblate-env`` の使用）。"
 
 #: ../../admin/install.rst:1441
 msgid ""
@@ -12773,10 +12716,8 @@ msgid "Sending digest notifications."
 msgstr "ダイジェスト通知の送信。"
 
 #: ../../admin/install.rst:1530
-#, fuzzy
-#| msgid "Offloading expensive operations from the wsgi process."
 msgid "Offloading expensive operations from the WSGI process."
-msgstr "wsgi プロセスから負荷の高い操作をオフロードさせる。"
+msgstr "WSGI プロセスから負荷の高い操作をオフロードさせる。"
 
 #: ../../admin/install.rst:1531
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
@@ -12819,10 +12760,8 @@ msgid "See also :ref:`file-permissions` and :ref:`server`."
 msgstr ":ref:`file-permissions` および :ref:`server` も確認してください。"
 
 #: ../../admin/install.rst:1563
-#, fuzzy
-#| msgid "Executing Celery tasks in the wsgi using eager mode"
 msgid "Executing Celery tasks in the WSGI using eager mode"
-msgstr "eager モードよる wsgi での Celery タスクの実行"
+msgstr "eager モードよる WSGI での Celery タスクの実行"
 
 #: ../../admin/install.rst:1567
 msgid ""
@@ -12987,10 +12926,8 @@ msgstr ""
 "ン <https://github.com/WeblateOrg/munin>`_"
 
 #: ../../admin/install.rst:1675 ../../admin/install/docker.rst:1638
-#, fuzzy
-#| msgid "Collecting error reports"
 msgid "Collecting error reports and monitoring performance"
-msgstr "エラー レポートの収集"
+msgstr "エラーレポートの収集とパフォーマンスの監視"
 
 #: ../../admin/install.rst:1677
 msgid ""
@@ -13026,12 +12963,19 @@ msgid ""
 "configured using :setting:`SENTRY_TRACES_SAMPLE_RATE` and :setting:"
 "`SENTRY_PROFILES_SAMPLE_RATE`."
 msgstr ""
+"Sentry は、Weblate のパフォーマンスを監視するためにも使用できます。特定の割合"
+"の操作のトレースとプロファイルを収集することで、パフォーマンスの問題を特定で"
+"きます。これは、:setting:`SENTRY_TRACES_SAMPLE_RATE` および "
+":setting:`SENTRY_PROFILES_SAMPLE_RATE` を使用して設定できます。"
 
 #: ../../admin/install.rst:1699
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_, `Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
 msgstr ""
+"`Sentry パフォーマンス モニタリング <https://docs.sentry.io/product/"
+"performance/>`_ 、`Sentry プロファイリング <https://docs.sentry.io/product/"
+"profiling/>`_"
 
 #: ../../admin/install.rst:1703
 msgid "Rollbar"
@@ -14445,14 +14389,12 @@ msgstr ""
 "server` を構成します。"
 
 #: ../../admin/install/docker.rst:1085
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`."
 msgid ""
 "Configures :ref:`vcs-azure-devops` by changing :setting:"
 "`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
-":setting:`PAGURE_CREDENTIALS` を変更して、:ref:`vcs-pagure` を設定します。"
+":setting:`AZURE_DEVOPS_CREDENTIALS` を変更して、:ref:`vcs-azure-devops` "
+"を設定します。"
 
 #: ../../admin/install/docker.rst:1092
 msgid "Automatic suggestion settings"
@@ -15015,10 +14957,8 @@ msgid "To enable support for Sentry, set following:"
 msgstr "Sentry への対応を有効にする設定方法:"
 
 #: ../../admin/install/docker.rst:1657
-#, fuzzy
-#| msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgid "Your Sentry DSN, see :setting:`SENTRY_DSN`."
-msgstr ":setting:`SSH_EXTRA_ARGS` を設定します。"
+msgstr "Sentry DSN を設定するには、:setting:`SENTRY_DSN` を参照してください。"
 
 #: ../../admin/install/docker.rst:1661
 msgid ""
@@ -15032,13 +14972,11 @@ msgstr ""
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/performance/"
 ">`_,"
-msgstr ""
+msgstr "`Sentry パフォーマンス監視 <https://docs.sentry.io/product/performance/>`_ 、"
 
 #: ../../admin/install/docker.rst:1695
-#, fuzzy
-#| msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgid "Configures :setting:`SENTRY_SEND_PII`."
-msgstr ":setting:`SSH_EXTRA_ARGS` を設定します。"
+msgstr ":setting:`SENTRY_SEND_PII` を設定します。"
 
 #: ../../admin/install/docker.rst:1698
 msgid "Localization CDN"
@@ -16545,7 +16483,7 @@ msgstr ":ref:`machine-translation`"
 
 #: ../../admin/machine.rst:32
 msgid "Alibaba"
-msgstr ""
+msgstr "Alibaba"
 
 #: ../../admin/machine.rst:0
 msgid "Service ID"
@@ -16577,11 +16515,8 @@ msgid "``secret``"
 msgstr "``secret``"
 
 #: ../../admin/machine.rst:40
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Access key ID"
 msgid "Access key secret"
-msgstr "アクセス キー ID"
+msgstr "アクセス鍵シークレット"
 
 #: ../../admin/machine.rst:42 ../../admin/machine.rst:102
 #: ../../admin/machine.rst:344
@@ -16589,33 +16524,23 @@ msgid "``region``"
 msgstr "``region``"
 
 #: ../../admin/machine.rst:42
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Region name"
 msgid "Region ID"
-msgstr "リージョン名（地域名）"
+msgstr "リージョン ID"
 
 #: ../../admin/machine.rst:45
-#, fuzzy
-#| msgid ""
-#| "Amazon Translate is a neural machine translation service for translating "
-#| "text to and from English across a breadth of supported languages."
 msgid ""
 "Alibaba Translate is a neural machine translation service for translating "
 "text and it supports up to 214 language pairs."
-msgstr ""
-"Amazon Translate は、対応している多くの言語間でテキストを英語に、またその逆に"
-"翻訳したりするためのニューラル機械翻訳サービスです。"
+msgstr "Alibaba Translate は、テキストを翻訳するためのニューラル機械翻訳サービスで、"
+"最大 214 の言語ペアに対応しています。"
 
 #: ../../admin/machine.rst:50
-#, fuzzy
-#| msgid ""
-#| "`Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_"
 msgid ""
 "`Alibaba Translate Documentation <https://www.alibabacloud.com/help/en/"
 "machine-translation>`_"
 msgstr ""
-"`Amazon Translate ドキュメント <https://docs.aws.amazon.com/translate/>`_"
+"`Alibaba Translate ドキュメント <https://www.alibabacloud.com/help/en/"
+"machine-translation>`_"
 
 #: ../../admin/machine.rst:55
 msgid "Amagama"
@@ -16684,10 +16609,8 @@ msgstr ""
 "ト <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 
 #: ../../admin/machine.rst:94
-#, fuzzy
-#| msgid "Yandex Translate"
 msgid "Amazon Translate"
-msgstr "Yandex 翻訳"
+msgstr "Amazon Translate"
 
 #: ../../admin/machine.rst:96
 msgid "``aws``"
@@ -16773,14 +16696,12 @@ msgid "``formality``"
 msgstr "``formality``"
 
 #: ../../admin/machine.rst:143
-#, fuzzy
-#| msgid "Somali"
 msgid "Formality"
-msgstr "ソマリ語"
+msgstr "正規"
 
 #: ../../admin/machine.rst:143
 msgid "Uses the specified formality if language is not specified as (in)formal"
-msgstr ""
+msgstr "言語が（非）正規として指定されていない場合は、指定された形式を使用します"
 
 #: ../../admin/machine.rst:146
 msgid ""
@@ -16873,7 +16794,8 @@ msgstr ""
 #: ../../admin/machine.rst:176 ../../admin/machine.rst:352
 #: ../../admin/machine.rst:475
 msgid "The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`."
-msgstr ""
+msgstr "このサービスは自動的に :ref:`glossary` を使用します。参照: :ref:`glossary-"
+"mt`。"
 
 #: ../../admin/machine.rst:180
 msgid ""
@@ -16913,31 +16835,23 @@ msgid "`Glosbe website <https://glosbe.com/>`_"
 msgstr "`Glosbe Web サイト <https://glosbe.com/>`_"
 
 #: ../../admin/machine.rst:205
-#, fuzzy
-#| msgid "Google Translate location"
 msgid "Google Cloud Translation Basic"
-msgstr "Google 翻訳の地域"
+msgstr "Google Cloud Translation Basic"
 
 #: ../../admin/machine.rst:207
 msgid "``google-translate``"
 msgstr "``google-translate``"
 
 #: ../../admin/machine.rst:212 ../../admin/machine.rst:235
-#, fuzzy
-#| msgid "Machine translation service provided by Google Cloud services."
 msgid "Machine translation service provided by the Google Cloud services."
 msgstr "Google Cloud サービスが提供する機械翻訳サービス。"
 
 #: ../../admin/machine.rst:214
-#, fuzzy
-#| msgid ""
-#| "This service uses the Google Translation API, and you need to obtain an "
-#| "API key and turn on billing in the Google API console."
 msgid ""
 "This service uses the Google Translation API v2, and you need to obtain an "
 "API key and turn on billing in the Google API console."
 msgstr ""
-"このサービスは、Google Translation API を使用するので、API キーの取得と "
+"このサービスは、Google Translation API v2 を使用するので、API キーの取得と "
 "Google API コンソールでの課金の有効化が必要です。"
 
 #: ../../admin/machine.rst:219
@@ -16946,10 +16860,8 @@ msgid ""
 msgstr "`Google 翻訳ドキュメント <https://cloud.google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:224
-#, fuzzy
-#| msgid "Google Translate API V3 (Advanced)"
 msgid "Google Cloud Translation Advanced"
-msgstr "Google Translate API V3（Advanced）"
+msgstr "Google Cloud Translation Advanced"
 
 #: ../../admin/machine.rst:226
 msgid "``google-translate-api-v3``"
@@ -16965,7 +16877,7 @@ msgstr "Google 翻訳サービスのアカウント情報"
 
 #: ../../admin/machine.rst:228
 msgid "Enter a JSON key for the service account."
-msgstr ""
+msgstr "サービスアカウントの JSON キーを入力してください。"
 
 #: ../../admin/machine.rst:230
 msgid "``project``"
@@ -16977,7 +16889,7 @@ msgstr "Google 翻訳プロジェクト"
 
 #: ../../admin/machine.rst:230
 msgid "Enter the numeric or alphanumeric ID of your Google Cloud project."
-msgstr ""
+msgstr "Google Cloud プロジェクトの数字または英数字 ID を入力してください。"
 
 #: ../../admin/machine.rst:232
 msgid "``location``"
@@ -16992,44 +16904,37 @@ msgid ""
 "Choose a Google Cloud Translation region that is used for the Google Cloud "
 "project or is closest to you."
 msgstr ""
+"Google Cloud プロジェクトで使用しているリージョン、またはあなたの最寄りの "
+"Google Cloud Translation リージョンを選択してください。"
 
 #: ../../admin/machine.rst:237
-#, fuzzy
-#| msgid ""
-#| "This service uses a Translation API, and you need to obtain an API key "
-#| "from Yandex."
 msgid ""
 "This service uses the Google Translation API v3 and you need credentials in "
 "JSON format to access it."
-msgstr ""
-"このサービスは Translation API を使用するので、Yandex から API キーの取得が必"
-"要です。"
+msgstr "このサービスは Google Translation API v3 を使用しており、アクセスするには "
+"JSON 形式の認証情報が必要です。"
 
 #: ../../admin/machine.rst:239
 msgid ""
 "In order to use this service, you first need to go through the following "
 "steps:"
-msgstr ""
+msgstr "このサービスを利用するために必要な実行手順:"
 
 #: ../../admin/machine.rst:241
 msgid "`Select or create a Cloud Platform project.`_"
-msgstr ""
+msgstr "`Cloud Platform プロジェクトを選択または作成する。`_"
 
 #: ../../admin/machine.rst:242
 msgid "`Enable billing for your project.`_"
-msgstr ""
+msgstr "`プロジェクトの課金を有効にする。`_"
 
 #: ../../admin/machine.rst:243
-#, fuzzy
-#| msgid "Enable machine translation"
 msgid "`Enable the Cloud Translation.`_"
-msgstr "機械翻訳の有効化"
+msgstr "`クラウド翻訳を有効にする。`_"
 
 #: ../../admin/machine.rst:244
-#, fuzzy
-#| msgid "Authentication"
 msgid "`Setup Authentication.`_"
-msgstr "認証"
+msgstr "`認証の初期設定。`_"
 
 #: ../../admin/machine.rst:253
 msgid ""
@@ -17059,7 +16964,8 @@ msgstr "``ibm``"
 msgid ""
 "This service is deprecated by vendor and will be withdrawn entirely as of 10 "
 "December 2024."
-msgstr ""
+msgstr "このサービスはベンダーによって非推奨となっており、2024 年 12 月 10 "
+"日をもって完全に廃止されます。"
 
 #: ../../admin/machine.rst:276
 msgid ""
@@ -17118,10 +17024,8 @@ msgstr ""
 "LibreTranslate#user-content-mirrors>`_"
 
 #: ../../admin/machine.rst:314
-#, fuzzy
-#| msgid "Microsoft Translator"
 msgid "Azure AI Translator"
-msgstr "Microsoft Translator"
+msgstr "Azure AI Translator"
 
 #: ../../admin/machine.rst:316
 msgid "``microsoft-translator``"
@@ -17318,10 +17222,8 @@ msgstr ""
 "com/>`_"
 
 #: ../../admin/machine.rst:442
-#, fuzzy
-#| msgid "Zen mode"
 msgid "OpenAI"
-msgstr "Zen モード"
+msgstr "OpenAI"
 
 #: ../../admin/machine.rst:446
 msgid "``openai``"
@@ -17332,61 +17234,52 @@ msgid "``model``"
 msgstr "``model``"
 
 #: ../../admin/machine.rst:450
-#, fuzzy
-#| msgid "Zen mode"
 msgid "OpenAI model"
-msgstr "Zen モード"
+msgstr "OpenAI モデル"
 
 #: ../../admin/machine.rst:452
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "``auto`` -- Automatic selection"
-msgstr "自動検出"
+msgstr "``auto`` -- 自動選択"
 
 #: ../../admin/machine.rst:454
 msgid "``gpt-4-1106-preview`` -- GPT-4 Turbo"
-msgstr ""
+msgstr "``gpt-4-1106-preview`` -- GPT-4 Turbo"
 
 #: ../../admin/machine.rst:456
 msgid "``gpt-4`` -- GPT-4"
-msgstr ""
+msgstr "``gpt-4`` -- GPT-4"
 
 #: ../../admin/machine.rst:458
 msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
-msgstr ""
+msgstr "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 
 #: ../../admin/machine.rst:460
 msgid "``persona``"
 msgstr "``persona``"
 
 #: ../../admin/machine.rst:460
-#, fuzzy
-#| msgid "Translation reports"
 msgid "Translator persona"
-msgstr "翻訳のレポート"
+msgstr "翻訳者の人物像"
 
 #: ../../admin/machine.rst:460
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
-msgstr ""
+msgstr "翻訳の正確性を高めるために、翻訳者の人物像を記述します。例: "
+"「あなたはリスの繁殖業者です。」"
 
 #: ../../admin/machine.rst:462
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translator style"
 msgstr "翻訳ファイル"
 
 #: ../../admin/machine.rst:462
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
-msgstr ""
+msgstr "翻訳スタイルについて説明します。例: 「くだけた言い回しを使用する」"
 
 #: ../../admin/machine.rst:465
-#, fuzzy
-#| msgid "Performs full update on translation unit."
 msgid "Performs translation using `OpenAI`_."
-msgstr "翻訳ユニットをすべて更新します。"
+msgstr "`OpenAI`_ を使用して翻訳を実行します。"
 
 #: ../../admin/machine.rst:467
 msgid ""
@@ -17395,6 +17288,9 @@ msgid ""
 "available, but you might want to choose a specific model that matches your "
 "needs."
 msgstr ""
+"OpenAI API は、さまざまな機能と価格帯を備えたさまざまなモデルの組み合わせがあ"
+"ります。自動選択では利用可能な最適なモデルが選択されますが、用途に合った特定"
+"のモデルを選択することもできます。"
 
 #: ../../admin/machine.rst:471
 msgid ""
@@ -17402,12 +17298,16 @@ msgid ""
 "be used in a prompt for OpenAI and allow you to change the style of the "
 "translations."
 msgstr ""
+"人物像と翻訳スタイル フィールドを使用して、翻訳をさらに詳細設定します。"
+"これは OpenAI のプロンプトで使用することにより翻訳スタイルを変更できます。"
 
 #: ../../admin/machine.rst:479
 msgid ""
 "`OpenAI models <https://platform.openai.com/docs/models>`_, `OpenAI API keys "
 "<https://platform.openai.com/account/api-keys>`_"
 msgstr ""
+"`OpenAI モデル <https://platform.openai.com/docs/models>`_ 、`OpenAI API "
+"キー <https://platform.openai.com/account/api-keys>`_"
 
 #: ../../admin/machine.rst:487
 msgid "SAP Translation Hub"
@@ -23431,58 +23331,44 @@ msgid "string"
 msgstr "string"
 
 #: ../../api.rst:1152
-#, fuzzy
-#| msgid "Returns statistics for a project."
 msgid "Returns labels for a project."
-msgstr "返り値は、プロジェクトの統計情報です。"
+msgstr "返り値は、プロジェクトのラベルです。"
 
 #: ../../api.rst:0
 msgid ">json int id"
-msgstr ""
+msgstr ">json int id"
 
 #: ../../api.rst:1156
-#, fuzzy
-#| msgid "Some of these are:"
 msgid "ID of the label"
-msgstr "依存するプログラム例:"
+msgstr "ラベルの ID"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "string age"
 msgid ">json string name"
-msgstr "翻訳開始日"
+msgstr ">json string name"
 
 #: ../../api.rst:1157 ../../api.rst:1168
-#, fuzzy
-#| msgid "Some of these are:"
 msgid "name of the label"
-msgstr "依存するプログラム例:"
+msgstr "ラベル名"
 
 #: ../../api.rst:0
 msgid ">json string color"
-msgstr ""
+msgstr ">json string color"
 
 #: ../../api.rst:1158 ../../api.rst:1169
-#, fuzzy
-#| msgid "Some of these are:"
 msgid "color of the label"
-msgstr "依存するプログラム例:"
+msgstr "ラベルの色"
 
 #: ../../api.rst:1164
-#, fuzzy
-#| msgid "Creates a new project."
 msgid "Creates a label for a project."
-msgstr "新しいプロジェクトを作成します。"
+msgstr "プロジェクトのラベルを作成します。"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "string age"
 msgid "<json string name"
-msgstr "翻訳開始日"
+msgstr "<json string name"
 
 #: ../../api.rst:0
 msgid "<json string color"
-msgstr ""
+msgstr "<json string color"
 
 #: ../../api.rst:1176
 msgid ""
@@ -24769,28 +24655,20 @@ msgid "percentage of translated characters"
 msgstr "翻訳済みの文字の割合"
 
 #: ../../api.rst:2473
-#, fuzzy
-#| msgid "number of fuzzy (marked for edit) strings"
 msgid "number of fuzzy (marked for edit) words"
-msgstr "あいまいな（要編集付き）文字列の数"
+msgstr "あいまいな（要編集付き）単語の数"
 
 #: ../../api.rst:2474
-#, fuzzy
-#| msgid "number of fuzzy (marked for edit) strings"
 msgid "number of fuzzy (marked for edit) characters"
-msgstr "あいまいな（要編集付き）文字列の数"
+msgstr "あいまいな（要編集付き）文字の数"
 
 #: ../../api.rst:2476
-#, fuzzy
-#| msgid "percentage of fuzzy (marked for edit) strings"
 msgid "percentage of fuzzy (marked for edit) words"
-msgstr "あいまいな（要編集付き）文字列の割合"
+msgstr "あいまいな（要編集付き）単語の割合"
 
 #: ../../api.rst:2477
-#, fuzzy
-#| msgid "percentage of fuzzy (marked for edit) strings"
 msgid "percentage of fuzzy (marked for edit) characters"
-msgstr "あいまいな（要編集付き）文字列の割合"
+msgstr "あいまいな（要編集付き）文字の割合"
 
 #: ../../api.rst:2478
 msgid "number of failing checks"
@@ -24801,70 +24679,52 @@ msgid "percentage of failing checks"
 msgstr "検査不合格の割合"
 
 #: ../../api.rst:2480
-#, fuzzy
-#| msgid "number of read-only strings"
 msgid "number of approved strings"
-msgstr "翻訳禁止の文字列の数"
+msgstr "承認された文字列の数"
 
 #: ../../api.rst:2481
-#, fuzzy
-#| msgid "number of approved checks"
 msgid "number of approved words"
-msgstr "承認された検査の数"
+msgstr "承認された単語の数"
 
 #: ../../api.rst:2482
-#, fuzzy
-#| msgid "number of approved checks"
 msgid "number of approved characters"
-msgstr "承認された検査の数"
+msgstr "承認された文字の数"
 
 #: ../../api.rst:2483
 msgid "percentage of approved strings"
 msgstr "承認された文字列の割合"
 
 #: ../../api.rst:2484
-#, fuzzy
-#| msgid "percentage of approved strings"
 msgid "percentage of approved words"
-msgstr "承認された文字列の割合"
+msgstr "承認された単語の割合"
 
 #: ../../api.rst:2485
-#, fuzzy
-#| msgid "percentage of approved strings"
 msgid "percentage of approved characters"
-msgstr "承認された文字列の割合"
+msgstr "承認された文字の割合"
 
 #: ../../api.rst:2486
 msgid "number of read-only strings"
 msgstr "翻訳禁止の文字列の数"
 
 #: ../../api.rst:2487
-#, fuzzy
-#| msgid "number of read-only strings"
 msgid "number of read-only words"
-msgstr "翻訳禁止の文字列の数"
+msgstr "翻訳禁止の単語の数"
 
 #: ../../api.rst:2488
-#, fuzzy
-#| msgid "number of total characters"
 msgid "number of read-only characters"
-msgstr "合計文字数"
+msgstr "翻訳禁止の文字数"
 
 #: ../../api.rst:2489
 msgid "percentage of read-only strings"
 msgstr "翻訳禁止の文字列の割合"
 
 #: ../../api.rst:2490
-#, fuzzy
-#| msgid "percentage of read-only strings"
 msgid "percentage of read-only words"
-msgstr "翻訳禁止の文字列の割合"
+msgstr "翻訳禁止の単語の割合"
 
 #: ../../api.rst:2491
-#, fuzzy
-#| msgid "percentage of translated characters"
 msgid "percentage of read-only characters"
-msgstr "翻訳済みの文字の割合"
+msgstr "翻訳禁止の文字の割合"
 
 #: ../../api.rst:2492
 msgid "number of strings with suggestions"
@@ -25354,16 +25214,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.5.3"
 msgid "Weblate 5.3"
-msgstr "Weblate 4.5.3"
+msgstr "Weblate 5.3"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on December 16th 2022."
 msgid "Released on December 14th 2023."
-msgstr "2022 年 12 月 16 日にリリース。"
+msgstr "2023 年 12 月 14 日にリリース。"
 
 #: ../../changes.rst:6 ../../changes.rst:67 ../../changes.rst:108
 #: ../../changes.rst:135 ../../changes.rst:211 ../../changes.rst:252
@@ -25371,44 +25227,32 @@ msgid "**New features**"
 msgstr "**新機能**"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Configured automatic suggestion services"
 msgid ":ref:`mt-openai` automatic suggestion service."
-msgstr "自動提案サービスの設定"
+msgstr ":ref:`mt-openai` 自動提案サービス。"
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Available automatic suggestion services"
 msgid ":ref:`mt-alibaba` automatic suggestion service."
-msgstr "使用可能な自動提案サービス"
+msgstr ":ref:`mt-alibaba` 自動提案サービス。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "URL to changes list; see :http:get:`/api/projects/(string:project)/"
-#| "changes/`"
 msgid ""
 "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
-msgstr ""
-"変更リストへの URL。参照: :http:get:`/api/projects/(string:project)/changes/`"
+msgstr "ラベル API の追加。参照: :http:get:`/api/projects/(string:project)/labels/`。"
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid ":ref:`glossary`"
 msgid ":ref:`glossary-mt`."
-msgstr ":ref:`glossary`"
+msgstr ":ref:`glossary-mt`."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Separate check for French punctuation spacing."
 msgid "New automatic fixed for :ref:`autofix-punctuation-spacing`."
-msgstr "フランス語の句読点の間隔は、個別に検査するように改良。"
+msgstr ":ref:`autofix-punctuation-spacing` の新しい自動修正。"
 
 #: ../../changes.rst:13
 msgid ""
 ":ref:`mt-google-translate-api-v3` now better honors placeables or line "
 "breaks."
-msgstr ""
+msgstr ":ref:`mt-google-translate-api-v3` "
+"は、配置要素や改行をより適切に尊重するように改良。"
 
 #: ../../changes.rst:15 ../../changes.rst:43 ../../changes.rst:71
 #: ../../changes.rst:110 ../../changes.rst:143 ../../changes.rst:186
@@ -25417,32 +25261,26 @@ msgid "**Improvements**"
 msgstr "**改善点**"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Reduced memory usage."
 msgid "Reduced memory usage for statistics."
-msgstr "メモリ使用量の削減。"
+msgstr "統計のメモリ使用量を削減。"
 
 #: ../../changes.rst:18
 msgid ""
 ":ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:"
 "`glossary-mt`."
-msgstr ""
+msgstr ":ref:`mt-deepl` は自動翻訳の性能が向上し、 :ref:`glossary-mt` に対応。"
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-terminology`"
+msgstr ":ref:`mt-microsoft-translator` は :ref:`glossary-mt` に対応。"
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid "Improved region selection in :ref:`mt-google-translate-api-v3`."
-msgstr ":ref:`mt-google-translate-api-v3`"
+msgstr ":ref:`mt-google-translate-api-v3` での地域選択の改良。"
 
 #: ../../changes.rst:21
 msgid "Addded nested JSON exporter in :ref:`download`."
-msgstr ""
+msgstr "ネストされた JSON エクスポーターを :ref:`download` に追加。"
 
 #: ../../changes.rst:23 ../../changes.rst:48 ../../changes.rst:84
 #: ../../changes.rst:117 ../../changes.rst:158 ../../changes.rst:191
@@ -25452,7 +25290,7 @@ msgstr "**バグの修正**"
 
 #: ../../changes.rst:25
 msgid "Removing stale VCS directories."
-msgstr ""
+msgstr "古い VCS ディレクトリの削除。"
 
 #: ../../changes.rst:27 ../../changes.rst:92 ../../changes.rst:122
 #: ../../changes.rst:167 ../../changes.rst:234 ../../changes.rst:289
@@ -25463,15 +25301,14 @@ msgstr "**互換性**"
 msgid ""
 "Dropped Microsoft Terminology service for automatic suggestions as it is no "
 "longer provided by Microsoft."
-msgstr ""
+msgstr "自動提案のための Microsoft Terminology サービスは Microsoft "
+"が提供終了、そのため削除。"
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgid ""
 "``labels`` in units API now expose full label info, see :http:get:`/api/"
 "units/(int:id)/`."
-msgstr "原文ユニットのリンク。参照: :http:get:`/api/units/(int:id)/`"
+msgstr "原文ユニットのリンク。参照: :http:get:`/api/units/(int:id)/`。"
 
 #: ../../changes.rst:32 ../../changes.rst:56 ../../changes.rst:97
 #: ../../changes.rst:124 ../../changes.rst:171 ../../changes.rst:198
