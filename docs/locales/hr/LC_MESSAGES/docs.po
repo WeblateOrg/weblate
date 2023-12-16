@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2023-12-15 20:37+0000\n"
+"PO-Revision-Date: 2023-12-16 17:46+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hr/>\n"
@@ -1678,6 +1678,8 @@ msgid ""
 "This add-on is configured on :guilabel:`Hosted Weblate` and serves the files "
 "via ``https://weblate-cdn.com/``."
 msgstr ""
+"Ovaj je dodatak konfiguriran na :guilabel:`Hosted Weblate` i poslužuje "
+"datoteke preko ``https://weblate-cdn.com/``."
 
 #: ../../admin/addons.rst:117
 msgid ""
@@ -1702,10 +1704,8 @@ msgstr "``weblate.cleanup.blank``"
 #: ../../admin/addons.rst:597 ../../admin/addons.rst:618
 #: ../../admin/addons.rst:663 ../../admin/addons.rst:788
 #: ../../admin/addons.rst:841
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "`This add-on has no configuration.`"
-msgstr "Loša konfiguracija"
+msgstr "`Ovaj dodatak nema konfiguraciju.`"
 
 #: ../../admin/addons.rst:131
 msgid "repository post-commit, repository post-update"
@@ -1721,6 +1721,9 @@ msgid ""
 "your localization library displays them as missing instead of falling back "
 "to the source string)."
 msgstr ""
+"Koristi ovo kako u prevodilačkim datotekama ne bi bilo praznih izraza (na "
+"primjer, ako ih tvoja biblioteka lokalizacije prikazuje kao nedostajuće "
+"umjesto da koristi izvorni izraz)."
 
 #: ../../admin/addons.rst:141 ../../admin/addons.rst:158
 #: ../../admin/addons.rst:716 ../../admin/addons.rst:854
@@ -1733,7 +1736,7 @@ msgstr "Počisti prevodilačke datoteke"
 
 #: ../../admin/addons.rst:148
 msgid "``weblate.cleanup.generic``"
-msgstr ""
+msgstr "``weblate.cleanup.generic``"
 
 #: ../../admin/addons.rst:150
 msgid "repository pre-commit, repository post-update"
@@ -1754,14 +1757,12 @@ msgid "Add missing languages"
 msgstr "Dodaj nedostajuće jezike"
 
 #: ../../admin/addons.rst:165
-#, fuzzy
-#| msgid "Weblate languages"
 msgid "``weblate.consistency.languages``"
-msgstr "Weblate jezici"
+msgstr "``weblate.consistency.languages``"
 
 #: ../../admin/addons.rst:167
 msgid "daily, repository post-add"
-msgstr ""
+msgstr "dnevno, naknadno dodavanje u repozitoriju"
 
 #: ../../admin/addons.rst:169
 msgid ""
@@ -1775,6 +1776,8 @@ msgid ""
 "Missing languages are checked once every 24 hours, and when new languages "
 "are added in Weblate."
 msgstr ""
+"Nedostajući jezici se provjeravaju svaka 24 sata i kada se u Weblate dodaju "
+"novi jezici."
 
 #: ../../admin/addons.rst:175
 msgid "Unlike most others, this add-on affects the whole project."
@@ -1901,8 +1904,8 @@ msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
 msgstr ""
-"Regularni izraz za filtriranje prevodilačke datoteke prilikom traženja maske "
-"datoteke."
+"Regularni izraz za filtriranje prevodilačkih datoteka prilikom traženja "
+"maske datoteke."
 
 #: ../../admin/addons.rst:203
 msgid "``copy_addons``"
@@ -1926,7 +1929,7 @@ msgstr "``confirm``"
 
 #: ../../admin/addons.rst:207
 msgid "I confirm the above matches look correct"
-msgstr "Potvrđujem, da gornja poklapanja izgledaju u redu"
+msgstr "Potvrđujem da gornja poklapanja izgledaju ispravno"
 
 #: ../../admin/addons.rst:209 ../../admin/addons.rst:705
 #: ../../admin/addons.rst:842
@@ -1960,30 +1963,22 @@ msgstr ""
 "predloška."
 
 #: ../../admin/addons.rst:223
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid "You can use Django template markup in all filename fields, for example:"
 msgstr ""
-"Označavanje Django predložaka možeš koristiti u imenu datoteke i u sadržaju, "
+"Označavanje Django predložaka možeš koristiti u svim poljima imena datoteke, "
 "na primjer:"
 
 #: ../../admin/addons.rst:225
-#, fuzzy
-#| msgid "Component"
 msgid "``{{ component }}``"
-msgstr "Komponenta"
+msgstr "``{{ component }}``"
 
 #: ../../admin/addons.rst:226
 msgid "Component filename match"
 msgstr "Podudaranje imena datoteke komponente"
 
 #: ../../admin/addons.rst:227
-#, fuzzy
-#| msgid "Component"
 msgid "``{{ component|title }}``"
-msgstr "Komponenta"
+msgstr "``{{ component|title }}``"
 
 #: ../../admin/addons.rst:228
 msgid "Component filename with upper case first letter"
@@ -1991,7 +1986,7 @@ msgstr "Ime datoteke komponente s početnim velikim slovom"
 
 #: ../../admin/addons.rst:230
 msgid "``{{ path }}: {{ component }}``"
-msgstr ""
+msgstr "``{{ path }}: {{ component }}``"
 
 #: ../../admin/addons.rst:230
 #, fuzzy
@@ -2027,7 +2022,7 @@ msgstr "Regularni izraz:"
 
 #: ../../admin/addons.rst:246
 msgid "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
-msgstr ""
+msgstr "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:251 ../../admin/addons.rst:264
 #: ../../admin/addons.rst:277 ../../admin/addons.rst:291
@@ -2061,7 +2056,7 @@ msgstr "Uobičajena struktura za spčremanje gettext PO datoteka."
 
 #: ../../admin/addons.rst:259
 msgid "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
-msgstr ""
+msgstr "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 
 #: ../../admin/addons.rst:261
 msgid ":file:`locale/cs/LC_MESSAGES/application.po`"
@@ -2091,7 +2086,7 @@ msgstr "Upotreba imena komponente i jezika za ime datoteke."
 
 #: ../../admin/addons.rst:272
 msgid "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
-msgstr ""
+msgstr "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
 
 #: ../../admin/addons.rst:274
 msgid ":file:`src/locale/application.cs.po`"
@@ -2119,7 +2114,7 @@ msgstr "Upotreba jezika za putanju i za ime datoteke."
 
 #: ../../admin/addons.rst:285
 msgid "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
-msgstr ""
+msgstr "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
 
 #: ../../admin/addons.rst:287
 msgid ":file:`locale/cs/application/cs.po`"
@@ -2149,7 +2144,7 @@ msgstr "Izrazi resursa za Android, rastavljeni u nekoliko datoteka."
 
 #: ../../admin/addons.rst:299
 msgid "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
-msgstr ""
+msgstr "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
 
 #: ../../admin/addons.rst:301
 msgid ":file:`res/values-cs/strings-about.xml`"
@@ -2182,6 +2177,8 @@ msgid ""
 "``(?P<originalHierarchy>.+/)(?P<component>[^/]*)/src/main/resources/"
 "ApplicationResources_(?P<language>[^/.]*)\\.properties``"
 msgstr ""
+"``(?P<originalHierarchy>.+/)(?P<component>[^/]*)/src/main/resources/"
+"ApplicationResources_(?P<language>[^/.]*)\\.properties``"
 
 #: ../../admin/addons.rst:313
 msgid "Component name:"
@@ -2189,7 +2186,7 @@ msgstr "Ime komponente:"
 
 #: ../../admin/addons.rst:314
 msgid "``{{ originalHierarchy }}: {{ component }}``"
-msgstr ""
+msgstr "``{{ originalHierarchy }}: {{ component }}``"
 
 #: ../../admin/addons.rst:316
 msgid ""
@@ -2234,7 +2231,7 @@ msgstr "Skupno uređivanje"
 
 #: ../../admin/addons.rst:341
 msgid "``weblate.flags.bulk``"
-msgstr ""
+msgstr "``weblate.flags.bulk``"
 
 #: ../../admin/addons.rst:343
 msgid "``q``"
@@ -2364,7 +2361,7 @@ msgstr "Označi nepromijenjene prijevode s oznakom „Treba urediti”"
 
 #: ../../admin/addons.rst:402
 msgid "``weblate.flags.same_edit``"
-msgstr ""
+msgstr "``weblate.flags.same_edit``"
 
 #: ../../admin/addons.rst:404 ../../admin/addons.rst:426
 #: ../../admin/addons.rst:443
@@ -2399,7 +2396,7 @@ msgstr "Označi nove izvorne izraze s oznakom „Treba urediti”"
 
 #: ../../admin/addons.rst:424
 msgid "``weblate.flags.source_edit``"
-msgstr ""
+msgstr "``weblate.flags.source_edit``"
 
 #: ../../admin/addons.rst:428
 msgid ""
@@ -2417,7 +2414,7 @@ msgstr "Označi nove prijevode s oznakom „Treba urediti”"
 
 #: ../../admin/addons.rst:441
 msgid "``weblate.flags.target_edit``"
-msgstr ""
+msgstr "``weblate.flags.target_edit``"
 
 #: ../../admin/addons.rst:445
 msgid ""
@@ -2435,7 +2432,7 @@ msgstr "Ispuni izraze samo-za-čitanje s izvorom"
 
 #: ../../admin/addons.rst:460
 msgid "``weblate.generate.fill_read_only``"
-msgstr ""
+msgstr "``weblate.generate.fill_read_only``"
 
 #: ../../admin/addons.rst:464
 msgid "Fills in translation of read-only strings with source string."
@@ -2447,7 +2444,7 @@ msgstr "Generator statistike"
 
 #: ../../admin/addons.rst:471
 msgid "``weblate.generate.generate``"
-msgstr ""
+msgstr "``weblate.generate.generate``"
 
 #: ../../admin/addons.rst:473
 msgid "``filename``"
@@ -2494,7 +2491,7 @@ msgstr "``locale/{{ language_code }}.json``"
 
 #: ../../admin/addons.rst:498
 msgid "Content"
-msgstr ""
+msgstr "Sadržaj"
 
 #: ../../admin/addons.rst:502
 msgid ":ref:`markup`"
@@ -2506,7 +2503,7 @@ msgstr "Unaprijed ispuni prijevod s izvorom"
 
 #: ../../admin/addons.rst:511
 msgid "``weblate.generate.prefill``"
-msgstr ""
+msgstr "``weblate.generate.prefill``"
 
 #: ../../admin/addons.rst:515
 msgid "Fills in translation strings with source string."
@@ -2525,7 +2522,7 @@ msgstr "Izrada pseudolokalnog prijevoda"
 
 #: ../../admin/addons.rst:528
 msgid "``weblate.generate.pseudolocale``"
-msgstr ""
+msgstr "``weblate.generate.pseudolocale``"
 
 #: ../../admin/addons.rst:530
 msgid "``source``"
