@@ -139,6 +139,8 @@ Here is a list of flags currently accepted:
     Enable the :ref:`check-object-pascal-format` quality check.
 ``percent-placeholders``
     Enable the :ref:`check-percent-placeholders` quality check.
+``perl-brace-format``
+    Enable the :ref:`check-perl-brace-format` quality check.
 ``perl-format``
     Enable the :ref:`check-perl-format` quality check.
 ``php-format``
@@ -201,6 +203,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-object-pascal-format` quality check.
 ``ignore-percent-placeholders``
     Skip the :ref:`check-percent-placeholders` quality check.
+``ignore-perl-brace-format``
+    Skip the :ref:`check-perl-brace-format` quality check.
 ``ignore-perl-format``
     Skip the :ref:`check-perl-format` quality check.
 ``ignore-php-format``

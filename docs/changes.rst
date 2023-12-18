@@ -5,6 +5,8 @@ Not yet released.
 
 **New features**
 
+* :ref:`check-perl-brace-format` quality check.
+
 **Improvements**
 
 * Better logging in :wladmin:`createadmin`.
