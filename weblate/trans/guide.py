@@ -276,6 +276,7 @@ class AddonGuideline(Guideline):
 @register
 class LanguageConsistencyGuideline(AddonGuideline):
     addon = "weblate.consistency.languages"
+    hint = True
 
     def is_relevant(self):
         if self.component.project.component_set.exclude(is_glossary=True).count() <= 1:
@@ -296,6 +297,7 @@ class ConfigureGuideline(AddonGuideline):
 @register
 class CleanupGuideline(AddonGuideline):
     addon = "weblate.cleanup.generic"
+    hint = True
 
 
 @register
