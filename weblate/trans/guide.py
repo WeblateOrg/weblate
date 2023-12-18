@@ -27,6 +27,7 @@ class Guideline:
     group = False
     url = ""
     anchor = ""
+    hint = False
 
     def __init__(self, component):
         self.component = component
@@ -206,10 +207,11 @@ class FlagsGuideline(Guideline):
 @register
 class SafeHTMLGuideline(Guideline):
     description = gettext_lazy(
-        "Add safe-html flag to avoid dangerous HTML from translators."
+        "Add safe-html flag to avoid dangerous HTML from translators for strings which are rendered as HTML."
     )
     url = "settings"
     anchor = "show"
+    hint = True
 
     def is_relevant(self):
         cache_key = f"guide:safe-html:{self.component.id}"

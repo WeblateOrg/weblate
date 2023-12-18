@@ -40,6 +40,8 @@
     <td>
         {% if guide.passed %}
         <span class="green">{% icon "check.svg" %}</span>
+        {% elif guide.hint %}
+        {% icon "wrench.svg" %}
         {% else %}
         <span class="red">{% icon "alert.svg" %}</span>
         {% endif %}
