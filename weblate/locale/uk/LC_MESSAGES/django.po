@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 08:04+0000\n"
-"PO-Revision-Date: 2023-12-11 09:11+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-12-19 01:33+0000\n"
+"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.3-dev\n"
+"X-Generator: Weblate 5.3\n"
 
 #: weblate/accounts/avatar.py:84
 msgctxt "No known user"
@@ -92,10 +92,6 @@ msgid "Account e-mail"
 msgstr "Електронна адреса облікового запису"
 
 #: weblate/accounts/forms.py:348
-#, fuzzy
-#| msgid ""
-#| "Used for e-mail notifications and as a commit e-mail if it is not not "
-#| "configured below."
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
@@ -2617,10 +2613,8 @@ msgid "Reviews are not enabled."
 msgstr "Рецензування вимкнено."
 
 #: weblate/auth/permissions.py:237
-#, fuzzy
-#| msgid "The source string cannot be edited."
 msgid "The source string needs review."
-msgstr "Початковий рядок не можна редагувати."
+msgstr "Початковий рядок потребує розгляду."
 
 #: weblate/auth/permissions.py:238
 msgid "The string is read only."
@@ -4838,21 +4832,19 @@ msgid ""
 msgstr ""
 
 #: weblate/machinery/forms.py:200
-#, fuzzy
-#| msgid "Global numbers"
 msgctxt "Google Cloud region"
 msgid "Global"
-msgstr "Загальні числа"
+msgstr "Світ"
 
 #: weblate/machinery/forms.py:201
 msgctxt "Google Cloud region"
 msgid "Europe"
-msgstr ""
+msgstr "Європа"
 
 #: weblate/machinery/forms.py:202
 msgctxt "Google Cloud region"
 msgid "US"
-msgstr ""
+msgstr "США"
 
 #: weblate/machinery/forms.py:211
 #, python-format
@@ -4880,20 +4872,14 @@ msgid "Access key ID"
 msgstr "Ідентифікатор ключа доступу"
 
 #: weblate/machinery/forms.py:232
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Access key ID"
 msgctxt "Alibaba Translate configuration"
 msgid "Access key secret"
-msgstr "Ідентифікатор ключа доступу"
+msgstr "Таємний ключ доступу"
 
 #: weblate/machinery/forms.py:235
-#, fuzzy
-#| msgctxt "AWS Translate configuration"
-#| msgid "Region name"
 msgctxt "Alibaba Translate configuration"
 msgid "Region ID"
-msgstr "Назва регіону"
+msgstr "ID регіону"
 
 #: weblate/machinery/forms.py:252
 msgctxt "Automatic suggestion service configuration"
@@ -4906,25 +4892,19 @@ msgstr ""
 "Використовує вказану формальність, якщо мову не вказано як (не)формальну"
 
 #: weblate/machinery/forms.py:271
-#, fuzzy
-#| msgid "Automatic suggestions"
 msgctxt "OpenAI model selection"
 msgid "Automatic selection"
-msgstr "Автоматичні пропозиції"
+msgstr "Автовибір"
 
 #: weblate/machinery/forms.py:280
-#, fuzzy
-#| msgid "Zen mode"
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
-msgstr "Режим дзен"
+msgstr "Модель OpenAI"
 
 #: weblate/machinery/forms.py:288
-#, fuzzy
-#| msgid "Translation reports"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
-msgstr "Звіти про переклад"
+msgstr "Особа перекладача"
 
 #: weblate/machinery/forms.py:292
 msgid ""
@@ -4933,11 +4913,9 @@ msgid ""
 msgstr ""
 
 #: weblate/machinery/forms.py:299
-#, fuzzy
-#| msgid "Translation file"
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator style"
-msgstr "Файл перекладу"
+msgstr "Стиль перекладача"
 
 #: weblate/machinery/forms.py:303
 msgid ""
@@ -8166,10 +8144,8 @@ msgid "disabled"
 msgstr "вимкнено"
 
 #: weblate/templates/machinery/detail.html:17
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Service is no longer available"
-msgstr "Служба зараз недоступна."
+msgstr "Служба більше не доступна"
 
 #: weblate/templates/machinery/edit.html:12
 #: weblate/templates/machinery/edit.html:16
@@ -11695,10 +11671,8 @@ msgstr "Слова"
 
 #: weblate/templates/translation.html:145
 #: weblate/templates/translation.html:172
-#, fuzzy
-#| msgid "Characters percent"
 msgid "Characters"
-msgstr "Частка символів"
+msgstr "Символи"
 
 #: weblate/templates/translation.html:153
 msgid "This translation is being used as source strings within this component."
@@ -14079,10 +14053,8 @@ msgid "Could not commit pending changes: %s"
 msgstr "Не вдалося надіслати очікувані зміни: %s"
 
 #: weblate/trans/models/translation.py:1628
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Plurals are not supported by the file format!"
-msgstr "Підтримки редагування шаблону для цього формату файлів не передбачено."
+msgstr "Форми множини не підтримуються цим форматом файлу!"
 
 #: weblate/trans/models/translation.py:1633 weblate/trans/models/unit.py:654
 #, python-format
@@ -15498,11 +15470,8 @@ msgid "Premium self-hosted support"
 msgstr "Власна служба підтримки Weblate найвищої якості"
 
 #: weblate/wladmin/models.py:160
-#, fuzzy
-#| msgctxt "Number of hosted strings"
-#| msgid "Hosted strings"
 msgid "Hosted strings"
-msgstr "Збережені рядки"
+msgstr "Розміщені рядки"
 
 #: weblate/wladmin/models.py:185
 msgid "Backup repository URL"
