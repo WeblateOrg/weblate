@@ -10,6 +10,7 @@ Not yet released.
 **Improvements**
 
 * Better logging in :wladmin:`createadmin`.
+* :ref:`addon-weblate.discovery.discovery` now reports skipped entries.
 
 **Bug fixes**
 
