@@ -21,7 +21,7 @@ import weblate.utils.version
 from weblate.formats.models import FILE_FORMATS
 from weblate.logger import LOGGER
 from weblate.machinery.models import MACHINERY
-from weblate.trans.models import Translation
+from weblate.trans.models import Component, Translation
 from weblate.trans.util import get_clean_env
 from weblate.utils.backup import backup_lock
 from weblate.utils.celery import app
@@ -81,8 +81,8 @@ def update_translation_stats_parents(pk: int):
 
 @app.task(trail=False)
 def update_language_stats_parents(pk: int):
-    translation = Translation.objects.get(pk=pk)
-    translation.stats.update_language_stats_parents()
+    component = Component.objects.get(pk=pk)
+    component.stats.update_language_stats_parents()
 
 
 @app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
