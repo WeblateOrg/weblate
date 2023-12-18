@@ -8,6 +8,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
+from django.db import transaction
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape
@@ -463,6 +464,7 @@ class SetPasswordForm(DjangoSetPasswordForm):
     )
     new_password2 = PasswordField(label=gettext_lazy("New password confirmation"))
 
+    @transaction.atomic
     def save(self, request, delete_session=False):
         AuditLog.objects.create(
             self.user, request, "password", password=self.user.password
