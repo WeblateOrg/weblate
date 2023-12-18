@@ -357,7 +357,7 @@ class DiscoveryForm(BaseAddonForm):
             if self.cleaned_data.get("preview"):
                 self.fields["confirm"].widget = forms.CheckboxInput()
                 self.helper.layout.insert(0, Field("confirm"))
-                created, matched, deleted = self.discovery.perform(
+                created, matched, deleted, skipped = self.discovery.perform(
                     preview=True, remove=self.cleaned_data["remove"]
                 )
                 self.helper.layout.insert(
@@ -368,6 +368,7 @@ class DiscoveryForm(BaseAddonForm):
                             "matches_created": created,
                             "matches_matched": matched,
                             "matches_deleted": deleted,
+                            "matches_skipped": skipped,
                             "user": self.user,
                         },
                     ),
