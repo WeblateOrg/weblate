@@ -7,7 +7,7 @@
 
 {% block content %}
 
-{% include "list-projects.html" %}
+{% include "list-projects.html" with add_link="project" %}
 
 {% include "paginator.html" with page_obj=projects %}
 

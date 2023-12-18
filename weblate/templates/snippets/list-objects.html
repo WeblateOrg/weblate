@@ -30,6 +30,10 @@
             {% if user_can_add_language %}
             <a class="btn btn-link btn-sm" id="list-add-button" href="{% url 'create-language' %}" title="{% trans "Add language" %}">{% icon "plus.svg" %}</a>
             {% endif %}
+          {% elif add_link == "project" %}
+            {% if user.is_authenticated %}
+              <a class="btn btn-link btn-sm" id="list-add-button" href="{% url 'create-project' %}" title="{% trans "Add project" %}">{% icon "plus.svg" %}</a>
+            {% endif %}
           {% endif %}
         </th>
         <th title="{% trans "Sort this column" %}" class="sort-cell">
