@@ -517,27 +517,27 @@ class PluralTest(BaseTestCase):
 
     def test_plurals(self):
         """Test whether plural form is correctly calculated."""
-        plural = Plural.objects.get(language__code="cs")
+        plural = Plural.objects.get(language__code="cs", source=Plural.SOURCE_DEFAULT)
         self.assertEqual(
             plural.plural_form,
             "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;",
         )
 
     def test_plural_names(self):
-        plural = Plural.objects.get(language__code="cs")
+        plural = Plural.objects.get(language__code="cs", source=Plural.SOURCE_DEFAULT)
         self.assertEqual(plural.get_plural_name(0), "One")
         self.assertEqual(plural.get_plural_name(1), "Few")
         self.assertEqual(plural.get_plural_name(2), "Many")
 
     def test_plural_names_invalid(self):
-        plural = Plural.objects.get(language__code="cs")
+        plural = Plural.objects.get(language__code="cs", source=Plural.SOURCE_DEFAULT)
         plural.type = -1
         self.assertEqual(plural.get_plural_name(0), "Singular")
         self.assertEqual(plural.get_plural_name(1), "Plural")
         self.assertEqual(plural.get_plural_name(2), "Plural form 2")
 
     def test_plural_labels(self):
-        plural = Plural.objects.get(language__code="cs")
+        plural = Plural.objects.get(language__code="cs", source=Plural.SOURCE_DEFAULT)
         label = plural.get_plural_label(0)
         self.assertIn("One", label)
         self.assertIn("1", label)
