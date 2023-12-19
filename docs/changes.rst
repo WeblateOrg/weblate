@@ -3,13 +3,9 @@ Weblate 5.3.1
 
 Released on December 19th 2023.
 
-**New features**
-
-**Improvements**
-
 **Bug fixes**
 
-**Compatibility**
+* Not updating statistics in some situations.
 
 **Upgrading**
 
