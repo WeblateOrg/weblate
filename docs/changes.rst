@@ -11,6 +11,7 @@ Not yet released.
 
 * Better logging in :wladmin:`createadmin`.
 * :ref:`addon-weblate.discovery.discovery` now reports skipped entries.
+* Adding string in a repository triggers :ref:`subscriptions`.
 
 **Bug fixes**
 

@@ -865,7 +865,9 @@ class Unit(models.Model, LoggerMixin):
                 self.generate_change(
                     user=None,
                     author=None,
-                    change_action=Change.ACTION_STRING_REPO_UPDATE,
+                    change_action=Change.ACTION_NEW_UNIT_REPO
+                    if created
+                    else Change.ACTION_STRING_REPO_UPDATE,
                     check_new=False,
                     save=False,
                 )
