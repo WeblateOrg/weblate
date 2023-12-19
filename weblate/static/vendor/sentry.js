@@ -117,8 +117,7 @@ async function sendFeedbackRequest(
   { feedback: { message, email, name, source, url } },
   { includeReplay = true } = {},
 ) {
-  const hub = core.getCurrentHub();
-  const client = hub.getClient();
+  const client = core.getClient();
   const transport = client && client.getTransport();
   const dsn = client && client.getDsn();
 
@@ -139,67 +138,58 @@ async function sendFeedbackRequest(
     type: 'feedback',
   };
 
-  return new Promise((resolve, reject) => {
-    hub.withScope(async scope => {
-      // No use for breadcrumbs in feedback
-      scope.clearBreadcrumbs();
+  return core.withScope(async scope => {
+    // No use for breadcrumbs in feedback
+    scope.clearBreadcrumbs();
 
-      if ([FEEDBACK_API_SOURCE, FEEDBACK_WIDGET_SOURCE].includes(String(source))) {
-        scope.setLevel('info');
-      }
+    if ([FEEDBACK_API_SOURCE, FEEDBACK_WIDGET_SOURCE].includes(String(source))) {
+      scope.setLevel('info');
+    }
 
-      const feedbackEvent = await prepareFeedbackEvent({
-        scope,
-        client,
-        event: baseEvent,
-      });
+    const feedbackEvent = await prepareFeedbackEvent({
+      scope,
+      client,
+      event: baseEvent,
+    });
 
-      if (feedbackEvent === null) {
-        resolve();
-        return;
-      }
+    if (!feedbackEvent) {
+      return;
+    }
 
-      if (client && client.emit) {
-        client.emit('beforeSendFeedback', feedbackEvent, { includeReplay: Boolean(includeReplay) });
-      }
+    if (client.emit) {
+      client.emit('beforeSendFeedback', feedbackEvent, { includeReplay: Boolean(includeReplay) });
+    }
 
-      const envelope = core.createEventEnvelope(
-        feedbackEvent,
-        dsn,
-        client.getOptions()._metadata,
-        client.getOptions().tunnel,
-      );
+    const envelope = core.createEventEnvelope(feedbackEvent, dsn, client.getOptions()._metadata, client.getOptions().tunnel);
 
-      let response;
+    let response;
+
+    try {
+      response = await transport.send(envelope);
+    } catch (err) {
+      const error = new Error('Unable to send Feedback');
 
       try {
-        response = await transport.send(envelope);
-      } catch (err) {
-        const error = new Error('Unable to send Feedback');
-
-        try {
-          // In case browsers don't allow this property to be writable
-          // @ts-expect-error This needs lib es2022 and newer
-          error.cause = err;
-        } catch (e) {
-          // nothing to do
-        }
-        reject(error);
+        // In case browsers don't allow this property to be writable
+        // @ts-expect-error This needs lib es2022 and newer
+        error.cause = err;
+      } catch (e) {
+        // nothing to do
       }
+      throw error;
+    }
 
-      // TODO (v8): we can remove this guard once transport.send's type signature doesn't include void anymore
-      if (!response) {
-        resolve(response);
-        return;
-      }
+    // TODO (v8): we can remove this guard once transport.send's type signature doesn't include void anymore
+    if (!response) {
+      return;
+    }
 
-      // Require valid status codes, otherwise can assume feedback was not sent successfully
-      if (typeof response.statusCode === 'number' && (response.statusCode < 200 || response.statusCode >= 300)) {
-        reject(new Error('Unable to send Feedback'));
-      }
+    // Require valid status codes, otherwise can assume feedback was not sent successfully
+    if (typeof response.statusCode === 'number' && (response.statusCode < 200 || response.statusCode >= 300)) {
+      throw new Error('Unable to send Feedback');
+    }
 
-      resolve(response);
-    });
+    return response;
   });
 }
 
@@ -1462,7 +1452,7 @@ function createWidget({
       }
 
       const userKey = options.useSentryUser;
-      const scope = core.getCurrentHub().getScope();
+      const scope = core.getCurrentScope();
       const user = scope && scope.getUser();
 
       dialog = Dialog({
@@ -3207,8 +3197,7 @@ function xhrCallback(
     return undefined;
   }
 
-  const hub = core.getCurrentHub();
-  const scope = hub.getScope();
+  const scope = core.getCurrentScope();
   const parentSpan = scope.getSpan();
 
   const span =
@@ -3237,7 +3226,7 @@ function xhrCallback(
       const sentryBaggageHeader = utils.dynamicSamplingContextToSentryBaggageHeader(dynamicSamplingContext);
       setHeaderOnXhr(xhr, span.toTraceparent(), sentryBaggageHeader);
     } else {
-      const client = hub.getClient();
+      const client = core.getClient();
       const { traceId, sampled, dsc } = scope.getPropagationContext();
       const sentryTraceHeader = utils.generateSentryTraceHeader(traceId, undefined, sampled);
       const dynamicSamplingContext =
@@ -4028,9 +4017,8 @@ function instrumentFetchRequest(
     return undefined;
   }
 
-  const hub = core.getCurrentHub();
-  const scope = hub.getScope();
-  const client = hub.getClient();
+  const scope = core.getCurrentScope();
+  const client = core.getClient();
   const parentSpan = scope.getSpan();
 
   const { method, url } = handlerData.fetchData;
@@ -5876,8 +5864,7 @@ function eventFromPlainObject(
   syntheticException,
   isUnhandledRejection,
 ) {
-  const hub = core.getCurrentHub();
-  const client = hub.getClient();
+  const client = core.getClient();
   const normalizeDepth = client && client.getOptions().normalizeDepth;
 
   const event = {
@@ -6521,7 +6508,7 @@ class Breadcrumbs  {
  * Adds a breadcrumb for Sentry events or transactions if this option is enabled.
  */
 function addSentryBreadcrumb(event) {
-  core.getCurrentHub().addBreadcrumb(
+  core.addBreadcrumb(
     {
       category: `sentry.${event.type === 'transaction' ? 'transaction' : 'event'}`,
       event_id: event.event_id,
@@ -6571,7 +6558,7 @@ function _domBreadcrumb(dom) {
       return;
     }
 
-    core.getCurrentHub().addBreadcrumb(
+    core.addBreadcrumb(
       {
         category: `ui.${handlerData.name}`,
         message: target,
@@ -6611,7 +6598,7 @@ function _consoleBreadcrumb(handlerData) {
     }
   }
 
-  core.getCurrentHub().addBreadcrumb(breadcrumb, {
+  core.addBreadcrumb(breadcrumb, {
     input: handlerData.args,
     level: handlerData.level,
   });
@@ -6645,7 +6632,7 @@ function _xhrBreadcrumb(handlerData) {
     endTimestamp,
   };
 
-  core.getCurrentHub().addBreadcrumb(
+  core.addBreadcrumb(
     {
       category: 'xhr',
       data,
@@ -6680,7 +6667,7 @@ function _fetchBreadcrumb(handlerData) {
       endTimestamp,
     };
 
-    core.getCurrentHub().addBreadcrumb(
+    core.addBreadcrumb(
       {
         category: 'fetch',
         data,
@@ -6701,7 +6688,7 @@ function _fetchBreadcrumb(handlerData) {
       startTimestamp,
       endTimestamp,
     };
-    core.getCurrentHub().addBreadcrumb(
+    core.addBreadcrumb(
       {
         category: 'fetch',
         data,
@@ -6736,7 +6723,7 @@ function _historyBreadcrumb(handlerData) {
     from = parsedFrom.relative;
   }
 
-  core.getCurrentHub().addBreadcrumb({
+  core.addBreadcrumb({
     category: 'navigation',
     data: {
       from,
@@ -6989,11 +6976,6 @@ class GlobalHandlers  {
 
   /** JSDoc */
 
-  /**
-   * Stores references functions to installing handlers. Will set to undefined
-   * after they have been run so that they are not used twice.
-   */
-
   /** JSDoc */
    constructor(options) {
     this.name = GlobalHandlers.id;
@@ -7002,43 +6984,36 @@ class GlobalHandlers  {
       onunhandledrejection: true,
       ...options,
     };
-
-    this._installFunc = {
-      onerror: _installGlobalOnErrorHandler,
-      onunhandledrejection: _installGlobalOnUnhandledRejectionHandler,
-    };
   }
   /**
    * @inheritDoc
    */
    setupOnce() {
     Error.stackTraceLimit = 50;
-    const options = this._options;
+  }
 
-    // We can disable guard-for-in as we construct the options object above + do checks against
-    // `this._installFunc` for the property.
-    // eslint-disable-next-line guard-for-in
-    for (const key in options) {
-      const installFunc = this._installFunc[key ];
-      if (installFunc && options[key ]) {
-        globalHandlerLog(key);
-        installFunc();
-        this._installFunc[key ] = undefined;
-      }
+  /** @inheritdoc */
+   setup(client) {
+    if (this._options.onerror) {
+      _installGlobalOnErrorHandler(client);
+      globalHandlerLog('onerror');
+    }
+    if (this._options.onunhandledrejection) {
+      _installGlobalOnUnhandledRejectionHandler(client);
+      globalHandlerLog('onunhandledrejection');
     }
   }
 } GlobalHandlers.__initStatic();
 
-function _installGlobalOnErrorHandler() {
+function _installGlobalOnErrorHandler(client) {
   utils.addGlobalErrorInstrumentationHandler(data => {
-    const [hub, stackParser, attachStacktrace] = getHubAndOptions();
-    if (!hub.getIntegration(GlobalHandlers)) {
+    const { stackParser, attachStacktrace } = getOptions();
+
+    if (core.getClient() !== client || helpers.shouldIgnoreOnError()) {
       return;
     }
+
     const { msg, url, line, column, error } = data;
-    if (helpers.shouldIgnoreOnError()) {
-      return;
-    }
 
     const event =
       error === undefined && utils.isString(msg)
@@ -7052,7 +7027,7 @@ function _installGlobalOnErrorHandler() {
 
     event.level = 'error';
 
-    hub.captureEvent(event, {
+    core.captureEvent(event, {
       originalException: error,
       mechanism: {
         handled: false,
@@ -7062,15 +7037,12 @@ function _installGlobalOnErrorHandler() {
   });
 }
 
-function _installGlobalOnUnhandledRejectionHandler() {
+function _installGlobalOnUnhandledRejectionHandler(client) {
   utils.addGlobalUnhandledRejectionInstrumentationHandler(e => {
-    const [hub, stackParser, attachStacktrace] = getHubAndOptions();
-    if (!hub.getIntegration(GlobalHandlers)) {
-      return;
-    }
+    const { stackParser, attachStacktrace } = getOptions();
 
-    if (helpers.shouldIgnoreOnError()) {
-      return true;
+    if (core.getClient() !== client || helpers.shouldIgnoreOnError()) {
+      return;
     }
 
     const error = _getUnhandledRejectionError(e );
@@ -7081,15 +7053,13 @@ function _installGlobalOnUnhandledRejectionHandler() {
 
     event.level = 'error';
 
-    hub.captureEvent(event, {
+    core.captureEvent(event, {
       originalException: error,
       mechanism: {
         handled: false,
         type: 'onunhandledrejection',
       },
     });
-
-    return;
   });
 }
 
@@ -7210,14 +7180,13 @@ function globalHandlerLog(type) {
   debugBuild.DEBUG_BUILD && utils.logger.log(`Global Handler attached: ${type}`);
 }
 
-function getHubAndOptions() {
-  const hub = core.getCurrentHub();
-  const client = hub.getClient();
+function getOptions() {
+  const client = core.getClient();
   const options = (client && client.getOptions()) || {
     stackParser: () => [],
     attachStacktrace: false,
   };
-  return [hub, options.stackParser, options.attachStacktrace];
+  return options;
 }
 
 exports.GlobalHandlers = GlobalHandlers;
@@ -7803,6 +7772,7 @@ exports.startProfileForTransaction = startProfileForTransaction;
 },{"../debug-build.js":35,"../helpers.js":37,"./utils.js":48,"@sentry/utils":124}],47:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
+const core = require('@sentry/core');
 const utils$1 = require('@sentry/utils');
 const debugBuild = require('../debug-build.js');
 const hubextensions = require('./hubextensions.js');
@@ -7820,6 +7790,8 @@ const utils = require('./utils.js');
 class BrowserProfilingIntegration  {
    static __initStatic() {this.id = 'BrowserProfilingIntegration';}
 
+  /** @deprecated This is never set. */
+
    constructor() {
     this.name = BrowserProfilingIntegration.id;
   }
@@ -7827,12 +7799,13 @@ class BrowserProfilingIntegration  {
   /**
    * @inheritDoc
    */
-   setupOnce(_addGlobalEventProcessor, getCurrentHub) {
-    this.getCurrentHub = getCurrentHub;
+   setupOnce(_addGlobalEventProcessor, _getCurrentHub) {
+    // noop
+  }
 
-    const hub = this.getCurrentHub();
-    const client = hub.getClient();
-    const scope = hub.getScope();
+  /** @inheritdoc */
+   setup(client) {
+    const scope = core.getCurrentScope();
 
     const transaction = scope.getTransaction();
 
@@ -7842,75 +7815,76 @@ class BrowserProfilingIntegration  {
       }
     }
 
-    if (client && typeof client.on === 'function') {
-      client.on('startTransaction', (transaction) => {
-        if (utils.shouldProfileTransaction(transaction)) {
-          hubextensions.startProfileForTransaction(transaction);
-        }
-      });
-
-      client.on('beforeEnvelope', (envelope) => {
-        // if not profiles are in queue, there is nothing to add to the envelope.
-        if (!utils.getActiveProfilesCount()) {
-          return;
-        }
-
-        const profiledTransactionEvents = utils.findProfiledTransactionsFromEnvelope(envelope);
-        if (!profiledTransactionEvents.length) {
-          return;
-        }
-
-        const profilesToAddToEnvelope = [];
-
-        for (const profiledTransaction of profiledTransactionEvents) {
-          const context = profiledTransaction && profiledTransaction.contexts;
-          const profile_id = context && context['profile'] && context['profile']['profile_id'];
-          const start_timestamp = context && context['profile'] && context['profile']['start_timestamp'];
-
-          if (typeof profile_id !== 'string') {
-            debugBuild.DEBUG_BUILD && utils$1.logger.log('[Profiling] cannot find profile for a transaction without a profile context');
-            continue;
-          }
-
-          if (!profile_id) {
-            debugBuild.DEBUG_BUILD && utils$1.logger.log('[Profiling] cannot find profile for a transaction without a profile context');
-            continue;
-          }
-
-          // Remove the profile from the transaction context before sending, relay will take care of the rest.
-          if (context && context['profile']) {
-            delete context.profile;
-          }
-
-          const profile = utils.takeProfileFromGlobalCache(profile_id);
-          if (!profile) {
-            debugBuild.DEBUG_BUILD && utils$1.logger.log(`[Profiling] Could not retrieve profile for transaction: ${profile_id}`);
-            continue;
-          }
-
-          const profileEvent = utils.createProfilingEvent(
-            profile_id,
-            start_timestamp ,
-            profile,
-            profiledTransaction ,
-          );
-          if (profileEvent) {
-            profilesToAddToEnvelope.push(profileEvent);
-          }
-        }
-
-        utils.addProfilesToEnvelope(envelope , profilesToAddToEnvelope);
-      });
-    } else {
+    if (typeof client.on !== 'function') {
       utils$1.logger.warn('[Profiling] Client does not support hooks, profiling will be disabled');
+      return;
     }
+
+    client.on('startTransaction', (transaction) => {
+      if (utils.shouldProfileTransaction(transaction)) {
+        hubextensions.startProfileForTransaction(transaction);
+      }
+    });
+
+    client.on('beforeEnvelope', (envelope) => {
+      // if not profiles are in queue, there is nothing to add to the envelope.
+      if (!utils.getActiveProfilesCount()) {
+        return;
+      }
+
+      const profiledTransactionEvents = utils.findProfiledTransactionsFromEnvelope(envelope);
+      if (!profiledTransactionEvents.length) {
+        return;
+      }
+
+      const profilesToAddToEnvelope = [];
+
+      for (const profiledTransaction of profiledTransactionEvents) {
+        const context = profiledTransaction && profiledTransaction.contexts;
+        const profile_id = context && context['profile'] && context['profile']['profile_id'];
+        const start_timestamp = context && context['profile'] && context['profile']['start_timestamp'];
+
+        if (typeof profile_id !== 'string') {
+          debugBuild.DEBUG_BUILD && utils$1.logger.log('[Profiling] cannot find profile for a transaction without a profile context');
+          continue;
+        }
+
+        if (!profile_id) {
+          debugBuild.DEBUG_BUILD && utils$1.logger.log('[Profiling] cannot find profile for a transaction without a profile context');
+          continue;
+        }
+
+        // Remove the profile from the transaction context before sending, relay will take care of the rest.
+        if (context && context['profile']) {
+          delete context.profile;
+        }
+
+        const profile = utils.takeProfileFromGlobalCache(profile_id);
+        if (!profile) {
+          debugBuild.DEBUG_BUILD && utils$1.logger.log(`[Profiling] Could not retrieve profile for transaction: ${profile_id}`);
+          continue;
+        }
+
+        const profileEvent = utils.createProfilingEvent(
+          profile_id,
+          start_timestamp ,
+          profile,
+          profiledTransaction ,
+        );
+        if (profileEvent) {
+          profilesToAddToEnvelope.push(profileEvent);
+        }
+      }
+
+      utils.addProfilesToEnvelope(envelope , profilesToAddToEnvelope);
+    });
   }
 } BrowserProfilingIntegration.__initStatic();
 
 exports.BrowserProfilingIntegration = BrowserProfilingIntegration;
 
 
-},{"../debug-build.js":35,"./hubextensions.js":46,"./utils.js":48,"@sentry/utils":124}],48:[function(require,module,exports){
+},{"../debug-build.js":35,"./hubextensions.js":46,"./utils.js":48,"@sentry/core":65,"@sentry/utils":124}],48:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const core = require('@sentry/core');
@@ -8231,19 +8205,10 @@ function applyDebugMetadata(resource_paths) {
     return [];
   }
 
-  const hub = core.getCurrentHub();
-  if (!hub) {
-    return [];
-  }
-  const client = hub.getClient();
-  if (!client) {
-    return [];
-  }
-  const options = client.getOptions();
-  if (!options) {
-    return [];
-  }
-  const stackParser = options.stackParser;
+  const client = core.getClient();
+  const options = client && client.getOptions();
+  const stackParser = options && options.stackParser;
+
   if (!stackParser) {
     return [];
   }
@@ -9486,7 +9451,7 @@ const utils = require('@sentry/utils');
 const api = require('./api.js');
 const debugBuild = require('./debug-build.js');
 const envelope = require('./envelope.js');
-const hub = require('./hub.js');
+const exports$1 = require('./exports.js');
 const integration = require('./integration.js');
 const envelope$1 = require('./metrics/envelope.js');
 const session = require('./session.js');
@@ -10222,7 +10187,7 @@ function isTransactionEvent(event) {
  * This event processor will run for all events processed by this client.
  */
 function addEventProcessor(callback) {
-  const client = hub.getCurrentHub().getClient();
+  const client = exports$1.getClient();
 
   if (!client || !client.addEventProcessor) {
     return;
@@ -10235,7 +10200,7 @@ exports.BaseClient = BaseClient;
 exports.addEventProcessor = addEventProcessor;
 
 
-},{"./api.js":56,"./debug-build.js":60,"./envelope.js":61,"./hub.js":64,"./integration.js":66,"./metrics/envelope.js":75,"./session.js":84,"./tracing/dynamicSamplingContext.js":86,"./utils/prepareEvent.js":102,"@sentry/utils":124}],58:[function(require,module,exports){
+},{"./api.js":56,"./debug-build.js":60,"./envelope.js":61,"./exports.js":63,"./integration.js":66,"./metrics/envelope.js":75,"./session.js":84,"./tracing/dynamicSamplingContext.js":86,"./utils/prepareEvent.js":102,"@sentry/utils":124}],58:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -10491,8 +10456,11 @@ function captureEvent(event, hint) {
 /**
  * Callback to set context information onto the scope.
  * @param callback Callback function that receives Scope.
+ *
+ * @deprecated Use getCurrentScope() directly.
  */
 function configureScope(callback) {
+  // eslint-disable-next-line deprecation/deprecation
   hub.getCurrentHub().configureScope(callback);
 }
 
@@ -10504,8 +10472,8 @@ function configureScope(callback) {
  *
  * @param breadcrumb The breadcrumb to record.
  */
-function addBreadcrumb(breadcrumb) {
-  hub.getCurrentHub().addBreadcrumb(breadcrumb);
+function addBreadcrumb(breadcrumb, hint) {
+  hub.getCurrentHub().addBreadcrumb(breadcrumb, hint);
 }
 
 /**
@@ -10578,7 +10546,7 @@ function setUser(user) {
  * @param callback that will be enclosed into push/popScope.
  */
 function withScope(callback) {
-  hub.getCurrentHub().withScope(callback);
+  return hub.getCurrentHub().withScope(callback);
 }
 
 /**
@@ -10616,9 +10584,8 @@ function startTransaction(
  * to create a monitor automatically when sending a check in.
  */
 function captureCheckIn(checkIn, upsertMonitorConfig) {
-  const hub$1 = hub.getCurrentHub();
-  const scope = hub$1.getScope();
-  const client = hub$1.getClient();
+  const scope = getCurrentScope();
+  const client = getClient();
   if (!client) {
     debugBuild.DEBUG_BUILD && utils.logger.warn('Cannot capture check-in. No client defined.');
   } else if (!client.captureCheckIn) {
@@ -10821,6 +10788,8 @@ class Hub  {
 
   /**
    * @inheritDoc
+   *
+   * @deprecated Use `withScope` instead.
    */
    pushScope() {
     // We want to clone the content of prev scope
@@ -10834,6 +10803,8 @@ class Hub  {
 
   /**
    * @inheritDoc
+   *
+   * @deprecated Use `withScope` instead.
    */
    popScope() {
     if (this.getStack().length <= 1) return false;
@@ -10844,10 +10815,12 @@ class Hub  {
    * @inheritDoc
    */
    withScope(callback) {
+    // eslint-disable-next-line deprecation/deprecation
     const scope = this.pushScope();
     try {
-      callback(scope);
+      return callback(scope);
     } finally {
+      // eslint-disable-next-line deprecation/deprecation
       this.popScope();
     }
   }
@@ -11017,6 +10990,8 @@ class Hub  {
 
   /**
    * @inheritDoc
+   *
+   * @deprecated Use `getScope()` directly.
    */
    configureScope(callback) {
     const { scope, client } = this.getStackTop();
@@ -11438,6 +11413,7 @@ exports.updateSession = session.updateSession;
 exports.SessionFlusher = sessionflusher.SessionFlusher;
 exports.Scope = scope.Scope;
 exports.addGlobalEventProcessor = eventProcessors.addGlobalEventProcessor;
+exports.notifyEventProcessors = eventProcessors.notifyEventProcessors;
 exports.getEnvelopeEndpointWithUrlEncodedAuth = api.getEnvelopeEndpointWithUrlEncodedAuth;
 exports.getReportDialogEndpoint = api.getReportDialogEndpoint;
 exports.BaseClient = baseclient.BaseClient;
@@ -11449,6 +11425,7 @@ exports.makeOfflineTransport = offline.makeOfflineTransport;
 exports.makeMultiplexedTransport = multiplexed.makeMultiplexedTransport;
 exports.SDK_VERSION = version.SDK_VERSION;
 exports.addIntegration = integration.addIntegration;
+exports.convertIntegrationFnToClass = integration.convertIntegrationFnToClass;
 exports.getIntegrationsToSetup = integration.getIntegrationsToSetup;
 exports.Integrations = index;
 exports.prepareEvent = prepareEvent.prepareEvent;
@@ -11614,7 +11591,31 @@ function findIndex(arr, callback) {
   return -1;
 }
 
+/**
+ * Convert a new integration function to the legacy class syntax.
+ * In v8, we can remove this and instead export the integration functions directly.
+ *
+ * @deprecated This will be removed in v8!
+ */
+function convertIntegrationFnToClass(
+  name,
+  fn,
+) {
+  return Object.assign(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function ConvertedIntegration(...rest) {
+      return {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        setupOnce: () => {},
+        ...fn(...rest),
+      };
+    },
+    { id: name },
+  ) ;
+}
+
 exports.addIntegration = addIntegration;
+exports.convertIntegrationFnToClass = convertIntegrationFnToClass;
 exports.getIntegrationsToSetup = getIntegrationsToSetup;
 exports.installedIntegrations = installedIntegrations;
 exports.setupIntegration = setupIntegration;
@@ -11672,6 +11673,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
 const debugBuild = require('../debug-build.js');
+const integration = require('../integration.js');
 
 // "Script error." is hard coded into browsers for errors that it can't read.
 // this is the result of a script being pulled in from an external domain and CORS.
@@ -11689,38 +11691,22 @@ const DEFAULT_IGNORE_TRANSACTIONS = [
 
 /** Options for the InboundFilters integration */
 
+const INTEGRATION_NAME = 'InboundFilters';
+const inboundFiltersIntegration = (options) => {
+  return {
+    name: INTEGRATION_NAME,
+    processEvent(event, _hint, client) {
+      const clientOptions = client.getOptions();
+      const mergedOptions = _mergeOptions(options, clientOptions);
+      return _shouldDropEvent(event, mergedOptions) ? null : event;
+    },
+  };
+};
+
 /** Inbound filters configurable by the user */
-class InboundFilters  {
-  /**
-   * @inheritDoc
-   */
-   static __initStatic() {this.id = 'InboundFilters';}
+// eslint-disable-next-line deprecation/deprecation
+const InboundFilters = integration.convertIntegrationFnToClass(INTEGRATION_NAME, inboundFiltersIntegration);
 
-  /**
-   * @inheritDoc
-   */
-
-   constructor(options = {}) {
-    this.name = InboundFilters.id;
-    this._options = options;
-  }
-
-  /**
-   * @inheritDoc
-   */
-   setupOnce(_addGlobalEventProcessor, _getCurrentHub) {
-    // noop
-  }
-
-  /** @inheritDoc */
-   processEvent(event, _eventHint, client) {
-    const clientOptions = client.getOptions();
-    const options = _mergeOptions(this._options, clientOptions);
-    return _shouldDropEvent(event, options) ? null : event;
-  }
-} InboundFilters.__initStatic();
-
-/** JSDoc */
 function _mergeOptions(
   internalOptions = {},
   clientOptions = {},
@@ -11742,7 +11728,6 @@ function _mergeOptions(
   };
 }
 
-/** JSDoc */
 function _shouldDropEvent(event, options) {
   if (options.ignoreInternal && _isSentryError(event)) {
     debugBuild.DEBUG_BUILD &&
@@ -11892,11 +11877,9 @@ function _getEventFilterUrl(event) {
 }
 
 exports.InboundFilters = InboundFilters;
-exports._mergeOptions = _mergeOptions;
-exports._shouldDropEvent = _shouldDropEvent;
 
 
-},{"../debug-build.js":60,"@sentry/utils":124}],69:[function(require,module,exports){
+},{"../debug-build.js":60,"../integration.js":66,"@sentry/utils":124}],69:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const functiontostring = require('./functiontostring.js');
@@ -12429,7 +12412,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
 const debugBuild = require('../debug-build.js');
-const hub = require('../hub.js');
+const exports$1 = require('../exports.js');
 const constants = require('./constants.js');
 const integration = require('./integration.js');
 
@@ -12439,9 +12422,8 @@ function addToMetricsAggregator(
   value,
   data = {},
 ) {
-  const hub$1 = hub.getCurrentHub();
-  const client = hub$1.getClient() ;
-  const scope = hub$1.getScope();
+  const client = exports$1.getClient();
+  const scope = exports$1.getCurrentScope();
   if (client) {
     if (!client.metricsAggregator) {
       debugBuild.DEBUG_BUILD &&
@@ -12518,7 +12500,7 @@ exports.metrics = metrics;
 exports.set = set;
 
 
-},{"../debug-build.js":60,"../hub.js":64,"./constants.js":74,"./integration.js":78,"@sentry/utils":124}],77:[function(require,module,exports){
+},{"../debug-build.js":60,"../exports.js":63,"./constants.js":74,"./integration.js":78,"@sentry/utils":124}],77:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const constants = require('./constants.js');
@@ -13454,7 +13436,7 @@ const utils = require('@sentry/utils');
 const baseclient = require('./baseclient.js');
 const checkin = require('./checkin.js');
 const debugBuild = require('./debug-build.js');
-const hub = require('./hub.js');
+const exports$1 = require('./exports.js');
 const sessionflusher = require('./sessionflusher.js');
 const hubextensions = require('./tracing/hubextensions.js');
 const dynamicSamplingContext = require('./tracing/dynamicSamplingContext.js');
@@ -13482,7 +13464,7 @@ class ServerRuntimeClient
    * @inheritDoc
    */
    eventFromException(exception, hint) {
-    return utils.resolvedSyncPromise(utils.eventFromUnknownInput(hub.getCurrentHub, this._options.stackParser, exception, hint));
+    return utils.resolvedSyncPromise(utils.eventFromUnknownInput(exports$1.getClient(), this._options.stackParser, exception, hint));
   }
 
   /**
@@ -13694,7 +13676,7 @@ class ServerRuntimeClient
 exports.ServerRuntimeClient = ServerRuntimeClient;
 
 
-},{"./baseclient.js":57,"./checkin.js":58,"./debug-build.js":60,"./hub.js":64,"./sessionflusher.js":85,"./tracing/dynamicSamplingContext.js":86,"./tracing/hubextensions.js":88,"./tracing/spanstatus.js":93,"@sentry/utils":124}],84:[function(require,module,exports){
+},{"./baseclient.js":57,"./checkin.js":58,"./debug-build.js":60,"./exports.js":63,"./sessionflusher.js":85,"./tracing/dynamicSamplingContext.js":86,"./tracing/hubextensions.js":88,"./tracing/spanstatus.js":93,"@sentry/utils":124}],84:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -13864,7 +13846,7 @@ exports.updateSession = updateSession;
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
-const hub = require('./hub.js');
+const exports$1 = require('./exports.js');
 
 /**
  * @inheritdoc
@@ -13921,7 +13903,7 @@ class SessionFlusher  {
     if (!this._isEnabled) {
       return;
     }
-    const scope = hub.getCurrentHub().getScope();
+    const scope = exports$1.getCurrentScope();
     const requestSession = scope.getRequestSession();
 
     if (requestSession && requestSession.status) {
@@ -13966,7 +13948,7 @@ class SessionFlusher  {
 exports.SessionFlusher = SessionFlusher;
 
 
-},{"./hub.js":64,"@sentry/utils":124}],86:[function(require,module,exports){
+},{"./exports.js":63,"@sentry/utils":124}],86:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -14279,7 +14261,7 @@ class IdleTransaction extends transaction.Transaction {
       // We set the transaction here on the scope so error events pick up the trace
       // context and attach it to the error.
       debugBuild.DEBUG_BUILD && utils.logger.log(`Setting idle transaction on scope. Span ID: ${this.spanId}`);
-      _idleHub.configureScope(scope => scope.setSpan(this));
+      _idleHub.getScope().setSpan(this);
     }
 
     this._restartIdleTimeout();
@@ -15113,6 +15095,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
 const debugBuild = require('../debug-build.js');
+const exports$1 = require('../exports.js');
 const hub = require('../hub.js');
 const hasTracingEnabled = require('../utils/hasTracingEnabled.js');
 
@@ -15133,11 +15116,13 @@ function trace(
   callback,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onError = () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  afterFinish = () => {},
 ) {
   const ctx = normalizeContext(context);
 
   const hub$1 = hub.getCurrentHub();
-  const scope = hub$1.getScope();
+  const scope = exports$1.getCurrentScope();
   const parentSpan = scope.getSpan();
 
   const activeSpan = createChildSpanOrTransaction(hub$1, parentSpan, ctx);
@@ -15146,7 +15131,7 @@ function trace(
 
   function finishAndSetSpan() {
     activeSpan && activeSpan.finish();
-    hub$1.getScope().setSpan(parentSpan);
+    scope.setSpan(parentSpan);
   }
 
   let maybePromiseResult;
@@ -15154,8 +15139,9 @@ function trace(
     maybePromiseResult = callback(activeSpan);
   } catch (e) {
     activeSpan && activeSpan.setStatus('internal_error');
-    onError(e);
+    onError(e, activeSpan);
     finishAndSetSpan();
+    afterFinish();
     throw e;
   }
 
@@ -15163,15 +15149,18 @@ function trace(
     Promise.resolve(maybePromiseResult).then(
       () => {
         finishAndSetSpan();
+        afterFinish();
       },
       e => {
         activeSpan && activeSpan.setStatus('internal_error');
-        onError(e);
+        onError(e, activeSpan);
         finishAndSetSpan();
+        afterFinish();
       },
     );
   } else {
     finishAndSetSpan();
+    afterFinish();
   }
 
   return maybePromiseResult;
@@ -15192,7 +15181,7 @@ function startSpan(context, callback) {
   const ctx = normalizeContext(context);
 
   const hub$1 = hub.getCurrentHub();
-  const scope = hub$1.getScope();
+  const scope = exports$1.getCurrentScope();
   const parentSpan = scope.getSpan();
 
   const activeSpan = createChildSpanOrTransaction(hub$1, parentSpan, ctx);
@@ -15200,7 +15189,7 @@ function startSpan(context, callback) {
 
   function finishAndSetSpan() {
     activeSpan && activeSpan.finish();
-    hub$1.getScope().setSpan(parentSpan);
+    scope.setSpan(parentSpan);
   }
 
   let maybePromiseResult;
@@ -15252,7 +15241,7 @@ function startSpanManual(
   const ctx = normalizeContext(context);
 
   const hub$1 = hub.getCurrentHub();
-  const scope = hub$1.getScope();
+  const scope = exports$1.getCurrentScope();
   const parentSpan = scope.getSpan();
 
   const activeSpan = createChildSpanOrTransaction(hub$1, parentSpan, ctx);
@@ -15260,7 +15249,7 @@ function startSpanManual(
 
   function finishAndSetSpan() {
     activeSpan && activeSpan.finish();
-    hub$1.getScope().setSpan(parentSpan);
+    scope.setSpan(parentSpan);
   }
 
   let maybePromiseResult;
@@ -15310,7 +15299,7 @@ function startInactiveSpan(context) {
  * Returns the currently active span.
  */
 function getActiveSpan() {
-  return hub.getCurrentHub().getScope().getSpan();
+  return exports$1.getCurrentScope().getSpan();
 }
 
 /**
@@ -15329,8 +15318,7 @@ function continueTrace(
 ,
   callback,
 ) {
-  const hub$1 = hub.getCurrentHub();
-  const currentScope = hub$1.getScope();
+  const currentScope = exports$1.getCurrentScope();
 
   const { traceparentData, dynamicSamplingContext, propagationContext } = utils.tracingContextFromHeaders(
     sentryTrace,
@@ -15387,7 +15375,7 @@ exports.startSpanManual = startSpanManual;
 exports.trace = trace;
 
 
-},{"../debug-build.js":60,"../hub.js":64,"../utils/hasTracingEnabled.js":100,"@sentry/utils":124}],95:[function(require,module,exports){
+},{"../debug-build.js":60,"../exports.js":63,"../hub.js":64,"../utils/hasTracingEnabled.js":100,"@sentry/utils":124}],95:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const utils = require('@sentry/utils');
@@ -16097,9 +16085,11 @@ Object.defineProperty(exports, '__esModule', { value: true });
 /**
  * Checks whether given url points to Sentry server
  * @param url url to verify
+ *
+ * TODO(v8): Remove Hub fallback type
  */
-function isSentryRequestUrl(url, hub) {
-  const client = hub.getClient();
+function isSentryRequestUrl(url, hubOrClient) {
+  const client = hubOrClient && isHub(hubOrClient) ? hubOrClient.getClient() : hubOrClient;
   const dsn = client && client.getDsn();
   const tunnel = client && client.getOptions().tunnel;
 
@@ -16120,6 +16110,10 @@ function checkDsn(url, dsn) {
 
 function removeTrailingSlash(str) {
   return str[str.length - 1] === '/' ? str.slice(0, -1) : str;
+}
+
+function isHub(hubOrClient) {
+  return (hubOrClient ).getClient !== undefined;
 }
 
 exports.isSentryRequestUrl = isSentryRequestUrl;
@@ -16518,7 +16512,7 @@ exports.prepareEvent = prepareEvent;
 },{"../constants.js":59,"../eventProcessors.js":62,"../scope.js":81,"@sentry/utils":124}],103:[function(require,module,exports){
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const SDK_VERSION = '7.88.0';
+const SDK_VERSION = '7.89.0';
 
 exports.SDK_VERSION = SDK_VERSION;
 
@@ -21265,7 +21259,7 @@ function logInfo(message, shouldAddBreadcrumb) {
   utils.logger.info(message);
 
   if (shouldAddBreadcrumb) {
-    addBreadcrumb(message);
+    addLogBreadcrumb(message);
   }
 }
 
@@ -21284,14 +21278,13 @@ function logInfoNextTick(message, shouldAddBreadcrumb) {
     // Wait a tick here to avoid race conditions for some initial logs
     // which may be added before replay is initialized
     setTimeout(() => {
-      addBreadcrumb(message);
+      addLogBreadcrumb(message);
     }, 0);
   }
 }
 
-function addBreadcrumb(message) {
-  const hub = core.getCurrentHub();
-  hub.addBreadcrumb(
+function addLogBreadcrumb(message) {
+  core.addBreadcrumb(
     {
       category: 'console',
       data: {
@@ -22471,7 +22464,7 @@ function shouldFilterRequest(replay, url) {
     return false;
   }
 
-  return core.isSentryRequestUrl(url, core.getCurrentHub());
+  return core.isSentryRequestUrl(url, core.getClient());
 }
 
 /** Add a performance entry breadcrumb */
@@ -23549,7 +23542,7 @@ function normalizeConsoleBreadcrumb(
  */
 function addGlobalListeners(replay) {
   // Listeners from core SDK //
-  const scope = core.getCurrentHub().getScope();
+  const scope = core.getCurrentScope();
   const client = core.getClient();
 
   scope.addScopeListener(handleScopeListener(replay));
@@ -23982,9 +23975,8 @@ async function sendReplayRequest({
 
   const { urls, errorIds, traceIds, initialTimestamp } = eventContext;
 
-  const hub = core.getCurrentHub();
-  const client = hub.getClient();
-  const scope = hub.getScope();
+  const client = core.getClient();
+  const scope = core.getCurrentScope();
   const transport = client && client.getTransport();
   const dsn = client && client.getDsn();
 
@@ -24488,7 +24480,10 @@ class ReplayContainer  {
         ...(canvas && {
           recordCanvas: true,
           sampling: { canvas: canvas.fps || 4 },
-          dataURLOptions: { quality: canvas.quality || 0.6 },
+          dataURLOptions: {
+            type: canvas.type || 'image/webp',
+            quality: canvas.quality || 0.6,
+          },
           getCanvasManager: canvas.manager,
         }),
       });
@@ -24843,7 +24838,7 @@ class ReplayContainer  {
    * This is only available if performance is enabled, and if an instrumented router is used.
    */
    getCurrentRoute() {
-    const lastTransaction = this.lastTransaction || core.getCurrentHub().getScope().getTransaction();
+    const lastTransaction = this.lastTransaction || core.getCurrentScope().getTransaction();
     if (!lastTransaction || !['route', 'custom'].includes(lastTransaction.metadata.source)) {
       return undefined;
     }
@@ -27430,14 +27425,18 @@ function getMessageForObject(exception) {
 
 /**
  * Builds and Event from a Exception
+ *
+ * TODO(v8): Remove getHub fallback
  * @hidden
  */
 function eventFromUnknownInput(
-  getCurrentHub,
+  getHubOrClient,
   stackParser,
   exception,
   hint,
 ) {
+  const client = typeof getHubOrClient === 'function' ? getHubOrClient().getClient() : getHubOrClient;
+
   let ex = exception;
   const providedMechanism =
     hint && hint.data && (hint.data ).mechanism;
@@ -27446,14 +27445,12 @@ function eventFromUnknownInput(
     type: 'generic',
   };
 
+  let extras;
+
   if (!is.isError(exception)) {
     if (is.isPlainObject(exception)) {
-      const hub = getCurrentHub();
-      const client = hub.getClient();
       const normalizeDepth = client && client.getOptions().normalizeDepth;
-      hub.configureScope(scope => {
-        scope.setExtra('__serialized__', normalize.normalizeToSize(exception, normalizeDepth));
-      });
+      extras = { ['__serialized__']: normalize.normalizeToSize(exception , normalizeDepth) };
 
       const message = getMessageForObject(exception);
       ex = (hint && hint.syntheticException) || new Error(message);
@@ -27472,6 +27469,10 @@ function eventFromUnknownInput(
       values: [exceptionFromError(stackParser, ex )],
     },
   };
+
+  if (extras) {
+    event.extra = extras;
+  }
 
   misc.addExceptionTypeValue(event, undefined, undefined);
   misc.addExceptionMechanism(event, mechanism);
@@ -29079,7 +29080,15 @@ function uuid4() {
       return crypto.randomUUID().replace(/-/g, '');
     }
     if (crypto && crypto.getRandomValues) {
-      getRandomByte = () => crypto.getRandomValues(new Uint8Array(1))[0];
+      getRandomByte = () => {
+        // crypto.getRandomValues might return undefined instead of the typed array
+        // in old Chromium versions (e.g. 23.0.1235.0 (151422))
+        // However, `typedArray` is still filled in-place.
+        // @see https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues#typedarray
+        const typedArray = new Uint8Array(1);
+        crypto.getRandomValues(typedArray);
+        return typedArray[0];
+      };
     }
   } catch (_) {
     // some runtimes can crash invoking crypto
