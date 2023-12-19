@@ -24,6 +24,21 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/109?closed=1>`__.
 
+Weblate 5.3.1
+-------------
+
+Released on December 19th 2023.
+
+**Bug fixes**
+
+* Not updating statistics in some situations.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/110?closed=1>`__.
+
 Weblate 5.3
 -----------
 
