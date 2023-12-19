@@ -14,6 +14,8 @@ Not yet released.
 
 **Bug fixes**
 
+* Plural forms handling in :doc:`/formats/qt`.
+
 **Compatibility**
 
 **Upgrading**
