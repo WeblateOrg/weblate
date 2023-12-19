@@ -106,7 +106,9 @@ def git_export(request, path, git_request):
             permanent=True,
         )
 
-    return run_git_http(request, obj, git_request)
+    # Invoke Git HTTP backend
+    wrapper = GitHTTPBackendWrapper(obj, request, git_request)
+    return wrapper.get_response()
 
 
 class GitHTTPBackendWrapper:
@@ -216,10 +218,3 @@ class GitHTTPBackendWrapper:
         return StreamingHttpResponse(
             streaming_content=self.stream(), content_type=message["content-type"]
         )
-
-
-def run_git_http(request, obj, git_request):
-    """Git HTTP backend execution wrapper."""
-    # Invoke Git HTTP backend
-    wrapper = GitHTTPBackendWrapper(obj, request, git_request)
-    return wrapper.get_response()
