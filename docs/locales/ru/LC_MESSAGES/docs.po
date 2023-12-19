@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2023-12-19 09:45+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2023-12-19 13:13+0000\n"
+"Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -918,7 +918,7 @@ msgstr "Компоненты"
 
 #: ../../admin/access.rst:421
 msgid "foo/bar"
-msgstr "фу/бар"
+msgstr "foo/bar"
 
 #: ../../admin/access.rst:423
 msgid "`Spanish`"
@@ -11134,7 +11134,7 @@ msgstr "Основные зависимости:"
 
 #: ../../admin/install.rst:168
 msgid "Django"
-msgstr "Джанго"
+msgstr "Django"
 
 #: ../../admin/install.rst:169
 msgid "https://www.djangoproject.com/"
@@ -13470,7 +13470,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1684
 msgid "Sentry"
-msgstr "Часовой"
+msgstr "Sentry"
 
 #: ../../admin/install.rst:1686
 msgid ""
@@ -13504,7 +13504,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1703
 msgid "Rollbar"
-msgstr "Штанга"
+msgstr "Rollbar"
 
 #: ../../admin/install.rst:1705
 msgid ""
@@ -14155,7 +14155,7 @@ msgid ""
 "changed:"
 msgstr ""
 "(Необязательно) Обновите пароль для пользователя Weblate. Это может "
-"понадобиться при переходе на PostgreSQL 14 или 15, поскольку был изменен "
+"понадобиться при переходе на PostgreSQL 14 или 15, поскольку был изменён "
 "способ хранения паролей:"
 
 #: ../../admin/install/docker.rst:319
@@ -14293,7 +14293,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:414
 msgid "Passing secrets"
-msgstr "Прохождение секретов"
+msgstr "Прохождение кодов"
 
 #: ../../admin/install/docker.rst:418
 msgid ""
@@ -15133,7 +15133,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1301
 msgid "OpenID Connect"
-msgstr "Открыть ID Connect"
+msgstr "OpenID Connect"
 
 #: ../../admin/install/docker.rst:1310
 msgid "Configures generic OpenID Connect integration."
@@ -15900,11 +15900,11 @@ msgid ""
 msgstr ""
 "Вы можете создать файл :file:`/app/data/settings-override.py`, то есть в "
 "корне :ref:`тома данных <docker-volume>`, чтобы расширить или переопределить "
-"настройки, определенные через переменные среды."
+"настройки, определённые через переменные среды."
 
 #: ../../admin/install/docker.rst:1912
 msgid "Overriding settings by extending the Docker image"
-msgstr "Переопределение настроек путем расширения образа Docker"
+msgstr "Переопределение настроек путём расширения образа Docker"
 
 #: ../../admin/install/docker.rst:1914
 msgid ""
@@ -15923,8 +15923,8 @@ msgid ""
 "Add a module to your package that imports all settings from ``weblate."
 "settings_docker``."
 msgstr ""
-"Добавьте в свой пакет модуль, который импортирует все настройки из weblate."
-"settings_docker."
+"Добавьте в свой пакет модуль, который импортирует все настройки из ``weblate."
+"settings_docker``."
 
 #: ../../admin/install/docker.rst:1921
 msgid ""
@@ -15952,7 +15952,7 @@ msgid ""
 "from this ``Dockerfile`` file."
 msgstr ""
 "Вместо использования официального образа Docker Weblate создайте собственный "
-"образ из этого файла Docker``file."
+"образ из этого файла ``Dockerfile``."
 
 #: ../../admin/install/docker.rst:1949
 msgid ""
@@ -15961,10 +15961,10 @@ msgid ""
 "to the ``weblate`` node in that file, but then your custom image will be "
 "tagged as ``weblate/weblate`` in your system, which could be problematic."
 msgstr ""
-"Не существует чистого способа <https://github.com/docker/compose/"
-"issues/7231>`__ сделать это с помощью ``docker-compose.override.yml``. Вы "
-"*можете* добавить ``build: .`` в узел ``weblate`` в этом файле, но тогда "
-"ваше собственное изображение будет помечено в вашей системе как ``weblate/"
+"`Не существует чистого способа <https://github.com/docker/compose/issues/"
+"7231>`__ сделать это с помощью ``docker-compose.override.yml``. Вы *можете* "
+"добавить ``build: .`` в узел ``weblate`` в этом файле, но тогда ваше "
+"собственное изображение будет помечено в вашей системе как ``weblate/"
 "weblate``, что может быть проблематичным."
 
 #: ../../admin/install/docker.rst:1955
@@ -15975,19 +15975,20 @@ msgid ""
 "make a copy of the official ``docker-compose.yml`` file, and edit your copy "
 "to replace ``image: weblate/weblate`` with ``build: .``."
 msgstr ""
-"Итак, вместо использования ``docker-compose.yml`` прямо из ``официального "
+"Итак, вместо использования ``docker-compose.yml`` прямо из `официального "
 "репозитория <https://github.com/WeblateOrg/docker-compose>`__, без изменений "
 "и расширения его через ``docker-compose .override.yml``, вы можете сделать "
 "копию официального файла ``docker-compose.yml`` и отредактировать свою "
-"копию, заменив ``image: weblate/weblate`` на ``build: .` `."
+"копию, заменив ``image: weblate/weblate`` на ``build: .``."
 
 #: ../../admin/install/docker.rst:1961
 msgid ""
 "See the `Compose file build reference`_ for details on building images from "
 "source when using ``docker-compose``."
 msgstr ""
-"См. «Справочник по сборке файла Compose» для получения подробной информации "
-"о создании образов из исходного кода при использовании docker-compose."
+"См. `«Справочник по сборке файла Compose»`_ для получения подробной "
+"информации о создании образов из исходного кода при использовании ``docker-"
+"compose``."
 
 #: ../../admin/install/docker.rst:1966
 msgid "Extend your custom settings module to define or redefine settings."
@@ -17207,7 +17208,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:55
 msgid "Amagama"
-msgstr "Имена"
+msgstr "Amagama"
 
 #: ../../admin/machine.rst:57
 msgid "``amagama``"
@@ -17232,8 +17233,9 @@ msgstr ""
 "amagama>`, `Память переводов amaGama <https://amagama.translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:72
+#, fuzzy
 msgid "Apertium APy"
-msgstr "Открытие APy"
+msgstr "Apertium APy"
 
 #: ../../admin/machine.rst:74
 msgid "``apertium-apy``"
@@ -17303,8 +17305,9 @@ msgstr ""
 "`Документация Amazon Translate <https://docs.aws.amazon.com/translate/>`_"
 
 #: ../../admin/machine.rst:115
+#, fuzzy
 msgid "Baidu"
-msgstr "Байду"
+msgstr "Baidu"
 
 #: ../../admin/machine.rst:117
 msgid "``baidu``"
@@ -17680,7 +17683,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:287
 msgid "LibreTranslate"
-msgstr "Свободный перевод"
+msgstr "LibreTranslate"
 
 #: ../../admin/machine.rst:291
 msgid "``libretranslate``"
@@ -17858,8 +17861,9 @@ msgstr ""
 "access-token>` _"
 
 #: ../../admin/machine.rst:378
+#, fuzzy
 msgid "ModernMT"
-msgstr "Современный МТ"
+msgstr "ModernMT"
 
 #: ../../admin/machine.rst:382
 msgid "``modernmt``"
@@ -17871,7 +17875,7 @@ msgstr "`ModernMT API <https://www.modernmt.com/api/#translation/>`_,"
 
 #: ../../admin/machine.rst:396 ../../changes/v0.rst:77
 msgid "MyMemory"
-msgstr "Мои воспоминания"
+msgstr "MyMemory"
 
 #: ../../admin/machine.rst:398
 msgid "``mymemory``"
@@ -18021,7 +18025,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:487
 msgid "SAP Translation Hub"
-msgstr "Центр переводов SAP"
+msgstr "SAP Translation Hub"
 
 #: ../../admin/machine.rst:489
 msgid "``sap-translation-hub``"
@@ -18110,7 +18114,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:527
 msgid "tmserver"
-msgstr "ТМ сервер"
+msgstr "tmserver"
 
 #: ../../admin/machine.rst:529
 msgid "``tmserver``"
@@ -18244,7 +18248,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:630
 msgid "Youdao Zhiyun"
-msgstr "тебе до Z, привет удачи"
+msgstr "Youdao Zhiyun"
 
 #: ../../admin/machine.rst:632
 msgid "``youdao-zhiyun``"
@@ -18494,7 +18498,7 @@ msgstr "Отображает длину очереди задач Celery."
 
 #: ../../admin/management.rst:177
 msgid "checkgit"
-msgstr "проверить git"
+msgstr "checkgit"
 
 #: ../../admin/management.rst:181
 msgid "Prints current state of the back-end Git repository."
@@ -18514,7 +18518,7 @@ msgstr ""
 
 #: ../../admin/management.rst:187
 msgid "commitgit"
-msgstr "совершить git"
+msgstr "commitgit"
 
 #: ../../admin/management.rst:191
 msgid "Commits any possible pending changes to the back-end Git repository."
@@ -40488,8 +40492,8 @@ msgid ""
 "`project-language_aliases` are applied in reverse."
 msgstr ""
 ":ref:`comComponent-language_code_style` позволяет вам настроить языковой "
-"код, используемый в генерируемых именах файлов. Кроме того, любые "
-"сопоставления, определенные в :ref:`project-language_aliases`, применяются в "
+"код, используемый в создаваемых именах файлов. Кроме того, любые "
+"сопоставления, определённые в :ref:`project-language_aliases`, применяются в "
 "обратном порядке."
 
 #: ../../devel/translations.rst:43
@@ -51493,7 +51497,7 @@ msgstr ""
 
 #: ../../vcs.rst:525
 msgid "Subversion"
-msgstr "Подрывная деятельность"
+msgstr "Subversion"
 
 #: ../../vcs.rst:527
 msgid ""
