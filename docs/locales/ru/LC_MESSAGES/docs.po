@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2023-12-11 09:04+0100\n"
-"PO-Revision-Date: 2023-12-19 13:13+0000\n"
+"PO-Revision-Date: 2023-12-20 03:49+0000\n"
 "Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -12641,7 +12641,7 @@ msgid ""
 "You can generate a new key using :program:`weblate-generate-secret-key` "
 "shipped with Weblate."
 msgstr ""
-"Сгенерировать новый ключ вы можете с помощью скрипта :file:`weblate/examples/"
+"Создать новый ключ вы можете с помощью скрипта :file:`weblate/examples/"
 "generate-secret-key`, поставляемого вместе с Weblate."
 
 #: ../../admin/install.rst:1209
@@ -14300,9 +14300,9 @@ msgid ""
 "Weblate container supports passing secrets as files. To utilize that, append "
 "``_FILE`` suffix to the environment variable and pass secret file via Docker."
 msgstr ""
-"Контейнер Weblate поддерживает передачу секретов в виде файлов. Чтобы "
+"Контейнер Weblate поддерживает передачу данных в виде ключей. Чтобы "
 "использовать это, добавьте суффикс ``_FILE`` к переменной среды и передайте "
-"секретный файл через Docker."
+"файл ключей через Docker."
 
 #: ../../admin/install/docker.rst:421
 msgid "Related :file:`docker-compose.yml` might look like:"
@@ -14313,7 +14313,7 @@ msgid ""
 "`How to use secrets in Docker Compose <https://docs.docker.com/compose/use-"
 "secrets/>`_"
 msgstr ""
-"`Как использовать секреты в Docker Compose <https://docs.docker.com/compose/"
+"`Как использовать ключи в Docker Compose <https://docs.docker.com/compose/"
 "use-secrets/>`_"
 
 #: ../../admin/install/docker.rst:447
@@ -14343,8 +14343,8 @@ msgid ""
 "Defaults to ``INFO`` when :envvar:`WEBLATE_DEBUG` is turned off, ``DEBUG`` "
 "is used when debug mode is turned on."
 msgstr ""
-"По умолчанию используется ``INFO``, когда :envvar:`WEBLATE_DEBUG` выключен, "
-"``DEBUG`` используется, когда включен режим отладки."
+"По умолчанию используется ``INFO``, когда :envvar:`WEBLATE_DEBUG` отключён, "
+"``DEBUG`` используется, когда включён режим отладки."
 
 #: ../../admin/install/docker.rst:470
 msgid "For more silent logging use ``ERROR`` or ``WARNING``."
@@ -14853,7 +14853,7 @@ msgstr "Настраивает параметр :setting:`SSH_EXTRA_ARGS`."
 msgid ""
 "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
 msgstr ""
-"Настраивает :setting:`BORG_EXTRA_ARGS` как список аргументов, разделенных "
+"Настраивает :setting:`BORG_EXTRA_ARGS` как список аргументов, разделённых "
 "запятыми."
 
 #: ../../admin/install/docker.rst:935
@@ -15032,7 +15032,7 @@ msgstr "Включает :ref:`аутентификацию через GitHub <g
 
 #: ../../admin/install/docker.rst:1191
 msgid "GitHub Enterprise Edition"
-msgstr "GitHub Корпоративная версия"
+msgstr "GitHub Enterprise Edition"
 
 #: ../../admin/install/docker.rst:1199
 msgid "Enables :ref:`github_ee_auth`."
@@ -15817,9 +15817,9 @@ msgid ""
 "`tmpfs`."
 msgstr ""
 "Том кэша монтируется как :file:`/app/cache` и используется для хранения "
-"статических файлов и :setting:`CACHE_DIR`. Его содержимое воссоздается при "
+"статических файлов и :setting:`CACHE_DIR`. Его содержимое воссоздаётся при "
 "запуске контейнера, и том можно смонтировать с использованием эфемерной "
-"файловой системы, такой как tmpfs."
+"файловой системы, такой как `tmpfs`."
 
 #: ../../admin/install/docker.rst:1861
 msgid ""
@@ -15880,7 +15880,7 @@ msgid ""
 "settings>`."
 msgstr ""
 "Если вам нужно изменить параметр, который не представлен как переменная "
-"среды Docker, вы все равно можете это сделать либо :ref:`из тома данных "
+"среды Docker, вы всё равно можете это сделать либо :ref:`из тома данных "
 "<docker-settings-override>`, либо :ref:`расширив образ Docker < docker-"
 "custom-settings>`."
 
@@ -16107,7 +16107,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:2026
 msgid "To check the services status use:"
-msgstr "Для проверки статуса услуг используйте:"
+msgstr "Для проверки состояния услуг используйте:"
 
 #: ../../admin/install/docker.rst:2032
 msgid ""
@@ -16530,7 +16530,7 @@ msgid ""
 "Create an administrator user account ``admin``, generate its password, and "
 "copy it to the clipboard; remember to save it for later use:"
 msgstr ""
-"Создайте учетную запись администратора «admin», сгенерируйте ее пароль и "
+"Создайте учётную запись администратора ``admin``, создайте её пароль и "
 "скопируйте его в буфер обмена; не забудьте сохранить его для дальнейшего "
 "использования:"
 
@@ -16948,7 +16948,7 @@ msgstr "Количество говорящих"
 
 #: ../../admin/languages.rst:140
 msgid "Number of worldwide speakers of this language."
-msgstr "Число говорящих на этом языке во всем мире."
+msgstr "Число говорящих на этом языке во всём мире."
 
 #: ../../admin/languages.rst:146
 msgid "Plural definitions"
@@ -16979,7 +16979,7 @@ msgid ""
 msgstr ""
 "Изменение числа или формулы во множественном числе повлияет только на "
 "отображение строк, но не на анализ и сохранение строк в файлах. Если вы "
-"считаете, что Weblate ведет себя неправильно, сообщите о проблеме в нашем "
+"считаете, что Weblate ведёт себя неправильно, сообщите о проблеме в нашем "
 "трекере проблем."
 
 #: ../../admin/languages.rst:164
@@ -17640,12 +17640,12 @@ msgid ""
 "app/creating-project>`_, `Google Cloud App Engine locations <https://cloud."
 "google.com/appengine/docs/standard/locations>`_"
 msgstr ""
-"`Документация по переводу Google <https://cloud.google.com/translate/"
-"docs>`_, `Аутентификация в облачных сервисах с использованием клиентских "
-"библиотек <https://cloud.google.com/docs/authentication/client-libraries>` "
-"_, `Создание проекта Google Translate <https://cloud.google.com/appengine/"
-"docs/standard/nodejs/building-app/creating-project>`_, `Местоположения "
-"Google Cloud App Engine <https://cloud. google.com/appengine/docs/standard/"
+"`Документация по переводу Google <https://cloud.google.com/translate/docs>`"
+"_, `Авторизация в облачных сервисах с использованием клиентских библиотек "
+"<https://cloud.google.com/docs/authentication/client-libraries>` _, `"
+"Создание проекта переводчика Google <https://cloud.google.com/appengine/docs/"
+"standard/nodejs/building-app/creating-project>`_, `Местоположения Google "
+"Cloud App Engine <https://cloud.google.com/appengine/docs/standard/"
 "locations>`_"
 
 #: ../../admin/machine.rst:261
@@ -17763,7 +17763,7 @@ msgstr "``api.translator.azure.cn`` -- Китай"
 msgid "``api.cognitive.microsofttranslator.us`` -- Azure US Government cloud"
 msgstr ""
 "``api.cognitive.microsofttranslator.us`` — облако Azure для государственных "
-"учреждений США"
+"организаций США"
 
 #: ../../admin/machine.rst:334
 msgid "``endpoint_url``"
@@ -17789,8 +17789,8 @@ msgstr "``api.cognitive.azure.cn`` -- Китай"
 #: ../../admin/machine.rst:342
 msgid "``api.cognitive.microsoft.us`` -- Azure US Government cloud"
 msgstr ""
-"``api.cognitive.microsoft.us`` — облако Azure для государственных учреждений "
-"США"
+"``api.cognitive.microsoft.us`` — облако Azure для государственных "
+"организаций США"
 
 #: ../../admin/machine.rst:344
 msgid "Authentication service region"
@@ -18109,7 +18109,7 @@ msgid ""
 msgstr ""
 "`API SAP Translation Hub <https://api.sap.com/shell/discover/contentpackage/"
 "SAPTranslationHub/api/translationhub>`_, `Создание базового URL-адреса SAP "
-"Translation Hub <https://help.sap.com /docs/SAP_TRANSLATION_HUB/"
+"Translation Hub <https://help.sap.com/docs/SAP_TRANSLATION_HUB/"
 "ed6ce7a29bdd42169f5f0d7868bce6eb/3a011fba82644259a2cc3c919863f4b4.html>`_"
 
 #: ../../admin/machine.rst:527
@@ -18531,10 +18531,10 @@ msgid ""
 "``weblate/application``), or use ``--all`` to update all existing "
 "components, or use ``--file-format`` to filter based on the file format."
 msgstr ""
-"Вы можете либо определить, какой проект или компонент обновлять (например, "
-"«weblate/application»), либо использовать «--all» для обновления всех "
-"существующих компонентов, либо использовать «--file-format» для фильтрации. "
-"в зависимости от формата файла."
+"Вы можете либо определить, какой проект или компонент обновлять (например, ``"
+"weblate/application``), либо использовать ``--all`` для обновления всех "
+"существующих компонентов, либо использовать ``--file-format`` для "
+"фильтрации. в зависимости от формата файла."
 
 #: ../../admin/management.rst:198
 msgid "commit_pending"
@@ -18569,7 +18569,7 @@ msgstr ":ref:`production-cron`, :setting:`COMMIT_PENDING_HOURS`"
 
 #: ../../admin/management.rst:224
 msgid "cleanuptrans"
-msgstr "очисткатранс"
+msgstr "cleanuptrans"
 
 #: ../../admin/management.rst:228
 msgid ""
@@ -18611,7 +18611,7 @@ msgstr ":ref:`ssh-repos`"
 
 #: ../../admin/management.rst:252
 msgid "createadmin"
-msgstr "создать администратора"
+msgstr "createadmin"
 
 #: ../../admin/management.rst:256
 msgid ""
@@ -18665,7 +18665,7 @@ msgstr ":ref:`translation-memory`, :ref:`schema-memory`"
 
 #: ../../admin/management.rst:295
 msgid "dumpuserdata"
-msgstr "выгрузить"
+msgstr "dumpuserdata"
 
 #: ../../admin/management.rst:299
 msgid "Dumps userdata to a file for later use by :wladmin:`importuserdata`."
@@ -18959,7 +18959,7 @@ msgstr ""
 
 #: ../../admin/management.rst:528
 msgid "importuserdata"
-msgstr "импортировать пользовательские данные"
+msgstr "importuserdata"
 
 #: ../../admin/management.rst:532
 msgid "Imports user data from a file created by :wladmin:`dumpuserdata`."
@@ -18969,7 +18969,7 @@ msgstr ""
 
 #: ../../admin/management.rst:535
 msgid "importusers"
-msgstr "импортировать пользователей"
+msgstr "importusers"
 
 #: ../../admin/management.rst:539
 msgid "Imports users from JSON dump of the Django auth_users database."
@@ -19043,7 +19043,7 @@ msgstr "Устанавливает службу автоматических п�
 
 #: ../../admin/management.rst:596
 msgid "Name of the service to install. For example ``deepl``."
-msgstr "Имя службы для установки. Например, «глубокий»."
+msgstr "Имя службы для установки. Например, ``deepl``."
 
 #: ../../admin/management.rst:600
 msgid "JSON encoded configuration of a service."
@@ -19083,7 +19083,7 @@ msgstr ""
 
 #: ../../admin/management.rst:627
 msgid "list_translators"
-msgstr "список_переводчиков"
+msgstr "list_translators"
 
 #: ../../admin/management.rst:631
 msgid "Lists translators by contributed language for the given project::"
@@ -19113,7 +19113,7 @@ msgstr "Выводит список всех зависимостей weblate и
 
 #: ../../admin/management.rst:654
 msgid "loadpo"
-msgstr "нагрузкапо"
+msgstr "loadpo"
 
 #: ../../admin/management.rst:658
 msgid ""
@@ -19167,7 +19167,7 @@ msgstr ":wladmin:`unlock_translation`"
 
 #: ../../admin/management.rst:697
 msgid "migrate"
-msgstr "мигрировать"
+msgstr "migrate"
 
 #: ../../admin/management.rst:701
 msgid ""
@@ -19184,7 +19184,7 @@ msgid ""
 "`createadmin` command."
 msgstr ""
 "Если вы хотите запустить установку не в интерактивном режиме, вы можете "
-"использовать :samp:`weblatemigrate --noinput`, а затем создать пользователя-"
+"использовать :samp:`weblate migrate --noinput`, а затем создать пользователя-"
 "администратора с помощью команды :wladmin:`createadmin`."
 
 #: ../../admin/management.rst:712
@@ -19220,7 +19220,7 @@ msgstr ""
 
 #: ../../admin/management.rst:736
 msgid "pushgit"
-msgstr "нажать git"
+msgstr "pushgit"
 
 #: ../../admin/management.rst:740
 msgid "Pushes committed changes to the upstream VCS repository."
@@ -19255,7 +19255,7 @@ msgstr ":wladmin:`lock_translation`"
 
 #: ../../admin/management.rst:773
 msgid "setupgroups"
-msgstr "установочные группы"
+msgstr "setupgroups"
 
 #: ../../admin/management.rst:777
 msgid ""
@@ -19284,7 +19284,7 @@ msgstr ":ref:`privileges`"
 
 #: ../../admin/management.rst:793
 msgid "setuplang"
-msgstr "язык настройки"
+msgstr "setuplang"
 
 #: ../../admin/management.rst:797
 msgid "Updates list of defined languages in Weblate."
@@ -19296,7 +19296,7 @@ msgstr "Отключает автообновление существующих
 
 #: ../../admin/management.rst:804
 msgid "updatechecks"
-msgstr "проверки обновлений"
+msgstr "updatechecks"
 
 #: ../../admin/management.rst:808
 msgid "Updates all checks for all strings."
@@ -19313,12 +19313,12 @@ msgid ""
 "Checks are recalculated regularly by Weblate in the background, the "
 "frequency can be configured via :setting:`BACKGROUND_TASKS`."
 msgstr ""
-"Чеки регулярно пересчитываются Weblate в фоновом режиме, частоту можно "
+"Проверки регулярно пересчитываются Weblate в фоновом режиме, частоту можно "
 "настроить с помощью :setting:`BACKGROUND_TASKS`."
 
 #: ../../admin/management.rst:823
 msgid "updategit"
-msgstr "обновить git"
+msgstr "updategit"
 
 #: ../../admin/management.rst:827
 msgid "Fetches remote VCS repositories and updates the internal cache."
@@ -19776,9 +19776,9 @@ msgid ""
 "`LEGAL_TOS_DATE` so that users are forced to agree with the updated "
 "documents."
 msgstr ""
-"При изменении документов с условиями обслуживания измените :setting:"
-"`LEGAL_TOS_DATE` так, чтобы пользователи были вынуждены согласиться с "
-"обновленными документами."
+"При изменении документов с условиями обслуживания измените "
+":setting:`LEGAL_TOS_DATE` так, чтобы пользователи были вынуждены согласиться "
+"с обновлёнными документами."
 
 #: ../../admin/optionals.rst:125
 msgid ""
@@ -19843,11 +19843,11 @@ msgstr "В настоящее время Weblate поддерживает:"
 
 #: ../../admin/optionals.rst:175
 msgid "`Gravatar <https://gravatar.com/>`_"
-msgstr "`Граватар <https://gravatar.com/>`_"
+msgstr "`Gravatar <https://gravatar.com/>`_"
 
 #: ../../admin/optionals.rst:176
 msgid "`Libravatar <https://www.libravatar.org/>`_"
-msgstr "`Либраватар <https://www.libravatar.org/>`_"
+msgstr "`Libravatar <https://www.libravatar.org/>`_"
 
 #: ../../admin/optionals.rst:180
 msgid ""
@@ -19965,10 +19965,10 @@ msgid ""
 "recommended to see the effect of such change."
 msgstr ""
 "Ключевой материал кэшируется Weblate на длительный период. Если вы "
-"позволяете Weblate сгенерировать ключ с :setting:`WEBLATE_GPG_IDENTITY`, а "
-"затем импортировать ключ с тем же идентификатором, чтобы использовать "
-"существующий ключ, рекомендуется очистить кэш Redis, чтобы увидеть эффект "
-"такого изменения."
+"позволяете Weblate создать ключ с :setting:`WEBLATE_GPG_IDENTITY`, а затем "
+"импортировать ключ с тем же идентификатором, чтобы использовать существующий "
+"ключ, рекомендуется очистить кэш Redis, чтобы увидеть эффект такого "
+"изменения."
 
 #: ../../admin/optionals.rst:243
 msgid ""
@@ -20214,7 +20214,7 @@ msgid ""
 "The middle level is optionally created by :ref:`category`. The categories "
 "can be nested to achieve more complex structure."
 msgstr ""
-"Средний уровень дополнительно создается с помощью :ref:`category`. Категории "
+"Средний уровень дополнительно создаётся с помощью :ref:`category`. Категории "
 "могут быть вложены в более сложную структуру."
 
 #: ../../admin/projects.rst:18
@@ -20806,9 +20806,8 @@ msgid ""
 "Repository URL used for pushing. The behavior of this depends on :ref:"
 "`component-vcs`, and this is in more detail covered in :ref:`push-changes`."
 msgstr ""
-"URL-адрес репозитория, используемый для отправки. Поведение этого зависит "
-"от :ref:`comComponent-vcs`, и это более подробно описано в :ref:`push-"
-"changes`."
+"URL-адрес репозитория, используемый для отправки. Поведение этого зависит от "
+":ref:`component-vcs`, и это более подробно описано в :ref:`push-changes`."
 
 #: ../../admin/projects.rst:358 ../../admin/projects.rst:398
 #: ../../admin/projects.rst:407
@@ -20977,12 +20976,12 @@ msgid ""
 msgstr ""
 "Эта функция позволяет обнаруживать и обновлять снимки экрана с помощью масок "
 "файлов снимков экрана, используя пути из репозитория VCS. Это работает на "
-"уровне компонента и требует использования звездочки «*» для замены имени "
+"уровне компонента и требует использования звёздочки «*» для замены имени "
 "файла снимка экрана."
 
 #: ../../admin/projects.rst:447
 msgid "Allowed formats are WebP, JPEG, PNG, APNG and GIF."
-msgstr "Разрешенные форматы: WebP, JPEG, PNG, APNG и GIF."
+msgstr "Разрешённые форматы: WebP, JPEG, PNG, APNG и GIF."
 
 #: ../../admin/projects.rst:449
 msgid "Note:"
@@ -21001,8 +21000,8 @@ msgid ""
 "It is a manual job to link a discovered screenshot in a component to a "
 "specific translation key."
 msgstr ""
-"Связывание обнаруженного скриншота в компоненте с конкретным ключом перевода "
-"— это ручная работа."
+"Связывание обнаруженного снимка экрана в компоненте с конкретным ключом "
+"перевода — это ручная работа."
 
 #: ../../admin/projects.rst:456
 msgid "Let's assume your VCS repository has a structure like this:"
@@ -21017,13 +21016,13 @@ msgid ""
 "you provide should be named ``image1.png``, matching the existing "
 "``filename``, and stored under ``component_A/docs/``."
 msgstr ""
-"Для компонента_A вы хотите разрешить обнаружение и обновление снимков экрана "
-"PNG. Вы должны установить маску файла снимка экрана для компонента_A как "
-"``comment_A/docs/*.png``. Это означает, что любые изображения PNG в "
-"документах компонента_A можно обнаружить и обновить. Итак, если вы хотите "
+"Для component_A вы хотите разрешить обнаружение и обновление снимков экрана "
+"PNG. Вы должны установить маску файла снимка экрана для component_A как ``"
+"comment_A/docs/*.png``. Это означает, что любые изображения PNG в "
+"документации component_A можно обнаружить и обновить. Итак, если вы хотите "
 "обновить файл ``image1.png``, новый предоставленный вами снимок экрана "
-"должен иметь имя ``image1.png``, соответствующее существующему ``имя "
-"файла``, и храниться в ``comComponent_A/docs/`. `."
+"должен иметь имя ``image1.png``, соответствующее существующему ``имени "
+"файла``, и храниться в ``component_A/docs/``."
 
 #: ../../admin/projects.rst:474 ../../formats/android.rst:71
 #: ../../formats/apple.rst:30 ../../formats/appstore.rst:30
@@ -21151,7 +21150,7 @@ msgid ""
 "Choose :ref:`component-template` for monolingual formats that need a full "
 "set of keys present."
 msgstr ""
-"Выберите :ref:`comComponent-template` для одноязычных форматов, которым "
+"Выберите :ref:`component-template` для одноязычных форматов, которым "
 "требуется полный набор ключей."
 
 #: ../../admin/projects.rst:528
@@ -21181,8 +21180,8 @@ msgid ""
 ":ref:`adding-translation`, :ref:`component-new_lang`, :ref:`bimono`, :ref:"
 "`faq-duplicate-files`"
 msgstr ""
-":ref:`adding-translation`, :ref:`comComponent-new_lang`, :ref:`bimono`, :ref:"
-"`faq-duulate-files`"
+":ref:`adding-translation`, :ref:`component-new_lang`, :ref:`bimono`, :ref"
+":`faq-duplicate-files`"
 
 #: ../../admin/projects.rst:550
 msgid "Translation file format, see also :ref:`formats`."
@@ -21578,7 +21577,7 @@ msgstr "Стиль метаданных App Store от Apple"
 
 #: ../../admin/projects.rst:748
 msgid "Style suitable for uploading metadata to Apple App Store."
-msgstr "Стиль подходит для загрузки метаданных в Apple App Store."
+msgstr "Стиль подходит для загрузки метаданных в магазине приложений Apple."
 
 #: ../../admin/projects.rst:749
 msgid "Google Play metadata style"
@@ -21586,7 +21585,7 @@ msgstr "Стиль метаданных Google Play"
 
 #: ../../admin/projects.rst:750
 msgid "Style suitable for uploading metadata to Google Play Store."
-msgstr "Стиль подходит для загрузки метаданных в Google Play Store."
+msgstr "Стиль подходит для загрузки метаданных в магазине Google Play."
 
 #: ../../admin/projects.rst:752
 msgid "Android style"
@@ -21686,7 +21685,7 @@ msgid ""
 msgstr ""
 "Изменения исходного репозитория объединяются в репозиторий Weblate с "
 "выполнением фиксации слияния каждый раз (даже если возможна быстрая "
-"перемотка вперед). Каждое изменение Weblate будет отображаться как коммит "
+"перемотка вперёд). Каждое изменение Weblate будет отображаться как коммит "
 "слияния в репозитории Weblate."
 
 #: ../../admin/projects.rst:792
@@ -21923,7 +21922,7 @@ msgstr "Переводчикам вначале предлагаются ком�
 
 #: ../../admin/projects.rst:924
 msgid "This now also affects ordering of matched glossary terms."
-msgstr "Теперь это также влияет на порядок совпадающих терминов глоссария."
+msgstr "Теперь это также влияет на порядок совпадающих терминов словаря."
 
 #: ../../admin/projects.rst:929
 msgid "Restricted access"
@@ -22735,8 +22734,8 @@ msgid ""
 "at :ref:`component` and flags from the translation file (see :doc:`/"
 "formats`)."
 msgstr ""
-"Строковые флаги также наследуются из :ref:`comComponent-check_flags` в :ref:"
-"`comComponent` и флагов из файла перевода (см. :doc:`/formats`)."
+"Строковые флаги также наследуются из :ref:`component-check_flags` в "
+":ref:`component` и флагов из файла перевода (см. :doc:`/formats`)."
 
 #: ../../admin/translating.rst:94 ../../formats.rst:417
 msgid "Explanation"
@@ -22802,11 +22801,11 @@ msgid ""
 "to source strings manually, or use optical character recognition (OCR) to do "
 "so by pressing the :guilabel:`Automatically recognize` button."
 msgstr ""
-"В дополнение к :ref:`additional`, скриншоты имеют отдельный интерфейс "
-"управления в меню :guilabel:`Инструменты`. Загрузите снимки экрана, "
+"В дополнение к :ref:`additional`, снимки экрана имеют отдельный интерфейс "
+"управления в меню :guilabel:`«Инструменты»`. Загрузите снимки экрана, "
 "назначьте их исходным строкам вручную или используйте для этого оптическое "
-"распознавание символов (OCR), нажав кнопку :guilabel:`Автоматически "
-"распознавать`."
+"распознавание символов (OCR), нажав кнопку :guilabel:`«Автоматически "
+"распознавать»`."
 
 #: ../../admin/translating.rst:133
 msgid ""
@@ -22830,9 +22829,10 @@ msgid ""
 "creating a component, which will be monitored for updates in the repository, "
 "or you can add or update screenshots when uploading them manually."
 msgstr ""
-"Чтобы включить эту функцию, вы можете либо установить маску файла скриншота "
-"при создании компонента, который будет отслеживать обновления в репозитории, "
-"либо добавить или обновить скриншоты при их загрузке вручную."
+"Чтобы включить эту функцию, вы можете либо установить маску файла снимка "
+"экрана при создании компонента, который будет отслеживать обновления в "
+"репозитории, либо добавить или обновить снимки экрана при их загрузке "
+"вручную."
 
 #: ../../admin/translating.rst:145
 msgid ""
@@ -22842,8 +22842,9 @@ msgid ""
 "component."
 msgstr ""
 "При обновлении репозитория система автоматически сканирует изменения. "
-"Существующие скриншоты в репозитории будут обновлены, а в компонент будут "
-"добавлены новые скриншоты, соответствующие указанной маске файла скриншота."
+"Существующие снимки экрана в репозитории будут обновлены, а в компонент "
+"будут добавлены новые снимки экрана, соответствующие указанной маске файла "
+"снимка экрана."
 
 #: ../../admin/translating.rst:154
 msgid ":ref:`component-screenshot_filemask`"
@@ -26902,8 +26903,8 @@ msgstr ""
 msgid ""
 "Docker container supports file backed secrets, see :ref:`docker-secrets`."
 msgstr ""
-"Контейнер Docker поддерживает секреты, поддерживаемые файлами, см. :ref:"
-"`docker-secrets`."
+"Контейнер Docker поддерживает коды, поддерживаемые файлами, см. :ref:`docker-"
+"secrets`."
 
 #: ../../changes.rst:262
 msgid "Plurals handling in machine translation."
@@ -36663,11 +36664,11 @@ msgstr "Список спонсоров Weblate:"
 
 #: ../../../BACKERS.rst:6
 msgid "Yashiro Ccs"
-msgstr "Яширо CCS"
+msgstr "Yashiro Ccs"
 
 #: ../../../BACKERS.rst:7
 msgid "Cheng-Chia Tseng"
-msgstr "Ченг-чи в Монке"
+msgstr "Cheng-Chia Tseng"
 
 #: ../../../BACKERS.rst:8
 msgid "Timon Reinhard"
@@ -36679,7 +36680,7 @@ msgstr "`Кэссиди Джеймс <https://cassidyjames.com/>`_"
 
 #: ../../../BACKERS.rst:10
 msgid "Loic Dachary"
-msgstr "Замок Дачары"
+msgstr "Лоик Дачари"
 
 #: ../../../BACKERS.rst:11
 msgid "Marozed"
@@ -37433,7 +37434,7 @@ msgstr "значение по умолчанию"
 
 #: ../../contributing/schemas.rst:9
 msgid "**origin**"
-msgstr "**источник**"
+msgstr "**origin**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The String Origin*"
@@ -37473,7 +37474,7 @@ msgstr "мин. длина"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source\\_language**"
-msgstr "**исходный\\_ язык**"
+msgstr "**source\\_language**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Source Language*"
@@ -37497,7 +37498,7 @@ msgstr "^[^ ]+$"
 
 #: ../../contributing/schemas.rst:9
 msgid "**target**"
-msgstr "**цель**"
+msgstr "**target**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Target String*"
@@ -37509,7 +37510,7 @@ msgstr "Привет"
 
 #: ../../contributing/schemas.rst:9
 msgid "**target\\_language**"
-msgstr "**язык\\_перевода**"
+msgstr "**target\\_language**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Target Language*"
@@ -37547,7 +37548,7 @@ msgstr "https://weblate.org/schemas/weblate-userdata.schema.json"
 
 #: ../../contributing/schemas.rst:19
 msgid "**basic**"
-msgstr "**базовый**"
+msgstr "**basic**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Basic*"
@@ -37555,7 +37556,7 @@ msgstr "*Основные данные*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**username**"
-msgstr "**имя пользователя**"
+msgstr "**username**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Username*"
@@ -37599,7 +37600,7 @@ msgstr "Эл. почта"
 
 #: ../../contributing/schemas.rst:19
 msgid "**date\\_joined**"
-msgstr "**дата\\_присоединился**"
+msgstr "**date\\_joined**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Date joined*"
@@ -37611,11 +37612,11 @@ msgstr "2019-11-18T18:53:54.862Z"
 
 #: ../../contributing/schemas.rst:19
 msgid "date-time"
-msgstr "дата-время"
+msgstr "date-time"
 
 #: ../../contributing/schemas.rst:19
 msgid "**profile**"
-msgstr "**профиль**"
+msgstr "**profile**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Profile*"
@@ -37623,7 +37624,7 @@ msgstr "*Профиль*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**language**"
-msgstr "**язык**"
+msgstr "**language**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Language*"
@@ -37635,7 +37636,7 @@ msgstr "^[^ ]\\*$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**suggested**"
-msgstr "**предложенный**"
+msgstr "**suggested**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Number of suggested strings*"
@@ -37643,7 +37644,7 @@ msgstr "*Количество предложенных строк*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**translated**"
-msgstr "**переведено**"
+msgstr "**translated**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Number of translated strings*"
@@ -37655,7 +37656,7 @@ msgstr "24"
 
 #: ../../contributing/schemas.rst:19
 msgid "**uploaded**"
-msgstr "**загружено**"
+msgstr "**uploaded**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Number of uploaded screenshots*"
@@ -37663,7 +37664,7 @@ msgstr "*Количество загруженных снимков экрана
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_completed**"
-msgstr "**скрыть\\_завершено**"
+msgstr "**hide\\_completed**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Hide completed translations on the dashboard*"
@@ -37679,7 +37680,7 @@ msgstr "True"
 
 #: ../../contributing/schemas.rst:19
 msgid "**secondary\\_in\\_zen**"
-msgstr "**вторичное\\_в\\_дзен**"
+msgstr "**secondary\\_in\\_zen**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Show secondary translations in the Zen mode*"
@@ -37687,7 +37688,7 @@ msgstr "*Выводить ли вспомогательные переводы �
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_source\\_secondary**"
-msgstr "**скрыть\\_источник\\_вторичный**"
+msgstr "**hide\\_source\\_secondary**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Hide source if a secondary translation exists*"
@@ -37707,7 +37708,7 @@ msgstr "^.\\*$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**translate\\_mode**"
-msgstr "**перевести\\_mode**"
+msgstr "**translate\\_mode**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Translation editor mode*"
@@ -37723,7 +37724,7 @@ msgstr "*Дзен-режим редактора*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**special\\_chars**"
-msgstr "**специальные\\_символы**"
+msgstr "**special\\_chars**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Special characters*"
@@ -37775,7 +37776,7 @@ msgstr "*null*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**languages**"
-msgstr "**языки**"
+msgstr "**languages**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Translated languages*"
@@ -37787,7 +37788,7 @@ msgstr "*Код языка*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**secondary\\_languages**"
-msgstr "**дополнительные\\_языки**"
+msgstr "**secondary\\_languages**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Secondary languages*"
@@ -37799,7 +37800,7 @@ msgstr "uk"
 
 #: ../../contributing/schemas.rst:19
 msgid "**watched**"
-msgstr "**смотрели**"
+msgstr "**watched**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Watched projects*"
@@ -37815,7 +37816,7 @@ msgstr "weblate"
 
 #: ../../contributing/schemas.rst:19
 msgid "**auditlog**"
-msgstr "**журнал аудита**"
+msgstr "**auditlog**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Audit log*"
@@ -37863,7 +37864,7 @@ msgstr "2019-11-18T18:58:30.845Z"
 
 #: ../../contributing/schemas.rst:19
 msgid "**activity**"
-msgstr "**активность**"
+msgstr "**activity**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Activity*"
@@ -40258,7 +40259,7 @@ msgstr ":ref:`dotnet`"
 
 #: ../../devel/starting.rst:52
 msgid "Perl"
-msgstr "Перл"
+msgstr "Perl"
 
 #: ../../devel/starting.rst:54
 msgid "Ruby"
@@ -50044,8 +50045,8 @@ msgid ""
 "Submit current form; this is same as pressing :guilabel:`Save and continue` "
 "while editing translation."
 msgstr ""
-"Отправить текущую форму; это то же самое, что нажать :guilabel:`Сохранить и "
-"продолжить` при редактировании перевода."
+"Отправить текущую форму; это то же самое, что нажать :guilabel:`«Сохранить и "
+"продолжить»` при редактировании перевода."
 
 #: ../../user/translating.rst:203
 msgid ":kbd:`Ctrl+Shift+Enter` or"
@@ -50072,8 +50073,8 @@ msgid ""
 "Submit the string as a suggestion; this is same as pressing :guilabel:"
 "`Suggest` while editing translation."
 msgstr ""
-"Отправьте строку как предложение; это то же самое, что нажать :guilabel:"
-"`Suggest` при редактировании перевода."
+"Отправьте строку как предложение; это то же самое, что нажать "
+":guilabel:`«Предложить»` при редактировании перевода."
 
 #: ../../user/translating.rst:211
 msgid ":kbd:`Ctrl+E` or"
