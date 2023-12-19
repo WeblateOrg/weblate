@@ -65,13 +65,13 @@ translations to match your code base.
 Adding new strings
 ++++++++++++++++++
 
-In case your translation files are stored in a VCS together with the code,
+If your translation files are stored in a remote VCS together with the code,
 you most likely have an existing workflow for developers to introduce new strings.
 Any way of adding strings will be picked up, but consider using
 :ref:`source-quality-gateway` to avoid introducing errors.
 
-When the translation files are separate from the code, there are following ways to introduce
-new strings into Weblate.
+When translation files are separated from the code, the following ways can
+introduce new strings into Weblate.
 
 * Manually, using :guilabel:`Add new translation string` from :guilabel:`Tools`
   menu in the source language.
@@ -82,7 +82,7 @@ new strings into Weblate.
 
 .. note::
 
-   Availability of adding strings in Weblate depends on :ref:`component-manage_units`.
+   The ability to add strings in Weblate requires :ref:`component-manage_units`.
 
 .. _updating-target-files:
 
