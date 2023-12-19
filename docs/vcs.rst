@@ -99,7 +99,7 @@ Admins can generate or display the public key currently used by Weblate in the c
 
 .. note::
 
-    The corresponding private SSH key can not currently have a password, so make sure it is
+    The corresponding private SSH key can not currently have a password, so ensure it is
     well protected.
 
 .. hint::

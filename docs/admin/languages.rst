@@ -74,7 +74,7 @@ Changing language definitions
 You can change language definitions in the languages interface
 (:file:`/languages/` URL).
 
-While editing, make sure all fields are correct (especially plurals and
+While editing, ensure all fields are correct (especially plurals and
 text direction), otherwise translators will be unable to properly edit
 those translations.
 

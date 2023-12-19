@@ -59,7 +59,7 @@ Better yet, turn your customization into a proper Python package:
 
 3. Create a folder for the Python module (also called ``weblate_customization``)
    for the customization code.
-4. Within it, create a :file:`__init__.py` file to make sure Python can import the module.
+4. Within it, create a :file:`__init__.py` file to ensure Python can import the module.
 5. This package can now be installed using :command:`pip install -e`. More info to be found in :ref:`pip:editable-installs`.
 6. Once installed, the module can be used in the Weblate configuration
    (for example ``weblate_customization.checks.FooCheck``).

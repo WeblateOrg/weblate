@@ -2694,7 +2694,7 @@ update individual repositories; see
 
     .. note::
 
-       Please make sure that :guilabel:`Resource details to send` is set to
+       Please ensure that :guilabel:`Resource details to send` is set to
        *All*, otherwise Weblate will not be able to match your Azure repository.
 
     .. seealso::

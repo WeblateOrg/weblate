@@ -117,7 +117,7 @@ two parts - one for the extraction generates template (for example gettext POT
 is generated using :program:`xgettext`) and then further process merges it into
 actual translations (the gettext PO files are updated using
 :program:`msgmerge`). You can perform the second step within Weblate and it
-will make sure that all pending changes are included prior to this operation.
+will ensure that all pending changes are included prior to this operation.
 
 The second approach can be achieved by using :ref:`api` to force Weblate to
 push all pending changes and lock the translation while you are doing changes

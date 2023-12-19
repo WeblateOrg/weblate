@@ -61,7 +61,7 @@ A failing check will be triggered if the string '### Index' is translated as '# 
 
    placeholders:r"\]\([^h].*?\)"
 
-To make sure that internal links are not being translated (i.e. `[test](../checks)`
+To ensure that internal links are not being translated (i.e. `[test](../checks)`
 does not become `[test](../chequeos)`.
 
 

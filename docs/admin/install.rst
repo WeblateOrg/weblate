@@ -319,7 +319,7 @@ and you can get more identification information from <https://keybase.io/nijel>.
 
 You should verify that the signature matches the archive you have downloaded.
 This way you can be sure that you are using the same code that was released.
-You should also verify the date of the signature to make sure that you
+You should also verify the date of the signature to ensure that you
 downloaded the latest version.
 
 Each archive is accompanied with ``.asc`` files which contain the PGP signature
@@ -1476,7 +1476,7 @@ The following configuration runs Weblate as WSGI, you need to have enabled
 
 .. note::
 
-    Weblate requires Python 3, so please make sure you are running Python 3
+    Weblate requires Python 3, so please ensure you are running Python 3
     variant of the modwsgi. Usually it is available as a separate package, for
     example ``libapache2-mod-wsgi-py3``.
 

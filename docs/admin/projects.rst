@@ -256,7 +256,7 @@ Using non standard code: ``ia_FOO:ia``
 .. hint::
 
    The language codes are mapped when matching the translation files and the
-   matches are case sensitive, so make sure you use the source language codes
+   matches are case sensitive, so ensure you use the source language codes
    in same form as used in the filenames.
 
 .. seealso::
@@ -944,7 +944,7 @@ The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 
 .. hint::
 
-   This applies to project admins as well — please make sure you will not
+   This applies to project admins as well — please ensure you will not
    loose access to the component after toggling the status.
 
 .. _component-links:

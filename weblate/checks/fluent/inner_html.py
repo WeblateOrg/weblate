@@ -703,7 +703,7 @@ class _FluentInnerHTMLCheck:
             #
             # NOTE: This won't capture all cases where the reference might
             # expand into some HTML, but generally we expect the fluent
-            # application to make sure their references are sanitized for
+            # application to ensure their references are sanitized for
             # inner HTML. But this seems like a case where a sanitized value
             # might become unintentionally bad.
             #

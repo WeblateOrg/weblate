@@ -185,7 +185,7 @@ Restoring from BorgBackup
    When using Docker container place the data into the data volume, see
    :ref:`docker-volume`.
 
-   Please make sure the files have correct ownership and permissions, see :ref:`file-permissions`.
+   Please ensure the files have correct ownership and permissions, see :ref:`file-permissions`.
 
 The Borg session might look like this:
 
