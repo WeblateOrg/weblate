@@ -293,6 +293,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_RENAME_CATEGORY = 68
     ACTION_MOVE_CATEGORY = 69
     ACTION_SAVE_FAILED = 70
+    ACTION_NEW_UNIT_REPO = 71
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -428,6 +429,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_MOVE_CATEGORY, gettext_lazy("Category moved")),
         # Translators: Name of event in the history
         (ACTION_SAVE_FAILED, gettext_lazy("Saving string failed")),
+        # Translators: Name of event in the history
+        (ACTION_NEW_UNIT_REPO, gettext_lazy("String added in the repository")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
@@ -487,6 +490,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_BULK_EDIT,
         ACTION_NEW_UNIT,
         ACTION_STRING_REPO_UPDATE,
+        ACTION_NEW_UNIT_REPO,
     }
 
     # Actions indicating a repository merge failure
