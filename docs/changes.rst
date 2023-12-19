@@ -141,7 +141,7 @@ Released on October 25th 2023.
 
 **Bug fixes**
 
-* Added plurals validation when editing string using API.
+* Added plurals validation when editing string using the API.
 * Replacing a file using upload when existing is corrupted.
 
 **Compatibility**

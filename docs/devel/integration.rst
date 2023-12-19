@@ -75,7 +75,7 @@ new strings into Weblate.
 
 * Manually, using :guilabel:`Add new translation string` from :guilabel:`Tools`
   menu in the source language.
-* Programmatically, using API :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/units/`.
+* Programmatically, using the API :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/units/`.
 * By uploading source file as :guilabel:`Replace existing translation file`
   (this overwrites existing strings, so please ensure the file includes both
   old and new strings) or :guilabel:`Add new strings`, see :ref:`upload-method`.

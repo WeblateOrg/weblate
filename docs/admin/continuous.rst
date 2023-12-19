@@ -325,7 +325,7 @@ Each translation component can have a push URL set up (see
 the remote repository.  Weblate can be also be configured to automatically push
 changes on every commit (this is default, see :ref:`component-push_on_commit`).
 If you do not want changes to be pushed automatically, you can do that manually
-under :guilabel:`Repository maintenance` or using API via :option:`wlc push`.
+under :guilabel:`Repository maintenance` or using the API via :option:`wlc push`.
 
 The push options differ based on the :ref:`vcs` used, more details are found in that chapter.
 

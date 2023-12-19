@@ -43,7 +43,7 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
     :>json string next: next page URL for object lists
     :>json string previous: previous page URL for object lists
     :>json array results: results for object lists
-    :>json string url: URL to access this resource using API
+    :>json string url: URL to access this resource using the API
     :>json string web_url: URL to access this resource using web browser
     :status 200: when request was correctly handled
     :status 201: when a new object was created successfully
