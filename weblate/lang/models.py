@@ -24,7 +24,7 @@ from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 from django.utils.translation.trans_real import parse_accept_lang_header
 from weblate_language_data.aliases import ALIASES
 from weblate_language_data.countries import DEFAULT_LANGS
-from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS
+from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS, QTPLURALS
 from weblate_language_data.rtl import RTL_LANGS
 
 from weblate.checks.format import BaseFormatCheck
@@ -501,6 +501,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         extra_plurals = (
             (Plural.SOURCE_GETTEXT, EXTRAPLURALS),
             (Plural.SOURCE_CLDR, CLDRPLURALS),
+            (Plural.SOURCE_QT, QTPLURALS),
         )
         for source, definitions in extra_plurals:
             for code, _unused, nplurals, plural_formula in definitions:
@@ -767,6 +768,7 @@ class Plural(models.Model):
     SOURCE_CLDR_ZERO = 3
     SOURCE_CLDR = 4
     SOURCE_ANDROID = 5
+    SOURCE_QT = 6
     source = models.SmallIntegerField(
         default=SOURCE_DEFAULT,
         verbose_name=gettext_lazy("Plural definition source"),
@@ -776,6 +778,7 @@ class Plural(models.Model):
             (SOURCE_CLDR_ZERO, gettext_lazy("CLDR plural with zero")),
             (SOURCE_CLDR, gettext_lazy("CLDR v38+ plural")),
             (SOURCE_ANDROID, gettext_lazy("Android plural")),
+            (SOURCE_QT, gettext_lazy("Qt Linguist plural")),
             (SOURCE_MANUAL, gettext_lazy("Manually entered formula")),
         ),
     )

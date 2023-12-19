@@ -1207,6 +1207,10 @@ class TSFormat(TTKitFormat):
     unit_class = TSUnit
     set_context_bilingual = False
     supports_plural: bool = True
+    plural_preference = (
+        Plural.SOURCE_QT,
+        Plural.SOURCE_DEFAULT,
+    )
 
 
 class XliffFormat(TTKitFormat):
