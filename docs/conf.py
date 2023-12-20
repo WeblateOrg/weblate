@@ -323,8 +323,8 @@ linkcheck_ignore = [
     "http://ftp.pwg.org/",
     # Access to our service has been temporarily blocked
     "https://yandex.com/dev/translate/",
-    # TODO: Expired SSL certificate
-    "https://docs.oasis-open.org/",
+    # TODO: Temporarily unavailable
+    "https://wiki.gnupg.org/",
     # 403
     "https://platform.openai.com/account/api-keys",
     "https://platform.openai.com/docs/models",
