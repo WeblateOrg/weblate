@@ -1411,6 +1411,12 @@ class AndroidFormat(TTKitFormat):
     supports_plural: bool = True
 
 
+class MOKOFormat(AndroidFormat):
+    name = gettext_lazy("Mobile Kotlin Resource")
+    format_id = "moko-resource"
+    loader = ("aresource", "MOKOResourceFile")
+
+
 class DictStoreMixin:
     @classmethod
     def validate_context(cls, context: str):

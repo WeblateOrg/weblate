@@ -6,6 +6,7 @@ Not yet released.
 **New features**
 
 * :ref:`check-perl-brace-format` quality check.
+* :doc:`/formats/moko`.
 
 **Improvements**
 
