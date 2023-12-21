@@ -50,17 +50,6 @@ class FileFormatLoader(ClassLoader):
             result.append("weblate.formats.ttkit.TBXFormat")
         return result
 
-    def load_data(self):
-        result = super().load_data()
-        for fileformat in list(result.values()):
-            try:
-                fileformat.get_class()
-            except (AttributeError, ImportError) as error:
-                result.pop(fileformat.format_id)
-                self.errors[fileformat.format_id] = str(error)
-
-        return result
-
 
 FILE_FORMATS = FileFormatLoader()
 
@@ -76,6 +65,7 @@ class FormatsConf(AppConf):
         "weblate.formats.exporters.CSVExporter",
         "weblate.formats.exporters.XlsxExporter",
         "weblate.formats.exporters.JSONExporter",
+        "weblate.formats.exporters.JSONNestedExporter",
         "weblate.formats.exporters.AndroidResourceExporter",
         "weblate.formats.exporters.StringsExporter",
     )
@@ -99,6 +89,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.LaravelPhpFormat",
         "weblate.formats.ttkit.RESXFormat",
         "weblate.formats.ttkit.AndroidFormat",
+        "weblate.formats.ttkit.MOKOFormat",
         "weblate.formats.ttkit.JSONFormat",
         "weblate.formats.ttkit.JSONNestedFormat",
         "weblate.formats.ttkit.WebExtensionJSONFormat",
@@ -132,6 +123,7 @@ class FormatsConf(AppConf):
         "weblate.formats.convert.OpenDocumentFormat",
         "weblate.formats.convert.PlainTextFormat",
         "weblate.formats.convert.DokuWikiFormat",
+        "weblate.formats.convert.MarkdownFormat",
         "weblate.formats.convert.MediaWikiFormat",
         "weblate.formats.convert.WindowsRCFormat",
         "weblate.formats.ttkit.XWikiPropertiesFormat",

@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -13,7 +15,7 @@ from weblate.addons.events import EVENT_DAILY, EVENT_POST_ADD, EVENT_PRE_COMMIT
 from weblate.addons.forms import GenerateMoForm, GettextCustomizeForm, MsgmergeForm
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class GettextBaseAddon(BaseAddon):
@@ -31,9 +33,14 @@ class GenerateMoAddon(GettextBaseAddon):
 
     def pre_commit(self, translation, author):
         exporter = MoExporter(translation=translation)
-        exporter.add_units(
-            translation.unit_set.filter(state__gte=STATE_TRANSLATED).prefetch_full()
-        )
+
+        if self.instance.configuration.get("fuzzy"):
+            state = STATE_FUZZY
+        else:
+            state = STATE_TRANSLATED
+        units = translation.unit_set.filter(state__gte=state)
+
+        exporter.add_units(units.prefetch_full())
 
         template = self.instance.configuration.get("path")
         if not template:
@@ -290,12 +297,18 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                     {
                         "addon": self.name,
                         "command": error.cmd,
-                        "output": error.output,
+                        "output": str(error.output),
                         "error": str(error),
                     }
                 )
                 component.log_info("%s addon failed: %s", self.name, error)
         self.trigger_alerts(component)
+
+    def commit_and_push(
+        self, component, files: list[str] | None = None, skip_push: bool = False
+    ):
+        if super().commit_and_push(component, files=files, skip_push=skip_push):
+            component.create_translations()
 
 
 class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):

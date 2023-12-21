@@ -4,8 +4,6 @@
 Translation Memory
 ==================
 
-.. versionadded:: 2.20
-
 Weblate comes with a built-in translation memory consisting of:
 
 * Manually imported translation memory (see :ref:`memory-user`).
@@ -14,9 +12,9 @@ Weblate comes with a built-in translation memory consisting of:
 
 Content in the translation memory can be applied one of two ways:
 
-* Manually, :ref:`machine-translation` view while translating.
-* Automatically, by translating strings using :ref:`auto-translation`, or
-  :ref:`addon-weblate.autotranslate.autotranslate` add-on.
+* Manually: in the :ref:`machine-translation` view while translating.
+* Automatically: by translating strings using :ref:`auto-translation`, or
+  the :ref:`addon-weblate.autotranslate.autotranslate` add-on.
 
 For installation tips, see :ref:`mt-weblate-translation-memory`, which is
 turned on by default.
@@ -26,11 +24,6 @@ turned on by default.
 
 Translation-memory scopes
 -------------------------
-
-.. versionadded:: 3.2
-
-   In earlier versions translation memory could be only loaded from a file
-   corresponding to the current imported translation memory scope.
 
 The translation-memory scopes ensure privacy for different projects and users.
 Sharing of translations is also available.
@@ -57,7 +50,7 @@ translation memory only available for this project.
 Shared translation memory
 +++++++++++++++++++++++++
 
-All translation within projects with shared translation memory turned on
+All translations within projects with shared translation memory turned on
 are stored in a shared translation memory available to all projects.
 
 Please consider carefully whether to turn this feature on for shared Weblate
@@ -65,13 +58,14 @@ installations, as it can have severe implications:
 
 * The translations can be used by anybody else.
 * This might lead to disclosing secret information.
+* Make sure the translations you share have good quality.
 
 .. seealso::
 
    :ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`
 
-Managing translation memory
----------------------------
+Managing the Translation Memory
+-------------------------------
 
 .. _memory-user:
 
@@ -85,18 +79,14 @@ Entries attributed to the user are listed in scopes – total, for each respecti
 project, component, or language contributed to, with options to download
 (as JSON, or TMX) or delete them.
 
-.. versionadded:: 3.2
-
 In the basic user interface you can manage per-user and per-project translation
 memories. It can be used to download, wipe or import translation memory.
 
-.. versionadded:: 3.8
-
-There are multiple options for downloading the translation memory of the whole instance.
+There are multiple options to download the translation memory of the whole instance.
 
 .. hint::
 
-    Translation memory in JSON can be imported into Weblate, the TMX format
+    Translation memories in JSON can be imported into Weblate, the TMX format
     is provided for interoperability with other tools.
 
 .. seealso::
@@ -105,14 +95,10 @@ There are multiple options for downloading the translation memory of the whole i
 
 .. image:: /screenshots/memory.webp
 
-.. versionadded:: 3.8
-
 You can search for translations in the view built for this.
 
 Admin interface
 +++++++++++++++
-
-.. versionadded:: 3.5
 
 There is a platform-wide interface to manage the translation memory.
 
@@ -139,5 +125,5 @@ These operate on the translation memory as a whole, unfiltered by scopes
 .. versionadded:: 4.14
 
 The Weblate API covers the translation memory.
-This allows automating manipulation for different purposes,
+This allows automated manipulation for different purposes,
 or based on events in the translation cycle.

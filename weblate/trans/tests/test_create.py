@@ -4,6 +4,7 @@
 
 """Test for creating projects and models."""
 
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 
@@ -13,7 +14,6 @@ from weblate.trans.tests.utils import create_test_billing, get_test_file
 from weblate.vcs.git import GitRepository
 
 TEST_ZIP = get_test_file("translations.zip")
-TEST_INVALID_ZIP = get_test_file("invalid.zip")
 TEST_HTML = get_test_file("cs.html")
 
 
@@ -244,20 +244,20 @@ class CreateTest(ViewTestCase):
     def test_create_invalid_zip(self):
         self.user.is_superuser = True
         self.user.save()
-        with open(TEST_INVALID_ZIP, "rb") as handle, override_settings(
-            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
-        ):
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             response = self.client.post(
                 reverse("create-component-zip"),
                 {
-                    "zipfile": handle,
+                    "zipfile": SimpleUploadedFile(
+                        "invalid.zip", b"x", content_type="application/zip"
+                    ),
                     "name": "Create Component",
                     "slug": "create-component",
                     "project": self.project.pk,
                     "source_language": get_default_lang(),
                 },
             )
-        self.assertContains(response, "Failed to parse uploaded ZIP file.")
+        self.assertContains(response, "Could not parse uploaded ZIP file.")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_zip(self):
@@ -330,6 +330,44 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "*.html")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_doc_category(self):
+        self.user.is_superuser = True
+        self.user.save()
+        category = self.project.category_set.create(name="Kategorie", slug="cat")
+        with open(TEST_HTML, "rb") as handle, override_settings(
+            CREATE_GLOSSARIES=self.CREATE_GLOSSARIES
+        ):
+            response = self.client.post(
+                reverse("create-component-doc"),
+                {
+                    "docfile": handle,
+                    "category": category.pk,
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "project": self.project.pk,
+                    "source_language": get_default_lang(),
+                },
+            )
+        self.assertContains(response, "*.html")
+
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(
+                reverse("create-component-doc"),
+                {
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "project": self.project.pk,
+                    "category": category.pk,
+                    "vcs": "local",
+                    "repo": "local:",
+                    "discovery": "0",
+                    "source_language": get_default_lang(),
+                },
+            )
+        self.assertContains(response, "Adding new translation")
+        self.assertContains(response, "*.html")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_scratch(self):
         @override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES)
         def create():
@@ -354,7 +392,10 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "Test/Create Component")
 
         response = create()
-        self.assertContains(response, "A component with the same name already exists.")
+        self.assertContains(
+            response,
+            "Component or category with the same URL slug already exists at this level.",
+        )
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_scratch_android(self):

@@ -3,10 +3,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
-import time
 from datetime import timedelta
 from email.mime.image import MIMEImage
 
+import sentry_sdk
 from celery.schedules import crontab
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
@@ -21,15 +21,6 @@ from weblate.utils.errors import report_error
 @app.task(trail=False)
 def cleanup_social_auth():
     """Cleanup expired partial social authentications."""
-    for partial in Partial.objects.iterator():
-        kwargs = partial.data["kwargs"]
-        if (
-            "weblate_expires" not in kwargs
-            or kwargs["weblate_expires"] < time.monotonic()
-        ):
-            # Old entry without expiry set, or expired entry
-            partial.delete()
-
     age = now() - timedelta(seconds=settings.AUTH_TOKEN_VALID)
     # Delete old not verified codes
     Code.objects.filter(verified=False, timestamp__lt=age).delete()
@@ -53,7 +44,11 @@ def notify_change(change_id):
     from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
     from weblate.trans.models import Change
 
-    change = Change.objects.get(pk=change_id)
+    try:
+        change = Change.objects.get(pk=change_id)
+    except Change.DoesNotExist:
+        # The change was removed meanwhile
+        return
     perm_cache = {}
     if change.action in NOTIFICATIONS_ACTIONS:
         outgoing = []
@@ -114,21 +109,23 @@ def notify_auditlog(log_id, email):
 def send_mails(mails):
     """Send multiple mails in single connection."""
     images = []
-    for name in ("email-logo.png", "email-logo-footer.png"):
-        filename = os.path.join(settings.STATIC_ROOT, name)
-        with open(filename, "rb") as handle:
-            image = MIMEImage(handle.read())
-        image.add_header("Content-ID", f"<{name}@cid.weblate.org>")
-        image.add_header("Content-Disposition", "inline", filename=name)
-        images.append(image)
+    with sentry_sdk.start_span(op="email.images"):
+        for name in ("email-logo.png", "email-logo-footer.png"):
+            filename = os.path.join(settings.STATIC_ROOT, name)
+            with open(filename, "rb") as handle:
+                image = MIMEImage(handle.read())
+            image.add_header("Content-ID", f"<{name}@cid.weblate.org>")
+            image.add_header("Content-Disposition", "inline", filename=name)
+            images.append(image)
 
-    connection = get_connection()
-    try:
-        connection.open()
-    except Exception:
-        report_error(cause="Failed to send notifications")
-        connection.close()
-        return
+    with sentry_sdk.start_span(op="email.connect"):
+        connection = get_connection()
+        try:
+            connection.open()
+        except Exception:
+            report_error(cause="Could not send notifications")
+            connection.close()
+            return
 
     html2text = HTML2Text(bodywidth=78)
     html2text.unicode_snob = True
@@ -137,9 +134,11 @@ def send_mails(mails):
 
     try:
         for mail in mails:
+            with sentry_sdk.start_span(op="email.text"):
+                text = html2text.handle(mail["body"])
             email = EmailMultiAlternatives(
                 settings.EMAIL_SUBJECT_PREFIX + mail["subject"],
-                html2text.handle(mail["body"]),
+                text,
                 to=[mail["address"]],
                 headers=mail["headers"],
                 connection=connection,
@@ -148,7 +147,8 @@ def send_mails(mails):
             for image in images:
                 email.attach(image)
             email.attach_alternative(mail["body"], "text/html")
-            email.send()
+            with sentry_sdk.start_span(op="email.send"):
+                email.send()
     finally:
         connection.close()
 

@@ -50,6 +50,16 @@ Released on June 15th 2023.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?closed=1>`__.
 
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Dropped support for PostgreSQL 10, 11, MySQL 5.7 and MariaDB 10.2, 10.3.
+* Dropped support for Python 3.7.
+* The :ref:`fluent` format changed identification of some strings, you might
+  need to force reloading of the translation files to see the changes.
+* There are several changes in :file:`settings_example.py`, most notable is change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings accordingly.
+
 Weblate 4.17
 ------------
 
@@ -71,6 +81,27 @@ Released on April 17th 2023.
 * Added new alert on unused components.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/93?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Migration to rewritten metrics storage might take considerable time on larger
+  Weblate instance (expect around 15 minutes per GB of ``metrics_metric``
+  table). To reduce downtime, you can copy
+  :file:`weblate/metrics/migrations/*.py` from Weblate 4.17 to 4.16 and start
+  the migration in the background. Once it is completed, perform full upgrade
+  as usual.
+* Docker container now requires PostgreSQL 12 or newer, please see
+  :ref:`docker-postgres-upgrade` for upgrade instructions. Weblate itself
+  supports older versions as well, when appropriate Django version is installed.
+
+.. warning::
+
+   Migration on MySQL will try to load all metrics into memory due to
+   limitation of the Python database driver. You might need to prune metrics
+   prior to migration if you want to continue using MySQL. Please consider
+   switching to PostgreSQL, see :ref:`database-migration`.
 
 Weblate 4.16.4
 --------------
@@ -134,6 +165,18 @@ Released on March 1st 2023.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/89?closed=1>`__.
 
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Celery beat is now storing the tasks schedule in the database,
+  ``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be
+  changed for that.
+* The deprecated VCS setting for credentials is no longer supported, see :ref:`up-4-14`.
+* Upgrade of `django-crispy-forms` requires changes in :setting:`django:INSTALLED_APPS`.
+* Integration of `django-cors-headers` requires changes in :setting:`django:INSTALLED_APPS` and :setting:`django:MIDDLEWARE`.
+* Introduction of :setting:`CACHE_DIR` changed default value of :setting:`django:STATIC_ROOT`. You might need to adjust :ref:`static-files` accordingly.
+
 Weblate 4.15.2
 --------------
 
@@ -190,6 +233,20 @@ Released on December 16th 2022.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/88?closed=1>`__.
 
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Weblate now requires ``btree_gin`` extension in PostgreSQL. The migration process
+  will install it if it has sufficient privileges. See :ref:`dbsetup-postgres` for manual setup.
+* The Docker image no longer enables debug mode by default. In case you want
+  it, enable it in the environment using :envvar:`WEBLATE_DEBUG`.
+* The database migration make take hours on larger instances due to recreating some
+  of the indexes.
+* **Changed in 4.15.1:** The default value for ``DEFAULT_PAGINATION_CLASS`` in
+  rest framework settings was changed.
+
+
 Weblate 4.14.2
 --------------
 
@@ -197,7 +254,7 @@ Released on November 5th 2022.
 
 * Added support for removing entries from translation memory.
 * Improved analysis on the duplicate language alert.
-* Improved accurancy of the consecutive duplicated-words check.
+* Improved accuracy of the consecutive duplicated-words check.
 * Improved scaling of sending many notifications.
 * Improved string-state handling for subtitle translation.
 * Deprecated insecure configuration of VCS service API keys via _TOKEN/_USERNAME configuration instead of _CREDENTIALS list.
@@ -234,6 +291,8 @@ Released on September 15th 2022.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?closed=1>`__.
 
+.. _up-4-14:
+
 Weblate 4.14
 ------------
 
@@ -254,6 +313,20 @@ Released on August 22nd 2022.
 * Improved performance and memory usage of translation memory lookups.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/84?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* The Java formatting checks now match GNU gettext flags. The flags set in
+  Weblate will be automatically migrated, but third-party scripts will need to
+  use ``java-printf-format`` instead of ``java-format`` and ``java-format``
+  instead of ``java-messageformat``.
+* The `jellyfish` dependency has been replaced by `rapidfuzz`.
+* **Changed in 4.14.2:** Deprecated insecure configuration of VCS service API
+  keys via _TOKEN/_USERNAME configuration instead of _CREDENTIALS list. In
+  Docker, please add matching _HOST directive. For example see
+  :envvar:`WEBLATE_GITHUB_HOST` and :setting:`GITHUB_CREDENTIALS`.
 
 Weblate 4.13.1
 --------------
@@ -296,6 +369,19 @@ Released on June 15th 2022.
 * The placeholders check can now be case-insensitive as well.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/81?closed=1>`__.
+
+**Upgrading**
+
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* The :ref:`languages` are now automatically updated on upgrade, use :setting:`UPDATE_LANGUAGES` to disable that.
+* Handling of context and location has been changed for :ref:`winrc`,
+  :ref:`html`, :ref:`idml`, and :ref:`txt` file formats. In most cases the
+  context is now shown as location.
+* The machine translation services are now configured using the user interface,
+  settings from the configuration file will be imported during the database
+  migration.
 
 Weblate 4.12.2
 --------------
@@ -343,6 +429,12 @@ Released on April 20th 2022.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?closed=1>`__.
 
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are no special steps required.
+
 Weblate 4.11.2
 --------------
 
@@ -371,7 +463,7 @@ Weblate 4.11
 Released on February 25th 2022.
 
 * Fixes stored XSS - CVE-2022-24710, see `GHSA-6jp6-9rf9-gc66 <https://github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ for more details.
-* Fixed add-on installation using API.
+* Fixed add-on installation using the API.
 * Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`.
 * Fixed false positives from :ref:`check-icu-message-format-syntax`.
 * Indicate lock and contributor agreement on other occurrences listing.
@@ -398,6 +490,17 @@ Released on February 25th 2022.
 * Fixed applying of :guilabel:`Automatically translated` label.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/75?closed=1>`__.
+
+**Upgrading**
+
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Weblate now requires Python 3.7 or newer.
+* The implementation of :ref:`manage-acl` has changed, removing the project
+  prefix from the group names. This affects API users.
+* Weblate now uses ``charset-normalizer`` instead of ``chardet`` module for character set detection.
+* **Changed in 4.11.1:** There is a change in ``REST_FRAMEWORK`` setting (removal of one of the backends in ``DEFAULT_AUTHENTICATION_CLASSES``).
 
 Weblate 4.10.1
 --------------
@@ -433,6 +536,22 @@ Released on December 16th 2021.
 * Label automatically translated strings to ease their filtering.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/74?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There is a change in per-project groups, the upgrade can take long time on sites with thousands of projects.
+
+* Django 4.0 has made some incompatible changes, see
+  :ref:`django:backwards-incompatible-4.0`. Weblate still supports Django 3.2
+  for now, in case any of these are problematic. Most notable changes which
+  might affect Weblate:
+
+  * Dropped support for PostgreSQL 9.6, Django 4.0 supports PostgreSQL 10 and higher.
+  * Format of :setting:`django:CSRF_TRUSTED_ORIGINS` was changed.
+
+* The Docker container now uses Django 4.0, see above for changes.
 
 Weblate 4.9.1
 -------------
@@ -473,6 +592,13 @@ Released on November 10th 2021.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/71?closed=1>`__.
 
+**Upgrading**
+
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There is a change in storing metrics, the upgrade can take long time on larger sites.
+
 Weblate 4.8.1
 -------------
 
@@ -483,7 +609,7 @@ Released on September 10th 2021.
 * Fixed JavaScript error in glossary.
 * Add limit to number of matches in consistency check.
 * Improve handling of placeholders in machine translations.
-* Fixed creating add-ons using API.
+* Fixed creating add-ons using the API.
 * Added :setting:`PRIVACY_URL` setting to add privacy policy link to the footer.
 * Hide member e-mail addresses from project admins.
 * Improved gettext PO merging in case of conflicts.
@@ -512,6 +638,12 @@ Released on August 21th 2021.
 * Added support for using tabs to indent JSON formats.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/67?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+There are no additional upgrade steps needed in this release.
 
 Weblate 4.7.2
 -------------
@@ -560,6 +692,18 @@ Released on June 17th 2021.
 * The user management no longer needs Django admin interface.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/64?closed=1>`__.
+
+**Upgrading**
+
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* There are several changes in :file:`settings_example.py`, most notable middleware changes (:setting:`django:MIDDLEWARE`), please adjust your settings accordingly.
+* The :ref:`mt-deepl` machine translation now has a generic ``MT_DEEPL_API_URL`` setting to adapt to different subscription models more flexibly.
+  The ``MT_DEEPL_API_VERSION`` setting is no longer used.
+* Django 3.2 is now required.
 
 Weblate 4.6.2
 -------------
@@ -620,6 +764,16 @@ Released on April 19th 2021.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/61?closed=1>`__.
 
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* There are new file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
+* API for creating components now automatically uses :ref:`internal-urls`, see :http:post:`/api/projects/(string:project)/components/`.
+* There is a change in dependencies and :setting:`django:PASSWORD_HASHERS` to prefer Argon2 for passwords hashing.
+
 Weblate 4.5.3
 -------------
 
@@ -657,7 +811,7 @@ Released on March 5th 2021.
 * Fixed editing of glossary flags in some corner cases.
 * Extend metrics usage to improve performance of several pages.
 * Store correct source language in TMX files.
-* Better handling for uploads of monolingual PO using API.
+* Better handling for uploads of monolingual PO using the API.
 * Improved alerts behavior on glossary components.
 * Improved Markdown link checks.
 * Indicate glossary and source language in breadcrumbs.
@@ -700,6 +854,21 @@ Released on February 19th 2021.
 * Added support for customizing navigation text color.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/59?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* The migration might take considerable time if you had big glossaries.
+* Glossaries are now stored as regular components.
+* The glossary API is removed, use regular translation API to access glossaries.
+* There is a change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` should be added.
+
+.. versionchanged:: 4.5.1
+
+   * There is a new dependency on the `pyahocorasick` module.
 
 Weblate 4.4.2
 -------------
@@ -760,6 +929,21 @@ Released on December 15th 2020.
 * Added option for getting notifications on unwatched projects.
 
  `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/56?closed=1>`__.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* There is a change in :setting:`django:INSTALLED_APPS`, ``weblate.configuration`` has to be added there.
+* Django 3.1 is now required.
+* In case you are using MySQL or MariaDB, the minimal required versions have increased, see :ref:`mysql`.
+
+.. versionchanged:: 4.4.1
+
+   * :ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. This will change identification of translation strings in such files breaking links to Weblate extended data such as screenshots or review states. Please ensure you commit pending changes in such files prior upgrading and it is recommended to force loading of affected component using :wladmin:`loadpo`.
+   * Increased minimal required version of translate-toolkit to address several file format issues.
 
 Weblate 4.3.2
 -------------
@@ -832,6 +1016,27 @@ Released on October 15th 2020.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/53?closed=1>`__.
 
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* There are some changes in quality checks, you might want to include them in case you modified the :setting:`CHECK_LIST`.
+* The source language attribute was moved from project to a component what is exposed in the API. You will need to update :ref:`wlc` in case you are using it.
+* The database migration to 4.3 might take long depending on number of strings you are translating (expect around one hour of migration time per 100,000 source strings).
+* There is a change in :setting:`django:INSTALLED_APPS`.
+* There is a new setting :setting:`SESSION_COOKIE_AGE_AUTHENTICATED` which complements :setting:`django:SESSION_COOKIE_AGE`.
+* In case you were using :command:`hub` or :command:`lab` to integrate with GitHub or GitLab, you will need to reconfigure this, see :setting:`GITHUB_CREDENTIALS` and :setting:`GITLAB_CREDENTIALS`.
+
+.. versionchanged:: 4.3.1
+
+   * The Celery configuration was changed to add ``memory`` queue. Please adjust your startup scripts and ``CELERY_TASK_ROUTES`` setting.
+
+.. versionchanged:: 4.3.2
+
+   * The ``post_update`` method of add-ons now takes extra ``skip_push`` parameter.
+
 Weblate 4.2.2
 -------------
 
@@ -842,7 +1047,7 @@ Released on September 2nd 2020.
 * Fixed LDAP authentication with group sync.
 * Fixed crash in reporting automatic translation progress.
 * Fixed Git commit squashing with trailers enabled.
-* Fixed creating local VCS components using API.
+* Fixed creating local VCS components using the API.
 
 Weblate 4.2.1
 -------------
@@ -885,6 +1090,20 @@ Released on August 18th 2020.
 * New add-on to help with HTML or JavaScript localization, see :ref:`addon-weblate.cdn.cdnjs`.
 * The Weblate domain is now configured in the settings, see :setting:`SITE_DOMAIN`.
 * Add support for searching by component and project.
+
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* Upgrade from 3.x releases is not longer supported, please upgrade to 4.0 or 4.1 first.
+* There are some new and updated requirements.
+* There are several changes in :file:`settings_example.py`, most notable new middleware and changed application ordering.
+* The keys for JSON based formats no longer include leading dot. The strings are adjusted during the database migration, but external components might need adjustment in case you rely on keys in exports or API.
+* The Celery configuration was changed to no longer use ``memory`` queue. Please adjust your startup scripts and ``CELERY_TASK_ROUTES`` setting.
+* The Weblate domain is now configured in the settings, see :setting:`SITE_DOMAIN` (or :envvar:`WEBLATE_SITE_DOMAIN`). You will have to configure it before running Weblate.
+* The username and email fields on user database now should be case insensitive unique. It was mistakenly not enforced with PostgreSQL.
 
 Weblate 4.1.1
 -------------
@@ -945,6 +1164,20 @@ Released on June 15th 2020.
 * API now supports filtering of changes.
 * Added support for sharing glossaries between projects.
 
+**Upgrading**
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* There are several changes in :file:`settings_example.py`, most notable middleware changes, please adjust your settings accordingly.
+* There are new file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
+* There are new quality checks, you might want to include them in case you modified the :setting:`CHECK_LIST`.
+* There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting of rate limiting in the API.
+* There are some new and updated requirements.
+* There is a change in :setting:`django:INSTALLED_APPS`.
+* The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7. The :ref:`mt-deepl` machine translation now uses the new ``MT_DEEPL_API_URL`` instead. You might need to adjust ``MT_DEEPL_API_URL`` to match your subscription.
+
 Weblate 4.0.4
 -------------
 
@@ -952,7 +1185,7 @@ Released on May 7th 2020.
 
 * Fixed testsuite execution on some Python 3.8 environments.
 * Typo fixes in the documentation.
-* Fixed creating components using API in some cases.
+* Fixed creating components using the API in some cases.
 * Fixed JavaScript errors breaking mobile navigation.
 * Fixed crash on displaying some checks.
 * Fixed screenshots listing.

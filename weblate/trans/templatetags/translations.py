@@ -2,12 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 from collections import defaultdict
-from datetime import date
-from uuid import uuid4
+from datetime import date, datetime
 
-from diff_match_patch import diff_match_patch
 from django import template
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
@@ -24,22 +24,32 @@ from weblate.accounts.models import Profile
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
+from weblate.lang.models import Language
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import (
     Announcement,
+    Category,
     Component,
     ContributorAgreement,
     Project,
     Translation,
+    Unit,
 )
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.specialchars import get_display_char
 from weblate.trans.util import split_plural, translation_percent
+from weblate.utils.diff import Differ
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
 from weblate.utils.messages import get_message_kind as get_message_kind_impl
-from weblate.utils.stats import BaseStats, GhostProjectLanguageStats, ProjectLanguage
+from weblate.utils.random import get_random_identifier
+from weblate.utils.stats import (
+    BaseStats,
+    CategoryLanguage,
+    GhostProjectLanguageStats,
+    ProjectLanguage,
+)
 from weblate.utils.views import SORT_CHOICES
 
 register = template.Library()
@@ -57,7 +67,7 @@ GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 
 # This should match whitespace_regex in weblate/static/loader-bootstrap.js
 WHITESPACE_REGEX = (
-    r"(\t|\u00A0|\u1680|\u2000|\u2001|\u2002|\u2003|"
+    r"(\t|\u00A0|\u00AD|\u1680|\u2000|\u2001|\u2002|\u2003|"
     r"\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u200A|"
     r"\u202F|\u205F|\u3000)"
 )
@@ -86,7 +96,7 @@ class Formatter:
         idx,
         value,
         unit,
-        terms,
+        glossary,
         diff,
         search_match,
         match,
@@ -96,19 +106,19 @@ class Formatter:
         self.idx = idx
         self.cleaned_value = self.value = value
         self.unit = unit
-        self.terms = terms
+        self.glossary = glossary
         self.diff = diff
         self.search_match = search_match
         self.match = match
         # Tags output
         self.tags = [[] for i in range(len(value) + 1)]
-        self.dmp = diff_match_patch()
+        self.differ = Differ()
         self.whitespace = whitespace
 
     def parse(self):
         if self.unit:
             self.parse_highlight()
-        if self.terms:
+        if self.glossary:
             self.parse_glossary()
         if self.search_match:
             self.parse_search()
@@ -119,18 +129,23 @@ class Formatter:
 
     def parse_diff(self):  # noqa: C901
         """Highlights diff, including extra whitespace."""
-        dmp = self.dmp
-        diff = dmp.diff_main(self.diff[self.idx], self.value)
-        dmp.diff_cleanupSemantic(diff)
+        diff = self.differ.compare(self.value, self.diff[self.idx])
         offset = 0
         for op, data in diff:
-            if op == dmp.DIFF_DELETE:
+            if op == self.differ.DIFF_DELETE:
                 formatter = Formatter(
-                    0, data, self.unit, self.terms, None, self.search_match, self.match
+                    0,
+                    data,
+                    self.unit,
+                    self.glossary,
+                    None,
+                    self.search_match,
+                    self.match,
                 )
                 formatter.parse()
                 self.tags[offset].append(f"<del>{formatter.format()}</del>")
-            elif op == dmp.DIFF_INSERT:
+            elif op == self.differ.DIFF_INSERT:
+                end = offset + len(data)
                 # Rearrange space highlighting
                 move_space = False
                 start_space = -1
@@ -164,11 +179,47 @@ class Formatter:
                     self.tags[offset].append("<ins>")
                 if move_space:
                     self.tags[offset].append(SPACE_START)
-                offset += len(data)
-                self.tags[offset].append("</ins>")
+                self.tags[end].append("</ins>")
                 if start_space != -1:
-                    self.tags[offset].append(SPACE_START)
-            elif op == dmp.DIFF_EQUAL:
+                    self.tags[end].append(SPACE_START)
+
+                # Rearange other tags
+                open_tags = 0
+                process = False
+                for i in range(offset, end + 1):
+                    remove = []
+                    for pos, tag in enumerate(self.tags[i]):
+                        if not process:
+                            if tag.startswith("<ins"):
+                                process = True
+                            continue
+                        if tag.startswith("</ins>"):
+                            break
+                        if tag.startswith("<span"):
+                            open_tags += 1
+                        elif tag.startswith("</span"):
+                            if open_tags == 0:
+                                # Remove tags spanning over <ins>
+                                remove.append(pos)
+                                found = None
+                                for back in range(offset - 1, 0, -1):
+                                    for child_pos, child in reversed(
+                                        list(enumerate(self.tags[back]))
+                                    ):
+                                        if child.startswith("<span"):
+                                            found = child_pos
+                                            break
+                                    if found is not None:
+                                        del self.tags[back][found]
+                                        break
+                            else:
+                                open_tags -= 1
+                    # Remove closing tags (do this outside the loop)
+                    for pos in reversed(remove):
+                        del self.tags[i][pos]
+
+                offset = end
+            elif op == self.differ.DIFF_EQUAL:
                 offset += len(data)
 
     def parse_highlight(self):
@@ -212,13 +263,15 @@ class Formatter:
         """Highlights glossary entries."""
         # Annotate string with glossary terms
         locations = defaultdict(list)
-        for htext, entries in self.terms.items():
-            for match in re.finditer(
-                rf"(\W|^)({re.escape(htext)})(\W|$)", self.cleaned_value, re.IGNORECASE
-            ):
-                for i in range(match.start(2), match.end(2)):
-                    locations[i].extend(entries)
-                locations[match.end(2)].extend([])
+        for term in self.glossary:
+            for start, end in term.glossary_positions:
+                # Skip terms whose parts belong to placeholders
+                if self.cleaned_value[start:end].lower() != term.source.lower():
+                    continue
+
+                for i in range(start, end):
+                    locations[i].append(term)
+                locations[end].extend([])
 
         # Render span tags for each glossary term match
         last_entries = []
@@ -297,26 +350,115 @@ class Formatter:
                 output.append(escape(char))
         # Trailing tags
         output.append("".join(tags[len(value)]))
-        return mark_safe("".join(output))
+        return mark_safe("".join(output))  # noqa: S308
 
 
 @register.inclusion_tag("snippets/format-translation.html")
+def format_unit_target(
+    unit,
+    value: str | None = None,
+    diff=None,
+    search_match: str | None = None,
+    match: str = "search",
+    simple: bool = False,
+    wrap: bool = False,
+    show_copy: bool = False,
+):
+    return format_translation(
+        plurals=unit.get_target_plurals() if value is None else split_plural(value),
+        language=unit.translation.language,
+        plural=unit.translation.plural,
+        unit=unit,
+        diff=diff,
+        search_match=search_match,
+        match=match,
+        simple=simple,
+        wrap=wrap,
+        show_copy=show_copy,
+    )
+
+
+@register.inclusion_tag("snippets/format-translation.html")
+def format_unit_source(
+    unit,
+    value: str | None = None,
+    diff=None,
+    search_match: str | None = None,
+    match: str = "search",
+    simple: bool = False,
+    glossary=None,
+    wrap: bool = False,
+    show_copy: bool = False,
+):
+    source_translation = unit.translation.component.source_translation
+    return format_translation(
+        plurals=unit.get_source_plurals() if value is None else split_plural(value),
+        language=source_translation.language,
+        plural=source_translation.plural,
+        unit=unit,
+        diff=diff,
+        search_match=search_match,
+        match=match,
+        simple=simple,
+        glossary=glossary,
+        wrap=wrap,
+        show_copy=show_copy,
+    )
+
+
+@register.inclusion_tag("snippets/format-translation.html")
+def format_source_string(
+    value: str,
+    unit,
+    search_match: str | None = None,
+    match: str = "search",
+    simple: bool = False,
+    glossary=None,
+    wrap: bool = False,
+    whitespace: bool = True,
+):
+    """Formats simple string as in the unit source language."""
+    return format_translation(
+        plurals=[value],
+        language=unit.translation.component.source_language,
+        search_match=search_match,
+        match=match,
+        simple=simple,
+        wrap=wrap,
+        whitespace=whitespace,
+    )
+
+
+@register.inclusion_tag("snippets/format-translation.html")
+def format_language_string(
+    value: str,
+    translation,
+    diff=None,
+):
+    """Formats simple string as in the language."""
+    return format_translation(
+        plurals=split_plural(value),
+        language=translation.language,
+        plural=translation.plural,
+        diff=diff,
+    )
+
+
 def format_translation(
-    value,
-    language,
+    plurals: list[str],
+    language=None,
     plural=None,
     diff=None,
-    search_match=None,
+    search_match: str | None = None,
     simple: bool = False,
     wrap: bool = False,
     unit=None,
-    match="search",
+    match: str = "search",
     glossary=None,
     whitespace: bool = True,
+    show_copy: bool = False,
 ):
     """Nicely formats translation text possibly handling plurals or diff."""
-    # Split plurals to separate strings
-    plurals = split_plural(value)
     is_multivalue = unit is not None and unit.translation.component.is_multivalue
 
     if plural is None:
@@ -329,17 +471,13 @@ def format_translation(
         while len(diff) < len(plurals):
             diff.append(diff[0])
 
-    terms = defaultdict(list)
-    for term in glossary or []:
-        terms[term.source].append(term)
-
     # We will collect part for each plural
     parts = []
     has_content = False
 
     for idx, text in enumerate(plurals):
         formatter = Formatter(
-            idx, text, unit, terms, diff, search_match, match, whitespace=whitespace
+            idx, text, unit, glossary, diff, search_match, match, whitespace=whitespace
         )
         formatter.parse()
 
@@ -351,7 +489,13 @@ def format_translation(
         # Join paragraphs
         content = formatter.format()
 
-        parts.append({"title": title, "content": content, "copy": escape(text)})
+        parts.append(
+            {
+                "title": title,
+                "content": content,
+                "copy": escape(text) if show_copy else "",
+            }
+        )
         has_content |= bool(content)
 
     return {
@@ -406,10 +550,10 @@ def documentation_icon(context, page, anchor="", right=False):
 
 @register.inclusion_tag("documentation-icon.html", takes_context=True)
 def form_field_doc_link(context, form, field):
-    if hasattr(form, "get_field_doc"):
+    if hasattr(form, "get_field_doc") and (field_doc := form.get_field_doc(field)):
         return {
             "right": False,
-            "doc_url": get_doc_url(*form.get_field_doc(field), user=context["user"]),
+            "doc_url": get_doc_url(*field_doc, user=context["user"]),
         }
     return {}
 
@@ -543,6 +687,9 @@ def naturaltime(value, now=None):
     For date and time values shows how many seconds, minutes or hours ago compared to
     current timestamp returns representing string.
     """
+    # float is what time() returns
+    if isinstance(value, float):
+        value = datetime.fromtimestamp(value, tz=timezone.get_current_timezone())
     # datetime is a subclass of date
     if not isinstance(value, date):
         return value
@@ -564,6 +711,19 @@ def get_stats(obj):
     return obj.stats
 
 
+@register.inclusion_tag("snippets/list-objects-percent.html")
+def review_percent(obj):
+    stats = get_stats(obj)
+
+    return {
+        "value": stats.approved + stats.readonly,
+        "percent": stats.approved_percent + stats.readonly_percent,
+        "query": "q=state:>=approved",
+        "all": stats.all,
+        "class": "zero-width-540",
+    }
+
+
 def translation_progress_data(
     total: int, readonly: int, approved: int, translated: int, has_review: bool
 ):
@@ -572,11 +732,9 @@ def translation_progress_data(
         approved += readonly
         translated -= readonly
 
-    bad = total - approved - translated
     return {
         "approved": f"{translation_percent(approved, total, False):.1f}",
         "good": f"{translation_percent(translated, total):.1f}",
-        "bad": f"{translation_percent(bad, total, False):.1f}",
     }
 
 
@@ -604,10 +762,24 @@ def words_progress(obj):
     )
 
 
+@register.inclusion_tag("snippets/progress.html")
+def chars_progress(obj):
+    stats = get_stats(obj)
+    return translation_progress_data(
+        stats.all_chars,
+        stats.readonly_chars,
+        stats.approved_chars,
+        stats.translated_chars - stats.translated_checks_chars,
+        stats.has_review,
+    )
+
+
 @register.simple_tag
 def unit_state_class(unit) -> str:
     """Return state flags."""
-    if unit.has_failing_check or not unit.translated:
+    if unit.has_failing_check:
+        return "unit-state-bad"
+    if not unit.translated:
         return "unit-state-todo"
     if unit.approved or (unit.readonly and unit.translation.enable_review):
         return "unit-state-approved"
@@ -664,7 +836,7 @@ def try_linkify_filename(
 
 
 @register.simple_tag
-def get_location_links(profile, unit):
+def get_location_links(user: User | None, unit):
     """Generate links to source files where translation was used."""
     # Fallback to source unit if it has more information
     if not unit.location and unit.source_unit.location:
@@ -677,6 +849,8 @@ def get_location_links(profile, unit):
     # Is it just an ID?
     if unit.location.isdigit():
         return gettext("string ID %s") % unit.location
+
+    profile = user.profile if user else None
 
     # Go through all locations separated by comma
     return format_html_join(
@@ -772,7 +946,7 @@ def get_translate_url(context, obj, glossary_browse=True):
         name = "zen"
     else:
         name = "translate"
-    return reverse(name, kwargs=obj.get_reverse_url_kwargs())
+    return reverse(name, kwargs={"path": obj.get_url_path()})
 
 
 @register.simple_tag(takes_context=True)
@@ -780,17 +954,15 @@ def get_browse_url(context, obj):
     """Get translate URL based on user preference."""
     # Project listing on language page
     if "language" in context and isinstance(obj, Project):
-        return reverse(
-            "project-language",
-            kwargs={"lang": context["language"].code, "project": obj.slug},
-        )
+        project_language = ProjectLanguage(obj, context["language"])
+        return project_language.get_absolute_url()
 
     return obj.get_absolute_url()
 
 
 @register.simple_tag(takes_context=True)
 def init_unique_row_id(context):
-    context["row_uuid"] = uuid4().hex
+    context["row_uuid"] = get_random_identifier()
     return ""
 
 
@@ -838,7 +1010,7 @@ def component_alerts(component):
         yield (
             "state/update.svg",
             gettext("Updating translation component…"),
-            reverse("component_progress", kwargs=component.get_reverse_url_kwargs())
+            reverse("component_progress", kwargs={"path": component.get_url_path()})
             + "?info=1",
         )
 
@@ -978,9 +1150,10 @@ def percent_format(number):
         percent = 99
     else:
         percent = int(number)
-    return pgettext("Translated percents", "%(percent)s%%") % {
-        "percent": intcomma(percent)
-    }
+    return mark_safe(  # noqa: S308
+        pgettext("Translated percents", "%(percent)s%%")
+        % {"percent": intcomma(percent)}
+    )
 
 
 @register.filter
@@ -1046,4 +1219,88 @@ def any_unit_has_context(units):
 def urlize_ugc(value, autoescape=True):
     """Convert URLs in plain text into clickable links."""
     html = urlize(value, nofollow=True, autoescape=autoescape)
-    return mark_safe(html.replace('rel="nofollow"', 'rel="ugc" target="_blank"'))
+    return mark_safe(  # noqa: S308
+        html.replace('rel="nofollow"', 'rel="ugc" target="_blank"')
+    )
+
+
+def get_breadcrumbs(path_object, flags: bool = True):
+    if isinstance(path_object, Unit):
+        yield from get_breadcrumbs(path_object.translation)
+        yield path_object.get_absolute_url(), path_object.pk
+    elif isinstance(path_object, Translation):
+        yield from get_breadcrumbs(path_object.component)
+        yield path_object.get_absolute_url(), path_object.language
+    elif isinstance(path_object, Component):
+        if path_object.category:
+            yield from get_breadcrumbs(path_object.category)
+        else:
+            yield from get_breadcrumbs(path_object.project)
+        name = path_object.name
+        if flags:
+            name = format_html(
+                "{}{}",
+                name,
+                render_to_string(
+                    "snippets/component-glossary-badge.html", {"object": path_object}
+                ),
+            )
+        yield path_object.get_absolute_url(), name
+    elif isinstance(path_object, Category):
+        if path_object.category:
+            yield from get_breadcrumbs(path_object.category)
+        else:
+            yield from get_breadcrumbs(path_object.project)
+        yield path_object.get_absolute_url(), path_object.name
+    elif isinstance(path_object, Project):
+        yield path_object.get_absolute_url(), path_object.name
+    elif isinstance(path_object, Language):
+        yield reverse("languages"), gettext("Languages")
+        yield path_object.get_absolute_url(), path_object
+    elif isinstance(path_object, ProjectLanguage):
+        yield (
+            f"{path_object.project.get_absolute_url()}#languages",
+            path_object.project.name,
+        )
+        yield path_object.get_absolute_url(), path_object.language
+    elif isinstance(path_object, CategoryLanguage):
+        if path_object.category.category:
+            yield from get_breadcrumbs(path_object.category.category)
+        else:
+            yield from get_breadcrumbs(path_object.category.project)
+        yield (
+            f"{path_object.category.get_absolute_url()}#languages",
+            path_object.category.name,
+        )
+        yield path_object.get_absolute_url(), path_object.language
+    else:
+        raise TypeError(f"No breadcrumbs for {path_object}")
+
+
+@register.simple_tag
+def path_object_breadcrumbs(path_object, flags: bool = True):
+    return format_html_join(
+        "\n", '<li><a href="{}">{}</a></li>', get_breadcrumbs(path_object, flags)
+    )
+
+
+@register.simple_tag
+def get_projectlanguage(project, language):
+    return ProjectLanguage(project=project, language=language)
+
+
+@register.simple_tag
+def get_workflow_flags(translation, component):
+    if translation:
+        return {
+            "suggestion_voting": translation.suggestion_voting,
+            "suggestion_autoaccept": translation.suggestion_autoaccept,
+            "enable_suggestions": translation.enable_suggestions,
+            "translation_review": translation.enable_review,
+        }
+    return {
+        "suggestion_voting": component.suggestion_voting,
+        "suggestion_autoaccept": component.suggestion_autoaccept,
+        "enable_suggestions": component.enable_suggestions,
+        "translation_review": component.project.translation_review,
+    }

@@ -124,3 +124,13 @@ class DuplicateCheckTest(CheckTestCase):
                 MockUnit(),
             )
         )
+
+    def test_html_markup(self):
+        self.assertEqual(
+            self.check.check_single(
+                "",
+                "A maneira com o lobistas da indústria dos combustíveis fósseis consegues influenciar decisores políticos é um problema global. Em nenhuma parte do mundo isto é mais evidente do que na COP28, que será [presidida pelo Presidente Executivo da Companhia Nacional de Petróleo de Abu Dhabi](https://www.euronews.com/green/2023/05/24/us-and-eu-lawmakers-call-for-designated-head-of-cop28-talks-to-be-removed) - é difícil imaginar um conflito de interesses mais óbvio que este. O atual governo do Reino Unido fez poucos esforços para esconder as suas relações com os ‘think tanks’ da [Tufton Street](https://www.desmog.com/2023/04/21/tufton-street-linked-donors-have-given-630000-to-the-conservatives-since-sunak-became-prime-minister). Estes think tanks estão são altamente cuidadosos sobre revelar os seus financiadores, mas é extremamente claro quem é que o seu trabalho beneficia. O Governo do Reino Unido tem introduzido legislação anti-protesto cada vez mais draconiana, que tem sido associada a estes grupos. Defensores do clima no Reino Unido têm sido presos por [mencionar a emergência climática](https://www.opendemocracy.net/en/activists-jailed-for-seven-weeks-for-defying-ban-on-mentioning-climate-crisis) na sua defesa em tribunal. Foi instaurado um processo por desacato ao tribunal contra um manifestante pelo simples facto de [segurar um cartaz] (https://goodlawproject.org/solicitor-general-launches-proceedings-for-holding-a-placard/) à porta de um tribunal a lembrar os jurados que podiam agir de acordo com a sua consciência. É claro que a influência destes lobistas é extremamente prejudicial tanto para para a democracia como para o nosso planeta.",
+                MockUnit(code="pt"),
+            ),
+            {"para"},
+        )

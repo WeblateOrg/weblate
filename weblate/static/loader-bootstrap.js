@@ -136,7 +136,7 @@ function screenshotFailure() {
 }
 
 function screenshotAddString() {
-  var pk = $(this).data("pk");
+  var pk = this.getAttribute("data-pk");
   var form = $("#screenshot-add-form");
 
   $("#add-source").val(pk);
@@ -157,7 +157,7 @@ function screenshotAddString() {
   });
 }
 
-function screnshotResultError(severity, message) {
+function screenshotResultError(severity, message) {
   $("#search-results tbody.unit-listing-body").html(
     $("<tr/>")
       .addClass(severity)
@@ -168,9 +168,9 @@ function screnshotResultError(severity, message) {
 function screenshotLoaded(data) {
   decreaseLoading("screenshots");
   if (data.responseCode !== 200) {
-    screnshotResultError("danger", gettext("Error loading search results!"));
+    screenshotResultError("danger", gettext("Error loading search results!"));
   } else if (data.results.length === 0) {
-    screnshotResultError(
+    screenshotResultError(
       "warning",
       gettext("No new matching source strings found."),
     );
@@ -185,8 +185,8 @@ function isNumber(n) {
 }
 
 function extractText(cell) {
-  var value = $(cell).data("value");
-  if (typeof value !== "undefined") {
+  var value = cell.getAttribute("data-value");
+  if (value !== null) {
     return value;
   }
   return $.text(cell);
@@ -405,7 +405,7 @@ function initHighlight(root) {
       let whitespace_regex = new RegExp(
         [
           "  +|(^) +| +(?=$)| +\n|\n +|\t|",
-          "\u00A0|\u1680|\u2000|\u2001|",
+          "\u00A0|\u00AD|\u1680|\u2000|\u2001|",
           "\u2002|\u2003|\u2004|\u2005|",
           "\u2006|\u2007|\u2008|\u2009|",
           "\u200A|\u202F|\u205F|\u3000",
@@ -587,13 +587,15 @@ $(function () {
     var $this = $(this);
     var $form = $("#link-post");
 
-    if ($this.data("action")) {
+    var action = this.getAttribute("data-action");
+
+    if (action) {
       $.ajax({
         type: "POST",
-        url: $this.data("action"),
+        url: action,
         data: {
           csrfmiddlewaretoken: $form.find("input").val(),
-          id: $this.data("id"),
+          id: this.getAttribute("data-id"),
         },
         error: function (jqXHR, textStatus, errorThrown) {
           addAlert(errorThrown);
@@ -660,9 +662,9 @@ $(function () {
     $("#screenshotModal").text($this.attr("title"));
 
     var detailsLink = $("#modalDetailsLink");
-    detailsLink.attr("href", $this.data("details-url"));
-    if ($this.data("can-edit")) {
-      detailsLink.text(detailsLink.data("edit-text"));
+    detailsLink.attr("href", this.getAttribute("data-details-url"));
+    if (this.getAttribute("data-can-edit")) {
+      detailsLink.text(detailsLink.getAttribute("data-edit-text"));
     }
 
     $("#imagemodal").modal("show");
@@ -675,7 +677,7 @@ $(function () {
     screenshotStart();
     $.ajax({
       type: "POST",
-      url: $this.data("href"),
+      url: this.getAttribute("data-href"),
       data: $this.parent().serialize(),
       dataType: "json",
       success: screenshotLoaded,
@@ -930,7 +932,7 @@ $(function () {
       $("#position-input").show();
       $("#position-input-editable-input").attr("type", "hidden");
       $("#position-input-editable").hide();
-      document.removeEventListener("click", clickedOutsideEditableInput);
+      document.emoveEventListener("click", clickedOutsideEditableInput);
       document.removeEventListener("keyup", pressedEscape);
     }
   };
@@ -1155,6 +1157,28 @@ $(function () {
     }
   });
 
+  /* Notifications removal */
+  document
+    .querySelectorAll(".nav-pills > li > a > button.close")
+    .forEach((button) => {
+      button.addEventListener("click", (e) => {
+        let link = button.parentElement;
+        document
+          .querySelectorAll(link.getAttribute("href") + " select")
+          .forEach((select) => select.remove());
+        //      document.getElementById(link.getAttribute("href").substring(1)).remove();
+        link.parentElement.remove();
+        /* Activate watched tab */
+        $("a[href='#notifications__1']").tab("show");
+        addAlert(
+          gettext(
+            "Notification settings removed, please do not forget to save the changes.",
+          ),
+          "info",
+        );
+      });
+    });
+
   /* User autocomplete */
   document
     .querySelectorAll(".user-autocomplete")
@@ -1257,8 +1281,14 @@ $(function () {
     },
   });
 
-  document.querySelectorAll("link[as=style]").forEach((linkElement) => {
-    linkElement.setAttribute("rel", "stylesheet");
+  document.querySelectorAll("[data-visibility]").forEach((toggle) => {
+    toggle.addEventListener("click", (event) => {
+      document
+        .querySelectorAll(toggle.getAttribute("data-visibility"))
+        .forEach((element) => {
+          element.classList.toggle("visible");
+        });
+    });
   });
 
   /* Warn users that they do not want to use developer console in most cases */

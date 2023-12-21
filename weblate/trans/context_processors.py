@@ -11,7 +11,6 @@ from django.utils.html import format_html
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext
 
-import weblate.screenshots.views
 import weblate.utils.version
 from weblate.configuration.views import CustomCSSView
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
@@ -39,6 +38,7 @@ CONTEXT_SETTINGS = [
     "AVATAR_URL_PREFIX",
     "HIDE_VERSION",
     "EXTRA_HTML_HEAD",
+    "PRIVATE_COMMIT_EMAIL_OPT_IN",
     # Hosted Weblate integration
     "PAYMENT_ENABLED",
 ]
@@ -109,7 +109,7 @@ def get_interledger_payment_pointer():
     if not interledger_payment_pointers:
         return None
 
-    return random.choice(interledger_payment_pointers)
+    return random.choice(interledger_payment_pointers)  # noqa: S311
 
 
 def weblate_context(request):
@@ -168,7 +168,6 @@ def weblate_context(request):
         "site_url": get_site_url(),
         "site_domain": get_site_domain(),
         "login_redirect_url": login_redirect_url,
-        "has_ocr": weblate.screenshots.views.HAS_OCR,
         "has_antispam": bool(settings.AKISMET_API_KEY),
         "has_sentry": bool(settings.SENTRY_DSN),
         "watched_projects": watched_projects,

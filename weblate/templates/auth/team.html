@@ -60,6 +60,9 @@
   </div>
   {% if form %}
     <div class="tab-pane" id="auto">
+      <p>
+        {% trans "Automatically add newly created users to this team based on their e-mail address." %} {% documentation_icon 'admin/access' 'autoteam' %}
+      </p>
       {{ auto_formset | crispy }}
       <div class="multiFieldEmpty hidden">
         {{ auto_formset.empty_form | crispy }}
@@ -129,7 +132,7 @@
         </table>
         {% if users.paginator.num_pages > 1 %}
           <div class="panel-footer">
-            {% include "paginator.html" with page_obj=users anchor="users" %}
+            {% include "paginator.html" with page_obj=users anchor="users" paginator_form="paginator-form"%}
           </div>
         {% endif %}
         <div class="panel-footer">
@@ -188,4 +191,5 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
   </form>
+  <form method="GET" id="paginator-form"></form>
 {% endblock %}

@@ -64,6 +64,6 @@ class LongUntranslatedCheckTestCase(FixtureTestCase):
     def test_old_untranslated(self):
         unit = self.get_unit(language="en")
         unit.timestamp = timezone.now() - timedelta(days=100)
-        unit.translation.component.stats.lazy_translated_percent = 100
+        unit.translation.component.stats._data = {"translated": 1, "all": 1}
         unit.run_checks()
         self.assertIn("long_untranslated", unit.all_checks_names)

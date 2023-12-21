@@ -19,7 +19,7 @@ register = template.Library()
 def add_site_url(content):
     """Automatically add site URL to any relative links or images."""
     parser = etree.HTMLParser(collect_ids=False)
-    tree = etree.parse(StringIO(content), parser)
+    tree = etree.parse(StringIO(content), parser)  # noqa: S320
     for link in tree.findall("//a"):
         url = link.get("href")
         if url.startswith("/"):
@@ -28,7 +28,7 @@ def add_site_url(content):
         url = link.get("src")
         if url.startswith("/"):
             link.set("src", get_site_url(url))
-    return mark_safe(
+    return mark_safe(  # noqa: S308
         etree.tostring(
             tree.getroot(), pretty_print=True, method="html", encoding="unicode"
         )

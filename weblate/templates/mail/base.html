@@ -67,7 +67,7 @@
                 <td><a href="{{ component.get_absolute_url }}">{{ component.stats.languages|intcomma }}</a></td>
                 <td></td>
             </tr>
-            {% url "search" project=component.project.slug component=component.slug as search_url %}
+            {% url "search" path=component.get_url_path as search_url %}
             {% include "mail/snippets/stats.html" with stats=component.stats url=search_url %}
         </table>
         <div class="buttons">
@@ -88,7 +88,7 @@
                 <td><a href="{{ project.get_absolute_url }}#languages">{{ project.stats.languages|intcomma }}</td>
                 <td></td>
             </tr>
-            {% url "search" project=project.slug as search_url %}
+            {% url "search" path=project.get_url_path as search_url %}
             {% include "mail/snippets/stats.html" with stats=project.stats url=search_url %}
         </table>
         <div class="buttons">

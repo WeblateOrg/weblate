@@ -7,15 +7,15 @@ from django.shortcuts import render
 from django.views.decorators.cache import never_cache
 
 from weblate.trans.forms import ContributorAgreementForm
-from weblate.trans.models import ContributorAgreement
+from weblate.trans.models import Component, ContributorAgreement
 from weblate.trans.util import redirect_next
-from weblate.utils.views import get_component
+from weblate.utils.views import parse_path
 
 
 @never_cache
 @login_required
-def agreement_confirm(request, project, component):
-    component = get_component(request, project, component)
+def agreement_confirm(request, path):
+    component = parse_path(request, path, (Component,))
 
     has_agreed = ContributorAgreement.objects.has_agreed(request.user, component)
 

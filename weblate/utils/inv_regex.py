@@ -235,7 +235,7 @@ def invert_re(regex):
     from weblate.utils.errors import report_error
 
     try:
-        invre = GroupEmitter(RE_PARSER.parseString(regex)).make_generator()
+        invre = GroupEmitter(RE_PARSER.parse_string(regex)).make_generator()
     except ParseException:
         report_error(cause="Regexp parser")
         return []

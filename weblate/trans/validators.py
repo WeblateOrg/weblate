@@ -39,7 +39,7 @@ def validate_check_flags(val):
     try:
         flags = Flags(val)
     except (ParseException, re.error) as error:
-        raise ValidationError(gettext("Could not parse flags: %s") % error)
+        raise ValidationError(gettext("Could not parse flags: %s") % error) from error
     flags.validate()
 
 

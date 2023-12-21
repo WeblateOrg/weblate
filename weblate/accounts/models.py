@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import datetime
+from urllib.parse import urlparse
 
 from appconf import AppConf
 from django.conf import settings
@@ -32,7 +33,7 @@ from weblate.trans.defines import EMAIL_LENGTH
 from weblate.trans.models import ComponentList
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.fields import EmailField, JSONField
+from weblate.utils.fields import EmailField
 from weblate.utils.render import validate_editor
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.token import get_token
@@ -154,8 +155,10 @@ ACCOUNT_ACTIVITY = {
     "failed-auth": gettext_lazy("Could not sign in using {method} ({name})."),
     "locked": gettext_lazy("Account locked due to many failed sign in attempts."),
     "removed": gettext_lazy("Account and all private data removed."),
+    "removal-request": gettext_lazy("Account removal confirmation sent to {email}."),
     "tos": gettext_lazy("Agreement with Terms of Service {date}."),
     "invited": gettext_lazy("Invited to {site_title} by {username}."),
+    "accepted": gettext_lazy("Accepted invitation from {username}."),
     "trial": gettext_lazy("Started trial period."),
     "sent-email": gettext_lazy("Sent confirmation mail to {email}."),
     "autocreated": gettext_lazy(
@@ -163,6 +166,8 @@ ACCOUNT_ACTIVITY = {
         "translations uploaded by other user."
     ),
     "blocked": gettext_lazy("Access to project {project} was blocked"),
+    "enabled": gettext_lazy("User was enabled by administrator"),
+    "disabled": gettext_lazy("User was disabled by administrator"),
 }
 # Override activity messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
@@ -171,7 +176,10 @@ ACCOUNT_ACTIVITY_METHOD = {
         "login": gettext_lazy("Signed in using password."),
         "login-new": gettext_lazy("Signed in using password from a new device."),
         "failed-auth": gettext_lazy("Could not sign in using password."),
-    }
+    },
+    "project": {
+        "invited": gettext_lazy("Invited to {project} by {username}."),
+    },
 }
 
 EXTRA_MESSAGES = {
@@ -180,6 +188,12 @@ EXTRA_MESSAGES = {
     ),
     "blocked": gettext_lazy(
         "Please contact project maintainers if you feel this is inappropriate."
+    ),
+    "register": gettext_lazy(
+        "If it was you, please use a password reset to regain access to your account."
+    ),
+    "connect": gettext_lazy(
+        "If it was you, please use a password reset to regain access to your account."
     ),
 }
 
@@ -264,7 +278,7 @@ class AuditLog(models.Model):
         choices=[(a, a) for a in sorted(ACCOUNT_ACTIVITY.keys())],
         db_index=True,
     )
-    params = JSONField()
+    params = models.JSONField(default=dict)
     address = models.GenericIPAddressField(null=True)
     user_agent = models.CharField(max_length=200, default="")
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -318,6 +332,7 @@ class AuditLog(models.Model):
             and self.user.is_active
             and self.user.email
             and self.activity in NOTIFY_ACTIVITY
+            and not self.params.get("skip_notify")
         )
 
     def check_rate_limit(self, request):
@@ -555,7 +570,7 @@ class Profile(models.Model):
         db_index=False,
     )
     twitter = models.SlugField(
-        verbose_name=gettext_lazy("Twitter username"),
+        verbose_name=gettext_lazy("X username"),
         blank=True,
         db_index=False,
     )
@@ -608,6 +623,14 @@ class Profile(models.Model):
 
     def get_user_name(self):
         return get_user_display(self.user, False)
+
+    def get_fediverse_share(self):
+        if not self.fediverse:
+            return None
+        parsed = urlparse(self.fediverse)
+        if not parsed.hostname:
+            return None
+        return parsed._replace(path="/share", query="text=", fragment="").geturl()
 
     def increase_count(self, item: str, increase: int = 1):
         """Updates user actions counter."""
@@ -714,16 +737,32 @@ class Profile(models.Model):
     def secondary_language_ids(self) -> set[int]:
         return set(self.secondary_languages.values_list("pk", flat=True))
 
-    def get_translation_order(self, translation) -> int:
-        """Returns key suitable for ordering languages based on user preferences."""
-        language = translation.language
-        if language.pk in self.primary_language_ids:
-            return 0
-        if language.pk in self.secondary_language_ids:
-            return 1
-        if translation.is_source:
-            return 2
-        return 3
+    def get_translation_orderer(self, request):
+        """Returns function suitable for ordering languages based on user preferences."""
+
+        def get_translation_order(translation) -> str:
+            from weblate.trans.models import Unit
+
+            if isinstance(translation, Unit):
+                translation = translation.translation
+            language = translation.language
+
+            if language.pk in self.primary_language_ids:
+                priority = 0
+            elif language.pk in self.secondary_language_ids:
+                priority = 1
+            elif (
+                not self.primary_language_ids and language == request.accepted_language
+            ):
+                priority = 2
+            elif translation.is_source:
+                priority = 3
+            else:
+                priority = 4
+
+            return f"{priority}-{language}"
+
+        return get_translation_order
 
     def fixup_profile(self, request):
         fields = set()

@@ -49,7 +49,9 @@
           <td>
             {% include "auth/teams-components.html" %}
           </td>
-          <td class="number">{{ group.user__count|intcomma }}</td>
+          <td class="number">
+            {% include "auth/teams-count.html" %}
+          </td>
           <td>
             <a href="{{ group.get_absolute_url }}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">
               {% icon 'pencil.svg' %}

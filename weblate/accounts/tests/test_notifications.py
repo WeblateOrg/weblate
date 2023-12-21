@@ -195,25 +195,11 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.validate_notifications(3, "[Weblate] Parse error in Test/Test")
 
     def test_notify_new_string(self):
-        Change.objects.create(
-            translation=self.get_translation(), action=Change.ACTION_NEW_STRING
-        )
+        Change.objects.create(unit=self.get_unit(), action=Change.ACTION_NEW_UNIT)
 
         # Check mail
         self.validate_notifications(
             1, "[Weblate] New string to translate in Test/Test — Czech"
-        )
-
-    def test_notify_new_strings(self):
-        Change.objects.create(
-            translation=self.get_translation(),
-            action=Change.ACTION_NEW_STRING,
-            details={"count": 10},
-        )
-
-        # Check mail
-        self.validate_notifications(
-            1, "[Weblate] New strings to translate in Test/Test — Czech"
         )
 
     def test_notify_new_translation(self):
@@ -413,7 +399,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         frequency=FREQ_DAILY,
         notify=notify_daily,
         change=Change.ACTION_FAILED_MERGE,
-        subj="Repository failure",
+        subj="Repository operation failed",
     ):
         Subscription.objects.filter(
             frequency=FREQ_INSTANT,
@@ -445,7 +431,10 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.test_digest(FREQ_MONTHLY, notify_monthly)
 
     def test_digest_new_lang(self):
-        self.test_digest(change=Change.ACTION_REQUESTED_LANGUAGE, subj="New language")
+        self.test_digest(
+            change=Change.ACTION_REQUESTED_LANGUAGE,
+            subj="New language was added or requested",
+        )
 
     def test_reminder(
         self,

@@ -79,9 +79,8 @@ def guess_user_language(request, translations):
             pass
 
     # Try getting from Accept-Language
-    language = Language.objects.get_request_language(request)
-    if language is not None:
-        return language
+    if request.accepted_language:
+        return request.accepted_language
 
     # Random language from existing translations, we do not want to list all
     # languages by default

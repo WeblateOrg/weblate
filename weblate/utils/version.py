@@ -3,14 +3,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
-from collections import namedtuple
 
-from weblate.vcs.base import RepositoryException
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitRepository
-
-# This has to stay here for compatibility reasons - it is stored pickled in
-# the cache and moving it around breaks ugprades.
-Release = namedtuple("Release", ["version", "timestamp"])
 
 
 def get_root_dir():
@@ -20,7 +15,7 @@ def get_root_dir():
 
 
 # Weblate version
-VERSION = "5.0-dev"
+VERSION = "5.4-dev"
 
 # Version string without suffix
 VERSION_BASE = VERSION.replace("-dev", "").replace("-rc", "")
@@ -38,7 +33,7 @@ try:
     GIT_VERSION = GIT_REPO.describe()
     GIT_REVISION = GIT_REPO.last_revision
     del GIT_REPO
-except (RepositoryException, OSError):
+except (RepositoryError, OSError):
     # Special case for Docker bleeding builds
     if "WEBLATE_DOCKER_GIT_REVISION" in os.environ:
         GIT_REVISION = os.environ["WEBLATE_DOCKER_GIT_REVISION"]

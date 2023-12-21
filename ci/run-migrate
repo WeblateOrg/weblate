@@ -15,11 +15,6 @@ else
     exit 1
 fi
 
-if [ "$TAG" = "weblate-4.5" ] && [ "$CI_DATABASE" = "mysql" ] ; then
-    echo "Weblate 4.5 was not installable on MySQL with utf8mb4"
-    exit 0
-fi
-
 HEAD_COMMIT=$(git rev-parse HEAD)
 
 print_step "Testing migration from $TAG on $CI_DATABASE..."
@@ -33,11 +28,7 @@ check
 git checkout "$TAG"
 check
 # Use clean virtualenv for each version, this avoids pip problems when trying to downgrade from current versions
-if [ "$1" = "4.18" ] ; then
-  virtualenv --python python3.11 ".venv-$TAG"
-else
-  virtualenv --python python3.7 ".venv-$TAG"
-fi
+virtualenv --python python3.11 ".venv-$TAG"
 check
 # shellcheck source=/dev/null
 . ".venv-$TAG/bin/activate"
@@ -89,11 +80,6 @@ if [ -f ./weblate/trans/tests/data/memory.json ] ; then
     check
     # Create huge entry
     ./manage.py shell -c 'from weblate.memory.models import Memory; from weblate.lang.models import Language; Memory.objects.create(source_language=Language.objects.get(code="en"), target_language=Language.objects.get(code="cs"), source="source"*1000, target="target"*1000, origin="origin"*1000)'
-    check
-fi
-# Create glossaries
-if [ "$TAG" = "weblate-4.4" ] ; then
-    ./manage.py shell -c 'from weblate.lang.models import Language; from weblate.glossary.models import Glossary; from weblate.trans.models import Component; component = Component.objects.first(); glossary = Glossary.objects.create(project=component.project, name="Test Glossary", source_language=component.source_language, color="navy"); glossary.term_set.create(user=None, language=Language.objects.get(code="cs"), source="hello", target="ahoj")'
     check
 fi
 git reset --hard

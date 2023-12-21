@@ -68,7 +68,7 @@ work, but is not as well tested as single version upgrades.
         # Install optional dependencies directly when not using virtualenv
         pip install --upgrade -r requirements-optional.txt
 
-#. New Weblate release might have new :ref:`optional-deps`, please check if they cover
+#. New Weblate release might have new :ref:`python-deps`, please check if they cover
    features you want.
 
 #. Upgrade configuration file, refer to :file:`settings_example.py` or
@@ -124,19 +124,15 @@ Upgrades across major versions are not supported. Always upgrade to the latest
 patch level for the initial major release. Upgrades skipping this step are not
 supported and will break.
 
-If you are upgrading from the 2.x release, always first upgrade to 3.0.1
-and then continue upgrading within the 3.x series.
-
-If you are upgrading from the 3.x release, always first upgrade to 4.0.4
-and then continue upgrading within the 4.x series.
+* If you are upgrading from the 2.x release, always first upgrade to 3.0.1.
+* If you are upgrading from the 3.x release, always first upgrade to 4.0.4.
+* If you are upgrading from the 4.x release, always first upgrade to 5.0.2.
 
 .. seealso::
 
    `Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs.weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_,
-   `Upgrade from 3.11 to 4.0 in Weblate 4.0 documentation <https://docs.weblate.org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_
-
-..
-  TODO: Add link to Weblate 5.0 docs once it is built
+   `Upgrade from 3.11 to 4.0 in Weblate 4.0 documentation <https://docs.weblate.org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_,,
+   `Upgrade from 4.x to 5.0.2 in Weblate 5.0 documentation <https://docs.weblate.org/en/weblate-5.0.2/changes.html>`_
 
 .. _database-migration:
 
@@ -164,76 +160,6 @@ It is usually a good idea to run Weblate in a separate database, and separate us
 
     # Create the database "weblate" owned by "weblate"
     sudo -u postgres createdb -E UTF8 -O weblate weblate
-
-Migrating using Django JSON dumps
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The simplest approach for migration is to utilize Django JSON dumps. This works well for smaller installations. On bigger sites you might want to use pgloader instead, see :ref:`pgloader-migration`.
-
-1. Add PostgreSQL as additional database connection to the :file:`settings.py`:
-
-.. code-block:: python
-
-    DATABASES = {
-        "default": {
-            # Database engine
-            "ENGINE": "django.db.backends.mysql",
-            # Database name
-            "NAME": "weblate",
-            # Database user
-            "USER": "weblate",
-            # Database password
-            "PASSWORD": "password",
-            # Set to empty string for localhost
-            "HOST": "database.example.com",
-            # Set to empty string for default
-            "PORT": "",
-            # Additional database options
-            "OPTIONS": {
-                # In case of using an older MySQL server, which has MyISAM as a default storage
-                # 'init_command': 'SET storage_engine=INNODB',
-                # Uncomment for MySQL older than 5.7:
-                # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-                # If your server supports it, see the Unicode issues above
-                "charset": "utf8mb4",
-                # Change connection timeout in case you get MySQL gone away error:
-                "connect_timeout": 28800,
-            },
-        },
-        "postgresql": {
-            # Database engine
-            "ENGINE": "django.db.backends.postgresql",
-            # Database name
-            "NAME": "weblate",
-            # Database user
-            "USER": "weblate",
-            # Database password
-            "PASSWORD": "password",
-            # Set to empty string for localhost
-            "HOST": "database.example.com",
-            # Set to empty string for default
-            "PORT": "",
-        },
-    }
-
-2. Run migrations and drop any data inserted into the tables:
-
-.. code-block:: sh
-
-   weblate migrate --database=postgresql
-   weblate sqlflush --database=postgresql | weblate dbshell --database=postgresql
-
-3. Dump legacy database and import to PostgreSQL
-
-.. code-block:: sh
-
-   weblate dumpdata --all --output weblate.json
-   weblate loaddata weblate.json --database=postgresql
-
-4. Adjust :setting:`django:DATABASES` to use just PostgreSQL database as default,
-   remove legacy connection.
-
-Weblate should be now ready to run from the PostgreSQL database.
 
 .. _pgloader-migration:
 

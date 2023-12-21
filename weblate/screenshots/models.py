@@ -8,6 +8,7 @@ import os
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.files import File
+from django.core.files.storage import default_storage
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import m2m_changed
@@ -32,15 +33,17 @@ class ScreenshotQuerySet(models.QuerySet):
         return self.order_by("name")
 
     def filter_access(self, user):
-        if user.is_superuser:
-            return self
-        return self.filter(
-            Q(translation__component__project__in=user.allowed_projects)
-            & (
+        result = self
+        if user.needs_project_filter:
+            result = result.filter(
+                translation__component__project__in=user.allowed_projects
+            )
+        if user.needs_component_restrictions_filter:
+            result = result.filter(
                 Q(translation__component__restricted=False)
                 | Q(translation__component_id__in=user.component_permissions)
             )
-        )
+        return result
 
 
 class Screenshot(models.Model, UserDisplayMixin):
@@ -55,7 +58,7 @@ class Screenshot(models.Model, UserDisplayMixin):
     )
     image = ScreenshotField(
         verbose_name=gettext_lazy("Image"),
-        help_text=gettext_lazy("Upload JPEG or PNG images up to 2000x2000 pixels."),
+        help_text=gettext_lazy("Upload image up to 2000x2000 pixels."),
         upload_to="screenshots/",
     )
     translation = models.ForeignKey(Translation, on_delete=models.deletion.CASCADE)
@@ -102,8 +105,9 @@ def validate_screenshot_image(component, filename):
         with open(full_name, "rb") as f:
             image_file = File(f, name=os.path.basename(filename))
             validate_bitmap(image_file)
-    except ValidationError:
-        report_error(cause="Failed to validate image from repository")
+    except ValidationError as error:
+        component.log_error("failed to validate screenshot %s: %s", filename, error)
+        report_error(cause="Could not validate image from repository")
         return False
     return True
 
@@ -120,13 +124,18 @@ def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs):
     # Update existing screenshots
     for screenshot in screenshots:
         filename = screenshot.repository_filename
+        component.log_debug("detected screenshot change in repository: %s", filename)
         changed_files.remove(filename)
 
         if validate_screenshot_image(component, filename):
             full_name = os.path.join(component.full_path, filename)
             with open(full_name, "rb") as f:
-                screenshot.image = File(f, name=os.path.basename(filename))
+                screenshot.image = File(
+                    f,
+                    name=default_storage.get_available_name(os.path.basename(filename)),
+                )
                 screenshot.save(update_fields=["image"])
+                component.log_info("updated screenshot from repository: %s", filename)
 
     # Add new screenshots matching screenshot filemask
     for filename in changed_files:
@@ -138,8 +147,14 @@ def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs):
                 screenshot = Screenshot.objects.create(
                     name=filename,
                     repository_filename=filename,
-                    image=File(f, name=os.path.basename(filename)),
+                    image=File(
+                        f,
+                        name=default_storage.get_available_name(
+                            os.path.basename(filename)
+                        ),
+                    ),
                     translation=component.source_translation,
                     user=get_anonymous(),
                 )
                 screenshot.save()
+                component.log_info("create screenshot from repository: %s", filename)

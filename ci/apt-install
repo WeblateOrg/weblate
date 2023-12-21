@@ -31,13 +31,11 @@ apt-get install -y \
     git-svn \
     gnupg \
     subversion \
-    postgresql-client-15 \
+    postgresql-client-16 \
     pkg-config \
     libxml2-dev \
     libacl1-dev \
     libxmlsec1-dev \
-    libleptonica-dev \
-    libtesseract-dev \
     libsasl2-dev \
     libldap2-dev \
     libssl-dev \
@@ -45,8 +43,7 @@ apt-get install -y \
     libgirepository1.0-dev \
     libcairo-dev \
     liblz4-dev \
-    gir1.2-pango-1.0 \
-    tesseract-ocr
+    gir1.2-pango-1.0
 
 # Remove MySQL 8.x client, use older MariaDB one to ensure compatibility
 if [ "$CI_DATABASE" = "mariadb" ] ; then

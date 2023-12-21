@@ -69,9 +69,13 @@ def report_error(
     if isinstance(error, JSONDecodeError) and not extra_log and hasattr(error, "doc"):
         extra_log = repr(error.doc)
 
-    log("%s: %s: %s", cause, error.__class__.__name__, error)
+    if error:
+        log("%s: %s: %s", cause, error.__class__.__name__, error)
     if extra_log:
-        log("%s: %s: %s", cause, error.__class__.__name__, extra_log)
+        if error:
+            log("%s: %s: %s", cause, error.__class__.__name__, extra_log)
+        else:
+            log("%s: %s", cause, extra_log)
     if print_tb:
         LOGGER.exception(cause)
 

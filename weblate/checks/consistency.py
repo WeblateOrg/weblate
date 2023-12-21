@@ -2,13 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from functools import reduce
 
 from django.db.models import Count, Prefetch, Q, Value
-from django.db.models.functions import MD5
+from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
-from weblate.checks.base import TargetCheck
+from weblate.checks.base import BatchCheckMixin, TargetCheck
 from weblate.utils.state import STATE_TRANSLATED
 
 
@@ -59,7 +61,7 @@ class SamePluralsCheck(TargetCheck):
         return False
 
 
-class ConsistencyCheck(TargetCheck):
+class ConsistencyCheck(TargetCheck, BatchCheckMixin):
     """Check for inconsistent translations."""
 
     check_id = "inconsistent"
@@ -73,6 +75,12 @@ class ConsistencyCheck(TargetCheck):
     batch_project_wide = True
     skip_suggestions = True
 
+    def get_propagated_value(self, unit):
+        return unit.target
+
+    def get_propagated_units(self, unit, target: str | None = None):
+        return unit.same_source_units
+
     def check_target_unit(self, sources, targets, unit):
         component = unit.translation.component
         if not component.allow_translation_propagation:
@@ -82,7 +90,7 @@ class ConsistencyCheck(TargetCheck):
         if component.batch_checks:
             return self.handle_batch(unit, component)
 
-        for other in unit.same_source_units:
+        for other in self.get_propagated_units(unit):
             if unit.target == other.target:
                 continue
             if unit.translated or other.translated:
@@ -131,7 +139,7 @@ class ConsistencyCheck(TargetCheck):
         )
 
 
-class ReusedCheck(TargetCheck):
+class ReusedCheck(TargetCheck, BatchCheckMixin):
     """
     Check for reused translations.
 
@@ -146,41 +154,34 @@ class ReusedCheck(TargetCheck):
     batch_project_wide = True
     skip_suggestions = True
 
-    def should_skip(self, unit):
-        if unit.translation.plural.number <= 1:
-            return True
-        return super().should_skip(unit)
+    def get_propagated_value(self, unit):
+        return unit.source
 
-    def get_same_target_units(self, unit):
+    def get_propagated_units(self, unit, target: str | None = None):
         from weblate.trans.models import Unit
 
-        translation = unit.translation
-        component = translation.component
-        return Unit.objects.filter(
-            target__md5=MD5(Value(unit.target)),
-            translation__component__project_id=component.project_id,
-            translation__language_id=translation.language_id,
-            translation__component__source_language_id=component.source_language_id,
-            translation__component__allow_translation_propagation=True,
-            translation__plural_id=translation.plural_id,
-            translation__plural__number__gt=1,
-        ).exclude(source__md5=MD5(Value(unit.source)))
+        if target is None:
+            return unit.same_target_units
+        return Unit.objects.same_target(unit, target)
+
+    def should_skip(self, unit):
+        if unit.translation.plural.number <= 1 or not any(unit.get_target_plurals()):
+            return True
+        return super().should_skip(unit)
 
     def check_target_unit(self, sources, targets, unit):
         translation = unit.translation
         component = translation.component
-        if not component.allow_translation_propagation:
-            return False
 
         # Use last result if checks are batched
         if component.batch_checks:
             return self.handle_batch(unit, component)
 
-        return self.get_same_target_units(unit).exists()
+        return self.get_propagated_units(unit).exists()
 
     def get_description(self, check_obj):
         other_sources = (
-            self.get_same_target_units(check_obj.unit)
+            self.get_propagated_units(check_obj.unit)
             .values_list("source", flat=True)
             .distinct()
         )
@@ -201,14 +202,16 @@ class ReusedCheck(TargetCheck):
             translation__component__allow_translation_propagation=True,
             state__gte=STATE_TRANSLATED,
         )
+        # Lower has no effect here, but we want to utilize index
+        units = units.exclude(target__lower__md5=MD5(Lower(Value(""))))
 
         # List strings with different sources
-        # Limit this to 100 strings, otherwise the resulting query is way too complex
+        # Limit this to 20 strings, otherwise the resulting query is too slow
         matches = (
             units.values("target__md5", "translation__language", "translation__plural")
             .annotate(source__count=Count("source", distinct=True))
             .filter(source__count__gt=1)
-            .order_by("target__md5")[:100]
+            .order_by("target__md5")[:20]
         )
 
         if not matches:
@@ -232,7 +235,7 @@ class ReusedCheck(TargetCheck):
         )
 
 
-class TranslatedCheck(TargetCheck):
+class TranslatedCheck(TargetCheck, BatchCheckMixin):
     """Check for inconsistent translations."""
 
     check_id = "translated"

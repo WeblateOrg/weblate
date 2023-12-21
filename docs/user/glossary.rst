@@ -114,3 +114,28 @@ listed in the glossary sidebar when translating.
 .. seealso::
 
    :ref:`variants`
+
+.. _glossary-mt:
+
+Glossaries in automatic suggestion
+----------------------------------
+
+.. versionadded:: 5.3
+
+Following automatic suggestion services utilize glossaries during the translation:
+
+* :ref:`mt-openai`
+* :ref:`mt-deepl`
+* :ref:`mt-microsoft-translator`
+
+The glossary is processed before exposed to the service:
+
+* Duplicate source entries are not allowed, any additional entries with the same source are skipped.
+* Any control characters and leading and trailing whitespace are stripped.
+* :ref:`glossary-forbidden` are skipped.
+
+.. note::
+
+   Many services store glossaries server-side and enforce limit on the number
+   of saved glossaries. Weblate always deletes the oldest glossary if it runs out of
+   space.

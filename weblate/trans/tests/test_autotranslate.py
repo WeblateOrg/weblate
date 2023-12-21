@@ -11,7 +11,7 @@ from django.urls import reverse
 
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.db import using_postgresql
+from weblate.utils.db import TransactionsTestMixin
 
 
 class AutoTranslationTest(ViewTestCase):
@@ -49,8 +49,8 @@ class AutoTranslationTest(ViewTestCase):
 
     def perform_auto(self, expected=1, expected_count=None, **kwargs):
         self.make_different()
-        params = {"project": "test", "lang": "cs", "component": "test-2"}
-        url = reverse("auto_translation", kwargs=params)
+        path_params = {"path": [*self.component2.get_url_path(), "cs"]}
+        url = reverse("auto_translation", kwargs=path_params)
         kwargs["auto_source"] = "others"
         kwargs["threshold"] = "100"
         if "filter_type" not in kwargs:
@@ -67,7 +67,7 @@ class AutoTranslationTest(ViewTestCase):
                 response, "Automatic translation completed, no strings were updated."
             )
 
-        self.assertRedirects(response, reverse("translation", kwargs=params))
+        self.assertRedirects(response, reverse("show", kwargs=path_params))
         # Check we've translated something
         translation = self.component2.translation_set.get(language_code="cs")
         translation.invalidate_cache()
@@ -166,17 +166,7 @@ class AutoTranslationTest(ViewTestCase):
             call_command("auto_translate", "test", "test", "xxx")
 
 
-class AutoTranslationMtTest(ViewTestCase):
-    @classmethod
-    def _databases_support_transactions(cls):
-        # This is workaround for MySQL as FULL TEXT index does not work
-        # well inside a transaction, so we avoid using transactions for
-        # tests. Otherwise we end up with no matches for the query.
-        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if not using_postgresql():
-            return False
-        return super()._databases_support_transactions()
-
+class AutoTranslationMtTest(TransactionsTestMixin, ViewTestCase):
     def setUp(self):
         super().setUp()
         # Need extra power
@@ -210,8 +200,8 @@ class AutoTranslationMtTest(ViewTestCase):
 
     def perform_auto(self, expected=1, **kwargs):
         self.make_different()
-        params = {"project": "test", "lang": "cs", "component": "test-3"}
-        url = reverse("auto_translation", kwargs=params)
+        path_params = {"path": [*self.component3.get_url_path(), "cs"]}
+        url = reverse("auto_translation", kwargs=path_params)
         kwargs["auto_source"] = "mt"
         if "filter_type" not in kwargs:
             kwargs["filter_type"] = "todo"
@@ -227,7 +217,7 @@ class AutoTranslationMtTest(ViewTestCase):
                 response, "Automatic translation completed, no strings were updated."
             )
 
-        self.assertRedirects(response, reverse("translation", kwargs=params))
+        self.assertRedirects(response, reverse("show", kwargs=path_params))
         # Check we've translated something
         translation = self.component3.translation_set.get(language_code="cs")
         translation.invalidate_cache()

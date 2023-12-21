@@ -2,15 +2,18 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
-from django.http import HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext
-from django.views.generic import UpdateView
+from django.views.generic import DetailView, UpdateView
 
 from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm
-from weblate.auth.models import AutoGroup, Group
+from weblate.auth.models import AutoGroup, Group, Invitation, User
 from weblate.trans.forms import UserAddTeamForm, UserManageForm
 from weblate.trans.util import redirect_next
 from weblate.utils import messages
@@ -140,3 +143,78 @@ class TeamUpdateView(UpdateView):
         return self.render_to_response(
             self.get_context_data(form=form, auto_formset=formset)
         )
+
+
+class InvitationView(DetailView):
+    model = Invitation
+
+    def check_access(self):
+        invitation = self.object
+        user = self.request.user
+        if invitation.user:
+            if not user.is_authenticated:
+                raise PermissionDenied
+            if invitation.user != user:
+                raise Http404
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.check_access()
+        if not self.object.user:
+            # When inviting new user go through registration
+            request.session["invitation_link"] = str(self.object.pk)
+            return redirect("register")
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
+
+    def post(self, request, **kwargs):
+        self.object = invitation = self.get_object()
+
+        # Handle admin actions first
+        action = request.POST.get("action", "")
+        if action in ("resend", "remove"):
+            project = invitation.group.defining_project
+            # Permission check
+            if not request.user.has_perm(
+                "project.permissions" if project else "user.edit", project
+            ):
+                raise PermissionDenied
+
+            # Perform admin action
+            if action == "resend":
+                invitation.send_email()
+                messages.success(request, gettext("User invitation e-mail was sent."))
+            else:
+                invitation.delete()
+                messages.success(request, gettext("User invitation was removed."))
+
+            # Redirect
+            if project:
+                return redirect("manage-access", project=project.slug)
+            return redirect("manage-users")
+
+        # Accept invitation
+        self.check_access()
+        invitation.accept(request, request.user)
+
+        if invitation.group.defining_project:
+            return redirect(invitation.group.defining_project)
+        return redirect("home")
+
+
+def accept_invitation(request, invitation: Invitation, user: User | None):
+    if user is None:
+        user = invitation.user
+    if user is None:
+        raise Http404
+
+    # Add user to invited group
+    user.groups.add(invitation.group)
+    # Let him watch the project
+    if invitation.group.defining_project:
+        user.profile.watched.add(invitation.group.defining_project)
+
+    messages.success(
+        request, gettext("Accepted invitation to the %s team.") % invitation.group
+    )
+    invitation.delete()

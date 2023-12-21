@@ -25,7 +25,7 @@
       {% trans "Tools" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-      <li><a href="{% url 'checks' %}?lang={{ object.code }}">{% trans "Failing checks" %}</a></li>
+      <li><a href="{% url 'checks' path=object.get_url_path %}">{% trans "Failing checks" %}</a></li>
       {% if user_can_edit_language %}
       <li role="separator" class="divider"></li>
       {% if not object.translation_set.exists %}
@@ -51,11 +51,11 @@
 
 <div class="tab-pane" id="history">
 {% include "last-changes-content.html" %}
-<a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all changes for this language" %}</a>
+<a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% trans "Browse all changes for this language" %}</a>
 </div>
 
 <div class="tab-pane" id="search">
-  <form action="{% url 'search' lang=object.code %}" method="GET">
+  <form action="{% url 'search' path=object.get_url_path %}" method="GET">
     {% include "snippets/search-form.html" %}
   </form>
 </div>

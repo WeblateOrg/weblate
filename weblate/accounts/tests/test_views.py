@@ -11,7 +11,6 @@ from django.core.signing import TimestampSigner
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from jsonschema import validate
-from social_core.backends.utils import load_backends
 from weblate_schemas import load_schema
 
 from weblate.accounts.models import Profile, Subscription
@@ -20,6 +19,10 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.utils import (
+    social_core_modify_settings,
+    social_core_override_settings,
+)
 from weblate.utils.ratelimit import reset_rate_limit
 
 CONTACT_DATA = {
@@ -241,15 +244,13 @@ class ViewTest(RepoTestCase):
         response = self.client.post(reverse("logout"))
         self.assertRedirects(response, reverse("home"))
 
-    @override_settings(
+    @social_core_override_settings(
         AUTHENTICATION_BACKENDS=(
             "social_core.backends.github.GithubOAuth2",
             "weblate.accounts.auth.WeblateUserBackend",
         )
     )
     def test_login_redirect(self):
-        load_backends(settings.AUTHENTICATION_BACKENDS, force_load=True)
-
         response = self.client.get(reverse("login"))
         self.assertContains(response, "Redirecting you to the authentication provider.")
 
@@ -374,6 +375,15 @@ class ProfileTest(FixtureTestCase):
                 "zen_mode": Profile.ZEN_VERTICAL,
                 "nearby_strings": 10,
                 "theme": "auto",
+                "notifications__0-scope": 0,
+                "notifications__0-project": "",
+                "notifications__0-component": "",
+                "notifications__1-scope": 10,
+                "notifications__1-project": "",
+                "notifications__1-component": "",
+                "notifications__2-scope": 20,
+                "notifications__2-project": "",
+                "notifications__2-component": "",
             },
         )
         self.assertRedirects(response, reverse("profile"))
@@ -394,6 +404,15 @@ class ProfileTest(FixtureTestCase):
                 "zen_mode": Profile.ZEN_VERTICAL,
                 "nearby_strings": 10,
                 "theme": "auto",
+                "notifications__0-scope": 0,
+                "notifications__0-project": "",
+                "notifications__0-component": "",
+                "notifications__1-scope": 10,
+                "notifications__1-project": "",
+                "notifications__1-component": "",
+                "notifications__2-scope": 20,
+                "notifications__2-project": "",
+                "notifications__2-component": "",
             },
         )
         self.assertContains(response, "Select a valid choice.")
@@ -478,7 +497,7 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Watch project
-        self.client.post(reverse("watch", kwargs=self.kw_project))
+        self.client.post(reverse("watch", kwargs={"path": self.project.get_url_path()}))
         self.assertEqual(self.user.profile.watched.count(), 1)
         self.assertEqual(
             self.user.subscription_set.filter(project=self.project).count(), 0
@@ -491,13 +510,15 @@ class ProfileTest(FixtureTestCase):
         )
 
         # Mute notifications for project
-        self.client.post(reverse("mute", kwargs=self.kw_project))
+        self.client.post(reverse("mute", kwargs={"path": self.project.get_url_path()}))
         self.assertEqual(
             self.user.subscription_set.filter(project=self.project).count(), 18
         )
 
         # Unwatch project
-        self.client.post(reverse("unwatch", kwargs=self.kw_project))
+        self.client.post(
+            reverse("unwatch", kwargs={"path": self.project.get_url_path()})
+        )
         self.assertEqual(self.user.profile.watched.count(), 0)
         self.assertEqual(
             self.user.subscription_set.filter(project=self.project).count(), 0
@@ -554,12 +575,11 @@ class ProfileTest(FixtureTestCase):
         with mock.patch.object(User, "has_usable_password", return_value=False):
             response = self.client.get(reverse("profile"))
             self.assertContains(response, "Please enable the password authentication")
-            with modify_settings(
+            with social_core_modify_settings(
                 AUTHENTICATION_BACKENDS={
                     "remove": "social_core.backends.email.EmailAuth"
                 }
             ):
-                load_backends(settings.AUTHENTICATION_BACKENDS, force_load=True)
                 response = self.client.get(reverse("profile"))
                 self.assertNotContains(
                     response, "Please enable the password authentication"
@@ -567,7 +587,6 @@ class ProfileTest(FixtureTestCase):
         self.assertTrue(self.user.has_usable_password())
         response = self.client.get(reverse("profile"))
         self.assertNotContains(response, "Please enable the password authentication")
-        load_backends(settings.AUTHENTICATION_BACKENDS, force_load=True)
 
     def test_language(self):
         self.user.profile.languages.clear()

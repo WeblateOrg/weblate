@@ -60,6 +60,12 @@ LICENSES = (
         True,
     ),
     (
+        "Adobe-Display-PostScript",
+        "Adobe Display PostScript License",
+        "https://spdx.org/licenses/Adobe-Display-PostScript.html",
+        False,
+    ),
+    (
         "Adobe-Glyph",
         "Adobe Glyph List License",
         "https://spdx.org/licenses/Adobe-Glyph.html",
@@ -75,6 +81,12 @@ LICENSES = (
         "Adobe-2006",
         "Adobe Systems Incorporated Source Code License Agreement",
         "https://spdx.org/licenses/Adobe-2006.html",
+        False,
+    ),
+    (
+        "Adobe-Utopia",
+        "Adobe Utopia Font License",
+        "https://spdx.org/licenses/Adobe-Utopia.html",
         False,
     ),
     (
@@ -106,6 +118,12 @@ LICENSES = (
         "AMDPLPA",
         "AMD's plpa_map.c License",
         "https://spdx.org/licenses/AMDPLPA.html",
+        False,
+    ),
+    (
+        "AML-glslang",
+        "AML glslang variant License",
+        "https://spdx.org/licenses/AML-glslang.html",
         False,
     ),
     (
@@ -296,6 +314,12 @@ LICENSES = (
         True,
     ),
     (
+        "BSD-3-Clause-flex",
+        "BSD 3-Clause Flex variant",
+        "https://spdx.org/licenses/BSD-3-Clause-flex.html",
+        False,
+    ),
+    (
         "BSD-3-Clause-Modification",
         "BSD 3-Clause Modification",
         "https://spdx.org/licenses/BSD-3-Clause-Modification.html",
@@ -329,6 +353,12 @@ LICENSES = (
         "BSD-3-Clause-Open-MPI",
         "BSD 3-Clause Open MPI variant",
         "https://spdx.org/licenses/BSD-3-Clause-Open-MPI.html",
+        False,
+    ),
+    (
+        "BSD-3-Clause-Sun",
+        "BSD 3-Clause Sun Microsystems",
+        "https://spdx.org/licenses/BSD-3-Clause-Sun.html",
         False,
     ),
     (
@@ -396,6 +426,12 @@ LICENSES = (
         "BSD-4-Clause-UC",
         "BSD-4-Clause (University of California-Specific)",
         "https://spdx.org/licenses/BSD-4-Clause-UC.html",
+        False,
+    ),
+    (
+        "BSD-Inferno-Nettverk",
+        "BSD-Inferno-Nettverk",
+        "https://spdx.org/licenses/BSD-Inferno-Nettverk.html",
         False,
     ),
     (
@@ -478,6 +514,12 @@ LICENSES = (
         True,
     ),
     ("CFITSIO", "CFITSIO License", "https://spdx.org/licenses/CFITSIO.html", False),
+    (
+        "check-cvs",
+        "check-cvs License",
+        "https://spdx.org/licenses/check-cvs.html",
+        False,
+    ),
     ("checkmk", "Checkmk License", "https://spdx.org/licenses/checkmk.html", False),
     (
         "ClArtistic",
@@ -921,6 +963,7 @@ LICENSES = (
         "https://spdx.org/licenses/CC0-1.0.html",
         True,
     ),
+    ("Cronyx", "Cronyx License", "https://spdx.org/licenses/Cronyx.html", False),
     (
         "Crossword",
         "Crossword License",
@@ -959,11 +1002,29 @@ LICENSES = (
         "https://spdx.org/licenses/DL-DE-BY-2.0.html",
         False,
     ),
+    (
+        "DL-DE-ZERO-2.0",
+        "Data licence Germany – zero – version 2.0",
+        "https://spdx.org/licenses/DL-DE-ZERO-2.0.html",
+        False,
+    ),
     ("dtoa", "David M. Gay dtoa License", "https://spdx.org/licenses/dtoa.html", False),
+    (
+        "DEC-3-Clause",
+        "DEC 3-Clause License",
+        "https://spdx.org/licenses/DEC-3-Clause.html",
+        False,
+    ),
     (
         "DRL-1.0",
         "Detection Rule License 1.0",
         "https://spdx.org/licenses/DRL-1.0.html",
+        False,
+    ),
+    (
+        "DRL-1.1",
+        "Detection Rule License 1.1",
+        "https://spdx.org/licenses/DRL-1.1.html",
         False,
     ),
     (
@@ -1085,6 +1146,12 @@ LICENSES = (
     ("Fair", "Fair License", "https://spdx.org/licenses/Fair.html", True),
     ("MIT-feh", "feh License", "https://spdx.org/licenses/MIT-feh.html", False),
     (
+        "Ferguson-Twofish",
+        "Ferguson Twofish License",
+        "https://spdx.org/licenses/Ferguson-Twofish.html",
+        False,
+    ),
+    (
         "Frameworx-1.0",
         "Frameworx Open License 1.0",
         "https://spdx.org/licenses/Frameworx-1.0.html",
@@ -1128,10 +1195,19 @@ LICENSES = (
         "https://spdx.org/licenses/FSFULLR.html",
         False,
     ),
+    ("Furuseth", "Furuseth License", "https://spdx.org/licenses/Furuseth.html", False),
+    ("FBM", "Fuzzy Bitmap License", "https://spdx.org/licenses/FBM.html", False),
+    ("fwlw", "fwlw License", "https://spdx.org/licenses/fwlw.html", False),
     ("GD", "GD License", "https://spdx.org/licenses/GD.html", False),
     ("Giftware", "Giftware License", "https://spdx.org/licenses/Giftware.html", False),
     ("GL2PS", "GL2PS License", "https://spdx.org/licenses/GL2PS.html", False),
     ("Glulxe", "Glulxe License", "https://spdx.org/licenses/Glulxe.html", False),
+    (
+        "GCR-docs",
+        "Gnome GCR Documentation License",
+        "https://spdx.org/licenses/GCR-docs.html",
+        False,
+    ),
     (
         "AGPL-3.0-only",
         "GNU Affero General Public License v3.0 only",
@@ -1349,10 +1425,23 @@ LICENSES = (
         "https://spdx.org/licenses/HaskellReport.html",
         False,
     ),
+    ("hdparm", "hdparm License", "https://spdx.org/licenses/hdparm.html", False),
     (
         "HP-1986",
         "Hewlett-Packard 1986 License",
         "https://spdx.org/licenses/HP-1986.html",
+        False,
+    ),
+    (
+        "HP-1989",
+        "Hewlett-Packard 1989 License",
+        "https://spdx.org/licenses/HP-1989.html",
+        False,
+    ),
+    (
+        "BSD-3-Clause-HP",
+        "Hewlett-Packard BSD variant license",
+        "https://spdx.org/licenses/BSD-3-Clause-HP.html",
         False,
     ),
     (
@@ -1368,15 +1457,57 @@ LICENSES = (
         True,
     ),
     (
+        "HPND-DEC",
+        "Historical Permission Notice and Disclaimer - DEC variant",
+        "https://spdx.org/licenses/HPND-DEC.html",
+        False,
+    ),
+    (
+        "HPND-doc-sell",
+        "Historical Permission Notice and Disclaimer - documentation sell variant",
+        "https://spdx.org/licenses/HPND-doc-sell.html",
+        False,
+    ),
+    (
+        "HPND-doc",
+        "Historical Permission Notice and Disclaimer - documentation variant",
+        "https://spdx.org/licenses/HPND-doc.html",
+        False,
+    ),
+    (
         "HPND-Markus-Kuhn",
         "Historical Permission Notice and Disclaimer - Markus Kuhn variant",
         "https://spdx.org/licenses/HPND-Markus-Kuhn.html",
         False,
     ),
     (
+        "HPND-Pbmplus",
+        "Historical Permission Notice and Disclaimer - Pbmplus variant",
+        "https://spdx.org/licenses/HPND-Pbmplus.html",
+        False,
+    ),
+    (
+        "HPND-sell-regexpr",
+        "Historical Permission Notice and Disclaimer - sell regexpr variant",
+        "https://spdx.org/licenses/HPND-sell-regexpr.html",
+        False,
+    ),
+    (
         "HPND-sell-variant",
         "Historical Permission Notice and Disclaimer - sell variant",
         "https://spdx.org/licenses/HPND-sell-variant.html",
+        False,
+    ),
+    (
+        "HPND-sell-MIT-disclaimer-xserver",
+        "Historical Permission Notice and Disclaimer - sell xserver variant with MIT disclaimer",
+        "https://spdx.org/licenses/HPND-sell-MIT-disclaimer-xserver.html",
+        False,
+    ),
+    (
+        "HPND-UC",
+        "Historical Permission Notice and Disclaimer - University of California variant",
+        "https://spdx.org/licenses/HPND-UC.html",
         False,
     ),
     (
@@ -1389,6 +1520,12 @@ LICENSES = (
         "HPND-export-US",
         "HPND with US Government export control warning",
         "https://spdx.org/licenses/HPND-export-US.html",
+        False,
+    ),
+    (
+        "HPND-export-US-modify",
+        "HPND with US Government export control warning and modification rqmt",
+        "https://spdx.org/licenses/HPND-export-US-modify.html",
         False,
     ),
     ("HTMLTIDY", "HTML Tidy License", "https://spdx.org/licenses/HTMLTIDY.html", False),
@@ -1404,7 +1541,7 @@ LICENSES = (
         "https://spdx.org/licenses/IPL-1.0.html",
         True,
     ),
-    ("ICU", "ICU License", "https://spdx.org/licenses/ICU.html", False),
+    ("ICU", "ICU License", "https://spdx.org/licenses/ICU.html", True),
     (
         "IEC-Code-Components-EULA",
         "IEC    Code Components End-user licence agreement",
@@ -1483,6 +1620,7 @@ LICENSES = (
         False,
     ),
     ("JSON", "JSON License", "https://spdx.org/licenses/JSON.html", False),
+    ("Kastrup", "Kastrup License", "https://spdx.org/licenses/Kastrup.html", False),
     ("Kazlib", "Kazlib License", "https://spdx.org/licenses/Kazlib.html", False),
     (
         "Knuth-CTAN",
@@ -1619,6 +1757,7 @@ LICENSES = (
         "https://spdx.org/licenses/Linux-man-pages-copyleft-var.html",
         False,
     ),
+    ("lsof", "lsof License", "https://spdx.org/licenses/lsof.html", False),
     (
         "LPL-1.02",
         "Lucent Public License v1.02",
@@ -1632,6 +1771,12 @@ LICENSES = (
         True,
     ),
     (
+        "Lucida-Bitmap-Fonts",
+        "Lucida Bitmap Fonts License",
+        "https://spdx.org/licenses/Lucida-Bitmap-Fonts.html",
+        False,
+    ),
+    (
         "LZMA-SDK-9.11-to-9.20",
         "LZMA SDK License (versions 9.11 to 9.20)",
         "https://spdx.org/licenses/LZMA-SDK-9.11-to-9.20.html",
@@ -1643,6 +1788,7 @@ LICENSES = (
         "https://spdx.org/licenses/LZMA-SDK-9.22.html",
         False,
     ),
+    ("magaz", "magaz License", "https://spdx.org/licenses/magaz.html", False),
     (
         "MakeIndex",
         "MakeIndex License",
@@ -1659,6 +1805,12 @@ LICENSES = (
         "MTLL",
         "Matrix Template Library License",
         "https://spdx.org/licenses/MTLL.html",
+        False,
+    ),
+    (
+        "McPhee-slideshow",
+        "McPhee Slideshow License",
+        "https://spdx.org/licenses/McPhee-slideshow.html",
         False,
     ),
     ("metamail", "metamail License", "https://spdx.org/licenses/metamail.html", False),
@@ -1702,7 +1854,14 @@ LICENSES = (
         "https://spdx.org/licenses/MIT-open-group.html",
         False,
     ),
+    (
+        "MIT-testregex",
+        "MIT testregex Variant",
+        "https://spdx.org/licenses/MIT-testregex.html",
+        False,
+    ),
     ("MIT-Wu", "MIT Tom Wu Variant", "https://spdx.org/licenses/MIT-Wu.html", False),
+    ("MMIXware", "MMIXware License", "https://spdx.org/licenses/MMIXware.html", False),
     ("Motosoto", "Motosoto License", "https://spdx.org/licenses/Motosoto.html", True),
     (
         "MPL-1.0",
@@ -1727,6 +1886,12 @@ LICENSES = (
         "Mozilla Public License 2.0 (no copyleft exception)",
         "https://spdx.org/licenses/MPL-2.0-no-copyleft-exception.html",
         True,
+    ),
+    (
+        "MPEG-SSG",
+        "MPEG Software Simulation",
+        "https://spdx.org/licenses/MPEG-SSG.html",
+        False,
     ),
     (
         "mpi-permissive",
@@ -2086,8 +2251,10 @@ LICENSES = (
         "https://spdx.org/licenses/OSET-PL-2.1.html",
         True,
     ),
+    ("PADL", "PADL License", "https://spdx.org/licenses/PADL.html", False),
     ("PHP-3.0", "PHP License v3.0", "https://spdx.org/licenses/PHP-3.0.html", True),
     ("PHP-3.01", "PHP License v3.01", "https://spdx.org/licenses/PHP-3.01.html", True),
+    ("Pixar", "Pixar License", "https://spdx.org/licenses/Pixar.html", False),
     (
         "Plexus",
         "Plexus Classworlds License",
@@ -2098,6 +2265,12 @@ LICENSES = (
         "libpng-2.0",
         "PNG Reference Library version 2",
         "https://spdx.org/licenses/libpng-2.0.html",
+        False,
+    ),
+    (
+        "pnmstitch",
+        "pnmstitch License",
+        "https://spdx.org/licenses/pnmstitch.html",
         False,
     ),
     (
@@ -2120,6 +2293,12 @@ LICENSES = (
     ),
     ("psfrag", "psfrag License", "https://spdx.org/licenses/psfrag.html", False),
     ("psutils", "psutils License", "https://spdx.org/licenses/psutils.html", False),
+    (
+        "python-ldap",
+        "Python ldap License",
+        "https://spdx.org/licenses/python-ldap.html",
+        False,
+    ),
     (
         "Python-2.0",
         "Python License 2.0",
@@ -2146,6 +2325,7 @@ LICENSES = (
         False,
     ),
     ("Qhull", "Qhull License", "https://spdx.org/licenses/Qhull.html", False),
+    ("radvd", "radvd License", "https://spdx.org/licenses/radvd.html", False),
     ("Rdisc", "Rdisc License", "https://spdx.org/licenses/Rdisc.html", False),
     (
         "RPSL-1.0",
@@ -2188,6 +2368,12 @@ LICENSES = (
         "SAX-PD",
         "Sax Public Domain Notice",
         "https://spdx.org/licenses/SAX-PD.html",
+        False,
+    ),
+    (
+        "SAX-PD-2.0",
+        "Sax Public Domain Notice 2.0",
+        "https://spdx.org/licenses/SAX-PD-2.0.html",
         False,
     ),
     ("Saxpath", "Saxpath License", "https://spdx.org/licenses/Saxpath.html", False),
@@ -2246,6 +2432,12 @@ LICENSES = (
         "https://spdx.org/licenses/SGI-B-2.0.html",
         True,
     ),
+    (
+        "SGI-OpenGL",
+        "SGI OpenGL License",
+        "https://spdx.org/licenses/SGI-OpenGL.html",
+        False,
+    ),
     ("SGP4", "SGP4 Permission Notice", "https://spdx.org/licenses/SGP4.html", False),
     (
         "OFL-1.0",
@@ -2289,6 +2481,7 @@ LICENSES = (
         "https://spdx.org/licenses/SimPL-2.0.html",
         True,
     ),
+    ("SL", "SL License", "https://spdx.org/licenses/SL.html", False),
     (
         "Sleepycat",
         "Sleepycat License",
@@ -2309,6 +2502,7 @@ LICENSES = (
         "https://spdx.org/licenses/SHL-0.51.html",
         False,
     ),
+    ("Soundex", "Soundex License", "https://spdx.org/licenses/Soundex.html", False),
     (
         "Spencer-86",
         "Spencer License 86",
@@ -2338,6 +2532,12 @@ LICENSES = (
         "SSH-short",
         "SSH short notice",
         "https://spdx.org/licenses/SSH-short.html",
+        False,
+    ),
+    (
+        "ssh-keyscan",
+        "ssh-keyscan License",
+        "https://spdx.org/licenses/ssh-keyscan.html",
         False,
     ),
     (
@@ -2371,6 +2571,7 @@ LICENSES = (
         True,
     ),
     ("SunPro", "SunPro License", "https://spdx.org/licenses/SunPro.html", False),
+    ("swrule", "swrule License", "https://spdx.org/licenses/swrule.html", False),
     (
         "Watcom-1.0",
         "Sybase Open Watcom Public License 1.0",
@@ -2378,6 +2579,12 @@ LICENSES = (
         True,
     ),
     ("Symlinks", "Symlinks License", "https://spdx.org/licenses/Symlinks.html", False),
+    (
+        "BSD-Systemics",
+        "Systemics BSD variant license",
+        "https://spdx.org/licenses/BSD-Systemics.html",
+        False,
+    ),
     (
         "OGDL-Taiwan-1.0",
         "Taiwan Open Government Data License, version 1.0",
@@ -2455,7 +2662,9 @@ LICENSES = (
         "https://spdx.org/licenses/TOSL.html",
         False,
     ),
+    ("TTYP0", "TTYP0 License", "https://spdx.org/licenses/TTYP0.html", False),
     ("UCAR", "UCAR License", "https://spdx.org/licenses/UCAR.html", False),
+    ("ulem", "ulem License", "https://spdx.org/licenses/ulem.html", False),
     (
         "Unicode-DFS-2015",
         "Unicode License Agreement - Data Files and Software (2015)",
@@ -2503,6 +2712,12 @@ LICENSES = (
         "Upstream Compatibility License v1.0",
         "https://spdx.org/licenses/UCL-1.0.html",
         True,
+    ),
+    (
+        "URT-RLE",
+        "Utah Raster Toolkit Run Length Encoded License",
+        "https://spdx.org/licenses/URT-RLE.html",
+        False,
     ),
     ("Vim", "Vim License", "https://spdx.org/licenses/Vim.html", True),
     (
@@ -2582,6 +2797,7 @@ LICENSES = (
         True,
     ),
     ("Zed", "Zed License", "https://spdx.org/licenses/Zed.html", False),
+    ("Zeeff", "Zeeff License", "https://spdx.org/licenses/Zeeff.html", False),
     ("Zend-2.0", "Zend License v2.0", "https://spdx.org/licenses/Zend-2.0.html", True),
     (
         "Zimbra-1.3",

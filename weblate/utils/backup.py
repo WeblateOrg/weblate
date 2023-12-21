@@ -89,13 +89,13 @@ def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> str:
             )
         except OSError as error:
             report_error()
-            raise BackupError(f"Could not execute borg program: {error}")
+            raise BackupError(f"Could not execute borg program: {error}") from error
         except subprocess.CalledProcessError as error:
             add_breadcrumb(
                 category="backup", message="borg output", stdout=error.stdout
             )
             report_error()
-            raise BackupError(error.stdout)
+            raise BackupError(error.stdout) from error
 
 
 def initialize(location: str, passphrase: str) -> str:
@@ -127,6 +127,8 @@ def backup(location: str, passphrase: str) -> str:
         "--exclude-caches",
         "--exclude",
         "*/.config/borg",
+        "--exclude",
+        "lost+found",
         "--compression",
         "auto,zstd",
     ]

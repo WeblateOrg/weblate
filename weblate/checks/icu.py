@@ -215,7 +215,7 @@ def extract_placeholders(token, variables=None):
             # First, we log the selector for later comparison.
             choices.add(selector)
 
-            # Second, we make sure the selector is valid if we're working
+            # Second, we ensure the selector is valid if we're working
             # with a plural/selectordinal type.
             if ttype in PLURAL_TYPES and check_bad_plural_selector(selector):
                 data.setdefault("bad_plural", set()).add(selector)

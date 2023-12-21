@@ -20,7 +20,7 @@ class tempdir_setting(override_settings):  # noqa: N801
 
     def enable(self):
         self._tempdir = tempfile.mkdtemp()
-        os.chmod(self._tempdir, 0o755)  # nosec
+        os.chmod(self._tempdir, 0o755)  # noqa: S103, nosec
         self.options[self._setting] = self._tempdir
         super().enable()
 

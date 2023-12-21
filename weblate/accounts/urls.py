@@ -6,6 +6,7 @@ from django.conf import settings
 from django.urls import include, path
 
 import weblate.accounts.views
+import weblate.auth.views
 from weblate.utils.urls import register_weblate_converters
 
 register_weblate_converters()
@@ -54,24 +55,19 @@ urlpatterns = [
     path("userdata/", weblate.accounts.views.userdata, name="userdata"),
     path("unsubscribe/", weblate.accounts.views.unsubscribe, name="unsubscribe"),
     path("subscribe/", weblate.accounts.views.subscribe, name="subscribe"),
-    path("watch/<name:project>/", weblate.accounts.views.watch, name="watch"),
-    path(
-        "watch/<name:project>/<name:component>/",
-        weblate.accounts.views.watch,
-        name="watch",
-    ),
-    path("unwatch/<name:project>/", weblate.accounts.views.unwatch, name="unwatch"),
-    path(
-        "mute/<name:project>/<name:component>/",
-        weblate.accounts.views.mute_component,
-        name="mute",
-    ),
-    path("mute/<name:project>/", weblate.accounts.views.mute_project, name="mute"),
+    path("watch/<object_path:path>/", weblate.accounts.views.watch, name="watch"),
+    path("unwatch/<object_path:path>/", weblate.accounts.views.unwatch, name="unwatch"),
+    path("mute/<object_path:path>/", weblate.accounts.views.mute, name="mute"),
     path("remove/", weblate.accounts.views.user_remove, name="remove"),
     path("confirm/", weblate.accounts.views.confirm, name="confirm"),
     path("login/", weblate.accounts.views.WeblateLoginView.as_view(), name="login"),
     path("register/", weblate.accounts.views.register, name="register"),
     path("email/", weblate.accounts.views.email_login, name="email_login"),
+    path(
+        "invitation/<uuid:pk>/",
+        weblate.auth.views.InvitationView.as_view(),
+        name="invitation",
+    ),
     path("", include((social_urls, "social_auth"), namespace="social")),
 ]
 

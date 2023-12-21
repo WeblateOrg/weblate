@@ -14,11 +14,11 @@ class FileParseError(WeblateError):
     """File parse error."""
 
 
-class PluralFormsMismatch(WeblateError):
+class PluralFormsMismatchError(WeblateError):
     """Plural forms do not match the language."""
 
 
-class InvalidTemplate(WeblateError):
+class InvalidTemplateError(WeblateError):
     """Template file can not be parsed."""
 
     def __init__(self, nested, message=None):
@@ -27,4 +27,4 @@ class InvalidTemplate(WeblateError):
 
 
 class FailedCommitError(WeblateError):
-    """Failed to commit file."""
+    """Could not commit file."""

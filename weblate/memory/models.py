@@ -24,6 +24,7 @@ from weblate.memory.utils import (
     CATEGORY_PRIVATE_OFFSET,
     CATEGORY_SHARED,
     CATEGORY_USER_OFFSET,
+    is_valid_entry,
 )
 from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.errors import report_error
@@ -45,6 +46,9 @@ def get_node_data(unit, node):
 
 class MemoryQuerySet(models.QuerySet):
     def filter_type(self, user=None, project=None, use_shared=False, from_file=False):
+        base = self
+        if "memory_db" in settings.DATABASES:
+            base = base.using("memory_db")
         query = []
         if from_file:
             query.append(Q(from_file=from_file))
@@ -54,7 +58,7 @@ class MemoryQuerySet(models.QuerySet):
             query.append(Q(project=project))
         if user:
             query.append(Q(user=user))
-        return self.filter(reduce(lambda x, y: x | y, query))
+        return base.filter(reduce(lambda x, y: x | y, query))
 
     def lookup(
         self, source_language, target_language, text: str, user, project, use_shared
@@ -68,24 +72,29 @@ class MemoryQuerySet(models.QuerySet):
             threshold = 1 - 28.1838 * math.log(0.0443791 * length) / length
         adjust_similarity_threshold(threshold)
         # Actual database query
-        return self.filter_type(
-            # Type filtering
-            user=user,
-            project=project,
-            use_shared=use_shared,
-            from_file=True,
-        ).filter(
-            # Full-text search on source
-            source__search=text,
-            # Language filtering
-            source_language=source_language,
-            target_language=target_language,
-        )[
-            :50
-        ]
+        return (
+            self.prefetch_project()
+            .filter_type(
+                # Type filtering
+                user=user,
+                project=project,
+                use_shared=use_shared,
+                from_file=True,
+            )
+            .filter(
+                # Full-text search on source
+                source__search=text,
+                # Language filtering
+                source_language=source_language,
+                target_language=target_language,
+            )[:50]
+        )
 
     def prefetch_lang(self):
         return self.prefetch_related("source_language", "target_language")
+
+    def prefetch_project(self):
+        return self.select_related("project")
 
 
 class MemoryManager(models.Manager):
@@ -112,13 +121,13 @@ class MemoryManager(models.Manager):
         try:
             data = json.loads(force_str(content))
         except ValueError as error:
-            report_error(cause="Failed to parse memory")
-            raise MemoryImportError(gettext("Failed to parse JSON file: %s") % error)
+            report_error(cause="Could not parse memory")
+            raise MemoryImportError(gettext("Could not parse JSON file: %s") % error)
         try:
             validate(data, load_schema("weblate-memory.schema.json"))
         except ValidationError as error:
-            report_error(cause="Failed to validate memory")
-            raise MemoryImportError(gettext("Failed to parse JSON file: %s") % error)
+            report_error(cause="Could not validate memory")
+            raise MemoryImportError(gettext("Could not parse JSON file: %s") % error)
         found = 0
         lang_cache = {}
         for entry in data:
@@ -146,8 +155,8 @@ class MemoryManager(models.Manager):
         try:
             storage = tmxfile.parsefile(fileobj)
         except (SyntaxError, AssertionError):
-            report_error(cause="Failed to parse")
-            raise MemoryImportError(gettext("Failed to parse TMX file!"))
+            report_error(cause="Could not parse")
+            raise MemoryImportError(gettext("Could not parse TMX file!"))
         header = next(
             storage.document.getroot().iterchildren(storage.namespaced("header"))
         )
@@ -160,7 +169,7 @@ class MemoryManager(models.Manager):
         try:
             source_language = Language.objects.get_by_code(srclang, lang_cache, langmap)
         except Language.DoesNotExist:
-            raise MemoryImportError(gettext("Failed to find language %s!") % srclang)
+            raise MemoryImportError(gettext("Could not find language %s!") % srclang)
 
         found = 0
         for unit in storage.units:
@@ -177,7 +186,7 @@ class MemoryManager(models.Manager):
                     )
                 except Language.DoesNotExist:
                     raise MemoryImportError(
-                        gettext("Failed to find language %s!") % header.get("srclang")
+                        gettext("Could not find language %s!") % header.get("srclang")
                     )
                 translations[language.code] = text
 
@@ -202,6 +211,8 @@ class MemoryManager(models.Manager):
         return found
 
     def update_entry(self, **kwargs):
+        if not is_valid_entry(**kwargs):
+            return
         if not self.filter(**kwargs).exists():
             self.create(**kwargs)
 

@@ -18,6 +18,7 @@ from django.conf import settings
 from django.core.files import File
 from django.db import connection, transaction
 from django.db.models.fields.files import FieldFile
+from django.db.models.signals import pre_save
 from django.utils import timezone
 from weblate_schemas import load_schema, validate_schema
 
@@ -40,6 +41,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.validators import validate_filename
 from weblate.utils.version import VERSION
+from weblate.vcs.models import VCS_REGISTRY
 
 
 class ProjectBackup:
@@ -194,13 +196,7 @@ class ProjectBackup:
                                                 "units"
                                             ]["items"]["properties"]["suggestions"][
                                                 "items"
-                                            ][
-                                                "properties"
-                                            ][
-                                                "votes"
-                                            ][
-                                                "items"
-                                            ][
+                                            ]["properties"]["votes"]["items"][
                                                 "required"
                                             ],
                                         )
@@ -328,6 +324,10 @@ class ProjectBackup:
             with zipfile.open(component) as handle:
                 data = json.load(handle)
                 validate_schema(data, "weblate-component.schema.json")
+                if data["component"]["vcs"] not in VCS_REGISTRY:
+                    raise ValueError(
+                        f'Component {data["component"]["name"]} uses unsupported VCS: {data["component"]["vcs"]}'
+                    )
                 if callback is not None:
                     callback(zipfile, data)
 
@@ -379,17 +379,17 @@ class ProjectBackup:
         source_language = kwargs["source_language"] = self.import_language(
             kwargs["source_language"]
         )
-        # Regenerate git export URL
-        if "weblate.gitexport" in settings.INSTALLED_APPS:
-            from weblate.gitexport.models import get_export_url_path
-
-            kwargs["git_export"] = get_export_url_path(
-                self.project.slug, kwargs["slug"]
-            )
-        # Use bulk create to avoid triggering save() and any signals
-        component = Component.objects.bulk_create(
-            [Component(project=self.project, **kwargs)]
-        )[0]
+        component = Component(project=self.project, **kwargs)
+        # Trigger pre_save to update git export URL
+        pre_save.send(
+            sender=component.__class__,
+            instance=component,
+            raw=False,
+            using=None,
+            update_fields=None,
+        )
+        # Use bulk create to avoid triggering save() and any post_save signals
+        component = Component.objects.bulk_create([component])[0]
 
         # Create translations
         translations = []

@@ -23,7 +23,7 @@
   <ul class="list-group">
     <li class="list-group-item">
       {% if user_can_commit_translation %}
-        <a href="" class="pull-right flip link-post btn btn-primary" data-href="{{ object.get_commit_url }}" {% if not pending_units %}disabled="disabled"{% endif %}>{% trans "Commit" %}</a>
+        <a href="" class="pull-right flip link-post btn btn-primary" data-href="{% url "commit" path=object.get_url_path %}" {% if not pending_units %}disabled="disabled"{% endif %}>{% trans "Commit" %}</a>
       {% endif %}
       <h5 class="list-group-item-heading">
         {% blocktranslate count units=pending_units with count=pending_units|intcomma %}{{ count }} pending change{% plural %}{{ count }} pending changes{% endblocktranslate %}
@@ -35,7 +35,7 @@
     {% if supports_push %}
       <li class="list-group-item">
         {% if user_can_push_translation %}
-          <a href="" class="pull-right flip link-post btn btn-primary" data-href="{{ object.get_push_url }}" {% if not object.can_push %}disabled="disabled"{% endif %}>{% trans "Push" %}</a>
+          <a href="" class="pull-right flip link-post btn btn-primary" data-href="{% url "push" path=object.get_url_path %}" {% if not object.can_push %}disabled="disabled"{% endif %}>{% trans "Push" %}</a>
         {% endif %}
         <h5 class="list-group-item-heading">
           {% blocktranslate count units=outgoing_commits with count=outgoing_commits|intcomma %}{{ count }} outgoing commit{% plural %}{{ count }} outgoing commits{% endblocktranslate %}
@@ -48,20 +48,20 @@
     <li class="list-group-item">
       {% if user_can_update_translation %}
         <div class="btn-group pull-right flip">
-          <a href="" class="btn btn-primary link-post" data-href="{{ object.get_update_url }}">{% trans "Update" %}</a>
+          <a href="" class="btn btn-primary link-post" data-href="{% url "update" path=object.get_url_path %}">{% trans "Update" %}</a>
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <ul class="dropdown-menu dropdown-menu-right">
             <li>
-              <a href="" class="link-post" data-href="{{ object.get_update_url }}?method=merge">{% trans "Update with merge" %}</a>
+              <a href="" class="link-post" data-href="{% url "update" path=object.get_url_path %}?method=merge">{% trans "Update with merge" %}</a>
             </li>
             <li>
-              <a href="" class="link-post" data-href="{{ object.get_update_url }}?method=rebase">{% trans "Update with rebase" %}</a>
+              <a href="" class="link-post" data-href="{% url "update" path=object.get_url_path %}?method=rebase">{% trans "Update with rebase" %}</a>
             </li>
             <li>
-              <a href="" class="link-post" data-href="{{ object.get_update_url }}?method=merge_noff">{% trans "Update with merge without fast-forward" %}</a>
+              <a href="" class="link-post" data-href="{% url "update" path=object.get_url_path %}?method=merge_noff">{% trans "Update with merge without fast-forward" %}</a>
             </li>
           </ul>
         </div>
@@ -77,9 +77,9 @@
       <li class="list-group-item">
         {% if user_can_lock_component %}
           {% if object.locked %}
-            <a href="" class="pull-right flip btn btn-primary link-post" data-href="{{ object.get_unlock_url }}" title="{% trans "Allow changes to the Weblate repository" %}">{% trans "Unlock" %}</a>
+            <a href="" class="pull-right flip btn btn-primary link-post" data-href="{% url "unlock" path=object.get_url_path %}" title="{% trans "Allow changes to the Weblate repository" %}">{% trans "Unlock" %}</a>
           {% else %}
-            <a href="" class="pull-right flip btn btn-primary link-post" data-href="{{ object.get_lock_url }}" title="{% trans "Prevent any changes in the Weblate repository" %}">{% trans "Lock" %}</a>
+            <a href="" class="pull-right flip btn btn-primary link-post" data-href="{% url "lock" path=object.get_url_path %}" title="{% trans "Prevent any changes in the Weblate repository" %}">{% trans "Lock" %}</a>
           {% endif %}
         {% endif %}
         <h5 class="list-group-item-heading">
@@ -107,7 +107,7 @@
     </div>
     <ul class="list-group">
       <li class="list-group-item">
-        <a href="" class="pull-right flip link-post btn btn-danger" data-href="{{ object.get_reset_url }}">{% trans "Reset" %}</a>
+        <a href="" class="pull-right flip link-post btn btn-danger" data-href="{% url "reset" path=object.get_url_path %}">{% trans "Reset" %}</a>
         <h5 class="list-group-item-heading">
           {% trans "Reset all changes in the Weblate repository" %}
         </h5>
@@ -117,7 +117,7 @@
         </p>
       </li>
       <li class="list-group-item">
-        <a href="" class="pull-right flip link-post btn btn-danger" data-href="{{ object.get_cleanup_url }}">{% trans "Cleanup" %}</a>
+        <a href="" class="pull-right flip link-post btn btn-danger" data-href="{% url "cleanup" path=object.get_url_path %}">{% trans "Cleanup" %}</a>
         <h5 class="list-group-item-heading">
           {% trans "Cleanup all untracked files in the Weblate repository" %}
         </h5>
@@ -127,7 +127,7 @@
         </p>
       </li>
       <li class="list-group-item">
-        <a href="" class="pull-right flip link-post btn btn-danger" data-href="{{ object.get_file_sync_url }}">{% trans "Synchronize" %}</a>
+        <a href="" class="pull-right flip link-post btn btn-danger" data-href="{% url "file_sync" path=object.get_url_path %}">{% trans "Synchronize" %}</a>
         <h5 class="list-group-item-heading">
           {% trans "Force writing all translations to the Weblate repository" %}
         </h5>
@@ -137,7 +137,7 @@
         </p>
       </li>
       <li class="list-group-item">
-        <a href="" class="pull-right flip link-post btn btn-danger" data-href="{{ object.get_file_scan_url }}">{% trans "Rescan" %}</a>
+        <a href="" class="pull-right flip link-post btn btn-danger" data-href="{% url "file_scan" path=object.get_url_path %}">{% trans "Rescan" %}</a>
         <h5 class="list-group-item-heading">
           {% trans "Rescan all translation files in the Weblate repository" %}
         </h5>
@@ -157,7 +157,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        {% blocktrans %}Repository for {{ component }}{% endblocktrans %}
+        <a href="{{ component.get_absolute_url }}#repository">{% blocktrans %}Repository for {{ component }}{% endblocktrans %}</a>
       </h4>
     </div>
     <table class="table table-striped table-autowidth">

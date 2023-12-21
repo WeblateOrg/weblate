@@ -29,8 +29,6 @@ RUN if ! getent group "${GROUP_ID}"; then \
 # Following are removed during cleanup of weblate/weblate
 RUN apt-get update && apt-get install -y \
     pkg-config \
-    libleptonica-dev \
-    libtesseract-dev \
     libmariadb-dev \
     libxml2-dev \
     libffi-dev \

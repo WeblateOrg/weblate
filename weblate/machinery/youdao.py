@@ -3,7 +3,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.conf import settings
 
 from .base import MachineTranslation, MachineTranslationError
 from .forms import KeySecretMachineryForm
@@ -20,13 +19,6 @@ class YoudaoTranslation(MachineTranslation):
     # Map codes used by Youdao to codes used by Weblate
     language_map = {"zh_Hans": "zh-CHS", "zh": "zh-CHS", "en": "EN"}
     settings_form = KeySecretMachineryForm
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "key": settings.MT_YOUDAO_ID,
-            "secret": settings.MT_YOUDAO_SECRET,
-        }
 
     def download_languages(self):
         """List of supported languages."""

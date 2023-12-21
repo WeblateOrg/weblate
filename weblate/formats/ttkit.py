@@ -12,7 +12,7 @@ import inspect
 import os
 import re
 import subprocess
-from typing import Callable
+from typing import Any, Callable
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -67,7 +67,7 @@ class TTKitUnit(TranslationUnit):
     @cached_property
     def locations(self):
         """Return a comma-separated list of locations."""
-        return ", ".join(x for x in self.mainunit.getlocations() if x is not None)
+        return ", ".join(self.mainunit.getlocations())
 
     @cached_property
     def source(self):
@@ -106,7 +106,7 @@ class TTKitUnit(TranslationUnit):
             # Avoid duplication in case template has same notes
             template_comment = self.template.getnotes()
             if template_comment != comment:
-                comment = template_comment + "\n" + comment
+                comment = f"{template_comment}\n{comment}"
 
         return comment
 
@@ -238,6 +238,7 @@ class TTKitFormat(TranslationFormat):
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
+        existing_units: list[Any] | None = None,
     ):
         super().__init__(
             storefile,
@@ -245,6 +246,7 @@ class TTKitFormat(TranslationFormat):
             language_code=language_code,
             is_template=is_template,
             source_language=source_language,
+            existing_units=existing_units,
         )
 
     @staticmethod
@@ -491,6 +493,7 @@ class TTKitFormat(TranslationFormat):
 
     def delete_unit(self, ttkit_unit) -> str | None:
         self.store.removeunit(ttkit_unit)
+        return None
 
 
 class PropertiesUnit(KeyValueUnit):
@@ -637,11 +640,6 @@ class XliffUnit(TTKitUnit):
         if resname:
             return resname
         return self.mainunit.getid().replace(ID_SEPARATOR, "///")
-
-    @cached_property
-    def locations(self):
-        """Return comma separated list of locations."""
-        return ""
 
     def is_translated(self):
         """
@@ -1057,6 +1055,7 @@ class INIUnit(TTKitUnit):
 class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
     loader = pofile
     plural_preference = None
+    supports_plural: bool = True
 
     @classmethod
     def get_plural(cls, language, store=None):
@@ -1129,6 +1128,11 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
                 check=True,
                 text=True,
             )
+        except FileNotFoundError as error:
+            report_error(cause="Failed msgmerge")
+            raise UpdateError(
+                "msgmerge not found, please install gettext", error
+            ) from error
         except OSError as error:
             report_error(cause="Failed msgmerge")
             raise UpdateError(" ".join(cmd), error) from error
@@ -1202,10 +1206,15 @@ class TSFormat(TTKitFormat):
     autoload = ("*.ts",)
     unit_class = TSUnit
     set_context_bilingual = False
+    supports_plural: bool = True
+    plural_preference = (
+        Plural.SOURCE_QT,
+        Plural.SOURCE_DEFAULT,
+    )
 
 
 class XliffFormat(TTKitFormat):
-    name = gettext_lazy("XLIFF translation file")
+    name = gettext_lazy("XLIFF 1.2 translation file")
     format_id = "plainxliff"
     loader = xlifffile
     autoload = ()
@@ -1235,17 +1244,18 @@ class XliffFormat(TTKitFormat):
 
 
 class RichXliffFormat(XliffFormat):
-    name = gettext_lazy("XLIFF with placeables support")
+    name = gettext_lazy("XLIFF 1.2 with placeables support")
     format_id = "xliff"
     autoload: tuple[str, ...] = ("*.xlf", "*.xliff", "*.sdlxliff", "*.mxliff")
     unit_class = RichXliffUnit
 
 
 class PoXliffFormat(XliffFormat):
-    name = gettext_lazy("XLIFF with gettext extensions")
+    name = gettext_lazy("XLIFF 1.2 with gettext extensions")
     format_id = "poxliff"
     autoload = ("*.poxliff",)
     loader = PoXliffFile
+    supports_plural: bool = True
 
 
 class PropertiesBaseFormat(TTKitFormat):
@@ -1334,6 +1344,7 @@ class GWTFormat(StringsFormat):
     new_translation = "\n"
     check_flags = ("auto-java-messageformat",)
     language_format = "linux"
+    supports_plural: bool = True
 
 
 class GWTISOFormat(GWTFormat):
@@ -1365,6 +1376,7 @@ class LaravelPhpFormat(PhpFormat):
     name = gettext_lazy("Laravel PHP strings")
     format_id = "laravel"
     loader = ("php", "LaravelPHPFile")
+    supports_plural: bool = True
 
 
 class RESXFormat(TTKitFormat):
@@ -1376,6 +1388,7 @@ class RESXFormat(TTKitFormat):
     new_translation = RESXFile.XMLskeleton
     autoload = ("*.resx",)
     language_format = "bcp"
+    supports_plural: bool = True
 
 
 class AndroidFormat(TTKitFormat):
@@ -1395,6 +1408,13 @@ class AndroidFormat(TTKitFormat):
         Plural.SOURCE_DEFAULT,
     )
     strict_format_plurals: bool = True
+    supports_plural: bool = True
+
+
+class MOKOFormat(AndroidFormat):
+    name = gettext_lazy("Mobile Kotlin Resource")
+    format_id = "moko-resource"
+    loader = ("aresource", "MOKOResourceFile")
 
 
 class DictStoreMixin:
@@ -1405,7 +1425,7 @@ class DictStoreMixin:
         try:
             id_class.from_string(context)
         except Exception as error:
-            raise ValidationError(gettext("Failed to parse the key: %s") % error)
+            raise ValidationError(gettext("Could not parse the key: %s") % error)
 
 
 class JSONFormat(DictStoreMixin, TTKitFormat):
@@ -1442,6 +1462,7 @@ class WebExtensionJSONFormat(JSONFormat):
     monolingual = True
     autoload = ("messages*.json",)
     unit_class = PlaceholdersJSONUnit
+    supports_plural: bool = True
 
 
 class I18NextFormat(JSONFormat):
@@ -1451,6 +1472,7 @@ class I18NextFormat(JSONFormat):
     autoload = ()
     check_flags = ("i18next-interpolation",)
     language_format: str = "bcp"
+    supports_plural: bool = True
 
 
 class I18NextV4Format(I18NextFormat):
@@ -1464,6 +1486,7 @@ class GoI18JSONFormat(JSONFormat):
     format_id = "go-i18n-json"
     loader = ("jsonl10n", "GoI18NJsonFile")
     autoload = ()
+    supports_plural: bool = True
 
 
 class GoI18V2JSONFormat(JSONFormat):
@@ -1471,6 +1494,7 @@ class GoI18V2JSONFormat(JSONFormat):
     format_id = "go-i18n-json-v2"
     loader = ("jsonl10n", "GoI18NV2JsonFile")
     autoload = ()
+    supports_plural: bool = True
 
 
 class ARBFormat(JSONFormat):
@@ -1488,6 +1512,7 @@ class GoTextFormat(JSONFormat):
     loader = ("jsonl10n", "GoTextJsonFile")
     autoload = ()
     unit_class = PlaceholdersJSONUnit
+    supports_plural: bool = True
 
 
 class CSVFormat(TTKitFormat):
@@ -1505,6 +1530,7 @@ class CSVFormat(TTKitFormat):
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
+        existing_units: list[Any] | None = None,
     ):
         super().__init__(
             storefile,
@@ -1512,6 +1538,7 @@ class CSVFormat(TTKitFormat):
             language_code=language_code,
             source_language=source_language,
             is_template=is_template,
+            existing_units=existing_units,
         )
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
@@ -1639,6 +1666,7 @@ class RubyYAMLFormat(YAMLFormat):
     format_id = "ruby-yaml"
     loader = ("yaml", "RubyYAMLFile")
     autoload = ("*.ryml", "*.yml", "*.yaml")
+    supports_plural: bool = True
 
 
 class DTDFormat(TTKitFormat):
@@ -1842,6 +1870,7 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
     can_add_unit: bool = False
     can_delete_unit: bool = False
     set_context_bilingual: bool = True
+    supports_plural: bool = True
 
     # Ensure that untranslated units are saved too as missing properties and
     # comments are preserved as in the original source file.
@@ -1968,6 +1997,7 @@ class TBXFormat(TTKitFormat):
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
+        existing_units: list[Any] | None = None,
     ):
         super().__init__(
             storefile,
@@ -1975,6 +2005,7 @@ class TBXFormat(TTKitFormat):
             language_code=language_code,
             is_template=is_template,
             source_language=source_language,
+            existing_units=existing_units,
         )
         # Add language header if not present
         self.store.addheader()
@@ -2002,6 +2033,7 @@ class StringsdictFormat(DictStoreMixin, TTKitFormat):
     </dict>
 </plist>
 """
+    supports_plural: bool = True
 
     @staticmethod
     def mimetype():
@@ -2039,18 +2071,24 @@ class StringsdictFormat(DictStoreMixin, TTKitFormat):
 
 class FluentUnit(MonolingualSimpleUnit):
     def set_target(self, target: str | list[str]):
+        old_target = self.unit.target
+        old_source = self.unit.source
         super().set_target(target)
         self.unit.source = target
-        # This triggers serialization discovering any syntax issues
-        self.unit.to_entry()
+        try:
+            # This triggers serialization discovering any syntax issues
+            self.unit.to_entry()
+        except Exception:
+            # Restore previous content
+            self.unit.target = old_target
+            self.unit.source = old_source
+            raise
 
     @cached_property
     def flags(self):
-        placeables = self.mainunit.getplaceables()
-        if not placeables:
-            return ""
-        placeables.insert(0, "placeholders")
-        return Flags.format_flag(tuple(placeables))
+        flags = Flags()
+        flags.set_value("fluent-type", self.mainunit.fluent_type)
+        return flags.format()
 
 
 class FluentFormat(TTKitFormat):
@@ -2060,6 +2098,17 @@ class FluentFormat(TTKitFormat):
     unit_class = FluentUnit
     autoload: tuple[str, ...] = ("*.ftl",)
     new_translation = ""
+    check_flags = (
+        "fluent-source-syntax",
+        "fluent-target-syntax",
+        "fluent-parts",
+        "fluent-references",
+        "fluent-source-inner-html",
+        "fluent-target-inner-html",
+        # Ignore xml check since we have inner-html checks.
+        "ignore-xml-tags",
+        "ignore-xml-invalid",
+    )
 
     @staticmethod
     def mimetype():

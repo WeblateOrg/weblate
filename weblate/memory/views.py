@@ -18,8 +18,9 @@ from weblate.memory.forms import DeleteForm, UploadForm
 from weblate.memory.models import Memory, MemoryImportError
 from weblate.memory.tasks import import_memory
 from weblate.metrics.models import Metric
+from weblate.trans.models import Project
 from weblate.utils import messages
-from weblate.utils.views import ErrorFormView, get_project
+from weblate.utils.views import ErrorFormView, parse_path
 from weblate.wladmin.views import MENU
 
 CD_TEMPLATE = 'attachment; filename="weblate-memory.{}"'
@@ -27,7 +28,7 @@ CD_TEMPLATE = 'attachment; filename="weblate-memory.{}"'
 
 def get_objects(request, kwargs):
     if "project" in kwargs:
-        return {"project": get_project(request, kwargs["project"])}
+        return {"project": parse_path(request, [kwargs["project"]], (Project,))}
     if "manage" in kwargs:
         return {"from_file": True}
     return {"user": request.user}
@@ -65,7 +66,7 @@ class DeleteView(MemoryFormView):
         entries = Memory.objects.filter_type(**self.objects)
         if "origin" in self.request.POST:
             entries = entries.filter(origin=self.request.POST["origin"])
-        entries.delete()
+        entries.using("default").delete()
         messages.success(self.request, gettext("Entries were deleted."))
         return super().form_valid(form)
 
@@ -98,7 +99,9 @@ class RebuildView(MemoryFormView):
         if origin:
             slugs = [origin]
         else:
-            slugs = [component.full_slug for component in project.component_set.all()]
+            slugs = [
+                component.full_slug for component in project.component_set.prefetch()
+            ]
         Memory.objects.filter(origin__in=slugs, shared=True).delete()
         # Rebuild memory in background
         import_memory.delay(project_id=project.id, component_id=component_id)
@@ -150,13 +153,9 @@ class MemoryView(TemplateView):
 
     def get_origins(self):
         def get_url(slug: str) -> str:
-            try:
-                project, component = slug.split("/")
-            except ValueError:
+            if "/" not in slug:
                 return ""
-            return reverse(
-                "component", kwargs={"project": project, "component": component}
-            )
+            return reverse("show", kwargs={"path": slug.split("/")})
 
         from_file = list(
             self.entries.filter(from_file=True)
@@ -175,7 +174,7 @@ class MemoryView(TemplateView):
         if "project" in self.objects:
             slugs = {
                 component.full_slug
-                for component in self.objects["project"].component_set.all()
+                for component in self.objects["project"].component_set.prefetch()
             }
             existing = {entry["origin"] for entry in result}
             for entry in result:

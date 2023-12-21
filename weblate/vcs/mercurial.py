@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING
 from django.utils.translation import gettext_lazy
 
 from weblate.auth.utils import format_address
-from weblate.vcs.base import Repository, RepositoryException
+from weblate.vcs.base import Repository, RepositoryError
 from weblate.vcs.ssh import SSH_WRAPPER
 
 if TYPE_CHECKING:
@@ -134,7 +134,7 @@ class HgRepository(Repository):
                 self.configure_merge()
                 try:
                     self.execute(["rebase", "-d", "remote(.)"])
-                except RepositoryException as error:
+                except RepositoryError as error:
                     # Mercurial 3.8 changed error code and output
                     if (
                         error.retcode in (1, 255)
@@ -160,7 +160,7 @@ class HgRepository(Repository):
                 # Fallback to merge
                 try:
                     self.execute(["merge", "-r", "remote(.)"])
-                except RepositoryException as error:
+                except RepositoryError as error:
                     if error.retcode == 255:
                         # Nothing to merge
                         self.clean_revision_cache()
@@ -245,7 +245,7 @@ class HgRepository(Repository):
         output = cls._popen(["version", "-q"], merge_err=False)
         matches = cls.VERSION_RE.match(output)
         if matches is None:
-            raise OSError(f"Failed to parse version string: {output}")
+            raise OSError(f"Could not parse version string: {output}")
         return matches.group(1)
 
     def commit(
@@ -269,10 +269,10 @@ class HgRepository(Repository):
             for name in files:
                 try:
                     self.execute(["add", "--", name])
-                except RepositoryException:
+                except RepositoryError:
                     try:
                         self.execute(["remove", "--", name])
-                    except RepositoryException:
+                    except RepositoryError:
                         continue
                 cmd.append(name)
 
@@ -342,7 +342,7 @@ class HgRepository(Repository):
         """Push given branch to remote repository."""
         try:
             self.execute(["push", f"--branch={self.branch}"])
-        except RepositoryException as error:
+        except RepositoryError as error:
             if error.retcode == 1:
                 # No changes found
                 return
@@ -372,7 +372,7 @@ class HgRepository(Repository):
     def list_changed_files(self, refspec: str) -> list:
         try:
             return super().list_changed_files(refspec)
-        except RepositoryException as error:
+        except RepositoryError as error:
             if error.retcode == 255:
                 # Empty revision set
                 return []

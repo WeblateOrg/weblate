@@ -19,12 +19,8 @@
 {% endif %}
 {% endcompress %}
 {% if fonts_cdn_url %}
-  <link rel="preload" href="{{ fonts_cdn_url }}font-source/source-sans-3.css" as="style" />
-  <link rel="preload" href="{{ fonts_cdn_url }}font-source/source-code-pro.css" as="style" />
-  <noscript>
-    <link rel="stylesheet" href="{{ fonts_cdn_url }}font-source/source-sans-3.css" />
-    <link rel="stylesheet" href="{{ fonts_cdn_url }}font-source/source-code-pro.css" />
-  </noscript>
+  <link rel="stylesheet" href="{{ fonts_cdn_url }}font-source/source-sans-3.css" />
+  <link rel="stylesheet" href="{{ fonts_cdn_url }}font-source/source-code-pro.css" />
 {% endif %}
 {% if custom_css_hash %}
   <link rel="stylesheet" href="{% url "css-custom" %}?{{ custom_css_hash }}" />

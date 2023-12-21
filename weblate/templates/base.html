@@ -27,19 +27,14 @@
   <link rel="prev" href="{{ prev_unit_url }}" />
   {% endif %}
 
-  {% if object.slug and object.project.slug %}
-  <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.project.slug widget='open' color='graph' extension='png' %}" />
-  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss-component' project=object.project.slug component=object.slug %}" />
-  {% elif object.component.slug and object.component.slug != "-" and object.component.project.slug and object.language_code %}
-  <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.component.project.slug widget='open' color='graph' extension='png' %}" />
-  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss-translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" />
-  {% elif object.slug and object.web %}
-  <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.slug widget='open' color='graph' extension='png' %}" />
-  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss-project' project=object.slug %}" />
+  {% if object.get_url_path %}
+    <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss' path=object.get_url_path %}" />
+    <meta property="og:image" content="{{ site_url }}{% url 'widget-image' path=object.get_url_path widget='open' color='graph' extension='png' %}" />
   {% else %}
-  <meta property="og:image" content="{{ site_url }}{% url 'og-image' %}" />
-  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss' %}" />
+    <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss' %}" />
+    <meta property="og:image" content="{{ site_url }}{% url 'og-image' %}" />
   {% endif %}
+
   {% for domain in preconnect_list %}
   <link rel="preconnect" href="https://{{ domain }}">
   {% endfor %}
@@ -173,7 +168,8 @@ var _rollbarConfig = {
               {% if languages %}
                 {% for project in watched_projects %}
                   {% for language in languages %}
-                    <li><a href="{% url 'checks' %}?project={{ project.slug }}&amp;lang={{ language.code }}">{% blocktrans %}Failing checks in {{ project }} — {{ language }}{% endblocktrans %}</a></li>
+                    {% get_projectlanguage project language as projectlanguage %}
+                    <li><a href="{% url 'checks' path=projectlanguage.get_url_path %}">{% blocktrans %}Failing checks in {{ project }} — {{ language }}{% endblocktrans %}</a></li>
                   {% endfor %}
                   {% if languages|length > 1 %}
                     <li role="separator" class="divider"></li>
@@ -184,13 +180,13 @@ var _rollbarConfig = {
                 {% endif %}
               {% endif %}
               {% for project in watched_projects %}
-                <li><a href="{% url 'checks' %}?project={{ project.slug }}">{% blocktrans %}Failing checks in {{ project }}{% endblocktrans %}</a></li>
+                <li><a href="{% url 'checks' path=project.get_url_path %}">{% blocktrans %}Failing checks in {{ project }}{% endblocktrans %}</a></li>
               {% endfor %}
               <li role="separator" class="divider"></li>
             {% endif %}
             {% if languages %}
               {% for language in languages %}
-                <li><a href="{% url 'checks' %}?lang={{ language.code }}">{% blocktrans %}Failing checks in {{ language }}{% endblocktrans %}</a></li>
+                <li><a href="{% url 'checks' path=language.get_url_path %}">{% blocktrans %}Failing checks in {{ language }}{% endblocktrans %}</a></li>
               {% endfor %}
               <li role="separator" class="divider"></li>
             {% endif %}
@@ -246,7 +242,7 @@ var _rollbarConfig = {
             {% if component %}
               {% perm 'translation.add' component as user_can_add_translation %}
               {% if user_can_add_translation %}
-                <li><a href="{% url "new-language" project=component.project.slug component=component.slug %}">{% trans "Start new translation" %}</a></li>
+                <li><a href="{% url "new-language" path=component.get_url_path %}">{% trans "Start new translation" %}</a></li>
               {% endif %}
             {% endif %}
             {% if offer_hosting %}

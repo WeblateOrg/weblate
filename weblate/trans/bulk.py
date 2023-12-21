@@ -40,6 +40,7 @@ def bulk_perform(  # noqa: C901
 
     updated = 0
     for component in components:
+        prev_updated = updated
         component.batch_checks = True
         with transaction.atomic(), component.lock:
             component.commit_pending("bulk edit", user)
@@ -141,8 +142,9 @@ def bulk_perform(  # noqa: C901
                     unit.labels.remove(*translation_labels)
                     updated += 1
 
-        component.invalidate_cache()
-        component.update_source_checks()
-        component.run_batched_checks()
+        if prev_updated != updated:
+            component.invalidate_cache()
+            component.update_source_checks()
+            component.run_batched_checks()
 
     return updated

@@ -18,10 +18,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from weblate.logger import LOGGER
-from weblate.trans.models import Change, Component
+from weblate.trans.models import Change, Component, Project
 from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
-from weblate.utils.views import get_component, get_project
+from weblate.utils.views import parse_path
 
 BITBUCKET_GIT_REPOS = (
     "ssh://git@{server}/{full_name}.git",
@@ -86,26 +86,16 @@ def register_hook(handler):
 
 
 @csrf_exempt
-def update_component(request, project, component):
+def update(request, path):
     """API hook for updating git repos."""
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
-    obj = get_component(request, project, component, True)
-    if not obj.project.enable_hooks:
+    obj = project = parse_path(request, path, (Component, Project), skip_acl=True)
+    if isinstance(obj, Component):
+        project = obj.project
+    if not project.enable_hooks:
         return HttpResponseNotAllowed([])
-    perform_update.delay("Component", obj.pk)
-    return hook_response()
-
-
-@csrf_exempt
-def update_project(request, project):
-    """API hook for updating git repos."""
-    if not settings.ENABLE_HOOKS:
-        return HttpResponseNotAllowed([])
-    obj = get_project(request, project, True)
-    if not obj.enable_hooks:
-        return HttpResponseNotAllowed([])
-    perform_update.delay("Project", obj.pk)
+    perform_update.delay(obj.__class__.__name__, obj.pk)
     return hook_response()
 
 
@@ -136,8 +126,8 @@ def vcs_service_hook(request, service):
     # Get service helper
     try:
         hook_helper = HOOK_HANDLERS[service]
-    except KeyError:
-        raise Http404(f"Hook {service} not supported")
+    except KeyError as exc:
+        raise Http404(f"Hook {service} not supported") from exc
 
     # Check if we got payload
     try:

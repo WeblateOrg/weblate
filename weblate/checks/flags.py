@@ -1,6 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+# ruff: noqa: S105
 
 from __future__ import annotations
 
@@ -41,6 +42,7 @@ PLAIN_FLAGS["auto-java-messageformat"] = gettext_lazy(
 )
 PLAIN_FLAGS["read-only"] = gettext_lazy("Read only")
 PLAIN_FLAGS["strict-same"] = gettext_lazy("Strict unchanged check")
+PLAIN_FLAGS["strict-format"] = gettext_lazy("Strict format string checks")
 PLAIN_FLAGS["forbidden"] = gettext_lazy("Forbidden translation")
 PLAIN_FLAGS["terminology"] = gettext_lazy("Terminology")
 PLAIN_FLAGS["ignore-all-checks"] = gettext_lazy("Ignore all checks")
@@ -67,6 +69,8 @@ TYPED_FLAGS["variant"] = gettext_lazy("String variant")
 TYPED_FLAGS_ARGS["variant"] = single_value_flag(
     str, length_validation(VARIANT_KEY_LENGTH)
 )
+TYPED_FLAGS["fluent-type"] = gettext_lazy("Fluent type")
+TYPED_FLAGS_ARGS["fluent-type"] = single_value_flag(str)
 
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 
@@ -78,7 +82,7 @@ def _parse_flags_text(flags: str):
     state = 0
     name = None
     value = []
-    tokens = list(FlagsParser.parseString(flags, parseAll=True))
+    tokens = list(FlagsParser.parse_string(flags, parseAll=True))
     for pos, token in enumerate(tokens):
         if state == 0 and token == ",":
             pass

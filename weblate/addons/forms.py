@@ -15,7 +15,8 @@ from lxml.cssselect import CSSSelector
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.trans.forms import AutoForm, BulkEditForm
-from weblate.utils.forms import ContextDiv
+from weblate.trans.models import Translation
+from weblate.utils.forms import CachedModelChoiceField, ContextDiv
 from weblate.utils.render import validate_render, validate_render_component
 from weblate.utils.validators import validate_filename, validate_re
 
@@ -45,11 +46,19 @@ class GenerateMoForm(BaseAddonForm):
             "If not specified, the location of the PO file will be used."
         ),
     )
+    fuzzy = forms.BooleanField(
+        label=gettext_lazy("Include strings needing editing"),
+        required=False,
+        help_text=gettext_lazy(
+            "Strings needing editing (fuzzy) are typically not ready for use as translations."
+        ),
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
+            Field("fuzzy"),
             Field("path"),
             ContextDiv(
                 template="addons/generatemo_help.html", context={"user": self.user}
@@ -345,10 +354,10 @@ class DiscoveryForm(BaseAddonForm):
             # Perform form validation
             self.full_clean()
             # Show preview if form was submitted
-            if self.cleaned_data["preview"]:
+            if self.cleaned_data.get("preview"):
                 self.fields["confirm"].widget = forms.CheckboxInput()
                 self.helper.layout.insert(0, Field("confirm"))
-                created, matched, deleted = self.discovery.perform(
+                created, matched, deleted, skipped = self.discovery.perform(
                     preview=True, remove=self.cleaned_data["remove"]
                 )
                 self.helper.layout.insert(
@@ -359,6 +368,7 @@ class DiscoveryForm(BaseAddonForm):
                             "matches_created": created,
                             "matches_matched": matched,
                             "matches_deleted": deleted,
+                            "matches_skipped": skipped,
                             "user": self.user,
                         },
                     ),
@@ -372,6 +382,25 @@ class DiscoveryForm(BaseAddonForm):
         )
 
     def clean(self):
+        if file_format := self.cleaned_data.get("file_format"):
+            is_monolingual = FILE_FORMATS[file_format].monolingual
+            if is_monolingual and not self.cleaned_data.get("base_file_template"):
+                raise forms.ValidationError(
+                    {
+                        "base_file_template": gettext(
+                            "You can not use a monolingual translation without a base file."
+                        )
+                    }
+                )
+            if is_monolingual is False and self.cleaned_data["base_file_template"]:
+                raise forms.ValidationError(
+                    {
+                        "base_file_template": gettext(
+                            "You can not use a base file for bilingual translation."
+                        )
+                    }
+                )
+
         self.cleaned_data["preview"] = False
 
         # There are some other errors or the form was loaded from db
@@ -504,17 +533,27 @@ class CDNJSForm(BaseAddonForm):
             CSSSelector(self.cleaned_data["css_selector"], translator="html")
         except Exception as error:
             raise forms.ValidationError(
-                gettext("Failed to parse CSS selector: %s") % error
+                gettext("Could not parse CSS selector: %s") % error
             )
         return self.cleaned_data["css_selector"]
 
 
+class TranslationLanguageChoiceField(CachedModelChoiceField):
+    def label_from_instance(self, obj):
+        return str(obj.language)
+
+
 class PseudolocaleAddonForm(BaseAddonForm):
-    source = forms.ChoiceField(label=gettext_lazy("Source strings"), required=True)
-    target = forms.ChoiceField(
+    source = TranslationLanguageChoiceField(
+        label=gettext_lazy("Source strings"),
+        required=True,
+        queryset=Translation.objects.none(),
+    )
+    target = TranslationLanguageChoiceField(
         label=gettext_lazy("Target translation"),
         required=True,
         help_text=gettext_lazy("All strings in this translation will be overwritten"),
+        queryset=Translation.objects.none(),
     )
     prefix = forms.CharField(
         label=gettext_lazy("Fixed string prefix"),
@@ -538,6 +577,7 @@ class PseudolocaleAddonForm(BaseAddonForm):
     )
     var_multiplier = forms.FloatField(
         label=gettext_lazy("Variable part multiplier"),
+        required=False,
         initial=0.1,
         help_text=gettext_lazy(
             "How many times to repeat the variable part depending on "
@@ -551,12 +591,9 @@ class PseudolocaleAddonForm(BaseAddonForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        choices = [
-            (translation.pk, str(translation.language))
-            for translation in self._addon.instance.component.translation_set.all()
-        ]
-        self.fields["source"].choices = choices
-        self.fields["target"].choices = choices
+        queryset = self._addon.instance.component.translation_set.all()
+        self.fields["source"].queryset = queryset
+        self.fields["target"].queryset = queryset
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field("source"),
@@ -573,6 +610,8 @@ class PseudolocaleAddonForm(BaseAddonForm):
         )
 
     def clean(self):
+        if "source" not in self.cleaned_data or "target" not in self.cleaned_data:
+            return
         if self.cleaned_data["source"] == self.cleaned_data["target"]:
             raise forms.ValidationError(
                 gettext("The source and target have to be different languages.")

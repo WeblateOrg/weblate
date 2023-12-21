@@ -5,6 +5,7 @@
 from datetime import timedelta
 from itertools import chain
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Prefetch
@@ -17,18 +18,18 @@ from django.views.decorators.http import require_POST
 from weblate.accounts.models import AuditLog
 from weblate.accounts.utils import remove_user
 from weblate.auth.data import SELECTION_ALL
-from weblate.auth.forms import InviteUserForm, ProjectTeamForm, send_invitation
-from weblate.auth.models import Group, User
+from weblate.auth.forms import InviteEmailForm, InviteUserForm, ProjectTeamForm
+from weblate.auth.models import Invitation, User
 from weblate.trans.forms import (
     ProjectTokenCreateForm,
     ProjectUserGroupForm,
     UserBlockForm,
     UserManageForm,
 )
-from weblate.trans.models import Change
+from weblate.trans.models import Change, Project
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
-from weblate.utils.views import get_project, show_form_errors
+from weblate.utils.views import parse_path, show_form_errors
 from weblate.vcs.ssh import get_all_key_data
 
 
@@ -40,12 +41,16 @@ def check_user_form(
 
     This is simple helper to perform needed validation for all user management views.
     """
-    obj = get_project(request, project)
+    obj = parse_path(request, [project], (Project,))
 
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied
 
-    form = form_class(obj, request.POST) if pass_project else form_class(request.POST)
+    kwargs = {}
+    if pass_project:
+        kwargs["project"] = obj
+
+    form = form_class(data=request.POST, **kwargs)
 
     if form.is_valid():
         return obj, form
@@ -100,23 +105,11 @@ def set_groups(request, project):
 def add_user(request, project):
     """Add user to a project."""
     obj, form = check_user_form(
-        request,
-        project,
+        request, project, form_class=InviteUserForm, pass_project=True
     )
 
     if form is not None:
-        try:
-            user = form.cleaned_data["user"]
-            obj.add_user(user)
-            Change.objects.create(
-                project=obj,
-                action=Change.ACTION_ADD_USER,
-                user=request.user,
-                details={"username": user.username},
-            )
-            messages.success(request, gettext("User has been added to this project."))
-        except Group.DoesNotExist:
-            messages.error(request, gettext("Failed to find group to add a user!"))
+        form.save(request)
 
     return redirect("manage-access", project=obj.slug)
 
@@ -175,30 +168,12 @@ def unblock_user(request, project):
 @login_required
 def invite_user(request, project):
     """Invite user to a project."""
-    obj, form = check_user_form(request, project, form_class=InviteUserForm)
-
-    if form is not None:
-        try:
-            form.save(request, obj)
-            messages.success(request, gettext("User has been invited to this project."))
-        except Group.DoesNotExist:
-            messages.error(request, gettext("Failed to find group to add a user!"))
-
-    return redirect("manage-access", project=obj.slug)
-
-
-@require_POST
-@login_required
-def resend_invitation(request, project):
-    """Remove user from a project."""
     obj, form = check_user_form(
-        request,
-        project,
+        request, project, form_class=InviteEmailForm, pass_project=True
     )
 
     if form is not None:
-        send_invitation(request, obj.name, form.cleaned_data["user"])
-        messages.success(request, gettext("User invitation e-mail was sent."))
+        form.save(request, obj)
 
     return redirect("manage-access", project=obj.slug)
 
@@ -244,14 +219,14 @@ def delete_user(request, project):
 @login_required
 def manage_access(request, project):
     """User management view."""
-    obj = get_project(request, project)
+    obj = parse_path(request, [project], (Project,))
 
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied
 
     groups = (
         obj.defined_groups.order()
-        .annotate(Count("user"))
+        .annotate(Count("user"), Count("autogroup"))
         .prefetch_related("languages", "components")
     )
     users = (
@@ -296,7 +271,9 @@ def manage_access(request, project):
             "groups": groups,
             "all_users": users,
             "blocked_users": obj.userblock_set.select_related("user"),
-            "add_user_form": UserManageForm(),
+            "invitations": Invitation.objects.filter(
+                group__defining_project=obj
+            ).select_related("user"),
             "create_project_token_form": ProjectTokenCreateForm(obj),
             "create_team_form": ProjectTeamForm(
                 project=obj, initial={"language_selection": SELECTION_ALL}
@@ -304,7 +281,10 @@ def manage_access(request, project):
             "block_user_form": UserBlockForm(
                 initial={"user": request.GET.get("block_user")}
             ),
-            "invite_user_form": InviteUserForm(),
+            "invite_user_form": InviteUserForm(project=obj),
+            "invite_email_form": InviteEmailForm(project=obj)
+            if settings.REGISTRATION_OPEN
+            else None,
             "public_ssh_keys": get_all_key_data(),
         },
     )
@@ -314,7 +294,7 @@ def manage_access(request, project):
 @login_required
 def create_token(request, project):
     """Create project token."""
-    obj = get_project(request, project)
+    obj = parse_path(request, [project], (Project,))
 
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied
@@ -339,7 +319,7 @@ def create_token(request, project):
 @login_required
 def create_group(request, project):
     """Delete project group."""
-    obj = get_project(request, project)
+    obj = parse_path(request, [project], (Project,))
 
     if not request.user.has_perm("project.permissions", obj):
         raise PermissionDenied

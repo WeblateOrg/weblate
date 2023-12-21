@@ -20,6 +20,11 @@ applications.
     :ref:`updating-target-files`,
     :ref:`addon-weblate.cleanup.generic`
 
+Example file:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs.xaml
+    :language: xml
+
 Weblate configuration
 +++++++++++++++++++++
 

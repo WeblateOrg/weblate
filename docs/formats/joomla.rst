@@ -16,6 +16,11 @@ Joomla translations are usually used as monolingual translations.
     :ref:`ini`,
     :ref:`islu`
 
+Example file:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs.joomla.ini
+    :language: ini
+
 Weblate configuration
 +++++++++++++++++++++
 

@@ -6,15 +6,16 @@
 
 from django.conf import settings
 from django.core import mail
+from django.test.utils import override_settings
 from django.urls import reverse
 
-from weblate.auth.models import Group, Role, User, get_anonymous
+from weblate.auth.models import Group, Invitation, Role, User, get_anonymous
 from weblate.lang.models import Language
 from weblate.trans.models import Project
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureTestCase, RegistrationTestMixin
 
 
-class ACLTest(FixtureTestCase):
+class ACLTest(FixtureTestCase, RegistrationTestMixin):
     def setUp(self):
         super().setUp()
         self.project.access_control = Project.ACCESS_PRIVATE
@@ -90,9 +91,17 @@ class ACLTest(FixtureTestCase):
         # Add user
         response = self.client.post(
             reverse("add-user", kwargs=self.kw_project),
-            {"user": self.second_user.username},
+            {"user": self.second_user.username, "group": self.admin_group.pk},
         )
         self.assertRedirects(response, self.access_url)
+
+        # Ensure user is now listed
+        response = self.client.get(self.access_url)
+        self.assertContains(response, self.second_user.username)
+
+        # Accept invitation
+        invitation = Invitation.objects.get()
+        invitation.accept(None, self.second_user)
 
         # Ensure user is now listed
         response = self.client.get(self.access_url)
@@ -103,7 +112,7 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
-            {"email": "invalid", "username": "valid", "full_name": "name"},
+            {"email": "invalid", "group": self.admin_group.pk},
             follow=True,
         )
         self.assertContains(response, "Enter a valid e-mail address.")
@@ -113,41 +122,72 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
-            {
-                "email": self.user.email,
-                "username": self.user.username,
-                "full_name": "name",
-            },
+            {"email": self.user.email, "group": self.admin_group.pk},
             follow=True,
         )
-        self.assertContains(response, "A user with this e-mail already exists")
+        self.assertContains(response, "User invitation e-mail was sent.")
+        invitation = Invitation.objects.get()
+        # Ensure invitation was mapped to existing user
+        self.assertEqual(invitation.user, self.user)
 
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_invite_user(self):
         """Test inviting user."""
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
-            {"email": "user@example.com", "username": "username", "full_name": "name"},
+            {"email": "user@example.com", "group": self.admin_group.pk},
             follow=True,
         )
-        # Ensure user is now listed
-        self.assertContains(response, "username")
+        # Ensure user invitation is now listed
+        self.assertContains(response, "user@example.com")
+        self.assertNotContains(response, "example-username")
         # Check invitation mail
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
         self.assertEqual(message.subject, "[Weblate] Invitation to Weblate")
         mail.outbox = []
 
+        self.assertEqual(Invitation.objects.count(), 1)
+
+        invitation = Invitation.objects.get()
+
         # Resend invitation
         response = self.client.post(
-            reverse("resend_invitation", kwargs=self.kw_project),
-            {"user": "user@example.com"},
+            invitation.get_absolute_url(),
+            {"action": "resend"},
             follow=True,
         )
         # Check invitation mail
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
         self.assertEqual(message.subject, "[Weblate] Invitation to Weblate")
+        mail.outbox = []
+
+        user_client = self.client_class()
+
+        # Follow the invitation list
+        response = user_client.get(invitation.get_absolute_url(), follow=True)
+        self.assertRedirects(response, reverse("register"))
+        self.assertContains(response, "user@example.com")
+
+        # Perform registration
+        response = user_client.post(
+            reverse("register"),
+            {
+                "email": "user@example.com",
+                "username": "example-username",
+                "fullname": "name",
+            },
+            follow=True,
+        )
+        url = self.assert_registration_mailbox()
+        response = user_client.get(url, follow=True)
+        self.assertRedirects(response, reverse("password"))
+
+        # Verify user was added
+        response = self.client.get(self.access_url)
+        self.assertContains(response, "example-username")
 
     def remove_user(self):
         # Remove user
@@ -246,7 +286,7 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("add-user", kwargs=self.kw_project),
-            {"user": "nonexisting"},
+            {"user": "nonexisting", "group": self.admin_group.pk},
             follow=True,
         )
         self.assertContains(response, "Could not find any such user")
@@ -337,7 +377,7 @@ class ACLTest(FixtureTestCase):
         self.assertRedirects(response, self.access_url + "#teams")
         self.assertFalse(Group.objects.filter(pk=group.pk).exists())
 
-    def test_create_group(self):
+    def create_test_group(self):
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("create-project-group", kwargs=self.kw_project),
@@ -353,14 +393,16 @@ class ACLTest(FixtureTestCase):
             },
         )
         self.assertRedirects(response, self.access_url + "#teams")
-        group = Group.objects.get(name="Czech team")
+        return Group.objects.get(name="Czech team")
+
+    def test_create_group(self):
+        group = self.create_test_group()
         self.assertEqual(group.defining_project, self.project)
         self.assertEqual(group.language_selection, 0)
         self.assertEqual(list(group.languages.values_list("code", flat=True)), ["cs"])
         self.assertEqual(
             set(group.roles.values_list("name", flat=True)), {"Power user"}
         )
-        return group
 
     def test_create_group_all_lang(self):
         self.project.add_user(self.user, "Administration")
@@ -389,7 +431,7 @@ class ACLTest(FixtureTestCase):
         )
 
     def test_edit_group(self):
-        group = self.test_create_group()
+        group = self.create_test_group()
 
         response = self.client.post(
             group.get_absolute_url(),

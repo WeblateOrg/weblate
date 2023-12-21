@@ -46,6 +46,8 @@ The simple execution can look like:
 Local testing
 +++++++++++++
 
+Before running test, please ensure test dependencies are installed. This can be done by `pip install -r requirements-dev.txt` or `pip install -e .[test]`.
+
 To run a testsuite locally, use:
 
 .. code-block:: sh

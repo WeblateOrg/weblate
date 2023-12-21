@@ -48,31 +48,39 @@
     <p>
         {% if page_profile.translated %}
             <span class="middle-dot-divider">
+              <a href="{% url 'changes' %}?user={{ page_user.username }}&amp;action=2&amp;action=5">
                 {% blocktrans count cnt=page_profile.translated with count=page_profile.translated|intcomma %}{{ count }} translation{% plural %}{{ count }} translations{% endblocktrans %}
+              </a>
             </span>
         {% endif %}
         {% if page_profile.suggested %}
             <span class="middle-dot-divider">
+              <a href="{% url 'changes' %}?user={{ page_user.username }}&amp;action=4">
                 {% blocktrans count cnt=page_profile.suggested with count=page_profile.suggested|intcomma %}{{ count }} suggestion{% plural %}{{ count }} suggestions{% endblocktrans %}
+              </a>
             </span>
         {% endif %}
         {% with pending_suggestions=page_user.suggestion_set.count %}
         {% if pending_suggestions %}
             <span class="middle-dot-divider">
-                <a href="{% url 'user_suggestions' user=page_user.username %}">
-                    {% blocktrans count cnt=pending_suggestions with count=pending_suggestions|intcomma %}{{ count }} pending suggestion{% plural %}{{ count }} pending suggestions{% endblocktrans %}
-                </a>
+              <a href="{% url 'user_suggestions' user=page_user.username %}">
+                {% blocktrans count cnt=pending_suggestions with count=pending_suggestions|intcomma %}{{ count }} pending suggestion{% plural %}{{ count }} pending suggestions{% endblocktrans %}
+              </a>
             </span>
         {% endif %}
         {% endwith %}
         {% if page_profile.uploaded %}
             <span class="middle-dot-divider">
+              <a href="{% url 'changes' %}?user={{ page_user.username }}&amp;action=57">
                 {% blocktrans count cnt=page_profile.uploaded with count=page_profile.uploaded|intcomma %}{{ count }} screenshot{% plural %}{{ count }} screenshots{% endblocktrans %}
+              </a>
             </span>
         {% endif %}
         {% if page_profile.commented %}
             <span class="middle-dot-divider">
+              <a href="{% url 'changes' %}?user={{ page_user.username }}&amp;action=3">
                 {% blocktrans count cnt=page_profile.commented with count=page_profile.commented|intcomma %}{{ count }} comment{% plural %}{{ count }} comments{% endblocktrans %}
+              </a>
             </span>
         {% endif %}
     </p>

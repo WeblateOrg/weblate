@@ -14,7 +14,7 @@ QUOTE_PARAM = re.compile(r"'(\{[^}]+\})'")
 SINGLE_APO = re.compile(r"'{1,3}")
 DOUBLE_APO = re.compile(r"'{4,}")
 REPLACEMENT = "__weblate:quote__"
-REPLACE_STRING = r"{0}\1{0}".format(REPLACEMENT)
+REPLACE_STRING = rf"{REPLACEMENT}\1{REPLACEMENT}"
 
 
 class DoubleApostrophes(AutoFix):

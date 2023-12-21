@@ -10,6 +10,37 @@ It is up to you to decide how many of Weblate features you want to make use of.
 The following is not a complete list of ways to configure Weblate.
 You can base other workflows on the examples listed here.
 
+.. _workflow-customization:
+
+Workflow customization
+----------------------
+
+In addition to configuration at :ref:`project` and :ref:`component` (as
+:ref:`project-translation_review`, :ref:`component-enable_suggestions`,
+:ref:`component-suggestion_voting`, and
+:ref:`component-suggestion_autoaccept`), the translation workflow can be
+customized per language.
+
+Site-wide workflow customization can be done while :ref:`changing-languages`.
+
+Per-project customization can be done on each language page of the project.
+
+All workflow settings can be overridden, the only limitation is that
+:ref:`project-translation_review` needs to be turned on and can only be
+disabled in customization.
+
+The first existing setting applies:
+
+1. Project-language customization
+2. Language customization
+3. The project/component settings
+
+.. note::
+
+   Please be careful when using site-wide override as that applies to all
+   projects (unless they have own overrides for a given language).
+
+
 Translation access
 ------------------
 
@@ -27,7 +58,7 @@ with :guilabel:`Translate` permission to the project.
 Translation states
 ------------------
 
-Each translated string can be in one of following states:
+Each translated string can be in one of the following states:
 
 Untranslated
     Translation is empty, it might or not be stored in the file, depending
@@ -52,7 +83,7 @@ The states are represented in the translation files when possible.
 
 .. hint::
 
-   In case the file format you use does not support storing states, you might want
+   If the file format you use does not support storing states, you might want
    to use the :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings
    as needing editing.
 
@@ -96,7 +127,7 @@ This is also the default setup in Weblate.
 Peer review
 -----------
 
-With this workflow, anybody can add suggestions, and need approval
+With this workflow, anybody can add a suggestion, which needs approval
 from additional member(s) before it is accepted as a translation.
 
 * *Any user* can add suggestions.
@@ -171,9 +202,11 @@ Reviews can be turned on in the project configuration, from the
 Quality gateway for the source strings
 --------------------------------------
 
-Attaining the desired source-string quality poses a challenge.
-Intermediate translation can help address this — as it creates an
-additional quality gateway between e.g. developers and translators for the strings.
+In many cases the original source language strings are coming from developers,
+because they write the code and provide initial strings. However developers are
+often not native speakers in the source language and do not provide desired
+quality of the source strings. The intermediate translation can help you address this - there is an additional quality gateway for the strings between
+developers and translators.
 
 By setting :ref:`component-intermediate`, this file is used for translating strings
 to the source language by translators/editors. Once this stage is done,

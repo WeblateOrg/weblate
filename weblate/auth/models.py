@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+import uuid
 from collections import defaultdict
 from functools import cache as functools_cache
 from itertools import chain
@@ -13,9 +14,11 @@ import sentry_sdk
 from appconf import AppConf
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group as DjangoGroup
 from django.db import models
-from django.db.models import Q
+from django.db.models import Prefetch, Q, UniqueConstraint
+from django.db.models.functions import Upper
 from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
 from django.http import Http404
@@ -44,9 +47,10 @@ from weblate.auth.utils import (
     migrate_permissions,
     migrate_roles,
 )
+from weblate.lang.models import Language
 from weblate.trans.defines import FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
-from weblate.trans.models import ComponentList, Project
+from weblate.trans.models import Component, ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
 from weblate.utils.search import parse_query
@@ -226,6 +230,18 @@ class UserManager(BaseUserManager):
 
         return self._create_user(username, email, password, **extra_fields)
 
+    def get_or_create_bot(self, scope: str, username: str, verbose: str):
+        return self.get_or_create(
+            username=f"{scope}:{username}",
+            defaults={
+                "is_bot": True,
+                "full_name": verbose,
+                "email": f"noreply-{scope}-{username}@weblate.org",
+                "is_active": False,
+                "password": make_password(None),
+            },
+        )[0]
+
 
 class UserQuerySet(models.QuerySet):
     def having_perm(self, perm, project):
@@ -367,11 +383,11 @@ class User(AbstractBaseUser):
     )
     groups = GroupManyToManyField(
         Group,
-        verbose_name=gettext_lazy("Groups"),
+        verbose_name=gettext_lazy("Teams"),
         blank=True,
         help_text=gettext_lazy(
             "The user is granted all permissions included in "
-            "membership of these groups."
+            "membership of these teams."
         ),
     )
 
@@ -385,11 +401,20 @@ class User(AbstractBaseUser):
     class Meta:
         verbose_name = "User"
         verbose_name_plural = "Users"
+        constraints = [
+            UniqueConstraint(Upper("username"), name="weblate_auth_user_username_ci"),
+            UniqueConstraint(Upper("email"), name="weblate_auth_user_email_ci"),
+        ]
 
     def __str__(self):
         return self.full_name
 
     def save(self, *args, **kwargs):
+        from weblate.accounts.models import AuditLog
+
+        original = None
+        if self.pk:
+            original = User.objects.get(pk=self.pk)
         if self.is_anonymous:
             self.is_active = False
         # Generate full name from parts
@@ -405,6 +430,17 @@ class User(AbstractBaseUser):
             self.email = None
         super().save(*args, **kwargs)
         self.clear_cache()
+        if (
+            original
+            and original.is_active != self.is_active
+            and self.full_name != "Deleted User"
+            and not self.is_anonymous
+        ):
+            AuditLog.objects.create(
+                user=self,
+                request=None,
+                activity="enabled" if self.is_active else "disabled",
+            )
 
     def get_absolute_url(self):
         return reverse("user_page", kwargs={"user": self.username})
@@ -426,6 +462,8 @@ class User(AbstractBaseUser):
             "project_permissions",
             "component_permissions",
             "allowed_projects",
+            "needs_component_restrictions_filter",
+            "needs_project_filter",
             "watched_projects",
             "owned_projects",
             "managed_projects",
@@ -485,7 +523,7 @@ class User(AbstractBaseUser):
         """Permission check."""
         # Weblate global scope permissions
         if perm in GLOBAL_PERM_NAMES:
-            return check_global_permission(self, perm, obj)
+            return check_global_permission(self, perm)
 
         # Compatibility API for admin interface
         if is_django_permission(perm):
@@ -567,6 +605,14 @@ class User(AbstractBaseUser):
         return Project.objects.filter(condition).order()
 
     @cached_property
+    def needs_component_restrictions_filter(self):
+        return self.allowed_projects.filter(component__restricted=True).exists()
+
+    @cached_property
+    def needs_project_filter(self):
+        return self.allowed_projects.count() != Project.objects.all().count()
+
+    @cached_property
     def watched_projects(self):
         """
         List of watched projects.
@@ -595,10 +641,18 @@ class User(AbstractBaseUser):
         with sentry_sdk.start_span(op="permissions", description=self.username):
             for group in self.groups.prefetch_related(
                 "roles__permissions",
-                "componentlists__components",
-                "components",
-                "projects",
-                "languages",
+                Prefetch(
+                    "componentlists__components",
+                    queryset=Component.objects.only("id", "project_id"),
+                ),
+                Prefetch(
+                    "components",
+                    queryset=Component.objects.all().only("id", "project_id"),
+                ),
+                Prefetch(
+                    "projects", queryset=Project.objects.only("id", "access_control")
+                ),
+                Prefetch("languages", queryset=Language.objects.only("id")),
             ):
                 if group.language_selection == SELECTION_ALL:
                     languages = None
@@ -714,7 +768,7 @@ class AutoGroup(models.Model):
     match = RegexField(
         verbose_name=gettext_lazy("Regular expression for e-mail address"),
         max_length=200,
-        default="^.*$",
+        default="^$",
         help_text=gettext_lazy(
             "Users with e-mail addresses found to match will be added to this group."
         ),
@@ -738,6 +792,7 @@ class UserBlock(models.Model):
         User,
         verbose_name=gettext_lazy("User to block"),
         on_delete=models.deletion.CASCADE,
+        db_index=False,
     )
     project = models.ForeignKey(
         Project, verbose_name=gettext_lazy("Project"), on_delete=models.deletion.CASCADE
@@ -904,6 +959,84 @@ def setup_project_groups(
             continue
         group.projects.add(instance)
         group.roles.add(Role.objects.get(name=ACL_GROUPS[group_name]))
+
+
+class Invitation(models.Model):
+    """
+    User invitation store.
+
+    Either user or e-mail attribute is set, this is to invite current and new users.
+    """
+
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(
+        User, on_delete=models.deletion.CASCADE, related_name="created_invitation_set"
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.deletion.CASCADE,
+        null=True,
+        verbose_name=gettext_lazy("User to add"),
+        help_text=gettext_lazy(
+            "Please type in an existing Weblate account name or e-mail address."
+        ),
+    )
+    group = models.ForeignKey(
+        Group,
+        verbose_name=gettext_lazy("Team"),
+        help_text=gettext_lazy(
+            "The user is granted all permissions included in "
+            "membership of these teams."
+        ),
+        on_delete=models.deletion.CASCADE,
+    )
+    email = EmailField(
+        gettext_lazy("E-mail"),
+        blank=True,
+    )
+    is_superuser = models.BooleanField(
+        gettext_lazy("Superuser status"),
+        default=False,
+        help_text=gettext_lazy("User has all possible permissions."),
+    )
+
+    def __str__(self):
+        return f"invitation {self.uuid} for {self.user or self.email} to {self.group}"
+
+    def get_absolute_url(self):
+        return reverse("invitation", kwargs={"pk": self.uuid})
+
+    def send_email(self):
+        from weblate.accounts.notifications import send_notification_email
+
+        send_notification_email(
+            None,
+            [self.email] if self.email else [self.user.email],
+            "invite",
+            info=f"{self}",
+            context={"invitation": self, "validity": settings.AUTH_TOKEN_VALID // 3600},
+        )
+
+    def accept(self, request, user: User):
+        from weblate.accounts.models import AuditLog
+
+        if self.user and self.user != user:
+            raise ValueError("User mismatch on accept!")
+
+        user.groups.add(self.group)
+
+        if self.is_superuser:
+            user.is_superuser = True
+            user.save(update_fields=["is_superuser"])
+
+        AuditLog.objects.create(
+            user=user,
+            request=request,
+            activity="accepted",
+            username=self.author.username,
+        )
+        self.delete()
 
 
 class WeblateAuthConf(AppConf):

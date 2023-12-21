@@ -4,11 +4,16 @@ Translation projects
 Translation organization
 ------------------------
 
-Weblate organizes translatable VCS content of project/components into a tree-like structure.
+Weblate organizes translatable VCS content of project/components into a
+tree-like structure. You can additionally organize components within a project
+using categories.
 
 * The bottom level object is :ref:`project`, which should hold all translations belonging
   together (for example translation of an application in several versions
   and/or accompanying documentation).
+
+* The middle level is optionally created by :ref:`category`. The categories can
+  be nested to achieve more complex structure.
 
 * On the level above, :ref:`component`, which is
   actually the component to translate, you define the VCS repository to use, and
@@ -32,21 +37,16 @@ monolingual ones) supported by Translate Toolkit, see :ref:`formats`.
 Adding translation projects and components
 ------------------------------------------
 
-.. versionchanged:: 3.2
-
-   An interface for adding projects and components is included,
-   and you no longer have to use :ref:`admin-interface`.
-
-.. versionchanged:: 3.4
-
-   The process of adding components is now multi staged,
-   with automated discovery of most parameters.
-
 Based on your permissions, new translation projects and components can be
 created. It is always permitted for users with the :guilabel:`Add new projects`
 permission, and if your instance uses billing (e.g. like
 https://hosted.weblate.org/ see :ref:`billing`), you can also create those
 based on your plans allowance from the user account that manages billing.
+
+.. hint::
+
+   To grant every user permission to create new projects create new
+   :ref:`autoteam` for the :guilabel:`Project creators` team.
 
 You can view your current billing plan on a separate page:
 
@@ -207,6 +207,10 @@ Enable reviews
 
 Enable review workflow for translations, see :ref:`reviews`.
 
+.. seealso::
+
+   :ref:`workflow-customization`
+
 .. _project-source_review:
 
 Enable source reviews
@@ -252,7 +256,7 @@ Using non standard code: ``ia_FOO:ia``
 .. hint::
 
    The language codes are mapped when matching the translation files and the
-   matches are case sensitive, so make sure you use the source language codes
+   matches are case sensitive, so ensure you use the source language codes
    in same form as used in the filenames.
 
 .. seealso::
@@ -440,7 +444,7 @@ Screenshot file mask
 This feature allows the discovery and updating of screenshots through screenshot file masks, using paths from the VCS repository.
 This operates at the component level and necessitates the use of an asterisk "*" to replace the screenshot file name.
 
-Allowed formats are JPEG, PNG, APNG and GIF.
+Allowed formats are WebP, JPEG, PNG, APNG and GIF.
 
 Note:
 
@@ -481,7 +485,14 @@ Base file containing string definitions for :ref:`monolingual`.
 Edit base file
 ++++++++++++++
 
-Whether to allow editing the base file for :ref:`monolingual`.
+Whether to allow editing strings in the :ref:`component-template`.
+
+.. seealso::
+
+   :ref:`bimono`,
+   :ref:`monolingual`,
+   :ref:`faq-duplicate-files`,
+   :ref:`component-manage_units`
 
 .. _component-intermediate:
 
@@ -546,6 +557,9 @@ Source string bug reporting address
 Email address used for reporting upstream bugs. This address will also receive
 notification about any source string comments made in Weblate.
 
+With the :ref:`gettext` format, this address is also saved by Weblate in the
+:mailheader:`Report-Msgid-Bugs-To` header of the file.
+
 .. _component-allow_translation_propagation:
 
 Allow translation propagation
@@ -571,6 +585,10 @@ Enable suggestions
 
 Whether translation suggestions are accepted for this component.
 
+.. seealso::
+
+   :ref:`workflow-customization`
+
 .. _component-suggestion_voting:
 
 Suggestion voting
@@ -578,12 +596,20 @@ Suggestion voting
 
 Turns on vote casting for suggestions, see :ref:`voting`.
 
+.. seealso::
+
+   :ref:`workflow-customization`
+
 .. _component-suggestion_autoaccept:
 
 Automatically accept suggestions
 ++++++++++++++++++++++++++++++++
 
 Automatically accept voted suggestions, see :ref:`voting`.
+
+.. seealso::
+
+   :ref:`workflow-customization`
 
 .. _component-check_flags:
 
@@ -672,6 +698,11 @@ it does not enforce the strings in all translations to be consistent.
 For monolingual formats, the strings are managed only on source language and
 are automatically added or removed in the translations. The strings appear in
 the translation files once they are translated.
+
+.. hint::
+
+   You might want to turn on :ref:`component-edit_template` together with
+   :guilabel:`Manage strings` for monolingual formats.
 
 .. seealso::
 
@@ -913,7 +944,7 @@ The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 
 .. hint::
 
-   This applies to project admins as well — please make sure you will not
+   This applies to project admins as well — please ensure you will not
    loose access to the component after toggling the status.
 
 .. _component-links:
@@ -956,6 +987,14 @@ Glossary color
 ++++++++++++++
 
 Display color for a glossary used when showing word matches.
+
+.. _category:
+
+Category
+--------
+
+Categories are there to give structure to components within a project. You can
+nest them to achieve a more complex structure.
 
 .. _markup:
 

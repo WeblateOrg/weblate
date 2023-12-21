@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import os
+
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
@@ -9,6 +12,7 @@ from django.test.utils import override_settings
 from weblate.utils.render import validate_editor
 from weblate.utils.validators import (
     clean_fullname,
+    validate_backup_path,
     validate_filename,
     validate_fullname,
     validate_project_web,
@@ -132,3 +136,23 @@ class WebsiteTest(SimpleTestCase):
         with override_settings(PROJECT_WEB_RESTRICT_NUMERIC=False):
             validate_project_web("https://[2606:4700:4700::1111]")
             validate_project_web("https://1.1.1.1")
+
+
+class BackupTest(SimpleTestCase):
+    def test_ssh(self):
+        with self.assertRaises(ValidationError):
+            validate_backup_path("ssh://")
+        validate_backup_path("ssh://example.com/path")
+        validate_backup_path("user@host:/path/to/repo")
+        validate_backup_path(
+            "ssh://u123456-sub0@u113456-sub0.your-storagebox.de:23/./backups "
+        )
+
+    def test_filesystem(self):
+        validate_backup_path("/backups")
+        with self.assertRaises(ValidationError):
+            validate_backup_path("./backups")
+        validate_backup_path(os.path.join(settings.DATA_DIR, "..", "backups"))
+        with self.assertRaises(ValidationError):
+            validate_backup_path(os.path.join(settings.DATA_DIR, "backups"))
+        validate_backup_path(os.path.join(settings.DATA_DIR, "remote-backups"))

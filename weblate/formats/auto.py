@@ -8,10 +8,11 @@ from __future__ import annotations
 
 import os.path
 from fnmatch import fnmatch
+from typing import Any
 
 from translate.storage import factory
 
-from weblate.formats.helpers import BytesIOMode
+from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.ttkit import TTKitFormat
 
@@ -52,7 +53,7 @@ def try_load(
         if file_format.monolingual in (True, None) and (template_store or as_template):
             try:
                 result = file_format.parse(
-                    BytesIOMode(filename, content), template_store
+                    NamedBytesIO(filename, content), template_store
                 )
                 result.check_valid()
                 # Skip if there is untranslated unit
@@ -64,7 +65,7 @@ def try_load(
                 failure = error
         if file_format.monolingual in (False, None):
             try:
-                result = file_format.parse(BytesIOMode(filename, content))
+                result = file_format.parse(NamedBytesIO(filename, content))
                 result.check_valid()
             except Exception as error:
                 failure = error
@@ -89,6 +90,7 @@ class AutodetectFormat(TTKitFormat):
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
+        existing_units: list[Any] | None = None,
     ):
         """
         Parse store and returns TTKitFormat instance.
@@ -108,12 +110,14 @@ class AutodetectFormat(TTKitFormat):
                     language_code=language_code,
                     source_language=source_language,
                     is_template=is_template,
+                    existing_units=existing_units,
                 )
         return cls(
             storefile,
             template_store=template_store,
             language_code=language_code,
             is_template=is_template,
+            existing_units=existing_units,
         )
 
     @classmethod

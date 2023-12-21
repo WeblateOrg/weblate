@@ -7,75 +7,51 @@ from django.core.exceptions import PermissionDenied
 from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
-from weblate.trans.tasks import perform_commit
+from weblate.trans.models import Component, Project
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
-from weblate.utils.views import get_component, get_project
+from weblate.utils.views import parse_path
 
 
 @require_POST
 @login_required
-def lock_component(request, project, component):
-    obj = get_component(request, project, component)
+def lock(request, path):
+    obj = parse_path(request, path, (Project, Component))
 
     if not request.user.has_perm("component.lock", obj):
         raise PermissionDenied
 
     obj.do_lock(request.user)
-    perform_commit.delay(obj.pk, "lock", None)
 
-    messages.success(
-        request, gettext("Component is now locked for translation updates!")
-    )
+    if isinstance(obj, Component):
+        messages.success(
+            request, gettext("Component is now locked for translation updates!")
+        )
+    else:
+        messages.success(
+            request, gettext("All components are now locked for translation updates!")
+        )
 
     return redirect_param(obj, "#repository")
 
 
 @require_POST
 @login_required
-def unlock_component(request, project, component):
-    obj = get_component(request, project, component)
+def unlock(request, path):
+    obj = parse_path(request, path, (Project, Component))
 
     if not request.user.has_perm("component.lock", obj):
         raise PermissionDenied
 
     obj.do_lock(request.user, False)
 
-    messages.success(request, gettext("Component is now open for translation updates."))
-
-    return redirect_param(obj, "#repository")
-
-
-@require_POST
-@login_required
-def lock_project(request, project):
-    obj = get_project(request, project)
-
-    if not request.user.has_perm("component.lock", obj):
-        raise PermissionDenied
-
-    for component in obj.component_set.iterator():
-        component.do_lock(request.user)
-        perform_commit.delay(component.pk, "lock", None)
-
-    messages.success(
-        request, gettext("All components are now locked for translation updates!")
-    )
-
-    return redirect_param(obj, "#repository")
-
-
-@require_POST
-@login_required
-def unlock_project(request, project):
-    obj = get_project(request, project)
-
-    if not request.user.has_perm("component.lock", obj):
-        raise PermissionDenied
-
-    for component in obj.component_set.iterator():
-        component.do_lock(request.user, False)
-
-    messages.success(request, gettext("Project is now open for translation updates."))
+    if isinstance(obj, Component):
+        messages.success(
+            request, gettext("Component is now open for translation updates.")
+        )
+    else:
+        messages.success(
+            request, gettext("All components are now open for translation updates.")
+        )
 
     return redirect_param(obj, "#repository")

@@ -21,7 +21,7 @@ def print_language(lang, fmt="{0} ({1})"):
 
 def main():
     # load and parse data
-    data = requests.get(URL).json()
+    data = requests.get(URL, timeout=5).json()
 
     # select languages
     languages = []

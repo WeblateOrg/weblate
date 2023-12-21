@@ -5,7 +5,9 @@
 from django.conf import settings
 from django.utils.translation import gettext
 
+from weblate.lang.models import Language
 from weblate.trans.models import (
+    Category,
     Component,
     ComponentList,
     ContributorAgreement,
@@ -13,7 +15,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.utils.stats import ProjectLanguage
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
 SPECIALS = {}
 
@@ -45,7 +47,7 @@ def register_perm(*perms):
     return wrap_perm
 
 
-def check_global_permission(user, permission, obj):
+def check_global_permission(user, permission):
     """Generic permission check for base classes."""
     if user.is_superuser:
         return True
@@ -57,6 +59,10 @@ def check_permission(user, permission, obj):
     if user.is_superuser:
         return True
     if isinstance(obj, ProjectLanguage):
+        obj = obj.project
+    if isinstance(obj, CategoryLanguage):
+        obj = obj.category.project
+    if isinstance(obj, Category):
         obj = obj.project
     if isinstance(obj, Project):
         return any(
@@ -79,6 +85,8 @@ def check_permission(user, permission, obj):
             permission in permissions
             for permissions, _langs in user.component_permissions[obj.pk]
         )
+    if isinstance(obj, Unit):
+        obj = obj.translation
     if isinstance(obj, Translation):
         lang = obj.language_id
         return (
@@ -93,7 +101,9 @@ def check_permission(user, permission, obj):
             permission in permissions and (langs is None or lang in langs)
             for permissions, langs in user.component_permissions[obj.component_id]
         )
-    raise ValueError(f"Permission {permission} does not support: {obj.__class__}")
+    raise TypeError(
+        f"Permission {permission} does not support: {obj.__class__}: {obj!r}"
+    )
 
 
 @register_perm("comment.resolve", "comment.delete", "suggestion.delete")
@@ -122,8 +132,10 @@ def check_can_edit(user, permission, obj, is_vote=False):
         project = component.project
     elif isinstance(obj, Project):
         project = obj
-    elif isinstance(obj, ProjectLanguage):
+    elif isinstance(obj, (ProjectLanguage, Category)):
         project = obj.project
+    elif isinstance(obj, CategoryLanguage):
+        project = obj.category.project
     else:
         raise TypeError(f"Unknown object for permission check: {obj.__class__}")
 
@@ -161,13 +173,13 @@ def check_can_edit(user, permission, obj, is_vote=False):
         return Denied(gettext("Insufficient privileges for editing source strings."))
 
     # Special checks for voting
-    if is_vote and component and not component.suggestion_voting:
+    if is_vote and translation and not translation.suggestion_voting:
         return Denied(gettext("Suggestion voting is disabled."))
     if (
         not is_vote
         and translation
-        and component.suggestion_voting
-        and component.suggestion_autoaccept > 0
+        and translation.suggestion_voting
+        and translation.suggestion_autoaccept > 0
         and not check_permission(user, "unit.override", obj)
     ):
         return Denied(
@@ -186,13 +198,24 @@ def check_can_edit(user, permission, obj, is_vote=False):
 @register_perm("unit.review")
 def check_unit_review(user, permission, obj, skip_enabled=False):
     if not skip_enabled:
+        if isinstance(obj, Unit):
+            obj = obj.translation
         if isinstance(obj, Translation):
             if not obj.enable_review:
                 if obj.is_source:
                     return Denied(gettext("Source string reviews are not enabled."))
                 return Denied(gettext("Translation reviews are not enabled."))
         else:
-            if isinstance(obj, (Component, ProjectLanguage)):
+            if isinstance(obj, CategoryLanguage):
+                project = obj.category.project
+            elif isinstance(
+                obj,
+                (
+                    Component,
+                    ProjectLanguage,
+                    Category,
+                ),
+            ):
                 project = obj.project
             else:
                 project = obj
@@ -210,6 +233,8 @@ def check_edit_approved(user, permission, obj):
         # Read only check is unconditional as there is another one
         # in PluralTextarea.render
         if unit.readonly:
+            if not unit.source_unit.translated:
+                return Denied(gettext("The source string needs review."))
             return Denied(gettext("The string is read only."))
         if unit.approved and not check_unit_review(
             user, "unit.review", obj, skip_enabled=True
@@ -251,6 +276,16 @@ def check_manage_units(
 @register_perm("unit.delete")
 def check_unit_delete(user, permission, obj):
     if isinstance(obj, Unit):
+        if (
+            obj.translation.component.is_glossary
+            and not obj.translation.is_source
+            and "terminology" in obj.all_flags
+        ):
+            return Denied(
+                gettext(
+                    "Cannot remove terminology translation, remove source string instead."
+                )
+            )
         obj = obj.translation
     component = obj.component
     # Check if removing is generally allowed
@@ -317,7 +352,7 @@ def check_suggestion_vote(user, permission, obj):
 def check_suggestion_add(user, permission, obj):
     if isinstance(obj, Unit):
         obj = obj.translation
-    if not obj.component.enable_suggestions or obj.is_readonly:
+    if not obj.enable_suggestions or obj.is_readonly:
         return False
     # Check contributor agreement
     if obj.component.agreement and not ContributorAgreement.objects.has_agreed(
@@ -377,7 +412,7 @@ def check_translation_delete(user, permission, obj):
 
 @register_perm("reports.view", "change.download")
 def check_possibly_global(user, permission, obj):
-    if obj is None:
+    if obj is None or isinstance(obj, Language):
         return user.is_superuser
     return check_permission(user, permission, obj)
 
@@ -394,7 +429,7 @@ def check_repository_status(user, permission, obj):
 
 @register_perm("meta:team.edit")
 def check_team_edit(user, permission, obj):
-    return check_global_permission(user, "group.edit", obj) or (
+    return check_global_permission(user, "group.edit") or (
         obj.defining_project
         and check_permission(user, "project.permissions", obj.defining_project)
     )
@@ -442,10 +477,10 @@ def check_announcement_delete(user, permission, obj):
 def check_unit_flag(user, permission, obj):
     if isinstance(obj, Unit):
         obj = obj.translation
-    if not obj.component.is_glossary or obj.is_source:
+    if not obj.component.is_glossary:
         return user.has_perm("source.edit", obj)
 
-    return user.has_perm("glossary.edit", obj)
+    return check_can_edit(user, "glossary.edit", obj)
 
 
 @register_perm("memory.edit", "memory.delete")
@@ -456,7 +491,7 @@ def check_memory_perms(user, permission, memory):
         if memory.user_id == user.id:
             return True
         if memory.project is None:
-            return user.is_superuser
+            return check_global_permission(user, "memory.manage")
         project = memory.project
     else:
         project = memory

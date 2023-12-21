@@ -19,17 +19,10 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
-{% if object.component.slug != "-" %}
-{% include "snippets/component-breadcrumb.html" with object=object.component %}
-{% endif %}
-{% include "snippets/translation-breadcrumb.html" %}
-{% if object.component.slug == "-" %}
-<li><a href="{{ unit.translation.component.get_absolute_url }}">{{ unit.translation.component.name }}</a></li>
-{% endif %}
+{% path_object_breadcrumbs path_object %}
 <li><a href="{{ object.get_translate_url }}">{% trans "Translate" %}</a></li>
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
-<img src="{% url 'widget-image' project=project.slug component=object.component.slug widget='svg' color='badge' lang=object.language.code extension='svg' %}?native=1" />
+<img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
 </a>
 {% endblock %}
 
@@ -41,6 +34,7 @@
 
 {% perm 'unit.edit' unit as user_can_translate %}
 {% perm 'unit.delete' unit as user_can_delete %}
+{% perm 'unit.review' unit as user_can_review %}
 {% perm 'suggestion.add' unit as user_can_suggest %}
 {% perm 'suggestion.accept' unit as user_can_accept_suggestion %}
 {% perm 'suggestion.vote' unit.translation as user_can_vote_suggestion %}
@@ -53,7 +47,7 @@
 {% perm 'unit.add' unit.translation as user_can_add_unit %}
 
 <div class="btn-group pull-right flip btn-group-settings" role="group">
-<a href="{% url 'zen' project=project.slug component=object.component.slug lang=object.language.code %}?offset={{offset}}&amp;{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Open in Zen mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Zen" %}</a>
+<a href="{% url 'zen' path=object.get_url_path  %}?offset={{offset}}&amp;{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Open in Zen mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Zen" %}</a>
 
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
@@ -100,7 +94,7 @@
     {% if user.profile.hide_source_secondary %}
       {% include "snippets/note-badge.html" with unit=unit %}
     {% endif %}
-    {% format_translation secondary_unit.target secondary_unit.translation.language secondary_unit.translation.plural search_match=search_query unit=secondary_unit %}
+    {% format_unit_target secondary_unit search_match=search_query show_copy=True %}
     </div>
     {% endfor %}
     {% endif %}
@@ -109,7 +103,7 @@
     {% if unit.previous_source and unit.fuzzy %}
     <div class="form-group">
     <label>{% trans "Source change" %}</label>
-    {% format_translation unit.source unit.translation.component.source_language diff=unit.previous_source %}
+    {% format_unit_source unit diff=unit.previous_source %}
     </div>
     {% endif %}
 
@@ -118,14 +112,14 @@
             <!-- editing template -->
             <div class="form-group">
             <label>{{ unit.translation.component.context_label }}</label>
-            {% format_translation unit.context unit.translation.component.source_language search_match=search_query wrap=True %}
+            {% format_source_string unit.context unit search_match=search_query wrap=True %}
             </div>
         {% endif %}
         {% if unit.translation.component.intermediate %}
             <!-- editing template -->
             <div class="form-group">
             <label>{% trans "Intermediate language" %}</label>
-            {% format_translation unit.source unit.translation.component.source_language search_match=search_query unit=unit %}
+            {% format_unit_source unit search_match=search_query show_copy=True %}
             </div>
         {% endif %}
     {% endif %}
@@ -153,7 +147,7 @@
             {% if unit.context %}
                 <div class="pull-right flip">
                 <label>{{ unit.translation.component.context_label }}</label>
-                {% format_translation unit.context unit.translation.component.source_language simple=True wrap=True search_match=search_query whitespace=False %}
+                {% format_source_string unit.context unit simple=True wrap=True search_match=search_query whitespace=False %}
                 </div>
             {% endif %}
             <a class="language" href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
@@ -161,7 +155,7 @@
             <a title="{% trans "Report issue with the source string" %}" href="#" class="btn btn-link btn-xs bug-comment">{% icon "bug.svg" %}</a>
             {% endif %}
             {% include "snippets/note-badge.html" with unit=unit %}
-            {% format_translation unit.source unit.translation.component.source_language search_match=search_query unit=unit glossary=glossary %}
+            {% format_unit_source unit search_match=search_query glossary=glossary show_copy=True %}
           </div>
         {% endif %}
     {% endif %}
@@ -170,10 +164,16 @@
     {% crispy form %}
   </div>
   <div class="panel-footer">
-    {% with flag_actions=unit.get_flag_actions %}
+    {% if locked %}
+        <p class="text-danger">{% trans "This translation is currently locked." %}</p>
+    {% elif not user_can_translate %}
+        <p class="text-danger">{{ user_can_translate.reason }}</p>
+    {% endif %}
+    <div>
+      {% with flag_actions=unit.get_flag_actions %}
       {% if user_can_delete or user_can_edit_flags and flag_actions or user_can_add_unit or user_can_translate and unit.translation.component.is_multivalue %}
         <div class="btn-group pull-right flip">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="unit_tools_dropdown">
+          <button type="button" class="btn btn-primary dropdown-toggle btn-spaced" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="unit_tools_dropdown">
             {% trans "Tools" %} <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
@@ -198,21 +198,24 @@
     <button class="btn btn-primary" type="submit" name="save" tabindex="150"
     {% if locked %}
         disabled="disabled"
-        title="{% trans "This translation is currently locked." %}"
     {% elif not user_can_translate and not user_can_edit_flags %}
         disabled="disabled"
-        title="{{ user_can_translate.reason }}"
     {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %}
         disabled="disabled"
-        title="{% trans "Insufficient privileges for saving translations." %}"
     {% endif %}
-    > {% trans "Save and continue" %}</button>
+    >{% trans "Save and continue" %}</button>
 
-    {% if not locked and user_can_translate %}
-      <button class="btn btn-warning btn-spaced" type="submit" name="save-stay" tabindex="151">{% trans "Save and stay" %}</button>
+    <button class="btn btn-warning btn-spaced" type="submit" name="save-stay" tabindex="151"
+    {% if locked %}
+        disabled="disabled"
+    {% elif not user_can_translate and not user_can_edit_flags %}
+        disabled="disabled"
+    {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %}
+        disabled="disabled"
     {% endif %}
+    >{% trans "Save and stay" %} {{ user_can_edit_flags.reason }}</button>
 
-    {% if unit.translation.component.enable_suggestions %}
+    {% if unit.translation.enable_suggestions %}
     <button class="btn btn-warning btn-spaced" type="submit" name="suggest" tabindex="152"
     {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %}
       {% if not user_can_suggest %}
@@ -225,6 +228,7 @@
     >{% icon "suggest.svg" %} {% trans "Suggest" %}</button>
     {% endif %}
     <a class="btn btn-warning btn-spaced" href="{{ next_unit_url }}" rel="next" tabindex="153">{% if LANGUAGE_BIDI %}{% icon "rewind.svg" %}{% else %}{% icon "fast-forward.svg" %}{% endif %} {% trans "Skip" %}</a>
+    </div>
   </div>
 </div>
 </form>
@@ -358,7 +362,7 @@
 <div class="tab-pane" id="history">
 {% include "last-changes-content.html" %}
 
-<a class="btn btn-link" href="{% url 'changes' %}?string={{ unit.pk }}">{% trans "Browse all string changes" %}</a>
+<a class="btn btn-link" href="{% url 'changes' path=unit.get_url_path %}">{% trans "Browse all string changes" %}</a>
 </div>
 
 {% if user_can_use_machinery %}
@@ -549,7 +553,7 @@
   <h4 class="panel-title">
     {% with glossaries=unit.translation.component.project.glossaries %}
       {% for glossary in glossaries %}
-        <a class="pull-right flip btn btn-link btn-xs btn-{{glossary.glossary_color}}" title="{% blocktrans with name=glossary.name %}Browse glossary {{ name }}{% endblocktrans %}" href="{% url 'browse' project=glossary.project.slug component=glossary.slug lang=unit.translation.language.code %}">{% icon "folder-search-outline.svg" %}</a>
+        <a class="pull-right flip btn btn-link btn-xs btn-{{glossary.glossary_color}}" title="{% blocktrans with name=glossary.name %}Browse glossary {{ name }}{% endblocktrans %}" href="{{ glossary.get_absolute_url }}">{% icon "folder-search-outline.svg" %}</a>
       {% endfor %}
     {% endwith %}
     {% loading_icon "glossary-add" %}
@@ -606,7 +610,7 @@
   <div class="list-group">
     {% if screenshots or user_can_add_screenshot %}
     <div class="list-group-item">
-    <h5>{% if user_can_add_screenshot %} <a class="btn btn-link btn-xs pull-right flip" id="edit-screenshot" href="{% url 'screenshots' project=unit.translation.component.project.slug component=unit.translation.component.slug %}">{% icon "pencil.svg" %}</a>{% endif %}
+    <h5>{% if user_can_add_screenshot %} <a class="btn btn-link btn-xs pull-right flip" id="edit-screenshot" href="{% url 'screenshots' path=unit.translation.component.get_url_path %}">{% icon "pencil.svg" %}</a>{% endif %}
     {% trans "Screenshot context" %}
     </h5>
     {% for screenshot in screenshots %}
@@ -638,7 +642,7 @@
     <h5>
         {{ unit.translation.component.context_label }}
     </h5>
-    {% format_translation unit.context unit.translation.component.source_language search_match=search_query simple=True wrap=True %}
+    {% format_source_string unit.context unit search_match=search_query simple=True wrap=True %}
     </div>
     {% endif %}
     {% if unit.note %}
@@ -656,7 +660,7 @@
     {% trans "Labels" %}
     </h5>
     {% for label in unit.all_labels %}
-      <a href="?q={{ label.filter_name|urlencode }}"><span class="label label-{{ label.color }}">{{ label.name }}</span></a>
+      <a href="?q={{ label.filter_name|urlencode }}"><span class="label label-{{ label.color }}">{% trans label.name %}</span></a>
     {% empty %}
     <em>{% trans "No labels currently set." %}</em>
     {% endfor %}
@@ -682,7 +686,7 @@
     <h5>
     {% trans "Source string location" %}
     </h5>
-    {% get_location_links user.profile unit %}
+    {% get_location_links user unit %}
     </div>
     {% endif %}
     <div class="list-group-item">
@@ -783,7 +787,7 @@
 {% endwith %}
 
 {% if user_can_add_unit %}
-  <form action="{% url 'new-unit' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}" method="post">
+  <form action="{% url 'new-unit' path=unit.translation.get_url_path  %}" method="post">
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ this_unit_url }}" />
     <div class="modal fade" tabindex="-1" role="dialog" id="add-unit-form">
@@ -806,7 +810,7 @@
 {% endif %}
 
 {% if screenshot_form %}
-  <form action="{% url 'screenshots' project=unit.translation.component.project.slug component=unit.translation.component.slug %}" method="POST" enctype="multipart/form-data">
+  <form action="{% url 'screenshots' path=unit.translation.component.get_url_path %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="modal fade" tabindex="-1" role="dialog" id="add-screenshot-form">
       <div class="modal-dialog" role="document">

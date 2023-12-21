@@ -40,7 +40,6 @@ ignore = [
 ]
 
 [tool.ruff]
-format = "github"
 # CONFIG - intentional configuration
 # TODO - needs decision whether intention, add noqa tags or fix
 # WONTFIX - not fixable in current codebase, might be better to go for noqa
@@ -52,7 +51,15 @@ ignore = [
   "FIX002",  # CONFIG: we use TODO
   "TD002",  # CONFIG: no detailed TODO documentation is required
   "TD003",  # CONFIG: no detailed TODO documentation is required
-  "S",  # TODO: annotate possible security risks
+  "S603",  # CONFIG: `subprocess` call: check for execution of untrusted input
+  "S607",  # CONFIG: executing system installed tools
+  "D206",  # CONFIG: formatter
+  'ISC001',  # CONFIG: formatter
+  'Q000',  # CONFIG: formatter
+  'Q001',  # CONFIG: formatter
+  'Q002',  # CONFIG: formatter
+  'Q003',  # CONFIG: formatter
+  'W191',  # CONFIG: formatter
   "EM",  # TODO: Exception strings
   "PTH",  # TODO: Not using pathlib
   "FBT",  # TODO: Boolean in function definition
@@ -76,18 +83,14 @@ ignore = [
   "RUF100",  # TODO: unused noqa, compatibility with flake8, can be dropped once we stop using it
   "E501",  # WONTFIX: we accept long strings (rest is formatted by black)
   "PLW2901",  # TODO: overwriting variables inside loop
-  "N818",  # TODO: exception naming
   "A001",  # TODO: overriding builtins (might need noqa tags)
   "A002",  # TODO: overriding builtins (might need noqa tags)
   "A003",  # TODO: overriding builtins (might need noqa tags)
   "SLF001"  # TODO: Private member accessed (might need noqa tags)
 ]
-select = [
-  "ALL"
-]
+output-format = "github"
+select = ["ALL"]
 target-version = "py39"
-
-[tool.ruff.isort]
 
 [tool.ruff.mccabe]
 max-complexity = 16
@@ -98,6 +101,8 @@ max-complexity = 16
 "scripts/*" = ["T201", "T203"]
 "weblate/*/management/commands/*.py" = ["A003"]  # Needed by Django API
 "weblate/*/migrations/*.py" = ["C405", "E501", "N806", "DJ01"]
+"weblate/*/tests.py" = ["S106", "S105"]
+"weblate/*/tests/test_*.py" = ["S106", "S105"]
 "weblate/addons/management/commands/list_addons.py" = ["E501"]
 "weblate/addons/utils.py" = ["N806"]
 "weblate/auth/migrations/0018_fixup_role.py" = ["T201", "N806"]

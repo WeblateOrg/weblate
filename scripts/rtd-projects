@@ -33,7 +33,10 @@ def get_update(value):
 
 
 git_tag = subprocess.run(
-    ["git", "describe", "--tags", "--abbrev=0"], capture_output=True, text=True
+    ["git", "describe", "--tags", "--abbrev=0"],
+    capture_output=True,
+    text=True,
+    check=True,
 )
 
 LATEST_RELEASE = git_tag.stdout.strip()
@@ -45,14 +48,14 @@ with open(os.path.expanduser("~/.config/readthedocs.token")) as handle:
 AUTH = {"Authorization": f"Token {TOKEN}", "Content-Type": "application/json"}
 
 response = requests.get(
-    "https://readthedocs.org/api/v3/projects/weblate/", headers=AUTH
+    "https://readthedocs.org/api/v3/projects/weblate/", headers=AUTH, timeout=1
 )
 response.raise_for_status()
 base = response.json()
 
 result = {"next": "https://readthedocs.org/api/v3/projects/"}
 while result["next"]:
-    response = requests.get(result["next"], headers=AUTH)
+    response = requests.get(result["next"], headers=AUTH, timeout=1)
     response.raise_for_status()
     result = response.json()
     for project in result["results"]:
@@ -77,13 +80,14 @@ while result["next"]:
                         project["_links"]["_self"],
                         json={name: get_update(value)},
                         headers=AUTH,
+                        timeout=1,
                     )
                     response.raise_for_status()
             if not project["translation_of"] and code != "en":
                 print(f"Not a translation {project['name']}: ", project["urls"]["home"])
             # Check versions
             versions_response = requests.get(
-                f'{project["_links"]["versions"]}?active=true', headers=AUTH
+                f'{project["_links"]["versions"]}?active=true', headers=AUTH, timeout=1
             )
             versions_response.raise_for_status()
             versions = versions_response.json()
@@ -97,7 +101,9 @@ while result["next"]:
                         project["urls"]["home"],
                     )
                     break
-                versions_response = requests.get(versions["next"], headers=AUTH)
+                versions_response = requests.get(
+                    versions["next"], headers=AUTH, timeout=1
+                )
                 versions_response.raise_for_status()
                 versions = versions_response.json()
 
@@ -122,7 +128,10 @@ for language in LOCALES:
     for name, value in FIELDS.items():
         payload[name] = get_update(value)
     response = requests.post(
-        "https://readthedocs.org/api/v3/projects/", json=payload, headers=AUTH
+        "https://readthedocs.org/api/v3/projects/",
+        json=payload,
+        headers=AUTH,
+        timeout=1,
     )
     project = response.json()
     response.raise_for_status()

@@ -11,7 +11,7 @@ from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_POST_COMMIT
 from weblate.addons.forms import GitSquashForm
 from weblate.utils.errors import report_error
-from weblate.vcs.base import RepositoryException
+from weblate.vcs.base import RepositoryError
 
 
 class GitSquashAddon(BaseAddon):
@@ -29,6 +29,7 @@ class GitSquashAddon(BaseAddon):
             "gitlab",
             "git-force-push",
             "gitea",
+            "azure_devops",
         }
     }
     events = (EVENT_POST_COMMIT,)
@@ -201,7 +202,7 @@ class GitSquashAddon(BaseAddon):
                     try:
                         repository.execute(["cherry-pick", other[0], *gpg_sign])
                         handled.append(i)
-                    except RepositoryException:
+                    except RepositoryError:
                         # If fails, continue to another author, we will
                         # pick this commit later (it depends on some other)
                         repository.execute(["cherry-pick", "--abort"])
@@ -235,7 +236,7 @@ class GitSquashAddon(BaseAddon):
                     branch_updated = component.update_branch(
                         method="rebase", skip_push=True
                     )
-                except RepositoryException:
+                except RepositoryError:
                     return
             if not repository.needs_push():
                 return

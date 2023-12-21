@@ -3,7 +3,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.conf import settings
 from requests.auth import _basic_auth_str
 
 from .base import MachineTranslation
@@ -14,16 +13,6 @@ class SAPTranslationHub(MachineTranslation):
     # https://api.sap.com/api/translationhub/overview
     name = "SAP Translation Hub"
     settings_form = SAPMachineryForm
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "url": settings.MT_SAP_BASE_URL,
-            "key": settings.MT_SAP_SANDBOX_APIKEY,
-            "username": settings.MT_SAP_USERNAME,
-            "password": settings.MT_SAP_PASSWORD,
-            "enable_mt": bool(settings.MT_SAP_USE_MT),
-        }
 
     @property
     def api_base_url(self):

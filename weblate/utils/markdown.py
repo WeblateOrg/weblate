@@ -11,7 +11,7 @@ from django.utils.safestring import mark_safe
 
 from weblate.auth.models import User
 
-MENTION_RE = re.compile(r"(@[\w.@+-]+)\b", re.UNICODE)
+MENTION_RE = re.compile(r"(@[\w.@+-]+)\b")
 
 
 def get_mention_users(text):
@@ -62,4 +62,4 @@ def render_markdown(text):
                 part, user.get_absolute_url(), user.get_visible_name()
             )
     text = "".join(parts)
-    return mark_safe(MARKDOWN(text))
+    return mark_safe(MARKDOWN(text))  # noqa: S308

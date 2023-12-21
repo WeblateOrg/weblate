@@ -42,7 +42,6 @@ from weblate.trans.signals import (
 from weblate.utils.classloader import ClassLoader
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
-from weblate.utils.fields import JSONField
 
 # Initialize addons registry
 ADDONS = ClassLoader("WEBLATE_ADDONS", False)
@@ -64,8 +63,8 @@ class AddonQuerySet(models.QuerySet):
 class Addon(models.Model):
     component = models.ForeignKey(Component, on_delete=models.deletion.CASCADE)
     name = models.CharField(max_length=100)
-    configuration = JSONField()
-    state = JSONField()
+    configuration = models.JSONField(default=dict)
+    state = models.JSONField(default=dict)
     project_scope = models.BooleanField(default=False, db_index=True)
     repo_scope = models.BooleanField(default=False, db_index=True)
 
@@ -108,14 +107,7 @@ class Addon(models.Model):
         )
 
     def get_absolute_url(self):
-        return reverse(
-            "addon-detail",
-            kwargs={
-                "project": self.component.project.slug,
-                "component": self.component.slug,
-                "pk": self.pk,
-            },
-        )
+        return reverse("addon-detail", kwargs={"pk": self.pk})
 
     def store_change(self, action):
         Change.objects.create(
@@ -158,7 +150,7 @@ class Addon(models.Model):
 
 
 class Event(models.Model):
-    addon = models.ForeignKey(Addon, on_delete=models.deletion.CASCADE)
+    addon = models.ForeignKey(Addon, on_delete=models.deletion.CASCADE, db_index=False)
     event = models.IntegerField(choices=EVENT_CHOICES)
 
     class Meta:
@@ -304,7 +296,8 @@ def pre_update(sender, component, **kwargs):
 
 @receiver(vcs_pre_commit)
 def pre_commit(sender, translation, author, **kwargs):
-    addons = Addon.objects.filter_event(translation.component, EVENT_PRE_COMMIT)
+    component = translation.component
+    addons = Addon.objects.filter_event(component, EVENT_PRE_COMMIT)
     for addon in addons:
         translation.log_debug("running pre_commit add-on: %s", addon.name)
         try:
@@ -313,7 +306,7 @@ def pre_commit(sender, translation, author, **kwargs):
         except DjangoDatabaseError:
             raise
         except Exception:
-            handle_addon_error(addon, translation.component)
+            handle_addon_error(addon, component)
         else:
             translation.log_debug("completed pre_commit add-on: %s", addon.name)
 
@@ -336,7 +329,8 @@ def post_commit(sender, component, **kwargs):
 
 @receiver(translation_post_add)
 def post_add(sender, translation, **kwargs):
-    addons = Addon.objects.filter_event(translation.component, EVENT_POST_ADD)
+    component = translation.component
+    addons = Addon.objects.filter_event(component, EVENT_POST_ADD)
     for addon in addons:
         translation.log_debug("running post_add add-on: %s", addon.name)
         try:
@@ -345,7 +339,7 @@ def post_add(sender, translation, **kwargs):
         except DjangoDatabaseError:
             raise
         except Exception:
-            handle_addon_error(addon, translation.component)
+            handle_addon_error(addon, component)
         else:
             translation.log_debug("completed post_add add-on: %s", addon.name)
 
@@ -353,7 +347,8 @@ def post_add(sender, translation, **kwargs):
 @receiver(unit_pre_create)
 def unit_pre_create_handler(sender, unit, **kwargs):
     translation = unit.translation
-    addons = Addon.objects.filter_event(translation.component, EVENT_UNIT_PRE_CREATE)
+    component = translation.component
+    addons = Addon.objects.filter_event(component, EVENT_UNIT_PRE_CREATE)
     for addon in addons:
         translation.log_debug("running unit_pre_create add-on: %s", addon.name)
         try:
@@ -364,7 +359,7 @@ def unit_pre_create_handler(sender, unit, **kwargs):
         except DjangoDatabaseError:
             raise
         except Exception:
-            handle_addon_error(addon, unit.translation.component)
+            handle_addon_error(addon, component)
         else:
             translation.log_debug("completed unit_pre_create add-on: %s", addon.name)
 
@@ -373,7 +368,8 @@ def unit_pre_create_handler(sender, unit, **kwargs):
 @disable_for_loaddata
 def unit_post_save_handler(sender, instance, created, **kwargs):
     translation = instance.translation
-    addons = Addon.objects.filter_event(translation.component, EVENT_UNIT_POST_SAVE)
+    component = translation.component
+    addons = Addon.objects.filter_event(component, EVENT_UNIT_POST_SAVE)
     for addon in addons:
         translation.log_debug("running unit_post_save add-on: %s", addon.name)
         try:
@@ -384,14 +380,15 @@ def unit_post_save_handler(sender, instance, created, **kwargs):
         except DjangoDatabaseError:
             raise
         except Exception:
-            handle_addon_error(addon, instance.translation.component)
+            handle_addon_error(addon, component)
         else:
             translation.log_debug("completed unit_post_save add-on: %s", addon.name)
 
 
 @receiver(store_post_load)
 def store_post_load_handler(sender, translation, store, **kwargs):
-    addons = Addon.objects.filter_event(translation.component, EVENT_STORE_POST_LOAD)
+    component = translation.component
+    addons = Addon.objects.filter_event(component, EVENT_STORE_POST_LOAD)
     for addon in addons:
         translation.log_debug("running store_post_load add-on: %s", addon.name)
         try:
@@ -402,6 +399,6 @@ def store_post_load_handler(sender, translation, store, **kwargs):
         except DjangoDatabaseError:
             raise
         except Exception:
-            handle_addon_error(addon, translation.component)
+            handle_addon_error(addon, component)
         else:
             translation.log_debug("completed store_post_load add-on: %s", addon.name)

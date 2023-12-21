@@ -30,7 +30,7 @@ is needed, either in the system path (usually something like
 :file:`/usr/lib/python3.9/site-packages/`) or in the Weblate directory, which
 is also added to the interpreter search path.
 
-.. versionadded:: 3.8-5
+.. hint::
 
    When :ref:`using Docker <docker-deploy>`, you can place Python modules in
    :file:`/app/data/python/` (see :ref:`docker-volume`), so they can be loaded
@@ -59,7 +59,7 @@ Better yet, turn your customization into a proper Python package:
 
 3. Create a folder for the Python module (also called ``weblate_customization``)
    for the customization code.
-4. Within it, create a :file:`__init__.py` file to make sure Python can import the module.
+4. Within it, create a :file:`__init__.py` file to ensure Python can import the module.
 5. This package can now be installed using :command:`pip install -e`. More info to be found in :ref:`pip:editable-installs`.
 6. Once installed, the module can be used in the Weblate configuration
    (for example ``weblate_customization.checks.FooCheck``).

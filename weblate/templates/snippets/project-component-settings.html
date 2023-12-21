@@ -6,7 +6,7 @@
 
 <p>
 {% for component in object.component_set.order %}
-  <a class="btn btn-link" href="{% url 'settings' project=object.slug component=component.slug %}">
+  <a class="btn btn-link" href="{% url 'settings' path=component.get_url_path %}">
     {{ component.name }}
     {% include "snippets/component-glossary-badge.html" with object=component %}
   </a>

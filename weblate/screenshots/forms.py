@@ -38,10 +38,16 @@ class ScreenshotForm(forms.ModelForm):
     def __init__(self, component, data=None, files=None, instance=None, initial=None):
         self.component = component
         super().__init__(data=data, files=files, instance=instance, initial=initial)
-        self.fields[
-            "translation"
-        ].queryset = component.translation_set.prefetch_related("language")
+
+        translations = component.translation_set.prefetch_related("language")
+        if initial and "translation" in initial:
+            translations = translations.filter(
+                pk__in=(initial["translation"].pk, component.source_translation.pk)
+            )
+        self.fields["translation"].queryset = translations
+        # This is overriden from initial arg of the form
         self.fields["translation"].initial = component.source_translation
+        self.fields["translation"].empty_label = None
 
 
 class SearchForm(forms.Form):

@@ -27,10 +27,14 @@ Customizing behavior using flags
 --------------------------------
 
 You can fine-tune Weblate's behavior by using flags. The flags provide visual
-feedback to the translators and help them to improve their translation. This
-can be done on the source string level (see :ref:`additional`), or in the :ref:`component`
-(:ref:`component-check_flags`). Some file formats also allow to specify flags
-directly in the format (see :ref:`formats`).
+feedback to the translators and help them to improve their translation.
+The flags are merged from following sources:
+
+* Source string, see :ref:`additional`.
+* Per-string flags extracted from the file format, see :ref:`formats`.
+* Translation flags (currently only ``read-only`` flag for bilingual source string).
+* File-format specific flags.
+* :ref:`component` (:ref:`component-check_flags`).
 
 The flags are comma-separated; if they have parameters, they are separated
 with colon. You can use quotes to include whitespaces or special characters
@@ -57,7 +61,7 @@ A failing check will be triggered if the string '### Index' is translated as '# 
 
    placeholders:r"\]\([^h].*?\)"
 
-To make sure that internal links are not being translated (i.e. `[test](../checks)`
+To ensure that internal links are not being translated (i.e. `[test](../checks)`
 does not become `[test](../chequeos)`.
 
 
@@ -107,6 +111,8 @@ Here is a list of flags currently accepted:
     Indicates forbidden translation in a glossary, see :ref:`glossary-forbidden`.
 ``strict-same``
     Make "Unchanged translation" avoid using built-in words blacklist, see :ref:`check-same`.
+``strict-format``
+    Make format checks enforce using format even for plural forms with a single value, see :ref:`check-formats`.
 ``check-glossary``
     Enable the :ref:`check-check-glossary` quality check.
 ``angularjs-format``
@@ -133,6 +139,8 @@ Here is a list of flags currently accepted:
     Enable the :ref:`check-object-pascal-format` quality check.
 ``percent-placeholders``
     Enable the :ref:`check-percent-placeholders` quality check.
+``perl-brace-format``
+    Enable the :ref:`check-perl-brace-format` quality check.
 ``perl-format``
     Enable the :ref:`check-perl-format` quality check.
 ``php-format``
@@ -195,6 +203,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-object-pascal-format` quality check.
 ``ignore-percent-placeholders``
     Skip the :ref:`check-percent-placeholders` quality check.
+``ignore-perl-brace-format``
+    Skip the :ref:`check-perl-brace-format` quality check.
 ``ignore-perl-format``
     Skip the :ref:`check-perl-format` quality check.
 ``ignore-php-format``
@@ -303,8 +313,6 @@ settings and in the translation file itself (for example in GNU gettext).
 Enforcing checks
 ----------------
 
-.. versionadded:: 3.11
-
 You can configure a list of checks which can not be ignored by setting
 :ref:`component-enforced_checks` in :ref:`component`. Each listed check can not
 be dismissed in the user interface and any string failing this check is marked as
@@ -324,8 +332,6 @@ be dismissed in the user interface and any string failing this check is marked a
 
 Managing fonts
 --------------
-
-.. versionadded:: 3.7
 
 .. hint::
 

@@ -54,14 +54,14 @@ REQUIRES = [
     "GitPython",
     "borgbackup",
     "pyparsing",
-    "pyahocorasick",
+    "ahocorasick_rs",
     "python-redis-lock",
     "charset-normalizer",
 ]
 
 OPTIONAL = [
-    "psycopg2",
-    "psycopg2-binary",
+    "psycopg",
+    "psycopg-binary",
     "phply",
     "ruamel.yaml",
     "tesserocr",
@@ -82,15 +82,24 @@ def get_version_module(name, optional=False):
     """
     try:
         package = metadata(name)
-    except PackageNotFoundError:
+    except PackageNotFoundError as exc:
         if optional:
             return None
         raise ImproperlyConfigured(
-            "Missing dependency {0}, please install using: pip install {0}".format(name)
-        )
+            f"Missing dependency {name}, please install using: pip install {name}"
+        ) from exc
+    url = package.get("Home-page")
+    if url is None:
+        for project_url in package.get_all("Project-URL"):
+            name, current_url = project_url.split(",", 1)
+            if name.lower().strip() == "homepage":
+                url = current_url.strip()
+                break
+    if url is None:
+        url = f"https://pypi.org/project/{name}/"
     return (
         package.get("Name"),
-        package.get("Home-page"),
+        url,
         package.get("Version"),
     )
 
@@ -138,8 +147,8 @@ def get_versions():
 
     try:
         result.append(("Git", "https://git-scm.com/", GitRepository.get_version()))
-    except OSError:
-        raise ImproperlyConfigured("Failed to run git, please install it.")
+    except OSError as exc:
+        raise ImproperlyConfigured("Could not run git, please install it.") from exc
 
     return result
 

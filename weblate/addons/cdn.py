@@ -86,7 +86,7 @@ class CDNJSAddon(BaseAddon):
                     {
                         # `mark_safe(json.dumps(` is NOT safe in HTML files. Only JS.
                         # See `django.utils.html.json_script`
-                        "languages": mark_safe(
+                        "languages": mark_safe(  # noqa: S308
                             json.dumps(
                                 sorted(
                                     translation.language.code
@@ -94,7 +94,7 @@ class CDNJSAddon(BaseAddon):
                                 )
                             )
                         ),
-                        "url": mark_safe(
+                        "url": mark_safe(  # noqa: S308
                             json.dumps(
                                 os.path.join(
                                     settings.LOCALIZE_CDN_URL,
@@ -102,12 +102,12 @@ class CDNJSAddon(BaseAddon):
                                 )
                             )
                         ),
-                        "cookie_name": mark_safe(
+                        "cookie_name": mark_safe(  # noqa: S308
                             json.dumps(
                                 self.instance.configuration["cookie_name"],
                             )
                         ),
-                        "css_selector": mark_safe(
+                        "css_selector": mark_safe(  # noqa: S308
                             json.dumps(
                                 self.instance.configuration["css_selector"],
                             )

@@ -5,21 +5,27 @@
 from __future__ import annotations
 
 from datetime import timedelta
+from typing import Any
 
-from django.conf import settings
 from django.utils import timezone
 
-from .base import MachineTranslation, MachineTranslationError
+from weblate.glossary.models import get_glossary_terms
+
+from .base import (
+    MachineTranslation,
+    MachineTranslationError,
+    XMLMachineTranslationMixin,
+)
 from .forms import MicrosoftMachineryForm
 
-TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken?Subscription-Key={2}"
+TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken?Subscription-Key={2}"  # noqa: S105
 TOKEN_EXPIRY = timedelta(minutes=9)
 
 
-class MicrosoftCognitiveTranslation(MachineTranslation):
+class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslation):
     """Microsoft Cognitive Services Translator API support."""
 
-    name = "Microsoft Translator"
+    name = "Azure AI Translator"
     max_score = 90
     settings_form = MicrosoftMachineryForm
 
@@ -38,6 +44,10 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         "mn": "mn-Mong",
     }
 
+    @classmethod
+    def get_identifier(cls):
+        return "microsoft-translator"
+
     def __init__(self, settings: dict[str, str]):
         """Check configuration."""
         super().__init__(settings)
@@ -52,15 +62,6 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
             self.settings["endpoint_url"],
             self.settings["key"],
         )
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "region": settings.MT_MICROSOFT_REGION,
-            "endpoint_url": settings.MT_MICROSOFT_ENDPOINT_URL,
-            "base_url": settings.MT_MICROSOFT_BASE_URL,
-            "key": settings.MT_MICROSOFT_COGNITIVE_KEY,
-        }
 
     def get_url(self, suffix):
         return f"https://{self.settings['base_url']}/{suffix}"
@@ -129,6 +130,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
             "from": source,
             "to": language,
             "category": "general",
+            "textType": "html",
         }
         response = self.request(
             "post", self.get_url("translate"), params=args, json=[{"Text": text[:5000]}]
@@ -142,3 +144,37 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
             "service": self.name,
             "source": text,
         }
+
+    def format_replacement(self, h_start: int, h_end: int, h_text: str, h_kind: Any):
+        """Generates a single replacement."""
+        if h_kind is None:
+            return f'<span class="notranslate" id="{h_start}">{self.escape_text(h_text)}</span>'  # noqa: B028
+        # Glossary
+        flags = h_kind.all_flags
+        if "forbidden" in flags:
+            return h_text
+        if "read-only" in flags:
+            # Use terminology format
+            return self.format_replacement(h_start, h_end, h_text, None)
+        return f'<mstrans:dictionary translation="{self.escape_text(h_kind.target)}">{self.escape_text(h_text)}</mstrans:dictionary>'
+
+    def get_highlights(self, text, unit):
+        result = list(super().get_highlights(text, unit))
+
+        for term in get_glossary_terms(unit):
+            for start, end in term.glossary_positions:
+                glossary_highlight = (start, end, text[start:end], term)
+                handled = False
+                for i, (h_start, _h_end, _h_text, _h_kind) in enumerate(result):
+                    if start < h_start:
+                        if end > h_start:
+                            # Skip as overlaps
+                            break
+                        # Insert before
+                        result.insert(i, glossary_highlight)
+                        handled = True
+                        break
+                if not handled and not result or result[-1][1] < start:
+                    result.append(glossary_highlight)
+
+        yield from result

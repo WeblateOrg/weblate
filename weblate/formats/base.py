@@ -90,7 +90,7 @@ GOOGLEPLAY_CODES = {
 }
 
 
-class UnitNotFound(Exception):
+class UnitNotFoundError(Exception):
     def __str__(self):
         args = list(self.args)
         if "" in args:
@@ -259,6 +259,8 @@ class TranslationFormat:
     create_style = "create"
     has_multiple_strings: bool = False
     supports_explanation: bool = False
+    supports_plural: bool = False
+    can_edit_base: bool = True
     strict_format_plurals: bool = False
     plural_preference: tuple[int, ...] | None = None
 
@@ -274,6 +276,7 @@ class TranslationFormat:
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
+        existing_units: list[Any] | None = None,
     ):
         """
         Parse store and returns TranslationFormat instance.
@@ -287,6 +290,7 @@ class TranslationFormat:
             language_code=language_code,
             source_language=source_language,
             is_template=is_template,
+            existing_units=existing_units,
         )
 
     def __init__(
@@ -296,6 +300,7 @@ class TranslationFormat:
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
+        existing_units: list[Any] | None = None,
     ):
         """Create file format object, wrapping up translate-toolkit's store."""
         if not isinstance(storefile, str) and not hasattr(storefile, "mode"):
@@ -307,6 +312,7 @@ class TranslationFormat:
         # Remember template
         self.template_store = template_store
         self.is_template = is_template
+        self.existing_units = [] if existing_units is None else existing_units
 
         # Load store
         self.store = self.load(storefile, template_store)
@@ -329,7 +335,7 @@ class TranslationFormat:
         if not self.is_valid():
             raise ValueError(
                 gettext(
-                    "Failed to load strings from the file, try choosing other format."
+                    "Could not load strings from the file, try choosing other format."
                 )
             )
         self.ensure_index()
@@ -387,7 +393,7 @@ class TranslationFormat:
         try:
             result = self._unit_index[id_hash]
         except KeyError:
-            raise UnitNotFound(context, source)
+            raise UnitNotFoundError(context, source)
 
         add = False
         if not result.has_unit():
@@ -412,7 +418,7 @@ class TranslationFormat:
         try:
             return (self._unit_index[id_hash], False)
         except KeyError:
-            raise UnitNotFound(context, source)
+            raise UnitNotFoundError(context, source)
 
     def find_unit(self, context: str, source: str | None = None) -> tuple[Any, bool]:
         """
@@ -435,7 +441,8 @@ class TranslationFormat:
         """Update store header if available."""
         return
 
-    def save_atomic(self, filename, callback):
+    @staticmethod
+    def save_atomic(filename, callback):
         dirname, basename = os.path.split(filename)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
@@ -501,7 +508,7 @@ class TranslationFormat:
     def is_valid(self):
         """Check whether store seems to be valid."""
         for unit in self.content_units:
-            # Just make sure that id_hash can be calculated
+            # Just ensure that id_hash can be calculated
             unit.id_hash  # noqa: B018
         return True
 
@@ -525,7 +532,7 @@ class TranslationFormat:
 
     @staticmethod
     def get_language_posix(code: str) -> str:
-        return code
+        return code.replace("-", "_")
 
     @staticmethod
     def get_language_bcp(code: str) -> str:
@@ -535,18 +542,18 @@ class TranslationFormat:
     def get_language_bcp_lower(cls, code: str) -> str:
         return cls.get_language_bcp(code).lower()
 
-    @staticmethod
-    def get_language_posix_long(code: str) -> str:
-        return EXPAND_LANGS.get(code, code)
+    @classmethod
+    def get_language_posix_long(cls, code: str) -> str:
+        return EXPAND_LANGS.get(code, cls.get_language_posix(code))
 
-    @staticmethod
-    def get_language_posix_long_lowercase(code: str) -> str:
-        return EXPAND_LANGS.get(code, code).lower()
+    @classmethod
+    def get_language_posix_long_lowercase(cls, code: str) -> str:
+        return EXPAND_LANGS.get(code, cls.get_language_posix(code)).lower()
 
-    @staticmethod
-    def get_language_linux(code: str) -> str:
+    @classmethod
+    def get_language_linux(cls, code: str) -> str:
         """Linux doesn't use Hans/Hant, but rather TW/CN variants."""
-        return LEGACY_CODES.get(code, code)
+        return LEGACY_CODES.get(code, cls.get_language_posix(code))
 
     @classmethod
     def get_language_bcp_long(cls, code: str) -> str:
@@ -706,25 +713,30 @@ class TranslationFormat:
     def delete_unit(self, ttkit_unit) -> str | None:
         raise NotImplementedError
 
-    def cleanup_unused(self) -> list[str]:
+    def cleanup_unused(self) -> list[str] | None:
         """Removes unused strings, returning list of additional changed files."""
         if not self.template_store:
-            return []
+            return None
         existing = {template.context for template in self.template_store.template_units}
-        changed = False
 
+        changed = False
+        needs_save = False
         result = []
 
         # Iterate over copy of a list as we are changing it when removing units
         for unit in list(self.all_store_units):
             if self.unit_class(self, None, unit).context not in existing:
+                changed = True
                 item = self.delete_unit(unit)
                 if item is not None:
                     result.append(item)
                 else:
-                    changed = True
+                    needs_save = True
 
-        if changed:
+        if not changed:
+            return None
+
+        if needs_save:
             self.save()
         self._invalidate_units()
         return result
@@ -736,20 +748,24 @@ class TranslationFormat:
         Returning list of additional changed files.
         """
         changed = False
-
+        needs_save = False
         result = []
 
         # Iterate over copy of a list as we are changing it when removing units
         for ttkit_unit in list(self.all_store_units):
             target = self.unit_class(self, ttkit_unit, ttkit_unit).target
             if not target or (isinstance(target, list) and not any(target)):
+                changed = True
                 item = self.delete_unit(ttkit_unit)
                 if item is not None:
                     result.append(item)
                 else:
-                    changed = True
+                    needs_save = True
 
-        if changed:
+        if not changed:
+            return None
+
+        if needs_save:
             self.save()
         self._invalidate_units()
         return result

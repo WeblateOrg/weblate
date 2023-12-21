@@ -6,17 +6,16 @@ version: '3'
 
 services:
   database:
-    image: postgres:15.3
+    image: postgres:16.1
     ports:
     - 60000:5432
-    volumes:
-      # make postgres faster and non-durable, see https://www.postgresql.org/docs/current/non-durability.html
-    - ./postgres:/docker-entrypoint-initdb.d
+    # make postgres faster and non-durable, see https://www.postgresql.org/docs/current/non-durability.html
+    command: [postgres, -c, fsync=off, -c, synchronous_commit=off, -c, full_page_writes=off, -c, checkpoint_timeout=3600, -c, max_wal_size=4096]
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: weblate
   cache:
-    image: redis:7.0.12-alpine
+    image: redis:7.2.3-alpine
     restart: always
     ports:
     - 60001:6379

@@ -128,9 +128,9 @@ def ensure_ssh_key():
     """Ensures SSH key is existing."""
     result = None
     for key_type in KEYS:
-        ssh_key = get_key_data()
+        ssh_key = get_key_data(key_type)
         if not ssh_key["key"]:
-            generate_ssh_key(None)
+            generate_ssh_key(None, key_type)
             ssh_key = get_key_data()
         if key_type == "rsa":
             result = ssh_key
@@ -162,10 +162,10 @@ def generate_ssh_key(request, key_type: str = "rsa"):
             env=get_clean_env(),
         )
     except (subprocess.CalledProcessError, OSError) as exc:
-        messages.error(
-            request,
-            gettext("Failed to generate key: %s") % getattr(exc, "output", str(exc)),
-        )
+        error = getattr(exc, "output", "").strip()
+        if not error:
+            error = str(exc)
+        messages.error(request, gettext("Could not generate key: %s") % error)
         return
 
     # Fix key permissions
@@ -223,15 +223,18 @@ def add_host_key(request, host, port=""):
                             handle.write("\n")
             else:
                 messages.error(
-                    request, gettext("Failed to fetch public key for a host!")
+                    request,
+                    gettext("Could not fetch public key for a host: %s") % result.stderr
+                    or result.stdout,
                 )
         except subprocess.CalledProcessError as exc:
             messages.error(
                 request,
-                gettext("Failed to get host key: %s") % exc.stderr or exc.stdout,
+                gettext("Could not fetch public key for a host: %s") % exc.stderr
+                or exc.stdout,
             )
         except OSError as exc:
-            messages.error(request, gettext("Failed to get host key: %s") % str(exc))
+            messages.error(request, gettext("Could not get host key: %s") % str(exc))
 
 
 GITHUB_RSA_KEY = (
@@ -333,7 +336,7 @@ class SSHWrapper:
             try:
                 with open(ssh_file(CONFIG), "x") as handle:
                     handle.write(
-                        "# SSH configuration for customising SSH client in Weblate"
+                        "# SSH configuration for customising SSH client in Weblate\n"
                     )
             except OSError:
                 pass
@@ -341,13 +344,12 @@ class SSHWrapper:
         for command in ("ssh", "scp"):
             filename = os.path.join(self.path, command)
 
-            if os.path.exists(filename):
-                continue
+            if not os.path.exists(filename):
+                with open(filename, "w") as handle:
+                    handle.write(self.get_content(find_command(command)))
 
-            with open(filename, "w") as handle:
-                handle.write(self.get_content(find_command(command)))
-
-            os.chmod(filename, 0o755)  # nosec
+            if not os.access(filename, os.X_OK):
+                os.chmod(filename, 0o755)  # noqa: S103, nosec
 
 
 SSH_WRAPPER = SSHWrapper()

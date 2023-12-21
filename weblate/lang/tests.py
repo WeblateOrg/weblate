@@ -196,7 +196,7 @@ class LanguagesTest(BaseTestCase, metaclass=TestSequenceMeta):
         self.assertEqual(
             create,
             not bool(lang.pk),
-            f"Failed to assert creation for {original}: {create}",
+            f"Could not assert creation for {original}: {create}",
         )
         # Create language
         lang = Language.objects.auto_get_or_create(original)
@@ -363,7 +363,15 @@ class LanguagesViewTest(FixtureTestCase):
 
     def test_project_language(self):
         response = self.client.get(
-            reverse("project-language", kwargs={"lang": "cs", "project": "test"})
+            reverse(
+                "project-language-redirect", kwargs={"lang": "cs", "project": "test"}
+            ),
+            follow=True,
+        )
+        self.assertRedirects(
+            response,
+            reverse("show", kwargs={"path": ["test", "-", "cs"]}),
+            status_code=301,
         )
         self.assertContains(response, "Czech")
         self.assertContains(response, "/projects/test/test/cs/")
@@ -416,9 +424,47 @@ class LanguagesViewTest(FixtureTestCase):
         self.user.save()
         response = self.client.post(
             reverse("edit-language", kwargs={"pk": language.pk}),
-            {"code": "xx", "name": "XX", "direction": "ltr", "population": 10},
+            {
+                "code": "xx",
+                "name": "XX",
+                "direction": "ltr",
+                "population": 10,
+                "workflow-suggestion_autoaccept": 0,
+            },
         )
         self.assertRedirects(response, reverse("show_language", kwargs={"lang": "xx"}))
+
+    def test_edit_workflow(self):
+        language = Language.objects.get(code="cs")
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.post(
+            reverse("edit-language", kwargs={"pk": language.pk}),
+            {
+                "code": "xx",
+                "name": "XX",
+                "direction": "ltr",
+                "population": 10,
+                "workflow-enable": 1,
+                "workflow-translation_review": 1,
+                "workflow-suggestion_autoaccept": 0,
+            },
+        )
+        self.assertRedirects(response, reverse("show_language", kwargs={"lang": "xx"}))
+        self.assertTrue(language.workflowsetting_set.exists())
+        response = self.client.post(
+            reverse("edit-language", kwargs={"pk": language.pk}),
+            {
+                "code": "xx",
+                "name": "XX",
+                "direction": "ltr",
+                "population": 10,
+                "workflow-translation_review": 1,
+                "workflow-suggestion_autoaccept": 0,
+            },
+        )
+        self.assertRedirects(response, reverse("show_language", kwargs={"lang": "xx"}))
+        self.assertFalse(language.workflowsetting_set.exists())
 
     def test_edit_plural(self):
         language = Language.objects.get(code="cs")
@@ -466,32 +512,32 @@ class PluralTest(BaseTestCase):
         plural = Plural(number=2, formula="n!=1")
         self.assertEqual(
             plural.examples,
-            {0: ["1"], 1: ["0", "2", "3", "4", "5", "6", "7", "8", "9", "10"]},
+            {0: ["1"], 1: ["0", "2", "3", "4", "5", "6", "7", "8", "9", "10", "…"]},
         )
 
     def test_plurals(self):
         """Test whether plural form is correctly calculated."""
-        plural = Plural.objects.get(language__code="cs")
+        plural = Plural.objects.get(language__code="cs", source=Plural.SOURCE_DEFAULT)
         self.assertEqual(
             plural.plural_form,
             "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;",
         )
 
     def test_plural_names(self):
-        plural = Plural.objects.get(language__code="cs")
+        plural = Plural.objects.get(language__code="cs", source=Plural.SOURCE_DEFAULT)
         self.assertEqual(plural.get_plural_name(0), "One")
         self.assertEqual(plural.get_plural_name(1), "Few")
         self.assertEqual(plural.get_plural_name(2), "Many")
 
     def test_plural_names_invalid(self):
-        plural = Plural.objects.get(language__code="cs")
+        plural = Plural.objects.get(language__code="cs", source=Plural.SOURCE_DEFAULT)
         plural.type = -1
         self.assertEqual(plural.get_plural_name(0), "Singular")
         self.assertEqual(plural.get_plural_name(1), "Plural")
         self.assertEqual(plural.get_plural_name(2), "Plural form 2")
 
     def test_plural_labels(self):
-        plural = Plural.objects.get(language__code="cs")
+        plural = Plural.objects.get(language__code="cs", source=Plural.SOURCE_DEFAULT)
         label = plural.get_plural_label(0)
         self.assertIn("One", label)
         self.assertIn("1", label)

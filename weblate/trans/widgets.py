@@ -10,7 +10,6 @@ import cairo
 import gi
 from django.conf import settings
 from django.template.loader import render_to_string
-from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import (
     get_language,
@@ -26,7 +25,7 @@ from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import number_format
 from weblate.trans.util import sort_unicode
 from weblate.utils.site import get_site_url
-from weblate.utils.stats import GlobalStats
+from weblate.utils.stats import GlobalStats, ProjectLanguage
 from weblate.utils.views import get_percent_color
 
 gi.require_version("PangoCairo", "1.0")
@@ -59,7 +58,6 @@ class Widget:
     extension = "png"
     content_type = "image/png"
     order = 100
-    show = True
 
     def __init__(self, obj, color=None, lang=None):
         """Create Widget object."""
@@ -98,7 +96,6 @@ class BitmapWidget(ContentWidget):
     extension = "png"
     content_type = "image/png"
     order = 100
-    show = True
     head_template = '<span letter_spacing="-500"><b>{}</b></span>'
     foot_template = '<span letter_spacing="1000">{}</span>'
     font_size = 10
@@ -207,25 +204,6 @@ class SVGWidget(ContentWidget):
     def render(self, response):
         """Rendering method to be implemented."""
         raise NotImplementedError
-
-
-class RedirectWidget(Widget):
-    """Generic redirect widget class."""
-
-    show = False
-
-    def redirect(self):
-        """Redirect to matching SVG badge."""
-        kwargs = {
-            "project": self.obj.slug,
-            "widget": "svg",
-            "color": "badge",
-            "extension": "svg",
-        }
-        if self.lang:
-            kwargs["lang"] = self.lang.code
-            return reverse("widget-image", kwargs=kwargs)
-        return reverse("widget-image", kwargs=kwargs)
 
 
 @register_widget
@@ -353,22 +331,6 @@ class SiteOpenGraphWidget(OpenGraphWidget):
 
 
 @register_widget
-class BadgeWidget(RedirectWidget):
-    """Legacy badge which used to render PNG."""
-
-    name = "status"
-    colors: tuple[str, ...] = ("badge",)
-
-
-@register_widget
-class ShieldsBadgeWidget(RedirectWidget):
-    """Legacy badge which used to redirect to shields.io."""
-
-    name = "shields"
-    colors: tuple[str, ...] = ("badge",)
-
-
-@register_widget
 class SVGBadgeWidget(SVGWidget):
     name = "svg"
     colors: tuple[str, ...] = ("badge",)
@@ -378,20 +340,14 @@ class SVGBadgeWidget(SVGWidget):
 
     def render(self, response):
         translated_text = gettext("translated")
-        translated_width = (
-            render_size("Kurinto Sans", Pango.Weight.NORMAL, 11, 0, translated_text)[
-                0
-            ].width
-            + 10
-        )
+        translated_width = render_size(
+            "Kurinto Sans", Pango.Weight.NORMAL, 11, 0, f"   {translated_text}   "
+        )[0].width
 
         percent_text = self.get_percent_text()
-        percent_width = (
-            render_size("Kurinto Sans", Pango.Weight.NORMAL, 11, 0, percent_text)[
-                0
-            ].width
-            + 10
-        )
+        percent_width = render_size(
+            "Kurinto Sans", Pango.Weight.NORMAL, 11, 0, f"  {percent_text}  "
+        )[0].width
 
         if self.percent >= 90:
             color = "#4c1"
@@ -454,6 +410,7 @@ class MultiLanguageWidget(SVGWidget):
                     + 10
                 ),
             )
+            project_language = ProjectLanguage(self.obj, language)
             translations.append(
                 (
                     # Language name
@@ -469,12 +426,7 @@ class MultiLanguageWidget(SVGWidget):
                     # Bar color
                     color,
                     # Row URL
-                    get_site_url(
-                        reverse(
-                            "project-language",
-                            kwargs={"lang": language.code, "project": self.obj.slug},
-                        )
-                    ),
+                    get_site_url(project_language.get_absolute_url()),
                     # Top offset for horizontal
                     10 + int((100 - percent) * 1.5),
                 )

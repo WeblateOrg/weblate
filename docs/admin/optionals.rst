@@ -215,8 +215,6 @@ Following content is sent to Akismet for checking:
 Signing Git commits with GnuPG
 ------------------------------
 
-.. versionadded:: 3.1
-
 All commits can be signed by the GnuPG key of the Weblate instance.
 
 1. Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a GnuPG
@@ -232,6 +230,19 @@ the "About" page:
 2. Alternatively you can also import existing keys into Weblate, just set
 ``HOME=$DATA_DIR/home`` when invoking gpg.
 
+.. hint::
+
+   The key material is cached by Weblate for a long period. In case you let
+   Weblate generate a key with :setting:`WEBLATE_GPG_IDENTITY` and then import
+   key with the same identity to use an existing key, purging redis cache is
+   recommended to see the effect of such change.
+
+
+.. note::
+
+   When sharing :setting:`DATA_DIR` between multiple hosts, please follow instructions
+   at https://wiki.gnupg.org/NFS to make GnuPG signing work reliably.
+
 .. seealso::
 
     :setting:`WEBLATE_GPG_IDENTITY`
@@ -240,10 +251,6 @@ the "About" page:
 
 Rate limiting
 -------------
-
-.. versionchanged:: 3.2
-
-      The rate limiting now accepts more fine-grained configuration.
 
 .. versionchanged:: 4.6
 

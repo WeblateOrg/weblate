@@ -280,6 +280,14 @@ Translation types capabilities
      - no
      - no
      -
+   * - :ref:`markdown`
+     - mono
+     - no
+     - no
+     - no
+     - no
+     - no
+     -
    * - :ref:`odf`
      - mono
      - no
@@ -480,8 +488,6 @@ for that.
 
 Read-only strings
 +++++++++++++++++
-
-.. versionadded:: 3.10
 
 Read-only strings from translation files will be included, but
 can not be edited in Weblate. This feature is natively supported by few formats

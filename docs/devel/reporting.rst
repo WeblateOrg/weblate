@@ -13,6 +13,10 @@ in HTML, reStructuredText or JSON. The first two formats are suitable for
 embedding statistics into existing documentation, while JSON is useful for further
 processing of the data.
 
+You can choose predefined periods or enter a custom date range. In that case,
+the contributions are counted at midnight – that means that it includes the
+starting date and excludes the ending date.
+
 Number of words
 ---------------
 

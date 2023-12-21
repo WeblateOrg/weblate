@@ -8,6 +8,7 @@ from django.db import transaction
 
 from weblate.machinery.base import get_machinery_language
 from weblate.memory.models import Memory
+from weblate.memory.utils import is_valid_entry
 from weblate.utils.celery import app
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -18,11 +19,11 @@ def import_memory(project_id: int, component_id: int | None = None):
 
     project = Project.objects.get(pk=project_id)
 
-    components = project.component_set.all()
+    components = project.component_set.prefetch()
     if component_id:
         components = components.filter(id=component_id)
 
-    for component in components.iterator():
+    for component in components:
         component.log_info("updating translation memory")
         with transaction.atomic():
             units = Unit.objects.filter(
@@ -42,13 +43,7 @@ def handle_unit_translation_change(unit_id, user_id=None):
     from weblate.trans.models import Unit
 
     user = None if user_id is None else User.objects.get(pk=user_id)
-    unit = Unit.objects.select_related(
-        "translation",
-        "translation__language",
-        "translation__component",
-        "translation__component__source_language",
-        "translation__component__project",
-    ).get(pk=unit_id)
+    unit = Unit.objects.prefetch().get(pk=unit_id)
     update_memory(user, unit)
 
 
@@ -62,6 +57,9 @@ def update_memory(user, unit, component=None, project=None):
         "target": unit.target,
         "origin": component.full_slug,
     }
+
+    if not is_valid_entry(**params):
+        return
 
     add_project = True
     add_shared = project.contribute_shared_tm

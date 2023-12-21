@@ -14,11 +14,11 @@ from lxml.etree import XMLSyntaxError
 from translate.misc.multistring import multistring
 from translate.storage.aresource import AndroidResourceFile
 from translate.storage.csvl10n import csvfile
-from translate.storage.jsonl10n import JsonFile
+from translate.storage.jsonl10n import JsonFile, JsonNestedFile
 from translate.storage.mo import mofile
 from translate.storage.po import pofile
 from translate.storage.poxliff import PoXliffFile
-from translate.storage.properties import stringsfile
+from translate.storage.properties import stringsutf8file
 from translate.storage.tbx import tbxfile
 from translate.storage.tmx import tmxfile
 from translate.storage.xliff import xlifffile
@@ -58,6 +58,7 @@ class BaseExporter:
         translation=None,
         fieldnames=None,
     ):
+        self.translation = translation
         if translation is not None:
             self.plural = translation.plural
             self.project = translation.component.project
@@ -123,7 +124,8 @@ class BaseExporter:
         output = self.build_unit(unit)
         # Location needs to be set prior to ID to avoid overwrite
         # on some formats (for example xliff)
-        for location in unit.location.split():
+        for location in unit.location.split(","):
+            location = location.strip()
             if location:
                 output.addlocation(location)
 
@@ -173,12 +175,20 @@ class BaseExporter:
         if hasattr(output, "markapproved"):
             output.markapproved(unit.approved)
 
-    def get_response(self, filetemplate="{project}-{language}.{extension}"):
-        filename = filetemplate.format(
+    def get_filename(self, filetemplate: str = "{path}.{extension}"):
+        return filetemplate.format(
             project=self.project.slug,
             language=self.language.code,
             extension=self.extension,
+            path="-".join(
+                self.translation.get_url_path()
+                if self.translation
+                else (self.project.slug, self.language.code)
+            ),
         )
+
+    def get_response(self, filetemplate: str = "{path}.{extension}"):
+        filename = self.get_filename(filetemplate)
 
         response = HttpResponse(content_type=f"{self.content_type}; charset=utf-8")
         response["Content-Disposition"] = f"attachment; filename={filename}"
@@ -426,6 +436,12 @@ class JSONExporter(MonolingualExporter):
     verbose = gettext_lazy("JSON")
 
 
+class JSONNestedExporter(JSONExporter):
+    name = "json-nested"
+    verbose = gettext_lazy("JSON nested structure file")
+    storage_class = JsonNestedFile
+
+
 class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
     storage_class = AndroidResourceFile
     name = "aresource"
@@ -448,7 +464,7 @@ class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
 
 
 class StringsExporter(MonolingualExporter):
-    storage_class = stringsfile
+    storage_class = stringsutf8file
     name = "strings"
     content_type = "text/plain"
     extension = "strings"

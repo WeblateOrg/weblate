@@ -9,4 +9,8 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def perm(context, permission, obj=None):
-    return context["user"].has_perm(permission, obj)
+    try:
+        user = context["user"]
+    except KeyError:
+        return False
+    return user.has_perm(permission, obj)

@@ -25,7 +25,6 @@ from selenium.webdriver.support.expected_conditions import (
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
-import weblate.screenshots.views
 from weblate.fonts.tests.utils import FONT
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project, Unit
@@ -36,8 +35,9 @@ from weblate.trans.tests.utils import (
     create_test_billing,
     create_test_user,
     get_test_file,
+    social_core_override_settings,
 )
-from weblate.utils.db import using_postgresql
+from weblate.utils.db import TransactionsTestMixin
 from weblate.vcs.ssh import get_key_data
 from weblate.wladmin.models import ConfigurationError, SupportStatus
 
@@ -63,21 +63,13 @@ SOURCE_FONT = os.path.join(
 )
 
 
-class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin):
+class SeleniumTests(
+    TransactionsTestMixin, BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin
+):
     driver = None
     driver_error = ""
     image_path = None
     site_domain = ""
-
-    @classmethod
-    def _databases_support_transactions(cls):
-        # This is workaround for MySQL as FULL TEXT index does not work
-        # well inside a transaction, so we avoid using transactions for
-        # tests. Otherwise we end up with no matches for the query.
-        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if not using_postgresql():
-            return False
-        return super()._databases_support_transactions()
 
     @contextmanager
     def wait_for_page_load(self, timeout=30):
@@ -101,7 +93,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Build Chrome driver
         options = Options()
         # Run headless
-        options.headless = True
+        options.add_argument("--headless=new")
         # Seems to help in some corner cases, see
         # https://stackoverflow.com/a/50642913/225718
         options.add_argument("--no-sandbox")
@@ -119,7 +111,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Force English locales, the --lang and accept_language settings does not
         # work in some cases
-        backup_lang = os.environ.get("LANG", None)
+        backup_lang = os.environ.get("LANG")
         os.environ["LANG"] = "en_US.UTF-8"
 
         try:
@@ -174,7 +166,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         scroll_height = self.driver.execute_script("return document.body.scrollHeight")
         scroll_width = self.driver.execute_script("return document.body.scrollWidth")
         # Resize the window
-        self.driver.set_window_size(scroll_width, scroll_height + 20)
+        self.driver.set_window_size(max(1200, scroll_width), scroll_height + 180)
         time.sleep(0.2)
         # Get screenshot
         with open(os.path.join(self.image_path, name), "wb") as handle:
@@ -434,7 +426,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Statistics")
         self.screenshot("activity.png")
 
-    @override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
+    @social_core_override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
     def test_auth_backends(self):
         user = self.do_login()
         user.social_auth.create(provider="google-oauth2", uid=user.email)
@@ -524,11 +516,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             element.submit()
 
         # Perform OCR
-        if weblate.screenshots.views.HAS_OCR:
-            self.click(htmlid="screenshots-auto")
-            wait_search()
+        self.click(htmlid="screenshots-auto")
+        wait_search()
 
-            self.screenshot("screenshot-ocr.png")
+        self.screenshot("screenshot-ocr.png")
 
         # Add string manually
         self.driver.find_element(By.ID, "search-input").send_keys(f"{text!r}")

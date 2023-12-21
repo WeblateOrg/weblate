@@ -27,6 +27,7 @@ jobs:
         - '3.9'
         - '3.10'
         - '3.11'
+        - '3.12'
         requirements: [latest]
         database: [postgresql]
         include:
@@ -59,13 +60,13 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
       PYTHONUNBUFFERED: 1
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install $CI_DATABASE
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
         cache: pip
@@ -84,6 +85,8 @@ jobs:
       run: coverage run ./manage.py migrate --noinput --traceback
     - name: Django checks
       run: coverage run ./manage.py check
+    - name: Demo import
+      run: coverage run ./manage.py import_demo
     - name: Test with Django
       run: coverage run ./manage.py test -v2
     - name: Test wsgi startup
@@ -94,23 +97,18 @@ jobs:
       run: |
         coverage combine
         coverage xml
-    - uses: codecov/codecov-action@v3.1.4
+    - uses: codecov/codecov-action@v3
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: unittests
         name: Tests py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
     - name: DeepSource
-      continue-on-error: true
-      env:
-        DEEPSOURCE_DSN: ${{secrets.DEEPSOURCE_DSN}}
-      run: |
-        curl https://deepsource.io/cli | sh
-        ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
-    - uses: actions/upload-artifact@v3.1.2
-      if: always()
+      uses: deepsourcelabs/test-coverage-action@v1.1.2
+      if: ${{ github.event_name == 'push' }}
       with:
-        name: Screenshots
-        path: test-images
+        key: python
+        coverage-file: coverage.xml
+        dsn: ${{ secrets.DEEPSOURCE_DSN }}
     - name: Stop services
       if: always()
       run: ./ci/services-down ${{ matrix.database }}

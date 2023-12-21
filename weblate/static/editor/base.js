@@ -126,7 +126,7 @@ WLT.Editor = (function () {
     /* Special characters */
     this.$editor.on("click", ".specialchar", function (e) {
       var $this = $(this);
-      var text = $this.data("value");
+      var text = this.getAttribute("data-value");
 
       $this
         .closest(".translation-item")
@@ -150,7 +150,7 @@ WLT.Editor = (function () {
     /* Copy from source text highlight check */
     this.$editor.on("click", hlSelector, function (e) {
       var $this = $(this);
-      insertEditor($this.data("value"), $this);
+      insertEditor(this.getAttribute("data-value"), $this);
       e.preventDefault();
     });
 

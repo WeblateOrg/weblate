@@ -38,7 +38,7 @@ class AutoTranslateAddon(BaseAddon):
         # not matter that much that we run this less often.
         if settings.BACKGROUND_TASKS == "never":
             return
-        today = timezone.now().date()
+        today = timezone.now()
         if settings.BACKGROUND_TASKS == "monthly" and component.id % 30 != today.day:
             return
         if (

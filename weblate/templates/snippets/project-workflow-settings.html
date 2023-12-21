@@ -1,0 +1,15 @@
+{% load i18n %}
+{% load permissions %}
+
+<p>{% translate "Translation workflow can be also customized per language:" %}</p>
+
+<p>
+{% for project_language in project_languages %}
+  <a class="btn btn-link" href="{% url 'settings' path=project_language.get_url_path %}">
+    {{ project_language.language }}
+    {% if project_language.language.id in custom_workflows %}
+      <span class="badge">{% translate "Customized workflow" %}</span>
+    {% endif %}
+  </a>
+{% endfor %}
+</p>

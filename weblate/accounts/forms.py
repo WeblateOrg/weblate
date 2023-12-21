@@ -8,6 +8,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
+from django.db import transaction
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape
@@ -30,7 +31,7 @@ from weblate.accounts.utils import (
     get_all_user_mails,
     invalidate_reset_codes,
 )
-from weblate.auth.models import Group, User, get_auth_keys
+from weblate.auth.models import Group, User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import FULLNAME_LENGTH
@@ -107,8 +108,10 @@ class FullNameField(forms.CharField):
 
     def __init__(self, *args, **kwargs):
         kwargs["max_length"] = FULLNAME_LENGTH
-        kwargs["label"] = gettext("Full name")
-        kwargs["help_text"] = gettext("Name is also used in version control commits.")
+        kwargs["label"] = gettext_lazy("Full name")
+        kwargs["help_text"] = gettext_lazy(
+            "Name is also used in version control commits."
+        )
         kwargs["required"] = True
         super().__init__(*args, **kwargs)
 
@@ -126,7 +129,7 @@ class ProfileBaseForm(forms.ModelForm):
             # this is partial form. This is really bound to how Profile.clean
             # behaves.
             ignored_fields = ("dashboard_component_list", "dashboard_view")
-            for field_name, _error_list in error.error_dict.items():
+            for field_name in error.error_dict:
                 if field_name in ignored_fields and not hasattr(self, field_name):
                     return
         super().add_error(field, error)
@@ -152,10 +155,13 @@ class LanguagesForm(ProfileBaseForm):
         self.fields["language"].choices = [
             choice for choice in self.fields["language"].choices if choice[0]
         ]
-        # Limit languages to ones which have translation
-        qs = Language.objects.have_translation()
-        self.fields["languages"].queryset = qs
-        self.fields["secondary_languages"].queryset = qs
+        # Limit languages to ones which have translation, do this by generating choices
+        # instead of queryset as the queryset would be evaluated twice as
+        # ModelChoiceField copies the queryset
+        languages = Language.objects.have_translation()
+        choices = list(languages.as_choices(use_code=False))
+        self.fields["languages"].choices = choices
+        self.fields["secondary_languages"].choices = choices
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
@@ -170,8 +176,11 @@ class CommitForm(ProfileBaseForm):
     commit_email = forms.ChoiceField(
         label=gettext_lazy("Commit e-mail"),
         choices=[("", gettext_lazy("Use account e-mail address"))],
-        help_text=gettext_lazy("Choose commit e-mail from verified addresses."),
+        help_text=gettext_lazy(
+            "Used in version control commits. The address will stay in the repository forever once changes are commited by Weblate."
+        ),
         required=False,
+        widget=forms.RadioSelect,
     )
 
     class Meta:
@@ -194,10 +203,6 @@ class CommitForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
-        layout = ["commit_email"]
-        if "email" in get_auth_keys():
-            layout.append(Div(template="accounts/add-mail.html"))
-        self.helper.layout = Layout(*layout)
 
 
 class ProfileForm(ProfileBaseForm):
@@ -339,10 +344,13 @@ class UserForm(forms.ModelForm):
 
     username = UniqueUsernameField()
     email = forms.ChoiceField(
-        label=gettext_lazy("E-mail"),
-        help_text=gettext_lazy("Choose primary e-mail from verified addresses."),
+        label=gettext_lazy("Account e-mail"),
+        help_text=gettext_lazy(
+            "Used for e-mail notifications and as a commit e-mail if it is not configured below."
+        ),
         choices=(("", ""),),
         required=True,
+        widget=forms.RadioSelect,
     )
     full_name = FullNameField()
 
@@ -361,10 +369,6 @@ class UserForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
-        layout = ["username", "email", "full_name"]
-        if "email" in get_auth_keys():
-            layout.insert(2, Div(template="accounts/add-mail.html"))
-        self.helper.layout = Layout(*layout)
 
     @classmethod
     def from_request(cls, request):
@@ -460,6 +464,7 @@ class SetPasswordForm(DjangoSetPasswordForm):
     )
     new_password2 = PasswordField(label=gettext_lazy("New password confirmation"))
 
+    @transaction.atomic
     def save(self, request, delete_session=False):
         AuditLog.objects.create(
             self.user, request, "password", password=self.user.password
@@ -670,10 +675,13 @@ class NotificationForm(forms.Form):
         widget=forms.HiddenInput, queryset=Component.objects.none(), required=False
     )
 
-    def __init__(self, user, show_default, subscriptions, is_active, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(
+        self, *, user, show_default, removable, subscriptions, is_active, **kwargs
+    ):
+        super().__init__(**kwargs)
         self.user = user
         self.is_active = is_active
+        self.removable = removable
         self.show_default = show_default
         self.fields["project"].queryset = user.allowed_projects
         self.fields["component"].queryset = Component.objects.filter_access(user)
@@ -683,7 +691,7 @@ class NotificationForm(forms.Form):
             self.fields[field] = forms.ChoiceField(
                 label=notification_cls.verbose,
                 choices=self.get_choices(notification_cls, show_default),
-                required=True,
+                required=False,
                 initial=self.get_initial(notification_cls, subscriptions, show_default),
             )
             if notification_cls.filter_languages:
@@ -735,17 +743,23 @@ class NotificationForm(forms.Form):
             return self.cleaned_data
         return self.initial
 
+    def get_form_param(self, name: str, default):
+        result = self.form_params.get(name)
+        if result is not None:
+            return result
+        return self.initial.get(name, default)
+
     @cached_property
     def form_scope(self):
-        return self.form_params.get("scope", SCOPE_WATCHED)
+        return int(self.get_form_param("scope", SCOPE_WATCHED))
 
     @cached_property
     def form_project(self):
-        return self.form_params.get("project", None)
+        return self.get_form_param("project", None)
 
     @cached_property
     def form_component(self):
-        return self.form_params.get("component", None)
+        return self.get_form_param("component", None)
 
     def get_name(self):
         scope = self.form_scope
@@ -821,19 +835,19 @@ class NotificationForm(forms.Form):
         handled = set()
         for field, notification_cls in self.notification_fields():
             frequency = self.cleaned_data[field]
-            # We do not store defaults or disabled default subscriptions
-            if frequency == "-1" or (frequency == "0" and not self.show_default):
+            # We do not store removed field, defaults or disabled default subscriptions
+            if (
+                frequency == ""
+                or frequency == "-1"
+                or (frequency == "0" and not self.show_default)
+            ):
                 continue
             # Create/Get from database
-            subscription, created = self.user.subscription_set.get_or_create(
+            subscription, _created = self.user.subscription_set.update_or_create(
                 notification=notification_cls.get_name(),
                 defaults={"frequency": frequency},
                 **lookup,
             )
-            # Update old subscription
-            if not created and subscription.frequency != frequency:
-                subscription.frequency = frequency
-                subscription.save(update_fields=["frequency"])
             handled.add(subscription.pk)
         # Delete stale subscriptions
         self.user.subscription_set.filter(**lookup).exclude(pk__in=handled).delete()

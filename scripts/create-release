@@ -22,6 +22,9 @@ if [ "$1" = "--tag" ] ; then
     shift
 fi
 
+# Build the documentation (for release notes)
+make -C docs html
+
 # Start with clean build environment
 ./setup.py clean
 find weblate/locale/ docs/locales/ -name '*.mo' -delete
@@ -82,8 +85,10 @@ if [ "$DO_TAG" -eq 1 ] ; then
     git checkout main
 
     # Convert release notes to markdown
-    ./scripts/extract-release-notes "$version" > "dist/Weblate-$version.rst"
-    pandoc "dist/Weblate-$version.rst" -o "dist/Weblate-$version.md"
+    sed "s/latest/$namever/" < scripts/release-notes-filter.lua > scripts/release-notes-filter.version.lua
+    ./scripts/extract-release-notes "$version" > "dist/Weblate-$version.html"
+    pandoc "dist/Weblate-$version.html" --write=gfm --wrap=none --lua-filter=scripts/release-notes-filter.version.lua -o "dist/Weblate-$version.md"
+    rm scripts/release-notes-filter.version.lua
 
     # Upload to GitHub
     sleep 10

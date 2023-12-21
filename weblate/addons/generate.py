@@ -97,7 +97,7 @@ class LocaleGenerateAddonBase(BaseAddon):
             target_strings = unit.get_target_plurals()
             if new_strings != target_strings or unit.state < STATE_TRANSLATED:
                 unit.translate(
-                    None,
+                    self.user,
                     new_strings,
                     target_state,
                     change_action=Change.ACTION_AUTO,
@@ -122,6 +122,8 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
         "to source strings automatically."
     )
     settings_form = PseudolocaleAddonForm
+    user_name = "pseudolocale"
+    user_verbose = "Pseudolocale add-on"
 
     def daily(self, component):
         # Check all strings
@@ -151,8 +153,8 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
         self.generate_translation(
             source_translation,
             target_translation,
-            prefix=self.instance.configuration["prefix"],
-            suffix=self.instance.configuration["suffix"],
+            prefix=self.instance.configuration.get("prefix", ""),
+            suffix=self.instance.configuration.get("suffix", ""),
             var_prefix=self.instance.configuration.get("var_prefix", ""),
             var_suffix=self.instance.configuration.get("var_suffix", ""),
             var_multiplier=self.instance.configuration.get("var_multiplier", 0.1),
@@ -186,6 +188,8 @@ class PrefillAddon(LocaleGenerateAddonBase):
     name = "weblate.generate.prefill"
     verbose = gettext_lazy("Prefill translation with source")
     description = gettext_lazy("Fills in translation strings with source string.")
+    user_name = "prefill"
+    user_verbose = "Prefill add-on"
 
     def daily(self, component):
         # Check all strings
@@ -217,6 +221,8 @@ class FillReadOnlyAddon(LocaleGenerateAddonBase):
     description = gettext_lazy(
         "Fills in translation of read-only strings with source string."
     )
+    user_name = "fill"
+    user_verbose = "Fill read-only add-on"
 
     def daily(self, component):
         self.do_update(component)

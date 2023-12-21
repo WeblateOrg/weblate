@@ -52,7 +52,13 @@
             <td><a href="{{ userblock.user.get_absolute_url }}">{{ userblock.user.username }}</a></td>
             <td>{{ userblock.user.full_name }}</td>
             <td>{{ userblock.user.email }}</td>
-            <td>{% if userblock.user.last_login %}{{ userblock.user.last_login|naturaltime }}{% else %}{% trans "Not yet signed in" %}{% endif %}</td>
+            <td>
+              {% if userblock.user.last_login %}
+                {{ userblock.user.last_login|naturaltime }}
+              {% else %}
+                <em>{% trans "Not yet signed in" %}</em>
+              {% endif %}
+            </td>
             <td>
               <strong>
                 {% if userblock.expiry %}
@@ -68,6 +74,42 @@
                 <input type="hidden" name="user" value="{{ userblock.user.username }}" />
                 <button type="submit" class="btn btn-link btn-xs" title="{% trans "Unblock user" %}">
                 {% icon 'close.svg' %}
+                </button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+        {% for invitation in invitations %}
+          <tr>
+            {% if invitation.user %}
+              <td><a href="{{ invitation.user.get_absolute_url }}">{{ invitation.user.username }}</a></td>
+              <td>{{ invitation.user.full_name }}</td>
+              {% if can_edit_user %}
+                <td>{{ invitation.user.email }}</td>
+              {% endif %}
+            {% else %}
+              <td colspan="{% if can_edit_user %}3{% else %}2{% endif %}">
+                <em>{% blocktrans with email=invitation.email %}Invitation for {{ email }}{% endblocktrans %}</em>
+              </td>
+            {% endif %}
+            <td><em>{% trans "Pending invitation" %}</em></td>
+            <td>
+              <span class="badge">{{ invitation.group }}</span>
+            </td>
+            <td>
+              <form action="{{ invitation.get_absolute_url }}" method="post" class="inlineform">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="resend" />
+                <button type="submit" class="btn btn-link btn-xs" title="{% trans "Resend invitation" %}">
+                {% icon 'refresh.svg' %}
+                </button>
+              </form>
+              <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ site_url }}{{ invitation.get_absolute_url }}" data-clipboard-message="{% trans "Invitation link copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+              <form action="{{ invitation.get_absolute_url }}" method="post" class="inlineform">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="remove" />
+                <button type="submit" class="btn btn-link btn-xs red" title="{% trans "Remove invitation" %}">
+                {% icon 'delete.svg' %}
                 </button>
               </form>
             </td>
@@ -90,7 +132,7 @@
             {% trans "Add a user" %}
           </h4></div>
           <div class="panel-body">
-            {{ add_user_form|crispy }}
+            {{ invite_user_form|crispy }}
           </div>
           <div class="panel-footer">
           <input type="submit" class="btn btn-primary" value="{% trans "Add" %}" />
@@ -113,6 +155,7 @@
         </div>
       </form>
     </div>
+    {% if invite_email_form %}
     <div class="col-sm-6">
       <form action="{% url "invite-user" project=object.slug %}" method="post">
         {% csrf_token %}
@@ -122,7 +165,7 @@
             {% trans "Invite new user" %}
           </h4></div>
           <div class="panel-body">
-            {{ invite_user_form|crispy }}
+            {{ invite_email_form|crispy }}
           </div>
           <div class="panel-footer">
           <input type="submit" class="btn btn-primary" value="{% trans "Invite" %}" />
@@ -130,6 +173,7 @@
         </div>
       </form>
     </div>
+    {% endif %}
   </div>
 </div>
 
@@ -167,7 +211,9 @@
           <td>
             {% include "auth/teams-components.html" %}
           </td>
-          <td class="number">{{ group.user__count|intcomma }}</td>
+          <td class="number">
+            {% include "auth/teams-count.html" %}
+          </td>
           <td>
             <a href="{{ group.get_absolute_url }}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">
               {% icon 'pencil.svg' %}
@@ -277,7 +323,8 @@
           <tr>
             <th>{% trans "Your personal API key:" %}</th>
             <td>
-                {{ user.auth_token.key }}
+                <span class="auth-token">{{ user.auth_token.key }}</span>
+                <button type="button" class="btn btn-link btn-xs" data-visibility=".auth-token" title="{% trans "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>
                 <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" data-clipboard-message="{% trans "API key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
             </td>
           </tr>

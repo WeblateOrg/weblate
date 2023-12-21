@@ -410,7 +410,7 @@ class UnLockTranslationTest(WeblateComponentCommandTestCase):
 class ImportDemoTestCase(TestCase):
     def test_import(self):
         try:
-            requests.get("https://github.com/")
+            requests.get("https://github.com/", timeout=1)
         except requests.exceptions.ConnectionError as error:
             raise SkipTest(f"GitHub not reachable: {error}")
         output = StringIO()

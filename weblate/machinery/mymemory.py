@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.conf import settings
 
 from .base import MachineTranslation
 from .forms import MyMemoryMachineryForm
@@ -14,14 +13,6 @@ class MyMemoryTranslation(MachineTranslation):
     name = "MyMemory"
     do_cleanup = False
     settings_form = MyMemoryMachineryForm
-
-    @staticmethod
-    def migrate_settings():
-        return {
-            "email": settings.MT_MYMEMORY_EMAIL,
-            "username": settings.MT_MYMEMORY_USER,
-            "key": settings.MT_MYMEMORY_KEY,
-        }
 
     def map_language_code(self, code):
         """Convert language to service specific code."""

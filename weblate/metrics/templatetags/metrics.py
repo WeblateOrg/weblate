@@ -8,8 +8,14 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.metrics.models import Metric
 from weblate.metrics.wrapper import MetricsWrapper
-from weblate.trans.models import Component, ComponentList, Project, Translation
-from weblate.utils.stats import ProjectLanguage
+from weblate.trans.models import (
+    Category,
+    Component,
+    ComponentList,
+    Project,
+    Translation,
+)
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
 register = template.Library()
 
@@ -29,6 +35,12 @@ def metrics(obj):
     if isinstance(obj, ProjectLanguage):
         return MetricsWrapper(
             obj, Metric.SCOPE_PROJECT_LANGUAGE, obj.project.id, obj.language.id
+        )
+    if isinstance(obj, Category):
+        return MetricsWrapper(obj, Metric.SCOPE_CATEGORY, obj.pk)
+    if isinstance(obj, CategoryLanguage):
+        return MetricsWrapper(
+            obj, Metric.SCOPE_CATEGORY_LANGUAGE, obj.category.id, obj.language.id
         )
     if isinstance(obj, Language):
         return MetricsWrapper(obj, Metric.SCOPE_LANGUAGE, obj.id)

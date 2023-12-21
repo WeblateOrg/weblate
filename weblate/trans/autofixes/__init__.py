@@ -18,7 +18,7 @@ def fix_target(target, unit):
     if target == []:
         return target, []
     fixups = []
-    for _unused, fix in AUTOFIXES.items():
+    for fix in AUTOFIXES.values():
         target, fixed = fix.fix_target(target, unit)
         if fixed:
             fixups.append(fix.name)

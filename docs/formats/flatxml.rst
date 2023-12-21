@@ -6,8 +6,6 @@ Flat XML files
 .. index::
     pair: XML; file format
 
-.. versionadded:: 3.9
-
 .. seealso:: :doc:`tt:formats/flatxml`
 
 Example of a flat XML file:

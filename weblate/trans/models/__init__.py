@@ -4,13 +4,15 @@
 
 import os
 
-from django.db.models.signals import m2m_changed, post_delete, post_save
+from django.db import transaction
+from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
 from django.dispatch import receiver
 
 from weblate.trans.models._conf import WeblateConf
 from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.alert import Alert
 from weblate.trans.models.announcement import Announcement
+from weblate.trans.models.category import Category
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.component import Component
@@ -21,12 +23,14 @@ from weblate.trans.models.suggestion import Suggestion, Vote
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
+from weblate.trans.models.workflow import WorkflowSetting
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_tree
 
 __all__ = [
     "Project",
+    "Category",
     "Component",
     "Translation",
     "Unit",
@@ -41,6 +45,7 @@ __all__ = [
     "Alert",
     "Variant",
     "Label",
+    "WorkflowSetting",
 ]
 
 
@@ -54,22 +59,36 @@ def delete_object_dir(instance):
 @receiver(post_delete, sender=Project)
 def project_post_delete(sender, instance, **kwargs):
     """Handler to delete (sub)project directory on project deletion."""
-    # Invalidate stats
-    instance.stats.invalidate()
+    # Update stats
+    transaction.on_commit(instance.stats.update_parents)
+    instance.stats.delete()
 
     # Remove directory
     delete_object_dir(instance)
 
 
+@receiver(pre_delete, sender=Component)
+def component_pre_delete(sender, instance, **kwargs):
+    # Collect list of stats to update, this can't be done after removal
+    instance.stats.collect_update_objects()
+
+
 @receiver(post_delete, sender=Component)
 def component_post_delete(sender, instance, **kwargs):
     """Handler to delete (sub)project directory on project deletion."""
-    # Invalidate stats
-    instance.stats.invalidate()
+    # Update stats
+    transaction.on_commit(instance.stats.update_parents)
+    instance.stats.delete()
 
     # Do not delete linked components
     if not instance.is_repo_link:
         delete_object_dir(instance)
+
+
+@receiver(post_delete, sender=Translation)
+def translation_post_delete(sender, instance, **kwargs):
+    """Handler to delete stats on translation deletion."""
+    transaction.on_commit(instance.stats.delete)
 
 
 @receiver(m2m_changed, sender=Unit.labels.through)
@@ -111,7 +130,7 @@ def user_commit_pending(sender, instance, **kwargs):
 def change_componentlist(sender, instance, action, **kwargs):
     if not action.startswith("post_"):
         return
-    instance.stats.invalidate()
+    transaction.on_commit(instance.stats.update_stats)
 
 
 @receiver(post_save, sender=AutoComponentList)

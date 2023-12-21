@@ -37,9 +37,9 @@ def icon(name):
             icon_file = os.path.join(settings.STATIC_ROOT, "icons", name)
         try:
             with open(icon_file) as handle:
-                CACHE[name] = mark_safe(handle.read())
+                CACHE[name] = mark_safe(handle.read())  # noqa: S308
         except OSError:
-            report_error(cause="Failed to load icon")
+            report_error(cause="Could not load icon")
             return ""
 
     return CACHE[name]

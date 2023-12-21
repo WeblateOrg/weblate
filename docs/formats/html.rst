@@ -7,9 +7,16 @@ HTML files
 
 The translatable content is extracted from the HTML files and offered for the translation.
 
+.. include:: /snippets/format-database-backed.rst
+
 .. seealso::
 
    :doc:`tt:formats/html`
+
+Example file:
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs.html
+    :language: html
 
 Weblate configuration
 +++++++++++++++++++++

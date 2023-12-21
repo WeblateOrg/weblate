@@ -27,6 +27,7 @@ class Guideline:
     group = False
     url = ""
     anchor = ""
+    hint = False
 
     def __init__(self, component):
         self.component = component
@@ -39,7 +40,7 @@ class Guideline:
         return True
 
     def get_url(self):
-        url = reverse(self.url, kwargs=self.component.get_reverse_url_kwargs())
+        url = reverse(self.url, kwargs={"path": self.component.get_url_path()})
         if self.anchor:
             url = f"{url}#{self.anchor}"
         return url
@@ -123,7 +124,7 @@ class InstructionsGuideline(Guideline):
 
     def get_url(self):
         return reverse(
-            "settings", kwargs=self.component.project.get_reverse_url_kwargs()
+            "settings", kwargs={"path": self.component.project.get_url_path()}
         )
 
     def get_doc_url(self, user=None):
@@ -151,7 +152,7 @@ class LicenseGuideline(Guideline):
 @register
 class AlertGuideline(Guideline):
     description = gettext_lazy("Fix this component to clear its alerts.")
-    url = "component"
+    url = "show"
     anchor = "alerts"
 
     def is_passing(self):
@@ -189,7 +190,7 @@ class FlagsGuideline(Guideline):
         "Use flags to indicate special strings in your translation."
     )
     url = "settings"
-    anchor = "translation"
+    anchor = "show"
 
     def is_passing(self):
         return (
@@ -206,10 +207,11 @@ class FlagsGuideline(Guideline):
 @register
 class SafeHTMLGuideline(Guideline):
     description = gettext_lazy(
-        "Add safe-html flag to avoid dangerous HTML from translators."
+        "Add safe-html flag to avoid dangerous HTML from translators for strings which are rendered as HTML."
     )
     url = "settings"
-    anchor = "translation"
+    anchor = "show"
+    hint = True
 
     def is_relevant(self):
         cache_key = f"guide:safe-html:{self.component.id}"
@@ -274,6 +276,7 @@ class AddonGuideline(Guideline):
 @register
 class LanguageConsistencyGuideline(AddonGuideline):
     addon = "weblate.consistency.languages"
+    hint = True
 
     def is_relevant(self):
         if self.component.project.component_set.exclude(is_glossary=True).count() <= 1:
@@ -294,6 +297,7 @@ class ConfigureGuideline(AddonGuideline):
 @register
 class CleanupGuideline(AddonGuideline):
     addon = "weblate.cleanup.generic"
+    hint = True
 
 
 @register

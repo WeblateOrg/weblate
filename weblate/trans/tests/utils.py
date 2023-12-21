@@ -12,11 +12,12 @@ from tarfile import TarFile
 from tempfile import mkdtemp
 from unittest import SkipTest
 
+import social_core.backends.utils
 from celery.contrib.testing.tasks import ping
 from celery.result import allow_join_result
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
-from django.test.utils import override_settings
+from django.test.utils import modify_settings, override_settings
 from django.utils import timezone
 from django.utils.functional import cached_property
 
@@ -378,16 +379,24 @@ class RepoTestMixin:
         return self._create_component("appstore", "metadata/*", "metadata/en-US")
 
     def create_html(self):
-        return self._create_component("html", "html/*.html", "html/en.html")
+        return self._create_component(
+            "html", "html/*.html", "html/en.html", edit_template=False
+        )
 
     def create_idml(self):
-        return self._create_component("idml", "idml/*.idml", "idml/en.idml")
+        return self._create_component(
+            "idml", "idml/*.idml", "idml/en.idml", edit_template=False
+        )
 
     def create_odt(self):
-        return self._create_component("odf", "odt/*.odt", "odt/en.odt")
+        return self._create_component(
+            "odf", "odt/*.odt", "odt/en.odt", edit_template=False
+        )
 
     def create_winrc(self):
-        return self._create_component("rc", "winrc/*.rc", "winrc/en-US.rc")
+        return self._create_component(
+            "rc", "winrc/*.rc", "winrc/en-US.rc", edit_template=False
+        )
 
     def create_tbx(self):
         return self._create_component("tbx", "tbx/*.tbx")
@@ -453,3 +462,30 @@ def create_test_billing(user, invoice=True):
             end=timezone.now() + timedelta(days=1),
         )
     return billing
+
+
+class SocialCacheMixin:
+    """
+    Safely changes AUTHENTICATION_BACKENDS.
+
+    Purge social_core authentication backends cache needs to be done upon any
+    change to AUTHENTICATION_BACKENDS.
+    """
+
+    def enable(self):
+        super().enable()
+        social_core.backends.utils.BACKENDSCACHE = {}
+
+    def disable(self):
+        super().disable()
+        social_core.backends.utils.BACKENDSCACHE = {}
+
+
+# Lowercase name to be consistent with Django
+class social_core_override_settings(SocialCacheMixin, override_settings):  # noqa: N801
+    pass
+
+
+# Lowercase name to be consistent with Django
+class social_core_modify_settings(SocialCacheMixin, modify_settings):  # noqa: N801
+    pass

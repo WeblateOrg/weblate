@@ -26,6 +26,7 @@ SOCIALS = {
     "facebook": {"name": "Facebook", "image": "facebook.svg"},
     "github": {"name": "GitHub", "image": "github.svg"},
     "github-enterprise": {"name": "GitHub Enterprise", "image": "github.svg"},
+    "github-org": {"name": "GitHub Organization", "image": "github.svg"},
     "bitbucket": {"name": "Bitbucket", "image": "bitbucket.svg"},
     "bitbucket-oauth2": {"name": "Bitbucket", "image": "bitbucket.svg"},
     "azuread-oauth2": {"name": "Azure", "image": "azure.svg"},

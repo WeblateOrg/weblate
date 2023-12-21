@@ -65,24 +65,24 @@ translations to match your code base.
 Adding new strings
 ++++++++++++++++++
 
-In case your translation files are stored in a VCS together with the code,
+If your translation files are stored in a remote VCS together with the code,
 you most likely have an existing workflow for developers to introduce new strings.
 Any way of adding strings will be picked up, but consider using
 :ref:`source-quality-gateway` to avoid introducing errors.
 
-When the translation files are separate from the code, there are following ways to introduce
-new strings into Weblate.
+When translation files are separated from the code, the following ways can
+introduce new strings into Weblate.
 
 * Manually, using :guilabel:`Add new translation string` from :guilabel:`Tools`
   menu in the source language.
-* Programmatically, using API :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/units/`.
+* Programmatically, using the API :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/units/`.
 * By uploading source file as :guilabel:`Replace existing translation file`
-  (this overwrites existing strings, so please make sure the file includes both
+  (this overwrites existing strings, so please ensure the file includes both
   old and new strings) or :guilabel:`Add new strings`, see :ref:`upload-method`.
 
 .. note::
 
-   Availability of adding strings in Weblate depends on :ref:`component-manage_units`.
+   The ability to add strings in Weblate requires :ref:`component-manage_units`.
 
 .. _updating-target-files:
 
@@ -125,11 +125,16 @@ developing the code. You might want to introduce review of those strings using
 :ref:`source-quality-gateway`.
 
 Bilingual formats typically extract strings from the source code using some
-tooling. Follow your localization framework documentation for instructions how
-to do that. Once the strings are extracted, there might be an additional step
-needed to update existing translations, see :ref:`updating-target-files`.
+tooling (like :program:`xgettext` or :program:`intltool-update`). Follow your
+localization framework documentation for instructions how to do that. Once the
+strings are extracted, there might be an additional step needed to update
+existing translations, see :ref:`updating-target-files`.
 
 .. hint::
+
+   Automating string extraction is presently out of scope for Weblate. It
+   typically involves executing untrusted code what makes it more suitable for
+   a generic continuous integration than localization-specific platform.
 
    You might want to integrate this into your continuous integration pipelines
    to make new strings automatically appear for translation. Such pipeline

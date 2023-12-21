@@ -18,7 +18,8 @@ from weblate.memory.tasks import handle_unit_translation_change, import_memory
 from weblate.memory.utils import CATEGORY_FILE
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
-from weblate.utils.db import using_postgresql
+from weblate.utils.db import TransactionsTestMixin
+from weblate.utils.state import STATE_TRANSLATED
 
 
 def add_document():
@@ -33,17 +34,7 @@ def add_document():
     )
 
 
-class MemoryModelTest(FixtureTestCase):
-    @classmethod
-    def _databases_support_transactions(cls):
-        # This is workaround for MySQL as FULL TEXT index does not work
-        # well inside a transaction, so we avoid using transactions for
-        # tests. Otherwise we end up with no matches for the query.
-        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if not using_postgresql():
-            return False
-        return super()._databases_support_transactions()
-
+class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
     def test_machine(self):
         add_document()
         unit = self.get_unit()
@@ -57,6 +48,7 @@ class MemoryModelTest(FixtureTestCase):
                     "origin": "File: test",
                     "source": "Hello",
                     "text": "Ahoj",
+                    "original_source": "Hello",
                     "show_quality": True,
                     "delete_url": None,
                 }
@@ -73,6 +65,7 @@ class MemoryModelTest(FixtureTestCase):
                     "service": "Weblate Translation Memory",
                     "origin": "File: test",
                     "source": "Hello",
+                    "original_source": "Hello",
                     "text": "Ahoj",
                     "show_quality": True,
                     "delete_url": f"/api/memory/{Memory.objects.first().pk}/",
@@ -86,7 +79,9 @@ class MemoryModelTest(FixtureTestCase):
         machine_translation = WeblateMemory({})
         unit.source = "Hello"
         machine_translation.batch_translate([unit])
-        self.assertEqual(unit.machinery, {"quality": [100], "translation": ["Ahoj"]})
+        machinery = unit.machinery
+        del machinery["origin"]
+        self.assertEqual(machinery, {"quality": [100], "translation": ["Ahoj"]})
 
     def test_import_tmx_command(self):
         call_command("import_memory", get_test_file("memory.tmx"))
@@ -149,6 +144,13 @@ class MemoryModelTest(FixtureTestCase):
 
     def test_import_unit(self):
         unit = self.get_unit()
+        handle_unit_translation_change(unit.id, self.user.id)
+        self.assertEqual(Memory.objects.count(), 0)
+        handle_unit_translation_change(unit.id, self.user.id)
+        self.assertEqual(Memory.objects.count(), 0)
+        unit.translate(self.user, "Nazdar", STATE_TRANSLATED)
+        self.assertEqual(Memory.objects.count(), 3)
+        Memory.objects.all().delete()
         handle_unit_translation_change(unit.id, self.user.id)
         self.assertEqual(Memory.objects.count(), 3)
         handle_unit_translation_change(unit.id, self.user.id)
@@ -265,21 +267,21 @@ class MemoryViewTest(FixtureTestCase):
         if fail:
             self.assertContains(response, "Permission Denied", status_code=403)
         else:
-            self.assertContains(response, "Failed to parse JSON file")
+            self.assertContains(response, "Could not parse JSON file")
 
         # Test invalid upload
         response = self.upload_file("memory-broken.json", **kwargs)
         if fail:
             self.assertContains(response, "Permission Denied", status_code=403)
         else:
-            self.assertContains(response, "Failed to parse JSON file")
+            self.assertContains(response, "Could not parse JSON file")
 
         # Test invalid upload
         response = self.upload_file("memory-invalid.json", **kwargs)
         if fail:
             self.assertContains(response, "Permission Denied", status_code=403)
         else:
-            self.assertContains(response, "Failed to parse JSON file")
+            self.assertContains(response, "Could not parse JSON file")
 
     def test_memory_project(self):
         self.test_memory("Number of entries for Test", True, kwargs=self.kw_project)

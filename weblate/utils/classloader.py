@@ -16,19 +16,19 @@ def load_class(name, setting):
     except ValueError as error:
         raise ImproperlyConfigured(
             f"Error importing class {name!r} in {setting}: {error}"
-        )
+        ) from error
     try:
         mod = import_module(module)
     except ImportError as error:
         raise ImproperlyConfigured(
             f"Error importing module {module!r} in {setting}: {error}"
-        )
+        ) from error
     try:
         return getattr(mod, attr)
-    except AttributeError:
+    except AttributeError as error:
         raise ImproperlyConfigured(
             f"Module {module!r} does not define a {attr!r} class in {setting}"
-        )
+        ) from error
 
 
 class ClassLoader:

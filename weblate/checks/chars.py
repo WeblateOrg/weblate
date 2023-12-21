@@ -11,6 +11,10 @@ from weblate.checks.markup import strip_entities
 from weblate.checks.parser import single_value_flag
 
 FRENCH_PUNCTUATION = {";", ":", "?", "!"}
+FRENCH_PUNCTUATION_FIXUP_RE = "([ \u00A0\u2009])([{}])".format(
+    "".join(FRENCH_PUNCTUATION)
+)
+FRENCH_PUNCTUATION_MISSING_RE = "([^\u202F])([{}])".format("".join(FRENCH_PUNCTUATION))
 MY_QUESTION_MARK = "\u1038\u104b"
 
 
@@ -154,31 +158,31 @@ class EndStopCheck(TargetCheck):
         if not target:
             return False
         # Thai and Lojban does not have a full stop
-        if self.is_language(unit, ("th", "jbo")):
+        if unit.translation.language.is_base(("th", "jbo")):
             return False
         # Allow ... to be translated into ellipsis
         if source.endswith("...") and target[-1] == "…":
             return False
-        if self.is_language(unit, ("ja",)) and source[-1] in (":", ";"):
+        if unit.translation.language.is_base(("ja",)) and source[-1] in (":", ";"):
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
             return self.check_chars(source, target, -1, (";", ":", "：", ".", "。"))
-        if self.is_language(unit, ("hy",)):
+        if unit.translation.language.is_base(("hy",)):
             return self.check_chars(
                 source,
                 target,
                 -1,
                 (".", "。", "।", "۔", "։", "·", "෴", "។", ":", "՝", "?", "!", "`"),
             )
-        if self.is_language(unit, ("hi", "bn", "or")):
+        if unit.translation.language.is_base(("hi", "bn", "or")):
             # Using | instead of । is not typographically correct, but
             # seems to be quite usual. \u0964 is correct, but \u09F7
             # is also sometimes used instead in some popular editors.
             return self.check_chars(source, target, -1, (".", "\u0964", "\u09F7", "|"))
-        if self.is_language(unit, ("sat",)):
+        if unit.translation.language.is_base(("sat",)):
             # Santali uses "᱾" as full stop
             return self.check_chars(source, target, -1, (".", "᱾"))
-        if self.is_language(unit, ("my",)):
+        if unit.translation.language.is_base(("my",)):
             return self._check_my(source, target)
         return self.check_chars(
             source, target, -1, (".", "。", "।", "۔", "։", "·", "෴", "។", "።")
@@ -207,11 +211,11 @@ class EndColonCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
-        if self.is_language(unit, ("jbo",)):
+        if unit.translation.language.is_base(("jbo",)):
             return False
-        if self.is_language(unit, ("hy",)):
+        if unit.translation.language.is_base(("hy",)):
             return self._check_hy(source, target)
-        if self.is_language(unit, ("ja",)):
+        if unit.translation.language.is_base(("ja",)):
             return self._check_ja(source, target)
         return self.check_chars(source, target, -1, (":", "：", "៖"))
 
@@ -242,13 +246,13 @@ class EndQuestionCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not source or not target:
             return False
-        if self.is_language(unit, ("jbo",)):
+        if unit.translation.language.is_base(("jbo",)):
             return False
-        if self.is_language(unit, ("hy",)):
+        if unit.translation.language.is_base(("hy",)):
             return self._check_hy(source, target)
-        if self.is_language(unit, ("el",)):
+        if unit.translation.language.is_base(("el",)):
             return self._check_el(source, target)
-        if self.is_language(unit, ("my",)):
+        if unit.translation.language.is_base(("my",)):
             return self._check_my(source, target)
 
         return self.check_chars(
@@ -269,15 +273,15 @@ class EndExclamationCheck(TargetCheck):
         if not source or not target:
             return False
         if (
-            self.is_language(unit, ("eu",))
+            unit.translation.language.is_base(("eu",))
             and source[-1] == "!"
             and "¡" in target
             and "!" in target
         ):
             return False
-        if self.is_language(unit, ("hy", "jbo")):
+        if unit.translation.language.is_base(("hy", "jbo")):
             return False
-        if self.is_language(unit, ("my",)):
+        if unit.translation.language.is_base(("my",)):
             return self.check_chars(source, target, -1, ("!", "႟"))
         if source.endswith("Texy!") or target.endswith("Texy!"):
             return False
@@ -296,7 +300,7 @@ class EndEllipsisCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if not target:
             return False
-        if self.is_language(unit, ("jbo",)):
+        if unit.translation.language.is_base(("jbo",)):
             return False
         # Allow ... to be translated into ellipsis
         if source.endswith("...") and target[-1] == "…":
@@ -344,7 +348,7 @@ class ZeroWidthSpaceCheck(TargetCheck):
     description = gettext_lazy("Translation contains extra zero-width space character")
 
     def check_single(self, source, target, unit):
-        if self.is_language(unit, ("km",)):
+        if unit.translation.language.is_base(("km",)):
             return False
         if "\u200b" in source:
             return False
@@ -381,7 +385,7 @@ class EndSemicolonCheck(TargetCheck):
     )
 
     def check_single(self, source, target, unit):
-        if self.is_language(unit, ("el",)) and source and source[-1] == "?":
+        if unit.translation.language.is_base(("el",)) and source and source[-1] == "?":
             # Complement to question mark check
             return False
         return self.check_chars(
@@ -418,7 +422,7 @@ class PunctuationSpacingCheck(TargetCheck):
 
     def check_single(self, source, target, unit):
         if (
-            not self.is_language(unit, ("fr", "br"))
+            not unit.translation.language.is_base(("fr", "br"))
             or unit.translation.language.code == "fr_CA"
         ):
             return False
@@ -444,13 +448,13 @@ class PunctuationSpacingCheck(TargetCheck):
         return [
             # First fix possibly wrong whitespace
             (
-                "([ \u00A0\u2009])([{}])".format("".join(FRENCH_PUNCTUATION)),
+                FRENCH_PUNCTUATION_FIXUP_RE,
                 "\u202F$2",
                 "gu",
             ),
             # Then add missing ones
             (
-                "([^\u202F])([{}])".format("".join(FRENCH_PUNCTUATION)),
+                FRENCH_PUNCTUATION_MISSING_RE,
                 "$1\u202F$2",
                 "gu",
             ),

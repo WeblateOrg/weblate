@@ -15,7 +15,7 @@ from redis_lock import AlreadyAcquired, NotAcquired
 from weblate.utils.cache import IS_USING_REDIS
 
 
-class WeblateLockTimeout(Exception):
+class WeblateLockTimeoutError(Exception):
     """Weblate lock timeout."""
 
 
@@ -67,14 +67,16 @@ class WeblateLock:
             return
 
         if not lock_result:
-            raise WeblateLockTimeout(f"Lock could not be acquired in {self._timeout}s")
+            raise WeblateLockTimeoutError(
+                f"Lock on {self._name} could not be acquired in {self._timeout}s"
+            )
 
     def _enter_file(self):
         # Fall back to file based locking
         try:
             self._lock.acquire()
         except Timeout as error:
-            raise WeblateLockTimeout(str(error))
+            raise WeblateLockTimeoutError(str(error)) from error
 
     def __enter__(self):
         self._depth += 1
